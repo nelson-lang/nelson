@@ -25,6 +25,6 @@
 #define NLSOVERLOAD_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSOVERLOAD_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSOVERLOAD_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

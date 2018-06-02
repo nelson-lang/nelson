@@ -22,15 +22,15 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static ArrayOfVector ndarrayinteger_vertcat_ndarrayintegerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, Class intclass)
+static ArrayOfVector
+ndarrayinteger_vertcat_ndarrayintegerBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn, Class intclass)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf A = argIn[0];
@@ -39,42 +39,58 @@ static ArrayOfVector ndarrayinteger_vertcat_ndarrayintegerBuiltin(Evaluator* eva
     return retval;
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::ndarrayint8_vertcat_ndarrayint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::ndarrayint8_vertcat_ndarrayint8Builtin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return ndarrayinteger_vertcat_ndarrayintegerBuiltin(eval, nLhs, argIn, NLS_INT8);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::ndarrayint16_vertcat_ndarrayint16Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::ndarrayint16_vertcat_ndarrayint16Builtin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return ndarrayinteger_vertcat_ndarrayintegerBuiltin(eval, nLhs, argIn, NLS_INT16);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::ndarrayint32_vertcat_ndarrayint32Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::ndarrayint32_vertcat_ndarrayint32Builtin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return ndarrayinteger_vertcat_ndarrayintegerBuiltin(eval, nLhs, argIn, NLS_INT32);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::ndarrayint64_vertcat_ndarrayint64Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::ndarrayint64_vertcat_ndarrayint64Builtin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return ndarrayinteger_vertcat_ndarrayintegerBuiltin(eval, nLhs, argIn, NLS_INT64);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::ndarrayuint8_vertcat_ndarrayuint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::ndarrayuint8_vertcat_ndarrayuint8Builtin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return ndarrayinteger_vertcat_ndarrayintegerBuiltin(eval, nLhs, argIn, NLS_UINT8);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::ndarrayuint16_vertcat_ndarrayuint16Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::ndarrayuint16_vertcat_ndarrayuint16Builtin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return ndarrayinteger_vertcat_ndarrayintegerBuiltin(eval, nLhs, argIn, NLS_UINT16);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::ndarrayuint32_vertcat_ndarrayuint32Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::ndarrayuint32_vertcat_ndarrayuint32Builtin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return ndarrayinteger_vertcat_ndarrayintegerBuiltin(eval, nLhs, argIn, NLS_UINT32);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::ndarrayuint64_vertcat_ndarrayuint64Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::ndarrayuint64_vertcat_ndarrayuint64Builtin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return ndarrayinteger_vertcat_ndarrayintegerBuiltin(eval, nLhs, argIn, NLS_UINT64);
 }

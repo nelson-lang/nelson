@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,29 +13,31 @@ static doublereal c_b15 = 2.;
 static doublereal c_b26 = 0.;
 static doublereal c_b40 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int fb01vd_(n, m, l, p, ldp, a, lda, b, ldb, c__, ldc, q, ldq, r__, ldr, k, ldk, tol, iwork, dwork, ldwork, info)
-integer *n, *m, *l;
-doublereal *p;
-integer *ldp;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *q;
-integer *ldq;
-doublereal *r__;
-integer *ldr;
-doublereal *k;
-integer *ldk;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+EXPORTSYMBOL /* Subroutine */ int fb01vd_(n, m, l, p, ldp, a, lda, b, ldb, c__, ldc, q, ldq, r__,
+    ldr, k, ldk, tol, iwork, dwork, ldwork, info) integer *n,
+    *m, *l;
+doublereal* p;
+integer* ldp;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* q;
+integer* ldq;
+doublereal* r__;
+integer* ldr;
+doublereal* k;
+integer* ldk;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, k_dim1, k_offset, p_dim1, p_offset, q_dim1, q_offset, r_dim1, r_offset, i__1, i__2;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, k_dim1, k_offset, p_dim1,
+        p_offset, q_dim1, q_offset, r_dim1, r_offset, i__1, i__2;
     /* Local variables */
     static integer j;
     extern /* Subroutine */ int mb01rd_(), dscal_(), dgemv_();
@@ -257,66 +259,44 @@ integer *ldwork, *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    n1 = max(1,*n);
-    if (*n < 0)
-    {
+    n1 = max(1, *n);
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*l < 0)
-    {
+    } else if (*l < 0) {
         *info = -3;
-    }
-    else if (*ldp < n1)
-    {
+    } else if (*ldp < n1) {
         *info = -5;
-    }
-    else if (*lda < n1)
-    {
+    } else if (*lda < n1) {
         *info = -7;
-    }
-    else if (*ldb < n1)
-    {
+    } else if (*ldb < n1) {
         *info = -9;
-    }
-    else if (*ldc < max(1,*l))
-    {
+    } else if (*ldc < max(1, *l)) {
         *info = -11;
-    }
-    else if (*ldq < max(1,*m))
-    {
+    } else if (*ldq < max(1, *m)) {
         *info = -13;
-    }
-    else if (*ldr < max(1,*l))
-    {
+    } else if (*ldr < max(1, *l)) {
         *info = -15;
-    }
-    else if (*ldk < n1)
-    {
+    } else if (*ldk < n1) {
         *info = -17;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = 1, i__2 = *l **n + *l * 3, i__1 = max(i__1,i__2), i__2 = *n **n, i__1 = max(i__1,i__2), i__2 = *n **m;
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__1 = 1, i__2 = *l * *n + *l * 3, i__1 = max(i__1, i__2), i__2 = *n * *n,
+        i__1 = max(i__1, i__2), i__2 = *n * *m;
+        if (*ldwork < max(i__1, i__2)) {
             *info = -21;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("FB01VD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (max(*n,*l) == 0)
-    {
+    if (max(*n, *l) == 0) {
         dwork[1] = 1.;
         return 0;
     }
@@ -326,21 +306,21 @@ integer *ldwork, *info;
     /*     (Note: Comments in the code beginning "Workspace:" describe the */
     /*     minimal amount of real workspace needed at that point in the */
     /*     code.) */
-    mb01rd_("Upper", "No transpose", l, n, &c_b5, &c_b5, &r__[r_offset], ldr, &c__[c_offset], ldc, &p[p_offset], ldp, &dwork[1], ldwork, info, 5L, 12L);
-    ldw = max(1,*l);
+    mb01rd_("Upper", "No transpose", l, n, &c_b5, &c_b5, &r__[r_offset], ldr, &c__[c_offset], ldc,
+        &p[p_offset], ldp, &dwork[1], ldwork, info, 5L, 12L);
+    ldw = max(1, *l);
     i__1 = *l;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         dcopy_(n, &dwork[j], &ldw, &k[j * k_dim1 + 1], &c__1);
         /* L10: */
     }
     dlacpy_("Full", l, n, &c__[c_offset], ldc, &dwork[1], &ldw, 4L);
-    dtrmm_("Right", "Upper", "Transpose", "Non-unit", l, n, &c_b5, &p[p_offset], ldp, &dwork[1], &ldw, 5L, 5L, 9L, 8L);
+    dtrmm_("Right", "Upper", "Transpose", "Non-unit", l, n, &c_b5, &p[p_offset], ldp, &dwork[1],
+        &ldw, 5L, 5L, 9L, 8L);
     i__1 = *ldp + 1;
     dscal_(n, &c_b15, &p[p_offset], &i__1);
     i__1 = *l;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         daxpy_(n, &c_b5, &k[j * k_dim1 + 1], &c__1, &dwork[j], &ldw);
         dcopy_(n, &dwork[j], &ldw, &k[j * k_dim1 + 1], &c__1);
         /* L20: */
@@ -348,28 +328,24 @@ integer *ldwork, *info;
     /*     Calculate the Cholesky decomposition U'U of the innovation */
     /*     covariance matrix RINOV, and its reciprocal condition number. */
     /*     Workspace: need L*N + 3*L. */
-    jwork = *l **n + 1;
+    jwork = *l * *n + 1;
     rnorm = dlansy_("1-norm", "Upper", l, &r__[r_offset], ldr, &dwork[jwork], 6L, 5L);
     toldef = *tol;
-    if (toldef <= 0.)
-    {
-        toldef = (doublereal) (*l **l) * dlamch_("Epsilon", 7L);
+    if (toldef <= 0.) {
+        toldef = (doublereal)(*l * *l) * dlamch_("Epsilon", 7L);
     }
     dpotrf_("Upper", l, &r__[r_offset], ldr, info, 5L);
-    if (*info != 0)
-    {
+    if (*info != 0) {
         return 0;
     }
     dpocon_("Upper", l, &r__[r_offset], ldr, &rnorm, &rcond, &dwork[jwork], &iwork[1], info, 5L);
-    if (rcond < toldef)
-    {
+    if (rcond < toldef) {
         /*        Error return: RINOV is numerically singular. */
         *info = *l + 1;
         dwork[1] = rcond;
         return 0;
     }
-    if (*l > 1)
-    {
+    if (*l > 1) {
         i__1 = *l - 1;
         i__2 = *l - 1;
         dlaset_("Lower", &i__1, &i__2, &c_b26, &c_b26, &r__[r_dim1 + 2], ldr, 5L);
@@ -377,23 +353,27 @@ integer *ldwork, *info;
     /*                                                          -1 */
     /*     Calculate the Kalman filter gain matrix  K = PC'RINOV . */
     /*     Workspace: need L*N. */
-    dtrsm_("Right", "Upper", "No transpose", "Non-unit", n, l, &c_b5, &r__[r_offset], ldr, &k[k_offset], ldk, 5L, 5L, 12L, 8L);
-    dtrsm_("Right", "Upper", "Transpose", "Non-unit", n, l, &c_b5, &r__[r_offset], ldr, &k[k_offset], ldk, 5L, 5L, 9L, 8L);
+    dtrsm_("Right", "Upper", "No transpose", "Non-unit", n, l, &c_b5, &r__[r_offset], ldr,
+        &k[k_offset], ldk, 5L, 5L, 12L, 8L);
+    dtrsm_("Right", "Upper", "Transpose", "Non-unit", n, l, &c_b5, &r__[r_offset], ldr,
+        &k[k_offset], ldk, 5L, 5L, 9L, 8L);
     /*     First part of the Riccati equation update: compute A(P-KCP)A'. */
     /*     The upper triangular part of the symmetric matrix P-KCP is formed. */
     /*     Workspace: need max(L*N,N*N). */
     jwork = 1;
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
-        dgemv_("No transpose", &j, l, &c_b40, &k[k_offset], ldk, &dwork[jwork], &c__1, &c_b5, &p[j * p_dim1 + 1], &c__1, 12L);
+    for (j = 1; j <= i__1; ++j) {
+        dgemv_("No transpose", &j, l, &c_b40, &k[k_offset], ldk, &dwork[jwork], &c__1, &c_b5,
+            &p[j * p_dim1 + 1], &c__1, 12L);
         jwork += *l;
         /* L30: */
     }
-    mb01rd_("Upper", "No transpose", n, n, &c_b26, &c_b5, &p[p_offset], ldp, &a[a_offset], lda, &p[p_offset], ldp, &dwork[1], ldwork, info, 5L, 12L);
+    mb01rd_("Upper", "No transpose", n, n, &c_b26, &c_b5, &p[p_offset], ldp, &a[a_offset], lda,
+        &p[p_offset], ldp, &dwork[1], ldwork, info, 5L, 12L);
     /*     Second part of the Riccati equation update: add BQB'. */
     /*     Workspace: need N*M. */
-    mb01rd_("Upper", "No transpose", n, m, &c_b5, &c_b5, &p[p_offset], ldp, &b[b_offset], ldb, &q[q_offset], ldq, &dwork[1], ldwork, info, 5L, 12L);
+    mb01rd_("Upper", "No transpose", n, m, &c_b5, &c_b5, &p[p_offset], ldp, &b[b_offset], ldb,
+        &q[q_offset], ldq, &dwork[1], ldwork, info, 5L, 12L);
     i__1 = *ldq + 1;
     dscal_(m, &c_b15, &q[q_offset], &i__1);
     /*     Set the reciprocal of the condition number estimate. */
@@ -401,4 +381,3 @@ integer *ldwork, *info;
     return 0;
     /* *** Last line of FB01VD *** */
 } /* fb01vd_ */
-

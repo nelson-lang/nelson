@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,12 +10,13 @@
 static doublereal c_b7 = 0.;
 static doublereal c_b8 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb04wp_(n, ilo, u1, ldu1, u2, ldu2, cs, tau, dwork, ldwork, info)
-integer *n, *ilo;
-doublereal *u1;
-integer *ldu1;
-doublereal *u2;
-integer *ldu2;
+EXPORTSYMBOL /* Subroutine */ int mb04wp_(
+    n, ilo, u1, ldu1, u2, ldu2, cs, tau, dwork, ldwork, info) integer *n,
+    *ilo;
+doublereal* u1;
+integer* ldu1;
+doublereal* u2;
+integer* ldu2;
 doublereal *cs, *tau, *dwork;
 integer *ldwork, *info;
 {
@@ -140,44 +141,33 @@ integer *ldwork, *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*ilo < 1 || *ilo > max(1,*n))
-    {
+    } else if (*ilo < 1 || *ilo > max(1, *n)) {
         *info = -2;
-    }
-    else if (*ldu1 < max(1,*n))
-    {
+    } else if (*ldu1 < max(1, *n)) {
         *info = -4;
-    }
-    else if (*ldu2 < max(1,*n))
-    {
+    } else if (*ldu2 < max(1, *n)) {
         *info = -6;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = *n - *ilo << 1;
-        if (*ldwork < max(i__1,i__2))
-        {
+        if (*ldwork < max(i__1, i__2)) {
             /* Computing MAX */
             i__1 = 1, i__2 = *n - *ilo << 1;
-            dwork[1] = (doublereal) max(i__1,i__2);
+            dwork[1] = (doublereal)max(i__1, i__2);
             *info = -10;
         }
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04WP", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 1.;
         return 0;
     }
@@ -185,17 +175,14 @@ integer *ldwork, *info;
     /*     column to the right, and set the first ilo rows and columns to */
     /*     those of the unit matrix. */
     i__1 = *ilo + 1;
-    for (j = *n; j >= i__1; --j)
-    {
+    for (j = *n; j >= i__1; --j) {
         i__2 = j - 1;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             u1[i__ + j * u1_dim1] = 0.;
             /* L10: */
         }
         i__2 = *n;
-        for (i__ = j + 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = j + 1; i__ <= i__2; ++i__) {
             u1[i__ + j * u1_dim1] = u1[i__ + (j - 1) * u1_dim1];
             /* L20: */
         }
@@ -203,17 +190,14 @@ integer *ldwork, *info;
     }
     dlaset_("All", n, ilo, &c_b7, &c_b8, &u1[u1_offset], ldu1, 3L);
     i__1 = *ilo + 1;
-    for (j = *n; j >= i__1; --j)
-    {
+    for (j = *n; j >= i__1; --j) {
         i__2 = j - 1;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             u2[i__ + j * u2_dim1] = 0.;
             /* L40: */
         }
         i__2 = *n;
-        for (i__ = j; i__ <= i__2; ++i__)
-        {
+        for (i__ = j; i__ <= i__2; ++i__) {
             u2[i__ + j * u2_dim1] = u2[i__ + (j - 1) * u2_dim1];
             /* L50: */
         }
@@ -221,11 +205,11 @@ integer *ldwork, *info;
     }
     dlaset_("All", n, ilo, &c_b7, &c_b7, &u2[u2_offset], ldu2, 3L);
     nh = *n - *ilo;
-    if (nh > 0)
-    {
-        mb04wd_("No Transpose", "No Transpose", &nh, &nh, &nh, &u1[*ilo + 1 + (*ilo + 1) * u1_dim1], ldu1, &u2[*ilo + 1 + (*ilo + 1) * u2_dim1], ldu2, &cs[*ilo], &tau[*ilo], &dwork[1], ldwork, &ierr, 12L, 12L);
+    if (nh > 0) {
+        mb04wd_("No Transpose", "No Transpose", &nh, &nh, &nh, &u1[*ilo + 1 + (*ilo + 1) * u1_dim1],
+            ldu1, &u2[*ilo + 1 + (*ilo + 1) * u2_dim1], ldu2, &cs[*ilo], &tau[*ilo], &dwork[1],
+            ldwork, &ierr, 12L, 12L);
     }
     return 0;
     /* *** Last line of MB04WP *** */
 } /* mb04wp_ */
-

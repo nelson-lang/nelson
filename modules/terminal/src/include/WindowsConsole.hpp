@@ -18,74 +18,101 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "Interface.hpp"
+#include "LineManager.hpp"
+#include "nlsTerminal_exports.h"
 #include <Windows.h>
 #include <string>
-#include "nlsTerminal_exports.h"
-#include "LineManager.hpp"
-#include "Interface.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-class NLSTERMINAL_IMPEXP WindowsConsole : public Interface {
+class NLSTERMINAL_IMPEXP WindowsConsole : public Interface
+{
 private:
     HANDLE Win32OutputStream;
     HANDLE Win32InputStream;
     DWORD OldWin32Mode;
-    wchar_t getCharacter(bool &bIsAction);
+    wchar_t
+    getCharacter(bool& bIsAction);
     LineManager lineObj;
-    wchar_t keysEventsFilter(INPUT_RECORD irBuffer, bool &bIsChar, bool &bIsAction);
-    bool mouseEventsFilter(INPUT_RECORD irBuffer);
-    bool isCTRLPressed(INPUT_RECORD irBuffer);
-    bool isALTPressed(INPUT_RECORD irBuffer);
-    wchar_t actionControlKey(void);
-    bool isCTRL_VKEY(int VKEY);
-    void pasteClipBoard(void);
-    void clearClipBoard(void);
-    bool copyToClipBoard(std::wstring txt);
+    wchar_t
+    keysEventsFilter(INPUT_RECORD irBuffer, bool& bIsChar, bool& bIsAction);
+    bool
+    mouseEventsFilter(INPUT_RECORD irBuffer);
+    bool
+    isCTRLPressed(INPUT_RECORD irBuffer);
+    bool
+    isALTPressed(INPUT_RECORD irBuffer);
+    wchar_t
+    actionControlKey(void);
+    bool
+    isCTRL_VKEY(int VKEY);
+    void
+    pasteClipBoard(void);
+    void
+    clearClipBoard(void);
+    bool
+    copyToClipBoard(std::wstring txt);
     bool bHaveHisOwnWindow;
     bool bWithColors;
-    std::wstring getTextLine(std::wstring prompt, bool bIsInput);
+    std::wstring
+    getTextLine(std::wstring prompt, bool bIsInput);
     bool atPrompt;
-public:
 
+public:
     WindowsConsole(bool _bWithColors = true);
     ~WindowsConsole();
 
-    std::wstring getInput(std::wstring prompt);
-    std::wstring getLine(std::wstring prompt);
-    std::string getLine(std::string prompt);
+    std::wstring
+    getInput(std::wstring prompt);
+    std::wstring
+    getLine(std::wstring prompt);
+    std::string
+    getLine(std::string prompt);
 
     /**
-    *  Return the width of the current "terminal" in
-    *  characters.
-    */
-    size_t getTerminalWidth();
-    size_t getTerminalHeight();
+     *  Return the width of the current "terminal" in
+     *  characters.
+     */
+    size_t
+    getTerminalWidth();
+    size_t
+    getTerminalHeight();
     /**
-    *  Output the following text message.
-    */
-    void outputMessage(std::string msg);
-    void outputMessage(std::wstring msg);
-
-    /**
-    *  Output the following error message.
-    */
-    void errorMessage(std::string msg);
-    void errorMessage(std::wstring msg);
+     *  Output the following text message.
+     */
+    void
+    outputMessage(std::string msg);
+    void
+    outputMessage(std::wstring msg);
 
     /**
-    *  Output the following warning message.
-    */
-    void warningMessage(std::string msg);
-    void warningMessage(std::wstring msg);
+     *  Output the following error message.
+     */
+    void
+    errorMessage(std::string msg);
+    void
+    errorMessage(std::wstring msg);
 
-    void clearTerminal();
+    /**
+     *  Output the following warning message.
+     */
+    void
+    warningMessage(std::string msg);
+    void
+    warningMessage(std::wstring msg);
 
-    bool hasHisOwnWindow();
+    void
+    clearTerminal();
 
-    bool setConsoleTitle(std::wstring title);
-    std::wstring getConsoleTitle();
+    bool
+    hasHisOwnWindow();
 
-    bool isAtPrompt();
+    bool
+    setConsoleTitle(std::wstring title);
+    std::wstring
+    getConsoleTitle();
 
+    bool
+    isAtPrompt();
 };

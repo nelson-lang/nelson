@@ -18,19 +18,23 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtCore/QObject>
 #include "QtTextEdit.h"
+#include <QtCore/QObject>
 //=============================================================================
-class QtTextIndent : public QObject {
+class QtTextIndent : public QObject
+{
     Q_OBJECT
-    QtTextEdit *m_te;
+    QtTextEdit* m_te;
+
 public:
     QtTextIndent();
     virtual ~QtTextIndent();
-    void setDocument(QtTextEdit *te);
-    QtTextEdit *document() const;
+    void
+    setDocument(QtTextEdit* te);
+    QtTextEdit*
+    document() const;
 private slots:
-    void update();
+    void
+    update();
 };
 //=============================================================================
-

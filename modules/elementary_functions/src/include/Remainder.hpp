@@ -18,14 +18,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsElementary_functions_exports.h"
 #include "ArrayOf.hpp"
 #include "Exception.hpp"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    /**
-    * remainder operation.
-    */
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf Remainder(ArrayOf A, ArrayOf B);
-}
+/**
+ * remainder operation.
+ */
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Remainder(ArrayOf A, ArrayOf B);
+} // namespace Nelson
 //=============================================================================

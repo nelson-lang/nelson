@@ -22,7 +22,8 @@
 #include <stdlib.h>
 //=============================================================================
 namespace Nelson {
-    NLSSPARSE_IMPEXP bool CheckIJV(size_t ilen, size_t jlen, size_t vlen, int &istride, int &jstride, int &vstride, size_t &olen);
+NLSSPARSE_IMPEXP bool
+CheckIJV(
+    size_t ilen, size_t jlen, size_t vlen, int& istride, int& jstride, int& vstride, size_t& olen);
 }
 //=============================================================================
-

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,25 +13,27 @@ static doublereal c_b26 = 1.;
 static integer c__2 = 2;
 static doublereal c_b99 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int sb01dd_(n, m, indcon, a, lda, b, ldb, nblk, wr, wi, z__, ldz, y, count, g, ldg, tol, iwork, dwork, ldwork, info)
-integer *n, *m, *indcon;
-doublereal *a;
-integer *lda;
-doublereal *b;
+EXPORTSYMBOL /* Subroutine */ int sb01dd_(n, m, indcon, a, lda, b, ldb, nblk, wr, wi, z__, ldz, y,
+    count, g, ldg, tol, iwork, dwork, ldwork, info) integer *n,
+    *m, *indcon;
+doublereal* a;
+integer* lda;
+doublereal* b;
 integer *ldb, *nblk;
 doublereal *wr, *wi, *z__;
-integer *ldz;
-doublereal *y;
-integer *count;
-doublereal *g;
-integer *ldg;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+integer* ldz;
+doublereal* y;
+integer* count;
+doublereal* g;
+integer* ldg;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, g_dim1, g_offset, z_dim1, z_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, b_dim1, b_offset, g_dim1, g_offset, z_dim1, z_offset, i__1, i__2,
+        i__3;
     doublereal d__1;
     /* Local variables */
     static integer rank;
@@ -249,81 +251,58 @@ integer *ldwork, *info;
     *info = 0;
     nr = 0;
     /* Computing MAX */
-    i__1 = *m **n, i__2 = *m **m + (*n << 1) + (*m << 2) + 1;
-    iwrk = max(i__1,i__2);
-    i__1 = min(*indcon,*n);
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    i__1 = *m * *n, i__2 = *m * *m + (*n << 1) + (*m << 2) + 1;
+    iwrk = max(i__1, i__2);
+    i__1 = min(*indcon, *n);
+    for (i__ = 1; i__ <= i__1; ++i__) {
         nr += nblk[i__];
-        if (i__ > 1)
-        {
-            if (nblk[i__ - 1] < nblk[i__])
-            {
+        if (i__ > 1) {
+            if (nblk[i__ - 1] < nblk[i__]) {
                 *info = -8;
             }
         }
         /* L10: */
     }
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*indcon < 0 || *indcon > *n)
-    {
+    } else if (*indcon < 0 || *indcon > *n) {
         *info = -3;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -5;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -7;
-    }
-    else if (nr != *n)
-    {
+    } else if (nr != *n) {
         *info = -8;
-    }
-    else if (*ldz < max(1,*n))
-    {
+    } else if (*ldz < max(1, *n)) {
         *info = -12;
-    }
-    else if (*ldg < max(1,*m))
-    {
+    } else if (*ldg < max(1, *m)) {
         *info = -16;
-    }
-    else if (*ldwork < iwrk)
-    {
+    } else if (*ldwork < iwrk) {
         *info = -20;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SB01DD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*m,*n);
-    if (min(i__1,*indcon) == 0)
-    {
+    i__1 = min(*m, *n);
+    if (min(i__1, *indcon) == 0) {
         *count = 0;
         dwork[1] = 1.;
         return 0;
     }
     maxwrk = iwrk;
     toldef = *tol;
-    if (toldef <= 0.)
-    {
+    if (toldef <= 0.) {
         /*        Use the default tolerance, based on machine precision. */
-        toldef = (doublereal) (*n **n) * dlamch_("EPSILON", 7L);
+        toldef = (doublereal)(*n * *n) * dlamch_("EPSILON", 7L);
     }
     irmx = (*n << 1) + 1;
-    iwrk = irmx + *m **m;
+    iwrk = irmx + *m * *m;
     m1 = nblk[1];
     *count = 1;
     indcrt = *indcon;
@@ -334,8 +313,7 @@ integer *ldwork, *info;
     nc = 1;
     svlmax = dlange_("Frobenius", &m1, m, &b[b_offset], ldb, &dwork[1], 9L);
     i__1 = indcrt - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         nr += nblk[i__ + 1];
         d__1 = dlange_("Frobenius", &nr, &nblk[i__], &a[nc * a_dim1 + 1], lda, &dwork[1], 9L);
         svlmax = dlapy2_(&svlmax, &d__1);
@@ -349,8 +327,7 @@ integer *ldwork, *info;
     nr = *n - mr + 1;
 L30:
     /*     WHILE( INDCRT.GT.1 )LOOP */
-    if (indcrt > 1)
-    {
+    if (indcrt > 1) {
         /*        Assign next eigenvalue/eigenvector. */
         lp1 = l + m1;
         indcn1 = indcrt - 1;
@@ -360,8 +337,7 @@ L30:
         dcopy_(&mr, &y[*count], &c__1, &dwork[nr], &c__1);
         *count += mr;
         nc = 1;
-        if (complx)
-        {
+        if (complx) {
             dcopy_(&mr, &y[*count], &c__1, &dwork[*n + nr], &c__1);
             *count += mr;
             wi[l + 1] = wi[l] * wi[l + 1];
@@ -369,36 +345,27 @@ L30:
         }
         /*        Compute and transform eiegenvector. */
         i__1 = indcrt;
-        for (ip = 1; ip <= i__1; ++ip)
-        {
-            if (ip != indcrt)
-            {
+        for (ip = 1; ip <= i__1; ++ip) {
+            if (ip != indcrt) {
                 dlacpy_("Full", &mr, &mr1, &a[nr + nr1 * a_dim1], lda, &dwork[irmx], m, 4L);
-                if (ip == 1)
-                {
+                if (ip == 1) {
                     mp1 = mr;
                     np1 = nr + mp1;
-                }
-                else
-                {
+                } else {
                     mp1 = mr + 1;
                     np1 = nr + mp1;
                     s = dasum_(&mp1, &dwork[nr], &c__1);
-                    if (complx)
-                    {
+                    if (complx) {
                         s += dasum_(&mp1, &dwork[*n + nr], &c__1);
                     }
-                    if (s != 0.)
-                    {
+                    if (s != 0.) {
                         /*                    Scale eigenvector elements. */
                         d__1 = 1. / s;
                         dscal_(&mp1, &d__1, &dwork[nr], &c__1);
-                        if (complx)
-                        {
+                        if (complx) {
                             d__1 = 1. / s;
                             dscal_(&mp1, &d__1, &dwork[*n + nr], &c__1);
-                            if (np1 <= *n)
-                            {
+                            if (np1 <= *n) {
                                 dwork[*n + np1] /= s;
                             }
                         }
@@ -407,65 +374,55 @@ L30:
                 /*              Compute the right-hand side of the eigenvector equations. */
                 dcopy_(&mr, &dwork[nr], &c__1, &dwork[nr1], &c__1);
                 dscal_(&mr, &wr[l], &dwork[nr1], &c__1);
-                dgemv_("No transpose", &mr, &mp1, &c_b24, &a[nr + nr * a_dim1], lda, &dwork[nr], &c__1, &c_b26, &dwork[nr1], &c__1, 12L);
-                if (complx)
-                {
+                dgemv_("No transpose", &mr, &mp1, &c_b24, &a[nr + nr * a_dim1], lda, &dwork[nr],
+                    &c__1, &c_b26, &dwork[nr1], &c__1, 12L);
+                if (complx) {
                     daxpy_(&mr, &wi[l + 1], &dwork[*n + nr], &c__1, &dwork[nr1], &c__1);
                     dcopy_(&mr, &dwork[nr], &c__1, &dwork[*n + nr1], &c__1);
                     daxpy_(&mr, &wr[l + 1], &dwork[*n + nr], &c__1, &dwork[*n + nr1], &c__1);
-                    dgemv_("No transpose", &mr, &mp1, &c_b24, &a[nr + nr * a_dim1], lda, &dwork[*n + nr], &c__1, &c_b26, &dwork[*n + nr1], &c__1, 12L);
-                    if (np1 <= *n)
-                    {
+                    dgemv_("No transpose", &mr, &mp1, &c_b24, &a[nr + nr * a_dim1], lda,
+                        &dwork[*n + nr], &c__1, &c_b26, &dwork[*n + nr1], &c__1, 12L);
+                    if (np1 <= *n) {
                         d__1 = -dwork[*n + np1];
                         daxpy_(&mr, &d__1, &a[nr + np1 * a_dim1], &c__1, &dwork[*n + nr1], &c__1);
                     }
                 }
                 /*              Solve linear equations for eigenvector elements. */
                 i__2 = *ldwork - iwrk + 1;
-                mb02qd_("FreeElements", "NoPermuting", &mr, &mr1, &nc, &toldef, &svlmax, &dwork[irmx], m, &dwork[nr1], n, &y[*count], &iwork[1], &rank, sval, &dwork[iwrk], &i__2, info, 12L, 11L);
+                mb02qd_("FreeElements", "NoPermuting", &mr, &mr1, &nc, &toldef, &svlmax,
+                    &dwork[irmx], m, &dwork[nr1], n, &y[*count], &iwork[1], &rank, sval,
+                    &dwork[iwrk], &i__2, info, 12L, 11L);
                 /* Computing MAX */
-                i__2 = maxwrk, i__3 = (integer) dwork[iwrk] + iwrk - 1;
-                maxwrk = max(i__2,i__3);
-                if (rank < mr)
-                {
+                i__2 = maxwrk, i__3 = (integer)dwork[iwrk] + iwrk - 1;
+                maxwrk = max(i__2, i__3);
+                if (rank < mr) {
                     goto L80;
                 }
                 *count += (mr1 - mr) * nc;
                 nj = nr1;
-            }
-            else
-            {
+            } else {
                 nj = nr;
             }
             ni = nr + mr - 1;
-            if (ip == 1)
-            {
+            if (ip == 1) {
                 kmr = mr - 1;
-            }
-            else
-            {
+            } else {
                 kmr = mr;
-                if (ip == 2)
-                {
+                if (ip == 2) {
                     ni += nblkcr;
-                }
-                else
-                {
+                } else {
                     ni = ni + nblk[indcrt - ip + 2] + 1;
-                    if (complx)
-                    {
+                    if (complx) {
                         /* Computing MIN */
                         i__2 = ni + 1;
-                        ni = min(i__2,*n);
+                        ni = min(i__2, *n);
                     }
                 }
             }
             i__2 = kmr;
-            for (kk = 1; kk <= i__2; ++kk)
-            {
+            for (kk = 1; kk <= i__2; ++kk) {
                 k = nr + mr - kk;
-                if (ip == 1)
-                {
+                if (ip == 1) {
                     k = *n - kk;
                 }
                 dlartg_(&dwork[k], &dwork[k + 1], &p, &q, &r__);
@@ -475,43 +432,40 @@ L30:
                 i__3 = *n - nj + 1;
                 drot_(&i__3, &a[k + nj * a_dim1], lda, &a[k + 1 + nj * a_dim1], lda, &p, &q);
                 drot_(&ni, &a[k * a_dim1 + 1], &c__1, &a[(k + 1) * a_dim1 + 1], &c__1, &p, &q);
-                if (k < lp1)
-                {
+                if (k < lp1) {
                     /*                 Transform B. */
                     drot_(m, &b[k + b_dim1], ldb, &b[k + 1 + b_dim1], ldb, &p, &q);
                 }
                 /*              Accumulate transformations. */
                 drot_(n, &z__[k * z_dim1 + 1], &c__1, &z__[(k + 1) * z_dim1 + 1], &c__1, &p, &q);
-                if (complx)
-                {
+                if (complx) {
                     drot_(&c__1, &dwork[*n + k], &c__1, &dwork[*n + k + 1], &c__1, &p, &q);
                     ++k;
-                    if (k < *n)
-                    {
+                    if (k < *n) {
                         dlartg_(&dwork[*n + k], &dwork[*n + k + 1], &p, &q, &r__);
                         dwork[*n + k] = r__;
                         dwork[*n + k + 1] = 0.;
                         /*                    Transform  A. */
                         i__3 = *n - nj + 1;
-                        drot_(&i__3, &a[k + nj * a_dim1], lda, &a[k + 1 + nj * a_dim1], lda, &p, &q);
-                        drot_(&ni, &a[k * a_dim1 + 1], &c__1, &a[(k + 1) * a_dim1 + 1], &c__1, &p, &q);
-                        if (k <= lp1)
-                        {
+                        drot_(
+                            &i__3, &a[k + nj * a_dim1], lda, &a[k + 1 + nj * a_dim1], lda, &p, &q);
+                        drot_(&ni, &a[k * a_dim1 + 1], &c__1, &a[(k + 1) * a_dim1 + 1], &c__1, &p,
+                            &q);
+                        if (k <= lp1) {
                             /*                       Transform B. */
                             drot_(m, &b[k + b_dim1], ldb, &b[k + 1 + b_dim1], ldb, &p, &q);
                         }
                         /*                    Accumulate transformations. */
-                        drot_(n, &z__[k * z_dim1 + 1], &c__1, &z__[(k + 1) * z_dim1 + 1], &c__1, &p, &q);
+                        drot_(n, &z__[k * z_dim1 + 1], &c__1, &z__[(k + 1) * z_dim1 + 1], &c__1, &p,
+                            &q);
                     }
                 }
                 /* L40: */
             }
-            if (ip != indcrt)
-            {
+            if (ip != indcrt) {
                 mr = mr1;
                 nr = nr1;
-                if (ip != indcn1)
-                {
+                if (ip != indcn1) {
                     indcn2 = indcrt - ip - 1;
                     mr1 = nblk[indcn2];
                     nr1 -= mr1;
@@ -519,60 +473,52 @@ L30:
             }
             /* L50: */
         }
-        if (! complx)
-        {
+        if (!complx) {
             /*           Find one column of G. */
             dlacpy_("Full", &m1, m, &b[l + 1 + b_dim1], ldb, &dwork[irmx], m, 4L);
             dcopy_(&m1, &a[l + 1 + l * a_dim1], &c__1, &g[l * g_dim1 + 1], &c__1);
-        }
-        else
-        {
+        } else {
             /*           Find two columns of G. */
-            if (lp1 < *n)
-            {
+            if (lp1 < *n) {
                 ++lp1;
                 k = l + 2;
-            }
-            else
-            {
+            } else {
                 k = l + 1;
             }
             dlacpy_("Full", &m1, m, &b[k + b_dim1], ldb, &dwork[irmx], m, 4L);
             dlacpy_("Full", &m1, &c__2, &a[k + l * a_dim1], lda, &g[l * g_dim1 + 1], ldg, 4L);
-            if (k == l + 1)
-            {
+            if (k == l + 1) {
                 g[l * g_dim1 + 1] -= dwork[*n + l + 1] / dwork[l] * wi[l + 1];
-                g[(l + 1) * g_dim1 + 1] = g[(l + 1) * g_dim1 + 1] - wr[l + 1] + dwork[*n + l] / dwork[l] * wi[l + 1];
+                g[(l + 1) * g_dim1 + 1]
+                    = g[(l + 1) * g_dim1 + 1] - wr[l + 1] + dwork[*n + l] / dwork[l] * wi[l + 1];
             }
         }
         i__1 = *ldwork - iwrk + 1;
-        mb02qd_("FreeElements", "NoPermuting", &m1, m, &nc, &toldef, &svlmax, &dwork[irmx], m, &g[l * g_dim1 + 1], ldg, &y[*count], &iwork[1], &rank, sval, &dwork[iwrk], &i__1, info, 12L, 11L);
+        mb02qd_("FreeElements", "NoPermuting", &m1, m, &nc, &toldef, &svlmax, &dwork[irmx], m,
+            &g[l * g_dim1 + 1], ldg, &y[*count], &iwork[1], &rank, sval, &dwork[iwrk], &i__1, info,
+            12L, 11L);
         /* Computing MAX */
-        i__1 = maxwrk, i__2 = (integer) dwork[iwrk] + iwrk - 1;
-        maxwrk = max(i__1,i__2);
-        if (rank < m1)
-        {
+        i__1 = maxwrk, i__2 = (integer)dwork[iwrk] + iwrk - 1;
+        maxwrk = max(i__1, i__2);
+        if (rank < m1) {
             goto L80;
         }
         *count += (*m - m1) * nc;
-        dgemm_("No transpose", "No transpose", &lp1, &nc, m, &c_b24, &b[b_offset], ldb, &g[l * g_dim1 + 1], ldg, &c_b26, &a[l * a_dim1 + 1], lda, 12L, 12L);
+        dgemm_("No transpose", "No transpose", &lp1, &nc, m, &c_b24, &b[b_offset], ldb,
+            &g[l * g_dim1 + 1], ldg, &c_b26, &a[l * a_dim1 + 1], lda, 12L, 12L);
         ++l;
         --nblkcr;
-        if (nblkcr == 0)
-        {
+        if (nblkcr == 0) {
             --indcrt;
             nblkcr = nblk[indcrt];
         }
-        if (complx)
-        {
+        if (complx) {
             wi[l] = -wi[l - 1];
             ++l;
             --nblkcr;
-            if (nblkcr == 0)
-            {
+            if (nblkcr == 0) {
                 --indcrt;
-                if (indcrt > 0)
-                {
+                if (indcrt > 0) {
                     nblkcr = nblk[indcrt];
                 }
             }
@@ -582,13 +528,11 @@ L30:
         goto L30;
     }
     /*     END WHILE 30 */
-    if (l <= *n)
-    {
+    if (l <= *n) {
         /*        Find the remaining columns of G. */
         /*        QR decomposition of the free eigenvectors. */
         i__1 = mr - 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             ia = l + i__ - 1;
             mi = mr - i__ + 1;
             dcopy_(&mi, &y[*count], &c__1, &dwork[1], &c__1);
@@ -596,29 +540,30 @@ L30:
             dlarfg_(&mi, &dwork[1], &dwork[2], &c__1, &r__);
             dwork[1] = 1.;
             /*           Transform A. */
-            dlarf_("Left", &mi, &mr, &dwork[1], &c__1, &r__, &a[ia + l * a_dim1], lda, &dwork[*n + 1], 4L);
-            dlarf_("Right", n, &mi, &dwork[1], &c__1, &r__, &a[ia * a_dim1 + 1], lda, &dwork[*n + 1], 5L);
+            dlarf_("Left", &mi, &mr, &dwork[1], &c__1, &r__, &a[ia + l * a_dim1], lda,
+                &dwork[*n + 1], 4L);
+            dlarf_("Right", n, &mi, &dwork[1], &c__1, &r__, &a[ia * a_dim1 + 1], lda,
+                &dwork[*n + 1], 5L);
             /*           Transform B. */
-            dlarf_("Left", &mi, m, &dwork[1], &c__1, &r__, &b[ia + b_dim1], ldb, &dwork[*n + 1], 4L);
+            dlarf_(
+                "Left", &mi, m, &dwork[1], &c__1, &r__, &b[ia + b_dim1], ldb, &dwork[*n + 1], 4L);
             /*           Accumulate transformations. */
-            dlarf_("Right", n, &mi, &dwork[1], &c__1, &r__, &z__[ia * z_dim1 + 1], ldz, &dwork[*n + 1], 5L);
+            dlarf_("Right", n, &mi, &dwork[1], &c__1, &r__, &z__[ia * z_dim1 + 1], ldz,
+                &dwork[*n + 1], 5L);
             /* L60: */
         }
         i__ = 0;
         /*        REPEAT */
-L70:
+    L70:
         ++i__;
         ia = l + i__ - 1;
-        if (wi[ia] == 0.)
-        {
+        if (wi[ia] == 0.) {
             dcopy_(&mr, &a[ia + l * a_dim1], lda, &g[i__ + l * g_dim1], ldg);
             i__1 = mr - i__;
             daxpy_(&i__1, &c_b24, &y[*count], &c__1, &g[i__ + (l + i__) * g_dim1], ldg);
             *count = *count + mr - i__;
             g[i__ + ia * g_dim1] -= wr[ia];
-        }
-        else
-        {
+        } else {
             dlacpy_("Full", &c__2, &mr, &a[ia + l * a_dim1], lda, &g[i__ + l * g_dim1], ldg, 4L);
             i__1 = mr - i__ - 1;
             daxpy_(&i__1, &c_b24, &y[*count], &c__2, &g[i__ + (l + i__ + 1) * g_dim1], ldg);
@@ -631,37 +576,38 @@ L70:
             g[i__ + 1 + (ia + 1) * g_dim1] -= wr[ia + 1];
             ++i__;
         }
-        if (i__ < mr)
-        {
+        if (i__ < mr) {
             goto L70;
         }
         /*        UNTIL I.GE.MR */
         dlacpy_("Full", &mr, m, &b[l + b_dim1], ldb, &dwork[irmx], m, 4L);
         i__1 = *ldwork - iwrk + 1;
-        mb02qd_("FreeElements", "NoPermuting", &mr, m, &mr, &toldef, &svlmax, &dwork[irmx], m, &g[l * g_dim1 + 1], ldg, &y[*count], &iwork[1], &rank, sval, &dwork[iwrk], &i__1, info, 12L, 11L);
+        mb02qd_("FreeElements", "NoPermuting", &mr, m, &mr, &toldef, &svlmax, &dwork[irmx], m,
+            &g[l * g_dim1 + 1], ldg, &y[*count], &iwork[1], &rank, sval, &dwork[iwrk], &i__1, info,
+            12L, 11L);
         /* Computing MAX */
-        i__1 = maxwrk, i__2 = (integer) dwork[iwrk] + iwrk - 1;
-        maxwrk = max(i__1,i__2);
-        if (rank < mr)
-        {
+        i__1 = maxwrk, i__2 = (integer)dwork[iwrk] + iwrk - 1;
+        maxwrk = max(i__1, i__2);
+        if (rank < mr) {
             goto L80;
         }
         *count += (*m - mr) * mr;
-        dgemm_("No transpose", "No transpose", n, &mr, m, &c_b24, &b[b_offset], ldb, &g[l * g_dim1 + 1], ldg, &c_b26, &a[l * a_dim1 + 1], lda, 12L, 12L);
+        dgemm_("No transpose", "No transpose", n, &mr, m, &c_b24, &b[b_offset], ldb,
+            &g[l * g_dim1 + 1], ldg, &c_b26, &a[l * a_dim1 + 1], lda, 12L, 12L);
     }
     /*     Transform G: */
     /*     G := G * Z'. */
-    dgemm_("No transpose", "Transpose", m, n, n, &c_b26, &g[g_offset], ldg, &z__[z_offset], ldz, &c_b99, &dwork[1], m, 12L, 9L);
+    dgemm_("No transpose", "Transpose", m, n, n, &c_b26, &g[g_offset], ldg, &z__[z_offset], ldz,
+        &c_b99, &dwork[1], m, 12L, 9L);
     dlacpy_("Full", m, n, &dwork[1], m, &g[g_offset], ldg, 4L);
     --(*count);
-    if (*n > 2)
-    {
+    if (*n > 2) {
         /*        Set the elements of A below the Hessenberg part to zero. */
         i__1 = *n - 2;
         i__2 = *n - 2;
         dlaset_("Lower", &i__1, &i__2, &c_b99, &c_b99, &a[a_dim1 + 3], lda, 5L);
     }
-    dwork[1] = (doublereal) maxwrk;
+    dwork[1] = (doublereal)maxwrk;
     return 0;
     /*     Exit with INFO = 1 if the pair ( A, B ) is not controllable or */
     /*     the free parameters are not set appropriately. */
@@ -670,4 +616,3 @@ L80:
     return 0;
     /* *** Last line of SB01DD *** */
 } /* sb01dd_ */
-

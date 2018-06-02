@@ -18,18 +18,27 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsInteger_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsInteger_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSINTEGER_IMPEXP ArrayOf integer_uminus(ArrayOf a);
-    NLSINTEGER_IMPEXP int8 integer_uminus(int8 a);
-    NLSINTEGER_IMPEXP int16 integer_uminus(int16 a);
-    NLSINTEGER_IMPEXP int32 integer_uminus(int32 a);
-    NLSINTEGER_IMPEXP int64 integer_uminus(int64 a);
-    NLSINTEGER_IMPEXP uint8 integer_uminus(uint8 a);
-    NLSINTEGER_IMPEXP uint16 integer_uminus(uint16 a);
-    NLSINTEGER_IMPEXP uint32 integer_uminus(uint32 a);
-    NLSINTEGER_IMPEXP uint64 integer_uminus(uint64 a);
-}
+NLSINTEGER_IMPEXP ArrayOf
+integer_uminus(ArrayOf a);
+NLSINTEGER_IMPEXP int8
+integer_uminus(int8 a);
+NLSINTEGER_IMPEXP int16
+integer_uminus(int16 a);
+NLSINTEGER_IMPEXP int32
+integer_uminus(int32 a);
+NLSINTEGER_IMPEXP int64
+integer_uminus(int64 a);
+NLSINTEGER_IMPEXP uint8
+integer_uminus(uint8 a);
+NLSINTEGER_IMPEXP uint16
+integer_uminus(uint16 a);
+NLSINTEGER_IMPEXP uint32
+integer_uminus(uint32 a);
+NLSINTEGER_IMPEXP uint64
+integer_uminus(uint64 a);
+} // namespace Nelson
 //=============================================================================

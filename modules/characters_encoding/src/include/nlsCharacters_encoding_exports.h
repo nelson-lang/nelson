@@ -25,6 +25,6 @@
 #define NLSCHARACTERS_ENCODING_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSCHARACTERS_ENCODING_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSCHARACTERS_ENCODING_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,18 +11,18 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 static integer c__2 = 2;
 
-EXPORTSYMBOL /* Subroutine */ int mb03ka_(compq, whichq, ws, k, nc, kschur, ifst, ilst, n, ni, s, t, ldt, ixt, q, ldq, ixq, tol, iwork, dwork, ldwork, info, compq_len)
-char *compq;
-integer *whichq;
-logical *ws;
+EXPORTSYMBOL /* Subroutine */ int mb03ka_(compq, whichq, ws, k, nc, kschur, ifst, ilst, n, ni, s, t,
+    ldt, ixt, q, ldq, ixq, tol, iwork, dwork, ldwork, info, compq_len) char* compq;
+integer* whichq;
+logical* ws;
 integer *k, *nc, *kschur, *ifst, *ilst, *n, *ni, *s;
-doublereal *t;
+doublereal* t;
 integer *ldt, *ixt;
-doublereal *q;
+doublereal* q;
 integer *ldq, *ixq;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen compq_len;
 {
@@ -251,37 +251,29 @@ ftnlen compq_len;
     --n;
     --whichq;
     /* Function Body */
-    if (*nc == 2)
-    {
+    if (*nc == 2) {
         nbf = 1;
         nbl = 1;
-    }
-    else if (*nc == 3)
-    {
+    } else if (*nc == 3) {
         nbf = 1;
         nbl = 2;
-    }
-    else
-    {
+    } else {
         nbf = 2;
         nbl = 2;
     }
-    mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &c__1, &nbf, &nbl, &n[1], &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1], &dwork[1], &c_n1, info, 1L);
+    mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &c__1, &nbf, &nbl, &n[1], &ni[1], &s[1], &t[1],
+        &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1], &dwork[1], &c_n1, info, 1L);
     /* Computing MAX */
-    i__1 = 1, i__2 = (integer) dwork[1];
-    minwrk = max(i__1,i__2);
-    if (*ldwork != -1 && *ldwork < minwrk)
-    {
+    i__1 = 1, i__2 = (integer)dwork[1];
+    minwrk = max(i__1, i__2);
+    if (*ldwork != -1 && *ldwork < minwrk) {
         *info = -21;
     }
     /*     Quick return if possible */
-    if (*ldwork == -1)
-    {
-        dwork[1] = (doublereal) minwrk;
+    if (*ldwork == -1) {
+        dwork[1] = (doublereal)minwrk;
         return 0;
-    }
-    else if (*info < 0)
-    {
+    } else if (*info < 0) {
         i__1 = -(*info);
         xerbla_("MB03KA", &i__1, 6L);
         return 0;
@@ -293,213 +285,167 @@ ftnlen compq_len;
     /*     Determine the first row of the block in T22_kschur corresponding */
     /*     to the first block in the product and find out if it is 1-by-1 or */
     /*     2-by-2. */
-    if (*ifst > 1)
-    {
-        if (s[i__] == 1)
-        {
+    if (*ifst > 1) {
+        if (s[i__] == 1) {
             it = ixt[i__] + (ni[i__] + *ifst - 2) * ldt[i__] + ni[ip1] + *ifst - 1;
-        }
-        else
-        {
+        } else {
             it = ixt[i__] + (ni[ip1] + *ifst - 2) * ldt[i__] + ni[i__] + *ifst - 1;
         }
-        if (t[it] != 0.)
-        {
+        if (t[it] != 0.) {
             --(*ifst);
         }
     }
     nbf = 1;
-    if (*ifst < *nc)
-    {
-        if (s[i__] == 1)
-        {
+    if (*ifst < *nc) {
+        if (s[i__] == 1) {
             it = ixt[i__] + (ni[i__] + *ifst - 1) * ldt[i__] + ni[ip1] + *ifst;
-        }
-        else
-        {
+        } else {
             it = ixt[i__] + (ni[ip1] + *ifst - 1) * ldt[i__] + ni[i__] + *ifst;
         }
-        if (t[it] != 0.)
-        {
+        if (t[it] != 0.) {
             nbf = 2;
         }
     }
     /*     Determine the first row of the block in T_kschur corresponding */
     /*     to the last block in the product and find out it is 1-by-1 or */
     /*     2-by-2. */
-    if (*ilst > 1)
-    {
-        if (s[i__] == 1)
-        {
+    if (*ilst > 1) {
+        if (s[i__] == 1) {
             it = ixt[i__] + (ni[i__] + *ilst - 2) * ldt[i__] + ni[ip1] + *ilst - 1;
-        }
-        else
-        {
+        } else {
             it = ixt[i__] + (ni[ip1] + *ilst - 2) * ldt[i__] + ni[i__] + *ilst - 1;
         }
-        if (t[it] != 0.)
-        {
+        if (t[it] != 0.) {
             --(*ilst);
         }
     }
     nbl = 1;
-    if (*ilst < *nc)
-    {
-        if (s[i__] == 1)
-        {
+    if (*ilst < *nc) {
+        if (s[i__] == 1) {
             it = ixt[i__] + (ni[i__] + *ilst - 1) * ldt[i__] + ni[ip1] + *ilst;
-        }
-        else
-        {
+        } else {
             it = ixt[i__] + (ni[ip1] + *ilst - 1) * ldt[i__] + ni[i__] + *ilst;
         }
-        if (t[it] != 0.)
-        {
+        if (t[it] != 0.) {
             nbl = 2;
         }
     }
     /*     If the specified and last block in the product were the same, */
     /*     return. */
-    if (*ifst == *ilst)
-    {
+    if (*ifst == *ilst) {
         return 0;
     }
     /*     If the specified block lies above the last block on the diagonal */
     /*     of the product and the blocks have unequal sizes, update ILST. */
-    if (*ifst < *ilst)
-    {
+    if (*ifst < *ilst) {
         /*        Update ILST. */
-        if (nbf == 2 && nbl == 1)
-        {
+        if (nbf == 2 && nbl == 1) {
             --(*ilst);
         }
-        if (nbf == 1 && nbl == 2)
-        {
+        if (nbf == 1 && nbl == 2) {
             ++(*ilst);
         }
         here = *ifst;
-L10:
+    L10:
         /*        Swap a block with next one below. */
-        if (nbf == 1 || nbf == 2)
-        {
+        if (nbf == 1 || nbf == 2) {
             /*           Current next block is either 1-by-1 or 2-by-2. */
             nbnext = 1;
-            if (here + nbf + 1 <= *nc)
-            {
-                if (s[i__] == 1)
-                {
+            if (here + nbf + 1 <= *nc) {
+                if (s[i__] == 1) {
                     it = ixt[i__] + (ni[i__] + here + nbf - 1) * ldt[i__] + ni[ip1] + here + nbf;
-                }
-                else
-                {
+                } else {
                     it = ixt[i__] + (ni[ip1] + here + nbf - 1) * ldt[i__] + ni[i__] + here + nbf;
                 }
-                if (t[it] != 0.)
-                {
+                if (t[it] != 0.) {
                     nbnext = 2;
                 }
             }
-            mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &here, &nbf, &nbnext, &n[1], &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1], &dwork[1], ldwork, info, 1L);
-            if (*info != 0)
-            {
+            mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &here, &nbf, &nbnext, &n[1], &ni[1],
+                &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1],
+                &dwork[1], ldwork, info, 1L);
+            if (*info != 0) {
                 *ilst = here;
                 return 0;
             }
             here += nbnext;
             /*           Test if a 2-by-2 block breaks into two 1-by-1 blocks. */
-            if (nbf == 2)
-            {
-                if (s[i__] == 1)
-                {
+            if (nbf == 2) {
+                if (s[i__] == 1) {
                     it = ixt[i__] + (ni[i__] + here - 1) * ldt[i__] + ni[ip1] + here;
-                }
-                else
-                {
+                } else {
                     it = ixt[i__] + (ni[ip1] + here - 1) * ldt[i__] + ni[i__] + here;
                 }
-                if (t[it] == 0.)
-                {
+                if (t[it] == 0.) {
                     nbf = 3;
                 }
             }
-        }
-        else
-        {
+        } else {
             /*           Current next block consists of two 1-by-1 blocks each of */
             /*           which must be swapped individually. */
             nbnext = 1;
-            if (here + 3 <= *nc)
-            {
-                if (s[i__] == 1)
-                {
+            if (here + 3 <= *nc) {
+                if (s[i__] == 1) {
                     it = ixt[i__] + (ni[i__] + here + 1) * ldt[i__] + ni[ip1] + here + 2;
-                }
-                else
-                {
+                } else {
                     it = ixt[i__] + (ni[ip1] + here + 1) * ldt[i__] + ni[i__] + here + 2;
                 }
-                if (t[it] != 0.)
-                {
+                if (t[it] != 0.) {
                     nbnext = 2;
                 }
             }
             i__1 = here + 1;
-            mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &i__1, &c__1, &nbnext, &n[1], &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1], &dwork[1], ldwork, info, 1L);
-            if (*info != 0)
-            {
+            mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &i__1, &c__1, &nbnext, &n[1], &ni[1],
+                &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1],
+                &dwork[1], ldwork, info, 1L);
+            if (*info != 0) {
                 *ilst = here;
                 return 0;
             }
-            if (nbnext == 1)
-            {
+            if (nbnext == 1) {
                 /*              Swap two 1-by-1 blocks. */
-                mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &here, &c__1, &nbnext, &n[1], &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1], &dwork[1], ldwork, info, 1L);
-                if (*info != 0)
-                {
+                mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &here, &c__1, &nbnext, &n[1], &ni[1],
+                    &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1],
+                    &dwork[1], ldwork, info, 1L);
+                if (*info != 0) {
                     *ilst = here;
                     return 0;
                 }
                 ++here;
-            }
-            else
-            {
+            } else {
                 /*              Recompute NBNEXT in case 2-by-2 split. */
-                if (s[i__] == 1)
-                {
+                if (s[i__] == 1) {
                     it = ixt[i__] + (ni[i__] + here) * ldt[i__] + ni[ip1] + here + 1;
-                }
-                else
-                {
+                } else {
                     it = ixt[i__] + (ni[ip1] + here) * ldt[i__] + ni[i__] + here + 1;
                 }
-                if (t[it] == 0.)
-                {
+                if (t[it] == 0.) {
                     nbnext = 1;
                 }
-                if (nbnext == 2)
-                {
+                if (nbnext == 2) {
                     /*                 The 2-by-2 block did not split. */
-                    mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &here, &c__1, &nbnext, &n[1], &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1], &dwork[1], ldwork, info, 1L);
-                    if (*info != 0)
-                    {
+                    mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &here, &c__1, &nbnext, &n[1],
+                        &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1],
+                        &iwork[1], &dwork[1], ldwork, info, 1L);
+                    if (*info != 0) {
                         *ilst = here;
                         return 0;
                     }
                     here += 2;
-                }
-                else
-                {
+                } else {
                     /*                 The 2-by-2 block did split. */
-                    mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &here, &c__1, &c__1, &n[1], &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1], &dwork[1], ldwork, info, 1L);
-                    if (*info != 0)
-                    {
+                    mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &here, &c__1, &c__1, &n[1],
+                        &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1],
+                        &iwork[1], &dwork[1], ldwork, info, 1L);
+                    if (*info != 0) {
                         *ilst = here;
                         return 0;
                     }
                     i__1 = here + 1;
-                    mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &i__1, &c__1, &c__1, &n[1], &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1], &dwork[1], ldwork, info, 1L);
-                    if (*info != 0)
-                    {
+                    mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &i__1, &c__1, &c__1, &n[1],
+                        &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1],
+                        &iwork[1], &dwork[1], ldwork, info, 1L);
+                    if (*info != 0) {
                         *ilst = here + 1;
                         return 0;
                     }
@@ -507,138 +453,113 @@ L10:
                 }
             }
         }
-        if (here < *ilst)
-        {
+        if (here < *ilst) {
             goto L10;
         }
-    }
-    else
-    {
+    } else {
         here = *ifst;
-L20:
+    L20:
         /*        Swap a block with next one above. */
-        if (nbf == 1 || nbf == 2)
-        {
+        if (nbf == 1 || nbf == 2) {
             /*           Current block is either 1-by-1 or 2-by-2. */
             nbnext = 1;
-            if (here >= 3)
-            {
-                if (s[i__] == 1)
-                {
+            if (here >= 3) {
+                if (s[i__] == 1) {
                     it = ixt[i__] + (ni[i__] + here - 3) * ldt[i__] + ni[ip1] + here - 2;
-                }
-                else
-                {
+                } else {
                     it = ixt[i__] + (ni[ip1] + here - 3) * ldt[i__] + ni[i__] + here - 2;
                 }
-                if (t[it] != 0.)
-                {
+                if (t[it] != 0.) {
                     nbnext = 2;
                 }
             }
             i__1 = here - nbnext;
-            mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &i__1, &nbnext, &nbf, &n[1], &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1], &dwork[1], ldwork, info, 1L);
-            if (*info != 0)
-            {
+            mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &i__1, &nbnext, &nbf, &n[1], &ni[1],
+                &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1],
+                &dwork[1], ldwork, info, 1L);
+            if (*info != 0) {
                 *ilst = here;
                 return 0;
             }
             here -= nbnext;
             /*           Test if a 2-by-2 block breaks into two 1-by-1 blocks. */
-            if (nbf == 2)
-            {
-                if (s[i__] == 1)
-                {
+            if (nbf == 2) {
+                if (s[i__] == 1) {
                     it = ixt[i__] + (ni[i__] + here - 1) * ldt[i__] + ni[ip1] + here;
-                }
-                else
-                {
+                } else {
                     it = ixt[i__] + (ni[ip1] + here - 1) * ldt[i__] + ni[i__] + here;
                 }
-                if (t[it] == 0.)
-                {
+                if (t[it] == 0.) {
                     nbf = 3;
                 }
             }
-        }
-        else
-        {
+        } else {
             /*           Current block consists of two 1-by-1 blocks each of which */
             /*           must be swapped individually. */
             nbnext = 1;
-            if (here >= 3)
-            {
-                if (s[i__] == 1)
-                {
+            if (here >= 3) {
+                if (s[i__] == 1) {
                     it = ixt[i__] + (ni[i__] + here - 3) * ldt[i__] + ni[ip1] + here - 2;
-                }
-                else
-                {
+                } else {
                     it = ixt[i__] + (ni[ip1] + here - 3) * ldt[i__] + ni[i__] + here - 2;
                 }
-                if (t[it] != 0.)
-                {
+                if (t[it] != 0.) {
                     nbnext = 2;
                 }
             }
             i__1 = here - nbnext;
-            mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &i__1, &nbnext, &c__1, &n[1], &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1], &dwork[1], ldwork, info, 1L);
-            if (*info != 0)
-            {
+            mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &i__1, &nbnext, &c__1, &n[1], &ni[1],
+                &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1],
+                &dwork[1], ldwork, info, 1L);
+            if (*info != 0) {
                 *ilst = here;
                 return 0;
             }
-            if (nbnext == 1)
-            {
+            if (nbnext == 1) {
                 /*              Swap two 1-by-1 blocks. */
-                mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &here, &nbnext, &c__1, &n[1], &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1], &dwork[1], ldwork, info, 1L);
-                if (*info != 0)
-                {
+                mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &here, &nbnext, &c__1, &n[1], &ni[1],
+                    &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1],
+                    &dwork[1], ldwork, info, 1L);
+                if (*info != 0) {
                     *ilst = here;
                     return 0;
                 }
                 --here;
-            }
-            else
-            {
+            } else {
                 /*              Recompute NBNEXT in case 2-by-2 split. */
-                if (s[i__] == 1)
-                {
+                if (s[i__] == 1) {
                     it = ixt[i__] + (ni[i__] + here - 2) * ldt[i__] + ni[ip1] + here - 1;
-                }
-                else
-                {
+                } else {
                     it = ixt[i__] + (ni[ip1] + here - 2) * ldt[i__] + ni[i__] + here - 1;
                 }
-                if (t[it] == 0.)
-                {
+                if (t[it] == 0.) {
                     nbnext = 1;
                 }
-                if (nbnext == 2)
-                {
+                if (nbnext == 2) {
                     /*                 The 2-by-2 block did not split. */
                     i__1 = here - 1;
-                    mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &i__1, &c__2, &c__1, &n[1], &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1], &dwork[1], ldwork, info, 1L);
-                    if (*info != 0)
-                    {
+                    mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &i__1, &c__2, &c__1, &n[1],
+                        &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1],
+                        &iwork[1], &dwork[1], ldwork, info, 1L);
+                    if (*info != 0) {
                         *ilst = here;
                         return 0;
                     }
                     here += -2;
-                }
-                else
-                {
+                } else {
                     /*                 The 2-by-2 block did split. */
-                    mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &here, &c__1, &c__1, &n[1], &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1], &dwork[1], ldwork, info, 1L);
-                    if (*info != 0)
-                    {
+                    mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &here, &c__1, &c__1, &n[1],
+                        &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1],
+                        &iwork[1], &dwork[1], ldwork, info, 1L);
+                    if (*info != 0) {
                         *ilst = here;
                         return 0;
                     }
                     i__1 = here - 1;
-                    mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &i__1, &c__1, &c__1, &n[1], &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1], &iwork[1], &dwork[1], ldwork, info, 1L);
-                    if (*info != 0)
-                    {
+                    mb03kb_(compq, &whichq[1], ws, k, nc, kschur, &i__1, &c__1, &c__1, &n[1],
+                        &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &tol[1],
+                        &iwork[1], &dwork[1], ldwork, info, 1L);
+                    if (*info != 0) {
                         *ilst = here - 1;
                         return 0;
                     }
@@ -646,15 +567,13 @@ L20:
                 }
             }
         }
-        if (here > *ilst)
-        {
+        if (here > *ilst) {
             goto L20;
         }
     }
     *ilst = here;
     /*     Store optimal workspace values and return. */
-    dwork[1] = (doublereal) minwrk;
+    dwork[1] = (doublereal)minwrk;
     return 0;
     /* *** Last line of MB03KA *** */
 } /* mb03ka_ */
-

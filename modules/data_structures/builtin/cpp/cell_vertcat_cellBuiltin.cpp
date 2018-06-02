@@ -21,37 +21,33 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DataStructuresGateway::cell_vertcat_cellBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DataStructuresGateway::cell_vertcat_cellBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
     ArrayOf C;
-    if (!A.isCell())
-    {
+    if (!A.isCell()) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_CELL_EXPECTED);
     }
-    if (!B.isCell())
-    {
+    if (!B.isCell()) {
         Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_CELL_EXPECTED);
     }
-    if (A.isEmpty())
-    {
+    if (A.isEmpty()) {
         C = B;
         C.ensureSingleOwner();
         retval.push_back(C);
         return retval;
     }
-    if (B.isEmpty())
-    {
+    if (B.isEmpty()) {
         C = A;
         C.ensureSingleOwner();
         retval.push_back(C);
@@ -59,32 +55,26 @@ ArrayOfVector Nelson::DataStructuresGateway::cell_vertcat_cellBuiltin(Evaluator*
     }
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
-    if (dimsA.getColumns() != dimsB.getColumns())
-    {
+    if (dimsA.getColumns() != dimsB.getColumns()) {
         Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     indexType newColumnsSize = dimsA.getColumns();
     indexType newRowsSize = dimsA.getRows() + dimsB.getRows();
     indexType newSize = newColumnsSize * newRowsSize;
     Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-    void *res = ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, newSize);
-    ArrayOf *elements = (ArrayOf *)res;
-    ArrayOf *elementsA = (ArrayOf *)A.getDataPointer();
-    ArrayOf *elementsB = (ArrayOf *)B.getDataPointer();
-    for (indexType i = 0; i < dimsC.getRows(); i++)
-    {
-        for (indexType j = 0; j < dimsC.getColumns(); j++)
-        {
+    void* res = ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, newSize);
+    ArrayOf* elements = (ArrayOf*)res;
+    ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
+    ArrayOf* elementsB = (ArrayOf*)B.getDataPointer();
+    for (indexType i = 0; i < dimsC.getRows(); i++) {
+        for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType idxDST = i + j * dimsC.getRows();
             indexType idxSRC = 0;
-            if (i < dimsA.getRows())
-            {
-                idxSRC = i + j *  dimsA.getRows();
+            if (i < dimsA.getRows()) {
+                idxSRC = i + j * dimsA.getRows();
                 elements[idxDST] = elementsA[idxSRC];
-            }
-            else
-            {
-                idxSRC = (i - dimsA.getRows()) + j *  dimsA.getRows();
+            } else {
+                idxSRC = (i - dimsA.getRows()) + j * dimsA.getRows();
                 elements[idxDST] = elementsB[idxSRC];
             }
         }

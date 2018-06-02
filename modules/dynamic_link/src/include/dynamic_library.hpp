@@ -17,132 +17,134 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #pragma once
+#include <string>
 #include <stdexcept>
 #ifdef _MSC_VER
 #include <Windows.h>
-# pragma comment(lib, "kernel32.lib")
+#pragma comment(lib, "kernel32.lib")
 #else
 #include <dlfcn.h>
 #endif
 //=============================================================================
 namespace Nelson {
 #ifdef _MSC_VER
-    typedef HMODULE library_handle;
-    typedef FARPROC generic_function_ptr;
-    //=============================================================================
-    inline library_handle load_dynamic_library(std::string library_name)
-    {
-        library_handle hl;
-        try
-        {
-            hl = LoadLibraryA(library_name.c_str());
-        }
-        catch (std::runtime_error&)
-        {
-            hl = nullptr;
-        }
-        return hl;
+typedef HMODULE library_handle;
+typedef FARPROC generic_function_ptr;
+//=============================================================================
+inline library_handle
+load_dynamic_library(std::string library_name)
+{
+    library_handle hl;
+    try {
+        hl = LoadLibraryA(library_name.c_str());
+    } catch (std::runtime_error&) {
+        hl = nullptr;
     }
-    //=============================================================================
-    inline library_handle load_dynamic_libraryW(std::wstring library_name)
-    {
-        library_handle hl;
-        try
-        {
-            hl = LoadLibraryW(library_name.c_str());
-        }
-        catch (std::runtime_error&)
-        {
-            hl = nullptr;
-        }
-        return hl;
+    return hl;
+}
+//=============================================================================
+inline library_handle
+load_dynamic_libraryW(std::wstring library_name)
+{
+    library_handle hl;
+    try {
+        hl = LoadLibraryW(library_name.c_str());
+    } catch (std::runtime_error&) {
+        hl = nullptr;
     }
-    //=============================================================================
-    inline generic_function_ptr get_function(library_handle handle,
-            std::string function_name)
-    {
-        return GetProcAddress(handle, function_name.c_str());
+    return hl;
+}
+//=============================================================================
+inline generic_function_ptr
+get_function(library_handle handle, std::string function_name)
+{
+    return GetProcAddress(handle, function_name.c_str());
+}
+//=============================================================================
+inline bool
+close_dynamic_library(library_handle handle)
+{
+    return FreeLibrary(handle) != 0;
+}
+//=============================================================================
+inline std::string
+get_dynamic_library_extension()
+{
+    return std::string(".dll");
+}
+//=============================================================================
+inline std::wstring
+get_dynamic_library_extensionW()
+{
+    return std::wstring(L".dll");
+}
+//=============================================================================
+inline std::string
+get_dynamic_library_error()
+{
+    DWORD errorMessageID = ::GetLastError();
+    if (errorMessageID == 0) {
+        return std::string();
     }
-    //=============================================================================
-    inline bool close_dynamic_library(library_handle handle)
-    {
-        return FreeLibrary(handle) != 0;
-    }
-    //=============================================================================
-    inline std::string get_dynamic_library_extension()
-    {
-        return std::string(".dll");
-    }
-    //=============================================================================
-    inline std::wstring get_dynamic_library_extensionW()
-    {
-        return std::wstring(L".dll");
-    }
-    //=============================================================================
-    inline std::string get_dynamic_library_error()
-    {
-        DWORD errorMessageID = ::GetLastError();
-        if (errorMessageID == 0)
-        {
-            return std::string();
-        }
-        LPSTR messageBuffer = nullptr;
-        size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-                                     NULL, errorMessageID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, NULL);
-        std::string message(messageBuffer, size);
-        LocalFree(messageBuffer);
-        return message;
-    }
-    //=============================================================================
+    LPSTR messageBuffer = nullptr;
+    size_t size = FormatMessageA(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+        NULL, errorMessageID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0,
+        NULL);
+    std::string message(messageBuffer, size);
+    LocalFree(messageBuffer);
+    return message;
+}
+//=============================================================================
 #else
-    typedef void *library_handle;
-    typedef void *generic_function_ptr;
-    //=============================================================================
-    inline library_handle load_dynamic_library(std::string library_name)
-    {
-        library_handle hl;
-        try
-        {
-            hl = dlopen(library_name.c_str(), RTLD_NOW | RTLD_GLOBAL);
-        }
-        catch (std::runtime_error&)
-        {
-            hl = nullptr;
-        }
-        return hl;
+typedef void* library_handle;
+typedef void* generic_function_ptr;
+//=============================================================================
+inline library_handle
+load_dynamic_library(std::string library_name)
+{
+    library_handle hl;
+    try {
+        hl = dlopen(library_name.c_str(), RTLD_NOW | RTLD_GLOBAL);
+    } catch (std::runtime_error&) {
+        hl = nullptr;
     }
-    //=============================================================================
-    inline generic_function_ptr get_function(library_handle handle,
-            std::string function_name)
-    {
-        return dlsym(handle, function_name.c_str());
-    }
-    //=============================================================================
-    inline bool close_shared_library(library_handle handle)
-    {
-        return dlclose(handle) == 0;
-    }
-    //=============================================================================
-    inline std::string get_dynamic_library_extension()
-    {
+    return hl;
+}
+//=============================================================================
+inline generic_function_ptr
+get_function(library_handle handle, std::string function_name)
+{
+    return dlsym(handle, function_name.c_str());
+}
+//=============================================================================
+inline bool
+close_shared_library(library_handle handle)
+{
+    return dlclose(handle) == 0;
+}
+//=============================================================================
+inline std::string
+get_dynamic_library_extension()
+{
 #ifdef __APPLE__
-        return std::string(".dylib");
+    return std::string(".dylib");
 #else
-        return std::string(".so");
-#endif
-    }
-    //=============================================================================
-    inline std::string get_dynamic_library_error()
-    {
-        std::string res;
-        const char *errmsg = dlerror();
-        if (errmsg)
-        {
-            res = std::string(errmsg);
-        }
-        return res;
-    }
-    //=============================================================================
+    return std::string(".so");
 #endif
 }
+//=============================================================================
+inline std::string
+get_dynamic_library_error()
+{
+    std::string res;
+    const char* errmsg = dlerror();
+    if (errmsg) {
+        res = std::string(errmsg);
+    }
+    return res;
+}
+//=============================================================================
+#endif
+} // namespace Nelson
 //=============================================================================

@@ -18,9 +18,10 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsGui_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSGUI_IMPEXP bool UiGetDirectory(std::wstring pathOrigin, std::wstring title, std::wstring &pathSelected);
+NLSGUI_IMPEXP bool
+UiGetDirectory(std::wstring pathOrigin, std::wstring title, std::wstring& pathSelected);
 }

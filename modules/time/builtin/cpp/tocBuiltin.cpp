@@ -16,72 +16,60 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <string>
 #include "tocBuiltin.hpp"
 #include "Error.hpp"
-#include "TicToc.hpp"
 #include "StringFormat.hpp"
+#include "TicToc.hpp"
+#include <string>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::TimeGateway::tocBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::TimeGateway::tocBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() > 1)
-    {
+    if (argIn.size() > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if ((nLhs != 0) && (nLhs != 1))
-    {
+    if ((nLhs != 0) && (nLhs != 1)) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 1)
-    {
+    if (argIn.size() == 1) {
         ArrayOf paramOne = argIn[0];
         uint64 t = paramOne.getContentAsUnsignedInt64Scalar();
         double r = 0;
-        if (Toc(t, r))
-        {
+        if (Toc(t, r)) {
             ArrayOfVector retval;
-            if (nLhs == 0)
-            {
+            if (nLhs == 0) {
                 std::wstring msg = StringFormat(_W("Elapsed time is %f seconds.").c_str(), r);
                 eval->getInterface()->outputMessage(msg + L"\n");
-            }
-            else
-            {
+            } else {
                 retval.push_back(ArrayOf::doubleConstructor(r));
             }
             return retval;
-        }
-        else
-        {
+        } else {
             Error(eval, _W("Cannot call toc."));
         }
-    }
-    else // argIn.size() == 0
+    } else // argIn.size() == 0
     {
-        if (eval->TimerValue == 0)
-        {
-            Error(eval, _W("You must call \'tic\' without an output argument before calling \'toc\' without an input argument."));
+        if (eval->TimerValue == 0) {
+            Error(eval,
+                _W("You must call \'tic\' without an output argument before calling \'toc\' "
+                   "without an input argument."));
         }
         double r = 0;
-        if (Toc(eval, r))
-        {
+        if (Toc(eval, r)) {
             ArrayOfVector retval;
-            if (nLhs == 0)
-            {
+            if (nLhs == 0) {
                 std::wstring msg = StringFormat(_W("Elapsed time is %f seconds.").c_str(), r);
                 eval->getInterface()->outputMessage(msg + L"\n");
-            }
-            else
-            {
+            } else {
                 retval.push_back(ArrayOf::doubleConstructor(r));
             }
             return retval;
-        }
-        else
-        {
-            Error(eval, _W("You must call \'tic\' without an output argument before calling \'toc\' without an input argument."));
+        } else {
+            Error(eval,
+                _W("You must call \'tic\' without an output argument before calling \'toc\' "
+                   "without an input argument."));
         }
     }
     // NEVER HERE

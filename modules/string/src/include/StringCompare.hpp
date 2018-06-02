@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsString_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsString_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSTRING_IMPEXP ArrayOf StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive = true, indexType len = 0);
+NLSSTRING_IMPEXP ArrayOf
+StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive = true, indexType len = 0);
 }
 //=============================================================================

@@ -17,86 +17,76 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "StringFormat.hpp"
-#include <vector>
 #include <cstdarg>
 #include <string.h>
+#include <vector>
 #include <wchar.h>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    std::wstring StringFormat(const wchar_t *format, ...)
-    {
-        if (!format)
-        {
-            return L"";
-        }
-        std::vector<wchar_t> buff;
-        size_t len = wcslen(format);
-        size_t size = 1024;
-        if (len >= 1024)
-        {
-            size = len * 2;
-        }
-        buff.resize(size);
-        va_list ap;
-        va_start(ap, format);
-        while (true)
-        {
-#ifdef _MSC_VER
-            int ret = _vsnwprintf_s(buff.data(), size, _TRUNCATE, format, ap);
-#else
-            int ret = vswprintf(buff.data(), size, format, ap);
-#endif
-            if (ret != -1)
-            {
-                break;
-            }
-            else
-            {
-                size *= 2;
-                buff.resize(size);
-            }
-        }
-        va_end(ap);
-        return std::wstring(buff.data());
+//=============================================================================
+std::wstring
+StringFormat(const wchar_t* format, ...)
+{
+    if (!format) {
+        return L"";
     }
-    //=============================================================================
-    std::string StringFormat(const char *format, ...)
-    {
-        if (!format)
-        {
-            return "";
-        }
-        std::vector<char> buff;
-        size_t len = strlen(format);
-        size_t size = 1024;
-        if (len >= 1024)
-        {
-            size = len * 2;
-        }
-        buff.resize(size);
-        va_list ap;
-        va_start(ap, format);
-        while (true)
-        {
-#ifdef _MSC_VER
-            int ret = _vsnprintf_s(buff.data(), size, _TRUNCATE, format, ap);
-#else
-            int ret = vsnprintf(buff.data(), size, format, ap);
-#endif
-            if (ret != -1)
-            {
-                break;
-            }
-            else
-            {
-                size *= 2;
-                buff.resize(size);
-            }
-        }
-        va_end(ap);
-        return std::string(buff.data());
+    std::vector<wchar_t> buff;
+    size_t len = wcslen(format);
+    size_t size = 1024;
+    if (len >= 1024) {
+        size = len * 2;
     }
-    //=============================================================================
+    buff.resize(size);
+    va_list ap;
+    va_start(ap, format);
+    while (true) {
+#ifdef _MSC_VER
+        int ret = _vsnwprintf_s(buff.data(), size, _TRUNCATE, format, ap);
+#else
+        int ret = vswprintf(buff.data(), size, format, ap);
+#endif
+        if (ret != -1) {
+            break;
+        } else {
+            size *= 2;
+            buff.resize(size);
+        }
+    }
+    va_end(ap);
+    return std::wstring(buff.data());
+}
+//=============================================================================
+std::string
+StringFormat(const char* format, ...)
+{
+    if (!format) {
+        return "";
+    }
+    std::vector<char> buff;
+    size_t len = strlen(format);
+    size_t size = 1024;
+    if (len >= 1024) {
+        size = len * 2;
+    }
+    buff.resize(size);
+    va_list ap;
+    va_start(ap, format);
+    while (true) {
+#ifdef _MSC_VER
+        int ret = _vsnprintf_s(buff.data(), size, _TRUNCATE, format, ap);
+#else
+        int ret = vsnprintf(buff.data(), size, format, ap);
+#endif
+        if (ret != -1) {
+            break;
+        } else {
+            size *= 2;
+            buff.resize(size);
+        }
+    }
+    va_end(ap);
+    return std::string(buff.data());
+}
+//=============================================================================
 }
 //=============================================================================

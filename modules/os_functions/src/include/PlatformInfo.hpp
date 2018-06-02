@@ -18,19 +18,29 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsOs_functions_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsOs_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSOS_FUNCTIONS_IMPEXP ArrayOf IsPc();
-    NLSOS_FUNCTIONS_IMPEXP ArrayOf IsMac();
-    NLSOS_FUNCTIONS_IMPEXP ArrayOf IsUnix();
-    NLSOS_FUNCTIONS_IMPEXP bool IsPcPlatform();
-    NLSOS_FUNCTIONS_IMPEXP bool IsMacPlatform();
-    NLSOS_FUNCTIONS_IMPEXP bool IsUnixPlatform();
-    NLSOS_FUNCTIONS_IMPEXP std::wstring GetArchitecture();
-    NLSOS_FUNCTIONS_IMPEXP std::wstring GetArchitectureType();
-    NLSOS_FUNCTIONS_IMPEXP double GetMaxArrayOfSizeSupported();
-    NLSOS_FUNCTIONS_IMPEXP bool IsBigEndian();
-}
+NLSOS_FUNCTIONS_IMPEXP ArrayOf
+IsPc();
+NLSOS_FUNCTIONS_IMPEXP ArrayOf
+IsMac();
+NLSOS_FUNCTIONS_IMPEXP ArrayOf
+IsUnix();
+NLSOS_FUNCTIONS_IMPEXP bool
+IsPcPlatform();
+NLSOS_FUNCTIONS_IMPEXP bool
+IsMacPlatform();
+NLSOS_FUNCTIONS_IMPEXP bool
+IsUnixPlatform();
+NLSOS_FUNCTIONS_IMPEXP std::wstring
+GetArchitecture();
+NLSOS_FUNCTIONS_IMPEXP std::wstring
+GetArchitectureType();
+NLSOS_FUNCTIONS_IMPEXP double
+GetMaxArrayOfSizeSupported();
+NLSOS_FUNCTIONS_IMPEXP bool
+IsBigEndian();
+} // namespace Nelson
 //=============================================================================

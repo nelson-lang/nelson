@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,11 +9,10 @@
 
 static doublereal c_b2 = 1.;
 
-integer ma01cd_(a, ia, b, ib)
-doublereal *a;
-integer *ia;
-doublereal *b;
-integer *ib;
+integer ma01cd_(a, ia, b, ib) doublereal* a;
+integer* ia;
+doublereal* b;
+integer* ib;
 {
     /* System generated locals */
     integer ret_val;
@@ -72,62 +71,38 @@ integer *ib;
     /*     .. Local Scalars .. */
     /*     .. Intrinsic Functions .. */
     /*     .. Executable Statements .. */
-    if (*a == 0. && *b == 0.)
-    {
+    if (*a == 0. && *b == 0.) {
         ret_val = 0;
-    }
-    else if (*a == 0.)
-    {
-        ret_val = (integer) d_sign(&c_b2, b);
-    }
-    else if (*b == 0.)
-    {
-        ret_val = (integer) d_sign(&c_b2, a);
-    }
-    else if (*ia == *ib)
-    {
+    } else if (*a == 0.) {
+        ret_val = (integer)d_sign(&c_b2, b);
+    } else if (*b == 0.) {
+        ret_val = (integer)d_sign(&c_b2, a);
+    } else if (*ia == *ib) {
         s = *a + *b;
-        if (s == 0.)
-        {
+        if (s == 0.) {
             ret_val = 0;
+        } else {
+            ret_val = (integer)d_sign(&c_b2, &s);
         }
-        else
-        {
-            ret_val = (integer) d_sign(&c_b2, &s);
-        }
-    }
-    else
-    {
+    } else {
         sa = d_sign(&c_b2, a);
         sb = d_sign(&c_b2, b);
-        if (sa == sb)
-        {
-            ret_val = (integer) sa;
-        }
-        else if (*ia > *ib)
-        {
-            if (log((abs(*a))) + *ia - *ib >= log((abs(*b))))
-            {
-                ret_val = (integer) sa;
+        if (sa == sb) {
+            ret_val = (integer)sa;
+        } else if (*ia > *ib) {
+            if (log((abs(*a))) + *ia - *ib >= log((abs(*b)))) {
+                ret_val = (integer)sa;
+            } else {
+                ret_val = (integer)sb;
             }
-            else
-            {
-                ret_val = (integer) sb;
-            }
-        }
-        else
-        {
-            if (log((abs(*b))) + *ib - *ia >= log((abs(*a))))
-            {
-                ret_val = (integer) sb;
-            }
-            else
-            {
-                ret_val = (integer) sa;
+        } else {
+            if (log((abs(*b))) + *ib - *ia >= log((abs(*a)))) {
+                ret_val = (integer)sb;
+            } else {
+                ret_val = (integer)sa;
             }
         }
     }
     return ret_val;
     /* *** Last line of MA01CD *** */
 } /* ma01cd_ */
-

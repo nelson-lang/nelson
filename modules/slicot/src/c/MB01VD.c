@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,14 +11,15 @@ static doublereal c_b10 = 0.;
 static integer c__1 = 1;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int mb01vd_(trana, tranb, ma, na, mb, nb, alpha, beta, a, lda, b, ldb, c__, ldc, mc, nc, info, trana_len, tranb_len)
-char *trana, *tranb;
+EXPORTSYMBOL /* Subroutine */ int mb01vd_(trana, tranb, ma, na, mb, nb, alpha, beta, a, lda, b, ldb,
+    c__, ldc, mc, nc, info, trana_len, tranb_len) char *trana,
+    *tranb;
 integer *ma, *na, *mb, *nb;
 doublereal *alpha, *beta, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
 integer *ldc, *mc, *nc, *info;
 ftnlen trana_len;
 ftnlen tranb_len;
@@ -159,68 +160,44 @@ ftnlen tranb_len;
     /* Function Body */
     transa = lsame_(trana, "T", 1L, 1L) || lsame_(trana, "C", 1L, 1L);
     transb = lsame_(tranb, "T", 1L, 1L) || lsame_(tranb, "C", 1L, 1L);
-    *mc = *ma **mb;
+    *mc = *ma * *mb;
     *info = 0;
-    if (! (transa || lsame_(trana, "N", 1L, 1L)))
-    {
+    if (!(transa || lsame_(trana, "N", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (transb || lsame_(tranb, "N", 1L, 1L)))
-    {
+    } else if (!(transb || lsame_(tranb, "N", 1L, 1L))) {
         *info = -2;
-    }
-    else if (*ma < 0)
-    {
+    } else if (*ma < 0) {
         *info = -3;
-    }
-    else if (*na < 0)
-    {
+    } else if (*na < 0) {
         *info = -4;
-    }
-    else if (*mb < 0)
-    {
+    } else if (*mb < 0) {
         *info = -5;
-    }
-    else if (*nb < 0)
-    {
+    } else if (*nb < 0) {
         *info = -6;
-    }
-    else if (transa && *lda < *na || *lda < 1 || ! transa && *lda < *ma)
-    {
+    } else if (transa && *lda < *na || *lda < 1 || !transa && *lda < *ma) {
         *info = -10;
-    }
-    else if (transb && *ldb < *nb || *ldb < 1 || ! transb && *ldb < *mb)
-    {
+    } else if (transb && *ldb < *nb || *ldb < 1 || !transb && *ldb < *mb) {
         *info = -12;
-    }
-    else if (*ldc < max(1,*mc))
-    {
+    } else if (*ldc < max(1, *mc)) {
         *info = -14;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB01VD", &i__1, 6L);
         return 0;
     }
     /*     Quick return, if possible. */
-    *nc = *na **nb;
-    if (*mc == 0 || *nc == 0)
-    {
+    *nc = *na * *nb;
+    if (*mc == 0 || *nc == 0) {
         return 0;
     }
-    if (*alpha == 0.)
-    {
-        if (*beta == 0.)
-        {
+    if (*alpha == 0.) {
+        if (*beta == 0.) {
             dlaset_("Full", mc, nc, &c_b10, &c_b10, &c__[c_offset], ldc, 4L);
-        }
-        else if (*beta != 1.)
-        {
+        } else if (*beta != 1.) {
             i__1 = *nc;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 dscal_(mc, beta, &c__[j * c_dim1 + 1], &c__1);
                 /* L10: */
             }
@@ -235,22 +212,15 @@ ftnlen tranb_len;
     /*     First, check if A is sparse. Here, A is considered as being sparse */
     /*     if (number of zeros in A)/(MA*NA) >= SPARST. */
     i__1 = *na;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *ma;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            if (transa)
-            {
-                if (a[j + i__ * a_dim1] == 0.)
-                {
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            if (transa) {
+                if (a[j + i__ * a_dim1] == 0.) {
                     ++nz;
                 }
-            }
-            else
-            {
-                if (a[i__ + j * a_dim1] == 0.)
-                {
+            } else {
+                if (a[i__ + j * a_dim1] == 0.) {
                     ++nz;
                 }
             }
@@ -258,42 +228,30 @@ ftnlen tranb_len;
         }
         /* L30: */
     }
-    sparse = (doublereal) nz / (doublereal) (*ma **na) >= .8;
-    if (! transa && ! transb)
-    {
+    sparse = (doublereal)nz / (doublereal)(*ma * *na) >= .8;
+    if (!transa && !transb) {
         /*        Case op(A) = A and op(B) = B. */
-        if (*beta == 0.)
-        {
-            if (*alpha == 1.)
-            {
-                if (sparse)
-                {
+        if (*beta == 0.) {
+            if (*alpha == 1.) {
+                if (sparse) {
                     /*                 Case beta = 0, alpha = 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[i__ + j * a_dim1];
-                                if (aij == 0.)
-                                {
+                                if (aij == 0.) {
                                     dcopy_(mb, dum, &c__0, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else if (aij == 1.)
-                                {
-                                    dcopy_(mb, &b[k * b_dim1 + 1], &c__1, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else
-                                {
+                                } else if (aij == 1.) {
+                                    dcopy_(mb, &b[k * b_dim1 + 1], &c__1, &c__[ic + jc * c_dim1],
+                                        &c__1);
+                                } else {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
+                                    for (l = 1; l <= i__4; ++l) {
                                         c__[lc + jc * c_dim1] = aij * b[l + k * b_dim1];
                                         ++lc;
                                         /* L50: */
@@ -307,25 +265,19 @@ ftnlen tranb_len;
                         }
                         /* L80: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta = 0, alpha = 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[i__ + j * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
+                                for (l = 1; l <= i__4; ++l) {
                                     c__[lc + jc * c_dim1] = aij * b[l + k * b_dim1];
                                     ++lc;
                                     /* L90: */
@@ -339,33 +291,23 @@ ftnlen tranb_len;
                         /* L120: */
                     }
                 }
-            }
-            else
-            {
-                if (sparse)
-                {
+            } else {
+                if (sparse) {
                     /*                 Case beta = 0, alpha <> 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[i__ + j * a_dim1];
-                                if (aij == 0.)
-                                {
+                                if (aij == 0.) {
                                     dcopy_(mb, dum, &c__0, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else
-                                {
+                                } else {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
+                                    for (l = 1; l <= i__4; ++l) {
                                         c__[lc + jc * c_dim1] = aij * b[l + k * b_dim1];
                                         ++lc;
                                         /* L130: */
@@ -379,25 +321,19 @@ ftnlen tranb_len;
                         }
                         /* L160: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta = 0, alpha <> 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[i__ + j * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
+                                for (l = 1; l <= i__4; ++l) {
                                     c__[lc + jc * c_dim1] = aij * b[l + k * b_dim1];
                                     ++lc;
                                     /* L170: */
@@ -412,31 +348,22 @@ ftnlen tranb_len;
                     }
                 }
             }
-        }
-        else if (*beta == 1.)
-        {
-            if (*alpha == 1.)
-            {
-                if (sparse)
-                {
+        } else if (*beta == 1.) {
+            if (*alpha == 1.) {
+                if (sparse) {
                     /*                 Case beta = 1, alpha = 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[i__ + j * a_dim1];
-                                if (aij != 0.)
-                                {
+                                if (aij != 0.) {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
+                                    for (l = 1; l <= i__4; ++l) {
                                         c__[lc + jc * c_dim1] += aij * b[l + k * b_dim1];
                                         ++lc;
                                         /* L210: */
@@ -450,25 +377,19 @@ ftnlen tranb_len;
                         }
                         /* L240: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta = 1, alpha = 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[i__ + j * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
+                                for (l = 1; l <= i__4; ++l) {
                                     c__[lc + jc * c_dim1] += aij * b[l + k * b_dim1];
                                     ++lc;
                                     /* L250: */
@@ -482,29 +403,21 @@ ftnlen tranb_len;
                         /* L280: */
                     }
                 }
-            }
-            else
-            {
-                if (sparse)
-                {
+            } else {
+                if (sparse) {
                     /*                 Case beta = 1, alpha <> 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[i__ + j * a_dim1];
-                                if (aij != 0.)
-                                {
+                                if (aij != 0.) {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
+                                    for (l = 1; l <= i__4; ++l) {
                                         c__[lc + jc * c_dim1] += aij * b[l + k * b_dim1];
                                         ++lc;
                                         /* L290: */
@@ -518,25 +431,19 @@ ftnlen tranb_len;
                         }
                         /* L320: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta = 1, alpha <> 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[i__ + j * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
+                                for (l = 1; l <= i__4; ++l) {
                                     c__[lc + jc * c_dim1] += aij * b[l + k * b_dim1];
                                     ++lc;
                                     /* L330: */
@@ -551,36 +458,26 @@ ftnlen tranb_len;
                     }
                 }
             }
-        }
-        else
-        {
-            if (*alpha == 1.)
-            {
-                if (sparse)
-                {
+        } else {
+            if (*alpha == 1.) {
+                if (sparse) {
                     /*                 Case beta <> 0 or 1, alpha = 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[i__ + j * a_dim1];
-                                if (aij == 0.)
-                                {
+                                if (aij == 0.) {
                                     dscal_(mb, beta, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else
-                                {
+                                } else {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
-                                        c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1] + aij * b[l + k * b_dim1];
+                                    for (l = 1; l <= i__4; ++l) {
+                                        c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1]
+                                            + aij * b[l + k * b_dim1];
                                         ++lc;
                                         /* L370: */
                                     }
@@ -593,26 +490,21 @@ ftnlen tranb_len;
                         }
                         /* L400: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta <> 0 or 1, alpha = 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[i__ + j * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
-                                    c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1] + aij * b[l + k * b_dim1];
+                                for (l = 1; l <= i__4; ++l) {
+                                    c__[lc + jc * c_dim1]
+                                        = *beta * c__[lc + jc * c_dim1] + aij * b[l + k * b_dim1];
                                     ++lc;
                                     /* L410: */
                                 }
@@ -625,34 +517,25 @@ ftnlen tranb_len;
                         /* L440: */
                     }
                 }
-            }
-            else
-            {
-                if (sparse)
-                {
+            } else {
+                if (sparse) {
                     /*                 Case beta <> 0 or 1, alpha <> 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[i__ + j * a_dim1];
-                                if (aij == 0.)
-                                {
+                                if (aij == 0.) {
                                     dscal_(mb, beta, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else
-                                {
+                                } else {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
-                                        c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1] + aij * b[l + k * b_dim1];
+                                    for (l = 1; l <= i__4; ++l) {
+                                        c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1]
+                                            + aij * b[l + k * b_dim1];
                                         ++lc;
                                         /* L450: */
                                     }
@@ -665,26 +548,21 @@ ftnlen tranb_len;
                         }
                         /* L480: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta <> 0 or 1, alpha <> 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[i__ + j * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
-                                    c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1] + aij * b[l + k * b_dim1];
+                                for (l = 1; l <= i__4; ++l) {
+                                    c__[lc + jc * c_dim1]
+                                        = *beta * c__[lc + jc * c_dim1] + aij * b[l + k * b_dim1];
                                     ++lc;
                                     /* L490: */
                                 }
@@ -699,42 +577,29 @@ ftnlen tranb_len;
                 }
             }
         }
-    }
-    else if (transa && ! transb)
-    {
+    } else if (transa && !transb) {
         /*        Case op(A) = A' and op(B) = B. */
-        if (*beta == 0.)
-        {
-            if (*alpha == 1.)
-            {
-                if (sparse)
-                {
+        if (*beta == 0.) {
+            if (*alpha == 1.) {
+                if (sparse) {
                     /*                 Case beta = 0, alpha = 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[j + i__ * a_dim1];
-                                if (aij == 0.)
-                                {
+                                if (aij == 0.) {
                                     dcopy_(mb, dum, &c__0, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else if (aij == 1.)
-                                {
-                                    dcopy_(mb, &b[k * b_dim1 + 1], &c__1, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else
-                                {
+                                } else if (aij == 1.) {
+                                    dcopy_(mb, &b[k * b_dim1 + 1], &c__1, &c__[ic + jc * c_dim1],
+                                        &c__1);
+                                } else {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
+                                    for (l = 1; l <= i__4; ++l) {
                                         c__[lc + jc * c_dim1] = aij * b[l + k * b_dim1];
                                         ++lc;
                                         /* L530: */
@@ -748,25 +613,19 @@ ftnlen tranb_len;
                         }
                         /* L560: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta = 0, alpha = 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[j + i__ * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
+                                for (l = 1; l <= i__4; ++l) {
                                     c__[lc + jc * c_dim1] = aij * b[l + k * b_dim1];
                                     ++lc;
                                     /* L570: */
@@ -780,33 +639,23 @@ ftnlen tranb_len;
                         /* L600: */
                     }
                 }
-            }
-            else
-            {
-                if (sparse)
-                {
+            } else {
+                if (sparse) {
                     /*                 Case beta = 0, alpha <> 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[j + i__ * a_dim1];
-                                if (aij == 0.)
-                                {
+                                if (aij == 0.) {
                                     dcopy_(mb, dum, &c__0, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else
-                                {
+                                } else {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
+                                    for (l = 1; l <= i__4; ++l) {
                                         c__[lc + jc * c_dim1] = aij * b[l + k * b_dim1];
                                         ++lc;
                                         /* L610: */
@@ -820,25 +669,19 @@ ftnlen tranb_len;
                         }
                         /* L640: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta = 0, alpha <> 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[j + i__ * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
+                                for (l = 1; l <= i__4; ++l) {
                                     c__[lc + jc * c_dim1] = aij * b[l + k * b_dim1];
                                     ++lc;
                                     /* L650: */
@@ -853,31 +696,22 @@ ftnlen tranb_len;
                     }
                 }
             }
-        }
-        else if (*beta == 1.)
-        {
-            if (*alpha == 1.)
-            {
-                if (sparse)
-                {
+        } else if (*beta == 1.) {
+            if (*alpha == 1.) {
+                if (sparse) {
                     /*                 Case beta = 1, alpha = 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[j + i__ * a_dim1];
-                                if (aij != 0.)
-                                {
+                                if (aij != 0.) {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
+                                    for (l = 1; l <= i__4; ++l) {
                                         c__[lc + jc * c_dim1] += aij * b[l + k * b_dim1];
                                         ++lc;
                                         /* L690: */
@@ -891,25 +725,19 @@ ftnlen tranb_len;
                         }
                         /* L720: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta = 1, alpha = 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[j + i__ * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
+                                for (l = 1; l <= i__4; ++l) {
                                     c__[lc + jc * c_dim1] += aij * b[l + k * b_dim1];
                                     ++lc;
                                     /* L730: */
@@ -923,29 +751,21 @@ ftnlen tranb_len;
                         /* L760: */
                     }
                 }
-            }
-            else
-            {
-                if (sparse)
-                {
+            } else {
+                if (sparse) {
                     /*                 Case beta = 1, alpha <> 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[j + i__ * a_dim1];
-                                if (aij != 0.)
-                                {
+                                if (aij != 0.) {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
+                                    for (l = 1; l <= i__4; ++l) {
                                         c__[lc + jc * c_dim1] += aij * b[l + k * b_dim1];
                                         ++lc;
                                         /* L770: */
@@ -959,25 +779,19 @@ ftnlen tranb_len;
                         }
                         /* L800: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta = 1, alpha <> 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[j + i__ * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
+                                for (l = 1; l <= i__4; ++l) {
                                     c__[lc + jc * c_dim1] += aij * b[l + k * b_dim1];
                                     ++lc;
                                     /* L810: */
@@ -992,36 +806,26 @@ ftnlen tranb_len;
                     }
                 }
             }
-        }
-        else
-        {
-            if (*alpha == 1.)
-            {
-                if (sparse)
-                {
+        } else {
+            if (*alpha == 1.) {
+                if (sparse) {
                     /*                 Case beta <> 0 or 1, alpha = 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[j + i__ * a_dim1];
-                                if (aij == 0.)
-                                {
+                                if (aij == 0.) {
                                     dscal_(mb, beta, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else
-                                {
+                                } else {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
-                                        c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1] + aij * b[l + k * b_dim1];
+                                    for (l = 1; l <= i__4; ++l) {
+                                        c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1]
+                                            + aij * b[l + k * b_dim1];
                                         ++lc;
                                         /* L850: */
                                     }
@@ -1034,26 +838,21 @@ ftnlen tranb_len;
                         }
                         /* L880: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta <> 0 or 1, alpha = 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[j + i__ * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
-                                    c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1] + aij * b[l + k * b_dim1];
+                                for (l = 1; l <= i__4; ++l) {
+                                    c__[lc + jc * c_dim1]
+                                        = *beta * c__[lc + jc * c_dim1] + aij * b[l + k * b_dim1];
                                     ++lc;
                                     /* L890: */
                                 }
@@ -1066,34 +865,25 @@ ftnlen tranb_len;
                         /* L920: */
                     }
                 }
-            }
-            else
-            {
-                if (sparse)
-                {
+            } else {
+                if (sparse) {
                     /*                 Case beta <> 0 or 1, alpha <> 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[j + i__ * a_dim1];
-                                if (aij == 0.)
-                                {
+                                if (aij == 0.) {
                                     dscal_(mb, beta, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else
-                                {
+                                } else {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
-                                        c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1] + aij * b[l + k * b_dim1];
+                                    for (l = 1; l <= i__4; ++l) {
+                                        c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1]
+                                            + aij * b[l + k * b_dim1];
                                         ++lc;
                                         /* L930: */
                                     }
@@ -1106,26 +896,21 @@ ftnlen tranb_len;
                         }
                         /* L960: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta <> 0 or 1, alpha <> 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[j + i__ * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
-                                    c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1] + aij * b[l + k * b_dim1];
+                                for (l = 1; l <= i__4; ++l) {
+                                    c__[lc + jc * c_dim1]
+                                        = *beta * c__[lc + jc * c_dim1] + aij * b[l + k * b_dim1];
                                     ++lc;
                                     /* L970: */
                                 }
@@ -1140,42 +925,28 @@ ftnlen tranb_len;
                 }
             }
         }
-    }
-    else if (transb && ! transa)
-    {
+    } else if (transb && !transa) {
         /*        Case op(A) = A and op(B) = B'. */
-        if (*beta == 0.)
-        {
-            if (*alpha == 1.)
-            {
-                if (sparse)
-                {
+        if (*beta == 0.) {
+            if (*alpha == 1.) {
+                if (sparse) {
                     /*                 Case beta = 0, alpha = 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[i__ + j * a_dim1];
-                                if (aij == 0.)
-                                {
+                                if (aij == 0.) {
                                     dcopy_(mb, dum, &c__0, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else if (aij == 1.)
-                                {
+                                } else if (aij == 1.) {
                                     dcopy_(mb, &b[k + b_dim1], ldb, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else
-                                {
+                                } else {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
+                                    for (l = 1; l <= i__4; ++l) {
                                         c__[lc + jc * c_dim1] = aij * b[k + l * b_dim1];
                                         ++lc;
                                         /* L1050: */
@@ -1189,25 +960,19 @@ ftnlen tranb_len;
                         }
                         /* L1080: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta = 0, alpha = 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[i__ + j * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
+                                for (l = 1; l <= i__4; ++l) {
                                     c__[lc + jc * c_dim1] = aij * b[k + l * b_dim1];
                                     ++lc;
                                     /* L1090: */
@@ -1221,33 +986,23 @@ ftnlen tranb_len;
                         /* L1120: */
                     }
                 }
-            }
-            else
-            {
-                if (sparse)
-                {
+            } else {
+                if (sparse) {
                     /*                 Case beta = 0, alpha <> 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[i__ + j * a_dim1];
-                                if (aij == 0.)
-                                {
+                                if (aij == 0.) {
                                     dcopy_(mb, dum, &c__0, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else
-                                {
+                                } else {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
+                                    for (l = 1; l <= i__4; ++l) {
                                         c__[lc + jc * c_dim1] = aij * b[k + l * b_dim1];
                                         ++lc;
                                         /* L1130: */
@@ -1261,25 +1016,19 @@ ftnlen tranb_len;
                         }
                         /* L1160: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta = 0, alpha <> 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[i__ + j * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
+                                for (l = 1; l <= i__4; ++l) {
                                     c__[lc + jc * c_dim1] = aij * b[k + l * b_dim1];
                                     ++lc;
                                     /* L1170: */
@@ -1294,31 +1043,22 @@ ftnlen tranb_len;
                     }
                 }
             }
-        }
-        else if (*beta == 1.)
-        {
-            if (*alpha == 1.)
-            {
-                if (sparse)
-                {
+        } else if (*beta == 1.) {
+            if (*alpha == 1.) {
+                if (sparse) {
                     /*                 Case beta = 1, alpha = 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[i__ + j * a_dim1];
-                                if (aij != 0.)
-                                {
+                                if (aij != 0.) {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
+                                    for (l = 1; l <= i__4; ++l) {
                                         c__[lc + jc * c_dim1] += aij * b[k + l * b_dim1];
                                         ++lc;
                                         /* L1210: */
@@ -1332,25 +1072,19 @@ ftnlen tranb_len;
                         }
                         /* L1240: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta = 1, alpha = 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[i__ + j * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
+                                for (l = 1; l <= i__4; ++l) {
                                     c__[lc + jc * c_dim1] += aij * b[k + l * b_dim1];
                                     ++lc;
                                     /* L1250: */
@@ -1364,29 +1098,21 @@ ftnlen tranb_len;
                         /* L1280: */
                     }
                 }
-            }
-            else
-            {
-                if (sparse)
-                {
+            } else {
+                if (sparse) {
                     /*                 Case beta = 1, alpha <> 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[i__ + j * a_dim1];
-                                if (aij != 0.)
-                                {
+                                if (aij != 0.) {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
+                                    for (l = 1; l <= i__4; ++l) {
                                         c__[lc + jc * c_dim1] += aij * b[k + l * b_dim1];
                                         ++lc;
                                         /* L1290: */
@@ -1400,25 +1126,19 @@ ftnlen tranb_len;
                         }
                         /* L1320: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta = 1, alpha <> 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[i__ + j * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
+                                for (l = 1; l <= i__4; ++l) {
                                     c__[lc + jc * c_dim1] += aij * b[k + l * b_dim1];
                                     ++lc;
                                     /* L1330: */
@@ -1433,36 +1153,26 @@ ftnlen tranb_len;
                     }
                 }
             }
-        }
-        else
-        {
-            if (*alpha == 1.)
-            {
-                if (sparse)
-                {
+        } else {
+            if (*alpha == 1.) {
+                if (sparse) {
                     /*                 Case beta <> 0 or 1, alpha = 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[i__ + j * a_dim1];
-                                if (aij == 0.)
-                                {
+                                if (aij == 0.) {
                                     dscal_(mb, beta, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else
-                                {
+                                } else {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
-                                        c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1] + aij * b[k + l * b_dim1];
+                                    for (l = 1; l <= i__4; ++l) {
+                                        c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1]
+                                            + aij * b[k + l * b_dim1];
                                         ++lc;
                                         /* L1370: */
                                     }
@@ -1475,26 +1185,21 @@ ftnlen tranb_len;
                         }
                         /* L1400: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta <> 0 or 1, alpha = 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[i__ + j * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
-                                    c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1] + aij * b[k + l * b_dim1];
+                                for (l = 1; l <= i__4; ++l) {
+                                    c__[lc + jc * c_dim1]
+                                        = *beta * c__[lc + jc * c_dim1] + aij * b[k + l * b_dim1];
                                     ++lc;
                                     /* L1410: */
                                 }
@@ -1507,34 +1212,25 @@ ftnlen tranb_len;
                         /* L1440: */
                     }
                 }
-            }
-            else
-            {
-                if (sparse)
-                {
+            } else {
+                if (sparse) {
                     /*                 Case beta <> 0 or 1, alpha <> 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[i__ + j * a_dim1];
-                                if (aij == 0.)
-                                {
+                                if (aij == 0.) {
                                     dscal_(mb, beta, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else
-                                {
+                                } else {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
-                                        c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1] + aij * b[k + l * b_dim1];
+                                    for (l = 1; l <= i__4; ++l) {
+                                        c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1]
+                                            + aij * b[k + l * b_dim1];
                                         ++lc;
                                         /* L1450: */
                                     }
@@ -1547,26 +1243,21 @@ ftnlen tranb_len;
                         }
                         /* L1480: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta <> 0 or 1, alpha <> 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[i__ + j * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
-                                    c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1] + aij * b[k + l * b_dim1];
+                                for (l = 1; l <= i__4; ++l) {
+                                    c__[lc + jc * c_dim1]
+                                        = *beta * c__[lc + jc * c_dim1] + aij * b[k + l * b_dim1];
                                     ++lc;
                                     /* L1490: */
                                 }
@@ -1581,42 +1272,28 @@ ftnlen tranb_len;
                 }
             }
         }
-    }
-    else
-    {
+    } else {
         /*        Case op(A) = A' and op(B) = B'. */
-        if (*beta == 0.)
-        {
-            if (*alpha == 1.)
-            {
-                if (sparse)
-                {
+        if (*beta == 0.) {
+            if (*alpha == 1.) {
+                if (sparse) {
                     /*                 Case beta = 0, alpha = 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[j + i__ * a_dim1];
-                                if (aij == 0.)
-                                {
+                                if (aij == 0.) {
                                     dcopy_(mb, dum, &c__0, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else if (aij == 1.)
-                                {
+                                } else if (aij == 1.) {
                                     dcopy_(mb, &b[k + b_dim1], ldb, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else
-                                {
+                                } else {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
+                                    for (l = 1; l <= i__4; ++l) {
                                         c__[lc + jc * c_dim1] = aij * b[k + l * b_dim1];
                                         ++lc;
                                         /* L1550: */
@@ -1630,25 +1307,19 @@ ftnlen tranb_len;
                         }
                         /* L1580: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta = 0, alpha = 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[j + i__ * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
+                                for (l = 1; l <= i__4; ++l) {
                                     c__[lc + jc * c_dim1] = aij * b[k + l * b_dim1];
                                     ++lc;
                                     /* L1590: */
@@ -1662,33 +1333,23 @@ ftnlen tranb_len;
                         /* L1620: */
                     }
                 }
-            }
-            else
-            {
-                if (sparse)
-                {
+            } else {
+                if (sparse) {
                     /*                 Case beta = 0, alpha <> 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[j + i__ * a_dim1];
-                                if (aij == 0.)
-                                {
+                                if (aij == 0.) {
                                     dcopy_(mb, dum, &c__0, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else
-                                {
+                                } else {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
+                                    for (l = 1; l <= i__4; ++l) {
                                         c__[lc + jc * c_dim1] = aij * b[k + l * b_dim1];
                                         ++lc;
                                         /* L1630: */
@@ -1702,25 +1363,19 @@ ftnlen tranb_len;
                         }
                         /* L1660: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta = 0, alpha <> 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[j + i__ * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
+                                for (l = 1; l <= i__4; ++l) {
                                     c__[lc + jc * c_dim1] = aij * b[k + l * b_dim1];
                                     ++lc;
                                     /* L1670: */
@@ -1735,31 +1390,22 @@ ftnlen tranb_len;
                     }
                 }
             }
-        }
-        else if (*beta == 1.)
-        {
-            if (*alpha == 1.)
-            {
-                if (sparse)
-                {
+        } else if (*beta == 1.) {
+            if (*alpha == 1.) {
+                if (sparse) {
                     /*                 Case beta = 1, alpha = 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[j + i__ * a_dim1];
-                                if (aij != 0.)
-                                {
+                                if (aij != 0.) {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
+                                    for (l = 1; l <= i__4; ++l) {
                                         c__[lc + jc * c_dim1] += aij * b[k + l * b_dim1];
                                         ++lc;
                                         /* L1710: */
@@ -1773,25 +1419,19 @@ ftnlen tranb_len;
                         }
                         /* L1740: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta = 1, alpha = 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[j + i__ * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
+                                for (l = 1; l <= i__4; ++l) {
                                     c__[lc + jc * c_dim1] += aij * b[k + l * b_dim1];
                                     ++lc;
                                     /* L1750: */
@@ -1805,29 +1445,21 @@ ftnlen tranb_len;
                         /* L1780: */
                     }
                 }
-            }
-            else
-            {
-                if (sparse)
-                {
+            } else {
+                if (sparse) {
                     /*                 Case beta = 1, alpha <> 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[j + i__ * a_dim1];
-                                if (aij != 0.)
-                                {
+                                if (aij != 0.) {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
+                                    for (l = 1; l <= i__4; ++l) {
                                         c__[lc + jc * c_dim1] += aij * b[k + l * b_dim1];
                                         ++lc;
                                         /* L1790: */
@@ -1841,25 +1473,19 @@ ftnlen tranb_len;
                         }
                         /* L1820: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta = 1, alpha <> 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[j + i__ * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
+                                for (l = 1; l <= i__4; ++l) {
                                     c__[lc + jc * c_dim1] += aij * b[k + l * b_dim1];
                                     ++lc;
                                     /* L1830: */
@@ -1874,36 +1500,26 @@ ftnlen tranb_len;
                     }
                 }
             }
-        }
-        else
-        {
-            if (*alpha == 1.)
-            {
-                if (sparse)
-                {
+        } else {
+            if (*alpha == 1.) {
+                if (sparse) {
                     /*                 Case beta <> 0 or 1, alpha = 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[j + i__ * a_dim1];
-                                if (aij == 0.)
-                                {
+                                if (aij == 0.) {
                                     dscal_(mb, beta, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else
-                                {
+                                } else {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
-                                        c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1] + aij * b[k + l * b_dim1];
+                                    for (l = 1; l <= i__4; ++l) {
+                                        c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1]
+                                            + aij * b[k + l * b_dim1];
                                         ++lc;
                                         /* L1870: */
                                     }
@@ -1916,26 +1532,21 @@ ftnlen tranb_len;
                         }
                         /* L1900: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta <> 0 or 1, alpha = 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = a[j + i__ * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
-                                    c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1] + aij * b[k + l * b_dim1];
+                                for (l = 1; l <= i__4; ++l) {
+                                    c__[lc + jc * c_dim1]
+                                        = *beta * c__[lc + jc * c_dim1] + aij * b[k + l * b_dim1];
                                     ++lc;
                                     /* L1910: */
                                 }
@@ -1948,34 +1559,25 @@ ftnlen tranb_len;
                         /* L1940: */
                     }
                 }
-            }
-            else
-            {
-                if (sparse)
-                {
+            } else {
+                if (sparse) {
                     /*                 Case beta <> 0 or 1, alpha <> 1, A sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[j + i__ * a_dim1];
-                                if (aij == 0.)
-                                {
+                                if (aij == 0.) {
                                     dscal_(mb, beta, &c__[ic + jc * c_dim1], &c__1);
-                                }
-                                else
-                                {
+                                } else {
                                     lc = ic;
                                     i__4 = *mb;
-                                    for (l = 1; l <= i__4; ++l)
-                                    {
-                                        c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1] + aij * b[k + l * b_dim1];
+                                    for (l = 1; l <= i__4; ++l) {
+                                        c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1]
+                                            + aij * b[k + l * b_dim1];
                                         ++lc;
                                         /* L1950: */
                                     }
@@ -1988,26 +1590,21 @@ ftnlen tranb_len;
                         }
                         /* L1980: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Case beta <> 0 or 1, alpha <> 1, A not sparse. */
                     i__1 = *na;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         i__2 = *nb;
-                        for (k = 1; k <= i__2; ++k)
-                        {
+                        for (k = 1; k <= i__2; ++k) {
                             ic = 1;
                             i__3 = *ma;
-                            for (i__ = 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = 1; i__ <= i__3; ++i__) {
                                 aij = *alpha * a[j + i__ * a_dim1];
                                 lc = ic;
                                 i__4 = *mb;
-                                for (l = 1; l <= i__4; ++l)
-                                {
-                                    c__[lc + jc * c_dim1] = *beta * c__[lc + jc * c_dim1] + aij * b[k + l * b_dim1];
+                                for (l = 1; l <= i__4; ++l) {
+                                    c__[lc + jc * c_dim1]
+                                        = *beta * c__[lc + jc * c_dim1] + aij * b[k + l * b_dim1];
                                     ++lc;
                                     /* L1990: */
                                 }
@@ -2026,4 +1623,3 @@ ftnlen tranb_len;
     return 0;
     /* *** Last line of MB01VD *** */
 } /* mb01vd_ */
-

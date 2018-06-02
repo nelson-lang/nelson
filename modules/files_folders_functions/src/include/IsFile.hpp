@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsFiles_folders_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool IsFile(std::wstring str);
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
+IsFile(std::wstring str);
 }
 //=============================================================================

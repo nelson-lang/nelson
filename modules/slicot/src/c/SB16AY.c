@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -15,30 +15,32 @@ static doublereal c_b28 = -1.;
 static integer c__0 = 0;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int sb16ay_(dico, jobc, jobo, weight, n, m, p, nc, ncs, a, lda, b, ldb, c__, ldc, d__, ldd, ac, ldac, bc, ldbc, cc, ldcc, dc, lddc, scalec, scaleo, s, lds, r__, ldr, iwork, dwork, ldwork, info, dico_len, jobc_len, jobo_len, weight_len)
-char *dico, *jobc, *jobo, *weight;
+EXPORTSYMBOL /* Subroutine */ int sb16ay_(dico, jobc, jobo, weight, n, m, p, nc, ncs, a, lda, b,
+    ldb, c__, ldc, d__, ldd, ac, ldac, bc, ldbc, cc, ldcc, dc, lddc, scalec, scaleo, s, lds, r__,
+    ldr, iwork, dwork, ldwork, info, dico_len, jobc_len, jobo_len, weight_len) char *dico,
+    *jobc, *jobo, *weight;
 integer *n, *m, *p, *nc, *ncs;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *ac;
-integer *ldac;
-doublereal *bc;
-integer *ldbc;
-doublereal *cc;
-integer *ldcc;
-doublereal *dc;
-integer *lddc;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* ac;
+integer* ldac;
+doublereal* bc;
+integer* ldbc;
+doublereal* cc;
+integer* ldcc;
+doublereal* dc;
+integer* lddc;
 doublereal *scalec, *scaleo, *s;
-integer *lds;
-doublereal *r__;
+integer* lds;
+doublereal* r__;
 integer *ldr, *iwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen dico_len;
 ftnlen jobc_len;
@@ -46,7 +48,9 @@ ftnlen jobo_len;
 ftnlen weight_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, ac_dim1, ac_offset, b_dim1, b_offset, bc_dim1, bc_offset, c_dim1, c_offset, cc_dim1, cc_offset, d_dim1, d_offset, dc_dim1, dc_offset, r_dim1, r_offset, s_dim1, s_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, ac_dim1, ac_offset, b_dim1, b_offset, bc_dim1, bc_offset, c_dim1,
+        c_offset, cc_dim1, cc_offset, d_dim1, d_offset, dc_dim1, dc_offset, r_dim1, r_offset,
+        s_dim1, s_offset, i__1, i__2, i__3;
     doublereal d__1, d__2, d__3, d__4;
     /* Builtin functions */
     double sqrt();
@@ -351,101 +355,58 @@ ftnlen weight_len;
     *info = 0;
     nnc = *n + *nc;
     mp = *m + *p;
-    if (frwght)
-    {
+    if (frwght) {
         /* Computing MAX */
         /* Computing MAX */
-        i__3 = max(nnc,*m);
-        i__1 = nnc * (nnc + max(i__3,*p) + 7), i__2 = mp * (mp + 4);
-        lw = nnc * (nnc + (mp << 1)) + max(i__1,i__2);
+        i__3 = max(nnc, *m);
+        i__1 = nnc * (nnc + max(i__3, *p) + 7), i__2 = mp * (mp + 4);
+        lw = nnc * (nnc + (mp << 1)) + max(i__1, i__2);
+    } else {
+        lw = *ncs * (max(*m, *p) + 5);
     }
-    else
-    {
-        lw = *ncs * (max(*m,*p) + 5);
-    }
-    lw = max(1,lw);
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    lw = max(1, lw);
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (! (lsame_(jobc, "S", 1L, 1L) || lsame_(jobc, "E", 1L, 1L)))
-    {
+    } else if (!(lsame_(jobc, "S", 1L, 1L) || lsame_(jobc, "E", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (lsame_(jobo, "S", 1L, 1L) || lsame_(jobo, "E", 1L, 1L)))
-    {
+    } else if (!(lsame_(jobo, "S", 1L, 1L) || lsame_(jobo, "E", 1L, 1L))) {
         *info = -3;
-    }
-    else if (! (frwght || lsame_(weight, "N", 1L, 1L)))
-    {
+    } else if (!(frwght || lsame_(weight, "N", 1L, 1L))) {
         *info = -4;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -5;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -6;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -7;
-    }
-    else if (*nc < 0)
-    {
+    } else if (*nc < 0) {
         *info = -8;
-    }
-    else if (*ncs < 0 || *ncs > *nc)
-    {
+    } else if (*ncs < 0 || *ncs > *nc) {
         *info = -9;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -11;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -13;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -15;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -17;
-    }
-    else if (*ldac < max(1,*nc))
-    {
+    } else if (*ldac < max(1, *nc)) {
         *info = -19;
-    }
-    else if (*ldbc < max(1,*nc))
-    {
+    } else if (*ldbc < max(1, *nc)) {
         *info = -21;
-    }
-    else if (*ldcc < max(1,*m))
-    {
+    } else if (*ldcc < max(1, *m)) {
         *info = -23;
-    }
-    else if (*lddc < max(1,*m))
-    {
+    } else if (*lddc < max(1, *m)) {
         *info = -25;
-    }
-    else if (*lds < max(1,*ncs))
-    {
+    } else if (*lds < max(1, *ncs)) {
         *info = -29;
-    }
-    else if (*ldr < max(1,*ncs))
-    {
+    } else if (*ldr < max(1, *ncs)) {
         *info = -31;
-    }
-    else if (*ldwork < lw)
-    {
+    } else if (*ldwork < lw) {
         *info = -34;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB16AY", &i__1, 6L);
@@ -455,21 +416,18 @@ ftnlen weight_len;
     *scalec = 1.;
     *scaleo = 1.;
     /* Computing MIN */
-    i__1 = min(*ncs,*m);
-    if (min(i__1,*p) == 0)
-    {
+    i__1 = min(*ncs, *m);
+    if (min(i__1, *p) == 0) {
         dwork[1] = 1.;
         return 0;
     }
     wrkopt = 1;
     ncu = *nc - *ncs;
     ncu1 = ncu + 1;
-    if (! perf)
-    {
+    if (!perf) {
         /*        Compute the Grammians in the case of no weighting or */
         /*        one-sided weighting. */
-        if (leftw || lsame_(weight, "N", 1L, 1L))
-        {
+        if (leftw || lsame_(weight, "N", 1L, 1L)) {
             /*           Compute the standard controllability Grammian. */
             /*           Solve for the Cholesky factor S of P, P = S*S', */
             /*           the continuous-time Lyapunov equation (if DICO = 'C') */
@@ -480,22 +438,21 @@ ftnlen weight_len;
             /*           Workspace:  need   NCS*(P+5); */
             /*                              prefer larger. */
             ku = 1;
-            ktau = ku + *ncs **p;
+            ktau = ku + *ncs * *p;
             kw = ktau + *ncs;
             dlacpy_("Full", ncs, p, &bc[ncu1 + bc_dim1], ldbc, &dwork[ku], ncs, 4L);
             i__1 = *ldwork - kw + 1;
-            sb03ou_(&discr, &c_true, ncs, p, &ac[ncu1 + ncu1 * ac_dim1], ldac, &dwork[ku], ncs, &dwork[ktau], &s[s_offset], lds, scalec, &dwork[kw], &i__1, &ierr);
-            if (ierr != 0)
-            {
+            sb03ou_(&discr, &c_true, ncs, p, &ac[ncu1 + ncu1 * ac_dim1], ldac, &dwork[ku], ncs,
+                &dwork[ktau], &s[s_offset], lds, scalec, &dwork[kw], &i__1, &ierr);
+            if (ierr != 0) {
                 *info = 5;
                 return 0;
             }
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+            wrkopt = max(i__1, i__2);
         }
-        if (rightw || lsame_(weight, "N", 1L, 1L))
-        {
+        if (rightw || lsame_(weight, "N", 1L, 1L)) {
             /*           Compute the standard observability Grammian. */
             /*           Solve for the Cholesky factor R of Q, Q = R'*R, */
             /*           the continuous-time Lyapunov equation (if DICO = 'C') */
@@ -507,29 +464,27 @@ ftnlen weight_len;
             /*           Workspace:  need   NCS*(M + 5); */
             /*                              prefer larger. */
             ku = 1;
-            ktau = ku + *m **ncs;
+            ktau = ku + *m * *ncs;
             kw = ktau + *ncs;
             dlacpy_("Full", m, ncs, &cc[ncu1 * cc_dim1 + 1], ldcc, &dwork[ku], m, 4L);
             i__1 = *ldwork - kw + 1;
-            sb03ou_(&discr, &c_false, ncs, m, &ac[ncu1 + ncu1 * ac_dim1], ldac, &dwork[ku], m, &dwork[ktau], &r__[r_offset], ldr, scaleo, &dwork[kw], &i__1, &ierr);
-            if (ierr != 0)
-            {
+            sb03ou_(&discr, &c_false, ncs, m, &ac[ncu1 + ncu1 * ac_dim1], ldac, &dwork[ku], m,
+                &dwork[ktau], &r__[r_offset], ldr, scaleo, &dwork[kw], &i__1, &ierr);
+            if (ierr != 0) {
                 *info = 5;
                 return 0;
             }
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+            wrkopt = max(i__1, i__2);
         }
         /*        Finish if there are no weights. */
-        if (lsame_(weight, "N", 1L, 1L))
-        {
-            dwork[1] = (doublereal) wrkopt;
+        if (lsame_(weight, "N", 1L, 1L)) {
+            dwork[1] = (doublereal)wrkopt;
             return 0;
         }
     }
-    if (frwght)
-    {
+    if (frwght) {
         /*        Allocate working storage for computing the weights. */
         /*        Real workspace:    need MAX(1,NNC*NNC+2*NNC*MP+MP*(MP+4)); */
         /*        Integer workspace: need 2*MP. */
@@ -539,8 +494,7 @@ ftnlen weight_len;
         kwd = kwc + nnc * mp;
         kw = kwd + mp * mp;
         kl = kwd;
-        if (leftw)
-        {
+        if (leftw) {
             /*           Build the extended matrices */
             /*           Ao = ( Ac+Bc*inv(R)*D*Cc   Bc*inv(R)*C   ), */
             /*                (     B*inv(Rt)*Cc  A+B*Dc*inv(R)*C ) */
@@ -556,13 +510,18 @@ ftnlen weight_len;
             /*           of K is in the leading position (to avoid updating of */
             /*           QR factorization). */
             dlaset_("Full", m, p, &c_b21, &c_b21, &dwork[kwd], &mp, 4L);
-            ab05pd_("N", ncs, p, m, &ncu, &c_b24, &ac[ncu1 + ncu1 * ac_dim1], ldac, &bc[ncu1 + bc_dim1], ldbc, &cc[ncu1 * cc_dim1 + 1], ldcc, &dwork[kwd], &mp, &ac[ac_offset], ldac, &bc[bc_offset], ldbc, &cc[cc_offset], ldcc, &dc[dc_offset], lddc, &ne, &dwork[kwa], &nnc, &dwork[kwb], &nnc, &dwork[kwc], &mp, &dwork[kwd], &mp, &ierr, 1L);
-            ab05qd_("Over", nc, p, m, n, m, p, &dwork[kwa], &nnc, &dwork[kwb], &nnc, &dwork[kwc], &mp, &dwork[kwd], &mp, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, &ne, &me, &pe, &dwork[kwa], &nnc, &dwork[kwb], &nnc, &dwork[kwc], &mp, &dwork[kwd], &mp, &ierr, 4L);
-            dlaset_("Full", m, m, &c_b21, &c_b28, &dwork[kwd + mp **p], &mp, 4L);
+            ab05pd_("N", ncs, p, m, &ncu, &c_b24, &ac[ncu1 + ncu1 * ac_dim1], ldac,
+                &bc[ncu1 + bc_dim1], ldbc, &cc[ncu1 * cc_dim1 + 1], ldcc, &dwork[kwd], &mp,
+                &ac[ac_offset], ldac, &bc[bc_offset], ldbc, &cc[cc_offset], ldcc, &dc[dc_offset],
+                lddc, &ne, &dwork[kwa], &nnc, &dwork[kwb], &nnc, &dwork[kwc], &mp, &dwork[kwd], &mp,
+                &ierr, 1L);
+            ab05qd_("Over", nc, p, m, n, m, p, &dwork[kwa], &nnc, &dwork[kwb], &nnc, &dwork[kwc],
+                &mp, &dwork[kwd], &mp, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+                &d__[d_offset], ldd, &ne, &me, &pe, &dwork[kwa], &nnc, &dwork[kwb], &nnc,
+                &dwork[kwc], &mp, &dwork[kwd], &mp, &ierr, 4L);
+            dlaset_("Full", m, m, &c_b21, &c_b28, &dwork[kwd + mp * *p], &mp, 4L);
             dlaset_("Full", p, p, &c_b21, &c_b28, &dwork[kwd + *m], &mp, 4L);
-        }
-        else
-        {
+        } else {
             /*           Build the extended matrices */
             /*           Ai = ( A+B*Dc*inv(R)*C   B*inv(Rt)*Cc   ) , */
             /*                (   Bc*inv(R)*C  Ac+Bc*inv(R)*D*Cc ) */
@@ -577,8 +536,11 @@ ftnlen weight_len;
             /*           Then Ge22 = -(I-G*K) *G and Ge21 = -(I-G*K) . */
             /*           Construct first Ge = (  G  -Ip ). */
             /*                                ( -Im  K  ) */
-            ab05qd_("N", n, m, p, nc, p, m, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, &ac[ac_offset], ldac, &bc[bc_offset], ldbc, &cc[cc_offset], ldcc, &dc[dc_offset], lddc, &ne, &me, &pe, &dwork[kwa], &nnc, &dwork[kwb], &nnc, &dwork[kwc], &mp, &dwork[kwd], &mp, &ierr, 1L);
-            dlaset_("Full", p, p, &c_b21, &c_b28, &dwork[kwd + mp **m], &mp, 4L);
+            ab05qd_("N", n, m, p, nc, p, m, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset],
+                ldc, &d__[d_offset], ldd, &ac[ac_offset], ldac, &bc[bc_offset], ldbc,
+                &cc[cc_offset], ldcc, &dc[dc_offset], lddc, &ne, &me, &pe, &dwork[kwa], &nnc,
+                &dwork[kwb], &nnc, &dwork[kwc], &mp, &dwork[kwd], &mp, &ierr, 1L);
+            dlaset_("Full", p, p, &c_b21, &c_b28, &dwork[kwd + mp * *m], &mp, 4L);
             dlaset_("Full", m, m, &c_b21, &c_b28, &dwork[kwd + *p], &mp, 4L);
         }
         /*                  -1 */
@@ -587,35 +549,31 @@ ftnlen weight_len;
         /*        Additional real workspace: need 4*MP; */
         /*        Integer workspace:         need 2*MP. */
         i__1 = *ldwork - kw + 1;
-        ab07nd_(&nnc, &mp, &dwork[kwa], &nnc, &dwork[kwb], &nnc, &dwork[kwc], &mp, &dwork[kwd], &mp, &rcond, &iwork[1], &dwork[kw], &i__1, &ierr);
-        if (ierr != 0)
-        {
+        ab07nd_(&nnc, &mp, &dwork[kwa], &nnc, &dwork[kwb], &nnc, &dwork[kwc], &mp, &dwork[kwd], &mp,
+            &rcond, &iwork[1], &dwork[kw], &i__1, &ierr);
+        if (ierr != 0) {
             *info = 1;
             return 0;
         }
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+        wrkopt = max(i__1, i__2);
         /*                     -1   ( A1 | B1  B2  ) */
         /*        Partition  Ge   = (--------------) and select appropriate */
         /*                          ( C1 | D11 D12 ) */
         /*                          ( C2 | D21 D22 ) */
         /*        pointers to matrices and column dimensions to define weights. */
-        if (rightw)
-        {
+        if (rightw) {
             /*           Define B2 for Ge22. */
             me = *m;
-            kwb += nnc **p;
-        }
-        else if (perf)
-        {
+            kwb += nnc * *p;
+        } else if (perf) {
             /*           Define B1 and C2 for Ge21. */
             me = *p;
             kwc += *m;
         }
     }
-    if (leftw || perf)
-    {
+    if (leftw || perf) {
         /*        Compute the frequency-weighted observability Grammian. */
         /*        Solve for the Cholesky factor Ro of Qo, Qo = Ro'*Ro, */
         /*        the continuous-time Lyapunov equation (if DICO = 'C') */
@@ -624,52 +582,47 @@ ftnlen weight_len;
         /*            Ao'*Qo*Ao - Qo +  scaleo^2*Co'*Co = 0. */
         /*        Additional workspace:  need   NNC*(NNC+MAX(NNC,P)+7); */
         /*                               prefer larger. */
-        ldu = max(nnc,*p);
+        ldu = max(nnc, *p);
         ku = kl;
         kq = ku + nnc * ldu;
         kr = kq + nnc * nnc;
         ki = kr + nnc;
         kw = ki + nnc;
-        *(unsigned char *)jobfac = 'N';
+        *(unsigned char*)jobfac = 'N';
         dlacpy_("Full", p, &nnc, &dwork[kwc], &mp, &dwork[ku], &ldu, 4L);
         i__1 = *ldwork - kw + 1;
-        sb03od_(dico, jobfac, "No-transpose", &nnc, p, &dwork[kwa], &nnc, &dwork[kq], &nnc, &dwork[ku], &ldu, scaleo, &dwork[kr], &dwork[ki], &dwork[kw], &i__1, &ierr, 1L, 1L, 12L);
-        if (ierr != 0)
-        {
-            if (ierr == 6)
-            {
+        sb03od_(dico, jobfac, "No-transpose", &nnc, p, &dwork[kwa], &nnc, &dwork[kq], &nnc,
+            &dwork[ku], &ldu, scaleo, &dwork[kr], &dwork[ki], &dwork[kw], &i__1, &ierr, 1L, 1L,
+            12L);
+        if (ierr != 0) {
+            if (ierr == 6) {
                 *info = 2;
-            }
-            else
-            {
+            } else {
                 *info = 3;
             }
             return 0;
         }
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+        wrkopt = max(i__1, i__2);
         /*        Partition Ro as Ro = ( R11 R12 ). */
         /*                             (  0  R22 ) */
-        if (leftw)
-        {
+        if (leftw) {
             /*           R = R11 (NCS-by-NCS). */
             dlacpy_("Upper", ncs, ncs, &dwork[ku], &ldu, &r__[r_offset], ldr, 5L);
-        }
-        else
-        {
+        } else {
             /*           Compute R such that R'*R = R22'*R22 + R12'*R12, where */
             /*           R22 is NCS-by-NCS and R12 is (N+NCU)-by-NCS. */
             /*           R22 corresponds to the stable part of the controller. */
             nncu = *n + ncu;
-            dlacpy_("Upper", ncs, ncs, &dwork[ku + (ldu + 1) * nncu], &ldu, &r__[r_offset], ldr, 5L);
+            dlacpy_(
+                "Upper", ncs, ncs, &dwork[ku + (ldu + 1) * nncu], &ldu, &r__[r_offset], ldr, 5L);
             ktau = ku;
-            mb04od_("Full", ncs, &c__0, &nncu, &r__[r_offset], ldr, &dwork[ku + ldu * nncu], &ldu, dum, &c__1, dum, &c__1, &dwork[ktau], &dwork[kw], 4L);
+            mb04od_("Full", ncs, &c__0, &nncu, &r__[r_offset], ldr, &dwork[ku + ldu * nncu], &ldu,
+                dum, &c__1, dum, &c__1, &dwork[ktau], &dwork[kw], 4L);
             i__1 = *ncs;
-            for (j = 1; j <= i__1; ++j)
-            {
-                if (r__[j + j * r_dim1] < 0.)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                if (r__[j + j * r_dim1] < 0.) {
                     i__2 = *ncs - j + 1;
                     dscal_(&i__2, &c_b28, &r__[j + j * r_dim1], ldr);
                 }
@@ -677,8 +630,7 @@ ftnlen weight_len;
             }
         }
     }
-    if (rightw || perf)
-    {
+    if (rightw || perf) {
         /*        Compute the frequency-weighted controllability Grammian. */
         /*        Solve for the Cholesky factor Si of Pi, Pi = Si*Si', */
         /*        the continuous-time Lyapunov equation (if DICO = 'C') */
@@ -688,33 +640,29 @@ ftnlen weight_len;
         /*        Additional workspace:  need   NNC*(NNC+MAX(NNC,P,M)+7); */
         /*                               prefer larger. */
         ku = kl;
-        kq = ku + nnc * max(nnc,me);
+        kq = ku + nnc * max(nnc, me);
         kr = kq + nnc * nnc;
         ki = kr + nnc;
         kw = ki + nnc;
         dlacpy_("Full", &nnc, &me, &dwork[kwb], &nnc, &dwork[ku], &nnc, 4L);
-        *(unsigned char *)jobfac = 'F';
-        if (rightw)
-        {
-            *(unsigned char *)jobfac = 'N';
+        *(unsigned char*)jobfac = 'F';
+        if (rightw) {
+            *(unsigned char*)jobfac = 'N';
         }
         i__1 = *ldwork - kw + 1;
-        sb03od_(dico, jobfac, "Transpose", &nnc, &me, &dwork[kwa], &nnc, &dwork[kq], &nnc, &dwork[ku], &nnc, scalec, &dwork[kr], &dwork[ki], &dwork[kw], &i__1, &ierr, 1L, 1L, 9L);
-        if (ierr != 0)
-        {
-            if (ierr == 6)
-            {
+        sb03od_(dico, jobfac, "Transpose", &nnc, &me, &dwork[kwa], &nnc, &dwork[kq], &nnc,
+            &dwork[ku], &nnc, scalec, &dwork[kr], &dwork[ki], &dwork[kw], &i__1, &ierr, 1L, 1L, 9L);
+        if (ierr != 0) {
+            if (ierr == 6) {
                 *info = 2;
-            }
-            else
-            {
+            } else {
                 *info = 3;
             }
             return 0;
         }
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+        wrkopt = max(i__1, i__2);
         /*        Partition Si as Si = ( S11 S12 ) with S22 NCS-by-NCS and */
         /*                             (  0  S22 ) */
         /*        set S = S22. */
@@ -722,43 +670,42 @@ ftnlen weight_len;
         dlacpy_("Upper", ncs, ncs, &dwork[ku + (nnc + 1) * nncu], &nnc, &s[s_offset], lds, 5L);
     }
     ku = 1;
-    if (leftw || perf)
-    {
-        if (lsame_(jobo, "E", 1L, 1L))
-        {
+    if (leftw || perf) {
+        if (lsame_(jobo, "E", 1L, 1L)) {
             /*           Form Y = -Ac2'*(R'*R)-(R'*R)*Ac2 if DICO = 'C', or */
             /*                Y = -Ac2'*(R'*R)*Ac2+(R'*R) if DICO = 'D'. */
             /*           Workspace:  need   2*NCS*NCS. */
             dlacpy_("Upper", ncs, ncs, &r__[r_offset], ldr, &dwork[ku], ncs, 5L);
-            dlacpy_("Full", ncs, ncs, &ac[ncu1 + ncu1 * ac_dim1], ldac, &dwork[ku + *ncs **ncs], ncs, 4L);
-            mb01wd_(dico, "Upper", "No-transpose", "Hessenberg", ncs, &c_b28, &c_b21, &r__[r_offset], ldr, &dwork[ku + *ncs **ncs], ncs, &dwork[ku], ncs, &ierr, 1L, 5L, 12L, 10L);
+            dlacpy_("Full", ncs, ncs, &ac[ncu1 + ncu1 * ac_dim1], ldac, &dwork[ku + *ncs * *ncs],
+                ncs, 4L);
+            mb01wd_(dico, "Upper", "No-transpose", "Hessenberg", ncs, &c_b28, &c_b21,
+                &r__[r_offset], ldr, &dwork[ku + *ncs * *ncs], ncs, &dwork[ku], ncs, &ierr, 1L, 5L,
+                12L, 10L);
             /*           Compute the eigendecomposition of Y as Y = Z*Sigma*Z'. */
             kw = ku + *ncs;
             i__1 = *ldwork - kw + 1;
-            dsyev_("Vectors", "Upper", ncs, &r__[r_offset], ldr, &dwork[ku], &dwork[kw], &i__1, &ierr, 7L, 5L);
-            if (ierr > 0)
-            {
+            dsyev_("Vectors", "Upper", ncs, &r__[r_offset], ldr, &dwork[ku], &dwork[kw], &i__1,
+                &ierr, 7L, 5L);
+            if (ierr > 0) {
                 *info = 4;
                 return 0;
             }
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+            wrkopt = max(i__1, i__2);
             /*           Partition Sigma = (Sigma1,Sigma2), such that */
             /*           Sigma1 <= 0, Sigma2 > 0. */
             /*           Partition correspondingly Z = [Z1 Z2]. */
             /* Computing MAX */
             d__3 = (d__1 = dwork[ku], abs(d__1)), d__4 = (d__2 = dwork[ku + *ncs - 1], abs(d__2));
-            tol = max(d__3,d__4) * dlamch_("Epsilon", 7L);
+            tol = max(d__3, d__4) * dlamch_("Epsilon", 7L);
             /*                _ */
             /*           Form Cc = [ sqrt(Sigma2)*Z2' ] */
             pcbar = 0;
             jj = ku;
             i__1 = *ncs;
-            for (j = 1; j <= i__1; ++j)
-            {
-                if (dwork[jj] > tol)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                if (dwork[jj] > tol) {
                     d__1 = sqrt(dwork[jj]);
                     dscal_(ncs, &d__1, &r__[j * r_dim1 + 1], &c__1);
                     dcopy_(ncs, &r__[j * r_dim1 + 1], &c__1, &dwork[kw + pcbar], ncs);
@@ -777,59 +724,57 @@ ftnlen weight_len;
             /*           Workspace:  need   NCS*(NCS + 6); */
             /*                              prefer larger. */
             ku = kw;
-            ktau = ku + *ncs **ncs;
+            ktau = ku + *ncs * *ncs;
             kw = ktau + *ncs;
             i__1 = *ldwork - kw + 1;
-            sb03ou_(&discr, &c_false, ncs, &pcbar, &ac[ncu1 + ncu1 * ac_dim1], ldac, &dwork[ku], ncs, &dwork[ktau], &r__[r_offset], ldr, &t, &dwork[kw], &i__1, &ierr);
-            if (ierr != 0)
-            {
+            sb03ou_(&discr, &c_false, ncs, &pcbar, &ac[ncu1 + ncu1 * ac_dim1], ldac, &dwork[ku],
+                ncs, &dwork[ktau], &r__[r_offset], ldr, &t, &dwork[kw], &i__1, &ierr);
+            if (ierr != 0) {
                 *info = 5;
                 return 0;
             }
             *scaleo *= t;
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+            wrkopt = max(i__1, i__2);
         }
     }
-    if (rightw || perf)
-    {
-        if (lsame_(jobc, "E", 1L, 1L))
-        {
+    if (rightw || perf) {
+        if (lsame_(jobc, "E", 1L, 1L)) {
             /*           Form X = -A2c*(S*S')-(S*S')*Ac2' if DICO = 'C', or */
             /*                X = -Ac2*(S*S')*Ac2'+(S*S') if DICO = 'D'. */
             /*           Workspace:  need   2*NCS*NCS. */
             dlacpy_("Upper", ncs, ncs, &s[s_offset], lds, &dwork[ku], ncs, 5L);
-            dlacpy_("Full", ncs, ncs, &ac[ncu1 + ncu1 * ac_dim1], ldac, &dwork[ku + *ncs **ncs], ncs, 4L);
-            mb01wd_(dico, "Upper", "Transpose", "Hessenberg", ncs, &c_b28, &c_b21, &s[s_offset], lds, &dwork[ku + *ncs **ncs], ncs, &dwork[ku], ncs, &ierr, 1L, 5L, 9L, 10L);
+            dlacpy_("Full", ncs, ncs, &ac[ncu1 + ncu1 * ac_dim1], ldac, &dwork[ku + *ncs * *ncs],
+                ncs, 4L);
+            mb01wd_(dico, "Upper", "Transpose", "Hessenberg", ncs, &c_b28, &c_b21, &s[s_offset],
+                lds, &dwork[ku + *ncs * *ncs], ncs, &dwork[ku], ncs, &ierr, 1L, 5L, 9L, 10L);
             /*           Compute the eigendecomposition of X as X = Z*Sigma*Z'. */
             kw = ku + *ncs;
             i__1 = *ldwork - kw + 1;
-            dsyev_("Vectors", "Upper", ncs, &s[s_offset], lds, &dwork[ku], &dwork[kw], &i__1, &ierr, 7L, 5L);
-            if (ierr > 0)
-            {
+            dsyev_("Vectors", "Upper", ncs, &s[s_offset], lds, &dwork[ku], &dwork[kw], &i__1, &ierr,
+                7L, 5L);
+            if (ierr > 0) {
                 *info = 4;
                 return 0;
             }
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+            wrkopt = max(i__1, i__2);
             /*           Partition Sigma = (Sigma1,Sigma2), such that */
             /*           Sigma1 =< 0, Sigma2 > 0. */
             /*           Partition correspondingly Z = [Z1 Z2]. */
             /* Computing MAX */
             d__3 = (d__1 = dwork[ku], abs(d__1)), d__4 = (d__2 = dwork[ku + *ncs - 1], abs(d__2));
-            tol = max(d__3,d__4) * dlamch_("Epsilon", 7L);
+            tol = max(d__3, d__4) * dlamch_("Epsilon", 7L);
             /*                _ */
             /*           Form Bc = [ Z2*sqrt(Sigma2) ] */
             mbbar = 0;
             i__ = kw;
             jj = ku;
             i__1 = *ncs;
-            for (j = 1; j <= i__1; ++j)
-            {
-                if (dwork[jj] > tol)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                if (dwork[jj] > tol) {
                     ++mbbar;
                     d__1 = sqrt(dwork[jj]);
                     dscal_(ncs, &d__1, &s[j * s_dim1 + 1], &c__1);
@@ -849,24 +794,23 @@ ftnlen weight_len;
             /*           Workspace:  need   maximum NCS*(NCS + 6); */
             /*                       prefer larger. */
             ku = kw;
-            ktau = ku + mbbar **ncs;
+            ktau = ku + mbbar * *ncs;
             kw = ktau + *ncs;
             i__1 = *ldwork - kw + 1;
-            sb03ou_(&discr, &c_true, ncs, &mbbar, &ac[ncu1 + ncu1 * ac_dim1], ldac, &dwork[ku], ncs, &dwork[ktau], &s[s_offset], lds, &t, &dwork[kw], &i__1, &ierr);
-            if (ierr != 0)
-            {
+            sb03ou_(&discr, &c_true, ncs, &mbbar, &ac[ncu1 + ncu1 * ac_dim1], ldac, &dwork[ku], ncs,
+                &dwork[ktau], &s[s_offset], lds, &t, &dwork[kw], &i__1, &ierr);
+            if (ierr != 0) {
                 *info = 5;
                 return 0;
             }
             *scalec *= t;
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+            wrkopt = max(i__1, i__2);
         }
     }
     /*     Save optimal workspace. */
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of SB16AY *** */
 } /* sb16ay_ */
-

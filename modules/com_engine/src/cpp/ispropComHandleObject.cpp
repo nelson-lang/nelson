@@ -16,37 +16,38 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Windows.h>
 #include "ispropComHandleObject.hpp"
+#include "ComHandleObject.hpp"
+#include "ComHelpers.hpp"
 #include "Exception.hpp"
 #include "HandleManager.hpp"
-#include "ComHandleObject.hpp"
 #include "characters_encoding.hpp"
-#include "ComHelpers.hpp"
+#include <Windows.h>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool ispropComHandleObject(ComHandleObject *comhandleobj, const std::wstring &propertyName)
-    {
-        void *ptr = comhandleobj->getPointer();
-        if (ptr == nullptr)
-        {
-            throw Exception(_W("COM valid handle expected."));
-        }
-        VARIANT *pVariant = (VARIANT *)ptr;
-        return isPropertyGetCom(pVariant->pdispVal, propertyName) || isPropertyPutCom(pVariant->pdispVal, propertyName);
+//=============================================================================
+bool
+ispropComHandleObject(ComHandleObject* comhandleobj, const std::wstring& propertyName)
+{
+    void* ptr = comhandleobj->getPointer();
+    if (ptr == nullptr) {
+        throw Exception(_W("COM valid handle expected."));
     }
-    //=============================================================================
-    ArrayOf ispropComHandleObject(ArrayOf A, const std::wstring &propertyName)
-    {
-        if (A.getHandleCategory() != COM_CATEGORY_STR)
-        {
-            throw Exception(_W("COM handle expected."));
-        }
-        ComHandleObject *comhandleobj = (ComHandleObject *)A.getContentAsHandleScalar();
-        bool res = ispropComHandleObject(comhandleobj, propertyName);
-        return ArrayOf::logicalConstructor(res);
+    VARIANT* pVariant = (VARIANT*)ptr;
+    return isPropertyGetCom(pVariant->pdispVal, propertyName)
+        || isPropertyPutCom(pVariant->pdispVal, propertyName);
+}
+//=============================================================================
+ArrayOf
+ispropComHandleObject(ArrayOf A, const std::wstring& propertyName)
+{
+    if (A.getHandleCategory() != COM_CATEGORY_STR) {
+        throw Exception(_W("COM handle expected."));
     }
-    //=============================================================================
+    ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
+    bool res = ispropComHandleObject(comhandleobj, propertyName);
+    return ArrayOf::logicalConstructor(res);
+}
+//=============================================================================
 }
 //=============================================================================

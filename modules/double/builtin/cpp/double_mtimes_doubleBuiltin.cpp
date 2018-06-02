@@ -17,20 +17,20 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "double_mtimes_doubleBuiltin.hpp"
-#include "MtimesDouble.hpp"
 #include "Error.hpp"
 #include "MatrixCheck.hpp"
+#include "MtimesDouble.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DoubleGateway::double_mtimes_doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DoubleGateway::double_mtimes_doubleBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;

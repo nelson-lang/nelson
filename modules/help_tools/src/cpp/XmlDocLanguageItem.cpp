@@ -17,45 +17,44 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocLanguageItem.hpp"
-#include "characters_encoding.hpp"
 #include "XmlDocumentTags.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    XmlDocLanguageItem::XmlDocLanguageItem(std::wstring language)
-    {
-        this->_language = language;
-    }
-    //=============================================================================
-    XmlDocLanguageItem::~XmlDocLanguageItem()
-    {
-        this->_language = L"";
-    }
-    //=============================================================================
-    void XmlDocLanguageItem::setValue(std::wstring value)
-    {
-        this->_language = value;
-    }
-    //=============================================================================
-    std::wstring XmlDocLanguageItem::getValue()
-    {
-        return this->_language;
-    }
-    //=============================================================================
-    std::wstring XmlDocLanguageItem::getItemType()
-    {
-        return  utf8_to_wstring(LANGUAGE_TAG);
-    }
-    //=============================================================================
-    bool XmlDocLanguageItem::writeAsHtml(std::string &utf8stream)
-    {
-        return true;
-    }
-    //=============================================================================
-    bool XmlDocLanguageItem::writeAsMarkdown(std::string &utf8stream)
-    {
-        return true;
-    }
-    //=============================================================================
+//=============================================================================
+XmlDocLanguageItem::XmlDocLanguageItem(std::wstring language) { this->_language = language; }
+//=============================================================================
+XmlDocLanguageItem::~XmlDocLanguageItem() { this->_language = L""; }
+//=============================================================================
+void
+XmlDocLanguageItem::setValue(std::wstring value)
+{
+    this->_language = value;
+}
+//=============================================================================
+std::wstring
+XmlDocLanguageItem::getValue()
+{
+    return this->_language;
+}
+//=============================================================================
+std::wstring
+XmlDocLanguageItem::getItemType()
+{
+    return utf8_to_wstring(LANGUAGE_TAG);
+}
+//=============================================================================
+bool
+XmlDocLanguageItem::writeAsHtml(std::string& utf8stream)
+{
+    return true;
+}
+//=============================================================================
+bool
+XmlDocLanguageItem::writeAsMarkdown(std::string& utf8stream)
+{
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

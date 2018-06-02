@@ -20,31 +20,27 @@
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf StringLength(ArrayOf A)
-    {
-        ArrayOf res;
-        wstringVector wstr = A.getContentAsWideStringVector(false);
-        if (A.isString() && wstr.empty())
-        {
-            wstr.push_back(A.getContentAsWideString());
-        }
-        Dimensions outputDims;
-        if (wstr.size() == 1)
-        {
-            outputDims = Dimensions(1, 1);
-        }
-        else
-        {
-            outputDims = A.getDimensions();
-        }
-        double *ptrLength = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outputDims.getElementCount());
-        for (size_t k = 0; k < wstr.size(); k++)
-        {
-            ptrLength[k] = (double)wstr[k].length();
-        }
-        return ArrayOf(NLS_DOUBLE, outputDims, ptrLength);
+//=============================================================================
+ArrayOf
+StringLength(ArrayOf A)
+{
+    ArrayOf res;
+    wstringVector wstr = A.getContentAsWideStringVector(false);
+    if (A.isString() && wstr.empty()) {
+        wstr.push_back(A.getContentAsWideString());
     }
-    //=============================================================================
+    Dimensions outputDims;
+    if (wstr.size() == 1) {
+        outputDims = Dimensions(1, 1);
+    } else {
+        outputDims = A.getDimensions();
+    }
+    double* ptrLength = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outputDims.getElementCount());
+    for (size_t k = 0; k < wstr.size(); k++) {
+        ptrLength[k] = (double)wstr[k].length();
+    }
+    return ArrayOf(NLS_DOUBLE, outputDims, ptrLength);
+}
+//=============================================================================
 }
 //=============================================================================

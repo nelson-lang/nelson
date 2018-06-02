@@ -1,14 +1,13 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mc01nd_(dp, xr, xi, p, vr, vi, info)
-integer *dp;
+EXPORTSYMBOL /* Subroutine */ int mc01nd_(dp, xr, xi, p, vr, vi, info) integer* dp;
 doublereal *xr, *xi, *p, *vr, *vi;
-integer *info;
+integer* info;
 {
     /* System generated locals */
     integer i__1;
@@ -83,8 +82,7 @@ integer *info;
     /* Parameter adjustments */
     --p;
     /* Function Body */
-    if (*dp < 0)
-    {
+    if (*dp < 0) {
         *info = -1;
         /*        Error return. */
         i__1 = -(*info);
@@ -94,26 +92,20 @@ integer *info;
     *info = 0;
     *vr = p[*dp + 1];
     *vi = 0.;
-    if (*dp == 0)
-    {
+    if (*dp == 0) {
         return 0;
     }
-    if (*xi == 0.)
-    {
+    if (*xi == 0.) {
         /*        X real. */
-        for (i__ = *dp; i__ >= 1; --i__)
-        {
-            *vr = *vr **xr + p[i__];
+        for (i__ = *dp; i__ >= 1; --i__) {
+            *vr = *vr * *xr + p[i__];
             /* L20: */
         }
-    }
-    else
-    {
+    } else {
         /*        X complex. */
-        for (i__ = *dp; i__ >= 1; --i__)
-        {
-            t = *vr **xr - *vi **xi + p[i__];
-            *vi = *vi **xr + *vr **xi;
+        for (i__ = *dp; i__ >= 1; --i__) {
+            t = *vr * *xr - *vi * *xi + p[i__];
+            *vi = *vi * *xr + *vr * *xi;
             *vr = t;
             /* L40: */
         }
@@ -121,4 +113,3 @@ integer *info;
     return 0;
     /* *** Last line of MC01ND *** */
 } /* mc01nd_ */
-

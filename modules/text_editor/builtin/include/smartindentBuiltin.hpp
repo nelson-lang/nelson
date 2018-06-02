@@ -22,9 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace TextEditorGateway {
-        ArrayOfVector smartindentBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    };
+namespace TextEditorGateway {
+    ArrayOfVector
+    smartindentBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 };
+}; // namespace Nelson
 //=============================================================================
-

@@ -22,6 +22,7 @@
 #include "nlsEngine_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSENGINE_IMPEXP bool StartNelsonUserScript(Evaluator* eval);
+NLSENGINE_IMPEXP bool
+StartNelsonUserScript(Evaluator* eval);
 }
 //=============================================================================

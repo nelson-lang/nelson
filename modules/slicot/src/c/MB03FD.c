@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,17 +9,17 @@
 
 static doublereal c_b5 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb03fd_(n, prec, a, lda, b, ldb, q1, ldq1, q2, ldq2, dwork, ldwork, info)
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int mb03fd_(
+    n, prec, a, lda, b, ldb, q1, ldq1, q2, ldq2, dwork, ldwork, info) integer* n;
 doublereal *prec, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *q1;
-integer *ldq1;
-doublereal *q2;
-integer *ldq2;
-doublereal *dwork;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* q1;
+integer* ldq1;
+doublereal* q2;
+integer* ldq2;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
@@ -164,29 +164,23 @@ integer *ldwork, *info;
     /* Function Body */
     *info = 0;
     /*     Computations. */
-    if (*n == 4)
-    {
+    if (*n == 4) {
         i__1 = *ldwork - *n * 3;
-        dgges_("Vector Computation", "Vector Computation", "Sorted", sb02ow_, n, &b[b_offset], ldb, &a[a_offset], lda, &idum, &dwork[1], &dwork[*n + 1], &dwork[(*n << 1) + 1], &q2[q2_offset], ldq2, &q1[q1_offset], ldq1, &dwork[*n * 3 + 1], &i__1, bwork, info, 18L, 18L, 6L);
-        if (*info != 0)
-        {
-            if (*info >= 1 && *info <= 4)
-            {
+        dgges_("Vector Computation", "Vector Computation", "Sorted", sb02ow_, n, &b[b_offset], ldb,
+            &a[a_offset], lda, &idum, &dwork[1], &dwork[*n + 1], &dwork[(*n << 1) + 1],
+            &q2[q2_offset], ldq2, &q1[q1_offset], ldq1, &dwork[*n * 3 + 1], &i__1, bwork, info, 18L,
+            18L, 6L);
+        if (*info != 0) {
+            if (*info >= 1 && *info <= 4) {
                 *info = 1;
-            }
-            else if (*info != 6)
-            {
+            } else if (*info != 6) {
                 *info = 2;
-            }
-            else
-            {
+            } else {
                 *info = 0;
             }
         }
         return 0;
-    }
-    else
-    {
+    } else {
         /*        The pencil has infinite eigenvalues. The code decides this when */
         /*        A is (numerically) singular. */
         a11 = (d__1 = a[a_dim1 + 1], abs(d__1));
@@ -194,8 +188,7 @@ integer *ldwork, *info;
         b21 = (d__1 = b[b_dim1 + 2], abs(d__1));
         b12 = (d__1 = b[(b_dim1 << 1) + 1], abs(d__1));
         compg = FALSE_;
-        if (a11 <= *prec * a22)
-        {
+        if (a11 <= *prec * a22) {
             q1[q1_dim1 + 1] = 1.;
             q1[q1_dim1 + 2] = 0.;
             q1[(q1_dim1 << 1) + 1] = 0.;
@@ -204,9 +197,7 @@ integer *ldwork, *info;
             q2[q2_dim1 + 2] = 1.;
             q2[(q2_dim1 << 1) + 1] = 1.;
             q2[(q2_dim1 << 1) + 2] = 0.;
-        }
-        else if (a22 <= *prec * a11)
-        {
+        } else if (a22 <= *prec * a11) {
             q1[q1_dim1 + 1] = 0.;
             q1[q1_dim1 + 2] = 1.;
             q1[(q1_dim1 << 1) + 1] = 1.;
@@ -215,16 +206,12 @@ integer *ldwork, *info;
             q2[q2_dim1 + 2] = 0.;
             q2[(q2_dim1 << 1) + 1] = 0.;
             q2[(q2_dim1 << 1) + 2] = 1.;
-        }
-        else
-        {
+        } else {
             compg = TRUE_;
         }
-        if (compg)
-        {
+        if (compg) {
             /*           The pencil has a double zero eigenvalue. */
-            if (b21 <= *prec * b12)
-            {
+            if (b21 <= *prec * b12) {
                 q1[q1_dim1 + 1] = 1.;
                 q1[q1_dim1 + 2] = 0.;
                 q1[(q1_dim1 << 1) + 1] = 0.;
@@ -233,9 +220,7 @@ integer *ldwork, *info;
                 q2[q2_dim1 + 2] = 0.;
                 q2[(q2_dim1 << 1) + 1] = 0.;
                 q2[(q2_dim1 << 1) + 2] = 1.;
-            }
-            else if (b12 <= *prec * b21)
-            {
+            } else if (b12 <= *prec * b21) {
                 q1[q1_dim1 + 1] = 0.;
                 q1[q1_dim1 + 2] = 1.;
                 q1[(q1_dim1 << 1) + 1] = 1.;
@@ -244,14 +229,11 @@ integer *ldwork, *info;
                 q2[q2_dim1 + 2] = 1.;
                 q2[(q2_dim1 << 1) + 1] = 1.;
                 q2[(q2_dim1 << 1) + 2] = 0.;
-            }
-            else
-            {
+            } else {
                 compg = TRUE_;
             }
         }
-        if (compg)
-        {
+        if (compg) {
             /*           The pencil has real eigenvalues. */
             d__2 = a[a_dim1 + 1] * a[(a_dim1 << 1) + 2];
             d__1 = d_sign(&c_b5, &d__2) * sqrt(a22 * b12);
@@ -273,4 +255,3 @@ integer *ldwork, *info;
     return 0;
     /* *** Last line of MB03FD *** */
 } /* mb03fd_ */
-

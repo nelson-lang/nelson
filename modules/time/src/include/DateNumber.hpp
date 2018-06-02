@@ -18,12 +18,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "nlsTime_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSTIME_IMPEXP double DateNumber(double year, double month, double day, double hour = 0, double minutes = 0, double secondes = 0);
-    NLSTIME_IMPEXP double DateNumber(std::wstring datestring, std::wstring formatIn, bool &bParsed);
-    NLSTIME_IMPEXP double DateNumber(std::wstring datestring, bool &bParsed);
-}
+NLSTIME_IMPEXP double
+DateNumber(double year, double month, double day, double hour = 0, double minutes = 0,
+    double secondes = 0);
+NLSTIME_IMPEXP double
+DateNumber(std::wstring datestring, std::wstring formatIn, bool& bParsed);
+NLSTIME_IMPEXP double
+DateNumber(std::wstring datestring, bool& bParsed);
+} // namespace Nelson
 //=============================================================================
-

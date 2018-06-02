@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,22 +12,24 @@ static doublereal c_b28 = 1.;
 static doublereal c_b31 = 0.;
 static doublereal c_b37 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb02mt_(jobg, jobl, fact, uplo, n, m, a, lda, b, ldb, q, ldq, r__, ldr, l, ldl, ipiv, oufact, g, ldg, iwork, dwork, ldwork, info, jobg_len, jobl_len, fact_len, uplo_len)
-char *jobg, *jobl, *fact, *uplo;
+EXPORTSYMBOL /* Subroutine */ int sb02mt_(jobg, jobl, fact, uplo, n, m, a, lda, b, ldb, q, ldq, r__,
+    ldr, l, ldl, ipiv, oufact, g, ldg, iwork, dwork, ldwork, info, jobg_len, jobl_len, fact_len,
+    uplo_len) char *jobg,
+    *jobl, *fact, *uplo;
 integer *n, *m;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *q;
-integer *ldq;
-doublereal *r__;
-integer *ldr;
-doublereal *l;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* q;
+integer* ldq;
+doublereal* r__;
+integer* ldr;
+doublereal* l;
 integer *ldl, *ipiv, *oufact;
-doublereal *g;
+doublereal* g;
 integer *ldg, *iwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen jobg_len;
 ftnlen jobl_len;
@@ -35,7 +37,8 @@ ftnlen fact_len;
 ftnlen uplo_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, g_dim1, g_offset, l_dim1, l_offset, q_dim1, q_offset, r_dim1, r_offset, i__1, i__2, i__3, i__4;
+    integer a_dim1, a_offset, b_dim1, b_offset, g_dim1, g_offset, l_dim1, l_offset, q_dim1,
+        q_offset, r_dim1, r_offset, i__1, i__2, i__3, i__4;
     /* Local variables */
     static integer i__, j;
     extern /* Subroutine */ int dgemm_();
@@ -311,86 +314,56 @@ ftnlen uplo_len;
     luplou = lsame_(uplo, "U", 1L, 1L);
     lfacta = lfactc || lfactu;
     /*     Test the input scalar arguments. */
-    if (! ljobg && ! lsame_(jobg, "N", 1L, 1L))
-    {
+    if (!ljobg && !lsame_(jobg, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! ljobl && ! lsame_(jobl, "Z", 1L, 1L))
-    {
+    } else if (!ljobl && !lsame_(jobl, "Z", 1L, 1L)) {
         *info = -2;
-    }
-    else if (! lfacta && ! lsame_(fact, "N", 1L, 1L))
-    {
+    } else if (!lfacta && !lsame_(fact, "N", 1L, 1L)) {
         *info = -3;
-    }
-    else if (! luplou && ! lsame_(uplo, "L", 1L, 1L))
-    {
+    } else if (!luplou && !lsame_(uplo, "L", 1L, 1L)) {
         *info = -4;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -5;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -6;
-    }
-    else if (*lda < 1 || ljobl && *lda < *n)
-    {
+    } else if (*lda < 1 || ljobl && *lda < *n) {
         *info = -8;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldq < 1 || ljobl && *ldq < *n)
-    {
+    } else if (*ldq < 1 || ljobl && *ldq < *n) {
         *info = -12;
-    }
-    else if (*ldr < max(1,*m))
-    {
+    } else if (*ldr < max(1, *m)) {
         *info = -14;
-    }
-    else if (*ldl < 1 || ljobl && *ldl < *n)
-    {
+    } else if (*ldl < 1 || ljobl && *ldl < *n) {
         *info = -16;
-    }
-    else if (*ldg < 1 || ljobg && *ldg < *n)
-    {
+    } else if (*ldg < 1 || ljobg && *ldg < *n) {
         *info = -20;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = 1, i__2 = *n **m;
+        i__1 = 1, i__2 = *n * *m;
         /* Computing MAX */
-        i__3 = 2, i__4 = *n **m, i__3 = max(i__3,i__4), i__4 = *m * 3;
-        if (lfactc && *ldwork < 1 || lfactu && *ldwork < max(i__1,i__2) || ! lfacta && *ldwork < max(i__3,i__4))
-        {
+        i__3 = 2, i__4 = *n * *m, i__3 = max(i__3, i__4), i__4 = *m * 3;
+        if (lfactc && *ldwork < 1 || lfactu && *ldwork < max(i__1, i__2)
+            || !lfacta && *ldwork < max(i__3, i__4)) {
             *info = -23;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB02MT", &i__1, 6L);
         return 0;
     }
-    if (lfactc)
-    {
+    if (lfactc) {
         *oufact = 1;
-    }
-    else if (lfactu)
-    {
+    } else if (lfactu) {
         *oufact = 2;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *m == 0 || ! (ljobl || ljobg))
-    {
+    if (*n == 0 || *m == 0 || !(ljobl || ljobg)) {
         dwork[1] = 1.;
-        if (! lfacta)
-        {
+        if (!lfacta) {
             dwork[2] = 1.;
         }
         return 0;
@@ -403,8 +376,7 @@ ftnlen uplo_len;
     wrkopt = 1;
     /*     Set relative machine precision. */
     eps = dlamch_("Epsilon", 7L);
-    if (! lfacta)
-    {
+    if (!lfacta) {
         /*        Compute the norm of the matrix R, which is not factored. */
         /*        Then save the given triangle of R in the other strict triangle */
         /*        and the diagonal in the workspace, and try Cholesky */
@@ -413,65 +385,51 @@ ftnlen uplo_len;
         rnorm = dlansy_("1-norm", uplo, m, &r__[r_offset], ldr, &dwork[1], 6L, 1L);
         i__1 = *ldr + 1;
         dcopy_(m, &r__[r_offset], &i__1, &dwork[1], &c__1);
-        if (luplou)
-        {
+        if (luplou) {
             i__1 = *m;
-            for (j = 2; j <= i__1; ++j)
-            {
+            for (j = 2; j <= i__1; ++j) {
                 i__2 = j - 1;
                 dcopy_(&i__2, &r__[j * r_dim1 + 1], &c__1, &r__[j + r_dim1], ldr);
                 /* L20: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *m;
-            for (j = 2; j <= i__1; ++j)
-            {
+            for (j = 2; j <= i__1; ++j) {
                 i__2 = j - 1;
                 dcopy_(&i__2, &r__[j + r_dim1], ldr, &r__[j * r_dim1 + 1], &c__1);
                 /* L40: */
             }
         }
         dpotrf_(uplo, m, &r__[r_offset], ldr, info, 1L);
-        if (*info == 0)
-        {
+        if (*info == 0) {
             /*           Compute the reciprocal of the condition number of R. */
             /*           Workspace: need 3*M. */
             dpocon_(uplo, m, &r__[r_offset], ldr, &rnorm, &rcond, &dwork[1], &iwork[1], info, 1L);
             /*           Return if the matrix is singular to working precision. */
             *oufact = 1;
             dwork[2] = rcond;
-            if (rcond < eps)
-            {
+            if (rcond < eps) {
                 *info = *m + 1;
                 return 0;
             }
             /* Computing MAX */
             i__1 = wrkopt, i__2 = *m * 3;
-            wrkopt = max(i__1,i__2);
-        }
-        else
-        {
+            wrkopt = max(i__1, i__2);
+        } else {
             /*           Use UdU' or LdL' factorization, first restoring the saved */
             /*           triangle. */
             i__1 = *ldr + 1;
             dcopy_(m, &dwork[1], &c__1, &r__[r_offset], &i__1);
-            if (luplou)
-            {
+            if (luplou) {
                 i__1 = *m;
-                for (j = 2; j <= i__1; ++j)
-                {
+                for (j = 2; j <= i__1; ++j) {
                     i__2 = j - 1;
                     dcopy_(&i__2, &r__[j + r_dim1], ldr, &r__[j * r_dim1 + 1], &c__1);
                     /* L60: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *m;
-                for (j = 2; j <= i__1; ++j)
-                {
+                for (j = 2; j <= i__1; ++j) {
                     i__2 = j - 1;
                     dcopy_(&i__2, &r__[j * r_dim1 + 1], &c__1, &r__[j + r_dim1], ldr);
                     /* L80: */
@@ -482,136 +440,121 @@ ftnlen uplo_len;
             /*                      prefer M*NB. */
             dsytrf_(uplo, m, &r__[r_offset], ldr, &ipiv[1], &dwork[1], ldwork, info, 1L);
             *oufact = 2;
-            if (*info > 0)
-            {
+            if (*info > 0) {
                 dwork[2] = 1.;
                 return 0;
             }
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (integer) dwork[1];
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = (integer)dwork[1];
+            wrkopt = max(i__1, i__2);
             /*           Compute the reciprocal of the condition number of R. */
             /*           Workspace: need 2*M. */
-            dsycon_(uplo, m, &r__[r_offset], ldr, &ipiv[1], &rnorm, &rcond, &dwork[1], &iwork[1], info, 1L);
+            dsycon_(uplo, m, &r__[r_offset], ldr, &ipiv[1], &rnorm, &rcond, &dwork[1], &iwork[1],
+                info, 1L);
             /*           Return if the matrix is singular to working precision. */
             dwork[2] = rcond;
-            if (rcond < eps)
-            {
+            if (rcond < eps) {
                 *info = *m + 1;
                 return 0;
             }
         }
     }
-    if (*oufact == 1)
-    {
+    if (*oufact == 1) {
         /*        Solve positive definite linear system(s). */
-        if (luplou)
-        {
-            *(unsigned char *)trans = 'N';
-        }
-        else
-        {
-            *(unsigned char *)trans = 'T';
+        if (luplou) {
+            *(unsigned char*)trans = 'N';
+        } else {
+            *(unsigned char*)trans = 'T';
         }
         /*        Solve the system X*U = B, overwriting B with X. */
-        dtrsm_("Right", uplo, trans, "Non-unit", n, m, &c_b28, &r__[r_offset], ldr, &b[b_offset], ldb, 5L, 1L, 1L, 8L);
-        if (ljobg)
-        {
+        dtrsm_("Right", uplo, trans, "Non-unit", n, m, &c_b28, &r__[r_offset], ldr, &b[b_offset],
+            ldb, 5L, 1L, 1L, 8L);
+        if (ljobg) {
             /*                                      -1 */
             /*           Compute the matrix  G = B*R  *B', multiplying X*X' in G. */
-            dsyrk_(uplo, "No transpose", n, m, &c_b28, &b[b_offset], ldb, &c_b31, &g[g_offset], ldg, 1L, 12L);
+            dsyrk_(uplo, "No transpose", n, m, &c_b28, &b[b_offset], ldb, &c_b31, &g[g_offset], ldg,
+                1L, 12L);
         }
-        if (ljobl)
-        {
+        if (ljobl) {
             /*           Update matrices A and Q. */
             /*           Solve the system Y*U = L, overwriting L with Y. */
-            dtrsm_("Right", uplo, trans, "Non-unit", n, m, &c_b28, &r__[r_offset], ldr, &l[l_offset], ldl, 5L, 1L, 1L, 8L);
+            dtrsm_("Right", uplo, trans, "Non-unit", n, m, &c_b28, &r__[r_offset], ldr,
+                &l[l_offset], ldl, 5L, 1L, 1L, 8L);
             /*           Compute A <- A - X*Y'. */
-            dgemm_("No transpose", "Transpose", n, n, m, &c_b37, &b[b_offset], ldb, &l[l_offset], ldl, &c_b28, &a[a_offset], lda, 12L, 9L);
+            dgemm_("No transpose", "Transpose", n, n, m, &c_b37, &b[b_offset], ldb, &l[l_offset],
+                ldl, &c_b28, &a[a_offset], lda, 12L, 9L);
             /*           Compute Q <- Q - Y*Y'. */
-            dsyrk_(uplo, "No transpose", n, m, &c_b37, &l[l_offset], ldl, &c_b28, &q[q_offset], ldq, 1L, 12L);
+            dsyrk_(uplo, "No transpose", n, m, &c_b37, &l[l_offset], ldl, &c_b28, &q[q_offset], ldq,
+                1L, 12L);
         }
-    }
-    else
-    {
+    } else {
         /*        Solve indefinite linear system(s). */
         /*        Solve the system UdU'*X = B' (or LdL'*X = B'). */
         /*        Workspace: need N*M. */
         i__1 = *m;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dcopy_(n, &b[j * b_dim1 + 1], &c__1, &dwork[j], m);
             /* L100: */
         }
         dsytrs_(uplo, m, n, &r__[r_offset], ldr, &ipiv[1], &dwork[1], m, info, 1L);
-        if (ljobg)
-        {
+        if (ljobg) {
             /*                                                    -1 */
             /*           Compute a triangle of the matrix  G = B*R  *B' = B*X. */
-            if (luplou)
-            {
+            if (luplou) {
                 i__ = 1;
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
-                    dgemv_("No transpose", &j, m, &c_b28, &b[b_offset], ldb, &dwork[i__], &c__1, &c_b31, &g[j * g_dim1 + 1], &c__1, 12L);
+                for (j = 1; j <= i__1; ++j) {
+                    dgemv_("No transpose", &j, m, &c_b28, &b[b_offset], ldb, &dwork[i__], &c__1,
+                        &c_b31, &g[j * g_dim1 + 1], &c__1, 12L);
                     i__ += *m;
                     /* L120: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
-                    dgemv_("Transpose", m, &j, &c_b28, &dwork[1], m, &b[j + b_dim1], ldb, &c_b31, &g[j + g_dim1], ldg, 9L);
+                for (j = 1; j <= i__1; ++j) {
+                    dgemv_("Transpose", m, &j, &c_b28, &dwork[1], m, &b[j + b_dim1], ldb, &c_b31,
+                        &g[j + g_dim1], ldg, 9L);
                     /* L140: */
                 }
             }
         }
-        if (ljobl)
-        {
+        if (ljobl) {
             /*           Update matrices A and Q. */
             /*           Solve the system UdU'*Y = L' (or LdL'*Y = L'). */
             i__1 = *m;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 dcopy_(n, &l[j * l_dim1 + 1], &c__1, &dwork[j], m);
                 /* L160: */
             }
             dsytrs_(uplo, m, n, &r__[r_offset], ldr, &ipiv[1], &dwork[1], m, info, 1L);
             /*           A <- A - B*Y. */
-            dgemm_("No transpose", "No transpose", n, n, m, &c_b37, &b[b_offset], ldb, &dwork[1], m, &c_b28, &a[a_offset], lda, 12L, 12L);
+            dgemm_("No transpose", "No transpose", n, n, m, &c_b37, &b[b_offset], ldb, &dwork[1], m,
+                &c_b28, &a[a_offset], lda, 12L, 12L);
             /*                                            -          -1 */
             /*           Compute a triangle of the matrix Q = Q - L*R  *L' = Q - L*Y. */
-            if (luplou)
-            {
+            if (luplou) {
                 i__ = 1;
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
-                    dgemv_("No transpose", &j, m, &c_b37, &l[l_offset], ldl, &dwork[i__], &c__1, &c_b28, &q[j * q_dim1 + 1], &c__1, 12L);
+                for (j = 1; j <= i__1; ++j) {
+                    dgemv_("No transpose", &j, m, &c_b37, &l[l_offset], ldl, &dwork[i__], &c__1,
+                        &c_b28, &q[j * q_dim1 + 1], &c__1, 12L);
                     i__ += *m;
                     /* L180: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
-                    dgemv_("Transpose", m, &j, &c_b37, &dwork[1], m, &l[j + l_dim1], ldl, &c_b28, &q[j + q_dim1], ldq, 9L);
+                for (j = 1; j <= i__1; ++j) {
+                    dgemv_("Transpose", m, &j, &c_b37, &dwork[1], m, &l[j + l_dim1], ldl, &c_b28,
+                        &q[j + q_dim1], ldq, 9L);
                     /* L200: */
                 }
             }
         }
     }
-    dwork[1] = (doublereal) wrkopt;
-    if (! lfacta)
-    {
+    dwork[1] = (doublereal)wrkopt;
+    if (!lfacta) {
         dwork[2] = rcond;
     }
     /* *** Last line of SB02MT *** */
     return 0;
 } /* sb02mt_ */
-

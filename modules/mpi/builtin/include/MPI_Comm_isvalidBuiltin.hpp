@@ -22,9 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace MpiGateway {
-        ArrayOfVector MPI_Comm_isvalidBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    };
+namespace MpiGateway {
+    ArrayOfVector
+    MPI_Comm_isvalidBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 };
+}; // namespace Nelson
 //=============================================================================
-

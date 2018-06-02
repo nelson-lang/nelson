@@ -16,29 +16,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <mpi.h>
 #include "MPI_Comm_get_nameBuiltin.hpp"
 #include "Error.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "MPI_helpers.hpp"
+#include <mpi.h>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_Comm_get_nameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::MpiGateway::MPI_Comm_get_nameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int flagInit = 0;
     MPI_Initialized(&flagInit);
-    if (!flagInit)
-    {
+    if (!flagInit) {
         Error(eval, _W("MPI must be initialized."));
     }
     MPI_Comm comm = HandleToMpiComm(argIn[0]);

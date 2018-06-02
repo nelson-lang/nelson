@@ -18,29 +18,35 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsHelp_tools_exports.h"
 #include "XmlDocGenericItem.hpp"
+#include "nlsHelp_tools_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_TOOLS_IMPEXP XmlDocImageItem : public XmlDocGenericItem {
-    private:
-        std::wstring tag;
-        std::wstring srcDirectory;
-        std::wstring destDirectory;
-        std::wstring imageSource;
-        std::wstring imageDestination;
+//=============================================================================
+class NLSHELP_TOOLS_IMPEXP XmlDocImageItem : public XmlDocGenericItem
+{
+private:
+    std::wstring tag;
+    std::wstring srcDirectory;
+    std::wstring destDirectory;
+    std::wstring imageSource;
+    std::wstring imageDestination;
 
-    public:
-        XmlDocImageItem(const std::wstring &tag);
-        ~XmlDocImageItem();
-        std::wstring getItemType();
-        bool writeAsHtml(std::string &utf8stream);
-        bool writeAsMarkdown(std::string &utf8stream);
-        void setDirectories(const std::wstring &srcDirectory, const std::wstring &destDirectory);
-        void findImage();
-    };
-    //=============================================================================
-}
+public:
+    XmlDocImageItem(const std::wstring& tag);
+    ~XmlDocImageItem();
+    std::wstring
+    getItemType();
+    bool
+    writeAsHtml(std::string& utf8stream);
+    bool
+    writeAsMarkdown(std::string& utf8stream);
+    void
+    setDirectories(const std::wstring& srcDirectory, const std::wstring& destDirectory);
+    void
+    findImage();
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

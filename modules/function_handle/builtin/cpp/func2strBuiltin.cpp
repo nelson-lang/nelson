@@ -17,49 +17,41 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "func2strBuiltin.hpp"
-#include "OverloadFunction.hpp"
-#include "Error.hpp"
-#include "PathFuncManager.hpp"
 #include "BuiltInFunctionDefManager.hpp"
+#include "Error.hpp"
+#include "OverloadFunction.hpp"
+#include "PathFuncManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FunctionHandleGateway::func2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FunctionHandleGateway::func2strBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf arg1 = argIn[0];
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
-        if (arg1.isFunctionHandle())
-        {
+    if (!bSuccess) {
+        if (arg1.isFunctionHandle()) {
             function_handle fh = arg1.getContentAsFunctionHandle();
             std::wstring functionname;
             bool found = PathFuncManager::getInstance()->find(fh, functionname);
-            if (!found)
-            {
+            if (!found) {
                 found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
             }
-            if (found)
-            {
+            if (found) {
                 retval.push_back(ArrayOf::stringConstructor(functionname));
-            }
-            else
-            {
+            } else {
                 Error(eval, _W("#1 Argument must contain a valid function_handle."));
             }
-        }
-        else
-        {
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
         }
     }

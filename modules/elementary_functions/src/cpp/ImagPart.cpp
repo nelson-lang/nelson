@@ -21,77 +21,66 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf ImagPart(ArrayOf arrayIn)
-    {
-        ArrayOf res;
-        if (arrayIn.isSparse())
-        {
-            throw Exception(_W("Undefined function '")+ utf8_to_wstring(ClassName(arrayIn)) + L"_imag'");
-        }
-        switch (arrayIn.getDataClass())
-        {
-            case NLS_SCOMPLEX:
-            {
-                size_t len = arrayIn.getLength();
-                void *ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len);
-                single *rp = (single*)ptr;
-                single *sp = (single*)arrayIn.getDataPointer();
-                for (size_t i = 0; i < len; i++)
-                {
-                    rp[i] = sp[2 * i + 1];
-                }
-                res = ArrayOf(NLS_SINGLE, arrayIn.getDimensions(), rp);
-            }
-            break;
-            case NLS_DCOMPLEX:
-            {
-                size_t len = arrayIn.getLength();
-                void *ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len);
-                double *rp = (double*)ptr;
-                double *dp = (double*)arrayIn.getDataPointer();
-                for (size_t i = 0; i < len; i++)
-                {
-                    rp[i] = dp[2 * i + 1];
-                }
-                res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), rp);
-            }
-            break;
-            case NLS_HANDLE:
-            case NLS_CELL_ARRAY:
-            case NLS_STRUCT_ARRAY:
-            default:
-            {
-                throw Exception(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_imag'");
-            }
-            break;
-            case NLS_CHAR:
-            case NLS_DOUBLE:
-            case NLS_LOGICAL:
-            {
-                size_t len = arrayIn.getLength();
-                void *ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len);
-                res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), ptr);
-            }
-            break;
-            case NLS_UINT8:
-            case NLS_INT8:
-            case NLS_UINT16:
-            case NLS_INT16:
-            case NLS_UINT32:
-            case NLS_INT32:
-            case NLS_UINT64:
-            case NLS_INT64:
-            case NLS_SINGLE:
-            {
-                size_t len = arrayIn.getLength();
-                void *ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len);
-                res = ArrayOf(arrayIn.getDataClass(), arrayIn.getDimensions(), ptr);
-            }
-            break;
-        }
-        return res;
+//=============================================================================
+ArrayOf
+ImagPart(ArrayOf arrayIn)
+{
+    ArrayOf res;
+    if (arrayIn.isSparse()) {
+        throw Exception(
+            _W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_imag'");
     }
-    //=============================================================================
+    switch (arrayIn.getDataClass()) {
+    case NLS_SCOMPLEX: {
+        size_t len = arrayIn.getLength();
+        void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len);
+        single* rp = (single*)ptr;
+        single* sp = (single*)arrayIn.getDataPointer();
+        for (size_t i = 0; i < len; i++) {
+            rp[i] = sp[2 * i + 1];
+        }
+        res = ArrayOf(NLS_SINGLE, arrayIn.getDimensions(), rp);
+    } break;
+    case NLS_DCOMPLEX: {
+        size_t len = arrayIn.getLength();
+        void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len);
+        double* rp = (double*)ptr;
+        double* dp = (double*)arrayIn.getDataPointer();
+        for (size_t i = 0; i < len; i++) {
+            rp[i] = dp[2 * i + 1];
+        }
+        res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), rp);
+    } break;
+    case NLS_HANDLE:
+    case NLS_CELL_ARRAY:
+    case NLS_STRUCT_ARRAY:
+    default: {
+        throw Exception(
+            _W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_imag'");
+    } break;
+    case NLS_CHAR:
+    case NLS_DOUBLE:
+    case NLS_LOGICAL: {
+        size_t len = arrayIn.getLength();
+        void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len);
+        res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), ptr);
+    } break;
+    case NLS_UINT8:
+    case NLS_INT8:
+    case NLS_UINT16:
+    case NLS_INT16:
+    case NLS_UINT32:
+    case NLS_INT32:
+    case NLS_UINT64:
+    case NLS_INT64:
+    case NLS_SINGLE: {
+        size_t len = arrayIn.getLength();
+        void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len);
+        res = ArrayOf(arrayIn.getDataClass(), arrayIn.getDimensions(), ptr);
+    } break;
+    }
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

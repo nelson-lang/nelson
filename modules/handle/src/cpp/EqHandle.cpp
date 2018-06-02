@@ -18,79 +18,64 @@
 //=============================================================================
 #include "EqHandle.hpp"
 #include "Exception.hpp"
-#include "HandleManager.hpp"
 #include "HandleGenericObject.hpp"
+#include "HandleManager.hpp"
 #include "MatrixCheck.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf EqHandle(ArrayOf A, ArrayOf B)
-    {
-        ArrayOf res;
-        if (!A.isHandle() && !B.isHandle())
-        {
-            throw Exception(_W("handle expected."));
-        }
-        if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar()))
-        {
-            throw Exception(std::string(_("Size mismatch on arguments to arithmetic operator ")) + "eq");
-        }
-        int Astride = 0, Bstride = 0;
-        void *Cp = nullptr;
-        indexType Clen = 0;
-        Dimensions Cdim;
-        if (A.isScalar())
-        {
-            Astride = 0;
-            Bstride = 1;
-            Cdim = B.getDimensions();
-        }
-        else if (B.isScalar())
-        {
-            Astride = 1;
-            Bstride = 0;
-            Cdim = A.getDimensions();
-        }
-        else
-        {
-            Astride = 1;
-            Bstride = 1;
-            Cdim = A.getDimensions();
-        }
-        Clen = Cdim.getElementCount();
-        Cp = new_with_exception<logical>(Clen);
-        logical *C = (logical*)Cp;
-        if (A.isHandle() && B.isHandle())
-        {
-            nelson_handle *hA = (nelson_handle*)A.getDataPointer();
-            nelson_handle *hB = (nelson_handle*)B.getDataPointer();
-            if ((Astride == 1) && (Bstride == 1))
-            {
-                for (indexType i = 0; i < Clen; i++)
-                {
-                    C[i] = (hA[i] == hB[i]) ? 1 : 0;
-                }
-            }
-            else
-            {
-                if (Astride)
-                {
-                    for (indexType i = 0; i < Clen; i++)
-                    {
-                        C[i] = (hA[i] == hB[0]) ? 1 : 0;
-                    }
-                }
-                else
-                {
-                    for (indexType i = 0; i < Clen; i++)
-                    {
-                        C[i] = (hA[0] == hB[i]) ? 1 : 0;
-                    }
-                }
-            }
-        }
-        return ArrayOf(NLS_LOGICAL, Cdim, Cp);
+//=============================================================================
+ArrayOf
+EqHandle(ArrayOf A, ArrayOf B)
+{
+    ArrayOf res;
+    if (!A.isHandle() && !B.isHandle()) {
+        throw Exception(_W("handle expected."));
     }
-    //=============================================================================
+    if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar())) {
+        throw Exception(
+            std::string(_("Size mismatch on arguments to arithmetic operator ")) + "eq");
+    }
+    int Astride = 0, Bstride = 0;
+    void* Cp = nullptr;
+    indexType Clen = 0;
+    Dimensions Cdim;
+    if (A.isScalar()) {
+        Astride = 0;
+        Bstride = 1;
+        Cdim = B.getDimensions();
+    } else if (B.isScalar()) {
+        Astride = 1;
+        Bstride = 0;
+        Cdim = A.getDimensions();
+    } else {
+        Astride = 1;
+        Bstride = 1;
+        Cdim = A.getDimensions();
+    }
+    Clen = Cdim.getElementCount();
+    Cp = new_with_exception<logical>(Clen);
+    logical* C = (logical*)Cp;
+    if (A.isHandle() && B.isHandle()) {
+        nelson_handle* hA = (nelson_handle*)A.getDataPointer();
+        nelson_handle* hB = (nelson_handle*)B.getDataPointer();
+        if ((Astride == 1) && (Bstride == 1)) {
+            for (indexType i = 0; i < Clen; i++) {
+                C[i] = (hA[i] == hB[i]) ? 1 : 0;
+            }
+        } else {
+            if (Astride) {
+                for (indexType i = 0; i < Clen; i++) {
+                    C[i] = (hA[i] == hB[0]) ? 1 : 0;
+                }
+            } else {
+                for (indexType i = 0; i < Clen; i++) {
+                    C[i] = (hA[0] == hB[i]) ? 1 : 0;
+                }
+            }
+        }
+    }
+    return ArrayOf(NLS_LOGICAL, Cdim, Cp);
+}
+//=============================================================================
 }
 //=============================================================================

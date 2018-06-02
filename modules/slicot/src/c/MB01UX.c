@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,14 +12,15 @@ static integer c__1 = 1;
 static doublereal c_b31 = 1.;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int mb01ux_(side, uplo, trans, m, n, alpha, t, ldt, a, lda, dwork, ldwork, info, side_len, uplo_len, trans_len)
-char *side, *uplo, *trans;
+EXPORTSYMBOL /* Subroutine */ int mb01ux_(side, uplo, trans, m, n, alpha, t, ldt, a, lda, dwork,
+    ldwork, info, side_len, uplo_len, trans_len) char *side,
+    *uplo, *trans;
 integer *m, *n;
 doublereal *alpha, *t;
-integer *ldt;
-doublereal *a;
-integer *lda;
-doublereal *dwork;
+integer* ldt;
+doublereal* a;
+integer* lda;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen side_len;
 ftnlen uplo_len;
@@ -171,117 +172,82 @@ ftnlen trans_len;
     lside = lsame_(side, "L", 1L, 1L);
     lup = lsame_(uplo, "U", 1L, 1L);
     ltran = lsame_(trans, "T", 1L, 1L) || lsame_(trans, "C", 1L, 1L);
-    if (lside)
-    {
+    if (lside) {
         k = *m;
-    }
-    else
-    {
+    } else {
         k = *n;
     }
     wrkmin = k - 1 << 1;
-    if (! lside && ! lsame_(side, "R", 1L, 1L))
-    {
+    if (!lside && !lsame_(side, "R", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! lup && ! lsame_(uplo, "L", 1L, 1L))
-    {
+    } else if (!lup && !lsame_(uplo, "L", 1L, 1L)) {
         *info = -2;
-    }
-    else if (! ltran && ! lsame_(trans, "N", 1L, 1L))
-    {
+    } else if (!ltran && !lsame_(trans, "N", 1L, 1L)) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -5;
-    }
-    else if (*ldt < max(1,k))
-    {
+    } else if (*ldt < max(1, k)) {
         *info = -8;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -10;
-    }
-    else if (*ldwork < 0 || *alpha != 0. && min(*m,*n) > 0 && *ldwork < wrkmin)
-    {
-        dwork[1] = (doublereal) wrkmin;
+    } else if (*ldwork < 0 || *alpha != 0. && min(*m, *n) > 0 && *ldwork < wrkmin) {
+        dwork[1] = (doublereal)wrkmin;
         *info = -12;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB01UX", &i__1, 6L);
         return 0;
     }
     /*     Quick return, if possible. */
-    if (min(*m,*n) == 0)
-    {
+    if (min(*m, *n) == 0) {
         return 0;
     }
-    if (*alpha == 0.)
-    {
+    if (*alpha == 0.) {
         /*        Set A to zero and return. */
         dlaset_("Full", m, n, &c_b11, &c_b11, &a[a_offset], lda, 4L);
         return 0;
     }
     /*     Save and count off-diagonal entries of T. */
-    if (lup)
-    {
+    if (lup) {
         i__1 = k - 1;
         i__2 = *ldt + 1;
         dcopy_(&i__1, &t[t_dim1 + 2], &i__2, &dwork[1], &c__1);
-    }
-    else
-    {
+    } else {
         i__1 = k - 1;
         i__2 = *ldt + 1;
         dcopy_(&i__1, &t[(t_dim1 << 1) + 1], &i__2, &dwork[1], &c__1);
     }
     noff = 0;
     i__1 = k - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        if (dwork[i__] != 0.)
-        {
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        if (dwork[i__] != 0.) {
             ++noff;
         }
         /* L5: */
     }
     /*     Compute optimal workspace. */
-    if (lside)
-    {
-        wrkopt = noff **n + *m - 1;
-    }
-    else
-    {
-        wrkopt = noff **m + *n - 1;
+    if (lside) {
+        wrkopt = noff * *n + *m - 1;
+    } else {
+        wrkopt = noff * *m + *n - 1;
     }
     psav = k;
-    if (! ltran)
-    {
+    if (!ltran) {
         xdif = 0;
-    }
-    else
-    {
+    } else {
         xdif = 1;
     }
-    if (! lup)
-    {
+    if (!lup) {
         xdif = 1 - xdif;
     }
-    if (! lside)
-    {
+    if (!lside) {
         xdif = 1 - xdif;
     }
-    if (*ldwork >= wrkopt)
-    {
+    if (*ldwork >= wrkopt) {
         /*        Enough workspace for a fast BLAS 3 calculation. */
         /*        Save relevant parts of A in the workspace and compute one of */
         /*        the matrix products */
@@ -289,16 +255,12 @@ ftnlen trans_len;
         /*          A : = alpha*A * op( triu( T ) ), */
         /*        involving the upper/lower triangle of T. */
         pdw = psav;
-        if (lside)
-        {
+        if (lside) {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *m - 1;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
-                    if (dwork[i__] != 0.)
-                    {
+                for (i__ = 1; i__ <= i__2; ++i__) {
+                    if (dwork[i__] != 0.) {
                         dwork[pdw] = a[i__ + xdif + j * a_dim1];
                         ++pdw;
                     }
@@ -306,35 +268,28 @@ ftnlen trans_len;
                 }
                 /* L20: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
-                if (dwork[j] != 0.)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                if (dwork[j] != 0.) {
                     dcopy_(m, &a[(j + xdif) * a_dim1 + 1], &c__1, &dwork[pdw], &c__1);
                     pdw += *m;
                 }
                 /* L30: */
             }
         }
-        dtrmm_(side, uplo, trans, "Non-unit", m, n, alpha, &t[t_offset], ldt, &a[a_offset], lda, 1L, 1L, 1L, 8L);
+        dtrmm_(side, uplo, trans, "Non-unit", m, n, alpha, &t[t_offset], ldt, &a[a_offset], lda, 1L,
+            1L, 1L, 8L);
         /*        Add the contribution of the offdiagonal of T. */
         pdw = psav;
         xdif = 1 - xdif;
-        if (lside)
-        {
+        if (lside) {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *m - 1;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     temp = dwork[i__];
-                    if (temp != 0.)
-                    {
+                    if (temp != 0.) {
                         a[i__ + xdif + j * a_dim1] += *alpha * temp * dwork[pdw];
                         ++pdw;
                     }
@@ -342,83 +297,67 @@ ftnlen trans_len;
                 }
                 /* L50: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
-                temp = dwork[j] **alpha;
-                if (temp != 0.)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                temp = dwork[j] * *alpha;
+                if (temp != 0.) {
                     daxpy_(m, &temp, &dwork[pdw], &c__1, &a[(j + xdif) * a_dim1 + 1], &c__1);
                     pdw += *m;
                 }
                 /* L60: */
             }
         }
-    }
-    else
-    {
+    } else {
         /*        Use a BLAS 2 calculation. */
-        if (lside)
-        {
+        if (lside) {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 /*              Compute the contribution of the offdiagonal of T to */
                 /*              the j-th column of the product. */
                 i__2 = *m - 1;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     dwork[psav + i__ - 1] = dwork[i__] * a[i__ + xdif + j * a_dim1];
                     /* L70: */
                 }
                 /*              Multiply the triangle of T by the j-th column of A, */
                 /*              and add to the above result. */
-                dtrmv_(uplo, trans, "Non-unit", m, &t[t_offset], ldt, &a[j * a_dim1 + 1], &c__1, 1L, 1L, 8L);
+                dtrmv_(uplo, trans, "Non-unit", m, &t[t_offset], ldt, &a[j * a_dim1 + 1], &c__1, 1L,
+                    1L, 8L);
                 i__2 = *m - 1;
                 daxpy_(&i__2, &c_b31, &dwork[psav], &c__1, &a[2 - xdif + j * a_dim1], &c__1);
                 /* L80: */
             }
-        }
-        else
-        {
-            if (ltran)
-            {
-                *(unsigned char *)atran = 'N';
-            }
-            else
-            {
-                *(unsigned char *)atran = 'T';
+        } else {
+            if (ltran) {
+                *(unsigned char*)atran = 'N';
+            } else {
+                *(unsigned char*)atran = 'T';
             }
             i__1 = *m;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 /*              Compute the contribution of the offdiagonal of T to */
                 /*              the i-th row of the product. */
                 i__2 = *n - 1;
-                for (j = 1; j <= i__2; ++j)
-                {
+                for (j = 1; j <= i__2; ++j) {
                     dwork[psav + j - 1] = a[i__ + (j + xdif) * a_dim1] * dwork[j];
                     /* L90: */
                 }
                 /*              Multiply the i-th row of A by the triangle of T, */
                 /*              and add to the above result. */
-                dtrmv_(uplo, atran, "Non-unit", n, &t[t_offset], ldt, &a[i__ + a_dim1], lda, 1L, 1L, 8L);
+                dtrmv_(uplo, atran, "Non-unit", n, &t[t_offset], ldt, &a[i__ + a_dim1], lda, 1L, 1L,
+                    8L);
                 i__2 = *n - 1;
                 daxpy_(&i__2, &c_b31, &dwork[psav], &c__1, &a[i__ + (2 - xdif) * a_dim1], lda);
                 /* L100: */
             }
         }
         /*        Scale the result by alpha. */
-        if (*alpha != 1.)
-        {
+        if (*alpha != 1.) {
             dlascl_("General", &c__0, &c__0, &c_b31, alpha, m, n, &a[a_offset], lda, &ierr, 7L);
         }
     }
-    dwork[1] = (doublereal) max(wrkmin,wrkopt);
+    dwork[1] = (doublereal)max(wrkmin, wrkopt);
     return 0;
     /* *** Last line of MB01UX *** */
 } /* mb01ux_ */
-

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,39 +10,43 @@
 static doublereal c_b21 = 0.;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int ib01bd_(meth, job, jobck, nobr, n, m, l, nsmpl, r__, ldr, a, lda, c__, ldc, b, ldb, d__, ldd, q, ldq, ry, ldry, s, lds, k, ldk, tol, iwork, dwork, ldwork, bwork, iwarn, info, meth_len, job_len, jobck_len)
-char *meth, *job, *jobck;
+EXPORTSYMBOL /* Subroutine */ int ib01bd_(meth, job, jobck, nobr, n, m, l, nsmpl, r__, ldr, a, lda,
+    c__, ldc, b, ldb, d__, ldd, q, ldq, ry, ldry, s, lds, k, ldk, tol, iwork, dwork, ldwork, bwork,
+    iwarn, info, meth_len, job_len, jobck_len) char *meth,
+    *job, *jobck;
 integer *nobr, *n, *m, *l, *nsmpl;
-doublereal *r__;
-integer *ldr;
-doublereal *a;
-integer *lda;
-doublereal *c__;
-integer *ldc;
-doublereal *b;
-integer *ldb;
-doublereal *d__;
-integer *ldd;
-doublereal *q;
-integer *ldq;
-doublereal *ry;
-integer *ldry;
-doublereal *s;
-integer *lds;
-doublereal *k;
-integer *ldk;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
-integer *ldwork;
-logical *bwork;
+doublereal* r__;
+integer* ldr;
+doublereal* a;
+integer* lda;
+doublereal* c__;
+integer* ldc;
+doublereal* b;
+integer* ldb;
+doublereal* d__;
+integer* ldd;
+doublereal* q;
+integer* ldq;
+doublereal* ry;
+integer* ldry;
+doublereal* s;
+integer* lds;
+doublereal* k;
+integer* ldk;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
+integer* ldwork;
+logical* bwork;
 integer *iwarn, *info;
 ftnlen meth_len;
 ftnlen job_len;
 ftnlen jobck_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, k_dim1, k_offset, q_dim1, q_offset, r_dim1, r_offset, ry_dim1, ry_offset, s_dim1, s_offset, i__1, i__2, i__3, i__4, i__5;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, k_dim1,
+        k_offset, q_dim1, q_offset, r_dim1, r_offset, ry_dim1, ry_offset, s_dim1, s_offset, i__1,
+        i__2, i__3, i__4, i__5;
     /* Local variables */
     static doublereal rcnd[8], ferr;
     static integer ierr;
@@ -487,265 +491,204 @@ ftnlen jobck_len;
     withb = lsame_(job, "B", 1L, 1L) || withd;
     withk = lsame_(jobck, "K", 1L, 1L);
     withco = lsame_(jobck, "C", 1L, 1L) || withk;
-    mnobr = *m **nobr;
-    lnobr = *l **nobr;
+    mnobr = *m * *nobr;
+    lnobr = *l * *nobr;
     lmnobr = lnobr + mnobr;
     mnobrn = mnobr + *n;
-    ldunn = (lnobr - *l) **n;
+    ldunn = (lnobr - *l) * *n;
     lmmnol = lnobr + (mnobr << 1) + *l;
     nr = lmnobr + lmnobr;
     npl = *n + *l;
     n2 = *n + *n;
-    nn = *n **n;
-    nl = *n **l;
-    ll = *l **l;
+    nn = *n * *n;
+    nl = *n * *l;
+    ll = *l * *l;
     minwrk = 1;
     *iwarn = 0;
     *info = 0;
     /*     Check the scalar input parameters. */
-    if (! (moesp || n4sid || combin))
-    {
+    if (!(moesp || n4sid || combin)) {
         *info = -1;
-    }
-    else if (! (withb || withc))
-    {
+    } else if (!(withb || withc)) {
         *info = -2;
-    }
-    else if (! (withco || lsame_(jobck, "N", 1L, 1L)))
-    {
+    } else if (!(withco || lsame_(jobck, "N", 1L, 1L))) {
         *info = -3;
-    }
-    else if (*nobr <= 1)
-    {
+    } else if (*nobr <= 1) {
         *info = -4;
-    }
-    else if (*n <= 0 || *n >= *nobr)
-    {
+    } else if (*n <= 0 || *n >= *nobr) {
         *info = -5;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -6;
-    }
-    else if (*l <= 0)
-    {
+    } else if (*l <= 0) {
         *info = -7;
-    }
-    else if (withco && *nsmpl < nr)
-    {
+    } else if (withco && *nsmpl < nr) {
         *info = -8;
-    }
-    else if (*ldr < nr)
-    {
+    } else if (*ldr < nr) {
         *info = -10;
-    }
-    else if (*lda < 1 || (withc || withb && ! moesp) && *lda < *n)
-    {
+    } else if (*lda < 1 || (withc || withb && !moesp) && *lda < *n) {
         *info = -12;
-    }
-    else if (*ldc < 1 || (withc || withb && ! moesp) && *ldc < *l)
-    {
+    } else if (*ldc < 1 || (withc || withb && !moesp) && *ldc < *l) {
         *info = -14;
-    }
-    else if (*ldb < 1 || withb && *ldb < *n && *m > 0)
-    {
+    } else if (*ldb < 1 || withb && *ldb<*n&& * m> 0) {
         *info = -16;
-    }
-    else if (*ldd < 1 || withd && *ldd < *l && *m > 0)
-    {
+    } else if (*ldd < 1 || withd && *ldd<*l&& * m> 0) {
         *info = -18;
-    }
-    else if (*ldq < 1 || withco && *ldq < *n)
-    {
+    } else if (*ldq < 1 || withco && *ldq < *n) {
         *info = -20;
-    }
-    else if (*ldry < 1 || withco && *ldry < *l)
-    {
+    } else if (*ldry < 1 || withco && *ldry < *l) {
         *info = -22;
-    }
-    else if (*lds < 1 || withco && *lds < *n)
-    {
+    } else if (*lds < 1 || withco && *lds < *n) {
         *info = -24;
-    }
-    else if (*ldk < 1 || withk && *ldk < *n)
-    {
+    } else if (*ldk < 1 || withk && *ldk < *n) {
         *info = -26;
-    }
-    else
-    {
+    } else {
         /*        Compute workspace. */
         /*        (Note: Comments in the code beginning "Workspace:" describe the */
         /*         minimal amount of workspace needed at that point in the code, */
         /*         as well as the preferred amount for good performance.) */
         iaw = 0;
         minwrk = ldunn + (*n << 2);
-        if (! n4sid)
-        {
+        if (!n4sid) {
             id = 0;
-            if (withc)
-            {
+            if (withc) {
                 /* Computing MAX */
-                i__1 = minwrk, i__2 = (ldunn << 1) + n2, i__1 = max(i__1,i__2), i__2 = ldunn + nn + *n * 7;
-                minwrk = max(i__1,i__2);
+                i__1 = minwrk, i__2 = (ldunn << 1) + n2, i__1 = max(i__1, i__2),
+                i__2 = ldunn + nn + *n * 7;
+                minwrk = max(i__1, i__2);
             }
-        }
-        else
-        {
+        } else {
             id = *n;
         }
-        if (*m > 0 && withb || ! moesp)
-        {
+        if (*m > 0 && withb || !moesp) {
             /* Computing MAX */
             i__1 = minwrk, i__2 = (ldunn << 1) + nn + id + *n * 7;
-            minwrk = max(i__1,i__2);
-            if (moesp)
-            {
+            minwrk = max(i__1, i__2);
+            if (moesp) {
                 /* Computing MAX */
                 /* Computing MAX */
                 /* Computing MAX */
                 i__5 = lnobr * 3 + 1;
-                i__3 = *l + mnobr, i__4 = lnobr + max(i__5,*m);
-                i__1 = minwrk, i__2 = ldunn + *n + mnobr * 6, i__1 = max(i__1,i__2), i__2 = ldunn + *n + max(i__3,i__4);
-                minwrk = max(i__1,i__2);
+                i__3 = *l + mnobr, i__4 = lnobr + max(i__5, *m);
+                i__1 = minwrk, i__2 = ldunn + *n + mnobr * 6, i__1 = max(i__1, i__2),
+                i__2 = ldunn + *n + max(i__3, i__4);
+                minwrk = max(i__1, i__2);
             }
-        }
-        else
-        {
-            if (! n4sid)
-            {
+        } else {
+            if (!n4sid) {
                 iaw = *n + nn;
             }
         }
-        if (! moesp || withco)
-        {
+        if (!moesp || withco) {
             /* Computing MAX */
             /* Computing MAX */
             i__3 = *n * 5;
-            i__1 = minwrk, i__2 = ldunn + iaw + n2 + max(i__3,lmmnol), i__1 = max(i__1,i__2), i__2 = id + (mnobrn << 2) + 1, i__1 = max(i__1,i__2), i__2 = id + mnobrn + npl;
-            minwrk = max(i__1,i__2);
-            if (! moesp && *m > 0 && withb)
-            {
+            i__1 = minwrk, i__2 = ldunn + iaw + n2 + max(i__3, lmmnol), i__1 = max(i__1, i__2),
+            i__2 = id + (mnobrn << 2) + 1, i__1 = max(i__1, i__2), i__2 = id + mnobrn + npl;
+            minwrk = max(i__1, i__2);
+            if (!moesp && *m > 0 && withb) {
                 /* Computing MAX */
                 /* Computing MAX */
                 /* Computing 2nd power */
                 i__5 = npl;
                 i__3 = i__5 * i__5, i__4 = (*m << 2) * npl + 1;
-                i__1 = minwrk, i__2 = mnobr * npl * (*m * npl + 1) + max(i__3,i__4);
-                minwrk = max(i__1,i__2);
+                i__1 = minwrk, i__2 = mnobr * npl * (*m * npl + 1) + max(i__3, i__4);
+                minwrk = max(i__1, i__2);
             }
-            minwrk = lnobr **n + minwrk;
+            minwrk = lnobr * *n + minwrk;
         }
-        if (withk)
-        {
+        if (withk) {
             /* Computing MAX */
             /* Computing MAX */
             i__3 = *l * 3;
-            i__1 = minwrk, i__2 = (nn << 2) + (nl << 1) + ll + max(i__3,nl), i__1 = max(i__1,i__2), i__2 = nn * 14 + *n * 12 + 5;
-            minwrk = max(i__1,i__2);
+            i__1 = minwrk, i__2 = (nn << 2) + (nl << 1) + ll + max(i__3, nl),
+            i__1 = max(i__1, i__2), i__2 = nn * 14 + *n * 12 + 5;
+            minwrk = max(i__1, i__2);
         }
-        if (*ldwork < minwrk)
-        {
+        if (*ldwork < minwrk) {
             *info = -30;
-            dwork[1] = (doublereal) minwrk;
+            dwork[1] = (doublereal)minwrk;
         }
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("IB01BD", &i__1, 6L);
         return 0;
     }
-    if (! withk)
-    {
-        *(unsigned char *)jobcv = *(unsigned char *)jobck;
-    }
-    else
-    {
-        *(unsigned char *)jobcv = 'C';
+    if (!withk) {
+        *(unsigned char*)jobcv = *(unsigned char*)jobck;
+    } else {
+        *(unsigned char*)jobcv = 'C';
     }
     io = 1;
-    if (! moesp || withco)
-    {
-        jwork = io + lnobr **n;
-    }
-    else
-    {
+    if (!moesp || withco) {
+        jwork = io + lnobr * *n;
+    } else {
         jwork = io;
     }
     maxwrk = minwrk;
     /*     Call the computational routine for estimating system matrices. */
-    if (! combin)
-    {
+    if (!combin) {
         i__1 = *ldwork - jwork + 1;
-        ib01pd_(meth, job, jobcv, nobr, n, m, l, nsmpl, &r__[r_offset], ldr, &a[a_offset], lda, &c__[c_offset], ldc, &b[b_offset], ldb, &d__[d_offset], ldd, &q[q_offset], ldq, &ry[ry_offset], ldry, &s[s_offset], lds, &dwork[io], &lnobr, tol, &iwork[1], &dwork[jwork], &i__1, iwarn, info, 1L, 1L, 1L);
-    }
-    else
-    {
-        if (withc)
-        {
-            if (withal)
-            {
-                *(unsigned char *)jobcov = 'N';
-            }
-            else
-            {
-                *(unsigned char *)jobcov = *(unsigned char *)jobcv;
+        ib01pd_(meth, job, jobcv, nobr, n, m, l, nsmpl, &r__[r_offset], ldr, &a[a_offset], lda,
+            &c__[c_offset], ldc, &b[b_offset], ldb, &d__[d_offset], ldd, &q[q_offset], ldq,
+            &ry[ry_offset], ldry, &s[s_offset], lds, &dwork[io], &lnobr, tol, &iwork[1],
+            &dwork[jwork], &i__1, iwarn, info, 1L, 1L, 1L);
+    } else {
+        if (withc) {
+            if (withal) {
+                *(unsigned char*)jobcov = 'N';
+            } else {
+                *(unsigned char*)jobcov = *(unsigned char*)jobcv;
             }
             i__1 = *ldwork - jwork + 1;
-            ib01pd_("MOESP", "C and A", jobcov, nobr, n, m, l, nsmpl, &r__[r_offset], ldr, &a[a_offset], lda, &c__[c_offset], ldc, &b[b_offset], ldb, &d__[d_offset], ldd, &q[q_offset], ldq, &ry[ry_offset], ldry, &s[s_offset], lds, &dwork[io], &lnobr, tol, &iwork[1], &dwork[jwork], &i__1, &iwarnl, info, 5L, 7L, 1L);
-            if (*info != 0)
-            {
+            ib01pd_("MOESP", "C and A", jobcov, nobr, n, m, l, nsmpl, &r__[r_offset], ldr,
+                &a[a_offset], lda, &c__[c_offset], ldc, &b[b_offset], ldb, &d__[d_offset], ldd,
+                &q[q_offset], ldq, &ry[ry_offset], ldry, &s[s_offset], lds, &dwork[io], &lnobr, tol,
+                &iwork[1], &dwork[jwork], &i__1, &iwarnl, info, 5L, 7L, 1L);
+            if (*info != 0) {
                 return 0;
             }
-            *iwarn = max(*iwarn,iwarnl);
+            *iwarn = max(*iwarn, iwarnl);
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-            maxwrk = max(i__1,i__2);
+            i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+            maxwrk = max(i__1, i__2);
         }
-        if (withb)
-        {
-            if (! withal)
-            {
-                *(unsigned char *)jobbd = *(unsigned char *)job;
-            }
-            else
-            {
-                *(unsigned char *)jobbd = 'D';
+        if (withb) {
+            if (!withal) {
+                *(unsigned char*)jobbd = *(unsigned char*)job;
+            } else {
+                *(unsigned char*)jobbd = 'D';
             }
             i__1 = *ldwork - jwork + 1;
-            ib01pd_("N4SID", jobbd, jobcv, nobr, n, m, l, nsmpl, &r__[r_offset], ldr, &a[a_offset], lda, &c__[c_offset], ldc, &b[b_offset], ldb, &d__[d_offset], ldd, &q[q_offset], ldq, &ry[ry_offset], ldry, &s[s_offset], lds, &dwork[io], &lnobr, tol, &iwork[1], &dwork[jwork], &i__1, &iwarnl, info, 5L, 1L, 1L);
-            *iwarn = max(*iwarn,iwarnl);
+            ib01pd_("N4SID", jobbd, jobcv, nobr, n, m, l, nsmpl, &r__[r_offset], ldr, &a[a_offset],
+                lda, &c__[c_offset], ldc, &b[b_offset], ldb, &d__[d_offset], ldd, &q[q_offset], ldq,
+                &ry[ry_offset], ldry, &s[s_offset], lds, &dwork[io], &lnobr, tol, &iwork[1],
+                &dwork[jwork], &i__1, &iwarnl, info, 5L, 1L, 1L);
+            *iwarn = max(*iwarn, iwarnl);
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         return 0;
     }
     /* Computing MAX */
-    i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-    maxwrk = max(i__1,i__2);
-    for (i__ = 1; i__ <= 4; ++i__)
-    {
+    i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+    maxwrk = max(i__1, i__2);
+    for (i__ = 1; i__ <= 4; ++i__) {
         rcnd[i__ - 1] = dwork[jwork + i__];
         /* L10: */
     }
-    if (withk)
-    {
-        if (*iwarn == 5)
-        {
+    if (withk) {
+        if (*iwarn == 5) {
             /*           The problem seems to be a deterministic one. Set the Kalman */
             /*           gain to zero, set accuracy parameters and return. */
             dlaset_("Full", n, l, &c_b21, &c_b21, &k[k_offset], ldk, 4L);
-            for (i__ = 6; i__ <= 12; ++i__)
-            {
+            for (i__ = 6; i__ <= 12; ++i__) {
                 dwork[i__] = 1.;
                 /* L20: */
             }
             dwork[13] = 0.;
-        }
-        else
-        {
+        } else {
             /*           Compute the Kalman gain matrix. */
             /*           Convert the optimal problem with coupling weighting terms */
             /*           to a standard problem. */
@@ -765,15 +708,16 @@ ftnlen jobck_len;
             dlacpy_("Upper", l, l, &ry[ry_offset], ldry, &dwork[ir], l, 5L);
             dlacpy_("Full", n, l, &s[s_offset], lds, &dwork[is], n, 4L);
             i__1 = *ldwork - jwork + 1;
-            sb02mt_("G needed", "Nonzero S", "Not factored", "Upper", n, l, &dwork[ia], n, &dwork[ic], n, &dwork[iq], n, &dwork[ir], l, &dwork[is], n, &iwork[1], &ifact, &dwork[ig], n, &iwork[*l + 1], &dwork[jwork], &i__1, &ierr, 8L, 9L, 12L, 5L);
-            if (ierr != 0)
-            {
+            sb02mt_("G needed", "Nonzero S", "Not factored", "Upper", n, l, &dwork[ia], n,
+                &dwork[ic], n, &dwork[iq], n, &dwork[ir], l, &dwork[is], n, &iwork[1], &ifact,
+                &dwork[ig], n, &iwork[*l + 1], &dwork[jwork], &i__1, &ierr, 8L, 9L, 12L, 5L);
+            if (ierr != 0) {
                 *info = 3;
                 return 0;
             }
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-            maxwrk = max(i__1,i__2);
+            i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+            maxwrk = max(i__1, i__2);
             rcondr = dwork[jwork + 1];
             /*           Solve the Riccati equation. */
             /*           Workspace:  need   14*N*N+12*N+5; */
@@ -785,17 +729,19 @@ ftnlen jobck_len;
             is = iwi + n2;
             jwork = is + n2 * n2;
             i__1 = *ldwork - jwork + 1;
-            sb02rd_("All", "Discrete", "Direct", "NoTranspose", "Upper", "General scaling", "Unstable first", "Not factored", "Reduced", n, &dwork[ia], n, &dwork[it], n, &dwork[iv], n, &dwork[ig], n, &dwork[iq], n, &dwork[ix], n, &sep, &rcond, &ferr, &dwork[iwr], &dwork[iwi], &dwork[is], &n2, &iwork[1], &dwork[jwork], &i__1, &bwork[1], &ierr, 3L, 8L, 6L, 11L, 5L, 15L, 14L, 12L, 7L);
-            if (ierr != 0 && ierr < 7)
-            {
+            sb02rd_("All", "Discrete", "Direct", "NoTranspose", "Upper", "General scaling",
+                "Unstable first", "Not factored", "Reduced", n, &dwork[ia], n, &dwork[it], n,
+                &dwork[iv], n, &dwork[ig], n, &dwork[iq], n, &dwork[ix], n, &sep, &rcond, &ferr,
+                &dwork[iwr], &dwork[iwi], &dwork[is], &n2, &iwork[1], &dwork[jwork], &i__1,
+                &bwork[1], &ierr, 3L, 8L, 6L, 11L, 5L, 15L, 14L, 12L, 7L);
+            if (ierr != 0 && ierr < 7) {
                 *info = ierr + 3;
                 return 0;
             }
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-            maxwrk = max(i__1,i__2);
-            for (i__ = 1; i__ <= 4; ++i__)
-            {
+            i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+            maxwrk = max(i__1, i__2);
+            for (i__ = 1; i__ <= 4; ++i__) {
                 rcnd[i__ + 3] = dwork[jwork + i__];
                 /* L30: */
             }
@@ -811,27 +757,25 @@ ftnlen jobck_len;
             ma02ad_("Full", l, n, &c__[c_offset], ldc, &dwork[ic], n, 4L);
             dlacpy_("Upper", l, l, &ry[ry_offset], ldry, &dwork[ir], l, 5L);
             i__1 = *ldwork - jwork + 1;
-            sb02nd_("Discrete", "NotFactored", "Upper", "Nonzero S", n, l, &c__0, &dwork[ia], n, &dwork[ic], n, &dwork[ir], l, &iwork[1], &s[s_offset], lds, &dwork[ix], n, &rnorm, &dwork[ik], l, oufact, &iwork[*l + 1], &dwork[jwork], &i__1, &ierr, 8L, 11L, 5L, 9L);
-            if (ierr != 0)
-            {
-                if (ierr <= *l + 1)
-                {
+            sb02nd_("Discrete", "NotFactored", "Upper", "Nonzero S", n, l, &c__0, &dwork[ia], n,
+                &dwork[ic], n, &dwork[ir], l, &iwork[1], &s[s_offset], lds, &dwork[ix], n, &rnorm,
+                &dwork[ik], l, oufact, &iwork[*l + 1], &dwork[jwork], &i__1, &ierr, 8L, 11L, 5L,
+                9L);
+            if (ierr != 0) {
+                if (ierr <= *l + 1) {
                     *info = 3;
-                }
-                else if (ierr == *l + 2)
-                {
+                } else if (ierr == *l + 2) {
                     *info = 10;
                 }
                 return 0;
             }
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-            maxwrk = max(i__1,i__2);
+            i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+            maxwrk = max(i__1, i__2);
             ma02ad_("Full", l, n, &dwork[ik], l, &k[k_offset], ldk, 4L);
             /*           Set the accuracy parameters. */
             dwork[11] = dwork[jwork + 1];
-            for (i__ = 6; i__ <= 9; ++i__)
-            {
+            for (i__ = 6; i__ <= 9; ++i__) {
                 dwork[i__] = rcnd[i__ - 2];
                 /* L40: */
             }
@@ -842,13 +786,11 @@ ftnlen jobck_len;
     }
     /*     Return optimal workspace in  DWORK(1)  and the remaining */
     /*     reciprocal condition numbers in the next locations. */
-    dwork[1] = (doublereal) maxwrk;
-    for (i__ = 2; i__ <= 5; ++i__)
-    {
+    dwork[1] = (doublereal)maxwrk;
+    for (i__ = 2; i__ <= 5; ++i__) {
         dwork[i__] = rcnd[i__ - 2];
         /* L50: */
     }
     return 0;
     /* *** Last line of IB01BD *** */
 } /* ib01bd_ */
-

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,10 +10,9 @@
 static integer c__1 = 1;
 static integer c__3 = 3;
 
-EXPORTSYMBOL /* Subroutine */ int ib01oy_(ns, nmax, n, sv, info)
-integer *ns, *nmax, *n;
-doublereal *sv;
-integer *info;
+EXPORTSYMBOL /* Subroutine */ int ib01oy_(ns, nmax, n, sv, info) integer *ns, *nmax, *n;
+doublereal* sv;
+integer* info;
 {
     /* System generated locals */
     integer i__1;
@@ -26,17 +25,29 @@ integer *info;
     static char ans[1];
     static logical yes;
     /* Fortran I/O blocks */
-    static cilist io___1 = { 0, 6, 0, "(/' Singular values (in descending order) used',                  ' to estimate the system order:', //                               (5D15.8) )", 0 };
+    static cilist io___1 = { 0, 6, 0,
+        "(/' Singular values (in descending order) used',                  ' to estimate the "
+        "system order:', //                               (5D15.8) )",
+        0 };
     static cilist io___3 = { 0, 6, 0, "(/' Estimated order of the system,  n = ', I5 )", 0 };
-    static cilist io___4 = { 0, 6, 0, "(/' Do you want this value of  n  to be used',                    ' to determine the system matrices?' )", 0 };
+    static cilist io___4 = { 0, 6, 0,
+        "(/' Do you want this value of  n  to be used',                    ' to determine the "
+        "system matrices?' )",
+        0 };
     static cilist io___5 = { 0, 6, 0, "(/'  Type \"yes\" or \"no\":  ' )", 0 };
     static cilist io___6 = { 0, 5, 0, "( A )", 0 };
-    static cilist io___9 = { 0, 6, 0, "(/' n  should be less than or equal',                             ' to ', I5 )", 0 };
-    static cilist io___10 = { 0, 6, 0, "( ' (It may be useful to restart',                                ' with a larger tolerance.)' )", 0 };
-    static cilist io___11 = { 0, 6, 0, "(/' Enter the desired value of n (n <= ', I5,                     ');  n = ' )", 0 };
+    static cilist io___9 = { 0, 6, 0,
+        "(/' n  should be less than or equal',                             ' to ', I5 )", 0 };
+    static cilist io___10 = { 0, 6, 0,
+        "( ' (It may be useful to restart',                                ' with a larger "
+        "tolerance.)' )",
+        0 };
+    static cilist io___11 = { 0, 6, 0,
+        "(/' Enter the desired value of n (n <= ', I5,                     ');  n = ' )", 0 };
     static cilist io___12 = { 0, 5, 0, 0, 0 };
     static cilist io___13 = { 0, 6, 0, "(/' n  should be larger than zero.' )", 0 };
-    static cilist io___14 = { 0, 6, 0, "(/' n  should be less than or equal to ',                    I5 )", 0 };
+    static cilist io___14
+        = { 0, 6, 0, "(/' n  should be less than or equal to ',                    I5 )", 0 };
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */
@@ -102,33 +113,26 @@ integer *info;
     --sv;
     /* Function Body */
     *info = 0;
-    if (*ns <= 0)
-    {
+    if (*ns <= 0) {
         *info = -1;
-    }
-    else if (*nmax < 0 || *nmax > *ns)
-    {
+    } else if (*nmax < 0 || *nmax > *ns) {
         *info = -2;
-    }
-    else if (*n < 0 || *n > *ns)
-    {
+    } else if (*n < 0 || *n > *ns) {
         *info = -3;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("IB01OY", &i__1, 6L);
         return 0;
     }
     s_wsfe(&io___1);
     i__1 = *ns;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        do_fio(&c__1, (char *)&sv[i__], (ftnlen)sizeof(doublereal));
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        do_fio(&c__1, (char*)&sv[i__], (ftnlen)sizeof(doublereal));
     }
     e_wsfe();
     s_wsfe(&io___3);
-    do_fio(&c__1, (char *)&(*n), (ftnlen)sizeof(integer));
+    do_fio(&c__1, (char*)&(*n), (ftnlen)sizeof(integer));
     e_wsfe();
     s_wsfe(&io___4);
     e_wsfe();
@@ -139,57 +143,45 @@ L10:
     do_fio(&c__1, ans, 1L);
     e_rsfe();
     yes = lsame_(ans, "Y", 1L, 1L);
-    if (yes)
-    {
-        if (*n <= *nmax)
-        {
+    if (yes) {
+        if (*n <= *nmax) {
             /*              The value of n is adequate and has been confirmed. */
             return 0;
-        }
-        else
-        {
+        } else {
             /*              The estimated value of n is not acceptable. */
             s_wsfe(&io___9);
-            do_fio(&c__1, (char *)&(*nmax), (ftnlen)sizeof(integer));
+            do_fio(&c__1, (char*)&(*nmax), (ftnlen)sizeof(integer));
             e_wsfe();
             s_wsfe(&io___10);
             e_wsfe();
             goto L20;
         }
-    }
-    else if (lsame_(ans, "N", 1L, 1L))
-    {
+    } else if (lsame_(ans, "N", 1L, 1L)) {
         goto L20;
-    }
-    else
-    {
+    } else {
         /*           Wrong answer should be re-entered. */
         goto L10;
     }
     /*     Enter the desired value of n. */
 L20:
     s_wsfe(&io___11);
-    do_fio(&c__1, (char *)&(*nmax), (ftnlen)sizeof(integer));
+    do_fio(&c__1, (char*)&(*nmax), (ftnlen)sizeof(integer));
     e_wsfe();
     s_rsle(&io___12);
-    do_lio(&c__3, &c__1, (char *)&(*n), (ftnlen)sizeof(integer));
+    do_lio(&c__3, &c__1, (char*)&(*n), (ftnlen)sizeof(integer));
     e_rsle();
-    if (*n < 0)
-    {
+    if (*n < 0) {
         /*           The specified value of n is not acceptable. */
         s_wsfe(&io___13);
         e_wsfe();
         goto L20;
-    }
-    else if (*n > *nmax)
-    {
+    } else if (*n > *nmax) {
         /*           The specified value of n is not acceptable. */
         s_wsfe(&io___14);
-        do_fio(&c__1, (char *)&(*nmax), (ftnlen)sizeof(integer));
+        do_fio(&c__1, (char*)&(*nmax), (ftnlen)sizeof(integer));
         e_wsfe();
         goto L20;
     }
     return 0;
     /* *** Last line of IB01OY *** */
 } /* ib01oy_ */
-

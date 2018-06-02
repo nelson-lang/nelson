@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,27 +13,29 @@ static integer c__1 = 1;
 static doublereal c_b26 = -1.;
 static doublereal c_b27 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int tc04ad_(leri, m, p, index, pcoeff, ldpco1, ldpco2, qcoeff, ldqco1, ldqco2, n, rcond, a, lda, b, ldb, c__, ldc, d__, ldd, iwork, dwork, ldwork, info, leri_len)
-char *leri;
+EXPORTSYMBOL /* Subroutine */ int tc04ad_(leri, m, p, index, pcoeff, ldpco1, ldpco2, qcoeff, ldqco1,
+    ldqco2, n, rcond, a, lda, b, ldb, c__, ldc, d__, ldd, iwork, dwork, ldwork, info,
+    leri_len) char* leri;
 integer *m, *p, *index;
-doublereal *pcoeff;
+doublereal* pcoeff;
 integer *ldpco1, *ldpco2;
-doublereal *qcoeff;
+doublereal* qcoeff;
 integer *ldqco1, *ldqco2, *n;
 doublereal *rcond, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ldd, *iwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen leri_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, pcoeff_dim1, pcoeff_dim2, pcoeff_offset, qcoeff_dim1, qcoeff_dim2, qcoeff_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, pcoeff_dim1,
+        pcoeff_dim2, pcoeff_offset, qcoeff_dim1, qcoeff_dim2, qcoeff_offset, i__1, i__2, i__3;
     /* Local variables */
     static integer i__, j, k;
     extern /* Subroutine */ int ab07md_();
@@ -257,110 +259,80 @@ ftnlen leri_len;
     /* Function Body */
     *info = 0;
     lleri = lsame_(leri, "L", 1L, 1L);
-    mindex = max(*m,*p);
+    mindex = max(*m, *p);
     /*     Test the input scalar arguments. */
-    if (! lleri && ! lsame_(leri, "R", 1L, 1L))
-    {
+    if (!lleri && !lsame_(leri, "R", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -3;
-    }
-    else if (lleri && *ldpco1 < max(1,*p) || ! lleri && *ldpco1 < max(1,*m))
-    {
+    } else if (lleri && *ldpco1 < max(1, *p) || !lleri && *ldpco1 < max(1, *m)) {
         *info = -6;
-    }
-    else if (lleri && *ldpco2 < max(1,*p) || ! lleri && *ldpco2 < max(1,*m))
-    {
+    } else if (lleri && *ldpco2 < max(1, *p) || !lleri && *ldpco2 < max(1, *m)) {
         *info = -7;
-    }
-    else if (lleri && *ldqco1 < max(1,*p) || ! lleri && *ldqco1 < max(1,mindex))
-    {
+    } else if (lleri && *ldqco1 < max(1, *p) || !lleri && *ldqco1 < max(1, mindex)) {
         *info = -9;
-    }
-    else if (lleri && *ldqco2 < max(1,*m) || ! lleri && *ldqco2 < max(1,mindex))
-    {
+    } else if (lleri && *ldqco2 < max(1, *m) || !lleri && *ldqco2 < max(1, mindex)) {
         *info = -10;
     }
     *n = 0;
-    if (*info == 0)
-    {
-        if (lleri)
-        {
+    if (*info == 0) {
+        if (lleri) {
             pwork = *p;
             mwork = *m;
-        }
-        else
-        {
+        } else {
             pwork = *m;
             mwork = *p;
         }
         maxind = 0;
         i__1 = pwork;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             *n += index[i__];
-            if (index[i__] > maxind)
-            {
+            if (index[i__] > maxind) {
                 maxind = index[i__];
             }
             /* L10: */
         }
         kpcoef = maxind + 1;
     }
-    if (*lda < max(1,*n))
-    {
+    if (*lda < max(1, *n)) {
         *info = -14;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -16;
-    }
-    else if (*ldc < max(1,mindex))
-    {
+    } else if (*ldc < max(1, mindex)) {
         *info = -18;
-    }
-    else if (*ldd < max(1,mindex))
-    {
+    } else if (*ldd < max(1, mindex)) {
         *info = -20;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = mindex * (mindex + 4);
-        if (*ldwork < max(i__1,i__2))
-        {
+        if (*ldwork < max(i__1, i__2)) {
             *info = -23;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TC04AD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*m == 0 || *p == 0)
-    {
+    if (*m == 0 || *p == 0) {
         *n = 0;
         *rcond = 1.;
         dwork[1] = 1.;
         return 0;
     }
-    if (! lleri)
-    {
+    if (!lleri) {
         /*        Initialization for right matrix fraction: obtain the dual */
         /*        system. */
-        tc01od_("R", m, p, &kpcoef, &pcoeff[pcoeff_offset], ldpco1, ldpco2, &qcoeff[qcoeff_offset], ldqco1, ldqco2, info, 1L);
+        tc01od_("R", m, p, &kpcoef, &pcoeff[pcoeff_offset], ldpco1, ldpco2, &qcoeff[qcoeff_offset],
+            ldqco1, ldqco2, info, 1L);
     }
     /*     Store leading row coefficient matrix of P(s). */
-    ldw = max(1,pwork);
+    ldw = max(1, pwork);
     dlacpy_("Full", &pwork, &pwork, &pcoeff[pcoeff_offset], ldpco1, &dwork[1], &ldw, 4L);
     /*     Check if P(s) is row proper: if not, exit. */
     dwnorm = dlange_("1-norm", &pwork, &pwork, &dwork[1], &ldw, &dwork[1], 6L);
@@ -372,24 +344,21 @@ ftnlen leri_len;
     /*     NB refers to the optimal block size for the immediately */
     /*     following subroutine, as returned by ILAENV.) */
     jwork = ldw * pwork + 1;
-    dgecon_("1-norm", &pwork, &dwork[1], &ldw, &dwnorm, rcond, &dwork[jwork], &iwork[pwork + 1], info, 6L);
+    dgecon_("1-norm", &pwork, &dwork[1], &ldw, &dwnorm, rcond, &dwork[jwork], &iwork[pwork + 1],
+        info, 6L);
     /* Computing MAX */
     i__1 = 1, i__2 = pwork * (pwork + 4);
-    wrkopt = max(i__1,i__2);
-    if (*rcond <= dlamch_("Epsilon", 7L))
-    {
+    wrkopt = max(i__1, i__2);
+    if (*rcond <= dlamch_("Epsilon", 7L)) {
         /*        Error return: P(s) is not row proper. */
         *info = 1;
         return 0;
-    }
-    else
-    {
+    } else {
         /*        Calculate the order of equivalent state-space representation, */
         /*        and initialize A. */
         dlaset_("Full", n, n, &c_b12, &c_b12, &a[a_offset], lda, 4L);
         dwork[jwork] = 1.;
-        if (*n > 1)
-        {
+        if (*n > 1) {
             i__1 = *n - 1;
             i__2 = *lda + 1;
             dcopy_(&i__1, &dwork[jwork], &c__0, &a[a_dim1 + 2], &i__2);
@@ -398,31 +367,26 @@ ftnlen leri_len;
         /*        in PWORK row blocks, the I-th having INDEX(I) rows. */
         ibias = 2;
         i__1 = pwork;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             kstop = index[i__] + 1;
-            if (kstop != 1)
-            {
+            if (kstop != 1) {
                 ibias += index[i__];
                 /*              These rows given from the lower coefficients of row I */
                 /*              of P(s). */
                 i__2 = kstop;
-                for (k = 2; k <= i__2; ++k)
-                {
+                for (k = 2; k <= i__2; ++k) {
                     ia = ibias - k;
                     i__3 = pwork;
-                    for (j = 1; j <= i__3; ++j)
-                    {
+                    for (j = 1; j <= i__3; ++j) {
                         dwork[jwork + j - 1] = -pcoeff[i__ + (j + k * pcoeff_dim2) * pcoeff_dim1];
                         /* L20: */
                     }
-                    dgetrs_("Transpose", &pwork, &c__1, &dwork[1], &ldw, &iwork[1], &dwork[jwork], &ldw, info, 9L);
+                    dgetrs_("Transpose", &pwork, &c__1, &dwork[1], &ldw, &iwork[1], &dwork[jwork],
+                        &ldw, info, 9L);
                     ja = 0;
                     i__3 = pwork;
-                    for (j = 1; j <= i__3; ++j)
-                    {
-                        if (index[j] != 0)
-                        {
+                    for (j = 1; j <= i__3; ++j) {
+                        if (index[j] != 0) {
                             ja += index[j];
                             a[ia + ja * a_dim1] = dwork[jwork + j - 1];
                         }
@@ -430,8 +394,10 @@ ftnlen leri_len;
                     }
                     /*                 Also, set up B and C (temporarily) for use when */
                     /*                 finding B. */
-                    dcopy_(&mwork, &qcoeff[i__ + (k * qcoeff_dim2 + 1) * qcoeff_dim1], ldqco1, &b[ia + b_dim1], ldb);
-                    dcopy_(&pwork, &pcoeff[i__ + (k * pcoeff_dim2 + 1) * pcoeff_dim1], ldpco1, &c__[ia * c_dim1 + 1], &c__1);
+                    dcopy_(&mwork, &qcoeff[i__ + (k * qcoeff_dim2 + 1) * qcoeff_dim1], ldqco1,
+                        &b[ia + b_dim1], ldb);
+                    dcopy_(&pwork, &pcoeff[i__ + (k * pcoeff_dim2 + 1) * pcoeff_dim1], ldpco1,
+                        &c__[ia * c_dim1 + 1], &c__1);
                     /* L40: */
                 }
             }
@@ -439,9 +405,11 @@ ftnlen leri_len;
         }
         /*        Calculate D from the leading coefficients of P and Q. */
         dlacpy_("Full", &pwork, &mwork, &qcoeff[qcoeff_offset], ldqco1, &d__[d_offset], ldd, 4L);
-        dgetrs_("No transpose", &pwork, &mwork, &dwork[1], &ldw, &iwork[1], &d__[d_offset], ldd, info, 12L);
+        dgetrs_("No transpose", &pwork, &mwork, &dwork[1], &ldw, &iwork[1], &d__[d_offset], ldd,
+            info, 12L);
         /*        For B and C as set up above, desired B = B - (C' * D). */
-        dgemm_("Transpose", "No transpose", n, &mwork, &pwork, &c_b26, &c__[c_offset], ldc, &d__[d_offset], ldd, &c_b27, &b[b_offset], ldb, 9L, 12L);
+        dgemm_("Transpose", "No transpose", n, &mwork, &pwork, &c_b26, &c__[c_offset], ldc,
+            &d__[d_offset], ldd, &c_b27, &b[b_offset], ldb, 9L, 12L);
         /*        Finally, calculate C: zero, apart from ... */
         dlaset_("Full", &pwork, n, &c_b12, &c_b12, &c__[c_offset], ldc, 4L);
         /*        PWORK ordered 'non-trivial' columns, equal to those */
@@ -451,15 +419,13 @@ ftnlen leri_len;
         i__1 = *ldwork - jwork + 1;
         dgetri_(&pwork, &dwork[1], &ldw, &iwork[1], &dwork[jwork], &i__1, info);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__1, i__2);
         jc = 0;
         jw = 1;
         i__1 = pwork;
-        for (j = 1; j <= i__1; ++j)
-        {
-            if (index[j] != 0)
-            {
+        for (j = 1; j <= i__1; ++j) {
+            if (index[j] != 0) {
                 jc += index[j];
                 dcopy_(&pwork, &dwork[jw], &c__1, &c__[jc * c_dim1 + 1], &c__1);
             }
@@ -469,15 +435,15 @@ ftnlen leri_len;
     }
     /*     For right matrix fraction, return to original (dual of dual) */
     /*     system. */
-    if (! lleri)
-    {
-        tc01od_("L", &mwork, &pwork, &kpcoef, &pcoeff[pcoeff_offset], ldpco1, ldpco2, &qcoeff[qcoeff_offset], ldqco1, ldqco2, info, 1L);
+    if (!lleri) {
+        tc01od_("L", &mwork, &pwork, &kpcoef, &pcoeff[pcoeff_offset], ldpco1, ldpco2,
+            &qcoeff[qcoeff_offset], ldqco1, ldqco2, info, 1L);
         /*        Also, obtain dual of state-space representation. */
-        ab07md_("D", n, &mwork, &pwork, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, info, 1L);
+        ab07md_("D", n, &mwork, &pwork, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+            &d__[d_offset], ldd, info, 1L);
     }
     /*     Set optimal workspace dimension. */
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of TC04AD *** */
 } /* tc04ad_ */
-

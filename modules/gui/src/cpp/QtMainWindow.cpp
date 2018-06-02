@@ -16,109 +16,93 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtWidgets/QMessageBox>
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QAction>
-#include <QtWidgets/QStatusBar>
-#include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QMenuBar>
-#include <QtWidgets/QMenu>
-#include <QtWidgets/QFileDialog>
+#include "QtMainWindow.h"
+#include "ExecuteCommand.hpp"
+#include "GetNelsonPath.hpp"
+#include "Nelson_VERSION.h"
+#include "QStringConverter.hpp"
+#include "QtTerminal.h"
+#include "QtTranslation.hpp"
+#include "UiGetDirectory.hpp"
+#include "characters_encoding.hpp"
+#include <QtCore/QMimeData>
 #include <QtGui/QClipboard>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QDesktopServices>
-#include <QtCore/QMimeData>
-#include "QtMainWindow.h"
-#include "QStringConverter.hpp"
-#include "characters_encoding.hpp"
-#include "QtTerminal.h"
-#include "GetNelsonPath.hpp"
-#include "QtTranslation.hpp"
-#include "Nelson_VERSION.h"
-#include "UiGetDirectory.hpp"
-#include "ExecuteCommand.hpp"
+#include <QtWidgets/QAction>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QMenuBar>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QStatusBar>
+#include <QtWidgets/QVBoxLayout>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 QtMainWindow::~QtMainWindow()
 {
-    if (runAction)
-    {
+    if (runAction) {
         delete runAction;
         runAction = nullptr;
     }
-    if (pwdAction)
-    {
+    if (pwdAction) {
         delete pwdAction;
         pwdAction = nullptr;
     }
-    if (exitAction)
-    {
+    if (exitAction) {
         delete exitAction;
         exitAction = nullptr;
     }
-    if (aboutAction)
-    {
+    if (aboutAction) {
         delete aboutAction;
         aboutAction = nullptr;
     }
-    if (helpAction)
-    {
+    if (helpAction) {
         delete helpAction;
         helpAction = nullptr;
     }
-    if (cutAction)
-    {
+    if (cutAction) {
         delete cutAction;
         cutAction = nullptr;
     }
-    if (copyAction)
-    {
+    if (copyAction) {
         delete copyAction;
         copyAction = nullptr;
     }
-    if (pasteAction)
-    {
+    if (pasteAction) {
         delete pasteAction;
         pasteAction = nullptr;
     }
-    if (selectAllAction)
-    {
+    if (selectAllAction) {
         delete selectAllAction;
         selectAllAction = nullptr;
     }
-    if (emptyClipboardAction)
-    {
+    if (emptyClipboardAction) {
         delete emptyClipboardAction;
         emptyClipboardAction = nullptr;
     }
-    if (clearConsoleAction)
-    {
+    if (clearConsoleAction) {
         delete clearConsoleAction;
         clearConsoleAction = nullptr;
     }
-    if (editMenu)
-    {
+    if (editMenu) {
         delete editMenu;
         editMenu = nullptr;
     }
-    if (fileMenu)
-    {
+    if (fileMenu) {
         delete fileMenu;
         fileMenu = nullptr;
     }
-    if (helpMenu)
-    {
+    if (helpMenu) {
         delete helpMenu;
         helpMenu = nullptr;
     }
-    if (mainMenuBar)
-    {
+    if (mainMenuBar) {
         delete mainMenuBar;
         mainMenuBar = nullptr;
     }
-    if (qtTerminal)
-    {
+    if (qtTerminal) {
         delete qtTerminal;
         qtTerminal = nullptr;
     }
@@ -127,13 +111,13 @@ QtMainWindow::~QtMainWindow()
 QtMainWindow::QtMainWindow()
 {
     nelsonPath = Nelson::wstringToQString(Nelson::GetRootPath());
-    QWidget *widget = new QWidget;
+    QWidget* widget = new QWidget;
     setCentralWidget(widget);
-    QWidget *topFiller = new QWidget;
+    QWidget* topFiller = new QWidget;
     topFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    QWidget *bottomFiller = new QWidget;
+    QWidget* bottomFiller = new QWidget;
     bottomFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    QVBoxLayout *layout = new QVBoxLayout;
+    QVBoxLayout* layout = new QVBoxLayout;
     layout->setMargin(5);
     layout->addWidget(topFiller);
     layout->addWidget(bottomFiller);
@@ -151,7 +135,7 @@ QtMainWindow::QtMainWindow()
     show();
     qtTerminal->show();
     bClosed = false;
-#if defined  __APPLE__ || defined _MSC_VER
+#if defined __APPLE__ || defined _MSC_VER
     QString fileNameIcon = nelsonPath + "/resources/fibonacci.png";
     QIcon icon(fileNameIcon);
     setWindowIcon(icon);
@@ -159,21 +143,17 @@ QtMainWindow::QtMainWindow()
     setAcceptDrops(true);
 }
 //=============================================================================
-void QtMainWindow::runFile()
+void
+QtMainWindow::runFile()
 {
-    if (qtTerminal)
-    {
-        if (!qtTerminal->isAtPrompt())
-        {
-            QMessageBox::warning(this, _("Execute...").c_str(), _("Interpreter currently runs.").c_str());
-        }
-        else
-        {
-            QString qfileName = QFileDialog::getOpenFileName(this, TR("Execute..."),
-                                QDir::currentPath(),
-                                TR("Nelson (*.nls)"));
-            if (!qfileName.isEmpty())
-            {
+    if (qtTerminal) {
+        if (!qtTerminal->isAtPrompt()) {
+            QMessageBox::warning(
+                this, _("Execute...").c_str(), _("Interpreter currently runs.").c_str());
+        } else {
+            QString qfileName = QFileDialog::getOpenFileName(
+                this, TR("Execute..."), QDir::currentPath(), TR("Nelson (*.nls)"));
+            if (!qfileName.isEmpty()) {
                 std::wstring filename = Nelson::QStringTowstring(qfileName);
                 qtTerminal->outputMessage(L"\n");
                 qtTerminal->sendReturnKey();
@@ -184,97 +164,106 @@ void QtMainWindow::runFile()
     }
 }
 //=============================================================================
-void QtMainWindow::about()
+void
+QtMainWindow::about()
 {
-    std::string version = std::string(NELSON_PRODUCT_NAME) + " " + std::string(NELSON_VERSION_STRING);
+    std::string version
+        = std::string(NELSON_PRODUCT_NAME) + " " + std::string(NELSON_VERSION_STRING);
     std::string aboutText = version + "\n" + "Copyright 2016-2018 Allan CORNET";
     QMessageBox::about(this, _("About Nelson...").c_str(), aboutText.c_str());
 }
 //=============================================================================
-void QtMainWindow::website()
+void
+QtMainWindow::website()
 {
     QString link = "https://nelson-numerical-software.github.io/nelson-website/";
     QDesktopServices::openUrl(QUrl(link));
 }
 //=============================================================================
-void QtMainWindow::bugAndRequest()
+void
+QtMainWindow::bugAndRequest()
 {
     QString link = "https://github.com/Nelson-numerical-software/nelson/issues";
     QDesktopServices::openUrl(QUrl(link));
 }
 //=============================================================================
-void QtMainWindow::help()
+void
+QtMainWindow::help()
 {
     Nelson::executeCommand(L"doc");
 }
 //=============================================================================
-void QtMainWindow::cutText()
+void
+QtMainWindow::cutText()
 {
-    if (qtTerminal)
-    {
+    if (qtTerminal) {
         qtTerminal->cut();
     }
 }
 //=============================================================================
-void QtMainWindow::copyText()
+void
+QtMainWindow::copyText()
 {
-    if (qtTerminal)
-    {
+    if (qtTerminal) {
         qtTerminal->copy();
     }
 }
 //=============================================================================
-void QtMainWindow::pasteText()
+void
+QtMainWindow::pasteText()
 {
-    if (qtTerminal)
-    {
+    if (qtTerminal) {
         qtTerminal->paste();
     }
 }
 //=============================================================================
-void QtMainWindow::selectAllText()
+void
+QtMainWindow::selectAllText()
 {
-    if (qtTerminal)
-    {
+    if (qtTerminal) {
         qtTerminal->selectAll();
     }
 }
 //=============================================================================
-void QtMainWindow::emptyClipboard()
+void
+QtMainWindow::emptyClipboard()
 {
-    QClipboard *Clipboard = QApplication::clipboard();
+    QClipboard* Clipboard = QApplication::clipboard();
     Clipboard->clear(QClipboard::Clipboard);
 }
 //=============================================================================
-void QtMainWindow::clearConsole()
+void
+QtMainWindow::clearConsole()
 {
-    if (qtTerminal)
-    {
+    if (qtTerminal) {
         qtTerminal->clearTerminal();
     }
 }
 //=============================================================================
-void QtMainWindow::pwdDisplay()
+void
+QtMainWindow::pwdDisplay()
 {
     executeCommand(L"disp(pwd())");
 }
 //=============================================================================
-void QtMainWindow::changeDir()
+void
+QtMainWindow::changeDir()
 {
     std::wstring pathSelected;
     bool bCanceled = UiGetDirectory(L"", L"", pathSelected);
-    if (!bCanceled)
-    {
+    if (!bCanceled) {
         QDir::setCurrent(wstringToQString(pathSelected));
     }
 }
 //=============================================================================
-void QtMainWindow::editor()
+void
+QtMainWindow::editor()
 {
     executeCommand(L"edit()");
 }
 //=============================================================================
-void QtMainWindow::createToolbars()
+void
+QtMainWindow::createToolbars()
 {
     toolBar = addToolBar(TR("Text editor"));
     toolBar->addAction(editorAction);
@@ -289,7 +278,8 @@ void QtMainWindow::createToolbars()
     toolBar->addSeparator();
 }
 //=============================================================================
-void QtMainWindow::createMenus()
+void
+QtMainWindow::createMenus()
 {
     QString fileNameIcon;
     mainMenuBar = this->menuBar();
@@ -407,78 +397,70 @@ void QtMainWindow::createMenus()
     connect(editorAction, SIGNAL(triggered()), this, SLOT(editor()));
 }
 //=============================================================================
-void QtMainWindow::closeEvent(QCloseEvent *event)
+void
+QtMainWindow::closeEvent(QCloseEvent* event)
 {
-    if (!qtTerminal->isAtPrompt())
-    {
-        if (!bClosed)
-        {
+    if (!qtTerminal->isAtPrompt()) {
+        if (!bClosed) {
             event->ignore();
-            QMessageBox::StandardButton	reply = QMessageBox::question(this, _("Close confirmation").c_str(), _("Are you sure to quit?").c_str(), QMessageBox::Yes | QMessageBox::No);
-            if (reply == QMessageBox::Yes)
-            {
+            QMessageBox::StandardButton reply
+                = QMessageBox::question(this, _("Close confirmation").c_str(),
+                    _("Are you sure to quit?").c_str(), QMessageBox::Yes | QMessageBox::No);
+            if (reply == QMessageBox::Yes) {
                 event->accept();
-                QWidget * qwidgetConsole = this->focusProxy();
+                QWidget* qwidgetConsole = this->focusProxy();
                 QApplication::sendEvent(qwidgetConsole, new QCloseEvent());
                 bClosed = true;
                 return;
-            }
-            else
-            {
+            } else {
                 return;
             }
         }
     }
     event->accept();
-    QWidget * qwidgetConsole = this->focusProxy();
+    QWidget* qwidgetConsole = this->focusProxy();
     QApplication::sendEvent(qwidgetConsole, new QCloseEvent());
 }
 //=============================================================================
-QtTerminal *QtMainWindow::getQtTerminal()
+QtTerminal*
+QtMainWindow::getQtTerminal()
 {
     return qtTerminal;
 }
 //=============================================================================
-void QtMainWindow::dragEnterEvent(QDragEnterEvent *event)
+void
+QtMainWindow::dragEnterEvent(QDragEnterEvent* event)
 {
     event->mimeData()->hasFormat("text/uri-list") ? event->accept() : event->ignore();
 }
 //=============================================================================
-void QtMainWindow::dropEvent(QDropEvent *event)
+void
+QtMainWindow::dropEvent(QDropEvent* event)
 {
-    if (event->mimeData()->hasFormat("text/uri-list"))
-    {
+    if (event->mimeData()->hasFormat("text/uri-list")) {
         QList<QUrl> urls = event->mimeData()->urls();
-        for (int k = 0; k < urls.size(); k++)
-        {
+        for (int k = 0; k < urls.size(); k++) {
             QFileInfo qmake(QString(urls[k].toLocalFile()));
-            if (!urls.isEmpty())
-            {
-                if (qmake.suffix() == "nls")
-                {
-                    if (!qtTerminal->isAtPrompt())
-                    {
-                        QMessageBox::warning(this, _("Execute...").c_str(), _("Interpreter currently runs.").c_str());
-                    }
-                    else
-                    {
+            if (!urls.isEmpty()) {
+                if (qmake.suffix() == "nls") {
+                    if (!qtTerminal->isAtPrompt()) {
+                        QMessageBox::warning(this, _("Execute...").c_str(),
+                            _("Interpreter currently runs.").c_str());
+                    } else {
                         std::wstring filename = Nelson::QStringTowstring(urls[k].toLocalFile());
                         qtTerminal->outputMessage(L"\n");
                         qtTerminal->sendReturnKey();
                         std::wstring cmd = L"run('" + filename + L"')";
                         executeCommand(cmd);
                     }
-                }
-                else if (qmake.suffix() == "nlf")
-                {
-                    executeCommand(L"edit('" + Nelson::QStringTowstring(urls[k].toLocalFile()) + L"')");
+                } else if (qmake.suffix() == "nlf") {
+                    executeCommand(
+                        L"edit('" + Nelson::QStringTowstring(urls[k].toLocalFile()) + L"')");
                 }
             }
         }
         event->accept();
-    }
-    else
-    {
+    } else {
         event->ignore();
     }
 }

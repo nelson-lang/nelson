@@ -17,35 +17,32 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "audioplayer_getBuiltin.hpp"
-#include "Error.hpp"
 #include "AudioplayerObject.hpp"
-#include "HandleManager.hpp"
+#include "Error.hpp"
 #include "HandleGenericObject.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::AudioGateway::audioplayer_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::AudioGateway::audioplayer_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval;
-    if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR)
-    {
+    if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
         Error(eval, _W("audioplayer handle expected."));
     }
-    AudioplayerObject *objPlayer = (AudioplayerObject *)param1.getContentAsHandleScalar();
+    AudioplayerObject* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     ArrayOf res;
-    if (!objPlayer->get(propertyName, res))
-    {
+    if (!objPlayer->get(propertyName, res)) {
         Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
     }
     retval.push_back(res);

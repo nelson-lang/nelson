@@ -17,28 +17,27 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "structBuiltin.hpp"
-#include "struct_dispBuiltin.hpp"
-#include "cell_dispBuiltin.hpp"
-#include "iscellstrBuiltin.hpp"
-#include "cellBuiltin.hpp"
-#include "fieldnamesBuiltin.hpp"
-#include "struct2cellBuiltin.hpp"
 #include "cell2structBuiltin.hpp"
-#include "ndarraycell_dispBuiltin.hpp"
-#include "cellfunBuiltin.hpp"
-#include "struct_horzcat_structBuiltin.hpp"
-#include "struct_vertcat_structBuiltin.hpp"
+#include "cellBuiltin.hpp"
+#include "cell_dispBuiltin.hpp"
 #include "cell_horzcat_cellBuiltin.hpp"
 #include "cell_vertcat_cellBuiltin.hpp"
+#include "cellfunBuiltin.hpp"
+#include "fieldnamesBuiltin.hpp"
+#include "iscellstrBuiltin.hpp"
 #include "isfieldBuiltin.hpp"
+#include "ndarraycell_dispBuiltin.hpp"
+#include "struct2cellBuiltin.hpp"
+#include "structBuiltin.hpp"
+#include "struct_dispBuiltin.hpp"
+#include "struct_horzcat_structBuiltin.hpp"
+#include "struct_vertcat_structBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"data_structures";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "struct", Nelson::DataStructuresGateway::structBuiltin, 1, 1 },
     { "struct_disp", Nelson::DataStructuresGateway::struct_dispBuiltin, 0, 1 },
     { "cell_disp", Nelson::DataStructuresGateway::cell_dispBuiltin, 0, 1 },

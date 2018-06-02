@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,26 +11,28 @@ static doublereal c_b17 = 1.;
 static doublereal c_b19 = 0.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb02cd_(job, typet, k, n, t, ldt, g, ldg, r__, ldr, l, ldl, cs, lcs, dwork, ldwork, info, job_len, typet_len)
-char *job, *typet;
+EXPORTSYMBOL /* Subroutine */ int mb02cd_(job, typet, k, n, t, ldt, g, ldg, r__, ldr, l, ldl, cs,
+    lcs, dwork, ldwork, info, job_len, typet_len) char *job,
+    *typet;
 integer *k, *n;
-doublereal *t;
-integer *ldt;
-doublereal *g;
-integer *ldg;
-doublereal *r__;
-integer *ldr;
-doublereal *l;
-integer *ldl;
-doublereal *cs;
-integer *lcs;
-doublereal *dwork;
+doublereal* t;
+integer* ldt;
+doublereal* g;
+integer* ldg;
+doublereal* r__;
+integer* ldr;
+doublereal* l;
+integer* ldl;
+doublereal* cs;
+integer* lcs;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen job_len;
 ftnlen typet_len;
 {
     /* System generated locals */
-    integer g_dim1, g_offset, l_dim1, l_offset, r_dim1, r_offset, t_dim1, t_offset, i__1, i__2, i__3;
+    integer g_dim1, g_offset, l_dim1, l_offset, r_dim1, r_offset, t_dim1, t_offset, i__1, i__2,
+        i__3;
     /* Local variables */
     static integer ierr, i__;
     extern /* Subroutine */ int mb02cx_(), mb02cy_();
@@ -229,112 +231,86 @@ ftnlen typet_len;
     compr = lsame_(job, "R", 1L, 1L) || lsame_(job, "A", 1L, 1L) || lsame_(job, "O", 1L, 1L);
     isrow = lsame_(typet, "R", 1L, 1L);
     /*     Check the scalar input parameters. */
-    if (! (compg || compr))
-    {
+    if (!(compg || compr)) {
         *info = -1;
-    }
-    else if (! (isrow || lsame_(typet, "C", 1L, 1L)))
-    {
+    } else if (!(isrow || lsame_(typet, "C", 1L, 1L))) {
         *info = -2;
-    }
-    else if (*k < 0)
-    {
+    } else if (*k < 0) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*ldt < 1 || isrow && *ldt < *k || ! isrow && *ldt < *n **k)
-    {
+    } else if (*ldt < 1 || isrow && *ldt < *k || !isrow && *ldt < *n * *k) {
         *info = -6;
-    }
-    else if (*ldg < 1 || compg && (isrow && *ldg < *k << 1 || ! isrow && *ldg < *n **k))
-    {
+    } else if (*ldg < 1 || compg && (isrow && *ldg < *k << 1 || !isrow && *ldg < *n * *k)) {
         *info = -8;
-    }
-    else if (*ldr < 1 || compr && *ldr < *n **k)
-    {
+    } else if (*ldr < 1 || compr && *ldr < *n * *k) {
         *info = -10;
-    }
-    else if (*ldl < 1 || compl && *ldl < *n **k)
-    {
+    } else if (*ldl < 1 || compl&&*ldl < *n * *k) {
         *info = -12;
-    }
-    else if (*lcs < (*n - 1) * 3 * *k)
-    {
+    } else if (*lcs < (*n - 1) * 3 * *k) {
         *info = -14;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = 1, i__2 = (*n - 1) **k;
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__1 = 1, i__2 = (*n - 1) * *k;
+        if (*ldwork < max(i__1, i__2)) {
             /* Computing MAX */
-            i__1 = 1, i__2 = (*n - 1) **k;
-            dwork[1] = (doublereal) max(i__1,i__2);
+            i__1 = 1, i__2 = (*n - 1) * *k;
+            dwork[1] = (doublereal)max(i__1, i__2);
             *info = -16;
         }
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02CD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (min(*k,*n) == 0)
-    {
+    if (min(*k, *n) == 0) {
         dwork[1] = 1.;
         return 0;
     }
     maxwrk = 1;
-    if (isrow)
-    {
+    if (isrow) {
         /*        T is the first block row of a block Toeplitz matrix. */
         /*        Bring T to proper form by triangularizing its first block. */
         dpotrf_("Upper", k, &t[t_offset], ldt, &ierr, 5L);
-        if (ierr != 0)
-        {
+        if (ierr != 0) {
             /*           Error return:  The matrix is not positive definite. */
             *info = 1;
             return 0;
         }
-        if (*n > 1)
-        {
-            i__1 = (*n - 1) **k;
-            dtrsm_("Left", "Upper", "Transpose", "NonUnit", k, &i__1, &c_b17, &t[t_offset], ldt, &t[(*k + 1) * t_dim1 + 1], ldt, 4L, 5L, 9L, 7L);
+        if (*n > 1) {
+            i__1 = (*n - 1) * *k;
+            dtrsm_("Left", "Upper", "Transpose", "NonUnit", k, &i__1, &c_b17, &t[t_offset], ldt,
+                &t[(*k + 1) * t_dim1 + 1], ldt, 4L, 5L, 9L, 7L);
         }
         /*        Initialize the output matrices. */
-        if (compg)
-        {
+        if (compg) {
             i__1 = *k << 1;
-            i__2 = *n **k;
+            i__2 = *n * *k;
             dlaset_("All", &i__1, &i__2, &c_b19, &c_b19, &g[g_offset], ldg, 3L);
             i__1 = *ldg + 1;
             dlaset_("All", &c__1, k, &c_b17, &c_b17, &g[*k + 1 + g_dim1], &i__1, 3L);
-            dtrsm_("Left", "Upper", "Transpose", "NonUnit", k, k, &c_b17, &t[t_offset], ldt, &g[*k + 1 + g_dim1], ldg, 4L, 5L, 9L, 7L);
-            if (*n > 1)
-            {
-                i__1 = (*n - 1) **k;
-                dlacpy_("Upper", k, &i__1, &t[t_offset], ldt, &g[*k + 1 + (*k + 1) * g_dim1], ldg, 5L);
+            dtrsm_("Left", "Upper", "Transpose", "NonUnit", k, k, &c_b17, &t[t_offset], ldt,
+                &g[*k + 1 + g_dim1], ldg, 4L, 5L, 9L, 7L);
+            if (*n > 1) {
+                i__1 = (*n - 1) * *k;
+                dlacpy_(
+                    "Upper", k, &i__1, &t[t_offset], ldt, &g[*k + 1 + (*k + 1) * g_dim1], ldg, 5L);
             }
             dlacpy_("Lower", k, k, &g[*k + 1 + g_dim1], ldg, &g[g_offset], ldg, 5L);
         }
-        if (compl)
-        {
+        if (compl) {
             dlacpy_("Lower", k, k, &g[*k + 1 + g_dim1], ldg, &l[l_offset], ldl, 5L);
         }
-        if (compr)
-        {
-            i__1 = *n **k;
+        if (compr) {
+            i__1 = *n * *k;
             dlacpy_("Upper", k, &i__1, &t[t_offset], ldt, &r__[r_offset], ldr, 5L);
         }
         /*        Processing the generator. */
-        if (compg)
-        {
+        if (compg) {
             /*           Here we use G as working array for holding the generator. */
             /*           T contains the second row of the generator. */
             /*           G contains in its first block row the second row of the */
@@ -349,145 +325,145 @@ ftnlen typet_len;
             /*           (N-1)*K locations of DWORK are used by SLICOT Library */
             /*           routine MB02CY. */
             i__1 = *n;
-            for (i__ = 2; i__ <= i__1; ++i__)
-            {
-                startr = (i__ - 1) **k + 1;
-                starti = (*n - i__ + 1) **k + 1;
+            for (i__ = 2; i__ <= i__1; ++i__) {
+                startr = (i__ - 1) * *k + 1;
+                starti = (*n - i__ + 1) * *k + 1;
                 startt = (i__ - 2) * 3 * *k + 1;
                 /*              Transformations acting on the generator: */
                 i__2 = *k * 3;
-                mb02cx_("Row", k, k, k, &g[*k + 1 + (*k + 1) * g_dim1], ldg, &t[startr * t_dim1 + 1], ldt, &cs[startt], &i__2, &dwork[1], ldwork, &ierr, 3L);
-                if (ierr != 0)
-                {
+                mb02cx_("Row", k, k, k, &g[*k + 1 + (*k + 1) * g_dim1], ldg,
+                    &t[startr * t_dim1 + 1], ldt, &cs[startt], &i__2, &dwork[1], ldwork, &ierr, 3L);
+                if (ierr != 0) {
                     /*                 Error return:  The matrix is not positive definite. */
                     *info = 1;
                     return 0;
                 }
                 /* Computing MAX */
-                i__2 = maxwrk, i__3 = (integer) dwork[1];
-                maxwrk = max(i__2,i__3);
-                if (*n > i__)
-                {
-                    i__2 = (*n - i__) **k;
+                i__2 = maxwrk, i__3 = (integer)dwork[1];
+                maxwrk = max(i__2, i__3);
+                if (*n > i__) {
+                    i__2 = (*n - i__) * *k;
                     i__3 = *k * 3;
-                    mb02cy_("Row", "NoStructure", k, k, &i__2, k, &g[*k + 1 + ((*k << 1) + 1) * g_dim1], ldg, &t[(startr + *k) * t_dim1 + 1], ldt, &t[startr * t_dim1 + 1], ldt, &cs[startt], &i__3, &dwork[1], ldwork, &ierr, 3L, 11L);
+                    mb02cy_("Row", "NoStructure", k, k, &i__2, k,
+                        &g[*k + 1 + ((*k << 1) + 1) * g_dim1], ldg, &t[(startr + *k) * t_dim1 + 1],
+                        ldt, &t[startr * t_dim1 + 1], ldt, &cs[startt], &i__3, &dwork[1], ldwork,
+                        &ierr, 3L, 11L);
                     /* Computing MAX */
-                    i__2 = maxwrk, i__3 = (integer) dwork[1];
-                    maxwrk = max(i__2,i__3);
+                    i__2 = maxwrk, i__3 = (integer)dwork[1];
+                    maxwrk = max(i__2, i__3);
                 }
-                if (compr)
-                {
-                    i__2 = (*n - i__ + 1) **k;
-                    dlacpy_("Upper", k, &i__2, &g[*k + 1 + (*k + 1) * g_dim1], ldg, &r__[startr + startr * r_dim1], ldr, 5L);
+                if (compr) {
+                    i__2 = (*n - i__ + 1) * *k;
+                    dlacpy_("Upper", k, &i__2, &g[*k + 1 + (*k + 1) * g_dim1], ldg,
+                        &r__[startr + startr * r_dim1], ldr, 5L);
                 }
                 /*              Transformations acting on the inverse generator: */
                 dlaset_("All", k, k, &c_b19, &c_b19, &g[*k + 1 + starti * g_dim1], ldg, 3L);
                 i__2 = *k * 3;
-                mb02cy_("Row", "Triangular", k, k, k, k, &g[*k + 1 + g_dim1], ldg, &g[startr * g_dim1 + 1], ldg, &t[startr * t_dim1 + 1], ldt, &cs[startt], &i__2, &dwork[1], ldwork, &ierr, 3L, 10L);
+                mb02cy_("Row", "Triangular", k, k, k, k, &g[*k + 1 + g_dim1], ldg,
+                    &g[startr * g_dim1 + 1], ldg, &t[startr * t_dim1 + 1], ldt, &cs[startt], &i__2,
+                    &dwork[1], ldwork, &ierr, 3L, 10L);
                 /* Computing MAX */
-                i__2 = maxwrk, i__3 = (integer) dwork[1];
-                maxwrk = max(i__2,i__3);
-                i__2 = (i__ - 1) **k;
+                i__2 = maxwrk, i__3 = (integer)dwork[1];
+                maxwrk = max(i__2, i__3);
+                i__2 = (i__ - 1) * *k;
                 i__3 = *k * 3;
-                mb02cy_("Row", "NoStructure", k, k, &i__2, k, &g[*k + 1 + starti * g_dim1], ldg, &g[g_offset], ldg, &t[startr * t_dim1 + 1], ldt, &cs[startt], &i__3, &dwork[1], ldwork, &ierr, 3L, 11L);
+                mb02cy_("Row", "NoStructure", k, k, &i__2, k, &g[*k + 1 + starti * g_dim1], ldg,
+                    &g[g_offset], ldg, &t[startr * t_dim1 + 1], ldt, &cs[startt], &i__3, &dwork[1],
+                    ldwork, &ierr, 3L, 11L);
                 /* Computing MAX */
-                i__2 = maxwrk, i__3 = (integer) dwork[1];
-                maxwrk = max(i__2,i__3);
-                if (compl)
-                {
-                    i__2 = (i__ - 1) **k;
-                    dlacpy_("All", k, &i__2, &g[*k + 1 + starti * g_dim1], ldg, &l[startr + l_dim1], ldl, 3L);
-                    dlacpy_("Lower", k, k, &g[*k + 1 + g_dim1], ldg, &l[startr + ((i__ - 1) **k + 1) * l_dim1], ldl, 5L);
+                i__2 = maxwrk, i__3 = (integer)dwork[1];
+                maxwrk = max(i__2, i__3);
+                if (compl) {
+                    i__2 = (i__ - 1) * *k;
+                    dlacpy_("All", k, &i__2, &g[*k + 1 + starti * g_dim1], ldg, &l[startr + l_dim1],
+                        ldl, 3L);
+                    dlacpy_("Lower", k, k, &g[*k + 1 + g_dim1], ldg,
+                        &l[startr + ((i__ - 1) * *k + 1) * l_dim1], ldl, 5L);
                 }
                 /* L10: */
             }
-        }
-        else
-        {
+        } else {
             /*           Here R is used as working array for holding the generator. */
             /*           Again, T contains the second row of the generator. */
             /*           The current row of R contains the first row of the */
             /*           generator. */
-            if (*n > 1)
-            {
-                i__1 = (*n - 1) **k;
-                dlacpy_("Upper", k, &i__1, &t[t_offset], ldt, &r__[*k + 1 + (*k + 1) * r_dim1], ldr, 5L);
+            if (*n > 1) {
+                i__1 = (*n - 1) * *k;
+                dlacpy_("Upper", k, &i__1, &t[t_offset], ldt, &r__[*k + 1 + (*k + 1) * r_dim1], ldr,
+                    5L);
             }
             i__1 = *n;
-            for (i__ = 2; i__ <= i__1; ++i__)
-            {
-                startr = (i__ - 1) **k + 1;
+            for (i__ = 2; i__ <= i__1; ++i__) {
+                startr = (i__ - 1) * *k + 1;
                 startt = (i__ - 2) * 3 * *k + 1;
                 i__2 = *k * 3;
-                mb02cx_("Row", k, k, k, &r__[startr + startr * r_dim1], ldr, &t[startr * t_dim1 + 1], ldt, &cs[startt], &i__2, &dwork[1], ldwork, &ierr, 3L);
-                if (ierr != 0)
-                {
+                mb02cx_("Row", k, k, k, &r__[startr + startr * r_dim1], ldr,
+                    &t[startr * t_dim1 + 1], ldt, &cs[startt], &i__2, &dwork[1], ldwork, &ierr, 3L);
+                if (ierr != 0) {
                     /*                 Error return:  The matrix is not positive definite. */
                     *info = 1;
                     return 0;
                 }
                 /* Computing MAX */
-                i__2 = maxwrk, i__3 = (integer) dwork[1];
-                maxwrk = max(i__2,i__3);
-                if (*n > i__)
-                {
-                    i__2 = (*n - i__) **k;
+                i__2 = maxwrk, i__3 = (integer)dwork[1];
+                maxwrk = max(i__2, i__3);
+                if (*n > i__) {
+                    i__2 = (*n - i__) * *k;
                     i__3 = *k * 3;
-                    mb02cy_("Row", "NoStructure", k, k, &i__2, k, &r__[startr + (startr + *k) * r_dim1], ldr, &t[(startr + *k) * t_dim1 + 1], ldt, &t[startr * t_dim1 + 1], ldt, &cs[startt], &i__3, &dwork[1], ldwork, &ierr, 3L, 11L);
+                    mb02cy_("Row", "NoStructure", k, k, &i__2, k,
+                        &r__[startr + (startr + *k) * r_dim1], ldr, &t[(startr + *k) * t_dim1 + 1],
+                        ldt, &t[startr * t_dim1 + 1], ldt, &cs[startt], &i__3, &dwork[1], ldwork,
+                        &ierr, 3L, 11L);
                     /* Computing MAX */
-                    i__2 = maxwrk, i__3 = (integer) dwork[1];
-                    maxwrk = max(i__2,i__3);
-                    i__2 = (*n - i__) **k;
-                    dlacpy_("Upper", k, &i__2, &r__[startr + startr * r_dim1], ldr, &r__[startr + *k + (startr + *k) * r_dim1], ldr, 5L);
+                    i__2 = maxwrk, i__3 = (integer)dwork[1];
+                    maxwrk = max(i__2, i__3);
+                    i__2 = (*n - i__) * *k;
+                    dlacpy_("Upper", k, &i__2, &r__[startr + startr * r_dim1], ldr,
+                        &r__[startr + *k + (startr + *k) * r_dim1], ldr, 5L);
                 }
                 /* L20: */
             }
         }
-    }
-    else
-    {
+    } else {
         /*        T is the first block column of a block Toeplitz matrix. */
         /*        Bring T to proper form by triangularizing its first block. */
         dpotrf_("Lower", k, &t[t_offset], ldt, &ierr, 5L);
-        if (ierr != 0)
-        {
+        if (ierr != 0) {
             /*           Error return:  The matrix is not positive definite. */
             *info = 1;
             return 0;
         }
-        if (*n > 1)
-        {
-            i__1 = (*n - 1) **k;
-            dtrsm_("Right", "Lower", "Transpose", "NonUnit", &i__1, k, &c_b17, &t[t_offset], ldt, &t[*k + 1 + t_dim1], ldt, 5L, 5L, 9L, 7L);
+        if (*n > 1) {
+            i__1 = (*n - 1) * *k;
+            dtrsm_("Right", "Lower", "Transpose", "NonUnit", &i__1, k, &c_b17, &t[t_offset], ldt,
+                &t[*k + 1 + t_dim1], ldt, 5L, 5L, 9L, 7L);
         }
         /*        Initialize the output matrices. */
-        if (compg)
-        {
-            i__1 = *n **k;
+        if (compg) {
+            i__1 = *n * *k;
             i__2 = *k << 1;
             dlaset_("All", &i__1, &i__2, &c_b19, &c_b19, &g[g_offset], ldg, 3L);
             i__1 = *ldg + 1;
             dlaset_("All", &c__1, k, &c_b17, &c_b17, &g[(*k + 1) * g_dim1 + 1], &i__1, 3L);
-            dtrsm_("Right", "Lower", "Transpose", "NonUnit", k, k, &c_b17, &t[t_offset], ldt, &g[(*k + 1) * g_dim1 + 1], ldg, 5L, 5L, 9L, 7L);
-            if (*n > 1)
-            {
-                i__1 = (*n - 1) **k;
-                dlacpy_("Lower", &i__1, k, &t[t_offset], ldt, &g[*k + 1 + (*k + 1) * g_dim1], ldg, 5L);
+            dtrsm_("Right", "Lower", "Transpose", "NonUnit", k, k, &c_b17, &t[t_offset], ldt,
+                &g[(*k + 1) * g_dim1 + 1], ldg, 5L, 5L, 9L, 7L);
+            if (*n > 1) {
+                i__1 = (*n - 1) * *k;
+                dlacpy_(
+                    "Lower", &i__1, k, &t[t_offset], ldt, &g[*k + 1 + (*k + 1) * g_dim1], ldg, 5L);
             }
             dlacpy_("Upper", k, k, &g[(*k + 1) * g_dim1 + 1], ldg, &g[g_offset], ldg, 5L);
         }
-        if (compl)
-        {
+        if (compl) {
             dlacpy_("Upper", k, k, &g[(*k + 1) * g_dim1 + 1], ldg, &l[l_offset], ldl, 5L);
         }
-        if (compr)
-        {
-            i__1 = *n **k;
+        if (compr) {
+            i__1 = *n * *k;
             dlacpy_("Lower", &i__1, k, &t[t_offset], ldt, &r__[r_offset], ldr, 5L);
         }
         /*        Processing the generator. */
-        if (compg)
-        {
+        if (compg) {
             /*           Here we use G as working array for holding the generator. */
             /*           T contains the second column of the generator. */
             /*           G contains in its first block column the second column of */
@@ -502,103 +478,108 @@ ftnlen typet_len;
             /*           (N-1)*K locations of DWORK are used by SLICOT Library */
             /*           routine MB02CY. */
             i__1 = *n;
-            for (i__ = 2; i__ <= i__1; ++i__)
-            {
-                startr = (i__ - 1) **k + 1;
-                starti = (*n - i__ + 1) **k + 1;
+            for (i__ = 2; i__ <= i__1; ++i__) {
+                startr = (i__ - 1) * *k + 1;
+                starti = (*n - i__ + 1) * *k + 1;
                 startt = (i__ - 2) * 3 * *k + 1;
                 /*              Transformations acting on the generator: */
                 i__2 = *k * 3;
-                mb02cx_("Column", k, k, k, &g[*k + 1 + (*k + 1) * g_dim1], ldg, &t[startr + t_dim1], ldt, &cs[startt], &i__2, &dwork[1], ldwork, &ierr, 6L);
-                if (ierr != 0)
-                {
+                mb02cx_("Column", k, k, k, &g[*k + 1 + (*k + 1) * g_dim1], ldg, &t[startr + t_dim1],
+                    ldt, &cs[startt], &i__2, &dwork[1], ldwork, &ierr, 6L);
+                if (ierr != 0) {
                     /*                 Error return:  The matrix is not positive definite. */
                     *info = 1;
                     return 0;
                 }
                 /* Computing MAX */
-                i__2 = maxwrk, i__3 = (integer) dwork[1];
-                maxwrk = max(i__2,i__3);
-                if (*n > i__)
-                {
-                    i__2 = (*n - i__) **k;
+                i__2 = maxwrk, i__3 = (integer)dwork[1];
+                maxwrk = max(i__2, i__3);
+                if (*n > i__) {
+                    i__2 = (*n - i__) * *k;
                     i__3 = *k * 3;
-                    mb02cy_("Column", "NoStructure", k, k, &i__2, k, &g[(*k << 1) + 1 + (*k + 1) * g_dim1], ldg, &t[startr + *k + t_dim1], ldt, &t[startr + t_dim1], ldt, &cs[startt], &i__3, &dwork[1], ldwork, &ierr, 6L, 11L);
+                    mb02cy_("Column", "NoStructure", k, k, &i__2, k,
+                        &g[(*k << 1) + 1 + (*k + 1) * g_dim1], ldg, &t[startr + *k + t_dim1], ldt,
+                        &t[startr + t_dim1], ldt, &cs[startt], &i__3, &dwork[1], ldwork, &ierr, 6L,
+                        11L);
                     /* Computing MAX */
-                    i__2 = maxwrk, i__3 = (integer) dwork[1];
-                    maxwrk = max(i__2,i__3);
+                    i__2 = maxwrk, i__3 = (integer)dwork[1];
+                    maxwrk = max(i__2, i__3);
                 }
-                if (compr)
-                {
-                    i__2 = (*n - i__ + 1) **k;
-                    dlacpy_("Lower", &i__2, k, &g[*k + 1 + (*k + 1) * g_dim1], ldg, &r__[startr + startr * r_dim1], ldr, 5L);
+                if (compr) {
+                    i__2 = (*n - i__ + 1) * *k;
+                    dlacpy_("Lower", &i__2, k, &g[*k + 1 + (*k + 1) * g_dim1], ldg,
+                        &r__[startr + startr * r_dim1], ldr, 5L);
                 }
                 /*              Transformations acting on the inverse generator: */
                 dlaset_("All", k, k, &c_b19, &c_b19, &g[starti + (*k + 1) * g_dim1], ldg, 3L);
                 i__2 = *k * 3;
-                mb02cy_("Column", "Triangular", k, k, k, k, &g[(*k + 1) * g_dim1 + 1], ldg, &g[startr + g_dim1], ldg, &t[startr + t_dim1], ldt, &cs[startt], &i__2, &dwork[1], ldwork, &ierr, 6L, 10L);
+                mb02cy_("Column", "Triangular", k, k, k, k, &g[(*k + 1) * g_dim1 + 1], ldg,
+                    &g[startr + g_dim1], ldg, &t[startr + t_dim1], ldt, &cs[startt], &i__2,
+                    &dwork[1], ldwork, &ierr, 6L, 10L);
                 /* Computing MAX */
-                i__2 = maxwrk, i__3 = (integer) dwork[1];
-                maxwrk = max(i__2,i__3);
-                i__2 = (i__ - 1) **k;
+                i__2 = maxwrk, i__3 = (integer)dwork[1];
+                maxwrk = max(i__2, i__3);
+                i__2 = (i__ - 1) * *k;
                 i__3 = *k * 3;
-                mb02cy_("Column", "NoStructure", k, k, &i__2, k, &g[starti + (*k + 1) * g_dim1], ldg, &g[g_offset], ldg, &t[startr + t_dim1], ldt, &cs[startt], &i__3, &dwork[1], ldwork, &ierr, 6L, 11L);
+                mb02cy_("Column", "NoStructure", k, k, &i__2, k, &g[starti + (*k + 1) * g_dim1],
+                    ldg, &g[g_offset], ldg, &t[startr + t_dim1], ldt, &cs[startt], &i__3, &dwork[1],
+                    ldwork, &ierr, 6L, 11L);
                 /* Computing MAX */
-                i__2 = maxwrk, i__3 = (integer) dwork[1];
-                maxwrk = max(i__2,i__3);
-                if (compl)
-                {
-                    i__2 = (i__ - 1) **k;
-                    dlacpy_("All", &i__2, k, &g[starti + (*k + 1) * g_dim1], ldg, &l[startr * l_dim1 + 1], ldl, 3L);
-                    dlacpy_("Upper", k, k, &g[(*k + 1) * g_dim1 + 1], ldg, &l[(i__ - 1) **k + 1 + startr * l_dim1], ldl, 5L);
+                i__2 = maxwrk, i__3 = (integer)dwork[1];
+                maxwrk = max(i__2, i__3);
+                if (compl) {
+                    i__2 = (i__ - 1) * *k;
+                    dlacpy_("All", &i__2, k, &g[starti + (*k + 1) * g_dim1], ldg,
+                        &l[startr * l_dim1 + 1], ldl, 3L);
+                    dlacpy_("Upper", k, k, &g[(*k + 1) * g_dim1 + 1], ldg,
+                        &l[(i__ - 1) * *k + 1 + startr * l_dim1], ldl, 5L);
                 }
                 /* L30: */
             }
-        }
-        else
-        {
+        } else {
             /*           Here R is used as working array for holding the generator. */
             /*           Again, T contains the second column of the generator. */
             /*           The current column of R contains the first column of the */
             /*           generator. */
-            if (*n > 1)
-            {
-                i__1 = (*n - 1) **k;
-                dlacpy_("Lower", &i__1, k, &t[t_offset], ldt, &r__[*k + 1 + (*k + 1) * r_dim1], ldr, 5L);
+            if (*n > 1) {
+                i__1 = (*n - 1) * *k;
+                dlacpy_("Lower", &i__1, k, &t[t_offset], ldt, &r__[*k + 1 + (*k + 1) * r_dim1], ldr,
+                    5L);
             }
             i__1 = *n;
-            for (i__ = 2; i__ <= i__1; ++i__)
-            {
-                startr = (i__ - 1) **k + 1;
+            for (i__ = 2; i__ <= i__1; ++i__) {
+                startr = (i__ - 1) * *k + 1;
                 startt = (i__ - 2) * 3 * *k + 1;
                 i__2 = *k * 3;
-                mb02cx_("Column", k, k, k, &r__[startr + startr * r_dim1], ldr, &t[startr + t_dim1], ldt, &cs[startt], &i__2, &dwork[1], ldwork, &ierr, 6L);
-                if (ierr != 0)
-                {
+                mb02cx_("Column", k, k, k, &r__[startr + startr * r_dim1], ldr, &t[startr + t_dim1],
+                    ldt, &cs[startt], &i__2, &dwork[1], ldwork, &ierr, 6L);
+                if (ierr != 0) {
                     /*                 Error return:  The matrix is not positive definite. */
                     *info = 1;
                     return 0;
                 }
                 /* Computing MAX */
-                i__2 = maxwrk, i__3 = (integer) dwork[1];
-                maxwrk = max(i__2,i__3);
-                if (*n > i__)
-                {
-                    i__2 = (*n - i__) **k;
+                i__2 = maxwrk, i__3 = (integer)dwork[1];
+                maxwrk = max(i__2, i__3);
+                if (*n > i__) {
+                    i__2 = (*n - i__) * *k;
                     i__3 = *k * 3;
-                    mb02cy_("Column", "NoStructure", k, k, &i__2, k, &r__[startr + *k + startr * r_dim1], ldr, &t[startr + *k + t_dim1], ldt, &t[startr + t_dim1], ldt, &cs[startt], &i__3, &dwork[1], ldwork, &ierr, 6L, 11L);
+                    mb02cy_("Column", "NoStructure", k, k, &i__2, k,
+                        &r__[startr + *k + startr * r_dim1], ldr, &t[startr + *k + t_dim1], ldt,
+                        &t[startr + t_dim1], ldt, &cs[startt], &i__3, &dwork[1], ldwork, &ierr, 6L,
+                        11L);
                     /* Computing MAX */
-                    i__2 = maxwrk, i__3 = (integer) dwork[1];
-                    maxwrk = max(i__2,i__3);
-                    i__2 = (*n - i__) **k;
-                    dlacpy_("Lower", &i__2, k, &r__[startr + startr * r_dim1], ldr, &r__[startr + *k + (startr + *k) * r_dim1], ldr, 5L);
+                    i__2 = maxwrk, i__3 = (integer)dwork[1];
+                    maxwrk = max(i__2, i__3);
+                    i__2 = (*n - i__) * *k;
+                    dlacpy_("Lower", &i__2, k, &r__[startr + startr * r_dim1], ldr,
+                        &r__[startr + *k + (startr + *k) * r_dim1], ldr, 5L);
                 }
                 /* L40: */
             }
         }
     }
-    dwork[1] = (doublereal) maxwrk;
+    dwork[1] = (doublereal)maxwrk;
     return 0;
     /* *** Last line of MB02CD *** */
 } /* mb02cd_ */
-

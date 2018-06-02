@@ -18,44 +18,36 @@
 //=============================================================================
 #include "frewindBuiltin.hpp"
 #include "Error.hpp"
-#include "FilesManager.hpp"
 #include "File.hpp"
 #include "FileRewind.hpp"
+#include "FilesManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::StreamGateway::frewindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::StreamGateway::frewindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs != 0)
-    {
+    if (nLhs != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    FilesManager *fm = (FilesManager *)(eval->FileManager);
-    if (fm == nullptr)
-    {
+    FilesManager* fm = (FilesManager*)(eval->FileManager);
+    if (fm == nullptr) {
         Error(eval, _W("Problem with file manager."));
     }
     ArrayOf param1 = argIn[0];
     int32 iValue = (int32)param1.getContentAsDoubleScalar();
-    if (fm->isOpened(iValue))
-    {
-        File *f = fm->getFile(iValue);
-        if (f->isInterfaceMethod())
-        {
+    if (fm->isOpened(iValue)) {
+        File* f = fm->getFile(iValue);
+        if (f->isInterfaceMethod()) {
             Error(eval, _W("Rewind failed."));
-        }
-        else
-        {
+        } else {
             FileRewind(f);
         }
-    }
-    else
-    {
+    } else {
         Error(eval, _W("Invalid file identifier."));
     }
     return retval;

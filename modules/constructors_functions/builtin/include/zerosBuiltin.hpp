@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace ConstructorsGateway {
-        ArrayOfVector zerosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace ConstructorsGateway {
+    ArrayOfVector
+    zerosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

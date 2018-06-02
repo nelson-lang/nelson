@@ -17,29 +17,29 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "RightDivide.hpp"
-#include "LeftDivide.hpp"
 #include "DotRightDivide.hpp"
+#include "LeftDivide.hpp"
 #include "MatrixCheck.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOf RightDivide(ArrayOf A, ArrayOf B)
-    {
-        ArrayOf C;
-        if (A.isEmpty() || B.isEmpty())
-        {
-            return ArrayOf::emptyConstructor();
-        }
-        // Process our arguments
-        if (!MatrixCheck(A, B, "/"))
-            // Its really a vector product, pass...
-        {
-            return DotRightDivide(A, B);
-        }
-        //A.transpose();
-        //B.transpose();
-        C = LeftDivide(B, A);
-        //C.transpose();
-        return C;
+ArrayOf
+RightDivide(ArrayOf A, ArrayOf B)
+{
+    ArrayOf C;
+    if (A.isEmpty() || B.isEmpty()) {
+        return ArrayOf::emptyConstructor();
     }
+    // Process our arguments
+    if (!MatrixCheck(A, B, "/"))
+    // Its really a vector product, pass...
+    {
+        return DotRightDivide(A, B);
+    }
+    // A.transpose();
+    // B.transpose();
+    C = LeftDivide(B, A);
+    // C.transpose();
+    return C;
+}
 }
 //=============================================================================

@@ -21,6 +21,7 @@
 #include "Types.hpp"
 //=============================================================================
 namespace Nelson {
-    bool TimeoutThread(uint64 _timeoutseconds);
+bool
+TimeoutThread(uint64 _timeoutseconds);
 }
 //=============================================================================

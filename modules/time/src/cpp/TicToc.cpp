@@ -16,32 +16,35 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/chrono/chrono.hpp>
 #include "TicToc.hpp"
+#include <boost/chrono/chrono.hpp>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool Tic(Evaluator* eval)
-    {
-        boost::chrono::nanoseconds ns = boost::chrono::high_resolution_clock::now().time_since_epoch();
-        uint64 _now = uint64(static_cast<boost::uint64_t>(ns.count()));
-        eval->TimerValue = _now;
-        return true;
-    }
-    //=============================================================================
-    bool Toc(Evaluator* eval, double &tValue)
-    {
-        return Toc(eval->TimerValue, tValue);
-    }
-    //=============================================================================
-    bool Toc(uint64 t, double &tValue)
-    {
-        boost::chrono::nanoseconds ns = boost::chrono::high_resolution_clock::now().time_since_epoch();
-        uint64 _now = uint64(static_cast<boost::uint64_t>(ns.count()));
-        tValue = double(_now - t);
-        tValue = tValue * 1e-9;
-        return true;
-    }
-    //=============================================================================
+//=============================================================================
+bool
+Tic(Evaluator* eval)
+{
+    boost::chrono::nanoseconds ns = boost::chrono::high_resolution_clock::now().time_since_epoch();
+    uint64 _now = uint64(static_cast<boost::uint64_t>(ns.count()));
+    eval->TimerValue = _now;
+    return true;
+}
+//=============================================================================
+bool
+Toc(Evaluator* eval, double& tValue)
+{
+    return Toc(eval->TimerValue, tValue);
+}
+//=============================================================================
+bool
+Toc(uint64 t, double& tValue)
+{
+    boost::chrono::nanoseconds ns = boost::chrono::high_resolution_clock::now().time_since_epoch();
+    uint64 _now = uint64(static_cast<boost::uint64_t>(ns.count()));
+    tValue = double(_now - t);
+    tValue = tValue * 1e-9;
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

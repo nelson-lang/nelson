@@ -1,16 +1,17 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb01pd_(scun, type__, m, n, kl, ku, anrm, nbl, nrows, a, lda, info, scun_len, type_len)
-char *scun, *type__;
+EXPORTSYMBOL /* Subroutine */ int mb01pd_(
+    scun, type__, m, n, kl, ku, anrm, nbl, nrows, a, lda, info, scun_len, type_len) char *scun,
+    *type__;
 integer *m, *n, *kl, *ku;
-doublereal *anrm;
+doublereal* anrm;
 integer *nbl, *nrows;
-doublereal *a;
+doublereal* a;
 integer *lda, *info;
 ftnlen scun_len;
 ftnlen type_len;
@@ -143,149 +144,102 @@ ftnlen type_len;
     /*     Test the input scalar arguments. */
     *info = 0;
     lscale = lsame_(scun, "S", 1L, 1L);
-    if (lsame_(type__, "G", 1L, 1L))
-    {
+    if (lsame_(type__, "G", 1L, 1L)) {
         itype = 0;
-    }
-    else if (lsame_(type__, "L", 1L, 1L))
-    {
+    } else if (lsame_(type__, "L", 1L, 1L)) {
         itype = 1;
-    }
-    else if (lsame_(type__, "U", 1L, 1L))
-    {
+    } else if (lsame_(type__, "U", 1L, 1L)) {
         itype = 2;
-    }
-    else if (lsame_(type__, "H", 1L, 1L))
-    {
+    } else if (lsame_(type__, "H", 1L, 1L)) {
         itype = 3;
-    }
-    else if (lsame_(type__, "B", 1L, 1L))
-    {
+    } else if (lsame_(type__, "B", 1L, 1L)) {
         itype = 4;
-    }
-    else if (lsame_(type__, "Q", 1L, 1L))
-    {
+    } else if (lsame_(type__, "Q", 1L, 1L)) {
         itype = 5;
-    }
-    else if (lsame_(type__, "Z", 1L, 1L))
-    {
+    } else if (lsame_(type__, "Z", 1L, 1L)) {
         itype = 6;
-    }
-    else
-    {
+    } else {
         itype = -1;
     }
-    mn = min(*m,*n);
+    mn = min(*m, *n);
     isum = 0;
-    if (*nbl > 0)
-    {
+    if (*nbl > 0) {
         i__1 = *nbl;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             isum += nrows[i__];
             /* L10: */
         }
     }
-    if (! lscale && ! lsame_(scun, "U", 1L, 1L))
-    {
+    if (!lscale && !lsame_(scun, "U", 1L, 1L)) {
         *info = -1;
-    }
-    else if (itype == -1)
-    {
+    } else if (itype == -1) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*n < 0 || (itype == 4 || itype == 5) && *n != *m)
-    {
+    } else if (*n < 0 || (itype == 4 || itype == 5) && *n != *m) {
         *info = -4;
-    }
-    else if (*anrm < 0.)
-    {
+    } else if (*anrm < 0.) {
         *info = -7;
-    }
-    else if (*nbl < 0)
-    {
+    } else if (*nbl < 0) {
         *info = -8;
-    }
-    else if (*nbl > 0 && isum != mn)
-    {
+    } else if (*nbl > 0 && isum != mn) {
         *info = -9;
-    }
-    else if (itype <= 3 && *lda < max(1,*m))
-    {
+    } else if (itype <= 3 && *lda < max(1, *m)) {
         *info = -11;
-    }
-    else if (itype >= 4)
-    {
+    } else if (itype >= 4) {
         /* Computing MAX */
         i__1 = *m - 1;
-        if (*kl < 0 || *kl > max(i__1,0))
-        {
+        if (*kl < 0 || *kl > max(i__1, 0)) {
             *info = -5;
-        }
-        else /* if(complicated condition) */
+        } else /* if(complicated condition) */
         {
             /* Computing MAX */
             i__1 = *n - 1;
-            if (*ku < 0 || *ku > max(i__1,0) || (itype == 4 || itype == 5) && *kl != *ku)
-            {
+            if (*ku < 0 || *ku > max(i__1, 0) || (itype == 4 || itype == 5) && *kl != *ku) {
                 *info = -6;
-            }
-            else if (itype == 4 && *lda < *kl + 1 || itype == 5 && *lda < *ku + 1 || itype == 6 && *lda < (*kl << 1) + *ku + 1)
-            {
+            } else if (itype == 4 && *lda < *kl + 1 || itype == 5 && *lda < *ku + 1
+                || itype == 6 && *lda < (*kl << 1) + *ku + 1) {
                 *info = -11;
             }
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB01PD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (mn == 0 || *anrm == 0.)
-    {
+    if (mn == 0 || *anrm == 0.) {
         return 0;
     }
-    if (first)
-    {
+    if (first) {
         /*        Get machine parameters. */
         smlnum = dlamch_("S", 1L) / dlamch_("P", 1L);
         bignum = 1. / smlnum;
         dlabad_(&smlnum, &bignum);
         first = FALSE_;
     }
-    if (lscale)
-    {
+    if (lscale) {
         /*        Scale A, if its norm is outside range [SMLNUM,BIGNUM]. */
-        if (*anrm < smlnum)
-        {
+        if (*anrm < smlnum) {
             /*           Scale matrix norm up to SMLNUM. */
-            mb01qd_(type__, m, n, kl, ku, anrm, &smlnum, nbl, &nrows[1], &a[a_offset], lda, info, 1L);
-        }
-        else if (*anrm > bignum)
-        {
+            mb01qd_(
+                type__, m, n, kl, ku, anrm, &smlnum, nbl, &nrows[1], &a[a_offset], lda, info, 1L);
+        } else if (*anrm > bignum) {
             /*           Scale matrix norm down to BIGNUM. */
-            mb01qd_(type__, m, n, kl, ku, anrm, &bignum, nbl, &nrows[1], &a[a_offset], lda, info, 1L);
+            mb01qd_(
+                type__, m, n, kl, ku, anrm, &bignum, nbl, &nrows[1], &a[a_offset], lda, info, 1L);
         }
-    }
-    else
-    {
+    } else {
         /*        Undo scaling. */
-        if (*anrm < smlnum)
-        {
-            mb01qd_(type__, m, n, kl, ku, &smlnum, anrm, nbl, &nrows[1], &a[a_offset], lda, info, 1L);
-        }
-        else if (*anrm > bignum)
-        {
-            mb01qd_(type__, m, n, kl, ku, &bignum, anrm, nbl, &nrows[1], &a[a_offset], lda, info, 1L);
+        if (*anrm < smlnum) {
+            mb01qd_(
+                type__, m, n, kl, ku, &smlnum, anrm, nbl, &nrows[1], &a[a_offset], lda, info, 1L);
+        } else if (*anrm > bignum) {
+            mb01qd_(
+                type__, m, n, kl, ku, &bignum, anrm, nbl, &nrows[1], &a[a_offset], lda, info, 1L);
         }
     }
     return 0;
     /* *** Last line of MB01PD *** */
 } /* mb01pd_ */
-

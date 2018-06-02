@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,8 +9,8 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tb04bw_(order, p, m, md, ign, ldign, igd, ldigd, gn, gd, d__, ldd, info, order_len)
-char *order;
+EXPORTSYMBOL /* Subroutine */ int tb04bw_(
+    order, p, m, md, ign, ldign, igd, ldigd, gn, gd, d__, ldd, info, order_len) char* order;
 integer *p, *m, *md, *ign, *ldign, *igd, *ldigd;
 doublereal *gn, *gd, *d__;
 integer *ldd, *info;
@@ -150,81 +150,54 @@ ftnlen order_len;
     /* Function Body */
     *info = 0;
     ascend = lsame_(order, "I", 1L, 1L);
-    if (! ascend && ! lsame_(order, "D", 1L, 1L))
-    {
+    if (!ascend && !lsame_(order, "D", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*md < 1)
-    {
+    } else if (*md < 1) {
         *info = -4;
-    }
-    else if (*ldign < max(1,*p))
-    {
+    } else if (*ldign < max(1, *p)) {
         *info = -6;
-    }
-    else if (*ldigd < max(1,*p))
-    {
+    } else if (*ldigd < max(1, *p)) {
         *info = -8;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -12;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TB04BW", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (min(*p,*m) == 0)
-    {
+    if (min(*p, *m) == 0) {
         return 0;
     }
     k = 1;
-    if (ascend)
-    {
+    if (ascend) {
         /*        Polynomial coefficients are stored in increasing order. */
         i__1 = *m;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *p;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 dij = d__[i__ + j * d_dim1];
-                if (dij != 0.)
-                {
+                if (dij != 0.) {
                     nn = ign[i__ + j * ign_dim1];
                     nd = igd[i__ + j * igd_dim1];
-                    if (nn == 0 && nd == 0)
-                    {
-                        if (gn[k] == 0.)
-                        {
+                    if (nn == 0 && nd == 0) {
+                        if (gn[k] == 0.) {
                             gn[k] = dij;
-                        }
-                        else
-                        {
+                        } else {
                             gn[k] += dij * gd[k];
                         }
-                    }
-                    else
-                    {
-                        km = min(nn,nd) + 1;
+                    } else {
+                        km = min(nn, nd) + 1;
                         daxpy_(&km, &dij, &gd[k], &c__1, &gn[k], &c__1);
-                        if (nn < nd)
-                        {
+                        if (nn < nd) {
                             i__3 = k + nd;
-                            for (ii = k + km; ii <= i__3; ++ii)
-                            {
+                            for (ii = k + km; ii <= i__3; ++ii) {
                                 gn[ii] = dij * gd[ii];
                                 /* L10: */
                             }
@@ -237,55 +210,39 @@ ftnlen order_len;
             }
             /* L30: */
         }
-    }
-    else
-    {
+    } else {
         /*        Polynomial coefficients are stored in decreasing order. */
         i__1 = *m;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *p;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 dij = d__[i__ + j * d_dim1];
-                if (dij != 0.)
-                {
+                if (dij != 0.) {
                     nn = ign[i__ + j * ign_dim1];
                     nd = igd[i__ + j * igd_dim1];
-                    if (nn == 0 && nd == 0)
-                    {
-                        if (gn[k] == 0.)
-                        {
+                    if (nn == 0 && nd == 0) {
+                        if (gn[k] == 0.) {
                             gn[k] = dij;
-                        }
-                        else
-                        {
+                        } else {
                             gn[k] += dij * gd[k];
                         }
-                    }
-                    else
-                    {
-                        km = min(nn,nd) + 1;
-                        if (nn < nd)
-                        {
+                    } else {
+                        km = min(nn, nd) + 1;
+                        if (nn < nd) {
                             kk = k + nd - nn;
                             i__3 = k;
-                            for (ii = k + nn; ii >= i__3; --ii)
-                            {
+                            for (ii = k + nn; ii >= i__3; --ii) {
                                 gn[ii + nd - nn] = gn[ii];
                                 /* L35: */
                             }
                             i__3 = kk - 1;
-                            for (ii = k; ii <= i__3; ++ii)
-                            {
+                            for (ii = k; ii <= i__3; ++ii) {
                                 gn[ii] = dij * gd[ii];
                                 /* L40: */
                             }
                             ign[i__ + j * ign_dim1] = nd;
                             daxpy_(&km, &dij, &gd[kk], &c__1, &gn[kk], &c__1);
-                        }
-                        else
-                        {
+                        } else {
                             kk = k + nn - nd;
                             daxpy_(&km, &dij, &gd[k], &c__1, &gn[kk], &c__1);
                         }
@@ -300,4 +257,3 @@ ftnlen order_len;
     return 0;
     /* *** Last line of TB04BW *** */
 } /* tb04bw_ */
-

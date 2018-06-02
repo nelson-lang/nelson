@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,26 +10,29 @@
 static doublereal c_b22 = 1.;
 static doublereal c_b45 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int sb16bd_(dico, jobd, jobmr, jobcf, equil, ordsel, n, m, p, ncr, a, lda, b, ldb, c__, ldc, d__, ldd, f, ldf, g, ldg, dc, lddc, hsv, tol1, tol2, iwork, dwork, ldwork, iwarn, info, dico_len, jobd_len, jobmr_len, jobcf_len, equil_len, ordsel_len)
-char *dico, *jobd, *jobmr, *jobcf, *equil, *ordsel;
+EXPORTSYMBOL /* Subroutine */ int sb16bd_(dico, jobd, jobmr, jobcf, equil, ordsel, n, m, p, ncr, a,
+    lda, b, ldb, c__, ldc, d__, ldd, f, ldf, g, ldg, dc, lddc, hsv, tol1, tol2, iwork, dwork,
+    ldwork, iwarn, info, dico_len, jobd_len, jobmr_len, jobcf_len, equil_len, ordsel_len) char *dico
+    ,
+    *jobd, *jobmr, *jobcf, *equil, *ordsel;
 integer *n, *m, *p, *ncr;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *f;
-integer *ldf;
-doublereal *g;
-integer *ldg;
-doublereal *dc;
-integer *lddc;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* f;
+integer* ldf;
+doublereal* g;
+integer* ldg;
+doublereal* dc;
+integer* lddc;
 doublereal *hsv, *tol1, *tol2;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen dico_len;
 ftnlen jobd_len;
@@ -39,7 +42,8 @@ ftnlen equil_len;
 ftnlen ordsel_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, dc_dim1, dc_offset, f_dim1, f_offset, g_dim1, g_offset, i__1, i__2, i__3, i__4;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, dc_dim1,
+        dc_offset, f_dim1, f_offset, g_dim1, g_offset, i__1, i__2, i__3, i__4;
     /* Local variables */
     static integer ldbe, ldce, ldde;
     static logical left;
@@ -389,97 +393,60 @@ ftnlen ordsel_len;
     left = lsame_(jobcf, "L", 1L, 1L);
     lequil = lsame_(equil, "S", 1L, 1L);
     fixord = lsame_(ordsel, "F", 1L, 1L);
-    maxmp = max(*m,*p);
+    maxmp = max(*m, *p);
     /* Computing MAX */
     /* Computing MAX */
     i__3 = *n, i__4 = *m + *p;
-    i__1 = 1, i__2 = *n * ((*n << 1) + max(i__3,i__4) + 5) + *n * (*n + 1) / 2;
-    lwr = max(i__1,i__2);
+    i__1 = 1, i__2 = *n * ((*n << 1) + max(i__3, i__4) + 5) + *n * (*n + 1) / 2;
+    lwr = max(i__1, i__2);
     /* Computing MAX */
     i__1 = lwr, i__2 = *m << 2;
-    lw1 = (*n + *m) * (*m + *p) + max(i__1,i__2);
+    lw1 = (*n + *m) * (*m + *p) + max(i__1, i__2);
     /* Computing MAX */
     i__1 = lwr, i__2 = *p << 2;
-    lw2 = (*n + *p) * (*m + *p) + max(i__1,i__2);
+    lw2 = (*n + *p) * (*m + *p) + max(i__1, i__2);
     /*     Test the input scalar arguments. */
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (! (withd || lsame_(jobd, "Z", 1L, 1L)))
-    {
+    } else if (!(withd || lsame_(jobd, "Z", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (bta || spa))
-    {
+    } else if (!(bta || spa)) {
         *info = -3;
-    }
-    else if (! (left || lsame_(jobcf, "R", 1L, 1L)))
-    {
+    } else if (!(left || lsame_(jobcf, "R", 1L, 1L))) {
         *info = -4;
-    }
-    else if (! (lequil || lsame_(equil, "N", 1L, 1L)))
-    {
+    } else if (!(lequil || lsame_(equil, "N", 1L, 1L))) {
         *info = -5;
-    }
-    else if (! (fixord || lsame_(ordsel, "A", 1L, 1L)))
-    {
+    } else if (!(fixord || lsame_(ordsel, "A", 1L, 1L))) {
         *info = -6;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -7;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -8;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -9;
-    }
-    else if (fixord && (*ncr < 0 || *ncr > *n))
-    {
+    } else if (fixord && (*ncr < 0 || *ncr > *n)) {
         *info = -10;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -12;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -14;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -16;
-    }
-    else if (*ldd < 1 || withd && *ldd < *p)
-    {
+    } else if (*ldd < 1 || withd && *ldd < *p) {
         *info = -18;
-    }
-    else if (*ldf < max(1,*m))
-    {
+    } else if (*ldf < max(1, *m)) {
         *info = -20;
-    }
-    else if (*ldg < max(1,*n))
-    {
+    } else if (*ldg < max(1, *n)) {
         *info = -22;
-    }
-    else if (*lddc < max(1,*m))
-    {
+    } else if (*lddc < max(1, *m)) {
         *info = -24;
-    }
-    else if (! fixord && *tol2 > 0. && *tol2 > *tol1)
-    {
+    } else if (!fixord && *tol2 > 0. && *tol2 > *tol1) {
         *info = -27;
-    }
-    else if ((! fixord || *ncr < *n) && (left && *ldwork < lw1) || ! left && *ldwork < lw2 || fixord && *ncr == *n && *ldwork < *p **n)
-    {
+    } else if ((!fixord || *ncr < *n) && (left && *ldwork < lw1) || !left && *ldwork < lw2
+        || fixord && *ncr == *n && *ldwork < *p * *n) {
         *info = -30;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB16BD", &i__1, 6L);
@@ -487,59 +454,56 @@ ftnlen ordsel_len;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*n,*m);
-    if (min(i__1,*p) == 0 || fixord && bta && *ncr == 0)
-    {
+    i__1 = min(*n, *m);
+    if (min(i__1, *p) == 0 || fixord && bta && *ncr == 0) {
         *ncr = 0;
         dwork[1] = 1.;
         return 0;
     }
-    if (*ncr == *n)
-    {
+    if (*ncr == *n) {
         /*        Form the controller state matrix, */
         /*        Ac = A + B*F + G*C + G*D*F = A + B*F + G*(C+D*F) . */
         /*        Real workspace:    need  P*N. */
         /*        Integer workspace: need  0. */
         dlacpy_("Full", p, n, &c__[c_offset], ldc, &dwork[1], p, 4L);
-        if (withd)
-        {
-            dgemm_("NoTranspose", "NoTranspose", p, n, m, &c_b22, &d__[d_offset], ldd, &f[f_offset], ldf, &c_b22, &dwork[1], p, 11L, 11L);
+        if (withd) {
+            dgemm_("NoTranspose", "NoTranspose", p, n, m, &c_b22, &d__[d_offset], ldd, &f[f_offset],
+                ldf, &c_b22, &dwork[1], p, 11L, 11L);
         }
-        dgemm_("NoTranspose", "NoTranspose", n, n, p, &c_b22, &g[g_offset], ldg, &dwork[1], p, &c_b22, &a[a_offset], lda, 11L, 11L);
-        dgemm_("NoTranspose", "NoTranspose", n, n, m, &c_b22, &b[b_offset], ldb, &f[f_offset], ldf, &c_b22, &a[a_offset], lda, 11L, 11L);
-        dwork[1] = (doublereal) (*p **n);
+        dgemm_("NoTranspose", "NoTranspose", n, n, p, &c_b22, &g[g_offset], ldg, &dwork[1], p,
+            &c_b22, &a[a_offset], lda, 11L, 11L);
+        dgemm_("NoTranspose", "NoTranspose", n, n, m, &c_b22, &b[b_offset], ldb, &f[f_offset], ldf,
+            &c_b22, &a[a_offset], lda, 11L, 11L);
+        dwork[1] = (doublereal)(*p * *n);
         return 0;
     }
-    if (bal)
-    {
-        *(unsigned char *)job = 'B';
-    }
-    else
-    {
-        *(unsigned char *)job = 'N';
+    if (bal) {
+        *(unsigned char*)job = 'B';
+    } else {
+        *(unsigned char*)job = 'N';
     }
     /*     Reduce the coprime factors. */
-    if (left)
-    {
+    if (left) {
         /*        Form Ge(d) = [ N_left(d) M_left(d) ] as */
         /*             ( A+G*C |  G  B+GD ) */
         /*             (------------------) */
         /*             (   F   |  0   I   ) */
         /*        Real workspace:    need  (N+M)*(M+P). */
         /*        Integer workspace: need  0. */
-        dgemm_("NoTranspose", "NoTranspose", n, n, p, &c_b22, &g[g_offset], ldg, &c__[c_offset], ldc, &c_b22, &a[a_offset], lda, 11L, 11L);
+        dgemm_("NoTranspose", "NoTranspose", n, n, p, &c_b22, &g[g_offset], ldg, &c__[c_offset],
+            ldc, &c_b22, &a[a_offset], lda, 11L, 11L);
         kbe = 1;
         kde = kbe + *n * (*p + *m);
-        ldbe = max(1,*n);
+        ldbe = max(1, *n);
         ldde = *m;
         dlacpy_("Full", n, p, &g[g_offset], ldg, &dwork[kbe], &ldbe, 4L);
-        dlacpy_("Full", n, m, &b[b_offset], ldb, &dwork[kbe + *n **p], &ldbe, 4L);
-        if (withd)
-        {
-            dgemm_("NoTranspose", "NoTranspose", n, m, p, &c_b22, &g[g_offset], ldg, &d__[d_offset], ldd, &c_b22, &dwork[kbe + *n **p], &ldbe, 11L, 11L);
+        dlacpy_("Full", n, m, &b[b_offset], ldb, &dwork[kbe + *n * *p], &ldbe, 4L);
+        if (withd) {
+            dgemm_("NoTranspose", "NoTranspose", n, m, p, &c_b22, &g[g_offset], ldg, &d__[d_offset],
+                ldd, &c_b22, &dwork[kbe + *n * *p], &ldbe, 11L, 11L);
         }
         dlaset_("Full", m, p, &c_b45, &c_b45, &dwork[kde], &ldde, 4L);
-        dlaset_("Full", m, m, &c_b45, &c_b22, &dwork[kde + *m **p], &ldde, 4L);
+        dlaset_("Full", m, m, &c_b45, &c_b22, &dwork[kde + *m * *p], &ldde, 4L);
         /*        Compute the reduced coprime factors, */
         /*             Ger(d) = [ N_leftr(d) M_leftr(d) ] , */
         /*        by using either the B&T or SPA methods. */
@@ -549,35 +513,35 @@ ftnlen ordsel_len;
         /*                                 N,         if JOBMR = 'F', and */
         /*                                 MAX(1,2*N) if JOBMR = 'S' or 'P'. */
         kw = kde + *m * (*p + *m);
-        if (bta)
-        {
+        if (bta) {
             i__1 = *m + *p;
             i__2 = *ldwork - kw + 1;
-            ab09ad_(dico, job, equil, ordsel, n, &i__1, m, ncr, &a[a_offset], lda, &dwork[kbe], &ldbe, &f[f_offset], ldf, &hsv[1], tol1, &iwork[1], &dwork[kw], &i__2, iwarn, info, 1L, 1L, 1L, 1L);
-        }
-        else
-        {
+            ab09ad_(dico, job, equil, ordsel, n, &i__1, m, ncr, &a[a_offset], lda, &dwork[kbe],
+                &ldbe, &f[f_offset], ldf, &hsv[1], tol1, &iwork[1], &dwork[kw], &i__2, iwarn, info,
+                1L, 1L, 1L, 1L);
+        } else {
             i__1 = *m + *p;
             i__2 = *ldwork - kw + 1;
-            ab09bd_(dico, job, equil, ordsel, n, &i__1, m, ncr, &a[a_offset], lda, &dwork[kbe], &ldbe, &f[f_offset], ldf, &dwork[kde], &ldde, &hsv[1], tol1, tol2, &iwork[1], &dwork[kw], &i__2, iwarn, info, 1L, 1L, 1L, 1L);
+            ab09bd_(dico, job, equil, ordsel, n, &i__1, m, ncr, &a[a_offset], lda, &dwork[kbe],
+                &ldbe, &f[f_offset], ldf, &dwork[kde], &ldde, &hsv[1], tol1, tol2, &iwork[1],
+                &dwork[kw], &i__2, iwarn, info, 1L, 1L, 1L, 1L);
         }
-        if (*info != 0)
-        {
+        if (*info != 0) {
             return 0;
         }
-        wrkopt = (integer) dwork[kw] + kw - 1;
+        wrkopt = (integer)dwork[kw] + kw - 1;
         /*        Compute the reduced order controller, */
         /*                             -1 */
         /*           Kr(d) = M_leftr(d)  *N_leftr(d). */
         /*        Real workspace:    need  (N+M)*(M+P) + MAX(1,4*M). */
         /*        Integer workspace: need  M. */
-        sb08gd_(ncr, p, m, &a[a_offset], lda, &dwork[kbe], &ldbe, &f[f_offset], ldf, &dwork[kde], &ldde, &dwork[kbe + *n **p], &ldbe, &dwork[kde + *m **p], &ldde, &iwork[1], &dwork[kw], info);
+        sb08gd_(ncr, p, m, &a[a_offset], lda, &dwork[kbe], &ldbe, &f[f_offset], ldf, &dwork[kde],
+            &ldde, &dwork[kbe + *n * *p], &ldbe, &dwork[kde + *m * *p], &ldde, &iwork[1],
+            &dwork[kw], info);
         /*        Copy the reduced system matrices Bc and Dc. */
         dlacpy_("Full", ncr, p, &dwork[kbe], &ldbe, &g[g_offset], ldg, 4L);
         dlacpy_("Full", m, p, &dwork[kde], &ldde, &dc[dc_offset], lddc, 4L);
-    }
-    else
-    {
+    } else {
         /*        Form Ge(d) = [ N_right(d) ] */
         /*                     [ M_right(d) ] as */
         /*             ( A+B*F | G ) */
@@ -586,16 +550,17 @@ ftnlen ordsel_len;
         /*             ( C+D*F | I ) */
         /*        Real workspace:    need  (N+P)*(M+P). */
         /*        Integer workspace: need  0. */
-        dgemm_("NoTranspose", "NoTranspose", n, n, m, &c_b22, &b[b_offset], ldb, &f[f_offset], ldf, &c_b22, &a[a_offset], lda, 11L, 11L);
+        dgemm_("NoTranspose", "NoTranspose", n, n, m, &c_b22, &b[b_offset], ldb, &f[f_offset], ldf,
+            &c_b22, &a[a_offset], lda, 11L, 11L);
         kce = 1;
         kde = kce + *n * (*p + *m);
         ldce = *m + *p;
         ldde = ldce;
         dlacpy_("Full", m, n, &f[f_offset], ldf, &dwork[kce], &ldce, 4L);
         dlacpy_("Full", p, n, &c__[c_offset], ldc, &dwork[kce + *m], &ldce, 4L);
-        if (withd)
-        {
-            dgemm_("NoTranspose", "NoTranspose", p, n, m, &c_b22, &d__[d_offset], ldd, &f[f_offset], ldf, &c_b22, &dwork[kce + *m], &ldce, 11L, 11L);
+        if (withd) {
+            dgemm_("NoTranspose", "NoTranspose", p, n, m, &c_b22, &d__[d_offset], ldd, &f[f_offset],
+                ldf, &c_b22, &dwork[kce + *m], &ldce, 11L, 11L);
         }
         dlaset_("Full", m, p, &c_b45, &c_b45, &dwork[kde], &ldde, 4L);
         dlaset_("Full", p, p, &c_b45, &c_b22, &dwork[kde + *m], &ldde, 4L);
@@ -609,39 +574,38 @@ ftnlen ordsel_len;
         /*                                 N,         if JOBMR = 'F', and */
         /*                                 MAX(1,2*N) if JOBMR = 'S' or 'P'. */
         kw = kde + *p * (*p + *m);
-        if (bta)
-        {
+        if (bta) {
             i__1 = *m + *p;
             i__2 = *ldwork - kw + 1;
-            ab09ad_(dico, job, equil, ordsel, n, p, &i__1, ncr, &a[a_offset], lda, &g[g_offset], ldg, &dwork[kce], &ldce, &hsv[1], tol1, &iwork[1], &dwork[kw], &i__2, iwarn, info, 1L, 1L, 1L, 1L);
-        }
-        else
-        {
+            ab09ad_(dico, job, equil, ordsel, n, p, &i__1, ncr, &a[a_offset], lda, &g[g_offset],
+                ldg, &dwork[kce], &ldce, &hsv[1], tol1, &iwork[1], &dwork[kw], &i__2, iwarn, info,
+                1L, 1L, 1L, 1L);
+        } else {
             i__1 = *m + *p;
             i__2 = *ldwork - kw + 1;
-            ab09bd_(dico, job, equil, ordsel, n, p, &i__1, ncr, &a[a_offset], lda, &g[g_offset], ldg, &dwork[kce], &ldce, &dwork[kde], &ldde, &hsv[1], tol1, tol2, &iwork[1], &dwork[kw], &i__2, iwarn, info, 1L, 1L, 1L, 1L);
+            ab09bd_(dico, job, equil, ordsel, n, p, &i__1, ncr, &a[a_offset], lda, &g[g_offset],
+                ldg, &dwork[kce], &ldce, &dwork[kde], &ldde, &hsv[1], tol1, tol2, &iwork[1],
+                &dwork[kw], &i__2, iwarn, info, 1L, 1L, 1L, 1L);
         }
-        if (*info != 0)
-        {
-            if (*info != 3)
-            {
+        if (*info != 0) {
+            if (*info != 3) {
                 *info += 3;
             }
             return 0;
         }
-        wrkopt = (integer) dwork[kw] + kw - 1;
+        wrkopt = (integer)dwork[kw] + kw - 1;
         /*        Compute the reduced order controller, */
         /*                                        -1 */
         /*           Kr(d) = N_rightr(d)*M_rightr(d) . */
         /*        Real workspace:    need  (N+P)*(M+P) + MAX(1,4*P). */
         /*        Integer workspace: need  P. */
-        sb08hd_(ncr, p, m, &a[a_offset], lda, &g[g_offset], ldg, &dwork[kce], &ldce, &dwork[kde], &ldde, &dwork[kce + *m], &ldce, &dwork[kde + *m], &ldde, &iwork[1], &dwork[kw], info);
+        sb08hd_(ncr, p, m, &a[a_offset], lda, &g[g_offset], ldg, &dwork[kce], &ldce, &dwork[kde],
+            &ldde, &dwork[kce + *m], &ldce, &dwork[kde + *m], &ldde, &iwork[1], &dwork[kw], info);
         /*        Copy the reduced system matrices Cc and Dc. */
         dlacpy_("Full", m, ncr, &dwork[kce], &ldce, &f[f_offset], ldf, 4L);
         dlacpy_("Full", m, p, &dwork[kde], &ldde, &dc[dc_offset], lddc, 4L);
     }
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of SB16BD *** */
 } /* sb16bd_ */
-

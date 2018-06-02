@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,19 +14,20 @@ static integer c__0 = 0;
 static integer c__1 = 1;
 static doublereal c_b85 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb02nd_(m, n, l, rank, theta, c__, ldc, x, ldx, q, inul, tol, reltol, iwork, dwork, ldwork, bwork, iwarn, info)
-integer *m, *n, *l, *rank;
+EXPORTSYMBOL /* Subroutine */ int mb02nd_(m, n, l, rank, theta, c__, ldc, x, ldx, q, inul, tol,
+    reltol, iwork, dwork, ldwork, bwork, iwarn, info) integer *m,
+    *n, *l, *rank;
 doublereal *theta, *c__;
-integer *ldc;
-doublereal *x;
-integer *ldx;
-doublereal *q;
-logical *inul;
+integer* ldc;
+doublereal* x;
+integer* ldx;
+doublereal* q;
+logical* inul;
 doublereal *tol, *reltol;
-integer *iwork;
-doublereal *dwork;
-integer *ldwork;
-logical *bwork;
+integer* iwork;
+doublereal* dwork;
+integer* ldwork;
+logical* bwork;
 integer *iwarn, *info;
 {
     /* System generated locals */
@@ -403,82 +404,59 @@ integer *iwarn, *info;
     *iwarn = 0;
     *info = 0;
     nl = *n + *l;
-    k = max(*m,nl);
-    p = min(*m,nl);
-    if (*m >= nl)
-    {
+    k = max(*m, nl);
+    p = min(*m, nl);
+    if (*m >= nl) {
         lw = nl * (nl - 1) / 2;
-    }
-    else
-    {
+    } else {
         lw = *m * nl - *m * (*m - 1) / 2;
     }
     /* Computing MAX */
     /* Computing MAX */
     i__3 = nl, i__4 = *l * 3;
-    i__1 = nl * 6 - 5, i__2 = *l **l + max(i__3,i__4);
-    jv = p + lw + max(i__1,i__2);
+    i__1 = nl * 6 - 5, i__2 = *l * *l + max(i__3, i__4);
+    jv = p + lw + max(i__1, i__2);
     /*     Test the input scalar arguments. */
-    if (*m < 0)
-    {
+    if (*m < 0) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*l < 0)
-    {
+    } else if (*l < 0) {
         *info = -3;
-    }
-    else if (*rank > min(*m,*n))
-    {
+    } else if (*rank > min(*m, *n)) {
         *info = -4;
-    }
-    else if (*rank < 0 && *theta < 0.)
-    {
+    } else if (*rank < 0 && *theta < 0.) {
         *info = -5;
-    }
-    else if (*ldc < max(1,k))
-    {
+    } else if (*ldc < max(1, k)) {
         *info = -7;
-    }
-    else if (*ldx < max(1,*n))
-    {
+    } else if (*ldx < max(1, *n)) {
         *info = -9;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = 2, i__2 = k + (p << 1), i__1 = max(i__1,i__2);
-        if (*ldwork < max(i__1,jv))
-        {
+        i__1 = 2, i__2 = k + (p << 1), i__1 = max(i__1, i__2);
+        if (*ldwork < max(i__1, jv)) {
             *info = -16;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB02ND", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (min(*m,nl) == 0)
-    {
-        if (*m == 0)
-        {
+    if (min(*m, nl) == 0) {
+        if (*m == 0) {
             dlaset_("Full", &nl, &nl, &c_b4, &c_b5, &c__[c_offset], ldc, 4L);
             dlaset_("Full", n, l, &c_b4, &c_b4, &x[x_offset], ldx, 4L);
             i__1 = nl;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 inul[i__] = TRUE_;
                 /* L10: */
             }
         }
-        if (*rank >= 0)
-        {
+        if (*rank >= 0) {
             *theta = 0.;
         }
         *rank = 0;
@@ -492,15 +470,13 @@ integer *iwarn, *info;
     lfirst = TRUE_;
     /*     Initializations. */
     i__1 = p;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         inul[i__] = FALSE_;
         bwork[i__] = FALSE_;
         /* L20: */
     }
     i__1 = nl;
-    for (i__ = p + 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = p + 1; i__ <= i__1; ++i__) {
         inul[i__] = TRUE_;
         bwork[i__] = FALSE_;
         /* L40: */
@@ -518,8 +494,7 @@ integer *iwarn, *info;
     /*     following subroutine, as returned by ILAENV.) */
     /* Computing MAX */
     i__1 = nl, i__2 = ilaenv_(&c__6, "DGESVD", "NN", m, &nl, &c__0, &c__0, 6L, 2L);
-    if (*m >= max(i__1,i__2))
-    {
+    if (*m >= max(i__1, i__2)) {
         /*        Workspace: need   2*(N+L), */
         /*                   prefer N+L + (N+L)*NB. */
         itauq = 1;
@@ -527,18 +502,15 @@ integer *iwarn, *info;
         i__1 = *ldwork - jwork + 1;
         dgeqrf_(m, &nl, &c__[c_offset], ldc, &dwork[itauq], &dwork[jwork], &i__1, &ifail);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__1,i__2);
-        if (nl > 1)
-        {
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__1, i__2);
+        if (nl > 1) {
             i__1 = nl - 1;
             i__2 = nl - 1;
             dlaset_("Lower", &i__1, &i__2, &c_b4, &c_b4, &c__[c_dim1 + 2], ldc, 5L);
         }
         mnl = nl;
-    }
-    else
-    {
+    } else {
         mnl = *m;
     }
     /*     1.b): Transform C (or R) into bidiagonal form Q using Householder */
@@ -549,27 +521,24 @@ integer *iwarn, *info;
     itauq = itaup + p;
     jwork = itauq + p;
     i__1 = *ldwork - jwork + 1;
-    dgebrd_(&mnl, &nl, &c__[c_offset], ldc, &q[1], &q[p + 1], &dwork[itauq], &dwork[itaup], &dwork[jwork], &i__1, &ifail);
+    dgebrd_(&mnl, &nl, &c__[c_offset], ldc, &q[1], &q[p + 1], &dwork[itauq], &dwork[itaup],
+        &dwork[jwork], &i__1, &ifail);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
     /*     If the matrix is lower bidiagonal, rotate to be upper bidiagonal */
     /*     by applying Givens rotations on the left. */
-    if (*m < nl)
-    {
+    if (*m < nl) {
         ioff = 0;
         i__1 = p - 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dlartg_(&q[i__], &q[p + i__], &cs, &sn, &temp);
             q[i__] = temp;
             q[p + i__] = sn * q[i__ + 1];
             q[i__ + 1] = cs * q[i__ + 1];
             /* L60: */
         }
-    }
-    else
-    {
+    } else {
         ioff = 1;
     }
     /*     Store the Householder transformations performed onto the rows of C */
@@ -586,24 +555,20 @@ integer *iwarn, *info;
     i__3 = nl;
     /* Computing MAX */
     i__4 = nl, i__5 = *l * 3;
-    i__1 = (*n + *l) * 6 - 5, i__2 = i__3 * i__3 + max(i__4,i__5) - 1;
-    sufwrk = *ldwork >= kf + max(i__1,i__2);
-    if (sufwrk)
-    {
+    i__1 = (*n + *l) * 6 - 5, i__2 = i__3 * i__3 + max(i__4, i__5) - 1;
+    sufwrk = *ldwork >= kf + max(i__1, i__2);
+    if (sufwrk) {
         /*        Enough workspace for a fast algorithm. */
         dlacpy_("Upper", &p, &nl, &c__[c_offset], ldc, &dwork[ihoush], &p, 5L);
         kj = kf;
         /* Computing MAX */
         i__1 = wrkopt, i__2 = kf - 1;
-        wrkopt = max(i__1,i__2);
-    }
-    else
-    {
+        wrkopt = max(i__1, i__2);
+    } else {
         /*        Not enough workspace for a fast algorithm. */
         kj = ihoush;
-        i__1 = min(p,mc);
-        for (nj = 1; nj <= i__1; ++nj)
-        {
+        i__1 = min(p, mc);
+        for (nj = 1; nj <= i__1; ++nj) {
             j = mc - nj + 1;
             dcopy_(&j, &c__[nj + (nj + ioff) * c_dim1], ldc, &dwork[kj], &c__1);
             kj += j;
@@ -626,30 +591,27 @@ integer *iwarn, *info;
 L100:
     jwork = jv;
     i__1 = *ldwork - jwork + 1;
-    mb04yd_("No U", "Update V", &p, &nl, rank, theta, &q[1], &q[p + 1], dummy, &c__1, &c__[c_offset], ldc, &inul[1], tol, reltol, &dwork[jwork], &i__1, iwarn, info, 4L, 8L);
+    mb04yd_("No U", "Update V", &p, &nl, rank, theta, &q[1], &q[p + 1], dummy, &c__1,
+        &c__[c_offset], ldc, &inul[1], tol, reltol, &dwork[jwork], &i__1, iwarn, info, 4L, 8L);
     /* Computing MAX */
     i__1 = wrkopt, i__2 = jwork + nl * 6 - 6;
-    wrkopt = max(i__1,i__2);
-    *iwarn = max(*iwarn,iwarm);
-    if (*info > 0)
-    {
+    wrkopt = max(i__1, i__2);
+    *iwarn = max(*iwarn, iwarm);
+    if (*info > 0) {
         return 0;
     }
     /*     Set pointers to the selected base vectors in the right singular */
     /*     matrix of C. */
     k = 0;
     i__1 = nl;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        if (inul[i__])
-        {
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        if (inul[i__]) {
             ++k;
             iwork[k] = i__;
         }
         /* L120: */
     }
-    if (k < *l)
-    {
+    if (k < *l) {
         /*        Rank of the TLS approximation is larger than min(M,N). */
         *info = 2;
         return 0;
@@ -662,13 +624,11 @@ L100:
     /*     by INUL(I) = .TRUE.). Already transformed vectors are those for */
     /*     which BWORK(I) = .TRUE.. */
     kf = k;
-    if (sufwrk && lfirst)
-    {
+    if (sufwrk && lfirst) {
         /*        Enough workspace for a fast algorithm and first pass. */
         ij = jv;
         i__1 = k;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dcopy_(&nl, &c__[iwork[j] * c_dim1 + 1], &c__1, &dwork[ij], &c__1);
             ij += nl;
             /* L140: */
@@ -678,36 +638,31 @@ L100:
         ij = jv;
         jwork = ij + nl * k;
         i__1 = *ldwork - jwork + 1;
-        dormbr_("P vectors", "Left", "No transpose", &nl, &k, &mnl, &dwork[ihoush], &p, &dwork[itaup], &dwork[ij], &nl, &dwork[jwork], &i__1, &ifail, 9L, 4L, 12L);
+        dormbr_("P vectors", "Left", "No transpose", &nl, &k, &mnl, &dwork[ihoush], &p,
+            &dwork[itaup], &dwork[ij], &nl, &dwork[jwork], &i__1, &ifail, 9L, 4L, 12L);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__1, i__2);
         i__1 = nl;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            if (inul[i__] && ! bwork[i__])
-            {
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            if (inul[i__] && !bwork[i__]) {
                 bwork[i__] = TRUE_;
             }
             /* L160: */
         }
-    }
-    else
-    {
+    } else {
         /*        Not enough workspace for a fast algorithm or subsequent passes. */
         i__1 = nl;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            if (inul[i__] && ! bwork[i__])
-            {
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            if (inul[i__] && !bwork[i__]) {
                 kj = jv;
-                for (nj = min(p,mc); nj >= 1; --nj)
-                {
+                for (nj = min(p, mc); nj >= 1; --nj) {
                     j = mc - nj + 1;
                     kj -= j;
                     first = dwork[kj];
                     dwork[kj] = 1.;
-                    dlarf_("Left", &j, &c__1, &dwork[kj], &c__1, &dwork[itaup + nj - 1], &c__[nj + ioff + i__ * c_dim1], ldc, &dwork[jwork], 4L);
+                    dlarf_("Left", &j, &c__1, &dwork[kj], &c__1, &dwork[itaup + nj - 1],
+                        &c__[nj + ioff + i__ * c_dim1], ldc, &dwork[jwork], 4L);
                     dwork[kj] = first;
                     /* L170: */
                 }
@@ -716,17 +671,14 @@ L100:
             /* L180: */
         }
     }
-    if (*rank <= 0)
-    {
+    if (*rank <= 0) {
         *rank = 0;
     }
-    if (min(*rank,*l) == 0)
-    {
-        if (sufwrk && lfirst)
-        {
+    if (min(*rank, *l) == 0) {
+        if (sufwrk && lfirst) {
             dlacpy_("Full", &nl, &k, &dwork[jv], &nl, &c__[c_offset], ldc, 4L);
         }
-        dwork[1] = (doublereal) wrkopt;
+        dwork[1] = (doublereal)wrkopt;
         dwork[2] = 1.;
         return 0;
     }
@@ -739,8 +691,7 @@ L100:
     /*     The code could not be the most efficient when RANK has been */
     /*     lowered, because the already created zero pattern of the last */
     /*     L rows of V2 matrix is not exploited. */
-    if (sufwrk && lfirst)
-    {
+    if (sufwrk && lfirst) {
         /*        Enough workspace for a fast algorithm and first pass. */
         /*        Workspace: need   LDW1 + 2*L, */
         /*                   prefer LDW1 + L + L*NB, where */
@@ -750,78 +701,69 @@ L100:
         i__1 = *ldwork - jwork + 1;
         dgerqf_(l, &k, &dwork[jv + *n], &nl, &dwork[itauq], &dwork[jwork], &i__1, info);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__1, i__2);
         /*        Workspace: need   LDW1 + N+L, */
         /*                   prefer LDW1 + L + N*NB. */
         i__1 = *ldwork - jwork + 1;
-        dormrq_("Right", "Transpose", n, &k, l, &dwork[jv + *n], &nl, &dwork[itauq], &dwork[jv], &nl, &dwork[jwork], &i__1, info, 5L, 9L);
+        dormrq_("Right", "Transpose", n, &k, l, &dwork[jv + *n], &nl, &dwork[itauq], &dwork[jv],
+            &nl, &dwork[jwork], &i__1, info, 5L, 9L);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__1, i__2);
         jf = jv + nl * (k - *l) + *n;
         ldf = nl;
-        jwork = jf + ldf **l - *n;
+        jwork = jf + ldf * *l - *n;
         i__1 = k - *l;
         dlaset_("Full", l, &i__1, &c_b4, &c_b4, &dwork[jv + *n], &ldf, 4L);
-        if (*l > 1)
-        {
+        if (*l > 1) {
             i__1 = *l - 1;
             i__2 = *l - 1;
             dlaset_("Lower", &i__1, &i__2, &c_b4, &c_b4, &dwork[jf + 1], &ldf, 5L);
         }
         ij = jv;
         i__1 = k;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dcopy_(&nl, &dwork[ij], &c__1, &c__[iwork[j] * c_dim1 + 1], &c__1);
             ij += nl;
             /* L200: */
         }
-    }
-    else
-    {
+    } else {
         /*        Not enough workspace for a fast algorithm or subsequent passes. */
         /*        Workspace: LDW2 + N+L, where LDW2 = LDW + L*L. */
         i__ = nl;
         jf = jv;
         ldf = *l;
-        jwork = jf + ldf **l;
+        jwork = jf + ldf * *l;
         /* Computing MAX */
         i__1 = wrkopt, i__2 = jwork + nl - 1;
-        wrkopt = max(i__1,i__2);
+        wrkopt = max(i__1, i__2);
         /*        WHILE ( ( K >= 1 ) .AND. ( I > N ) ) DO */
-L220:
-        if (k >= 1 && i__ > *n)
-        {
+    L220:
+        if (k >= 1 && i__ > *n) {
             i__1 = k;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 dwork[jwork + j - 1] = c__[i__ + iwork[j] * c_dim1];
                 /* L240: */
             }
             /*           Compute Householder transformation. */
             dlarfg_(&k, &dwork[jwork + k - 1], &dwork[jwork], &c__1, &temp);
             c__[i__ + iwork[k] * c_dim1] = dwork[jwork + k - 1];
-            if (temp != 0.)
-            {
+            if (temp != 0.) {
                 /*              Apply Householder transformation onto the selected base */
                 /*              vectors. */
                 i__1 = i__ - 1;
-                for (i1 = 1; i1 <= i__1; ++i1)
-                {
+                for (i1 = 1; i1 <= i__1; ++i1) {
                     inprod = c__[i1 + iwork[k] * c_dim1];
                     i__2 = k - 1;
-                    for (j = 1; j <= i__2; ++j)
-                    {
+                    for (j = 1; j <= i__2; ++j) {
                         inprod += dwork[jwork + j - 1] * c__[i1 + iwork[j] * c_dim1];
                         /* L260: */
                     }
                     hh = inprod * temp;
                     c__[i1 + iwork[k] * c_dim1] -= hh;
                     i__2 = k - 1;
-                    for (j = 1; j <= i__2; ++j)
-                    {
+                    for (j = 1; j <= i__2; ++j) {
                         j1 = iwork[j];
                         c__[i1 + j1 * c_dim1] -= dwork[jwork + j - 1] * hh;
                         c__[i__ + j1 * c_dim1] = 0.;
@@ -831,7 +773,8 @@ L220:
                 }
             }
             i__1 = i__ - *n;
-            dcopy_(&i__1, &c__[n1 + iwork[k] * c_dim1], &c__1, &dwork[jf + (i__ - *n - 1) **l], &c__1);
+            dcopy_(&i__1, &c__[n1 + iwork[k] * c_dim1], &c__1, &dwork[jf + (i__ - *n - 1) * *l],
+                &c__1);
             --k;
             --i__;
             goto L220;
@@ -842,47 +785,40 @@ L220:
     /*     If F singular, lower the rank of the TLS approximation. */
     /*     Workspace: LDW1 + 3*L or */
     /*                LDW2 + 3*L. */
-    dtrcon_("1-norm", "Upper", "Non-unit", l, &dwork[jf], &ldf, &rcond, &dwork[jwork], &iwork[kf + 1], info, 6L, 5L, 8L);
+    dtrcon_("1-norm", "Upper", "Non-unit", l, &dwork[jf], &ldf, &rcond, &dwork[jwork],
+        &iwork[kf + 1], info, 6L, 5L, 8L);
     /* Computing MAX */
     i__1 = wrkopt, i__2 = jwork + *l * 3 - 1;
-    wrkopt = max(i__1,i__2);
+    wrkopt = max(i__1, i__2);
     i__1 = *l;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         dcopy_(n, &c__[iwork[kf - *l + j] * c_dim1 + 1], &c__1, &x[j * x_dim1 + 1], &c__1);
         /* L320: */
     }
-    fnorm = dlantr_("1-norm", "Upper", "Non-unit", l, l, &dwork[jf], &ldf, &dwork[jwork], 6L, 5L, 8L);
-    if (rcond <= eps * fnorm)
-    {
+    fnorm
+        = dlantr_("1-norm", "Upper", "Non-unit", l, l, &dwork[jf], &ldf, &dwork[jwork], 6L, 5L, 8L);
+    if (rcond <= eps * fnorm) {
         --(*rank);
         goto L340;
     }
-    if (fnorm <= eps * dlange_("1-norm", n, l, &x[x_offset], ldx, &dwork[jwork], 6L))
-    {
+    if (fnorm <= eps * dlange_("1-norm", n, l, &x[x_offset], ldx, &dwork[jwork], 6L)) {
         *rank -= *l;
         goto L340;
-    }
-    else
-    {
+    } else {
         goto L400;
     }
 L340:
     iwarm = 2;
     *theta = -1.;
-    if (sufwrk && lfirst)
-    {
+    if (sufwrk && lfirst) {
         /*           Rearrange the stored Householder transformations for */
         /*           subsequent passes, taking care to avoid overwriting. */
-        if (p < nl)
-        {
+        if (p < nl) {
             kj = ihoush + nl * (nl - 1);
             mj = ihoush + p * (nl - 1);
             i__1 = nl;
-            for (nj = 1; nj <= i__1; ++nj)
-            {
-                for (j = p - 1; j >= 0; --j)
-                {
+            for (nj = 1; nj <= i__1; ++nj) {
+                for (j = p - 1; j >= 0; --j) {
                     dwork[kj + j] = dwork[mj + j];
                     /* L350: */
                 }
@@ -893,12 +829,10 @@ L340:
         }
         kj = ihoush;
         mj = ihoush + nl * ioff;
-        i__1 = min(p,mc);
-        for (nj = 1; nj <= i__1; ++nj)
-        {
+        i__1 = min(p, mc);
+        for (nj = 1; nj <= i__1; ++nj) {
             i__2 = mc - nj;
-            for (j = 0; j <= i__2; ++j)
-            {
+            for (j = 0; j <= i__2; ++j) {
                 dwork[kj] = dwork[mj + j * p];
                 ++kj;
                 /* L370: */
@@ -916,11 +850,11 @@ L400:
     /*     Step 5: Compute TLS solution. */
     /*             -------------------- */
     /*     Solve X F = -Y  by forward elimination  (F is upper triangular). */
-    dtrsm_("Right", "Upper", "No transpose", "Non-unit", n, l, &c_b85, &dwork[jf], &ldf, &x[x_offset], ldx, 5L, 5L, 12L, 8L);
+    dtrsm_("Right", "Upper", "No transpose", "Non-unit", n, l, &c_b85, &dwork[jf], &ldf,
+        &x[x_offset], ldx, 5L, 5L, 12L, 8L);
     /*     Set the optimal workspace and reciprocal condition number of F. */
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     dwork[2] = rcond;
     return 0;
     /* *** Last line of MB02ND *** */
 } /* mb02nd_ */
-

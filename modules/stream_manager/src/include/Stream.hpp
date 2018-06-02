@@ -39,9 +39,14 @@
 #pragma once
 
 namespace Nelson {
-    class Stream {
-    public:
-        virtual void writeBytes(const void* data, int len) = 0;
-        virtual void readBytes(void* data, int len) = 0;
-    };
-}
+class Stream
+{
+public:
+    virtual void
+    writeBytes(const void* data, int len)
+        = 0;
+    virtual void
+    readBytes(void* data, int len)
+        = 0;
+};
+} // namespace Nelson

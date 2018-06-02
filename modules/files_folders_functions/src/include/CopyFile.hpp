@@ -18,13 +18,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsFiles_folders_functions_exports.h"
 #include "Types.hpp"
+#include "nlsFiles_folders_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool CopyFile(std::wstring srcFile, std::wstring destFileOrDirectory, bool bForce, std::wstring &message);
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool CopyDirectory(std::wstring srcDir, std::wstring destDir, bool bForce, std::wstring &message);
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool CopyFiles(wstringVector srcFiles, std::wstring destDir, bool bForce, std::wstring &message);
-}
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
+CopyFile(
+    std::wstring srcFile, std::wstring destFileOrDirectory, bool bForce, std::wstring& message);
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
+CopyDirectory(std::wstring srcDir, std::wstring destDir, bool bForce, std::wstring& message);
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
+CopyFiles(wstringVector srcFiles, std::wstring destDir, bool bForce, std::wstring& message);
+} // namespace Nelson
 //=============================================================================

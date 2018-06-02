@@ -18,15 +18,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsInterpreter_exports.h"
 #include "FunctionDef.hpp"
+#include "nlsInterpreter_exports.h"
 //=============================================================================
 
 namespace Nelson {
 
-    class NLSINTERPRETER_IMPEXP ByteCodeFunctionDef : public FunctionDef {
-    public:
-    private:
-        std::string name;
-        std::wstring fullfilename;
-    }
+class NLSINTERPRETER_IMPEXP ByteCodeFunctionDef : public FunctionDef
+{
+public:
+private:
+    std::string name;
+    std::wstring fullfilename;
+}

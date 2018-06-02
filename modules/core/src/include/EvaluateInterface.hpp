@@ -18,30 +18,45 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsCore_exports.h"
 #include "Interface.hpp"
+#include "nlsCore_exports.h"
+#include <string>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-class NLSCORE_IMPEXP EvaluateInterface : public Interface {
+class NLSCORE_IMPEXP EvaluateInterface : public Interface
+{
 #define WIDTH 80
 public:
     EvaluateInterface();
     ~EvaluateInterface();
-    std::wstring getLine(std::wstring prompt);
-    std::string getLine(std::string prompt);
-    std::wstring getInput(std::wstring prompt);
-    size_t getTerminalWidth();
-    void outputMessage(std::wstring msg);
-    void outputMessage(std::string msg);
-    void errorMessage(std::wstring msg);
-    void errorMessage(std::string msg);
-    void warningMessage(std::wstring msg);
-    void warningMessage(std::string msg);
-    void clearTerminal();
-    bool isAtPrompt();
-    std::wstring getOutputBuffer();
+    std::wstring
+    getLine(std::wstring prompt);
+    std::string
+    getLine(std::string prompt);
+    std::wstring
+    getInput(std::wstring prompt);
+    size_t
+    getTerminalWidth();
+    void
+    outputMessage(std::wstring msg);
+    void
+    outputMessage(std::string msg);
+    void
+    errorMessage(std::wstring msg);
+    void
+    errorMessage(std::string msg);
+    void
+    warningMessage(std::wstring msg);
+    void
+    warningMessage(std::string msg);
+    void
+    clearTerminal();
+    bool
+    isAtPrompt();
+    std::wstring
+    getOutputBuffer();
+
 private:
     std::wstring outputBuffer;
 };

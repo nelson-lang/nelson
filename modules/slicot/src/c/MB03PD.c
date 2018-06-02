@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,15 +10,15 @@
 static integer c__1 = 1;
 static integer c__2 = 2;
 
-EXPORTSYMBOL /* Subroutine */ int mb03pd_(jobrq, m, n, a, lda, jpvt, rcond, svlmax, tau, rank, sval, dwork, info, jobrq_len)
-char *jobrq;
+EXPORTSYMBOL /* Subroutine */ int mb03pd_(
+    jobrq, m, n, a, lda, jpvt, rcond, svlmax, tau, rank, sval, dwork, info, jobrq_len) char* jobrq;
 integer *m, *n;
-doublereal *a;
+doublereal* a;
 integer *lda, *jpvt;
 doublereal *rcond, *svlmax, *tau;
-integer *rank;
+integer* rank;
 doublereal *sval, *dwork;
-integer *info;
+integer* info;
 ftnlen jobrq_len;
 {
     /* System generated locals */
@@ -220,50 +220,36 @@ ftnlen jobrq_len;
     --dwork;
     /* Function Body */
     ljobrq = lsame_(jobrq, "R", 1L, 1L);
-    mn = min(*m,*n);
+    mn = min(*m, *n);
     /*     Test the input scalar arguments. */
     *info = 0;
-    if (! ljobrq && ! lsame_(jobrq, "N", 1L, 1L))
-    {
+    if (!ljobrq && !lsame_(jobrq, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -5;
-    }
-    else if (*rcond < 0.)
-    {
+    } else if (*rcond < 0.) {
         *info = -7;
-    }
-    else if (*svlmax < 0.)
-    {
+    } else if (*svlmax < 0.) {
         *info = -8;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB03PD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (mn == 0)
-    {
+    if (mn == 0) {
         *rank = 0;
         sval[1] = 0.;
         sval[2] = 0.;
         sval[3] = 0.;
         return 0;
     }
-    if (ljobrq)
-    {
+    if (ljobrq) {
         /*        Compute RQ factorization with row pivoting of A: */
         /*           P * A = R * Q */
         /*        Workspace 3*M. Details of Householder rotations stored in TAU. */
@@ -272,15 +258,12 @@ ftnlen jobrq_len;
     /*     Determine RANK using incremental condition estimation. */
     /*        Workspace 3*min(M,N). */
     smax = (d__1 = a[*m + *n * a_dim1], abs(d__1));
-    if (smax == 0. || *svlmax **rcond > smax)
-    {
+    if (smax == 0. || *svlmax * *rcond > smax) {
         *rank = 0;
         sval[1] = smax;
         sval[2] = 0.;
         sval[3] = 0.;
-    }
-    else
-    {
+    } else {
         ismin = mn;
         ismax = mn << 1;
         jwork = ismax + 1;
@@ -289,21 +272,18 @@ ftnlen jobrq_len;
         *rank = 1;
         smin = smax;
         sminpr = smin;
-L10:
-        if (*rank < mn)
-        {
+    L10:
+        if (*rank < mn) {
             dcopy_(rank, &a[*m - *rank + (*n - *rank + 1) * a_dim1], lda, &dwork[jwork], &c__1);
-            dlaic1_(&c__2, rank, &dwork[ismin], &smin, &dwork[jwork], &a[*m - *rank + (*n - *rank) * a_dim1], &sminpr, &s1, &c1);
-            dlaic1_(&c__1, rank, &dwork[ismax], &smax, &dwork[jwork], &a[*m - *rank + (*n - *rank) * a_dim1], &smaxpr, &s2, &c2);
-            if (*svlmax **rcond <= smaxpr)
-            {
-                if (*svlmax **rcond <= sminpr)
-                {
-                    if (smaxpr **rcond <= sminpr)
-                    {
+            dlaic1_(&c__2, rank, &dwork[ismin], &smin, &dwork[jwork],
+                &a[*m - *rank + (*n - *rank) * a_dim1], &sminpr, &s1, &c1);
+            dlaic1_(&c__1, rank, &dwork[ismax], &smax, &dwork[jwork],
+                &a[*m - *rank + (*n - *rank) * a_dim1], &smaxpr, &s2, &c2);
+            if (*svlmax * *rcond <= smaxpr) {
+                if (*svlmax * *rcond <= sminpr) {
+                    if (smaxpr * *rcond <= sminpr) {
                         i__1 = *rank;
-                        for (i__ = 1; i__ <= i__1; ++i__)
-                        {
+                        for (i__ = 1; i__ <= i__1; ++i__) {
                             dwork[ismin + i__ - 1] = s1 * dwork[ismin + i__ - 1];
                             dwork[ismax + i__ - 1] = s2 * dwork[ismax + i__ - 1];
                             /* L20: */
@@ -327,4 +307,3 @@ L10:
     return 0;
     /* *** Last line of MB03PD *** */
 } /* mb03pd_ */
-

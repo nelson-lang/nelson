@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,17 +9,18 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tc01od_(leri, m, p, indlim, pcoeff, ldpco1, ldpco2, qcoeff, ldqco1, ldqco2, info, leri_len)
-char *leri;
+EXPORTSYMBOL /* Subroutine */ int tc01od_(
+    leri, m, p, indlim, pcoeff, ldpco1, ldpco2, qcoeff, ldqco1, ldqco2, info, leri_len) char* leri;
 integer *m, *p, *indlim;
-doublereal *pcoeff;
+doublereal* pcoeff;
 integer *ldpco1, *ldpco2;
-doublereal *qcoeff;
+doublereal* qcoeff;
 integer *ldqco1, *ldqco2, *info;
 ftnlen leri_len;
 {
     /* System generated locals */
-    integer pcoeff_dim1, pcoeff_dim2, pcoeff_offset, qcoeff_dim1, qcoeff_dim2, qcoeff_offset, i__1, i__2, i__3;
+    integer pcoeff_dim1, pcoeff_dim2, pcoeff_offset, qcoeff_dim1, qcoeff_dim2, qcoeff_offset, i__1,
+        i__2, i__3;
     /* Local variables */
     static integer porm, j, k;
     extern logical lsame_();
@@ -142,74 +143,52 @@ ftnlen leri_len;
     /* Function Body */
     *info = 0;
     lleri = lsame_(leri, "L", 1L, 1L);
-    mplim = max(*m,*p);
-    minmp = min(*m,*p);
+    mplim = max(*m, *p);
+    minmp = min(*m, *p);
     /*     Test the input scalar arguments. */
-    if (! lleri && ! lsame_(leri, "R", 1L, 1L))
-    {
+    if (!lleri && !lsame_(leri, "R", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -3;
-    }
-    else if (*indlim < 1)
-    {
+    } else if (*indlim < 1) {
         *info = -4;
-    }
-    else if (lleri && *ldpco1 < max(1,*p) || ! lleri && *ldpco1 < max(1,*m))
-    {
+    } else if (lleri && *ldpco1 < max(1, *p) || !lleri && *ldpco1 < max(1, *m)) {
         *info = -6;
-    }
-    else if (lleri && *ldpco2 < max(1,*p) || ! lleri && *ldpco2 < max(1,*m))
-    {
+    } else if (lleri && *ldpco2 < max(1, *p) || !lleri && *ldpco2 < max(1, *m)) {
         *info = -7;
-    }
-    else if (*ldqco1 < max(1,mplim))
-    {
+    } else if (*ldqco1 < max(1, mplim)) {
         *info = -9;
-    }
-    else if (*ldqco2 < max(1,mplim))
-    {
+    } else if (*ldqco2 < max(1, mplim)) {
         *info = -10;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TC01OD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*m == 0 || *p == 0)
-    {
+    if (*m == 0 || *p == 0) {
         return 0;
     }
-    if (mplim != 1)
-    {
+    if (mplim != 1) {
         /*        Non-scalar system: transpose numerator matrix Q(s). */
         i__1 = *indlim;
-        for (k = 1; k <= i__1; ++k)
-        {
+        for (k = 1; k <= i__1; ++k) {
             i__2 = mplim;
-            for (j = 1; j <= i__2; ++j)
-            {
-                if (j < minmp)
-                {
+            for (j = 1; j <= i__2; ++j) {
+                if (j < minmp) {
                     i__3 = minmp - j;
-                    dswap_(&i__3, &qcoeff[j + 1 + (j + k * qcoeff_dim2) * qcoeff_dim1], &c__1, &qcoeff[j + (j + 1 + k * qcoeff_dim2) * qcoeff_dim1], ldqco1);
-                }
-                else if (j > *p)
-                {
-                    dcopy_(p, &qcoeff[(j + k * qcoeff_dim2) * qcoeff_dim1 + 1], &c__1, &qcoeff[j + (k * qcoeff_dim2 + 1) * qcoeff_dim1], ldqco1);
-                }
-                else if (j > *m)
-                {
-                    dcopy_(m, &qcoeff[j + (k * qcoeff_dim2 + 1) * qcoeff_dim1], ldqco1, &qcoeff[(j + k * qcoeff_dim2) * qcoeff_dim1 + 1], &c__1);
+                    dswap_(&i__3, &qcoeff[j + 1 + (j + k * qcoeff_dim2) * qcoeff_dim1], &c__1,
+                        &qcoeff[j + (j + 1 + k * qcoeff_dim2) * qcoeff_dim1], ldqco1);
+                } else if (j > *p) {
+                    dcopy_(p, &qcoeff[(j + k * qcoeff_dim2) * qcoeff_dim1 + 1], &c__1,
+                        &qcoeff[j + (k * qcoeff_dim2 + 1) * qcoeff_dim1], ldqco1);
+                } else if (j > *m) {
+                    dcopy_(m, &qcoeff[j + (k * qcoeff_dim2 + 1) * qcoeff_dim1], ldqco1,
+                        &qcoeff[(j + k * qcoeff_dim2) * qcoeff_dim1 + 1], &c__1);
                 }
                 /* L10: */
             }
@@ -218,21 +197,18 @@ ftnlen leri_len;
         /*        Find dimension of denominator matrix P(s): M (P) for */
         /*        right (left) polynomial matrix representation. */
         porm = *m;
-        if (lleri)
-        {
+        if (lleri) {
             porm = *p;
         }
-        if (porm != 1)
-        {
+        if (porm != 1) {
             /*           Non-scalar P(s): transpose it. */
             i__1 = *indlim;
-            for (k = 1; k <= i__1; ++k)
-            {
+            for (k = 1; k <= i__1; ++k) {
                 i__2 = porm - 1;
-                for (j = 1; j <= i__2; ++j)
-                {
+                for (j = 1; j <= i__2; ++j) {
                     i__3 = porm - j;
-                    dswap_(&i__3, &pcoeff[j + 1 + (j + k * pcoeff_dim2) * pcoeff_dim1], &c__1, &pcoeff[j + (j + 1 + k * pcoeff_dim2) * pcoeff_dim1], ldpco1);
+                    dswap_(&i__3, &pcoeff[j + 1 + (j + k * pcoeff_dim2) * pcoeff_dim1], &c__1,
+                        &pcoeff[j + (j + 1 + k * pcoeff_dim2) * pcoeff_dim1], ldpco1);
                     /* L30: */
                 }
                 /* L40: */
@@ -242,4 +218,3 @@ ftnlen leri_len;
     return 0;
     /* *** Last line of TC01OD *** */
 } /* tc01od_ */
-

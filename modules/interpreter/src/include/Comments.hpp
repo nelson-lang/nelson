@@ -18,14 +18,18 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "Types.hpp"
 #include "nlsInterpreter_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSINTERPRETER_IMPEXP void getSupportedCommentSymbols(stringVector &comments);
-    NLSINTERPRETER_IMPEXP void getSupportedCommentSymbols(wstringVector &comments);
-    NLSINTERPRETER_IMPEXP bool isCommentedLine(std::string line);
-    NLSINTERPRETER_IMPEXP bool isCommentedLine(std::wstring line);
-}
+NLSINTERPRETER_IMPEXP void
+getSupportedCommentSymbols(stringVector& comments);
+NLSINTERPRETER_IMPEXP void
+getSupportedCommentSymbols(wstringVector& comments);
+NLSINTERPRETER_IMPEXP bool
+isCommentedLine(std::string line);
+NLSINTERPRETER_IMPEXP bool
+isCommentedLine(std::wstring line);
+} // namespace Nelson
 //=============================================================================

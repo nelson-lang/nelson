@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,24 +12,25 @@ static integer c__1 = 1;
 static doublereal c_b18 = 10.;
 static doublereal c_b56 = .5;
 
-EXPORTSYMBOL /* Subroutine */ int tg01az_(job, l, n, m, p, thresh, a, lda, e, lde, b, ldb, c__, ldc, lscale, rscale, dwork, info, job_len)
-char *job;
+EXPORTSYMBOL /* Subroutine */ int tg01az_(job, l, n, m, p, thresh, a, lda, e, lde, b, ldb, c__, ldc,
+    lscale, rscale, dwork, info, job_len) char* job;
 integer *l, *n, *m, *p;
-doublereal *thresh;
-doublecomplex *a;
-integer *lda;
-doublecomplex *e;
-integer *lde;
-doublecomplex *b;
-integer *ldb;
-doublecomplex *c__;
-integer *ldc;
+doublereal* thresh;
+doublecomplex* a;
+integer* lda;
+doublecomplex* e;
+integer* lde;
+doublecomplex* b;
+integer* ldb;
+doublecomplex* c__;
+integer* ldc;
 doublereal *lscale, *rscale, *dwork;
-integer *info;
+integer* info;
 ftnlen job_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, e_dim1, e_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, e_dim1, e_offset, i__1, i__2,
+        i__3;
     doublereal d__1, d__2, d__3;
     /* Builtin functions */
     double d_lg10(), d_imag(), z_abs(), d_sign(), pow_di();
@@ -226,62 +227,38 @@ ftnlen job_len;
     *info = 0;
     withb = lsame_(job, "A", 1L, 1L) || lsame_(job, "B", 1L, 1L);
     withc = lsame_(job, "A", 1L, 1L) || lsame_(job, "C", 1L, 1L);
-    if (! withb && ! withc && ! lsame_(job, "N", 1L, 1L))
-    {
+    if (!withb && !withc && !lsame_(job, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*l < 0)
-    {
+    } else if (*l < 0) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -5;
-    }
-    else if (*thresh < 0.)
-    {
+    } else if (*thresh < 0.) {
         *info = -6;
-    }
-    else if (*lda < max(1,*l))
-    {
+    } else if (*lda < max(1, *l)) {
         *info = -8;
-    }
-    else if (*lde < max(1,*l))
-    {
+    } else if (*lde < max(1, *l)) {
         *info = -10;
-    }
-    else if (*ldb < 1 || *m > 0 && *ldb < *l)
-    {
+    } else if (*ldb < 1 || *m > 0 && *ldb < *l) {
         *info = -12;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -14;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("TG01AZ", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*l == 0 || *n == 0)
-    {
+    if (*l == 0 || *n == 0) {
         dum[0] = 1.;
-        if (*l > 0)
-        {
+        if (*l > 0) {
             dcopy_(l, dum, &c__0, &lscale[1], &c__1);
-        }
-        else if (*n > 0)
-        {
+        } else if (*n > 0) {
             dcopy_(n, dum, &c__0, &rscale[1], &c__1);
         }
         return 0;
@@ -300,29 +277,21 @@ ftnlen job_len;
     /*     Compute right side vector in resulting linear equations. */
     basl = d_lg10(&c_b18);
     i__1 = *l;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = *n;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             i__3 = i__ + j * e_dim1;
             te = (d__1 = e[i__3].r, abs(d__1)) + (d__2 = d_imag(&e[i__ + j * e_dim1]), abs(d__2));
             i__3 = i__ + j * a_dim1;
             ta = (d__1 = a[i__3].r, abs(d__1)) + (d__2 = d_imag(&a[i__ + j * a_dim1]), abs(d__2));
-            if (ta > *thresh)
-            {
+            if (ta > *thresh) {
                 ta = d_lg10(&ta) / basl;
-            }
-            else
-            {
+            } else {
                 ta = 0.;
             }
-            if (te > *thresh)
-            {
+            if (te > *thresh) {
                 te = d_lg10(&te) / basl;
-            }
-            else
-            {
+            } else {
                 te = 0.;
             }
             dwork[i__ + kw4] = dwork[i__ + kw4] - ta - te;
@@ -331,68 +300,60 @@ ftnlen job_len;
         }
         /* L20: */
     }
-    if (*m == 0)
-    {
+    if (*m == 0) {
         withb = FALSE_;
         tb = 0.;
     }
-    if (*p == 0)
-    {
+    if (*p == 0) {
         withc = FALSE_;
         tc = 0.;
     }
-    if (withb)
-    {
+    if (withb) {
         i__1 = *l;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             j = izamax_(m, &b[i__ + b_dim1], ldb);
             i__2 = i__ + j * b_dim1;
             tb = (d__1 = b[i__2].r, abs(d__1)) + (d__2 = d_imag(&b[i__ + j * b_dim1]), abs(d__2));
-            if (tb > *thresh)
-            {
+            if (tb > *thresh) {
                 tb = d_lg10(&tb) / basl;
                 dwork[i__ + kw4] -= tb;
             }
             /* L30: */
         }
     }
-    if (withc)
-    {
+    if (withc) {
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__ = izamax_(p, &c__[j * c_dim1 + 1], &c__1);
             i__2 = i__ + j * c_dim1;
-            tc = (d__1 = c__[i__2].r, abs(d__1)) + (d__2 = d_imag(&c__[i__ + j * c_dim1]), abs(d__2));
-            if (tc > *thresh)
-            {
+            tc = (d__1 = c__[i__2].r, abs(d__1))
+                + (d__2 = d_imag(&c__[i__ + j * c_dim1]), abs(d__2));
+            if (tc > *thresh) {
                 tc = d_lg10(&tc) / basl;
                 dwork[j + kw5] -= tc;
             }
             /* L40: */
         }
     }
-    coef = 1. / (doublereal) (*l + *n);
+    coef = 1. / (doublereal)(*l + *n);
     coef2 = coef * coef;
     coef5 = coef2 * .5;
-    nrp2 = max(*l,*n) + 2;
+    nrp2 = max(*l, *n) + 2;
     beta = 0.;
     it = 1;
     /*     Start generalized conjugate gradient iteration. */
 L50:
-    gamma = ddot_(l, &dwork[kw4 + 1], &c__1, &dwork[kw4 + 1], &c__1) + ddot_(n, &dwork[kw5 + 1], &c__1, &dwork[kw5 + 1], &c__1);
+    gamma = ddot_(l, &dwork[kw4 + 1], &c__1, &dwork[kw4 + 1], &c__1)
+        + ddot_(n, &dwork[kw5 + 1], &c__1, &dwork[kw5 + 1], &c__1);
     ew = 0.;
     i__1 = *l;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         ew += dwork[i__ + kw4];
         /* L60: */
     }
     ewc = 0.;
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         ewc += dwork[i__ + kw5];
         /* L70: */
     }
@@ -403,12 +364,10 @@ L50:
     /* Computing 2nd power */
     d__3 = ew - ewc;
     gamma = coef * gamma - coef2 * (d__1 * d__1 + d__2 * d__2) - coef5 * (d__3 * d__3);
-    if (gamma == 0.)
-    {
+    if (gamma == 0.) {
         goto L160;
     }
-    if (it != 1)
-    {
+    if (it != 1) {
         beta = gamma / pgamma;
     }
     t = coef5 * (ewc - ew * 3.);
@@ -418,114 +377,102 @@ L50:
     daxpy_(l, &coef, &dwork[kw4 + 1], &c__1, &dwork[kw1 + 1], &c__1);
     daxpy_(n, &coef, &dwork[kw5 + 1], &c__1, &dwork[1], &c__1);
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         dwork[j] += tc;
         /* L80: */
     }
     i__1 = *l;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[i__ + kw1] += t;
         /* L90: */
     }
     /*     Apply matrix to vector. */
     i__1 = *l;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         kount = 0;
         sum = 0.;
         i__2 = *n;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             i__3 = i__ + j * a_dim1;
-            if ((d__1 = a[i__3].r, abs(d__1)) + (d__2 = d_imag(&a[i__ + j * a_dim1]), abs(d__2)) > *thresh)
-            {
+            if ((d__1 = a[i__3].r, abs(d__1)) + (d__2 = d_imag(&a[i__ + j * a_dim1]), abs(d__2))
+                > *thresh) {
                 ++kount;
                 sum += dwork[j];
             }
             i__3 = i__ + j * e_dim1;
-            if ((d__1 = e[i__3].r, abs(d__1)) + (d__2 = d_imag(&e[i__ + j * e_dim1]), abs(d__2)) > *thresh)
-            {
+            if ((d__1 = e[i__3].r, abs(d__1)) + (d__2 = d_imag(&e[i__ + j * e_dim1]), abs(d__2))
+                > *thresh) {
                 ++kount;
                 sum += dwork[j];
             }
             /* L100: */
         }
-        if (withb)
-        {
+        if (withb) {
             j = izamax_(m, &b[i__ + b_dim1], ldb);
             i__2 = i__ + j * b_dim1;
-            if ((d__1 = b[i__2].r, abs(d__1)) + (d__2 = d_imag(&b[i__ + j * b_dim1]), abs(d__2)) > *thresh)
-            {
+            if ((d__1 = b[i__2].r, abs(d__1)) + (d__2 = d_imag(&b[i__ + j * b_dim1]), abs(d__2))
+                > *thresh) {
                 ++kount;
             }
         }
-        dwork[i__ + kw2] = (doublereal) kount * dwork[i__ + kw1] + sum;
+        dwork[i__ + kw2] = (doublereal)kount * dwork[i__ + kw1] + sum;
         /* L110: */
     }
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         kount = 0;
         sum = 0.;
         i__2 = *l;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             i__3 = i__ + j * a_dim1;
-            if ((d__1 = a[i__3].r, abs(d__1)) + (d__2 = d_imag(&a[i__ + j * a_dim1]), abs(d__2)) > *thresh)
-            {
+            if ((d__1 = a[i__3].r, abs(d__1)) + (d__2 = d_imag(&a[i__ + j * a_dim1]), abs(d__2))
+                > *thresh) {
                 ++kount;
                 sum += dwork[i__ + kw1];
             }
             i__3 = i__ + j * e_dim1;
-            if ((d__1 = e[i__3].r, abs(d__1)) + (d__2 = d_imag(&e[i__ + j * e_dim1]), abs(d__2)) > *thresh)
-            {
+            if ((d__1 = e[i__3].r, abs(d__1)) + (d__2 = d_imag(&e[i__ + j * e_dim1]), abs(d__2))
+                > *thresh) {
                 ++kount;
                 sum += dwork[i__ + kw1];
             }
             /* L120: */
         }
-        if (withc)
-        {
+        if (withc) {
             i__ = izamax_(p, &c__[j * c_dim1 + 1], &c__1);
             i__2 = i__ + j * c_dim1;
-            if ((d__1 = c__[i__2].r, abs(d__1)) + (d__2 = d_imag(&c__[i__ + j * c_dim1]), abs(d__2)) > *thresh)
-            {
+            if ((d__1 = c__[i__2].r, abs(d__1)) + (d__2 = d_imag(&c__[i__ + j * c_dim1]), abs(d__2))
+                > *thresh) {
                 ++kount;
             }
         }
-        dwork[j + kw3] = (doublereal) kount * dwork[j] + sum;
+        dwork[j + kw3] = (doublereal)kount * dwork[j] + sum;
         /* L130: */
     }
-    sum = ddot_(l, &dwork[kw1 + 1], &c__1, &dwork[kw2 + 1], &c__1) + ddot_(n, &dwork[1], &c__1, &dwork[kw3 + 1], &c__1);
+    sum = ddot_(l, &dwork[kw1 + 1], &c__1, &dwork[kw2 + 1], &c__1)
+        + ddot_(n, &dwork[1], &c__1, &dwork[kw3 + 1], &c__1);
     alpha = gamma / sum;
     /*     Determine correction to current iteration. */
     cmax = 0.;
     i__1 = *l;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         cor = alpha * dwork[i__ + kw1];
-        if (abs(cor) > cmax)
-        {
+        if (abs(cor) > cmax) {
             cmax = abs(cor);
         }
         lscale[i__] += cor;
         /* L140: */
     }
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         cor = alpha * dwork[j];
-        if (abs(cor) > cmax)
-        {
+        if (abs(cor) > cmax) {
             cmax = abs(cor);
         }
         rscale[j] += cor;
         /* L150: */
     }
-    if (cmax < .5)
-    {
+    if (cmax < .5) {
         goto L160;
     }
     d__1 = -alpha;
@@ -534,88 +481,79 @@ L50:
     daxpy_(n, &d__1, &dwork[kw3 + 1], &c__1, &dwork[kw5 + 1], &c__1);
     pgamma = gamma;
     ++it;
-    if (it <= nrp2)
-    {
+    if (it <= nrp2) {
         goto L50;
     }
     /*     End generalized conjugate gradient iteration. */
 L160:
     sfmin = dlamch_("Safe minimum", 12L);
     sfmax = 1. / sfmin;
-    lsfmin = (integer) (d_lg10(&sfmin) / basl + 1.);
-    lsfmax = (integer) (d_lg10(&sfmax) / basl);
+    lsfmin = (integer)(d_lg10(&sfmin) / basl + 1.);
+    lsfmax = (integer)(d_lg10(&sfmax) / basl);
     /*     Compute left diagonal scaling matrix. */
     i__1 = *l;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         irab = izamax_(n, &a[i__ + a_dim1], lda);
         rab = z_abs(&a[i__ + irab * a_dim1]);
         irab = izamax_(n, &e[i__ + e_dim1], lde);
         /* Computing MAX */
         d__1 = rab, d__2 = z_abs(&e[i__ + irab * e_dim1]);
-        rab = max(d__1,d__2);
-        if (withb)
-        {
+        rab = max(d__1, d__2);
+        if (withb) {
             irab = izamax_(m, &b[i__ + b_dim1], ldb);
             /* Computing MAX */
             d__1 = rab, d__2 = z_abs(&b[i__ + irab * b_dim1]);
-            rab = max(d__1,d__2);
+            rab = max(d__1, d__2);
         }
         d__1 = rab + sfmin;
-        lrab = (integer) (d_lg10(&d__1) / basl + 1.);
-        ir = (integer) (lscale[i__] + d_sign(&c_b56, &lscale[i__]));
+        lrab = (integer)(d_lg10(&d__1) / basl + 1.);
+        ir = (integer)(lscale[i__] + d_sign(&c_b56, &lscale[i__]));
         /* Computing MIN */
-        i__2 = max(ir,lsfmin), i__2 = min(i__2,lsfmax), i__3 = lsfmax - lrab;
-        ir = min(i__2,i__3);
+        i__2 = max(ir, lsfmin), i__2 = min(i__2, lsfmax), i__3 = lsfmax - lrab;
+        ir = min(i__2, i__3);
         lscale[i__] = pow_di(&c_b18, &ir);
         /* L170: */
     }
     /*     Compute right diagonal scaling matrix. */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         icab = izamax_(l, &a[j * a_dim1 + 1], &c__1);
         cab = z_abs(&a[icab + j * a_dim1]);
         icab = izamax_(l, &e[j * e_dim1 + 1], &c__1);
         /* Computing MAX */
         d__1 = cab, d__2 = z_abs(&e[icab + j * e_dim1]);
-        cab = max(d__1,d__2);
-        if (withc)
-        {
+        cab = max(d__1, d__2);
+        if (withc) {
             icab = izamax_(p, &c__[j * c_dim1 + 1], &c__1);
             /* Computing MAX */
             d__1 = cab, d__2 = z_abs(&c__[icab + j * c_dim1]);
-            cab = max(d__1,d__2);
+            cab = max(d__1, d__2);
         }
         d__1 = cab + sfmin;
-        lcab = (integer) (d_lg10(&d__1) / basl + 1.);
-        jc = (integer) (rscale[j] + d_sign(&c_b56, &rscale[j]));
+        lcab = (integer)(d_lg10(&d__1) / basl + 1.);
+        jc = (integer)(rscale[j] + d_sign(&c_b56, &rscale[j]));
         /* Computing MIN */
-        i__2 = max(jc,lsfmin), i__2 = min(i__2,lsfmax), i__3 = lsfmax - lcab;
-        jc = min(i__2,i__3);
+        i__2 = max(jc, lsfmin), i__2 = min(i__2, lsfmax), i__3 = lsfmax - lcab;
+        jc = min(i__2, i__3);
         rscale[j] = pow_di(&c_b18, &jc);
         /* L180: */
     }
     /*     Row scaling of matrices A, E and B. */
     i__1 = *l;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         zdscal_(n, &lscale[i__], &a[i__ + a_dim1], lda);
         zdscal_(n, &lscale[i__], &e[i__ + e_dim1], lde);
-        if (withb)
-        {
+        if (withb) {
             zdscal_(m, &lscale[i__], &b[i__ + b_dim1], ldb);
         }
         /* L190: */
     }
     /*     Column scaling of matrices A, E and C. */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         zdscal_(l, &rscale[j], &a[j * a_dim1 + 1], &c__1);
         zdscal_(l, &rscale[j], &e[j * e_dim1 + 1], &c__1);
-        if (withc)
-        {
+        if (withc) {
             zdscal_(p, &rscale[j], &c__[j * c_dim1 + 1], &c__1);
         }
         /* L200: */
@@ -623,4 +561,3 @@ L160:
     return 0;
     /* *** Last line of TG01AZ *** */
 } /* tg01az_ */
-

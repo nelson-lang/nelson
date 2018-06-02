@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,13 +10,13 @@
 static integer c__1 = 1;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int nf01bq_(cond, n, ipar, lipar, r__, ldr, ipvt, diag, qtb, ranks, x, tol, dwork, ldwork, info, cond_len)
-char *cond;
+EXPORTSYMBOL /* Subroutine */ int nf01bq_(cond, n, ipar, lipar, r__, ldr, ipvt, diag, qtb, ranks, x,
+    tol, dwork, ldwork, info, cond_len) char* cond;
 integer *n, *ipar, *lipar;
-doublereal *r__;
+doublereal* r__;
 integer *ldr, *ipvt;
 doublereal *diag, *qtb;
-integer *ranks;
+integer* ranks;
 doublereal *x, *tol, *dwork;
 integer *ldwork, *info;
 ftnlen cond_len;
@@ -254,81 +254,59 @@ ftnlen cond_len;
     /* Function Body */
     econd = lsame_(cond, "E", 1L, 1L);
     *info = 0;
-    if (! (econd || lsame_(cond, "N", 1L, 1L) || lsame_(cond, "U", 1L, 1L)))
-    {
+    if (!(econd || lsame_(cond, "N", 1L, 1L) || lsame_(cond, "U", 1L, 1L))) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lipar < 4)
-    {
+    } else if (*lipar < 4) {
         *info = -4;
-    }
-    else
-    {
+    } else {
         st = ipar[1];
         bn = ipar[2];
         bsm = ipar[3];
         bsn = ipar[4];
         nths = bn * bsn;
         /* Computing MIN */
-        i__1 = min(st,bn), i__1 = min(i__1,bsm);
-        if (min(i__1,bsn) < 0)
-        {
+        i__1 = min(st, bn), i__1 = min(i__1, bsm);
+        if (min(i__1, bsn) < 0) {
             *info = -3;
-        }
-        else if (*n != nths + st)
-        {
+        } else if (*n != nths + st) {
             *info = -2;
-        }
-        else if (*ldr < max(1,*n))
-        {
+        } else if (*ldr < max(1, *n)) {
             *info = -6;
-        }
-        else
-        {
+        } else {
             jw = *n << 1;
-            if (bn <= 1 || bsn == 0)
-            {
-                if (econd)
-                {
+            if (bn <= 1 || bsn == 0) {
+                if (econd) {
                     jw = *n << 2;
                 }
-            }
-            else
-            {
+            } else {
                 jw = st * nths + jw;
-                if (econd)
-                {
-                    jw = (max(bsn,st) << 1) + jw;
+                if (econd) {
+                    jw = (max(bsn, st) << 1) + jw;
                 }
             }
-            if (*ldwork < jw)
-            {
+            if (*ldwork < jw) {
                 *info = -14;
             }
         }
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("NF01BQ", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
-    if (bn <= 1 || bsn == 0)
-    {
+    if (bn <= 1 || bsn == 0) {
         /*        Special case: R is an upper triangular matrix. */
         /*        Workspace: 4*N, if COND =  'E'; */
         /*                   2*N, if COND <> 'E'. */
-        mb02yd_(cond, n, &r__[r_offset], ldr, &ipvt[1], &diag[1], &qtb[1], &ranks[1], &x[1], tol, &dwork[1], ldwork, info, 1L);
+        mb02yd_(cond, n, &r__[r_offset], ldr, &ipvt[1], &diag[1], &qtb[1], &ranks[1], &x[1], tol,
+            &dwork[1], ldwork, info, 1L);
         return 0;
     }
     /*     General case: BN > 1 and BSN > 0. */
@@ -342,11 +320,9 @@ ftnlen cond_len;
     nc = bsn + st;
     kf = nc;
     i__1 = bn;
-    for (k = 1; k <= i__1; ++k)
-    {
+    for (k = 1; k <= i__1; ++k) {
         i__2 = bsn;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             x[i__] = r__[i__ + j * r_dim1];
             i__3 = bsn - j + 1;
             dcopy_(&i__3, &r__[i__ + j * r_dim1], ldr, &r__[i__ + j * r_dim1], &c__1);
@@ -358,8 +334,7 @@ ftnlen cond_len;
     /*     DWORK(IS) contains a copy of [ L_1' ... L_l' ]. */
     /*     Workspace:  ST*(N-ST)+2*N; */
     i__1 = nc;
-    for (j = bsn + 1; j <= i__1; ++j)
-    {
+    for (j = bsn + 1; j <= i__1; ++j) {
         dcopy_(&nths, &r__[j * r_dim1 + 1], &c__1, &dwork[l], &st);
         x[i__] = r__[i__ + j * r_dim1];
         i__2 = nc - j + 1;
@@ -369,72 +344,60 @@ ftnlen cond_len;
         /* L30: */
     }
     dcopy_(n, &qtb[1], &c__1, &dwork[ib], &c__1);
-    if (st > 0)
-    {
+    if (st > 0) {
         itr = nths + 1;
         itc = bsn + 1;
-    }
-    else
-    {
+    } else {
         itr = 1;
         itc = 1;
     }
     ibsn = 0;
     /*     Eliminate the diagonal matrix D using Givens rotations. */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         ++ibsn;
         i__ = ibsn;
         /*        Prepare the row of D to be eliminated, locating the */
         /*        diagonal element using P from the QR factorization. */
         l = ipvt[j];
-        if (diag[l] != 0.)
-        {
+        if (diag[l] != 0.) {
             qtbpj = 0.;
             dwork[j] = diag[l];
             /* Computing MIN */
             i__3 = j + kf - 1;
-            i__2 = min(i__3,*n);
-            for (k = j + 1; k <= i__2; ++k)
-            {
+            i__2 = min(i__3, *n);
+            for (k = j + 1; k <= i__2; ++k) {
                 dwork[k] = 0.;
                 /* L40: */
             }
             /*           The transformations to eliminate the row of D modify only */
             /*           a single element of Q'*b beyond the first n, which is */
             /*           initially zero. */
-            if (j < nths)
-            {
+            if (j < nths) {
                 i__2 = bsn - ibsn + 1;
-                mb04ow_(&i__2, &st, &c__1, &r__[j + ibsn * r_dim1], ldr, &r__[itr + itc * r_dim1], ldr, &dwork[j], &c__1, &dwork[ib + j - 1], &bsn, &dwork[ib + nths], &st, &qtbpj, &c__1);
-                if (ibsn == bsn)
-                {
+                mb04ow_(&i__2, &st, &c__1, &r__[j + ibsn * r_dim1], ldr, &r__[itr + itc * r_dim1],
+                    ldr, &dwork[j], &c__1, &dwork[ib + j - 1], &bsn, &dwork[ib + nths], &st, &qtbpj,
+                    &c__1);
+                if (ibsn == bsn) {
                     ibsn = 0;
                 }
-            }
-            else if (j == nths)
-            {
-                mb04ow_(&c__1, &st, &c__1, &r__[j + ibsn * r_dim1], ldr, &r__[itr + itc * r_dim1], ldr, &dwork[j], &c__1, &dwork[ib + j - 1], &bsn, &dwork[ib + nths], &st, &qtbpj, &c__1);
+            } else if (j == nths) {
+                mb04ow_(&c__1, &st, &c__1, &r__[j + ibsn * r_dim1], ldr, &r__[itr + itc * r_dim1],
+                    ldr, &dwork[j], &c__1, &dwork[ib + j - 1], &bsn, &dwork[ib + nths], &st, &qtbpj,
+                    &c__1);
                 kf = st;
-            }
-            else
-            {
+            } else {
                 i__2 = *n - j + 1;
-                mb04ow_(&c__0, &i__2, &c__1, &r__[j + ibsn * r_dim1], ldr, &r__[j + ibsn * r_dim1], ldr, &dwork[j], &c__1, &dwork[ib + j - 1], &c__1, &dwork[ib + j - 1], &st, &qtbpj, &c__1);
+                mb04ow_(&c__0, &i__2, &c__1, &r__[j + ibsn * r_dim1], ldr, &r__[j + ibsn * r_dim1],
+                    ldr, &dwork[j], &c__1, &dwork[ib + j - 1], &c__1, &dwork[ib + j - 1], &st,
+                    &qtbpj, &c__1);
             }
-        }
-        else
-        {
-            if (j < nths)
-            {
-                if (ibsn == bsn)
-                {
+        } else {
+            if (j < nths) {
+                if (ibsn == bsn) {
                     ibsn = 0;
                 }
-            }
-            else if (j == nths)
-            {
+            } else if (j == nths) {
                 kf = st;
             }
         }
@@ -447,16 +410,15 @@ ftnlen cond_len;
     /*     Additional workspace:   2*MAX(BSN,ST), if COND =  'E'; */
     /*                             0,             if COND <> 'E'. */
     i__1 = *ldwork - jw + 1;
-    nf01br_(cond, "Upper", "NoTranspose", n, &ipar[1], lipar, &r__[r_offset], ldr, &dwork[1], &dwork[is], &c__1, &dwork[ib], &ranks[1], tol, &dwork[jw], &i__1, info, 1L, 5L, 11L);
+    nf01br_(cond, "Upper", "NoTranspose", n, &ipar[1], lipar, &r__[r_offset], ldr, &dwork[1],
+        &dwork[is], &c__1, &dwork[ib], &ranks[1], tol, &dwork[jw], &i__1, info, 1L, 5L, 11L);
     i__ = 1;
     /*     Restore the diagonal elements of R from X and interchange */
     /*     the upper and lower triangular parts of R. */
     i__1 = bn;
-    for (k = 1; k <= i__1; ++k)
-    {
+    for (k = 1; k <= i__1; ++k) {
         i__2 = bsn;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             r__[i__ + j * r_dim1] = x[i__];
             i__3 = bsn - j + 1;
             dswap_(&i__3, &r__[i__ + j * r_dim1], ldr, &r__[i__ + j * r_dim1], &c__1);
@@ -466,8 +428,7 @@ ftnlen cond_len;
         /* L70: */
     }
     i__1 = nc;
-    for (j = bsn + 1; j <= i__1; ++j)
-    {
+    for (j = bsn + 1; j <= i__1; ++j) {
         dswap_(&nths, &r__[j * r_dim1 + 1], &c__1, &dwork[is], &st);
         r__[i__ + j * r_dim1] = x[i__];
         i__2 = nc - j + 1;
@@ -478,8 +439,7 @@ ftnlen cond_len;
     }
     /*     Permute the components of z back to components of x. */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         l = ipvt[j];
         x[l] = dwork[*n + j];
         /* L90: */
@@ -487,4 +447,3 @@ ftnlen cond_len;
     return 0;
     /* *** Last line of NF01BQ *** */
 } /* nf01bq_ */
-

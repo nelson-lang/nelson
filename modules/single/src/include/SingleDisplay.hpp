@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsSingle_exports.h"
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
+#include "nlsSingle_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSINGLE_IMPEXP void SingleDisplay(Evaluator *eval, ArrayOf A);
+NLSSINGLE_IMPEXP void
+SingleDisplay(Evaluator* eval, ArrayOf A);
 }
 //=============================================================================

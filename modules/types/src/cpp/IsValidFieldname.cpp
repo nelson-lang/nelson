@@ -20,12 +20,13 @@
 #include "MakeValidFieldname.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool IsValidFieldname(std::string fieldname)
-    {
-        std::string validFieldname = MakeValidFieldname(fieldname);
-        return (validFieldname == fieldname);
-    }
-    //=============================================================================
+//=============================================================================
+bool
+IsValidFieldname(std::string fieldname)
+{
+    std::string validFieldname = MakeValidFieldname(fieldname);
+    return (validFieldname == fieldname);
+}
+//=============================================================================
 }
 //=============================================================================

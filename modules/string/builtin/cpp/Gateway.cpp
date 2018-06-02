@@ -18,37 +18,36 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "charBuiltin.hpp"
-#include "strcmpBuiltin.hpp"
-#include "strncmpBuiltin.hpp"
 #include "char_dispBuiltin.hpp"
-#include "ndarraychar_dispBuiltin.hpp"
-#include "tolowerBuiltin.hpp"
-#include "toupperBuiltin.hpp"
-#include "strfindBuiltin.hpp"
 #include "char_horzcat_charBuiltin.hpp"
-#include "char_vertcat_charBuiltin.hpp"
-#include "ndarraychar_horzcat_ndarraycharBuiltin.hpp"
-#include "ndarraychar_vertcat_ndarraycharBuiltin.hpp"
 #include "char_isequalBuiltin.hpp"
-#include "ndarraychar_isequalBuiltin.hpp"
-#include "sprintfBuiltin.hpp"
-#include "int2strBuiltin.hpp"
-#include "str2doubleBuiltin.hpp"
-#include "mat2strBuiltin.hpp"
-#include "startsWithBuiltin.hpp"
-#include "endsWithBuiltin.hpp"
+#include "char_vertcat_charBuiltin.hpp"
 #include "containsBuiltin.hpp"
 #include "countBuiltin.hpp"
-#include "strrepBuiltin.hpp"
+#include "endsWithBuiltin.hpp"
+#include "int2strBuiltin.hpp"
+#include "mat2strBuiltin.hpp"
+#include "ndarraychar_dispBuiltin.hpp"
+#include "ndarraychar_horzcat_ndarraycharBuiltin.hpp"
+#include "ndarraychar_isequalBuiltin.hpp"
+#include "ndarraychar_vertcat_ndarraycharBuiltin.hpp"
 #include "replaceBuiltin.hpp"
+#include "sprintfBuiltin.hpp"
+#include "startsWithBuiltin.hpp"
+#include "str2doubleBuiltin.hpp"
+#include "strcmpBuiltin.hpp"
+#include "strfindBuiltin.hpp"
 #include "strlengthBuiltin.hpp"
+#include "strncmpBuiltin.hpp"
+#include "strrepBuiltin.hpp"
+#include "tolowerBuiltin.hpp"
+#include "toupperBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"string";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "char", Nelson::StringGateway::charBuiltin, 1, -1 },
     { "strcmp", Nelson::StringGateway::strcmpBuiltin, 1, 2 },
     { "strcmpi", Nelson::StringGateway::strcmpiBuiltin, 1, 2 },
@@ -64,15 +63,17 @@ static const nlsGateway gateway[] =
     { "char_horzcat_char", Nelson::StringGateway::char_horzcat_charBuiltin, 1, 2 },
     { "char_isequal", Nelson::StringGateway::char_isequalBuiltin, 1, 2 },
     { "char_isequaln", Nelson::StringGateway::char_isequalBuiltin, 1, 2 },
-    { "sprintf", Nelson::StringGateway::sprintfBuiltin, 2, -1},
+    { "sprintf", Nelson::StringGateway::sprintfBuiltin, 2, -1 },
     { "int2str", Nelson::StringGateway::int2strBuiltin, 1, 1 },
     { "str2double", Nelson::StringGateway::str2doubleBuiltin, 1, 1 },
     { "mat2str", Nelson::StringGateway::mat2strBuiltin, 1, -2 },
     { "ndarraychar_disp", Nelson::StringGateway::ndarraychar_dispBuiltin, 0, 1 },
     { "ndarraychar_isequal", Nelson::StringGateway::ndarraychar_isequalBuiltin, 1, 2 },
     { "ndarraychar_isequaln", Nelson::StringGateway::ndarraychar_isequalBuiltin, 1, 2 },
-    { "ndarraychar_vertcat_ndarraychar", Nelson::StringGateway::ndarraychar_vertcat_ndarraycharBuiltin, 1, 2 },
-    { "ndarraychar_horzcat_ndarraychar", Nelson::StringGateway::ndarraychar_horzcat_ndarraycharBuiltin, 1, 2 },
+    { "ndarraychar_vertcat_ndarraychar",
+        Nelson::StringGateway::ndarraychar_vertcat_ndarraycharBuiltin, 1, 2 },
+    { "ndarraychar_horzcat_ndarraychar",
+        Nelson::StringGateway::ndarraychar_horzcat_ndarraycharBuiltin, 1, 2 },
     { "startsWith", Nelson::StringGateway::startsWithBuiltin, 1, -3 },
     { "endsWith", Nelson::StringGateway::endsWithBuiltin, 1, -3 },
     { "contains", Nelson::StringGateway::containsBuiltin, 1, -3 },

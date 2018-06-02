@@ -25,6 +25,6 @@
 #define NLSMPI_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSMPI_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSMPI_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

@@ -22,26 +22,40 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace IntegerGateway {
-        ArrayOfVector int8_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector int16_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector int32_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector int64_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector uint8_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector uint16_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector uint32_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector uint64_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+namespace IntegerGateway {
+    ArrayOfVector
+    int8_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    int16_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    int32_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    int64_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    uint8_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    uint16_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    uint32_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    uint64_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 
-        ArrayOfVector ndarrayint8_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayint16_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayint32_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayint64_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayuint8_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayuint16_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayuint32_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayuint64_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
-}
+    ArrayOfVector
+    ndarrayint8_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    ndarrayint16_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    ndarrayint32_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    ndarrayint64_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    ndarrayuint8_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    ndarrayuint16_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    ndarrayuint32_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    ndarrayuint64_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+} // namespace IntegerGateway
+} // namespace Nelson
 //=============================================================================
-
-

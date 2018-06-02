@@ -18,20 +18,23 @@
 //=============================================================================
 #pragma once
 #ifdef _MSC_VER
-#pragma warning( disable : 4190)
+#pragma warning(disable : 4190)
 #endif
 //=============================================================================
-#include <string>
-#include "nlsCore_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsCore_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSCORE_IMPEXP bool ComputePreferencesPath();
-    NLSCORE_IMPEXP std::wstring GetPreferencesPath();
-}
+NLSCORE_IMPEXP bool
+ComputePreferencesPath();
+NLSCORE_IMPEXP std::wstring
+GetPreferencesPath();
+} // namespace Nelson
 //=============================================================================
 extern "C"
 {
-    NLSCORE_IMPEXP std::wstring GetNelsonPreferencesPath();
+    NLSCORE_IMPEXP std::wstring
+    GetNelsonPreferencesPath();
 }
 //=============================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,29 +11,32 @@ static doublereal c_b12 = 0.;
 static doublereal c_b13 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tg01bd_(jobe, compq, compz, n, m, p, ilo, ihi, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, dwork, ldwork, info, jobe_len, compq_len, compz_len)
-char *jobe, *compq, *compz;
+EXPORTSYMBOL /* Subroutine */ int tg01bd_(jobe, compq, compz, n, m, p, ilo, ihi, a, lda, e, lde, b,
+    ldb, c__, ldc, q, ldq, z__, ldz, dwork, ldwork, info, jobe_len, compq_len, compz_len) char *jobe
+    ,
+    *compq, *compz;
 integer *n, *m, *p, *ilo, *ihi;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *q;
-integer *ldq;
-doublereal *z__;
-integer *ldz;
-doublereal *dwork;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* q;
+integer* ldq;
+doublereal* z__;
+integer* ldz;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen jobe_len;
 ftnlen compq_len;
 ftnlen compz_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, e_dim1, e_offset, q_dim1, q_offset, z_dim1, z_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, e_dim1, e_offset, q_dim1,
+        q_offset, z_dim1, z_offset, i__1, i__2, i__3;
     /* Local variables */
     static integer jcol, ierr, itau;
     static doublereal temp;
@@ -260,113 +263,72 @@ ftnlen compz_len;
     withb = *m > 0;
     withc = *p > 0;
     *info = 0;
-    if (! (upper || lsame_(jobe, "G", 1L, 1L)))
-    {
+    if (!(upper || lsame_(jobe, "G", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (ilq || lsame_(compq, "N", 1L, 1L)))
-    {
+    } else if (!(ilq || lsame_(compq, "N", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (ilz || lsame_(compz, "N", 1L, 1L)))
-    {
+    } else if (!(ilz || lsame_(compz, "N", 1L, 1L))) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -5;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -6;
-    }
-    else if (*ilo < 1)
-    {
+    } else if (*ilo < 1) {
         *info = -7;
-    }
-    else if (*ihi > *n || *ihi < *ilo - 1)
-    {
+    } else if (*ihi > *n || *ihi < *ilo - 1) {
         *info = -8;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -10;
-    }
-    else if (*lde < max(1,*n))
-    {
+    } else if (*lde < max(1, *n)) {
         *info = -12;
-    }
-    else if (withb && *ldb < *n || *ldb < 1)
-    {
+    } else if (withb && *ldb < *n || *ldb < 1) {
         *info = -14;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -16;
-    }
-    else if (ilq && *ldq < *n || *ldq < 1)
-    {
+    } else if (ilq && *ldq < *n || *ldq < 1) {
         *info = -18;
-    }
-    else if (ilz && *ldz < *n || *ldz < 1)
-    {
+    } else if (ilz && *ldz < *n || *ldz < 1) {
         *info = -20;
-    }
-    else
-    {
+    } else {
         jrow = *ihi + 1 - *ilo;
         jcol = *n + 1 - *ilo;
-        if (upper)
-        {
+        if (upper) {
             minwrk = 1;
             maxwrk = 1;
-        }
-        else
-        {
-            if (ilq)
-            {
+        } else {
+            if (ilq) {
                 minwrk = *n;
-            }
-            else
-            {
+            } else {
                 minwrk = jcol;
             }
             /* Computing MAX */
-            i__1 = 1, i__2 = jrow + max(minwrk,*m);
-            minwrk = max(i__1,i__2);
+            i__1 = 1, i__2 = jrow + max(minwrk, *m);
+            minwrk = max(i__1, i__2);
         }
-        if (*ldwork < minwrk)
-        {
+        if (*ldwork < minwrk) {
             *info = -22;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("TG01BD", &i__1, 6L);
         return 0;
     }
     /*     Initialize Q and Z if desired. */
-    if (inq)
-    {
+    if (inq) {
         dlaset_("Full", n, n, &c_b12, &c_b13, &q[q_offset], ldq, 4L);
     }
-    if (inz)
-    {
+    if (inz) {
         dlaset_("Full", n, n, &c_b12, &c_b13, &z__[z_offset], ldz, 4L);
     }
     /*     Quick return if possible. */
-    if (*n <= 1)
-    {
+    if (*n <= 1) {
         dwork[1] = 1.;
         return 0;
     }
-    if (! upper)
-    {
+    if (!upper) {
         /*        Reduce E to triangular form (QR decomposition of E). */
         /*        (Note: Comments in the code beginning "Workspace:" describe the */
         /*        minimal amount of real workspace needed at that point in the */
@@ -378,67 +340,66 @@ ftnlen compz_len;
         itau = 1;
         iwrk = itau + jrow;
         i__1 = *ldwork - iwrk + 1;
-        dgeqrf_(&jrow, &jcol, &e[*ilo + *ilo * e_dim1], lde, &dwork[itau], &dwork[iwrk], &i__1, &ierr);
+        dgeqrf_(
+            &jrow, &jcol, &e[*ilo + *ilo * e_dim1], lde, &dwork[itau], &dwork[iwrk], &i__1, &ierr);
         /* Computing MAX */
-        i__1 = (integer) dwork[iwrk] + iwrk - 1;
-        maxwrk = max(i__1,minwrk);
+        i__1 = (integer)dwork[iwrk] + iwrk - 1;
+        maxwrk = max(i__1, minwrk);
         /*        Apply the orthogonal transformation to matrices A, B, and Q. */
         /*        Workspace: need   IHI+1-ILO+N+1-ILO; */
         /*                   prefer IHI+1-ILO+(N+1-ILO)*NB. */
         i__1 = *ldwork - iwrk + 1;
-        dormqr_("Left", "Transpose", &jrow, &jcol, &jrow, &e[*ilo + *ilo * e_dim1], lde, &dwork[itau], &a[*ilo + *ilo * a_dim1], lda, &dwork[iwrk], &i__1, &ierr, 4L, 9L);
+        dormqr_("Left", "Transpose", &jrow, &jcol, &jrow, &e[*ilo + *ilo * e_dim1], lde,
+            &dwork[itau], &a[*ilo + *ilo * a_dim1], lda, &dwork[iwrk], &i__1, &ierr, 4L, 9L);
         /* Computing MAX */
-        i__1 = (integer) dwork[iwrk] + iwrk - 1;
-        maxwrk = max(i__1,maxwrk);
-        if (withb)
-        {
+        i__1 = (integer)dwork[iwrk] + iwrk - 1;
+        maxwrk = max(i__1, maxwrk);
+        if (withb) {
             /*           Workspace: need   IHI+1-ILO+M; */
             /*                      prefer IHI+1-ILO+M*NB. */
             i__1 = *ldwork - iwrk + 1;
-            dormqr_("Left", "Transpose", &jrow, m, &jrow, &e[*ilo + *ilo * e_dim1], lde, &dwork[itau], &b[*ilo + b_dim1], ldb, &dwork[iwrk], &i__1, &ierr, 4L, 9L);
+            dormqr_("Left", "Transpose", &jrow, m, &jrow, &e[*ilo + *ilo * e_dim1], lde,
+                &dwork[itau], &b[*ilo + b_dim1], ldb, &dwork[iwrk], &i__1, &ierr, 4L, 9L);
             /* Computing MAX */
-            i__1 = (integer) dwork[iwrk] + iwrk - 1;
-            maxwrk = max(i__1,maxwrk);
+            i__1 = (integer)dwork[iwrk] + iwrk - 1;
+            maxwrk = max(i__1, maxwrk);
         }
-        if (ilq)
-        {
+        if (ilq) {
             /*           Workspace: need   IHI+1-ILO+N; */
             /*                      prefer IHI+1-ILO+N*NB. */
             i__1 = *ldwork - iwrk + 1;
-            dormqr_("Right", "No Transpose", n, &jrow, &jrow, &e[*ilo + *ilo * e_dim1], lde, &dwork[itau], &q[*ilo * q_dim1 + 1], ldq, &dwork[iwrk], &i__1, &ierr, 5L, 12L);
+            dormqr_("Right", "No Transpose", n, &jrow, &jrow, &e[*ilo + *ilo * e_dim1], lde,
+                &dwork[itau], &q[*ilo * q_dim1 + 1], ldq, &dwork[iwrk], &i__1, &ierr, 5L, 12L);
             /* Computing MAX */
-            i__1 = (integer) dwork[iwrk] + iwrk - 1;
-            maxwrk = max(i__1,maxwrk);
+            i__1 = (integer)dwork[iwrk] + iwrk - 1;
+            maxwrk = max(i__1, maxwrk);
         }
     }
     /*     Zero out lower triangle of E. */
-    if (jrow > 1)
-    {
+    if (jrow > 1) {
         i__1 = jrow - 1;
         i__2 = jrow - 1;
         dlaset_("Lower", &i__1, &i__2, &c_b12, &c_b12, &e[*ilo + 1 + *ilo * e_dim1], lde, 5L);
     }
     /*     Reduce A and E and apply the transformations to B, C, Q and Z. */
     i__1 = *ihi - 2;
-    for (jcol = *ilo; jcol <= i__1; ++jcol)
-    {
+    for (jcol = *ilo; jcol <= i__1; ++jcol) {
         i__2 = jcol + 2;
-        for (jrow = *ihi; jrow >= i__2; --jrow)
-        {
+        for (jrow = *ihi; jrow >= i__2; --jrow) {
             /*           Step 1: rotate rows JROW-1, JROW to kill A(JROW,JCOL). */
             temp = a[jrow - 1 + jcol * a_dim1];
             dlartg_(&temp, &a[jrow + jcol * a_dim1], &cs, &s, &a[jrow - 1 + jcol * a_dim1]);
             a[jrow + jcol * a_dim1] = 0.;
             i__3 = *n - jcol;
-            drot_(&i__3, &a[jrow - 1 + (jcol + 1) * a_dim1], lda, &a[jrow + (jcol + 1) * a_dim1], lda, &cs, &s);
+            drot_(&i__3, &a[jrow - 1 + (jcol + 1) * a_dim1], lda, &a[jrow + (jcol + 1) * a_dim1],
+                lda, &cs, &s);
             i__3 = *n + 2 - jrow;
-            drot_(&i__3, &e[jrow - 1 + (jrow - 1) * e_dim1], lde, &e[jrow + (jrow - 1) * e_dim1], lde, &cs, &s);
-            if (withb)
-            {
+            drot_(&i__3, &e[jrow - 1 + (jrow - 1) * e_dim1], lde, &e[jrow + (jrow - 1) * e_dim1],
+                lde, &cs, &s);
+            if (withb) {
                 drot_(m, &b[jrow - 1 + b_dim1], ldb, &b[jrow + b_dim1], ldb, &cs, &s);
             }
-            if (ilq)
-            {
+            if (ilq) {
                 drot_(n, &q[(jrow - 1) * q_dim1 + 1], &c__1, &q[jrow * q_dim1 + 1], &c__1, &cs, &s);
             }
             /*           Step 2: rotate columns JROW, JROW-1 to kill E(JROW,JROW-1). */
@@ -448,20 +409,19 @@ ftnlen compz_len;
             drot_(ihi, &a[jrow * a_dim1 + 1], &c__1, &a[(jrow - 1) * a_dim1 + 1], &c__1, &cs, &s);
             i__3 = jrow - 1;
             drot_(&i__3, &e[jrow * e_dim1 + 1], &c__1, &e[(jrow - 1) * e_dim1 + 1], &c__1, &cs, &s);
-            if (withc)
-            {
-                drot_(p, &c__[jrow * c_dim1 + 1], &c__1, &c__[(jrow - 1) * c_dim1 + 1], &c__1, &cs, &s);
+            if (withc) {
+                drot_(p, &c__[jrow * c_dim1 + 1], &c__1, &c__[(jrow - 1) * c_dim1 + 1], &c__1, &cs,
+                    &s);
             }
-            if (ilz)
-            {
-                drot_(n, &z__[jrow * z_dim1 + 1], &c__1, &z__[(jrow - 1) * z_dim1 + 1], &c__1, &cs, &s);
+            if (ilz) {
+                drot_(n, &z__[jrow * z_dim1 + 1], &c__1, &z__[(jrow - 1) * z_dim1 + 1], &c__1, &cs,
+                    &s);
             }
             /* L10: */
         }
         /* L20: */
     }
-    dwork[1] = (doublereal) maxwrk;
+    dwork[1] = (doublereal)maxwrk;
     return 0;
     /* *** Last line of TG01BD *** */
 } /* tg01bd_ */
-

@@ -25,6 +25,6 @@
 #define NLSTIME_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSTIME_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSTIME_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

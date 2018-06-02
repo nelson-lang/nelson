@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,25 +14,27 @@ static doublereal c_b60 = -1.;
 static integer c__4 = 4;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int sg03bx_(dico, trans, a, lda, e, lde, b, ldb, u, ldu, scale, m1, ldm1, m2, ldm2, info, dico_len, trans_len)
-char *dico, *trans;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *b;
-integer *ldb;
-doublereal *u;
-integer *ldu;
+EXPORTSYMBOL /* Subroutine */ int sg03bx_(dico, trans, a, lda, e, lde, b, ldb, u, ldu, scale, m1,
+    ldm1, m2, ldm2, info, dico_len, trans_len) char *dico,
+    *trans;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* b;
+integer* ldb;
+doublereal* u;
+integer* ldu;
 doublereal *scale, *m1;
-integer *ldm1;
-doublereal *m2;
+integer* ldm1;
+doublereal* m2;
 integer *ldm2, *info;
 ftnlen dico_len;
 ftnlen trans_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, e_dim1, e_offset, m1_dim1, m1_offset, m2_dim1, m2_offset, u_dim1, u_offset;
+    integer a_dim1, a_offset, b_dim1, b_offset, e_dim1, e_offset, m1_dim1, m1_offset, m2_dim1,
+        m2_offset, u_dim1, u_offset;
     doublereal d__1, d__2, d__3, d__4, d__5, d__6, d__7;
     /* Builtin functions */
     double sqrt();
@@ -46,17 +48,23 @@ ftnlen trans_len;
     extern /* Subroutine */ int dgemv_(), sg03by_(), dcopy_();
     static doublereal scale1, scale2;
     extern doublereal dlapy2_();
-    static doublereal aa[4]	/* was [2][2] */, b11, bb[4]	/* was [2][2] */, b22;
+    static doublereal aa[4] /* was [2][2] */, b11, bb[4] /* was [2][2] */, b22;
     extern /* Subroutine */ int dlabad_();
-    static doublereal ai[4]	/* was [2][2] */, bi[4]	/* was [2][2] */, ci, ee[4]	/* was [2][2] */, ei[4]	/* was [2][2] */, ar[4]	/* was [2][2] */, br[4]	/* was [2][2] */, cr, er[4]	/* was [2][2] */;
+    static doublereal ai[4] /* was [2][2] */, bi[4] /* was [2][2] */, ci, ee[4] /* was [2][2] */,
+        ei[4] /* was [2][2] */, ar[4] /* was [2][2] */, br[4] /* was [2][2] */, cr,
+        er[4] /* was [2][2] */;
     extern doublereal dlamch_();
-    static doublereal qi[4]	/* was [2][2] */, si, ti[4]	/* was [2][2] */, ui[4]	/* was [2][2] */, xi, yi, qr[4]	/* was [2][2] */, zi[4]	/* was [2][2] */, sr, tr[4]	/* was [2][2] */, ur[4]	/* was [2][2] */;
+    static doublereal qi[4] /* was [2][2] */, si, ti[4] /* was [2][2] */, ui[4] /* was [2][2] */,
+        xi, yi, qr[4] /* was [2][2] */, zi[4] /* was [2][2] */, sr, tr[4] /* was [2][2] */,
+        ur[4] /* was [2][2] */;
     extern /* Subroutine */ int dladiv_();
-    static doublereal xr, yr, zr[4]	/* was [2][2] */, bignum;
+    static doublereal xr, yr, zr[4] /* was [2][2] */, bignum;
     static logical iscont;
-    static doublereal m1i[4]	/* was [2][2] */, m2i[4]	/* was [2][2] */, smlnum, m1r[4]	/* was [2][2] */, m2r[4]	/* was [2][2] */;
+    static doublereal m1i[4] /* was [2][2] */, m2i[4] /* was [2][2] */, smlnum,
+        m1r[4] /* was [2][2] */, m2r[4] /* was [2][2] */;
     static logical istrns;
-    static doublereal b12i, b12r, qbi[4]	/* was [2][2] */, qbr[4]	/* was [2][2] */, eps, qui[4]	/* was [2][2] */, qur[4]	/* was [2][2] */;
+    static doublereal b12i, b12r, qbi[4] /* was [2][2] */, qbr[4] /* was [2][2] */, eps,
+        qui[4] /* was [2][2] */, qur[4] /* was [2][2] */;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */
@@ -231,8 +239,7 @@ ftnlen trans_len;
     /*     If the transposed equation (op(K)=K**T, K=A,B,E,U) is to be */
     /*     solved, transpose the matrices A, E, B with respect to the */
     /*     anti-diagonal. This results in a non-transposed equation. */
-    if (istrns)
-    {
+    if (istrns) {
         v = aa[0];
         aa[0] = aa[3];
         aa[3] = v;
@@ -249,20 +256,18 @@ ftnlen trans_len;
     /*     Compute eigenvalues (LAMR + LAMI * I, LAMR - LAMI * I). */
     /* Computing MAX */
     /* Computing MAX */
-    d__2 = abs(ee[0]), d__3 = abs(ee[2]), d__2 = max(d__2,d__3), d__3 = abs(ee[3]);
-    d__1 = eps * max(d__2,d__3);
-    t = max(d__1,smlnum);
+    d__2 = abs(ee[0]), d__3 = abs(ee[2]), d__2 = max(d__2, d__3), d__3 = abs(ee[3]);
+    d__1 = eps * max(d__2, d__3);
+    t = max(d__1, smlnum);
     /* Computing MIN */
     d__1 = abs(ee[0]), d__2 = abs(ee[3]);
-    if (min(d__1,d__2) < t)
-    {
+    if (min(d__1, d__2) < t) {
         *info = 3;
         return 0;
     }
     d__1 = smlnum * eps;
     dlag2_(aa, &c__2, ee, &c__2, &d__1, &scale1, &scale2, &lamr, &w, &lami);
-    if (lami <= 0.)
-    {
+    if (lami <= 0.) {
         *info = 2;
         return 0;
     }
@@ -357,9 +362,8 @@ ftnlen trans_len;
     /* Computing MAX */
     /* Computing MAX */
     d__2 = br[0], d__3 = dlapy2_(&br[2], &bi[2]);
-    d__1 = eps * max(d__2,d__3);
-    if (v >= max(d__1,smlnum))
-    {
+    d__1 = eps * max(d__2, d__3);
+    if (v >= max(d__1, smlnum)) {
         dladiv_(&v, &c_b8, &br[3], &bi[3], &xr, &xi);
         br[3] = v;
         yr = qbr[1];
@@ -370,30 +374,25 @@ ftnlen trans_len;
         yi = qbi[3];
         qbr[3] = xr * yr - xi * yi;
         qbi[3] = xr * yi + xi * yr;
-    }
-    else
-    {
+    } else {
         br[3] = 0.;
     }
     bi[3] = 0.;
     /*     Compute the Cholesky factor of the solution of the reduced */
     /*     equation. The solution may be scaled to avoid overflow. */
-    if (iscont)
-    {
+    if (iscont) {
         /*        Continuous-time equation. */
         /*        Step I:  Compute U(1,1). Set U(2,1) = 0. */
         v = (ar[0] * er[0] + ai[0] * ei[0]) * -2.;
-        if (v <= 0.)
-        {
+        if (v <= 0.) {
             *info = 3;
             return 0;
         }
         v = sqrt(v);
         t = abs(br[0]) * 2. * smlnum;
-        if (t > v)
-        {
+        if (t > v) {
             scale1 = v / t;
-            *scale = scale1 **scale;
+            *scale = scale1 * *scale;
             br[0] = scale1 * br[0];
             br[2] = scale1 * br[2];
             bi[2] = scale1 * bi[2];
@@ -407,15 +406,12 @@ ftnlen trans_len;
         /* Computing MAX */
         /* Computing MAX */
         d__2 = br[3], d__3 = dlapy2_(&br[2], &bi[2]);
-        d__1 = eps * max(d__2,d__3);
-        t = max(d__1,smlnum);
-        if (abs(br[0]) < t)
-        {
+        d__1 = eps * max(d__2, d__3);
+        t = max(d__1, smlnum);
+        if (abs(br[0]) < t) {
             ur[2] = 0.;
             ui[2] = 0.;
-        }
-        else
-        {
+        } else {
             xr = ar[0] * er[2] + ai[0] * ei[2];
             xi = ai[0] * er[2] - ar[0] * ei[2];
             xr = xr + ar[2] * er[0] + ai[2] * ei[0];
@@ -427,10 +423,9 @@ ftnlen trans_len;
             yr = yr + er[3] * ar[0] + ei[3] * ai[0];
             yi = yi - ei[3] * ar[0] + er[3] * ai[0];
             t = dlapy2_(&xr, &xi) * 2. * smlnum;
-            if (t > dlapy2_(&yr, &yi))
-            {
+            if (t > dlapy2_(&yr, &yi)) {
                 scale1 = dlapy2_(&yr, &yi) / t;
-                *scale = scale1 **scale;
+                *scale = scale1 * *scale;
                 br[0] = scale1 * br[0];
                 br[2] = scale1 * br[2];
                 bi[2] = scale1 * bi[2];
@@ -446,10 +441,9 @@ ftnlen trans_len;
         xr = (er[2] * ur[0] + er[3] * ur[2] - ei[3] * ui[2]) * v;
         xi = (-ei[2] * ur[0] - er[3] * ui[2] - ei[3] * ur[2]) * v;
         t = dlapy2_(&xr, &xi) * 2. * smlnum;
-        if (t > dlapy2_(er, ei))
-        {
+        if (t > dlapy2_(er, ei)) {
             scale1 = dlapy2_(er, ei) / t;
-            *scale = scale1 **scale;
+            *scale = scale1 * *scale;
             ur[0] = scale1 * ur[0];
             ur[2] = scale1 * ur[2];
             ui[2] = scale1 * ui[2];
@@ -465,8 +459,7 @@ ftnlen trans_len;
         yr = br[2] - yr;
         yi = -bi[2] - yi;
         v = (ar[3] * er[3] + ai[3] * ei[3]) * -2.;
-        if (v <= 0.)
-        {
+        if (v <= 0.) {
             *info = 3;
             return 0;
         }
@@ -475,10 +468,9 @@ ftnlen trans_len;
         d__2 = dlapy2_(&yr, &yi);
         w = dlapy2_(&d__1, &d__2);
         t = w * 2. * smlnum;
-        if (t > v)
-        {
+        if (t > v) {
             scale1 = v / t;
-            *scale = scale1 **scale;
+            *scale = scale1 * *scale;
             ur[0] = scale1 * ur[0];
             ur[2] = scale1 * ur[2];
             ui[2] = scale1 * ui[2];
@@ -508,17 +500,14 @@ ftnlen trans_len;
         xi = (-br[0] * ei[2] + er[0] * bi[2]) / v;
         yr = xr - alpha * ur[2];
         yi = -xi + alpha * ui[2];
-        if (yr != 0. || yi != 0.)
-        {
+        if (yr != 0. || yi != 0.) {
             m2r[2] = yr / ur[3];
             m2i[2] = -yi / ur[3];
             m2r[3] = br[3] / (er[3] * ur[3]);
             m2i[3] = 0.;
             m1r[2] = -alpha * m2r[2];
             m1i[2] = -alpha * m2i[2];
-        }
-        else
-        {
+        } else {
             m2r[2] = 0.;
             m2i[2] = 0.;
             m2r[3] = alpha;
@@ -526,9 +515,7 @@ ftnlen trans_len;
             m1r[2] = 0.;
             m1i[2] = 0.;
         }
-    }
-    else
-    {
+    } else {
         /*        Discrete-time equation. */
         /*        Step I:  Compute U(1,1). Set U(2,1) = 0. */
         /* Computing 2nd power */
@@ -540,17 +527,15 @@ ftnlen trans_len;
         /* Computing 2nd power */
         d__4 = ai[0];
         v = d__1 * d__1 + d__2 * d__2 - d__3 * d__3 - d__4 * d__4;
-        if (v <= 0.)
-        {
+        if (v <= 0.) {
             *info = 3;
             return 0;
         }
         v = sqrt(v);
         t = abs(br[0]) * 2. * smlnum;
-        if (t > v)
-        {
+        if (t > v) {
             scale1 = v / t;
-            *scale = scale1 **scale;
+            *scale = scale1 * *scale;
             br[0] = scale1 * br[0];
             br[2] = scale1 * br[2];
             bi[2] = scale1 * bi[2];
@@ -564,15 +549,12 @@ ftnlen trans_len;
         /* Computing MAX */
         /* Computing MAX */
         d__2 = br[3], d__3 = dlapy2_(&br[2], &bi[2]);
-        d__1 = eps * max(d__2,d__3);
-        t = max(d__1,smlnum);
-        if (abs(br[0]) < t)
-        {
+        d__1 = eps * max(d__2, d__3);
+        t = max(d__1, smlnum);
+        if (abs(br[0]) < t) {
             ur[2] = 0.;
             ui[2] = 0.;
-        }
-        else
-        {
+        } else {
             xr = ar[0] * ar[2] + ai[0] * ai[2];
             xi = ai[0] * ar[2] - ar[0] * ai[2];
             xr = xr - er[2] * er[0] - ei[2] * ei[0];
@@ -584,10 +566,9 @@ ftnlen trans_len;
             yr = yr - er[3] * er[0] - ei[3] * ei[0];
             yi = yi + ei[3] * er[0] - er[3] * ei[0];
             t = dlapy2_(&xr, &xi) * 2. * smlnum;
-            if (t > dlapy2_(&yr, &yi))
-            {
+            if (t > dlapy2_(&yr, &yi)) {
                 scale1 = dlapy2_(&yr, &yi) / t;
-                *scale = scale1 **scale;
+                *scale = scale1 * *scale;
                 br[0] = scale1 * br[0];
                 br[2] = scale1 * br[2];
                 bi[2] = scale1 * bi[2];
@@ -613,17 +594,17 @@ ftnlen trans_len;
         /* Computing 2nd power */
         d__4 = ai[3];
         v = d__1 * d__1 + d__2 * d__2 - d__3 * d__3 - d__4 * d__4;
-        if (v <= 0.)
-        {
+        if (v <= 0.) {
             *info = 3;
             return 0;
         }
         v = sqrt(v);
         /* Computing MAX */
-        d__1 = abs(br[3]), d__2 = abs(br[2]), d__1 = max(d__1,d__2), d__2 = abs(bi[2]), d__1 = max(d__1,d__2), d__2 = abs(xr), d__1 = max(d__1,d__2), d__2 = abs(xi), d__1 = max(d__1,d__2), d__2 = abs(yr), d__1 = max(d__1,d__2), d__2 = abs(yi);
-        t = max(d__1,d__2);
-        if (t <= smlnum)
-        {
+        d__1 = abs(br[3]), d__2 = abs(br[2]), d__1 = max(d__1, d__2), d__2 = abs(bi[2]),
+        d__1 = max(d__1, d__2), d__2 = abs(xr), d__1 = max(d__1, d__2), d__2 = abs(xi),
+        d__1 = max(d__1, d__2), d__2 = abs(yr), d__1 = max(d__1, d__2), d__2 = abs(yi);
+        t = max(d__1, d__2);
+        if (t <= smlnum) {
             t = 1.;
         }
         /* Computing 2nd power */
@@ -640,18 +621,17 @@ ftnlen trans_len;
         d__6 = yr / t;
         /* Computing 2nd power */
         d__7 = yi / t;
-        w = d__1 * d__1 + d__2 * d__2 + d__3 * d__3 - d__4 * d__4 - d__5 * d__5 + d__6 * d__6 + d__7 * d__7;
-        if (w < 0.)
-        {
+        w = d__1 * d__1 + d__2 * d__2 + d__3 * d__3 - d__4 * d__4 - d__5 * d__5 + d__6 * d__6
+            + d__7 * d__7;
+        if (w < 0.) {
             *info = 3;
             return 0;
         }
         w = t * sqrt(w);
         t = w * 2. * smlnum;
-        if (t > v)
-        {
+        if (t > v) {
             scale1 = v / t;
-            *scale = scale1 **scale;
+            *scale = scale1 * *scale;
             ur[0] = scale1 * ur[0];
             ur[2] = scale1 * ur[2];
             ui[2] = scale1 * ui[2];
@@ -689,17 +669,14 @@ ftnlen trans_len;
         v = (betai - betar) * (betai + betar) + 1.;
         w = betai * -2. * betar;
         dladiv_(&xr, &xi, &v, &w, &yr, &yi);
-        if (yr != 0. || yi != 0.)
-        {
+        if (yr != 0. || yi != 0.) {
             m2r[2] = (yr * betar - yi * betai) / ur[3];
             m2i[2] = -(yi * betar + yr * betai) / ur[3];
             m2r[3] = b22 / ur[3];
             m2i[3] = 0.;
             m1r[2] = -alpha * yr / ur[3];
             m1i[2] = alpha * yi / ur[3];
-        }
-        else
-        {
+        } else {
             m2r[2] = 0.;
             m2i[2] = 0.;
             m2r[3] = alpha;
@@ -726,15 +703,16 @@ ftnlen trans_len;
     qui[2] = -si;
     qui[1] = -si;
     qui[3] = ci;
-    dgemv_("N", &c__2, &c__2, &c_b14, qur, &c__2, &zr[2], &c__1, &c_b8, &u[(u_dim1 << 1) + 1], &c__1, 1L);
-    dgemv_("N", &c__2, &c__2, &c_b60, qui, &c__2, &zi[2], &c__1, &c_b14, &u[(u_dim1 << 1) + 1], &c__1, 1L);
+    dgemv_("N", &c__2, &c__2, &c_b14, qur, &c__2, &zr[2], &c__1, &c_b8, &u[(u_dim1 << 1) + 1],
+        &c__1, 1L);
+    dgemv_("N", &c__2, &c__2, &c_b60, qui, &c__2, &zi[2], &c__1, &c_b14, &u[(u_dim1 << 1) + 1],
+        &c__1, 1L);
     dgemv_("N", &c__2, &c__2, &c_b14, qui, &c__2, &zr[2], &c__1, &c_b8, &ui[2], &c__1, 1L);
     dgemv_("N", &c__2, &c__2, &c_b14, qur, &c__2, &zi[2], &c__1, &c_b14, &ui[2], &c__1, 1L);
     u[u_dim1 + 1] = l;
     u[u_dim1 + 2] = 0.;
     v = dlapy2_(&u[(u_dim1 << 1) + 2], &ui[3]);
-    if (v != 0.)
-    {
+    if (v != 0.) {
         dladiv_(&v, &c_b8, &u[(u_dim1 << 1) + 2], &ui[3], &xr, &xi);
         yr = qur[1];
         yi = qui[1];
@@ -750,23 +728,30 @@ ftnlen trans_len;
     /*        M1 := QU * M1 * QU**H */
     /*        M2 := QB**H * M2 * QU**H */
     dgemm_("N", "T", &c__2, &c__2, &c__2, &c_b14, m1r, &c__2, qur, &c__2, &c_b8, tr, &c__2, 1L, 1L);
-    dgemm_("N", "T", &c__2, &c__2, &c__2, &c_b14, m1i, &c__2, qui, &c__2, &c_b14, tr, &c__2, 1L, 1L);
+    dgemm_(
+        "N", "T", &c__2, &c__2, &c__2, &c_b14, m1i, &c__2, qui, &c__2, &c_b14, tr, &c__2, 1L, 1L);
     dgemm_("N", "T", &c__2, &c__2, &c__2, &c_b60, m1r, &c__2, qui, &c__2, &c_b8, ti, &c__2, 1L, 1L);
-    dgemm_("N", "T", &c__2, &c__2, &c__2, &c_b14, m1i, &c__2, qur, &c__2, &c_b14, ti, &c__2, 1L, 1L);
-    dgemm_("N", "N", &c__2, &c__2, &c__2, &c_b14, qur, &c__2, tr, &c__2, &c_b8, &m1[m1_offset], ldm1, 1L, 1L);
-    dgemm_("N", "N", &c__2, &c__2, &c__2, &c_b60, qui, &c__2, ti, &c__2, &c_b14, &m1[m1_offset], ldm1, 1L, 1L);
+    dgemm_(
+        "N", "T", &c__2, &c__2, &c__2, &c_b14, m1i, &c__2, qur, &c__2, &c_b14, ti, &c__2, 1L, 1L);
+    dgemm_("N", "N", &c__2, &c__2, &c__2, &c_b14, qur, &c__2, tr, &c__2, &c_b8, &m1[m1_offset],
+        ldm1, 1L, 1L);
+    dgemm_("N", "N", &c__2, &c__2, &c__2, &c_b60, qui, &c__2, ti, &c__2, &c_b14, &m1[m1_offset],
+        ldm1, 1L, 1L);
     dgemm_("N", "T", &c__2, &c__2, &c__2, &c_b14, m2r, &c__2, qur, &c__2, &c_b8, tr, &c__2, 1L, 1L);
-    dgemm_("N", "T", &c__2, &c__2, &c__2, &c_b14, m2i, &c__2, qui, &c__2, &c_b14, tr, &c__2, 1L, 1L);
+    dgemm_(
+        "N", "T", &c__2, &c__2, &c__2, &c_b14, m2i, &c__2, qui, &c__2, &c_b14, tr, &c__2, 1L, 1L);
     dgemm_("N", "T", &c__2, &c__2, &c__2, &c_b60, m2r, &c__2, qui, &c__2, &c_b8, ti, &c__2, 1L, 1L);
-    dgemm_("N", "T", &c__2, &c__2, &c__2, &c_b14, m2i, &c__2, qur, &c__2, &c_b14, ti, &c__2, 1L, 1L);
-    dgemm_("T", "N", &c__2, &c__2, &c__2, &c_b14, qbr, &c__2, tr, &c__2, &c_b8, &m2[m2_offset], ldm2, 1L, 1L);
-    dgemm_("T", "N", &c__2, &c__2, &c__2, &c_b14, qbi, &c__2, ti, &c__2, &c_b14, &m2[m2_offset], ldm2, 1L, 1L);
+    dgemm_(
+        "N", "T", &c__2, &c__2, &c__2, &c_b14, m2i, &c__2, qur, &c__2, &c_b14, ti, &c__2, 1L, 1L);
+    dgemm_("T", "N", &c__2, &c__2, &c__2, &c_b14, qbr, &c__2, tr, &c__2, &c_b8, &m2[m2_offset],
+        ldm2, 1L, 1L);
+    dgemm_("T", "N", &c__2, &c__2, &c__2, &c_b14, qbi, &c__2, ti, &c__2, &c_b14, &m2[m2_offset],
+        ldm2, 1L, 1L);
     /*     If the transposed equation (op(K)=K**T, K=A,B,E,U) is to be */
     /*     solved, transpose the matrix U with respect to the */
     /*     anti-diagonal and the matrices M1, M2 with respect to the diagonal */
     /*     and the anti-diagonal. */
-    if (istrns)
-    {
+    if (istrns) {
         v = u[u_dim1 + 1];
         u[u_dim1 + 1] = u[(u_dim1 << 1) + 2];
         u[(u_dim1 << 1) + 2] = v;
@@ -780,4 +765,3 @@ ftnlen trans_len;
     return 0;
     /* *** Last line of SG03BX *** */
 } /* sg03bx_ */
-

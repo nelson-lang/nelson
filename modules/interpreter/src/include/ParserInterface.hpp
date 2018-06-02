@@ -18,37 +18,43 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <stdio.h>
-#include "nlsInterpreter_exports.h"
 #include "AST.hpp"
 #include "FunctionDef.hpp"
 #include "MacroFunctionDef.hpp"
 #include "ParserState.hpp"
+#include "nlsInterpreter_exports.h"
+#include <stdio.h>
 //=============================================================================
 namespace Nelson {
-    /**
-     * Reset the parser to its default state.
-     */
-    NLSINTERPRETER_IMPEXP void resetParser();
-    /**
-     * Get the AST from a parse of a script or statement sequence.
-     */
-    NLSINTERPRETER_IMPEXP ASTPtr getParsedScriptBlock();
-    /**
-     * Get the function definition from a parse of a function-definition.
-     */
-    NLSINTERPRETER_IMPEXP MacroFunctionDef* getParsedFunctionDef();
-    /**
-     * Get the current parser state.
-     */
-    NLSINTERPRETER_IMPEXP ParserState parseState();
-    /**
-     * Parse the given string.
-     */
-    NLSINTERPRETER_IMPEXP ParserState parseString(std::string txt);
-    /**
-     * Parse the given file (with the given filename).
-     */
-    NLSINTERPRETER_IMPEXP ParserState parseFile(FILE*, const char*);
-}
+/**
+ * Reset the parser to its default state.
+ */
+NLSINTERPRETER_IMPEXP void
+resetParser();
+/**
+ * Get the AST from a parse of a script or statement sequence.
+ */
+NLSINTERPRETER_IMPEXP ASTPtr
+getParsedScriptBlock();
+/**
+ * Get the function definition from a parse of a function-definition.
+ */
+NLSINTERPRETER_IMPEXP MacroFunctionDef*
+getParsedFunctionDef();
+/**
+ * Get the current parser state.
+ */
+NLSINTERPRETER_IMPEXP ParserState
+parseState();
+/**
+ * Parse the given string.
+ */
+NLSINTERPRETER_IMPEXP ParserState
+parseString(std::string txt);
+/**
+ * Parse the given file (with the given filename).
+ */
+NLSINTERPRETER_IMPEXP ParserState
+parseFile(FILE*, const char*);
+} // namespace Nelson
 //=============================================================================

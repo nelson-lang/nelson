@@ -22,46 +22,36 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DataStructuresGateway::structBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DataStructuresGateway::structBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 0)
-    {
+    if (argIn.size() == 0) {
         retval.push_back(ArrayOf::emptyStructWithoutFields());
         return retval;
-    }
-    else if (argIn.size() == 1)
-    {
-        if (!argIn[0].isEmpty())
-        {
+    } else if (argIn.size() == 1) {
+        if (!argIn[0].isEmpty()) {
             Error(eval, _W("struct([]) expected."));
         }
         Dimensions dim = argIn[0].getDimensions();
         wstringVector fieldnames;
         retval.push_back(ArrayOf::emptyStructConstructor(fieldnames, dim));
-    }
-    else
-    {
-        if (argIn.size() % 2)
-        {
+    } else {
+        if (argIn.size() % 2) {
             Error(eval, _W("requires pairs of field names and values."));
         }
         size_t pairCount = argIn.size() / 2;
         stringVector names;
         ArrayOfVector values;
-        for (size_t i = 0; i < pairCount; i++)
-        {
+        for (size_t i = 0; i < pairCount; i++) {
             values.push_back(ArrayOf());
         }
-        for (size_t i = 0; i < pairCount * 2; i += 2)
-        {
-            if (!(argIn[i].isSingleString()))
-            {
+        for (size_t i = 0; i < pairCount * 2; i += 2) {
+            if (!(argIn[i].isSingleString())) {
                 Error(eval, _W("requires pairs of field names and values."));
             }
             std::string field = argIn[i].getContentAsCString();
-            if (!IsValidFieldname(field))
-            {
+            if (!IsValidFieldname(field)) {
                 Error(eval, _W("requires a valid fieldname."));
             }
             names.push_back(field);

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,16 +13,18 @@ static integer c__1 = 1;
 static integer c__2 = 2;
 static integer c__3 = 3;
 
-EXPORTSYMBOL /* Subroutine */ int mb03bd_(job, defl, compq, qind, k, n, h__, ilo, ihi, s, a, lda1, lda2, q, ldq1, ldq2, alphar, alphai, beta, scal, iwork, liwork, dwork, ldwork, iwarn, info, job_len, defl_len, compq_len)
-char *job, *defl, *compq;
+EXPORTSYMBOL /* Subroutine */ int mb03bd_(job, defl, compq, qind, k, n, h__, ilo, ihi, s, a, lda1,
+    lda2, q, ldq1, ldq2, alphar, alphai, beta, scal, iwork, liwork, dwork, ldwork, iwarn, info,
+    job_len, defl_len, compq_len) char *job,
+    *defl, *compq;
 integer *qind, *k, *n, *h__, *ilo, *ihi, *s;
-doublereal *a;
+doublereal* a;
 integer *lda1, *lda2;
-doublereal *q;
+doublereal* q;
 integer *ldq1, *ldq2;
 doublereal *alphar, *alphai, *beta;
 integer *scal, *iwork, *liwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen job_len;
 ftnlen defl_len;
@@ -335,114 +337,77 @@ ftnlen compq_len;
     lparq = lsame_(compq, "P", 1L, 1L);
     adefl = lsame_(defl, "A", 1L, 1L);
     *iwarn = 0;
-    if (adefl)
-    {
+    if (adefl) {
         /* Computing MAX */
         /* Computing MAX */
         i__3 = *n << 1, i__4 = *k << 3;
-        i__1 = 1, i__2 = *k + max(i__3,i__4);
-        optdw = max(i__1,i__2);
-    }
-    else
-    {
+        i__1 = 1, i__2 = *k + max(i__3, i__4);
+        optdw = max(i__1, i__2);
+    } else {
         /* Computing MAX */
         /* Computing MAX */
         i__3 = *n << 1, i__4 = *k << 3;
-        i__1 = 1, i__2 = max(i__3,i__4);
-        optdw = max(i__1,i__2);
+        i__1 = 1, i__2 = max(i__3, i__4);
+        optdw = max(i__1, i__2);
     }
     /* Computing MAX */
     i__1 = 1, i__2 = *k << 1;
-    optiw = max(i__1,i__2);
+    optiw = max(i__1, i__2);
     /*     Check the scalar input parameters. */
     *info = 0;
-    if (! (lschr || lsame_(job, "E", 1L, 1L)))
-    {
+    if (!(lschr || lsame_(job, "E", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (adefl || lsame_(defl, "C", 1L, 1L)))
-    {
+    } else if (!(adefl || lsame_(defl, "C", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (lcmpq || lparq || lsame_(compq, "N", 1L, 1L)))
-    {
+    } else if (!(lcmpq || lparq || lsame_(compq, "N", 1L, 1L))) {
         *info = -3;
-    }
-    else if (*k < 0)
-    {
+    } else if (*k < 0) {
         *info = -5;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -6;
-    }
-    else if (*h__ < 1 || *h__ > *k)
-    {
+    } else if (*h__ < 1 || *h__ > *k) {
         *info = -7;
-    }
-    else if (*ilo < 1)
-    {
+    } else if (*ilo < 1) {
         *info = -8;
-    }
-    else if (*ihi > *n || *ihi < *ilo - 1)
-    {
+    } else if (*ihi > *n || *ihi < *ilo - 1) {
         *info = -9;
-    }
-    else if (*lda1 < max(1,*n))
-    {
+    } else if (*lda1 < max(1, *n)) {
         *info = -12;
-    }
-    else if (*lda2 < max(1,*n))
-    {
+    } else if (*lda2 < max(1, *n)) {
         *info = -13;
-    }
-    else if (*ldq1 < 1 || (lcmpq || lparq) && *ldq1 < *n)
-    {
+    } else if (*ldq1 < 1 || (lcmpq || lparq) && *ldq1 < *n) {
         *info = -15;
-    }
-    else if (*ldq2 < 1 || (lcmpq || lparq) && *ldq2 < *n)
-    {
+    } else if (*ldq2 < 1 || (lcmpq || lparq) && *ldq2 < *n) {
         *info = -16;
-    }
-    else if (*liwork < optiw)
-    {
+    } else if (*liwork < optiw) {
         iwork[1] = optiw;
         *info = -22;
-    }
-    else if (*ldwork < optdw)
-    {
-        dwork[1] = (doublereal) optdw;
+    } else if (*ldwork < optdw) {
+        dwork[1] = (doublereal)optdw;
         *info = -24;
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB03BD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 1.;
         iwork[1] = 1;
         return 0;
     }
     /*     Initialize Q. */
     i__1 = *k;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         j = 0;
-        if (liniq)
-        {
+        if (liniq) {
             j = i__;
-        }
-        else if (lparq)
-        {
+        } else if (lparq) {
             j = -qind[i__];
         }
-        if (j != 0)
-        {
+        if (j != 0) {
             dlaset_("Full", n, n, &c_b14, &c_b15, &q[(j * q_dim2 + 1) * q_dim1 + 1], ldq1, 4L);
         }
         /* L10: */
@@ -462,51 +427,43 @@ ftnlen compq_len;
     base = dlamch_("Base", 4L);
     lgbas = log(base);
     macpar[1] = dlamch_("Underflow", 9L);
-    if (lsvd)
-    {
+    if (lsvd) {
         macpar[0] = dlamch_("ORmax", 5L);
         macpar[2] = safmin;
         macpar[3] = dlamch_("Epsilon", 7L);
         macpar[4] = base;
     }
-    if (*k >= (integer) (log(macpar[1]) / log(ulp)))
-    {
+    if (*k >= (integer)(log(macpar[1]) / log(ulp))) {
         /*        Start Iteration with a controlled zero shift. */
         ziter = -1;
-    }
-    else
-    {
+    } else {
         ziter = 0;
     }
     /*     Compute norms. */
-    if (adefl)
-    {
+    if (adefl) {
         pnorm = 0;
         pfree = *k;
         i__1 = *k;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             aind = iwork[mapa + i__];
-            dwork[i__] = dlanhs_("Frobenius", &in, &a[*ilo + (*ilo + aind * a_dim2) * a_dim1], lda1, &dwork[pfree + 1], 9L);
+            dwork[i__] = dlanhs_("Frobenius", &in, &a[*ilo + (*ilo + aind * a_dim2) * a_dim1], lda1,
+                &dwork[pfree + 1], 9L);
             /* L20: */
         }
-    }
-    else
-    {
+    } else {
         pfree = 0;
     }
     /*     Set Eigenvalues IHI+1:N. */
     i__1 = *n;
-    for (j = *ihi + 1; j <= i__1; ++j)
-    {
-        i__2 = *lda1 **lda2;
-        ma01bd_(&base, &lgbas, k, &s[1], &a[j + (j + a_dim2) * a_dim1], &i__2, &alphar[j], &beta[j], &scal[j]);
+    for (j = *ihi + 1; j <= i__1; ++j) {
+        i__2 = *lda1 * *lda2;
+        ma01bd_(&base, &lgbas, k, &s[1], &a[j + (j + a_dim2) * a_dim1], &i__2, &alphar[j], &beta[j],
+            &scal[j]);
         alphai[j] = 0.;
         /* L30: */
     }
     /*     If IHI < ILO, skip QZ steps. */
-    if (*ihi < *ilo)
-    {
+    if (*ihi < *ilo) {
         goto L500;
     }
     /*     MAIN PERIODIC QZ ITERATION LOOP. */
@@ -521,13 +478,10 @@ ftnlen compq_len;
     /*        to tell when to use an observed zero or random shift. */
     /*     MAXIT is the maximum number of QZ sweeps allowed. */
     ilast = *ihi;
-    if (lschr)
-    {
+    if (lschr) {
         ifrstm = 1;
         ilastm = *n;
-    }
-    else
-    {
+    } else {
         ifrstm = *ilo;
         ilastm = *ihi;
     }
@@ -539,94 +493,78 @@ ftnlen compq_len;
     iseed[3] = 1;
     maxit = in * 30;
     i__1 = maxit;
-    for (jiter = 1; jiter <= i__1; ++jiter)
-    {
+    for (jiter = 1; jiter <= i__1; ++jiter) {
         /*        Special Case: ILAST = ILO. */
-        if (ilast == *ilo)
-        {
+        if (ilast == *ilo) {
             goto L390;
         }
         /*        ************************************************************** */
         /*        *                     CHECK FOR DEFLATION                    * */
         /*        ************************************************************** */
         /*        Test 1:  Deflation in the Hessenberg matrix. */
-        if (adefl)
-        {
+        if (adefl) {
             /* Computing MAX */
             d__1 = safmin, d__2 = dwork[pnorm + 1] * ulp;
-            tol = max(d__1,d__2);
+            tol = max(d__1, d__2);
         }
         aind = iwork[mapa + 1];
         jlo = *ilo;
         i__2 = *ilo + 1;
-        for (j = ilast; j >= i__2; --j)
-        {
-            if (! adefl)
-            {
-                tol = (d__1 = a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1], abs(d__1)) + (d__2 = a[j + (j + aind * a_dim2) * a_dim1], abs(d__2));
-                if (tol == 0.)
-                {
+        for (j = ilast; j >= i__2; --j) {
+            if (!adefl) {
+                tol = (d__1 = a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1], abs(d__1))
+                    + (d__2 = a[j + (j + aind * a_dim2) * a_dim1], abs(d__2));
+                if (tol == 0.) {
                     i__3 = j - *ilo + 1;
-                    tol = dlanhs_("1", &i__3, &a[*ilo + (*ilo + aind * a_dim2) * a_dim1], lda1, &dwork[pfree + 1], 1L);
+                    tol = dlanhs_("1", &i__3, &a[*ilo + (*ilo + aind * a_dim2) * a_dim1], lda1,
+                        &dwork[pfree + 1], 1L);
                 }
                 /* Computing MAX */
                 d__1 = ulp * tol;
-                tol = max(d__1,smlnum);
+                tol = max(d__1, smlnum);
             }
-            if ((d__1 = a[j + (j - 1 + aind * a_dim2) * a_dim1], abs(d__1)) <= tol)
-            {
+            if ((d__1 = a[j + (j - 1 + aind * a_dim2) * a_dim1], abs(d__1)) <= tol) {
                 a[j + (j - 1 + aind * a_dim2) * a_dim1] = 0.;
                 jlo = j;
-                if (j == ilast)
-                {
+                if (j == ilast) {
                     goto L390;
                 }
                 goto L50;
             }
             /* L40: */
         }
-L50:
+    L50:
         /*        Test 2:  Deflation in the triangular matrices with index 1. */
         i__2 = *k;
-        for (ldef = 2; ldef <= i__2; ++ldef)
-        {
+        for (ldef = 2; ldef <= i__2; ++ldef) {
             aind = iwork[mapa + ldef];
-            if (s[aind] == sinv)
-            {
-                if (adefl)
-                {
+            if (s[aind] == sinv) {
+                if (adefl) {
                     /* Computing MAX */
                     d__1 = safmin, d__2 = dwork[pnorm + ldef] * ulp;
-                    tol = max(d__1,d__2);
+                    tol = max(d__1, d__2);
                 }
                 i__3 = jlo;
-                for (j = ilast; j >= i__3; --j)
-                {
-                    if (! adefl)
-                    {
-                        if (j == ilast)
-                        {
+                for (j = ilast; j >= i__3; --j) {
+                    if (!adefl) {
+                        if (j == ilast) {
                             tol = (d__1 = a[j - 1 + (j + aind * a_dim2) * a_dim1], abs(d__1));
-                        }
-                        else if (j == jlo)
-                        {
+                        } else if (j == jlo) {
                             tol = (d__1 = a[j + (j + 1 + aind * a_dim2) * a_dim1], abs(d__1));
+                        } else {
+                            tol = (d__1 = a[j - 1 + (j + aind * a_dim2) * a_dim1], abs(d__1))
+                                + (d__2 = a[j + (j + 1 + aind * a_dim2) * a_dim1], abs(d__2));
                         }
-                        else
-                        {
-                            tol = (d__1 = a[j - 1 + (j + aind * a_dim2) * a_dim1], abs(d__1)) + (d__2 = a[j + (j + 1 + aind * a_dim2) * a_dim1], abs(d__2));
-                        }
-                        if (tol == 0.)
-                        {
+                        if (tol == 0.) {
                             i__4 = j - jlo + 1;
-                            tol = dlanhs_("1", &i__4, &a[jlo + (jlo + aind * a_dim2) * a_dim1], lda1, &dwork[pfree + 1], 1L);
+                            tol = dlanhs_("1", &i__4, &a[jlo + (jlo + aind * a_dim2) * a_dim1],
+                                lda1, &dwork[pfree + 1], 1L);
                         }
                         /* Computing MAX */
                         d__1 = ulp * tol;
-                        tol = max(d__1,smlnum);
+                        tol = max(d__1, smlnum);
                     }
-                    if ((d__1 = a[j + (j + aind * a_dim2) * a_dim1], abs(d__1)) <= tol)
-                    {
+                    if ((d__1 = a[j + (j + aind * a_dim2) * a_dim1], abs(d__1)) <= tol) {
                         a[j + (j + aind * a_dim2) * a_dim1] = 0.;
                         goto L170;
                     }
@@ -637,45 +575,35 @@ L50:
         }
         /*        Test 3:  Deflation in the triangular matrices with index -1. */
         i__2 = *k;
-        for (ldef = 2; ldef <= i__2; ++ldef)
-        {
+        for (ldef = 2; ldef <= i__2; ++ldef) {
             aind = iwork[mapa + ldef];
-            if (s[aind] != sinv)
-            {
-                if (adefl)
-                {
+            if (s[aind] != sinv) {
+                if (adefl) {
                     /* Computing MAX */
                     d__1 = safmin, d__2 = dwork[pnorm + ldef] * ulp;
-                    tol = max(d__1,d__2);
+                    tol = max(d__1, d__2);
                 }
                 i__3 = jlo;
-                for (j = ilast; j >= i__3; --j)
-                {
-                    if (! adefl)
-                    {
-                        if (j == ilast)
-                        {
+                for (j = ilast; j >= i__3; --j) {
+                    if (!adefl) {
+                        if (j == ilast) {
                             tol = (d__1 = a[j - 1 + (j + aind * a_dim2) * a_dim1], abs(d__1));
-                        }
-                        else if (j == jlo)
-                        {
+                        } else if (j == jlo) {
                             tol = (d__1 = a[j + (j + 1 + aind * a_dim2) * a_dim1], abs(d__1));
+                        } else {
+                            tol = (d__1 = a[j - 1 + (j + aind * a_dim2) * a_dim1], abs(d__1))
+                                + (d__2 = a[j + (j + 1 + aind * a_dim2) * a_dim1], abs(d__2));
                         }
-                        else
-                        {
-                            tol = (d__1 = a[j - 1 + (j + aind * a_dim2) * a_dim1], abs(d__1)) + (d__2 = a[j + (j + 1 + aind * a_dim2) * a_dim1], abs(d__2));
-                        }
-                        if (tol == 0.)
-                        {
+                        if (tol == 0.) {
                             i__4 = j - jlo + 1;
-                            tol = dlanhs_("1", &i__4, &a[jlo + (jlo + aind * a_dim2) * a_dim1], lda1, &dwork[pfree + 1], 1L);
+                            tol = dlanhs_("1", &i__4, &a[jlo + (jlo + aind * a_dim2) * a_dim1],
+                                lda1, &dwork[pfree + 1], 1L);
                         }
                         /* Computing MAX */
                         d__1 = ulp * tol;
-                        tol = max(d__1,smlnum);
+                        tol = max(d__1, smlnum);
                     }
-                    if ((d__1 = a[j + (j + aind * a_dim2) * a_dim1], abs(d__1)) <= tol)
-                    {
+                    if ((d__1 = a[j + (j + aind * a_dim2) * a_dim1], abs(d__1)) <= tol) {
                         a[j + (j + aind * a_dim2) * a_dim1] = 0.;
                         goto L320;
                     }
@@ -685,140 +613,135 @@ L50:
             /* L90: */
         }
         /*        Test 4:  Controlled zero shift. */
-        if (ziter >= 7 || ziter < 0)
-        {
+        if (ziter >= 7 || ziter < 0) {
             /*           Make Hessenberg matrix upper triangular. */
             aind = iwork[mapa + 1];
             pdw = pfree + 1;
             i__2 = ilast - 1;
-            for (j = jlo; j <= i__2; ++j)
-            {
+            for (j = jlo; j <= i__2; ++j) {
                 temp = a[j + (j + aind * a_dim2) * a_dim1];
-                dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + (j + aind * a_dim2) * a_dim1]);
+                dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn,
+                    &a[j + (j + aind * a_dim2) * a_dim1]);
                 a[j + 1 + (j + aind * a_dim2) * a_dim1] = 0.;
                 i__3 = ilastm - j;
-                drot_(&i__3, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                drot_(&i__3, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1,
+                    &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
                 dwork[pdw] = cs;
                 dwork[pdw + 1] = sn;
                 pdw += 2;
                 /* L100: */
             }
-            if (lcmpq)
-            {
+            if (lcmpq) {
                 qi = iwork[mapq + 1];
-            }
-            else if (lparq)
-            {
+            } else if (lparq) {
                 qi = (i__2 = qind[iwork[mapq + 1]], abs(i__2));
             }
-            if (qi != 0)
-            {
+            if (qi != 0) {
                 pdw = pfree + 1;
                 i__2 = ilast - 1;
-                for (j = jlo; j <= i__2; ++j)
-                {
+                for (j = jlo; j <= i__2; ++j) {
                     cs = dwork[pdw];
                     sn = dwork[pdw + 1];
                     pdw += 2;
-                    drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
+                    drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1,
+                        &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
                     /* L110: */
                 }
             }
             /*           Propagate Transformations back to A_1. */
-            for (l = *k; l >= 2; --l)
-            {
+            for (l = *k; l >= 2; --l) {
                 aind = iwork[mapa + l];
                 pdw = pfree + 1;
-                if (adefl)
-                {
+                if (adefl) {
                     /* Computing MAX */
                     d__1 = safmin, d__2 = dwork[pnorm + l] * ulp;
-                    tol = max(d__1,d__2);
+                    tol = max(d__1, d__2);
                 }
-                if (s[aind] == sinv)
-                {
+                if (s[aind] == sinv) {
                     i__2 = ilast - 1;
-                    for (j = jlo; j <= i__2; ++j)
-                    {
+                    for (j = jlo; j <= i__2; ++j) {
                         cs = dwork[pdw];
                         sn = dwork[pdw + 1];
-                        if (sn != 0.)
-                        {
+                        if (sn != 0.) {
                             i__3 = j + 2 - ifrstm;
-                            drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                            drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                                &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
                             /*                       Check for deflation. */
-                            if (! adefl)
-                            {
-                                tol = (d__1 = a[j + (j + aind * a_dim2) * a_dim1], abs(d__1)) + (d__2 = a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], abs(d__2));
-                                if (tol == 0.)
-                                {
+                            if (!adefl) {
+                                tol = (d__1 = a[j + (j + aind * a_dim2) * a_dim1], abs(d__1))
+                                    + (d__2 = a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1],
+                                          abs(d__2));
+                                if (tol == 0.) {
                                     i__3 = j - jlo + 2;
-                                    tol = dlanhs_("1", &i__3, &a[jlo + (jlo + aind * a_dim2) * a_dim1], lda1, &dwork[pfree + (*n << 1) + 1], 1L);
+                                    tol = dlanhs_("1", &i__3,
+                                        &a[jlo + (jlo + aind * a_dim2) * a_dim1], lda1,
+                                        &dwork[pfree + (*n << 1) + 1], 1L);
                                 }
                                 /* Computing MAX */
                                 d__1 = ulp * tol;
-                                tol = max(d__1,smlnum);
-                                if ((d__1 = a[j + 1 + (j + aind * a_dim2) * a_dim1], abs(d__1)) <= tol)
-                                {
+                                tol = max(d__1, smlnum);
+                                if ((d__1 = a[j + 1 + (j + aind * a_dim2) * a_dim1], abs(d__1))
+                                    <= tol) {
                                     cs = 1.;
                                     sn = 0.;
                                     a[j + 1 + (j + aind * a_dim2) * a_dim1] = 0.;
                                 }
                             }
                         }
-                        if (sn != 0.)
-                        {
+                        if (sn != 0.) {
                             temp = a[j + (j + aind * a_dim2) * a_dim1];
-                            dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + (j + aind * a_dim2) * a_dim1]);
+                            dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn,
+                                &a[j + (j + aind * a_dim2) * a_dim1]);
                             a[j + 1 + (j + aind * a_dim2) * a_dim1] = 0.;
                             i__3 = ilastm - j;
-                            drot_(&i__3, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                            drot_(&i__3, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1,
+                                &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
                         }
                         dwork[pdw] = cs;
                         dwork[pdw + 1] = sn;
                         pdw += 2;
                         /* L120: */
                     }
-                }
-                else
-                {
+                } else {
                     i__2 = ilast - 1;
-                    for (j = jlo; j <= i__2; ++j)
-                    {
+                    for (j = jlo; j <= i__2; ++j) {
                         cs = dwork[pdw];
                         sn = dwork[pdw + 1];
-                        if (sn != 0.)
-                        {
+                        if (sn != 0.) {
                             i__3 = ilastm - j + 1;
-                            drot_(&i__3, &a[j + (j + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                            drot_(&i__3, &a[j + (j + aind * a_dim2) * a_dim1], lda1,
+                                &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
                             /*                       Check for deflation. */
-                            if (! adefl)
-                            {
-                                tol = (d__1 = a[j + (j + aind * a_dim2) * a_dim1], abs(d__1)) + (d__2 = a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], abs(d__2));
-                                if (tol == 0.)
-                                {
+                            if (!adefl) {
+                                tol = (d__1 = a[j + (j + aind * a_dim2) * a_dim1], abs(d__1))
+                                    + (d__2 = a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1],
+                                          abs(d__2));
+                                if (tol == 0.) {
                                     i__3 = j - jlo + 2;
-                                    tol = dlanhs_("1", &i__3, &a[jlo + (jlo + aind * a_dim2) * a_dim1], lda1, &dwork[pfree + (*n << 1) + 1], 1L);
+                                    tol = dlanhs_("1", &i__3,
+                                        &a[jlo + (jlo + aind * a_dim2) * a_dim1], lda1,
+                                        &dwork[pfree + (*n << 1) + 1], 1L);
                                 }
                                 /* Computing MAX */
                                 d__1 = ulp * tol;
-                                tol = max(d__1,smlnum);
-                                if ((d__1 = a[j + 1 + (j + aind * a_dim2) * a_dim1], abs(d__1)) <= tol)
-                                {
+                                tol = max(d__1, smlnum);
+                                if ((d__1 = a[j + 1 + (j + aind * a_dim2) * a_dim1], abs(d__1))
+                                    <= tol) {
                                     cs = 1.;
                                     sn = 0.;
                                     a[j + 1 + (j + aind * a_dim2) * a_dim1] = 0.;
                                 }
                             }
                         }
-                        if (sn != 0.)
-                        {
+                        if (sn != 0.) {
                             temp = a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1];
-                            dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1]);
+                            dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn,
+                                &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1]);
                             a[j + 1 + (j + aind * a_dim2) * a_dim1] = 0.;
                             sn = -sn;
                             i__3 = j + 1 - ifrstm;
-                            drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                            drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                                &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
                         }
                         dwork[pdw] = cs;
                         dwork[pdw + 1] = sn;
@@ -826,26 +749,21 @@ L50:
                         /* L130: */
                     }
                 }
-                if (lcmpq)
-                {
+                if (lcmpq) {
                     qi = iwork[mapq + l];
-                }
-                else if (lparq)
-                {
+                } else if (lparq) {
                     qi = (i__2 = qind[iwork[mapq + l]], abs(i__2));
                 }
-                if (qi != 0)
-                {
+                if (qi != 0) {
                     pdw = pfree + 1;
                     i__2 = ilast - 1;
-                    for (j = jlo; j <= i__2; ++j)
-                    {
+                    for (j = jlo; j <= i__2; ++j) {
                         cs = dwork[pdw];
                         sn = dwork[pdw + 1];
                         pdw += 2;
-                        if (sn != 0.)
-                        {
-                            drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
+                        if (sn != 0.) {
+                            drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1,
+                                &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
                         }
                         /* L140: */
                     }
@@ -858,17 +776,14 @@ L50:
             pdw = pfree + 1;
             ziter = 0;
             i__2 = ilast - 1;
-            for (j = jlo; j <= i__2; ++j)
-            {
+            for (j = jlo; j <= i__2; ++j) {
                 cs = dwork[pdw];
                 sn = dwork[pdw + 1];
-                if (sn != 0.)
-                {
+                if (sn != 0.) {
                     i__3 = j + 2 - ifrstm;
-                    drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
-                }
-                else
-                {
+                    drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                        &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                } else {
                     ziter = -1;
                 }
                 pdw += 2;
@@ -887,118 +802,108 @@ L50:
         goto L400;
         /*        Case II: Deflation occurs in a triangular matrix with index 1. */
         /*        Do an unshifted periodic QZ step. */
-L170:
+    L170:
         jdef = j;
         aind = iwork[mapa + 1];
         pdw = pfree + 1;
         i__2 = jdef - 1;
-        for (j = jlo; j <= i__2; ++j)
-        {
+        for (j = jlo; j <= i__2; ++j) {
             temp = a[j + (j + aind * a_dim2) * a_dim1];
-            dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + (j + aind * a_dim2) * a_dim1]);
+            dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn,
+                &a[j + (j + aind * a_dim2) * a_dim1]);
             a[j + 1 + (j + aind * a_dim2) * a_dim1] = 0.;
             i__3 = ilastm - j;
-            drot_(&i__3, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+            drot_(&i__3, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1,
+                &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
             dwork[pdw] = cs;
             dwork[pdw + 1] = sn;
             pdw += 2;
             /* L180: */
         }
-        if (lcmpq)
-        {
+        if (lcmpq) {
             qi = iwork[mapq + 1];
-        }
-        else if (lparq)
-        {
+        } else if (lparq) {
             qi = (i__2 = qind[iwork[mapq + 1]], abs(i__2));
         }
-        if (qi != 0)
-        {
+        if (qi != 0) {
             pdw = pfree + 1;
             i__2 = jdef - 1;
-            for (j = jlo; j <= i__2; ++j)
-            {
+            for (j = jlo; j <= i__2; ++j) {
                 cs = dwork[pdw];
                 sn = dwork[pdw + 1];
                 pdw += 2;
-                drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
+                drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1,
+                    &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
                 /* L190: */
             }
         }
         /*        Propagate the transformations through the triangular matrices. */
         /*        Due to the zero element on the diagonal of the LDEF-th factor, */
         /*        the number of transformations drops by one. */
-        for (l = *k; l >= 2; --l)
-        {
+        for (l = *k; l >= 2; --l) {
             aind = iwork[mapa + l];
-            if (l < ldef)
-            {
+            if (l < ldef) {
                 ntra = jdef - 2;
-            }
-            else
-            {
+            } else {
                 ntra = jdef - 1;
             }
             pdw = pfree + 1;
-            if (s[aind] == sinv)
-            {
+            if (s[aind] == sinv) {
                 i__2 = ntra;
-                for (j = jlo; j <= i__2; ++j)
-                {
+                for (j = jlo; j <= i__2; ++j) {
                     cs = dwork[pdw];
                     sn = dwork[pdw + 1];
                     i__3 = j + 2 - ifrstm;
-                    drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                    drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                        &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
                     temp = a[j + (j + aind * a_dim2) * a_dim1];
-                    dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + (j + aind * a_dim2) * a_dim1]);
+                    dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn,
+                        &a[j + (j + aind * a_dim2) * a_dim1]);
                     a[j + 1 + (j + aind * a_dim2) * a_dim1] = 0.;
                     i__3 = ilastm - j;
-                    drot_(&i__3, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                    drot_(&i__3, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1,
+                        &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
                     dwork[pdw] = cs;
                     dwork[pdw + 1] = sn;
                     pdw += 2;
                     /* L200: */
                 }
-            }
-            else
-            {
+            } else {
                 i__2 = ntra;
-                for (j = jlo; j <= i__2; ++j)
-                {
+                for (j = jlo; j <= i__2; ++j) {
                     cs = dwork[pdw];
                     sn = dwork[pdw + 1];
                     i__3 = ilastm - j + 1;
-                    drot_(&i__3, &a[j + (j + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                    drot_(&i__3, &a[j + (j + aind * a_dim2) * a_dim1], lda1,
+                        &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
                     temp = a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1];
-                    dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1]);
+                    dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn,
+                        &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1]);
                     a[j + 1 + (j + aind * a_dim2) * a_dim1] = 0.;
                     sn = -sn;
                     i__3 = j + 1 - ifrstm;
-                    drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                    drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                        &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
                     dwork[pdw] = cs;
                     dwork[pdw + 1] = sn;
                     pdw += 2;
                     /* L210: */
                 }
             }
-            if (lcmpq)
-            {
+            if (lcmpq) {
                 qi = iwork[mapq + l];
-            }
-            else if (lparq)
-            {
+            } else if (lparq) {
                 qi = (i__2 = qind[iwork[mapq + l]], abs(i__2));
             }
-            if (qi != 0)
-            {
+            if (qi != 0) {
                 pdw = pfree + 1;
                 i__2 = ntra;
-                for (j = jlo; j <= i__2; ++j)
-                {
+                for (j = jlo; j <= i__2; ++j) {
                     cs = dwork[pdw];
                     sn = dwork[pdw + 1];
                     pdw += 2;
-                    drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
+                    drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1,
+                        &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
                     /* L220: */
                 }
             }
@@ -1009,101 +914,95 @@ L170:
         aind = iwork[mapa + 1];
         pdw = pfree + 1;
         i__2 = jdef - 2;
-        for (j = jlo; j <= i__2; ++j)
-        {
+        for (j = jlo; j <= i__2; ++j) {
             cs = dwork[pdw];
             sn = dwork[pdw + 1];
             i__3 = j + 2 - ifrstm;
-            drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+            drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
             pdw += 2;
             /* L240: */
         }
         /*        Do an unshifted periodic QZ step. */
         pdw = pfree + 1;
         i__2 = jdef + 1;
-        for (j = ilast; j >= i__2; --j)
-        {
+        for (j = ilast; j >= i__2; --j) {
             temp = a[j + (j + aind * a_dim2) * a_dim1];
-            dlartg_(&temp, &a[j + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + (j + aind * a_dim2) * a_dim1]);
+            dlartg_(&temp, &a[j + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn,
+                &a[j + (j + aind * a_dim2) * a_dim1]);
             a[j + (j - 1 + aind * a_dim2) * a_dim1] = 0.;
             sn = -sn;
             i__3 = j - ifrstm;
-            drot_(&i__3, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+            drot_(&i__3, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1,
+                &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
             dwork[pdw] = cs;
             dwork[pdw + 1] = sn;
             pdw += 2;
             /* L250: */
         }
-        if (lcmpq)
-        {
+        if (lcmpq) {
             qi = iwork[mapq + 2];
-        }
-        else if (lparq)
-        {
+        } else if (lparq) {
             qi = (i__2 = qind[iwork[mapq + 2]], abs(i__2));
         }
-        if (qi != 0)
-        {
+        if (qi != 0) {
             pdw = pfree + 1;
             i__2 = jdef + 1;
-            for (j = ilast; j >= i__2; --j)
-            {
+            for (j = ilast; j >= i__2; --j) {
                 cs = dwork[pdw];
                 sn = dwork[pdw + 1];
                 pdw += 2;
-                drot_(n, &q[(j - 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
+                drot_(n, &q[(j - 1 + qi * q_dim2) * q_dim1 + 1], &c__1,
+                    &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
                 /* L260: */
             }
         }
         /*        Propagate the transformations through the triangular matrices. */
         i__2 = *k;
-        for (l = 2; l <= i__2; ++l)
-        {
+        for (l = 2; l <= i__2; ++l) {
             aind = iwork[mapa + l];
-            if (l > ldef)
-            {
+            if (l > ldef) {
                 ntra = jdef + 2;
-            }
-            else
-            {
+            } else {
                 ntra = jdef + 1;
             }
             pdw = pfree + 1;
-            if (s[aind] != sinv)
-            {
+            if (s[aind] != sinv) {
                 i__3 = ntra;
-                for (j = ilast; j >= i__3; --j)
-                {
+                for (j = ilast; j >= i__3; --j) {
                     cs = dwork[pdw];
                     sn = dwork[pdw + 1];
                     i__4 = j + 1 - ifrstm;
-                    drot_(&i__4, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                    drot_(&i__4, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1,
+                        &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
                     temp = a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1];
-                    dlartg_(&temp, &a[j + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn, &a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1]);
+                    dlartg_(&temp, &a[j + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn,
+                        &a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1]);
                     a[j + (j - 1 + aind * a_dim2) * a_dim1] = 0.;
                     i__4 = ilastm - j + 1;
-                    drot_(&i__4, &a[j - 1 + (j + aind * a_dim2) * a_dim1], lda1, &a[j + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                    drot_(&i__4, &a[j - 1 + (j + aind * a_dim2) * a_dim1], lda1,
+                        &a[j + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
                     dwork[pdw] = cs;
                     dwork[pdw + 1] = sn;
                     pdw += 2;
                     /* L270: */
                 }
-            }
-            else
-            {
+            } else {
                 i__3 = ntra;
-                for (j = ilast; j >= i__3; --j)
-                {
+                for (j = ilast; j >= i__3; --j) {
                     cs = dwork[pdw];
                     sn = dwork[pdw + 1];
                     i__4 = ilastm - j + 2;
-                    drot_(&i__4, &a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1], lda1, &a[j + (j - 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                    drot_(&i__4, &a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1], lda1,
+                        &a[j + (j - 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
                     temp = a[j + (j + aind * a_dim2) * a_dim1];
-                    dlartg_(&temp, &a[j + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + (j + aind * a_dim2) * a_dim1]);
+                    dlartg_(&temp, &a[j + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn,
+                        &a[j + (j + aind * a_dim2) * a_dim1]);
                     a[j + (j - 1 + aind * a_dim2) * a_dim1] = 0.;
                     sn = -sn;
                     i__4 = j - ifrstm;
-                    drot_(&i__4, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                    drot_(&i__4, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1,
+                        &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
                     dwork[pdw] = cs;
                     dwork[pdw + 1] = sn;
                     pdw += 2;
@@ -1111,28 +1010,23 @@ L170:
                 }
             }
             lm = l + 1;
-            if (l == *k)
-            {
+            if (l == *k) {
                 lm = 1;
             }
-            if (lcmpq)
-            {
+            if (lcmpq) {
                 qi = iwork[mapq + lm];
-            }
-            else if (lparq)
-            {
+            } else if (lparq) {
                 qi = (i__3 = qind[iwork[mapq + lm]], abs(i__3));
             }
-            if (qi != 0)
-            {
+            if (qi != 0) {
                 pdw = pfree + 1;
                 i__3 = ntra;
-                for (j = ilast; j >= i__3; --j)
-                {
+                for (j = ilast; j >= i__3; --j) {
                     cs = dwork[pdw];
                     sn = dwork[pdw + 1];
                     pdw += 2;
-                    drot_(n, &q[(j - 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
+                    drot_(n, &q[(j - 1 + qi * q_dim2) * q_dim1 + 1], &c__1,
+                        &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
                     /* L290: */
                 }
             }
@@ -1143,357 +1037,343 @@ L170:
         aind = iwork[mapa + 1];
         pdw = pfree + 1;
         i__2 = jdef + 2;
-        for (j = ilast; j >= i__2; --j)
-        {
+        for (j = ilast; j >= i__2; --j) {
             cs = dwork[pdw];
             sn = dwork[pdw + 1];
             pdw += 2;
             i__3 = ilastm - j + 2;
-            drot_(&i__3, &a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1], lda1, &a[j + (j - 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+            drot_(&i__3, &a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1], lda1,
+                &a[j + (j - 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
             /* L310: */
         }
         /*        No QZ iteration. */
         goto L480;
         /*        Case III: Deflation occurs in a triangular matrix with */
         /*                  index -1. */
-L320:
+    L320:
         jdef = j;
         pdw = pfree + 1;
-        if (jdef > (ilast - jlo + 1) / 2)
-        {
+        if (jdef > (ilast - jlo + 1) / 2) {
             /*           Chase the zero downwards to the last position. */
             i__2 = ilast - 1;
-            for (j1 = jdef; j1 <= i__2; ++j1)
-            {
+            for (j1 = jdef; j1 <= i__2; ++j1) {
                 j = j1;
                 aind = iwork[mapa + ldef];
                 temp = a[j + (j + 1 + aind * a_dim2) * a_dim1];
-                dlartg_(&temp, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + (j + 1 + aind * a_dim2) * a_dim1]);
+                dlartg_(&temp, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], &cs, &sn,
+                    &a[j + (j + 1 + aind * a_dim2) * a_dim1]);
                 a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1] = 0.;
                 i__3 = ilastm - j - 1;
-                drot_(&i__3, &a[j + (j + 2 + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + 2 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                drot_(&i__3, &a[j + (j + 2 + aind * a_dim2) * a_dim1], lda1,
+                    &a[j + 1 + (j + 2 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
                 lm = ldef + 1;
-                if (ldef == *k)
-                {
+                if (ldef == *k) {
                     lm = 1;
                 }
-                if (lcmpq)
-                {
+                if (lcmpq) {
                     qi = iwork[mapq + lm];
-                }
-                else if (lparq)
-                {
+                } else if (lparq) {
                     qi = (i__3 = qind[iwork[mapq + lm]], abs(i__3));
                 }
-                if (qi != 0)
-                {
-                    drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
+                if (qi != 0) {
+                    drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1,
+                        &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
                 }
                 i__3 = *k - 1;
-                for (l = 1; l <= i__3; ++l)
-                {
+                for (l = 1; l <= i__3; ++l) {
                     aind = iwork[mapa + lm];
-                    if (lm == 1)
-                    {
+                    if (lm == 1) {
                         i__4 = ilastm - j + 2;
-                        drot_(&i__4, &a[j + (j - 1 + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j - 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                        drot_(&i__4, &a[j + (j - 1 + aind * a_dim2) * a_dim1], lda1,
+                            &a[j + 1 + (j - 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
                         temp = a[j + 1 + (j + aind * a_dim2) * a_dim1];
-                        dlartg_(&temp, &a[j + 1 + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + 1 + (j + aind * a_dim2) * a_dim1]);
+                        dlartg_(&temp, &a[j + 1 + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn,
+                            &a[j + 1 + (j + aind * a_dim2) * a_dim1]);
                         a[j + 1 + (j - 1 + aind * a_dim2) * a_dim1] = 0.;
                         sn = -sn;
                         i__4 = j - ifrstm + 1;
-                        drot_(&i__4, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                        drot_(&i__4, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1,
+                            &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
                         --j;
-                    }
-                    else if (s[aind] == sinv)
-                    {
+                    } else if (s[aind] == sinv) {
                         i__4 = ilastm - j + 1;
-                        drot_(&i__4, &a[j + (j + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                        drot_(&i__4, &a[j + (j + aind * a_dim2) * a_dim1], lda1,
+                            &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
                         temp = a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1];
-                        dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1]);
+                        dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn,
+                            &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1]);
                         a[j + 1 + (j + aind * a_dim2) * a_dim1] = 0.;
                         sn = -sn;
                         i__4 = j - ifrstm + 1;
-                        drot_(&i__4, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
-                    }
-                    else
-                    {
+                        drot_(&i__4, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                            &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                    } else {
                         i__4 = j - ifrstm + 2;
-                        drot_(&i__4, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                        drot_(&i__4, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                            &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
                         temp = a[j + (j + aind * a_dim2) * a_dim1];
-                        dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + (j + aind * a_dim2) * a_dim1]);
+                        dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn,
+                            &a[j + (j + aind * a_dim2) * a_dim1]);
                         a[j + 1 + (j + aind * a_dim2) * a_dim1] = 0.;
                         i__4 = ilastm - j;
-                        drot_(&i__4, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                        drot_(&i__4, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1,
+                            &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
                     }
                     ++lm;
-                    if (lm > *k)
-                    {
+                    if (lm > *k) {
                         lm = 1;
                     }
-                    if (lcmpq)
-                    {
+                    if (lcmpq) {
                         qi = iwork[mapq + lm];
-                    }
-                    else if (lparq)
-                    {
+                    } else if (lparq) {
                         qi = (i__4 = qind[iwork[mapq + lm]], abs(i__4));
                     }
-                    if (qi != 0)
-                    {
-                        drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
+                    if (qi != 0) {
+                        drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1,
+                            &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
                     }
                     /* L330: */
                 }
                 aind = iwork[mapa + ldef];
                 i__3 = j - ifrstm + 1;
-                drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                    &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
                 /* L340: */
             }
             /*           Deflate the last element in the Hessenberg matrix. */
             aind = iwork[mapa + 1];
             j = ilast;
             temp = a[j + (j + aind * a_dim2) * a_dim1];
-            dlartg_(&temp, &a[j + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + (j + aind * a_dim2) * a_dim1]);
+            dlartg_(&temp, &a[j + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn,
+                &a[j + (j + aind * a_dim2) * a_dim1]);
             a[j + (j - 1 + aind * a_dim2) * a_dim1] = 0.;
             sn = -sn;
             i__2 = j - ifrstm;
-            drot_(&i__2, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
-            if (lcmpq)
-            {
+            drot_(&i__2, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1,
+                &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+            if (lcmpq) {
                 qi = iwork[mapq + 2];
-            }
-            else if (lparq)
-            {
+            } else if (lparq) {
                 qi = (i__2 = qind[iwork[mapq + 2]], abs(i__2));
             }
-            if (qi != 0)
-            {
-                drot_(n, &q[(j - 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
+            if (qi != 0) {
+                drot_(n, &q[(j - 1 + qi * q_dim2) * q_dim1 + 1], &c__1,
+                    &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
             }
             i__2 = ldef - 1;
-            for (l = 2; l <= i__2; ++l)
-            {
+            for (l = 2; l <= i__2; ++l) {
                 aind = iwork[mapa + l];
-                if (s[aind] != sinv)
-                {
+                if (s[aind] != sinv) {
                     i__3 = j + 1 - ifrstm;
-                    drot_(&i__3, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                    drot_(&i__3, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1,
+                        &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
                     temp = a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1];
-                    dlartg_(&temp, &a[j + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn, &a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1]);
+                    dlartg_(&temp, &a[j + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn,
+                        &a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1]);
                     a[j + (j - 1 + aind * a_dim2) * a_dim1] = 0.;
                     i__3 = ilastm - j + 1;
-                    drot_(&i__3, &a[j - 1 + (j + aind * a_dim2) * a_dim1], lda1, &a[j + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
-                }
-                else
-                {
+                    drot_(&i__3, &a[j - 1 + (j + aind * a_dim2) * a_dim1], lda1,
+                        &a[j + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                } else {
                     i__3 = ilastm - j + 2;
-                    drot_(&i__3, &a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1], lda1, &a[j + (j - 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                    drot_(&i__3, &a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1], lda1,
+                        &a[j + (j - 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
                     temp = a[j + (j + aind * a_dim2) * a_dim1];
-                    dlartg_(&temp, &a[j + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + (j + aind * a_dim2) * a_dim1]);
+                    dlartg_(&temp, &a[j + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn,
+                        &a[j + (j + aind * a_dim2) * a_dim1]);
                     a[j + (j - 1 + aind * a_dim2) * a_dim1] = 0.;
                     sn = -sn;
                     i__3 = j - ifrstm;
-                    drot_(&i__3, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                    drot_(&i__3, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1,
+                        &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
                 }
                 lm = l + 1;
-                if (l == *k)
-                {
+                if (l == *k) {
                     lm = 1;
                 }
-                if (lcmpq)
-                {
+                if (lcmpq) {
                     qi = iwork[mapq + lm];
-                }
-                else if (lparq)
-                {
+                } else if (lparq) {
                     qi = (i__3 = qind[iwork[mapq + lm]], abs(i__3));
                 }
-                if (qi != 0)
-                {
-                    drot_(n, &q[(j - 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
+                if (qi != 0) {
+                    drot_(n, &q[(j - 1 + qi * q_dim2) * q_dim1 + 1], &c__1,
+                        &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
                 }
                 /* L350: */
             }
             aind = iwork[mapa + ldef];
             i__2 = j + 1 - ifrstm;
-            drot_(&i__2, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
-        }
-        else
-        {
+            drot_(&i__2, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1,
+                &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+        } else {
             /*           Chase the zero upwards to the first position. */
             i__2 = jlo + 1;
-            for (j1 = jdef; j1 >= i__2; --j1)
-            {
+            for (j1 = jdef; j1 >= i__2; --j1) {
                 j = j1;
                 aind = iwork[mapa + ldef];
                 temp = a[j - 1 + (j + aind * a_dim2) * a_dim1];
-                dlartg_(&temp, &a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn, &a[j - 1 + (j + aind * a_dim2) * a_dim1]);
+                dlartg_(&temp, &a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn,
+                    &a[j - 1 + (j + aind * a_dim2) * a_dim1]);
                 a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1] = 0.;
                 sn = -sn;
                 i__3 = j - ifrstm - 1;
-                drot_(&i__3, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
-                if (lcmpq)
-                {
+                drot_(&i__3, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1,
+                    &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                if (lcmpq) {
                     qi = iwork[mapq + ldef];
-                }
-                else if (lparq)
-                {
+                } else if (lparq) {
                     qi = (i__3 = qind[iwork[mapq + ldef]], abs(i__3));
                 }
-                if (qi != 0)
-                {
-                    drot_(n, &q[(j - 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
+                if (qi != 0) {
+                    drot_(n, &q[(j - 1 + qi * q_dim2) * q_dim1 + 1], &c__1,
+                        &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
                 }
                 lm = ldef - 1;
                 i__3 = *k - 1;
-                for (l = 1; l <= i__3; ++l)
-                {
+                for (l = 1; l <= i__3; ++l) {
                     aind = iwork[mapa + lm];
-                    if (lm == 1)
-                    {
+                    if (lm == 1) {
                         i__4 = j - ifrstm + 2;
-                        drot_(&i__4, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                        drot_(&i__4, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1,
+                            &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
                         temp = a[j + (j - 1 + aind * a_dim2) * a_dim1];
-                        dlartg_(&temp, &a[j + 1 + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + (j - 1 + aind * a_dim2) * a_dim1]);
+                        dlartg_(&temp, &a[j + 1 + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn,
+                            &a[j + (j - 1 + aind * a_dim2) * a_dim1]);
                         a[j + 1 + (j - 1 + aind * a_dim2) * a_dim1] = 0.;
                         i__4 = ilastm - j + 1;
-                        drot_(&i__4, &a[j + (j + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                        drot_(&i__4, &a[j + (j + aind * a_dim2) * a_dim1], lda1,
+                            &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
                         ++j;
-                    }
-                    else if (s[aind] != sinv)
-                    {
+                    } else if (s[aind] != sinv) {
                         i__4 = ilastm - j + 2;
-                        drot_(&i__4, &a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1], lda1, &a[j + (j - 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                        drot_(&i__4, &a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1], lda1,
+                            &a[j + (j - 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
                         temp = a[j + (j + aind * a_dim2) * a_dim1];
-                        dlartg_(&temp, &a[j + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + (j + aind * a_dim2) * a_dim1]);
+                        dlartg_(&temp, &a[j + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn,
+                            &a[j + (j + aind * a_dim2) * a_dim1]);
                         a[j + (j - 1 + aind * a_dim2) * a_dim1] = 0.;
                         sn = -sn;
                         i__4 = j - ifrstm;
-                        drot_(&i__4, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
-                    }
-                    else
-                    {
+                        drot_(&i__4, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1,
+                            &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                    } else {
                         i__4 = j - ifrstm + 1;
-                        drot_(&i__4, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                        drot_(&i__4, &a[ifrstm + (j - 1 + aind * a_dim2) * a_dim1], &c__1,
+                            &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
                         temp = a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1];
-                        dlartg_(&temp, &a[j + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn, &a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1]);
+                        dlartg_(&temp, &a[j + (j - 1 + aind * a_dim2) * a_dim1], &cs, &sn,
+                            &a[j - 1 + (j - 1 + aind * a_dim2) * a_dim1]);
                         a[j + (j - 1 + aind * a_dim2) * a_dim1] = 0.;
                         i__4 = ilastm - j + 1;
-                        drot_(&i__4, &a[j - 1 + (j + aind * a_dim2) * a_dim1], lda1, &a[j + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                        drot_(&i__4, &a[j - 1 + (j + aind * a_dim2) * a_dim1], lda1,
+                            &a[j + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
                     }
-                    if (lcmpq)
-                    {
+                    if (lcmpq) {
                         qi = iwork[mapq + lm];
-                    }
-                    else if (lparq)
-                    {
+                    } else if (lparq) {
                         qi = (i__4 = qind[iwork[mapq + lm]], abs(i__4));
                     }
-                    if (qi != 0)
-                    {
-                        drot_(n, &q[(j - 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
+                    if (qi != 0) {
+                        drot_(n, &q[(j - 1 + qi * q_dim2) * q_dim1 + 1], &c__1,
+                            &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
                     }
                     --lm;
-                    if (lm <= 0)
-                    {
+                    if (lm <= 0) {
                         lm = *k;
                     }
                     /* L360: */
                 }
                 aind = iwork[mapa + ldef];
                 i__3 = ilastm - j + 1;
-                drot_(&i__3, &a[j - 1 + (j + aind * a_dim2) * a_dim1], lda1, &a[j + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                drot_(&i__3, &a[j - 1 + (j + aind * a_dim2) * a_dim1], lda1,
+                    &a[j + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
                 /* L370: */
             }
             /*           Deflate the first element in the Hessenberg matrix. */
             aind = iwork[mapa + 1];
             j = jlo;
             temp = a[j + (j + aind * a_dim2) * a_dim1];
-            dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + (j + aind * a_dim2) * a_dim1]);
+            dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn,
+                &a[j + (j + aind * a_dim2) * a_dim1]);
             a[j + 1 + (j + aind * a_dim2) * a_dim1] = 0.;
             i__2 = ilastm - j;
-            drot_(&i__2, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
-            if (lcmpq)
-            {
+            drot_(&i__2, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1,
+                &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+            if (lcmpq) {
                 qi = iwork[mapq + 1];
-            }
-            else if (lparq)
-            {
+            } else if (lparq) {
                 qi = (i__2 = qind[iwork[mapq + 1]], abs(i__2));
             }
-            if (qi != 0)
-            {
-                drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
+            if (qi != 0) {
+                drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1,
+                    &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
             }
             i__2 = ldef + 1;
-            for (l = *k; l >= i__2; --l)
-            {
+            for (l = *k; l >= i__2; --l) {
                 aind = iwork[mapa + l];
-                if (s[aind] == sinv)
-                {
+                if (s[aind] == sinv) {
                     i__3 = j + 2 - ifrstm;
-                    drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                    drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                        &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
                     temp = a[j + (j + aind * a_dim2) * a_dim1];
-                    dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + (j + aind * a_dim2) * a_dim1]);
+                    dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn,
+                        &a[j + (j + aind * a_dim2) * a_dim1]);
                     a[j + 1 + (j + aind * a_dim2) * a_dim1] = 0.;
                     i__3 = ilastm - j;
-                    drot_(&i__3, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
-                }
-                else
-                {
+                    drot_(&i__3, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1,
+                        &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                } else {
                     i__3 = ilastm - j + 1;
-                    drot_(&i__3, &a[j + (j + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+                    drot_(&i__3, &a[j + (j + aind * a_dim2) * a_dim1], lda1,
+                        &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
                     temp = a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1];
-                    dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1]);
+                    dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs, &sn,
+                        &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1]);
                     a[j + 1 + (j + aind * a_dim2) * a_dim1] = 0.;
                     sn = -sn;
                     i__3 = j + 1 - ifrstm;
-                    drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
+                    drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                        &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs, &sn);
                 }
-                if (lcmpq)
-                {
+                if (lcmpq) {
                     qi = iwork[mapq + l];
-                }
-                else if (lparq)
-                {
+                } else if (lparq) {
                     qi = (i__3 = qind[iwork[mapq + l]], abs(i__3));
                 }
-                if (qi != 0)
-                {
-                    drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
+                if (qi != 0) {
+                    drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1,
+                        &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs, &sn);
                 }
                 /* L380: */
             }
             aind = iwork[mapa + ldef];
             i__2 = ilastm - j;
-            drot_(&i__2, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
+            drot_(&i__2, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1,
+                &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs, &sn);
         }
         /*        No QZ iteration. */
         goto L480;
         /*        Special case: A 1x1 block splits off at the bottom. */
-L390:
-        i__2 = *lda1 **lda2;
-        ma01bd_(&base, &lgbas, k, &s[1], &a[ilast + (ilast + a_dim2) * a_dim1], &i__2, &alphar[ilast], &beta[ilast], &scal[ilast]);
+    L390:
+        i__2 = *lda1 * *lda2;
+        ma01bd_(&base, &lgbas, k, &s[1], &a[ilast + (ilast + a_dim2) * a_dim1], &i__2,
+            &alphar[ilast], &beta[ilast], &scal[ilast]);
         alphai[ilast] = 0.;
         /*        Go to next block - exit if finished. */
         --ilast;
-        if (ilast < *ilo)
-        {
+        if (ilast < *ilo) {
             goto L500;
         }
         /*        Reset iteration counters. */
         iiter = 0;
         titer = 0;
-        if (ziter != -1)
-        {
+        if (ziter != -1) {
             ziter = 0;
         }
-        if (! lschr)
-        {
+        if (!lschr) {
             ilastm = ilast;
-            if (ifrstm > ilast)
-            {
+            if (ifrstm > ilast) {
                 ifrstm = *ilo;
             }
         }
@@ -1503,25 +1383,21 @@ L390:
         /*        *                      PERIODIC QZ STEP                      * */
         /*        ************************************************************** */
         /*        It is assumed that IFIRST < ILAST. */
-L400:
+    L400:
         ++iiter;
         ++ziter;
-        if (! lschr)
-        {
+        if (!lschr) {
             ifrstm = ifirst;
         }
-        if (ifirst + 1 == ilast)
-        {
+        if (ifirst + 1 == ilast) {
             /*           Special case -- 2x2 block. */
             j = ilast - 1;
-            if (titer < 2)
-            {
+            if (titer < 2) {
                 ++titer;
                 /*              Try to deflate the 2-by-2 problem. */
                 pdw = pfree + 1;
                 i__2 = *k;
-                for (l = 1; l <= i__2; ++l)
-                {
+                for (l = 1; l <= i__2; ++l) {
                     dwork[pdw] = a[j + (j + l * a_dim2) * a_dim1];
                     dwork[pdw + 1] = a[j + 1 + (j + l * a_dim2) * a_dim1];
                     dwork[pdw + 2] = a[j + (j + 1 + l * a_dim2) * a_dim1];
@@ -1531,25 +1407,22 @@ L400:
                 }
                 mb03be_(k, &iwork[mapa + 1], &s[1], &sinv, &dwork[pfree + 1], &c__2, &c__2);
                 /* Computing MAX */
-                d__5 = (d__2 = dwork[pfree + 1], abs(d__2)), d__6 = (d__3 = dwork[pfree + 3], abs(d__3)), d__5 = max(d__5,d__6), d__6 = (d__4 = dwork[pfree + 4], abs(d__4));
-                if ((d__1 = dwork[pfree + 2], abs(d__1)) < ulp * max(d__5,d__6))
-                {
+                d__5 = (d__2 = dwork[pfree + 1], abs(d__2)),
+                d__6 = (d__3 = dwork[pfree + 3], abs(d__3)), d__5 = max(d__5, d__6),
+                d__6 = (d__4 = dwork[pfree + 4], abs(d__4));
+                if ((d__1 = dwork[pfree + 2], abs(d__1)) < ulp * max(d__5, d__6)) {
                     /*                 Construct a perfect shift polynomial. This may fail, */
                     /*                 so we try it twice (indicated by TITER). */
                     cs1 = 1.;
                     sn1 = 1.;
-                    for (l = *k; l >= 2; --l)
-                    {
+                    for (l = *k; l >= 2; --l) {
                         aind = iwork[mapa + l];
                         temp = dwork[pfree + (aind << 2)];
-                        if (s[aind] == sinv)
-                        {
+                        if (s[aind] == sinv) {
                             d__1 = cs1 * a[j + (j + aind * a_dim2) * a_dim1];
                             d__2 = sn1 * temp;
                             dlartg_(&d__1, &d__2, &cs1, &sn1, &temp);
-                        }
-                        else
-                        {
+                        } else {
                             d__1 = cs1 * temp;
                             d__2 = sn1 * a[j + (j + aind * a_dim2) * a_dim1];
                             dlartg_(&d__1, &d__2, &cs1, &sn1, &temp);
@@ -1567,93 +1440,87 @@ L400:
             /*           Looks like a complex block. */
             /*           1. Compute the product SVD of the triangular matrices */
             /*             (optionally). */
-            if (lsvd)
-            {
-                mb03bc_(k, &iwork[mapa + 1], &s[1], &sinv, &a[j + (j + a_dim2) * a_dim1], lda1, lda2, macpar, &dwork[pfree + 1], &dwork[pfree + *k + 1], &dwork[pfree + (*k << 1) + 1]);
+            if (lsvd) {
+                mb03bc_(k, &iwork[mapa + 1], &s[1], &sinv, &a[j + (j + a_dim2) * a_dim1], lda1,
+                    lda2, macpar, &dwork[pfree + 1], &dwork[pfree + *k + 1],
+                    &dwork[pfree + (*k << 1) + 1]);
                 /*              Update factors and transformations. */
                 aind = iwork[mapa + 1];
                 cs2 = dwork[pfree + 1];
                 sn2 = dwork[pfree + *k + 1];
                 i__2 = ilastm - ifrstm + 1;
-                drot_(&i__2, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs2, &sn2);
+                drot_(&i__2, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                    &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs2, &sn2);
                 i__2 = *k;
-                for (l = 2; l <= i__2; ++l)
-                {
+                for (l = 2; l <= i__2; ++l) {
                     aind = iwork[mapa + l];
-                    if (lcmpq)
-                    {
+                    if (lcmpq) {
                         qi = iwork[mapq + l];
-                    }
-                    else if (lparq)
-                    {
+                    } else if (lparq) {
                         qi = (i__3 = qind[iwork[mapq + l]], abs(i__3));
                     }
-                    if (qi != 0)
-                    {
-                        drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs2, &sn2);
+                    if (qi != 0) {
+                        drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1,
+                            &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs2, &sn2);
                     }
                     cs1 = cs2;
                     sn1 = sn2;
                     cs2 = dwork[pfree + l];
                     sn2 = dwork[pfree + *k + l];
-                    if (s[aind] == sinv)
-                    {
+                    if (s[aind] == sinv) {
                         i__3 = ilastm - j - 1;
-                        drot_(&i__3, &a[j + (j + 2 + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + 2 + aind * a_dim2) * a_dim1], lda1, &cs1, &sn1);
+                        drot_(&i__3, &a[j + (j + 2 + aind * a_dim2) * a_dim1], lda1,
+                            &a[j + 1 + (j + 2 + aind * a_dim2) * a_dim1], lda1, &cs1, &sn1);
                         i__3 = j - ifrstm;
-                        drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs2, &sn2);
-                    }
-                    else
-                    {
+                        drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                            &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs2, &sn2);
+                    } else {
                         i__3 = ilastm - j - 1;
-                        drot_(&i__3, &a[j + (j + 2 + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + 2 + aind * a_dim2) * a_dim1], lda1, &cs2, &sn2);
+                        drot_(&i__3, &a[j + (j + 2 + aind * a_dim2) * a_dim1], lda1,
+                            &a[j + 1 + (j + 2 + aind * a_dim2) * a_dim1], lda1, &cs2, &sn2);
                         i__3 = j - ifrstm;
-                        drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs1, &sn1);
+                        drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                            &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs1, &sn1);
                     }
                     /* L430: */
                 }
-                if (lcmpq)
-                {
+                if (lcmpq) {
                     qi = iwork[mapq + 1];
-                }
-                else if (lparq)
-                {
+                } else if (lparq) {
                     qi = (i__2 = qind[iwork[mapq + 1]], abs(i__2));
                 }
-                if (qi != 0)
-                {
-                    drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs2, &sn2);
+                if (qi != 0) {
+                    drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1,
+                        &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs2, &sn2);
                 }
                 aind = iwork[mapa + 1];
                 i__2 = ilastm - j + 1;
-                drot_(&i__2, &a[j + (j + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs2, &sn2);
+                drot_(&i__2, &a[j + (j + aind * a_dim2) * a_dim1], lda1,
+                    &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs2, &sn2);
             }
             /*           2. Compute complex eigenvalues. */
-            mb03bb_(&base, &lgbas, &ulp, k, &iwork[mapa + 1], &s[1], &sinv, &a[j + (j + a_dim2) * a_dim1], lda1, lda2, &alphar[j], &alphai[j], &beta[j], &scal[j], &dwork[pfree + 1], &ierr);
-            if (ierr == 1)
-            {
+            mb03bb_(&base, &lgbas, &ulp, k, &iwork[mapa + 1], &s[1], &sinv,
+                &a[j + (j + a_dim2) * a_dim1], lda1, lda2, &alphar[j], &alphai[j], &beta[j],
+                &scal[j], &dwork[pfree + 1], &ierr);
+            if (ierr == 1) {
                 /*              The single shift periodic QZ did not converge, set */
                 /*              IWARN = J to indicate that the eigenvalues are not */
                 /*              assigned. */
-                *iwarn = max(j,*iwarn);
+                *iwarn = max(j, *iwarn);
             }
             /*           Go to next block and reset counters. */
             ilast = ifirst - 1;
-            if (ilast < *ilo)
-            {
+            if (ilast < *ilo) {
                 goto L500;
             }
             iiter = 0;
             titer = 0;
-            if (ziter != -1)
-            {
+            if (ziter != -1) {
                 ziter = 0;
             }
-            if (! lschr)
-            {
+            if (!lschr) {
                 ilastm = ilast;
-                if (ifrstm > ilast)
-                {
+                if (ifrstm > ilast) {
                     ifrstm = *ilo;
                 }
             }
@@ -1661,8 +1528,7 @@ L400:
         }
         /*        Now, it is assumed that ILAST-IFIRST+1 >= 3. */
         /*        Complex double shift. */
-        if (iiter % 30 == 0)
-        {
+        if (iiter % 30 == 0) {
             /*           Exceptional shift. */
             dlarnv_(&c__3, iseed, &c__1, &temp);
             dlarnv_(&c__3, iseed, &c__1, &temp2);
@@ -1670,37 +1536,31 @@ L400:
             dlarnv_(&c__3, iseed, &c__1, &temp);
             dlarnv_(&c__3, iseed, &c__1, &temp2);
             dlartg_(&temp, &temp2, &cs2, &sn2, &temp3);
-        }
-        else
-        {
+        } else {
             i__2 = ilast - ifirst + 1;
-            mb03ad_("Double", k, &i__2, &iwork[mapa + 1], &s[1], &sinv, &a[ifirst + (ifirst + a_dim2) * a_dim1], lda1, lda2, &cs1, &sn1, &cs2, &sn2, 6L);
+            mb03ad_("Double", k, &i__2, &iwork[mapa + 1], &s[1], &sinv,
+                &a[ifirst + (ifirst + a_dim2) * a_dim1], lda1, lda2, &cs1, &sn1, &cs2, &sn2, 6L);
         }
         /*        Do the sweeps. */
         i__2 = ilast - 3;
-        for (j1 = ifirst - 1; j1 <= i__2; ++j1)
-        {
+        for (j1 = ifirst - 1; j1 <= i__2; ++j1) {
             j = j1 + 1;
             aind = iwork[mapa + 1];
-            if (lcmpq)
-            {
+            if (lcmpq) {
                 qi = iwork[mapq + 1];
-            }
-            else if (lparq)
-            {
+            } else if (lparq) {
                 qi = (i__3 = qind[iwork[mapq + 1]], abs(i__3));
             }
             /*           Create a bulge if J1 = IFIRST - 1, otherwise chase the */
             /*           bulge. */
-            if (j1 < ifirst)
-            {
+            if (j1 < ifirst) {
                 i__3 = ilastm - j + 1;
-                drot_(&i__3, &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &a[j + 2 + (j + aind * a_dim2) * a_dim1], lda1, &cs2, &sn2);
+                drot_(&i__3, &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1,
+                    &a[j + 2 + (j + aind * a_dim2) * a_dim1], lda1, &cs2, &sn2);
                 i__3 = ilastm - j + 1;
-                drot_(&i__3, &a[j + (j + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs1, &sn1);
-            }
-            else
-            {
+                drot_(&i__3, &a[j + (j + aind * a_dim2) * a_dim1], lda1,
+                    &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs1, &sn1);
+            } else {
                 temp = a[j + 1 + (j - 1 + aind * a_dim2) * a_dim1];
                 dlartg_(&temp, &a[j + 2 + (j - 1 + aind * a_dim2) * a_dim1], &cs2, &sn2, &temp2);
                 temp = a[j + (j - 1 + aind * a_dim2) * a_dim1];
@@ -1708,143 +1568,153 @@ L400:
                 a[j + 1 + (j - 1 + aind * a_dim2) * a_dim1] = 0.;
                 a[j + 2 + (j - 1 + aind * a_dim2) * a_dim1] = 0.;
                 i__3 = ilastm - j + 1;
-                drot_(&i__3, &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &a[j + 2 + (j + aind * a_dim2) * a_dim1], lda1, &cs2, &sn2);
+                drot_(&i__3, &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1,
+                    &a[j + 2 + (j + aind * a_dim2) * a_dim1], lda1, &cs2, &sn2);
                 i__3 = ilastm - j + 1;
-                drot_(&i__3, &a[j + (j + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs1, &sn1);
+                drot_(&i__3, &a[j + (j + aind * a_dim2) * a_dim1], lda1,
+                    &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs1, &sn1);
             }
-            if (qi != 0)
-            {
-                drot_(n, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + 2 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs2, &sn2);
-                drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs1, &sn1);
+            if (qi != 0) {
+                drot_(n, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1,
+                    &q[(j + 2 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs2, &sn2);
+                drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1,
+                    &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs1, &sn1);
             }
             /*           Propagate information from the right to A_1. */
-            for (l = *k; l >= 2; --l)
-            {
+            for (l = *k; l >= 2; --l) {
                 aind = iwork[mapa + l];
-                if (s[aind] == sinv)
-                {
+                if (s[aind] == sinv) {
                     i__3 = j + 3 - ifrstm;
-                    drot_(&i__3, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 2 + aind * a_dim2) * a_dim1], &c__1, &cs2, &sn2);
+                    drot_(&i__3, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1,
+                        &a[ifrstm + (j + 2 + aind * a_dim2) * a_dim1], &c__1, &cs2, &sn2);
                     temp = a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1];
-                    dlartg_(&temp, &a[j + 2 + (j + 1 + aind * a_dim2) * a_dim1], &cs2, &sn2, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1]);
+                    dlartg_(&temp, &a[j + 2 + (j + 1 + aind * a_dim2) * a_dim1], &cs2, &sn2,
+                        &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1]);
                     a[j + 2 + (j + 1 + aind * a_dim2) * a_dim1] = 0.;
                     i__3 = ilastm - j - 1;
-                    drot_(&i__3, &a[j + 1 + (j + 2 + aind * a_dim2) * a_dim1], lda1, &a[j + 2 + (j + 2 + aind * a_dim2) * a_dim1], lda1, &cs2, &sn2);
+                    drot_(&i__3, &a[j + 1 + (j + 2 + aind * a_dim2) * a_dim1], lda1,
+                        &a[j + 2 + (j + 2 + aind * a_dim2) * a_dim1], lda1, &cs2, &sn2);
                     i__3 = j + 2 - ifrstm;
-                    drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs1, &sn1);
+                    drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                        &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs1, &sn1);
                     temp = a[j + (j + aind * a_dim2) * a_dim1];
-                    dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs1, &sn1, &a[j + (j + aind * a_dim2) * a_dim1]);
+                    dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs1, &sn1,
+                        &a[j + (j + aind * a_dim2) * a_dim1]);
                     a[j + 1 + (j + aind * a_dim2) * a_dim1] = 0.;
                     i__3 = ilastm - j;
-                    drot_(&i__3, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs1, &sn1);
-                }
-                else
-                {
+                    drot_(&i__3, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1,
+                        &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs1, &sn1);
+                } else {
                     i__3 = ilastm - j + 1;
-                    drot_(&i__3, &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &a[j + 2 + (j + aind * a_dim2) * a_dim1], lda1, &cs2, &sn2);
+                    drot_(&i__3, &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1,
+                        &a[j + 2 + (j + aind * a_dim2) * a_dim1], lda1, &cs2, &sn2);
                     temp = a[j + 2 + (j + 2 + aind * a_dim2) * a_dim1];
-                    dlartg_(&temp, &a[j + 2 + (j + 1 + aind * a_dim2) * a_dim1], &cs2, &sn2, &a[j + 2 + (j + 2 + aind * a_dim2) * a_dim1]);
+                    dlartg_(&temp, &a[j + 2 + (j + 1 + aind * a_dim2) * a_dim1], &cs2, &sn2,
+                        &a[j + 2 + (j + 2 + aind * a_dim2) * a_dim1]);
                     a[j + 2 + (j + 1 + aind * a_dim2) * a_dim1] = 0.;
                     sn2 = -sn2;
                     i__3 = j + 2 - ifrstm;
-                    drot_(&i__3, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 2 + aind * a_dim2) * a_dim1], &c__1, &cs2, &sn2);
+                    drot_(&i__3, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1,
+                        &a[ifrstm + (j + 2 + aind * a_dim2) * a_dim1], &c__1, &cs2, &sn2);
                     i__3 = ilastm - j + 1;
-                    drot_(&i__3, &a[j + (j + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs1, &sn1);
+                    drot_(&i__3, &a[j + (j + aind * a_dim2) * a_dim1], lda1,
+                        &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs1, &sn1);
                     temp = a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1];
-                    dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs1, &sn1, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1]);
+                    dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs1, &sn1,
+                        &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1]);
                     a[j + 1 + (j + aind * a_dim2) * a_dim1] = 0.;
                     sn1 = -sn1;
                     i__3 = j + 1 - ifrstm;
-                    drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs1, &sn1);
+                    drot_(&i__3, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                        &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs1, &sn1);
                 }
-                if (lcmpq)
-                {
+                if (lcmpq) {
                     qi = iwork[mapq + l];
-                }
-                else if (lparq)
-                {
+                } else if (lparq) {
                     qi = (i__3 = qind[iwork[mapq + l]], abs(i__3));
                 }
-                if (qi != 0)
-                {
-                    drot_(n, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + 2 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs2, &sn2);
-                    drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs1, &sn1);
+                if (qi != 0) {
+                    drot_(n, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1,
+                        &q[(j + 2 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs2, &sn2);
+                    drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1,
+                        &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs1, &sn1);
                 }
                 /* L440: */
             }
             aind = iwork[mapa + 1];
             /* Computing MIN */
             i__3 = j + 3;
-            lm = min(i__3,ilastm) - ifrstm + 1;
-            drot_(&lm, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 2 + aind * a_dim2) * a_dim1], &c__1, &cs2, &sn2);
-            drot_(&lm, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs1, &sn1);
+            lm = min(i__3, ilastm) - ifrstm + 1;
+            drot_(&lm, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1,
+                &a[ifrstm + (j + 2 + aind * a_dim2) * a_dim1], &c__1, &cs2, &sn2);
+            drot_(&lm, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs1, &sn1);
             /* L450: */
         }
         /*        To avoid IF statements, there is an extra piece of code for */
         /*        the last step. */
         j = ilast - 1;
         temp = a[j + (j - 1 + aind * a_dim2) * a_dim1];
-        dlartg_(&temp, &a[j + 1 + (j - 1 + aind * a_dim2) * a_dim1], &cs1, &sn1, &a[j + (j - 1 + aind * a_dim2) * a_dim1]);
+        dlartg_(&temp, &a[j + 1 + (j - 1 + aind * a_dim2) * a_dim1], &cs1, &sn1,
+            &a[j + (j - 1 + aind * a_dim2) * a_dim1]);
         a[j + 1 + (j - 1 + aind * a_dim2) * a_dim1] = 0.;
-L460:
+    L460:
         i__2 = ilastm - j + 1;
-        drot_(&i__2, &a[j + (j + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs1, &sn1);
-        if (lcmpq)
-        {
+        drot_(&i__2, &a[j + (j + aind * a_dim2) * a_dim1], lda1,
+            &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs1, &sn1);
+        if (lcmpq) {
             qi = iwork[mapq + 1];
-        }
-        else if (lparq)
-        {
+        } else if (lparq) {
             qi = (i__2 = qind[iwork[mapq + 1]], abs(i__2));
         }
-        if (qi != 0)
-        {
-            drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs1, &sn1);
+        if (qi != 0) {
+            drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1,
+                &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs1, &sn1);
         }
         /*        Propagate information from the right to A_1. */
-        for (l = *k; l >= 2; --l)
-        {
+        for (l = *k; l >= 2; --l) {
             aind = iwork[mapa + l];
-            if (s[aind] == sinv)
-            {
+            if (s[aind] == sinv) {
                 i__2 = j + 2 - ifrstm;
-                drot_(&i__2, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs1, &sn1);
+                drot_(&i__2, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                    &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs1, &sn1);
                 temp = a[j + (j + aind * a_dim2) * a_dim1];
-                dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs1, &sn1, &a[j + (j + aind * a_dim2) * a_dim1]);
+                dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs1, &sn1,
+                    &a[j + (j + aind * a_dim2) * a_dim1]);
                 a[j + 1 + (j + aind * a_dim2) * a_dim1] = 0.;
                 i__2 = ilastm - j;
-                drot_(&i__2, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs1, &sn1);
-            }
-            else
-            {
+                drot_(&i__2, &a[j + (j + 1 + aind * a_dim2) * a_dim1], lda1,
+                    &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1], lda1, &cs1, &sn1);
+            } else {
                 i__2 = ilastm - j + 1;
-                drot_(&i__2, &a[j + (j + aind * a_dim2) * a_dim1], lda1, &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs1, &sn1);
+                drot_(&i__2, &a[j + (j + aind * a_dim2) * a_dim1], lda1,
+                    &a[j + 1 + (j + aind * a_dim2) * a_dim1], lda1, &cs1, &sn1);
                 temp = a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1];
-                dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs1, &sn1, &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1]);
+                dlartg_(&temp, &a[j + 1 + (j + aind * a_dim2) * a_dim1], &cs1, &sn1,
+                    &a[j + 1 + (j + 1 + aind * a_dim2) * a_dim1]);
                 a[j + 1 + (j + aind * a_dim2) * a_dim1] = 0.;
                 sn1 = -sn1;
                 i__2 = j + 1 - ifrstm;
-                drot_(&i__2, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs1, &sn1);
+                drot_(&i__2, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+                    &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs1, &sn1);
             }
-            if (lcmpq)
-            {
+            if (lcmpq) {
                 qi = iwork[mapq + l];
-            }
-            else if (lparq)
-            {
+            } else if (lparq) {
                 qi = (i__2 = qind[iwork[mapq + l]], abs(i__2));
             }
-            if (qi != 0)
-            {
-                drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1, &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs1, &sn1);
+            if (qi != 0) {
+                drot_(n, &q[(j + qi * q_dim2) * q_dim1 + 1], &c__1,
+                    &q[(j + 1 + qi * q_dim2) * q_dim1 + 1], &c__1, &cs1, &sn1);
             }
             /* L470: */
         }
         aind = iwork[mapa + 1];
         i__2 = ilastm - ifrstm + 1;
-        drot_(&i__2, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1, &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs1, &sn1);
+        drot_(&i__2, &a[ifrstm + (j + aind * a_dim2) * a_dim1], &c__1,
+            &a[ifrstm + (j + 1 + aind * a_dim2) * a_dim1], &c__1, &cs1, &sn1);
         /*        End of iteration loop. */
-L480:
+    L480:
         /* L490: */
         ;
     }
@@ -1855,17 +1725,16 @@ L480:
 L500:
     /*     Set eigenvalues 1:ILO-1. */
     i__1 = *ilo - 1;
-    for (j = 1; j <= i__1; ++j)
-    {
-        i__2 = *lda1 **lda2;
-        ma01bd_(&base, &lgbas, k, &s[1], &a[j + (j + a_dim2) * a_dim1], &i__2, &alphar[j], &beta[j], &scal[j]);
+    for (j = 1; j <= i__1; ++j) {
+        i__2 = *lda1 * *lda2;
+        ma01bd_(&base, &lgbas, k, &s[1], &a[j + (j + a_dim2) * a_dim1], &i__2, &alphar[j], &beta[j],
+            &scal[j]);
         alphai[j] = 0.;
         /* L510: */
     }
 L520:
-    dwork[1] = (doublereal) optdw;
+    dwork[1] = (doublereal)optdw;
     iwork[1] = optiw;
     return 0;
     /* *** Last line of MB03BD *** */
 } /* mb03bd_ */
-

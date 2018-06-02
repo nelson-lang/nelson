@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,15 +11,15 @@ static integer c__0 = 0;
 static doublereal c_b19 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb04dy_(jobscl, n, a, lda, qg, ldqg, d__, dwork, info, jobscl_len)
-char *jobscl;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *qg;
-integer *ldqg;
+EXPORTSYMBOL /* Subroutine */ int mb04dy_(
+    jobscl, n, a, lda, qg, ldqg, d__, dwork, info, jobscl_len) char* jobscl;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* qg;
+integer* ldqg;
 doublereal *d__, *dwork;
-integer *info;
+integer* info;
 ftnlen jobscl_len;
 {
     /* System generated locals */
@@ -221,31 +221,22 @@ ftnlen jobscl_len;
     symp = lsame_(jobscl, "S", 1L, 1L);
     norm = lsame_(jobscl, "1", 1L, 1L) || lsame_(jobscl, "O", 1L, 1L);
     none = lsame_(jobscl, "N", 1L, 1L);
-    if (! symp && ! norm && ! none)
-    {
+    if (!symp && !norm && !none) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lda < 1 || ! none && *lda < *n)
-    {
+    } else if (*lda < 1 || !none && *lda < *n) {
         *info = -4;
-    }
-    else if (*ldqg < 1 || ! none && *ldqg < *n)
-    {
+    } else if (*ldqg < 1 || !none && *ldqg < *n) {
         *info = -6;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04DY", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || none)
-    {
+    if (*n == 0 || none) {
         return 0;
     }
     /*     Set some machine dependant constants. */
@@ -256,56 +247,48 @@ ftnlen jobscl_len;
     dlabad_(&ufl, &ofl);
     sfmax = eps / base / ufl;
     sfmin = 1. / sfmax;
-    if (norm)
-    {
+    if (norm) {
         /*        Compute norms. */
         anrm = dlange_("1-norm", n, n, &a[a_offset], lda, &dwork[1], 6L);
         gnrm = dlansy_("1-norm", "Upper", n, &qg[(qg_dim1 << 1) + 1], ldqg, &dwork[1], 6L, 5L);
         qnrm = dlansy_("1-norm", "Lower", n, &qg[qg_offset], ldqg, &dwork[1], 6L, 5L);
         /* Computing MAX */
-        d__1 = max(1.,anrm), d__1 = max(d__1,gnrm);
-        y = max(d__1,qnrm);
+        d__1 = max(1., anrm), d__1 = max(d__1, gnrm);
+        y = max(d__1, qnrm);
         tau = 1.;
         /*        WHILE ( TAU < Y ) DO */
-L10:
-        if (tau < y && tau < sqrt(sfmax))
-        {
+    L10:
+        if (tau < y && tau < sqrt(sfmax)) {
             tau *= base;
             goto L10;
         }
         /*        END WHILE 10 */
-        if (tau > 1.)
-        {
-            if ((d__1 = tau / base - y, abs(d__1)) < (d__2 = tau - y, abs(d__2)))
-            {
+        if (tau > 1.) {
+            if ((d__1 = tau / base - y, abs(d__1)) < (d__2 = tau - y, abs(d__2))) {
                 tau /= base;
             }
             dlascl_("General", &c__0, &c__0, &tau, &c_b19, n, n, &a[a_offset], lda, &ierr, 7L);
-            dlascl_("Upper", &c__0, &c__0, &tau, &c_b19, n, n, &qg[(qg_dim1 << 1) + 1], ldqg, &ierr, 5L);
-            dlascl_("Upper", &c__0, &c__0, &tau, &c_b19, n, n, &qg[(qg_dim1 << 1) + 1], ldqg, &ierr, 5L);
+            dlascl_("Upper", &c__0, &c__0, &tau, &c_b19, n, n, &qg[(qg_dim1 << 1) + 1], ldqg, &ierr,
+                5L);
+            dlascl_("Upper", &c__0, &c__0, &tau, &c_b19, n, n, &qg[(qg_dim1 << 1) + 1], ldqg, &ierr,
+                5L);
         }
         d__[1] = tau;
-    }
-    else
-    {
+    } else {
         dgebal_("Scale", n, &a[a_offset], lda, &ilo, &ihi, &d__[1], &ierr, 5L);
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *n;
-            for (i__ = j; i__ <= i__2; ++i__)
-            {
+            for (i__ = j; i__ <= i__2; ++i__) {
                 qg[i__ + j * qg_dim1] = qg[i__ + j * qg_dim1] * d__[j] * d__[i__];
                 /* L20: */
             }
             /* L30: */
         }
         i__1 = *n + 1;
-        for (j = 2; j <= i__1; ++j)
-        {
+        for (j = 2; j <= i__1; ++j) {
             i__2 = j - 1;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 qg[i__ + j * qg_dim1] = qg[i__ + j * qg_dim1] / d__[j - 1] / d__[i__];
                 /* L40: */
             }
@@ -313,31 +296,23 @@ L10:
         }
         gnrm = dlansy_("1-norm", "Upper", n, &qg[(qg_dim1 << 1) + 1], ldqg, &dwork[1], 6L, 5L);
         qnrm = dlansy_("1-norm", "Lower", n, &qg[qg_offset], ldqg, &dwork[1], 6L, 5L);
-        if (gnrm == 0.)
-        {
-            if (qnrm == 0.)
-            {
+        if (gnrm == 0.) {
+            if (qnrm == 0.) {
                 rho = 1.;
-            }
-            else
-            {
+            } else {
                 rho = sfmax;
             }
-        }
-        else if (qnrm == 0.)
-        {
+        } else if (qnrm == 0.) {
             rho = sfmin;
-        }
-        else
-        {
+        } else {
             rho = sqrt(qnrm) / sqrt(gnrm);
         }
         dlascl_("Lower", &c__0, &c__0, &rho, &c_b19, n, n, &qg[qg_offset], ldqg, &ierr, 5L);
-        dlascl_("Upper", &c__0, &c__0, &c_b19, &rho, n, n, &qg[(qg_dim1 << 1) + 1], ldqg, &ierr, 5L);
+        dlascl_(
+            "Upper", &c__0, &c__0, &c_b19, &rho, n, n, &qg[(qg_dim1 << 1) + 1], ldqg, &ierr, 5L);
         d__1 = sqrt(rho);
         drscl_(n, &d__1, &d__[1], &c__1);
     }
     return 0;
     /*     *** Last line of MB04DY *** */
 } /* mb04dy_ */
-

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,19 +14,19 @@ static logical c_true = TRUE_;
 static integer c__2 = 2;
 static logical c_false = FALSE_;
 
-EXPORTSYMBOL /* Subroutine */ int sb01bd_(dico, n, m, np, alpha, a, lda, b, ldb, wr, wi, nfp, nap, nup, f, ldf, z__, ldz, tol, dwork, ldwork, iwarn, info, dico_len)
-char *dico;
+EXPORTSYMBOL /* Subroutine */ int sb01bd_(dico, n, m, np, alpha, a, lda, b, ldb, wr, wi, nfp, nap,
+    nup, f, ldf, z__, ldz, tol, dwork, ldwork, iwarn, info, dico_len) char* dico;
 integer *n, *m, *np;
 doublereal *alpha, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
+integer* lda;
+doublereal* b;
+integer* ldb;
 doublereal *wr, *wi;
 integer *nfp, *nap, *nup;
-doublereal *f;
-integer *ldf;
-doublereal *z__;
-integer *ldz;
+doublereal* f;
+integer* ldf;
+doublereal* z__;
+integer* ldz;
 doublereal *tol, *dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen dico_len;
@@ -50,7 +50,7 @@ ftnlen dico_len;
     extern /* Subroutine */ int mb03qy_();
     static doublereal anorm, bnorm;
     extern /* Subroutine */ int dswap_();
-    static doublereal a2[4]	/* was [2][2] */;
+    static doublereal a2[4] /* was [2][2] */;
     static logical bwork[1];
     static doublereal toler;
     static integer ib, kg;
@@ -301,61 +301,41 @@ ftnlen dico_len;
     *iwarn = 0;
     *info = 0;
     /*     Check the scalar input parameters. */
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*np < 0)
-    {
+    } else if (*np < 0) {
         *info = -4;
-    }
-    else if (discr && *alpha < 0.)
-    {
+    } else if (discr && *alpha < 0.) {
         *info = -5;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldf < max(1,*m))
-    {
+    } else if (*ldf < max(1, *m)) {
         *info = -16;
-    }
-    else if (*ldz < max(1,*n))
-    {
+    } else if (*ldz < max(1, *n)) {
         *info = -18;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = 1, i__2 = *m * 5, i__1 = max(i__1,i__2), i__2 = *n * 5, i__1 = max(i__1,i__2), i__2 = (*n << 1) + (*m << 2);
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__1 = 1, i__2 = *m * 5, i__1 = max(i__1, i__2), i__2 = *n * 5, i__1 = max(i__1, i__2),
+        i__2 = (*n << 1) + (*m << 2);
+        if (*ldwork < max(i__1, i__2)) {
             *info = -21;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB01BD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         *nfp = 0;
         *nap = 0;
         *nup = 0;
@@ -366,14 +346,11 @@ ftnlen dico_len;
     /*     if necessary. */
     anorm = dlange_("1-norm", n, n, &a[a_offset], lda, &dwork[1], 6L);
     bnorm = dlange_("1-norm", n, m, &b[b_offset], ldb, &dwork[1], 6L);
-    if (*tol <= 0.)
-    {
+    if (*tol <= 0.) {
         x = dlamch_("Epsilon", 7L);
-        toler = (doublereal) (*n) * max(anorm,bnorm) * x;
-        tolerb = (doublereal) (*n) * bnorm * x;
-    }
-    else
-    {
+        toler = (doublereal)(*n) * max(anorm, bnorm) * x;
+        tolerb = (doublereal)(*n) * bnorm * x;
+    } else {
         toler = *tol;
         tolerb = *tol;
     }
@@ -386,10 +363,10 @@ ftnlen dico_len;
     /*     Workspace:  need   5*N; */
     /*                 prefer larger. */
     i__1 = *ldwork - kw + 1;
-    dgees_("Vectors", "No ordering", select_, n, &a[a_offset], lda, &ncur, &dwork[kwr], &dwork[kwi], &z__[z_offset], ldz, &dwork[kw], &i__1, bwork, info, 7L, 11L);
-    wrkopt = kw - 1 + (integer) dwork[kw];
-    if (*info != 0)
-    {
+    dgees_("Vectors", "No ordering", select_, n, &a[a_offset], lda, &ncur, &dwork[kwr], &dwork[kwi],
+        &z__[z_offset], ldz, &dwork[kw], &i__1, bwork, info, 7L, 11L);
+    wrkopt = kw - 1 + (integer)dwork[kw];
+    if (*info != 0) {
         *info = 1;
         return 0;
     }
@@ -401,19 +378,18 @@ ftnlen dico_len;
     /*     modified. The bottom (N-NFP)-by-(N-NFP) diagonal block of A */
     /*     corresponds to the "bad" eigenvalues to be modified. */
     /*     Workspace needed:  N. */
-    mb03qd_(dico, "Stable", "Update", n, &c__1, n, alpha, &a[a_offset], lda, &z__[z_offset], ldz, nfp, &dwork[1], info, 1L, 6L, 6L);
-    if (*info != 0)
-    {
+    mb03qd_(dico, "Stable", "Update", n, &c__1, n, alpha, &a[a_offset], lda, &z__[z_offset], ldz,
+        nfp, &dwork[1], info, 1L, 6L, 6L);
+    if (*info != 0) {
         return 0;
     }
     /*     Set F = 0. */
     dlaset_("Full", m, n, &c_b14, &c_b14, &f[f_offset], ldf, 4L);
     /*     Return if B is negligible (uncontrollable system). */
-    if (bnorm <= tolerb)
-    {
+    if (bnorm <= tolerb) {
         *nap = 0;
         *nup = *n;
-        dwork[1] = (doublereal) wrkopt;
+        dwork[1] = (doublereal)wrkopt;
         return 0;
     }
     /*     Compute the bound for the numerical stability condition. */
@@ -421,8 +397,7 @@ ftnlen dico_len;
     /*     Perform eigenvalue assignment if there exist "bad" eigenvalues. */
     *nap = 0;
     *nup = 0;
-    if (*nfp < *n)
-    {
+    if (*nfp < *n) {
         kg = 1;
         kfi = kg + (*m << 1);
         kw = kfi + (*m << 1);
@@ -432,18 +407,14 @@ ftnlen dico_len;
         /*        Separate and count real and complex eigenvalues to be assigned. */
         npr = 0;
         i__1 = *np;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            if (wi[i__] == 0.)
-            {
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            if (wi[i__] == 0.) {
                 ++npr;
                 k = i__ - npr;
-                if (k > 0)
-                {
+                if (k > 0) {
                     s = wr[i__];
                     i__2 = npr;
-                    for (j = npr + k - 1; j >= i__2; --j)
-                    {
+                    for (j = npr + k - 1; j >= i__2; --j) {
                         wr[j + 1] = wr[j];
                         wi[j + 1] = wi[j];
                         /* L5: */
@@ -464,24 +435,21 @@ ftnlen dico_len;
         /*        are no more eigenvalues to be assigned, or if a non-fatal */
         /*        error condition was set. */
         /*        WHILE (NLOW <= NSUP and INFO = 0) DO */
-L20:
-        if (nlow <= nsup && *info == 0)
-        {
+    L20:
+        if (nlow <= nsup && *info == 0) {
             /*           Determine the dimension of the last block. */
             ib = 1;
-            if (nlow < nsup)
-            {
-                if (a[nsup + (nsup - 1) * a_dim1] != 0.)
-                {
+            if (nlow < nsup) {
+                if (a[nsup + (nsup - 1) * a_dim1] != 0.) {
                     ib = 2;
                 }
             }
             /*           Compute G, the current last IB rows of Z'*B. */
             nl = nsup - ib + 1;
-            dgemm_("Transpose", "NoTranspose", &ib, m, n, &c_b21, &z__[nl * z_dim1 + 1], ldz, &b[b_offset], ldb, &c_b14, &dwork[kg], &ib, 9L, 11L);
+            dgemm_("Transpose", "NoTranspose", &ib, m, n, &c_b21, &z__[nl * z_dim1 + 1], ldz,
+                &b[b_offset], ldb, &c_b14, &dwork[kg], &ib, 9L, 11L);
             /*           Check the controllability for a simple block. */
-            if (dlange_("1", &ib, m, &dwork[kg], &ib, &dwork[kw], 1L) <= tolerb)
-            {
+            if (dlange_("1", &ib, m, &dwork[kg], &ib, &dwork[kw], 1L) <= tolerb) {
                 /*              Deflate the uncontrollable block and resume the */
                 /*              main loop. */
                 nsup -= ib;
@@ -489,97 +457,79 @@ L20:
                 goto L20;
             }
             /*           Test for termination with INFO = 3. */
-            if (*nap == *np)
-            {
+            if (*nap == *np) {
                 *info = 3;
                 /*              Test for compatibility. Terminate if an attempt occurs */
                 /*              to place a complex conjugate pair on a 1x1 block. */
-            }
-            else if (ib == 1 && npr == 0 && nlow == nsup)
-            {
+            } else if (ib == 1 && npr == 0 && nlow == nsup) {
                 *info = 4;
-            }
-            else
-            {
+            } else {
                 /*              Set the simple block flag. */
                 simplb = TRUE_;
                 /*              Form a 2-by-2 block if necessary from two 1-by-1 blocks. */
                 /*              Consider special case IB = 1, NPR = 1 and */
                 /*              NPR+NPC > NSUP-NLOW+1 to avoid incompatibility. */
-                if (ib == 1 && npr == 0 || ib == 1 && npr == 1 && nsup > nlow && npr + npc > nsup - nlow + 1)
-                {
-                    if (nsup > 2)
-                    {
-                        if (a[nsup - 1 + (nsup - 2) * a_dim1] != 0.)
-                        {
+                if (ib == 1 && npr == 0
+                    || ib == 1 && npr == 1 && nsup > nlow && npr + npc > nsup - nlow + 1) {
+                    if (nsup > 2) {
+                        if (a[nsup - 1 + (nsup - 2) * a_dim1] != 0.) {
                             /*                       Interchange with the adjacent 2x2 block. */
                             /*                       Workspace needed: N. */
                             i__1 = nsup - 2;
-                            dlaexc_(&c_true, n, &a[a_offset], lda, &z__[z_offset], ldz, &i__1, &c__2, &c__1, &dwork[kw], info);
-                            if (*info != 0)
-                            {
+                            dlaexc_(&c_true, n, &a[a_offset], lda, &z__[z_offset], ldz, &i__1,
+                                &c__2, &c__1, &dwork[kw], info);
+                            if (*info != 0) {
                                 *info = 2;
                                 return 0;
                             }
-                        }
-                        else
-                        {
-                            /*                       Form a non-simple block by extending the last */
+                        } else {
+                            /*                       Form a non-simple block by extending the last
+                             */
                             /*                       block with a 1x1 block. */
                             simplb = FALSE_;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         simplb = FALSE_;
                     }
                     ib = 2;
                 }
                 nl = nsup - ib + 1;
                 /*              Compute G, the current last IB rows of Z'*B. */
-                dgemm_("Transpose", "NoTranspose", &ib, m, n, &c_b21, &z__[nl * z_dim1 + 1], ldz, &b[b_offset], ldb, &c_b14, &dwork[kg], &ib, 9L, 11L);
+                dgemm_("Transpose", "NoTranspose", &ib, m, n, &c_b21, &z__[nl * z_dim1 + 1], ldz,
+                    &b[b_offset], ldb, &c_b14, &dwork[kg], &ib, 9L, 11L);
                 /*              Check the controllability for the current block. */
-                if (dlange_("1", &ib, m, &dwork[kg], &ib, &dwork[kw], 1L) <= tolerb)
-                {
+                if (dlange_("1", &ib, m, &dwork[kg], &ib, &dwork[kw], 1L) <= tolerb) {
                     /*                 Deflate the uncontrollable block and resume the */
                     /*                 main loop. */
                     nsup -= ib;
                     *nup += ib;
                     goto L20;
                 }
-                if (*nap + ib > *np)
-                {
+                if (*nap + ib > *np) {
                     /*                 No sufficient eigenvalues to be assigned. */
                     *info = 3;
-                }
-                else
-                {
-                    if (ib == 1)
-                    {
+                } else {
+                    if (ib == 1) {
                         /*                    A 1-by-1 block. */
                         /*                    Assign the real eigenvalue nearest to A(NSUP,NSUP). */
                         x = a[nsup + nsup * a_dim1];
                         sb01bx_(&c_true, &npr, &x, &x, &wr[1], &x, &s, &p);
                         --npr;
                         ceig = FALSE_;
-                    }
-                    else
-                    {
+                    } else {
                         /*                    A 2-by-2 block. */
-                        if (simplb)
-                        {
-                            /*                       Simple 2-by-2 block with complex eigenvalues. */
+                        if (simplb) {
+                            /*                       Simple 2-by-2 block with complex eigenvalues.
+                             */
                             /*                       Compute the eigenvalues of the last block. */
                             mb03qy_(n, &nl, &a[a_offset], lda, &z__[z_offset], ldz, &x, &y, info);
-                            if (npc > 1)
-                            {
+                            if (npc > 1) {
                                 sb01bx_(&c_false, &npc, &x, &y, &wr[ipc], &wi[ipc], &s, &p);
                                 npc += -2;
                                 ceig = TRUE_;
-                            }
-                            else
-                            {
-                                /*                          Choose the nearest two real eigenvalues. */
+                            } else {
+                                /*                          Choose the nearest two real eigenvalues.
+                                 */
                                 sb01bx_(&c_true, &npr, &x, &x, &wr[1], &x, &s, &p);
                                 i__1 = npr - 1;
                                 sb01bx_(&c_true, &i__1, &x, &x, &wr[1], &x, &y, &p);
@@ -588,11 +538,10 @@ L20:
                                 npr += -2;
                                 ceig = FALSE_;
                             }
-                        }
-                        else
-                        {
+                        } else {
                             /*                       Non-simple 2x2 block with real eigenvalues. */
-                            /*                       Choose the nearest pair of complex eigenvalues. */
+                            /*                       Choose the nearest pair of complex eigenvalues.
+                             */
                             x = (a[nl + nl * a_dim1] + a[nsup + nsup * a_dim1]) / 2.;
                             sb01bx_(&c_false, &npc, &x, &c_b14, &wr[ipc], &wi[ipc], &s, &p);
                             npc += -2;
@@ -601,8 +550,7 @@ L20:
                     /*                 Form the IBxIB matrix A2 from the current diagonal */
                     /*                 block. */
                     a2[0] = a[nl + nl * a_dim1];
-                    if (ib > 1)
-                    {
+                    if (ib > 1) {
                         a2[2] = a[nl + nsup * a_dim1];
                         a2[1] = a[nsup + nl * a_dim1];
                         a2[3] = a[nsup + nsup * a_dim1];
@@ -611,97 +559,91 @@ L20:
                     /*                 assigns the chosen IB eigenvalues for the pair (A2,G). */
                     /*                 Workspace needed: 5*M. */
                     sb01by_(&ib, m, &s, &p, a2, &dwork[kg], &dwork[kfi], &toler, &dwork[kw], &ierr);
-                    if (ierr != 0)
-                    {
-                        if (ib == 1 || simplb)
-                        {
+                    if (ierr != 0) {
+                        if (ib == 1 || simplb) {
                             /*                       The simple 1x1 block is uncontrollable. */
                             nsup -= ib;
-                            if (ceig)
-                            {
+                            if (ceig) {
                                 npc += ib;
-                            }
-                            else
-                            {
+                            } else {
                                 npr += ib;
                             }
                             *nup += ib;
-                        }
-                        else
-                        {
+                        } else {
                             /*                       The non-simple 2x2 block is uncontrollable. */
                             /*                       Eliminate its uncontrollable part by using */
-                            /*                       the information in elements FI(1,1) and F(1,2). */
+                            /*                       the information in elements FI(1,1) and F(1,2).
+                             */
                             c__ = dwork[kfi];
                             s = dwork[kfi + ib];
-                            /*                       Apply the transformation to A and accumulate it */
+                            /*                       Apply the transformation to A and accumulate it
+                             */
                             /*                       in Z. */
                             i__1 = *n - nl + 1;
-                            drot_(&i__1, &a[nl + nl * a_dim1], lda, &a[nsup + nl * a_dim1], lda, &c__, &s);
-                            drot_(n, &a[nl * a_dim1 + 1], &c__1, &a[nsup * a_dim1 + 1], &c__1, &c__, &s);
-                            drot_(n, &z__[nl * z_dim1 + 1], &c__1, &z__[nsup * z_dim1 + 1], &c__1, &c__, &s);
-                            /*                       Annihilate the subdiagonal element of the last */
-                            /*                       block, redefine the upper limit for the bottom */
+                            drot_(&i__1, &a[nl + nl * a_dim1], lda, &a[nsup + nl * a_dim1], lda,
+                                &c__, &s);
+                            drot_(n, &a[nl * a_dim1 + 1], &c__1, &a[nsup * a_dim1 + 1], &c__1, &c__,
+                                &s);
+                            drot_(n, &z__[nl * z_dim1 + 1], &c__1, &z__[nsup * z_dim1 + 1], &c__1,
+                                &c__, &s);
+                            /*                       Annihilate the subdiagonal element of the last
+                             */
+                            /*                       block, redefine the upper limit for the bottom
+                             */
                             /*                       block and resume the main loop. */
                             a[nsup + nl * a_dim1] = 0.;
                             nsup = nl;
                             ++(*nup);
                             npc += 2;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         /*                    Successful assignment of IB eigenvalues. */
                         /*                    Update the feedback matrix F <-- F + [0 FI]*Z'. */
-                        dgemm_("NoTranspose", "Transpose", m, n, &ib, &c_b21, &dwork[kfi], m, &z__[nl * z_dim1 + 1], ldz, &c_b21, &f[f_offset], ldf, 11L, 9L);
+                        dgemm_("NoTranspose", "Transpose", m, n, &ib, &c_b21, &dwork[kfi], m,
+                            &z__[nl * z_dim1 + 1], ldz, &c_b21, &f[f_offset], ldf, 11L, 9L);
                         /*                    Check for possible numerical instability. */
-                        if (dlange_("1", m, &ib, &dwork[kfi], m, &dwork[kw], 1L) > rmax)
-                        {
+                        if (dlange_("1", m, &ib, &dwork[kfi], m, &dwork[kw], 1L) > rmax) {
                             ++(*iwarn);
                         }
                         /*                    Update the state matrix A <-- A + Z'*B*[0 FI]. */
                         /*                    Workspace needed: 2*N+4*M. */
-                        dgemm_("NoTranspose", "NoTranspose", n, &ib, m, &c_b21, &b[b_offset], ldb, &dwork[kfi], m, &c_b14, &dwork[kw], n, 11L, 11L);
-                        dgemm_("Transpose", "NoTranspose", &nsup, &ib, n, &c_b21, &z__[z_offset], ldz, &dwork[kw], n, &c_b21, &a[nl * a_dim1 + 1], lda, 9L, 11L);
+                        dgemm_("NoTranspose", "NoTranspose", n, &ib, m, &c_b21, &b[b_offset], ldb,
+                            &dwork[kfi], m, &c_b14, &dwork[kw], n, 11L, 11L);
+                        dgemm_("Transpose", "NoTranspose", &nsup, &ib, n, &c_b21, &z__[z_offset],
+                            ldz, &dwork[kw], n, &c_b21, &a[nl * a_dim1 + 1], lda, 9L, 11L);
                         /*                    Try to split the 2x2 block. */
-                        if (ib == 2)
-                        {
+                        if (ib == 2) {
                             mb03qy_(n, &nl, &a[a_offset], lda, &z__[z_offset], ldz, &x, &y, info);
                         }
                         *nap += ib;
-                        if (nlow + ib <= nsup)
-                        {
+                        if (nlow + ib <= nsup) {
                             /*                       Move the last block(s) to the leading */
                             /*                       position(s) of the bottom block. */
                             ncur1 = nsup - ib;
                             nmoves = 1;
-                            if (ib == 2 && a[nsup + (nsup - 1) * a_dim1] == 0.)
-                            {
+                            if (ib == 2 && a[nsup + (nsup - 1) * a_dim1] == 0.) {
                                 ib = 1;
                                 nmoves = 2;
                             }
                             /*                       WHILE (NMOVES > 0) DO */
-L30:
-                            if (nmoves > 0)
-                            {
+                        L30:
+                            if (nmoves > 0) {
                                 ncur = ncur1;
                                 /*                          WHILE (NCUR >= NLOW) DO */
-L40:
-                                if (ncur >= nlow)
-                                {
-                                    /*                             Loop for the last block positioning. */
+                            L40:
+                                if (ncur >= nlow) {
+                                    /*                             Loop for the last block
+                                     * positioning. */
                                     ib1 = 1;
-                                    if (ncur > nlow)
-                                    {
-                                        if (a[ncur + (ncur - 1) * a_dim1] != 0.)
-                                        {
+                                    if (ncur > nlow) {
+                                        if (a[ncur + (ncur - 1) * a_dim1] != 0.) {
                                             ib1 = 2;
                                         }
                                     }
                                     i__1 = ncur - ib1 + 1;
-                                    dlaexc_(&c_true, n, &a[a_offset], lda, &z__[z_offset], ldz, &i__1, &ib1, &ib, &dwork[kw], info);
-                                    if (*info != 0)
-                                    {
+                                    dlaexc_(&c_true, n, &a[a_offset], lda, &z__[z_offset], ldz,
+                                        &i__1, &ib1, &ib, &dwork[kw], info);
+                                    if (*info != 0) {
                                         *info = 2;
                                         return 0;
                                     }
@@ -715,49 +657,41 @@ L40:
                                 goto L30;
                             }
                             /*                       END WHILE 30 */
-                        }
-                        else
-                        {
+                        } else {
                             nlow += ib;
                         }
                     }
                 }
             }
-            if (*info == 0)
-            {
+            if (*info == 0) {
                 goto L20;
             }
             /*        END WHILE 20 */
         }
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = *m * 5, i__1 = max(i__1,i__2), i__2 = (*n << 1) + (*m << 2);
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = *m * 5, i__1 = max(i__1, i__2), i__2 = (*n << 1) + (*m << 2);
+        wrkopt = max(i__1, i__2);
     }
     /*     Annihilate the elements below the first subdiagonal of A. */
-    if (*n > 2)
-    {
+    if (*n > 2) {
         i__1 = *n - 2;
         i__2 = *n - 2;
         dlaset_("L", &i__1, &i__2, &c_b14, &c_b14, &a[a_dim1 + 3], lda, 1L);
     }
-    if (*nap > 0)
-    {
+    if (*nap > 0) {
         /*        Move the assigned eigenvalues in the first NAP positions of */
         /*        WR and WI. */
         k = ipc - npr - 1;
-        if (k > 0)
-        {
+        if (k > 0) {
             dswap_(&k, &wr[npr + 1], &c__1, &wr[1], &c__1);
         }
         j = *nap - k;
-        if (j > 0)
-        {
+        if (j > 0) {
             dswap_(&j, &wr[ipc + npc], &c__1, &wr[k + 1], &c__1);
             dswap_(&j, &wi[ipc + npc], &c__1, &wi[k + 1], &c__1);
         }
     }
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of SB01BD *** */
 } /* sb01bd_ */
-

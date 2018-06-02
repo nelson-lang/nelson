@@ -16,71 +16,58 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtQml/QQmlComponent>
 #include "iswidgettypeQObject.hpp"
+#include "ClassName.hpp"
 #include "Exception.hpp"
 #include "HandleManager.hpp"
 #include "QmlHandleObject.hpp"
-#include "ClassName.hpp"
+#include <QtQml/QQmlComponent>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf iswidgettypeQObject(ArrayOf A)
-    {
-        if (!A.isHandle())
-        {
-            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-        }
-        std::wstring className;
-        ClassName(A, className);
-        if (className != QOBJECT_CATEGORY_STR)
-        {
-            throw Exception(_W("QObject handle expected."));
-        }
-        ArrayOf res;
-        Dimensions dimsA = A.getDimensions();
-        nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-        if (qp)
-        {
-            logical *resArray = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount());
-            for (size_t k = 0; k < dimsA.getElementCount(); k++)
-            {
-                nelson_handle hl = qp[k];
-                HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-                if (hlObj != nullptr)
-                {
-                    if (hlObj->getPointer())
-                    {
-                        QmlHandleObject *qmlHandle = (QmlHandleObject *)hlObj;
-                        void *ptr = qmlHandle->getPointer();
-                        if (ptr == nullptr)
-                        {
-                            resArray[k] = false;
-                        }
-                        else
-                        {
-                            QObject *qobj = (QObject *)ptr;
-                            resArray[k] = qobj->isWidgetType();
-                        }
-                    }
-                    else
-                    {
+//=============================================================================
+ArrayOf
+iswidgettypeQObject(ArrayOf A)
+{
+    if (!A.isHandle()) {
+        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+    }
+    std::wstring className;
+    ClassName(A, className);
+    if (className != QOBJECT_CATEGORY_STR) {
+        throw Exception(_W("QObject handle expected."));
+    }
+    ArrayOf res;
+    Dimensions dimsA = A.getDimensions();
+    nelson_handle* qp = (nelson_handle*)A.getDataPointer();
+    if (qp) {
+        logical* resArray
+            = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount());
+        for (size_t k = 0; k < dimsA.getElementCount(); k++) {
+            nelson_handle hl = qp[k];
+            HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
+            if (hlObj != nullptr) {
+                if (hlObj->getPointer()) {
+                    QmlHandleObject* qmlHandle = (QmlHandleObject*)hlObj;
+                    void* ptr = qmlHandle->getPointer();
+                    if (ptr == nullptr) {
                         resArray[k] = false;
+                    } else {
+                        QObject* qobj = (QObject*)ptr;
+                        resArray[k] = qobj->isWidgetType();
                     }
-                }
-                else
-                {
+                } else {
                     resArray[k] = false;
                 }
+            } else {
+                resArray[k] = false;
             }
-            res = ArrayOf(NLS_LOGICAL, dimsA, resArray);
         }
-        else
-        {
-            res = ArrayOf::emptyConstructor(dimsA);
-        }
-        return res;
+        res = ArrayOf(NLS_LOGICAL, dimsA, resArray);
+    } else {
+        res = ArrayOf::emptyConstructor(dimsA);
     }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

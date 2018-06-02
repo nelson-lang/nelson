@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,13 +11,13 @@ static doublereal c_b9 = 1.;
 static doublereal c_b10 = 0.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb03sd_(jobscl, n, a, lda, qg, ldqg, wr, wi, dwork, ldwork, info, jobscl_len)
-char *jobscl;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *qg;
-integer *ldqg;
+EXPORTSYMBOL /* Subroutine */ int mb03sd_(
+    jobscl, n, a, lda, qg, ldqg, wr, wi, dwork, ldwork, info, jobscl_len) char* jobscl;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* qg;
+integer* ldqg;
 doublereal *wr, *wi, *dwork;
 integer *ldwork, *info;
 ftnlen jobscl_len;
@@ -212,95 +212,77 @@ ftnlen jobscl_len;
     --dwork;
     /* Function Body */
     *info = 0;
-    n2 = *n **n;
+    n2 = *n * *n;
     scale = lsame_(jobscl, "S", 1L, 1L);
-    if (! (scale || lsame_(jobscl, "N", 1L, 1L)))
-    {
+    if (!(scale || lsame_(jobscl, "N", 1L, 1L))) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -4;
-    }
-    else if (*ldqg < max(1,*n))
-    {
+    } else if (*ldqg < max(1, *n)) {
         *info = -6;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = n2 + *n;
-        if (*ldwork < max(i__1,i__2))
-        {
+        if (*ldwork < max(i__1, i__2)) {
             *info = -10;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB03SD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 1.;
         return 0;
     }
     chunk = (*ldwork - n2) / *n;
-    block = min(chunk,*n) > 1;
+    block = min(chunk, *n) > 1;
     blas3 = chunk >= *n;
-    if (blas3)
-    {
+    if (blas3) {
         jwork = n2 + 1;
-    }
-    else
-    {
+    } else {
         jwork = 1;
     }
     /*                             2 */
     /*     Form the matrix A'' = A'  + G'Q'. */
     dlacpy_("Lower", n, n, &qg[qg_offset], ldqg, &dwork[jwork], n, 5L);
     ma02ed_("Lower", n, &dwork[jwork], n, 5L);
-    if (blas3)
-    {
+    if (blas3) {
         /*        Use BLAS 3 calculation. */
-        dsymm_("Left", "Upper", n, n, &c_b9, &qg[(qg_dim1 << 1) + 1], ldqg, &dwork[jwork], n, &c_b10, &dwork[1], n, 4L, 5L);
-    }
-    else if (block)
-    {
+        dsymm_("Left", "Upper", n, n, &c_b9, &qg[(qg_dim1 << 1) + 1], ldqg, &dwork[jwork], n,
+            &c_b10, &dwork[1], n, 4L, 5L);
+    } else if (block) {
         jw = n2 + 1;
         /*        Use BLAS 3 for as many columns of Q' as possible. */
         i__1 = *n;
         i__2 = chunk;
-        for (j = 1; i__2 < 0 ? j >= i__1 : j <= i__1; j += i__2)
-        {
+        for (j = 1; i__2 < 0 ? j >= i__1 : j <= i__1; j += i__2) {
             /* Computing MIN */
             i__3 = *n - j + 1;
-            bl = min(i__3,chunk);
-            dsymm_("Left", "Upper", n, &bl, &c_b9, &qg[(qg_dim1 << 1) + 1], ldqg, &dwork[*n * (j - 1) + 1], n, &c_b10, &dwork[jw], n, 4L, 5L);
+            bl = min(i__3, chunk);
+            dsymm_("Left", "Upper", n, &bl, &c_b9, &qg[(qg_dim1 << 1) + 1], ldqg,
+                &dwork[*n * (j - 1) + 1], n, &c_b10, &dwork[jw], n, 4L, 5L);
             dlacpy_("Full", n, &bl, &dwork[jw], n, &dwork[*n * (j - 1) + 1], n, 4L);
             /* L10: */
         }
-    }
-    else
-    {
+    } else {
         /*        Use BLAS 2 calculation. */
         i__2 = *n;
-        for (j = 1; j <= i__2; ++j)
-        {
-            dsymv_("Upper", n, &c_b9, &qg[(qg_dim1 << 1) + 1], ldqg, &dwork[*n * (j - 1) + 1], &c__1, &c_b10, &wr[1], &c__1, 5L);
+        for (j = 1; j <= i__2; ++j) {
+            dsymv_("Upper", n, &c_b9, &qg[(qg_dim1 << 1) + 1], ldqg, &dwork[*n * (j - 1) + 1],
+                &c__1, &c_b10, &wr[1], &c__1, 5L);
             dcopy_(n, &wr[1], &c__1, &dwork[*n * (j - 1) + 1], &c__1);
             /* L20: */
         }
     }
-    dgemm_("NoTranspose", "NoTranspose", n, n, n, &c_b9, &a[a_offset], lda, &a[a_offset], lda, &c_b9, &dwork[1], n, 11L, 11L);
-    if (scale && *n > 2)
-    {
+    dgemm_("NoTranspose", "NoTranspose", n, n, n, &c_b9, &a[a_offset], lda, &a[a_offset], lda,
+        &c_b9, &dwork[1], n, 11L, 11L);
+    if (scale && *n > 2) {
         i__2 = *n - 2;
         i__1 = *n - 2;
         dlaset_("Lower", &i__2, &i__1, &c_b10, &c_b10, &dwork[3], n, 5L);
@@ -308,13 +290,12 @@ ftnlen jobscl_len;
     /*                               2 */
     /*     Find the eigenvalues of A' + G'Q'. */
     dgebal_(jobscl, n, &dwork[1], n, &ilo, &ihi, &dwork[n2 + 1], &ignore, 1L);
-    dhseqr_("Eigenvalues", "NoSchurVectors", n, &ilo, &ihi, &dwork[1], n, &wr[1], &wi[1], dummy, &c__1, &dwork[n2 + 1], n, info, 11L, 14L);
-    if (*info == 0)
-    {
+    dhseqr_("Eigenvalues", "NoSchurVectors", n, &ilo, &ihi, &dwork[1], n, &wr[1], &wi[1], dummy,
+        &c__1, &dwork[n2 + 1], n, info, 11L, 14L);
+    if (*info == 0) {
         /*        Eigenvalues of H' are the square roots of those computed above. */
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             x = wr[i__];
             y = wi[i__];
             ma01ad_(&x, &y, &wr[i__], &wi[i__]);
@@ -327,18 +308,15 @@ ftnlen jobscl_len;
         /*        This ensures that complex conjugate pairs remain */
         /*        together.) */
         sorted = FALSE_;
-        for (m = *n; m >= 1; --m)
-        {
-            if (sorted)
-            {
+        for (m = *n; m >= 1; --m) {
+            if (sorted) {
                 goto L60;
             }
             sorted = TRUE_;
             i__2 = m - 1;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                if (wr[i__] < wr[i__ + 1] || wr[i__] == 0. && wr[i__ + 1] == 0. && wi[i__] < wi[i__ + 1])
-                {
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                if (wr[i__] < wr[i__ + 1]
+                    || wr[i__] == 0. && wr[i__ + 1] == 0. && wi[i__] < wi[i__ + 1]) {
                     swap = wr[i__];
                     wr[i__] = wr[i__ + 1];
                     wr[i__ + 1] = swap;
@@ -351,11 +329,9 @@ ftnlen jobscl_len;
             }
             /* L50: */
         }
-L60:
-        ;
+    L60:;
     }
-    dwork[1] = (doublereal) (n2 << 1);
+    dwork[1] = (doublereal)(n2 << 1);
     return 0;
     /*     *** Last line of MB03SD *** */
 } /* mb03sd_ */
-

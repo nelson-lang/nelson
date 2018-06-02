@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,18 +11,19 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 static doublereal c_b61 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb02mu_(dico, hinv, uplo, n, a, lda, g, ldg, q, ldq, s, lds, iwork, dwork, ldwork, info, dico_len, hinv_len, uplo_len)
-char *dico, *hinv, *uplo;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *g;
-integer *ldg;
-doublereal *q;
-integer *ldq;
-doublereal *s;
+EXPORTSYMBOL /* Subroutine */ int sb02mu_(dico, hinv, uplo, n, a, lda, g, ldg, q, ldq, s, lds,
+    iwork, dwork, ldwork, info, dico_len, hinv_len, uplo_len) char *dico,
+    *hinv, *uplo;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* g;
+integer* ldg;
+doublereal* q;
+integer* ldq;
+doublereal* s;
 integer *lds, *iwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen dico_len;
 ftnlen hinv_len;
@@ -199,153 +200,114 @@ ftnlen uplo_len;
     n2 = *n + *n;
     discr = lsame_(dico, "D", 1L, 1L);
     luplo = lsame_(uplo, "U", 1L, 1L);
-    if (discr)
-    {
+    if (discr) {
         lhinv = lsame_(hinv, "D", 1L, 1L);
-    }
-    else
-    {
+    } else {
         lhinv = FALSE_;
     }
     /*     Test the input scalar arguments. */
-    if (! discr && ! lsame_(dico, "C", 1L, 1L))
-    {
+    if (!discr && !lsame_(dico, "C", 1L, 1L)) {
         *info = -1;
-    }
-    else if (discr)
-    {
-        if (! lhinv && ! lsame_(hinv, "I", 1L, 1L))
-        {
+    } else if (discr) {
+        if (!lhinv && !lsame_(hinv, "I", 1L, 1L)) {
             *info = -2;
         }
     }
-    if (! luplo && ! lsame_(uplo, "L", 1L, 1L))
-    {
+    if (!luplo && !lsame_(uplo, "L", 1L, 1L)) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldg < max(1,*n))
-    {
+    } else if (*ldg < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldq < max(1,*n))
-    {
+    } else if (*ldq < max(1, *n)) {
         *info = -10;
-    }
-    else if (*lds < max(1,n2))
-    {
+    } else if (*lds < max(1, n2)) {
         *info = -12;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 2, i__2 = *n << 2;
-        if (*ldwork < 1 || discr && *ldwork < max(i__1,i__2))
-        {
+        if (*ldwork < 1 || discr && *ldwork < max(i__1, i__2)) {
             *info = -15;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB02MU", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 1.;
-        if (discr)
-        {
+        if (discr) {
             dwork[2] = 1.;
         }
         return 0;
     }
     /*     The code tries to exploit data locality as much as possible. */
-    if (! lhinv)
-    {
+    if (!lhinv) {
         dlacpy_("Full", n, n, &a[a_offset], lda, &s[s_offset], lds, 4L);
         /*        Construct Hamiltonian matrix in the continuous-time case, or */
         /*        prepare symplectic matrix in (3) in the discrete-time case: */
         /*        Construct full Q in S(N+1:2*N,1:N) and change the sign, and */
         /*        construct full G in S(1:N,N+1:2*N) and change the sign. */
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             nj = *n + j;
-            if (luplo)
-            {
+            if (luplo) {
                 i__2 = j;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     s[*n + i__ + j * s_dim1] = -q[i__ + j * q_dim1];
                     /* L20: */
                 }
                 i__2 = *n;
-                for (i__ = j + 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = j + 1; i__ <= i__2; ++i__) {
                     s[*n + i__ + j * s_dim1] = -q[j + i__ * q_dim1];
                     /* L40: */
                 }
                 i__2 = j;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     s[i__ + nj * s_dim1] = -g[i__ + j * g_dim1];
                     /* L60: */
                 }
                 i__2 = *n;
-                for (i__ = j + 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = j + 1; i__ <= i__2; ++i__) {
                     s[i__ + nj * s_dim1] = -g[j + i__ * g_dim1];
                     /* L80: */
                 }
-            }
-            else
-            {
+            } else {
                 i__2 = j - 1;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     s[*n + i__ + j * s_dim1] = -q[j + i__ * q_dim1];
                     /* L100: */
                 }
                 i__2 = *n;
-                for (i__ = j; i__ <= i__2; ++i__)
-                {
+                for (i__ = j; i__ <= i__2; ++i__) {
                     s[*n + i__ + j * s_dim1] = -q[i__ + j * q_dim1];
                     /* L120: */
                 }
                 i__2 = j - 1;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     s[i__ + nj * s_dim1] = -g[j + i__ * g_dim1];
                     /* L140: */
                 }
                 i__2 = *n;
-                for (i__ = j; i__ <= i__2; ++i__)
-                {
+                for (i__ = j; i__ <= i__2; ++i__) {
                     s[i__ + nj * s_dim1] = -g[i__ + j * g_dim1];
                     /* L180: */
                 }
             }
             /* L200: */
         }
-        if (! discr)
-        {
+        if (!discr) {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 nj = *n + j;
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     s[*n + i__ + nj * s_dim1] = -a[j + i__ * a_dim1];
                     /* L220: */
                 }
@@ -354,8 +316,7 @@ ftnlen uplo_len;
             dwork[1] = 1.;
         }
     }
-    if (discr)
-    {
+    if (discr) {
         /*        Construct the symplectic matrix (2) or (3) in the discrete-time */
         /*        case. */
         /*        Compute workspace. */
@@ -366,14 +327,12 @@ ftnlen uplo_len;
         /*        following subroutine, as returned by ILAENV.) */
         /* Computing MAX */
         i__1 = *n << 2, i__2 = *n * ilaenv_(&c__1, "DGETRI", " ", n, &c_n1, &c_n1, &c_n1, 6L, 1L);
-        maxwrk = max(i__1,i__2);
+        maxwrk = max(i__1, i__2);
         np1 = *n + 1;
-        if (lhinv)
-        {
+        if (lhinv) {
             /*           Put  A'  in  S(N+1:2*N,N+1:2*N). */
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dcopy_(n, &a[i__ + a_dim1], lda, &s[np1 + (*n + i__) * s_dim1], &c__1);
                 /* L260: */
             }
@@ -383,8 +342,7 @@ ftnlen uplo_len;
         /*        Compute the LU factorization of A. */
         dgetrf_(n, n, &a[a_offset], lda, &iwork[1], info);
         /*        Return if INFO is non-zero. */
-        if (*info > 0)
-        {
+        if (*info > 0) {
             dwork[2] = 0.;
             return 0;
         }
@@ -392,34 +350,27 @@ ftnlen uplo_len;
         /*        Workspace: need 4*N. */
         dgecon_("1-norm", n, &a[a_offset], lda, &anorm, &rcond, &dwork[1], &iwork[np1], info, 6L);
         /*        Return if the matrix is singular to working precision. */
-        if (rcond < dlamch_("Epsilon", 7L))
-        {
+        if (rcond < dlamch_("Epsilon", 7L)) {
             *info = *n + 1;
             dwork[2] = rcond;
             return 0;
         }
-        if (lhinv)
-        {
+        if (lhinv) {
             /*           Compute S in (2). */
             /*           Construct full Q in S(N+1:2*N,1:N). */
-            if (luplo)
-            {
+            if (luplo) {
                 i__1 = *n - 1;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     dcopy_(&j, &q[j * q_dim1 + 1], &c__1, &s[np1 + j * s_dim1], &c__1);
                     i__2 = *n - j;
                     dcopy_(&i__2, &q[j + (j + 1) * q_dim1], ldq, &s[np1 + j + j * s_dim1], &c__1);
                     /* L270: */
                 }
                 dcopy_(n, &q[*n * q_dim1 + 1], &c__1, &s[np1 + *n * s_dim1], &c__1);
-            }
-            else
-            {
+            } else {
                 dcopy_(n, &q[q_dim1 + 1], &c__1, &s[np1 + s_dim1], &c__1);
                 i__1 = *n;
-                for (j = 2; j <= i__1; ++j)
-                {
+                for (j = 2; j <= i__1; ++j) {
                     i__2 = j - 1;
                     dcopy_(&i__2, &q[j + q_dim1], ldq, &s[np1 + j * s_dim1], &c__1);
                     i__2 = *n - j + 1;
@@ -430,33 +381,29 @@ ftnlen uplo_len;
             /*           Compute the solution matrix  X  of the system  X*A = Q  by */
             /*                                                                    -1 */
             /*           solving  A'*X' = Q and transposing the result to get  Q*A  . */
-            dgetrs_("Transpose", n, n, &a[a_offset], lda, &iwork[1], &s[np1 + s_dim1], lds, info, 9L);
+            dgetrs_(
+                "Transpose", n, n, &a[a_offset], lda, &iwork[1], &s[np1 + s_dim1], lds, info, 9L);
             i__1 = *n - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n - j;
                 dswap_(&i__2, &s[np1 + j + j * s_dim1], &c__1, &s[*n + j + (j + 1) * s_dim1], lds);
                 /* L300: */
             }
             /*           Construct full G in S(1:N,N+1:2*N). */
-            if (luplo)
-            {
+            if (luplo) {
                 i__1 = *n - 1;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     dcopy_(&j, &g[j * g_dim1 + 1], &c__1, &s[(*n + j) * s_dim1 + 1], &c__1);
                     i__2 = *n - j;
-                    dcopy_(&i__2, &g[j + (j + 1) * g_dim1], ldg, &s[j + 1 + (*n + j) * s_dim1], &c__1);
+                    dcopy_(
+                        &i__2, &g[j + (j + 1) * g_dim1], ldg, &s[j + 1 + (*n + j) * s_dim1], &c__1);
                     /* L310: */
                 }
                 dcopy_(n, &g[*n * g_dim1 + 1], &c__1, &s[n2 * s_dim1 + 1], &c__1);
-            }
-            else
-            {
+            } else {
                 dcopy_(n, &g[g_dim1 + 1], &c__1, &s[np1 * s_dim1 + 1], &c__1);
                 i__1 = *n;
-                for (j = 2; j <= i__1; ++j)
-                {
+                for (j = 2; j <= i__1; ++j) {
                     i__2 = j - 1;
                     dcopy_(&i__2, &g[j + g_dim1], ldg, &s[(*n + j) * s_dim1 + 1], &c__1);
                     i__2 = *n - j + 1;
@@ -466,51 +413,52 @@ ftnlen uplo_len;
             }
             /*                            -1 */
             /*           Compute  A' + Q*A  *G  in  S(N+1:2N,N+1:2N). */
-            dgemm_("No transpose", "No transpose", n, n, n, &c_b61, &s[np1 + s_dim1], lds, &s[np1 * s_dim1 + 1], lds, &c_b61, &s[np1 + np1 * s_dim1], lds, 12L, 12L);
+            dgemm_("No transpose", "No transpose", n, n, n, &c_b61, &s[np1 + s_dim1], lds,
+                &s[np1 * s_dim1 + 1], lds, &c_b61, &s[np1 + np1 * s_dim1], lds, 12L, 12L);
             /*           Compute the solution matrix  Y  of the system  A*Y = G. */
-            dgetrs_("No transpose", n, n, &a[a_offset], lda, &iwork[1], &s[np1 * s_dim1 + 1], lds, info, 12L);
+            dgetrs_("No transpose", n, n, &a[a_offset], lda, &iwork[1], &s[np1 * s_dim1 + 1], lds,
+                info, 12L);
             /*           Compute the inverse of  A  in situ. */
             /*           Workspace: need N;  prefer N*NB. */
             dgetri_(n, &a[a_offset], lda, &iwork[1], &dwork[1], ldwork, info);
             /*                  -1 */
             /*           Copy  A    in  S(1:N,1:N). */
             dlacpy_("Full", n, n, &a[a_offset], lda, &s[s_offset], lds, 4L);
-        }
-        else
-        {
+        } else {
             /*           Compute S in (3) using the already prepared part. */
             /*           Compute the solution matrix  X'  of the system  A*X' = -G */
             /*                                                       -T */
             /*           and transpose the result to obtain  X = -G*A  . */
-            dgetrs_("No transpose", n, n, &a[a_offset], lda, &iwork[1], &s[np1 * s_dim1 + 1], lds, info, 12L);
+            dgetrs_("No transpose", n, n, &a[a_offset], lda, &iwork[1], &s[np1 * s_dim1 + 1], lds,
+                info, 12L);
             i__1 = *n - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n - j;
-                dswap_(&i__2, &s[j + 1 + (*n + j) * s_dim1], &c__1, &s[j + (np1 + j) * s_dim1], lds);
+                dswap_(
+                    &i__2, &s[j + 1 + (*n + j) * s_dim1], &c__1, &s[j + (np1 + j) * s_dim1], lds);
                 /* L340: */
             }
             /*                           -T */
             /*           Compute  A + G*A  *Q  in  S(1:N,1:N). */
-            dgemm_("No transpose", "No transpose", n, n, n, &c_b61, &s[np1 * s_dim1 + 1], lds, &s[np1 + s_dim1], lds, &c_b61, &s[s_offset], lds, 12L, 12L);
+            dgemm_("No transpose", "No transpose", n, n, n, &c_b61, &s[np1 * s_dim1 + 1], lds,
+                &s[np1 + s_dim1], lds, &c_b61, &s[s_offset], lds, 12L, 12L);
             /*           Compute the solution matrix  Y  of the system  A'*Y = -Q. */
-            dgetrs_("Transpose", n, n, &a[a_offset], lda, &iwork[1], &s[np1 + s_dim1], lds, info, 9L);
+            dgetrs_(
+                "Transpose", n, n, &a[a_offset], lda, &iwork[1], &s[np1 + s_dim1], lds, info, 9L);
             /*           Compute the inverse of  A  in situ. */
             /*           Workspace: need N;  prefer N*NB. */
             dgetri_(n, &a[a_offset], lda, &iwork[1], &dwork[1], ldwork, info);
             /*                  -T */
             /*           Copy  A    in  S(N+1:2N,N+1:2N). */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 dcopy_(n, &a[j + a_dim1], lda, &s[np1 + (*n + j) * s_dim1], &c__1);
                 /* L360: */
             }
         }
-        dwork[1] = (doublereal) maxwrk;
+        dwork[1] = (doublereal)maxwrk;
         dwork[2] = rcond;
     }
     /* *** Last line of SB02MU *** */
     return 0;
 } /* sb02mu_ */
-

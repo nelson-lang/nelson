@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,16 +10,17 @@
 static logical c_false = FALSE_;
 static doublereal c_b16 = 1.;
 
-doublereal ab13bd_(dico, jobn, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, nq, tol, dwork, ldwork, iwarn, info, dico_len, jobn_len)
-char *dico, *jobn;
+doublereal ab13bd_(dico, jobn, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, nq, tol, dwork, ldwork,
+    iwarn, info, dico_len, jobn_len) char *dico,
+    *jobn;
 integer *n, *m, *p;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ldd, *nq;
 doublereal *tol, *dwork;
 integer *ldwork, *iwarn, *info;
@@ -27,7 +28,8 @@ ftnlen dico_len;
 ftnlen jobn_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2, i__3, i__4;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2,
+        i__3, i__4;
     doublereal ret_val = 0., d__1, d__2;
     /* Local variables */
     static integer ktau, mxnp;
@@ -243,55 +245,36 @@ ftnlen jobn_len;
     *info = 0;
     *iwarn = 0;
     /*     Check the scalar input parameters. */
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (! (lsame_(jobn, "H", 1L, 1L) || lsame_(jobn, "L", 1L, 1L)))
-    {
+    } else if (!(lsame_(jobn, "H", 1L, 1L) || lsame_(jobn, "L", 1L, 1L))) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -5;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -11;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -13;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         /* Computing MAX */
-        i__3 = *n * (*n + 5), i__4 = *m * (*m + 2), i__3 = max(i__3,i__4), i__4 = *p << 2;
-        i__1 = 1, i__2 = *m * (*n + *m) + max(i__3,i__4), i__1 = max(i__1,i__2), i__2 = *n * (max(*n,*p) + 4) + min(*n,*p);
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__3 = *n * (*n + 5), i__4 = *m * (*m + 2), i__3 = max(i__3, i__4), i__4 = *p << 2;
+        i__1 = 1, i__2 = *m * (*n + *m) + max(i__3, i__4), i__1 = max(i__1, i__2),
+        i__2 = *n * (max(*n, *p) + 4) + min(*n, *p);
+        if (*ldwork < max(i__1, i__2)) {
             *info = -17;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB13BD", &i__1, 6L);
@@ -299,77 +282,71 @@ ftnlen jobn_len;
     }
     /*     Compute the Frobenius norm of D. */
     s2norm = dlange_("Frobenius", p, m, &d__[d_offset], ldd, &dwork[1], 9L);
-    if (! discr && s2norm != 0.)
-    {
+    if (!discr && s2norm != 0.) {
         *info = 5;
         return ret_val;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*n,*m);
-    if (min(i__1,*p) == 0)
-    {
+    i__1 = min(*n, *m);
+    if (min(i__1, *p) == 0) {
         *nq = 0;
         ret_val = 0.;
         dwork[1] = 1.;
         return ret_val;
     }
     kcr = 1;
-    kdr = kcr + *m **n;
-    krw = kdr + *m **m;
+    kdr = kcr + *m * *n;
+    krw = kdr + *m * *m;
     /*     Compute the right coprime factorization with inner denominator */
     /*     of G. */
     /*     Workspace needed:      M*(N+M); */
     /*     Additional workspace:  need MAX( N*(N+5), M*(M+2), 4*M, 4*P ); */
     /*                            prefer larger. */
     i__1 = *ldwork - krw + 1;
-    sb08dd_(dico, n, m, p, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, nq, &nr, &dwork[kcr], m, &dwork[kdr], m, tol, &dwork[krw], &i__1, iwarn, info, 1L);
-    if (*info != 0)
-    {
+    sb08dd_(dico, n, m, p, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+        &d__[d_offset], ldd, nq, &nr, &dwork[kcr], m, &dwork[kdr], m, tol, &dwork[krw], &i__1,
+        iwarn, info, 1L);
+    if (*info != 0) {
         return ret_val;
     }
-    wrkopt = dwork[krw] + (doublereal) (krw - 1);
+    wrkopt = dwork[krw] + (doublereal)(krw - 1);
     /*     Check stability. */
-    if (lsame_(jobn, "H", 1L, 1L) && nr > 0)
-    {
+    if (lsame_(jobn, "H", 1L, 1L) && nr > 0) {
         *info = 6;
         return ret_val;
     }
-    if (*nq > 0)
-    {
+    if (*nq > 0) {
         ku = 1;
-        mxnp = max(*nq,*p);
+        mxnp = max(*nq, *p);
         ktau = *nq * mxnp + 1;
-        krw = ktau + min(*nq,*p);
+        krw = ktau + min(*nq, *p);
         /*        Find X, the solution of Lyapunov equation. */
         /*        Workspace needed:      N*MAX(N,P) + MIN(N,P); */
         /*        Additional workspace:  4*N; */
         /*                               prefer larger. */
         dlacpy_("Full", p, nq, &c__[c_offset], ldc, &dwork[ku], &mxnp, 4L);
         i__1 = *ldwork - krw + 1;
-        sb03ou_(&discr, &c_false, nq, p, &a[a_offset], lda, &dwork[ku], &mxnp, &dwork[ktau], &dwork[ku], nq, &scale, &dwork[krw], &i__1, info);
-        if (*info != 0)
-        {
-            if (*info == 1)
-            {
+        sb03ou_(&discr, &c_false, nq, p, &a[a_offset], lda, &dwork[ku], &mxnp, &dwork[ktau],
+            &dwork[ku], nq, &scale, &dwork[krw], &i__1, info);
+        if (*info != 0) {
+            if (*info == 1) {
                 *info = 4;
-            }
-            else if (*info == 2)
-            {
+            } else if (*info == 2) {
                 *info = 3;
             }
             return ret_val;
         }
         /* Computing MAX */
-        d__1 = wrkopt, d__2 = dwork[krw] + (doublereal) (krw - 1);
-        wrkopt = max(d__1,d__2);
+        d__1 = wrkopt, d__2 = dwork[krw] + (doublereal)(krw - 1);
+        wrkopt = max(d__1, d__2);
         /*        Add the contribution of BQ'*X*BQ. */
         /*        Workspace needed:      N*(N+M). */
-        ktau = *nq **nq + 1;
+        ktau = *nq * *nq + 1;
         dlacpy_("Full", nq, m, &b[b_offset], ldb, &dwork[ktau], nq, 4L);
-        dtrmm_("Left", "Upper", "NoTranspose", "NonUnit", nq, m, &c_b16, &dwork[ku], nq, &dwork[ktau], nq, 4L, 5L, 11L, 7L);
-        if (nr > 0)
-        {
+        dtrmm_("Left", "Upper", "NoTranspose", "NonUnit", nq, m, &c_b16, &dwork[ku], nq,
+            &dwork[ktau], nq, 4L, 5L, 11L, 7L);
+        if (nr > 0) {
             s2norm = dlange_("Frobenius", p, m, &d__[d_offset], ldd, &dwork[1], 9L);
         }
         d__1 = dlange_("Frobenius", nq, m, &dwork[ktau], nq, &dwork[1], 9L) / scale;
@@ -380,4 +357,3 @@ ftnlen jobn_len;
     return ret_val;
     /* *** Last line of AB13BD *** */
 } /* ab13bd_ */
-

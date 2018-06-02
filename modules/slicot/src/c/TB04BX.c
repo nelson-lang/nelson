@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,12 +9,13 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tb04bx_(ip, iz, a, lda, b, c__, d__, pr, pi, zr, zi, gain, iwork)
-integer *ip, *iz;
-doublereal *a;
-integer *lda;
+EXPORTSYMBOL /* Subroutine */ int tb04bx_(
+    ip, iz, a, lda, b, c__, d__, pr, pi, zr, zi, gain, iwork) integer *ip,
+    *iz;
+doublereal* a;
+integer* lda;
 doublereal *b, *c__, *d__, *pr, *pi, *zr, *zi, *gain;
-integer *iwork;
+integer* iwork;
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1;
@@ -140,44 +141,37 @@ integer *iwork;
     --zi;
     --iwork;
     /* Function Body */
-    if (*ip == 0)
-    {
+    if (*ip == 0) {
         *gain = 0.;
         return 0;
     }
     /*     Compute a suitable value for S0 . */
     s0 = 0.;
     i__1 = *ip;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         s = (d__1 = pr[i__], abs(d__1));
-        if (pi[i__] != 0.)
-        {
+        if (pi[i__] != 0.) {
             s += (d__1 = pi[i__], abs(d__1));
         }
-        s0 = max(s0,s);
+        s0 = max(s0, s);
         /* L10: */
     }
     i__1 = *iz;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         s = (d__1 = zr[i__], abs(d__1));
-        if (zi[i__] != 0.)
-        {
+        if (zi[i__] != 0.) {
             s += (d__1 = zi[i__], abs(d__1));
         }
-        s0 = max(s0,s);
+        s0 = max(s0, s);
         /* L20: */
     }
     s0 = s0 * 2. + .1;
-    if (s0 <= 1.)
-    {
+    if (s0 <= 1.) {
         s0 = 1.1;
     }
     /*     Form A - S0*I . */
     i__1 = *ip;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         a[i__ + i__ * a_dim1] -= s0;
         /* L30: */
     }
@@ -193,15 +187,11 @@ integer *iwork;
     i__ = 1;
     /*     WHILE ( I <= IP ) DO */
 L40:
-    if (i__ <= *ip)
-    {
-        if (pi[i__] == 0.)
-        {
+    if (i__ <= *ip) {
+        if (pi[i__] == 0.) {
             *gain *= s0 - pr[i__];
             ++i__;
-        }
-        else
-        {
+        } else {
             /* Computing 2nd power */
             d__1 = pr[i__];
             /* Computing 2nd power */
@@ -215,15 +205,11 @@ L40:
     i__ = 1;
     /*     WHILE ( I <= IZ ) DO */
 L50:
-    if (i__ <= *iz)
-    {
-        if (zi[i__] == 0.)
-        {
+    if (i__ <= *iz) {
+        if (zi[i__] == 0.) {
             *gain /= s0 - zr[i__];
             ++i__;
-        }
-        else
-        {
+        } else {
             /* Computing 2nd power */
             d__1 = zr[i__];
             /* Computing 2nd power */
@@ -237,4 +223,3 @@ L50:
     return 0;
     /* *** Last line of TB04BX *** */
 } /* tb04bx_ */
-

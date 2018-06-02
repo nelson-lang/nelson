@@ -18,29 +18,36 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsFiles_folders_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    class NLSFILES_FOLDERS_FUNCTIONS_IMPEXP FileInfo {
-    private:
+class NLSFILES_FOLDERS_FUNCTIONS_IMPEXP FileInfo
+{
+private:
 #ifdef _MSC_VER
 #pragma warning(disable : 4251)
 #endif
-        std::wstring filename;
-        std::wstring name;
-        std::wstring date;
-        bool isdir;
-        double bytes;
-        double datenum;
-    public:
-        FileInfo(std::wstring _filename, bool fullpath = false);
-        ~FileInfo();
-        std::wstring getName();
-        std::wstring getDate();
-        bool isDir();
-        double getBytes();
-        double getDatenum();
-    };
-}
+    std::wstring filename;
+    std::wstring name;
+    std::wstring date;
+    bool isdir;
+    double bytes;
+    double datenum;
+
+public:
+    FileInfo(std::wstring _filename, bool fullpath = false);
+    ~FileInfo();
+    std::wstring
+    getName();
+    std::wstring
+    getDate();
+    bool
+    isDir();
+    double
+    getBytes();
+    double
+    getDatenum();
+};
+} // namespace Nelson
 //=============================================================================

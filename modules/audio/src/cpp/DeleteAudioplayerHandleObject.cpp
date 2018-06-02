@@ -17,44 +17,38 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "DeleteAudioplayerHandleObject.hpp"
-#include "HandleManager.hpp"
 #include "AudioplayerObject.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool DeleteAudioplayerHandleObject(ArrayOf A)
-    {
-        bool res = false;
-        if (A.isHandle())
-        {
-            if (!A.isEmpty())
-            {
-                Dimensions dims = A.getDimensions();
-                nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-                for (size_t k = 0; k < (size_t)dims.getElementCount(); k++)
-                {
-                    nelson_handle hl = qp[k];
-                    HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-                    if (hlObj)
-                    {
-                        if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
-                        {
-                            throw Exception(_W("audioplayer handle expected."));
-                        }
-                        AudioplayerObject *playerObj = (AudioplayerObject*)hlObj;
-                        delete playerObj;
-                        HandleManager::getInstance()->removeHandle(hl);
-                        res = true;
+//=============================================================================
+bool
+DeleteAudioplayerHandleObject(ArrayOf A)
+{
+    bool res = false;
+    if (A.isHandle()) {
+        if (!A.isEmpty()) {
+            Dimensions dims = A.getDimensions();
+            nelson_handle* qp = (nelson_handle*)A.getDataPointer();
+            for (size_t k = 0; k < (size_t)dims.getElementCount(); k++) {
+                nelson_handle hl = qp[k];
+                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
+                if (hlObj) {
+                    if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR) {
+                        throw Exception(_W("audioplayer handle expected."));
                     }
+                    AudioplayerObject* playerObj = (AudioplayerObject*)hlObj;
+                    delete playerObj;
+                    HandleManager::getInstance()->removeHandle(hl);
+                    res = true;
                 }
             }
-            else
-            {
-                throw Exception(_W("audioplayer valid handle expected."));
-            }
+        } else {
+            throw Exception(_W("audioplayer valid handle expected."));
         }
-        return res;
     }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

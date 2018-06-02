@@ -16,9 +16,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <cstdio>
-#include "characters_encoding.hpp"
 #include "Markdown.hpp"
+#include "characters_encoding.hpp"
+#include <cstdio>
 //=============================================================================
 extern "C"
 {
@@ -46,7 +46,7 @@ struct option_data
     /* I/O */
     size_t iunit;
     size_t ounit;
-    const char *filename;
+    const char* filename;
 
     /* renderer */
     enum renderer_type renderer;
@@ -58,12 +58,13 @@ struct option_data
     size_t max_nesting;
 };
 //=============================================================================
-bool Nelson::MarkdownFile(std::wstring inputMarkdownFilename, std::wstring outputHtmlFilename)
+bool
+Nelson::MarkdownFile(std::wstring inputMarkdownFilename, std::wstring outputHtmlFilename)
 {
     hoedown_buffer *ib, *ob;
-    hoedown_renderer *renderer = nullptr;
-    void(*renderer_free)(hoedown_renderer *) = nullptr;
-    hoedown_document *document;
+    hoedown_renderer* renderer = nullptr;
+    void (*renderer_free)(hoedown_renderer*) = nullptr;
+    hoedown_document* document;
     struct option_data data;
     data.done = 0;
     data.show_time = 0;
@@ -73,33 +74,31 @@ bool Nelson::MarkdownFile(std::wstring inputMarkdownFilename, std::wstring outpu
     data.renderer = RENDERER_HTML;
     data.toc_level = 0;
     data.html_flags = HOEDOWN_HTML_USE_XHTML;
-    data.extensions = (hoedown_extensions)(HOEDOWN_EXT_MATH | HOEDOWN_EXT_TABLES | HOEDOWN_EXT_FENCED_CODE);
+    data.extensions
+        = (hoedown_extensions)(HOEDOWN_EXT_MATH | HOEDOWN_EXT_TABLES | HOEDOWN_EXT_FENCED_CODE);
     data.max_nesting = DEF_MAX_NESTING;
 #ifdef _MSCVER
-    FILE *file = _wfopen(inputMarkdownFilename.c_str(), L"r");
+    FILE* file = _wfopen(inputMarkdownFilename.c_str(), L"r");
 #else
-    FILE *file = fopen(wstring_to_utf8(inputMarkdownFilename).c_str(), "r");
+    FILE* file = fopen(wstring_to_utf8(inputMarkdownFilename).c_str(), "r");
 #endif
-    if (file == nullptr)
-    {
+    if (file == nullptr) {
         return false;
     }
     ib = hoedown_buffer_new(data.iunit);
-    if (hoedown_buffer_putf(ib, file))
-    {
+    if (hoedown_buffer_putf(ib, file)) {
         return false;
     }
     fclose(file);
-    switch (data.renderer)
-    {
-        case RENDERER_HTML:
-            renderer = hoedown_html_renderer_new(data.html_flags, data.toc_level);
-            renderer_free = hoedown_html_renderer_free;
-            break;
-        case RENDERER_HTML_TOC:
-            renderer = hoedown_html_toc_renderer_new(data.toc_level);
-            renderer_free = hoedown_html_renderer_free;
-            break;
+    switch (data.renderer) {
+    case RENDERER_HTML:
+        renderer = hoedown_html_renderer_new(data.html_flags, data.toc_level);
+        renderer_free = hoedown_html_renderer_free;
+        break;
+    case RENDERER_HTML_TOC:
+        renderer = hoedown_html_toc_renderer_new(data.toc_level);
+        renderer_free = hoedown_html_renderer_free;
+        break;
     };
     ob = hoedown_buffer_new(data.ounit);
     document = hoedown_document_new(renderer, data.extensions, data.max_nesting);
@@ -116,19 +115,19 @@ bool Nelson::MarkdownFile(std::wstring inputMarkdownFilename, std::wstring outpu
     hoedown_buffer_free(ob);
     bool res = ferror(file) ? true : false;
     fclose(file);
-    if (res)
-    {
+    if (res) {
         return false;
     }
     return true;
 }
 //=============================================================================
-bool Nelson::MarkdownString(std::string inputMarkdownString, std::string &outputHtmlString)
+bool
+Nelson::MarkdownString(std::string inputMarkdownString, std::string& outputHtmlString)
 {
     hoedown_buffer *ib, *ob;
-    hoedown_renderer *renderer = nullptr;
-    void(*renderer_free)(hoedown_renderer *) = nullptr;
-    hoedown_document *document;
+    hoedown_renderer* renderer = nullptr;
+    void (*renderer_free)(hoedown_renderer*) = nullptr;
+    hoedown_document* document;
     struct option_data data;
     data.done = 0;
     data.show_time = 0;
@@ -138,21 +137,21 @@ bool Nelson::MarkdownString(std::string inputMarkdownString, std::string &output
     data.renderer = RENDERER_HTML;
     data.toc_level = 0;
     data.html_flags = HOEDOWN_HTML_USE_XHTML;
-    data.extensions = (hoedown_extensions)(HOEDOWN_EXT_MATH | HOEDOWN_EXT_TABLES | HOEDOWN_EXT_FENCED_CODE);
+    data.extensions
+        = (hoedown_extensions)(HOEDOWN_EXT_MATH | HOEDOWN_EXT_TABLES | HOEDOWN_EXT_FENCED_CODE);
     data.max_nesting = DEF_MAX_NESTING;
     std::string UTF8 = inputMarkdownString;
     ib = hoedown_buffer_new(UTF8.size());
     hoedown_buffer_puts(ib, UTF8.c_str());
-    switch (data.renderer)
-    {
-        case RENDERER_HTML:
-            renderer = hoedown_html_renderer_new(data.html_flags, data.toc_level);
-            renderer_free = hoedown_html_renderer_free;
-            break;
-        case RENDERER_HTML_TOC:
-            renderer = hoedown_html_toc_renderer_new(data.toc_level);
-            renderer_free = hoedown_html_renderer_free;
-            break;
+    switch (data.renderer) {
+    case RENDERER_HTML:
+        renderer = hoedown_html_renderer_new(data.html_flags, data.toc_level);
+        renderer_free = hoedown_html_renderer_free;
+        break;
+    case RENDERER_HTML_TOC:
+        renderer = hoedown_html_toc_renderer_new(data.toc_level);
+        renderer_free = hoedown_html_renderer_free;
+        break;
     };
     ob = hoedown_buffer_new(data.ounit);
     document = hoedown_document_new(renderer, data.extensions, data.max_nesting);
@@ -161,8 +160,7 @@ bool Nelson::MarkdownString(std::string inputMarkdownString, std::string &output
     hoedown_document_free(document);
     renderer_free(renderer);
     std::string strOut;
-    for (size_t k = 0; k < ob->size; k++)
-    {
+    for (size_t k = 0; k < ob->size; k++) {
         strOut.push_back(ob->data[k]);
     }
     hoedown_buffer_free(ob);
@@ -170,7 +168,8 @@ bool Nelson::MarkdownString(std::string inputMarkdownString, std::string &output
     return true;
 }
 //=============================================================================
-bool Nelson::MarkdownString(std::wstring inputMarkdownString, std::wstring &outputHtmlString)
+bool
+Nelson::MarkdownString(std::wstring inputMarkdownString, std::wstring& outputHtmlString)
 {
     std::string UTF8 = wstring_to_utf8(inputMarkdownString);
     std::string strOut = "";

@@ -22,28 +22,26 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::QmlEngineGateway::QObject_invokeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::QmlEngineGateway::QObject_invokeBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() < 2)
-    {
+    if (argIn.size() < 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param2 = argIn[1];
     std::wstring methodname = param2.getContentAsWideString();
     ArrayOfVector params;
-    for (size_t k = 2; k < argIn.size(); k++)
-    {
+    for (size_t k = 2; k < argIn.size(); k++) {
         params.push_back(argIn[k]);
     }
     ArrayOfVector retval;
     bool haveFunctionReturn = false;
     ArrayOf res = invokeQObject(argIn[0], methodname, params, haveFunctionReturn);
-    if (haveFunctionReturn)
-    {
+    if (haveFunctionReturn) {
         retval.push_back(res);
     }
     return retval;

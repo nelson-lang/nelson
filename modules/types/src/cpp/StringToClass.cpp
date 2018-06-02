@@ -20,76 +20,46 @@
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    Class StringToClass(std::wstring classname)
-    {
-        Class destClass;
-        if (classname.compare(L"handle") == 0)
-        {
-            destClass = NLS_HANDLE;
-        }
-        else if (classname.compare(L"int8") == 0)
-        {
-            destClass = NLS_INT8;
-        }
-        else if (classname.compare(L"int16") == 0)
-        {
-            destClass = NLS_INT16;
-        }
-        else if (classname.compare(L"int32") == 0)
-        {
-            destClass = NLS_INT32;
-        }
-        else if (classname.compare(L"int64") == 0)
-        {
-            destClass = NLS_INT64;
-        }
-        else if (classname.compare(L"uint8") == 0)
-        {
-            destClass = NLS_UINT8;
-        }
-        else if (classname.compare(L"uint16") == 0)
-        {
-            destClass = NLS_UINT16;
-        }
-        else if (classname.compare(L"uint32") == 0)
-        {
-            destClass = NLS_UINT32;
-        }
-        else if (classname.compare(L"uint64") == 0)
-        {
-            destClass = NLS_UINT64;
-        }
-        else if (classname.compare(L"single") == 0)
-        {
-            destClass = NLS_SINGLE;
-        }
-        else if (classname.compare(L"double") == 0)
-        {
-            destClass = NLS_DOUBLE;
-        }
-        else if (classname.compare(L"logical") == 0)
-        {
-            destClass = NLS_LOGICAL;
-        }
-        else if (classname.compare(L"char") == 0)
-        {
-            destClass = NLS_CHAR;
-        }
-        else if (classname.compare(L"cell") == 0)
-        {
-            destClass = NLS_CELL_ARRAY;
-        }
-        else if (classname.compare(L"struct") == 0)
-        {
-            destClass = NLS_STRUCT_ARRAY;
-        }
-        else
-        {
-            throw Exception(_W("input must be a valid class name."));
-        }
-        return destClass;
+//=============================================================================
+Class
+StringToClass(std::wstring classname)
+{
+    Class destClass;
+    if (classname.compare(L"handle") == 0) {
+        destClass = NLS_HANDLE;
+    } else if (classname.compare(L"int8") == 0) {
+        destClass = NLS_INT8;
+    } else if (classname.compare(L"int16") == 0) {
+        destClass = NLS_INT16;
+    } else if (classname.compare(L"int32") == 0) {
+        destClass = NLS_INT32;
+    } else if (classname.compare(L"int64") == 0) {
+        destClass = NLS_INT64;
+    } else if (classname.compare(L"uint8") == 0) {
+        destClass = NLS_UINT8;
+    } else if (classname.compare(L"uint16") == 0) {
+        destClass = NLS_UINT16;
+    } else if (classname.compare(L"uint32") == 0) {
+        destClass = NLS_UINT32;
+    } else if (classname.compare(L"uint64") == 0) {
+        destClass = NLS_UINT64;
+    } else if (classname.compare(L"single") == 0) {
+        destClass = NLS_SINGLE;
+    } else if (classname.compare(L"double") == 0) {
+        destClass = NLS_DOUBLE;
+    } else if (classname.compare(L"logical") == 0) {
+        destClass = NLS_LOGICAL;
+    } else if (classname.compare(L"char") == 0) {
+        destClass = NLS_CHAR;
+    } else if (classname.compare(L"cell") == 0) {
+        destClass = NLS_CELL_ARRAY;
+    } else if (classname.compare(L"struct") == 0) {
+        destClass = NLS_STRUCT_ARRAY;
+    } else {
+        throw Exception(_W("input must be a valid class name."));
     }
-    //=============================================================================
+    return destClass;
+}
+//=============================================================================
 }
 //=============================================================================

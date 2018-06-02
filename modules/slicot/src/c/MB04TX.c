@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,20 +9,22 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb04tx_(updatq, updatz, m, n, nblcks, inuk, imuk, a, lda, e, lde, q, ldq, z__, ldz, mnei)
-logical *updatq, *updatz;
+EXPORTSYMBOL /* Subroutine */ int mb04tx_(updatq, updatz, m, n, nblcks, inuk, imuk, a, lda, e, lde,
+    q, ldq, z__, ldz, mnei) logical *updatq,
+    *updatz;
 integer *m, *n, *nblcks, *inuk, *imuk;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *q;
-integer *ldq;
-doublereal *z__;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* q;
+integer* ldq;
+doublereal* z__;
 integer *ldz, *mnei;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, e_dim1, e_offset, q_dim1, q_offset, z_dim1, z_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, e_dim1, e_offset, q_dim1, q_offset, z_dim1, z_offset, i__1, i__2,
+        i__3;
     /* Local variables */
     static integer minf, ninf, sk1p1, tk1p1, meps, neps, mukp1, k;
     extern /* Subroutine */ int mb04tu_(), drotg_();
@@ -201,16 +203,14 @@ integer *ldz, *mnei;
     mnei[2] = 0;
     mnei[3] = 0;
     mnei[4] = 0;
-    if (*m <= 0 || *n <= 0)
-    {
+    if (*m <= 0 || *n <= 0) {
         return 0;
     }
     /*     Initialisation. */
     ismuk = 0;
     isnuk = 0;
     i__1 = *nblcks;
-    for (k = 1; k <= i__1; ++k)
-    {
+    for (k = 1; k <= i__1; ++k) {
         ismuk += imuk[k];
         isnuk += inuk[k];
         /* L20: */
@@ -225,16 +225,14 @@ integer *ldz, *mnei;
     ninf = 0;
     /*     MUKP1 = mu(k+1).  N.B. It is assumed that mu(NBLCKS + 1) = 0. */
     mukp1 = 0;
-    for (k = *nblcks; k >= 1; --k)
-    {
+    for (k = *nblcks; k >= 1; --k) {
         nuk = inuk[k];
         muk = imuk[k];
         /*        Reduce submatrix E(k,k+1) to square matrix. */
         /*        NOTE that always NU(k) >= MU(k+1) >= 0. */
         /*        WHILE ( NU(k) >  MU(k+1) ) DO */
-L40:
-        if (nuk > mukp1)
-        {
+    L40:
+        if (nuk > mukp1) {
             /*           sk1p1 = sum(i=k+1,...,p-1) NU(i) */
             /*           tk1p1 = sum(i=k+1,...,p-1) MU(i) */
             /*           ismuk = sum(i=1,...,k) MU(i) */
@@ -242,8 +240,7 @@ L40:
             sk1p1 = 0;
             tk1p1 = 0;
             i__1 = *nblcks;
-            for (ip = k + 1; ip <= i__1; ++ip)
-            {
+            for (ip = k + 1; ip <= i__1; ++ip) {
                 /*              Annihilate the elements originally present in the last */
                 /*              row of E(k,p+1) and A(k,p). */
                 /*              Start annihilating the first MU(p) - MU(p+1) elements by */
@@ -258,21 +255,22 @@ L40:
                 nup = inuk[ip];
                 mup1 = nup;
                 i__2 = ca + mup - nup - 1;
-                for (cja = ca; cja <= i__2; ++cja)
-                {
+                for (cja = ca; cja <= i__2; ++cja) {
                     /*                 CJA = current column index of pivot in A. */
                     drotg_(&a[ra + cja * a_dim1], &a[ra + (cja + 1) * a_dim1], &sc, &ss);
                     /*                 Apply transformations to A- and E-matrix. */
                     /*                 Interchange columns simultaneously. */
                     /*                 Update column transformation matrix Z, if needed. */
                     i__3 = ra - 1;
-                    mb04tu_(&i__3, &a[cja * a_dim1 + 1], &c__1, &a[(cja + 1) * a_dim1 + 1], &c__1, &sc, &ss);
+                    mb04tu_(&i__3, &a[cja * a_dim1 + 1], &c__1, &a[(cja + 1) * a_dim1 + 1], &c__1,
+                        &sc, &ss);
                     a[ra + (cja + 1) * a_dim1] = a[ra + cja * a_dim1];
                     a[ra + cja * a_dim1] = 0.;
-                    mb04tu_(&ra, &e[cja * e_dim1 + 1], &c__1, &e[(cja + 1) * e_dim1 + 1], &c__1, &sc, &ss);
-                    if (*updatz)
-                    {
-                        mb04tu_(n, &z__[cja * z_dim1 + 1], &c__1, &z__[(cja + 1) * z_dim1 + 1], &c__1, &sc, &ss);
+                    mb04tu_(&ra, &e[cja * e_dim1 + 1], &c__1, &e[(cja + 1) * e_dim1 + 1], &c__1,
+                        &sc, &ss);
+                    if (*updatz) {
+                        mb04tu_(n, &z__[cja * z_dim1 + 1], &c__1, &z__[(cja + 1) * z_dim1 + 1],
+                            &c__1, &sc, &ss);
                     }
                     /* L60: */
                 }
@@ -287,8 +285,7 @@ L40:
                 ce = tp1 + mup;
                 ca = ce - mup1 - 1;
                 i__2 = ra + mup1;
-                for (rje = ra + 1; rje <= i__2; ++rje)
-                {
+                for (rje = ra + 1; rje <= i__2; ++rje) {
                     /*                 (RJE,CJE) = current position pivot in E. */
                     cje = ce + 1;
                     cja = ca + 1;
@@ -298,14 +295,16 @@ L40:
                     /*                 Update row transformation matrix Q, if needed. */
                     drotg_(&e[rje + cje * e_dim1], &e[rje - 1 + cje * e_dim1], &sc, &ss);
                     i__3 = *n - cje;
-                    mb04tu_(&i__3, &e[rje + (cje + 1) * e_dim1], lde, &e[rje - 1 + (cje + 1) * e_dim1], lde, &sc, &ss);
+                    mb04tu_(&i__3, &e[rje + (cje + 1) * e_dim1], lde,
+                        &e[rje - 1 + (cje + 1) * e_dim1], lde, &sc, &ss);
                     e[rje - 1 + cje * e_dim1] = e[rje + cje * e_dim1];
                     e[rje + cje * e_dim1] = 0.;
                     i__3 = *n - cja + 1;
-                    mb04tu_(&i__3, &a[rje + cja * a_dim1], lda, &a[rje - 1 + cja * a_dim1], lda, &sc, &ss);
-                    if (*updatq)
-                    {
-                        mb04tu_(m, &q[rje * q_dim1 + 1], &c__1, &q[(rje - 1) * q_dim1 + 1], &c__1, &sc, &ss);
+                    mb04tu_(&i__3, &a[rje + cja * a_dim1], lda, &a[rje - 1 + cja * a_dim1], lda,
+                        &sc, &ss);
+                    if (*updatq) {
+                        mb04tu_(m, &q[rje * q_dim1 + 1], &c__1, &q[(rje - 1) * q_dim1 + 1], &c__1,
+                            &sc, &ss);
                     }
                     /*                 Determine the column transformations. */
                     /*                 Apply these transformations to A- and E-matrix. */
@@ -313,13 +312,15 @@ L40:
                     /*                 Update column transformation matrix Z, if needed. */
                     drotg_(&a[rje + cja * a_dim1], &a[rje + (cja + 1) * a_dim1], &sc, &ss);
                     i__3 = rje - 1;
-                    mb04tu_(&i__3, &a[cja * a_dim1 + 1], &c__1, &a[(cja + 1) * a_dim1 + 1], &c__1, &sc, &ss);
+                    mb04tu_(&i__3, &a[cja * a_dim1 + 1], &c__1, &a[(cja + 1) * a_dim1 + 1], &c__1,
+                        &sc, &ss);
                     a[rje + (cja + 1) * a_dim1] = a[rje + cja * a_dim1];
                     a[rje + cja * a_dim1] = 0.;
-                    mb04tu_(&rje, &e[cja * e_dim1 + 1], &c__1, &e[(cja + 1) * e_dim1 + 1], &c__1, &sc, &ss);
-                    if (*updatz)
-                    {
-                        mb04tu_(n, &z__[cja * z_dim1 + 1], &c__1, &z__[(cja + 1) * z_dim1 + 1], &c__1, &sc, &ss);
+                    mb04tu_(&rje, &e[cja * e_dim1 + 1], &c__1, &e[(cja + 1) * e_dim1 + 1], &c__1,
+                        &sc, &ss);
+                    if (*updatz) {
+                        mb04tu_(n, &z__[cja * z_dim1 + 1], &c__1, &z__[(cja + 1) * z_dim1 + 1],
+                            &c__1, &sc, &ss);
                     }
                     /* L80: */
                 }
@@ -353,8 +354,7 @@ L40:
     }
     /*     If mu(NBLCKS) = 0, then the last submatrix counted in NBLCKS is */
     /*     a 0-by-0 (empty) matrix. This "matrix" must be removed. */
-    if (imuk[*nblcks] == 0)
-    {
+    if (imuk[*nblcks] == 0) {
         --(*nblcks);
     }
     /*     Store dimensions of the pencils s*E(eps)-A(eps) and */
@@ -366,4 +366,3 @@ L40:
     return 0;
     /* *** Last line of MB04TX *** */
 } /* mb04tx_ */
-

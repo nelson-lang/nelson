@@ -18,10 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsDynamic_link_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSDYNAMIC_LINK_IMPEXP std::wstring FindDynamicLibraryName(const std::wstring &directoryName, const std::wstring &initialLibraryName, bool bCaseSensitive = false);
+NLSDYNAMIC_LINK_IMPEXP std::wstring
+FindDynamicLibraryName(const std::wstring& directoryName, const std::wstring& initialLibraryName,
+    bool bCaseSensitive = false);
 }
 //=============================================================================

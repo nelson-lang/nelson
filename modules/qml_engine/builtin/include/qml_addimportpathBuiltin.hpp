@@ -22,9 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace QmlEngineGateway {
-        ArrayOfVector qml_addimportpathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    };
+namespace QmlEngineGateway {
+    ArrayOfVector
+    qml_addimportpathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 };
+}; // namespace Nelson
 //=============================================================================
-

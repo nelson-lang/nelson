@@ -17,36 +17,40 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ClearFunction.hpp"
-#include "MacroFunctionDef.hpp"
-#include "characters_encoding.hpp"
 #include "BuiltInFunctionDefManager.hpp"
+#include "MacroFunctionDef.hpp"
 #include "PathFuncManager.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool ClearBuiltin(std::wstring builtinName)
-    {
-        std::string funcName = wstring_to_utf8(builtinName);
-        return BuiltInFunctionDefManager::getInstance()->remove(funcName);
-    }
-    //=============================================================================
-    bool ClearAllBuiltin()
-    {
-        return BuiltInFunctionDefManager::getInstance()->removeAll();
-    }
-    //=============================================================================
-    bool ClearMacroCache(Evaluator *eval)
-    {
-        stringVector exceptedFunctionsName = eval->getCallers(true);
-        PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
-        return true;
-    }
-    //=============================================================================
-    bool ClearMacroCache()
-    {
-        PathFuncManager::getInstance()->clearCache();
-        return true;
-    }
-    //=============================================================================
+//=============================================================================
+bool
+ClearBuiltin(std::wstring builtinName)
+{
+    std::string funcName = wstring_to_utf8(builtinName);
+    return BuiltInFunctionDefManager::getInstance()->remove(funcName);
+}
+//=============================================================================
+bool
+ClearAllBuiltin()
+{
+    return BuiltInFunctionDefManager::getInstance()->removeAll();
+}
+//=============================================================================
+bool
+ClearMacroCache(Evaluator* eval)
+{
+    stringVector exceptedFunctionsName = eval->getCallers(true);
+    PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
+    return true;
+}
+//=============================================================================
+bool
+ClearMacroCache()
+{
+    PathFuncManager::getInstance()->clearCache();
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

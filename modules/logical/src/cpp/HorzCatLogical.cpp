@@ -16,97 +16,90 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Eigen/Dense>
 #include "HorzCatLogical.hpp"
 #include "ConcatenateNdArray.hpp"
 #include "Exception.hpp"
+#include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf HorzCatLogical(ArrayOf A, ArrayOf B)
-    {
-        if (!A.isLogical() || A.isNdArrayLogical())
-        {
-            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED);
-        }
-        if (!B.isLogical() || A.isNdArrayLogical())
-        {
-            throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
-        }
-        if (A.isEmpty(false))
-        {
-            ArrayOf C(B);
-            return C;
-        }
-        if (B.isEmpty(false))
-        {
-            ArrayOf C(A);
-            return C;
-        }
-        Dimensions dimsA = A.getDimensions();
-        Dimensions dimsB = B.getDimensions();
-        if (dimsA.getRows() != dimsB.getRows())
-        {
-            throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-        }
-        Class classA = A.getDataClass();
-        Class classB = B.getDataClass();
-        Class classC = classA;
-        indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
-        indexType newRowsSize = dimsA.getRows();
-        indexType newSize = newColumnsSize * newRowsSize;
-        Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-        logical *ptrA = (logical *)A.getDataPointer();
-        logical *ptrB = (logical *)B.getDataPointer();
-        void * pRes = ArrayOf::allocateArrayOf(classC, newSize);
-        logical *ptrC = (logical*)pRes;
-        Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matA(ptrA, dimsA.getRows(), dimsA.getColumns());
-        Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matB(ptrB, dimsB.getRows(), dimsB.getColumns());
-        Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrC, dimsC.getRows(), dimsC.getColumns());
-        matC << matA, matB;
-        return ArrayOf(classC, dimsC, pRes);
+//=============================================================================
+ArrayOf
+HorzCatLogical(ArrayOf A, ArrayOf B)
+{
+    if (!A.isLogical() || A.isNdArrayLogical()) {
+        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED);
     }
-    //=============================================================================
-    ArrayOf HorzCatNdArrayLogical(ArrayOf A, ArrayOf B)
-    {
-        if (!A.isNdArrayLogical())
-        {
-            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED);
-        }
-        if (!B.isNdArrayLogical())
-        {
-            throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
-        }
-        Dimensions dimsA = A.getDimensions();
-        Dimensions dimsB = B.getDimensions();
-        if (dimsA.getRows() != dimsB.getRows())
-        {
-            throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-        }
-        if (dimsA.getLength() != dimsB.getLength())
-        {
-            throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-        }
-        for (indexType k = 0; k < dimsA.getLength(); k++)
-        {
-            if (k != 1)
-            {
-                if (dimsA.getDimensionLength(k) != dimsB.getDimensionLength(k))
-                {
-                    throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-                }
+    if (!B.isLogical() || A.isNdArrayLogical()) {
+        throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
+    }
+    if (A.isEmpty(false)) {
+        ArrayOf C(B);
+        return C;
+    }
+    if (B.isEmpty(false)) {
+        ArrayOf C(A);
+        return C;
+    }
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsB = B.getDimensions();
+    if (dimsA.getRows() != dimsB.getRows()) {
+        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+    }
+    Class classA = A.getDataClass();
+    Class classB = B.getDataClass();
+    Class classC = classA;
+    indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
+    indexType newRowsSize = dimsA.getRows();
+    indexType newSize = newColumnsSize * newRowsSize;
+    Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
+    logical* ptrA = (logical*)A.getDataPointer();
+    logical* ptrB = (logical*)B.getDataPointer();
+    void* pRes = ArrayOf::allocateArrayOf(classC, newSize);
+    logical* ptrC = (logical*)pRes;
+    Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matA(
+        ptrA, dimsA.getRows(), dimsA.getColumns());
+    Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matB(
+        ptrB, dimsB.getRows(), dimsB.getColumns());
+    Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matC(
+        ptrC, dimsC.getRows(), dimsC.getColumns());
+    matC << matA, matB;
+    return ArrayOf(classC, dimsC, pRes);
+}
+//=============================================================================
+ArrayOf
+HorzCatNdArrayLogical(ArrayOf A, ArrayOf B)
+{
+    if (!A.isNdArrayLogical()) {
+        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED);
+    }
+    if (!B.isNdArrayLogical()) {
+        throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
+    }
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsB = B.getDimensions();
+    if (dimsA.getRows() != dimsB.getRows()) {
+        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+    }
+    if (dimsA.getLength() != dimsB.getLength()) {
+        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+    }
+    for (indexType k = 0; k < dimsA.getLength(); k++) {
+        if (k != 1) {
+            if (dimsA.getDimensionLength(k) != dimsB.getDimensionLength(k)) {
+                throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
             }
         }
-        Class classA = A.getDataClass();
-        Class classB = B.getDataClass();
-        Class classC = classA;
-        ArrayOfMatrix m;
-        ArrayOfVector v;
-        v.push_back(A);
-        v.push_back(B);
-        m.push_back(v);
-        return ConcatenateNdArray(m, classC);
     }
-    //=============================================================================
+    Class classA = A.getDataClass();
+    Class classB = B.getDataClass();
+    Class classC = classA;
+    ArrayOfMatrix m;
+    ArrayOfVector v;
+    v.push_back(A);
+    v.push_back(B);
+    m.push_back(v);
+    return ConcatenateNdArray(m, classC);
+}
+//=============================================================================
 }
 //=============================================================================

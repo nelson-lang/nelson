@@ -18,9 +18,9 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsText_completion_exports.h"
 #include "i18n.hpp"
+#include "nlsText_completion_exports.h"
+#include <string>
 //=============================================================================
 #define POSTFIX_BUILTIN _W("Builtin")
 #define POSTFIX_MACRO _W("Macro")
@@ -28,16 +28,16 @@
 #define POSTFIX_FILES _W("File or directory")
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    NLSTEXT_COMPLETION_IMPEXP std::wstring completerLine(std::wstring currentLine,
-            std::wstring stringToAdd,
-            std::wstring filePattern,
-            std::wstring defaultPattern,
-            bool stringToAddIsPath);
-    //=============================================================================
-    NLSTEXT_COMPLETION_IMPEXP std::wstring getPartialLineAsPath(std::wstring line);
-    //=============================================================================
-    NLSTEXT_COMPLETION_IMPEXP std::wstring getPartialLine(std::wstring line);
-    //=============================================================================
-}
+//=============================================================================
+NLSTEXT_COMPLETION_IMPEXP std::wstring
+completerLine(std::wstring currentLine, std::wstring stringToAdd, std::wstring filePattern,
+    std::wstring defaultPattern, bool stringToAddIsPath);
+//=============================================================================
+NLSTEXT_COMPLETION_IMPEXP std::wstring
+getPartialLineAsPath(std::wstring line);
+//=============================================================================
+NLSTEXT_COMPLETION_IMPEXP std::wstring
+getPartialLine(std::wstring line);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -21,12 +21,16 @@
 #include "nlsHistory_manager_exports.h"
 //=============================================================================
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
-//=============================================================================
-NLSHISTORY_MANAGER_IMPEXP void NelsonHistorySetToken(const char *token);
-NLSHISTORY_MANAGER_IMPEXP const char* NelsonHistoryGetNextLine(void);
-NLSHISTORY_MANAGER_IMPEXP const char* NelsonHistoryGetPreviousLine(void);
+    //=============================================================================
+    NLSHISTORY_MANAGER_IMPEXP void
+    NelsonHistorySetToken(const char* token);
+    NLSHISTORY_MANAGER_IMPEXP const char*
+    NelsonHistoryGetNextLine(void);
+    NLSHISTORY_MANAGER_IMPEXP const char*
+    NelsonHistoryGetPreviousLine(void);
 //=============================================================================
 #ifdef __cplusplus
 }

@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace InterpreterGateway {
-        ArrayOfVector iskeywordBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace InterpreterGateway {
+    ArrayOfVector
+    iskeywordBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
-//=============================================================================
+} // namespace Nelson
+  //=============================================================================

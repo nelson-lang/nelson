@@ -1,28 +1,29 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
 /* Table of constant values */
 
-static doublecomplex c_b2 = {1.,0.};
-static doublecomplex c_b7 = {1.,-2.};
-static doublecomplex c_b8 = {2.,2.};
+static doublecomplex c_b2 = { 1., 0. };
+static doublecomplex c_b7 = { 1., -2. };
+static doublecomplex c_b8 = { 2., 2. };
 static integer c__3 = 3;
 static integer c__1 = 1;
 static integer c__2 = 2;
 
-EXPORTSYMBOL /* Subroutine */ int mb03bb_(base, lgbas, ulp, k, amap, s, sinv, a, lda1, lda2, alphar, alphai, beta, scal, dwork, info)
-doublereal *base, *lgbas, *ulp;
+EXPORTSYMBOL /* Subroutine */ int mb03bb_(base, lgbas, ulp, k, amap, s, sinv, a, lda1, lda2, alphar,
+    alphai, beta, scal, dwork, info) doublereal *base,
+    *lgbas, *ulp;
 integer *k, *amap, *s, *sinv;
-doublereal *a;
+doublereal* a;
 integer *lda1, *lda2;
 doublereal *alphar, *alphai, *beta;
-integer *scal;
-doublereal *dwork;
-integer *info;
+integer* scal;
+doublereal* dwork;
+integer* info;
 {
     /* System generated locals */
     integer a_dim1, a_dim2, a_offset, i__1, i__2;
@@ -35,7 +36,7 @@ integer *info;
     static doublecomplex temp;
     extern /* Subroutine */ int zrot_();
     static integer i__, j;
-    static doublecomplex t[4]	/* was [2][2] */, z__[9]	/* was [3][3] */;
+    static doublecomplex t[4] /* was [2][2] */, z__[9] /* was [3][3] */;
     static integer iiter;
     static doublereal tempi, tempr;
     extern doublereal dlapy2_();
@@ -150,8 +151,7 @@ integer *info;
     /* Function Body */
     pdw = 0;
     i__1 = *k;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         ai = amap[i__];
         dwork[pdw + 1] = a[(ai * a_dim2 + 1) * a_dim1 + 1];
         dwork[pdw + 2] = 0.;
@@ -165,43 +165,34 @@ integer *info;
         /* L10: */
     }
     pdm = pdw;
-    for (iiter = 1; iiter <= 60; ++iiter)
-    {
+    for (iiter = 1; iiter <= 60; ++iiter) {
         /*        Test for deflation. */
         lhs = dlapy2_(&dwork[3], &dwork[4]);
         /* Computing MAX */
         d__1 = dlapy2_(&dwork[1], &dwork[2]), d__2 = dlapy2_(&dwork[7], &dwork[8]);
-        rhs = max(d__1,d__2);
-        if (rhs == 0.)
-        {
+        rhs = max(d__1, d__2);
+        if (rhs == 0.) {
             rhs = dlapy2_(&dwork[5], &dwork[6]);
         }
-        if (lhs <= *ulp * rhs)
-        {
+        if (lhs <= *ulp * rhs) {
             goto L50;
         }
         /*        Start Iteration. */
-        if (iiter == 1)
-        {
+        if (iiter == 1) {
             /*           Compute a randomly chosen initial unitary shift. */
             zlartg_(&c_b7, &c_b8, &cs, &sn, &temp);
-        }
-        else if (iiter % 30 == 0)
-        {
+        } else if (iiter % 30 == 0) {
             /*           Ad hoc shift. */
-            d__1 = (doublereal) i__;
+            d__1 = (doublereal)i__;
             z__1.r = d__1, z__1.i = 1.;
             zlartg_(&z__1, &c_b7, &cs, &sn, &temp);
-        }
-        else
-        {
+        } else {
             /*           Compute the shift by a product QR decomposition. */
             cs = 1.;
             sn.r = 0., sn.i = 0.;
             zlartg_(&c_b2, &c_b2, &cst, &snt, &temp);
             pdw = pdm;
-            for (i__ = *k; i__ >= 2; --i__)
-            {
+            for (i__ = *k; i__ >= 2; --i__) {
                 pdw += -8;
                 i__1 = pdw + 1;
                 i__2 = pdw + 2;
@@ -225,17 +216,14 @@ integer *info;
                 i__2 = pdw + 8;
                 z__1.r = dwork[i__1], z__1.i = dwork[i__2];
                 z__[8].r = z__1.r, z__[8].i = z__1.i;
-                if (s[amap[i__]] == *sinv)
-                {
+                if (s[amap[i__]] == *sinv) {
                     d_cnjg(&z__1, &snt);
                     zrot_(&c__3, z__, &c__1, &z__[6], &c__1, &cst, &z__1);
                     d_cnjg(&z__1, &sn);
                     zrot_(&c__3, z__, &c__1, &z__[3], &c__1, &cs, &z__1);
                     zlartg_(z__, &z__[2], &cst, &snt, &temp);
                     zlartg_(&temp, &z__[1], &cs, &sn, &temp);
-                }
-                else
-                {
+                } else {
                     zrot_(&c__3, z__, &c__3, &z__[2], &c__3, &cst, &snt);
                     zrot_(&c__3, z__, &c__3, &z__[1], &c__3, &cs, &sn);
                     temp.r = z__[8].r, temp.i = z__[8].i;
@@ -281,8 +269,7 @@ integer *info;
         cst = cs;
         snt.r = sn.r, snt.i = sn.i;
         pdw = pdm;
-        for (i__ = *k; i__ >= 2; --i__)
-        {
+        for (i__ = *k; i__ >= 2; --i__) {
             pdw += -8;
             i__1 = pdw + 1;
             i__2 = pdw + 2;
@@ -300,17 +287,14 @@ integer *info;
             i__2 = pdw + 8;
             z__1.r = dwork[i__1], z__1.i = dwork[i__2];
             t[3].r = z__1.r, t[3].i = z__1.i;
-            if (s[amap[i__]] == *sinv)
-            {
+            if (s[amap[i__]] == *sinv) {
                 d_cnjg(&z__1, &sn);
                 zrot_(&c__2, t, &c__1, &t[2], &c__1, &cs, &z__1);
                 temp.r = t[0].r, temp.i = t[0].i;
                 zlartg_(&temp, &t[1], &cs, &sn, t);
                 t[1].r = 0., t[1].i = 0.;
                 zrot_(&c__1, &t[2], &c__2, &t[3], &c__2, &cs, &sn);
-            }
-            else
-            {
+            } else {
                 zrot_(&c__2, t, &c__2, &t[1], &c__2, &cs, &sn);
                 temp.r = t[3].r, temp.i = t[3].i;
                 zlartg_(&temp, &t[1], &cs, &sn, &t[3]);
@@ -365,11 +349,9 @@ integer *info;
     goto L80;
     /*     Converged. */
 L50:
-    for (j = 1; j <= 2; ++j)
-    {
+    for (j = 1; j <= 2; ++j) {
         pdw = 0;
-        if (j == 2)
-        {
+        if (j == 2) {
             pdw = 6;
         }
         tempi = 0.;
@@ -377,48 +359,37 @@ L50:
         beta[j] = 1.;
         scal[j] = 0;
         i__1 = *k;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             rhs = dlapy2_(&dwork[pdw + 1], &dwork[pdw + 2]);
-            if (rhs != 0.)
-            {
-                sl = (integer) (log(rhs) / *lgbas);
-                d__1 = (doublereal) sl;
+            if (rhs != 0.) {
+                sl = (integer)(log(rhs) / *lgbas);
+                d__1 = (doublereal)sl;
                 dwork[pdw + 1] /= pow_dd(base, &d__1);
-                d__1 = (doublereal) sl;
+                d__1 = (doublereal)sl;
                 dwork[pdw + 2] /= pow_dd(base, &d__1);
             }
-            if (s[amap[i__]] == 1)
-            {
+            if (s[amap[i__]] == 1) {
                 lhs = tempi;
                 tempi = tempr * dwork[pdw + 2] + tempi * dwork[pdw + 1];
                 tempr = tempr * dwork[pdw + 1] - lhs * dwork[pdw + 2];
                 scal[j] += sl;
-            }
-            else if (rhs == 0.)
-            {
+            } else if (rhs == 0.) {
                 beta[j] = 0.;
-            }
-            else
-            {
+            } else {
                 lhs = tempr;
                 rhs = tempi;
                 dladiv_(&lhs, &rhs, &dwork[pdw + 1], &dwork[pdw + 2], &tempr, &tempi);
                 scal[j] -= sl;
             }
-            if (i__ % 10 == 0 || i__ == *k)
-            {
+            if (i__ % 10 == 0 || i__ == *k) {
                 rhs = dlapy2_(&tempr, &tempi);
-                if (rhs == 0.)
-                {
+                if (rhs == 0.) {
                     scal[j] = 0;
-                }
-                else
-                {
-                    sl = (integer) (log(rhs) / *lgbas);
-                    d__1 = (doublereal) sl;
+                } else {
+                    sl = (integer)(log(rhs) / *lgbas);
+                    d__1 = (doublereal)sl;
                     tempr /= pow_dd(base, &d__1);
-                    d__1 = (doublereal) sl;
+                    d__1 = (doublereal)sl;
                     tempi /= pow_dd(base, &d__1);
                     scal[j] += sl;
                 }
@@ -430,19 +401,17 @@ L50:
         alphai[j] = tempi;
         /* L70: */
     }
-    if (tempi > 0.)
-    {
+    if (tempi > 0.) {
         alphar[2] = alphar[1];
         alphai[2] = alphai[1];
         alphar[1] = tempr;
         alphai[1] = tempi;
-        tempr = (doublereal) scal[2];
+        tempr = (doublereal)scal[2];
         scal[2] = scal[1];
-        scal[1] = (integer) tempr;
+        scal[1] = (integer)tempr;
     }
     *info = 0;
 L80:
     return 0;
     /* *** Last line of MB03BB *** */
 } /* mb03bb_ */
-

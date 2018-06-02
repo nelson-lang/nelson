@@ -17,22 +17,20 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "eyeBuiltin.hpp"
-#include "nanBuiltin.hpp"
-#include "infBuiltin.hpp"
-#include "iBuiltin.hpp"
-#include "piBuiltin.hpp"
 #include "epsBuiltin.hpp"
+#include "eyeBuiltin.hpp"
+#include "iBuiltin.hpp"
+#include "infBuiltin.hpp"
+#include "nanBuiltin.hpp"
 #include "onesBuiltin.hpp"
+#include "piBuiltin.hpp"
 #include "zerosBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"constructors_functions";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
-    { "eye", Nelson::ConstructorsGateway::eyeBuiltin, 1, 0 },
+static const nlsGateway gateway[] = { { "eye", Nelson::ConstructorsGateway::eyeBuiltin, 1, 0 },
     { "i", Nelson::ConstructorsGateway::iBuiltin, 1, 0 },
     { "j", Nelson::ConstructorsGateway::iBuiltin, 1, 0 },
     { "nan", Nelson::ConstructorsGateway::nanBuiltin, 1, 0 },
@@ -42,8 +40,7 @@ static const nlsGateway gateway[] =
     { "eps", Nelson::ConstructorsGateway::epsBuiltin, 1, 0 },
     { "pi", Nelson::ConstructorsGateway::piBuiltin, 1, 0 },
     { "ones", Nelson::ConstructorsGateway::onesBuiltin, -1, 1 },
-    { "zeros", Nelson::ConstructorsGateway::zerosBuiltin, -1, 1 }
-};
+    { "zeros", Nelson::ConstructorsGateway::zerosBuiltin, -1, 1 } };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================
@@ -53,4 +50,3 @@ NLSGATEWAYREMOVE(gateway)
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================
-

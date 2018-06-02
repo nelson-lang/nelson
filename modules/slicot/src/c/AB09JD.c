@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,36 +9,39 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int ab09jd_(jobv, jobw, jobinv, dico, equil, ordsel, n, nv, nw, m, p, nr, alpha, a, lda, b, ldb, c__, ldc, d__, ldd, av, ldav, bv, ldbv, cv, ldcv, dv, lddv, aw, ldaw, bw, ldbw, cw, ldcw, dw, lddw, ns, hsv, tol1, tol2, iwork, dwork, ldwork, iwarn, info, jobv_len, jobw_len, jobinv_len, dico_len, equil_len, ordsel_len)
-char *jobv, *jobw, *jobinv, *dico, *equil, *ordsel;
+EXPORTSYMBOL /* Subroutine */ int ab09jd_(jobv, jobw, jobinv, dico, equil, ordsel, n, nv, nw, m, p,
+    nr, alpha, a, lda, b, ldb, c__, ldc, d__, ldd, av, ldav, bv, ldbv, cv, ldcv, dv, lddv, aw, ldaw,
+    bw, ldbw, cw, ldcw, dw, lddw, ns, hsv, tol1, tol2, iwork, dwork, ldwork, iwarn, info, jobv_len,
+    jobw_len, jobinv_len, dico_len, equil_len, ordsel_len) char *jobv,
+    *jobw, *jobinv, *dico, *equil, *ordsel;
 integer *n, *nv, *nw, *m, *p, *nr;
 doublereal *alpha, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *av;
-integer *ldav;
-doublereal *bv;
-integer *ldbv;
-doublereal *cv;
-integer *ldcv;
-doublereal *dv;
-integer *lddv;
-doublereal *aw;
-integer *ldaw;
-doublereal *bw;
-integer *ldbw;
-doublereal *cw;
-integer *ldcw;
-doublereal *dw;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* av;
+integer* ldav;
+doublereal* bv;
+integer* ldbv;
+doublereal* cv;
+integer* ldcv;
+doublereal* dv;
+integer* lddv;
+doublereal* aw;
+integer* ldaw;
+doublereal* bw;
+integer* ldbw;
+doublereal* cw;
+integer* ldcw;
+doublereal* dw;
 integer *lddw, *ns;
 doublereal *hsv, *tol1, *tol2;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen jobv_len;
 ftnlen jobw_len;
@@ -48,7 +51,10 @@ ftnlen equil_len;
 ftnlen ordsel_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, av_dim1, av_offset, aw_dim1, aw_offset, b_dim1, b_offset, bv_dim1, bv_offset, bw_dim1, bw_offset, c_dim1, c_offset, cv_dim1, cv_offset, cw_dim1, cw_offset, d_dim1, d_offset, dv_dim1, dv_offset, dw_dim1, dw_offset, i__1, i__2, i__3, i__4, i__5, i__6, i__7, i__8;
+    integer a_dim1, a_offset, av_dim1, av_offset, aw_dim1, aw_offset, b_dim1, b_offset, bv_dim1,
+        bv_offset, bw_dim1, bw_offset, c_dim1, c_offset, cv_dim1, cv_offset, cw_dim1, cw_offset,
+        d_dim1, d_offset, dv_dim1, dv_offset, dw_dim1, dw_offset, i__1, i__2, i__3, i__4, i__5,
+        i__6, i__7, i__8;
     doublereal d__1, d__2;
     /* Builtin functions */
     double sqrt();
@@ -601,157 +607,99 @@ ftnlen ordsel_len;
     invfr = lsame_(jobinv, "N", 1L, 1L);
     autom = lsame_(jobinv, "A", 1L, 1L);
     lw = 1;
-    if (leftw)
-    {
+    if (leftw) {
         nvp = *nv + *p;
         /* Computing MAX */
         /* Computing MAX */
         /* Computing MAX */
         i__5 = nvp * 11 + 16, i__6 = *p * nvp;
         /* Computing MAX */
-        i__7 = nvp **n + *n **n, i__8 = *p **n, i__7 = max(i__7,i__8), i__8 = *p **m;
-        i__3 = (nvp << 1) * nvp + max(i__5,i__6), i__4 = nvp **n + max(i__7,i__8);
-        i__1 = lw, i__2 = (nvp << 1) * (nvp + *p) + *p **p + max(i__3,i__4);
-        lw = max(i__1,i__2);
+        i__7 = nvp * *n + *n * *n, i__8 = *p * *n, i__7 = max(i__7, i__8), i__8 = *p * *m;
+        i__3 = (nvp << 1) * nvp + max(i__5, i__6), i__4 = nvp * *n + max(i__7, i__8);
+        i__1 = lw, i__2 = (nvp << 1) * (nvp + *p) + *p * *p + max(i__3, i__4);
+        lw = max(i__1, i__2);
     }
-    if (rightw)
-    {
+    if (rightw) {
         nwm = *nw + *m;
         /* Computing MAX */
         /* Computing MAX */
         /* Computing MAX */
         i__5 = nwm * 11 + 16, i__6 = *m * nwm;
         /* Computing MAX */
-        i__7 = nwm **n + *n **n, i__8 = *m **n, i__7 = max(i__7,i__8), i__8 = *p **m;
-        i__3 = (nwm << 1) * nwm + max(i__5,i__6), i__4 = nwm **n + max(i__7,i__8);
-        i__1 = lw, i__2 = (nwm << 1) * (nwm + *m) + *m **m + max(i__3,i__4);
-        lw = max(i__1,i__2);
+        i__7 = nwm * *n + *n * *n, i__8 = *m * *n, i__7 = max(i__7, i__8), i__8 = *p * *m;
+        i__3 = (nwm << 1) * nwm + max(i__5, i__6), i__4 = nwm * *n + max(i__7, i__8);
+        i__1 = lw, i__2 = (nwm << 1) * (nwm + *m) + *m * *m + max(i__3, i__4);
+        lw = max(i__1, i__2);
     }
     /* Computing MAX */
     /* Computing MAX */
-    i__3 = max(*n,*m);
-    i__1 = lw, i__2 = *n * ((*n << 1) + max(i__3,*p) + 5) + *n * (*n + 1) / 2;
-    lw = max(i__1,i__2);
+    i__3 = max(*n, *m);
+    i__1 = lw, i__2 = *n * ((*n << 1) + max(i__3, *p) + 5) + *n * (*n + 1) / 2;
+    lw = max(i__1, i__2);
     /* Computing MAX */
     /* Computing MAX */
-    i__3 = *m * 3 + 1, i__4 = min(*n,*m) + *p;
-    i__1 = lw, i__2 = *n * (*m + *p + 2) + (*m << 1) **p + min(*n,*m) + max(i__3,i__4);
-    lw = max(i__1,i__2);
+    i__3 = *m * 3 + 1, i__4 = min(*n, *m) + *p;
+    i__1 = lw, i__2 = *n * (*m + *p + 2) + (*m << 1) * *p + min(*n, *m) + max(i__3, i__4);
+    lw = max(i__1, i__2);
     /*     Check the input scalar arguments. */
-    if (! (lsame_(jobv, "N", 1L, 1L) || leftw))
-    {
+    if (!(lsame_(jobv, "N", 1L, 1L) || leftw)) {
         *info = -1;
-    }
-    else if (! (lsame_(jobw, "N", 1L, 1L) || rightw))
-    {
+    } else if (!(lsame_(jobw, "N", 1L, 1L) || rightw)) {
         *info = -2;
-    }
-    else if (! (invfr || autom || lsame_(jobinv, "I", 1L, 1L)))
-    {
+    } else if (!(invfr || autom || lsame_(jobinv, "I", 1L, 1L))) {
         *info = -3;
-    }
-    else if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    } else if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -4;
-    }
-    else if (! (lsame_(equil, "S", 1L, 1L) || lsame_(equil, "N", 1L, 1L)))
-    {
+    } else if (!(lsame_(equil, "S", 1L, 1L) || lsame_(equil, "N", 1L, 1L))) {
         *info = -5;
-    }
-    else if (! (fixord || lsame_(ordsel, "A", 1L, 1L)))
-    {
+    } else if (!(fixord || lsame_(ordsel, "A", 1L, 1L))) {
         *info = -6;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -7;
-    }
-    else if (*nv < 0)
-    {
+    } else if (*nv < 0) {
         *info = -8;
-    }
-    else if (*nw < 0)
-    {
+    } else if (*nw < 0) {
         *info = -9;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -10;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -11;
-    }
-    else if (fixord && (*nr < 0 || *nr > *n))
-    {
+    } else if (fixord && (*nr < 0 || *nr > *n)) {
         *info = -12;
-    }
-    else if (discr && (*alpha < 0. || *alpha > 1.) || ! discr && *alpha > 0.)
-    {
+    } else if (discr && (*alpha < 0. || *alpha > 1.) || !discr && *alpha > 0.) {
         *info = -13;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -15;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -17;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -19;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -21;
-    }
-    else if (*ldav < 1 || leftw && *ldav < *nv)
-    {
+    } else if (*ldav < 1 || leftw && *ldav < *nv) {
         *info = -23;
-    }
-    else if (*ldbv < 1 || leftw && *ldbv < *nv)
-    {
+    } else if (*ldbv < 1 || leftw && *ldbv < *nv) {
         *info = -25;
-    }
-    else if (*ldcv < 1 || leftw && *ldcv < *p)
-    {
+    } else if (*ldcv < 1 || leftw && *ldcv < *p) {
         *info = -27;
-    }
-    else if (*lddv < 1 || leftw && *lddv < *p)
-    {
+    } else if (*lddv < 1 || leftw && *lddv < *p) {
         *info = -29;
-    }
-    else if (*ldaw < 1 || rightw && *ldaw < *nw)
-    {
+    } else if (*ldaw < 1 || rightw && *ldaw < *nw) {
         *info = -31;
-    }
-    else if (*ldbw < 1 || rightw && *ldbw < *nw)
-    {
+    } else if (*ldbw < 1 || rightw && *ldbw < *nw) {
         *info = -33;
-    }
-    else if (*ldcw < 1 || rightw && *ldcw < *m)
-    {
+    } else if (*ldcw < 1 || rightw && *ldcw < *m) {
         *info = -35;
-    }
-    else if (*lddw < 1 || rightw && *lddw < *m)
-    {
+    } else if (*lddw < 1 || rightw && *lddw < *m) {
         *info = -37;
-    }
-    else if (*tol1 >= 1.)
-    {
+    } else if (*tol1 >= 1.) {
         *info = -40;
-    }
-    else if (*tol2 > 0. && ! fixord && *tol2 > *tol1 || *tol2 >= 1.)
-    {
+    } else if (*tol2 > 0. && !fixord && *tol2 > *tol1 || *tol2 >= 1.) {
         *info = -41;
-    }
-    else if (*ldwork < lw)
-    {
+    } else if (*ldwork < lw) {
         *info = -44;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB09JD", &i__1, 6L);
@@ -759,43 +707,37 @@ ftnlen ordsel_len;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*n,*m);
-    if (min(i__1,*p) == 0)
-    {
+    i__1 = min(*n, *m);
+    if (min(i__1, *p) == 0) {
         *nr = 0;
         *ns = 0;
         dwork[1] = 1.;
         return 0;
     }
-    if (lsame_(equil, "S", 1L, 1L))
-    {
+    if (lsame_(equil, "S", 1L, 1L)) {
         /*        Scale simultaneously the matrices A, B and C: */
         /*        A <- inv(D)*A*D,  B <- inv(D)*B  and  C <- C*D,  where D is a */
         /*        diagonal matrix. */
         /*        Workspace: N. */
         maxred = 100.;
-        tb01id_("All", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[1], info, 3L);
+        tb01id_("All", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+            &dwork[1], info, 3L);
     }
     /*     Correct the value of ALPHA to ensure stability. */
     alpwrk = *alpha;
     sqreps = sqrt(dlamch_("E", 1L));
-    if (discr)
-    {
-        if (*alpha == 1.)
-        {
+    if (discr) {
+        if (*alpha == 1.) {
             alpwrk = 1. - sqreps;
         }
-    }
-    else
-    {
-        if (*alpha == 0.)
-        {
+    } else {
+        if (*alpha == 0.) {
             alpwrk = -sqreps;
         }
     }
     /*     Allocate working storage. */
     ku = 1;
-    kl = ku + *n **n;
+    kl = ku + *n * *n;
     ki = kl + *n;
     kw = ki + *n;
     /*     Compute an additive decomposition G = G1 + G2, where G1 */
@@ -808,91 +750,73 @@ ftnlen ordsel_len;
     /*     Additional workspace:  need   3*N; */
     /*                            prefer larger. */
     i__1 = *ldwork - kw + 1;
-    tb01kd_(dico, "Unstable", "General", n, m, p, &alpwrk, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &nu, &dwork[ku], n, &dwork[kl], &dwork[ki], &dwork[kw], &i__1, &ierr, 1L, 8L, 7L);
-    if (ierr != 0)
-    {
-        if (ierr != 3)
-        {
+    tb01kd_(dico, "Unstable", "General", n, m, p, &alpwrk, &a[a_offset], lda, &b[b_offset], ldb,
+        &c__[c_offset], ldc, &nu, &dwork[ku], n, &dwork[kl], &dwork[ki], &dwork[kw], &i__1, &ierr,
+        1L, 8L, 7L);
+    if (ierr != 0) {
+        if (ierr != 3) {
             *info = 1;
-        }
-        else
-        {
+        } else {
             *info = 2;
         }
         return 0;
     }
-    wrkopt = dwork[kw] + (doublereal) (kw - 1);
+    wrkopt = dwork[kw] + (doublereal)(kw - 1);
     iwarnl = 0;
     *ns = *n - nu;
-    if (fixord)
-    {
+    if (fixord) {
         /* Computing MAX */
         i__1 = 0, i__2 = *nr - nu;
-        nra = max(i__1,i__2);
-        if (*nr < nu)
-        {
+        nra = max(i__1, i__2);
+        if (*nr < nu) {
             iwarnl = 2;
         }
-    }
-    else
-    {
+    } else {
         nra = 0;
     }
     /*     Finish if only unstable part is present. */
-    if (*ns == 0)
-    {
+    if (*ns == 0) {
         *nr = nu;
         dwork[1] = wrkopt;
         return 0;
     }
     nu1 = nu + 1;
-    if (conjv)
-    {
-        *(unsigned char *)jobvl = 'C';
+    if (conjv) {
+        *(unsigned char*)jobvl = 'C';
+    } else {
+        *(unsigned char*)jobvl = 'V';
     }
-    else
-    {
-        *(unsigned char *)jobvl = 'V';
+    if (conjw) {
+        *(unsigned char*)jobwl = 'C';
+    } else {
+        *(unsigned char*)jobwl = 'W';
     }
-    if (conjw)
-    {
-        *(unsigned char *)jobwl = 'C';
-    }
-    else
-    {
-        *(unsigned char *)jobwl = 'W';
-    }
-    if (leftw)
-    {
+    if (leftw) {
         /*        Check if V is invertible. */
         /*        Real workspace:    need   (NV+P)**2 + MAX( P + MAX(3*P,NV), */
         /*                                  MIN(P+1,NV) + MAX(3*(P+1),NV+P) ); */
         /*                           prefer larger. */
         /*        Integer workspace: need   2*NV+P+2. */
         tol = 0.;
-        ab08md_("S", nv, p, p, &av[av_offset], ldav, &bv[bv_offset], ldbv, &cv[cv_offset], ldcv, &dv[dv_offset], lddv, &rank, &tol, &iwork[1], &dwork[1], ldwork, &ierr, 1L);
-        if (rank != *p)
-        {
+        ab08md_("S", nv, p, p, &av[av_offset], ldav, &bv[bv_offset], ldbv, &cv[cv_offset], ldcv,
+            &dv[dv_offset], lddv, &rank, &tol, &iwork[1], &dwork[1], ldwork, &ierr, 1L);
+        if (rank != *p) {
             *info = 20;
             return 0;
         }
-        wrkopt = max(wrkopt,dwork[1]);
-        if (lefti)
-        {
-            if (invfr)
-            {
+        wrkopt = max(wrkopt, dwork[1]);
+        if (lefti) {
+            if (invfr) {
                 ierr = 1;
-            }
-            else
-            {
+            } else {
                 /*              Allocate storage for a standard inverse of V. */
                 /*              Workspace: need  NV*(NV+2*P) + P*P. */
                 kav = 1;
-                kbv = kav + *nv **nv;
-                kcv = kbv + *nv **p;
-                kdv = kcv + *p **nv;
-                kw = kdv + *p **p;
-                ldabv = max(*nv,1);
+                kbv = kav + *nv * *nv;
+                kcv = kbv + *nv * *p;
+                kdv = kcv + *p * *nv;
+                kw = kdv + *p * *p;
+                ldabv = max(*nv, 1);
                 ldcdv = *p;
                 dlacpy_("Full", nv, nv, &av[av_offset], ldav, &dwork[kav], &ldabv, 4L);
                 dlacpy_("Full", nv, p, &bv[bv_offset], ldbv, &dwork[kbv], &ldabv, 4L);
@@ -903,46 +827,43 @@ ftnlen ordsel_len;
                 /*                                           prefer larger. */
                 /*              Integer workspace:           need   2*P. */
                 i__1 = *ldwork - kw + 1;
-                ab07nd_(nv, p, &dwork[kav], &ldabv, &dwork[kbv], &ldabv, &dwork[kcv], &ldcdv, &dwork[kdv], &ldcdv, &rcond, &iwork[1], &dwork[kw], &i__1, &ierr);
+                ab07nd_(nv, p, &dwork[kav], &ldabv, &dwork[kbv], &ldabv, &dwork[kcv], &ldcdv,
+                    &dwork[kdv], &ldcdv, &rcond, &iwork[1], &dwork[kw], &i__1, &ierr);
                 /* Computing MAX */
-                d__1 = wrkopt, d__2 = dwork[kw] + (doublereal) (kw - 1);
-                wrkopt = max(d__1,d__2);
+                d__1 = wrkopt, d__2 = dwork[kw] + (doublereal)(kw - 1);
+                wrkopt = max(d__1, d__2);
                 /*              Check if inversion is accurate. */
-                if (autom)
-                {
-                    if (ierr == 0 && rcond <= 1e-4)
-                    {
+                if (autom) {
+                    if (ierr == 0 && rcond <= 1e-4) {
+                        ierr = 1;
+                    }
+                } else {
+                    if (ierr == 0 && rcond <= sqreps) {
                         ierr = 1;
                     }
                 }
-                else
-                {
-                    if (ierr == 0 && rcond <= sqreps)
-                    {
-                        ierr = 1;
-                    }
-                }
-                if (ierr != 0 && *nv == 0)
-                {
+                if (ierr != 0 && *nv == 0) {
                     *info = 20;
                     return 0;
                 }
             }
-            if (ierr != 0)
-            {
+            if (ierr != 0) {
                 /*              Allocate storage for a descriptor inverse of V. */
                 kav = 1;
                 kev = kav + nvp * nvp;
                 kbv = kev + nvp * nvp;
-                kcv = kbv + nvp **p;
+                kcv = kbv + nvp * *p;
                 kdv = kcv + *p * nvp;
-                kw = kdv + *p **p;
-                ldabv = max(nvp,1);
+                kw = kdv + *p * *p;
+                ldabv = max(nvp, 1);
                 ldcdv = *p;
                 /*              DV is singular or ill-conditioned. */
                 /*              Form a descriptor inverse of V. */
                 /*              Workspace: need  2*(NV+P)*(NV+2*P) + P*P. */
-                ag07bd_("I", nv, p, &av[av_offset], ldav, temp, &c__1, &bv[bv_offset], ldbv, &cv[cv_offset], ldcv, &dv[dv_offset], lddv, &dwork[kav], &ldabv, &dwork[kev], &ldabv, &dwork[kbv], &ldabv, &dwork[kcv], &ldcdv, &dwork[kdv], &ldcdv, &ierr, 1L);
+                ag07bd_("I", nv, p, &av[av_offset], ldav, temp, &c__1, &bv[bv_offset], ldbv,
+                    &cv[cv_offset], ldcv, &dv[dv_offset], lddv, &dwork[kav], &ldabv, &dwork[kev],
+                    &ldabv, &dwork[kbv], &ldabv, &dwork[kcv], &ldcdv, &dwork[kdv], &ldcdv, &ierr,
+                    1L);
                 /*              Compute the projection containing the poles of weighted */
                 /*              reduced ALPHA-stable part using descriptor inverse of V */
                 /*              of order NVP = NV + P. */
@@ -952,26 +873,22 @@ ftnlen ordsel_len;
                 /*                 prefer larger. */
                 /*              Integer workspace: need NVP+N+6. */
                 i__1 = *ldwork - kw + 1;
-                ab09jv_(jobvl, dico, "G", "C", ns, m, p, &nvp, p, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &dwork[kav], &ldabv, &dwork[kev], &ldabv, &dwork[kbv], &ldabv, &dwork[kcv], &ldcdv, &dwork[kdv], &ldcdv, &iwork[1], &dwork[kw], &i__1, &ierr, 1L, 1L, 1L, 1L);
-                if (ierr != 0)
-                {
-                    if (ierr == 1)
-                    {
+                ab09jv_(jobvl, dico, "G", "C", ns, m, p, &nvp, p, &a[nu1 + nu1 * a_dim1], lda,
+                    &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd,
+                    &dwork[kav], &ldabv, &dwork[kev], &ldabv, &dwork[kbv], &ldabv, &dwork[kcv],
+                    &ldcdv, &dwork[kdv], &ldcdv, &iwork[1], &dwork[kw], &i__1, &ierr, 1L, 1L, 1L,
+                    1L);
+                if (ierr != 0) {
+                    if (ierr == 1) {
                         *info = 5;
-                    }
-                    else if (ierr == 2)
-                    {
+                    } else if (ierr == 2) {
                         *info = 16;
-                    }
-                    else if (ierr == 4)
-                    {
+                    } else if (ierr == 4) {
                         *info = 18;
                     }
                     return 0;
                 }
-            }
-            else
-            {
+            } else {
                 /*              Compute the projection containing the poles of weighted */
                 /*              reduced ALPHA-stable part using explicit inverse of V. */
                 /*              Additional real workspace: need */
@@ -980,30 +897,25 @@ ftnlen ordsel_len;
                 /*                      a = 2*NV, if DICO = 'D' and JOBVL = 'C'; */
                 /*                 prefer larger. */
                 i__1 = *ldwork - kw + 1;
-                ab09jv_(jobvl, dico, "I", "C", ns, m, p, nv, p, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &dwork[kav], &ldabv, temp, &c__1, &dwork[kbv], &ldabv, &dwork[kcv], &ldcdv, &dwork[kdv], &ldcdv, &iwork[1], &dwork[kw], &i__1, &ierr, 1L, 1L, 1L, 1L);
-                if (ierr != 0)
-                {
-                    if (ierr == 1)
-                    {
+                ab09jv_(jobvl, dico, "I", "C", ns, m, p, nv, p, &a[nu1 + nu1 * a_dim1], lda,
+                    &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd,
+                    &dwork[kav], &ldabv, temp, &c__1, &dwork[kbv], &ldabv, &dwork[kcv], &ldcdv,
+                    &dwork[kdv], &ldcdv, &iwork[1], &dwork[kw], &i__1, &ierr, 1L, 1L, 1L, 1L);
+                if (ierr != 0) {
+                    if (ierr == 1) {
                         *info = 10;
-                    }
-                    else if (ierr == 3)
-                    {
+                    } else if (ierr == 3) {
                         *info = 14;
-                    }
-                    else if (ierr == 4)
-                    {
+                    } else if (ierr == 4) {
                         *info = 18;
                     }
                     return 0;
                 }
             }
             /* Computing MAX */
-            d__1 = wrkopt, d__2 = dwork[kw] + (doublereal) (kw - 1);
-            wrkopt = max(d__1,d__2);
-        }
-        else
-        {
+            d__1 = wrkopt, d__2 = dwork[kw] + (doublereal)(kw - 1);
+            wrkopt = max(d__1, d__2);
+        } else {
             /*           Compute the projection of V*G1 or conj(V)*G1 containing the */
             /*           poles of G. */
             /*           Workspace need: */
@@ -1011,57 +923,49 @@ ftnlen ordsel_len;
             /*                       a = 0,    if DICO = 'C' or  JOBVL = 'V', */
             /*                       a = 2*NV, if DICO = 'D' and JOBVL = 'C'; */
             /*           prefer larger. */
-            ab09jv_(jobvl, dico, "I", "C", ns, m, p, nv, p, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &av[av_offset], ldav, temp, &c__1, &bv[bv_offset], ldbv, &cv[cv_offset], ldcv, &dv[dv_offset], lddv, &iwork[1], &dwork[1], ldwork, &ierr, 1L, 1L, 1L, 1L);
-            if (ierr != 0)
-            {
-                if (ierr == 1)
-                {
+            ab09jv_(jobvl, dico, "I", "C", ns, m, p, nv, p, &a[nu1 + nu1 * a_dim1], lda,
+                &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd,
+                &av[av_offset], ldav, temp, &c__1, &bv[bv_offset], ldbv, &cv[cv_offset], ldcv,
+                &dv[dv_offset], lddv, &iwork[1], &dwork[1], ldwork, &ierr, 1L, 1L, 1L, 1L);
+            if (ierr != 0) {
+                if (ierr == 1) {
                     *info = 3;
-                }
-                else if (ierr == 3)
-                {
+                } else if (ierr == 3) {
                     *info = 12;
-                }
-                else if (ierr == 4)
-                {
+                } else if (ierr == 4) {
                     *info = 18;
                 }
                 return 0;
             }
-            wrkopt = max(wrkopt,dwork[1]);
+            wrkopt = max(wrkopt, dwork[1]);
         }
     }
-    if (rightw)
-    {
+    if (rightw) {
         /*        Check if W is invertible. */
         /*        Real workspace:    need   (NW+M)**2 + MAX( M + MAX(3*M,NW), */
         /*                                  MIN(M+1,NW) + MAX(3*(M+1),NW+M) ); */
         /*                           prefer larger. */
         /*        Integer workspace: need   2*NW+M+2. */
         tol = 0.;
-        ab08md_("S", nw, m, m, &aw[aw_offset], ldaw, &bw[bw_offset], ldbw, &cw[cw_offset], ldcw, &dw[dw_offset], lddw, &rank, &tol, &iwork[1], &dwork[1], ldwork, &ierr, 1L);
-        if (rank != *m)
-        {
+        ab08md_("S", nw, m, m, &aw[aw_offset], ldaw, &bw[bw_offset], ldbw, &cw[cw_offset], ldcw,
+            &dw[dw_offset], lddw, &rank, &tol, &iwork[1], &dwork[1], ldwork, &ierr, 1L);
+        if (rank != *m) {
             *info = 21;
             return 0;
         }
-        wrkopt = max(wrkopt,dwork[1]);
-        if (righti)
-        {
-            if (invfr)
-            {
+        wrkopt = max(wrkopt, dwork[1]);
+        if (righti) {
+            if (invfr) {
                 ierr = 1;
-            }
-            else
-            {
+            } else {
                 /*              Allocate storage for a standard inverse of W. */
                 /*              Workspace: need  NW*(NW+2*M) + M*M. */
                 kaw = 1;
-                kbw = kaw + *nw **nw;
-                kcw = kbw + *nw **m;
-                kdw = kcw + *m **nw;
-                kw = kdw + *m **m;
-                ldabw = max(*nw,1);
+                kbw = kaw + *nw * *nw;
+                kcw = kbw + *nw * *m;
+                kdw = kcw + *m * *nw;
+                kw = kdw + *m * *m;
+                ldabw = max(*nw, 1);
                 ldcdw = *m;
                 dlacpy_("Full", nw, nw, &aw[aw_offset], ldaw, &dwork[kaw], &ldabw, 4L);
                 dlacpy_("Full", nw, m, &bw[bw_offset], ldbw, &dwork[kbw], &ldabw, 4L);
@@ -1072,46 +976,43 @@ ftnlen ordsel_len;
                 /*                                           prefer larger. */
                 /*              Integer workspace:           need   2*M. */
                 i__1 = *ldwork - kw + 1;
-                ab07nd_(nw, m, &dwork[kaw], &ldabw, &dwork[kbw], &ldabw, &dwork[kcw], &ldcdw, &dwork[kdw], &ldcdw, &rcond, &iwork[1], &dwork[kw], &i__1, &ierr);
+                ab07nd_(nw, m, &dwork[kaw], &ldabw, &dwork[kbw], &ldabw, &dwork[kcw], &ldcdw,
+                    &dwork[kdw], &ldcdw, &rcond, &iwork[1], &dwork[kw], &i__1, &ierr);
                 /* Computing MAX */
-                d__1 = wrkopt, d__2 = dwork[kw] + (doublereal) (kw - 1);
-                wrkopt = max(d__1,d__2);
+                d__1 = wrkopt, d__2 = dwork[kw] + (doublereal)(kw - 1);
+                wrkopt = max(d__1, d__2);
                 /*              Check if inversion is accurate. */
-                if (autom)
-                {
-                    if (ierr == 0 && rcond <= 1e-4)
-                    {
+                if (autom) {
+                    if (ierr == 0 && rcond <= 1e-4) {
+                        ierr = 1;
+                    }
+                } else {
+                    if (ierr == 0 && rcond <= sqreps) {
                         ierr = 1;
                     }
                 }
-                else
-                {
-                    if (ierr == 0 && rcond <= sqreps)
-                    {
-                        ierr = 1;
-                    }
-                }
-                if (ierr != 0 && *nw == 0)
-                {
+                if (ierr != 0 && *nw == 0) {
                     *info = 21;
                     return 0;
                 }
             }
-            if (ierr != 0)
-            {
+            if (ierr != 0) {
                 /*              Allocate storage for a descriptor inverse of W. */
                 kaw = 1;
                 kew = kaw + nwm * nwm;
                 kbw = kew + nwm * nwm;
-                kcw = kbw + nwm **m;
+                kcw = kbw + nwm * *m;
                 kdw = kcw + *m * nwm;
-                kw = kdw + *m **m;
-                ldabw = max(nwm,1);
+                kw = kdw + *m * *m;
+                ldabw = max(nwm, 1);
                 ldcdw = *m;
                 /*              DW is singular or ill-conditioned. */
                 /*              Form the descriptor inverse of W. */
                 /*              Workspace: need  2*(NW+M)*(NW+2*M) + M*M. */
-                ag07bd_("I", nw, m, &aw[aw_offset], ldaw, temp, &c__1, &bw[bw_offset], ldbw, &cw[cw_offset], ldcw, &dw[dw_offset], lddw, &dwork[kaw], &ldabw, &dwork[kew], &ldabw, &dwork[kbw], &ldabw, &dwork[kcw], &ldcdw, &dwork[kdw], &ldcdw, &ierr, 1L);
+                ag07bd_("I", nw, m, &aw[aw_offset], ldaw, temp, &c__1, &bw[bw_offset], ldbw,
+                    &cw[cw_offset], ldcw, &dw[dw_offset], lddw, &dwork[kaw], &ldabw, &dwork[kew],
+                    &ldabw, &dwork[kbw], &ldabw, &dwork[kcw], &ldcdw, &dwork[kdw], &ldcdw, &ierr,
+                    1L);
                 /*              Compute the projection containing the poles of weighted */
                 /*              reduced ALPHA-stable part using descriptor inverse of W */
                 /*              of order NWM = NW + M. */
@@ -1121,26 +1022,22 @@ ftnlen ordsel_len;
                 /*                 prefer larger. */
                 /*              Integer workspace: need NWM+N+6. */
                 i__1 = *ldwork - kw + 1;
-                ab09jw_(jobwl, dico, "G", "C", ns, m, p, &nwm, m, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &dwork[kaw], &ldabw, &dwork[kew], &ldabw, &dwork[kbw], &ldabw, &dwork[kcw], &ldcdw, &dwork[kdw], &ldcdw, &iwork[1], &dwork[kw], &i__1, &ierr, 1L, 1L, 1L, 1L);
-                if (ierr != 0)
-                {
-                    if (ierr == 1)
-                    {
+                ab09jw_(jobwl, dico, "G", "C", ns, m, p, &nwm, m, &a[nu1 + nu1 * a_dim1], lda,
+                    &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd,
+                    &dwork[kaw], &ldabw, &dwork[kew], &ldabw, &dwork[kbw], &ldabw, &dwork[kcw],
+                    &ldcdw, &dwork[kdw], &ldcdw, &iwork[1], &dwork[kw], &i__1, &ierr, 1L, 1L, 1L,
+                    1L);
+                if (ierr != 0) {
+                    if (ierr == 1) {
                         *info = 6;
-                    }
-                    else if (ierr == 2)
-                    {
+                    } else if (ierr == 2) {
                         *info = 17;
-                    }
-                    else if (ierr == 4)
-                    {
+                    } else if (ierr == 4) {
                         *info = 19;
                     }
                     return 0;
                 }
-            }
-            else
-            {
+            } else {
                 /*              Compute the projection containing the poles of weighted */
                 /*              reduced ALPHA-stable part using explicit inverse of W. */
                 /*              Additional real workspace: need */
@@ -1149,30 +1046,25 @@ ftnlen ordsel_len;
                 /*                      a = 2*NW, if DICO = 'D' and JOBWL = 'C'; */
                 /*                 prefer larger. */
                 i__1 = *ldwork - kw + 1;
-                ab09jw_(jobwl, dico, "I", "C", ns, m, p, nw, m, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &dwork[kaw], &ldabw, temp, &c__1, &dwork[kbw], &ldabw, &dwork[kcw], &ldcdw, &dwork[kdw], &ldcdw, &iwork[1], &dwork[kw], &i__1, &ierr, 1L, 1L, 1L, 1L);
-                if (ierr != 0)
-                {
-                    if (ierr == 1)
-                    {
+                ab09jw_(jobwl, dico, "I", "C", ns, m, p, nw, m, &a[nu1 + nu1 * a_dim1], lda,
+                    &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd,
+                    &dwork[kaw], &ldabw, temp, &c__1, &dwork[kbw], &ldabw, &dwork[kcw], &ldcdw,
+                    &dwork[kdw], &ldcdw, &iwork[1], &dwork[kw], &i__1, &ierr, 1L, 1L, 1L, 1L);
+                if (ierr != 0) {
+                    if (ierr == 1) {
                         *info = 11;
-                    }
-                    else if (ierr == 3)
-                    {
+                    } else if (ierr == 3) {
                         *info = 15;
-                    }
-                    else if (ierr == 4)
-                    {
+                    } else if (ierr == 4) {
                         *info = 19;
                     }
                     return 0;
                 }
             }
             /* Computing MAX */
-            d__1 = wrkopt, d__2 = dwork[kw] + (doublereal) (kw - 1);
-            wrkopt = max(d__1,d__2);
-        }
-        else
-        {
+            d__1 = wrkopt, d__2 = dwork[kw] + (doublereal)(kw - 1);
+            wrkopt = max(d__1, d__2);
+        } else {
             /*           Compute the projection G1s of V*G1*W or conj(V)*G1*conj(W) */
             /*           containing the poles of G. */
             /*           Workspace need: */
@@ -1180,24 +1072,21 @@ ftnlen ordsel_len;
             /*                    b = 0,    if DICO = 'C' or  JOBWL = 'W', */
             /*                    b = 2*NW, if DICO = 'D' and JOBWL = 'C'; */
             /*           prefer larger. */
-            ab09jw_(jobwl, dico, "I", "C", ns, m, p, nw, m, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &aw[aw_offset], ldaw, temp, &c__1, &bw[bw_offset], ldbw, &cw[cw_offset], ldcw, &dw[dw_offset], lddw, &iwork[1], &dwork[1], ldwork, &ierr, 1L, 1L, 1L, 1L);
-            if (ierr != 0)
-            {
-                if (ierr == 1)
-                {
+            ab09jw_(jobwl, dico, "I", "C", ns, m, p, nw, m, &a[nu1 + nu1 * a_dim1], lda,
+                &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd,
+                &aw[aw_offset], ldaw, temp, &c__1, &bw[bw_offset], ldbw, &cw[cw_offset], ldcw,
+                &dw[dw_offset], lddw, &iwork[1], &dwork[1], ldwork, &ierr, 1L, 1L, 1L, 1L);
+            if (ierr != 0) {
+                if (ierr == 1) {
                     *info = 4;
-                }
-                else if (ierr == 3)
-                {
+                } else if (ierr == 3) {
                     *info = 13;
-                }
-                else if (ierr == 4)
-                {
+                } else if (ierr == 4) {
                     *info = 19;
                 }
                 return 0;
             }
-            wrkopt = max(wrkopt,dwork[1]);
+            wrkopt = max(wrkopt, dwork[1]);
         }
     }
     /*     Determine a reduced order approximation G1sr of G1s using the */
@@ -1208,33 +1097,29 @@ ftnlen ordsel_len;
     /*                LDW4 = N*(M+P+2) + 2*M*P + MIN(N,M) + */
     /*                       MAX( 3*M+1, MIN(N,M)+P ); */
     /*                prefer larger. */
-    ab09cx_(dico, ordsel, ns, m, p, &nra, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &hsv[1], tol1, tol2, &iwork[1], &dwork[1], ldwork, iwarn, &ierr, 1L, 1L);
-    if (ierr != 0)
-    {
+    ab09cx_(dico, ordsel, ns, m, p, &nra, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb,
+        &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &hsv[1], tol1, tol2, &iwork[1], &dwork[1],
+        ldwork, iwarn, &ierr, 1L, 1L);
+    if (ierr != 0) {
         /*        Set INFO = 7, 8 or 9. */
         *info = ierr + 5;
         return 0;
     }
-    *iwarn = max(iwarnl,*iwarn);
-    wrkopt = max(wrkopt,dwork[1]);
-    if (leftw)
-    {
-        if (! lefti)
-        {
-            if (invfr)
-            {
+    *iwarn = max(iwarnl, *iwarn);
+    wrkopt = max(wrkopt, dwork[1]);
+    if (leftw) {
+        if (!lefti) {
+            if (invfr) {
                 ierr = 1;
-            }
-            else
-            {
+            } else {
                 /*              Allocate storage for a standard inverse of V. */
                 /*              Workspace: need  NV*(NV+2*P) + P*P. */
                 kav = 1;
-                kbv = kav + *nv **nv;
-                kcv = kbv + *nv **p;
-                kdv = kcv + *p **nv;
-                kw = kdv + *p **p;
-                ldabv = max(*nv,1);
+                kbv = kav + *nv * *nv;
+                kcv = kbv + *nv * *p;
+                kdv = kcv + *p * *nv;
+                kw = kdv + *p * *p;
+                ldabv = max(*nv, 1);
                 ldcdv = *p;
                 dlacpy_("Full", nv, nv, &av[av_offset], ldav, &dwork[kav], &ldabv, 4L);
                 dlacpy_("Full", nv, p, &bv[bv_offset], ldbv, &dwork[kbv], &ldabv, 4L);
@@ -1245,46 +1130,43 @@ ftnlen ordsel_len;
                 /*                                           prefer larger. */
                 /*              Integer workspace:           need   2*P. */
                 i__1 = *ldwork - kw + 1;
-                ab07nd_(nv, p, &dwork[kav], &ldabv, &dwork[kbv], &ldabv, &dwork[kcv], &ldcdv, &dwork[kdv], &ldcdv, &rcond, &iwork[1], &dwork[kw], &i__1, &ierr);
+                ab07nd_(nv, p, &dwork[kav], &ldabv, &dwork[kbv], &ldabv, &dwork[kcv], &ldcdv,
+                    &dwork[kdv], &ldcdv, &rcond, &iwork[1], &dwork[kw], &i__1, &ierr);
                 /* Computing MAX */
-                d__1 = wrkopt, d__2 = dwork[kw] + (doublereal) (kw - 1);
-                wrkopt = max(d__1,d__2);
+                d__1 = wrkopt, d__2 = dwork[kw] + (doublereal)(kw - 1);
+                wrkopt = max(d__1, d__2);
                 /*              Check if inversion is accurate. */
-                if (autom)
-                {
-                    if (ierr == 0 && rcond <= 1e-4)
-                    {
+                if (autom) {
+                    if (ierr == 0 && rcond <= 1e-4) {
+                        ierr = 1;
+                    }
+                } else {
+                    if (ierr == 0 && rcond <= sqreps) {
                         ierr = 1;
                     }
                 }
-                else
-                {
-                    if (ierr == 0 && rcond <= sqreps)
-                    {
-                        ierr = 1;
-                    }
-                }
-                if (ierr != 0 && *nv == 0)
-                {
+                if (ierr != 0 && *nv == 0) {
                     *info = 20;
                     return 0;
                 }
             }
-            if (ierr != 0)
-            {
+            if (ierr != 0) {
                 /*              Allocate storage for a descriptor inverse of V. */
                 kav = 1;
                 kev = kav + nvp * nvp;
                 kbv = kev + nvp * nvp;
-                kcv = kbv + nvp **p;
+                kcv = kbv + nvp * *p;
                 kdv = kcv + *p * nvp;
-                kw = kdv + *p **p;
-                ldabv = max(nvp,1);
+                kw = kdv + *p * *p;
+                ldabv = max(nvp, 1);
                 ldcdv = *p;
                 /*              DV is singular or ill-conditioned. */
                 /*              Form a descriptor inverse of V. */
                 /*              Workspace: need  2*(NV+P)*(NV+2*P) + P*P. */
-                ag07bd_("I", nv, p, &av[av_offset], ldav, temp, &c__1, &bv[bv_offset], ldbv, &cv[cv_offset], ldcv, &dv[dv_offset], lddv, &dwork[kav], &ldabv, &dwork[kev], &ldabv, &dwork[kbv], &ldabv, &dwork[kcv], &ldcdv, &dwork[kdv], &ldcdv, &ierr, 1L);
+                ag07bd_("I", nv, p, &av[av_offset], ldav, temp, &c__1, &bv[bv_offset], ldbv,
+                    &cv[cv_offset], ldcv, &dv[dv_offset], lddv, &dwork[kav], &ldabv, &dwork[kev],
+                    &ldabv, &dwork[kbv], &ldabv, &dwork[kcv], &ldcdv, &dwork[kdv], &ldcdv, &ierr,
+                    1L);
                 /*              Compute the projection containing the poles of weighted */
                 /*              reduced ALPHA-stable part using descriptor inverse of V */
                 /*              of order NVP = NV + P. */
@@ -1294,22 +1176,20 @@ ftnlen ordsel_len;
                 /*                 prefer larger. */
                 /*              Integer workspace: need NVP+N+6. */
                 i__1 = *ldwork - kw + 1;
-                ab09jv_(jobvl, dico, "G", "N", &nra, m, p, &nvp, p, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &dwork[kav], &ldabv, &dwork[kev], &ldabv, &dwork[kbv], &ldabv, &dwork[kcv], &ldcdv, &dwork[kdv], &ldcdv, &iwork[1], &dwork[kw], &i__1, &ierr, 1L, 1L, 1L, 1L);
-                if (ierr != 0)
-                {
-                    if (ierr == 1)
-                    {
+                ab09jv_(jobvl, dico, "G", "N", &nra, m, p, &nvp, p, &a[nu1 + nu1 * a_dim1], lda,
+                    &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd,
+                    &dwork[kav], &ldabv, &dwork[kev], &ldabv, &dwork[kbv], &ldabv, &dwork[kcv],
+                    &ldcdv, &dwork[kdv], &ldcdv, &iwork[1], &dwork[kw], &i__1, &ierr, 1L, 1L, 1L,
+                    1L);
+                if (ierr != 0) {
+                    if (ierr == 1) {
                         *info = 5;
-                    }
-                    else if (ierr == 2)
-                    {
+                    } else if (ierr == 2) {
                         *info = 16;
                     }
                     return 0;
                 }
-            }
-            else
-            {
+            } else {
                 /*              Compute the projection containing the poles of weighted */
                 /*              reduced ALPHA-stable part using explicit inverse of V. */
                 /*              Additional real workspace: need */
@@ -1318,26 +1198,23 @@ ftnlen ordsel_len;
                 /*                      a = 2*NV, if DICO = 'D' and JOBVL = 'C'; */
                 /*                 prefer larger. */
                 i__1 = *ldwork - kw + 1;
-                ab09jv_(jobvl, dico, "I", "N", &nra, m, p, nv, p, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &dwork[kav], &ldabv, temp, &c__1, &dwork[kbv], &ldabv, &dwork[kcv], &ldcdv, &dwork[kdv], &ldcdv, &iwork[1], &dwork[kw], &i__1, &ierr, 1L, 1L, 1L, 1L);
-                if (ierr != 0)
-                {
-                    if (ierr == 1)
-                    {
+                ab09jv_(jobvl, dico, "I", "N", &nra, m, p, nv, p, &a[nu1 + nu1 * a_dim1], lda,
+                    &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd,
+                    &dwork[kav], &ldabv, temp, &c__1, &dwork[kbv], &ldabv, &dwork[kcv], &ldcdv,
+                    &dwork[kdv], &ldcdv, &iwork[1], &dwork[kw], &i__1, &ierr, 1L, 1L, 1L, 1L);
+                if (ierr != 0) {
+                    if (ierr == 1) {
                         *info = 10;
-                    }
-                    else if (ierr == 3)
-                    {
+                    } else if (ierr == 3) {
                         *info = 14;
                     }
                     return 0;
                 }
             }
             /* Computing MAX */
-            d__1 = wrkopt, d__2 = dwork[kw] + (doublereal) (kw - 1);
-            wrkopt = max(d__1,d__2);
-        }
-        else
-        {
+            d__1 = wrkopt, d__2 = dwork[kw] + (doublereal)(kw - 1);
+            wrkopt = max(d__1, d__2);
+        } else {
             /*           Compute the projection of V*G1sr or conj(V)*G1sr containing */
             /*           the poles of G. */
             /*           Workspace need: */
@@ -1345,40 +1222,34 @@ ftnlen ordsel_len;
             /*                        a = 0,    if DICO = 'C' or  JOBVL = 'V', */
             /*                        a = 2*NV, if DICO = 'D' and JOBVL = 'C'; */
             /*           prefer larger. */
-            ab09jv_(jobvl, dico, "I", "N", &nra, m, p, nv, p, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &av[av_offset], ldav, temp, &c__1, &bv[bv_offset], ldbv, &cv[cv_offset], ldcv, &dv[dv_offset], lddv, &iwork[1], &dwork[1], ldwork, &ierr, 1L, 1L, 1L, 1L);
-            if (ierr != 0)
-            {
-                if (ierr == 1)
-                {
+            ab09jv_(jobvl, dico, "I", "N", &nra, m, p, nv, p, &a[nu1 + nu1 * a_dim1], lda,
+                &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd,
+                &av[av_offset], ldav, temp, &c__1, &bv[bv_offset], ldbv, &cv[cv_offset], ldcv,
+                &dv[dv_offset], lddv, &iwork[1], &dwork[1], ldwork, &ierr, 1L, 1L, 1L, 1L);
+            if (ierr != 0) {
+                if (ierr == 1) {
                     *info = 3;
-                }
-                else if (ierr == 3)
-                {
+                } else if (ierr == 3) {
                     *info = 12;
                 }
                 return 0;
             }
-            wrkopt = max(wrkopt,dwork[1]);
+            wrkopt = max(wrkopt, dwork[1]);
         }
     }
-    if (rightw)
-    {
-        if (! righti)
-        {
-            if (invfr)
-            {
+    if (rightw) {
+        if (!righti) {
+            if (invfr) {
                 ierr = 1;
-            }
-            else
-            {
+            } else {
                 /*              Allocate storage for a standard inverse of W. */
                 /*              Workspace: need  NW*(NW+2*M) + M*M. */
                 kaw = 1;
-                kbw = kaw + *nw **nw;
-                kcw = kbw + *nw **m;
-                kdw = kcw + *m **nw;
-                kw = kdw + *m **m;
-                ldabw = max(*nw,1);
+                kbw = kaw + *nw * *nw;
+                kcw = kbw + *nw * *m;
+                kdw = kcw + *m * *nw;
+                kw = kdw + *m * *m;
+                ldabw = max(*nw, 1);
                 ldcdw = *m;
                 dlacpy_("Full", nw, nw, &aw[aw_offset], ldaw, &dwork[kaw], &ldabw, 4L);
                 dlacpy_("Full", nw, m, &bw[bw_offset], ldbw, &dwork[kbw], &ldabw, 4L);
@@ -1389,46 +1260,43 @@ ftnlen ordsel_len;
                 /*                                           prefer larger. */
                 /*              Integer workspace:           need   2*M. */
                 i__1 = *ldwork - kw + 1;
-                ab07nd_(nw, m, &dwork[kaw], &ldabw, &dwork[kbw], &ldabw, &dwork[kcw], &ldcdw, &dwork[kdw], &ldcdw, &rcond, &iwork[1], &dwork[kw], &i__1, &ierr);
+                ab07nd_(nw, m, &dwork[kaw], &ldabw, &dwork[kbw], &ldabw, &dwork[kcw], &ldcdw,
+                    &dwork[kdw], &ldcdw, &rcond, &iwork[1], &dwork[kw], &i__1, &ierr);
                 /* Computing MAX */
-                d__1 = wrkopt, d__2 = dwork[kw] + (doublereal) (kw - 1);
-                wrkopt = max(d__1,d__2);
+                d__1 = wrkopt, d__2 = dwork[kw] + (doublereal)(kw - 1);
+                wrkopt = max(d__1, d__2);
                 /*              Check if inversion is accurate. */
-                if (autom)
-                {
-                    if (ierr == 0 && rcond <= 1e-4)
-                    {
+                if (autom) {
+                    if (ierr == 0 && rcond <= 1e-4) {
+                        ierr = 1;
+                    }
+                } else {
+                    if (ierr == 0 && rcond <= sqreps) {
                         ierr = 1;
                     }
                 }
-                else
-                {
-                    if (ierr == 0 && rcond <= sqreps)
-                    {
-                        ierr = 1;
-                    }
-                }
-                if (ierr != 0 && *nw == 0)
-                {
+                if (ierr != 0 && *nw == 0) {
                     *info = 21;
                     return 0;
                 }
             }
-            if (ierr != 0)
-            {
+            if (ierr != 0) {
                 /*              Allocate storage for a descriptor inverse of W. */
                 kaw = 1;
                 kew = kaw + nwm * nwm;
                 kbw = kew + nwm * nwm;
-                kcw = kbw + nwm **m;
+                kcw = kbw + nwm * *m;
                 kdw = kcw + *m * nwm;
-                kw = kdw + *m **m;
-                ldabw = max(nwm,1);
+                kw = kdw + *m * *m;
+                ldabw = max(nwm, 1);
                 ldcdw = *m;
                 /*              DW is singular or ill-conditioned. */
                 /*              Form the descriptor inverse of W. */
                 /*              Workspace: need  2*(NW+M)*(NW+2*M) + M*M. */
-                ag07bd_("I", nw, m, &aw[aw_offset], ldaw, temp, &c__1, &bw[bw_offset], ldbw, &cw[cw_offset], ldcw, &dw[dw_offset], lddw, &dwork[kaw], &ldabw, &dwork[kew], &ldabw, &dwork[kbw], &ldabw, &dwork[kcw], &ldcdw, &dwork[kdw], &ldcdw, &ierr, 1L);
+                ag07bd_("I", nw, m, &aw[aw_offset], ldaw, temp, &c__1, &bw[bw_offset], ldbw,
+                    &cw[cw_offset], ldcw, &dw[dw_offset], lddw, &dwork[kaw], &ldabw, &dwork[kew],
+                    &ldabw, &dwork[kbw], &ldabw, &dwork[kcw], &ldcdw, &dwork[kdw], &ldcdw, &ierr,
+                    1L);
                 /*              Compute the projection containing the poles of weighted */
                 /*              reduced ALPHA-stable part using descriptor inverse of W */
                 /*              of order NWM = NW + M. */
@@ -1438,22 +1306,20 @@ ftnlen ordsel_len;
                 /*                 prefer larger. */
                 /*              Integer workspace: need NWM+N+6. */
                 i__1 = *ldwork - kw + 1;
-                ab09jw_(jobwl, dico, "G", "N", &nra, m, p, &nwm, m, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &dwork[kaw], &ldabw, &dwork[kew], &ldabw, &dwork[kbw], &ldabw, &dwork[kcw], &ldcdw, &dwork[kdw], &ldcdw, &iwork[1], &dwork[kw], &i__1, &ierr, 1L, 1L, 1L, 1L);
-                if (ierr != 0)
-                {
-                    if (ierr == 1)
-                    {
+                ab09jw_(jobwl, dico, "G", "N", &nra, m, p, &nwm, m, &a[nu1 + nu1 * a_dim1], lda,
+                    &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd,
+                    &dwork[kaw], &ldabw, &dwork[kew], &ldabw, &dwork[kbw], &ldabw, &dwork[kcw],
+                    &ldcdw, &dwork[kdw], &ldcdw, &iwork[1], &dwork[kw], &i__1, &ierr, 1L, 1L, 1L,
+                    1L);
+                if (ierr != 0) {
+                    if (ierr == 1) {
                         *info = 6;
-                    }
-                    else if (ierr == 2)
-                    {
+                    } else if (ierr == 2) {
                         *info = 17;
                     }
                     return 0;
                 }
-            }
-            else
-            {
+            } else {
                 /*              Compute the projection containing the poles of weighted */
                 /*              reduced ALPHA-stable part using explicit inverse of W. */
                 /*              Additional real workspace: need */
@@ -1462,26 +1328,23 @@ ftnlen ordsel_len;
                 /*                      a = 2*NW, if DICO = 'D' and JOBWL = 'C'; */
                 /*                 prefer larger. */
                 i__1 = *ldwork - kw + 1;
-                ab09jw_(jobwl, dico, "I", "N", &nra, m, p, nw, m, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &dwork[kaw], &ldabw, temp, &c__1, &dwork[kbw], &ldabw, &dwork[kcw], &ldcdw, &dwork[kdw], &ldcdw, &iwork[1], &dwork[kw], &i__1, &ierr, 1L, 1L, 1L, 1L);
-                if (ierr != 0)
-                {
-                    if (ierr == 1)
-                    {
+                ab09jw_(jobwl, dico, "I", "N", &nra, m, p, nw, m, &a[nu1 + nu1 * a_dim1], lda,
+                    &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd,
+                    &dwork[kaw], &ldabw, temp, &c__1, &dwork[kbw], &ldabw, &dwork[kcw], &ldcdw,
+                    &dwork[kdw], &ldcdw, &iwork[1], &dwork[kw], &i__1, &ierr, 1L, 1L, 1L, 1L);
+                if (ierr != 0) {
+                    if (ierr == 1) {
                         *info = 11;
-                    }
-                    else if (ierr == 3)
-                    {
+                    } else if (ierr == 3) {
                         *info = 15;
                     }
                     return 0;
                 }
             }
             /* Computing MAX */
-            d__1 = wrkopt, d__2 = dwork[kw] + (doublereal) (kw - 1);
-            wrkopt = max(d__1,d__2);
-        }
-        else
-        {
+            d__1 = wrkopt, d__2 = dwork[kw] + (doublereal)(kw - 1);
+            wrkopt = max(d__1, d__2);
+        } else {
             /*           Compute the projection G1r of V*G1sr*W or */
             /*           conj(V)*G1sr*conj(W) containing the poles of G. */
             /*           Workspace need: */
@@ -1489,20 +1352,19 @@ ftnlen ordsel_len;
             /*                    b = 0,    if DICO = 'C' or  JOBWL = 'W', */
             /*                    b = 2*NW, if DICO = 'D' and JOBWL = 'C'; */
             /*           prefer larger. */
-            ab09jw_(jobwl, dico, "I", "N", &nra, m, p, nw, m, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &aw[aw_offset], ldaw, temp, &c__1, &bw[bw_offset], ldbw, &cw[cw_offset], ldcw, &dw[dw_offset], lddw, &iwork[1], &dwork[1], ldwork, &ierr, 1L, 1L, 1L, 1L);
-            if (ierr != 0)
-            {
-                if (ierr == 1)
-                {
+            ab09jw_(jobwl, dico, "I", "N", &nra, m, p, nw, m, &a[nu1 + nu1 * a_dim1], lda,
+                &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd,
+                &aw[aw_offset], ldaw, temp, &c__1, &bw[bw_offset], ldbw, &cw[cw_offset], ldcw,
+                &dw[dw_offset], lddw, &iwork[1], &dwork[1], ldwork, &ierr, 1L, 1L, 1L, 1L);
+            if (ierr != 0) {
+                if (ierr == 1) {
                     *info = 4;
-                }
-                else if (ierr == 3)
-                {
+                } else if (ierr == 3) {
                     *info = 13;
                 }
                 return 0;
             }
-            wrkopt = max(wrkopt,dwork[1]);
+            wrkopt = max(wrkopt, dwork[1]);
         }
     }
     *nr = nra + nu;
@@ -1510,4 +1372,3 @@ ftnlen ordsel_len;
     return 0;
     /* *** Last line of AB09JD *** */
 } /* ab09jd_ */
-

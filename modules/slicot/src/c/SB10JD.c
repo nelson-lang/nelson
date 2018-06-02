@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,23 +12,25 @@ static doublereal c_b10 = 0.;
 static integer c__1 = 1;
 static doublereal c_b48 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb10jd_(n, m, np, a, lda, b, ldb, c__, ldc, d__, ldd, e, lde, nsys, dwork, ldwork, info)
-integer *n, *m, *np;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *e;
+EXPORTSYMBOL /* Subroutine */ int sb10jd_(
+    n, m, np, a, lda, b, ldb, c__, ldc, d__, ldd, e, lde, nsys, dwork, ldwork, info) integer *n,
+    *m, *np;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* e;
 integer *lde, *nsys;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, e_dim1, e_offset, i__1, i__2, i__3, i__4;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, e_dim1,
+        e_offset, i__1, i__2, i__3, i__4;
     doublereal d__1;
     /* Builtin functions */
     double sqrt();
@@ -170,57 +172,39 @@ integer *ldwork, *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*np < 0)
-    {
+    } else if (*np < 0) {
         *info = -3;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -5;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldc < max(1,*np))
-    {
+    } else if (*ldc < max(1, *np)) {
         *info = -9;
-    }
-    else if (*ldd < max(1,*np))
-    {
+    } else if (*ldd < max(1, *np)) {
         *info = -11;
-    }
-    else if (*lde < max(1,*n))
-    {
+    } else if (*lde < max(1, *n)) {
         *info = -13;
     }
     /*     Compute workspace. */
     /* Computing MAX */
     /* Computing MAX */
     i__3 = 5, i__4 = *n + *m + *np;
-    i__1 = 1, i__2 = (*n << 1) * (*n + 1) + *n * max(i__3,i__4);
-    minwrk = max(i__1,i__2);
-    if (*ldwork < minwrk)
-    {
+    i__1 = 1, i__2 = (*n << 1) * (*n + 1) + *n * max(i__3, i__4);
+    minwrk = max(i__1, i__2);
+    if (*ldwork < minwrk) {
         *info = -16;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SB10JD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         *nsys = 0;
         dwork[1] = 1.;
         return 0;
@@ -231,124 +215,125 @@ integer *ldwork, *info;
     /*     Workspace usage. */
     is = 0;
     iu = is + *n;
-    iv = iu + *n **n;
-    iwrk = iv + *n **n;
+    iv = iu + *n * *n;
+    iwrk = iv + *n * *n;
     /*     Compute the SVD of E. */
     /*     Additional workspace:  need   5*N; prefer larger. */
     i__1 = *ldwork - iwrk;
-    dgesvd_("S", "S", n, n, &e[e_offset], lde, &dwork[is + 1], &dwork[iu + 1], n, &dwork[iv + 1], n, &dwork[iwrk + 1], &i__1, &info2, 1L, 1L);
-    if (info2 != 0)
-    {
+    dgesvd_("S", "S", n, n, &e[e_offset], lde, &dwork[is + 1], &dwork[iu + 1], n, &dwork[iv + 1], n,
+        &dwork[iwrk + 1], &i__1, &info2, 1L, 1L);
+    if (info2 != 0) {
         *info = 1;
         return 0;
     }
     /* Computing MAX */
-    i__1 = minwrk, i__2 = (integer) (dwork[iwrk + 1] + iwrk);
-    lwamax = max(i__1,i__2);
+    i__1 = minwrk, i__2 = (integer)(dwork[iwrk + 1] + iwrk);
+    lwamax = max(i__1, i__2);
     /*     Determine the rank of E. */
     ns1 = 0;
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        if (dwork[is + i__] > tol)
-        {
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        if (dwork[is + i__] > tol) {
             ++ns1;
         }
         /* L10: */
     }
-    if (ns1 > 0)
-    {
+    if (ns1 > 0) {
         /*        Transform A. */
         /*        Additional workspace:  need   N*max(N,M,NP). */
-        dgemm_("T", "N", n, n, n, &c_b9, &dwork[iu + 1], n, &a[a_offset], lda, &c_b10, &dwork[iwrk + 1], n, 1L, 1L);
-        dgemm_("N", "T", n, n, n, &c_b9, &dwork[iwrk + 1], n, &dwork[iv + 1], n, &c_b10, &a[a_offset], lda, 1L, 1L);
+        dgemm_("T", "N", n, n, n, &c_b9, &dwork[iu + 1], n, &a[a_offset], lda, &c_b10,
+            &dwork[iwrk + 1], n, 1L, 1L);
+        dgemm_("N", "T", n, n, n, &c_b9, &dwork[iwrk + 1], n, &dwork[iv + 1], n, &c_b10,
+            &a[a_offset], lda, 1L, 1L);
         /*        Transform B. */
         dlacpy_("Full", n, m, &b[b_offset], ldb, &dwork[iwrk + 1], n, 4L);
-        dgemm_("T", "N", n, m, n, &c_b9, &dwork[iu + 1], n, &dwork[iwrk + 1], n, &c_b10, &b[b_offset], ldb, 1L, 1L);
+        dgemm_("T", "N", n, m, n, &c_b9, &dwork[iu + 1], n, &dwork[iwrk + 1], n, &c_b10,
+            &b[b_offset], ldb, 1L, 1L);
         /*        Transform C. */
         dlacpy_("Full", np, n, &c__[c_offset], ldc, &dwork[iwrk + 1], np, 4L);
-        dgemm_("N", "T", np, n, n, &c_b9, &dwork[iwrk + 1], np, &dwork[iv + 1], n, &c_b10, &c__[c_offset], ldc, 1L, 1L);
+        dgemm_("N", "T", np, n, n, &c_b9, &dwork[iwrk + 1], np, &dwork[iv + 1], n, &c_b10,
+            &c__[c_offset], ldc, 1L, 1L);
         k = *n - ns1;
-        if (k > 0)
-        {
+        if (k > 0) {
             isa = iu + k * k;
             iv = isa + k;
-            iwrk = iv + k * max(k,ns1);
+            iwrk = iv + k * max(k, ns1);
             /*           Compute the SVD of A22. */
             /*           Additional workspace:  need   5*K; prefer larger. */
             i__1 = *ldwork - iwrk;
-            dgesvd_("S", "S", &k, &k, &a[ns1 + 1 + (ns1 + 1) * a_dim1], lda, &dwork[isa + 1], &dwork[iu + 1], &k, &dwork[iv + 1], &k, &dwork[iwrk + 1], &i__1, &info2, 1L, 1L);
-            if (info2 != 0)
-            {
+            dgesvd_("S", "S", &k, &k, &a[ns1 + 1 + (ns1 + 1) * a_dim1], lda, &dwork[isa + 1],
+                &dwork[iu + 1], &k, &dwork[iv + 1], &k, &dwork[iwrk + 1], &i__1, &info2, 1L, 1L);
+            if (info2 != 0) {
                 *info = 1;
                 return 0;
             }
             ia12 = iwrk;
             ib2 = ia12 + ns1 * k;
-            ic2 = ib2 + k **m;
-            lwa = (integer) dwork[iwrk + 1] + iwrk;
+            ic2 = ib2 + k * *m;
+            lwa = (integer)dwork[iwrk + 1] + iwrk;
             /* Computing MAX */
-            i__1 = max(lwa,lwamax), i__2 = ic2 + k **np;
-            lwamax = max(i__1,i__2);
+            i__1 = max(lwa, lwamax), i__2 = ic2 + k * *np;
+            lwamax = max(i__1, i__2);
             /*           Compute the transformed A12. */
-            dgemm_("N", "T", &ns1, &k, &k, &c_b9, &a[(ns1 + 1) * a_dim1 + 1], lda, &dwork[iv + 1], &k, &c_b10, &dwork[ia12 + 1], &ns1, 1L, 1L);
+            dgemm_("N", "T", &ns1, &k, &k, &c_b9, &a[(ns1 + 1) * a_dim1 + 1], lda, &dwork[iv + 1],
+                &k, &c_b10, &dwork[ia12 + 1], &ns1, 1L, 1L);
             /*           Compute CC2. */
-            dgemm_("N", "T", np, &k, &k, &c_b9, &c__[(ns1 + 1) * c_dim1 + 1], ldc, &dwork[iv + 1], &k, &c_b10, &dwork[ic2 + 1], np, 1L, 1L);
+            dgemm_("N", "T", np, &k, &k, &c_b9, &c__[(ns1 + 1) * c_dim1 + 1], ldc, &dwork[iv + 1],
+                &k, &c_b10, &dwork[ic2 + 1], np, 1L, 1L);
             /*           Compute the transformed A21. */
             ia21 = iv;
-            dgemm_("T", "N", &k, &ns1, &k, &c_b9, &dwork[iu + 1], &k, &a[ns1 + 1 + a_dim1], lda, &c_b10, &dwork[ia21 + 1], &k, 1L, 1L);
+            dgemm_("T", "N", &k, &ns1, &k, &c_b9, &dwork[iu + 1], &k, &a[ns1 + 1 + a_dim1], lda,
+                &c_b10, &dwork[ia21 + 1], &k, 1L, 1L);
             /*           Compute BB2. */
-            dgemm_("T", "N", &k, m, &k, &c_b9, &dwork[iu + 1], &k, &b[ns1 + 1 + b_dim1], ldb, &c_b10, &dwork[ib2 + 1], &k, 1L, 1L);
+            dgemm_("T", "N", &k, m, &k, &c_b9, &dwork[iu + 1], &k, &b[ns1 + 1 + b_dim1], ldb,
+                &c_b10, &dwork[ib2 + 1], &k, 1L, 1L);
             /*           Compute A12*pinv(A22) and CC2*pinv(A22). */
             i__1 = k;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 scale = 0.;
-                if (dwork[isa + j] > tol)
-                {
+                if (dwork[isa + j] > tol) {
                     scale = 1. / dwork[isa + j];
                 }
                 dscal_(&ns1, &scale, &dwork[ia12 + (j - 1) * ns1 + 1], &c__1);
-                dscal_(np, &scale, &dwork[ic2 + (j - 1) **np + 1], &c__1);
+                dscal_(np, &scale, &dwork[ic2 + (j - 1) * *np + 1], &c__1);
                 /* L20: */
             }
             /*           Compute Ad. */
-            dgemm_("N", "N", &ns1, &ns1, &k, &c_b48, &dwork[ia12 + 1], &ns1, &dwork[ia21 + 1], &k, &c_b9, &a[a_offset], lda, 1L, 1L);
+            dgemm_("N", "N", &ns1, &ns1, &k, &c_b48, &dwork[ia12 + 1], &ns1, &dwork[ia21 + 1], &k,
+                &c_b9, &a[a_offset], lda, 1L, 1L);
             /*           Compute Bd. */
-            dgemm_("N", "N", &ns1, m, &k, &c_b48, &dwork[ia12 + 1], &ns1, &dwork[ib2 + 1], &k, &c_b9, &b[b_offset], ldb, 1L, 1L);
+            dgemm_("N", "N", &ns1, m, &k, &c_b48, &dwork[ia12 + 1], &ns1, &dwork[ib2 + 1], &k,
+                &c_b9, &b[b_offset], ldb, 1L, 1L);
             /*           Compute Cd. */
-            dgemm_("N", "N", np, &ns1, &k, &c_b48, &dwork[ic2 + 1], np, &dwork[ia21 + 1], &k, &c_b9, &c__[c_offset], ldc, 1L, 1L);
+            dgemm_("N", "N", np, &ns1, &k, &c_b48, &dwork[ic2 + 1], np, &dwork[ia21 + 1], &k, &c_b9,
+                &c__[c_offset], ldc, 1L, 1L);
             /*           Compute Dd. */
-            dgemm_("N", "N", np, m, &k, &c_b48, &dwork[ic2 + 1], np, &dwork[ib2 + 1], &k, &c_b9, &d__[d_offset], ldd, 1L, 1L);
+            dgemm_("N", "N", np, m, &k, &c_b48, &dwork[ic2 + 1], np, &dwork[ib2 + 1], &k, &c_b9,
+                &d__[d_offset], ldd, 1L, 1L);
         }
         i__1 = ns1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             scale = 1. / sqrt(dwork[is + i__]);
             dscal_(&ns1, &scale, &a[i__ + a_dim1], lda);
             dscal_(m, &scale, &b[i__ + b_dim1], ldb);
             /* L30: */
         }
         i__1 = ns1;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             scale = 1. / sqrt(dwork[is + j]);
             dscal_(&ns1, &scale, &a[j * a_dim1 + 1], &c__1);
             dscal_(np, &scale, &c__[j * c_dim1 + 1], &c__1);
             /* L40: */
         }
         *nsys = ns1;
-    }
-    else
-    {
+    } else {
         d__1 = -1. / eps;
         dlaset_("F", n, n, &c_b10, &d__1, &a[a_offset], lda, 1L);
         dlaset_("F", n, m, &c_b10, &c_b10, &b[b_offset], ldb, 1L);
         dlaset_("F", np, n, &c_b10, &c_b10, &c__[c_offset], ldc, 1L);
         *nsys = *n;
     }
-    dwork[1] = (doublereal) lwamax;
+    dwork[1] = (doublereal)lwamax;
     return 0;
     /* *** Last line of SB10JD *** */
 } /* sb10jd_ */
-

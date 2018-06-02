@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,27 +13,28 @@ static integer c__1 = 1;
 static integer c__4 = 4;
 static logical c_true = TRUE_;
 
-EXPORTSYMBOL /* Subroutine */ int sb08fd_(dico, n, m, p, alpha, a, lda, b, ldb, c__, ldc, d__, ldd, nq, nr, cr, ldcr, dr, lddr, tol, dwork, ldwork, iwarn, info, dico_len)
-char *dico;
+EXPORTSYMBOL /* Subroutine */ int sb08fd_(dico, n, m, p, alpha, a, lda, b, ldb, c__, ldc, d__, ldd,
+    nq, nr, cr, ldcr, dr, lddr, tol, dwork, ldwork, iwarn, info, dico_len) char* dico;
 integer *n, *m, *p;
 doublereal *alpha, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ldd, *nq, *nr;
-doublereal *cr;
-integer *ldcr;
-doublereal *dr;
-integer *lddr;
+doublereal* cr;
+integer* ldcr;
+doublereal* dr;
+integer* lddr;
 doublereal *tol, *dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen dico_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, cr_dim1, cr_offset, d_dim1, d_offset, dr_dim1, dr_offset, i__1, i__2;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, cr_dim1, cr_offset, d_dim1,
+        d_offset, dr_dim1, dr_offset, i__1, i__2;
     doublereal d__1, d__2;
     /* Builtin functions */
     double d_sign(), sqrt();
@@ -43,11 +44,11 @@ ftnlen dico_len;
     extern /* Subroutine */ int drot_();
     static integer nlow, nsup, ncur1, i__, j, k, l;
     extern /* Subroutine */ int tb01ld_();
-    static doublereal x, y, z__[16]	/* was [4][4] */;
+    static doublereal x, y, z__[16] /* was [4][4] */;
     extern /* Subroutine */ int dgemm_(), sb01by_();
     extern logical lsame_();
     static logical discr;
-    static doublereal bnorm, a2[4]	/* was [2][2] */, toler;
+    static doublereal bnorm, a2[4] /* was [2][2] */, toler;
     static integer l1;
     extern /* Subroutine */ int dlanv2_();
     extern doublereal dlapy2_();
@@ -274,61 +275,39 @@ ftnlen dico_len;
     *iwarn = 0;
     *info = 0;
     /*     Check the scalar input parameters. */
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -4;
-    }
-    else if (discr && (alpha[1] < 0. || alpha[1] >= 1. || alpha[2] < 0. || alpha[2] >= 1.) || ! discr && (alpha[1] >= 0. || alpha[2] >= 0.))
-    {
+    } else if (discr && (alpha[1] < 0. || alpha[1] >= 1. || alpha[2] < 0. || alpha[2] >= 1.)
+        || !discr && (alpha[1] >= 0. || alpha[2] >= 0.)) {
         *info = -5;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -11;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -13;
-    }
-    else if (*ldcr < max(1,*m))
-    {
+    } else if (*ldcr < max(1, *m)) {
         *info = -17;
-    }
-    else if (*lddr < max(1,*m))
-    {
+    } else if (*lddr < max(1, *m)) {
         *info = -19;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = 1, i__2 = *n * (*n + 5), i__1 = max(i__1,i__2), i__2 = *m * 5, i__1 = max(i__1,i__2), i__2 = *p << 2;
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__1 = 1, i__2 = *n * (*n + 5), i__1 = max(i__1, i__2), i__2 = *m * 5,
+        i__1 = max(i__1, i__2), i__2 = *p << 2;
+        if (*ldwork < max(i__1, i__2)) {
             *info = -22;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB08FD", &i__1, 6L);
@@ -337,8 +316,7 @@ ftnlen dico_len;
     /*     Set DR = I and quick return if possible. */
     *nr = 0;
     dlaset_("Full", m, m, &c_b6, &c_b7, &dr[dr_offset], lddr, 4L);
-    if (min(*n,*m) == 0)
-    {
+    if (min(*n, *m) == 0) {
         *nq = 0;
         dwork[1] = 1.;
         return 0;
@@ -348,12 +326,10 @@ ftnlen dico_len;
     /*     Compute the norm of B and set the default tolerance if necessary. */
     bnorm = dlange_("1-norm", n, m, &b[b_offset], ldb, &dwork[1], 6L);
     toler = *tol;
-    if (toler <= 0.)
-    {
-        toler = (doublereal) (*n) * bnorm * dlamch_("Epsilon", 7L);
+    if (toler <= 0.) {
+        toler = (doublereal)(*n) * bnorm * dlamch_("Epsilon", 7L);
     }
-    if (bnorm <= toler)
-    {
+    if (bnorm <= toler) {
         *nq = 0;
         dwork[1] = 1.;
         return 0;
@@ -362,7 +338,7 @@ ftnlen dico_len;
     rmax = dlange_("1-norm", n, n, &a[a_offset], lda, &dwork[1], 6L) * 10. / bnorm;
     /*     Allocate working storage. */
     kz = 1;
-    kwr = kz + *n **n;
+    kwr = kz + *n * *n;
     kwi = kwr + *n;
     kw = kwi + *n;
     /*     Reduce A to an ordered real Schur form using an orthogonal */
@@ -377,16 +353,16 @@ ftnlen dico_len;
     /*     Additional workspace:  need   3*N; */
     /*                            prefer larger. */
     i__1 = *ldwork - kw + 1;
-    tb01ld_(dico, "Stable", "General", n, m, p, &alpha[2], &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &nfp, &dwork[kz], n, &dwork[kwr], &dwork[kwi], &dwork[kw], &i__1, info, 1L, 6L, 7L);
-    if (*info != 0)
-    {
+    tb01ld_(dico, "Stable", "General", n, m, p, &alpha[2], &a[a_offset], lda, &b[b_offset], ldb,
+        &c__[c_offset], ldc, &nfp, &dwork[kz], n, &dwork[kwr], &dwork[kwi], &dwork[kw], &i__1, info,
+        1L, 6L, 7L);
+    if (*info != 0) {
         return 0;
     }
-    wrkopt = dwork[kw] + (doublereal) (kw - 1);
+    wrkopt = dwork[kw] + (doublereal)(kw - 1);
     /*     Perform the pole assignment if there exist "unstable" eigenvalues. */
     *nq = *n;
-    if (nfp < *n)
-    {
+    if (nfp < *n) {
         kg = 1;
         kfi = kg + (*m << 1);
         kw = kfi + (*m << 1);
@@ -394,16 +370,13 @@ ftnlen dico_len;
         nlow = nfp + 1;
         nsup = *n;
         /*        WHILE (NLOW <= NSUP) DO */
-L10:
-        if (nlow <= nsup)
-        {
+    L10:
+        if (nlow <= nsup) {
             /*           Main loop for assigning one or two poles. */
             /*           Determine the dimension of the last block. */
             ib = 1;
-            if (nlow < nsup)
-            {
-                if (a[nsup + (nsup - 1) * a_dim1] != 0.)
-                {
+            if (nlow < nsup) {
+                if (a[nsup + (nsup - 1) * a_dim1] != 0.) {
                     ib = 2;
                 }
             }
@@ -411,41 +384,31 @@ L10:
             /*           Save the last IB rows of B in G. */
             dlacpy_("Full", &ib, m, &b[l + b_dim1], ldb, &dwork[kg], &ib, 4L);
             /*           Check the controllability of the last block. */
-            if (dlange_("1-norm", &ib, m, &dwork[kg], &ib, &dwork[kw], 6L) <= toler)
-            {
+            if (dlange_("1-norm", &ib, m, &dwork[kg], &ib, &dwork[kw], 6L) <= toler) {
                 /*              Deflate the uncontrollable block and resume the */
                 /*              main loop. */
                 nsup -= ib;
-            }
-            else
-            {
+            } else {
                 /*              Form the IBxIB matrix A2 from the last diagonal block and */
                 /*              set the pole(s) to be assigned. */
                 a2[0] = a[l + l * a_dim1];
-                if (ib == 1)
-                {
+                if (ib == 1) {
                     sm = alpha[1];
-                    if (discr)
-                    {
+                    if (discr) {
                         sm = d_sign(&alpha[1], a2);
                     }
                     pr = alpha[1];
-                }
-                else
-                {
+                } else {
                     a2[2] = a[l + nsup * a_dim1];
                     a2[1] = a[nsup + l * a_dim1];
                     a2[3] = a[nsup + nsup * a_dim1];
                     sm = alpha[1] + alpha[1];
                     pr = alpha[1] * alpha[1];
-                    if (discr)
-                    {
+                    if (discr) {
                         x = a2[0];
                         y = sqrt((d__1 = a2[2] * a2[1], abs(d__1)));
                         sm = sm * x / dlapy2_(&x, &y);
-                    }
-                    else
-                    {
+                    } else {
                         pr -= a2[2] * a2[1];
                     }
                 }
@@ -453,8 +416,7 @@ L10:
                 /*              the selected IB poles for the pair (A2,G). */
                 /*              Workspace needed: 5*M. */
                 sb01by_(&ib, m, &sm, &pr, a2, &dwork[kg], &dwork[kfi], &toler, &dwork[kw], info);
-                if (*info != 0)
-                {
+                if (*info != 0) {
                     /*                 Uncontrollable 2x2 block with double real eigenvalues */
                     /*                 which due to roundoff appear as a pair of complex */
                     /*                 conjugated eigenvalues. */
@@ -468,9 +430,9 @@ L10:
                     drot_(&i__1, &a[l1 + l * a_dim1], lda, &a[l + l * a_dim1], lda, &cs, &sn);
                     drot_(&l1, &a[l1 * a_dim1 + 1], &c__1, &a[l * a_dim1 + 1], &c__1, &cs, &sn);
                     drot_(m, &b[l1 + b_dim1], ldb, &b[l + b_dim1], ldb, &cs, &sn);
-                    if (*p > 0)
-                    {
-                        drot_(p, &c__[l1 * c_dim1 + 1], &c__1, &c__[l * c_dim1 + 1], &c__1, &cs, &sn);
+                    if (*p > 0) {
+                        drot_(
+                            p, &c__[l1 * c_dim1 + 1], &c__1, &c__[l * c_dim1 + 1], &c__1, &cs, &sn);
                     }
                     drot_(m, &cr[l1 * cr_dim1 + 1], &c__1, &cr[l * cr_dim1 + 1], &c__1, &cs, &sn);
                     /*                 Deflate the uncontrollable block and resume the */
@@ -481,18 +443,15 @@ L10:
                     goto L10;
                 }
                 /*              Check for possible numerical instability. */
-                if (dlange_("1-norm", m, &ib, &dwork[kfi], m, &dwork[kw], 6L) > rmax)
-                {
+                if (dlange_("1-norm", m, &ib, &dwork[kfi], m, &dwork[kw], 6L) > rmax) {
                     ++(*iwarn);
                 }
                 /*              Update the feedback matrix F <-- F + [0 FI] in CR. */
                 k = kfi;
                 i__1 = l + ib - 1;
-                for (j = l; j <= i__1; ++j)
-                {
+                for (j = l; j <= i__1; ++j) {
                     i__2 = *m;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__2; ++i__) {
                         cr[i__ + j * cr_dim1] += dwork[k];
                         ++k;
                         /* L20: */
@@ -500,92 +459,98 @@ L10:
                     /* L30: */
                 }
                 /*              Update the state matrix A <-- A + B*[0 FI]. */
-                dgemm_("NoTranspose", "NoTranspose", &nsup, &ib, m, &c_b7, &b[b_offset], ldb, &dwork[kfi], m, &c_b7, &a[l * a_dim1 + 1], lda, 11L, 11L);
-                if (ib == 2)
-                {
+                dgemm_("NoTranspose", "NoTranspose", &nsup, &ib, m, &c_b7, &b[b_offset], ldb,
+                    &dwork[kfi], m, &c_b7, &a[l * a_dim1 + 1], lda, 11L, 11L);
+                if (ib == 2) {
                     /*                 Try to split the 2x2 block and standardize it. */
                     l1 = l + 1;
-                    dlanv2_(&a[l + l * a_dim1], &a[l + l1 * a_dim1], &a[l1 + l * a_dim1], &a[l1 + l1 * a_dim1], &x, &y, &pr, &sm, &cs, &sn);
+                    dlanv2_(&a[l + l * a_dim1], &a[l + l1 * a_dim1], &a[l1 + l * a_dim1],
+                        &a[l1 + l1 * a_dim1], &x, &y, &pr, &sm, &cs, &sn);
                     /*                 Apply the transformation to A, B, C and F. */
-                    if (l1 < nsup)
-                    {
+                    if (l1 < nsup) {
                         i__1 = nsup - l1;
-                        drot_(&i__1, &a[l + (l1 + 1) * a_dim1], lda, &a[l1 + (l1 + 1) * a_dim1], lda, &cs, &sn);
+                        drot_(&i__1, &a[l + (l1 + 1) * a_dim1], lda, &a[l1 + (l1 + 1) * a_dim1],
+                            lda, &cs, &sn);
                     }
                     i__1 = l - 1;
                     drot_(&i__1, &a[l * a_dim1 + 1], &c__1, &a[l1 * a_dim1 + 1], &c__1, &cs, &sn);
                     drot_(m, &b[l + b_dim1], ldb, &b[l1 + b_dim1], ldb, &cs, &sn);
-                    if (*p > 0)
-                    {
-                        drot_(p, &c__[l * c_dim1 + 1], &c__1, &c__[l1 * c_dim1 + 1], &c__1, &cs, &sn);
+                    if (*p > 0) {
+                        drot_(
+                            p, &c__[l * c_dim1 + 1], &c__1, &c__[l1 * c_dim1 + 1], &c__1, &cs, &sn);
                     }
                     drot_(m, &cr[l * cr_dim1 + 1], &c__1, &cr[l1 * cr_dim1 + 1], &c__1, &cs, &sn);
                 }
-                if (nlow + ib <= nsup)
-                {
+                if (nlow + ib <= nsup) {
                     /*                 Move the last block(s) to the leading position(s) of */
                     /*                 the bottom block. */
                     /*                 Workspace:     need MAX(4*N, 4*M, 4*P). */
                     ncur1 = nsup - ib;
                     nmoves = 1;
-                    if (ib == 2 && a[nsup + (nsup - 1) * a_dim1] == 0.)
-                    {
+                    if (ib == 2 && a[nsup + (nsup - 1) * a_dim1] == 0.) {
                         ib = 1;
                         nmoves = 2;
                     }
                     /*                 WHILE (NMOVES > 0) DO */
-L40:
-                    if (nmoves > 0)
-                    {
+                L40:
+                    if (nmoves > 0) {
                         ncur = ncur1;
                         /*                    WHILE (NCUR >= NLOW) DO */
-L50:
-                        if (ncur >= nlow)
-                        {
+                    L50:
+                        if (ncur >= nlow) {
                             /*                       Loop for positioning of the last block. */
-                            /*                       Determine the dimension of the current block. */
+                            /*                       Determine the dimension of the current block.
+                             */
                             ib1 = 1;
-                            if (ncur > nlow)
-                            {
-                                if (a[ncur + (ncur - 1) * a_dim1] != 0.)
-                                {
+                            if (ncur > nlow) {
+                                if (a[ncur + (ncur - 1) * a_dim1] != 0.) {
                                     ib1 = 2;
                                 }
                             }
                             nb = ib1 + ib;
-                            /*                       Initialize the local transformation matrix Z. */
+                            /*                       Initialize the local transformation matrix Z.
+                             */
                             dlaset_("Full", &nb, &nb, &c_b6, &c_b7, z__, &c__4, 4L);
                             l = ncur - ib1 + 1;
-                            /*                       Exchange two adjacent blocks and accumulate the */
+                            /*                       Exchange two adjacent blocks and accumulate the
+                             */
                             /*                       transformations in Z. */
-                            dlaexc_(&c_true, &nb, &a[l + l * a_dim1], lda, z__, &c__4, &c__1, &ib1, &ib, &dwork[1], info);
-                            if (*info != 0)
-                            {
+                            dlaexc_(&c_true, &nb, &a[l + l * a_dim1], lda, z__, &c__4, &c__1, &ib1,
+                                &ib, &dwork[1], info);
+                            if (*info != 0) {
                                 *info = 2;
                                 return 0;
                             }
                             /*                       Apply the transformation to the rest of A. */
                             l1 = l + nb;
-                            if (l1 <= nsup)
-                            {
+                            if (l1 <= nsup) {
                                 i__1 = nsup - l1 + 1;
-                                dgemm_("Transpose", "NoTranspose", &nb, &i__1, &nb, &c_b7, z__, &c__4, &a[l + l1 * a_dim1], lda, &c_b6, &dwork[1], &nb, 9L, 11L);
+                                dgemm_("Transpose", "NoTranspose", &nb, &i__1, &nb, &c_b7, z__,
+                                    &c__4, &a[l + l1 * a_dim1], lda, &c_b6, &dwork[1], &nb, 9L,
+                                    11L);
                                 i__1 = nsup - l1 + 1;
-                                dlacpy_("Full", &nb, &i__1, &dwork[1], &nb, &a[l + l1 * a_dim1], lda, 4L);
+                                dlacpy_("Full", &nb, &i__1, &dwork[1], &nb, &a[l + l1 * a_dim1],
+                                    lda, 4L);
                             }
                             i__1 = l - 1;
-                            dgemm_("NoTranspose", "NoTranspose", &i__1, &nb, &nb, &c_b7, &a[l * a_dim1 + 1], lda, z__, &c__4, &c_b6, &dwork[1], n, 11L, 11L);
+                            dgemm_("NoTranspose", "NoTranspose", &i__1, &nb, &nb, &c_b7,
+                                &a[l * a_dim1 + 1], lda, z__, &c__4, &c_b6, &dwork[1], n, 11L, 11L);
                             i__1 = l - 1;
                             dlacpy_("Full", &i__1, &nb, &dwork[1], n, &a[l * a_dim1 + 1], lda, 4L);
                             /*                       Apply the transformation to B, C and F. */
-                            dgemm_("Transpose", "NoTranspose", &nb, m, &nb, &c_b7, z__, &c__4, &b[l + b_dim1], ldb, &c_b6, &dwork[1], &nb, 9L, 11L);
+                            dgemm_("Transpose", "NoTranspose", &nb, m, &nb, &c_b7, z__, &c__4,
+                                &b[l + b_dim1], ldb, &c_b6, &dwork[1], &nb, 9L, 11L);
                             dlacpy_("Full", &nb, m, &dwork[1], &nb, &b[l + b_dim1], ldb, 4L);
-                            if (*p > 0)
-                            {
-                                dgemm_("NoTranspose", "NoTranspose", p, &nb, &nb, &c_b7, &c__[l * c_dim1 + 1], ldc, z__, &c__4, &c_b6, &dwork[1], p, 11L, 11L);
-                                dlacpy_("Full", p, &nb, &dwork[1], p, &c__[l * c_dim1 + 1], ldc, 4L);
+                            if (*p > 0) {
+                                dgemm_("NoTranspose", "NoTranspose", p, &nb, &nb, &c_b7,
+                                    &c__[l * c_dim1 + 1], ldc, z__, &c__4, &c_b6, &dwork[1], p, 11L,
+                                    11L);
+                                dlacpy_(
+                                    "Full", p, &nb, &dwork[1], p, &c__[l * c_dim1 + 1], ldc, 4L);
                             }
-                            dgemm_("NoTranspose", "NoTranspose", m, &nb, &nb, &c_b7, &cr[l * cr_dim1 + 1], ldcr, z__, &c__4, &c_b6, &dwork[1], m, 11L, 11L);
+                            dgemm_("NoTranspose", "NoTranspose", m, &nb, &nb, &c_b7,
+                                &cr[l * cr_dim1 + 1], ldcr, z__, &c__4, &c_b6, &dwork[1], m, 11L,
+                                11L);
                             dlacpy_("Full", m, &nb, &dwork[1], m, &cr[l * cr_dim1 + 1], ldcr, 4L);
                             ncur -= ib1;
                             goto L50;
@@ -597,9 +562,7 @@ L50:
                         goto L40;
                     }
                     /*                 END WHILE 40 */
-                }
-                else
-                {
+                } else {
                     nlow += ib;
                 }
             }
@@ -609,21 +572,20 @@ L50:
         *nq = nsup;
         *nr = nsup - nfp;
         /*        Annihilate the elements below the first subdiagonal of A. */
-        if (*nq > 2)
-        {
+        if (*nq > 2) {
             i__1 = *nq - 2;
             i__2 = *nq - 2;
             dlaset_("Lower", &i__1, &i__2, &c_b6, &c_b6, &a[a_dim1 + 3], lda, 5L);
         }
     }
     /*     Compute C <-- CQ = C + D*F. */
-    dgemm_("NoTranspose", "NoTranspose", p, nq, m, &c_b7, &d__[d_offset], ldd, &cr[cr_offset], ldcr, &c_b7, &c__[c_offset], ldc, 11L, 11L);
+    dgemm_("NoTranspose", "NoTranspose", p, nq, m, &c_b7, &d__[d_offset], ldd, &cr[cr_offset], ldcr,
+        &c_b7, &c__[c_offset], ldc, 11L, 11L);
     /* Computing MAX */
     /* Computing MAX */
     i__1 = *m * 5, i__2 = *p << 2;
-    d__1 = wrkopt, d__2 = (doublereal) max(i__1,i__2);
-    dwork[1] = max(d__1,d__2);
+    d__1 = wrkopt, d__2 = (doublereal)max(i__1, i__2);
+    dwork[1] = max(d__1, d__2);
     return 0;
     /* *** Last line of SB08FD *** */
 } /* sb08fd_ */
-

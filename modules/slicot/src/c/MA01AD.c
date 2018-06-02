@@ -1,12 +1,11 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int ma01ad_(xr, xi, yr, yi)
-doublereal *xr, *xi, *yr, *yi;
+EXPORTSYMBOL /* Subroutine */ int ma01ad_(xr, xi, yr, yi) doublereal *xr, *xi, *yr, *yi;
 {
     /* Builtin functions */
     double sqrt();
@@ -65,27 +64,20 @@ doublereal *xr, *xi, *yr, *yi;
     /*     .. */
     /*     .. Executable Statements .. */
     s = sqrt((dlapy2_(xr, xi) + abs(*xr)) * .5);
-    if (*xr >= 0.)
-    {
+    if (*xr >= 0.) {
         *yr = s;
     }
-    if (*xi < 0.)
-    {
+    if (*xi < 0.) {
         s = -s;
     }
-    if (*xr <= 0.)
-    {
+    if (*xr <= 0.) {
         *yi = s;
-        if (*xr < 0.)
-        {
+        if (*xr < 0.) {
             *yr = *xi / s * .5;
         }
-    }
-    else
-    {
+    } else {
         *yi = *xi / *yr * .5;
     }
     return 0;
     /*     *** Last line of MA01AD *** */
 } /* ma01ad_ */
-

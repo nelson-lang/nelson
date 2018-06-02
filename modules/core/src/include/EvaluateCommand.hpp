@@ -18,16 +18,21 @@
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
 //=============================================================================
-#include "nlsCore_exports.h"
-#include "Evaluator.hpp"
 #include "Context.hpp"
+#include "Evaluator.hpp"
+#include "nlsCore_exports.h"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    NLSCORE_IMPEXP bool EvaluateCommand(Evaluator *eval, std::wstring command, bool bCatch);
-    NLSCORE_IMPEXP bool EvaluateCommand(Evaluator *eval, std::string command, bool bCatch);
-    NLSCORE_IMPEXP ArrayOfVector EvaluateCommand(Evaluator *eval, int nLhs, std::wstring command, std::wstring catchCommand);
-    NLSCORE_IMPEXP ArrayOfVector EvaluateInCommand(Evaluator *eval, int nLhs, SCOPE_LEVEL scope,std::wstring command);
-    NLSCORE_IMPEXP ArrayOfVector EvaluateConsoleCommand(Evaluator *eval, int nLhs, std::wstring command, std::wstring catchCommand);
-}
+//=============================================================================
+NLSCORE_IMPEXP bool
+EvaluateCommand(Evaluator* eval, std::wstring command, bool bCatch);
+NLSCORE_IMPEXP bool
+EvaluateCommand(Evaluator* eval, std::string command, bool bCatch);
+NLSCORE_IMPEXP ArrayOfVector
+EvaluateCommand(Evaluator* eval, int nLhs, std::wstring command, std::wstring catchCommand);
+NLSCORE_IMPEXP ArrayOfVector
+EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, std::wstring command);
+NLSCORE_IMPEXP ArrayOfVector
+EvaluateConsoleCommand(Evaluator* eval, int nLhs, std::wstring command, std::wstring catchCommand);
+} // namespace Nelson
 //=============================================================================

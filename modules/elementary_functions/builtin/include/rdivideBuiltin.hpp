@@ -22,7 +22,8 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace ElementaryFunctionsGateway {
-        ArrayOfVector rdivideBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
-}//=============================================================================
+namespace ElementaryFunctionsGateway {
+    ArrayOfVector
+    rdivideBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+}
+} // namespace Nelson

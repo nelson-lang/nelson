@@ -1,15 +1,14 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int df01md_(sico, n, dt, a, dwork, info, sico_len)
-char *sico;
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int df01md_(sico, n, dt, a, dwork, info, sico_len) char* sico;
+integer* n;
 doublereal *dt, *a, *dwork;
-integer *info;
+integer* info;
 ftnlen sico_len;
 {
     /* System generated locals */
@@ -152,32 +151,25 @@ ftnlen sico_len;
     *info = 0;
     lsico = lsame_(sico, "S", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! lsico && ! lsame_(sico, "C", 1L, 1L))
-    {
+    if (!lsico && !lsame_(sico, "C", 1L, 1L)) {
         *info = -1;
-    }
-    else
-    {
+    } else {
         m = 0;
-        if (*n > 4)
-        {
+        if (*n > 4) {
             m = *n - 1;
             /*           WHILE ( MOD( M, 2 ).EQ.0 ) DO */
-L10:
-            if (m % 2 == 0)
-            {
+        L10:
+            if (m % 2 == 0) {
                 m /= 2;
                 goto L10;
             }
             /*           END WHILE 10 */
         }
-        if (m != 1)
-        {
+        if (m != 1) {
             *info = -2;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("DF01MD", &i__1, 6L);
@@ -186,35 +178,30 @@ L10:
     /*     Initialisation. */
     m = *n - 1;
     md2 = (*n + 1) / 2;
-    pibym = atan(1.) * 4. / (doublereal) m;
+    pibym = atan(1.) * 4. / (doublereal)m;
     i2 = 1;
     dwork[md2 + 1] = 0.;
     dwork[md2 * 2] = 0.;
-    if (lsico)
-    {
+    if (lsico) {
         /*        Sine transform. */
         lsig = TRUE_;
         dwork[1] = a[2] * -2.;
         dwork[md2] = a[m] * 2.;
         i__1 = m;
-        for (i__ = 4; i__ <= i__1; i__ += 2)
-        {
+        for (i__ = 4; i__ <= i__1; i__ += 2) {
             ++i2;
             dwork[i2] = a[i__ - 2] - a[i__];
             dwork[md2 + i2] = -a[i__ - 1];
             /* L20: */
         }
-    }
-    else
-    {
+    } else {
         /*        Cosine transform. */
         lsig = FALSE_;
         dwork[1] = a[1] * 2.;
         dwork[md2] = a[*n] * 2.;
         a0 = a[2];
         i__1 = m;
-        for (i__ = 4; i__ <= i__1; i__ += 2)
-        {
+        for (i__ = 4; i__ <= i__1; i__ += 2) {
             ++i2;
             dwork[i2] = a[i__ - 1] * 2.;
             dwork[md2 + i2] = (a[i__ - 2] - a[i__]) * 2.;
@@ -227,28 +214,23 @@ L10:
     i__1 = md2 - 1;
     dg01nd_("Inverse", &i__1, &dwork[1], &dwork[md2 + 1], info, 7L);
     /*     Sine or cosine coefficients. */
-    if (lsico)
-    {
+    if (lsico) {
         a[1] = 0.;
         a[*n] = 0.;
-    }
-    else
-    {
+    } else {
         a[1] = *dt * 2. * (dwork[1] + a0);
         a[*n] = *dt * 2. * (dwork[1] - a0);
     }
     ind1 = md2 + 1;
     ind2 = *n;
     i__1 = m - 1;
-    for (i__ = 1; i__ <= i__1; i__ += 2)
-    {
+    for (i__ = 1; i__ <= i__1; i__ += 2) {
         w1 = dwork[ind1];
         w2 = dwork[ind2];
-        if (lsig)
-        {
+        if (lsig) {
             w2 = -w2;
         }
-        w3 = sin(pibym * (doublereal) i__) * 2.;
+        w3 = sin(pibym * (doublereal)i__) * 2.;
         a[i__ + 1] = *dt * (w1 + w2 - (w1 - w2) / w3);
         ++ind1;
         --ind2;
@@ -257,15 +239,13 @@ L10:
     ind1 = 2;
     ind2 = md2 - 1;
     i__1 = m - 2;
-    for (i__ = 2; i__ <= i__1; i__ += 2)
-    {
+    for (i__ = 2; i__ <= i__1; i__ += 2) {
         w1 = dwork[ind1];
         w2 = dwork[ind2];
-        if (lsig)
-        {
+        if (lsig) {
             w2 = -w2;
         }
-        w3 = sin(pibym * (doublereal) i__) * 2.;
+        w3 = sin(pibym * (doublereal)i__) * 2.;
         a[i__ + 1] = *dt * (w1 + w2 - (w1 - w2) / w3);
         ++ind1;
         --ind2;
@@ -274,4 +254,3 @@ L10:
     return 0;
     /* *** Last line of DF01MD *** */
 } /* df01md_ */
-

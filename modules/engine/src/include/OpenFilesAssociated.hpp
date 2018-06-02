@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "Types.hpp"
 #include "Evaluator.hpp"
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
-    bool OpenFilesAssociated(Evaluator *eval, wstringVector filesToOpen);
+bool
+OpenFilesAssociated(Evaluator* eval, wstringVector filesToOpen);
 }
 //=============================================================================

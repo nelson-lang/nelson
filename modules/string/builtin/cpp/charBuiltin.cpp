@@ -18,41 +18,33 @@
 //=============================================================================
 #include "charBuiltin.hpp"
 #include "Error.hpp"
-#include "ToChar.hpp"
 #include "OverloadFunction.hpp"
+#include "ToChar.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0)
-    {
+    if (argIn.size() == 0) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         Dimensions dims;
-        if (argIn.size() == 2)
-        {
+        if (argIn.size() == 2) {
             retval.push_back(ToChar(argIn[0], argIn[1]));
-        }
-        else if (argIn.size() == 1)
-        {
+        } else if (argIn.size() == 1) {
             retval.push_back(ToChar(argIn[0]));
-        }
-        else
-        {
+        } else {
             ArrayOf res = argIn[0];
-            for (size_t k = 1; k < argIn.size(); ++k)
-            {
+            for (size_t k = 1; k < argIn.size(); ++k) {
                 res = ToChar(res, argIn[k]);
             }
             retval.push_back(res);

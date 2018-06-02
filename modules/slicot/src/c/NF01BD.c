@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,15 +12,15 @@ static integer c__1 = 1;
 static doublereal c_b17 = 1.;
 static doublereal c_b19 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int nf01bd_(cjte, nsmp, m, l, ipar, lipar, x, lx, u, ldu, e, j, ldj, jte, dwork, ldwork, info, cjte_len)
-char *cjte;
+EXPORTSYMBOL /* Subroutine */ int nf01bd_(cjte, nsmp, m, l, ipar, lipar, x, lx, u, ldu, e, j, ldj,
+    jte, dwork, ldwork, info, cjte_len) char* cjte;
 integer *nsmp, *m, *l, *ipar, *lipar;
-doublereal *x;
-integer *lx;
-doublereal *u;
-integer *ldu;
+doublereal* x;
+integer* lx;
+doublereal* u;
+integer* ldu;
 doublereal *e, *j;
-integer *ldj;
+integer* ldj;
 doublereal *jte, *dwork;
 integer *ldwork, *info;
 ftnlen cjte_len;
@@ -213,97 +213,66 @@ ftnlen cjte_len;
     n = ipar[1];
     nn = ipar[2];
     bsn = nn * (*l + 2) + 1;
-    nsml = *nsmp **l;
-    nths = bsn **l;
-    lths = n * (*m + *l + 1) + *l **m;
+    nsml = *nsmp * *l;
+    nths = bsn * *l;
+    lths = n * (*m + *l + 1) + *l * *m;
     lpar = nths + lths;
     wjte = lsame_(cjte, "C", 1L, 1L);
     /*     Check the scalar input parameters. */
     *info = 0;
-    if (! (wjte || lsame_(cjte, "N", 1L, 1L)))
-    {
+    if (!(wjte || lsame_(cjte, "N", 1L, 1L))) {
         *info = -1;
-    }
-    else if (*nsmp < 0)
-    {
+    } else if (*nsmp < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*l < 0)
-    {
+    } else if (*l < 0) {
         *info = -4;
-    }
-    else if (nn < 0)
-    {
+    } else if (nn < 0) {
         *info = -5;
-    }
-    else if (*lipar < 2)
-    {
+    } else if (*lipar < 2) {
         *info = -6;
-    }
-    else if (ipar[1] < 0)
-    {
-        if (*info != 0)
-        {
+    } else if (ipar[1] < 0) {
+        if (*info != 0) {
             i__1 = -(*info);
             xerbla_("NF01BD", &i__1, 6L);
-        }
-        else
-        {
-            ipar[1] = nsml * (abs(n) * (*m + *l + 1) + *l **m + bsn);
-            *ldj = max(1,nsml);
+        } else {
+            ipar[1] = nsml * (abs(n) * (*m + *l + 1) + *l * *m + bsn);
+            *ldj = max(1, nsml);
         }
         return 0;
-    }
-    else if (*lx < lpar)
-    {
+    } else if (*lx < lpar) {
         *info = -8;
-    }
-    else if (*ldu < max(1,*nsmp))
-    {
+    } else if (*ldu < max(1, *nsmp)) {
         *info = -10;
-    }
-    else if (*ldj < max(1,nsml))
-    {
+    } else if (*ldj < max(1, nsml)) {
         *info = -13;
-    }
-    else
-    {
+    } else {
         ldac = n + *l;
-        if (*m > 0)
-        {
+        if (*m > 0) {
             /* Computing MAX */
             i__1 = n * ldac, i__2 = n + *m + *l;
-            jw = max(i__1,i__2);
-        }
-        else
-        {
+            jw = max(i__1, i__2);
+        } else {
             /* Computing MAX */
             i__1 = n * ldac;
-            jw = max(i__1,*l);
+            jw = max(i__1, *l);
         }
         /* Computing MAX */
         i__1 = nn << 1, i__2 = ldac * (n + *m) + (n << 1) + jw;
-        if (*ldwork < (nsml << 1) + max(i__1,i__2))
-        {
+        if (*ldwork < (nsml << 1) + max(i__1, i__2)) {
             *info = -16;
         }
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("NF01BD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (min(*nsmp,*l) == 0)
-    {
-        if (wjte && lpar >= 1)
-        {
+    if (min(*nsmp, *l) == 0) {
+        if (wjte && lpar >= 1) {
             jte[1] = 0.;
             dcopy_(&lpar, &jte[1], &c__0, &jte[1], &c__1);
         }
@@ -317,38 +286,39 @@ ftnlen cjte_len;
     z__ = iy + nsml;
     ac = z__ + nsml;
     bd = ac + ldac * n;
-    ix = bd + ldac **m;
+    ix = bd + ldac * *m;
     jw = ix + n;
     i__1 = *ldwork - jw + 1;
-    tb01vy_("Apply", &n, m, l, &x[nths + 1], &lths, &dwork[ac], &ldac, &dwork[bd], &ldac, &dwork[ac + n], &ldac, &dwork[bd + n], &ldac, &dwork[ix], &dwork[jw], &i__1, info, 5L);
+    tb01vy_("Apply", &n, m, l, &x[nths + 1], &lths, &dwork[ac], &ldac, &dwork[bd], &ldac,
+        &dwork[ac + n], &ldac, &dwork[bd + n], &ldac, &dwork[ix], &dwork[jw], &i__1, info, 5L);
     /*     Workspace: need   2*NSMP*L + (N + L)*(N + M) + 3*N + M + L, */
     /*                                                             if M > 0; */
     /*                       2*NSMP*L + (N + L)*N + 2*N + L,       if M = 0; */
     /*                prefer larger. */
     i__1 = *ldwork - jw + 1;
-    tf01mx_(&n, m, l, nsmp, &dwork[ac], &ldac, &u[u_offset], ldu, &dwork[ix], &dwork[z__], nsmp, &dwork[jw], &i__1, info);
+    tf01mx_(&n, m, l, nsmp, &dwork[ac], &ldac, &u[u_offset], ldu, &dwork[ix], &dwork[z__], nsmp,
+        &dwork[jw], &i__1, info);
     /*     Fill the blocks dy(i)/dwb(i) and the corresponding parts of JTE, */
     /*     if needed. */
     jw = ac;
-    if (wjte)
-    {
+    if (wjte) {
         i__1 = *l - 1;
-        for (i__ = 0; i__ <= i__1; ++i__)
-        {
+        for (i__ = 0; i__ <= i__1; ++i__) {
             i__2 = *lipar - 1;
             i__3 = *ldwork - jw + 1;
-            nf01by_(cjte, nsmp, l, &c__1, &ipar[2], &i__2, &x[i__ * bsn + 1], &bsn, &dwork[z__], nsmp, &e[i__ **nsmp + 1], &j[i__ **nsmp + 1 + j_dim1], ldj, &jte[i__ * bsn + 1], &dwork[jw], &i__3, info, 1L);
+            nf01by_(cjte, nsmp, l, &c__1, &ipar[2], &i__2, &x[i__ * bsn + 1], &bsn, &dwork[z__],
+                nsmp, &e[i__ * *nsmp + 1], &j[i__ * *nsmp + 1 + j_dim1], ldj, &jte[i__ * bsn + 1],
+                &dwork[jw], &i__3, info, 1L);
             /* L10: */
         }
-    }
-    else
-    {
+    } else {
         i__1 = *l - 1;
-        for (i__ = 0; i__ <= i__1; ++i__)
-        {
+        for (i__ = 0; i__ <= i__1; ++i__) {
             i__2 = *lipar - 1;
             i__3 = *ldwork - jw + 1;
-            nf01by_(cjte, nsmp, l, &c__1, &ipar[2], &i__2, &x[i__ * bsn + 1], &bsn, &dwork[z__], nsmp, &dwork[1], &j[i__ **nsmp + 1 + j_dim1], ldj, &dwork[1], &dwork[jw], &i__3, info, 1L);
+            nf01by_(cjte, nsmp, l, &c__1, &ipar[2], &i__2, &x[i__ * bsn + 1], &bsn, &dwork[z__],
+                nsmp, &dwork[1], &j[i__ * *nsmp + 1 + j_dim1], ldj, &dwork[1], &dwork[jw], &i__3,
+                info, 1L);
             /* L20: */
         }
     }
@@ -357,7 +327,8 @@ ftnlen cjte_len;
     /*                prefer larger. */
     i__1 = *lipar - 1;
     i__2 = *ldwork - jw + 1;
-    nf01ay_(nsmp, l, l, &ipar[2], &i__1, &x[1], &nths, &dwork[z__], nsmp, &dwork[iy], nsmp, &dwork[jw], &i__2, info);
+    nf01ay_(nsmp, l, l, &ipar[2], &i__1, &x[1], &nths, &dwork[z__], nsmp, &dwork[iy], nsmp,
+        &dwork[jw], &i__2, info);
     /*     Compute dy/dtheta numerically by forward-difference approximation. */
     /*     Workspace: need   2*NSMP*L + MAX( 2*NN, (N + L)*(N + M) + 2*N + */
     /*                                       MAX( N*(N + L), N + M + L ) ), */
@@ -368,38 +339,33 @@ ftnlen cjte_len;
     jw = z__;
     /* Computing MAX */
     d__1 = 0., d__2 = dlamch_("Epsilon", 7L);
-    eps = sqrt((max(d__1,d__2)));
+    eps = sqrt((max(d__1, d__2)));
     i__1 = lpar;
-    for (k = nths + 1; k <= i__1; ++k)
-    {
+    for (k = nths + 1; k <= i__1; ++k) {
         kcol = k - nths + bsn;
         parsav = x[k];
-        if (parsav == 0.)
-        {
+        if (parsav == 0.) {
             h__ = eps;
-        }
-        else
-        {
+        } else {
             h__ = eps * abs(parsav);
         }
         x[k] += h__;
         i__2 = *ldwork - jw + 1;
-        nf01ad_(nsmp, m, l, &ipar[1], lipar, &x[1], &lpar, &u[u_offset], ldu, &j[kcol * j_dim1 + 1], nsmp, &dwork[jw], &i__2, info);
+        nf01ad_(nsmp, m, l, &ipar[1], lipar, &x[1], &lpar, &u[u_offset], ldu, &j[kcol * j_dim1 + 1],
+            nsmp, &dwork[jw], &i__2, info);
         x[k] = parsav;
         i__2 = nsml;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             j[i__ + kcol * j_dim1] = (j[i__ + kcol * j_dim1] - dwork[i__]) / h__;
             /* L30: */
         }
         /* L40: */
     }
-    if (wjte)
-    {
+    if (wjte) {
         /*        Compute the last part of J'e in JTE. */
-        dgemv_("Transpose", &nsml, &lths, &c_b17, &j[(bsn + 1) * j_dim1 + 1], ldj, &e[1], &c__1, &c_b19, &jte[nths + 1], &c__1, 9L);
+        dgemv_("Transpose", &nsml, &lths, &c_b17, &j[(bsn + 1) * j_dim1 + 1], ldj, &e[1], &c__1,
+            &c_b19, &jte[nths + 1], &c__1, 9L);
     }
     return 0;
     /* *** Last line of NF01BD *** */
 } /* nf01bd_ */
-

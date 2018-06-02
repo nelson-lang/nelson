@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsGui_exports.h"
 #include <QtCore/QString>
 #include <string>
-#include "nlsGui_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSGUI_IMPEXP QString TR(std::string str);
+NLSGUI_IMPEXP QString
+TR(std::string str);
 }
 //=============================================================================

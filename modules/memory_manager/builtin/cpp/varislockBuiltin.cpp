@@ -17,61 +17,54 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "varislockBuiltin.hpp"
-#include "LockVariable.hpp"
-#include "IsValidVariableName.hpp"
 #include "Error.hpp"
+#include "IsValidVariableName.hpp"
+#include "LockVariable.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::MemoryGateway::varislockBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::MemoryGateway::varislockBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs != 0)
-    {
+    if (nLhs != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (!argIn[0].isSingleString())
-    {
+    if (!argIn[0].isSingleString()) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     std::string scopename = argIn[0].getContentAsCString();
-    if (!((scopename.compare("global") == 0) || (scopename.compare("base") == 0) || (scopename.compare("caller") == 0) || (scopename.compare("local") == 0)))
-    {
-        Error(eval, _W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' expected."));
+    if (!((scopename.compare("global") == 0) || (scopename.compare("base") == 0)
+            || (scopename.compare("caller") == 0) || (scopename.compare("local") == 0))) {
+        Error(eval,
+            _W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' "
+               "expected."));
     }
-    if (!argIn[1].isSingleString())
-    {
+    if (!argIn[1].isSingleString()) {
         Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
     }
     std::string varname = argIn[1].getContentAsCString();
-    if (!IsValidVariableName(varname))
-    {
+    if (!IsValidVariableName(varname)) {
         Error(eval, _W("#2 Argument must contain a valid variable name."));
     }
-    Context *context = eval->getContext();
-    Scope * scope = nullptr;
-    if (scopename.compare("global") == 0)
-    {
+    Context* context = eval->getContext();
+    Scope* scope = nullptr;
+    if (scopename.compare("global") == 0) {
         scope = context->getGlobalScope();
     }
-    if (scopename.compare("base") == 0)
-    {
+    if (scopename.compare("base") == 0) {
         scope = context->getBaseScope();
     }
-    if (scopename.compare("caller") == 0)
-    {
+    if (scopename.compare("caller") == 0) {
         scope = context->getCallerScope();
     }
-    if (scopename.compare("local") == 0)
-    {
+    if (scopename.compare("local") == 0) {
         scope = context->getCurrentScope();
     }
-    if (!scope->isVariable(varname))
-    {
+    if (!scope->isVariable(varname)) {
         Error(eval, _W("#2 Argument must be an existing variable name."));
     }
     bool bIsLocked = IsLockedVariable(varname, scope);

@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsFiles_folders_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool MakeDirectory(const std::wstring &parentDir, const std::wstring &newDir, std::wstring &message);
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool MakeDirectory(const std::wstring &newDir, std::wstring &message);
-}
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
+MakeDirectory(const std::wstring& parentDir, const std::wstring& newDir, std::wstring& message);
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
+MakeDirectory(const std::wstring& newDir, std::wstring& message);
+} // namespace Nelson
 //=============================================================================

@@ -25,74 +25,61 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    std::wstring GetVariableEnvironment(std::wstring envVarName, std::wstring defaultValue)
-    {
-        std::wstring str(defaultValue);
+//=============================================================================
+std::wstring
+GetVariableEnvironment(std::wstring envVarName, std::wstring defaultValue)
+{
+    std::wstring str(defaultValue);
 #ifdef _MSC_VER
 #define DEFAULT_SIZE_ENV 4096
-        wchar_t* buf = nullptr;
-        try
-        {
-            buf = new wchar_t[DEFAULT_SIZE_ENV];
+    wchar_t* buf = nullptr;
+    try {
+        buf = new wchar_t[DEFAULT_SIZE_ENV];
+    } catch (const std::bad_alloc& e) {
+        e.what();
+        return str;
+    }
+    DWORD dwRet = ::GetEnvironmentVariableW(envVarName.c_str(), buf, DEFAULT_SIZE_ENV);
+    if (dwRet == 0) {
+        // error
+        if (buf) {
+            delete[] buf;
+            buf = nullptr;
         }
-        catch (const std::bad_alloc& e)
-        {
-            e.what();
-            return str;
+        return str;
+    } else {
+        if (dwRet > DEFAULT_SIZE_ENV) {
+            // we resize the buffer
+            delete[] buf;
+            try {
+                buf = new wchar_t[dwRet + 1];
+            } catch (const std::bad_alloc& e) {
+                e.what();
+                return str;
+            }
+            dwRet = ::GetEnvironmentVariableW(envVarName.c_str(), buf, dwRet);
         }
-        DWORD dwRet = ::GetEnvironmentVariableW(envVarName.c_str(), buf, DEFAULT_SIZE_ENV);
-        if (dwRet == 0)
-        {
+        if (dwRet == 0) {
             // error
-            if (buf)
-            {
+            if (buf) {
                 delete[] buf;
                 buf = nullptr;
             }
             return str;
         }
-        else
-        {
-            if (dwRet > DEFAULT_SIZE_ENV)
-            {
-                // we resize the buffer
-                delete[] buf;
-                try
-                {
-                    buf = new wchar_t[dwRet + 1];
-                }
-                catch (const std::bad_alloc& e)
-                {
-                    e.what();
-                    return str;
-                }
-                dwRet = ::GetEnvironmentVariableW(envVarName.c_str(), buf, dwRet);
-            }
-            if (dwRet == 0)
-            {
-                // error
-                if (buf)
-                {
-                    delete[] buf;
-                    buf = nullptr;
-                }
-                return str;
-            }
-            str = buf;
-            delete[] buf;
-        }
-#else
-        std::string s1 = wstring_to_utf8(envVarName);
-        str = defaultValue;
-        char const* tmp = std::getenv(s1.c_str());
-        if (tmp != nullptr)
-        {
-            str = utf8_to_wstring(tmp);
-        }
-#endif
-        return str;
+        str = buf;
+        delete[] buf;
     }
-    //=============================================================================
+#else
+    std::string s1 = wstring_to_utf8(envVarName);
+    str = defaultValue;
+    char const* tmp = std::getenv(s1.c_str());
+    if (tmp != nullptr) {
+        str = utf8_to_wstring(tmp);
+    }
+#endif
+    return str;
+}
+//=============================================================================
 }
 //=============================================================================

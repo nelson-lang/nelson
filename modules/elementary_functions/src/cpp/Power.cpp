@@ -21,30 +21,28 @@
 #include "MatrixCheck.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOf Power(ArrayOf A, ArrayOf B) throw(Exception)
-    {
-        if (A.isEmpty() || B.isEmpty())
-        {
-            return ArrayOf::emptyConstructor();
-        }
-        if (A.isScalar() && B.isScalar())
-        {
-            return DotPower(A, B);
-        }
-        // Check for A & B numeric
-        CheckNumeric(A, B, "^");
-        // Test for 2D on both A & B
-        if (!A.is2D() || !B.is2D())
-        {
-            throw Exception(_W("Cannot apply exponential operation to N-Dimensional arrays."));
-        }
-        // Both arguments must be square
-        if ((A.getDimensionLength(0) != A.getDimensionLength(1)) ||
-                (B.getDimensionLength(0) != B.getDimensionLength(1)))
-        {
-            throw Exception(_W("Power (^) operator can only be applied to scalar and square arguments."));
-        }
-        throw Exception(_W("Power (^) currently not implemented in Nelson."));
+ArrayOf
+Power(ArrayOf A, ArrayOf B) throw(Exception)
+{
+    if (A.isEmpty() || B.isEmpty()) {
+        return ArrayOf::emptyConstructor();
     }
+    if (A.isScalar() && B.isScalar()) {
+        return DotPower(A, B);
+    }
+    // Check for A & B numeric
+    CheckNumeric(A, B, "^");
+    // Test for 2D on both A & B
+    if (!A.is2D() || !B.is2D()) {
+        throw Exception(_W("Cannot apply exponential operation to N-Dimensional arrays."));
+    }
+    // Both arguments must be square
+    if ((A.getDimensionLength(0) != A.getDimensionLength(1))
+        || (B.getDimensionLength(0) != B.getDimensionLength(1))) {
+        throw Exception(
+            _W("Power (^) operator can only be applied to scalar and square arguments."));
+    }
+    throw Exception(_W("Power (^) currently not implemented in Nelson."));
+}
 }
 //=============================================================================

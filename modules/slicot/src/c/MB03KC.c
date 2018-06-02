@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,10 +10,10 @@
 static integer c__2 = 2;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb03kc_(k, khess, n, r__, s, a, lda, v, tau)
-integer *k, *khess, *n, *r__, *s;
-doublereal *a;
-integer *lda;
+EXPORTSYMBOL /* Subroutine */ int mb03kc_(k, khess, n, r__, s, a, lda, v, tau) integer *k, *khess,
+    *n, *r__, *s;
+doublereal* a;
+integer* lda;
 doublereal *v, *tau;
 {
     /* System generated locals */
@@ -137,35 +137,31 @@ doublereal *v, *tau;
     --a;
     --s;
     /* Function Body */
-    ir = (*r__ - 1) **lda;
+    ir = (*r__ - 1) * *lda;
     ic = ir + *r__ - 1;
     no = *n - *r__;
-    inc = *n **lda;
+    inc = *n * *lda;
     i1 = *khess * inc + 1;
     ip1 = *khess % *k + 1;
     tau[ip1] = 0.;
     v[(ip1 << 1) - 1] = 0.;
     v[ip1 * 2] = 0.;
     i__1 = *k;
-    for (i__ = *khess + 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = *khess + 1; i__ <= i__1; ++i__) {
         ip1 = i__ % *k;
         ix = i1 + ic;
         i2 = ip1 * inc + 1;
         ++ip1;
         /*        Compute and apply the reflector H_{i+1} working on A_i^s(i) */
         /*        from the left. */
-        if (s[i__] == 1)
-        {
+        if (s[i__] == 1) {
             work[0] = 1.;
             work[1] = a[ix + 1];
             dlarfg_(&c__2, &a[ix], &work[1], &c__1, &tau[ip1]);
             v[(ip1 << 1) - 1] = 1.;
             v[ip1 * 2] = work[1];
             dlarfx_("Left", &c__2, &no, work, &tau[ip1], &a[ix + *lda], lda, tmp, 4L);
-        }
-        else
-        {
+        } else {
             work[0] = a[ix + 1];
             work[1] = 1.;
             dlarfg_(&c__2, &a[ix + *lda + 1], work, &c__1, &tau[ip1]);
@@ -175,13 +171,10 @@ doublereal *v, *tau;
         }
         a[ix + 1] = 0.;
         /*        Apply the reflector to A_{mod(i,K)+1}. */
-        if (s[ip1] == 1)
-        {
+        if (s[ip1] == 1) {
             i__2 = *r__ + 1;
             dlarfx_("Right", &i__2, &c__2, work, &tau[ip1], &a[i2 + ir], lda, tmp, 5L);
-        }
-        else
-        {
+        } else {
             i__2 = no + 1;
             dlarfx_("Left", &c__2, &i__2, work, &tau[ip1], &a[i2 + ic], lda, tmp, 4L);
         }
@@ -191,25 +184,21 @@ doublereal *v, *tau;
     /*     Continue to the right of the Hessenberg matrix. */
     i1 = 1;
     i__1 = *khess - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         ip1 = i__ % *k;
         ix = i1 + ic;
         i2 = ip1 * inc + 1;
         ++ip1;
         /*        Compute and apply the reflector H_{i+1} working on A_i^s(i) */
         /*        from the left. */
-        if (s[i__] == 1)
-        {
+        if (s[i__] == 1) {
             work[0] = 1.;
             work[1] = a[ix + 1];
             dlarfg_(&c__2, &a[ix], &work[1], &c__1, &tau[ip1]);
             v[(ip1 << 1) - 1] = 1.;
             v[ip1 * 2] = work[1];
             dlarfx_("Left", &c__2, &no, work, &tau[ip1], &a[ix + *lda], lda, tmp, 4L);
-        }
-        else
-        {
+        } else {
             work[0] = a[ix + 1];
             work[1] = 1.;
             dlarfg_(&c__2, &a[ix + *lda + 1], work, &c__1, &tau[ip1]);
@@ -219,13 +208,10 @@ doublereal *v, *tau;
         }
         a[ix + 1] = 0.;
         /*        Apply the reflector to A_{mod(i,K)+1}. */
-        if (s[ip1] == 1)
-        {
+        if (s[ip1] == 1) {
             i__2 = *r__ + 1;
             dlarfx_("Right", &i__2, &c__2, work, &tau[ip1], &a[i2 + ir], lda, tmp, 5L);
-        }
-        else
-        {
+        } else {
             i__2 = no + 1;
             dlarfx_("Left", &c__2, &i__2, work, &tau[ip1], &a[i2 + ic], lda, tmp, 4L);
         }
@@ -236,4 +222,3 @@ doublereal *v, *tau;
     return 0;
     /* *** Last line of MB03KC *** */
 } /* mb03kc_ */
-

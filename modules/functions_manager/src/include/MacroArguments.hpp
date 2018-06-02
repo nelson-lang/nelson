@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsFunctions_manager_exports.h"
 #include "Evaluator.hpp"
+#include "nlsFunctions_manager_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSFUNCTIONS_MANAGER_IMPEXP bool MacroArguments(Evaluator *eval, std::wstring functionname, wstringVector &Inputs, wstringVector &Outputs);
+NLSFUNCTIONS_MANAGER_IMPEXP bool
+MacroArguments(
+    Evaluator* eval, std::wstring functionname, wstringVector& Inputs, wstringVector& Outputs);
 }
 //=============================================================================

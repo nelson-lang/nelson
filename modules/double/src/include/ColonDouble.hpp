@@ -18,12 +18,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsDouble_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsDouble_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSDOUBLE_IMPEXP ArrayOf colon_double(ArrayOf a, ArrayOf b);
-    NLSDOUBLE_IMPEXP ArrayOf colon_double(ArrayOf a, ArrayOf b, ArrayOf c);
-    NLSDOUBLE_IMPEXP ArrayOf double_colon(double low, double high, double step = 1.0);
-}
+NLSDOUBLE_IMPEXP ArrayOf
+colon_double(ArrayOf a, ArrayOf b);
+NLSDOUBLE_IMPEXP ArrayOf
+colon_double(ArrayOf a, ArrayOf b, ArrayOf c);
+NLSDOUBLE_IMPEXP ArrayOf
+double_colon(double low, double high, double step = 1.0);
+} // namespace Nelson
 //=============================================================================

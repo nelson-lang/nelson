@@ -16,102 +16,87 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include "StringCount.hpp"
-#include "IsCellOfStrings.hpp"
 #include "Exception.hpp"
+#include "IsCellOfStrings.hpp"
+#include <boost/algorithm/string.hpp>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    static int countString(const std::wstring& str, const std::wstring& pattern, bool caseSensitive)
-    {
-        if (pattern.length() == 0)
-        {
-            return 0;
-        }
-        int count = 0;
-        if (caseSensitive)
-        {
-            for (size_t offset = str.find(pattern); offset != std::wstring::npos;
-                    offset = str.find(pattern, offset + pattern.length()))
-            {
-                ++count;
-            }
-        }
-        else
-        {
-            std::wstring upperStr = boost::to_upper_copy(str);
-            std::wstring upperPattern = boost::to_upper_copy(pattern);
-            for (size_t offset = upperStr.find(upperPattern); offset != std::wstring::npos;
-                    offset = upperStr.find(upperPattern, offset + upperPattern.length()))
-            {
-                ++count;
-            }
-        }
-        return count;
+//=============================================================================
+static int
+countString(const std::wstring& str, const std::wstring& pattern, bool caseSensitive)
+{
+    if (pattern.length() == 0) {
+        return 0;
     }
-    //=============================================================================
-    ArrayOf StringCount(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
-    {
-        ArrayOf res;
-        if (A.isString() && Pattern.isString())
-        {
-            res = ArrayOf::doubleConstructor(countString(A.getContentAsWideString(), Pattern.getContentAsWideString(), bCaseSensitive));
+    int count = 0;
+    if (caseSensitive) {
+        for (size_t offset = str.find(pattern); offset != std::wstring::npos;
+             offset = str.find(pattern, offset + pattern.length())) {
+            ++count;
         }
-        else
-        {
-            if (A.isString() && IsCellOfString(Pattern))
-            {
-                std::wstring strA = A.getContentAsWideString();
-                Dimensions dimPattern = Pattern.getDimensions();
-                size_t nbPattern = dimPattern.getElementCount();
-                ArrayOf *cellPattern = (ArrayOf*)(Pattern.getDataPointer());
-                int count = 0;
-                for (size_t k = 0; k < nbPattern; k++)
-                {
-                    std::wstring pattern = cellPattern[k].getContentAsWideString();
-                    count = count + countString(strA, pattern, bCaseSensitive);
-                }
-                res = ArrayOf::doubleConstructor(count);
-            }
-            else if (IsCellOfString(A) && Pattern.isString())
-            {
-                std::wstring pattern = Pattern.getContentAsWideString();
-                Dimensions dimA = A.getDimensions();
-                size_t nbA = dimA.getElementCount();
-                double *result = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nbA);
-                ArrayOf *cellA = (ArrayOf*)(A.getDataPointer());
-                for (size_t k = 0; k < nbA; k++)
-                {
-                    result[k] = countString(cellA[k].getContentAsWideString(), pattern, bCaseSensitive);
-                }
-                res = ArrayOf(NLS_DOUBLE, dimA, result);
-            }
-            else if (IsCellOfString(A) && IsCellOfString(Pattern))
-            {
-                Dimensions dimA = A.getDimensions();
-                size_t nbA = dimA.getElementCount();
-                Dimensions dimPattern = Pattern.getDimensions();
-                size_t nbPattern = dimPattern.getElementCount();
-                double *result = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nbA);
-                ArrayOf *cellA = (ArrayOf*)(A.getDataPointer());
-                ArrayOf *cellPattern = (ArrayOf*)(Pattern.getDataPointer());
-                for (size_t k = 0; k < nbA; k++)
-                {
-                    for (size_t l = 0; l < nbPattern; l++)
-                    {
-                        result[k] = result[k] + countString(cellA[k].getContentAsWideString(), cellPattern[l].getContentAsWideString(), bCaseSensitive);
-                    }
-                }
-                res = ArrayOf(NLS_DOUBLE, dimA, result);
-            }
-            else
-            {
-                throw Exception(_W("char vector or cell of strings expected."));
-            }
+    } else {
+        std::wstring upperStr = boost::to_upper_copy(str);
+        std::wstring upperPattern = boost::to_upper_copy(pattern);
+        for (size_t offset = upperStr.find(upperPattern); offset != std::wstring::npos;
+             offset = upperStr.find(upperPattern, offset + upperPattern.length())) {
+            ++count;
         }
-        return res;
     }
-    //=============================================================================
+    return count;
+}
+//=============================================================================
+ArrayOf
+StringCount(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
+{
+    ArrayOf res;
+    if (A.isString() && Pattern.isString()) {
+        res = ArrayOf::doubleConstructor(countString(
+            A.getContentAsWideString(), Pattern.getContentAsWideString(), bCaseSensitive));
+    } else {
+        if (A.isString() && IsCellOfString(Pattern)) {
+            std::wstring strA = A.getContentAsWideString();
+            Dimensions dimPattern = Pattern.getDimensions();
+            size_t nbPattern = dimPattern.getElementCount();
+            ArrayOf* cellPattern = (ArrayOf*)(Pattern.getDataPointer());
+            int count = 0;
+            for (size_t k = 0; k < nbPattern; k++) {
+                std::wstring pattern = cellPattern[k].getContentAsWideString();
+                count = count + countString(strA, pattern, bCaseSensitive);
+            }
+            res = ArrayOf::doubleConstructor(count);
+        } else if (IsCellOfString(A) && Pattern.isString()) {
+            std::wstring pattern = Pattern.getContentAsWideString();
+            Dimensions dimA = A.getDimensions();
+            size_t nbA = dimA.getElementCount();
+            double* result = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nbA);
+            ArrayOf* cellA = (ArrayOf*)(A.getDataPointer());
+            for (size_t k = 0; k < nbA; k++) {
+                result[k] = countString(cellA[k].getContentAsWideString(), pattern, bCaseSensitive);
+            }
+            res = ArrayOf(NLS_DOUBLE, dimA, result);
+        } else if (IsCellOfString(A) && IsCellOfString(Pattern)) {
+            Dimensions dimA = A.getDimensions();
+            size_t nbA = dimA.getElementCount();
+            Dimensions dimPattern = Pattern.getDimensions();
+            size_t nbPattern = dimPattern.getElementCount();
+            double* result = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nbA);
+            ArrayOf* cellA = (ArrayOf*)(A.getDataPointer());
+            ArrayOf* cellPattern = (ArrayOf*)(Pattern.getDataPointer());
+            for (size_t k = 0; k < nbA; k++) {
+                for (size_t l = 0; l < nbPattern; l++) {
+                    result[k] = result[k]
+                        + countString(cellA[k].getContentAsWideString(),
+                              cellPattern[l].getContentAsWideString(), bCaseSensitive);
+                }
+            }
+            res = ArrayOf(NLS_DOUBLE, dimA, result);
+        } else {
+            throw Exception(_W("char vector or cell of strings expected."));
+        }
+    }
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

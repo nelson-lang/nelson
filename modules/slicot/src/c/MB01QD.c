@@ -1,16 +1,16 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb01qd_(type__, m, n, kl, ku, cfrom, cto, nbl, nrows, a, lda, info, type_len)
-char *type__;
+EXPORTSYMBOL /* Subroutine */ int mb01qd_(
+    type__, m, n, kl, ku, cfrom, cto, nbl, nrows, a, lda, info, type_len) char* type__;
 integer *m, *n, *kl, *ku;
 doublereal *cfrom, *cto;
 integer *nbl, *nrows;
-doublereal *a;
+doublereal* a;
 integer *lda, *info;
 ftnlen type_len;
 {
@@ -125,37 +125,23 @@ ftnlen type_len;
     a_offset = a_dim1 + 1;
     a -= a_offset;
     /* Function Body */
-    if (lsame_(type__, "G", 1L, 1L))
-    {
+    if (lsame_(type__, "G", 1L, 1L)) {
         itype = 0;
-    }
-    else if (lsame_(type__, "L", 1L, 1L))
-    {
+    } else if (lsame_(type__, "L", 1L, 1L)) {
         itype = 1;
-    }
-    else if (lsame_(type__, "U", 1L, 1L))
-    {
+    } else if (lsame_(type__, "U", 1L, 1L)) {
         itype = 2;
-    }
-    else if (lsame_(type__, "H", 1L, 1L))
-    {
+    } else if (lsame_(type__, "H", 1L, 1L)) {
         itype = 3;
-    }
-    else if (lsame_(type__, "B", 1L, 1L))
-    {
+    } else if (lsame_(type__, "B", 1L, 1L)) {
         itype = 4;
-    }
-    else if (lsame_(type__, "Q", 1L, 1L))
-    {
+    } else if (lsame_(type__, "Q", 1L, 1L)) {
         itype = 5;
-    }
-    else
-    {
+    } else {
         itype = 6;
     }
     /*     Quick return if possible. */
-    if (min(*m,*n) == 0)
-    {
+    if (min(*m, *n) == 0) {
         return 0;
     }
     /*     Get machine parameters. */
@@ -166,71 +152,53 @@ ftnlen type_len;
 L10:
     cfrom1 = cfromc * smlnum;
     cto1 = ctoc / bignum;
-    if (abs(cfrom1) > abs(ctoc) && ctoc != 0.)
-    {
+    if (abs(cfrom1) > abs(ctoc) && ctoc != 0.) {
         mul = smlnum;
         done = FALSE_;
         cfromc = cfrom1;
-    }
-    else if (abs(cto1) > abs(cfromc))
-    {
+    } else if (abs(cto1) > abs(cfromc)) {
         mul = bignum;
         done = FALSE_;
         ctoc = cto1;
-    }
-    else
-    {
+    } else {
         mul = ctoc / cfromc;
         done = TRUE_;
     }
     noblc = *nbl == 0;
-    if (itype == 0)
-    {
+    if (itype == 0) {
         /*        Full matrix */
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *m;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 a[i__ + j * a_dim1] *= mul;
                 /* L20: */
             }
             /* L30: */
         }
-    }
-    else if (itype == 1)
-    {
-        if (noblc)
-        {
+    } else if (itype == 1) {
+        if (noblc) {
             /*           Lower triangular matrix */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *m;
-                for (i__ = j; i__ <= i__2; ++i__)
-                {
+                for (i__ = j; i__ <= i__2; ++i__) {
                     a[i__ + j * a_dim1] *= mul;
                     /* L40: */
                 }
                 /* L50: */
             }
-        }
-        else
-        {
+        } else {
             /*           Block lower triangular matrix */
             jfin = 0;
             i__1 = *nbl;
-            for (k = 1; k <= i__1; ++k)
-            {
+            for (k = 1; k <= i__1; ++k) {
                 jini = jfin + 1;
                 jfin += nrows[k];
                 i__2 = jfin;
-                for (j = jini; j <= i__2; ++j)
-                {
+                for (j = jini; j <= i__2; ++j) {
                     i__3 = *m;
-                    for (i__ = jini; i__ <= i__3; ++i__)
-                    {
+                    for (i__ = jini; i__ <= i__3; ++i__) {
                         a[i__ + j * a_dim1] *= mul;
                         /* L60: */
                     }
@@ -239,43 +207,32 @@ L10:
                 /* L80: */
             }
         }
-    }
-    else if (itype == 2)
-    {
-        if (noblc)
-        {
+    } else if (itype == 2) {
+        if (noblc) {
             /*           Upper triangular matrix */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
-                i__2 = min(j,*m);
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                i__2 = min(j, *m);
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     a[i__ + j * a_dim1] *= mul;
                     /* L90: */
                 }
                 /* L100: */
             }
-        }
-        else
-        {
+        } else {
             /*           Block upper triangular matrix */
             jfin = 0;
             i__1 = *nbl;
-            for (k = 1; k <= i__1; ++k)
-            {
+            for (k = 1; k <= i__1; ++k) {
                 jini = jfin + 1;
                 jfin += nrows[k];
-                if (k == *nbl)
-                {
+                if (k == *nbl) {
                     jfin = *n;
                 }
                 i__2 = jfin;
-                for (j = jini; j <= i__2; ++j)
-                {
-                    i__3 = min(jfin,*m);
-                    for (i__ = 1; i__ <= i__3; ++i__)
-                    {
+                for (j = jini; j <= i__2; ++j) {
+                    i__3 = min(jfin, *m);
+                    for (i__ = 1; i__ <= i__3; ++i__) {
                         a[i__ + j * a_dim1] *= mul;
                         /* L110: */
                     }
@@ -284,50 +241,37 @@ L10:
                 /* L130: */
             }
         }
-    }
-    else if (itype == 3)
-    {
-        if (noblc)
-        {
+    } else if (itype == 3) {
+        if (noblc) {
             /*           Upper Hessenberg matrix */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 /* Computing MIN */
                 i__3 = j + 1;
-                i__2 = min(i__3,*m);
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                i__2 = min(i__3, *m);
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     a[i__ + j * a_dim1] *= mul;
                     /* L140: */
                 }
                 /* L150: */
             }
-        }
-        else
-        {
+        } else {
             /*           Block upper Hessenberg matrix */
             jfin = 0;
             i__1 = *nbl;
-            for (k = 1; k <= i__1; ++k)
-            {
+            for (k = 1; k <= i__1; ++k) {
                 jini = jfin + 1;
                 jfin += nrows[k];
-                if (k == *nbl)
-                {
+                if (k == *nbl) {
                     jfin = *n;
                     ifin = *n;
-                }
-                else
-                {
+                } else {
                     ifin = jfin + nrows[k + 1];
                 }
                 i__2 = jfin;
-                for (j = jini; j <= i__2; ++j)
-                {
-                    i__3 = min(ifin,*m);
-                    for (i__ = 1; i__ <= i__3; ++i__)
-                    {
+                for (j = jini; j <= i__2; ++j) {
+                    i__3 = min(ifin, *m);
+                    for (i__ = 1; i__ <= i__3; ++i__) {
                         a[i__ + j * a_dim1] *= mul;
                         /* L160: */
                     }
@@ -336,73 +280,59 @@ L10:
                 /* L180: */
             }
         }
-    }
-    else if (itype == 4)
-    {
+    } else if (itype == 4) {
         /*        Lower half of a symmetric band matrix */
         k3 = *kl + 1;
         k4 = *n + 1;
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             /* Computing MIN */
             i__3 = k3, i__4 = k4 - j;
-            i__2 = min(i__3,i__4);
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            i__2 = min(i__3, i__4);
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 a[i__ + j * a_dim1] *= mul;
                 /* L190: */
             }
             /* L200: */
         }
-    }
-    else if (itype == 5)
-    {
+    } else if (itype == 5) {
         /*        Upper half of a symmetric band matrix */
         k1 = *ku + 2;
         k3 = *ku + 1;
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             /* Computing MAX */
             i__2 = k1 - j;
             i__3 = k3;
-            for (i__ = max(i__2,1); i__ <= i__3; ++i__)
-            {
+            for (i__ = max(i__2, 1); i__ <= i__3; ++i__) {
                 a[i__ + j * a_dim1] *= mul;
                 /* L210: */
             }
             /* L220: */
         }
-    }
-    else if (itype == 6)
-    {
+    } else if (itype == 6) {
         /*        Band matrix */
         k1 = *kl + *ku + 2;
         k2 = *kl + 1;
         k3 = (*kl << 1) + *ku + 1;
         k4 = *kl + *ku + 1 + *m;
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             /* Computing MAX */
             i__3 = k1 - j;
             /* Computing MIN */
             i__4 = k3, i__5 = k4 - j;
-            i__2 = min(i__4,i__5);
-            for (i__ = max(i__3,k2); i__ <= i__2; ++i__)
-            {
+            i__2 = min(i__4, i__5);
+            for (i__ = max(i__3, k2); i__ <= i__2; ++i__) {
                 a[i__ + j * a_dim1] *= mul;
                 /* L230: */
             }
             /* L240: */
         }
     }
-    if (! done)
-    {
+    if (!done) {
         goto L10;
     }
     return 0;
     /* *** Last line of MB01QD *** */
 } /* mb01qd_ */
-

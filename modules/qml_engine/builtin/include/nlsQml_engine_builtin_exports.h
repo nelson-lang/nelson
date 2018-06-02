@@ -25,6 +25,6 @@
 #define NLSQML_ENGINE_BUILTIN_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSQML_ENGINE_BUILTIN_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSQML_ENGINE_BUILTIN_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

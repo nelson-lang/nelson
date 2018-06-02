@@ -18,28 +18,37 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsHelp_tools_exports.h"
 #include "XmlDocGenericItem.hpp"
+#include "nlsHelp_tools_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_TOOLS_IMPEXP XmlDocKeywordItem : public XmlDocGenericItem {
-    private:
-        std::wstring _keyword;
-    public:
-        XmlDocKeywordItem(std::wstring keyword = L"");
-        ~XmlDocKeywordItem();
-        void setValue(std::wstring value);
-        std::wstring getValue();
-        std::wstring getItemType();
+//=============================================================================
+class NLSHELP_TOOLS_IMPEXP XmlDocKeywordItem : public XmlDocGenericItem
+{
+private:
+    std::wstring _keyword;
 
-        bool writeAsHtml(std::string &utf8stream);
-        bool writeHeaderAsHtml(std::string &utf8stream);
+public:
+    XmlDocKeywordItem(std::wstring keyword = L"");
+    ~XmlDocKeywordItem();
+    void
+    setValue(std::wstring value);
+    std::wstring
+    getValue();
+    std::wstring
+    getItemType();
 
-        bool writeAsMarkdown(std::string &utf8stream);
-        bool writeHeaderAsMarkdown(std::string &utf8stream);
-    };
-    //=============================================================================
-}
+    bool
+    writeAsHtml(std::string& utf8stream);
+    bool
+    writeHeaderAsHtml(std::string& utf8stream);
+
+    bool
+    writeAsMarkdown(std::string& utf8stream);
+    bool
+    writeHeaderAsMarkdown(std::string& utf8stream);
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -22,6 +22,7 @@
 #include "nlsData_structures_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSDATA_STRUCTURES_IMPEXP bool IsCellOfString(ArrayOf cellarr);
+NLSDATA_STRUCTURES_IMPEXP bool
+IsCellOfString(ArrayOf cellarr);
 }
 //=============================================================================

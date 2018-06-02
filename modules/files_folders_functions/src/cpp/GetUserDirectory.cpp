@@ -16,47 +16,46 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "GetUserDirectory.hpp"
 #include <boost/filesystem.hpp>
 #include <string>
-#include "GetUserDirectory.hpp"
 //=============================================================================
 using namespace boost::filesystem;
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    static std::wstring userDir = L"";
-    //=============================================================================
-    ArrayOf UserDir()
-    {
-        return ArrayOf::stringConstructor(GetUserDirectory());
-    }
-    //=============================================================================
-    std::wstring GetUserDirectory()
-    {
-        if (userDir == L"")
-        {
+//=============================================================================
+static std::wstring userDir = L"";
+//=============================================================================
+ArrayOf
+UserDir()
+{
+    return ArrayOf::stringConstructor(GetUserDirectory());
+}
+//=============================================================================
+std::wstring
+GetUserDirectory()
+{
+    if (userDir == L"") {
 #ifdef _MSC_VER
-            std::wstring str;
-            wchar_t* buf = nullptr;
-            size_t sz = 0;
-            if (_wdupenv_s(&buf, &sz, L"USERPROFILE") == 0)
-            {
-                if (sz > 0)
-                {
-                    str = buf;
-                }
-                free(buf);
-                buf = nullptr;
+        std::wstring str;
+        wchar_t* buf = nullptr;
+        size_t sz = 0;
+        if (_wdupenv_s(&buf, &sz, L"USERPROFILE") == 0) {
+            if (sz > 0) {
+                str = buf;
             }
-            path pwd = path(str.c_str());
-#else
-            char *home = getenv("HOME");
-            path pwd = path(home);
-#endif
-            userDir = pwd.generic_wstring();
+            free(buf);
+            buf = nullptr;
         }
-        return userDir;
+        path pwd = path(str.c_str());
+#else
+        char* home = getenv("HOME");
+        path pwd = path(home);
+#endif
+        userDir = pwd.generic_wstring();
     }
-    //=============================================================================
+    return userDir;
+}
+//=============================================================================
 }
 //=============================================================================

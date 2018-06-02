@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,9 +12,9 @@ static integer c__3 = 3;
 static integer c__1 = 1;
 static integer c__5 = 5;
 
-EXPORTSYMBOL /* Subroutine */ int ud01cd_(mp, np, dp, nin, p, ldp1, ldp2, info)
-integer *mp, *np, *dp, *nin;
-doublereal *p;
+EXPORTSYMBOL /* Subroutine */ int ud01cd_(mp, np, dp, nin, p, ldp1, ldp2, info) integer *mp, *np,
+    *dp, *nin;
+doublereal* p;
 integer *ldp1, *ldp2, *info;
 {
     /* System generated locals */
@@ -122,40 +122,27 @@ integer *ldp1, *ldp2, *info;
     /* Function Body */
     *info = 0;
     /*     Check the input scalar arguments. */
-    if (*mp < 1)
-    {
+    if (*mp < 1) {
         *info = -1;
-    }
-    else if (*np < 1)
-    {
+    } else if (*np < 1) {
         *info = -2;
-    }
-    else if (*dp < 0)
-    {
+    } else if (*dp < 0) {
         *info = -3;
-    }
-    else if (*nin < 0)
-    {
+    } else if (*nin < 0) {
         *info = -4;
-    }
-    else if (*ldp1 < *mp)
-    {
+    } else if (*ldp1 < *mp) {
         *info = -6;
-    }
-    else if (*ldp2 < *np)
-    {
+    } else if (*ldp2 < *np) {
         *info = -7;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("UD01CD", &i__1, 6L);
         return 0;
     }
     i__1 = *dp + 1;
-    for (k = 1; k <= i__1; ++k)
-    {
+    for (k = 1; k <= i__1; ++k) {
         dlaset_("Full", mp, np, &c_b5, &c_b5, &p[(k * p_dim2 + 1) * p_dim1 + 1], ldp1, 4L);
         /* L10: */
     }
@@ -164,45 +151,37 @@ integer *ldp1, *ldp2, *info;
 L20:
     io___2.ciunit = *nin;
     i__1 = s_rsle(&io___2);
-    if (i__1 != 0)
-    {
+    if (i__1 != 0) {
         goto L30;
     }
-    i__1 = do_lio(&c__3, &c__1, (char *)&i__, (ftnlen)sizeof(integer));
-    if (i__1 != 0)
-    {
+    i__1 = do_lio(&c__3, &c__1, (char*)&i__, (ftnlen)sizeof(integer));
+    if (i__1 != 0) {
         goto L30;
     }
-    i__1 = do_lio(&c__3, &c__1, (char *)&j, (ftnlen)sizeof(integer));
-    if (i__1 != 0)
-    {
+    i__1 = do_lio(&c__3, &c__1, (char*)&j, (ftnlen)sizeof(integer));
+    if (i__1 != 0) {
         goto L30;
     }
-    i__1 = do_lio(&c__3, &c__1, (char *)&d__, (ftnlen)sizeof(integer));
-    if (i__1 != 0)
-    {
+    i__1 = do_lio(&c__3, &c__1, (char*)&d__, (ftnlen)sizeof(integer));
+    if (i__1 != 0) {
         goto L30;
     }
     i__1 = e_rsle();
-    if (i__1 != 0)
-    {
+    if (i__1 != 0) {
         goto L30;
     }
-    if (i__ < 1 || i__ > *mp || j < 1 || j > *np || d__ < 0 || d__ > *dp + 1)
-    {
+    if (i__ < 1 || i__ > *mp || j < 1 || j > *np || d__ < 0 || d__ > *dp + 1) {
         *info = 1;
         io___6.ciunit = *nin;
         s_rsle(&io___6);
         e_rsle();
-    }
-    else
-    {
+    } else {
         io___7.ciunit = *nin;
         s_rsle(&io___7);
         i__1 = d__ + 1;
-        for (k = 1; k <= i__1; ++k)
-        {
-            do_lio(&c__5, &c__1, (char *)&p[i__ + (j + k * p_dim2) * p_dim1], (ftnlen)sizeof(doublereal));
+        for (k = 1; k <= i__1; ++k) {
+            do_lio(&c__5, &c__1, (char*)&p[i__ + (j + k * p_dim2) * p_dim1],
+                (ftnlen)sizeof(doublereal));
         }
         e_rsle();
     }
@@ -211,4 +190,3 @@ L30:
     return 0;
     /* *** Last line of UD01CD *** */
 } /* ud01cd_ */
-

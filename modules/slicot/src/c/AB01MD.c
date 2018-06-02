@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,15 +12,15 @@ static doublereal c_b10 = 0.;
 static doublereal c_b18 = 1.;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int ab01md_(jobz, n, a, lda, b, ncont, z__, ldz, tau, tol, dwork, ldwork, info, jobz_len)
-char *jobz;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ncont;
-doublereal *z__;
-integer *ldz;
+EXPORTSYMBOL /* Subroutine */ int ab01md_(
+    jobz, n, a, lda, b, ncont, z__, ldz, tau, tol, dwork, ldwork, info, jobz_len) char* jobz;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ncont;
+doublereal* z__;
+integer* ldz;
 doublereal *tau, *tol, *dwork;
 integer *ldwork, *info;
 ftnlen jobz_len;
@@ -205,28 +205,18 @@ ftnlen jobz_len;
     ljobi = lsame_(jobz, "I", 1L, 1L);
     ljobz = ljobf || ljobi;
     /*     Test the input scalar arguments. */
-    if (! ljobz && ! lsame_(jobz, "N", 1L, 1L))
-    {
+    if (!ljobz && !lsame_(jobz, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -4;
-    }
-    else if (! ljobz && *ldz < 1 || ljobz && *ldz < max(1,*n))
-    {
+    } else if (!ljobz && *ldz < 1 || ljobz && *ldz < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldwork < max(1,*n))
-    {
+    } else if (*ldwork < max(1, *n)) {
         *info = -12;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB01MD", &i__1, 6L);
@@ -235,8 +225,7 @@ ftnlen jobz_len;
     /*     Quick return if possible. */
     *ncont = 0;
     dwork[1] = 1.;
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     /*     (Note: Comments in the code beginning "Workspace:" describe the */
@@ -249,15 +238,11 @@ ftnlen jobz_len;
     anorm = dlange_("M", n, n, &a[a_offset], lda, &dwork[1], 1L);
     bnorm = dlange_("M", n, &c__1, &b[1], n, &dwork[1], 1L);
     /*     Return if matrix B is zero. */
-    if (bnorm == 0.)
-    {
-        if (ljobf)
-        {
+    if (bnorm == 0.) {
+        if (ljobf) {
             dlaset_("F", n, n, &c_b10, &c_b10, &z__[z_offset], ldz, 1L);
             dlaset_("F", n, &c__1, &c_b10, &c_b10, &tau[1], n, 1L);
-        }
-        else if (ljobi)
-        {
+        } else if (ljobi) {
             dlaset_("F", n, n, &c_b10, &c_b18, &z__[z_offset], ldz, 1L);
         }
         return 0;
@@ -270,18 +255,15 @@ ftnlen jobz_len;
     fanorm = dlange_("F", n, n, &a[a_offset], lda, &dwork[1], 1L);
     fbnorm = dlange_("1", n, &c__1, &b[1], n, &dwork[1], 1L);
     toldef = *tol;
-    if (toldef <= 0.)
-    {
+    if (toldef <= 0.) {
         /*        Use the default tolerance in controllability determination. */
-        thresh = (doublereal) (*n) * dlamch_("EPSILON", 7L);
-        toldef = thresh * max(fanorm,fbnorm);
+        thresh = (doublereal)(*n) * dlamch_("EPSILON", 7L);
+        toldef = thresh * max(fanorm, fbnorm);
     }
     itau = 1;
-    if (fbnorm > toldef)
-    {
+    if (fbnorm > toldef) {
         /*        B is not negligible compared with A. */
-        if (*n > 1)
-        {
+        if (*n > 1) {
             /*           Transform B by a Householder matrix Z1: store vector */
             /*           describing this temporarily in B and in the local scalar H. */
             dlarfg_(n, &b[1], &b[2], &c__1, &h__);
@@ -293,9 +275,7 @@ ftnlen jobz_len;
             b[1] = b1;
             tau[1] = h__;
             ++itau;
-        }
-        else
-        {
+        } else {
             b1 = b[1];
         }
         /*        Reduce modified A to upper Hessenberg form by an orthogonal */
@@ -303,58 +283,49 @@ ftnlen jobz_len;
         /*        Workspace: need N;  prefer N*NB. */
         dgehrd_(n, &c__1, n, &a[a_offset], lda, &tau[itau], &dwork[1], ldwork, info);
         wrkopt = dwork[1];
-        if (ljobz)
-        {
+        if (ljobz) {
             /*           Save the orthogonal transformations used, so that they could */
             /*           be accumulated by calling DORGQR routine. */
-            if (*n > 1)
-            {
+            if (*n > 1) {
                 i__1 = *n - 1;
                 i__2 = *n - 1;
                 dlacpy_("F", &i__1, &c__1, &b[2], &i__2, &z__[z_dim1 + 2], ldz, 1L);
             }
-            if (*n > 2)
-            {
+            if (*n > 2) {
                 i__1 = *n - 2;
                 i__2 = *n - 2;
                 dlacpy_("L", &i__1, &i__2, &a[a_dim1 + 3], lda, &z__[(z_dim1 << 1) + 3], ldz, 1L);
             }
-            if (ljobi)
-            {
+            if (ljobi) {
                 /*              Form the orthogonal transformation matrix Z = Z1 * Z2. */
                 /*              Workspace: need N;  prefer N*NB. */
                 dorgqr_(n, n, n, &z__[z_offset], ldz, &tau[1], &dwork[1], ldwork, info);
-                wrkopt = max(wrkopt,dwork[1]);
+                wrkopt = max(wrkopt, dwork[1]);
             }
         }
         /*        Annihilate the lower part of A and B. */
-        if (*n > 2)
-        {
+        if (*n > 2) {
             i__1 = *n - 2;
             i__2 = *n - 2;
             dlaset_("L", &i__1, &i__2, &c_b10, &c_b10, &a[a_dim1 + 3], lda, 1L);
         }
-        if (*n > 1)
-        {
+        if (*n > 1) {
             i__1 = *n - 1;
             i__2 = *n - 1;
             dlaset_("F", &i__1, &c__1, &c_b10, &c_b10, &b[2], &i__2, 1L);
         }
         /*        Find NCONT by checking sizes of the sub-diagonal elements of */
         /*        transformed A. */
-        if (*tol <= 0.)
-        {
+        if (*tol <= 0.) {
             /* Computing MAX */
             d__1 = fanorm, d__2 = abs(b1);
-            toldef = thresh * max(d__1,d__2);
+            toldef = thresh * max(d__1, d__2);
         }
         j = 1;
         /*        WHILE ( J < N and ABS( A(J+1,J) ) > TOLDEF ) DO */
-L10:
-        if (j < *n)
-        {
-            if ((d__1 = a[j + 1 + j * a_dim1], abs(d__1)) > toldef)
-            {
+    L10:
+        if (j < *n) {
+            if ((d__1 = a[j + 1 + j * a_dim1], abs(d__1)) > toldef) {
                 ++j;
                 goto L10;
             }
@@ -362,31 +333,26 @@ L10:
         /*        END WHILE 10 */
         /*        First negligible sub-diagonal element found, if any: set NCONT. */
         *ncont = j;
-        if (j < *n)
-        {
+        if (j < *n) {
             a[j + 1 + j * a_dim1] = 0.;
         }
         /*        Undo scaling of A and B. */
-        mb01pd_("U", "H", ncont, ncont, &c__0, &c__0, &anorm, &c__0, nblk, &a[a_offset], lda, info, 1L, 1L);
+        mb01pd_("U", "H", ncont, ncont, &c__0, &c__0, &anorm, &c__0, nblk, &a[a_offset], lda, info,
+            1L, 1L);
         mb01pd_("U", "G", &c__1, &c__1, &c__0, &c__0, &bnorm, &c__0, nblk, &b[1], n, info, 1L, 1L);
-        if (*ncont < *n)
-        {
+        if (*ncont < *n) {
             i__1 = *n - *ncont;
-            mb01pd_("U", "G", n, &i__1, &c__0, &c__0, &anorm, &c__0, nblk, &a[(*ncont + 1) * a_dim1 + 1], lda, info, 1L, 1L);
+            mb01pd_("U", "G", n, &i__1, &c__0, &c__0, &anorm, &c__0, nblk,
+                &a[(*ncont + 1) * a_dim1 + 1], lda, info, 1L, 1L);
         }
-    }
-    else
-    {
+    } else {
         /*        B is negligible compared with A. No computations for reducing */
         /*        the system to orthogonal canonical form have been performed, */
         /*        except scaling (which is undoed). */
-        if (ljobf)
-        {
+        if (ljobf) {
             dlaset_("F", n, n, &c_b10, &c_b10, &z__[z_offset], ldz, 1L);
             dlaset_("F", n, &c__1, &c_b10, &c_b10, &tau[1], n, 1L);
-        }
-        else if (ljobi)
-        {
+        } else if (ljobi) {
             dlaset_("F", n, n, &c_b10, &c_b18, &z__[z_offset], ldz, 1L);
         }
         mb01pd_("U", "G", n, n, &c__0, &c__0, &anorm, &c__0, nblk, &a[a_offset], lda, info, 1L, 1L);
@@ -397,4 +363,3 @@ L10:
     return 0;
     /* *** Last line of AB01MD *** */
 } /* ab01md_ */
-

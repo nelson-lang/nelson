@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,18 +10,19 @@
 static integer c__1 = 1;
 static integer c__2 = 2;
 
-EXPORTSYMBOL /* Subroutine */ int mb3oyz_(m, n, a, lda, rcond, svlmax, rank, sval, jpvt, tau, dwork, zwork, info)
-integer *m, *n;
-doublecomplex *a;
-integer *lda;
+EXPORTSYMBOL /* Subroutine */ int mb3oyz_(
+    m, n, a, lda, rcond, svlmax, rank, sval, jpvt, tau, dwork, zwork, info) integer *m,
+    *n;
+doublecomplex* a;
+integer* lda;
 doublereal *rcond, *svlmax;
-integer *rank;
-doublereal *sval;
-integer *jpvt;
-doublecomplex *tau;
-doublereal *dwork;
-doublecomplex *zwork;
-integer *info;
+integer* rank;
+doublereal* sval;
+integer* jpvt;
+doublecomplex* tau;
+doublereal* dwork;
+doublecomplex* zwork;
+integer* info;
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2, i__3;
@@ -206,36 +207,25 @@ integer *info;
     --zwork;
     /* Function Body */
     *info = 0;
-    if (*m < 0)
-    {
+    if (*m < 0) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -4;
-    }
-    else if (*rcond < 0. || *rcond > 1.)
-    {
+    } else if (*rcond < 0. || *rcond > 1.) {
         *info = -5;
-    }
-    else if (*svlmax < 0.)
-    {
+    } else if (*svlmax < 0.) {
         *info = -6;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB3OYZ", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    mn = min(*m,*n);
-    if (mn == 0)
-    {
+    mn = min(*m, *n);
+    if (mn == 0) {
         *rank = 0;
         sval[1] = 0.;
         sval[2] = 0.;
@@ -248,8 +238,7 @@ integer *info;
     /*     Initialize partial column norms and pivoting vector. The first n */
     /*     elements of DWORK store the exact column norms. */
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[i__] = dznrm2_(m, &a[i__ * a_dim1 + 1], &c__1);
         dwork[*n + i__] = dwork[i__];
         jpvt[i__] = i__;
@@ -259,14 +248,12 @@ integer *info;
     /*     condition estimation. */
     *rank = 0;
 L20:
-    if (*rank < mn)
-    {
+    if (*rank < mn) {
         i__ = *rank + 1;
         /*        Determine ith pivot column and swap if necessary. */
         i__1 = *n - i__ + 1;
         pvt = i__ - 1 + idamax_(&i__1, &dwork[i__], &c__1);
-        if (pvt != i__)
-        {
+        if (pvt != i__) {
             zswap_(m, &a[pvt * a_dim1 + 1], &c__1, &a[i__ * a_dim1 + 1], &c__1);
             itemp = jpvt[pvt];
             jpvt[pvt] = jpvt[i__];
@@ -276,24 +263,19 @@ L20:
         }
         /*        Save A(I,I) and generate elementary reflector H(i) */
         /*        such that H(i)'*[A(i,i);*] = [*;0]. */
-        if (i__ < *m)
-        {
+        if (i__ < *m) {
             i__1 = i__ + i__ * a_dim1;
             aii.r = a[i__1].r, aii.i = a[i__1].i;
             i__1 = *m - i__ + 1;
             zlarfg_(&i__1, &a[i__ + i__ * a_dim1], &a[i__ + 1 + i__ * a_dim1], &c__1, &tau[i__]);
-        }
-        else
-        {
+        } else {
             i__1 = *m;
             tau[i__1].r = 0., tau[i__1].i = 0.;
         }
-        if (*rank == 0)
-        {
+        if (*rank == 0) {
             /*           Initialize; exit if matrix is zero (RANK = 0). */
             smax = z_abs(&a[a_dim1 + 1]);
-            if (smax == 0.)
-            {
+            if (smax == 0.) {
                 sval[1] = 0.;
                 sval[2] = 0.;
                 sval[3] = 0.;
@@ -304,22 +286,18 @@ L20:
             sminpr = smin;
             c1.r = 1., c1.i = 0.;
             c2.r = 1., c2.i = 0.;
-        }
-        else
-        {
+        } else {
             /*           One step of incremental condition estimation. */
-            zlaic1_(&c__2, rank, &zwork[ismin], &smin, &a[i__ * a_dim1 + 1], &a[i__ + i__ * a_dim1], &sminpr, &s1, &c1);
-            zlaic1_(&c__1, rank, &zwork[ismax], &smax, &a[i__ * a_dim1 + 1], &a[i__ + i__ * a_dim1], &smaxpr, &s2, &c2);
+            zlaic1_(&c__2, rank, &zwork[ismin], &smin, &a[i__ * a_dim1 + 1], &a[i__ + i__ * a_dim1],
+                &sminpr, &s1, &c1);
+            zlaic1_(&c__1, rank, &zwork[ismax], &smax, &a[i__ * a_dim1 + 1], &a[i__ + i__ * a_dim1],
+                &smaxpr, &s2, &c2);
         }
-        if (*svlmax **rcond <= smaxpr)
-        {
-            if (*svlmax **rcond <= sminpr)
-            {
-                if (smaxpr **rcond <= sminpr)
-                {
+        if (*svlmax * *rcond <= smaxpr) {
+            if (*svlmax * *rcond <= sminpr) {
+                if (smaxpr * *rcond <= sminpr) {
                     /*                 Continue factorization, as rank is at least RANK. */
-                    if (i__ < *n)
-                    {
+                    if (i__ < *n) {
                         /*                    Apply H(i)' to A(i:m,i+1:n) from the left. */
                         i__1 = i__ + i__ * a_dim1;
                         aii.r = a[i__1].r, aii.i = a[i__1].i;
@@ -328,54 +306,48 @@ L20:
                         i__1 = *m - i__ + 1;
                         i__2 = *n - i__;
                         d_cnjg(&z__1, &tau[i__]);
-                        zlarf_("Left", &i__1, &i__2, &a[i__ + i__ * a_dim1], &c__1, &z__1, &a[i__ + (i__ + 1) * a_dim1], lda, &zwork[(*n << 1) + 1], 4L);
+                        zlarf_("Left", &i__1, &i__2, &a[i__ + i__ * a_dim1], &c__1, &z__1,
+                            &a[i__ + (i__ + 1) * a_dim1], lda, &zwork[(*n << 1) + 1], 4L);
                         i__1 = i__ + i__ * a_dim1;
                         a[i__1].r = aii.r, a[i__1].i = aii.i;
                     }
                     /*                 Update partial column norms. */
                     i__1 = *n;
-                    for (j = i__ + 1; j <= i__1; ++j)
-                    {
-                        if (dwork[j] != 0.)
-                        {
+                    for (j = i__ + 1; j <= i__1; ++j) {
+                        if (dwork[j] != 0.) {
                             temp = z_abs(&a[i__ + j * a_dim1]) / dwork[j];
                             /* Computing MAX */
                             d__1 = (temp + 1.) * (1. - temp);
-                            temp = max(d__1,0.);
+                            temp = max(d__1, 0.);
                             /* Computing 2nd power */
                             d__1 = dwork[j] / dwork[*n + j];
                             temp2 = temp * (d__1 * d__1);
-                            if (temp2 <= tolz)
-                            {
-                                if (*m - i__ > 0)
-                                {
+                            if (temp2 <= tolz) {
+                                if (*m - i__ > 0) {
                                     i__2 = *m - i__;
                                     dwork[j] = dznrm2_(&i__2, &a[i__ + 1 + j * a_dim1], &c__1);
                                     dwork[*n + j] = dwork[j];
-                                }
-                                else
-                                {
+                                } else {
                                     dwork[j] = 0.;
                                     dwork[*n + j] = 0.;
                                 }
-                            }
-                            else
-                            {
+                            } else {
                                 dwork[j] *= sqrt(temp);
                             }
                         }
                         /* L30: */
                     }
                     i__1 = *rank;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__1; ++i__) {
                         i__2 = ismin + i__ - 1;
                         i__3 = ismin + i__ - 1;
-                        z__1.r = s1.r * zwork[i__3].r - s1.i * zwork[i__3].i, z__1.i = s1.r * zwork[i__3].i + s1.i * zwork[i__3].r;
+                        z__1.r = s1.r * zwork[i__3].r - s1.i * zwork[i__3].i,
+                        z__1.i = s1.r * zwork[i__3].i + s1.i * zwork[i__3].r;
                         zwork[i__2].r = z__1.r, zwork[i__2].i = z__1.i;
                         i__2 = ismax + i__ - 1;
                         i__3 = ismax + i__ - 1;
-                        z__1.r = s2.r * zwork[i__3].r - s2.i * zwork[i__3].i, z__1.i = s2.r * zwork[i__3].i + s2.i * zwork[i__3].r;
+                        z__1.r = s2.r * zwork[i__3].r - s2.i * zwork[i__3].i,
+                        z__1.i = s2.r * zwork[i__3].i + s2.i * zwork[i__3].r;
                         zwork[i__2].r = z__1.r, zwork[i__2].i = z__1.i;
                         /* L40: */
                     }
@@ -392,22 +364,20 @@ L20:
         }
     }
     /*     Restore the changed part of the (RANK+1)-th column and set SVAL. */
-    if (*rank < *n)
-    {
-        if (i__ < *m)
-        {
+    if (*rank < *n) {
+        if (i__ < *m) {
             i__1 = *m - i__;
             i__2 = i__ + i__ * a_dim1;
             z__2.r = -a[i__2].r, z__2.i = -a[i__2].i;
             i__3 = i__;
-            z__1.r = z__2.r * tau[i__3].r - z__2.i * tau[i__3].i, z__1.i = z__2.r * tau[i__3].i + z__2.i * tau[i__3].r;
+            z__1.r = z__2.r * tau[i__3].r - z__2.i * tau[i__3].i,
+            z__1.i = z__2.r * tau[i__3].i + z__2.i * tau[i__3].r;
             zscal_(&i__1, &z__1, &a[i__ + 1 + i__ * a_dim1], &c__1);
             i__1 = i__ + i__ * a_dim1;
             a[i__1].r = aii.r, a[i__1].i = aii.i;
         }
     }
-    if (*rank == 0)
-    {
+    if (*rank == 0) {
         smin = 0.;
         sminpr = 0.;
     }
@@ -417,4 +387,3 @@ L20:
     return 0;
     /* *** Last line of MB3OYZ *** */
 } /* mb3oyz_ */
-

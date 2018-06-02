@@ -18,117 +18,101 @@
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
 //=============================================================================
-#include <boost/algorithm/string/replace.hpp>
 #include "NelsonHistory.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "Evaluator.hpp"
+#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "HistoryManager.hpp"
 #include "NelsonHistory.h"
 #include "characters_encoding.hpp"
+#include <boost/algorithm/string/replace.hpp>
 //=============================================================================
-Nelson::Evaluator *mainEvaluator = nullptr;
-static char *_line = nullptr;
+Nelson::Evaluator* mainEvaluator = nullptr;
+static char* _line = nullptr;
 //=============================================================================
-bool Nelson::History::addLine(std::wstring line)
+bool
+Nelson::History::addLine(std::wstring line)
 {
-    if (mainEvaluator == nullptr)
-    {
-        mainEvaluator = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
+    if (mainEvaluator == nullptr) {
+        mainEvaluator = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
     }
-    if (mainEvaluator == nullptr)
-    {
+    if (mainEvaluator == nullptr) {
         return false;
     }
-    HistoryManager *hist = (HistoryManager *)mainEvaluator->HistoryManager;
-    if (hist)
-    {
+    HistoryManager* hist = (HistoryManager*)mainEvaluator->HistoryManager;
+    if (hist) {
         std::wstring mline = line;
         boost::replace_last(mline, L"\n", L"");
         return hist->appendLine(mline);
-    }
-    else
-    {
+    } else {
         return false;
     }
 }
 //=============================================================================
-bool Nelson::History::setToken(std::wstring line)
+bool
+Nelson::History::setToken(std::wstring line)
 {
-    if (mainEvaluator == nullptr)
-    {
-        mainEvaluator = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
+    if (mainEvaluator == nullptr) {
+        mainEvaluator = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
     }
-    if (mainEvaluator == nullptr)
-    {
+    if (mainEvaluator == nullptr) {
         return false;
     }
-    HistoryManager *hist = (HistoryManager *)mainEvaluator->HistoryManager;
-    if (hist)
-    {
+    HistoryManager* hist = (HistoryManager*)mainEvaluator->HistoryManager;
+    if (hist) {
         return hist->setToken(line);
-    }
-    else
-    {
+    } else {
         return false;
     }
 }
 //=============================================================================
-std::wstring Nelson::History::getNextLine(void)
+std::wstring
+Nelson::History::getNextLine(void)
 {
-    if (mainEvaluator == nullptr)
-    {
-        mainEvaluator = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
+    if (mainEvaluator == nullptr) {
+        mainEvaluator = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
     }
-    if (mainEvaluator == nullptr)
-    {
+    if (mainEvaluator == nullptr) {
         return L"";
     }
-    HistoryManager *hist = (HistoryManager *)mainEvaluator->HistoryManager;
-    if (hist)
-    {
+    HistoryManager* hist = (HistoryManager*)mainEvaluator->HistoryManager;
+    if (hist) {
         return hist->getNextLine();
-    }
-    else
-    {
+    } else {
         return L"";
     }
 }
 //=============================================================================
-std::wstring Nelson::History::getPreviousLine(void)
+std::wstring
+Nelson::History::getPreviousLine(void)
 {
-    if (mainEvaluator == nullptr)
-    {
-        mainEvaluator = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
+    if (mainEvaluator == nullptr) {
+        mainEvaluator = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
     }
-    if (mainEvaluator == nullptr)
-    {
+    if (mainEvaluator == nullptr) {
         return L"";
     }
-    HistoryManager *hist = (HistoryManager *)mainEvaluator->HistoryManager;
-    if (hist)
-    {
+    HistoryManager* hist = (HistoryManager*)mainEvaluator->HistoryManager;
+    if (hist) {
         return hist->getPreviousLine();
-    }
-    else
-    {
+    } else {
         return L"";
     }
 }
 //=============================================================================
-void NelsonHistorySetToken(const char *token)
+void
+NelsonHistorySetToken(const char* token)
 {
-    if (token)
-    {
+    if (token) {
         Nelson::History::setToken(Nelson::utf8_to_wstring(token));
     }
 }
 //=============================================================================
-const char* NelsonHistoryGetNextLine(void)
+const char*
+NelsonHistoryGetNextLine(void)
 {
     std::wstring wline = Nelson::History::getNextLine();
     std::string line = Nelson::wstring_to_utf8(wline);
-    if (_line)
-    {
+    if (_line) {
         delete _line;
     }
     _line = new char[line.size() + 1];
@@ -136,12 +120,12 @@ const char* NelsonHistoryGetNextLine(void)
     return _line;
 }
 //=============================================================================
-const char* NelsonHistoryGetPreviousLine(void)
+const char*
+NelsonHistoryGetPreviousLine(void)
 {
     std::wstring wline = Nelson::History::getPreviousLine();
     std::string line = Nelson::wstring_to_utf8(wline);
-    if (_line)
-    {
+    if (_line) {
         delete _line;
     }
     _line = new char[line.size() + 1];

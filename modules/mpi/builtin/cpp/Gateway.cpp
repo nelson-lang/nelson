@@ -16,43 +16,42 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "MPI_InitializedBuiltin.hpp"
-#include "MPI_FinalizeBuiltin.hpp"
-#include "MPI_InitBuiltin.hpp"
-#include "MPI_Get_processor_nameBuiltin.hpp"
-#include "MPI_Get_versionBuiltin.hpp"
-#include "MPI_Get_library_versionBuiltin.hpp"
-#include "MPI_SendBuiltin.hpp"
-#include "MPI_RecvBuiltin.hpp"
+#include "MPI_AllreduceBuiltin.hpp"
 #include "MPI_BarrierBuiltin.hpp"
 #include "MPI_BcastBuiltin.hpp"
-#include "MPI_ReduceBuiltin.hpp"
-#include "MPI_AllreduceBuiltin.hpp"
-#include "MPI_ProbeBuiltin.hpp"
-#include "MPI_IprobeBuiltin.hpp"
-#include "MPI_Comm_get_nameBuiltin.hpp"
 #include "MPI_Comm_deleteBuiltin.hpp"
-#include "MPI_Comm_usedBuiltin.hpp"
+#include "MPI_Comm_dispBuiltin.hpp"
+#include "MPI_Comm_get_nameBuiltin.hpp"
 #include "MPI_Comm_isvalidBuiltin.hpp"
 #include "MPI_Comm_objectBuiltin.hpp"
-#include "MPI_Comm_dispBuiltin.hpp"
 #include "MPI_Comm_rankBuiltin.hpp"
 #include "MPI_Comm_sizeBuiltin.hpp"
 #include "MPI_Comm_splitBuiltin.hpp"
+#include "MPI_Comm_usedBuiltin.hpp"
+#include "MPI_FinalizeBuiltin.hpp"
+#include "MPI_Get_library_versionBuiltin.hpp"
+#include "MPI_Get_processor_nameBuiltin.hpp"
+#include "MPI_Get_versionBuiltin.hpp"
+#include "MPI_InitBuiltin.hpp"
+#include "MPI_InitializedBuiltin.hpp"
+#include "MPI_IprobeBuiltin.hpp"
+#include "MPI_ProbeBuiltin.hpp"
+#include "MPI_RecvBuiltin.hpp"
+#include "MPI_ReduceBuiltin.hpp"
+#include "MPI_SendBuiltin.hpp"
+#include "NelsonGateway.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"mpi";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "MPI_Initialized", Nelson::MpiGateway::MPI_InitializedBuiltin, 1, 0 },
     { "MPI_Finalize", Nelson::MpiGateway::MPI_FinalizeBuiltin, 0, 0 },
     { "MPI_Init", Nelson::MpiGateway::MPI_InitBuiltin, 0, 0 },
     { "MPI_Get_processor_name", Nelson::MpiGateway::MPI_Get_processor_nameBuiltin, -1, 0 },
-    { "MPI_Get_version", Nelson::MpiGateway::MPI_Get_versionBuiltin, -1, 0},
-    { "MPI_Get_library_version", Nelson::MpiGateway::MPI_Get_library_versionBuiltin, 1, 0},
+    { "MPI_Get_version", Nelson::MpiGateway::MPI_Get_versionBuiltin, -1, 0 },
+    { "MPI_Get_library_version", Nelson::MpiGateway::MPI_Get_library_versionBuiltin, 1, 0 },
     { "MPI_Comm_object", Nelson::MpiGateway::MPI_Comm_objectBuiltin, 1, 1 },
     { "MPI_Comm_disp", Nelson::MpiGateway::MPI_Comm_dispBuiltin, 0, 1 },
     { "MPI_Recv", Nelson::MpiGateway::MPI_RecvBuiltin, 1, 4 },

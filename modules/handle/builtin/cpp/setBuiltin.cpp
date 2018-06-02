@@ -18,81 +18,65 @@
 //=============================================================================
 #include "setBuiltin.hpp"
 #include "Error.hpp"
-#include "HandleManager.hpp"
 #include "HandleGenericObject.hpp"
+#include "HandleManager.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::HandleGateway::setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::HandleGateway::setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 0)
-    {
+    if (argIn.size() == 0) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    if (!param1.isEmpty())
-    {
-        nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
+    if (!param1.isEmpty()) {
+        nelson_handle* qp = (nelson_handle*)param1.getDataPointer();
         std::wstring handleTypeName = utf8_to_wstring(NLS_HANDLE_STR);
-        if (qp)
-        {
+        if (qp) {
             Dimensions dimsParam1 = param1.getDimensions();
-            for (indexType k = 0; k < dimsParam1.getElementCount(); k++)
-            {
+            for (indexType k = 0; k < dimsParam1.getElementCount(); k++) {
                 nelson_handle hl = qp[k];
-                HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-                if (hlObj)
-                {
+                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
+                if (hlObj) {
                     std::wstring currentType = hlObj->getCategory();
-                    if (currentType != L"" || currentType != utf8_to_wstring(NLS_HANDLE_STR))
-                    {
+                    if (currentType != L"" || currentType != utf8_to_wstring(NLS_HANDLE_STR)) {
                         handleTypeName = currentType;
                         break;
                     }
                 }
             }
-            if (handleTypeName != utf8_to_wstring(NLS_HANDLE_STR))
-            {
+            if (handleTypeName != utf8_to_wstring(NLS_HANDLE_STR)) {
                 bool doOverload = false;
                 std::wstring ufunctionNameGetHandle = handleTypeName + L"_set";
                 std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
-                Context *context = eval->getContext();
-                FunctionDef *funcDef = nullptr;
-                if (context->lookupFunction(functionNameGetHandle, funcDef))
-                {
-                    if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
-                    {
+                Context* context = eval->getContext();
+                FunctionDef* funcDef = nullptr;
+                if (context->lookupFunction(functionNameGetHandle, funcDef)) {
+                    if ((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                        || (funcDef->type() == NLS_MACRO_FUNCTION)) {
                         ArrayOfVector argInCopy(argIn);
                         funcDef->evaluateFunction(eval, argInCopy, nLhs);
                         doOverload = true;
                     }
                 }
-                if (!doOverload)
-                {
+                if (!doOverload) {
                     std::wstring msg = ufunctionNameGetHandle + L" " + _W("not defined.");
                     Error(eval, msg);
                 }
-            }
-            else
-            {
+            } else {
                 Error(eval, _W("Invalid handle."));
             }
-        }
-        else
-        {
+        } else {
             Error(eval, _W("Invalid handle."));
         }
-    }
-    else
-    {
-        if (nLhs > 0)
-        {
+    } else {
+        if (nLhs > 0) {
             Dimensions dims(0, 0);
             retval.push_back(ArrayOf::emptyConstructor(dims));
         }

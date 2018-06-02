@@ -21,7 +21,7 @@
 #include "nlsTime_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSTIME_IMPEXP double CpuTime();
+NLSTIME_IMPEXP double
+CpuTime();
 }
 //=============================================================================
-

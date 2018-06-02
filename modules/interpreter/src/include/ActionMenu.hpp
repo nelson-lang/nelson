@@ -21,9 +21,13 @@
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSINTERPRETER_IMPEXP void doExit(void);
-    NLSINTERPRETER_IMPEXP void doHelp(void);
-    NLSINTERPRETER_IMPEXP void doPause(void);
-    NLSINTERPRETER_IMPEXP void doStop(void);
-};
-//=============================================================================
+NLSINTERPRETER_IMPEXP void
+doExit(void);
+NLSINTERPRETER_IMPEXP void
+doHelp(void);
+NLSINTERPRETER_IMPEXP void
+doPause(void);
+NLSINTERPRETER_IMPEXP void
+doStop(void);
+}; // namespace Nelson
+   //=============================================================================

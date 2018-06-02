@@ -17,24 +17,23 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "sparselogical_uminusBuiltin.hpp"
-#include "UminusSparse.hpp"
 #include "Error.hpp"
+#include "UminusSparse.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::SparseGateway::sparselogical_uminusBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::SparseGateway::sparselogical_uminusBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs != 1)
-    {
+    if (nLhs != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn[0].getDataClass() != NLS_LOGICAL && !argIn[0].isSparse())
-    {
+    if (argIn[0].getDataClass() != NLS_LOGICAL && !argIn[0].isSparse()) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
     }
     retval.push_back(sparselogical_uminus(argIn[0]));

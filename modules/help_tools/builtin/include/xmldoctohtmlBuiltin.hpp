@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace NelSon {
-    namespace HelpToolsGateway {
-        ArrayOfVector xmldoctohtmlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace HelpToolsGateway {
+    ArrayOfVector
+    xmldoctohtmlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace NelSon
 //=============================================================================

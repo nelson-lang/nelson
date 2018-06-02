@@ -18,13 +18,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "HandleGenericObject.hpp"
-#include "nlsCom_engine_exports.h"
 #include "Types.hpp"
+#include "nlsCom_engine_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSCOM_ENGINE_IMPEXP std::wstring xlsIndexToRange(indexType m, indexType n);
-    NLSCOM_ENGINE_IMPEXP bool isValidRange(std::wstring range);
-}
+NLSCOM_ENGINE_IMPEXP std::wstring
+xlsIndexToRange(indexType m, indexType n);
+NLSCOM_ENGINE_IMPEXP bool
+isValidRange(std::wstring range);
+} // namespace Nelson
 //=============================================================================

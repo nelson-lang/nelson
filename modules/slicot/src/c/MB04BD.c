@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,37 +14,41 @@ static doublereal c_b43 = -1.;
 static integer c__0 = 0;
 static integer c__4 = 4;
 
-EXPORTSYMBOL /* Subroutine */ int mb04bd_(job, compq1, compq2, n, a, lda, de, ldde, c1, ldc1, vw, ldvw, q1, ldq1, q2, ldq2, b, ldb, f, ldf, c2, ldc2, alphar, alphai, beta, iwork, liwork, dwork, ldwork, info, job_len, compq1_len, compq2_len)
-char *job, *compq1, *compq2;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *de;
-integer *ldde;
-doublereal *c1;
-integer *ldc1;
-doublereal *vw;
-integer *ldvw;
-doublereal *q1;
-integer *ldq1;
-doublereal *q2;
-integer *ldq2;
-doublereal *b;
-integer *ldb;
-doublereal *f;
-integer *ldf;
-doublereal *c2;
-integer *ldc2;
+EXPORTSYMBOL /* Subroutine */ int mb04bd_(job, compq1, compq2, n, a, lda, de, ldde, c1, ldc1, vw,
+    ldvw, q1, ldq1, q2, ldq2, b, ldb, f, ldf, c2, ldc2, alphar, alphai, beta, iwork, liwork, dwork,
+    ldwork, info, job_len, compq1_len, compq2_len) char *job,
+    *compq1, *compq2;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* de;
+integer* ldde;
+doublereal* c1;
+integer* ldc1;
+doublereal* vw;
+integer* ldvw;
+doublereal* q1;
+integer* ldq1;
+doublereal* q2;
+integer* ldq2;
+doublereal* b;
+integer* ldb;
+doublereal* f;
+integer* ldf;
+doublereal* c2;
+integer* ldc2;
 doublereal *alphar, *alphai, *beta;
 integer *iwork, *liwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen job_len;
 ftnlen compq1_len;
 ftnlen compq2_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c1_dim1, c1_offset, c2_dim1, c2_offset, de_dim1, de_offset, f_dim1, f_offset, q1_dim1, q1_offset, q2_dim1, q2_offset, vw_dim1, vw_offset, i__1, i__2, i__3, i__4;
+    integer a_dim1, a_offset, b_dim1, b_offset, c1_dim1, c1_offset, c2_dim1, c2_offset, de_dim1,
+        de_offset, f_dim1, f_offset, q1_dim1, q1_offset, q2_dim1, q2_offset, vw_dim1, vw_offset,
+        i__1, i__2, i__3, i__4;
     doublereal d__1, d__2;
     doublecomplex z__1, z__2;
     /* Builtin functions */
@@ -396,89 +400,53 @@ ftnlen compq2_len;
     lupdq2 = lsame_(compq2, "U", 1L, 1L);
     lcmpq1 = lupdq1 || liniq1;
     lcmpq2 = lupdq2 || liniq2;
-    if (ltri || lcmpq1 || lcmpq2)
-    {
-        optdw = (mm << 3) + max(*n,32);
-    }
-    else
-    {
-        optdw = (mm << 2) + max(*n,32);
+    if (ltri || lcmpq1 || lcmpq2) {
+        optdw = (mm << 3) + max(*n, 32);
+    } else {
+        optdw = (mm << 2) + max(*n, 32);
     }
     /*     Test the input arguments. */
     *info = 0;
-    if (! (lsame_(job, "E", 1L, 1L) || ltri))
-    {
+    if (!(lsame_(job, "E", 1L, 1L) || ltri)) {
         *info = -1;
-    }
-    else if (! (lsame_(compq1, "N", 1L, 1L) || lcmpq1))
-    {
+    } else if (!(lsame_(compq1, "N", 1L, 1L) || lcmpq1)) {
         *info = -2;
-    }
-    else if (! (lsame_(compq2, "N", 1L, 1L) || lcmpq2))
-    {
+    } else if (!(lsame_(compq2, "N", 1L, 1L) || lcmpq2)) {
         *info = -3;
-    }
-    else if (liniq2 && ! liniq1 || lupdq2 && ! lupdq1)
-    {
+    } else if (liniq2 && !liniq1 || lupdq2 && !lupdq1) {
         *info = -3;
-    }
-    else if (*n < 0 || *n % 2 != 0)
-    {
+    } else if (*n < 0 || *n % 2 != 0) {
         *info = -4;
-    }
-    else if (*lda < max(1,m))
-    {
+    } else if (*lda < max(1, m)) {
         *info = -6;
-    }
-    else if (*ldde < max(1,m))
-    {
+    } else if (*ldde < max(1, m)) {
         *info = -8;
-    }
-    else if (*ldc1 < max(1,m))
-    {
+    } else if (*ldc1 < max(1, m)) {
         *info = -10;
-    }
-    else if (*ldvw < max(1,m))
-    {
+    } else if (*ldvw < max(1, m)) {
         *info = -12;
-    }
-    else if (*ldq1 < 1 || lcmpq1 && *ldq1 < *n)
-    {
+    } else if (*ldq1 < 1 || lcmpq1 && *ldq1 < *n) {
         *info = -14;
-    }
-    else if (*ldq2 < 1 || lcmpq2 && *ldq2 < *n)
-    {
+    } else if (*ldq2 < 1 || lcmpq2 && *ldq2 < *n) {
         *info = -16;
-    }
-    else if (*ldb < max(1,m))
-    {
+    } else if (*ldb < max(1, m)) {
         *info = -18;
-    }
-    else if (*ldf < max(1,m))
-    {
+    } else if (*ldf < max(1, m)) {
         *info = -20;
-    }
-    else if (*ldc2 < max(1,m))
-    {
+    } else if (*ldc2 < max(1, m)) {
         *info = -22;
-    }
-    else if (*liwork < m + 12)
-    {
+    } else if (*liwork < m + 12) {
         *info = -27;
-    }
-    else if (*ldwork < optdw)
-    {
+    } else if (*ldwork < optdw) {
         *info = -29;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04BD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 1.;
         return 0;
     }
@@ -488,30 +456,28 @@ ftnlen compq2_len;
     emax = dlamch_("Largest Exponent", 16L);
     prec = dlamch_("Precision", 9L);
     /*     STEP 1: Reduce S to skew-Hamiltonian triangular form. */
-    if (liniq1)
-    {
+    if (liniq1) {
         dlaset_("Full", n, n, &c_b16, &c_b17, &q1[q1_offset], ldq1, 4L);
     }
     dum[0] = 0.;
     i__1 = m - 1;
-    for (k = 1; k <= i__1; ++k)
-    {
+    for (k = 1; k <= i__1; ++k) {
         /*        Generate elementary reflector H(k) = I - nu * v * v' to */
         /*        annihilate E(k+2:m,k). */
         /* Computing MIN */
         i__2 = k + 2;
-        mk2 = min(i__2,m);
+        mk2 = min(i__2, m);
         mk3 = mk2 + 1;
         tmp1 = de[k + 1 + k * de_dim1];
         i__2 = m - k;
         dlarfg_(&i__2, &tmp1, &de[mk2 + k * de_dim1], &c__1, &nu);
-        if (nu != 0.)
-        {
+        if (nu != 0.) {
             de[k + 1 + k * de_dim1] = 1.;
             /*           Apply H(k) from both sides to E(k+1:m,k+1:m). */
             /*           Compute  x := nu * E(k+1:m,k+1:m) * v. */
             i__2 = m - k;
-            mb01md_("Lower", &i__2, &nu, &de[k + 1 + (k + 1) * de_dim1], ldde, &de[k + 1 + k * de_dim1], &c__1, &c_b16, &dwork[1], &c__1, 5L);
+            mb01md_("Lower", &i__2, &nu, &de[k + 1 + (k + 1) * de_dim1], ldde,
+                &de[k + 1 + k * de_dim1], &c__1, &c_b16, &dwork[1], &c__1, 5L);
             /*           Compute  w := x - 1/2 * nu * (x'*v) * v in x. */
             i__2 = m - k;
             mu = nu * -.5 * ddot_(&i__2, &dwork[1], &c__1, &de[k + 1 + k * de_dim1], &c__1);
@@ -520,15 +486,18 @@ ftnlen compq2_len;
             /*           Apply the transformation as a skew-symmetric rank-2 update: */
             /*                E := E + v * w' - w * v'. */
             i__2 = m - k;
-            mb01nd_("Lower", &i__2, &c_b17, &de[k + 1 + k * de_dim1], &c__1, &dwork[1], &c__1, &de[k + 1 + (k + 1) * de_dim1], ldde, 5L);
+            mb01nd_("Lower", &i__2, &c_b17, &de[k + 1 + k * de_dim1], &c__1, &dwork[1], &c__1,
+                &de[k + 1 + (k + 1) * de_dim1], ldde, 5L);
             /*           Apply H(k) to W(k+1:m,1:k) from the left (and implicitly to */
             /*           W(1:k,k+1:m) from the right). */
             i__2 = m - k;
-            dlarf_("Left", &i__2, &k, &de[k + 1 + k * de_dim1], &c__1, &nu, &vw[k + 1 + vw_dim1], ldvw, &dwork[1], 4L);
+            dlarf_("Left", &i__2, &k, &de[k + 1 + k * de_dim1], &c__1, &nu, &vw[k + 1 + vw_dim1],
+                ldvw, &dwork[1], 4L);
             /*           Apply H(k) from both sides to W(k+1:m,k+1:m). */
             /*           Compute  x := nu * W(k+1:m,k+1:m) * v. */
             i__2 = m - k;
-            dsymv_("Lower", &i__2, &nu, &vw[k + 1 + (k + 1) * vw_dim1], ldvw, &de[k + 1 + k * de_dim1], &c__1, &c_b16, &dwork[1], &c__1, 5L);
+            dsymv_("Lower", &i__2, &nu, &vw[k + 1 + (k + 1) * vw_dim1], ldvw,
+                &de[k + 1 + k * de_dim1], &c__1, &c_b16, &dwork[1], &c__1, 5L);
             /*           Compute  w := x - 1/2 * nu * (x'*v) * v. */
             i__2 = m - k;
             mu = nu * -.5 * ddot_(&i__2, &dwork[1], &c__1, &de[k + 1 + k * de_dim1], &c__1);
@@ -537,18 +506,21 @@ ftnlen compq2_len;
             /*           Apply the transformation as a rank-2 update: */
             /*                W := W - v * w' - w * v'. */
             i__2 = m - k;
-            dsyr2_("Lower", &i__2, &c_b43, &de[k + 1 + k * de_dim1], &c__1, &dwork[1], &c__1, &vw[k + 1 + (k + 1) * vw_dim1], ldvw, 5L);
+            dsyr2_("Lower", &i__2, &c_b43, &de[k + 1 + k * de_dim1], &c__1, &dwork[1], &c__1,
+                &vw[k + 1 + (k + 1) * vw_dim1], ldvw, 5L);
             /*           Apply H(k) from the right hand side to A(1:m,k+1:m) and */
             /*           C1(1:m,k+1:m). */
             i__2 = m - k;
-            dlarf_("Right", &m, &i__2, &de[k + 1 + k * de_dim1], &c__1, &nu, &a[(k + 1) * a_dim1 + 1], lda, &dwork[1], 5L);
+            dlarf_("Right", &m, &i__2, &de[k + 1 + k * de_dim1], &c__1, &nu,
+                &a[(k + 1) * a_dim1 + 1], lda, &dwork[1], 5L);
             i__2 = m - k;
-            dlarf_("Right", &m, &i__2, &de[k + 1 + k * de_dim1], &c__1, &nu, &c1[(k + 1) * c1_dim1 + 1], ldc1, &dwork[1], 5L);
-            if (lcmpq1)
-            {
+            dlarf_("Right", &m, &i__2, &de[k + 1 + k * de_dim1], &c__1, &nu,
+                &c1[(k + 1) * c1_dim1 + 1], ldc1, &dwork[1], 5L);
+            if (lcmpq1) {
                 /*              Apply H(k) from the right hand side to Q1(1:n,m+k+1:n). */
                 i__2 = m - k;
-                dlarf_("Right", n, &i__2, &de[k + 1 + k * de_dim1], &c__1, &nu, &q1[(m + k + 1) * q1_dim1 + 1], ldq1, &dwork[1], 5L);
+                dlarf_("Right", n, &i__2, &de[k + 1 + k * de_dim1], &c__1, &nu,
+                    &q1[(m + k + 1) * q1_dim1 + 1], ldq1, &dwork[1], 5L);
             }
             de[k + 1 + k * de_dim1] = tmp1;
         }
@@ -567,51 +539,58 @@ ftnlen compq2_len;
         drot_(&k, &vw[k + 1 + vw_dim1], ldvw, &c1[k + 1 + c1_dim1], ldc1, &co, &d__1);
         i__2 = m - k - 1;
         d__1 = -si;
-        drot_(&i__2, &vw[mk2 + (k + 1) * vw_dim1], &c__1, &c1[k + 1 + mk2 * c1_dim1], ldc1, &co, &d__1);
+        drot_(&i__2, &vw[mk2 + (k + 1) * vw_dim1], &c__1, &c1[k + 1 + mk2 * c1_dim1], ldc1, &co,
+            &d__1);
         drot_(&k, &c1[(k + 1) * c1_dim1 + 1], &c__1, &vw[(k + 2) * vw_dim1 + 1], &c__1, &co, &si);
         i__2 = m - k - 1;
         d__1 = -si;
-        drot_(&i__2, &vw[k + 1 + mk3 * vw_dim1], ldvw, &c1[mk2 + (k + 1) * c1_dim1], &c__1, &co, &d__1);
+        drot_(&i__2, &vw[k + 1 + mk3 * vw_dim1], ldvw, &c1[mk2 + (k + 1) * c1_dim1], &c__1, &co,
+            &d__1);
         /*        Fix the diagonal part. */
         tmp1 = c1[k + 1 + (k + 1) * c1_dim1];
         tmp2 = vw[k + 1 + (k + 2) * vw_dim1];
-        c1[k + 1 + (k + 1) * c1_dim1] = (co - si) * (co + si) * tmp1 + co * si * (vw[k + 1 + (k + 1) * vw_dim1] + tmp2);
+        c1[k + 1 + (k + 1) * c1_dim1]
+            = (co - si) * (co + si) * tmp1 + co * si * (vw[k + 1 + (k + 1) * vw_dim1] + tmp2);
         tmp1 = co * 2. * si * tmp1;
         /* Computing 2nd power */
         d__1 = co;
         /* Computing 2nd power */
         d__2 = si;
-        vw[k + 1 + (k + 2) * vw_dim1] = d__1 * d__1 * tmp2 - d__2 * d__2 * vw[k + 1 + (k + 1) * vw_dim1] - tmp1;
+        vw[k + 1 + (k + 2) * vw_dim1]
+            = d__1 * d__1 * tmp2 - d__2 * d__2 * vw[k + 1 + (k + 1) * vw_dim1] - tmp1;
         /* Computing 2nd power */
         d__1 = co;
         /* Computing 2nd power */
         d__2 = si;
-        vw[k + 1 + (k + 1) * vw_dim1] = d__1 * d__1 * vw[k + 1 + (k + 1) * vw_dim1] - d__2 * d__2 * tmp2 - tmp1;
-        if (lcmpq1)
-        {
+        vw[k + 1 + (k + 1) * vw_dim1]
+            = d__1 * d__1 * vw[k + 1 + (k + 1) * vw_dim1] - d__2 * d__2 * tmp2 - tmp1;
+        if (lcmpq1) {
             /*           Update Q1. */
-            drot_(n, &q1[(k + 1) * q1_dim1 + 1], &c__1, &q1[(m + k + 1) * q1_dim1 + 1], &c__1, &co, &si);
+            drot_(n, &q1[(k + 1) * q1_dim1 + 1], &c__1, &q1[(m + k + 1) * q1_dim1 + 1], &c__1, &co,
+                &si);
         }
         /*        Generate elementary reflector P(k) to annihilate A(k+1:m,k). */
         tmp1 = a[k + k * a_dim1];
         i__2 = m - k + 1;
         dlarfg_(&i__2, &tmp1, &a[k + 1 + k * a_dim1], &c__1, &nu);
-        if (nu != 0.)
-        {
+        if (nu != 0.) {
             a[k + k * a_dim1] = 1.;
             /*           Apply P(k) from the left hand side to A(k:m,k+1:m). */
             i__2 = m - k + 1;
             i__3 = m - k;
-            dlarf_("Left", &i__2, &i__3, &a[k + k * a_dim1], &c__1, &nu, &a[k + (k + 1) * a_dim1], lda, &dwork[1], 4L);
+            dlarf_("Left", &i__2, &i__3, &a[k + k * a_dim1], &c__1, &nu, &a[k + (k + 1) * a_dim1],
+                lda, &dwork[1], 4L);
             /*           Apply P(k) to D(1:k-1,k:m) from the right (and implicitly */
             /*           to D(k:m,1:k-1) from the left). */
             i__2 = k - 1;
             i__3 = m - k + 1;
-            dlarf_("Right", &i__2, &i__3, &a[k + k * a_dim1], &c__1, &nu, &de[(k + 1) * de_dim1 + 1], ldde, &dwork[1], 5L);
+            dlarf_("Right", &i__2, &i__3, &a[k + k * a_dim1], &c__1, &nu,
+                &de[(k + 1) * de_dim1 + 1], ldde, &dwork[1], 5L);
             /*           Apply P(k) from both sides to D(k:m,k:m). */
             /*           Compute  x := nu * D(k:m,k:m) * v. */
             i__2 = m - k + 1;
-            mb01md_("Upper", &i__2, &nu, &de[k + (k + 1) * de_dim1], ldde, &a[k + k * a_dim1], &c__1, &c_b16, &dwork[1], &c__1, 5L);
+            mb01md_("Upper", &i__2, &nu, &de[k + (k + 1) * de_dim1], ldde, &a[k + k * a_dim1],
+                &c__1, &c_b16, &dwork[1], &c__1, 5L);
             /*           Compute  w := x - 1/2 * nu * (x'*v) * v in x. */
             i__2 = m - k + 1;
             mu = nu * -.5 * ddot_(&i__2, &dwork[1], &c__1, &a[k + k * a_dim1], &c__1);
@@ -620,19 +599,23 @@ ftnlen compq2_len;
             /*           Apply the transformation as a skew-symmetric rank-2 update: */
             /*                D := D + v * w' - w * v'. */
             i__2 = m - k + 1;
-            mb01nd_("Upper", &i__2, &c_b17, &a[k + k * a_dim1], &c__1, &dwork[1], &c__1, &de[k + (k + 1) * de_dim1], ldde, 5L);
+            mb01nd_("Upper", &i__2, &c_b17, &a[k + k * a_dim1], &c__1, &dwork[1], &c__1,
+                &de[k + (k + 1) * de_dim1], ldde, 5L);
             /*           Apply P(k) from the left hand side to C1(k:m,k+1:m). */
             i__2 = m - k + 1;
-            dlarf_("Left", &i__2, &m, &a[k + k * a_dim1], &c__1, &nu, &c1[k + c1_dim1], ldc1, &dwork[1], 4L);
+            dlarf_("Left", &i__2, &m, &a[k + k * a_dim1], &c__1, &nu, &c1[k + c1_dim1], ldc1,
+                &dwork[1], 4L);
             /*           Apply P(k) to V(1:k-1,k:m) from the right (and implicitly */
             /*           to V(k:m,1:k-1) from the left). */
             i__2 = k - 1;
             i__3 = m - k + 1;
-            dlarf_("Right", &i__2, &i__3, &a[k + k * a_dim1], &c__1, &nu, &vw[(k + 1) * vw_dim1 + 1], ldvw, &dwork[1], 5L);
+            dlarf_("Right", &i__2, &i__3, &a[k + k * a_dim1], &c__1, &nu,
+                &vw[(k + 1) * vw_dim1 + 1], ldvw, &dwork[1], 5L);
             /*           Apply P(k) from both sides to V(k:m,k:m). */
             /*           Compute  x := nu * V(k:m,k:m) * v. */
             i__2 = m - k + 1;
-            dsymv_("Upper", &i__2, &nu, &vw[k + (k + 1) * vw_dim1], ldvw, &a[k + k * a_dim1], &c__1, &c_b16, &dwork[1], &c__1, 5L);
+            dsymv_("Upper", &i__2, &nu, &vw[k + (k + 1) * vw_dim1], ldvw, &a[k + k * a_dim1], &c__1,
+                &c_b16, &dwork[1], &c__1, 5L);
             /*           Compute  w := x - 1/2 * nu * (x'*v) * v. */
             i__2 = m - k + 1;
             mu = nu * -.5 * ddot_(&i__2, &dwork[1], &c__1, &a[k + k * a_dim1], &c__1);
@@ -641,12 +624,13 @@ ftnlen compq2_len;
             /*           Apply the transformation as a rank-2 update: */
             /*                V := V - v * w' - w * v'. */
             i__2 = m - k + 1;
-            dsyr2_("Upper", &i__2, &c_b43, &a[k + k * a_dim1], &c__1, &dwork[1], &c__1, &vw[k + (k + 1) * vw_dim1], ldvw, 5L);
-            if (lcmpq1)
-            {
+            dsyr2_("Upper", &i__2, &c_b43, &a[k + k * a_dim1], &c__1, &dwork[1], &c__1,
+                &vw[k + (k + 1) * vw_dim1], ldvw, 5L);
+            if (lcmpq1) {
                 /*              Apply P(k) from the right hand side to Q1(1:n,k:m). */
                 i__2 = m - k + 1;
-                dlarf_("Right", n, &i__2, &a[k + k * a_dim1], &c__1, &nu, &q1[k * q1_dim1 + 1], ldq1, &dwork[1], 5L);
+                dlarf_("Right", n, &i__2, &a[k + k * a_dim1], &c__1, &nu, &q1[k * q1_dim1 + 1],
+                    ldq1, &dwork[1], 5L);
             }
             a[k + k * a_dim1] = tmp1;
         }
@@ -663,11 +647,9 @@ ftnlen compq2_len;
     dlacpy_("Full", &m, &m, &a[a_offset], lda, &b[b_offset], ldb, 4L);
     dlacpy_("Upper", &m, &m, &de[(de_dim1 << 1) + 1], ldde, &f[f_offset], ldf, 5L);
     i__1 = m;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = m;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             c2[i__ + j * c2_dim1] = -c1[i__ + j * c1_dim1];
             /* L20: */
         }
@@ -676,26 +658,21 @@ ftnlen compq2_len;
     dlacpy_("Lower", &m, &m, &vw[vw_offset], ldvw, &dwork[1], &m, 5L);
     ma02ad_("Lower", &m, &m, &vw[vw_offset], ldvw, &dwork[1], &m, 5L);
     ma02ad_("Upper", &m, &m, &vw[(vw_dim1 << 1) + 1], ldvw, &vw[(vw_dim1 << 1) + 1], ldvw, 5L);
-    if (lcmpq2)
-    {
+    if (lcmpq2) {
         dlacpy_("Full", &m, &m, &q1[m + 1 + (m + 1) * q1_dim1], ldq1, &q2[q2_offset], ldq2, 4L);
         i__1 = m;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *n;
-            for (i__ = m + 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = m + 1; i__ <= i__2; ++i__) {
                 q2[i__ + j * q2_dim1] = -q1[i__ - m + (j + m) * q1_dim1];
                 /* L40: */
             }
             /* L50: */
         }
         i__1 = *n;
-        for (j = m + 1; j <= i__1; ++j)
-        {
+        for (j = m + 1; j <= i__1; ++j) {
             i__2 = m;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 q2[i__ + j * q2_dim1] = -q1[i__ + m + (j - m) * q1_dim1];
                 /* L60: */
             }
@@ -705,18 +682,16 @@ ftnlen compq2_len;
     }
     /*     STEP 2: Eliminations in H. */
     i__1 = m;
-    for (k = 1; k <= i__1; ++k)
-    {
+    for (k = 1; k <= i__1; ++k) {
         /* Computing MIN */
         i__2 = k + 1;
-        mk1 = min(i__2,m);
+        mk1 = min(i__2, m);
         /*        I. Annihilate W(k:m-1,k). */
         i__2 = m - 1;
-        for (j = k; j <= i__2; ++j)
-        {
+        for (j = k; j <= i__2; ++j) {
             /* Computing MIN */
             i__3 = j + 3, i__4 = m + 1;
-            mj3 = min(i__3,i__4);
+            mj3 = min(i__3, i__4);
             /*           Determine a Givens rotation to annihilate W(j,k) from the */
             /*           left. */
             dlartg_(&dwork[(k - 1) * m + j + 1], &dwork[(k - 1) * m + j], &co, &si, &tmp1);
@@ -730,10 +705,10 @@ ftnlen compq2_len;
             drot_(&j, &a[(j + 1) * a_dim1 + 1], &c__1, &a[j * a_dim1 + 1], &c__1, &co, &si);
             tmp1 = -si * a[j + 1 + (j + 1) * a_dim1];
             a[j + 1 + (j + 1) * a_dim1] = co * a[j + 1 + (j + 1) * a_dim1];
-            if (lcmpq1)
-            {
+            if (lcmpq1) {
                 /*              Update Q1. */
-                drot_(n, &q1[(m + j + 1) * q1_dim1 + 1], &c__1, &q1[(m + j) * q1_dim1 + 1], &c__1, &co, &si);
+                drot_(n, &q1[(m + j + 1) * q1_dim1 + 1], &c__1, &q1[(m + j) * q1_dim1 + 1], &c__1,
+                    &co, &si);
             }
             /*           Determine a Givens rotation to annihilate A(j+1,j) from the */
             /*           left. */
@@ -741,17 +716,18 @@ ftnlen compq2_len;
             /*           Update A and D. */
             a[j + j * a_dim1] = tmp2;
             i__3 = m - j;
-            drot_(&i__3, &a[j + (j + 1) * a_dim1], lda, &a[j + 1 + (j + 1) * a_dim1], lda, &co, &si);
+            drot_(
+                &i__3, &a[j + (j + 1) * a_dim1], lda, &a[j + 1 + (j + 1) * a_dim1], lda, &co, &si);
             i__3 = j - 1;
-            drot_(&i__3, &de[(j + 1) * de_dim1 + 1], &c__1, &de[(j + 2) * de_dim1 + 1], &c__1, &co, &si);
+            drot_(&i__3, &de[(j + 1) * de_dim1 + 1], &c__1, &de[(j + 2) * de_dim1 + 1], &c__1, &co,
+                &si);
             i__3 = m - j - 1;
             drot_(&i__3, &de[j + mj3 * de_dim1], ldde, &de[j + 1 + mj3 * de_dim1], ldde, &co, &si);
             /*           Update C1 and V. */
             i__3 = m - k + 1;
             drot_(&i__3, &c1[j + k * c1_dim1], ldc1, &c1[j + 1 + k * c1_dim1], ldc1, &co, &si);
             drot_(&m, &vw[j + (vw_dim1 << 1)], ldvw, &vw[j + 1 + (vw_dim1 << 1)], ldvw, &co, &si);
-            if (lcmpq1)
-            {
+            if (lcmpq1) {
                 /*              Update Q1. */
                 drot_(n, &q1[j * q1_dim1 + 1], &c__1, &q1[(j + 1) * q1_dim1 + 1], &c__1, &co, &si);
             }
@@ -769,18 +745,16 @@ ftnlen compq2_len;
         /*        Update A and D. */
         i__2 = m - 1;
         drot_(&i__2, &a[m * a_dim1 + 1], &c__1, &de[(m + 1) * de_dim1 + 1], &c__1, &co, &si);
-        if (lcmpq1)
-        {
+        if (lcmpq1) {
             /*           Update Q1. */
             drot_(n, &q1[m * q1_dim1 + 1], &c__1, &q1[*n * q1_dim1 + 1], &c__1, &co, &si);
         }
         /*        III. Annihilate C1(k+1:m,k). */
         i__2 = k + 1;
-        for (j = m; j >= i__2; --j)
-        {
+        for (j = m; j >= i__2; --j) {
             /* Computing MIN */
             i__3 = j + 2, i__4 = m + 1;
-            mj2 = min(i__3,i__4);
+            mj2 = min(i__3, i__4);
             /*           Determine a Givens rotation to annihilate C1(j,k) from the */
             /*           left. */
             dlartg_(&c1[j - 1 + k * c1_dim1], &c1[j + k * c1_dim1], &co, &si, &tmp1);
@@ -799,8 +773,7 @@ ftnlen compq2_len;
             drot_(&i__3, &de[j * de_dim1 + 1], &c__1, &de[(j + 1) * de_dim1 + 1], &c__1, &co, &si);
             i__3 = m - j;
             drot_(&i__3, &de[j - 1 + mj2 * de_dim1], ldde, &de[j + mj2 * de_dim1], ldde, &co, &si);
-            if (lcmpq1)
-            {
+            if (lcmpq1) {
                 /*              Update Q1. */
                 drot_(n, &q1[(j - 1) * q1_dim1 + 1], &c__1, &q1[j * q1_dim1 + 1], &c__1, &co, &si);
             }
@@ -815,20 +788,19 @@ ftnlen compq2_len;
             drot_(&m, &c2[j * c2_dim1 + 1], &c__1, &c2[(j - 1) * c2_dim1 + 1], &c__1, &co, &si);
             i__3 = m - k + 1;
             drot_(&i__3, &dwork[(k - 1) * m + j], &m, &dwork[(k - 1) * m + j - 1], &m, &co, &si);
-            if (lcmpq1)
-            {
+            if (lcmpq1) {
                 /*              Update Q1. */
-                drot_(n, &q1[(m + j) * q1_dim1 + 1], &c__1, &q1[(m + j - 1) * q1_dim1 + 1], &c__1, &co, &si);
+                drot_(n, &q1[(m + j) * q1_dim1 + 1], &c__1, &q1[(m + j - 1) * q1_dim1 + 1], &c__1,
+                    &co, &si);
             }
             /* L90: */
         }
         /*        IV. Annihilate W(k,k+1:m-1). */
         i__2 = m - 1;
-        for (j = k + 1; j <= i__2; ++j)
-        {
+        for (j = k + 1; j <= i__2; ++j) {
             /* Computing MIN */
             i__3 = j + 2;
-            mj2 = min(i__3,m);
+            mj2 = min(i__3, m);
             /*           Determine a Givens rotation to annihilate W(k,j) from the */
             /*           right. */
             dlartg_(&dwork[j * m + k], &dwork[(j - 1) * m + k], &co, &si, &tmp1);
@@ -842,8 +814,7 @@ ftnlen compq2_len;
             drot_(&j, &b[(j + 1) * b_dim1 + 1], &c__1, &b[j * b_dim1 + 1], &c__1, &co, &si);
             tmp1 = -si * b[j + 1 + (j + 1) * b_dim1];
             b[j + 1 + (j + 1) * b_dim1] = co * b[j + 1 + (j + 1) * b_dim1];
-            if (lcmpq2)
-            {
+            if (lcmpq2) {
                 /*              Update Q2. */
                 drot_(n, &q2[(j + 1) * q2_dim1 + 1], &c__1, &q2[j * q2_dim1 + 1], &c__1, &co, &si);
             }
@@ -853,7 +824,8 @@ ftnlen compq2_len;
             /*           Update B and F. */
             b[j + j * b_dim1] = tmp2;
             i__3 = m - j;
-            drot_(&i__3, &b[j + (j + 1) * b_dim1], ldb, &b[j + 1 + (j + 1) * b_dim1], ldb, &co, &si);
+            drot_(
+                &i__3, &b[j + (j + 1) * b_dim1], ldb, &b[j + 1 + (j + 1) * b_dim1], ldb, &co, &si);
             i__3 = j - 1;
             drot_(&i__3, &f[j * f_dim1 + 1], &c__1, &f[(j + 1) * f_dim1 + 1], &c__1, &co, &si);
             i__3 = m - j - 1;
@@ -861,17 +833,17 @@ ftnlen compq2_len;
             /*           Update C2 and V. */
             i__3 = m - k + 1;
             drot_(&i__3, &c2[j + k * c2_dim1], ldc2, &c2[j + 1 + k * c2_dim1], ldc2, &co, &si);
-            drot_(&m, &vw[(j + 1) * vw_dim1 + 1], &c__1, &vw[(j + 2) * vw_dim1 + 1], &c__1, &co, &si);
-            if (lcmpq2)
-            {
+            drot_(
+                &m, &vw[(j + 1) * vw_dim1 + 1], &c__1, &vw[(j + 2) * vw_dim1 + 1], &c__1, &co, &si);
+            if (lcmpq2) {
                 /*              Update Q2. */
-                drot_(n, &q2[(m + j) * q2_dim1 + 1], &c__1, &q2[(m + j + 1) * q2_dim1 + 1], &c__1, &co, &si);
+                drot_(n, &q2[(m + j) * q2_dim1 + 1], &c__1, &q2[(m + j + 1) * q2_dim1 + 1], &c__1,
+                    &co, &si);
             }
             /* L100: */
         }
         /*        V. Annihilate W(k,m). */
-        if (k < m)
-        {
+        if (k < m) {
             /*           Determine a Givens rotation to annihilate W(k,m) from the */
             /*           right. */
             dlartg_(&c2[m + k * c2_dim1], &dwork[(m - 1) * m + k], &co, &si, &tmp1);
@@ -880,18 +852,16 @@ ftnlen compq2_len;
             c2[m + k * c2_dim1] = tmp1;
             dwork[(m - 1) * m + k] = 0.;
             i__2 = m - k;
-            drot_(&i__2, &c2[m + (k + 1) * c2_dim1], ldc2, &dwork[(m - 1) * m + k + 1], &c__1, &co, &si);
+            drot_(&i__2, &c2[m + (k + 1) * c2_dim1], ldc2, &dwork[(m - 1) * m + k + 1], &c__1, &co,
+                &si);
             /*           Update B and F. */
             i__2 = m - 1;
             drot_(&i__2, &f[m * f_dim1 + 1], &c__1, &b[m * b_dim1 + 1], &c__1, &co, &si);
-            if (lcmpq2)
-            {
+            if (lcmpq2) {
                 /*               Update Q2. */
                 drot_(n, &q2[*n * q2_dim1 + 1], &c__1, &q2[m * q2_dim1 + 1], &c__1, &co, &si);
             }
-        }
-        else
-        {
+        } else {
             /*           Determine a Givens rotation to annihilate W(m,m) from the */
             /*           left. */
             dlartg_(&c1[m + m * c1_dim1], &dwork[mm], &co, &si, &tmp1);
@@ -902,19 +872,17 @@ ftnlen compq2_len;
             /*           Update A and D. */
             i__2 = m - 1;
             drot_(&i__2, &a[m * a_dim1 + 1], &c__1, &de[(m + 1) * de_dim1 + 1], &c__1, &co, &si);
-            if (lcmpq1)
-            {
+            if (lcmpq1) {
                 /*              Update Q1. */
                 drot_(n, &q1[m * q1_dim1 + 1], &c__1, &q1[*n * q1_dim1 + 1], &c__1, &co, &si);
             }
         }
         /*        VI. Annihilate C2(k+2:m,k). */
         i__2 = k + 2;
-        for (j = m; j >= i__2; --j)
-        {
+        for (j = m; j >= i__2; --j) {
             /* Computing MIN */
             i__3 = j + 1;
-            mj1 = min(i__3,m);
+            mj1 = min(i__3, m);
             /*           Determine a Givens rotation to annihilate C2(j,k) from the */
             /*           left. */
             dlartg_(&c2[j - 1 + k * c2_dim1], &c2[j + k * c2_dim1], &co, &si, &tmp1);
@@ -933,10 +901,10 @@ ftnlen compq2_len;
             drot_(&i__3, &f[(j - 1) * f_dim1 + 1], &c__1, &f[j * f_dim1 + 1], &c__1, &co, &si);
             i__3 = m - j;
             drot_(&i__3, &f[j - 1 + mj1 * f_dim1], ldf, &f[j + mj1 * f_dim1], ldf, &co, &si);
-            if (lcmpq2)
-            {
+            if (lcmpq2) {
                 /*              Update Q2. */
-                drot_(n, &q2[(m + j - 1) * q2_dim1 + 1], &c__1, &q2[(m + j) * q2_dim1 + 1], &c__1, &co, &si);
+                drot_(n, &q2[(m + j - 1) * q2_dim1 + 1], &c__1, &q2[(m + j) * q2_dim1 + 1], &c__1,
+                    &co, &si);
             }
             /*           Determine a Givens rotation to annihilate B(j,j-1) from the */
             /*           right. */
@@ -949,8 +917,7 @@ ftnlen compq2_len;
             drot_(&m, &c1[j * c1_dim1 + 1], &c__1, &c1[(j - 1) * c1_dim1 + 1], &c__1, &co, &si);
             i__3 = m - k + 1;
             drot_(&i__3, &dwork[(j - 1) * m + k], &c__1, &dwork[(j - 2) * m + k], &c__1, &co, &si);
-            if (lcmpq2)
-            {
+            if (lcmpq2) {
                 /*              Update Q2. */
                 drot_(n, &q2[j * q2_dim1 + 1], &c__1, &q2[(j - 1) * q2_dim1 + 1], &c__1, &co, &si);
             }
@@ -968,24 +935,18 @@ ftnlen compq2_len;
     /*             product C21 A1   C11 B1   in order to make C21 upper */
     /*             quasi-triangular. */
     /*     Determine the mode of computations. */
-    if (ltri || lcmpq1 || lcmpq2)
-    {
+    if (ltri || lcmpq1 || lcmpq2) {
         s_copy(cmpq, "Initialize", 16L, 10L);
         imat = (mm << 2) + 1;
         iwrk = (mm << 3) + 1;
-    }
-    else
-    {
+    } else {
         s_copy(cmpq, "No Computation", 16L, 14L);
         imat = 1;
         iwrk = (mm << 2) + 1;
     }
-    if (ltri)
-    {
+    if (ltri) {
         s_copy(cmpsc, "Schur Form", 16L, 10L);
-    }
-    else
-    {
+    } else {
         s_copy(cmpsc, "Eigenvalues Only", 16L, 16L);
     }
     /*     Save matrices in the form that is required by MB03BD. */
@@ -1002,27 +963,24 @@ ftnlen compq2_len;
     /*                   prefer larger. */
     i__1 = *liwork - (m + 4);
     i__2 = *ldwork - iwrk + 1;
-    mb03bd_(cmpsc, "Careful", cmpq, idum, &c__4, &m, &c__1, &c__1, &m, &iwork[1], &dwork[imat], &m, &m, &dwork[1], &m, &m, &alphar[1], &alphai[1], &beta[1], &iwork[5], &iwork[m + 5], &i__1, &dwork[iwrk], &i__2, &iwarn, info, 16L, 7L, 16L);
-    if (iwarn > 0)
-    {
+    mb03bd_(cmpsc, "Careful", cmpq, idum, &c__4, &m, &c__1, &c__1, &m, &iwork[1], &dwork[imat], &m,
+        &m, &dwork[1], &m, &m, &alphar[1], &alphai[1], &beta[1], &iwork[5], &iwork[m + 5], &i__1,
+        &dwork[iwrk], &i__2, &iwarn, info, 16L, 7L, 16L);
+    if (iwarn > 0) {
         *info = 1;
         return 0;
-    }
-    else if (*info > 0)
-    {
+    } else if (*info > 0) {
         *info = 2;
         return 0;
     }
     /* Computing MAX */
-    i__1 = optdw, i__2 = (integer) dwork[iwrk] + iwrk - 1;
-    optdw = max(i__1,i__2);
+    i__1 = optdw, i__2 = (integer)dwork[iwrk] + iwrk - 1;
+    optdw = max(i__1, i__2);
     /*     Compute the eigenvalues with nonnegative imaginary parts of the */
     /*     pencil aS - bH. */
     i__1 = m;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        if ((doublereal) iwork[i__ + 4] >= emin * 2 && (doublereal) iwork[i__ + 4] <= emax * 2)
-        {
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        if ((doublereal)iwork[i__ + 4] >= emin * 2 && (doublereal)iwork[i__ + 4] <= emax * 2) {
             /*           B = SQRT(BASE**IWORK(i+4)) is between underflow and overflow */
             /*           threshold, BETA(i) is divided by B. */
             /*           Set to zero negligible real and imaginary parts. */
@@ -1036,68 +994,67 @@ ftnlen compq2_len;
             alphar[i__] = d_imag(&eig);
             alphai[i__] = eig.r;
             tmp2 = prec * dlapy2_(&alphar[i__], &alphai[i__]);
-            if ((d__1 = alphar[i__], abs(d__1)) < tmp2)
-            {
+            if ((d__1 = alphar[i__], abs(d__1)) < tmp2) {
                 alphar[i__] = 0.;
-                if (alphai[i__] < 0.)
-                {
+                if (alphai[i__] < 0.) {
                     alphai[i__] = -alphai[i__];
                 }
             }
-            if ((d__1 = alphai[i__], abs(d__1)) < tmp2)
-            {
+            if ((d__1 = alphai[i__], abs(d__1)) < tmp2) {
                 alphai[i__] = 0.;
-                if (alphar[i__] < 0.)
-                {
+                if (alphar[i__] < 0.) {
                     alphar[i__] = -alphar[i__];
                 }
             }
-        }
-        else
-        {
+        } else {
             /*           Error. */
             *info = 1;
             return 0;
         }
         /* L130: */
     }
-    if (ltri)
-    {
+    if (ltri) {
         /*        Update C1 and C2. */
         dlacpy_("Upper", &m, &m, &dwork[imat + (mm << 1)], &m, &c1[c1_offset], ldc1, 5L);
         dlacpy_("Full", &m, &m, &dwork[imat], &m, &c2[c2_offset], ldc2, 4L);
         /*        Update V. */
-        dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b17, &dwork[(mm << 1) + 1], &m, &vw[(vw_dim1 << 1) + 1], ldvw, &c_b16, &dwork[imat], &m, 9L, 12L);
-        dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b17, &dwork[imat], &m, &dwork[1], &m, &c_b16, &vw[(vw_dim1 << 1) + 1], ldvw, 12L, 12L);
+        dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b17, &dwork[(mm << 1) + 1], &m,
+            &vw[(vw_dim1 << 1) + 1], ldvw, &c_b16, &dwork[imat], &m, 9L, 12L);
+        dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b17, &dwork[imat], &m, &dwork[1], &m,
+            &c_b16, &vw[(vw_dim1 << 1) + 1], ldvw, 12L, 12L);
         /*        Update A. */
         dlacpy_("Upper", &m, &m, &dwork[imat + mm], &m, &a[a_offset], lda, 5L);
         /*        Skew-symmetric update of D. */
         i__1 = *ldwork - imat + 1;
-        mb01ld_("Upper", "Transpose", &m, &m, &c_b16, &c_b17, &de[(de_dim1 << 1) + 1], ldde, &dwork[(mm << 1) + 1], &m, &de[(de_dim1 << 1) + 1], ldde, &dwork[imat], &i__1, info, 5L, 9L);
+        mb01ld_("Upper", "Transpose", &m, &m, &c_b16, &c_b17, &de[(de_dim1 << 1) + 1], ldde,
+            &dwork[(mm << 1) + 1], &m, &de[(de_dim1 << 1) + 1], ldde, &dwork[imat], &i__1, info, 5L,
+            9L);
         /*        Update B. */
         dlacpy_("Upper", &m, &m, &dwork[imat + mm * 3], &m, &b[b_offset], ldb, 5L);
         /*        Skew-symmetric update of F. */
         i__1 = *ldwork - imat + 1;
-        mb01ld_("Upper", "Transpose", &m, &m, &c_b16, &c_b17, &f[f_offset], ldf, &dwork[1], &m, &f[f_offset], ldf, &dwork[imat], &i__1, info, 5L, 9L);
-        if (lcmpq1)
-        {
+        mb01ld_("Upper", "Transpose", &m, &m, &c_b16, &c_b17, &f[f_offset], ldf, &dwork[1], &m,
+            &f[f_offset], ldf, &dwork[imat], &i__1, info, 5L, 9L);
+        if (lcmpq1) {
             /*           Update Q1. */
-            dgemm_("No Transpose", "No Transpose", n, &m, &m, &c_b17, &q1[q1_offset], ldq1, &dwork[(mm << 1) + 1], &m, &c_b16, &dwork[imat], n, 12L, 12L);
+            dgemm_("No Transpose", "No Transpose", n, &m, &m, &c_b17, &q1[q1_offset], ldq1,
+                &dwork[(mm << 1) + 1], &m, &c_b16, &dwork[imat], n, 12L, 12L);
             dlacpy_("Full", n, &m, &dwork[imat], n, &q1[q1_offset], ldq1, 4L);
-            dgemm_("No Transpose", "No Transpose", n, &m, &m, &c_b17, &q1[(m + 1) * q1_dim1 + 1], ldq1, &dwork[mm + 1], &m, &c_b16, &dwork[imat], n, 12L, 12L);
+            dgemm_("No Transpose", "No Transpose", n, &m, &m, &c_b17, &q1[(m + 1) * q1_dim1 + 1],
+                ldq1, &dwork[mm + 1], &m, &c_b16, &dwork[imat], n, 12L, 12L);
             dlacpy_("Full", n, &m, &dwork[imat], n, &q1[(m + 1) * q1_dim1 + 1], ldq1, 4L);
         }
-        if (lcmpq2)
-        {
+        if (lcmpq2) {
             /*           Update Q2. */
-            dgemm_("No Transpose", "No Transpose", n, &m, &m, &c_b17, &q2[q2_offset], ldq2, &dwork[mm * 3 + 1], &m, &c_b16, &dwork[imat], n, 12L, 12L);
+            dgemm_("No Transpose", "No Transpose", n, &m, &m, &c_b17, &q2[q2_offset], ldq2,
+                &dwork[mm * 3 + 1], &m, &c_b16, &dwork[imat], n, 12L, 12L);
             dlacpy_("Full", n, &m, &dwork[imat], n, &q2[q2_offset], ldq2, 4L);
-            dgemm_("No Transpose", "No Transpose", n, &m, &m, &c_b17, &q2[(m + 1) * q2_dim1 + 1], ldq2, &dwork[1], &m, &c_b16, &dwork[imat], n, 12L, 12L);
+            dgemm_("No Transpose", "No Transpose", n, &m, &m, &c_b17, &q2[(m + 1) * q2_dim1 + 1],
+                ldq2, &dwork[1], &m, &c_b16, &dwork[imat], n, 12L, 12L);
             dlacpy_("Full", n, &m, &dwork[imat], n, &q2[(m + 1) * q2_dim1 + 1], ldq2, 4L);
         }
     }
-    dwork[1] = (doublereal) optdw;
+    dwork[1] = (doublereal)optdw;
     return 0;
     /* *** Last line of MB04BD *** */
 } /* mb04bd_ */
-

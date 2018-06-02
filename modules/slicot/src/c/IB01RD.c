@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -16,29 +16,30 @@ static doublereal c_b49 = -1.;
 static doublereal c_b150 = .66666666666666663;
 static doublereal c_b152 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int ib01rd_(job, n, m, l, nsmp, a, lda, b, ldb, c__, ldc, d__, ldd, u, ldu, y, ldy, x0, tol, iwork, dwork, ldwork, iwarn, info, job_len)
-char *job;
+EXPORTSYMBOL /* Subroutine */ int ib01rd_(job, n, m, l, nsmp, a, lda, b, ldb, c__, ldc, d__, ldd, u,
+    ldu, y, ldy, x0, tol, iwork, dwork, ldwork, iwarn, info, job_len) char* job;
 integer *n, *m, *l, *nsmp;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *u;
-integer *ldu;
-doublereal *y;
-integer *ldy;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* u;
+integer* ldu;
+doublereal* y;
+integer* ldy;
 doublereal *x0, *tol;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen job_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, u_dim1, u_offset, y_dim1, y_offset, i__1, i__2, i__3, i__4, i__5;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, u_dim1,
+        u_offset, y_dim1, y_offset, i__1, i__2, i__3, i__4, i__5;
     /* Builtin functions */
     double log();
     integer pow_ii();
@@ -288,54 +289,31 @@ ftnlen job_len;
     withd = lsame_(job, "N", 1L, 1L);
     *iwarn = 0;
     *info = 0;
-    nn = *n **n;
+    nn = *n * *n;
     minsmp = *n;
-    if (! (lsame_(job, "Z", 1L, 1L) || withd))
-    {
+    if (!(lsame_(job, "Z", 1L, 1L) || withd)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*l <= 0)
-    {
+    } else if (*l <= 0) {
         *info = -4;
-    }
-    else if (*nsmp < minsmp)
-    {
+    } else if (*nsmp < minsmp) {
         *info = -5;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldb < 1 || *ldb < *n && *m > 0)
-    {
+    } else if (*ldb < 1 || *ldb<*n&& * m> 0) {
         *info = -9;
-    }
-    else if (*ldc < *l)
-    {
+    } else if (*ldc < *l) {
         *info = -11;
-    }
-    else if (*ldd < 1 || withd && *ldd < *l && *m > 0)
-    {
+    } else if (*ldd < 1 || withd && *ldd<*l&& * m> 0) {
         *info = -13;
-    }
-    else if (*ldu < 1 || *m > 0 && *ldu < *nsmp)
-    {
+    } else if (*ldu < 1 || *m > 0 && *ldu < *nsmp) {
         *info = -15;
-    }
-    else if (*ldy < max(1,*nsmp))
-    {
+    } else if (*ldy < max(1, *nsmp)) {
         *info = -17;
-    }
-    else if (*tol > 1.)
-    {
+    } else if (*tol > 1.) {
         *info = -19;
     }
     /*     Compute workspace. */
@@ -344,44 +322,41 @@ ftnlen job_len;
     /*       as well as the preferred amount for good performance. */
     /*       NB refers to the optimal block size for the immediately */
     /*       following subroutine, as returned by ILAENV.) */
-    nsmpl = *nsmp **l;
-    iq = minsmp **l;
+    nsmpl = *nsmp * *l;
+    iq = minsmp * *l;
     ncp1 = *n + 1;
     isize = nsmpl * ncp1;
     ic = nn << 1;
     minwls = minsmp * ncp1;
-    itau = ic + *l **n;
+    itau = ic + *l * *n;
     /* Computing MAX */
     i__1 = ic, i__2 = *n << 2;
-    ldw1 = isize + (*n << 1) + max(i__1,i__2);
+    ldw1 = isize + (*n << 1) + max(i__1, i__2);
     /* Computing MAX */
     i__1 = iq * ncp1 + itau, i__2 = *n << 2;
-    ldw2 = minwls + (*n << 1) + max(i__1,i__2);
+    ldw2 = minwls + (*n << 1) + max(i__1, i__2);
     /* Computing MAX */
-    i__1 = min(ldw1,ldw2);
-    minwrk = max(i__1,2);
-    if (*info == 0 && *ldwork >= minwrk)
-    {
+    i__1 = min(ldw1, ldw2);
+    minwrk = max(i__1, 2);
+    if (*info == 0 && *ldwork >= minwrk) {
         /* Computing MAX */
-        i__1 = *n * ilaenv_(&c__1, "DGEQRF", " ", &nsmpl, n, &c_n1, &c_n1, 6L, 1L), i__2 = ilaenv_(&c__1, "DORMQR", "LT", &nsmpl, &c__1, n, &c_n1, 6L, 2L);
-        maxwrk = isize + (*n << 1) + max(i__1,i__2);
-        maxwrk = max(maxwrk,minwrk);
+        i__1 = *n * ilaenv_(&c__1, "DGEQRF", " ", &nsmpl, n, &c_n1, &c_n1, 6L, 1L),
+        i__2 = ilaenv_(&c__1, "DORMQR", "LT", &nsmpl, &c__1, n, &c_n1, 6L, 2L);
+        maxwrk = isize + (*n << 1) + max(i__1, i__2);
+        maxwrk = max(maxwrk, minwrk);
     }
-    if (*info == 0 && *ldwork < minwrk)
-    {
+    if (*info == 0 && *ldwork < minwrk) {
         *info = -22;
-        dwork[1] = (doublereal) minwrk;
+        dwork[1] = (doublereal)minwrk;
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("IB01RD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 2.;
         dwork[2] = 1.;
         return 0;
@@ -391,16 +366,13 @@ ftnlen job_len;
     iypnt = 1;
     iupnt = 1;
     inir = 1;
-    if (*ldwork >= ldw1)
-    {
+    if (*ldwork >= ldw1) {
         /*        Enough workspace for solving the problem directly. */
         ncycle = 1;
         nobs = *nsmp;
         lddw = nsmpl;
         inigam = 1;
-    }
-    else
-    {
+    } else {
         /*        NCYCLE > 1  cycles are needed for solving the problem */
         /*        sequentially, taking  NOBS  samples in each cycle (or the */
         /*        remaining samples in the last cycle). */
@@ -409,25 +381,21 @@ ftnlen job_len;
         nobs = lddw / *l;
         lddw = *l * nobs;
         ncycle = *nsmp / nobs;
-        if (*nsmp % nobs != 0)
-        {
+        if (*nsmp % nobs != 0) {
             ++ncycle;
         }
         inih = inir + nn;
         inigam = inih + *n;
     }
     ncyc = ncycle > 1;
-    irhs = inigam + lddw **n;
+    irhs = inigam + lddw * *n;
     ixinit = irhs + lddw;
     ic = ixinit + *n;
-    if (ncyc)
-    {
-        ia = ic + *l **n;
+    if (ncyc) {
+        ia = ic + *l * *n;
         ldr = *n;
         ie = inigam;
-    }
-    else
-    {
+    } else {
         inih = irhs;
         ia = ic;
         ldr = lddw;
@@ -438,13 +406,11 @@ ftnlen job_len;
     itau = ia;
     dum[0] = 0.;
     /*     Set block parameters for passing through the array  U. */
-    block = *m > 1 && *nsmp **m >= 16384;
-    if (block)
-    {
+    block = *m > 1 && *nsmp * *m >= 16384;
+    if (block) {
         nrbl = (*ldwork - iutran + 1) / *m;
         nc = nobs / nrbl;
-        if (nobs % nrbl != 0)
-        {
+        if (nobs % nrbl != 0) {
             ++nc;
         }
         init = (nc - 1) * nrbl;
@@ -452,20 +418,15 @@ ftnlen job_len;
     }
     /*     Perform direct of sequential compression of the matrix  Gamma. */
     i__1 = ncycle;
-    for (icycle = 1; icycle <= i__1; ++icycle)
-    {
+    for (icycle = 1; icycle <= i__1; ++icycle) {
         first = icycle == 1;
-        if (! first)
-        {
-            if (icycle == ncycle)
-            {
+        if (!first) {
+            if (icycle == ncycle) {
                 nobs = *nsmp - (ncycle - 1) * nobs;
                 lddw = *l * nobs;
-                if (block)
-                {
+                if (block) {
                     nc = nobs / nrbl;
-                    if (nobs % nrbl != 0)
-                    {
+                    if (nobs % nrbl != 0) {
                         ++nc;
                     }
                     init = (nc - 1) * nrbl;
@@ -479,26 +440,21 @@ ftnlen job_len;
         /*                          a = L*N, w = N*(N + 1),  if NCYCLE > 1; */
         /*                   prefer as above, with  s = t,  a = w = 0. */
         jwork = ias + nn;
-        iexpon = (integer) (log((doublereal) nobs) / log(2.));
+        iexpon = (integer)(log((doublereal)nobs) / log(2.));
         irem = *l * (nobs - pow_ii(&c__2, &iexpon));
         power2 = irem == 0;
-        if (! power2)
-        {
+        if (!power2) {
             ++iexpon;
         }
-        if (first)
-        {
+        if (first) {
             dlacpy_("Full", l, n, &c__[c_offset], ldc, &dwork[inigam], &lddw, 4L);
-        }
-        else
-        {
+        } else {
             dlacpy_("Full", l, n, &dwork[ic], l, &dwork[inigam], &lddw, 4L);
         }
         /*                                       p */
         /*        Use powers of the matrix  A:  A ,  p = 2**(J-1). */
         dlacpy_("Upper", n, n, &a[a_offset], lda, &dwork[ia], n, 5L);
-        if (*n > 1)
-        {
+        if (*n > 1) {
             i__2 = *n - 1;
             i__3 = *lda + 1;
             i__4 = *n + 1;
@@ -507,31 +463,27 @@ ftnlen job_len;
         i2 = *l;
         nrow = 0;
         i__2 = iexpon;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             ig = inigam;
-            if (j < iexpon || power2)
-            {
+            if (j < iexpon || power2) {
                 nrow = i2;
-            }
-            else
-            {
+            } else {
                 nrow = irem;
             }
             dlacpy_("Full", &nrow, n, &dwork[ig], &lddw, &dwork[ig + i2], &lddw, 4L);
-            dtrmm_("Right", "Upper", "No Transpose", "Non Unit", &nrow, n, &c_b26, &dwork[ia], n, &dwork[ig + i2], &lddw, 5L, 5L, 12L, 8L);
+            dtrmm_("Right", "Upper", "No Transpose", "Non Unit", &nrow, n, &c_b26, &dwork[ia], n,
+                &dwork[ig + i2], &lddw, 5L, 5L, 12L, 8L);
             /*                                                            p */
             /*           Compute the contribution of the subdiagonal of  A   to the */
             /*           product. */
             i__3 = *n - 1;
-            for (ix = 1; ix <= i__3; ++ix)
-            {
-                daxpy_(&nrow, &dwork[ia + (ix - 1) **n + ix], &dwork[ig + lddw], &c__1, &dwork[ig + i2], &c__1);
+            for (ix = 1; ix <= i__3; ++ix) {
+                daxpy_(&nrow, &dwork[ia + (ix - 1) * *n + ix], &dwork[ig + lddw], &c__1,
+                    &dwork[ig + i2], &c__1);
                 ig += lddw;
                 /* L10: */
             }
-            if (j < iexpon)
-            {
+            if (j < iexpon) {
                 dlacpy_("Upper", n, n, &dwork[ia], n, &dwork[ias], n, 5L);
                 i__3 = *n - 1;
                 i__4 = *n + 1;
@@ -542,17 +494,17 @@ ftnlen job_len;
             }
             /* L20: */
         }
-        if (ncyc)
-        {
+        if (ncyc) {
             ig = inigam + i2 + nrow - *l;
             dlacpy_("Full", l, n, &dwork[ig], &lddw, &dwork[ic], l, 4L);
-            dtrmm_("Right", "Upper", "No Transpose", "Non Unit", l, n, &c_b26, &a[a_offset], lda, &dwork[ic], l, 5L, 5L, 12L, 8L);
+            dtrmm_("Right", "Upper", "No Transpose", "Non Unit", l, n, &c_b26, &a[a_offset], lda,
+                &dwork[ic], l, 5L, 5L, 12L, 8L);
             /*           Compute the contribution of the subdiagonal of  A  to the */
             /*           product. */
             i__2 = *n - 1;
-            for (ix = 1; ix <= i__2; ++ix)
-            {
-                daxpy_(l, &a[ix + 1 + ix * a_dim1], &dwork[ig + lddw], &c__1, &dwork[ic + (ix - 1) **l], &c__1);
+            for (ix = 1; ix <= i__2; ++ix) {
+                daxpy_(l, &a[ix + 1 + ix * a_dim1], &dwork[ig + lddw], &c__1,
+                    &dwork[ic + (ix - 1) * *l], &c__1);
                 ig += lddw;
                 /* L30: */
             }
@@ -566,130 +518,120 @@ ftnlen job_len;
         /*        transposed, to reduce the number of row-wise passes. */
         /*        Workspace: need   s*L*(N + 1) + N + w; */
         /*                   prefer as above, with  s = t,  w = 0. */
-        if (first)
-        {
+        if (first) {
             dcopy_(n, dum, &c__0, &dwork[ixinit], &c__1);
         }
         dcopy_(n, &dwork[ixinit], &c__1, &x0[1], &c__1);
         iy = irhs;
         i__2 = *l;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             dcopy_(&nobs, &y[iypnt + j * y_dim1], &c__1, &dwork[iy], l);
             ++iy;
             /* L40: */
         }
         iy = irhs;
         iu = iupnt;
-        if (*m > 0)
-        {
-            if (withd)
-            {
-                if (block)
-                {
+        if (*m > 0) {
+            if (withd) {
+                if (block) {
                     switch__ = TRUE_;
                     nrow = nrbl;
                     i__2 = nobs;
-                    for (k = 1; k <= i__2; ++k)
-                    {
-                        if ((k - 1) % nrow == 0 && switch__)
-                        {
+                    for (k = 1; k <= i__2; ++k) {
+                        if ((k - 1) % nrow == 0 && switch__) {
                             iut = iutran;
-                            if (k > init)
-                            {
+                            if (k > init) {
                                 nrow = nobs - init;
                                 switch__ = FALSE_;
                             }
                             ma02ad_("Full", &nrow, m, &u[iu + u_dim1], ldu, &dwork[iut], m, 4L);
                             iu += nrow;
                         }
-                        dgemv_("No transpose", l, n, &c_b49, &c__[c_offset], ldc, &x0[1], &c__1, &c_b26, &dwork[iy], &c__1, 12L);
-                        dgemv_("No transpose", l, m, &c_b49, &d__[d_offset], ldd, &dwork[iut], &c__1, &c_b26, &dwork[iy], &c__1, 12L);
-                        dtrmv_("Upper", "No transpose", "Non-unit", n, &a[a_offset], lda, &x0[1], &c__1, 5L, 12L, 8L);
+                        dgemv_("No transpose", l, n, &c_b49, &c__[c_offset], ldc, &x0[1], &c__1,
+                            &c_b26, &dwork[iy], &c__1, 12L);
+                        dgemv_("No transpose", l, m, &c_b49, &d__[d_offset], ldd, &dwork[iut],
+                            &c__1, &c_b26, &dwork[iy], &c__1, 12L);
+                        dtrmv_("Upper", "No transpose", "Non-unit", n, &a[a_offset], lda, &x0[1],
+                            &c__1, 5L, 12L, 8L);
                         i__3 = *n;
-                        for (ix = 2; ix <= i__3; ++ix)
-                        {
+                        for (ix = 2; ix <= i__3; ++ix) {
                             x0[ix] += a[ix + (ix - 1) * a_dim1] * dwork[ixinit + ix - 2];
                             /* L50: */
                         }
-                        dgemv_("No transpose", n, m, &c_b26, &b[b_offset], ldb, &dwork[iut], &c__1, &c_b26, &x0[1], &c__1, 12L);
+                        dgemv_("No transpose", n, m, &c_b26, &b[b_offset], ldb, &dwork[iut], &c__1,
+                            &c_b26, &x0[1], &c__1, 12L);
                         dcopy_(n, &x0[1], &c__1, &dwork[ixinit], &c__1);
                         iy += *l;
                         iut += *m;
                         /* L60: */
                     }
-                }
-                else
-                {
+                } else {
                     i__2 = nobs;
-                    for (k = 1; k <= i__2; ++k)
-                    {
-                        dgemv_("No transpose", l, n, &c_b49, &c__[c_offset], ldc, &x0[1], &c__1, &c_b26, &dwork[iy], &c__1, 12L);
-                        dgemv_("No transpose", l, m, &c_b49, &d__[d_offset], ldd, &u[iu + u_dim1], ldu, &c_b26, &dwork[iy], &c__1, 12L);
-                        dtrmv_("Upper", "No transpose", "Non-unit", n, &a[a_offset], lda, &x0[1], &c__1, 5L, 12L, 8L);
+                    for (k = 1; k <= i__2; ++k) {
+                        dgemv_("No transpose", l, n, &c_b49, &c__[c_offset], ldc, &x0[1], &c__1,
+                            &c_b26, &dwork[iy], &c__1, 12L);
+                        dgemv_("No transpose", l, m, &c_b49, &d__[d_offset], ldd, &u[iu + u_dim1],
+                            ldu, &c_b26, &dwork[iy], &c__1, 12L);
+                        dtrmv_("Upper", "No transpose", "Non-unit", n, &a[a_offset], lda, &x0[1],
+                            &c__1, 5L, 12L, 8L);
                         i__3 = *n;
-                        for (ix = 2; ix <= i__3; ++ix)
-                        {
+                        for (ix = 2; ix <= i__3; ++ix) {
                             x0[ix] += a[ix + (ix - 1) * a_dim1] * dwork[ixinit + ix - 2];
                             /* L70: */
                         }
-                        dgemv_("No transpose", n, m, &c_b26, &b[b_offset], ldb, &u[iu + u_dim1], ldu, &c_b26, &x0[1], &c__1, 12L);
+                        dgemv_("No transpose", n, m, &c_b26, &b[b_offset], ldb, &u[iu + u_dim1],
+                            ldu, &c_b26, &x0[1], &c__1, 12L);
                         dcopy_(n, &x0[1], &c__1, &dwork[ixinit], &c__1);
                         iy += *l;
                         ++iu;
                         /* L80: */
                     }
                 }
-            }
-            else
-            {
-                if (block)
-                {
+            } else {
+                if (block) {
                     switch__ = TRUE_;
                     nrow = nrbl;
                     i__2 = nobs;
-                    for (k = 1; k <= i__2; ++k)
-                    {
-                        if ((k - 1) % nrow == 0 && switch__)
-                        {
+                    for (k = 1; k <= i__2; ++k) {
+                        if ((k - 1) % nrow == 0 && switch__) {
                             iut = iutran;
-                            if (k > init)
-                            {
+                            if (k > init) {
                                 nrow = nobs - init;
                                 switch__ = FALSE_;
                             }
                             ma02ad_("Full", &nrow, m, &u[iu + u_dim1], ldu, &dwork[iut], m, 4L);
                             iu += nrow;
                         }
-                        dgemv_("No transpose", l, n, &c_b49, &c__[c_offset], ldc, &x0[1], &c__1, &c_b26, &dwork[iy], &c__1, 12L);
-                        dtrmv_("Upper", "No transpose", "Non-unit", n, &a[a_offset], lda, &x0[1], &c__1, 5L, 12L, 8L);
+                        dgemv_("No transpose", l, n, &c_b49, &c__[c_offset], ldc, &x0[1], &c__1,
+                            &c_b26, &dwork[iy], &c__1, 12L);
+                        dtrmv_("Upper", "No transpose", "Non-unit", n, &a[a_offset], lda, &x0[1],
+                            &c__1, 5L, 12L, 8L);
                         i__3 = *n;
-                        for (ix = 2; ix <= i__3; ++ix)
-                        {
+                        for (ix = 2; ix <= i__3; ++ix) {
                             x0[ix] += a[ix + (ix - 1) * a_dim1] * dwork[ixinit + ix - 2];
                             /* L90: */
                         }
-                        dgemv_("No transpose", n, m, &c_b26, &b[b_offset], ldb, &dwork[iut], &c__1, &c_b26, &x0[1], &c__1, 12L);
+                        dgemv_("No transpose", n, m, &c_b26, &b[b_offset], ldb, &dwork[iut], &c__1,
+                            &c_b26, &x0[1], &c__1, 12L);
                         dcopy_(n, &x0[1], &c__1, &dwork[ixinit], &c__1);
                         iy += *l;
                         iut += *m;
                         /* L100: */
                     }
-                }
-                else
-                {
+                } else {
                     i__2 = nobs;
-                    for (k = 1; k <= i__2; ++k)
-                    {
-                        dgemv_("No transpose", l, n, &c_b49, &c__[c_offset], ldc, &x0[1], &c__1, &c_b26, &dwork[iy], &c__1, 12L);
-                        dtrmv_("Upper", "No transpose", "Non-unit", n, &a[a_offset], lda, &x0[1], &c__1, 5L, 12L, 8L);
+                    for (k = 1; k <= i__2; ++k) {
+                        dgemv_("No transpose", l, n, &c_b49, &c__[c_offset], ldc, &x0[1], &c__1,
+                            &c_b26, &dwork[iy], &c__1, 12L);
+                        dtrmv_("Upper", "No transpose", "Non-unit", n, &a[a_offset], lda, &x0[1],
+                            &c__1, 5L, 12L, 8L);
                         i__3 = *n;
-                        for (ix = 2; ix <= i__3; ++ix)
-                        {
+                        for (ix = 2; ix <= i__3; ++ix) {
                             x0[ix] += a[ix + (ix - 1) * a_dim1] * dwork[ixinit + ix - 2];
                             /* L110: */
                         }
-                        dgemv_("No transpose", n, m, &c_b26, &b[b_offset], ldb, &u[iu + u_dim1], ldu, &c_b26, &x0[1], &c__1, 12L);
+                        dgemv_("No transpose", n, m, &c_b26, &b[b_offset], ldb, &u[iu + u_dim1],
+                            ldu, &c_b26, &x0[1], &c__1, 12L);
                         dcopy_(n, &x0[1], &c__1, &dwork[ixinit], &c__1);
                         iy += *l;
                         ++iu;
@@ -697,17 +639,15 @@ ftnlen job_len;
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             i__2 = nobs;
-            for (k = 1; k <= i__2; ++k)
-            {
-                dgemv_("No transpose", l, n, &c_b49, &c__[c_offset], ldc, &x0[1], &c__1, &c_b26, &dwork[iy], &c__1, 12L);
-                dtrmv_("Upper", "No transpose", "Non-unit", n, &a[a_offset], lda, &x0[1], &c__1, 5L, 12L, 8L);
+            for (k = 1; k <= i__2; ++k) {
+                dgemv_("No transpose", l, n, &c_b49, &c__[c_offset], ldc, &x0[1], &c__1, &c_b26,
+                    &dwork[iy], &c__1, 12L);
+                dtrmv_("Upper", "No transpose", "Non-unit", n, &a[a_offset], lda, &x0[1], &c__1, 5L,
+                    12L, 8L);
                 i__3 = *n;
-                for (ix = 2; ix <= i__3; ++ix)
-                {
+                for (ix = 2; ix <= i__3; ++ix) {
                     x0[ix] += a[ix + (ix - 1) * a_dim1] * dwork[ixinit + ix - 2];
                     /* L130: */
                 }
@@ -720,8 +660,7 @@ ftnlen job_len;
         /*        Workspace: need   v + 2*N; */
         /*                   where  v = s*L*(N + 1) + N + a + w. */
         jwork = itau + *n;
-        if (first)
-        {
+        if (first) {
             /*           Compress the first data segment of  Gamma. */
             /*           Workspace: need   v + 2*N, */
             /*                      prefer v + N + N*NB. */
@@ -731,20 +670,19 @@ ftnlen job_len;
             /*           Workspace: need   v + N + 1, */
             /*                      prefer v + N + NB. */
             i__2 = *ldwork - jwork + 1;
-            dormqr_("Left", "Transpose", &lddw, &c__1, n, &dwork[inigam], &lddw, &dwork[itau], &dwork[irhs], &lddw, &dwork[jwork], &i__2, &ierr, 4L, 9L);
-            if (ncyc)
-            {
+            dormqr_("Left", "Transpose", &lddw, &c__1, n, &dwork[inigam], &lddw, &dwork[itau],
+                &dwork[irhs], &lddw, &dwork[jwork], &i__2, &ierr, 4L, 9L);
+            if (ncyc) {
                 /*              Save the triangular factor of  Gamma  and the */
                 /*              corresponding right hand side. */
                 dlacpy_("Upper", n, &ncp1, &dwork[inigam], &lddw, &dwork[inir], &ldr, 5L);
             }
-        }
-        else
-        {
+        } else {
             /*           Compress the current (but not the first) data segment of */
             /*           Gamma. */
             /*           Workspace: need   v + N - 1. */
-            mb04od_("Full", n, &c__1, &lddw, &dwork[inir], &ldr, &dwork[inigam], &lddw, &dwork[inih], &ldr, &dwork[irhs], &lddw, &dwork[itau], &dwork[jwork], 4L);
+            mb04od_("Full", n, &c__1, &lddw, &dwork[inir], &ldr, &dwork[inigam], &lddw,
+                &dwork[inih], &ldr, &dwork[irhs], &lddw, &dwork[itau], &dwork[jwork], 4L);
         }
         iupnt += nobs;
         iypnt += nobs;
@@ -755,14 +693,13 @@ ftnlen job_len;
     /*     Workspace: need  u + 3*N, where */
     /*                      u = t*L*(N + 1), if NCYCLE = 1; */
     /*                      u = w,           if NCYCLE > 1. */
-    dtrcon_("1-norm", "Upper", "No Transpose", n, &dwork[inir], &ldr, &rcond, &dwork[ie], &iwork[1], &ierr, 6L, 5L, 12L);
+    dtrcon_("1-norm", "Upper", "No Transpose", n, &dwork[inir], &ldr, &rcond, &dwork[ie], &iwork[1],
+        &ierr, 6L, 5L, 12L);
     toll = *tol;
-    if (toll <= 0.)
-    {
+    if (toll <= 0.) {
         toll = dlamch_("Precision", 9L);
     }
-    if (rcond <= pow_dd(&toll, &c_b150))
-    {
+    if (rcond <= pow_dd(&toll, &c_b150)) {
         *iwarn = 4;
         /*        The least squares problem is ill-conditioned. */
         /*        Use SVD to solve it. */
@@ -774,27 +711,25 @@ ftnlen job_len;
         isv = ie;
         jwork = isv + *n;
         i__1 = *ldwork - jwork + 1;
-        dgelss_(n, n, &c__1, &dwork[inir], &ldr, &dwork[inih], &ldr, &dwork[isv], &toll, &rank, &dwork[jwork], &i__1, &ierr);
-        if (ierr > 0)
-        {
+        dgelss_(n, n, &c__1, &dwork[inir], &ldr, &dwork[inih], &ldr, &dwork[isv], &toll, &rank,
+            &dwork[jwork], &i__1, &ierr);
+        if (ierr > 0) {
             /*           Return if SVD algorithm did not converge. */
             *info = 2;
             return 0;
         }
         /* Computing MAX */
-        i__1 = maxwrk, i__2 = (integer) dwork[jwork] - jwork + 1;
-        maxwrk = max(i__1,i__2);
-    }
-    else
-    {
+        i__1 = maxwrk, i__2 = (integer)dwork[jwork] - jwork + 1;
+        maxwrk = max(i__1, i__2);
+    } else {
         /*        Find the least squares solution using QR decomposition only. */
-        dtrsv_("Upper", "No Transpose", "Non Unit", n, &dwork[inir], &ldr, &dwork[inih], &c__1, 5L, 12L, 8L);
+        dtrsv_("Upper", "No Transpose", "Non Unit", n, &dwork[inir], &ldr, &dwork[inih], &c__1, 5L,
+            12L, 8L);
     }
     /*     Return the estimated initial state of the system  x0. */
     dcopy_(n, &dwork[inih], &c__1, &x0[1], &c__1);
-    dwork[1] = (doublereal) maxwrk;
+    dwork[1] = (doublereal)maxwrk;
     dwork[2] = rcond;
     return 0;
     /* *** End of IB01RD *** */
 } /* ib01rd_ */
-

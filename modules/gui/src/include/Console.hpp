@@ -21,7 +21,9 @@
 #include "nlsGui_exports.h"
 //===================================================================================
 namespace Nelson {
-    NLSGUI_IMPEXP bool CreateConsole(void);
-    NLSGUI_IMPEXP bool DestroyConsole(void);
-}
+NLSGUI_IMPEXP bool
+CreateConsole(void);
+NLSGUI_IMPEXP bool
+DestroyConsole(void);
+} // namespace Nelson
 //===================================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,12 +10,13 @@
 static integer c__1 = 1;
 static integer c_n1 = -1;
 
-EXPORTSYMBOL /* Subroutine */ int mb04id_(n, m, p, l, a, lda, b, ldb, tau, dwork, ldwork, info)
-integer *n, *m, *p, *l;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
+EXPORTSYMBOL /* Subroutine */ int mb04id_(
+    n, m, p, l, a, lda, b, ldb, tau, dwork, ldwork, info) integer *n,
+    *m, *p, *l;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
 doublereal *tau, *dwork;
 integer *ldwork, *info;
 {
@@ -156,86 +157,62 @@ integer *ldwork, *info;
     /* Function Body */
     *info = 0;
     lquery = *ldwork == -1;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -3;
-    }
-    else if (*l < 0)
-    {
+    } else if (*l < 0) {
         *info = -4;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldb < 1 || *l > 0 && *ldb < *n)
-    {
+    } else if (*ldb < 1 || *l > 0 && *ldb < *n) {
         *info = -8;
-    }
-    else
-    {
+    } else {
         /* Computing MAX */
-        i__1 = 1, i__2 = *m - 1, i__1 = max(i__1,i__2), i__2 = *m - *p, i__1 = max(i__1,i__2);
-        i__ = max(i__1,*l);
-        if (lquery)
-        {
-            if (*m > *p)
-            {
+        i__1 = 1, i__2 = *m - 1, i__1 = max(i__1, i__2), i__2 = *m - *p, i__1 = max(i__1, i__2);
+        i__ = max(i__1, *l);
+        if (lquery) {
+            if (*m > *p) {
                 i__1 = *n - *p;
                 i__2 = *m - *p;
                 nb = ilaenv_(&c__1, "DGEQRF", " ", &i__1, &i__2, &c_n1, &c_n1, 6L, 1L);
                 /* Computing MAX */
                 i__1 = i__, i__2 = (*m - *p) * nb;
-                wrkopt = max(i__1,i__2);
-                if (*l > 0)
-                {
+                wrkopt = max(i__1, i__2);
+                if (*l > 0) {
                     /* Computing MIN */
                     i__3 = *n - *p;
-                    i__4 = min(*n,*m) - *p;
-                    i__1 = 64, i__2 = ilaenv_(&c__1, "DORMQR", "LT", &i__3, l, &i__4, &c_n1, 6L, 2L);
-                    nb = min(i__1,i__2);
+                    i__4 = min(*n, *m) - *p;
+                    i__1 = 64,
+                    i__2 = ilaenv_(&c__1, "DORMQR", "LT", &i__3, l, &i__4, &c_n1, 6L, 2L);
+                    nb = min(i__1, i__2);
                     /* Computing MAX */
-                    i__1 = wrkopt, i__2 = max(1,*l) * nb;
-                    wrkopt = max(i__1,i__2);
+                    i__1 = wrkopt, i__2 = max(1, *l) * nb;
+                    wrkopt = max(i__1, i__2);
                 }
             }
-        }
-        else if (*ldwork < i__)
-        {
+        } else if (*ldwork < i__) {
             *info = -11;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB04ID", &i__1, 6L);
         return 0;
-    }
-    else if (lquery)
-    {
-        dwork[1] = (doublereal) wrkopt;
+    } else if (lquery) {
+        dwork[1] = (doublereal)wrkopt;
         return 0;
     }
     /*     Quick return if possible. */
-    if (min(*m,*n) == 0)
-    {
+    if (min(*m, *n) == 0) {
         dwork[1] = 1.;
         return 0;
-    }
-    else if (*n <= *p + 1)
-    {
-        i__1 = min(*n,*m);
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+    } else if (*n <= *p + 1) {
+        i__1 = min(*n, *m);
+        for (i__ = 1; i__ <= i__1; ++i__) {
             tau[i__] = 0.;
             /* L5: */
         }
@@ -250,58 +227,55 @@ integer *ldwork, *info;
     /*     code, as well as the preferred amount for good performance. */
     /*     NB refers to the optimal block size for the immediately */
     /*     following subroutine, as returned by ILAENV.) */
-    i__1 = min(*p,*m);
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    i__1 = min(*p, *m);
+    for (i__ = 1; i__ <= i__1; ++i__) {
         /*        Exploit the structure of the I-th column of A. */
         i__2 = *n - *p;
         dlarfg_(&i__2, &a[i__ + i__ * a_dim1], &a[i__ + 1 + i__ * a_dim1], &c__1, &tau[i__]);
-        if (tau[i__] != 0.)
-        {
+        if (tau[i__] != 0.) {
             first = a[i__ + i__ * a_dim1];
             a[i__ + i__ * a_dim1] = 1.;
-            if (i__ < *m)
-            {
+            if (i__ < *m) {
                 i__2 = *n - *p;
                 i__3 = *m - i__;
-                dlarf_("Left", &i__2, &i__3, &a[i__ + i__ * a_dim1], &c__1, &tau[i__], &a[i__ + (i__ + 1) * a_dim1], lda, &dwork[1], 4L);
+                dlarf_("Left", &i__2, &i__3, &a[i__ + i__ * a_dim1], &c__1, &tau[i__],
+                    &a[i__ + (i__ + 1) * a_dim1], lda, &dwork[1], 4L);
             }
-            if (*l > 0)
-            {
+            if (*l > 0) {
                 i__2 = *n - *p;
-                dlarf_("Left", &i__2, l, &a[i__ + i__ * a_dim1], &c__1, &tau[i__], &b[i__ + b_dim1], ldb, &dwork[1], 4L);
+                dlarf_("Left", &i__2, l, &a[i__ + i__ * a_dim1], &c__1, &tau[i__], &b[i__ + b_dim1],
+                    ldb, &dwork[1], 4L);
             }
             a[i__ + i__ * a_dim1] = first;
         }
         /* L10: */
     }
     /* Computing MAX */
-    i__1 = 1, i__2 = *m - 1, i__1 = max(i__1,i__2);
-    wrkopt = max(i__1,*l);
+    i__1 = 1, i__2 = *m - 1, i__1 = max(i__1, i__2);
+    wrkopt = max(i__1, *l);
     /*     Fast QR factorization of the remaining right submatrix, if any. */
     /*     Workspace: need M-P;  prefer (M-P)*NB. */
-    if (*m > *p)
-    {
+    if (*m > *p) {
         i__1 = *n - *p;
         i__2 = *m - *p;
-        dgeqrf_(&i__1, &i__2, &a[*p + 1 + (*p + 1) * a_dim1], lda, &tau[*p + 1], &dwork[1], ldwork, info);
+        dgeqrf_(&i__1, &i__2, &a[*p + 1 + (*p + 1) * a_dim1], lda, &tau[*p + 1], &dwork[1], ldwork,
+            info);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[1];
-        wrkopt = max(i__1,i__2);
-        if (*l > 0)
-        {
+        i__1 = wrkopt, i__2 = (integer)dwork[1];
+        wrkopt = max(i__1, i__2);
+        if (*l > 0) {
             /*           Apply the transformations to B. */
             /*           Workspace: need L;  prefer L*NB. */
             i__1 = *n - *p;
-            i__2 = min(*n,*m) - *p;
-            dormqr_("Left", "Transpose", &i__1, l, &i__2, &a[*p + 1 + (*p + 1) * a_dim1], lda, &tau[*p + 1], &b[*p + 1 + b_dim1], ldb, &dwork[1], ldwork, info, 4L, 9L);
+            i__2 = min(*n, *m) - *p;
+            dormqr_("Left", "Transpose", &i__1, l, &i__2, &a[*p + 1 + (*p + 1) * a_dim1], lda,
+                &tau[*p + 1], &b[*p + 1 + b_dim1], ldb, &dwork[1], ldwork, info, 4L, 9L);
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (integer) dwork[1];
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = (integer)dwork[1];
+            wrkopt = max(i__1, i__2);
         }
     }
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of MB04ID *** */
 } /* mb04id_ */
-

@@ -17,20 +17,19 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isbuiltinBuiltin.hpp"
-#include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FunctionsGateway::isbuiltinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FunctionsGateway::isbuiltinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
@@ -38,8 +37,7 @@ ArrayOfVector Nelson::FunctionsGateway::isbuiltinBuiltin(Evaluator* eval, int nL
     std::string uname = wstring_to_utf8(name);
     FuncPtr pfun;
     bool res = false;
-    if (eval->lookupFunction(uname, pfun) == true)
-    {
+    if (eval->lookupFunction(uname, pfun) == true) {
         res = (pfun->type() == NLS_BUILT_IN_FUNCTION);
     }
     retval.push_back(ArrayOf::logicalConstructor(res));

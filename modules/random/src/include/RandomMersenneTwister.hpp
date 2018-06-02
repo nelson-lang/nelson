@@ -18,50 +18,65 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <boost/random.hpp>
-#include <boost/random/variate_generator.hpp>
-#include <boost/random/uniform_int_distribution.hpp>
-#include <boost/container/vector.hpp>
-#include "nlsRandom_exports.h"
 #include "RandomInterface.hpp"
+#include "nlsRandom_exports.h"
+#include <boost/container/vector.hpp>
+#include <boost/random.hpp>
+#include <boost/random/uniform_int_distribution.hpp>
+#include <boost/random/variate_generator.hpp>
+#include <string>
 //=============================================================================
 // http://www.boost.org/doc/libs/1_57_0/doc/html/boost_random/reference.html#boost_random.reference.generators
 // http://www.boost.org/doc/libs/1_57_0/doc/html/boost_random/reference.html#boost_random.reference.distributions
 namespace Nelson {
-    class NLSRANDOM_IMPEXP RandomMersenneTwister : public RandomInterface {
+class NLSRANDOM_IMPEXP RandomMersenneTwister : public RandomInterface
+{
 
-    private:
-        uint32 seed = 0;
-        boost::mt19937 mersenneTwister;
-        boost::variate_generator<boost::mt19937&, boost::uniform_real<> > *uniform_real_generator;
-        boost::variate_generator<boost::mt19937&, boost::random::uniform_int_distribution<> > *uniform_int_generator;
-        boost::variate_generator<boost::mt19937&, boost::normal_distribution<> > *normal_real_generator;
+private:
+    uint32 seed = 0;
+    boost::mt19937 mersenneTwister;
+    boost::variate_generator<boost::mt19937&, boost::uniform_real<>>* uniform_real_generator;
+    boost::variate_generator<boost::mt19937&, boost::random::uniform_int_distribution<>>*
+        uniform_int_generator;
+    boost::variate_generator<boost::mt19937&, boost::normal_distribution<>>* normal_real_generator;
 
-    public:
-        RandomMersenneTwister();
-        ~RandomMersenneTwister();
+public:
+    RandomMersenneTwister();
+    ~RandomMersenneTwister();
 
-        std::wstring getGeneratorName();
+    std::wstring
+    getGeneratorName();
 
-        void setSeed(uint32 _seed);
-        uint32 getSeed();
+    void
+    setSeed(uint32 _seed);
+    uint32
+    getSeed();
 
-        double getValueAsDouble(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
-        single getValueAsSingle(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+    double
+    getValueAsDouble(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+    single
+    getValueAsSingle(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
 
-        void getValuesAsDouble(double *ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
-        void getValuesAsSingle(single *ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+    void
+    getValuesAsDouble(double* ar, indexType nbElements, indexType lastDim,
+        RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+    void
+    getValuesAsSingle(single* ar, indexType nbElements, indexType lastDim,
+        RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
 
-        boost::container::vector<uint32> getState();
-        void setState(boost::container::vector<uint32>_state);
-        void setState(uint32 *_state, size_t len);
-        size_t getStateSize();
+    boost::container::vector<uint32>
+    getState();
+    void
+    setState(boost::container::vector<uint32> _state);
+    void
+    setState(uint32* _state, size_t len);
+    size_t
+    getStateSize();
 
-        void setMinMaxUniformIntDistribution(int _min, int _max);
-        void getMinMaxUniformIntDistribution(int &_min, int &_max);
-
-    };
-}
+    void
+    setMinMaxUniformIntDistribution(int _min, int _max);
+    void
+    getMinMaxUniformIntDistribution(int& _min, int& _max);
+};
+} // namespace Nelson
 //=============================================================================
-

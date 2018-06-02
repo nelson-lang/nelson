@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,8 +9,7 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int sb08ny_(da, a, b, epsb)
-integer *da;
+EXPORTSYMBOL /* Subroutine */ int sb08ny_(da, a, b, epsb) integer* da;
 doublereal *a, *b, *epsb;
 {
     /* System generated locals */
@@ -67,8 +66,7 @@ doublereal *a, *b, *epsb;
     --a;
     /* Function Body */
     i__1 = *da + 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = *da - i__ + 2;
         b[i__] = ddot_(&i__2, &a[1], &c__1, &a[i__], &c__1);
         /* L20: */
@@ -77,4 +75,3 @@ doublereal *a, *b, *epsb;
     return 0;
     /* *** Last line of SB08NY *** */
 } /* sb08ny_ */
-

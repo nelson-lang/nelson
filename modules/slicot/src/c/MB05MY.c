@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,16 +13,16 @@ static integer c_n1 = -1;
 static integer c__8 = 8;
 static integer c__4 = 4;
 
-EXPORTSYMBOL /* Subroutine */ int mb05my_(balanc, n, a, lda, wr, wi, r__, ldr, q, ldq, dwork, ldwork, info, balanc_len)
-char *balanc;
-integer *n;
-doublereal *a;
-integer *lda;
+EXPORTSYMBOL /* Subroutine */ int mb05my_(
+    balanc, n, a, lda, wr, wi, r__, ldr, q, ldq, dwork, ldwork, info, balanc_len) char* balanc;
+integer* n;
+doublereal* a;
+integer* lda;
 doublereal *wr, *wi, *r__;
-integer *ldr;
-doublereal *q;
-integer *ldq;
-doublereal *dwork;
+integer* ldr;
+doublereal* q;
+integer* ldq;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen balanc_len;
 {
@@ -189,24 +189,15 @@ ftnlen balanc_len;
     /* Function Body */
     *info = 0;
     scale = lsame_(balanc, "S", 1L, 1L);
-    if (! (lsame_(balanc, "N", 1L, 1L) || scale))
-    {
+    if (!(lsame_(balanc, "N", 1L, 1L) || scale)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -4;
-    }
-    else if (*ldr < max(1,*n))
-    {
+    } else if (*ldr < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldq < max(1,*n))
-    {
+    } else if (*ldq < max(1, *n)) {
         *info = -10;
     }
     /*     Compute workspace. */
@@ -219,47 +210,44 @@ ftnlen balanc_len;
     /*       calculated below. HSDWOR is computed assuming ILO=1 and IHI=N, */
     /*       the worst case.) */
     minwrk = 1;
-    if (*info == 0 && *ldwork >= 1)
-    {
+    if (*info == 0 && *ldwork >= 1) {
         maxwrk = (*n << 1) + *n * ilaenv_(&c__1, "DGEHRD", " ", n, &c__1, n, &c__0, 6L, 1L);
         /* Computing MAX */
         i__1 = 1, i__2 = *n << 2;
-        minwrk = max(i__1,i__2);
+        minwrk = max(i__1, i__2);
         /* Computing MAX */
-        i__1 = maxwrk, i__2 = (*n << 1) + (*n - 1) * ilaenv_(&c__1, "DORGHR", " ", n, &c__1, n, &c_n1, 6L, 1L);
-        maxwrk = max(i__1,i__2);
+        i__1 = maxwrk,
+        i__2 = (*n << 1) + (*n - 1) * ilaenv_(&c__1, "DORGHR", " ", n, &c__1, n, &c_n1, 6L, 1L);
+        maxwrk = max(i__1, i__2);
         /* Computing MAX */
         i__1 = ilaenv_(&c__8, "DHSEQR", "SV", n, &c__1, n, &c_n1, 6L, 2L);
-        maxb = max(i__1,2);
+        maxb = max(i__1, 2);
         /* Computing MIN */
         /* Computing MAX */
         i__3 = 2, i__4 = ilaenv_(&c__4, "DHSEQR", "SV", n, &c__1, n, &c_n1, 6L, 2L);
-        i__1 = min(maxb,*n), i__2 = max(i__3,i__4);
-        k = min(i__1,i__2);
+        i__1 = min(maxb, *n), i__2 = max(i__3, i__4);
+        k = min(i__1, i__2);
         /* Computing MAX */
         i__1 = k * (k + 2), i__2 = *n << 1;
-        hsdwor = max(i__1,i__2);
+        hsdwor = max(i__1, i__2);
         /* Computing MAX */
-        i__1 = maxwrk, i__2 = *n + 1, i__1 = max(i__1,i__2), i__2 = *n + hsdwor;
-        maxwrk = max(i__1,i__2);
+        i__1 = maxwrk, i__2 = *n + 1, i__1 = max(i__1, i__2), i__2 = *n + hsdwor;
+        maxwrk = max(i__1, i__2);
         /* Computing MAX */
         i__1 = maxwrk, i__2 = *n << 2;
-        maxwrk = max(i__1,i__2);
-        dwork[1] = (doublereal) maxwrk;
+        maxwrk = max(i__1, i__2);
+        dwork[1] = (doublereal)maxwrk;
     }
-    if (*ldwork < minwrk)
-    {
+    if (*ldwork < minwrk) {
         *info = -12;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB05MY", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     /*     Get machine constants. */
@@ -272,18 +260,14 @@ ftnlen balanc_len;
     /*     Scale A if max element outside range [SMLNUM,BIGNUM]. */
     anrm = dlange_("M", n, n, &a[a_offset], lda, dum, 1L);
     scalea = FALSE_;
-    if (anrm > 0. && anrm < smlnum)
-    {
+    if (anrm > 0. && anrm < smlnum) {
         scalea = TRUE_;
         cscale = smlnum;
-    }
-    else if (anrm > bignum)
-    {
+    } else if (anrm > bignum) {
         scalea = TRUE_;
         cscale = bignum;
     }
-    if (scalea)
-    {
+    if (scalea) {
         dlascl_("G", &c__0, &c__0, &anrm, &cscale, n, n, &a[a_offset], lda, &ierr, 1L);
     }
     /*     Balance the matrix, if requested. (Permutation is not possible.) */
@@ -307,47 +291,43 @@ ftnlen balanc_len;
     /*     (Workspace: need N+1, prefer N+HSDWOR (see comments) ) */
     jwork = itau;
     i__1 = *ldwork - jwork + 1;
-    dhseqr_("S", "V", n, &ilo, &ihi, &a[a_offset], lda, &wr[1], &wi[1], &q[q_offset], ldq, &dwork[jwork], &i__1, info, 1L, 1L);
+    dhseqr_("S", "V", n, &ilo, &ihi, &a[a_offset], lda, &wr[1], &wi[1], &q[q_offset], ldq,
+        &dwork[jwork], &i__1, info, 1L, 1L);
     /*     If INFO > 0 from DHSEQR, then quit. */
-    if (*info > 0)
-    {
+    if (*info > 0) {
         goto L10;
     }
     /*     Compute right eigenvectors of T in R. */
     /*     (Workspace: need 4*N) */
-    dtrevc_("Right", "All", select, n, &a[a_offset], lda, dum, &c__1, &r__[r_offset], ldr, n, &nout, &dwork[jwork], &ierr, 5L, 3L);
+    dtrevc_("Right", "All", select, n, &a[a_offset], lda, dum, &c__1, &r__[r_offset], ldr, n, &nout,
+        &dwork[jwork], &ierr, 5L, 3L);
     /*     Undo scaling if necessary. */
 L10:
-    if (scalea)
-    {
+    if (scalea) {
         i__1 = *n - *info;
         /* Computing MAX */
         i__3 = *n - *info;
-        i__2 = max(i__3,1);
+        i__2 = max(i__3, 1);
         dlascl_("G", &c__0, &c__0, &cscale, &anrm, &i__1, &c__1, &wr[*info + 1], &i__2, &ierr, 1L);
         i__1 = *n - *info;
         /* Computing MAX */
         i__3 = *n - *info;
-        i__2 = max(i__3,1);
+        i__2 = max(i__3, 1);
         dlascl_("G", &c__0, &c__0, &cscale, &anrm, &i__1, &c__1, &wi[*info + 1], &i__2, &ierr, 1L);
-        if (*info > 0)
-        {
+        if (*info > 0) {
             i__1 = ilo - 1;
             dlascl_("G", &c__0, &c__0, &cscale, &anrm, &i__1, &c__1, &wr[1], n, &ierr, 1L);
             i__1 = ilo - 1;
             dlascl_("G", &c__0, &c__0, &cscale, &anrm, &i__1, &c__1, &wi[1], n, &ierr, 1L);
         }
     }
-    if (scale)
-    {
-        for (k = *n; k >= 1; --k)
-        {
+    if (scale) {
+        for (k = *n; k >= 1; --k) {
             dwork[k + 1] = dwork[k];
             /* L20: */
         }
     }
-    dwork[1] = (doublereal) maxwrk;
+    dwork[1] = (doublereal)maxwrk;
     return 0;
     /* *** Last line of MB05MY *** */
 } /* mb05my_ */
-

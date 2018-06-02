@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,13 +12,13 @@ static integer c__1 = 1;
 static doublereal c_b21 = 1.;
 static doublereal c_b22 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int ab13fd_(n, a, lda, beta, omega, tol, dwork, ldwork, cwork, lcwork, info)
-integer *n;
-doublereal *a;
-integer *lda;
+EXPORTSYMBOL /* Subroutine */ int ab13fd_(
+    n, a, lda, beta, omega, tol, dwork, ldwork, cwork, lcwork, info) integer* n;
+doublereal* a;
+integer* lda;
 doublereal *beta, *omega, *tol, *dwork;
-integer *ldwork;
-doublecomplex *cwork;
+integer* ldwork;
+doublecomplex* cwork;
 integer *lcwork, *info;
 {
     /* System generated locals */
@@ -39,7 +39,7 @@ integer *lcwork, *info;
     static doublereal dummy[1];
     static integer itnum, jwork, n2;
     extern /* Subroutine */ int dsymv_();
-    static doublereal dummy2[1]	/* was [1][1] */;
+    static doublereal dummy2[1] /* was [1][1] */;
     extern /* Subroutine */ int dgebal_();
     extern doublereal dlamch_(), dlange_();
     static doublereal om, sv;
@@ -188,29 +188,21 @@ integer *lcwork, *info;
     /* Function Body */
     *info = 0;
     minwrk = *n * 3 * (*n + 2);
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -3;
-    }
-    else if (*ldwork < max(1,minwrk))
-    {
+    } else if (*ldwork < max(1, minwrk)) {
         *info = -8;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = *n * (*n + 3);
-        if (*lcwork < max(i__1,i__2))
-        {
+        if (*lcwork < max(i__1, i__2)) {
             *info = -10;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB13FD", &i__1, 6L);
@@ -218,8 +210,7 @@ integer *lcwork, *info;
     }
     /*     Quick return if possible. */
     *omega = 0.;
-    if (*n == 0)
-    {
+    if (*n == 0) {
         *beta = 0.;
         dwork[1] = 1.;
         cwork[1].r = 1., cwork[1].i = 0.;
@@ -229,7 +220,7 @@ integer *lcwork, *info;
     /*     (Note: Comments in the code beginning "Workspace:" describe the */
     /*     minimal amount of workspace needed at that point in the code, */
     /*     as well as the preferred amount for good performance.) */
-    n2 = *n **n;
+    n2 = *n * *n;
     igf = 1;
     ia2 = igf + n2 + *n;
     iaa = ia2 + n2;
@@ -240,34 +231,32 @@ integer *lcwork, *info;
     /*     Computation of the tolerances. EPS is the machine precision. */
     sfmn = dlamch_("Safe minimum", 12L);
     eps = dlamch_("Epsilon", 7L);
-    tol1 = sqrt(eps * (doublereal) (*n << 1)) * dlange_("Frobenius", n, n, &a[a_offset], lda, &dwork[1], 9L);
-    tau = max(*tol,eps) + 1.;
+    tol1 = sqrt(eps * (doublereal)(*n << 1))
+        * dlange_("Frobenius", n, n, &a[a_offset], lda, &dwork[1], 9L);
+    tau = max(*tol, eps) + 1.;
     /*     Initialization, upper bound at known critical point. */
     /*     Workspace: need N*(N+1)+5*N; prefer larger. */
     kom = 2;
     low = 0.;
     dlacpy_("All", n, n, &a[a_offset], lda, &dwork[igf], n, 3L);
     i__1 = *ldwork - ia2;
-    *beta = mb03ny_(n, omega, &dwork[igf], n, &dwork[igf + n2], &dwork[ia2], &i__1, &cwork[1], lcwork, info);
-    if (*info != 0)
-    {
+    *beta = mb03ny_(
+        n, omega, &dwork[igf], n, &dwork[igf + n2], &dwork[ia2], &i__1, &cwork[1], lcwork, info);
+    if (*info != 0) {
         return 0;
     }
     /* Computing MAX */
-    i__1 = minwrk, i__2 = (integer) dwork[ia2] - ia2 + 1, i__1 = max(i__1,i__2), i__2 = (n2 << 2) + *n;
-    lbest = max(i__1,i__2);
+    i__1 = minwrk, i__2 = (integer)dwork[ia2] - ia2 + 1, i__1 = max(i__1, i__2),
+    i__2 = (n2 << 2) + *n;
+    lbest = max(i__1, i__2);
     itnum = 1;
     /*     WHILE ( ITNUM <= MAXIT and BETA > TAU*MAX( TOL1, LOW ) ) DO */
 L10:
-    if (itnum <= 50 && *beta > tau * max(tol1,low))
-    {
-        if (kom == 2)
-        {
+    if (itnum <= 50 && *beta > tau * max(tol1, low)) {
+        if (kom == 2) {
             sigma = *beta / tau;
-        }
-        else
-        {
-            sigma = sqrt(*beta) * sqrt((max(tol1,low)));
+        } else {
+            sigma = sqrt(*beta) * sqrt((max(tol1, low)));
         }
         /*        Set up H(sigma). */
         /*        Workspace: N*(N+1)+2*N*N. */
@@ -279,49 +268,47 @@ L10:
         dcopy_(&i__1, dummy, &c__0, &dwork[igf + 1], &c__1);
         i__1 = ia2 - *n - 2;
         i__2 = *n + 1;
-        for (i__ = igf; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2)
-        {
+        for (i__ = igf; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2) {
             i__3 = *n + 1;
             dcopy_(&i__3, &dwork[i__], &c__1, &dwork[i__ + *n + 1], &c__1);
             /* L20: */
         }
         /*        Computation of the eigenvalues by the square reduced algorithm. */
         /*        Workspace: N*(N+1)+2*N*N+2*N. */
-        mb04zd_("No vectors", n, &dwork[iaa], n, &dwork[igf], n, dummy2, &c__1, &dwork[iwk], info, 10L);
+        mb04zd_(
+            "No vectors", n, &dwork[iaa], n, &dwork[igf], n, dummy2, &c__1, &dwork[iwk], info, 10L);
         /*        Form the matrix A*A + F*G. */
         /*        Workspace: need   N*(N+1)+2*N*N+N; */
         /*                   prefer N*(N+1)+3*N*N. */
         jwork = ia2;
-        if (sufwrk)
-        {
+        if (sufwrk) {
             jwork = iwk;
         }
         dlacpy_("Lower", n, n, &dwork[igf], n, &dwork[jwork], n, 5L);
         ma02ed_("Lower", n, &dwork[jwork], n, 5L);
-        if (sufwrk)
-        {
+        if (sufwrk) {
             /*           Use BLAS 3 calculation. */
-            dsymm_("Left", "Upper", n, n, &c_b21, &dwork[igf + *n], n, &dwork[jwork], n, &c_b22, &dwork[ia2], n, 4L, 5L);
-        }
-        else
-        {
+            dsymm_("Left", "Upper", n, n, &c_b21, &dwork[igf + *n], n, &dwork[jwork], n, &c_b22,
+                &dwork[ia2], n, 4L, 5L);
+        } else {
             /*           Use BLAS 2 calculation. */
             i__2 = *n;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                dsymv_("Upper", n, &c_b21, &dwork[igf + *n], n, &dwork[ia2 + *n * (i__ - 1)], &c__1, &c_b22, &dwork[iwk], &c__1, 5L);
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                dsymv_("Upper", n, &c_b21, &dwork[igf + *n], n, &dwork[ia2 + *n * (i__ - 1)], &c__1,
+                    &c_b22, &dwork[iwk], &c__1, 5L);
                 dcopy_(n, &dwork[iwk], &c__1, &dwork[ia2 + *n * (i__ - 1)], &c__1);
                 /* L30: */
             }
         }
-        dgemm_("NoTranspose", "NoTranspose", n, n, n, &c_b21, &dwork[iaa], n, &dwork[iaa], n, &c_b21, &dwork[ia2], n, 11L, 11L);
+        dgemm_("NoTranspose", "NoTranspose", n, n, n, &c_b21, &dwork[iaa], n, &dwork[iaa], n,
+            &c_b21, &dwork[ia2], n, 11L, 11L);
         /*        Find the eigenvalues of A*A + F*G. */
         /*        Workspace: N*(N+1)+N*N+3*N. */
         jwork = iwi + *n;
         dgebal_("Scale", n, &dwork[ia2], n, &ilo, &ihi, &dwork[jwork], &i__, 5L);
-        dhseqr_("Eigenvalues", "NoSchurVectors", n, &ilo, &ihi, &dwork[ia2], n, &dwork[iwr], &dwork[iwi], dummy2, &c__1, &dwork[jwork], n, info, 11L, 14L);
-        if (*info != 0)
-        {
+        dhseqr_("Eigenvalues", "NoSchurVectors", n, &ilo, &ihi, &dwork[ia2], n, &dwork[iwr],
+            &dwork[iwi], dummy2, &c__1, &dwork[jwork], n, info, 11L, 14L);
+        if (*info != 0) {
             *info = 2;
             return 0;
         }
@@ -330,62 +317,48 @@ L10:
         /*        mean of the square roots. */
         kom = 0;
         i__2 = *n - 1;
-        for (i__ = 0; i__ <= i__2; ++i__)
-        {
+        for (i__ = 0; i__ <= i__2; ++i__) {
             temp = (d__1 = dwork[iwi + i__], abs(d__1));
-            if (tol1 > sfmn)
-            {
+            if (tol1 > sfmn) {
                 temp /= tol1;
             }
-            if (dwork[iwr + i__] < 0. && temp <= tol1)
-            {
+            if (dwork[iwr + i__] < 0. && temp <= tol1) {
                 ++kom;
                 om = sqrt(-dwork[iwr + i__]);
-                if (kom == 1)
-                {
+                if (kom == 1) {
                     om1 = om;
                 }
-                if (kom == 2)
-                {
+                if (kom == 2) {
                     om2 = om;
                 }
             }
             /* L40: */
         }
-        if (kom == 0)
-        {
+        if (kom == 0) {
             low = sigma;
-        }
-        else
-        {
+        } else {
             /*           In exact arithmetic KOM = 1 is impossible, but if tau is */
             /*           close enough to one, MB04ZD may miss the initial near zero */
             /*           eigenvalue. */
             /*           Workspace, real:    need   3*N*(N+2);  prefer larger; */
             /*                      complex: need     N*(N+3);  prefer larger. */
-            if (kom == 2)
-            {
+            if (kom == 2) {
                 om = om1 + (om2 - om1) / 2.;
-            }
-            else if (kom == 1 && itnum == 1)
-            {
+            } else if (kom == 1 && itnum == 1) {
                 om = om1 / 2.;
                 kom = 2;
             }
             dlacpy_("All", n, n, &a[a_offset], lda, &dwork[igf], n, 3L);
             i__2 = *ldwork - ia2;
-            sv = mb03ny_(n, &om, &dwork[igf], n, &dwork[igf + n2], &dwork[ia2], &i__2, &cwork[1], lcwork, info);
-            if (*info != 0)
-            {
+            sv = mb03ny_(n, &om, &dwork[igf], n, &dwork[igf + n2], &dwork[ia2], &i__2, &cwork[1],
+                lcwork, info);
+            if (*info != 0) {
                 return 0;
             }
-            if (*beta > sv)
-            {
+            if (*beta > sv) {
                 *beta = sv;
                 *omega = om;
-            }
-            else
-            {
+            } else {
                 *info = 1;
                 return 0;
             }
@@ -394,16 +367,14 @@ L10:
         goto L10;
         /*        END WHILE 10 */
     }
-    if (*beta > tau * max(tol1,low))
-    {
+    if (*beta > tau * max(tol1, low)) {
         /*        Failed to meet bounds within MAXIT iterations. */
         *info = 1;
         return 0;
     }
     /*     Set optimal real workspace dimension (complex workspace is already */
     /*     set by MB03NY). */
-    dwork[1] = (doublereal) lbest;
+    dwork[1] = (doublereal)lbest;
     return 0;
     /* *** Last line of AB13FD *** */
 } /* ab13fd_ */
-

@@ -25,6 +25,6 @@
 #define NLSTYPES_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSTYPES_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSTYPES_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

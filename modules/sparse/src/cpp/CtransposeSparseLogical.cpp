@@ -16,40 +16,37 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "CtransposeSparseLogical.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
-#include "CtransposeSparseLogical.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf CtransposeSparseLogical(ArrayOf A)
-    {
-        ArrayOf C;
-        if (A.isEmpty())
-        {
-            Dimensions dimsC(A.getDimensions().getColumns(), A.getDimensions().getRows());
-            C = ArrayOf(NLS_LOGICAL, dimsC, (void*)nullptr, true);
+//=============================================================================
+ArrayOf
+CtransposeSparseLogical(ArrayOf A)
+{
+    ArrayOf C;
+    if (A.isEmpty()) {
+        Dimensions dimsC(A.getDimensions().getColumns(), A.getDimensions().getRows());
+        C = ArrayOf(NLS_LOGICAL, dimsC, (void*)nullptr, true);
+    } else {
+        Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatA
+            = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.getSparseDataPointer();
+        Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatC;
+        try {
+            spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(
+                spMatA->cols(), spMatA->rows());
+        } catch (std::bad_alloc& e) {
+            e.what();
+            spMatC = nullptr;
+            throw Exception(ERROR_MEMORY_ALLOCATION);
         }
-        else
-        {
-            Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatA = (Eigen::SparseMatrix<logical, 0, signedIndexType> *)A.getSparseDataPointer();
-            Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatC;
-            try
-            {
-                spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(spMatA->cols(), spMatA->rows());
-            }
-            catch (std::bad_alloc &e)
-            {
-                e.what();
-                spMatC = nullptr;
-                throw Exception(ERROR_MEMORY_ALLOCATION);
-            }
-            *spMatC = spMatA->adjoint();
-            Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());
-            C = ArrayOf(NLS_LOGICAL, dimsC, (void*)spMatC, true);
-        }
-        return C;
+        *spMatC = spMatA->adjoint();
+        Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());
+        C = ArrayOf(NLS_LOGICAL, dimsC, (void*)spMatC, true);
     }
-    //=============================================================================
+    return C;
+}
+//=============================================================================
 }
 //=============================================================================

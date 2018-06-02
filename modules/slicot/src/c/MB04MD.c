@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,12 +9,11 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb04md_(n, maxred, a, lda, scale, info)
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int mb04md_(n, maxred, a, lda, scale, info) integer* n;
 doublereal *maxred, *a;
-integer *lda;
-doublereal *scale;
-integer *info;
+integer* lda;
+doublereal* scale;
+integer* info;
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2;
@@ -136,38 +135,29 @@ integer *info;
     --scale;
     /* Function Body */
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*maxred > 0. && *maxred < 1.)
-    {
+    } else if (*maxred > 0. && *maxred < 1.) {
         *info = -2;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -4;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04MD", &i__1, 6L);
         return 0;
     }
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         scale[i__] = 1.;
         /* L10: */
     }
     /*     Compute the 1-norm of matrix A and exit if it is zero. */
     anorm = dlange_("1-norm", n, n, &a[a_offset], lda, &scale[1], 6L);
-    if (anorm == 0.)
-    {
+    if (anorm == 0.) {
         return 0;
     }
     /*     Set some machine parameters and the maximum reduction in the */
@@ -177,55 +167,45 @@ integer *info;
     sfmin2 = sfmin1 * 10.;
     sfmax2 = 1. / sfmin2;
     sred = *maxred;
-    if (sred <= 0.)
-    {
+    if (sred <= 0.) {
         sred = 10.;
     }
     /* Computing MAX */
     d__1 = anorm / sred;
-    maxnrm = max(d__1,sfmin1);
+    maxnrm = max(d__1, sfmin1);
     /*     Balance the matrix. */
     /*     Iterative loop for norm reduction. */
 L20:
     noconv = FALSE_;
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         c__ = 0.;
         r__ = 0.;
         i__2 = *n;
-        for (j = 1; j <= i__2; ++j)
-        {
-            if (j == i__)
-            {
+        for (j = 1; j <= i__2; ++j) {
+            if (j == i__) {
                 goto L30;
             }
             c__ += (d__1 = a[j + i__ * a_dim1], abs(d__1));
             r__ += (d__1 = a[i__ + j * a_dim1], abs(d__1));
-L30:
-            ;
+        L30:;
         }
         ica = idamax_(n, &a[i__ * a_dim1 + 1], &c__1);
         ca = (d__1 = a[ica + i__ * a_dim1], abs(d__1));
         ira = idamax_(n, &a[i__ + a_dim1], lda);
         ra = (d__1 = a[i__ + ira * a_dim1], abs(d__1));
         /*        Special case of zero C and/or R. */
-        if (c__ == 0. && r__ == 0.)
-        {
+        if (c__ == 0. && r__ == 0.) {
             goto L80;
         }
-        if (c__ == 0.)
-        {
-            if (r__ <= maxnrm)
-            {
+        if (c__ == 0.) {
+            if (r__ <= maxnrm) {
                 goto L80;
             }
             c__ = maxnrm;
         }
-        if (r__ == 0.)
-        {
-            if (c__ <= maxnrm)
-            {
+        if (r__ == 0.) {
+            if (c__ <= maxnrm) {
                 goto L80;
             }
             r__ = maxnrm;
@@ -234,13 +214,12 @@ L30:
         g = r__ / 10.;
         f = 1.;
         s = c__ + r__;
-L40:
+    L40:
         /* Computing MAX */
-        d__1 = max(f,c__);
+        d__1 = max(f, c__);
         /* Computing MIN */
-        d__2 = min(r__,g);
-        if (c__ >= g || max(d__1,ca) >= sfmax2 || min(d__2,ra) <= sfmin2)
-        {
+        d__2 = min(r__, g);
+        if (c__ >= g || max(d__1, ca) >= sfmax2 || min(d__2, ra) <= sfmin2) {
             goto L50;
         }
         f *= 10.;
@@ -250,13 +229,12 @@ L40:
         g /= 10.;
         ra /= 10.;
         goto L40;
-L50:
+    L50:
         g = c__ / 10.;
-L60:
+    L60:
         /* Computing MIN */
-        d__1 = min(f,c__), d__1 = min(d__1,g);
-        if (g < r__ || max(r__,ra) >= sfmax2 || min(d__1,ca) <= sfmin2)
-        {
+        d__1 = min(f, c__), d__1 = min(d__1, g);
+        if (g < r__ || max(r__, ra) >= sfmax2 || min(d__1, ca) <= sfmin2) {
             goto L70;
         }
         f /= 10.;
@@ -267,22 +245,17 @@ L60:
         ra *= 10.;
         goto L60;
         /*        Now balance. */
-L70:
-        if (c__ + r__ >= s * .95)
-        {
+    L70:
+        if (c__ + r__ >= s * .95) {
             goto L80;
         }
-        if (f < 1. && scale[i__] < 1.)
-        {
-            if (f * scale[i__] <= sfmin1)
-            {
+        if (f < 1. && scale[i__] < 1.) {
+            if (f * scale[i__] <= sfmin1) {
                 goto L80;
             }
         }
-        if (f > 1. && scale[i__] > 1.)
-        {
-            if (scale[i__] >= sfmax1 / f)
-            {
+        if (f > 1. && scale[i__] > 1.) {
+            if (scale[i__] >= sfmax1 / f) {
                 goto L80;
             }
         }
@@ -291,11 +264,9 @@ L70:
         noconv = TRUE_;
         dscal_(n, &g, &a[i__ + a_dim1], lda);
         dscal_(n, &f, &a[i__ * a_dim1 + 1], &c__1);
-L80:
-        ;
+    L80:;
     }
-    if (noconv)
-    {
+    if (noconv) {
         goto L20;
     }
     /*     Set the norm reduction parameter. */
@@ -303,4 +274,3 @@ L80:
     return 0;
     /* *** End of MB04MD *** */
 } /* mb04md_ */
-

@@ -17,54 +17,61 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocParamOutputItem.hpp"
-#include "characters_encoding.hpp"
-#include "XmlDocumentTags.hpp"
 #include "HtmlTags.hpp"
+#include "XmlDocumentTags.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    XmlDocParamOutputItem::XmlDocParamOutputItem(std::wstring name, std::wstring description)
-    {
-        this->_name = name;
-        this->_description = description;
-    }
-    //=============================================================================
-    XmlDocParamOutputItem::~XmlDocParamOutputItem()
-    {
-        this->_name = L"";
-        this->_description = L"";
-    }
-    //=============================================================================
-    std::wstring XmlDocParamOutputItem::getName()
-    {
-        return this->_name;
-    }
-    //=============================================================================
-    std::wstring XmlDocParamOutputItem::getDescription()
-    {
-        return this->_description;
-    }
-    //=============================================================================
-    std::wstring XmlDocParamOutputItem::getItemType()
-    {
-        return utf8_to_wstring(PARAM_OUTPUT_TAG);
-    }
-    //=============================================================================
-    bool XmlDocParamOutputItem::writeAsHtml(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + HTML_DT_IN_TAG + "<span class=\"term\">" + wstring_to_utf8(this->_name) + "</span>" + HTML_DT_OUT_TAG + "\n";
-        utf8stream = utf8stream + HTML_DD_IN_TAG + "\n";
-        utf8stream = utf8stream + "<p class=\"para\">" + wstring_to_utf8(this->_description) + HTML_P_OUT_TAG + "\n";
-        utf8stream = utf8stream + HTML_DD_OUT_TAG + "\n";
-        utf8stream = utf8stream + "\n";
-        return true;
-    }
-    //=============================================================================
-    bool XmlDocParamOutputItem::writeAsMarkdown(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + " - " + wstring_to_utf8(this->_name);
-        utf8stream = utf8stream + " - " + wstring_to_utf8(this->_description) + "\n";
-        return true;
-    }
-    //=============================================================================
+XmlDocParamOutputItem::XmlDocParamOutputItem(std::wstring name, std::wstring description)
+{
+    this->_name = name;
+    this->_description = description;
+}
+//=============================================================================
+XmlDocParamOutputItem::~XmlDocParamOutputItem()
+{
+    this->_name = L"";
+    this->_description = L"";
+}
+//=============================================================================
+std::wstring
+XmlDocParamOutputItem::getName()
+{
+    return this->_name;
+}
+//=============================================================================
+std::wstring
+XmlDocParamOutputItem::getDescription()
+{
+    return this->_description;
+}
+//=============================================================================
+std::wstring
+XmlDocParamOutputItem::getItemType()
+{
+    return utf8_to_wstring(PARAM_OUTPUT_TAG);
+}
+//=============================================================================
+bool
+XmlDocParamOutputItem::writeAsHtml(std::string& utf8stream)
+{
+    utf8stream = utf8stream + HTML_DT_IN_TAG + "<span class=\"term\">"
+        + wstring_to_utf8(this->_name) + "</span>" + HTML_DT_OUT_TAG + "\n";
+    utf8stream = utf8stream + HTML_DD_IN_TAG + "\n";
+    utf8stream = utf8stream + "<p class=\"para\">" + wstring_to_utf8(this->_description)
+        + HTML_P_OUT_TAG + "\n";
+    utf8stream = utf8stream + HTML_DD_OUT_TAG + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
+bool
+XmlDocParamOutputItem::writeAsMarkdown(std::string& utf8stream)
+{
+    utf8stream = utf8stream + " - " + wstring_to_utf8(this->_name);
+    utf8stream = utf8stream + " - " + wstring_to_utf8(this->_description) + "\n";
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

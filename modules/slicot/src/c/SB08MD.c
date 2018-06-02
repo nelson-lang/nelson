@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,9 +11,9 @@ static integer c__1 = 1;
 static integer c__2 = 2;
 static doublereal c_b30 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb08md_(acona, da, a, res, e, dwork, ldwork, info, acona_len)
-char *acona;
-integer *da;
+EXPORTSYMBOL /* Subroutine */ int sb08md_(
+    acona, da, a, res, e, dwork, ldwork, info, acona_len) char* acona;
+integer* da;
 doublereal *a, *res, *e, *dwork;
 integer *ldwork, *info;
 ftnlen acona_len;
@@ -202,32 +202,23 @@ ftnlen acona_len;
     *info = 0;
     lacona = lsame_(acona, "A", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! lacona && ! lsame_(acona, "B", 1L, 1L))
-    {
+    if (!lacona && !lsame_(acona, "B", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*da < 0)
-    {
+    } else if (*da < 0) {
         *info = -2;
-    }
-    else if (*ldwork < *da * 5 + 5)
-    {
+    } else if (*ldwork < *da * 5 + 5) {
         *info = -7;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB08MD", &i__1, 6L);
         return 0;
     }
-    if (! lacona)
-    {
+    if (!lacona) {
         i__1 = *da + 1;
         dcopy_(&i__1, &a[1], &c__1, &e[1], &c__1);
-    }
-    else
-    {
+    } else {
         w = 0.;
         sb08my_(da, &a[1], &e[1], &w);
     }
@@ -235,60 +226,47 @@ ftnlen acona_len;
     da1 = *da + 1;
     /*     WHILE ( DA1 >= 1 and E(DA1) = 0 ) DO */
 L20:
-    if (da1 >= 1)
-    {
-        if (e[da1] == 0.)
-        {
+    if (da1 >= 1) {
+        if (e[da1] == 0.) {
             --da1;
             goto L20;
         }
     }
     /*     END WHILE 20 */
     --da1;
-    if (da1 < 0)
-    {
+    if (da1 < 0) {
         *info = 1;
         return 0;
     }
     i0 = 1;
     /*     WHILE ( E(I0) = 0 ) DO */
 L40:
-    if (e[i0] == 0.)
-    {
+    if (e[i0] == 0.) {
         ++i0;
         goto L40;
     }
     /*     END WHILE 40 */
     --i0;
-    if (i0 != 0)
-    {
-        if (i0 % 2 == 0)
-        {
+    if (i0 != 0) {
+        if (i0 % 2 == 0) {
             signi0 = 1.;
-        }
-        else
-        {
+        } else {
             signi0 = -1.;
         }
         i__1 = da1 - i0 + 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             e[i__] = signi0 * e[i__ + i0];
             /* L60: */
         }
         da1 -= i0;
     }
-    if (da1 % 2 == 0)
-    {
+    if (da1 % 2 == 0) {
         signi = 1.;
-    }
-    else
-    {
+    } else {
         signi = -1.;
     }
     nc = da1 + 1;
-    if (e[1] < 0. || e[nc] * signi < 0.)
-    {
+    if (e[1] < 0. || e[nc] * signi < 0.) {
         *info = 2;
         return 0;
     }
@@ -305,16 +283,15 @@ L40:
     /*     Computation of the starting polynomial and scaling of the input */
     /*     polynomial. */
     d__2 = a0 / (d__1 = e[nc], abs(d__1));
-    d__3 = 1. / (doublereal) da1;
+    d__3 = 1. / (doublereal)da1;
     mu = pow_dd(&d__2, &d__3);
     muj = 1.;
     i__1 = nc;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         w = e[j] * muj / a0;
         a[j] = w;
-        e[j] = (doublereal) binc;
-        dwork[lq + j - 1] = (doublereal) binc;
+        e[j] = (doublereal)binc;
+        dwork[lq + j - 1] = (doublereal)binc;
         muj *= mu;
         binc = binc * (nc - j) / j;
         /* L80: */
@@ -340,8 +317,7 @@ L40:
     i__ = 0;
     /*     WHILE ( I < 30 and CONV = FALSE and STABLE = TRUE ) DO */
 L100:
-    if (i__ < 30 && ! conv && stable)
-    {
+    if (i__ < 30 && !conv && stable) {
         ++i__;
         dcopy_(&nc, &a[1], &c__1, &dwork[lay], &c__1);
         dcopy_(&nc, &dwork[lq], &c__1, &dwork[lphi], &c__1);
@@ -350,8 +326,7 @@ L100:
         lphend = lphi + da1;
         xda = a[nc] / dwork[lq + da1];
         i__1 = m;
-        for (k = 1; k <= i__1; ++k)
-        {
+        for (k = 1; k <= i__1; ++k) {
             dwork[lay + k] -= dwork[lphi + (k << 1)];
             dwork[layend - k] -= dwork[lphend - (k << 1)] * xda;
             /* L120: */
@@ -359,15 +334,12 @@ L100:
         /*        Computation of lambda(k) and y(k). */
         k = 1;
         /*        WHILE ( K <= DA1 - 2 and STABLE = TRUE ) DO */
-L140:
-        if (k <= da1 - 2 && stable)
-        {
-            if (dwork[lphi + k] <= 0.)
-            {
+    L140:
+        if (k <= da1 - 2 && stable) {
+            if (dwork[lphi + k] <= 0.) {
                 stable = FALSE_;
             }
-            if (stable)
-            {
+            if (stable) {
                 w = dwork[lphi + k - 1] / dwork[lphi + k];
                 dwork[lambda + k] = w;
                 i__1 = (da1 - k) / 2;
@@ -383,22 +355,17 @@ L140:
             goto L140;
         }
         /*        END WHILE 140 */
-        if (dwork[lphi + da1 - 1] <= 0.)
-        {
+        if (dwork[lphi + da1 - 1] <= 0.) {
             stable = FALSE_;
-        }
-        else
-        {
+        } else {
             dwork[lay + da1 - 1] /= dwork[lphi + da1 - 1];
         }
         /*        STABLE = The polynomial q    is stable. */
         /*                                 i-1 */
-        if (stable)
-        {
+        if (stable) {
             /*           Computation of x  and q . */
             /*                           i      i */
-            for (k = da1 - 2; k >= 1; --k)
-            {
+            for (k = da1 - 2; k >= 1; --k) {
                 w = dwork[lambda + k];
                 i__1 = (da1 - k) / 2;
                 d__1 = -w;
@@ -411,8 +378,7 @@ L140:
             si = dwork[lq];
             signj = -1.;
             i__1 = da1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 w = (dwork[lq + j] + signj * dwork[lay + j]) * .5;
                 dwork[lq + j] = w;
                 si += w;
@@ -424,8 +390,7 @@ L140:
             daxpy_(&nc, &c_b30, &a[1], &c__1, &dwork[ldif], &c__1);
             *res = (d__1 = dwork[idamax_(&nc, &dwork[ldif], &c__1) + ldif - 1], abs(d__1));
             /*           Convergency test. */
-            if (si > simin1 || *res < tolphi)
-            {
+            if (si > simin1 || *res < tolphi) {
                 conv = TRUE_;
             }
             goto L100;
@@ -439,42 +404,33 @@ L140:
     muj = 1.;
     sqrtmj = 1.;
     i__1 = nc;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         e[j] = e[j] * sqrta0 * sqrtmj;
         a[j] = a[j] * a0 * muj;
         muj *= mu;
         sqrtmj *= sqrtmu;
         /* L200: */
     }
-    if (i0 != 0)
-    {
-        for (j = nc; j >= 1; --j)
-        {
+    if (i0 != 0) {
+        for (j = nc; j >= 1; --j) {
             e[i0 + j] = e[j];
             a[i0 + j] = signi0 * a[j];
             /* L220: */
         }
         i__1 = i0;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             e[j] = 0.;
             a[j] = 0.;
             /* L240: */
         }
     }
-    if (! conv)
-    {
-        if (stable)
-        {
+    if (!conv) {
+        if (stable) {
             *info = 3;
-        }
-        else
-        {
+        } else {
             *info = 4;
         }
     }
     return 0;
     /* *** Last line of SB08MD *** */
 } /* sb08md_ */
-

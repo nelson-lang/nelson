@@ -1,22 +1,24 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int ib01ad_(meth, alg, jobd, batch, conct, ctrl, nobr, m, l, nsmp, u, ldu, y, ldy, n, r__, ldr, sv, rcond, tol, iwork, dwork, ldwork, iwarn, info, meth_len, alg_len, jobd_len, batch_len, conct_len, ctrl_len)
-char *meth, *alg, *jobd, *batch, *conct, *ctrl;
+EXPORTSYMBOL /* Subroutine */ int ib01ad_(meth, alg, jobd, batch, conct, ctrl, nobr, m, l, nsmp, u,
+    ldu, y, ldy, n, r__, ldr, sv, rcond, tol, iwork, dwork, ldwork, iwarn, info, meth_len, alg_len,
+    jobd_len, batch_len, conct_len, ctrl_len) char *meth,
+    *alg, *jobd, *batch, *conct, *ctrl;
 integer *nobr, *m, *l, *nsmp;
-doublereal *u;
-integer *ldu;
-doublereal *y;
+doublereal* u;
+integer* ldu;
+doublereal* y;
 integer *ldy, *n;
-doublereal *r__;
-integer *ldr;
+doublereal* r__;
+integer* ldr;
 doublereal *sv, *rcond, *tol;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen meth_len;
 ftnlen alg_len;
@@ -469,190 +471,123 @@ ftnlen ctrl_len;
     interm = lsame_(batch, "I", 1L, 1L);
     last = lsame_(batch, "L", 1L, 1L) || onebch;
     contrl = lsame_(ctrl, "C", 1L, 1L);
-    if (! onebch)
-    {
+    if (!onebch) {
         connec = lsame_(conct, "C", 1L, 1L);
-    }
-    else
-    {
+    } else {
         connec = FALSE_;
     }
-    mnobr = *m **nobr;
-    lnobr = *l **nobr;
+    mnobr = *m * *nobr;
+    lnobr = *l * *nobr;
     lmnobr = lnobr + mnobr;
     nr = lmnobr + lmnobr;
     nobr21 = (*nobr << 1) - 1;
     *iwarn = 0;
     *info = 0;
-    if (first)
-    {
+    if (first) {
         maxwrk = 1;
         nsmpsm = 0;
     }
     nsmpsm += *nsmp;
     /*     Check the scalar input parameters. */
-    if (! (moesp || n4sid))
-    {
+    if (!(moesp || n4sid)) {
         *info = -1;
-    }
-    else if (! (fqralg || qralg || chalg))
-    {
+    } else if (!(fqralg || qralg || chalg)) {
         *info = -2;
-    }
-    else if (moesp && ! (jobdm || lsame_(jobd, "N", 1L, 1L)))
-    {
+    } else if (moesp && !(jobdm || lsame_(jobd, "N", 1L, 1L))) {
         *info = -3;
-    }
-    else if (! (first || interm || last))
-    {
+    } else if (!(first || interm || last)) {
         *info = -4;
-    }
-    else if (! onebch)
-    {
-        if (! (connec || lsame_(conct, "N", 1L, 1L)))
-        {
+    } else if (!onebch) {
+        if (!(connec || lsame_(conct, "N", 1L, 1L))) {
             *info = -5;
         }
     }
-    if (*info == 0)
-    {
-        if (! (contrl || lsame_(ctrl, "N", 1L, 1L)))
-        {
+    if (*info == 0) {
+        if (!(contrl || lsame_(ctrl, "N", 1L, 1L))) {
             *info = -6;
-        }
-        else if (*nobr <= 0)
-        {
+        } else if (*nobr <= 0) {
             *info = -7;
-        }
-        else if (*m < 0)
-        {
+        } else if (*m < 0) {
             *info = -8;
-        }
-        else if (*l <= 0)
-        {
+        } else if (*l <= 0) {
             *info = -9;
-        }
-        else if (*nsmp < *nobr << 1 || last && nsmpsm < nr + nobr21)
-        {
+        } else if (*nsmp < *nobr << 1 || last && nsmpsm < nr + nobr21) {
             *info = -10;
-        }
-        else if (*ldu < 1 || *m > 0 && *ldu < *nsmp)
-        {
+        } else if (*ldu < 1 || *m > 0 && *ldu < *nsmp) {
             *info = -12;
-        }
-        else if (*ldy < *nsmp)
-        {
+        } else if (*ldy < *nsmp) {
             *info = -14;
-        }
-        else if (*ldr < nr || moesp && jobdm && *ldr < mnobr * 3)
-        {
+        } else if (*ldr < nr || moesp && jobdm && *ldr < mnobr * 3) {
             *info = -17;
-        }
-        else
-        {
+        } else {
             /*           Compute workspace. */
             /*           (Note: Comments in the code beginning "Workspace:" describe */
             /*           the minimal amount of workspace needed at that point in the */
             /*           code, as well as the preferred amount for good performance.) */
             ns = *nsmp - nobr21;
-            if (chalg)
-            {
-                if (! last)
-                {
-                    if (connec)
-                    {
+            if (chalg) {
+                if (!last) {
+                    if (connec) {
                         minwrk = nr - *m - *l << 1;
-                    }
-                    else
-                    {
+                    } else {
                         minwrk = 1;
                     }
-                }
-                else if (moesp)
-                {
-                    if (connec && ! onebch)
-                    {
+                } else if (moesp) {
+                    if (connec && !onebch) {
                         /* Computing MAX */
                         i__1 = nr - *m - *l << 1, i__2 = lnobr * 5;
-                        minwrk = max(i__1,i__2);
-                    }
-                    else
-                    {
+                        minwrk = max(i__1, i__2);
+                    } else {
                         minwrk = lnobr * 5;
-                        if (jobdm)
-                        {
+                        if (jobdm) {
                             /* Computing MAX */
-                            i__1 = (mnobr << 1) - *nobr, i__1 = max(i__1,lmnobr);
-                            minwrk = max(i__1,minwrk);
+                            i__1 = (mnobr << 1) - *nobr, i__1 = max(i__1, lmnobr);
+                            minwrk = max(i__1, minwrk);
                         }
                     }
-                }
-                else
-                {
+                } else {
                     minwrk = lmnobr * 5 + 1;
                 }
-            }
-            else if (fqralg)
-            {
-                if (! onebch && connec)
-                {
+            } else if (fqralg) {
+                if (!onebch && connec) {
                     minwrk = nr * (*m + *l + 3);
-                }
-                else if (first || interm)
-                {
+                } else if (first || interm) {
                     minwrk = nr * (*m + *l + 1);
-                }
-                else
-                {
+                } else {
                     minwrk = (nr << 1) * (*m + *l + 1) + nr;
                 }
-            }
-            else
-            {
+            } else {
                 minwrk = nr << 1;
-                if (onebch && *ldr >= ns)
-                {
-                    if (moesp)
-                    {
+                if (onebch && *ldr >= ns) {
+                    if (moesp) {
                         /* Computing MAX */
                         i__1 = minwrk, i__2 = lnobr * 5;
-                        minwrk = max(i__1,i__2);
-                    }
-                    else
-                    {
+                        minwrk = max(i__1, i__2);
+                    } else {
                         minwrk = lmnobr * 5 + 1;
                     }
                 }
-                if (first)
-                {
-                    if (*ldr < ns)
-                    {
+                if (first) {
+                    if (*ldr < ns) {
                         minwrk += nr;
                     }
-                }
-                else
-                {
-                    if (connec)
-                    {
+                } else {
+                    if (connec) {
                         minwrk *= *nobr + 1;
-                    }
-                    else
-                    {
+                    } else {
                         minwrk += nr;
                     }
                 }
             }
             maxwrk = minwrk;
-            if (*ldwork < minwrk)
-            {
+            if (*ldwork < minwrk) {
                 *info = -23;
-                dwork[1] = (doublereal) minwrk;
+                dwork[1] = (doublereal)minwrk;
             }
         }
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("IB01AD", &i__1, 6L);
         return 0;
@@ -662,18 +597,17 @@ ftnlen ctrl_len;
     /*                       on the algorithm and the options used */
     /*                       (see SLICOT Library routine IB01MD); */
     /*                prefer larger. */
-    ib01md_(meth, alg, batch, conct, nobr, m, l, nsmp, &u[u_offset], ldu, &y[y_offset], ldy, &r__[r_offset], ldr, &iwork[1], &dwork[1], ldwork, iwarn, info, 1L, 1L, 1L, 1L);
-    if (*info == 1)
-    {
+    ib01md_(meth, alg, batch, conct, nobr, m, l, nsmp, &u[u_offset], ldu, &y[y_offset], ldy,
+        &r__[r_offset], ldr, &iwork[1], &dwork[1], ldwork, iwarn, info, 1L, 1L, 1L, 1L);
+    if (*info == 1) {
         /*        Error return: A fast algorithm was requested (ALG = 'C', 'F') */
         /*        in sequential data processing, but it failed. */
         return 0;
     }
     /* Computing MAX */
-    i__1 = maxwrk, i__2 = (integer) dwork[1];
-    maxwrk = max(i__1,i__2);
-    if (! last)
-    {
+    i__1 = maxwrk, i__2 = (integer)dwork[1];
+    maxwrk = max(i__1, i__2);
+    if (!last) {
         /*        Return to get new data. */
         return 0;
     }
@@ -684,22 +618,21 @@ ftnlen ctrl_len;
     /*                                            if METH = 'M'; */
     /*                            5*(M+L)*NOBR+1, if METH = 'N'; */
     /*                prefer larger. */
-    ib01nd_(meth, jobd, nobr, m, l, &r__[r_offset], ldr, &sv[1], rcond, &iwork[1], &dwork[1], ldwork, &iwarnl, info, 1L, 1L);
-    *iwarn = max(*iwarn,iwarnl);
-    if (*info == 2)
-    {
+    ib01nd_(meth, jobd, nobr, m, l, &r__[r_offset], ldr, &sv[1], rcond, &iwork[1], &dwork[1],
+        ldwork, &iwarnl, info, 1L, 1L);
+    *iwarn = max(*iwarn, iwarnl);
+    if (*info == 2) {
         /*        Error return: the singular value decomposition (SVD) algorithm */
         /*        did not converge. */
         return 0;
     }
     /*     Estimate the system order. */
     ib01od_(ctrl, nobr, l, &sv[1], n, tol, &iwarnl, info, 1L);
-    *iwarn = max(*iwarn,iwarnl);
+    *iwarn = max(*iwarn, iwarnl);
     /*     Return optimal workspace in  DWORK(1). */
     /* Computing MAX */
-    i__1 = maxwrk, i__2 = (integer) dwork[1];
-    dwork[1] = (doublereal) max(i__1,i__2);
+    i__1 = maxwrk, i__2 = (integer)dwork[1];
+    dwork[1] = (doublereal)max(i__1, i__2);
     return 0;
     /* *** Last line of IB01AD *** */
 } /* ib01ad_ */
-

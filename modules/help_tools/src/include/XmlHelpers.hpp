@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include <libxml/xmlreader.h>
+#include <string>
 //=============================================================================
 namespace Nelson {
-    std::wstring getXmlFileEncoding(std::wstring filename);
-    xmlDoc *readDocument(const std::string & xmlCode, bool validate, std::wstring &error);
-}
+std::wstring
+getXmlFileEncoding(std::wstring filename);
+xmlDoc*
+readDocument(const std::string& xmlCode, bool validate, std::wstring& error);
+} // namespace Nelson
 //=============================================================================

@@ -22,6 +22,7 @@
 //=============================================================================
 namespace Nelson {
 #define MIN_OPENFILES 10240
-    NLSENGINE_IMPEXP bool setMaxOpenedFiles();
-}
+NLSENGINE_IMPEXP bool
+setMaxOpenedFiles();
+} // namespace Nelson
 //=============================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,13 +10,14 @@
 static doublereal c_b9 = 0.;
 static doublereal c_b10 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb04wr_(job, trans, n, ilo, q1, ldq1, q2, ldq2, cs, tau, dwork, ldwork, info, job_len, trans_len)
-char *job, *trans;
+EXPORTSYMBOL /* Subroutine */ int mb04wr_(job, trans, n, ilo, q1, ldq1, q2, ldq2, cs, tau, dwork,
+    ldwork, info, job_len, trans_len) char *job,
+    *trans;
 integer *n, *ilo;
-doublereal *q1;
-integer *ldq1;
-doublereal *q2;
-integer *ldq2;
+doublereal* q1;
+integer* ldq1;
+doublereal* q2;
+integer* ldq2;
 doublereal *cs, *tau, *dwork;
 integer *ldwork, *info;
 ftnlen job_len;
@@ -192,57 +193,41 @@ ftnlen trans_len;
     *info = 0;
     ltran = lsame_(trans, "T", 1L, 1L) || lsame_(trans, "C", 1L, 1L);
     compu = lsame_(job, "U", 1L, 1L);
-    if (! compu && ! lsame_(job, "V", 1L, 1L))
-    {
+    if (!compu && !lsame_(job, "V", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! ltran && ! lsame_(trans, "N", 1L, 1L))
-    {
+    } else if (!ltran && !lsame_(trans, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*ilo < 1 || *ilo > max(1,*n))
-    {
+    } else if (*ilo < 1 || *ilo > max(1, *n)) {
         *info = -4;
-    }
-    else if (*ldq1 < max(1,*n))
-    {
+    } else if (*ldq1 < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldq2 < max(1,*n))
-    {
+    } else if (*ldq2 < max(1, *n)) {
         *info = -8;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = *n - *ilo + 1 << 1;
-        if (*ldwork < max(i__1,i__2))
-        {
+        if (*ldwork < max(i__1, i__2)) {
             /* Computing MAX */
             i__1 = 1, i__2 = *n - *ilo + 1 << 1;
-            dwork[1] = (doublereal) max(i__1,i__2);
+            dwork[1] = (doublereal)max(i__1, i__2);
             *info = -12;
         }
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04WR", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 1.;
         return 0;
     }
-    if (compu)
-    {
+    if (compu) {
         i__1 = *ilo - 1;
         dlaset_("All", n, &i__1, &c_b9, &c_b10, &q1[q1_offset], ldq1, 3L);
         i__1 = *ilo - 1;
@@ -255,100 +240,84 @@ ftnlen trans_len;
         dlaset_("All", &i__1, &i__2, &c_b9, &c_b9, &q2[*ilo * q2_dim1 + 1], ldq2, 3L);
         nh = *n - *ilo + 1;
     }
-    if (compu && ! ltran)
-    {
+    if (compu && !ltran) {
         /*        Generate U1 and U2. */
-        if (nh > 0)
-        {
-            mb04wd_("No Transpose", "No Transpose", &nh, &nh, &nh, &q1[*ilo + *ilo * q1_dim1], ldq1, &q2[*ilo + *ilo * q2_dim1], ldq2, &cs[*ilo], &tau[*ilo], &dwork[1], ldwork, &ierr, 12L, 12L);
+        if (nh > 0) {
+            mb04wd_("No Transpose", "No Transpose", &nh, &nh, &nh, &q1[*ilo + *ilo * q1_dim1], ldq1,
+                &q2[*ilo + *ilo * q2_dim1], ldq2, &cs[*ilo], &tau[*ilo], &dwork[1], ldwork, &ierr,
+                12L, 12L);
         }
-    }
-    else if (compu && ltran)
-    {
+    } else if (compu && ltran) {
         /*        Generate U1**T and U2. */
-        if (nh > 0)
-        {
-            mb04wd_("Transpose", "No Transpose", &nh, &nh, &nh, &q1[*ilo + *ilo * q1_dim1], ldq1, &q2[*ilo + *ilo * q2_dim1], ldq2, &cs[*ilo], &tau[*ilo], &dwork[1], ldwork, &ierr, 9L, 12L);
+        if (nh > 0) {
+            mb04wd_("Transpose", "No Transpose", &nh, &nh, &nh, &q1[*ilo + *ilo * q1_dim1], ldq1,
+                &q2[*ilo + *ilo * q2_dim1], ldq2, &cs[*ilo], &tau[*ilo], &dwork[1], ldwork, &ierr,
+                9L, 12L);
         }
-    }
-    else if (! compu && ! ltran)
-    {
+    } else if (!compu && !ltran) {
         /*        Generate V1**T and V2**T. */
         /*        Shift the vectors which define the elementary reflectors one */
         /*        column to the bottom, and set the first ilo rows and */
         /*        columns to those of the unit matrix. */
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            i__2 = max(i__,*ilo) + 1;
-            for (j = *n; j >= i__2; --j)
-            {
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            i__2 = max(i__, *ilo) + 1;
+            for (j = *n; j >= i__2; --j) {
                 q1[j + i__ * q1_dim1] = 0.;
                 /* L10: */
             }
             i__2 = *ilo + 1;
-            for (j = max(i__,*ilo); j >= i__2; --j)
-            {
+            for (j = max(i__, *ilo); j >= i__2; --j) {
                 q1[j + i__ * q1_dim1] = q1[j - 1 + i__ * q1_dim1];
                 /* L20: */
             }
-            for (j = *ilo; j >= 1; --j)
-            {
+            for (j = *ilo; j >= 1; --j) {
                 q1[j + i__ * q1_dim1] = 0.;
                 /* L30: */
             }
-            if (i__ <= *ilo)
-            {
+            if (i__ <= *ilo) {
                 q1[i__ + i__ * q1_dim1] = 1.;
             }
             /* L40: */
         }
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            i__2 = max(i__,*ilo) + 1;
-            for (j = *n; j >= i__2; --j)
-            {
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            i__2 = max(i__, *ilo) + 1;
+            for (j = *n; j >= i__2; --j) {
                 q2[j + i__ * q2_dim1] = 0.;
                 /* L50: */
             }
             i__2 = *ilo + 1;
-            for (j = max(i__,*ilo); j >= i__2; --j)
-            {
+            for (j = max(i__, *ilo); j >= i__2; --j) {
                 q2[j + i__ * q2_dim1] = q2[j - 1 + i__ * q2_dim1];
                 /* L60: */
             }
-            for (j = *ilo; j >= 1; --j)
-            {
+            for (j = *ilo; j >= 1; --j) {
                 q2[j + i__ * q2_dim1] = 0.;
                 /* L70: */
             }
             /* L80: */
         }
         nh = *n - *ilo;
-        if (nh > 0)
-        {
-            mb04wd_("Transpose", "Transpose", &nh, &nh, &nh, &q1[*ilo + 1 + (*ilo + 1) * q1_dim1], ldq1, &q2[*ilo + 1 + (*ilo + 1) * q2_dim1], ldq2, &cs[*ilo], &tau[*ilo], &dwork[1], ldwork, &ierr, 9L, 9L);
+        if (nh > 0) {
+            mb04wd_("Transpose", "Transpose", &nh, &nh, &nh, &q1[*ilo + 1 + (*ilo + 1) * q1_dim1],
+                ldq1, &q2[*ilo + 1 + (*ilo + 1) * q2_dim1], ldq2, &cs[*ilo], &tau[*ilo], &dwork[1],
+                ldwork, &ierr, 9L, 9L);
         }
-    }
-    else if (! compu && ltran)
-    {
+    } else if (!compu && ltran) {
         /*        Generate V1 and V2**T. */
         /*        Shift the vectors which define the elementary reflectors one */
         /*        column to the right/bottom, and set the first ilo rows and */
         /*        columns to those of the unit matrix. */
         i__1 = *ilo + 1;
-        for (j = *n; j >= i__1; --j)
-        {
+        for (j = *n; j >= i__1; --j) {
             i__2 = j - 1;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 q1[i__ + j * q1_dim1] = 0.;
                 /* L90: */
             }
             i__2 = *n;
-            for (i__ = j + 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = j + 1; i__ <= i__2; ++i__) {
                 q1[i__ + j * q1_dim1] = q1[i__ + (j - 1) * q1_dim1];
                 /* L100: */
             }
@@ -356,34 +325,30 @@ ftnlen trans_len;
         }
         dlaset_("All", n, ilo, &c_b9, &c_b10, &q1[q1_offset], ldq1, 3L);
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            i__2 = max(i__,*ilo) + 1;
-            for (j = *n; j >= i__2; --j)
-            {
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            i__2 = max(i__, *ilo) + 1;
+            for (j = *n; j >= i__2; --j) {
                 q2[j + i__ * q2_dim1] = 0.;
                 /* L120: */
             }
             i__2 = *ilo + 1;
-            for (j = max(i__,*ilo); j >= i__2; --j)
-            {
+            for (j = max(i__, *ilo); j >= i__2; --j) {
                 q2[j + i__ * q2_dim1] = q2[j - 1 + i__ * q2_dim1];
                 /* L130: */
             }
-            for (j = *ilo; j >= 1; --j)
-            {
+            for (j = *ilo; j >= 1; --j) {
                 q2[j + i__ * q2_dim1] = 0.;
                 /* L140: */
             }
             /* L150: */
         }
         nh = *n - *ilo;
-        if (nh > 0)
-        {
-            mb04wd_("No Transpose", "Transpose", &nh, &nh, &nh, &q1[*ilo + 1 + (*ilo + 1) * q1_dim1], ldq1, &q2[*ilo + 1 + (*ilo + 1) * q2_dim1], ldq2, &cs[*ilo], &tau[*ilo], &dwork[1], ldwork, &ierr, 12L, 9L);
+        if (nh > 0) {
+            mb04wd_("No Transpose", "Transpose", &nh, &nh, &nh,
+                &q1[*ilo + 1 + (*ilo + 1) * q1_dim1], ldq1, &q2[*ilo + 1 + (*ilo + 1) * q2_dim1],
+                ldq2, &cs[*ilo], &tau[*ilo], &dwork[1], ldwork, &ierr, 12L, 9L);
         }
     }
     return 0;
     /* *** Last line of MB04WR *** */
 } /* mb04wr_ */
-

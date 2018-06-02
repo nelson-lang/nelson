@@ -17,50 +17,57 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocLinkItem.hpp"
-#include "characters_encoding.hpp"
-#include "XmlDocumentTags.hpp"
 #include "HtmlTags.hpp"
+#include "XmlDocumentTags.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    XmlDocLinkItem::XmlDocLinkItem(std::wstring name, std::wstring link)
-    {
-        this->_name = name;
-        this->_link = link;
-    }
-    //=============================================================================
-    XmlDocLinkItem::~XmlDocLinkItem()
-    {
-        this->_name = L"";
-        this->_link = L"";
-    }
-    //=============================================================================
-    std::wstring XmlDocLinkItem::getName()
-    {
-        return this->_name;
-    }
-    //=============================================================================
-    std::wstring XmlDocLinkItem::getLink()
-    {
-        return this->_link;
-    }
-    //=============================================================================
-    std::wstring XmlDocLinkItem::getItemType()
-    {
-        return  utf8_to_wstring(XML_LINK_TAG);
-    }
-    //=============================================================================
-    bool XmlDocLinkItem::writeAsHtml(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + "<a href = \"" + wstring_to_utf8(this->_link) + "\" class = \"link\">" + wstring_to_utf8(this->_name) + HTML_A_OUT_TAG;
-        return true;
-    }
-    //=============================================================================
-    bool XmlDocLinkItem::writeAsMarkdown(std::string &utf8stream)
-    {
-        utf8stream = utf8stream +  "[" + wstring_to_utf8(this->_name) + "](" + wstring_to_utf8(this->_link) + ")";
-        return true;
-    }
-    //=============================================================================
+//=============================================================================
+XmlDocLinkItem::XmlDocLinkItem(std::wstring name, std::wstring link)
+{
+    this->_name = name;
+    this->_link = link;
+}
+//=============================================================================
+XmlDocLinkItem::~XmlDocLinkItem()
+{
+    this->_name = L"";
+    this->_link = L"";
+}
+//=============================================================================
+std::wstring
+XmlDocLinkItem::getName()
+{
+    return this->_name;
+}
+//=============================================================================
+std::wstring
+XmlDocLinkItem::getLink()
+{
+    return this->_link;
+}
+//=============================================================================
+std::wstring
+XmlDocLinkItem::getItemType()
+{
+    return utf8_to_wstring(XML_LINK_TAG);
+}
+//=============================================================================
+bool
+XmlDocLinkItem::writeAsHtml(std::string& utf8stream)
+{
+    utf8stream = utf8stream + "<a href = \"" + wstring_to_utf8(this->_link) + "\" class = \"link\">"
+        + wstring_to_utf8(this->_name) + HTML_A_OUT_TAG;
+    return true;
+}
+//=============================================================================
+bool
+XmlDocLinkItem::writeAsMarkdown(std::string& utf8stream)
+{
+    utf8stream = utf8stream + "[" + wstring_to_utf8(this->_name) + "]("
+        + wstring_to_utf8(this->_link) + ")";
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

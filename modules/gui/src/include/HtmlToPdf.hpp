@@ -18,15 +18,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsGui_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    extern "C"
-    {
-        NLSGUI_IMPEXP bool HtmlFileToPdfFile(const std::wstring &htmlsrcfilename, const std::wstring &pdfdestfilename);
-        NLSGUI_IMPEXP bool HtmlStreamToPdfFile(const std::wstring &htmlstream, const std::wstring &pdfdestfilename);
-    }
-
+extern "C"
+{
+    NLSGUI_IMPEXP bool
+    HtmlFileToPdfFile(const std::wstring& htmlsrcfilename, const std::wstring& pdfdestfilename);
+    NLSGUI_IMPEXP bool
+    HtmlStreamToPdfFile(const std::wstring& htmlstream, const std::wstring& pdfdestfilename);
 }
+
+} // namespace Nelson
 //=============================================================================

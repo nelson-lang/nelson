@@ -16,13 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "BsdTerminal.hpp"
+#include "NelsonHistory.hpp"
+#include "characters_encoding.hpp"
+#include "linenoise.h"
 #include <boost/algorithm/string/predicate.hpp>
 #include <cstring>
 #include <iostream>
-#include "linenoise.h"
-#include "BsdTerminal.hpp"
-#include "characters_encoding.hpp"
-#include "NelsonHistory.hpp"
 //=============================================================================
 BsdTerminal::BsdTerminal()
 {
@@ -30,45 +30,36 @@ BsdTerminal::BsdTerminal()
     atPrompt = false;
 }
 //=============================================================================
-BsdTerminal::~BsdTerminal()
-{
-}
+BsdTerminal::~BsdTerminal() {}
 //=============================================================================
-std::wstring BsdTerminal::getTextLine(std::wstring prompt, bool bIsInput)
+std::wstring
+BsdTerminal::getTextLine(std::wstring prompt, bool bIsInput)
 {
     atPrompt = true;
-    if (!prompt.empty())
-    {
+    if (!prompt.empty()) {
         this->diary.writeMessage(prompt);
     }
-    char *line = linenoise(wstring_to_utf8(prompt).c_str());
+    char* line = linenoise(wstring_to_utf8(prompt).c_str());
     std::wstring retLineW = L"";
-    if (line)
-    {
+    if (line) {
         std::string retLine = line;
         linenoiseFree(line);
         line = nullptr;
         retLineW = utf8_to_wstring(retLine);
-        if (retLineW.empty())
-        {
+        if (retLineW.empty()) {
             retLineW = L"\n";
         }
-        if (!bIsInput)
-        {
+        if (!bIsInput) {
             Nelson::History::addLine(retLineW);
         }
         this->diary.writeMessage(retLineW);
-    }
-    else
-    {
+    } else {
         retLineW = L"\n";
         atPrompt = false;
         return retLineW;
     }
-    if (bIsInput)
-    {
-        if (boost::algorithm::ends_with(retLineW, L"\n"))
-        {
+    if (bIsInput) {
+        if (boost::algorithm::ends_with(retLineW, L"\n")) {
             retLineW.pop_back();
         }
         Nelson::History::setToken(L"");
@@ -77,32 +68,36 @@ std::wstring BsdTerminal::getTextLine(std::wstring prompt, bool bIsInput)
     return retLineW;
 }
 //=============================================================================
-std::wstring BsdTerminal::getInput(std::wstring prompt)
+std::wstring
+BsdTerminal::getInput(std::wstring prompt)
 {
     return getTextLine(prompt, true);
 }
 //=============================================================================
-std::wstring BsdTerminal::getLine(std::wstring prompt)
+std::wstring
+BsdTerminal::getLine(std::wstring prompt)
 {
     return getTextLine(prompt, false);
 }
 //=============================================================================
-std::string BsdTerminal::getLine(std::string prompt)
+std::string
+BsdTerminal::getLine(std::string prompt)
 {
     std::wstring wline = getLine(utf8_to_wstring(prompt));
     return wstring_to_utf8(wline);
 }
 //=============================================================================
-size_t BsdTerminal::getTerminalWidth()
+size_t
+BsdTerminal::getTerminalWidth()
 {
     return 80;
 }
 //=============================================================================
-void BsdTerminal::outputMessage(std::wstring msg)
+void
+BsdTerminal::outputMessage(std::wstring msg)
 {
     std::string _msg = wstring_to_utf8(msg);
-    if (atPrompt)
-    {
+    if (atPrompt) {
         clearLine();
         atPrompt = false;
         interruptReadLine();
@@ -110,40 +105,47 @@ void BsdTerminal::outputMessage(std::wstring msg)
     outputMessage(_msg);
 }
 //=============================================================================
-void BsdTerminal::outputMessage(std::string msg)
+void
+BsdTerminal::outputMessage(std::string msg)
 {
     fprintf(stdout, "%s", msg.c_str());
     this->diary.writeMessage(msg);
 }
 //=============================================================================
-void BsdTerminal::errorMessage(std::wstring msg)
+void
+BsdTerminal::errorMessage(std::wstring msg)
 {
     errorMessage(wstring_to_utf8(msg));
 }
 //=============================================================================
-void BsdTerminal::errorMessage(std::string msg)
+void
+BsdTerminal::errorMessage(std::string msg)
 {
     fprintf(stderr, "%s\n", msg.c_str());
     this->diary.writeMessage(msg);
 }
 //=============================================================================
-void BsdTerminal::warningMessage(std::wstring msg)
+void
+BsdTerminal::warningMessage(std::wstring msg)
 {
     warningMessage(wstring_to_utf8(msg));
 }
 //=============================================================================
-void BsdTerminal::warningMessage(std::string msg)
+void
+BsdTerminal::warningMessage(std::string msg)
 {
     fprintf(stdout, "%s", msg.c_str());
     this->diary.writeMessage(msg);
 }
 //=============================================================================
-void BsdTerminal::clearTerminal()
+void
+BsdTerminal::clearTerminal()
 {
     linenoiseClearScreen();
 }
 //=============================================================================
-bool BsdTerminal::isAtPrompt()
+bool
+BsdTerminal::isAtPrompt()
 {
     return atPrompt;
 }

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,12 +12,13 @@ static doublereal c_b11 = 1.;
 static integer c__2 = 2;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb03wd_(job, compz, n, p, ilo, ihi, iloz, ihiz, h__, ldh1, ldh2, z__, ldz1, ldz2, wr, wi, dwork, ldwork, info, job_len, compz_len)
-char *job, *compz;
+EXPORTSYMBOL /* Subroutine */ int mb03wd_(job, compz, n, p, ilo, ihi, iloz, ihiz, h__, ldh1, ldh2,
+    z__, ldz1, ldz2, wr, wi, dwork, ldwork, info, job_len, compz_len) char *job,
+    *compz;
 integer *n, *p, *ilo, *ihi, *iloz, *ihiz;
-doublereal *h__;
+doublereal* h__;
 integer *ldh1, *ldh2;
-doublereal *z__;
+doublereal* z__;
 integer *ldz1, *ldz2;
 doublereal *wr, *wi, *dwork;
 integer *ldwork, *info;
@@ -53,7 +54,8 @@ ftnlen compz_len;
     extern doublereal dlanhs_();
     extern /* Subroutine */ int dlaset_(), dlartg_(), xerbla_(), dlarfx_();
     extern doublereal dlantr_();
-    static doublereal smlnum, hh10, hh11, hh12, hh21, hh22, hp00, hp01, ave, hp02, hp11, hp12, hp22, h33s, h44s, tau;
+    static doublereal smlnum, hh10, hh11, hh12, hh21, hh22, hp00, hp01, ave, hp02, hp11, hp12, hp22,
+        h33s, h44s, tau;
     static integer itn, its;
     static doublereal ulp, tst1;
     /*     SLICOT RELEASE 5.0. */
@@ -261,103 +263,66 @@ ftnlen compz_len;
     initz = lsame_(compz, "I", 1L, 1L);
     wantz = lsame_(compz, "V", 1L, 1L) || initz;
     *info = 0;
-    if (! (wantt || lsame_(job, "E", 1L, 1L)))
-    {
+    if (!(wantt || lsame_(job, "E", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (wantz || lsame_(compz, "N", 1L, 1L)))
-    {
+    } else if (!(wantz || lsame_(compz, "N", 1L, 1L))) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*p < 1)
-    {
+    } else if (*p < 1) {
         *info = -4;
-    }
-    else if (*ilo < 1 || *ilo > max(1,*n))
-    {
+    } else if (*ilo < 1 || *ilo > max(1, *n)) {
         *info = -5;
-    }
-    else if (*ihi < min(*ilo,*n) || *ihi > *n)
-    {
+    } else if (*ihi < min(*ilo, *n) || *ihi > *n) {
         *info = -6;
-    }
-    else if (*iloz < 1 || *iloz > *ilo)
-    {
+    } else if (*iloz < 1 || *iloz > *ilo) {
         *info = -7;
-    }
-    else if (*ihiz < *ihi || *ihiz > *n)
-    {
+    } else if (*ihiz < *ihi || *ihiz > *n) {
         *info = -8;
-    }
-    else if (*ldh1 < max(1,*n))
-    {
+    } else if (*ldh1 < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldh2 < max(1,*n))
-    {
+    } else if (*ldh2 < max(1, *n)) {
         *info = -11;
-    }
-    else if (*ldz1 < 1 || wantz && *ldz1 < *n)
-    {
+    } else if (*ldz1 < 1 || wantz && *ldz1 < *n) {
         *info = -13;
-    }
-    else if (*ldz2 < 1 || wantz && *ldz2 < *n)
-    {
+    } else if (*ldz2 < 1 || wantz && *ldz2 < *n) {
         *info = -14;
-    }
-    else if (*ldwork < *ihi - *ilo + *p - 1)
-    {
+    } else if (*ldwork < *ihi - *ilo + *p - 1) {
         *info = -18;
     }
-    if (*info == 0)
-    {
-        if (*ilo > 1)
-        {
-            if (h__[*ilo + (*ilo - 1 + h_dim2) * h_dim1] != 0.)
-            {
+    if (*info == 0) {
+        if (*ilo > 1) {
+            if (h__[*ilo + (*ilo - 1 + h_dim2) * h_dim1] != 0.) {
                 *info = -5;
             }
-        }
-        else if (*ihi < *n)
-        {
-            if (h__[*ihi + 1 + (*ihi + h_dim2) * h_dim1] != 0.)
-            {
+        } else if (*ihi < *n) {
+            if (h__[*ihi + 1 + (*ihi + h_dim2) * h_dim1] != 0.) {
                 *info = -6;
             }
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB03WD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     /*     Initialize Z, if necessary. */
-    if (initz)
-    {
+    if (initz) {
         i__1 = *p;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dlaset_("Full", n, n, &c_b10, &c_b11, &z__[(j * z_dim2 + 1) * z_dim1 + 1], ldz1, 4L);
             /* L10: */
         }
     }
     nh = *ihi - *ilo + 1;
-    if (nh == 1)
-    {
+    if (nh == 1) {
         hp00 = 1.;
         i__1 = *p;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             hp00 *= h__[*ilo + (*ilo + j * h_dim2) * h_dim1];
             /* L20: */
         }
@@ -371,40 +336,40 @@ ftnlen compz_len;
     ovfl = 1. / unfl;
     dlabad_(&unfl, &ovfl);
     ulp = dlamch_("Precision", 9L);
-    smlnum = unfl * ((doublereal) nh / ulp);
+    smlnum = unfl * ((doublereal)nh / ulp);
     /*     Set the elements in rows and columns ILO to IHI to zero below the */
     /*     first subdiagonal in H(*,*,1) and below the first diagonal in */
     /*     H(*,*,j), j >= 2. In the same loop, compute and store in */
     /*     DWORK(NH:NH+P-2) the 1-norms of the matrices H_2, ..., H_p, to be */
     /*     used later. */
     i__ = nh;
-    s = ulp * (doublereal) (*n);
-    if (nh > 2)
-    {
+    s = ulp * (doublereal)(*n);
+    if (nh > 2) {
         i__1 = nh - 2;
         i__2 = nh - 2;
-        dlaset_("Lower", &i__1, &i__2, &c_b10, &c_b10, &h__[*ilo + 2 + (*ilo + h_dim2) * h_dim1], ldh1, 5L);
+        dlaset_("Lower", &i__1, &i__2, &c_b10, &c_b10, &h__[*ilo + 2 + (*ilo + h_dim2) * h_dim1],
+            ldh1, 5L);
     }
     i__1 = *p;
-    for (j = 2; j <= i__1; ++j)
-    {
+    for (j = 2; j <= i__1; ++j) {
         i__2 = nh - 1;
         i__3 = nh - 1;
-        dlaset_("Lower", &i__2, &i__3, &c_b10, &c_b10, &h__[*ilo + 1 + (*ilo + j * h_dim2) * h_dim1], ldh1, 5L);
-        dwork[i__] = s * dlantr_("1-norm", "Upper", "NonUnit", &nh, &nh, &h__[*ilo + (*ilo + j * h_dim2) * h_dim1], ldh1, &dwork[1], 6L, 5L, 7L);
+        dlaset_("Lower", &i__2, &i__3, &c_b10, &c_b10,
+            &h__[*ilo + 1 + (*ilo + j * h_dim2) * h_dim1], ldh1, 5L);
+        dwork[i__] = s
+            * dlantr_("1-norm", "Upper", "NonUnit", &nh, &nh,
+                  &h__[*ilo + (*ilo + j * h_dim2) * h_dim1], ldh1, &dwork[1], 6L, 5L, 7L);
         ++i__;
         /* L30: */
     }
     /*     I1 and I2 are the indices of the first row and last column of H */
     /*     to which transformations must be applied. If eigenvalues only are */
     /*     being computed, I1 and I2 are set inside the main loop. */
-    if (wantt)
-    {
+    if (wantt) {
         i1 = 1;
         i2 = *n;
     }
-    if (wantz)
-    {
+    if (wantz) {
         nz = *ihiz - *iloz + 1;
     }
     /*     ITN is the total number of QR iterations allowed. */
@@ -427,32 +392,28 @@ L40:
     /*     DWORK(NH-I+L:NH-1): the current elements of the first */
     /*                   supradiagonal of h. */
     i__1 = itn;
-    for (its = 0; its <= i__1; ++its)
-    {
+    for (its = 0; its <= i__1; ++its) {
         /*        Initialization: compute H(I,I) (and H(I,I-1) if I > L). */
         hp22 = 1.;
-        if (i__ > l)
-        {
+        if (i__ > l) {
             hp12 = 0.;
             hp11 = 1.;
             i__2 = *p;
-            for (j = 2; j <= i__2; ++j)
-            {
+            for (j = 2; j <= i__2; ++j) {
                 hp22 *= h__[i__ + (i__ + j * h_dim2) * h_dim1];
-                hp12 = hp11 * h__[i__ - 1 + (i__ + j * h_dim2) * h_dim1] + hp12 * h__[i__ + (i__ + j * h_dim2) * h_dim1];
+                hp12 = hp11 * h__[i__ - 1 + (i__ + j * h_dim2) * h_dim1]
+                    + hp12 * h__[i__ + (i__ + j * h_dim2) * h_dim1];
                 hp11 *= h__[i__ - 1 + (i__ - 1 + j * h_dim2) * h_dim1];
                 /* L50: */
             }
             hh21 = h__[i__ + (i__ - 1 + h_dim2) * h_dim1] * hp11;
-            hh22 = h__[i__ + (i__ - 1 + h_dim2) * h_dim1] * hp12 + h__[i__ + (i__ + h_dim2) * h_dim1] * hp22;
+            hh22 = h__[i__ + (i__ - 1 + h_dim2) * h_dim1] * hp12
+                + h__[i__ + (i__ + h_dim2) * h_dim1] * hp22;
             wr[i__] = hh22;
             wi[i__] = hh21;
-        }
-        else
-        {
+        } else {
             i__2 = *p;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 hp22 *= h__[i__ + (i__ + j * h_dim2) * h_dim1];
                 /* L60: */
             }
@@ -463,46 +424,47 @@ L40:
         /*        diagonal and the first two supradiagonals of T, as well as */
         /*        the current elements of the central tridiagonal of H. */
         i__2 = l + 1;
-        for (k = i__; k >= i__2; --k)
-        {
+        for (k = i__; k >= i__2; --k) {
             /*           Evaluate H(K-1,K-1), H(K-1,K) (and H(K-1,K-2) if K > L+1). */
             hp00 = 1.;
             hp01 = 0.;
-            if (k > l + 1)
-            {
+            if (k > l + 1) {
                 hp02 = 0.;
                 i__3 = *p;
-                for (j = 2; j <= i__3; ++j)
-                {
-                    hp02 = hp00 * h__[k - 2 + (k + j * h_dim2) * h_dim1] + hp01 * h__[k - 1 + (k + j * h_dim2) * h_dim1] + hp02 * h__[k + (k + j * h_dim2) * h_dim1];
-                    hp01 = hp00 * h__[k - 2 + (k - 1 + j * h_dim2) * h_dim1] + hp01 * h__[k - 1 + (k - 1 + j * h_dim2) * h_dim1];
+                for (j = 2; j <= i__3; ++j) {
+                    hp02 = hp00 * h__[k - 2 + (k + j * h_dim2) * h_dim1]
+                        + hp01 * h__[k - 1 + (k + j * h_dim2) * h_dim1]
+                        + hp02 * h__[k + (k + j * h_dim2) * h_dim1];
+                    hp01 = hp00 * h__[k - 2 + (k - 1 + j * h_dim2) * h_dim1]
+                        + hp01 * h__[k - 1 + (k - 1 + j * h_dim2) * h_dim1];
                     hp00 *= h__[k - 2 + (k - 2 + j * h_dim2) * h_dim1];
                     /* L70: */
                 }
                 hh10 = h__[k - 1 + (k - 2 + h_dim2) * h_dim1] * hp00;
-                hh11 = h__[k - 1 + (k - 2 + h_dim2) * h_dim1] * hp01 + h__[k - 1 + (k - 1 + h_dim2) * h_dim1] * hp11;
-                hh12 = h__[k - 1 + (k - 2 + h_dim2) * h_dim1] * hp02 + h__[k - 1 + (k - 1 + h_dim2) * h_dim1] * hp12 + h__[k - 1 + (k + h_dim2) * h_dim1] * hp22;
+                hh11 = h__[k - 1 + (k - 2 + h_dim2) * h_dim1] * hp01
+                    + h__[k - 1 + (k - 1 + h_dim2) * h_dim1] * hp11;
+                hh12 = h__[k - 1 + (k - 2 + h_dim2) * h_dim1] * hp02
+                    + h__[k - 1 + (k - 1 + h_dim2) * h_dim1] * hp12
+                    + h__[k - 1 + (k + h_dim2) * h_dim1] * hp22;
                 wi[k - 1] = hh10;
-            }
-            else
-            {
+            } else {
                 hh10 = 0.;
                 hh11 = h__[k - 1 + (k - 1 + h_dim2) * h_dim1] * hp11;
-                hh12 = h__[k - 1 + (k - 1 + h_dim2) * h_dim1] * hp12 + h__[k - 1 + (k + h_dim2) * h_dim1] * hp22;
+                hh12 = h__[k - 1 + (k - 1 + h_dim2) * h_dim1] * hp12
+                    + h__[k - 1 + (k + h_dim2) * h_dim1] * hp22;
             }
             wr[k - 1] = hh11;
             dwork[nh - i__ + k - 1] = hh12;
             /*           Test for a negligible subdiagonal element. */
             tst1 = abs(hh11) + abs(hh22);
-            if (tst1 == 0.)
-            {
+            if (tst1 == 0.) {
                 i__3 = i__ - l + 1;
-                tst1 = dlanhs_("1-norm", &i__3, &h__[l + (l + h_dim2) * h_dim1], ldh1, &dwork[1], 6L);
+                tst1 = dlanhs_(
+                    "1-norm", &i__3, &h__[l + (l + h_dim2) * h_dim1], ldh1, &dwork[1], 6L);
             }
             /* Computing MAX */
             d__1 = ulp * tst1;
-            if (abs(hh21) <= max(d__1,smlnum))
-            {
+            if (abs(hh21) <= max(d__1, smlnum)) {
                 goto L90;
             }
             /*           Update the values for the next cycle. */
@@ -513,76 +475,84 @@ L40:
             hh21 = hh10;
             /* L80: */
         }
-L90:
+    L90:
         l = k;
-        if (l > *ilo)
-        {
+        if (l > *ilo) {
             /*           H(L,L-1) is negligible. */
-            if (wantt)
-            {
+            if (wantt) {
                 /*              If H(L,L-1,1) is also negligible, set it to 0; otherwise, */
                 /*              annihilate the subdiagonal elements bottom-up, and */
                 /*              restore the triangular form of H(*,*,j). Since H(L,L-1) */
                 /*              is negligible, the second case can only appear when the */
                 /*              product of H(L-1,L-1,j), j >= 2, is negligible. */
-                tst1 = (d__1 = h__[l - 1 + (l - 1 + h_dim2) * h_dim1], abs(d__1)) + (d__2 = h__[l + (l + h_dim2) * h_dim1], abs(d__2));
-                if (tst1 == 0.)
-                {
+                tst1 = (d__1 = h__[l - 1 + (l - 1 + h_dim2) * h_dim1], abs(d__1))
+                    + (d__2 = h__[l + (l + h_dim2) * h_dim1], abs(d__2));
+                if (tst1 == 0.) {
                     i__2 = i__ - l + 1;
-                    tst1 = dlanhs_("1-norm", &i__2, &h__[l + (l + h_dim2) * h_dim1], ldh1, &dwork[1], 6L);
+                    tst1 = dlanhs_(
+                        "1-norm", &i__2, &h__[l + (l + h_dim2) * h_dim1], ldh1, &dwork[1], 6L);
                 }
                 /* Computing MAX */
                 d__2 = ulp * tst1;
-                if ((d__1 = h__[l + (l - 1 + h_dim2) * h_dim1], abs(d__1)) > max(d__2,smlnum))
-                {
+                if ((d__1 = h__[l + (l - 1 + h_dim2) * h_dim1], abs(d__1)) > max(d__2, smlnum)) {
                     i__2 = l;
-                    for (k = i__; k >= i__2; --k)
-                    {
+                    for (k = i__; k >= i__2; --k) {
                         i__3 = *p - 1;
-                        for (j = 1; j <= i__3; ++j)
-                        {
+                        for (j = 1; j <= i__3; ++j) {
                             /*                       Compute G to annihilate from the right the */
                             /*                       (K,K-1) element of the matrix H_j. */
                             v[0] = h__[k + (k - 1 + j * h_dim2) * h_dim1];
                             dlarfg_(&c__2, &h__[k + (k + j * h_dim2) * h_dim1], v, &c__1, &tau);
                             h__[k + (k - 1 + j * h_dim2) * h_dim1] = 0.;
                             v[1] = 1.;
-                            /*                       Apply G from the right to transform the columns */
+                            /*                       Apply G from the right to transform the columns
+                             */
                             /*                       of the matrix H_j in rows I1 to K-1. */
                             i__4 = k - i1;
-                            dlarfx_("Right", &i__4, &c__2, v, &tau, &h__[i1 + (k - 1 + j * h_dim2) * h_dim1], ldh1, &dwork[1], 5L);
-                            /*                       Apply G from the left to transform the rows of */
+                            dlarfx_("Right", &i__4, &c__2, v, &tau,
+                                &h__[i1 + (k - 1 + j * h_dim2) * h_dim1], ldh1, &dwork[1], 5L);
+                            /*                       Apply G from the left to transform the rows of
+                             */
                             /*                       the matrix H_(j+1) in columns K-1 to I2. */
                             i__4 = i2 - k + 2;
-                            dlarfx_("Left", &c__2, &i__4, v, &tau, &h__[k - 1 + (k - 1 + (j + 1) * h_dim2) * h_dim1], ldh1, &dwork[1], 4L);
-                            if (wantz)
-                            {
-                                /*                          Accumulate transformations in the matrix */
+                            dlarfx_("Left", &c__2, &i__4, v, &tau,
+                                &h__[k - 1 + (k - 1 + (j + 1) * h_dim2) * h_dim1], ldh1, &dwork[1],
+                                4L);
+                            if (wantz) {
+                                /*                          Accumulate transformations in the matrix
+                                 */
                                 /*                          Z_(j+1). */
-                                dlarfx_("Right", &nz, &c__2, v, &tau, &z__[*iloz + (k - 1 + (j + 1) * z_dim2) * z_dim1], ldz1, &dwork[1], 5L);
+                                dlarfx_("Right", &nz, &c__2, v, &tau,
+                                    &z__[*iloz + (k - 1 + (j + 1) * z_dim2) * z_dim1], ldz1,
+                                    &dwork[1], 5L);
                             }
                             /* L100: */
                         }
-                        if (k < i__)
-                        {
+                        if (k < i__) {
                             /*                       Compute G to annihilate from the right the */
                             /*                       (K+1,K) element of the matrix H_p. */
                             v[0] = h__[k + 1 + (k + *p * h_dim2) * h_dim1];
-                            dlarfg_(&c__2, &h__[k + 1 + (k + 1 + *p * h_dim2) * h_dim1], v, &c__1, &tau);
+                            dlarfg_(&c__2, &h__[k + 1 + (k + 1 + *p * h_dim2) * h_dim1], v, &c__1,
+                                &tau);
                             h__[k + 1 + (k + *p * h_dim2) * h_dim1] = 0.;
                             v[1] = 1.;
-                            /*                       Apply G from the right to transform the columns */
+                            /*                       Apply G from the right to transform the columns
+                             */
                             /*                       of the matrix H_p in rows I1 to K. */
                             i__3 = k - i1 + 1;
-                            dlarfx_("Right", &i__3, &c__2, v, &tau, &h__[i1 + (k + *p * h_dim2) * h_dim1], ldh1, &dwork[1], 5L);
-                            /*                       Apply G from the left to transform the rows of */
+                            dlarfx_("Right", &i__3, &c__2, v, &tau,
+                                &h__[i1 + (k + *p * h_dim2) * h_dim1], ldh1, &dwork[1], 5L);
+                            /*                       Apply G from the left to transform the rows of
+                             */
                             /*                       the matrix H_1 in columns K to I2. */
                             i__3 = i2 - k + 1;
-                            dlarfx_("Left", &c__2, &i__3, v, &tau, &h__[k + (k + h_dim2) * h_dim1], ldh1, &dwork[1], 4L);
-                            if (wantz)
-                            {
-                                /*                          Accumulate transformations in the matrix Z_1. */
-                                dlarfx_("Right", &nz, &c__2, v, &tau, &z__[*iloz + (k + z_dim2) * z_dim1], ldz1, &dwork[1], 5L);
+                            dlarfx_("Left", &c__2, &i__3, v, &tau, &h__[k + (k + h_dim2) * h_dim1],
+                                ldh1, &dwork[1], 4L);
+                            if (wantz) {
+                                /*                          Accumulate transformations in the matrix
+                                 * Z_1. */
+                                dlarfx_("Right", &nz, &c__2, v, &tau,
+                                    &z__[*iloz + (k + z_dim2) * z_dim1], ldz1, &dwork[1], 5L);
                             }
                         }
                         /* L110: */
@@ -593,28 +563,23 @@ L90:
             }
         }
         /*        Exit from loop if a submatrix of order 1 or 2 has split off. */
-        if (l >= i__ - 1)
-        {
+        if (l >= i__ - 1) {
             goto L170;
         }
         /*        Now the active submatrix is in rows and columns L to I. If */
         /*        eigenvalues only are being computed, only the active submatrix */
         /*        need be transformed. */
-        if (! wantt)
-        {
+        if (!wantt) {
             i1 = l;
             i2 = i__;
         }
-        if (its == 10 || its == 20)
-        {
+        if (its == 10 || its == 20) {
             /*           Exceptional shift. */
             s = (d__1 = wi[i__], abs(d__1)) + (d__2 = wi[i__ - 1], abs(d__2));
             h44 = s * .75 + wr[i__];
             h33 = h44;
             h43h34 = s * -.4375 * s;
-        }
-        else
-        {
+        } else {
             /*           Prepare to use Francis' double shift (i.e., second degree */
             /*           generalized Rayleigh quotient). */
             h44 = wr[i__];
@@ -622,18 +587,14 @@ L90:
             h43h34 = wi[i__] * dwork[nh - 1];
             disc = (h33 - h44) * .5;
             disc = disc * disc + h43h34;
-            if (disc > 0.)
-            {
+            if (disc > 0.) {
                 /*              Real roots: use Wilkinson's shift twice. */
                 disc = sqrt(disc);
                 ave = (h33 + h44) * .5;
-                if (abs(h33) - abs(h44) > 0.)
-                {
+                if (abs(h33) - abs(h44) > 0.) {
                     h33 = h33 * h44 - h43h34;
                     h44 = h33 / (d_sign(&disc, &ave) + ave);
-                }
-                else
-                {
+                } else {
                     h44 = d_sign(&disc, &ave) + ave;
                 }
                 h33 = h44;
@@ -642,8 +603,7 @@ L90:
         }
         /*        Look for two consecutive small subdiagonal elements. */
         i__2 = l;
-        for (m = i__ - 2; m >= i__2; --m)
-        {
+        for (m = i__ - 2; m >= i__2; --m) {
             /*           Determine the effect of starting the double-shift QR */
             /*           iteration at row M, and see if this would make H(M,M-1) */
             /*           negligible. */
@@ -663,22 +623,19 @@ L90:
             v[0] = v1;
             v[1] = v2;
             v[2] = v3;
-            if (m == l)
-            {
+            if (m == l) {
                 goto L130;
             }
             tst1 = abs(v1) * ((d__1 = wr[m - 1], abs(d__1)) + abs(h11) + abs(h22));
-            if ((d__1 = wi[m], abs(d__1)) * (abs(v2) + abs(v3)) <= ulp * tst1)
-            {
+            if ((d__1 = wi[m], abs(d__1)) * (abs(v2) + abs(v3)) <= ulp * tst1) {
                 goto L130;
             }
             /* L120: */
         }
-L130:
+    L130:
         /*        Double-shift QR step. */
         i__2 = i__ - 1;
-        for (k = m; k <= i__2; ++k)
-        {
+        for (k = m; k <= i__2; ++k) {
             /*           The first iteration of this loop determines a reflection G */
             /*           from the vector V and applies it from left and right to H, */
             /*           thus creating a nonzero bulge below the subdiagonal. */
@@ -688,42 +645,38 @@ L130:
             /*           submatrix. NR is the order of G. */
             /* Computing MIN */
             i__3 = 3, i__4 = i__ - k + 1;
-            nr = min(i__3,i__4);
+            nr = min(i__3, i__4);
             /* Computing MIN */
             i__3 = k + nr;
-            nrow = min(i__3,i__) - i1 + 1;
-            if (k > m)
-            {
+            nrow = min(i__3, i__) - i1 + 1;
+            if (k > m) {
                 dcopy_(&nr, &h__[k + (k - 1 + h_dim2) * h_dim1], &c__1, v, &c__1);
             }
             dlarfg_(&nr, v, &v[1], &c__1, &tau);
-            if (k > m)
-            {
+            if (k > m) {
                 h__[k + (k - 1 + h_dim2) * h_dim1] = v[0];
                 h__[k + 1 + (k - 1 + h_dim2) * h_dim1] = 0.;
-                if (k < i__ - 1)
-                {
+                if (k < i__ - 1) {
                     h__[k + 2 + (k - 1 + h_dim2) * h_dim1] = 0.;
                 }
-            }
-            else if (m > l)
-            {
+            } else if (m > l) {
                 h__[k + (k - 1 + h_dim2) * h_dim1] = -h__[k + (k - 1 + h_dim2) * h_dim1];
             }
             /*           Apply G from the left to transform the rows of the matrix */
             /*           H_1 in columns K to I2. */
             i__3 = i2 - k + 1;
-            mb04py_("Left", &nr, &i__3, &v[1], &tau, &h__[k + (k + h_dim2) * h_dim1], ldh1, &dwork[1], 4L);
+            mb04py_("Left", &nr, &i__3, &v[1], &tau, &h__[k + (k + h_dim2) * h_dim1], ldh1,
+                &dwork[1], 4L);
             /*           Apply G from the right to transform the columns of the */
             /*           matrix H_p in rows I1 to min(K+NR,I). */
-            mb04py_("Right", &nrow, &nr, &v[1], &tau, &h__[i1 + (k + *p * h_dim2) * h_dim1], ldh1, &dwork[1], 5L);
-            if (wantz)
-            {
+            mb04py_("Right", &nrow, &nr, &v[1], &tau, &h__[i1 + (k + *p * h_dim2) * h_dim1], ldh1,
+                &dwork[1], 5L);
+            if (wantz) {
                 /*              Accumulate transformations in the matrix Z_1. */
-                mb04py_("Right", &nz, &nr, &v[1], &tau, &z__[*iloz + (k + z_dim2) * z_dim1], ldz1, &dwork[1], 5L);
+                mb04py_("Right", &nz, &nr, &v[1], &tau, &z__[*iloz + (k + z_dim2) * z_dim1], ldz1,
+                    &dwork[1], 5L);
             }
-            for (j = *p; j >= 2; --j)
-            {
+            for (j = *p; j >= 2; --j) {
                 /*              Apply G1 (and G2, if NR = 3) from the left to transform */
                 /*              the NR-by-NR submatrix of H_j in position (K,K) to upper */
                 /*              triangular form. */
@@ -732,24 +685,24 @@ L130:
                 dcopy_(&i__3, &h__[k + 1 + (k + j * h_dim2) * h_dim1], &c__1, v, &c__1);
                 dlarfg_(&nr, &h__[k + (k + j * h_dim2) * h_dim1], v, &c__1, &tau);
                 h__[k + 1 + (k + j * h_dim2) * h_dim1] = 0.;
-                if (nr == 3)
-                {
+                if (nr == 3) {
                     h__[k + 2 + (k + j * h_dim2) * h_dim1] = 0.;
                 }
                 /*              Apply G1 from the left to transform the rows of the */
                 /*              matrix H_j in columns K+1 to I2. */
                 i__3 = i2 - k;
-                mb04py_("Left", &nr, &i__3, v, &tau, &h__[k + (k + 1 + j * h_dim2) * h_dim1], ldh1, &dwork[1], 4L);
+                mb04py_("Left", &nr, &i__3, v, &tau, &h__[k + (k + 1 + j * h_dim2) * h_dim1], ldh1,
+                    &dwork[1], 4L);
                 /*              Apply G1 from the right to transform the columns of the */
                 /*              matrix H_(j-1) in rows I1 to min(K+NR,I). */
-                mb04py_("Right", &nrow, &nr, v, &tau, &h__[i1 + (k + (j - 1) * h_dim2) * h_dim1], ldh1, &dwork[1], 5L);
-                if (wantz)
-                {
+                mb04py_("Right", &nrow, &nr, v, &tau, &h__[i1 + (k + (j - 1) * h_dim2) * h_dim1],
+                    ldh1, &dwork[1], 5L);
+                if (wantz) {
                     /*                 Accumulate transformations in the matrix Z_j. */
-                    mb04py_("Right", &nz, &nr, v, &tau, &z__[*iloz + (k + j * z_dim2) * z_dim1], ldz1, &dwork[1], 5L);
+                    mb04py_("Right", &nz, &nr, v, &tau, &z__[*iloz + (k + j * z_dim2) * z_dim1],
+                        ldz1, &dwork[1], 5L);
                 }
-                if (nr == 3)
-                {
+                if (nr == 3) {
                     /*                 Compute G2. */
                     v[0] = h__[k + 2 + (k + 1 + j * h_dim2) * h_dim1];
                     dlarfg_(&c__2, &h__[k + 1 + (k + 1 + j * h_dim2) * h_dim1], v, &c__1, &tau);
@@ -757,14 +710,16 @@ L130:
                     /*                 Apply G2 from the left to transform the rows of the */
                     /*                 matrix H_j in columns K+2 to I2. */
                     i__3 = i2 - k - 1;
-                    mb04py_("Left", &c__2, &i__3, v, &tau, &h__[k + 1 + (k + 2 + j * h_dim2) * h_dim1], ldh1, &dwork[1], 4L);
+                    mb04py_("Left", &c__2, &i__3, v, &tau,
+                        &h__[k + 1 + (k + 2 + j * h_dim2) * h_dim1], ldh1, &dwork[1], 4L);
                     /*                 Apply G2 from the right to transform the columns of */
                     /*                 the matrix H_(j-1) in rows I1 to min(K+3,I). */
-                    mb04py_("Right", &nrow, &c__2, v, &tau, &h__[i1 + (k + 1 + (j - 1) * h_dim2) * h_dim1], ldh1, &dwork[1], 5L);
-                    if (wantz)
-                    {
+                    mb04py_("Right", &nrow, &c__2, v, &tau,
+                        &h__[i1 + (k + 1 + (j - 1) * h_dim2) * h_dim1], ldh1, &dwork[1], 5L);
+                    if (wantz) {
                         /*                    Accumulate transformations in the matrix Z_j. */
-                        mb04py_("Right", &nz, &c__2, v, &tau, &z__[*iloz + (k + 1 + j * z_dim2) * z_dim1], ldz1, &dwork[1], 5L);
+                        mb04py_("Right", &nz, &c__2, v, &tau,
+                            &z__[*iloz + (k + 1 + j * z_dim2) * z_dim1], ldz1, &dwork[1], 5L);
                     }
                 }
                 /* L140: */
@@ -777,14 +732,11 @@ L130:
     *info = i__;
     return 0;
 L170:
-    if (l == i__)
-    {
+    if (l == i__) {
         /*        H(I,I-1,1) is negligible: one eigenvalue has converged. */
         /*        Note that WR(I) has already been set. */
         wi[i__] = 0.;
-    }
-    else if (l == i__ - 1)
-    {
+    } else if (l == i__ - 1) {
         /*        H(I-1,I-2,1) is negligible: a pair of eigenvalues have */
         /*        converged. */
         /*        Transform the 2-by-2 submatrix of H_1*H_2*...*H_p in position */
@@ -793,72 +745,63 @@ L170:
         /*        previously stored values of a similar submatrix are used. */
         /*        For real eigenvalues, a Givens transformation is used to */
         /*        triangularize the submatrix. */
-        if (wantt)
-        {
+        if (wantt) {
             hp22 = 1.;
             hp12 = 0.;
             hp11 = 1.;
             i__1 = *p;
-            for (j = 2; j <= i__1; ++j)
-            {
+            for (j = 2; j <= i__1; ++j) {
                 hp22 *= h__[i__ + (i__ + j * h_dim2) * h_dim1];
-                hp12 = hp11 * h__[i__ - 1 + (i__ + j * h_dim2) * h_dim1] + hp12 * h__[i__ + (i__ + j * h_dim2) * h_dim1];
+                hp12 = hp11 * h__[i__ - 1 + (i__ + j * h_dim2) * h_dim1]
+                    + hp12 * h__[i__ + (i__ + j * h_dim2) * h_dim1];
                 hp11 *= h__[i__ - 1 + (i__ - 1 + j * h_dim2) * h_dim1];
                 /* L180: */
             }
             hh21 = h__[i__ + (i__ - 1 + h_dim2) * h_dim1] * hp11;
-            hh22 = h__[i__ + (i__ - 1 + h_dim2) * h_dim1] * hp12 + h__[i__ + (i__ + h_dim2) * h_dim1] * hp22;
+            hh22 = h__[i__ + (i__ - 1 + h_dim2) * h_dim1] * hp12
+                + h__[i__ + (i__ + h_dim2) * h_dim1] * hp22;
             hh11 = h__[i__ - 1 + (i__ - 1 + h_dim2) * h_dim1] * hp11;
-            hh12 = h__[i__ - 1 + (i__ - 1 + h_dim2) * h_dim1] * hp12 + h__[i__ - 1 + (i__ + h_dim2) * h_dim1] * hp22;
-        }
-        else
-        {
+            hh12 = h__[i__ - 1 + (i__ - 1 + h_dim2) * h_dim1] * hp12
+                + h__[i__ - 1 + (i__ + h_dim2) * h_dim1] * hp22;
+        } else {
             hh11 = wr[i__ - 1];
             hh12 = dwork[nh - 1];
             hh21 = wi[i__];
             hh22 = wr[i__];
         }
-        dlanv2_(&hh11, &hh12, &hh21, &hh22, &wr[i__ - 1], &wi[i__ - 1], &wr[i__], &wi[i__], &cs, &sn);
-        if (wantt)
-        {
+        dlanv2_(
+            &hh11, &hh12, &hh21, &hh22, &wr[i__ - 1], &wi[i__ - 1], &wr[i__], &wi[i__], &cs, &sn);
+        if (wantt) {
             /*           Detect negligible diagonal elements in positions (I-1,I-1) */
             /*           and (I,I) in H_j, J > 1. */
             jmin = 0;
             jmax = 0;
             i__1 = *p;
-            for (j = 2; j <= i__1; ++j)
-            {
-                if (jmin == 0)
-                {
-                    if ((d__1 = h__[i__ - 1 + (i__ - 1 + j * h_dim2) * h_dim1], abs(d__1)) <= dwork[nh + j - 2])
-                    {
+            for (j = 2; j <= i__1; ++j) {
+                if (jmin == 0) {
+                    if ((d__1 = h__[i__ - 1 + (i__ - 1 + j * h_dim2) * h_dim1], abs(d__1))
+                        <= dwork[nh + j - 2]) {
                         jmin = j;
                     }
                 }
-                if ((d__1 = h__[i__ + (i__ + j * h_dim2) * h_dim1], abs(d__1)) <= dwork[nh + j - 2])
-                {
+                if ((d__1 = h__[i__ + (i__ + j * h_dim2) * h_dim1], abs(d__1))
+                    <= dwork[nh + j - 2]) {
                     jmax = j;
                 }
                 /* L190: */
             }
-            if (jmin != 0 && jmax != 0)
-            {
+            if (jmin != 0 && jmax != 0) {
                 /*              Choose the shorter path if zero elements in both */
                 /*              (I-1,I-1) and (I,I) positions are present. */
-                if (jmin - 1 <= *p - jmax + 1)
-                {
+                if (jmin - 1 <= *p - jmax + 1) {
                     jmax = 0;
-                }
-                else
-                {
+                } else {
                     jmin = 0;
                 }
             }
-            if (jmin != 0)
-            {
+            if (jmin != 0) {
                 i__1 = jmin - 1;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     /*                 Compute G to annihilate from the right the (I,I-1) */
                     /*                 element of the matrix H_j. */
                     v[0] = h__[i__ + (i__ - 1 + j * h_dim2) * h_dim1];
@@ -868,41 +811,43 @@ L170:
                     /*                 Apply G from the right to transform the columns of the */
                     /*                 matrix H_j in rows I1 to I-1. */
                     i__2 = i__ - i1;
-                    dlarfx_("Right", &i__2, &c__2, v, &tau, &h__[i1 + (i__ - 1 + j * h_dim2) * h_dim1], ldh1, &dwork[1], 5L);
+                    dlarfx_("Right", &i__2, &c__2, v, &tau,
+                        &h__[i1 + (i__ - 1 + j * h_dim2) * h_dim1], ldh1, &dwork[1], 5L);
                     /*                 Apply G from the left to transform the rows of the */
                     /*                 matrix H_(j+1) in columns I-1 to I2. */
                     i__2 = i2 - i__ + 2;
-                    dlarfx_("Left", &c__2, &i__2, v, &tau, &h__[i__ - 1 + (i__ - 1 + (j + 1) * h_dim2) * h_dim1], ldh1, &dwork[1], 4L);
-                    if (wantz)
-                    {
+                    dlarfx_("Left", &c__2, &i__2, v, &tau,
+                        &h__[i__ - 1 + (i__ - 1 + (j + 1) * h_dim2) * h_dim1], ldh1, &dwork[1], 4L);
+                    if (wantz) {
                         /*                    Accumulate transformations in the matrix Z_(j+1). */
-                        dlarfx_("Right", &nz, &c__2, v, &tau, &z__[*iloz + (i__ - 1 + (j + 1) * z_dim2) * z_dim1], ldz1, &dwork[1], 5L);
+                        dlarfx_("Right", &nz, &c__2, v, &tau,
+                            &z__[*iloz + (i__ - 1 + (j + 1) * z_dim2) * z_dim1], ldz1, &dwork[1],
+                            5L);
                     }
                     /* L200: */
                 }
                 h__[i__ + (i__ - 1 + jmin * h_dim2) * h_dim1] = 0.;
-            }
-            else
-            {
-                if (jmax > 0 && wi[i__ - 1] == 0.)
-                {
-                    dlartg_(&h__[i__ - 1 + (i__ - 1 + h_dim2) * h_dim1], &h__[i__ + (i__ - 1 + h_dim2) * h_dim1], &cs, &sn, &tau);
+            } else {
+                if (jmax > 0 && wi[i__ - 1] == 0.) {
+                    dlartg_(&h__[i__ - 1 + (i__ - 1 + h_dim2) * h_dim1],
+                        &h__[i__ + (i__ - 1 + h_dim2) * h_dim1], &cs, &sn, &tau);
                 }
                 /*              Apply the transformation to H. */
                 i__1 = i2 - i__ + 2;
-                drot_(&i__1, &h__[i__ - 1 + (i__ - 1 + h_dim2) * h_dim1], ldh1, &h__[i__ + (i__ - 1 + h_dim2) * h_dim1], ldh1, &cs, &sn);
+                drot_(&i__1, &h__[i__ - 1 + (i__ - 1 + h_dim2) * h_dim1], ldh1,
+                    &h__[i__ + (i__ - 1 + h_dim2) * h_dim1], ldh1, &cs, &sn);
                 i__1 = i__ - i1 + 1;
-                drot_(&i__1, &h__[i1 + (i__ - 1 + *p * h_dim2) * h_dim1], &c__1, &h__[i1 + (i__ + *p * h_dim2) * h_dim1], &c__1, &cs, &sn);
-                if (wantz)
-                {
+                drot_(&i__1, &h__[i1 + (i__ - 1 + *p * h_dim2) * h_dim1], &c__1,
+                    &h__[i1 + (i__ + *p * h_dim2) * h_dim1], &c__1, &cs, &sn);
+                if (wantz) {
                     /*                 Apply transformation to Z_1. */
-                    drot_(&nz, &z__[*iloz + (i__ - 1 + z_dim2) * z_dim1], &c__1, &z__[*iloz + (i__ + z_dim2) * z_dim1], &c__1, &cs, &sn);
+                    drot_(&nz, &z__[*iloz + (i__ - 1 + z_dim2) * z_dim1], &c__1,
+                        &z__[*iloz + (i__ + z_dim2) * z_dim1], &c__1, &cs, &sn);
                 }
                 /* Computing MAX */
                 i__2 = 2, i__3 = jmax + 1;
-                i__1 = max(i__2,i__3);
-                for (j = *p; j >= i__1; --j)
-                {
+                i__1 = max(i__2, i__3);
+                for (j = *p; j >= i__1; --j) {
                     /*                 Compute G1 to annihilate from the left the (I,I-1) */
                     /*                 element of the matrix H_j. */
                     v[0] = h__[i__ + (i__ - 1 + j * h_dim2) * h_dim1];
@@ -911,27 +856,25 @@ L170:
                     /*                 Apply G1 from the left to transform the rows of the */
                     /*                 matrix H_j in columns I to I2. */
                     i__2 = i2 - i__ + 1;
-                    mb04py_("Left", &c__2, &i__2, v, &tau, &h__[i__ - 1 + (i__ + j * h_dim2) * h_dim1], ldh1, &dwork[1], 4L);
+                    mb04py_("Left", &c__2, &i__2, v, &tau,
+                        &h__[i__ - 1 + (i__ + j * h_dim2) * h_dim1], ldh1, &dwork[1], 4L);
                     /*                 Apply G1 from the right to transform the columns of */
                     /*                 the matrix H_(j-1) in rows I1 to I. */
                     i__2 = i__ - i1 + 1;
-                    mb04py_("Right", &i__2, &c__2, v, &tau, &h__[i1 + (i__ - 1 + (j - 1) * h_dim2) * h_dim1], ldh1, &dwork[1], 5L);
-                    if (wantz)
-                    {
+                    mb04py_("Right", &i__2, &c__2, v, &tau,
+                        &h__[i1 + (i__ - 1 + (j - 1) * h_dim2) * h_dim1], ldh1, &dwork[1], 5L);
+                    if (wantz) {
                         /*                    Apply G1 to Z_j. */
-                        mb04py_("Right", &nz, &c__2, v, &tau, &z__[*iloz + (i__ - 1 + j * z_dim2) * z_dim1], ldz1, &dwork[1], 5L);
+                        mb04py_("Right", &nz, &c__2, v, &tau,
+                            &z__[*iloz + (i__ - 1 + j * z_dim2) * z_dim1], ldz1, &dwork[1], 5L);
                     }
                     /* L210: */
                 }
-                if (jmax > 0)
-                {
+                if (jmax > 0) {
                     h__[i__ + (i__ - 1 + h_dim2) * h_dim1] = 0.;
                     h__[i__ + (i__ - 1 + jmax * h_dim2) * h_dim1] = 0.;
-                }
-                else
-                {
-                    if (hh21 == 0.)
-                    {
+                } else {
+                    if (hh21 == 0.) {
                         h__[i__ + (i__ - 1 + h_dim2) * h_dim1] = 0.;
                     }
                 }
@@ -942,11 +885,9 @@ L170:
     /*     the main loop with new value of I. */
     itn -= its;
     i__ = l - 1;
-    if (i__ >= *ilo)
-    {
+    if (i__ >= *ilo) {
         goto L40;
     }
     return 0;
     /* *** Last line of MB03WD *** */
 } /* mb03wd_ */
-

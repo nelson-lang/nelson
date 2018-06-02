@@ -19,43 +19,37 @@
 #include "GeDouble.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf double_ge_double(ArrayOf a, ArrayOf b)
-    {
-        indexType r = 0, c = 0;
-        Dimensions dimC;
-        if (a.isScalar())
-        {
-            r = 0;
-            c = 1;
-            dimC = b.getDimensions();
-        }
-        else if (b.isScalar())
-        {
-            r = 1;
-            c = 0;
-            dimC = a.getDimensions();
-        }
-        else
-        {
-            r = 1;
-            c = 1;
-            dimC = a.getDimensions();
-        }
-        indexType Clen = dimC.getElementCount();
-        logical *Cp = (logical*)new_with_exception<logical>(Clen);
-        double *Ap = (double*)a.getDataPointer();
-        double *Bp = (double*)b.getDataPointer();
-        indexType m = 0, p = 0;
-        for (indexType k = 0; k < Clen; k++)
-        {
-            Cp[k] = (Ap[m] >= Bp[p]) ? logical(1) : logical(0);
-            m += r;
-            p += c;
-        }
-        return ArrayOf(NLS_LOGICAL, dimC, Cp);
+//=============================================================================
+ArrayOf
+double_ge_double(ArrayOf a, ArrayOf b)
+{
+    indexType r = 0, c = 0;
+    Dimensions dimC;
+    if (a.isScalar()) {
+        r = 0;
+        c = 1;
+        dimC = b.getDimensions();
+    } else if (b.isScalar()) {
+        r = 1;
+        c = 0;
+        dimC = a.getDimensions();
+    } else {
+        r = 1;
+        c = 1;
+        dimC = a.getDimensions();
     }
-    //=============================================================================
+    indexType Clen = dimC.getElementCount();
+    logical* Cp = (logical*)new_with_exception<logical>(Clen);
+    double* Ap = (double*)a.getDataPointer();
+    double* Bp = (double*)b.getDataPointer();
+    indexType m = 0, p = 0;
+    for (indexType k = 0; k < Clen; k++) {
+        Cp[k] = (Ap[m] >= Bp[p]) ? logical(1) : logical(0);
+        m += r;
+        p += c;
+    }
+    return ArrayOf(NLS_LOGICAL, dimC, Cp);
 }
 //=============================================================================
-
+}
+//=============================================================================

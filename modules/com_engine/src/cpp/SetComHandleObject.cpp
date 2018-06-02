@@ -16,79 +16,68 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Windows.h>
 #include "SetComHandleObject.hpp"
+#include "ComHandleObject.hpp"
 #include "Exception.hpp"
 #include "HandleGenericObject.hpp"
-#include "ComHandleObject.hpp"
-#include "characters_encoding.hpp"
 #include "HandleManager.hpp"
 #include "VariantConversionHelpers.hpp"
+#include "characters_encoding.hpp"
 #include "invokeCOM.hpp"
+#include <Windows.h>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void SetComHandleObject(ArrayOf A, const std::wstring &propertyName, ArrayOf B)
-    {
-        ArrayOf res;
-        if (A.getHandleCategory() != COM_CATEGORY_STR)
-        {
-            throw Exception(_W("COM handle expected."));
-        }
-        ComHandleObject *comhandleobj = (ComHandleObject *)A.getContentAsHandleScalar();
-        void *ptr = comhandleobj->getPointer();
-        if (ptr == nullptr)
-        {
-            throw Exception(_W("COM valid handle expected."));
-        }
-        VARIANT *pVariant = (VARIANT*)ptr;
-        VARIANT *pVarResult;
-        try
-        {
-            pVarResult = new VARIANT;
-        }
-        catch (std::bad_alloc)
-        {
-            pVarResult = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
-        }
-        VariantInit(pVarResult);
-        std::wstring errorMessage;
-        VARIANT *param;
-        try
-        {
-            param = new VARIANT();
-        }
-        catch (std::bad_alloc)
-        {
-            delete pVarResult;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
-        }
-        VariantInit(param);
-        bool bSuccess = NelsonToComVariant(B, param, errorMessage);
-        if (!bSuccess)
-        {
-            throw Exception(errorMessage);
-        }
-        errorMessage = L"";
-        bSuccess = invokeCom(DISPATCH_PROPERTYPUT, pVarResult, errorMessage, pVariant->pdispVal, propertyName, 1, param);
-        if (bSuccess)
-        {
-            bSuccess = ComVariantToNelson(pVarResult, res, errorMessage);
-            delete pVarResult;
-            pVarResult = nullptr;
-            if (!bSuccess)
-            {
-                throw Exception(errorMessage);
-            }
-        }
-        else
-        {
-            delete pVarResult;
-            pVarResult = nullptr;
-            throw Exception(errorMessage);
-        }
+//=============================================================================
+void
+SetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOf B)
+{
+    ArrayOf res;
+    if (A.getHandleCategory() != COM_CATEGORY_STR) {
+        throw Exception(_W("COM handle expected."));
     }
-    //=============================================================================
+    ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
+    void* ptr = comhandleobj->getPointer();
+    if (ptr == nullptr) {
+        throw Exception(_W("COM valid handle expected."));
+    }
+    VARIANT* pVariant = (VARIANT*)ptr;
+    VARIANT* pVarResult;
+    try {
+        pVarResult = new VARIANT;
+    } catch (std::bad_alloc) {
+        pVarResult = nullptr;
+        throw Exception(ERROR_MEMORY_ALLOCATION);
+    }
+    VariantInit(pVarResult);
+    std::wstring errorMessage;
+    VARIANT* param;
+    try {
+        param = new VARIANT();
+    } catch (std::bad_alloc) {
+        delete pVarResult;
+        throw Exception(ERROR_MEMORY_ALLOCATION);
+    }
+    VariantInit(param);
+    bool bSuccess = NelsonToComVariant(B, param, errorMessage);
+    if (!bSuccess) {
+        throw Exception(errorMessage);
+    }
+    errorMessage = L"";
+    bSuccess = invokeCom(
+        DISPATCH_PROPERTYPUT, pVarResult, errorMessage, pVariant->pdispVal, propertyName, 1, param);
+    if (bSuccess) {
+        bSuccess = ComVariantToNelson(pVarResult, res, errorMessage);
+        delete pVarResult;
+        pVarResult = nullptr;
+        if (!bSuccess) {
+            throw Exception(errorMessage);
+        }
+    } else {
+        delete pVarResult;
+        pVarResult = nullptr;
+        throw Exception(errorMessage);
+    }
+}
+//=============================================================================
 }
 //=============================================================================

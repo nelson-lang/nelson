@@ -16,54 +16,49 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <math.h>
-#include <boost/chrono/chrono.hpp>
-#include <boost/thread/thread.hpp>
 #include "Sleep.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
+#include <boost/chrono/chrono.hpp>
+#include <boost/thread/thread.hpp>
+#include <math.h>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void SleepSeconds(uint64 tValue)
-    {
-        boost::this_thread::sleep_for(boost::chrono::seconds(tValue));
-    }
-    //=============================================================================
-    bool Sleep(Evaluator* eval, double tValue)
-    {
-        if (tValue > 0)
-        {
-            if (std::isinf(tValue))
-            {
-                while (!eval->GetInterruptPending())
-                {
-                    boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(10)));
-                    if (eval->haveEventsLoop())
-                    {
-                        ProcessEventsDynamicFunctionWithoutWait();
-                    }
+//=============================================================================
+void
+SleepSeconds(uint64 tValue)
+{
+    boost::this_thread::sleep_for(boost::chrono::seconds(tValue));
+}
+//=============================================================================
+bool
+Sleep(Evaluator* eval, double tValue)
+{
+    if (tValue > 0) {
+        if (std::isinf(tValue)) {
+            while (!eval->GetInterruptPending()) {
+                boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(10)));
+                if (eval->haveEventsLoop()) {
+                    ProcessEventsDynamicFunctionWithoutWait();
                 }
             }
-            else
-            {
-                boost::chrono::nanoseconds begin_time = boost::chrono::high_resolution_clock::now().time_since_epoch();
-                bool bContinue = true;
-                do
-                {
-                    boost::this_thread::sleep_for(boost::chrono::nanoseconds(uint64(10)));
-                    boost::chrono::nanoseconds current_time = boost::chrono::high_resolution_clock::now().time_since_epoch();
-                    boost::chrono::nanoseconds difftime = (current_time - begin_time);
-                    bContinue = !(difftime.count() > int64(tValue*1e9));
-                    if (eval->haveEventsLoop())
-                    {
-                        ProcessEventsDynamicFunctionWithoutWait();
-                    }
+        } else {
+            boost::chrono::nanoseconds begin_time
+                = boost::chrono::high_resolution_clock::now().time_since_epoch();
+            bool bContinue = true;
+            do {
+                boost::this_thread::sleep_for(boost::chrono::nanoseconds(uint64(10)));
+                boost::chrono::nanoseconds current_time
+                    = boost::chrono::high_resolution_clock::now().time_since_epoch();
+                boost::chrono::nanoseconds difftime = (current_time - begin_time);
+                bContinue = !(difftime.count() > int64(tValue * 1e9));
+                if (eval->haveEventsLoop()) {
+                    ProcessEventsDynamicFunctionWithoutWait();
                 }
-                while (!eval->GetInterruptPending() && (bContinue == true));
-            }
+            } while (!eval->GetInterruptPending() && (bContinue == true));
         }
-        return true;
     }
-    //=============================================================================
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

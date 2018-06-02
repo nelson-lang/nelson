@@ -21,65 +21,69 @@
 #include "HandleManager.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    const bool ArrayOf::isHandle() const
-    {
-        bool ishandle = (dp->dataClass == NLS_HANDLE);
-        return ishandle;
+//=============================================================================
+const bool
+ArrayOf::isHandle() const
+{
+    bool ishandle = (dp->dataClass == NLS_HANDLE);
+    return ishandle;
+}
+//=============================================================================
+ArrayOf
+ArrayOf::handleConstructor(nelson_handle hl)
+{
+    nelson_handle* ptrObject = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
+    Dimensions dims(1, 1);
+    ptrObject[0] = hl;
+    return ArrayOf(NLS_HANDLE, dims, (void*)ptrObject);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::handleConstructor(HandleGenericObject* ptr)
+{
+    nelson_handle* ptrObject = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
+    Dimensions dims(1, 1);
+    ptrObject[0] = HandleManager::getInstance()->addHandle(ptr);
+    return ArrayOf(NLS_HANDLE, dims, (void*)ptrObject);
+}
+//=============================================================================
+HandleGenericObject*
+ArrayOf::getContentAsHandleScalar() const
+{
+    if (!isHandle()) {
+        throw Exception(_W("Expected a handle scalar."));
     }
-    //=============================================================================
-    ArrayOf ArrayOf::handleConstructor(nelson_handle hl)
-    {
-        nelson_handle *ptrObject = (nelson_handle *)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
-        Dimensions dims(1, 1);
-        ptrObject[0] = hl;
-        return ArrayOf(NLS_HANDLE, dims, (void *)ptrObject);
+    if (!isScalar()) {
+        throw Exception(_W("Expected a handle scalar."));
     }
-    //=============================================================================
-    ArrayOf ArrayOf::handleConstructor(HandleGenericObject *ptr)
-    {
-        nelson_handle *ptrObject = (nelson_handle *)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
-        Dimensions dims(1, 1);
-        ptrObject[0] = HandleManager::getInstance()->addHandle(ptr);
-        return ArrayOf(NLS_HANDLE, dims, (void *)ptrObject);
+    nelson_handle* qp = (nelson_handle*)dp->getData();
+    if (qp == nullptr) {
+        throw Exception(_W("Expected a valid handle."));
     }
-    //=============================================================================
-    HandleGenericObject *ArrayOf::getContentAsHandleScalar() const
-    {
-        if (!isHandle())
-        {
-            throw Exception(_W("Expected a handle scalar."));
-        }
-        if (!isScalar())
-        {
-            throw Exception(_W("Expected a handle scalar."));
-        }
-        nelson_handle *qp = (nelson_handle*)dp->getData();
-        if (qp == nullptr)
-        {
-            throw Exception(_W("Expected a valid handle."));
-        }
-        nelson_handle hl = (*qp);
-        return HandleManager::getInstance()->getPointer(hl);
-    }
-    //=============================================================================
-    bool ArrayOf::isHandleProperty(std::wstring propertyName) const
-    {
-        HandleGenericObject *obj = getContentAsHandleScalar();
-        return obj->isProperty(propertyName);
-    }
-    //=============================================================================
-    bool ArrayOf::isHandleMethod(std::wstring methodName) const
-    {
-        HandleGenericObject *obj = getContentAsHandleScalar();
-        return obj->isMethod(methodName);
-    }
-    //=============================================================================
-    std::wstring ArrayOf::getHandleCategory() const
-    {
-        HandleGenericObject *obj = getContentAsHandleScalar();
-        return obj->getCategory();
-    }
-    //=============================================================================
+    nelson_handle hl = (*qp);
+    return HandleManager::getInstance()->getPointer(hl);
+}
+//=============================================================================
+bool
+ArrayOf::isHandleProperty(std::wstring propertyName) const
+{
+    HandleGenericObject* obj = getContentAsHandleScalar();
+    return obj->isProperty(propertyName);
+}
+//=============================================================================
+bool
+ArrayOf::isHandleMethod(std::wstring methodName) const
+{
+    HandleGenericObject* obj = getContentAsHandleScalar();
+    return obj->isMethod(methodName);
+}
+//=============================================================================
+std::wstring
+ArrayOf::getHandleCategory() const
+{
+    HandleGenericObject* obj = getContentAsHandleScalar();
+    return obj->getCategory();
+}
+//=============================================================================
 }
 //=============================================================================

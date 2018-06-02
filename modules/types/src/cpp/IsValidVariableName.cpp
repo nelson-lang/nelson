@@ -21,34 +21,33 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool IsValidVariableName(std::string varname)
-    {
-        if (!varname.size())
-        {
+//=============================================================================
+bool
+IsValidVariableName(std::string varname)
+{
+    if (!varname.size()) {
+        return false;
+    }
+    int c = varname[0];
+    if ((c >= 48 && c <= 57) || (c == '_')) {
+        return false;
+    }
+    for (sizeType k = 0; k < (sizeType)varname.size(); k++) {
+        int c = varname[k];
+        bool bSupportedChar
+            = (c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c == '_') || (c >= 48 && c <= 57);
+        if (!bSupportedChar) {
             return false;
         }
-        int c = varname[0];
-        if ((c >= 48 && c <= 57) || (c == '_'))
-        {
-            return false;
-        }
-        for (sizeType k = 0; k < (sizeType)varname.size(); k++)
-        {
-            int c = varname[k];
-            bool bSupportedChar = (c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c == '_') || (c >= 48 && c <= 57);
-            if (!bSupportedChar)
-            {
-                return false;
-            }
-        }
-        return true;
     }
-    //=============================================================================
-    bool IsValidVariableName(std::wstring varname)
-    {
-        return IsValidVariableName(wstring_to_utf8(varname));
-    }
-    //=============================================================================
+    return true;
+}
+//=============================================================================
+bool
+IsValidVariableName(std::wstring varname)
+{
+    return IsValidVariableName(wstring_to_utf8(varname));
+}
+//=============================================================================
 }
 //=============================================================================

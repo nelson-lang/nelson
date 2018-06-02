@@ -23,19 +23,20 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"i18n";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "gettext", Nelson::I18nGateway::gettextBuiltin, 1, 1 },
     { "_", Nelson::I18nGateway::gettextBuiltin, 1, 1 },
 
 };
 //=============================================================================
-static bool initializeI18nModule(Nelson::Evaluator* eval)
+static bool
+initializeI18nModule(Nelson::Evaluator* eval)
 {
     return true;
 }
 //=============================================================================
-static bool finishI18nModule(Nelson::Evaluator* eval)
+static bool
+finishI18nModule(Nelson::Evaluator* eval)
 {
     return true;
 }
@@ -48,4 +49,3 @@ NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishI18nModule)
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================
-

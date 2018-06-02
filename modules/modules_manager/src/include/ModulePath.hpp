@@ -18,18 +18,22 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "nlsModules_manager_exports.h"
 //=============================================================================
 namespace Nelson {
-    typedef enum
-    {
-        GET_BINARY_PATH,
-        GET_ROOT_PATH,
-        GET_ETC_PATH,
-        GET_DYNLIB_FULLPATH,
-        GET_SCRIPT_PATH
-    } MODULEPATH_OPTION;
-    NLSMODULES_MANAGER_IMPEXP std::wstring ModulePath(const std::wstring &moduleshortname);
-    NLSMODULES_MANAGER_IMPEXP std::wstring ModulePath(const std::wstring &modulerootpath, const std::wstring &moduleshortname, MODULEPATH_OPTION option);
-}
+typedef enum
+{
+    GET_BINARY_PATH,
+    GET_ROOT_PATH,
+    GET_ETC_PATH,
+    GET_DYNLIB_FULLPATH,
+    GET_SCRIPT_PATH
+} MODULEPATH_OPTION;
+NLSMODULES_MANAGER_IMPEXP std::wstring
+ModulePath(const std::wstring& moduleshortname);
+NLSMODULES_MANAGER_IMPEXP std::wstring
+ModulePath(const std::wstring& modulerootpath, const std::wstring& moduleshortname,
+    MODULEPATH_OPTION option);
+} // namespace Nelson
 //=============================================================================

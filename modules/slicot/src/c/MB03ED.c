@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,25 +14,26 @@ static integer c__2 = 2;
 static integer c__4 = 4;
 static doublereal c_b11 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb03ed_(n, prec, a, lda, b, ldb, d__, ldd, q1, ldq1, q2, ldq2, q3, ldq3, dwork, ldwork, info)
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int mb03ed_(n, prec, a, lda, b, ldb, d__, ldd, q1, ldq1, q2, ldq2, q3,
+    ldq3, dwork, ldwork, info) integer* n;
 doublereal *prec, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *d__;
-integer *ldd;
-doublereal *q1;
-integer *ldq1;
-doublereal *q2;
-integer *ldq2;
-doublereal *q3;
-integer *ldq3;
-doublereal *dwork;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* d__;
+integer* ldd;
+doublereal* q1;
+integer* ldq1;
+doublereal* q2;
+integer* ldq2;
+doublereal* q3;
+integer* ldq3;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, d_dim1, d_offset, q1_dim1, q1_offset, q2_dim1, q2_offset, q3_dim1, q3_offset, i__1;
+    integer a_dim1, a_offset, b_dim1, b_offset, d_dim1, d_offset, q1_dim1, q1_offset, q2_dim1,
+        q2_offset, q3_dim1, q3_offset, i__1;
     doublereal d__1, d__2, d__3;
     /* Builtin functions */
     double d_sign(), sqrt();
@@ -189,8 +190,7 @@ integer *ldwork, *info;
     /* Function Body */
     *info = 0;
     /*     Computations. */
-    if (*n == 4)
-    {
+    if (*n == 4) {
         dum[0] = 0.;
         dcopy_(&c__16, dum, &c__0, &dwork[1], &c__1);
         dwork[1] = b[b_dim1 + 1];
@@ -199,37 +199,36 @@ integer *ldwork, *info;
         dwork[11] = b[b_dim1 * 3 + 3];
         dwork[15] = b[(b_dim1 << 2) + 3];
         dwork[16] = b[(b_dim1 << 2) + 4];
-        dtrmm_("Left", "Upper", "No Transpose", "NonUnit", &c__2, &c__4, &c_b11, &a[a_offset], lda, &dwork[1], n, 4L, 5L, 12L, 7L);
-        dtrmm_("Left", "Upper", "No Transpose", "NonUnit", &c__2, &c__2, &c_b11, &a[a_dim1 * 3 + 3], lda, &dwork[11], n, 4L, 5L, 12L, 7L);
-        ievs = *n **n + 1;
+        dtrmm_("Left", "Upper", "No Transpose", "NonUnit", &c__2, &c__4, &c_b11, &a[a_offset], lda,
+            &dwork[1], n, 4L, 5L, 12L, 7L);
+        dtrmm_("Left", "Upper", "No Transpose", "NonUnit", &c__2, &c__2, &c_b11, &a[a_dim1 * 3 + 3],
+            lda, &dwork[11], n, 4L, 5L, 12L, 7L);
+        ievs = *n * *n + 1;
         iwrk = ievs + *n * 3;
         i__1 = *ldwork - iwrk + 1;
-        dgges_("Vector Computation", "Vector Computation", "Sorted", sb02ow_, n, &d__[d_offset], ldd, &dwork[1], n, &idum, &dwork[ievs], &dwork[ievs + *n], &dwork[ievs + (*n << 1)], &q3[q3_offset], ldq3, &q1[q1_offset], ldq1, &dwork[iwrk], &i__1, bwork, info, 18L, 18L, 6L);
-        if (*info != 0)
-        {
-            if (*info >= 1 && *info <= 4)
-            {
+        dgges_("Vector Computation", "Vector Computation", "Sorted", sb02ow_, n, &d__[d_offset],
+            ldd, &dwork[1], n, &idum, &dwork[ievs], &dwork[ievs + *n], &dwork[ievs + (*n << 1)],
+            &q3[q3_offset], ldq3, &q1[q1_offset], ldq1, &dwork[iwrk], &i__1, bwork, info, 18L, 18L,
+            6L);
+        if (*info != 0) {
+            if (*info >= 1 && *info <= 4) {
                 *info = 1;
                 return 0;
-            }
-            else if (*info != 6)
-            {
+            } else if (*info != 6) {
                 *info = 2;
                 return 0;
-            }
-            else
-            {
+            } else {
                 *info = 0;
             }
         }
         dlacpy_("Full", n, n, &q1[q1_offset], ldq1, &q2[q2_offset], ldq2, 4L);
-        dtrmm_("Left", "Upper", "No Transpose", "NonUnit", &c__2, &c__4, &c_b11, &b[b_offset], ldb, &q2[q2_offset], ldq2, 4L, 5L, 12L, 7L);
-        dtrmm_("Left", "Upper", "No Transpose", "NonUnit", &c__2, &c__4, &c_b11, &b[b_dim1 * 3 + 3], ldb, &q2[q2_dim1 + 3], ldq2, 4L, 5L, 12L, 7L);
+        dtrmm_("Left", "Upper", "No Transpose", "NonUnit", &c__2, &c__4, &c_b11, &b[b_offset], ldb,
+            &q2[q2_offset], ldq2, 4L, 5L, 12L, 7L);
+        dtrmm_("Left", "Upper", "No Transpose", "NonUnit", &c__2, &c__4, &c_b11, &b[b_dim1 * 3 + 3],
+            ldb, &q2[q2_dim1 + 3], ldq2, 4L, 5L, 12L, 7L);
         dgeqr2_(n, n, &q2[q2_offset], ldq2, &dwork[1], &dwork[*n + 1], info);
         dorg2r_(n, n, n, &q2[q2_offset], ldq2, &dwork[1], &dwork[*n + 1], info);
-    }
-    else
-    {
+    } else {
         /*        The pencil has infinite eigenvalues. The code decides this when */
         /*        A or B is (numerically) singular. Although the numerical */
         /*        singularity of A*B with respect to PREC is detected, the */
@@ -244,10 +243,8 @@ integer *ldwork, *info;
         d21 = (d__1 = d__[d_dim1 + 2], abs(d__1));
         d12 = (d__1 = d__[(d_dim1 << 1) + 1], abs(d__1));
         compg = FALSE_;
-        if (a11 * b11 <= *prec * a22 * b22)
-        {
-            if (a11 <= *prec * a22)
-            {
+        if (a11 * b11 <= *prec * a22 * b22) {
+            if (a11 <= *prec * a22) {
                 q1[q1_dim1 + 1] = 1.;
                 q1[q1_dim1 + 2] = 0.;
                 q1[(q1_dim1 << 1) + 1] = 0.;
@@ -260,9 +257,7 @@ integer *ldwork, *info;
                 q3[q3_dim1 + 2] = -1.;
                 q3[(q3_dim1 << 1) + 1] = -1.;
                 q3[(q3_dim1 << 1) + 2] = 0.;
-            }
-            else if (b11 <= *prec * b22)
-            {
+            } else if (b11 <= *prec * b22) {
                 q1[q1_dim1 + 1] = -1.;
                 q1[q1_dim1 + 2] = 0.;
                 q1[(q1_dim1 << 1) + 1] = 0.;
@@ -275,16 +270,11 @@ integer *ldwork, *info;
                 q3[q3_dim1 + 2] = 1.;
                 q3[(q3_dim1 << 1) + 1] = 1.;
                 q3[(q3_dim1 << 1) + 2] = 0.;
-            }
-            else
-            {
+            } else {
                 compg = TRUE_;
             }
-        }
-        else if (a22 * b22 <= *prec * a11 * b11)
-        {
-            if (a22 <= *prec * a11)
-            {
+        } else if (a22 * b22 <= *prec * a11 * b11) {
+            if (a22 <= *prec * a11) {
                 q1[q1_dim1 + 1] = 0.;
                 q1[q1_dim1 + 2] = 1.;
                 q1[(q1_dim1 << 1) + 1] = 1.;
@@ -297,9 +287,7 @@ integer *ldwork, *info;
                 q3[q3_dim1 + 2] = 0.;
                 q3[(q3_dim1 << 1) + 1] = 0.;
                 q3[(q3_dim1 << 1) + 2] = -1.;
-            }
-            else if (b22 <= *prec * b11)
-            {
+            } else if (b22 <= *prec * b11) {
                 q1[q1_dim1 + 1] = 0.;
                 q1[q1_dim1 + 2] = -1.;
                 q1[(q1_dim1 << 1) + 1] = -1.;
@@ -312,15 +300,11 @@ integer *ldwork, *info;
                 q3[q3_dim1 + 2] = 0.;
                 q3[(q3_dim1 << 1) + 1] = 0.;
                 q3[(q3_dim1 << 1) + 2] = 1.;
-            }
-            else
-            {
+            } else {
                 compg = TRUE_;
             }
             /*        The pencil has a double zero eigenvalue. */
-        }
-        else if (d21 <= *prec * d12)
-        {
+        } else if (d21 <= *prec * d12) {
             q1[q1_dim1 + 1] = 1.;
             q1[q1_dim1 + 2] = 0.;
             q1[(q1_dim1 << 1) + 1] = 0.;
@@ -333,9 +317,7 @@ integer *ldwork, *info;
             q3[q3_dim1 + 2] = 0.;
             q3[(q3_dim1 << 1) + 1] = 0.;
             q3[(q3_dim1 << 1) + 2] = 1.;
-        }
-        else if (d12 <= *prec * d21)
-        {
+        } else if (d12 <= *prec * d21) {
             q1[q1_dim1 + 1] = 0.;
             q1[q1_dim1 + 2] = 1.;
             q1[(q1_dim1 << 1) + 1] = 1.;
@@ -348,13 +330,10 @@ integer *ldwork, *info;
             q3[q3_dim1 + 2] = 1.;
             q3[(q3_dim1 << 1) + 1] = 1.;
             q3[(q3_dim1 << 1) + 2] = 0.;
-        }
-        else
-        {
+        } else {
             compg = TRUE_;
         }
-        if (compg)
-        {
+        if (compg) {
             /*           The pencil has real eigenvalues. */
             d__2 = a[a_dim1 + 1] * b[b_dim1 + 1] * a[(a_dim1 << 1) + 2] * b[(b_dim1 << 1) + 2];
             d__1 = d_sign(&c_b11, &d__2) * sqrt(a22 * b22 * d12);
@@ -384,4 +363,3 @@ integer *ldwork, *info;
     return 0;
     /* *** Last line of MB03ED *** */
 } /* mb03ed_ */
-

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,11 +9,12 @@
 
 static doublereal c_b13 = 90.;
 
-EXPORTSYMBOL /* Subroutine */ int td05ad_(unitf, output, np1, mp1, w, a, b, valr, vali, info, unitf_len, output_len)
-char *unitf, *output;
+EXPORTSYMBOL /* Subroutine */ int td05ad_(
+    unitf, output, np1, mp1, w, a, b, valr, vali, info, unitf_len, output_len) char *unitf,
+    *output;
 integer *np1, *mp1;
 doublereal *w, *a, *b, *valr, *vali;
-integer *info;
+integer* info;
 ftnlen unitf_len;
 ftnlen output_len;
 {
@@ -141,24 +142,16 @@ ftnlen output_len;
     lunitf = lsame_(unitf, "H", 1L, 1L);
     loutpu = lsame_(output, "P", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! lunitf && ! lsame_(unitf, "R", 1L, 1L))
-    {
+    if (!lunitf && !lsame_(unitf, "R", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! loutpu && ! lsame_(output, "C", 1L, 1L))
-    {
+    } else if (!loutpu && !lsame_(output, "C", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*np1 < 1)
-    {
+    } else if (*np1 < 1) {
         *info = -3;
-    }
-    else if (*mp1 < 1)
-    {
+    } else if (*mp1 < 1) {
         *info = -4;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TD05AD", &i__1, 6L);
@@ -168,8 +161,7 @@ ftnlen output_len;
     n = *np1 - 1;
     wc = *w;
     twopi = atan(1.) * 8.;
-    if (lunitf)
-    {
+    if (lunitf) {
         wc *= twopi;
     }
     /* Computing 2nd power */
@@ -182,10 +174,8 @@ ftnlen output_len;
     i__ = 0;
 L10:
     ++i__;
-    if (i__ <= m)
-    {
-        if (b[i__] == 0.)
-        {
+    if (i__ <= m) {
+        if (b[i__] == 0.) {
             goto L10;
         }
     }
@@ -193,10 +183,8 @@ L10:
     i__ = 0;
 L20:
     ++i__;
-    if (i__ <= n)
-    {
-        if (a[i__] == 0.)
-        {
+    if (i__ <= n) {
+        if (a[i__] == 0.) {
             goto L20;
         }
     }
@@ -206,22 +194,17 @@ L20:
     /*     Add real parts of the numerator m(jW). */
     treal = b[*mp1 - m2];
     i__1 = nzzero + 1;
-    for (i__ = m - 1 - m2; i__ >= i__1; i__ += -2)
-    {
+    for (i__ = m - 1 - m2; i__ >= i__1; i__ += -2) {
         treal = b[i__] - w2 * treal;
         /* L30: */
     }
     /*     Add imaginary parts of the numerator m(jW). */
-    if (m == 0)
-    {
+    if (m == 0) {
         timag = 0.;
-    }
-    else
-    {
+    } else {
         timag = b[m + m2];
         i__1 = nzzero + 2;
-        for (i__ = m + m2 - 2; i__ >= i__1; i__ += -2)
-        {
+        for (i__ = m + m2 - 2; i__ >= i__1; i__ += -2) {
             timag = b[i__] - w2 * timag;
             /* L40: */
         }
@@ -231,22 +214,17 @@ L20:
     /*     Add real parts of the denominator n(jW). */
     breal = a[*np1 - n2];
     i__1 = npzero + 1;
-    for (i__ = n - 1 - n2; i__ >= i__1; i__ += -2)
-    {
+    for (i__ = n - 1 - n2; i__ >= i__1; i__ += -2) {
         breal = a[i__] - w2 * breal;
         /* L50: */
     }
     /*     Add imaginary parts of the denominator n(jW). */
-    if (n == 0)
-    {
+    if (n == 0) {
         bimag = 0.;
-    }
-    else
-    {
+    } else {
         bimag = a[n + n2];
         i__1 = npzero + 2;
-        for (i__ = n + n2 - 2; i__ >= i__1; i__ += -2)
-        {
+        for (i__ = n + n2 - 2; i__ >= i__1; i__ += -2) {
             bimag = a[i__] - w2 * bimag;
             /* L60: */
         }
@@ -254,14 +232,11 @@ L20:
     }
     /* Computing MAX */
     d__1 = abs(breal), d__2 = abs(bimag);
-    if (max(d__1,d__2) == 0. || *w == 0. && iphase < 0)
-    {
+    if (max(d__1, d__2) == 0. || *w == 0. && iphase < 0) {
         /*        Error return:  The specified frequency W is a pole of G(jW), */
         /*              or all the coefficients of the A polynomial are zero. */
         *info = 1;
-    }
-    else
-    {
+    } else {
         /*        Evaluate the complex number W**(z-p)*m(jW)/n(jW). */
         z__2.r = treal, z__2.i = timag;
         z__3.r = breal, z__3.i = bimag;
@@ -269,46 +244,36 @@ L20:
         ztemp.r = z__1.r, ztemp.i = z__1.i;
         *valr = ztemp.r * pow_di(&wc, &iphase);
         *vali = d_imag(&ztemp) * pow_di(&wc, &iphase);
-        if (! loutpu)
-        {
+        if (!loutpu) {
             /*           Cartesian co-ordinates: Update the result for j**(z-p). */
             i__ = abs(iphase) % 4;
-            if (iphase > 0 && i__ > 1 || iphase < 0 && (i__ == 1 || i__ == 2))
-            {
+            if (iphase > 0 && i__ > 1 || iphase < 0 && (i__ == 1 || i__ == 2)) {
                 *valr = -(*valr);
                 *vali = -(*vali);
             }
-            if (i__ % 2 != 0)
-            {
+            if (i__ % 2 != 0) {
                 g = *valr;
                 *valr = -(*vali);
                 *vali = g;
             }
-        }
-        else
-        {
+        } else {
             /*           Polar co-ordinates: Compute the magnitude and phase. */
             g = dlapy2_(valr, vali);
-            if (*valr == 0.)
-            {
+            if (*valr == 0.) {
                 *vali = d_sign(&c_b13, vali);
-            }
-            else
-            {
+            } else {
                 *vali = atan(*vali / *valr) / twopi * 360.;
-                if (*vali == 0. && nzzero == m && npzero == n && b[nzzero + 1] * a[npzero + 1] < 0.)
-                {
+                if (*vali == 0. && nzzero == m && npzero == n
+                    && b[nzzero + 1] * a[npzero + 1] < 0.) {
                     *vali = 180.;
                 }
             }
             *valr = d_lg10(&g) * 20.;
-            if (iphase != 0)
-            {
-                *vali += (doublereal) (nzzero - npzero) * 90.;
+            if (iphase != 0) {
+                *vali += (doublereal)(nzzero - npzero) * 90.;
             }
         }
     }
     return 0;
     /* *** Last line of TD05AD *** */
 } /* td05ad_ */
-

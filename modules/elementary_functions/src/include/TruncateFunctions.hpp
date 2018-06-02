@@ -22,9 +22,13 @@
 #include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf Floor(ArrayOf arrayIn);
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf Round(ArrayOf arrayIn);
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf Ceil(ArrayOf arrayIn);
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf Fix(ArrayOf arrayIn);
-}
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Floor(ArrayOf arrayIn);
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Round(ArrayOf arrayIn);
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Ceil(ArrayOf arrayIn);
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Fix(ArrayOf arrayIn);
+} // namespace Nelson
 //=============================================================================

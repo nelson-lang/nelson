@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,37 +12,40 @@ static integer c__0 = 0;
 static doublereal c_b26 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int ab05pd_(over, n1, m, p, n2, alpha, a1, lda1, b1, ldb1, c1, ldc1, d1, ldd1, a2, lda2, b2, ldb2, c2, ldc2, d2, ldd2, n, a, lda, b, ldb, c__, ldc, d__, ldd, info, over_len)
-char *over;
+EXPORTSYMBOL /* Subroutine */ int ab05pd_(over, n1, m, p, n2, alpha, a1, lda1, b1, ldb1, c1, ldc1,
+    d1, ldd1, a2, lda2, b2, ldb2, c2, ldc2, d2, ldd2, n, a, lda, b, ldb, c__, ldc, d__, ldd, info,
+    over_len) char* over;
 integer *n1, *m, *p, *n2;
 doublereal *alpha, *a1;
-integer *lda1;
-doublereal *b1;
-integer *ldb1;
-doublereal *c1;
-integer *ldc1;
-doublereal *d1;
-integer *ldd1;
-doublereal *a2;
-integer *lda2;
-doublereal *b2;
-integer *ldb2;
-doublereal *c2;
-integer *ldc2;
-doublereal *d2;
+integer* lda1;
+doublereal* b1;
+integer* ldb1;
+doublereal* c1;
+integer* ldc1;
+doublereal* d1;
+integer* ldd1;
+doublereal* a2;
+integer* lda2;
+doublereal* b2;
+integer* ldb2;
+doublereal* c2;
+integer* ldc2;
+doublereal* d2;
 integer *ldd2, *n;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ldd, *info;
 ftnlen over_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, a1_dim1, a1_offset, a2_dim1, a2_offset, b_dim1, b_offset, b1_dim1, b1_offset, b2_dim1, b2_offset, c_dim1, c_offset, c1_dim1, c1_offset, c2_dim1, c2_offset, d_dim1, d_offset, d1_dim1, d1_offset, d2_dim1, d2_offset, i__1, i__2;
+    integer a_dim1, a_offset, a1_dim1, a1_offset, a2_dim1, a2_offset, b_dim1, b_offset, b1_dim1,
+        b1_offset, b2_dim1, b2_offset, c_dim1, c_offset, c1_dim1, c1_offset, c2_dim1, c2_offset,
+        d_dim1, d_offset, d1_dim1, d1_offset, d2_dim1, d2_offset, i__1, i__2;
     /* Local variables */
     static integer i__, j;
     extern logical lsame_();
@@ -246,76 +249,42 @@ ftnlen over_len;
     *n = *n1 + *n2;
     *info = 0;
     /*     Test the input scalar arguments. */
-    if (! lover && ! lsame_(over, "N", 1L, 1L))
-    {
+    if (!lover && !lsame_(over, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n1 < 0)
-    {
+    } else if (*n1 < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -4;
-    }
-    else if (*n2 < 0)
-    {
+    } else if (*n2 < 0) {
         *info = -5;
-    }
-    else if (*lda1 < max(1,*n1))
-    {
+    } else if (*lda1 < max(1, *n1)) {
         *info = -8;
-    }
-    else if (*ldb1 < max(1,*n1))
-    {
+    } else if (*ldb1 < max(1, *n1)) {
         *info = -10;
-    }
-    else if (*n1 > 0 && *ldc1 < max(1,*p) || *n1 == 0 && *ldc1 < 1)
-    {
+    } else if (*n1 > 0 && *ldc1 < max(1, *p) || *n1 == 0 && *ldc1 < 1) {
         *info = -12;
-    }
-    else if (*ldd1 < max(1,*p))
-    {
+    } else if (*ldd1 < max(1, *p)) {
         *info = -14;
-    }
-    else if (*lda2 < max(1,*n2))
-    {
+    } else if (*lda2 < max(1, *n2)) {
         *info = -16;
-    }
-    else if (*ldb2 < max(1,*n2))
-    {
+    } else if (*ldb2 < max(1, *n2)) {
         *info = -18;
-    }
-    else if (*n2 > 0 && *ldc2 < max(1,*p) || *n2 == 0 && *ldc2 < 1)
-    {
+    } else if (*n2 > 0 && *ldc2 < max(1, *p) || *n2 == 0 && *ldc2 < 1) {
         *info = -20;
-    }
-    else if (*ldd2 < max(1,*p))
-    {
+    } else if (*ldd2 < max(1, *p)) {
         *info = -22;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -25;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -27;
-    }
-    else if (*n > 0 && *ldc < max(1,*p) || *n == 0 && *ldc < 1)
-    {
+    } else if (*n > 0 && *ldc < max(1, *p) || *n == 0 && *ldc < 1) {
         *info = -29;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -31;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB05PD", &i__1, 6L);
@@ -323,36 +292,28 @@ ftnlen over_len;
     }
     /*     Quick return if possible. */
     /* Computing MAX */
-    i__1 = *n, i__2 = min(*m,*p);
-    if (max(i__1,i__2) == 0)
-    {
+    i__1 = *n, i__2 = min(*m, *p);
+    if (max(i__1, i__2) == 0) {
         return 0;
     }
     n1p1 = *n1 + 1;
     /*                       ( A1   0  ) */
     /*     Construct     A = (         ) . */
     /*                       ( 0    A2 ) */
-    if (lover && *lda1 <= *lda)
-    {
-        if (*lda1 < *lda)
-        {
-            for (j = *n1; j >= 1; --j)
-            {
-                for (i__ = *n1; i__ >= 1; --i__)
-                {
+    if (lover && *lda1 <= *lda) {
+        if (*lda1 < *lda) {
+            for (j = *n1; j >= 1; --j) {
+                for (i__ = *n1; i__ >= 1; --i__) {
                     a[i__ + j * a_dim1] = a1[i__ + j * a1_dim1];
                     /* L10: */
                 }
                 /* L20: */
             }
         }
-    }
-    else
-    {
+    } else {
         dlacpy_("F", n1, n1, &a1[a1_offset], lda1, &a[a_offset], lda, 1L);
     }
-    if (*n2 > 0)
-    {
+    if (*n2 > 0) {
         dlaset_("F", n1, n2, &c_b9, &c_b9, &a[n1p1 * a_dim1 + 1], lda, 1L);
         dlaset_("F", n2, n1, &c_b9, &c_b9, &a[n1p1 + a_dim1], lda, 1L);
         dlacpy_("F", n2, n2, &a2[a2_offset], lda2, &a[n1p1 + n1p1 * a_dim1], lda, 1L);
@@ -360,84 +321,62 @@ ftnlen over_len;
     /*                        ( B1 ) */
     /*     Construct      B = (    ) . */
     /*                        ( B2 ) */
-    if (lover && *ldb1 <= *ldb)
-    {
-        if (*ldb1 < *ldb)
-        {
-            for (j = *m; j >= 1; --j)
-            {
-                for (i__ = *n1; i__ >= 1; --i__)
-                {
+    if (lover && *ldb1 <= *ldb) {
+        if (*ldb1 < *ldb) {
+            for (j = *m; j >= 1; --j) {
+                for (i__ = *n1; i__ >= 1; --i__) {
                     b[i__ + j * b_dim1] = b1[i__ + j * b1_dim1];
                     /* L30: */
                 }
                 /* L40: */
             }
         }
-    }
-    else
-    {
+    } else {
         dlacpy_("F", n1, m, &b1[b1_offset], ldb1, &b[b_offset], ldb, 1L);
     }
-    if (*n2 > 0)
-    {
+    if (*n2 > 0) {
         dlacpy_("F", n2, m, &b2[b2_offset], ldb2, &b[n1p1 + b_dim1], ldb, 1L);
     }
     /*     Construct      C = ( C1 alpha*C2 ) . */
-    if (lover && *ldc1 <= *ldc)
-    {
-        if (*ldc1 < *ldc)
-        {
-            for (j = *n1; j >= 1; --j)
-            {
-                for (i__ = *p; i__ >= 1; --i__)
-                {
+    if (lover && *ldc1 <= *ldc) {
+        if (*ldc1 < *ldc) {
+            for (j = *n1; j >= 1; --j) {
+                for (i__ = *p; i__ >= 1; --i__) {
                     c__[i__ + j * c_dim1] = c1[i__ + j * c1_dim1];
                     /* L50: */
                 }
                 /* L60: */
             }
         }
-    }
-    else
-    {
+    } else {
         dlacpy_("F", p, n1, &c1[c1_offset], ldc1, &c__[c_offset], ldc, 1L);
     }
-    if (*n2 > 0)
-    {
+    if (*n2 > 0) {
         dlacpy_("F", p, n2, &c2[c2_offset], ldc2, &c__[n1p1 * c_dim1 + 1], ldc, 1L);
-        if (*alpha != 1.)
-        {
-            dlascl_("G", &c__0, &c__0, &c_b26, alpha, p, n2, &c__[n1p1 * c_dim1 + 1], ldc, info, 1L);
+        if (*alpha != 1.) {
+            dlascl_(
+                "G", &c__0, &c__0, &c_b26, alpha, p, n2, &c__[n1p1 * c_dim1 + 1], ldc, info, 1L);
         }
     }
     /*     Construct       D = D1 + alpha*D2 . */
-    if (lover && *ldd1 <= *ldd)
-    {
-        if (*ldd1 < *ldd)
-        {
-            for (j = *m; j >= 1; --j)
-            {
-                for (i__ = *p; i__ >= 1; --i__)
-                {
+    if (lover && *ldd1 <= *ldd) {
+        if (*ldd1 < *ldd) {
+            for (j = *m; j >= 1; --j) {
+                for (i__ = *p; i__ >= 1; --i__) {
                     d__[i__ + j * d_dim1] = d1[i__ + j * d1_dim1];
                     /* L70: */
                 }
                 /* L80: */
             }
         }
-    }
-    else
-    {
+    } else {
         dlacpy_("F", p, m, &d1[d1_offset], ldd1, &d__[d_offset], ldd, 1L);
     }
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         daxpy_(p, alpha, &d2[j * d2_dim1 + 1], &c__1, &d__[j * d_dim1 + 1], &c__1);
         /* L90: */
     }
     return 0;
     /* *** Last line of AB05PD *** */
 } /* ab05pd_ */
-

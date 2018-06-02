@@ -1,13 +1,12 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb02sz_(n, h__, ldh, ipiv, info)
-integer *n;
-doublecomplex *h__;
+EXPORTSYMBOL /* Subroutine */ int mb02sz_(n, h__, ldh, ipiv, info) integer* n;
+doublecomplex* h__;
 integer *ldh, *ipiv, *info;
 {
     /* System generated locals */
@@ -101,70 +100,56 @@ integer *ldh, *ipiv, *info;
     --ipiv;
     /* Function Body */
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*ldh < max(1,*n))
-    {
+    } else if (*ldh < max(1, *n)) {
         *info = -3;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02SZ", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         /*        Find pivot and test for singularity. */
         jp = j;
-        if (j < *n)
-        {
-            if (dcabs1_(&h__[j + 1 + j * h_dim1]) > dcabs1_(&h__[j + j * h_dim1]))
-            {
+        if (j < *n) {
+            if (dcabs1_(&h__[j + 1 + j * h_dim1]) > dcabs1_(&h__[j + j * h_dim1])) {
                 jp = j + 1;
             }
         }
         ipiv[j] = jp;
         i__2 = jp + j * h_dim1;
-        if (h__[i__2].r != 0. || h__[i__2].i != 0.)
-        {
+        if (h__[i__2].r != 0. || h__[i__2].i != 0.) {
             /*           Apply the interchange to columns J:N. */
-            if (jp != j)
-            {
+            if (jp != j) {
                 i__2 = *n - j + 1;
                 zswap_(&i__2, &h__[j + j * h_dim1], ldh, &h__[jp + j * h_dim1], ldh);
             }
             /*           Compute element J+1 of J-th column. */
-            if (j < *n)
-            {
+            if (j < *n) {
                 i__2 = j + 1 + j * h_dim1;
                 z_div(&z__1, &h__[j + 1 + j * h_dim1], &h__[j + j * h_dim1]);
                 h__[i__2].r = z__1.r, h__[i__2].i = z__1.i;
             }
-        }
-        else if (*info == 0)
-        {
+        } else if (*info == 0) {
             *info = j;
         }
-        if (j < *n)
-        {
+        if (j < *n) {
             /*           Update trailing submatrix. */
             i__2 = *n - j;
             i__3 = j + 1 + j * h_dim1;
             z__1.r = -h__[i__3].r, z__1.i = -h__[i__3].i;
-            zaxpy_(&i__2, &z__1, &h__[j + (j + 1) * h_dim1], ldh, &h__[j + 1 + (j + 1) * h_dim1], ldh);
+            zaxpy_(
+                &i__2, &z__1, &h__[j + (j + 1) * h_dim1], ldh, &h__[j + 1 + (j + 1) * h_dim1], ldh);
         }
         /* L10: */
     }
     return 0;
     /* *** Last line of MB02SZ *** */
 } /* mb02sz_ */
-

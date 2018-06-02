@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsFiles_folders_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring RelativePath(std::wstring path1, std::wstring path2, bool &bSuccess);
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring
+RelativePath(std::wstring path1, std::wstring path2, bool& bSuccess);
 }
 //=============================================================================

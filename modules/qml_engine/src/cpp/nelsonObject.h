@@ -21,24 +21,39 @@
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
 //=============================================================================
-class nelsonObject : public QObject {
+class nelsonObject : public QObject
+{
     Q_OBJECT
 public:
-    explicit nelsonObject(QObject *parent = 0);
+    explicit nelsonObject(QObject* parent = 0);
 
 signals:
 public:
-    Q_INVOKABLE void disp(QString msg);
-    Q_INVOKABLE void evaluate(QString msg);
-    Q_INVOKABLE void processevent();
-    Q_INVOKABLE QVariant call(const QString &functionName, const QVariantList& args);
-    Q_INVOKABLE QVariant call(const QString &functionName);
-    Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1);
-    Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1, const QVariant &arg2);
-    Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3);
-    Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3, const QVariant &arg4);
-    Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3, const QVariant &arg4, const QVariant &arg5);
-    Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3, const QVariant &arg4, const QVariant &arg5, const QVariant &arg6);
-
+    Q_INVOKABLE void
+    disp(QString msg);
+    Q_INVOKABLE void
+    evaluate(QString msg);
+    Q_INVOKABLE void
+    processevent();
+    Q_INVOKABLE QVariant
+    call(const QString& functionName, const QVariantList& args);
+    Q_INVOKABLE QVariant
+    call(const QString& functionName);
+    Q_INVOKABLE QVariant
+    call(const QString& functionName, const QVariant& arg1);
+    Q_INVOKABLE QVariant
+    call(const QString& functionName, const QVariant& arg1, const QVariant& arg2);
+    Q_INVOKABLE QVariant
+    call(const QString& functionName, const QVariant& arg1, const QVariant& arg2,
+        const QVariant& arg3);
+    Q_INVOKABLE QVariant
+    call(const QString& functionName, const QVariant& arg1, const QVariant& arg2,
+        const QVariant& arg3, const QVariant& arg4);
+    Q_INVOKABLE QVariant
+    call(const QString& functionName, const QVariant& arg1, const QVariant& arg2,
+        const QVariant& arg3, const QVariant& arg4, const QVariant& arg5);
+    Q_INVOKABLE QVariant
+    call(const QString& functionName, const QVariant& arg1, const QVariant& arg2,
+        const QVariant& arg3, const QVariant& arg4, const QVariant& arg5, const QVariant& arg6);
 };
 //=============================================================================

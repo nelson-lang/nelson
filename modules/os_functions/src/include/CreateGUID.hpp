@@ -18,12 +18,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsOs_functions_exports.h"
 #include "Types.hpp"
+#include "nlsOs_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSOS_FUNCTIONS_IMPEXP std::wstring CreateGUID();
-    NLSOS_FUNCTIONS_IMPEXP wstringVector CreateGUID(size_t nbGUID);
-}
+NLSOS_FUNCTIONS_IMPEXP std::wstring
+CreateGUID();
+NLSOS_FUNCTIONS_IMPEXP wstringVector
+CreateGUID(size_t nbGUID);
+} // namespace Nelson
 //=============================================================================

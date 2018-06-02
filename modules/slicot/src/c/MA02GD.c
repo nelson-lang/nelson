@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,9 +9,8 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int ma02gd_(n, a, lda, k1, k2, ipiv, incx)
-integer *n;
-doublereal *a;
+EXPORTSYMBOL /* Subroutine */ int ma02gd_(n, a, lda, k1, k2, ipiv, incx) integer* n;
+doublereal* a;
 integer *lda, *k1, *k2, *ipiv, *incx;
 {
     /* System generated locals */
@@ -103,55 +102,40 @@ integer *lda, *k1, *k2, *ipiv, *incx;
     a -= a_offset;
     --ipiv;
     /* Function Body */
-    if (*incx == 0 || *n == 0)
-    {
+    if (*incx == 0 || *n == 0) {
         return 0;
     }
     /*     Interchange column J with column IPIV(J) for each of columns K1 */
     /*     through K2. */
-    if (*incx > 0)
-    {
+    if (*incx > 0) {
         jx = *k1;
+    } else {
+        jx = (1 - *k2) * *incx + 1;
     }
-    else
-    {
-        jx = (1 - *k2) **incx + 1;
-    }
-    if (*incx == 1)
-    {
+    if (*incx == 1) {
         i__1 = *k2;
-        for (j = *k1; j <= i__1; ++j)
-        {
+        for (j = *k1; j <= i__1; ++j) {
             jp = ipiv[j];
-            if (jp != j)
-            {
+            if (jp != j) {
                 dswap_(n, &a[j * a_dim1 + 1], &c__1, &a[jp * a_dim1 + 1], &c__1);
             }
             /* L10: */
         }
-    }
-    else if (*incx > 1)
-    {
+    } else if (*incx > 1) {
         i__1 = *k2;
-        for (j = *k1; j <= i__1; ++j)
-        {
+        for (j = *k1; j <= i__1; ++j) {
             jp = ipiv[jx];
-            if (jp != j)
-            {
+            if (jp != j) {
                 dswap_(n, &a[j * a_dim1 + 1], &c__1, &a[jp * a_dim1 + 1], &c__1);
             }
             jx += *incx;
             /* L20: */
         }
-    }
-    else if (*incx < 0)
-    {
+    } else if (*incx < 0) {
         i__1 = *k1;
-        for (j = *k2; j >= i__1; --j)
-        {
+        for (j = *k2; j >= i__1; --j) {
             jp = ipiv[jx];
-            if (jp != j)
-            {
+            if (jp != j) {
                 dswap_(n, &a[j * a_dim1 + 1], &c__1, &a[jp * a_dim1 + 1], &c__1);
             }
             jx += *incx;
@@ -161,4 +145,3 @@ integer *lda, *k1, *k2, *ipiv, *incx;
     return 0;
     /* *** Last line of MA02GD *** */
 } /* ma02gd_ */
-

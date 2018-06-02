@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,16 +9,16 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb02cx_(typet, p, q, k, a, lda, b, ldb, cs, lcs, dwork, ldwork, info, typet_len)
-char *typet;
+EXPORTSYMBOL /* Subroutine */ int mb02cx_(
+    typet, p, q, k, a, lda, b, ldb, cs, lcs, dwork, ldwork, info, typet_len) char* typet;
 integer *p, *q, *k;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *cs;
-integer *lcs;
-doublereal *dwork;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* cs;
+integer* lcs;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen typet_len;
 {
@@ -173,86 +173,63 @@ ftnlen typet_len;
     *info = 0;
     isrow = lsame_(typet, "R", 1L, 1L);
     /*     Check the scalar input parameters. */
-    if (! (isrow || lsame_(typet, "C", 1L, 1L)))
-    {
+    if (!(isrow || lsame_(typet, "C", 1L, 1L))) {
         *info = -1;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -2;
-    }
-    else if (*q < 0)
-    {
+    } else if (*q < 0) {
         *info = -3;
-    }
-    else if (*k < 0 || *k > *p)
-    {
+    } else if (*k < 0 || *k > *p) {
         *info = -4;
-    }
-    else if (*lda < 1 || isrow && *lda < *p || ! isrow && *lda < *k)
-    {
+    } else if (*lda < 1 || isrow && *lda < *p || !isrow && *lda < *k) {
         *info = -6;
-    }
-    else if (*ldb < 1 || isrow && *ldb < *q || ! isrow && *ldb < *k)
-    {
+    } else if (*ldb < 1 || isrow && *ldb < *q || !isrow && *ldb < *k) {
         *info = -8;
-    }
-    else if (*lcs < (*k << 1) + min(*k,*q))
-    {
+    } else if (*lcs < (*k << 1) + min(*k, *q)) {
         *info = -10;
-    }
-    else if (*ldwork < max(1,*k))
-    {
-        dwork[1] = (doublereal) max(1,*k);
+    } else if (*ldwork < max(1, *k)) {
+        dwork[1] = (doublereal)max(1, *k);
         *info = -12;
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02CX", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (min(*q,*k) == 0)
-    {
+    if (min(*q, *k) == 0) {
         dwork[1] = 1.;
         return 0;
     }
-    if (isrow)
-    {
+    if (isrow) {
         /*        The generator is row wise stored. */
         /*        Step 0: Do QR decomposition of B. */
         dgeqrf_(q, k, &b[b_offset], ldb, &cs[(*k << 1) + 1], &dwork[1], ldwork, &ierr);
         maxwrk = dwork[1];
         i__1 = *k;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /*           Step 1: annihilate the i-th column of B. */
-            if (*q > 1)
-            {
-                i__2 = min(i__,*q);
+            if (*q > 1) {
+                i__2 = min(i__, *q);
                 dlarfg_(&i__2, &b[i__ * b_dim1 + 1], &b[i__ * b_dim1 + 2], &c__1, &tau);
                 alpha = b[i__ * b_dim1 + 1];
                 b[i__ * b_dim1 + 1] = 1.;
-                if (*k > i__)
-                {
-                    i__2 = min(i__,*q);
+                if (*k > i__) {
+                    i__2 = min(i__, *q);
                     i__3 = *k - i__;
-                    dlarf_("Left", &i__2, &i__3, &b[i__ * b_dim1 + 1], &c__1, &tau, &b[(i__ + 1) * b_dim1 + 1], ldb, &dwork[1], 4L);
+                    dlarf_("Left", &i__2, &i__3, &b[i__ * b_dim1 + 1], &c__1, &tau,
+                        &b[(i__ + 1) * b_dim1 + 1], ldb, &dwork[1], 4L);
                 }
                 b[i__ * b_dim1 + 1] = alpha;
-            }
-            else
-            {
+            } else {
                 alpha = b[i__ * b_dim1 + 1];
                 tau = 0.;
             }
             /*           Step 2: annihilate the top entry of the column. */
             beta = a[i__ + i__ * a_dim1];
             ma02fd_(&beta, &alpha, &c__, &s, &ierr);
-            if (ierr != 0)
-            {
+            if (ierr != 0) {
                 /*              Error return:  The matrix is not positive definite. */
                 *info = 1;
                 return 0;
@@ -273,41 +250,34 @@ ftnlen typet_len;
             b[i__ * b_dim1 + 1] = tau;
             /* L10: */
         }
-    }
-    else
-    {
+    } else {
         /*        The generator is column wise stored. */
         /*        Step 0: Do LQ decomposition of B. */
         dgelqf_(k, q, &b[b_offset], ldb, &cs[(*k << 1) + 1], &dwork[1], ldwork, &ierr);
         maxwrk = dwork[1];
         i__1 = *k;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /*           Step 1: annihilate the i-th row of B. */
-            if (*q > 1)
-            {
-                i__2 = min(i__,*q);
+            if (*q > 1) {
+                i__2 = min(i__, *q);
                 dlarfg_(&i__2, &b[i__ + b_dim1], &b[i__ + (b_dim1 << 1)], ldb, &tau);
                 alpha = b[i__ + b_dim1];
                 b[i__ + b_dim1] = 1.;
-                if (*k > i__)
-                {
+                if (*k > i__) {
                     i__2 = *k - i__;
-                    i__3 = min(i__,*q);
-                    dlarf_("Right", &i__2, &i__3, &b[i__ + b_dim1], ldb, &tau, &b[i__ + 1 + b_dim1], ldb, &dwork[1], 5L);
+                    i__3 = min(i__, *q);
+                    dlarf_("Right", &i__2, &i__3, &b[i__ + b_dim1], ldb, &tau, &b[i__ + 1 + b_dim1],
+                        ldb, &dwork[1], 5L);
                 }
                 b[i__ + b_dim1] = alpha;
-            }
-            else
-            {
+            } else {
                 alpha = b[i__ + b_dim1];
                 tau = 0.;
             }
             /*           Step 2: annihilate the left entry of the row. */
             beta = a[i__ + i__ * a_dim1];
             ma02fd_(&beta, &alpha, &c__, &s, &ierr);
-            if (ierr != 0)
-            {
+            if (ierr != 0) {
                 /*              Error return:  The matrix is not positive definite. */
                 *info = 1;
                 return 0;
@@ -333,4 +303,3 @@ ftnlen typet_len;
     return 0;
     /* *** Last line of MB02CX *** */
 } /* mb02cx_ */
-

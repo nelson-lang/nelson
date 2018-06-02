@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,30 +9,32 @@
 
 static doublereal c_b10 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb16cy_(dico, jobcf, n, m, p, a, lda, b, ldb, c__, ldc, f, ldf, g, ldg, scalec, scaleo, s, lds, r__, ldr, dwork, ldwork, info, dico_len, jobcf_len)
-char *dico, *jobcf;
+EXPORTSYMBOL /* Subroutine */ int sb16cy_(dico, jobcf, n, m, p, a, lda, b, ldb, c__, ldc, f, ldf, g,
+    ldg, scalec, scaleo, s, lds, r__, ldr, dwork, ldwork, info, dico_len, jobcf_len) char *dico,
+    *jobcf;
 integer *n, *m, *p;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *f;
-integer *ldf;
-doublereal *g;
-integer *ldg;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* f;
+integer* ldf;
+doublereal* g;
+integer* ldg;
 doublereal *scalec, *scaleo, *s;
-integer *lds;
-doublereal *r__;
-integer *ldr;
-doublereal *dwork;
+integer* lds;
+doublereal* r__;
+integer* ldr;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen dico_len;
 ftnlen jobcf_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, f_dim1, f_offset, g_dim1, g_offset, r_dim1, r_offset, s_dim1, s_offset, i__1, i__2;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, f_dim1, f_offset, g_dim1,
+        g_offset, r_dim1, r_offset, s_dim1, s_offset, i__1, i__2;
     /* Local variables */
     static integer ierr;
     extern /* Subroutine */ int dgemm_(), sb03od_();
@@ -221,69 +223,40 @@ ftnlen jobcf_len;
     discr = lsame_(dico, "D", 1L, 1L);
     leftw = lsame_(jobcf, "L", 1L, 1L);
     *info = 0;
-    if (leftw)
-    {
+    if (leftw) {
         mp = *m;
-    }
-    else
-    {
+    } else {
         mp = *p;
     }
-    lw = *n * (*n + max(*n,mp) + min(*n,mp) + 6);
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    lw = *n * (*n + max(*n, mp) + min(*n, mp) + 6);
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (! (leftw || lsame_(jobcf, "R", 1L, 1L)))
-    {
+    } else if (!(leftw || lsame_(jobcf, "R", 1L, 1L))) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -5;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -11;
-    }
-    else if (*ldf < max(1,*m))
-    {
+    } else if (*ldf < max(1, *m)) {
         *info = -13;
-    }
-    else if (*ldg < max(1,*n))
-    {
+    } else if (*ldg < max(1, *n)) {
         *info = -15;
-    }
-    else if (*lds < max(1,*n))
-    {
+    } else if (*lds < max(1, *n)) {
         *info = -19;
-    }
-    else if (*ldr < max(1,*n))
-    {
+    } else if (*ldr < max(1, *n)) {
         *info = -21;
-    }
-    else if (*ldwork < max(1,lw))
-    {
+    } else if (*ldwork < max(1, lw)) {
         *info = -23;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB16CY", &i__1, 6L);
@@ -291,9 +264,8 @@ ftnlen jobcf_len;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*n,*m);
-    if (min(i__1,*p) == 0)
-    {
+    i__1 = min(*n, *m);
+    if (min(i__1, *p) == 0) {
         *scalec = 1.;
         *scaleo = 1.;
         dwork[1] = 1.;
@@ -301,25 +273,23 @@ ftnlen jobcf_len;
     }
     /*     Allocate storage for work arrays. */
     kaw = 1;
-    ku = kaw + *n **n;
-    kwr = ku + *n * max(*n,mp);
+    ku = kaw + *n * *n;
+    kwr = ku + *n * max(*n, mp);
     kwi = kwr + *n;
     kw = kwi + *n;
     /*     Form A+G*C. */
     dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[kaw], n, 4L);
-    dgemm_("No-transpose", "No-transpose", n, n, p, &c_b10, &g[g_offset], ldg, &c__[c_offset], ldc, &c_b10, &dwork[kaw], n, 12L, 12L);
+    dgemm_("No-transpose", "No-transpose", n, n, p, &c_b10, &g[g_offset], ldg, &c__[c_offset], ldc,
+        &c_b10, &dwork[kaw], n, 12L, 12L);
     /*     Form the factor H of the free term. */
-    if (leftw)
-    {
+    if (leftw) {
         /*        H = F. */
-        ldu = max(*n,*m);
+        ldu = max(*n, *m);
         me = *m;
         dlacpy_("Full", m, n, &f[f_offset], ldf, &dwork[ku], &ldu, 4L);
-    }
-    else
-    {
+    } else {
         /*        H = C. */
-        ldu = max(*n,*p);
+        ldu = max(*n, *p);
         me = *p;
         dlacpy_("Full", p, n, &c__[c_offset], ldc, &dwork[ku], &ldu, 4L);
     }
@@ -332,38 +302,31 @@ ftnlen jobcf_len;
     /*                        N*(N + MAX(N,P) + MIN(N,P) + 6) if JOBCF = 'R'. */
     /*                 prefer larger. */
     i__1 = *ldwork - kw + 1;
-    sb03od_(dico, "NoFact", "NoTransp", n, &me, &dwork[kaw], n, &r__[r_offset], ldr, &dwork[ku], &ldu, scaleo, &dwork[kwr], &dwork[kwi], &dwork[kw], &i__1, &ierr, 1L, 6L, 8L);
-    if (ierr != 0)
-    {
-        if (ierr == 2)
-        {
+    sb03od_(dico, "NoFact", "NoTransp", n, &me, &dwork[kaw], n, &r__[r_offset], ldr, &dwork[ku],
+        &ldu, scaleo, &dwork[kwr], &dwork[kwi], &dwork[kw], &i__1, &ierr, 1L, 6L, 8L);
+    if (ierr != 0) {
+        if (ierr == 2) {
             *info = 2;
-        }
-        else if (ierr == 1)
-        {
+        } else if (ierr == 1) {
             *info = 4;
-        }
-        else if (ierr == 6)
-        {
+        } else if (ierr == 6) {
             *info = 1;
         }
         return 0;
     }
-    wrkopt = (integer) dwork[kw] + kw - 1;
+    wrkopt = (integer)dwork[kw] + kw - 1;
     dlacpy_("Upper", n, n, &dwork[ku], &ldu, &r__[r_offset], ldr, 5L);
     /*     Form A+B*F. */
     dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[kaw], n, 4L);
-    dgemm_("No-transpose", "No-transpose", n, n, m, &c_b10, &b[b_offset], ldb, &f[f_offset], ldf, &c_b10, &dwork[kaw], n, 12L, 12L);
+    dgemm_("No-transpose", "No-transpose", n, n, m, &c_b10, &b[b_offset], ldb, &f[f_offset], ldf,
+        &c_b10, &dwork[kaw], n, 12L, 12L);
     /*     Form the factor K of the free term. */
     ldu = *n;
-    if (leftw)
-    {
+    if (leftw) {
         /*        K = B. */
         me = *m;
         dlacpy_("Full", n, m, &b[b_offset], ldb, &dwork[ku], &ldu, 4L);
-    }
-    else
-    {
+    } else {
         /*        K = G. */
         me = *p;
         dlacpy_("Full", n, p, &g[g_offset], ldg, &dwork[ku], &ldu, 4L);
@@ -377,30 +340,24 @@ ftnlen jobcf_len;
     /*                        N*(N + MAX(N,P) + MIN(N,P) + 6) if JOBCF = 'R'. */
     /*                        prefer larger. */
     i__1 = *ldwork - kw + 1;
-    sb03od_(dico, "NoFact", "Transp", n, &me, &dwork[kaw], n, &s[s_offset], lds, &dwork[ku], &ldu, scalec, &dwork[kwr], &dwork[kwi], &dwork[kw], &i__1, &ierr, 1L, 6L, 6L);
-    if (ierr != 0)
-    {
-        if (ierr == 2)
-        {
+    sb03od_(dico, "NoFact", "Transp", n, &me, &dwork[kaw], n, &s[s_offset], lds, &dwork[ku], &ldu,
+        scalec, &dwork[kwr], &dwork[kwi], &dwork[kw], &i__1, &ierr, 1L, 6L, 6L);
+    if (ierr != 0) {
+        if (ierr == 2) {
             *info = 3;
-        }
-        else if (ierr == 1)
-        {
+        } else if (ierr == 1) {
             *info = 5;
-        }
-        else if (ierr == 6)
-        {
+        } else if (ierr == 6) {
             *info = 1;
         }
         return 0;
     }
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+    wrkopt = max(i__1, i__2);
     dlacpy_("Upper", n, n, &dwork[ku], &ldu, &s[s_offset], lds, 5L);
     /*     Save the optimal workspace. */
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of SB16CY *** */
 } /* sb16cy_ */
-

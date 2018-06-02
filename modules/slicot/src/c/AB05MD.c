@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,40 +10,44 @@
 static doublereal c_b16 = 0.;
 static doublereal c_b20 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int ab05md_(uplo, over, n1, m1, p1, n2, p2, a1, lda1, b1, ldb1, c1, ldc1, d1, ldd1, a2, lda2, b2, ldb2, c2, ldc2, d2, ldd2, n, a, lda, b, ldb, c__, ldc, d__, ldd, dwork, ldwork, info, uplo_len, over_len)
-char *uplo, *over;
+EXPORTSYMBOL /* Subroutine */ int ab05md_(uplo, over, n1, m1, p1, n2, p2, a1, lda1, b1, ldb1, c1,
+    ldc1, d1, ldd1, a2, lda2, b2, ldb2, c2, ldc2, d2, ldd2, n, a, lda, b, ldb, c__, ldc, d__, ldd,
+    dwork, ldwork, info, uplo_len, over_len) char *uplo,
+    *over;
 integer *n1, *m1, *p1, *n2, *p2;
-doublereal *a1;
-integer *lda1;
-doublereal *b1;
-integer *ldb1;
-doublereal *c1;
-integer *ldc1;
-doublereal *d1;
-integer *ldd1;
-doublereal *a2;
-integer *lda2;
-doublereal *b2;
-integer *ldb2;
-doublereal *c2;
-integer *ldc2;
-doublereal *d2;
+doublereal* a1;
+integer* lda1;
+doublereal* b1;
+integer* ldb1;
+doublereal* c1;
+integer* ldc1;
+doublereal* d1;
+integer* ldd1;
+doublereal* a2;
+integer* lda2;
+doublereal* b2;
+integer* ldb2;
+doublereal* c2;
+integer* ldc2;
+doublereal* d2;
 integer *ldd2, *n;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *dwork;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen uplo_len;
 ftnlen over_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, a1_dim1, a1_offset, a2_dim1, a2_offset, b_dim1, b_offset, b1_dim1, b1_offset, b2_dim1, b2_offset, c_dim1, c_offset, c1_dim1, c1_offset, c2_dim1, c2_offset, d_dim1, d_offset, d1_dim1, d1_offset, d2_dim1, d2_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, a1_dim1, a1_offset, a2_dim1, a2_offset, b_dim1, b_offset, b1_dim1,
+        b1_offset, b2_dim1, b2_offset, c_dim1, c_offset, c1_dim1, c1_offset, c2_dim1, c2_offset,
+        d_dim1, d_offset, d1_dim1, d1_offset, d2_dim1, d2_offset, i__1, i__2, i__3;
     /* Local variables */
     static integer ldwn2, ldwp1, ldwp2, i__, j;
     extern /* Subroutine */ int dgemm_();
@@ -297,95 +301,55 @@ ftnlen over_len;
     *n = *n1 + *n2;
     *info = 0;
     /*     Test the input scalar arguments. */
-    if (! luplo && ! lsame_(uplo, "U", 1L, 1L))
-    {
+    if (!luplo && !lsame_(uplo, "U", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! lover && ! lsame_(over, "N", 1L, 1L))
-    {
+    } else if (!lover && !lsame_(over, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*n1 < 0)
-    {
+    } else if (*n1 < 0) {
         *info = -3;
-    }
-    else if (*m1 < 0)
-    {
+    } else if (*m1 < 0) {
         *info = -4;
-    }
-    else if (*p1 < 0)
-    {
+    } else if (*p1 < 0) {
         *info = -5;
-    }
-    else if (*n2 < 0)
-    {
+    } else if (*n2 < 0) {
         *info = -6;
-    }
-    else if (*p2 < 0)
-    {
+    } else if (*p2 < 0) {
         *info = -7;
-    }
-    else if (*lda1 < max(1,*n1))
-    {
+    } else if (*lda1 < max(1, *n1)) {
         *info = -9;
-    }
-    else if (*ldb1 < max(1,*n1))
-    {
+    } else if (*ldb1 < max(1, *n1)) {
         *info = -11;
-    }
-    else if (*n1 > 0 && *ldc1 < max(1,*p1) || *n1 == 0 && *ldc1 < 1)
-    {
+    } else if (*n1 > 0 && *ldc1 < max(1, *p1) || *n1 == 0 && *ldc1 < 1) {
         *info = -13;
-    }
-    else if (*ldd1 < max(1,*p1))
-    {
+    } else if (*ldd1 < max(1, *p1)) {
         *info = -15;
-    }
-    else if (*lda2 < max(1,*n2))
-    {
+    } else if (*lda2 < max(1, *n2)) {
         *info = -17;
-    }
-    else if (*ldb2 < max(1,*n2))
-    {
+    } else if (*ldb2 < max(1, *n2)) {
         *info = -19;
-    }
-    else if (*n2 > 0 && *ldc2 < max(1,*p2) || *n2 == 0 && *ldc2 < 1)
-    {
+    } else if (*n2 > 0 && *ldc2 < max(1, *p2) || *n2 == 0 && *ldc2 < 1) {
         *info = -21;
-    }
-    else if (*ldd2 < max(1,*p2))
-    {
+    } else if (*ldd2 < max(1, *p2)) {
         *info = -23;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -26;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -28;
-    }
-    else if (*n > 0 && *ldc < max(1,*p2) || *n == 0 && *ldc < 1)
-    {
+    } else if (*n > 0 && *ldc < max(1, *p2) || *n == 0 && *ldc < 1) {
         *info = -30;
-    }
-    else if (*ldd < max(1,*p2))
-    {
+    } else if (*ldd < max(1, *p2)) {
         *info = -32;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         /* Computing MAX */
-        i__3 = max(*n1,*m1), i__3 = max(i__3,*n2);
-        i__1 = 1, i__2 = *p1 * max(i__3,*p2);
-        if (lover && *ldwork < max(i__1,i__2) || ! lover && *ldwork < 1)
-        {
+        i__3 = max(*n1, *m1), i__3 = max(i__3, *n2);
+        i__1 = 1, i__2 = *p1 * max(i__3, *p2);
+        if (lover && *ldwork < max(i__1, i__2) || !lover && *ldwork < 1) {
             *info = -34;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB05MD", &i__1, 6L);
@@ -393,205 +357,160 @@ ftnlen over_len;
     }
     /*     Quick return if possible. */
     /* Computing MAX */
-    i__1 = *n, i__2 = min(*m1,*p2);
-    if (max(i__1,i__2) == 0)
-    {
+    i__1 = *n, i__2 = min(*m1, *p2);
+    if (max(i__1, i__2) == 0) {
         return 0;
     }
     /*     Set row/column indices for storing the results. */
-    if (luplo)
-    {
+    if (luplo) {
         i1 = 1;
         /* Computing MIN */
         i__1 = *n1 + 1;
-        i2 = min(i__1,*n);
-    }
-    else
-    {
+        i2 = min(i__1, *n);
+    } else {
         /* Computing MIN */
         i__1 = *n2 + 1;
-        i1 = min(i__1,*n);
+        i1 = min(i__1, *n);
         i2 = 1;
     }
-    ldwn2 = max(1,*n2);
-    ldwp1 = max(1,*p1);
-    ldwp2 = max(1,*p2);
+    ldwn2 = max(1, *n2);
+    ldwp1 = max(1, *p1);
+    ldwp2 = max(1, *p2);
     /*     Construct the cascaded system matrices, taking the desired block */
     /*     structure and possible overwriting into account. */
     /*     Form the diagonal blocks of matrix  A. */
-    if (luplo)
-    {
+    if (luplo) {
         /*        Lower block diagonal structure. */
-        if (lover && *lda1 <= *lda)
-        {
-            if (*lda1 < *lda)
-            {
-                for (j = *n1; j >= 1; --j)
-                {
-                    for (i__ = *n1; i__ >= 1; --i__)
-                    {
+        if (lover && *lda1 <= *lda) {
+            if (*lda1 < *lda) {
+                for (j = *n1; j >= 1; --j) {
+                    for (i__ = *n1; i__ >= 1; --i__) {
                         a[i__ + j * a_dim1] = a1[i__ + j * a1_dim1];
                         /* L10: */
                     }
                     /* L20: */
                 }
             }
-        }
-        else
-        {
+        } else {
             dlacpy_("F", n1, n1, &a1[a1_offset], lda1, &a[a_offset], lda, 1L);
         }
-        if (*n2 > 0)
-        {
+        if (*n2 > 0) {
             dlacpy_("F", n2, n2, &a2[a2_offset], lda2, &a[i2 + i2 * a_dim1], lda, 1L);
         }
-    }
-    else
-    {
+    } else {
         /*        Upper block diagonal structure. */
-        if (lover && *lda2 <= *lda)
-        {
-            if (*lda2 < *lda)
-            {
-                for (j = *n2; j >= 1; --j)
-                {
-                    for (i__ = *n2; i__ >= 1; --i__)
-                    {
+        if (lover && *lda2 <= *lda) {
+            if (*lda2 < *lda) {
+                for (j = *n2; j >= 1; --j) {
+                    for (i__ = *n2; i__ >= 1; --i__) {
                         a[i__ + j * a_dim1] = a2[i__ + j * a2_dim1];
                         /* L30: */
                     }
                     /* L40: */
                 }
             }
-        }
-        else
-        {
+        } else {
             dlacpy_("F", n2, n2, &a2[a2_offset], lda2, &a[a_offset], lda, 1L);
         }
-        if (*n1 > 0)
-        {
+        if (*n1 > 0) {
             dlacpy_("F", n1, n1, &a1[a1_offset], lda1, &a[i1 + i1 * a_dim1], lda, 1L);
         }
     }
     /*     Form the off-diagonal blocks of matrix  A. */
-    if (min(*n1,*n2) > 0)
-    {
+    if (min(*n1, *n2) > 0) {
         dlaset_("F", n1, n2, &c_b16, &c_b16, &a[i1 + i2 * a_dim1], lda, 1L);
-        dgemm_("No transpose", "No transpose", n2, n1, p1, &c_b20, &b2[b2_offset], ldb2, &c1[c1_offset], ldc1, &c_b16, &a[i2 + i1 * a_dim1], lda, 12L, 12L);
+        dgemm_("No transpose", "No transpose", n2, n1, p1, &c_b20, &b2[b2_offset], ldb2,
+            &c1[c1_offset], ldc1, &c_b16, &a[i2 + i1 * a_dim1], lda, 12L, 12L);
     }
-    if (luplo)
-    {
+    if (luplo) {
         /*        Form the matrix  B. */
-        if (lover && *ldb1 <= *ldb)
-        {
-            if (*ldb1 < *ldb)
-            {
-                for (j = *m1; j >= 1; --j)
-                {
-                    for (i__ = *n1; i__ >= 1; --i__)
-                    {
+        if (lover && *ldb1 <= *ldb) {
+            if (*ldb1 < *ldb) {
+                for (j = *m1; j >= 1; --j) {
+                    for (i__ = *n1; i__ >= 1; --i__) {
                         b[i__ + j * b_dim1] = b1[i__ + j * b1_dim1];
                         /* L50: */
                     }
                     /* L60: */
                 }
             }
-        }
-        else
-        {
+        } else {
             dlacpy_("F", n1, m1, &b1[b1_offset], ldb1, &b[b_offset], ldb, 1L);
         }
-        if (min(*n2,*m1) > 0)
-        {
-            dgemm_("No transpose", "No transpose", n2, m1, p1, &c_b20, &b2[b2_offset], ldb2, &d1[d1_offset], ldd1, &c_b16, &b[i2 + b_dim1], ldb, 12L, 12L);
+        if (min(*n2, *m1) > 0) {
+            dgemm_("No transpose", "No transpose", n2, m1, p1, &c_b20, &b2[b2_offset], ldb2,
+                &d1[d1_offset], ldd1, &c_b16, &b[i2 + b_dim1], ldb, 12L, 12L);
         }
         /*        Form the matrix  C. */
-        if (*n1 > 0)
-        {
-            if (lover)
-            {
+        if (*n1 > 0) {
+            if (lover) {
                 /*              Workspace:  P1*N1. */
                 dlacpy_("F", p1, n1, &c1[c1_offset], ldc1, &dwork[1], &ldwp1, 1L);
-                dgemm_("No transpose", "No transpose", p2, n1, p1, &c_b20, &d2[d2_offset], ldd2, &dwork[1], &ldwp1, &c_b16, &c__[c_offset], ldc, 12L, 12L);
-            }
-            else
-            {
-                dgemm_("No transpose", "No transpose", p2, n1, p1, &c_b20, &d2[d2_offset], ldd2, &c1[c1_offset], ldc1, &c_b16, &c__[c_offset], ldc, 12L, 12L);
+                dgemm_("No transpose", "No transpose", p2, n1, p1, &c_b20, &d2[d2_offset], ldd2,
+                    &dwork[1], &ldwp1, &c_b16, &c__[c_offset], ldc, 12L, 12L);
+            } else {
+                dgemm_("No transpose", "No transpose", p2, n1, p1, &c_b20, &d2[d2_offset], ldd2,
+                    &c1[c1_offset], ldc1, &c_b16, &c__[c_offset], ldc, 12L, 12L);
             }
         }
-        if (min(*p2,*n2) > 0)
-        {
+        if (min(*p2, *n2) > 0) {
             dlacpy_("F", p2, n2, &c2[c2_offset], ldc2, &c__[i2 * c_dim1 + 1], ldc, 1L);
         }
         /*        Now form the matrix  D. */
-        if (lover)
-        {
+        if (lover) {
             /*           Workspace:  P1*M1. */
             dlacpy_("F", p1, m1, &d1[d1_offset], ldd1, &dwork[1], &ldwp1, 1L);
-            dgemm_("No transpose", "No transpose", p2, m1, p1, &c_b20, &d2[d2_offset], ldd2, &dwork[1], &ldwp1, &c_b16, &d__[d_offset], ldd, 12L, 12L);
+            dgemm_("No transpose", "No transpose", p2, m1, p1, &c_b20, &d2[d2_offset], ldd2,
+                &dwork[1], &ldwp1, &c_b16, &d__[d_offset], ldd, 12L, 12L);
+        } else {
+            dgemm_("No transpose", "No transpose", p2, m1, p1, &c_b20, &d2[d2_offset], ldd2,
+                &d1[d1_offset], ldd1, &c_b16, &d__[d_offset], ldd, 12L, 12L);
         }
-        else
-        {
-            dgemm_("No transpose", "No transpose", p2, m1, p1, &c_b20, &d2[d2_offset], ldd2, &d1[d1_offset], ldd1, &c_b16, &d__[d_offset], ldd, 12L, 12L);
-        }
-    }
-    else
-    {
+    } else {
         /*        Form the matrix  B. */
-        if (lover)
-        {
+        if (lover) {
             /*           Workspace:  N2*P1. */
             dlacpy_("F", n2, p1, &b2[b2_offset], ldb2, &dwork[1], &ldwn2, 1L);
-            if (min(*n2,*m1) > 0)
-            {
-                dgemm_("No transpose", "No transpose", n2, m1, p1, &c_b20, &dwork[1], &ldwn2, &d1[d1_offset], ldd1, &c_b16, &b[i2 + b_dim1], ldb, 12L, 12L);
+            if (min(*n2, *m1) > 0) {
+                dgemm_("No transpose", "No transpose", n2, m1, p1, &c_b20, &dwork[1], &ldwn2,
+                    &d1[d1_offset], ldd1, &c_b16, &b[i2 + b_dim1], ldb, 12L, 12L);
             }
+        } else {
+            dgemm_("No transpose", "No transpose", n2, m1, p1, &c_b20, &b2[b2_offset], ldb2,
+                &d1[d1_offset], ldd1, &c_b16, &b[b_offset], ldb, 12L, 12L);
         }
-        else
-        {
-            dgemm_("No transpose", "No transpose", n2, m1, p1, &c_b20, &b2[b2_offset], ldb2, &d1[d1_offset], ldd1, &c_b16, &b[b_offset], ldb, 12L, 12L);
-        }
-        if (min(*n1,*m1) > 0)
-        {
+        if (min(*n1, *m1) > 0) {
             dlacpy_("F", n1, m1, &b1[b1_offset], ldb1, &b[i1 + b_dim1], ldb, 1L);
         }
         /*        Form the matrix  C. */
-        if (lover && *ldc2 <= *ldc)
-        {
-            if (*ldc2 < *ldc)
-            {
-                for (j = *n2; j >= 1; --j)
-                {
-                    for (i__ = *p2; i__ >= 1; --i__)
-                    {
+        if (lover && *ldc2 <= *ldc) {
+            if (*ldc2 < *ldc) {
+                for (j = *n2; j >= 1; --j) {
+                    for (i__ = *p2; i__ >= 1; --i__) {
                         c__[i__ + j * c_dim1] = c2[i__ + j * c2_dim1];
                         /* L70: */
                     }
                     /* L80: */
                 }
             }
-        }
-        else
-        {
+        } else {
             dlacpy_("F", p2, n2, &c2[c2_offset], ldc2, &c__[c_offset], ldc, 1L);
         }
-        if (min(*p2,*n1) > 0)
-        {
-            dgemm_("No transpose", "No transpose", p2, n1, p1, &c_b20, &d2[d2_offset], ldd2, &c1[c1_offset], ldc1, &c_b16, &c__[i1 * c_dim1 + 1], ldc, 12L, 12L);
+        if (min(*p2, *n1) > 0) {
+            dgemm_("No transpose", "No transpose", p2, n1, p1, &c_b20, &d2[d2_offset], ldd2,
+                &c1[c1_offset], ldc1, &c_b16, &c__[i1 * c_dim1 + 1], ldc, 12L, 12L);
         }
         /*        Now form the matrix  D. */
-        if (lover)
-        {
+        if (lover) {
             /*           Workspace:  P2*P1. */
             dlacpy_("F", p2, p1, &d2[d2_offset], ldd2, &dwork[1], &ldwp2, 1L);
-            dgemm_("No transpose", "No transpose", p2, m1, p1, &c_b20, &dwork[1], &ldwp2, &d1[d1_offset], ldd1, &c_b16, &d__[d_offset], ldd, 12L, 12L);
-        }
-        else
-        {
-            dgemm_("No transpose", "No transpose", p2, m1, p1, &c_b20, &d2[d2_offset], ldd2, &d1[d1_offset], ldd1, &c_b16, &d__[d_offset], ldd, 12L, 12L);
+            dgemm_("No transpose", "No transpose", p2, m1, p1, &c_b20, &dwork[1], &ldwp2,
+                &d1[d1_offset], ldd1, &c_b16, &d__[d_offset], ldd, 12L, 12L);
+        } else {
+            dgemm_("No transpose", "No transpose", p2, m1, p1, &c_b20, &d2[d2_offset], ldd2,
+                &d1[d1_offset], ldd1, &c_b16, &d__[d_offset], ldd, 12L, 12L);
         }
     }
     return 0;
     /* *** Last line of AB05MD *** */
 } /* ab05md_ */
-

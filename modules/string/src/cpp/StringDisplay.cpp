@@ -20,45 +20,34 @@
 #include "Error.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void StringDisplay(Evaluator *eval, ArrayOf Var, bool bFromBuiltin)
-    {
-        if (!Var.isString())
-        {
-            Error(eval, _W("StringDisplay method: String expected."));
-        }
-        Interface *io = eval->getInterface();
-        if (Var.isSingleString())
-        {
-            std::wstring msg = Var.getContentAsWideString();
-            if (msg.size() == 0)
-            {
-                if (!bFromBuiltin)
-                {
-                    io->outputMessage("\'\'");
-                }
-                else
-                {
-                    return;
-                }
+//=============================================================================
+void
+StringDisplay(Evaluator* eval, ArrayOf Var, bool bFromBuiltin)
+{
+    if (!Var.isString()) {
+        Error(eval, _W("StringDisplay method: String expected."));
+    }
+    Interface* io = eval->getInterface();
+    if (Var.isSingleString()) {
+        std::wstring msg = Var.getContentAsWideString();
+        if (msg.size() == 0) {
+            if (!bFromBuiltin) {
+                io->outputMessage("\'\'");
+            } else {
+                return;
             }
-            else
-            {
-                io->outputMessage(msg + L"\n");
-            }
+        } else {
+            io->outputMessage(msg + L"\n");
         }
-        else
-        {
-            wstringVector msg = Var.getContentAsWideStringVector();
-            for (indexType i = 0; i < msg.size(); ++i)
-            {
-                io->outputMessage(msg[i] + L"\n");
-                if (eval->GetInterruptPending())
-                {
-                    break;
-                }
+    } else {
+        wstringVector msg = Var.getContentAsWideStringVector();
+        for (indexType i = 0; i < msg.size(); ++i) {
+            io->outputMessage(msg[i] + L"\n");
+            if (eval->GetInterruptPending()) {
+                break;
             }
         }
     }
+}
 }
 //=============================================================================

@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsCore_exports.h"
 #include "Types.hpp"
+#include "nlsCore_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSCORE_IMPEXP wstringVector VersionCompilerFlags();
+NLSCORE_IMPEXP wstringVector
+VersionCompilerFlags();
 }
 //=============================================================================

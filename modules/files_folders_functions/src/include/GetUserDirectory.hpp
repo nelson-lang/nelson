@@ -18,12 +18,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsFiles_folders_functions_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsFiles_folders_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP ArrayOf UserDir();
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring GetUserDirectory();
-}
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP ArrayOf
+UserDir();
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring
+GetUserDirectory();
+} // namespace Nelson
 //=============================================================================

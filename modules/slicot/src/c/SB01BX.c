@@ -1,13 +1,12 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int sb01bx_(reig, n, xr, xi, wr, wi, s, p)
-logical *reig;
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int sb01bx_(reig, n, xr, xi, wr, wi, s, p) logical* reig;
+integer* n;
 doublereal *xr, *xi, *wr, *wi, *s, *p;
 {
     /* System generated locals */
@@ -91,15 +90,12 @@ doublereal *xr, *xi, *wr, *wi, *s, *p;
     --wr;
     /* Function Body */
     j = 1;
-    if (*reig)
-    {
+    if (*reig) {
         y = (d__1 = wr[1] - *xr, abs(d__1));
         i__1 = *n;
-        for (i__ = 2; i__ <= i__1; ++i__)
-        {
+        for (i__ = 2; i__ <= i__1; ++i__) {
             x = (d__1 = wr[i__] - *xr, abs(d__1));
-            if (x < y)
-            {
+            if (x < y) {
                 y = x;
                 j = i__;
             }
@@ -107,27 +103,21 @@ doublereal *xr, *xi, *wr, *wi, *s, *p;
         }
         *s = wr[j];
         k = *n - j;
-        if (k > 0)
-        {
+        if (k > 0) {
             i__1 = j + k - 1;
-            for (i__ = j; i__ <= i__1; ++i__)
-            {
+            for (i__ = j; i__ <= i__1; ++i__) {
                 wr[i__] = wr[i__ + 1];
                 /* L20: */
             }
             wr[*n] = *s;
         }
         *p = *s;
-    }
-    else
-    {
+    } else {
         y = (d__1 = wr[1] - *xr, abs(d__1)) + (d__2 = wi[1] - *xi, abs(d__2));
         i__1 = *n;
-        for (i__ = 3; i__ <= i__1; i__ += 2)
-        {
+        for (i__ = 3; i__ <= i__1; i__ += 2) {
             x = (d__1 = wr[i__] - *xr, abs(d__1)) + (d__2 = wi[i__] - *xi, abs(d__2));
-            if (x < y)
-            {
+            if (x < y) {
                 y = x;
                 j = i__;
             }
@@ -136,11 +126,9 @@ doublereal *xr, *xi, *wr, *wi, *s, *p;
         x = wr[j];
         y = wi[j];
         k = *n - j - 1;
-        if (k > 0)
-        {
+        if (k > 0) {
             i__1 = j + k - 1;
-            for (i__ = j; i__ <= i__1; ++i__)
-            {
+            for (i__ = j; i__ <= i__1; ++i__) {
                 wr[i__] = wr[i__ + 2];
                 wi[i__] = wi[i__ + 2];
                 /* L40: */
@@ -156,4 +144,3 @@ doublereal *xr, *xi, *wr, *wi, *s, *p;
     return 0;
     /* *** End of SB01BX *** */
 } /* sb01bx_ */
-

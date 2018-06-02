@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "Types.hpp"
 #include "nlsText_completion_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSTEXT_COMPLETION_IMPEXP wstringVector FileCompleter(std::wstring prefix);
+NLSTEXT_COMPLETION_IMPEXP wstringVector
+FileCompleter(std::wstring prefix);
 };
 //=============================================================================

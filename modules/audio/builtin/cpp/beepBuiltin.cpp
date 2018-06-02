@@ -17,58 +17,43 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "beepBuiltin.hpp"
-#include "Error.hpp"
 #include "Beep.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::AudioGateway::beepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::AudioGateway::beepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() > 1)
-    {
+    if (argIn.size() > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (argIn.size() == 0)
-    {
-        if (nLhs == 0)
-        {
+    if (argIn.size() == 0) {
+        if (nLhs == 0) {
             beep();
         }
-    }
-    else
-    {
+    } else {
         ArrayOf param1 = argIn[0];
         std::wstring str = param1.getContentAsWideString();
-        if (str == L"on" || str == L"off")
-        {
-            if (str == L"on")
-            {
+        if (str == L"on" || str == L"off") {
+            if (str == L"on") {
                 setBeepOn();
-            }
-            else
-            {
+            } else {
                 setBeepOff();
             }
-        }
-        else
-        {
+        } else {
             Error(eval, _W("Wrong value for #1 argument."));
         }
     }
-    if (nLhs > 0)
-    {
+    if (nLhs > 0) {
         bool beepState = getBeepState();
-        if (beepState)
-        {
+        if (beepState) {
             retval.push_back(ArrayOf::stringConstructor(L"on"));
-        }
-        else
-        {
+        } else {
             retval.push_back(ArrayOf::stringConstructor(L"off"));
         }
     }

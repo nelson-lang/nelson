@@ -22,9 +22,11 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace StringGateway {
-        ArrayOfVector strcmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector strcmpiBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
-}
+namespace StringGateway {
+    ArrayOfVector
+    strcmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    strcmpiBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+} // namespace StringGateway
+} // namespace Nelson
 //=============================================================================

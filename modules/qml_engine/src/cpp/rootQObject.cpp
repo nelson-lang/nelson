@@ -16,41 +16,36 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtQml/QQmlComponent>
-#include <QtGui/QWindow>
 #include "rootQObject.hpp"
 #include "HandleManager.hpp"
-#include "QmlHandleObject.hpp"
 #include "MainGuiObject.hpp"
+#include "QmlHandleObject.hpp"
+#include <QtGui/QWindow>
+#include <QtQml/QQmlComponent>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf rootQObject()
-    {
-        ArrayOf res;
-        QWindow * parent = (QWindow *)GetMainGuiObject();
-        if (parent)
-        {
-            QmlHandleObject * qmlHandle = nullptr;
-            try
-            {
-                qmlHandle = new QmlHandleObject(parent);
-            }
-            catch (std::bad_alloc &e)
-            {
-                e.what();
-                qmlHandle = nullptr;
-                throw Exception(ERROR_MEMORY_ALLOCATION);
-            }
-            res = ArrayOf::handleConstructor(qmlHandle);
+//=============================================================================
+ArrayOf
+rootQObject()
+{
+    ArrayOf res;
+    QWindow* parent = (QWindow*)GetMainGuiObject();
+    if (parent) {
+        QmlHandleObject* qmlHandle = nullptr;
+        try {
+            qmlHandle = new QmlHandleObject(parent);
+        } catch (std::bad_alloc& e) {
+            e.what();
+            qmlHandle = nullptr;
+            throw Exception(ERROR_MEMORY_ALLOCATION);
         }
-        else
-        {
-            res = ArrayOf::emptyConstructor(Dimensions(0, 0));
-            res.promoteType(NLS_HANDLE);
-        }
-        return res;
+        res = ArrayOf::handleConstructor(qmlHandle);
+    } else {
+        res = ArrayOf::emptyConstructor(Dimensions(0, 0));
+        res.promoteType(NLS_HANDLE);
     }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

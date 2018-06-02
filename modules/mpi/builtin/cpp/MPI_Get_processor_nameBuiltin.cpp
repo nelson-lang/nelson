@@ -16,27 +16,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <mpi.h>
-#include "Error.hpp"
 #include "MPI_Get_processor_nameBuiltin.hpp"
+#include "Error.hpp"
+#include <mpi.h>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_Get_processor_nameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::MpiGateway::MPI_Get_processor_nameBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 0)
-    {
+    if (argIn.size() != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 3)
-    {
+    if (nLhs > 3) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int flag = 0;
     MPI_Initialized(&flag);
-    if (flag == 0)
-    {
+    if (flag == 0) {
         Error(eval, _W("Attempting to use an MPI routine before initializing MPI."));
     }
     std::string processorName;
@@ -46,12 +45,10 @@ ArrayOfVector Nelson::MpiGateway::MPI_Get_processor_nameBuiltin(Evaluator* eval,
     argv[lenReturned] = '\0';
     processorName = argv;
     retval.push_back(ArrayOf::stringConstructor(processorName));
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         retval.push_back(ArrayOf::doubleConstructor(lenReturned));
     }
-    if (nLhs > 2)
-    {
+    if (nLhs > 2) {
         retval.push_back(ArrayOf::doubleConstructor(info));
     }
     return retval;

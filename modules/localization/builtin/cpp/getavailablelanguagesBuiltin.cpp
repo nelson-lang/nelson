@@ -18,22 +18,22 @@
 //=============================================================================
 #include "getavailablelanguagesBuiltin.hpp"
 #include "Error.hpp"
-#include "characters_encoding.hpp"
 #include "Localization.hpp"
 #include "ToCellString.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::LocalizationGateway::getavailablelanguagesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::LocalizationGateway::getavailablelanguagesBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     wstringVector langs;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 0)
-    {
+    if (argIn.size() != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     Localization::Instance()->getManagedLanguages(langs);

@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsConstructors_functions_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsConstructors_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf NaN(void);
-    NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf NaN(indexType m, indexType n);
-}
+NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
+NaN(void);
+NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
+NaN(indexType m, indexType n);
+} // namespace Nelson
 //=============================================================================

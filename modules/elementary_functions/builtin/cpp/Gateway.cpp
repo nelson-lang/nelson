@@ -17,69 +17,68 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "plusBuiltin.hpp"
+#include "absBuiltin.hpp"
 #include "andBuiltin.hpp"
+#include "castBuiltin.hpp"
+#include "ceilBuiltin.hpp"
 #include "colonBuiltin.hpp"
+#include "complexBuiltin.hpp"
+#include "conjBuiltin.hpp"
 #include "ctransposeBuiltin.hpp"
 #include "dispBuiltin.hpp"
 #include "eqBuiltin.hpp"
+#include "fixBuiltin.hpp"
+#include "floorBuiltin.hpp"
+#include "gammaBuiltin.hpp"
 #include "geBuiltin.hpp"
 #include "gtBuiltin.hpp"
+#include "horzcatBuiltin.hpp"
+#include "imagBuiltin.hpp"
+#include "isapproxBuiltin.hpp"
+#include "isequalBuiltin.hpp"
+#include "isequalnBuiltin.hpp"
+#include "isfiniteBuiltin.hpp"
+#include "isinfBuiltin.hpp"
+#include "isnanBuiltin.hpp"
 #include "ldivideBuiltin.hpp"
-#include "mldivideBuiltin.hpp"
-#include "mrdivideBuiltin.hpp"
-#include "rdivideBuiltin.hpp"
 #include "leBuiltin.hpp"
+#include "lengthBuiltin.hpp"
 #include "ltBuiltin.hpp"
 #include "minusBuiltin.hpp"
+#include "mldivideBuiltin.hpp"
+#include "modBuiltin.hpp"
 #include "mpowerBuiltin.hpp"
+#include "mrdivideBuiltin.hpp"
 #include "mtimesBuiltin.hpp"
+#include "ndimsBuiltin.hpp"
 #include "neBuiltin.hpp"
 #include "notBuiltin.hpp"
+#include "numelBuiltin.hpp"
 #include "orBuiltin.hpp"
+#include "plusBuiltin.hpp"
 #include "powerBuiltin.hpp"
-#include "shortcutorBuiltin.hpp"
+#include "prodBuiltin.hpp"
+#include "rdivideBuiltin.hpp"
+#include "realBuiltin.hpp"
+#include "remBuiltin.hpp"
+#include "repmatBuiltin.hpp"
+#include "reshapeBuiltin.hpp"
+#include "roundBuiltin.hpp"
 #include "shortcutandBuiltin.hpp"
+#include "shortcutorBuiltin.hpp"
+#include "sizeBuiltin.hpp"
 #include "subsindexBuiltin.hpp"
 #include "timesBuiltin.hpp"
 #include "transposeBuiltin.hpp"
 #include "uminusBuiltin.hpp"
-#include "sizeBuiltin.hpp"
-#include "lengthBuiltin.hpp"
-#include "reshapeBuiltin.hpp"
-#include "complexBuiltin.hpp"
-#include "imagBuiltin.hpp"
-#include "realBuiltin.hpp"
-#include "horzcatBuiltin.hpp"
-#include "vertcatBuiltin.hpp"
-#include "isequalBuiltin.hpp"
-#include "isequalnBuiltin.hpp"
-#include "numelBuiltin.hpp"
-#include "isapproxBuiltin.hpp"
 #include "uplusBuiltin.hpp"
-#include "ceilBuiltin.hpp"
-#include "floorBuiltin.hpp"
-#include "roundBuiltin.hpp"
-#include "fixBuiltin.hpp"
-#include "isnanBuiltin.hpp"
-#include "isinfBuiltin.hpp"
-#include "isfiniteBuiltin.hpp"
-#include "ndimsBuiltin.hpp"
-#include "conjBuiltin.hpp"
-#include "prodBuiltin.hpp"
-#include "modBuiltin.hpp"
-#include "absBuiltin.hpp"
-#include "repmatBuiltin.hpp"
-#include "remBuiltin.hpp"
-#include "castBuiltin.hpp"
-#include "gammaBuiltin.hpp"
+#include "vertcatBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"elementary_functions";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "plus", Nelson::ElementaryFunctionsGateway::plusBuiltin, 1, 2 },
     { "minus", Nelson::ElementaryFunctionsGateway::minusBuiltin, 1, 2 },
     { "uminus", Nelson::ElementaryFunctionsGateway::uminusBuiltin, 1, 1 },
@@ -121,7 +120,7 @@ static const nlsGateway gateway[] =
     { "isequal", Nelson::ElementaryFunctionsGateway::isequalBuiltin, 1, -1 },
     { "isequaln", Nelson::ElementaryFunctionsGateway::isequalnBuiltin, 1, -1 },
     { "numel", Nelson::ElementaryFunctionsGateway::numelBuiltin, 1, 1 },
-    { "isapprox", Nelson::ElementaryFunctionsGateway::isapproxBuiltin, 1, -2},
+    { "isapprox", Nelson::ElementaryFunctionsGateway::isapproxBuiltin, 1, -2 },
     { "ceil", Nelson::ElementaryFunctionsGateway::ceilBuiltin, 1, 1 },
     { "floor", Nelson::ElementaryFunctionsGateway::floorBuiltin, 1, 1 },
     { "fix", Nelson::ElementaryFunctionsGateway::fixBuiltin, 1, 1 },

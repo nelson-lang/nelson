@@ -24,13 +24,12 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::CoreGateway::versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::CoreGateway::versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 0)
-    {
-        if (nLhs > 2)
-        {
+    if (argIn.size() == 0) {
+        if (nLhs > 2) {
             Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         std::string version;
@@ -39,66 +38,43 @@ ArrayOfVector Nelson::CoreGateway::versionBuiltin(Evaluator* eval, int nLhs, con
         version.append(NELSON_RELEASE_NAME);
         version.append(")");
         retval.push_back(ArrayOf::stringConstructor(version));
-        if (nLhs > 1)
-        {
+        if (nLhs > 1) {
             retval.push_back(ArrayOf::stringConstructor(__DATE__));
         }
-    }
-    else if (argIn.size() == 1)
-    {
-        if (nLhs > 1)
-        {
+    } else if (argIn.size() == 1) {
+        if (nLhs > 1) {
             Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         std::wstring option;
-        if (argIn[0].isSingleString())
-        {
+        if (argIn[0].isSingleString()) {
             option = argIn[0].getContentAsWideString();
-        }
-        else
-        {
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        if (option.compare(L"-date") == 0)
-        {
+        if (option.compare(L"-date") == 0) {
             retval.push_back(ArrayOf::stringConstructor(__TIMESTAMP__));
-        }
-        else if(option.compare(L"-description") == 0)
-        {
+        } else if (option.compare(L"-description") == 0) {
             retval.push_back(ArrayOf::stringConstructor(L""));
-        }
-        else if (option.compare(L"-release") == 0)
-        {
+        } else if (option.compare(L"-release") == 0) {
             retval.push_back(ArrayOf::stringConstructor(NELSON_RELEASE_NAME));
-        }
-        else if (option.compare(L"-compiler") == 0)
-        {
+        } else if (option.compare(L"-compiler") == 0) {
             retval.push_back(ToCellStringAsRow(VersionCompilerFlags()));
-        }
-        else if (option.compare(L"-commit_hash") == 0)
-        {
+        } else if (option.compare(L"-commit_hash") == 0) {
             retval.push_back(ArrayOf::stringConstructor(NELSON_VERSION_COMMIT_HASH));
-        }
-        else if (option.compare(L"-number") == 0)
-        {
+        } else if (option.compare(L"-number") == 0) {
             ArrayOf vectRes = ArrayOf::doubleVectorConstructor(4);
-            double *vectAsDouble = (double*)vectRes.getReadWriteDataPointer();
-            if (vectAsDouble)
-            {
+            double* vectAsDouble = (double*)vectRes.getReadWriteDataPointer();
+            if (vectAsDouble) {
                 vectAsDouble[0] = NELSON_VERSION_MAJOR;
                 vectAsDouble[1] = NELSON_VERSION_MINOR;
                 vectAsDouble[2] = NELSON_VERSION_MAINTENANCE;
                 vectAsDouble[3] = NELSON_VERSION_BUILD;
             }
             retval.push_back(vectRes);
-        }
-        else
-        {
+        } else {
             Error(eval, _W("Unknow option."));
         }
-    }
-    else
-    {
+    } else {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;

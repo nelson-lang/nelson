@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,15 +9,15 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb04tw_(updatq, m, n, nre, nce, ifire, ifice, ifica, a, lda, e, lde, q, ldq)
-logical *updatq;
+EXPORTSYMBOL /* Subroutine */ int mb04tw_(
+    updatq, m, n, nre, nce, ifire, ifice, ifica, a, lda, e, lde, q, ldq) logical* updatq;
 integer *m, *n, *nre, *nce, *ifire, *ifice, *ifica;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *q;
-integer *ldq;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* q;
+integer* ldq;
 {
     /* System generated locals */
     integer a_dim1, a_offset, e_dim1, e_offset, q_dim1, q_offset, i__1, i__2, i__3;
@@ -137,18 +137,15 @@ integer *ldq;
     q_offset = q_dim1 + 1;
     q -= q_offset;
     /* Function Body */
-    if (*m <= 0 || *n <= 0 || *nre <= 0 || *nce <= 0)
-    {
+    if (*m <= 0 || *n <= 0 || *nre <= 0 || *nce <= 0) {
         return 0;
     }
     ipvt = *ifire - 1;
     i__1 = *ifice + *nce - 1;
-    for (j = *ifice; j <= i__1; ++j)
-    {
+    for (j = *ifice; j <= i__1; ++j) {
         ++ipvt;
         i__2 = *ifire + *nre - 1;
-        for (i__ = ipvt + 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = ipvt + 1; i__ <= i__2; ++i__) {
             /*           Determine the Givens transformation on rows i and ipvt */
             /*           to annihilate E(i,j). */
             /*           Apply the transformation to these rows (in whole E-matrix) */
@@ -158,12 +155,12 @@ integer *ldq;
             /*           Update the row transformation matrix Q, if needed. */
             drotg_(&e[ipvt + j * e_dim1], &e[i__ + j * e_dim1], &sc, &ss);
             i__3 = *n - j;
-            drot_(&i__3, &e[ipvt + (j + 1) * e_dim1], lde, &e[i__ + (j + 1) * e_dim1], lde, &sc, &ss);
+            drot_(
+                &i__3, &e[ipvt + (j + 1) * e_dim1], lde, &e[i__ + (j + 1) * e_dim1], lde, &sc, &ss);
             e[i__ + j * e_dim1] = 0.;
             i__3 = *n - *ifica + 1;
             drot_(&i__3, &a[ipvt + *ifica * a_dim1], lda, &a[i__ + *ifica * a_dim1], lda, &sc, &ss);
-            if (*updatq)
-            {
+            if (*updatq) {
                 drot_(m, &q[ipvt * q_dim1 + 1], &c__1, &q[i__ * q_dim1 + 1], &c__1, &sc, &ss);
             }
             /* L20: */
@@ -173,4 +170,3 @@ integer *ldq;
     return 0;
     /* *** Last line of MB04TW *** */
 } /* mb04tw_ */
-

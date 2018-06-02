@@ -17,64 +17,58 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Which.hpp"
-#include "characters_encoding.hpp"
-#include "Error.hpp"
-#include "PathFuncManager.hpp"
 #include "BuiltInFunctionDefManager.hpp"
-#include "ModulesManager.hpp"
+#include "Error.hpp"
 #include "GatewayInfo.hpp"
+#include "ModulesManager.hpp"
+#include "PathFuncManager.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    wstringVector WhichAll(const std::wstring &functionname)
-    {
-        wstringVector result;
-        PathFuncManager::getInstance()->find(functionname, result);
-        BuiltInFunctionDefManager::getInstance()->find(wstring_to_utf8(functionname), result);
-        return result;
+//=============================================================================
+wstringVector
+WhichAll(const std::wstring& functionname)
+{
+    wstringVector result;
+    PathFuncManager::getInstance()->find(functionname, result);
+    BuiltInFunctionDefManager::getInstance()->find(wstring_to_utf8(functionname), result);
+    return result;
+}
+//=============================================================================
+std::wstring
+Which(const std::wstring& functionname)
+{
+    std::wstring origin = L"";
+    if (!PathFuncManager::getInstance()->find(functionname, origin)) {
+        BuiltInFunctionDefManager::getInstance()->find(wstring_to_utf8(functionname), origin);
     }
-    //=============================================================================
-    std::wstring Which(const std::wstring &functionname)
-    {
-        std::wstring origin = L"";
-        if (!PathFuncManager::getInstance()->find(functionname, origin))
-        {
-            BuiltInFunctionDefManager::getInstance()->find(wstring_to_utf8(functionname), origin);
-        }
-        return origin;
-    }
-    //=============================================================================
-    wstringVector WhichModule(const std::wstring &functionname)
-    {
-        wstringVector res;
-        wstringVector paths = WhichAll(functionname);
-        if (paths.size() > 0)
-        {
-            for (size_t k = 0; k < paths.size(); k++)
-            {
-                std::wstring moduleName = ModulesManager::Instance().findModuleNameByPath(paths[k]);
-                if (moduleName != L"")
-                {
+    return origin;
+}
+//=============================================================================
+wstringVector
+WhichModule(const std::wstring& functionname)
+{
+    wstringVector res;
+    wstringVector paths = WhichAll(functionname);
+    if (paths.size() > 0) {
+        for (size_t k = 0; k < paths.size(); k++) {
+            std::wstring moduleName = ModulesManager::Instance().findModuleNameByPath(paths[k]);
+            if (moduleName != L"") {
+                res.push_back(moduleName);
+            } else {
+                stringVector functionsList;
+                std::wstring errorMessage;
+                bool bRes = GatewayInfo(paths[k], moduleName, functionsList, errorMessage);
+                if (bRes) {
                     res.push_back(moduleName);
-                }
-                else
-                {
-                    stringVector functionsList;
-                    std::wstring errorMessage;
-                    bool bRes = GatewayInfo(paths[k], moduleName, functionsList, errorMessage);
-                    if (bRes)
-                    {
-                        res.push_back(moduleName);
-                    }
-                    else
-                    {
-                        res.push_back(L"");
-                    }
+                } else {
+                    res.push_back(L"");
                 }
             }
         }
-        return res;
     }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

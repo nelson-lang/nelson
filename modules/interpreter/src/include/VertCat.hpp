@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsInterpreter_exports.h"
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
+#include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSINTERPRETER_IMPEXP ArrayOf VertCat(Evaluator *eval, const ArrayOfVector &v);
+NLSINTERPRETER_IMPEXP ArrayOf
+VertCat(Evaluator* eval, const ArrayOfVector& v);
 }
 //=============================================================================

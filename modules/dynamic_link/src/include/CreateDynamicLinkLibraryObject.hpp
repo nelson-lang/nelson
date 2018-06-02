@@ -16,16 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsDynamic_link_exports.h"
 #include "ArrayOf.hpp"
 #include "DynamicLinkLibraryObject.hpp"
+#include "nlsDynamic_link_exports.h"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    NLSDYNAMIC_LINK_IMPEXP ArrayOf createDynamicLinkSymbolObject(ArrayOf dllibObject,
-            std::wstring symbol,
-            std::wstring returnType,
-            wstringVector argumentsType);
-    //=============================================================================
-}
+//=============================================================================
+NLSDYNAMIC_LINK_IMPEXP ArrayOf
+createDynamicLinkSymbolObject(
+    ArrayOf dllibObject, std::wstring symbol, std::wstring returnType, wstringVector argumentsType);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

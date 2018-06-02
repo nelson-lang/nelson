@@ -25,6 +25,6 @@
 #define NLSHANDLE_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSHANDLE_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSHANDLE_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

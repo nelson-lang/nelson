@@ -17,30 +17,28 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "audioinfoBuiltin.hpp"
-#include "Error.hpp"
 #include "AudioFileInfo.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 // info = audiofile(filename)
 //=============================================================================
-ArrayOfVector Nelson::AudioGateway::audioinfoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::AudioGateway::audioinfoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring errorMessage;
     ArrayOf param1 = argIn[0];
     std::wstring filename = param1.getContentAsWideString();
     ArrayOf res = AudioFileInfo(filename, errorMessage);
-    if (errorMessage != L"")
-    {
+    if (errorMessage != L"") {
         Error(eval, errorMessage);
     }
     retval.push_back(res);

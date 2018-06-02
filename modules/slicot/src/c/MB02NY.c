@@ -1,18 +1,19 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb02ny_(updatu, updatv, m, n, i__, k, q, e, u, ldu, v, ldv, dwork)
-logical *updatu, *updatv;
+EXPORTSYMBOL /* Subroutine */ int mb02ny_(
+    updatu, updatv, m, n, i__, k, q, e, u, ldu, v, ldv, dwork) logical *updatu,
+    *updatv;
 integer *m, *n, *i__, *k;
 doublereal *q, *e, *u;
-integer *ldu;
-doublereal *v;
-integer *ldv;
-doublereal *dwork;
+integer* ldu;
+doublereal* v;
+integer* ldv;
+doublereal* dwork;
 {
     /* System generated locals */
     integer u_dim1, u_offset, v_dim1, v_offset, i__1;
@@ -176,57 +177,49 @@ doublereal *dwork;
     v -= v_offset;
     --dwork;
     /* Function Body */
-    if (*m <= 0 || *n <= 0)
-    {
+    if (*m <= 0 || *n <= 0) {
         return 0;
     }
-    if (*i__ <= min(*m,*n))
-    {
+    if (*i__ <= min(*m, *n)) {
         q[*i__] = 0.;
     }
     /*     Annihilate E(I) (if I < K). */
-    if (*i__ < *k)
-    {
+    if (*i__ < *k) {
         c__ = 0.;
         s = 1.;
         irot = 0;
         nrot = *k - *i__;
         i__1 = *k - 1;
-        for (l = *i__; l <= i__1; ++l)
-        {
+        for (l = *i__; l <= i__1; ++l) {
             g = e[l];
             e[l] = c__ * g;
             d__1 = s * g;
             dlartg_(&q[l + 1], &d__1, &c__, &s, &r__);
             q[l + 1] = r__;
-            if (*updatu)
-            {
+            if (*updatu) {
                 ++irot;
                 dwork[irot] = c__;
                 dwork[irot + nrot] = s;
             }
             /* L20: */
         }
-        if (*updatu)
-        {
+        if (*updatu) {
             i__1 = nrot + 1;
-            dlasr_("Right", "Top", "Forward", m, &i__1, &dwork[1], &dwork[nrot + 1], &u[*i__ * u_dim1 + 1], ldu, 5L, 3L, 7L);
+            dlasr_("Right", "Top", "Forward", m, &i__1, &dwork[1], &dwork[nrot + 1],
+                &u[*i__ * u_dim1 + 1], ldu, 5L, 3L, 7L);
         }
     }
     /*     Annihilate E(I-1) (if I > 1). */
-    if (*i__ > 1)
-    {
+    if (*i__ > 1) {
         i1 = *i__ - 1;
         f = e[i1];
         e[i1] = 0.;
         i__1 = i1 - 1;
-        for (l1 = 1; l1 <= i__1; ++l1)
-        {
+        for (l1 = 1; l1 <= i__1; ++l1) {
             l = *i__ - l1;
             dlartg_(&q[l], &f, &c__, &s, &r__);
             q[l] = r__;
-            if (*updatv)
-            {
+            if (*updatv) {
                 dwork[l] = c__;
                 dwork[l + i1] = s;
             }
@@ -237,14 +230,13 @@ doublereal *dwork;
         }
         dlartg_(&q[1], &f, &c__, &s, &r__);
         q[1] = r__;
-        if (*updatv)
-        {
+        if (*updatv) {
             dwork[1] = c__;
             dwork[*i__] = s;
-            dlasr_("Right", "Bottom", "Backward", n, i__, &dwork[1], &dwork[*i__], &v[v_dim1 + 1], ldv, 5L, 6L, 8L);
+            dlasr_("Right", "Bottom", "Backward", n, i__, &dwork[1], &dwork[*i__], &v[v_dim1 + 1],
+                ldv, 5L, 6L, 8L);
         }
     }
     return 0;
     /* *** Last line of MB02NY *** */
 } /* mb02ny_ */
-

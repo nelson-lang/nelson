@@ -16,85 +16,81 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/function.hpp>
-#include "dynamic_library.hpp"
 #include "HtmlToPdf.hpp"
 #include "Error.hpp"
+#include "dynamic_library.hpp"
+#include <boost/function.hpp>
 //=============================================================================
 namespace Nelson {
-    static library_handle nlsGuiHandleDynamicLibrary = nullptr;
-    static bool bFirstDynamicLibraryCall = true;
-    //=============================================================================
-    static void initGuiDynamicLibrary(void)
-    {
-        if (bFirstDynamicLibraryCall)
-        {
-            std::string fullpathGuiSharedLibrary = "libnlsGui" + get_dynamic_library_extension();
+static library_handle nlsGuiHandleDynamicLibrary = nullptr;
+static bool bFirstDynamicLibraryCall = true;
+//=============================================================================
+static void
+initGuiDynamicLibrary(void)
+{
+    if (bFirstDynamicLibraryCall) {
+        std::string fullpathGuiSharedLibrary = "libnlsGui" + get_dynamic_library_extension();
 #ifdef _MSC_VER
-            char *buf;
-            try
-            {
-                buf = new char[MAX_PATH];
+        char* buf;
+        try {
+            buf = new char[MAX_PATH];
+        } catch (std::bad_alloc) {
+            buf = nullptr;
+        }
+        if (buf) {
+            DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
+            if (dwRet) {
+                fullpathGuiSharedLibrary
+                    = std::string(buf) + std::string("/") + fullpathGuiSharedLibrary;
             }
-            catch (std::bad_alloc)
-            {
-                buf = nullptr;
-            }
-            if (buf)
-            {
-                DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
-                if (dwRet)
-                {
-                    fullpathGuiSharedLibrary = std::string(buf) + std::string("/") + fullpathGuiSharedLibrary;
-                }
-                delete[] buf;
-            }
+            delete[] buf;
+        }
 #else
-            char const* tmp = std::getenv("NELSON_BINARY_PATH");
-            if (tmp != nullptr)
-            {
-                fullpathGuiSharedLibrary = std::string(tmp) + std::string("/") + fullpathGuiSharedLibrary;
-            }
+        char const* tmp = std::getenv("NELSON_BINARY_PATH");
+        if (tmp != nullptr) {
+            fullpathGuiSharedLibrary
+                = std::string(tmp) + std::string("/") + fullpathGuiSharedLibrary;
+        }
 #endif
-            nlsGuiHandleDynamicLibrary = load_dynamic_library(fullpathGuiSharedLibrary);
-            if (nlsGuiHandleDynamicLibrary)
-            {
-                bFirstDynamicLibraryCall = false;
-            }
+        nlsGuiHandleDynamicLibrary = load_dynamic_library(fullpathGuiSharedLibrary);
+        if (nlsGuiHandleDynamicLibrary) {
+            bFirstDynamicLibraryCall = false;
         }
     }
-    //=============================================================================
-    bool HtmlFileToPdfFile(std::wstring htmlsrcfilename, std::wstring pdfdestfilename)
-    {
-        typedef bool (*PROC_HtmlFileToPdfFile) (std::wstring htmlsrcfilename, std::wstring pdfdestfilename);
-        static PROC_HtmlFileToPdfFile HtmlFileToPdfFilePtr = nullptr;
-        initGuiDynamicLibrary();
-        if (!HtmlFileToPdfFilePtr)
-        {
-            HtmlFileToPdfFilePtr = reinterpret_cast<PROC_HtmlFileToPdfFile>(get_function(nlsGuiHandleDynamicLibrary, "HtmlFileToPdfFile"));
-            if (!HtmlFileToPdfFilePtr)
-            {
-                throw Exception(_W("HtmlFileToPdfFile not loaded."));
-            }
+}
+//=============================================================================
+bool
+HtmlFileToPdfFile(std::wstring htmlsrcfilename, std::wstring pdfdestfilename)
+{
+    typedef bool (*PROC_HtmlFileToPdfFile)(
+        std::wstring htmlsrcfilename, std::wstring pdfdestfilename);
+    static PROC_HtmlFileToPdfFile HtmlFileToPdfFilePtr = nullptr;
+    initGuiDynamicLibrary();
+    if (!HtmlFileToPdfFilePtr) {
+        HtmlFileToPdfFilePtr = reinterpret_cast<PROC_HtmlFileToPdfFile>(
+            get_function(nlsGuiHandleDynamicLibrary, "HtmlFileToPdfFile"));
+        if (!HtmlFileToPdfFilePtr) {
+            throw Exception(_W("HtmlFileToPdfFile not loaded."));
         }
-        return HtmlFileToPdfFilePtr(htmlsrcfilename, pdfdestfilename);
     }
-    //=============================================================================
-    bool HtmlStreamToPdfFile(std::wstring htmlstream, std::wstring pdfdestfilename)
-    {
-        typedef bool(*PROC_HtmlStreamToPdfFile) (std::wstring htmlstream, std::wstring pdfdestfilename);
-        static PROC_HtmlStreamToPdfFile HtmlStreamToPdfFilePtr = nullptr;
-        initGuiDynamicLibrary();
-        if (!HtmlStreamToPdfFilePtr)
-        {
-            HtmlStreamToPdfFilePtr = reinterpret_cast<PROC_HtmlStreamToPdfFile>(get_function(nlsGuiHandleDynamicLibrary, "HtmlStreamToPdfFile"));
-            if (!HtmlStreamToPdfFilePtr)
-            {
-                throw Exception(_W("HtmlStreamToPdfFile not loaded."));
-            }
+    return HtmlFileToPdfFilePtr(htmlsrcfilename, pdfdestfilename);
+}
+//=============================================================================
+bool
+HtmlStreamToPdfFile(std::wstring htmlstream, std::wstring pdfdestfilename)
+{
+    typedef bool (*PROC_HtmlStreamToPdfFile)(std::wstring htmlstream, std::wstring pdfdestfilename);
+    static PROC_HtmlStreamToPdfFile HtmlStreamToPdfFilePtr = nullptr;
+    initGuiDynamicLibrary();
+    if (!HtmlStreamToPdfFilePtr) {
+        HtmlStreamToPdfFilePtr = reinterpret_cast<PROC_HtmlStreamToPdfFile>(
+            get_function(nlsGuiHandleDynamicLibrary, "HtmlStreamToPdfFile"));
+        if (!HtmlStreamToPdfFilePtr) {
+            throw Exception(_W("HtmlStreamToPdfFile not loaded."));
         }
-        return HtmlStreamToPdfFilePtr(htmlstream, pdfdestfilename);
     }
-    //=============================================================================
+    return HtmlStreamToPdfFilePtr(htmlstream, pdfdestfilename);
+}
+//=============================================================================
 }
 //=============================================================================

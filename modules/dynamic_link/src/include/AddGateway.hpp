@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsDynamic_link_exports.h"
 #include "Evaluator.hpp"
+#include "nlsDynamic_link_exports.h"
 //=============================================================================
 #define GATEWAY_ENTRY "AddGateway"
 namespace Nelson {
-    NLSDYNAMIC_LINK_IMPEXP void AddGateway(Evaluator* eval, std::wstring dynlibname);
+NLSDYNAMIC_LINK_IMPEXP void
+AddGateway(Evaluator* eval, std::wstring dynlibname);
 }
 //=============================================================================

@@ -19,11 +19,11 @@
 #include "DotTranspose.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOf DotTranspose(ArrayOf A)
-    {
-        //A.transpose();
-        return A;
-    }
+ArrayOf
+DotTranspose(ArrayOf A)
+{
+    // A.transpose();
+    return A;
+}
 }
 //=============================================================================
-

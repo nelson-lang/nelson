@@ -16,26 +16,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
 #include "HelpBrowser.hpp"
+#include "NelsonGateway.hpp"
 #include "helpbrowserBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"help_browser";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "helpbrowser", Nelson::HelpBrowserGateway::helpbrowserBuiltin, 1, 2 },
 };
 //=============================================================================
-static bool initializeHelpBrowserModule(Nelson::Evaluator* eval)
+static bool
+initializeHelpBrowserModule(Nelson::Evaluator* eval)
 {
     HelpBrowser::getInstance();
     return true;
 }
 //=============================================================================
-static bool finishHelpBrowserModule(Nelson::Evaluator* eval)
+static bool
+finishHelpBrowserModule(Nelson::Evaluator* eval)
 {
     HelpBrowser::getInstance()->destroy();
     return true;

@@ -19,50 +19,39 @@
 #define _CRT_SECURE_NO_WARNINGS
 //=============================================================================
 #include "parsefileBuiltin.hpp"
+#include "Error.hpp"
 #include "ParseFile.hpp"
 #include "characters_encoding.hpp"
-#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::InterpreterGateway::parsefileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::InterpreterGateway::parsefileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring filename;
-    if (argIn[0].isSingleString())
-    {
+    if (argIn[0].isSingleString()) {
         filename = argIn[0].getContentAsWideString();
-    }
-    else
-    {
+    } else {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     ParserState parserState = ParseFile(eval, filename);
-    switch (parserState)
-    {
-        case ScriptBlock:
-        {
-            retval.push_back(ArrayOf::stringConstructor("script"));
-        }
-        break;
-        case FuncDef:
-        {
-            retval.push_back(ArrayOf::stringConstructor("function"));
-        }
-        break;
-        default:
-        {
-            retval.push_back(ArrayOf::stringConstructor("error"));
-        }
-        break;
+    switch (parserState) {
+    case ScriptBlock: {
+        retval.push_back(ArrayOf::stringConstructor("script"));
+    } break;
+    case FuncDef: {
+        retval.push_back(ArrayOf::stringConstructor("function"));
+    } break;
+    default: {
+        retval.push_back(ArrayOf::stringConstructor("error"));
+    } break;
     }
     return retval;
 }

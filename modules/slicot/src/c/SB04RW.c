@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,15 +12,16 @@ static doublereal c_b7 = 1.;
 static doublereal c_b9 = 0.;
 static doublereal c_b12 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb04rw_(abschr, ul, n, m, c__, ldc, indx, ab, ldab, ba, ldba, d__, dwork, abschr_len, ul_len)
-char *abschr, *ul;
+EXPORTSYMBOL /* Subroutine */ int sb04rw_(abschr, ul, n, m, c__, ldc, indx, ab, ldab, ba, ldba, d__,
+    dwork, abschr_len, ul_len) char *abschr,
+    *ul;
 integer *n, *m;
-doublereal *c__;
+doublereal* c__;
 integer *ldc, *indx;
-doublereal *ab;
-integer *ldab;
-doublereal *ba;
-integer *ldba;
+doublereal* ab;
+integer* ldab;
+doublereal* ba;
+integer* ldba;
 doublereal *d__, *dwork;
 ftnlen abschr_len;
 ftnlen ul_len;
@@ -127,57 +128,50 @@ ftnlen ul_len;
     --d__;
     --dwork;
     /* Function Body */
-    if (*n == 0 || *m == 0)
-    {
+    if (*n == 0 || *m == 0) {
         return 0;
     }
-    if (lsame_(abschr, "B", 1L, 1L))
-    {
+    if (lsame_(abschr, "B", 1L, 1L)) {
         /*        Construct the column of the right-hand side. */
         dcopy_(n, &c__[*indx * c_dim1 + 1], &c__1, &d__[1], &c__1);
-        if (lsame_(ul, "U", 1L, 1L))
-        {
-            if (*indx > 1)
-            {
+        if (lsame_(ul, "U", 1L, 1L)) {
+            if (*indx > 1) {
                 i__1 = *indx - 1;
-                dgemv_("N", n, &i__1, &c_b7, &c__[c_offset], ldc, &ab[*indx * ab_dim1 + 1], &c__1, &c_b9, &dwork[1], &c__1, 1L);
-                dgemv_("N", n, n, &c_b12, &ba[ba_offset], ldba, &dwork[1], &c__1, &c_b7, &d__[1], &c__1, 1L);
+                dgemv_("N", n, &i__1, &c_b7, &c__[c_offset], ldc, &ab[*indx * ab_dim1 + 1], &c__1,
+                    &c_b9, &dwork[1], &c__1, 1L);
+                dgemv_("N", n, n, &c_b12, &ba[ba_offset], ldba, &dwork[1], &c__1, &c_b7, &d__[1],
+                    &c__1, 1L);
             }
-        }
-        else
-        {
-            if (*indx < *m)
-            {
+        } else {
+            if (*indx < *m) {
                 i__1 = *m - *indx;
-                dgemv_("N", n, &i__1, &c_b7, &c__[(*indx + 1) * c_dim1 + 1], ldc, &ab[*indx + 1 + *indx * ab_dim1], &c__1, &c_b9, &dwork[1], &c__1, 1L);
-                dgemv_("N", n, n, &c_b12, &ba[ba_offset], ldba, &dwork[1], &c__1, &c_b7, &d__[1], &c__1, 1L);
+                dgemv_("N", n, &i__1, &c_b7, &c__[(*indx + 1) * c_dim1 + 1], ldc,
+                    &ab[*indx + 1 + *indx * ab_dim1], &c__1, &c_b9, &dwork[1], &c__1, 1L);
+                dgemv_("N", n, n, &c_b12, &ba[ba_offset], ldba, &dwork[1], &c__1, &c_b7, &d__[1],
+                    &c__1, 1L);
             }
         }
-    }
-    else
-    {
+    } else {
         /*        Construct the row of the right-hand side. */
         dcopy_(m, &c__[*indx + c_dim1], ldc, &d__[1], &c__1);
-        if (lsame_(ul, "U", 1L, 1L))
-        {
-            if (*indx < *n)
-            {
+        if (lsame_(ul, "U", 1L, 1L)) {
+            if (*indx < *n) {
                 i__1 = *n - *indx;
-                dgemv_("T", &i__1, m, &c_b7, &c__[*indx + 1 + c_dim1], ldc, &ab[*indx + (*indx + 1) * ab_dim1], ldab, &c_b9, &dwork[1], &c__1, 1L);
-                dgemv_("T", m, m, &c_b12, &ba[ba_offset], ldba, &dwork[1], &c__1, &c_b7, &d__[1], &c__1, 1L);
+                dgemv_("T", &i__1, m, &c_b7, &c__[*indx + 1 + c_dim1], ldc,
+                    &ab[*indx + (*indx + 1) * ab_dim1], ldab, &c_b9, &dwork[1], &c__1, 1L);
+                dgemv_("T", m, m, &c_b12, &ba[ba_offset], ldba, &dwork[1], &c__1, &c_b7, &d__[1],
+                    &c__1, 1L);
             }
-        }
-        else
-        {
-            if (*indx > 1)
-            {
+        } else {
+            if (*indx > 1) {
                 i__1 = *indx - 1;
-                dgemv_("T", &i__1, m, &c_b7, &c__[c_offset], ldc, &ab[*indx + ab_dim1], ldab, &c_b9, &dwork[1], &c__1, 1L);
-                dgemv_("T", m, m, &c_b12, &ba[ba_offset], ldba, &dwork[1], &c__1, &c_b7, &d__[1], &c__1, 1L);
+                dgemv_("T", &i__1, m, &c_b7, &c__[c_offset], ldc, &ab[*indx + ab_dim1], ldab, &c_b9,
+                    &dwork[1], &c__1, 1L);
+                dgemv_("T", m, m, &c_b12, &ba[ba_offset], ldba, &dwork[1], &c__1, &c_b7, &d__[1],
+                    &c__1, 1L);
             }
         }
     }
     return 0;
     /* *** Last line of SB04RW *** */
 } /* sb04rw_ */
-

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -17,19 +17,20 @@ static integer c_n1 = -1;
 static integer c__3 = 3;
 static doublereal c_b203 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb03ts_(isham, wantu, n, a, lda, g, ldg, u1, ldu1, u2, ldu2, j1, n1, n2, dwork, info)
-logical *isham, *wantu;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *g;
-integer *ldg;
-doublereal *u1;
-integer *ldu1;
-doublereal *u2;
+EXPORTSYMBOL /* Subroutine */ int mb03ts_(
+    isham, wantu, n, a, lda, g, ldg, u1, ldu1, u2, ldu2, j1, n1, n2, dwork, info) logical *isham,
+    *wantu;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* g;
+integer* ldg;
+doublereal* u1;
+integer* ldu1;
+doublereal* u2;
 integer *ldu2, *j1, *n1, *n2;
-doublereal *dwork;
-integer *info;
+doublereal* dwork;
+integer* info;
 {
     /* System generated locals */
     integer a_dim1, a_offset, g_dim1, g_offset, u1_dim1, u1_offset, u2_dim1, u2_offset, i__1;
@@ -40,10 +41,10 @@ integer *info;
     static integer ierr;
     static doublereal temp;
     extern /* Subroutine */ int drot_(), dsyr2_();
-    static doublereal d__[16]	/* was [4][4] */;
+    static doublereal d__[16] /* was [4][4] */;
     static integer k;
     extern /* Subroutine */ int mb01md_(), mb01nd_();
-    static doublereal v[3], scale, x[4]	/* was [2][2] */;
+    static doublereal v[3], scale, x[4] /* was [2][2] */;
     extern /* Subroutine */ int dscal_(), dswap_();
     static doublereal dnorm;
     extern /* Subroutine */ int daxpy_();
@@ -203,46 +204,36 @@ integer *info;
     /* Function Body */
     *info = 0;
     /*     Quick return if possible. */
-    if (*n == 0 || *n1 == 0 || *n2 == 0)
-    {
+    if (*n == 0 || *n1 == 0 || *n2 == 0) {
         return 0;
     }
     lblk = *j1 + *n1 > *n;
     j2 = *j1 + 1;
     j3 = *j1 + 2;
     j4 = *j1 + 3;
-    if (lblk && *n1 == 1)
-    {
-        if (*isham)
-        {
+    if (lblk && *n1 == 1) {
+        if (*isham) {
             a11 = a[*n + *n * a_dim1];
             d__1 = a11 * -2.;
             dlartg_(&g[*n + *n * g_dim1], &d__1, &cs, &sn, &temp);
             i__1 = *n - 1;
             drot_(&i__1, &a[*n * a_dim1 + 1], &c__1, &g[*n * g_dim1 + 1], &c__1, &cs, &sn);
             a[*n + *n * a_dim1] = -a11;
-            if (*wantu)
-            {
+            if (*wantu) {
                 drot_(n, &u1[*n * u1_dim1 + 1], &c__1, &u2[*n * u2_dim1 + 1], &c__1, &cs, &sn);
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n - 1;
             dswap_(&i__1, &a[*n * a_dim1 + 1], &c__1, &g[*n * g_dim1 + 1], &c__1);
             i__1 = *n - 1;
             dscal_(&i__1, &c_b8, &a[*n * a_dim1 + 1], &c__1);
-            if (*wantu)
-            {
+            if (*wantu) {
                 dswap_(n, &u1[*n * u1_dim1 + 1], &c__1, &u2[*n * u2_dim1 + 1], &c__1);
                 dscal_(n, &c_b8, &u1[*n * u1_dim1 + 1], &c__1);
             }
         }
-    }
-    else if (lblk && *n1 == 2)
-    {
-        if (*isham)
-        {
+    } else if (lblk && *n1 == 2) {
+        if (*isham) {
             /*           Reorder Hamiltonian matrix: */
             /*                      [ A11  G11  ] */
             /*                      [         T ]. */
@@ -263,9 +254,10 @@ integer *info;
             smlnum = dlamch_("S", 1L) / eps;
             /* Computing MAX */
             d__1 = eps * 40. * dnorm;
-            thresh = max(d__1,smlnum);
+            thresh = max(d__1, smlnum);
             /*           Solve A11*X + X*A11' = scale*G11 for X. */
-            dlasy2_(&c_false, &c_false, &c_n1, &c__2, &c__2, d__, &c__4, &d__[10], &c__4, &d__[8], &c__4, &scale, x, &c__2, &xnorm, &ierr);
+            dlasy2_(&c_false, &c_false, &c_n1, &c__2, &c__2, d__, &c__4, &d__[10], &c__4, &d__[8],
+                &c__4, &scale, x, &c__2, &xnorm, &ierr);
             /*           Compute symplectic QR decomposition of */
             /*                  (  -X11  -X12 ) */
             /*                  (  -X21  -X22 ). */
@@ -294,36 +286,40 @@ integer *info;
             drot_(&c__4, &d__[4], &c__1, &d__[12], &c__1, &v1[2], &v2[2]);
             /*           Test whether to reject swap. */
             /* Computing MAX */
-            d__1 = abs(d__[2]), d__2 = abs(d__[6]), d__1 = max(d__1,d__2), d__2 = abs(d__[3]), d__1 = max(d__1,d__2), d__2 = abs(d__[7]);
-            if (max(d__1,d__2) > thresh)
-            {
+            d__1 = abs(d__[2]), d__2 = abs(d__[6]), d__1 = max(d__1, d__2), d__2 = abs(d__[3]),
+            d__1 = max(d__1, d__2), d__2 = abs(d__[7]);
+            if (max(d__1, d__2) > thresh) {
                 goto L50;
             }
             dlacpy_("All", &c__2, &c__2, d__, &c__4, &a[*n - 1 + (*n - 1) * a_dim1], lda, 3L);
             dlacpy_("Upper", &c__2, &c__2, &d__[8], &c__4, &g[*n - 1 + (*n - 1) * g_dim1], ldg, 5L);
-            if (*n > 2)
-            {
+            if (*n > 2) {
                 i__1 = *n - 2;
-                drot_(&i__1, &a[(*n - 1) * a_dim1 + 1], &c__1, &g[(*n - 1) * g_dim1 + 1], &c__1, v1, v2);
+                drot_(&i__1, &a[(*n - 1) * a_dim1 + 1], &c__1, &g[(*n - 1) * g_dim1 + 1], &c__1, v1,
+                    v2);
                 i__1 = *n - 2;
-                drot_(&i__1, &a[(*n - 1) * a_dim1 + 1], &c__1, &a[*n * a_dim1 + 1], &c__1, &v1[1], &v2[1]);
+                drot_(&i__1, &a[(*n - 1) * a_dim1 + 1], &c__1, &a[*n * a_dim1 + 1], &c__1, &v1[1],
+                    &v2[1]);
                 i__1 = *n - 2;
-                drot_(&i__1, &g[(*n - 1) * g_dim1 + 1], &c__1, &g[*n * g_dim1 + 1], &c__1, &v1[1], &v2[1]);
+                drot_(&i__1, &g[(*n - 1) * g_dim1 + 1], &c__1, &g[*n * g_dim1 + 1], &c__1, &v1[1],
+                    &v2[1]);
                 i__1 = *n - 2;
-                drot_(&i__1, &a[*n * a_dim1 + 1], &c__1, &g[*n * g_dim1 + 1], &c__1, &v1[2], &v2[2]);
+                drot_(
+                    &i__1, &a[*n * a_dim1 + 1], &c__1, &g[*n * g_dim1 + 1], &c__1, &v1[2], &v2[2]);
             }
-            if (*wantu)
-            {
-                drot_(n, &u1[(*n - 1) * u1_dim1 + 1], &c__1, &u2[(*n - 1) * u2_dim1 + 1], &c__1, v1, v2);
-                drot_(n, &u1[(*n - 1) * u1_dim1 + 1], &c__1, &u1[*n * u1_dim1 + 1], &c__1, &v1[1], &v2[1]);
-                drot_(n, &u2[(*n - 1) * u2_dim1 + 1], &c__1, &u2[*n * u2_dim1 + 1], &c__1, &v1[1], &v2[1]);
-                drot_(n, &u1[*n * u1_dim1 + 1], &c__1, &u2[*n * u2_dim1 + 1], &c__1, &v1[2], &v2[2]);
+            if (*wantu) {
+                drot_(n, &u1[(*n - 1) * u1_dim1 + 1], &c__1, &u2[(*n - 1) * u2_dim1 + 1], &c__1, v1,
+                    v2);
+                drot_(n, &u1[(*n - 1) * u1_dim1 + 1], &c__1, &u1[*n * u1_dim1 + 1], &c__1, &v1[1],
+                    &v2[1]);
+                drot_(n, &u2[(*n - 1) * u2_dim1 + 1], &c__1, &u2[*n * u2_dim1 + 1], &c__1, &v1[1],
+                    &v2[1]);
+                drot_(
+                    n, &u1[*n * u1_dim1 + 1], &c__1, &u2[*n * u2_dim1 + 1], &c__1, &v1[2], &v2[2]);
             }
-        }
-        else
-        {
-            if ((d__1 = a[*n - 1 + *n * a_dim1], abs(d__1)) > (d__2 = a[*n + (*n - 1) * a_dim1], abs(d__2)))
-            {
+        } else {
+            if ((d__1 = a[*n - 1 + *n * a_dim1], abs(d__1))
+                > (d__2 = a[*n + (*n - 1) * a_dim1], abs(d__2))) {
                 temp = g[*n - 1 + *n * g_dim1];
                 dlartg_(&temp, &a[*n - 1 + *n * a_dim1], &cs, &sn, &g[*n - 1 + *n * g_dim1]);
                 sn = -sn;
@@ -333,49 +329,46 @@ integer *info;
                 temp = -cs * a[*n + (*n - 1) * a_dim1];
                 a[*n + (*n - 1) * a_dim1] = g[*n - 1 + *n * g_dim1];
                 g[*n - 1 + *n * g_dim1] = temp;
-                if (*wantu)
-                {
+                if (*wantu) {
                     drot_(n, &u1[*n * u1_dim1 + 1], &c__1, &u2[*n * u2_dim1 + 1], &c__1, &cs, &sn);
                 }
                 i__1 = *n - 2;
                 dswap_(&i__1, &a[(*n - 1) * a_dim1 + 1], &c__1, &g[(*n - 1) * g_dim1 + 1], &c__1);
                 i__1 = *n - 2;
                 dscal_(&i__1, &c_b8, &a[(*n - 1) * a_dim1 + 1], &c__1);
-                if (*wantu)
-                {
-                    dswap_(n, &u1[(*n - 1) * u1_dim1 + 1], &c__1, &u2[(*n - 1) * u2_dim1 + 1], &c__1);
+                if (*wantu) {
+                    dswap_(
+                        n, &u1[(*n - 1) * u1_dim1 + 1], &c__1, &u2[(*n - 1) * u2_dim1 + 1], &c__1);
                     dscal_(n, &c_b8, &u1[(*n - 1) * u1_dim1 + 1], &c__1);
                 }
-            }
-            else
-            {
+            } else {
                 temp = g[*n - 1 + *n * g_dim1];
                 dlartg_(&temp, &a[*n + (*n - 1) * a_dim1], &cs, &sn, &g[*n - 1 + *n * g_dim1]);
                 i__1 = *n - 2;
-                drot_(&i__1, &a[(*n - 1) * a_dim1 + 1], &c__1, &g[(*n - 1) * g_dim1 + 1], &c__1, &cs, &sn);
+                drot_(&i__1, &a[(*n - 1) * a_dim1 + 1], &c__1, &g[(*n - 1) * g_dim1 + 1], &c__1,
+                    &cs, &sn);
                 a[*n + (*n - 1) * a_dim1] = -sn * a[*n - 1 + *n * a_dim1];
                 a[*n - 1 + *n * a_dim1] = cs * a[*n - 1 + *n * a_dim1];
-                if (*wantu)
-                {
-                    drot_(n, &u1[(*n - 1) * u1_dim1 + 1], &c__1, &u2[(*n - 1) * u2_dim1 + 1], &c__1, &cs, &sn);
+                if (*wantu) {
+                    drot_(n, &u1[(*n - 1) * u1_dim1 + 1], &c__1, &u2[(*n - 1) * u2_dim1 + 1], &c__1,
+                        &cs, &sn);
                 }
                 i__1 = *n - 1;
                 dswap_(&i__1, &a[*n * a_dim1 + 1], &c__1, &g[*n * g_dim1 + 1], &c__1);
                 i__1 = *n - 1;
                 dscal_(&i__1, &c_b8, &a[*n * a_dim1 + 1], &c__1);
-                if (*wantu)
-                {
+                if (*wantu) {
                     dswap_(n, &u1[*n * u1_dim1 + 1], &c__1, &u2[*n * u2_dim1 + 1], &c__1);
                     dscal_(n, &c_b8, &u1[*n * u1_dim1 + 1], &c__1);
                 }
             }
         }
         /*        Standardize new 2-by-2 block. */
-        dlanv2_(&a[*n - 1 + (*n - 1) * a_dim1], &a[*n - 1 + *n * a_dim1], &a[*n + (*n - 1) * a_dim1], &a[*n + *n * a_dim1], &wr1, &wi1, &wr2, &wi2, &cs, &sn);
+        dlanv2_(&a[*n - 1 + (*n - 1) * a_dim1], &a[*n - 1 + *n * a_dim1],
+            &a[*n + (*n - 1) * a_dim1], &a[*n + *n * a_dim1], &wr1, &wi1, &wr2, &wi2, &cs, &sn);
         i__1 = *n - 2;
         drot_(&i__1, &a[(*n - 1) * a_dim1 + 1], &c__1, &a[*n * a_dim1 + 1], &c__1, &cs, &sn);
-        if (*isham)
-        {
+        if (*isham) {
             temp = g[*n - 1 + *n * g_dim1];
             i__1 = *n - 1;
             drot_(&i__1, &g[(*n - 1) * g_dim1 + 1], &c__1, &g[*n * g_dim1 + 1], &c__1, &cs, &sn);
@@ -383,20 +376,15 @@ integer *info;
             g[*n + *n * g_dim1] = cs * g[*n + *n * g_dim1] - sn * temp;
             g[*n - 1 + (*n - 1) * g_dim1] = cs * g[*n - 1 + (*n - 1) * g_dim1] + sn * tau;
             drot_(&c__1, &g[*n - 1 + *n * g_dim1], ldg, &g[*n + *n * g_dim1], ldg, &cs, &sn);
-        }
-        else
-        {
+        } else {
             i__1 = *n - 2;
             drot_(&i__1, &g[(*n - 1) * g_dim1 + 1], &c__1, &g[*n * g_dim1 + 1], &c__1, &cs, &sn);
         }
-        if (*wantu)
-        {
+        if (*wantu) {
             drot_(n, &u1[(*n - 1) * u1_dim1 + 1], &c__1, &u1[*n * u1_dim1 + 1], &c__1, &cs, &sn);
             drot_(n, &u2[(*n - 1) * u2_dim1 + 1], &c__1, &u2[*n * u2_dim1 + 1], &c__1, &cs, &sn);
         }
-    }
-    else if (*n1 == 1 && *n2 == 1)
-    {
+    } else if (*n1 == 1 && *n2 == 1) {
         /*        Swap two 1-by-1 blocks. */
         a11 = a[*j1 + *j1 * a_dim1];
         a22 = a[j2 + j2 * a_dim1];
@@ -404,8 +392,7 @@ integer *info;
         d__1 = a22 - a11;
         dlartg_(&a[*j1 + j2 * a_dim1], &d__1, &cs, &sn, &temp);
         /*        Apply transformation to the matrix A. */
-        if (j3 <= *n)
-        {
+        if (j3 <= *n) {
             i__1 = *n - *j1 - 1;
             drot_(&i__1, &a[*j1 + j3 * a_dim1], lda, &a[j2 + j3 * a_dim1], lda, &cs, &sn);
         }
@@ -414,8 +401,7 @@ integer *info;
         a[*j1 + *j1 * a_dim1] = a22;
         a[j2 + j2 * a_dim1] = a11;
         /*        Apply transformation to the matrix G. */
-        if (*isham)
-        {
+        if (*isham) {
             temp = g[*j1 + j2 * g_dim1];
             drot_(j1, &g[*j1 * g_dim1 + 1], &c__1, &g[j2 * g_dim1 + 1], &c__1, &cs, &sn);
             tau = cs * temp + sn * g[j2 + j2 * g_dim1];
@@ -423,26 +409,21 @@ integer *info;
             g[*j1 + *j1 * g_dim1] = cs * g[*j1 + *j1 * g_dim1] + sn * tau;
             i__1 = *n - *j1;
             drot_(&i__1, &g[*j1 + j2 * g_dim1], ldg, &g[j2 + j2 * g_dim1], ldg, &cs, &sn);
-        }
-        else
-        {
-            if (*n > *j1 + 1)
-            {
+        } else {
+            if (*n > *j1 + 1) {
                 i__1 = *n - *j1 - 1;
-                drot_(&i__1, &g[*j1 + (*j1 + 2) * g_dim1], ldg, &g[j2 + (*j1 + 2) * g_dim1], ldg, &cs, &sn);
+                drot_(&i__1, &g[*j1 + (*j1 + 2) * g_dim1], ldg, &g[j2 + (*j1 + 2) * g_dim1], ldg,
+                    &cs, &sn);
             }
             i__1 = *j1 - 1;
             drot_(&i__1, &g[*j1 * g_dim1 + 1], &c__1, &g[j2 * g_dim1 + 1], &c__1, &cs, &sn);
         }
-        if (*wantu)
-        {
+        if (*wantu) {
             /*           Accumulate transformation in the matrices U1 and U2. */
             drot_(n, &u1[*j1 * u1_dim1 + 1], &c__1, &u1[j2 * u1_dim1 + 1], &c__1, &cs, &sn);
             drot_(n, &u2[*j1 * u2_dim1 + 1], &c__1, &u2[j2 * u2_dim1 + 1], &c__1, &cs, &sn);
         }
-    }
-    else
-    {
+    } else {
         /*        Swapping involves at least one 2-by-2 block. */
         /*        Copy the diagonal block of order N1+N2 to the local array D */
         /*        and compute its norm. */
@@ -455,21 +436,21 @@ integer *info;
         smlnum = dlamch_("S", 1L) / eps;
         /* Computing MAX */
         d__1 = eps * 30. * dnorm;
-        thresh = max(d__1,smlnum);
+        thresh = max(d__1, smlnum);
         /*        Solve A11*X - X*A22 = scale*A12 for X. */
-        dlasy2_(&c_false, &c_false, &c_n1, n1, n2, d__, &c__4, &d__[*n1 + 1 + (*n1 + 1 << 2) - 5], &c__4, &d__[(*n1 + 1 << 2) - 4], &c__4, &scale, x, &c__2, &xnorm, &ierr);
+        dlasy2_(&c_false, &c_false, &c_n1, n1, n2, d__, &c__4, &d__[*n1 + 1 + (*n1 + 1 << 2) - 5],
+            &c__4, &d__[(*n1 + 1 << 2) - 4], &c__4, &scale, x, &c__2, &xnorm, &ierr);
         /*        Swap the adjacent diagonal blocks. */
         k = *n1 + *n1 + *n2 - 3;
-        switch ((int)k)
-        {
-            case 1:
-                goto L10;
-            case 2:
-                goto L20;
-            case 3:
-                goto L30;
+        switch ((int)k) {
+        case 1:
+            goto L10;
+        case 2:
+            goto L20;
+        case 3:
+            goto L30;
         }
-L10:
+    L10:
         /*        N1 = 1, N2 = 2: generate elementary reflector H so that: */
         /*        ( scale, X11, X12 ) H = ( 0, 0, * ). */
         v[0] = scale;
@@ -483,9 +464,9 @@ L10:
         dlarfx_("Right", &c__3, &c__3, v, &tau, d__, &c__4, &dwork[1], 5L);
         /*        Test whether to reject swap. */
         /* Computing MAX */
-        d__2 = abs(d__[2]), d__3 = abs(d__[6]), d__2 = max(d__2,d__3), d__3 = (d__1 = d__[10] - a11, abs(d__1));
-        if (max(d__2,d__3) > thresh)
-        {
+        d__2 = abs(d__[2]), d__3 = abs(d__[6]), d__2 = max(d__2, d__3),
+        d__3 = (d__1 = d__[10] - a11, abs(d__1));
+        if (max(d__2, d__3) > thresh) {
             goto L50;
         }
         /*        Accept swap: apply transformation to the entire matrix A. */
@@ -496,40 +477,40 @@ L10:
         a[j3 + j2 * a_dim1] = 0.;
         a[j3 + j3 * a_dim1] = a11;
         /*        Apply transformation to G. */
-        if (*isham)
-        {
+        if (*isham) {
             i__1 = *j1 - 1;
             dlarfx_("Right", &i__1, &c__3, v, &tau, &g[*j1 * g_dim1 + 1], ldg, &dwork[1], 5L);
-            dsymv_("Upper", &c__3, &tau, &g[*j1 + *j1 * g_dim1], ldg, v, &c__1, &c_b21, &dwork[1], &c__1, 5L);
+            dsymv_("Upper", &c__3, &tau, &g[*j1 + *j1 * g_dim1], ldg, v, &c__1, &c_b21, &dwork[1],
+                &c__1, 5L);
             temp = tau * -.5 * ddot_(&c__3, &dwork[1], &c__1, v, &c__1);
             daxpy_(&c__3, &temp, v, &c__1, &dwork[1], &c__1);
-            dsyr2_("Upper", &c__3, &c_b8, v, &c__1, &dwork[1], &c__1, &g[*j1 + *j1 * g_dim1], ldg, 5L);
-            if (*n > *j1 + 2)
-            {
+            dsyr2_(
+                "Upper", &c__3, &c_b8, v, &c__1, &dwork[1], &c__1, &g[*j1 + *j1 * g_dim1], ldg, 5L);
+            if (*n > *j1 + 2) {
                 i__1 = *n - *j1 - 2;
-                dlarfx_("Left", &c__3, &i__1, v, &tau, &g[*j1 + (*j1 + 3) * g_dim1], ldg, &dwork[1], 4L);
+                dlarfx_("Left", &c__3, &i__1, v, &tau, &g[*j1 + (*j1 + 3) * g_dim1], ldg, &dwork[1],
+                    4L);
             }
-        }
-        else
-        {
+        } else {
             i__1 = *j1 - 1;
             dlarfx_("Right", &i__1, &c__3, v, &tau, &g[*j1 * g_dim1 + 1], ldg, &dwork[1], 5L);
-            mb01md_("Upper", &c__3, &tau, &g[*j1 + *j1 * g_dim1], ldg, v, &c__1, &c_b21, &dwork[1], &c__1, 5L);
-            mb01nd_("Upper", &c__3, &c_b203, v, &c__1, &dwork[1], &c__1, &g[*j1 + *j1 * g_dim1], ldg, 5L);
-            if (*n > *j1 + 2)
-            {
+            mb01md_("Upper", &c__3, &tau, &g[*j1 + *j1 * g_dim1], ldg, v, &c__1, &c_b21, &dwork[1],
+                &c__1, 5L);
+            mb01nd_("Upper", &c__3, &c_b203, v, &c__1, &dwork[1], &c__1, &g[*j1 + *j1 * g_dim1],
+                ldg, 5L);
+            if (*n > *j1 + 2) {
                 i__1 = *n - *j1 - 2;
-                dlarfx_("Left", &c__3, &i__1, v, &tau, &g[*j1 + (*j1 + 3) * g_dim1], ldg, &dwork[1], 4L);
+                dlarfx_("Left", &c__3, &i__1, v, &tau, &g[*j1 + (*j1 + 3) * g_dim1], ldg, &dwork[1],
+                    4L);
             }
         }
-        if (*wantu)
-        {
+        if (*wantu) {
             /*           Accumulate transformation in the matrices U1 and U2. */
             dlarfx_("R", n, &c__3, v, &tau, &u1[*j1 * u1_dim1 + 1], ldu1, &dwork[1], 1L);
             dlarfx_("R", n, &c__3, v, &tau, &u2[*j1 * u2_dim1 + 1], ldu2, &dwork[1], 1L);
         }
         goto L40;
-L20:
+    L20:
         /*        N1 = 2, N2 = 1: generate elementary reflector H so that: */
         /*        H (  -X11 ) = ( * ) */
         /*          (  -X21 ) = ( 0 ). */
@@ -545,9 +526,9 @@ L20:
         dlarfx_("R", &c__3, &c__3, v, &tau, d__, &c__4, &dwork[1], 1L);
         /*        Test whether to reject swap. */
         /* Computing MAX */
-        d__2 = abs(d__[1]), d__3 = abs(d__[2]), d__2 = max(d__2,d__3), d__3 = (d__1 = d__[0] - a33, abs(d__1));
-        if (max(d__2,d__3) > thresh)
-        {
+        d__2 = abs(d__[1]), d__3 = abs(d__[2]), d__2 = max(d__2, d__3),
+        d__3 = (d__1 = d__[0] - a33, abs(d__1));
+        if (max(d__2, d__3) > thresh) {
             goto L50;
         }
         /*        Accept swap: apply transformation to the entire matrix A. */
@@ -558,40 +539,40 @@ L20:
         a[j2 + *j1 * a_dim1] = 0.;
         a[j3 + *j1 * a_dim1] = 0.;
         /*        Apply transformation to G. */
-        if (*isham)
-        {
+        if (*isham) {
             i__1 = *j1 - 1;
             dlarfx_("Right", &i__1, &c__3, v, &tau, &g[*j1 * g_dim1 + 1], ldg, &dwork[1], 5L);
-            dsymv_("Upper", &c__3, &tau, &g[*j1 + *j1 * g_dim1], ldg, v, &c__1, &c_b21, &dwork[1], &c__1, 5L);
+            dsymv_("Upper", &c__3, &tau, &g[*j1 + *j1 * g_dim1], ldg, v, &c__1, &c_b21, &dwork[1],
+                &c__1, 5L);
             temp = tau * -.5 * ddot_(&c__3, &dwork[1], &c__1, v, &c__1);
             daxpy_(&c__3, &temp, v, &c__1, &dwork[1], &c__1);
-            dsyr2_("Upper", &c__3, &c_b8, v, &c__1, &dwork[1], &c__1, &g[*j1 + *j1 * g_dim1], ldg, 5L);
-            if (*n > *j1 + 2)
-            {
+            dsyr2_(
+                "Upper", &c__3, &c_b8, v, &c__1, &dwork[1], &c__1, &g[*j1 + *j1 * g_dim1], ldg, 5L);
+            if (*n > *j1 + 2) {
                 i__1 = *n - *j1 - 2;
-                dlarfx_("Left", &c__3, &i__1, v, &tau, &g[*j1 + (*j1 + 3) * g_dim1], ldg, &dwork[1], 4L);
+                dlarfx_("Left", &c__3, &i__1, v, &tau, &g[*j1 + (*j1 + 3) * g_dim1], ldg, &dwork[1],
+                    4L);
             }
-        }
-        else
-        {
+        } else {
             i__1 = *j1 - 1;
             dlarfx_("Right", &i__1, &c__3, v, &tau, &g[*j1 * g_dim1 + 1], ldg, &dwork[1], 5L);
-            mb01md_("Upper", &c__3, &tau, &g[*j1 + *j1 * g_dim1], ldg, v, &c__1, &c_b21, &dwork[1], &c__1, 5L);
-            mb01nd_("Upper", &c__3, &c_b203, v, &c__1, &dwork[1], &c__1, &g[*j1 + *j1 * g_dim1], ldg, 5L);
-            if (*n > *j1 + 2)
-            {
+            mb01md_("Upper", &c__3, &tau, &g[*j1 + *j1 * g_dim1], ldg, v, &c__1, &c_b21, &dwork[1],
+                &c__1, 5L);
+            mb01nd_("Upper", &c__3, &c_b203, v, &c__1, &dwork[1], &c__1, &g[*j1 + *j1 * g_dim1],
+                ldg, 5L);
+            if (*n > *j1 + 2) {
                 i__1 = *n - *j1 - 2;
-                dlarfx_("Left", &c__3, &i__1, v, &tau, &g[*j1 + (*j1 + 3) * g_dim1], ldg, &dwork[1], 4L);
+                dlarfx_("Left", &c__3, &i__1, v, &tau, &g[*j1 + (*j1 + 3) * g_dim1], ldg, &dwork[1],
+                    4L);
             }
         }
-        if (*wantu)
-        {
+        if (*wantu) {
             /*           Accumulate transformation in the matrices U1 and U2. */
             dlarfx_("R", n, &c__3, v, &tau, &u1[*j1 * u1_dim1 + 1], ldu1, &dwork[1], 1L);
             dlarfx_("R", n, &c__3, v, &tau, &u2[*j1 * u2_dim1 + 1], ldu2, &dwork[1], 1L);
         }
         goto L40;
-L30:
+    L30:
         /*        N1 = 2, N2 = 2: generate elementary reflectors H(1) and H(2) so */
         /*        that: */
         /*        H(2) H(1) (  -X11  -X12 ) = (  *  * ) */
@@ -616,9 +597,9 @@ L30:
         dlarfx_("R", &c__4, &c__3, v2, &tau2, &d__[4], &c__4, &dwork[1], 1L);
         /*        Test whether to reject swap. */
         /* Computing MAX */
-        d__1 = abs(d__[2]), d__2 = abs(d__[6]), d__1 = max(d__1,d__2), d__2 = abs(d__[3]), d__1 = max(d__1,d__2), d__2 = abs(d__[7]);
-        if (max(d__1,d__2) > thresh)
-        {
+        d__1 = abs(d__[2]), d__2 = abs(d__[6]), d__1 = max(d__1, d__2), d__2 = abs(d__[3]),
+        d__1 = max(d__1, d__2), d__2 = abs(d__[7]);
+        if (max(d__1, d__2) > thresh) {
             goto L50;
         }
         /*        Accept swap: apply transformation to the entire matrix A. */
@@ -633,71 +614,75 @@ L30:
         a[j4 + *j1 * a_dim1] = 0.;
         a[j4 + j2 * a_dim1] = 0.;
         /*        Apply transformation to G. */
-        if (*isham)
-        {
+        if (*isham) {
             i__1 = *j1 - 1;
             dlarfx_("Right", &i__1, &c__3, v1, &tau1, &g[*j1 * g_dim1 + 1], ldg, &dwork[1], 5L);
-            dsymv_("Upper", &c__3, &tau1, &g[*j1 + *j1 * g_dim1], ldg, v1, &c__1, &c_b21, &dwork[1], &c__1, 5L);
+            dsymv_("Upper", &c__3, &tau1, &g[*j1 + *j1 * g_dim1], ldg, v1, &c__1, &c_b21, &dwork[1],
+                &c__1, 5L);
             temp = tau1 * -.5 * ddot_(&c__3, &dwork[1], &c__1, v1, &c__1);
             daxpy_(&c__3, &temp, v1, &c__1, &dwork[1], &c__1);
-            dsyr2_("Upper", &c__3, &c_b8, v1, &c__1, &dwork[1], &c__1, &g[*j1 + *j1 * g_dim1], ldg, 5L);
-            if (*n > *j1 + 2)
-            {
+            dsyr2_("Upper", &c__3, &c_b8, v1, &c__1, &dwork[1], &c__1, &g[*j1 + *j1 * g_dim1], ldg,
+                5L);
+            if (*n > *j1 + 2) {
                 i__1 = *n - *j1 - 2;
-                dlarfx_("Left", &c__3, &i__1, v1, &tau1, &g[*j1 + (*j1 + 3) * g_dim1], ldg, &dwork[1], 4L);
+                dlarfx_("Left", &c__3, &i__1, v1, &tau1, &g[*j1 + (*j1 + 3) * g_dim1], ldg,
+                    &dwork[1], 4L);
             }
             i__1 = j2 - 1;
             dlarfx_("Right", &i__1, &c__3, v2, &tau2, &g[j2 * g_dim1 + 1], ldg, &dwork[1], 5L);
-            dsymv_("Upper", &c__3, &tau2, &g[j2 + j2 * g_dim1], ldg, v2, &c__1, &c_b21, &dwork[1], &c__1, 5L);
+            dsymv_("Upper", &c__3, &tau2, &g[j2 + j2 * g_dim1], ldg, v2, &c__1, &c_b21, &dwork[1],
+                &c__1, 5L);
             temp = tau2 * -.5 * ddot_(&c__3, &dwork[1], &c__1, v2, &c__1);
             daxpy_(&c__3, &temp, v2, &c__1, &dwork[1], &c__1);
-            dsyr2_("Upper", &c__3, &c_b8, v2, &c__1, &dwork[1], &c__1, &g[j2 + j2 * g_dim1], ldg, 5L);
-            if (*n > j2 + 2)
-            {
+            dsyr2_(
+                "Upper", &c__3, &c_b8, v2, &c__1, &dwork[1], &c__1, &g[j2 + j2 * g_dim1], ldg, 5L);
+            if (*n > j2 + 2) {
                 i__1 = *n - j2 - 2;
-                dlarfx_("Left", &c__3, &i__1, v2, &tau2, &g[j2 + (j2 + 3) * g_dim1], ldg, &dwork[1], 4L);
+                dlarfx_("Left", &c__3, &i__1, v2, &tau2, &g[j2 + (j2 + 3) * g_dim1], ldg, &dwork[1],
+                    4L);
             }
-        }
-        else
-        {
+        } else {
             i__1 = *j1 - 1;
             dlarfx_("Right", &i__1, &c__3, v1, &tau1, &g[*j1 * g_dim1 + 1], ldg, &dwork[1], 5L);
-            mb01md_("Upper", &c__3, &tau1, &g[*j1 + *j1 * g_dim1], ldg, v1, &c__1, &c_b21, &dwork[1], &c__1, 5L);
-            mb01nd_("Upper", &c__3, &c_b203, v1, &c__1, &dwork[1], &c__1, &g[*j1 + *j1 * g_dim1], ldg, 5L);
-            if (*n > *j1 + 2)
-            {
+            mb01md_("Upper", &c__3, &tau1, &g[*j1 + *j1 * g_dim1], ldg, v1, &c__1, &c_b21,
+                &dwork[1], &c__1, 5L);
+            mb01nd_("Upper", &c__3, &c_b203, v1, &c__1, &dwork[1], &c__1, &g[*j1 + *j1 * g_dim1],
+                ldg, 5L);
+            if (*n > *j1 + 2) {
                 i__1 = *n - *j1 - 2;
-                dlarfx_("Left", &c__3, &i__1, v1, &tau1, &g[*j1 + (*j1 + 3) * g_dim1], ldg, &dwork[1], 4L);
+                dlarfx_("Left", &c__3, &i__1, v1, &tau1, &g[*j1 + (*j1 + 3) * g_dim1], ldg,
+                    &dwork[1], 4L);
             }
             i__1 = j2 - 1;
             dlarfx_("Right", &i__1, &c__3, v2, &tau2, &g[j2 * g_dim1 + 1], ldg, &dwork[1], 5L);
-            mb01md_("Upper", &c__3, &tau2, &g[j2 + j2 * g_dim1], ldg, v2, &c__1, &c_b21, &dwork[1], &c__1, 5L);
-            mb01nd_("Upper", &c__3, &c_b203, v2, &c__1, &dwork[1], &c__1, &g[j2 + j2 * g_dim1], ldg, 5L);
-            if (*n > j2 + 2)
-            {
+            mb01md_("Upper", &c__3, &tau2, &g[j2 + j2 * g_dim1], ldg, v2, &c__1, &c_b21, &dwork[1],
+                &c__1, 5L);
+            mb01nd_("Upper", &c__3, &c_b203, v2, &c__1, &dwork[1], &c__1, &g[j2 + j2 * g_dim1], ldg,
+                5L);
+            if (*n > j2 + 2) {
                 i__1 = *n - j2 - 2;
-                dlarfx_("Left", &c__3, &i__1, v2, &tau2, &g[j2 + (j2 + 3) * g_dim1], ldg, &dwork[1], 4L);
+                dlarfx_("Left", &c__3, &i__1, v2, &tau2, &g[j2 + (j2 + 3) * g_dim1], ldg, &dwork[1],
+                    4L);
             }
         }
-        if (*wantu)
-        {
+        if (*wantu) {
             /*           Accumulate transformation in the matrices U1 and U2. */
             dlarfx_("R", n, &c__3, v1, &tau1, &u1[*j1 * u1_dim1 + 1], ldu1, &dwork[1], 1L);
             dlarfx_("R", n, &c__3, v2, &tau2, &u1[j2 * u1_dim1 + 1], ldu1, &dwork[1], 1L);
             dlarfx_("R", n, &c__3, v1, &tau1, &u2[*j1 * u2_dim1 + 1], ldu2, &dwork[1], 1L);
             dlarfx_("R", n, &c__3, v2, &tau2, &u2[j2 * u2_dim1 + 1], ldu2, &dwork[1], 1L);
         }
-L40:
-        if (*n2 == 2)
-        {
+    L40:
+        if (*n2 == 2) {
             /*           Standardize new 2-by-2 block A11. */
-            dlanv2_(&a[*j1 + *j1 * a_dim1], &a[*j1 + j2 * a_dim1], &a[j2 + *j1 * a_dim1], &a[j2 + j2 * a_dim1], &wr1, &wi1, &wr2, &wi2, &cs, &sn);
+            dlanv2_(&a[*j1 + *j1 * a_dim1], &a[*j1 + j2 * a_dim1], &a[j2 + *j1 * a_dim1],
+                &a[j2 + j2 * a_dim1], &wr1, &wi1, &wr2, &wi2, &cs, &sn);
             i__1 = *n - *j1 - 1;
-            drot_(&i__1, &a[*j1 + (*j1 + 2) * a_dim1], lda, &a[j2 + (*j1 + 2) * a_dim1], lda, &cs, &sn);
+            drot_(&i__1, &a[*j1 + (*j1 + 2) * a_dim1], lda, &a[j2 + (*j1 + 2) * a_dim1], lda, &cs,
+                &sn);
             i__1 = *j1 - 1;
             drot_(&i__1, &a[*j1 * a_dim1 + 1], &c__1, &a[j2 * a_dim1 + 1], &c__1, &cs, &sn);
-            if (*isham)
-            {
+            if (*isham) {
                 temp = g[*j1 + j2 * g_dim1];
                 drot_(j1, &g[*j1 * g_dim1 + 1], &c__1, &g[j2 * g_dim1 + 1], &c__1, &cs, &sn);
                 tau = cs * temp + sn * g[j2 + j2 * g_dim1];
@@ -705,38 +690,34 @@ L40:
                 g[*j1 + *j1 * g_dim1] = cs * g[*j1 + *j1 * g_dim1] + sn * tau;
                 i__1 = *n - *j1;
                 drot_(&i__1, &g[*j1 + j2 * g_dim1], ldg, &g[j2 + j2 * g_dim1], ldg, &cs, &sn);
-            }
-            else
-            {
-                if (*n > *j1 + 1)
-                {
+            } else {
+                if (*n > *j1 + 1) {
                     i__1 = *n - *j1 - 1;
-                    drot_(&i__1, &g[*j1 + (*j1 + 2) * g_dim1], ldg, &g[j2 + (*j1 + 2) * g_dim1], ldg, &cs, &sn);
+                    drot_(&i__1, &g[*j1 + (*j1 + 2) * g_dim1], ldg, &g[j2 + (*j1 + 2) * g_dim1],
+                        ldg, &cs, &sn);
                 }
                 i__1 = *j1 - 1;
                 drot_(&i__1, &g[*j1 * g_dim1 + 1], &c__1, &g[j2 * g_dim1 + 1], &c__1, &cs, &sn);
             }
-            if (*wantu)
-            {
+            if (*wantu) {
                 drot_(n, &u1[*j1 * u1_dim1 + 1], &c__1, &u1[j2 * u1_dim1 + 1], &c__1, &cs, &sn);
                 drot_(n, &u2[*j1 * u2_dim1 + 1], &c__1, &u2[j2 * u2_dim1 + 1], &c__1, &cs, &sn);
             }
         }
-        if (*n1 == 2)
-        {
+        if (*n1 == 2) {
             /*           Standardize new 2-by-2 block A22. */
             j3 = *j1 + *n2;
             j4 = j3 + 1;
-            dlanv2_(&a[j3 + j3 * a_dim1], &a[j3 + j4 * a_dim1], &a[j4 + j3 * a_dim1], &a[j4 + j4 * a_dim1], &wr1, &wi1, &wr2, &wi2, &cs, &sn);
-            if (j3 + 2 <= *n)
-            {
+            dlanv2_(&a[j3 + j3 * a_dim1], &a[j3 + j4 * a_dim1], &a[j4 + j3 * a_dim1],
+                &a[j4 + j4 * a_dim1], &wr1, &wi1, &wr2, &wi2, &cs, &sn);
+            if (j3 + 2 <= *n) {
                 i__1 = *n - j3 - 1;
-                drot_(&i__1, &a[j3 + (j3 + 2) * a_dim1], lda, &a[j4 + (j3 + 2) * a_dim1], lda, &cs, &sn);
+                drot_(&i__1, &a[j3 + (j3 + 2) * a_dim1], lda, &a[j4 + (j3 + 2) * a_dim1], lda, &cs,
+                    &sn);
             }
             i__1 = j3 - 1;
             drot_(&i__1, &a[j3 * a_dim1 + 1], &c__1, &a[j4 * a_dim1 + 1], &c__1, &cs, &sn);
-            if (*isham)
-            {
+            if (*isham) {
                 temp = g[j3 + j4 * g_dim1];
                 drot_(&j3, &g[j3 * g_dim1 + 1], &c__1, &g[j4 * g_dim1 + 1], &c__1, &cs, &sn);
                 tau = cs * temp + sn * g[j4 + j4 * g_dim1];
@@ -744,19 +725,16 @@ L40:
                 g[j3 + j3 * g_dim1] = cs * g[j3 + j3 * g_dim1] + sn * tau;
                 i__1 = *n - j3;
                 drot_(&i__1, &g[j3 + j4 * g_dim1], ldg, &g[j4 + j4 * g_dim1], ldg, &cs, &sn);
-            }
-            else
-            {
-                if (*n > j3 + 1)
-                {
+            } else {
+                if (*n > j3 + 1) {
                     i__1 = *n - j3 - 1;
-                    drot_(&i__1, &g[j3 + (j3 + 2) * g_dim1], ldg, &g[j4 + (j3 + 2) * g_dim1], ldg, &cs, &sn);
+                    drot_(&i__1, &g[j3 + (j3 + 2) * g_dim1], ldg, &g[j4 + (j3 + 2) * g_dim1], ldg,
+                        &cs, &sn);
                 }
                 i__1 = j3 - 1;
                 drot_(&i__1, &g[j3 * g_dim1 + 1], &c__1, &g[j4 * g_dim1 + 1], &c__1, &cs, &sn);
             }
-            if (*wantu)
-            {
+            if (*wantu) {
                 drot_(n, &u1[j3 * u1_dim1 + 1], &c__1, &u1[j4 * u1_dim1 + 1], &c__1, &cs, &sn);
                 drot_(n, &u2[j3 * u2_dim1 + 1], &c__1, &u2[j4 * u2_dim1 + 1], &c__1, &cs, &sn);
             }
@@ -769,4 +747,3 @@ L50:
     return 0;
     /* *** Last line of MB03TS *** */
 } /* mb03ts_ */
-

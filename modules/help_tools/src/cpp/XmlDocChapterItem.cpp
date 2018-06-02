@@ -17,65 +17,68 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocChapterItem.hpp"
-#include "characters_encoding.hpp"
-#include "XmlDocumentTags.hpp"
 #include "HtmlTags.hpp"
+#include "XmlDocumentTags.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    XmlDocChapterItem::XmlDocChapterItem(std::wstring chapter)
-    {
-        this->_chapter = chapter;
-    }
-    //=============================================================================
-    XmlDocChapterItem::~XmlDocChapterItem()
-    {
-        this->_chapter = L"";
-    }
-    //=============================================================================
-    void XmlDocChapterItem::setValue(std::wstring value)
-    {
-        this->_chapter = value;
-    }
-    //=============================================================================
-    std::wstring XmlDocChapterItem::getValue()
-    {
-        return this->_chapter;
-    }
-    //=============================================================================
-    std::wstring XmlDocChapterItem::getItemType()
-    {
-        return utf8_to_wstring(CHAPTER_TAG);
-    }
-    //=============================================================================
-    bool XmlDocChapterItem::writeHeaderAsHtml(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + "\t" + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />" + "\n";
-        utf8stream = utf8stream + "\t" + HTML_TITLE_IN_TAG + wstring_to_utf8(_chapter) + HTML_TITLE_OUT_TAG + "\n";
-        return true;
-    }
-    //=============================================================================
-    bool XmlDocChapterItem::writeAsHtml(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + HTML_H3_IN_TAG + wstring_to_utf8(_chapter) + HTML_H3_OUT_TAG + "\n";
-        utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
-        utf8stream = utf8stream + "\n";
-        return true;
-    }
-    //=============================================================================
-    bool XmlDocChapterItem::writeHeaderAsMarkdown(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + "\n";
-        utf8stream = utf8stream + "# " + wstring_to_utf8(_chapter) + "\n";
-        return true;
-    }
-    //=============================================================================
-    bool XmlDocChapterItem::writeAsMarkdown(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + wstring_to_utf8(_chapter) + "\n";
-        utf8stream = utf8stream + "\n";
-        return true;
-    }
-    //=============================================================================
+//=============================================================================
+XmlDocChapterItem::XmlDocChapterItem(std::wstring chapter) { this->_chapter = chapter; }
+//=============================================================================
+XmlDocChapterItem::~XmlDocChapterItem() { this->_chapter = L""; }
+//=============================================================================
+void
+XmlDocChapterItem::setValue(std::wstring value)
+{
+    this->_chapter = value;
+}
+//=============================================================================
+std::wstring
+XmlDocChapterItem::getValue()
+{
+    return this->_chapter;
+}
+//=============================================================================
+std::wstring
+XmlDocChapterItem::getItemType()
+{
+    return utf8_to_wstring(CHAPTER_TAG);
+}
+//=============================================================================
+bool
+XmlDocChapterItem::writeHeaderAsHtml(std::string& utf8stream)
+{
+    utf8stream = utf8stream + "\t"
+        + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />" + "\n";
+    utf8stream = utf8stream + "\t" + HTML_TITLE_IN_TAG + wstring_to_utf8(_chapter)
+        + HTML_TITLE_OUT_TAG + "\n";
+    return true;
+}
+//=============================================================================
+bool
+XmlDocChapterItem::writeAsHtml(std::string& utf8stream)
+{
+    utf8stream = utf8stream + HTML_H3_IN_TAG + wstring_to_utf8(_chapter) + HTML_H3_OUT_TAG + "\n";
+    utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
+bool
+XmlDocChapterItem::writeHeaderAsMarkdown(std::string& utf8stream)
+{
+    utf8stream = utf8stream + "\n";
+    utf8stream = utf8stream + "# " + wstring_to_utf8(_chapter) + "\n";
+    return true;
+}
+//=============================================================================
+bool
+XmlDocChapterItem::writeAsMarkdown(std::string& utf8stream)
+{
+    utf8stream = utf8stream + wstring_to_utf8(_chapter) + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

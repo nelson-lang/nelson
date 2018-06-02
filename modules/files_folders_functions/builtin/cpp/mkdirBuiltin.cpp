@@ -22,67 +22,48 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FilesFoldersGateway::mkdirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FilesFoldersGateway::mkdirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 1 || argIn.size() == 2)
-    {
-        if (nLhs > 2)
-        {
+    if (argIn.size() == 1 || argIn.size() == 2) {
+        if (nLhs > 2) {
             Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         std::wstring parentDir;
         std::wstring newDir;
-        if (argIn.size() == 2)
-        {
-            if (argIn[1].isSingleString())
-            {
+        if (argIn.size() == 2) {
+            if (argIn[1].isSingleString()) {
                 newDir = argIn[1].getContentAsWideString();
-            }
-            else
-            {
+            } else {
                 Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
             }
         }
-        if (argIn[0].isSingleString())
-        {
+        if (argIn[0].isSingleString()) {
             parentDir = argIn[0].getContentAsWideString();
-        }
-        else
-        {
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring message;
         bool bOK = false;
-        if (newDir.empty())
-        {
+        if (newDir.empty()) {
             bOK = MakeDirectory(parentDir, message);
-        }
-        else
-        {
+        } else {
             bOK = MakeDirectory(parentDir, newDir, message);
         }
-        if (nLhs == 0)
-        {
-            if (!bOK)
-            {
+        if (nLhs == 0) {
+            if (!bOK) {
                 Error(eval, message);
             }
-        }
-        else
-        {
-            if (nLhs > 0)
-            {
+        } else {
+            if (nLhs > 0) {
                 retval.push_back(ArrayOf::logicalConstructor(bOK));
             }
-            if (nLhs > 1)
-            {
+            if (nLhs > 1) {
                 retval.push_back(ArrayOf::stringConstructor(message));
             }
         }
-    }
-    else
-    {
+    } else {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;

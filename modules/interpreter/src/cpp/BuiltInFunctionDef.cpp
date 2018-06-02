@@ -20,41 +20,36 @@
 #include "EvaluateBuiltinCatchRuntimeException.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    BuiltInFunctionDef::BuiltInFunctionDef()
-    {
-        fileName.clear();
-        retCount = 0;
-        argCount = 0;
-        fptr = nullptr;
+//=============================================================================
+BuiltInFunctionDef::BuiltInFunctionDef()
+{
+    fileName.clear();
+    retCount = 0;
+    argCount = 0;
+    fptr = nullptr;
+}
+//=============================================================================
+BuiltInFunctionDef::~BuiltInFunctionDef() {}
+//=============================================================================
+ArrayOfVector
+BuiltInFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int nargout)
+{
+    ArrayOfVector outputs;
+    eval->pushDebug(name, std::string("built-in ") + this->name);
+    try {
+        outputs = EvaluateBuiltinCatchRuntimeException(eval, fptr, inputs, nargout);
+        eval->popDebug();
+        return outputs;
+    } catch (Exception& e) {
+        e.what();
+        eval->popDebug();
+        throw;
     }
-    //=============================================================================
-    BuiltInFunctionDef::~BuiltInFunctionDef()
-    {
-    }
-    //=============================================================================
-    ArrayOfVector BuiltInFunctionDef::evaluateFunction(Evaluator *eval,
-            ArrayOfVector& inputs, int nargout)
-    {
-        ArrayOfVector outputs;
-        eval->pushDebug(name, std::string("built-in ") + this->name);
-        try
-        {
-            outputs = EvaluateBuiltinCatchRuntimeException(eval, fptr, inputs, nargout);
-            eval->popDebug();
-            return outputs;
-        }
-        catch (Exception& e)
-        {
-            e.what();
-            eval->popDebug();
-            throw;
-        }
-    }
-    //=============================================================================
-    void BuiltInFunctionDef::printMe(Interface *io)
-    {
-    }
-    //=============================================================================
+}
+//=============================================================================
+void
+BuiltInFunctionDef::printMe(Interface* io)
+{}
+//=============================================================================
 }
 //=============================================================================

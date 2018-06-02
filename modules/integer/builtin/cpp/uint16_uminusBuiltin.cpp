@@ -17,24 +17,22 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "uint16_uminusBuiltin.hpp"
-#include "UminusInteger.hpp"
 #include "Error.hpp"
+#include "UminusInteger.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::uint16_uminusBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::uint16_uminusBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs != 1)
-    {
+    if (nLhs != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn[0].getDataClass() != NLS_UINT16)
-    {
+    if (argIn[0].getDataClass() != NLS_UINT16) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_UINT16_EXPECTED);
     }
     retval.push_back(integer_uminus(argIn[0]));

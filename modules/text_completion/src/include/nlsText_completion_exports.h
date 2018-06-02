@@ -25,6 +25,6 @@
 #define NLSTEXT_COMPLETION_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSTEXT_COMPLETION_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSTEXT_COMPLETION_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

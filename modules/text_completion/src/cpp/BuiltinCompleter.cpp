@@ -16,31 +16,29 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include "BuiltinCompleter.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "Evaluator.hpp"
+#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "What.hpp"
+#include <boost/algorithm/string.hpp>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    wstringVector BuiltinCompleter(std::wstring prefix)
-    {
-        wstringVector res;
-        Evaluator *eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-        if (eval)
-        {
-            wstringVector builtin = WhatListOfBuiltin(eval, true, true);
-            for (size_t k = 0; k < builtin.size(); k++)
-            {
-                if (boost::algorithm::starts_with(builtin[k], prefix))
-                {
-                    res.push_back(builtin[k]);
-                }
+//=============================================================================
+wstringVector
+BuiltinCompleter(std::wstring prefix)
+{
+    wstringVector res;
+    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    if (eval) {
+        wstringVector builtin = WhatListOfBuiltin(eval, true, true);
+        for (size_t k = 0; k < builtin.size(); k++) {
+            if (boost::algorithm::starts_with(builtin[k], prefix)) {
+                res.push_back(builtin[k]);
             }
         }
-        return res;
     }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
 };
 //=============================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,27 +13,29 @@ static doublereal c_b15 = 1.;
 static doublereal c_b34 = -1.;
 static doublereal c_b39 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int ab09hy_(n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, scalec, scaleo, s, lds, r__, ldr, iwork, dwork, ldwork, bwork, info)
-integer *n, *m, *p;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
+EXPORTSYMBOL /* Subroutine */ int ab09hy_(n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, scalec,
+    scaleo, s, lds, r__, ldr, iwork, dwork, ldwork, bwork, info) integer *n,
+    *m, *p;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
 doublereal *scalec, *scaleo, *s;
-integer *lds;
-doublereal *r__;
+integer* lds;
+doublereal* r__;
 integer *ldr, *iwork;
-doublereal *dwork;
-integer *ldwork;
-logical *bwork;
-integer *info;
+doublereal* dwork;
+integer* ldwork;
+logical* bwork;
+integer* info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, r_dim1, r_offset, s_dim1, s_offset, i__1, i__2, i__3, i__4, i__5;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, r_dim1,
+        r_offset, s_dim1, s_offset, i__1, i__2, i__3, i__4, i__5;
     doublereal d__1;
     /* Local variables */
     static integer ierr, ktau;
@@ -201,53 +203,34 @@ integer *info;
     *info = 0;
     /* Computing MAX */
     /* Computing MAX */
-    i__3 = max(*n,*m);
+    i__3 = max(*n, *m);
     /* Computing MAX */
     i__4 = *p * (*m + 2), i__5 = *n * 10 * (*n + 1);
-    i__1 = 2, i__2 = *n * (max(i__3,*p) + 5), i__1 = max(i__1,i__2), i__2 = (*n << 1) **p + max(i__4,i__5);
-    lw = max(i__1,i__2);
-    if (*n < 0)
-    {
+    i__1 = 2, i__2 = *n * (max(i__3, *p) + 5), i__1 = max(i__1, i__2),
+    i__2 = (*n << 1) * *p + max(i__4, i__5);
+    lw = max(i__1, i__2);
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*p < 0 || *p > *m)
-    {
+    } else if (*p < 0 || *p > *m) {
         *info = -3;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -5;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -9;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -11;
-    }
-    else if (*lds < max(1,*n))
-    {
+    } else if (*lds < max(1, *n)) {
         *info = -15;
-    }
-    else if (*ldr < max(1,*n))
-    {
+    } else if (*ldr < max(1, *n)) {
         *info = -17;
-    }
-    else if (*ldwork < lw)
-    {
+    } else if (*ldwork < lw) {
         *info = -20;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB09HY", &i__1, 6L);
@@ -257,9 +240,8 @@ integer *info;
     *scalec = 1.;
     *scaleo = 1.;
     /* Computing MIN */
-    i__1 = min(*n,*m);
-    if (min(i__1,*p) == 0)
-    {
+    i__1 = min(*n, *m);
+    if (min(i__1, *p) == 0) {
         dwork[1] = 2.;
         dwork[2] = 1.;
         return 0;
@@ -270,25 +252,25 @@ integer *info;
     /*     Workspace:  need   N*(MAX(N,M) + 5); */
     /*                 prefer larger. */
     ku = 1;
-    ktau = ku + *n * max(*n,*m);
+    ktau = ku + *n * max(*n, *m);
     kw = ktau + *n;
     dlacpy_("Full", n, m, &b[b_offset], ldb, &dwork[ku], n, 4L);
     i__1 = *ldwork - kw + 1;
-    sb03ou_(&c_false, &c_true, n, m, &a[a_offset], lda, &dwork[ku], n, &dwork[ktau], &s[s_offset], lds, scalec, &dwork[kw], &i__1, &ierr);
-    if (ierr != 0)
-    {
+    sb03ou_(&c_false, &c_true, n, m, &a[a_offset], lda, &dwork[ku], n, &dwork[ktau], &s[s_offset],
+        lds, scalec, &dwork[kw], &i__1, &ierr);
+    if (ierr != 0) {
         *info = 1;
         return 0;
     }
-    wrkopt = (integer) dwork[kw] + kw - 1;
+    wrkopt = (integer)dwork[kw] + kw - 1;
     /*     Allocate workspace for Bw' (P*N), Cw (P*N), Q2 (P*M), */
     /*     where Q2 = inv(Dw)*D. */
     /*     Workspace:  need   2*N*P + P*M. */
     kbw = 1;
-    kcw = kbw + *p **n;
-    kd = kcw + *p **n;
+    kcw = kbw + *p * *n;
+    kd = kcw + *p * *n;
     kdw = kd + *p * (*m - *p);
-    ktau = kd + *p **m;
+    ktau = kd + *p * *m;
     kw = ktau + *p;
     /*     Compute an upper-triangular Dw such that D*D' = Dw*Dw', using */
     /*     the RQ-decomposition of D: D = [0 Dw]*( Q1 ). */
@@ -298,16 +280,15 @@ integer *info;
     i__1 = *ldwork - kw + 1;
     dgerqf_(p, m, &dwork[kd], p, &dwork[ktau], &dwork[kw], &i__1, &ierr);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+    wrkopt = max(i__1, i__2);
     /*     Check the full row rank of D. */
-    rtol = (doublereal) (*m) * dlamch_("E", 1L) * dlange_("1", p, m, &d__[d_offset], ldd, &dwork[1], 1L);
-    i__1 = kdw + *p **p - 1;
+    rtol = (doublereal)(*m) * dlamch_("E", 1L)
+        * dlange_("1", p, m, &d__[d_offset], ldd, &dwork[1], 1L);
+    i__1 = kdw + *p * *p - 1;
     i__2 = *p + 1;
-    for (i__ = kdw; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2)
-    {
-        if ((d__1 = dwork[i__], abs(d__1)) <= rtol)
-        {
+    for (i__ = kdw; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2) {
+        if ((d__1 = dwork[i__], abs(d__1)) <= rtol) {
             *info = 6;
             return 0;
         }
@@ -316,12 +297,15 @@ integer *info;
     /*                    -1 */
     /*     Compute Hw = Dw  *C. */
     dlacpy_("F", p, n, &c__[c_offset], ldc, &dwork[kcw], p, 1L);
-    dtrsm_("Left", "Upper", "No-transpose", "Non-unit", p, n, &c_b15, &dwork[kdw], p, &dwork[kcw], p, 4L, 5L, 12L, 8L);
+    dtrsm_("Left", "Upper", "No-transpose", "Non-unit", p, n, &c_b15, &dwork[kdw], p, &dwork[kcw],
+        p, 4L, 5L, 12L, 8L);
     /*     Compute Bw' = inv(Dw)*(D*B' + C*Su*Su'). */
     /*     Compute first Hw*Su*Su' in Bw'. */
     dlacpy_("F", p, n, &dwork[kcw], p, &dwork[kbw], p, 1L);
-    dtrmm_("Right", "Upper", "No-transpose", "Non-unit", p, n, &c_b15, &s[s_offset], lds, &dwork[kbw], p, 5L, 5L, 12L, 8L);
-    dtrmm_("Right", "Upper", "Transpose", "Non-unit", p, n, &c_b15, &s[s_offset], lds, &dwork[kbw], p, 5L, 5L, 9L, 8L);
+    dtrmm_("Right", "Upper", "No-transpose", "Non-unit", p, n, &c_b15, &s[s_offset], lds,
+        &dwork[kbw], p, 5L, 5L, 12L, 8L);
+    dtrmm_("Right", "Upper", "Transpose", "Non-unit", p, n, &c_b15, &s[s_offset], lds, &dwork[kbw],
+        p, 5L, 5L, 9L, 8L);
     /*     Compute Q2 = inv(Dw)*D, as the last P lines of the orthogonal */
     /*     matrix ( Q1 ) from the RQ decomposition of D. */
     /*            ( Q2 ) */
@@ -329,19 +313,21 @@ integer *info;
     i__2 = *ldwork - kw + 1;
     dorgrq_(p, m, p, &dwork[kd], p, &dwork[ktau], &dwork[kw], &i__2, &ierr);
     /* Computing MAX */
-    i__2 = wrkopt, i__1 = (integer) dwork[kw] + kw - 1;
-    wrkopt = max(i__2,i__1);
+    i__2 = wrkopt, i__1 = (integer)dwork[kw] + kw - 1;
+    wrkopt = max(i__2, i__1);
     /*     Compute Bw' <- Bw' + Q2*B'. */
-    dgemm_("No-transpose", "Transpose", p, n, m, &c_b15, &dwork[kd], p, &b[b_offset], ldb, &c_b15, &dwork[kbw], p, 12L, 9L);
+    dgemm_("No-transpose", "Transpose", p, n, m, &c_b15, &dwork[kd], p, &b[b_offset], ldb, &c_b15,
+        &dwork[kbw], p, 12L, 9L);
     /*     Compute Aw = A - Bw*Hw in R. */
     dlacpy_("F", n, n, &a[a_offset], lda, &r__[r_offset], ldr, 1L);
-    dgemm_("Transpose", "No-transpose", n, n, p, &c_b34, &dwork[kbw], p, &dwork[kcw], p, &c_b15, &r__[r_offset], ldr, 9L, 12L);
+    dgemm_("Transpose", "No-transpose", n, n, p, &c_b34, &dwork[kbw], p, &dwork[kcw], p, &c_b15,
+        &r__[r_offset], ldr, 9L, 12L);
     /*     Allocate storage to solve the Riccati equation (3) for */
     /*     G(N*N), Q(N*N), WR(2N), WI(2N), S(2N*2N), U(2N*2N). */
     n2 = *n + *n;
     kg = kd;
-    kq = kg + *n **n;
-    kwr = kq + *n **n;
+    kq = kg + *n * *n;
+    kwr = kq + *n * *n;
     kwi = kwr + n2;
     ks = kwi + n2;
     ku = ks + n2 * n2;
@@ -356,32 +342,34 @@ integer *info;
     /*     Additional workspace: need   6*N; */
     /*                           prefer larger. */
     i__2 = *ldwork - kw + 1;
-    sb02md_("Continuous", "None", "Upper", "General", "Stable", n, &r__[r_offset], ldr, &dwork[kg], n, &dwork[kq], n, &rcond, &dwork[kwr], &dwork[kwi], &dwork[ks], &n2, &dwork[ku], &n2, &iwork[1], &dwork[kw], &i__2, &bwork[1], info, 10L, 4L, 5L, 7L, 6L);
-    if (*info != 0)
-    {
+    sb02md_("Continuous", "None", "Upper", "General", "Stable", n, &r__[r_offset], ldr, &dwork[kg],
+        n, &dwork[kq], n, &rcond, &dwork[kwr], &dwork[kwi], &dwork[ks], &n2, &dwork[ku], &n2,
+        &iwork[1], &dwork[kw], &i__2, &bwork[1], info, 10L, 4L, 5L, 7L, 6L);
+    if (*info != 0) {
         return 0;
     }
     /* Computing MAX */
-    i__2 = wrkopt, i__1 = (integer) dwork[kw] + kw - 1;
-    wrkopt = max(i__2,i__1);
+    i__2 = wrkopt, i__1 = (integer)dwork[kw] + kw - 1;
+    wrkopt = max(i__2, i__1);
     /*     Compute Cw = Hw - Bw'*X. */
-    dgemm_("No-transpose", "No-transpose", p, n, n, &c_b34, &dwork[kbw], p, &dwork[kq], n, &c_b15, &dwork[kcw], p, 12L, 12L);
+    dgemm_("No-transpose", "No-transpose", p, n, n, &c_b34, &dwork[kbw], p, &dwork[kq], n, &c_b15,
+        &dwork[kcw], p, 12L, 12L);
     /*     Solve for Ru the Lyapunov equation */
     /*                                      2 */
     /*     A'*(Ru'*Ru) + (Ru'*Ru)*A + scaleo  * Cw'*Cw = 0 . */
     /*     Workspace:  need   N*(MAX(N,P) + 5); */
     /*                 prefer larger. */
-    ktau = kcw + *n * max(*n,*p);
+    ktau = kcw + *n * max(*n, *p);
     kw = ktau + *n;
     i__2 = *ldwork - kw + 1;
-    sb03ou_(&c_false, &c_false, n, p, &a[a_offset], lda, &dwork[kcw], p, &dwork[ktau], &r__[r_offset], ldr, scaleo, &dwork[kw], &i__2, &ierr);
+    sb03ou_(&c_false, &c_false, n, p, &a[a_offset], lda, &dwork[kcw], p, &dwork[ktau],
+        &r__[r_offset], ldr, scaleo, &dwork[kw], &i__2, &ierr);
     /* Computing MAX */
-    i__2 = wrkopt, i__1 = (integer) dwork[kw] + kw - 1;
-    wrkopt = max(i__2,i__1);
+    i__2 = wrkopt, i__1 = (integer)dwork[kw] + kw - 1;
+    wrkopt = max(i__2, i__1);
     /*     Save optimal workspace and RCOND. */
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     dwork[2] = rcond;
     return 0;
     /* *** Last line of AB09HY *** */
 } /* ab09hy_ */
-

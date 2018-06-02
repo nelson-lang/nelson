@@ -16,63 +16,59 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <string>
-#include <stdlib.h>
 #include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "dynamic_library.hpp"
+#include <stdlib.h>
+#include <string>
 //=============================================================================
 static Nelson::library_handle nlsEngineHandleDynamicLibrary = nullptr;
 static bool bFirstDynamicLibraryCall = true;
 //=============================================================================
-static void initEngineDynamicLibrary(void)
+static void
+initEngineDynamicLibrary(void)
 {
-    if (bFirstDynamicLibraryCall)
-    {
-        std::string fullpathEngineSharedLibrary = "libnlsEngine" + Nelson::get_dynamic_library_extension();
+    if (bFirstDynamicLibraryCall) {
+        std::string fullpathEngineSharedLibrary
+            = "libnlsEngine" + Nelson::get_dynamic_library_extension();
 #ifdef _MSC_VER
-        char *buf;
-        try
-        {
+        char* buf;
+        try {
             buf = new char[MAX_PATH];
-        }
-        catch (std::bad_alloc)
-        {
+        } catch (std::bad_alloc) {
             buf = nullptr;
         }
-        if (buf)
-        {
+        if (buf) {
             DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
-            if (dwRet)
-            {
-                fullpathEngineSharedLibrary = std::string(buf) + std::string("/") + fullpathEngineSharedLibrary;
+            if (dwRet) {
+                fullpathEngineSharedLibrary
+                    = std::string(buf) + std::string("/") + fullpathEngineSharedLibrary;
             }
             delete[] buf;
         }
 #else
         char const* tmp = getenv("NELSON_BINARY_PATH");
-        if (tmp != nullptr)
-        {
-            fullpathEngineSharedLibrary = std::string(tmp) + std::string("/") + fullpathEngineSharedLibrary;
+        if (tmp != nullptr) {
+            fullpathEngineSharedLibrary
+                = std::string(tmp) + std::string("/") + fullpathEngineSharedLibrary;
         }
 #endif
         nlsEngineHandleDynamicLibrary = Nelson::load_dynamic_library(fullpathEngineSharedLibrary);
-        if (nlsEngineHandleDynamicLibrary)
-        {
+        if (nlsEngineHandleDynamicLibrary) {
             bFirstDynamicLibraryCall = false;
         }
     }
 }
 //=============================================================================
-void *GetNelsonMainEvaluatorDynamicFunction()
+void*
+GetNelsonMainEvaluatorDynamicFunction()
 {
-    typedef void* (*PROC_GetNelsonMainEvaluator) (void);
+    typedef void* (*PROC_GetNelsonMainEvaluator)(void);
     static PROC_GetNelsonMainEvaluator GetNelsonMainEvaluatorPtr = nullptr;
     initEngineDynamicLibrary();
-    if (!GetNelsonMainEvaluatorPtr)
-    {
-        GetNelsonMainEvaluatorPtr = reinterpret_cast<PROC_GetNelsonMainEvaluator>(Nelson::get_function(nlsEngineHandleDynamicLibrary, "getNelsonMainEvaluator"));
-        if (!GetNelsonMainEvaluatorPtr)
-        {
+    if (!GetNelsonMainEvaluatorPtr) {
+        GetNelsonMainEvaluatorPtr = reinterpret_cast<PROC_GetNelsonMainEvaluator>(
+            Nelson::get_function(nlsEngineHandleDynamicLibrary, "getNelsonMainEvaluator"));
+        if (!GetNelsonMainEvaluatorPtr) {
             return nullptr;
         }
     }

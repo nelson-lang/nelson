@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,8 +9,7 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mc01qd_(da, db, a, b, rq, iwarn, info)
-integer *da, *db;
+EXPORTSYMBOL /* Subroutine */ int mc01qd_(da, db, a, b, rq, iwarn, info) integer *da, *db;
 doublereal *a, *b, *rq;
 integer *iwarn, *info;
 {
@@ -130,16 +129,12 @@ integer *iwarn, *info;
     /* Function Body */
     *iwarn = 0;
     *info = 0;
-    if (*da < -1)
-    {
+    if (*da < -1) {
         *info = -1;
-    }
-    else if (*db < 0)
-    {
+    } else if (*db < 0) {
         *info = -2;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MC01QD", &i__1, 6L);
@@ -147,33 +142,27 @@ integer *iwarn, *info;
     }
     /*     WHILE ( DB >= 0 and B(DB+1) = 0 ) DO */
 L20:
-    if (*db >= 0)
-    {
-        if (b[*db + 1] == 0.)
-        {
+    if (*db >= 0) {
+        if (b[*db + 1] == 0.) {
             --(*db);
             ++(*iwarn);
             goto L20;
         }
     }
     /*     END WHILE 20 */
-    if (*db == -1)
-    {
+    if (*db == -1) {
         *info = 1;
         return 0;
     }
     /*     B(x) is non-zero. */
-    if (*da >= 0)
-    {
+    if (*da >= 0) {
         n = *da;
         i__1 = n + 1;
         dcopy_(&i__1, &a[1], &c__1, &rq[1], &c__1);
         /*        WHILE ( N >= DB ) DO */
-L40:
-        if (n >= *db)
-        {
-            if (rq[n + 1] != 0.)
-            {
+    L40:
+        if (n >= *db) {
+            if (rq[n + 1] != 0.) {
                 q = rq[n + 1] / b[*db + 1];
                 d__1 = -q;
                 daxpy_(db, &d__1, &b[1], &c__1, &rq[n - *db + 1], &c__1);
@@ -187,4 +176,3 @@ L40:
     return 0;
     /* *** Last line of MC01QD *** */
 } /* mc01qd_ */
-

@@ -22,9 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace QmlEngineGateway {
-        ArrayOfVector QObject_findchildrenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    };
+namespace QmlEngineGateway {
+    ArrayOfVector
+    QObject_findchildrenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 };
+}; // namespace Nelson
 //=============================================================================
-

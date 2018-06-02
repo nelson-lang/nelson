@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,14 +12,15 @@ static integer c__1 = 1;
 static doublereal c_b18 = 0.;
 static doublereal c_b19 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb04yd_(jobu, jobv, m, n, rank, theta, q, e, u, ldu, v, ldv, inul, tol, reltol, dwork, ldwork, iwarn, info, jobu_len, jobv_len)
-char *jobu, *jobv;
+EXPORTSYMBOL /* Subroutine */ int mb04yd_(jobu, jobv, m, n, rank, theta, q, e, u, ldu, v, ldv, inul,
+    tol, reltol, dwork, ldwork, iwarn, info, jobu_len, jobv_len) char *jobu,
+    *jobv;
 integer *m, *n, *rank;
 doublereal *theta, *q, *e, *u;
-integer *ldu;
-doublereal *v;
-integer *ldv;
-logical *inul;
+integer* ldu;
+doublereal* v;
+integer* ldv;
+logical* inul;
 doublereal *tol, *reltol, *dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen jobu_len;
@@ -308,7 +309,7 @@ ftnlen jobv_len;
     --inul;
     --dwork;
     /* Function Body */
-    p = min(*m,*n);
+    p = min(*m, *n);
     *info = 0;
     *iwarn = 0;
     ljobui = lsame_(jobu, "I", 1L, 1L);
@@ -316,61 +317,42 @@ ftnlen jobv_len;
     ljobua = ljobui || lsame_(jobu, "U", 1L, 1L);
     ljobva = ljobvi || lsame_(jobv, "U", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! ljobua && ! lsame_(jobu, "N", 1L, 1L))
-    {
+    if (!ljobua && !lsame_(jobu, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! ljobva && ! lsame_(jobv, "N", 1L, 1L))
-    {
+    } else if (!ljobva && !lsame_(jobv, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*rank > p)
-    {
+    } else if (*rank > p) {
         *info = -5;
-    }
-    else if (*rank < 0 && *theta < 0.)
-    {
+    } else if (*rank < 0 && *theta < 0.) {
         *info = -6;
-    }
-    else if (! ljobua && *ldu < 1 || ljobua && *ldu < max(1,*m))
-    {
+    } else if (!ljobua && *ldu < 1 || ljobua && *ldu < max(1, *m)) {
         *info = -10;
-    }
-    else if (! ljobva && *ldv < 1 || ljobva && *ldv < max(1,*n))
-    {
+    } else if (!ljobva && *ldv < 1 || ljobva && *ldv < max(1, *n)) {
         *info = -12;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = p * 6 - 5;
         /* Computing MAX */
         i__3 = 1, i__4 = (p << 2) - 3;
-        if ((ljobua || ljobva) && *ldwork < max(i__1,i__2) || ! (ljobua || ljobva) && *ldwork < max(i__3,i__4))
-        {
+        if ((ljobua || ljobva) && *ldwork < max(i__1, i__2)
+            || !(ljobua || ljobva) && *ldwork < max(i__3, i__4)) {
             *info = -17;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB04YD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (p == 0)
-    {
-        if (*rank >= 0)
-        {
+    if (p == 0) {
+        if (*rank >= 0) {
             *theta = 0.;
         }
         *rank = 0;
@@ -381,54 +363,48 @@ ftnlen jobv_len;
     tolrel = *reltol;
     smax = (d__1 = q[p], abs(d__1));
     i__1 = p - 1;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         /* Computing MAX */
-        d__3 = smax, d__4 = (d__1 = q[j], abs(d__1)), d__3 = max(d__3,d__4), d__4 = (d__2 = e[j], abs(d__2));
-        smax = max(d__3,d__4);
+        d__3 = smax, d__4 = (d__1 = q[j], abs(d__1)), d__3 = max(d__3, d__4),
+        d__4 = (d__2 = e[j], abs(d__2));
+        smax = max(d__3, d__4);
         /* L20: */
     }
     safemn = dlamch_("Safe minimum", 12L);
     eps = dlamch_("Epsilon", 7L);
-    if (tolabs <= 0.)
-    {
+    if (tolabs <= 0.) {
         tolabs = eps * smax;
     }
     x = dlamch_("Base", 4L) * eps;
-    if (tolrel <= x)
-    {
+    if (tolrel <= x) {
         tolrel = x;
     }
     /* Computing MAX */
     /* Computing MIN */
     d__3 = 100., d__4 = pow_dd(&eps, &c_b13);
-    d__1 = 10., d__2 = min(d__3,d__4);
-    thresh = max(d__1,d__2) * eps;
+    d__1 = 10., d__2 = min(d__3, d__4);
+    thresh = max(d__1, d__2) * eps;
     smlnum = safemn / eps;
     rmin = sqrt(smlnum);
     /* Computing MIN */
     d__1 = 1. / rmin, d__2 = 1. / sqrt(sqrt(safemn));
-    rmax = min(d__1,d__2);
+    rmax = min(d__1, d__2);
     thetac = *theta;
     /*     Scale the matrix to allowable range, if necessary, and set PIVMIN, */
     /*     using the squares of Q and E (saved in DWORK). */
     iascl = 0;
-    if (smax > 0. && smax < rmin)
-    {
+    if (smax > 0. && smax < rmin) {
         iascl = 1;
         sigma = rmin / smax;
-    }
-    else if (smax > rmax)
-    {
+    } else if (smax > rmax) {
         iascl = 1;
         sigma = rmax / smax;
     }
-    if (iascl == 1)
-    {
+    if (iascl == 1) {
         dscal_(&p, &sigma, &q[1], &c__1);
         i__1 = p - 1;
         dscal_(&i__1, &sigma, &e[1], &c__1);
-        thetac = sigma **theta;
+        thetac = sigma * *theta;
         tolabs = sigma * tolabs;
     }
     /* Computing 2nd power */
@@ -436,8 +412,7 @@ ftnlen jobv_len;
     pivmin = d__1 * d__1;
     dwork[p] = pivmin;
     i__1 = p - 1;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         /* Computing 2nd power */
         d__1 = q[j];
         dwork[j] = d__1 * d__1;
@@ -445,48 +420,40 @@ ftnlen jobv_len;
         d__1 = e[j];
         dwork[p + j] = d__1 * d__1;
         /* Computing MAX */
-        d__1 = pivmin, d__2 = dwork[j], d__1 = max(d__1,d__2), d__2 = dwork[p + j];
-        pivmin = max(d__1,d__2);
+        d__1 = pivmin, d__2 = dwork[j], d__1 = max(d__1, d__2), d__2 = dwork[p + j];
+        pivmin = max(d__1, d__2);
         /* L40: */
     }
     /* Computing MAX */
     d__1 = pivmin * safemn;
-    pivmin = max(d__1,safemn);
+    pivmin = max(d__1, safemn);
     /*     Initialize U and/or V to the identity matrix, if needed. */
-    if (ljobui)
-    {
+    if (ljobui) {
         dlaset_("Full", m, &p, &c_b18, &c_b19, &u[u_offset], ldu, 4L);
     }
-    if (ljobvi)
-    {
+    if (ljobvi) {
         dlaset_("Full", n, &p, &c_b18, &c_b19, &v[v_offset], ldv, 4L);
     }
     /*     Estimate THETA (if not fixed by the user), and set R. */
-    if (*rank >= 0)
-    {
+    if (*rank >= 0) {
         j = p - *rank;
-        mb03md_(&p, &j, &thetac, &q[1], &e[1], &dwork[1], &dwork[p + 1], &pivmin, &tolabs, &tolrel, iwarn, &info1);
+        mb03md_(&p, &j, &thetac, &q[1], &e[1], &dwork[1], &dwork[p + 1], &pivmin, &tolabs, &tolrel,
+            iwarn, &info1);
         *theta = thetac;
-        if (iascl == 1)
-        {
+        if (iascl == 1) {
             *theta /= sigma;
         }
-        if (j <= 0)
-        {
+        if (j <= 0) {
             return 0;
         }
         r__ = p - j;
-    }
-    else
-    {
+    } else {
         r__ = p - mb03nd_(&p, &thetac, &dwork[1], &dwork[p + 1], &pivmin, &info1);
     }
     *rank = p;
     i__1 = p;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        if (inul[i__])
-        {
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        if (inul[i__]) {
             --(*rank);
         }
         /* L60: */
@@ -502,46 +469,38 @@ ftnlen jobv_len;
     maxit = p * 30;
     /*     WHILE ( C3 NOT EMPTY ) DO */
 L80:
-    if (*rank > r__ && k > 0)
-    {
+    if (*rank > r__ && k > 0) {
         /*        WHILE ( K.GT.0 .AND. INUL(K) ) DO */
         /*        Search for the rightmost index of a bidiagonal submatrix, */
         /*        not yet classified. */
-L100:
-        if (k > 0)
-        {
-            if (inul[k])
-            {
+    L100:
+        if (k > 0) {
+            if (inul[k]) {
                 --k;
                 goto L100;
             }
         }
         /*        END WHILE 100 */
-        if (k == 0)
-        {
+        if (k == 0) {
             return 0;
         }
         noc12 = TRUE_;
         /*        WHILE ((ITER < MAXIT).AND.(No bidiagonal matrix of C1 or */
         /*                C2 found)) DO */
-L120:
-        if (iter < maxit && noc12)
-        {
+    L120:
+        if (iter < maxit && noc12) {
             /*           Search for negligible Q(I) or E(I-1) (for I > 1) and find */
             /*           the shift. */
             i__ = k;
             x = (d__1 = q[i__], abs(d__1));
             shift = x;
             /*           WHILE ABS( Q(I) ) > TOLABS .AND. ABS( E(I-1) ) > TOLABS ) DO */
-L140:
-            if (i__ > 1)
-            {
-                if (x > tolabs && (d__1 = e[i__ - 1], abs(d__1)) > tolabs)
-                {
+        L140:
+            if (i__ > 1) {
+                if (x > tolabs && (d__1 = e[i__ - 1], abs(d__1)) > tolabs) {
                     --i__;
                     x = (d__1 = q[i__], abs(d__1));
-                    if (x < shift)
-                    {
+                    if (x < shift) {
                         shift = x;
                     }
                     goto L140;
@@ -550,22 +509,16 @@ L140:
             /*           END WHILE 140 */
             /*           Classify the bidiagonal submatrix (of order J) found. */
             j = k - i__ + 1;
-            if (x <= tolabs || k == i__)
-            {
+            if (x <= tolabs || k == i__) {
                 noc12 = FALSE_;
-            }
-            else
-            {
+            } else {
                 numeig = mb03nd_(&j, &thetac, &dwork[i__], &dwork[p + i__], &pivmin, &info1);
-                if (numeig >= j || numeig <= 0)
-                {
+                if (numeig >= j || numeig <= 0) {
                     noc12 = FALSE_;
                 }
             }
-            if (noc12)
-            {
-                if (j == 2)
-                {
+            if (noc12) {
+                if (j == 2) {
                     /*                 Handle separately the 2-by-2 submatrix. */
                     dlasv2_(&q[i__], &e[i__], &q[k], &sigmn, &sigmx, &sinr, &cosr, &sinl, &cosl);
                     q[i__] = sigmx;
@@ -575,50 +528,38 @@ L140:
                     inul[k] = TRUE_;
                     noc12 = FALSE_;
                     /*                 Update U and/or V, if needed. */
-                    if (ljobua)
-                    {
-                        drot_(m, &u[i__ * u_dim1 + 1], &c__1, &u[k * u_dim1 + 1], &c__1, &cosl, &sinl);
+                    if (ljobua) {
+                        drot_(m, &u[i__ * u_dim1 + 1], &c__1, &u[k * u_dim1 + 1], &c__1, &cosl,
+                            &sinl);
                     }
-                    if (ljobva)
-                    {
-                        drot_(n, &v[i__ * v_dim1 + 1], &c__1, &v[k * v_dim1 + 1], &c__1, &cosr, &sinr);
+                    if (ljobva) {
+                        drot_(n, &v[i__ * v_dim1 + 1], &c__1, &v[k * v_dim1 + 1], &c__1, &cosr,
+                            &sinr);
                     }
-                }
-                else
-                {
+                } else {
                     /*                 If working on new submatrix, choose QR or */
                     /*                 QL iteration. */
-                    if (i__ != oldi || k != oldk)
-                    {
+                    if (i__ != oldi || k != oldk) {
                         qrit = (d__1 = q[i__], abs(d__1)) >= (d__2 = q[k], abs(d__2));
                     }
                     oldi = i__;
-                    if (qrit)
-                    {
-                        if ((d__1 = e[k - 1], abs(d__1)) <= thresh * (d__2 = q[k], abs(d__2)))
-                        {
+                    if (qrit) {
+                        if ((d__1 = e[k - 1], abs(d__1)) <= thresh * (d__2 = q[k], abs(d__2))) {
                             e[k - 1] = 0.;
                         }
-                    }
-                    else
-                    {
-                        if ((d__1 = e[i__], abs(d__1)) <= thresh * (d__2 = q[i__], abs(d__2)))
-                        {
+                    } else {
+                        if ((d__1 = e[i__], abs(d__1)) <= thresh * (d__2 = q[i__], abs(d__2))) {
                             e[i__] = 0.;
                         }
                     }
-                    mb04yw_(&qrit, &ljobua, &ljobva, m, n, &i__, &k, &shift, &q[1], &e[1], &u[u_offset], ldu, &v[v_offset], ldv, &dwork[p * 2]);
-                    if (qrit)
-                    {
-                        if ((d__1 = e[k - 1], abs(d__1)) <= tolabs)
-                        {
+                    mb04yw_(&qrit, &ljobua, &ljobva, m, n, &i__, &k, &shift, &q[1], &e[1],
+                        &u[u_offset], ldu, &v[v_offset], ldv, &dwork[p * 2]);
+                    if (qrit) {
+                        if ((d__1 = e[k - 1], abs(d__1)) <= tolabs) {
                             e[k - 1] = 0.;
                         }
-                    }
-                    else
-                    {
-                        if ((d__1 = e[i__], abs(d__1)) <= tolabs)
-                        {
+                    } else {
+                        if ((d__1 = e[i__], abs(d__1)) <= tolabs) {
                             e[i__] = 0.;
                         }
                     }
@@ -626,8 +567,7 @@ L140:
                     d__1 = q[k];
                     dwork[k] = d__1 * d__1;
                     i__1 = k - 1;
-                    for (i1 = i__; i1 <= i__1; ++i1)
-                    {
+                    for (i1 = i__; i1 <= i__1; ++i1) {
                         /* Computing 2nd power */
                         d__1 = q[i1];
                         dwork[i1] = d__1 * d__1;
@@ -642,45 +582,34 @@ L140:
             goto L120;
         }
         /*        END WHILE 120 */
-        if (iter >= maxit)
-        {
+        if (iter >= maxit) {
             *info = 1;
             goto L200;
         }
-        if (x <= tolabs)
-        {
+        if (x <= tolabs) {
             /*           Split at negligible diagonal element ABS( Q(I) ) <= TOLABS. */
-            mb02ny_(&ljobua, &ljobva, m, n, &i__, &k, &q[1], &e[1], &u[u_offset], ldu, &v[v_offset], ldv, &dwork[p * 2]);
+            mb02ny_(&ljobua, &ljobva, m, n, &i__, &k, &q[1], &e[1], &u[u_offset], ldu, &v[v_offset],
+                ldv, &dwork[p * 2]);
             inul[i__] = TRUE_;
             --(*rank);
-        }
-        else
-        {
+        } else {
             /*           A negligible superdiagonal element ABS( E(I-1) ) <= TOL */
             /*           has been found, the corresponding bidiagonal submatrix */
             /*           belongs to C1 or C2. Treat this bidiagonal submatrix. */
-            if (j >= 2)
-            {
-                if (numeig == j)
-                {
+            if (j >= 2) {
+                if (numeig == j) {
                     i__1 = k;
-                    for (i1 = i__; i1 <= i__1; ++i1)
-                    {
+                    for (i1 = i__; i1 <= i__1; ++i1) {
                         inul[i1] = TRUE_;
                         /* L180: */
                     }
                     *rank -= j;
                     k -= j;
-                }
-                else
-                {
+                } else {
                     k = i__ - 1;
                 }
-            }
-            else
-            {
-                if (x <= thetac + tolabs)
-                {
+            } else {
+                if (x <= thetac + tolabs) {
                     inul[i__] = TRUE_;
                     --(*rank);
                 }
@@ -693,8 +622,7 @@ L140:
     /*     END WHILE 80 */
     /*     If matrix was scaled, then rescale Q and E appropriately. */
 L200:
-    if (iascl == 1)
-    {
+    if (iascl == 1) {
         d__1 = 1. / sigma;
         dscal_(&p, &d__1, &q[1], &c__1);
         i__1 = p - 1;
@@ -704,4 +632,3 @@ L200:
     return 0;
     /* *** Last line of MB04YD *** */
 } /* mb04yd_ */
-

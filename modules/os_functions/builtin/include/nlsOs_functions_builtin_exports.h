@@ -25,6 +25,6 @@
 #define NLSOS_FUNCTIONS_BUILTIN_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSOS_FUNCTIONS_BUILTIN_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSOS_FUNCTIONS_BUILTIN_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

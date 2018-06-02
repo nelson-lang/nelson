@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,14 +9,15 @@
 
 static doublereal c_b16 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb04yw_(qrit, updatu, updatv, m, n, l, k, shift, d__, e, u, ldu, v, ldv, dwork)
-logical *qrit, *updatu, *updatv;
+EXPORTSYMBOL /* Subroutine */ int mb04yw_(
+    qrit, updatu, updatv, m, n, l, k, shift, d__, e, u, ldu, v, ldv, dwork) logical *qrit,
+    *updatu, *updatv;
 integer *m, *n, *l, *k;
 doublereal *shift, *d__, *e, *u;
-integer *ldu;
-doublereal *v;
-integer *ldv;
-doublereal *dwork;
+integer* ldu;
+doublereal* v;
+integer* ldv;
+doublereal* dwork;
 {
     /* System generated locals */
     integer u_dim1, u_offset, v_dim1, v_offset, i__1;
@@ -200,24 +201,20 @@ doublereal *dwork;
     v -= v_offset;
     --dwork;
     /* Function Body */
-    ncv = min(*m,*n);
-    if (ncv <= 1 || *l == *k)
-    {
+    ncv = min(*m, *n);
+    if (ncv <= 1 || *l == *k) {
         return 0;
     }
     nm1 = ncv - 1;
     nm12 = nm1 + nm1;
     nm13 = nm12 + nm1;
-    if (! (*updatv))
-    {
+    if (!(*updatv)) {
         nm12 = 0;
         nm13 = nm1;
     }
     /*     If SHIFT = 0, do simplified QR iteration. */
-    if (*shift == 0.)
-    {
-        if (*qrit)
-        {
+    if (*shift == 0.) {
+        if (*qrit) {
             /*           Chase bulge from top to bottom. */
             /*           Save cosines and sines for later U and/or V updates, */
             /*           if needed. */
@@ -228,20 +225,17 @@ doublereal *dwork;
             d__1 = oldcs * r__;
             d__2 = d__[*l + 1] * sn;
             dlartg_(&d__1, &d__2, &oldcs, &oldsn, &d__[*l]);
-            if (*updatv)
-            {
+            if (*updatv) {
                 dwork[1] = cs;
                 dwork[nm1 + 1] = sn;
             }
-            if (*updatu)
-            {
+            if (*updatu) {
                 dwork[nm12 + 1] = oldcs;
                 dwork[nm13 + 1] = oldsn;
             }
             irot = 1;
             i__1 = *k - 1;
-            for (i__ = *l + 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = *l + 1; i__ <= i__1; ++i__) {
                 d__1 = d__[i__] * cs;
                 dlartg_(&d__1, &e[i__], &cs, &sn, &r__);
                 e[i__ - 1] = oldsn * r__;
@@ -249,13 +243,11 @@ doublereal *dwork;
                 d__2 = d__[i__ + 1] * sn;
                 dlartg_(&d__1, &d__2, &oldcs, &oldsn, &d__[i__]);
                 ++irot;
-                if (*updatv)
-                {
+                if (*updatv) {
                     dwork[irot] = cs;
                     dwork[irot + nm1] = sn;
                 }
-                if (*updatu)
-                {
+                if (*updatu) {
                     dwork[irot + nm12] = oldcs;
                     dwork[irot + nm13] = oldsn;
                 }
@@ -265,19 +257,17 @@ doublereal *dwork;
             d__[*k] = h__ * oldcs;
             e[*k - 1] = h__ * oldsn;
             /*           Update U and/or V. */
-            if (*updatv)
-            {
+            if (*updatv) {
                 i__1 = *k - *l + 1;
-                dlasr_("R", "V", "F", n, &i__1, &dwork[1], &dwork[ncv], &v[*l * v_dim1 + 1], ldv, 1L, 1L, 1L);
+                dlasr_("R", "V", "F", n, &i__1, &dwork[1], &dwork[ncv], &v[*l * v_dim1 + 1], ldv,
+                    1L, 1L, 1L);
             }
-            if (*updatu)
-            {
+            if (*updatu) {
                 i__1 = *k - *l + 1;
-                dlasr_("R", "V", "F", m, &i__1, &dwork[nm12 + 1], &dwork[nm13 + 1], &u[*l * u_dim1 + 1], ldu, 1L, 1L, 1L);
+                dlasr_("R", "V", "F", m, &i__1, &dwork[nm12 + 1], &dwork[nm13 + 1],
+                    &u[*l * u_dim1 + 1], ldu, 1L, 1L, 1L);
             }
-        }
-        else
-        {
+        } else {
             /*           Chase bulge from bottom to top. */
             /*           Save cosines and sines for later U and/or V updates, */
             /*           if needed. */
@@ -288,20 +278,17 @@ doublereal *dwork;
             d__1 = oldcs * r__;
             d__2 = d__[*k - 1] * sn;
             dlartg_(&d__1, &d__2, &oldcs, &oldsn, &d__[*k]);
-            if (*updatv)
-            {
+            if (*updatv) {
                 dwork[*k - *l] = oldcs;
                 dwork[*k - *l + nm1] = -oldsn;
             }
-            if (*updatu)
-            {
+            if (*updatu) {
                 dwork[*k - *l + nm12] = cs;
                 dwork[*k - *l + nm13] = -sn;
             }
             irot = *k - *l;
             i__1 = *l + 1;
-            for (i__ = *k - 1; i__ >= i__1; --i__)
-            {
+            for (i__ = *k - 1; i__ >= i__1; --i__) {
                 d__1 = d__[i__] * cs;
                 dlartg_(&d__1, &e[i__ - 1], &cs, &sn, &r__);
                 e[i__] = oldsn * r__;
@@ -309,13 +296,11 @@ doublereal *dwork;
                 d__2 = d__[i__ - 1] * sn;
                 dlartg_(&d__1, &d__2, &oldcs, &oldsn, &d__[i__]);
                 --irot;
-                if (*updatv)
-                {
+                if (*updatv) {
                     dwork[irot] = oldcs;
                     dwork[irot + nm1] = -oldsn;
                 }
-                if (*updatu)
-                {
+                if (*updatu) {
                     dwork[irot + nm12] = cs;
                     dwork[irot + nm13] = -sn;
                 }
@@ -325,27 +310,25 @@ doublereal *dwork;
             d__[*l] = h__ * oldcs;
             e[*l] = h__ * oldsn;
             /*           Update U and/or V. */
-            if (*updatv)
-            {
+            if (*updatv) {
                 i__1 = *k - *l + 1;
-                dlasr_("R", "V", "B", n, &i__1, &dwork[1], &dwork[ncv], &v[*l * v_dim1 + 1], ldv, 1L, 1L, 1L);
+                dlasr_("R", "V", "B", n, &i__1, &dwork[1], &dwork[ncv], &v[*l * v_dim1 + 1], ldv,
+                    1L, 1L, 1L);
             }
-            if (*updatu)
-            {
+            if (*updatu) {
                 i__1 = *k - *l + 1;
-                dlasr_("R", "V", "B", m, &i__1, &dwork[nm12 + 1], &dwork[nm13 + 1], &u[*l * u_dim1 + 1], ldu, 1L, 1L, 1L);
+                dlasr_("R", "V", "B", m, &i__1, &dwork[nm12 + 1], &dwork[nm13 + 1],
+                    &u[*l * u_dim1 + 1], ldu, 1L, 1L, 1L);
             }
         }
-    }
-    else
-    {
+    } else {
         /*        Use nonzero shift. */
-        if (*qrit)
-        {
+        if (*qrit) {
             /*           Chase bulge from top to bottom. */
             /*           Save cosines and sines for later U and/or V updates, */
             /*           if needed. */
-            f = ((d__1 = d__[*l], abs(d__1)) - *shift) * (d_sign(&c_b16, &d__[*l]) + *shift / d__[*l]);
+            f = ((d__1 = d__[*l], abs(d__1)) - *shift)
+                * (d_sign(&c_b16, &d__[*l]) + *shift / d__[*l]);
             g = e[*l];
             dlartg_(&f, &g, &cosr, &sinr, &r__);
             f = cosr * d__[*l] + sinr * e[*l];
@@ -358,20 +341,17 @@ doublereal *dwork;
             d__[*l + 1] = cosl * d__[*l + 1] - sinl * e[*l];
             g = sinl * e[*l + 1];
             e[*l + 1] = cosl * e[*l + 1];
-            if (*updatv)
-            {
+            if (*updatv) {
                 dwork[1] = cosr;
                 dwork[nm1 + 1] = sinr;
             }
-            if (*updatu)
-            {
+            if (*updatu) {
                 dwork[nm12 + 1] = cosl;
                 dwork[nm13 + 1] = sinl;
             }
             irot = 1;
             i__1 = *k - 2;
-            for (i__ = *l + 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = *l + 1; i__ <= i__1; ++i__) {
                 dlartg_(&f, &g, &cosr, &sinr, &r__);
                 e[i__ - 1] = r__;
                 f = cosr * d__[i__] + sinr * e[i__];
@@ -385,20 +365,17 @@ doublereal *dwork;
                 g = sinl * e[i__ + 1];
                 e[i__ + 1] = cosl * e[i__ + 1];
                 ++irot;
-                if (*updatv)
-                {
+                if (*updatv) {
                     dwork[irot] = cosr;
                     dwork[irot + nm1] = sinr;
                 }
-                if (*updatu)
-                {
+                if (*updatu) {
                     dwork[irot + nm12] = cosl;
                     dwork[irot + nm13] = sinl;
                 }
                 /* L130: */
             }
-            if (*l < *k - 1)
-            {
+            if (*l < *k - 1) {
                 dlartg_(&f, &g, &cosr, &sinr, &r__);
                 e[*k - 2] = r__;
                 f = cosr * d__[*k - 1] + sinr * e[*k - 1];
@@ -410,39 +387,35 @@ doublereal *dwork;
                 f = cosl * e[*k - 1] + sinl * d__[*k];
                 d__[*k] = cosl * d__[*k] - sinl * e[*k - 1];
                 ++irot;
-                if (*updatv)
-                {
+                if (*updatv) {
                     dwork[irot] = cosr;
                     dwork[irot + nm1] = sinr;
                 }
-                if (*updatu)
-                {
+                if (*updatu) {
                     dwork[irot + nm12] = cosl;
                     dwork[irot + nm13] = sinl;
                 }
             }
             e[*k - 1] = f;
             /*           Update U and/or V. */
-            if (*updatv)
-            {
+            if (*updatv) {
                 i__1 = *k - *l + 1;
-                dlasr_("R", "V", "F", n, &i__1, &dwork[1], &dwork[ncv], &v[*l * v_dim1 + 1], ldv, 1L, 1L, 1L);
+                dlasr_("R", "V", "F", n, &i__1, &dwork[1], &dwork[ncv], &v[*l * v_dim1 + 1], ldv,
+                    1L, 1L, 1L);
             }
-            if (*updatu)
-            {
+            if (*updatu) {
                 i__1 = *k - *l + 1;
-                dlasr_("R", "V", "F", m, &i__1, &dwork[nm12 + 1], &dwork[nm13 + 1], &u[*l * u_dim1 + 1], ldu, 1L, 1L, 1L);
+                dlasr_("R", "V", "F", m, &i__1, &dwork[nm12 + 1], &dwork[nm13 + 1],
+                    &u[*l * u_dim1 + 1], ldu, 1L, 1L, 1L);
             }
-        }
-        else
-        {
+        } else {
             /*           Chase bulge from bottom to top. */
             /*           Save cosines and sines for later U and/or V updates, */
             /*           if needed. */
-            f = ((d__1 = d__[*k], abs(d__1)) - *shift) * (d_sign(&c_b16, &d__[*k]) + *shift / d__[*k]);
+            f = ((d__1 = d__[*k], abs(d__1)) - *shift)
+                * (d_sign(&c_b16, &d__[*k]) + *shift / d__[*k]);
             g = e[*k - 1];
-            if (*l < *k - 1)
-            {
+            if (*l < *k - 1) {
                 dlartg_(&f, &g, &cosr, &sinr, &r__);
                 f = cosr * d__[*k] + sinr * e[*k - 1];
                 e[*k - 1] = cosr * e[*k - 1] - sinr * d__[*k];
@@ -454,25 +427,20 @@ doublereal *dwork;
                 d__[*k - 1] = cosl * d__[*k - 1] - sinl * e[*k - 1];
                 g = sinl * e[*k - 2];
                 e[*k - 2] = cosl * e[*k - 2];
-                if (*updatv)
-                {
+                if (*updatv) {
                     dwork[*k - *l] = cosl;
                     dwork[*k - *l + nm1] = -sinl;
                 }
-                if (*updatu)
-                {
+                if (*updatu) {
                     dwork[*k - *l + nm12] = cosr;
                     dwork[*k - *l + nm13] = -sinr;
                 }
                 irot = *k - *l;
-            }
-            else
-            {
+            } else {
                 irot = *k - *l + 1;
             }
             i__1 = *l + 2;
-            for (i__ = *k - 1; i__ >= i__1; --i__)
-            {
+            for (i__ = *k - 1; i__ >= i__1; --i__) {
                 dlartg_(&f, &g, &cosr, &sinr, &r__);
                 e[i__] = r__;
                 f = cosr * d__[i__] + sinr * e[i__ - 1];
@@ -486,13 +454,11 @@ doublereal *dwork;
                 g = sinl * e[i__ - 2];
                 e[i__ - 2] = cosl * e[i__ - 2];
                 --irot;
-                if (*updatv)
-                {
+                if (*updatv) {
                     dwork[irot] = cosl;
                     dwork[irot + nm1] = -sinl;
                 }
-                if (*updatu)
-                {
+                if (*updatu) {
                     dwork[irot + nm12] = cosr;
                     dwork[irot + nm13] = -sinr;
                 }
@@ -509,31 +475,28 @@ doublereal *dwork;
             f = cosl * e[*l] + sinl * d__[*l];
             d__[*l] = cosl * d__[*l] - sinl * e[*l];
             --irot;
-            if (*updatv)
-            {
+            if (*updatv) {
                 dwork[irot] = cosl;
                 dwork[irot + nm1] = -sinl;
             }
-            if (*updatu)
-            {
+            if (*updatu) {
                 dwork[irot + nm12] = cosr;
                 dwork[irot + nm13] = -sinr;
             }
             e[*l] = f;
             /*           Update U and/or V if desired. */
-            if (*updatv)
-            {
+            if (*updatv) {
                 i__1 = *k - *l + 1;
-                dlasr_("R", "V", "B", n, &i__1, &dwork[1], &dwork[ncv], &v[*l * v_dim1 + 1], ldv, 1L, 1L, 1L);
+                dlasr_("R", "V", "B", n, &i__1, &dwork[1], &dwork[ncv], &v[*l * v_dim1 + 1], ldv,
+                    1L, 1L, 1L);
             }
-            if (*updatu)
-            {
+            if (*updatu) {
                 i__1 = *k - *l + 1;
-                dlasr_("R", "V", "B", m, &i__1, &dwork[nm12 + 1], &dwork[nm13 + 1], &u[*l * u_dim1 + 1], ldu, 1L, 1L, 1L);
+                dlasr_("R", "V", "B", m, &i__1, &dwork[nm12 + 1], &dwork[nm13 + 1],
+                    &u[*l * u_dim1 + 1], ldu, 1L, 1L, 1L);
             }
         }
     }
     return 0;
     /* *** Last line of MB04YW *** */
 } /* mb04yw_ */
-

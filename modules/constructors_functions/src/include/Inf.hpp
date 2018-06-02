@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsConstructors_functions_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsConstructors_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf Inf(void);
-    NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf Inf(uint32 m, uint32 n = 1);
-}
+NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
+Inf(void);
+NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
+Inf(uint32 m, uint32 n = 1);
+} // namespace Nelson
 //=============================================================================

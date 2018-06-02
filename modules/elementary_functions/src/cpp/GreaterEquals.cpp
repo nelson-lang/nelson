@@ -21,121 +21,106 @@
 //=============================================================================
 namespace Nelson {
 
-
-    template <class T>
-    T complex_abs(T real, T imag)
-    {
-        double temp;
-        if (real < 0)
-        {
-            real = -real;
-        }
-        if (imag < 0)
-        {
-            imag = -imag;
-        }
-        if (imag > real)
-        {
-            temp = real;
-            real = imag;
-            imag = (T)(temp);
-        }
-        if ((real + imag) == real)
-        {
-            return(real);
-        }
-        temp = imag / real;
-        temp = real*sqrt(1.0 + temp*temp);  /*overflow!!*/
-        return (T)(temp);
+template <class T>
+T
+complex_abs(T real, T imag)
+{
+    double temp;
+    if (real < 0) {
+        real = -real;
     }
-
-    template <class T>
-    void greaterequalsfuncreal(indexType N, logical* C, const T*A, int stride1,
-                               const T*B, int stride2)
-    {
-        indexType m, p;
-        m = 0;
-        p = 0;
-        for (indexType i = 0; i<N; i++)
-        {
-            C[i] = (A[m] >= B[p]) ? 1 : 0;
-            m += stride1;
-            p += stride2;
-        }
+    if (imag < 0) {
+        imag = -imag;
     }
-
-    template <class T>
-    void greaterequalsfunccomplex(indexType N, logical* C, const T*A, int stride1,
-                                  const T*B, int stride2)
-    {
-        indexType m, p;
-        m = 0;
-        p = 0;
-        for (indexType i = 0; i<N; i++)
-        {
-            C[i] = (complex_abs<T>(A[2 * m], A[2 * m + 1]) >=
-                    complex_abs<T>(B[2 * p], B[2 * p + 1])) ? 1 : 0;
-            m += stride1;
-            p += stride2;
-        }
+    if (imag > real) {
+        temp = real;
+        real = imag;
+        imag = (T)(temp);
     }
-
-    ArrayOf GreaterEquals(ArrayOf A, ArrayOf B)
-    {
-        // Process the two arguments through the type check and dimension checks...
-        VectorCheck(A, B, ">=");
-        int Astride, Bstride;
-        indexType Clen = 0;
-        Dimensions Cdim;
-        if (A.isScalar())
-        {
-            Astride = 0;
-            Bstride = 1;
-            Cdim = B.getDimensions();
-        }
-        else if (B.isScalar())
-        {
-            Astride = 1;
-            Bstride = 0;
-            Cdim = A.getDimensions();
-        }
-        else
-        {
-            Astride = 1;
-            Bstride = 1;
-            Cdim = A.getDimensions();
-        }
-        Clen = Cdim.getElementCount();
-        void *Cp = new_with_exception<logical>(Clen);
-        switch (B.getDataClass())
-        {
-            case NLS_INT32:
-                greaterequalsfuncreal<int32>(Clen, (logical*)Cp,
-                                             (int32*)A.getDataPointer(), Astride,
-                                             (int32*)B.getDataPointer(), Bstride);
-                break;
-            case NLS_SINGLE:
-                greaterequalsfuncreal<float>(Clen, (logical*)Cp,
-                                             (float*)A.getDataPointer(), Astride,
-                                             (float*)B.getDataPointer(), Bstride);
-                break;
-            case NLS_DOUBLE:
-                greaterequalsfuncreal<double>(Clen, (logical*)Cp,
-                                              (double*)A.getDataPointer(), Astride,
-                                              (double*)B.getDataPointer(), Bstride);
-                break;
-            case NLS_SCOMPLEX:
-                greaterequalsfunccomplex<float>(Clen, (logical*)Cp,
-                                                (float*)A.getDataPointer(), Astride,
-                                                (float*)B.getDataPointer(), Bstride);
-                break;
-            case NLS_DCOMPLEX:
-                greaterequalsfunccomplex<double>(Clen, (logical*)Cp,
-                                                 (double*)A.getDataPointer(), Astride,
-                                                 (double*)B.getDataPointer(), Bstride);
-                break;
-        }
-        return ArrayOf(NLS_LOGICAL, Cdim, Cp);
+    if ((real + imag) == real) {
+        return (real);
     }
+    temp = imag / real;
+    temp = real * sqrt(1.0 + temp * temp); /*overflow!!*/
+    return (T)(temp);
+}
+
+template <class T>
+void
+greaterequalsfuncreal(indexType N, logical* C, const T* A, int stride1, const T* B, int stride2)
+{
+    indexType m, p;
+    m = 0;
+    p = 0;
+    for (indexType i = 0; i < N; i++) {
+        C[i] = (A[m] >= B[p]) ? 1 : 0;
+        m += stride1;
+        p += stride2;
+    }
+}
+
+template <class T>
+void
+greaterequalsfunccomplex(indexType N, logical* C, const T* A, int stride1, const T* B, int stride2)
+{
+    indexType m, p;
+    m = 0;
+    p = 0;
+    for (indexType i = 0; i < N; i++) {
+        C[i] = (complex_abs<T>(A[2 * m], A[2 * m + 1]) >= complex_abs<T>(B[2 * p], B[2 * p + 1]))
+            ? 1
+            : 0;
+        m += stride1;
+        p += stride2;
+    }
+}
+
+ArrayOf
+GreaterEquals(ArrayOf A, ArrayOf B)
+{
+    // Process the two arguments through the type check and dimension checks...
+    VectorCheck(A, B, ">=");
+    int Astride, Bstride;
+    indexType Clen = 0;
+    Dimensions Cdim;
+    if (A.isScalar()) {
+        Astride = 0;
+        Bstride = 1;
+        Cdim = B.getDimensions();
+    } else if (B.isScalar()) {
+        Astride = 1;
+        Bstride = 0;
+        Cdim = A.getDimensions();
+    } else {
+        Astride = 1;
+        Bstride = 1;
+        Cdim = A.getDimensions();
+    }
+    Clen = Cdim.getElementCount();
+    void* Cp = new_with_exception<logical>(Clen);
+    switch (B.getDataClass()) {
+    case NLS_INT32:
+        greaterequalsfuncreal<int32>(Clen, (logical*)Cp, (int32*)A.getDataPointer(), Astride,
+            (int32*)B.getDataPointer(), Bstride);
+        break;
+    case NLS_SINGLE:
+        greaterequalsfuncreal<float>(Clen, (logical*)Cp, (float*)A.getDataPointer(), Astride,
+            (float*)B.getDataPointer(), Bstride);
+        break;
+    case NLS_DOUBLE:
+        greaterequalsfuncreal<double>(Clen, (logical*)Cp, (double*)A.getDataPointer(), Astride,
+            (double*)B.getDataPointer(), Bstride);
+        break;
+    case NLS_SCOMPLEX:
+        greaterequalsfunccomplex<float>(Clen, (logical*)Cp, (float*)A.getDataPointer(), Astride,
+            (float*)B.getDataPointer(), Bstride);
+        break;
+    case NLS_DCOMPLEX:
+        greaterequalsfunccomplex<double>(Clen, (logical*)Cp, (double*)A.getDataPointer(), Astride,
+            (double*)B.getDataPointer(), Bstride);
+        break;
+    }
+    return ArrayOf(NLS_LOGICAL, Cdim, Cp);
+}
 }
 //=============================================================================

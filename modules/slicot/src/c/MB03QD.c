@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,15 +10,16 @@
 static doublereal c_b11 = 0.;
 static doublereal c_b12 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb03qd_(dico, stdom, jobu, n, nlow, nsup, alpha, a, lda, u, ldu, ndim, dwork, info, dico_len, stdom_len, jobu_len)
-char *dico, *stdom, *jobu;
+EXPORTSYMBOL /* Subroutine */ int mb03qd_(dico, stdom, jobu, n, nlow, nsup, alpha, a, lda, u, ldu,
+    ndim, dwork, info, dico_len, stdom_len, jobu_len) char *dico,
+    *stdom, *jobu;
 integer *n, *nlow, *nsup;
 doublereal *alpha, *a;
-integer *lda;
-doublereal *u;
+integer* lda;
+doublereal* u;
 integer *ldu, *ndim;
-doublereal *dwork;
-integer *info;
+doublereal* dwork;
+integer* info;
 ftnlen dico_len;
 ftnlen stdom_len;
 ftnlen jobu_len;
@@ -205,70 +206,46 @@ ftnlen jobu_len;
     discr = lsame_(dico, "D", 1L, 1L);
     lstdom = lsame_(stdom, "S", 1L, 1L);
     /*     Check input scalar arguments. */
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (! (lstdom || lsame_(stdom, "U", 1L, 1L)))
-    {
+    } else if (!(lstdom || lsame_(stdom, "U", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (lsame_(jobu, "I", 1L, 1L) || lsame_(jobu, "U", 1L, 1L)))
-    {
+    } else if (!(lsame_(jobu, "I", 1L, 1L) || lsame_(jobu, "U", 1L, 1L))) {
         *info = -3;
-    }
-    else if (*n < 1)
-    {
+    } else if (*n < 1) {
         *info = -4;
-    }
-    else if (*nlow < 1)
-    {
+    } else if (*nlow < 1) {
         *info = -5;
-    }
-    else if (*nlow > *nsup || *nsup > *n)
-    {
+    } else if (*nlow > *nsup || *nsup > *n) {
         *info = -6;
-    }
-    else if (discr && *alpha < 0.)
-    {
+    } else if (discr && *alpha < 0.) {
         *info = -7;
-    }
-    else if (*lda < *n)
-    {
+    } else if (*lda < *n) {
         *info = -9;
-    }
-    else if (*ldu < *n)
-    {
+    } else if (*ldu < *n) {
         *info = -11;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB03QD", &i__1, 6L);
         return 0;
     }
-    if (*nlow > 1)
-    {
-        if (a[*nlow + (*nlow - 1) * a_dim1] != 0.)
-        {
+    if (*nlow > 1) {
+        if (a[*nlow + (*nlow - 1) * a_dim1] != 0.) {
             *info = 1;
         }
     }
-    if (*nsup < *n)
-    {
-        if (a[*nsup + 1 + *nsup * a_dim1] != 0.)
-        {
+    if (*nsup < *n) {
+        if (a[*nsup + 1 + *nsup * a_dim1] != 0.) {
             *info = 1;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         return 0;
     }
     /*     Initialize U with an identity matrix if necessary. */
-    if (lsame_(jobu, "I", 1L, 1L))
-    {
+    if (lsame_(jobu, "I", 1L, 1L)) {
         dlaset_("Full", n, n, &c_b11, &c_b12, &u[u_offset], ldu, 4L);
     }
     *ndim = 0;
@@ -280,63 +257,44 @@ ftnlen jobu_len;
     /*     A(i,j) with L+1 <= i,j <= NUP lie inside the domain of interest. */
     /*     WHILE( L >= NLOW ) DO */
 L10:
-    if (l >= *nlow)
-    {
+    if (l >= *nlow) {
         ib = 1;
-        if (l > *nlow)
-        {
+        if (l > *nlow) {
             lm1 = l - 1;
-            if (a[l + lm1 * a_dim1] != 0.)
-            {
+            if (a[l + lm1 * a_dim1] != 0.) {
                 mb03qy_(n, &lm1, &a[a_offset], lda, &u[u_offset], ldu, &e1, &e2, info);
-                if (a[l + lm1 * a_dim1] != 0.)
-                {
+                if (a[l + lm1 * a_dim1] != 0.) {
                     ib = 2;
                 }
             }
         }
-        if (discr)
-        {
-            if (ib == 1)
-            {
+        if (discr) {
+            if (ib == 1) {
                 tlambd = (d__1 = a[l + l * a_dim1], abs(d__1));
-            }
-            else
-            {
+            } else {
                 tlambd = dlapy2_(&e1, &e2);
             }
-        }
-        else
-        {
-            if (ib == 1)
-            {
+        } else {
+            if (ib == 1) {
                 tlambd = a[l + l * a_dim1];
-            }
-            else
-            {
+            } else {
                 tlambd = e1;
             }
         }
-        if (lstdom && tlambd < *alpha || ! lstdom && tlambd > *alpha)
-        {
+        if (lstdom && tlambd < *alpha || !lstdom && tlambd > *alpha) {
             *ndim += ib;
             l -= ib;
-        }
-        else
-        {
-            if (*ndim != 0)
-            {
-                dtrexc_("V", n, &a[a_offset], lda, &u[u_offset], ldu, &l, &nup, &dwork[1], info, 1L);
-                if (*info != 0)
-                {
+        } else {
+            if (*ndim != 0) {
+                dtrexc_(
+                    "V", n, &a[a_offset], lda, &u[u_offset], ldu, &l, &nup, &dwork[1], info, 1L);
+                if (*info != 0) {
                     *info = 2;
                     return 0;
                 }
                 --nup;
                 --l;
-            }
-            else
-            {
+            } else {
                 nup -= ib;
                 l -= ib;
             }
@@ -347,4 +305,3 @@ L10:
     return 0;
     /* *** Last line of MB03QD *** */
 } /* mb03qd_ */
-

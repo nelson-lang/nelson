@@ -1,15 +1,14 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-logical ma02hd_(job, m, n, diag, a, lda, job_len)
-char *job;
+logical ma02hd_(job, m, n, diag, a, lda, job_len) char* job;
 integer *m, *n;
 doublereal *diag, *a;
-integer *lda;
+integer* lda;
 ftnlen job_len;
 {
     /* System generated locals */
@@ -85,53 +84,40 @@ ftnlen job_len;
     a_offset = a_dim1 + 1;
     a -= a_offset;
     /* Function Body */
-    if (lsame_(job, "U", 1L, 1L))
-    {
+    if (lsame_(job, "U", 1L, 1L)) {
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             /* Computing MIN */
             i__3 = j - 1;
-            i__2 = min(i__3,*m);
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                if (a[i__ + j * a_dim1] != 0.)
-                {
+            i__2 = min(i__3, *m);
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                if (a[i__ + j * a_dim1] != 0.) {
                     ret_val = FALSE_;
                     return ret_val;
                 }
                 /* L10: */
             }
-            if (j <= *m)
-            {
-                if (a[j + j * a_dim1] != *diag)
-                {
+            if (j <= *m) {
+                if (a[j + j * a_dim1] != *diag) {
                     ret_val = FALSE_;
                     return ret_val;
                 }
             }
             /* L20: */
         }
-    }
-    else if (lsame_(job, "L", 1L, 1L))
-    {
-        i__1 = min(*m,*n);
-        for (j = 1; j <= i__1; ++j)
-        {
-            if (a[j + j * a_dim1] != *diag)
-            {
+    } else if (lsame_(job, "L", 1L, 1L)) {
+        i__1 = min(*m, *n);
+        for (j = 1; j <= i__1; ++j) {
+            if (a[j + j * a_dim1] != *diag) {
                 ret_val = FALSE_;
                 return ret_val;
             }
-            if (j != *m)
-            {
+            if (j != *m) {
                 /* Computing MIN */
                 i__2 = j + 1;
                 i__3 = *m;
-                for (i__ = min(i__2,*m); i__ <= i__3; ++i__)
-                {
-                    if (a[i__ + j * a_dim1] != 0.)
-                    {
+                for (i__ = min(i__2, *m); i__ <= i__3; ++i__) {
+                    if (a[i__ + j * a_dim1] != 0.) {
                         ret_val = FALSE_;
                         return ret_val;
                     }
@@ -140,41 +126,31 @@ ftnlen job_len;
             }
             /* L40: */
         }
-    }
-    else
-    {
+    } else {
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             /* Computing MIN */
             i__2 = j - 1;
-            i__3 = min(i__2,*m);
-            for (i__ = 1; i__ <= i__3; ++i__)
-            {
-                if (a[i__ + j * a_dim1] != 0.)
-                {
+            i__3 = min(i__2, *m);
+            for (i__ = 1; i__ <= i__3; ++i__) {
+                if (a[i__ + j * a_dim1] != 0.) {
                     ret_val = FALSE_;
                     return ret_val;
                 }
                 /* L50: */
             }
-            if (j <= *m)
-            {
-                if (a[j + j * a_dim1] != *diag)
-                {
+            if (j <= *m) {
+                if (a[j + j * a_dim1] != *diag) {
                     ret_val = FALSE_;
                     return ret_val;
                 }
             }
-            if (j < *m)
-            {
+            if (j < *m) {
                 /* Computing MIN */
                 i__3 = j + 1;
                 i__2 = *m;
-                for (i__ = min(i__3,*m); i__ <= i__2; ++i__)
-                {
-                    if (a[i__ + j * a_dim1] != 0.)
-                    {
+                for (i__ = min(i__3, *m); i__ <= i__2; ++i__) {
+                    if (a[i__ + j * a_dim1] != 0.) {
                         ret_val = FALSE_;
                         return ret_val;
                     }
@@ -188,4 +164,3 @@ ftnlen job_len;
     return ret_val;
     /* *** Last line of MA02HD *** */
 } /* ma02hd_ */
-

@@ -18,25 +18,31 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <boost/container/vector.hpp>
-#include "nlsHelp_tools_exports.h"
 #include "XmlDocGenericItem.hpp"
 #include "XmlDocSeeAlsoItem.hpp"
+#include "nlsHelp_tools_exports.h"
+#include <boost/container/vector.hpp>
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_TOOLS_IMPEXP XmlDocSeeAlso : public XmlDocGenericItem {
-    private:
-        boost::container::vector<XmlDocSeeAlsoItem *> seeAlsoVector;
-    public:
-        XmlDocSeeAlso();
-        ~XmlDocSeeAlso();
-        void append(std::wstring name, std::wstring link);
-        std::wstring getItemType();
-        bool writeAsHtml(std::string &utf8stream);
-        bool writeAsMarkdown(std::string &utf8stream);
-    };
-    //=============================================================================
-}
+//=============================================================================
+class NLSHELP_TOOLS_IMPEXP XmlDocSeeAlso : public XmlDocGenericItem
+{
+private:
+    boost::container::vector<XmlDocSeeAlsoItem*> seeAlsoVector;
+
+public:
+    XmlDocSeeAlso();
+    ~XmlDocSeeAlso();
+    void
+    append(std::wstring name, std::wstring link);
+    std::wstring
+    getItemType();
+    bool
+    writeAsHtml(std::string& utf8stream);
+    bool
+    writeAsMarkdown(std::string& utf8stream);
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

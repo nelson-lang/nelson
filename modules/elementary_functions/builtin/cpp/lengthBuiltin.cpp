@@ -17,50 +17,44 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "lengthBuiltin.hpp"
+#include "ClassName.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
-#include "ClassName.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ElementaryFunctionsGateway::lengthBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::lengthBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         ArrayOf param1 = argIn[0];
-        if (param1.isClassStruct())
-        {
-            Error(eval, _("Undefined function 'length' for input arguments of type") + " '" + ClassName(param1) + "'.");
+        if (param1.isClassStruct()) {
+            Error(eval,
+                _("Undefined function 'length' for input arguments of type") + " '"
+                    + ClassName(param1) + "'.");
         }
         double len = 0;
         Dimensions sze(param1.getDimensions());
-        for (indexType i = 0; i < sze.getLength(); i++)
-        {
-            if ((double)sze[i] == 0)
-            {
+        for (indexType i = 0; i < sze.getLength(); i++) {
+            if ((double)sze[i] == 0) {
                 len = 0;
                 break;
             }
-            if (i == 0)
-            {
+            if (i == 0) {
                 len = (double)sze[i];
-            }
-            else
-            {
-                if ((double)sze[i] > len)
-                {
+            } else {
+                if ((double)sze[i] > len) {
                     len = (double)sze[i];
                 }
             }

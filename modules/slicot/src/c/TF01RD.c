@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,17 +10,18 @@
 static doublereal c_b8 = 1.;
 static doublereal c_b9 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int tf01rd_(na, nb, nc, n, a, lda, b, ldb, c__, ldc, h__, ldh, dwork, ldwork, info)
-integer *na, *nb, *nc, *n;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *h__;
-integer *ldh;
-doublereal *dwork;
+EXPORTSYMBOL /* Subroutine */ int tf01rd_(
+    na, nb, nc, n, a, lda, b, ldb, c__, ldc, h__, ldh, dwork, ldwork, info) integer *na,
+    *nb, *nc, *n;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* h__;
+integer* ldh;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
@@ -153,49 +154,31 @@ integer *ldwork, *info;
     /* Function Body */
     *info = 0;
     /*     Test the input scalar arguments. */
-    if (*na < 0)
-    {
+    if (*na < 0) {
         *info = -1;
-    }
-    else if (*nb < 0)
-    {
+    } else if (*nb < 0) {
         *info = -2;
-    }
-    else if (*nc < 0)
-    {
+    } else if (*nc < 0) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*lda < max(1,*na))
-    {
+    } else if (*lda < max(1, *na)) {
         *info = -6;
-    }
-    else if (*ldb < max(1,*na))
-    {
+    } else if (*ldb < max(1, *na)) {
         *info = -8;
-    }
-    else if (*ldc < max(1,*nc))
-    {
+    } else if (*ldc < max(1, *nc)) {
         *info = -10;
-    }
-    else if (*ldh < max(1,*nc))
-    {
+    } else if (*ldh < max(1, *nc)) {
         *info = -12;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = 1, i__2 = (*na << 1) **nc;
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__1 = 1, i__2 = (*na << 1) * *nc;
+        if (*ldwork < max(i__1, i__2)) {
             *info = -14;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TF01RD", &i__1, 6L);
@@ -203,28 +186,27 @@ integer *ldwork, *info;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*na,*nb), i__1 = min(i__1,*nc);
-    if (min(i__1,*n) == 0)
-    {
+    i__1 = min(*na, *nb), i__1 = min(i__1, *nc);
+    if (min(i__1, *n) == 0) {
         return 0;
     }
-    jwork = *nc **na + 1;
-    ldw = max(1,*nc);
+    jwork = *nc * *na + 1;
+    ldw = max(1, *nc);
     i__ = 1;
     /*     Copy C in the workspace beginning from the position JWORK. */
     /*     This workspace will contain the product C*A**(K-1), K = 1,2,...,N. */
     dlacpy_("Full", nc, na, &c__[c_offset], ldc, &dwork[jwork], &ldw, 4L);
     /*     Form M(1), M(2), ..., M(N). */
     i__1 = *n;
-    for (k = 1; k <= i__1; ++k)
-    {
+    for (k = 1; k <= i__1; ++k) {
         dlacpy_("Full", nc, na, &dwork[jwork], &ldw, &dwork[1], &ldw, 4L);
         /*        Form (C * A**(K-1)) * B = M(K). */
-        dgemm_("No transpose", "No transpose", nc, nb, na, &c_b8, &dwork[1], &ldw, &b[b_offset], ldb, &c_b9, &h__[i__ * h_dim1 + 1], ldh, 12L, 12L);
-        if (k != *n)
-        {
+        dgemm_("No transpose", "No transpose", nc, nb, na, &c_b8, &dwork[1], &ldw, &b[b_offset],
+            ldb, &c_b9, &h__[i__ * h_dim1 + 1], ldh, 12L, 12L);
+        if (k != *n) {
             /*           Form C * A**K. */
-            dgemm_("No transpose", "No transpose", nc, na, na, &c_b8, &dwork[1], &ldw, &a[a_offset], lda, &c_b9, &dwork[jwork], &ldw, 12L, 12L);
+            dgemm_("No transpose", "No transpose", nc, na, na, &c_b8, &dwork[1], &ldw, &a[a_offset],
+                lda, &c_b9, &dwork[jwork], &ldw, 12L, 12L);
             i__ += *nb;
         }
         /* L10: */
@@ -232,4 +214,3 @@ integer *ldwork, *info;
     return 0;
     /* *** Last line of TF01RD *** */
 } /* tf01rd_ */
-

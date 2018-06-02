@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,16 +12,17 @@ static doublereal c_b9 = 0.;
 static doublereal c_b11 = 1.;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int nf01bu_(stor, uplo, n, ipar, lipar, dpar, ldpar, j, ldj, jtj, ldjtj, dwork, ldwork, info, stor_len, uplo_len)
-char *stor, *uplo;
+EXPORTSYMBOL /* Subroutine */ int nf01bu_(stor, uplo, n, ipar, lipar, dpar, ldpar, j, ldj, jtj,
+    ldjtj, dwork, ldwork, info, stor_len, uplo_len) char *stor,
+    *uplo;
 integer *n, *ipar, *lipar;
-doublereal *dpar;
-integer *ldpar;
-doublereal *j;
-integer *ldj;
-doublereal *jtj;
-integer *ldjtj;
-doublereal *dwork;
+doublereal* dpar;
+integer* ldpar;
+doublereal* j;
+integer* ldj;
+doublereal* jtj;
+integer* ldjtj;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen stor_len;
 ftnlen uplo_len;
@@ -170,171 +171,140 @@ ftnlen uplo_len;
     *info = 0;
     full = lsame_(stor, "F", 1L, 1L);
     upper = lsame_(uplo, "U", 1L, 1L);
-    if (! (full || lsame_(stor, "P", 1L, 1L)))
-    {
+    if (!(full || lsame_(stor, "P", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (upper || lsame_(uplo, "L", 1L, 1L)))
-    {
+    } else if (!(upper || lsame_(uplo, "L", 1L, 1L))) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*lipar < 4)
-    {
+    } else if (*lipar < 4) {
         *info = -5;
-    }
-    else if (*ldpar < 1)
-    {
+    } else if (*ldpar < 1) {
         *info = -7;
-    }
-    else if (*ldjtj < 1 || full && *ldjtj < *n)
-    {
+    } else if (*ldjtj < 1 || full && *ldjtj < *n) {
         *info = -11;
-    }
-    else if (*ldwork < 0)
-    {
+    } else if (*ldwork < 0) {
         *info = -13;
-    }
-    else
-    {
+    } else {
         st = ipar[1];
         bn = ipar[2];
         bsm = ipar[3];
         bsn = ipar[4];
         nths = bn * bsn;
-        if (bn > 1)
-        {
+        if (bn > 1) {
             m = bn * bsm;
-        }
-        else
-        {
+        } else {
             m = bsm;
         }
         /* Computing MIN */
-        i__1 = min(st,bn), i__1 = min(i__1,bsm);
-        if (min(i__1,bsn) < 0)
-        {
+        i__1 = min(st, bn), i__1 = min(i__1, bsm);
+        if (min(i__1, bsn) < 0) {
             *info = -4;
-        }
-        else if (*n != nths + st)
-        {
+        } else if (*n != nths + st) {
             *info = -3;
-        }
-        else if (*ldj < max(1,m))
-        {
+        } else if (*ldj < max(1, m)) {
             *info = -9;
         }
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("NF01BU", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     c__ = dpar[1];
-    if (bn <= 1 || bsn == 0 || bsm == 0)
-    {
+    if (bn <= 1 || bsn == 0 || bsm == 0) {
         /*        Special case, l <= 1 or BSN = 0 or BSM = 0: the Jacobian is */
         /*        represented as a full matrix. */
         itmp[0] = m;
-        nf01bv_(stor, uplo, n, itmp, &c__1, &dpar[1], &c__1, &j[j_offset], ldj, &jtj[1], ldjtj, &dwork[1], ldwork, info, 1L, 1L);
+        nf01bv_(stor, uplo, n, itmp, &c__1, &dpar[1], &c__1, &j[j_offset], ldj, &jtj[1], ldjtj,
+            &dwork[1], ldwork, info, 1L, 1L);
         return 0;
     }
     /*     General case: l > 1, BSN > 0, BSM > 0. */
     jl = bsn + 1;
-    if (full)
-    {
+    if (full) {
         nbsn = *n * bsn;
-        if (upper)
-        {
+        if (upper) {
             /*           Compute the leading upper triangular part (full storage). */
             dlaset_(uplo, &bsn, &bsn, &c_b9, &c__, &jtj[1], ldjtj, 1L);
-            dsyrk_(uplo, "Transpose", &bsn, &bsm, &c_b11, &j[j_offset], ldj, &c_b11, &jtj[1], ldjtj, 1L, 9L);
+            dsyrk_(uplo, "Transpose", &bsn, &bsm, &c_b11, &j[j_offset], ldj, &c_b11, &jtj[1], ldjtj,
+                1L, 9L);
             ibsn = bsn;
             i1 = nbsn + 1;
             i__1 = m;
             i__2 = bsm;
-            for (ibsm = bsm + 1; i__2 < 0 ? ibsm >= i__1 : ibsm <= i__1; ibsm += i__2)
-            {
+            for (ibsm = bsm + 1; i__2 < 0 ? ibsm >= i__1 : ibsm <= i__1; ibsm += i__2) {
                 ii = i1 + ibsn;
                 dlaset_("Full", &ibsn, &bsn, &c_b9, &c_b9, &jtj[i1], ldjtj, 4L);
                 i1 += nbsn;
                 dlaset_(uplo, &bsn, &bsn, &c_b9, &c__, &jtj[ii], ldjtj, 1L);
-                dsyrk_(uplo, "Transpose", &bsn, &bsm, &c_b11, &j[ibsm + j_dim1], ldj, &c_b11, &jtj[ii], ldjtj, 1L, 9L);
+                dsyrk_(uplo, "Transpose", &bsn, &bsm, &c_b11, &j[ibsm + j_dim1], ldj, &c_b11,
+                    &jtj[ii], ldjtj, 1L, 9L);
                 ibsn += bsn;
                 /* L10: */
             }
-            if (st > 0)
-            {
+            if (st > 0) {
                 /*              Compute the last block column. */
                 i__2 = m;
                 i__1 = bsm;
-                for (ibsm = 1; i__1 < 0 ? ibsm >= i__2 : ibsm <= i__2; ibsm += i__1)
-                {
-                    dgemm_("Transpose", "NoTranspose", &bsn, &st, &bsm, &c_b11, &j[ibsm + j_dim1], ldj, &j[ibsm + jl * j_dim1], ldj, &c_b9, &jtj[i1], ldjtj, 9L, 11L);
+                for (ibsm = 1; i__1 < 0 ? ibsm >= i__2 : ibsm <= i__2; ibsm += i__1) {
+                    dgemm_("Transpose", "NoTranspose", &bsn, &st, &bsm, &c_b11, &j[ibsm + j_dim1],
+                        ldj, &j[ibsm + jl * j_dim1], ldj, &c_b9, &jtj[i1], ldjtj, 9L, 11L);
                     i1 += bsn;
                     /* L20: */
                 }
                 dlaset_(uplo, &st, &st, &c_b9, &c__, &jtj[i1], ldjtj, 1L);
-                dsyrk_(uplo, "Transpose", &st, &m, &c_b11, &j[jl * j_dim1 + 1], ldj, &c_b11, &jtj[i1], ldjtj, 1L, 9L);
+                dsyrk_(uplo, "Transpose", &st, &m, &c_b11, &j[jl * j_dim1 + 1], ldj, &c_b11,
+                    &jtj[i1], ldjtj, 1L, 9L);
             }
-        }
-        else
-        {
+        } else {
             /*           Compute the leading lower triangular part (full storage). */
             ibsn = nths;
             ii = 1;
             i__1 = m;
             i__2 = bsm;
-            for (ibsm = 1; i__2 < 0 ? ibsm >= i__1 : ibsm <= i__1; ibsm += i__2)
-            {
+            for (ibsm = 1; i__2 < 0 ? ibsm >= i__1 : ibsm <= i__1; ibsm += i__2) {
                 i1 = ii + bsn;
                 dlaset_(uplo, &bsn, &bsn, &c_b9, &c__, &jtj[ii], ldjtj, 1L);
-                dsyrk_(uplo, "Transpose", &bsn, &bsm, &c_b11, &j[ibsm + j_dim1], ldj, &c_b11, &jtj[ii], ldjtj, 1L, 9L);
+                dsyrk_(uplo, "Transpose", &bsn, &bsm, &c_b11, &j[ibsm + j_dim1], ldj, &c_b11,
+                    &jtj[ii], ldjtj, 1L, 9L);
                 ibsn -= bsn;
                 dlaset_("Full", &ibsn, &bsn, &c_b9, &c_b9, &jtj[i1], ldjtj, 4L);
                 ii = i1 + nbsn;
-                if (st > 0)
-                {
-                    dgemm_("Transpose", "NoTranspose", &st, &bsn, &bsm, &c_b11, &j[ibsm + jl * j_dim1], ldj, &j[ibsm + j_dim1], ldj, &c_b9, &jtj[i1 + ibsn], ldjtj, 9L, 11L);
+                if (st > 0) {
+                    dgemm_("Transpose", "NoTranspose", &st, &bsn, &bsm, &c_b11,
+                        &j[ibsm + jl * j_dim1], ldj, &j[ibsm + j_dim1], ldj, &c_b9, &jtj[i1 + ibsn],
+                        ldjtj, 9L, 11L);
                 }
                 /* L30: */
             }
-            if (st > 0)
-            {
+            if (st > 0) {
                 /*              Compute the last diagonal block. */
                 dlaset_(uplo, &st, &st, &c_b9, &c__, &jtj[ii], ldjtj, 1L);
-                dsyrk_(uplo, "Transpose", &st, &m, &c_b11, &j[jl * j_dim1 + 1], ldj, &c_b11, &jtj[ii], ldjtj, 1L, 9L);
+                dsyrk_(uplo, "Transpose", &st, &m, &c_b11, &j[jl * j_dim1 + 1], ldj, &c_b11,
+                    &jtj[ii], ldjtj, 1L, 9L);
             }
         }
-    }
-    else
-    {
+    } else {
         tmp[0] = 0.;
-        if (upper)
-        {
+        if (upper) {
             /*           Compute the leading upper triangular part (packed storage). */
             ibsn = 0;
             i1 = 1;
             i__2 = m;
             i__1 = bsm;
-            for (ibsm = 1; i__1 < 0 ? ibsm >= i__2 : ibsm <= i__2; ibsm += i__1)
-            {
+            for (ibsm = 1; i__1 < 0 ? ibsm >= i__2 : ibsm <= i__2; ibsm += i__1) {
                 i__3 = bsn;
-                for (k = 1; k <= i__3; ++k)
-                {
+                for (k = 1; k <= i__3; ++k) {
                     ii = i1 + ibsn;
                     dcopy_(&ibsn, tmp, &c__0, &jtj[i1], &c__1);
-                    dgemv_("Transpose", &bsm, &k, &c_b11, &j[ibsm + j_dim1], ldj, &j[ibsm + k * j_dim1], &c__1, &c_b9, &jtj[ii], &c__1, 9L);
+                    dgemv_("Transpose", &bsm, &k, &c_b11, &j[ibsm + j_dim1], ldj,
+                        &j[ibsm + k * j_dim1], &c__1, &c_b9, &jtj[ii], &c__1, 9L);
                     i1 = ii + k;
                     jtj[i1 - 1] += c__;
                     /* L40: */
@@ -344,45 +314,42 @@ ftnlen uplo_len;
             }
             /*           Compute the last block column. */
             i__1 = st;
-            for (k = 1; k <= i__1; ++k)
-            {
+            for (k = 1; k <= i__1; ++k) {
                 i__2 = m;
                 i__3 = bsm;
-                for (ibsm = 1; i__3 < 0 ? ibsm >= i__2 : ibsm <= i__2; ibsm += i__3)
-                {
-                    dgemv_("Transpose", &bsm, &bsn, &c_b11, &j[ibsm + j_dim1], ldj, &j[ibsm + (bsn + k) * j_dim1], &c__1, &c_b9, &jtj[i1], &c__1, 9L);
+                for (ibsm = 1; i__3 < 0 ? ibsm >= i__2 : ibsm <= i__2; ibsm += i__3) {
+                    dgemv_("Transpose", &bsm, &bsn, &c_b11, &j[ibsm + j_dim1], ldj,
+                        &j[ibsm + (bsn + k) * j_dim1], &c__1, &c_b9, &jtj[i1], &c__1, 9L);
                     i1 += bsn;
                     /* L60: */
                 }
-                dgemv_("Transpose", &m, &k, &c_b11, &j[jl * j_dim1 + 1], ldj, &j[(bsn + k) * j_dim1 + 1], &c__1, &c_b9, &jtj[i1], &c__1, 9L);
+                dgemv_("Transpose", &m, &k, &c_b11, &j[jl * j_dim1 + 1], ldj,
+                    &j[(bsn + k) * j_dim1 + 1], &c__1, &c_b9, &jtj[i1], &c__1, 9L);
                 i1 += k;
                 jtj[i1 - 1] += c__;
                 /* L70: */
             }
-        }
-        else
-        {
+        } else {
             /*           Compute the leading lower triangular part (packed storage). */
             ibsn = nths;
             ii = 1;
             i__1 = m;
             i__3 = bsm;
-            for (ibsm = 1; i__3 < 0 ? ibsm >= i__1 : ibsm <= i__1; ibsm += i__3)
-            {
+            for (ibsm = 1; i__3 < 0 ? ibsm >= i__1 : ibsm <= i__1; ibsm += i__3) {
                 ibsn -= bsn;
                 i__2 = bsn;
-                for (k = 1; k <= i__2; ++k)
-                {
+                for (k = 1; k <= i__2; ++k) {
                     i1 = ii + bsn - k + 1;
                     dcopy_(&ibsn, tmp, &c__0, &jtj[i1], &c__1);
                     i__4 = bsn - k + 1;
-                    dgemv_("Transpose", &bsm, &i__4, &c_b11, &j[ibsm + k * j_dim1], ldj, &j[ibsm + k * j_dim1], &c__1, &c_b9, &jtj[ii], &c__1, 9L);
+                    dgemv_("Transpose", &bsm, &i__4, &c_b11, &j[ibsm + k * j_dim1], ldj,
+                        &j[ibsm + k * j_dim1], &c__1, &c_b9, &jtj[ii], &c__1, 9L);
                     jtj[ii] += c__;
                     i1 += ibsn;
                     ii = i1 + st;
-                    if (st > 0)
-                    {
-                        dgemv_("Transpose", &bsm, &st, &c_b11, &j[ibsm + jl * j_dim1], ldj, &j[ibsm + k * j_dim1], &c__1, &c_b9, &jtj[i1], &c__1, 9L);
+                    if (st > 0) {
+                        dgemv_("Transpose", &bsm, &st, &c_b11, &j[ibsm + jl * j_dim1], ldj,
+                            &j[ibsm + k * j_dim1], &c__1, &c_b9, &jtj[i1], &c__1, 9L);
                     }
                     /* L80: */
                 }
@@ -390,10 +357,10 @@ ftnlen uplo_len;
             }
             /*           Compute the last diagonal block. */
             i__3 = st;
-            for (k = 1; k <= i__3; ++k)
-            {
+            for (k = 1; k <= i__3; ++k) {
                 i__1 = st - k + 1;
-                dgemv_("Transpose", &m, &i__1, &c_b11, &j[(bsn + k) * j_dim1 + 1], ldj, &j[(bsn + k) * j_dim1 + 1], &c__1, &c_b9, &jtj[ii], &c__1, 9L);
+                dgemv_("Transpose", &m, &i__1, &c_b11, &j[(bsn + k) * j_dim1 + 1], ldj,
+                    &j[(bsn + k) * j_dim1 + 1], &c__1, &c_b9, &jtj[ii], &c__1, 9L);
                 jtj[ii] += c__;
                 ii = ii + st - k + 1;
                 /* L100: */
@@ -403,4 +370,3 @@ ftnlen uplo_len;
     return 0;
     /* *** Last line of NF01BU *** */
 } /* nf01bu_ */
-

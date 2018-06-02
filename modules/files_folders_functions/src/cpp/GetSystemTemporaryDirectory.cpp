@@ -16,33 +16,34 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 #include "GetSystemTemporaryDirectory.hpp"
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/filesystem.hpp>
 //=============================================================================
 using namespace boost::filesystem;
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    static std::wstring tempDir = L"";
-    //=============================================================================
-    ArrayOf TempDir()
-    {
-        return ArrayOf::stringConstructor(GetSystemTemporaryDirectory());
-    }
-    //=============================================================================
-    std::wstring GetSystemTemporaryDirectory()
-    {
-        if (tempDir == L"")
-        {
-            path pwd = temp_directory_path();
-            tempDir = pwd.generic_wstring();
-            if (boost::algorithm::ends_with(tempDir, L"\\") || (boost::algorithm::ends_with(tempDir, L"/")))
-            {
-                tempDir.pop_back();
-            }
+//=============================================================================
+static std::wstring tempDir = L"";
+//=============================================================================
+ArrayOf
+TempDir()
+{
+    return ArrayOf::stringConstructor(GetSystemTemporaryDirectory());
+}
+//=============================================================================
+std::wstring
+GetSystemTemporaryDirectory()
+{
+    if (tempDir == L"") {
+        path pwd = temp_directory_path();
+        tempDir = pwd.generic_wstring();
+        if (boost::algorithm::ends_with(tempDir, L"\\")
+            || (boost::algorithm::ends_with(tempDir, L"/"))) {
+            tempDir.pop_back();
         }
-        return tempDir;
     }
+    return tempDir;
+}
 }
 //=============================================================================

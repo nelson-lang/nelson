@@ -18,48 +18,60 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <ffi.h>
 #include "ArrayOf.hpp"
+#include "DynamicLinkLibraryObject.hpp"
+#include "Evaluator.hpp"
 #include "HandleGenericObject.hpp"
 #include "nlsDynamic_link_exports.h"
-#include "Evaluator.hpp"
-#include "DynamicLinkLibraryObject.hpp"
-#include "ArrayOf.hpp"
+#include <ffi.h>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
+//=============================================================================
 #define DLSYM_CATEGORY_STR L"dlsym"
-    //=============================================================================
-    class NLSDYNAMIC_LINK_IMPEXP DynamicLinkSymbolObject : public HandleGenericObject {
-    public:
-        DynamicLinkSymbolObject(ArrayOf dllibObject, void *pointerFunction, std::wstring symbol, std::wstring returnType, wstringVector paramsType);
-        ~DynamicLinkSymbolObject();
-        ArrayOfVector call(Evaluator *eval, int Lhs, ArrayOfVector params);
-        void disp(Evaluator *eval);
-        static Class GetNelsonType(std::wstring type);
-        static bool isValidDataType(std::wstring DataType);
-        bool get(std::wstring propertyName, ArrayOf &res);
-        bool isWriteableProperty(std::wstring propertyName);
-        wstringVector fieldnames();
-        bool isProperty(std::wstring propertyName);
-        bool isMethod(std::wstring methodName);
+//=============================================================================
+class NLSDYNAMIC_LINK_IMPEXP DynamicLinkSymbolObject : public HandleGenericObject
+{
+public:
+    DynamicLinkSymbolObject(ArrayOf dllibObject, void* pointerFunction, std::wstring symbol,
+        std::wstring returnType, wstringVector paramsType);
+    ~DynamicLinkSymbolObject();
+    ArrayOfVector
+    call(Evaluator* eval, int Lhs, ArrayOfVector params);
+    void
+    disp(Evaluator* eval);
+    static Class
+    GetNelsonType(std::wstring type);
+    static bool
+    isValidDataType(std::wstring DataType);
+    bool
+    get(std::wstring propertyName, ArrayOf& res);
+    bool
+    isWriteableProperty(std::wstring propertyName);
+    wstringVector
+    fieldnames();
+    bool
+    isProperty(std::wstring propertyName);
+    bool
+    isMethod(std::wstring methodName);
 
-    private:
-        ArrayOf _dllibObject;
-        void *_pointerFunction;
-        std::wstring _symbol;
-        std::wstring _returnType;
-        wstringVector _paramsTypes;
-        wstringVector _paramsInTypes;
-        wstringVector _paramsOutTypes;
-        ffi_cif _cif;
-        size_t _nArgIn;
-        size_t _nArgOut;
-        std::wstring _prototype;
-        size_t lengthTextToDisplay(wstringVector params);
-        wstringVector _propertiesNames;
-        void buildPrototype();
-    };
-    //=============================================================================
+private:
+    ArrayOf _dllibObject;
+    void* _pointerFunction;
+    std::wstring _symbol;
+    std::wstring _returnType;
+    wstringVector _paramsTypes;
+    wstringVector _paramsInTypes;
+    wstringVector _paramsOutTypes;
+    ffi_cif _cif;
+    size_t _nArgIn;
+    size_t _nArgOut;
+    std::wstring _prototype;
+    size_t
+    lengthTextToDisplay(wstringVector params);
+    wstringVector _propertiesNames;
+    void
+    buildPrototype();
 };
+//=============================================================================
+}; // namespace Nelson
 //=============================================================================

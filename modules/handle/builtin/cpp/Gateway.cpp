@@ -18,40 +18,39 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 //=============================================================================
-#include "setBuiltin.hpp"
-#include "getBuiltin.hpp"
 #include "deleteBuiltin.hpp"
+#include "getBuiltin.hpp"
 #include "invokeBuiltin.hpp"
-#include "isvalidBuiltin.hpp"
-#include "propertiesBuiltin.hpp"
-#include "methodsBuiltin.hpp"
-#include "ispropBuiltin.hpp"
 #include "ismethodBuiltin.hpp"
+#include "ispropBuiltin.hpp"
+#include "isvalidBuiltin.hpp"
+#include "methodsBuiltin.hpp"
+#include "propertiesBuiltin.hpp"
+#include "setBuiltin.hpp"
 //=============================================================================
-#include "handle_horzcat_handleBuiltin.hpp"
-#include "handle_vertcat_handleBuiltin.hpp"
-#include "handle_eq_handleBuiltin.hpp"
-#include "handle_isequalBuiltin.hpp"
 #include "generic_eq_handleBuiltin.hpp"
-#include "handle_eq_genericBuiltin.hpp"
-#include "handle_dispBuiltin.hpp"
-#include "handle_setBuiltin.hpp"
-#include "handle_getBuiltin.hpp"
 #include "handle_deleteBuiltin.hpp"
-#include "handle_invokeBuiltin.hpp"
-#include "handle_isvalidBuiltin.hpp"
+#include "handle_dispBuiltin.hpp"
+#include "handle_eq_genericBuiltin.hpp"
+#include "handle_eq_handleBuiltin.hpp"
 #include "handle_fieldnamesBuiltin.hpp"
-#include "handle_methodsBuiltin.hpp"
+#include "handle_getBuiltin.hpp"
+#include "handle_horzcat_handleBuiltin.hpp"
+#include "handle_invokeBuiltin.hpp"
+#include "handle_isequalBuiltin.hpp"
 #include "handle_ismethodBuiltin.hpp"
 #include "handle_ispropBuiltin.hpp"
+#include "handle_isvalidBuiltin.hpp"
+#include "handle_methodsBuiltin.hpp"
 #include "handle_propertiesBuiltin.hpp"
+#include "handle_setBuiltin.hpp"
+#include "handle_vertcat_handleBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"handle";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "delete", Nelson::HandleGateway::deleteBuiltin, 0, 1 },
     { "get", Nelson::HandleGateway::getBuiltin, 1, 1 },
     { "set", Nelson::HandleGateway::setBuiltin, 1, 1 },

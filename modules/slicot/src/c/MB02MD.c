@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,16 +12,16 @@ static doublereal c_b9 = 1.;
 static integer c__1 = 1;
 static doublereal c_b52 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb02md_(job, m, n, l, rank, c__, ldc, s, x, ldx, tol, iwork, dwork, ldwork, iwarn, info, job_len)
-char *job;
+EXPORTSYMBOL /* Subroutine */ int mb02md_(job, m, n, l, rank, c__, ldc, s, x, ldx, tol, iwork,
+    dwork, ldwork, iwarn, info, job_len) char* job;
 integer *m, *n, *l, *rank;
-doublereal *c__;
-integer *ldc;
+doublereal* c__;
+integer* ldc;
 doublereal *s, *x;
-integer *ldx;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+integer* ldx;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen job_len;
 {
@@ -312,76 +312,55 @@ ftnlen job_len;
     *iwarn = 0;
     *info = 0;
     nl = *n + *l;
-    k = max(*m,nl);
-    p = min(*m,*n);
-    minmnl = min(*m,nl);
+    k = max(*m, nl);
+    p = min(*m, *n);
+    minmnl = min(*m, nl);
     /* Computing MAX */
     i__1 = minmnl * 3 + k, i__2 = minmnl * 5;
-    ldw = max(i__1,i__2);
+    ldw = max(i__1, i__2);
     ljobr = lsame_(job, "R", 1L, 1L);
     ljobt = lsame_(job, "T", 1L, 1L);
     ljobn = lsame_(job, "N", 1L, 1L);
     /*     Determine whether RANK or/and TOL is/are to be computed. */
-    crank = ! ljobt && ! ljobn;
-    ctol = ! ljobr && ! ljobn;
+    crank = !ljobt && !ljobn;
+    ctol = !ljobr && !ljobn;
     /*     Test the input scalar arguments. */
-    if (ctol && crank && ! lsame_(job, "B", 1L, 1L))
-    {
+    if (ctol && crank && !lsame_(job, "B", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*l < 0)
-    {
+    } else if (*l < 0) {
         *info = -4;
-    }
-    else if (! crank && *rank > p)
-    {
+    } else if (!crank && *rank > p) {
         *info = -5;
-    }
-    else if (*ldc < max(1,k))
-    {
+    } else if (*ldc < max(1, k)) {
         *info = -7;
-    }
-    else if (*ldx < max(1,*n))
-    {
+    } else if (*ldx < max(1, *n)) {
         *info = -10;
-    }
-    else if (ctol && *tol < 0.)
-    {
+    } else if (ctol && *tol < 0.) {
         *info = -11;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = 2, i__2 = *m * nl + ldw, i__1 = max(i__1,i__2), i__2 = *l * 3;
-        if (*m >= nl && *ldwork < max(2,ldw) || *m < nl && *ldwork < max(i__1,i__2))
-        {
+        i__1 = 2, i__2 = *m * nl + ldw, i__1 = max(i__1, i__2), i__2 = *l * 3;
+        if (*m >= nl && *ldwork < max(2, ldw) || *m < nl && *ldwork < max(i__1, i__2)) {
             *info = -14;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB02MD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (crank)
-    {
+    if (crank) {
         *rank = p;
     }
-    if (min(*m,nl) == 0)
-    {
-        if (*m == 0)
-        {
+    if (min(*m, nl) == 0) {
+        if (*m == 0) {
             dlaset_("Full", &nl, &nl, &c_b8, &c_b9, &c__[c_offset], ldc, 4L);
             dlaset_("Full", n, l, &c_b8, &c_b8, &x[x_offset], ldx, 4L);
         }
@@ -399,16 +378,14 @@ ftnlen job_len;
     /*     code, as well as the preferred amount for good performance. */
     /*     NB refers to the optimal block size for the immediately */
     /*     following subroutine, as returned by ILAENV.) */
-    if (*m >= nl)
-    {
+    if (*m >= nl) {
         /*        M >= N + L:  Overwrite V' on C. */
         /*        Workspace: need max(3*min(M,N+L) + max(M,N+L), 5*min(M,N+L)). */
         jwork = 1;
         i__1 = *ldwork - jwork + 1;
-        dgesvd_("No left vectors", "Overwritten on C", m, &nl, &c__[c_offset], ldc, &s[1], &dwork[1], &c__1, &dwork[1], &c__1, &dwork[jwork], &i__1, info, 15L, 16L);
-    }
-    else
-    {
+        dgesvd_("No left vectors", "Overwritten on C", m, &nl, &c__[c_offset], ldc, &s[1],
+            &dwork[1], &c__1, &dwork[1], &c__1, &dwork[jwork], &i__1, info, 15L, 16L);
+    } else {
         /*        M < N + L:  Save C in the workspace and compute V' in C. */
         /*        Note that the previous DGESVD call cannot be used in this case. */
         /*        Workspace: need M*(N+L) + max(3*min(M,N+L) + max(M,N+L), */
@@ -416,65 +393,55 @@ ftnlen job_len;
         dlacpy_("Full", m, &nl, &c__[c_offset], ldc, &dwork[1], m, 4L);
         jwork = *m * nl + 1;
         i__1 = *ldwork - jwork + 1;
-        dgesvd_("No left vectors", "All right vectors", m, &nl, &dwork[1], m, &s[1], &dwork[1], &c__1, &c__[c_offset], ldc, &dwork[jwork], &i__1, info, 15L, 17L);
+        dgesvd_("No left vectors", "All right vectors", m, &nl, &dwork[1], m, &s[1], &dwork[1],
+            &c__1, &c__[c_offset], ldc, &dwork[jwork], &i__1, info, 15L, 17L);
     }
-    if (*info > 0)
-    {
+    if (*info > 0) {
         /*        Save the unconverged non-diagonal elements of the bidiagonal */
         /*        matrix and exit. */
         i__1 = minmnl - 1;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dwork[j] = dwork[jwork + j];
             /* L10: */
         }
         return 0;
     }
     /* Computing MAX */
-    i__1 = 2, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = 2, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
     /*     Transpose V' in-situ (in C). */
     i__1 = nl;
-    for (j = 2; j <= i__1; ++j)
-    {
+    for (j = 2; j <= i__1; ++j) {
         i__2 = j - 1;
         dswap_(&i__2, &c__[j + c_dim1], ldc, &c__[j * c_dim1 + 1], &c__1);
         /* L20: */
     }
     /*     Step 2: Compute the rank of the approximation [A+DA|B+DB]. */
-    if (ctol)
-    {
-        toltmp = sqrt((doublereal) k * 2.) **tol;
+    if (ctol) {
+        toltmp = sqrt((doublereal)k * 2.) * *tol;
         smax = toltmp;
-    }
-    else
-    {
+    } else {
         toltmp = *tol;
-        if (toltmp <= 0.)
-        {
+        if (toltmp <= 0.) {
             toltmp = dlamch_("Precision", 9L);
         }
         /* Computing MAX */
         d__1 = toltmp * s[1], d__2 = dlamch_("Safe minimum", 12L);
-        smax = max(d__1,d__2);
+        smax = max(d__1, d__2);
     }
-    if (crank)
-    {
+    if (crank) {
         /*        WHILE ( RANK .GT. 0 ) .AND. ( S(RANK) .LE. SMAX ) DO */
-L40:
-        if (*rank > 0)
-        {
-            if (s[*rank] <= smax)
-            {
+    L40:
+        if (*rank > 0) {
+            if (s[*rank] <= smax) {
                 --(*rank);
                 goto L40;
             }
         }
         /*        END WHILE 40 */
     }
-    if (*l == 0)
-    {
-        dwork[1] = (doublereal) wrkopt;
+    if (*l == 0) {
+        dwork[1] = (doublereal)wrkopt;
         dwork[2] = 1.;
         return 0;
     }
@@ -487,18 +454,15 @@ L40:
     /*        Adjust the rank if S(RANK) has multiplicity greater than 1. */
 L60:
     r1 = *rank + 1;
-    if (*rank < minmnl)
-    {
+    if (*rank < minmnl) {
         /*           WHILE RANK.GT.0 .AND. S(RANK)**2 - S(R1)**2.LE.TOL**2 DO */
-L80:
-        if (*rank > 0)
-        {
+    L80:
+        if (*rank > 0) {
             /* Computing 2nd power */
             d__1 = s[r1] / s[*rank];
             /* Computing 2nd power */
             d__2 = toltmp / s[*rank];
-            if (1. - d__1 * d__1 <= d__2 * d__2)
-            {
+            if (1. - d__1 * d__1 <= d__2 * d__2) {
                 --(*rank);
                 *iwarn = 1;
                 goto L80;
@@ -506,11 +470,10 @@ L80:
         }
         /*           END WHILE 80 */
     }
-    if (*rank == 0)
-    {
+    if (*rank == 0) {
         /*           Return zero solution. */
         dlaset_("Full", n, l, &c_b8, &c_b8, &x[x_offset], ldx, 4L);
-        dwork[1] = (doublereal) wrkopt;
+        dwork[1] = (doublereal)wrkopt;
         dwork[2] = 1.;
         return 0;
     }
@@ -526,19 +489,19 @@ L80:
     i__2 = *ldwork - jwork + 1;
     dgerqf_(l, &i__1, &c__[n1 + r1 * c_dim1], ldc, &dwork[itau], &dwork[jwork], &i__2, info);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
     /*        Workspace: need N+L;  prefer L + N*NB. */
     i__1 = nl - *rank;
     i__2 = *ldwork - jwork + 1;
-    dormrq_("Right", "Transpose", n, &i__1, l, &c__[n1 + r1 * c_dim1], ldc, &dwork[itau], &c__[r1 * c_dim1 + 1], ldc, &dwork[jwork], &i__2, info, 5L, 9L);
+    dormrq_("Right", "Transpose", n, &i__1, l, &c__[n1 + r1 * c_dim1], ldc, &dwork[itau],
+        &c__[r1 * c_dim1 + 1], ldc, &dwork[jwork], &i__2, info, 5L, 9L);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
     i__1 = *n - *rank;
     dlaset_("Full", l, &i__1, &c_b8, &c_b8, &c__[n1 + r1 * c_dim1], ldc, 4L);
-    if (*l > 1)
-    {
+    if (*l > 1) {
         i__1 = *l - 1;
         i__2 = *l - 1;
         dlaset_("Lower", &i__1, &i__2, &c_b8, &c_b8, &c__[n1 + 1 + n1 * c_dim1], ldc, 5L);
@@ -546,19 +509,19 @@ L80:
     /*        Estimate the reciprocal condition number of the matrix F, */
     /*        and lower the rank if F can be considered as singular. */
     /*        Workspace: need 3*L. */
-    dtrcon_("1-norm", "Upper", "Non-unit", l, &c__[n1 + n1 * c_dim1], ldc, &rcond, &dwork[1], &iwork[1], info, 6L, 5L, 8L);
+    dtrcon_("1-norm", "Upper", "Non-unit", l, &c__[n1 + n1 * c_dim1], ldc, &rcond, &dwork[1],
+        &iwork[1], info, 6L, 5L, 8L);
     /* Computing MAX */
     i__1 = wrkopt, i__2 = *l * 3;
-    wrkopt = max(i__1,i__2);
-    fnorm = dlantr_("1-norm", "Upper", "Non-unit", l, l, &c__[n1 + n1 * c_dim1], ldc, &dwork[1], 6L, 5L, 8L);
-    if (rcond <= toltmp * fnorm)
-    {
+    wrkopt = max(i__1, i__2);
+    fnorm = dlantr_(
+        "1-norm", "Upper", "Non-unit", l, l, &c__[n1 + n1 * c_dim1], ldc, &dwork[1], 6L, 5L, 8L);
+    if (rcond <= toltmp * fnorm) {
         --(*rank);
         *iwarn = 2;
         goto L60;
-    }
-    else if (fnorm <= toltmp * dlange_("1-norm", n, l, &c__[n1 * c_dim1 + 1], ldc, &dwork[1], 6L))
-    {
+    } else if (fnorm
+        <= toltmp * dlange_("1-norm", n, l, &c__[n1 * c_dim1 + 1], ldc, &dwork[1], 6L)) {
         *rank -= *l;
         *iwarn = 2;
         goto L60;
@@ -568,11 +531,11 @@ L80:
     /*     Step 4: Solve X F = -Y by forward elimination, */
     /*             (F is upper triangular). */
     dlacpy_("Full", n, l, &c__[n1 * c_dim1 + 1], ldc, &x[x_offset], ldx, 4L);
-    dtrsm_("Right", "Upper", "No transpose", "Non-unit", n, l, &c_b52, &c__[n1 + n1 * c_dim1], ldc, &x[x_offset], ldx, 5L, 5L, 12L, 8L);
+    dtrsm_("Right", "Upper", "No transpose", "Non-unit", n, l, &c_b52, &c__[n1 + n1 * c_dim1], ldc,
+        &x[x_offset], ldx, 5L, 5L, 12L, 8L);
     /*     Set the optimal workspace and reciprocal condition number of F. */
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     dwork[2] = rcond;
     return 0;
     /* *** Last line of MB02MD *** */
 } /* mb02md_ */
-

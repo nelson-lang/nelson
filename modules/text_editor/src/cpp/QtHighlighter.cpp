@@ -18,26 +18,24 @@
 //=============================================================================
 #include "QtHighlighter.h"
 #include "Keywords.hpp"
-#include "characters_encoding.hpp"
-#include "QStringConverter.hpp"
 #include "Operators.hpp"
+#include "QStringConverter.hpp"
 #include "What.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-Highlighter::Highlighter(QTextDocument *parent) : QSyntaxHighlighter(parent)
+Highlighter::Highlighter(QTextDocument* parent) : QSyntaxHighlighter(parent)
 {
     HighlightingRule rule;
     keywordFormat.setForeground(Qt::darkBlue);
     keywordFormat.setFontWeight(QFont::Bold);
     QStringList keywordPatterns;
     wstringVector keywordsVector = GetKeywords();
-    for (size_t k = 0; k < keywordsVector.size(); k++)
-    {
+    for (size_t k = 0; k < keywordsVector.size(); k++) {
         keywordPatterns << wstringToQString(L"\\b" + keywordsVector[k] + L"\\b");
     }
-    foreach(const QString &pattern, keywordPatterns)
-    {
+    foreach (const QString& pattern, keywordPatterns) {
         rule.pattern = QRegularExpression(pattern);
         rule.format = keywordFormat;
         highlightingRules.append(rule);
@@ -45,12 +43,10 @@ Highlighter::Highlighter(QTextDocument *parent) : QSyntaxHighlighter(parent)
     builtinFormat.setForeground(Qt::darkCyan);
     QStringList builtinPatterns;
     wstringVector builtinVector = WhatListOfBuiltin();
-    for (size_t k = 0; k < builtinVector.size(); k++)
-    {
+    for (size_t k = 0; k < builtinVector.size(); k++) {
         builtinPatterns << wstringToQString(L"\\b" + builtinVector[k] + L"\\b");
     }
-    foreach(const QString &pattern, builtinPatterns)
-    {
+    foreach (const QString& pattern, builtinPatterns) {
         rule.pattern = QRegularExpression(pattern);
         rule.format = builtinFormat;
         highlightingRules.append(rule);
@@ -58,12 +54,10 @@ Highlighter::Highlighter(QTextDocument *parent) : QSyntaxHighlighter(parent)
     macroFormat.setForeground(Qt::darkCyan);
     QStringList macroPatterns;
     wstringVector macroVector = WhatListOfMacro();
-    for (size_t k = 0; k < macroVector.size(); k++)
-    {
+    for (size_t k = 0; k < macroVector.size(); k++) {
         macroPatterns << wstringToQString(L"\\b" + macroVector[k] + L"\\b");
     }
-    foreach(const QString &pattern, macroPatterns)
-    {
+    foreach (const QString& pattern, macroPatterns) {
         rule.pattern = QRegularExpression(pattern);
         rule.format = macroFormat;
         highlightingRules.append(rule);
@@ -83,29 +77,29 @@ Highlighter::Highlighter(QTextDocument *parent) : QSyntaxHighlighter(parent)
     isEnabled = false;
 }
 //=============================================================================
-void Highlighter::highlightBlock(const QString &text)
+void
+Highlighter::highlightBlock(const QString& text)
 {
-    if (text.isEmpty() || (!isEnabled))
-    {
+    if (text.isEmpty() || (!isEnabled)) {
         return;
     }
-    foreach(const HighlightingRule &rule, highlightingRules)
-    {
+    foreach (const HighlightingRule& rule, highlightingRules) {
         QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(text);
-        while (matchIterator.hasNext())
-        {
+        while (matchIterator.hasNext()) {
             QRegularExpressionMatch match = matchIterator.next();
             setFormat(match.capturedStart(), match.capturedLength(), rule.format);
         }
     }
 }
 //=============================================================================
-void Highlighter::setEnable(bool _enable)
+void
+Highlighter::setEnable(bool _enable)
 {
     isEnabled = _enable;
 }
 //=============================================================================
-bool  Highlighter::getEnable()
+bool
+Highlighter::getEnable()
 {
     return isEnabled;
 }

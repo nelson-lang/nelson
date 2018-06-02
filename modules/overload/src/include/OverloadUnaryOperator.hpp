@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 #include "nlsOverload_exports.h"
-#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSOVERLOAD_IMPEXP ArrayOf OverloadUnaryOperator(Evaluator *eval, ArrayOf a, std::string functionName, std::string forcedFunctionName = "");
+NLSOVERLOAD_IMPEXP ArrayOf
+OverloadUnaryOperator(
+    Evaluator* eval, ArrayOf a, std::string functionName, std::string forcedFunctionName = "");
 }
 //=============================================================================

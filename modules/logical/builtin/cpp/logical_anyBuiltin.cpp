@@ -17,35 +17,31 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "logical_anyBuiltin.hpp"
-#include "Error.hpp"
 #include "AnyLogical.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::LogicalGateway::logical_anyBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::LogicalGateway::logical_anyBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (!((argIn.size() == 1) || (argIn.size() == 2)))
-    {
+    if (!((argIn.size() == 1) || (argIn.size() == 2))) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     indexType d = 0;
     ArrayOf arg1 = argIn[0];
-    if (argIn.size() > 1)
-    {
+    if (argIn.size() > 1) {
         ArrayOf arg2 = argIn[1];
         d = arg2.getContentAsScalarIndex(false);
     }
-    if (!arg1.isLogical())
-    {
+    if (!arg1.isLogical()) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED);
     }
-    if (arg1.isSparse())
-    {
+    if (arg1.isSparse()) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED);
     }
     retval.push_back(AnyLogical(arg1, d));

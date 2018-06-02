@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,27 +10,29 @@
 static doublereal c_b12 = 0.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tg01jd_(job, systyp, equil, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, nr, infred, tol, iwork, dwork, ldwork, info, job_len, systyp_len, equil_len)
-char *job, *systyp, *equil;
+EXPORTSYMBOL /* Subroutine */ int tg01jd_(job, systyp, equil, n, m, p, a, lda, e, lde, b, ldb, c__,
+    ldc, nr, infred, tol, iwork, dwork, ldwork, info, job_len, systyp_len, equil_len) char *job,
+    *systyp, *equil;
 integer *n, *m, *p;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
 integer *ldc, *nr, *infred;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen job_len;
 ftnlen systyp_len;
 ftnlen equil_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, e_dim1, e_offset, i__1, i__2, i__3, i__4;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, e_dim1, e_offset, i__1, i__2,
+        i__3, i__4;
     /* Local variables */
     static char jobq[1], jobz[1];
     extern /* Subroutine */ int ma02cd_(), tg01ad_();
@@ -302,8 +304,8 @@ ftnlen equil_len;
     --dwork;
     /* Function Body */
     *info = 0;
-    maxmp = max(*m,*p);
-    n1 = max(1,*n);
+    maxmp = max(*m, *p);
+    n1 = max(1, *n);
     /*     Decode JOB. */
     ljobir = lsame_(job, "I", 1L, 1L);
     ljobc = ljobir || lsame_(job, "C", 1L, 1L);
@@ -314,63 +316,39 @@ ftnlen equil_len;
     lsysp = lsysr || lsame_(systyp, "P", 1L, 1L);
     lequil = lsame_(equil, "S", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! ljobc && ! ljobo)
-    {
+    if (!ljobc && !ljobo) {
         *info = -1;
-    }
-    else if (! lsyss && ! lsysp)
-    {
+    } else if (!lsyss && !lsysp) {
         *info = -2;
-    }
-    else if (! lequil && ! lsame_(equil, "N", 1L, 1L))
-    {
+    } else if (!lequil && !lsame_(equil, "N", 1L, 1L)) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -5;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -6;
-    }
-    else if (*lda < n1)
-    {
+    } else if (*lda < n1) {
         *info = -8;
-    }
-    else if (*lde < n1)
-    {
+    } else if (*lde < n1) {
         *info = -10;
-    }
-    else if (*ldb < n1)
-    {
+    } else if (*ldb < n1) {
         *info = -12;
-    }
-    else if (*ldc < 1 || *n > 0 && *ldc < maxmp)
-    {
+    } else if (*ldc < 1 || *n > 0 && *ldc < maxmp) {
         *info = -14;
-    }
-    else if (*tol >= 1.)
-    {
+    } else if (*tol >= 1.) {
         *info = -17;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = *n, i__2 = maxmp << 1;
         /* Computing MAX */
         i__3 = *n << 3, i__4 = maxmp << 1;
-        if (! lequil && *ldwork < max(i__1,i__2) || lequil && *ldwork < max(i__3,i__4))
-        {
+        if (!lequil && *ldwork < max(i__1, i__2) || lequil && *ldwork < max(i__3, i__4)) {
             *info = -20;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TG01JD", &i__1, 6L);
@@ -384,15 +362,14 @@ ftnlen equil_len;
     infred[5] = 0;
     infred[6] = 0;
     infred[7] = 0;
-    if (max(*n,maxmp) == 0)
-    {
+    if (max(*n, maxmp) == 0) {
         *nr = 0;
         return 0;
     }
-    m1 = max(1,*m);
-    p1 = max(1,*p);
-    ldm = max(*ldc,*m);
-    ldp = max(*ldc,*p);
+    m1 = max(1, *m);
+    p1 = max(1, *p);
+    ldm = max(*ldc, *m);
+    ldp = max(*ldc, *p);
     /*     Set controllability/observability determination options. */
     fincon = ljobc && lsyss;
     infcon = ljobc && lsysp;
@@ -401,34 +378,32 @@ ftnlen equil_len;
     /*     Set large workspace option and determine offsets. */
     /* Computing MAX */
     i__1 = *n, i__2 = maxmp << 1;
-    lspace = *ldwork >= *n * ((*n << 1) + *m + *p) + max(i__1,i__2);
+    lspace = *ldwork >= *n * ((*n << 1) + *m + *p) + max(i__1, i__2);
     /* Computing MAX */
     i__1 = *n, i__2 = maxmp << 1;
-    kwa = max(i__1,i__2) + 1;
-    kwe = kwa + *n **n;
-    kwb = kwe + *n **n;
-    kwc = kwb + *n **m;
+    kwa = max(i__1, i__2) + 1;
+    kwe = kwa + *n * *n;
+    kwb = kwe + *n * *n;
+    kwc = kwb + *n * *m;
     /*     If required, scale the system (A-lambda*E,B,C). */
     /*     Workspace: need 8*N. */
-    if (lequil)
-    {
-        tg01ad_("All", n, n, m, p, &c_b12, &a[a_offset], lda, &e[e_offset], lde, &b[b_offset], ldb, &c__[c_offset], &ldp, &dwork[1], &dwork[*n + 1], &dwork[(*n << 1) + 1], info, 3L);
+    if (lequil) {
+        tg01ad_("All", n, n, m, p, &c_b12, &a[a_offset], lda, &e[e_offset], lde, &b[b_offset], ldb,
+            &c__[c_offset], &ldp, &dwork[1], &dwork[*n + 1], &dwork[(*n << 1) + 1], info, 3L);
     }
-    *(unsigned char *)jobq = 'N';
-    *(unsigned char *)jobz = 'N';
+    *(unsigned char*)jobq = 'N';
+    *(unsigned char*)jobz = 'N';
     ldq = 1;
     ldz = 1;
     /* Computing MAX */
     i__1 = 0, i__2 = *n - 1;
-    lba = max(i__1,i__2);
+    lba = max(i__1, i__2);
     lbe = lba;
     nc = *n;
     *nr = *n;
-    if (fincon)
-    {
+    if (fincon) {
         /*        Phase 1: Eliminate all finite uncontrolable eigenvalues. */
-        if (lspace)
-        {
+        if (lspace) {
             /*           Save system matrices. */
             dlacpy_("Full", &nc, &nc, &a[a_offset], lda, &dwork[kwa], &n1, 4L);
             dlacpy_("Full", &nc, &nc, &e[e_offset], lde, &dwork[kwe], &n1, 4L);
@@ -437,28 +412,22 @@ ftnlen equil_len;
         }
         /*        Perform finite controllability form reduction. */
         /*        Workspace: need   MAX(N,2*M). */
-        tg01hx_(jobq, jobz, &nc, &nc, m, p, &nc, &lbe, &a[a_offset], lda, &e[e_offset], lde, &b[b_offset], ldb, &c__[c_offset], &ldp, dum, &ldq, dum, &ldz, nr, &nblck, &iwork[1], tol, &iwork[*n + 1], &dwork[1], info, 1L, 1L);
-        if (*nr < nc || ! lspace)
-        {
-            if (nblck > 1)
-            {
+        tg01hx_(jobq, jobz, &nc, &nc, m, p, &nc, &lbe, &a[a_offset], lda, &e[e_offset], lde,
+            &b[b_offset], ldb, &c__[c_offset], &ldp, dum, &ldq, dum, &ldz, nr, &nblck, &iwork[1],
+            tol, &iwork[*n + 1], &dwork[1], info, 1L, 1L);
+        if (*nr < nc || !lspace) {
+            if (nblck > 1) {
                 lba = iwork[1] + iwork[2] - 1;
-            }
-            else if (nblck == 1)
-            {
+            } else if (nblck == 1) {
                 lba = iwork[1] - 1;
-            }
-            else
-            {
+            } else {
                 lba = 0;
             }
             lbe = 0;
             infred[1] = nc - *nr;
             infred[7] = nblck;
             nc = *nr;
-        }
-        else
-        {
+        } else {
             /*           Restore system matrices. */
             dlacpy_("Full", &nc, &nc, &dwork[kwa], &n1, &a[a_offset], lda, 4L);
             dlacpy_("Full", &nc, &nc, &dwork[kwe], &n1, &e[e_offset], lde, 4L);
@@ -466,12 +435,10 @@ ftnlen equil_len;
             dlacpy_("Full", p, &nc, &dwork[kwc], &p1, &c__[c_offset], ldc, 4L);
         }
     }
-    if (infcon)
-    {
+    if (infcon) {
         /*        Phase 2: Eliminate all infinite and all finite nonzero */
         /*                 uncontrolable eigenvalues. */
-        if (lspace)
-        {
+        if (lspace) {
             /*           Save system matrices. */
             dlacpy_("Full", &nc, &nc, &a[a_offset], lda, &dwork[kwa], &n1, 4L);
             dlacpy_("Full", &nc, &nc, &e[e_offset], lde, &dwork[kwe], &n1, 4L);
@@ -480,28 +447,22 @@ ftnlen equil_len;
         }
         /*        Perform infinite controllability form reduction. */
         /*        Workspace: need   MAX(N,2*M). */
-        tg01hx_(jobq, jobz, &nc, &nc, m, p, &nc, &lba, &e[e_offset], lde, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], &ldp, dum, &ldq, dum, &ldz, nr, &nblck, &iwork[1], tol, &iwork[*n + 1], &dwork[1], info, 1L, 1L);
-        if (*nr < nc || ! lspace)
-        {
-            if (nblck > 1)
-            {
+        tg01hx_(jobq, jobz, &nc, &nc, m, p, &nc, &lba, &e[e_offset], lde, &a[a_offset], lda,
+            &b[b_offset], ldb, &c__[c_offset], &ldp, dum, &ldq, dum, &ldz, nr, &nblck, &iwork[1],
+            tol, &iwork[*n + 1], &dwork[1], info, 1L, 1L);
+        if (*nr < nc || !lspace) {
+            if (nblck > 1) {
                 lbe = iwork[1] + iwork[2] - 1;
-            }
-            else if (nblck == 1)
-            {
+            } else if (nblck == 1) {
                 lbe = iwork[1] - 1;
-            }
-            else
-            {
+            } else {
                 lbe = 0;
             }
             lba = 0;
             infred[2] = nc - *nr;
             infred[7] = nblck;
             nc = *nr;
-        }
-        else
-        {
+        } else {
             /*           Restore system matrices. */
             dlacpy_("Full", &nc, &nc, &dwork[kwa], &n1, &a[a_offset], lda, 4L);
             dlacpy_("Full", &nc, &nc, &dwork[kwe], &n1, &e[e_offset], lde, 4L);
@@ -509,23 +470,21 @@ ftnlen equil_len;
             dlacpy_("Full", p, &nc, &dwork[kwc], &p1, &c__[c_offset], ldc, 4L);
         }
     }
-    if (finobs || infobs)
-    {
+    if (finobs || infobs) {
         /*        Compute the pertransposed dual system exploiting matrix shapes. */
         /* Computing MAX */
         i__2 = 0, i__3 = nc - 1;
-        i__1 = max(i__2,i__3);
-        tb01xd_("Z", &nc, m, p, &lba, &i__1, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, dum, &c__1, info, 1L);
+        i__1 = max(i__2, i__3);
+        tb01xd_("Z", &nc, m, p, &lba, &i__1, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset],
+            ldc, dum, &c__1, info, 1L);
         /* Computing MAX */
         i__2 = 0, i__3 = nc - 1;
-        i__1 = max(i__2,i__3);
+        i__1 = max(i__2, i__3);
         ma02cd_(&nc, &lbe, &i__1, &e[e_offset], lde);
     }
-    if (finobs)
-    {
+    if (finobs) {
         /*        Phase 3: Eliminate all finite unobservable eigenvalues. */
-        if (lspace)
-        {
+        if (lspace) {
             /*           Save system matrices. */
             dlacpy_("Full", &nc, &nc, &a[a_offset], lda, &dwork[kwa], &n1, 4L);
             dlacpy_("Full", &nc, &nc, &e[e_offset], lde, &dwork[kwe], &n1, 4L);
@@ -534,28 +493,22 @@ ftnlen equil_len;
         }
         /*        Perform finite observability form reduction. */
         /*        Workspace: need   MAX(N,2*P). */
-        tg01hx_(jobz, jobq, &nc, &nc, p, m, &nc, &lbe, &a[a_offset], lda, &e[e_offset], lde, &b[b_offset], ldb, &c__[c_offset], &ldm, dum, &ldz, dum, &ldq, nr, &nblck, &iwork[1], tol, &iwork[*n + 1], &dwork[1], info, 1L, 1L);
-        if (*nr < nc || ! lspace)
-        {
-            if (nblck > 1)
-            {
+        tg01hx_(jobz, jobq, &nc, &nc, p, m, &nc, &lbe, &a[a_offset], lda, &e[e_offset], lde,
+            &b[b_offset], ldb, &c__[c_offset], &ldm, dum, &ldz, dum, &ldq, nr, &nblck, &iwork[1],
+            tol, &iwork[*n + 1], &dwork[1], info, 1L, 1L);
+        if (*nr < nc || !lspace) {
+            if (nblck > 1) {
                 lba = iwork[1] + iwork[2] - 1;
-            }
-            else if (nblck == 1)
-            {
+            } else if (nblck == 1) {
                 lba = iwork[1] - 1;
-            }
-            else
-            {
+            } else {
                 lba = 0;
             }
             lbe = 0;
             infred[3] = nc - *nr;
             infred[7] = nblck;
             nc = *nr;
-        }
-        else
-        {
+        } else {
             /*           Restore system matrices. */
             dlacpy_("Full", &nc, &nc, &dwork[kwa], &n1, &a[a_offset], lda, 4L);
             dlacpy_("Full", &nc, &nc, &dwork[kwe], &n1, &e[e_offset], lde, 4L);
@@ -563,12 +516,10 @@ ftnlen equil_len;
             dlacpy_("Full", m, &nc, &dwork[kwb], &m1, &c__[c_offset], ldc, 4L);
         }
     }
-    if (infobs)
-    {
+    if (infobs) {
         /*        Phase 4: Eliminate all infinite and all finite nonzero */
         /*                 unobservable eigenvalues. */
-        if (lspace)
-        {
+        if (lspace) {
             /*           Save system matrices. */
             dlacpy_("Full", &nc, &nc, &a[a_offset], lda, &dwork[kwa], &n1, 4L);
             dlacpy_("Full", &nc, &nc, &e[e_offset], lde, &dwork[kwe], &n1, 4L);
@@ -577,28 +528,22 @@ ftnlen equil_len;
         }
         /*        Perform infinite observability form reduction. */
         /*        Workspace: need   MAX(N,2*P). */
-        tg01hx_(jobz, jobq, &nc, &nc, p, m, &nc, &lba, &e[e_offset], lde, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], &ldm, dum, &ldz, dum, &ldq, nr, &nblck, &iwork[1], tol, &iwork[*n + 1], &dwork[1], info, 1L, 1L);
-        if (*nr < nc || ! lspace)
-        {
-            if (nblck > 1)
-            {
+        tg01hx_(jobz, jobq, &nc, &nc, p, m, &nc, &lba, &e[e_offset], lde, &a[a_offset], lda,
+            &b[b_offset], ldb, &c__[c_offset], &ldm, dum, &ldz, dum, &ldq, nr, &nblck, &iwork[1],
+            tol, &iwork[*n + 1], &dwork[1], info, 1L, 1L);
+        if (*nr < nc || !lspace) {
+            if (nblck > 1) {
                 lbe = iwork[1] + iwork[2] - 1;
-            }
-            else if (nblck == 1)
-            {
+            } else if (nblck == 1) {
                 lbe = iwork[1] - 1;
-            }
-            else
-            {
+            } else {
                 lbe = 0;
             }
             lba = 0;
             infred[4] = nc - *nr;
             infred[7] = nblck;
             nc = *nr;
-        }
-        else
-        {
+        } else {
             /*           Restore system matrices. */
             dlacpy_("Full", &nc, &nc, &dwork[kwa], &n1, &a[a_offset], lda, 4L);
             dlacpy_("Full", &nc, &nc, &dwork[kwe], &n1, &e[e_offset], lde, 4L);
@@ -606,16 +551,16 @@ ftnlen equil_len;
             dlacpy_("Full", m, &nc, &dwork[kwb], &m1, &c__[c_offset], ldc, 4L);
         }
     }
-    if (finobs || infobs)
-    {
+    if (finobs || infobs) {
         /*        Compute the pertransposed dual system exploiting matrix shapes. */
         /* Computing MAX */
         i__2 = 0, i__3 = nc - 1;
-        i__1 = max(i__2,i__3);
-        tb01xd_("Z", &nc, p, m, &lba, &i__1, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, dum, &c__1, info, 1L);
+        i__1 = max(i__2, i__3);
+        tb01xd_("Z", &nc, p, m, &lba, &i__1, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset],
+            ldc, dum, &c__1, info, 1L);
         /* Computing MAX */
         i__2 = 0, i__3 = nc - 1;
-        i__1 = max(i__2,i__3);
+        i__1 = max(i__2, i__3);
         ma02cd_(&nc, &lbe, &i__1, &e[e_offset], lde);
     }
     /*     Set structural information on A and E. */
@@ -624,4 +569,3 @@ ftnlen equil_len;
     return 0;
     /* *** Last line of TG01JD *** */
 } /* tg01jd_ */
-

@@ -1,0 +1,15 @@
+
+---
+BasedOnStyle: WebKit
+AlwaysBreakAfterReturnType: All
+BreakBeforeBraces: Mozilla
+BreakConstructorInitializersBeforeComma: 'true'
+ColumnLimit: '100'
+ConstructorInitializerAllOnOneLineOrOnePerLine: 'true'
+Standard: Cpp11
+TabWidth: '4'
+UseTab: Never
+SortIncludes: 'false'
+
+...
+

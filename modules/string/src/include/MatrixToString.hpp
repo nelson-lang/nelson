@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsString_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsString_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSTRING_IMPEXP std::wstring MatrixToString(ArrayOf A, indexType precision, bool withClass);
+NLSSTRING_IMPEXP std::wstring
+MatrixToString(ArrayOf A, indexType precision, bool withClass);
 }
 //=============================================================================

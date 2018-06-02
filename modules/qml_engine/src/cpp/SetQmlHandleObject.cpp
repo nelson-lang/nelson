@@ -16,96 +16,78 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtQml/QQmlComponent>
-#include <QtGui/QQuaternion>
-#include <QtQuick/QQuickItem>
-#include <QtGui/qcolor.h>
-#include <QtGui/QVector2D>
-#include <QtGui/qmatrix4x4.h>
-#include <QtCore/qrect.h>
-#include <QtCore/qdatetime.h>
-#include <QtCore/QStringList>
 #include "SetQmlHandleObject.hpp"
 #include "Exception.hpp"
 #include "HandleGenericObject.hpp"
+#include "HandleManager.hpp"
+#include "QStringConverter.hpp"
+#include "QVariantArrayOf.hpp"
 #include "QmlHandleObject.hpp"
 #include "characters_encoding.hpp"
-#include "QStringConverter.hpp"
-#include "HandleManager.hpp"
-#include "QVariantArrayOf.hpp"
+#include <QtCore/QStringList>
+#include <QtCore/qdatetime.h>
+#include <QtCore/qrect.h>
+#include <QtGui/QQuaternion>
+#include <QtGui/QVector2D>
+#include <QtGui/qcolor.h>
+#include <QtGui/qmatrix4x4.h>
+#include <QtQml/QQmlComponent>
+#include <QtQuick/QQuickItem>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void SetQmlHandleObject(ArrayOf A, std::wstring propertyName, ArrayOf B)
-    {
-        ArrayOf res;
-        HandleGenericObject *hlObj = A.getContentAsHandleScalar();
-        if (hlObj->getCategory() != QOBJECT_CATEGORY_STR)
-        {
-            throw Exception(_W("QObject handle expected."));
-        }
-        QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
-        void *ptr = qmlhandleobj->getPointer();
-        if (ptr == nullptr)
-        {
+//=============================================================================
+void
+SetQmlHandleObject(ArrayOf A, std::wstring propertyName, ArrayOf B)
+{
+    ArrayOf res;
+    HandleGenericObject* hlObj = A.getContentAsHandleScalar();
+    if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
+        throw Exception(_W("QObject handle expected."));
+    }
+    QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
+    void* ptr = qmlhandleobj->getPointer();
+    if (ptr == nullptr) {
+        throw Exception(_W("QObject valid handle expected."));
+    }
+    QObject* qobj = (QObject*)ptr;
+    if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
+        HandleGenericObject* hlObjParent = B.getContentAsHandleScalar();
+        if (hlObjParent == nullptr) {
             throw Exception(_W("QObject valid handle expected."));
         }
-        QObject *qobj = (QObject *)ptr;
-        if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR))
-        {
-            HandleGenericObject *hlObjParent = B.getContentAsHandleScalar();
-            if (hlObjParent == nullptr)
-            {
-                throw Exception(_W("QObject valid handle expected."));
-            }
-            if (hlObjParent->getCategory() != QOBJECT_CATEGORY_STR)
-            {
-                throw Exception(_W("QObject handle expected."));
-            }
-            QmlHandleObject *qmlhandleobjparent = (QmlHandleObject *)hlObjParent;
-            void *ptr = qmlhandleobjparent->getPointer();
-            if (ptr == nullptr)
-            {
-                throw Exception(_W("QObject valid handle expected."));
-            }
-            QObject *qobjParent = (QObject *)ptr;
-            if (qobjParent == qobj)
-            {
-                throw Exception(_W("QObject parent egals to the child."));
-            }
-            qobj->setParent(qobjParent);
+        if (hlObjParent->getCategory() != QOBJECT_CATEGORY_STR) {
+            throw Exception(_W("QObject handle expected."));
         }
-        else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR))
-        {
-            throw Exception(_W("'children' can not modified."));
+        QmlHandleObject* qmlhandleobjparent = (QmlHandleObject*)hlObjParent;
+        void* ptr = qmlhandleobjparent->getPointer();
+        if (ptr == nullptr) {
+            throw Exception(_W("QObject valid handle expected."));
         }
-        else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR))
-        {
-            throw Exception(_W("'className' can not modified."));
+        QObject* qobjParent = (QObject*)ptr;
+        if (qobjParent == qobj) {
+            throw Exception(_W("QObject parent egals to the child."));
         }
-        else
-        {
-            QVariant propertyValue = qobj->property(wstring_to_utf8(propertyName).c_str());
-            if (!propertyValue.isValid())
-            {
-                QVariant v = ArrayOfToQVariant(B);
+        qobj->setParent(qobjParent);
+    } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR)) {
+        throw Exception(_W("'children' can not modified."));
+    } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR)) {
+        throw Exception(_W("'className' can not modified."));
+    } else {
+        QVariant propertyValue = qobj->property(wstring_to_utf8(propertyName).c_str());
+        if (!propertyValue.isValid()) {
+            QVariant v = ArrayOfToQVariant(B);
+            qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
+        } else {
+            QVariant::Type qtype = propertyValue.type();
+            QVariant v = ArrayOfToQVariant(B, qtype);
+            if (v.isValid()) {
                 qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
-            }
-            else
-            {
-                QVariant::Type qtype = propertyValue.type();
-                QVariant v = ArrayOfToQVariant(B, qtype);
-                if (v.isValid())
-                {
-                    qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
-                }
-                else
-                {
-                    throw Exception(_W("QVariant invalid."));
-                }
+            } else {
+                throw Exception(_W("QVariant invalid."));
             }
         }
     }
-    //=============================================================================
+}
+//=============================================================================
 }
 //=============================================================================

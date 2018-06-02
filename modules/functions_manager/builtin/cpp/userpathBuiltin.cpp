@@ -16,73 +16,53 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include "userpathBuiltin.hpp"
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FunctionsGateway::userpathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FunctionsGateway::userpathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 1)
-    {
-        if (nLhs != 0)
-        {
+    if (argIn.size() == 1) {
+        if (nLhs != 0) {
             Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         ArrayOf param1 = argIn[0];
-        if (param1.isSingleString())
-        {
+        if (param1.isSingleString()) {
             std::wstring paramstr = param1.getContentAsWideString();
-            if (paramstr == L"clear")
-            {
+            if (paramstr == L"clear") {
                 PathFuncManager::getInstance()->clearUserPath(true);
-            }
-            else if (paramstr == L"reset")
-            {
+            } else if (paramstr == L"reset") {
                 PathFuncManager::getInstance()->resetUserPath();
-            }
-            else
-            {
+            } else {
                 boost::filesystem::path data_dir(paramstr);
                 bool bRes = false;
-                try
-                {
+                try {
                     bRes = boost::filesystem::is_directory(data_dir);
-                }
-                catch (const boost::filesystem::filesystem_error& e)
-                {
-                    if (e.code() == boost::system::errc::permission_denied)
-                    {
+                } catch (const boost::filesystem::filesystem_error& e) {
+                    if (e.code() == boost::system::errc::permission_denied) {
                     }
                     bRes = false;
                 }
-                if (bRes)
-                {
+                if (bRes) {
                     PathFuncManager::getInstance()->setUserPath(paramstr, true);
-                }
-                else
-                {
+                } else {
                     Error(eval, _W("Not an existing directory:") + L" " + paramstr);
                 }
             }
-        }
-        else
-        {
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-    }
-    else
-    {
-        if (argIn.size() != 0)
-        {
+    } else {
+        if (argIn.size() != 0) {
             Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
-        if (nLhs > 1)
-        {
+        if (nLhs > 1) {
             Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         retval.push_back(ArrayOf::stringConstructor(PathFuncManager::getInstance()->getUserPath()));

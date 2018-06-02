@@ -17,141 +17,96 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "whichBuiltin.hpp"
-#include "Which.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 #include "Error.hpp"
 #include "ToCellString.hpp"
-#include "BuiltInFunctionDefManager.hpp"
+#include "Which.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if ((argIn.size() != 1) && (argIn.size() != 2))
-    {
+    if ((argIn.size() != 1) && (argIn.size() != 2)) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    else if (argIn.size() == 1)
-    {
-        if (argIn[0].isSingleString())
-        {
+    } else if (argIn.size() == 1) {
+        if (argIn[0].isSingleString()) {
             std::wstring wfunctionname = argIn[0].getContentAsWideString();
-            if (nLhs == 0)
-            {
-                Interface *io = eval->getInterface();
-                if (io)
-                {
+            if (nLhs == 0) {
+                Interface* io = eval->getInterface();
+                if (io) {
                     FuncPtr fptr = nullptr;
-                    bool found = BuiltInFunctionDefManager::getInstance()->find(wstring_to_utf8(wfunctionname), fptr);
+                    bool found = BuiltInFunctionDefManager::getInstance()->find(
+                        wstring_to_utf8(wfunctionname), fptr);
                     std::wstring path = Which(wfunctionname);
-                    if (found)
-                    {
+                    if (found) {
                         io->outputMessage(_W("built-in") + L" (" + path + L")");
-                    }
-                    else
-                    {
-                        if (path == L"")
-                        {
+                    } else {
+                        if (path == L"") {
                             io->outputMessage(L"'" + wfunctionname + L"' " + _W("not found."));
-                        }
-                        else
-                        {
+                        } else {
                             io->outputMessage(path);
                         }
                     }
                 }
-            }
-            else
-            {
+            } else {
                 retval.push_back(ArrayOf::stringConstructor(Which(wfunctionname)));
             }
-        }
-        else
-        {
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-    }
-    else
-    {
+    } else {
         // case argIn.size() == 2
         std::wstring wfunctionname;
-        if (argIn[0].isSingleString())
-        {
+        if (argIn[0].isSingleString()) {
             wfunctionname = argIn[0].getContentAsWideString();
-        }
-        else
-        {
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring wparam2;
-        if (argIn[1].isSingleString())
-        {
+        if (argIn[1].isSingleString()) {
             wparam2 = argIn[1].getContentAsWideString();
-        }
-        else
-        {
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
-        if (wparam2.compare(L"-all") == 0)
-        {
+        if (wparam2.compare(L"-all") == 0) {
             wstringVector res = WhichAll(wfunctionname);
-            if (nLhs == 0)
-            {
-                Interface *io = eval->getInterface();
-                if (io)
-                {
-                    for (size_t k = 0; k < res.size(); k++)
-                    {
-                        if (k == 0)
-                        {
+            if (nLhs == 0) {
+                Interface* io = eval->getInterface();
+                if (io) {
+                    for (size_t k = 0; k < res.size(); k++) {
+                        if (k == 0) {
                             io->outputMessage(res[k] + L"\n");
-                        }
-                        else
-                        {
+                        } else {
                             io->outputMessage(res[k] + L" % " + _W("Shadowed") + L"\n");
                         }
                     }
-                }
-                else
-                {
+                } else {
                     retval.push_back(ToCellStringAsColumn(res));
                 }
-            }
-            else
-            {
+            } else {
                 retval.push_back(ToCellStringAsColumn(res));
             }
-        }
-        else if (wparam2.compare(L"-module") == 0)
-        {
+        } else if (wparam2.compare(L"-module") == 0) {
             wstringVector res = WhichModule(wfunctionname);
-            if (nLhs == 0)
-            {
-                Interface *io = eval->getInterface();
-                if (io)
-                {
-                    for (size_t k = 0; k < res.size(); k++)
-                    {
+            if (nLhs == 0) {
+                Interface* io = eval->getInterface();
+                if (io) {
+                    for (size_t k = 0; k < res.size(); k++) {
                         io->outputMessage(res[k] + L"\n");
                     }
-                }
-                else
-                {
+                } else {
                     retval.push_back(ToCellStringAsColumn(res));
                 }
-            }
-            else
-            {
+            } else {
                 retval.push_back(ToCellStringAsColumn(res));
             }
-        }
-        else
-        {
+        } else {
             Error(eval, _W("#2 Argument must be \'-all\' or  \'-module\'."));
         }
     }

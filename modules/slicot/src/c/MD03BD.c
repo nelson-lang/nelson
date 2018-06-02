@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,21 +10,23 @@
 static integer c__2 = 2;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int md03bd_(xinit, scale, cond, fcn, qrfact, lmparm, m, n, itmax, factor, nprint, ipar, lipar, dpar1, ldpar1, dpar2, ldpar2, x, diag, nfev, njev, ftol, xtol, gtol, tol, iwork, dwork, ldwork, iwarn, info, xinit_len, scale_len, cond_len)
-char *xinit, *scale, *cond;
-/* Subroutine */ int (*fcn) (), (*qrfact) (), (*lmparm) ();
+EXPORTSYMBOL /* Subroutine */ int md03bd_(xinit, scale, cond, fcn, qrfact, lmparm, m, n, itmax,
+    factor, nprint, ipar, lipar, dpar1, ldpar1, dpar2, ldpar2, x, diag, nfev, njev, ftol, xtol,
+    gtol, tol, iwork, dwork, ldwork, iwarn, info, xinit_len, scale_len, cond_len) char *xinit,
+    *scale, *cond;
+/* Subroutine */ int (*fcn)(), (*qrfact)(), (*lmparm)();
 integer *m, *n, *itmax;
-doublereal *factor;
+doublereal* factor;
 integer *nprint, *ipar, *lipar;
-doublereal *dpar1;
-integer *ldpar1;
-doublereal *dpar2;
-integer *ldpar2;
+doublereal* dpar1;
+integer* ldpar1;
+doublereal* dpar2;
+integer* ldpar2;
 doublereal *x, *diag;
 integer *nfev, *njev;
 doublereal *ftol, *xtol, *gtol, *tol;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen xinit_len;
 ftnlen scale_len;
@@ -677,67 +679,41 @@ ftnlen cond_len;
     sscal = lsame_(scale, "S", 1L, 1L);
     *info = 0;
     *iwarn = 0;
-    if (! (init || lsame_(xinit, "G", 1L, 1L)))
-    {
+    if (!(init || lsame_(xinit, "G", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (iscal || sscal))
-    {
+    } else if (!(iscal || sscal)) {
         *info = -2;
-    }
-    else if (! (lsame_(cond, "E", 1L, 1L) || lsame_(cond, "N", 1L, 1L)))
-    {
+    } else if (!(lsame_(cond, "E", 1L, 1L) || lsame_(cond, "N", 1L, 1L))) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -7;
-    }
-    else if (*n < 0 || *n > *m)
-    {
+    } else if (*n < 0 || *n > *m) {
         *info = -8;
-    }
-    else if (*itmax < 0)
-    {
+    } else if (*itmax < 0) {
         *info = -9;
-    }
-    else if (*factor <= 0.)
-    {
+    } else if (*factor <= 0.) {
         *info = -10;
-    }
-    else if (*lipar < 5)
-    {
+    } else if (*lipar < 5) {
         *info = -13;
-    }
-    else if (*ldpar1 < 0)
-    {
+    } else if (*ldpar1 < 0) {
         *info = -15;
-    }
-    else if (*ldpar2 < 0)
-    {
+    } else if (*ldpar2 < 0) {
         *info = -17;
-    }
-    else if (*ldwork < 4)
-    {
+    } else if (*ldwork < 4) {
         *info = -28;
-    }
-    else if (sscal)
-    {
+    } else if (sscal) {
         badscl = FALSE_;
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             badscl = badscl || diag[j] <= 0.;
             /* L10: */
         }
-        if (badscl)
-        {
+        if (badscl) {
             *info = -19;
         }
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MD03BD", &i__1, 6L);
         return 0;
@@ -745,8 +721,7 @@ ftnlen cond_len;
     /*     Quick return if possible. */
     *nfev = 0;
     *njev = 0;
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 4.;
         dwork[2] = 0.;
         dwork[3] = 0.;
@@ -766,18 +741,16 @@ ftnlen cond_len;
     iw3 = ipar[3];
     jw1 = ipar[4];
     jw2 = ipar[5];
-    (*fcn)(&iflag, m, n, &ipar[1], lipar, &dpar1[1], ldpar1, &dpar2[1], ldpar2, &x[1], &nfevl, &dwork[1], &dwork[1], &ldjsav, &dwork[1], ldwork, &infol);
+    (*fcn)(&iflag, m, n, &ipar[1], lipar, &dpar1[1], ldpar1, &dpar2[1], ldpar2, &x[1], &nfevl,
+        &dwork[1], &dwork[1], &ldjsav, &dwork[1], ldwork, &infol);
     sizej = ipar[1];
     lfcn1 = ipar[2];
     lfcn2 = ipar[3];
     lqrf = ipar[4];
     llmp = ipar[5];
-    if (ldjsav > 0)
-    {
+    if (ldjsav > 0) {
         nc = sizej / ldjsav;
-    }
-    else
-    {
+    } else {
         nc = sizej;
     }
     ipar[1] = iw1;
@@ -797,14 +770,13 @@ ftnlen cond_len;
     /* Computing MAX */
     /* Computing MAX */
     /* Computing MAX */
-    i__5 = max(lfcn1,lfcn2), i__6 = *n + lqrf;
+    i__5 = max(lfcn1, lfcn2), i__6 = *n + lqrf;
     /* Computing MAX */
     i__7 = *m + lfcn1, i__8 = *n + llmp;
-    i__3 = sizej + max(i__5,i__6), i__4 = *n * nc + *n + max(i__7,i__8);
-    i__1 = 4, i__2 = *m + max(i__3,i__4);
-    l = max(i__1,i__2);
-    if (*ldwork < l)
-    {
+    i__3 = sizej + max(i__5, i__6), i__4 = *n * nc + *n + max(i__7, i__8);
+    i__1 = 4, i__2 = *m + max(i__3, i__4);
+    l = max(i__1, i__2);
+    if (*ldwork < l) {
         *info = -28;
         i__1 = -(*info);
         xerbla_("MD03BD", &i__1, 6L);
@@ -817,36 +789,30 @@ ftnlen cond_len;
     gtdef = *gtol;
     toldef = *tol;
     /* Computing MIN */
-    d__1 = min(ftdef,xtdef), d__1 = min(d__1,gtdef);
-    if (min(d__1,toldef) <= 0.)
-    {
-        if (ftdef < 0.)
-        {
+    d__1 = min(ftdef, xtdef), d__1 = min(d__1, gtdef);
+    if (min(d__1, toldef) <= 0.) {
+        if (ftdef < 0.) {
             ftdef = sqrt(epsmch);
         }
-        if (xtdef < 0.)
-        {
+        if (xtdef < 0.) {
             xtdef = sqrt(epsmch);
         }
-        if (gtdef < 0.)
-        {
+        if (gtdef < 0.) {
             gtdef = epsmch;
         }
-        if (toldef <= 0.)
-        {
-            toldef = (doublereal) (*n) * epsmch;
+        if (toldef <= 0.) {
+            toldef = (doublereal)(*n) * epsmch;
         }
     }
     wrkopt = 1;
     /*     Initialization. */
-    if (init)
-    {
+    if (init) {
         /*        SEED is the initial state of the random number generator. */
         /*        SEED(4) must be odd. */
-        seed[0] = (integer) dwork[1] % 4096;
-        seed[1] = (integer) dwork[2] % 4096;
-        seed[2] = (integer) dwork[3] % 4096;
-        seed[3] = (((integer) dwork[4] << 1) + 1) % 4096;
+        seed[0] = (integer)dwork[1] % 4096;
+        seed[1] = (integer)dwork[2] % 4096;
+        seed[2] = (integer)dwork[3] % 4096;
+        seed[3] = (((integer)dwork[4] << 1) + 1) % 4096;
         dlarnv_(&c__2, seed, n, &x[1]);
     }
     /*     Initialize Levenberg-Marquardt parameter and iteration counter. */
@@ -858,19 +824,18 @@ ftnlen cond_len;
     /*                prefer:  larger. */
     iflag = 1;
     i__1 = *ldwork - jw1 + 1;
-    (*fcn)(&iflag, m, n, &ipar[1], lipar, &dpar1[1], ldpar1, &dpar2[1], ldpar2, &x[1], &nfevl, &dwork[e], &dwork[jac], &ldj, &dwork[jw1], &i__1, &infol);
-    if (infol != 0)
-    {
+    (*fcn)(&iflag, m, n, &ipar[1], lipar, &dpar1[1], ldpar1, &dpar2[1], ldpar2, &x[1], &nfevl,
+        &dwork[e], &dwork[jac], &ldj, &dwork[jw1], &i__1, &infol);
+    if (infol != 0) {
         *info = 1;
         return 0;
     }
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jw1] + jw1 - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[jw1] + jw1 - 1;
+    wrkopt = max(i__1, i__2);
     *nfev = 1;
     fnorm = dnrm2_(m, &dwork[e], &c__1);
-    if (iflag < 0 || fnorm == 0.)
-    {
+    if (iflag < 0 || fnorm == 0.) {
         goto L90;
     }
     /*     Beginning of the outer loop. */
@@ -881,37 +846,32 @@ L20:
     ldj = ldjsav;
     iflag = 2;
     i__1 = *ldwork - jw1 + 1;
-    (*fcn)(&iflag, m, n, &ipar[1], lipar, &dpar1[1], ldpar1, &dpar2[1], ldpar2, &x[1], &nfevl, &dwork[e], &dwork[jac], &ldj, &dwork[jw1], &i__1, &infol);
-    if (infol != 0)
-    {
+    (*fcn)(&iflag, m, n, &ipar[1], lipar, &dpar1[1], ldpar1, &dpar2[1], ldpar2, &x[1], &nfevl,
+        &dwork[e], &dwork[jac], &ldj, &dwork[jw1], &i__1, &infol);
+    if (infol != 0) {
         *info = 2;
         return 0;
     }
-    if (iter == 1)
-    {
+    if (iter == 1) {
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jw1] + jw1 - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[jw1] + jw1 - 1;
+        wrkopt = max(i__1, i__2);
     }
-    if (nfevl > 0)
-    {
+    if (nfevl > 0) {
         *nfev += nfevl;
     }
     ++(*njev);
-    if (iflag < 0)
-    {
+    if (iflag < 0) {
         goto L90;
     }
     /*        If requested, call FCN to enable printing of iterates. */
-    if (*nprint > 0)
-    {
+    if (*nprint > 0) {
         iflag = 0;
-        if ((iter - 1) % *nprint == 0)
-        {
+        if ((iter - 1) % *nprint == 0) {
             i__1 = *ldwork - jw1 + 1;
-            (*fcn)(&iflag, m, n, &ipar[1], lipar, &dpar1[1], ldpar1, &dpar2[1], ldpar2, &x[1], nfev, &dwork[e], &dwork[jac], &ldj, &dwork[jw1], &i__1, &infol);
-            if (iflag < 0)
-            {
+            (*fcn)(&iflag, m, n, &ipar[1], lipar, &dpar1[1], ldpar1, &dpar2[1], ldpar2, &x[1], nfev,
+                &dwork[e], &dwork[jac], &ldj, &dwork[jw1], &i__1, &infol);
+            if (iflag < 0) {
                 goto L90;
             }
         }
@@ -920,27 +880,23 @@ L20:
     /*        Workspace: need:    M + SIZEJ + N + LQRF; */
     /*                   prefer:  larger. */
     i__1 = *ldwork - jw2 + 1;
-    (*qrfact)(n, &ipar[1], lipar, &fnorm, &dwork[jac], &ldj, &dwork[e], &dwork[jw1], &gnorm, &iwork[1], &dwork[jw2], &i__1, &infol);
-    if (infol != 0)
-    {
+    (*qrfact)(n, &ipar[1], lipar, &fnorm, &dwork[jac], &ldj, &dwork[e], &dwork[jw1], &gnorm,
+        &iwork[1], &dwork[jw2], &i__1, &infol);
+    if (infol != 0) {
         *info = 3;
         return 0;
     }
     /*        On the first iteration and if SCALE = 'I', scale according */
     /*        to the norms of the columns of the initial Jacobian. */
-    if (iter == 1)
-    {
+    if (iter == 1) {
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jw2] + jw2 - 1;
-        wrkopt = max(i__1,i__2);
-        if (iscal)
-        {
+        i__1 = wrkopt, i__2 = (integer)dwork[jw2] + jw2 - 1;
+        wrkopt = max(i__1, i__2);
+        if (iscal) {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 diag[j] = dwork[jw1 + j - 1];
-                if (diag[j] == 0.)
-                {
+                if (diag[j] == 0.) {
                     diag[j] = 1.;
                 }
                 /* L30: */
@@ -949,40 +905,32 @@ L20:
         /*           On the first iteration, calculate the norm of the scaled */
         /*           x and initialize the step bound DELTA. */
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dwork[iw1 + j - 1] = diag[j] * x[j];
             /* L40: */
         }
         xnorm = dnrm2_(n, &dwork[iw1], &c__1);
         delta = *factor * xnorm;
-        if (delta == 0.)
-        {
+        if (delta == 0.) {
             delta = *factor;
         }
-    }
-    else
-    {
+    } else {
         /*           Rescale if necessary. */
-        if (iscal)
-        {
+        if (iscal) {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 /* Computing MAX */
                 d__1 = diag[j], d__2 = dwork[jw1 + j - 1];
-                diag[j] = max(d__1,d__2);
+                diag[j] = max(d__1, d__2);
                 /* L50: */
             }
         }
     }
     /*        Test for convergence of the gradient norm. */
-    if (gnorm <= gtdef)
-    {
+    if (gnorm <= gtdef) {
         *iwarn = 4;
     }
-    if (*iwarn != 0)
-    {
+    if (*iwarn != 0) {
         goto L90;
     }
     /*        Beginning of the inner loop. */
@@ -992,23 +940,21 @@ L60:
     /*           Workspace:  need:    M + N*NC + 2*N + LLMP; */
     /*                       prefer:  larger. */
     i__1 = *ldwork - iw3 + 1;
-    (*lmparm)(cond, n, &ipar[1], lipar, &dwork[jac], &ldj, &iwork[1], &diag[1], &dwork[e], &delta, &par, &iwork[*n + 1], &dwork[iw1], &dwork[iw2], &toldef, &dwork[iw3], &i__1, &infol, 1L);
-    if (infol != 0)
-    {
+    (*lmparm)(cond, n, &ipar[1], lipar, &dwork[jac], &ldj, &iwork[1], &diag[1], &dwork[e], &delta,
+        &par, &iwork[*n + 1], &dwork[iw1], &dwork[iw2], &toldef, &dwork[iw3], &i__1, &infol, 1L);
+    if (infol != 0) {
         *info = 4;
         return 0;
     }
-    if (iter == 1)
-    {
+    if (iter == 1) {
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[iw3] + iw3 - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[iw3] + iw3 - 1;
+        wrkopt = max(i__1, i__2);
     }
     temp1 = dnrm2_(n, &dwork[iw2], &c__1) / fnorm;
     /*           Store the direction p and x - p. */
     i__1 = *n - 1;
-    for (j = 0; j <= i__1; ++j)
-    {
+    for (j = 0; j <= i__1; ++j) {
         dwork[iw2 + j] = diag[j + 1] * dwork[iw1 + j];
         dwork[iw1 + j] = x[j + 1] - dwork[iw1 + j];
         /* L70: */
@@ -1028,76 +974,62 @@ L60:
     d__2 = temp2;
     dirder = -(d__1 * d__1 + d__2 * d__2);
     /*           On the first iteration, adjust the initial step bound. */
-    if (iter == 1)
-    {
-        delta = min(delta,pnorm);
+    if (iter == 1) {
+        delta = min(delta, pnorm);
     }
     /*           Evaluate the function at x - p and calculate its norm. */
     /*           Workspace:  need:    2*M + N*NC + N + LFCN1; */
     /*                       prefer:  larger. */
     iflag = 1;
     i__1 = *ldwork - jwork + 1;
-    (*fcn)(&iflag, m, n, &ipar[1], lipar, &dpar1[1], ldpar1, &dpar2[1], ldpar2, &dwork[iw1], &nfevl, &dwork[iw2], &dwork[jac], &ldj, &dwork[jwork], &i__1, &infol);
-    if (infol != 0)
-    {
+    (*fcn)(&iflag, m, n, &ipar[1], lipar, &dpar1[1], ldpar1, &dpar2[1], ldpar2, &dwork[iw1], &nfevl,
+        &dwork[iw2], &dwork[jac], &ldj, &dwork[jwork], &i__1, &infol);
+    if (infol != 0) {
         *info = 1;
         return 0;
     }
     ++(*nfev);
-    if (iflag < 0)
-    {
+    if (iflag < 0) {
         goto L90;
     }
     fnorm1 = dnrm2_(m, &dwork[iw2], &c__1);
     /*           Compute the scaled actual reduction. */
     actred = -1.;
-    if (fnorm1 * .1 < fnorm)
-    {
+    if (fnorm1 * .1 < fnorm) {
         /* Computing 2nd power */
         d__1 = fnorm1 / fnorm;
         actred = 1. - d__1 * d__1;
     }
     /*           Compute the ratio of the actual to the predicted reduction. */
     ratio = 0.;
-    if (prered != 0.)
-    {
+    if (prered != 0.) {
         ratio = actred / prered;
     }
     /*           Update the step bound. */
-    if (ratio <= .25)
-    {
-        if (actred >= 0.)
-        {
+    if (ratio <= .25) {
+        if (actred >= 0.) {
             temp = .5;
-        }
-        else
-        {
+        } else {
             temp = dirder * .5 / (dirder + actred * .5);
         }
-        if (fnorm1 * .1 >= fnorm || temp < .1)
-        {
+        if (fnorm1 * .1 >= fnorm || temp < .1) {
             temp = .1;
         }
         /* Computing MIN */
         d__1 = delta, d__2 = pnorm / .1;
-        delta = temp * min(d__1,d__2);
+        delta = temp * min(d__1, d__2);
         par /= temp;
-    }
-    else
-    {
-        if (par == 0. || ratio >= .75)
-        {
+    } else {
+        if (par == 0. || ratio >= .75) {
             delta = pnorm / .5;
             par *= .5;
         }
     }
     /*           Test for successful iteration. */
-    if (ratio >= 1e-4)
-    {
+    if (ratio >= 1e-4) {
         /*              Successful iteration. Update x, e, and their norms. */
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             x[j] = dwork[iw1 + j - 1];
             dwork[iw1 + j - 1] = diag[j] * x[j];
             /* L80: */
@@ -1108,46 +1040,36 @@ L60:
         ++iter;
     }
     /*           Tests for convergence. */
-    if (abs(actred) <= ftdef && prered <= ftdef && ratio * .5 <= 1.)
-    {
+    if (abs(actred) <= ftdef && prered <= ftdef && ratio * .5 <= 1.) {
         *iwarn = 1;
     }
-    if (delta <= xtdef * xnorm)
-    {
+    if (delta <= xtdef * xnorm) {
         *iwarn = 2;
     }
-    if (abs(actred) <= ftdef && prered <= ftdef && ratio * .5 <= 1. && *iwarn == 2)
-    {
+    if (abs(actred) <= ftdef && prered <= ftdef && ratio * .5 <= 1. && *iwarn == 2) {
         *iwarn = 3;
     }
-    if (*iwarn != 0)
-    {
+    if (*iwarn != 0) {
         goto L90;
     }
     /*           Tests for termination and stringent tolerances. */
-    if (iter >= *itmax)
-    {
+    if (iter >= *itmax) {
         *iwarn = 5;
     }
-    if (abs(actred) <= epsmch && prered <= epsmch && ratio * .5 <= 1.)
-    {
+    if (abs(actred) <= epsmch && prered <= epsmch && ratio * .5 <= 1.) {
         *iwarn = 6;
     }
-    if (delta <= epsmch * xnorm)
-    {
+    if (delta <= epsmch * xnorm) {
         *iwarn = 7;
     }
-    if (gnorm <= epsmch)
-    {
+    if (gnorm <= epsmch) {
         *iwarn = 8;
     }
-    if (*iwarn != 0)
-    {
+    if (*iwarn != 0) {
         goto L90;
     }
     /*           End of the inner loop. Repeat if unsuccessful iteration. */
-    if (ratio < 1e-4)
-    {
+    if (ratio < 1e-4) {
         goto L60;
     }
     /*        End of the outer loop. */
@@ -1156,33 +1078,28 @@ L90:
     /*     Termination, either normal or user imposed. */
     /*     Note that DWORK(JAC) normally contains the results returned by */
     /*     QRFACT and LMPARM (the compressed R and S factors). */
-    if (iflag < 0)
-    {
+    if (iflag < 0) {
         *iwarn = iflag;
     }
-    if (*nprint > 0)
-    {
+    if (*nprint > 0) {
         iflag = 0;
         i__1 = *ldwork - jwork + 1;
-        (*fcn)(&iflag, m, n, &ipar[1], lipar, &dpar1[1], ldpar1, &dpar2[1], ldpar2, &x[1], nfev, &dwork[e], &dwork[jac], &ldj, &dwork[jwork], &i__1, &infol);
-        if (iflag < 0)
-        {
+        (*fcn)(&iflag, m, n, &ipar[1], lipar, &dpar1[1], ldpar1, &dpar2[1], ldpar2, &x[1], nfev,
+            &dwork[e], &dwork[jac], &ldj, &dwork[jwork], &i__1, &infol);
+        if (iflag < 0) {
             *iwarn = iflag;
         }
     }
-    if (*iwarn >= 0)
-    {
-        for (j = *m + *n * nc; j >= 1; --j)
-        {
+    if (*iwarn >= 0) {
+        for (j = *m + *n * nc; j >= 1; --j) {
             dwork[j + 4] = dwork[j];
             /* L100: */
         }
     }
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     dwork[2] = fnorm;
-    dwork[3] = (doublereal) iter;
+    dwork[3] = (doublereal)iter;
     dwork[4] = par;
     return 0;
     /* *** Last line of MD03BD *** */
 } /* md03bd_ */
-

@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace HelpToolsGateway {
-        ArrayOfVector markdownBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace HelpToolsGateway {
+    ArrayOfVector
+    markdownBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

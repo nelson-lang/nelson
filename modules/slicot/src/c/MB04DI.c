@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,14 +9,15 @@
 
 static doublereal c_b14 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb04di_(job, sgn, n, ilo, scale, m, v1, ldv1, v2, ldv2, info, job_len, sgn_len)
-char *job, *sgn;
+EXPORTSYMBOL /* Subroutine */ int mb04di_(
+    job, sgn, n, ilo, scale, m, v1, ldv1, v2, ldv2, info, job_len, sgn_len) char *job,
+    *sgn;
 integer *n, *ilo;
-doublereal *scale;
-integer *m;
-doublereal *v1;
-integer *ldv1;
-doublereal *v2;
+doublereal* scale;
+integer* m;
+doublereal* v1;
+integer* ldv1;
+doublereal* v2;
 integer *ldv2, *info;
 ftnlen job_len;
 ftnlen sgn_len;
@@ -133,89 +134,63 @@ ftnlen sgn_len;
     lperm = lsame_(job, "P", 1L, 1L) || lsame_(job, "B", 1L, 1L);
     lscal = lsame_(job, "S", 1L, 1L) || lsame_(job, "B", 1L, 1L);
     lsgn = lsame_(sgn, "N", 1L, 1L);
-    if (! lperm && ! lscal && ! lsame_(job, "N", 1L, 1L))
-    {
+    if (!lperm && !lscal && !lsame_(job, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! lsgn && ! lsame_(sgn, "P", 1L, 1L))
-    {
+    } else if (!lsgn && !lsame_(sgn, "P", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*ilo < 1 || *ilo > *n + 1)
-    {
+    } else if (*ilo < 1 || *ilo > *n + 1) {
         *info = -4;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -6;
-    }
-    else if (*ldv1 < max(1,*n))
-    {
+    } else if (*ldv1 < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldv2 < max(1,*n))
-    {
+    } else if (*ldv2 < max(1, *n)) {
         *info = -10;
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04DI", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *m == 0 || lsame_(job, "N", 1L, 1L))
-    {
+    if (*n == 0 || *m == 0 || lsame_(job, "N", 1L, 1L)) {
         return 0;
     }
     /*     Inverse scaling. */
-    if (lscal)
-    {
+    if (lscal) {
         i__1 = *n;
-        for (i__ = *ilo; i__ <= i__1; ++i__)
-        {
+        for (i__ = *ilo; i__ <= i__1; ++i__) {
             drscl_(m, &scale[i__], &v1[i__ + v1_dim1], ldv1);
             /* L20: */
         }
         i__1 = *n;
-        for (i__ = *ilo; i__ <= i__1; ++i__)
-        {
+        for (i__ = *ilo; i__ <= i__1; ++i__) {
             drscl_(m, &scale[i__], &v2[i__ + v2_dim1], ldv2);
             /* L30: */
         }
     }
     /*     Inverse permutation. */
-    if (lperm)
-    {
-        for (i__ = *ilo - 1; i__ >= 1; --i__)
-        {
-            k = (integer) scale[i__];
+    if (lperm) {
+        for (i__ = *ilo - 1; i__ >= 1; --i__) {
+            k = (integer)scale[i__];
             sysw = k > *n;
-            if (sysw)
-            {
+            if (sysw) {
                 k -= *n;
             }
-            if (k != i__)
-            {
+            if (k != i__) {
                 /*              Exchange rows k <-> i. */
                 dswap_(m, &v1[i__ + v1_dim1], ldv1, &v1[k + v1_dim1], ldv1);
                 dswap_(m, &v2[i__ + v2_dim1], ldv2, &v2[k + v2_dim1], ldv2);
             }
-            if (sysw)
-            {
+            if (sysw) {
                 /*              Exchange V1(k,:) <-> V2(k,:). */
                 dswap_(m, &v1[k + v1_dim1], ldv1, &v2[k + v2_dim1], ldv2);
-                if (lsgn)
-                {
+                if (lsgn) {
                     dscal_(m, &c_b14, &v2[k + v2_dim1], ldv2);
-                }
-                else
-                {
+                } else {
                     dscal_(m, &c_b14, &v1[k + v1_dim1], ldv1);
                 }
             }
@@ -225,4 +200,3 @@ ftnlen sgn_len;
     return 0;
     /* *** Last line of MB04DI *** */
 } /* mb04di_ */
-

@@ -17,47 +17,41 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "dlsym_dispBuiltin.hpp"
-#include "Error.hpp"
 #include "DynamicLinkSymbolObject.hpp"
+#include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::dlsym_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DynamicLinkGateway::dlsym_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs != 0)
-    {
+    if (nLhs != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    if (param1.isHandle())
-    {
-        Interface *io = eval->getInterface();
-        if (io)
-        {
+    if (param1.isHandle()) {
+        Interface* io = eval->getInterface();
+        if (io) {
             Dimensions dimsParam1 = param1.getDimensions();
             io->outputMessage(L"[dlsym] - size: ");
             dimsParam1.printMe(io);
             io->outputMessage("\n");
         }
-        if (param1.isScalar())
-        {
-            if (param1.getHandleCategory() != DLSYM_CATEGORY_STR)
-            {
+        if (param1.isScalar()) {
+            if (param1.getHandleCategory() != DLSYM_CATEGORY_STR) {
                 Error(eval, _W("dlsym handle expected."));
             }
-            DynamicLinkSymbolObject *dlsymObj = (DynamicLinkSymbolObject *)param1.getContentAsHandleScalar();
+            DynamicLinkSymbolObject* dlsymObj
+                = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
             dlsymObj->disp(eval);
         }
-    }
-    else
-    {
+    } else {
         Error(eval, _W("dlsym handle expected."));
     }
     return retval;

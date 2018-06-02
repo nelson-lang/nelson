@@ -18,19 +18,27 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
+//=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class FileWatcherManager {
-    public:
-        static FileWatcherManager *getInstance();
-        void addWacth(std::wstring directory);
-        void removeWatch(std::wstring directory);
-        void update();
-    private:
-        FileWatcherManager();
-        static FileWatcherManager *m_pInstance;
-        void *fileWatcher;
-    };
-    //=============================================================================
-}
+//=============================================================================
+class FileWatcherManager
+{
+public:
+    static FileWatcherManager*
+    getInstance();
+    void
+    addWacth(std::wstring directory);
+    void
+    removeWatch(std::wstring directory);
+    void
+    update();
+
+private:
+    FileWatcherManager();
+    static FileWatcherManager* m_pInstance;
+    void* fileWatcher;
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

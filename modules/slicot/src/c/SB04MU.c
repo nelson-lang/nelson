@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,15 +9,16 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int sb04mu_(n, m, ind, a, lda, b, ldb, c__, ldc, d__, ipr, info)
-integer *n, *m, *ind;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+EXPORTSYMBOL /* Subroutine */ int sb04mu_(
+    n, m, ind, a, lda, b, ldb, c__, ldc, d__, ipr, info) integer *n,
+    *m, *ind;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ipr, *info;
 {
     /* System generated locals */
@@ -121,8 +122,7 @@ integer *ipr, *info;
     /* Function Body */
     ind1 = *ind - 1;
     i__1 = *n;
-    for (i__ = *ind + 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = *ind + 1; i__ <= i__1; ++i__) {
         d__1 = -b[ind1 + i__ * b_dim1];
         daxpy_(m, &d__1, &c__[i__ * c_dim1 + 1], &c__1, &c__[ind1 * c_dim1 + 1], &c__1);
         d__1 = -b[*ind + i__ * b_dim1];
@@ -135,28 +135,22 @@ integer *ipr, *info;
     i2 = *m * (m2 + 5);
     k = m2;
     i__1 = *m;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         /* Computing MAX */
         i__2 = 1, i__3 = i__ - 1;
         i__4 = *m;
-        for (j = max(i__2,i__3); j <= i__4; ++j)
-        {
+        for (j = max(i__2, i__3); j <= i__4; ++j) {
             k1 += 2;
             k2 = k1 + k;
             temp = a[i__ + j * a_dim1];
-            if (i__ != j)
-            {
+            if (i__ != j) {
                 d__[k1] = temp;
                 d__[k1 + 1] = 0.;
-                if (j > i__)
-                {
+                if (j > i__) {
                     d__[k2] = 0.;
                 }
                 d__[k2 + 1] = temp;
-            }
-            else
-            {
+            } else {
                 d__[k1] = temp + b[ind1 + ind1 * b_dim1];
                 d__[k1 + 1] = b[ind1 + *ind * b_dim1];
                 d__[k2] = b[*ind + ind1 * b_dim1];
@@ -165,7 +159,7 @@ integer *ipr, *info;
             /* L40: */
         }
         k1 = k2;
-        k -= min(2,i__);
+        k -= min(2, i__);
         /*        Store the right hand side. */
         i2 += 2;
         d__[i2] = c__[i__ + *ind * c_dim1];
@@ -174,16 +168,12 @@ integer *ipr, *info;
     }
     /*     Solve the linear algebraic system and store the solution in C. */
     sb04mr_(&m2, &d__[1], &ipr[1], info);
-    if (*info != 0)
-    {
+    if (*info != 0) {
         *info = *ind;
-    }
-    else
-    {
+    } else {
         i2 = 0;
         i__1 = *m;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             i2 += 2;
             c__[i__ + ind1 * c_dim1] = d__[ipr[i2 - 1]];
             c__[i__ + *ind * c_dim1] = d__[ipr[i2]];
@@ -193,4 +183,3 @@ integer *ipr, *info;
     return 0;
     /* *** Last line of SB04MU *** */
 } /* sb04mu_ */
-

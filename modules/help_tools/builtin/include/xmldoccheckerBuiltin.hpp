@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace HelpToolsGateway {
-        ArrayOfVector xmldoccheckerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace HelpToolsGateway {
+    ArrayOfVector
+    xmldoccheckerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

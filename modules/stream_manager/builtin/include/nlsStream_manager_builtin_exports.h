@@ -25,6 +25,6 @@
 #define NLSSTREAM_MANAGER_BUILTIN_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSSTREAM_MANAGER_BUILTIN_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSSTREAM_MANAGER_BUILTIN_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================
