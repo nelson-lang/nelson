@@ -35,9 +35,15 @@ Nelson::SparseGateway::fullBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "full", bSuccess);
+	if (eval->overloadOnBasicTypes)
+	{
+        retval = OverloadFunction(eval, nLhs, argIn, "full", bSuccess);
+	}
     if (!bSuccess) {
         if (argIn[0].isReferenceType()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "full", bSuccess);
+            if (bSuccess)
+                return retval;
             Error(eval, _W("Undefined function 'full' for input arguments."));
         }
         ArrayOf R(argIn[0]);

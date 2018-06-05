@@ -30,10 +30,13 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     // Call overload if it exists
     if (argIn.size() >= 1) {
         bool bSuccess = false;
-        retval = OverloadFunction(eval, nLhs, argIn, "diary", bSuccess);
-        if (bSuccess) {
-            return retval;
-        }
+		if (eval->overloadOnBasicTypes)
+		{
+            retval = OverloadFunction(eval, nLhs, argIn, "diary", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+		}
     }
     Interface* io = eval->getInterface();
     if (argIn.size() == 1) {
@@ -59,7 +62,13 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 }
             }
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            bool bSuccess = false;
+            retval = OverloadFunction(eval, nLhs, argIn, "diary", bSuccess);
+			if (!bSuccess)
+			{
+                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+			}
+            return retval;
         }
     } else if (argIn.size() == 0) {
         if (nLhs != 0) {
