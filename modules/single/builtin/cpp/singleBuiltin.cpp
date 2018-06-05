@@ -20,6 +20,7 @@
 #include "Error.hpp"
 #include "ToSingle.hpp"
 #include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -30,11 +31,40 @@ Nelson::SingleGateway::singleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+    ArrayOf A(argIn[0]);
     // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "single", bSuccess);
-    if (!bSuccess) {
-        retval.push_back(ToSingle(argIn[0]));
+    switch (A.getDataClass()) {
+    case NLS_HANDLE: 
+    case NLS_CELL_ARRAY: 
+    case NLS_STRUCT_ARRAY: 
+    default:
+	{
+        retval = OverloadFunction(eval, nLhs, argIn, "single", bSuccess);
+		if (bSuccess)
+		{
+            return retval;
+		}
+        retval.push_back(ToSingle(A));
+	}
+	break;
+    case NLS_LOGICAL: 
+    case NLS_UINT8: 
+    case NLS_INT8: 
+    case NLS_UINT16: 
+    case NLS_INT16: 
+    case NLS_UINT32: 
+    case NLS_INT32: 
+    case NLS_UINT64: 
+    case NLS_INT64: 
+    case NLS_SCOMPLEX:
+    case NLS_SINGLE: 
+    case NLS_DCOMPLEX: 
+    case NLS_DOUBLE: 
+    case NLS_CHAR: 
+        retval.push_back(ToSingle(A));
+		break;
     }
     return retval;
 }
