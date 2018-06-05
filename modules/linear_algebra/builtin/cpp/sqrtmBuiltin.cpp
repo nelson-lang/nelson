@@ -36,11 +36,19 @@ Nelson::LinearAlgebraGateway::sqrtmBuiltin(Evaluator* eval, int nLhs, const Arra
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "sqrtm", bSuccess);
+	if (eval->overloadOnBasicTypes)
+	{
+        retval = OverloadFunction(eval, nLhs, argIn, "sqrtm", bSuccess);
+	}
     if (!bSuccess) {
         if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
             || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
             || argIn[0].isLogical() || argIn[0].isString() || argIn[0].isIntegerType()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "sqrtm", bSuccess);
+			if (bSuccess)
+			{
+                return retval;
+			}
             OverloadRequired(eval, argIn, Nelson::FUNCTION);
         }
         retval.push_back(SqrtMatrix(argIn[0]));

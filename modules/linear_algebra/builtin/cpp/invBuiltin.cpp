@@ -36,11 +36,19 @@ Nelson::LinearAlgebraGateway::invBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "inv", bSuccess);
+	if (eval->overloadOnBasicTypes)
+	{
+        retval = OverloadFunction(eval, nLhs, argIn, "inv", bSuccess);
+	}
     if (!bSuccess) {
         if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
             || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
             || argIn[0].isLogical() || argIn[0].isString() || argIn[0].isIntegerType()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "inv", bSuccess);
+			if (bSuccess)
+			{
+                return retval;
+			}
             OverloadRequired(eval, argIn, Nelson::FUNCTION);
         }
         retval.push_back(InverseMatrix(argIn[0]));

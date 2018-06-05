@@ -36,11 +36,19 @@ Nelson::LinearAlgebraGateway::logmBuiltin(Evaluator* eval, int nLhs, const Array
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "logm", bSuccess);
+	if (eval->overloadOnBasicTypes)
+	{
+        retval = OverloadFunction(eval, nLhs, argIn, "logm", bSuccess);
+	}
     if (!bSuccess) {
         if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
             || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
             || argIn[0].isLogical() || argIn[0].isString() || argIn[0].isIntegerType()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "logm", bSuccess);
+			if (bSuccess)
+			{
+                return retval;
+			}
             OverloadRequired(eval, argIn, Nelson::FUNCTION);
         }
         retval.push_back(LogMatrix(argIn[0]));
