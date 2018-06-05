@@ -35,7 +35,9 @@ Nelson::StringGateway::mat2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "mat2str", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "mat2str", bSuccess);
+    }
     if (!bSuccess) {
         indexType defautPrecision = 15;
         bool withClass = false;
@@ -76,7 +78,23 @@ Nelson::StringGateway::mat2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             defautPrecision = 15;
             withClass = false;
         }
-        std::wstring res = MatrixToString(argIn[0], defautPrecision, withClass);
+        ArrayOf A = argIn[0];
+        bool canBeConvert = A.isNumeric() || A.isLogical() || A.isString();
+        if (!canBeConvert) {
+            retval = OverloadFunction(eval, nLhs, argIn, "mat2str", bSuccess);
+            if (!bSuccess) {
+                Error(eval, _W("An numeric matrix expected."));
+            }
+            return retval;
+        }
+        if (A.isSparse()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "mat2str", bSuccess);
+            if (!bSuccess) {
+                Error(eval, ERROR_TYPE_NOT_SUPPORTED);
+            }
+            return retval;
+        }
+        std::wstring res = MatrixToString(A, defautPrecision, withClass);
         retval.push_back(ArrayOf::stringConstructor(res));
     }
     return retval;

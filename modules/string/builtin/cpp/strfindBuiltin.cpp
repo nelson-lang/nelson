@@ -55,8 +55,17 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     ArrayOf B = argIn[1];
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "strfind", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "strfind", bSuccess);
+    }
     if (!bSuccess) {
+        if (!(A.isSingleString() || A.isCell() || A.isNumeric())) {
+            retval = OverloadFunction(eval, nLhs, argIn, "strfind", bSuccess);
+            if (!bSuccess) {
+                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+            }
+            return retval;
+        }
         if (A.isSingleString() || A.isCell() || A.isNumeric()) {
             if (B.isSingleString() || B.isNumeric()) {
                 if (A.isSingleString()) {

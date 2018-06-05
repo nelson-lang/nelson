@@ -181,7 +181,7 @@ ref = _('A cell expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = strrep(3i,''str'',''str'');';
-ref = _('A cell expected.');
+ref = _('Wrong type for argument #1: string or cell expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = strrep(''str'',''str'',3i);';
@@ -197,7 +197,7 @@ ref = _('Same size expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = strrep({{''bbb''},''ccabbba''},{''cc'',''bb''},{{''cc'',''e'',''ddd''},''str''});';
-ref = _('A cell of string expected.');
+ref = _('Wrong type for argument #1: string or cell expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = strrep(''ccabbba'',{''cc'',{},''bb''},{{''cc'',''e'',''ddd''}})';

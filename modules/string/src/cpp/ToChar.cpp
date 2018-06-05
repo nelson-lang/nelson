@@ -16,10 +16,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/container/vector.hpp>
 #include "ToChar.hpp"
 #include "IEEEFP.hpp"
+#include "IsCellOfStrings.hpp"
 #include "VertCat.hpp"
+#include <boost/container/vector.hpp>
 //=============================================================================
 namespace Nelson {
 static ArrayOf
@@ -125,61 +126,22 @@ ArrayOf
 ToChar(ArrayOf A)
 {
     ArrayOf res;
-    if (A.isSparse()) {
-        throw Exception(_W("Attempt to convert to unimplemented sparse type."));
-    }
     switch (A.getDataClass()) {
-    case NLS_HANDLE: {
-        throw Exception(_W("Conversion to char from handle is not possible."));
-    } break;
     case NLS_CELL_ARRAY: {
-        bool isCellOfString = true;
+        ArrayOfVector V;
         ArrayOf* arg = (ArrayOf*)(A.getDataPointer());
         for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-            if (!arg[k].isString()) {
-                isCellOfString = false;
-                break;
-            }
+            V.push_back(ToChar(arg[k]));
         }
-        if (isCellOfString) {
-            ArrayOfVector V;
-            ArrayOf* arg = (ArrayOf*)(A.getDataPointer());
-            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-                V.push_back(ToChar(arg[k]));
-            }
-            res = V[0];
-            for (indexType k = 1; k < V.size(); k++) {
-                res = ToChar(res, V[k]);
-            }
-        } else {
-            throw Exception(
-                _W("Conversion to char from cell is possible only with cell of strings."));
+        res = V[0];
+        for (indexType k = 1; k < V.size(); k++) {
+            res = ToChar(res, V[k]);
         }
-    } break;
-    case NLS_STRUCT_ARRAY: {
-        if (A.getStructType() != "struct") {
-            throw Exception(_("Undefined function 'char' for input arguments of type") + " '"
-                + A.getStructType() + "'.");
-        } else {
-            throw Exception(_W("Conversion to char from struct is not possible."));
-        }
-    } break;
-    case NLS_LOGICAL: {
-        throw Exception(_W("Conversion to char from logical is not possible."));
-    } break;
-    case NLS_SCOMPLEX: {
-        throw Exception(_W("Conversion to char from complex is not possible."));
     } break;
     case NLS_CHAR: {
-        if (A.isSparse()) {
-            throw Exception(_W("Attempt to convert to unimplemented sparse type."));
-        } else {
-            ArrayOf result = A;
-            return result;
-        }
-    } break;
-    case NLS_DCOMPLEX: {
-        throw Exception(_W("Conversion to char from complex is not possible."));
+        ArrayOf R(A);
+        R.ensureSingleOwner();
+        return R;
     } break;
     case NLS_UINT8:
     case NLS_INT8:
@@ -193,6 +155,10 @@ ToChar(ArrayOf A)
     case NLS_DOUBLE: {
         A.promoteType(NLS_DOUBLE);
         res = ArrayOfDoubleToChar(A);
+    } break;
+    case NLS_SCOMPLEX:
+    case NLS_DCOMPLEX: {
+        throw Exception(_W("Conversion to char from complex is not possible."));
     } break;
     default: {
         throw Exception(_W("Invalid conversion."));
@@ -229,5 +195,5 @@ ToChar(wstringVector V, boost::container::vector<Dimensions> dimsVector, Dimensi
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -20,6 +20,7 @@
 #include "Error.hpp"
 #include "StringReplace.hpp"
 #include "OverloadFunction.hpp"
+#include "IsCellOfStrings.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -35,9 +36,18 @@ Nelson::StringGateway::strrepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "strrep", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "strrep", bSuccess);
+    }
     if (!bSuccess) {
-        retval.push_back(StringReplace(argIn[0], argIn[1], argIn[2], true));
+        if (argIn[0].isString() || IsCellOfString(argIn[0])) {
+            retval.push_back(StringReplace(argIn[0], argIn[1], argIn[2], true));
+        } else {
+            retval = OverloadFunction(eval, nLhs, argIn, "strrep", bSuccess);
+            if (!bSuccess) {
+                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+            }
+        }
     }
     return retval;
 }

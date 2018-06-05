@@ -21,6 +21,7 @@
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
 #include "StringFormat.hpp"
+#include "IsCellOfStrings.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -36,22 +37,31 @@ Nelson::StringGateway::startsWithBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "startsWith", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "startsWith", bSuccess);
+    }
     if (!bSuccess) {
         bool bCaseSensitive = true;
         ArrayOf A = argIn[0];
         ArrayOf B = argIn[1];
-        if (argIn.size() == 4) {
-            ArrayOf param3 = argIn[2];
-            std::wstring fieldname = param3.getContentAsWideString();
-            if (fieldname != L"IgnoreCase") {
-                Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_VALUE.c_str(), 3));
+        if (A.isString() || IsCellOfString(A)) {
+            if (argIn.size() == 4) {
+                ArrayOf param3 = argIn[2];
+                std::wstring fieldname = param3.getContentAsWideString();
+                if (fieldname != L"IgnoreCase") {
+                    Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_VALUE.c_str(), 3));
+                }
+                ArrayOf param4 = argIn[3];
+                logical fieldvalue = param4.getContentAsLogicalScalar();
+                bCaseSensitive = (fieldvalue == 0);
             }
-            ArrayOf param4 = argIn[3];
-            logical fieldvalue = param4.getContentAsLogicalScalar();
-            bCaseSensitive = (fieldvalue == 0);
+            retval.push_back(StringStartsWith(A, B, bCaseSensitive));
+        } else {
+            retval = OverloadFunction(eval, nLhs, argIn, "startsWith", bSuccess);
+            if (!bSuccess) {
+                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+            }
         }
-        retval.push_back(StringStartsWith(A, B, bCaseSensitive));
     }
     return retval;
 }

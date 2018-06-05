@@ -20,6 +20,7 @@
 #include "Error.hpp"
 #include "StringLength.hpp"
 #include "OverloadFunction.hpp"
+#include "IsCellOfStrings.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -35,9 +36,19 @@ Nelson::StringGateway::strlengthBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "strlength", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "strlength", bSuccess);
+    }
     if (!bSuccess) {
-        retval.push_back(StringLength(argIn[0]));
+        ArrayOf param = argIn[0];
+        if (IsCellOfString(param) || param.isString()) {
+            retval.push_back(StringLength(argIn[0]));
+        } else {
+            retval = OverloadFunction(eval, nLhs, argIn, "strlength", bSuccess);
+            if (!bSuccess) {
+                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+            }
+        }
     }
     return retval;
 }

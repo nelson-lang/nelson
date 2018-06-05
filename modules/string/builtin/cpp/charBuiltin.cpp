@@ -17,9 +17,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "charBuiltin.hpp"
+#include "ClassName.hpp"
 #include "Error.hpp"
-#include "ToChar.hpp"
+#include "IsCellOfStrings.hpp"
 #include "OverloadFunction.hpp"
+#include "ToChar.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -35,19 +37,79 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "char", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "char", bSuccess);
+    }
     if (!bSuccess) {
-        Dimensions dims;
-        if (argIn.size() == 2) {
-            retval.push_back(ToChar(argIn[0], argIn[1]));
-        } else if (argIn.size() == 1) {
-            retval.push_back(ToChar(argIn[0]));
-        } else {
-            ArrayOf res = argIn[0];
-            for (size_t k = 1; k < argIn.size(); ++k) {
-                res = ToChar(res, argIn[k]);
+        if (argIn[0].isSparse()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "char", bSuccess);
+            if (!bSuccess) {
+                Error(eval, _W("Attempt to convert to unimplemented sparse type."));
             }
-            retval.push_back(res);
+            return retval;
+        }
+        switch (argIn[0].getDataClass()) {
+        case NLS_CHAR: {
+            if (argIn.size() == 2) {
+                retval.push_back(ToChar(argIn[0], argIn[1]));
+            } else if (argIn.size() == 1) {
+                retval.push_back(ToChar(argIn[0]));
+            } else {
+                ArrayOf res = argIn[0];
+                for (size_t k = 1; k < argIn.size(); ++k) {
+                    res = ToChar(res, argIn[k]);
+                }
+                retval.push_back(res);
+            }
+        } break;
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX: {
+            Error(eval, _W("Conversion to char from complex is not possible."));
+        } break;
+        default:
+        case NLS_STRUCT_ARRAY:
+        case NLS_LOGICAL:
+        case NLS_HANDLE: {
+            retval = OverloadFunction(eval, nLhs, argIn, "char", bSuccess);
+            if (!bSuccess) {
+                Error(eval,
+                    _("Undefined function 'char' for input arguments of type") + " '"
+                        + ClassName(argIn[0]) + "'.");
+            }
+        } break;
+        case NLS_CELL_ARRAY: {
+            if (!IsCellOfString(argIn[0])) {
+                retval = OverloadFunction(eval, nLhs, argIn, "char", bSuccess);
+                if (!bSuccess) {
+                    Error(eval,
+                        _("Undefined function 'char' for input arguments of type") + " '"
+                            + ClassName(argIn[0]) + "'.");
+                }
+            }
+        }
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_SINGLE:
+        case NLS_DOUBLE: {
+            Dimensions dims;
+            if (argIn.size() == 2) {
+                retval.push_back(ToChar(argIn[0], argIn[1]));
+            } else if (argIn.size() == 1) {
+                retval.push_back(ToChar(argIn[0]));
+            } else {
+                ArrayOf res = argIn[0];
+                for (size_t k = 1; k < argIn.size(); ++k) {
+                    res = ToChar(res, argIn[k]);
+                }
+                retval.push_back(res);
+            }
+        } break;
         }
     }
     return retval;

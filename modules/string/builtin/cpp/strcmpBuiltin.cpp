@@ -18,8 +18,8 @@
 //=============================================================================
 #include "strcmpBuiltin.hpp"
 #include "Error.hpp"
-#include "StringCompare.hpp"
 #include "OverloadFunction.hpp"
+#include "StringCompare.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -35,10 +35,12 @@ strcmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool bCaseS
     }
     // Call overload if it exists
     bool bSuccess = false;
-    if (bCaseSensitive) {
-        retval = OverloadFunction(eval, nLhs, argIn, "strcmp", bSuccess);
-    } else {
-        retval = OverloadFunction(eval, nLhs, argIn, "strcmpi", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        if (bCaseSensitive) {
+            retval = OverloadFunction(eval, nLhs, argIn, "strcmp", bSuccess);
+        } else {
+            retval = OverloadFunction(eval, nLhs, argIn, "strcmpi", bSuccess);
+        }
     }
     if (!bSuccess) {
         ArrayOf A = argIn[0];

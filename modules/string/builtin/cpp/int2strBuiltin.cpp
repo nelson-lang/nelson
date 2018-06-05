@@ -88,7 +88,9 @@ Nelson::StringGateway::int2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "int2str", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "int2str", bSuccess);
+    }
     if (!bSuccess) {
         wstringVector result;
         std::wstring error_message;
@@ -96,7 +98,10 @@ Nelson::StringGateway::int2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         if (bRes) {
             retval.push_back(StringVectorToString(result, argIn[0].getDimensions()));
         } else {
-            Error(eval, error_message);
+            retval = OverloadFunction(eval, nLhs, argIn, "int2str", bSuccess);
+            if (!bSuccess) {
+                Error(eval, error_message);
+            }
         }
     }
     return retval;

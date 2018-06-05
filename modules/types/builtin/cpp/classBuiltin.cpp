@@ -32,7 +32,7 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     }
     if (argIn.size() == 1) {
         bool bSuccess = false;
-		if (eval->overloadOnBasicTypes) {
+        if (eval->overloadOnBasicTypes) {
             retval = OverloadFunction(eval, nLhs, argIn, "class", bSuccess);
         }
         if (!bSuccess) {

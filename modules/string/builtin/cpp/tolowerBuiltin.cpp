@@ -20,6 +20,7 @@
 #include "Error.hpp"
 #include "ToLower.hpp"
 #include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -36,9 +37,18 @@ Nelson::StringGateway::tolowerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     ArrayOf A = argIn[0];
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "tolower", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "tolower", bSuccess);
+    }
     if (!bSuccess) {
-        retval.push_back(ToLower(eval, argIn[0]));
+        if (A.isString() || A.isCell()) {
+            retval.push_back(ToLower(eval, A));
+        } else {
+            retval = OverloadFunction(eval, nLhs, argIn, "tolower", bSuccess);
+            if (!bSuccess) {
+                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+            }
+        }
     }
     return retval;
 }

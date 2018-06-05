@@ -145,17 +145,17 @@ REF = ['Hello  ';
 assert_isequal(R, REF);
 //=============================================================================
 assert_checkerror('char()', _('Wrong number of input arguments.'));
-assert_checkerror('char(true)',_('Conversion to char from logical is not possible.'));
+assert_checkerror('char(true)', [_('Undefined function ''char'' for input arguments of type '''), class(true), '''.']);
 assert_checkerror('char([65i, 65])', _('Conversion to char from complex is not possible.'));
 //=============================================================================
 assert_checkerror('R = char([65, 66, 67], i)', _('Conversion to char from complex is not possible.'));
-assert_checkerror('char({''test'', [115, 101, 116]})', _('Conversion to char from cell is possible only with cell of strings.'));
+assert_checkerror('char({''test'', [115, 101, 116]})', [_('Undefined function ''char'' for input arguments of type '''), class({'test', [115, 101, 116]}), '''.']);
 //=============================================================================
-assert_checkerror('char({''of'', ''strings''; ''in'', 97})', _('Conversion to char from cell is possible only with cell of strings.'));
-assert_checkerror('char({{''test''}})', _('Conversion to char from cell is possible only with cell of strings.'));
-assert_checkerror('char({{''test'', {}, ''string''}})', _('Conversion to char from cell is possible only with cell of strings.'));
-assert_checkerror('char({''test'', {}, ''string''})', _('Conversion to char from cell is possible only with cell of strings.'));
+assert_checkerror('char({''of'', ''strings''; ''in'', 97})',  [_('Undefined function ''char'' for input arguments of type '''), class({'test', [115, 101, 116]}), '''.']);
+assert_checkerror('char({{''test''}})', [_('Undefined function ''char'' for input arguments of type '''), class({{'test'}}), '''.']);
+assert_checkerror('char({{''test'', {}, ''string''}})', [_('Undefined function ''char'' for input arguments of type '''), class({}), '''.']);
+assert_checkerror('char({''test'', {}, ''string''})', [_('Undefined function ''char'' for input arguments of type '''), class({}), '''.']);
 //=============================================================================
-assert_checkerror('char({''test'', 256, ''test2''})', _('Conversion to char from cell is possible only with cell of strings.'));
-assert_checkerror('char({''test'', [115, 101.1, 115.5], {''of'', ''in''; ''strings'', 96.9}, [99, 101; 108, 108], 97}, 114, [114; 97], ''y'')', _('Conversion to char from cell is possible only with cell of strings.'));
+assert_checkerror('char({''test'', 256, ''test2''})', [_('Undefined function ''char'' for input arguments of type '''), class({}), '''.']);
+assert_checkerror('char({''test'', [115, 101.1, 115.5], {''of'', ''in''; ''strings'', 96.9}, [99, 101; 108, 108], 97}, 114, [114; 97], ''y'')', [_('Undefined function ''char'' for input arguments of type '''), class({}), '''.']);
 //=============================================================================

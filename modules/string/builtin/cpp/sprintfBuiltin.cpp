@@ -34,11 +34,17 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "sprintf", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "sprintf", bSuccess);
+    }
     if (!bSuccess) {
         ArrayOf param1 = argIn[0];
         if (!param1.isString()) {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            retval = OverloadFunction(eval, nLhs, argIn, "sprintf", bSuccess);
+            if (!bSuccess) {
+                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            }
+            return retval;
         }
         if (!param1.isVector()) {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
