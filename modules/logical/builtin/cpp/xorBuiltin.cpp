@@ -35,8 +35,17 @@ Nelson::LogicalGateway::xorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "xor", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "xor", bSuccess);
+    }
     if (!bSuccess) {
+        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "xor", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
         ArrayOf A = argIn[0];
         ArrayOf B = argIn[1];
         A.promoteType(NLS_LOGICAL);

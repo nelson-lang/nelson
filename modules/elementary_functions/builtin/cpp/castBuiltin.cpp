@@ -36,7 +36,9 @@ Nelson::ElementaryFunctionsGateway::castBuiltin(
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "cast", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "cast", bSuccess);
+    }
     if (!bSuccess) {
         bool isSparse = false;
         Class destinationClass;

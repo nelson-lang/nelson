@@ -35,8 +35,17 @@ Nelson::ElementaryFunctionsGateway::modBuiltin(
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "mod", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "mod", bSuccess);
+    }
     if (!bSuccess) {
+        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "mod", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
         retval.push_back(Modulo(argIn[0], argIn[1]));
     }
     return retval;

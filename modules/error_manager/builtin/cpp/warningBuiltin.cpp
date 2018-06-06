@@ -32,8 +32,17 @@ Nelson::ErrorManagerGateway::warningBuiltin(Evaluator* eval, int nLhs, const Arr
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "warning", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "warning", bSuccess);
+    }
     if (!bSuccess) {
+        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "warning", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
         std::wstring msg = argIn[0].getContentAsWideString();
         Warning(eval, msg);
     }

@@ -33,13 +33,19 @@ Nelson::DataStructuresGateway::fieldnamesBuiltin(
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "fieldnames", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "fieldnames", bSuccess);
+    }
     if (!bSuccess) {
         if (argIn.size() != 1) {
             Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
         ArrayOf arg1 = argIn[0];
-        if (arg1.isClassStruct()) {
+        if (arg1.isClassStruct() || arg1.isHandle()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "fieldnames", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
             Error(
                 eval, utf8_to_wstring(arg1.getStructType()) + L"_fieldnames " + _W("not defined."));
         } else {
@@ -54,6 +60,10 @@ Nelson::DataStructuresGateway::fieldnamesBuiltin(
                     retval.push_back(ToCellStringAsColumn(fieldnames));
                 }
             } else {
+                retval = OverloadFunction(eval, nLhs, argIn, "fieldnames", bSuccess);
+                if (bSuccess) {
+                    return retval;
+                }
                 Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
             }
         }

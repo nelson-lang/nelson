@@ -35,8 +35,17 @@ Nelson::ElementaryFunctionsGateway::isinfBuiltin(
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "isinf", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "isinf", bSuccess);
+    }
     if (!bSuccess) {
+        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "isinf", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
         retval.push_back(IsInf(argIn[0]));
     }
     return retval;

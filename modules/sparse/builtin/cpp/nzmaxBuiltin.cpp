@@ -35,10 +35,9 @@ Nelson::SparseGateway::nzmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     }
     // Call overload if it exists
     bool bSuccess = false;
-	if (eval->overloadOnBasicTypes)
-	{
+    if (eval->overloadOnBasicTypes) {
         retval = OverloadFunction(eval, nLhs, argIn, "nzmax", bSuccess);
-	}
+    }
     if (!bSuccess) {
         ArrayOf R(argIn[0]);
         switch (R.getDataClass()) {
@@ -78,7 +77,7 @@ Nelson::SparseGateway::nzmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             }
         }
         return retval;
-	}
+    }
     if (!bSuccess) {
         ArrayOf R(argIn[0]);
         retval.push_back(ArrayOf::doubleConstructor((double)R.nzmax()));

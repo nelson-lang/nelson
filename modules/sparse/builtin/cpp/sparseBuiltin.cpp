@@ -32,10 +32,9 @@ sparseBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     // Call overload if it exists
     bool bSuccess = false;
-	if (eval->overloadOnBasicTypes)
-	{
+    if (eval->overloadOnBasicTypes) {
         retval = OverloadFunction(eval, nLhs, argIn, "sparse", bSuccess);
-	}
+    }
     if (!bSuccess) {
         ArrayOf A(argIn[0]);
         if (A.isSparse()

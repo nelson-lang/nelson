@@ -33,11 +33,19 @@ Nelson::DataStructuresGateway::isfieldBuiltin(Evaluator* eval, int nLhs, const A
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "isfield", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "isfield", bSuccess);
+    }
     if (!bSuccess) {
         ArrayOf param1 = argIn[0];
         ArrayOf param2 = argIn[1];
-        if (param1.isStruct() && !param1.isClassStruct()) {
+        if (param1.isClassStruct() || param1.isHandle()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "isfield", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
+        if (param1.isStruct()) {
             if (param2.isSingleString()) {
                 stringVector fieldnames = param1.getFieldNames();
                 std::string name = param2.getContentAsCString();

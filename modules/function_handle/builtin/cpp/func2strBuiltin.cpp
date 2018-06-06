@@ -37,7 +37,9 @@ Nelson::FunctionHandleGateway::func2strBuiltin(
     }
     ArrayOf arg1 = argIn[0];
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "func2str", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "func2str", bSuccess);
+    }
     if (!bSuccess) {
         if (arg1.isFunctionHandle()) {
             function_handle fh = arg1.getContentAsFunctionHandle();
@@ -52,6 +54,10 @@ Nelson::FunctionHandleGateway::func2strBuiltin(
                 Error(eval, _W("#1 Argument must contain a valid function_handle."));
             }
         } else {
+            retval = OverloadFunction(eval, nLhs, argIn, "func2str", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
         }
     }

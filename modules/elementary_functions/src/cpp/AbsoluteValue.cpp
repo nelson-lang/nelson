@@ -27,10 +27,6 @@ ArrayOf
 AbsoluteValue(ArrayOf arrayIn)
 {
     ArrayOf res;
-    if (arrayIn.isSparse()) {
-        throw Exception(
-            _W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_abs'");
-    }
     switch (arrayIn.getDataClass()) {
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:

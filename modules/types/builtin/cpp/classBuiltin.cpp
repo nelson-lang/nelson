@@ -36,6 +36,12 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             retval = OverloadFunction(eval, nLhs, argIn, "class", bSuccess);
         }
         if (!bSuccess) {
+            if (argIn[0].isClassStruct() || argIn[0].isHandle()) {
+                retval = OverloadFunction(eval, nLhs, argIn, "class", bSuccess);
+                if (bSuccess) {
+                    return retval;
+                }
+            }
             std::string str = ClassName(argIn[0]);
             retval.push_back(ArrayOf::stringConstructor(str));
         }

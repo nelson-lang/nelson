@@ -21,8 +21,8 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-bool
-ArrayOf::isCell()
+const bool
+ArrayOf::isCell() const
 {
     return (this->getDataClass() == NLS_CELL_ARRAY);
 }

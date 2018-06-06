@@ -35,8 +35,17 @@ Nelson::JsonGateway::jsonprettyprintBuiltin(Evaluator* eval, int nLhs, const Arr
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "jsonprettyprint", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "jsonprettyprint", bSuccess);
+    }
     if (!bSuccess) {
+        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "jsonprettyprint", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
         ArrayOf param1 = argIn[0];
         std::wstring jsonString = param1.getContentAsWideString();
         ArrayOf res = jsonPrettyPrint(jsonString);

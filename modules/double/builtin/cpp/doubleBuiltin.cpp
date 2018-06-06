@@ -18,8 +18,8 @@
 //=============================================================================
 #include "doubleBuiltin.hpp"
 #include "Error.hpp"
-#include "ToDouble.hpp"
 #include "OverloadFunction.hpp"
+#include "ToDouble.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,9 +32,43 @@ Nelson::DoubleGateway::doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "double", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "double", bSuccess);
+    }
     if (!bSuccess) {
-        retval.push_back(ToDouble(argIn[0]));
+        switch (argIn[0].getDataClass()) {
+
+        case NLS_HANDLE: {
+            retval = OverloadFunction(eval, nLhs, argIn, "double", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+            Error(eval, _W("Conversion to double from handle is not possible."));
+        } break;
+        case NLS_CELL_ARRAY: {
+            retval = OverloadFunction(eval, nLhs, argIn, "double", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+            Error(eval, _W("Conversion to double from cell is not possible."));
+        } break;
+        case NLS_STRUCT_ARRAY: {
+            retval = OverloadFunction(eval, nLhs, argIn, "double", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+            if (argIn[0].getStructType() != "struct") {
+                Error(eval,
+                    _("Undefined function 'double' for input arguments of type '")
+                        + argIn[0].getStructType() + "'.");
+            } else {
+                Error(eval, _W("Conversion to double from struct is not possible."));
+            }
+        } break;
+        default:
+            retval.push_back(ToDouble(argIn[0]));
+            break;
+        }
     }
     return retval;
 }

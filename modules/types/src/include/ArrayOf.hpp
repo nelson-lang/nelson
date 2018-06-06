@@ -1075,8 +1075,8 @@ public:
     indexType
     numel();
 
-    bool
-    isCell();
+    const bool
+    isCell() const;
 
     const bool
     isStruct() const;

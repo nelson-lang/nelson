@@ -35,8 +35,17 @@ Nelson::LogicalGateway::logicalBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "logical", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "logical", bSuccess);
+    }
     if (!bSuccess) {
+        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "logical", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
         retval.push_back(ToLogical(argIn[0]));
     }
     return retval;

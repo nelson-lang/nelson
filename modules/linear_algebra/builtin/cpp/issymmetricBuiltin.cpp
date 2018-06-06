@@ -62,14 +62,13 @@ Nelson::LinearAlgebraGateway::issymmetricBuiltin(
     }
     // Call overload if it exists
     bool bSuccess = false;
-	if (eval->overloadOnBasicTypes)
-	{
+    if (eval->overloadOnBasicTypes) {
         retval = OverloadFunction(eval, nLhs, argIn, "issymmetric", bSuccess);
-	}
+    }
     if (!bSuccess) {
         if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
             || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
-            || argIn[0].isLogical() || argIn[0].isString()) {
+            || argIn[0].isLogical() || argIn[0].isString() || argIn[0].isHandle()) {
             retval = OverloadFunction(eval, nLhs, argIn, "issymmetric", bSuccess);
             if (bSuccess) {
                 return retval;

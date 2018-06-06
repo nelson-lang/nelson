@@ -36,8 +36,17 @@ Nelson::ElementaryFunctionsGateway::lengthBuiltin(
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "length", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "length", bSuccess);
+    }
     if (!bSuccess) {
+        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "length", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
         ArrayOf param1 = argIn[0];
         if (param1.isClassStruct()) {
             Error(eval,

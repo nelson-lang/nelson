@@ -39,8 +39,17 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "repmat", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "repmat", bSuccess);
+    }
     if (!bSuccess) {
+        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "repmat", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
         Dimensions repcount;
         ArrayOf x = argIn[0];
         Class classx = x.getDataClass();

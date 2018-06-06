@@ -17,8 +17,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "absBuiltin.hpp"
-#include "Error.hpp"
 #include "AbsoluteValue.hpp"
+#include "ClassName.hpp"
+#include "Error.hpp"
 #include "OverloadFunction.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -35,8 +36,24 @@ Nelson::ElementaryFunctionsGateway::absBuiltin(
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "abs", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "abs", bSuccess);
+    }
     if (!bSuccess) {
+        if (argIn[0].isSparse()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "abs", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+            Error(eval, _("Undefined function '") + ClassName(argIn[0]) + "_abs'");
+        }
+        if (argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "fix", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
         retval.push_back(AbsoluteValue(argIn[0]));
     }
     return retval;

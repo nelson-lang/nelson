@@ -36,9 +36,15 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(
     }
     ArrayOf param1 = argIn[0];
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "ndims", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "ndims", bSuccess);
+    }
     if (!bSuccess) {
         if (param1.isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "ndims", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
             Error(eval,
                 _("Undefined function 'ndims' for input arguments of type") + " '"
                     + ClassName(param1) + "'.");
@@ -67,6 +73,10 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(
             retval.push_back(ArrayOf::doubleConstructor(ndims));
         } break;
         default: {
+            retval = OverloadFunction(eval, nLhs, argIn, "ndims", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
             Error(eval,
                 _("Undefined function 'ndims' for input arguments of type") + " '"
                     + ClassName(param1) + "'.");

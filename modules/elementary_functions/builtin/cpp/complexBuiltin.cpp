@@ -35,8 +35,17 @@ Nelson::ElementaryFunctionsGateway::complexBuiltin(
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "complex", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "complex", bSuccess);
+    }
     if (!bSuccess) {
+        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "complex", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
         if (argIn.size() == 1) {
             retval.push_back(ComplexConstructor(argIn[0]));
         } else {

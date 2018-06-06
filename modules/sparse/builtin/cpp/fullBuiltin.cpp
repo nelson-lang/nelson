@@ -35,10 +35,9 @@ Nelson::SparseGateway::fullBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
     // Call overload if it exists
     bool bSuccess = false;
-	if (eval->overloadOnBasicTypes)
-	{
+    if (eval->overloadOnBasicTypes) {
         retval = OverloadFunction(eval, nLhs, argIn, "full", bSuccess);
-	}
+    }
     if (!bSuccess) {
         if (argIn[0].isReferenceType()) {
             retval = OverloadFunction(eval, nLhs, argIn, "full", bSuccess);
