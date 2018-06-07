@@ -105,14 +105,15 @@ PathFunc::comparePathname(std::wstring path1, std::wstring path2)
 PathFunc::~PathFunc()
 {
     FileWatcherManager::getInstance()->removeWatch(_path);
-    for (boost::unordered_map<std::wstring, FileFunc*>::iterator it = mapFiles.begin();
-         it != mapFiles.end(); ++it) {
+    for (boost::unordered_map<std::wstring, FileFunc*>::iterator it = mapAllFiles.begin();
+         it != mapAllFiles.end(); ++it) {
         if (it->second) {
             delete it->second;
             it->second = nullptr;
         }
     }
-    mapFiles.clear();
+    mapRecentFiles.clear();
+    mapAllFiles.clear();
     _path = L"";
 }
 //=============================================================================
@@ -120,8 +121,8 @@ wstringVector
 PathFunc::getFunctionsName(std::wstring prefix)
 {
     wstringVector functionsName;
-    for (boost::unordered_map<std::wstring, FileFunc*>::iterator it = mapFiles.begin();
-         it != mapFiles.end(); ++it) {
+    for (boost::unordered_map<std::wstring, FileFunc*>::iterator it = mapAllFiles.begin();
+         it != mapAllFiles.end(); ++it) {
         if (it->second) {
             if (prefix.empty()) {
                 functionsName.push_back(it->second->getName());
@@ -140,8 +141,8 @@ wstringVector
 PathFunc::getFunctionsFilename()
 {
     wstringVector functionsFilename;
-    for (boost::unordered_map<std::wstring, FileFunc*>::iterator it = mapFiles.begin();
-         it != mapFiles.end(); ++it) {
+    for (boost::unordered_map<std::wstring, FileFunc*>::iterator it = mapAllFiles.begin();
+         it != mapAllFiles.end(); ++it) {
         if (it->second) {
             functionsFilename.push_back(it->second->getFilename());
         }
@@ -173,6 +174,7 @@ void
 PathFunc::rehash()
 {
     if (_path != L"") {
+        mapRecentFiles.clear();
         try {
             boost::filesystem::directory_iterator end_iter;
             for (boost::filesystem::directory_iterator dir_iter(_path); dir_iter != end_iter;
@@ -188,7 +190,7 @@ PathFunc::rehash()
                             ff = nullptr;
                         }
                         if (ff) {
-                            mapFiles.emplace(name, ff);
+                            mapAllFiles.emplace(name, ff);
                         }
                     }
                 }
@@ -201,8 +203,8 @@ PathFunc::rehash()
 bool
 PathFunc::findFuncName(const std::wstring functionName, std::wstring& filename)
 {
-    boost::unordered_map<std::wstring, FileFunc*>::iterator found = mapFiles.find(functionName);
-    if (found != mapFiles.end()) {
+    boost::unordered_map<std::wstring, FileFunc*>::iterator found = mapAllFiles.find(functionName);
+    if (found != mapAllFiles.end()) {
         filename = found->second->getFilename();
         return true;
     }
@@ -212,10 +214,19 @@ PathFunc::findFuncName(const std::wstring functionName, std::wstring& filename)
 bool
 PathFunc::findFuncName(const std::wstring functionName, FileFunc** ff)
 {
-    boost::unordered_map<std::wstring, FileFunc*>::iterator found = mapFiles.find(functionName);
-    if (found != mapFiles.end()) {
-        *ff = found->second;
+    boost::unordered_map<std::wstring, FileFunc*>::const_iterator foundit
+        = mapRecentFiles.find(functionName);
+    if (foundit != mapRecentFiles.end()) {
+        *ff = foundit->second;
         return true;
+    } else {
+        boost::unordered_map<std::wstring, FileFunc*>::iterator found
+            = mapAllFiles.find(functionName);
+        if (found != mapAllFiles.end()) {
+            *ff = found->second;
+            mapRecentFiles.emplace(functionName, *ff);
+            return true;
+        }
     }
     return false;
 }
@@ -224,8 +235,8 @@ bool
 PathFunc::findFuncByHash(size_t hashid, std::wstring& functionName)
 {
     bool res = false;
-    for (boost::unordered_map<std::wstring, FileFunc*>::iterator it = mapFiles.begin();
-         it != mapFiles.end(); ++it) {
+    for (boost::unordered_map<std::wstring, FileFunc*>::iterator it = mapAllFiles.begin();
+         it != mapAllFiles.end(); ++it) {
         if (it->second->getHashID() == hashid) {
             functionName = it->first;
             res = true;

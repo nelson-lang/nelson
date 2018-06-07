@@ -46,7 +46,8 @@ public:
     findFuncByHash(size_t hashid, std::wstring& functionName);
 
 private:
-    boost::unordered_map<std::wstring, FileFunc*> mapFiles;
+    boost::unordered_map<std::wstring, FileFunc*> mapAllFiles;
+    boost::unordered_map<std::wstring, FileFunc*> mapRecentFiles;
     std::wstring _path;
     bool
     isSupportedFuncFilename(std::wstring name);

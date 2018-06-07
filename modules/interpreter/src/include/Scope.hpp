@@ -49,6 +49,7 @@
 #include "VariablesTable.hpp"
 #include "nlsInterpreter_exports.h"
 #include <boost/container/vector.hpp>
+#include <boost/unordered_map.hpp>
 #include <string>
 //=============================================================================
 namespace Nelson {
@@ -108,6 +109,7 @@ private:
      * file the current token resides.
      */
     boost::container::vector<int> IDstack;
+
 
     int nargin = 0;
     int nargout = 0;
