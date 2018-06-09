@@ -65,6 +65,7 @@ dynamic_link
 help_tools
 localization
 modules_manager
+sio_client
 engine
 assert_functions
 tests_manager
@@ -72,9 +73,6 @@ audio
 mpi
 json
 )
-if (WITH_SIO_CLIENT)
-LIST(APPEND moduleslist sio_client)
-endif()
 LIST(APPEND moduleslist main)
 #==============================================================================	
 FOREACH(mod ${moduleslist})
