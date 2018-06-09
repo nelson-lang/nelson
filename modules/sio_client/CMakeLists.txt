@@ -22,6 +22,7 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 #==============================================================================
 include_directories(
 ${Boost_INCLUDE_DIRS}
+${SIO_CLIENT_INCLUDE}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
@@ -32,14 +33,14 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 #==============================================================================	
 FILE(
 GLOB
-RANDOM_SRC
+SIO_CLIENT_SRC
 "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
 )
 #==============================================================================	
 ADD_LIBRARY(
 	${module_library_name}
 	SHARED 
-	${RANDOM_SRC}
+	${SIO_CLIENT_SRC}
 )
 #==============================================================================	
 target_link_libraries(${module_library_name}
@@ -48,6 +49,7 @@ nlsTypes
 nlsInterpreter
 nlsCharacters_encoding
 nlsI18n
+${SIO_CLIENT_LIBRARY}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}

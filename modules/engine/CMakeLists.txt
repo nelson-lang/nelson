@@ -40,6 +40,10 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../time/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../sio_client/src/include
 )
+if (WITH_SIO_CLIENT)
+include_directories(
+)
+endif()
 #==============================================================================	
 FILE(
 GLOB
