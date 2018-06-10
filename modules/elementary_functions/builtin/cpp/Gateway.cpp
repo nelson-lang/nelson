@@ -73,6 +73,7 @@
 #include "uminusBuiltin.hpp"
 #include "uplusBuiltin.hpp"
 #include "vertcatBuiltin.hpp"
+#include "normBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -137,6 +138,7 @@ static const nlsGateway gateway[] = {
     { "rem", Nelson::ElementaryFunctionsGateway::remBuiltin, 1, 2 },
     { "cast", Nelson::ElementaryFunctionsGateway::castBuiltin, 1, 3 },
     { "gamma", Nelson::ElementaryFunctionsGateway::gammaBuiltin, 1, 1 },
+    { "norm", Nelson::ElementaryFunctionsGateway::normBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

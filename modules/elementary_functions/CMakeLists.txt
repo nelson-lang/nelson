@@ -30,6 +30,7 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+	${CMAKE_CURRENT_SOURCE_DIR}/../linear_algebra/src/include
 	${Boost_INCLUDE_DIRS}
 
 )
@@ -39,8 +40,6 @@ GLOB
 ELEMENTARY_FUNCTIONS_SRC
 "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
 )
-# DotMultiply.cpp
-# Multiplication.cpp
 #==============================================================================	
 ADD_LIBRARY(
 	${module_library_name}
@@ -53,7 +52,12 @@ nlsApi_nelson
 nlsError_manager
 nlsCharacters_encoding
 nlsI18n
-nlsTypes)
+nlsTypes
+${BLAS_LIBRARIES}
+${LAPACK_LIBRARIES}
+${LAPACKE_LIBRARIES}
+${MAC_LAPACKE_LIBRARY}
+)
 #==============================================================================	
 set_target_properties(${module_library_name}
                       PROPERTIES 
