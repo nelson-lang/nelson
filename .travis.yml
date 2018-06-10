@@ -116,8 +116,6 @@ before_install:
 install:
   - if [ `uname` = "Linux" ]; then git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.4 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && sudo make install && cd -; fi
   - if [ $TRAVIS_OS_NAME == osx ]; then git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.4 && cd - && cd /tmp/eigen-build && FC="nofortran" cmake . /tmp/eigen && make -j4 && sudo make install && cd -; fi
-  - if [ `uname` = "Linux" ]; then git clone https://github.com/Nelson-numerical-software/sio-client-cpp.git /tmp/sio-client-cpp && cd /tmp/sio-client-cpp && cmake -G "Unix Makefiles" -DBOOST_ROOT=/usr/local/boost && make -j4 && sudo make install && cd -; fi
-  - if [ $TRAVIS_OS_NAME == osx ]; then git clone https://github.com/Nelson-numerical-software/sio-client-cpp.git /tmp/sio-client-cpp && cd /tmp/sio-client-cpp && cmake .  && make -j4 && sudo make install && cd -; fi
 
 before_script:
   - rvm get head || true
@@ -138,6 +136,9 @@ before_script:
     sudo ./b2 -q -d0 --user-config=user-config.jam cxxflags="-std=c++11 -fPIC" threading=multi link=shared install;
     popd;
     fi
+    
+  - if [ `uname` = "Linux" ]; then git clone https://github.com/Nelson-numerical-software/sio-client-cpp.git /tmp/sio-client-cpp && cd /tmp/sio-client-cpp && cmake -G "Unix Makefiles" -DBOOST_ROOT=/usr/local/boost && make -j4 && sudo make install && cd -; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then git clone https://github.com/Nelson-numerical-software/sio-client-cpp.git /tmp/sio-client-cpp && cd /tmp/sio-client-cpp && cmake .  && make -j4 && sudo make install && cd -; fi
 
   - if [ $TRAVIS_OS_NAME == osx ];
     then export BUILD_ROOT=$(pwd);
