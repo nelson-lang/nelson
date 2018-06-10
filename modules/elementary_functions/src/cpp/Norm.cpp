@@ -38,11 +38,11 @@ NormPVector(const ArrayOf& arrayIn, double p)
     T returnedValue = 0;
 	if (p == 1)
 	{
-        returnedValue = matArrayIn.lpNorm<1>();
+        returnedValue = matArrayIn.template lpNorm<1>();
 	}
 	else if (p == 2)
 	{
-        returnedValue = matArrayIn.lpNorm<2>();
+        returnedValue = matArrayIn.template lpNorm<2>();
 	} else if (std::isinf(p)) {
         if (p > 0) {
             // max(abs(X))
@@ -68,9 +68,9 @@ NormPComplexVector(const ArrayOf& arrayIn, double p)
         (Eigen::Index)arrayIn.getDimensions().getColumns());
     T returnedValue = 0;
     if (p == 1) {
-        returnedValue = matArrayIn.lpNorm<1>();
+        returnedValue = matArrayIn.template lpNorm<1>();
     } else if (p == 2) {
-        returnedValue = matArrayIn.lpNorm<2>();
+        returnedValue = matArrayIn.template lpNorm<2>();
     } else if (std::isinf(p)) {
         if (p > 0) {
             // max(abs(X))
@@ -132,12 +132,12 @@ NormP1ComplexMatrix(const ArrayOf& arrayIn)
         (Eigen::Index)arrayIn.getDimensions().getRows(),
         (Eigen::Index)arrayIn.getDimensions().getColumns());
     if (arrayIn.isScalar() || arrayIn.isVector()) {
-        T res = matArrayIn.lpNorm<1>();
+        T res = matArrayIn.template lpNorm<1>();
         return res;
     }
     T maxValue = 0.0;
     for (Eigen::Index i = 0; i < matArrayIn.cols(); ++i) {
-        T cn = matArrayIn.col(i).lpNorm<1>();
+        T cn = matArrayIn.col(i).template lpNorm<1>();
         if (cn > maxValue) {
             maxValue = cn;
         }
@@ -153,12 +153,12 @@ NormP1Matrix(const ArrayOf& arrayIn)
         (T*)arrayIn.getDataPointer(), (Eigen::Index)arrayIn.getDimensions().getRows(),
         (Eigen::Index)arrayIn.getDimensions().getColumns());
     if (arrayIn.isScalar() || arrayIn.isVector()) {
-        T res = matArrayIn.lpNorm<1>();
+        T res = matArrayIn.template lpNorm<1>();
         return res;
     }
     T maxValue = 0.0;
     for (Eigen::Index i = 0; i < matArrayIn.cols(); ++i) {
-        T cn = matArrayIn.col(i).lpNorm<1>();
+        T cn = matArrayIn.col(i).template lpNorm<1>();
         if (cn > maxValue) {
             maxValue = cn;
         }
@@ -175,13 +175,13 @@ NormPInfComplexMatrix(const ArrayOf& arrayIn)
         (Eigen::Index)arrayIn.getDimensions().getRows(),
         (Eigen::Index)arrayIn.getDimensions().getColumns());
     if (arrayIn.isScalar() || arrayIn.isVector()) {
-		return matArrayIn.lpNorm<Eigen::Infinity>();
+		return matArrayIn.template lpNorm<Eigen::Infinity>();
 	}
     T maxValue = 0.0;
     if (!matArrayIn.hasNaN()) {
         if (matArrayIn.allFinite()) {
 			for (int i = 0; i < matArrayIn.rows(); ++i) {
-				T cn = matArrayIn.row(i).lpNorm<1>();
+				T cn = matArrayIn.row(i).template lpNorm<1>();
 				if (cn > maxValue)
 					maxValue = cn;
 			}
@@ -202,13 +202,13 @@ NormPInfMatrix(const ArrayOf& arrayIn)
         (T*)arrayIn.getDataPointer(), (Eigen::Index)arrayIn.getDimensions().getRows(),
         (Eigen::Index)arrayIn.getDimensions().getColumns());
     if (arrayIn.isScalar() || arrayIn.isVector()) {
-		return matArrayIn.lpNorm<Eigen::Infinity>();
+		return matArrayIn.template lpNorm<Eigen::Infinity>();
 	}
     T maxValue = 0.0;
     if (!matArrayIn.hasNaN()) {
         if (matArrayIn.allFinite()) {
             for (int i = 0; i < matArrayIn.rows(); ++i) {
-                T cn = matArrayIn.row(i).lpNorm<1>();
+                T cn = matArrayIn.row(i).template lpNorm<1>();
                 if (cn > maxValue)
                     maxValue = cn;
             }
