@@ -63,16 +63,11 @@ uminusInteger(const ArrayOf& A)
 }
 //=============================================================================
 ArrayOf
-UnaryMinus(ArrayOf& A, bool mustRaiseError, bool& bSuccess)
+UnaryMinus(const ArrayOf& A)
 {
-    bSuccess = false;
     if (A.isSparse()) {
-        if (mustRaiseError) {
-            std::string overload = ClassName(A) + "_uminus";
-            throw Exception(_("function") + " " + overload + " " + _("undefined."));
-        } else {
-            return ArrayOf();
-        }
+        std::string overload = ClassName(A) + "_uminus";
+        throw Exception(_("function") + " " + overload + " " + _("undefined."));
     }
     ArrayOf res;
     switch (A.getDataClass()) {
@@ -115,16 +110,10 @@ UnaryMinus(ArrayOf& A, bool mustRaiseError, bool& bSuccess)
         res = uminusComplex<double>(A);
     } break;
     default: {
-        if (mustRaiseError) {
-            std::string overload = ClassName(A) + "_uminus";
-            throw Exception(_("function") + " " + overload + " " + _("undefined."));
-        } else {
-            bSuccess = false;
-            return ArrayOf();
-        }
+        std::string overload = ClassName(A) + "_uminus";
+        throw Exception(_("function") + " " + overload + " " + _("undefined."));
     } break;
     }
-    bSuccess = true;
     return res;
 }
 }

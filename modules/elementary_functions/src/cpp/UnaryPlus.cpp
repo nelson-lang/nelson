@@ -22,18 +22,13 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-UnaryPlus(ArrayOf& A, bool mustRaiseError, bool& bSuccess)
+UnaryPlus(const ArrayOf& A)
 {
-    bSuccess = false;
-    if (A.isSparse()) {
-        if (mustRaiseError) {
-            std::string overload = ClassName(A) + "_uplus";
-            throw Exception(_("function") + " " + overload + " " + _("undefined."));
-        } else {
-            return ArrayOf();
-        }
-    }
     ArrayOf res;
+    if (A.isSparse()) {
+        std::string overload = ClassName(A) + "_uplus";
+        throw Exception(_("function") + " " + overload + " " + _("undefined."));
+    }
     switch (A.getDataClass()) {
     case NLS_LOGICAL:
     case NLS_CHAR: {
@@ -57,17 +52,12 @@ UnaryPlus(ArrayOf& A, bool mustRaiseError, bool& bSuccess)
         res.ensureSingleOwner();
     } break;
     default: {
-        if (mustRaiseError) {
-            std::string overload = ClassName(A) + "_uplus";
-            throw Exception(_("function") + " " + overload + " " + _("undefined."));
-        } else {
-            bSuccess = false;
-            return ArrayOf();
-        }
+        std::string overload = ClassName(A) + "_uplus";
+        throw Exception(_("function") + " " + overload + " " + _("undefined."));
     } break;
     }
-    bSuccess = true;
     return res;
 }
+//=============================================================================
 }
 //=============================================================================

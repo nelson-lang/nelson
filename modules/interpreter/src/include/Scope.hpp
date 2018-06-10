@@ -110,7 +110,6 @@ private:
      */
     boost::container::vector<int> IDstack;
 
-
     int nargin = 0;
     int nargout = 0;
 

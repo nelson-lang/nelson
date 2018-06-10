@@ -4251,37 +4251,48 @@ Evaluator::doUnaryOperatorOverload(
 }
 //=============================================================================
 ArrayOf
-Evaluator::doUnaryOperatorOverload(
-    ArrayOf& A, UnaryFunction functionOperator, std::string functionName)
-{
-    ArrayOf res;
-    bool bSuccess = false;
-    if (!overloadOnBasicTypes) {
-        res = functionOperator(A, false, bSuccess);
-        if (!bSuccess) {
-            res = OverloadUnaryOperator(this, A, functionName, bSuccess);
-            if (!bSuccess) {
-                ArrayOfVector argsIn;
-                argsIn.push_back(A);
-                OverloadRequired(this, argsIn, Nelson::UNARY, functionName);
-            }
-        }
-    } else {
-        res = OverloadUnaryOperator(this, A, functionName, bSuccess);
-        if (!bSuccess) {
-            res = functionOperator(A, true, bSuccess);
-        }
-    }
-    return res;
-}
-//=============================================================================
-ArrayOf
 Evaluator::doBinaryOperatorOverload(
     ASTPtr t, BinaryFunction functionOperator, std::string functionName)
 {
     ArrayOf A(expression(t->down));
     ArrayOf B(expression(t->down->right));
     return doBinaryOperatorOverload(A, B, functionOperator, functionName);
+}
+//=============================================================================
+ArrayOf
+Evaluator::doTrinaryOperatorOverload(
+    ASTPtr t, TrinaryFunction functionOperator, std::string functionName)
+{
+    ArrayOf A = expression(t->down->down);
+    ArrayOf B = expression(t->down->down->right);
+    ArrayOf C = expression(t->down->right);
+    return doTrinaryOperatorOverload(A, B, C, functionOperator, functionName);
+}
+//=============================================================================
+ArrayOf
+Evaluator::doUnaryOperatorOverload(
+    ArrayOf& A, UnaryFunction functionOperator, std::string functionName)
+{
+    ArrayOf res;
+    bool bSuccess = false;
+    if (overloadOnBasicTypes) {
+        res = OverloadUnaryOperator(this, A, functionName, bSuccess);
+        if (!bSuccess) {
+            res = functionOperator(A);
+        }
+    } else {
+        if (A.isHandle() || A.isClassStruct() || A.isSparse()) {
+            res = OverloadUnaryOperator(this, A, functionName, bSuccess);
+            if (!bSuccess) {
+                ArrayOfVector argsIn;
+                argsIn.push_back(A);
+                OverloadRequired(this, argsIn, Nelson::UNARY, functionName);
+            }
+        } else {
+            res = functionOperator(A);
+        }
+    }
+    return res;
 }
 //=============================================================================
 ArrayOf
@@ -4308,16 +4319,6 @@ Evaluator::doBinaryOperatorOverload(
         }
     }
     return res;
-}
-//=============================================================================
-ArrayOf
-Evaluator::doTrinaryOperatorOverload(
-    ASTPtr t, TrinaryFunction functionOperator, std::string functionName)
-{
-    ArrayOf A = expression(t->down->down);
-    ArrayOf B = expression(t->down->down->right);
-    ArrayOf C = expression(t->down->right);
-    return doTrinaryOperatorOverload(A, B, C, functionOperator, functionName);
 }
 //=============================================================================
 ArrayOf
