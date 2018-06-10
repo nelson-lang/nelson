@@ -269,8 +269,10 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         } catch (Exception& e) {
             deleteAstVector(getAstUsed());
             resetAstBackupPosition();
-            e.setLinePosition(
-                eval->cstack.end()->tokid & 0x0000FFFF, eval->cstack.end()->tokid >> 16);
+            if (!eval->cstack.empty()) {
+                e.setLinePosition(
+                    eval->cstack.end()->tokid & 0x0000FFFF, eval->cstack.end()->tokid >> 16);
+            }
             // removes stack
             while (eval->cstack.size() > stackdepth) {
                 eval->cstack.pop_back();

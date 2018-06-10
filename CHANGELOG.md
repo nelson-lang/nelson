@@ -10,6 +10,7 @@
 Features:
 ---------
 
+  * norm function: matrix and vectors norms.
   * [#128](http://github.com/Nelson-numerical-software/nelson/issues/128): code indented with clang-format (webkit coding style)
 
 

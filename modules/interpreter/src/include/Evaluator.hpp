@@ -801,7 +801,7 @@ public:
     void
     addCommandToQueue(std::wstring command, bool bIsPriority = false);
 
-    typedef ArrayOf (*UnaryFunction)(ArrayOf& A);
+    typedef ArrayOf (*UnaryFunction)(const ArrayOf& A);
     typedef ArrayOf (*BinaryFunction)(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess);
     typedef ArrayOf (*TrinaryFunction)(
         ArrayOf& A, ArrayOf& B, ArrayOf& C, bool mustRaiseError, bool& bSuccess);
