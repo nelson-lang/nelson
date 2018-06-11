@@ -82,7 +82,7 @@
 #include "HandleManager.hpp"
 #include "OverloadBinaryOperator.hpp"
 #include "OverloadUnaryOperator.hpp"
-#include "OverloadTrinaryOperator.hpp"
+#include "OverloadTernaryOperator.hpp"
 #include "ComplexTranspose.hpp"
 #include "OverloadRequired.hpp"
 #include "Addition.hpp"
@@ -680,7 +680,7 @@ Evaluator::doubleColon(ASTPtr t)
     a = expression(t->down->down);
     b = expression(t->down->down->right);
     c = expression(t->down->right);
-    ArrayOf retval = OverloadTrinaryOperator(this, a, b, c, "colon");
+    ArrayOf retval = OverloadTernaryOperator(this, a, b, c, "colon");
     popID();
     return retval;
 }
@@ -4260,13 +4260,13 @@ Evaluator::doBinaryOperatorOverload(
 }
 //=============================================================================
 ArrayOf
-Evaluator::doTrinaryOperatorOverload(
-    ASTPtr t, TrinaryFunction functionOperator, std::string functionName)
+Evaluator::doTernaryOperatorOverload(
+    ASTPtr t, TernaryFunction functionOperator, std::string functionName)
 {
     ArrayOf A = expression(t->down->down);
     ArrayOf B = expression(t->down->down->right);
     ArrayOf C = expression(t->down->right);
-    return doTrinaryOperatorOverload(A, B, C, functionOperator, functionName);
+    return doTernaryOperatorOverload(A, B, C, functionOperator, functionName);
 }
 //=============================================================================
 ArrayOf
@@ -4322,25 +4322,25 @@ Evaluator::doBinaryOperatorOverload(
 }
 //=============================================================================
 ArrayOf
-Evaluator::doTrinaryOperatorOverload(
-    ArrayOf& A, ArrayOf& B, ArrayOf& C, TrinaryFunction functionOperator, std::string functionName)
+Evaluator::doTernaryOperatorOverload(
+    ArrayOf& A, ArrayOf& B, ArrayOf& C, TernaryFunction functionOperator, std::string functionName)
 {
     ArrayOf res;
     bool bSuccess = false;
     if (!overloadOnBasicTypes) {
         res = functionOperator(A, B, C, false, bSuccess);
         if (!bSuccess) {
-            res = OverloadTrinaryOperator(this, A, B, C, functionName, bSuccess);
+            res = OverloadTernaryOperator(this, A, B, C, functionName, bSuccess);
             if (!bSuccess) {
                 ArrayOfVector argsIn;
                 argsIn.push_back(A);
                 argsIn.push_back(B);
                 argsIn.push_back(C);
-                OverloadRequired(this, argsIn, Nelson::TRINARY, functionName);
+                OverloadRequired(this, argsIn, Nelson::TERNARY, functionName);
             }
         }
     } else {
-        res = OverloadTrinaryOperator(this, A, B, C, functionName, bSuccess);
+        res = OverloadTernaryOperator(this, A, B, C, functionName, bSuccess);
         if (!bSuccess) {
             res = functionOperator(A, B, C, true, bSuccess);
         }

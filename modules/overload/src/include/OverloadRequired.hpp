@@ -30,7 +30,7 @@ typedef enum
     FUNCTION = 0,
     UNARY,
     BINARY,
-    TRINARY
+    TERNARY
 } OVERLOAD_TYPE;
 //=============================================================================
 static inline void
@@ -46,7 +46,7 @@ OverloadRequired(Evaluator* eval, const ArrayOfVector& argIn, OVERLOAD_TYPE otyp
     case Nelson::BINARY:
         OverloadName = ClassName(argIn[0]) + "_" + _functionName + "_" + ClassName(argIn[1]);
         break;
-    case Nelson::TRINARY:
+    case Nelson::TERNARY:
         OverloadName = _functionName + "_" + ClassName(argIn[0]) + "_" + ClassName(argIn[1]) + "_"
             + ClassName(argIn[2]);
         break;

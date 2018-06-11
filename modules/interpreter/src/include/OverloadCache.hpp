@@ -28,7 +28,7 @@ namespace Overloading {
     {
         UNARY,
         BINARY,
-        TRINARY
+        TERNARY
     } OverloadClass;
     //=============================================================================
     NLSINTERPRETER_IMPEXP std::string

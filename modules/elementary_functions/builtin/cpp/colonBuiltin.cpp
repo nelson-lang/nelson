@@ -19,7 +19,7 @@
 #include "colonBuiltin.hpp"
 #include "Error.hpp"
 #include "OverloadBinaryOperator.hpp"
-#include "OverloadTrinaryOperator.hpp"
+#include "OverloadTernaryOperator.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -31,7 +31,7 @@ Nelson::ElementaryFunctionsGateway::colonBuiltin(
     if (argIn.size() == 2) {
         retval.push_back(OverloadBinaryOperator(eval, argIn[0], argIn[1], "colon"));
     } else if (argIn.size() == 3) {
-        retval.push_back(OverloadTrinaryOperator(eval, argIn[0], argIn[1], argIn[2], "colon"));
+        retval.push_back(OverloadTernaryOperator(eval, argIn[0], argIn[1], argIn[2], "colon"));
     } else {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }

@@ -803,7 +803,7 @@ public:
 
     typedef ArrayOf (*UnaryFunction)(const ArrayOf& A);
     typedef ArrayOf (*BinaryFunction)(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess);
-    typedef ArrayOf (*TrinaryFunction)(
+    typedef ArrayOf (*TernaryFunction)(
         ArrayOf& A, ArrayOf& B, ArrayOf& C, bool mustRaiseError, bool& bSuccess);
 
     ArrayOf
@@ -812,7 +812,7 @@ public:
     doBinaryOperatorOverload(
         ArrayOf& A, ArrayOf& B, BinaryFunction functionOperator, std::string functionName);
     ArrayOf
-    doTrinaryOperatorOverload(ArrayOf& A, ArrayOf& B, ArrayOf& C, TrinaryFunction functionOperator,
+    doTernaryOperatorOverload(ArrayOf& A, ArrayOf& B, ArrayOf& C, TernaryFunction functionOperator,
         std::string functionName);
 
 private:
@@ -830,7 +830,7 @@ private:
     ArrayOf
     doBinaryOperatorOverload(ASTPtr t, BinaryFunction functionOperator, std::string functionName);
     ArrayOf
-    doTrinaryOperatorOverload(ASTPtr t, TrinaryFunction functionOperator, std::string functionName);
+    doTernaryOperatorOverload(ASTPtr t, TernaryFunction functionOperator, std::string functionName);
 };
 NLSINTERPRETER_IMPEXP void
 sigInterrupt(int arg);

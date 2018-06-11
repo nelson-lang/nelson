@@ -2,10 +2,12 @@
 
   * Overload speed optimization:
 
-    - plus, minus, eq, ne, gt, ge, le, lt, horzcat, vertcat, uplus, uminus operators
-    use by default predefined functions and search if operators are missing.
+    - plus, minus, eq, ne, gt, ge, le, lt, horzcat, vertcat, uplus, uminus operators use by default predefined functions and search if operators are missing.
     - add overloadbasictypes function to change default behavior.
     - gamma function speed x4 (overloading)
+
+  * [#133](http://github.com/Nelson-numerical-software/nelson/issues/133): Replaced uncommon term "trinary" by "ternary". 
+ 
 
 Features:
 ---------

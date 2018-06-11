@@ -26,8 +26,8 @@ namespace Overloading {
     static FunctionDef* cachedFunctionPointerUnary;
     static std::string cachedFunctionNameBinary;
     static FunctionDef* cachedFunctionPointerBinary;
-    static std::string cachedFunctionNameTrinary;
-    static FunctionDef* cachedFunctionPointerTrinary;
+    static std::string cachedFunctionNameTernary;
+    static FunctionDef* cachedFunctionPointerTernary;
     //=============================================================================
     void
     setCachedFunction(OverloadClass oclass, std::string functionName, FunctionDef* funcptr)
@@ -41,9 +41,9 @@ namespace Overloading {
             cachedFunctionNameBinary = functionName;
             cachedFunctionPointerBinary = funcptr;
             break;
-        case TRINARY:
-            cachedFunctionNameTrinary = functionName;
-            cachedFunctionPointerTrinary = funcptr;
+        case TERNARY:
+            cachedFunctionNameTernary = functionName;
+            cachedFunctionPointerTernary = funcptr;
             break;
         }
     }
@@ -56,8 +56,8 @@ namespace Overloading {
             return cachedFunctionNameUnary;
         case BINARY:
             return cachedFunctionNameBinary;
-        case TRINARY:
-            return cachedFunctionNameTrinary;
+        case TERNARY:
+            return cachedFunctionNameTernary;
         }
     }
     //=============================================================================
@@ -69,8 +69,8 @@ namespace Overloading {
             return cachedFunctionPointerUnary;
         case BINARY:
             return cachedFunctionPointerBinary;
-        case TRINARY:
-            return cachedFunctionPointerTrinary;
+        case TERNARY:
+            return cachedFunctionPointerTernary;
         }
     }
     //=============================================================================
@@ -81,8 +81,8 @@ namespace Overloading {
         cachedFunctionPointerUnary = nullptr;
         cachedFunctionNameBinary.clear();
         cachedFunctionPointerBinary = nullptr;
-        cachedFunctionNameTrinary.clear();
-        cachedFunctionPointerTrinary = nullptr;
+        cachedFunctionNameTernary.clear();
+        cachedFunctionPointerTernary = nullptr;
     }
     //=============================================================================
 }
