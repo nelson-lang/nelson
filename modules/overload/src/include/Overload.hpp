@@ -16,28 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ispropBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
-#include "OverloadRequired.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-ArrayOfVector
-Nelson::HandleGateway::ispropBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "isprop", bSuccess);
-    if (!bSuccess) {
-        OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
-    }
-    return retval;
-}
+namespace Overload {
+//=============================================================================
+    typedef enum { FUNCTION = 0, UNARY, BINARY, TERNARY } OverloadClass;
+    //=============================================================================
+} // namespace Overload
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

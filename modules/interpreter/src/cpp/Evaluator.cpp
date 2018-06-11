@@ -4286,7 +4286,7 @@ Evaluator::doUnaryOperatorOverload(
             if (!bSuccess) {
                 ArrayOfVector argsIn;
                 argsIn.push_back(A);
-                OverloadRequired(this, argsIn, Nelson::UNARY, functionName);
+                OverloadRequired(this, argsIn, Overload::OverloadClass::UNARY, functionName);
             }
         } else {
             res = functionOperator(A);
@@ -4309,7 +4309,7 @@ Evaluator::doBinaryOperatorOverload(
                 ArrayOfVector argsIn;
                 argsIn.push_back(A);
                 argsIn.push_back(B);
-                OverloadRequired(this, argsIn, Nelson::BINARY, functionName);
+                OverloadRequired(this, argsIn, Overload::OverloadClass::BINARY, functionName);
             }
         }
     } else {
@@ -4336,7 +4336,7 @@ Evaluator::doTernaryOperatorOverload(
                 argsIn.push_back(A);
                 argsIn.push_back(B);
                 argsIn.push_back(C);
-                OverloadRequired(this, argsIn, Nelson::TERNARY, functionName);
+                OverloadRequired(this, argsIn, Overload::OverloadClass::TERNARY, functionName);
             }
         }
     } else {

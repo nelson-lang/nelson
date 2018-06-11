@@ -42,7 +42,7 @@ Nelson::ElementaryFunctionsGateway::isequalnBuiltin(
         bool bSuccess = false;
         retval = OverloadFunction(eval, nLhs, v1v2, "isequaln", bSuccess);
         if (!bSuccess) {
-            OverloadRequired(eval, v1v2, Nelson::FUNCTION);
+            OverloadRequired(eval, v1v2, Overload::OverloadClass::FUNCTION);
         }
         bool res = false;
         if (retval.size() > 0) {

@@ -48,7 +48,7 @@ Nelson::LinearAlgebraGateway::invBuiltin(Evaluator* eval, int nLhs, const ArrayO
             if (bSuccess) {
                 return retval;
             }
-            OverloadRequired(eval, argIn, Nelson::FUNCTION);
+            OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
         }
         retval.push_back(InverseMatrix(argIn[0]));
     }

@@ -36,7 +36,7 @@ Nelson::HandleGateway::deleteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "delete", bSuccess);
     if (!bSuccess) {
-        OverloadRequired(eval, argIn, Nelson::UNARY);
+        OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
     }
     return retval;
 }

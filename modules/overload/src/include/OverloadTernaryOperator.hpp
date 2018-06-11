@@ -50,16 +50,16 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
     // WARNING: order is important.
     std::string OverloadName
         = functionName + "_" + classNameA + "_" + classNameB + "_" + classNameC;
-    if (Overloading::getPreviousCachedFunctionName(Overloading::TERNARY) == OverloadName) {
+    if (Overload::getPreviousCachedFunctionName(Overload::TERNARY) == OverloadName) {
         bSuccess = true;
         return callOverloadedFunction(eval, a, b, c,
-            Overloading::getPreviousCachedFunctionName(Overloading::TERNARY), bSuccess,
-            Overloading::getPreviousCachedFunctionDefinition(Overloading::TERNARY), bRaiseError);
+            Overload::getPreviousCachedFunctionName(Overload::TERNARY), bSuccess,
+            Overload::getPreviousCachedFunctionDefinition(Overload::TERNARY), bRaiseError);
     } else {
         std::string OverloadNameDesired = OverloadName;
         bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
         if (bSuccess) {
-            Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
             return callOverloadedFunction(
                 eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
         }
@@ -68,7 +68,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 = functionName + "_" + classNameA + "_" + classNameB + "_" + NLS_INTEGER_STR;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -76,7 +76,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
         OverloadName = functionName + "_" + classNameA + "_" + classNameB + "_" + NLS_GENERIC_STR;
         bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
         if (bSuccess) {
-            Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
             return callOverloadedFunction(
                 eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
         }
@@ -85,7 +85,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 = functionName + "_" + classNameA + "_" + NLS_INTEGER_STR + "_" + classNameC;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -95,7 +95,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 = functionName + "_" + classNameA + "_" + NLS_INTEGER_STR + "_" + NLS_INTEGER_STR;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -105,7 +105,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 = functionName + "_" + classNameA + "_" + NLS_INTEGER_STR + "_" + NLS_GENERIC_STR;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -113,7 +113,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
         OverloadName = functionName + "_" + classNameA + "_" + NLS_GENERIC_STR + "_" + classNameC;
         bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
         if (bSuccess) {
-            Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
             return callOverloadedFunction(
                 eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
         }
@@ -122,7 +122,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 = functionName + "_" + classNameA + "_" + NLS_GENERIC_STR + "_" + NLS_INTEGER_STR;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -131,7 +131,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
             = functionName + "_" + classNameA + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR;
         bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
         if (bSuccess) {
-            Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
             return callOverloadedFunction(
                 eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
         }
@@ -140,7 +140,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 = functionName + "_" + NLS_INTEGER_STR + "_" + classNameB + "_" + classNameC;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -150,7 +150,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 = functionName + "_" + NLS_INTEGER_STR + "_" + classNameB + "_" + NLS_INTEGER_STR;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -160,7 +160,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 = functionName + "_" + NLS_INTEGER_STR + "_" + classNameB + "_" + NLS_GENERIC_STR;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -170,7 +170,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 = functionName + "_" + NLS_INTEGER_STR + "_" + NLS_INTEGER_STR + "_" + classNameC;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -180,7 +180,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 + NLS_INTEGER_STR;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -190,7 +190,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 + NLS_GENERIC_STR;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -200,7 +200,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 = functionName + "_" + NLS_INTEGER_STR + "_" + NLS_GENERIC_STR + "_" + classNameC;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -210,7 +210,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 + NLS_INTEGER_STR;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -220,7 +220,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 + NLS_GENERIC_STR;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -228,7 +228,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
         OverloadName = functionName + "_" + NLS_GENERIC_STR + "_" + classNameB + "_" + classNameC;
         bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
         if (bSuccess) {
-            Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
             return callOverloadedFunction(
                 eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
         }
@@ -237,7 +237,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 = functionName + "_" + NLS_GENERIC_STR + "_" + classNameB + "_" + NLS_INTEGER_STR;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -246,7 +246,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
             = functionName + "_" + NLS_GENERIC_STR + "_" + classNameB + "_" + NLS_GENERIC_STR;
         bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
         if (bSuccess) {
-            Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
             return callOverloadedFunction(
                 eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
         }
@@ -255,7 +255,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 = functionName + "_" + NLS_GENERIC_STR + "_" + NLS_INTEGER_STR + "_" + classNameC;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -265,7 +265,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 + NLS_INTEGER_STR;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -275,7 +275,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 + NLS_GENERIC_STR;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -284,7 +284,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
             = functionName + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR + "_" + classNameC;
         bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
         if (bSuccess) {
-            Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
             return callOverloadedFunction(
                 eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
         }
@@ -293,7 +293,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
                 + NLS_INTEGER_STR;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -302,7 +302,7 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
             = functionName + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR;
         bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
         if (bSuccess) {
-            Overloading::setCachedFunction(Overloading::TERNARY, OverloadName, funcDef);
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
         }
         return callOverloadedFunction(
             eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);

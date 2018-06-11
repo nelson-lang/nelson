@@ -73,7 +73,7 @@ Nelson::LinearAlgebraGateway::issymmetricBuiltin(
             if (bSuccess) {
                 return retval;
             }
-            OverloadRequired(eval, argIn, Nelson::FUNCTION);
+            OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
         }
         if (withTol) {
             retval.push_back(ArrayOf::logicalConstructor(IsSymmetric(argIn[0], tol)));

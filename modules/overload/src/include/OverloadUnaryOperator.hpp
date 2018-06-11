@@ -43,16 +43,16 @@ OverloadUnaryOperator(Evaluator* eval, ArrayOf a, const std::string& functionNam
     FunctionDef* funcDef = nullptr;
     std::string classNameA = ClassName(a);
     std::string OverloadName = classNameA + "_" + functionName;
-    if (Overloading::getPreviousCachedFunctionName(Overloading::UNARY) == OverloadName) {
+    if (Overload::getPreviousCachedFunctionName(Overload::UNARY) == OverloadName) {
         bSuccess = true;
         return callOverloadedFunction(eval, a,
-            Overloading::getPreviousCachedFunctionName(Overloading::UNARY), bSuccess,
-            Overloading::getPreviousCachedFunctionDefinition(Overloading::UNARY), bRaiseError);
+            Overload::getPreviousCachedFunctionName(Overload::UNARY), bSuccess,
+            Overload::getPreviousCachedFunctionDefinition(Overload::UNARY), bRaiseError);
     } else {
         std::string OverloadNameDesired = OverloadName;
         bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
         if (bSuccess) {
-            Overloading::setCachedFunction(Overloading::UNARY, OverloadName, funcDef);
+            Overload::setCachedFunction(Overload::UNARY, OverloadName, funcDef);
             return callOverloadedFunction(
                 eval, a, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
         }
@@ -60,7 +60,7 @@ OverloadUnaryOperator(Evaluator* eval, ArrayOf a, const std::string& functionNam
             OverloadName = NLS_INTEGER_STR + std::string("_") + functionName;
             bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
             if (bSuccess) {
-                Overloading::setCachedFunction(Overloading::UNARY, OverloadName, funcDef);
+                Overload::setCachedFunction(Overload::UNARY, OverloadName, funcDef);
                 return callOverloadedFunction(
                     eval, a, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
             }
@@ -68,7 +68,7 @@ OverloadUnaryOperator(Evaluator* eval, ArrayOf a, const std::string& functionNam
         OverloadName = NLS_GENERIC_STR + std::string("_") + functionName;
         bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
         if (bSuccess) {
-            Overloading::setCachedFunction(Overloading::UNARY, OverloadName, funcDef);
+            Overload::setCachedFunction(Overload::UNARY, OverloadName, funcDef);
         }
         return callOverloadedFunction(eval, a, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
     }

@@ -20,16 +20,10 @@
 //=============================================================================
 #include "nlsInterpreter_exports.h"
 #include "FunctionDef.hpp"
+#include "overload.hpp"
 //=============================================================================
 namespace Nelson {
-namespace Overloading {
-    //=============================================================================
-    typedef enum
-    {
-        UNARY,
-        BINARY,
-        TERNARY
-    } OverloadClass;
+namespace Overload {
     //=============================================================================
     NLSINTERPRETER_IMPEXP std::string
     getPreviousCachedFunctionName(OverloadClass oclass);

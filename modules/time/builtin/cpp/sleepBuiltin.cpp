@@ -47,7 +47,7 @@ Nelson::TimeGateway::sleepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "sleep", bSuccess);
             if (!bSuccess) {
-                OverloadRequired(eval, argIn, OVERLOAD_TYPE::FUNCTION, "sleep");
+                OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION, "sleep");
             }
         }
     }

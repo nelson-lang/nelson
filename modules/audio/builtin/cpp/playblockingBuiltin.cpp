@@ -36,7 +36,7 @@ Nelson::AudioGateway::playblockingBuiltin(Evaluator* eval, int nLhs, const Array
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "playblocking", bSuccess);
     if (!bSuccess) {
-        OverloadRequired(eval, argIn, Nelson::UNARY);
+        OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
     }
     return retval;
 }

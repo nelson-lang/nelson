@@ -22,19 +22,12 @@
 #include "ArrayOf.hpp"
 #include "Error.hpp"
 #include "ClassName.hpp"
+#include "Overload.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-typedef enum
-{
-    FUNCTION = 0,
-    UNARY,
-    BINARY,
-    TERNARY
-} OVERLOAD_TYPE;
-//=============================================================================
 static inline void
-OverloadRequired(Evaluator* eval, const ArrayOfVector& argIn, OVERLOAD_TYPE otype,
+OverloadRequired(Evaluator* eval, const ArrayOfVector& argIn, Overload::OverloadClass otype,
     const std::string& functionName = "")
 {
     std::string _functionName = eval->getCurrentFunctionName();
@@ -43,19 +36,19 @@ OverloadRequired(Evaluator* eval, const ArrayOfVector& argIn, OVERLOAD_TYPE otyp
     }
     std::string OverloadName("");
     switch (otype) {
-    case Nelson::BINARY:
+    case Overload::OverloadClass::BINARY:
         OverloadName = ClassName(argIn[0]) + "_" + _functionName + "_" + ClassName(argIn[1]);
         break;
-    case Nelson::TERNARY:
+    case Overload::OverloadClass::TERNARY:
         OverloadName = _functionName + "_" + ClassName(argIn[0]) + "_" + ClassName(argIn[1]) + "_"
             + ClassName(argIn[2]);
         break;
-    case Nelson::UNARY:
-    case Nelson::FUNCTION:
+    case Overload::OverloadClass::UNARY:
+    case Overload::OverloadClass::FUNCTION:
         OverloadName = ClassName(argIn[0]) + "_" + _functionName;
         break;
     default:
-        Error(eval, _W("Wrong OVERLOAD_TYPE."));
+        Error(eval, _W("Wrong Overloading::OverloadClass."));
         break;
     }
     Error(eval, _("function") + " " + OverloadName + " " + _("undefined."));

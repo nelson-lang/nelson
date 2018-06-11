@@ -48,7 +48,7 @@ Nelson::LinearAlgebraGateway::logmBuiltin(Evaluator* eval, int nLhs, const Array
             if (bSuccess) {
                 return retval;
             }
-            OverloadRequired(eval, argIn, Nelson::FUNCTION);
+            OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
         }
         retval.push_back(LogMatrix(argIn[0]));
     }

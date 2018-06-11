@@ -20,7 +20,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-namespace Overloading {
+namespace Overload {
     //=============================================================================
     static std::string cachedFunctionNameUnary;
     static FunctionDef* cachedFunctionPointerUnary;

@@ -76,7 +76,7 @@ Nelson::SparseGateway::nnzBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                 Error(eval, _W("Undefined function 'nnz' for input arguments."));
             }
         }
-        return retval;
     }
+    return retval;
 }
 //=============================================================================

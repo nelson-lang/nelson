@@ -33,7 +33,7 @@ Nelson::DynamicLinkGateway::isNullBuiltin(Evaluator* eval, int nLhs, const Array
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "isNull", bSuccess);
     if (!bSuccess) {
-        OverloadRequired(eval, argIn, Nelson::UNARY);
+        OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
     }
     return retval;
 }

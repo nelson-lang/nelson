@@ -37,7 +37,7 @@ Nelson::LogicalGateway::anyBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "any", bSuccess);
     if (!bSuccess) {
-        OverloadRequired(eval, argIn, Nelson::OVERLOAD_TYPE::UNARY);
+        OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
     }
     return retval;
 }

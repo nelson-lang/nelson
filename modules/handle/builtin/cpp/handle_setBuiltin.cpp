@@ -36,7 +36,7 @@ Nelson::HandleGateway::handle_setBuiltin(Evaluator* eval, int nLhs, const ArrayO
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "handle_set", bSuccess);
     if (!bSuccess) {
-        OverloadRequired(eval, argIn, Nelson::UNARY);
+        OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
     }
     return retval;
 }

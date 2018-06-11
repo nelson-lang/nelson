@@ -509,7 +509,7 @@ PathFuncManager::clearCache()
         }
     }
     cachedPathFunc.clear();
-    Overloading::clearPreviousCachedFunctionDefinition();
+    Overload::clearPreviousCachedFunctionDefinition();
 }
 //=============================================================================
 void
@@ -531,7 +531,7 @@ PathFuncManager::clearCache(stringVector exceptedFunctions)
         }
     }
     cachedPathFunc.clear();
-    Overloading::clearPreviousCachedFunctionDefinition();
+    Overload::clearPreviousCachedFunctionDefinition();
     cachedPathFunc = backup;
 }
 //=============================================================================
