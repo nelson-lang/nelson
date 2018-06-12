@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,17 +9,19 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int ud01nd_(mp, np, dp, l, nout, p, ldp1, ldp2, text, info, text_len)
-integer *mp, *np, *dp, *l, *nout;
-doublereal *p;
+EXPORTSYMBOL /* Subroutine */ int ud01nd_(
+    mp, np, dp, l, nout, p, ldp1, ldp2, text, info, text_len) integer *mp,
+    *np, *dp, *l, *nout;
+doublereal* p;
 integer *ldp1, *ldp2;
-char *text;
-integer *info;
+char* text;
+integer* info;
 ftnlen text_len;
 {
     /* Format strings */
     static char fmt_99999[] = "(\002 \002)";
-    static char fmt_99998[] = "(/,1x,a,\002(\002,i2,\002)\002,\002 (\002,i2,\002X\002,i2,\002)\002)";
+    static char fmt_99998[]
+        = "(/,1x,a,\002(\002,i2,\002)\002,\002 (\002,i2,\002X\002,i2,\002)\002)";
     static char fmt_99997[] = "(5x,5(6x,i2,7x))";
     static char fmt_99996[] = "(1x,i2,2x,5d15.7)";
     /* System generated locals */
@@ -129,95 +131,73 @@ ftnlen text_len;
     /* Function Body */
     *info = 0;
     /*     Check the input scalar arguments. */
-    if (*mp < 1)
-    {
+    if (*mp < 1) {
         *info = -1;
-    }
-    else if (*np < 1)
-    {
+    } else if (*np < 1) {
         *info = -2;
-    }
-    else if (*dp < 0)
-    {
+    } else if (*dp < 0) {
         *info = -3;
-    }
-    else if (*l < 1 || *l > 5)
-    {
+    } else if (*l < 1 || *l > 5) {
         *info = -4;
-    }
-    else if (*nout < 0)
-    {
+    } else if (*nout < 0) {
         *info = -5;
-    }
-    else if (*ldp1 < *mp)
-    {
+    } else if (*ldp1 < *mp) {
         *info = -7;
-    }
-    else if (*ldp2 < *np)
-    {
+    } else if (*ldp2 < *np) {
         *info = -8;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("UD01ND", &i__1, 6L);
         return 0;
     }
     lentxt = i_len(text, text_len);
-    ltext = min(72,lentxt);
+    ltext = min(72, lentxt);
     /*     WHILE ( TEXT(LTEXT:LTEXT) =  ' ' ) DO */
 L10:
-    if (*(unsigned char *)&text[ltext - 1] == ' ')
-    {
+    if (*(unsigned char*)&text[ltext - 1] == ' ') {
         --ltext;
         goto L10;
     }
     /*     END WHILE 10 */
     i__1 = *dp + 1;
-    for (k = 1; k <= i__1; ++k)
-    {
-        if (ltext == 0)
-        {
+    for (k = 1; k <= i__1; ++k) {
+        if (ltext == 0) {
             io___4.ciunit = *nout;
             s_wsfe(&io___4);
             e_wsfe();
-        }
-        else
-        {
+        } else {
             io___5.ciunit = *nout;
             s_wsfe(&io___5);
             do_fio(&c__1, text, ltext);
             i__2 = k - 1;
-            do_fio(&c__1, (char *)&i__2, (ftnlen)sizeof(integer));
-            do_fio(&c__1, (char *)&(*mp), (ftnlen)sizeof(integer));
-            do_fio(&c__1, (char *)&(*np), (ftnlen)sizeof(integer));
+            do_fio(&c__1, (char*)&i__2, (ftnlen)sizeof(integer));
+            do_fio(&c__1, (char*)&(*mp), (ftnlen)sizeof(integer));
+            do_fio(&c__1, (char*)&(*np), (ftnlen)sizeof(integer));
             e_wsfe();
         }
         n1 = (*np - 1) / *l;
         j1 = 1;
         j2 = *l;
         i__2 = n1;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             io___10.ciunit = *nout;
             s_wsfe(&io___10);
             i__3 = j2;
-            for (jj = j1; jj <= i__3; ++jj)
-            {
-                do_fio(&c__1, (char *)&jj, (ftnlen)sizeof(integer));
+            for (jj = j1; jj <= i__3; ++jj) {
+                do_fio(&c__1, (char*)&jj, (ftnlen)sizeof(integer));
             }
             e_wsfe();
             i__3 = *mp;
-            for (i__ = 1; i__ <= i__3; ++i__)
-            {
+            for (i__ = 1; i__ <= i__3; ++i__) {
                 io___13.ciunit = *nout;
                 s_wsfe(&io___13);
-                do_fio(&c__1, (char *)&i__, (ftnlen)sizeof(integer));
+                do_fio(&c__1, (char*)&i__, (ftnlen)sizeof(integer));
                 i__4 = j2;
-                for (jj = j1; jj <= i__4; ++jj)
-                {
-                    do_fio(&c__1, (char *)&p[i__ + (jj + k * p_dim2) * p_dim1], (ftnlen)sizeof(doublereal));
+                for (jj = j1; jj <= i__4; ++jj) {
+                    do_fio(&c__1, (char*)&p[i__ + (jj + k * p_dim2) * p_dim1],
+                        (ftnlen)sizeof(doublereal));
                 }
                 e_wsfe();
                 /* L20: */
@@ -229,21 +209,19 @@ L10:
         io___14.ciunit = *nout;
         s_wsfe(&io___14);
         i__2 = *np;
-        for (j = j1; j <= i__2; ++j)
-        {
-            do_fio(&c__1, (char *)&j, (ftnlen)sizeof(integer));
+        for (j = j1; j <= i__2; ++j) {
+            do_fio(&c__1, (char*)&j, (ftnlen)sizeof(integer));
         }
         e_wsfe();
         i__2 = *mp;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             io___15.ciunit = *nout;
             s_wsfe(&io___15);
-            do_fio(&c__1, (char *)&i__, (ftnlen)sizeof(integer));
+            do_fio(&c__1, (char*)&i__, (ftnlen)sizeof(integer));
             i__3 = *np;
-            for (jj = j1; jj <= i__3; ++jj)
-            {
-                do_fio(&c__1, (char *)&p[i__ + (jj + k * p_dim2) * p_dim1], (ftnlen)sizeof(doublereal));
+            for (jj = j1; jj <= i__3; ++jj) {
+                do_fio(
+                    &c__1, (char*)&p[i__ + (jj + k * p_dim2) * p_dim1], (ftnlen)sizeof(doublereal));
             }
             e_wsfe();
             /* L40: */
@@ -256,4 +234,3 @@ L10:
     return 0;
     /* *** Last line of UD01ND *** */
 } /* ud01nd_ */
-

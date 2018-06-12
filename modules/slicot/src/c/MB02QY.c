@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,12 +12,13 @@ static doublereal c_b15 = 0.;
 static doublereal c_b28 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb02qy_(m, n, nrhs, rank, a, lda, jpvt, b, ldb, tau, dwork, ldwork, info)
-integer *m, *n, *nrhs, *rank;
-doublereal *a;
+EXPORTSYMBOL /* Subroutine */ int mb02qy_(
+    m, n, nrhs, rank, a, lda, jpvt, b, ldb, tau, dwork, ldwork, info) integer *m,
+    *n, *nrhs, *rank;
+doublereal* a;
 integer *lda, *jpvt;
-doublereal *b;
-integer *ldb;
+doublereal* b;
+integer* ldb;
 doublereal *tau, *dwork;
 integer *ldwork, *info;
 {
@@ -165,81 +166,61 @@ integer *ldwork, *info;
     --tau;
     --dwork;
     /* Function Body */
-    mn = min(*m,*n);
+    mn = min(*m, *n);
     /*     Test the input scalar arguments. */
     *info = 0;
-    if (*m < 0)
-    {
+    if (*m < 0) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*nrhs < 0)
-    {
+    } else if (*nrhs < 0) {
         *info = -3;
-    }
-    else if (*rank < 0 || *rank > mn)
-    {
+    } else if (*rank < 0 || *rank > mn) {
         *info = -4;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -6;
-    }
-    else if (*ldb < 1 || *nrhs > 0 && *ldb < max(*m,*n))
-    {
+    } else if (*ldb < 1 || *nrhs > 0 && *ldb < max(*m, *n)) {
         *info = -9;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = max(1,*n);
-        if (*ldwork < max(i__1,*nrhs))
-        {
+        i__1 = max(1, *n);
+        if (*ldwork < max(i__1, *nrhs)) {
             *info = -12;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02QY", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (min(mn,*nrhs) == 0)
-    {
+    if (min(mn, *nrhs) == 0) {
         dwork[1] = 1.;
         return 0;
     }
     /*     Logically partition R = [ R11 R12 ], */
     /*                             [  0  R22 ] */
     /*     where R11 = R(1:RANK,1:RANK).  If  RANK = N,  let  T11 = R11. */
-    maxwrk = (doublereal) (*n);
-    if (*rank < *n)
-    {
+    maxwrk = (doublereal)(*n);
+    if (*rank < *n) {
         /*        Get machine parameters. */
         smlnum = dlamch_("Safe minimum", 12L) / dlamch_("Precision", 9L);
         bignum = 1. / smlnum;
         dlabad_(&smlnum, &bignum);
         /*        Scale A, B if max entries outside range [SMLNUM,BIGNUM]. */
-        anrm = dlantr_("MaxNorm", "Upper", "Non-unit", rank, n, &a[a_offset], lda, &dwork[1], 7L, 5L, 8L);
+        anrm = dlantr_(
+            "MaxNorm", "Upper", "Non-unit", rank, n, &a[a_offset], lda, &dwork[1], 7L, 5L, 8L);
         iascl = 0;
-        if (anrm > 0. && anrm < smlnum)
-        {
+        if (anrm > 0. && anrm < smlnum) {
             /*           Scale matrix norm up to SMLNUM. */
             dlascl_("Upper", &c__0, &c__0, &anrm, &smlnum, rank, n, &a[a_offset], lda, info, 5L);
             iascl = 1;
-        }
-        else if (anrm > bignum)
-        {
+        } else if (anrm > bignum) {
             /*           Scale matrix norm down to BIGNUM. */
             dlascl_("Upper", &c__0, &c__0, &anrm, &bignum, rank, n, &a[a_offset], lda, info, 5L);
             iascl = 2;
-        }
-        else if (anrm == 0.)
-        {
+        } else if (anrm == 0.) {
             /*           Matrix all zero. Return zero solution. */
             dlaset_("Full", n, nrhs, &c_b15, &c_b15, &b[b_offset], ldb, 4L);
             dwork[1] = 1.;
@@ -247,14 +228,11 @@ integer *ldwork, *info;
         }
         bnrm = dlange_("MaxNorm", m, nrhs, &b[b_offset], ldb, &dwork[1], 7L);
         ibscl = 0;
-        if (bnrm > 0. && bnrm < smlnum)
-        {
+        if (bnrm > 0. && bnrm < smlnum) {
             /*           Scale matrix norm up to SMLNUM. */
             dlascl_("General", &c__0, &c__0, &bnrm, &smlnum, m, nrhs, &b[b_offset], ldb, info, 7L);
             ibscl = 1;
-        }
-        else if (bnrm > bignum)
-        {
+        } else if (bnrm > bignum) {
             /*           Scale matrix norm down to BIGNUM. */
             dlascl_("General", &c__0, &c__0, &bnrm, &bignum, m, nrhs, &b[b_offset], ldb, info, 7L);
             ibscl = 2;
@@ -263,47 +241,40 @@ integer *ldwork, *info;
         /*        Details of Householder rotations are stored in TAU. */
         /*        Workspace need RANK, prefer RANK*NB. */
         dtzrzf_(rank, n, &a[a_offset], lda, &tau[1], &dwork[1], ldwork, info);
-        maxwrk = max(maxwrk,dwork[1]);
+        maxwrk = max(maxwrk, dwork[1]);
     }
     /*     B(1:RANK,1:NRHS) := inv(T11) * B(1:RANK,1:NRHS). */
-    dtrsm_("Left", "Upper", "No transpose", "Non-unit", rank, nrhs, &c_b28, &a[a_offset], lda, &b[b_offset], ldb, 4L, 5L, 12L, 8L);
-    if (*rank < *n)
-    {
+    dtrsm_("Left", "Upper", "No transpose", "Non-unit", rank, nrhs, &c_b28, &a[a_offset], lda,
+        &b[b_offset], ldb, 4L, 5L, 12L, 8L);
+    if (*rank < *n) {
         i__1 = *n - *rank;
         dlaset_("Full", &i__1, nrhs, &c_b15, &c_b15, &b[*rank + 1 + b_dim1], ldb, 4L);
         /*        B(1:N,1:NRHS) := Z' * B(1:N,1:NRHS). */
         /*        Workspace need NRHS, prefer NRHS*NB. */
         i__1 = *n - *rank;
-        dormrz_("Left", "Transpose", n, nrhs, rank, &i__1, &a[a_offset], lda, &tau[1], &b[b_offset], ldb, &dwork[1], ldwork, info, 4L, 9L);
-        maxwrk = max(maxwrk,dwork[1]);
+        dormrz_("Left", "Transpose", n, nrhs, rank, &i__1, &a[a_offset], lda, &tau[1], &b[b_offset],
+            ldb, &dwork[1], ldwork, info, 4L, 9L);
+        maxwrk = max(maxwrk, dwork[1]);
         /*        Undo scaling. */
-        if (iascl == 1)
-        {
+        if (iascl == 1) {
             dlascl_("General", &c__0, &c__0, &anrm, &smlnum, n, nrhs, &b[b_offset], ldb, info, 7L);
             dlascl_("Upper", &c__0, &c__0, &smlnum, &anrm, rank, rank, &a[a_offset], lda, info, 5L);
-        }
-        else if (iascl == 2)
-        {
+        } else if (iascl == 2) {
             dlascl_("General", &c__0, &c__0, &anrm, &bignum, n, nrhs, &b[b_offset], ldb, info, 7L);
             dlascl_("Upper", &c__0, &c__0, &bignum, &anrm, rank, rank, &a[a_offset], lda, info, 5L);
         }
-        if (ibscl == 1)
-        {
+        if (ibscl == 1) {
             dlascl_("General", &c__0, &c__0, &smlnum, &bnrm, n, nrhs, &b[b_offset], ldb, info, 7L);
-        }
-        else if (ibscl == 2)
-        {
+        } else if (ibscl == 2) {
             dlascl_("General", &c__0, &c__0, &bignum, &bnrm, n, nrhs, &b[b_offset], ldb, info, 7L);
         }
     }
     /*     B(1:N,1:NRHS) := P * B(1:N,1:NRHS). */
     /*     Workspace N. */
     i__1 = *nrhs;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             dwork[jpvt[i__]] = b[i__ + j * b_dim1];
             /* L10: */
         }
@@ -314,4 +285,3 @@ integer *ldwork, *info;
     return 0;
     /* *** Last line of MB02QY *** */
 } /* mb02qy_ */
-

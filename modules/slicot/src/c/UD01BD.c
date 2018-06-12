@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,9 +10,9 @@
 static integer c__5 = 5;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int ud01bd_(mp, np, dp, nin, p, ldp1, ldp2, info)
-integer *mp, *np, *dp, *nin;
-doublereal *p;
+EXPORTSYMBOL /* Subroutine */ int ud01bd_(mp, np, dp, nin, p, ldp1, ldp2, info) integer *mp, *np,
+    *dp, *nin;
+doublereal* p;
 integer *ldp1, *ldp2, *info;
 {
     /* System generated locals */
@@ -102,32 +102,20 @@ integer *ldp1, *ldp2, *info;
     /* Function Body */
     *info = 0;
     /*     Check the input scalar arguments. */
-    if (*mp < 1)
-    {
+    if (*mp < 1) {
         *info = -1;
-    }
-    else if (*np < 1)
-    {
+    } else if (*np < 1) {
         *info = -2;
-    }
-    else if (*dp < 0)
-    {
+    } else if (*dp < 0) {
         *info = -3;
-    }
-    else if (*nin < 0)
-    {
+    } else if (*nin < 0) {
         *info = -4;
-    }
-    else if (*ldp1 < *mp)
-    {
+    } else if (*ldp1 < *mp) {
         *info = -6;
-    }
-    else if (*ldp2 < *np)
-    {
+    } else if (*ldp2 < *np) {
         *info = -7;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("UD01BD", &i__1, 6L);
@@ -136,20 +124,18 @@ integer *ldp1, *ldp2, *info;
     /*     Skip the text line preceding P(i) and read P(i), i = 0, ..., DP, */
     /*     row after row. */
     i__1 = *dp + 1;
-    for (k = 1; k <= i__1; ++k)
-    {
+    for (k = 1; k <= i__1; ++k) {
         io___2.ciunit = *nin;
         s_rsfe(&io___2);
         e_rsfe();
         i__2 = *mp;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             io___4.ciunit = *nin;
             s_rsle(&io___4);
             i__3 = *np;
-            for (j = 1; j <= i__3; ++j)
-            {
-                do_lio(&c__5, &c__1, (char *)&p[i__ + (j + k * p_dim2) * p_dim1], (ftnlen)sizeof(doublereal));
+            for (j = 1; j <= i__3; ++j) {
+                do_lio(&c__5, &c__1, (char*)&p[i__ + (j + k * p_dim2) * p_dim1],
+                    (ftnlen)sizeof(doublereal));
             }
             e_rsle();
             /* L10: */
@@ -159,4 +145,3 @@ integer *ldp1, *ldp2, *info;
     return 0;
     /* *** Last line of UD01BD *** */
 } /* ud01bd_ */
-

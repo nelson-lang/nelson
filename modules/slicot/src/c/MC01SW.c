@@ -1,15 +1,14 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mc01sw_(a, b, m, e)
-doublereal *a;
-integer *b;
-doublereal *m;
-integer *e;
+EXPORTSYMBOL /* Subroutine */ int mc01sw_(a, b, m, e) doublereal* a;
+integer* b;
+doublereal* m;
+integer* e;
 {
     static doublereal db;
     /*     SLICOT RELEASE 5.0. */
@@ -55,20 +54,18 @@ integer *e;
     /*     .. Intrinsic Functions .. */
     /*     .. Executable Statements .. */
     /*     Quick return if possible. */
-    if (*a == 0.)
-    {
+    if (*a == 0.) {
         *m = 0.;
         *e = 0;
         return 0;
     }
     /*     A non-zero. */
-    db = (doublereal) (*b);
+    db = (doublereal)(*b);
     *m = abs(*a);
     *e = 0;
     /*     WHILE ( M >= B ) DO */
 L20:
-    if (*m >= db)
-    {
+    if (*m >= db) {
         *m /= db;
         ++(*e);
         goto L20;
@@ -76,18 +73,15 @@ L20:
     /*     END WHILE 20 */
     /*     WHILE ( M < 1 ) DO */
 L40:
-    if (*m < 1.)
-    {
+    if (*m < 1.) {
         *m *= db;
         --(*e);
         goto L40;
     }
     /*     END WHILE 40 */
-    if (*a < 0.)
-    {
+    if (*a < 0.) {
         *m = -(*m);
     }
     return 0;
     /* *** Last line of MC01SW *** */
 } /* mc01sw_ */
-

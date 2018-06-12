@@ -20,11 +20,11 @@
 //=============================================================================
 #ifdef _MSC_VER
 #ifdef NLSELEMENTARY_FUNCTIONS_BUILTIN_EXPORTS
-#define  NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP __declspec(dllexport)
+#define NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP __declspec(dllexport)
 #else
 #define NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSELEMENTARY_FUNCTIONS_BUILTIN_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

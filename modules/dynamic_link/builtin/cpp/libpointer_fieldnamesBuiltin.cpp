@@ -18,30 +18,29 @@
 //=============================================================================
 #include "libpointer_fieldnamesBuiltin.hpp"
 #include "Error.hpp"
-#include "LibPointerObject.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
+#include "LibPointerObject.hpp"
 #include "ToCellString.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::libpointer_fieldnamesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DynamicLinkGateway::libpointer_fieldnamesBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR)
-    {
+    if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
         Error(eval, _W("libpointer handle expected."));
     }
-    LibPointerObject *objLibPointer = (LibPointerObject *)param1.getContentAsHandleScalar();
+    LibPointerObject* objLibPointer = (LibPointerObject*)param1.getContentAsHandleScalar();
     wstringVector fieldnames = objLibPointer->fieldnames();
     retval.push_back(ToCellStringAsColumn(fieldnames));
     return retval;

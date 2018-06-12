@@ -1,20 +1,20 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
 /* Table of constant values */
 
-static doublecomplex c_b1 = {1.,0.};
+static doublecomplex c_b1 = { 1., 0. };
 
-EXPORTSYMBOL /* Subroutine */ int mb02rz_(trans, n, nrhs, h__, ldh, ipiv, b, ldb, info, trans_len)
-char *trans;
+EXPORTSYMBOL /* Subroutine */ int mb02rz_(
+    trans, n, nrhs, h__, ldh, ipiv, b, ldb, info, trans_len) char* trans;
 integer *n, *nrhs;
-doublecomplex *h__;
+doublecomplex* h__;
 integer *ldh, *ipiv;
-doublecomplex *b;
+doublecomplex* b;
 integer *ldb, *info;
 ftnlen trans_len;
 {
@@ -119,39 +119,27 @@ ftnlen trans_len;
     /* Function Body */
     *info = 0;
     notran = lsame_(trans, "N", 1L, 1L);
-    if (! notran && ! lsame_(trans, "T", 1L, 1L) && ! lsame_(trans, "C", 1L, 1L))
-    {
+    if (!notran && !lsame_(trans, "T", 1L, 1L) && !lsame_(trans, "C", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*nrhs < 0)
-    {
+    } else if (*nrhs < 0) {
         *info = -3;
-    }
-    else if (*ldh < max(1,*n))
-    {
+    } else if (*ldh < max(1, *n)) {
         *info = -5;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -8;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02RZ", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *nrhs == 0)
-    {
+    if (*n == 0 || *nrhs == 0) {
         return 0;
     }
-    if (notran)
-    {
+    if (notran) {
         /*        Solve H * X = B. */
         /*        Solve L * X = B, overwriting B with X. */
         /*        L is represented as a product of permutations and unit lower */
@@ -159,11 +147,9 @@ ftnlen trans_len;
         /*        where each transformation L(i) is a rank-one modification of */
         /*        the identity matrix. */
         i__1 = *n - 1;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             jp = ipiv[j];
-            if (jp != j)
-            {
+            if (jp != j) {
                 zswap_(nrhs, &b[jp + b_dim1], ldb, &b[j + b_dim1], ldb);
             }
             i__2 = j + 1 + j * h_dim1;
@@ -172,41 +158,36 @@ ftnlen trans_len;
             /* L10: */
         }
         /*        Solve U * X = B, overwriting B with X. */
-        ztrsm_("Left", "Upper", "No transpose", "Non-unit", n, nrhs, &c_b1, &h__[h_offset], ldh, &b[b_offset], ldb, 4L, 5L, 12L, 8L);
-    }
-    else if (lsame_(trans, "T", 1L, 1L))
-    {
+        ztrsm_("Left", "Upper", "No transpose", "Non-unit", n, nrhs, &c_b1, &h__[h_offset], ldh,
+            &b[b_offset], ldb, 4L, 5L, 12L, 8L);
+    } else if (lsame_(trans, "T", 1L, 1L)) {
         /*        Solve H' * X = B. */
         /*        Solve U' * X = B, overwriting B with X. */
-        ztrsm_("Left", "Upper", trans, "Non-unit", n, nrhs, &c_b1, &h__[h_offset], ldh, &b[b_offset], ldb, 4L, 5L, 1L, 8L);
+        ztrsm_("Left", "Upper", trans, "Non-unit", n, nrhs, &c_b1, &h__[h_offset], ldh,
+            &b[b_offset], ldb, 4L, 5L, 1L, 8L);
         /*        Solve L' * X = B, overwriting B with X. */
-        for (j = *n - 1; j >= 1; --j)
-        {
+        for (j = *n - 1; j >= 1; --j) {
             i__1 = j + 1 + j * h_dim1;
             z__1.r = -h__[i__1].r, z__1.i = -h__[i__1].i;
             zaxpy_(nrhs, &z__1, &b[j + 1 + b_dim1], ldb, &b[j + b_dim1], ldb);
             jp = ipiv[j];
-            if (jp != j)
-            {
+            if (jp != j) {
                 zswap_(nrhs, &b[jp + b_dim1], ldb, &b[j + b_dim1], ldb);
             }
             /* L20: */
         }
-    }
-    else
-    {
+    } else {
         /*        Solve H**H * X = B. */
         /*        Solve U**H * X = B, overwriting B with X. */
-        ztrsm_("Left", "Upper", trans, "Non-unit", n, nrhs, &c_b1, &h__[h_offset], ldh, &b[b_offset], ldb, 4L, 5L, 1L, 8L);
+        ztrsm_("Left", "Upper", trans, "Non-unit", n, nrhs, &c_b1, &h__[h_offset], ldh,
+            &b[b_offset], ldb, 4L, 5L, 1L, 8L);
         /*        Solve L**H * X = B, overwriting B with X. */
-        for (j = *n - 1; j >= 1; --j)
-        {
+        for (j = *n - 1; j >= 1; --j) {
             d_cnjg(&z__2, &h__[j + 1 + j * h_dim1]);
             z__1.r = -z__2.r, z__1.i = -z__2.i;
             zaxpy_(nrhs, &z__1, &b[j + 1 + b_dim1], ldb, &b[j + b_dim1], ldb);
             jp = ipiv[j];
-            if (jp != j)
-            {
+            if (jp != j) {
                 zswap_(nrhs, &b[jp + b_dim1], ldb, &b[j + b_dim1], ldb);
             }
             /* L30: */
@@ -215,4 +196,3 @@ ftnlen trans_len;
     return 0;
     /* *** Last line of MB02RZ *** */
 } /* mb02rz_ */
-

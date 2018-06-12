@@ -21,50 +21,43 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DataStructuresGateway::struct_horzcat_structBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DataStructuresGateway::struct_horzcat_structBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
     ArrayOf C;
-    if (!A.isStruct())
-    {
+    if (!A.isStruct()) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
     }
-    if (!B.isStruct())
-    {
+    if (!B.isStruct()) {
         Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRUCT_EXPECTED);
     }
     stringVector fieldnamesA = A.getFieldNames();
     stringVector fieldnamesB = B.getFieldNames();
-    if (fieldnamesA.size() != fieldnamesB.size())
-    {
+    if (fieldnamesA.size() != fieldnamesB.size()) {
         Error(eval, ERROR_FIELDNAMES_MUST_MATCH);
     }
-    for (size_t k = 0; k < fieldnamesA.size(); k++)
-    {
-        if (fieldnamesA[k] != fieldnamesB[k])
-        {
+    for (size_t k = 0; k < fieldnamesA.size(); k++) {
+        if (fieldnamesA[k] != fieldnamesB[k]) {
             Error(eval, ERROR_FIELDNAMES_MUST_MATCH);
         }
     }
-    if (A.isEmpty())
-    {
+    if (A.isEmpty()) {
         C = B;
         C.ensureSingleOwner();
         retval.push_back(C);
         return retval;
     }
-    if (B.isEmpty())
-    {
+    if (B.isEmpty()) {
         C = A;
         C.ensureSingleOwner();
         retval.push_back(C);
@@ -72,19 +65,17 @@ ArrayOfVector Nelson::DataStructuresGateway::struct_horzcat_structBuiltin(Evalua
     }
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
-    if (dimsA.getRows() != dimsB.getRows())
-    {
+    if (dimsA.getRows() != dimsB.getRows()) {
         Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
     indexType newRowsSize = dimsA.getRows();
     indexType newSize = newColumnsSize * newRowsSize;
     Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-    void *res = ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, newSize, fieldnamesA);
-    ArrayOf *elements = (ArrayOf *)res;
+    void* res = ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, newSize, fieldnamesA);
+    ArrayOf* elements = (ArrayOf*)res;
     C = ArrayOf(NLS_STRUCT_ARRAY, dimsC, elements, false, fieldnamesA);
-    for (size_t k = 0; k < fieldnamesA.size(); k++)
-    {
+    for (size_t k = 0; k < fieldnamesA.size(); k++) {
         ArrayOfVector fieldsA = A.getFieldAsList(fieldnamesA[k]);
         ArrayOfVector fieldsB = B.getFieldAsList(fieldnamesA[k]);
         ArrayOfVector fieldsC = fieldsA;

@@ -25,6 +25,6 @@
 #define NLSMEMORY_MANAGER_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSMEMORY_MANAGER_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSMEMORY_MANAGER_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

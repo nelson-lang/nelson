@@ -18,29 +18,28 @@
 //=============================================================================
 #include "libpointer_isNullBuiltin.hpp"
 #include "Error.hpp"
-#include "LibPointerObject.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
+#include "LibPointerObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::libpointer_isNullBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DynamicLinkGateway::libpointer_isNullBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR)
-    {
+    if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
         Error(eval, _W("libpointer handle expected."));
     }
-    LibPointerObject *libPointerObj = (LibPointerObject *)param1.getContentAsHandleScalar();
+    LibPointerObject* libPointerObj = (LibPointerObject*)param1.getContentAsHandleScalar();
     retval.push_back(ArrayOf::logicalConstructor(libPointerObj->isNull()));
     return retval;
 }

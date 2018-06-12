@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,16 +10,17 @@
 static integer c__1 = 1;
 static doublereal c_b3 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int nf01ba_(iflag, nsmp, n, ipar, lipar, z__, ldz, y, ldy, x, nfevl, e, j, ldj, jte, dwork, ldwork, info)
-integer *iflag, *nsmp, *n, *ipar, *lipar;
-doublereal *z__;
-integer *ldz;
-doublereal *y;
-integer *ldy;
-doublereal *x;
-integer *nfevl;
+EXPORTSYMBOL /* Subroutine */ int nf01ba_(iflag, nsmp, n, ipar, lipar, z__, ldz, y, ldy, x, nfevl,
+    e, j, ldj, jte, dwork, ldwork, info) integer *iflag,
+    *nsmp, *n, *ipar, *lipar;
+doublereal* z__;
+integer* ldz;
+doublereal* y;
+integer* ldy;
+doublereal* x;
+integer* nfevl;
 doublereal *e, *j;
-integer *ldj;
+integer* ldj;
 doublereal *jte, *dwork;
 integer *ldwork, *info;
 {
@@ -78,8 +79,7 @@ integer *ldwork, *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    if (*iflag == 1)
-    {
+    if (*iflag == 1) {
         /*        Call NF01AY to compute the output y of the Wiener system (in E) */
         /*        and then the error functions (also in E). The array Z must */
         /*        contain the output of the linear part of the Wiener system, and */
@@ -88,39 +88,34 @@ integer *ldwork, *info;
         /*        Workspace: need:    2*NN, NN = IPAR(3) (number of neurons); */
         /*                   prefer:  larger. */
         i__1 = *lipar - 2;
-        nf01ay_(nsmp, &ipar[2], &c__1, &ipar[3], &i__1, &x[1], n, &z__[z_offset], ldz, &e[1], nsmp, &dwork[1], ldwork, info);
+        nf01ay_(nsmp, &ipar[2], &c__1, &ipar[3], &i__1, &x[1], n, &z__[z_offset], ldz, &e[1], nsmp,
+            &dwork[1], ldwork, info);
         daxpy_(nsmp, &c_b3, &y[y_offset], &c__1, &e[1], &c__1);
-        dwork[1] = (doublereal) (ipar[3] << 1);
-    }
-    else if (*iflag == 2)
-    {
+        dwork[1] = (doublereal)(ipar[3] << 1);
+    } else if (*iflag == 2) {
         /*        Call NF01BY to compute the Jacobian in a compressed form. */
         /*        IPAR(2), IPAR(3) must have the same content as for IFLAG = 1. */
         /*        Workspace: need:    0. */
         i__1 = *lipar - 2;
-        nf01by_("C", nsmp, &ipar[2], &c__1, &ipar[3], &i__1, &x[1], n, &z__[z_offset], ldz, &e[1], &j[j_offset], ldj, &jte[1], &dwork[1], ldwork, info, 1L);
+        nf01by_("C", nsmp, &ipar[2], &c__1, &ipar[3], &i__1, &x[1], n, &z__[z_offset], ldz, &e[1],
+            &j[j_offset], ldj, &jte[1], &dwork[1], ldwork, info, 1L);
         *nfevl = 0;
         dwork[1] = 0.;
-    }
-    else if (*iflag == 3)
-    {
+    } else if (*iflag == 3) {
         /*        Set the parameter LDJ, the length of the array J, and the sizes */
         /*        of the workspace for FCN (IFLAG = 1 or 2), and JPJ. */
         *ldj = *nsmp;
-        ipar[1] = *nsmp **n;
+        ipar[1] = *nsmp * *n;
         ipar[2] = ipar[3] << 1;
         ipar[3] = 0;
         ipar[4] = *nsmp;
-    }
-    else if (*iflag == 0)
-    {
+    } else if (*iflag == 0) {
         /*        Special call for printing intermediate results. */
         err = dnrm2_(nsmp, &e[1], &c__1);
         s_wsfe(&io___2);
-        do_fio(&c__1, (char *)&err, (ftnlen)sizeof(doublereal));
+        do_fio(&c__1, (char*)&err, (ftnlen)sizeof(doublereal));
         e_wsfe();
     }
     return 0;
     /* *** Last line of NF01BA *** */
 } /* nf01ba_ */
-

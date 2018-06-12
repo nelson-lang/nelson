@@ -1,14 +1,13 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int ma02cd_(n, kl, ku, a, lda)
-integer *n, *kl, *ku;
-doublereal *a;
-integer *lda;
+EXPORTSYMBOL /* Subroutine */ int ma02cd_(n, kl, ku, a, lda) integer *n, *kl, *ku;
+doublereal* a;
+integer* lda;
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2, i__3;
@@ -76,47 +75,42 @@ integer *lda;
     a_offset = a_dim1 + 1;
     a -= a_offset;
     /* Function Body */
-    if (*n <= 1)
-    {
+    if (*n <= 1) {
         return 0;
     }
     lda1 = *lda + 1;
     /*     Pertranspose the KL subdiagonals. */
     /* Computing MIN */
     i__2 = *kl, i__3 = *n - 2;
-    i__1 = min(i__2,i__3);
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    i__1 = min(i__2, i__3);
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i1 = (*n - i__) / 2;
-        if (i1 > 0)
-        {
+        if (i1 > 0) {
             i__2 = -lda1;
-            dswap_(&i1, &a[i__ + 1 + a_dim1], &lda1, &a[*n - i1 + 1 + (*n - i1 + 1 - i__) * a_dim1], &i__2);
+            dswap_(&i1, &a[i__ + 1 + a_dim1], &lda1, &a[*n - i1 + 1 + (*n - i1 + 1 - i__) * a_dim1],
+                &i__2);
         }
         /* L10: */
     }
     /*     Pertranspose the KU superdiagonals. */
     /* Computing MIN */
     i__2 = *ku, i__3 = *n - 2;
-    i__1 = min(i__2,i__3);
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    i__1 = min(i__2, i__3);
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i1 = (*n - i__) / 2;
-        if (i1 > 0)
-        {
+        if (i1 > 0) {
             i__2 = -lda1;
-            dswap_(&i1, &a[(i__ + 1) * a_dim1 + 1], &lda1, &a[*n - i1 + 1 - i__ + (*n - i1 + 1) * a_dim1], &i__2);
+            dswap_(&i1, &a[(i__ + 1) * a_dim1 + 1], &lda1,
+                &a[*n - i1 + 1 - i__ + (*n - i1 + 1) * a_dim1], &i__2);
         }
         /* L20: */
     }
     /*     Pertranspose the diagonal. */
     i1 = *n / 2;
-    if (i1 > 0)
-    {
+    if (i1 > 0) {
         i__1 = -lda1;
         dswap_(&i1, &a[a_dim1 + 1], &lda1, &a[*n - i1 + 1 + (*n - i1 + 1) * a_dim1], &i__1);
     }
     return 0;
     /* *** Last line of MA02CD *** */
 } /* ma02cd_ */
-

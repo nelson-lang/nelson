@@ -18,20 +18,29 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsTrigonometric_functions_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsTrigonometric_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf Cos(ArrayOf A);
-    NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf Sin(ArrayOf A);
-    NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf Tan(ArrayOf A);
+NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
+Cos(ArrayOf A);
+NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
+Sin(ArrayOf A);
+NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
+Tan(ArrayOf A);
 
-    NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf Acos(ArrayOf A);
-    NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf Asin(ArrayOf A);
-    NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf Atan(ArrayOf A);
+NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
+Acos(ArrayOf A);
+NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
+Asin(ArrayOf A);
+NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
+Atan(ArrayOf A);
 
-    NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf Cosh(ArrayOf A);
-    NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf Sinh(ArrayOf A);
-    NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf Tanh(ArrayOf A);
-}
-//=============================================================================
+NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
+Cosh(ArrayOf A);
+NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
+Sinh(ArrayOf A);
+NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
+Tanh(ArrayOf A);
+} // namespace Nelson
+  //=============================================================================

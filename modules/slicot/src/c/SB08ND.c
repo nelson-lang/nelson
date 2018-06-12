@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,9 +12,9 @@ static doublereal c_b11 = 2.;
 static integer c_n1 = -1;
 static doublereal c_b24 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb08nd_(acona, da, a, res, e, dwork, ldwork, info, acona_len)
-char *acona;
-integer *da;
+EXPORTSYMBOL /* Subroutine */ int sb08nd_(
+    acona, da, a, res, e, dwork, ldwork, info, acona_len) char* acona;
+integer* da;
 doublereal *a, *res, *e, *dwork;
 integer *ldwork, *info;
 ftnlen acona_len;
@@ -206,37 +206,27 @@ ftnlen acona_len;
     *info = 0;
     lacona = lsame_(acona, "A", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! lacona && ! lsame_(acona, "B", 1L, 1L))
-    {
+    if (!lacona && !lsame_(acona, "B", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*da < 0)
-    {
+    } else if (*da < 0) {
         *info = -2;
-    }
-    else if (*ldwork < *da * 5 + 5)
-    {
+    } else if (*ldwork < *da * 5 + 5) {
         *info = -7;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB08ND", &i__1, 6L);
         return 0;
     }
     nc = *da + 1;
-    if (! lacona)
-    {
-        if (a[1] <= 0.)
-        {
+    if (!lacona) {
+        if (a[1] <= 0.) {
             *info = 2;
             return 0;
         }
         dcopy_(&nc, &a[1], &c__1, &e[1], &c__1);
-    }
-    else
-    {
+    } else {
         sb08ny_(da, &a[1], &e[1], &w);
     }
     /*     Initialization. */
@@ -249,8 +239,7 @@ ftnlen acona_len;
     sa0 = sqrt(a0);
     s = 0.;
     i__1 = nc;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         w = e[j];
         a[j] = w;
         w /= sa0;
@@ -276,8 +265,7 @@ ftnlen acona_len;
     hurwtz = TRUE_;
     /*     WHILE ( I < 30 and CONV = FALSE and HURWTZ = TRUE ) DO */
 L40:
-    if (i__ < 30 && ! conv && hurwtz)
-    {
+    if (i__ < 30 && !conv && hurwtz) {
         ++i__;
         dcopy_(&nc, &a[1], &c__1, &dwork[leta], &c__1);
         dscal_(&nc, &c_b11, &dwork[leta], &c__1);
@@ -285,19 +273,16 @@ L40:
         /*        Computation of lambda(k) and eta(k). */
         k = 1;
         /*        WHILE ( K <= DA and HURWTZ = TRUE ) DO */
-L60:
-        if (k <= *da && hurwtz)
-        {
+    L60:
+        if (k <= *da && hurwtz) {
             nck = nc - k;
             i__1 = nck + 1;
             dcopy_(&i__1, &dwork[lalpha], &c_n1, &dwork[lro], &c__1);
             w = dwork[lalpha + nck] / dwork[lro + nck];
-            if (abs(w) >= 1.)
-            {
+            if (abs(w) >= 1.) {
                 hurwtz = FALSE_;
             }
-            if (hurwtz)
-            {
+            if (hurwtz) {
                 dwork[lambda + k - 1] = w;
                 d__1 = -w;
                 daxpy_(&nck, &d__1, &dwork[lro], &c__1, &dwork[lalpha], &c__1);
@@ -313,23 +298,20 @@ L60:
         /*        END WHILE 60 */
         /*        HURWTZ = The polynomial q    is a Hurwitz polynomial. */
         /*                                 i-1 */
-        if (hurwtz)
-        {
+        if (hurwtz) {
             dcopy_(&nc, &dwork[lq], &c__1, &e[1], &c__1);
             /*           Accuracy test. */
             sb08ny_(da, &e[1], &dwork[lq], &tolq);
             daxpy_(&nc, &c_b24, &a[1], &c__1, &dwork[lq], &c__1);
             *res = (d__1 = dwork[idamax_(&nc, &dwork[lq], &c__1) + lq - 1], abs(d__1));
             conv = *res < tolq || res0 < 0.;
-            if (! conv)
-            {
+            if (!conv) {
                 dwork[leta] = dwork[leta] * .5 / dwork[lalpha];
                 /*              Computation of x  and q . */
                 /*                              i      i */
                 /*              DWORK(LETA,...,LETA+DA)   : eta(k,0),...,eta(k,n) */
                 /*                   (LRO,...,LRO+DA-K+1) : eta(k,n-k+1),...,eta(k,0) */
-                for (k = *da; k >= 1; --k)
-                {
+                for (k = *da; k >= 1; --k) {
                     nck = nc - k + 1;
                     dcopy_(&nck, &dwork[leta], &c_n1, &dwork[lro], &c__1);
                     w = dwork[lambda + k - 1];
@@ -339,8 +321,7 @@ L60:
                 }
                 s = 0.;
                 i__1 = *da;
-                for (j = 0; j <= i__1; ++j)
-                {
+                for (j = 0; j <= i__1; ++j) {
                     w = (dwork[leta + j] + e[j + 1]) * .5;
                     dwork[lq + j] = w;
                     /* Computing 2nd power */
@@ -360,22 +341,15 @@ L60:
     /*     Reverse the order of the coefficients in the array E. */
     dswap_(&nc, &e[1], &c__1, &dwork[1], &c_n1);
     dswap_(&nc, &dwork[1], &c__1, &e[1], &c__1);
-    if (! conv)
-    {
-        if (hurwtz)
-        {
+    if (!conv) {
+        if (hurwtz) {
             *info = 3;
-        }
-        else if (i__ == 1)
-        {
+        } else if (i__ == 1) {
             *info = 2;
-        }
-        else
-        {
+        } else {
             *info = 4;
         }
     }
     return 0;
     /* *** Last line of SB08ND *** */
 } /* sb08nd_ */
-

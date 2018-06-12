@@ -18,12 +18,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsFftw_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsFftw_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSFFTW_IMPEXP ArrayOf InverseFft(ArrayOf X, indexType n, indexType dim);
-    NLSFFTW_IMPEXP ArrayOf InverseFft(ArrayOf X, indexType n);
-    NLSFFTW_IMPEXP ArrayOf InverseFft(ArrayOf X);
-}
+NLSFFTW_IMPEXP ArrayOf
+InverseFft(ArrayOf X, indexType n, indexType dim);
+NLSFFTW_IMPEXP ArrayOf
+InverseFft(ArrayOf X, indexType n);
+NLSFFTW_IMPEXP ArrayOf
+InverseFft(ArrayOf X);
+} // namespace Nelson
 //=============================================================================

@@ -42,32 +42,38 @@
 #include <stdio.h>
 
 namespace Nelson {
-    /**
-     * Set the string buffer to be processed by the lexer.
-     */
-    void setLexBuffer(const char *buffer);
-    /**
-     * Set the FILE pointer for the file to be processed
-     * by the lexer.
-     */
-    void setLexFile(FILE *fp);
-    /**
-     * Lex the file, and then check to see if more input is needed.
-     */
-    bool lexCheckForMoreInput(int pcount);
-    /**
-     * Set the contents of the lexical buffer, and reset the
-     * continuationCount to zero.
-     */
-    void lexSetAdditionalInput(char *buffer);
-    /**
-     * Retrieve the contents of the continuationCount.
-     */
-    int getContinuationCount();
-    /**
-     * Get an error message that describes the current token
-     */
-    void GetLexTokenDescription(char *buffer);
-}
+/**
+ * Set the string buffer to be processed by the lexer.
+ */
+void
+setLexBuffer(const char* buffer);
+/**
+ * Set the FILE pointer for the file to be processed
+ * by the lexer.
+ */
+void
+setLexFile(FILE* fp);
+/**
+ * Lex the file, and then check to see if more input is needed.
+ */
+bool
+lexCheckForMoreInput(int pcount);
+/**
+ * Set the contents of the lexical buffer, and reset the
+ * continuationCount to zero.
+ */
+void
+lexSetAdditionalInput(char* buffer);
+/**
+ * Retrieve the contents of the continuationCount.
+ */
+int
+getContinuationCount();
+/**
+ * Get an error message that describes the current token
+ */
+void
+GetLexTokenDescription(char* buffer);
+} // namespace Nelson
 
 #endif

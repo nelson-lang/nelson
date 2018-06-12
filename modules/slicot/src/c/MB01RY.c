@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,17 +12,18 @@ static integer c__0 = 0;
 static doublereal c_b14 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb01ry_(side, uplo, trans, m, alpha, beta, r__, ldr, h__, ldh, b, ldb, dwork, info, side_len, uplo_len, trans_len)
-char *side, *uplo, *trans;
-integer *m;
+EXPORTSYMBOL /* Subroutine */ int mb01ry_(side, uplo, trans, m, alpha, beta, r__, ldr, h__, ldh, b,
+    ldb, dwork, info, side_len, uplo_len, trans_len) char *side,
+    *uplo, *trans;
+integer* m;
 doublereal *alpha, *beta, *r__;
-integer *ldr;
-doublereal *h__;
-integer *ldh;
-doublereal *b;
-integer *ldb;
-doublereal *dwork;
-integer *info;
+integer* ldr;
+doublereal* h__;
+integer* ldh;
+doublereal* b;
+integer* ldb;
+doublereal* dwork;
+integer* info;
 ftnlen side_len;
 ftnlen uplo_len;
 ftnlen trans_len;
@@ -175,58 +176,38 @@ ftnlen trans_len;
     lside = lsame_(side, "L", 1L, 1L);
     luplo = lsame_(uplo, "U", 1L, 1L);
     ltrans = lsame_(trans, "T", 1L, 1L) || lsame_(trans, "C", 1L, 1L);
-    if (! lside && ! lsame_(side, "R", 1L, 1L))
-    {
+    if (!lside && !lsame_(side, "R", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! luplo && ! lsame_(uplo, "L", 1L, 1L))
-    {
+    } else if (!luplo && !lsame_(uplo, "L", 1L, 1L)) {
         *info = -2;
-    }
-    else if (! ltrans && ! lsame_(trans, "N", 1L, 1L))
-    {
+    } else if (!ltrans && !lsame_(trans, "N", 1L, 1L)) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*ldr < max(1,*m))
-    {
+    } else if (*ldr < max(1, *m)) {
         *info = -8;
-    }
-    else if (*ldh < max(1,*m))
-    {
+    } else if (*ldh < max(1, *m)) {
         *info = -10;
-    }
-    else if (*ldb < max(1,*m))
-    {
+    } else if (*ldb < max(1, *m)) {
         *info = -12;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB01RY", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*m == 0)
-    {
+    if (*m == 0) {
         return 0;
     }
-    if (*beta == 0.)
-    {
-        if (*alpha == 0.)
-        {
+    if (*beta == 0.) {
+        if (*alpha == 0.) {
             /*           Special case when both alpha = 0 and beta = 0. */
             dlaset_(uplo, m, m, &c_b10, &c_b10, &r__[r_offset], ldr, 1L);
-        }
-        else
-        {
+        } else {
             /*           Special case beta = 0. */
-            if (*alpha != 1.)
-            {
+            if (*alpha != 1.) {
                 dlascl_(uplo, &c__0, &c__0, &c_b14, alpha, m, m, &r__[r_offset], ldr, info, 1L);
             }
         }
@@ -235,133 +216,119 @@ ftnlen trans_len;
     /*     General case: beta <> 0. */
     /*     Compute the required triangle of (1) or (2) using BLAS 2 */
     /*     operations. */
-    if (lside)
-    {
+    if (lside) {
         /*        To avoid repeated references to the subdiagonal elements of H, */
         /*        these are swapped with the corresponding elements of H in the */
         /*        first column, and are finally restored. */
-        if (*m > 2)
-        {
+        if (*m > 2) {
             i__1 = *m - 2;
             i__2 = *ldh + 1;
             dswap_(&i__1, &h__[(h_dim1 << 1) + 3], &i__2, &h__[h_dim1 + 3], &c__1);
         }
-        if (luplo)
-        {
-            if (ltrans)
-            {
+        if (luplo) {
+            if (ltrans) {
                 i__1 = *m;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     /*                 Multiply the transposed upper triangle of the leading */
                     /*                 j-by-j submatrix of H by the leading part of the j-th */
                     /*                 column of B. */
                     dcopy_(&j, &b[j * b_dim1 + 1], &c__1, &dwork[1], &c__1);
-                    dtrmv_("Upper", trans, "Non-unit", &j, &h__[h_offset], ldh, &dwork[1], &c__1, 5L, 1L, 8L);
+                    dtrmv_("Upper", trans, "Non-unit", &j, &h__[h_offset], ldh, &dwork[1], &c__1,
+                        5L, 1L, 8L);
                     /*                 Add the contribution of the subdiagonal of H to */
                     /*                 the j-th column of the product. */
                     /* Computing MIN */
                     i__3 = j, i__4 = *m - 1;
-                    i__2 = min(i__3,i__4);
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
-                        r__[i__ + j * r_dim1] = *alpha * r__[i__ + j * r_dim1] + *beta * (dwork[i__] + h__[i__ + 1 + h_dim1] * b[i__ + 1 + j * b_dim1]);
+                    i__2 = min(i__3, i__4);
+                    for (i__ = 1; i__ <= i__2; ++i__) {
+                        r__[i__ + j * r_dim1] = *alpha * r__[i__ + j * r_dim1]
+                            + *beta
+                                * (dwork[i__] + h__[i__ + 1 + h_dim1] * b[i__ + 1 + j * b_dim1]);
                         /* L10: */
                     }
                     /* L20: */
                 }
                 r__[*m + *m * r_dim1] = *alpha * r__[*m + *m * r_dim1] + *beta * dwork[*m];
-            }
-            else
-            {
+            } else {
                 i__1 = *m;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     /*                 Multiply the upper triangle of the leading j-by-j */
                     /*                 submatrix of H by the leading part of the j-th column */
                     /*                 of B. */
                     dcopy_(&j, &b[j * b_dim1 + 1], &c__1, &dwork[1], &c__1);
-                    dtrmv_("Upper", trans, "Non-unit", &j, &h__[h_offset], ldh, &dwork[1], &c__1, 5L, 1L, 8L);
-                    if (j < *m)
-                    {
+                    dtrmv_("Upper", trans, "Non-unit", &j, &h__[h_offset], ldh, &dwork[1], &c__1,
+                        5L, 1L, 8L);
+                    if (j < *m) {
                         /*                    Multiply the remaining right part of the leading */
                         /*                    j-by-M submatrix of H by the trailing part of the */
                         /*                    j-th column of B. */
                         i__2 = *m - j;
-                        dgemv_(trans, &j, &i__2, beta, &h__[(j + 1) * h_dim1 + 1], ldh, &b[j + 1 + j * b_dim1], &c__1, alpha, &r__[j * r_dim1 + 1], &c__1, 1L);
-                    }
-                    else
-                    {
+                        dgemv_(trans, &j, &i__2, beta, &h__[(j + 1) * h_dim1 + 1], ldh,
+                            &b[j + 1 + j * b_dim1], &c__1, alpha, &r__[j * r_dim1 + 1], &c__1, 1L);
+                    } else {
                         dscal_(m, alpha, &r__[*m * r_dim1 + 1], &c__1);
                     }
                     /*                 Add the contribution of the subdiagonal of H to */
                     /*                 the j-th column of the product. */
                     r__[j * r_dim1 + 1] += *beta * dwork[1];
                     i__2 = j;
-                    for (i__ = 2; i__ <= i__2; ++i__)
-                    {
-                        r__[i__ + j * r_dim1] += *beta * (dwork[i__] + h__[i__ + h_dim1] * b[i__ - 1 + j * b_dim1]);
+                    for (i__ = 2; i__ <= i__2; ++i__) {
+                        r__[i__ + j * r_dim1]
+                            += *beta * (dwork[i__] + h__[i__ + h_dim1] * b[i__ - 1 + j * b_dim1]);
                         /* L30: */
                     }
                     /* L40: */
                 }
             }
-        }
-        else
-        {
-            if (ltrans)
-            {
-                for (j = *m; j >= 1; --j)
-                {
+        } else {
+            if (ltrans) {
+                for (j = *m; j >= 1; --j) {
                     /*                 Multiply the transposed upper triangle of the trailing */
                     /*                 (M-j+1)-by-(M-j+1) submatrix of H by the trailing part */
                     /*                 of the j-th column of B. */
                     i__1 = *m - j + 1;
                     dcopy_(&i__1, &b[j + j * b_dim1], &c__1, &dwork[j], &c__1);
                     i__1 = *m - j + 1;
-                    dtrmv_("Upper", trans, "Non-unit", &i__1, &h__[j + j * h_dim1], ldh, &dwork[j], &c__1, 5L, 1L, 8L);
-                    if (j > 1)
-                    {
+                    dtrmv_("Upper", trans, "Non-unit", &i__1, &h__[j + j * h_dim1], ldh, &dwork[j],
+                        &c__1, 5L, 1L, 8L);
+                    if (j > 1) {
                         /*                    Multiply the remaining left part of the trailing */
                         /*                    (M-j+1)-by-(j-1) submatrix of H' by the leading */
                         /*                    part of the j-th column of B. */
                         i__1 = j - 1;
                         i__2 = *m - j + 1;
-                        dgemv_(trans, &i__1, &i__2, beta, &h__[j * h_dim1 + 1], ldh, &b[j * b_dim1 + 1], &c__1, alpha, &r__[j + j * r_dim1], &c__1, 1L);
-                    }
-                    else
-                    {
+                        dgemv_(trans, &i__1, &i__2, beta, &h__[j * h_dim1 + 1], ldh,
+                            &b[j * b_dim1 + 1], &c__1, alpha, &r__[j + j * r_dim1], &c__1, 1L);
+                    } else {
                         dscal_(m, alpha, &r__[r_dim1 + 1], &c__1);
                     }
                     /*                 Add the contribution of the subdiagonal of H to */
                     /*                 the j-th column of the product. */
                     i__1 = *m - 1;
-                    for (i__ = j; i__ <= i__1; ++i__)
-                    {
-                        r__[i__ + j * r_dim1] += *beta * (dwork[i__] + h__[i__ + 1 + h_dim1] * b[i__ + 1 + j * b_dim1]);
+                    for (i__ = j; i__ <= i__1; ++i__) {
+                        r__[i__ + j * r_dim1] += *beta
+                            * (dwork[i__] + h__[i__ + 1 + h_dim1] * b[i__ + 1 + j * b_dim1]);
                         /* L50: */
                     }
                     r__[*m + j * r_dim1] += *beta * dwork[*m];
                     /* L60: */
                 }
-            }
-            else
-            {
-                for (j = *m; j >= 1; --j)
-                {
+            } else {
+                for (j = *m; j >= 1; --j) {
                     /*                 Multiply the upper triangle of the trailing */
                     /*                 (M-j+1)-by-(M-j+1) submatrix of H by the trailing */
                     /*                 part of the j-th column of B. */
                     i__1 = *m - j + 1;
                     dcopy_(&i__1, &b[j + j * b_dim1], &c__1, &dwork[j], &c__1);
                     i__1 = *m - j + 1;
-                    dtrmv_("Upper", trans, "Non-unit", &i__1, &h__[j + j * h_dim1], ldh, &dwork[j], &c__1, 5L, 1L, 8L);
+                    dtrmv_("Upper", trans, "Non-unit", &i__1, &h__[j + j * h_dim1], ldh, &dwork[j],
+                        &c__1, 5L, 1L, 8L);
                     /*                 Add the contribution of the subdiagonal of H to */
                     /*                 the j-th column of the product. */
                     i__1 = *m;
-                    for (i__ = max(j,2); i__ <= i__1; ++i__)
-                    {
-                        r__[i__ + j * r_dim1] = *alpha * r__[i__ + j * r_dim1] + *beta * (dwork[i__] + h__[i__ + h_dim1] * b[i__ - 1 + j * b_dim1]);
+                    for (i__ = max(j, 2); i__ <= i__1; ++i__) {
+                        r__[i__ + j * r_dim1] = *alpha * r__[i__ + j * r_dim1]
+                            + *beta * (dwork[i__] + h__[i__ + h_dim1] * b[i__ - 1 + j * b_dim1]);
                         /* L70: */
                     }
                     /* L80: */
@@ -369,71 +336,62 @@ ftnlen trans_len;
                 r__[r_dim1 + 1] = *alpha * r__[r_dim1 + 1] + *beta * dwork[1];
             }
         }
-        if (*m > 2)
-        {
+        if (*m > 2) {
             i__1 = *m - 2;
             i__2 = *ldh + 1;
             dswap_(&i__1, &h__[(h_dim1 << 1) + 3], &i__2, &h__[h_dim1 + 3], &c__1);
         }
-    }
-    else
-    {
+    } else {
         /*        Row-wise calculations are used for H, if SIDE = 'R' and */
         /*        TRANS = 'T'. */
-        if (luplo)
-        {
-            if (ltrans)
-            {
-                r__[r_dim1 + 1] = *alpha * r__[r_dim1 + 1] + *beta * ddot_(m, &b[b_offset], ldb, &h__[h_offset], ldh);
+        if (luplo) {
+            if (ltrans) {
+                r__[r_dim1 + 1] = *alpha * r__[r_dim1 + 1]
+                    + *beta * ddot_(m, &b[b_offset], ldb, &h__[h_offset], ldh);
                 i__1 = *m;
-                for (j = 2; j <= i__1; ++j)
-                {
+                for (j = 2; j <= i__1; ++j) {
                     i__2 = *m - j + 2;
-                    dgemv_("NoTranspose", &j, &i__2, beta, &b[(j - 1) * b_dim1 + 1], ldb, &h__[j + (j - 1) * h_dim1], ldh, alpha, &r__[j * r_dim1 + 1], &c__1, 11L);
+                    dgemv_("NoTranspose", &j, &i__2, beta, &b[(j - 1) * b_dim1 + 1], ldb,
+                        &h__[j + (j - 1) * h_dim1], ldh, alpha, &r__[j * r_dim1 + 1], &c__1, 11L);
                     /* L90: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *m - 1;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = j + 1;
-                    dgemv_("NoTranspose", &j, &i__2, beta, &b[b_offset], ldb, &h__[j * h_dim1 + 1], &c__1, alpha, &r__[j * r_dim1 + 1], &c__1, 11L);
+                    dgemv_("NoTranspose", &j, &i__2, beta, &b[b_offset], ldb, &h__[j * h_dim1 + 1],
+                        &c__1, alpha, &r__[j * r_dim1 + 1], &c__1, 11L);
                     /* L100: */
                 }
-                dgemv_("NoTranspose", m, m, beta, &b[b_offset], ldb, &h__[*m * h_dim1 + 1], &c__1, alpha, &r__[*m * r_dim1 + 1], &c__1, 11L);
+                dgemv_("NoTranspose", m, m, beta, &b[b_offset], ldb, &h__[*m * h_dim1 + 1], &c__1,
+                    alpha, &r__[*m * r_dim1 + 1], &c__1, 11L);
             }
-        }
-        else
-        {
-            if (ltrans)
-            {
-                dgemv_("NoTranspose", m, m, beta, &b[b_offset], ldb, &h__[h_offset], ldh, alpha, &r__[r_dim1 + 1], &c__1, 11L);
+        } else {
+            if (ltrans) {
+                dgemv_("NoTranspose", m, m, beta, &b[b_offset], ldb, &h__[h_offset], ldh, alpha,
+                    &r__[r_dim1 + 1], &c__1, 11L);
                 i__1 = *m;
-                for (j = 2; j <= i__1; ++j)
-                {
+                for (j = 2; j <= i__1; ++j) {
                     i__2 = *m - j + 1;
                     i__3 = *m - j + 2;
-                    dgemv_("NoTranspose", &i__2, &i__3, beta, &b[j + (j - 1) * b_dim1], ldb, &h__[j + (j - 1) * h_dim1], ldh, alpha, &r__[j + j * r_dim1], &c__1, 11L);
+                    dgemv_("NoTranspose", &i__2, &i__3, beta, &b[j + (j - 1) * b_dim1], ldb,
+                        &h__[j + (j - 1) * h_dim1], ldh, alpha, &r__[j + j * r_dim1], &c__1, 11L);
                     /* L110: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *m - 1;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *m - j + 1;
                     i__3 = j + 1;
-                    dgemv_("NoTranspose", &i__2, &i__3, beta, &b[j + b_dim1], ldb, &h__[j * h_dim1 + 1], &c__1, alpha, &r__[j + j * r_dim1], &c__1, 11L);
+                    dgemv_("NoTranspose", &i__2, &i__3, beta, &b[j + b_dim1], ldb,
+                        &h__[j * h_dim1 + 1], &c__1, alpha, &r__[j + j * r_dim1], &c__1, 11L);
                     /* L120: */
                 }
-                r__[*m + *m * r_dim1] = *alpha * r__[*m + *m * r_dim1] + *beta * ddot_(m, &b[*m + b_dim1], ldb, &h__[*m * h_dim1 + 1], &c__1);
+                r__[*m + *m * r_dim1] = *alpha * r__[*m + *m * r_dim1]
+                    + *beta * ddot_(m, &b[*m + b_dim1], ldb, &h__[*m * h_dim1 + 1], &c__1);
             }
         }
     }
     return 0;
     /* *** Last line of MB01RY *** */
 } /* mb01ry_ */
-

@@ -22,15 +22,26 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace IntegerGateway {
-        ArrayOfVector ndarrayint8_vertcat_ndarrayint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayint16_vertcat_ndarrayint16Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayint32_vertcat_ndarrayint32Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayint64_vertcat_ndarrayint64Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayuint8_vertcat_ndarrayuint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayuint16_vertcat_ndarrayuint16Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayuint32_vertcat_ndarrayuint32Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayuint64_vertcat_ndarrayuint64Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
-}
+namespace IntegerGateway {
+    ArrayOfVector
+    ndarrayint8_vertcat_ndarrayint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    ndarrayint16_vertcat_ndarrayint16Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    ndarrayint32_vertcat_ndarrayint32Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    ndarrayint64_vertcat_ndarrayint64Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    ndarrayuint8_vertcat_ndarrayuint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    ndarrayuint16_vertcat_ndarrayuint16Builtin(
+        Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    ndarrayuint32_vertcat_ndarrayuint32Builtin(
+        Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    ndarrayuint64_vertcat_ndarrayuint64Builtin(
+        Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+} // namespace IntegerGateway
+} // namespace Nelson
 //=============================================================================

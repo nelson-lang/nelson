@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,28 +12,30 @@ static doublereal c_b11 = 1.;
 static doublereal c_b14 = 0.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int ab05sd_(fbtype, jobd, n, m, p, alpha, a, lda, b, ldb, c__, ldc, d__, ldd, f, ldf, rcond, iwork, dwork, ldwork, info, fbtype_len, jobd_len)
-char *fbtype, *jobd;
+EXPORTSYMBOL /* Subroutine */ int ab05sd_(fbtype, jobd, n, m, p, alpha, a, lda, b, ldb, c__, ldc,
+    d__, ldd, f, ldf, rcond, iwork, dwork, ldwork, info, fbtype_len, jobd_len) char *fbtype,
+    *jobd;
 integer *n, *m, *p;
 doublereal *alpha, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *f;
-integer *ldf;
-doublereal *rcond;
-integer *iwork;
-doublereal *dwork;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* f;
+integer* ldf;
+doublereal* rcond;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen fbtype_len;
 ftnlen jobd_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, f_dim1, f_offset, i__1, i__2;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, f_dim1,
+        f_offset, i__1, i__2;
     doublereal d__1;
     /* Local variables */
     static integer ldwn, ldwp, i__;
@@ -212,60 +214,38 @@ ftnlen jobd_len;
     unitf = lsame_(fbtype, "I", 1L, 1L);
     outpf = lsame_(fbtype, "O", 1L, 1L);
     ljobd = lsame_(jobd, "D", 1L, 1L);
-    ldwn = max(1,*n);
-    ldwp = max(1,*p);
+    ldwn = max(1, *n);
+    ldwp = max(1, *p);
     *info = 0;
-    if (! unitf && ! outpf)
-    {
+    if (!unitf && !outpf) {
         *info = -1;
-    }
-    else if (! ljobd && ! lsame_(jobd, "Z", 1L, 1L))
-    {
+    } else if (!ljobd && !lsame_(jobd, "Z", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*p < 0 || unitf && *p != *m)
-    {
+    } else if (*p < 0 || unitf && *p != *m) {
         *info = -5;
-    }
-    else if (*lda < ldwn)
-    {
+    } else if (*lda < ldwn) {
         *info = -7;
-    }
-    else if (*ldb < ldwn)
-    {
+    } else if (*ldb < ldwn) {
         *info = -9;
-    }
-    else if (*n > 0 && *ldc < ldwp || *n == 0 && *ldc < 1)
-    {
+    } else if (*n > 0 && *ldc < ldwp || *n == 0 && *ldc < 1) {
         *info = -11;
-    }
-    else if (ljobd && *ldd < ldwp || ! ljobd && *ldd < 1)
-    {
+    } else if (ljobd && *ldd < ldwp || !ljobd && *ldd < 1) {
         *info = -13;
-    }
-    else if (outpf && *alpha != 0. && *ldf < max(1,*m) || (unitf || *alpha == 0.) && *ldf < 1)
-    {
+    } else if (outpf && *alpha != 0. && *ldf < max(1, *m) || (unitf || *alpha == 0.) && *ldf < 1) {
         *info = -16;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = max(1,*m), i__2 = *p **p + (*p << 2);
-        if (ljobd && *ldwork < max(i__1,i__2) || ! ljobd && *ldwork < max(1,*m))
-        {
+        i__1 = max(1, *m), i__2 = *p * *p + (*p << 2);
+        if (ljobd && *ldwork < max(i__1, i__2) || !ljobd && *ldwork < max(1, *m)) {
             *info = -20;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB05SD", &i__1, 6L);
@@ -274,28 +254,23 @@ ftnlen jobd_len;
     /*     Quick return if possible. */
     *rcond = 1.;
     /* Computing MAX */
-    i__1 = *n, i__2 = min(*m,*p);
-    if (max(i__1,i__2) == 0 || *alpha == 0.)
-    {
+    i__1 = *n, i__2 = min(*m, *p);
+    if (max(i__1, i__2) == 0 || *alpha == 0.) {
         return 0;
     }
-    if (ljobd)
-    {
-        iw = *p **p + 1;
+    if (ljobd) {
+        iw = *p * *p + 1;
         /*        Compute I - alpha*D*F. */
-        if (unitf)
-        {
+        if (unitf) {
             dlacpy_("F", p, p, &d__[d_offset], ldd, &dwork[1], &ldwp, 1L);
-            if (*alpha != -1.)
-            {
+            if (*alpha != -1.) {
                 d__1 = -(*alpha);
                 dlascl_("G", &c__0, &c__0, &c_b11, &d__1, p, p, &dwork[1], &ldwp, info, 1L);
             }
-        }
-        else
-        {
+        } else {
             d__1 = -(*alpha);
-            dgemm_("N", "N", p, p, m, &d__1, &d__[d_offset], ldd, &f[f_offset], ldf, &c_b14, &dwork[1], &ldwp, 1L, 1L);
+            dgemm_("N", "N", p, p, m, &d__1, &d__[d_offset], ldd, &f[f_offset], ldf, &c_b14,
+                &dwork[1], &ldwp, 1L, 1L);
         }
         dummy[0] = 1.;
         i__1 = *p + 1;
@@ -303,88 +278,78 @@ ftnlen jobd_len;
         /*        Compute Cc = E*C, Dc = E*D, where E = (I - alpha*D*F)**-1. */
         enorm = dlange_("1", p, p, &dwork[1], &ldwp, &dwork[iw], 1L);
         dgetrf_(p, p, &dwork[1], &ldwp, &iwork[1], info);
-        if (*info > 0)
-        {
+        if (*info > 0) {
             /*           Error return. */
             *rcond = 0.;
             *info = 1;
             return 0;
         }
         dgecon_("1", p, &dwork[1], &ldwp, &enorm, rcond, &dwork[iw], &iwork[*p + 1], info, 1L);
-        if (*rcond <= dlamch_("E", 1L))
-        {
+        if (*rcond <= dlamch_("E", 1L)) {
             /*           Error return. */
             *info = 1;
             return 0;
         }
-        if (*n > 0)
-        {
+        if (*n > 0) {
             dgetrs_("N", p, n, &dwork[1], &ldwp, &iwork[1], &c__[c_offset], ldc, info, 1L);
         }
         dgetrs_("N", p, m, &dwork[1], &ldwp, &iwork[1], &d__[d_offset], ldd, info, 1L);
     }
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     /*     Compute Ac = A + alpha*B*F*Cc and Bc = B + alpha*B*F*Dc. */
-    if (unitf)
-    {
-        dgemm_("N", "N", n, n, m, alpha, &b[b_offset], ldb, &c__[c_offset], ldc, &c_b11, &a[a_offset], lda, 1L, 1L);
-        if (ljobd)
-        {
-            if (*ldwork < *n **m)
-            {
+    if (unitf) {
+        dgemm_("N", "N", n, n, m, alpha, &b[b_offset], ldb, &c__[c_offset], ldc, &c_b11,
+            &a[a_offset], lda, 1L, 1L);
+        if (ljobd) {
+            if (*ldwork < *n * *m) {
                 /*              Not enough working space for using DGEMM. */
                 i__1 = *n;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     dcopy_(p, &b[i__ + b_dim1], ldb, &dwork[1], &c__1);
-                    dgemv_("T", p, p, alpha, &d__[d_offset], ldd, &dwork[1], &c__1, &c_b11, &b[i__ + b_dim1], ldb, 1L);
+                    dgemv_("T", p, p, alpha, &d__[d_offset], ldd, &dwork[1], &c__1, &c_b11,
+                        &b[i__ + b_dim1], ldb, 1L);
                     /* L10: */
                 }
-            }
-            else
-            {
+            } else {
                 dlacpy_("F", n, m, &b[b_offset], ldb, &dwork[1], &ldwn, 1L);
-                dgemm_("N", "N", n, p, m, alpha, &dwork[1], &ldwn, &d__[d_offset], ldd, &c_b11, &b[b_offset], ldb, 1L, 1L);
+                dgemm_("N", "N", n, p, m, alpha, &dwork[1], &ldwn, &d__[d_offset], ldd, &c_b11,
+                    &b[b_offset], ldb, 1L, 1L);
             }
         }
-    }
-    else
-    {
-        if (*ldwork < *n **p)
-        {
+    } else {
+        if (*ldwork < *n * *p) {
             /*           Not enough working space for using DGEMM. */
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
-                dgemv_("N", m, p, alpha, &f[f_offset], ldf, &c__[i__ * c_dim1 + 1], &c__1, &c_b14, &dwork[1], &c__1, 1L);
-                dgemv_("N", n, m, &c_b11, &b[b_offset], ldb, &dwork[1], &c__1, &c_b11, &a[i__ * a_dim1 + 1], &c__1, 1L);
+            for (i__ = 1; i__ <= i__1; ++i__) {
+                dgemv_("N", m, p, alpha, &f[f_offset], ldf, &c__[i__ * c_dim1 + 1], &c__1, &c_b14,
+                    &dwork[1], &c__1, 1L);
+                dgemv_("N", n, m, &c_b11, &b[b_offset], ldb, &dwork[1], &c__1, &c_b11,
+                    &a[i__ * a_dim1 + 1], &c__1, 1L);
                 /* L20: */
             }
-            if (ljobd)
-            {
+            if (ljobd) {
                 i__1 = *n;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
-                    dgemv_("T", m, p, alpha, &f[f_offset], ldf, &b[i__ + b_dim1], ldb, &c_b14, &dwork[1], &c__1, 1L);
-                    dgemv_("T", p, m, &c_b11, &d__[d_offset], ldd, &dwork[1], &c__1, &c_b11, &b[i__ + b_dim1], ldb, 1L);
+                for (i__ = 1; i__ <= i__1; ++i__) {
+                    dgemv_("T", m, p, alpha, &f[f_offset], ldf, &b[i__ + b_dim1], ldb, &c_b14,
+                        &dwork[1], &c__1, 1L);
+                    dgemv_("T", p, m, &c_b11, &d__[d_offset], ldd, &dwork[1], &c__1, &c_b11,
+                        &b[i__ + b_dim1], ldb, 1L);
                     /* L30: */
                 }
             }
-        }
-        else
-        {
-            dgemm_("N", "N", n, p, m, alpha, &b[b_offset], ldb, &f[f_offset], ldf, &c_b14, &dwork[1], &ldwn, 1L, 1L);
-            dgemm_("N", "N", n, n, p, &c_b11, &dwork[1], &ldwn, &c__[c_offset], ldc, &c_b11, &a[a_offset], lda, 1L, 1L);
-            if (ljobd)
-            {
-                dgemm_("N", "N", n, m, p, &c_b11, &dwork[1], &ldwn, &d__[d_offset], ldd, &c_b11, &b[b_offset], ldb, 1L, 1L);
+        } else {
+            dgemm_("N", "N", n, p, m, alpha, &b[b_offset], ldb, &f[f_offset], ldf, &c_b14,
+                &dwork[1], &ldwn, 1L, 1L);
+            dgemm_("N", "N", n, n, p, &c_b11, &dwork[1], &ldwn, &c__[c_offset], ldc, &c_b11,
+                &a[a_offset], lda, 1L, 1L);
+            if (ljobd) {
+                dgemm_("N", "N", n, m, p, &c_b11, &dwork[1], &ldwn, &d__[d_offset], ldd, &c_b11,
+                    &b[b_offset], ldb, 1L, 1L);
             }
         }
     }
     return 0;
     /* *** Last line of AB05SD *** */
 } /* ab05sd_ */
-

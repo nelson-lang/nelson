@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,18 +11,19 @@ static doublereal c_b21 = 0.;
 static doublereal c_b22 = 1.;
 static doublereal c_b23 = .5;
 
-EXPORTSYMBOL /* Subroutine */ int sb03sy_(job, trana, lyapun, n, t, ldt, u, ldu, xa, ldxa, sepd, thnorm, iwork, dwork, ldwork, info, job_len, trana_len, lyapun_len)
-char *job, *trana, *lyapun;
-integer *n;
-doublereal *t;
-integer *ldt;
-doublereal *u;
-integer *ldu;
-doublereal *xa;
-integer *ldxa;
+EXPORTSYMBOL /* Subroutine */ int sb03sy_(job, trana, lyapun, n, t, ldt, u, ldu, xa, ldxa, sepd,
+    thnorm, iwork, dwork, ldwork, info, job_len, trana_len, lyapun_len) char *job,
+    *trana, *lyapun;
+integer* n;
+doublereal* t;
+integer* ldt;
+doublereal* u;
+integer* ldu;
+doublereal* xa;
+integer* ldxa;
 doublereal *sepd, *thnorm;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen job_len;
 ftnlen trana_len;
@@ -214,111 +215,85 @@ ftnlen lyapun_len;
     wantt = lsame_(job, "T", 1L, 1L);
     notrna = lsame_(trana, "N", 1L, 1L);
     update = lsame_(lyapun, "O", 1L, 1L);
-    nn = *n **n;
+    nn = *n * *n;
     *info = 0;
-    if (! (wants || wantt || lsame_(job, "B", 1L, 1L)))
-    {
+    if (!(wants || wantt || lsame_(job, "B", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (notrna || lsame_(trana, "T", 1L, 1L) || lsame_(trana, "C", 1L, 1L)))
-    {
+    } else if (!(notrna || lsame_(trana, "T", 1L, 1L) || lsame_(trana, "C", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (update || lsame_(lyapun, "R", 1L, 1L)))
-    {
+    } else if (!(update || lsame_(lyapun, "R", 1L, 1L))) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*ldt < max(1,*n))
-    {
+    } else if (*ldt < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldu < 1 || update && *ldu < *n)
-    {
+    } else if (*ldu < 1 || update && *ldu < *n) {
         *info = -8;
-    }
-    else if (*ldxa < 1 || ! wants && *ldxa < *n)
-    {
+    } else if (*ldxa < 1 || !wants && *ldxa < *n) {
         *info = -10;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 3, i__2 = nn << 1;
-        if (*ldwork < 0 || *ldwork < max(i__1,i__2) && *n > 0)
-        {
+        if (*ldwork < 0 || *ldwork < max(i__1, i__2) && *n > 0) {
             *info = -15;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SB03SY", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     itmp = nn + 1;
-    if (notrna)
-    {
-        *(unsigned char *)tranat = 'T';
+    if (notrna) {
+        *(unsigned char*)tranat = 'T';
+    } else {
+        *(unsigned char*)tranat = 'N';
     }
-    else
-    {
-        *(unsigned char *)tranat = 'N';
-    }
-    if (! wantt)
-    {
+    if (!wantt) {
         /*        Estimate sepd(op(A),op(A)'). */
         /*        Workspace:  max(3,2*N*N). */
         kase = 0;
         /*        REPEAT */
-L10:
+    L10:
         dlacon_(&nn, &dwork[itmp], &dwork[1], &iwork[1], &est, &kase);
-        if (kase != 0)
-        {
+        if (kase != 0) {
             /*           Select the triangular part of symmetric matrix to be used. */
-            if (dlansy_("1-norm", "Upper", n, &dwork[1], n, &dwork[itmp], 6L, 5L) >= dlansy_("1-norm", "Lower", n, &dwork[1], n, &dwork[itmp], 6L, 5L))
-            {
-                *(unsigned char *)uplo = 'U';
+            if (dlansy_("1-norm", "Upper", n, &dwork[1], n, &dwork[itmp], 6L, 5L)
+                >= dlansy_("1-norm", "Lower", n, &dwork[1], n, &dwork[itmp], 6L, 5L)) {
+                *(unsigned char*)uplo = 'U';
+            } else {
+                *(unsigned char*)uplo = 'L';
             }
-            else
-            {
-                *(unsigned char *)uplo = 'L';
-            }
-            if (update)
-            {
+            if (update) {
                 /*              Transform the right-hand side: RHS := U'*RHS*U. */
-                mb01ru_(uplo, "Transpose", n, n, &c_b21, &c_b22, &dwork[1], n, &u[u_offset], ldu, &dwork[1], n, &dwork[itmp], &nn, &info2, 1L, 9L);
+                mb01ru_(uplo, "Transpose", n, n, &c_b21, &c_b22, &dwork[1], n, &u[u_offset], ldu,
+                    &dwork[1], n, &dwork[itmp], &nn, &info2, 1L, 9L);
                 i__1 = *n + 1;
                 dscal_(n, &c_b23, &dwork[1], &i__1);
             }
             ma02ed_(uplo, n, &dwork[1], n, 1L);
-            if (kase == 1)
-            {
+            if (kase == 1) {
                 /*              Solve op(T)'*Y*op(T) - Y = scale*RHS. */
-                sb03mx_(trana, n, &t[t_offset], ldt, &dwork[1], n, &scale, &dwork[itmp], &info2, 1L);
-            }
-            else
-            {
+                sb03mx_(
+                    trana, n, &t[t_offset], ldt, &dwork[1], n, &scale, &dwork[itmp], &info2, 1L);
+            } else {
                 /*              Solve op(T)*W*op(T)' - W = scale*RHS. */
-                sb03mx_(tranat, n, &t[t_offset], ldt, &dwork[1], n, &scale, &dwork[itmp], &info2, 1L);
+                sb03mx_(
+                    tranat, n, &t[t_offset], ldt, &dwork[1], n, &scale, &dwork[itmp], &info2, 1L);
             }
-            if (info2 > 0)
-            {
+            if (info2 > 0) {
                 *info = *n + 1;
             }
-            if (update)
-            {
+            if (update) {
                 /*              Transform back to obtain the solution: Z := U*Z*U', with */
                 /*              Z = Y or Z = W. */
-                mb01ru_(uplo, "No transpose", n, n, &c_b21, &c_b22, &dwork[1], n, &u[u_offset], ldu, &dwork[1], n, &dwork[itmp], &nn, &info2, 1L, 12L);
+                mb01ru_(uplo, "No transpose", n, n, &c_b21, &c_b22, &dwork[1], n, &u[u_offset], ldu,
+                    &dwork[1], n, &dwork[itmp], &nn, &info2, 1L, 12L);
                 i__1 = *n + 1;
                 dscal_(n, &c_b23, &dwork[1], &i__1);
                 /*              Fill in the remaining triangle of the symmetric matrix. */
@@ -327,79 +302,67 @@ L10:
             goto L10;
         }
         /*        UNTIL KASE = 0 */
-        if (est > scale)
-        {
+        if (est > scale) {
             *sepd = scale / est;
-        }
-        else
-        {
+        } else {
             bignum = 1. / dlamch_("Safe minimum", 12L);
-            if (scale < est * bignum)
-            {
+            if (scale < est * bignum) {
                 *sepd = scale / est;
-            }
-            else
-            {
+            } else {
                 *sepd = bignum;
             }
         }
         /*        Return if the equation is singular. */
-        if (*sepd == 0.)
-        {
+        if (*sepd == 0.) {
             return 0;
         }
     }
-    if (! wants)
-    {
+    if (!wants) {
         /*        Estimate norm(Theta). */
         /*        Workspace:  max(3,2*N*N). */
         kase = 0;
         /*        REPEAT */
-L20:
+    L20:
         dlacon_(&nn, &dwork[itmp], &dwork[1], &iwork[1], &est, &kase);
-        if (kase != 0)
-        {
+        if (kase != 0) {
             /*           Select the triangular part of symmetric matrix to be used. */
-            if (dlansy_("1-norm", "Upper", n, &dwork[1], n, &dwork[itmp], 6L, 5L) >= dlansy_("1-norm", "Lower", n, &dwork[1], n, &dwork[itmp], 6L, 5L))
-            {
-                *(unsigned char *)uplo = 'U';
-            }
-            else
-            {
-                *(unsigned char *)uplo = 'L';
+            if (dlansy_("1-norm", "Upper", n, &dwork[1], n, &dwork[itmp], 6L, 5L)
+                >= dlansy_("1-norm", "Lower", n, &dwork[1], n, &dwork[itmp], 6L, 5L)) {
+                *(unsigned char*)uplo = 'U';
+            } else {
+                *(unsigned char*)uplo = 'L';
             }
             /*           Fill in the remaining triangle of the symmetric matrix. */
             ma02ed_(uplo, n, &dwork[1], n, 1L);
             /*           Compute RHS = op(W)'*X*op(A) + op(A)'*X*op(W). */
-            dsyr2k_(uplo, tranat, n, n, &c_b22, &dwork[1], n, &xa[xa_offset], ldxa, &c_b21, &dwork[itmp], n, 1L, 1L);
+            dsyr2k_(uplo, tranat, n, n, &c_b22, &dwork[1], n, &xa[xa_offset], ldxa, &c_b21,
+                &dwork[itmp], n, 1L, 1L);
             dlacpy_(uplo, n, n, &dwork[itmp], n, &dwork[1], n, 1L);
-            if (update)
-            {
+            if (update) {
                 /*              Transform the right-hand side: RHS := U'*RHS*U. */
-                mb01ru_(uplo, "Transpose", n, n, &c_b21, &c_b22, &dwork[1], n, &u[u_offset], ldu, &dwork[1], n, &dwork[itmp], &nn, &info2, 1L, 9L);
+                mb01ru_(uplo, "Transpose", n, n, &c_b21, &c_b22, &dwork[1], n, &u[u_offset], ldu,
+                    &dwork[1], n, &dwork[itmp], &nn, &info2, 1L, 9L);
                 i__1 = *n + 1;
                 dscal_(n, &c_b23, &dwork[1], &i__1);
             }
             ma02ed_(uplo, n, &dwork[1], n, 1L);
-            if (kase == 1)
-            {
+            if (kase == 1) {
                 /*              Solve op(T)'*Y*op(T) - Y = scale*RHS. */
-                sb03mx_(trana, n, &t[t_offset], ldt, &dwork[1], n, &scale, &dwork[itmp], &info2, 1L);
-            }
-            else
-            {
+                sb03mx_(
+                    trana, n, &t[t_offset], ldt, &dwork[1], n, &scale, &dwork[itmp], &info2, 1L);
+            } else {
                 /*              Solve op(T)*W*op(T)' - W = scale*RHS. */
-                sb03mx_(tranat, n, &t[t_offset], ldt, &dwork[1], n, &scale, &dwork[itmp], &info2, 1L);
+                sb03mx_(
+                    tranat, n, &t[t_offset], ldt, &dwork[1], n, &scale, &dwork[itmp], &info2, 1L);
             }
-            if (info2 > 0)
-            {
+            if (info2 > 0) {
                 *info = *n + 1;
             }
-            if (update)
-            {
+            if (update) {
                 /*              Transform back to obtain the solution: Z := U*Z*U', with */
                 /*              Z = Y or Z = W. */
-                mb01ru_(uplo, "No transpose", n, n, &c_b21, &c_b22, &dwork[1], n, &u[u_offset], ldu, &dwork[1], n, &dwork[itmp], &nn, &info2, 1L, 12L);
+                mb01ru_(uplo, "No transpose", n, n, &c_b21, &c_b22, &dwork[1], n, &u[u_offset], ldu,
+                    &dwork[1], n, &dwork[itmp], &nn, &info2, 1L, 12L);
                 i__1 = *n + 1;
                 dscal_(n, &c_b23, &dwork[1], &i__1);
                 /*              Fill in the remaining triangle of the symmetric matrix. */
@@ -408,19 +371,13 @@ L20:
             goto L20;
         }
         /*        UNTIL KASE = 0 */
-        if (est < scale)
-        {
+        if (est < scale) {
             *thnorm = est / scale;
-        }
-        else
-        {
+        } else {
             bignum = 1. / dlamch_("Safe minimum", 12L);
-            if (est < scale * bignum)
-            {
+            if (est < scale * bignum) {
                 *thnorm = est / scale;
-            }
-            else
-            {
+            } else {
                 *thnorm = bignum;
             }
         }
@@ -428,4 +385,3 @@ L20:
     return 0;
     /* *** Last line of SB03SY *** */
 } /* sb03sy_ */
-

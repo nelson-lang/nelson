@@ -17,66 +17,62 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "What.hpp"
-#include "characters_encoding.hpp"
-#include "Error.hpp"
 #include "BuiltInFunctionDefManager.hpp"
+#include "Error.hpp"
 #include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "PathFuncManager.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    wstringVector WhatListOfBuiltin(Evaluator *eval, bool bWithPrivateFunction, bool bSorted)
-    {
-        wstringVector functionsList;
-        stringVector funcs = eval->getContext()->getGlobalScope()->getBuiltinsList();
-        BuiltInFunctionDefManager::getInstance()->getNameList();
-        for (size_t k = 0; k < funcs.size(); k++)
-        {
-            if (bWithPrivateFunction)
-            {
+//=============================================================================
+wstringVector
+WhatListOfBuiltin(Evaluator* eval, bool bWithPrivateFunction, bool bSorted)
+{
+    wstringVector functionsList;
+    stringVector funcs = eval->getContext()->getGlobalScope()->getBuiltinsList();
+    BuiltInFunctionDefManager::getInstance()->getNameList();
+    for (size_t k = 0; k < funcs.size(); k++) {
+        if (bWithPrivateFunction) {
+            functionsList.push_back(utf8_to_wstring(funcs[k]));
+        } else {
+            if (funcs[k][0] != '_') {
                 functionsList.push_back(utf8_to_wstring(funcs[k]));
             }
-            else
-            {
-                if (funcs[k][0] != '_')
-                {
-                    functionsList.push_back(utf8_to_wstring(funcs[k]));
-                }
-            }
         }
-        if (bSorted)
-        {
-            std::sort(functionsList.begin(), functionsList.end());
-        }
-        return functionsList;
     }
-    //=============================================================================
-    wstringVector WhatListOfBuiltin(bool bSorted)
-    {
-        wstringVector functionsList;
-        Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
-        if (eval)
-        {
-            functionsList = WhatListOfBuiltin(eval, bSorted);
-        }
-        return functionsList;
+    if (bSorted) {
+        std::sort(functionsList.begin(), functionsList.end());
     }
-    //=============================================================================
-    wstringVector WhatListOfMacro(Evaluator *eval)
-    {
-        return PathFuncManager::getInstance()->getMacrosList();
+    return functionsList;
+}
+//=============================================================================
+wstringVector
+WhatListOfBuiltin(bool bSorted)
+{
+    wstringVector functionsList;
+    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    if (eval) {
+        functionsList = WhatListOfBuiltin(eval, bSorted);
     }
-    //=============================================================================
-    wstringVector WhatListOfMacro()
-    {
-        wstringVector macroList;
-        Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
-        if (eval)
-        {
-            macroList = WhatListOfMacro(eval);
-        }
-        return macroList;
+    return functionsList;
+}
+//=============================================================================
+wstringVector
+WhatListOfMacro(Evaluator* eval)
+{
+    return PathFuncManager::getInstance()->getMacrosList();
+}
+//=============================================================================
+wstringVector
+WhatListOfMacro()
+{
+    wstringVector macroList;
+    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    if (eval) {
+        macroList = WhatListOfMacro(eval);
     }
-    //=============================================================================
+    return macroList;
+}
+//=============================================================================
 }
 //=============================================================================

@@ -16,98 +16,81 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Windows.h>
 #include "GetComHandleObject.hpp"
-#include "Exception.hpp"
-#include "HandleManager.hpp"
-#include "HandleGenericObject.hpp"
 #include "ComHandleObject.hpp"
-#include "characters_encoding.hpp"
+#include "Exception.hpp"
+#include "HandleGenericObject.hpp"
+#include "HandleManager.hpp"
 #include "VariantConversionHelpers.hpp"
+#include "characters_encoding.hpp"
 #include "invokeCOM.hpp"
+#include <Windows.h>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf GetComHandleObject(ArrayOf A, const std::wstring &propertyName, ArrayOfVector params)
-    {
-        ArrayOf res;
-        if (A.getHandleCategory() != COM_CATEGORY_STR)
-        {
-            throw Exception(_W("COM handle expected."));
-        }
-        ComHandleObject *comhandleobj = (ComHandleObject *)A.getContentAsHandleScalar();
-        void *ptr = comhandleobj->getPointer();
-        if (ptr == nullptr)
-        {
-            throw Exception(_W("COM valid handle expected."));
-        }
-        VARIANT *pVariant = (VARIANT*)ptr;
-        VARIANT *pVarResult;
-        try
-        {
-            pVarResult = new VARIANT;
-        }
-        catch (std::bad_alloc)
-        {
-            pVarResult = nullptr;
-        }
-        if (pVarResult)
-        {
-            size_t nbParams = params.size();
-            VARIANT *args = nullptr;
-            if (nbParams > 0)
-            {
-                try
-                {
-                    args = new VARIANT[nbParams];
-                }
-                catch (std::bad_alloc)
-                {
-                    delete pVarResult;
-                    pVarResult = nullptr;
-                    throw Exception(ERROR_MEMORY_ALLOCATION);
-                }
-                std::wstring errorMessage;
-                for (size_t k = 0; k < nbParams; k++)
-                {
-                    bool bSuccess = NelsonToComVariant(params[k], &args[k], errorMessage);
-                    if (!bSuccess)
-                    {
-                        delete[] args;
-                        args = nullptr;
-                        throw Exception(errorMessage);
-                    }
-                }
+//=============================================================================
+ArrayOf
+GetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOfVector params)
+{
+    ArrayOf res;
+    if (A.getHandleCategory() != COM_CATEGORY_STR) {
+        throw Exception(_W("COM handle expected."));
+    }
+    ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
+    void* ptr = comhandleobj->getPointer();
+    if (ptr == nullptr) {
+        throw Exception(_W("COM valid handle expected."));
+    }
+    VARIANT* pVariant = (VARIANT*)ptr;
+    VARIANT* pVarResult;
+    try {
+        pVarResult = new VARIANT;
+    } catch (std::bad_alloc) {
+        pVarResult = nullptr;
+    }
+    if (pVarResult) {
+        size_t nbParams = params.size();
+        VARIANT* args = nullptr;
+        if (nbParams > 0) {
+            try {
+                args = new VARIANT[nbParams];
+            } catch (std::bad_alloc) {
+                delete pVarResult;
+                pVarResult = nullptr;
+                throw Exception(ERROR_MEMORY_ALLOCATION);
             }
-            VariantInit(pVarResult);
             std::wstring errorMessage;
-            bool bSuccess = invokeCom(DISPATCH_PROPERTYGET | DISPATCH_METHOD, pVarResult, errorMessage, pVariant->pdispVal, propertyName, (int)nbParams, args);
-            if (args)
-            {
-                delete[] args;
-                args = nullptr;
-            }
-            if (bSuccess)
-            {
-                bSuccess = ComVariantToNelson(pVarResult, res, errorMessage);
-                if (!bSuccess)
-                {
-                    delete pVarResult;
+            for (size_t k = 0; k < nbParams; k++) {
+                bool bSuccess = NelsonToComVariant(params[k], &args[k], errorMessage);
+                if (!bSuccess) {
+                    delete[] args;
+                    args = nullptr;
                     throw Exception(errorMessage);
                 }
             }
-            else
-            {
+        }
+        VariantInit(pVarResult);
+        std::wstring errorMessage;
+        bool bSuccess = invokeCom(DISPATCH_PROPERTYGET | DISPATCH_METHOD, pVarResult, errorMessage,
+            pVariant->pdispVal, propertyName, (int)nbParams, args);
+        if (args) {
+            delete[] args;
+            args = nullptr;
+        }
+        if (bSuccess) {
+            bSuccess = ComVariantToNelson(pVarResult, res, errorMessage);
+            if (!bSuccess) {
                 delete pVarResult;
                 throw Exception(errorMessage);
             }
+        } else {
+            delete pVarResult;
+            throw Exception(errorMessage);
         }
-        else
-        {
-            throw Exception(ERROR_MEMORY_ALLOCATION);
-        }
-        return res;
+    } else {
+        throw Exception(ERROR_MEMORY_ALLOCATION);
     }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,15 +11,16 @@ static doublereal c_b20 = 0.;
 static doublereal c_b28 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb03rd_(jobx, sort, n, pmax, a, lda, x, ldx, nblcks, blsize, wr, wi, tol, dwork, info, jobx_len, sort_len)
-char *jobx, *sort;
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int mb03rd_(jobx, sort, n, pmax, a, lda, x, ldx, nblcks, blsize, wr,
+    wi, tol, dwork, info, jobx_len, sort_len) char *jobx,
+    *sort;
+integer* n;
 doublereal *pmax, *a;
-integer *lda;
-doublereal *x;
+integer* lda;
+doublereal* x;
 integer *ldx, *nblcks, *blsize;
 doublereal *wr, *wi, *tol, *dwork;
-integer *info;
+integer* info;
 ftnlen jobx_len;
 ftnlen sort_len;
 {
@@ -281,32 +282,20 @@ ftnlen sort_len;
     lsorn = lsame_(sort, "N", 1L, 1L);
     lsors = lsame_(sort, "S", 1L, 1L);
     lsort = lsame_(sort, "B", 1L, 1L) || lsors;
-    if (! ljobx && ! lsame_(jobx, "N", 1L, 1L))
-    {
+    if (!ljobx && !lsame_(jobx, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! lsorn && ! lsort && ! lsame_(sort, "C", 1L, 1L))
-    {
+    } else if (!lsorn && !lsort && !lsame_(sort, "C", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*pmax < 1.)
-    {
+    } else if (*pmax < 1.) {
         *info = -4;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldx < 1 || ljobx && *ldx < *n)
-    {
+    } else if (*ldx < 1 || ljobx && *ldx < *n) {
         *info = -8;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB03RD", &i__1, 6L);
@@ -314,8 +303,7 @@ ftnlen sort_len;
     }
     /*     Quick return if possible. */
     *nblcks = 0;
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     /*     Set the "safe" minimum positive number with representable */
@@ -324,43 +312,35 @@ ftnlen sort_len;
     sc = 1. / safemn;
     dlabad_(&safemn, &sc);
     safemn /= dlamch_("Precision", 9L);
-    *(unsigned char *)jobv = *(unsigned char *)jobx;
-    if (ljobx)
-    {
-        *(unsigned char *)jobv = 'V';
+    *(unsigned char*)jobv = *(unsigned char*)jobx;
+    if (ljobx) {
+        *(unsigned char*)jobv = 'V';
     }
     /*     Compute the eigenvalues of A and set the tolerance for reordering */
     /*     the eigenvalues in clusters, if needed. */
     mb03qx_(n, &a[a_offset], lda, &wr[1], &wi[1], info);
-    if (lsort)
-    {
+    if (lsort) {
         thresh = abs(*tol);
-        if (thresh == 0.)
-        {
+        if (thresh == 0.) {
             /*           Use the default tolerance in ordering the blocks. */
             thresh = sqrt(sqrt(dlamch_("Epsilon", 7L)));
         }
-        if (*tol <= 0.)
-        {
+        if (*tol <= 0.) {
             /*           Use a relative tolerance. Find max | lambda_j |, j = 1 : N. */
             emax = 0.;
             l = 1;
             /*           WHILE ( L.LE.N ) DO */
-L10:
-            if (l <= *n)
-            {
-                if (wi[l] == 0.)
-                {
+        L10:
+            if (l <= *n) {
+                if (wi[l] == 0.) {
                     /* Computing MAX */
                     d__2 = emax, d__3 = (d__1 = wr[l], abs(d__1));
-                    emax = max(d__2,d__3);
+                    emax = max(d__2, d__3);
                     ++l;
-                }
-                else
-                {
+                } else {
                     /* Computing MAX */
                     d__1 = emax, d__2 = dlapy2_(&wr[l], &wi[l]);
-                    emax = max(d__1,d__2);
+                    emax = max(d__1, d__2);
                     l += 2;
                 }
                 goto L10;
@@ -381,56 +361,44 @@ L10:
     l11 = 1;
     /*     WHILE ( L11.LE.N ) DO */
 L20:
-    if (l11 <= *n)
-    {
+    if (l11 <= *n) {
         ++(*nblcks);
-        if (wi[l11] == 0.)
-        {
+        if (wi[l11] == 0.) {
             da11 = 1;
-        }
-        else
-        {
+        } else {
             da11 = 2;
         }
-        if (lsort)
-        {
+        if (lsort) {
             /*           The following loop, using K as loop variable, finds the */
             /*           blocks whose eigenvalues are close to those of A11 and */
             /*           moves these blocks (if any) to the leading position of A22. */
             l22 = l11 + da11;
             k = l22;
             /*           WHILE ( K.LE.N ) DO */
-L30:
-            if (k <= *n)
-            {
+        L30:
+            if (k <= *n) {
                 d__1 = wr[l11] - wr[k];
                 d__2 = wi[l11] - wi[k];
                 edif = dlapy2_(&d__1, &d__2);
-                if (edif <= thresh)
-                {
+                if (edif <= thresh) {
                     /*                 An 1x1 or a 2x2 block of A22 has been found so that */
                     /*                    abs( lambda_1 - lambda_k ) <= THRESH */
                     /*                 where lambda_1 and lambda_k denote an eigenvalue */
                     /*                 of A11 and of that block in A22, respectively. */
                     /*                 Try to move that block to the leading position of A22. */
-                    mb03rx_(jobv, n, &l22, &k, &a[a_offset], lda, &x[x_offset], ldx, &wr[1], &wi[1], &dwork[1], 1L);
+                    mb03rx_(jobv, n, &l22, &k, &a[a_offset], lda, &x[x_offset], ldx, &wr[1], &wi[1],
+                        &dwork[1], 1L);
                     /*                 Extend A11 with the leading block of A22. */
-                    if (wi[l22] == 0.)
-                    {
+                    if (wi[l22] == 0.) {
                         ++da11;
-                    }
-                    else
-                    {
+                    } else {
                         da11 += 2;
                     }
                     l22 = l11 + da11;
                 }
-                if (wi[k] == 0.)
-                {
+                if (wi[k] == 0.) {
                     ++k;
-                }
-                else
-                {
+                } else {
                     k += 2;
                 }
                 goto L30;
@@ -442,23 +410,23 @@ L30:
         l22 = l11 + da11;
         l22m1 = l22 - 1;
         /*        WHILE ( L22.LE.N ) DO */
-L40:
-        if (l22 <= *n)
-        {
+    L40:
+        if (l22 <= *n) {
             da22 = *n - l22m1;
             /*           Try to separate the block A11 of order DA11 by using a */
             /*           well-conditioned similarity transformation. */
             /*           First save A12' in the block A21. */
-            ma02ad_("Full", &da11, &da22, &a[l11 + l22 * a_dim1], lda, &a[l22 + l11 * a_dim1], lda, 4L);
+            ma02ad_(
+                "Full", &da11, &da22, &a[l11 + l22 * a_dim1], lda, &a[l22 + l11 * a_dim1], lda, 4L);
             /*           Solve  -A11*P + P*A22 = A12. */
-            mb03ry_(&da11, &da22, pmax, &a[l11 + l11 * a_dim1], lda, &a[l22 + l22 * a_dim1], lda, &a[l11 + l22 * a_dim1], lda, &ierr);
-            if (ierr == 1)
-            {
+            mb03ry_(&da11, &da22, pmax, &a[l11 + l11 * a_dim1], lda, &a[l22 + l22 * a_dim1], lda,
+                &a[l11 + l22 * a_dim1], lda, &ierr);
+            if (ierr == 1) {
                 /*              The annihilation of A12 failed. Restore A12 and A21. */
-                ma02ad_("Full", &da22, &da11, &a[l22 + l11 * a_dim1], lda, &a[l11 + l22 * a_dim1], lda, 4L);
+                ma02ad_("Full", &da22, &da11, &a[l22 + l11 * a_dim1], lda, &a[l11 + l22 * a_dim1],
+                    lda, 4L);
                 dlaset_("Full", &da22, &da11, &c_b20, &c_b20, &a[l22 + l11 * a_dim1], lda, 4L);
-                if (lsorn || lsors)
-                {
+                if (lsorn || lsors) {
                     /*                 Extend A11 with an 1x1 or 2x2 block of A22 having the */
                     /*                 nearest eigenvalues to the mean of eigenvalues of A11 */
                     /*                 and resume the loop. */
@@ -466,8 +434,7 @@ L40:
                     rav = 0.;
                     cav = 0.;
                     i__1 = l22m1;
-                    for (i__ = l11; i__ <= i__1; ++i__)
-                    {
+                    for (i__ = l11; i__ <= i__1; ++i__) {
                         rav += wr[i__];
                         cav += (d__1 = wi[i__], abs(d__1));
                         /* L50: */
@@ -480,40 +447,30 @@ L40:
                     d__2 = cav - wi[l22];
                     d__ = dlapy2_(&d__1, &d__2);
                     k = l22;
-                    if (wi[l22] == 0.)
-                    {
+                    if (wi[l22] == 0.) {
                         l = l22 + 1;
-                    }
-                    else
-                    {
+                    } else {
                         l = l22 + 2;
                     }
                     /*                 WHILE ( L.LE.N ) DO */
-L60:
-                    if (l <= *n)
-                    {
+                L60:
+                    if (l <= *n) {
                         d__1 = rav - wr[l];
                         d__2 = cav - wi[l];
                         c__ = dlapy2_(&d__1, &d__2);
-                        if (c__ < d__)
-                        {
+                        if (c__ < d__) {
                             d__ = c__;
                             k = l;
                         }
-                        if (wi[l] == 0.)
-                        {
+                        if (wi[l] == 0.) {
                             ++l;
-                        }
-                        else
-                        {
+                        } else {
                             l += 2;
                         }
                         goto L60;
                     }
                     /*                 END WHILE 60 */
-                }
-                else
-                {
+                } else {
                     /*                 Extend A11 with an 1x1 or 2x2 block of A22 having the */
                     /*                 nearest eigenvalues to the cluster of eigenvalues of */
                     /*                 A11 and resume the loop. */
@@ -523,39 +480,30 @@ L60:
                     l = l22;
                     k = l22;
                     /*                 WHILE ( L.LE.N ) DO */
-L70:
-                    if (l <= *n)
-                    {
+                L70:
+                    if (l <= *n) {
                         i__ = l11;
                         /*                    WHILE ( I.LE.L22M1 ) DO */
-L80:
-                        if (i__ <= l22m1)
-                        {
+                    L80:
+                        if (i__ <= l22m1) {
                             d__1 = wr[i__] - wr[l];
                             d__2 = wi[i__] - wi[l];
                             c__ = dlapy2_(&d__1, &d__2);
-                            if (c__ < d__)
-                            {
+                            if (c__ < d__) {
                                 d__ = c__;
                                 k = l;
                             }
-                            if (wi[i__] == 0.)
-                            {
+                            if (wi[i__] == 0.) {
                                 ++i__;
-                            }
-                            else
-                            {
+                            } else {
                                 i__ += 2;
                             }
                             goto L80;
                         }
                         /*                    END WHILE 80 */
-                        if (wi[l] == 0.)
-                        {
+                        if (wi[l] == 0.) {
                             ++l;
-                        }
-                        else
-                        {
+                        } else {
                             l += 2;
                         }
                         goto L70;
@@ -563,14 +511,12 @@ L80:
                     /*                 END WHILE 70 */
                 }
                 /*              Try to move block found to the leading position of A22. */
-                mb03rx_(jobv, n, &l22, &k, &a[a_offset], lda, &x[x_offset], ldx, &wr[1], &wi[1], &dwork[1], 1L);
+                mb03rx_(jobv, n, &l22, &k, &a[a_offset], lda, &x[x_offset], ldx, &wr[1], &wi[1],
+                    &dwork[1], 1L);
                 /*              Extend A11 with the leading block of A22. */
-                if (wi[l22] == 0.)
-                {
+                if (wi[l22] == 0.) {
                     ++da11;
-                }
-                else
-                {
+                } else {
                     da11 += 2;
                 }
                 l22 = l11 + da11;
@@ -579,22 +525,20 @@ L80:
             }
         }
         /*        END WHILE 40 */
-        if (ljobx)
-        {
+        if (ljobx) {
             /*           Accumulate the transformation in X. */
             /*           Only columns L22, ..., N are modified. */
-            if (l22 <= *n)
-            {
-                dgemm_("No transpose", "No transpose", n, &da22, &da11, &c_b28, &x[l11 * x_dim1 + 1], ldx, &a[l11 + l22 * a_dim1], lda, &c_b28, &x[l22 * x_dim1 + 1], ldx, 12L, 12L);
+            if (l22 <= *n) {
+                dgemm_("No transpose", "No transpose", n, &da22, &da11, &c_b28,
+                    &x[l11 * x_dim1 + 1], ldx, &a[l11 + l22 * a_dim1], lda, &c_b28,
+                    &x[l22 * x_dim1 + 1], ldx, 12L, 12L);
             }
             /*           Scale to unity the (non-zero) columns of X which will be */
             /*           no more modified and transform A11 accordingly. */
             i__1 = l22m1;
-            for (j = l11; j <= i__1; ++j)
-            {
+            for (j = l11; j <= i__1; ++j) {
                 sc = dnrm2_(n, &x[j * x_dim1 + 1], &c__1);
-                if (sc > safemn)
-                {
+                if (sc > safemn) {
                     dscal_(&da11, &sc, &a[j + l11 * a_dim1], lda);
                     sc = 1. / sc;
                     dscal_(n, &sc, &x[j * x_dim1 + 1], &c__1);
@@ -603,8 +547,7 @@ L80:
                 /* L90: */
             }
         }
-        if (l22 <= *n)
-        {
+        if (l22 <= *n) {
             /*           Set A12 and A21 to zero. */
             dlaset_("Full", &da11, &da22, &c_b20, &c_b20, &a[l11 + l22 * a_dim1], lda, 4L);
             dlaset_("Full", &da22, &da11, &c_b20, &c_b20, &a[l22 + l11 * a_dim1], lda, 4L);
@@ -618,4 +561,3 @@ L80:
     return 0;
     /* *** Last line of MB03RD *** */
 } /* mb03rd_ */
-

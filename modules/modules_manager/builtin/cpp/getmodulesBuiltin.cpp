@@ -23,37 +23,31 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ModulesManagerGateway::getmodulesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ModulesManagerGateway::getmodulesBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() > 1)
-    {
+    if (argIn.size() > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 2)
-    {
+    if (nLhs > 2) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bReverse = false;
-    if (argIn.size() == 1)
-    {
+    if (argIn.size() == 1) {
         std::wstring param;
-        if (argIn[0].isSingleString())
-        {
+        if (argIn[0].isSingleString()) {
             param = argIn[0].getContentAsWideString();
-        }
-        else
-        {
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        if (param.compare(L"reverse") == 0)
-        {
+        if (param.compare(L"reverse") == 0) {
             bReverse = true;
         }
     }
     retval.push_back(ToCellStringAsColumn(GetModulesName(bReverse)));
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         retval.push_back(ToCellStringAsColumn(GetModulesPath(bReverse)));
     }
     return retval;

@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace MpiGateway {
-        ArrayOfVector MPI_BcastBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace MpiGateway {
+    ArrayOfVector
+    MPI_BcastBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

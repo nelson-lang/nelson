@@ -24,29 +24,23 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::LinearAlgebraGateway::traceBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::LinearAlgebraGateway::traceBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
-        if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY) ||
-                (argIn[0].getDataClass() == NLS_CELL_ARRAY) ||
-                argIn[0].isSparse() ||
-                argIn[0].isLogical() ||
-                argIn[0].isString() ||
-                argIn[0].isIntegerType())
-        {
+    if (!bSuccess) {
+        if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
+            || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
+            || argIn[0].isLogical() || argIn[0].isString() || argIn[0].isIntegerType()) {
             OverloadRequired(eval, argIn, Nelson::FUNCTION);
         }
         retval.push_back(TraceMatrix(argIn[0]));

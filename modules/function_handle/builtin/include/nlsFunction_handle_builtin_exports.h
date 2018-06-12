@@ -25,6 +25,6 @@
 #define NLSFUNCTION_HANDLE_BUILTIN_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSFUNCTION_HANDLE_BUILTIN_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSFUNCTION_HANDLE_BUILTIN_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

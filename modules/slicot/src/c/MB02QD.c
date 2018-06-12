@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,14 +11,15 @@ static integer c__0 = 0;
 static doublereal c_b17 = 0.;
 static doublereal c_b33 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb02qd_(job, iniper, m, n, nrhs, rcond, svlmax, a, lda, b, ldb, y, jpvt, rank, sval, dwork, ldwork, info, job_len, iniper_len)
-char *job, *iniper;
+EXPORTSYMBOL /* Subroutine */ int mb02qd_(job, iniper, m, n, nrhs, rcond, svlmax, a, lda, b, ldb, y,
+    jpvt, rank, sval, dwork, ldwork, info, job_len, iniper_len) char *job,
+    *iniper;
 integer *m, *n, *nrhs;
 doublereal *rcond, *svlmax, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *y;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* y;
 integer *jpvt, *rank;
 doublereal *sval, *dwork;
 integer *ldwork, *info;
@@ -251,68 +252,47 @@ ftnlen iniper_len;
     --sval;
     --dwork;
     /* Function Body */
-    mn = min(*m,*n);
+    mn = min(*m, *n);
     leasts = lsame_(job, "L", 1L, 1L);
     permut = lsame_(iniper, "P", 1L, 1L);
     /*     Test the input scalar arguments. */
     *info = 0;
     /* Computing MAX */
     i__1 = mn + *n * 3 + 1, i__2 = (mn << 1) + *nrhs;
-    minwrk = max(i__1,i__2);
-    if (! (leasts || lsame_(job, "F", 1L, 1L)))
-    {
+    minwrk = max(i__1, i__2);
+    if (!(leasts || lsame_(job, "F", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (permut || lsame_(iniper, "N", 1L, 1L)))
-    {
+    } else if (!(permut || lsame_(iniper, "N", 1L, 1L))) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*nrhs < 0)
-    {
+    } else if (*nrhs < 0) {
         *info = -5;
-    }
-    else if (*rcond < 0. || *rcond > 1.)
-    {
+    } else if (*rcond < 0. || *rcond > 1.) {
         *info = -6;
-    }
-    else if (*svlmax < 0.)
-    {
+    } else if (*svlmax < 0.) {
         *info = -7;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -9;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = max(1,*m);
-        if (*ldb < max(i__1,*n))
-        {
+        i__1 = max(1, *m);
+        if (*ldb < max(i__1, *n)) {
             *info = -11;
-        }
-        else if (*ldwork < minwrk)
-        {
+        } else if (*ldwork < minwrk) {
             *info = -17;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02QD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (mn == 0)
-    {
+    if (mn == 0) {
         *rank = 0;
         dwork[1] = 1.;
         return 0;
@@ -324,42 +304,32 @@ ftnlen iniper_len;
     /*     Scale A, B if max entries outside range [SMLNUM,BIGNUM]. */
     anrm = dlange_("M", m, n, &a[a_offset], lda, &dwork[1], 1L);
     iascl = 0;
-    if (anrm > 0. && anrm < smlnum)
-    {
+    if (anrm > 0. && anrm < smlnum) {
         /*        Scale matrix norm up to SMLNUM. */
         dlascl_("G", &c__0, &c__0, &anrm, &smlnum, m, n, &a[a_offset], lda, info, 1L);
         iascl = 1;
-    }
-    else if (anrm > bignum)
-    {
+    } else if (anrm > bignum) {
         /*        Scale matrix norm down to BIGNUM. */
         dlascl_("G", &c__0, &c__0, &anrm, &bignum, m, n, &a[a_offset], lda, info, 1L);
         iascl = 2;
-    }
-    else if (anrm == 0.)
-    {
+    } else if (anrm == 0.) {
         /*        Matrix all zero. Return zero solution. */
-        if (*nrhs > 0)
-        {
-            i__1 = max(*m,*n);
+        if (*nrhs > 0) {
+            i__1 = max(*m, *n);
             dlaset_("Full", &i__1, nrhs, &c_b17, &c_b17, &b[b_offset], ldb, 4L);
         }
         *rank = 0;
         dwork[1] = 1.;
         return 0;
     }
-    if (*nrhs > 0)
-    {
+    if (*nrhs > 0) {
         bnrm = dlange_("M", m, nrhs, &b[b_offset], ldb, &dwork[1], 1L);
         ibscl = 0;
-        if (bnrm > 0. && bnrm < smlnum)
-        {
+        if (bnrm > 0. && bnrm < smlnum) {
             /*           Scale matrix norm up to SMLNUM. */
             dlascl_("G", &c__0, &c__0, &bnrm, &smlnum, m, nrhs, &b[b_offset], ldb, info, 1L);
             ibscl = 1;
-        }
-        else if (bnrm > bignum)
-        {
+        } else if (bnrm > bignum) {
             /*           Scale matrix norm down to BIGNUM. */
             dlascl_("G", &c__0, &c__0, &bnrm, &bignum, m, nrhs, &b[b_offset], ldb, info, 1L);
             ibscl = 2;
@@ -377,17 +347,16 @@ ftnlen iniper_len;
     /*      NB refers to the optimal block size for the immediately */
     /*      following subroutine, as returned by ILAENV.) */
     maxwrk = minwrk;
-    if (permut)
-    {
+    if (permut) {
         i__1 = *ldwork - mn;
-        mb03od_("Q", m, n, &a[a_offset], lda, &jpvt[1], rcond, svlmax, &dwork[1], rank, &sval[1], &dwork[mn + 1], &i__1, info, 1L);
+        mb03od_("Q", m, n, &a[a_offset], lda, &jpvt[1], rcond, svlmax, &dwork[1], rank, &sval[1],
+            &dwork[mn + 1], &i__1, info, 1L);
         /* Computing MAX */
-        i__1 = maxwrk, i__2 = (integer) dwork[mn + 1] + mn;
-        maxwrk = max(i__1,i__2);
-    }
-    else
-    {
-        mb03oy_(m, n, &a[a_offset], lda, rcond, svlmax, rank, &sval[1], &jpvt[1], &dwork[1], &dwork[mn + 1], info);
+        i__1 = maxwrk, i__2 = (integer)dwork[mn + 1] + mn;
+        maxwrk = max(i__1, i__2);
+    } else {
+        mb03oy_(m, n, &a[a_offset], lda, rcond, svlmax, rank, &sval[1], &jpvt[1], &dwork[1],
+            &dwork[mn + 1], info);
     }
     /*     Logically partition R = [ R11 R12 ] */
     /*                             [  0  R22 ], */
@@ -396,36 +365,32 @@ ftnlen iniper_len;
     /*     Details of Householder transformations stored in DWORK(MN+1:2*MN). */
     /*     Workspace need   3*min(M,N); */
     /*               prefer 2*min(M,N)+min(M,N)*NB. */
-    if (*rank < *n)
-    {
+    if (*rank < *n) {
         i__1 = *ldwork - (mn << 1);
         dtzrzf_(rank, n, &a[a_offset], lda, &dwork[mn + 1], &dwork[(mn << 1) + 1], &i__1, info);
         /* Computing MAX */
-        i__1 = maxwrk, i__2 = (integer) dwork[(mn << 1) + 1] + (mn << 1);
-        maxwrk = max(i__1,i__2);
+        i__1 = maxwrk, i__2 = (integer)dwork[(mn << 1) + 1] + (mn << 1);
+        maxwrk = max(i__1, i__2);
     }
-    if (*nrhs > 0)
-    {
+    if (*nrhs > 0) {
         /*        B(1:M,1:NRHS) := Q' * B(1:M,1:NRHS). */
         /*        Workspace: need   2*min(M,N)+NRHS; */
         /*                   prefer   min(M,N)+NRHS*NB. */
         i__1 = *ldwork - (mn << 1);
-        dormqr_("Left", "Transpose", m, nrhs, &mn, &a[a_offset], lda, &dwork[1], &b[b_offset], ldb, &dwork[(mn << 1) + 1], &i__1, info, 4L, 9L);
+        dormqr_("Left", "Transpose", m, nrhs, &mn, &a[a_offset], lda, &dwork[1], &b[b_offset], ldb,
+            &dwork[(mn << 1) + 1], &i__1, info, 4L, 9L);
         /* Computing MAX */
-        i__1 = maxwrk, i__2 = (integer) dwork[(mn << 1) + 1] + (mn << 1);
-        maxwrk = max(i__1,i__2);
+        i__1 = maxwrk, i__2 = (integer)dwork[(mn << 1) + 1] + (mn << 1);
+        maxwrk = max(i__1, i__2);
         /*        B(1:RANK,1:NRHS) := inv(T11) * B(1:RANK,1:NRHS). */
-        dtrsm_("Left", "Upper", "No transpose", "Non-unit", rank, nrhs, &c_b33, &a[a_offset], lda, &b[b_offset], ldb, 4L, 5L, 12L, 8L);
-        if (*rank < *n)
-        {
+        dtrsm_("Left", "Upper", "No transpose", "Non-unit", rank, nrhs, &c_b33, &a[a_offset], lda,
+            &b[b_offset], ldb, 4L, 5L, 12L, 8L);
+        if (*rank < *n) {
             /*           Set B(RANK+1:N,1:NRHS). */
-            if (leasts)
-            {
+            if (leasts) {
                 i__1 = *n - *rank;
                 dlaset_("Full", &i__1, nrhs, &c_b17, &c_b17, &b[*rank + 1 + b_dim1], ldb, 4L);
-            }
-            else
-            {
+            } else {
                 i__1 = *n - *rank;
                 i__2 = *n - *rank;
                 dlacpy_("Full", &i__1, nrhs, &y[1], &i__2, &b[*rank + 1 + b_dim1], ldb, 4L);
@@ -435,40 +400,35 @@ ftnlen iniper_len;
             /*                     prefer 2*min(M,N)+NRHS*NB. */
             i__1 = *n - *rank;
             i__2 = *ldwork - (mn << 1);
-            dormrz_("Left", "Transpose", n, nrhs, rank, &i__1, &a[a_offset], lda, &dwork[mn + 1], &b[b_offset], ldb, &dwork[(mn << 1) + 1], &i__2, info, 4L, 9L);
+            dormrz_("Left", "Transpose", n, nrhs, rank, &i__1, &a[a_offset], lda, &dwork[mn + 1],
+                &b[b_offset], ldb, &dwork[(mn << 1) + 1], &i__2, info, 4L, 9L);
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = (integer) dwork[(mn << 1) + 1] + (mn << 1);
-            maxwrk = max(i__1,i__2);
+            i__1 = maxwrk, i__2 = (integer)dwork[(mn << 1) + 1] + (mn << 1);
+            maxwrk = max(i__1, i__2);
         }
         /*        Additional workspace: NRHS. */
         /*        B(1:N,1:NRHS) := P * B(1:N,1:NRHS). */
         i__1 = *nrhs;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *n;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 dwork[(mn << 1) + i__] = 1.;
                 /* L20: */
             }
             i__2 = *n;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                if (dwork[(mn << 1) + i__] == 1.)
-                {
-                    if (jpvt[i__] != i__)
-                    {
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                if (dwork[(mn << 1) + i__] == 1.) {
+                    if (jpvt[i__] != i__) {
                         k = i__;
                         t1 = b[k + j * b_dim1];
                         t2 = b[jpvt[k] + j * b_dim1];
-L30:
+                    L30:
                         b[jpvt[k] + j * b_dim1] = t1;
                         dwork[(mn << 1) + k] = 0.;
                         t1 = t2;
                         k = jpvt[k];
                         t2 = b[jpvt[k] + j * b_dim1];
-                        if (jpvt[k] != i__)
-                        {
+                        if (jpvt[k] != i__) {
                             goto L30;
                         }
                         b[i__ + j * b_dim1] = t1;
@@ -480,39 +440,29 @@ L30:
             /* L50: */
         }
         /*        Undo scaling for B. */
-        if (ibscl == 1)
-        {
+        if (ibscl == 1) {
             dlascl_("G", &c__0, &c__0, &smlnum, &bnrm, n, nrhs, &b[b_offset], ldb, info, 1L);
-        }
-        else if (ibscl == 2)
-        {
+        } else if (ibscl == 2) {
             dlascl_("G", &c__0, &c__0, &bignum, &bnrm, n, nrhs, &b[b_offset], ldb, info, 1L);
         }
     }
     /*     Undo scaling for A. */
-    if (iascl == 1)
-    {
-        if (*nrhs > 0)
-        {
+    if (iascl == 1) {
+        if (*nrhs > 0) {
             dlascl_("G", &c__0, &c__0, &anrm, &smlnum, n, nrhs, &b[b_offset], ldb, info, 1L);
         }
         dlascl_("U", &c__0, &c__0, &smlnum, &anrm, rank, rank, &a[a_offset], lda, info, 1L);
-    }
-    else if (iascl == 2)
-    {
-        if (*nrhs > 0)
-        {
+    } else if (iascl == 2) {
+        if (*nrhs > 0) {
             dlascl_("G", &c__0, &c__0, &anrm, &bignum, n, nrhs, &b[b_offset], ldb, info, 1L);
         }
         dlascl_("U", &c__0, &c__0, &bignum, &anrm, rank, rank, &a[a_offset], lda, info, 1L);
     }
-    for (i__ = mn + *rank; i__ >= 1; --i__)
-    {
+    for (i__ = mn + *rank; i__ >= 1; --i__) {
         dwork[i__ + 1] = dwork[i__];
         /* L60: */
     }
-    dwork[1] = (doublereal) maxwrk;
+    dwork[1] = (doublereal)maxwrk;
     return 0;
     /* *** Last line of MB02QD *** */
 } /* mb02qd_ */
-

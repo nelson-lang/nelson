@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,19 +11,20 @@ static doublereal c_b10 = 1.;
 static doublereal c_b11 = 0.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb02xd_(form, stor, uplo, f, m, n, nrhs, ipar, lipar, dpar, ldpar, a, lda, b, ldb, ata, ldata, dwork, ldwork, info, form_len, stor_len, uplo_len)
-char *form, *stor, *uplo;
-/* Subroutine */ int (*f) ();
+EXPORTSYMBOL /* Subroutine */ int mb02xd_(form, stor, uplo, f, m, n, nrhs, ipar, lipar, dpar, ldpar,
+    a, lda, b, ldb, ata, ldata, dwork, ldwork, info, form_len, stor_len, uplo_len) char *form,
+    *stor, *uplo;
+/* Subroutine */ int (*f)();
 integer *m, *n, *nrhs, *ipar, *lipar;
-doublereal *dpar;
-integer *ldpar;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *ata;
-integer *ldata;
-doublereal *dwork;
+doublereal* dpar;
+integer* ldpar;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* ata;
+integer* ldata;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen form_len;
 ftnlen stor_len;
@@ -273,127 +274,89 @@ ftnlen uplo_len;
     upper = lsame_(uplo, "U", 1L, 1L);
     /*     Check the scalar input parameters. */
     *info = 0;
-    if (! (mat || lsame_(form, "F", 1L, 1L)))
-    {
+    if (!(mat || lsame_(form, "F", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (full || lsame_(stor, "P", 1L, 1L)))
-    {
+    } else if (!(full || lsame_(stor, "P", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (upper || lsame_(uplo, "L", 1L, 1L)))
-    {
+    } else if (!(upper || lsame_(uplo, "L", 1L, 1L))) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -5;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -6;
-    }
-    else if (*nrhs < 0)
-    {
+    } else if (*nrhs < 0) {
         *info = -7;
-    }
-    else if (! mat && *lipar < 0)
-    {
+    } else if (!mat && *lipar < 0) {
         *info = -9;
-    }
-    else if (! mat && *ldpar < 0)
-    {
+    } else if (!mat && *ldpar < 0) {
         *info = -11;
-    }
-    else if (*lda < 1 || mat && *lda < *m)
-    {
+    } else if (*lda < 1 || mat && *lda < *m) {
         *info = -13;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -15;
-    }
-    else if (*ldata < 1 || full && *ldata < *n)
-    {
+    } else if (*ldata < 1 || full && *ldata < *n) {
         *info = -17;
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02XD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || mat && *m == 0)
-    {
+    if (*n == 0 || mat && *m == 0) {
         return 0;
     }
     /*     Build a triangle of the matrix A'*A. */
-    if (mat)
-    {
+    if (mat) {
         /*        Matrix A is given in the usual form. */
-        if (full)
-        {
-            dsyrk_(uplo, "Transpose", n, m, &c_b10, &a[a_offset], lda, &c_b11, &ata[1], ldata, 1L, 9L);
-        }
-        else if (upper)
-        {
+        if (full) {
+            dsyrk_(
+                uplo, "Transpose", n, m, &c_b10, &a[a_offset], lda, &c_b11, &ata[1], ldata, 1L, 9L);
+        } else if (upper) {
             j1 = 1;
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
-                dgemv_("Transpose", m, &j, &c_b10, &a[a_offset], lda, &a[j * a_dim1 + 1], &c__1, &c_b11, &ata[j1], &c__1, 9L);
+            for (j = 1; j <= i__1; ++j) {
+                dgemv_("Transpose", m, &j, &c_b10, &a[a_offset], lda, &a[j * a_dim1 + 1], &c__1,
+                    &c_b11, &ata[j1], &c__1, 9L);
                 j1 += j;
                 /* L10: */
             }
-        }
-        else
-        {
+        } else {
             j1 = 1;
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n - j + 1;
-                dgemv_("Transpose", m, &i__2, &c_b10, &a[j * a_dim1 + 1], lda, &a[j * a_dim1 + 1], &c__1, &c_b11, &ata[j1], &c__1, 9L);
+                dgemv_("Transpose", m, &i__2, &c_b10, &a[j * a_dim1 + 1], lda, &a[j * a_dim1 + 1],
+                    &c__1, &c_b11, &ata[j1], &c__1, 9L);
                 j1 = j1 + *n - j + 1;
                 /* L20: */
             }
         }
-    }
-    else
-    {
+    } else {
         /*        Implicit form, A'*A = f(A). */
-        (*f)(stor, uplo, n, &ipar[1], lipar, &dpar[1], ldpar, &a[a_offset], lda, &ata[1], ldata, &dwork[1], ldwork, &ierr, 1L, 1L);
-        if (ierr != 0)
-        {
+        (*f)(stor, uplo, n, &ipar[1], lipar, &dpar[1], ldpar, &a[a_offset], lda, &ata[1], ldata,
+            &dwork[1], ldwork, &ierr, 1L, 1L);
+        if (ierr != 0) {
             *info = *n + ierr;
             return 0;
         }
     }
     /*     Factor the matrix A'*A. */
-    if (full)
-    {
+    if (full) {
         dpotrf_(uplo, n, &ata[1], ldata, &ierr, 1L);
-    }
-    else
-    {
+    } else {
         dpptrf_(uplo, n, &ata[1], &ierr, 1L);
     }
-    if (ierr != 0)
-    {
+    if (ierr != 0) {
         *info = ierr;
         return 0;
     }
     /*     Solve the set of linear systems. */
-    if (full)
-    {
+    if (full) {
         dpotrs_(uplo, n, nrhs, &ata[1], ldata, &b[b_offset], ldb, &ierr, 1L);
-    }
-    else
-    {
+    } else {
         dpptrs_(uplo, n, nrhs, &ata[1], &b[b_offset], ldb, &ierr, 1L);
     }
     /* *** Last line of MB02XD *** */
 } /* mb02xd_ */
-

@@ -1,12 +1,12 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int sg03by_(xr, xi, yr, yi, cr, ci, sr, si, z__)
-doublereal *xr, *xi, *yr, *yi, *cr, *ci, *sr, *si, *z__;
+EXPORTSYMBOL /* Subroutine */ int sg03by_(xr, xi, yr, yi, cr, ci, sr, si, z__) doublereal *xr, *xi,
+    *yr, *yi, *cr, *ci, *sr, *si, *z__;
 {
     /* System generated locals */
     doublereal d__1, d__2, d__3, d__4;
@@ -57,17 +57,15 @@ doublereal *xr, *xi, *yr, *yi, *cr, *ci, *sr, *si, *z__;
     /*      .. Intrinsic Functions .. */
     /*      .. Executable Statements .. */
     /* Computing MAX */
-    d__1 = abs(*xr), d__2 = abs(*xi), d__1 = max(d__1,d__2), d__2 = abs(*yr), d__1 = max(d__1,d__2), d__2 = abs(*yi);
-    *z__ = max(d__1,d__2);
-    if (*z__ == 0.)
-    {
+    d__1 = abs(*xr), d__2 = abs(*xi), d__1 = max(d__1, d__2), d__2 = abs(*yr),
+    d__1 = max(d__1, d__2), d__2 = abs(*yi);
+    *z__ = max(d__1, d__2);
+    if (*z__ == 0.) {
         *cr = 1.;
         *ci = 0.;
         *sr = 0.;
         *si = 0.;
-    }
-    else
-    {
+    } else {
         /* Computing 2nd power */
         d__1 = *xr / *z__;
         /* Computing 2nd power */
@@ -85,4 +83,3 @@ doublereal *xr, *xi, *yr, *yi, *cr, *ci, *sr, *si, *z__;
     return 0;
     /* *** Last line of SG03BY *** */
 } /* sg03by_ */
-

@@ -17,55 +17,51 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Fft.hpp"
-#include "FftHelpers.hpp"
-#include "Exception.hpp"
 #include "ClassName.hpp"
+#include "Exception.hpp"
+#include "FftHelpers.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf Fft(ArrayOf X, indexType n, indexType dim)
-    {
-        if (X.isReferenceType() || X.isHandle())
-        {
-            throw Exception(_("Undefined function 'fft' for input arguments of type") + " '" + ClassName(X) + "'.");
-        }
-        if (X.isScalar() || X.isEmpty())
-        {
-            return ArrayOf(X);
-        }
-        Class classX = X.getDataClass();
-        if (classX <= NLS_SCOMPLEX && classX != NLS_DOUBLE)
-        {
-            X.promoteType(NLS_SCOMPLEX);
-        }
-        else
-        {
-            X.promoteType(NLS_DCOMPLEX);
-        }
-        ArrayOf res;
-        if (X.getDataClass() == NLS_SCOMPLEX)
-        {
-            res = scomplexFFTW(X, n, dim, false);
-        }
-        else
-        {
-            res = dcomplexFFTW(X, n, dim, false);
-        }
-        return res;
+//=============================================================================
+ArrayOf
+Fft(ArrayOf X, indexType n, indexType dim)
+{
+    if (X.isReferenceType() || X.isHandle()) {
+        throw Exception(
+            _("Undefined function 'fft' for input arguments of type") + " '" + ClassName(X) + "'.");
     }
-    //=============================================================================
-    ArrayOf Fft(ArrayOf X, indexType n)
-    {
-        indexType dim = computeDim(X);
-        return Fft(X, n, dim);
+    if (X.isScalar() || X.isEmpty()) {
+        return ArrayOf(X);
     }
-    //=============================================================================
-    ArrayOf Fft(ArrayOf X)
-    {
-        indexType dim = computeDim(X);
-        indexType n = X.getDimensionLength((int)dim);
-        return Fft(X, n, dim);
+    Class classX = X.getDataClass();
+    if (classX <= NLS_SCOMPLEX && classX != NLS_DOUBLE) {
+        X.promoteType(NLS_SCOMPLEX);
+    } else {
+        X.promoteType(NLS_DCOMPLEX);
     }
-    //=============================================================================
+    ArrayOf res;
+    if (X.getDataClass() == NLS_SCOMPLEX) {
+        res = scomplexFFTW(X, n, dim, false);
+    } else {
+        res = dcomplexFFTW(X, n, dim, false);
+    }
+    return res;
+}
+//=============================================================================
+ArrayOf
+Fft(ArrayOf X, indexType n)
+{
+    indexType dim = computeDim(X);
+    return Fft(X, n, dim);
+}
+//=============================================================================
+ArrayOf
+Fft(ArrayOf X)
+{
+    indexType dim = computeDim(X);
+    indexType n = X.getDimensionLength((int)dim);
+    return Fft(X, n, dim);
+}
+//=============================================================================
 }
 //=============================================================================

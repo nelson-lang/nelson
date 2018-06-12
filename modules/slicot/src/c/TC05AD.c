@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,25 +9,26 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tc05ad_(leri, m, p, sval, index, pcoeff, ldpco1, ldpco2, qcoeff, ldqco1, ldqco2, rcond, cfreqr, ldcfre, iwork, dwork, zwork, info, leri_len)
-char *leri;
+EXPORTSYMBOL /* Subroutine */ int tc05ad_(leri, m, p, sval, index, pcoeff, ldpco1, ldpco2, qcoeff,
+    ldqco1, ldqco2, rcond, cfreqr, ldcfre, iwork, dwork, zwork, info, leri_len) char* leri;
 integer *m, *p;
-doublecomplex *sval;
-integer *index;
-doublereal *pcoeff;
+doublecomplex* sval;
+integer* index;
+doublereal* pcoeff;
 integer *ldpco1, *ldpco2;
-doublereal *qcoeff;
+doublereal* qcoeff;
 integer *ldqco1, *ldqco2;
-doublereal *rcond;
-doublecomplex *cfreqr;
+doublereal* rcond;
+doublecomplex* cfreqr;
 integer *ldcfre, *iwork;
-doublereal *dwork;
-doublecomplex *zwork;
-integer *info;
+doublereal* dwork;
+doublecomplex* zwork;
+integer* info;
 ftnlen leri_len;
 {
     /* System generated locals */
-    integer pcoeff_dim1, pcoeff_dim2, pcoeff_offset, qcoeff_dim1, qcoeff_dim2, qcoeff_offset, cfreqr_dim1, cfreqr_offset, i__1, i__2, i__3, i__4, i__5, i__6;
+    integer pcoeff_dim1, pcoeff_dim2, pcoeff_offset, qcoeff_dim1, qcoeff_dim2, qcoeff_offset,
+        cfreqr_dim1, cfreqr_offset, i__1, i__2, i__3, i__4, i__5, i__6;
     doublecomplex z__1, z__2, z__3;
     /* Local variables */
     static integer info1, i__, j, k;
@@ -215,82 +216,60 @@ ftnlen leri_len;
     /* Function Body */
     *info = 0;
     lleri = lsame_(leri, "L", 1L, 1L);
-    mplim = max(*m,*p);
+    mplim = max(*m, *p);
     /*     Test the input scalar arguments. */
-    if (! lleri && ! lsame_(leri, "R", 1L, 1L))
-    {
+    if (!lleri && !lsame_(leri, "R", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -3;
-    }
-    else if (lleri && *ldpco1 < max(1,*p) || ! lleri && *ldpco1 < max(1,*m))
-    {
+    } else if (lleri && *ldpco1 < max(1, *p) || !lleri && *ldpco1 < max(1, *m)) {
         *info = -7;
-    }
-    else if (lleri && *ldpco2 < max(1,*p) || ! lleri && *ldpco2 < max(1,*m))
-    {
+    } else if (lleri && *ldpco2 < max(1, *p) || !lleri && *ldpco2 < max(1, *m)) {
         *info = -8;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = max(1,*m);
-        if (lleri && *ldqco1 < max(1,*p) || ! lleri && *ldqco1 < max(i__1,*p))
-        {
+        i__1 = max(1, *m);
+        if (lleri && *ldqco1 < max(1, *p) || !lleri && *ldqco1 < max(i__1, *p)) {
             *info = -10;
-        }
-        else if (lleri && *ldqco2 < max(1,*m) || ! lleri && *ldqco2 < max(1,mplim))
-        {
+        } else if (lleri && *ldqco2 < max(1, *m) || !lleri && *ldqco2 < max(1, mplim)) {
             *info = -11;
-        }
-        else if (lleri && *ldcfre < max(1,*p) || ! lleri && *ldcfre < max(1,mplim))
-        {
+        } else if (lleri && *ldcfre < max(1, *p) || !lleri && *ldcfre < max(1, mplim)) {
             *info = -14;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TC05AD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*m == 0 || *p == 0)
-    {
+    if (*m == 0 || *p == 0) {
         *rcond = 1.;
         return 0;
     }
-    if (lleri)
-    {
+    if (lleri) {
         /*        Initialization for left matrix fraction. */
         pwork = *p;
         mwork = *m;
-    }
-    else
-    {
+    } else {
         /*        Initialization for right matrix fraction: obtain dual system. */
         pwork = *m;
         mwork = *p;
-        if (mplim > 1)
-        {
-            tc01od_("R", m, p, &kpcoef, &pcoeff[pcoeff_offset], ldpco1, ldpco2, &qcoeff[qcoeff_offset], ldqco1, ldqco2, info, 1L);
+        if (mplim > 1) {
+            tc01od_("R", m, p, &kpcoef, &pcoeff[pcoeff_offset], ldpco1, ldpco2,
+                &qcoeff[qcoeff_offset], ldqco1, ldqco2, info, 1L);
         }
     }
     ldzwor = pwork;
     izwork = ldzwor * ldzwor + 1;
     maxind = 0;
     i__1 = pwork;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        if (index[i__] > maxind)
-        {
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        if (index[i__] > maxind) {
             maxind = index[i__];
         }
         /* L10: */
@@ -298,12 +277,10 @@ ftnlen leri_len;
     kpcoef = maxind + 1;
     /*     Calculate the complex denominator matrix P(SVAL), row by row. */
     i__1 = pwork;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         ij = i__;
         i__2 = pwork;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             i__3 = ij;
             i__4 = i__ + (j + pcoeff_dim2) * pcoeff_dim1;
             z__1.r = pcoeff[i__4], z__1.i = 0.;
@@ -313,15 +290,14 @@ ftnlen leri_len;
         }
         /*        Possibly non-constant row: finish evaluating it. */
         i__2 = index[i__] + 1;
-        for (k = 2; k <= i__2; ++k)
-        {
+        for (k = 2; k <= i__2; ++k) {
             ij = i__;
             i__3 = pwork;
-            for (j = 1; j <= i__3; ++j)
-            {
+            for (j = 1; j <= i__3; ++j) {
                 i__4 = ij;
                 i__5 = ij;
-                z__2.r = sval->r * zwork[i__5].r - sval->i * zwork[i__5].i, z__2.i = sval->r * zwork[i__5].i + sval->i * zwork[i__5].r;
+                z__2.r = sval->r * zwork[i__5].r - sval->i * zwork[i__5].i,
+                z__2.i = sval->r * zwork[i__5].i + sval->i * zwork[i__5].r;
                 i__6 = i__ + (j + k * pcoeff_dim2) * pcoeff_dim1;
                 z__3.r = pcoeff[i__6], z__3.i = 0.;
                 z__1.r = z__2.r + z__3.r, z__1.i = z__2.i + z__3.i;
@@ -337,31 +313,24 @@ ftnlen leri_len;
     /*     Note that DWORK is not actually referenced in ZLANGE routine. */
     cnorm = zlange_("1-norm", &pwork, &pwork, &zwork[1], &ldzwor, &dwork[1], 6L);
     zgetrf_(&pwork, &pwork, &zwork[1], &ldzwor, &iwork[1], info);
-    if (*info > 0)
-    {
+    if (*info > 0) {
         /*        Singular matrix.  Set INFO and RCOND for error return. */
         *info = 1;
         *rcond = 0.;
-    }
-    else
-    {
+    } else {
         /*        Estimate the reciprocal condition of P(SVAL). */
         /*        Workspace: ZWORK: PWORK*PWORK + 2*PWORK, DWORK: 2*PWORK. */
-        zgecon_("1-norm", &pwork, &zwork[1], &ldzwor, &cnorm, rcond, &zwork[izwork], &dwork[1], info, 6L);
-        if (*rcond <= dlamch_("Epsilon", 7L))
-        {
+        zgecon_("1-norm", &pwork, &zwork[1], &ldzwor, &cnorm, rcond, &zwork[izwork], &dwork[1],
+            info, 6L);
+        if (*rcond <= dlamch_("Epsilon", 7L)) {
             /*           Nearly singular matrix.  Set INFO for error return. */
             *info = 1;
-        }
-        else
-        {
+        } else {
             /*           Calculate the complex numerator matrix Q(SVAL), row by row. */
             i__1 = pwork;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 i__2 = mwork;
-                for (j = 1; j <= i__2; ++j)
-                {
+                for (j = 1; j <= i__2; ++j) {
                     i__3 = i__ + j * cfreqr_dim1;
                     i__4 = i__ + (j + qcoeff_dim2) * qcoeff_dim1;
                     z__1.r = qcoeff[i__4], z__1.i = 0.;
@@ -370,14 +339,13 @@ ftnlen leri_len;
                 }
                 /*              Possibly non-constant row: finish evaluating it. */
                 i__2 = index[i__] + 1;
-                for (k = 2; k <= i__2; ++k)
-                {
+                for (k = 2; k <= i__2; ++k) {
                     i__3 = mwork;
-                    for (j = 1; j <= i__3; ++j)
-                    {
+                    for (j = 1; j <= i__3; ++j) {
                         i__4 = i__ + j * cfreqr_dim1;
                         i__5 = i__ + j * cfreqr_dim1;
-                        z__2.r = sval->r * cfreqr[i__5].r - sval->i * cfreqr[i__5].i, z__2.i = sval->r * cfreqr[i__5].i + sval->i * cfreqr[i__5].r;
+                        z__2.r = sval->r * cfreqr[i__5].r - sval->i * cfreqr[i__5].i,
+                        z__2.i = sval->r * cfreqr[i__5].i + sval->i * cfreqr[i__5].r;
                         i__6 = i__ + (j + k * qcoeff_dim2) * qcoeff_dim1;
                         z__3.r = qcoeff[i__6], z__3.i = 0.;
                         z__1.r = z__2.r + z__3.r, z__1.i = z__2.i + z__3.i;
@@ -389,34 +357,31 @@ ftnlen leri_len;
                 /* L90: */
             }
             /*           Now calculate frequency response T(SVAL). */
-            zgetrs_("No transpose", &pwork, &mwork, &zwork[1], &ldzwor, &iwork[1], &cfreqr[cfreqr_offset], ldcfre, info, 12L);
+            zgetrs_("No transpose", &pwork, &mwork, &zwork[1], &ldzwor, &iwork[1],
+                &cfreqr[cfreqr_offset], ldcfre, info, 12L);
         }
     }
     /*     For right matrix fraction, return to original (dual of the dual) */
     /*     system. */
-    if (! lleri && mplim != 1)
-    {
-        tc01od_("L", &mwork, &pwork, &kpcoef, &pcoeff[pcoeff_offset], ldpco1, ldpco2, &qcoeff[qcoeff_offset], ldqco1, ldqco2, &info1, 1L);
-        if (*info == 0)
-        {
+    if (!lleri && mplim != 1) {
+        tc01od_("L", &mwork, &pwork, &kpcoef, &pcoeff[pcoeff_offset], ldpco1, ldpco2,
+            &qcoeff[qcoeff_offset], ldqco1, ldqco2, &info1, 1L);
+        if (*info == 0) {
             /*           Also, transpose T(SVAL) here if this was successfully */
             /*           calculated. */
-            minmp = min(*m,*p);
+            minmp = min(*m, *p);
             i__1 = mplim;
-            for (j = 1; j <= i__1; ++j)
-            {
-                if (j < minmp)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                if (j < minmp) {
                     i__2 = minmp - j;
-                    zswap_(&i__2, &cfreqr[j + 1 + j * cfreqr_dim1], &c__1, &cfreqr[j + (j + 1) * cfreqr_dim1], ldcfre);
-                }
-                else if (j > *p)
-                {
-                    zcopy_(p, &cfreqr[j * cfreqr_dim1 + 1], &c__1, &cfreqr[j + cfreqr_dim1], ldcfre);
-                }
-                else if (j > *m)
-                {
-                    zcopy_(m, &cfreqr[j + cfreqr_dim1], ldcfre, &cfreqr[j * cfreqr_dim1 + 1], &c__1);
+                    zswap_(&i__2, &cfreqr[j + 1 + j * cfreqr_dim1], &c__1,
+                        &cfreqr[j + (j + 1) * cfreqr_dim1], ldcfre);
+                } else if (j > *p) {
+                    zcopy_(
+                        p, &cfreqr[j * cfreqr_dim1 + 1], &c__1, &cfreqr[j + cfreqr_dim1], ldcfre);
+                } else if (j > *m) {
+                    zcopy_(
+                        m, &cfreqr[j + cfreqr_dim1], ldcfre, &cfreqr[j * cfreqr_dim1 + 1], &c__1);
                 }
                 /* L100: */
             }
@@ -425,4 +390,3 @@ ftnlen leri_len;
     return 0;
     /* *** Last line of TC05AD *** */
 } /* tc05ad_ */
-

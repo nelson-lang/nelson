@@ -21,19 +21,16 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DataStructuresGateway::ndarraycell_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DataStructuresGateway::ndarraycell_dispBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    else if (argIn[0].getDataClass() != NLS_CELL_ARRAY)
-    {
+    } else if (argIn[0].getDataClass() != NLS_CELL_ARRAY) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_CELL_EXPECTED);
-    }
-    else
-    {
+    } else {
         argIn[0].printMe(eval->getPrintLimit(), eval->getInterface()->getTerminalWidth());
     }
     return retval;

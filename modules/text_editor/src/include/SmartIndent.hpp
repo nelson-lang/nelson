@@ -18,9 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "nlsText_editor_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSTEXT_EDITOR_IMPEXP void smartIndent(std::wstring filename, int tabsize = 2, bool doBackup = false);
+NLSTEXT_EDITOR_IMPEXP void
+smartIndent(std::wstring filename, int tabsize = 2, bool doBackup = false);
 }
 //=============================================================================

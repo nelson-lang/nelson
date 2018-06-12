@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,14 +9,13 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb03qy_(n, l, a, lda, u, ldu, e1, e2, info)
-integer *n, *l;
-doublereal *a;
-integer *lda;
-doublereal *u;
-integer *ldu;
+EXPORTSYMBOL /* Subroutine */ int mb03qy_(n, l, a, lda, u, ldu, e1, e2, info) integer *n, *l;
+doublereal* a;
+integer* lda;
+doublereal* u;
+integer* ldu;
 doublereal *e1, *e2;
-integer *info;
+integer* info;
 {
     /* System generated locals */
     integer a_dim1, a_offset, u_dim1, u_offset, i__1;
@@ -120,24 +119,16 @@ integer *info;
     /* Function Body */
     *info = 0;
     /*     Test the input scalar arguments. */
-    if (*n < 2)
-    {
+    if (*n < 2) {
         *info = -1;
-    }
-    else if (*l < 1 || *l >= *n)
-    {
+    } else if (*l < 1 || *l >= *n) {
         *info = -2;
-    }
-    else if (*lda < *n)
-    {
+    } else if (*lda < *n) {
         *info = -4;
-    }
-    else if (*ldu < *n)
-    {
+    } else if (*ldu < *n) {
         *info = -6;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB03QY", &i__1, 6L);
@@ -146,14 +137,13 @@ integer *info;
     /*     Compute the eigenvalues and the elements of the Givens */
     /*     transformation. */
     l1 = *l + 1;
-    dlanv2_(&a[*l + *l * a_dim1], &a[*l + l1 * a_dim1], &a[l1 + *l * a_dim1], &a[l1 + l1 * a_dim1], e1, e2, &ew1, &ew2, &cs, &sn);
-    if (*e2 == 0.)
-    {
+    dlanv2_(&a[*l + *l * a_dim1], &a[*l + l1 * a_dim1], &a[l1 + *l * a_dim1], &a[l1 + l1 * a_dim1],
+        e1, e2, &ew1, &ew2, &cs, &sn);
+    if (*e2 == 0.) {
         *e2 = ew1;
     }
     /*     Apply the transformation to A. */
-    if (l1 < *n)
-    {
+    if (l1 < *n) {
         i__1 = *n - l1;
         drot_(&i__1, &a[*l + (l1 + 1) * a_dim1], lda, &a[l1 + (l1 + 1) * a_dim1], lda, &cs, &sn);
     }
@@ -164,4 +154,3 @@ integer *info;
     return 0;
     /* *** Last line of MB03QY *** */
 } /* mb03qy_ */
-

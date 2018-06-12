@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,39 +11,42 @@ static doublereal c_b6 = 0.;
 static doublereal c_b7 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int ab05nd_(over, n1, m1, p1, n2, alpha, a1, lda1, b1, ldb1, c1, ldc1, d1, ldd1, a2, lda2, b2, ldb2, c2, ldc2, d2, ldd2, n, a, lda, b, ldb, c__, ldc, d__, ldd, iwork, dwork, ldwork, info, over_len)
-char *over;
+EXPORTSYMBOL /* Subroutine */ int ab05nd_(over, n1, m1, p1, n2, alpha, a1, lda1, b1, ldb1, c1, ldc1,
+    d1, ldd1, a2, lda2, b2, ldb2, c2, ldc2, d2, ldd2, n, a, lda, b, ldb, c__, ldc, d__, ldd, iwork,
+    dwork, ldwork, info, over_len) char* over;
 integer *n1, *m1, *p1, *n2;
 doublereal *alpha, *a1;
-integer *lda1;
-doublereal *b1;
-integer *ldb1;
-doublereal *c1;
-integer *ldc1;
-doublereal *d1;
-integer *ldd1;
-doublereal *a2;
-integer *lda2;
-doublereal *b2;
-integer *ldb2;
-doublereal *c2;
-integer *ldc2;
-doublereal *d2;
+integer* lda1;
+doublereal* b1;
+integer* ldb1;
+doublereal* c1;
+integer* ldc1;
+doublereal* d1;
+integer* ldd1;
+doublereal* a2;
+integer* lda2;
+doublereal* b2;
+integer* ldb2;
+doublereal* c2;
+integer* ldc2;
+doublereal* d2;
 integer *ldd2, *n;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ldd, *iwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen over_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, a1_dim1, a1_offset, a2_dim1, a2_offset, b_dim1, b_offset, b1_dim1, b1_offset, b2_dim1, b2_offset, c_dim1, c_offset, c1_dim1, c1_offset, c2_dim1, c2_offset, d_dim1, d_offset, d1_dim1, d1_offset, d2_dim1, d2_offset, i__1, i__2;
+    integer a_dim1, a_offset, a1_dim1, a1_offset, a2_dim1, a2_offset, b_dim1, b_offset, b1_dim1,
+        b1_offset, b2_dim1, b2_offset, c_dim1, c_offset, c1_dim1, c1_offset, c2_dim1, c2_offset,
+        d_dim1, d_offset, d1_dim1, d1_offset, d2_dim1, d2_offset, i__1, i__2;
     doublereal d__1;
     /* Local variables */
     static integer ldwm1, i__, j;
@@ -286,100 +289,61 @@ ftnlen over_len;
     --dwork;
     /* Function Body */
     lover = lsame_(over, "O", 1L, 1L);
-    ldwm1 = max(1,*m1);
+    ldwm1 = max(1, *m1);
     *n = *n1 + *n2;
     *info = 0;
     /*     Test the input scalar arguments. */
-    if (! lover && ! lsame_(over, "N", 1L, 1L))
-    {
+    if (!lover && !lsame_(over, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n1 < 0)
-    {
+    } else if (*n1 < 0) {
         *info = -2;
-    }
-    else if (*m1 < 0)
-    {
+    } else if (*m1 < 0) {
         *info = -3;
-    }
-    else if (*p1 < 0)
-    {
+    } else if (*p1 < 0) {
         *info = -4;
-    }
-    else if (*n2 < 0)
-    {
+    } else if (*n2 < 0) {
         *info = -5;
-    }
-    else if (*lda1 < max(1,*n1))
-    {
+    } else if (*lda1 < max(1, *n1)) {
         *info = -8;
-    }
-    else if (*ldb1 < max(1,*n1))
-    {
+    } else if (*ldb1 < max(1, *n1)) {
         *info = -10;
-    }
-    else if (*n1 > 0 && *ldc1 < max(1,*p1) || *n1 == 0 && *ldc1 < 1)
-    {
+    } else if (*n1 > 0 && *ldc1 < max(1, *p1) || *n1 == 0 && *ldc1 < 1) {
         *info = -12;
-    }
-    else if (*ldd1 < max(1,*p1))
-    {
+    } else if (*ldd1 < max(1, *p1)) {
         *info = -14;
-    }
-    else if (*lda2 < max(1,*n2))
-    {
+    } else if (*lda2 < max(1, *n2)) {
         *info = -16;
-    }
-    else if (*ldb2 < max(1,*n2))
-    {
+    } else if (*ldb2 < max(1, *n2)) {
         *info = -18;
-    }
-    else if (*n2 > 0 && *ldc2 < ldwm1 || *n2 == 0 && *ldc2 < 1)
-    {
+    } else if (*n2 > 0 && *ldc2 < ldwm1 || *n2 == 0 && *ldc2 < 1) {
         *info = -20;
-    }
-    else if (*ldd2 < ldwm1)
-    {
+    } else if (*ldd2 < ldwm1) {
         *info = -22;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -25;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -27;
-    }
-    else if (*n > 0 && *ldc < max(1,*p1) || *n == 0 && *ldc < 1)
-    {
+    } else if (*n > 0 && *ldc < max(1, *p1) || *n == 0 && *ldc < 1) {
         *info = -29;
-    }
-    else if (*ldd < max(1,*p1))
-    {
+    } else if (*ldd < max(1, *p1)) {
         *info = -31;
-    }
-    else
-    {
+    } else {
         /* Computing MAX */
-        i__1 = *p1 **p1, i__2 = *m1 **m1, i__1 = max(i__1,i__2), i__2 = *n1 **p1;
-        ldw = max(i__1,i__2);
-        if (lover)
-        {
-            if (*m1 > *n **n2)
-            {
+        i__1 = *p1 * *p1, i__2 = *m1 * *m1, i__1 = max(i__1, i__2), i__2 = *n1 * *p1;
+        ldw = max(i__1, i__2);
+        if (lover) {
+            if (*m1 > *n * *n2) {
                 /* Computing MAX */
                 i__1 = ldw, i__2 = *m1 * (*m1 + 1);
-                ldw = max(i__1,i__2);
+                ldw = max(i__1, i__2);
             }
-            ldw = *n1 **p1 + ldw;
+            ldw = *n1 * *p1 + ldw;
         }
-        if (*ldwork < max(1,ldw))
-        {
+        if (*ldwork < max(1, ldw)) {
             *info = -34;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB05ND", &i__1, 6L);
@@ -387,207 +351,172 @@ ftnlen over_len;
     }
     /*     Quick return if possible. */
     /* Computing MAX */
-    i__1 = *n, i__2 = min(*m1,*p1);
-    if (max(i__1,i__2) == 0)
-    {
+    i__1 = *n, i__2 = min(*m1, *p1);
+    if (max(i__1, i__2) == 0) {
         return 0;
     }
-    if (*p1 > 0)
-    {
+    if (*p1 > 0) {
         /*        Form  ( I  +  alpha * D1 * D2 ). */
         dlaset_("F", p1, p1, &c_b6, &c_b7, &dwork[1], p1, 1L);
-        dgemm_("No transpose", "No transpose", p1, p1, m1, alpha, &d1[d1_offset], ldd1, &d2[d2_offset], ldd2, &c_b7, &dwork[1], p1, 12L, 12L);
+        dgemm_("No transpose", "No transpose", p1, p1, m1, alpha, &d1[d1_offset], ldd1,
+            &d2[d2_offset], ldd2, &c_b7, &dwork[1], p1, 12L, 12L);
         /*        Factorize this matrix. */
         dgetrf_(p1, p1, &dwork[1], p1, &iwork[1], info);
-        if (*info != 0)
-        {
+        if (*info != 0) {
             return 0;
         }
         /*        Form  E21 * D1. */
-        if (lover && *ldd1 <= *ldd)
-        {
-            if (*ldd1 < *ldd)
-            {
-                for (j = *m1; j >= 1; --j)
-                {
-                    for (i__ = *p1; i__ >= 1; --i__)
-                    {
+        if (lover && *ldd1 <= *ldd) {
+            if (*ldd1 < *ldd) {
+                for (j = *m1; j >= 1; --j) {
+                    for (i__ = *p1; i__ >= 1; --i__) {
                         d__[i__ + j * d_dim1] = d1[i__ + j * d1_dim1];
                         /* L10: */
                     }
                     /* L20: */
                 }
             }
-        }
-        else
-        {
+        } else {
             dlacpy_("F", p1, m1, &d1[d1_offset], ldd1, &d__[d_offset], ldd, 1L);
         }
         dgetrs_("No transpose", p1, m1, &dwork[1], p1, &iwork[1], &d__[d_offset], ldd, info, 12L);
-        if (*n1 > 0)
-        {
+        if (*n1 > 0) {
             /*           Form  E21 * C1. */
-            if (lover)
-            {
+            if (lover) {
                 /*              First save  C1. */
-                ldw = ldw - *p1 **n1 + 1;
+                ldw = ldw - *p1 * *n1 + 1;
                 dlacpy_("F", p1, n1, &c1[c1_offset], ldc1, &dwork[ldw], p1, 1L);
-                if (*ldc1 != *ldc)
-                {
+                if (*ldc1 != *ldc) {
                     dlacpy_("F", p1, n1, &dwork[ldw], p1, &c__[c_offset], ldc, 1L);
                 }
-            }
-            else
-            {
+            } else {
                 dlacpy_("F", p1, n1, &c1[c1_offset], ldc1, &c__[c_offset], ldc, 1L);
             }
-            dgetrs_("No transpose", p1, n1, &dwork[1], p1, &iwork[1], &c__[c_offset], ldc, info, 12L);
+            dgetrs_(
+                "No transpose", p1, n1, &dwork[1], p1, &iwork[1], &c__[c_offset], ldc, info, 12L);
         }
         /*        Form  E12  =  I  -  alpha * D2 * ( E21 * D1 ). */
         dlaset_("F", m1, m1, &c_b6, &c_b7, &dwork[1], &ldwm1, 1L);
         d__1 = -(*alpha);
-        dgemm_("No transpose", "No transpose", m1, m1, p1, &d__1, &d2[d2_offset], ldd2, &d__[d_offset], ldd, &c_b7, &dwork[1], &ldwm1, 12L, 12L);
-    }
-    else
-    {
+        dgemm_("No transpose", "No transpose", m1, m1, p1, &d__1, &d2[d2_offset], ldd2,
+            &d__[d_offset], ldd, &c_b7, &dwork[1], &ldwm1, 12L, 12L);
+    } else {
         dlaset_("F", m1, m1, &c_b6, &c_b7, &dwork[1], &ldwm1, 1L);
     }
-    if (lover && *lda1 <= *lda)
-    {
-        if (*lda1 < *lda)
-        {
-            for (j = *n1; j >= 1; --j)
-            {
-                for (i__ = *n1; i__ >= 1; --i__)
-                {
+    if (lover && *lda1 <= *lda) {
+        if (*lda1 < *lda) {
+            for (j = *n1; j >= 1; --j) {
+                for (i__ = *n1; i__ >= 1; --i__) {
                     a[i__ + j * a_dim1] = a1[i__ + j * a1_dim1];
                     /* L30: */
                 }
                 /* L40: */
             }
         }
-    }
-    else
-    {
+    } else {
         dlacpy_("F", n1, n1, &a1[a1_offset], lda1, &a[a_offset], lda, 1L);
     }
-    if (*n1 > 0 && *m1 > 0)
-    {
+    if (*n1 > 0 && *m1 > 0) {
         /*        Form  B1 * E12. */
-        if (lover)
-        {
+        if (lover) {
             /*           Use the blocks (1,2) and (2,2) of A as workspace. */
-            if (*n1 **m1 <= *n **n2)
-            {
+            if (*n1 * *m1 <= *n * *n2) {
                 /*              Use BLAS 3 code. */
                 dlacpy_("F", n1, m1, &b1[b1_offset], ldb1, &a[(*n1 + 1) * a_dim1 + 1], n1, 1L);
-                dgemm_("No transpose", "No transpose", n1, m1, m1, &c_b7, &a[(*n1 + 1) * a_dim1 + 1], n1, &dwork[1], &ldwm1, &c_b6, &b[b_offset], ldb, 12L, 12L);
-            }
-            else if (*ldb1 < *ldb)
-            {
-                for (j = *m1; j >= 1; --j)
-                {
-                    for (i__ = *n1; i__ >= 1; --i__)
-                    {
+                dgemm_("No transpose", "No transpose", n1, m1, m1, &c_b7,
+                    &a[(*n1 + 1) * a_dim1 + 1], n1, &dwork[1], &ldwm1, &c_b6, &b[b_offset], ldb,
+                    12L, 12L);
+            } else if (*ldb1 < *ldb) {
+                for (j = *m1; j >= 1; --j) {
+                    for (i__ = *n1; i__ >= 1; --i__) {
                         b[i__ + j * b_dim1] = b1[i__ + j * b1_dim1];
                         /* L50: */
                     }
                     /* L60: */
                 }
-                if (*m1 <= *n **n2)
-                {
+                if (*m1 <= *n * *n2) {
                     /*                 Use BLAS 2 code. */
                     i__1 = *n1;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         dcopy_(m1, &b[j + b_dim1], ldb, &a[(*n1 + 1) * a_dim1 + 1], &c__1);
-                        dgemv_("Transpose", m1, m1, &c_b7, &dwork[1], &ldwm1, &a[(*n1 + 1) * a_dim1 + 1], &c__1, &c_b6, &b[j + b_dim1], ldb, 9L);
+                        dgemv_("Transpose", m1, m1, &c_b7, &dwork[1], &ldwm1,
+                            &a[(*n1 + 1) * a_dim1 + 1], &c__1, &c_b6, &b[j + b_dim1], ldb, 9L);
                         /* L70: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Use additional workspace. */
                     i__1 = *n1;
-                    for (j = 1; j <= i__1; ++j)
-                    {
-                        dcopy_(m1, &b[j + b_dim1], ldb, &dwork[*m1 **m1 + 1], &c__1);
-                        dgemv_("Transpose", m1, m1, &c_b7, &dwork[1], &ldwm1, &dwork[*m1 **m1 + 1], &c__1, &c_b6, &b[j + b_dim1], ldb, 9L);
+                    for (j = 1; j <= i__1; ++j) {
+                        dcopy_(m1, &b[j + b_dim1], ldb, &dwork[*m1 * *m1 + 1], &c__1);
+                        dgemv_("Transpose", m1, m1, &c_b7, &dwork[1], &ldwm1, &dwork[*m1 * *m1 + 1],
+                            &c__1, &c_b6, &b[j + b_dim1], ldb, 9L);
                         /* L80: */
                     }
                 }
-            }
-            else if (*m1 <= *n **n2)
-            {
+            } else if (*m1 <= *n * *n2) {
                 /*              Use BLAS 2 code. */
                 i__1 = *n1;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     dcopy_(m1, &b1[j + b1_dim1], ldb1, &a[(*n1 + 1) * a_dim1 + 1], &c__1);
-                    dgemv_("Transpose", m1, m1, &c_b7, &dwork[1], &ldwm1, &a[(*n1 + 1) * a_dim1 + 1], &c__1, &c_b6, &b[j + b_dim1], ldb, 9L);
+                    dgemv_("Transpose", m1, m1, &c_b7, &dwork[1], &ldwm1,
+                        &a[(*n1 + 1) * a_dim1 + 1], &c__1, &c_b6, &b[j + b_dim1], ldb, 9L);
                     /* L90: */
                 }
-            }
-            else
-            {
+            } else {
                 /*              Use additional workspace. */
                 i__1 = *n1;
-                for (j = 1; j <= i__1; ++j)
-                {
-                    dcopy_(m1, &b1[j + b1_dim1], ldb1, &dwork[*m1 **m1 + 1], &c__1);
-                    dgemv_("Transpose", m1, m1, &c_b7, &dwork[1], &ldwm1, &dwork[*m1 **m1 + 1], &c__1, &c_b6, &b[j + b_dim1], ldb, 9L);
+                for (j = 1; j <= i__1; ++j) {
+                    dcopy_(m1, &b1[j + b1_dim1], ldb1, &dwork[*m1 * *m1 + 1], &c__1);
+                    dgemv_("Transpose", m1, m1, &c_b7, &dwork[1], &ldwm1, &dwork[*m1 * *m1 + 1],
+                        &c__1, &c_b6, &b[j + b_dim1], ldb, 9L);
                     /* L100: */
                 }
             }
-        }
-        else
-        {
-            dgemm_("No transpose", "No transpose", n1, m1, m1, &c_b7, &b1[b1_offset], ldb1, &dwork[1], &ldwm1, &c_b6, &b[b_offset], ldb, 12L, 12L);
+        } else {
+            dgemm_("No transpose", "No transpose", n1, m1, m1, &c_b7, &b1[b1_offset], ldb1,
+                &dwork[1], &ldwm1, &c_b6, &b[b_offset], ldb, 12L, 12L);
         }
     }
-    if (*n2 > 0)
-    {
+    if (*n2 > 0) {
         /*        Complete matrices  B  and  C. */
-        if (*p1 > 0)
-        {
-            dgemm_("No transpose", "No transpose", n2, m1, p1, &c_b7, &b2[b2_offset], ldb2, &d__[d_offset], ldd, &c_b6, &b[*n1 + 1 + b_dim1], ldb, 12L, 12L);
+        if (*p1 > 0) {
+            dgemm_("No transpose", "No transpose", n2, m1, p1, &c_b7, &b2[b2_offset], ldb2,
+                &d__[d_offset], ldd, &c_b6, &b[*n1 + 1 + b_dim1], ldb, 12L, 12L);
             d__1 = -(*alpha);
-            dgemm_("No transpose", "No transpose", p1, n2, m1, &d__1, &d__[d_offset], ldd, &c2[c2_offset], ldc2, &c_b6, &c__[(*n1 + 1) * c_dim1 + 1], ldc, 12L, 12L);
-        }
-        else if (*m1 > 0)
-        {
+            dgemm_("No transpose", "No transpose", p1, n2, m1, &d__1, &d__[d_offset], ldd,
+                &c2[c2_offset], ldc2, &c_b6, &c__[(*n1 + 1) * c_dim1 + 1], ldc, 12L, 12L);
+        } else if (*m1 > 0) {
             dlaset_("F", n2, m1, &c_b6, &c_b6, &b[*n1 + 1 + b_dim1], ldb, 1L);
         }
     }
-    if (*n1 > 0 && *p1 > 0)
-    {
+    if (*n1 > 0 && *p1 > 0) {
         /*        Form upper left quadrant of  A. */
         d__1 = -(*alpha);
-        dgemm_("No transpose", "No transpose", n1, p1, m1, &d__1, &b[b_offset], ldb, &d2[d2_offset], ldd2, &c_b6, &dwork[1], n1, 12L, 12L);
-        if (lover)
-        {
-            dgemm_("No transpose", "No transpose", n1, n1, p1, &c_b7, &dwork[1], n1, &dwork[ldw], p1, &c_b7, &a[a_offset], lda, 12L, 12L);
-        }
-        else
-        {
-            dgemm_("No transpose", "No transpose", n1, n1, p1, &c_b7, &dwork[1], n1, &c1[c1_offset], ldc1, &c_b7, &a[a_offset], lda, 12L, 12L);
+        dgemm_("No transpose", "No transpose", n1, p1, m1, &d__1, &b[b_offset], ldb, &d2[d2_offset],
+            ldd2, &c_b6, &dwork[1], n1, 12L, 12L);
+        if (lover) {
+            dgemm_("No transpose", "No transpose", n1, n1, p1, &c_b7, &dwork[1], n1, &dwork[ldw],
+                p1, &c_b7, &a[a_offset], lda, 12L, 12L);
+        } else {
+            dgemm_("No transpose", "No transpose", n1, n1, p1, &c_b7, &dwork[1], n1, &c1[c1_offset],
+                ldc1, &c_b7, &a[a_offset], lda, 12L, 12L);
         }
     }
-    if (*n2 > 0)
-    {
+    if (*n2 > 0) {
         /*        Form lower right quadrant of  A. */
         dlacpy_("F", n2, n2, &a2[a2_offset], lda2, &a[*n1 + 1 + (*n1 + 1) * a_dim1], lda, 1L);
-        if (*m1 > 0)
-        {
+        if (*m1 > 0) {
             d__1 = -(*alpha);
-            dgemm_("No transpose", "No transpose", n2, n2, m1, &d__1, &b[*n1 + 1 + b_dim1], ldb, &c2[c2_offset], ldc2, &c_b7, &a[*n1 + 1 + (*n1 + 1) * a_dim1], lda, 12L, 12L);
+            dgemm_("No transpose", "No transpose", n2, n2, m1, &d__1, &b[*n1 + 1 + b_dim1], ldb,
+                &c2[c2_offset], ldc2, &c_b7, &a[*n1 + 1 + (*n1 + 1) * a_dim1], lda, 12L, 12L);
         }
         /*        Complete the matrix  A. */
-        dgemm_("No transpose", "No transpose", n2, n1, p1, &c_b7, &b2[b2_offset], ldb2, &c__[c_offset], ldc, &c_b6, &a[*n1 + 1 + a_dim1], lda, 12L, 12L);
+        dgemm_("No transpose", "No transpose", n2, n1, p1, &c_b7, &b2[b2_offset], ldb2,
+            &c__[c_offset], ldc, &c_b6, &a[*n1 + 1 + a_dim1], lda, 12L, 12L);
         d__1 = -(*alpha);
-        dgemm_("No transpose", "No transpose", n1, n2, m1, &d__1, &b[b_offset], ldb, &c2[c2_offset], ldc2, &c_b6, &a[(*n1 + 1) * a_dim1 + 1], lda, 12L, 12L);
+        dgemm_("No transpose", "No transpose", n1, n2, m1, &d__1, &b[b_offset], ldb, &c2[c2_offset],
+            ldc2, &c_b6, &a[(*n1 + 1) * a_dim1 + 1], lda, 12L, 12L);
     }
     return 0;
     /* *** Last line of AB05ND *** */
 } /* ab05nd_ */
-

@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsDouble_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsDouble_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSDOUBLE_IMPEXP ArrayOf double_mtimes_double(ArrayOf a, ArrayOf b);
+NLSDOUBLE_IMPEXP ArrayOf
+double_mtimes_double(ArrayOf a, ArrayOf b);
 
 }
 //=============================================================================

@@ -22,44 +22,39 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FilesFoldersGateway::rmfileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FilesFoldersGateway::rmfileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 2)
-    {
+    if (nLhs > 2) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     std::wstring filenameToDelete = param1.getContentAsWideString();
     std::wstring msg = L"";
     bool bRes = false;
-    switch (nLhs)
-    {
-        case 0:
-        {
-            bRes = RemoveFile(filenameToDelete, msg);
-            if (bRes == false)
-            {
-                Error(eval, msg);
-            }
+    switch (nLhs) {
+    case 0: {
+        bRes = RemoveFile(filenameToDelete, msg);
+        if (bRes == false) {
+            Error(eval, msg);
         }
+    } break;
+    case 1:
+        bRes = RemoveFile(filenameToDelete, msg);
+        retval.push_back(ArrayOf::logicalConstructor(bRes));
         break;
-        case 1:
-            bRes = RemoveFile(filenameToDelete, msg);
-            retval.push_back(ArrayOf::logicalConstructor(bRes));
-            break;
-        case 2:
-            bRes = RemoveFile(filenameToDelete, msg);
-            retval.push_back(ArrayOf::logicalConstructor(bRes));
-            retval.push_back(ArrayOf::stringConstructor(msg));
-            break;
-        default:
-            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            break;
+    case 2:
+        bRes = RemoveFile(filenameToDelete, msg);
+        retval.push_back(ArrayOf::logicalConstructor(bRes));
+        retval.push_back(ArrayOf::stringConstructor(msg));
+        break;
+    default:
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        break;
     }
     return retval;
 }

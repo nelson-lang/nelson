@@ -19,6 +19,7 @@
 #pragma once
 //=============================================================================
 namespace Nelson {
-    bool SetNelSonEnvironmentVariables();
+bool
+SetNelSonEnvironmentVariables();
 }
 //=============================================================================

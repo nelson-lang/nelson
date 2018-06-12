@@ -18,24 +18,30 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtWidgets/QWidget>
-#include <QtWidgets/QCompleter>
-#include "QtTextEdit.h"
 #include "QtHighlighter.h"
+#include "QtTextEdit.h"
+#include <QtWidgets/QCompleter>
+#include <QtWidgets/QWidget>
 //=============================================================================
 class QCompleter;
 //=============================================================================
-class QtEditPane : public QWidget {
+class QtEditPane : public QWidget
+{
     Q_OBJECT
-    QtTextEdit *textEditor;
+    QtTextEdit* textEditor;
     QString currentFilename;
+
 public:
     QtEditPane();
-    QtTextEdit* getEditor();
-    void setFileName(QString filename);
-    QString getFileName();
+    QtTextEdit*
+    getEditor();
+    void
+    setFileName(QString filename);
+    QString
+    getFileName();
+
 private:
-    Highlighter *highlight;
-    QCompleter *completer;
+    Highlighter* highlight;
+    QCompleter* completer;
 };
 //=============================================================================

@@ -16,66 +16,55 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtQml/QQmlComponent>
 #include "UndefineDynamicProperty.hpp"
 #include "Exception.hpp"
 #include "HandleGenericObject.hpp"
+#include "HandleManager.hpp"
+#include "QStringConverter.hpp"
+#include "QVariantArrayOf.hpp"
 #include "QmlHandleObject.hpp"
 #include "characters_encoding.hpp"
-#include "QStringConverter.hpp"
-#include "HandleManager.hpp"
-#include "QVariantArrayOf.hpp"
+#include <QtQml/QQmlComponent>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void UndefineDynamicProperty(ArrayOf A, std::wstring propertyName)
-    {
-        ArrayOf res;
-        HandleGenericObject *hlObj = A.getContentAsHandleScalar();
-        if (hlObj->getCategory() != QOBJECT_CATEGORY_STR)
-        {
-            throw Exception(_W("QObject handle expected."));
-        }
-        QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
-        void *ptr = qmlhandleobj->getPointer();
-        if (ptr == nullptr)
-        {
-            throw Exception(_W("QObject valid handle expected."));
-        }
-        QObject *qobj = (QObject *)ptr;
-        if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR))
-        {
-            throw Exception(_W("'parent' can not modified."));
-        }
-        else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR))
-        {
-            throw Exception(_W("'children' can not modified."));
-        }
-        else
-        {
-            bool isDynamicProperty = false;
-            QList<QByteArray> names = qobj->dynamicPropertyNames();
-            std::string upropertyname = wstring_to_utf8(propertyName);
-            for (int k = 0; k < names.size(); k++)
-            {
-                std::string name = std::string(names[k]);
-                if (name == upropertyname)
-                {
-                    isDynamicProperty = true;
-                    break;
-                }
+//=============================================================================
+void
+UndefineDynamicProperty(ArrayOf A, std::wstring propertyName)
+{
+    ArrayOf res;
+    HandleGenericObject* hlObj = A.getContentAsHandleScalar();
+    if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
+        throw Exception(_W("QObject handle expected."));
+    }
+    QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
+    void* ptr = qmlhandleobj->getPointer();
+    if (ptr == nullptr) {
+        throw Exception(_W("QObject valid handle expected."));
+    }
+    QObject* qobj = (QObject*)ptr;
+    if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
+        throw Exception(_W("'parent' can not modified."));
+    } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR)) {
+        throw Exception(_W("'children' can not modified."));
+    } else {
+        bool isDynamicProperty = false;
+        QList<QByteArray> names = qobj->dynamicPropertyNames();
+        std::string upropertyname = wstring_to_utf8(propertyName);
+        for (int k = 0; k < names.size(); k++) {
+            std::string name = std::string(names[k]);
+            if (name == upropertyname) {
+                isDynamicProperty = true;
+                break;
             }
-            if (isDynamicProperty)
-            {
-                QVariant undefined = QVariant();
-                qobj->setProperty(upropertyname.c_str(), undefined);
-            }
-            else
-            {
-                throw Exception(_W("'" + upropertyname + "'" + " can not modified."));
-            }
+        }
+        if (isDynamicProperty) {
+            QVariant undefined = QVariant();
+            qobj->setProperty(upropertyname.c_str(), undefined);
+        } else {
+            throw Exception(_W("'" + upropertyname + "'" + " can not modified."));
         }
     }
-    //=============================================================================
+}
+//=============================================================================
 }
 //=============================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,13 +9,12 @@
 
 static integer c__1 = 1;
 
-doublereal mb03ny_(n, omega, a, lda, s, dwork, ldwork, cwork, lcwork, info)
-integer *n;
+doublereal mb03ny_(n, omega, a, lda, s, dwork, ldwork, cwork, lcwork, info) integer* n;
 doublereal *omega, *a;
-integer *lda;
+integer* lda;
 doublereal *s, *dwork;
-integer *ldwork;
-doublecomplex *cwork;
+integer* ldwork;
+doublecomplex* cwork;
 integer *lcwork, *info;
 {
     /* System generated locals */
@@ -24,10 +23,10 @@ integer *lcwork, *info;
     doublecomplex z__1, z__2;
     /* Local variables */
     static integer i__, j;
-    static doublereal dummy[1]	/* was [1][1] */;
+    static doublereal dummy[1] /* was [1][1] */;
     static integer ic;
     extern EXPORTSYMBOL /* Subroutine */ int dgesvd_(), xerbla_(), zgesvd_();
-    static doublecomplex zdummy[1]	/* was [1][1] */;
+    static doublecomplex zdummy[1] /* was [1][1] */;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */
@@ -122,94 +121,78 @@ integer *lcwork, *info;
     --cwork;
     /* Function Body */
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -4;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = *n * 5;
-        if (*ldwork < max(i__1,i__2))
-        {
+        if (*ldwork < max(i__1, i__2)) {
             *info = -7;
-        }
-        else if (*lcwork < 1 || *omega != 0. && *lcwork < *n **n + *n * 3)
-        {
+        } else if (*lcwork < 1 || *omega != 0. && *lcwork < *n * *n + *n * 3) {
             *info = -9;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB03NY", &i__1, 6L);
         return ret_val;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         ret_val = 0.;
         dwork[1] = 1.;
-        if (*omega != 0.)
-        {
+        if (*omega != 0.) {
             cwork[1].r = 1., cwork[1].i = 0.;
         }
         return ret_val;
     }
-    if (*omega == 0.)
-    {
+    if (*omega == 0.) {
         /*        OMEGA = 0 allows real SVD. */
-        dgesvd_("No vectors", "No vectors", n, n, &a[a_offset], n, &s[1], dummy, &c__1, dummy, &c__1, &dwork[1], ldwork, info, 10L, 10L);
-        if (*info != 0)
-        {
+        dgesvd_("No vectors", "No vectors", n, n, &a[a_offset], n, &s[1], dummy, &c__1, dummy,
+            &c__1, &dwork[1], ldwork, info, 10L, 10L);
+        if (*info != 0) {
             *info = 2;
             return ret_val;
         }
-    }
-    else
-    {
+    } else {
         /*        General case, that is complex SVD. */
         ic = 1;
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *n;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 i__3 = ic;
                 i__4 = i__ + j * a_dim1;
                 cwork[i__3].r = a[i__4], cwork[i__3].i = 0.;
                 ++ic;
                 /* L10: */
             }
-            i__2 = (j - 1) **n + j;
-            i__3 = (j - 1) **n + j;
+            i__2 = (j - 1) * *n + j;
+            i__3 = (j - 1) * *n + j;
             z__2.r = *omega * 0., z__2.i = *omega * 1.;
             z__1.r = cwork[i__3].r - z__2.r, z__1.i = cwork[i__3].i - z__2.i;
             cwork[i__2].r = z__1.r, cwork[i__2].i = z__1.i;
             /* L20: */
         }
-        i__1 = *lcwork - *n **n;
-        zgesvd_("No vectors", "No vectors", n, n, &cwork[1], n, &s[1], zdummy, &c__1, zdummy, &c__1, &cwork[*n **n + 1], &i__1, &dwork[1], info, 10L, 10L);
-        if (*info != 0)
-        {
+        i__1 = *lcwork - *n * *n;
+        zgesvd_("No vectors", "No vectors", n, n, &cwork[1], n, &s[1], zdummy, &c__1, zdummy, &c__1,
+            &cwork[*n * *n + 1], &i__1, &dwork[1], info, 10L, 10L);
+        if (*info != 0) {
             *info = 2;
             return ret_val;
         }
-        i__1 = *n **n + 1;
-        d__1 = (doublereal) (*n **n);
+        i__1 = *n * *n + 1;
+        d__1 = (doublereal)(*n * *n);
         z__2.r = d__1 * 1., z__2.i = d__1 * 0.;
         z__1.r = cwork[i__1].r + z__2.r, z__1.i = cwork[i__1].i + z__2.i;
         cwork[1].r = z__1.r, cwork[1].i = z__1.i;
-        dwork[1] = (doublereal) (*n * 5);
+        dwork[1] = (doublereal)(*n * 5);
     }
     ret_val = s[*n];
     /* *** Last line of MB03NY *** */
     return ret_val;
 } /* mb03ny_ */
-

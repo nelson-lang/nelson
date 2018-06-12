@@ -18,12 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsStream_manager_exports.h"
 #include "File.hpp"
 #include "Types.hpp"
+#include "nlsStream_manager_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSTREAM_MANAGER_IMPEXP int64 FileSize(File *fp);
+NLSSTREAM_MANAGER_IMPEXP int64
+FileSize(File* fp);
 };
 //=============================================================================
-

@@ -18,12 +18,19 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 #include "nlsOverload_exports.h"
-#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    typedef enum { FUNCTION = 0, UNARY, BINARY, TRINARY } OVERLOAD_TYPE;
-    NLSOVERLOAD_IMPEXP void OverloadRequired(Evaluator *eval, const ArrayOfVector& argIn, OVERLOAD_TYPE otype = FUNCTION);
-}
-//=============================================================================
+typedef enum
+{
+    FUNCTION = 0,
+    UNARY,
+    BINARY,
+    TRINARY
+} OVERLOAD_TYPE;
+NLSOVERLOAD_IMPEXP void
+OverloadRequired(Evaluator* eval, const ArrayOfVector& argIn, OVERLOAD_TYPE otype = FUNCTION);
+} // namespace Nelson
+  //=============================================================================

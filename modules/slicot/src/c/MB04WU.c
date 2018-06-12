@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,13 +10,14 @@
 static doublereal c_b12 = 0.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb04wu_(tranq1, tranq2, m, n, k, q1, ldq1, q2, ldq2, cs, tau, dwork, ldwork, info, tranq1_len, tranq2_len)
-char *tranq1, *tranq2;
+EXPORTSYMBOL /* Subroutine */ int mb04wu_(tranq1, tranq2, m, n, k, q1, ldq1, q2, ldq2, cs, tau,
+    dwork, ldwork, info, tranq1_len, tranq2_len) char *tranq1,
+    *tranq2;
 integer *m, *n, *k;
-doublereal *q1;
-integer *ldq1;
-doublereal *q2;
-integer *ldq2;
+doublereal* q1;
+integer* ldq1;
+doublereal* q2;
+integer* ldq2;
 doublereal *cs, *tau, *dwork;
 integer *ldwork, *info;
 ftnlen tranq1_len;
@@ -173,66 +174,47 @@ ftnlen tranq2_len;
     ltrq1 = lsame_(tranq1, "T", 1L, 1L) || lsame_(tranq1, "C", 1L, 1L);
     ltrq2 = lsame_(tranq2, "T", 1L, 1L) || lsame_(tranq2, "C", 1L, 1L);
     /*     Check the scalar input parameters. */
-    if (! (ltrq1 || lsame_(tranq1, "N", 1L, 1L)))
-    {
+    if (!(ltrq1 || lsame_(tranq1, "N", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (ltrq2 || lsame_(tranq2, "N", 1L, 1L)))
-    {
+    } else if (!(ltrq2 || lsame_(tranq2, "N", 1L, 1L))) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*n < 0 || *n > *m)
-    {
+    } else if (*n < 0 || *n > *m) {
         *info = -4;
-    }
-    else if (*k < 0 || *k > *n)
-    {
+    } else if (*k < 0 || *k > *n) {
         *info = -5;
-    }
-    else if (ltrq1 && *ldq1 < max(1,*n) || ! ltrq1 && *ldq1 < max(1,*m))
-    {
+    } else if (ltrq1 && *ldq1 < max(1, *n) || !ltrq1 && *ldq1 < max(1, *m)) {
         *info = -7;
-    }
-    else if (ltrq2 && *ldq2 < max(1,*n) || ! ltrq2 && *ldq2 < max(1,*m))
-    {
+    } else if (ltrq2 && *ldq2 < max(1, *n) || !ltrq2 && *ldq2 < max(1, *m)) {
         *info = -9;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = *m + *n;
-        if (*ldwork < max(i__1,i__2))
-        {
+        if (*ldwork < max(i__1, i__2)) {
             /* Computing MAX */
             i__1 = 1, i__2 = *m + *n;
-            dwork[1] = (doublereal) max(i__1,i__2);
+            dwork[1] = (doublereal)max(i__1, i__2);
             *info = -13;
         }
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04WU", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 1.;
         return 0;
     }
     /*     Initialize columns K+1:N to columns of the unit matrix. */
     i__1 = *n;
-    for (j = *k + 1; j <= i__1; ++j)
-    {
+    for (j = *k + 1; j <= i__1; ++j) {
         i__2 = *m;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             q1[i__ + j * q1_dim1] = 0.;
             /* L10: */
         }
@@ -241,26 +223,24 @@ ftnlen tranq2_len;
     }
     i__1 = *n - *k;
     dlaset_("All", m, &i__1, &c_b12, &c_b12, &q2[(*k + 1) * q2_dim1 + 1], ldq2, 3L);
-    if (ltrq1 && ltrq2)
-    {
-        for (i__ = *k; i__ >= 1; --i__)
-        {
+    if (ltrq1 && ltrq2) {
+        for (i__ = *k; i__ >= 1; --i__) {
             /*           Apply F(I) to Q1(I+1:N,I:M) and Q2(I+1:N,I:M) from the */
             /*           right. */
             i__1 = *m - i__ + 1;
             dcopy_(&i__1, &q2[i__ + i__ * q2_dim1], ldq2, &dwork[1], &c__1);
-            if (i__ < *n)
-            {
+            if (i__ < *n) {
                 q1[i__ + i__ * q1_dim1] = 1.;
                 i__1 = *n - i__;
                 i__2 = *m - i__ + 1;
-                dlarf_("Right", &i__1, &i__2, &q1[i__ + i__ * q1_dim1], ldq1, &tau[i__], &q1[i__ + 1 + i__ * q1_dim1], ldq1, &dwork[*m + 1], 5L);
+                dlarf_("Right", &i__1, &i__2, &q1[i__ + i__ * q1_dim1], ldq1, &tau[i__],
+                    &q1[i__ + 1 + i__ * q1_dim1], ldq1, &dwork[*m + 1], 5L);
                 i__1 = *n - i__;
                 i__2 = *m - i__ + 1;
-                dlarf_("Right", &i__1, &i__2, &q1[i__ + i__ * q1_dim1], ldq1, &tau[i__], &q2[i__ + 1 + i__ * q2_dim1], ldq2, &dwork[*m + 1], 5L);
+                dlarf_("Right", &i__1, &i__2, &q1[i__ + i__ * q1_dim1], ldq1, &tau[i__],
+                    &q2[i__ + 1 + i__ * q2_dim1], ldq2, &dwork[*m + 1], 5L);
             }
-            if (i__ < *m)
-            {
+            if (i__ < *m) {
                 i__1 = *m - i__;
                 d__1 = -tau[i__];
                 dscal_(&i__1, &d__1, &q1[i__ + (i__ + 1) * q1_dim1], ldq1);
@@ -268,52 +248,50 @@ ftnlen tranq2_len;
             q1[i__ + i__ * q1_dim1] = 1. - tau[i__];
             /*           Set Q1(I,1:I-1) and Q2(I,1:M) to zero. */
             i__1 = i__ - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 q1[i__ + j * q1_dim1] = 0.;
                 /* L30: */
             }
             i__1 = *m;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 q2[i__ + j * q2_dim1] = 0.;
                 /* L40: */
             }
             /*           Apply G(I) to Q1(I:N,I) and Q2(I:N,I) from the right. */
             i__1 = *n - i__ + 1;
-            drot_(&i__1, &q1[i__ + i__ * q1_dim1], &c__1, &q2[i__ + i__ * q2_dim1], &c__1, &cs[(i__ << 1) - 1], &cs[i__ * 2]);
+            drot_(&i__1, &q1[i__ + i__ * q1_dim1], &c__1, &q2[i__ + i__ * q2_dim1], &c__1,
+                &cs[(i__ << 1) - 1], &cs[i__ * 2]);
             /*           Apply H(I) to Q1(I:N,I:M) and Q2(I:N,I:M) from the right. */
             nu = dwork[1];
             dwork[1] = 1.;
             i__1 = *n - i__ + 1;
             i__2 = *m - i__ + 1;
-            dlarf_("Right", &i__1, &i__2, &dwork[1], &c__1, &nu, &q1[i__ + i__ * q1_dim1], ldq1, &dwork[*m + 1], 5L);
+            dlarf_("Right", &i__1, &i__2, &dwork[1], &c__1, &nu, &q1[i__ + i__ * q1_dim1], ldq1,
+                &dwork[*m + 1], 5L);
             i__1 = *n - i__ + 1;
             i__2 = *m - i__ + 1;
-            dlarf_("Right", &i__1, &i__2, &dwork[1], &c__1, &nu, &q2[i__ + i__ * q2_dim1], ldq2, &dwork[*m + 1], 5L);
+            dlarf_("Right", &i__1, &i__2, &dwork[1], &c__1, &nu, &q2[i__ + i__ * q2_dim1], ldq2,
+                &dwork[*m + 1], 5L);
             /* L50: */
         }
-    }
-    else if (ltrq1)
-    {
-        for (i__ = *k; i__ >= 1; --i__)
-        {
+    } else if (ltrq1) {
+        for (i__ = *k; i__ >= 1; --i__) {
             /*           Apply F(I) to Q1(I+1:N,I:M) from the right and to */
             /*           Q2(I:M,I+1:N) from the left. */
             i__1 = *m - i__ + 1;
             dcopy_(&i__1, &q2[i__ + i__ * q2_dim1], &c__1, &dwork[1], &c__1);
-            if (i__ < *n)
-            {
+            if (i__ < *n) {
                 q1[i__ + i__ * q1_dim1] = 1.;
                 i__1 = *n - i__;
                 i__2 = *m - i__ + 1;
-                dlarf_("Right", &i__1, &i__2, &q1[i__ + i__ * q1_dim1], ldq1, &tau[i__], &q1[i__ + 1 + i__ * q1_dim1], ldq1, &dwork[*m + 1], 5L);
+                dlarf_("Right", &i__1, &i__2, &q1[i__ + i__ * q1_dim1], ldq1, &tau[i__],
+                    &q1[i__ + 1 + i__ * q1_dim1], ldq1, &dwork[*m + 1], 5L);
                 i__1 = *m - i__ + 1;
                 i__2 = *n - i__;
-                dlarf_("Left", &i__1, &i__2, &q1[i__ + i__ * q1_dim1], ldq1, &tau[i__], &q2[i__ + (i__ + 1) * q2_dim1], ldq2, &dwork[*m + 1], 4L);
+                dlarf_("Left", &i__1, &i__2, &q1[i__ + i__ * q1_dim1], ldq1, &tau[i__],
+                    &q2[i__ + (i__ + 1) * q2_dim1], ldq2, &dwork[*m + 1], 4L);
             }
-            if (i__ < *m)
-            {
+            if (i__ < *m) {
                 i__1 = *m - i__;
                 d__1 = -tau[i__];
                 dscal_(&i__1, &d__1, &q1[i__ + (i__ + 1) * q1_dim1], ldq1);
@@ -321,54 +299,52 @@ ftnlen tranq2_len;
             q1[i__ + i__ * q1_dim1] = 1. - tau[i__];
             /*           Set Q1(I,1:I-1) and Q2(1:M,I) to zero. */
             i__1 = i__ - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 q1[i__ + j * q1_dim1] = 0.;
                 /* L60: */
             }
             i__1 = *m;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 q2[j + i__ * q2_dim1] = 0.;
                 /* L70: */
             }
             /*           Apply G(I) to Q1(I:N,I) from the right and to Q2(I,I:N) */
             /*           from the left. */
             i__1 = *n - i__ + 1;
-            drot_(&i__1, &q1[i__ + i__ * q1_dim1], &c__1, &q2[i__ + i__ * q2_dim1], ldq2, &cs[(i__ << 1) - 1], &cs[i__ * 2]);
+            drot_(&i__1, &q1[i__ + i__ * q1_dim1], &c__1, &q2[i__ + i__ * q2_dim1], ldq2,
+                &cs[(i__ << 1) - 1], &cs[i__ * 2]);
             /*           Apply H(I) to Q1(I:N,I:M) from the right and to Q2(I:M,I:N) */
             /*           from the left. */
             nu = dwork[1];
             dwork[1] = 1.;
             i__1 = *n - i__ + 1;
             i__2 = *m - i__ + 1;
-            dlarf_("Right", &i__1, &i__2, &dwork[1], &c__1, &nu, &q1[i__ + i__ * q1_dim1], ldq1, &dwork[*m + 1], 5L);
+            dlarf_("Right", &i__1, &i__2, &dwork[1], &c__1, &nu, &q1[i__ + i__ * q1_dim1], ldq1,
+                &dwork[*m + 1], 5L);
             i__1 = *m - i__ + 1;
             i__2 = *n - i__ + 1;
-            dlarf_("Left", &i__1, &i__2, &dwork[1], &c__1, &nu, &q2[i__ + i__ * q2_dim1], ldq2, &dwork[*m + 1], 4L);
+            dlarf_("Left", &i__1, &i__2, &dwork[1], &c__1, &nu, &q2[i__ + i__ * q2_dim1], ldq2,
+                &dwork[*m + 1], 4L);
             /* L80: */
         }
-    }
-    else if (ltrq2)
-    {
-        for (i__ = *k; i__ >= 1; --i__)
-        {
+    } else if (ltrq2) {
+        for (i__ = *k; i__ >= 1; --i__) {
             /*           Apply F(I) to Q1(I:M,I+1:N) from the left and to */
             /*           Q2(I+1:N,I:M) from the right. */
             i__1 = *m - i__ + 1;
             dcopy_(&i__1, &q2[i__ + i__ * q2_dim1], ldq2, &dwork[1], &c__1);
-            if (i__ < *n)
-            {
+            if (i__ < *n) {
                 q1[i__ + i__ * q1_dim1] = 1.;
                 i__1 = *m - i__ + 1;
                 i__2 = *n - i__;
-                dlarf_("Left", &i__1, &i__2, &q1[i__ + i__ * q1_dim1], &c__1, &tau[i__], &q1[i__ + (i__ + 1) * q1_dim1], ldq1, &dwork[*m + 1], 4L);
+                dlarf_("Left", &i__1, &i__2, &q1[i__ + i__ * q1_dim1], &c__1, &tau[i__],
+                    &q1[i__ + (i__ + 1) * q1_dim1], ldq1, &dwork[*m + 1], 4L);
                 i__1 = *n - i__;
                 i__2 = *m - i__ + 1;
-                dlarf_("Right", &i__1, &i__2, &q1[i__ + i__ * q1_dim1], &c__1, &tau[i__], &q2[i__ + 1 + i__ * q2_dim1], ldq2, &dwork[*m + 1], 5L);
+                dlarf_("Right", &i__1, &i__2, &q1[i__ + i__ * q1_dim1], &c__1, &tau[i__],
+                    &q2[i__ + 1 + i__ * q2_dim1], ldq2, &dwork[*m + 1], 5L);
             }
-            if (i__ < *m)
-            {
+            if (i__ < *m) {
                 i__1 = *m - i__;
                 d__1 = -tau[i__];
                 dscal_(&i__1, &d__1, &q1[i__ + 1 + i__ * q1_dim1], &c__1);
@@ -376,53 +352,51 @@ ftnlen tranq2_len;
             q1[i__ + i__ * q1_dim1] = 1. - tau[i__];
             /*           Set Q1(1:I-1,I) and Q2(I,1:M) to zero. */
             i__1 = i__ - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 q1[j + i__ * q1_dim1] = 0.;
                 /* L90: */
             }
             i__1 = *m;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 q2[i__ + j * q2_dim1] = 0.;
                 /* L100: */
             }
             /*           Apply G(I) to Q1(I,I:N) from the left and to Q2(I:N,I) */
             /*           from the right. */
             i__1 = *n - i__ + 1;
-            drot_(&i__1, &q1[i__ + i__ * q1_dim1], ldq1, &q2[i__ + i__ * q2_dim1], &c__1, &cs[(i__ << 1) - 1], &cs[i__ * 2]);
+            drot_(&i__1, &q1[i__ + i__ * q1_dim1], ldq1, &q2[i__ + i__ * q2_dim1], &c__1,
+                &cs[(i__ << 1) - 1], &cs[i__ * 2]);
             /*           Apply H(I) to Q1(I:M,I:N) from the left and to Q2(I:N,I:M) */
             /*           from the left. */
             nu = dwork[1];
             dwork[1] = 1.;
             i__1 = *m - i__ + 1;
             i__2 = *n - i__ + 1;
-            dlarf_("Left", &i__1, &i__2, &dwork[1], &c__1, &nu, &q1[i__ + i__ * q1_dim1], ldq1, &dwork[*m + 1], 4L);
+            dlarf_("Left", &i__1, &i__2, &dwork[1], &c__1, &nu, &q1[i__ + i__ * q1_dim1], ldq1,
+                &dwork[*m + 1], 4L);
             i__1 = *n - i__ + 1;
             i__2 = *m - i__ + 1;
-            dlarf_("Right", &i__1, &i__2, &dwork[1], &c__1, &nu, &q2[i__ + i__ * q2_dim1], ldq2, &dwork[*m + 1], 5L);
+            dlarf_("Right", &i__1, &i__2, &dwork[1], &c__1, &nu, &q2[i__ + i__ * q2_dim1], ldq2,
+                &dwork[*m + 1], 5L);
             /* L110: */
         }
-    }
-    else
-    {
-        for (i__ = *k; i__ >= 1; --i__)
-        {
+    } else {
+        for (i__ = *k; i__ >= 1; --i__) {
             /*           Apply F(I) to Q1(I:M,I+1:N) and Q2(I:M,I+1:N) from the left. */
             i__1 = *m - i__ + 1;
             dcopy_(&i__1, &q2[i__ + i__ * q2_dim1], &c__1, &dwork[1], &c__1);
-            if (i__ < *n)
-            {
+            if (i__ < *n) {
                 q1[i__ + i__ * q1_dim1] = 1.;
                 i__1 = *m - i__ + 1;
                 i__2 = *n - i__;
-                dlarf_("Left", &i__1, &i__2, &q1[i__ + i__ * q1_dim1], &c__1, &tau[i__], &q1[i__ + (i__ + 1) * q1_dim1], ldq1, &dwork[*m + 1], 4L);
+                dlarf_("Left", &i__1, &i__2, &q1[i__ + i__ * q1_dim1], &c__1, &tau[i__],
+                    &q1[i__ + (i__ + 1) * q1_dim1], ldq1, &dwork[*m + 1], 4L);
                 i__1 = *m - i__ + 1;
                 i__2 = *n - i__;
-                dlarf_("Left", &i__1, &i__2, &q1[i__ + i__ * q1_dim1], &c__1, &tau[i__], &q2[i__ + (i__ + 1) * q2_dim1], ldq2, &dwork[*m + 1], 4L);
+                dlarf_("Left", &i__1, &i__2, &q1[i__ + i__ * q1_dim1], &c__1, &tau[i__],
+                    &q2[i__ + (i__ + 1) * q2_dim1], ldq2, &dwork[*m + 1], 4L);
             }
-            if (i__ < *m)
-            {
+            if (i__ < *m) {
                 i__1 = *m - i__;
                 d__1 = -tau[i__];
                 dscal_(&i__1, &d__1, &q1[i__ + 1 + i__ * q1_dim1], &c__1);
@@ -430,35 +404,35 @@ ftnlen tranq2_len;
             q1[i__ + i__ * q1_dim1] = 1. - tau[i__];
             /*           Set Q1(1:I-1,I) and Q2(1:M,I) to zero. */
             i__1 = i__ - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 q1[j + i__ * q1_dim1] = 0.;
                 /* L120: */
             }
             i__1 = *m;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 q2[j + i__ * q2_dim1] = 0.;
                 /* L130: */
             }
             /*           Apply G(I) to Q1(I,I:N) and Q2(I,I:N) from the left. */
             i__1 = *n - i__ + 1;
-            drot_(&i__1, &q1[i__ + i__ * q1_dim1], ldq1, &q2[i__ + i__ * q2_dim1], ldq2, &cs[(i__ << 1) - 1], &cs[i__ * 2]);
+            drot_(&i__1, &q1[i__ + i__ * q1_dim1], ldq1, &q2[i__ + i__ * q2_dim1], ldq2,
+                &cs[(i__ << 1) - 1], &cs[i__ * 2]);
             /*           Apply H(I) to Q1(I:M,I:N) and Q2(I:M,I:N) from the left. */
             nu = dwork[1];
             dwork[1] = 1.;
             i__1 = *m - i__ + 1;
             i__2 = *n - i__ + 1;
-            dlarf_("Left", &i__1, &i__2, &dwork[1], &c__1, &nu, &q1[i__ + i__ * q1_dim1], ldq1, &dwork[*m + 1], 4L);
+            dlarf_("Left", &i__1, &i__2, &dwork[1], &c__1, &nu, &q1[i__ + i__ * q1_dim1], ldq1,
+                &dwork[*m + 1], 4L);
             i__1 = *m - i__ + 1;
             i__2 = *n - i__ + 1;
-            dlarf_("Left", &i__1, &i__2, &dwork[1], &c__1, &nu, &q2[i__ + i__ * q2_dim1], ldq2, &dwork[*m + 1], 4L);
+            dlarf_("Left", &i__1, &i__2, &dwork[1], &c__1, &nu, &q2[i__ + i__ * q2_dim1], ldq2,
+                &dwork[*m + 1], 4L);
             /* L140: */
         }
     }
     /* Computing MAX */
     i__1 = 1, i__2 = *m + *n;
-    dwork[1] = (doublereal) max(i__1,i__2);
+    dwork[1] = (doublereal)max(i__1, i__2);
     /* *** Last line of MB04WU *** */
 } /* mb04wu_ */
-

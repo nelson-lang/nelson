@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 #include "nlsInterpreter_exports.h"
-#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSINTERPRETER_IMPEXP void OverloadDisplay(Evaluator *eval, ArrayOf a);
+NLSINTERPRETER_IMPEXP void
+OverloadDisplay(Evaluator* eval, ArrayOf a);
 }
 //=============================================================================

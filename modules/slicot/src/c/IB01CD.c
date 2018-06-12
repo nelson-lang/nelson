@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,33 +13,36 @@ static integer c__0 = 0;
 static doublereal c_b57 = 1.;
 static doublereal c_b58 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int ib01cd_(jobx0, comuse, job, n, m, l, nsmp, a, lda, b, ldb, c__, ldc, d__, ldd, u, ldu, y, ldy, x0, v, ldv, tol, iwork, dwork, ldwork, iwarn, info, jobx0_len, comuse_len, job_len)
-char *jobx0, *comuse, *job;
+EXPORTSYMBOL /* Subroutine */ int ib01cd_(jobx0, comuse, job, n, m, l, nsmp, a, lda, b, ldb, c__,
+    ldc, d__, ldd, u, ldu, y, ldy, x0, v, ldv, tol, iwork, dwork, ldwork, iwarn, info, jobx0_len,
+    comuse_len, job_len) char *jobx0,
+    *comuse, *job;
 integer *n, *m, *l, *nsmp;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *u;
-integer *ldu;
-doublereal *y;
-integer *ldy;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* u;
+integer* ldu;
+doublereal* y;
+integer* ldy;
 doublereal *x0, *v;
-integer *ldv;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+integer* ldv;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen jobx0_len;
 ftnlen comuse_len;
 ftnlen job_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, u_dim1, u_offset, v_dim1, v_offset, y_dim1, y_offset, i__1, i__2, i__3, i__4, i__5;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, u_dim1,
+        u_offset, v_dim1, v_offset, y_dim1, y_offset, i__1, i__2, i__3, i__4, i__5;
     /* Local variables */
     static char jobd[1];
     static integer ncol, ierr, itau, mtmp, i__;
@@ -525,106 +528,65 @@ ftnlen job_len;
     maxdia = withx0 || compbd;
     *iwarn = 0;
     *info = 0;
-    ldw = max(1,*n);
-    lm = *l **m;
-    ln = *l **n;
-    nn = *n **n;
-    nm = *n **m;
+    ldw = max(1, *n);
+    lm = *l * *m;
+    ln = *l * *n;
+    nn = *n * *n;
+    nm = *n * *m;
     n2m = *n * nm;
-    if (compbd)
-    {
+    if (compbd) {
         ncol = nm;
-        if (withx0)
-        {
+        if (withx0) {
             ncol += *n;
         }
         minsmp = ncol;
-        if (withd)
-        {
+        if (withd) {
             minsmp += *m;
             iq = minsmp;
-        }
-        else if (! withx0)
-        {
+        } else if (!withx0) {
             iq = minsmp;
             ++minsmp;
-        }
-        else
-        {
+        } else {
             iq = minsmp;
         }
-    }
-    else
-    {
+    } else {
         ncol = *n;
-        if (withx0)
-        {
+        if (withx0) {
             minsmp = *n;
-        }
-        else
-        {
+        } else {
             minsmp = 0;
         }
         iq = minsmp;
     }
-    if (! (withx0 || lsame_(jobx0, "N", 1L, 1L)))
-    {
+    if (!(withx0 || lsame_(jobx0, "N", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (compbd || usebd || lsame_(comuse, "N", 1L, 1L)))
-    {
+    } else if (!(compbd || usebd || lsame_(comuse, "N", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! withb)
-    {
+    } else if (!withb) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -5;
-    }
-    else if (*l <= 0)
-    {
+    } else if (*l <= 0) {
         *info = -6;
-    }
-    else if (*nsmp < minsmp)
-    {
+    } else if (*nsmp < minsmp) {
         *info = -7;
-    }
-    else if (*lda < 1 || maxdia && *lda < ldw)
-    {
+    } else if (*lda < 1 || maxdia && *lda < ldw) {
         *info = -9;
-    }
-    else if (*ldb < 1 || *m > 0 && maxdim && *ldb < ldw)
-    {
+    } else if (*ldb < 1 || *m > 0 && maxdim && *ldb < ldw) {
         *info = -11;
-    }
-    else if (*ldc < 1 || *n > 0 && maxdia && *ldc < *l)
-    {
+    } else if (*ldc < 1 || *n > 0 && maxdia && *ldc < *l) {
         *info = -13;
-    }
-    else if (*ldd < 1 || *m > 0 && maxdim && withd && *ldd < *l)
-    {
+    } else if (*ldd < 1 || *m > 0 && maxdim && withd && *ldd < *l) {
         *info = -15;
-    }
-    else if (*ldu < 1 || *m > 0 && maxdim && *ldu < *nsmp)
-    {
+    } else if (*ldu < 1 || *m > 0 && maxdim && *ldu < *nsmp) {
         *info = -17;
-    }
-    else if (*ldy < 1 || maxdia && *ldy < *nsmp)
-    {
+    } else if (*ldy < 1 || maxdia && *ldy < *nsmp) {
         *info = -19;
-    }
-    else if (*ldv < 1 || maxdia && *ldv < ldw)
-    {
+    } else if (*ldv < 1 || maxdia && *ldv < ldw) {
         *info = -22;
-    }
-    else if (*tol > 1.)
-    {
+    } else if (*tol > 1.) {
         *info = -23;
     }
     /*     Compute workspace. */
@@ -633,158 +595,131 @@ ftnlen job_len;
     /*       as well as the preferred amount for good performance. */
     /*       NB refers to the optimal block size for the immediately */
     /*       following subroutine, as returned by ILAENV.) */
-    if (! maxdia || max(*n,*m) == 0)
-    {
+    if (!maxdia || max(*n, *m) == 0) {
         minwrk = 2;
-    }
-    else
-    {
-        nsmpl = *nsmp **l;
+    } else {
+        nsmpl = *nsmp * *l;
         iq *= *l;
         ncp1 = ncol + 1;
         isize = nsmpl * ncp1;
-        if (compbd)
-        {
-            if (*n > 0 && withx0)
-            {
+        if (compbd) {
+            if (*n > 0 && withx0) {
                 ic = (nn << 1) + *n;
-            }
-            else
-            {
+            } else {
                 ic = 0;
             }
-        }
-        else
-        {
+        } else {
             ic = nn << 1;
         }
         minwls = ncol * ncp1;
-        if (compbd)
-        {
-            if (withd)
-            {
+        if (compbd) {
+            if (withd) {
                 minwls += lm * ncp1;
             }
-            if (*m > 0 && withd)
-            {
+            if (*m > 0 && withd) {
                 /* Computing MAX */
                 i__1 = ncol << 1;
-                ia = *m + max(i__1,*m);
-            }
-            else
-            {
+                ia = *m + max(i__1, *m);
+            } else {
                 ia = ncol << 1;
             }
-            itau = n2m + max(ic,ia);
-            if (withx0)
-            {
+            itau = n2m + max(ic, ia);
+            if (withx0) {
                 itau += ln;
             }
             /* Computing MAX */
-            i__1 = *n + max(ic,ia), i__2 = ncol * 6;
-            ldw2 = isize + max(i__1,i__2);
+            i__1 = *n + max(ic, ia), i__2 = ncol * 6;
+            ldw2 = isize + max(i__1, i__2);
             /* Computing MAX */
             i__1 = iq * ncp1 + itau, i__2 = ncol * 6;
-            ldw3 = minwls + max(i__1,i__2);
-            if (*m > 0 && withd)
-            {
+            ldw3 = minwls + max(i__1, i__2);
+            if (*m > 0 && withd) {
                 /* Computing MAX */
-                i__1 = ldw2, i__2 = isize + (*m << 1) **m + *m * 6;
-                ldw2 = max(i__1,i__2);
+                i__1 = ldw2, i__2 = isize + (*m << 1) * *m + *m * 6;
+                ldw2 = max(i__1, i__2);
                 /* Computing MAX */
-                i__1 = ldw3, i__2 = minwls + (*m << 1) **m + *m * 6;
-                ldw3 = max(i__1,i__2);
+                i__1 = ldw3, i__2 = minwls + (*m << 1) * *m + *m * 6;
+                ldw3 = max(i__1, i__2);
                 ia = 3;
-            }
-            else
-            {
+            } else {
                 ia = 2;
             }
-        }
-        else
-        {
+        } else {
             itau = ic + ln;
             /* Computing MAX */
             i__1 = ic, i__2 = *n << 2;
-            ldw2 = isize + (*n << 1) + max(i__1,i__2);
+            ldw2 = isize + (*n << 1) + max(i__1, i__2);
             /* Computing MAX */
             i__1 = iq * ncp1 + itau, i__2 = *n << 2;
-            ldw3 = minwls + (*n << 1) + max(i__1,i__2);
+            ldw3 = minwls + (*n << 1) + max(i__1, i__2);
             ia = 2;
         }
         /* Computing MAX */
-        i__1 = *n * 5, i__1 = max(i__1,ia), i__2 = min(ldw2,ldw3);
-        minwrk = ia + nn + nm + ln + max(i__1,i__2);
-        if (*info == 0 && *ldwork >= minwrk)
-        {
+        i__1 = *n * 5, i__1 = max(i__1, ia), i__2 = min(ldw2, ldw3);
+        minwrk = ia + nn + nm + ln + max(i__1, i__2);
+        if (*info == 0 && *ldwork >= minwrk) {
             /* Computing MAX */
             i__1 = *n * 5;
-            maxwrk = max(i__1,ia);
-            if (compbd)
-            {
-                if (*m > 0 && withd)
-                {
+            maxwrk = max(i__1, ia);
+            if (compbd) {
+                if (*m > 0 && withd) {
                     /* Computing MAX */
                     /* Computing MAX */
                     i__5 = *nsmp - *m;
-                    i__3 = *m * ilaenv_(&c__1, "DGEQRF", " ", nsmp, m, &c_n1, &c_n1, 6L, 1L), i__4 = ncol + ncol * ilaenv_(&c__1, "DGEQRF", " ", &i__5, &ncol, &c_n1, &c_n1, 6L, 1L);
-                    i__1 = maxwrk, i__2 = isize + *n + *m + max(i__3,i__4);
-                    maxwrk = max(i__1,i__2);
+                    i__3 = *m * ilaenv_(&c__1, "DGEQRF", " ", nsmp, m, &c_n1, &c_n1, 6L, 1L),
+                    i__4 = ncol
+                        + ncol * ilaenv_(&c__1, "DGEQRF", " ", &i__5, &ncol, &c_n1, &c_n1, 6L, 1L);
+                    i__1 = maxwrk, i__2 = isize + *n + *m + max(i__3, i__4);
+                    maxwrk = max(i__1, i__2);
                     /* Computing MAX */
                     /* Computing MAX */
                     i__5 = *nsmp - *m;
-                    i__3 = ncp1 * ilaenv_(&c__1, "DORMQR", "LT", nsmp, &ncp1, m, &c_n1, 6L, 2L), i__4 = ncol + ilaenv_(&c__1, "DORMQR", "LT", &i__5, &c__1, &ncol, &c_n1, 6L, 2L);
-                    i__1 = maxwrk, i__2 = isize + *n + *m + max(i__3,i__4);
-                    maxwrk = max(i__1,i__2);
-                }
-                else
-                {
+                    i__3 = ncp1 * ilaenv_(&c__1, "DORMQR", "LT", nsmp, &ncp1, m, &c_n1, 6L, 2L),
+                    i__4
+                        = ncol + ilaenv_(&c__1, "DORMQR", "LT", &i__5, &c__1, &ncol, &c_n1, 6L, 2L);
+                    i__1 = maxwrk, i__2 = isize + *n + *m + max(i__3, i__4);
+                    maxwrk = max(i__1, i__2);
+                } else {
                     /* Computing MAX */
                     /* Computing MAX */
-                    i__3 = ncol * ilaenv_(&c__1, "DGEQRF", " ", &nsmpl, &ncol, &c_n1, &c_n1, 6L, 1L), i__4 = ilaenv_(&c__1, "DORMQR", "LT", &nsmpl, &c__1, &ncol, &c_n1, 6L, 2L);
-                    i__1 = maxwrk, i__2 = isize + *n + ncol + max(i__3,i__4);
-                    maxwrk = max(i__1,i__2);
+                    i__3
+                        = ncol * ilaenv_(&c__1, "DGEQRF", " ", &nsmpl, &ncol, &c_n1, &c_n1, 6L, 1L),
+                        i__4 = ilaenv_(&c__1, "DORMQR", "LT", &nsmpl, &c__1, &ncol, &c_n1, 6L, 2L);
+                    i__1 = maxwrk, i__2 = isize + *n + ncol + max(i__3, i__4);
+                    maxwrk = max(i__1, i__2);
                 }
-            }
-            else
-            {
+            } else {
                 /* Computing MAX */
                 /* Computing MAX */
-                i__3 = *n * ilaenv_(&c__1, "DGEQRF", " ", &nsmpl, n, &c_n1, &c_n1, 6L, 1L), i__4 = ilaenv_(&c__1, "DORMQR", "LT", &nsmpl, &c__1, n, &c_n1, 6L, 2L);
-                i__1 = maxwrk, i__2 = isize + (*n << 1) + max(i__3,i__4);
-                maxwrk = max(i__1,i__2);
+                i__3 = *n * ilaenv_(&c__1, "DGEQRF", " ", &nsmpl, n, &c_n1, &c_n1, 6L, 1L),
+                i__4 = ilaenv_(&c__1, "DORMQR", "LT", &nsmpl, &c__1, n, &c_n1, 6L, 2L);
+                i__1 = maxwrk, i__2 = isize + (*n << 1) + max(i__3, i__4);
+                maxwrk = max(i__1, i__2);
             }
             maxwrk = ia + nn + nm + ln + maxwrk;
-            maxwrk = max(maxwrk,minwrk);
+            maxwrk = max(maxwrk, minwrk);
         }
     }
-    if (*info == 0 && *ldwork < minwrk)
-    {
+    if (*info == 0 && *ldwork < minwrk) {
         *info = -26;
-        dwork[1] = (doublereal) minwrk;
+        dwork[1] = (doublereal)minwrk;
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("IB01CD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (! maxdia || max(*n,*m) == 0)
-    {
+    if (!maxdia || max(*n, *m) == 0) {
         dwork[2] = 1.;
-        if (compbd && *m > 0 && withd)
-        {
+        if (compbd && *m > 0 && withd) {
             dwork[1] = 3.;
             dwork[3] = 1.;
-        }
-        else
-        {
+        } else {
             dwork[1] = 2.;
         }
-        if (*n > 0 && usebd)
-        {
+        if (*n > 0 && usebd) {
             dum[0] = 0.;
             dcopy_(n, dum, &c__0, &x0[1], &c__1);
         }
@@ -802,33 +737,28 @@ ftnlen job_len;
     ib = ic + ln;
     dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[ia], &ldw, 4L);
     dlacpy_("Full", l, n, &c__[c_offset], ldc, &dwork[ic], l, 4L);
-    if (usebd)
-    {
+    if (usebd) {
         mtmp = *m;
         dlacpy_("Full", n, m, &b[b_offset], ldb, &dwork[ib], &ldw, 4L);
-    }
-    else
-    {
+    } else {
         mtmp = 0;
     }
     iwr = ib + nm;
     iwi = iwr + *n;
     jwork = iwi + *n;
     i__1 = *ldwork - jwork + 1;
-    tb01wd_(n, &mtmp, l, &dwork[ia], &ldw, &dwork[ib], &ldw, &dwork[ic], l, &v[v_offset], ldv, &dwork[iwr], &dwork[iwi], &dwork[jwork], &i__1, &ierr);
-    if (ierr > 0)
-    {
+    tb01wd_(n, &mtmp, l, &dwork[ia], &ldw, &dwork[ib], &ldw, &dwork[ic], l, &v[v_offset], ldv,
+        &dwork[iwr], &dwork[iwi], &dwork[jwork], &i__1, &ierr);
+    if (ierr > 0) {
         *info = 1;
         return 0;
     }
     /* Computing MAX */
-    i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-    maxwrk = max(i__1,i__2);
+    i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+    maxwrk = max(i__1, i__2);
     i__1 = iwi - 1;
-    for (i__ = iwr; i__ <= i__1; ++i__)
-    {
-        if (dlapy2_(&dwork[i__], &dwork[i__ + *n]) >= 1.)
-        {
+    for (i__ = iwr; i__ <= i__1; ++i__) {
+        if (dlapy2_(&dwork[i__], &dwork[i__ + *n]) >= 1.) {
             *iwarn = 6;
         }
         /* L10: */
@@ -838,57 +768,51 @@ ftnlen job_len;
     /*     Workspace: need   g + N*N + L*N + N*M + */
     /*                           max( g, min( LDW2, LDW3 ) ) (see LDWORK); */
     /*                prefer larger. */
-    if (compbd)
-    {
+    if (compbd) {
         i__1 = *ldwork - jwork + 1;
-        ib01qd_(jobx0, job, n, m, l, nsmp, &dwork[ia], &ldw, &dwork[ic], l, &u[u_offset], ldu, &y[y_offset], ldy, &x0[1], &dwork[ib], &ldw, &d__[d_offset], ldd, tol, &iwork[1], &dwork[jwork], &i__1, &iwarnl, info, 1L, 1L);
-        if (*info == 0)
-        {
-            if (*m > 0 && withd)
-            {
+        ib01qd_(jobx0, job, n, m, l, nsmp, &dwork[ia], &ldw, &dwork[ic], l, &u[u_offset], ldu,
+            &y[y_offset], ldy, &x0[1], &dwork[ib], &ldw, &d__[d_offset], ldd, tol, &iwork[1],
+            &dwork[jwork], &i__1, &iwarnl, info, 1L, 1L);
+        if (*info == 0) {
+            if (*m > 0 && withd) {
                 rcondu = dwork[jwork + 2];
             }
             /*           Compute the system input matrix  B  corresponding to the */
             /*           original system. */
-            dgemm_("NoTranspose", "NoTranspose", n, m, n, &c_b57, &v[v_offset], ldv, &dwork[ib], &ldw, &c_b58, &b[b_offset], ldb, 11L, 11L);
+            dgemm_("NoTranspose", "NoTranspose", n, m, n, &c_b57, &v[v_offset], ldv, &dwork[ib],
+                &ldw, &c_b58, &b[b_offset], ldb, 11L, 11L);
         }
-    }
-    else
-    {
-        if (withd)
-        {
-            *(unsigned char *)jobd = 'N';
-        }
-        else
-        {
-            *(unsigned char *)jobd = 'Z';
+    } else {
+        if (withd) {
+            *(unsigned char*)jobd = 'N';
+        } else {
+            *(unsigned char*)jobd = 'Z';
         }
         i__1 = *ldwork - jwork + 1;
-        ib01rd_(jobd, n, &mtmp, l, nsmp, &dwork[ia], &ldw, &dwork[ib], &ldw, &dwork[ic], l, &d__[d_offset], ldd, &u[u_offset], ldu, &y[y_offset], ldy, &x0[1], tol, &iwork[1], &dwork[jwork], &i__1, &iwarnl, info, 1L);
+        ib01rd_(jobd, n, &mtmp, l, nsmp, &dwork[ia], &ldw, &dwork[ib], &ldw, &dwork[ic], l,
+            &d__[d_offset], ldd, &u[u_offset], ldu, &y[y_offset], ldy, &x0[1], tol, &iwork[1],
+            &dwork[jwork], &i__1, &iwarnl, info, 1L);
     }
-    *iwarn = max(*iwarn,iwarnl);
-    if (*info == 0)
-    {
+    *iwarn = max(*iwarn, iwarnl);
+    if (*info == 0) {
         rcond = dwork[jwork + 1];
         /* Computing MAX */
-        i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-        maxwrk = max(i__1,i__2);
-        if (withx0)
-        {
+        i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+        maxwrk = max(i__1, i__2);
+        if (withx0) {
             /*           Transform the initial state estimate to obtain the initial */
             /*           state corresponding to the original system. */
             /*           Workspace: need g + N*N + L*N + N*M + N. */
-            dgemv_("NoTranspose", n, n, &c_b57, &v[v_offset], ldv, &x0[1], &c__1, &c_b58, &dwork[jwork], &c__1, 11L);
+            dgemv_("NoTranspose", n, n, &c_b57, &v[v_offset], ldv, &x0[1], &c__1, &c_b58,
+                &dwork[jwork], &c__1, 11L);
             dcopy_(n, &dwork[jwork], &c__1, &x0[1], &c__1);
         }
-        dwork[1] = (doublereal) maxwrk;
+        dwork[1] = (doublereal)maxwrk;
         dwork[2] = rcond;
-        if (compbd && *m > 0 && withd)
-        {
+        if (compbd && *m > 0 && withd) {
             dwork[3] = rcondu;
         }
     }
     return 0;
     /* *** End of IB01CD *** */
 } /* ib01cd_ */
-

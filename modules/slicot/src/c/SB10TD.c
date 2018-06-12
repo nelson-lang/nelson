@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,29 +11,31 @@ static doublereal c_b6 = 1.;
 static doublereal c_b7 = 0.;
 static doublereal c_b39 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb10td_(n, m, np, ncon, nmeas, d__, ldd, tu, ldtu, ty, ldty, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, rcond, tol, iwork, dwork, ldwork, info)
-integer *n, *m, *np, *ncon, *nmeas;
-doublereal *d__;
-integer *ldd;
-doublereal *tu;
-integer *ldtu;
-doublereal *ty;
-integer *ldty;
-doublereal *ak;
-integer *ldak;
-doublereal *bk;
-integer *ldbk;
-doublereal *ck;
-integer *ldck;
-doublereal *dk;
-integer *lddk;
+EXPORTSYMBOL /* Subroutine */ int sb10td_(n, m, np, ncon, nmeas, d__, ldd, tu, ldtu, ty, ldty, ak,
+    ldak, bk, ldbk, ck, ldck, dk, lddk, rcond, tol, iwork, dwork, ldwork, info) integer *n,
+    *m, *np, *ncon, *nmeas;
+doublereal* d__;
+integer* ldd;
+doublereal* tu;
+integer* ldtu;
+doublereal* ty;
+integer* ldty;
+doublereal* ak;
+integer* ldak;
+doublereal* bk;
+integer* ldbk;
+doublereal* ck;
+integer* ldck;
+doublereal* dk;
+integer* lddk;
 doublereal *rcond, *tol;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
-    integer ak_dim1, ak_offset, bk_dim1, bk_offset, ck_dim1, ck_offset, d_dim1, d_offset, dk_dim1, dk_offset, tu_dim1, tu_offset, ty_dim1, ty_offset, i__1, i__2;
+    integer ak_dim1, ak_offset, bk_dim1, bk_offset, ck_dim1, ck_offset, d_dim1, d_offset, dk_dim1,
+        dk_offset, tu_dim1, tu_offset, ty_dim1, ty_offset, i__1, i__2;
     /* Builtin functions */
     double sqrt();
     /* Local variables */
@@ -228,107 +230,82 @@ integer *ldwork, *info;
     np1 = *np - *nmeas;
     np2 = *nmeas;
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*np < 0)
-    {
+    } else if (*np < 0) {
         *info = -3;
-    }
-    else if (*ncon < 0 || m1 < 0 || m2 > np1)
-    {
+    } else if (*ncon < 0 || m1 < 0 || m2 > np1) {
         *info = -4;
-    }
-    else if (*nmeas < 0 || np1 < 0 || np2 > m1)
-    {
+    } else if (*nmeas < 0 || np1 < 0 || np2 > m1) {
         *info = -5;
-    }
-    else if (*ldd < max(1,*np))
-    {
+    } else if (*ldd < max(1, *np)) {
         *info = -7;
-    }
-    else if (*ldtu < max(1,m2))
-    {
+    } else if (*ldtu < max(1, m2)) {
         *info = -9;
-    }
-    else if (*ldty < max(1,np2))
-    {
+    } else if (*ldty < max(1, np2)) {
         *info = -11;
-    }
-    else if (*ldak < max(1,*n))
-    {
+    } else if (*ldak < max(1, *n)) {
         *info = -13;
-    }
-    else if (*ldbk < max(1,*n))
-    {
+    } else if (*ldbk < max(1, *n)) {
         *info = -15;
-    }
-    else if (*ldck < max(1,m2))
-    {
+    } else if (*ldck < max(1, m2)) {
         *info = -17;
-    }
-    else if (*lddk < max(1,m2))
-    {
+    } else if (*lddk < max(1, m2)) {
         *info = -19;
-    }
-    else
-    {
+    } else {
         /*        Compute workspace. */
         /* Computing MAX */
-        i__1 = *n * m2, i__2 = *n * np2, i__1 = max(i__1,i__2), i__2 = m2 * np2, i__1 = max(i__1,i__2), i__2 = m2 * (m2 + 4);
-        minwrk = max(i__1,i__2);
-        if (*ldwork < minwrk)
-        {
+        i__1 = *n * m2, i__2 = *n * np2, i__1 = max(i__1, i__2), i__2 = m2 * np2,
+        i__1 = max(i__1, i__2), i__2 = m2 * (m2 + 4);
+        minwrk = max(i__1, i__2);
+        if (*ldwork < minwrk) {
             *info = -24;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SB10TD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *m == 0 || *np == 0 || m1 == 0 || m2 == 0 || np1 == 0 || np2 == 0)
-    {
+    if (*n == 0 || *m == 0 || *np == 0 || m1 == 0 || m2 == 0 || np1 == 0 || np2 == 0) {
         *rcond = 1.;
         return 0;
     }
     toll = *tol;
-    if (toll <= 0.)
-    {
+    if (toll <= 0.) {
         /*        Set the default value of the tolerance for nonsingularity test. */
         toll = sqrt(dlamch_("Epsilon", 7L));
     }
     /*     Find BKHAT . */
-    dgemm_("N", "N", n, &np2, &np2, &c_b6, &bk[bk_offset], ldbk, &ty[ty_offset], ldty, &c_b7, &dwork[1], n, 1L, 1L);
+    dgemm_("N", "N", n, &np2, &np2, &c_b6, &bk[bk_offset], ldbk, &ty[ty_offset], ldty, &c_b7,
+        &dwork[1], n, 1L, 1L);
     dlacpy_("Full", n, &np2, &dwork[1], n, &bk[bk_offset], ldbk, 4L);
     /*     Find CKHAT . */
-    dgemm_("N", "N", &m2, n, &m2, &c_b6, &tu[tu_offset], ldtu, &ck[ck_offset], ldck, &c_b7, &dwork[1], &m2, 1L, 1L);
+    dgemm_("N", "N", &m2, n, &m2, &c_b6, &tu[tu_offset], ldtu, &ck[ck_offset], ldck, &c_b7,
+        &dwork[1], &m2, 1L, 1L);
     dlacpy_("Full", &m2, n, &dwork[1], &m2, &ck[ck_offset], ldck, 4L);
     /*     Compute DKHAT . */
-    dgemm_("N", "N", &m2, &np2, &m2, &c_b6, &tu[tu_offset], ldtu, &dk[dk_offset], lddk, &c_b7, &dwork[1], &m2, 1L, 1L);
-    dgemm_("N", "N", &m2, &np2, &np2, &c_b6, &dwork[1], &m2, &ty[ty_offset], ldty, &c_b7, &dk[dk_offset], lddk, 1L, 1L);
+    dgemm_("N", "N", &m2, &np2, &m2, &c_b6, &tu[tu_offset], ldtu, &dk[dk_offset], lddk, &c_b7,
+        &dwork[1], &m2, 1L, 1L);
+    dgemm_("N", "N", &m2, &np2, &np2, &c_b6, &dwork[1], &m2, &ty[ty_offset], ldty, &c_b7,
+        &dk[dk_offset], lddk, 1L, 1L);
     /*     Compute Im2 + DKHAT*D22 . */
     iwrk = m2 * m2 + 1;
     dlaset_("Full", &m2, &m2, &c_b7, &c_b6, &dwork[1], &m2, 4L);
-    dgemm_("N", "N", &m2, &m2, &np2, &c_b6, &dk[dk_offset], lddk, &d__[np1 + 1 + (m1 + 1) * d_dim1], ldd, &c_b6, &dwork[1], &m2, 1L, 1L);
+    dgemm_("N", "N", &m2, &m2, &np2, &c_b6, &dk[dk_offset], lddk, &d__[np1 + 1 + (m1 + 1) * d_dim1],
+        ldd, &c_b6, &dwork[1], &m2, 1L, 1L);
     anorm = dlange_("1", &m2, &m2, &dwork[1], &m2, &dwork[iwrk], 1L);
     dgetrf_(&m2, &m2, &dwork[1], &m2, &iwork[1], &info2);
-    if (info2 > 0)
-    {
+    if (info2 > 0) {
         *info = 1;
         return 0;
     }
     dgecon_("1", &m2, &dwork[1], &m2, &anorm, rcond, &dwork[iwrk], &iwork[m2 + 1], &info2, 1L);
     /*     Return if the matrix is singular to working precision. */
-    if (*rcond < toll)
-    {
+    if (*rcond < toll) {
         *info = 1;
         return 0;
     }
@@ -337,11 +314,13 @@ integer *ldwork, *info;
     /*     Compute DK . */
     dgetrs_("N", &m2, &np2, &dwork[1], &m2, &iwork[1], &dk[dk_offset], lddk, &info2, 1L);
     /*     Compute AK . */
-    dgemm_("N", "N", n, &m2, &np2, &c_b6, &bk[bk_offset], ldbk, &d__[np1 + 1 + (m1 + 1) * d_dim1], ldd, &c_b7, &dwork[1], n, 1L, 1L);
-    dgemm_("N", "N", n, n, &m2, &c_b39, &dwork[1], n, &ck[ck_offset], ldck, &c_b6, &ak[ak_offset], ldak, 1L, 1L);
+    dgemm_("N", "N", n, &m2, &np2, &c_b6, &bk[bk_offset], ldbk, &d__[np1 + 1 + (m1 + 1) * d_dim1],
+        ldd, &c_b7, &dwork[1], n, 1L, 1L);
+    dgemm_("N", "N", n, n, &m2, &c_b39, &dwork[1], n, &ck[ck_offset], ldck, &c_b6, &ak[ak_offset],
+        ldak, 1L, 1L);
     /*     Compute BK . */
-    dgemm_("N", "N", n, &np2, &m2, &c_b39, &dwork[1], n, &dk[dk_offset], lddk, &c_b6, &bk[bk_offset], ldbk, 1L, 1L);
+    dgemm_("N", "N", n, &np2, &m2, &c_b39, &dwork[1], n, &dk[dk_offset], lddk, &c_b6,
+        &bk[bk_offset], ldbk, 1L, 1L);
     return 0;
     /* *** Last line of SB10TD *** */
 } /* sb10td_ */
-

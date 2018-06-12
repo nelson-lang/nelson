@@ -18,12 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsAssert_functions_exports.h"
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
+#include "nlsAssert_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSASSERT_FUNCTIONS_IMPEXP bool Assert_IsEqual(Evaluator *eval, ArrayOf computedArray, ArrayOf expectedArray, std::wstring &msg);
+NLSASSERT_FUNCTIONS_IMPEXP bool
+Assert_IsEqual(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, std::wstring& msg);
 }
 //=============================================================================

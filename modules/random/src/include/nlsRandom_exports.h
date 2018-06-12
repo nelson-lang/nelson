@@ -25,6 +25,6 @@
 #define NLSRANDOM_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSRANDOM_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSRANDOM_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

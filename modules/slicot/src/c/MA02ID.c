@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,14 +9,13 @@
 
 static integer c__1 = 1;
 
-doublereal ma02id_(typ, norm, n, a, lda, qg, ldqg, dwork, typ_len, norm_len)
-char *typ, *norm;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *qg;
-integer *ldqg;
-doublereal *dwork;
+doublereal ma02id_(typ, norm, n, a, lda, qg, ldqg, dwork, typ_len, norm_len) char *typ, *norm;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* qg;
+integer* ldqg;
+doublereal* dwork;
 ftnlen typ_len;
 ftnlen norm_len;
 {
@@ -125,64 +124,53 @@ ftnlen norm_len;
     --dwork;
     /* Function Body */
     lsh = lsame_(typ, "S", 1L, 1L);
-    if (*n == 0)
-    {
+    if (*n == 0) {
         value = 0.;
-    }
-    else if (lsame_(norm, "M", 1L, 1L) && lsh)
-    {
+    } else if (lsame_(norm, "M", 1L, 1L) && lsh) {
         /*        Find max(abs(A(i,j))). */
         value = dlange_("MaxElement", n, n, &a[a_offset], lda, &dwork[1], 10L);
-        if (*n > 1)
-        {
+        if (*n > 1) {
             i__1 = *n + 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = j - 2;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     /* Computing MAX */
                     d__2 = value, d__3 = (d__1 = qg[i__ + j * qg_dim1], abs(d__1));
-                    value = max(d__2,d__3);
+                    value = max(d__2, d__3);
                     /* L10: */
                 }
                 i__2 = *n;
-                for (i__ = j + 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = j + 1; i__ <= i__2; ++i__) {
                     /* Computing MAX */
                     d__2 = value, d__3 = (d__1 = qg[i__ + j * qg_dim1], abs(d__1));
-                    value = max(d__2,d__3);
+                    value = max(d__2, d__3);
                     /* L20: */
                 }
                 /* L30: */
             }
         }
-    }
-    else if (lsame_(norm, "M", 1L, 1L))
-    {
+    } else if (lsame_(norm, "M", 1L, 1L)) {
         /*        Find max( abs( A(i,j) ), abs( QG(i,j) ) ). */
         /* Computing MAX */
         i__1 = *n + 1;
-        d__1 = dlange_("MaxElement", n, n, &a[a_offset], lda, &dwork[1], 10L), d__2 = dlange_("MaxElement", n, &i__1, &qg[qg_offset], ldqg, &dwork[1], 10L);
-        value = max(d__1,d__2);
-    }
-    else if ((lsame_(norm, "O", 1L, 1L) || *(unsigned char *)norm == '1' || lsame_(norm, "I", 1L, 1L)) && lsh)
-    {
+        d__1 = dlange_("MaxElement", n, n, &a[a_offset], lda, &dwork[1], 10L),
+        d__2 = dlange_("MaxElement", n, &i__1, &qg[qg_offset], ldqg, &dwork[1], 10L);
+        value = max(d__1, d__2);
+    } else if ((lsame_(norm, "O", 1L, 1L) || *(unsigned char*)norm == '1'
+                   || lsame_(norm, "I", 1L, 1L))
+        && lsh) {
         /*        Find the column and row sums of A (in one pass). */
         value = 0.;
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dwork[i__] = 0.;
             /* L40: */
         }
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             sum = 0.;
             i__2 = *n;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 temp = (d__1 = a[i__ + j * a_dim1], abs(d__1));
                 sum += temp;
                 dwork[i__] += temp;
@@ -193,57 +181,48 @@ ftnlen norm_len;
         }
         /*        Compute the maximal absolute column sum. */
         i__1 = *n + 1;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = j - 2;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 temp = (d__1 = qg[i__ + j * qg_dim1], abs(d__1));
                 dwork[i__] += temp;
                 dwork[j - 1] += temp;
                 /* L70: */
             }
-            if (j < *n + 1)
-            {
+            if (j < *n + 1) {
                 sum = dwork[*n + j];
                 i__2 = *n;
-                for (i__ = j + 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = j + 1; i__ <= i__2; ++i__) {
                     temp = (d__1 = qg[i__ + j * qg_dim1], abs(d__1));
                     sum += temp;
                     dwork[*n + i__] += temp;
                     /* L80: */
                 }
-                value = max(value,sum);
+                value = max(value, sum);
             }
             /* L90: */
         }
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /* Computing MAX */
             d__1 = value, d__2 = dwork[i__];
-            value = max(d__1,d__2);
+            value = max(d__1, d__2);
             /* L100: */
         }
-    }
-    else if (lsame_(norm, "O", 1L, 1L) || *(unsigned char *)norm == '1' || lsame_(norm, "I", 1L, 1L))
-    {
+    } else if (lsame_(norm, "O", 1L, 1L) || *(unsigned char*)norm == '1'
+        || lsame_(norm, "I", 1L, 1L)) {
         /*        Find the column and row sums of A (in one pass). */
         value = 0.;
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dwork[i__] = 0.;
             /* L110: */
         }
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             sum = 0.;
             i__2 = *n;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 temp = (d__1 = a[i__ + j * a_dim1], abs(d__1));
                 sum += temp;
                 dwork[i__] += temp;
@@ -254,96 +233,78 @@ ftnlen norm_len;
         }
         /*        Compute the maximal absolute column sum. */
         i__1 = *n + 1;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = j - 2;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 temp = (d__1 = qg[i__ + j * qg_dim1], abs(d__1));
                 dwork[i__] += temp;
                 dwork[j - 1] += temp;
                 /* L140: */
             }
-            if (j > 1)
-            {
+            if (j > 1) {
                 dwork[j - 1] += (d__1 = qg[j - 1 + j * qg_dim1], abs(d__1));
             }
-            if (j < *n + 1)
-            {
+            if (j < *n + 1) {
                 sum = dwork[*n + j] + (d__1 = qg[j + j * qg_dim1], abs(d__1));
                 i__2 = *n;
-                for (i__ = j + 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = j + 1; i__ <= i__2; ++i__) {
                     temp = (d__1 = qg[i__ + j * qg_dim1], abs(d__1));
                     sum += temp;
                     dwork[*n + i__] += temp;
                     /* L150: */
                 }
-                value = max(value,sum);
+                value = max(value, sum);
             }
             /* L160: */
         }
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /* Computing MAX */
             d__1 = value, d__2 = dwork[i__];
-            value = max(d__1,d__2);
+            value = max(d__1, d__2);
             /* L170: */
         }
-    }
-    else if ((lsame_(norm, "F", 1L, 1L) || lsame_(norm, "E", 1L, 1L)) && lsh)
-    {
+    } else if ((lsame_(norm, "F", 1L, 1L) || lsame_(norm, "E", 1L, 1L)) && lsh) {
         /*        Find normF(A). */
         scale = 0.;
         sum = 1.;
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dlassq_(n, &a[j * a_dim1 + 1], &c__1, &scale, &sum);
             /* L180: */
         }
         /*        Add normF(G) and normF(Q). */
         i__1 = *n + 1;
-        for (j = 1; j <= i__1; ++j)
-        {
-            if (j > 2)
-            {
+        for (j = 1; j <= i__1; ++j) {
+            if (j > 2) {
                 i__2 = j - 2;
                 dlassq_(&i__2, &qg[j * qg_dim1 + 1], &c__1, &scale, &sum);
             }
-            if (j < *n)
-            {
+            if (j < *n) {
                 i__2 = *n - j;
                 dlassq_(&i__2, &qg[j + 1 + j * qg_dim1], &c__1, &scale, &sum);
             }
             /* L190: */
         }
         value = sqrt(2.) * scale * sqrt(sum);
-    }
-    else if (lsame_(norm, "F", 1L, 1L) || lsame_(norm, "E", 1L, 1L))
-    {
+    } else if (lsame_(norm, "F", 1L, 1L) || lsame_(norm, "E", 1L, 1L)) {
         scale = 0.;
         sum = 1.;
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dlassq_(n, &a[j * a_dim1 + 1], &c__1, &scale, &sum);
             /* L200: */
         }
         dscl = 0.;
         dsum = 1.;
         i__1 = *n + 1;
-        for (j = 1; j <= i__1; ++j)
-        {
-            if (j > 1)
-            {
+        for (j = 1; j <= i__1; ++j) {
+            if (j > 1) {
                 i__2 = j - 2;
                 dlassq_(&i__2, &qg[j * qg_dim1 + 1], &c__1, &scale, &sum);
                 dlassq_(&c__1, &qg[j - 1 + j * qg_dim1], &c__1, &dscl, &dsum);
             }
-            if (j < *n + 1)
-            {
+            if (j < *n + 1) {
                 dlassq_(&c__1, &qg[j + j * qg_dim1], &c__1, &dscl, &dsum);
                 i__2 = *n - j;
                 dlassq_(&i__2, &qg[j + 1 + j * qg_dim1], &c__1, &scale, &sum);
@@ -358,4 +319,3 @@ ftnlen norm_len;
     return ret_val;
     /* *** Last line of MA02ID *** */
 } /* ma02id_ */
-

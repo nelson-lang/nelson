@@ -16,26 +16,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/thread/thread.hpp>
 #include "TimeoutThread.hpp"
 #include "Sleep.hpp"
+#include <boost/thread/thread.hpp>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void timeout(uint64 _timeout_seconds)
-    {
-        SleepSeconds(_timeout_seconds);
-        // https://msdn.microsoft.com/en-us/library/windows/desktop/ms681382(v=vs.85).aspx
-        // WAIT_TIMEOUT (258)
-        exit(258);
-    }
-    //=============================================================================
-    bool TimeoutThread(uint64 _timeoutseconds)
-    {
-        boost::thread timeout_thread(timeout, _timeoutseconds);
-        timeout_thread.detach();
-        return false;
-    }
-    //=============================================================================
+//=============================================================================
+void
+timeout(uint64 _timeout_seconds)
+{
+    SleepSeconds(_timeout_seconds);
+    // https://msdn.microsoft.com/en-us/library/windows/desktop/ms681382(v=vs.85).aspx
+    // WAIT_TIMEOUT (258)
+    exit(258);
+}
+//=============================================================================
+bool
+TimeoutThread(uint64 _timeoutseconds)
+{
+    boost::thread timeout_thread(timeout, _timeoutseconds);
+    timeout_thread.detach();
+    return false;
+}
+//=============================================================================
 }
 //=============================================================================

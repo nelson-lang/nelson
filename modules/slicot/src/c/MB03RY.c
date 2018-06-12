@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,13 +13,13 @@ static integer c__1 = 1;
 static logical c_false = FALSE_;
 static integer c_n1 = -1;
 
-EXPORTSYMBOL /* Subroutine */ int mb03ry_(m, n, pmax, a, lda, b, ldb, c__, ldc, info)
-integer *m, *n;
+EXPORTSYMBOL /* Subroutine */ int mb03ry_(m, n, pmax, a, lda, b, ldb, c__, ldc, info) integer *m,
+    *n;
 doublereal *pmax, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
 integer *ldc, *info;
 {
     /* System generated locals */
@@ -169,84 +169,67 @@ integer *ldc, *info;
     l = 1;
     /*     WHILE ( L.LE.N ) DO */
 L10:
-    if (l <= *n)
-    {
+    if (l <= *n) {
         lm1 = l - 1;
         dl = 1;
-        if (l < *n)
-        {
-            if (b[l + 1 + l * b_dim1] != 0.)
-            {
+        if (l < *n) {
+            if (b[l + 1 + l * b_dim1] != 0.) {
                 dl = 2;
             }
         }
         ll = lm1 + dl;
-        if (lm1 > 0)
-        {
+        if (lm1 > 0) {
             /*           Update one (or two) column(s) of C. */
-            if (dl == 2)
-            {
-                dgemm_("No transpose", "No transpose", m, &dl, &lm1, &c_b5, &c__[c_offset], ldc, &b[l * b_dim1 + 1], ldb, &c_b6, &c__[l * c_dim1 + 1], ldc, 12L, 12L);
-            }
-            else
-            {
-                dgemv_("No transpose", m, &lm1, &c_b5, &c__[c_offset], ldc, &b[l * b_dim1 + 1], &c__1, &c_b6, &c__[l * c_dim1 + 1], &c__1, 12L);
+            if (dl == 2) {
+                dgemm_("No transpose", "No transpose", m, &dl, &lm1, &c_b5, &c__[c_offset], ldc,
+                    &b[l * b_dim1 + 1], ldb, &c_b6, &c__[l * c_dim1 + 1], ldc, 12L, 12L);
+            } else {
+                dgemv_("No transpose", m, &lm1, &c_b5, &c__[c_offset], ldc, &b[l * b_dim1 + 1],
+                    &c__1, &c_b6, &c__[l * c_dim1 + 1], &c__1, 12L);
             }
         }
         /*        Row loop indexed by KK. */
         kk = *m;
         /*        WHILE ( KK.GE.1 ) DO */
-L20:
-        if (kk >= 1)
-        {
+    L20:
+        if (kk >= 1) {
             kk1 = kk + 1;
             dk = 1;
-            if (kk > 1)
-            {
-                if (a[kk + (kk - 1) * a_dim1] != 0.)
-                {
+            if (kk > 1) {
+                if (a[kk + (kk - 1) * a_dim1] != 0.) {
                     dk = 2;
                 }
             }
             k = kk1 - dk;
-            if (k < *m)
-            {
+            if (k < *m) {
                 /*              Update an elementary submatrix of C. */
                 i__1 = ll;
-                for (j = l; j <= i__1; ++j)
-                {
+                for (j = l; j <= i__1; ++j) {
                     i__2 = kk;
-                    for (i__ = k; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = k; i__ <= i__2; ++i__) {
                         i__3 = *m - kk;
-                        c__[i__ + j * c_dim1] += ddot_(&i__3, &a[i__ + kk1 * a_dim1], lda, &c__[kk1 + j * c_dim1], &c__1);
+                        c__[i__ + j * c_dim1] += ddot_(
+                            &i__3, &a[i__ + kk1 * a_dim1], lda, &c__[kk1 + j * c_dim1], &c__1);
                         /* L30: */
                     }
                     /* L40: */
                 }
             }
-            dlasy2_(&c_false, &c_false, &c_n1, &dk, &dl, &a[k + k * a_dim1], lda, &b[l + l * b_dim1], ldb, &c__[k + l * c_dim1], ldc, &scale, p, &dk, &pnorm, &ierr);
-            if (scale != 1. || pnorm > *pmax)
-            {
+            dlasy2_(&c_false, &c_false, &c_n1, &dk, &dl, &a[k + k * a_dim1], lda,
+                &b[l + l * b_dim1], ldb, &c__[k + l * c_dim1], ldc, &scale, p, &dk, &pnorm, &ierr);
+            if (scale != 1. || pnorm > *pmax) {
                 *info = 1;
                 return 0;
             }
             c__[k + l * c_dim1] = -p[0];
-            if (dl == 1)
-            {
-                if (dk == 2)
-                {
+            if (dl == 1) {
+                if (dk == 2) {
                     c__[kk + l * c_dim1] = -p[1];
                 }
-            }
-            else
-            {
-                if (dk == 1)
-                {
+            } else {
+                if (dk == 1) {
                     c__[k + ll * c_dim1] = -p[1];
-                }
-                else
-                {
+                } else {
                     c__[kk + l * c_dim1] = -p[1];
                     c__[k + ll * c_dim1] = -p[2];
                     c__[kk + ll * c_dim1] = -p[3];
@@ -263,4 +246,3 @@ L20:
     return 0;
     /* *** Last line of MB03RY *** */
 } /* mb03ry_ */
-

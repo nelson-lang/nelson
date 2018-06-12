@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsTypes_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSTYPES_IMPEXP bool IsValidVariableName(std::string varname);
-    NLSTYPES_IMPEXP bool IsValidVariableName(std::wstring varname);
-}
+NLSTYPES_IMPEXP bool
+IsValidVariableName(std::string varname);
+NLSTYPES_IMPEXP bool
+IsValidVariableName(std::wstring varname);
+} // namespace Nelson
 //=============================================================================

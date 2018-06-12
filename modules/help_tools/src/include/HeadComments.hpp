@@ -18,21 +18,22 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "Types.hpp"
 #include "Evaluator.hpp"
+#include "Types.hpp"
 #include "nlsHelp_tools_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    typedef enum
-    {
-        MACRO_OK,
-        NOT_A_MACRO,
-        FILE_NOT_EXIST,
-    } HEADCOMMENTS_ERROR;
-    //=============================================================================
-    NLSHELP_TOOLS_IMPEXP wstringVector HeadComments(Evaluator* eval, std::wstring filename, HEADCOMMENTS_ERROR &headError);
-    //=============================================================================
-}
+//=============================================================================
+typedef enum
+{
+    MACRO_OK,
+    NOT_A_MACRO,
+    FILE_NOT_EXIST,
+} HEADCOMMENTS_ERROR;
+//=============================================================================
+NLSHELP_TOOLS_IMPEXP wstringVector
+HeadComments(Evaluator* eval, std::wstring filename, HEADCOMMENTS_ERROR& headError);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

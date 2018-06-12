@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,13 +12,14 @@ static doublereal c_b6 = 1.;
 static integer c_n1 = -1;
 static doublereal c_b35 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb10zp_(discfl, n, a, lda, b, c__, d__, iwork, dwork, ldwork, info)
-integer *discfl, *n;
-doublereal *a;
-integer *lda;
+EXPORTSYMBOL /* Subroutine */ int sb10zp_(
+    discfl, n, a, lda, b, c__, d__, iwork, dwork, ldwork, info) integer *discfl,
+    *n;
+doublereal* a;
+integer* lda;
 doublereal *b, *c__, *d__;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
@@ -159,37 +160,28 @@ integer *ldwork, *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    if (*discfl != 0 && *discfl != 1)
-    {
+    if (*discfl != 0 && *discfl != 1) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -4;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = *n **n + *n * 5, i__2 = *n * 6 + 1 + min(1,*n);
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__1 = *n * *n + *n * 5, i__2 = *n * 6 + 1 + min(1, *n);
+        if (*ldwork < max(i__1, i__2)) {
             *info = -10;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB10ZP", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 1.;
         return 0;
     }
@@ -199,23 +191,20 @@ integer *ldwork, *info;
     rez = imp + *n;
     imz = rez + *n;
     iwa = rez;
-    idw1 = iwa + *n **n;
+    idw1 = iwa + *n * *n;
     ldw1 = *ldwork - idw1 + 1;
     /*     1. Discrete --> continuous transformation if needed. */
-    if (*discfl == 1)
-    {
+    if (*discfl == 1) {
         /*        Workspace:  need    max(1,N); */
         /*                            prefer  larger. */
-        ab04md_("D", n, &c__1, &c__1, &c_b6, &c_b6, &a[a_offset], lda, &b[1], lda, &c__[1], &c__1, &d__[1], &c__1, &iwork[1], &dwork[1], ldwork, &info2, 1L);
-        if (info2 != 0)
-        {
+        ab04md_("D", n, &c__1, &c__1, &c_b6, &c_b6, &a[a_offset], lda, &b[1], lda, &c__[1], &c__1,
+            &d__[1], &c__1, &iwork[1], &dwork[1], ldwork, &info2, 1L);
+        if (info2 != 0) {
             *info = 1;
             return 0;
         }
-        maxwrk = (integer) dwork[1];
-    }
-    else
-    {
+        maxwrk = (integer)dwork[1];
+    } else {
         maxwrk = 0;
     }
     /*     2. Determine the factors for restoring system gain. */
@@ -226,52 +215,49 @@ integer *ldwork, *info;
     /*        Workspace:  need    N*N + 2*N + 3*N; */
     /*                            prefer  larger. */
     dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[iwa], n, 4L);
-    dgeev_("N", "N", n, &dwork[iwa], n, &dwork[rep], &dwork[imp], &dwork[idw1], &c__1, &dwork[idw1], &c__1, &dwork[idw1], &ldw1, &info2, 1L, 1L);
-    if (info2 != 0)
-    {
+    dgeev_("N", "N", n, &dwork[iwa], n, &dwork[rep], &dwork[imp], &dwork[idw1], &c__1, &dwork[idw1],
+        &c__1, &dwork[idw1], &ldw1, &info2, 1L, 1L);
+    if (info2 != 0) {
         *info = 2;
         return 0;
     }
     /* Computing MAX */
-    i__1 = maxwrk, i__2 = (integer) (dwork[idw1] + idw1 - 1);
-    maxwrk = max(i__1,i__2);
+    i__1 = maxwrk, i__2 = (integer)(dwork[idw1] + idw1 - 1);
+    maxwrk = max(i__1, i__2);
     /*     4. Compute the inverse system [Ai, Bi; Ci, Di]. */
     /*        Workspace:  need    N*N + 2*N + 4; */
     /*                            prefer  larger. */
-    ab07nd_(n, &c__1, &a[a_offset], lda, &b[1], lda, &c__[1], &c__1, &d__[1], &c__1, &rcond, &iwork[1], &dwork[idw1], &ldw1, &info2);
-    if (info2 != 0)
-    {
+    ab07nd_(n, &c__1, &a[a_offset], lda, &b[1], lda, &c__[1], &c__1, &d__[1], &c__1, &rcond,
+        &iwork[1], &dwork[idw1], &ldw1, &info2);
+    if (info2 != 0) {
         *info = 3;
         return 0;
     }
     /* Computing MAX */
-    i__1 = maxwrk, i__2 = (integer) (dwork[idw1] + idw1 - 1);
-    maxwrk = max(i__1,i__2);
+    i__1 = maxwrk, i__2 = (integer)(dwork[idw1] + idw1 - 1);
+    maxwrk = max(i__1, i__2);
     /*     5. Find the system zeros, i.e., the eigenvalues of Ai. */
     /*        Workspace:  need    4*N + 3*N; */
     /*                            prefer  larger. */
     idw1 = imz + *n;
     ldw1 = *ldwork - idw1 + 1;
-    dgeev_("N", "N", n, &a[a_offset], lda, &dwork[rez], &dwork[imz], &dwork[idw1], &c__1, &dwork[idw1], &c__1, &dwork[idw1], &ldw1, &info2, 1L, 1L);
-    if (info2 != 0)
-    {
+    dgeev_("N", "N", n, &a[a_offset], lda, &dwork[rez], &dwork[imz], &dwork[idw1], &c__1,
+        &dwork[idw1], &c__1, &dwork[idw1], &ldw1, &info2, 1L, 1L);
+    if (info2 != 0) {
         *info = 4;
         return 0;
     }
     /* Computing MAX */
-    i__1 = maxwrk, i__2 = (integer) (dwork[idw1] + idw1 - 1);
-    maxwrk = max(i__1,i__2);
+    i__1 = maxwrk, i__2 = (integer)(dwork[idw1] + idw1 - 1);
+    maxwrk = max(i__1, i__2);
     /*     6. Exchange the zeros and the poles with positive real parts with */
     /*        their negatives. */
     i__1 = *n - 1;
-    for (i__ = 0; i__ <= i__1; ++i__)
-    {
-        if (dwork[rep + i__] > 0.)
-        {
+    for (i__ = 0; i__ <= i__1; ++i__) {
+        if (dwork[rep + i__] > 0.) {
             dwork[rep + i__] = -dwork[rep + i__];
         }
-        if (dwork[rez + i__] > 0.)
-        {
+        if (dwork[rez + i__] > 0.) {
             dwork[rez + i__] = -dwork[rez + i__];
         }
         /* L10: */
@@ -300,34 +286,32 @@ integer *ldwork, *info;
     /*                            prefer  larger. */
     index[0] = *n;
     i__1 = *ldwork - idw3 + 1;
-    td04ad_("R", &c__1, &c__1, index, &dwork[iwps], &c__1, &dwork[iwqs], &c__1, &c__1, n, &a[a_offset], lda, &b[1], lda, &c__[1], &c__1, &d__[1], &c__1, &c_b35, &iwork[1], &dwork[idw3], &i__1, &info2, 1L);
-    if (info2 != 0)
-    {
+    td04ad_("R", &c__1, &c__1, index, &dwork[iwps], &c__1, &dwork[iwqs], &c__1, &c__1, n,
+        &a[a_offset], lda, &b[1], lda, &c__[1], &c__1, &d__[1], &c__1, &c_b35, &iwork[1],
+        &dwork[idw3], &i__1, &info2, 1L);
+    if (info2 != 0) {
         *info = 5;
         return 0;
     }
     /* Computing MAX */
-    i__1 = maxwrk, i__2 = (integer) (dwork[idw3] + idw3 - 1);
-    maxwrk = max(i__1,i__2);
+    i__1 = maxwrk, i__2 = (integer)(dwork[idw3] + idw3 - 1);
+    maxwrk = max(i__1, i__2);
     /*    10. Scale the transformed system to the previous gain. */
-    if (*n > 0)
-    {
+    if (*n > 0) {
         dscal_(n, &scalb, &b[1], &c__1);
         c__[*n] = scalc * c__[*n];
     }
     d__[1] = scald;
     /*     11. Continuous --> discrete transformation if needed. */
-    if (*discfl == 1)
-    {
-        ab04md_("C", n, &c__1, &c__1, &c_b6, &c_b6, &a[a_offset], lda, &b[1], lda, &c__[1], &c__1, &d__[1], &c__1, &iwork[1], &dwork[1], ldwork, &info2, 1L);
-        if (info2 != 0)
-        {
+    if (*discfl == 1) {
+        ab04md_("C", n, &c__1, &c__1, &c_b6, &c_b6, &a[a_offset], lda, &b[1], lda, &c__[1], &c__1,
+            &d__[1], &c__1, &iwork[1], &dwork[1], ldwork, &info2, 1L);
+        if (info2 != 0) {
             *info = 6;
             return 0;
         }
     }
-    dwork[1] = (doublereal) maxwrk;
+    dwork[1] = (doublereal)maxwrk;
     return 0;
     /* *** Last line of SB10ZP *** */
 } /* sb10zp_ */
-

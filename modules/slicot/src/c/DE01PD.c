@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,11 +9,12 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int de01pd_(conv, wght, n, a, b, w, info, conv_len, wght_len)
-char *conv, *wght;
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int de01pd_(
+    conv, wght, n, a, b, w, info, conv_len, wght_len) char *conv,
+    *wght;
+integer* n;
 doublereal *a, *b, *w;
-integer *info;
+integer* info;
 ftnlen conv_len;
 ftnlen wght_len;
 {
@@ -118,60 +119,43 @@ ftnlen wght_len;
     lconv = lsame_(conv, "C", 1L, 1L);
     lwght = lsame_(wght, "A", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! lconv && ! lsame_(conv, "D", 1L, 1L))
-    {
+    if (!lconv && !lsame_(conv, "D", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! lwght && ! lsame_(wght, "N", 1L, 1L))
-    {
+    } else if (!lwght && !lsame_(wght, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else
-    {
+    } else {
         m = 0;
         j = 0;
-        if (*n >= 1)
-        {
+        if (*n >= 1) {
             j = *n;
             /*           WHILE ( MOD( J, 2 ).EQ.0 ) DO */
-L10:
-            if (j % 2 == 0)
-            {
+        L10:
+            if (j % 2 == 0) {
                 j /= 2;
                 ++m;
                 goto L10;
             }
             /*           END WHILE 10 */
-            if (j != 1)
-            {
+            if (j != 1) {
                 *info = -3;
             }
-        }
-        else if (*n < 0)
-        {
+        } else if (*n < 0) {
             *info = -3;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("DE01PD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n <= 0)
-    {
+    if (*n <= 0) {
         return 0;
-    }
-    else if (*n == 1)
-    {
-        if (lconv)
-        {
+    } else if (*n == 1) {
+        if (lconv) {
             a[1] *= b[1];
-        }
-        else
-        {
+        } else {
             a[1] /= b[1];
         }
         return 0;
@@ -181,18 +165,15 @@ L10:
     dg01od_("OutputScrambled", wght, n, &b[1], &w[1], info, 15L, 1L);
     /*     Something similar to a Hadamard product/quotient. */
     len = 1;
-    if (lconv)
-    {
+    if (lconv) {
         a[1] = a[1] * 2. * b[1];
         a[2] = a[2] * 2. * b[2];
         i__1 = m - 1;
-        for (l = 1; l <= i__1; ++l)
-        {
+        for (l = 1; l <= i__1; ++l) {
             len <<= 1;
             r1 = len << 1;
             i__2 = len + len / 2;
-            for (p1 = len + 1; p1 <= i__2; ++p1)
-            {
+            for (p1 = len + 1; p1 <= i__2; ++p1) {
                 t1 = b[p1] + b[r1];
                 t2 = b[p1] - b[r1];
                 t3 = t2 * a[p1];
@@ -203,19 +184,15 @@ L10:
             }
             /* L30: */
         }
-    }
-    else
-    {
+    } else {
         a[1] = a[1] * .5 / b[1];
         a[2] = a[2] * .5 / b[2];
         i__1 = m - 1;
-        for (l = 1; l <= i__1; ++l)
-        {
+        for (l = 1; l <= i__1; ++l) {
             len <<= 1;
             r1 = len << 1;
             i__2 = len + len / 2;
-            for (p1 = len + 1; p1 <= i__2; ++p1)
-            {
+            for (p1 = len + 1; p1 <= i__2; ++p1) {
                 d__1 = b[p1] + b[r1];
                 d__2 = b[r1] - b[p1];
                 dladiv_(&a[p1], &a[r1], &d__1, &d__2, &t1, &t2);
@@ -229,17 +206,13 @@ L10:
     }
     /*     Transposed Hartley transform of A. */
     dg01od_("InputScrambled", wght, n, &a[1], &w[1], info, 14L, 1L);
-    if (lconv)
-    {
-        d__1 = .5 / (doublereal) (*n);
+    if (lconv) {
+        d__1 = .5 / (doublereal)(*n);
         dscal_(n, &d__1, &a[1], &c__1);
-    }
-    else
-    {
-        d__1 = 2. / (doublereal) (*n);
+    } else {
+        d__1 = 2. / (doublereal)(*n);
         dscal_(n, &d__1, &a[1], &c__1);
     }
     return 0;
     /* *** Last line of DE01PD *** */
 } /* de01pd_ */
-

@@ -16,62 +16,55 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <mpi.h>
-#include "Error.hpp"
 #include "MPI_SendBuiltin.hpp"
-#include "MPI_helpers.hpp"
+#include "Error.hpp"
 #include "MPI_CommHandleObject.hpp"
+#include "MPI_helpers.hpp"
+#include <mpi.h>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_SendBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::MpiGateway::MPI_SendBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs != 0)
-    {
+    if (nLhs != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int flagInit = 0;
     MPI_Initialized(&flagInit);
-    if (!flagInit)
-    {
+    if (!flagInit) {
         Error(eval, _W("MPI must be initialized."));
     }
     ArrayOf A;
     int dest = 0;
     int tag = 0;
     MPI_Comm comm = MPI_COMM_WORLD;
-    switch (argIn.size())
-    {
-        case 3:
-        {
-            A = argIn[0];
-            ArrayOf param2 = argIn[1];
-            ArrayOf param3 = argIn[2];
-            dest = param2.getContentAsInteger32Scalar();
-            tag = param3.getContentAsInteger32Scalar();
-        }
+    switch (argIn.size()) {
+    case 3: {
+        A = argIn[0];
+        ArrayOf param2 = argIn[1];
+        ArrayOf param3 = argIn[2];
+        dest = param2.getContentAsInteger32Scalar();
+        tag = param3.getContentAsInteger32Scalar();
+    } break;
+    case 4: {
+        A = argIn[0];
+        ArrayOf param2 = argIn[1];
+        ArrayOf param3 = argIn[2];
+        ArrayOf param4 = argIn[3];
+        dest = param2.getContentAsInteger32Scalar();
+        tag = param3.getContentAsInteger32Scalar();
+        comm = HandleToMpiComm(param4);
+    } break;
+    default:
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
         break;
-        case 4:
-        {
-            A = argIn[0];
-            ArrayOf param2 = argIn[1];
-            ArrayOf param3 = argIn[2];
-            ArrayOf param4 = argIn[3];
-            dest = param2.getContentAsInteger32Scalar();
-            tag = param3.getContentAsInteger32Scalar();
-            comm = HandleToMpiComm(param4);
-        }
-        break;
-        default:
-            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-            break;
     }
     int Asize = getArrayOfFootPrint(A, comm);
     int bufsize = Asize;
-    void *cp = malloc(Asize);
-    if (cp)
-    {
+    void* cp = malloc(Asize);
+    if (cp) {
         int packpos = 0;
         packMPI(A, cp, bufsize, &packpos, comm);
         MPI_Send(&packpos, 1, MPI_INT, dest, tag, comm);

@@ -18,77 +18,69 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <Windows.h>
-#include <algorithm>
 #include "methodsComHandleObject.hpp"
 #include "HandleManager.hpp"
+#include <Windows.h>
+#include <algorithm>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void methodsComHandleObject(ArrayOf A, wstringVector &methods)
-    {
-        if (A.getHandleCategory() != COM_CATEGORY_STR)
-        {
-            throw Exception(_W("COM handle expected."));
-        }
-        ComHandleObject *comhandleobj = (ComHandleObject *)A.getContentAsHandleScalar();
-        methodsComHandleObject(comhandleobj, methods);
+//=============================================================================
+void
+methodsComHandleObject(ArrayOf A, wstringVector& methods)
+{
+    if (A.getHandleCategory() != COM_CATEGORY_STR) {
+        throw Exception(_W("COM handle expected."));
     }
-    //=============================================================================
-    void methodsComHandleObject(ComHandleObject *comHandle, wstringVector &methods)
-    {
-        void *ptr = comHandle->getPointer();
-        methods.clear();
-        if (ptr == nullptr)
-        {
-            throw Exception(_W("COM valid handle expected."));
+    ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
+    methodsComHandleObject(comhandleobj, methods);
+}
+//=============================================================================
+void
+methodsComHandleObject(ComHandleObject* comHandle, wstringVector& methods)
+{
+    void* ptr = comHandle->getPointer();
+    methods.clear();
+    if (ptr == nullptr) {
+        throw Exception(_W("COM valid handle expected."));
+    }
+    VARIANT* pVariant = (VARIANT*)ptr;
+    ITypeInfo* ti;
+    unsigned int tiCount;
+    HRESULT hr;
+    if ((hr = pVariant->pdispVal->GetTypeInfoCount(&tiCount)) == S_OK && tiCount == 1) {
+        TYPEATTR* pAttr;
+        hr = pVariant->pdispVal->GetTypeInfo(0, LOCALE_USER_DEFAULT, &ti);
+        if (FAILED(hr)) {
+            return;
         }
-        VARIANT *pVariant = (VARIANT *)ptr;
-        ITypeInfo *ti;
-        unsigned int tiCount;
-        HRESULT hr;
-        if ((hr = pVariant->pdispVal->GetTypeInfoCount(&tiCount)) == S_OK && tiCount == 1)
-        {
-            TYPEATTR *pAttr;
-            hr = pVariant->pdispVal->GetTypeInfo(0, LOCALE_USER_DEFAULT, &ti);
-            if (FAILED(hr))
-            {
+        hr = ti->GetTypeAttr(&pAttr);
+        if (FAILED(hr)) {
+            return;
+        }
+        for (int k = 0; k < pAttr->cFuncs; k++) {
+            FUNCDESC* pFuncDesc;
+            BSTR name;
+            hr = ti->GetFuncDesc(k, &pFuncDesc);
+            if (FAILED(hr)) {
                 return;
             }
-            hr = ti->GetTypeAttr(&pAttr);
-            if (FAILED(hr))
-            {
+            hr = ti->GetDocumentation(pFuncDesc->memid, &name, NULL, NULL, NULL);
+            if (FAILED(hr)) {
                 return;
             }
-            for (int k = 0; k<pAttr->cFuncs; k++)
-            {
-                FUNCDESC *pFuncDesc;
-                BSTR name;
-                hr = ti->GetFuncDesc(k, &pFuncDesc);
-                if (FAILED(hr))
-                {
-                    return;
+            if (pFuncDesc->invkind & (DISPATCH_METHOD)) {
+                std::wstring method = std::wstring(name);
+                if (std::find(methods.begin(), methods.end(), method) == methods.end()) {
+                    methods.push_back(method);
                 }
-                hr = ti->GetDocumentation(pFuncDesc->memid, &name, NULL, NULL, NULL);
-                if (FAILED(hr))
-                {
-                    return;
-                }
-                if (pFuncDesc->invkind & (DISPATCH_METHOD))
-                {
-                    std::wstring method = std::wstring(name);
-                    if (std::find(methods.begin(), methods.end(), method) == methods.end())
-                    {
-                        methods.push_back(method);
-                    }
-                }
-                SysFreeString(name);
-                ti->ReleaseFuncDesc(pFuncDesc);
             }
-            ti->ReleaseTypeAttr(pAttr);
+            SysFreeString(name);
+            ti->ReleaseFuncDesc(pFuncDesc);
         }
-        std::sort(methods.begin(), methods.end());
+        ti->ReleaseTypeAttr(pAttr);
     }
-    //=============================================================================
+    std::sort(methods.begin(), methods.end());
+}
+//=============================================================================
 }
 //=============================================================================

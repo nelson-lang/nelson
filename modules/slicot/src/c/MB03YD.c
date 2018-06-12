@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,22 +10,24 @@
 static integer c__3 = 3;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb03yd_(wantt, wantq, wantz, n, ilo, ihi, iloq, ihiq, a, lda, b, ldb, q, ldq, z__, ldz, alphar, alphai, beta, dwork, ldwork, info)
-logical *wantt, *wantq, *wantz;
+EXPORTSYMBOL /* Subroutine */ int mb03yd_(wantt, wantq, wantz, n, ilo, ihi, iloq, ihiq, a, lda, b,
+    ldb, q, ldq, z__, ldz, alphar, alphai, beta, dwork, ldwork, info) logical *wantt,
+    *wantq, *wantz;
 integer *n, *ilo, *ihi, *iloq, *ihiq;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *q;
-integer *ldq;
-doublereal *z__;
-integer *ldz;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* q;
+integer* ldq;
+doublereal* z__;
+integer* ldz;
 doublereal *alphar, *alphai, *beta, *dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, z_dim1, z_offset, i__1, i__2, i__3, i__4;
+    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, z_dim1, z_offset, i__1, i__2,
+        i__3, i__4;
     doublereal d__1, d__2;
     /* Local variables */
     static doublereal temp, ovfl, unfl;
@@ -232,57 +234,36 @@ integer *ldwork, *info;
     *info = 0;
     nh = *ihi - *ilo + 1;
     nq = *ihiq - *iloq + 1;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -4;
-    }
-    else if (*ilo < 1 || *ilo > max(1,*n))
-    {
+    } else if (*ilo < 1 || *ilo > max(1, *n)) {
         *info = -5;
-    }
-    else if (*ihi < min(*ilo,*n) || *ihi > *n)
-    {
+    } else if (*ihi < min(*ilo, *n) || *ihi > *n) {
         *info = -6;
-    }
-    else if (*iloq < 1 || *iloq > *ilo)
-    {
+    } else if (*iloq < 1 || *iloq > *ilo) {
         *info = -7;
-    }
-    else if (*ihiq < *ihi || *ihiq > *n)
-    {
+    } else if (*ihiq < *ihi || *ihiq > *n) {
         *info = -8;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -12;
-    }
-    else if (*ldq < 1 || *wantq && *ldq < *n)
-    {
+    } else if (*ldq < 1 || *wantq && *ldq < *n) {
         *info = -14;
-    }
-    else if (*ldz < 1 || *wantz && *ldz < *n)
-    {
+    } else if (*ldz < 1 || *wantz && *ldz < *n) {
         *info = -16;
-    }
-    else if (*ldwork < max(1,*n))
-    {
-        dwork[1] = (doublereal) max(1,*n);
+    } else if (*ldwork < max(1, *n)) {
+        dwork[1] = (doublereal)max(1, *n);
         *info = -21;
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB03YD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     /*     Set machine-dependent constants for the stopping criterion. */
@@ -306,103 +287,83 @@ integer *ldwork, *info;
     i__ = *ihi;
 L10:
     l = *ilo;
-    if (i__ < *ilo)
-    {
+    if (i__ < *ilo) {
         goto L120;
     }
     /*     Perform periodic QR iteration on rows and columns ILO to I of A */
     /*     and B until a submatrix of order 1 or 2 splits off at the bottom. */
     i__1 = itn;
-    for (its = 0; its <= i__1; ++its)
-    {
+    for (its = 0; its <= i__1; ++its) {
         /*        Look for deflations in A. */
         i__2 = l + 1;
-        for (k = i__; k >= i__2; --k)
-        {
-            tst = (d__1 = a[k - 1 + (k - 1) * a_dim1], abs(d__1)) + (d__2 = a[k + k * a_dim1], abs(d__2));
-            if (tst == 0.)
-            {
+        for (k = i__; k >= i__2; --k) {
+            tst = (d__1 = a[k - 1 + (k - 1) * a_dim1], abs(d__1))
+                + (d__2 = a[k + k * a_dim1], abs(d__2));
+            if (tst == 0.) {
                 i__3 = i__ - l + 1;
                 tst = dlanhs_("1", &i__3, &a[l + l * a_dim1], lda, &dwork[1], 1L);
             }
             /* Computing MAX */
             d__2 = ulp * tst;
-            if ((d__1 = a[k + (k - 1) * a_dim1], abs(d__1)) <= max(d__2,smlnum))
-            {
+            if ((d__1 = a[k + (k - 1) * a_dim1], abs(d__1)) <= max(d__2, smlnum)) {
                 goto L30;
             }
             /* L20: */
         }
-L30:
+    L30:
         /*        Look for deflation in B if problem size is greater than 1. */
-        if (i__ - k >= 1)
-        {
+        if (i__ - k >= 1) {
             i__2 = k;
-            for (kk = i__; kk >= i__2; --kk)
-            {
-                if (kk == i__)
-                {
+            for (kk = i__; kk >= i__2; --kk) {
+                if (kk == i__) {
                     tst = (d__1 = b[kk - 1 + kk * b_dim1], abs(d__1));
-                }
-                else if (kk == k)
-                {
+                } else if (kk == k) {
                     tst = (d__1 = b[kk + (kk + 1) * b_dim1], abs(d__1));
+                } else {
+                    tst = (d__1 = b[kk - 1 + kk * b_dim1], abs(d__1))
+                        + (d__2 = b[kk + (kk + 1) * b_dim1], abs(d__2));
                 }
-                else
-                {
-                    tst = (d__1 = b[kk - 1 + kk * b_dim1], abs(d__1)) + (d__2 = b[kk + (kk + 1) * b_dim1], abs(d__2));
-                }
-                if (tst == 0.)
-                {
+                if (tst == 0.) {
                     i__3 = i__ - k + 1;
                     tst = dlanhs_("1", &i__3, &b[k + k * b_dim1], ldb, &dwork[1], 1L);
                 }
                 /* Computing MAX */
                 d__2 = ulp * tst;
-                if ((d__1 = b[kk + kk * b_dim1], abs(d__1)) <= max(d__2,smlnum))
-                {
+                if ((d__1 = b[kk + kk * b_dim1], abs(d__1)) <= max(d__2, smlnum)) {
                     goto L50;
                 }
                 /* L40: */
             }
-        }
-        else
-        {
+        } else {
             kk = k - 1;
         }
-L50:
-        if (kk >= k)
-        {
+    L50:
+        if (kk >= k) {
             /*           B has an element close to zero at position (KK,KK). */
             b[kk + kk * b_dim1] = 0.;
-            mb03ya_(wantt, wantq, wantz, n, &k, &i__, iloq, ihiq, &kk, &a[a_offset], lda, &b[b_offset], ldb, &q[q_offset], ldq, &z__[z_offset], ldz, info);
+            mb03ya_(wantt, wantq, wantz, n, &k, &i__, iloq, ihiq, &kk, &a[a_offset], lda,
+                &b[b_offset], ldb, &q[q_offset], ldq, &z__[z_offset], ldz, info);
             k = kk + 1;
         }
         l = k;
-        if (l > *ilo)
-        {
+        if (l > *ilo) {
             /*           A(L,L-1) is negligible. */
             a[l + (l - 1) * a_dim1] = 0.;
         }
         /*        Exit from loop if a submatrix of order 1 or 2 has split off. */
-        if (l >= i__ - 1)
-        {
+        if (l >= i__ - 1) {
             goto L80;
         }
         /*        The active submatrices are now in rows and columns L:I. */
-        if (! (*wantt))
-        {
+        if (!(*wantt)) {
             i1 = l;
             i2 = i__;
         }
-        if (its == 10 || its == 20)
-        {
+        if (its == 10 || its == 20) {
             /*           Exceptional shift. The first column of the shift polynomial */
             /*           is a pseudo-random vector. */
             dlarnv_(&c__3, iseed, &c__3, v);
-        }
-        else
-        {
+        } else {
             /*           The implicit double shift is constructed via a partial */
             /*           product QR factorization [2]. */
             dlartg_(&b[l + l * b_dim1], &b[i__ + i__ * b_dim1], &cs2, &sn2, &temp);
@@ -432,22 +393,18 @@ L50:
         }
         /*        Double-shift QR step */
         i__2 = i__ - 1;
-        for (k = l; k <= i__2; ++k)
-        {
+        for (k = l; k <= i__2; ++k) {
             /* Computing MIN */
             i__3 = 3, i__4 = i__ - k + 1;
-            nr = min(i__3,i__4);
-            if (k > l)
-            {
+            nr = min(i__3, i__4);
+            if (k > l) {
                 dcopy_(&nr, &a[k + (k - 1) * a_dim1], &c__1, v, &c__1);
             }
             dlarfg_(&nr, v, &v[1], &c__1, &tauv);
-            if (k > l)
-            {
+            if (k > l) {
                 a[k + (k - 1) * a_dim1] = v[0];
                 a[k + 1 + (k - 1) * a_dim1] = 0.;
-                if (k < i__ - 1)
-                {
+                if (k < i__ - 1) {
                     a[k + 2 + (k - 1) * a_dim1] = 0.;
                 }
             }
@@ -455,15 +412,14 @@ L50:
             v[0] = 1.;
             /* Computing MIN */
             i__4 = k + 2;
-            i__3 = min(i__4,i__) - i1 + 1;
+            i__3 = min(i__4, i__) - i1 + 1;
             dlarfx_("Right", &i__3, &nr, v, &tauv, &b[i1 + k * b_dim1], ldb, &dwork[1], 5L);
             /*           Annihilate the introduced nonzeros in the K-th column. */
             dcopy_(&nr, &b[k + k * b_dim1], &c__1, w, &c__1);
             dlarfg_(&nr, w, &w[1], &c__1, &tauw);
             b[k + k * b_dim1] = w[0];
             b[k + 1 + k * b_dim1] = 0.;
-            if (k < i__ - 1)
-            {
+            if (k < i__ - 1) {
                 b[k + 2 + k * b_dim1] = 0.;
             }
             /*           Apply reflector W from the left to transform the rows of the */
@@ -479,15 +435,13 @@ L50:
             /*           the matrix A in rows I1:min(K+3,I). */
             /* Computing MIN */
             i__4 = k + 3;
-            i__3 = min(i__4,i__) - i1 + 1;
+            i__3 = min(i__4, i__) - i1 + 1;
             dlarfx_("Right", &i__3, &nr, w, &tauw, &a[i1 + k * a_dim1], lda, &dwork[1], 5L);
             /*           Accumulate transformations in the matrices Q and Z. */
-            if (*wantq)
-            {
+            if (*wantq) {
                 dlarfx_("Right", &nq, &nr, v, &tauv, &q[*iloq + k * q_dim1], ldq, &dwork[1], 5L);
             }
-            if (*wantz)
-            {
+            if (*wantz) {
                 dlarfx_("Right", &nq, &nr, w, &tauw, &z__[*iloq + k * z_dim1], ldz, &dwork[1], 5L);
             }
             /* L60: */
@@ -499,36 +453,27 @@ L50:
     return 0;
 L80:
     /*     Compute 1-by-1 or 2-by-2 subproblem. */
-    if (l == i__)
-    {
+    if (l == i__) {
         /*        Standardize B, set ALPHAR, ALPHAI and BETA. */
-        if (b[i__ + i__ * b_dim1] < 0.)
-        {
-            if (*wantt)
-            {
+        if (b[i__ + i__ * b_dim1] < 0.) {
+            if (*wantt) {
                 i__1 = i__;
-                for (k = i1; k <= i__1; ++k)
-                {
+                for (k = i1; k <= i__1; ++k) {
                     b[k + i__ * b_dim1] = -b[k + i__ * b_dim1];
                     /* L90: */
                 }
                 i__1 = i2;
-                for (k = i__; k <= i__1; ++k)
-                {
+                for (k = i__; k <= i__1; ++k) {
                     a[i__ + k * a_dim1] = -a[i__ + k * a_dim1];
                     /* L100: */
                 }
-            }
-            else
-            {
+            } else {
                 b[i__ + i__ * b_dim1] = -b[i__ + i__ * b_dim1];
                 a[i__ + i__ * a_dim1] = -a[i__ + i__ * a_dim1];
             }
-            if (*wantq)
-            {
+            if (*wantq) {
                 i__1 = *ihiq;
-                for (k = *iloq; k <= i__1; ++k)
-                {
+                for (k = *iloq; k <= i__1; ++k) {
                     q[k + i__ * q_dim1] = -q[k + i__ * q_dim1];
                     /* L110: */
                 }
@@ -537,35 +482,34 @@ L80:
         alphar[i__] = a[i__ + i__ * a_dim1];
         alphai[i__] = 0.;
         beta[i__] = b[i__ + i__ * b_dim1];
-    }
-    else if (l == i__ - 1)
-    {
+    } else if (l == i__ - 1) {
         /*        A double block has converged. */
         /*        Compute eigenvalues and standardize double block. */
-        mb03yt_(&a[i__ - 1 + (i__ - 1) * a_dim1], lda, &b[i__ - 1 + (i__ - 1) * b_dim1], ldb, &alphar[i__ - 1], &alphai[i__ - 1], &beta[i__ - 1], &cs1, &sn1, &cs2, &sn2);
+        mb03yt_(&a[i__ - 1 + (i__ - 1) * a_dim1], lda, &b[i__ - 1 + (i__ - 1) * b_dim1], ldb,
+            &alphar[i__ - 1], &alphai[i__ - 1], &beta[i__ - 1], &cs1, &sn1, &cs2, &sn2);
         /*        Apply transformation to rest of A and B. */
-        if (i2 > i__)
-        {
+        if (i2 > i__) {
             i__1 = i2 - i__;
-            drot_(&i__1, &a[i__ - 1 + (i__ + 1) * a_dim1], lda, &a[i__ + (i__ + 1) * a_dim1], lda, &cs1, &sn1);
+            drot_(&i__1, &a[i__ - 1 + (i__ + 1) * a_dim1], lda, &a[i__ + (i__ + 1) * a_dim1], lda,
+                &cs1, &sn1);
         }
         i__1 = i__ - i1 - 1;
         drot_(&i__1, &a[i1 + (i__ - 1) * a_dim1], &c__1, &a[i1 + i__ * a_dim1], &c__1, &cs2, &sn2);
-        if (i2 > i__)
-        {
+        if (i2 > i__) {
             i__1 = i2 - i__;
-            drot_(&i__1, &b[i__ - 1 + (i__ + 1) * b_dim1], ldb, &b[i__ + (i__ + 1) * b_dim1], ldb, &cs2, &sn2);
+            drot_(&i__1, &b[i__ - 1 + (i__ + 1) * b_dim1], ldb, &b[i__ + (i__ + 1) * b_dim1], ldb,
+                &cs2, &sn2);
         }
         i__1 = i__ - i1 - 1;
         drot_(&i__1, &b[i1 + (i__ - 1) * b_dim1], &c__1, &b[i1 + i__ * b_dim1], &c__1, &cs1, &sn1);
         /*        Apply transformation to rest of Q and Z if desired. */
-        if (*wantq)
-        {
-            drot_(&nq, &q[*iloq + (i__ - 1) * q_dim1], &c__1, &q[*iloq + i__ * q_dim1], &c__1, &cs1, &sn1);
+        if (*wantq) {
+            drot_(&nq, &q[*iloq + (i__ - 1) * q_dim1], &c__1, &q[*iloq + i__ * q_dim1], &c__1, &cs1,
+                &sn1);
         }
-        if (*wantz)
-        {
-            drot_(&nq, &z__[*iloq + (i__ - 1) * z_dim1], &c__1, &z__[*iloq + i__ * z_dim1], &c__1, &cs2, &sn2);
+        if (*wantz) {
+            drot_(&nq, &z__[*iloq + (i__ - 1) * z_dim1], &c__1, &z__[*iloq + i__ * z_dim1], &c__1,
+                &cs2, &sn2);
         }
     }
     /*     Decrement number of remaining iterations, and return to start of */
@@ -574,8 +518,7 @@ L80:
     i__ = l - 1;
     goto L10;
 L120:
-    dwork[1] = (doublereal) max(1,*n);
+    dwork[1] = (doublereal)max(1, *n);
     return 0;
     /* *** Last line of MB03YD *** */
 } /* mb03yd_ */
-

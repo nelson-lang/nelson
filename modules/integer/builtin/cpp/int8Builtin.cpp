@@ -17,24 +17,23 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "int8Builtin.hpp"
-#include "ToInt8.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
+#include "ToInt8.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::int8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::int8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         retval.push_back(ToInt8(argIn[0]));
     }
     return retval;

@@ -16,70 +16,78 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "IEEEFP.hpp"
 #include <cmath>
 #include <stdint.h>
-#include "IEEEFP.hpp"
 //=============================================================================
-bool IsInfinite(float t)
+bool
+IsInfinite(float t)
 {
     return std::isinf(t);
 }
 //=============================================================================
-bool IsInfinite(double t)
+bool
+IsInfinite(double t)
 {
     return std::isinf(t);
 }
 //=============================================================================
-bool IsNaN(int t)
+bool
+IsNaN(int t)
 {
     return true;
 }
 //=============================================================================
-bool IsNaN(unsigned int t)
+bool
+IsNaN(unsigned int t)
 {
     return true;
 }
 //=============================================================================
-bool IsNaN(float t)
+bool
+IsNaN(float t)
 {
     return std::isnan(t);
 }
 //=============================================================================
-bool IsNaN(double t)
+bool
+IsNaN(double t)
 {
     return std::isnan(t);
 }
 //=============================================================================
-bool IsFinite(float t)
+bool
+IsFinite(float t)
 {
     return std::isfinite(t);
 }
 //=============================================================================
-bool IsFinite(double t)
+bool
+IsFinite(double t)
 {
     return std::isfinite(t);
 }
 //=============================================================================
-bool IsIntegerForm(double t)
+bool
+IsIntegerForm(double t)
 {
     int64_t x = (int64_t)std::floor(t);
     return (bool)(((double)x == t) || !IsFinite(t));
 }
 //=============================================================================
-bool IsIntegerForm(float t)
+bool
+IsIntegerForm(float t)
 {
     int64_t x = (int64_t)std::floor(t);
     return (bool)(((float)x == t) || !IsFinite(t));
 }
 //=============================================================================
-bool IsIntegerForm(const float *t, size_t nbElements)
+bool
+IsIntegerForm(const float* t, size_t nbElements)
 {
-    if (t)
-    {
-        for (size_t k = 0; k < nbElements; k++)
-        {
-            if (!IsIntegerForm(t[k]))
-            {
+    if (t) {
+        for (size_t k = 0; k < nbElements; k++) {
+            if (!IsIntegerForm(t[k])) {
                 return false;
             }
         }
@@ -88,14 +96,12 @@ bool IsIntegerForm(const float *t, size_t nbElements)
     return false;
 }
 //=============================================================================
-bool IsIntegerForm(const double *t, size_t nbElements)
+bool
+IsIntegerForm(const double* t, size_t nbElements)
 {
-    if (t)
-    {
-        for (size_t k = 0; k < nbElements; k++)
-        {
-            if (!IsIntegerForm(t[k]))
-            {
+    if (t) {
+        for (size_t k = 0; k < nbElements; k++) {
+            if (!IsIntegerForm(t[k])) {
                 return false;
             }
         }

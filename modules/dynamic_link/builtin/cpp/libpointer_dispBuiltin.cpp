@@ -18,46 +18,40 @@
 //=============================================================================
 #include "libpointer_dispBuiltin.hpp"
 #include "Error.hpp"
-#include "LibPointerObject.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
+#include "LibPointerObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::libpointer_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DynamicLinkGateway::libpointer_dispBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs != 0)
-    {
+    if (nLhs != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    if (param1.isHandle())
-    {
-        Interface *io = eval->getInterface();
-        if (io)
-        {
+    if (param1.isHandle()) {
+        Interface* io = eval->getInterface();
+        if (io) {
             Dimensions dimsParam1 = param1.getDimensions();
             io->outputMessage(L"[libpointer] - size: ");
             dimsParam1.printMe(io);
             io->outputMessage("\n");
         }
-        if (param1.isScalar())
-        {
-            if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR)
-            {
+        if (param1.isScalar()) {
+            if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
                 Error(eval, _W("libpointer handle expected."));
             }
-            LibPointerObject *lipPointerObj = (LibPointerObject *)param1.getContentAsHandleScalar();
+            LibPointerObject* lipPointerObj = (LibPointerObject*)param1.getContentAsHandleScalar();
             lipPointerObj->disp(eval);
         }
-    }
-    else
-    {
+    } else {
         Error(eval, _W("libpointer handle expected."));
     }
     return retval;

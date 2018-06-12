@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,15 +9,15 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb04tv_(updatz, n, nra, nca, ifira, ifica, a, lda, e, lde, z__, ldz)
-logical *updatz;
+EXPORTSYMBOL /* Subroutine */ int mb04tv_(
+    updatz, n, nra, nca, ifira, ifica, a, lda, e, lde, z__, ldz) logical* updatz;
 integer *n, *nra, *nca, *ifira, *ifica;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *z__;
-integer *ldz;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* z__;
+integer* ldz;
 {
     /* System generated locals */
     integer a_dim1, a_offset, e_dim1, e_offset, z_dim1, z_offset, i__1, i__2, i__3;
@@ -135,19 +135,16 @@ integer *ldz;
     z_offset = z_dim1 + 1;
     z__ -= z_offset;
     /* Function Body */
-    if (*n <= 0 || *nra <= 0 || *nca <= 0)
-    {
+    if (*n <= 0 || *nra <= 0 || *nca <= 0) {
         return 0;
     }
     ifira1 = *ifira - 1;
     jpvt = *ifica + *nca;
     i__1 = *ifira;
-    for (i__ = ifira1 + *nra; i__ >= i__1; --i__)
-    {
+    for (i__ = ifira1 + *nra; i__ >= i__1; --i__) {
         --jpvt;
         i__2 = *ifica;
-        for (j = jpvt - 1; j >= i__2; --j)
-        {
+        for (j = jpvt - 1; j >= i__2; --j) {
             /*           Determine the Givens transformation on columns j and jpvt */
             /*           to annihilate A(i,j). Apply the transformation to these */
             /*           columns from rows 1 up to i. */
@@ -159,8 +156,7 @@ integer *ldz;
             drot_(&i__3, &a[jpvt * a_dim1 + 1], &c__1, &a[j * a_dim1 + 1], &c__1, &sc, &ss);
             a[i__ + j * a_dim1] = 0.;
             drot_(&ifira1, &e[jpvt * e_dim1 + 1], &c__1, &e[j * e_dim1 + 1], &c__1, &sc, &ss);
-            if (*updatz)
-            {
+            if (*updatz) {
                 drot_(n, &z__[jpvt * z_dim1 + 1], &c__1, &z__[j * z_dim1 + 1], &c__1, &sc, &ss);
             }
             /* L20: */
@@ -170,4 +166,3 @@ integer *ldz;
     return 0;
     /* *** Last line of MB04TV *** */
 } /* mb04tv_ */
-

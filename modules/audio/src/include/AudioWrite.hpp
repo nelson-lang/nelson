@@ -18,10 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsAudio_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsAudio_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSAUDIO_IMPEXP bool AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, int BitsPerSample, int BitRate, std::wstring &errorMessage);
+NLSAUDIO_IMPEXP bool
+AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, int BitsPerSample,
+    int BitRate, std::wstring& errorMessage);
 }
 //=============================================================================

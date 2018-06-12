@@ -18,14 +18,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <Windows.h>
-#include "nlsCom_engine_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsCom_engine_exports.h"
+#include <Windows.h>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    NLSCOM_ENGINE_IMPEXP bool ComVariantToNelson(VARIANT *variant, ArrayOf &res, std::wstring &errorMessage);
-    NLSCOM_ENGINE_IMPEXP bool NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring &errorMessage);
-    //=============================================================================
-}
+//=============================================================================
+NLSCOM_ENGINE_IMPEXP bool
+ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage);
+NLSCOM_ENGINE_IMPEXP bool
+NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

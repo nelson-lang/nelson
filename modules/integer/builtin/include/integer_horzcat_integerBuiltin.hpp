@@ -22,15 +22,23 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace IntegerGateway {
-        ArrayOfVector int8_horzcat_int8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector int16_horzcat_int16Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector int32_horzcat_int32Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector int64_horzcat_int64Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector uint8_horzcat_uint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector uint16_horzcat_uint16Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector uint32_horzcat_uint32Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector uint64_horzcat_uint64Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
-}
+namespace IntegerGateway {
+    ArrayOfVector
+    int8_horzcat_int8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    int16_horzcat_int16Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    int32_horzcat_int32Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    int64_horzcat_int64Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    uint8_horzcat_uint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    uint16_horzcat_uint16Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    uint32_horzcat_uint32Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    ArrayOfVector
+    uint64_horzcat_uint64Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+} // namespace IntegerGateway
+} // namespace Nelson
 //=============================================================================

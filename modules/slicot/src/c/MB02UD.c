@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,20 +12,22 @@ static integer c_n1 = -1;
 static doublereal c_b35 = 1.;
 static doublereal c_b36 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int mb02ud_(fact, side, trans, jobp, m, n, alpha, rcond, rank, r__, ldr, q, ldq, sv, b, ldb, rp, ldrp, dwork, ldwork, info, fact_len, side_len, trans_len, jobp_len)
-char *fact, *side, *trans, *jobp;
+EXPORTSYMBOL /* Subroutine */ int mb02ud_(fact, side, trans, jobp, m, n, alpha, rcond, rank, r__,
+    ldr, q, ldq, sv, b, ldb, rp, ldrp, dwork, ldwork, info, fact_len, side_len, trans_len,
+    jobp_len) char *fact,
+    *side, *trans, *jobp;
 integer *m, *n;
 doublereal *alpha, *rcond;
-integer *rank;
-doublereal *r__;
-integer *ldr;
-doublereal *q;
-integer *ldq;
+integer* rank;
+doublereal* r__;
+integer* ldr;
+doublereal* q;
+integer* ldq;
 doublereal *sv, *b;
-integer *ldb;
-doublereal *rp;
-integer *ldrp;
-doublereal *dwork;
+integer* ldb;
+doublereal* rp;
+integer* ldrp;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen fact_len;
 ftnlen side_len;
@@ -253,61 +255,35 @@ ftnlen jobp_len;
     left = lsame_(side, "L", 1L, 1L);
     pinv = lsame_(jobp, "P", 1L, 1L);
     tran = lsame_(trans, "T", 1L, 1L) || lsame_(trans, "C", 1L, 1L);
-    if (left)
-    {
+    if (left) {
         l = *m;
-    }
-    else
-    {
+    } else {
         l = *n;
     }
-    mn = *m **n;
-    if (! nfct && ! lsame_(fact, "F", 1L, 1L))
-    {
+    mn = *m * *n;
+    if (!nfct && !lsame_(fact, "F", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! left && ! lsame_(side, "R", 1L, 1L))
-    {
+    } else if (!left && !lsame_(side, "R", 1L, 1L)) {
         *info = -2;
-    }
-    else if (! tran && ! lsame_(trans, "N", 1L, 1L))
-    {
+    } else if (!tran && !lsame_(trans, "N", 1L, 1L)) {
         *info = -3;
-    }
-    else if (! pinv && ! lsame_(jobp, "N", 1L, 1L))
-    {
+    } else if (!pinv && !lsame_(jobp, "N", 1L, 1L)) {
         *info = -4;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -5;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -6;
-    }
-    else if (nfct && *rcond > 1.)
-    {
+    } else if (nfct && *rcond > 1.) {
         *info = -8;
-    }
-    else if (! nfct && ((doublereal) (*rank) < 0. || *rank > l))
-    {
+    } else if (!nfct && ((doublereal)(*rank) < 0. || *rank > l)) {
         *info = -9;
-    }
-    else if (*ldr < max(1,l))
-    {
+    } else if (*ldr < max(1, l)) {
         *info = -11;
-    }
-    else if (*ldq < max(1,l))
-    {
+    } else if (*ldq < max(1, l)) {
         *info = -13;
-    }
-    else if (*ldb < max(1,*m))
-    {
+    } else if (*ldb < max(1, *m)) {
         *info = -16;
-    }
-    else if (*ldrp < 1 || pinv && *ldrp < l)
-    {
+    } else if (*ldrp < 1 || pinv && *ldrp < l) {
         *info = -18;
     }
     /*     Compute workspace */
@@ -317,197 +293,170 @@ ftnlen jobp_len;
     /*     NB refers to the optimal block size for the immediately following */
     /*     subroutine, as returned by ILAENV.) */
     minwrk = 1;
-    if (*info == 0 && *ldwork >= 1 && l > 0)
-    {
-        minwrk = max(1,l);
-        maxwrk = max(minwrk,mn);
-        if (nfct)
-        {
+    if (*info == 0 && *ldwork >= 1 && l > 0) {
+        minwrk = max(1, l);
+        maxwrk = max(minwrk, mn);
+        if (nfct) {
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = l * 3 + (l << 1) * ilaenv_(&c__1, "DGEBRD", " ", &l, &l, &c_n1, &c_n1, 6L, 1L);
-            maxwrk = max(i__1,i__2);
+            i__1 = maxwrk,
+            i__2 = l * 3 + (l << 1) * ilaenv_(&c__1, "DGEBRD", " ", &l, &l, &c_n1, &c_n1, 6L, 1L);
+            maxwrk = max(i__1, i__2);
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = l * 3 + l * ilaenv_(&c__1, "DORGBR", "Q", &l, &l, &l, &c_n1, 6L, 1L);
-            maxwrk = max(i__1,i__2);
+            i__1 = maxwrk,
+            i__2 = l * 3 + l * ilaenv_(&c__1, "DORGBR", "Q", &l, &l, &l, &c_n1, 6L, 1L);
+            maxwrk = max(i__1, i__2);
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = l * 3 + l * ilaenv_(&c__1, "DORGBR", "P", &l, &l, &l, &c_n1, 6L, 1L);
-            maxwrk = max(i__1,i__2);
+            i__1 = maxwrk,
+            i__2 = l * 3 + l * ilaenv_(&c__1, "DORGBR", "P", &l, &l, &l, &c_n1, 6L, 1L);
+            maxwrk = max(i__1, i__2);
             /* Computing MAX */
             i__1 = 1, i__2 = l * 5;
-            minwrk = max(i__1,i__2);
-            maxwrk = max(maxwrk,minwrk);
+            minwrk = max(i__1, i__2);
+            maxwrk = max(maxwrk, minwrk);
         }
     }
-    if (*ldwork < minwrk)
-    {
+    if (*ldwork < minwrk) {
         *info = -20;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02UD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (l == 0)
-    {
-        if (nfct)
-        {
+    if (l == 0) {
+        if (nfct) {
             *rank = 0;
         }
         dwork[1] = 1.;
         return 0;
     }
-    if (nfct)
-    {
+    if (nfct) {
         /*        Compute the SVD of R, R = Q*S*P'. */
         /*        Matrix Q is computed in the array Q, and P' overwrites R. */
         /*        Workspace: need   5*L; */
         /*                   prefer larger. */
-        mb03ud_("Vectors", "Vectors", &l, &r__[r_offset], ldr, &q[q_offset], ldq, &sv[1], &dwork[1], ldwork, info, 7L, 7L);
-        if (*info != 0)
-        {
+        mb03ud_("Vectors", "Vectors", &l, &r__[r_offset], ldr, &q[q_offset], ldq, &sv[1], &dwork[1],
+            ldwork, info, 7L, 7L);
+        if (*info != 0) {
             return 0;
         }
         /*        Use the default tolerance, if required. */
         toll = *rcond;
-        if (toll <= 0.)
-        {
+        if (toll <= 0.) {
             toll = dlamch_("Precision", 9L);
         }
         /* Computing MAX */
         d__1 = toll * sv[1], d__2 = dlamch_("Safe minimum", 12L);
-        toll = max(d__1,d__2);
+        toll = max(d__1, d__2);
         /*        Estimate the rank of R. */
         i__1 = l;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            if (toll > sv[i__])
-            {
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            if (toll > sv[i__]) {
                 goto L20;
             }
             /* L10: */
         }
         i__ = l + 1;
-L20:
+    L20:
         *rank = i__ - 1;
         i__1 = *rank;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             sv[i__] = 1. / sv[i__];
             /* L30: */
         }
-        if (pinv && *rank > 0)
-        {
+        if (pinv && *rank > 0) {
             /*           Compute  pinv(S)'*P'  in R. */
             mb01sd_("Row scaling", rank, &l, &r__[r_offset], ldr, &sv[1], &sv[1], 11L);
             /*           Compute  pinv(R) = P*pinv(S)*Q'  in  RP. */
-            dgemm_("Transpose", "Transpose", &l, &l, rank, &c_b35, &r__[r_offset], ldr, &q[q_offset], ldq, &c_b36, &rp[rp_offset], ldrp, 9L, 9L);
+            dgemm_("Transpose", "Transpose", &l, &l, rank, &c_b35, &r__[r_offset], ldr,
+                &q[q_offset], ldq, &c_b36, &rp[rp_offset], ldrp, 9L, 9L);
         }
     }
     /*     Return if min(M,N) = 0 or RANK = 0. */
-    if (min(*m,*n) == 0 || *rank == 0)
-    {
-        dwork[1] = (doublereal) maxwrk;
+    if (min(*m, *n) == 0 || *rank == 0) {
+        dwork[1] = (doublereal)maxwrk;
         return 0;
     }
     /*     Set X = 0 if alpha = 0. */
-    if (*alpha == 0.)
-    {
+    if (*alpha == 0.) {
         dlaset_("Full", m, n, &c_b36, &c_b36, &b[b_offset], ldb, 4L);
-        dwork[1] = (doublereal) maxwrk;
+        dwork[1] = (doublereal)maxwrk;
         return 0;
     }
-    if (pinv)
-    {
-        if (left)
-        {
+    if (pinv) {
+        if (left) {
             /*           Compute  alpha*op(pinv(R))*B  in workspace and save it in B. */
             /*           Workspace:  need   M   (BLAS 2); */
             /*                       prefer M*N (BLAS 3). */
-            if (*ldwork >= mn)
-            {
-                dgemm_(trans, "NoTranspose", m, n, m, alpha, &rp[rp_offset], ldrp, &b[b_offset], ldb, &c_b36, &dwork[1], m, 1L, 11L);
+            if (*ldwork >= mn) {
+                dgemm_(trans, "NoTranspose", m, n, m, alpha, &rp[rp_offset], ldrp, &b[b_offset],
+                    ldb, &c_b36, &dwork[1], m, 1L, 11L);
                 dlacpy_("Full", m, n, &dwork[1], m, &b[b_offset], ldb, 4L);
-            }
-            else
-            {
+            } else {
                 i__1 = *n;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
-                    dgemv_(trans, m, m, alpha, &rp[rp_offset], ldrp, &b[i__ * b_dim1 + 1], &c__1, &c_b36, &dwork[1], &c__1, 1L);
+                for (i__ = 1; i__ <= i__1; ++i__) {
+                    dgemv_(trans, m, m, alpha, &rp[rp_offset], ldrp, &b[i__ * b_dim1 + 1], &c__1,
+                        &c_b36, &dwork[1], &c__1, 1L);
                     dcopy_(m, &dwork[1], &c__1, &b[i__ * b_dim1 + 1], &c__1);
                     /* L40: */
                 }
             }
-        }
-        else
-        {
+        } else {
             /*           Compute  alpha*B*op(pinv(R))  in workspace and save it in B. */
             /*           Workspace:  need   N   (BLAS 2); */
             /*                       prefer M*N (BLAS 3). */
-            if (*ldwork >= mn)
-            {
-                dgemm_("NoTranspose", trans, m, n, n, alpha, &b[b_offset], ldb, &rp[rp_offset], ldrp, &c_b36, &dwork[1], m, 11L, 1L);
+            if (*ldwork >= mn) {
+                dgemm_("NoTranspose", trans, m, n, n, alpha, &b[b_offset], ldb, &rp[rp_offset],
+                    ldrp, &c_b36, &dwork[1], m, 11L, 1L);
                 dlacpy_("Full", m, n, &dwork[1], m, &b[b_offset], ldb, 4L);
-            }
-            else
-            {
-                if (tran)
-                {
-                    *(unsigned char *)ntran = 'N';
-                }
-                else
-                {
-                    *(unsigned char *)ntran = 'T';
+            } else {
+                if (tran) {
+                    *(unsigned char*)ntran = 'N';
+                } else {
+                    *(unsigned char*)ntran = 'T';
                 }
                 i__1 = *m;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
-                    dgemv_(ntran, n, n, alpha, &rp[rp_offset], ldrp, &b[i__ + b_dim1], ldb, &c_b36, &dwork[1], &c__1, 1L);
+                for (i__ = 1; i__ <= i__1; ++i__) {
+                    dgemv_(ntran, n, n, alpha, &rp[rp_offset], ldrp, &b[i__ + b_dim1], ldb, &c_b36,
+                        &dwork[1], &c__1, 1L);
                     dcopy_(n, &dwork[1], &c__1, &b[i__ + b_dim1], ldb);
                     /* L50: */
                 }
             }
         }
-    }
-    else
-    {
-        if (left)
-        {
+    } else {
+        if (left) {
             /*           Compute  alpha*P*pinv(S)*Q'*B  or  alpha*Q*pinv(S)'*P'*B. */
             /*           Workspace:  need   M   (BLAS 2); */
             /*                       prefer M*N (BLAS 3). */
-            if (*ldwork >= mn)
-            {
-                if (tran)
-                {
+            if (*ldwork >= mn) {
+                if (tran) {
                     /*                 Compute  alpha*P'*B  in workspace. */
-                    dgemm_("NoTranspose", "NoTranspose", m, n, m, alpha, &r__[r_offset], ldr, &b[b_offset], ldb, &c_b36, &dwork[1], m, 11L, 11L);
+                    dgemm_("NoTranspose", "NoTranspose", m, n, m, alpha, &r__[r_offset], ldr,
+                        &b[b_offset], ldb, &c_b36, &dwork[1], m, 11L, 11L);
                     /*                 Compute  alpha*pinv(S)'*P'*B. */
                     mb01sd_("Row scaling", rank, n, &dwork[1], m, &sv[1], &sv[1], 11L);
                     /*                 Compute  alpha*Q*pinv(S)'*P'*B. */
-                    dgemm_("NoTranspose", "NoTranspose", m, n, rank, &c_b35, &q[q_offset], ldq, &dwork[1], m, &c_b36, &b[b_offset], ldb, 11L, 11L);
-                }
-                else
-                {
+                    dgemm_("NoTranspose", "NoTranspose", m, n, rank, &c_b35, &q[q_offset], ldq,
+                        &dwork[1], m, &c_b36, &b[b_offset], ldb, 11L, 11L);
+                } else {
                     /*                 Compute  alpha*Q'*B  in workspace. */
-                    dgemm_("Transpose", "NoTranspose", m, n, m, alpha, &q[q_offset], ldq, &b[b_offset], ldb, &c_b36, &dwork[1], m, 9L, 11L);
+                    dgemm_("Transpose", "NoTranspose", m, n, m, alpha, &q[q_offset], ldq,
+                        &b[b_offset], ldb, &c_b36, &dwork[1], m, 9L, 11L);
                     /*                 Compute  alpha*pinv(S)*Q'*B. */
                     mb01sd_("Row scaling", rank, n, &dwork[1], m, &sv[1], &sv[1], 11L);
                     /*                 Compute  alpha*P*pinv(S)*Q'*B. */
-                    dgemm_("Transpose", "NoTranspose", m, n, rank, &c_b35, &r__[r_offset], ldr, &dwork[1], m, &c_b36, &b[b_offset], ldb, 9L, 11L);
+                    dgemm_("Transpose", "NoTranspose", m, n, rank, &c_b35, &r__[r_offset], ldr,
+                        &dwork[1], m, &c_b36, &b[b_offset], ldb, 9L, 11L);
                 }
-            }
-            else
-            {
-                if (tran)
-                {
+            } else {
+                if (tran) {
                     /*                 Compute  alpha*P'*B  in B using workspace. */
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("NoTranspose", m, m, alpha, &r__[r_offset], ldr, &b[i__ * b_dim1 + 1], &c__1, &c_b36, &dwork[1], &c__1, 11L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("NoTranspose", m, m, alpha, &r__[r_offset], ldr,
+                            &b[i__ * b_dim1 + 1], &c__1, &c_b36, &dwork[1], &c__1, 11L);
                         dcopy_(m, &dwork[1], &c__1, &b[i__ * b_dim1 + 1], &c__1);
                         /* L60: */
                     }
@@ -515,20 +464,18 @@ L20:
                     mb01sd_("Row scaling", rank, n, &b[b_offset], ldb, &sv[1], &sv[1], 11L);
                     /*                 Compute  alpha*Q*pinv(S)'*P'*B  in B using workspace. */
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("NoTranspose", m, rank, &c_b35, &q[q_offset], ldq, &b[i__ * b_dim1 + 1], &c__1, &c_b36, &dwork[1], &c__1, 11L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("NoTranspose", m, rank, &c_b35, &q[q_offset], ldq,
+                            &b[i__ * b_dim1 + 1], &c__1, &c_b36, &dwork[1], &c__1, 11L);
                         dcopy_(m, &dwork[1], &c__1, &b[i__ * b_dim1 + 1], &c__1);
                         /* L70: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Compute  alpha*Q'*B  in B using workspace. */
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("Transpose", m, m, alpha, &q[q_offset], ldq, &b[i__ * b_dim1 + 1], &c__1, &c_b36, &dwork[1], &c__1, 9L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("Transpose", m, m, alpha, &q[q_offset], ldq, &b[i__ * b_dim1 + 1],
+                            &c__1, &c_b36, &dwork[1], &c__1, 9L);
                         dcopy_(m, &dwork[1], &c__1, &b[i__ * b_dim1 + 1], &c__1);
                         /* L80: */
                     }
@@ -536,50 +483,45 @@ L20:
                     mb01sd_("Row scaling", rank, n, &b[b_offset], ldb, &sv[1], &sv[1], 11L);
                     /*                 Compute  alpha*P*pinv(S)*Q'*B  in B using workspace. */
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("Transpose", rank, m, &c_b35, &r__[r_offset], ldr, &b[i__ * b_dim1 + 1], &c__1, &c_b36, &dwork[1], &c__1, 9L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("Transpose", rank, m, &c_b35, &r__[r_offset], ldr,
+                            &b[i__ * b_dim1 + 1], &c__1, &c_b36, &dwork[1], &c__1, 9L);
                         dcopy_(m, &dwork[1], &c__1, &b[i__ * b_dim1 + 1], &c__1);
                         /* L90: */
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             /*           Compute  alpha*B*P*pinv(S)*Q'  or  alpha*B*Q*pinv(S)'*P'. */
             /*           Workspace:  need   N   (BLAS 2); */
             /*                       prefer M*N (BLAS 3). */
-            if (*ldwork >= mn)
-            {
-                if (tran)
-                {
+            if (*ldwork >= mn) {
+                if (tran) {
                     /*                 Compute  alpha*B*Q  in workspace. */
-                    dgemm_("NoTranspose", "NoTranspose", m, n, n, alpha, &b[b_offset], ldb, &q[q_offset], ldq, &c_b36, &dwork[1], m, 11L, 11L);
+                    dgemm_("NoTranspose", "NoTranspose", m, n, n, alpha, &b[b_offset], ldb,
+                        &q[q_offset], ldq, &c_b36, &dwork[1], m, 11L, 11L);
                     /*                 Compute  alpha*B*Q*pinv(S)'. */
                     mb01sd_("Column scaling", m, rank, &dwork[1], m, &sv[1], &sv[1], 14L);
                     /*                 Compute  alpha*B*Q*pinv(S)'*P' in B. */
-                    dgemm_("NoTranspose", "NoTranspose", m, n, rank, &c_b35, &dwork[1], m, &r__[r_offset], ldr, &c_b36, &b[b_offset], ldb, 11L, 11L);
-                }
-                else
-                {
+                    dgemm_("NoTranspose", "NoTranspose", m, n, rank, &c_b35, &dwork[1], m,
+                        &r__[r_offset], ldr, &c_b36, &b[b_offset], ldb, 11L, 11L);
+                } else {
                     /*                 Compute  alpha*B*P  in workspace. */
-                    dgemm_("NoTranspose", "Transpose", m, n, n, alpha, &b[b_offset], ldb, &r__[r_offset], ldr, &c_b36, &dwork[1], m, 11L, 9L);
+                    dgemm_("NoTranspose", "Transpose", m, n, n, alpha, &b[b_offset], ldb,
+                        &r__[r_offset], ldr, &c_b36, &dwork[1], m, 11L, 9L);
                     /*                 Compute  alpha*B*P*pinv(S). */
                     mb01sd_("Column scaling", m, rank, &dwork[1], m, &sv[1], &sv[1], 14L);
                     /*                 Compute  alpha*B*P*pinv(S)*Q' in B. */
-                    dgemm_("NoTranspose", "Transpose", m, n, rank, &c_b35, &dwork[1], m, &q[q_offset], ldq, &c_b36, &b[b_offset], ldb, 11L, 9L);
+                    dgemm_("NoTranspose", "Transpose", m, n, rank, &c_b35, &dwork[1], m,
+                        &q[q_offset], ldq, &c_b36, &b[b_offset], ldb, 11L, 9L);
                 }
-            }
-            else
-            {
-                if (tran)
-                {
+            } else {
+                if (tran) {
                     /*                 Compute  alpha*B*Q  in B using workspace. */
                     i__1 = *m;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("Transpose", n, n, alpha, &q[q_offset], ldq, &b[i__ + b_dim1], ldb, &c_b36, &dwork[1], &c__1, 9L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("Transpose", n, n, alpha, &q[q_offset], ldq, &b[i__ + b_dim1], ldb,
+                            &c_b36, &dwork[1], &c__1, 9L);
                         dcopy_(n, &dwork[1], &c__1, &b[i__ + b_dim1], ldb);
                         /* L100: */
                     }
@@ -587,20 +529,18 @@ L20:
                     mb01sd_("Column scaling", m, rank, &b[b_offset], ldb, &sv[1], &sv[1], 14L);
                     /*                 Compute  alpha*B*Q*pinv(S)'*P' in B using workspace. */
                     i__1 = *m;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("Transpose", rank, n, &c_b35, &r__[r_offset], ldr, &b[i__ + b_dim1], ldb, &c_b36, &dwork[1], &c__1, 9L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("Transpose", rank, n, &c_b35, &r__[r_offset], ldr, &b[i__ + b_dim1],
+                            ldb, &c_b36, &dwork[1], &c__1, 9L);
                         dcopy_(n, &dwork[1], &c__1, &b[i__ + b_dim1], ldb);
                         /* L110: */
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Compute  alpha*B*P  in B using workspace. */
                     i__1 = *m;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("NoTranspose", n, n, alpha, &r__[r_offset], ldr, &b[i__ + b_dim1], ldb, &c_b36, &dwork[1], &c__1, 11L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("NoTranspose", n, n, alpha, &r__[r_offset], ldr, &b[i__ + b_dim1],
+                            ldb, &c_b36, &dwork[1], &c__1, 11L);
                         dcopy_(n, &dwork[1], &c__1, &b[i__ + b_dim1], ldb);
                         /* L120: */
                     }
@@ -608,9 +548,9 @@ L20:
                     mb01sd_("Column scaling", m, rank, &b[b_offset], ldb, &sv[1], &sv[1], 14L);
                     /*                 Compute  alpha*B*P*pinv(S)*Q' in B using workspace. */
                     i__1 = *m;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("NoTranspose", n, rank, &c_b35, &q[q_offset], ldq, &b[i__ + b_dim1], ldb, &c_b36, &dwork[1], &c__1, 11L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("NoTranspose", n, rank, &c_b35, &q[q_offset], ldq, &b[i__ + b_dim1],
+                            ldb, &c_b36, &dwork[1], &c__1, 11L);
                         dcopy_(n, &dwork[1], &c__1, &b[i__ + b_dim1], ldb);
                         /* L130: */
                     }
@@ -619,8 +559,7 @@ L20:
         }
     }
     /*     Return optimal workspace in DWORK(1). */
-    dwork[1] = (doublereal) maxwrk;
+    dwork[1] = (doublereal)maxwrk;
     return 0;
     /* *** Last line of MB02UD *** */
 } /* mb02ud_ */
-

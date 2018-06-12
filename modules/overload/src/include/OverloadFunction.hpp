@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 #include "nlsOverload_exports.h"
-#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSOVERLOAD_IMPEXP ArrayOfVector OverloadFunction(Evaluator *eval, int nLhs, const ArrayOfVector& argIn, bool &bSuccess);
+NLSOVERLOAD_IMPEXP ArrayOfVector
+OverloadFunction(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool& bSuccess);
 }
 //=============================================================================

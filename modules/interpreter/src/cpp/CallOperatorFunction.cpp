@@ -21,46 +21,51 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOfVector CallOperatorFunction(Evaluator *eval, const std::string &functionName, ArrayOf a, size_t nLhs)
-    {
-        ArrayOfVector argsIn;
-        argsIn.push_back(a);
-        return CallOperatorFunction(eval, functionName, argsIn, nLhs);
+ArrayOfVector
+CallOperatorFunction(Evaluator* eval, const std::string& functionName, ArrayOf a, size_t nLhs)
+{
+    ArrayOfVector argsIn;
+    argsIn.push_back(a);
+    return CallOperatorFunction(eval, functionName, argsIn, nLhs);
+}
+//=============================================================================
+ArrayOfVector
+CallOperatorFunction(
+    Evaluator* eval, const std::string& functionName, ArrayOf a, ArrayOf b, size_t nLhs)
+{
+    ArrayOfVector argsIn;
+    argsIn.push_back(a);
+    argsIn.push_back(b);
+    return CallOperatorFunction(eval, functionName, argsIn, nLhs);
+}
+//=============================================================================
+ArrayOfVector
+CallOperatorFunction(
+    Evaluator* eval, const std::string& functionName, ArrayOf a, ArrayOf b, ArrayOf c, size_t nLhs)
+{
+    ArrayOfVector argsIn;
+    argsIn.push_back(a);
+    argsIn.push_back(b);
+    argsIn.push_back(c);
+    return CallOperatorFunction(eval, functionName, argsIn, nLhs);
+}
+//=============================================================================
+ArrayOfVector
+CallOperatorFunction(
+    Evaluator* eval, const std::string& functionName, ArrayOfVector ArgsIn, size_t nLhs)
+{
+    Context* context = eval->getContext();
+    FunctionDef* funcDef = nullptr;
+    if (!context->lookupFunction(functionName, funcDef)) {
+        Error(eval, utf8_to_wstring(_("function") + " " + functionName + " " + _("undefined.")));
     }
-    //=============================================================================
-    ArrayOfVector CallOperatorFunction(Evaluator *eval, const std::string &functionName, ArrayOf a, ArrayOf b, size_t nLhs)
-    {
-        ArrayOfVector argsIn;
-        argsIn.push_back(a);
-        argsIn.push_back(b);
-        return CallOperatorFunction(eval, functionName, argsIn, nLhs);
+    if (!context->lookupFunction(functionName, funcDef)) {
+        Error(eval, utf8_to_wstring(_("function") + " " + functionName + " " + _("undefined.")));
     }
-    //=============================================================================
-    ArrayOfVector CallOperatorFunction(Evaluator *eval, const std::string &functionName, ArrayOf a, ArrayOf b, ArrayOf c, size_t nLhs)
-    {
-        ArrayOfVector argsIn;
-        argsIn.push_back(a);
-        argsIn.push_back(b);
-        argsIn.push_back(c);
-        return CallOperatorFunction(eval, functionName, argsIn, nLhs);
-    }
-    //=============================================================================
-    ArrayOfVector CallOperatorFunction(Evaluator *eval, const std::string &functionName, ArrayOfVector ArgsIn, size_t nLhs)
-    {
-        Context *context = eval->getContext();
-        FunctionDef *funcDef = nullptr;
-        if (!context->lookupFunction(functionName, funcDef))
-        {
-            Error(eval, utf8_to_wstring(_("function") + " " + functionName + " " + _("undefined.")));
-        }
-        if (!context->lookupFunction(functionName, funcDef))
-        {
-            Error(eval, utf8_to_wstring(_("function") + " " + functionName + " " + _("undefined.")));
-        }
-        int nargout = (int)nLhs;
-        ArrayOfVector res = funcDef->evaluateFunction(eval, ArgsIn, nargout);
-        return res;
-    }
-    //=============================================================================
+    int nargout = (int)nLhs;
+    ArrayOfVector res = funcDef->evaluateFunction(eval, ArgsIn, nargout);
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

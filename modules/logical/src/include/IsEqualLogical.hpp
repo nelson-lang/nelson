@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsLogical_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsLogical_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSLOGICAL_IMPEXP bool logical_isequal(ArrayOf a, ArrayOf b);
+NLSLOGICAL_IMPEXP bool
+logical_isequal(ArrayOf a, ArrayOf b);
 }
 //=============================================================================

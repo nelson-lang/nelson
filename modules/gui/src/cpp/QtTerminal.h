@@ -18,34 +18,50 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <QtWidgets/QTextBrowser>
-#include <QtGui/QTextBlock>
 #include "nlsGui_exports.h"
+#include <QtGui/QTextBlock>
+#include <QtWidgets/QTextBrowser>
+#include <string>
 //=============================================================================
-class NLSGUI_IMPEXP QtTerminal : public QTextBrowser {
+class NLSGUI_IMPEXP QtTerminal : public QTextBrowser
+{
     Q_OBJECT
 public:
-    explicit QtTerminal(QWidget *parent = nullptr);
+    explicit QtTerminal(QWidget* parent = nullptr);
     ~QtTerminal();
-    virtual void closeEvent(QCloseEvent *event);
+    virtual void
+    closeEvent(QCloseEvent* event);
 
 public slots:
-    std::wstring getLine(std::wstring prompt);
-    size_t getTerminalWidth();
-    void outputMessage(std::wstring msg);
-    void errorMessage(std::wstring msg);
-    void warningMessage(std::wstring msg);
-    void clearTerminal();
-    void clearLine();
-    void banner();
-    void insertHtml(std::wstring msg);
+    std::wstring
+    getLine(std::wstring prompt);
+    size_t
+    getTerminalWidth();
+    void
+    outputMessage(std::wstring msg);
+    void
+    errorMessage(std::wstring msg);
+    void
+    warningMessage(std::wstring msg);
+    void
+    clearTerminal();
+    void
+    clearLine();
+    void
+    banner();
+    void
+    insertHtml(std::wstring msg);
 
-    bool isAtPrompt();
-    int setMaxBlockCount(int newMax);
-    int getMaxBlockCount();
+    bool
+    isAtPrompt();
+    int
+    setMaxBlockCount(int newMax);
+    int
+    getMaxBlockCount();
 
-    void sendKeyEvent(QKeyEvent *event);
+    void
+    sendKeyEvent(QKeyEvent* event);
+
 private:
     typedef enum
     {
@@ -55,13 +71,19 @@ private:
         STDIN_DISP,
     } DISP_MODE;
     QString nelsonPath;
-    virtual void keyPressEvent(QKeyEvent *event);
-    virtual void insertFromMimeData(const QMimeData *source);
-    void contextMenuEvent(QContextMenuEvent * event);
+    virtual void
+    keyPressEvent(QKeyEvent* event);
+    virtual void
+    insertFromMimeData(const QMimeData* source);
+    void
+    contextMenuEvent(QContextMenuEvent* event);
 
-    QString getCurrentCommandLine();
-    void printMessage(QString msg, DISP_MODE mode);
-    void printPrompt(QString prompt);
+    QString
+    getCurrentCommandLine();
+    void
+    printMessage(QString msg, DISP_MODE mode);
+    void
+    printPrompt(QString prompt);
     bool mCommandLineReady;
     QString mPrompt;
     QColor warningColor;
@@ -69,37 +91,53 @@ private:
     QColor errorColor;
     QColor outputColor;
     std::wstring lineToSend;
-    void printNewLine();
+    void
+    printNewLine();
 
     QTextBlock promptBlock;
-    bool isInEditionZone();
-    bool handleBackspaceKeyPress();
-    bool handlePreviousCharKeyPress();
-    bool handleUpKeyPress();
-    bool handleDownKeyPress();
-	bool handleHomePress();
+    bool
+    isInEditionZone();
+    bool
+    handleBackspaceKeyPress();
+    bool
+    handlePreviousCharKeyPress();
+    bool
+    handleUpKeyPress();
+    bool
+    handleDownKeyPress();
+    bool
+    handleHomePress();
 
-    bool replaceCurrentCommandLine(std::wstring newline);
-    bool updateHistoryToken();
+    bool
+    replaceCurrentCommandLine(std::wstring newline);
+    bool
+    updateHistoryToken();
 
-    QMenu *contextMenu;
-    QAction *helpOnSelectionAction;
-    QAction *cutAction;
-    QAction *copyAction;
-    QAction *pasteAction;
-    QAction *selectAllAction;
-    QAction *clcAction;
-    QAction *stopAction;
+    QMenu* contextMenu;
+    QAction* helpOnSelectionAction;
+    QAction* cutAction;
+    QAction* copyAction;
+    QAction* pasteAction;
+    QAction* selectAllAction;
+    QAction* clcAction;
+    QAction* stopAction;
 
 public Q_SLOTS:
-    void cut();
-    void copy();
-    void paste();
-    void selectAll();
-    void clc();
-    void stopRun();
-    void sendReturnKey();
-    void helpOnSelection();
+    void
+    cut();
+    void
+    copy();
+    void
+    paste();
+    void
+    selectAll();
+    void
+    clc();
+    void
+    stopRun();
+    void
+    sendReturnKey();
+    void
+    helpOnSelection();
 };
 //=============================================================================
-

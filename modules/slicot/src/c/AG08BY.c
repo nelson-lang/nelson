@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,16 +14,16 @@ static logical c_true = TRUE_;
 static doublereal c_b21 = 0.;
 static integer c__2 = 2;
 
-EXPORTSYMBOL /* Subroutine */ int ag08by_(first, n, m, p, svlmax, abcd, ldabcd, e, lde, nr, pr, ninfz, dinfz, nkronl, infz, kronl, tol, iwork, dwork, ldwork, info)
-logical *first;
+EXPORTSYMBOL /* Subroutine */ int ag08by_(first, n, m, p, svlmax, abcd, ldabcd, e, lde, nr, pr,
+    ninfz, dinfz, nkronl, infz, kronl, tol, iwork, dwork, ldwork, info) logical* first;
 integer *n, *m, *p;
 doublereal *svlmax, *abcd;
-integer *ldabcd;
-doublereal *e;
+integer* ldabcd;
+doublereal* e;
 integer *lde, *nr, *pr, *ninfz, *dinfz, *nkronl, *infz, *kronl;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
@@ -274,80 +274,57 @@ integer *ldwork, *info;
     *info = 0;
     pn = *p + *n;
     mn = *m + *n;
-    mpm = min(*p,*m);
-    if (*n < 0)
-    {
+    mpm = min(*p, *m);
+    if (*n < 0) {
         *info = -2;
-    }
-    else if (*m < 0 || ! (*first) && *m > *p)
-    {
+    } else if (*m < 0 || !(*first) && *m > *p) {
         *info = -3;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -4;
-    }
-    else if (*svlmax < 0.)
-    {
+    } else if (*svlmax < 0.) {
         *info = -5;
-    }
-    else if (*ldabcd < max(1,pn))
-    {
+    } else if (*ldabcd < max(1, pn)) {
         *info = -7;
-    }
-    else if (*lde < max(1,*n))
-    {
+    } else if (*lde < max(1, *n)) {
         *info = -9;
-    }
-    else if (*tol > 1.)
-    {
+    } else if (*tol > 1.) {
         *info = -17;
-    }
-    else
-    {
+    } else {
         /* Computing MAX */
         i__1 = 1, i__2 = *p * 5;
-        wrkopt = max(i__1,i__2);
-        if (*p > 0)
-        {
-            if (*m > 0)
-            {
+        wrkopt = max(i__1, i__2);
+        if (*p > 0) {
+            if (*m > 0) {
                 /* Computing MAX */
                 i__1 = wrkopt, i__2 = mn - 1;
-                wrkopt = max(i__1,i__2);
-                if (*first)
-                {
+                wrkopt = max(i__1, i__2);
+                if (*first) {
                     /* Computing MAX */
                     /* Computing MAX */
                     i__3 = *m * 3 - 1;
-                    i__1 = wrkopt, i__2 = mpm + max(i__3,*n);
-                    wrkopt = max(i__1,i__2);
-                    if (lquery)
-                    {
+                    i__1 = wrkopt, i__2 = mpm + max(i__3, *n);
+                    wrkopt = max(i__1, i__2);
+                    if (lquery) {
                         /* Computing MIN */
                         i__1 = 64, i__2 = ilaenv_(&c__1, "DORMQR", "LT", p, n, &mpm, &c_n1, 6L, 2L);
-                        nb = min(i__1,i__2);
+                        nb = min(i__1, i__2);
                         /* Computing MAX */
-                        i__1 = wrkopt, i__2 = mpm + max(1,*n) * nb;
-                        wrkopt = max(i__1,i__2);
+                        i__1 = wrkopt, i__2 = mpm + max(1, *n) * nb;
+                        wrkopt = max(i__1, i__2);
                     }
                 }
             }
         }
-        if (*ldwork < wrkopt && ! lquery)
-        {
+        if (*ldwork < wrkopt && !lquery) {
             *info = -20;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("AG08BY", &i__1, 6L);
         return 0;
-    }
-    else if (lquery)
-    {
-        dwork[1] = (doublereal) wrkopt;
+    } else if (lquery) {
+        dwork[1] = (doublereal)wrkopt;
         return 0;
     }
     /*     Initialize output variables. */
@@ -357,13 +334,11 @@ integer *ldwork, *info;
     *ninfz = 0;
     *nkronl = 0;
     /*     Quick return if possible. */
-    if (*p == 0)
-    {
+    if (*p == 0) {
         dwork[1] = 1.;
         return 0;
     }
-    if (*n == 0 && *m == 0)
-    {
+    if (*n == 0 && *m == 0) {
         *pr = 0;
         *nkronl = 1;
         kronl[1] = *p;
@@ -372,21 +347,17 @@ integer *ldwork, *info;
     }
     tolz = sqrt(dlamch_("Epsilon", 7L));
     rcond = *tol;
-    if (rcond <= 0.)
-    {
+    if (rcond <= 0.) {
         /*        Use the default tolerance in rank determination. */
-        rcond = (doublereal) (pn * mn) * dlamch_("EPSILON", 7L);
+        rcond = (doublereal)(pn * mn) * dlamch_("EPSILON", 7L);
     }
     /*     The D matrix is (RO+SIGMA)-by-M, where RO = P - SIGMA and */
     /*     SIGMA = 0 for FIRST = .TRUE. and SIGMA = M for FIRST = .FALSE.. */
     /*     The leading (RO+SIGMA)-by-SIGMA submatrix of D has full column */
     /*     rank, with the trailing SIGMA-by-SIGMA submatrix upper triangular. */
-    if (*first)
-    {
+    if (*first) {
         sigma = 0;
-    }
-    else
-    {
+    } else {
         sigma = *m;
     }
     ro = *p - sigma;
@@ -401,15 +372,13 @@ integer *ldwork, *info;
     nblcks = 0;
     wrkopt = 1;
 L10:
-    if (*pr == 0)
-    {
+    if (*pr == 0) {
         goto L90;
     }
     /*     (NR+1,ICOL+1) points to the current position of matrix D. */
     ro1 = ro;
     mnr = *m + *nr;
-    if (*m > 0)
-    {
+    if (*m > 0) {
         /*        Compress rows of D; first exploit the trapezoidal shape of the */
         /*        (RO+SIGMA)-by-SIGMA matrix in the first SIGMA columns of D; */
         /*        compress the first SIGMA columns without column pivoting: */
@@ -422,23 +391,24 @@ L10:
         /*        Workspace: need maximum M+N-1. */
         irow = *nr;
         i__1 = sigma;
-        for (icol = 1; icol <= i__1; ++icol)
-        {
+        for (icol = 1; icol <= i__1; ++icol) {
             ++irow;
             i__2 = ro + 1;
-            dlarfg_(&i__2, &abcd[irow + icol * abcd_dim1], &abcd[irow + 1 + icol * abcd_dim1], &c__1, &t);
+            dlarfg_(&i__2, &abcd[irow + icol * abcd_dim1], &abcd[irow + 1 + icol * abcd_dim1],
+                &c__1, &t);
             i__2 = ro + 1;
             i__3 = mnr - icol;
-            dlatzm_("L", &i__2, &i__3, &abcd[irow + 1 + icol * abcd_dim1], &c__1, &t, &abcd[irow + (icol + 1) * abcd_dim1], &abcd[irow + 1 + (icol + 1) * abcd_dim1], ldabcd, &dwork[1], 1L);
+            dlatzm_("L", &i__2, &i__3, &abcd[irow + 1 + icol * abcd_dim1], &c__1, &t,
+                &abcd[irow + (icol + 1) * abcd_dim1], &abcd[irow + 1 + (icol + 1) * abcd_dim1],
+                ldabcd, &dwork[1], 1L);
             i__2 = *pr - icol;
             dcopy_(&i__2, dum, &c__0, &abcd[irow + 1 + icol * abcd_dim1], &c__1);
             /* L20: */
         }
         /* Computing MAX */
         i__1 = wrkopt, i__2 = mn - 1;
-        wrkopt = max(i__1,i__2);
-        if (*first)
-        {
+        wrkopt = max(i__1, i__2);
+        if (*first) {
             /*           Continue with Householder with column pivoting. */
             /*              ( x x x x x )        ( x x x x x ) */
             /*              ( 0 x x x x )        ( 0 x x x x ) */
@@ -449,42 +419,44 @@ L10:
             /*           Integer workspace: need maximum M. */
             /* Computing MIN */
             i__1 = *nr + sigma + 1;
-            irow = min(i__1,pn);
+            irow = min(i__1, pn);
             /* Computing MIN */
             i__1 = sigma + 1;
-            icol = min(i__1,*m);
+            icol = min(i__1, *m);
             i__1 = *m - sigma;
-            mb03oy_(&ro1, &i__1, &abcd[irow + icol * abcd_dim1], ldabcd, &rcond, svlmax, &rank, sval, &iwork[1], &dwork[itau], &dwork[jwork1], info);
+            mb03oy_(&ro1, &i__1, &abcd[irow + icol * abcd_dim1], ldabcd, &rcond, svlmax, &rank,
+                sval, &iwork[1], &dwork[itau], &dwork[jwork1], info);
             /* Computing MAX */
             i__1 = wrkopt, i__2 = jwork1 + *m * 3 - 2;
-            wrkopt = max(i__1,i__2);
+            wrkopt = max(i__1, i__2);
             /*           Apply the column permutations to B and part of D. */
             i__1 = *nr + sigma;
             i__2 = *m - sigma;
             dlapmt_(&c_true, &i__1, &i__2, &abcd[icol * abcd_dim1 + 1], ldabcd, &iwork[1]);
-            if (rank > 0)
-            {
+            if (rank > 0) {
                 /*              Apply the Householder transformations to the submatrix C. */
                 /*              Workspace: need   maximum min(P,M) + N; */
                 /*                         prefer maximum min(P,M) + N*NB. */
                 i__1 = *ldwork - jwork1 + 1;
-                dormqr_("Left", "Transpose", &ro1, nr, &rank, &abcd[irow + icol * abcd_dim1], ldabcd, &dwork[itau], &abcd[irow + mp1 * abcd_dim1], ldabcd, &dwork[jwork1], &i__1, info, 4L, 9L);
+                dormqr_("Left", "Transpose", &ro1, nr, &rank, &abcd[irow + icol * abcd_dim1],
+                    ldabcd, &dwork[itau], &abcd[irow + mp1 * abcd_dim1], ldabcd, &dwork[jwork1],
+                    &i__1, info, 4L, 9L);
                 /* Computing MAX */
-                i__1 = wrkopt, i__2 = jwork1 + (integer) dwork[jwork1] - 1;
-                wrkopt = max(i__1,i__2);
+                i__1 = wrkopt, i__2 = jwork1 + (integer)dwork[jwork1] - 1;
+                wrkopt = max(i__1, i__2);
                 i__1 = ro1 - 1;
                 /* Computing MIN */
                 i__3 = ro1 - 1;
-                i__2 = min(i__3,rank);
+                i__2 = min(i__3, rank);
                 /* Computing MIN */
                 i__4 = irow + 1;
-                dlaset_("Lower", &i__1, &i__2, &c_b21, &c_b21, &abcd[min(i__4,pn) + icol * abcd_dim1], ldabcd, 5L);
+                dlaset_("Lower", &i__1, &i__2, &c_b21, &c_b21,
+                    &abcd[min(i__4, pn) + icol * abcd_dim1], ldabcd, 5L);
                 ro1 -= rank;
             }
         }
         /*        Terminate if Dr has maximal row rank. */
-        if (ro1 == 0)
-        {
+        if (ro1 == 0) {
             goto L90;
         }
     }
@@ -494,14 +466,11 @@ L10:
     taui = ro1;
     /*     Compress the columns of current C to separate a TAUI-by-MUI */
     /*     full column rank block. */
-    if (*nr == 0)
-    {
+    if (*nr == 0) {
         /*        Finish for zero state dimension. */
         *pr = sigma;
         rank = 0;
-    }
-    else
-    {
+    } else {
         /*        Perform RQ-decomposition with row pivoting on the current C */
         /*        while keeping E upper triangular. */
         /*        The current C is the TAUI-by-NR matrix delimited by rows */
@@ -510,51 +479,48 @@ L10:
         /*        Workspace: need maximum 5*P. */
         irc = *nr + sigma;
         n1 = *nr;
-        if (taui > 1)
-        {
+        if (taui > 1) {
             /*           Compute norms. */
             i__1 = taui;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dwork[i__] = dnrm2_(nr, &abcd[irc + i__ + mp1 * abcd_dim1], ldabcd);
                 dwork[*p + i__] = dwork[i__];
                 /* L30: */
             }
         }
         rank = 0;
-        mntau = min(taui,*nr);
+        mntau = min(taui, *nr);
         /*        ICOL and IROW will point to the current pivot position in C. */
         ilast = *nr + *pr;
         jlast = *m + *nr;
         irow = ilast;
         icol = jlast;
         i__ = taui;
-L40:
-        if (rank < mntau)
-        {
+    L40:
+        if (rank < mntau) {
             mn1 = *m + n1;
             /*           Pivot if necessary. */
-            if (i__ != 1)
-            {
+            if (i__ != 1) {
                 j = idamax_(&i__, &dwork[1], &c__1);
-                if (j != i__)
-                {
+                if (j != i__) {
                     dwork[j] = dwork[i__];
                     dwork[*p + j] = dwork[*p + i__];
-                    dswap_(&n1, &abcd[irow + mp1 * abcd_dim1], ldabcd, &abcd[irc + j + mp1 * abcd_dim1], ldabcd);
+                    dswap_(&n1, &abcd[irow + mp1 * abcd_dim1], ldabcd,
+                        &abcd[irc + j + mp1 * abcd_dim1], ldabcd);
                 }
             }
             /*           Zero elements left to ABCD(IROW,ICOL). */
             i__1 = n1 - 1;
-            for (k = 1; k <= i__1; ++k)
-            {
+            for (k = 1; k <= i__1; ++k) {
                 j = *m + k;
                 /*              Rotate columns J, J+1 to zero ABCD(IROW,J). */
                 t = abcd[irow + (j + 1) * abcd_dim1];
-                dlartg_(&t, &abcd[irow + j * abcd_dim1], &c__, &s, &abcd[irow + (j + 1) * abcd_dim1]);
+                dlartg_(
+                    &t, &abcd[irow + j * abcd_dim1], &c__, &s, &abcd[irow + (j + 1) * abcd_dim1]);
                 abcd[irow + j * abcd_dim1] = 0.;
                 i__2 = irow - 1;
-                drot_(&i__2, &abcd[(j + 1) * abcd_dim1 + 1], &c__1, &abcd[j * abcd_dim1 + 1], &c__1, &c__, &s);
+                drot_(&i__2, &abcd[(j + 1) * abcd_dim1 + 1], &c__1, &abcd[j * abcd_dim1 + 1], &c__1,
+                    &c__, &s);
                 i__2 = k + 1;
                 drot_(&i__2, &e[(k + 1) * e_dim1 + 1], &c__1, &e[k * e_dim1 + 1], &c__1, &c__, &s);
                 /*              Rotate rows K, K+1 to zero E(K+1,K). */
@@ -562,16 +528,16 @@ L40:
                 dlartg_(&t, &e[k + 1 + k * e_dim1], &c__, &s, &e[k + k * e_dim1]);
                 e[k + 1 + k * e_dim1] = 0.;
                 i__2 = n1 - k;
-                drot_(&i__2, &e[k + (k + 1) * e_dim1], lde, &e[k + 1 + (k + 1) * e_dim1], lde, &c__, &s);
-                drot_(&mn1, &abcd[k + abcd_dim1], ldabcd, &abcd[k + 1 + abcd_dim1], ldabcd, &c__, &s);
+                drot_(&i__2, &e[k + (k + 1) * e_dim1], lde, &e[k + 1 + (k + 1) * e_dim1], lde, &c__,
+                    &s);
+                drot_(
+                    &mn1, &abcd[k + abcd_dim1], ldabcd, &abcd[k + 1 + abcd_dim1], ldabcd, &c__, &s);
                 /* L50: */
             }
-            if (rank == 0)
-            {
+            if (rank == 0) {
                 /*              Initialize; exit if matrix is zero (RANK = 0). */
                 smax = (d__1 = abcd[ilast + jlast * abcd_dim1], abs(d__1));
-                if (smax == 0.)
-                {
+                if (smax == 0.) {
                     goto L80;
                 }
                 smin = smax;
@@ -579,55 +545,46 @@ L40:
                 sminpr = smin;
                 c1 = 1.;
                 c2 = 1.;
-            }
-            else
-            {
+            } else {
                 /*              One step of incremental condition estimation. */
                 dcopy_(&rank, &abcd[irow + (icol + 1) * abcd_dim1], ldabcd, &dwork[jwork2], &c__1);
-                dlaic1_(&c__2, &rank, &dwork[ismin], &smin, &dwork[jwork2], &abcd[irow + icol * abcd_dim1], &sminpr, &s1, &c1);
-                dlaic1_(&c__1, &rank, &dwork[ismax], &smax, &dwork[jwork2], &abcd[irow + icol * abcd_dim1], &smaxpr, &s2, &c2);
+                dlaic1_(&c__2, &rank, &dwork[ismin], &smin, &dwork[jwork2],
+                    &abcd[irow + icol * abcd_dim1], &sminpr, &s1, &c1);
+                dlaic1_(&c__1, &rank, &dwork[ismax], &smax, &dwork[jwork2],
+                    &abcd[irow + icol * abcd_dim1], &smaxpr, &s2, &c2);
                 /* Computing MAX */
                 i__1 = wrkopt, i__2 = *p * 5;
-                wrkopt = max(i__1,i__2);
+                wrkopt = max(i__1, i__2);
             }
             /*           Check the rank; finish the loop if rank loss occurs. */
-            if (*svlmax * rcond <= smaxpr)
-            {
-                if (*svlmax * rcond <= sminpr)
-                {
-                    if (smaxpr * rcond <= sminpr)
-                    {
+            if (*svlmax * rcond <= smaxpr) {
+                if (*svlmax * rcond <= sminpr) {
+                    if (smaxpr * rcond <= sminpr) {
                         /*                    Finish the loop if last row. */
-                        if (n1 == 0)
-                        {
+                        if (n1 == 0) {
                             ++rank;
                             goto L80;
                         }
-                        if (n1 > 1)
-                        {
+                        if (n1 > 1) {
                             /*                       Update norms. */
-                            if (i__ - 1 > 1)
-                            {
+                            if (i__ - 1 > 1) {
                                 i__1 = i__ - 1;
-                                for (j = 1; j <= i__1; ++j)
-                                {
-                                    if (dwork[j] != 0.)
-                                    {
-                                        t = (d__1 = abcd[irc + j + icol * abcd_dim1], abs(d__1)) / dwork[j];
+                                for (j = 1; j <= i__1; ++j) {
+                                    if (dwork[j] != 0.) {
+                                        t = (d__1 = abcd[irc + j + icol * abcd_dim1], abs(d__1))
+                                            / dwork[j];
                                         /* Computing MAX */
                                         d__1 = (t + 1.) * (1. - t);
-                                        t = max(d__1,0.);
+                                        t = max(d__1, 0.);
                                         /* Computing 2nd power */
                                         d__1 = dwork[j] / dwork[*p + j];
                                         tt = t * (d__1 * d__1);
-                                        if (tt > tolz)
-                                        {
+                                        if (tt > tolz) {
                                             dwork[j] *= sqrt(t);
-                                        }
-                                        else
-                                        {
+                                        } else {
                                             i__2 = n1 - 1;
-                                            dwork[j] = dnrm2_(&i__2, &abcd[irc + j + mp1 * abcd_dim1], ldabcd);
+                                            dwork[j] = dnrm2_(
+                                                &i__2, &abcd[irc + j + mp1 * abcd_dim1], ldabcd);
                                             dwork[*p + j] = dwork[j];
                                         }
                                     }
@@ -636,8 +593,7 @@ L40:
                             }
                         }
                         i__1 = rank;
-                        for (j = 1; j <= i__1; ++j)
-                        {
+                        for (j = 1; j <= i__1; ++j) {
                             dwork[ismin + j - 1] = s1 * dwork[ismin + j - 1];
                             dwork[ismax + j - 1] = s2 * dwork[ismax + j - 1];
                             /* L70: */
@@ -664,65 +620,53 @@ L80:
     /*     Set number of left Kronecker blocks of order (i-1)-by-i. */
     kronl[nblcks] = taui - mui;
     /*     Set number of infinite divisors of order i-1. */
-    if (*first && nblcks > 1)
-    {
+    if (*first && nblcks > 1) {
         infz[nblcks - 1] = muim1 - taui;
     }
     muim1 = mui;
     ro = mui;
     /*     Continue reduction if rank of current C is positive. */
-    if (mui > 0)
-    {
+    if (mui > 0) {
         goto L10;
     }
     /*     Determine the maximal degree of infinite zeros and */
     /*     the number of infinite zeros. */
 L90:
-    if (*first)
-    {
-        if (mui == 0)
-        {
+    if (*first) {
+        if (mui == 0) {
             /* Computing MAX */
             i__1 = 0, i__2 = nblcks - 1;
-            *dinfz = max(i__1,i__2);
-        }
-        else
-        {
+            *dinfz = max(i__1, i__2);
+        } else {
             *dinfz = nblcks;
             infz[nblcks] = mui;
         }
         k = *dinfz;
-        for (i__ = k; i__ >= 1; --i__)
-        {
-            if (infz[i__] != 0)
-            {
+        for (i__ = k; i__ >= 1; --i__) {
+            if (infz[i__] != 0) {
                 goto L110;
             }
             --(*dinfz);
             /* L100: */
         }
-L110:
+    L110:
         i__1 = *dinfz;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             *ninfz += infz[i__] * i__;
             /* L120: */
         }
     }
     /*     Determine the maximal order of left elementary Kronecker blocks. */
     *nkronl = nblcks;
-    for (i__ = nblcks; i__ >= 1; --i__)
-    {
-        if (kronl[i__] != 0)
-        {
+    for (i__ = nblcks; i__ >= 1; --i__) {
+        if (kronl[i__] != 0) {
             goto L140;
         }
         --(*nkronl);
         /* L130: */
     }
 L140:
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of AG08BY *** */
 } /* ag08by_ */
-

@@ -17,32 +17,32 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "dllib_ismethodBuiltin.hpp"
-#include "Error.hpp"
 #include "DynamicLinkLibraryObject.hpp"
+#include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::dllib_ismethodBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DynamicLinkGateway::dllib_ismethodBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != DLLIB_CATEGORY_STR)
-    {
+    if (param1.getHandleCategory() != DLLIB_CATEGORY_STR) {
         Error(eval, _W("dllib handle expected."));
     }
     ArrayOf param2 = argIn[1];
     std::wstring methodName = param2.getContentAsWideString();
-    DynamicLinkLibraryObject *objDllib = (DynamicLinkLibraryObject *)param1.getContentAsHandleScalar();
+    DynamicLinkLibraryObject* objDllib
+        = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
     ArrayOf res = ArrayOf::logicalConstructor(objDllib->isMethod(methodName));
     retval.push_back(res);
     return retval;

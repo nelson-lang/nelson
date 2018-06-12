@@ -17,33 +17,34 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "OverloadRequired.hpp"
-#include "Error.hpp"
 #include "ClassName.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void OverloadRequired(Evaluator *eval, const ArrayOfVector& argIn, OVERLOAD_TYPE otype)
-    {
-        std::string functionName = eval->getCurrentFunctionName();
-        std::string OverloadName("");
-        switch (otype)
-        {
-            case Nelson::BINARY:
-                OverloadName = ClassName(argIn[0]) + "_" + functionName + "_" + ClassName(argIn[1]);
-                break;
-            case Nelson::TRINARY:
-                OverloadName = functionName + "_" + ClassName(argIn[0]) + "_" + ClassName(argIn[1]) + "_" + ClassName(argIn[2]);
-                break;
-            case Nelson::UNARY:
-            case Nelson::FUNCTION:
-                OverloadName = ClassName(argIn[0]) + "_" + functionName;
-                break;
-            default:
-                Error(eval, _W("Wrong OVERLOAD_TYPE."));
-                break;
-        }
-        Error(eval, _("function") + " " + OverloadName + " " + _("undefined."));
+//=============================================================================
+void
+OverloadRequired(Evaluator* eval, const ArrayOfVector& argIn, OVERLOAD_TYPE otype)
+{
+    std::string functionName = eval->getCurrentFunctionName();
+    std::string OverloadName("");
+    switch (otype) {
+    case Nelson::BINARY:
+        OverloadName = ClassName(argIn[0]) + "_" + functionName + "_" + ClassName(argIn[1]);
+        break;
+    case Nelson::TRINARY:
+        OverloadName = functionName + "_" + ClassName(argIn[0]) + "_" + ClassName(argIn[1]) + "_"
+            + ClassName(argIn[2]);
+        break;
+    case Nelson::UNARY:
+    case Nelson::FUNCTION:
+        OverloadName = ClassName(argIn[0]) + "_" + functionName;
+        break;
+    default:
+        Error(eval, _W("Wrong OVERLOAD_TYPE."));
+        break;
     }
-    //=============================================================================
+    Error(eval, _("function") + " " + OverloadName + " " + _("undefined."));
+}
+//=============================================================================
 }
 //=============================================================================

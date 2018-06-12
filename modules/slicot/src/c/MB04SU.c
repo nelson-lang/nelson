@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,12 +9,13 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb04su_(m, n, a, lda, b, ldb, cs, tau, dwork, ldwork, info)
-integer *m, *n;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
+EXPORTSYMBOL /* Subroutine */ int mb04su_(
+    m, n, a, lda, b, ldb, cs, tau, dwork, ldwork, info) integer *m,
+    *n;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
 doublereal *cs, *tau, *dwork;
 integer *ldwork, *info;
 {
@@ -159,95 +160,84 @@ integer *ldwork, *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    if (*m < 0)
-    {
+    if (*m < 0) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -4;
-    }
-    else if (*ldb < max(1,*m))
-    {
+    } else if (*ldb < max(1, *m)) {
         *info = -6;
-    }
-    else if (*ldwork < max(1,*n))
-    {
-        dwork[1] = (doublereal) max(1,*n);
+    } else if (*ldwork < max(1, *n)) {
+        dwork[1] = (doublereal)max(1, *n);
         *info = -10;
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04SU", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    k = min(*m,*n);
-    if (k == 0)
-    {
+    k = min(*m, *n);
+    if (k == 0) {
         dwork[1] = 1.;
         return 0;
     }
     i__1 = k;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         /*        Generate elementary reflector H(i) to annihilate B(i+1:m,i). */
         alpha = b[i__ + i__ * b_dim1];
         i__2 = *m - i__ + 1;
         /* Computing MIN */
         i__3 = i__ + 1;
-        dlarfg_(&i__2, &alpha, &b[min(i__3,*m) + i__ * b_dim1], &c__1, &nu);
+        dlarfg_(&i__2, &alpha, &b[min(i__3, *m) + i__ * b_dim1], &c__1, &nu);
         /*        Apply H(i) to A(i:m,i:n) and B(i:m,i+1:n) from the left. */
         b[i__ + i__ * b_dim1] = 1.;
         i__2 = *m - i__ + 1;
         i__3 = *n - i__ + 1;
-        dlarf_("Left", &i__2, &i__3, &b[i__ + i__ * b_dim1], &c__1, &nu, &a[i__ + i__ * a_dim1], lda, &dwork[1], 4L);
-        if (i__ < *n)
-        {
+        dlarf_("Left", &i__2, &i__3, &b[i__ + i__ * b_dim1], &c__1, &nu, &a[i__ + i__ * a_dim1],
+            lda, &dwork[1], 4L);
+        if (i__ < *n) {
             i__2 = *m - i__ + 1;
             i__3 = *n - i__;
-            dlarf_("Left", &i__2, &i__3, &b[i__ + i__ * b_dim1], &c__1, &nu, &b[i__ + (i__ + 1) * b_dim1], ldb, &dwork[1], 4L);
+            dlarf_("Left", &i__2, &i__3, &b[i__ + i__ * b_dim1], &c__1, &nu,
+                &b[i__ + (i__ + 1) * b_dim1], ldb, &dwork[1], 4L);
         }
         b[i__ + i__ * b_dim1] = nu;
         /*        Generate symplectic Givens rotator G(i) to annihilate */
         /*        B(i,i). */
         temp = a[i__ + i__ * a_dim1];
         dlartg_(&temp, &alpha, &cs[(i__ << 1) - 1], &cs[i__ * 2], &a[i__ + i__ * a_dim1]);
-        if (i__ < *n)
-        {
+        if (i__ < *n) {
             /*           Apply G(i) to [ A(i,i+1:n); B(i,i+1:n) ] from the left. */
             i__2 = *n - i__;
-            drot_(&i__2, &a[i__ + (i__ + 1) * a_dim1], lda, &b[i__ + (i__ + 1) * b_dim1], ldb, &cs[(i__ << 1) - 1], &cs[i__ * 2]);
+            drot_(&i__2, &a[i__ + (i__ + 1) * a_dim1], lda, &b[i__ + (i__ + 1) * b_dim1], ldb,
+                &cs[(i__ << 1) - 1], &cs[i__ * 2]);
         }
         /*        Generate elementary reflector F(i) to annihilate A(i+1:m,i). */
         i__2 = *m - i__ + 1;
         /* Computing MIN */
         i__3 = i__ + 1;
-        dlarfg_(&i__2, &a[i__ + i__ * a_dim1], &a[min(i__3,*m) + i__ * a_dim1], &c__1, &tau[i__]);
-        if (i__ < *n)
-        {
+        dlarfg_(&i__2, &a[i__ + i__ * a_dim1], &a[min(i__3, *m) + i__ * a_dim1], &c__1, &tau[i__]);
+        if (i__ < *n) {
             /*           Apply F(i) to A(i:m,i+1:n) and B(i:m,i+1:n) from the */
             /*           left. */
             temp = a[i__ + i__ * a_dim1];
             a[i__ + i__ * a_dim1] = 1.;
             i__2 = *m - i__ + 1;
             i__3 = *n - i__;
-            dlarf_("Left", &i__2, &i__3, &a[i__ + i__ * a_dim1], &c__1, &tau[i__], &a[i__ + (i__ + 1) * a_dim1], lda, &dwork[1], 4L);
+            dlarf_("Left", &i__2, &i__3, &a[i__ + i__ * a_dim1], &c__1, &tau[i__],
+                &a[i__ + (i__ + 1) * a_dim1], lda, &dwork[1], 4L);
             i__2 = *m - i__ + 1;
             i__3 = *n - i__;
-            dlarf_("Left", &i__2, &i__3, &a[i__ + i__ * a_dim1], &c__1, &tau[i__], &b[i__ + (i__ + 1) * b_dim1], ldb, &dwork[1], 4L);
+            dlarf_("Left", &i__2, &i__3, &a[i__ + i__ * a_dim1], &c__1, &tau[i__],
+                &b[i__ + (i__ + 1) * b_dim1], ldb, &dwork[1], 4L);
             a[i__ + i__ * a_dim1] = temp;
         }
         /* L10: */
     }
-    dwork[1] = (doublereal) max(1,*n);
+    dwork[1] = (doublereal)max(1, *n);
     return 0;
     /* *** Last line of MB04SU *** */
 } /* mb04su_ */
-

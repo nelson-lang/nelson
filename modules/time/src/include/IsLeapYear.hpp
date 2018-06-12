@@ -21,6 +21,7 @@
 #include "nlsTime_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSTIME_IMPEXP bool IsLeapYear(int year);
+NLSTIME_IMPEXP bool
+IsLeapYear(int year);
 }
 //=============================================================================

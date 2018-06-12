@@ -16,59 +16,56 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/container/vector.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include "SearchVariableEnvironment.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
+#include <boost/container/vector.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    wstringVector splitEnvironmentPath(const std::wstring &envPaths)
-    {
-        wstringVector result;
-        size_t previous = 0;
+//=============================================================================
+wstringVector
+splitEnvironmentPath(const std::wstring& envPaths)
+{
+    wstringVector result;
+    size_t previous = 0;
 #ifdef _MSC_VER
-        const wchar_t delimiter[2] = L";";
+    const wchar_t delimiter[2] = L";";
 #else
-        const wchar_t delimiter[2] = L":";
+    const wchar_t delimiter[2] = L":";
 #endif
-        size_t index = envPaths.find(delimiter);
-        while (index != std::string::npos)
-        {
-            std::wstring s = envPaths.substr(previous, index - previous);
-            if (s.compare(L"") != 0)
-            {
-                result.push_back(s);
-            }
-            previous = index + 1;
-            index = envPaths.find(delimiter, previous);
-        }
-        std::wstring s = envPaths.substr(previous);
-        if (s.compare(L"") != 0)
-        {
+    size_t index = envPaths.find(delimiter);
+    while (index != std::string::npos) {
+        std::wstring s = envPaths.substr(previous, index - previous);
+        if (s.compare(L"") != 0) {
             result.push_back(s);
         }
-        return result;
+        previous = index + 1;
+        index = envPaths.find(delimiter, previous);
     }
-    //=============================================================================
-    wstringVector SearchVariableEnvironmentW(const std::wstring &fileToSearch, const std::wstring &envVarName)
-    {
-        wstringVector res;
-        std::wstring envValue = GetVariableEnvironment(envVarName, L"");
-        wstringVector envValuevector = splitEnvironmentPath(envValue);
-        for (size_t k = 0; k < envValuevector.size(); k++)
-        {
-            boost::filesystem::path fullpath(envValuevector[k]);
-            fullpath /= fileToSearch;
-            if (boost::filesystem::exists(fullpath) && !boost::filesystem::is_directory(fullpath))
-            {
-                res.push_back(fullpath.generic_wstring());
-            }
+    std::wstring s = envPaths.substr(previous);
+    if (s.compare(L"") != 0) {
+        result.push_back(s);
+    }
+    return result;
+}
+//=============================================================================
+wstringVector
+SearchVariableEnvironmentW(const std::wstring& fileToSearch, const std::wstring& envVarName)
+{
+    wstringVector res;
+    std::wstring envValue = GetVariableEnvironment(envVarName, L"");
+    wstringVector envValuevector = splitEnvironmentPath(envValue);
+    for (size_t k = 0; k < envValuevector.size(); k++) {
+        boost::filesystem::path fullpath(envValuevector[k]);
+        fullpath /= fileToSearch;
+        if (boost::filesystem::exists(fullpath) && !boost::filesystem::is_directory(fullpath)) {
+            res.push_back(fullpath.generic_wstring());
         }
-        return res;
     }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

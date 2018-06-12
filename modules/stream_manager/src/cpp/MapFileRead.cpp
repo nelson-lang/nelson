@@ -19,152 +19,131 @@
 #ifdef _MSC_VER
 #include <windows.h>
 #endif
-#include <stdio.h>
-#include <boost/filesystem.hpp>
-#include <boost/iostreams/device/mapped_file.hpp>
-#include <boost/algorithm/string/predicate.hpp>
-#include <boost/algorithm/string.hpp>
 #include "MapFileRead.hpp"
 #include "characters_encoding.hpp"
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/iostreams/device/mapped_file.hpp>
+#include <stdio.h>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
+//=============================================================================
 #ifdef _MSC_VER
-    static LPVOID _MapFileRead(LPCWSTR szFileName, size_t * lpcbSize, BOOL &isEmpty)
-    {
-        HANDLE hFile, hMapping;
-        DWORD  dwFileSize;
-        LPVOID lpView;
-        MEMORY_BASIC_INFORMATION mbi;
-        isEmpty = FALSE;
-        *lpcbSize = 0;
-        hFile = CreateFileW(szFileName, GENERIC_READ, FILE_SHARE_READ, NULL,
-                            OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-        if (INVALID_HANDLE_VALUE == hFile)
-        {
-            return NULL;
-        }
-        dwFileSize = GetFileSize(hFile, NULL);
-        if (INVALID_FILE_SIZE == dwFileSize)
-        {
-            CloseHandle(hFile);
-            return NULL;
-        }
-        if (dwFileSize == 0)
-        {
-            isEmpty = TRUE;
-            CloseHandle(hFile);
-            return NULL;
-        }
-        hMapping = CreateFileMappingW(hFile, NULL, PAGE_READONLY, 0, 0, NULL);
-        if (NULL == hMapping)
-        {
-            CloseHandle(hFile);
-            return NULL;
-        }
-        lpView = MapViewOfFile(hMapping, FILE_MAP_READ, 0, 0, 0);
-        CloseHandle(hMapping);
+static LPVOID
+_MapFileRead(LPCWSTR szFileName, size_t* lpcbSize, BOOL& isEmpty)
+{
+    HANDLE hFile, hMapping;
+    DWORD dwFileSize;
+    LPVOID lpView;
+    MEMORY_BASIC_INFORMATION mbi;
+    isEmpty = FALSE;
+    *lpcbSize = 0;
+    hFile = CreateFileW(szFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING,
+        FILE_ATTRIBUTE_NORMAL, NULL);
+    if (INVALID_HANDLE_VALUE == hFile) {
+        return NULL;
+    }
+    dwFileSize = GetFileSize(hFile, NULL);
+    if (INVALID_FILE_SIZE == dwFileSize) {
         CloseHandle(hFile);
-        if (NULL != lpView)
-        {
-            if (VirtualQuery(lpView, &mbi, sizeof(mbi)) >= sizeof(mbi))
-            {
-                *lpcbSize = min(dwFileSize, mbi.RegionSize);
-            }
-            else
-            {
-                *lpcbSize = dwFileSize;
-            }
-        }
-        return lpView;
+        return NULL;
     }
-    //=============================================================================
-    static BOOL _MapFileClose(LPCVOID lpView)
-    {
-        return UnmapViewOfFile(lpView);
+    if (dwFileSize == 0) {
+        isEmpty = TRUE;
+        CloseHandle(hFile);
+        return NULL;
     }
-    //=============================================================================
-    ArrayOf MapFileRead(std::wstring filename, std::wstring eol, std::wstring &errorMessage)
-    {
-        errorMessage = L"";
-        size_t cbSize = 0;
-        BOOL isEmpty = FALSE;
-        const char * fileView = (const char *)_MapFileRead(filename.c_str(), &cbSize, isEmpty);
-        ArrayOf res;
-        if (isEmpty)
-        {
-            res = ArrayOf::stringConstructor("");
-        }
-        else
-        {
-            if (fileView)
-            {
-                try
-                {
-                    std::string content(fileView, cbSize);
-                    boost::replace_all(content, L"\r\n", L"\n");
-                    if (eol != L"\n")
-                    {
-                        boost::replace_all(content, L"\n", eol);
-                    }
-                    res = ArrayOf::stringConstructor(content);
-                }
-                catch (...)
-                {
-                    errorMessage = _W("Cannot read file.");
-                }
-                _MapFileClose(fileView);
-            }
-            else
-            {
-                errorMessage = _W("Cannot open file.");
-            }
-        }
-        return res;
+    hMapping = CreateFileMappingW(hFile, NULL, PAGE_READONLY, 0, 0, NULL);
+    if (NULL == hMapping) {
+        CloseHandle(hFile);
+        return NULL;
     }
-    //=============================================================================
-#else
-    bool isEmptyFile(std::wstring filename)
-    {
-        std::wifstream wif(wstring_to_utf8(filename), std::ios::binary);
-        wif.seekg(0, std::ios::end);
-        return !(wif.tellg() > 0);
-    }
-    //=============================================================================
-    ArrayOf MapFileRead(std::wstring filename, std::wstring eol, std::wstring &errorMessage)
-    {
-        ArrayOf res;
-        errorMessage = L"";
-        if (isEmptyFile(filename))
-        {
-            res = ArrayOf::stringConstructor("");
+    lpView = MapViewOfFile(hMapping, FILE_MAP_READ, 0, 0, 0);
+    CloseHandle(hMapping);
+    CloseHandle(hFile);
+    if (NULL != lpView) {
+        if (VirtualQuery(lpView, &mbi, sizeof(mbi)) >= sizeof(mbi)) {
+            *lpcbSize = min(dwFileSize, mbi.RegionSize);
+        } else {
+            *lpcbSize = dwFileSize;
         }
-        else
-        {
-            boost::filesystem::path fileAsPath(filename);
-            boost::iostreams::basic_mapped_file_params<boost::filesystem::path> param;
-            param.path = fileAsPath;
-            boost::iostreams::mapped_file_source mappedFile(param);
-            if (mappedFile.is_open())
-            {
-                std::string content(mappedFile.data(), mappedFile.size());
-                mappedFile.close();
+    }
+    return lpView;
+}
+//=============================================================================
+static BOOL
+_MapFileClose(LPCVOID lpView)
+{
+    return UnmapViewOfFile(lpView);
+}
+//=============================================================================
+ArrayOf
+MapFileRead(std::wstring filename, std::wstring eol, std::wstring& errorMessage)
+{
+    errorMessage = L"";
+    size_t cbSize = 0;
+    BOOL isEmpty = FALSE;
+    const char* fileView = (const char*)_MapFileRead(filename.c_str(), &cbSize, isEmpty);
+    ArrayOf res;
+    if (isEmpty) {
+        res = ArrayOf::stringConstructor("");
+    } else {
+        if (fileView) {
+            try {
+                std::string content(fileView, cbSize);
                 boost::replace_all(content, L"\r\n", L"\n");
-                if (eol != L"\n")
-                {
+                if (eol != L"\n") {
                     boost::replace_all(content, L"\n", eol);
                 }
                 res = ArrayOf::stringConstructor(content);
+            } catch (...) {
+                errorMessage = _W("Cannot read file.");
             }
-            else
-            {
-                errorMessage = _W("Cannot open file.");
-            }
+            _MapFileClose(fileView);
+        } else {
+            errorMessage = _W("Cannot open file.");
         }
-        return res;
     }
-#endif
-    //=============================================================================
+    return res;
 }
 //=============================================================================
-
+#else
+bool
+isEmptyFile(std::wstring filename)
+{
+    std::wifstream wif(wstring_to_utf8(filename), std::ios::binary);
+    wif.seekg(0, std::ios::end);
+    return !(wif.tellg() > 0);
+}
+//=============================================================================
+ArrayOf
+MapFileRead(std::wstring filename, std::wstring eol, std::wstring& errorMessage)
+{
+    ArrayOf res;
+    errorMessage = L"";
+    if (isEmptyFile(filename)) {
+        res = ArrayOf::stringConstructor("");
+    } else {
+        boost::filesystem::path fileAsPath(filename);
+        boost::iostreams::basic_mapped_file_params<boost::filesystem::path> param;
+        param.path = fileAsPath;
+        boost::iostreams::mapped_file_source mappedFile(param);
+        if (mappedFile.is_open()) {
+            std::string content(mappedFile.data(), mappedFile.size());
+            mappedFile.close();
+            boost::replace_all(content, L"\r\n", L"\n");
+            if (eol != L"\n") {
+                boost::replace_all(content, L"\n", eol);
+            }
+            res = ArrayOf::stringConstructor(content);
+        } else {
+            errorMessage = _W("Cannot open file.");
+        }
+    }
+    return res;
+}
+#endif
+//=============================================================================
+}
+//=============================================================================

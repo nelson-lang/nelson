@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,19 +11,21 @@ static doublereal c_b22 = 1.;
 static doublereal c_b23 = 0.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int sb04pd_(dico, facta, factb, trana, tranb, isgn, m, n, a, lda, u, ldu, b, ldb, v, ldv, c__, ldc, scale, dwork, ldwork, info, dico_len, facta_len, factb_len, trana_len, tranb_len)
-char *dico, *facta, *factb, *trana, *tranb;
+EXPORTSYMBOL /* Subroutine */ int sb04pd_(dico, facta, factb, trana, tranb, isgn, m, n, a, lda, u,
+    ldu, b, ldb, v, ldv, c__, ldc, scale, dwork, ldwork, info, dico_len, facta_len, factb_len,
+    trana_len, tranb_len) char *dico,
+    *facta, *factb, *trana, *tranb;
 integer *isgn, *m, *n;
-doublereal *a;
-integer *lda;
-doublereal *u;
-integer *ldu;
-doublereal *b;
-integer *ldb;
-doublereal *v;
-integer *ldv;
-doublereal *c__;
-integer *ldc;
+doublereal* a;
+integer* lda;
+doublereal* u;
+integer* ldu;
+doublereal* b;
+integer* ldb;
+doublereal* v;
+integer* ldv;
+doublereal* c__;
+integer* ldc;
 doublereal *scale, *dwork;
 integer *ldwork, *info;
 ftnlen dico_len;
@@ -33,7 +35,8 @@ ftnlen trana_len;
 ftnlen tranb_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, u_dim1, u_offset, v_dim1, v_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, u_dim1, u_offset, v_dim1,
+        v_offset, i__1, i__2, i__3;
     /* Local variables */
     static integer sdim, ierr;
     static logical cont;
@@ -336,132 +339,87 @@ ftnlen tranb_len;
     notrna = lsame_(trana, "N", 1L, 1L);
     notrnb = lsame_(tranb, "N", 1L, 1L);
     *info = 0;
-    if (! cont && ! lsame_(dico, "D", 1L, 1L))
-    {
+    if (!cont && !lsame_(dico, "D", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! nofaca && ! lsame_(facta, "F", 1L, 1L) && ! schura)
-    {
+    } else if (!nofaca && !lsame_(facta, "F", 1L, 1L) && !schura) {
         *info = -2;
-    }
-    else if (! nofacb && ! lsame_(factb, "F", 1L, 1L) && ! schurb)
-    {
+    } else if (!nofacb && !lsame_(factb, "F", 1L, 1L) && !schurb) {
         *info = -3;
-    }
-    else if (! notrna && ! lsame_(trana, "T", 1L, 1L) && ! lsame_(trana, "C", 1L, 1L))
-    {
+    } else if (!notrna && !lsame_(trana, "T", 1L, 1L) && !lsame_(trana, "C", 1L, 1L)) {
         *info = -4;
-    }
-    else if (! notrnb && ! lsame_(tranb, "T", 1L, 1L) && ! lsame_(tranb, "C", 1L, 1L))
-    {
+    } else if (!notrnb && !lsame_(tranb, "T", 1L, 1L) && !lsame_(tranb, "C", 1L, 1L)) {
         *info = -5;
-    }
-    else if (*isgn != 1 && *isgn != -1)
-    {
+    } else if (*isgn != 1 && *isgn != -1) {
         *info = -6;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -7;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -8;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -10;
-    }
-    else if (*ldu < 1 || ! schura && *ldu < *m)
-    {
+    } else if (*ldu < 1 || !schura && *ldu < *m) {
         *info = -12;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -14;
-    }
-    else if (*ldv < 1 || ! schurb && *ldv < *n)
-    {
+    } else if (*ldv < 1 || !schurb && *ldv < *n) {
         *info = -16;
-    }
-    else if (*ldc < max(1,*m))
-    {
+    } else if (*ldc < max(1, *m)) {
         *info = -18;
-    }
-    else
-    {
-        if (nofaca)
-        {
+    } else {
+        if (nofaca) {
             ia = (*m << 1) + 1;
             minwrk = *m * 3;
-        }
-        else
-        {
+        } else {
             ia = 0;
         }
-        if (schura)
-        {
+        if (schura) {
             minwrk = 0;
-        }
-        else if (! nofaca)
-        {
+        } else if (!nofaca) {
             minwrk = *m;
         }
         ib = 0;
-        if (nofacb)
-        {
+        if (nofacb) {
             ib = *n << 1;
-            if (! nofaca)
-            {
+            if (!nofaca) {
                 ++ib;
             }
             /* Computing MAX */
             i__1 = minwrk, i__2 = ib + *n * 3;
-            minwrk = max(i__1,i__2);
+            minwrk = max(i__1, i__2);
+        } else if (!schurb) {
+            minwrk = max(minwrk, *n);
         }
-        else if (! schurb)
-        {
-            minwrk = max(minwrk,*n);
-        }
-        if (cont)
-        {
-            if (! schura)
-            {
+        if (cont) {
+            if (!schura) {
                 /* Computing MAX */
                 i__1 = minwrk, i__2 = ib + *m;
-                minwrk = max(i__1,i__2);
+                minwrk = max(i__1, i__2);
             }
-        }
-        else
-        {
+        } else {
             /* Computing MAX */
             i__1 = minwrk, i__2 = ib + (*m << 1);
-            minwrk = max(i__1,i__2);
+            minwrk = max(i__1, i__2);
         }
         /* Computing MAX */
         i__1 = 1, i__2 = ia + minwrk;
-        minwrk = max(i__1,i__2);
-        if (*ldwork < minwrk)
-        {
+        minwrk = max(i__1, i__2);
+        if (*ldwork < minwrk) {
             *info = -21;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SB04PD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*m == 0 || *n == 0)
-    {
+    if (*m == 0 || *n == 0) {
         *scale = 1.;
         dwork[1] = 1.;
         return 0;
     }
     maxwrk = minwrk;
-    if (nofaca)
-    {
+    if (nofaca) {
         /*        Compute the Schur factorization of A. */
         /*        Workspace:  need   1+5*M; */
         /*                    prefer larger. */
@@ -473,94 +431,84 @@ ftnlen tranb_len;
         jwork = (*m << 1) + 2;
         ia = jwork;
         availw = *ldwork - jwork + 1;
-        dgees_("Vectors", "Not ordered", select_, m, &a[a_offset], lda, &sdim, &dwork[2], &dwork[*m + 2], &u[u_offset], ldu, &dwork[jwork], &availw, bwork, &ierr, 7L, 11L);
-        if (ierr > 0)
-        {
+        dgees_("Vectors", "Not ordered", select_, m, &a[a_offset], lda, &sdim, &dwork[2],
+            &dwork[*m + 2], &u[u_offset], ldu, &dwork[jwork], &availw, bwork, &ierr, 7L, 11L);
+        if (ierr > 0) {
             *info = ierr;
             return 0;
         }
         /* Computing MAX */
-        i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-        maxwrk = max(i__1,i__2);
-    }
-    else
-    {
+        i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+        maxwrk = max(i__1, i__2);
+    } else {
         jwork = 1;
         ia = 2;
         availw = *ldwork;
     }
-    if (! schura)
-    {
+    if (!schura) {
         /*        Transform the right-hand side:  C <-- U'*C. */
         /*        Workspace:  need   a+M, */
         /*                    prefer a+M*N, */
         /*                    where  a = 1+2*M, if FACTA =  'N', */
         /*                           a = 0,     if FACTA <> 'N'. */
         chunka = availw / *m;
-        blocka = min(chunka,*n) > 1;
+        blocka = min(chunka, *n) > 1;
         blas3a = chunka >= *n && blocka;
-        if (blas3a)
-        {
+        if (blas3a) {
             /*           Enough workspace for a fast BLAS 3 algorithm. */
             dlacpy_("Full", m, n, &c__[c_offset], ldc, &dwork[jwork], m, 4L);
-            dgemm_("Transpose", "NoTranspose", m, n, m, &c_b22, &u[u_offset], ldu, &dwork[jwork], m, &c_b23, &c__[c_offset], ldc, 9L, 11L);
-        }
-        else if (blocka)
-        {
+            dgemm_("Transpose", "NoTranspose", m, n, m, &c_b22, &u[u_offset], ldu, &dwork[jwork], m,
+                &c_b23, &c__[c_offset], ldc, 9L, 11L);
+        } else if (blocka) {
             /*           Use as many columns of C as possible. */
             i__1 = *n;
             i__2 = chunka;
-            for (j = 1; i__2 < 0 ? j >= i__1 : j <= i__1; j += i__2)
-            {
+            for (j = 1; i__2 < 0 ? j >= i__1 : j <= i__1; j += i__2) {
                 /* Computing MIN */
                 i__3 = *n - j + 1;
-                bl = min(i__3,chunka);
+                bl = min(i__3, chunka);
                 dlacpy_("Full", m, &bl, &c__[j * c_dim1 + 1], ldc, &dwork[jwork], m, 4L);
-                dgemm_("Transpose", "NoTranspose", m, &bl, m, &c_b22, &u[u_offset], ldu, &dwork[jwork], m, &c_b23, &c__[j * c_dim1 + 1], ldc, 9L, 11L);
+                dgemm_("Transpose", "NoTranspose", m, &bl, m, &c_b22, &u[u_offset], ldu,
+                    &dwork[jwork], m, &c_b23, &c__[j * c_dim1 + 1], ldc, 9L, 11L);
                 /* L10: */
             }
-        }
-        else
-        {
+        } else {
             /*           Use a BLAS 2 algorithm. */
             i__2 = *n;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 dcopy_(m, &c__[j * c_dim1 + 1], &c__1, &dwork[jwork], &c__1);
-                dgemv_("Transpose", m, m, &c_b22, &u[u_offset], ldu, &dwork[jwork], &c__1, &c_b23, &c__[j * c_dim1 + 1], &c__1, 9L);
+                dgemv_("Transpose", m, m, &c_b22, &u[u_offset], ldu, &dwork[jwork], &c__1, &c_b23,
+                    &c__[j * c_dim1 + 1], &c__1, 9L);
                 /* L20: */
             }
         }
         /* Computing MAX */
-        i__2 = maxwrk, i__1 = jwork + *m **n - 1;
-        maxwrk = max(i__2,i__1);
+        i__2 = maxwrk, i__1 = jwork + *m * *n - 1;
+        maxwrk = max(i__2, i__1);
     }
-    if (nofacb)
-    {
+    if (nofacb) {
         /*        Compute the Schur factorization of B. */
         /*        Workspace:  need   1+MAX(a-1,0)+5*N, */
         /*                    prefer larger. */
         jwork = ia + (*n << 1);
         availw = *ldwork - jwork + 1;
-        dgees_("Vectors", "Not ordered", select_, n, &b[b_offset], ldb, &sdim, &dwork[ia], &dwork[*n + ia], &v[v_offset], ldv, &dwork[jwork], &availw, bwork, &ierr, 7L, 11L);
-        if (ierr > 0)
-        {
+        dgees_("Vectors", "Not ordered", select_, n, &b[b_offset], ldb, &sdim, &dwork[ia],
+            &dwork[*n + ia], &v[v_offset], ldv, &dwork[jwork], &availw, bwork, &ierr, 7L, 11L);
+        if (ierr > 0) {
             *info = ierr + *m;
             return 0;
         }
         /* Computing MAX */
-        i__2 = maxwrk, i__1 = (integer) dwork[jwork] + jwork - 1;
-        maxwrk = max(i__2,i__1);
-        if (! schura)
-        {
+        i__2 = maxwrk, i__1 = (integer)dwork[jwork] + jwork - 1;
+        maxwrk = max(i__2, i__1);
+        if (!schura) {
             /*           Recompute the blocking parameters. */
             chunka = availw / *m;
-            blocka = min(chunka,*n) > 1;
+            blocka = min(chunka, *n) > 1;
             blas3a = chunka >= *n && blocka;
         }
     }
-    if (! schurb)
-    {
+    if (!schurb) {
         /*        Transform the right-hand side:  C <-- C*V. */
         /*        Workspace:  need   a+b+N, */
         /*                    prefer a+b+M*N, */
@@ -568,140 +516,123 @@ ftnlen tranb_len;
         /*                           b = 1+2*N, if FACTB =  'N', FACTA <> 'N', */
         /*                           b = 0,     if FACTB <> 'N'. */
         chunkb = availw / *n;
-        blockb = min(chunkb,*m) > 1;
+        blockb = min(chunkb, *m) > 1;
         blas3b = chunkb >= *m && blockb;
-        if (blas3b)
-        {
+        if (blas3b) {
             /*           Enough workspace for a fast BLAS 3 algorithm. */
             dlacpy_("Full", m, n, &c__[c_offset], ldc, &dwork[jwork], m, 4L);
-            dgemm_("NoTranspose", "NoTranspose", m, n, n, &c_b22, &dwork[jwork], m, &v[v_offset], ldv, &c_b23, &c__[c_offset], ldc, 11L, 11L);
-        }
-        else if (blockb)
-        {
+            dgemm_("NoTranspose", "NoTranspose", m, n, n, &c_b22, &dwork[jwork], m, &v[v_offset],
+                ldv, &c_b23, &c__[c_offset], ldc, 11L, 11L);
+        } else if (blockb) {
             /*           Use as many rows of C as possible. */
             i__2 = *m;
             i__1 = chunkb;
-            for (i__ = 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__1)
-            {
+            for (i__ = 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__1) {
                 /* Computing MIN */
                 i__3 = *m - i__ + 1;
-                bl = min(i__3,chunkb);
+                bl = min(i__3, chunkb);
                 dlacpy_("Full", &bl, n, &c__[i__ + c_dim1], ldc, &dwork[jwork], &bl, 4L);
-                dgemm_("NoTranspose", "NoTranspose", &bl, n, n, &c_b22, &dwork[jwork], &bl, &v[v_offset], ldv, &c_b23, &c__[i__ + c_dim1], ldc, 11L, 11L);
+                dgemm_("NoTranspose", "NoTranspose", &bl, n, n, &c_b22, &dwork[jwork], &bl,
+                    &v[v_offset], ldv, &c_b23, &c__[i__ + c_dim1], ldc, 11L, 11L);
                 /* L30: */
             }
-        }
-        else
-        {
+        } else {
             /*           Use a BLAS 2 algorithm. */
             i__1 = *m;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dcopy_(n, &c__[i__ + c_dim1], ldc, &dwork[jwork], &c__1);
-                dgemv_("Transpose", n, n, &c_b22, &v[v_offset], ldv, &dwork[jwork], &c__1, &c_b23, &c__[i__ + c_dim1], ldc, 9L);
+                dgemv_("Transpose", n, n, &c_b22, &v[v_offset], ldv, &dwork[jwork], &c__1, &c_b23,
+                    &c__[i__ + c_dim1], ldc, 9L);
                 /* L40: */
             }
         }
         /* Computing MAX */
-        i__1 = maxwrk, i__2 = jwork + *m **n - 1;
-        maxwrk = max(i__1,i__2);
+        i__1 = maxwrk, i__2 = jwork + *m * *n - 1;
+        maxwrk = max(i__1, i__2);
     }
     /*     Solve the (transformed) equation. */
     /*     Workspace for DICO = 'D':  a+b+2*M. */
-    if (cont)
-    {
-        dtrsyl_(trana, tranb, isgn, m, n, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, scale, &ierr, 1L, 1L);
-    }
-    else
-    {
-        sb04py_(trana, tranb, isgn, m, n, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, scale, &dwork[jwork], &ierr, 1L, 1L);
+    if (cont) {
+        dtrsyl_(trana, tranb, isgn, m, n, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+            scale, &ierr, 1L, 1L);
+    } else {
+        sb04py_(trana, tranb, isgn, m, n, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+            scale, &dwork[jwork], &ierr, 1L, 1L);
         /* Computing MAX */
         i__1 = maxwrk, i__2 = jwork + (*m << 1) - 1;
-        maxwrk = max(i__1,i__2);
+        maxwrk = max(i__1, i__2);
     }
-    if (ierr > 0)
-    {
+    if (ierr > 0) {
         *info = *m + *n + 1;
     }
     /*     Transform back the solution, if needed. */
-    if (! schura)
-    {
+    if (!schura) {
         /*        Transform the right-hand side:  C <-- U*C. */
         /*        Workspace:  need   a+b+M; */
         /*                    prefer a+b+M*N. */
-        if (blas3a)
-        {
+        if (blas3a) {
             /*           Enough workspace for a fast BLAS 3 algorithm. */
             dlacpy_("Full", m, n, &c__[c_offset], ldc, &dwork[jwork], m, 4L);
-            dgemm_("NoTranspose", "NoTranspose", m, n, m, &c_b22, &u[u_offset], ldu, &dwork[jwork], m, &c_b23, &c__[c_offset], ldc, 11L, 11L);
-        }
-        else if (blocka)
-        {
+            dgemm_("NoTranspose", "NoTranspose", m, n, m, &c_b22, &u[u_offset], ldu, &dwork[jwork],
+                m, &c_b23, &c__[c_offset], ldc, 11L, 11L);
+        } else if (blocka) {
             /*           Use as many columns of C as possible. */
             i__1 = *n;
             i__2 = chunka;
-            for (j = 1; i__2 < 0 ? j >= i__1 : j <= i__1; j += i__2)
-            {
+            for (j = 1; i__2 < 0 ? j >= i__1 : j <= i__1; j += i__2) {
                 /* Computing MIN */
                 i__3 = *n - j + 1;
-                bl = min(i__3,chunka);
+                bl = min(i__3, chunka);
                 dlacpy_("Full", m, &bl, &c__[j * c_dim1 + 1], ldc, &dwork[jwork], m, 4L);
-                dgemm_("NoTranspose", "NoTranspose", m, &bl, m, &c_b22, &u[u_offset], ldu, &dwork[jwork], m, &c_b23, &c__[j * c_dim1 + 1], ldc, 11L, 11L);
+                dgemm_("NoTranspose", "NoTranspose", m, &bl, m, &c_b22, &u[u_offset], ldu,
+                    &dwork[jwork], m, &c_b23, &c__[j * c_dim1 + 1], ldc, 11L, 11L);
                 /* L50: */
             }
-        }
-        else
-        {
+        } else {
             /*           Use a BLAS 2 algorithm. */
             i__2 = *n;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 dcopy_(m, &c__[j * c_dim1 + 1], &c__1, &dwork[jwork], &c__1);
-                dgemv_("NoTranspose", m, m, &c_b22, &u[u_offset], ldu, &dwork[jwork], &c__1, &c_b23, &c__[j * c_dim1 + 1], &c__1, 11L);
+                dgemv_("NoTranspose", m, m, &c_b22, &u[u_offset], ldu, &dwork[jwork], &c__1, &c_b23,
+                    &c__[j * c_dim1 + 1], &c__1, 11L);
                 /* L60: */
             }
         }
     }
-    if (! schurb)
-    {
+    if (!schurb) {
         /*        Transform the right-hand side:  C <-- C*V'. */
         /*        Workspace:  need   a+b+N; */
         /*                    prefer a+b+M*N. */
-        if (blas3b)
-        {
+        if (blas3b) {
             /*           Enough workspace for a fast BLAS 3 algorithm. */
             dlacpy_("Full", m, n, &c__[c_offset], ldc, &dwork[jwork], m, 4L);
-            dgemm_("NoTranspose", "Transpose", m, n, n, &c_b22, &dwork[jwork], m, &v[v_offset], ldv, &c_b23, &c__[c_offset], ldc, 11L, 9L);
-        }
-        else if (blockb)
-        {
+            dgemm_("NoTranspose", "Transpose", m, n, n, &c_b22, &dwork[jwork], m, &v[v_offset], ldv,
+                &c_b23, &c__[c_offset], ldc, 11L, 9L);
+        } else if (blockb) {
             /*           Use as many rows of C as possible. */
             i__2 = *m;
             i__1 = chunkb;
-            for (i__ = 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__1)
-            {
+            for (i__ = 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__1) {
                 /* Computing MIN */
                 i__3 = *m - i__ + 1;
-                bl = min(i__3,chunkb);
+                bl = min(i__3, chunkb);
                 dlacpy_("Full", &bl, n, &c__[i__ + c_dim1], ldc, &dwork[jwork], &bl, 4L);
-                dgemm_("NoTranspose", "Transpose", &bl, n, n, &c_b22, &dwork[jwork], &bl, &v[v_offset], ldv, &c_b23, &c__[i__ + c_dim1], ldc, 11L, 9L);
+                dgemm_("NoTranspose", "Transpose", &bl, n, n, &c_b22, &dwork[jwork], &bl,
+                    &v[v_offset], ldv, &c_b23, &c__[i__ + c_dim1], ldc, 11L, 9L);
                 /* L70: */
             }
-        }
-        else
-        {
+        } else {
             /*           Use a BLAS 2 algorithm. */
             i__1 = *m;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dcopy_(n, &c__[i__ + c_dim1], ldc, &dwork[jwork], &c__1);
-                dgemv_("NoTranspose", n, n, &c_b22, &v[v_offset], ldv, &dwork[jwork], &c__1, &c_b23, &c__[i__ + c_dim1], ldc, 11L);
+                dgemv_("NoTranspose", n, n, &c_b22, &v[v_offset], ldv, &dwork[jwork], &c__1, &c_b23,
+                    &c__[i__ + c_dim1], ldc, 11L);
                 /* L80: */
             }
         }
     }
-    dwork[1] = (doublereal) maxwrk;
+    dwork[1] = (doublereal)maxwrk;
     return 0;
     /* *** Last line of SB04PD *** */
 } /* sb04pd_ */
-

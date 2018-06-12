@@ -18,10 +18,10 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <boost/container/vector.hpp>
 #include "Evaluator.hpp"
 #include "nlsModules_manager_exports.h"
+#include <boost/container/vector.hpp>
+#include <string>
 //=============================================================================
 typedef struct
 {
@@ -30,33 +30,52 @@ typedef struct
 } module;
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSMODULES_MANAGER_IMPEXP ModulesManager {
-    public:
-        static ModulesManager& Instance();
-        size_t getNumberOfModules();
-        wstringVector getModulesPathList(bool bReverse);
-        wstringVector getModulesList(bool bReverse);
-        void insertModule(const std::wstring& modulename, const std::wstring& path);
-        bool findModule(const std::wstring& modulename, std::wstring& path);
-        void deleteAllModules();
-        bool deleteModule(const std::wstring& modulename);
-        std::wstring findModuleNameByPath(const std::wstring &filename);
-    private:
-        ModulesManager();
-        ModulesManager(ModulesManager const&) {};
-        static ModulesManager m_pInstance;
-        boost::container::vector< std::pair<std::wstring, std::wstring>> modulesMap;
-    };
-    //=============================================================================
-    NLSMODULES_MANAGER_IMPEXP bool RegisterModule(const std::wstring &moduleshortname, const std::wstring &modulerootpath);
-    NLSMODULES_MANAGER_IMPEXP bool UnregisterModule(const std::wstring &moduleshortname);
-    NLSMODULES_MANAGER_IMPEXP bool IsExistingModuleName(const std::wstring &moduleshortname);
-    NLSMODULES_MANAGER_IMPEXP bool IsExistingModulePath(const std::wstring &modulerootpath);
-    NLSMODULES_MANAGER_IMPEXP boost::container::vector<module> GetModules(bool bReverse = false);
-    NLSMODULES_MANAGER_IMPEXP wstringVector GetModulesName(bool bReverse = false);
-    NLSMODULES_MANAGER_IMPEXP wstringVector GetModulesPath(bool bReverse = false);
-    NLSMODULES_MANAGER_IMPEXP std::wstring GetModulePath(const std::wstring &moduleshortname);
-    //=============================================================================
-}
+//=============================================================================
+class NLSMODULES_MANAGER_IMPEXP ModulesManager
+{
+public:
+    static ModulesManager&
+    Instance();
+    size_t
+    getNumberOfModules();
+    wstringVector
+    getModulesPathList(bool bReverse);
+    wstringVector
+    getModulesList(bool bReverse);
+    void
+    insertModule(const std::wstring& modulename, const std::wstring& path);
+    bool
+    findModule(const std::wstring& modulename, std::wstring& path);
+    void
+    deleteAllModules();
+    bool
+    deleteModule(const std::wstring& modulename);
+    std::wstring
+    findModuleNameByPath(const std::wstring& filename);
+
+private:
+    ModulesManager();
+    ModulesManager(ModulesManager const&){};
+    static ModulesManager m_pInstance;
+    boost::container::vector<std::pair<std::wstring, std::wstring>> modulesMap;
+};
+//=============================================================================
+NLSMODULES_MANAGER_IMPEXP bool
+RegisterModule(const std::wstring& moduleshortname, const std::wstring& modulerootpath);
+NLSMODULES_MANAGER_IMPEXP bool
+UnregisterModule(const std::wstring& moduleshortname);
+NLSMODULES_MANAGER_IMPEXP bool
+IsExistingModuleName(const std::wstring& moduleshortname);
+NLSMODULES_MANAGER_IMPEXP bool
+IsExistingModulePath(const std::wstring& modulerootpath);
+NLSMODULES_MANAGER_IMPEXP boost::container::vector<module>
+GetModules(bool bReverse = false);
+NLSMODULES_MANAGER_IMPEXP wstringVector
+GetModulesName(bool bReverse = false);
+NLSMODULES_MANAGER_IMPEXP wstringVector
+GetModulesPath(bool bReverse = false);
+NLSMODULES_MANAGER_IMPEXP std::wstring
+GetModulePath(const std::wstring& moduleshortname);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

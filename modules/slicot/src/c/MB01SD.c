@@ -1,15 +1,14 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb01sd_(jobs, m, n, a, lda, r__, c__, jobs_len)
-char *jobs;
+EXPORTSYMBOL /* Subroutine */ int mb01sd_(jobs, m, n, a, lda, r__, c__, jobs_len) char* jobs;
 integer *m, *n;
-doublereal *a;
-integer *lda;
+doublereal* a;
+integer* lda;
 doublereal *r__, *c__;
 ftnlen jobs_len;
 {
@@ -80,51 +79,39 @@ ftnlen jobs_len;
     --r__;
     --c__;
     /* Function Body */
-    if (*m == 0 || *n == 0)
-    {
+    if (*m == 0 || *n == 0) {
         return 0;
     }
-    if (lsame_(jobs, "C", 1L, 1L))
-    {
+    if (lsame_(jobs, "C", 1L, 1L)) {
         /*        Column scaling, no row scaling. */
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             cj = c__[j];
             i__2 = *m;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 a[i__ + j * a_dim1] = cj * a[i__ + j * a_dim1];
                 /* L10: */
             }
             /* L20: */
         }
-    }
-    else if (lsame_(jobs, "R", 1L, 1L))
-    {
+    } else if (lsame_(jobs, "R", 1L, 1L)) {
         /*        Row scaling, no column scaling. */
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *m;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 a[i__ + j * a_dim1] = r__[i__] * a[i__ + j * a_dim1];
                 /* L30: */
             }
             /* L40: */
         }
-    }
-    else if (lsame_(jobs, "B", 1L, 1L))
-    {
+    } else if (lsame_(jobs, "B", 1L, 1L)) {
         /*        Row and column scaling. */
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             cj = c__[j];
             i__2 = *m;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 a[i__ + j * a_dim1] = cj * r__[i__] * a[i__ + j * a_dim1];
                 /* L50: */
             }
@@ -134,4 +121,3 @@ ftnlen jobs_len;
     return 0;
     /* *** Last line of MB01SD *** */
 } /* mb01sd_ */
-

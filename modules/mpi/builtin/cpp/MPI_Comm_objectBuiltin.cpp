@@ -16,48 +16,38 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <mpi.h>
 #include "MPI_Comm_objectBuiltin.hpp"
 #include "Error.hpp"
 #include "MPI_CommHandleObject.hpp"
+#include <mpi.h>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_Comm_objectBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::MpiGateway::MPI_Comm_objectBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() > 1)
-    {
+    if (argIn.size() > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int flagInit = 0;
     MPI_Initialized(&flagInit);
-    if (!flagInit)
-    {
+    if (!flagInit) {
         Error(eval, _W("MPI must be initialized."));
     }
     MPI_Comm comm = MPI_COMM_WORLD;
-    if (argIn.size() == 1)
-    {
+    if (argIn.size() == 1) {
         std::wstring description = argIn[0].getContentAsWideString();
-        if (description == L"MPI_COMM_SELF")
-        {
+        if (description == L"MPI_COMM_SELF") {
             comm = MPI_COMM_SELF;
-        }
-        else if (description == L"MPI_COMM_WORLD")
-        {
+        } else if (description == L"MPI_COMM_WORLD") {
             comm = MPI_COMM_WORLD;
-        }
-        else if (description == L"MPI_COMM_NULL")
-        {
+        } else if (description == L"MPI_COMM_NULL") {
             Error(eval, _W("MPI_COMM_NULL not allowed."));
-        }
-        else
-        {
+        } else {
             Error(eval, description + _W(" not allowed."));
         }
     }

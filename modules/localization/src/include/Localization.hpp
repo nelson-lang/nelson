@@ -18,38 +18,52 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsLocalization_exports.h"
 #include "Types.hpp"
 #include "dynamic_library.hpp"
+#include "nlsLocalization_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    class NLSLOCALIZATION_IMPEXP Localization {
-    public:
-        static Localization *Instance();
-        std::wstring getCurrentLanguage();
-        std::wstring getDefaultLanguage();
-        bool setLanguage(std::wstring lang, bool save = true);
-        bool getManagedLanguages(wstringVector &langs);
-        std::wstring initializeLocalization(std::wstring lang);
-        bool isSupportedLanguage(std::wstring lang);
-        void destroy();
+class NLSLOCALIZATION_IMPEXP Localization
+{
+public:
+    static Localization*
+    Instance();
+    std::wstring
+    getCurrentLanguage();
+    std::wstring
+    getDefaultLanguage();
+    bool
+    setLanguage(std::wstring lang, bool save = true);
+    bool
+    getManagedLanguages(wstringVector& langs);
+    std::wstring
+    initializeLocalization(std::wstring lang);
+    bool
+    isSupportedLanguage(std::wstring lang);
+    void
+    destroy();
 
-    private:
-        Localization();
-        Localization(Localization const&) {};
-        static Localization *m_pInstance;
+private:
+    Localization();
+    Localization(Localization const&){};
+    static Localization* m_pInstance;
 
-        std::wstring currentLanguage;
-        wstringVector LanguageSupported;
-        library_handle nlsCoreDynamicLibrary;
-        bool bFirstDynamicLibraryCall;
+    std::wstring currentLanguage;
+    wstringVector LanguageSupported;
+    library_handle nlsCoreDynamicLibrary;
+    bool bFirstDynamicLibraryCall;
 
-        void initCoreDynamicLibrary(void);
-        std::wstring getPreferencesPathDynamic();
-        std::wstring getNelsonPathDynamic();
-        void setLanguageEnvironment(const std::wstring lang);
-        void initLanguageSupported(void);
-    };
-}
+    void
+    initCoreDynamicLibrary(void);
+    std::wstring
+    getPreferencesPathDynamic();
+    std::wstring
+    getNelsonPathDynamic();
+    void
+    setLanguageEnvironment(const std::wstring lang);
+    void
+    initLanguageSupported(void);
+};
+} // namespace Nelson
 //=============================================================================

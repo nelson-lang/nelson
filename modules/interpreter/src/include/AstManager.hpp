@@ -21,27 +21,37 @@
 #include "AST.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(void);
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(NODE_TYPE ntype, const char* name, int context);
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(NODE_TYPE ntype, int token, int context);
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr lt, ASTPtr rt, int context);
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr lt, ASTPtr md, ASTPtr rt, int context);
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr arg, int context);
-    //=============================================================================
-    NLSINTERPRETER_IMPEXP void resetAstBackupPosition();
-    //=============================================================================
-    NLSINTERPRETER_IMPEXP std::vector<ASTPtr> getAstUsed();
-    //=============================================================================
-    NLSINTERPRETER_IMPEXP bool deleteAst(ASTPtr pt, std::vector<ASTPtr> v);
-    //=============================================================================
-    NLSINTERPRETER_IMPEXP void deleteAstVector(std::vector<ASTPtr> v);
-    //=============================================================================
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(void);
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(NODE_TYPE ntype, const char* name, int context);
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(NODE_TYPE ntype, int token, int context);
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr lt, ASTPtr rt, int context);
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr lt, ASTPtr md, ASTPtr rt, int context);
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr arg, int context);
+//=============================================================================
+NLSINTERPRETER_IMPEXP void
+resetAstBackupPosition();
+//=============================================================================
+NLSINTERPRETER_IMPEXP std::vector<ASTPtr>
+getAstUsed();
+//=============================================================================
+NLSINTERPRETER_IMPEXP bool
+deleteAst(ASTPtr pt, std::vector<ASTPtr> v);
+//=============================================================================
+NLSINTERPRETER_IMPEXP void
+deleteAstVector(std::vector<ASTPtr> v);
+//=============================================================================
 
 }
 //=============================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,15 +10,16 @@
 static integer c__1 = 1;
 static doublereal c_b8 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int sb03ou_(discr, ltrans, n, m, a, lda, b, ldb, tau, u, ldu, scale, dwork, ldwork, info)
-logical *discr, *ltrans;
+EXPORTSYMBOL /* Subroutine */ int sb03ou_(
+    discr, ltrans, n, m, a, lda, b, ldb, tau, u, ldu, scale, dwork, ldwork, info) logical *discr,
+    *ltrans;
 integer *n, *m;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
 doublereal *tau, *u;
-integer *ldu;
+integer* ldu;
 doublereal *scale, *dwork;
 integer *ldwork, *info;
 {
@@ -252,46 +253,33 @@ integer *ldwork, *info;
     /* Function Body */
     *info = 0;
     /*     Test the input scalar arguments. */
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldb < max(1,*m) && ! (*ltrans) || *ldb < max(1,*n) && *ltrans)
-    {
+    } else if (*ldb < max(1, *m) && !(*ltrans) || *ldb < max(1, *n) && *ltrans) {
         *info = -8;
-    }
-    else if (*ldu < max(1,*n))
-    {
+    } else if (*ldu < max(1, *n)) {
         *info = -11;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = *n << 2;
-        if (*ldwork < max(i__1,i__2))
-        {
+        if (*ldwork < max(i__1, i__2)) {
             *info = -14;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB03OU", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    mn = min(*n,*m);
-    if (mn == 0)
-    {
+    mn = min(*n, *m);
+    if (mn == 0) {
         *scale = 1.;
         dwork[1] = 1.;
         return 0;
@@ -301,8 +289,7 @@ integer *ldwork, *info;
     /*     code, as well as the preferred amount for good performance. */
     /*     NB refers to the optimal block size for the immediately */
     /*     following subroutine, as returned by ILAENV.) */
-    if (*ltrans)
-    {
+    if (*ltrans) {
         /*        Case op(K) = K'. */
         /*        Perform the RQ factorization of B. */
         /*        Workspace: need   N; */
@@ -310,14 +297,10 @@ integer *ldwork, *info;
         dgerqf_(n, m, &b[b_offset], ldb, &tau[1], &dwork[1], ldwork, info);
         /*        The triangular matrix F is constructed in the array U so that */
         /*        U can share the same memory as B. */
-        if (*m >= *n)
-        {
+        if (*m >= *n) {
             dlacpy_("Upper", &mn, n, &b[(*m - *n + 1) * b_dim1 + 1], ldb, &u[u_offset], ldu, 5L);
-        }
-        else
-        {
-            for (i__ = *m; i__ >= 1; --i__)
-            {
+        } else {
+            for (i__ = *m; i__ >= 1; --i__) {
                 i__1 = *n - *m + i__;
                 dcopy_(&i__1, &b[i__ * b_dim1 + 1], &c__1, &u[(*n - *m + i__) * u_dim1 + 1], &c__1);
                 /* L10: */
@@ -325,23 +308,20 @@ integer *ldwork, *info;
             i__1 = *n - *m;
             dlaset_("Full", n, &i__1, &c_b8, &c_b8, &u[u_offset], ldu, 4L);
         }
-    }
-    else
-    {
+    } else {
         /*        Case op(K) = K. */
         /*        Perform the QR factorization of B. */
         /*        Workspace: need   N; */
         /*                   prefer N*NB. */
         dgeqrf_(m, n, &b[b_offset], ldb, &tau[1], &dwork[1], ldwork, info);
         dlacpy_("Upper", &mn, n, &b[b_offset], ldb, &u[u_offset], ldu, 5L);
-        if (*m < *n)
-        {
+        if (*m < *n) {
             i__1 = *n - *m;
             i__2 = *n - *m;
             dlaset_("Upper", &i__1, &i__2, &c_b8, &c_b8, &u[*m + 1 + (*m + 1) * u_dim1], ldu, 5L);
         }
     }
-    wrkopt = (integer) dwork[1];
+    wrkopt = (integer)dwork[1];
     /*     Solve the canonical Lyapunov equation */
     /*                                                      2 */
     /*     op(A)'*op(U)'*op(U) + op(U)'*op(U)*op(A) = -scale *op(F)'*op(F), */
@@ -350,41 +330,31 @@ integer *ldwork, *info;
     /*     op(A)'*op(U)'*op(U)*op(A) - op(U)'*op(U) = -scale *op(F)'*op(F) */
     /*     for U. */
     sb03ot_(discr, ltrans, n, &a[a_offset], lda, &u[u_offset], ldu, scale, &dwork[1], info);
-    if (*info != 0 && *info != 1)
-    {
+    if (*info != 0 && *info != 1) {
         return 0;
     }
     /*     Make the diagonal elements of U non-negative. */
-    if (*ltrans)
-    {
+    if (*ltrans) {
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
-            if (u[j + j * u_dim1] < 0.)
-            {
+        for (j = 1; j <= i__1; ++j) {
+            if (u[j + j * u_dim1] < 0.) {
                 i__2 = j;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     u[i__ + j * u_dim1] = -u[i__ + j * u_dim1];
                     /* L20: */
                 }
             }
             /* L30: */
         }
-    }
-    else
-    {
+    } else {
         k = 1;
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dwork[k] = u[j + j * u_dim1];
             l = 1;
             i__2 = j;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                if (dwork[l] < 0.)
-                {
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                if (dwork[l] < 0.) {
                     u[i__ + j * u_dim1] = -u[i__ + j * u_dim1];
                 }
                 ++l;
@@ -396,8 +366,7 @@ integer *ldwork, *info;
     }
     /* Computing MAX */
     i__1 = wrkopt, i__2 = *n << 2;
-    dwork[1] = (doublereal) max(i__1,i__2);
+    dwork[1] = (doublereal)max(i__1, i__2);
     return 0;
     /* *** Last line of SB03OU *** */
 } /* sb03ou_ */
-

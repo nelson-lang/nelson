@@ -17,20 +17,18 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "getnelsonmodeBuiltin.hpp"
 #include "argvBuiltin.hpp"
+#include "getnelsonmodeBuiltin.hpp"
 #include "isquietmodeBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"engine";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
-    { "getnelsonmode", Nelson::EngineGateway::getnelsonmodeBuiltin, 1, 0 },
-    { "argv", Nelson::EngineGateway::argvBuiltin, 1, 0 },
-    { "isquietmode", Nelson::EngineGateway::isquietmodeBuiltin, 1, 0 }
-};
+static const nlsGateway gateway[]
+    = { { "getnelsonmode", Nelson::EngineGateway::getnelsonmodeBuiltin, 1, 0 },
+          { "argv", Nelson::EngineGateway::argvBuiltin, 1, 0 },
+          { "isquietmode", Nelson::EngineGateway::isquietmodeBuiltin, 1, 0 } };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

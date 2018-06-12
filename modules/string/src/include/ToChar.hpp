@@ -18,16 +18,19 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsString_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsString_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSTRING_IMPEXP std::wstring ToChar(ArrayOf A, Dimensions &dims);
-    NLSSTRING_IMPEXP std::wstring ToChar(ArrayOfVector A, Dimensions &dims);
+NLSSTRING_IMPEXP std::wstring
+ToChar(ArrayOf A, Dimensions& dims);
+NLSSTRING_IMPEXP std::wstring
+ToChar(ArrayOfVector A, Dimensions& dims);
 
+NLSSTRING_IMPEXP ArrayOf
+ToChar(ArrayOf A, ArrayOf B);
+NLSSTRING_IMPEXP ArrayOf
+ToChar(ArrayOf A);
 
-    NLSSTRING_IMPEXP ArrayOf ToChar(ArrayOf A, ArrayOf B);
-    NLSSTRING_IMPEXP ArrayOf ToChar(ArrayOf A);
-
-}
-//=============================================================================
+} // namespace Nelson
+  //=============================================================================

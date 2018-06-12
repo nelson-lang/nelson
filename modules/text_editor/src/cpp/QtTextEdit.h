@@ -18,41 +18,57 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtWidgets/QTextEdit>
-#include <QtCore/QMimeData>
 #include "Types.hpp"
+#include <QtCore/QMimeData>
+#include <QtWidgets/QTextEdit>
 //=============================================================================
 class QCompleter;
 class QAbstractItemModel;
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-class QtTextEdit : public QTextEdit {
+class QtTextEdit : public QTextEdit
+{
     Q_OBJECT
 public:
     QtTextEdit();
     virtual ~QtTextEdit();
-    void keyPressEvent(QKeyEvent *event);
-    void contextMenuEvent(QContextMenuEvent *event);
-    void focusInEvent(QFocusEvent *e) override;
-    void setCompleter(QCompleter *completer);
-    void comment();
-    void uncomment();
-    bool canInsertFromMimeData(const QMimeData *source) const;
-    void insertFromMimeData(const QMimeData *source);
+    void
+    keyPressEvent(QKeyEvent* event);
+    void
+    contextMenuEvent(QContextMenuEvent* event);
+    void
+    focusInEvent(QFocusEvent* e) override;
+    void
+    setCompleter(QCompleter* completer);
+    void
+    comment();
+    void
+    uncomment();
+    bool
+    canInsertFromMimeData(const QMimeData* source) const;
+    void
+    insertFromMimeData(const QMimeData* source);
 
 private:
-    QCompleter *qCompleter;
-    QString textUnderCursor() const;
-    QAbstractItemModel *modelFromNelson(wstringVector filesList, wstringVector builtinList, wstringVector macroList, wstringVector variableList);
-    void updateModel(std::wstring prefix, wstringVector filesList, wstringVector builtinList, wstringVector macroList, wstringVector variableList);
-    void complete(QString prefix);
+    QCompleter* qCompleter;
+    QString
+    textUnderCursor() const;
+    QAbstractItemModel*
+    modelFromNelson(wstringVector filesList, wstringVector builtinList, wstringVector macroList,
+        wstringVector variableList);
+    void
+    updateModel(std::wstring prefix, wstringVector filesList, wstringVector builtinList,
+        wstringVector macroList, wstringVector variableList);
+    void
+    complete(QString prefix);
 
 private slots:
-    void insertCompletion(const QString &completion);
+    void
+    insertCompletion(const QString& completion);
 
 signals:
-    void indent();
+    void
+    indent();
 };
 //=============================================================================
-

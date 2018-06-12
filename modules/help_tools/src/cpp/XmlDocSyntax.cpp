@@ -17,77 +17,71 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocSyntax.hpp"
+#include "HtmlTags.hpp"
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
-#include "HtmlTags.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    XmlDocSyntax::XmlDocSyntax()
-    {
-        syntaxVector.clear();
+//=============================================================================
+XmlDocSyntax::XmlDocSyntax() { syntaxVector.clear(); }
+//=============================================================================
+XmlDocSyntax::~XmlDocSyntax()
+{
+    for (size_t k = 0; k < syntaxVector.size(); k++) {
+        delete syntaxVector[k];
+        syntaxVector[k] = nullptr;
     }
-    //=============================================================================
-    XmlDocSyntax::~XmlDocSyntax()
-    {
-        for (size_t k = 0; k < syntaxVector.size(); k++)
-        {
-            delete syntaxVector[k];
-            syntaxVector[k] = nullptr;
-        }
-        syntaxVector.clear();
+    syntaxVector.clear();
+}
+//=============================================================================
+void
+XmlDocSyntax::append(std::wstring value)
+{
+    XmlDocSyntaxItem* item = nullptr;
+    try {
+        item = new XmlDocSyntaxItem(value);
+    } catch (std::bad_alloc& e) {
+        e;
+        item = nullptr;
     }
-    //=============================================================================
-    void XmlDocSyntax::append(std::wstring value)
-    {
-        XmlDocSyntaxItem *item = nullptr;
-        try
-        {
-            item = new XmlDocSyntaxItem(value);
-        }
-        catch (std::bad_alloc &e)
-        {
-            e;
-            item = nullptr;
-        }
-        if (item)
-        {
-            syntaxVector.push_back(item);
-        }
+    if (item) {
+        syntaxVector.push_back(item);
     }
-    //=============================================================================
-    std::wstring XmlDocSyntax::getItemType()
-    {
-        return utf8_to_wstring(SYNTAX_TAG);
+}
+//=============================================================================
+std::wstring
+XmlDocSyntax::getItemType()
+{
+    return utf8_to_wstring(SYNTAX_TAG);
+}
+//=============================================================================
+bool
+XmlDocSyntax::writeAsHtml(std::string& utf8stream)
+{
+    utf8stream = utf8stream + HTML_H3_IN_TAG + _("Syntax") + HTML_H3_OUT_TAG + "\n";
+    utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
+    utf8stream = utf8stream + "\n";
+    utf8stream = utf8stream + "<table summary=\"syntax\" style=\"width:50%\">" + "\n";
+    for (size_t k = 0; k < syntaxVector.size(); k++) {
+        syntaxVector[k]->writeAsHtml(utf8stream);
     }
-    //=============================================================================
-    bool XmlDocSyntax::writeAsHtml(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + HTML_H3_IN_TAG + _("Syntax") + HTML_H3_OUT_TAG + "\n";
-        utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
-        utf8stream = utf8stream + "\n";
-        utf8stream = utf8stream + "<table summary=\"syntax\" style=\"width:50%\">" + "\n";
-        for (size_t k = 0; k < syntaxVector.size(); k++)
-        {
-            syntaxVector[k]->writeAsHtml(utf8stream);
-        }
-        utf8stream = utf8stream + HTML_TABLE_OUT_TAG + "\n";
-        utf8stream = utf8stream + "\n";
-        return true;
+    utf8stream = utf8stream + HTML_TABLE_OUT_TAG + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
+bool
+XmlDocSyntax::writeAsMarkdown(std::string& utf8stream)
+{
+    utf8stream = utf8stream + "## " + _("Syntax") + "\n";
+    utf8stream = utf8stream + "\n";
+    for (size_t k = 0; k < syntaxVector.size(); k++) {
+        syntaxVector[k]->writeAsMarkdown(utf8stream);
     }
-    //=============================================================================
-    bool XmlDocSyntax::writeAsMarkdown(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + "## " + _("Syntax") + "\n";
-        utf8stream = utf8stream + "\n";
-        for (size_t k = 0; k < syntaxVector.size(); k++)
-        {
-            syntaxVector[k]->writeAsMarkdown(utf8stream);
-        }
-        utf8stream = utf8stream + "\n";
-        return true;
-    }
-    //=============================================================================
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

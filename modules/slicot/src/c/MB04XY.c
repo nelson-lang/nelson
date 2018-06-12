@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,17 +9,18 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb04xy_(jobu, jobv, m, n, x, ldx, taup, tauq, u, ldu, v, ldv, inul, info, jobu_len, jobv_len)
-char *jobu, *jobv;
+EXPORTSYMBOL /* Subroutine */ int mb04xy_(jobu, jobv, m, n, x, ldx, taup, tauq, u, ldu, v, ldv,
+    inul, info, jobu_len, jobv_len) char *jobu,
+    *jobv;
 integer *m, *n;
-doublereal *x;
-integer *ldx;
+doublereal* x;
+integer* ldx;
 doublereal *taup, *tauq, *u;
-integer *ldu;
-doublereal *v;
-integer *ldv;
-logical *inul;
-integer *info;
+integer* ldu;
+doublereal* v;
+integer* ldv;
+logical* inul;
+integer* info;
 ftnlen jobu_len;
 ftnlen jobv_len;
 {
@@ -166,83 +167,58 @@ ftnlen jobv_len;
     wantu = ljobua || ljobus;
     wantv = ljobva || ljobvs;
     /*     Test the input scalar arguments. */
-    if (! wantu && ! lsame_(jobu, "N", 1L, 1L))
-    {
+    if (!wantu && !lsame_(jobu, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! wantv && ! lsame_(jobv, "N", 1L, 1L))
-    {
+    } else if (!wantv && !lsame_(jobv, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*ldx < max(1,*m))
-    {
+    } else if (*ldx < max(1, *m)) {
         *info = -6;
-    }
-    else if (wantu && *ldu < max(1,*m) || ! wantu && *ldu < 1)
-    {
+    } else if (wantu && *ldu < max(1, *m) || !wantu && *ldu < 1) {
         *info = -10;
-    }
-    else if (wantv && *ldv < max(1,*n) || ! wantv && *ldv < 1)
-    {
+    } else if (wantv && *ldv < max(1, *n) || !wantv && *ldv < 1) {
         *info = -12;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return */
         i__1 = -(*info);
         xerbla_("MB04XY", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    p = min(*m,*n);
-    if (p == 0)
-    {
+    p = min(*m, *n);
+    if (p == 0) {
         return 0;
     }
-    if (*m < *n)
-    {
+    if (*m < *n) {
         ioff = 1;
-    }
-    else
-    {
+    } else {
         ioff = 0;
     }
     /*     Apply the Householder transformations Pj onto the desired */
     /*     columns of U. */
     /* Computing MIN */
     i__1 = *m - 1;
-    im = min(i__1,*n);
-    if (wantu && im > 0)
-    {
-        if (ljobua)
-        {
+    im = min(i__1, *n);
+    if (wantu && im > 0) {
+        if (ljobua) {
             ncol = *m;
-        }
-        else
-        {
+        } else {
             ncol = p;
         }
         i__1 = ncol;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            if (inul[i__])
-            {
-                for (l = im; l >= 1; --l)
-                {
-                    if (taup[l] != 0.)
-                    {
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            if (inul[i__]) {
+                for (l = im; l >= 1; --l) {
+                    if (taup[l] != 0.) {
                         first = x[l + ioff + l * x_dim1];
                         x[l + ioff + l * x_dim1] = 1.;
                         i__2 = *m - l + 1 - ioff;
-                        dlarf_("Left", &i__2, &c__1, &x[l + ioff + l * x_dim1], &c__1, &taup[l], &u[l + ioff + i__ * u_dim1], ldu, dwork, 4L);
+                        dlarf_("Left", &i__2, &c__1, &x[l + ioff + l * x_dim1], &c__1, &taup[l],
+                            &u[l + ioff + i__ * u_dim1], ldu, dwork, 4L);
                         x[l + ioff + l * x_dim1] = first;
                     }
                     /* L20: */
@@ -255,30 +231,23 @@ ftnlen jobv_len;
     /*     of V. */
     /* Computing MIN */
     i__1 = *n - 1;
-    im = min(i__1,*m);
-    if (wantv && im > 0)
-    {
-        if (ljobva)
-        {
+    im = min(i__1, *m);
+    if (wantv && im > 0) {
+        if (ljobva) {
             ncol = *n;
-        }
-        else
-        {
+        } else {
             ncol = p;
         }
         i__1 = ncol;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            if (inul[i__])
-            {
-                for (l = im; l >= 1; --l)
-                {
-                    if (tauq[l] != 0.)
-                    {
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            if (inul[i__]) {
+                for (l = im; l >= 1; --l) {
+                    if (tauq[l] != 0.) {
                         first = x[l + (l + 1 - ioff) * x_dim1];
                         x[l + (l + 1 - ioff) * x_dim1] = 1.;
                         i__2 = *n - l + ioff;
-                        dlarf_("Left", &i__2, &c__1, &x[l + (l + 1 - ioff) * x_dim1], ldx, &tauq[l], &v[l + 1 - ioff + i__ * v_dim1], ldv, dwork, 4L);
+                        dlarf_("Left", &i__2, &c__1, &x[l + (l + 1 - ioff) * x_dim1], ldx, &tauq[l],
+                            &v[l + 1 - ioff + i__ * v_dim1], ldv, dwork, 4L);
                         x[l + (l + 1 - ioff) * x_dim1] = first;
                     }
                     /* L60: */
@@ -290,4 +259,3 @@ ftnlen jobv_len;
     return 0;
     /* *** Last line of MB04XY *** */
 } /* mb04xy_ */
-

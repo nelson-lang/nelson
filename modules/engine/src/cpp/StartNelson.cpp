@@ -23,44 +23,43 @@
 #ifdef _MSC_VER
 #include <Windows.h>
 #endif
-#include <sstream>
+#include "AddGateway.hpp"
+#include "EvaluateCommand.hpp"
+#include "EvaluateScriptFile.hpp"
+#include "Evaluator.hpp"
+#include "FinishNelsonMainScript.hpp"
+#include "FinishNelsonUserScript.hpp"
+#include "GetNelsonPath.hpp"
+#include "Localization.hpp"
+#include "MainEvaluator.hpp"
+#include "MaxOpenedFiles.hpp"
+#include "ModulesHelpers.hpp"
+#include "NelsonNamedMutex.hpp"
+#include "Nelson_VERSION.h"
+#include "OpenFilesAssociated.hpp"
+#include "ProgramOptions.hpp"
+#include "RecursionStack.hpp"
+#include "SetNelSonEnvironmentVariables.hpp"
+#include "StartNelson.h"
+#include "StartNelsonMainScript.hpp"
+#include "StartNelsonUserScript.hpp"
+#include "TimeoutThread.hpp"
+#include "characters_encoding.hpp"
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 #include <locale.h>
-#include "StartNelson.h"
-#include "Evaluator.hpp"
-#include "MainEvaluator.hpp"
-#include "StartNelsonMainScript.hpp"
-#include "FinishNelsonMainScript.hpp"
-#include "SetNelSonEnvironmentVariables.hpp"
-#include "GetNelsonPath.hpp"
-#include "AddGateway.hpp"
-#include "ModulesHelpers.hpp"
-#include "characters_encoding.hpp"
-#include "EvaluateScriptFile.hpp"
-#include "EvaluateCommand.hpp"
-#include "Nelson_VERSION.h"
-#include "RecursionStack.hpp"
-#include "StartNelsonUserScript.hpp"
-#include "FinishNelsonUserScript.hpp"
-#include "ProgramOptions.hpp"
-#include "Localization.hpp"
-#include "TimeoutThread.hpp"
-#include "MaxOpenedFiles.hpp"
-#include "OpenFilesAssociated.hpp"
-#include "NelsonNamedMutex.hpp"
+#include <sstream>
 //=============================================================================
-static void ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)
+static void
+ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)
 {
     std::stringstream msg;
     msg << _("'nostartup' and  'startup' are mutual exclusive.\n");
 #ifdef _MSC_VER
-    if (_mode == GUI)
-    {
-        MessageBox(NULL, utf8_to_wstring(msg.str()).c_str(), L"Nelson version:", MB_ICONINFORMATION);
-    }
-    else
-    {
+    if (_mode == GUI) {
+        MessageBox(
+            NULL, utf8_to_wstring(msg.str()).c_str(), L"Nelson version:", MB_ICONINFORMATION);
+    } else {
         std::cout << msg.str();
     }
 #else
@@ -68,15 +67,14 @@ static void ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)
 #endif
 }
 //=============================================================================
-static void ErrorCommandLineMessage_file_commmand(NELSON_ENGINE_MODE _mode)
+static void
+ErrorCommandLineMessage_file_commmand(NELSON_ENGINE_MODE _mode)
 {
 #ifdef _MSC_BUILD
-    if (_mode == GUI)
-    {
-        MessageBox(NULL, _W("too many arguments -f and -e are exclusive.").c_str(), _W("Error").c_str(), MB_ICONERROR);
-    }
-    else
-    {
+    if (_mode == GUI) {
+        MessageBox(NULL, _W("too many arguments -f and -e are exclusive.").c_str(),
+            _W("Error").c_str(), MB_ICONERROR);
+    } else {
         std::cerr << _("ERROR: too many arguments -f and -e are exclusive.") << std::endl;
     }
 #else
@@ -84,15 +82,14 @@ static void ErrorCommandLineMessage_file_commmand(NELSON_ENGINE_MODE _mode)
 #endif
 }
 //=============================================================================
-static void ErrorPathDetection(NELSON_ENGINE_MODE _mode)
+static void
+ErrorPathDetection(NELSON_ENGINE_MODE _mode)
 {
 #ifdef _MSC_BUILD
-    if (_mode == GUI)
-    {
-        MessageBox(NULL, _W("Nelson paths not initialized.").c_str(), _W("Error").c_str(), MB_ICONERROR);
-    }
-    else
-    {
+    if (_mode == GUI) {
+        MessageBox(
+            NULL, _W("Nelson paths not initialized.").c_str(), _W("Error").c_str(), MB_ICONERROR);
+    } else {
         fwprintf(stderr, L"%ls", _W("Nelson paths not initialized.\n").c_str());
     }
 #else
@@ -100,15 +97,14 @@ static void ErrorPathDetection(NELSON_ENGINE_MODE _mode)
 #endif
 }
 //=============================================================================
-static void ErrorInterpreter(NELSON_ENGINE_MODE _mode)
+static void
+ErrorInterpreter(NELSON_ENGINE_MODE _mode)
 {
 #ifdef _MSC_BUILD
-    if (_mode == GUI)
-    {
-        MessageBox(NULL, _W("Nelson interpreter not initialized.").c_str(), _W("Error").c_str(), MB_ICONERROR);
-    }
-    else
-    {
+    if (_mode == GUI) {
+        MessageBox(NULL, _W("Nelson interpreter not initialized.").c_str(), _W("Error").c_str(),
+            MB_ICONERROR);
+    } else {
         fwprintf(stderr, L"%ls", _W("Nelson interpreter not initialized.\n").c_str());
     }
 #else
@@ -117,17 +113,16 @@ static void ErrorInterpreter(NELSON_ENGINE_MODE _mode)
 }
 
 //=============================================================================
-static void displayVersion(NELSON_ENGINE_MODE _mode)
+static void
+displayVersion(NELSON_ENGINE_MODE _mode)
 {
     std::stringstream msg;
     msg << NELSON_PRODUCT_NAME << " version: \"" << NELSON_VERSION_STRING << "\"\n";
 #ifdef _MSC_VER
-    if (_mode == GUI)
-    {
-        MessageBox(NULL, utf8_to_wstring(msg.str()).c_str(), L"Nelson version:", MB_ICONINFORMATION);
-    }
-    else
-    {
+    if (_mode == GUI) {
+        MessageBox(
+            NULL, utf8_to_wstring(msg.str()).c_str(), L"Nelson version:", MB_ICONINFORMATION);
+    } else {
         std::cout << msg.str();
     }
 #else
@@ -135,15 +130,13 @@ static void displayVersion(NELSON_ENGINE_MODE _mode)
 #endif
 }
 //=============================================================================
-static void displayHelp(std::wstring description, NELSON_ENGINE_MODE _mode)
+static void
+displayHelp(std::wstring description, NELSON_ENGINE_MODE _mode)
 {
 #ifdef _MSC_VER
-    if (_mode == GUI)
-    {
+    if (_mode == GUI) {
         MessageBox(NULL, description.c_str(), L"Nelson options:", MB_ICONINFORMATION);
-    }
-    else
-    {
+    } else {
         std::wcout << L"Nelson options:\n";
         std::wcout << description;
     }
@@ -153,15 +146,13 @@ static void displayHelp(std::wstring description, NELSON_ENGINE_MODE _mode)
 #endif
 }
 //=============================================================================
-static void ErrorCommandLine(std::wstring str, NELSON_ENGINE_MODE _mode)
+static void
+ErrorCommandLine(std::wstring str, NELSON_ENGINE_MODE _mode)
 {
 #ifdef _MSC_VER
-    if (_mode == GUI)
-    {
+    if (_mode == GUI) {
         MessageBox(NULL, str.c_str(), L"Error:", MB_ICONINFORMATION);
-    }
-    else
-    {
+    } else {
         std::wcout << L"Error:\n";
         std::wcout << str;
     }
@@ -171,48 +162,39 @@ static void ErrorCommandLine(std::wstring str, NELSON_ENGINE_MODE _mode)
 #endif
 }
 //=============================================================================
-static int NelsonMainStates(Evaluator *eval, bool haveNoStartup, bool haveNoUserStartup, std::wstring commandToExecute, std::wstring fileToExecute, wstringVector filesToOpen)
+static int
+NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
+    std::wstring commandToExecute, std::wstring fileToExecute, wstringVector filesToOpen)
 {
     eval->resetState();
-    if (!haveNoStartup)
-    {
+    if (!haveNoStartup) {
         StartNelsonMainScript(eval);
-        if (eval->getState() == NLS_STATE_QUIT)
-        {
+        if (eval->getState() == NLS_STATE_QUIT) {
             goto FINISH;
         }
         eval->resetState();
-        if (!haveNoUserStartup)
-        {
+        if (!haveNoUserStartup) {
             StartNelsonUserScript(eval);
-            if (eval->getState() == NLS_STATE_QUIT)
-            {
+            if (eval->getState() == NLS_STATE_QUIT) {
                 goto FINISH;
             }
             eval->resetState();
         }
     }
-    try
-    {
-        if (!commandToExecute.empty())
-        {
+    try {
+        if (!commandToExecute.empty()) {
             EvaluateCommand(eval, commandToExecute.c_str(), false);
         }
-        if (!fileToExecute.empty())
-        {
+        if (!fileToExecute.empty()) {
             EvaluateScriptFile(eval, fileToExecute.c_str());
         }
-    }
-    catch (Exception &e)
-    {
-        Interface *io = eval->getInterface();
+    } catch (Exception& e) {
+        Interface* io = eval->getInterface();
         io->errorMessage(e.getMessage());
     }
     OpenFilesAssociated(eval, filesToOpen);
-    while (eval->getState() != NLS_STATE_QUIT)
-    {
-        if (eval->getState() == NLS_STATE_ABORT)
-        {
+    while (eval->getState() != NLS_STATE_QUIT) {
+        if (eval->getState() == NLS_STATE_ABORT) {
             eval->clearStacks();
         }
         eval->resetState();
@@ -220,16 +202,13 @@ static int NelsonMainStates(Evaluator *eval, bool haveNoStartup, bool haveNoUser
     }
     eval->resetState();
 FINISH:
-    if (!haveNoStartup)
-    {
-        if (!haveNoUserStartup)
-        {
+    if (!haveNoStartup) {
+        if (!haveNoUserStartup) {
             FinishNelsonUserScript(eval);
             eval->resetState();
         }
         FinishNelsonMainScript(eval);
-        if (eval->getState() == NLS_STATE_QUIT)
-        {
+        if (eval->getState() == NLS_STATE_QUIT) {
             goto EXIT;
         }
     }
@@ -239,11 +218,11 @@ EXIT:
     return exitCode;
 }
 //=============================================================================
-static int StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
+static int
+StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
 {
     int exitCode = -1;
-    if (!SetNelSonEnvironmentVariables())
-    {
+    if (!SetNelSonEnvironmentVariables()) {
         ErrorPathDetection(_mode);
         return exitCode;
     }
@@ -256,20 +235,16 @@ static int StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     setRecursionStacksize(SIZE_MAX_RECURSION_CALL);
 #endif
     setlocale(LC_NUMERIC, "C");
-    if (getRecursionStacksize() < SIZE_MAX_RECURSION_CALL)
-    {
+    if (getRecursionStacksize() < SIZE_MAX_RECURSION_CALL) {
         std::string msg;
         msg = _("Recursion stack not enough.\nPlease set C recursion stack to ");
         msg = msg + std::to_string(SIZE_MAX_RECURSION_CALL);
         msg.append("\n");
         msg = msg + _("Current C stack is: ") + std::to_string(getRecursionStacksize());
 #ifdef _MSC_VER
-        if (_mode == GUI)
-        {
+        if (_mode == GUI) {
             MessageBox(NULL, utf8_to_wstring(msg).c_str(), L"Nelson error:", MB_ICONERROR);
-        }
-        else
-        {
+        } else {
             std::cout << msg << std::endl;
         }
 #else
@@ -283,84 +258,74 @@ static int StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     std::wstring lang;
     bool bQuietMode = false;
     ProgramOptions po(args);
-    if (!po.isValid())
-    {
+    if (!po.isValid()) {
         ErrorCommandLine(po.getErrorMessage(), _mode);
         return exitCode;
     }
-    if (po.haveOptionsHelp())
-    {
+    if (po.haveOptionsHelp()) {
         displayHelp(po.getOptionsHelp(), _mode);
         return 0;
     }
-    if (po.haveVersion())
-    {
+    if (po.haveVersion()) {
         displayVersion(_mode);
         return 0;
     }
-    if (po.haveTimeout())
-    {
+    if (po.haveTimeout()) {
         TimeoutThread(po.getTimeout());
     }
     filesToOpen = po.getFilesToOpen();
     commandToExecute = po.getCommandToExecute();
     fileToExecute = po.getFileToExecute();
     lang = po.getLanguage();
-    if (!commandToExecute.empty() && !fileToExecute.empty())
-    {
+    if (!commandToExecute.empty() && !fileToExecute.empty()) {
         ErrorCommandLineMessage_file_commmand(_mode);
         return exitCode;
     }
-    if (po.haveNoStartup() && po.haveNoUserStartup())
-    {
+    if (po.haveNoStartup() && po.haveNoUserStartup()) {
         ErrorCommandLineMessage_startup_exclusive(_mode);
         return exitCode;
     }
     bQuietMode = po.haveQuietMode();
-    if (!fileToExecute.empty())
-    {
+    if (!fileToExecute.empty()) {
         // expand filename required for shebang
         boost::filesystem::path p(fileToExecute);
         boost::filesystem::path full_p = boost::filesystem::complete(p);
         fileToExecute = full_p.generic_wstring();
     }
-    Evaluator *eval = createMainEvaluator(_mode, lang);
-    if (eval)
-    {
+    Evaluator* eval = createMainEvaluator(_mode, lang);
+    if (eval) {
         eval->setQuietMode(bQuietMode);
         eval->setCommandLineArguments(args);
-        if (lang != Localization::Instance()->getCurrentLanguage() && !lang.empty())
-        {
-            Interface *io = eval->getInterface();
+        if (lang != Localization::Instance()->getCurrentLanguage() && !lang.empty()) {
+            Interface* io = eval->getInterface();
             Exception e(L"Wrong language.");
             eval->setLastException(e);
             io->errorMessage(e.getMessage());
         }
-        try
-        {
+        try {
             AddGateway(eval, ConstructDynamicLibraryFullname(Nelson::GetRootPath(), L"core"));
-            AddGateway(eval, ConstructDynamicLibraryFullname(Nelson::GetRootPath(), L"modules_manager"));
-            AddGateway(eval, ConstructDynamicLibraryFullname(Nelson::GetRootPath(), L"dynamic_link"));
+            AddGateway(
+                eval, ConstructDynamicLibraryFullname(Nelson::GetRootPath(), L"modules_manager"));
+            AddGateway(
+                eval, ConstructDynamicLibraryFullname(Nelson::GetRootPath(), L"dynamic_link"));
             AddGateway(eval, ConstructDynamicLibraryFullname(Nelson::GetRootPath(), L"string"));
-        }
-        catch (Exception &e)
-        {
+        } catch (Exception& e) {
             e.what();
-            Interface *io = eval->getInterface();
+            Interface* io = eval->getInterface();
             eval->setLastException(e);
             io->errorMessage(_W("Nelson cannot load base modules.\n"));
         }
-        exitCode = NelsonMainStates(eval, po.haveNoStartup(), po.haveNoUserStartup(), commandToExecute, fileToExecute, filesToOpen);
+        exitCode = NelsonMainStates(eval, po.haveNoStartup(), po.haveNoUserStartup(),
+            commandToExecute, fileToExecute, filesToOpen);
         ::destroyMainEvaluator();
-    }
-    else
-    {
+    } else {
         ErrorInterpreter(_mode);
     }
     return exitCode;
 }
 //=============================================================================
-static int StartNelsonInternalWithMutex(wstringVector args, NELSON_ENGINE_MODE _mode)
+static int
+StartNelsonInternalWithMutex(wstringVector args, NELSON_ENGINE_MODE _mode)
 {
     openNelsonMutex();
     int exitCode = StartNelsonInternal(args, _mode);
@@ -368,21 +333,21 @@ static int StartNelsonInternalWithMutex(wstringVector args, NELSON_ENGINE_MODE _
     return exitCode;
 }
 //=============================================================================
-int StartNelson(int argc, wchar_t *argv[], NELSON_ENGINE_MODE _mode)
+int
+StartNelson(int argc, wchar_t* argv[], NELSON_ENGINE_MODE _mode)
 {
     wstringVector args;
-    for (size_t l = 0; l < (size_t)argc; l++)
-    {
+    for (size_t l = 0; l < (size_t)argc; l++) {
         args.push_back(std::wstring(argv[l]));
     }
     return StartNelsonInternalWithMutex(args, _mode);
 }
 //=============================================================================
-int StartNelson(int argc, char *argv[], NELSON_ENGINE_MODE _mode)
+int
+StartNelson(int argc, char* argv[], NELSON_ENGINE_MODE _mode)
 {
     wstringVector args;
-    for (size_t l = 0; l < (size_t)argc; l++)
-    {
+    for (size_t l = 0; l < (size_t)argc; l++) {
         args.push_back(utf8_to_wstring(argv[l]));
     }
     return StartNelsonInternalWithMutex(args, _mode);

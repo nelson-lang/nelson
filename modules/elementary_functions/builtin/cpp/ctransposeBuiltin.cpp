@@ -17,23 +17,23 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ctransposeBuiltin.hpp"
+#include "ComplexTranspose.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
-#include "ComplexTranspose.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ElementaryFunctionsGateway::ctransposeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::ctransposeBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         retval.push_back(ComplexTranspose(argIn[0]));
     }
     return retval;

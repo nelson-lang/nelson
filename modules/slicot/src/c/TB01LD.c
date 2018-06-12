@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,17 +11,18 @@ static doublereal c_b13 = 0.;
 static doublereal c_b14 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tb01ld_(dico, stdom, joba, n, m, p, alpha, a, lda, b, ldb, c__, ldc, ndim, u, ldu, wr, wi, dwork, ldwork, info, dico_len, stdom_len, joba_len)
-char *dico, *stdom, *joba;
+EXPORTSYMBOL /* Subroutine */ int tb01ld_(dico, stdom, joba, n, m, p, alpha, a, lda, b, ldb, c__,
+    ldc, ndim, u, ldu, wr, wi, dwork, ldwork, info, dico_len, stdom_len, joba_len) char *dico,
+    *stdom, *joba;
 integer *n, *m, *p;
 doublereal *alpha, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
 integer *ldc, *ndim;
-doublereal *u;
-integer *ldu;
+doublereal* u;
+integer* ldu;
 doublereal *wr, *wi, *dwork;
 integer *ldwork, *info;
 ftnlen dico_len;
@@ -219,61 +220,37 @@ ftnlen joba_len;
     discr = lsame_(dico, "D", 1L, 1L);
     ljobg = lsame_(joba, "G", 1L, 1L);
     /*     Check input scalar arguments. */
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (! (lsame_(stdom, "S", 1L, 1L) || lsame_(stdom, "U", 1L, 1L)))
-    {
+    } else if (!(lsame_(stdom, "S", 1L, 1L) || lsame_(stdom, "U", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (lsame_(joba, "S", 1L, 1L) || ljobg))
-    {
+    } else if (!(lsame_(joba, "S", 1L, 1L) || ljobg)) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -5;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -6;
-    }
-    else if (discr && *alpha < 0.)
-    {
+    } else if (discr && *alpha < 0.) {
         *info = -7;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -11;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -13;
-    }
-    else if (*ldu < max(1,*n))
-    {
+    } else if (*ldu < max(1, *n)) {
         *info = -16;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = *n * 3;
-        if (*ldwork < max(1,*n) || *ldwork < max(i__1,i__2) && ljobg)
-        {
+        if (*ldwork < max(1, *n) || *ldwork < max(i__1, i__2) && ljobg) {
             *info = -20;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TB01LD", &i__1, 6L);
@@ -281,27 +258,23 @@ ftnlen joba_len;
     }
     /*     Quick return if possible. */
     *ndim = 0;
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
-    if (lsame_(joba, "G", 1L, 1L))
-    {
+    if (lsame_(joba, "G", 1L, 1L)) {
         /*        Reduce A to real Schur form using an orthogonal similarity */
         /*        transformation A <- U'*A*U, accumulate the transformation in U */
         /*        and compute the eigenvalues of A in (WR,WI). */
         /*        Workspace:  need   3*N; */
         /*                    prefer larger. */
-        dgees_("Vectors", "Not ordered", select_, n, &a[a_offset], lda, &sdim, &wr[1], &wi[1], &u[u_offset], ldu, &dwork[1], ldwork, bwork, info, 7L, 11L);
+        dgees_("Vectors", "Not ordered", select_, n, &a[a_offset], lda, &sdim, &wr[1], &wi[1],
+            &u[u_offset], ldu, &dwork[1], ldwork, bwork, info, 7L, 11L);
         wrkopt = dwork[1];
-        if (*info != 0)
-        {
+        if (*info != 0) {
             *info = 1;
             return 0;
         }
-    }
-    else
-    {
+    } else {
         /*        Initialize U with an identity matrix. */
         dlaset_("Full", n, n, &c_b13, &c_b14, &u[u_offset], ldu, 4L);
         wrkopt = 0.;
@@ -309,56 +282,51 @@ ftnlen joba_len;
     /*     Separate the spectrum of A. The leading NDIM-by-NDIM submatrix of */
     /*     A corresponds to the eigenvalues of interest. */
     /*     Workspace:  need   N. */
-    mb03qd_(dico, stdom, "Update", n, &c__1, n, alpha, &a[a_offset], lda, &u[u_offset], ldu, ndim, &dwork[1], info, 1L, 1L, 6L);
-    if (*info != 0)
-    {
+    mb03qd_(dico, stdom, "Update", n, &c__1, n, alpha, &a[a_offset], lda, &u[u_offset], ldu, ndim,
+        &dwork[1], info, 1L, 1L, 6L);
+    if (*info != 0) {
         return 0;
     }
     /*     Compute the eigenvalues. */
     mb03qx_(n, &a[a_offset], lda, &wr[1], &wi[1], &ierr);
     /*     Apply the transformation: B <-- U'*B. */
-    if (*ldwork < *n **m)
-    {
+    if (*ldwork < *n * *m) {
         /*        Not enough working space for using DGEMM. */
         i__1 = *m;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dcopy_(n, &b[i__ * b_dim1 + 1], &c__1, &dwork[1], &c__1);
-            dgemv_("Transpose", n, n, &c_b14, &u[u_offset], ldu, &dwork[1], &c__1, &c_b13, &b[i__ * b_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", n, n, &c_b14, &u[u_offset], ldu, &dwork[1], &c__1, &c_b13,
+                &b[i__ * b_dim1 + 1], &c__1, 9L);
             /* L10: */
         }
-    }
-    else
-    {
+    } else {
         dlacpy_("Full", n, m, &b[b_offset], ldb, &dwork[1], n, 4L);
-        dgemm_("Transpose", "No transpose", n, m, n, &c_b14, &u[u_offset], ldu, &dwork[1], n, &c_b13, &b[b_offset], ldb, 9L, 12L);
+        dgemm_("Transpose", "No transpose", n, m, n, &c_b14, &u[u_offset], ldu, &dwork[1], n,
+            &c_b13, &b[b_offset], ldb, 9L, 12L);
         /* Computing MAX */
-        d__1 = wrkopt, d__2 = (doublereal) (*n **m);
-        wrkopt = max(d__1,d__2);
+        d__1 = wrkopt, d__2 = (doublereal)(*n * *m);
+        wrkopt = max(d__1, d__2);
     }
     /*     Apply the transformation: C <-- C*U. */
-    if (*ldwork < *n **p)
-    {
+    if (*ldwork < *n * *p) {
         /*        Not enough working space for using DGEMM. */
         i__1 = *p;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dcopy_(n, &c__[i__ + c_dim1], ldc, &dwork[1], &c__1);
-            dgemv_("Transpose", n, n, &c_b14, &u[u_offset], ldu, &dwork[1], &c__1, &c_b13, &c__[i__ + c_dim1], ldc, 9L);
+            dgemv_("Transpose", n, n, &c_b14, &u[u_offset], ldu, &dwork[1], &c__1, &c_b13,
+                &c__[i__ + c_dim1], ldc, 9L);
             /* L20: */
         }
-    }
-    else
-    {
-        ldwp = max(1,*p);
+    } else {
+        ldwp = max(1, *p);
         dlacpy_("Full", p, n, &c__[c_offset], ldc, &dwork[1], &ldwp, 4L);
-        dgemm_("No transpose", "No transpose", p, n, n, &c_b14, &dwork[1], &ldwp, &u[u_offset], ldu, &c_b13, &c__[c_offset], ldc, 12L, 12L);
+        dgemm_("No transpose", "No transpose", p, n, n, &c_b14, &dwork[1], &ldwp, &u[u_offset], ldu,
+            &c_b13, &c__[c_offset], ldc, 12L, 12L);
         /* Computing MAX */
-        d__1 = wrkopt, d__2 = (doublereal) (*n **p);
-        wrkopt = max(d__1,d__2);
+        d__1 = wrkopt, d__2 = (doublereal)(*n * *p);
+        wrkopt = max(d__1, d__2);
     }
     dwork[1] = wrkopt;
     return 0;
     /* *** Last line of TB01LD *** */
 } /* tb01ld_ */
-

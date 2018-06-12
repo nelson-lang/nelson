@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,30 +10,34 @@
 static integer c__1 = 1;
 static doublereal c_b23 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int fb01td_(jobx, multrc, n, m, p, sinv, ldsinv, ainv, ldainv, ainvb, ldainb, rinv, ldrinv, c__, ldc, qinv, ldqinv, x, rinvy, z__, e, tol, iwork, dwork, ldwork, info, jobx_len, multrc_len)
-char *jobx, *multrc;
+EXPORTSYMBOL /* Subroutine */ int fb01td_(jobx, multrc, n, m, p, sinv, ldsinv, ainv, ldainv, ainvb,
+    ldainb, rinv, ldrinv, c__, ldc, qinv, ldqinv, x, rinvy, z__, e, tol, iwork, dwork, ldwork, info,
+    jobx_len, multrc_len) char *jobx,
+    *multrc;
 integer *n, *m, *p;
-doublereal *sinv;
-integer *ldsinv;
-doublereal *ainv;
-integer *ldainv;
-doublereal *ainvb;
-integer *ldainb;
-doublereal *rinv;
-integer *ldrinv;
-doublereal *c__;
-integer *ldc;
-doublereal *qinv;
-integer *ldqinv;
+doublereal* sinv;
+integer* ldsinv;
+doublereal* ainv;
+integer* ldainv;
+doublereal* ainvb;
+integer* ldainb;
+doublereal* rinv;
+integer* ldrinv;
+doublereal* c__;
+integer* ldc;
+doublereal* qinv;
+integer* ldqinv;
 doublereal *x, *rinvy, *z__, *e, *tol;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen jobx_len;
 ftnlen multrc_len;
 {
     /* System generated locals */
-    integer ainv_dim1, ainv_offset, ainvb_dim1, ainvb_offset, c_dim1, c_offset, qinv_dim1, qinv_offset, rinv_dim1, rinv_offset, sinv_dim1, sinv_offset, i__1, i__2, i__3, i__4, i__5, i__6;
+    integer ainv_dim1, ainv_offset, ainvb_dim1, ainvb_offset, c_dim1, c_offset, qinv_dim1,
+        qinv_offset, rinv_dim1, rinv_offset, sinv_dim1, sinv_offset, i__1, i__2, i__3, i__4, i__5,
+        i__6;
     doublereal d__1;
     /* Local variables */
     extern doublereal ddot_();
@@ -374,89 +378,63 @@ ftnlen multrc_len;
     /* Function Body */
     np = *n + *p;
     nm = *n + *m;
-    n1 = max(1,*n);
-    m1 = max(1,*m);
+    n1 = max(1, *n);
+    m1 = max(1, *m);
     mp1 = *m + 1;
     *info = 0;
     ljobx = lsame_(jobx, "X", 1L, 1L);
     lmultr = lsame_(multrc, "P", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! ljobx && ! lsame_(jobx, "N", 1L, 1L))
-    {
+    if (!ljobx && !lsame_(jobx, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! lmultr && ! lsame_(multrc, "N", 1L, 1L))
-    {
+    } else if (!lmultr && !lsame_(multrc, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -5;
-    }
-    else if (*ldsinv < n1)
-    {
+    } else if (*ldsinv < n1) {
         *info = -7;
-    }
-    else if (*ldainv < n1)
-    {
+    } else if (*ldainv < n1) {
         *info = -9;
-    }
-    else if (*ldainb < n1)
-    {
+    } else if (*ldainb < n1) {
         *info = -11;
-    }
-    else if (*ldrinv < 1 || ! lmultr && *ldrinv < *p)
-    {
+    } else if (*ldrinv < 1 || !lmultr && *ldrinv < *p) {
         *info = -13;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -15;
-    }
-    else if (*ldqinv < m1)
-    {
+    } else if (*ldqinv < m1) {
         *info = -17;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         /* Computing MAX */
         i__3 = *n - 1;
-        i__1 = 2, i__2 = *n * (nm + *m) + *m * 3, i__1 = max(i__1,i__2), i__2 = np * (*n + 1) + *n + max(i__3,mp1), i__1 = max(i__1,i__2), i__2 = *n * 3;
+        i__1 = 2, i__2 = *n * (nm + *m) + *m * 3, i__1 = max(i__1, i__2),
+        i__2 = np * (*n + 1) + *n + max(i__3, mp1), i__1 = max(i__1, i__2), i__2 = *n * 3;
         /* Computing MAX */
         /* Computing MAX */
         i__6 = *n - 1;
-        i__4 = 1, i__5 = *n * (nm + *m) + *m * 3, i__4 = max(i__4,i__5), i__5 = np * (*n + 1) + *n + max(i__6,mp1);
-        if (ljobx && *ldwork < max(i__1,i__2) || ! ljobx && *ldwork < max(i__4,i__5))
-        {
+        i__4 = 1, i__5 = *n * (nm + *m) + *m * 3, i__4 = max(i__4, i__5),
+        i__5 = np * (*n + 1) + *n + max(i__6, mp1);
+        if (ljobx && *ldwork < max(i__1, i__2) || !ljobx && *ldwork < max(i__4, i__5)) {
             *info = -25;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("FB01TD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (max(*n,*p) == 0)
-    {
-        if (ljobx)
-        {
+    if (max(*n, *p) == 0) {
+        if (ljobx) {
             dwork[1] = 2.;
             dwork[2] = 1.;
-        }
-        else
-        {
+        } else {
             dwork[1] = 1.;
         }
         return 0;
@@ -485,12 +463,11 @@ ftnlen multrc_len;
     /*     NB refers to the optimal block size for the immediately */
     /*     following subroutine, as returned by ILAENV.) */
     ldw = n1;
-    i32 = *n **m + 1;
+    i32 = *n * *m + 1;
     dlacpy_("Upper", n, m, &ainvb[ainvb_offset], ldainb, &dwork[1], &ldw, 5L);
-    i__1 = min(*m,*n);
+    i__1 = min(*m, *n);
     dlacpy_("Full", &i__1, n, &ainv[ainv_offset], ldainv, &dwork[i32], &ldw, 4L);
-    if (*n > *m)
-    {
+    if (*n > *m) {
         i__1 = *n - *m;
         dlacpy_("Upper", &i__1, n, &ainv[mp1 + ainv_dim1], ldainv, &dwork[i32 + *m], &ldw, 5L);
     }
@@ -502,54 +479,56 @@ ftnlen multrc_len;
     i13 = *n * nm + 1;
     /* Computing MAX */
     i__1 = 1, i__2 = *n * nm + *n;
-    wrkopt = max(i__1,i__2);
+    wrkopt = max(i__1, i__2);
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dcopy_(&i__, &dwork[ii], &c__1, &dwork[i13], &c__1);
-        dtrmv_("Upper", "No transpose", "Non-unit", &i__, &sinv[sinv_offset], ldsinv, &dwork[i13], &c__1, 5L, 12L, 8L);
+        dtrmv_("Upper", "No transpose", "Non-unit", &i__, &sinv[sinv_offset], ldsinv, &dwork[i13],
+            &c__1, 5L, 12L, 8L);
         dcopy_(&i__, &dwork[i13], &c__1, &dwork[ii], &c__1);
         ii += *n;
         /* L10: */
     }
     /*                    [ A3 ] */
     /*     Compute SINV x [ A4 ] or SINV x [ B2 A ]. */
-    dtrmm_("Left", "Upper", "No transpose", "Non-unit", n, m, &c_b23, &sinv[sinv_offset], ldsinv, &dwork[ii], &ldw, 4L, 5L, 12L, 8L);
+    dtrmm_("Left", "Upper", "No transpose", "Non-unit", n, m, &c_b23, &sinv[sinv_offset], ldsinv,
+        &dwork[ii], &ldw, 4L, 5L, 12L, 8L);
     /*     Storing the process noise mean value in (1,3) block of DWORK. */
     /*     Workspace: need N*(M+N) + M. */
     dcopy_(m, &z__[1], &c__1, &dwork[i13], &c__1);
-    dtrmv_("Upper", "No transpose", "Non-unit", m, &qinv[qinv_offset], ldqinv, &dwork[i13], &c__1, 5L, 12L, 8L);
+    dtrmv_("Upper", "No transpose", "Non-unit", m, &qinv[qinv_offset], ldqinv, &dwork[i13], &c__1,
+        5L, 12L, 8L);
     /*     Computing SINV x X in X. */
-    dtrmv_("Upper", "No transpose", "Non-unit", n, &sinv[sinv_offset], ldsinv, &x[1], &c__1, 5L, 12L, 8L);
+    dtrmv_("Upper", "No transpose", "Non-unit", n, &sinv[sinv_offset], ldsinv, &x[1], &c__1, 5L,
+        12L, 8L);
     /*     Triangularization (2 steps). */
     /*     Step 1: annihilate the matrix SINV x AINVB. */
     /*     Workspace: need N*(N+2*M) + 3*M. */
     i12 = i13 + *m;
-    itau = i12 + *m **n;
+    itau = i12 + *m * *n;
     jwork = itau + *m;
-    mb04kd_("Upper", m, n, n, &qinv[qinv_offset], ldqinv, &dwork[1], &ldw, &dwork[i32], &ldw, &dwork[i12], &m1, &dwork[itau], &dwork[jwork], 5L);
+    mb04kd_("Upper", m, n, n, &qinv[qinv_offset], ldqinv, &dwork[1], &ldw, &dwork[i32], &ldw,
+        &dwork[i12], &m1, &dwork[itau], &dwork[jwork], 5L);
     /* Computing MAX */
     i__1 = wrkopt, i__2 = *n * (nm + *m) + *m * 3;
-    wrkopt = max(i__1,i__2);
-    if (*n == 0)
-    {
+    wrkopt = max(i__1, i__2);
+    if (*n == 0) {
         dcopy_(p, &rinvy[1], &c__1, &e[1], &c__1);
-        if (ljobx)
-        {
+        if (ljobx) {
             dwork[2] = 1.;
         }
-        dwork[1] = (doublereal) wrkopt;
+        dwork[1] = (doublereal)wrkopt;
         return 0;
     }
     /*     Apply the transformations to the last column of the pre-array. */
     /*     (Only the updated (3,3) block is now needed.) */
     ij = 1;
     i__1 = *m;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        i__2 = min(i__,*n);
-        i__3 = min(i__,*n);
-        d__1 = -dwork[itau + i__ - 1] * (dwork[i13 + i__ - 1] + ddot_(&i__3, &dwork[ij], &c__1, &x[1], &c__1));
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        i__2 = min(i__, *n);
+        i__3 = min(i__, *n);
+        d__1 = -dwork[itau + i__ - 1]
+            * (dwork[i13 + i__ - 1] + ddot_(&i__3, &dwork[ij], &c__1, &x[1], &c__1));
         daxpy_(&i__2, &d__1, &dwork[ij], &c__1, &x[1], &c__1);
         ij += *n;
         /* L20: */
@@ -563,20 +542,17 @@ ftnlen multrc_len;
     /*     to make space for storing the (2,2) and (2,3) blocks of the */
     /*     pre-array. */
     /*     Workspace: need (P+N)*(N+1). */
-    i__1 = min(*m,*n);
+    i__1 = min(*m, *n);
     dlacpy_("Full", &i__1, n, &dwork[i32], &ldw, &dwork[1], &ldw, 4L);
-    if (*n > *m)
-    {
+    if (*n > *m) {
         i__1 = *n - *m;
         dlacpy_("Upper", &i__1, n, &dwork[i32 + *m], &ldw, &dwork[mp1], &ldw, 5L);
     }
-    ldw = max(1,np);
-    for (i__ = *n; i__ >= 1; --i__)
-    {
+    ldw = max(1, np);
+    for (i__ = *n; i__ >= 1; --i__) {
         /* Computing MIN */
         i__1 = *n, i__2 = i__ + *m;
-        for (ij = min(i__1,i__2); ij >= 1; --ij)
-        {
+        for (ij = min(i__1, i__2); ij >= 1; --ij) {
             dwork[np * (i__ - 1) + *p + ij] = dwork[*n * (i__ - 1) + ij];
             /* L30: */
         }
@@ -584,19 +560,19 @@ ftnlen multrc_len;
     }
     /*     Copy of RINV x C in the (1,1) block of DWORK. */
     dlacpy_("Full", p, n, &c__[c_offset], ldc, &dwork[1], &ldw, 4L);
-    if (! lmultr)
-    {
-        dtrmm_("Left", "Upper", "No transpose", "Non-unit", p, n, &c_b23, &rinv[rinv_offset], ldrinv, &dwork[1], &ldw, 4L, 5L, 12L, 8L);
+    if (!lmultr) {
+        dtrmm_("Left", "Upper", "No transpose", "Non-unit", p, n, &c_b23, &rinv[rinv_offset],
+            ldrinv, &dwork[1], &ldw, 4L, 5L, 12L, 8L);
     }
     /*     Copy the inclusion measurement in the (1,2) block and the updated */
     /*     X in the (2,2) block of DWORK. */
-    i23 = np **n + 1;
+    i23 = np * *n + 1;
     i33 = i23 + *p;
     dcopy_(p, &rinvy[1], &c__1, &dwork[i23], &c__1);
     dcopy_(n, &x[1], &c__1, &dwork[i33], &c__1);
     /* Computing MAX */
     i__1 = wrkopt, i__2 = np * (*n + 1);
-    wrkopt = max(i__1,i__2);
+    wrkopt = max(i__1, i__2);
     /*     Step 2: QR factorization of the first block column of the matrix */
     /*        [ RINV x C     RINV x Y ], */
     /*        [ SINV x AINV  SINV x X ] */
@@ -608,35 +584,34 @@ ftnlen multrc_len;
     jwork = itau + *n;
     /* Computing MAX */
     i__2 = *n - mp1;
-    i__1 = max(i__2,0);
+    i__1 = max(i__2, 0);
     i__3 = *ldwork - jwork + 1;
-    mb04id_(&np, n, &i__1, &c__1, &dwork[1], &ldw, &dwork[i23], &ldw, &dwork[itau], &dwork[jwork], &i__3, info);
+    mb04id_(&np, n, &i__1, &c__1, &dwork[1], &ldw, &dwork[i23], &ldw, &dwork[itau], &dwork[jwork],
+        &i__3, info);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
     /*     Output SINV, X, and E and set the optimal workspace dimension */
     /*     (and the reciprocal of the condition number estimate). */
     dlacpy_("Upper", n, n, &dwork[1], &ldw, &sinv[sinv_offset], ldsinv, 5L);
     dcopy_(n, &dwork[i23], &c__1, &x[1], &c__1);
-    if (*p > 0)
-    {
+    if (*p > 0) {
         dcopy_(p, &dwork[i23 + *n], &c__1, &e[1], &c__1);
     }
-    if (ljobx)
-    {
+    if (ljobx) {
         /*        Compute X. */
         /*        Workspace: need 3*N. */
-        mb02od_("Left", "Upper", "No transpose", "Non-unit", "1-norm", n, &c__1, &c_b23, &sinv[sinv_offset], ldsinv, &x[1], n, &rcond, tol, &iwork[1], &dwork[1], info, 4L, 5L, 12L, 8L, 6L);
-        if (*info == 0)
-        {
+        mb02od_("Left", "Upper", "No transpose", "Non-unit", "1-norm", n, &c__1, &c_b23,
+            &sinv[sinv_offset], ldsinv, &x[1], n, &rcond, tol, &iwork[1], &dwork[1], info, 4L, 5L,
+            12L, 8L, 6L);
+        if (*info == 0) {
             /* Computing MAX */
             i__1 = wrkopt, i__2 = *n * 3;
-            wrkopt = max(i__1,i__2);
+            wrkopt = max(i__1, i__2);
             dwork[2] = rcond;
         }
     }
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of FB01TD*** */
 } /* fb01td_ */
-

@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace IntegerGateway {
-        ArrayOfVector int32Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace IntegerGateway {
+    ArrayOfVector
+    int32Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace MemoryGateway {
-        ArrayOfVector acquirevarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace MemoryGateway {
+    ArrayOfVector
+    acquirevarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

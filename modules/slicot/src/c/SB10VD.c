@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,31 +11,33 @@ static doublereal c_b6 = -1.;
 static doublereal c_b7 = 1.;
 static doublereal c_b11 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int sb10vd_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, f, ldf, h__, ldh, x, ldx, y, ldy, xycond, iwork, dwork, ldwork, bwork, info)
-integer *n, *m, *np, *ncon, *nmeas;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *f;
-integer *ldf;
-doublereal *h__;
-integer *ldh;
-doublereal *x;
-integer *ldx;
-doublereal *y;
-integer *ldy;
-doublereal *xycond;
-integer *iwork;
-doublereal *dwork;
-integer *ldwork;
-logical *bwork;
-integer *info;
+EXPORTSYMBOL /* Subroutine */ int sb10vd_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, f, ldf,
+    h__, ldh, x, ldx, y, ldy, xycond, iwork, dwork, ldwork, bwork, info) integer *n,
+    *m, *np, *ncon, *nmeas;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* f;
+integer* ldf;
+doublereal* h__;
+integer* ldh;
+doublereal* x;
+integer* ldx;
+doublereal* y;
+integer* ldy;
+doublereal* xycond;
+integer* iwork;
+doublereal* dwork;
+integer* ldwork;
+logical* bwork;
+integer* info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, f_dim1, f_offset, h_dim1, h_offset, x_dim1, x_offset, y_dim1, y_offset, i__1;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, f_dim1, f_offset, h_dim1,
+        h_offset, x_dim1, x_offset, y_dim1, y_offset, i__1;
     /* Local variables */
     static doublereal ferr;
     static integer iwrk, info2;
@@ -229,72 +231,44 @@ integer *info;
     np1 = *np - *nmeas;
     np2 = *nmeas;
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*np < 0)
-    {
+    } else if (*np < 0) {
         *info = -3;
-    }
-    else if (*ncon < 0 || m1 < 0 || m2 > np1)
-    {
+    } else if (*ncon < 0 || m1 < 0 || m2 > np1) {
         *info = -4;
-    }
-    else if (*nmeas < 0 || np1 < 0 || np2 > m1)
-    {
+    } else if (*nmeas < 0 || np1 < 0 || np2 > m1) {
         *info = -5;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldc < max(1,*np))
-    {
+    } else if (*ldc < max(1, *np)) {
         *info = -11;
-    }
-    else if (*ldf < max(1,*ncon))
-    {
+    } else if (*ldf < max(1, *ncon)) {
         *info = -13;
-    }
-    else if (*ldh < max(1,*n))
-    {
+    } else if (*ldh < max(1, *n)) {
         *info = -15;
-    }
-    else if (*ldx < max(1,*n))
-    {
+    } else if (*ldx < max(1, *n)) {
         *info = -17;
-    }
-    else if (*ldy < max(1,*n))
-    {
+    } else if (*ldy < max(1, *n)) {
         *info = -19;
-    }
-    else
-    {
+    } else {
         /*        Compute workspace. */
         minwrk = *n * 13 * *n + *n * 12 + 5;
-        if (*ldwork < minwrk)
-        {
+        if (*ldwork < minwrk) {
             *info = -23;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SB10VD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *m == 0 || *np == 0 || m1 == 0 || m2 == 0 || np1 == 0 || np2 == 0)
-    {
+    if (*n == 0 || *m == 0 || *np == 0 || m1 == 0 || m2 == 0 || np1 == 0 || np2 == 0) {
         dwork[1] = 1.;
         xycond[1] = 1.;
         xycond[2] = 1.;
@@ -304,24 +278,22 @@ integer *info;
     nd2 = m1 - np2;
     n2 = *n << 1;
     /*     Workspace usage. */
-    iwq = *n **n + 1;
-    iwg = iwq + *n **n;
-    iwt = iwg + *n **n;
-    iwv = iwt + *n **n;
-    iwr = iwv + *n **n;
+    iwq = *n * *n + 1;
+    iwg = iwq + *n * *n;
+    iwt = iwg + *n * *n;
+    iwv = iwt + *n * *n;
+    iwr = iwv + *n * *n;
     iwi = iwr + n2;
     iws = iwi + n2;
-    iwrk = iws + (*n << 2) **n;
+    iwrk = iws + (*n << 2) * *n;
     /*     Compute Ax = A - B2*D12'*C1 . */
     dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[1], n, 4L);
-    dgemm_("N", "N", n, n, &m2, &c_b6, &b[(m1 + 1) * b_dim1 + 1], ldb, &c__[nd1 + 1 + c_dim1], ldc, &c_b7, &dwork[1], n, 1L, 1L);
+    dgemm_("N", "N", n, n, &m2, &c_b6, &b[(m1 + 1) * b_dim1 + 1], ldb, &c__[nd1 + 1 + c_dim1], ldc,
+        &c_b7, &dwork[1], n, 1L, 1L);
     /*     Compute Cx = C1'*C1 - C1'*D12*D12'*C1 . */
-    if (nd1 > 0)
-    {
+    if (nd1 > 0) {
         dsyrk_("L", "T", n, &nd1, &c_b7, &c__[c_offset], ldc, &c_b11, &dwork[iwq], n, 1L, 1L);
-    }
-    else
-    {
+    } else {
         dlaset_("L", n, n, &c_b11, &c_b11, &dwork[iwq], n, 1L);
     }
     /*     Compute Dx = B2*B2' . */
@@ -330,26 +302,28 @@ integer *info;
     /*     Workspace:  need   13*N*N + 12*N + 5; */
     /*                 prefer larger. */
     i__1 = *ldwork - iwrk + 1;
-    sb02rd_("All", "Continuous", "NotUsed", "NoTranspose", "Lower", "GeneralScaling", "Stable", "NotFactored", "Original", n, &dwork[1], n, &dwork[iwt], n, &dwork[iwv], n, &dwork[iwg], n, &dwork[iwq], n, &x[x_offset], ldx, &sep, &xycond[1], &ferr, &dwork[iwr], &dwork[iwi], &dwork[iws], &n2, &iwork[1], &dwork[iwrk], &i__1, &bwork[1], &info2, 3L, 10L, 7L, 11L, 5L, 14L, 6L, 11L, 8L);
-    if (info2 > 0)
-    {
+    sb02rd_("All", "Continuous", "NotUsed", "NoTranspose", "Lower", "GeneralScaling", "Stable",
+        "NotFactored", "Original", n, &dwork[1], n, &dwork[iwt], n, &dwork[iwv], n, &dwork[iwg], n,
+        &dwork[iwq], n, &x[x_offset], ldx, &sep, &xycond[1], &ferr, &dwork[iwr], &dwork[iwi],
+        &dwork[iws], &n2, &iwork[1], &dwork[iwrk], &i__1, &bwork[1], &info2, 3L, 10L, 7L, 11L, 5L,
+        14L, 6L, 11L, 8L);
+    if (info2 > 0) {
         *info = 1;
         return 0;
     }
-    lwamax = (integer) dwork[iwrk] + iwrk - 1;
+    lwamax = (integer)dwork[iwrk] + iwrk - 1;
     /*     Compute F = -D12'*C1 - B2'*X . */
     dlacpy_("Full", &m2, n, &c__[nd1 + 1 + c_dim1], ldc, &f[f_offset], ldf, 4L);
-    dgemm_("T", "N", &m2, n, n, &c_b6, &b[(m1 + 1) * b_dim1 + 1], ldb, &x[x_offset], ldx, &c_b6, &f[f_offset], ldf, 1L, 1L);
+    dgemm_("T", "N", &m2, n, n, &c_b6, &b[(m1 + 1) * b_dim1 + 1], ldb, &x[x_offset], ldx, &c_b6,
+        &f[f_offset], ldf, 1L, 1L);
     /*     Compute Ay = A - B1*D21'*C2 . */
     dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[1], n, 4L);
-    dgemm_("N", "N", n, n, &np2, &c_b6, &b[(nd2 + 1) * b_dim1 + 1], ldb, &c__[np1 + 1 + c_dim1], ldc, &c_b7, &dwork[1], n, 1L, 1L);
+    dgemm_("N", "N", n, n, &np2, &c_b6, &b[(nd2 + 1) * b_dim1 + 1], ldb, &c__[np1 + 1 + c_dim1],
+        ldc, &c_b7, &dwork[1], n, 1L, 1L);
     /*     Compute Cy = B1*B1' - B1*D21'*D21*B1' . */
-    if (nd2 > 0)
-    {
+    if (nd2 > 0) {
         dsyrk_("U", "N", n, &nd2, &c_b7, &b[b_offset], ldb, &c_b11, &dwork[iwq], n, 1L, 1L);
-    }
-    else
-    {
+    } else {
         dlaset_("U", n, n, &c_b11, &c_b11, &dwork[iwq], n, 1L);
     }
     /*     Compute Dy = C2'*C2 . */
@@ -358,20 +332,23 @@ integer *info;
     /*     Workspace:  need   13*N*N + 12*N + 5; */
     /*                 prefer larger. */
     i__1 = *ldwork - iwrk + 1;
-    sb02rd_("All", "Continuous", "NotUsed", "Transpose", "Upper", "GeneralScaling", "Stable", "NotFactored", "Original", n, &dwork[1], n, &dwork[iwt], n, &dwork[iwv], n, &dwork[iwg], n, &dwork[iwq], n, &y[y_offset], ldy, &sep, &xycond[2], &ferr, &dwork[iwr], &dwork[iwi], &dwork[iws], &n2, &iwork[1], &dwork[iwrk], &i__1, &bwork[1], &info2, 3L, 10L, 7L, 9L, 5L, 14L, 6L, 11L, 8L);
-    if (info2 > 0)
-    {
+    sb02rd_("All", "Continuous", "NotUsed", "Transpose", "Upper", "GeneralScaling", "Stable",
+        "NotFactored", "Original", n, &dwork[1], n, &dwork[iwt], n, &dwork[iwv], n, &dwork[iwg], n,
+        &dwork[iwq], n, &y[y_offset], ldy, &sep, &xycond[2], &ferr, &dwork[iwr], &dwork[iwi],
+        &dwork[iws], &n2, &iwork[1], &dwork[iwrk], &i__1, &bwork[1], &info2, 3L, 10L, 7L, 9L, 5L,
+        14L, 6L, 11L, 8L);
+    if (info2 > 0) {
         *info = 2;
         return 0;
     }
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk] + iwrk - 1;
-    lwamax = max(i__1,lwamax);
+    i__1 = (integer)dwork[iwrk] + iwrk - 1;
+    lwamax = max(i__1, lwamax);
     /*     Compute H = -B1*D21' - Y*C2' . */
     dlacpy_("Full", n, &np2, &b[(nd2 + 1) * b_dim1 + 1], ldb, &h__[h_offset], ldh, 4L);
-    dgemm_("N", "T", n, &np2, n, &c_b6, &y[y_offset], ldy, &c__[np1 + 1 + c_dim1], ldc, &c_b6, &h__[h_offset], ldh, 1L, 1L);
-    dwork[1] = (doublereal) lwamax;
+    dgemm_("N", "T", n, &np2, n, &c_b6, &y[y_offset], ldy, &c__[np1 + 1 + c_dim1], ldc, &c_b6,
+        &h__[h_offset], ldh, 1L, 1L);
+    dwork[1] = (doublereal)lwamax;
     return 0;
     /* *** Last line of SB10VD *** */
 } /* sb10vd_ */
-

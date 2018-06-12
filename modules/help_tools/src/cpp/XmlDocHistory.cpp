@@ -17,84 +17,77 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocHistory.hpp"
+#include "HtmlTags.hpp"
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
-#include "characters_encoding.hpp"
-#include "HtmlTags.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    XmlDocHistory::XmlDocHistory()
-    {
-        historyVector.clear();
+//=============================================================================
+XmlDocHistory::XmlDocHistory() { historyVector.clear(); }
+//=============================================================================
+XmlDocHistory::~XmlDocHistory()
+{
+    for (size_t k = 0; k < historyVector.size(); k++) {
+        delete historyVector[k];
+        historyVector[k] = nullptr;
     }
-    //=============================================================================
-    XmlDocHistory::~XmlDocHistory()
-    {
-        for (size_t k = 0; k < historyVector.size(); k++)
-        {
-            delete historyVector[k];
-            historyVector[k] = nullptr;
-        }
-        historyVector.clear();
+    historyVector.clear();
+}
+//=============================================================================
+void
+XmlDocHistory::append(std::wstring version, std::wstring description)
+{
+    XmlDocHistoryItem* item = nullptr;
+    try {
+        item = new XmlDocHistoryItem(version, description);
+    } catch (std::bad_alloc& e) {
+        e;
+        item = nullptr;
     }
-    //=============================================================================
-    void XmlDocHistory::append(std::wstring version, std::wstring description)
-    {
-        XmlDocHistoryItem *item = nullptr;
-        try
-        {
-            item = new XmlDocHistoryItem(version, description);
-        }
-        catch (std::bad_alloc &e)
-        {
-            e;
-            item = nullptr;
-        }
-        if (item)
-        {
-            historyVector.push_back(item);
-        }
+    if (item) {
+        historyVector.push_back(item);
     }
-    //=============================================================================
-    std::wstring XmlDocHistory::getItemType()
-    {
-        return utf8_to_wstring(HISTORY_TAG);
+}
+//=============================================================================
+std::wstring
+XmlDocHistory::getItemType()
+{
+    return utf8_to_wstring(HISTORY_TAG);
+}
+//=============================================================================
+bool
+XmlDocHistory::writeAsHtml(std::string& utf8stream)
+{
+    utf8stream = utf8stream + HTML_H3_IN_TAG + _("History") + HTML_H3_OUT_TAG + "\n";
+    utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
+    utf8stream = utf8stream + "\n";
+    utf8stream = utf8stream + "<table summary = \"history\" style=\"width:50%\">" + "\n";
+    utf8stream = utf8stream + HTML_TR_IN_TAG + "\n";
+    utf8stream = utf8stream + "\t" + HTML_TH_IN_TAG + _("Version") + HTML_TH_OUT_TAG + "\n";
+    utf8stream = utf8stream + "\t" + HTML_TH_IN_TAG + _("Description") + HTML_TH_OUT_TAG + "\n";
+    utf8stream = utf8stream + HTML_TR_OUT_TAG + "\n";
+    for (size_t k = 0; k < historyVector.size(); k++) {
+        historyVector[k]->writeAsHtml(utf8stream);
     }
-    //=============================================================================
-    bool XmlDocHistory::writeAsHtml(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + HTML_H3_IN_TAG + _("History") + HTML_H3_OUT_TAG + "\n";
-        utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
-        utf8stream = utf8stream + "\n";
-        utf8stream = utf8stream + "<table summary = \"history\" style=\"width:50%\">" + "\n";
-        utf8stream = utf8stream + HTML_TR_IN_TAG + "\n";
-        utf8stream = utf8stream + "\t" + HTML_TH_IN_TAG + _("Version") + HTML_TH_OUT_TAG + "\n";
-        utf8stream = utf8stream + "\t" + HTML_TH_IN_TAG + _("Description") + HTML_TH_OUT_TAG + "\n";
-        utf8stream = utf8stream + HTML_TR_OUT_TAG + "\n";
-        for (size_t k = 0; k < historyVector.size(); k++)
-        {
-            historyVector[k]->writeAsHtml(utf8stream);
-        }
-        utf8stream = utf8stream + HTML_TABLE_OUT_TAG + "\n";
-        utf8stream = utf8stream + "\n";
-        return true;
+    utf8stream = utf8stream + HTML_TABLE_OUT_TAG + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
+bool
+XmlDocHistory::writeAsMarkdown(std::string& utf8stream)
+{
+    utf8stream = utf8stream + "## " + _("History") + "\n";
+    utf8stream = utf8stream + "\n";
+    utf8stream = utf8stream + "|" + _("Version") + "|" + _("Description") + "|" + "\n";
+    utf8stream = utf8stream + "|" + "------" + "|" + "------" + "|" + "\n";
+    for (size_t k = 0; k < historyVector.size(); k++) {
+        historyVector[k]->writeAsMarkdown(utf8stream);
     }
-    //=============================================================================
-    bool XmlDocHistory::writeAsMarkdown(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + "## " + _("History") + "\n";
-        utf8stream = utf8stream + "\n";
-        utf8stream = utf8stream + "|" + _("Version") + "|" + _("Description") + "|" + "\n";
-        utf8stream = utf8stream + "|" + "------" + "|" + "------" + "|" + "\n";
-        for (size_t k = 0; k < historyVector.size(); k++)
-        {
-            historyVector[k]->writeAsMarkdown(utf8stream);
-        }
-        utf8stream = utf8stream + "\n";
-        return true;
-    }
-    //=============================================================================
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

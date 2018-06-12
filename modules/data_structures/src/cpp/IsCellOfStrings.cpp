@@ -19,27 +19,24 @@
 #include "IsCellOfStrings.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool IsCellOfString(ArrayOf cellarr)
-    {
-        if (cellarr.getDataClass() != NLS_CELL_ARRAY)
-        {
-            return false;
-        }
-        if (cellarr.isEmpty())
-        {
-            return true;
-        }
-        ArrayOf *arg = (ArrayOf*)(cellarr.getDataPointer());
-        for (indexType k = 0; k < cellarr.getDimensions().getElementCount(); k++)
-        {
-            if (!arg[k].isString())
-            {
-                return false;
-            }
-        }
+//=============================================================================
+bool
+IsCellOfString(ArrayOf cellarr)
+{
+    if (cellarr.getDataClass() != NLS_CELL_ARRAY) {
+        return false;
+    }
+    if (cellarr.isEmpty()) {
         return true;
     }
-    //=============================================================================
+    ArrayOf* arg = (ArrayOf*)(cellarr.getDataPointer());
+    for (indexType k = 0; k < cellarr.getDimensions().getElementCount(); k++) {
+        if (!arg[k].isString()) {
+            return false;
+        }
+    }
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

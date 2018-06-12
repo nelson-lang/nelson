@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -17,16 +17,16 @@ static doublereal c_b27 = -1.;
 static doublereal c_b30 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb03hd_(n, a, lda, b, ldb, macpar, q, ldq, dwork, info)
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
+EXPORTSYMBOL /* Subroutine */ int mb03hd_(
+    n, a, lda, b, ldb, macpar, q, ldq, dwork, info) integer* n;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
 doublereal *macpar, *q;
-integer *ldq;
-doublereal *dwork;
-integer *info;
+integer* ldq;
+doublereal* dwork;
+integer* info;
 {
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset;
@@ -153,8 +153,7 @@ integer *info;
     /* Function Body */
     *info = 0;
     /*     Computations. */
-    if (*n == 4)
-    {
+    if (*n == 4) {
         /*        Set machine constants. */
         par[0] = macpar[1];
         par[1] = macpar[2];
@@ -181,33 +180,32 @@ integer *info;
         /* Computing MAX */
         /* Computing MAX */
         d__3 = abs(dwork[17]), d__4 = abs(dwork[22]);
-        d__1 = abs(dwork[1]), d__1 = max(d__1,smln), d__2 = abs(dwork[10]), d__1 = max(d__1,d__2), d__2 = abs(dwork[5]) + abs(dwork[6]), d__1 = max(d__1,d__2), d__2 = abs(dwork[18]) + max(d__3,d__4);
-        smin = sqrt(smln) / max(d__1,d__2);
+        d__1 = abs(dwork[1]), d__1 = max(d__1, smln), d__2 = abs(dwork[10]), d__1 = max(d__1, d__2),
+        d__2 = abs(dwork[5]) + abs(dwork[6]), d__1 = max(d__1, d__2),
+        d__2 = abs(dwork[18]) + max(d__3, d__4);
+        smin = sqrt(smln) / max(d__1, d__2);
         par[2] = smin;
         mb02uw_(&c_false, &c__2, &c__6, par, &b[b_offset], ldb, &dwork[1], &c__4, &si, info);
-        if (*info != 0)
-        {
+        if (*info != 0) {
             return 0;
         }
         /*        Compute X22 = -d*inv(B11')*A11'. */
         mb02uw_(&c_true, &c__2, &c__2, par, &b[b_offset], ldb, &dwork[11], &c__4, &d__, info);
         /*        Take si = min( si, d ) as unique scaling factor. */
-        if (si < d__)
-        {
+        if (si < d__) {
             dlascl_("G", &c__0, &c__0, &d__, &si, &c__2, &c__2, &dwork[11], &c__4, info, 1L);
-        }
-        else if (si > d__)
-        {
+        } else if (si > d__) {
             dlascl_("G", &c__0, &c__0, &si, &d__, &c__2, &c__6, &dwork[1], &c__4, info, 1L);
         }
         /*        Compute X12 = si*( inv(B11)*A12 - ( inv(B11)*B12 )*X22 ). */
-        dgemm_("No Transpose", "No Transpose", &c__2, &c__2, &c__2, &c_b27, &dwork[17], &c__4, &dwork[11], &c__4, &c_b30, &dwork[9], &c__4, 12L, 12L);
+        dgemm_("No Transpose", "No Transpose", &c__2, &c__2, &c__2, &c_b27, &dwork[17], &c__4,
+            &dwork[11], &c__4, &c_b30, &dwork[9], &c__4, 12L, 12L);
         /*        Scale X11, X12, and X22, so that 1-norm of X11 is 1. */
         /* Computing MAX */
-        d__1 = abs(dwork[1]) + abs(dwork[2]), d__2 = abs(dwork[5]) + abs(dwork[6]), d__1 = max(d__1,d__2);
-        nrm = max(d__1,smln);
-        if (nrm > 1.)
-        {
+        d__1 = abs(dwork[1]) + abs(dwork[2]), d__2 = abs(dwork[5]) + abs(dwork[6]),
+        d__1 = max(d__1, d__2);
+        nrm = max(d__1, smln);
+        if (nrm > 1.) {
             dlascl_("G", &c__0, &c__0, &nrm, &c_b30, &c__2, &c__4, &dwork[1], &c__4, info, 1L);
             dlascl_("G", &c__0, &c__0, &nrm, &c_b30, &c__2, &c__2, &dwork[11], &c__4, info, 1L);
         }
@@ -218,9 +216,11 @@ integer *info;
         t = dwork[1] * dwork[6] - dwork[2] * dwork[5];
         dlacpy_("Full", &c__4, &c__2, &dwork[9], &c__4, &q[q_offset], ldq, 4L);
         d__1 = -s;
-        dgemm_("No Transpose", "No Transpose", &c__2, &c__2, &c__4, &c_b30, &dwork[1], &c__4, &dwork[9], &c__4, &d__1, &q[q_offset], ldq, 12L, 12L);
+        dgemm_("No Transpose", "No Transpose", &c__2, &c__2, &c__4, &c_b30, &dwork[1], &c__4,
+            &dwork[9], &c__4, &d__1, &q[q_offset], ldq, 12L, 12L);
         d__1 = -s;
-        dgemm_("No Transpose", "No Transpose", &c__2, &c__2, &c__2, &c_b30, &dwork[11], &c__4, &dwork[11], &c__4, &d__1, &q[q_dim1 + 3], ldq, 12L, 12L);
+        dgemm_("No Transpose", "No Transpose", &c__2, &c__2, &c__2, &c_b30, &dwork[11], &c__4,
+            &dwork[11], &c__4, &d__1, &q[q_dim1 + 3], ldq, 12L, 12L);
         q[q_dim1 + 3] += t;
         q[(q_dim1 << 1) + 4] += t;
         itau = 1;
@@ -232,17 +232,18 @@ integer *info;
         /*        Use the last two columns of Q to build a 2-by-4 matrix W. */
         /*        Postmultiply A with the first column of Q, and premultiply */
         /*        by W. Then, annihilate the second element of the result. */
-        dwork[21] = a[a_dim1 + 1] * q[q_dim1 + 1] + a[(a_dim1 << 1) + 1] * q[q_dim1 + 2] + a[(a_dim1 << 2) + 1] * q[q_dim1 + 4];
+        dwork[21] = a[a_dim1 + 1] * q[q_dim1 + 1] + a[(a_dim1 << 1) + 1] * q[q_dim1 + 2]
+            + a[(a_dim1 << 2) + 1] * q[q_dim1 + 4];
         dwork[22] = a[(a_dim1 << 1) + 2] * q[q_dim1 + 2] - a[(a_dim1 << 2) + 1] * q[q_dim1 + 3];
         dwork[23] = a[a_dim1 + 1] * q[q_dim1 + 3];
         dwork[24] = a[(a_dim1 << 1) + 1] * q[q_dim1 + 3] + a[(a_dim1 << 1) + 2] * q[q_dim1 + 4];
-        dwork[9] = q[q_dim1 * 3 + 3] * dwork[21] + q[q_dim1 * 3 + 4] * dwork[22] - q[q_dim1 * 3 + 1] * dwork[23] - q[q_dim1 * 3 + 2] * dwork[24];
-        dwork[10] = q[(q_dim1 << 2) + 3] * dwork[21] + q[(q_dim1 << 2) + 4] * dwork[22] - q[(q_dim1 << 2) + 1] * dwork[23] - q[(q_dim1 << 2) + 2] * dwork[24];
+        dwork[9] = q[q_dim1 * 3 + 3] * dwork[21] + q[q_dim1 * 3 + 4] * dwork[22]
+            - q[q_dim1 * 3 + 1] * dwork[23] - q[q_dim1 * 3 + 2] * dwork[24];
+        dwork[10] = q[(q_dim1 << 2) + 3] * dwork[21] + q[(q_dim1 << 2) + 4] * dwork[22]
+            - q[(q_dim1 << 2) + 1] * dwork[23] - q[(q_dim1 << 2) + 2] * dwork[24];
         dlartg_(&dwork[9], &dwork[10], &co, &si, &t);
         drot_(&c__4, &q[q_dim1 * 3 + 1], &c__1, &q[(q_dim1 << 2) + 1], &c__1, &co, &si);
-    }
-    else
-    {
+    } else {
         d__1 = b[b_dim1 + 1] * 2.;
         dlartg_(&b[(b_dim1 << 1) + 1], &d__1, &co, &si, &t);
         q[q_dim1 + 1] = co;
@@ -253,4 +254,3 @@ integer *info;
     return 0;
     /* *** Last line of MB03HD *** */
 } /* mb03hd_ */
-

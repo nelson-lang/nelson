@@ -17,8 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "audiodevinfoBuiltin.hpp"
-#include "Error.hpp"
 #include "AudioDevInfo.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -30,120 +30,94 @@ using namespace Nelson;
 // devinfo = audiodevinfo(io, rate, bits, chans)
 // devinfo = audiodevinfo(io, id, rate, bits, chans)
 //=============================================================================
-ArrayOfVector Nelson::AudioGateway::audiodevinfoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::AudioGateway::audiodevinfoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring errorMessage;
     ArrayOf res;
-    switch (argIn.size())
-    {
-        case 0:
-        {
-            // devinfo = audiodevinfo
-            res = AudioDevInfo(errorMessage);
-        }
-        break;
-        case 1:
-        {
-            // devinfo = audiodevinfo(io)
-            // devinfo = audiodevinfo('default')
-            ArrayOf param1 = argIn[0];
-            if (param1.isString())
-            {
-                std::wstring str = param1.getContentAsWideString();
-                if (str == L"default")
-                {
-                    res = AudioDevInfoDefault(errorMessage);
-                }
-                else
-                {
-                    Error(eval, _W("Wrong value for #1 argument."));
-                }
+    switch (argIn.size()) {
+    case 0: {
+        // devinfo = audiodevinfo
+        res = AudioDevInfo(errorMessage);
+    } break;
+    case 1: {
+        // devinfo = audiodevinfo(io)
+        // devinfo = audiodevinfo('default')
+        ArrayOf param1 = argIn[0];
+        if (param1.isString()) {
+            std::wstring str = param1.getContentAsWideString();
+            if (str == L"default") {
+                res = AudioDevInfoDefault(errorMessage);
+            } else {
+                Error(eval, _W("Wrong value for #1 argument."));
             }
-            else
-            {
-                int io = param1.getContentAsInteger32Scalar();
-                res = AudioDevInfo(io, errorMessage);
-            }
-        }
-        break;
-        case 2:
-        {
-            ArrayOf param1 = argIn[0];
+        } else {
             int io = param1.getContentAsInteger32Scalar();
-            ArrayOf param2 = argIn[1];
-            if (param2.isSingleString())
-            {
-                // devinfo = audiodevinfo(io, name)
-                std::wstring name = param2.getContentAsWideString();
-                res = AudioDevInfo(io, name, errorMessage);
-            }
-            else
-            {
-                // devinfo = audiodevinfo(io, id)
-                int id = param2.getContentAsInteger32Scalar();
-                res = AudioDevInfo(io, id, errorMessage);
-            }
+            res = AudioDevInfo(io, errorMessage);
         }
-        break;
-        case 3:
-        {
-            // devinfo = audiodevinfo(io, id, 'DriverVersion')
-            ArrayOf param3 = argIn[2];
-            std::wstring str3 = param3.getContentAsWideString();
-            if (str3 != L"DriverVersion")
-            {
-                Error(eval, _W("Wrong value for #3 argument."));
-            }
-            ArrayOf param1 = argIn[0];
-            int io = param1.getContentAsInteger32Scalar();
-            ArrayOf param2 = argIn[1];
+    } break;
+    case 2: {
+        ArrayOf param1 = argIn[0];
+        int io = param1.getContentAsInteger32Scalar();
+        ArrayOf param2 = argIn[1];
+        if (param2.isSingleString()) {
+            // devinfo = audiodevinfo(io, name)
+            std::wstring name = param2.getContentAsWideString();
+            res = AudioDevInfo(io, name, errorMessage);
+        } else {
+            // devinfo = audiodevinfo(io, id)
             int id = param2.getContentAsInteger32Scalar();
-            res = AudioDevInfoDriverVersion(io, id, errorMessage);
+            res = AudioDevInfo(io, id, errorMessage);
         }
-        break;
-        case 4:
-        {
-            // devinfo = audiodevinfo(io, rate, bits, chans)
-            ArrayOf param1 = argIn[0];
-            int io = param1.getContentAsInteger32Scalar();
-            ArrayOf param2 = argIn[1];
-            int rate = param2.getContentAsInteger32Scalar();
-            ArrayOf param3 = argIn[2];
-            int bits = param3.getContentAsInteger32Scalar();
-            ArrayOf param4 = argIn[3];
-            int chans = param4.getContentAsInteger32Scalar();
-            res = AudioDevInfo(io, rate, bits, chans, errorMessage);
+    } break;
+    case 3: {
+        // devinfo = audiodevinfo(io, id, 'DriverVersion')
+        ArrayOf param3 = argIn[2];
+        std::wstring str3 = param3.getContentAsWideString();
+        if (str3 != L"DriverVersion") {
+            Error(eval, _W("Wrong value for #3 argument."));
         }
-        break;
-        case 5:
-        {
-            // devinfo = audiodevinfo(io, id, rate, bits, chans)
-            ArrayOf param1 = argIn[0];
-            int io = param1.getContentAsInteger32Scalar();
-            ArrayOf param2 = argIn[1];
-            int id = param2.getContentAsInteger32Scalar();
-            ArrayOf param3 = argIn[2];
-            int rate = param3.getContentAsInteger32Scalar();
-            ArrayOf param4 = argIn[3];
-            int bits = param4.getContentAsInteger32Scalar();
-            ArrayOf param5 = argIn[4];
-            int chans = param5.getContentAsInteger32Scalar();
-            res = AudioDevInfo(io, id, rate, bits, chans, errorMessage);
-        }
-        break;
-        default:
-        {
-            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
-        break;
+        ArrayOf param1 = argIn[0];
+        int io = param1.getContentAsInteger32Scalar();
+        ArrayOf param2 = argIn[1];
+        int id = param2.getContentAsInteger32Scalar();
+        res = AudioDevInfoDriverVersion(io, id, errorMessage);
+    } break;
+    case 4: {
+        // devinfo = audiodevinfo(io, rate, bits, chans)
+        ArrayOf param1 = argIn[0];
+        int io = param1.getContentAsInteger32Scalar();
+        ArrayOf param2 = argIn[1];
+        int rate = param2.getContentAsInteger32Scalar();
+        ArrayOf param3 = argIn[2];
+        int bits = param3.getContentAsInteger32Scalar();
+        ArrayOf param4 = argIn[3];
+        int chans = param4.getContentAsInteger32Scalar();
+        res = AudioDevInfo(io, rate, bits, chans, errorMessage);
+    } break;
+    case 5: {
+        // devinfo = audiodevinfo(io, id, rate, bits, chans)
+        ArrayOf param1 = argIn[0];
+        int io = param1.getContentAsInteger32Scalar();
+        ArrayOf param2 = argIn[1];
+        int id = param2.getContentAsInteger32Scalar();
+        ArrayOf param3 = argIn[2];
+        int rate = param3.getContentAsInteger32Scalar();
+        ArrayOf param4 = argIn[3];
+        int bits = param4.getContentAsInteger32Scalar();
+        ArrayOf param5 = argIn[4];
+        int chans = param5.getContentAsInteger32Scalar();
+        res = AudioDevInfo(io, id, rate, bits, chans, errorMessage);
+    } break;
+    default: {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } break;
     }
-    if (!errorMessage.empty())
-    {
+    if (!errorMessage.empty()) {
         Error(eval, errorMessage);
     }
     retval.push_back(res);

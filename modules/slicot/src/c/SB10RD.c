@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,41 +11,46 @@ static doublereal c_b7 = 0.;
 static doublereal c_b8 = 1.;
 static doublereal c_b19 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb10rd_(n, m, np, ncon, nmeas, gamma, a, lda, b, ldb, c__, ldc, d__, ldd, f, ldf, h__, ldh, tu, ldtu, ty, ldty, x, ldx, y, ldy, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, iwork, dwork, ldwork, info)
-integer *n, *m, *np, *ncon, *nmeas;
+EXPORTSYMBOL /* Subroutine */ int sb10rd_(n, m, np, ncon, nmeas, gamma, a, lda, b, ldb, c__, ldc,
+    d__, ldd, f, ldf, h__, ldh, tu, ldtu, ty, ldty, x, ldx, y, ldy, ak, ldak, bk, ldbk, ck, ldck,
+    dk, lddk, iwork, dwork, ldwork, info) integer *n,
+    *m, *np, *ncon, *nmeas;
 doublereal *gamma, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *f;
-integer *ldf;
-doublereal *h__;
-integer *ldh;
-doublereal *tu;
-integer *ldtu;
-doublereal *ty;
-integer *ldty;
-doublereal *x;
-integer *ldx;
-doublereal *y;
-integer *ldy;
-doublereal *ak;
-integer *ldak;
-doublereal *bk;
-integer *ldbk;
-doublereal *ck;
-integer *ldck;
-doublereal *dk;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* f;
+integer* ldf;
+doublereal* h__;
+integer* ldh;
+doublereal* tu;
+integer* ldtu;
+doublereal* ty;
+integer* ldty;
+doublereal* x;
+integer* ldx;
+doublereal* y;
+integer* ldy;
+doublereal* ak;
+integer* ldak;
+doublereal* bk;
+integer* ldbk;
+doublereal* ck;
+integer* ldck;
+doublereal* dk;
 integer *lddk, *iwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, ak_dim1, ak_offset, b_dim1, b_offset, bk_dim1, bk_offset, c_dim1, c_offset, ck_dim1, ck_offset, d_dim1, d_offset, dk_dim1, dk_offset, f_dim1, f_offset, h_dim1, h_offset, tu_dim1, tu_offset, ty_dim1, ty_offset, x_dim1, x_offset, y_dim1, y_offset, i__1, i__2, i__3, i__4, i__5, i__6, i__7, i__8, i__9, i__10, i__11, i__12;
+    integer a_dim1, a_offset, ak_dim1, ak_offset, b_dim1, b_offset, bk_dim1, bk_offset, c_dim1,
+        c_offset, ck_dim1, ck_offset, d_dim1, d_offset, dk_dim1, dk_offset, f_dim1, f_offset,
+        h_dim1, h_offset, tu_dim1, tu_offset, ty_dim1, ty_offset, x_dim1, x_offset, y_dim1,
+        y_offset, i__1, i__2, i__3, i__4, i__5, i__6, i__7, i__8, i__9, i__10, i__11, i__12;
     doublereal d__1, d__2;
     /* Local variables */
     static integer iwrk, info2;
@@ -58,7 +63,8 @@ integer *ldwork, *info;
     extern /* Subroutine */ int dtrmm_(), dsyrk_();
     static integer m1, m2, ij;
     extern doublereal dlamch_(), dlange_();
-    extern /* Subroutine */ int dgecon_(), dgetrf_(), dlacpy_(), dgetri_(), dlaset_(), xerbla_(), dgetrs_();
+    extern /* Subroutine */ int dgecon_(), dgetrf_(), dlacpy_(), dgetri_(), dlaset_(), xerbla_(),
+        dgetrs_();
     static integer lwamax;
     extern doublereal dlansy_();
     extern /* Subroutine */ int dpotrf_(), dsycon_();
@@ -301,88 +307,47 @@ integer *ldwork, *info;
     np1 = *np - *nmeas;
     np2 = *nmeas;
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*np < 0)
-    {
+    } else if (*np < 0) {
         *info = -3;
-    }
-    else if (*ncon < 0 || m1 < 0 || m2 > np1)
-    {
+    } else if (*ncon < 0 || m1 < 0 || m2 > np1) {
         *info = -4;
-    }
-    else if (*nmeas < 0 || np1 < 0 || np2 > m1)
-    {
+    } else if (*nmeas < 0 || np1 < 0 || np2 > m1) {
         *info = -5;
-    }
-    else if (*gamma < 0.)
-    {
+    } else if (*gamma < 0.) {
         *info = -6;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldc < max(1,*np))
-    {
+    } else if (*ldc < max(1, *np)) {
         *info = -12;
-    }
-    else if (*ldd < max(1,*np))
-    {
+    } else if (*ldd < max(1, *np)) {
         *info = -14;
-    }
-    else if (*ldf < max(1,*m))
-    {
+    } else if (*ldf < max(1, *m)) {
         *info = -16;
-    }
-    else if (*ldh < max(1,*n))
-    {
+    } else if (*ldh < max(1, *n)) {
         *info = -18;
-    }
-    else if (*ldtu < max(1,m2))
-    {
+    } else if (*ldtu < max(1, m2)) {
         *info = -20;
-    }
-    else if (*ldty < max(1,np2))
-    {
+    } else if (*ldty < max(1, np2)) {
         *info = -22;
-    }
-    else if (*ldx < max(1,*n))
-    {
+    } else if (*ldx < max(1, *n)) {
         *info = -24;
-    }
-    else if (*ldy < max(1,*n))
-    {
+    } else if (*ldy < max(1, *n)) {
         *info = -26;
-    }
-    else if (*ldak < max(1,*n))
-    {
+    } else if (*ldak < max(1, *n)) {
         *info = -28;
-    }
-    else if (*ldbk < max(1,*n))
-    {
+    } else if (*ldbk < max(1, *n)) {
         *info = -30;
-    }
-    else if (*ldck < max(1,m2))
-    {
+    } else if (*ldck < max(1, m2)) {
         *info = -32;
-    }
-    else if (*lddk < max(1,m2))
-    {
+    } else if (*lddk < max(1, m2)) {
         *info = -34;
-    }
-    else
-    {
+    } else {
         /*        Compute workspace. */
         nd1 = np1 - m2;
         nd2 = m1 - np2;
@@ -394,25 +359,24 @@ integer *ldwork, *info;
         i__7 = nd2 << 1, i__8 = nd2 * m2;
         /* Computing MAX */
         /* Computing MAX */
-        i__11 = m2 * m2 + m2 * 3, i__12 = np2 * ((np2 << 1) + m2 + max(np2,*n));
-        i__9 = (*n << 1) * m2, i__10 = m2 * np2 + max(i__11,i__12);
-        i__3 = nd1 * nd1 + max(i__5,i__6), i__4 = nd2 * nd2 + max(i__7,i__8), i__3 = max(i__3,i__4), i__4 = *n * 3, i__3 = max(i__3,i__4), i__4 = *n * ((np2 << 1) + m2) + max(i__9,i__10);
-        i__1 = 1, i__2 = m2 * np2 + np2 * np2 + m2 * m2 + max(i__3,i__4);
-        minwrk = max(i__1,i__2);
-        if (*ldwork < minwrk)
-        {
+        i__11 = m2 * m2 + m2 * 3, i__12 = np2 * ((np2 << 1) + m2 + max(np2, *n));
+        i__9 = (*n << 1) * m2, i__10 = m2 * np2 + max(i__11, i__12);
+        i__3 = nd1 * nd1 + max(i__5, i__6), i__4 = nd2 * nd2 + max(i__7, i__8),
+        i__3 = max(i__3, i__4), i__4 = *n * 3, i__3 = max(i__3, i__4),
+        i__4 = *n * ((np2 << 1) + m2) + max(i__9, i__10);
+        i__1 = 1, i__2 = m2 * np2 + np2 * np2 + m2 * m2 + max(i__3, i__4);
+        minwrk = max(i__1, i__2);
+        if (*ldwork < minwrk) {
             *info = -37;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SB10RD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *m == 0 || *np == 0 || m1 == 0 || m2 == 0 || np1 == 0 || np2 == 0)
-    {
+    if (*n == 0 || *m == 0 || *np == 0 || m1 == 0 || m2 == 0 || np1 == 0 || np2 == 0) {
         dwork[1] = 1.;
         return 0;
     }
@@ -429,11 +393,9 @@ integer *ldwork, *info;
     /*     Set D11HAT := -D1122 . */
     ij = id11;
     i__1 = np2;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = m2;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             dwork[ij] = -d__[nd1 + i__ + (nd2 + j) * d_dim1];
             ++ij;
             /* L10: */
@@ -446,37 +408,34 @@ integer *ldwork, *info;
     dlaset_("Lower", &m2, &m2, &c_b7, &c_b8, &dwork[id12], &m2, 5L);
     /*     Compute D11HAT, D21HAT, D12HAT . */
     lwamax = 0;
-    if (nd1 > 0)
-    {
-        if (nd2 == 0)
-        {
+    if (nd1 > 0) {
+        if (nd2 == 0) {
             /*           Compute D21HAT'*D21HAT = Inp2 - D1112'*D1112/gamma^2 . */
             /* Computing 2nd power */
             d__2 = *gamma;
             d__1 = -1. / (d__2 * d__2);
-            dsyrk_("U", "T", &np2, &nd1, &d__1, &d__[d_offset], ldd, &c_b8, &dwork[id21], &np2, 1L, 1L);
-        }
-        else
-        {
+            dsyrk_("U", "T", &np2, &nd1, &d__1, &d__[d_offset], ldd, &c_b8, &dwork[id21], &np2, 1L,
+                1L);
+        } else {
             /*           Compute gdum = gamma^2*Ind1 - D1111*D1111' . */
             /* Computing 2nd power */
             d__2 = *gamma;
             d__1 = d__2 * d__2;
             dlaset_("U", &nd1, &nd1, &c_b7, &d__1, &dwork[iw1], &nd1, 1L);
-            dsyrk_("U", "N", &nd1, &nd2, &c_b19, &d__[d_offset], ldd, &c_b8, &dwork[iw1], &nd1, 1L, 1L);
+            dsyrk_("U", "N", &nd1, &nd2, &c_b19, &d__[d_offset], ldd, &c_b8, &dwork[iw1], &nd1, 1L,
+                1L);
             anorm = dlansy_("I", "U", &nd1, &dwork[iw1], &nd1, &dwork[iwrk], 1L, 1L);
             i__1 = *ldwork - iwrk + 1;
             dsytrf_("U", &nd1, &dwork[iw1], &nd1, &iwork[1], &dwork[iwrk], &i__1, &info2, 1L);
-            if (info2 > 0)
-            {
+            if (info2 > 0) {
                 *info = 1;
                 return 0;
             }
-            lwamax = (integer) dwork[iwrk] + iwrk - 1;
-            dsycon_("U", &nd1, &dwork[iw1], &nd1, &iwork[1], &anorm, &rcond, &dwork[iwrk], &iwork[nd1 + 1], &info2, 1L);
+            lwamax = (integer)dwork[iwrk] + iwrk - 1;
+            dsycon_("U", &nd1, &dwork[iw1], &nd1, &iwork[1], &anorm, &rcond, &dwork[iwrk],
+                &iwork[nd1 + 1], &info2, 1L);
             /*           Return if the matrix is singular to working precision. */
-            if (rcond < eps)
-            {
+            if (rcond < eps) {
                 *info = 1;
                 return 0;
             }
@@ -484,10 +443,13 @@ integer *ldwork, *info;
             dlacpy_("Full", &nd1, &np2, &d__[(nd2 + 1) * d_dim1 + 1], ldd, &dwork[iw2], &nd1, 4L);
             dsytrs_("U", &nd1, &np2, &dwork[iw1], &nd1, &iwork[1], &dwork[iw2], &nd1, &info2, 1L);
             /*           Compute D11HAT = -D1121*D1111'*inv(gdum)*D1112 - D1122 . */
-            dgemm_("T", "N", &nd2, &np2, &nd1, &c_b8, &d__[d_offset], ldd, &dwork[iw2], &nd1, &c_b7, &dwork[iw3], &nd2, 1L, 1L);
-            dgemm_("N", "N", &m2, &np2, &nd2, &c_b19, &d__[nd1 + 1 + d_dim1], ldd, &dwork[iw3], &nd2, &c_b8, &dwork[id11], &m2, 1L, 1L);
+            dgemm_("T", "N", &nd2, &np2, &nd1, &c_b8, &d__[d_offset], ldd, &dwork[iw2], &nd1, &c_b7,
+                &dwork[iw3], &nd2, 1L, 1L);
+            dgemm_("N", "N", &m2, &np2, &nd2, &c_b19, &d__[nd1 + 1 + d_dim1], ldd, &dwork[iw3],
+                &nd2, &c_b8, &dwork[id11], &m2, 1L, 1L);
             /*           Compute D21HAT'*D21HAT = Inp2 - D1112'*inv(gdum)*D1112 . */
-            mb01rx_("Left", "Upper", "Transpose", &np2, &nd1, &c_b8, &c_b19, &dwork[id21], &np2, &d__[(nd2 + 1) * d_dim1 + 1], ldd, &dwork[iw2], &nd1, &info2, 4L, 5L, 9L);
+            mb01rx_("Left", "Upper", "Transpose", &np2, &nd1, &c_b8, &c_b19, &dwork[id21], &np2,
+                &d__[(nd2 + 1) * d_dim1 + 1], ldd, &dwork[iw2], &nd1, &info2, 4L, 5L, 9L);
             iw2 = iw1 + nd2 * nd2;
             iwrk = iw2;
             /*           Compute gdum = gamma^2*Ind2 - D1111'*D1111 . */
@@ -495,22 +457,22 @@ integer *ldwork, *info;
             d__2 = *gamma;
             d__1 = d__2 * d__2;
             dlaset_("L", &nd2, &nd2, &c_b7, &d__1, &dwork[iw1], &nd2, 1L);
-            dsyrk_("L", "T", &nd2, &nd1, &c_b19, &d__[d_offset], ldd, &c_b8, &dwork[iw1], &nd2, 1L, 1L);
+            dsyrk_("L", "T", &nd2, &nd1, &c_b19, &d__[d_offset], ldd, &c_b8, &dwork[iw1], &nd2, 1L,
+                1L);
             anorm = dlansy_("I", "L", &nd2, &dwork[iw1], &nd2, &dwork[iwrk], 1L, 1L);
             i__1 = *ldwork - iwrk + 1;
             dsytrf_("L", &nd2, &dwork[iw1], &nd2, &iwork[1], &dwork[iwrk], &i__1, &info2, 1L);
-            if (info2 > 0)
-            {
+            if (info2 > 0) {
                 *info = 1;
                 return 0;
             }
             /* Computing MAX */
-            i__1 = (integer) dwork[iwrk] + iwrk - 1;
-            lwamax = max(i__1,lwamax);
-            dsycon_("L", &nd2, &dwork[iw1], &nd2, &iwork[1], &anorm, &rcond, &dwork[iwrk], &iwork[nd2 + 1], &info2, 1L);
+            i__1 = (integer)dwork[iwrk] + iwrk - 1;
+            lwamax = max(i__1, lwamax);
+            dsycon_("L", &nd2, &dwork[iw1], &nd2, &iwork[1], &anorm, &rcond, &dwork[iwrk],
+                &iwork[nd2 + 1], &info2, 1L);
             /*           Return if the matrix is singular to working precision. */
-            if (rcond < eps)
-            {
+            if (rcond < eps) {
                 *info = 1;
                 return 0;
             }
@@ -518,31 +480,28 @@ integer *ldwork, *info;
             ma02ad_("Full", &m2, &nd2, &d__[nd1 + 1 + d_dim1], ldd, &dwork[iw2], &nd2, 4L);
             dsytrs_("L", &nd2, &m2, &dwork[iw1], &nd2, &iwork[1], &dwork[iw2], &nd2, &info2, 1L);
             /*           Compute D12HAT*D12HAT' = Im2 - D1121*inv(gdum)*D1121' . */
-            mb01rx_("Left", "Lower", "NoTranspose", &m2, &nd2, &c_b8, &c_b19, &dwork[id12], &m2, &d__[nd1 + 1 + d_dim1], ldd, &dwork[iw2], &nd2, &info2, 4L, 5L, 11L);
+            mb01rx_("Left", "Lower", "NoTranspose", &m2, &nd2, &c_b8, &c_b19, &dwork[id12], &m2,
+                &d__[nd1 + 1 + d_dim1], ldd, &dwork[iw2], &nd2, &info2, 4L, 5L, 11L);
         }
-    }
-    else
-    {
-        if (nd2 > 0)
-        {
+    } else {
+        if (nd2 > 0) {
             /*           Compute D12HAT*D12HAT' = Im2 - D1121*D1121'/gamma^2 . */
             /* Computing 2nd power */
             d__2 = *gamma;
             d__1 = -1. / (d__2 * d__2);
-            dsyrk_("L", "N", &m2, &nd2, &d__1, &d__[d_offset], ldd, &c_b8, &dwork[id12], &m2, 1L, 1L);
+            dsyrk_(
+                "L", "N", &m2, &nd2, &d__1, &d__[d_offset], ldd, &c_b8, &dwork[id12], &m2, 1L, 1L);
         }
     }
     /*     Compute D21HAT using Cholesky decomposition. */
     dpotrf_("U", &np2, &dwork[id21], &np2, &info2, 1L);
-    if (info2 > 0)
-    {
+    if (info2 > 0) {
         *info = 1;
         return 0;
     }
     /*     Compute D12HAT using Cholesky decomposition. */
     dpotrf_("L", &m2, &dwork[id12], &m2, &info2, 1L);
-    if (info2 > 0)
-    {
+    if (info2 > 0) {
         *info = 1;
         return 0;
     }
@@ -553,32 +512,29 @@ integer *ldwork, *info;
     /* Computing 2nd power */
     d__2 = *gamma;
     d__1 = -1. / (d__2 * d__2);
-    dgemm_("N", "N", n, n, n, &d__1, &y[y_offset], ldy, &x[x_offset], ldx, &c_b8, &ak[ak_offset], ldak, 1L, 1L);
+    dgemm_("N", "N", n, n, n, &d__1, &y[y_offset], ldy, &x[x_offset], ldx, &c_b8, &ak[ak_offset],
+        ldak, 1L, 1L);
     anorm = dlange_("1", n, n, &ak[ak_offset], ldak, &dwork[iwrk], 1L);
     dgetrf_(n, n, &ak[ak_offset], ldak, &iwork[1], &info2);
-    if (info2 > 0)
-    {
+    if (info2 > 0) {
         *info = 1;
         return 0;
     }
     dgecon_("1", n, &ak[ak_offset], ldak, &anorm, &rcond, &dwork[iwrk], &iwork[*n + 1], info, 1L);
     /*     Return if the matrix is singular to working precision. */
-    if (rcond < eps)
-    {
+    if (rcond < eps) {
         *info = 1;
         return 0;
     }
     iwb = iw1;
     iwc = iwb + *n * np2;
-    iw1 = iwc + (m2 + np2) **n;
+    iw1 = iwc + (m2 + np2) * *n;
     iw2 = iw1 + *n * m2;
     /*     Compute C2' + F12' in BK . */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = np2;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             bk[j + i__ * bk_dim1] = c__[np1 + i__ + j * c_dim1] + f[nd2 + i__ + j * f_dim1];
             /* L30: */
         }
@@ -586,27 +542,29 @@ integer *ldwork, *info;
     }
     /*                                                          _ */
     /*     Compute the transpose of (C2 + F12)*Z , with Z = inv(Z) . */
-    dgetrs_("Transpose", n, &np2, &ak[ak_offset], ldak, &iwork[1], &bk[bk_offset], ldbk, &info2, 9L);
+    dgetrs_(
+        "Transpose", n, &np2, &ak[ak_offset], ldak, &iwork[1], &bk[bk_offset], ldbk, &info2, 9L);
     /*     Compute the transpose of F2*Z . */
     ma02ad_("Full", &m2, n, &f[m1 + 1 + f_dim1], ldf, &dwork[iw1], n, 4L);
     dgetrs_("Transpose", n, &m2, &ak[ak_offset], ldak, &iwork[1], &dwork[iw1], n, &info2, 9L);
     /*     Compute the transpose of C1HAT = F2*Z - D11HAT*(C2 + F12)*Z . */
-    dgemm_("N", "T", n, &m2, &np2, &c_b19, &bk[bk_offset], ldbk, &dwork[id11], &m2, &c_b8, &dwork[iw1], n, 1L, 1L);
+    dgemm_("N", "T", n, &m2, &np2, &c_b19, &bk[bk_offset], ldbk, &dwork[id11], &m2, &c_b8,
+        &dwork[iw1], n, 1L, 1L);
     /*     Compute CHAT . */
     i__1 = m2 + np2;
-    dgemm_("N", "T", &m2, n, &m2, &c_b8, &tu[tu_offset], ldtu, &dwork[iw1], n, &c_b7, &dwork[iwc], &i__1, 1L, 1L);
+    dgemm_("N", "T", &m2, n, &m2, &c_b8, &tu[tu_offset], ldtu, &dwork[iw1], n, &c_b7, &dwork[iwc],
+        &i__1, 1L, 1L);
     i__1 = m2 + np2;
     ma02ad_("Full", n, &np2, &bk[bk_offset], ldbk, &dwork[iwc + m2], &i__1, 4L);
     i__1 = m2 + np2;
-    dtrmm_("L", "U", "N", "N", &np2, n, &c_b19, &dwork[id21], &np2, &dwork[iwc + m2], &i__1, 1L, 1L, 1L, 1L);
+    dtrmm_("L", "U", "N", "N", &np2, n, &c_b19, &dwork[id21], &np2, &dwork[iwc + m2], &i__1, 1L, 1L,
+        1L, 1L);
     /*     Compute B2 + H12 . */
     ij = iw2;
     i__1 = m2;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             dwork[ij] = b[i__ + (m1 + j) * b_dim1] + h__[i__ + (nd1 + j) * h_dim1];
             ++ij;
             /* L50: */
@@ -615,34 +573,39 @@ integer *ldwork, *info;
     }
     /*     Compute A + HC in AK . */
     dlacpy_("Full", n, n, &a[a_offset], lda, &ak[ak_offset], ldak, 4L);
-    dgemm_("N", "N", n, n, np, &c_b8, &h__[h_offset], ldh, &c__[c_offset], ldc, &c_b8, &ak[ak_offset], ldak, 1L, 1L);
+    dgemm_("N", "N", n, n, np, &c_b8, &h__[h_offset], ldh, &c__[c_offset], ldc, &c_b8,
+        &ak[ak_offset], ldak, 1L, 1L);
     /*     Compute AHAT = A + HC + (B2 + H12)*C1HAT in AK . */
-    dgemm_("N", "T", n, n, &m2, &c_b8, &dwork[iw2], n, &dwork[iw1], n, &c_b8, &ak[ak_offset], ldak, 1L, 1L);
+    dgemm_("N", "T", n, n, &m2, &c_b8, &dwork[iw2], n, &dwork[iw1], n, &c_b8, &ak[ak_offset], ldak,
+        1L, 1L);
     /*     Compute B1HAT = -H2 + (B2 + H12)*D11HAT in BK . */
     dlacpy_("Full", n, &np2, &h__[(np1 + 1) * h_dim1 + 1], ldh, &bk[bk_offset], ldbk, 4L);
-    dgemm_("N", "N", n, &np2, &m2, &c_b8, &dwork[iw2], n, &dwork[id11], &m2, &c_b19, &bk[bk_offset], ldbk, 1L, 1L);
+    dgemm_("N", "N", n, &np2, &m2, &c_b8, &dwork[iw2], n, &dwork[id11], &m2, &c_b19, &bk[bk_offset],
+        ldbk, 1L, 1L);
     /*     Compute the first block of BHAT, BHAT1 . */
-    dgemm_("N", "N", n, &np2, &np2, &c_b8, &bk[bk_offset], ldbk, &ty[ty_offset], ldty, &c_b7, &dwork[iwb], n, 1L, 1L);
+    dgemm_("N", "N", n, &np2, &np2, &c_b8, &bk[bk_offset], ldbk, &ty[ty_offset], ldty, &c_b7,
+        &dwork[iwb], n, 1L, 1L);
     /*     Compute Tu*D11HAT . */
-    dgemm_("N", "N", &m2, &np2, &m2, &c_b8, &tu[tu_offset], ldtu, &dwork[id11], &m2, &c_b7, &dwork[iw1], &m2, 1L, 1L);
+    dgemm_("N", "N", &m2, &np2, &m2, &c_b8, &tu[tu_offset], ldtu, &dwork[id11], &m2, &c_b7,
+        &dwork[iw1], &m2, 1L, 1L);
     /*     Compute Tu*D11HAT*Ty in DK . */
-    dgemm_("N", "N", &m2, &np2, &np2, &c_b8, &dwork[iw1], &m2, &ty[ty_offset], ldty, &c_b7, &dk[dk_offset], lddk, 1L, 1L);
+    dgemm_("N", "N", &m2, &np2, &np2, &c_b8, &dwork[iw1], &m2, &ty[ty_offset], ldty, &c_b7,
+        &dk[dk_offset], lddk, 1L, 1L);
     /*     Compute P = Im2 + Tu*D11HAT*Ty*D22 and its condition. */
     iw2 = iw1 + m2 * np2;
     iwrk = iw2 + m2 * m2;
     dlaset_("Full", &m2, &m2, &c_b7, &c_b8, &dwork[iw2], &m2, 4L);
-    dgemm_("N", "N", &m2, &m2, &np2, &c_b8, &dk[dk_offset], lddk, &d__[np1 + 1 + (m1 + 1) * d_dim1], ldd, &c_b8, &dwork[iw2], &m2, 1L, 1L);
+    dgemm_("N", "N", &m2, &m2, &np2, &c_b8, &dk[dk_offset], lddk, &d__[np1 + 1 + (m1 + 1) * d_dim1],
+        ldd, &c_b8, &dwork[iw2], &m2, 1L, 1L);
     anorm = dlange_("1", &m2, &m2, &dwork[iw2], &m2, &dwork[iwrk], 1L);
     dgetrf_(&m2, &m2, &dwork[iw2], &m2, &iwork[1], &info2);
-    if (info2 > 0)
-    {
+    if (info2 > 0) {
         *info = 2;
         return 0;
     }
     dgecon_("1", &m2, &dwork[iw2], &m2, &anorm, &rcond, &dwork[iwrk], &iwork[m2 + 1], &info2, 1L);
     /*     Return if the matrix is singular to working precision. */
-    if (rcond < eps)
-    {
+    if (rcond < eps) {
         *info = 2;
         return 0;
     }
@@ -657,10 +620,10 @@ integer *ldwork, *info;
     iw4 = iw3 + np2 * m2;
     iwrk = iw4 + np2 * np2;
     dlaset_("Full", &np2, &np2, &c_b7, &c_b8, &dwork[iw2], &np2, 4L);
-    dgemm_("N", "N", &np2, &np2, &m2, &c_b8, &d__[np1 + 1 + (m1 + 1) * d_dim1], ldd, &dk[dk_offset], lddk, &c_b8, &dwork[iw2], &np2, 1L, 1L);
+    dgemm_("N", "N", &np2, &np2, &m2, &c_b8, &d__[np1 + 1 + (m1 + 1) * d_dim1], ldd, &dk[dk_offset],
+        lddk, &c_b8, &dwork[iw2], &np2, 1L, 1L);
     dgetrf_(&np2, &np2, &dwork[iw2], &np2, &iwork[1], &info2);
-    if (info2 > 0)
-    {
+    if (info2 > 0) {
         *info = 2;
         return 0;
     }
@@ -670,8 +633,8 @@ integer *ldwork, *info;
     i__1 = *ldwork - iwrk + 1;
     dgetri_(&np2, &dwork[iw2], &np2, &iwork[1], &dwork[iwrk], &i__1, &info2);
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk] + iwrk - 1;
-    lwamax = max(i__1,lwamax);
+    i__1 = (integer)dwork[iwrk] + iwrk - 1;
+    lwamax = max(i__1, lwamax);
     /*     Compute A2 = ( inv(Ty) - inv(Q)*inv(Ty) - */
     /*                    A1*Tu*D11HAT )*inv(D21HAT) . */
     dlacpy_("Full", &np2, &np2, &ty[ty_offset], ldty, &dwork[iw4], &np2, 4L);
@@ -679,22 +642,28 @@ integer *ldwork, *info;
     i__1 = *ldwork - iwrk + 1;
     dgetri_(&np2, &dwork[iw4], &np2, &iwork[1], &dwork[iwrk], &i__1, &info2);
     dlacpy_("Full", &np2, &np2, &dwork[iw4], &np2, &dwork[iwrk], &np2, 4L);
-    dgemm_("N", "N", &np2, &np2, &np2, &c_b19, &dwork[iw2], &np2, &dwork[iwrk], &np2, &c_b8, &dwork[iw4], &np2, 1L, 1L);
-    dgemm_("N", "N", &np2, &np2, &m2, &c_b19, &dwork[iw3], &np2, &dwork[iw1], &m2, &c_b8, &dwork[iw4], &np2, 1L, 1L);
-    dtrmm_("R", "U", "N", "N", &np2, &np2, &c_b8, &dwork[id21], &np2, &dwork[iw4], &np2, 1L, 1L, 1L, 1L);
+    dgemm_("N", "N", &np2, &np2, &np2, &c_b19, &dwork[iw2], &np2, &dwork[iwrk], &np2, &c_b8,
+        &dwork[iw4], &np2, 1L, 1L);
+    dgemm_("N", "N", &np2, &np2, &m2, &c_b19, &dwork[iw3], &np2, &dwork[iw1], &m2, &c_b8,
+        &dwork[iw4], &np2, 1L, 1L);
+    dtrmm_("R", "U", "N", "N", &np2, &np2, &c_b8, &dwork[id21], &np2, &dwork[iw4], &np2, 1L, 1L, 1L,
+        1L);
     /*     Compute [ A1  A2 ]*CHAT . */
     i__1 = m2 + np2;
     i__2 = m2 + np2;
-    dgemm_("N", "N", &np2, n, &i__1, &c_b8, &dwork[iw3], &np2, &dwork[iwc], &i__2, &c_b7, &dwork[iwrk], &np2, 1L, 1L);
+    dgemm_("N", "N", &np2, n, &i__1, &c_b8, &dwork[iw3], &np2, &dwork[iwc], &i__2, &c_b7,
+        &dwork[iwrk], &np2, 1L, 1L);
     /*     Compute AK := AHAT - BHAT1*[ A1  A2 ]*CHAT . */
-    dgemm_("N", "N", n, n, &np2, &c_b19, &dwork[iwb], n, &dwork[iwrk], &np2, &c_b8, &ak[ak_offset], ldak, 1L, 1L);
+    dgemm_("N", "N", n, n, &np2, &c_b19, &dwork[iwb], n, &dwork[iwrk], &np2, &c_b8, &ak[ak_offset],
+        ldak, 1L, 1L);
     /*     Compute BK := BHAT1*inv(Q) . */
-    dgemm_("N", "N", n, &np2, &np2, &c_b8, &dwork[iwb], n, &dwork[iw2], &np2, &c_b7, &bk[bk_offset], ldbk, 1L, 1L);
+    dgemm_("N", "N", n, &np2, &np2, &c_b8, &dwork[iwb], n, &dwork[iw2], &np2, &c_b7, &bk[bk_offset],
+        ldbk, 1L, 1L);
     /*     Compute DK := Tu*D11HAT*Ty*inv(Q) . */
-    dgemm_("N", "N", &m2, &np2, &np2, &c_b8, &dk[dk_offset], lddk, &dwork[iw2], &np2, &c_b7, &dwork[iw3], &m2, 1L, 1L);
+    dgemm_("N", "N", &m2, &np2, &np2, &c_b8, &dk[dk_offset], lddk, &dwork[iw2], &np2, &c_b7,
+        &dwork[iw3], &m2, 1L, 1L);
     dlacpy_("Full", &m2, &np2, &dwork[iw3], &m2, &dk[dk_offset], lddk, 4L);
-    dwork[1] = (doublereal) lwamax;
+    dwork[1] = (doublereal)lwamax;
     return 0;
     /* *** Last line of SB10RD *** */
 } /* sb10rd_ */
-

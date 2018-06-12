@@ -17,42 +17,38 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "castBuiltin.hpp"
-#include "Error.hpp"
 #include "Cast.hpp"
-#include "StringToClass.hpp"
+#include "Error.hpp"
 #include "OverloadFunction.hpp"
+#include "StringToClass.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ElementaryFunctionsGateway::castBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::castBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() < 2 || argIn.size() > 3)
-    {
+    if (argIn.size() < 2 || argIn.size() > 3) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         bool isSparse = false;
         Class destinationClass;
-        if (argIn.size() == 2)
-        {
+        if (argIn.size() == 2) {
             ArrayOf param2 = argIn[1];
             std::wstring dest = param2.getContentAsWideString();
-            if (eval->getOverloadState())
-            {
-                Context *context = eval->getContext();
-                FunctionDef *funcDef = nullptr;
-                if (context->lookupFunction(dest, funcDef))
-                {
-                    if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
-                    {
+            if (eval->getOverloadState()) {
+                Context* context = eval->getContext();
+                FunctionDef* funcDef = nullptr;
+                if (context->lookupFunction(dest, funcDef)) {
+                    if ((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                        || (funcDef->type() == NLS_MACRO_FUNCTION)) {
                         bSuccess = true;
                         ArrayOfVector argInCopy;
                         argInCopy.push_back(argIn[0]);
@@ -61,13 +57,10 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::castBuiltin(Evaluator* eval, i
                 }
             }
             destinationClass = StringToClass(dest);
-        }
-        else
-        {
+        } else {
             ArrayOf param2 = argIn[1];
             std::wstring like = param2.getContentAsWideString();
-            if (like != L"like")
-            {
+            if (like != L"like") {
                 Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
             }
             destinationClass = argIn[2].getDataClass();

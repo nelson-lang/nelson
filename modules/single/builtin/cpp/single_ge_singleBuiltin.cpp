@@ -17,50 +17,43 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "single_ge_singleBuiltin.hpp"
-#include "GeSingle.hpp"
 #include "Error.hpp"
+#include "GeSingle.hpp"
 #include "MatrixCheck.hpp"
 #include "OverloadBinaryOperator.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::SingleGateway::single_ge_singleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::SingleGateway::single_ge_singleBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar()))
-    {
+    if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar())) {
         Error(eval, _W("Size mismatch on arguments to arithmetic operator ") + L"=>");
     }
-    if (!A.isSingleType() || !B.isSingleType())
-    {
+    if (!A.isSingleType() || !B.isSingleType()) {
         Error(eval, ERROR_WRONG_ARGUMENTS_TYPE_SINGLE_EXPECTED);
     }
-    if (A.isSparse() || B.isSparse())
-    {
+    if (A.isSparse() || B.isSparse()) {
         Error(eval, ERROR_WRONG_ARGUMENTS_SIZE_FULL_MATRIX_EXPECTED);
     }
-    if (!A.is2D() || !B.is2D())
-    {
+    if (!A.is2D() || !B.is2D()) {
         Error(eval, ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     ArrayOfVector retval;
     ArrayOf res;
-    if (A.isComplex() || B.isComplex())
-    {
+    if (A.isComplex() || B.isComplex()) {
         bool bSuccess = false;
         res = OverloadBinaryOperator(eval, A, B, "ge", bSuccess, "scomplex_ge_scomplex");
-        if (!bSuccess)
-        {
+        if (!bSuccess) {
             Error(eval, _W("complex comparaison not defined."));
         }
-    }
-    else
-    {
+    } else {
         res = single_ge_single(A, B);
     }
     retval.push_back(res);

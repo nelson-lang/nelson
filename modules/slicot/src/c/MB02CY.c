@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,18 +10,19 @@
 static integer c__1 = 1;
 static doublereal c_b12 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int mb02cy_(typet, strucg, p, q, n, k, a, lda, b, ldb, h__, ldh, cs, lcs, dwork, ldwork, info, typet_len, strucg_len)
-char *typet, *strucg;
+EXPORTSYMBOL /* Subroutine */ int mb02cy_(typet, strucg, p, q, n, k, a, lda, b, ldb, h__, ldh, cs,
+    lcs, dwork, ldwork, info, typet_len, strucg_len) char *typet,
+    *strucg;
 integer *p, *q, *n, *k;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *h__;
-integer *ldh;
-doublereal *cs;
-integer *lcs;
-doublereal *dwork;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* h__;
+integer* ldh;
+doublereal* cs;
+integer* lcs;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen typet_len;
 ftnlen strucg_len;
@@ -178,82 +179,57 @@ ftnlen strucg_len;
     isrow = lsame_(typet, "R", 1L, 1L);
     islwr = lsame_(strucg, "T", 1L, 1L);
     /*     Check the scalar input parameters. */
-    if (! (isrow || lsame_(typet, "C", 1L, 1L)))
-    {
+    if (!(isrow || lsame_(typet, "C", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (islwr || lsame_(strucg, "N", 1L, 1L)))
-    {
+    } else if (!(islwr || lsame_(strucg, "N", 1L, 1L))) {
         *info = -2;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -3;
-    }
-    else if (*q < 0)
-    {
+    } else if (*q < 0) {
         *info = -4;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -5;
-    }
-    else if (*k < 0 || *k > *p)
-    {
+    } else if (*k < 0 || *k > *p) {
         *info = -6;
-    }
-    else if (*lda < 1 || isrow && *lda < *p || ! isrow && *lda < *n)
-    {
+    } else if (*lda < 1 || isrow && *lda < *p || !isrow && *lda < *n) {
         *info = -8;
-    }
-    else if (*ldb < 1 || isrow && *ldb < *q || ! isrow && *ldb < *n)
-    {
+    } else if (*ldb < 1 || isrow && *ldb < *q || !isrow && *ldb < *n) {
         *info = -10;
-    }
-    else if (*ldh < 1 || isrow && *ldh < *q || ! isrow && *ldh < *k)
-    {
+    } else if (*ldh < 1 || isrow && *ldh < *q || !isrow && *ldh < *k) {
         *info = -12;
-    }
-    else if (*lcs < (*k << 1) + min(*k,*q))
-    {
+    } else if (*lcs < (*k << 1) + min(*k, *q)) {
         *info = -14;
-    }
-    else if (*ldwork < max(1,*n))
-    {
-        dwork[1] = (doublereal) max(1,*n);
+    } else if (*ldwork < max(1, *n)) {
+        dwork[1] = (doublereal)max(1, *n);
         *info = -16;
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02CY", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*n,*k);
-    if (min(i__1,*q) == 0)
-    {
+    i__1 = min(*n, *k);
+    if (min(i__1, *q) == 0) {
         dwork[1] = 1.;
         return 0;
     }
     /*     Applying the transformations. */
-    if (isrow)
-    {
+    if (isrow) {
         /*        The generator is row wise stored. */
-        if (islwr)
-        {
+        if (islwr) {
             i__1 = *k;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 /*              Apply Householder transformation avoiding touching of */
                 /*              zero blocks. */
                 ci = *n - *k + i__ - 1;
                 tau = h__[i__ * h_dim1 + 1];
                 h__[i__ * h_dim1 + 1] = 1.;
-                i__2 = min(i__,*q);
-                dlarf_("Left", &i__2, &ci, &h__[i__ * h_dim1 + 1], &c__1, &tau, &b[b_offset], ldb, &dwork[1], 4L);
+                i__2 = min(i__, *q);
+                dlarf_("Left", &i__2, &ci, &h__[i__ * h_dim1 + 1], &c__1, &tau, &b[b_offset], ldb,
+                    &dwork[1], 4L);
                 h__[i__ * h_dim1 + 1] = tau;
                 /*              Now apply the hyperbolic rotation under the assumption */
                 /*              that A(I, N-K+I+1:N) and B(1, N-K+I:N) are zero. */
@@ -269,28 +245,27 @@ ftnlen strucg_len;
                 b[(*n - *k + i__) * b_dim1 + 1] = -s / c__ * a[i__ + (*n - *k + i__) * a_dim1];
                 a[i__ + (*n - *k + i__) * a_dim1] = 1. / c__ * a[i__ + (*n - *k + i__) * a_dim1];
                 /*              All below B(1,N-K+I) should be zero. */
-                if (*q > 1)
-                {
+                if (*q > 1) {
                     i__2 = *q - 1;
-                    dlaset_("All", &i__2, &c__1, &c_b12, &c_b12, &b[(*n - *k + i__) * b_dim1 + 2], &c__1, 3L);
+                    dlaset_("All", &i__2, &c__1, &c_b12, &c_b12, &b[(*n - *k + i__) * b_dim1 + 2],
+                        &c__1, 3L);
                 }
                 /* L10: */
             }
-        }
-        else
-        {
+        } else {
             /*           Apply the QR reduction on B. */
-            i__1 = min(*k,*q);
-            dormqr_("Left", "Transpose", q, n, &i__1, &h__[h_offset], ldh, &cs[(*k << 1) + 1], &b[b_offset], ldb, &dwork[1], ldwork, &ierr, 4L, 9L);
-            maxwrk = (integer) dwork[1];
+            i__1 = min(*k, *q);
+            dormqr_("Left", "Transpose", q, n, &i__1, &h__[h_offset], ldh, &cs[(*k << 1) + 1],
+                &b[b_offset], ldb, &dwork[1], ldwork, &ierr, 4L, 9L);
+            maxwrk = (integer)dwork[1];
             i__1 = *k;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 /*              Apply Householder transformation. */
                 tau = h__[i__ * h_dim1 + 1];
                 h__[i__ * h_dim1 + 1] = 1.;
-                i__2 = min(i__,*q);
-                dlarf_("Left", &i__2, n, &h__[i__ * h_dim1 + 1], &c__1, &tau, &b[b_offset], ldb, &dwork[1], 4L);
+                i__2 = min(i__, *q);
+                dlarf_("Left", &i__2, n, &h__[i__ * h_dim1 + 1], &c__1, &tau, &b[b_offset], ldb,
+                    &dwork[1], 4L);
                 h__[i__ * h_dim1 + 1] = tau;
                 /*              Apply Hyperbolic Rotation. */
                 c__ = cs[(i__ << 1) - 1];
@@ -305,21 +280,18 @@ ftnlen strucg_len;
                 /* L20: */
             }
         }
-    }
-    else
-    {
+    } else {
         /*        The generator is column wise stored. */
-        if (islwr)
-        {
+        if (islwr) {
             i__1 = *k;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 /*              Apply Householder transformation avoiding touching zeros. */
                 ci = *n - *k + i__ - 1;
                 tau = h__[i__ + h_dim1];
                 h__[i__ + h_dim1] = 1.;
-                i__2 = min(i__,*q);
-                dlarf_("Right", &ci, &i__2, &h__[i__ + h_dim1], ldh, &tau, &b[b_offset], ldb, &dwork[1], 5L);
+                i__2 = min(i__, *q);
+                dlarf_("Right", &ci, &i__2, &h__[i__ + h_dim1], ldh, &tau, &b[b_offset], ldb,
+                    &dwork[1], 5L);
                 h__[i__ + h_dim1] = tau;
                 /*              Apply Hyperbolic Rotation. */
                 c__ = cs[(i__ << 1) - 1];
@@ -334,28 +306,27 @@ ftnlen strucg_len;
                 b[*n - *k + i__ + b_dim1] = -s / c__ * a[*n - *k + i__ + i__ * a_dim1];
                 a[*n - *k + i__ + i__ * a_dim1] = 1. / c__ * a[*n - *k + i__ + i__ * a_dim1];
                 /*              All elements right behind B(N-K+I,1) should be zero. */
-                if (*q > 1)
-                {
+                if (*q > 1) {
                     i__2 = *q - 1;
-                    dlaset_("All", &c__1, &i__2, &c_b12, &c_b12, &b[*n - *k + i__ + (b_dim1 << 1)], ldb, 3L);
+                    dlaset_("All", &c__1, &i__2, &c_b12, &c_b12, &b[*n - *k + i__ + (b_dim1 << 1)],
+                        ldb, 3L);
                 }
                 /* L30: */
             }
-        }
-        else
-        {
+        } else {
             /*           Apply the LQ reduction on B. */
-            i__1 = min(*k,*q);
-            dormlq_("Right", "Transpose", n, q, &i__1, &h__[h_offset], ldh, &cs[(*k << 1) + 1], &b[b_offset], ldb, &dwork[1], ldwork, &ierr, 5L, 9L);
-            maxwrk = (integer) dwork[1];
+            i__1 = min(*k, *q);
+            dormlq_("Right", "Transpose", n, q, &i__1, &h__[h_offset], ldh, &cs[(*k << 1) + 1],
+                &b[b_offset], ldb, &dwork[1], ldwork, &ierr, 5L, 9L);
+            maxwrk = (integer)dwork[1];
             i__1 = *k;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 /*              Apply Householder transformation. */
                 tau = h__[i__ + h_dim1];
                 h__[i__ + h_dim1] = 1.;
-                i__2 = min(i__,*q);
-                dlarf_("Right", n, &i__2, &h__[i__ + h_dim1], ldh, &tau, &b[b_offset], ldb, &dwork[1], 5L);
+                i__2 = min(i__, *q);
+                dlarf_("Right", n, &i__2, &h__[i__ + h_dim1], ldh, &tau, &b[b_offset], ldb,
+                    &dwork[1], 5L);
                 h__[i__ + h_dim1] = tau;
                 /*              Apply Hyperbolic Rotation. */
                 c__ = cs[(i__ << 1) - 1];
@@ -371,8 +342,7 @@ ftnlen strucg_len;
             }
         }
     }
-    dwork[1] = (doublereal) max(maxwrk,*n);
+    dwork[1] = (doublereal)max(maxwrk, *n);
     return 0;
     /* *** Last line of MB02CY *** */
 } /* mb02cy_ */
-

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,13 +10,13 @@
 static integer c__2 = 2;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb03od_(jobqr, m, n, a, lda, jpvt, rcond, svlmax, tau, rank, sval, dwork, ldwork, info, jobqr_len)
-char *jobqr;
+EXPORTSYMBOL /* Subroutine */ int mb03od_(jobqr, m, n, a, lda, jpvt, rcond, svlmax, tau, rank, sval,
+    dwork, ldwork, info, jobqr_len) char* jobqr;
 integer *m, *n;
-doublereal *a;
+doublereal* a;
 integer *lda, *jpvt;
 doublereal *rcond, *svlmax, *tau;
-integer *rank;
+integer* rank;
 doublereal *sval, *dwork;
 integer *ldwork, *info;
 ftnlen jobqr_len;
@@ -194,59 +194,41 @@ ftnlen jobqr_len;
     --dwork;
     /* Function Body */
     ljobqr = lsame_(jobqr, "Q", 1L, 1L);
-    mn = min(*m,*n);
+    mn = min(*m, *n);
     ismin = 1;
     ismax = mn + 1;
-    if (ljobqr)
-    {
+    if (ljobqr) {
         minwrk = *n * 3 + 1;
-    }
-    else
-    {
+    } else {
         /* Computing MAX */
         i__1 = 1, i__2 = mn << 1;
-        minwrk = max(i__1,i__2);
+        minwrk = max(i__1, i__2);
     }
     maxwrk = minwrk;
     /*     Test the input scalar arguments. */
     *info = 0;
-    if (! ljobqr && ! lsame_(jobqr, "N", 1L, 1L))
-    {
+    if (!ljobqr && !lsame_(jobqr, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -5;
-    }
-    else if (*rcond < 0.)
-    {
+    } else if (*rcond < 0.) {
         *info = -7;
-    }
-    else if (*svlmax < 0.)
-    {
+    } else if (*svlmax < 0.) {
         *info = -8;
-    }
-    else if (*ldwork < minwrk)
-    {
+    } else if (*ldwork < minwrk) {
         *info = -13;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB03OD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible */
-    if (mn == 0)
-    {
+    if (mn == 0) {
         *rank = 0;
         sval[1] = 0.;
         sval[2] = 0.;
@@ -254,8 +236,7 @@ ftnlen jobqr_len;
         dwork[1] = 1.;
         return 0;
     }
-    if (ljobqr)
-    {
+    if (ljobqr) {
         /*        Compute QR factorization with column pivoting of A: */
         /*           A * P = Q * R */
         /*        Workspace need   3*N + 1; */
@@ -263,40 +244,34 @@ ftnlen jobqr_len;
         /*        Details of Householder rotations stored in TAU. */
         dgeqp3_(m, n, &a[a_offset], lda, &jpvt[1], &tau[1], &dwork[1], ldwork, info);
         /* Computing MAX */
-        i__1 = maxwrk, i__2 = (integer) dwork[1];
-        maxwrk = max(i__1,i__2);
+        i__1 = maxwrk, i__2 = (integer)dwork[1];
+        maxwrk = max(i__1, i__2);
     }
     /*     Determine RANK using incremental condition estimation */
     dwork[ismin] = 1.;
     dwork[ismax] = 1.;
     smax = (d__1 = a[a_dim1 + 1], abs(d__1));
     smin = smax;
-    if (smax == 0. || *svlmax **rcond > smax)
-    {
+    if (smax == 0. || *svlmax * *rcond > smax) {
         *rank = 0;
         sval[1] = smax;
         sval[2] = 0.;
         sval[3] = 0.;
-    }
-    else
-    {
+    } else {
         *rank = 1;
         sminpr = smin;
-L10:
-        if (*rank < mn)
-        {
+    L10:
+        if (*rank < mn) {
             i__ = *rank + 1;
-            dlaic1_(&c__2, rank, &dwork[ismin], &smin, &a[i__ * a_dim1 + 1], &a[i__ + i__ * a_dim1], &sminpr, &s1, &c1);
-            dlaic1_(&c__1, rank, &dwork[ismax], &smax, &a[i__ * a_dim1 + 1], &a[i__ + i__ * a_dim1], &smaxpr, &s2, &c2);
-            if (*svlmax **rcond <= smaxpr)
-            {
-                if (*svlmax **rcond <= sminpr)
-                {
-                    if (smaxpr **rcond <= sminpr)
-                    {
+            dlaic1_(&c__2, rank, &dwork[ismin], &smin, &a[i__ * a_dim1 + 1], &a[i__ + i__ * a_dim1],
+                &sminpr, &s1, &c1);
+            dlaic1_(&c__1, rank, &dwork[ismax], &smax, &a[i__ * a_dim1 + 1], &a[i__ + i__ * a_dim1],
+                &smaxpr, &s2, &c2);
+            if (*svlmax * *rcond <= smaxpr) {
+                if (*svlmax * *rcond <= sminpr) {
+                    if (smaxpr * *rcond <= sminpr) {
                         i__1 = *rank;
-                        for (i__ = 1; i__ <= i__1; ++i__)
-                        {
+                        for (i__ = 1; i__ <= i__1; ++i__) {
                             dwork[ismin + i__ - 1] = s1 * dwork[ismin + i__ - 1];
                             dwork[ismax + i__ - 1] = s2 * dwork[ismax + i__ - 1];
                             /* L20: */
@@ -315,8 +290,7 @@ L10:
         sval[2] = smin;
         sval[3] = sminpr;
     }
-    dwork[1] = (doublereal) maxwrk;
+    dwork[1] = (doublereal)maxwrk;
     return 0;
     /* *** Last line of MB03OD *** */
 } /* mb03od_ */
-

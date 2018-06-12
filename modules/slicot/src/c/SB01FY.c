@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,16 +14,16 @@ static integer c__2 = 2;
 static doublereal c_b15 = 0.;
 static doublereal c_b16 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb01fy_(discr, n, m, a, lda, b, ldb, f, ldf, v, ldv, info)
-logical *discr;
+EXPORTSYMBOL /* Subroutine */ int sb01fy_(
+    discr, n, m, a, lda, b, ldb, f, ldf, v, ldv, info) logical* discr;
 integer *n, *m;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *f;
-integer *ldf;
-doublereal *v;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* f;
+integer* ldf;
+doublereal* v;
 integer *ldv, *info;
 {
     /* System generated locals */
@@ -35,11 +35,11 @@ integer *ldv, *info;
     static doublereal temp;
     extern /* Subroutine */ int ma02ad_();
     static integer i__;
-    static doublereal u[4]	/* was [2][2] */, scale;
+    static doublereal u[4] /* was [2][2] */, scale;
     extern /* Subroutine */ int mb04ox_(), drotg_(), sb03oy_();
-    static doublereal dummy[4]	/* was [2][2] */;
+    static doublereal dummy[4] /* was [2][2] */;
     extern doublereal dlapy2_(), dlapy3_();
-    static doublereal r11, r12, cs, r22, at[4]	/* was [2][2] */;
+    static doublereal r11, r12, cs, r22, at[4] /* was [2][2] */;
     extern /* Subroutine */ int dlarfg_();
     static doublereal sn;
     extern /* Subroutine */ int dlaset_(), dlatzm_(), dtrtri_();
@@ -153,65 +153,48 @@ integer *ldv, *info;
     /*     A'*U'*U + U'*U*A = R'*R if DISCR = .FALSE. or */
     /*     A'*U'*U*A - U'*U = R'*R if DISCR = .TRUE. . */
     ma02ad_("Full", n, m, &b[b_offset], ldb, &f[f_offset], ldf, 4L);
-    if (*n == 1)
-    {
+    if (*n == 1) {
         /*        The N = 1 case. */
-        if (*m > 1)
-        {
+        if (*m > 1) {
             dlarfg_(m, &f[f_dim1 + 1], &f[f_dim1 + 2], &c__1, &temp);
         }
         r11 = (d__1 = f[f_dim1 + 1], abs(d__1));
         /*        Make sure A is unstable or divergent and find U. */
-        if (*discr)
-        {
+        if (*discr) {
             temp = (d__1 = a[a_dim1 + 1], abs(d__1));
-            if (temp <= 1.)
-            {
+            if (temp <= 1.) {
                 *info = 2;
                 return 0;
-            }
-            else
-            {
+            } else {
                 temp = r11 / sqrt((temp - 1.) * (temp + 1.));
             }
-        }
-        else
-        {
-            if (a[a_dim1 + 1] <= 0.)
-            {
+        } else {
+            if (a[a_dim1 + 1] <= 0.) {
                 *info = 2;
                 return 0;
-            }
-            else
-            {
+            } else {
                 temp = r11 / sqrt((d__1 = a[a_dim1 + 1] * 2., abs(d__1)));
             }
         }
         u[0] = temp;
         scale = 1.;
-    }
-    else
-    {
+    } else {
         /*        The N = 2 case. */
-        if (*m > 1)
-        {
+        if (*m > 1) {
             dlarfg_(m, &f[f_dim1 + 1], &f[f_dim1 + 2], &c__1, &temp);
             i__1 = *n - 1;
-            dlatzm_("Left", m, &i__1, &f[f_dim1 + 2], &c__1, &temp, &f[(f_dim1 << 1) + 1], &f[(f_dim1 << 1) + 2], ldf, &v[v_offset], 4L);
+            dlatzm_("Left", m, &i__1, &f[f_dim1 + 2], &c__1, &temp, &f[(f_dim1 << 1) + 1],
+                &f[(f_dim1 << 1) + 2], ldf, &v[v_offset], 4L);
         }
         r11 = f[f_dim1 + 1];
         r12 = f[(f_dim1 << 1) + 1];
-        if (*m > 2)
-        {
+        if (*m > 2) {
             i__1 = *m - 1;
             dlarfg_(&i__1, &f[(f_dim1 << 1) + 2], &f[(f_dim1 << 1) + 3], &c__1, &temp);
         }
-        if (*m == 1)
-        {
+        if (*m == 1) {
             r22 = 0.;
-        }
-        else
-        {
+        } else {
             r22 = f[(f_dim1 << 1) + 2];
         }
         at[0] = a[a_dim1 + 1];
@@ -222,14 +205,10 @@ integer *ldv, *info;
         u[2] = r12;
         u[3] = r22;
         sb03oy_(discr, &c_false, &c_n1, at, &c__2, u, &c__2, dummy, &c__2, &scale, info);
-        if (*info != 0)
-        {
-            if (*info != 4)
-            {
+        if (*info != 0) {
+            if (*info != 4) {
                 *info = 2;
-            }
-            else
-            {
+            } else {
                 *info = 3;
             }
             return 0;
@@ -240,10 +219,8 @@ integer *ldv, *info;
     /*              If the pair (A,B) is nearly uncontrollable, then */
     /*              the computed results may be inaccurate. */
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        if (u[i__ + (i__ << 1) - 3] == 0.)
-        {
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        if (u[i__ + (i__ << 1) - 3] == 0.) {
             *info = 1;
             return 0;
         }
@@ -251,25 +228,22 @@ integer *ldv, *info;
     }
     /*     Set V = I. */
     dlaset_("Upper", m, m, &c_b15, &c_b16, &v[v_offset], ldv, 5L);
-    if (*discr)
-    {
+    if (*discr) {
         /*        Compute an upper triangular matrix V such that */
         /*                                 -1 */
         /*        V*V' = (I+B'*inv(U'*U)*B)  . */
         /*        First compute F = B'*inv(U) and the Cholesky factorization */
         /*        of I + F*F'. */
         i__1 = *m;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             f[i__ + f_dim1] = b[i__ * b_dim1 + 1] / u[0] * scale;
             /* L20: */
         }
-        if (*n == 2)
-        {
+        if (*n == 2) {
             i__1 = *m;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
-                f[i__ + (f_dim1 << 1)] = (b[i__ * b_dim1 + 2] - f[i__ + f_dim1] * u[2]) / u[3] * scale;
+            for (i__ = 1; i__ <= i__1; ++i__) {
+                f[i__ + (f_dim1 << 1)]
+                    = (b[i__ * b_dim1 + 2] - f[i__ + f_dim1] * u[2]) / u[3] * scale;
                 /* L30: */
             }
             mb04ox_(m, &v[v_offset], ldv, &f[(f_dim1 << 1) + 1], &c__1);
@@ -283,66 +257,53 @@ integer *ldv, *info;
     /*     2)   If DISCR = .TRUE. */
     /*                                -1 */
     /*             F = -B'*(U'*U+B*B')  *A. */
-    if (*n == 1)
-    {
-        if (*discr)
-        {
+    if (*n == 1) {
+        if (*discr) {
             temp = -a[a_dim1 + 1];
             r11 = dlapy2_(u, &r11);
             i__1 = *m;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 f[i__ + f_dim1] = b[i__ * b_dim1 + 1] / r11 / r11 * temp;
                 /* L40: */
             }
-        }
-        else
-        {
+        } else {
             r11 = u[0];
             i__1 = *m;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 f[i__ + f_dim1] = -(b[i__ * b_dim1 + 1] / r11 / r11);
                 /* L50: */
             }
         }
-    }
-    else
-    {
+    } else {
         /*        Set R = U  if DISCR = .FALSE. or compute the Cholesky */
         /*        factorization of R'*R = U'*U+B*B' if DISCR = .TRUE.. */
-        if (*discr)
-        {
+        if (*discr) {
             temp = u[0];
             drotg_(&r11, &temp, &cs, &sn);
             temp = -sn * r12 + cs * u[2];
             r12 = cs * r12 + sn * u[2];
             r22 = dlapy3_(&r22, &temp, &u[3]);
-        }
-        else
-        {
+        } else {
             r11 = u[0];
             r12 = u[2];
             r22 = u[3];
         }
         /*        Compute F = -B'*inv(R'*R). */
         i__1 = *m;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             f[i__ + f_dim1] = -b[i__ * b_dim1 + 1] / r11;
             f[i__ + (f_dim1 << 1)] = -(b[i__ * b_dim1 + 2] + f[i__ + f_dim1] * r12) / r22;
             f[i__ + (f_dim1 << 1)] /= r22;
             f[i__ + f_dim1] = (f[i__ + f_dim1] - f[i__ + (f_dim1 << 1)] * r12) / r11;
             /* L60: */
         }
-        if (*discr)
-        {
+        if (*discr) {
             /*           Compute F <-- F*A. */
             i__1 = *m;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 temp = f[i__ + f_dim1] * a[a_dim1 + 1] + f[i__ + (f_dim1 << 1)] * a[a_dim1 + 2];
-                f[i__ + (f_dim1 << 1)] = f[i__ + f_dim1] * a[(a_dim1 << 1) + 1] + f[i__ + (f_dim1 << 1)] * a[(a_dim1 << 1) + 2];
+                f[i__ + (f_dim1 << 1)] = f[i__ + f_dim1] * a[(a_dim1 << 1) + 1]
+                    + f[i__ + (f_dim1 << 1)] * a[(a_dim1 << 1) + 2];
                 f[i__ + f_dim1] = temp;
                 /* L70: */
             }
@@ -351,4 +312,3 @@ integer *ldv, *info;
     return 0;
     /* *** Last line of SB01FY *** */
 } /* sb01fy_ */
-

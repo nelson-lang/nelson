@@ -19,12 +19,14 @@
 #pragma once
 //=============================================================================
 #include "nlsString_exports.h"
+#include <stdarg.h>
 #include <string>
 #include <wchar.h>
-#include <stdarg.h>
 //=============================================================================
 namespace Nelson {
-    NLSSTRING_IMPEXP std::wstring StringFormat(const wchar_t *format, ...);
-    NLSSTRING_IMPEXP std::string StringFormat(const char *format, ...);
-}
-//=============================================================================
+NLSSTRING_IMPEXP std::wstring
+StringFormat(const wchar_t* format, ...);
+NLSSTRING_IMPEXP std::string
+StringFormat(const char* format, ...);
+} // namespace Nelson
+  //=============================================================================

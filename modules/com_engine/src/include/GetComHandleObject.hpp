@@ -18,12 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsCom_engine_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsCom_engine_exports.h"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    NLSCOM_ENGINE_IMPEXP ArrayOf GetComHandleObject(ArrayOf A, const std::wstring &propertyName, ArrayOfVector params);
-    //=============================================================================
-}
+//=============================================================================
+NLSCOM_ENGINE_IMPEXP ArrayOf
+GetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOfVector params);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

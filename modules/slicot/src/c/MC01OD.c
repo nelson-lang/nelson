@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,10 +9,9 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mc01od_(k, rez, imz, rep, imp, dwork, info)
-integer *k;
+EXPORTSYMBOL /* Subroutine */ int mc01od_(k, rez, imz, rep, imp, dwork, info) integer* k;
 doublereal *rez, *imz, *rep, *imp, *dwork;
-integer *info;
+integer* info;
 {
     /* System generated locals */
     integer i__1, i__2;
@@ -93,8 +92,7 @@ integer *info;
     --imz;
     --rez;
     /* Function Body */
-    if (*k < 0)
-    {
+    if (*k < 0) {
         *info = -1;
         /*        Error return. */
         i__1 = -(*info);
@@ -105,29 +103,25 @@ integer *info;
     *info = 0;
     rep[1] = 1.;
     imp[1] = 0.;
-    if (*k == 0)
-    {
+    if (*k == 0) {
         return 0;
     }
     k2 = *k + 2;
     i__1 = *k;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         u = rez[i__];
         v = imz[i__];
         dwork[1] = 0.;
         dwork[k2] = 0.;
         dcopy_(&i__, &rep[1], &c__1, &dwork[2], &c__1);
         dcopy_(&i__, &imp[1], &c__1, &dwork[k2 + 1], &c__1);
-        if (u != 0.)
-        {
+        if (u != 0.) {
             d__1 = -u;
             daxpy_(&i__, &d__1, &rep[1], &c__1, &dwork[1], &c__1);
             d__1 = -u;
             daxpy_(&i__, &d__1, &imp[1], &c__1, &dwork[k2], &c__1);
         }
-        if (v != 0.)
-        {
+        if (v != 0.) {
             daxpy_(&i__, &v, &imp[1], &c__1, &dwork[1], &c__1);
             d__1 = -v;
             daxpy_(&i__, &d__1, &rep[1], &c__1, &dwork[k2], &c__1);
@@ -141,4 +135,3 @@ integer *info;
     return 0;
     /* *** Last line of MC01OD *** */
 } /* mc01od_ */
-

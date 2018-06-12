@@ -1,14 +1,14 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb03ad_(shft, k, n, amap, s, sinv, a, lda1, lda2, c1, s1, c2, s2, shft_len)
-char *shft;
+EXPORTSYMBOL /* Subroutine */ int mb03ad_(
+    shft, k, n, amap, s, sinv, a, lda1, lda2, c1, s1, c2, s2, shft_len) char* shft;
 integer *k, *n, *amap, *s, *sinv;
-doublereal *a;
+doublereal* a;
 integer *lda1, *lda2;
 doublereal *c1, *s1, *c2, *s2;
 ftnlen shft_len;
@@ -117,11 +117,9 @@ ftnlen shft_len;
     *s1 = 0.;
     *c2 = 1 / sqrt(2.);
     *s2 = *c2;
-    for (i__ = *k; i__ >= 2; --i__)
-    {
+    for (i__ = *k; i__ >= 2; --i__) {
         ai = amap[i__];
-        if (s[ai] == *sinv)
-        {
+        if (s[ai] == *sinv) {
             alpha = *c2 * a[(ai * a_dim2 + 1) * a_dim1 + 1];
             gamma = *s2 * a[*n + (*n + ai * a_dim2) * a_dim1];
             beta = *s2 * a[*n - 1 + (*n + ai * a_dim2) * a_dim1];
@@ -129,9 +127,7 @@ ftnlen shft_len;
             dlartg_(&alpha, &gamma, c2, s2, &temp);
             temp = *c1 * temp;
             dlartg_(&temp, &beta, c1, s1, &alpha);
-        }
-        else
-        {
+        } else {
             temp = a[(ai * a_dim2 + 1) * a_dim1 + 1];
             beta = *s2 * temp;
             temp = *c2 * temp;
@@ -148,42 +144,43 @@ ftnlen shft_len;
         /* L10: */
     }
     ai = amap[1];
-    alpha = a[(ai * a_dim2 + 1) * a_dim1 + 1] **c2 - a[*n + (*n + ai * a_dim2) * a_dim1] **s2;
+    alpha = a[(ai * a_dim2 + 1) * a_dim1 + 1] * *c2 - a[*n + (*n + ai * a_dim2) * a_dim1] * *s2;
     beta = *c1 * (*c2 * a[(ai * a_dim2 + 1) * a_dim1 + 2]);
-    gamma = *c1 * (*s2 * a[*n - 1 + (*n + ai * a_dim2) * a_dim1]) + *s1 * a[*n - 1 + (*n - 1 + ai * a_dim2) * a_dim1];
-    alpha = alpha **c1 - a[*n + (*n - 1 + ai * a_dim2) * a_dim1] **s1;
+    gamma = *c1 * (*s2 * a[*n - 1 + (*n + ai * a_dim2) * a_dim1])
+        + *s1 * a[*n - 1 + (*n - 1 + ai * a_dim2) * a_dim1];
+    alpha = alpha * *c1 - a[*n + (*n - 1 + ai * a_dim2) * a_dim1] * *s1;
     dlartg_(&alpha, &beta, c1, s1, &temp);
     /*     This is sufficient for single real shifts. */
-    if (! sgle)
-    {
+    if (!sgle) {
         dlartg_(&temp, &gamma, c2, s2, &alpha);
         /*        Rotation 1 is preserved. */
         alpha = *c2;
-        gamma = a[*n - 1 + (*n - 1 + ai * a_dim2) * a_dim1] **c1 **c2 + a[*n + (*n - 1 + ai * a_dim2) * a_dim1] **s2;
-        delta = a[*n - 1 + (*n - 1 + ai * a_dim2) * a_dim1] **s1 **c2;
+        gamma = a[*n - 1 + (*n - 1 + ai * a_dim2) * a_dim1] * *c1 * *c2
+            + a[*n + (*n - 1 + ai * a_dim2) * a_dim1] * *s2;
+        delta = a[*n - 1 + (*n - 1 + ai * a_dim2) * a_dim1] * *s1 * *c2;
         dlartg_(&gamma, &delta, &c3, &s3, &temp);
         dlartg_(&alpha, &temp, c2, s2, &alpha);
         /*        Rotation 3 is preserved throughout the following complete loop. */
-        for (i__ = *k; i__ >= 2; --i__)
-        {
+        for (i__ = *k; i__ >= 2; --i__) {
             ai = amap[i__];
-            if (s[ai] == *sinv)
-            {
-                alpha = (a[(ai * a_dim2 + 1) * a_dim1 + 1] **c1 + a[(ai * a_dim2 + 2) * a_dim1 + 1] **s1) **c2;
-                beta = a[(ai * a_dim2 + 2) * a_dim1 + 2] **s1 **c2;
-                gamma = a[*n - 1 + (*n - 1 + ai * a_dim2) * a_dim1] **s2;
+            if (s[ai] == *sinv) {
+                alpha = (a[(ai * a_dim2 + 1) * a_dim1 + 1] * *c1
+                            + a[(ai * a_dim2 + 2) * a_dim1 + 1] * *s1)
+                    * *c2;
+                beta = a[(ai * a_dim2 + 2) * a_dim1 + 2] * *s1 * *c2;
+                gamma = a[*n - 1 + (*n - 1 + ai * a_dim2) * a_dim1] * *s2;
                 dlartg_(&alpha, &beta, c1, s1, &temp);
                 dlartg_(&temp, &gamma, c2, s2, &alpha);
-            }
-            else
-            {
+            } else {
                 alpha = *c1 * a[(ai * a_dim2 + 1) * a_dim1 + 1];
                 gamma = *s1 * a[(ai * a_dim2 + 1) * a_dim1 + 1];
-                beta = *c1 * a[(ai * a_dim2 + 2) * a_dim1 + 1] + *s1 * a[(ai * a_dim2 + 2) * a_dim1 + 2];
-                delta = -(*s1) * a[(ai * a_dim2 + 2) * a_dim1 + 1] + *c1 * a[(ai * a_dim2 + 2) * a_dim1 + 2];
+                beta = *c1 * a[(ai * a_dim2 + 2) * a_dim1 + 1]
+                    + *s1 * a[(ai * a_dim2 + 2) * a_dim1 + 2];
+                delta = -(*s1) * a[(ai * a_dim2 + 2) * a_dim1 + 1]
+                    + *c1 * a[(ai * a_dim2 + 2) * a_dim1 + 2];
                 dlartg_(&delta, &gamma, c1, s1, &temp);
-                alpha = -alpha **s2;
-                beta = -beta **s2;
+                alpha = -alpha * *s2;
+                beta = -beta * *s2;
                 alpha = *c1 * alpha + *s1 * beta;
                 beta = *c2 * a[*n - 1 + (*n - 1 + ai * a_dim2) * a_dim1];
                 dlartg_(&beta, &alpha, c2, s2, &temp);
@@ -205,4 +202,3 @@ ftnlen shft_len;
     return 0;
     /* *** Last line of MB03AD *** */
 } /* mb03ad_ */
-

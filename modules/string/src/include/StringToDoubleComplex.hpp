@@ -16,13 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <string>
-#include "nlsString_exports.h"
 #include "Types.hpp"
+#include "nlsString_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    NLSSTRING_IMPEXP doublecomplex stringToDoubleComplex(const std::wstring &str, bool &wasConverted);
-    //=============================================================================
-}
+//=============================================================================
+NLSSTRING_IMPEXP doublecomplex
+stringToDoubleComplex(const std::wstring& str, bool& wasConverted);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

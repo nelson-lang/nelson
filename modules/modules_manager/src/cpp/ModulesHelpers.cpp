@@ -20,96 +20,95 @@
 #include <boost/algorithm/string.hpp>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    std::wstring ConstructBinariesPath(const std::wstring &modulerootpath)
-    {
-        std::wstring binariespath;
+//=============================================================================
+std::wstring
+ConstructBinariesPath(const std::wstring& modulerootpath)
+{
+    std::wstring binariespath;
 #ifdef _MSC_VER
 #ifdef _WIN64
-        binariespath = modulerootpath + std::wstring(L"/bin/x64");
+    binariespath = modulerootpath + std::wstring(L"/bin/x64");
 #else
-        binariespath = modulerootpath + std::wstring(L"/bin/win32");
+    binariespath = modulerootpath + std::wstring(L"/bin/win32");
 #endif
 #else
 #ifdef __APPLE__
 #ifdef __x86_64__
-        binariespath = modulerootpath + std::wstring(L"/bin/macosx64");
+    binariespath = modulerootpath + std::wstring(L"/bin/macosx64");
 #else
-        binariespath = modulerootpath + std::wstring(L"/bin/macosx32");
+    binariespath = modulerootpath + std::wstring(L"/bin/macosx32");
 #endif
 #else
 #ifdef __x86_64__
-        binariespath = modulerootpath + std::wstring(L"/bin/linux64");
+    binariespath = modulerootpath + std::wstring(L"/bin/linux64");
 #else
-        binariespath = modulerootpath + std::wstring(L"/bin/linux32");
+    binariespath = modulerootpath + std::wstring(L"/bin/linux32");
 #endif
 #endif
 #endif
-        return binariespath;
-    }
-    //=============================================================================
-    std::wstring ConstructDynamicLibraryName(const std::wstring &moduleshortname)
-    {
-        std::wstring name = moduleshortname;
-        name[0] = towupper(name[0]);
-        std::wstring libname = std::wstring(L"libnls") + name + std::wstring(L"_builtin");
+    return binariespath;
+}
+//=============================================================================
+std::wstring
+ConstructDynamicLibraryName(const std::wstring& moduleshortname)
+{
+    std::wstring name = moduleshortname;
+    name[0] = towupper(name[0]);
+    std::wstring libname = std::wstring(L"libnls") + name + std::wstring(L"_builtin");
 #ifdef _MSC_VER
-        libname = libname + std::wstring(L".dll");
+    libname = libname + std::wstring(L".dll");
 #else
 #ifdef __APPLE__
-        libname = libname + std::wstring(L".dylib");
+    libname = libname + std::wstring(L".dylib");
 #else
-        libname = libname + std::wstring(L".so");
+    libname = libname + std::wstring(L".so");
 #endif
 #endif
-        return libname;
+    return libname;
+}
+//=============================================================================
+std::wstring
+ConstructEtcName(const std::wstring& modulerootpath, const std::wstring& moduleshortname)
+{
+    std::wstring etcpath;
+    if (moduleshortname.empty()) {
+        etcpath = modulerootpath + L"/etc";
+    } else {
+        etcpath = modulerootpath + L"/modules/" + moduleshortname + L"/etc";
     }
-    //=============================================================================
-    std::wstring ConstructEtcName(const std::wstring &modulerootpath, const std::wstring &moduleshortname)
-    {
-        std::wstring etcpath;
-        if (moduleshortname.empty())
-        {
-            etcpath = modulerootpath + L"/etc";
-        }
-        else
-        {
-            etcpath = modulerootpath + L"/modules/" + moduleshortname + L"/etc";
-        }
-        return etcpath;
+    return etcpath;
+}
+//=============================================================================
+std::wstring
+ConstructRootName(const std::wstring& modulerootpath, const std::wstring& moduleshortname)
+{
+    std::wstring rootpath;
+    if (moduleshortname.empty()) {
+        rootpath = modulerootpath + L"/";
+    } else {
+        rootpath = modulerootpath + L"/modules/" + moduleshortname + L"/";
     }
-    //=============================================================================
-    std::wstring ConstructRootName(const std::wstring &modulerootpath, const std::wstring &moduleshortname)
-    {
-        std::wstring rootpath;
-        if (moduleshortname.empty())
-        {
-            rootpath = modulerootpath + L"/";
-        }
-        else
-        {
-            rootpath = modulerootpath + L"/modules/" + moduleshortname + L"/";
-        }
-        return rootpath;
+    return rootpath;
+}
+//=============================================================================
+std::wstring
+ConstructScriptName(const std::wstring& modulerootpath, const std::wstring& moduleshortname)
+{
+    std::wstring scriptspath;
+    if (moduleshortname.empty()) {
+        scriptspath = modulerootpath + L"/functions";
+    } else {
+        scriptspath = modulerootpath + L"/modules/" + moduleshortname + L"/functions";
     }
-    //=============================================================================
-    std::wstring ConstructScriptName(const std::wstring &modulerootpath, const std::wstring &moduleshortname)
-    {
-        std::wstring scriptspath;
-        if (moduleshortname.empty())
-        {
-            scriptspath = modulerootpath + L"/functions";
-        }
-        else
-        {
-            scriptspath = modulerootpath + L"/modules/" + moduleshortname + L"/functions";
-        }
-        return scriptspath;
-    }
-    //=============================================================================
-    std::wstring ConstructDynamicLibraryFullname(const std::wstring &modulerootpath, const std::wstring &moduleshortname)
-    {
-        return ConstructBinariesPath(modulerootpath) + L"/" + ConstructDynamicLibraryName(moduleshortname);
-    }
+    return scriptspath;
+}
+//=============================================================================
+std::wstring
+ConstructDynamicLibraryFullname(
+    const std::wstring& modulerootpath, const std::wstring& moduleshortname)
+{
+    return ConstructBinariesPath(modulerootpath) + L"/"
+        + ConstructDynamicLibraryName(moduleshortname);
+}
 }
 //=============================================================================

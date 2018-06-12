@@ -16,191 +16,153 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Eigen/Dense>
 #include "PlusSingle.hpp"
+#include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf single_addition(ArrayOf a, ArrayOf  b)
-    {
-        Dimensions Cdim;
-        if (a.isEmpty())
-        {
-            Dimensions dimA = a.getDimensions();
-            size_t mA = dimA.getRows();
-            size_t nA = dimA.getColumns();
-            if (mA == nA)
-            {
-                if (b.isEmpty())
-                {
-                    Dimensions dimB = b.getDimensions();
-                    size_t mB = dimB.getRows();
-                    size_t nB = dimB.getColumns();
-                    if ((mB == mA) && (nA == nB))
-                    {
-                        return ArrayOf(a);
-                    }
-                    else
-                    {
-                        throw Exception(_W("using operator '+' \n Matrix dimensions must agree."));
-                    }
-                }
-                if (b.isScalar())
-                {
-                    // [] + X returns []
-                    return ArrayOf(a);
-                }
-                else
-                {
-                    throw Exception(_W("using operator '+' \n Matrix dimensions must agree."));
-                }
-            }
-        }
-        if (a.isScalar())
-        {
-            Cdim = b.getDimensions();
-        }
-        else
-        {
-            Cdim = a.getDimensions();
-        }
-        indexType Clen = Cdim.getElementCount();
-        void *Cp = new_with_exception<single>(Clen);
-        size_t mC = Cdim.getRows();
-        size_t nC = Cdim.getColumns();
-        Eigen::Map<Eigen::MatrixXf> matC((single*)Cp, mC, nC);
+//=============================================================================
+ArrayOf
+single_addition(ArrayOf a, ArrayOf b)
+{
+    Dimensions Cdim;
+    if (a.isEmpty()) {
         Dimensions dimA = a.getDimensions();
         size_t mA = dimA.getRows();
         size_t nA = dimA.getColumns();
-        Dimensions dimB = b.getDimensions();
-        size_t mB = dimB.getRows();
-        size_t nB = dimB.getColumns();
-        if (a.isScalar())
-        {
-            Eigen::Map<Eigen::MatrixXf> matB((single*)b.getDataPointer(), mB, nB);
-            matC = a.getContentAsSingleScalar() + matB.array();
+        if (mA == nA) {
+            if (b.isEmpty()) {
+                Dimensions dimB = b.getDimensions();
+                size_t mB = dimB.getRows();
+                size_t nB = dimB.getColumns();
+                if ((mB == mA) && (nA == nB)) {
+                    return ArrayOf(a);
+                } else {
+                    throw Exception(_W("using operator '+' \n Matrix dimensions must agree."));
+                }
+            }
+            if (b.isScalar()) {
+                // [] + X returns []
+                return ArrayOf(a);
+            } else {
+                throw Exception(_W("using operator '+' \n Matrix dimensions must agree."));
+            }
         }
-        else if (b.isScalar())
-        {
-            Eigen::Map<Eigen::MatrixXf> matA((single*)a.getDataPointer(), mA, nA);
-            matC = matA.array() + b.getContentAsSingleScalar();
-        }
-        else
-        {
-            Eigen::Map<Eigen::MatrixXf> matA((single*)a.getDataPointer(), mA, nA);
-            Eigen::Map<Eigen::MatrixXf> matB((single*)b.getDataPointer(), mB, nB);
-            matC = matA + matB;
-        }
-        return ArrayOf(NLS_SINGLE, Cdim, Cp, false);
     }
-    //=============================================================================
-    ArrayOf scomplex_addition(ArrayOf a, ArrayOf  b)
-    {
-        Dimensions Cdim;
-        if (a.isEmpty())
-        {
-            Dimensions dimA = a.getDimensions();
-            size_t mA = dimA.getRows();
-            size_t nA = dimA.getColumns();
-            if (mA == nA)
-            {
-                if (b.isEmpty())
-                {
-                    Dimensions dimB = b.getDimensions();
-                    size_t mB = dimB.getRows();
-                    size_t nB = dimB.getColumns();
-                    if ((mB == mA) && (nA == nB))
-                    {
-                        return ArrayOf(a);
-                    }
-                    else
-                    {
-                        throw Exception(_W("using operator '+' \n Matrix dimensions must agree."));
-                    }
-                }
-                if (b.isScalar())
-                {
-                    // [] + X returns []
-                    return ArrayOf(a);
-                }
-                else
-                {
-                    throw Exception(_W("using operator '+' \n Matrix dimensions must agree."));
-                }
-            }
-        }
-        if (a.isScalar())
-        {
-            Cdim = b.getDimensions();
-        }
-        else
-        {
-            Cdim = a.getDimensions();
-        }
-        indexType Clen = Cdim.getElementCount();
-        void *Cp = new_with_exception<single>(Clen * 2);
-        singlecomplex* Cz = reinterpret_cast<singlecomplex*>(Cp);
-        size_t mC = Cdim.getRows();
-        size_t nC = Cdim.getColumns();
-        Eigen::Map<Eigen::MatrixXcf> matC(Cz, mC, nC);
+    if (a.isScalar()) {
+        Cdim = b.getDimensions();
+    } else {
+        Cdim = a.getDimensions();
+    }
+    indexType Clen = Cdim.getElementCount();
+    void* Cp = new_with_exception<single>(Clen);
+    size_t mC = Cdim.getRows();
+    size_t nC = Cdim.getColumns();
+    Eigen::Map<Eigen::MatrixXf> matC((single*)Cp, mC, nC);
+    Dimensions dimA = a.getDimensions();
+    size_t mA = dimA.getRows();
+    size_t nA = dimA.getColumns();
+    Dimensions dimB = b.getDimensions();
+    size_t mB = dimB.getRows();
+    size_t nB = dimB.getColumns();
+    if (a.isScalar()) {
+        Eigen::Map<Eigen::MatrixXf> matB((single*)b.getDataPointer(), mB, nB);
+        matC = a.getContentAsSingleScalar() + matB.array();
+    } else if (b.isScalar()) {
+        Eigen::Map<Eigen::MatrixXf> matA((single*)a.getDataPointer(), mA, nA);
+        matC = matA.array() + b.getContentAsSingleScalar();
+    } else {
+        Eigen::Map<Eigen::MatrixXf> matA((single*)a.getDataPointer(), mA, nA);
+        Eigen::Map<Eigen::MatrixXf> matB((single*)b.getDataPointer(), mB, nB);
+        matC = matA + matB;
+    }
+    return ArrayOf(NLS_SINGLE, Cdim, Cp, false);
+}
+//=============================================================================
+ArrayOf
+scomplex_addition(ArrayOf a, ArrayOf b)
+{
+    Dimensions Cdim;
+    if (a.isEmpty()) {
         Dimensions dimA = a.getDimensions();
         size_t mA = dimA.getRows();
         size_t nA = dimA.getColumns();
-        Dimensions dimB = b.getDimensions();
-        size_t mB = dimB.getRows();
-        size_t nB = dimB.getColumns();
-        if (a.isScalar())
-        {
-            singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)a.getDataPointer());
-            if (b.getDataClass() == NLS_SCOMPLEX)
-            {
-                singlecomplex* Bz = reinterpret_cast<singlecomplex*>((single*)b.getDataPointer());
-                Eigen::Map<Eigen::MatrixXcf> matB(Bz, mB, nB);
-                matC = Az[0] + matB.array();
+        if (mA == nA) {
+            if (b.isEmpty()) {
+                Dimensions dimB = b.getDimensions();
+                size_t mB = dimB.getRows();
+                size_t nB = dimB.getColumns();
+                if ((mB == mA) && (nA == nB)) {
+                    return ArrayOf(a);
+                } else {
+                    throw Exception(_W("using operator '+' \n Matrix dimensions must agree."));
+                }
             }
-            else
-            {
-                single *Bz = (single*)b.getDataPointer();
-                Eigen::Map<Eigen::MatrixXf> matB(Bz, mB, nB);
-                matC = Az[0] + matB.cast<singlecomplex>().array();
-            }
-        }
-        else if (b.isScalar())
-        {
-            singlecomplex* Bz = reinterpret_cast<singlecomplex*>((single*)b.getDataPointer());
-            if (a.getDataClass() == NLS_SCOMPLEX)
-            {
-                singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)a.getDataPointer());
-                Eigen::Map<Eigen::MatrixXcf> matA(Az, mA, nA);
-                matC = matA.array() + Bz[0];
-            }
-            else
-            {
-                single *Az = (single*)a.getDataPointer();
-                Eigen::Map<Eigen::MatrixXf> matA(Az, mA, nA);
-                matC = matA.cast<singlecomplex>().array() + Bz[0];
+            if (b.isScalar()) {
+                // [] + X returns []
+                return ArrayOf(a);
+            } else {
+                throw Exception(_W("using operator '+' \n Matrix dimensions must agree."));
             }
         }
-        else
-        {
-            singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)a.getDataPointer());
-            Eigen::Map<Eigen::MatrixXcf> matA(Az, mA, nA);
+    }
+    if (a.isScalar()) {
+        Cdim = b.getDimensions();
+    } else {
+        Cdim = a.getDimensions();
+    }
+    indexType Clen = Cdim.getElementCount();
+    void* Cp = new_with_exception<single>(Clen * 2);
+    singlecomplex* Cz = reinterpret_cast<singlecomplex*>(Cp);
+    size_t mC = Cdim.getRows();
+    size_t nC = Cdim.getColumns();
+    Eigen::Map<Eigen::MatrixXcf> matC(Cz, mC, nC);
+    Dimensions dimA = a.getDimensions();
+    size_t mA = dimA.getRows();
+    size_t nA = dimA.getColumns();
+    Dimensions dimB = b.getDimensions();
+    size_t mB = dimB.getRows();
+    size_t nB = dimB.getColumns();
+    if (a.isScalar()) {
+        singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)a.getDataPointer());
+        if (b.getDataClass() == NLS_SCOMPLEX) {
             singlecomplex* Bz = reinterpret_cast<singlecomplex*>((single*)b.getDataPointer());
             Eigen::Map<Eigen::MatrixXcf> matB(Bz, mB, nB);
-            matC = matA + matB;
+            matC = Az[0] + matB.array();
+        } else {
+            single* Bz = (single*)b.getDataPointer();
+            Eigen::Map<Eigen::MatrixXf> matB(Bz, mB, nB);
+            matC = Az[0] + matB.cast<singlecomplex>().array();
         }
-        return ArrayOf(NLS_SCOMPLEX, Cdim, Cp, false);
-    }
-    //=============================================================================
-    ArrayOf single_plus_single(ArrayOf a, ArrayOf b)
-    {
-        if (a.isComplex() || b.isComplex())
-        {
-            return scomplex_addition(a, b);
+    } else if (b.isScalar()) {
+        singlecomplex* Bz = reinterpret_cast<singlecomplex*>((single*)b.getDataPointer());
+        if (a.getDataClass() == NLS_SCOMPLEX) {
+            singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)a.getDataPointer());
+            Eigen::Map<Eigen::MatrixXcf> matA(Az, mA, nA);
+            matC = matA.array() + Bz[0];
+        } else {
+            single* Az = (single*)a.getDataPointer();
+            Eigen::Map<Eigen::MatrixXf> matA(Az, mA, nA);
+            matC = matA.cast<singlecomplex>().array() + Bz[0];
         }
-        return single_addition(a, b);
+    } else {
+        singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)a.getDataPointer());
+        Eigen::Map<Eigen::MatrixXcf> matA(Az, mA, nA);
+        singlecomplex* Bz = reinterpret_cast<singlecomplex*>((single*)b.getDataPointer());
+        Eigen::Map<Eigen::MatrixXcf> matB(Bz, mB, nB);
+        matC = matA + matB;
     }
-    //=============================================================================
+    return ArrayOf(NLS_SCOMPLEX, Cdim, Cp, false);
+}
+//=============================================================================
+ArrayOf
+single_plus_single(ArrayOf a, ArrayOf b)
+{
+    if (a.isComplex() || b.isComplex()) {
+        return scomplex_addition(a, b);
+    }
+    return single_addition(a, b);
+}
+//=============================================================================
 
 }
 //=============================================================================

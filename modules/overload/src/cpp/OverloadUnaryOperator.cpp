@@ -21,55 +21,55 @@
 #include "Error.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    static bool OverloadUnaryOperatorFindFunction(Evaluator *eval, ArrayOf a, std::string functionName, std::string forcedFunctionName, FunctionDef **funcDef, std::string &overloadname)
-    {
-        bool bSuccess = true;
-        Context *context = eval->getContext();
-        if (forcedFunctionName.empty())
-        {
-            overloadname = ClassName(a) + "_" + functionName;
-        }
-        else
-        {
-            overloadname = forcedFunctionName;
-        }
-        if (!context->lookupFunction(overloadname, *funcDef))
-        {
-            bSuccess = false;
-        }
-        return bSuccess;
+//=============================================================================
+static bool
+OverloadUnaryOperatorFindFunction(Evaluator* eval, ArrayOf a, std::string functionName,
+    std::string forcedFunctionName, FunctionDef** funcDef, std::string& overloadname)
+{
+    bool bSuccess = true;
+    Context* context = eval->getContext();
+    if (forcedFunctionName.empty()) {
+        overloadname = ClassName(a) + "_" + functionName;
+    } else {
+        overloadname = forcedFunctionName;
     }
-    //=============================================================================
-    ArrayOf OverloadUnaryOperator(Evaluator *eval, ArrayOf a, std::string functionName, std::string forcedFunctionName)
-    {
-        FunctionDef *funcDef = nullptr;
-        std::string OverloadName;
-        bool bSuccess = OverloadUnaryOperatorFindFunction(eval, a, functionName, forcedFunctionName, &funcDef, OverloadName);
-        if (!bSuccess && a.isIntegerType())
-        {
-            std::string forcedName = NLS_INTEGER_STR + std::string("_") + functionName;
-            bSuccess = OverloadUnaryOperatorFindFunction(eval, a, functionName, forcedName, &funcDef, forcedName);
-        }
-        if (!bSuccess)
-        {
-            std::string forcedName = NLS_GENERIC_STR + std::string("_") + functionName;
-            bSuccess = OverloadUnaryOperatorFindFunction(eval, a, functionName, forcedName, &funcDef, forcedName);
-        }
-        if (!bSuccess)
-        {
-            Error(eval, _("function") + " " + OverloadName + " " + _("undefined."));
-        }
-        ArrayOfVector argsIn;
-        argsIn.push_back(a);
-        int nargout = 1;
-        ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
-        if (res.size() != 1)
-        {
-            Error(eval, _("function") + " " + OverloadName + " " + _("only one output argument expected."));
-        }
-        return res[0];
+    if (!context->lookupFunction(overloadname, *funcDef)) {
+        bSuccess = false;
     }
-    //=============================================================================
+    return bSuccess;
+}
+//=============================================================================
+ArrayOf
+OverloadUnaryOperator(
+    Evaluator* eval, ArrayOf a, std::string functionName, std::string forcedFunctionName)
+{
+    FunctionDef* funcDef = nullptr;
+    std::string OverloadName;
+    bool bSuccess = OverloadUnaryOperatorFindFunction(
+        eval, a, functionName, forcedFunctionName, &funcDef, OverloadName);
+    if (!bSuccess && a.isIntegerType()) {
+        std::string forcedName = NLS_INTEGER_STR + std::string("_") + functionName;
+        bSuccess = OverloadUnaryOperatorFindFunction(
+            eval, a, functionName, forcedName, &funcDef, forcedName);
+    }
+    if (!bSuccess) {
+        std::string forcedName = NLS_GENERIC_STR + std::string("_") + functionName;
+        bSuccess = OverloadUnaryOperatorFindFunction(
+            eval, a, functionName, forcedName, &funcDef, forcedName);
+    }
+    if (!bSuccess) {
+        Error(eval, _("function") + " " + OverloadName + " " + _("undefined."));
+    }
+    ArrayOfVector argsIn;
+    argsIn.push_back(a);
+    int nargout = 1;
+    ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
+    if (res.size() != 1) {
+        Error(eval,
+            _("function") + " " + OverloadName + " " + _("only one output argument expected."));
+    }
+    return res[0];
+}
+//=============================================================================
 }
 //=============================================================================

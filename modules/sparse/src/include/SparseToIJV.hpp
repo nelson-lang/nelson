@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsSparse_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsSparse_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSPARSE_IMPEXP void SparseToIJV(ArrayOf spA, ArrayOf &I, ArrayOf &J, ArrayOf &V, ArrayOf &M, ArrayOf &N, ArrayOf &NNZ);
+NLSSPARSE_IMPEXP void
+SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf& N, ArrayOf& NNZ);
 }
 //=============================================================================

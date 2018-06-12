@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,18 +11,19 @@ static doublereal c_b24 = 0.;
 static doublereal c_b25 = 1.;
 static doublereal c_b26 = .5;
 
-EXPORTSYMBOL /* Subroutine */ int sb03qx_(trana, uplo, lyapun, n, xanorm, t, ldt, u, ldu, r__, ldr, ferr, iwork, dwork, ldwork, info, trana_len, uplo_len, lyapun_len)
-char *trana, *uplo, *lyapun;
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int sb03qx_(trana, uplo, lyapun, n, xanorm, t, ldt, u, ldu, r__, ldr,
+    ferr, iwork, dwork, ldwork, info, trana_len, uplo_len, lyapun_len) char *trana,
+    *uplo, *lyapun;
+integer* n;
 doublereal *xanorm, *t;
-integer *ldt;
-doublereal *u;
-integer *ldu;
-doublereal *r__;
-integer *ldr;
-doublereal *ferr;
-integer *iwork;
-doublereal *dwork;
+integer* ldt;
+doublereal* u;
+integer* ldu;
+doublereal* r__;
+integer* ldr;
+doublereal* ferr;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen trana_len;
 ftnlen uplo_len;
@@ -207,64 +208,42 @@ ftnlen lyapun_len;
     /* Function Body */
     notrna = lsame_(trana, "N", 1L, 1L);
     update = lsame_(lyapun, "O", 1L, 1L);
-    nn = *n **n;
+    nn = *n * *n;
     *info = 0;
-    if (! (notrna || lsame_(trana, "T", 1L, 1L) || lsame_(trana, "C", 1L, 1L)))
-    {
+    if (!(notrna || lsame_(trana, "T", 1L, 1L) || lsame_(trana, "C", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (lsame_(uplo, "L", 1L, 1L) || lsame_(uplo, "U", 1L, 1L)))
-    {
+    } else if (!(lsame_(uplo, "L", 1L, 1L) || lsame_(uplo, "U", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (update || lsame_(lyapun, "R", 1L, 1L)))
-    {
+    } else if (!(update || lsame_(lyapun, "R", 1L, 1L))) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*xanorm < 0.)
-    {
+    } else if (*xanorm < 0.) {
         *info = -5;
-    }
-    else if (*ldt < max(1,*n))
-    {
+    } else if (*ldt < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldu < 1 || update && *ldu < *n)
-    {
+    } else if (*ldu < 1 || update && *ldu < *n) {
         *info = -9;
-    }
-    else if (*ldr < max(1,*n))
-    {
+    } else if (*ldr < max(1, *n)) {
         *info = -11;
-    }
-    else if (*ldwork < nn << 1)
-    {
+    } else if (*ldwork < nn << 1) {
         *info = -15;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SB03QX", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
     *ferr = 0.;
-    if (*n == 0 || *xanorm == 0.)
-    {
+    if (*n == 0 || *xanorm == 0.) {
         return 0;
     }
     itmp = nn + 1;
-    if (notrna)
-    {
-        *(unsigned char *)tranat = 'T';
-    }
-    else
-    {
-        *(unsigned char *)tranat = 'N';
+    if (notrna) {
+        *(unsigned char*)tranat = 'T';
+    } else {
+        *(unsigned char*)tranat = 'N';
     }
     /*     Fill in the remaining triangle of the symmetric residual matrix. */
     ma02ed_(uplo, n, &r__[r_offset], ldr, 1L);
@@ -272,32 +251,25 @@ ftnlen lyapun_len;
     /*     REPEAT */
 L10:
     dlacon_(&nn, &dwork[itmp], &dwork[1], &iwork[1], &est, &kase);
-    if (kase != 0)
-    {
+    if (kase != 0) {
         /*        Select the triangular part of symmetric matrix to be used. */
-        if (dlansy_("1-norm", "Upper", n, &dwork[1], n, &dwork[itmp], 6L, 5L) >= dlansy_("1-norm", "Lower", n, &dwork[1], n, &dwork[itmp], 6L, 5L))
-        {
-            *(unsigned char *)uplow = 'U';
+        if (dlansy_("1-norm", "Upper", n, &dwork[1], n, &dwork[itmp], 6L, 5L)
+            >= dlansy_("1-norm", "Lower", n, &dwork[1], n, &dwork[itmp], 6L, 5L)) {
+            *(unsigned char*)uplow = 'U';
             lower = FALSE_;
-        }
-        else
-        {
-            *(unsigned char *)uplow = 'L';
+        } else {
+            *(unsigned char*)uplow = 'L';
             lower = TRUE_;
         }
-        if (kase == 2)
-        {
+        if (kase == 2) {
             ij = 0;
-            if (lower)
-            {
+            if (lower) {
                 /*              Scale the lower triangular part of symmetric matrix */
                 /*              by the residual matrix. */
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *n;
-                    for (i__ = j; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = j; i__ <= i__2; ++i__) {
                         ++ij;
                         dwork[ij] *= r__[i__ + j * r_dim1];
                         /* L20: */
@@ -305,17 +277,13 @@ L10:
                     ij += j;
                     /* L30: */
                 }
-            }
-            else
-            {
+            } else {
                 /*              Scale the upper triangular part of symmetric matrix */
                 /*              by the residual matrix. */
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = j;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__2; ++i__) {
                         ++ij;
                         dwork[ij] *= r__[i__ + j * r_dim1];
                         /* L40: */
@@ -325,49 +293,41 @@ L10:
                 }
             }
         }
-        if (update)
-        {
+        if (update) {
             /*           Transform the right-hand side: RHS := U'*RHS*U. */
-            mb01ru_(uplow, "Transpose", n, n, &c_b24, &c_b25, &dwork[1], n, &u[u_offset], ldu, &dwork[1], n, &dwork[itmp], &nn, &info2, 1L, 9L);
+            mb01ru_(uplow, "Transpose", n, n, &c_b24, &c_b25, &dwork[1], n, &u[u_offset], ldu,
+                &dwork[1], n, &dwork[itmp], &nn, &info2, 1L, 9L);
             i__1 = *n + 1;
             dscal_(n, &c_b26, &dwork[1], &i__1);
         }
         ma02ed_(uplow, n, &dwork[1], n, 1L);
-        if (kase == 2)
-        {
+        if (kase == 2) {
             /*           Solve op(T)'*Y + Y*op(T) = scale*RHS. */
             sb03my_(trana, n, &t[t_offset], ldt, &dwork[1], n, &scale, &info2, 1L);
-        }
-        else
-        {
+        } else {
             /*           Solve op(T)*W + W*op(T)' = scale*RHS. */
             sb03my_(tranat, n, &t[t_offset], ldt, &dwork[1], n, &scale, &info2, 1L);
         }
-        if (info2 > 0)
-        {
+        if (info2 > 0) {
             *info = *n + 1;
         }
-        if (update)
-        {
+        if (update) {
             /*           Transform back to obtain the solution: Z := U*Z*U', with */
             /*           Z = Y or Z = W. */
-            mb01ru_(uplow, "No transpose", n, n, &c_b24, &c_b25, &dwork[1], n, &u[u_offset], ldu, &dwork[1], n, &dwork[itmp], &nn, &info2, 1L, 12L);
+            mb01ru_(uplow, "No transpose", n, n, &c_b24, &c_b25, &dwork[1], n, &u[u_offset], ldu,
+                &dwork[1], n, &dwork[itmp], &nn, &info2, 1L, 12L);
             i__1 = *n + 1;
             dscal_(n, &c_b26, &dwork[1], &i__1);
         }
-        if (kase == 1)
-        {
+        if (kase == 1) {
             ij = 0;
-            if (lower)
-            {
+            if (lower) {
                 /*              Scale the lower triangular part of symmetric matrix */
                 /*              by the residual matrix. */
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *n;
-                    for (i__ = j; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = j; i__ <= i__2; ++i__) {
                         ++ij;
                         dwork[ij] *= r__[i__ + j * r_dim1];
                         /* L60: */
@@ -375,17 +335,13 @@ L10:
                     ij += j;
                     /* L70: */
                 }
-            }
-            else
-            {
+            } else {
                 /*              Scale the upper triangular part of symmetric matrix */
                 /*              by the residual matrix. */
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = j;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__2; ++i__) {
                         ++ij;
                         dwork[ij] *= r__[i__ + j * r_dim1];
                         /* L80: */
@@ -402,15 +358,11 @@ L10:
     /*     UNTIL KASE = 0 */
     /*     Compute the estimate of the relative error. */
     temp = *xanorm * scale;
-    if (temp > est)
-    {
+    if (temp > est) {
         *ferr = est / temp;
-    }
-    else
-    {
+    } else {
         *ferr = 1.;
     }
     return 0;
     /* *** Last line of SB03QX *** */
 } /* sb03qx_ */
-

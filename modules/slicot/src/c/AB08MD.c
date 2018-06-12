@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,25 +10,26 @@
 static integer c__0 = 0;
 static integer c_n1 = -1;
 
-EXPORTSYMBOL /* Subroutine */ int ab08md_(equil, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, rank, tol, iwork, dwork, ldwork, info, equil_len)
-char *equil;
+EXPORTSYMBOL /* Subroutine */ int ab08md_(equil, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, rank,
+    tol, iwork, dwork, ldwork, info, equil_len) char* equil;
 integer *n, *m, *p;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ldd, *rank;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen equil_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2, i__3, i__4;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2,
+        i__3, i__4;
     /* Builtin functions */
     double sqrt();
     /* Local variables */
@@ -188,84 +189,60 @@ ftnlen equil_len;
     lquery = *ldwork == -1;
     wrkopt = np * nm;
     /*     Test the input scalar arguments. */
-    if (! lequil && ! lsame_(equil, "N", 1L, 1L))
-    {
+    if (!lequil && !lsame_(equil, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -4;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -10;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -12;
-    }
-    else
-    {
+    } else {
         /* Computing MAX */
         /* Computing MAX */
         i__3 = *m * 3 - 1;
         /* Computing MAX */
-        i__4 = *p * 3 - 1, i__4 = max(i__4,np);
-        i__1 = min(*p,*m) + max(i__3,*n), i__1 = max(i__1,1), i__2 = min(*p,*n) + max(i__4,nm);
-        kw = wrkopt + max(i__1,i__2);
-        if (lquery)
-        {
+        i__4 = *p * 3 - 1, i__4 = max(i__4, np);
+        i__1 = min(*p, *m) + max(i__3, *n), i__1 = max(i__1, 1), i__2 = min(*p, *n) + max(i__4, nm);
+        kw = wrkopt + max(i__1, i__2);
+        if (lquery) {
             svlmax = 0.;
             ninfz = 0;
-            i__1 = max(1,np);
-            ab08nx_(n, m, p, p, &c__0, &svlmax, &dwork[1], &i__1, &ninfz, &iwork[1], &iwork[1], &mu, &nu, &nkrol, tol, &iwork[1], &dwork[1], &c_n1, info);
+            i__1 = max(1, np);
+            ab08nx_(n, m, p, p, &c__0, &svlmax, &dwork[1], &i__1, &ninfz, &iwork[1], &iwork[1], &mu,
+                &nu, &nkrol, tol, &iwork[1], &dwork[1], &c_n1, info);
             /* Computing MAX */
-            i__1 = kw, i__2 = wrkopt + (integer) dwork[1];
-            wrkopt = max(i__1,i__2);
-        }
-        else if (*ldwork < kw)
-        {
+            i__1 = kw, i__2 = wrkopt + (integer)dwork[1];
+            wrkopt = max(i__1, i__2);
+        } else if (*ldwork < kw) {
             *info = -17;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB08MD", &i__1, 6L);
         return 0;
-    }
-    else if (lquery)
-    {
-        dwork[1] = (doublereal) wrkopt;
+    } else if (lquery) {
+        dwork[1] = (doublereal)wrkopt;
         return 0;
     }
     /*     Quick return if possible. */
-    if (min(*m,*p) == 0)
-    {
+    if (min(*m, *p) == 0) {
         *rank = 0;
         dwork[1] = 1.;
         return 0;
     }
     i__1 = (*n << 1) + 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         iwork[i__] = 0;
         /* L10: */
     }
@@ -277,22 +254,21 @@ ftnlen equil_len;
     /*     Workspace: need   (N+P)*(N+M). */
     dlacpy_("Full", n, m, &b[b_offset], ldb, &dwork[1], &np, 4L);
     dlacpy_("Full", p, m, &d__[d_offset], ldd, &dwork[*n + 1], &np, 4L);
-    dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[np **m + 1], &np, 4L);
-    dlacpy_("Full", p, n, &c__[c_offset], ldc, &dwork[np **m + *n + 1], &np, 4L);
+    dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[np * *m + 1], &np, 4L);
+    dlacpy_("Full", p, n, &c__[c_offset], ldc, &dwork[np * *m + *n + 1], &np, 4L);
     /*     If required, balance the compound matrix (default MAXRED). */
     /*     Workspace: need   N. */
     kw = wrkopt + 1;
-    if (lequil)
-    {
+    if (lequil) {
         maxred = 0.;
-        tb01id_("A", n, m, p, &maxred, &dwork[np **m + 1], &np, &dwork[1], &np, &dwork[np **m + *n + 1], &np, &dwork[kw], info, 1L);
+        tb01id_("A", n, m, p, &maxred, &dwork[np * *m + 1], &np, &dwork[1], &np,
+            &dwork[np * *m + *n + 1], &np, &dwork[kw], info, 1L);
         wrkopt += *n;
     }
     /*     If required, set tolerance. */
-    thresh = sqrt((doublereal) (np * nm)) * dlamch_("Precision", 9L);
+    thresh = sqrt((doublereal)(np * nm)) * dlamch_("Precision", 9L);
     toler = *tol;
-    if (toler < thresh)
-    {
+    if (toler < thresh) {
         toler = thresh;
     }
     svlmax = dlange_("Frobenius", &np, &nm, &dwork[1], &np, &dwork[kw], 9L);
@@ -307,12 +283,12 @@ ftnlen equil_len;
     sigma = 0;
     ninfz = 0;
     i__1 = *ldwork - kw + 1;
-    ab08nx_(n, m, p, &ro, &sigma, &svlmax, &dwork[1], &np, &ninfz, &iwork[1], &iwork[*n + 1], &mu, &nu, &nkrol, &toler, &iwork[(*n << 1) + 2], &dwork[kw], &i__1, info);
+    ab08nx_(n, m, p, &ro, &sigma, &svlmax, &dwork[1], &np, &ninfz, &iwork[1], &iwork[*n + 1], &mu,
+        &nu, &nkrol, &toler, &iwork[(*n << 1) + 2], &dwork[kw], &i__1, info);
     *rank = mu;
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-    dwork[1] = (doublereal) max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+    dwork[1] = (doublereal)max(i__1, i__2);
     return 0;
     /* *** Last line of AB08MD *** */
 } /* ab08md_ */
-

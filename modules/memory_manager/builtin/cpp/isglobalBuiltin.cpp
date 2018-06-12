@@ -17,30 +17,27 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isglobalBuiltin.hpp"
-#include "IsValidVariableName.hpp"
 #include "Error.hpp"
+#include "IsValidVariableName.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::MemoryGateway::isglobalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::MemoryGateway::isglobalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    Context *ctxt = eval->getContext();
-    Scope *globalScope = ctxt->getGlobalScope();
-    if (nLhs > 1)
-    {
+    Context* ctxt = eval->getContext();
+    Scope* globalScope = ctxt->getGlobalScope();
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (!argIn[0].isSingleString())
-    {
+    if (!argIn[0].isSingleString()) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     std::string arg = argIn[0].getContentAsCString();
-    if (!IsValidVariableName(arg))
-    {
+    if (!IsValidVariableName(arg)) {
         Error(eval, _W("Argument must contain a valid variable name."));
     }
     bool bIsGlobal = globalScope->isVariable(arg);

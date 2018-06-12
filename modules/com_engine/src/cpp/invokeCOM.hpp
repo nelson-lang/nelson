@@ -18,9 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <Windows.h>
 #include <Ole2.h>
+#include <Windows.h>
+#include <string>
 //=============================================================================
-bool invokeCom(int autoType, VARIANT *pvResult, std::wstring &errorMessage, IDispatch *pDisp, std::wstring propertyName, int cArgs, VARIANT *pArgs);
+bool
+invokeCom(int autoType, VARIANT* pvResult, std::wstring& errorMessage, IDispatch* pDisp,
+    std::wstring propertyName, int cArgs, VARIANT* pArgs);
 //=============================================================================

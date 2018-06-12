@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,24 +10,26 @@
 static doublereal c_b17 = 1.;
 static doublereal c_b18 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int sb16cd_(dico, jobd, jobmr, jobcf, ordsel, n, m, p, ncr, a, lda, b, ldb, c__, ldc, d__, ldd, f, ldf, g, ldg, hsv, tol, iwork, dwork, ldwork, iwarn, info, dico_len, jobd_len, jobmr_len, jobcf_len, ordsel_len)
-char *dico, *jobd, *jobmr, *jobcf, *ordsel;
+EXPORTSYMBOL /* Subroutine */ int sb16cd_(dico, jobd, jobmr, jobcf, ordsel, n, m, p, ncr, a, lda, b,
+    ldb, c__, ldc, d__, ldd, f, ldf, g, ldg, hsv, tol, iwork, dwork, ldwork, iwarn, info, dico_len,
+    jobd_len, jobmr_len, jobcf_len, ordsel_len) char *dico,
+    *jobd, *jobmr, *jobcf, *ordsel;
 integer *n, *m, *p, *ncr;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *f;
-integer *ldf;
-doublereal *g;
-integer *ldg;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* f;
+integer* ldf;
+doublereal* g;
+integer* ldg;
 doublereal *hsv, *tol;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen dico_len;
 ftnlen jobd_len;
@@ -36,7 +38,8 @@ ftnlen jobcf_len;
 ftnlen ordsel_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, f_dim1, f_offset, g_dim1, g_offset, i__1, i__2;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, f_dim1,
+        f_offset, g_dim1, g_offset, i__1, i__2;
     /* Local variables */
     static logical left;
     static integer ierr;
@@ -371,84 +374,50 @@ ftnlen ordsel_len;
     bal = lsame_(jobmr, "B", 1L, 1L);
     left = lsame_(jobcf, "L", 1L, 1L);
     fixord = lsame_(ordsel, "F", 1L, 1L);
-    if (left)
-    {
+    if (left) {
         mp = *m;
-    }
-    else
-    {
+    } else {
         mp = *p;
     }
     /* Computing MAX */
-    i__1 = 1, i__2 = (*n << 1) **n + *n * 5, i__1 = max(i__1,i__2), i__2 = *n * max(*m,*p), i__1 = max(i__1,i__2), i__2 = *n * (*n + max(*n,mp) + min(*n,mp) + 6);
-    lw = (*n << 1) **n + max(i__1,i__2);
+    i__1 = 1, i__2 = (*n << 1) * *n + *n * 5, i__1 = max(i__1, i__2), i__2 = *n * max(*m, *p),
+    i__1 = max(i__1, i__2), i__2 = *n * (*n + max(*n, mp) + min(*n, mp) + 6);
+    lw = (*n << 1) * *n + max(i__1, i__2);
     /*     Test the input scalar arguments. */
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (! (withd || lsame_(jobd, "Z", 1L, 1L)))
-    {
+    } else if (!(withd || lsame_(jobd, "Z", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (bal || lsame_(jobmr, "F", 1L, 1L)))
-    {
+    } else if (!(bal || lsame_(jobmr, "F", 1L, 1L))) {
         *info = -3;
-    }
-    else if (! (left || lsame_(jobcf, "R", 1L, 1L)))
-    {
+    } else if (!(left || lsame_(jobcf, "R", 1L, 1L))) {
         *info = -4;
-    }
-    else if (! (fixord || lsame_(ordsel, "A", 1L, 1L)))
-    {
+    } else if (!(fixord || lsame_(ordsel, "A", 1L, 1L))) {
         *info = -5;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -6;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -7;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -8;
-    }
-    else if (fixord && (*ncr < 0 || *ncr > *n))
-    {
+    } else if (fixord && (*ncr < 0 || *ncr > *n)) {
         *info = -9;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -11;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -13;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -15;
-    }
-    else if (*ldd < 1 || withd && *ldd < *p)
-    {
+    } else if (*ldd < 1 || withd && *ldd < *p) {
         *info = -17;
-    }
-    else if (*ldf < max(1,*m))
-    {
+    } else if (*ldf < max(1, *m)) {
         *info = -19;
-    }
-    else if (*ldg < max(1,*n))
-    {
+    } else if (*ldg < max(1, *n)) {
         *info = -21;
-    }
-    else if (*ldwork < lw)
-    {
+    } else if (*ldwork < lw) {
         *info = -26;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB16CD", &i__1, 6L);
@@ -456,17 +425,16 @@ ftnlen ordsel_len;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*n,*m);
-    if (min(i__1,*p) == 0 || fixord && *ncr == 0)
-    {
+    i__1 = min(*n, *m);
+    if (min(i__1, *p) == 0 || fixord && *ncr == 0) {
         *ncr = 0;
         dwork[1] = 1.;
         return 0;
     }
     /*     Allocate working storage. */
     kt = 1;
-    kti = kt + *n **n;
-    kw = kti + *n **n;
+    kti = kt + *n * *n;
+    kw = kti + *n * *n;
     /*     Compute in DWORK(KTI) and DWORK(KT) the Cholesky factors Su and Ru */
     /*     of the frequency-weighted controllability and observability */
     /*     Grammians, respectively. */
@@ -476,12 +444,13 @@ ftnlen ordsel_len;
     /*                                                        if JOBCF = 'R'. */
     /*                  prefer larger. */
     i__1 = *ldwork - kw + 1;
-    sb16cy_(dico, jobcf, n, m, p, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &f[f_offset], ldf, &g[g_offset], ldg, &scalec, &scaleo, &dwork[kti], n, &dwork[kt], n, &dwork[kw], &i__1, info, 1L, 1L);
-    if (*info != 0)
-    {
+    sb16cy_(dico, jobcf, n, m, p, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+        &f[f_offset], ldf, &g[g_offset], ldg, &scalec, &scaleo, &dwork[kti], n, &dwork[kt], n,
+        &dwork[kw], &i__1, info, 1L, 1L);
+    if (*info != 0) {
         return 0;
     }
-    wrkopt = (integer) dwork[kw] + kw - 1;
+    wrkopt = (integer)dwork[kw] + kw - 1;
     /*     Compute a B&T approximation (Ar,Br,Cr) of (A,B,C) and */
     /*     the corresponding truncation matrices TI and T. */
     /*     Real workspace:  need   2*N*N + MAX( 1, 2*N*N+5*N, N*MAX(M,P) ); */
@@ -489,33 +458,37 @@ ftnlen ordsel_len;
     /*     Integer workspace:  0,  if JOBMR = 'B'; */
     /*                         N,  if JOBMR = 'F'. */
     i__1 = *ldwork - kw + 1;
-    ab09ix_(dico, jobmr, "NotSchur", ordsel, n, m, p, ncr, &scalec, &scaleo, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, &dwork[kti], n, &dwork[kt], n, &nmr, &hsv[1], tol, tol, &iwork[1], &dwork[kw], &i__1, iwarn, &ierr, 1L, 1L, 8L, 1L);
-    if (ierr != 0)
-    {
+    ab09ix_(dico, jobmr, "NotSchur", ordsel, n, m, p, ncr, &scalec, &scaleo, &a[a_offset], lda,
+        &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, &dwork[kti], n, &dwork[kt], n,
+        &nmr, &hsv[1], tol, tol, &iwork[1], &dwork[kw], &i__1, iwarn, &ierr, 1L, 1L, 8L, 1L);
+    if (ierr != 0) {
         *info = 6;
         return 0;
     }
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+    wrkopt = max(i__1, i__2);
     /*     Compute reduced gains Bc = Gr = TI*G and Cc = Fr = F*T. */
     /*     Workspace:  need   N*(2*N+MAX(M,P)). */
     dlacpy_("Full", n, p, &g[g_offset], ldg, &dwork[kw], n, 4L);
-    dgemm_("NoTranspose", "NoTranspose", ncr, p, n, &c_b17, &dwork[kti], n, &dwork[kw], n, &c_b18, &g[g_offset], ldg, 11L, 11L);
+    dgemm_("NoTranspose", "NoTranspose", ncr, p, n, &c_b17, &dwork[kti], n, &dwork[kw], n, &c_b18,
+        &g[g_offset], ldg, 11L, 11L);
     dlacpy_("Full", m, n, &f[f_offset], ldf, &dwork[kw], m, 4L);
-    dgemm_("NoTranspose", "NoTranspose", m, ncr, n, &c_b17, &dwork[kw], m, &dwork[kt], n, &c_b18, &f[f_offset], ldf, 11L, 11L);
+    dgemm_("NoTranspose", "NoTranspose", m, ncr, n, &c_b17, &dwork[kw], m, &dwork[kt], n, &c_b18,
+        &f[f_offset], ldf, 11L, 11L);
     /*     Form the reduced controller state matrix, */
     /*     Ac = Ar + Br*Fr + Gr*Cr + Gr*D*Fr = Ar + Br*Fr + Gr*(Cr+D*Fr) . */
     /*     Workspace:    need  P*N. */
     dlacpy_("Full", p, ncr, &c__[c_offset], ldc, &dwork[1], p, 4L);
-    if (withd)
-    {
-        dgemm_("NoTranspose", "NoTranspose", p, ncr, m, &c_b17, &d__[d_offset], ldd, &f[f_offset], ldf, &c_b17, &dwork[1], p, 11L, 11L);
+    if (withd) {
+        dgemm_("NoTranspose", "NoTranspose", p, ncr, m, &c_b17, &d__[d_offset], ldd, &f[f_offset],
+            ldf, &c_b17, &dwork[1], p, 11L, 11L);
     }
-    dgemm_("NoTranspose", "NoTranspose", ncr, ncr, p, &c_b17, &g[g_offset], ldg, &dwork[1], p, &c_b17, &a[a_offset], lda, 11L, 11L);
-    dgemm_("NoTranspose", "NoTranspose", ncr, ncr, m, &c_b17, &b[b_offset], ldb, &f[f_offset], ldf, &c_b17, &a[a_offset], lda, 11L, 11L);
-    dwork[1] = (doublereal) wrkopt;
+    dgemm_("NoTranspose", "NoTranspose", ncr, ncr, p, &c_b17, &g[g_offset], ldg, &dwork[1], p,
+        &c_b17, &a[a_offset], lda, 11L, 11L);
+    dgemm_("NoTranspose", "NoTranspose", ncr, ncr, m, &c_b17, &b[b_offset], ldb, &f[f_offset], ldf,
+        &c_b17, &a[a_offset], lda, 11L, 11L);
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of SB16CD *** */
 } /* sb16cd_ */
-

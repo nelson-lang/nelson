@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,14 +10,15 @@
 static integer c__0 = 0;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb03vd_(n, p, ilo, ihi, a, lda1, lda2, tau, ldtau, dwork, info)
-integer *n, *p, *ilo, *ihi;
-doublereal *a;
+EXPORTSYMBOL /* Subroutine */ int mb03vd_(
+    n, p, ilo, ihi, a, lda1, lda2, tau, ldtau, dwork, info) integer *n,
+    *p, *ilo, *ihi;
+doublereal* a;
 integer *lda1, *lda2;
-doublereal *tau;
-integer *ldtau;
-doublereal *dwork;
-integer *info;
+doublereal* tau;
+integer* ldtau;
+doublereal* dwork;
+integer* info;
 {
     /* System generated locals */
     integer a_dim1, a_dim2, a_offset, tau_dim1, tau_offset, i__1, i__2, i__3;
@@ -202,96 +203,85 @@ integer *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*p < 1)
-    {
+    } else if (*p < 1) {
         *info = -2;
-    }
-    else if (*ilo < 1 || *ilo > max(1,*n))
-    {
+    } else if (*ilo < 1 || *ilo > max(1, *n)) {
         *info = -3;
-    }
-    else if (*ihi < min(*ilo,*n) || *ihi > *n)
-    {
+    } else if (*ihi < min(*ilo, *n) || *ihi > *n) {
         *info = -4;
-    }
-    else if (*lda1 < max(1,*n))
-    {
+    } else if (*lda1 < max(1, *n)) {
         *info = -6;
-    }
-    else if (*lda2 < max(1,*n))
-    {
+    } else if (*lda2 < max(1, *n)) {
         *info = -7;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = *n - 1;
-        if (*ldtau < max(i__1,i__2))
-        {
+        if (*ldtau < max(i__1, i__2)) {
             *info = -9;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB03VD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
     nh = *ihi - *ilo + 1;
-    if (nh <= 1)
-    {
+    if (nh <= 1) {
         return 0;
     }
     dummy[0] = 0.;
     i__1 = *ihi - 1;
-    for (i__ = *ilo; i__ <= i__1; ++i__)
-    {
+    for (i__ = *ilo; i__ <= i__1; ++i__) {
         i1 = i__ + 1;
         /* Computing MIN */
         i__2 = i__ + 2;
-        i2 = min(i__2,*n);
-        for (j = *p; j >= 2; --j)
-        {
+        i2 = min(i__2, *n);
+        for (j = *p; j >= 2; --j) {
             /*           Set the elements 1:ILO-1 and IHI:N-1 of TAU(*,J) to zero. */
             i__2 = *ilo - 1;
             dcopy_(&i__2, dummy, &c__0, &tau[j * tau_dim1 + 1], &c__1);
-            if (*ihi < *n)
-            {
+            if (*ihi < *n) {
                 i__2 = *n - *ihi;
                 dcopy_(&i__2, dummy, &c__0, &tau[*ihi + j * tau_dim1], &c__1);
             }
             /*           Compute elementary reflector H_j(i) to annihilate */
             /*           A_j(i+1:ihi,i). */
             i__2 = *ihi - i__ + 1;
-            dlarfg_(&i__2, &a[i__ + (i__ + j * a_dim2) * a_dim1], &a[i1 + (i__ + j * a_dim2) * a_dim1], &c__1, &tau[i__ + j * tau_dim1]);
+            dlarfg_(&i__2, &a[i__ + (i__ + j * a_dim2) * a_dim1],
+                &a[i1 + (i__ + j * a_dim2) * a_dim1], &c__1, &tau[i__ + j * tau_dim1]);
             /*           Apply H_j(i) to A_(j-1)(1:ihi,i:ihi) from the right. */
             i__2 = *ihi - i__ + 1;
-            mb04py_("Right", ihi, &i__2, &a[i1 + (i__ + j * a_dim2) * a_dim1], &tau[i__ + j * tau_dim1], &a[(i__ + (j - 1) * a_dim2) * a_dim1 + 1], lda1, &dwork[1], 5L);
+            mb04py_("Right", ihi, &i__2, &a[i1 + (i__ + j * a_dim2) * a_dim1],
+                &tau[i__ + j * tau_dim1], &a[(i__ + (j - 1) * a_dim2) * a_dim1 + 1], lda1,
+                &dwork[1], 5L);
             /*           Apply H_j(i) to A_j(i:ihi,i+1:n) from the left. */
             i__2 = *ihi - i__ + 1;
             i__3 = *n - i__;
-            mb04py_("Left", &i__2, &i__3, &a[i1 + (i__ + j * a_dim2) * a_dim1], &tau[i__ + j * tau_dim1], &a[i__ + (i1 + j * a_dim2) * a_dim1], lda1, &dwork[1], 4L);
+            mb04py_("Left", &i__2, &i__3, &a[i1 + (i__ + j * a_dim2) * a_dim1],
+                &tau[i__ + j * tau_dim1], &a[i__ + (i1 + j * a_dim2) * a_dim1], lda1, &dwork[1],
+                4L);
             /* L10: */
         }
         /*        Compute elementary reflector H_1(i) to annihilate */
         /*        A_1(i+2:ihi,i). */
         i__2 = *ihi - i__;
-        dlarfg_(&i__2, &a[i1 + (i__ + a_dim2) * a_dim1], &a[i2 + (i__ + a_dim2) * a_dim1], &c__1, &tau[i__ + tau_dim1]);
+        dlarfg_(&i__2, &a[i1 + (i__ + a_dim2) * a_dim1], &a[i2 + (i__ + a_dim2) * a_dim1], &c__1,
+            &tau[i__ + tau_dim1]);
         /*        Apply H_1(i) to A_p(1:ihi,i+1:ihi) from the right. */
         i__2 = *ihi - i__;
-        mb04py_("Right", ihi, &i__2, &a[i2 + (i__ + a_dim2) * a_dim1], &tau[i__ + tau_dim1], &a[(i1 + *p * a_dim2) * a_dim1 + 1], lda1, &dwork[1], 5L);
+        mb04py_("Right", ihi, &i__2, &a[i2 + (i__ + a_dim2) * a_dim1], &tau[i__ + tau_dim1],
+            &a[(i1 + *p * a_dim2) * a_dim1 + 1], lda1, &dwork[1], 5L);
         /*        Apply H_1(i) to A_1(i+1:ihi,i+1:n) from the left. */
         i__2 = *ihi - i__;
         i__3 = *n - i__;
-        mb04py_("Left", &i__2, &i__3, &a[i2 + (i__ + a_dim2) * a_dim1], &tau[i__ + tau_dim1], &a[i1 + (i1 + a_dim2) * a_dim1], lda1, &dwork[1], 4L);
+        mb04py_("Left", &i__2, &i__3, &a[i2 + (i__ + a_dim2) * a_dim1], &tau[i__ + tau_dim1],
+            &a[i1 + (i1 + a_dim2) * a_dim1], lda1, &dwork[1], 4L);
         /* L20: */
     }
     return 0;
     /* *** Last line of MB03VD *** */
 } /* mb03vd_ */
-

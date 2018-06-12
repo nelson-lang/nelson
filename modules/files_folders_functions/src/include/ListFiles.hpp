@@ -18,12 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <boost/container/vector.hpp>
-#include "nlsFiles_folders_functions_exports.h"
 #include "FileInfo.hpp"
+#include "nlsFiles_folders_functions_exports.h"
+#include <boost/container/vector.hpp>
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP boost::container::vector<FileInfo> ListFiles(const std::wstring &directory, bool bSubdirectories = false);
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP boost::container::vector<FileInfo>
+ListFiles(const std::wstring& directory, bool bSubdirectories = false);
 }
 //=============================================================================

@@ -1,13 +1,12 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb02sd_(n, h__, ldh, ipiv, info)
-integer *n;
-doublereal *h__;
+EXPORTSYMBOL /* Subroutine */ int mb02sd_(n, h__, ldh, ipiv, info) integer* n;
+doublereal* h__;
 integer *ldh, *ipiv, *info;
 {
     /* System generated locals */
@@ -95,66 +94,53 @@ integer *ldh, *ipiv, *info;
     --ipiv;
     /* Function Body */
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*ldh < max(1,*n))
-    {
+    } else if (*ldh < max(1, *n)) {
         *info = -3;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02SD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         /*        Find pivot and test for singularity. */
         jp = j;
-        if (j < *n)
-        {
-            if ((d__1 = h__[j + 1 + j * h_dim1], abs(d__1)) > (d__2 = h__[j + j * h_dim1], abs(d__2)))
-            {
+        if (j < *n) {
+            if ((d__1 = h__[j + 1 + j * h_dim1], abs(d__1))
+                > (d__2 = h__[j + j * h_dim1], abs(d__2))) {
                 jp = j + 1;
             }
         }
         ipiv[j] = jp;
-        if (h__[jp + j * h_dim1] != 0.)
-        {
+        if (h__[jp + j * h_dim1] != 0.) {
             /*           Apply the interchange to columns J:N. */
-            if (jp != j)
-            {
+            if (jp != j) {
                 i__2 = *n - j + 1;
                 dswap_(&i__2, &h__[j + j * h_dim1], ldh, &h__[jp + j * h_dim1], ldh);
             }
             /*           Compute element J+1 of J-th column. */
-            if (j < *n)
-            {
+            if (j < *n) {
                 h__[j + 1 + j * h_dim1] /= h__[j + j * h_dim1];
             }
-        }
-        else if (*info == 0)
-        {
+        } else if (*info == 0) {
             *info = j;
         }
-        if (j < *n)
-        {
+        if (j < *n) {
             /*           Update trailing submatrix. */
             i__2 = *n - j;
             d__1 = -h__[j + 1 + j * h_dim1];
-            daxpy_(&i__2, &d__1, &h__[j + (j + 1) * h_dim1], ldh, &h__[j + 1 + (j + 1) * h_dim1], ldh);
+            daxpy_(
+                &i__2, &d__1, &h__[j + (j + 1) * h_dim1], ldh, &h__[j + 1 + (j + 1) * h_dim1], ldh);
         }
         /* L10: */
     }
     return 0;
     /* *** Last line of MB02SD *** */
 } /* mb02sd_ */
-

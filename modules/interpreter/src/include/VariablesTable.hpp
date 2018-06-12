@@ -24,27 +24,37 @@
 #include "Types.hpp"
 //=============================================================================
 namespace Nelson {
-    class VariablesTable {
-        //=============================================================================
-    private:
-        typedef std::string key_type;
-        typedef ArrayOf value_type;
-        std::unordered_map<key_type, value_type> variablesMap;
-        stringVector lockedVariables;
-        //=============================================================================
-    public:
-        VariablesTable();
-        ~VariablesTable();
-        bool findVariable(const key_type& key, value_type& dest);
-        bool isVariable(const key_type& key);
-        bool deleteVariable(const key_type& key);
-        bool insertVariable(const key_type& key, const value_type& val);
-        stringVector getVariablesList(bool withPersistent);
-        bool isLockedVariable(std::string key);
-        bool lockVariable(std::string key);
-        bool unlockVariable(std::string key);
-        stringVector getLockedVariables();
-    };
+class VariablesTable
+{
     //=============================================================================
+private:
+    typedef std::string key_type;
+    typedef ArrayOf value_type;
+    std::unordered_map<key_type, value_type> variablesMap;
+    stringVector lockedVariables;
+    //=============================================================================
+public:
+    VariablesTable();
+    ~VariablesTable();
+    bool
+    findVariable(const key_type& key, value_type& dest);
+    bool
+    isVariable(const key_type& key);
+    bool
+    deleteVariable(const key_type& key);
+    bool
+    insertVariable(const key_type& key, const value_type& val);
+    stringVector
+    getVariablesList(bool withPersistent);
+    bool
+    isLockedVariable(std::string key);
+    bool
+    lockVariable(std::string key);
+    bool
+    unlockVariable(std::string key);
+    stringVector
+    getLockedVariables();
+};
+//=============================================================================
 }
 //=============================================================================

@@ -24,17 +24,23 @@
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
-    class NLSINTERPRETER_IMPEXP CommandQueue {
-    private:
-        std::mutex m_mutex;
-        std::vector<std::string> commands;
-    public:
-        CommandQueue();
-        ~CommandQueue();
-        bool isEmpty();
-        void add(std::string cmdline, bool bIsPriority = false);
-        void clear();
-        bool get(std::string &cmd);
-    };
+class NLSINTERPRETER_IMPEXP CommandQueue
+{
+private:
+    std::mutex m_mutex;
+    std::vector<std::string> commands;
+
+public:
+    CommandQueue();
+    ~CommandQueue();
+    bool
+    isEmpty();
+    void
+    add(std::string cmdline, bool bIsPriority = false);
+    void
+    clear();
+    bool
+    get(std::string& cmd);
+};
 };
 //=============================================================================

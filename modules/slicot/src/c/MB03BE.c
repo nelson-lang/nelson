@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,9 +10,9 @@
 static integer c__2 = 2;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb03be_(k, amap, s, sinv, a, lda1, lda2)
-integer *k, *amap, *s, *sinv;
-doublereal *a;
+EXPORTSYMBOL /* Subroutine */ int mb03be_(k, amap, s, sinv, a, lda1, lda2) integer *k, *amap, *s,
+    *sinv;
+doublereal* a;
 integer *lda1, *lda2;
 {
     /* System generated locals */
@@ -89,42 +89,47 @@ integer *lda1, *lda2;
     a_offset = a_dim1 * (a_dim2 + 1) + 1;
     a -= a_offset;
     /* Function Body */
-    for (i__ = 1; i__ <= 10; ++i__)
-    {
-        mb03ad_("Single", k, &c__2, &amap[1], &s[1], sinv, &a[a_offset], lda1, lda2, &cs, &sn, &ct, &st, 6L);
+    for (i__ = 1; i__ <= 10; ++i__) {
+        mb03ad_("Single", k, &c__2, &amap[1], &s[1], sinv, &a[a_offset], lda1, lda2, &cs, &sn, &ct,
+            &st, 6L);
         ai = amap[1];
-        drot_(&c__2, &a[(ai * a_dim2 + 1) * a_dim1 + 1], lda1, &a[(ai * a_dim2 + 1) * a_dim1 + 2], lda1, &cs, &sn);
-        for (l = *k; l >= 2; --l)
-        {
+        drot_(&c__2, &a[(ai * a_dim2 + 1) * a_dim1 + 1], lda1, &a[(ai * a_dim2 + 1) * a_dim1 + 2],
+            lda1, &cs, &sn);
+        for (l = *k; l >= 2; --l) {
             ai = amap[l];
-            if (s[ai] == *sinv)
-            {
-                drot_(&c__2, &a[(ai * a_dim2 + 1) * a_dim1 + 1], &c__1, &a[(ai * a_dim2 + 2) * a_dim1 + 1], &c__1, &cs, &sn);
+            if (s[ai] == *sinv) {
+                drot_(&c__2, &a[(ai * a_dim2 + 1) * a_dim1 + 1], &c__1,
+                    &a[(ai * a_dim2 + 2) * a_dim1 + 1], &c__1, &cs, &sn);
                 temp = a[(ai * a_dim2 + 1) * a_dim1 + 1];
-                dlartg_(&temp, &a[(ai * a_dim2 + 1) * a_dim1 + 2], &cs, &sn, &a[(ai * a_dim2 + 1) * a_dim1 + 1]);
+                dlartg_(&temp, &a[(ai * a_dim2 + 1) * a_dim1 + 2], &cs, &sn,
+                    &a[(ai * a_dim2 + 1) * a_dim1 + 1]);
                 a[(ai * a_dim2 + 1) * a_dim1 + 2] = 0.;
-                temp = cs * a[(ai * a_dim2 + 2) * a_dim1 + 1] + sn * a[(ai * a_dim2 + 2) * a_dim1 + 2];
-                a[(ai * a_dim2 + 2) * a_dim1 + 2] = cs * a[(ai * a_dim2 + 2) * a_dim1 + 2] - sn * a[(ai * a_dim2 + 2) * a_dim1 + 1];
+                temp = cs * a[(ai * a_dim2 + 2) * a_dim1 + 1]
+                    + sn * a[(ai * a_dim2 + 2) * a_dim1 + 2];
+                a[(ai * a_dim2 + 2) * a_dim1 + 2] = cs * a[(ai * a_dim2 + 2) * a_dim1 + 2]
+                    - sn * a[(ai * a_dim2 + 2) * a_dim1 + 1];
                 a[(ai * a_dim2 + 2) * a_dim1 + 1] = temp;
-            }
-            else
-            {
-                drot_(&c__2, &a[(ai * a_dim2 + 1) * a_dim1 + 1], lda1, &a[(ai * a_dim2 + 1) * a_dim1 + 2], lda1, &cs, &sn);
+            } else {
+                drot_(&c__2, &a[(ai * a_dim2 + 1) * a_dim1 + 1], lda1,
+                    &a[(ai * a_dim2 + 1) * a_dim1 + 2], lda1, &cs, &sn);
                 temp = a[(ai * a_dim2 + 2) * a_dim1 + 2];
-                dlartg_(&temp, &a[(ai * a_dim2 + 1) * a_dim1 + 2], &cs, &sn, &a[(ai * a_dim2 + 2) * a_dim1 + 2]);
+                dlartg_(&temp, &a[(ai * a_dim2 + 1) * a_dim1 + 2], &cs, &sn,
+                    &a[(ai * a_dim2 + 2) * a_dim1 + 2]);
                 a[(ai * a_dim2 + 1) * a_dim1 + 2] = 0.;
                 sn = -sn;
-                temp = cs * a[(ai * a_dim2 + 1) * a_dim1 + 1] + sn * a[(ai * a_dim2 + 2) * a_dim1 + 1];
-                a[(ai * a_dim2 + 2) * a_dim1 + 1] = cs * a[(ai * a_dim2 + 2) * a_dim1 + 1] - sn * a[(ai * a_dim2 + 1) * a_dim1 + 1];
+                temp = cs * a[(ai * a_dim2 + 1) * a_dim1 + 1]
+                    + sn * a[(ai * a_dim2 + 2) * a_dim1 + 1];
+                a[(ai * a_dim2 + 2) * a_dim1 + 1] = cs * a[(ai * a_dim2 + 2) * a_dim1 + 1]
+                    - sn * a[(ai * a_dim2 + 1) * a_dim1 + 1];
                 a[(ai * a_dim2 + 1) * a_dim1 + 1] = temp;
             }
             /* L10: */
         }
         ai = amap[1];
-        drot_(&c__2, &a[(ai * a_dim2 + 1) * a_dim1 + 1], &c__1, &a[(ai * a_dim2 + 2) * a_dim1 + 1], &c__1, &cs, &sn);
+        drot_(&c__2, &a[(ai * a_dim2 + 1) * a_dim1 + 1], &c__1, &a[(ai * a_dim2 + 2) * a_dim1 + 1],
+            &c__1, &cs, &sn);
         /* L20: */
     }
     return 0;
     /* *** Last line of MB03BE *** */
 } /* mb03be_ */
-

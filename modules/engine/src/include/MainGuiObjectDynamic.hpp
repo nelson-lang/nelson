@@ -21,9 +21,13 @@
 #include "NelSon_engine_mode.h"
 //===================================================================================
 namespace Nelson {
-    void InitGuiObjectsDynamic(void);
-    void *CreateGuiEvaluatorDynamic(void* vcontext, NELSON_ENGINE_MODE _mode);
-    void DestroyMainGuiObjectDynamic(void *term);
-    void *GetMainGuiObjectDynamic(void);
-}
+void
+InitGuiObjectsDynamic(void);
+void*
+CreateGuiEvaluatorDynamic(void* vcontext, NELSON_ENGINE_MODE _mode);
+void
+DestroyMainGuiObjectDynamic(void* term);
+void*
+GetMainGuiObjectDynamic(void);
+} // namespace Nelson
 //===================================================================================

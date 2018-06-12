@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,25 +14,26 @@ static doublereal c_b19 = 0.;
 static integer c__2 = 2;
 static doublereal c_b23 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int sg03bw_(trans, m, n, a, lda, c__, ldc, e, lde, d__, ldd, x, ldx, scale, info, trans_len)
-char *trans;
+EXPORTSYMBOL /* Subroutine */ int sg03bw_(
+    trans, m, n, a, lda, c__, ldc, e, lde, d__, ldd, x, ldx, scale, info, trans_len) char* trans;
 integer *m, *n;
-doublereal *a;
-integer *lda;
-doublereal *c__;
-integer *ldc;
-doublereal *e;
-integer *lde;
-doublereal *d__;
-integer *ldd;
-doublereal *x;
-integer *ldx;
-doublereal *scale;
-integer *info;
+doublereal* a;
+integer* lda;
+doublereal* c__;
+integer* ldc;
+doublereal* e;
+integer* lde;
+doublereal* d__;
+integer* ldd;
+doublereal* x;
+integer* ldx;
+doublereal* scale;
+integer* info;
 ftnlen trans_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, c_dim1, c_offset, d_dim1, d_offset, e_dim1, e_offset, x_dim1, x_offset, i__1, i__2;
+    integer a_dim1, a_offset, c_dim1, c_offset, d_dim1, d_offset, e_dim1, e_offset, x_dim1,
+        x_offset, i__1, i__2;
     /* Local variables */
     static integer info1, i__, j;
     extern /* Subroutine */ int dscal_(), dgemm_();
@@ -40,12 +41,12 @@ ftnlen trans_len;
     extern /* Subroutine */ int mb02uu_(), mb02uv_();
     static doublereal scale1;
     static integer ma, mb, me;
-    static doublereal tm[4]	/* was [2][2] */;
+    static doublereal tm[4] /* was [2][2] */;
     static integer dimmat;
     extern /* Subroutine */ int xerbla_();
     static logical notrns;
     static integer mai, maj;
-    static doublereal mat[16]	/* was [4][4] */, rhs[4];
+    static doublereal mat[16] /* was [4][4] */, rhs[4];
     static integer piv1[4], piv2[4];
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
@@ -187,79 +188,52 @@ ftnlen trans_len;
     /* Function Body */
     notrns = lsame_(trans, "N", 1L, 1L);
     /*     Check the scalar input parameters. */
-    if (! (notrns || lsame_(trans, "T", 1L, 1L)))
-    {
+    if (!(notrns || lsame_(trans, "T", 1L, 1L))) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*n != 1 && *n != 2)
-    {
+    } else if (*n != 1 && *n != 2) {
         *info = -3;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -5;
-    }
-    else if (*ldc < max(1,*n))
-    {
+    } else if (*ldc < max(1, *n)) {
         *info = -7;
-    }
-    else if (*lde < max(1,*m))
-    {
+    } else if (*lde < max(1, *m)) {
         *info = -9;
-    }
-    else if (*ldd < max(1,*n))
-    {
+    } else if (*ldd < max(1, *n)) {
         *info = -11;
-    }
-    else if (*ldx < max(1,*m))
-    {
+    } else if (*ldx < max(1, *m)) {
         *info = -13;
-    }
-    else
-    {
+    } else {
         *info = 0;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SG03BW", &i__1, 6L);
         return 0;
     }
     *scale = 1.;
     /*     Quick return if possible. */
-    if (*m == 0)
-    {
+    if (*m == 0) {
         return 0;
     }
-    if (notrns)
-    {
+    if (notrns) {
         /*        Solve equation (1). */
         /*        Compute block row X(MA:ME,:). MB denotes the number of rows in */
         /*        this block row. */
         me = 0;
         /*        WHILE ( ME .NE. M ) DO */
-L20:
-        if (me != *m)
-        {
+    L20:
+        if (me != *m) {
             ma = me + 1;
-            if (ma == *m)
-            {
+            if (ma == *m) {
                 me = *m;
                 mb = 1;
-            }
-            else
-            {
-                if (a[ma + 1 + ma * a_dim1] == 0.)
-                {
+            } else {
+                if (a[ma + 1 + ma * a_dim1] == 0.) {
                     me = ma;
                     mb = 1;
-                }
-                else
-                {
+                } else {
                     me = ma + 1;
                     mb = 2;
                 }
@@ -269,20 +243,16 @@ L20:
             /*              MAT = kron(C',A(MA:ME,MA:ME)') + kron(D',E(MA:ME,MA:ME)') */
             /*           and right hand side */
             /*              RHS = vec(X(MA:ME,:)). */
-            if (*n == 1)
-            {
+            if (*n == 1) {
                 dimmat = mb;
                 i__1 = mb;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     mai = ma + i__ - 1;
                     i__2 = mb;
-                    for (j = 1; j <= i__2; ++j)
-                    {
+                    for (j = 1; j <= i__2; ++j) {
                         maj = ma + j - 1;
                         mat[i__ + (j << 2) - 5] = c__[c_dim1 + 1] * a[maj + mai * a_dim1];
-                        if (maj <= mai)
-                        {
+                        if (maj <= mai) {
                             mat[i__ + (j << 2) - 5] += d__[d_dim1 + 1] * e[maj + mai * e_dim1];
                         }
                         /* L40: */
@@ -290,28 +260,27 @@ L20:
                     rhs[i__ - 1] = x[mai + x_dim1];
                     /* L60: */
                 }
-            }
-            else
-            {
+            } else {
                 dimmat = mb << 1;
                 i__1 = mb;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     mai = ma + i__ - 1;
                     i__2 = mb;
-                    for (j = 1; j <= i__2; ++j)
-                    {
+                    for (j = 1; j <= i__2; ++j) {
                         maj = ma + j - 1;
                         mat[i__ + (j << 2) - 5] = c__[c_dim1 + 1] * a[maj + mai * a_dim1];
-                        mat[mb + i__ + (j << 2) - 5] = c__[(c_dim1 << 1) + 1] * a[maj + mai * a_dim1];
+                        mat[mb + i__ + (j << 2) - 5]
+                            = c__[(c_dim1 << 1) + 1] * a[maj + mai * a_dim1];
                         mat[i__ + (mb + j << 2) - 5] = c__[c_dim1 + 2] * a[maj + mai * a_dim1];
-                        mat[mb + i__ + (mb + j << 2) - 5] = c__[(c_dim1 << 1) + 2] * a[maj + mai * a_dim1];
-                        if (maj <= mai)
-                        {
+                        mat[mb + i__ + (mb + j << 2) - 5]
+                            = c__[(c_dim1 << 1) + 2] * a[maj + mai * a_dim1];
+                        if (maj <= mai) {
                             mat[i__ + (j << 2) - 5] += d__[d_dim1 + 1] * e[maj + mai * e_dim1];
-                            mat[mb + i__ + (j << 2) - 5] += d__[(d_dim1 << 1) + 1] * e[maj + mai * e_dim1];
+                            mat[mb + i__ + (j << 2) - 5]
+                                += d__[(d_dim1 << 1) + 1] * e[maj + mai * e_dim1];
                             mat[i__ + (mb + j << 2) - 5] += d__[d_dim1 + 2] * e[maj + mai * e_dim1];
-                            mat[mb + i__ + (mb + j << 2) - 5] += d__[(d_dim1 << 1) + 2] * e[maj + mai * e_dim1];
+                            mat[mb + i__ + (mb + j << 2) - 5]
+                                += d__[(d_dim1 << 1) + 2] * e[maj + mai * e_dim1];
                         }
                         /* L80: */
                     }
@@ -322,36 +291,28 @@ L20:
             }
             /*           Solve the system of linear equations. */
             mb02uv_(&dimmat, mat, &c__4, piv1, piv2, &info1);
-            if (info1 != 0)
-            {
+            if (info1 != 0) {
                 *info = 1;
             }
             mb02uu_(&dimmat, mat, &c__4, rhs, piv1, piv2, &scale1);
-            if (scale1 != 1.)
-            {
-                *scale = scale1 **scale;
+            if (scale1 != 1.) {
+                *scale = scale1 * *scale;
                 i__1 = *n;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     dscal_(m, &scale1, &x[i__ * x_dim1 + 1], &c__1);
                     /* L120: */
                 }
             }
-            if (*n == 1)
-            {
+            if (*n == 1) {
                 i__1 = mb;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     mai = ma + i__ - 1;
                     x[mai + x_dim1] = rhs[i__ - 1];
                     /* L140: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = mb;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     mai = ma + i__ - 1;
                     x[mai + x_dim1] = rhs[i__ - 1];
                     x[mai + (x_dim1 << 1)] = rhs[mb + i__ - 1];
@@ -361,44 +322,38 @@ L20:
             /*           Update right hand sides. */
             /*           X(ME+1:M,:) = X(ME+1:M,:) - A(MA:ME,ME+1:M)'*X(MA:ME,:)*C */
             /*           X(ME+1:M,:) = X(ME+1:M,:) - E(MA:ME,ME+1:M)'*X(MA:ME,:)*D */
-            if (me < *m)
-            {
-                dgemm_("N", "N", &mb, n, n, &c_b18, &x[ma + x_dim1], ldx, &c__[c_offset], ldc, &c_b19, tm, &c__2, 1L, 1L);
+            if (me < *m) {
+                dgemm_("N", "N", &mb, n, n, &c_b18, &x[ma + x_dim1], ldx, &c__[c_offset], ldc,
+                    &c_b19, tm, &c__2, 1L, 1L);
                 i__1 = *m - me;
-                dgemm_("T", "N", &i__1, n, &mb, &c_b23, &a[ma + (me + 1) * a_dim1], lda, tm, &c__2, &c_b18, &x[me + 1 + x_dim1], ldx, 1L, 1L);
-                dgemm_("N", "N", &mb, n, n, &c_b18, &x[ma + x_dim1], ldx, &d__[d_offset], ldd, &c_b19, tm, &c__2, 1L, 1L);
+                dgemm_("T", "N", &i__1, n, &mb, &c_b23, &a[ma + (me + 1) * a_dim1], lda, tm, &c__2,
+                    &c_b18, &x[me + 1 + x_dim1], ldx, 1L, 1L);
+                dgemm_("N", "N", &mb, n, n, &c_b18, &x[ma + x_dim1], ldx, &d__[d_offset], ldd,
+                    &c_b19, tm, &c__2, 1L, 1L);
                 i__1 = *m - me;
-                dgemm_("T", "N", &i__1, n, &mb, &c_b23, &e[ma + (me + 1) * e_dim1], lde, tm, &c__2, &c_b18, &x[me + 1 + x_dim1], ldx, 1L, 1L);
+                dgemm_("T", "N", &i__1, n, &mb, &c_b23, &e[ma + (me + 1) * e_dim1], lde, tm, &c__2,
+                    &c_b18, &x[me + 1 + x_dim1], ldx, 1L, 1L);
             }
             goto L20;
         }
         /*        END WHILE 20 */
-    }
-    else
-    {
+    } else {
         /*        Solve equation (2). */
         /*        Compute block row X(MA:ME,:). MB denotes the number of rows in */
         /*        this block row. */
         ma = *m + 1;
         /*        WHILE ( MA .NE. 1 ) DO */
-L180:
-        if (ma != 1)
-        {
+    L180:
+        if (ma != 1) {
             me = ma - 1;
-            if (me == 1)
-            {
+            if (me == 1) {
                 ma = 1;
                 mb = 1;
-            }
-            else
-            {
-                if (a[me + (me - 1) * a_dim1] == 0.)
-                {
+            } else {
+                if (a[me + (me - 1) * a_dim1] == 0.) {
                     ma = me;
                     mb = 1;
-                }
-                else
-                {
+                } else {
                     ma = me - 1;
                     mb = 2;
                 }
@@ -408,20 +363,16 @@ L180:
             /*              MAT = kron(C,A(MA:ME,MA:ME)) + kron(D,E(MA:ME,MA:ME)) */
             /*           and right hand side */
             /*              RHS = vec(X(MA:ME,:)). */
-            if (*n == 1)
-            {
+            if (*n == 1) {
                 dimmat = mb;
                 i__1 = mb;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     mai = ma + i__ - 1;
                     i__2 = mb;
-                    for (j = 1; j <= i__2; ++j)
-                    {
+                    for (j = 1; j <= i__2; ++j) {
                         maj = ma + j - 1;
                         mat[i__ + (j << 2) - 5] = c__[c_dim1 + 1] * a[mai + maj * a_dim1];
-                        if (maj >= mai)
-                        {
+                        if (maj >= mai) {
                             mat[i__ + (j << 2) - 5] += d__[d_dim1 + 1] * e[mai + maj * e_dim1];
                         }
                         /* L200: */
@@ -429,28 +380,27 @@ L180:
                     rhs[i__ - 1] = x[mai + x_dim1];
                     /* L220: */
                 }
-            }
-            else
-            {
+            } else {
                 dimmat = mb << 1;
                 i__1 = mb;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     mai = ma + i__ - 1;
                     i__2 = mb;
-                    for (j = 1; j <= i__2; ++j)
-                    {
+                    for (j = 1; j <= i__2; ++j) {
                         maj = ma + j - 1;
                         mat[i__ + (j << 2) - 5] = c__[c_dim1 + 1] * a[mai + maj * a_dim1];
                         mat[mb + i__ + (j << 2) - 5] = c__[c_dim1 + 2] * a[mai + maj * a_dim1];
-                        mat[i__ + (mb + j << 2) - 5] = c__[(c_dim1 << 1) + 1] * a[mai + maj * a_dim1];
-                        mat[mb + i__ + (mb + j << 2) - 5] = c__[(c_dim1 << 1) + 2] * a[mai + maj * a_dim1];
-                        if (maj >= mai)
-                        {
+                        mat[i__ + (mb + j << 2) - 5]
+                            = c__[(c_dim1 << 1) + 1] * a[mai + maj * a_dim1];
+                        mat[mb + i__ + (mb + j << 2) - 5]
+                            = c__[(c_dim1 << 1) + 2] * a[mai + maj * a_dim1];
+                        if (maj >= mai) {
                             mat[i__ + (j << 2) - 5] += d__[d_dim1 + 1] * e[mai + maj * e_dim1];
                             mat[mb + i__ + (j << 2) - 5] += d__[d_dim1 + 2] * e[mai + maj * e_dim1];
-                            mat[i__ + (mb + j << 2) - 5] += d__[(d_dim1 << 1) + 1] * e[mai + maj * e_dim1];
-                            mat[mb + i__ + (mb + j << 2) - 5] += d__[(d_dim1 << 1) + 2] * e[mai + maj * e_dim1];
+                            mat[i__ + (mb + j << 2) - 5]
+                                += d__[(d_dim1 << 1) + 1] * e[mai + maj * e_dim1];
+                            mat[mb + i__ + (mb + j << 2) - 5]
+                                += d__[(d_dim1 << 1) + 2] * e[mai + maj * e_dim1];
                         }
                         /* L240: */
                     }
@@ -461,36 +411,28 @@ L180:
             }
             /*           Solve the system of linear equations. */
             mb02uv_(&dimmat, mat, &c__4, piv1, piv2, &info1);
-            if (info1 != 0)
-            {
+            if (info1 != 0) {
                 *info = 1;
             }
             mb02uu_(&dimmat, mat, &c__4, rhs, piv1, piv2, &scale1);
-            if (scale1 != 1.)
-            {
-                *scale = scale1 **scale;
+            if (scale1 != 1.) {
+                *scale = scale1 * *scale;
                 i__1 = *n;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     dscal_(m, &scale1, &x[i__ * x_dim1 + 1], &c__1);
                     /* L280: */
                 }
             }
-            if (*n == 1)
-            {
+            if (*n == 1) {
                 i__1 = mb;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     mai = ma + i__ - 1;
                     x[mai + x_dim1] = rhs[i__ - 1];
                     /* L300: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = mb;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     mai = ma + i__ - 1;
                     x[mai + x_dim1] = rhs[i__ - 1];
                     x[mai + (x_dim1 << 1)] = rhs[mb + i__ - 1];
@@ -500,14 +442,17 @@ L180:
             /*           Update right hand sides. */
             /*              X(1:MA-1,:) = X(1:MA-1,:) - A(1:MA-1,MA:ME)*X(MA:ME,:)*C' */
             /*              X(1:MA-1,:) = X(1:MA-1,:) - E(1:MA-1,MA:ME)*X(MA:ME,:)*D' */
-            if (ma > 1)
-            {
-                dgemm_("N", "T", &mb, n, n, &c_b18, &x[ma + x_dim1], ldx, &c__[c_offset], ldc, &c_b19, tm, &c__2, 1L, 1L);
+            if (ma > 1) {
+                dgemm_("N", "T", &mb, n, n, &c_b18, &x[ma + x_dim1], ldx, &c__[c_offset], ldc,
+                    &c_b19, tm, &c__2, 1L, 1L);
                 i__1 = ma - 1;
-                dgemm_("N", "N", &i__1, n, &mb, &c_b23, &a[ma * a_dim1 + 1], lda, tm, &c__2, &c_b18, &x[x_offset], ldx, 1L, 1L);
-                dgemm_("N", "T", &mb, n, n, &c_b18, &x[ma + x_dim1], ldx, &d__[d_offset], ldd, &c_b19, tm, &c__2, 1L, 1L);
+                dgemm_("N", "N", &i__1, n, &mb, &c_b23, &a[ma * a_dim1 + 1], lda, tm, &c__2, &c_b18,
+                    &x[x_offset], ldx, 1L, 1L);
+                dgemm_("N", "T", &mb, n, n, &c_b18, &x[ma + x_dim1], ldx, &d__[d_offset], ldd,
+                    &c_b19, tm, &c__2, 1L, 1L);
                 i__1 = ma - 1;
-                dgemm_("N", "N", &i__1, n, &mb, &c_b23, &e[ma * e_dim1 + 1], lde, tm, &c__2, &c_b18, &x[x_offset], ldx, 1L, 1L);
+                dgemm_("N", "N", &i__1, n, &mb, &c_b23, &e[ma * e_dim1 + 1], lde, tm, &c__2, &c_b18,
+                    &x[x_offset], ldx, 1L, 1L);
             }
             goto L180;
         }
@@ -516,4 +461,3 @@ L180:
     return 0;
     /* *** Last line of SG03BW *** */
 } /* sg03bw_ */
-

@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsGui_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSGUI_IMPEXP std::wstring GetQtPath(const std::wstring &libraryLocation);
+NLSGUI_IMPEXP std::wstring
+GetQtPath(const std::wstring& libraryLocation);
 }
 //=============================================================================

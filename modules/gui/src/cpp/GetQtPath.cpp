@@ -16,78 +16,64 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtCore/QLibraryInfo>
 #include "GetQtPath.hpp"
 #include "QStringConverter.hpp"
+#include <QtCore/QLibraryInfo>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    std::wstring GetQtPath(const std::wstring &libraryLocation)
-    {
-        QString path;
-        std::wstring wpath = L"";
-        if (libraryLocation == L"PrefixPath")
-        {
-            path = QLibraryInfo::location(QLibraryInfo::PrefixPath);
-        }
-        if (libraryLocation == L"DocumentationPath")
-        {
-            path = QLibraryInfo::location(QLibraryInfo::DocumentationPath);
-        }
-        if (libraryLocation == L"HeadersPath")
-        {
-            path = QLibraryInfo::location(QLibraryInfo::HeadersPath);
-        }
-        if (libraryLocation == L"LibrariesPath")
-        {
-            path = QLibraryInfo::location(QLibraryInfo::LibrariesPath);
-        }
-        if (libraryLocation == L"LibraryExecutablesPath")
-        {
-            path = QLibraryInfo::location(QLibraryInfo::LibraryExecutablesPath);
-        }
-        if (libraryLocation == L"BinariesPath")
-        {
-            path = QLibraryInfo::location(QLibraryInfo::BinariesPath);
-        }
-        if (libraryLocation == L"PluginsPath")
-        {
-            path = QLibraryInfo::location(QLibraryInfo::PluginsPath);
-        }
-        if (libraryLocation == L"ImportsPath")
-        {
-            path = QLibraryInfo::location(QLibraryInfo::ImportsPath);
-        }
-        if (libraryLocation == L"Qml2ImportsPath")
-        {
-            path = QLibraryInfo::location(QLibraryInfo::Qml2ImportsPath);
-        }
-        if (libraryLocation == L"ArchDataPath")
-        {
-            path = QLibraryInfo::location(QLibraryInfo::ArchDataPath);
-        }
-        if (libraryLocation == L"DataPath")
-        {
-            path = QLibraryInfo::location(QLibraryInfo::DataPath);
-        }
-        if (libraryLocation == L"TranslationsPath")
-        {
-            path = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
-        }
-        if (libraryLocation == L"ExamplesPath")
-        {
-            path = QLibraryInfo::location(QLibraryInfo::ExamplesPath);
-        }
-        if (libraryLocation == L"TestsPath")
-        {
-            path = QLibraryInfo::location(QLibraryInfo::TestsPath);
-        }
-        if (!path.isEmpty())
-        {
-            wpath = QStringTowstring(path);
-        }
-        return wpath;
+//=============================================================================
+std::wstring
+GetQtPath(const std::wstring& libraryLocation)
+{
+    QString path;
+    std::wstring wpath = L"";
+    if (libraryLocation == L"PrefixPath") {
+        path = QLibraryInfo::location(QLibraryInfo::PrefixPath);
     }
-    //=============================================================================
+    if (libraryLocation == L"DocumentationPath") {
+        path = QLibraryInfo::location(QLibraryInfo::DocumentationPath);
+    }
+    if (libraryLocation == L"HeadersPath") {
+        path = QLibraryInfo::location(QLibraryInfo::HeadersPath);
+    }
+    if (libraryLocation == L"LibrariesPath") {
+        path = QLibraryInfo::location(QLibraryInfo::LibrariesPath);
+    }
+    if (libraryLocation == L"LibraryExecutablesPath") {
+        path = QLibraryInfo::location(QLibraryInfo::LibraryExecutablesPath);
+    }
+    if (libraryLocation == L"BinariesPath") {
+        path = QLibraryInfo::location(QLibraryInfo::BinariesPath);
+    }
+    if (libraryLocation == L"PluginsPath") {
+        path = QLibraryInfo::location(QLibraryInfo::PluginsPath);
+    }
+    if (libraryLocation == L"ImportsPath") {
+        path = QLibraryInfo::location(QLibraryInfo::ImportsPath);
+    }
+    if (libraryLocation == L"Qml2ImportsPath") {
+        path = QLibraryInfo::location(QLibraryInfo::Qml2ImportsPath);
+    }
+    if (libraryLocation == L"ArchDataPath") {
+        path = QLibraryInfo::location(QLibraryInfo::ArchDataPath);
+    }
+    if (libraryLocation == L"DataPath") {
+        path = QLibraryInfo::location(QLibraryInfo::DataPath);
+    }
+    if (libraryLocation == L"TranslationsPath") {
+        path = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+    }
+    if (libraryLocation == L"ExamplesPath") {
+        path = QLibraryInfo::location(QLibraryInfo::ExamplesPath);
+    }
+    if (libraryLocation == L"TestsPath") {
+        path = QLibraryInfo::location(QLibraryInfo::TestsPath);
+    }
+    if (!path.isEmpty()) {
+        wpath = QStringTowstring(path);
+    }
+    return wpath;
+}
+//=============================================================================
 }
 //=============================================================================

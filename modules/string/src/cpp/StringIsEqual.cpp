@@ -19,58 +19,48 @@
 #include "StringIsEqual.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool StringIsEqual(ArrayOf A, ArrayOf B)
-    {
-        bool bRes = false;
-        if (A.isString() && B.isString())
-        {
-            if (A.isNdArrayStringType() && B.isNdArrayStringType())
-            {
-                if (!A.getDimensions().equals(B.getDimensions()))
-                {
+//=============================================================================
+bool
+StringIsEqual(ArrayOf A, ArrayOf B)
+{
+    bool bRes = false;
+    if (A.isString() && B.isString()) {
+        if (A.isNdArrayStringType() && B.isNdArrayStringType()) {
+            if (!A.getDimensions().equals(B.getDimensions())) {
+                return false;
+            }
+            A.promoteType(NLS_DOUBLE);
+            B.promoteType(NLS_DOUBLE);
+            double* ptrA = (double*)A.getDataPointer();
+            double* ptrB = (double*)B.getDataPointer();
+            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+                if (ptrA[k] != ptrB[k]) {
                     return false;
                 }
-                A.promoteType(NLS_DOUBLE);
-                B.promoteType(NLS_DOUBLE);
-                double *ptrA = (double*)A.getDataPointer();
-                double *ptrB = (double*)B.getDataPointer();
-                for (indexType k = 0; k < A.getDimensions().getElementCount(); k++)
-                {
-                    if (ptrA[k] != ptrB[k])
-                    {
+            }
+            return true;
+        } else {
+            Dimensions dimsA = A.getDimensions();
+            Dimensions dimsB = B.getDimensions();
+            if (dimsA.equals(dimsB)) {
+                wstringVector valueA = A.getContentAsWideStringVector();
+                wstringVector valueB = B.getContentAsWideStringVector();
+                if (valueA.size() != valueB.size()) {
+                    return false;
+                }
+                for (size_t k = 0; k < valueA.size(); ++k) {
+                    std::wstring a = valueA[k];
+                    std::wstring b = valueB[k];
+                    if (a != b) {
                         return false;
                     }
                 }
                 return true;
             }
-            else
-            {
-                Dimensions dimsA = A.getDimensions();
-                Dimensions dimsB = B.getDimensions();
-                if (dimsA.equals(dimsB))
-                {
-                    wstringVector valueA = A.getContentAsWideStringVector();
-                    wstringVector valueB = B.getContentAsWideStringVector();
-                    if (valueA.size() != valueB.size())
-                    {
-                        return false;
-                    }
-                    for (size_t k = 0; k < valueA.size(); ++k)
-                    {
-                        std::wstring a = valueA[k];
-                        std::wstring b = valueB[k];
-                        if (a != b)
-                        {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-            }
         }
-        return bRes;
     }
-    //=============================================================================
+    return bRes;
+}
+//=============================================================================
 }
 //=============================================================================

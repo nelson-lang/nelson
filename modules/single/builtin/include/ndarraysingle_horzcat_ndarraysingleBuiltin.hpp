@@ -22,8 +22,10 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace SingleGateway {
-        ArrayOfVector ndarraysingle_horzcat_ndarraysingleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace SingleGateway {
+    ArrayOfVector
+    ndarraysingle_horzcat_ndarraysingleBuiltin(
+        Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

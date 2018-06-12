@@ -17,31 +17,29 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "double_minus_doubleBuiltin.hpp"
-#include "MinusDouble.hpp"
 #include "Error.hpp"
 #include "MatrixCheck.hpp"
+#include "MinusDouble.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DoubleGateway::double_minus_doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DoubleGateway::double_minus_doubleBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
     VectorCheck(A, B, "-");
-    if (!A.isDoubleType() || !B.isDoubleType())
-    {
+    if (!A.isDoubleType() || !B.isDoubleType()) {
         Error(eval, ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED);
     }
-    if (A.isSparse() || B.isSparse())
-    {
+    if (A.isSparse() || B.isSparse()) {
         Error(eval, ERROR_WRONG_ARGUMENTS_SIZE_FULL_MATRIX_EXPECTED);
     }
-    if (!A.is2D() || !B.is2D())
-    {
+    if (!A.is2D() || !B.is2D()) {
         Error(eval, ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     ArrayOfVector retval;

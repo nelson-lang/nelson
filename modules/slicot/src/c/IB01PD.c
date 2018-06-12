@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,37 +14,41 @@ static doublereal c_b63 = 1.;
 static doublereal c_b66 = 0.;
 static doublereal c_b173 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int ib01pd_(meth, job, jobcv, nobr, n, m, l, nsmpl, r__, ldr, a, lda, c__, ldc, b, ldb, d__, ldd, q, ldq, ry, ldry, s, lds, o, ldo, tol, iwork, dwork, ldwork, iwarn, info, meth_len, job_len, jobcv_len)
-char *meth, *job, *jobcv;
+EXPORTSYMBOL /* Subroutine */ int ib01pd_(meth, job, jobcv, nobr, n, m, l, nsmpl, r__, ldr, a, lda,
+    c__, ldc, b, ldb, d__, ldd, q, ldq, ry, ldry, s, lds, o, ldo, tol, iwork, dwork, ldwork, iwarn,
+    info, meth_len, job_len, jobcv_len) char *meth,
+    *job, *jobcv;
 integer *nobr, *n, *m, *l, *nsmpl;
-doublereal *r__;
-integer *ldr;
-doublereal *a;
-integer *lda;
-doublereal *c__;
-integer *ldc;
-doublereal *b;
-integer *ldb;
-doublereal *d__;
-integer *ldd;
-doublereal *q;
-integer *ldq;
-doublereal *ry;
-integer *ldry;
-doublereal *s;
-integer *lds;
-doublereal *o;
-integer *ldo;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+doublereal* r__;
+integer* ldr;
+doublereal* a;
+integer* lda;
+doublereal* c__;
+integer* ldc;
+doublereal* b;
+integer* ldb;
+doublereal* d__;
+integer* ldd;
+doublereal* q;
+integer* ldq;
+doublereal* ry;
+integer* ldry;
+doublereal* s;
+integer* lds;
+doublereal* o;
+integer* ldo;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen meth_len;
 ftnlen job_len;
 ftnlen jobcv_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, o_dim1, o_offset, q_dim1, q_offset, r_dim1, r_offset, ry_dim1, ry_offset, s_dim1, s_offset, i__1, i__2, i__3, i__4, i__5;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, o_dim1,
+        o_offset, q_dim1, q_offset, r_dim1, r_offset, ry_dim1, ry_offset, s_dim1, s_offset, i__1,
+        i__2, i__3, i__4, i__5;
     /* Builtin functions */
     double pow_dd();
     /* Local variables */
@@ -455,93 +459,58 @@ ftnlen jobcv_len;
     withd = lsame_(job, "D", 1L, 1L) || withal;
     withb = lsame_(job, "B", 1L, 1L) || withd;
     withco = lsame_(jobcv, "C", 1L, 1L);
-    mnobr = *m **nobr;
-    lnobr = *l **nobr;
+    mnobr = *m * *nobr;
+    lnobr = *l * *nobr;
     lmnobr = lnobr + mnobr;
     lmmnob = lnobr + (mnobr << 1);
     mnobrn = mnobr + *n;
     lnobrn = lnobr - *n;
     ldun2 = lnobr - *l;
-    ldunn = ldun2 **n;
+    ldunn = ldun2 * *n;
     lmmnol = lmmnob + *l;
     nr = lmnobr + lmnobr;
     npl = *n + *l;
     n2 = *n + *n;
-    nn = *n **n;
+    nn = *n * *n;
     minwrk = 1;
     *iwarn = 0;
     *info = 0;
     /*     Check the scalar input parameters. */
-    if (! (moesp || n4sid))
-    {
+    if (!(moesp || n4sid)) {
         *info = -1;
-    }
-    else if (! (withb || withc))
-    {
+    } else if (!(withb || withc)) {
         *info = -2;
-    }
-    else if (! (withco || lsame_(jobcv, "N", 1L, 1L)))
-    {
+    } else if (!(withco || lsame_(jobcv, "N", 1L, 1L))) {
         *info = -3;
-    }
-    else if (*nobr <= 1)
-    {
+    } else if (*nobr <= 1) {
         *info = -4;
-    }
-    else if (*n <= 0 || *n >= *nobr)
-    {
+    } else if (*n <= 0 || *n >= *nobr) {
         *info = -5;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -6;
-    }
-    else if (*l <= 0)
-    {
+    } else if (*l <= 0) {
         *info = -7;
-    }
-    else if (withco && *nsmpl < nr)
-    {
+    } else if (withco && *nsmpl < nr) {
         *info = -8;
-    }
-    else if (*ldr < nr)
-    {
+    } else if (*ldr < nr) {
         *info = -10;
-    }
-    else if (*lda < 1 || (withc || withb && n4sid) && *lda < *n)
-    {
+    } else if (*lda < 1 || (withc || withb && n4sid) && *lda < *n) {
         *info = -12;
-    }
-    else if (*ldc < 1 || (withc || withb && n4sid) && *ldc < *l)
-    {
+    } else if (*ldc < 1 || (withc || withb && n4sid) && *ldc < *l) {
         *info = -14;
-    }
-    else if (*ldb < 1 || withb && *ldb < *n && *m > 0)
-    {
+    } else if (*ldb < 1 || withb && *ldb<*n&& * m> 0) {
         *info = -16;
-    }
-    else if (*ldd < 1 || withd && *ldd < *l && *m > 0)
-    {
+    } else if (*ldd < 1 || withd && *ldd<*l&& * m> 0) {
         *info = -18;
-    }
-    else if (*ldq < 1 || withco && *ldq < *n)
-    {
+    } else if (*ldq < 1 || withco && *ldq < *n) {
         *info = -20;
-    }
-    else if (*ldry < 1 || withco && *ldry < *l)
-    {
+    } else if (*ldry < 1 || withco && *ldry < *l) {
         *info = -22;
-    }
-    else if (*lds < 1 || withco && *lds < *n)
-    {
+    } else if (*lds < 1 || withco && *lds < *n) {
         *info = -24;
-    }
-    else if (*ldo < 1 || (withco || n4sid) && *ldo < lnobr)
-    {
+    } else if (*ldo < 1 || (withco || n4sid) && *ldo < lnobr) {
         *info = -26;
-    }
-    else
-    {
+    } else {
         /*        Compute workspace. */
         /*        (Note: Comments in the code beginning "Workspace:" describe the */
         /*         minimal amount of workspace needed at that point in the code, */
@@ -551,79 +520,77 @@ ftnlen jobcv_len;
         iaw = 0;
         minwrk = ldunn + (*n << 2);
         maxwrk = ldunn + *n + *n * ilaenv_(&c__1, "DGEQRF", " ", &ldun2, n, &c_n1, &c_n1, 6L, 1L);
-        if (moesp)
-        {
+        if (moesp) {
             id = 0;
-            if (withc)
-            {
+            if (withc) {
                 /* Computing MAX */
-                i__1 = minwrk, i__2 = (ldunn << 1) + n2, i__1 = max(i__1,i__2), i__2 = ldunn + nn + *n * 7;
-                minwrk = max(i__1,i__2);
+                i__1 = minwrk, i__2 = (ldunn << 1) + n2, i__1 = max(i__1, i__2),
+                i__2 = ldunn + nn + *n * 7;
+                minwrk = max(i__1, i__2);
                 /* Computing MAX */
-                i__1 = maxwrk, i__2 = (ldunn << 1) + *n + *n * ilaenv_(&c__1, "DORMQR", "LT", &ldun2, n, n, &c_n1, 6L, 2L);
-                maxwrk = max(i__1,i__2);
+                i__1 = maxwrk,
+                i__2 = (ldunn << 1) + *n
+                    + *n * ilaenv_(&c__1, "DORMQR", "LT", &ldun2, n, n, &c_n1, 6L, 2L);
+                maxwrk = max(i__1, i__2);
             }
-        }
-        else
-        {
+        } else {
             id = *n;
         }
-        if (*m > 0 && withb || n4sid)
-        {
+        if (*m > 0 && withb || n4sid) {
             /* Computing MAX */
             i__1 = minwrk, i__2 = (ldunn << 1) + nn + id + *n * 7;
-            minwrk = max(i__1,i__2);
-            if (moesp)
-            {
+            minwrk = max(i__1, i__2);
+            if (moesp) {
                 /* Computing MAX */
                 /* Computing MAX */
                 /* Computing MAX */
                 i__5 = lnobr * 3 + 1;
-                i__3 = *l + mnobr, i__4 = lnobr + max(i__5,*m);
-                i__1 = minwrk, i__2 = ldunn + *n + mnobr * 6, i__1 = max(i__1,i__2), i__2 = ldunn + *n + max(i__3,i__4);
-                minwrk = max(i__1,i__2);
+                i__3 = *l + mnobr, i__4 = lnobr + max(i__5, *m);
+                i__1 = minwrk, i__2 = ldunn + *n + mnobr * 6, i__1 = max(i__1, i__2),
+                i__2 = ldunn + *n + max(i__3, i__4);
+                minwrk = max(i__1, i__2);
             }
-        }
-        else
-        {
-            if (moesp)
-            {
+        } else {
+            if (moesp) {
                 iaw = *n + nn;
             }
         }
-        if (n4sid || withco)
-        {
+        if (n4sid || withco) {
             /* Computing MAX */
             /* Computing MAX */
             i__3 = *n * 5;
-            i__1 = minwrk, i__2 = ldunn + iaw + n2 + max(i__3,lmmnol), i__1 = max(i__1,i__2), i__2 = id + (mnobrn << 2) + 1, i__1 = max(i__1,i__2), i__2 = id + mnobrn + npl;
-            minwrk = max(i__1,i__2);
+            i__1 = minwrk, i__2 = ldunn + iaw + n2 + max(i__3, lmmnol), i__1 = max(i__1, i__2),
+            i__2 = id + (mnobrn << 2) + 1, i__1 = max(i__1, i__2), i__2 = id + mnobrn + npl;
+            minwrk = max(i__1, i__2);
             /* Computing MAX */
             /* Computing MAX */
-            i__3 = *n * ilaenv_(&c__1, "DGEQRF", " ", &lnobr, n, &c_n1, &c_n1, 6L, 1L), i__4 = lmmnob * ilaenv_(&c__1, "DORMQR", "LT", &lnobr, &lmmnob, n, &c_n1, 6L, 2L), i__3 = max(i__3,i__4), i__4 = lmmnol * ilaenv_(&c__1, "DORMQR", "LT", &ldun2, &lmmnol, n, &c_n1, 6L, 2L);
-            i__1 = maxwrk, i__2 = ldunn + iaw + n2 + max(i__3,i__4), i__1 = max(i__1,i__2), i__2 = id + *n + *n * ilaenv_(&c__1, "DGEQRF", " ", &lmnobr, n, &c_n1, &c_n1, 6L, 1L), i__1 = max(i__1,i__2), i__2 = id + *n + npl * ilaenv_(&c__1, "DORMQR", "LT", &lmnobr, &npl, n, &c_n1, 6L, 2L);
-            maxwrk = max(i__1,i__2);
-            if (n4sid && (*m > 0 && withb))
-            {
+            i__3 = *n * ilaenv_(&c__1, "DGEQRF", " ", &lnobr, n, &c_n1, &c_n1, 6L, 1L),
+            i__4 = lmmnob * ilaenv_(&c__1, "DORMQR", "LT", &lnobr, &lmmnob, n, &c_n1, 6L, 2L),
+            i__3 = max(i__3, i__4),
+            i__4 = lmmnol * ilaenv_(&c__1, "DORMQR", "LT", &ldun2, &lmmnol, n, &c_n1, 6L, 2L);
+            i__1 = maxwrk, i__2 = ldunn + iaw + n2 + max(i__3, i__4), i__1 = max(i__1, i__2),
+            i__2 = id + *n + *n * ilaenv_(&c__1, "DGEQRF", " ", &lmnobr, n, &c_n1, &c_n1, 6L, 1L),
+            i__1 = max(i__1, i__2),
+            i__2 = id + *n + npl * ilaenv_(&c__1, "DORMQR", "LT", &lmnobr, &npl, n, &c_n1, 6L, 2L);
+            maxwrk = max(i__1, i__2);
+            if (n4sid && (*m > 0 && withb)) {
                 /* Computing MAX */
                 /* Computing MAX */
                 /* Computing 2nd power */
                 i__5 = npl;
                 i__3 = i__5 * i__5, i__4 = (*m << 2) * npl + 1;
-                i__1 = minwrk, i__2 = mnobr * npl * (*m * npl + 1) + max(i__3,i__4);
-                minwrk = max(i__1,i__2);
+                i__1 = minwrk, i__2 = mnobr * npl * (*m * npl + 1) + max(i__3, i__4);
+                minwrk = max(i__1, i__2);
             }
         }
-        maxwrk = max(minwrk,maxwrk);
-        if (*ldwork < minwrk)
-        {
+        maxwrk = max(minwrk, maxwrk);
+        if (*ldwork < minwrk) {
             *info = -30;
-            dwork[1] = (doublereal) minwrk;
+            dwork[1] = (doublereal)minwrk;
         }
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("IB01PD", &i__1, 6L);
         return 0;
@@ -652,39 +619,32 @@ ftnlen jobcv_len;
     dgeqrf_(&ldun2, n, &dwork[igal], &ldun2, &dwork[itau1], &dwork[jwork], &i__1, &ierr);
     /*     Compute the reciprocal of the condition number of r1. */
     /*     Workspace: need L*(NOBR-1)*N+4*N. */
-    dtrcon_("1-norm", "Upper", "NonUnit", n, &dwork[igal], &ldun2, &rcond1, &dwork[jwork], &iwork[1], info, 6L, 5L, 7L);
+    dtrcon_("1-norm", "Upper", "NonUnit", n, &dwork[igal], &ldun2, &rcond1, &dwork[jwork],
+        &iwork[1], info, 6L, 5L, 7L);
     toll1 = *tol;
-    if (toll1 <= 0.)
-    {
+    if (toll1 <= 0.) {
         toll1 = nn * eps;
     }
-    if (*m > 0 && withb || n4sid)
-    {
-        *(unsigned char *)jobp = 'P';
-        if (withal)
-        {
-            *(unsigned char *)jobpy = 'D';
+    if (*m > 0 && withb || n4sid) {
+        *(unsigned char*)jobp = 'P';
+        if (withal) {
+            *(unsigned char*)jobpy = 'D';
+        } else {
+            *(unsigned char*)jobpy = *(unsigned char*)job;
         }
-        else
-        {
-            *(unsigned char *)jobpy = *(unsigned char *)job;
-        }
+    } else {
+        *(unsigned char*)jobp = 'N';
     }
-    else
-    {
-        *(unsigned char *)jobp = 'N';
-    }
-    if (moesp)
-    {
+    if (moesp) {
         ncol = 0;
         iun2 = jwork;
-        if (withc)
-        {
+        if (withc) {
             /*           Set  C = Un(1:L,1:n)  and then compute the system matrix A. */
             /*           Set  un2 = Un(L+1:L*s,1:n)  in  DWORK(IUN2). */
             /*           Workspace: need   2*L*(NOBR-1)*N+N. */
             dlacpy_("Full", l, n, &r__[nr2 + nr2 * r_dim1], ldr, &c__[c_offset], ldc, 4L);
-            dlacpy_("Full", &ldun2, n, &r__[nr2 + *l + nr2 * r_dim1], ldr, &dwork[iun2], &ldun2, 4L);
+            dlacpy_(
+                "Full", &ldun2, n, &r__[nr2 + *l + nr2 * r_dim1], ldr, &dwork[iun2], &ldun2, 4L);
             /*           Note that un1 has already been factored as */
             /*           un1 = Q1*[r1'  0]'  and usually (generically, assuming */
             /*           observability) has full column rank. */
@@ -694,28 +654,25 @@ ftnlen jobcv_len;
             /*                      prefer 2*L*(NOBR-1)*N+N+N*NB. */
             jwork = iun2 + ldunn;
             i__1 = *ldwork - jwork + 1;
-            dormqr_("Left", "Transpose", &ldun2, n, n, &dwork[igal], &ldun2, &dwork[itau1], &dwork[iun2], &ldun2, &dwork[jwork], &i__1, &ierr, 4L, 9L);
+            dormqr_("Left", "Transpose", &ldun2, n, n, &dwork[igal], &ldun2, &dwork[itau1],
+                &dwork[iun2], &ldun2, &dwork[jwork], &i__1, &ierr, 4L, 9L);
             dlacpy_("Full", n, n, &dwork[iun2], &ldun2, &a[a_offset], lda, 4L);
             ncol = *n;
             jwork = iun2;
         }
-        if (rcond1 > max(toll1,thresh))
-        {
+        if (rcond1 > max(toll1, thresh)) {
             /*           The triangular factor r1 is considered to be of full rank. */
             /*           Solve for  A  (if requested),  r1*A = un2(1:n,:)  in  A. */
-            if (withc)
-            {
-                dtrtrs_("Upper", "NoTranspose", "NonUnit", n, n, &dwork[igal], &ldun2, &a[a_offset], lda, &ierr, 5L, 11L, 7L);
-                if (ierr > 0)
-                {
+            if (withc) {
+                dtrtrs_("Upper", "NoTranspose", "NonUnit", n, n, &dwork[igal], &ldun2, &a[a_offset],
+                    lda, &ierr, 5L, 11L, 7L);
+                if (ierr > 0) {
                     *info = 3;
                     return 0;
                 }
             }
             rank = *n;
-        }
-        else
-        {
+        } else {
             /*           Rank-deficient triangular factor r1.  Use SVD of r1, */
             /*           r1 = U*S*V',  also for computing  A  (if requested) from */
             /*           r1*A = un2(1:n,:).  Matrix  U  is computed in  DWORK(IU), */
@@ -729,47 +686,42 @@ ftnlen jobcv_len;
             iu = iun2;
             isv = iu + nn;
             jwork = isv + *n;
-            if (*m > 0 && withb)
-            {
+            if (*m > 0 && withb) {
                 /*              Save the elementary reflectors used for computing r1, */
                 /*              if  B, D  are needed. */
                 /*              Workspace: need   2*L*(NOBR-1)*N+2*N+N*N. */
                 ihous = jwork;
                 jwork = ihous + ldunn;
                 dlacpy_("Lower", &ldun2, n, &dwork[igal], &ldun2, &dwork[ihous], &ldun2, 5L);
-            }
-            else
-            {
+            } else {
                 ihous = igal;
             }
             i__1 = *ldwork - jwork + 1;
-            mb02ud_("Not factored", "Left", "NoTranspose", jobp, n, &ncol, &c_b63, &toll1, &rank, &dwork[igal], &ldun2, &dwork[iu], n, &dwork[isv], &a[a_offset], lda, &r__[nr3 + nr2 * r_dim1], ldr, &dwork[jwork], &i__1, &ierr, 12L, 4L, 11L, 1L);
-            if (ierr != 0)
-            {
+            mb02ud_("Not factored", "Left", "NoTranspose", jobp, n, &ncol, &c_b63, &toll1, &rank,
+                &dwork[igal], &ldun2, &dwork[iu], n, &dwork[isv], &a[a_offset], lda,
+                &r__[nr3 + nr2 * r_dim1], ldr, &dwork[jwork], &i__1, &ierr, 12L, 4L, 11L, 1L);
+            if (ierr != 0) {
                 *info = 2;
                 return 0;
             }
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-            maxwrk = max(i__1,i__2);
-            if (rank == 0)
-            {
-                *(unsigned char *)jobp = 'N';
-            }
-            else if (*m > 0 && withb)
-            {
+            i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+            maxwrk = max(i__1, i__2);
+            if (rank == 0) {
+                *(unsigned char*)jobp = 'N';
+            } else if (*m > 0 && withb) {
                 /*              Compute  pinv(GaL)  in  R(NR3,NR2)  if  B, D  are needed. */
                 /*              Workspace: need   2*L*(NOBR-1)*N+N*N+3*N; */
                 /*                         prefer 2*L*(NOBR-1)*N+N*N+2*N+N*NB. */
                 i__1 = ldun2 - *n;
                 dlaset_("Full", n, &i__1, &c_b66, &c_b66, &r__[nr3 + (nr2 + *n) * r_dim1], ldr, 4L);
                 i__1 = *ldwork - jwork + 1;
-                dormqr_("Right", "Transpose", n, &ldun2, n, &dwork[ihous], &ldun2, &dwork[itau1], &r__[nr3 + nr2 * r_dim1], ldr, &dwork[jwork], &i__1, &ierr, 5L, 9L);
+                dormqr_("Right", "Transpose", n, &ldun2, n, &dwork[ihous], &ldun2, &dwork[itau1],
+                    &r__[nr3 + nr2 * r_dim1], ldr, &dwork[jwork], &i__1, &ierr, 5L, 9L);
                 /* Computing MAX */
-                i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-                maxwrk = max(i__1,i__2);
-                if (withco)
-                {
+                i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+                maxwrk = max(i__1, i__2);
+                if (withco) {
                     /*                 Save  pinv(GaL)  in  DWORK(IGAL). */
                     dlacpy_("Full", n, &ldun2, &r__[nr3 + nr2 * r_dim1], ldr, &dwork[igal], n, 4L);
                 }
@@ -777,29 +729,28 @@ ftnlen jobcv_len;
             }
             ldw = jwork;
         }
-        if (*m > 0 && withb)
-        {
+        if (*m > 0 && withb) {
             /*           Computation of  B  and  D. */
             /*           Compute the reciprocal of the condition number of R_1c. */
             /*           Workspace: need L*(NOBR-1)*N+N+3*M*NOBR. */
-            dtrcon_("1-norm", "Upper", "NonUnit", &mnobr, &r__[nr3 + r_dim1], ldr, &rcond2, &dwork[jwork], &iwork[1], &ierr, 6L, 5L, 7L);
+            dtrcon_("1-norm", "Upper", "NonUnit", &mnobr, &r__[nr3 + r_dim1], ldr, &rcond2,
+                &dwork[jwork], &iwork[1], &ierr, 6L, 5L, 7L);
             toll = *tol;
-            if (toll <= 0.)
-            {
+            if (toll <= 0.) {
                 toll = mnobr * mnobr * eps;
             }
             /*           Compute the right hand side and solve for  K  (in  R_23), */
             /*              K*R_1c' = u2'*R_2c', */
             /*           where  u2 = Un(:,n+1:L*s),  and  K  is  (Ls-n) x ms. */
-            dgemm_("Transpose", "Transpose", &lnobrn, &mnobr, &lnobr, &c_b63, &r__[nr2 + (nr2 + *n) * r_dim1], ldr, &r__[nr2 * r_dim1 + 1], ldr, &c_b66, &r__[nr2 + nr3 * r_dim1], ldr, 9L, 9L);
-            if (rcond2 > max(toll,thresh))
-            {
+            dgemm_("Transpose", "Transpose", &lnobrn, &mnobr, &lnobr, &c_b63,
+                &r__[nr2 + (nr2 + *n) * r_dim1], ldr, &r__[nr2 * r_dim1 + 1], ldr, &c_b66,
+                &r__[nr2 + nr3 * r_dim1], ldr, 9L, 9L);
+            if (rcond2 > max(toll, thresh)) {
                 /*              The triangular factor R_1c is considered to be of full */
                 /*              rank. Solve for  K,  K*R_1c' = u2'*R_2c'. */
-                dtrsm_("Right", "Upper", "Transpose", "Non-unit", &lnobrn, &mnobr, &c_b63, &r__[nr3 + r_dim1], ldr, &r__[nr2 + nr3 * r_dim1], ldr, 5L, 5L, 9L, 8L);
-            }
-            else
-            {
+                dtrsm_("Right", "Upper", "Transpose", "Non-unit", &lnobrn, &mnobr, &c_b63,
+                    &r__[nr3 + r_dim1], ldr, &r__[nr2 + nr3 * r_dim1], ldr, 5L, 5L, 9L, 8L);
+            } else {
                 /*              Rank-deficient triangular factor  R_1c.  Use SVD of  R_1c */
                 /*              for computing  K  from  K*R_1c' = u2'*R_2c',  where */
                 /*              R_1c = U1*S1*V1'.  Matrix  U1  is computed in  R_33, */
@@ -809,15 +760,17 @@ ftnlen jobcv_len;
                 isv = ldw;
                 jwork = isv + mnobr;
                 i__1 = *ldwork - jwork + 1;
-                mb02ud_("Not factored", "Right", "Transpose", "No pinv", &lnobrn, &mnobr, &c_b63, &toll, &rank11, &r__[nr3 + r_dim1], ldr, &r__[nr3 + nr3 * r_dim1], ldr, &dwork[isv], &r__[nr2 + nr3 * r_dim1], ldr, &dwork[jwork], &c__1, &dwork[jwork], &i__1, &ierr, 12L, 5L, 9L, 7L);
-                if (ierr != 0)
-                {
+                mb02ud_("Not factored", "Right", "Transpose", "No pinv", &lnobrn, &mnobr, &c_b63,
+                    &toll, &rank11, &r__[nr3 + r_dim1], ldr, &r__[nr3 + nr3 * r_dim1], ldr,
+                    &dwork[isv], &r__[nr2 + nr3 * r_dim1], ldr, &dwork[jwork], &c__1, &dwork[jwork],
+                    &i__1, &ierr, 12L, 5L, 9L, 7L);
+                if (ierr != 0) {
                     *info = 2;
                     return 0;
                 }
                 /* Computing MAX */
-                i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-                maxwrk = max(i__1,i__2);
+                i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+                maxwrk = max(i__1, i__2);
                 jwork = ldw;
             }
             /*           Compute the triangular factor of the structured matrix  Q */
@@ -827,46 +780,39 @@ ftnlen jobcv_len;
             /*           Workspace: need   L*(NOBR-1)*N+N+max(L+M*NOBR,L*NOBR+ */
             /*                                                max(3*L*NOBR+1,M)); */
             /*                      prefer larger. */
-            if (withco)
-            {
+            if (withco) {
                 dlacpy_("Full", &lnobr, n, &r__[nr2 + nr2 * r_dim1], ldr, &o[o_offset], ldo, 4L);
             }
             i__1 = *ldwork - jwork + 1;
-            ib01py_(meth, jobpy, nobr, n, m, l, &rank, &r__[nr2 + nr2 * r_dim1], ldr, &dwork[igal], &ldun2, &dwork[itau1], &r__[nr3 + nr2 * r_dim1], ldr, &r__[nr2 + nr3 * r_dim1], ldr, &r__[nr4 + nr2 * r_dim1], ldr, &r__[nr4 + nr3 * r_dim1], ldr, &b[b_offset], ldb, &d__[d_offset], ldd, tol, &iwork[1], &dwork[jwork], &i__1, iwarn, info, 1L, 1L);
-            if (*info != 0)
-            {
+            ib01py_(meth, jobpy, nobr, n, m, l, &rank, &r__[nr2 + nr2 * r_dim1], ldr, &dwork[igal],
+                &ldun2, &dwork[itau1], &r__[nr3 + nr2 * r_dim1], ldr, &r__[nr2 + nr3 * r_dim1], ldr,
+                &r__[nr4 + nr2 * r_dim1], ldr, &r__[nr4 + nr3 * r_dim1], ldr, &b[b_offset], ldb,
+                &d__[d_offset], ldd, tol, &iwork[1], &dwork[jwork], &i__1, iwarn, info, 1L, 1L);
+            if (*info != 0) {
                 return 0;
             }
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-            maxwrk = max(i__1,i__2);
+            i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+            maxwrk = max(i__1, i__2);
             rcond4 = dwork[jwork + 1];
-            if (withco)
-            {
+            if (withco) {
                 dlacpy_("Full", &lnobr, n, &o[o_offset], ldo, &r__[nr2 + r_dim1], ldr, 4L);
             }
-        }
-        else
-        {
+        } else {
             rcond2 = 1.;
         }
-        if (! withco)
-        {
+        if (!withco) {
             rcond3 = 1.;
             goto L30;
         }
-    }
-    else
-    {
+    } else {
         /*        For N4SID, set  RCOND2  to one. */
         rcond2 = 1.;
     }
     /*     If needed, save the first  n  columns, representing  Gam,  of the */
     /*     matrix of left singular vectors,  Un,  in  R_21  and in  O. */
-    if (n4sid || withc && ! withal)
-    {
-        if (*m > 0)
-        {
+    if (n4sid || withc && !withal) {
+        if (*m > 0) {
             dlacpy_("Full", &lnobr, n, &r__[nr2 + nr2 * r_dim1], ldr, &r__[nr2 + r_dim1], ldr, 4L);
         }
         dlacpy_("Full", &lnobr, n, &r__[nr2 + nr2 * r_dim1], ldr, &o[o_offset], ldo, 4L);
@@ -894,17 +840,17 @@ ftnlen jobcv_len;
     /*     the transformations, Z <-- Q'*Z. */
     /*     Workspace: need   L*(NOBR-1)*N+Aw+2*N+(2*M+L)*NOBR; */
     /*                prefer L*(NOBR-1)*N+Aw+2*N+(2*M+L)*NOBR*NB. */
-    if (moesp || withb && ! withal)
-    {
+    if (moesp || withb && !withal) {
         ma02ad_("Full", &lmmnob, &lnobr, &r__[nr4 * r_dim1 + 1], ldr, &r__[nr4 + r_dim1], ldr, 4L);
     }
     i__1 = *ldwork - jwork + 1;
-    dormqr_("Left", "Transpose", &lnobr, &lmmnob, n, &r__[nr2 + r_dim1], ldr, &dwork[itau2], &r__[nr4 + r_dim1], ldr, &dwork[jwork], &i__1, &ierr, 4L, 9L);
+    dormqr_("Left", "Transpose", &lnobr, &lmmnob, n, &r__[nr2 + r_dim1], ldr, &dwork[itau2],
+        &r__[nr4 + r_dim1], ldr, &dwork[jwork], &i__1, &ierr, 4L, 9L);
     /*     Solve for  Y,  RY = Z  in  Z  and save the transpose of the */
     /*     solution  Y  in the second block-column of  R. */
-    dtrtrs_("Upper", "NoTranspose", "NonUnit", n, &lmmnob, &r__[nr2 + r_dim1], ldr, &r__[nr4 + r_dim1], ldr, &ierr, 5L, 11L, 7L);
-    if (ierr > 0)
-    {
+    dtrtrs_("Upper", "NoTranspose", "NonUnit", n, &lmmnob, &r__[nr2 + r_dim1], ldr,
+        &r__[nr4 + r_dim1], ldr, &ierr, 5L, 11L, 7L);
+    if (ierr > 0) {
         *info = 3;
         return 0;
     }
@@ -915,8 +861,7 @@ ftnlen jobcv_len;
     /*     SHIFT is .TRUE. if some columns of  R_14 : R_44L  should be */
     /*     shifted to the right, to avoid overwriting useful information. */
     shift = *m == 0 && lnobr < n2;
-    if (rcond1 > max(toll1,thresh))
-    {
+    if (rcond1 > max(toll1, thresh)) {
         /*        The triangular factor  r1  of  GaL  (GaL = Q1*r1)  is */
         /*        considered to be of full rank. */
         /*        Transpose  [ R_14' R_24' R_34' R_44L' ]'(:,L+1:L*s)  in the */
@@ -925,31 +870,31 @@ ftnlen jobcv_len;
         /*        Z1 <-- Q1'*Z1. */
         /*        Workspace: need   L*(NOBR-1)*N+Aw+2*N+ (2*M+L)*NOBR + L; */
         /*                   prefer L*(NOBR-1)*N+Aw+2*N+((2*M+L)*NOBR + L)*NB. */
-        ma02ad_("Full", &lmmnol, &ldun2, &r__[nr4pl * r_dim1 + 1], ldr, &r__[nr4pl + r_dim1], ldr, 4L);
+        ma02ad_(
+            "Full", &lmmnol, &ldun2, &r__[nr4pl * r_dim1 + 1], ldr, &r__[nr4pl + r_dim1], ldr, 4L);
         i__1 = *ldwork - jwork + 1;
-        dormqr_("Left", "Transpose", &ldun2, &lmmnol, n, &dwork[igal], &ldun2, &dwork[itau1], &r__[nr4pl + r_dim1], ldr, &dwork[jwork], &i__1, &ierr, 4L, 9L);
+        dormqr_("Left", "Transpose", &ldun2, &lmmnol, n, &dwork[igal], &ldun2, &dwork[itau1],
+            &r__[nr4pl + r_dim1], ldr, &dwork[jwork], &i__1, &ierr, 4L, 9L);
         /*        Solve for  X,  r1*X = Z1  in  Z1,  and copy the transpose of  X */
         /*        into the last part of the third block-column of  R. */
-        dtrtrs_("Upper", "NoTranspose", "NonUnit", n, &lmmnol, &dwork[igal], &ldun2, &r__[nr4pl + r_dim1], ldr, &ierr, 5L, 11L, 7L);
-        if (ierr > 0)
-        {
+        dtrtrs_("Upper", "NoTranspose", "NonUnit", n, &lmmnol, &dwork[igal], &ldun2,
+            &r__[nr4pl + r_dim1], ldr, &ierr, 5L, 11L, 7L);
+        if (ierr > 0) {
             *info = 3;
             return 0;
         }
-        if (shift)
-        {
+        if (shift) {
             nr4mn = nr4;
-            for (i__ = *l - 1; i__ >= 0; --i__)
-            {
-                dcopy_(&lmmnol, &r__[(nr4 + i__) * r_dim1 + 1], &c__1, &r__[(nr4 + *n + i__) * r_dim1 + 1], &c__1);
+            for (i__ = *l - 1; i__ >= 0; --i__) {
+                dcopy_(&lmmnol, &r__[(nr4 + i__) * r_dim1 + 1], &c__1,
+                    &r__[(nr4 + *n + i__) * r_dim1 + 1], &c__1);
                 /* L10: */
             }
         }
         ma02ad_("Full", n, &lmmnol, &r__[nr4pl + r_dim1], ldr, &r__[nr4mn * r_dim1 + 1], ldr, 4L);
         nrow = 0;
     }
-    if (n4sid || nrow > 0)
-    {
+    if (n4sid || nrow > 0) {
         /*        METH = 'N'  or rank-deficient triangular factor r1. */
         /*        For  METH = 'N',  use SVD of  r1,  r1 = U*S*V', for computing */
         /*        X'  from  X'*GaL' = Z1',  if  rank(r1) < N.  Matrix  U  is */
@@ -960,50 +905,46 @@ ftnlen jobcv_len;
         /*        available in  DWORK(IU),  DWORK(ISV),  and  DWORK(IGAL). */
         /*        Workspace for N4SID: need   2*L*(NOBR-1)*N+N*N+8*N; */
         /*                             prefer larger. */
-        if (moesp)
-        {
-            *(unsigned char *)fact = 'F';
-            if (*m > 0 && withb)
-            {
+        if (moesp) {
+            *(unsigned char*)fact = 'F';
+            if (*m > 0 && withb) {
                 dlacpy_("Full", n, &ldun2, &dwork[igal], n, &r__[nr4pl + nr2 * r_dim1], ldr, 4L);
             }
-        }
-        else
-        {
+        } else {
             /*           Save the elementary reflectors used for computing r1. */
             ihous = jwork;
             dlacpy_("Lower", &ldun2, n, &dwork[igal], &ldun2, &dwork[ihous], &ldun2, 5L);
-            *(unsigned char *)fact = 'N';
+            *(unsigned char*)fact = 'N';
             iu = ihous + ldunn;
             isv = iu + nn;
             jwork = isv + *n;
         }
         i__1 = *ldwork - jwork + 1;
-        mb02ud_(fact, "Right", "Transpose", jobp, &nrow, n, &c_b63, &toll1, &rank, &dwork[igal], &ldun2, &dwork[iu], n, &dwork[isv], &r__[nr4pl * r_dim1 + 1], ldr, &r__[nr4pl + nr2 * r_dim1], ldr, &dwork[jwork], &i__1, &ierr, 1L, 5L, 9L, 1L);
-        if (nrow > 0)
-        {
-            if (shift)
-            {
+        mb02ud_(fact, "Right", "Transpose", jobp, &nrow, n, &c_b63, &toll1, &rank, &dwork[igal],
+            &ldun2, &dwork[iu], n, &dwork[isv], &r__[nr4pl * r_dim1 + 1], ldr,
+            &r__[nr4pl + nr2 * r_dim1], ldr, &dwork[jwork], &i__1, &ierr, 1L, 5L, 9L, 1L);
+        if (nrow > 0) {
+            if (shift) {
                 nr4mn = nr4;
-                dlacpy_("Full", &lmmnol, l, &r__[nr4 * r_dim1 + 1], ldr, &r__[(nr4 - *l) * r_dim1 + 1], ldr, 4L);
-                dlacpy_("Full", &lmmnol, n, &r__[nr4pl * r_dim1 + 1], ldr, &r__[nr4mn * r_dim1 + 1], ldr, 4L);
-                dlacpy_("Full", &lmmnol, l, &r__[(nr4 - *l) * r_dim1 + 1], ldr, &r__[(nr4 + *n) * r_dim1 + 1], ldr, 4L);
-            }
-            else
-            {
-                dlacpy_("Full", &lmmnol, n, &r__[nr4pl * r_dim1 + 1], ldr, &r__[nr4mn * r_dim1 + 1], ldr, 4L);
+                dlacpy_("Full", &lmmnol, l, &r__[nr4 * r_dim1 + 1], ldr,
+                    &r__[(nr4 - *l) * r_dim1 + 1], ldr, 4L);
+                dlacpy_("Full", &lmmnol, n, &r__[nr4pl * r_dim1 + 1], ldr, &r__[nr4mn * r_dim1 + 1],
+                    ldr, 4L);
+                dlacpy_("Full", &lmmnol, l, &r__[(nr4 - *l) * r_dim1 + 1], ldr,
+                    &r__[(nr4 + *n) * r_dim1 + 1], ldr, 4L);
+            } else {
+                dlacpy_("Full", &lmmnol, n, &r__[nr4pl * r_dim1 + 1], ldr, &r__[nr4mn * r_dim1 + 1],
+                    ldr, 4L);
             }
         }
-        if (n4sid)
-        {
-            if (ierr != 0)
-            {
+        if (n4sid) {
+            if (ierr != 0) {
                 *info = 2;
                 return 0;
             }
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-            maxwrk = max(i__1,i__2);
+            i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+            maxwrk = max(i__1, i__2);
             /*           Compute  pinv(GaL)  in  R(NR4+L,NR2). */
             /*           Workspace: need   2*L*(NOBR-1)*N+3*N; */
             /*                      prefer 2*L*(NOBR-1)*N+2*N+N*NB. */
@@ -1011,10 +952,11 @@ ftnlen jobcv_len;
             i__1 = ldun2 - *n;
             dlaset_("Full", n, &i__1, &c_b66, &c_b66, &r__[nr4pl + (nr2 + *n) * r_dim1], ldr, 4L);
             i__1 = *ldwork - jwork + 1;
-            dormqr_("Right", "Transpose", n, &ldun2, n, &dwork[ihous], &ldun2, &dwork[itau1], &r__[nr4pl + nr2 * r_dim1], ldr, &dwork[jwork], &i__1, &ierr, 5L, 9L);
+            dormqr_("Right", "Transpose", n, &ldun2, n, &dwork[ihous], &ldun2, &dwork[itau1],
+                &r__[nr4pl + nr2 * r_dim1], ldr, &dwork[jwork], &i__1, &ierr, 5L, 9L);
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-            maxwrk = max(i__1,i__2);
+            i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+            maxwrk = max(i__1, i__2);
         }
     }
     /*     For METH = 'N', find part of the solution (corresponding to A */
@@ -1042,12 +984,9 @@ ftnlen jobcv_len;
     /*     Workspace: need   d*N+2*N; */
     /*                prefer d*N+N+N*NB; */
     /*     where  d = 0,  for  MOESP,  and  d = 1,  for  N4SID. */
-    if (moesp)
-    {
+    if (moesp) {
         itau = 1;
-    }
-    else
-    {
+    } else {
         dcopy_(n, &dwork[itau2], &c__1, &dwork[1], &c__1);
         itau = *n + 1;
     }
@@ -1057,7 +996,8 @@ ftnlen jobcv_len;
     /*     Workspace: need   d*N+N+(N+L); */
     /*                prefer d*N+N+(N+L)*NB. */
     i__1 = *ldwork - jwork + 1;
-    dormqr_("Left", "Transpose", &lmnobr, &npl, n, &r__[nr2 + nr2 * r_dim1], ldr, &dwork[itau], &r__[nr2 + nr4mn * r_dim1], ldr, &dwork[jwork], &i__1, &ierr, 4L, 9L);
+    dormqr_("Left", "Transpose", &lmnobr, &npl, n, &r__[nr2 + nr2 * r_dim1], ldr, &dwork[itau],
+        &r__[nr2 + nr4mn * r_dim1], ldr, &dwork[jwork], &i__1, &ierr, 4L, 9L);
     i__1 = *l - 1;
     i__2 = *l - 1;
     dlaset_("Lower", &i__1, &i__2, &c_b66, &c_b66, &r__[nr4 + 1 + nr4 * r_dim1], ldr, 5L);
@@ -1067,25 +1007,22 @@ ftnlen jobcv_len;
     /*     triangular factor in  R(1:m*s+n,1:m*s+n). */
     /*     Workspace: need d*N+3*(M*NOBR+N). */
     jwork = itau;
-    dtrcon_("1-norm", "Upper", "NonUnit", &mnobrn, &r__[r_offset], ldr, &rcond3, &dwork[jwork], &iwork[1], info, 6L, 5L, 7L);
+    dtrcon_("1-norm", "Upper", "NonUnit", &mnobrn, &r__[r_offset], ldr, &rcond3, &dwork[jwork],
+        &iwork[1], info, 6L, 5L, 7L);
     toll = *tol;
-    if (toll <= 0.)
-    {
+    if (toll <= 0.) {
         toll = mnobrn * mnobrn * eps;
     }
-    if (rcond3 > max(toll,thresh))
-    {
+    if (rcond3 > max(toll, thresh)) {
         /*        The triangular factor is considered to be of full rank. */
         /*        Solve for  V(m*s+1:m*s+n,:),  giving  [ A'  C' ]. */
         fullr = TRUE_;
         rankm = mnobrn;
-        if (n4sid)
-        {
-            dtrsm_("Left", "Upper", "NoTranspose", "NonUnit", n, &npl, &c_b63, &r__[nr2 + nr2 * r_dim1], ldr, &r__[nr2 + nr4mn * r_dim1], ldr, 4L, 5L, 11L, 7L);
+        if (n4sid) {
+            dtrsm_("Left", "Upper", "NoTranspose", "NonUnit", n, &npl, &c_b63,
+                &r__[nr2 + nr2 * r_dim1], ldr, &r__[nr2 + nr4mn * r_dim1], ldr, 4L, 5L, 11L, 7L);
         }
-    }
-    else
-    {
+    } else {
         fullr = FALSE_;
         /*        Use QR factorization (with pivoting). For METH = 'N', save */
         /*        (and then restore) information about the QR factorization of */
@@ -1095,51 +1032,49 @@ ftnlen jobcv_len;
         /*        Workspace: need   d*N+4*(M*NOBR+N)+1; */
         /*                   prefer d*N+3*(M*NOBR+N)+(M*NOBR+N+1)*NB. */
         i__1 = mnobrn;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             iwork[i__] = 0;
             /* L20: */
         }
-        if (n4sid && (*m > 0 && withb))
-        {
+        if (n4sid && (*m > 0 && withb)) {
             dlacpy_("Full", &lnobr, n, &r__[nr2 + r_dim1], ldr, &r__[nr4 + r_dim1], ldr, 4L);
         }
         jwork = itau + mnobrn;
         i__1 = mnobrn - 1;
         dlaset_("Lower", &i__1, &mnobrn, &c_b66, &c_b66, &r__[r_dim1 + 2], ldr, 5L);
         i__1 = *ldwork - jwork + 1;
-        mb03od_("QR", &mnobrn, &mnobrn, &r__[r_offset], ldr, &iwork[1], &toll, &svlmax, &dwork[itau], &rankm, sval, &dwork[jwork], &i__1, &ierr, 2L);
+        mb03od_("QR", &mnobrn, &mnobrn, &r__[r_offset], ldr, &iwork[1], &toll, &svlmax,
+            &dwork[itau], &rankm, sval, &dwork[jwork], &i__1, &ierr, 2L);
         /* Computing MAX */
-        i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-        maxwrk = max(i__1,i__2);
+        i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+        maxwrk = max(i__1, i__2);
         /*        Workspace: need   d*N+M*NOBR+N+N+L; */
         /*                   prefer d*N+M*NOBR+N+(N+L)*NB. */
         i__1 = *ldwork - jwork + 1;
-        dormqr_("Left", "Transpose", &mnobrn, &npl, &mnobrn, &r__[r_offset], ldr, &dwork[itau], &r__[nr4mn * r_dim1 + 1], ldr, &dwork[jwork], &i__1, &ierr, 4L, 9L);
+        dormqr_("Left", "Transpose", &mnobrn, &npl, &mnobrn, &r__[r_offset], ldr, &dwork[itau],
+            &r__[nr4mn * r_dim1 + 1], ldr, &dwork[jwork], &i__1, &ierr, 4L, 9L);
         /* Computing MAX */
-        i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-        maxwrk = max(i__1,i__2);
+        i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+        maxwrk = max(i__1, i__2);
     }
-    if (withco)
-    {
+    if (withco) {
         /*        The residual (transposed) of the least squares solution */
         /*        (multiplied by a matrix with orthogonal columns) is stored */
         /*        in the rows  RANKM+1:(2*m+L)*s+L  of V,  and it should be */
         /*        squared-up for getting the covariance matrices. (Generically, */
         /*        RANKM = m*s+n.) */
-        rnrm = 1. / (doublereal) (*nsmpl);
-        if (moesp)
-        {
+        rnrm = 1. / (doublereal)(*nsmpl);
+        if (moesp) {
             i__1 = lmmnol - rankm;
-            dsyrk_("Upper", "Transpose", &npl, &i__1, &rnrm, &r__[rankm + 1 + nr4mn * r_dim1], ldr, &c_b66, &r__[r_offset], ldr, 5L, 9L);
+            dsyrk_("Upper", "Transpose", &npl, &i__1, &rnrm, &r__[rankm + 1 + nr4mn * r_dim1], ldr,
+                &c_b66, &r__[r_offset], ldr, 5L, 9L);
             dlacpy_("Upper", n, n, &r__[r_offset], ldr, &q[q_offset], ldq, 5L);
             dlacpy_("Full", n, l, &r__[(*n + 1) * r_dim1 + 1], ldr, &s[s_offset], lds, 4L);
             dlacpy_("Upper", l, l, &r__[*n + 1 + (*n + 1) * r_dim1], ldr, &ry[ry_offset], ldry, 5L);
-        }
-        else
-        {
+        } else {
             i__1 = lmmnol - rankm;
-            dsyrk_("Upper", "Transpose", &npl, &i__1, &rnrm, &r__[rankm + 1 + nr4mn * r_dim1], ldr, &c_b66, &dwork[jwork], &npl, 5L, 9L);
+            dsyrk_("Upper", "Transpose", &npl, &i__1, &rnrm, &r__[rankm + 1 + nr4mn * r_dim1], ldr,
+                &c_b66, &dwork[jwork], &npl, 5L, 9L);
             dlacpy_("Upper", n, n, &dwork[jwork], &npl, &q[q_offset], ldq, 5L);
             dlacpy_("Full", n, l, &dwork[jwork + *n * npl], &npl, &s[s_offset], lds, 4L);
             dlacpy_("Upper", l, l, &dwork[jwork + *n * (npl + 1)], &npl, &ry[ry_offset], ldry, 5L);
@@ -1148,16 +1083,14 @@ ftnlen jobcv_len;
         ma02ed_("Upper", l, &ry[ry_offset], ldry, 5L);
         /*        Check the magnitude of the residual. */
         i__1 = lmmnol - rankm;
-        rnrm = dlange_("1-norm", &i__1, &npl, &r__[rankm + 1 + nr4mn * r_dim1], ldr, &dwork[jwork], 6L);
-        if (rnrm < thresh)
-        {
+        rnrm = dlange_(
+            "1-norm", &i__1, &npl, &r__[rankm + 1 + nr4mn * r_dim1], ldr, &dwork[jwork], 6L);
+        if (rnrm < thresh) {
             *iwarn = 5;
         }
     }
-    if (n4sid)
-    {
-        if (! fullr)
-        {
+    if (n4sid) {
+        if (!fullr) {
             *iwarn = 4;
             /*           Compute part of the solution of the least squares problem, */
             /*           M*V = N,  for the rank-deficient problem. */
@@ -1166,38 +1099,37 @@ ftnlen jobcv_len;
             /*           Workspace: need   M*NOBR+3*N+L; */
             /*                      prefer larger. */
             i__1 = *ldwork - jwork + 1;
-            mb03od_("No QR", n, n, &r__[nr2 + nr2 * r_dim1], ldr, &iwork[1], &toll1, &svlmax, &dwork[itau], &rankm, sval, &dwork[jwork], &i__1, &ierr, 5L);
+            mb03od_("No QR", n, n, &r__[nr2 + nr2 * r_dim1], ldr, &iwork[1], &toll1, &svlmax,
+                &dwork[itau], &rankm, sval, &dwork[jwork], &i__1, &ierr, 5L);
             i__1 = *ldwork - jwork + 1;
-            mb02qy_(n, n, &npl, &rankm, &r__[nr2 + nr2 * r_dim1], ldr, &iwork[1], &r__[nr2 + nr4mn * r_dim1], ldr, &dwork[itau + mnobr], &dwork[jwork], &i__1, info);
+            mb02qy_(n, n, &npl, &rankm, &r__[nr2 + nr2 * r_dim1], ldr, &iwork[1],
+                &r__[nr2 + nr4mn * r_dim1], ldr, &dwork[itau + mnobr], &dwork[jwork], &i__1, info);
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-            maxwrk = max(i__1,i__2);
+            i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+            maxwrk = max(i__1, i__2);
             jwork = itau;
-            if (*m > 0 && withb)
-            {
+            if (*m > 0 && withb) {
                 dlacpy_("Full", &lnobr, n, &r__[nr4 + r_dim1], ldr, &r__[nr2 + r_dim1], ldr, 4L);
             }
         }
-        if (withc)
-        {
+        if (withc) {
             /*           Obtain  A  and  C,  noting that block-permutations have been */
             /*           implicitly used. */
             ma02ad_("Full", n, n, &r__[nr2 + nr4mn * r_dim1], ldr, &a[a_offset], lda, 4L);
             ma02ad_("Full", n, l, &r__[nr2 + (nr4mn + *n) * r_dim1], ldr, &c__[c_offset], ldc, 4L);
-        }
-        else
-        {
+        } else {
             /*           Use the given  A  and  C. */
             ma02ad_("Full", n, n, &a[a_offset], lda, &r__[nr2 + nr4mn * r_dim1], ldr, 4L);
             ma02ad_("Full", l, n, &c__[c_offset], ldc, &r__[nr2 + (nr4mn + *n) * r_dim1], ldr, 4L);
         }
-        if (*m > 0 && withb)
-        {
+        if (*m > 0 && withb) {
             /*           Obtain  B  and  D. */
             /*           First, compute the transpose of the matrix K as */
             /*           N(1:m*s,:) - M(1:m*s,m*s+1:m*s+n)*[A'  C'],  in the first */
             /*           m*s  rows of  R(1,NR4MN). */
-            dgemm_("NoTranspose", "NoTranspose", &mnobr, &npl, n, &c_b173, &r__[nr2 * r_dim1 + 1], ldr, &r__[nr2 + nr4mn * r_dim1], ldr, &c_b63, &r__[nr4mn * r_dim1 + 1], ldr, 11L, 11L);
+            dgemm_("NoTranspose", "NoTranspose", &mnobr, &npl, n, &c_b173, &r__[nr2 * r_dim1 + 1],
+                ldr, &r__[nr2 + nr4mn * r_dim1], ldr, &c_b63, &r__[nr4mn * r_dim1 + 1], ldr, 11L,
+                11L);
             /*           Denote   M = pinv(GaL)  and construct */
             /*                    [ [ A ]   -1   ]                      [ R ] */
             /*           and  L = [ [   ]  R   0 ] Q',  where Gam = Q * [   ]. */
@@ -1205,38 +1137,44 @@ ftnlen jobcv_len;
             /*           Then, solve the least squares problem. */
             dlacpy_("Full", n, n, &a[a_offset], lda, &r__[nr2 + nr4 * r_dim1], ldr, 4L);
             dlacpy_("Full", l, n, &c__[c_offset], ldc, &r__[nr2 + *n + nr4 * r_dim1], ldr, 4L);
-            dtrsm_("Right", "Upper", "NoTranspose", "NonUnit", &npl, n, &c_b63, &r__[nr2 + r_dim1], ldr, &r__[nr2 + nr4 * r_dim1], ldr, 5L, 5L, 11L, 7L);
-            dlaset_("Full", &npl, &lnobrn, &c_b66, &c_b66, &r__[nr2 + (nr4 + *n) * r_dim1], ldr, 4L);
+            dtrsm_("Right", "Upper", "NoTranspose", "NonUnit", &npl, n, &c_b63, &r__[nr2 + r_dim1],
+                ldr, &r__[nr2 + nr4 * r_dim1], ldr, 5L, 5L, 11L, 7L);
+            dlaset_(
+                "Full", &npl, &lnobrn, &c_b66, &c_b66, &r__[nr2 + (nr4 + *n) * r_dim1], ldr, 4L);
             /*           Workspace: need 2*N+L; prefer N + (N+L)*NB. */
             i__1 = *ldwork - jwork + 1;
-            dormqr_("Right", "Transpose", &npl, &lnobr, n, &r__[nr2 + r_dim1], ldr, &dwork[1], &r__[nr2 + nr4 * r_dim1], ldr, &dwork[jwork], &i__1, &ierr, 5L, 9L);
+            dormqr_("Right", "Transpose", &npl, &lnobr, n, &r__[nr2 + r_dim1], ldr, &dwork[1],
+                &r__[nr2 + nr4 * r_dim1], ldr, &dwork[jwork], &i__1, &ierr, 5L, 9L);
             /*           Obtain the matrix  K  by transposition, and find  B  and  D. */
             /*           Workspace: need   NOBR*(M*(N+L))**2+M*NOBR*(N+L)+ */
             /*                             max((N+L)**2,4*M*(N+L)+1); */
             /*                      prefer larger. */
-            ma02ad_("Full", &mnobr, &npl, &r__[nr4mn * r_dim1 + 1], ldr, &r__[nr2 + nr3 * r_dim1], ldr, 4L);
+            ma02ad_("Full", &mnobr, &npl, &r__[nr4mn * r_dim1 + 1], ldr, &r__[nr2 + nr3 * r_dim1],
+                ldr, 4L);
             /* Computing 2nd power */
             i__1 = npl;
-            ix = mnobr * (i__1 * i__1) **m + 1;
+            ix = mnobr * (i__1 * i__1) * *m + 1;
             jwork = ix + mnobr * npl;
             i__1 = mnobr * npl;
             i__2 = *ldwork - jwork + 1;
-            ib01px_(jobpy, nobr, n, m, l, &r__[r_offset], ldr, &o[o_offset], ldo, &r__[nr2 + nr4 * r_dim1], ldr, &r__[nr4pl + nr2 * r_dim1], ldr, &r__[nr2 + nr3 * r_dim1], ldr, &dwork[1], &i__1, &dwork[ix], &b[b_offset], ldb, &d__[d_offset], ldd, tol, &iwork[1], &dwork[jwork], &i__2, &iwarnl, info, 1L);
-            if (*info != 0)
-            {
+            ib01px_(jobpy, nobr, n, m, l, &r__[r_offset], ldr, &o[o_offset], ldo,
+                &r__[nr2 + nr4 * r_dim1], ldr, &r__[nr4pl + nr2 * r_dim1], ldr,
+                &r__[nr2 + nr3 * r_dim1], ldr, &dwork[1], &i__1, &dwork[ix], &b[b_offset], ldb,
+                &d__[d_offset], ldd, tol, &iwork[1], &dwork[jwork], &i__2, &iwarnl, info, 1L);
+            if (*info != 0) {
                 return 0;
             }
-            *iwarn = max(*iwarn,iwarnl);
+            *iwarn = max(*iwarn, iwarnl);
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-            maxwrk = max(i__1,i__2);
+            i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+            maxwrk = max(i__1, i__2);
             rcond4 = dwork[jwork + 1];
         }
     }
 L30:
     /*     Return optimal workspace in  DWORK(1)  and reciprocal condition */
     /*     numbers in the next locations. */
-    dwork[1] = (doublereal) maxwrk;
+    dwork[1] = (doublereal)maxwrk;
     dwork[2] = rcond1;
     dwork[3] = rcond2;
     dwork[4] = rcond3;
@@ -1244,4 +1182,3 @@ L30:
     return 0;
     /* *** Last line of IB01PD *** */
 } /* ib01pd_ */
-

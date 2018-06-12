@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,24 +11,26 @@ static doublereal c_b9 = 0.;
 static integer c__1 = 1;
 static doublereal c_b23 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb02kd_(ldblk, trans, k, l, m, n, r__, alpha, beta, tc, ldtc, tr, ldtr, b, ldb, c__, ldc, dwork, ldwork, info, ldblk_len, trans_len)
-char *ldblk, *trans;
+EXPORTSYMBOL /* Subroutine */ int mb02kd_(ldblk, trans, k, l, m, n, r__, alpha, beta, tc, ldtc, tr,
+    ldtr, b, ldb, c__, ldc, dwork, ldwork, info, ldblk_len, trans_len) char *ldblk,
+    *trans;
 integer *k, *l, *m, *n, *r__;
 doublereal *alpha, *beta, *tc;
-integer *ldtc;
-doublereal *tr;
-integer *ldtr;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *dwork;
+integer* ldtc;
+doublereal* tr;
+integer* ldtr;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen ldblk_len;
 ftnlen trans_len;
 {
     /* System generated locals */
-    integer b_dim1, b_offset, c_dim1, c_offset, tc_dim1, tc_offset, tr_dim1, tr_offset, i__1, i__2, i__3, i__4, i__5, i__6;
+    integer b_dim1, b_offset, c_dim1, c_offset, tc_dim1, tc_offset, tr_dim1, tr_offset, i__1, i__2,
+        i__3, i__4, i__5, i__6;
     doublereal d__1;
     /* Builtin functions */
     double atan(), cos(), sin();
@@ -209,110 +211,69 @@ ftnlen trans_len;
     fullc = lsame_(ldblk, "C", 1L, 1L);
     ltran = lsame_(trans, "T", 1L, 1L) || lsame_(trans, "C", 1L, 1L);
     lmult = *alpha != 0.;
-    mk = *m **k;
-    nl = *n **l;
+    mk = *m * *k;
+    nl = *n * *l;
     /*     Check the scalar input parameters. */
-    if (! (fullc || lsame_(ldblk, "R", 1L, 1L)))
-    {
+    if (!(fullc || lsame_(ldblk, "R", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (ltran || lsame_(trans, "N", 1L, 1L)))
-    {
+    } else if (!(ltran || lsame_(trans, "N", 1L, 1L))) {
         *info = -2;
-    }
-    else if (*k < 0)
-    {
+    } else if (*k < 0) {
         *info = -3;
-    }
-    else if (*l < 0)
-    {
+    } else if (*l < 0) {
         *info = -4;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -5;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -6;
-    }
-    else if (*r__ < 0)
-    {
+    } else if (*r__ < 0) {
         *info = -7;
-    }
-    else if (lmult && fullc && *ldtc < max(1,mk))
-    {
+    } else if (lmult && fullc && *ldtc < max(1, mk)) {
         *info = -11;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = 1, i__2 = (*m - 1) **k;
-        if (lmult && ! fullc && *ldtc < max(i__1,i__2))
-        {
+        i__1 = 1, i__2 = (*m - 1) * *k;
+        if (lmult && !fullc && *ldtc < max(i__1, i__2)) {
             *info = -11;
-        }
-        else if (lmult && *ldtr < max(1,*k))
-        {
+        } else if (lmult && *ldtr < max(1, *k)) {
             *info = -13;
-        }
-        else if (lmult && ! ltran && *ldb < max(1,nl))
-        {
+        } else if (lmult && !ltran && *ldb < max(1, nl)) {
             *info = -15;
-        }
-        else if (lmult && ltran && *ldb < max(1,mk))
-        {
+        } else if (lmult && ltran && *ldb < max(1, mk)) {
             *info = -15;
-        }
-        else if (! ltran && *ldc < max(1,mk))
-        {
+        } else if (!ltran && *ldc < max(1, mk)) {
             *info = -17;
-        }
-        else if (ltran && *ldc < max(1,nl))
-        {
+        } else if (ltran && *ldc < max(1, nl)) {
             *info = -17;
-        }
-        else if (*ldwork < 1)
-        {
+        } else if (*ldwork < 1) {
             dwork[1] = 1.;
             *info = -19;
         }
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02KD", &i__1, 6L);
         return 0;
     }
     /*     Scale C beforehand. */
-    if (*beta == 0.)
-    {
-        if (ltran)
-        {
+    if (*beta == 0.) {
+        if (ltran) {
             dlaset_("All", &nl, r__, &c_b9, &c_b9, &c__[c_offset], ldc, 3L);
-        }
-        else
-        {
+        } else {
             dlaset_("All", &mk, r__, &c_b9, &c_b9, &c__[c_offset], ldc, 3L);
         }
-    }
-    else if (*beta != 1.)
-    {
-        if (ltran)
-        {
+    } else if (*beta != 1.) {
+        if (ltran) {
             i__1 = *r__;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dscal_(&nl, beta, &c__[i__ * c_dim1 + 1], &c__1);
                 /* L10: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *r__;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dscal_(&mk, beta, &c__[i__ * c_dim1 + 1], &c__1);
                 /* L20: */
             }
@@ -320,9 +281,8 @@ ftnlen trans_len;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(mk,nl);
-    if (! lmult || min(i__1,*r__) == 0)
-    {
+    i__1 = min(mk, nl);
+    if (!lmult || min(i__1, *r__) == 0) {
         dwork[1] = 1.;
         return 0;
     }
@@ -338,274 +298,242 @@ ftnlen trans_len;
     len = 1;
     p = 0;
 L30:
-    if (len < *m + *n - 1)
-    {
+    if (len < *m + *n - 1) {
         len <<= 1;
         ++p;
         goto L30;
     }
-    coef = (doublereal) (*m **n) * 3. * (doublereal) (*k **l) * (doublereal) (*r__) / (doublereal) (len * (*k **l + *l **r__ + *k **r__));
-    if (fullc)
-    {
-        p1 = mk **l;
+    coef = (doublereal)(*m * *n) * 3. * (doublereal)(*k * *l) * (doublereal)(*r__)
+        / (doublereal)(len * (*k * *l + *l * *r__ + *k * *r__));
+    if (fullc) {
+        p1 = mk * *l;
         shft = 0;
-    }
-    else
-    {
-        p1 = (*m - 1) **k **l;
+    } else {
+        p1 = (*m - 1) * *k * *l;
         shft = 1;
     }
-    if (*k **l == 1 && min(*m,*n) > 1)
-    {
+    if (*k * *l == 1 && min(*m, *n) > 1) {
         wrkopt = len * (*r__ + 2) - p;
         meth = 3;
-    }
-    else if (len < *m **n && coef >= param)
-    {
-        wrkopt = len * (*k **l + *k **r__ + *l **r__ + 1) - p;
+    } else if (len < *m * *n && coef >= param) {
+        wrkopt = len * (*k * *l + *k * *r__ + *l * *r__ + 1) - p;
         meth = 3;
-    }
-    else
-    {
+    } else {
         meth = 2;
         wrkopt = p1;
     }
-    if (*ldwork < wrkopt)
-    {
+    if (*ldwork < wrkopt) {
         --meth;
     }
-    if (*ldwork < p1)
-    {
+    if (*ldwork < p1) {
         meth = 1;
     }
     /*     Start computations. */
-    if (meth == 1 && ! ltran)
-    {
+    if (meth == 1 && !ltran) {
         /*        Method 1 is the most unlucky way to multiply Toeplitz matrices */
         /*        with vectors. Due to the memory restrictions it is not */
         /*        possible to flip TC. */
         pc = 1;
         i__1 = *m;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            pt = (i__ - 1 - shft) **k + 1;
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            pt = (i__ - 1 - shft) * *k + 1;
             pb = 1;
             i__2 = i__;
-            for (j = shft + 1; j <= i__2; ++j)
-            {
-                dgemm_("No Transpose", "No Transpose", k, r__, l, alpha, &tc[pt + tc_dim1], ldtc, &b[pb + b_dim1], ldb, &c_b23, &c__[pc + c_dim1], ldc, 12L, 12L);
+            for (j = shft + 1; j <= i__2; ++j) {
+                dgemm_("No Transpose", "No Transpose", k, r__, l, alpha, &tc[pt + tc_dim1], ldtc,
+                    &b[pb + b_dim1], ldb, &c_b23, &c__[pc + c_dim1], ldc, 12L, 12L);
                 pt -= *k;
                 pb += *l;
                 /* L40: */
             }
-            if (*n > i__ - shft)
-            {
-                i__2 = (*n - i__ + shft) **l;
-                dgemm_("No Transpose", "No Transpose", k, r__, &i__2, alpha, &tr[tr_offset], ldtr, &b[pb + b_dim1], ldb, &c_b23, &c__[pc + c_dim1], ldc, 12L, 12L);
+            if (*n > i__ - shft) {
+                i__2 = (*n - i__ + shft) * *l;
+                dgemm_("No Transpose", "No Transpose", k, r__, &i__2, alpha, &tr[tr_offset], ldtr,
+                    &b[pb + b_dim1], ldb, &c_b23, &c__[pc + c_dim1], ldc, 12L, 12L);
             }
             pc += *k;
             /* L50: */
         }
-    }
-    else if (meth == 1 && ltran)
-    {
+    } else if (meth == 1 && ltran) {
         pb = 1;
         i__1 = *m;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            pt = (i__ - 1 - shft) **k + 1;
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            pt = (i__ - 1 - shft) * *k + 1;
             pc = 1;
             i__2 = i__;
-            for (j = shft + 1; j <= i__2; ++j)
-            {
-                dgemm_("Transpose", "No Transpose", l, r__, k, alpha, &tc[pt + tc_dim1], ldtc, &b[pb + b_dim1], ldb, &c_b23, &c__[pc + c_dim1], ldc, 9L, 12L);
+            for (j = shft + 1; j <= i__2; ++j) {
+                dgemm_("Transpose", "No Transpose", l, r__, k, alpha, &tc[pt + tc_dim1], ldtc,
+                    &b[pb + b_dim1], ldb, &c_b23, &c__[pc + c_dim1], ldc, 9L, 12L);
                 pt -= *k;
                 pc += *l;
                 /* L60: */
             }
-            if (*n > i__ - shft)
-            {
-                i__2 = (*n - i__ + shft) **l;
-                dgemm_("Transpose", "No Transpose", &i__2, r__, k, alpha, &tr[tr_offset], ldtr, &b[pb + b_dim1], ldb, &c_b23, &c__[pc + c_dim1], ldc, 9L, 12L);
+            if (*n > i__ - shft) {
+                i__2 = (*n - i__ + shft) * *l;
+                dgemm_("Transpose", "No Transpose", &i__2, r__, k, alpha, &tr[tr_offset], ldtr,
+                    &b[pb + b_dim1], ldb, &c_b23, &c__[pc + c_dim1], ldc, 9L, 12L);
             }
             pb += *k;
             /* L70: */
         }
-    }
-    else if (meth == 2 && ! ltran)
-    {
+    } else if (meth == 2 && !ltran) {
         /*        In method 2 TC is flipped resulting in less calls to the BLAS */
         /*        routine DGEMM. Actually this seems often to be the best way to */
         /*        multiply with Toeplitz matrices except the point Toeplitz */
         /*        case. */
-        pt = (*m - 1 - shft) **k + 1;
-        i__1 = (*m - shft) **k **l;
-        i__2 = *k **l;
-        for (i__ = 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2)
-        {
+        pt = (*m - 1 - shft) * *k + 1;
+        i__1 = (*m - shft) * *k * *l;
+        i__2 = *k * *l;
+        for (i__ = 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2) {
             dlacpy_("All", k, l, &tc[pt + tc_dim1], ldtc, &dwork[i__], k, 3L);
             pt -= *k;
             /* L80: */
         }
-        pt = (*m - 1) **k **l + 1;
+        pt = (*m - 1) * *k * *l + 1;
         pc = 1;
         i__2 = *m;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             /* Computing MIN */
             i__3 = i__ - shft;
-            i__1 = min(i__3,*n) **l;
-            dgemm_("No Transpose", "No Transpose", k, r__, &i__1, alpha, &dwork[pt], k, &b[b_offset], ldb, &c_b23, &c__[pc + c_dim1], ldc, 12L, 12L);
-            if (*n > i__ - shft)
-            {
-                i__1 = (*n - i__ + shft) **l;
-                dgemm_("No Transpose", "No Transpose", k, r__, &i__1, alpha, &tr[tr_offset], ldtr, &b[(i__ - shft) **l + 1 + b_dim1], ldb, &c_b23, &c__[pc + c_dim1], ldc, 12L, 12L);
+            i__1 = min(i__3, *n) * *l;
+            dgemm_("No Transpose", "No Transpose", k, r__, &i__1, alpha, &dwork[pt], k,
+                &b[b_offset], ldb, &c_b23, &c__[pc + c_dim1], ldc, 12L, 12L);
+            if (*n > i__ - shft) {
+                i__1 = (*n - i__ + shft) * *l;
+                dgemm_("No Transpose", "No Transpose", k, r__, &i__1, alpha, &tr[tr_offset], ldtr,
+                    &b[(i__ - shft) * *l + 1 + b_dim1], ldb, &c_b23, &c__[pc + c_dim1], ldc, 12L,
+                    12L);
             }
             pc += *k;
-            pt -= *k **l;
+            pt -= *k * *l;
             /* L90: */
         }
-    }
-    else if (meth == 2 && ltran)
-    {
-        pt = (*m - 1 - shft) **k + 1;
-        i__2 = (*m - shft) **k **l;
-        i__1 = *k **l;
-        for (i__ = 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__1)
-        {
+    } else if (meth == 2 && ltran) {
+        pt = (*m - 1 - shft) * *k + 1;
+        i__2 = (*m - shft) * *k * *l;
+        i__1 = *k * *l;
+        for (i__ = 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__1) {
             dlacpy_("All", k, l, &tc[pt + tc_dim1], ldtc, &dwork[i__], k, 3L);
             pt -= *k;
             /* L100: */
         }
-        pt = (*m - 1) **k **l + 1;
+        pt = (*m - 1) * *k * *l + 1;
         pb = 1;
         i__1 = *m;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /* Computing MIN */
             i__3 = i__ - shft;
-            i__2 = min(i__3,*n) **l;
-            dgemm_("Tranpose", "No Transpose", &i__2, r__, k, alpha, &dwork[pt], k, &b[pb + b_dim1], ldb, &c_b23, &c__[c_offset], ldc, 8L, 12L);
-            if (*n > i__ - shft)
-            {
-                i__2 = (*n - i__ + shft) **l;
-                dgemm_("Transpose", "No Transpose", &i__2, r__, k, alpha, &tr[tr_offset], ldtr, &b[pb + b_dim1], ldb, &c_b23, &c__[(i__ - shft) **l + 1 + c_dim1], ldc, 9L, 12L);
+            i__2 = min(i__3, *n) * *l;
+            dgemm_("Tranpose", "No Transpose", &i__2, r__, k, alpha, &dwork[pt], k, &b[pb + b_dim1],
+                ldb, &c_b23, &c__[c_offset], ldc, 8L, 12L);
+            if (*n > i__ - shft) {
+                i__2 = (*n - i__ + shft) * *l;
+                dgemm_("Transpose", "No Transpose", &i__2, r__, k, alpha, &tr[tr_offset], ldtr,
+                    &b[pb + b_dim1], ldb, &c_b23, &c__[(i__ - shft) * *l + 1 + c_dim1], ldc, 9L,
+                    12L);
             }
             pb += *k;
-            pt -= *k **l;
+            pt -= *k * *l;
             /* L110: */
         }
-    }
-    else if (meth == 3)
-    {
+    } else if (meth == 3) {
         /*        In method 3 the matrix-vector product is computed by a suitable */
         /*        block convolution via fast Hartley transforms similar to the */
         /*        SLICOT routine DE01PD. */
         /*        Step 1: Copy input data into the workspace arrays. */
         pdw = 1;
-        if (ltran)
-        {
+        if (ltran) {
             dimb = *k;
             dimc = *l;
-        }
-        else
-        {
+        } else {
             dimb = *l;
             dimc = *k;
         }
-        pb = len **k **l;
-        pc = len * (*k **l + dimb **r__);
-        if (ltran)
-        {
-            if (fullc)
-            {
-                i__1 = len **k;
+        pb = len * *k * *l;
+        pc = len * (*k * *l + dimb * *r__);
+        if (ltran) {
+            if (fullc) {
+                i__1 = len * *k;
                 dlacpy_("All", k, l, &tc[tc_offset], ldtc, &dwork[1], &i__1, 3L);
             }
             i__1 = *n - 1 + shft;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
-                i__2 = len **k;
-                dlacpy_("All", k, l, &tr[((i__ - 1) **l + 1) * tr_dim1 + 1], ldtr, &dwork[(i__ - shft) **k + 1], &i__2, 3L);
+            for (i__ = 1; i__ <= i__1; ++i__) {
+                i__2 = len * *k;
+                dlacpy_("All", k, l, &tr[((i__ - 1) * *l + 1) * tr_dim1 + 1], ldtr,
+                    &dwork[(i__ - shft) * *k + 1], &i__2, 3L);
                 /* L120: */
             }
-            pdw = *n **k + 1;
-            r1 = (len - *m - *n + 1) **k;
-            i__1 = len **k;
+            pdw = *n * *k + 1;
+            r1 = (len - *m - *n + 1) * *k;
+            i__1 = len * *k;
             dlaset_("All", &r1, l, &c_b9, &c_b9, &dwork[pdw], &i__1, 3L);
             pdw += r1;
-            i__1 = *k - shft **k + 1;
+            i__1 = *k - shft * *k + 1;
             i__2 = -(*k);
-            for (i__ = (*m - 1 - shft) **k + 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2)
-            {
-                i__3 = len **k;
+            for (i__ = (*m - 1 - shft) * *k + 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1;
+                 i__ += i__2) {
+                i__3 = len * *k;
                 dlacpy_("All", k, l, &tc[i__ + tc_dim1], ldtc, &dwork[pdw], &i__3, 3L);
                 pdw += *k;
                 /* L130: */
             }
             pdw = pb + 1;
-            i__2 = len **k;
+            i__2 = len * *k;
             dlacpy_("All", &mk, r__, &b[b_offset], ldb, &dwork[pdw], &i__2, 3L);
             pdw += mk;
-            i__2 = (len - *m) **k;
-            i__1 = len **k;
+            i__2 = (len - *m) * *k;
+            i__1 = len * *k;
             dlaset_("All", &i__2, r__, &c_b9, &c_b9, &dwork[pdw], &i__1, 3L);
-        }
-        else
-        {
-            if (! fullc)
-            {
-                i__2 = len **k;
+        } else {
+            if (!fullc) {
+                i__2 = len * *k;
                 dlacpy_("All", k, l, &tr[tr_offset], ldtr, &dwork[1], &i__2, 3L);
             }
-            i__2 = (*m - shft) **k;
-            i__1 = len **k;
-            dlacpy_("All", &i__2, l, &tc[tc_offset], ldtc, &dwork[shft **k + 1], &i__1, 3L);
+            i__2 = (*m - shft) * *k;
+            i__1 = len * *k;
+            dlacpy_("All", &i__2, l, &tc[tc_offset], ldtc, &dwork[shft * *k + 1], &i__1, 3L);
             pdw = mk + 1;
-            r1 = (len - *m - *n + 1) **k;
-            i__2 = len **k;
+            r1 = (len - *m - *n + 1) * *k;
+            i__2 = len * *k;
             dlaset_("All", &r1, l, &c_b9, &c_b9, &dwork[pdw], &i__2, 3L);
             pdw += r1;
-            i__2 = shft **l + 1;
+            i__2 = shft * *l + 1;
             i__1 = -(*l);
-            for (i__ = (*n - 2 + shft) **l + 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__1)
-            {
-                i__3 = len **k;
+            for (i__ = (*n - 2 + shft) * *l + 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2;
+                 i__ += i__1) {
+                i__3 = len * *k;
                 dlacpy_("All", k, l, &tr[i__ * tr_dim1 + 1], ldtr, &dwork[pdw], &i__3, 3L);
                 pdw += *k;
                 /* L140: */
             }
             pdw = pb + 1;
-            i__1 = len **l;
+            i__1 = len * *l;
             dlacpy_("All", &nl, r__, &b[b_offset], ldb, &dwork[pdw], &i__1, 3L);
             pdw += nl;
-            i__1 = (len - *n) **l;
-            i__2 = len **l;
+            i__1 = (len - *n) * *l;
+            i__2 = len * *l;
             dlaset_("All", &i__1, r__, &c_b9, &c_b9, &dwork[pdw], &i__2, 3L);
         }
         /*        Take point Toeplitz matrices into extra consideration. */
-        if (*k **l == 1)
-        {
-            *(unsigned char *)wght = 'N';
+        if (*k * *l == 1) {
+            *(unsigned char*)wght = 'N';
             dg01od_("OutputScrambled", wght, &len, &dwork[1], &dwork[pc + 1], &ierr, 15L, 1L);
-            i__1 = pb + len **r__ - 1;
+            i__1 = pb + len * *r__ - 1;
             i__2 = len;
-            for (i__ = pb; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2)
-            {
-                dg01od_("OutputScrambled", wght, &len, &dwork[i__ + 1], &dwork[pc + 1], &ierr, 15L, 1L);
-                scal = *alpha / (doublereal) len;
+            for (i__ = pb; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2) {
+                dg01od_(
+                    "OutputScrambled", wght, &len, &dwork[i__ + 1], &dwork[pc + 1], &ierr, 15L, 1L);
+                scal = *alpha / (doublereal)len;
                 dwork[i__ + 1] = scal * dwork[i__ + 1] * dwork[1];
                 dwork[i__ + 2] = scal * dwork[i__ + 2] * dwork[2];
                 scal /= 2.;
                 ln = 1;
                 i__3 = p - 1;
-                for (ll = 1; ll <= i__3; ++ll)
-                {
+                for (ll = 1; ll <= i__3; ++ll) {
                     ln <<= 1;
                     r1 = ln << 1;
                     i__4 = ln + ln / 2;
-                    for (p1 = ln + 1; p1 <= i__4; ++p1)
-                    {
+                    for (p1 = ln + 1; p1 <= i__4; ++p1) {
                         t1 = dwork[p1] + dwork[r1];
                         t2 = dwork[p1] - dwork[r1];
                         th = t2 * dwork[i__ + p1];
@@ -616,7 +544,8 @@ L30:
                     }
                     /* L160: */
                 }
-                dg01od_("InputScrambled", wght, &len, &dwork[i__ + 1], &dwork[pc + 1], &ierr, 14L, 1L);
+                dg01od_(
+                    "InputScrambled", wght, &len, &dwork[i__ + 1], &dwork[pc + 1], &ierr, 14L, 1L);
                 /* L170: */
             }
             pc = pb;
@@ -626,10 +555,9 @@ L30:
         pdw = pc;
         r1 = 1;
         ln = 1;
-        th = atan(1.) * 4. / (doublereal) len;
+        th = atan(1.) * 4. / (doublereal)len;
         i__2 = p - 2;
-        for (ll = 1; ll <= i__2; ++ll)
-        {
+        for (ll = 1; ll <= i__2; ++ll) {
             ln <<= 1;
             th *= 2.;
             cf = cos(th);
@@ -638,8 +566,7 @@ L30:
             dwork[pdw + r1 + 1] = sf;
             r1 += 2;
             i__1 = ln - 2;
-            for (i__ = 1; i__ <= i__1; i__ += 2)
-            {
+            for (i__ = 1; i__ <= i__1; i__ += 2) {
                 dwork[pdw + r1] = cf * dwork[pdw + i__] - sf * dwork[pdw + i__ + 1];
                 dwork[pdw + r1 + 1] = sf * dwork[pdw + i__] + cf * dwork[pdw + i__ + 1];
                 r1 += 2;
@@ -649,11 +576,9 @@ L30:
         }
         p1 = 3;
         q1 = r1 - 2;
-        for (ll = p - 2; ll >= 1; --ll)
-        {
+        for (ll = p - 2; ll >= 1; --ll) {
             i__2 = q1;
-            for (i__ = p1; i__ <= i__2; i__ += 4)
-            {
+            for (i__ = p1; i__ <= i__2; i__ += 4) {
                 dwork[pdw + r1] = dwork[pdw + i__];
                 dwork[pdw + r1 + 1] = dwork[pdw + i__ + 1];
                 r1 += 2;
@@ -667,22 +592,19 @@ L30:
         j = 0;
         kk = *k;
         /*        WHILE   J < (L*LEN*K + R*LEN*DIMB), */
-L220:
+    L220:
         ln = len;
         wpos = pdw + 1;
-        for (pp = p - 1; pp >= 1; --pp)
-        {
+        for (pp = p - 1; pp >= 1; --pp) {
             ln /= 2;
             p2 = 1;
             q2 = ln * kk + 1;
             r2 = ln / 2 * kk + 1;
             s2 = r2 + q2 - 1;
             i__2 = len / (ln << 1) - 1;
-            for (i__ = 0; i__ <= i__2; ++i__)
-            {
+            for (i__ = 0; i__ <= i__2; ++i__) {
                 i__1 = kk - 1;
-                for (ir = 0; ir <= i__1; ++ir)
-                {
+                for (ir = 0; ir <= i__1; ++ir) {
                     t1 = dwork[q2 + ir + j];
                     dwork[q2 + ir + j] = dwork[p2 + ir + j] - t1;
                     dwork[p2 + ir + j] += t1;
@@ -696,13 +618,11 @@ L220:
                 r1 = q1 - (kk << 1);
                 s1 = r1 + ln * kk;
                 i__1 = wpos + ln - 3;
-                for (jj = wpos; jj <= i__1; jj += 2)
-                {
+                for (jj = wpos; jj <= i__1; jj += 2) {
                     cf = dwork[jj];
                     sf = dwork[jj + 1];
                     i__3 = kk - 1;
-                    for (ir = 0; ir <= i__3; ++ir)
-                    {
+                    for (ir = 0; ir <= i__3; ++ir) {
                         t1 = dwork[p1 + ir + j] - dwork[q1 + ir + j];
                         t2 = dwork[r1 + ir + j] - dwork[s1 + ir + j];
                         dwork[p1 + ir + j] += dwork[q1 + ir + j];
@@ -728,12 +648,10 @@ L220:
         }
         i__2 = len * kk;
         i__1 = kk << 1;
-        for (icp = kk + 1; i__1 < 0 ? icp >= i__2 : icp <= i__2; icp += i__1)
-        {
+        for (icp = kk + 1; i__1 < 0 ? icp >= i__2 : icp <= i__2; icp += i__1) {
             icq = icp - kk;
             i__3 = kk - 1;
-            for (ir = 0; ir <= i__3; ++ir)
-            {
+            for (ir = 0; ir <= i__3; ++ir) {
                 t1 = dwork[icp + ir + j];
                 dwork[icp + ir + j] = dwork[icq + ir + j] - t1;
                 dwork[icq + ir + j] += t1;
@@ -742,12 +660,10 @@ L220:
             /* L290: */
         }
         j += len * kk;
-        if (j == *l * len **k)
-        {
+        if (j == *l * len * *k) {
             kk = dimb;
         }
-        if (j < pc)
-        {
+        if (j < pc) {
             goto L220;
         }
         /*        END WHILE 220 */
@@ -755,80 +671,79 @@ L220:
         i__1 = len - p;
         dcopy_(&i__1, &dwork[pdw + 1], &c__1, &dwork[pdw + 1 + *r__ * len * dimc], &c__1);
         pdw += *r__ * len * dimc;
-        scal = *alpha / (doublereal) len;
+        scal = *alpha / (doublereal)len;
         p1 = 1;
-        r1 = len **k **l + 1;
-        s1 = r1 + len * dimb **r__;
-        if (ltran)
-        {
+        r1 = len * *k * *l + 1;
+        s1 = r1 + len * dimb * *r__;
+        if (ltran) {
             kk = *l;
             ll = *k;
-        }
-        else
-        {
+        } else {
             kk = *k;
             ll = *l;
         }
-        i__1 = len **k;
+        i__1 = len * *k;
         i__2 = len * dimb;
         i__3 = len * dimc;
-        dgemm_(trans, "No Transpose", &kk, r__, &ll, &scal, &dwork[p1], &i__1, &dwork[r1], &i__2, &c_b9, &dwork[s1], &i__3, 1L, 12L);
+        dgemm_(trans, "No Transpose", &kk, r__, &ll, &scal, &dwork[p1], &i__1, &dwork[r1], &i__2,
+            &c_b9, &dwork[s1], &i__3, 1L, 12L);
         p1 += *k;
         r1 += dimb;
         s1 += dimc;
-        i__1 = len **k;
+        i__1 = len * *k;
         i__2 = len * dimb;
         i__3 = len * dimc;
-        dgemm_(trans, "No Transpose", &kk, r__, &ll, &scal, &dwork[p1], &i__1, &dwork[r1], &i__2, &c_b9, &dwork[s1], &i__3, 1L, 12L);
+        dgemm_(trans, "No Transpose", &kk, r__, &ll, &scal, &dwork[p1], &i__1, &dwork[r1], &i__2,
+            &c_b9, &dwork[s1], &i__3, 1L, 12L);
         scal /= 2.;
         ln = 1;
         i__1 = p - 1;
-        for (pp = 1; pp <= i__1; ++pp)
-        {
+        for (pp = 1; pp <= i__1; ++pp) {
             ln <<= 1;
-            p2 = ((ln << 1) - 1) **k + 1;
+            p2 = ((ln << 1) - 1) * *k + 1;
             r1 = pb + ln * dimb + 1;
             r2 = pb + ((ln << 1) - 1) * dimb + 1;
             s1 = pc + ln * dimc + 1;
             s2 = pc + ((ln << 1) - 1) * dimc + 1;
-            i__2 = (ln + ln / 2) **k;
+            i__2 = (ln + ln / 2) * *k;
             i__3 = *k;
-            for (p1 = ln **k + 1; i__3 < 0 ? p1 >= i__2 : p1 <= i__2; p1 += i__3)
-            {
-                i__4 = len **k * (*l - 1);
-                i__5 = len **k;
-                for (j = 0; i__5 < 0 ? j >= i__4 : j <= i__4; j += i__5)
-                {
+            for (p1 = ln * *k + 1; i__3 < 0 ? p1 >= i__2 : p1 <= i__2; p1 += i__3) {
+                i__4 = len * *k * (*l - 1);
+                i__5 = len * *k;
+                for (j = 0; i__5 < 0 ? j >= i__4 : j <= i__4; j += i__5) {
                     i__6 = p1 + *k - 1;
-                    for (i__ = p1; i__ <= i__6; ++i__)
-                    {
+                    for (i__ = p1; i__ <= i__6; ++i__) {
                         t1 = dwork[p2];
                         dwork[p2] = dwork[j + i__] - t1;
                         dwork[j + i__] += t1;
                         ++p2;
                         /* L300: */
                     }
-                    p2 += (len - 1) **k;
+                    p2 += (len - 1) * *k;
                     /* L310: */
                 }
-                p2 -= len **k **l;
-                i__5 = len **k;
+                p2 -= len * *k * *l;
+                i__5 = len * *k;
                 i__4 = len * dimb;
                 i__6 = len * dimc;
-                dgemm_(trans, "No Transpose", &kk, r__, &ll, &scal, &dwork[p1], &i__5, &dwork[r1], &i__4, &c_b9, &dwork[s1], &i__6, 1L, 12L);
-                i__5 = len **k;
+                dgemm_(trans, "No Transpose", &kk, r__, &ll, &scal, &dwork[p1], &i__5, &dwork[r1],
+                    &i__4, &c_b9, &dwork[s1], &i__6, 1L, 12L);
+                i__5 = len * *k;
                 i__4 = len * dimb;
                 i__6 = len * dimc;
-                dgemm_(trans, "No Transpose", &kk, r__, &ll, &scal, &dwork[p2], &i__5, &dwork[r2], &i__4, &c_b23, &dwork[s1], &i__6, 1L, 12L);
-                i__5 = len **k;
+                dgemm_(trans, "No Transpose", &kk, r__, &ll, &scal, &dwork[p2], &i__5, &dwork[r2],
+                    &i__4, &c_b23, &dwork[s1], &i__6, 1L, 12L);
+                i__5 = len * *k;
                 i__4 = len * dimb;
                 i__6 = len * dimc;
-                dgemm_(trans, "No Transpose", &kk, r__, &ll, &scal, &dwork[p1], &i__5, &dwork[r2], &i__4, &c_b9, &dwork[s2], &i__6, 1L, 12L);
+                dgemm_(trans, "No Transpose", &kk, r__, &ll, &scal, &dwork[p1], &i__5, &dwork[r2],
+                    &i__4, &c_b9, &dwork[s2], &i__6, 1L, 12L);
                 d__1 = -scal;
-                i__5 = len **k;
+                i__5 = len * *k;
                 i__4 = len * dimb;
                 i__6 = len * dimc;
-                dgemm_(trans, "No Transpose", &kk, r__, &ll, &d__1, &dwork[p2], &i__5, &dwork[r1], &i__4, &c_b23, &dwork[s2], &i__6, 1L, 12L);
+                dgemm_(trans, "No Transpose", &kk, r__, &ll, &d__1, &dwork[p2], &i__5, &dwork[r1],
+                    &i__4, &c_b23, &dwork[s2], &i__6, 1L, 12L);
                 p2 -= *k;
                 r1 += dimb;
                 r2 -= dimb;
@@ -839,18 +754,15 @@ L220:
             /* L330: */
         }
         /*        Step 5: Hartley transform with scrambled input. */
-        i__1 = pc + len * dimc **r__;
+        i__1 = pc + len * dimc * *r__;
         i__3 = len * dimc;
-        for (j = pc; i__3 < 0 ? j >= i__1 : j <= i__1; j += i__3)
-        {
+        for (j = pc; i__3 < 0 ? j >= i__1 : j <= i__1; j += i__3) {
             i__2 = len * dimc;
             i__5 = dimc << 1;
-            for (icp = dimc + 1; i__5 < 0 ? icp >= i__2 : icp <= i__2; icp += i__5)
-            {
+            for (icp = dimc + 1; i__5 < 0 ? icp >= i__2 : icp <= i__2; icp += i__5) {
                 icq = icp - dimc;
                 i__4 = dimc - 1;
-                for (ir = 0; ir <= i__4; ++ir)
-                {
+                for (ir = 0; ir <= i__4; ++ir) {
                     t1 = dwork[icp + ir + j];
                     dwork[icp + ir + j] = dwork[icq + ir + j] - t1;
                     dwork[icq + ir + j] += t1;
@@ -861,19 +773,16 @@ L220:
             ln = 1;
             wpos = pdw + len - (p << 1) + 1;
             i__5 = p - 1;
-            for (pp = 1; pp <= i__5; ++pp)
-            {
+            for (pp = 1; pp <= i__5; ++pp) {
                 ln <<= 1;
                 p2 = 1;
                 q2 = ln * dimc + 1;
                 r2 = ln / 2 * dimc + 1;
                 s2 = r2 + q2 - 1;
                 i__2 = len / (ln << 1) - 1;
-                for (i__ = 0; i__ <= i__2; ++i__)
-                {
+                for (i__ = 0; i__ <= i__2; ++i__) {
                     i__4 = dimc - 1;
-                    for (ir = 0; ir <= i__4; ++ir)
-                    {
+                    for (ir = 0; ir <= i__4; ++ir) {
                         t1 = dwork[q2 + ir + j];
                         dwork[q2 + ir + j] = dwork[p2 + ir + j] - t1;
                         dwork[p2 + ir + j] += t1;
@@ -887,13 +796,11 @@ L220:
                     r1 = q1 - (dimc << 1);
                     s1 = r1 + ln * dimc;
                     i__4 = wpos + ln - 3;
-                    for (jj = wpos; jj <= i__4; jj += 2)
-                    {
+                    for (jj = wpos; jj <= i__4; jj += 2) {
                         cf = dwork[jj];
                         sf = dwork[jj + 1];
                         i__6 = dimc - 1;
-                        for (ir = 0; ir <= i__6; ++ir)
-                        {
+                        for (ir = 0; ir <= i__6; ++ir) {
                             t1 = cf * dwork[q1 + ir + j] + sf * dwork[s1 + ir + j];
                             t2 = -cf * dwork[s1 + ir + j] + sf * dwork[q1 + ir + j];
                             dwork[q1 + ir + j] = dwork[p1 + ir + j] - t1;
@@ -920,24 +827,20 @@ L220:
             /* L410: */
         }
         /*        Step 6: Copy data from workspace to output. */
-L420:
-        if (ltran)
-        {
+    L420:
+        if (ltran) {
             i__ = nl;
-        }
-        else
-        {
+        } else {
             i__ = mk;
         }
         i__3 = *r__ - 1;
-        for (j = 0; j <= i__3; ++j)
-        {
-            daxpy_(&i__, &c_b23, &dwork[pc + j * len * dimc + 1], &c__1, &c__[(j + 1) * c_dim1 + 1], &c__1);
+        for (j = 0; j <= i__3; ++j) {
+            daxpy_(&i__, &c_b23, &dwork[pc + j * len * dimc + 1], &c__1, &c__[(j + 1) * c_dim1 + 1],
+                &c__1);
             /* L430: */
         }
     }
-    dwork[1] = (doublereal) max(1,wrkopt);
+    dwork[1] = (doublereal)max(1, wrkopt);
     return 0;
     /* *** Last line of MB02KD *** */
 } /* mb02kd_ */
-

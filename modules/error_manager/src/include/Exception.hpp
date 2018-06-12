@@ -44,110 +44,133 @@
 #include "Messages.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
+//=============================================================================
 #ifdef _MSC_VER
 #pragma warning(disable : 4251)
 #endif
-    //=============================================================================
+//=============================================================================
+/**
+ * The exception class.  This is a minimal class for now that
+ * allows for a hierarchical error structure (if desired) later
+ * on.  Since we simply print most messages to the console,
+ * the exception types are not encoded using RTTI...
+ */
+class NLSERROR_MANAGER_IMPEXP Exception
+{
+private:
+    std::wstring functionname = L"";
+    std::wstring msg = L"";
+    int line = -1;
+    int position = -1;
+    std::wstring filename = L"";
+    std::wstring identifier = L"";
+
+public:
     /**
-     * The exception class.  This is a minimal class for now that
-     * allows for a hierarchical error structure (if desired) later
-     * on.  Since we simply print most messages to the console,
-     * the exception types are not encoded using RTTI...
+     * Construct an exception object with a given STL-string.
      */
-    class NLSERROR_MANAGER_IMPEXP Exception {
-    private:
-        std::wstring functionname = L"";
-        std::wstring msg = L"";
-        int line = -1;
-        int position = -1;
-        std::wstring filename = L"";
-        std::wstring identifier = L"";
-    public:
-        /**
-         * Construct an exception object with a given STL-string.
-         */
-        Exception(std::string msg_in, std::string functionname = "", int line_in = -1, int position_in = -1, std::string filename_in = "", std::string identifier_in = "");
-        Exception(std::wstring msg_in, std::wstring functionname = L"", int line_in = -1, int position_in = -1, std::wstring filename_in = L"", std::wstring identifier_in = L"");
+    Exception(std::string msg_in, std::string functionname = "", int line_in = -1,
+        int position_in = -1, std::string filename_in = "", std::string identifier_in = "");
+    Exception(std::wstring msg_in, std::wstring functionname = L"", int line_in = -1,
+        int position_in = -1, std::wstring filename_in = L"", std::wstring identifier_in = L"");
 
-        /**
-         * Copy constructor.
-         */
-        Exception(const Exception& copy);
-        /**
-         * Assignment operator.
-         */
-        void operator=(const Exception &copy);
-        /**
-         * Standard destructor.
-         */
-        ~Exception();
-        /**
-         * Output the contents of the exception to the console.
-         */
-        void printMe(Interface *io);
-        /**
-         * compares messages
-         */
-        bool matches(std::string tst_msg);
-        bool matches(std::wstring tst_msg);
-        /**
-         * Get the message member function.
-        */
-        std::wstring getMessage();
-        std::wstring getFormattedErrorMessage();
-        std::wstring what() {
-            return msg;
-        }
-        std::wstring getFilename() {
-            return filename;
-        }
-
-        int getLine();
-        int getPosition();
-        void setLinePosition(int line_in, int position_in);
-        void setMessage(std::string msg_in);
-        void setMessage(std::wstring msg_in);
-
-        void setFunctionName(std::wstring functionname);
-        void setFunctionName(std::string functionname);
-
-        void setFileName(std::wstring filename);
-
-        std::wstring getFunctionName();
-
-        bool isEmpty();
-
-        std::wstring getIdentifier();
-        void setIdentifier(std::wstring identifier_in);
-        void setIdentifier(std::string identifier_in);
-
-    };
-
-    void printExceptionCount();
-    //=============================================================================
-    template <class T> T* new_with_exception(size_t len, bool initializeToZero = true)
+    /**
+     * Copy constructor.
+     */
+    Exception(const Exception& copy);
+    /**
+     * Assignment operator.
+     */
+    void
+    operator=(const Exception& copy);
+    /**
+     * Standard destructor.
+     */
+    ~Exception();
+    /**
+     * Output the contents of the exception to the console.
+     */
+    void
+    printMe(Interface* io);
+    /**
+     * compares messages
+     */
+    bool
+    matches(std::string tst_msg);
+    bool
+    matches(std::wstring tst_msg);
+    /**
+     * Get the message member function.
+     */
+    std::wstring
+    getMessage();
+    std::wstring
+    getFormattedErrorMessage();
+    std::wstring
+    what()
     {
-        T* ptr = nullptr;
-        if (len != 0)
-        {
-            try
-            {
-                ptr = new T[len];
-                if (initializeToZero)
-                {
-                    memset(ptr, 0, sizeof(T)*len);
-                }
-            }
-            catch (std::bad_alloc &e)
-            {
-                e.what();
-                ptr = nullptr;
-                throw Exception(ERROR_MEMORY_ALLOCATION);
-            }
-        }
-        return ptr;
+        return msg;
+    }
+    std::wstring
+    getFilename()
+    {
+        return filename;
     }
 
+    int
+    getLine();
+    int
+    getPosition();
+    void
+    setLinePosition(int line_in, int position_in);
+    void
+    setMessage(std::string msg_in);
+    void
+    setMessage(std::wstring msg_in);
+
+    void
+    setFunctionName(std::wstring functionname);
+    void
+    setFunctionName(std::string functionname);
+
+    void
+    setFileName(std::wstring filename);
+
+    std::wstring
+    getFunctionName();
+
+    bool
+    isEmpty();
+
+    std::wstring
+    getIdentifier();
+    void
+    setIdentifier(std::wstring identifier_in);
+    void
+    setIdentifier(std::string identifier_in);
+};
+
+void
+printExceptionCount();
+//=============================================================================
+template <class T>
+T*
+new_with_exception(size_t len, bool initializeToZero = true)
+{
+    T* ptr = nullptr;
+    if (len != 0) {
+        try {
+            ptr = new T[len];
+            if (initializeToZero) {
+                memset(ptr, 0, sizeof(T) * len);
+            }
+        } catch (std::bad_alloc& e) {
+            e.what();
+            ptr = nullptr;
+            throw Exception(ERROR_MEMORY_ALLOCATION);
+        }
+    }
+    return ptr;
 }
 
+}

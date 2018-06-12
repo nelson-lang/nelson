@@ -18,13 +18,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsTypes_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsTypes_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSTYPES_IMPEXP std::string ClassName(ArrayOf In);
-    NLSTYPES_IMPEXP stringVector ClassName(ArrayOfVector In);
-    NLSTYPES_IMPEXP void ClassName(ArrayOf In, std::wstring &returnedClassName);
-    NLSTYPES_IMPEXP void ClassName(ArrayOf In, std::string &returnedClassName);
-}
+NLSTYPES_IMPEXP std::string
+ClassName(ArrayOf In);
+NLSTYPES_IMPEXP stringVector
+ClassName(ArrayOfVector In);
+NLSTYPES_IMPEXP void
+ClassName(ArrayOf In, std::wstring& returnedClassName);
+NLSTYPES_IMPEXP void
+ClassName(ArrayOf In, std::string& returnedClassName);
+} // namespace Nelson
 //=============================================================================

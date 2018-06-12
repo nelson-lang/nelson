@@ -25,6 +25,6 @@
 #define NLSLINEAR_ALGEBRA_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSLINEAR_ALGEBRA_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSLINEAR_ALGEBRA_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

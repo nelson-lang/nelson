@@ -18,30 +18,39 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsStream_manager_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    // Think to update with <boost/endian/conversion.hpp>
-    // http://www.boost.org/doc/libs/develop/libs/endian/doc/conversion.html
-    class NLSSTREAM_MANAGER_IMPEXP File {
-    private:
-        void *stream;
-        std::wstring filename;
-        std::wstring mode;
-        bool bIsFilePointer;
-    public:
-        File(bool bIsFilePointer = true);
-        ~File();
-        std::wstring getFileMode();
-        void setFileMode(std::wstring _mode);
-        void * getFilePointer();
-        void setFilePointer(void* fp);
-        std::wstring getFileName();
-        void setFileName(std::wstring _filename);
-        bool isInterfaceMethod();
-    };
-    //=============================================================================
+//=============================================================================
+// Think to update with <boost/endian/conversion.hpp>
+// http://www.boost.org/doc/libs/develop/libs/endian/doc/conversion.html
+class NLSSTREAM_MANAGER_IMPEXP File
+{
+private:
+    void* stream;
+    std::wstring filename;
+    std::wstring mode;
+    bool bIsFilePointer;
+
+public:
+    File(bool bIsFilePointer = true);
+    ~File();
+    std::wstring
+    getFileMode();
+    void
+    setFileMode(std::wstring _mode);
+    void*
+    getFilePointer();
+    void
+    setFilePointer(void* fp);
+    std::wstring
+    getFileName();
+    void
+    setFileName(std::wstring _filename);
+    bool
+    isInterfaceMethod();
 };
+//=============================================================================
+}; // namespace Nelson
 //=============================================================================

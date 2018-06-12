@@ -25,6 +25,6 @@
 #define NLSCONSOLE_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSCONSOLE_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSCONSOLE_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

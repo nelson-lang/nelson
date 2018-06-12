@@ -22,19 +22,15 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::LogicalGateway::logical_notBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::LogicalGateway::logical_notBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    else if (argIn[0].isSparse())
-    {
+    } else if (argIn[0].isSparse()) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED);
-    }
-    else
-    {
+    } else {
         retval.push_back(NotLogical(argIn[0]));
     }
     return retval;

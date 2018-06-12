@@ -25,6 +25,6 @@
 #define NLSJSON_BUILTIN_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSJSON_BUILTIN_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSJSON_BUILTIN_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

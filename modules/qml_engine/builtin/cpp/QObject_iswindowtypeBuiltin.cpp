@@ -17,37 +17,33 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "QObject_iswindowtypeBuiltin.hpp"
-#include "Error.hpp"
-#include "iswindowtypeQObject.hpp"
 #include "ClassName.hpp"
+#include "Error.hpp"
 #include "QmlHandleObject.hpp"
+#include "iswindowtypeQObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::QmlEngineGateway::QObject_iswindowtypeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::QmlEngineGateway::QObject_iswindowtypeBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
-    if (param1.isHandle())
-    {
+    if (param1.isHandle()) {
         std::wstring className;
         ClassName(param1, className);
-        if (className != QOBJECT_CATEGORY_STR)
-        {
+        if (className != QOBJECT_CATEGORY_STR) {
             Error(eval, _W("QObject handle expected."));
         }
         retval.push_back(iswindowtypeQObject(param1));
-    }
-    else
-    {
+    } else {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
     }
     return retval;

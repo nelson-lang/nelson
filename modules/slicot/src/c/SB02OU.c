@@ -1,12 +1,11 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-logical sb02ou_(alphar, alphai, beta)
-doublereal *alphar, *alphai, *beta;
+logical sb02ou_(alphar, alphai, beta) doublereal *alphar, *alphai, *beta;
 {
     /* System generated locals */
     logical ret_val;
@@ -60,4 +59,3 @@ doublereal *alphar, *alphai, *beta;
     return ret_val;
     /* *** Last line of SB02OU *** */
 } /* sb02ou_ */
-

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,18 +10,19 @@
 static integer c__1 = 1;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int tb01td_(n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, low, igh, scstat, scin, scout, dwork, info)
-integer *n, *m, *p;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+EXPORTSYMBOL /* Subroutine */ int tb01td_(n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, low, igh,
+    scstat, scin, scout, dwork, info) integer *n,
+    *m, *p;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ldd, *low, *igh;
 doublereal *scstat, *scin, *scout, *dwork;
-integer *info;
+integer* info;
 {
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2;
@@ -196,36 +197,22 @@ integer *info;
     /* Function Body */
     *info = 0;
     /*     Test the input scalar arguments. */
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -3;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -5;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -9;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -11;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TB01TD", &i__1, 6L);
@@ -233,9 +220,8 @@ integer *info;
     }
     /*     Quick return if possible. */
     /* Computing MAX */
-    i__1 = max(*n,*m);
-    if (max(i__1,*p) == 0)
-    {
+    i__1 = max(*n, *m);
+    if (max(i__1, *p) == 0) {
         *low = 1;
         *igh = *n;
         return 0;
@@ -245,18 +231,14 @@ integer *info;
     /*     Use the information in SCSTAT on state scalings and reorderings */
     /*     to transform B and C. */
     i__1 = *n;
-    for (k = 1; k <= i__1; ++k)
-    {
+    for (k = 1; k <= i__1; ++k) {
         kold = k;
-        if (*low > kold || kold > *igh)
-        {
-            if (kold < *low)
-            {
+        if (*low > kold || kold > *igh) {
+            if (kold < *low) {
                 kold = *low - kold;
             }
-            knew = (integer) scstat[kold];
-            if (knew != kold)
-            {
+            knew = (integer)scstat[kold];
+            if (knew != kold) {
                 /*              Exchange rows KOLD and KNEW of B. */
                 dswap_(m, &b[kold + b_dim1], ldb, &b[knew + b_dim1], ldb);
                 /*              Exchange columns KOLD and KNEW of C. */
@@ -265,11 +247,9 @@ integer *info;
         }
         /* L10: */
     }
-    if (*igh != *low)
-    {
+    if (*igh != *low) {
         i__1 = *igh;
-        for (k = *low; k <= i__1; ++k)
-        {
+        for (k = *low; k <= i__1; ++k) {
             scale = scstat[k];
             /*           Scale the K-th row of permuted B. */
             d__1 = 1. / scale;
@@ -288,12 +268,10 @@ integer *info;
     tb01ty_(&c__0, &c__0, &c__0, p, n, &arnorm, &c__[c_offset], ldc, &scout[1]);
     /*     Finally, apply these input and output scalings to D and set SCIN. */
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         scale = scin[j];
         i__2 = *p;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             d__[i__ + j * d_dim1] *= scale * scout[i__];
             /* L30: */
         }
@@ -303,4 +281,3 @@ integer *info;
     return 0;
     /* *** Last line of TB01TD *** */
 } /* tb01td_ */
-

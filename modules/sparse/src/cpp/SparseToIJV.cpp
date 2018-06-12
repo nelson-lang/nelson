@@ -18,58 +18,52 @@
 //=============================================================================
 #define _SCL_SECURE_NO_WARNINGS
 //=============================================================================
-#include <Eigen/Sparse>
 #include "SparseToIJV.hpp"
-#include "SparseType.hpp"
 #include "SparseNonZeros.hpp"
+#include "SparseType.hpp"
+#include <Eigen/Sparse>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void SparseToIJV(ArrayOf spA, ArrayOf &I, ArrayOf &J, ArrayOf &V, ArrayOf &M, ArrayOf &N, ArrayOf &NNZ)
-    {
-        if (spA.isSparse())
-        {
-            Dimensions dims = spA.getDimensions();
-            indexType nnz = SparseNonZeros(spA);
-            indexType *ptrI;
-            indexType *ptrJ;
-            try
-            {
-                ptrI = new indexType[nnz];
-                ptrJ = new indexType[nnz];
-            }
-            catch (std::bad_alloc &e)
-            {
-                e.what();
-                throw Exception(ERROR_MEMORY_ALLOCATION);
-            }
-            int nz = 0;
-            void *ptrV = Eigen_SparseToIJV(spA.getDataClass(), dims.getRows(), dims.getColumns(), spA.getSparseDataPointer(), ptrI, ptrJ, nz);
-            double *pdI = (double *)ArrayOf::allocateArrayOf(NLS_DOUBLE, nnz);
-            for (indexType k = 0; k < nnz; k++)
-            {
-                pdI[k] = (double)ptrI[k];
-            }
-            I = ArrayOf(NLS_DOUBLE, Dimensions(nnz, 1), (void*)pdI);
-            delete[] ptrI;
-            double *pdJ = (double *)ArrayOf::allocateArrayOf(NLS_DOUBLE, nnz);
-            for (indexType k = 0; k < nnz; k++)
-            {
-                pdJ[k] = (double)ptrJ[k];
-            }
-            J = ArrayOf(NLS_DOUBLE, Dimensions(nnz, 1), (void*)pdJ);
-            delete[] ptrJ;
-            V = ArrayOf(spA.getDataClass(), Dimensions(nnz, 1), ptrV);
-            M = ArrayOf::doubleConstructor((double)dims.getRows());
-            N = ArrayOf::doubleConstructor((double)dims.getColumns());
-            NNZ = ArrayOf::doubleConstructor((double)spA.nzmax());
+//=============================================================================
+void
+SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf& N, ArrayOf& NNZ)
+{
+    if (spA.isSparse()) {
+        Dimensions dims = spA.getDimensions();
+        indexType nnz = SparseNonZeros(spA);
+        indexType* ptrI;
+        indexType* ptrJ;
+        try {
+            ptrI = new indexType[nnz];
+            ptrJ = new indexType[nnz];
+        } catch (std::bad_alloc& e) {
+            e.what();
+            throw Exception(ERROR_MEMORY_ALLOCATION);
         }
-        else
-        {
-            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+        int nz = 0;
+        void* ptrV = Eigen_SparseToIJV(spA.getDataClass(), dims.getRows(), dims.getColumns(),
+            spA.getSparseDataPointer(), ptrI, ptrJ, nz);
+        double* pdI = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nnz);
+        for (indexType k = 0; k < nnz; k++) {
+            pdI[k] = (double)ptrI[k];
         }
+        I = ArrayOf(NLS_DOUBLE, Dimensions(nnz, 1), (void*)pdI);
+        delete[] ptrI;
+        double* pdJ = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nnz);
+        for (indexType k = 0; k < nnz; k++) {
+            pdJ[k] = (double)ptrJ[k];
+        }
+        J = ArrayOf(NLS_DOUBLE, Dimensions(nnz, 1), (void*)pdJ);
+        delete[] ptrJ;
+        V = ArrayOf(spA.getDataClass(), Dimensions(nnz, 1), ptrV);
+        M = ArrayOf::doubleConstructor((double)dims.getRows());
+        N = ArrayOf::doubleConstructor((double)dims.getColumns());
+        NNZ = ArrayOf::doubleConstructor((double)spA.nzmax());
+    } else {
+        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
     }
-    //=============================================================================
+}
+//=============================================================================
 
 }
 //=============================================================================

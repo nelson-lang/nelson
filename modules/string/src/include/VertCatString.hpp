@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsString_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsString_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSTRING_IMPEXP ArrayOf VertCatString(ArrayOf A, ArrayOf B);
-    NLSSTRING_IMPEXP ArrayOf VertCatNdArrayString(ArrayOf A, ArrayOf B);
-}
+NLSSTRING_IMPEXP ArrayOf
+VertCatString(ArrayOf A, ArrayOf B);
+NLSSTRING_IMPEXP ArrayOf
+VertCatNdArrayString(ArrayOf A, ArrayOf B);
+} // namespace Nelson
 //=============================================================================

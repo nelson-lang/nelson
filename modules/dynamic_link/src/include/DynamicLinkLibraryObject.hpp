@@ -18,39 +18,51 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/dll/shared_library.hpp>
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 #include "HandleGenericObject.hpp"
 #include "nlsDynamic_link_exports.h"
-#include "Evaluator.hpp"
+#include <boost/dll/shared_library.hpp>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
+//=============================================================================
 #define DLLIB_CATEGORY_STR L"dllib"
-    //=============================================================================
-    class NLSDYNAMIC_LINK_IMPEXP DynamicLinkLibraryObject : public HandleGenericObject {
-    public:
-        DynamicLinkLibraryObject(std::wstring libraryPath);
-        ~DynamicLinkLibraryObject();
+//=============================================================================
+class NLSDYNAMIC_LINK_IMPEXP DynamicLinkLibraryObject : public HandleGenericObject
+{
+public:
+    DynamicLinkLibraryObject(std::wstring libraryPath);
+    ~DynamicLinkLibraryObject();
 
-        bool disp(Evaluator *eval);
-        stringVector getAvailableSymbols();
-        void *getFunctionPointer(std::string symbolName);
-        bool get(std::wstring propertyName, ArrayOf &res);
-        bool isWriteableProperty(std::wstring propertyName);
-        wstringVector fieldnames();
-        bool isProperty(std::wstring propertyName);
-        bool isMethod(std::wstring methodName);
+    bool
+    disp(Evaluator* eval);
+    stringVector
+    getAvailableSymbols();
+    void*
+    getFunctionPointer(std::string symbolName);
+    bool
+    get(std::wstring propertyName, ArrayOf& res);
+    bool
+    isWriteableProperty(std::wstring propertyName);
+    wstringVector
+    fieldnames();
+    bool
+    isProperty(std::wstring propertyName);
+    bool
+    isMethod(std::wstring methodName);
 
-    private:
-        wstringVector _propertiesNames;
-        boost::dll::shared_library _shared_library;
-        std::wstring _libraryPath;
-        bool searchLibrary(std::wstring libraryPath, std::wstring &fullLibraryPath);
-        wstringVector getEnvironmentPaths(const std::wstring &environPath);
-        bool findLibrary(wstringVector paths, const std::wstring &libraryName, std::wstring &fullLibraryPath);
-
-    };
-    //=============================================================================
-}
+private:
+    wstringVector _propertiesNames;
+    boost::dll::shared_library _shared_library;
+    std::wstring _libraryPath;
+    bool
+    searchLibrary(std::wstring libraryPath, std::wstring& fullLibraryPath);
+    wstringVector
+    getEnvironmentPaths(const std::wstring& environPath);
+    bool
+    findLibrary(
+        wstringVector paths, const std::wstring& libraryName, std::wstring& fullLibraryPath);
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

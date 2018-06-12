@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,11 +10,10 @@
 static integer c_n1 = -1;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int ma02bd_(side, m, n, a, lda, side_len)
-char *side;
+EXPORTSYMBOL /* Subroutine */ int ma02bd_(side, m, n, a, lda, side_len) char* side;
 integer *m, *n;
-doublereal *a;
-integer *lda;
+doublereal* a;
+integer* lda;
 ftnlen side_len;
 {
     /* System generated locals */
@@ -87,26 +86,22 @@ ftnlen side_len;
     a -= a_offset;
     /* Function Body */
     bsides = lsame_(side, "B", 1L, 1L);
-    if ((lsame_(side, "L", 1L, 1L) || bsides) && *m > 1)
-    {
+    if ((lsame_(side, "L", 1L, 1L) || bsides) && *m > 1) {
         /*        Compute P*A. */
         m2 = *m / 2;
         k = *m - m2 + 1;
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dswap_(&m2, &a[j * a_dim1 + 1], &c_n1, &a[k + j * a_dim1], &c__1);
             /* L10: */
         }
     }
-    if ((lsame_(side, "R", 1L, 1L) || bsides) && *n > 1)
-    {
+    if ((lsame_(side, "R", 1L, 1L) || bsides) && *n > 1) {
         /*        Compute A*P. */
         n2 = *n / 2;
         k = *n - n2 + 1;
         i__1 = *m;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             i__2 = -(*lda);
             dswap_(&n2, &a[i__ + a_dim1], &i__2, &a[i__ + k * a_dim1], lda);
             /* L20: */
@@ -115,4 +110,3 @@ ftnlen side_len;
     return 0;
     /* *** Last line of MA02BD *** */
 } /* ma02bd_ */
-

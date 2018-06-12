@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,17 +11,18 @@ static integer c__1 = 1;
 static logical c_false = FALSE_;
 static integer c__2 = 2;
 
-EXPORTSYMBOL /* Subroutine */ int sb03or_(discr, ltrans, n, m, s, lds, a, lda, c__, ldc, scale, info)
-logical *discr, *ltrans;
+EXPORTSYMBOL /* Subroutine */ int sb03or_(
+    discr, ltrans, n, m, s, lds, a, lda, c__, ldc, scale, info) logical *discr,
+    *ltrans;
 integer *n, *m;
-doublereal *s;
-integer *lds;
-doublereal *a;
-integer *lda;
-doublereal *c__;
-integer *ldc;
-doublereal *scale;
-integer *info;
+doublereal* s;
+integer* lds;
+doublereal* a;
+integer* lda;
+doublereal* c__;
+integer* ldc;
+doublereal* scale;
+integer* info;
 {
     /* System generated locals */
     integer a_dim1, a_offset, c_dim1, c_offset, s_dim1, s_offset, i__1, i__2;
@@ -31,7 +32,7 @@ integer *info;
     static logical tbyt;
     static integer j, l;
     extern /* Subroutine */ int dscal_();
-    static doublereal x[4]	/* was [2][2] */;
+    static doublereal x[4] /* was [2][2] */;
     static integer infom;
     extern /* Subroutine */ int sb04px_();
     static integer lnext, l1, l2;
@@ -39,9 +40,9 @@ integer *info;
     extern /* Subroutine */ int dlasy2_();
     static doublereal g11, g12, g21, g22;
     static integer dl;
-    static doublereal at[4]	/* was [2][2] */, scaloc;
+    static doublereal at[4] /* was [2][2] */, scaloc;
     extern /* Subroutine */ int xerbla_();
-    static doublereal vec[4]	/* was [2][2] */;
+    static doublereal vec[4] /* was [2][2] */;
     static integer l2p1;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
@@ -165,28 +166,18 @@ integer *info;
     /* Function Body */
     *info = 0;
     /*     Test the input scalar arguments. */
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -3;
-    }
-    else if (! (*m == 1 || *m == 2))
-    {
+    } else if (!(*m == 1 || *m == 2)) {
         *info = -4;
-    }
-    else if (*lds < max(1,*n))
-    {
+    } else if (*lds < max(1, *n)) {
         *info = -6;
-    }
-    else if (*lda < *m)
-    {
+    } else if (*lda < *m) {
         *info = -8;
-    }
-    else if (*ldc < max(1,*n))
-    {
+    } else if (*ldc < max(1, *n)) {
         *info = -10;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB03OR", &i__1, 6L);
@@ -194,8 +185,7 @@ integer *info;
     }
     *scale = 1.;
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     isgn = 1;
@@ -203,29 +193,23 @@ integer *info;
     infom = 0;
     /*     Construct A'. */
     at[0] = a[a_dim1 + 1];
-    if (tbyt)
-    {
+    if (tbyt) {
         at[2] = a[a_dim1 + 2];
         at[1] = a[(a_dim1 << 1) + 1];
         at[3] = a[(a_dim1 << 1) + 2];
     }
-    if (*ltrans)
-    {
+    if (*ltrans) {
         /*        Start row loop (index = L). */
         /*        L1 (L2) : row index of the first (last) row of X(L). */
         lnext = *n;
-        for (l = *n; l >= 1; --l)
-        {
-            if (l > lnext)
-            {
+        for (l = *n; l >= 1; --l) {
+            if (l > lnext) {
                 goto L20;
             }
             l1 = l;
             l2 = l;
-            if (l > 1)
-            {
-                if (s[l + (l - 1) * s_dim1] != 0.)
-                {
+            if (l > 1) {
+                if (s[l + (l - 1) * s_dim1] != 0.) {
                     --l1;
                 }
                 lnext = l1 - 1;
@@ -233,9 +217,8 @@ integer *info;
             dl = l2 - l1 + 1;
             /* Computing MIN */
             i__1 = l2 + 1;
-            l2p1 = min(i__1,*n);
-            if (*discr)
-            {
+            l2p1 = min(i__1, *n);
+            if (*discr) {
                 /*              Solve  S*X*A' - X = scale*C. */
                 /*              The L-th block of X is determined from */
                 /*              S(L,L)*X(L)*A' - X(L) = C(L) - R(L), */
@@ -245,38 +228,32 @@ integer *info;
                 /*                    J=L+1 */
                 i__1 = *n - l2;
                 g11 = -ddot_(&i__1, &s[l1 + l2p1 * s_dim1], lds, &c__[l2p1 + c_dim1], &c__1);
-                if (tbyt)
-                {
+                if (tbyt) {
                     i__1 = *n - l2;
-                    g12 = -ddot_(&i__1, &s[l1 + l2p1 * s_dim1], lds, &c__[l2p1 + (c_dim1 << 1)], &c__1);
+                    g12 = -ddot_(
+                        &i__1, &s[l1 + l2p1 * s_dim1], lds, &c__[l2p1 + (c_dim1 << 1)], &c__1);
                     vec[0] = c__[l1 + c_dim1] + g11 * at[0] + g12 * at[1];
                     vec[2] = c__[l1 + (c_dim1 << 1)] + g11 * at[2] + g12 * at[3];
-                }
-                else
-                {
+                } else {
                     vec[0] = c__[l1 + c_dim1] + g11 * at[0];
                 }
-                if (dl != 1)
-                {
+                if (dl != 1) {
                     i__1 = *n - l2;
                     g21 = -ddot_(&i__1, &s[l2 + l2p1 * s_dim1], lds, &c__[l2p1 + c_dim1], &c__1);
-                    if (tbyt)
-                    {
+                    if (tbyt) {
                         i__1 = *n - l2;
-                        g22 = -ddot_(&i__1, &s[l2 + l2p1 * s_dim1], lds, &c__[l2p1 + (c_dim1 << 1)], &c__1);
+                        g22 = -ddot_(
+                            &i__1, &s[l2 + l2p1 * s_dim1], lds, &c__[l2p1 + (c_dim1 << 1)], &c__1);
                         vec[1] = c__[l2 + c_dim1] + g21 * at[0] + g22 * at[1];
                         vec[3] = c__[l2 + (c_dim1 << 1)] + g21 * at[2] + g22 * at[3];
-                    }
-                    else
-                    {
+                    } else {
                         vec[1] = c__[l2 + c_dim1] + g21 * at[0];
                     }
                 }
                 i__1 = -isgn;
-                sb04px_(&c_false, &c_false, &i__1, &dl, m, &s[l1 + l1 * s_dim1], lds, at, &c__2, vec, &c__2, &scaloc, x, &c__2, &xnorm, info);
-            }
-            else
-            {
+                sb04px_(&c_false, &c_false, &i__1, &dl, m, &s[l1 + l1 * s_dim1], lds, at, &c__2,
+                    vec, &c__2, &scaloc, x, &c__2, &xnorm, info);
+            } else {
                 /*              Solve  S*X + X*A' = scale*C. */
                 /*              The L-th block of X is determined from */
                 /*              S(L,L)*X(L) + X(L)*A' = C(L) - R(L), */
@@ -285,77 +262,68 @@ integer *info;
                 /*              R(L) =  SUM S(L,J)*X(J) . */
                 /*                     J=L+1 */
                 i__1 = *n - l2;
-                vec[0] = c__[l1 + c_dim1] - ddot_(&i__1, &s[l1 + l2p1 * s_dim1], lds, &c__[l2p1 + c_dim1], &c__1);
-                if (tbyt)
-                {
+                vec[0] = c__[l1 + c_dim1]
+                    - ddot_(&i__1, &s[l1 + l2p1 * s_dim1], lds, &c__[l2p1 + c_dim1], &c__1);
+                if (tbyt) {
                     i__1 = *n - l2;
-                    vec[2] = c__[l1 + (c_dim1 << 1)] - ddot_(&i__1, &s[l1 + l2p1 * s_dim1], lds, &c__[l2p1 + (c_dim1 << 1)], &c__1);
+                    vec[2] = c__[l1 + (c_dim1 << 1)]
+                        - ddot_(&i__1, &s[l1 + l2p1 * s_dim1], lds, &c__[l2p1 + (c_dim1 << 1)],
+                              &c__1);
                 }
-                if (dl != 1)
-                {
+                if (dl != 1) {
                     i__1 = *n - l2;
-                    vec[1] = c__[l2 + c_dim1] - ddot_(&i__1, &s[l2 + l2p1 * s_dim1], lds, &c__[l2p1 + c_dim1], &c__1);
-                    if (tbyt)
-                    {
+                    vec[1] = c__[l2 + c_dim1]
+                        - ddot_(&i__1, &s[l2 + l2p1 * s_dim1], lds, &c__[l2p1 + c_dim1], &c__1);
+                    if (tbyt) {
                         i__1 = *n - l2;
-                        vec[3] = c__[l2 + (c_dim1 << 1)] - ddot_(&i__1, &s[l2 + l2p1 * s_dim1], lds, &c__[l2p1 + (c_dim1 << 1)], &c__1);
+                        vec[3] = c__[l2 + (c_dim1 << 1)]
+                            - ddot_(&i__1, &s[l2 + l2p1 * s_dim1], lds, &c__[l2p1 + (c_dim1 << 1)],
+                                  &c__1);
                     }
                 }
-                dlasy2_(&c_false, &c_false, &isgn, &dl, m, &s[l1 + l1 * s_dim1], lds, at, &c__2, vec, &c__2, &scaloc, x, &c__2, &xnorm, info);
+                dlasy2_(&c_false, &c_false, &isgn, &dl, m, &s[l1 + l1 * s_dim1], lds, at, &c__2,
+                    vec, &c__2, &scaloc, x, &c__2, &xnorm, info);
             }
-            infom = max(*info,infom);
-            if (scaloc != 1.)
-            {
+            infom = max(*info, infom);
+            if (scaloc != 1.) {
                 i__1 = *m;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     dscal_(n, &scaloc, &c__[j * c_dim1 + 1], &c__1);
                     /* L10: */
                 }
                 *scale *= scaloc;
             }
             c__[l1 + c_dim1] = x[0];
-            if (tbyt)
-            {
+            if (tbyt) {
                 c__[l1 + (c_dim1 << 1)] = x[2];
             }
-            if (dl != 1)
-            {
+            if (dl != 1) {
                 c__[l2 + c_dim1] = x[1];
-                if (tbyt)
-                {
+                if (tbyt) {
                     c__[l2 + (c_dim1 << 1)] = x[3];
                 }
             }
-L20:
-            ;
+        L20:;
         }
-    }
-    else
-    {
+    } else {
         /*        Start row loop (index = L). */
         /*        L1 (L2) : row index of the first (last) row of X(L). */
         lnext = 1;
         i__1 = *n;
-        for (l = 1; l <= i__1; ++l)
-        {
-            if (l < lnext)
-            {
+        for (l = 1; l <= i__1; ++l) {
+            if (l < lnext) {
                 goto L40;
             }
             l1 = l;
             l2 = l;
-            if (l < *n)
-            {
-                if (s[l + 1 + l * s_dim1] != 0.)
-                {
+            if (l < *n) {
+                if (s[l + 1 + l * s_dim1] != 0.) {
                     ++l2;
                 }
                 lnext = l2 + 1;
             }
             dl = l2 - l1 + 1;
-            if (*discr)
-            {
+            if (*discr) {
                 /*              Solve  A'*X'*S - X' = scale*C'. */
                 /*              The L-th block of X is determined from */
                 /*              A'*X(L)'*S(L,L) - X(L)' = C(L)' - R(L), */
@@ -365,38 +333,31 @@ L20:
                 /*                          J=1 */
                 i__2 = l1 - 1;
                 g11 = -ddot_(&i__2, &c__[c_offset], &c__1, &s[l1 * s_dim1 + 1], &c__1);
-                if (tbyt)
-                {
+                if (tbyt) {
                     i__2 = l1 - 1;
                     g21 = -ddot_(&i__2, &c__[(c_dim1 << 1) + 1], &c__1, &s[l1 * s_dim1 + 1], &c__1);
                     vec[0] = c__[l1 + c_dim1] + at[0] * g11 + at[2] * g21;
                     vec[1] = c__[l1 + (c_dim1 << 1)] + at[1] * g11 + at[3] * g21;
-                }
-                else
-                {
+                } else {
                     vec[0] = c__[l1 + c_dim1] + at[0] * g11;
                 }
-                if (dl != 1)
-                {
+                if (dl != 1) {
                     i__2 = l1 - 1;
                     g12 = -ddot_(&i__2, &c__[c_offset], &c__1, &s[l2 * s_dim1 + 1], &c__1);
-                    if (tbyt)
-                    {
+                    if (tbyt) {
                         i__2 = l1 - 1;
-                        g22 = -ddot_(&i__2, &c__[(c_dim1 << 1) + 1], &c__1, &s[l2 * s_dim1 + 1], &c__1);
+                        g22 = -ddot_(
+                            &i__2, &c__[(c_dim1 << 1) + 1], &c__1, &s[l2 * s_dim1 + 1], &c__1);
                         vec[2] = c__[l2 + c_dim1] + at[0] * g12 + at[2] * g22;
                         vec[3] = c__[l2 + (c_dim1 << 1)] + at[1] * g12 + at[3] * g22;
-                    }
-                    else
-                    {
+                    } else {
                         vec[2] = c__[l2 + c_dim1] + at[0] * g12;
                     }
                 }
                 i__2 = -isgn;
-                sb04px_(&c_false, &c_false, &i__2, m, &dl, at, &c__2, &s[l1 + l1 * s_dim1], lds, vec, &c__2, &scaloc, x, &c__2, &xnorm, info);
-            }
-            else
-            {
+                sb04px_(&c_false, &c_false, &i__2, m, &dl, at, &c__2, &s[l1 + l1 * s_dim1], lds,
+                    vec, &c__2, &scaloc, x, &c__2, &xnorm, info);
+            } else {
                 /*              Solve  A'*X' + X'*S = scale*C'. */
                 /*              The L-th block of X is determined from */
                 /*              A'*X(L)' + X(L)'*S(L,L) = C(L)' - R(L), */
@@ -405,54 +366,50 @@ L20:
                 /*              R(L) = SUM [X(J)'*S(J,L)]. */
                 /*                     J=1 */
                 i__2 = l1 - 1;
-                vec[0] = c__[l1 + c_dim1] - ddot_(&i__2, &c__[c_offset], &c__1, &s[l1 * s_dim1 + 1], &c__1);
-                if (tbyt)
-                {
+                vec[0] = c__[l1 + c_dim1]
+                    - ddot_(&i__2, &c__[c_offset], &c__1, &s[l1 * s_dim1 + 1], &c__1);
+                if (tbyt) {
                     i__2 = l1 - 1;
-                    vec[1] = c__[l1 + (c_dim1 << 1)] - ddot_(&i__2, &c__[(c_dim1 << 1) + 1], &c__1, &s[l1 * s_dim1 + 1], &c__1);
+                    vec[1] = c__[l1 + (c_dim1 << 1)]
+                        - ddot_(&i__2, &c__[(c_dim1 << 1) + 1], &c__1, &s[l1 * s_dim1 + 1], &c__1);
                 }
-                if (dl != 1)
-                {
+                if (dl != 1) {
                     i__2 = l1 - 1;
-                    vec[2] = c__[l2 + c_dim1] - ddot_(&i__2, &c__[c_offset], &c__1, &s[l2 * s_dim1 + 1], &c__1);
-                    if (tbyt)
-                    {
+                    vec[2] = c__[l2 + c_dim1]
+                        - ddot_(&i__2, &c__[c_offset], &c__1, &s[l2 * s_dim1 + 1], &c__1);
+                    if (tbyt) {
                         i__2 = l1 - 1;
-                        vec[3] = c__[l2 + (c_dim1 << 1)] - ddot_(&i__2, &c__[(c_dim1 << 1) + 1], &c__1, &s[l2 * s_dim1 + 1], &c__1);
+                        vec[3] = c__[l2 + (c_dim1 << 1)]
+                            - ddot_(&i__2, &c__[(c_dim1 << 1) + 1], &c__1, &s[l2 * s_dim1 + 1],
+                                  &c__1);
                     }
                 }
-                dlasy2_(&c_false, &c_false, &isgn, m, &dl, at, &c__2, &s[l1 + l1 * s_dim1], lds, vec, &c__2, &scaloc, x, &c__2, &xnorm, info);
+                dlasy2_(&c_false, &c_false, &isgn, m, &dl, at, &c__2, &s[l1 + l1 * s_dim1], lds,
+                    vec, &c__2, &scaloc, x, &c__2, &xnorm, info);
             }
-            infom = max(*info,infom);
-            if (scaloc != 1.)
-            {
+            infom = max(*info, infom);
+            if (scaloc != 1.) {
                 i__2 = *m;
-                for (j = 1; j <= i__2; ++j)
-                {
+                for (j = 1; j <= i__2; ++j) {
                     dscal_(n, &scaloc, &c__[j * c_dim1 + 1], &c__1);
                     /* L30: */
                 }
                 *scale *= scaloc;
             }
             c__[l1 + c_dim1] = x[0];
-            if (tbyt)
-            {
+            if (tbyt) {
                 c__[l1 + (c_dim1 << 1)] = x[1];
             }
-            if (dl != 1)
-            {
+            if (dl != 1) {
                 c__[l2 + c_dim1] = x[2];
-                if (tbyt)
-                {
+                if (tbyt) {
                     c__[l2 + (c_dim1 << 1)] = x[3];
                 }
             }
-L40:
-            ;
+        L40:;
         }
     }
     *info = infom;
     return 0;
     /* *** Last line of SB03OR *** */
 } /* sb03or_ */
-

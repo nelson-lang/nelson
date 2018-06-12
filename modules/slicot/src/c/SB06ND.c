@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,21 +12,23 @@ static doublereal c_b11 = 0.;
 static doublereal c_b22 = -1.;
 static doublereal c_b25 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb06nd_(n, m, kmax, a, lda, b, ldb, kstair, u, ldu, f, ldf, dwork, info)
-integer *n, *m, *kmax;
-doublereal *a;
-integer *lda;
-doublereal *b;
+EXPORTSYMBOL /* Subroutine */ int sb06nd_(
+    n, m, kmax, a, lda, b, ldb, kstair, u, ldu, f, ldf, dwork, info) integer *n,
+    *m, *kmax;
+doublereal* a;
+integer* lda;
+doublereal* b;
 integer *ldb, *kstair;
-doublereal *u;
-integer *ldu;
-doublereal *f;
-integer *ldf;
-doublereal *dwork;
-integer *info;
+doublereal* u;
+integer* ldu;
+doublereal* f;
+integer* ldf;
+doublereal* dwork;
+integer* info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, f_dim1, f_offset, u_dim1, u_offset, i__1, i__2, i__3, i__4, i__5;
+    integer a_dim1, a_offset, b_dim1, b_offset, f_dim1, f_offset, u_dim1, u_offset, i__1, i__2,
+        i__3, i__4, i__5;
     /* Local variables */
     static integer kmin, jcur, kcur, j;
     extern /* Subroutine */ int dgemm_();
@@ -190,85 +192,66 @@ integer *info;
     /* Function Body */
     *info = 0;
     /*     Test the input scalar arguments. */
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*kmax < 0 || *kmax > *n)
-    {
+    } else if (*kmax < 0 || *kmax > *n) {
         *info = -3;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -5;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldu < max(1,*n))
-    {
+    } else if (*ldu < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldf < max(1,*m))
-    {
+    } else if (*ldf < max(1, *m)) {
         *info = -12;
-    }
-    else
-    {
+    } else {
         ncont = 0;
         i__1 = *kmax;
-        for (kk = 1; kk <= i__1; ++kk)
-        {
+        for (kk = 1; kk <= i__1; ++kk) {
             ncont += kstair[kk];
             /* L10: */
         }
-        if (ncont > *n)
-        {
+        if (ncont > *n) {
             *info = -8;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB06ND", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *m == 0)
-    {
+    if (*n == 0 || *m == 0) {
         return 0;
     }
     i__1 = *kmax;
-    for (kmin = 1; kmin <= i__1; ++kmin)
-    {
+    for (kmin = 1; kmin <= i__1; ++kmin) {
         jcur = ncont;
         kstep = *kmax - kmin;
         /*        Triangularize bottom part of A (if KSTEP > 0). */
         i__2 = *kmax - kstep + 1;
-        for (kk = *kmax; kk >= i__2; --kk)
-        {
+        for (kk = *kmax; kk >= i__2; --kk) {
             kcur = kstair[kk];
             /*           Construct Ukk and store in Fkk. */
             i__3 = kcur;
-            for (j = 1; j <= i__3; ++j)
-            {
+            for (j = 1; j <= i__3; ++j) {
                 jmkcur = jcur - kcur;
                 dcopy_(&kcur, &a[jcur + jmkcur * a_dim1], lda, &f[jcur * f_dim1 + 1], &c__1);
                 i__4 = kcur + 1;
-                dlarfg_(&i__4, &a[jcur + jcur * a_dim1], &f[jcur * f_dim1 + 1], &c__1, &dwork[jcur]);
+                dlarfg_(
+                    &i__4, &a[jcur + jcur * a_dim1], &f[jcur * f_dim1 + 1], &c__1, &dwork[jcur]);
                 dlaset_("Full", &c__1, &kcur, &c_b11, &c_b11, &a[jcur + jmkcur * a_dim1], lda, 4L);
                 /*              Backmultiply A and U with Ukk. */
                 i__4 = jcur - 1;
                 i__5 = kcur + 1;
-                dlatzm_("Right", &i__4, &i__5, &f[jcur * f_dim1 + 1], &c__1, &dwork[jcur], &a[jcur * a_dim1 + 1], &a[jmkcur * a_dim1 + 1], lda, &dwork[1], 5L);
+                dlatzm_("Right", &i__4, &i__5, &f[jcur * f_dim1 + 1], &c__1, &dwork[jcur],
+                    &a[jcur * a_dim1 + 1], &a[jmkcur * a_dim1 + 1], lda, &dwork[1], 5L);
                 i__4 = kcur + 1;
-                dlatzm_("Right", n, &i__4, &f[jcur * f_dim1 + 1], &c__1, &dwork[jcur], &u[jcur * u_dim1 + 1], &u[jmkcur * u_dim1 + 1], ldu, &dwork[*n + 1], 5L);
+                dlatzm_("Right", n, &i__4, &f[jcur * f_dim1 + 1], &c__1, &dwork[jcur],
+                    &u[jcur * u_dim1 + 1], &u[jmkcur * u_dim1 + 1], ldu, &dwork[*n + 1], 5L);
                 --jcur;
                 /* L20: */
             }
@@ -280,30 +263,31 @@ integer *info;
         mkcur = *m - kcur + 1;
         /*        Solve for Fi and add B x Fi to A. */
         dlacpy_("Full", &kcur, &kcur, &a[j0 + j0 * a_dim1], lda, &f[mkcur + j0 * f_dim1], ldf, 4L);
-        dtrsm_("Left", "Upper", "No transpose", "Non-unit", &kcur, &kcur, &c_b22, &b[j0 + mkcur * b_dim1], ldb, &f[mkcur + j0 * f_dim1], ldf, 4L, 5L, 12L, 8L);
-        if (j0 > 1)
-        {
+        dtrsm_("Left", "Upper", "No transpose", "Non-unit", &kcur, &kcur, &c_b22,
+            &b[j0 + mkcur * b_dim1], ldb, &f[mkcur + j0 * f_dim1], ldf, 4L, 5L, 12L, 8L);
+        if (j0 > 1) {
             i__2 = j0 - 1;
-            dgemm_("No transpose", "No transpose", &i__2, &kcur, &kcur, &c_b25, &b[mkcur * b_dim1 + 1], ldb, &f[mkcur + j0 * f_dim1], ldf, &c_b25, &a[j0 * a_dim1 + 1], lda, 12L, 12L);
+            dgemm_("No transpose", "No transpose", &i__2, &kcur, &kcur, &c_b25,
+                &b[mkcur * b_dim1 + 1], ldb, &f[mkcur + j0 * f_dim1], ldf, &c_b25,
+                &a[j0 * a_dim1 + 1], lda, 12L, 12L);
         }
         dlaset_("Full", &kcur, &kcur, &c_b11, &c_b11, &a[j0 + j0 * a_dim1], lda, 4L);
         i__2 = *m - kcur;
         dlaset_("Full", &i__2, &kcur, &c_b11, &c_b11, &f[j0 * f_dim1 + 1], ldf, 4L);
-        if (kstep != 0)
-        {
+        if (kstep != 0) {
             jkcur = ncont;
             /*           Premultiply A with Ukk. */
             i__2 = *kmax - kstep + 1;
-            for (kk = *kmax; kk >= i__2; --kk)
-            {
+            for (kk = *kmax; kk >= i__2; --kk) {
                 kcur = kstair[kk];
                 jcur = jkcur - kcur;
                 i__3 = kcur;
-                for (j = 1; j <= i__3; ++j)
-                {
+                for (j = 1; j <= i__3; ++j) {
                     i__4 = kcur + 1;
                     i__5 = *n - jcur + 1;
-                    dlatzm_("Left", &i__4, &i__5, &f[jkcur * f_dim1 + 1], &c__1, &dwork[jkcur], &a[jkcur + jcur * a_dim1], &a[jcur + jcur * a_dim1], lda, &dwork[*n + 1], 4L);
+                    dlatzm_("Left", &i__4, &i__5, &f[jkcur * f_dim1 + 1], &c__1, &dwork[jkcur],
+                        &a[jkcur + jcur * a_dim1], &a[jcur + jcur * a_dim1], lda, &dwork[*n + 1],
+                        4L);
                     --jcur;
                     --jkcur;
                     /* L60: */
@@ -314,11 +298,11 @@ integer *info;
             jcur += kcur;
             jkcur = jcur + kcur;
             i__2 = *m - kcur + 1;
-            for (j = *m; j >= i__2; --j)
-            {
+            for (j = *m; j >= i__2; --j) {
                 i__3 = kcur + 1;
                 i__4 = *m - j + 1;
-                dlatzm_("Left", &i__3, &i__4, &f[jkcur * f_dim1 + 1], &c__1, &dwork[jkcur], &b[jkcur + j * b_dim1], &b[jcur + j * b_dim1], ldb, &dwork[*n + 1], 4L);
+                dlatzm_("Left", &i__3, &i__4, &f[jkcur * f_dim1 + 1], &c__1, &dwork[jkcur],
+                    &b[jkcur + j * b_dim1], &b[jcur + j * b_dim1], ldb, &dwork[*n + 1], 4L);
                 --jcur;
                 --jkcur;
                 /* L100: */
@@ -326,12 +310,10 @@ integer *info;
         }
         /* L120: */
     }
-    if (ncont != *n)
-    {
+    if (ncont != *n) {
         i__1 = *n - ncont;
         dlaset_("Full", m, &i__1, &c_b11, &c_b11, &f[(ncont + 1) * f_dim1 + 1], ldf, 4L);
     }
     return 0;
     /* *** Last line of SB06ND *** */
 } /* sb06nd_ */
-

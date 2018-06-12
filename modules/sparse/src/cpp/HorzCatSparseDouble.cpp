@@ -16,93 +16,86 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "HorzCatSparseDouble.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
-#include "HorzCatSparseDouble.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf HorzCatSparseDouble(ArrayOf A, ArrayOf B)
-    {
-        ArrayOf C;
-        if (!A.isSparseDouble())
-        {
-            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
-        }
-        if (!B.isSparseDouble())
-        {
-            throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_DOUBLE_EXPECTED);
-        }
-        if (A.isEmpty(false))
-        {
-            ArrayOf C(B);
-            return C;
-        }
-        if (B.isEmpty(false))
-        {
-            ArrayOf C(A);
-            return C;
-        }
-        Dimensions dimsA = A.getDimensions();
-        Dimensions dimsB = B.getDimensions();
-        if (dimsA.getRows() != dimsB.getRows())
-        {
-            throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-        }
-        if (A.isComplex() || B.isComplex())
-        {
-            A.promoteType(NLS_DCOMPLEX);
-            B.promoteType(NLS_DCOMPLEX);
-            Eigen::SparseMatrix<doublecomplex, 0, signedIndexType> *spMatA = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType> *)A.getSparseDataPointer();
-            Eigen::SparseMatrix<doublecomplex, 0, signedIndexType> *spMatB = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType> *)B.getSparseDataPointer();
-            Eigen::SparseMatrix<doublecomplex, 0, signedIndexType> *spMatC;
-            Dimensions dimsA = A.getDimensions();
-            Dimensions dimsB = B.getDimensions();
-            indexType newRowsSize = dimsA.getRows();
-            indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
-            indexType newSize = newColumnsSize * newRowsSize;
-            Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-            try
-            {
-                spMatC = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(newRowsSize, newColumnsSize);
-            }
-            catch (std::bad_alloc &e)
-            {
-                e.what();
-                spMatC = nullptr;
-                throw Exception(ERROR_MEMORY_ALLOCATION);
-            }
-            spMatC->middleCols(0, spMatA->cols()) = *spMatA;
-            spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;
-            C = ArrayOf(NLS_DCOMPLEX, dimsC, (void*)spMatC, true);
-        }
-        else
-        {
-            Eigen::SparseMatrix<double, 0, signedIndexType> *spMatA = (Eigen::SparseMatrix<double, 0, signedIndexType> *)A.getSparseDataPointer();
-            Eigen::SparseMatrix<double, 0, signedIndexType> *spMatB = (Eigen::SparseMatrix<double, 0, signedIndexType> *)B.getSparseDataPointer();
-            Eigen::SparseMatrix<double, 0, signedIndexType> *spMatC;
-            Dimensions dimsA = A.getDimensions();
-            Dimensions dimsB = B.getDimensions();
-            indexType newRowsSize = dimsA.getRows();
-            indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
-            indexType newSize = newColumnsSize * newRowsSize;
-            Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-            try
-            {
-                spMatC = new Eigen::SparseMatrix<double, 0, signedIndexType>(newRowsSize, newColumnsSize);
-            }
-            catch (std::bad_alloc &e)
-            {
-                e.what();
-                spMatC = nullptr;
-                throw Exception(ERROR_MEMORY_ALLOCATION);
-            }
-            spMatC->middleCols(0, spMatA->cols()) = *spMatA;
-            spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;
-            C = ArrayOf(NLS_DOUBLE, dimsC, (void*)spMatC, true);
-        }
+//=============================================================================
+ArrayOf
+HorzCatSparseDouble(ArrayOf A, ArrayOf B)
+{
+    ArrayOf C;
+    if (!A.isSparseDouble()) {
+        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
+    }
+    if (!B.isSparseDouble()) {
+        throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_DOUBLE_EXPECTED);
+    }
+    if (A.isEmpty(false)) {
+        ArrayOf C(B);
         return C;
     }
-    //=============================================================================
+    if (B.isEmpty(false)) {
+        ArrayOf C(A);
+        return C;
+    }
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsB = B.getDimensions();
+    if (dimsA.getRows() != dimsB.getRows()) {
+        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+    }
+    if (A.isComplex() || B.isComplex()) {
+        A.promoteType(NLS_DCOMPLEX);
+        B.promoteType(NLS_DCOMPLEX);
+        Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMatA
+            = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)A.getSparseDataPointer();
+        Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMatB
+            = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)B.getSparseDataPointer();
+        Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMatC;
+        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsB = B.getDimensions();
+        indexType newRowsSize = dimsA.getRows();
+        indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
+        indexType newSize = newColumnsSize * newRowsSize;
+        Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
+        try {
+            spMatC = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(
+                newRowsSize, newColumnsSize);
+        } catch (std::bad_alloc& e) {
+            e.what();
+            spMatC = nullptr;
+            throw Exception(ERROR_MEMORY_ALLOCATION);
+        }
+        spMatC->middleCols(0, spMatA->cols()) = *spMatA;
+        spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;
+        C = ArrayOf(NLS_DCOMPLEX, dimsC, (void*)spMatC, true);
+    } else {
+        Eigen::SparseMatrix<double, 0, signedIndexType>* spMatA
+            = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
+        Eigen::SparseMatrix<double, 0, signedIndexType>* spMatB
+            = (Eigen::SparseMatrix<double, 0, signedIndexType>*)B.getSparseDataPointer();
+        Eigen::SparseMatrix<double, 0, signedIndexType>* spMatC;
+        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsB = B.getDimensions();
+        indexType newRowsSize = dimsA.getRows();
+        indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
+        indexType newSize = newColumnsSize * newRowsSize;
+        Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
+        try {
+            spMatC
+                = new Eigen::SparseMatrix<double, 0, signedIndexType>(newRowsSize, newColumnsSize);
+        } catch (std::bad_alloc& e) {
+            e.what();
+            spMatC = nullptr;
+            throw Exception(ERROR_MEMORY_ALLOCATION);
+        }
+        spMatC->middleCols(0, spMatA->cols()) = *spMatA;
+        spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;
+        C = ArrayOf(NLS_DOUBLE, dimsC, (void*)spMatC, true);
+    }
+    return C;
+}
+//=============================================================================
 }
 //=============================================================================

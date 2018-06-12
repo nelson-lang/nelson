@@ -25,15 +25,19 @@
 #include "FunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class LocalFunctionsTable {
-    private:
-        std::unordered_map<std::string, FuncPtr> cachedLocalMacro;
-    public:
-        LocalFunctionsTable();
-        ~LocalFunctionsTable();
-        bool find(const std::string key, FuncPtr& dest);
-        bool add(const std::string key, const FuncPtr val);
-    };
+//=============================================================================
+class LocalFunctionsTable
+{
+private:
+    std::unordered_map<std::string, FuncPtr> cachedLocalMacro;
+
+public:
+    LocalFunctionsTable();
+    ~LocalFunctionsTable();
+    bool
+    find(const std::string key, FuncPtr& dest);
+    bool
+    add(const std::string key, const FuncPtr val);
+};
 };
 //=============================================================================

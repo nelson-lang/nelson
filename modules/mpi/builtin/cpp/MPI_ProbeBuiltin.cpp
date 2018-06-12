@@ -16,31 +16,29 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <mpi.h>
 #include "MPI_ProbeBuiltin.hpp"
 #include "Error.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "MPI_helpers.hpp"
+#include <mpi.h>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 // [STAT, INFO] = MPI_Probe(rank, tag [, COMM])
 //=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_ProbeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::MpiGateway::MPI_ProbeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if ((argIn.size() < 2) || (argIn.size() > 3))
-    {
+    if ((argIn.size() < 2) || (argIn.size() > 3)) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 2)
-    {
+    if (nLhs > 2) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int flagInit = 0;
     MPI_Initialized(&flagInit);
-    if (!flagInit)
-    {
+    if (!flagInit) {
         Error(eval, _W("MPI must be initialized."));
     }
     ArrayOf param1 = argIn[0];
@@ -48,8 +46,7 @@ ArrayOfVector Nelson::MpiGateway::MPI_ProbeBuiltin(Evaluator* eval, int nLhs, co
     int src = param1.getContentAsInteger32Scalar();
     int tag = param2.getContentAsInteger32Scalar();
     MPI_Comm comm = MPI_COMM_WORLD;
-    if (argIn.size() > 2)
-    {
+    if (argIn.size() > 2) {
         comm = HandleToMpiComm(argIn[2]);
     }
     MPI_Status stat = { 0, 0, 0, 0 };

@@ -17,55 +17,47 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "SingleIsEqual.hpp"
-#include "RealPart.hpp"
 #include "ImagPart.hpp"
+#include "RealPart.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool single_isequal(ArrayOf a, ArrayOf b)
-    {
-        if ((a.getDataClass() == NLS_SCOMPLEX || a.getDataClass() == NLS_SINGLE) &&
-                (b.getDataClass() == NLS_SCOMPLEX || b.getDataClass() == NLS_SINGLE))
-        {
-            Dimensions dimsA = a.getDimensions();
-            Dimensions dimsB = b.getDimensions();
-            if (dimsA.equals(dimsB))
-            {
-                if (a.getDataClass() == NLS_SINGLE && b.getDataClass() == NLS_SINGLE)
-                {
-                    single *ptrA = (single*)a.getDataPointer();
-                    single *ptrB = (single*)b.getDataPointer();
-                    for (indexType k = 0; k < dimsA.getElementCount(); k++)
-                    {
-                        if (ptrA[k] != ptrB[k])
-                        {
-                            return false;
-                        }
+//=============================================================================
+bool
+single_isequal(ArrayOf a, ArrayOf b)
+{
+    if ((a.getDataClass() == NLS_SCOMPLEX || a.getDataClass() == NLS_SINGLE)
+        && (b.getDataClass() == NLS_SCOMPLEX || b.getDataClass() == NLS_SINGLE)) {
+        Dimensions dimsA = a.getDimensions();
+        Dimensions dimsB = b.getDimensions();
+        if (dimsA.equals(dimsB)) {
+            if (a.getDataClass() == NLS_SINGLE && b.getDataClass() == NLS_SINGLE) {
+                single* ptrA = (single*)a.getDataPointer();
+                single* ptrB = (single*)b.getDataPointer();
+                for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+                    if (ptrA[k] != ptrB[k]) {
+                        return false;
                     }
                 }
-                else
-                {
-                    ArrayOf realPartA = RealPart(a);
-                    ArrayOf realPartB = RealPart(b);
-                    ArrayOf imagPartA = ImagPart(a);
-                    ArrayOf imagPartB = ImagPart(b);
-                    single *ptrRealA = (single*)realPartA.getDataPointer();
-                    single *ptrRealB = (single*)realPartB.getDataPointer();
-                    single *ptrImagA = (single*)imagPartA.getDataPointer();
-                    single *ptrImagB = (single*)imagPartB.getDataPointer();
-                    for (indexType k = 0; k < dimsA.getElementCount(); k++)
-                    {
-                        if ((ptrRealA[k] != ptrRealB[k]) || (ptrImagA[k] != ptrImagB[k]))
-                        {
-                            return false;
-                        }
+            } else {
+                ArrayOf realPartA = RealPart(a);
+                ArrayOf realPartB = RealPart(b);
+                ArrayOf imagPartA = ImagPart(a);
+                ArrayOf imagPartB = ImagPart(b);
+                single* ptrRealA = (single*)realPartA.getDataPointer();
+                single* ptrRealB = (single*)realPartB.getDataPointer();
+                single* ptrImagA = (single*)imagPartA.getDataPointer();
+                single* ptrImagB = (single*)imagPartB.getDataPointer();
+                for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+                    if ((ptrRealA[k] != ptrRealB[k]) || (ptrImagA[k] != ptrImagB[k])) {
+                        return false;
                     }
                 }
-                return true;
             }
+            return true;
         }
-        return false;
     }
-    //=============================================================================
+    return false;
+}
+//=============================================================================
 }
 //=============================================================================

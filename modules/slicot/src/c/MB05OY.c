@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,13 +9,12 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb05oy_(job, n, low, igh, a, lda, scale, info, job_len)
-char *job;
+EXPORTSYMBOL /* Subroutine */ int mb05oy_(job, n, low, igh, a, lda, scale, info, job_len) char* job;
 integer *n, *low, *igh;
-doublereal *a;
-integer *lda;
-doublereal *scale;
-integer *info;
+doublereal* a;
+integer* lda;
+doublereal* scale;
+integer* info;
 ftnlen job_len;
 {
     /* System generated locals */
@@ -114,68 +113,50 @@ ftnlen job_len;
     --scale;
     /* Function Body */
     *info = 0;
-    if (! lsame_(job, "N", 1L, 1L) && ! lsame_(job, "P", 1L, 1L) && ! lsame_(job, "S", 1L, 1L) && ! lsame_(job, "B", 1L, 1L))
-    {
+    if (!lsame_(job, "N", 1L, 1L) && !lsame_(job, "P", 1L, 1L) && !lsame_(job, "S", 1L, 1L)
+        && !lsame_(job, "B", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*low < 1 || *low > max(1,*n))
-    {
+    } else if (*low < 1 || *low > max(1, *n)) {
         *info = -3;
-    }
-    else if (*igh < min(*low,*n) || *igh > *n)
-    {
+    } else if (*igh < min(*low, *n) || *igh > *n) {
         *info = -4;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -6;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB05OY", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || lsame_(job, "N", 1L, 1L))
-    {
+    if (*n == 0 || lsame_(job, "N", 1L, 1L)) {
         return 0;
     }
-    if (! lsame_(job, "P", 1L, 1L) && *igh != *low)
-    {
+    if (!lsame_(job, "P", 1L, 1L) && *igh != *low) {
         i__1 = *igh;
-        for (i__ = *low; i__ <= i__1; ++i__)
-        {
+        for (i__ = *low; i__ <= i__1; ++i__) {
             dscal_(n, &scale[i__], &a[i__ + a_dim1], lda);
             /* L20: */
         }
         i__1 = *igh;
-        for (j = *low; j <= i__1; ++j)
-        {
+        for (j = *low; j <= i__1; ++j) {
             d__1 = 1. / scale[j];
             dscal_(n, &d__1, &a[j * a_dim1 + 1], &c__1);
             /* L40: */
         }
     }
-    if (! lsame_(job, "S", 1L, 1L))
-    {
+    if (!lsame_(job, "S", 1L, 1L)) {
         i__1 = *n;
-        for (ii = 1; ii <= i__1; ++ii)
-        {
+        for (ii = 1; ii <= i__1; ++ii) {
             i__ = ii;
-            if (i__ < *low || i__ > *igh)
-            {
-                if (i__ < *low)
-                {
+            if (i__ < *low || i__ > *igh) {
+                if (i__ < *low) {
                     i__ = *low - ii;
                 }
-                k = (integer) scale[i__];
-                if (k != i__)
-                {
+                k = (integer)scale[i__];
+                if (k != i__) {
                     dswap_(n, &a[i__ + a_dim1], lda, &a[k + a_dim1], lda);
                     dswap_(n, &a[i__ * a_dim1 + 1], &c__1, &a[k * a_dim1 + 1], &c__1);
                 }
@@ -186,4 +167,3 @@ ftnlen job_len;
     return 0;
     /* *** Last line of MB05OY *** */
 } /* mb05oy_ */
-

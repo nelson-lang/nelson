@@ -16,29 +16,29 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <stdlib.h>
-#include <stdio.h>
-#include <boost/container/vector.hpp>
 #include "SetNelSonEnvironmentVariables.hpp"
+#include "AddPathToEnvironmentVariable.hpp"
 #include "GetNelsonBinariesPath.hpp"
 #include "GetNelsonPath.hpp"
 #include "SetVariableEnvironment.hpp"
-#include "AddPathToEnvironmentVariable.hpp"
+#include <boost/container/vector.hpp>
+#include <stdio.h>
+#include <stdlib.h>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool SetNelSonEnvironmentVariables()
-    {
-        std::wstring binPath = GetNelsonBinariesPath();
-        if (!binPath.empty())
-        {
-            AddPathToEnvironmentVariable(std::wstring(L"PATH"), binPath);
-            std::wstring envVarName = std::wstring(L"NELSON_BINARY_PATH");
-            SetVariableEnvironmentW(envVarName.c_str(), binPath.c_str());
-            return true;
-        }
-        return false;
+//=============================================================================
+bool
+SetNelSonEnvironmentVariables()
+{
+    std::wstring binPath = GetNelsonBinariesPath();
+    if (!binPath.empty()) {
+        AddPathToEnvironmentVariable(std::wstring(L"PATH"), binPath);
+        std::wstring envVarName = std::wstring(L"NELSON_BINARY_PATH");
+        SetVariableEnvironmentW(envVarName.c_str(), binPath.c_str());
+        return true;
     }
-    //=============================================================================
+    return false;
+}
+//=============================================================================
 }
 //=============================================================================

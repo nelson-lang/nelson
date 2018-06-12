@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,37 +12,41 @@ static doublereal c_b52 = 1.;
 static doublereal c_b53 = 0.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int sb04od_(reduce, trans, jobd, m, n, a, lda, b, ldb, c__, ldc, d__, ldd, e, lde, f, ldf, scale, dif, p, ldp, q, ldq, u, ldu, v, ldv, iwork, dwork, ldwork, info, reduce_len, trans_len, jobd_len)
-char *reduce, *trans, *jobd;
+EXPORTSYMBOL /* Subroutine */ int sb04od_(reduce, trans, jobd, m, n, a, lda, b, ldb, c__, ldc, d__,
+    ldd, e, lde, f, ldf, scale, dif, p, ldp, q, ldq, u, ldu, v, ldv, iwork, dwork, ldwork, info,
+    reduce_len, trans_len, jobd_len) char *reduce,
+    *trans, *jobd;
 integer *m, *n;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *e;
-integer *lde;
-doublereal *f;
-integer *ldf;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* e;
+integer* lde;
+doublereal* f;
+integer* ldf;
 doublereal *scale, *dif, *p;
-integer *ldp;
-doublereal *q;
-integer *ldq;
-doublereal *u;
-integer *ldu;
-doublereal *v;
+integer* ldp;
+doublereal* q;
+integer* ldq;
+doublereal* u;
+integer* ldu;
+doublereal* v;
 integer *ldv, *iwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen reduce_len;
 ftnlen trans_len;
 ftnlen jobd_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, e_dim1, e_offset, f_dim1, f_offset, p_dim1, p_offset, q_dim1, q_offset, u_dim1, u_offset, v_dim1, v_offset, i__1, i__2;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, e_dim1,
+        e_offset, f_dim1, f_offset, p_dim1, p_offset, q_dim1, q_offset, u_dim1, u_offset, v_dim1,
+        v_offset, i__1, i__2;
     /* Builtin functions */
     double sqrt();
     /* Local variables */
@@ -421,292 +425,220 @@ ftnlen jobd_len;
     --dwork;
     /* Function Body */
     *info = 0;
-    mn = max(*m,*n);
+    mn = max(*m, *n);
     lredur = lsame_(reduce, "R", 1L, 1L);
     lredua = lsame_(reduce, "A", 1L, 1L);
     lredub = lsame_(reduce, "B", 1L, 1L);
     lredra = lredur || lredua;
     lredrb = lredur || lredub;
     lreduc = lredra || lredub;
-    if (lredur)
-    {
+    if (lredur) {
         /* Computing MAX */
         i__1 = 1, i__2 = mn * 7;
-        minwrk = max(i__1,i__2);
-    }
-    else if (lredua)
-    {
+        minwrk = max(i__1, i__2);
+    } else if (lredua) {
         /* Computing MAX */
         i__1 = 1, i__2 = *m * 7;
-        minwrk = max(i__1,i__2);
-    }
-    else if (lredub)
-    {
+        minwrk = max(i__1, i__2);
+    } else if (lredub) {
         /* Computing MAX */
         i__1 = 1, i__2 = *n * 7;
-        minwrk = max(i__1,i__2);
-    }
-    else
-    {
+        minwrk = max(i__1, i__2);
+    } else {
         minwrk = 1;
     }
     ltrann = lsame_(trans, "N", 1L, 1L);
-    if (ltrann)
-    {
+    if (ltrann) {
         ljob1 = lsame_(jobd, "1", 1L, 1L);
         ljob2 = lsame_(jobd, "2", 1L, 1L);
         ljobd = lsame_(jobd, "D", 1L, 1L);
         ljobf = lsame_(jobd, "F", 1L, 1L);
         ljobdf = ljob1 || ljob2 || ljobd || ljobf;
-        if (ljobd || ljobf)
-        {
+        if (ljobd || ljobf) {
             /* Computing MAX */
-            i__1 = minwrk, i__2 = (*m << 1) **n;
-            minwrk = max(i__1,i__2);
+            i__1 = minwrk, i__2 = (*m << 1) * *n;
+            minwrk = max(i__1, i__2);
         }
     }
     /*     Test the input scalar arguments. */
-    if (! lreduc && ! lsame_(reduce, "N", 1L, 1L))
-    {
+    if (!lreduc && !lsame_(reduce, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! ltrann && ! lsame_(trans, "T", 1L, 1L))
-    {
+    } else if (!ltrann && !lsame_(trans, "T", 1L, 1L)) {
         *info = -2;
-    }
-    else if (ltrann)
-    {
-        if (! ljobdf && ! lsame_(jobd, "N", 1L, 1L))
-        {
+    } else if (ltrann) {
+        if (!ljobdf && !lsame_(jobd, "N", 1L, 1L)) {
             *info = -3;
         }
     }
-    if (*m < 0)
-    {
+    if (*m < 0) {
         *info = -4;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -5;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -7;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldc < max(1,*m))
-    {
+    } else if (*ldc < max(1, *m)) {
         *info = -11;
-    }
-    else if (*ldd < max(1,*m))
-    {
+    } else if (*ldd < max(1, *m)) {
         *info = -13;
-    }
-    else if (*lde < max(1,*n))
-    {
+    } else if (*lde < max(1, *n)) {
         *info = -15;
-    }
-    else if (*ldf < max(1,*m))
-    {
+    } else if (*ldf < max(1, *m)) {
         *info = -17;
-    }
-    else if (! lredra && *ldp < 1 || lredra && *ldp < max(1,*m))
-    {
+    } else if (!lredra && *ldp < 1 || lredra && *ldp < max(1, *m)) {
         *info = -21;
-    }
-    else if (! lredra && *ldq < 1 || lredra && *ldq < max(1,*m))
-    {
+    } else if (!lredra && *ldq < 1 || lredra && *ldq < max(1, *m)) {
         *info = -23;
-    }
-    else if (! lredrb && *ldu < 1 || lredrb && *ldu < max(1,*n))
-    {
+    } else if (!lredrb && *ldu < 1 || lredrb && *ldu < max(1, *n)) {
         *info = -25;
-    }
-    else if (! lredrb && *ldv < 1 || lredrb && *ldv < max(1,*n))
-    {
+    } else if (!lredrb && *ldv < 1 || lredrb && *ldv < max(1, *n)) {
         *info = -27;
-    }
-    else if (*ldwork < minwrk)
-    {
+    } else if (*ldwork < minwrk) {
         *info = -30;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB04OD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *m == 0)
-    {
+    if (*n == 0 || *m == 0) {
         *scale = 1.;
         dwork[1] = 1.;
-        if (ltrann)
-        {
-            if (ljobdf)
-            {
+        if (ltrann) {
+            if (ljobdf) {
                 *dif = 1.;
             }
         }
         return 0;
     }
     wrkopt = 1;
-    sufwrk = *ldwork >= *m **n;
+    sufwrk = *ldwork >= *m * *n;
     /*     STEP 1: Reduce (A,D) and/or (B,E) to generalized Schur form. */
     /*     (Note: Comments in the code beginning "Workspace:" describe the */
     /*     minimal amount of real workspace needed at that point in the */
     /*     code, as well as the preferred amount for good performance. */
     /*     NB refers to the optimal block size for the immediately */
     /*     following subroutine, as returned by ILAENV.) */
-    if (lreduc)
-    {
+    if (lreduc) {
         /*        Get machine constants. */
         safmin = dlamch_("Safe minimum", 12L);
         safmax = 1. / safmin;
         dlabad_(&safmin, &safmax);
         smlnum = sqrt(safmin) / dlamch_("Precision", 9L);
         bignum = 1. / smlnum;
-        if (! lredub)
-        {
+        if (!lredub) {
             /*           Scale A if max element outside range [SMLNUM,BIGNUM]. */
             anrm = dlange_("M", m, m, &a[a_offset], lda, &dwork[1], 1L);
             ilascl = FALSE_;
-            if (anrm > 0. && anrm < smlnum)
-            {
+            if (anrm > 0. && anrm < smlnum) {
                 anrmto = smlnum;
                 ilascl = TRUE_;
-            }
-            else if (anrm > bignum)
-            {
+            } else if (anrm > bignum) {
                 anrmto = bignum;
                 ilascl = TRUE_;
             }
-            if (ilascl)
-            {
+            if (ilascl) {
                 dlascl_("G", &c__0, &c__0, &anrm, &anrmto, m, m, &a[a_offset], lda, &ierr, 1L);
             }
             /*           Scale D if max element outside range [SMLNUM,BIGNUM] */
             dnrm = dlange_("M", m, m, &d__[d_offset], ldd, &dwork[1], 1L);
             ildscl = FALSE_;
-            if (dnrm > 0. && dnrm < smlnum)
-            {
+            if (dnrm > 0. && dnrm < smlnum) {
                 dnrmto = smlnum;
                 ildscl = TRUE_;
-            }
-            else if (dnrm > bignum)
-            {
+            } else if (dnrm > bignum) {
                 dnrmto = bignum;
                 ildscl = TRUE_;
             }
-            if (ildscl)
-            {
+            if (ildscl) {
                 dlascl_("G", &c__0, &c__0, &dnrm, &dnrmto, m, m, &d__[d_offset], ldd, &ierr, 1L);
             }
             /*           Reduce (A,D) to generalized Schur form. */
             /*           Workspace:  need   7*M; */
             /*                       prefer 5*M + M*(NB+1). */
             i__1 = *ldwork - *m * 3;
-            dgegs_("Vectors left", "Vectors right", m, &a[a_offset], lda, &d__[d_offset], ldd, &dwork[1], &dwork[*m + 1], &dwork[(*m << 1) + 1], &p[p_offset], ldp, &q[q_offset], ldq, &dwork[*m * 3 + 1], &i__1, info, 12L, 13L);
+            dgegs_("Vectors left", "Vectors right", m, &a[a_offset], lda, &d__[d_offset], ldd,
+                &dwork[1], &dwork[*m + 1], &dwork[(*m << 1) + 1], &p[p_offset], ldp, &q[q_offset],
+                ldq, &dwork[*m * 3 + 1], &i__1, info, 12L, 13L);
             /*           Undo scaling */
-            if (ilascl)
-            {
+            if (ilascl) {
                 dlascl_("H", &c__0, &c__0, &anrmto, &anrm, m, m, &a[a_offset], lda, &ierr, 1L);
             }
-            if (ildscl)
-            {
+            if (ildscl) {
                 dlascl_("U", &c__0, &c__0, &dnrmto, &dnrm, m, m, &d__[d_offset], ldd, &ierr, 1L);
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 *info = 1;
                 return 0;
             }
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (integer) dwork[*m * 3 + 1] + *m * 3;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = (integer)dwork[*m * 3 + 1] + *m * 3;
+            wrkopt = max(i__1, i__2);
         }
-        if (! lredua)
-        {
+        if (!lredua) {
             /*           Scale B if max element outside range [SMLNUM,BIGNUM] */
             bnrm = dlange_("M", n, n, &b[b_offset], ldb, &dwork[1], 1L);
             ilbscl = FALSE_;
-            if (bnrm > 0. && bnrm < smlnum)
-            {
+            if (bnrm > 0. && bnrm < smlnum) {
                 bnrmto = smlnum;
                 ilbscl = TRUE_;
-            }
-            else if (bnrm > bignum)
-            {
+            } else if (bnrm > bignum) {
                 bnrmto = bignum;
                 ilbscl = TRUE_;
             }
-            if (ilbscl)
-            {
+            if (ilbscl) {
                 dlascl_("G", &c__0, &c__0, &bnrm, &bnrmto, n, n, &b[b_offset], ldb, &ierr, 1L);
             }
             /*           Scale E if max element outside range [SMLNUM,BIGNUM] */
             enrm = dlange_("M", n, n, &e[e_offset], lde, &dwork[1], 1L);
             ilescl = FALSE_;
-            if (enrm > 0. && enrm < smlnum)
-            {
+            if (enrm > 0. && enrm < smlnum) {
                 enrmto = smlnum;
                 ilescl = TRUE_;
-            }
-            else if (enrm > bignum)
-            {
+            } else if (enrm > bignum) {
                 enrmto = bignum;
                 ilescl = TRUE_;
             }
-            if (ilescl)
-            {
+            if (ilescl) {
                 dlascl_("G", &c__0, &c__0, &enrm, &enrmto, n, n, &e[e_offset], lde, &ierr, 1L);
             }
             /*           Reduce (B,E) to generalized Schur form. */
             /*           Workspace:  need   7*N; */
             /*                       prefer 5*N + N*(NB+1). */
             i__1 = *ldwork - *n * 3;
-            dgegs_("Vectors left", "Vectors right", n, &b[b_offset], ldb, &e[e_offset], lde, &dwork[1], &dwork[*n + 1], &dwork[(*n << 1) + 1], &u[u_offset], ldu, &v[v_offset], ldv, &dwork[*n * 3 + 1], &i__1, info, 12L, 13L);
+            dgegs_("Vectors left", "Vectors right", n, &b[b_offset], ldb, &e[e_offset], lde,
+                &dwork[1], &dwork[*n + 1], &dwork[(*n << 1) + 1], &u[u_offset], ldu, &v[v_offset],
+                ldv, &dwork[*n * 3 + 1], &i__1, info, 12L, 13L);
             /*           Undo scaling */
-            if (ilbscl)
-            {
+            if (ilbscl) {
                 dlascl_("H", &c__0, &c__0, &bnrmto, &bnrm, n, n, &b[b_offset], ldb, &ierr, 1L);
             }
-            if (ilescl)
-            {
+            if (ilescl) {
                 dlascl_("U", &c__0, &c__0, &enrmto, &enrm, n, n, &e[e_offset], lde, &ierr, 1L);
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 *info = 1;
                 return 0;
             }
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (integer) dwork[*n * 3 + 1] + *n * 3;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = (integer)dwork[*n * 3 + 1] + *n * 3;
+            wrkopt = max(i__1, i__2);
         }
     }
-    if (! lredur)
-    {
+    if (!lredur) {
         /*        Set INFO = 2 if A and/or B are/is not in quasi-triangular form. */
-        if (! lredua)
-        {
+        if (!lredua) {
             i__ = 1;
-L20:
-            if (i__ <= *m - 2)
-            {
-                if (a[i__ + 1 + i__ * a_dim1] != 0.)
-                {
-                    if (a[i__ + 2 + (i__ + 1) * a_dim1] != 0.)
-                    {
+        L20:
+            if (i__ <= *m - 2) {
+                if (a[i__ + 1 + i__ * a_dim1] != 0.) {
+                    if (a[i__ + 2 + (i__ + 1) * a_dim1] != 0.) {
                         *info = 2;
                         return 0;
-                    }
-                    else
-                    {
+                    } else {
                         ++i__;
                     }
                 }
@@ -714,21 +646,15 @@ L20:
                 goto L20;
             }
         }
-        if (! lredub)
-        {
+        if (!lredub) {
             i__ = 1;
-L40:
-            if (i__ <= *n - 2)
-            {
-                if (b[i__ + 1 + i__ * b_dim1] != 0.)
-                {
-                    if (b[i__ + 2 + (i__ + 1) * b_dim1] != 0.)
-                    {
+        L40:
+            if (i__ <= *n - 2) {
+                if (b[i__ + 1 + i__ * b_dim1] != 0.) {
+                    if (b[i__ + 2 + (i__ + 1) * b_dim1] != 0.) {
                         *info = 2;
                         return 0;
-                    }
-                    else
-                    {
+                    } else {
                         ++i__;
                     }
                 }
@@ -738,173 +664,139 @@ L40:
         }
     }
     /*     STEP 2: Modify right hand sides (C,F). */
-    if (lreduc)
-    {
+    if (lreduc) {
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = *m **n;
-        wrkopt = max(i__1,i__2);
-        if (sufwrk)
-        {
+        i__1 = wrkopt, i__2 = *m * *n;
+        wrkopt = max(i__1, i__2);
+        if (sufwrk) {
             /*           Enough workspace for a BLAS 3 calculation. */
-            if (ltrann)
-            {
+            if (ltrann) {
                 /*              Equation (1). */
-                if (! lredub)
-                {
-                    dgemm_("Transpose", "No transpose", m, n, m, &c_b52, &p[p_offset], ldp, &c__[c_offset], ldc, &c_b53, &dwork[1], m, 9L, 12L);
-                }
-                else
-                {
+                if (!lredub) {
+                    dgemm_("Transpose", "No transpose", m, n, m, &c_b52, &p[p_offset], ldp,
+                        &c__[c_offset], ldc, &c_b53, &dwork[1], m, 9L, 12L);
+                } else {
                     dlacpy_("Full", m, n, &c__[c_offset], ldc, &dwork[1], m, 4L);
                 }
-                if (! lredua)
-                {
-                    dgemm_("No transpose", "No transpose", m, n, n, &c_b52, &dwork[1], m, &v[v_offset], ldv, &c_b53, &c__[c_offset], ldc, 12L, 12L);
-                }
-                else
-                {
+                if (!lredua) {
+                    dgemm_("No transpose", "No transpose", m, n, n, &c_b52, &dwork[1], m,
+                        &v[v_offset], ldv, &c_b53, &c__[c_offset], ldc, 12L, 12L);
+                } else {
                     dlacpy_("Full", m, n, &dwork[1], m, &c__[c_offset], ldc, 4L);
                 }
-                if (! lredub)
-                {
-                    dgemm_("Transpose", "No transpose", m, n, m, &c_b52, &p[p_offset], ldp, &f[f_offset], ldf, &c_b53, &dwork[1], m, 9L, 12L);
-                }
-                else
-                {
+                if (!lredub) {
+                    dgemm_("Transpose", "No transpose", m, n, m, &c_b52, &p[p_offset], ldp,
+                        &f[f_offset], ldf, &c_b53, &dwork[1], m, 9L, 12L);
+                } else {
                     dlacpy_("Full", m, n, &f[f_offset], ldf, &dwork[1], m, 4L);
                 }
-                if (! lredua)
-                {
-                    dgemm_("No transpose", "No transpose", m, n, n, &c_b52, &dwork[1], m, &v[v_offset], ldv, &c_b53, &f[f_offset], ldf, 12L, 12L);
-                }
-                else
-                {
+                if (!lredua) {
+                    dgemm_("No transpose", "No transpose", m, n, n, &c_b52, &dwork[1], m,
+                        &v[v_offset], ldv, &c_b53, &f[f_offset], ldf, 12L, 12L);
+                } else {
                     dlacpy_("Full", m, n, &dwork[1], m, &f[f_offset], ldf, 4L);
                 }
-            }
-            else
-            {
+            } else {
                 /*              Equation (2). */
-                if (! lredub)
-                {
-                    dgemm_("Transpose", "No transpose", m, n, m, &c_b52, &q[q_offset], ldq, &c__[c_offset], ldc, &c_b53, &dwork[1], m, 9L, 12L);
-                }
-                else
-                {
+                if (!lredub) {
+                    dgemm_("Transpose", "No transpose", m, n, m, &c_b52, &q[q_offset], ldq,
+                        &c__[c_offset], ldc, &c_b53, &dwork[1], m, 9L, 12L);
+                } else {
                     dlacpy_("Full", m, n, &c__[c_offset], ldc, &dwork[1], m, 4L);
                 }
-                if (! lredua)
-                {
-                    dgemm_("No transpose", "No transpose", m, n, n, &c_b52, &dwork[1], m, &v[v_offset], ldv, &c_b53, &c__[c_offset], ldc, 12L, 12L);
-                }
-                else
-                {
+                if (!lredua) {
+                    dgemm_("No transpose", "No transpose", m, n, n, &c_b52, &dwork[1], m,
+                        &v[v_offset], ldv, &c_b53, &c__[c_offset], ldc, 12L, 12L);
+                } else {
                     dlacpy_("Full", m, n, &dwork[1], m, &c__[c_offset], ldc, 4L);
                 }
-                if (! lredub)
-                {
-                    dgemm_("Transpose", "No transpose", m, n, m, &c_b52, &p[p_offset], ldp, &f[f_offset], ldf, &c_b53, &dwork[1], m, 9L, 12L);
-                }
-                else
-                {
+                if (!lredub) {
+                    dgemm_("Transpose", "No transpose", m, n, m, &c_b52, &p[p_offset], ldp,
+                        &f[f_offset], ldf, &c_b53, &dwork[1], m, 9L, 12L);
+                } else {
                     dlacpy_("Full", m, n, &f[f_offset], ldf, &dwork[1], m, 4L);
                 }
-                if (! lredua)
-                {
-                    dgemm_("No transpose", "No transpose", m, n, n, &c_b52, &dwork[1], m, &u[u_offset], ldu, &c_b53, &f[f_offset], ldf, 12L, 12L);
-                }
-                else
-                {
+                if (!lredua) {
+                    dgemm_("No transpose", "No transpose", m, n, n, &c_b52, &dwork[1], m,
+                        &u[u_offset], ldu, &c_b53, &f[f_offset], ldf, 12L, 12L);
+                } else {
                     dlacpy_("Full", m, n, &dwork[1], m, &f[f_offset], ldf, 4L);
                 }
             }
-        }
-        else
-        {
+        } else {
             /*           Use a BLAS 2 calculation. */
-            if (ltrann)
-            {
+            if (ltrann) {
                 /*              Equation (1). */
-                if (! lredub)
-                {
+                if (!lredub) {
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("Transpose", m, m, &c_b52, &p[p_offset], ldp, &c__[i__ * c_dim1 + 1], &c__1, &c_b53, &dwork[1], &c__1, 9L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("Transpose", m, m, &c_b52, &p[p_offset], ldp, &c__[i__ * c_dim1 + 1],
+                            &c__1, &c_b53, &dwork[1], &c__1, 9L);
                         dcopy_(m, &dwork[1], &c__1, &c__[i__ * c_dim1 + 1], &c__1);
                         /* L60: */
                     }
                 }
-                if (! lredua)
-                {
+                if (!lredua) {
                     i__1 = *m;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("Transpose", n, n, &c_b52, &v[v_offset], ldv, &c__[i__ + c_dim1], ldc, &c_b53, &dwork[1], &c__1, 9L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("Transpose", n, n, &c_b52, &v[v_offset], ldv, &c__[i__ + c_dim1],
+                            ldc, &c_b53, &dwork[1], &c__1, 9L);
                         dcopy_(n, &dwork[1], &c__1, &c__[i__ + c_dim1], ldc);
                         /* L80: */
                     }
                 }
-                if (! lredub)
-                {
+                if (!lredub) {
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("Transpose", m, m, &c_b52, &p[p_offset], ldp, &f[i__ * f_dim1 + 1], &c__1, &c_b53, &dwork[1], &c__1, 9L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("Transpose", m, m, &c_b52, &p[p_offset], ldp, &f[i__ * f_dim1 + 1],
+                            &c__1, &c_b53, &dwork[1], &c__1, 9L);
                         dcopy_(m, &dwork[1], &c__1, &f[i__ * f_dim1 + 1], &c__1);
                         /* L100: */
                     }
                 }
-                if (! lredua)
-                {
+                if (!lredua) {
                     i__1 = *m;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("Transpose", n, n, &c_b52, &v[v_offset], ldv, &f[i__ + f_dim1], ldf, &c_b53, &dwork[1], &c__1, 9L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("Transpose", n, n, &c_b52, &v[v_offset], ldv, &f[i__ + f_dim1], ldf,
+                            &c_b53, &dwork[1], &c__1, 9L);
                         dcopy_(n, &dwork[1], &c__1, &f[i__ + f_dim1], ldf);
                         /* L120: */
                     }
                 }
-            }
-            else
-            {
+            } else {
                 /*              Equation (2). */
-                if (! lredub)
-                {
+                if (!lredub) {
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("Transpose", m, m, &c_b52, &q[q_offset], ldq, &c__[i__ * c_dim1 + 1], &c__1, &c_b53, &dwork[1], &c__1, 9L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("Transpose", m, m, &c_b52, &q[q_offset], ldq, &c__[i__ * c_dim1 + 1],
+                            &c__1, &c_b53, &dwork[1], &c__1, 9L);
                         dcopy_(m, &dwork[1], &c__1, &c__[i__ * c_dim1 + 1], &c__1);
                         /* L140: */
                     }
                 }
-                if (! lredua)
-                {
+                if (!lredua) {
                     i__1 = *m;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("Transpose", n, n, &c_b52, &v[v_offset], ldv, &c__[i__ + c_dim1], ldc, &c_b53, &dwork[1], &c__1, 9L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("Transpose", n, n, &c_b52, &v[v_offset], ldv, &c__[i__ + c_dim1],
+                            ldc, &c_b53, &dwork[1], &c__1, 9L);
                         dcopy_(n, &dwork[1], &c__1, &c__[i__ + c_dim1], ldc);
                         /* L160: */
                     }
                 }
-                if (! lredub)
-                {
+                if (!lredub) {
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("Transpose", m, m, &c_b52, &p[p_offset], ldp, &f[i__ * f_dim1 + 1], &c__1, &c_b53, &dwork[1], &c__1, 9L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("Transpose", m, m, &c_b52, &p[p_offset], ldp, &f[i__ * f_dim1 + 1],
+                            &c__1, &c_b53, &dwork[1], &c__1, 9L);
                         dcopy_(m, &dwork[1], &c__1, &f[i__ * f_dim1 + 1], &c__1);
                         /* L180: */
                     }
                 }
-                if (! lredua)
-                {
+                if (!lredua) {
                     i__1 = *m;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("Transpose", n, n, &c_b52, &u[u_offset], ldu, &f[i__ + f_dim1], ldf, &c_b53, &dwork[1], &c__1, 9L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("Transpose", n, n, &c_b52, &u[u_offset], ldu, &f[i__ + f_dim1], ldf,
+                            &c_b53, &dwork[1], &c__1, 9L);
                         dcopy_(n, &dwork[1], &c__1, &f[i__ + f_dim1], ldf);
                         /* L200: */
                     }
@@ -914,215 +806,168 @@ L40:
     }
     /*     STEP 3: Solve the transformed system and compute the Dif */
     /*             estimator. */
-    if (ltrann)
-    {
-        if (ljobd)
-        {
+    if (ltrann) {
+        if (ljobd) {
             ijob = 1;
-        }
-        else if (ljobf)
-        {
+        } else if (ljobf) {
             ijob = 2;
-        }
-        else if (ljob1)
-        {
+        } else if (ljob1) {
             ijob = 3;
-        }
-        else if (ljob2)
-        {
+        } else if (ljob2) {
             ijob = 4;
-        }
-        else
-        {
+        } else {
             ijob = 0;
         }
-    }
-    else
-    {
+    } else {
         ijob = 0;
     }
     /*     Workspace:  need 2*M*N if TRANS = 'N' and JOBD = 'D' or 'F'; */
     /*                      1, otherwise. */
-    dtgsyl_(trans, &ijob, m, n, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, &e[e_offset], lde, &f[f_offset], ldf, scale, dif, &dwork[1], ldwork, &iwork[1], info, 1L);
-    if (*info != 0)
-    {
+    dtgsyl_(trans, &ijob, m, n, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+        &d__[d_offset], ldd, &e[e_offset], lde, &f[f_offset], ldf, scale, dif, &dwork[1], ldwork,
+        &iwork[1], info, 1L);
+    if (*info != 0) {
         *info = 3;
         return 0;
     }
-    if (ltrann)
-    {
-        if (ljobd || ljobf)
-        {
+    if (ltrann) {
+        if (ljobd || ljobf) {
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (*m << 1) **n;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = (*m << 1) * *n;
+            wrkopt = max(i__1, i__2);
         }
     }
     /*     STEP 4: Back transformation of the solution. */
-    if (lreduc)
-    {
-        if (sufwrk)
-        {
+    if (lreduc) {
+        if (sufwrk) {
             /*           Enough workspace for a BLAS 3 calculation. */
-            if (ltrann)
-            {
+            if (ltrann) {
                 /*              Equation (1). */
-                if (! lredub)
-                {
-                    dgemm_("No transpose", "No transpose", m, n, m, &c_b52, &q[q_offset], ldq, &c__[c_offset], ldc, &c_b53, &dwork[1], m, 12L, 12L);
-                }
-                else
-                {
+                if (!lredub) {
+                    dgemm_("No transpose", "No transpose", m, n, m, &c_b52, &q[q_offset], ldq,
+                        &c__[c_offset], ldc, &c_b53, &dwork[1], m, 12L, 12L);
+                } else {
                     dlacpy_("Full", m, n, &c__[c_offset], ldc, &dwork[1], m, 4L);
                 }
-                if (! lredua)
-                {
-                    dgemm_("No transpose", "Transpose", m, n, n, &c_b52, &dwork[1], m, &v[v_offset], ldv, &c_b53, &c__[c_offset], ldc, 12L, 9L);
-                }
-                else
-                {
+                if (!lredua) {
+                    dgemm_("No transpose", "Transpose", m, n, n, &c_b52, &dwork[1], m, &v[v_offset],
+                        ldv, &c_b53, &c__[c_offset], ldc, 12L, 9L);
+                } else {
                     dlacpy_("Full", m, n, &dwork[1], m, &c__[c_offset], ldc, 4L);
                 }
-                if (! lredub)
-                {
-                    dgemm_("No transpose", "No transpose", m, n, m, &c_b52, &p[p_offset], ldp, &f[f_offset], ldf, &c_b53, &dwork[1], m, 12L, 12L);
-                }
-                else
-                {
+                if (!lredub) {
+                    dgemm_("No transpose", "No transpose", m, n, m, &c_b52, &p[p_offset], ldp,
+                        &f[f_offset], ldf, &c_b53, &dwork[1], m, 12L, 12L);
+                } else {
                     dlacpy_("Full", m, n, &f[f_offset], ldf, &dwork[1], m, 4L);
                 }
-                if (! lredua)
-                {
-                    dgemm_("No transpose", "Transpose", m, n, n, &c_b52, &dwork[1], m, &u[u_offset], ldu, &c_b53, &f[f_offset], ldf, 12L, 9L);
-                }
-                else
-                {
+                if (!lredua) {
+                    dgemm_("No transpose", "Transpose", m, n, n, &c_b52, &dwork[1], m, &u[u_offset],
+                        ldu, &c_b53, &f[f_offset], ldf, 12L, 9L);
+                } else {
                     dlacpy_("Full", m, n, &dwork[1], m, &f[f_offset], ldf, 4L);
                 }
-            }
-            else
-            {
+            } else {
                 /*              Equation (2). */
-                if (! lredub)
-                {
-                    dgemm_("No transpose", "No transpose", m, n, m, &c_b52, &p[p_offset], ldp, &c__[c_offset], ldc, &c_b53, &dwork[1], m, 12L, 12L);
-                }
-                else
-                {
+                if (!lredub) {
+                    dgemm_("No transpose", "No transpose", m, n, m, &c_b52, &p[p_offset], ldp,
+                        &c__[c_offset], ldc, &c_b53, &dwork[1], m, 12L, 12L);
+                } else {
                     dlacpy_("Full", m, n, &c__[c_offset], ldc, &dwork[1], m, 4L);
                 }
-                if (! lredua)
-                {
-                    dgemm_("No transpose", "Transpose", m, n, n, &c_b52, &dwork[1], m, &v[v_offset], ldv, &c_b53, &c__[c_offset], ldc, 12L, 9L);
-                }
-                else
-                {
+                if (!lredua) {
+                    dgemm_("No transpose", "Transpose", m, n, n, &c_b52, &dwork[1], m, &v[v_offset],
+                        ldv, &c_b53, &c__[c_offset], ldc, 12L, 9L);
+                } else {
                     dlacpy_("Full", m, n, &dwork[1], m, &c__[c_offset], ldc, 4L);
                 }
-                if (! lredub)
-                {
-                    dgemm_("No transpose", "No transpose", m, n, m, &c_b52, &p[p_offset], ldp, &f[f_offset], ldf, &c_b53, &dwork[1], m, 12L, 12L);
-                }
-                else
-                {
+                if (!lredub) {
+                    dgemm_("No transpose", "No transpose", m, n, m, &c_b52, &p[p_offset], ldp,
+                        &f[f_offset], ldf, &c_b53, &dwork[1], m, 12L, 12L);
+                } else {
                     dlacpy_("Full", m, n, &f[f_offset], ldf, &dwork[1], m, 4L);
                 }
-                if (! lredua)
-                {
-                    dgemm_("No transpose", "Transpose", m, n, n, &c_b52, &dwork[1], m, &v[v_offset], ldv, &c_b53, &f[f_offset], ldf, 12L, 9L);
-                }
-                else
-                {
+                if (!lredua) {
+                    dgemm_("No transpose", "Transpose", m, n, n, &c_b52, &dwork[1], m, &v[v_offset],
+                        ldv, &c_b53, &f[f_offset], ldf, 12L, 9L);
+                } else {
                     dlacpy_("Full", m, n, &dwork[1], m, &f[f_offset], ldf, 4L);
                 }
             }
-        }
-        else
-        {
+        } else {
             /*           Use a BLAS 2 calculation. */
-            if (ltrann)
-            {
+            if (ltrann) {
                 /*              Equation (1). */
-                if (! lredub)
-                {
+                if (!lredub) {
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("No transpose", m, m, &c_b52, &q[q_offset], ldq, &c__[i__ * c_dim1 + 1], &c__1, &c_b53, &dwork[1], &c__1, 12L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("No transpose", m, m, &c_b52, &q[q_offset], ldq,
+                            &c__[i__ * c_dim1 + 1], &c__1, &c_b53, &dwork[1], &c__1, 12L);
                         dcopy_(m, &dwork[1], &c__1, &c__[i__ * c_dim1 + 1], &c__1);
                         /* L220: */
                     }
                 }
-                if (! lredua)
-                {
+                if (!lredua) {
                     i__1 = *m;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("No transpose", n, n, &c_b52, &v[v_offset], ldv, &c__[i__ + c_dim1], ldc, &c_b53, &dwork[1], &c__1, 12L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("No transpose", n, n, &c_b52, &v[v_offset], ldv, &c__[i__ + c_dim1],
+                            ldc, &c_b53, &dwork[1], &c__1, 12L);
                         dcopy_(n, &dwork[1], &c__1, &c__[i__ + c_dim1], ldc);
                         /* L240: */
                     }
                 }
-                if (! lredub)
-                {
+                if (!lredub) {
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("No transpose", m, m, &c_b52, &p[p_offset], ldp, &f[i__ * f_dim1 + 1], &c__1, &c_b53, &dwork[1], &c__1, 12L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("No transpose", m, m, &c_b52, &p[p_offset], ldp,
+                            &f[i__ * f_dim1 + 1], &c__1, &c_b53, &dwork[1], &c__1, 12L);
                         dcopy_(m, &dwork[1], &c__1, &f[i__ * f_dim1 + 1], &c__1);
                         /* L260: */
                     }
                 }
-                if (! lredua)
-                {
+                if (!lredua) {
                     i__1 = *m;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("No transpose", n, n, &c_b52, &u[u_offset], ldu, &f[i__ + f_dim1], ldf, &c_b53, &dwork[1], &c__1, 12L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("No transpose", n, n, &c_b52, &u[u_offset], ldu, &f[i__ + f_dim1],
+                            ldf, &c_b53, &dwork[1], &c__1, 12L);
                         dcopy_(n, &dwork[1], &c__1, &f[i__ + f_dim1], ldf);
                         /* L280: */
                     }
                 }
-            }
-            else
-            {
+            } else {
                 /*              Equation (2). */
-                if (! lredub)
-                {
+                if (!lredub) {
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("No transpose", m, m, &c_b52, &p[p_offset], ldp, &c__[i__ * c_dim1 + 1], &c__1, &c_b53, &dwork[1], &c__1, 12L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("No transpose", m, m, &c_b52, &p[p_offset], ldp,
+                            &c__[i__ * c_dim1 + 1], &c__1, &c_b53, &dwork[1], &c__1, 12L);
                         dcopy_(m, &dwork[1], &c__1, &c__[i__ * c_dim1 + 1], &c__1);
                         /* L300: */
                     }
                 }
-                if (! lredua)
-                {
+                if (!lredua) {
                     i__1 = *m;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("No transpose", n, n, &c_b52, &v[v_offset], ldv, &c__[i__ + c_dim1], ldc, &c_b53, &dwork[1], &c__1, 12L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("No transpose", n, n, &c_b52, &v[v_offset], ldv, &c__[i__ + c_dim1],
+                            ldc, &c_b53, &dwork[1], &c__1, 12L);
                         dcopy_(n, &dwork[1], &c__1, &c__[i__ + c_dim1], ldc);
                         /* L320: */
                     }
                 }
-                if (! lredub)
-                {
+                if (!lredub) {
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("No transpose", m, m, &c_b52, &p[p_offset], ldp, &f[i__ * f_dim1 + 1], &c__1, &c_b53, &dwork[1], &c__1, 12L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("No transpose", m, m, &c_b52, &p[p_offset], ldp,
+                            &f[i__ * f_dim1 + 1], &c__1, &c_b53, &dwork[1], &c__1, 12L);
                         dcopy_(m, &dwork[1], &c__1, &f[i__ * f_dim1 + 1], &c__1);
                         /* L340: */
                     }
                 }
-                if (! lredua)
-                {
+                if (!lredua) {
                     i__1 = *m;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
-                        dgemv_("No transpose", n, n, &c_b52, &v[v_offset], ldv, &f[i__ + f_dim1], ldf, &c_b53, &dwork[1], &c__1, 12L);
+                    for (i__ = 1; i__ <= i__1; ++i__) {
+                        dgemv_("No transpose", n, n, &c_b52, &v[v_offset], ldv, &f[i__ + f_dim1],
+                            ldf, &c_b53, &dwork[1], &c__1, 12L);
                         dcopy_(n, &dwork[1], &c__1, &f[i__ + f_dim1], ldf);
                         /* L360: */
                     }
@@ -1130,8 +975,7 @@ L40:
             }
         }
     }
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of SB04OD *** */
 } /* sb04od_ */
-

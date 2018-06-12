@@ -16,41 +16,39 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Windows.h>
 #include "ComEngine.hpp"
+#include <Windows.h>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ComEngine* ComEngine::m_pInstance = nullptr;
-    //=============================================================================
-    ComEngine *ComEngine::getInstance()
-    {
-        if (m_pInstance == nullptr)
-        {
-            m_pInstance = new ComEngine();
-        }
-        return m_pInstance;
+//=============================================================================
+ComEngine* ComEngine::m_pInstance = nullptr;
+//=============================================================================
+ComEngine*
+ComEngine::getInstance()
+{
+    if (m_pInstance == nullptr) {
+        m_pInstance = new ComEngine();
     }
-    //=============================================================================
-    ComEngine::ComEngine()
-    {
-        isInitialized = false;
+    return m_pInstance;
+}
+//=============================================================================
+ComEngine::ComEngine() { isInitialized = false; }
+//=============================================================================
+void
+ComEngine::create()
+{
+    if (!isInitialized) {
+        ::CoInitialize(NULL);
+        isInitialized = true;
     }
-    //=============================================================================
-    void ComEngine::create()
-    {
-        if (!isInitialized)
-        {
-            ::CoInitialize(NULL);
-            isInitialized = true;
-        }
-    }
-    //=============================================================================
-    void ComEngine::finish()
-    {
-        ::CoUninitialize();
-        isInitialized = false;
-    }
-    //=============================================================================
+}
+//=============================================================================
+void
+ComEngine::finish()
+{
+    ::CoUninitialize();
+    isInitialized = false;
+}
+//=============================================================================
 }
 //=============================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,16 +10,17 @@
 static integer c__1 = 1;
 static integer c__2 = 2;
 
-EXPORTSYMBOL /* Subroutine */ int mb03oy_(m, n, a, lda, rcond, svlmax, rank, sval, jpvt, tau, dwork, info)
-integer *m, *n;
-doublereal *a;
-integer *lda;
+EXPORTSYMBOL /* Subroutine */ int mb03oy_(
+    m, n, a, lda, rcond, svlmax, rank, sval, jpvt, tau, dwork, info) integer *m,
+    *n;
+doublereal* a;
+integer* lda;
 doublereal *rcond, *svlmax;
-integer *rank;
-doublereal *sval;
-integer *jpvt;
+integer* rank;
+doublereal* sval;
+integer* jpvt;
 doublereal *tau, *dwork;
-integer *info;
+integer* info;
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2;
@@ -203,36 +204,25 @@ integer *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    if (*m < 0)
-    {
+    if (*m < 0) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -4;
-    }
-    else if (*rcond < 0. || *rcond > 1.)
-    {
+    } else if (*rcond < 0. || *rcond > 1.) {
         *info = -5;
-    }
-    else if (*svlmax < 0.)
-    {
+    } else if (*svlmax < 0.) {
         *info = -6;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB03OY", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    mn = min(*m,*n);
-    if (mn == 0)
-    {
+    mn = min(*m, *n);
+    if (mn == 0) {
         *rank = 0;
         sval[1] = 0.;
         sval[2] = 0.;
@@ -246,8 +236,7 @@ integer *info;
     /*     elements of DWORK store the exact column norms. The already used */
     /*     leading part is then overwritten by the condition estimator. */
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[i__] = dnrm2_(m, &a[i__ * a_dim1 + 1], &c__1);
         dwork[*n + i__] = dwork[i__];
         jpvt[i__] = i__;
@@ -257,14 +246,12 @@ integer *info;
     /*     condition estimation. */
     *rank = 0;
 L20:
-    if (*rank < mn)
-    {
+    if (*rank < mn) {
         i__ = *rank + 1;
         /*        Determine ith pivot column and swap if necessary. */
         i__1 = *n - i__ + 1;
         pvt = i__ - 1 + idamax_(&i__1, &dwork[i__], &c__1);
-        if (pvt != i__)
-        {
+        if (pvt != i__) {
             dswap_(m, &a[pvt * a_dim1 + 1], &c__1, &a[i__ * a_dim1 + 1], &c__1);
             itemp = jpvt[pvt];
             jpvt[pvt] = jpvt[i__];
@@ -273,22 +260,17 @@ L20:
             dwork[*n + pvt] = dwork[*n + i__];
         }
         /*        Save A(I,I) and generate elementary reflector H(i). */
-        if (i__ < *m)
-        {
+        if (i__ < *m) {
             aii = a[i__ + i__ * a_dim1];
             i__1 = *m - i__ + 1;
             dlarfg_(&i__1, &a[i__ + i__ * a_dim1], &a[i__ + 1 + i__ * a_dim1], &c__1, &tau[i__]);
-        }
-        else
-        {
+        } else {
             tau[*m] = 0.;
         }
-        if (*rank == 0)
-        {
+        if (*rank == 0) {
             /*           Initialize; exit if matrix is zero (RANK = 0). */
             smax = (d__1 = a[a_dim1 + 1], abs(d__1));
-            if (smax == 0.)
-            {
+            if (smax == 0.) {
                 sval[1] = 0.;
                 sval[2] = 0.;
                 sval[3] = 0.;
@@ -299,67 +281,55 @@ L20:
             sminpr = smin;
             c1 = 1.;
             c2 = 1.;
-        }
-        else
-        {
+        } else {
             /*           One step of incremental condition estimation. */
-            dlaic1_(&c__2, rank, &dwork[ismin], &smin, &a[i__ * a_dim1 + 1], &a[i__ + i__ * a_dim1], &sminpr, &s1, &c1);
-            dlaic1_(&c__1, rank, &dwork[ismax], &smax, &a[i__ * a_dim1 + 1], &a[i__ + i__ * a_dim1], &smaxpr, &s2, &c2);
+            dlaic1_(&c__2, rank, &dwork[ismin], &smin, &a[i__ * a_dim1 + 1], &a[i__ + i__ * a_dim1],
+                &sminpr, &s1, &c1);
+            dlaic1_(&c__1, rank, &dwork[ismax], &smax, &a[i__ * a_dim1 + 1], &a[i__ + i__ * a_dim1],
+                &smaxpr, &s2, &c2);
         }
-        if (*svlmax **rcond <= smaxpr)
-        {
-            if (*svlmax **rcond <= sminpr)
-            {
-                if (smaxpr **rcond <= sminpr)
-                {
+        if (*svlmax * *rcond <= smaxpr) {
+            if (*svlmax * *rcond <= sminpr) {
+                if (smaxpr * *rcond <= sminpr) {
                     /*                 Continue factorization, as rank is at least RANK. */
-                    if (i__ < *n)
-                    {
+                    if (i__ < *n) {
                         /*                    Apply H(i) to A(i:m,i+1:n) from the left. */
                         aii = a[i__ + i__ * a_dim1];
                         a[i__ + i__ * a_dim1] = 1.;
                         i__1 = *m - i__ + 1;
                         i__2 = *n - i__;
-                        dlarf_("Left", &i__1, &i__2, &a[i__ + i__ * a_dim1], &c__1, &tau[i__], &a[i__ + (i__ + 1) * a_dim1], lda, &dwork[(*n << 1) + 1], 4L);
+                        dlarf_("Left", &i__1, &i__2, &a[i__ + i__ * a_dim1], &c__1, &tau[i__],
+                            &a[i__ + (i__ + 1) * a_dim1], lda, &dwork[(*n << 1) + 1], 4L);
                         a[i__ + i__ * a_dim1] = aii;
                     }
                     /*                 Update partial column norms. */
                     i__1 = *n;
-                    for (j = i__ + 1; j <= i__1; ++j)
-                    {
-                        if (dwork[j] != 0.)
-                        {
+                    for (j = i__ + 1; j <= i__1; ++j) {
+                        if (dwork[j] != 0.) {
                             temp = (d__1 = a[i__ + j * a_dim1], abs(d__1)) / dwork[j];
                             /* Computing MAX */
                             d__1 = (temp + 1.) * (1. - temp);
-                            temp = max(d__1,0.);
+                            temp = max(d__1, 0.);
                             /* Computing 2nd power */
                             d__1 = dwork[j] / dwork[*n + j];
                             temp2 = temp * (d__1 * d__1);
-                            if (temp2 <= tolz)
-                            {
-                                if (*m - i__ > 0)
-                                {
+                            if (temp2 <= tolz) {
+                                if (*m - i__ > 0) {
                                     i__2 = *m - i__;
                                     dwork[j] = dnrm2_(&i__2, &a[i__ + 1 + j * a_dim1], &c__1);
                                     dwork[*n + j] = dwork[j];
-                                }
-                                else
-                                {
+                                } else {
                                     dwork[j] = 0.;
                                     dwork[*n + j] = 0.;
                                 }
-                            }
-                            else
-                            {
+                            } else {
                                 dwork[j] *= sqrt(temp);
                             }
                         }
                         /* L30: */
                     }
                     i__1 = *rank;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__1; ++i__) {
                         dwork[ismin + i__ - 1] = s1 * dwork[ismin + i__ - 1];
                         dwork[ismax + i__ - 1] = s2 * dwork[ismax + i__ - 1];
                         /* L40: */
@@ -375,18 +345,15 @@ L20:
         }
     }
     /*     Restore the changed part of the (RANK+1)-th column and set SVAL. */
-    if (*rank < *n)
-    {
-        if (i__ < *m)
-        {
+    if (*rank < *n) {
+        if (i__ < *m) {
             i__1 = *m - i__;
             d__1 = -a[i__ + i__ * a_dim1] * tau[i__];
             dscal_(&i__1, &d__1, &a[i__ + 1 + i__ * a_dim1], &c__1);
             a[i__ + i__ * a_dim1] = aii;
         }
     }
-    if (*rank == 0)
-    {
+    if (*rank == 0) {
         smin = 0.;
         sminpr = 0.;
     }
@@ -396,4 +363,3 @@ L20:
     return 0;
     /* *** Last line of MB03OY *** */
 } /* mb03oy_ */
-

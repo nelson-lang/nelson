@@ -18,148 +18,116 @@
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
 //=============================================================================
-#include <boost/algorithm/string.hpp>
 #include "cellfunBuiltin.hpp"
+#include "BuiltInFunctionDefManager.hpp"
+#include "ClassName.hpp"
 #include "Error.hpp"
+#include "ErrorToStruct.hpp"
+#include "PathFuncManager.hpp"
 #include "StringFormat.hpp"
 #include "StringToFunctionHandle.hpp"
-#include "ErrorToStruct.hpp"
-#include "ClassName.hpp"
-#include "BuiltInFunctionDefManager.hpp"
-#include "PathFuncManager.hpp"
 #include "characters_encoding.hpp"
+#include <boost/algorithm/string.hpp>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static ArrayOfVector cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector &argIn,
-        Evaluator *eval, Dimensions argdims, indexType argcount, FuncPtr fptr, FuncPtr fptrHandleError)
+static ArrayOfVector
+cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval,
+    Dimensions argdims, indexType argcount, FuncPtr fptr, FuncPtr fptrHandleError)
 {
     ArrayOfVector outputs;
-    for (int j = 0; j < nargout; j++)
-    {
-        ArrayOf *elements = nullptr;
+    for (int j = 0; j < nargout; j++) {
+        ArrayOf* elements = nullptr;
         size_t nbElements = argdims.getElementCount();
-        try
-        {
+        try {
             elements = new ArrayOf[nbElements];
-        }
-        catch (std::bad_alloc &e)
-        {
+        } catch (std::bad_alloc& e) {
             e.what();
             throw Exception(ERROR_MEMORY_ALLOCATION);
         }
-        for (size_t k = 0; k < nbElements; k++)
-        {
+        for (size_t k = 0; k < nbElements; k++) {
             elements[k] = ArrayOf::emptyConstructor();
         }
         ArrayOf c = ArrayOf(NLS_CELL_ARRAY, argdims, elements);
         outputs.push_back(c);
     }
-    for (int i = 0; i < argdims.getElementCount(); i++)
-    {
+    for (int i = 0; i < argdims.getElementCount(); i++) {
         ArrayOfVector input;
-        for (int j = 1; j < argcount; j++)
-        {
-            ArrayOf *arg = (ArrayOf*)(argIn[j].getDataPointer());
+        for (int j = 1; j < argcount; j++) {
+            ArrayOf* arg = (ArrayOf*)(argIn[j].getDataPointer());
             input.push_back(arg[i]);
         }
         ArrayOfVector ret;
-        if (fptrHandleError)
-        {
-            try
-            {
+        if (fptrHandleError) {
+            try {
                 ret = fptr->evaluateFunction(eval, input, nargout);
-            }
-            catch (Exception &e)
-            {
+            } catch (Exception& e) {
                 ArrayOfVector in2;
                 in2.push_back(ErrorToStruct(e));
-                for (size_t k = 0; k < input.size(); k++)
-                {
+                for (size_t k = 0; k < input.size(); k++) {
                     in2.push_back(input[k]);
                 }
                 ret = fptrHandleError->evaluateFunction(eval, in2, nargout);
             }
-            if (ret.size() < nargout)
-            {
+            if (ret.size() < nargout) {
                 Error(eval, _W("function returned fewer outputs than expected"));
             }
-        }
-        else
-        {
+        } else {
             ret = fptr->evaluateFunction(eval, input, nargout);
-            if (ret.size() < nargout)
-            {
+            if (ret.size() < nargout) {
                 Error(eval, _W("function returned fewer outputs than expected"));
             }
         }
-        for (int j = 0; j < nargout; j++)
-        {
-            ArrayOf *arg = (ArrayOf*)(outputs[j].getDataPointer());
+        for (int j = 0; j < nargout; j++) {
+            ArrayOf* arg = (ArrayOf*)(outputs[j].getDataPointer());
             arg[i] = ret[j];
         }
     }
     return outputs;
 }
 //=============================================================================
-static ArrayOfVector cellfun_uniformBuiltin(int nargout, const ArrayOfVector &argIn,
-        Evaluator *eval, Dimensions	argdims, indexType argcount, FuncPtr fptr, FuncPtr fptrHandleError)
+static ArrayOfVector
+cellfun_uniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval, Dimensions argdims,
+    indexType argcount, FuncPtr fptr, FuncPtr fptrHandleError)
 {
     ArrayOfVector outputs;
-    for (int i = 0; i < argdims.getElementCount(); i++)
-    {
+    for (int i = 0; i < argdims.getElementCount(); i++) {
         ArrayOfVector input;
-        for (int j = 1; j < argcount; j++)
-        {
-            ArrayOf *arg = (ArrayOf*)(argIn[j].getDataPointer());
+        for (int j = 1; j < argcount; j++) {
+            ArrayOf* arg = (ArrayOf*)(argIn[j].getDataPointer());
             input.push_back(arg[i]);
         }
         ArrayOfVector ret;
-        if (fptrHandleError)
-        {
-            try
-            {
+        if (fptrHandleError) {
+            try {
                 ret = fptr->evaluateFunction(eval, input, nargout);
-            }
-            catch (Exception &e)
-            {
+            } catch (Exception& e) {
                 ArrayOfVector in2;
                 in2.push_back(ErrorToStruct(e));
-                for (size_t k = 0; k < input.size(); k++)
-                {
+                for (size_t k = 0; k < input.size(); k++) {
                     in2.push_back(input[k]);
                 }
                 ret = fptrHandleError->evaluateFunction(eval, in2, nargout);
             }
-            if (ret.size() < nargout)
-            {
+            if (ret.size() < nargout) {
                 Error(eval, _W("function returned fewer outputs than expected"));
             }
-        }
-        else
-        {
+        } else {
             ret = fptr->evaluateFunction(eval, input, nargout);
-            if (ret.size() < nargout)
-            {
+            if (ret.size() < nargout) {
                 Error(eval, _W("function returned fewer outputs than expected"));
             }
         }
-        if (i == 0)
-        {
-            for (int j = 0; j < nargout; j++)
-            {
-                if (!ret[j].isScalar())
-                {
+        if (i == 0) {
+            for (int j = 0; j < nargout; j++) {
+                if (!ret[j].isScalar()) {
                     Error(eval, _W("function returned non-scalar result"));
                 }
                 outputs.push_back(ret[j]);
                 outputs[j].resize(argdims);
             }
-        }
-        else
-        {
-            for (int j = 0; j < nargout; j++)
-            {
+        } else {
+            for (int j = 0; j < nargout; j++) {
                 outputs[j].setValueAtIndex(i, ret[j]);
             }
         }
@@ -167,25 +135,23 @@ static ArrayOfVector cellfun_uniformBuiltin(int nargout, const ArrayOfVector &ar
     return outputs;
 }
 //=============================================================================
-static ArrayOfVector isempty_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+static ArrayOfVector
+isempty_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf Cell = argIn[1];
     indexType nbElements = Cell.getDimensions().getElementCount();
-    logical  *matLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, Cell.getDimensions().getElementCount());
-    if (nbElements > 0)
-    {
-        ArrayOf *arg = (ArrayOf*)(Cell.getDataPointer());
-        for (indexType k = 0; k < nbElements; k++)
-        {
+    logical* matLogical
+        = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, Cell.getDimensions().getElementCount());
+    if (nbElements > 0) {
+        ArrayOf* arg = (ArrayOf*)(Cell.getDataPointer());
+        for (indexType k = 0; k < nbElements; k++) {
             matLogical[k] = arg[k].isEmpty();
         }
     }
@@ -193,25 +159,23 @@ static ArrayOfVector isempty_cellfunBuiltin(Evaluator* eval, int nLhs, const Arr
     return retval;
 }
 //=============================================================================
-static ArrayOfVector islogical_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+static ArrayOfVector
+islogical_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf Cell = argIn[1];
     indexType nbElements = Cell.getDimensions().getElementCount();
-    logical  *matLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, Cell.getDimensions().getElementCount());
-    if (nbElements > 0)
-    {
-        ArrayOf *arg = (ArrayOf*)(Cell.getDataPointer());
-        for (indexType k = 0; k < nbElements; k++)
-        {
+    logical* matLogical
+        = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, Cell.getDimensions().getElementCount());
+    if (nbElements > 0) {
+        ArrayOf* arg = (ArrayOf*)(Cell.getDataPointer());
+        for (indexType k = 0; k < nbElements; k++) {
             matLogical[k] = arg[k].isLogical();
         }
     }
@@ -219,25 +183,23 @@ static ArrayOfVector islogical_cellfunBuiltin(Evaluator* eval, int nLhs, const A
     return retval;
 }
 //=============================================================================
-static ArrayOfVector isreal_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+static ArrayOfVector
+isreal_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf Cell = argIn[1];
     indexType nbElements = Cell.getDimensions().getElementCount();
-    logical  *matLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, Cell.getDimensions().getElementCount());
-    if (nbElements > 0)
-    {
-        ArrayOf *arg = (ArrayOf*)(Cell.getDataPointer());
-        for (indexType k = 0; k < nbElements; k++)
-        {
+    logical* matLogical
+        = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, Cell.getDimensions().getElementCount());
+    if (nbElements > 0) {
+        ArrayOf* arg = (ArrayOf*)(Cell.getDataPointer());
+        for (indexType k = 0; k < nbElements; k++) {
             matLogical[k] = arg[k].allReal();
         }
     }
@@ -245,42 +207,34 @@ static ArrayOfVector isreal_cellfunBuiltin(Evaluator* eval, int nLhs, const Arra
     return retval;
 }
 //=============================================================================
-static ArrayOfVector length_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+static ArrayOfVector
+length_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf Cell = argIn[1];
     indexType nbElements = Cell.getDimensions().getElementCount();
-    double *matDouble = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, Cell.getDimensions().getElementCount());
-    if (nbElements > 0)
-    {
-        ArrayOf *arg = (ArrayOf*)(Cell.getDataPointer());
-        for (indexType k = 0; k < nbElements; k++)
-        {
+    double* matDouble
+        = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, Cell.getDimensions().getElementCount());
+    if (nbElements > 0) {
+        ArrayOf* arg = (ArrayOf*)(Cell.getDataPointer());
+        for (indexType k = 0; k < nbElements; k++) {
             double len = 0;
             Dimensions sze(arg[k].getDimensions());
-            for (indexType i = 0; i < sze.getLength(); i++)
-            {
-                if ((double)sze[i] == 0)
-                {
+            for (indexType i = 0; i < sze.getLength(); i++) {
+                if ((double)sze[i] == 0) {
                     len = 0;
                     break;
                 }
-                if (i == 0)
-                {
+                if (i == 0) {
                     len = (double)sze[i];
-                }
-                else
-                {
-                    if ((double)sze[i] > len)
-                    {
+                } else {
+                    if ((double)sze[i] > len) {
                         len = (double)sze[i];
                     }
                 }
@@ -292,28 +246,25 @@ static ArrayOfVector length_cellfunBuiltin(Evaluator* eval, int nLhs, const Arra
     return retval;
 }
 //=============================================================================
-static ArrayOfVector ndims_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+static ArrayOfVector
+ndims_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf Cell = argIn[1];
     indexType nbElements = Cell.getDimensions().getElementCount();
-    double *matDouble = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, Cell.getDimensions().getElementCount());
-    if (nbElements > 0)
-    {
-        ArrayOf *arg = (ArrayOf*)(Cell.getDataPointer());
-        for (indexType k = 0; k < nbElements; k++)
-        {
+    double* matDouble
+        = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, Cell.getDimensions().getElementCount());
+    if (nbElements > 0) {
+        ArrayOf* arg = (ArrayOf*)(Cell.getDataPointer());
+        for (indexType k = 0; k < nbElements; k++) {
             indexType len = arg[k].getDimensions().getLength();
-            if (len < 2)
-            {
+            if (len < 2) {
                 len = 2;
             }
             matDouble[k] = (double)len;
@@ -323,25 +274,23 @@ static ArrayOfVector ndims_cellfunBuiltin(Evaluator* eval, int nLhs, const Array
     return retval;
 }
 //=============================================================================
-static ArrayOfVector prodofsize_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+static ArrayOfVector
+prodofsize_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf Cell = argIn[1];
     indexType nbElements = Cell.getDimensions().getElementCount();
-    double *matDouble = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, Cell.getDimensions().getElementCount());
-    if (nbElements > 0)
-    {
-        ArrayOf *arg = (ArrayOf*)(Cell.getDataPointer());
-        for (indexType k = 0; k < nbElements; k++)
-        {
+    double* matDouble
+        = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, Cell.getDimensions().getElementCount());
+    if (nbElements > 0) {
+        ArrayOf* arg = (ArrayOf*)(Cell.getDataPointer());
+        for (indexType k = 0; k < nbElements; k++) {
             matDouble[k] = (double)arg[k].getDimensions().getElementCount();
         }
     }
@@ -349,34 +298,29 @@ static ArrayOfVector prodofsize_cellfunBuiltin(Evaluator* eval, int nLhs, const 
     return retval;
 }
 //=============================================================================
-static ArrayOfVector size_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+static ArrayOfVector
+size_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 3)
-    {
+    if (argIn.size() != 3) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param3 = argIn[2];
     indexType idx = param3.getContentAsScalarIndex(false);
     ArrayOf Cell = argIn[1];
     indexType nbElements = Cell.getDimensions().getElementCount();
-    double *matDouble = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, Cell.getDimensions().getElementCount());
-    if (nbElements > 0)
-    {
-        ArrayOf *arg = (ArrayOf*)(Cell.getDataPointer());
-        for (indexType k = 0; k < nbElements; k++)
-        {
+    double* matDouble
+        = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, Cell.getDimensions().getElementCount());
+    if (nbElements > 0) {
+        ArrayOf* arg = (ArrayOf*)(Cell.getDataPointer());
+        for (indexType k = 0; k < nbElements; k++) {
             Dimensions sze(arg[k].getDimensions());
-            if (idx - 1 >= maxDims)
-            {
+            if (idx - 1 >= maxDims) {
                 matDouble[k] = (double)(1.0);
-            }
-            else
-            {
+            } else {
                 matDouble[k] = (double)(sze[idx - 1]);
             }
         }
@@ -385,41 +329,33 @@ static ArrayOfVector size_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayO
     return retval;
 }
 //=============================================================================
-static ArrayOfVector isclass_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+static ArrayOfVector
+isclass_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 3)
-    {
+    if (argIn.size() != 3) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param3 = argIn[2];
     std::wstring classExpected = param3.getContentAsWideString();
     ArrayOf Cell = argIn[1];
     indexType nbElements = Cell.getDimensions().getElementCount();
-    logical  *matLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, Cell.getDimensions().getElementCount());
-    if (nbElements > 0)
-    {
-        ArrayOf *arg = (ArrayOf*)(Cell.getDataPointer());
-        for (indexType k = 0; k < nbElements; k++)
-        {
+    logical* matLogical
+        = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, Cell.getDimensions().getElementCount());
+    if (nbElements > 0) {
+        ArrayOf* arg = (ArrayOf*)(Cell.getDataPointer());
+        for (indexType k = 0; k < nbElements; k++) {
             std::wstring currentClass = L"";
             ClassName(arg[k], currentClass);
-            if (boost::algorithm::contains(currentClass, classExpected))
-            {
+            if (boost::algorithm::contains(currentClass, classExpected)) {
                 matLogical[k] = true;
-            }
-            else
-            {
-                if ((classExpected == L"char") && (currentClass == L"string"))
-                {
+            } else {
+                if ((classExpected == L"char") && (currentClass == L"string")) {
                     matLogical[k] = true;
-                }
-                else
-                {
+                } else {
                     matLogical[k] = false;
                 }
             }
@@ -429,245 +365,184 @@ static ArrayOfVector isclass_cellfunBuiltin(Evaluator* eval, int nLhs, const Arr
     return retval;
 }
 //=============================================================================
-ArrayOfVector Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     int nbElementsInput = (int)argIn.size();
-    if (nbElementsInput < 2)
-    {
+    if (nbElementsInput < 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bHaveErrorHandlerArgs = false;
     bool bHaveUniformOutputArgs = false;
     bool isUniformOutput = true;
     function_handle errorFunc = 0;
-    if (nbElementsInput - 2 > 0)
-    {
-        if (argIn[nbElementsInput - 2].isSingleString())
-        {
+    if (nbElementsInput - 2 > 0) {
+        if (argIn[nbElementsInput - 2].isSingleString()) {
             std::wstring argName = argIn[nbElementsInput - 2].getContentAsWideString();
-            if (argName == L"UniformOutput")
-            {
-                if (argIn[nbElementsInput - 1].isLogical())
-                {
-                    if (argIn[nbElementsInput - 1].isScalar())
-                    {
+            if (argName == L"UniformOutput") {
+                if (argIn[nbElementsInput - 1].isLogical()) {
+                    if (argIn[nbElementsInput - 1].isScalar()) {
                         bHaveUniformOutputArgs = true;
-                        isUniformOutput = (argIn[nbElementsInput - 1].getContentAsLogicalScalar() ? 1: 0);
+                        isUniformOutput
+                            = (argIn[nbElementsInput - 1].getContentAsLogicalScalar() ? 1 : 0);
                     }
-                }
-                else
-                {
+                } else {
                     Error(eval, _W("Error wrong type expected."));
                 }
-            }
-            else if (argName == L"ErrorHandler")
-            {
+            } else if (argName == L"ErrorHandler") {
                 ArrayOf param = argIn[nbElementsInput - 1];
-                if (param.isFunctionHandle())
-                {
+                if (param.isFunctionHandle()) {
                     errorFunc = param.getContentAsFunctionHandle();
                     bHaveErrorHandlerArgs = true;
-                }
-                else
-                {
-                    Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_FUNCTION_HANDLE_EXPECTED.c_str(), nbElementsInput));
+                } else {
+                    Error(eval,
+                        StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_FUNCTION_HANDLE_EXPECTED.c_str(),
+                            nbElementsInput));
                 }
             }
         }
     }
-    if (nbElementsInput - 4 > 0)
-    {
-        if (argIn[nbElementsInput - 4].isSingleString())
-        {
+    if (nbElementsInput - 4 > 0) {
+        if (argIn[nbElementsInput - 4].isSingleString()) {
             std::wstring argName = argIn[nbElementsInput - 4].getContentAsWideString();
-            if (argName == L"UniformOutput")
-            {
-                if (argIn[nbElementsInput - 5].isLogical())
-                {
-                    if (argIn[nbElementsInput - 5].isScalar())
-                    {
-                        if (bHaveUniformOutputArgs)
-                        {
+            if (argName == L"UniformOutput") {
+                if (argIn[nbElementsInput - 5].isLogical()) {
+                    if (argIn[nbElementsInput - 5].isScalar()) {
+                        if (bHaveUniformOutputArgs) {
                             Error(eval, _W("Error already defined."));
-                        }
-                        else
-                        {
+                        } else {
                             bHaveUniformOutputArgs = true;
-                            isUniformOutput = (argIn[nbElementsInput - 5].getContentAsLogicalScalar() ? 1 : 0);
+                            isUniformOutput
+                                = (argIn[nbElementsInput - 5].getContentAsLogicalScalar() ? 1 : 0);
                         }
                     }
-                }
-                else
-                {
+                } else {
                     Error(eval, _W("Error wrong type expected."));
                 }
-            }
-            else if (argName == L"ErrorHandler")
-            {
+            } else if (argName == L"ErrorHandler") {
                 ArrayOf param = argIn[nbElementsInput - 3];
-                if (param.isFunctionHandle())
-                {
-                    if (bHaveErrorHandlerArgs)
-                    {
+                if (param.isFunctionHandle()) {
+                    if (bHaveErrorHandlerArgs) {
                         Error(eval, _W("Error already defined."));
-                    }
-                    else
-                    {
+                    } else {
                         errorFunc = param.getContentAsFunctionHandle();
                         bHaveErrorHandlerArgs = true;
                     }
-                }
-                else
-                {
-                    Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_FUNCTION_HANDLE_EXPECTED.c_str(), nbElementsInput));
+                } else {
+                    Error(eval,
+                        StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_FUNCTION_HANDLE_EXPECTED.c_str(),
+                            nbElementsInput));
                 }
             }
         }
     }
-    if (bHaveErrorHandlerArgs)
-    {
+    if (bHaveErrorHandlerArgs) {
         nbElementsInput = nbElementsInput - 2;
     }
-    if (bHaveUniformOutputArgs)
-    {
+    if (bHaveUniformOutputArgs) {
         nbElementsInput = nbElementsInput - 2;
     }
     ArrayOf param1 = argIn[0];
-    FunctionDef *funcDef = nullptr;
-    if (!(param1.isSingleString() || param1.isFunctionHandle()))
-    {
+    FunctionDef* funcDef = nullptr;
+    if (!(param1.isSingleString() || param1.isFunctionHandle())) {
         Error(eval, _W("wrong type #1"));
-    }
-    else
-    {
-        if (param1.isSingleString())
-        {
+    } else {
+        if (param1.isSingleString()) {
             std::wstring functionName = param1.getContentAsWideString();
-            if (functionName == L"isempty")
-            {
+            if (functionName == L"isempty") {
                 return isempty_cellfunBuiltin(eval, nLhs, argIn);
             }
-            if (functionName == L"islogical")
-            {
+            if (functionName == L"islogical") {
                 return islogical_cellfunBuiltin(eval, nLhs, argIn);
             }
-            if (functionName == L"isreal")
-            {
+            if (functionName == L"isreal") {
                 return isreal_cellfunBuiltin(eval, nLhs, argIn);
             }
-            if (functionName == L"length")
-            {
+            if (functionName == L"length") {
                 return length_cellfunBuiltin(eval, nLhs, argIn);
             }
-            if (functionName == L"ndims")
-            {
+            if (functionName == L"ndims") {
                 return ndims_cellfunBuiltin(eval, nLhs, argIn);
             }
-            if (functionName == L"prodofsize")
-            {
+            if (functionName == L"prodofsize") {
                 return prodofsize_cellfunBuiltin(eval, nLhs, argIn);
             }
-            if (functionName == L"size")
-            {
+            if (functionName == L"size") {
                 return size_cellfunBuiltin(eval, nLhs, argIn);
             }
-            if (functionName == L"isclass")
-            {
+            if (functionName == L"isclass") {
                 return isclass_cellfunBuiltin(eval, nLhs, argIn);
             }
-            if (!PathFuncManager::getInstance()->find(wstring_to_utf8(functionName), funcDef))
-            {
-                if (!BuiltInFunctionDefManager::getInstance()->find(wstring_to_utf8(functionName), funcDef))
-                {
+            if (!PathFuncManager::getInstance()->find(wstring_to_utf8(functionName), funcDef)) {
+                if (!BuiltInFunctionDefManager::getInstance()->find(
+                        wstring_to_utf8(functionName), funcDef)) {
                     Error(eval, _W("A valid function name expected."));
                 }
             }
-        }
-        else
-        {
+        } else {
             function_handle fh = param1.getContentAsFunctionHandle();
             std::wstring functionName;
-            if (PathFuncManager::getInstance()->find(fh, functionName))
-            {
+            if (PathFuncManager::getInstance()->find(fh, functionName)) {
                 PathFuncManager::getInstance()->find(wstring_to_utf8(functionName), funcDef);
-            }
-            else
-            {
-                if (BuiltInFunctionDefManager::getInstance()->find(fh, functionName))
-                {
-                    BuiltInFunctionDefManager::getInstance()->find(wstring_to_utf8(functionName), funcDef);
+            } else {
+                if (BuiltInFunctionDefManager::getInstance()->find(fh, functionName)) {
+                    BuiltInFunctionDefManager::getInstance()->find(
+                        wstring_to_utf8(functionName), funcDef);
                 }
             }
-            if (funcDef == nullptr)
-            {
+            if (funcDef == nullptr) {
                 Error(eval, _W("A valid function name expected."));
             }
         }
     }
     Dimensions dimsCells;
-    for (size_t k = 1; k < nbElementsInput; k++)
-    {
+    for (size_t k = 1; k < nbElementsInput; k++) {
         ArrayOf param = argIn[k];
-        if (param.isCell())
-        {
-            if (k == 1)
-            {
+        if (param.isCell()) {
+            if (k == 1) {
                 dimsCells = param.getDimensions();
-            }
-            else
-            {
+            } else {
                 Dimensions dimsCurrentCell = param.getDimensions();
-                if (!dimsCells.equals(dimsCurrentCell))
-                {
+                if (!dimsCells.equals(dimsCurrentCell)) {
                     Error(eval, ERROR_SAME_SIZE_EXPECTED);
                 }
             }
-        }
-        else
-        {
+        } else {
             Error(eval, _W("cell expected."));
         }
     }
     int nargout = nLhs;
-    if (nargout == 0)
-    {
+    if (nargout == 0) {
         nargout = 1;
     }
     indexType nargin = argIn.size();
-    if (bHaveErrorHandlerArgs)
-    {
+    if (bHaveErrorHandlerArgs) {
         nargin -= 2;
     }
-    if (bHaveUniformOutputArgs)
-    {
+    if (bHaveUniformOutputArgs) {
         nargin -= 2;
     }
     FuncPtr fptrHandleError = nullptr;
-    if (errorFunc != 0)
-    {
+    if (errorFunc != 0) {
         std::wstring functionName;
         bool found = PathFuncManager::getInstance()->find(errorFunc, functionName);
-        if (found)
-        {
+        if (found) {
             PathFuncManager::getInstance()->find(wstring_to_utf8(functionName), fptrHandleError);
-        }
-        else
-        {
+        } else {
             found = BuiltInFunctionDefManager::getInstance()->find(errorFunc, functionName);
-            if (found)
-            {
-                BuiltInFunctionDefManager::getInstance()->find(wstring_to_utf8(functionName), fptrHandleError);
+            if (found) {
+                BuiltInFunctionDefManager::getInstance()->find(
+                    wstring_to_utf8(functionName), fptrHandleError);
             }
         }
     }
-    if (isUniformOutput)
-    {
-        retval = cellfun_uniformBuiltin(nargout, argIn, eval, dimsCells, nargin, funcDef, fptrHandleError);
-    }
-    else
-    {
-        retval = cellfun_nonuniformBuiltin(nargout, argIn, eval, dimsCells, nargin, funcDef, fptrHandleError);
+    if (isUniformOutput) {
+        retval = cellfun_uniformBuiltin(
+            nargout, argIn, eval, dimsCells, nargin, funcDef, fptrHandleError);
+    } else {
+        retval = cellfun_nonuniformBuiltin(
+            nargout, argIn, eval, dimsCells, nargin, funcDef, fptrHandleError);
     }
     return retval;
 }

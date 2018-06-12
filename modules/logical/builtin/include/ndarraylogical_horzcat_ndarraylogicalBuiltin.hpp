@@ -22,8 +22,10 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace LogicalGateway {
-        ArrayOfVector ndarraylogical_horzcat_ndarraylogicalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace LogicalGateway {
+    ArrayOfVector
+    ndarraylogical_horzcat_ndarraylogicalBuiltin(
+        Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

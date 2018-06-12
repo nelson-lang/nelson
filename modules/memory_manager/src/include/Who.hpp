@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsMemory_manager_exports.h"
 #include "Evaluator.hpp"
+#include "nlsMemory_manager_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSMEMORY_MANAGER_IMPEXP stringVector Who(Evaluator* eval, SCOPE_LEVEL scopeLevel, bool withPersistent);
+NLSMEMORY_MANAGER_IMPEXP stringVector
+Who(Evaluator* eval, SCOPE_LEVEL scopeLevel, bool withPersistent);
 }
 //=============================================================================

@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsOs_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSOS_FUNCTIONS_IMPEXP bool WinOpen(const std::wstring &command);
+NLSOS_FUNCTIONS_IMPEXP bool
+WinOpen(const std::wstring& command);
 }
 //=============================================================================

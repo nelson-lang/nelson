@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,8 +9,8 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tf01qd_(nc, nb, n, iord, ar, ma, h__, ldh, info)
-integer *nc, *nb, *n, *iord;
+EXPORTSYMBOL /* Subroutine */ int tf01qd_(nc, nb, n, iord, ar, ma, h__, ldh, info) integer *nc, *nb,
+    *n, *iord;
 doublereal *ar, *ma, *h__;
 integer *ldh, *info;
 {
@@ -154,24 +154,16 @@ integer *ldh, *info;
     /* Function Body */
     *info = 0;
     /*     Test the input scalar arguments. */
-    if (*nc < 0)
-    {
+    if (*nc < 0) {
         *info = -1;
-    }
-    else if (*nb < 0)
-    {
+    } else if (*nb < 0) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*ldh < max(1,*nc))
-    {
+    } else if (*ldh < max(1, *nc)) {
         *info = -8;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TF01QD", &i__1, 6L);
@@ -179,38 +171,35 @@ integer *ldh, *info;
     }
     /*     Quick return if possible. */
     /* Computing MAX */
-    i__1 = max(*nc,*nb);
-    if (max(i__1,*n) == 0)
-    {
+    i__1 = max(*nc, *nb);
+    if (max(i__1, *n) == 0) {
         return 0;
     }
-    ldhnb = *ldh **nb;
+    ldhnb = *ldh * *nb;
     nl = 1;
     k = 1;
     i__1 = *nc;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = *nb;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             nord = iord[k];
             h__[i__ + j * h_dim1] = ma[nl];
             jk = j;
             i__3 = nord - 1;
-            for (ki = 1; ki <= i__3; ++ki)
-            {
+            for (ki = 1; ki <= i__3; ++ki) {
                 jk += *nb;
                 i__4 = -ldhnb;
-                h__[i__ + jk * h_dim1] = ma[nl + ki] - ddot_(&ki, &ar[nl], &c__1, &h__[i__ + j * h_dim1], &i__4);
+                h__[i__ + jk * h_dim1]
+                    = ma[nl + ki] - ddot_(&ki, &ar[nl], &c__1, &h__[i__ + j * h_dim1], &i__4);
                 /* L20: */
             }
-            i__3 = j + (*n - nord - 1) **nb;
+            i__3 = j + (*n - nord - 1) * *nb;
             i__4 = *nb;
-            for (jj = j; i__4 < 0 ? jj >= i__3 : jj <= i__3; jj += i__4)
-            {
+            for (jj = j; i__4 < 0 ? jj >= i__3 : jj <= i__3; jj += i__4) {
                 jk += *nb;
                 i__5 = -ldhnb;
-                h__[i__ + jk * h_dim1] = -ddot_(&nord, &ar[nl], &c__1, &h__[i__ + jj * h_dim1], &i__5);
+                h__[i__ + jk * h_dim1]
+                    = -ddot_(&nord, &ar[nl], &c__1, &h__[i__ + jj * h_dim1], &i__5);
                 /* L40: */
             }
             nl += nord;
@@ -222,4 +211,3 @@ integer *ldh, *info;
     return 0;
     /* *** Last line of TF01QD *** */
 } /* tf01qd_ */
-

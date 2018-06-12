@@ -19,94 +19,84 @@
 #include "ToCellString.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    static ArrayOf ToCellStringAs(stringVector vectorStr, bool bAsColumn)
-    {
-        ArrayOf *elements = nullptr;
-        size_t nbElements = vectorStr.size();
-        if (nbElements > 0)
-        {
-            try
-            {
-                elements = new ArrayOf[nbElements];
-            }
-            catch (std::bad_alloc &e)
-            {
-                e.what();
-                throw Exception(ERROR_MEMORY_ALLOCATION);
-            }
-            for (size_t k = 0; k < nbElements; k++)
-            {
-                elements[k] = ArrayOf::stringConstructor(vectorStr[k]);
-            }
+//=============================================================================
+static ArrayOf
+ToCellStringAs(stringVector vectorStr, bool bAsColumn)
+{
+    ArrayOf* elements = nullptr;
+    size_t nbElements = vectorStr.size();
+    if (nbElements > 0) {
+        try {
+            elements = new ArrayOf[nbElements];
+        } catch (std::bad_alloc& e) {
+            e.what();
+            throw Exception(ERROR_MEMORY_ALLOCATION);
         }
-        ArrayOf c;
-        if (bAsColumn)
-        {
-            Dimensions dims(nbElements, 1);
-            c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
+        for (size_t k = 0; k < nbElements; k++) {
+            elements[k] = ArrayOf::stringConstructor(vectorStr[k]);
         }
-        else
-        {
-            Dimensions dims(1, nbElements);
-            c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
+    }
+    ArrayOf c;
+    if (bAsColumn) {
+        Dimensions dims(nbElements, 1);
+        c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
+    } else {
+        Dimensions dims(1, nbElements);
+        c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
+    }
+    return c;
+}
+//=============================================================================
+static ArrayOf
+ToCellStringAs(wstringVector vectorStr, bool bAsColumn)
+{
+    ArrayOf* elements = nullptr;
+    size_t nbElements = vectorStr.size();
+    if (nbElements > 0) {
+        try {
+            elements = new ArrayOf[nbElements];
+        } catch (std::bad_alloc& e) {
+            e.what();
+            throw Exception(ERROR_MEMORY_ALLOCATION);
         }
-        return c;
-    }
-    //=============================================================================
-    static ArrayOf ToCellStringAs(wstringVector vectorStr, bool bAsColumn)
-    {
-        ArrayOf *elements = nullptr;
-        size_t nbElements = vectorStr.size();
-        if (nbElements > 0)
-        {
-            try
-            {
-                elements = new ArrayOf[nbElements];
-            }
-            catch (std::bad_alloc &e)
-            {
-                e.what();
-                throw Exception(ERROR_MEMORY_ALLOCATION);
-            }
-            for (size_t k = 0; k < nbElements; k++)
-            {
-                elements[k] = ArrayOf::stringConstructor(vectorStr[k]);
-            }
+        for (size_t k = 0; k < nbElements; k++) {
+            elements[k] = ArrayOf::stringConstructor(vectorStr[k]);
         }
-        ArrayOf c;
-        if (bAsColumn)
-        {
-            Dimensions dims(nbElements, 1);
-            c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-        }
-        else
-        {
-            Dimensions dims(1, nbElements);
-            c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-        }
-        return c;
     }
-    //=============================================================================
-    ArrayOf ToCellStringAsRow(wstringVector vectorStr)
-    {
-        return ToCellStringAs(vectorStr, false);
+    ArrayOf c;
+    if (bAsColumn) {
+        Dimensions dims(nbElements, 1);
+        c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
+    } else {
+        Dimensions dims(1, nbElements);
+        c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
     }
-    //=============================================================================
-    ArrayOf ToCellStringAsColumn(wstringVector vectorStr)
-    {
-        return ToCellStringAs(vectorStr, true);
-    }
-    //=============================================================================
-    ArrayOf ToCellStringAsRow(stringVector vectorStr)
-    {
-        return ToCellStringAs(vectorStr, false);
-    }
-    //=============================================================================
-    ArrayOf ToCellStringAsColumn(stringVector vectorStr)
-    {
-        return ToCellStringAs(vectorStr, true);
-    }
-    //=============================================================================
+    return c;
+}
+//=============================================================================
+ArrayOf
+ToCellStringAsRow(wstringVector vectorStr)
+{
+    return ToCellStringAs(vectorStr, false);
+}
+//=============================================================================
+ArrayOf
+ToCellStringAsColumn(wstringVector vectorStr)
+{
+    return ToCellStringAs(vectorStr, true);
+}
+//=============================================================================
+ArrayOf
+ToCellStringAsRow(stringVector vectorStr)
+{
+    return ToCellStringAs(vectorStr, false);
+}
+//=============================================================================
+ArrayOf
+ToCellStringAsColumn(stringVector vectorStr)
+{
+    return ToCellStringAs(vectorStr, true);
+}
+//=============================================================================
 }
 //=============================================================================

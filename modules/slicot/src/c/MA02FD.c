@@ -1,13 +1,12 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int ma02fd_(x1, x2, c__, s, info)
-doublereal *x1, *x2, *c__, *s;
-integer *info;
+EXPORTSYMBOL /* Subroutine */ int ma02fd_(x1, x2, c__, s, info) doublereal *x1, *x2, *c__, *s;
+integer* info;
 {
     /* System generated locals */
     doublereal d__1;
@@ -61,20 +60,14 @@ integer *info;
     /*     .. Scalar Arguments .. */
     /*     .. Intrinsic Functions .. */
     /*     .. Executable Statements .. */
-    if ((*x1 != 0. || *x2 != 0.) && abs(*x2) >= abs(*x1))
-    {
+    if ((*x1 != 0. || *x2 != 0.) && abs(*x2) >= abs(*x1)) {
         *info = 1;
-    }
-    else
-    {
+    } else {
         *info = 0;
-        if (*x1 == 0.)
-        {
+        if (*x1 == 0.) {
             *s = 0.;
             *c__ = 1.;
-        }
-        else
-        {
+        } else {
             *s = *x2 / *x1;
             /*           No overflows could appear in the next statement; underflows */
             /*           are possible if X2 is tiny and X1 is huge, but then */
@@ -82,10 +75,9 @@ integer *info;
             /*           where delta is much less than machine precision. */
             d__1 = sqrt(1. - *s) * sqrt(*s + 1.);
             *c__ = d_sign(&d__1, x1);
-            *x1 = *c__ **x1;
+            *x1 = *c__ * *x1;
         }
     }
     return 0;
     /* *** Last line of MA02FD *** */
 } /* ma02fd_ */
-

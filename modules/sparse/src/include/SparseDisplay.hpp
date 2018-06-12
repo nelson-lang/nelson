@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsSparse_exports.h"
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
+#include "nlsSparse_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSPARSE_IMPEXP void SparseDisplay(Evaluator *eval, ArrayOf a);
+NLSSPARSE_IMPEXP void
+SparseDisplay(Evaluator* eval, ArrayOf a);
 }
 //=============================================================================

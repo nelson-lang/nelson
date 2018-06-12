@@ -21,61 +21,56 @@
 #include "Types.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    static inline logical NLSXOR(logical a, logical b)
-    {
-        return (!a && b) || (a && !b);
+//=============================================================================
+static inline logical
+NLSXOR(logical a, logical b)
+{
+    return (!a && b) || (a && !b);
+}
+//=============================================================================
+static void
+boolXor(
+    size_t n, logical* c, const logical* a, const int stride1, const logical* b, const int stride2)
+{
+    int m = 0;
+    int p = 0;
+    for (size_t i = 0; i < n; i++) {
+        c[i] = NLSXOR(a[m], b[p]);
+        m += stride1;
+        p += stride2;
     }
-    //=============================================================================
-    static void boolXor(size_t n, logical* c, const logical* a, const int stride1, const logical *b, const int stride2)
-    {
-        int m = 0;
-        int p = 0;
-        for (size_t i = 0; i < n; i++)
-        {
-            c[i] = NLSXOR(a[m], b[p]);
-            m += stride1;
-            p += stride2;
+}
+//=============================================================================
+ArrayOf
+XorLogical(ArrayOf A, ArrayOf B)
+{
+    ArrayOf C;
+    if ((A.getDataClass() == NLS_LOGICAL) && (B.getDataClass() == NLS_LOGICAL)) {
+        if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar()
+                || B.isScalar())) {
+            throw Exception(_W("Size mismatch on arguments."));
         }
+        if (A.isScalar()) {
+            size_t Blen(B.getLength());
+            logical* Cp = new_with_exception<logical>(Blen);
+            boolXor(Blen, Cp, (logical*)A.getDataPointer(), 0, (logical*)B.getDataPointer(), 1);
+            C = ArrayOf(NLS_LOGICAL, B.getDimensions(), Cp);
+        } else if (B.isScalar()) {
+            size_t Alen(A.getLength());
+            logical* Cp = new_with_exception<logical>(Alen);
+            boolXor(Alen, Cp, (logical*)A.getDataPointer(), 1, (logical*)B.getDataPointer(), 0);
+            C = ArrayOf(NLS_LOGICAL, A.getDimensions(), Cp);
+        } else {
+            size_t Alen(A.getLength());
+            logical* Cp = new_with_exception<logical>(Alen);
+            boolXor(Alen, Cp, (logical*)A.getDataPointer(), 1, (logical*)B.getDataPointer(), 1);
+            C = ArrayOf(NLS_LOGICAL, A.getDimensions(), Cp);
+        }
+    } else {
+        throw Exception(_W("Invalid type."));
     }
-    //=============================================================================
-    ArrayOf XorLogical(ArrayOf A, ArrayOf B)
-    {
-        ArrayOf C;
-        if ((A.getDataClass() == NLS_LOGICAL) && (B.getDataClass() == NLS_LOGICAL))
-        {
-            if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar()))
-            {
-                throw Exception(_W("Size mismatch on arguments."));
-            }
-            if (A.isScalar())
-            {
-                size_t Blen(B.getLength());
-                logical *Cp = new_with_exception<logical>(Blen);
-                boolXor(Blen, Cp, (logical*)A.getDataPointer(), 0, (logical*)B.getDataPointer(), 1);
-                C = ArrayOf(NLS_LOGICAL, B.getDimensions(), Cp);
-            }
-            else if (B.isScalar())
-            {
-                size_t Alen(A.getLength());
-                logical *Cp = new_with_exception<logical>(Alen);
-                boolXor(Alen, Cp, (logical*)A.getDataPointer(), 1, (logical*)B.getDataPointer(), 0);
-                C = ArrayOf(NLS_LOGICAL, A.getDimensions(), Cp);
-            }
-            else
-            {
-                size_t Alen(A.getLength());
-                logical *Cp = new_with_exception<logical>(Alen);
-                boolXor(Alen, Cp, (logical*)A.getDataPointer(), 1, (logical*)B.getDataPointer(), 1);
-                C = ArrayOf(NLS_LOGICAL, A.getDimensions(), Cp);
-            }
-        }
-        else
-        {
-            throw Exception(_W("Invalid type."));
-        }
-        return C;
-    }
-    //=============================================================================
+    return C;
+}
+//=============================================================================
 }
 //=============================================================================

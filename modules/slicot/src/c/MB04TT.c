@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,19 +11,20 @@ static integer c__1 = 1;
 static doublereal c_b7 = 0.;
 static logical c_false = FALSE_;
 
-EXPORTSYMBOL /* Subroutine */ int mb04tt_(updatq, updatz, m, n, ifira, ifica, nca, a, lda, e, lde, q, ldq, z__, ldz, istair, rank, tol, iwork)
-logical *updatq, *updatz;
+EXPORTSYMBOL /* Subroutine */ int mb04tt_(updatq, updatz, m, n, ifira, ifica, nca, a, lda, e, lde,
+    q, ldq, z__, ldz, istair, rank, tol, iwork) logical *updatq,
+    *updatz;
 integer *m, *n, *ifira, *ifica, *nca;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *q;
-integer *ldq;
-doublereal *z__;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* q;
+integer* ldq;
+doublereal* z__;
 integer *ldz, *istair, *rank;
-doublereal *tol;
-integer *iwork;
+doublereal* tol;
+integer* iwork;
 {
     /* System generated locals */
     integer a_dim1, a_offset, e_dim1, e_offset, q_dim1, q_offset, z_dim1, z_offset, i__1, i__2;
@@ -209,8 +210,7 @@ integer *iwork;
     --iwork;
     /* Function Body */
     *rank = 0;
-    if (*m <= 0 || *n <= 0)
-    {
+    if (*m <= 0 || *n <= 0) {
         return 0;
     }
     /*     Initialisation. */
@@ -221,55 +221,48 @@ integer *iwork;
     ifira1 = *ifira - 1;
     ifica1 = *ifica - 1;
     i__1 = nj;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         iwork[i__] = i__;
         /* L20: */
     }
     k = 1;
     lzero = FALSE_;
-    *rank = min(nj,mj);
+    *rank = min(nj, mj);
     mxrank = *rank;
     /*     WHILE ( K <= MXRANK ) and ( LZERO = FALSE ) DO */
 L40:
-    if (k <= mxrank && ! lzero)
-    {
+    if (k <= mxrank && !lzero) {
         /*        Determine column in Aj with largest max-norm. */
         bmxnrm = 0.;
         lsav = k;
         kk = ifira1 + k;
         i__1 = nj;
-        for (l = k; l <= i__1; ++l)
-        {
+        for (l = k; l <= i__1; ++l) {
             /*           IDAMAX call gives the relative index in column L of Aj where */
             /*           max element is found. */
             /*           Note: the first element in column L is in row K of */
             /*                 matrix Aj. */
             ll = ifica1 + l;
             i__2 = mj - k + 1;
-            bmx = (d__1 = a[idamax_(&i__2, &a[kk + ll * a_dim1], &c__1) + kk - 1 + ll * a_dim1], abs(d__1));
-            if (bmx > bmxnrm)
-            {
+            bmx = (d__1 = a[idamax_(&i__2, &a[kk + ll * a_dim1], &c__1) + kk - 1 + ll * a_dim1],
+                abs(d__1));
+            if (bmx > bmxnrm) {
                 bmxnrm = bmx;
                 lsav = l;
             }
             /* L60: */
         }
         ll = ifica1 + k;
-        if (bmxnrm < *tol)
-        {
+        if (bmxnrm < *tol) {
             /*           Set submatrix of Aj to zero. */
             i__1 = mj - k + 1;
             i__2 = nj - k + 1;
             dlaset_("Full", &i__1, &i__2, &c_b7, &c_b7, &a[kk + ll * a_dim1], lda, 4L);
             lzero = TRUE_;
             *rank = k - 1;
-        }
-        else
-        {
+        } else {
             /*           Check whether columns have to be interchanged. */
-            if (lsav != k)
-            {
+            if (lsav != k) {
                 /*              Interchange the columns in A which correspond to the */
                 /*              columns lsav and k in Aj. Store the permutation in IWORK. */
                 dswap_(m, &a[ll * a_dim1 + 1], &c__1, &a[(ifica1 + lsav) * a_dim1 + 1], &c__1);
@@ -280,8 +273,7 @@ L40:
             ++k;
             mk1 = *n - ll + 1;
             i__1 = k;
-            for (i__ = mj; i__ >= i__1; --i__)
-            {
+            for (i__ = mj; i__ >= i__1; --i__) {
                 /*              II = absolute row number in A corresponding to row i in */
                 /*                   Aj. */
                 ii = ifira1 + i__;
@@ -291,40 +283,32 @@ L40:
                 /*              Update row transformation matrix Q, if needed. */
                 drotg_(&a[ii - 1 + ll * a_dim1], &a[ii + ll * a_dim1], &sc, &ss);
                 i__2 = mk1 - 1;
-                drot_(&i__2, &a[ii - 1 + (ll + 1) * a_dim1], lda, &a[ii + (ll + 1) * a_dim1], lda, &sc, &ss);
+                drot_(&i__2, &a[ii - 1 + (ll + 1) * a_dim1], lda, &a[ii + (ll + 1) * a_dim1], lda,
+                    &sc, &ss);
                 a[ii + ll * a_dim1] = 0.;
-                if (*updatq)
-                {
-                    drot_(m, &q[(ii - 1) * q_dim1 + 1], &c__1, &q[ii * q_dim1 + 1], &c__1, &sc, &ss);
+                if (*updatq) {
+                    drot_(
+                        m, &q[(ii - 1) * q_dim1 + 1], &c__1, &q[ii * q_dim1 + 1], &c__1, &sc, &ss);
                 }
                 /*              Determine boundary type of matrix E at rows II-1 and II. */
                 ist1 = istair[ii - 1];
                 ist2 = istair[ii];
-                if (ist1 * ist2 > 0)
-                {
-                    if (ist1 > 0)
-                    {
+                if (ist1 * ist2 > 0) {
+                    if (ist1 > 0) {
                         /*                    boundary form = (* x) */
                         /*                                    (0 *) */
                         itype = 1;
-                    }
-                    else
-                    {
+                    } else {
                         /*                    boundary form = (x x) */
                         /*                                    (x x) */
                         itype = 3;
                     }
-                }
-                else
-                {
-                    if (ist1 < 0)
-                    {
+                } else {
+                    if (ist1 < 0) {
                         /*                    boundary form = (x x) */
                         /*                                    (* x) */
                         itype = 2;
-                    }
-                    else
-                    {
+                    } else {
                         /*                    boundary form = (* x) */
                         /*                                    (0 x) */
                         itype = 4;
@@ -339,33 +323,32 @@ L40:
                 /*                    JC1 = JC2   if ITYPE = 2, 3 or 4. */
                 jc1 = abs(ist1);
                 jc2 = abs(ist2);
-                jpvt = min(jc1,jc2);
+                jpvt = min(jc1, jc2);
                 i__2 = *n - jpvt + 1;
-                drot_(&i__2, &e[ii - 1 + jpvt * e_dim1], lde, &e[ii + jpvt * e_dim1], lde, &sc, &ss);
+                drot_(
+                    &i__2, &e[ii - 1 + jpvt * e_dim1], lde, &e[ii + jpvt * e_dim1], lde, &sc, &ss);
                 eijpvt = e[ii + jpvt * e_dim1];
-                if (itype == 1)
-                {
+                if (itype == 1) {
                     /*                 Construct column Givens transformation to annihilate */
                     /*                 E(ii,jpvt). */
                     /*                 Apply column Givens transformation to matrix E */
                     /*                 (NOT only to Ej). */
                     drotg_(&e[ii + (jpvt + 1) * e_dim1], &e[ii + jpvt * e_dim1], &sc, &ss);
                     i__2 = ii - 1;
-                    drot_(&i__2, &e[(jpvt + 1) * e_dim1 + 1], &c__1, &e[jpvt * e_dim1 + 1], &c__1, &sc, &ss);
+                    drot_(&i__2, &e[(jpvt + 1) * e_dim1 + 1], &c__1, &e[jpvt * e_dim1 + 1], &c__1,
+                        &sc, &ss);
                     e[ii + jpvt * e_dim1] = 0.;
                     /*                 Apply this transformation also to matrix A */
                     /*                 (NOT only to Aj). */
                     /*                 Update column transformation matrix Z, if needed. */
-                    drot_(m, &a[(jpvt + 1) * a_dim1 + 1], &c__1, &a[jpvt * a_dim1 + 1], &c__1, &sc, &ss);
-                    if (*updatz)
-                    {
-                        drot_(n, &z__[(jpvt + 1) * z_dim1 + 1], &c__1, &z__[jpvt * z_dim1 + 1], &c__1, &sc, &ss);
+                    drot_(m, &a[(jpvt + 1) * a_dim1 + 1], &c__1, &a[jpvt * a_dim1 + 1], &c__1, &sc,
+                        &ss);
+                    if (*updatz) {
+                        drot_(n, &z__[(jpvt + 1) * z_dim1 + 1], &c__1, &z__[jpvt * z_dim1 + 1],
+                            &c__1, &sc, &ss);
                     }
-                }
-                else if (itype == 2)
-                {
-                    if (abs(eijpvt) < *tol)
-                    {
+                } else if (itype == 2) {
+                    if (abs(eijpvt) < *tol) {
                         /*                                                        (x x)    (* x) */
                         /*                    Boundary form has been changed from (* x) to (0 x). */
                         istpvt = istair[ii];
@@ -373,11 +356,8 @@ L40:
                         istair[ii] = -(istpvt + 1);
                         e[ii + jpvt * e_dim1] = 0.;
                     }
-                }
-                else if (itype == 4)
-                {
-                    if (abs(eijpvt) >= *tol)
-                    {
+                } else if (itype == 4) {
+                    if (abs(eijpvt) >= *tol) {
                         /*                                                        (* x)    (x x) */
                         /*                    Boundary form has been changed from (0 x) to (* x). */
                         istpvt = istair[ii - 1];
@@ -397,4 +377,3 @@ L40:
     return 0;
     /* *** Last line of MB04TT *** */
 } /* mb04tt_ */
-

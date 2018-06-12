@@ -17,31 +17,29 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "relativepathBuiltin.hpp"
-#include "RelativePath.hpp"
 #include "Error.hpp"
+#include "RelativePath.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FilesFoldersGateway::relativepathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FilesFoldersGateway::relativepathBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring param1 = argIn[0].getContentAsWideString();
     std::wstring param2 = argIn[1].getContentAsWideString();
     bool bSuccess = false;
     std::wstring result = RelativePath(param1, param2, bSuccess);
-    if (bSuccess)
-    {
+    if (bSuccess) {
         bool needToAddDot = !(result[0] == L'/' || result[0] == L'\\' || result[0] == L'.');
-        if (needToAddDot)
-        {
+        if (needToAddDot) {
             result = L"./" + result;
         }
     }

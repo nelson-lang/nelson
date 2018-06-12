@@ -18,22 +18,24 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include <boost/container/vector.hpp>
+#include <string>
 //=============================================================================
-class LineManager {
+class LineManager
+{
 private:
     std::wstring currentPrompt;
     size_t cur_pos; /* current position of the cursor */
     size_t max_pos;
 
-    boost::container::vector <wchar_t> current_line_buffer;
+    boost::container::vector<wchar_t> current_line_buffer;
 
     bool bUsesColors;
 
-    void backSpace(void);
-    void doBeep();
-
+    void
+    backSpace(void);
+    void
+    doBeep();
 
 public:
     enum outputStyle
@@ -44,137 +46,160 @@ public:
         STANDARD_INPUT,
         PROMPT_OUTPUT
     };
-    int putCharacter(wchar_t wch, outputStyle eAsStyle = outputStyle::STANDARD_OUTPUT);
-    int printCharacters(std::wstring buffer, outputStyle eAsStyle = outputStyle::STANDARD_OUTPUT);
+    int
+    putCharacter(wchar_t wch, outputStyle eAsStyle = outputStyle::STANDARD_OUTPUT);
+    int
+    printCharacters(std::wstring buffer, outputStyle eAsStyle = outputStyle::STANDARD_OUTPUT);
 
     LineManager();
     ~LineManager();
-    void usesColors();
+    void
+    usesColors();
     /**
-    * returns current line
-    * @return current line
-    */
-    std::wstring getCurrentLine(void);
-
-    /**
-    * returns line before caret
-    * return line
-    */
-    std::wstring getLineBeforeCaret(void);
+     * returns current line
+     * @return current line
+     */
+    std::wstring
+    getCurrentLine(void);
 
     /**
-    * returns line after caret
-    * return line
-    */
-    std::wstring getLineAfterCaret(void);
+     * returns line before caret
+     * return line
+     */
+    std::wstring
+    getLineBeforeCaret(void);
 
     /**
-    * moves to the beginning of the line
-    */
-    void moveBeginningLine(void);
+     * returns line after caret
+     * return line
+     */
+    std::wstring
+    getLineAfterCaret(void);
 
     /**
-    * moves to the end of the line
-    */
-    void moveEndLine(void);
+     * moves to the beginning of the line
+     */
+    void
+    moveBeginningLine(void);
 
     /**
-    * moves back a single character
-    */
-    void moveBackSingleChar(void);
-
-
-    /**
-    * moves forward a single character
-    */
-    void moveForwardSingleChar(void);
+     * moves to the end of the line
+     */
+    void
+    moveEndLine(void);
 
     /**
-    * moves back a single word
-    */
-    void moveBackSingleWord(void);
+     * moves back a single character
+     */
+    void
+    moveBackSingleChar(void);
 
     /**
-    * moves forward a single word
-    */
-    void moveForwardSingleWord(void);
+     * moves forward a single character
+     */
+    void
+    moveForwardSingleChar(void);
 
     /**
-    * kills from current position to the end of line
-    */
-    void killCurrentPositionToEndLine(void);
+     * moves back a single word
+     */
+    void
+    moveBackSingleWord(void);
 
     /**
-    * delete the previous character
-    */
-    void deletePreviousChar(void);
+     * moves forward a single word
+     */
+    void
+    moveForwardSingleWord(void);
 
     /**
-    * deletes the current character
-    */
-    void deleteCurrentChar(void);
+     * kills from current position to the end of line
+     */
+    void
+    killCurrentPositionToEndLine(void);
 
     /**
-    * moves back through history
-    */
-    void moveBackHistory(void);
+     * delete the previous character
+     */
+    void
+    deletePreviousChar(void);
 
     /**
-    * moves forward through history
-    */
-    void moveForwardHistory(void);
+     * deletes the current character
+     */
+    void
+    deleteCurrentChar(void);
 
     /**
-    * redraw line
-    */
-    void redrawLine(void);
+     * moves back through history
+     */
+    void
+    moveBackHistory(void);
 
     /**
-    * kills last word
-    */
-    void killLastWord(void);
+     * moves forward through history
+     */
+    void
+    moveForwardHistory(void);
 
     /**
-    * initialize new line
-    */
-    void newLine(void);
+     * redraw line
+     */
+    void
+    redrawLine(void);
 
     /**
-    * clear current line
-    */
-    void clearCurrentLine(bool withPrompt = true);
+     * kills last word
+     */
+    void
+    killLastWord(void);
 
     /**
-    * set prompt used by terminal
-    */
-    void setCurrentPrompt(std::wstring prompt);
+     * initialize new line
+     */
+    void
+    newLine(void);
 
     /**
-    * get prompt used by terminal
-    */
-    std::wstring getCurrentPrompt();
+     * clear current line
+     */
+    void
+    clearCurrentLine(bool withPrompt = true);
 
     /**
-    * display prompt
-    */
-    void displayPrompt(void);
+     * set prompt used by terminal
+     */
+    void
+    setCurrentPrompt(std::wstring prompt);
 
     /**
-    * refresh line
-    */
-    void refreshLine(void);
+     * get prompt used by terminal
+     */
+    std::wstring
+    getCurrentPrompt();
 
     /**
-    * copy line on terminal
-    */
-    void copyLine(std::wstring line);
+     * display prompt
+     */
+    void
+    displayPrompt(void);
 
     /**
-    * add character to current line
-    * @param[in] character to add
-    */
-    void addCharacterCurrentLine(wchar_t ch);
+     * refresh line
+     */
+    void
+    refreshLine(void);
 
+    /**
+     * copy line on terminal
+     */
+    void
+    copyLine(std::wstring line);
+
+    /**
+     * add character to current line
+     * @param[in] character to add
+     */
+    void
+    addCharacterCurrentLine(wchar_t ch);
 };
-
-

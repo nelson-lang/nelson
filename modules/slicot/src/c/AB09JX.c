@@ -1,15 +1,16 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int ab09jx_(dico, stdom, evtype, n, alpha, er, ei, ed, tolinf, info, dico_len, stdom_len, evtype_len)
-char *dico, *stdom, *evtype;
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int ab09jx_(dico, stdom, evtype, n, alpha, er, ei, ed, tolinf, info,
+    dico_len, stdom_len, evtype_len) char *dico,
+    *stdom, *evtype;
+integer* n;
 doublereal *alpha, *er, *ei, *ed, *tolinf;
-integer *info;
+integer* info;
 ftnlen dico_len;
 ftnlen stdom_len;
 ftnlen evtype_len;
@@ -133,136 +134,94 @@ ftnlen evtype_len;
     stdevp = lsame_(evtype, "S", 1L, 1L);
     recevp = lsame_(evtype, "R", 1L, 1L);
     /*     Check the scalar input arguments. */
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (! (stab || lsame_(stdom, "U", 1L, 1L)))
-    {
+    } else if (!(stab || lsame_(stdom, "U", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (stdevp || lsame_(evtype, "G", 1L, 1L) || recevp))
-    {
+    } else if (!(stdevp || lsame_(evtype, "G", 1L, 1L) || recevp)) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (discr && *alpha < 0.)
-    {
+    } else if (discr && *alpha < 0.) {
         *info = -5;
-    }
-    else if (*tolinf < 0. || *tolinf >= 1.)
-    {
+    } else if (*tolinf < 0. || *tolinf >= 1.) {
         *info = -9;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB09JX", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
-    if (stab)
-    {
+    if (stab) {
         /*        Check the stability of finite eigenvalues. */
         scale = 1.;
-        if (discr)
-        {
+        if (discr) {
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 absev = dlapy2_(&er[i__], &ei[i__]);
-                if (recevp)
-                {
+                if (recevp) {
                     scale = absev;
                     absev = (d__1 = ed[i__], abs(d__1));
-                }
-                else if (! stdevp)
-                {
+                } else if (!stdevp) {
                     scale = ed[i__];
                 }
-                if (abs(scale) > *tolinf && absev >= *alpha * scale)
-                {
+                if (abs(scale) > *tolinf && absev >= *alpha * scale) {
                     *info = 1;
                     return 0;
                 }
                 /* L10: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 rpev = er[i__];
-                if (recevp)
-                {
+                if (recevp) {
                     scale = rpev;
                     rpev = ed[i__];
-                }
-                else if (! stdevp)
-                {
+                } else if (!stdevp) {
                     scale = ed[i__];
                 }
-                if (abs(scale) > *tolinf && rpev >= *alpha * scale)
-                {
+                if (abs(scale) > *tolinf && rpev >= *alpha * scale) {
                     *info = 1;
                     return 0;
                 }
                 /* L20: */
             }
         }
-    }
-    else
-    {
+    } else {
         /*        Check the anti-stability of finite eigenvalues. */
-        if (discr)
-        {
+        if (discr) {
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 absev = dlapy2_(&er[i__], &ei[i__]);
-                if (recevp)
-                {
+                if (recevp) {
                     scale = absev;
                     absev = (d__1 = ed[i__], abs(d__1));
-                }
-                else if (! stdevp)
-                {
+                } else if (!stdevp) {
                     scale = ed[i__];
                 }
-                if (abs(scale) > *tolinf && absev <= *alpha * scale)
-                {
+                if (abs(scale) > *tolinf && absev <= *alpha * scale) {
                     *info = 1;
                     return 0;
                 }
                 /* L30: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 rpev = er[i__];
-                if (recevp)
-                {
+                if (recevp) {
                     scale = rpev;
                     rpev = ed[i__];
-                }
-                else if (! stdevp)
-                {
+                } else if (!stdevp) {
                     scale = ed[i__];
                 }
-                if (abs(scale) > *tolinf && rpev <= *alpha * scale)
-                {
+                if (abs(scale) > *tolinf && rpev <= *alpha * scale) {
                     *info = 1;
                     return 0;
                 }
@@ -273,4 +232,3 @@ ftnlen evtype_len;
     return 0;
     /* *** Last line of AB09JX *** */
 } /* ab09jx_ */
-

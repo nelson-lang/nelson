@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,12 +9,12 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int ma02dd_(job, uplo, n, a, lda, ap, job_len, uplo_len)
-char *job, *uplo;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *ap;
+EXPORTSYMBOL /* Subroutine */ int ma02dd_(job, uplo, n, a, lda, ap, job_len, uplo_len) char *job,
+    *uplo;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* ap;
 ftnlen job_len;
 ftnlen uplo_len;
 {
@@ -110,52 +110,39 @@ ftnlen uplo_len;
     /* Function Body */
     luplo = lsame_(uplo, "L", 1L, 1L);
     ij = 1;
-    if (lsame_(job, "P", 1L, 1L))
-    {
-        if (luplo)
-        {
+    if (lsame_(job, "P", 1L, 1L)) {
+        if (luplo) {
             /*           Pack the lower triangle of A. */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n - j + 1;
                 dcopy_(&i__2, &a[j + j * a_dim1], &c__1, &ap[ij], &c__1);
                 ij = ij + *n - j + 1;
                 /* L20: */
             }
-        }
-        else
-        {
+        } else {
             /*           Pack the upper triangle of A. */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 dcopy_(&j, &a[j * a_dim1 + 1], &c__1, &ap[ij], &c__1);
                 ij += j;
                 /* L40: */
             }
         }
-    }
-    else
-    {
-        if (luplo)
-        {
+    } else {
+        if (luplo) {
             /*           Unpack the lower triangle of A. */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n - j + 1;
                 dcopy_(&i__2, &ap[ij], &c__1, &a[j + j * a_dim1], &c__1);
                 ij = ij + *n - j + 1;
                 /* L60: */
             }
-        }
-        else
-        {
+        } else {
             /*           Unpack the upper triangle of A. */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 dcopy_(&j, &ap[ij], &c__1, &a[j * a_dim1 + 1], &c__1);
                 ij += j;
                 /* L80: */
@@ -165,4 +152,3 @@ ftnlen uplo_len;
     return 0;
     /* *** Last line of MA02DD *** */
 } /* ma02dd_ */
-

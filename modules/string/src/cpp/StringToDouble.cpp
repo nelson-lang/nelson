@@ -19,115 +19,95 @@
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
 #endif
-#include <math.h>
-#include <boost/algorithm/string.hpp>
-#include <algorithm>
 #include "StringToDouble.hpp"
+#include <algorithm>
+#include <boost/algorithm/string.hpp>
+#include <math.h>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
+//=============================================================================
 #define STR2DOUBLE_MAX_DIGIT_FORMAT L"%lg"
-    //=============================================================================
-    static std::wstring ToUpper(const std::wstring &A)
-    {
-        std::wstring res = A;
-        transform(res.begin(), res.end(), res.begin(), towupper);
-        return res;
+//=============================================================================
+static std::wstring
+ToUpper(const std::wstring& A)
+{
+    std::wstring res = A;
+    transform(res.begin(), res.end(), res.begin(), towupper);
+    return res;
+}
+//=============================================================================
+static double
+returnInfinity(bool bPositive)
+{
+    double res = std::numeric_limits<double>::infinity();
+    if (!bPositive) {
+        res = -res;
     }
-    //=============================================================================
-    static double returnInfinity(bool bPositive)
-    {
-        double res = std::numeric_limits<double>::infinity();
-        if (!bPositive)
-        {
-            res = -res;
-        }
-        return res;
-    }
-    //=============================================================================
-    double stringToDouble(const std::wstring &str, bool &wasConverted)
-    {
-        double res = nan("");
-        wasConverted = false;
-        if (str.empty())
-        {
+    return res;
+}
+//=============================================================================
+double
+stringToDouble(const std::wstring& str, bool& wasConverted)
+{
+    double res = nan("");
+    wasConverted = false;
+    if (str.empty()) {
+        res = nan("");
+        wasConverted = true;
+    } else {
+        std::wstring STR = ToUpper(str);
+        if (STR.compare(ToUpper(NanString)) == 0 || STR.compare(ToUpper(NegNanString)) == 0
+            || STR.compare(ToUpper(PosNanString)) == 0) {
             res = nan("");
             wasConverted = true;
-        }
-        else
-        {
-            std::wstring STR = ToUpper(str);
-            if (STR.compare(ToUpper(NanString)) == 0 || STR.compare(ToUpper(NegNanString)) == 0 ||
-                    STR.compare(ToUpper(PosNanString)) == 0)
-            {
-                res = nan("");
-                wasConverted = true;
+        } else if (STR.compare(ToUpper(NegInfString)) == 0) {
+            res = returnInfinity(false);
+            wasConverted = true;
+        } else if (STR.compare(ToUpper(InfString)) == 0
+            || STR.compare(ToUpper(PosInfString)) == 0) {
+            res = returnInfinity(true);
+            wasConverted = true;
+        } else {
+            STR = str;
+            if (boost::algorithm::contains(str, L",")) {
+                boost::replace_all(STR, L",", L"");
             }
-            else if (STR.compare(ToUpper(NegInfString)) == 0)
-            {
-                res = returnInfinity(false);
-                wasConverted = true;
+            if (boost::algorithm::contains(STR, L" ")) {
+                boost::algorithm::trim_left(STR);
+                boost::algorithm::trim_right(STR);
             }
-            else if (STR.compare(ToUpper(InfString)) == 0 || STR.compare(ToUpper(PosInfString)) == 0)
-            {
-                res = returnInfinity(true);
-                wasConverted = true;
+            if (boost::algorithm::contains(STR, L"d")) {
+                boost::replace_all(STR, L"d", L"e");
             }
-            else
-            {
-                STR = str;
-                if (boost::algorithm::contains(str, L","))
-                {
-                    boost::replace_all(STR, L",", L"");
-                }
-                if (boost::algorithm::contains(STR, L" "))
-                {
-                    boost::algorithm::trim_left(STR);
-                    boost::algorithm::trim_right(STR);
-                }
-                if (boost::algorithm::contains(STR, L"d"))
-                {
-                    boost::replace_all(STR, L"d", L"e");
-                }
-                if (boost::algorithm::contains(STR, L"D"))
-                {
-                    boost::replace_all(STR, L"D", L"e");
-                }
-                double v = nan("");
-                int err = swscanf(STR.c_str(), STR2DOUBLE_MAX_DIGIT_FORMAT, &v);
-                if (err == 1)
-                {
-                    double v2;
-                    wchar_t * pEnd = NULL;
-                    v2 = wcstod(STR.c_str(), &pEnd);
-                    if (pEnd != nullptr)
-                    {
-                        if (wcslen(pEnd) == 0)
-                        {
-                            res = v2;
-                            wasConverted = true;
-                        }
-                        else
-                        {
-                            res = nan("");
-                            wasConverted = true;
-                        }
-                    }
-                    else
-                    {
+            if (boost::algorithm::contains(STR, L"D")) {
+                boost::replace_all(STR, L"D", L"e");
+            }
+            double v = nan("");
+            int err = swscanf(STR.c_str(), STR2DOUBLE_MAX_DIGIT_FORMAT, &v);
+            if (err == 1) {
+                double v2;
+                wchar_t* pEnd = NULL;
+                v2 = wcstod(STR.c_str(), &pEnd);
+                if (pEnd != nullptr) {
+                    if (wcslen(pEnd) == 0) {
+                        res = v2;
                         wasConverted = true;
+                    } else {
                         res = nan("");
+                        wasConverted = true;
                     }
-                }
-                else
-                {
+                } else {
                     wasConverted = true;
                     res = nan("");
                 }
+            } else {
+                wasConverted = true;
+                res = nan("");
             }
         }
-        return res;
     }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

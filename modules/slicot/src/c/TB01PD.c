@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,18 +9,19 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tb01pd_(job, equil, n, m, p, a, lda, b, ldb, c__, ldc, nr, tol, iwork, dwork, ldwork, info, job_len, equil_len)
-char *job, *equil;
+EXPORTSYMBOL /* Subroutine */ int tb01pd_(job, equil, n, m, p, a, lda, b, ldb, c__, ldc, nr, tol,
+    iwork, dwork, ldwork, info, job_len, equil_len) char *job,
+    *equil;
 integer *n, *m, *p;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
 integer *ldc, *nr;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen job_len;
 ftnlen equil_len;
@@ -207,68 +208,48 @@ ftnlen equil_len;
     --dwork;
     /* Function Body */
     *info = 0;
-    maxmp = max(*m,*p);
-    lnjobc = ! lsame_(job, "C", 1L, 1L);
-    lnjobo = ! lsame_(job, "O", 1L, 1L);
+    maxmp = max(*m, *p);
+    lnjobc = !lsame_(job, "C", 1L, 1L);
+    lnjobo = !lsame_(job, "O", 1L, 1L);
     lequil = lsame_(equil, "S", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (lnjobc && lnjobo && ! lsame_(job, "M", 1L, 1L))
-    {
+    if (lnjobc && lnjobo && !lsame_(job, "M", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! lequil && ! lsame_(equil, "N", 1L, 1L))
-    {
+    } else if (!lequil && !lsame_(equil, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -5;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldc < 1 || *n > 0 && *ldc < maxmp)
-    {
+    } else if (*ldc < 1 || *n > 0 && *ldc < maxmp) {
         *info = -11;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         /* Computing MAX */
         i__3 = *n, i__4 = maxmp * 3;
-        i__1 = 1, i__2 = *n + max(i__3,i__4);
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__1 = 1, i__2 = *n + max(i__3, i__4);
+        if (*ldwork < max(i__1, i__2)) {
             *info = -16;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TB01PD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || lnjobc && min(*n,*p) == 0 || lnjobo && min(*n,*m) == 0)
-    {
+    if (*n == 0 || lnjobc && min(*n, *p) == 0 || lnjobo && min(*n, *m) == 0) {
         *nr = 0;
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             iwork[i__] = 0;
             /* L5: */
         }
@@ -280,81 +261,73 @@ ftnlen equil_len;
     /*     (Note: Comments in the code beginning "Workspace:" describe the */
     /*     minimal amount of real workspace needed at that point in the code, */
     /*     as well as the preferred amount for good performance.) */
-    if (lequil)
-    {
+    if (lequil) {
         maxred = 0.;
-        tb01id_("A", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[1], info, 1L);
+        tb01id_("A", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+            &dwork[1], info, 1L);
         wrkopt = *n;
-    }
-    else
-    {
+    } else {
         wrkopt = 1;
     }
     iz = 1;
     itau = 1;
     jwork = itau + *n;
-    if (lnjobo)
-    {
+    if (lnjobo) {
         /*        Separate out controllable subsystem (of order NCONT): */
         /*        A <-- Z'*A*Z,  B <-- Z'*B,  C <-- C*Z. */
         /*        Workspace: need   N + MAX(N, 3*M, P). */
         /*                   prefer larger. */
         i__1 = *ldwork - jwork + 1;
-        tb01ud_("No Z", n, m, p, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &ncont, &indcon, &iwork[1], &dwork[iz], &c__1, &dwork[itau], tol, &iwork[*n + 1], &dwork[jwork], &i__1, info, 4L);
-        wrkopt = (integer) dwork[jwork] + jwork - 1;
-    }
-    else
-    {
+        tb01ud_("No Z", n, m, p, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &ncont,
+            &indcon, &iwork[1], &dwork[iz], &c__1, &dwork[itau], tol, &iwork[*n + 1], &dwork[jwork],
+            &i__1, info, 4L);
+        wrkopt = (integer)dwork[jwork] + jwork - 1;
+    } else {
         ncont = *n;
     }
-    if (lnjobc)
-    {
+    if (lnjobc) {
         /*        Separate out the observable subsystem (of order NR): */
         /*        Form the dual of the subsystem of order NCONT (which is */
         /*        controllable, if JOB = 'M'), leaving rest as it is. */
-        ab07md_("Z", &ncont, m, p, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[1], &c__1, info, 1L);
+        ab07md_("Z", &ncont, m, p, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+            &dwork[1], &c__1, info, 1L);
         /*        And separate out the controllable part of this dual subsystem. */
         /*        Workspace: need   NCONT + MAX(NCONT, 3*P, M). */
         /*                   prefer larger. */
         i__1 = *ldwork - jwork + 1;
-        tb01ud_("No Z", &ncont, p, m, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, nr, &indcon, &iwork[1], &dwork[iz], &c__1, &dwork[itau], tol, &iwork[*n + 1], &dwork[jwork], &i__1, info, 4L);
+        tb01ud_("No Z", &ncont, p, m, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, nr,
+            &indcon, &iwork[1], &dwork[iz], &c__1, &dwork[itau], tol, &iwork[*n + 1], &dwork[jwork],
+            &i__1, info, 4L);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__1, i__2);
         /*        Transpose and reorder (to get a block upper Hessenberg */
         /*        matrix A), giving, for JOB = 'M', the controllable and */
         /*        observable (i.e., minimal) part of original system. */
-        if (indcon > 0)
-        {
+        if (indcon > 0) {
             kl = iwork[1] - 1;
-            if (indcon >= 2)
-            {
+            if (indcon >= 2) {
                 kl += iwork[2];
             }
-        }
-        else
-        {
+        } else {
             kl = 0;
         }
         /* Computing MAX */
         i__2 = 0, i__3 = *nr - 1;
-        i__1 = max(i__2,i__3);
-        tb01xd_("Zero D", nr, p, m, &kl, &i__1, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[1], &c__1, info, 6L);
-    }
-    else
-    {
+        i__1 = max(i__2, i__3);
+        tb01xd_("Zero D", nr, p, m, &kl, &i__1, &a[a_offset], lda, &b[b_offset], ldb,
+            &c__[c_offset], ldc, &dwork[1], &c__1, info, 6L);
+    } else {
         *nr = ncont;
     }
     /*     Annihilate the trailing components of IWORK(1:N). */
     i__1 = *n;
-    for (i__ = indcon + 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = indcon + 1; i__ <= i__1; ++i__) {
         iwork[i__] = 0;
         /* L10: */
     }
     /*     Set optimal workspace dimension. */
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of TB01PD *** */
 } /* tb01pd_ */
-

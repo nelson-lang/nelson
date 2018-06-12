@@ -19,10 +19,12 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 #include "Context.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOfVector EvaluateBuiltinCatchRuntimeException(Evaluator *eval, BuiltInFuncPtr fptr, ArrayOfVector& inputs, int nargout);
+ArrayOfVector
+EvaluateBuiltinCatchRuntimeException(
+    Evaluator* eval, BuiltInFuncPtr fptr, ArrayOfVector& inputs, int nargout);
 }
 //=============================================================================

@@ -21,20 +21,24 @@
 #include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class FileFunc {
-    private:
-        std::wstring _nlf_fullfilename;
-        std::wstring _name;
-        size_t _hashid;
+//=============================================================================
+class FileFunc
+{
+private:
+    std::wstring _nlf_fullfilename;
+    std::wstring _name;
+    size_t _hashid;
 
-    public:
-        FileFunc(const std::wstring directory, const std::wstring name);
-        ~FileFunc();
-        std::wstring getFilename();
-        std::wstring getName();
-        size_t getHashID();
-    };
-    //=============================================================================
-}
+public:
+    FileFunc(const std::wstring directory, const std::wstring name);
+    ~FileFunc();
+    std::wstring
+    getFilename();
+    std::wstring
+    getName();
+    size_t
+    getHashID();
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

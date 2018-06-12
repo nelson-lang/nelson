@@ -25,6 +25,6 @@
 #define NLSSTRING_BUILTIN_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSSTRING_BUILTIN_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSSTRING_BUILTIN_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

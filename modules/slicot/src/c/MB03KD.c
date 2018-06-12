@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,19 +12,19 @@ static integer c_n1 = -1;
 static doublereal c_b23 = 0.;
 static doublereal c_b24 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb03kd_(compq, whichq, strong, k, nc, kschur, n, ni, s, select, t, ldt, ixt, q, ldq, ixq, m, tol, iwork, dwork, ldwork, info, compq_len, strong_len)
-char *compq;
-integer *whichq;
-char *strong;
+EXPORTSYMBOL /* Subroutine */ int mb03kd_(compq, whichq, strong, k, nc, kschur, n, ni, s, select, t,
+    ldt, ixt, q, ldq, ixq, m, tol, iwork, dwork, ldwork, info, compq_len, strong_len) char* compq;
+integer* whichq;
+char* strong;
 integer *k, *nc, *kschur, *n, *ni, *s;
-logical *select;
-doublereal *t;
+logical* select;
+doublereal* t;
 integer *ldt, *ixt;
-doublereal *q;
+doublereal* q;
 integer *ldq, *ixq, *m;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen compq_len;
 ftnlen strong_len;
@@ -285,30 +285,20 @@ ftnlen strong_len;
     specq = lsame_(compq, "W", 1L, 1L);
     ws = lsame_(strong, "S", 1L, 1L);
     /*     Test all input arguments. */
-    if (*k < 2)
-    {
+    if (*k < 2) {
         *info = -4;
         /*     Check options for generating orthogonal factors. */
-    }
-    else if (! (lsame_(compq, "N", 1L, 1L) || wantq || specq))
-    {
+    } else if (!(lsame_(compq, "N", 1L, 1L) || wantq || specq)) {
         *info = -1;
-    }
-    else if (! (lsame_(strong, "N", 1L, 1L) || ws))
-    {
+    } else if (!(lsame_(strong, "N", 1L, 1L) || ws)) {
         *info = -3;
-    }
-    else if (*tol <= 0.)
-    {
+    } else if (*tol <= 0.) {
         *info = -18;
     }
-    if (*info == 0 && specq)
-    {
+    if (*info == 0 && specq) {
         i__1 = *k;
-        for (l = 1; l <= i__1; ++l)
-        {
-            if (whichq[l] < 0 || whichq[l] > 2)
-            {
+        for (l = 1; l <= i__1; ++l) {
+            if (whichq[l] < 0 || whichq[l] > 2) {
                 *info = -2;
             }
             /* L10: */
@@ -318,93 +308,73 @@ ftnlen strong_len;
     /*     At the same time the sequence of consecutive sums of dimension */
     /*     differences is formed and its minimum is determined. */
     /*     Also, the maximum of all dimensions is computed. */
-    if (*info == 0)
-    {
+    if (*info == 0) {
         sumd = 0;
         mink = *k;
         minsum = 0;
         maxn = 0;
         minn = n[*k];
         i__1 = *k;
-        for (l = 1; l <= i__1; ++l)
-        {
-            if (l < *k && n[l] < minn)
-            {
+        for (l = 1; l <= i__1; ++l) {
+            if (l < *k && n[l] < minn) {
                 minn = n[l];
             }
             nkp1 = n[l % *k + 1];
-            if (n[l] < 0)
-            {
+            if (n[l] < 0) {
                 *info = -7;
             }
-            if (s[l] == -1)
-            {
+            if (s[l] == -1) {
                 sumd += nkp1 - n[l];
             }
-            if (sumd < minsum)
-            {
+            if (sumd < minsum) {
                 minsum = sumd;
                 mink = l;
             }
             /* Computing MAX */
             i__2 = maxn, i__3 = n[l];
-            maxn = max(i__2,i__3);
+            maxn = max(i__2, i__3);
             /*           Check the condition N(l) >= NI(l) + NC >= 0. */
-            if (*info == 0 && (n[l] < ni[l] + *nc || ni[l] < 0))
-            {
+            if (*info == 0 && (n[l] < ni[l] + *nc || ni[l] < 0)) {
                 *info = -8;
             }
             /* L20: */
         }
     }
     /*     Check the condition 0 <= NC <= min(N). */
-    if (*info == 0 && (*nc < 0 || *nc > minn))
-    {
+    if (*info == 0 && (*nc < 0 || *nc > minn)) {
         *info = -5;
     }
     /*     Check KSCHUR. */
-    if (*info == 0 && (*kschur < 1 || *kschur > *k))
-    {
+    if (*info == 0 && (*kschur < 1 || *kschur > *k)) {
         *info = -6;
     }
     /*     Check that the complete sum is zero; otherwise T is singular. */
-    if (*info == 0 && sumd != 0)
-    {
+    if (*info == 0 && sumd != 0) {
         *info = -7;
     }
     /*     Check signatures. */
-    if (*info == 0)
-    {
+    if (*info == 0) {
         i__1 = *k;
-        for (l = 1; l <= i__1; ++l)
-        {
-            if ((i__2 = s[l], abs(i__2)) != 1)
-            {
+        for (l = 1; l <= i__1; ++l) {
+            if ((i__2 = s[l], abs(i__2)) != 1) {
                 *info = -9;
             }
             /* L30: */
         }
     }
     /*     Check the leading dimensions of T_k. */
-    if (*info == 0)
-    {
+    if (*info == 0) {
         i__1 = *k;
-        for (l = 1; l <= i__1; ++l)
-        {
+        for (l = 1; l <= i__1; ++l) {
             nkp1 = n[l % *k + 1];
-            if (s[l] == 1)
-            {
-                if (ldt[l] < max(1,nkp1))
-                {
+            if (s[l] == 1) {
+                if (ldt[l] < max(1, nkp1)) {
                     *info = -12;
                 }
-            }
-            else
-            {
+            } else {
                 /* Computing MAX */
                 i__2 = 1, i__3 = n[l];
-                if (ldt[l] < max(i__2,i__3))
-                {
+                if (ldt[l] < max(i__2, i__3)) {
                     *info = -12;
                 }
             }
@@ -412,22 +382,17 @@ ftnlen strong_len;
         }
     }
     /*     Check the leading dimensions of Q_k. */
-    if (*info == 0 && (wantq || specq))
-    {
+    if (*info == 0 && (wantq || specq)) {
         i__1 = *k;
-        for (l = 1; l <= i__1; ++l)
-        {
+        for (l = 1; l <= i__1; ++l) {
             wantql = wantq;
-            if (specq)
-            {
+            if (specq) {
                 wantql = whichq[l] != 0;
             }
-            if (wantql)
-            {
+            if (wantql) {
                 /* Computing MAX */
                 i__2 = 1, i__3 = n[l];
-                if (ldq[l] < max(i__2,i__3))
-                {
+                if (ldq[l] < max(i__2, i__3)) {
                     *info = -15;
                 }
             }
@@ -441,44 +406,28 @@ ftnlen strong_len;
     pair = FALSE_;
     ip1 = i__ % *k + 1;
     i__1 = *nc;
-    for (l = 1; l <= i__1; ++l)
-    {
-        if (pair)
-        {
+    for (l = 1; l <= i__1; ++l) {
+        if (pair) {
             pair = FALSE_;
-        }
-        else
-        {
-            if (l < *nc)
-            {
-                if (s[i__] == 1)
-                {
+        } else {
+            if (l < *nc) {
+                if (s[i__] == 1) {
                     it = ixt[i__] + (ni[i__] + l - 1) * ldt[i__] + ni[ip1] + l;
-                }
-                else
-                {
+                } else {
                     it = ixt[i__] + (ni[ip1] + l - 1) * ldt[i__] + ni[i__] + l;
                 }
-                if (t[it] == 0.)
-                {
-                    if (select[l])
-                    {
+                if (t[it] == 0.) {
+                    if (select[l]) {
                         ++(*m);
                     }
-                }
-                else
-                {
+                } else {
                     pair = TRUE_;
-                    if (select[l] || select[l + 1])
-                    {
+                    if (select[l] || select[l + 1]) {
                         *m += 2;
                     }
                 }
-            }
-            else
-            {
-                if (select[*nc])
-                {
+            } else {
+                if (select[*nc]) {
                     ++(*m);
                 }
             }
@@ -486,34 +435,28 @@ ftnlen strong_len;
         /* L70: */
     }
     /*     Set COMPQ for MB03KA, if needed. */
-    if (initq)
-    {
-        *(unsigned char *)compqc = 'U';
-    }
-    else
-    {
-        *(unsigned char *)compqc = *(unsigned char *)compq;
+    if (initq) {
+        *(unsigned char*)compqc = 'U';
+    } else {
+        *(unsigned char*)compqc = *(unsigned char*)compq;
     }
     /*     Check workspace. */
-    if (*info == 0)
-    {
-        mb03ka_(compqc, &whichq[1], &ws, k, nc, kschur, &c__1, &c__1, &n[1], &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &dwork[1], &iwork[1], &dwork[1], &c_n1, info, 1L);
+    if (*info == 0) {
+        mb03ka_(compqc, &whichq[1], &ws, k, nc, kschur, &c__1, &c__1, &n[1], &ni[1], &s[1], &t[1],
+            &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], &dwork[1], &iwork[1], &dwork[1], &c_n1, info,
+            1L);
         /* Computing MAX */
-        i__1 = 1, i__2 = (integer) dwork[1];
-        mnwork = max(i__1,i__2);
-        if (*ldwork != -1 && *ldwork < mnwork)
-        {
+        i__1 = 1, i__2 = (integer)dwork[1];
+        mnwork = max(i__1, i__2);
+        if (*ldwork != -1 && *ldwork < mnwork) {
             *info = -21;
         }
     }
     /*     Quick return if possible. */
-    if (*ldwork == -1)
-    {
-        dwork[1] = (doublereal) mnwork;
+    if (*ldwork == -1) {
+        dwork[1] = (doublereal)mnwork;
         return 0;
-    }
-    else if (*info < 0)
-    {
+    } else if (*info < 0) {
         i__1 = -(*info);
         xerbla_("MB03KD", &i__1, 6L);
         return 0;
@@ -524,14 +467,11 @@ ftnlen strong_len;
     tola[2] = dlamch_("Safe minimum", 12L) / tola[1];
     /*     Initialization of orthogonal factors. */
     i__1 = *k;
-    for (l = 1; l <= i__1; ++l)
-    {
-        if (specq)
-        {
+    for (l = 1; l <= i__1; ++l) {
+        if (specq) {
             initq = whichq[l] == 1;
         }
-        if (initq)
-        {
+        if (initq) {
             dlaset_("All", &n[l], &n[l], &c_b23, &c_b24, &q[ixq[l]], &ldq[l], 3L);
         }
         /* L80: */
@@ -542,47 +482,36 @@ ftnlen strong_len;
     i__ = *kschur;
     ip1 = i__ % *k + 1;
     i__1 = *nc;
-    for (l = 1; l <= i__1; ++l)
-    {
-        if (pair)
-        {
+    for (l = 1; l <= i__1; ++l) {
+        if (pair) {
             pair = FALSE_;
-        }
-        else
-        {
+        } else {
             swap = select[l];
-            if (l < *nc)
-            {
-                if (s[i__] == 1)
-                {
+            if (l < *nc) {
+                if (s[i__] == 1) {
                     it = ixt[i__] + (ni[i__] + l - 1) * ldt[i__] + ni[ip1] + l;
-                }
-                else
-                {
+                } else {
                     it = ixt[i__] + (ni[ip1] + l - 1) * ldt[i__] + ni[i__] + l;
                 }
-                if (t[it] != 0.)
-                {
+                if (t[it] != 0.) {
                     pair = TRUE_;
                     swap = swap || select[l + 1];
                 }
             }
-            if (swap)
-            {
+            if (swap) {
                 ++ls;
                 /*              Swap the L-th block to position LS in T22_k. */
                 ll = l;
-                if (l != ls)
-                {
-                    mb03ka_(compqc, &whichq[1], &ws, k, nc, kschur, &ll, &ls, &n[1], &ni[1], &s[1], &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], tola, &iwork[1], &dwork[1], ldwork, info, 1L);
-                    if (*info != 0)
-                    {
+                if (l != ls) {
+                    mb03ka_(compqc, &whichq[1], &ws, k, nc, kschur, &ll, &ls, &n[1], &ni[1], &s[1],
+                        &t[1], &ldt[1], &ixt[1], &q[1], &ldq[1], &ixq[1], tola, &iwork[1],
+                        &dwork[1], ldwork, info, 1L);
+                    if (*info != 0) {
                         /*                    Blocks too close to swap; exit. */
                         goto L100;
                     }
                 }
-                if (pair)
-                {
+                if (pair) {
                     ++ls;
                 }
             }
@@ -591,8 +520,7 @@ ftnlen strong_len;
     }
 L100:
     /*     Store optimal workspace length and return. */
-    dwork[1] = (doublereal) mnwork;
+    dwork[1] = (doublereal)mnwork;
     return 0;
     /* *** Last line of MB03KD *** */
 } /* mb03kd_ */
-

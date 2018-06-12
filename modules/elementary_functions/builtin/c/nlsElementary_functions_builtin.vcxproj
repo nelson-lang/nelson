@@ -204,6 +204,7 @@
     <ClCompile Include="..\cpp\mtimesBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndimsBuiltin.cpp" />
     <ClCompile Include="..\cpp\neBuiltin.cpp" />
+    <ClCompile Include="..\cpp\normBuiltin.cpp" />
     <ClCompile Include="..\cpp\notBuiltin.cpp" />
     <ClCompile Include="..\cpp\numelBuiltin.cpp" />
     <ClCompile Include="..\cpp\orBuiltin.cpp" />
@@ -287,6 +288,7 @@
     <ClInclude Include="..\include\ndimsBuiltin.hpp" />
     <ClInclude Include="..\include\neBuiltin.hpp" />
     <ClInclude Include="..\include\nlsElementary_functions_builtin_exports.h" />
+    <ClInclude Include="..\include\normBuiltin.hpp" />
     <ClInclude Include="..\include\notBuiltin.hpp" />
     <ClInclude Include="..\include\numelBuiltin.hpp" />
     <ClInclude Include="..\include\orBuiltin.hpp" />

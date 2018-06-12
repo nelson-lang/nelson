@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,9 +12,8 @@ static integer c__3 = 3;
 static integer c__1 = 1;
 static integer c__5 = 5;
 
-EXPORTSYMBOL /* Subroutine */ int ud01dd_(m, n, nin, a, lda, info)
-integer *m, *n, *nin;
-doublereal *a;
+EXPORTSYMBOL /* Subroutine */ int ud01dd_(m, n, nin, a, lda, info) integer *m, *n, *nin;
+doublereal* a;
 integer *lda, *info;
 {
     /* System generated locals */
@@ -95,24 +94,16 @@ integer *lda, *info;
     /* Function Body */
     *info = 0;
     /*     Check the input scalar arguments. */
-    if (*m < 0)
-    {
+    if (*m < 0) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*nin < 0)
-    {
+    } else if (*nin < 0) {
         *info = -3;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -5;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("UD01DD", &i__1, 6L);
@@ -123,36 +114,28 @@ integer *lda, *info;
 L10:
     io___1.ciunit = *nin;
     i__1 = s_rsle(&io___1);
-    if (i__1 != 0)
-    {
+    if (i__1 != 0) {
         goto L20;
     }
-    i__1 = do_lio(&c__3, &c__1, (char *)&i__, (ftnlen)sizeof(integer));
-    if (i__1 != 0)
-    {
+    i__1 = do_lio(&c__3, &c__1, (char*)&i__, (ftnlen)sizeof(integer));
+    if (i__1 != 0) {
         goto L20;
     }
-    i__1 = do_lio(&c__3, &c__1, (char *)&j, (ftnlen)sizeof(integer));
-    if (i__1 != 0)
-    {
+    i__1 = do_lio(&c__3, &c__1, (char*)&j, (ftnlen)sizeof(integer));
+    if (i__1 != 0) {
         goto L20;
     }
-    i__1 = do_lio(&c__5, &c__1, (char *)&aij, (ftnlen)sizeof(doublereal));
-    if (i__1 != 0)
-    {
+    i__1 = do_lio(&c__5, &c__1, (char*)&aij, (ftnlen)sizeof(doublereal));
+    if (i__1 != 0) {
         goto L20;
     }
     i__1 = e_rsle();
-    if (i__1 != 0)
-    {
+    if (i__1 != 0) {
         goto L20;
     }
-    if (i__ < 1 || i__ > *m || j < 1 || j > *n)
-    {
+    if (i__ < 1 || i__ > *m || j < 1 || j > *n) {
         *info = 1;
-    }
-    else
-    {
+    } else {
         a[i__ + j * a_dim1] = aij;
     }
     goto L10;
@@ -160,4 +143,3 @@ L20:
     return 0;
     /* *** Last line of UD01DD *** */
 } /* ud01dd_ */
-

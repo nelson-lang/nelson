@@ -22,7 +22,9 @@
 #include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB);
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf ComplexConstructor(ArrayOf arrayA);
-}
-//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB);
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+ComplexConstructor(ArrayOf arrayA);
+} // namespace Nelson
+  //=============================================================================

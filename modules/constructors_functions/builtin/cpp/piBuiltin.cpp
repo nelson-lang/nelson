@@ -20,20 +20,19 @@
 #define _USE_MATH_DEFINES
 #endif
 //=============================================================================
-#include <math.h>
 #include "piBuiltin.hpp"
 #include "Error.hpp"
+#include <math.h>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ConstructorsGateway::piBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ConstructorsGateway::piBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 0)
-    {
+    if (argIn.size() != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOfVector retval;

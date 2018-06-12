@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsDouble_exports.h"
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
+#include "nlsDouble_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSDOUBLE_IMPEXP void DoubleDisplay(Evaluator *eval, ArrayOf A);
+NLSDOUBLE_IMPEXP void
+DoubleDisplay(Evaluator* eval, ArrayOf A);
 }
 //=============================================================================

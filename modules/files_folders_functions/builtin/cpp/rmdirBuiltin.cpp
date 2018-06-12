@@ -22,49 +22,36 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FilesFoldersGateway::rmdirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FilesFoldersGateway::rmdirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 1 || argIn.size() == 2)
-    {
+    if (argIn.size() == 1 || argIn.size() == 2) {
         bool bbSubfolder = false;
         std::wstring arg1 = argIn[0].getContentAsWideString();
-        if (argIn.size() == 2)
-        {
+        if (argIn.size() == 2) {
             std::wstring arg2 = argIn[1].getContentAsWideString();
-            if ((arg2 == L"s") || (arg2 == L"S"))
-            {
+            if ((arg2 == L"s") || (arg2 == L"S")) {
                 bbSubfolder = true;
-            }
-            else
-            {
+            } else {
                 Error(eval, "'s' expected.");
             }
         }
         std::wstring errorMessage = L"";
         bool res = RemoveDirectory(arg1, bbSubfolder, errorMessage);
-        if (nLhs == 0)
-        {
-            if (res == false)
-            {
+        if (nLhs == 0) {
+            if (res == false) {
                 Error(eval, errorMessage);
             }
-        }
-        else
-        {
+        } else {
             retval.push_back(ArrayOf::logicalConstructor(res));
-            if (nLhs > 1)
-            {
+            if (nLhs > 1) {
                 retval.push_back(ArrayOf::stringConstructor(errorMessage));
-            }
-            else
-            {
+            } else {
                 Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         }
-    }
-    else
-    {
+    } else {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;

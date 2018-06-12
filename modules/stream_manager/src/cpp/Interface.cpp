@@ -20,12 +20,8 @@
 #include "Interface.hpp"
 
 namespace Nelson {
-    Interface::Interface()
-    {
-    }
+Interface::Interface() {}
 
-    Interface::~Interface()
-    {
-    }
+Interface::~Interface() {}
 
 }

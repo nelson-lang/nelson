@@ -18,42 +18,54 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsHelp_tools_exports.h"
-#include "XmlDocGenericItem.hpp"
 #include "Types.hpp"
+#include "XmlDocGenericItem.hpp"
+#include "nlsHelp_tools_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_TOOLS_IMPEXP XmlDocDescriptionItem : public XmlDocGenericItem {
-    private:
-        std::wstring _description;
-        bool haveImages;
+//=============================================================================
+class NLSHELP_TOOLS_IMPEXP XmlDocDescriptionItem : public XmlDocGenericItem
+{
+private:
+    std::wstring _description;
+    bool haveImages;
 
-        wstringVector imagesTag;
-        wstringVector imagesSource;
-        wstringVector imagesDestination;
-        std::wstring srcDirectory;
-        std::wstring destDirectory;
+    wstringVector imagesTag;
+    wstringVector imagesSource;
+    wstringVector imagesDestination;
+    std::wstring srcDirectory;
+    std::wstring destDirectory;
 
-        bool checkImageTag();
-        void replaceImageTag();
+    bool
+    checkImageTag();
+    void
+    replaceImageTag();
 
-    public:
-        XmlDocDescriptionItem(std::wstring description);
-        ~XmlDocDescriptionItem();
-        void setValue(std::wstring value);
-        std::wstring getValue();
-        std::wstring getItemType();
-        bool writeAsHtml(std::string &utf8stream);
-        bool writeHeaderAsHtml(std::string &utf8stream);
+public:
+    XmlDocDescriptionItem(std::wstring description);
+    ~XmlDocDescriptionItem();
+    void
+    setValue(std::wstring value);
+    std::wstring
+    getValue();
+    std::wstring
+    getItemType();
+    bool
+    writeAsHtml(std::string& utf8stream);
+    bool
+    writeHeaderAsHtml(std::string& utf8stream);
 
-        bool writeAsMarkdown(std::string &utf8stream);
-        bool writeHeaderAsMarkdown(std::string &utf8stream);
+    bool
+    writeAsMarkdown(std::string& utf8stream);
+    bool
+    writeHeaderAsMarkdown(std::string& utf8stream);
 
-        void setDirectories(std::wstring srcDirectory, std::wstring destDirectory);
-        void searchImageTag();
-    };
-    //=============================================================================
-}
+    void
+    setDirectories(std::wstring srcDirectory, std::wstring destDirectory);
+    void
+    searchImageTag();
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,13 +13,14 @@ static doublereal c_b16 = 0.;
 static integer c__0 = 0;
 static doublereal c_b26 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mc03ny_(nblcks, nra, nca, a, lda, e, lde, imuk, inuk, veps, ldveps, info)
-integer *nblcks, *nra, *nca;
-doublereal *a;
-integer *lda;
-doublereal *e;
+EXPORTSYMBOL /* Subroutine */ int mc03ny_(
+    nblcks, nra, nca, a, lda, e, lde, imuk, inuk, veps, ldveps, info) integer *nblcks,
+    *nra, *nca;
+doublereal* a;
+integer* lda;
+doublereal* e;
 integer *lde, *imuk, *inuk;
-doublereal *veps;
+doublereal* veps;
 integer *ldveps, *info;
 {
     /* System generated locals */
@@ -170,40 +171,27 @@ integer *ldveps, *info;
     veps -= veps_offset;
     /* Function Body */
     *info = 0;
-    if (*nblcks < 0)
-    {
+    if (*nblcks < 0) {
         *info = -1;
-    }
-    else if (*nra < 0)
-    {
+    } else if (*nra < 0) {
         *info = -2;
-    }
-    else if (*nca < 0)
-    {
+    } else if (*nca < 0) {
         *info = -3;
-    }
-    else if (*lda < max(1,*nra))
-    {
+    } else if (*lda < max(1, *nra)) {
         *info = -5;
-    }
-    else if (*lde < max(1,*nra))
-    {
+    } else if (*lde < max(1, *nra)) {
         *info = -7;
-    }
-    else if (*ldveps < max(1,*nca))
-    {
+    } else if (*ldveps < max(1, *nca)) {
         *info = -11;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MC03NY", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*nblcks == 0 || *nra == 0 || *nca == 0)
-    {
+    if (*nblcks == 0 || *nra == 0 || *nca == 0) {
         return 0;
     }
     /*     Computation of the nonzero parts of W1 and W2: */
@@ -226,31 +214,29 @@ integer *ldveps, *info;
     ec1 = 1;
     ar1 = 1;
     i__1 = *nblcks - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         nui = inuk[i__];
-        if (nui == 0)
-        {
+        if (nui == 0) {
             goto L60;
         }
         mui = imuk[i__];
         ec1 += mui;
         ac1 = ec1 - nui;
         i__2 = *nca - ec1 + 1;
-        dtrtrs_("Upper", "No transpose", "Non-unit", &nui, &i__2, &a[ar1 + ac1 * a_dim1], lda, &e[ar1 + ec1 * e_dim1], lde, info, 5L, 12L, 8L);
-        if (*info > 0)
-        {
+        dtrtrs_("Upper", "No transpose", "Non-unit", &nui, &i__2, &a[ar1 + ac1 * a_dim1], lda,
+            &e[ar1 + ec1 * e_dim1], lde, info, 5L, 12L, 8L);
+        if (*info > 0) {
             *info = i__;
             return 0;
         }
         i__2 = nui;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             dscal_(&j, &c_b9, &a[ar1 + (ac1 + j - 1) * a_dim1], &c__1);
             /* L20: */
         }
         i__2 = *nca - ec1 + 1;
-        dtrtrs_("Upper", "No transpose", "Non-unit", &nui, &i__2, &a[ar1 + ac1 * a_dim1], lda, &a[ar1 + ec1 * a_dim1], lda, info, 5L, 12L, 8L);
+        dtrtrs_("Upper", "No transpose", "Non-unit", &nui, &i__2, &a[ar1 + ac1 * a_dim1], lda,
+            &a[ar1 + ec1 * a_dim1], lda, info, 5L, 12L, 8L);
         ar1 += nui;
         /* L40: */
     }
@@ -266,8 +252,7 @@ L60:
     smui = 0;
     ncv = 0;
     i__1 = *nblcks;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         mui = imuk[i__];
         smui += mui;
         imuk[i__] = smui;
@@ -294,8 +279,7 @@ L60:
     wr1 = imuk[1] + 1;
     wc1 = nui + 1;
     i__1 = *nblcks;
-    for (i__ = 2; i__ <= i__1; ++i__)
-    {
+    for (i__ = 2; i__ <= i__1; ++i__) {
         nui = imuk[i__] - imuk[i__ - 1] - inuk[i__];
         i__2 = *ldveps + 1;
         dcopy_(&nui, dummy, &c__0, &veps[wr1 + wc1 * veps_dim1], &i__2);
@@ -316,23 +300,20 @@ L60:
     vc1 = imuk[1] - inuk[1] + 1;
     ari = 1;
     i__1 = *nblcks;
-    for (j = 2; j <= i__1; ++j)
-    {
+    for (j = 2; j <= i__1; ++j) {
         dif = imuk[j] - imuk[j - 1] - inuk[j];
         ari += inuk[j - 1];
         ark = ari;
         /*        Computation of the matrices Vij,k where i + k < j. */
         /*        Each matrix Vij,k has dimension mu(i)-by-(mu(j) - nu(j)). */
         i__2 = j - 2;
-        for (k = 0; k <= i__2; ++k)
-        {
+        for (k = 0; k <= i__2; ++k) {
             /*           VC1, VC2 are the first and last column index of Vij,k. */
             vc2 = vc1 + dif - 1;
             ac2 = imuk[j - k];
             ar1 = ark;
             ark -= inuk[j - k - 1];
-            for (i__ = j - k - 1; i__ >= 1; --i__)
-            {
+            for (i__ = j - k - 1; i__ >= 1; --i__) {
                 /*              Compute the first part of Vij,k in decreasing order: */
                 /*              Vij,k := Vij,k + Sum(r=i+1,..,j-k) AHir*Vrj,k. */
                 /*              The non-zero parts of AHir are stored in */
@@ -345,13 +326,14 @@ L60:
                 vr1 = ac1 - inuk[i__];
                 ar1 -= inuk[i__];
                 i__3 = ac2 - vr2;
-                dgemm_("No transpose", "No transpose", &inuk[i__], &dif, &i__3, &c_b26, &a[ar1 + ac1 * a_dim1], lda, &veps[ac1 + vc1 * veps_dim1], ldveps, &c_b26, &veps[vr1 + vc1 * veps_dim1], ldveps, 12L, 12L);
+                dgemm_("No transpose", "No transpose", &inuk[i__], &dif, &i__3, &c_b26,
+                    &a[ar1 + ac1 * a_dim1], lda, &veps[ac1 + vc1 * veps_dim1], ldveps, &c_b26,
+                    &veps[vr1 + vc1 * veps_dim1], ldveps, 12L, 12L);
                 /* L120: */
             }
             er1 = 1;
             i__3 = j - k - 1;
-            for (i__ = 1; i__ <= i__3; ++i__)
-            {
+            for (i__ = 1; i__ <= i__3; ++i__) {
                 /*              Compute the second part of Vij,k+1 in normal order: */
                 /*              Vij,k+1 := Sum(r=i+1,..,j-k) EHir*Vrj,k. */
                 /*              The non-zero parts of EHir are stored in */
@@ -365,7 +347,9 @@ L60:
                 ec1 = vr2 + 1;
                 vr1 = ec1 - inuk[i__];
                 i__4 = ac2 - vr2;
-                dgemm_("No transpose", "No transpose", &inuk[i__], &dif, &i__4, &c_b26, &e[er1 + ec1 * e_dim1], lde, &veps[ec1 + vc1 * veps_dim1], ldveps, &c_b16, &veps[vr1 + (vc2 + 1) * veps_dim1], ldveps, 12L, 12L);
+                dgemm_("No transpose", "No transpose", &inuk[i__], &dif, &i__4, &c_b26,
+                    &e[er1 + ec1 * e_dim1], lde, &veps[ec1 + vc1 * veps_dim1], ldveps, &c_b16,
+                    &veps[vr1 + (vc2 + 1) * veps_dim1], ldveps, 12L, 12L);
                 er1 += inuk[i__];
                 /* L140: */
             }
@@ -382,8 +366,7 @@ L60:
     /*       mu(i) = IMUK(i) - IMUK(i-1)  with IMUK(0 ) = 0. */
     smui1 = 0;
     i__1 = *nblcks;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         smui = imuk[i__];
         imuk[i__] = smui - smui1;
         smui1 = smui;
@@ -392,4 +375,3 @@ L60:
     return 0;
     /* *** Last line of MC03NY *** */
 } /* mc03ny_ */
-

@@ -1,31 +1,34 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int ab09ed_(dico, equil, ordsel, n, m, p, nr, alpha, a, lda, b, ldb, c__, ldc, d__, ldd, ns, hsv, tol1, tol2, iwork, dwork, ldwork, iwarn, info, dico_len, equil_len, ordsel_len)
-char *dico, *equil, *ordsel;
+EXPORTSYMBOL /* Subroutine */ int ab09ed_(dico, equil, ordsel, n, m, p, nr, alpha, a, lda, b, ldb,
+    c__, ldc, d__, ldd, ns, hsv, tol1, tol2, iwork, dwork, ldwork, iwarn, info, dico_len, equil_len,
+    ordsel_len) char *dico,
+    *equil, *ordsel;
 integer *n, *m, *p, *nr;
 doublereal *alpha, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ldd, *ns;
 doublereal *hsv, *tol1, *tol2;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen dico_len;
 ftnlen equil_len;
 ftnlen ordsel_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2, i__3, i__4, i__5;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2,
+        i__3, i__4, i__5;
     /* Builtin functions */
     double sqrt();
     /* Local variables */
@@ -314,73 +317,46 @@ ftnlen ordsel_len;
     discr = lsame_(dico, "D", 1L, 1L);
     fixord = lsame_(ordsel, "F", 1L, 1L);
     /*     Check the input scalar arguments. */
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (! (lsame_(equil, "S", 1L, 1L) || lsame_(equil, "N", 1L, 1L)))
-    {
+    } else if (!(lsame_(equil, "S", 1L, 1L) || lsame_(equil, "N", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (fixord || lsame_(ordsel, "A", 1L, 1L)))
-    {
+    } else if (!(fixord || lsame_(ordsel, "A", 1L, 1L))) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -5;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -6;
-    }
-    else if (fixord && (*nr < 0 || *nr > *n))
-    {
+    } else if (fixord && (*nr < 0 || *nr > *n)) {
         *info = -7;
-    }
-    else if (discr && (*alpha < 0. || *alpha > 1.) || ! discr && *alpha > 0.)
-    {
+    } else if (discr && (*alpha < 0. || *alpha > 1.) || !discr && *alpha > 0.) {
         *info = -8;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -12;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -14;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -16;
-    }
-    else if (*tol2 > 0. && *tol2 > *tol1)
-    {
+    } else if (*tol2 > 0. && *tol2 > *tol1) {
         *info = -20;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         /* Computing MAX */
-        i__3 = max(*n,*m);
+        i__3 = max(*n, *m);
         /* Computing MAX */
-        i__4 = *m * 3 + 1, i__5 = min(*n,*m) + *p;
-        i__1 = *n * ((*n << 1) + max(i__3,*p) + 5) + *n * (*n + 1) / 2, i__2 = *n * (*m + *p + 2) + (*m << 1) **p + min(*n,*m) + max(i__4,i__5);
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__4 = *m * 3 + 1, i__5 = min(*n, *m) + *p;
+        i__1 = *n * ((*n << 1) + max(i__3, *p) + 5) + *n * (*n + 1) / 2,
+        i__2 = *n * (*m + *p + 2) + (*m << 1) * *p + min(*n, *m) + max(i__4, i__5);
+        if (*ldwork < max(i__1, i__2)) {
             *info = -23;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB09ED", &i__1, 6L);
@@ -388,43 +364,37 @@ ftnlen ordsel_len;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*n,*m);
-    if (min(i__1,*p) == 0)
-    {
+    i__1 = min(*n, *m);
+    if (min(i__1, *p) == 0) {
         *nr = 0;
         *ns = 0;
         iwork[1] = 0;
         dwork[1] = 1.;
         return 0;
     }
-    if (lsame_(equil, "S", 1L, 1L))
-    {
+    if (lsame_(equil, "S", 1L, 1L)) {
         /*        Scale simultaneously the matrices A, B and C: */
         /*        A <- inv(D)*A*D,  B <- inv(D)*B and C <- C*D, where D is a */
         /*        diagonal matrix. */
         /*        Workspace: N. */
         maxred = 100.;
-        tb01id_("All", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[1], info, 3L);
+        tb01id_("All", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+            &dwork[1], info, 3L);
     }
     /*     Correct the value of ALPHA to ensure stability. */
     alpwrk = *alpha;
-    if (discr)
-    {
-        if (*alpha == 1.)
-        {
+    if (discr) {
+        if (*alpha == 1.) {
             alpwrk = 1. - sqrt(dlamch_("E", 1L));
         }
-    }
-    else
-    {
-        if (*alpha == 0.)
-        {
+    } else {
+        if (*alpha == 0.) {
             alpwrk = -sqrt(dlamch_("E", 1L));
         }
     }
     /*     Allocate working storage. */
     ku = 1;
-    kl = ku + *n **n;
+    kl = ku + *n * *n;
     ki = kl + *n;
     kw = ki + *n;
     /*     Reduce A to a block-diagonal real Schur form, with the */
@@ -435,20 +405,18 @@ ftnlen ordsel_len;
     /*     Additional workspace:  need   3*N; */
     /*                            prefer larger. */
     i__1 = *ldwork - kw + 1;
-    tb01kd_(dico, "Unstable", "General", n, m, p, &alpwrk, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &nu, &dwork[ku], n, &dwork[kl], &dwork[ki], &dwork[kw], &i__1, &ierr, 1L, 8L, 7L);
-    if (ierr != 0)
-    {
-        if (ierr != 3)
-        {
+    tb01kd_(dico, "Unstable", "General", n, m, p, &alpwrk, &a[a_offset], lda, &b[b_offset], ldb,
+        &c__[c_offset], ldc, &nu, &dwork[ku], n, &dwork[kl], &dwork[ki], &dwork[kw], &i__1, &ierr,
+        1L, 8L, 7L);
+    if (ierr != 0) {
+        if (ierr != 3) {
             *info = 1;
-        }
-        else
-        {
+        } else {
             *info = 2;
         }
         return 0;
     }
-    wrkopt = dwork[kw] + (doublereal) (kw - 1);
+    wrkopt = dwork[kw] + (doublereal)(kw - 1);
     /*     Determine a reduced order approximation of the ALPHA-stable part. */
     /*     Workspace: need   MAX( LDW1, LDW2 ), */
     /*                LDW1 = N*(2*N + MAX(N,M,P) + 5) + N*(N+1)/2, */
@@ -457,38 +425,33 @@ ftnlen ordsel_len;
     /*                prefer larger. */
     iwarnl = 0;
     *ns = *n - nu;
-    if (fixord)
-    {
+    if (fixord) {
         /* Computing MAX */
         i__1 = 0, i__2 = *nr - nu;
-        nra = max(i__1,i__2);
-        if (*nr < nu)
-        {
+        nra = max(i__1, i__2);
+        if (*nr < nu) {
             iwarnl = 2;
         }
-    }
-    else
-    {
+    } else {
         nra = 0;
     }
     /*     Finish if only unstable part is present. */
-    if (*ns == 0)
-    {
+    if (*ns == 0) {
         *nr = nu;
         dwork[1] = wrkopt;
         return 0;
     }
     nu1 = nu + 1;
-    ab09cx_(dico, ordsel, ns, m, p, &nra, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &hsv[1], tol1, tol2, &iwork[1], &dwork[1], ldwork, iwarn, &ierr, 1L, 1L);
-    *iwarn = max(*iwarn,iwarnl);
-    if (ierr != 0)
-    {
+    ab09cx_(dico, ordsel, ns, m, p, &nra, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb,
+        &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &hsv[1], tol1, tol2, &iwork[1], &dwork[1],
+        ldwork, iwarn, &ierr, 1L, 1L);
+    *iwarn = max(*iwarn, iwarnl);
+    if (ierr != 0) {
         *info = ierr + 2;
         return 0;
     }
     *nr = nra + nu;
-    dwork[1] = max(wrkopt,dwork[1]);
+    dwork[1] = max(wrkopt, dwork[1]);
     return 0;
     /* *** Last line of AB09ED *** */
 } /* ab09ed_ */
-

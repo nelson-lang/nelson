@@ -22,72 +22,50 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::libpointerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DynamicLinkGateway::libpointerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    LibPointerObject *libPointerObject = nullptr;
+    LibPointerObject* libPointerObject = nullptr;
     std::wstring DataType;
     ArrayOf Value;
-    switch (argIn.size())
-    {
-        case 0:
-        {
-            try
-            {
-                libPointerObject = new LibPointerObject();
-            }
-            catch (std::bad_alloc)
-            {
-                throw Exception(ERROR_MEMORY_ALLOCATION);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+    switch (argIn.size()) {
+    case 0: {
+        try {
+            libPointerObject = new LibPointerObject();
+        } catch (std::bad_alloc) {
+            throw Exception(ERROR_MEMORY_ALLOCATION);
+        } catch (Exception) {
+            throw;
         }
-        break;
-        case 1:
-        {
-            std::wstring DataType = argIn[0].getContentAsWideString();
-            try
-            {
-                libPointerObject = new LibPointerObject(DataType);
-            }
-            catch (std::bad_alloc)
-            {
-                throw Exception(ERROR_MEMORY_ALLOCATION);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+    } break;
+    case 1: {
+        std::wstring DataType = argIn[0].getContentAsWideString();
+        try {
+            libPointerObject = new LibPointerObject(DataType);
+        } catch (std::bad_alloc) {
+            throw Exception(ERROR_MEMORY_ALLOCATION);
+        } catch (Exception) {
+            throw;
         }
-        break;
-        case 2:
-        {
-            std::wstring DataType = argIn[0].getContentAsWideString();
-            ArrayOf Value = argIn[1];
-            try
-            {
-                libPointerObject = new LibPointerObject(DataType, Value);
-            }
-            catch (std::bad_alloc)
-            {
-                throw Exception(ERROR_MEMORY_ALLOCATION);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+    } break;
+    case 2: {
+        std::wstring DataType = argIn[0].getContentAsWideString();
+        ArrayOf Value = argIn[1];
+        try {
+            libPointerObject = new LibPointerObject(DataType, Value);
+        } catch (std::bad_alloc) {
+            throw Exception(ERROR_MEMORY_ALLOCATION);
+        } catch (Exception) {
+            throw;
         }
+    } break;
+    default:
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
         break;
-        default:
-            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-            break;
     }
     retval.push_back(ArrayOf::handleConstructor(libPointerObject));
     return retval;

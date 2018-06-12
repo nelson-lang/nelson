@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsTrigonometric_functions_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsTrigonometric_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf MatrixCos(ArrayOf A);
+NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
+MatrixCos(ArrayOf A);
 }
 //=============================================================================

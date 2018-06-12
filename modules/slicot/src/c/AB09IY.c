@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -15,36 +15,39 @@ static integer c__0 = 0;
 static doublereal c_b43 = -1.;
 static logical c_true = TRUE_;
 
-EXPORTSYMBOL /* Subroutine */ int ab09iy_(dico, jobc, jobo, weight, n, m, p, nv, pv, nw, mw, alphac, alphao, a, lda, b, ldb, c__, ldc, av, ldav, bv, ldbv, cv, ldcv, dv, lddv, aw, ldaw, bw, ldbw, cw, ldcw, dw, lddw, scalec, scaleo, s, lds, r__, ldr, dwork, ldwork, info, dico_len, jobc_len, jobo_len, weight_len)
-char *dico, *jobc, *jobo, *weight;
+EXPORTSYMBOL /* Subroutine */ int ab09iy_(dico, jobc, jobo, weight, n, m, p, nv, pv, nw, mw, alphac,
+    alphao, a, lda, b, ldb, c__, ldc, av, ldav, bv, ldbv, cv, ldcv, dv, lddv, aw, ldaw, bw, ldbw,
+    cw, ldcw, dw, lddw, scalec, scaleo, s, lds, r__, ldr, dwork, ldwork, info, dico_len, jobc_len,
+    jobo_len, weight_len) char *dico,
+    *jobc, *jobo, *weight;
 integer *n, *m, *p, *nv, *pv, *nw, *mw;
 doublereal *alphac, *alphao, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *av;
-integer *ldav;
-doublereal *bv;
-integer *ldbv;
-doublereal *cv;
-integer *ldcv;
-doublereal *dv;
-integer *lddv;
-doublereal *aw;
-integer *ldaw;
-doublereal *bw;
-integer *ldbw;
-doublereal *cw;
-integer *ldcw;
-doublereal *dw;
-integer *lddw;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* av;
+integer* ldav;
+doublereal* bv;
+integer* ldbv;
+doublereal* cv;
+integer* ldcv;
+doublereal* dv;
+integer* lddv;
+doublereal* aw;
+integer* ldaw;
+doublereal* bw;
+integer* ldbw;
+doublereal* cw;
+integer* ldcw;
+doublereal* dw;
+integer* lddw;
 doublereal *scalec, *scaleo, *s;
-integer *lds;
-doublereal *r__;
-integer *ldr;
-doublereal *dwork;
+integer* lds;
+doublereal* r__;
+integer* ldr;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen dico_len;
 ftnlen jobc_len;
@@ -52,7 +55,9 @@ ftnlen jobo_len;
 ftnlen weight_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, av_dim1, av_offset, aw_dim1, aw_offset, b_dim1, b_offset, bv_dim1, bv_offset, bw_dim1, bw_offset, c_dim1, c_offset, cv_dim1, cv_offset, cw_dim1, cw_offset, dv_dim1, dv_offset, dw_dim1, dw_offset, r_dim1, r_offset, s_dim1, s_offset, i__1, i__2;
+    integer a_dim1, a_offset, av_dim1, av_offset, aw_dim1, aw_offset, b_dim1, b_offset, bv_dim1,
+        bv_offset, bw_dim1, bw_offset, c_dim1, c_offset, cv_dim1, cv_offset, cw_dim1, cw_offset,
+        dv_dim1, dv_offset, dw_dim1, dw_offset, r_dim1, r_offset, s_dim1, s_offset, i__1, i__2;
     doublereal d__1, d__2, d__3;
     /* Builtin functions */
     double sqrt();
@@ -433,140 +438,80 @@ ftnlen weight_len;
     lw = 1;
     nnv = *n + *nv;
     nnw = *n + *nw;
-    if (leftw && *pv > 0)
-    {
+    if (leftw && *pv > 0) {
         /* Computing MAX */
-        i__1 = lw, i__2 = nnv * (nnv + max(nnv,*pv) + 5);
-        lw = max(i__1,i__2);
-    }
-    else
-    {
+        i__1 = lw, i__2 = nnv * (nnv + max(nnv, *pv) + 5);
+        lw = max(i__1, i__2);
+    } else {
         /* Computing MAX */
         i__1 = lw, i__2 = *n * (*p + 5);
-        lw = max(i__1,i__2);
+        lw = max(i__1, i__2);
     }
-    if (rightw && *mw > 0)
-    {
+    if (rightw && *mw > 0) {
         /* Computing MAX */
-        i__1 = lw, i__2 = nnw * (nnw + max(nnw,*mw) + 5);
-        lw = max(i__1,i__2);
-    }
-    else
-    {
+        i__1 = lw, i__2 = nnw * (nnw + max(nnw, *mw) + 5);
+        lw = max(i__1, i__2);
+    } else {
         /* Computing MAX */
         i__1 = lw, i__2 = *n * (*m + 5);
-        lw = max(i__1,i__2);
+        lw = max(i__1, i__2);
     }
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (! (lsame_(jobc, "S", 1L, 1L) || lsame_(jobc, "E", 1L, 1L)))
-    {
+    } else if (!(lsame_(jobc, "S", 1L, 1L) || lsame_(jobc, "E", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (lsame_(jobo, "S", 1L, 1L) || lsame_(jobo, "E", 1L, 1L)))
-    {
+    } else if (!(lsame_(jobo, "S", 1L, 1L) || lsame_(jobo, "E", 1L, 1L))) {
         *info = -3;
-    }
-    else if (! (frwght || lsame_(weight, "N", 1L, 1L)))
-    {
+    } else if (!(frwght || lsame_(weight, "N", 1L, 1L))) {
         *info = -4;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -5;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -6;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -7;
-    }
-    else if (*nv < 0)
-    {
+    } else if (*nv < 0) {
         *info = -8;
-    }
-    else if (*pv < 0)
-    {
+    } else if (*pv < 0) {
         *info = -9;
-    }
-    else if (*nw < 0)
-    {
+    } else if (*nw < 0) {
         *info = -10;
-    }
-    else if (*mw < 0)
-    {
+    } else if (*mw < 0) {
         *info = -11;
-    }
-    else if (abs(*alphac) > 1.)
-    {
+    } else if (abs(*alphac) > 1.) {
         *info = -12;
-    }
-    else if (abs(*alphao) > 1.)
-    {
+    } else if (abs(*alphao) > 1.) {
         *info = -13;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -15;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -17;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -19;
-    }
-    else if (*ldav < 1 || leftw && *ldav < *nv)
-    {
+    } else if (*ldav < 1 || leftw && *ldav < *nv) {
         *info = -21;
-    }
-    else if (*ldbv < 1 || leftw && *ldbv < *nv)
-    {
+    } else if (*ldbv < 1 || leftw && *ldbv < *nv) {
         *info = -23;
-    }
-    else if (*ldcv < 1 || leftw && *ldcv < *pv)
-    {
+    } else if (*ldcv < 1 || leftw && *ldcv < *pv) {
         *info = -25;
-    }
-    else if (*lddv < 1 || leftw && *lddv < *pv)
-    {
+    } else if (*lddv < 1 || leftw && *lddv < *pv) {
         *info = -27;
-    }
-    else if (*ldaw < 1 || rightw && *ldaw < *nw)
-    {
+    } else if (*ldaw < 1 || rightw && *ldaw < *nw) {
         *info = -29;
-    }
-    else if (*ldbw < 1 || rightw && *ldbw < *nw)
-    {
+    } else if (*ldbw < 1 || rightw && *ldbw < *nw) {
         *info = -31;
-    }
-    else if (*ldcw < 1 || rightw && *ldcw < *m)
-    {
+    } else if (*ldcw < 1 || rightw && *ldcw < *m) {
         *info = -33;
-    }
-    else if (*lddw < 1 || rightw && *lddw < *m)
-    {
+    } else if (*lddw < 1 || rightw && *lddw < *m) {
         *info = -35;
-    }
-    else if (*lds < max(1,*n))
-    {
+    } else if (*lds < max(1, *n)) {
         *info = -39;
-    }
-    else if (*ldr < max(1,*n))
-    {
+    } else if (*ldr < max(1, *n)) {
         *info = -41;
-    }
-    else if (*ldwork < lw)
-    {
+    } else if (*ldwork < lw) {
         *info = -43;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB09IY", &i__1, 6L);
@@ -576,27 +521,27 @@ ftnlen weight_len;
     *scalec = 1.;
     *scaleo = 1.;
     /* Computing MIN */
-    i__1 = min(*n,*m);
-    if (min(i__1,*p) == 0)
-    {
+    i__1 = min(*n, *m);
+    if (min(i__1, *p) == 0) {
         dwork[1] = 1.;
         return 0;
     }
     work = 1.;
-    if (leftw && *pv > 0)
-    {
+    if (leftw && *pv > 0) {
         /*        Build the extended permuted matrices */
         /*           Ao = ( Av  Bv*C ) ,   Co = ( Cv Dv*C ) . */
         /*                ( 0     A  ) */
         kaw = 1;
         ku = kaw + nnv * nnv;
-        ldu = max(nnv,*pv);
+        ldu = max(nnv, *pv);
         dlacpy_("Full", nv, nv, &av[av_offset], ldav, &dwork[kaw], &nnv, 4L);
         dlaset_("Full", n, nv, &c_b16, &c_b16, &dwork[kaw + *nv], &nnv, 4L);
-        dgemm_("No-transpose", "No-transpose", nv, n, p, &c_b20, &bv[bv_offset], ldbv, &c__[c_offset], ldc, &c_b16, &dwork[kaw + nnv **nv], &nnv, 12L, 12L);
-        dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[kaw + nnv **nv + *nv], &nnv, 4L);
+        dgemm_("No-transpose", "No-transpose", nv, n, p, &c_b20, &bv[bv_offset], ldbv,
+            &c__[c_offset], ldc, &c_b16, &dwork[kaw + nnv * *nv], &nnv, 12L, 12L);
+        dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[kaw + nnv * *nv + *nv], &nnv, 4L);
         dlacpy_("Full", pv, nv, &cv[cv_offset], ldcv, &dwork[ku], &ldu, 4L);
-        dgemm_("No-transpose", "No-transpose", pv, n, p, &c_b20, &dv[dv_offset], lddv, &c__[c_offset], ldc, &c_b16, &dwork[ku + ldu **nv], &ldu, 12L, 12L);
+        dgemm_("No-transpose", "No-transpose", pv, n, p, &c_b20, &dv[dv_offset], lddv,
+            &c__[c_offset], ldc, &c_b16, &dwork[ku + ldu * *nv], &ldu, 12L, 12L);
         /*        Solve for the Cholesky factor Ro of Qo, Qo = Ro'*Ro, */
         /*        the continuous-time Lyapunov equation (if DICO = 'C') */
         /*            Ao'*Qo + Qo*Ao  +  scaleo^2*Co'*Co = 0, */
@@ -607,44 +552,39 @@ ftnlen weight_len;
         ktau = ku + ldu * nnv;
         kw = ktau + nnv;
         i__1 = *ldwork - kw + 1;
-        sb03ou_(&discr, &c_false, &nnv, pv, &dwork[kaw], &nnv, &dwork[ku], &ldu, &dwork[ktau], &dwork[ku], &ldu, scaleo, &dwork[kw], &i__1, &ierr);
-        if (ierr != 0)
-        {
+        sb03ou_(&discr, &c_false, &nnv, pv, &dwork[kaw], &nnv, &dwork[ku], &ldu, &dwork[ktau],
+            &dwork[ku], &ldu, scaleo, &dwork[kw], &i__1, &ierr);
+        if (ierr != 0) {
             *info = 1;
             return 0;
         }
         /* Computing MAX */
-        d__1 = work, d__2 = dwork[kw] + (doublereal) (kw - 1);
-        work = max(d__1,d__2);
+        d__1 = work, d__2 = dwork[kw] + (doublereal)(kw - 1);
+        work = max(d__1, d__2);
         /*        Partition Ro as Ro = ( R11 R12 ) and compute R such that */
         /*                             (  0  R22 ) */
         /*        R'*R = R22'*R22 + (1-ALPHAO**2)*R12'*R12. */
-        kw = ku + ldu **nv + *nv;
+        kw = ku + ldu * *nv + *nv;
         dlacpy_("Upper", n, n, &dwork[kw], &ldu, &r__[r_offset], ldr, 5L);
-        if (*alphao != 0.)
-        {
-            t = sqrt(1. - *alphao **alphao);
+        if (*alphao != 0.) {
+            t = sqrt(1. - *alphao * *alphao);
             i__1 = ku + ldu * (nnv - 1);
             i__2 = ldu;
-            for (j = ku + ldu **nv; i__2 < 0 ? j >= i__1 : j <= i__1; j += i__2)
-            {
+            for (j = ku + ldu * *nv; i__2 < 0 ? j >= i__1 : j <= i__1; j += i__2) {
                 dscal_(nv, &t, &dwork[j], &c__1);
                 /* L10: */
             }
         }
-        if (*alphao < 1. && *nv > 0)
-        {
+        if (*alphao < 1. && *nv > 0) {
             ktau = 1;
-            mb04od_("Full", n, &c__0, nv, &r__[r_offset], ldr, &dwork[ku + ldu **nv], &ldu, dum, &c__1, dum, &c__1, &dwork[ktau], &dwork[kw], 4L);
+            mb04od_("Full", n, &c__0, nv, &r__[r_offset], ldr, &dwork[ku + ldu * *nv], &ldu, dum,
+                &c__1, dum, &c__1, &dwork[ktau], &dwork[kw], 4L);
             i__2 = *n;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 dwork[j] = r__[j + j * r_dim1];
                 i__1 = j;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
-                    if (dwork[i__] < 0.)
-                    {
+                for (i__ = 1; i__ <= i__1; ++i__) {
+                    if (dwork[i__] < 0.) {
                         r__[i__ + j * r_dim1] = -r__[i__ + j * r_dim1];
                     }
                     /* L20: */
@@ -652,38 +592,36 @@ ftnlen weight_len;
                 /* L30: */
             }
         }
-        if (lsame_(jobo, "E", 1L, 1L) && *alphao < 1.)
-        {
+        if (lsame_(jobo, "E", 1L, 1L) && *alphao < 1.) {
             /*           Form Y = -A'*(R'*R)-(R'*R)*A if DICO = 'C', or */
             /*                Y = -A'*(R'*R)*A+(R'*R) if DICO = 'D'. */
             dlacpy_("Upper", n, n, &r__[r_offset], ldr, &dwork[ku], n, 5L);
-            mb01wd_(dico, "Upper", "No-transpose", "Hessenberg", n, &c_b43, &c_b16, &r__[r_offset], ldr, &dwork[kaw + nnv **nv + *nv], &nnv, &dwork[ku], n, &ierr, 1L, 5L, 12L, 10L);
+            mb01wd_(dico, "Upper", "No-transpose", "Hessenberg", n, &c_b43, &c_b16, &r__[r_offset],
+                ldr, &dwork[kaw + nnv * *nv + *nv], &nnv, &dwork[ku], n, &ierr, 1L, 5L, 12L, 10L);
             /*           Compute the eigendecomposition of Y as Y = Z*Sigma*Z'. */
             ku = *n + 1;
             i__2 = *ldwork - *n;
-            dsyev_("Vectors", "Upper", n, &r__[r_offset], ldr, &dwork[1], &dwork[ku], &i__2, &ierr, 7L, 5L);
-            if (ierr > 0)
-            {
+            dsyev_("Vectors", "Upper", n, &r__[r_offset], ldr, &dwork[1], &dwork[ku], &i__2, &ierr,
+                7L, 5L);
+            if (ierr > 0) {
                 *info = 3;
                 return 0;
             }
             /* Computing MAX */
-            d__1 = work, d__2 = dwork[ku] + (doublereal) (*n);
-            work = max(d__1,d__2);
+            d__1 = work, d__2 = dwork[ku] + (doublereal)(*n);
+            work = max(d__1, d__2);
             /*           Partition Sigma = (Sigma1,Sigma2), such that */
             /*           Sigma1 <= 0, Sigma2 > 0. */
             /*           Partition correspondingly Z = [Z1 Z2]. */
             /* Computing MAX */
             d__2 = abs(dwork[1]), d__3 = (d__1 = dwork[*n], abs(d__1));
-            tol = max(d__2,d__3) * dlamch_("Epsilon", 7L);
+            tol = max(d__2, d__3) * dlamch_("Epsilon", 7L);
             /*                _ */
             /*           Form C = [ sqrt(Sigma2)*Z2' ] */
             pcbar = 0;
             i__2 = *n;
-            for (j = 1; j <= i__2; ++j)
-            {
-                if (dwork[j] > tol)
-                {
+            for (j = 1; j <= i__2; ++j) {
+                if (dwork[j] > tol) {
                     d__1 = sqrt(dwork[j]);
                     dscal_(n, &d__1, &r__[j * r_dim1 + 1], &c__1);
                     dcopy_(n, &r__[j * r_dim1 + 1], &c__1, &dwork[ku + pcbar], n);
@@ -700,23 +638,21 @@ ftnlen weight_len;
             /*                   A'*Q*A - Q  +  t^2*C'*C = 0. */
             /*           Workspace:  need   N*(N + 6); */
             /*                              prefer larger. */
-            ktau = ku + *n **n;
+            ktau = ku + *n * *n;
             kw = ktau + *n;
             i__2 = *ldwork - kw + 1;
-            sb03ou_(&discr, &c_false, n, &pcbar, &a[a_offset], lda, &dwork[ku], n, &dwork[ktau], &r__[r_offset], ldr, &t, &dwork[kw], &i__2, &ierr);
-            if (ierr != 0)
-            {
+            sb03ou_(&discr, &c_false, n, &pcbar, &a[a_offset], lda, &dwork[ku], n, &dwork[ktau],
+                &r__[r_offset], ldr, &t, &dwork[kw], &i__2, &ierr);
+            if (ierr != 0) {
                 *info = 1;
                 return 0;
             }
             *scaleo *= t;
             /* Computing MAX */
-            d__1 = work, d__2 = dwork[kw] + (doublereal) (kw - 1);
-            work = max(d__1,d__2);
+            d__1 = work, d__2 = dwork[kw] + (doublereal)(kw - 1);
+            work = max(d__1, d__2);
         }
-    }
-    else
-    {
+    } else {
         /*        Solve for the Cholesky factor R of Q, Q = R'*R, */
         /*        the continuous-time Lyapunov equation (if DICO = 'C') */
         /*            A'*Q + Q*A  +  scaleo^2*C'*C = 0, */
@@ -725,22 +661,21 @@ ftnlen weight_len;
         /*        Workspace:  need   N*(P + 5); */
         /*                           prefer larger. */
         ku = 1;
-        ktau = ku + *p **n;
+        ktau = ku + *p * *n;
         kw = ktau + *n;
         dlacpy_("Full", p, n, &c__[c_offset], ldc, &dwork[ku], p, 4L);
         i__2 = *ldwork - kw + 1;
-        sb03ou_(&discr, &c_false, n, p, &a[a_offset], lda, &dwork[ku], p, &dwork[ktau], &r__[r_offset], ldr, scaleo, &dwork[kw], &i__2, &ierr);
-        if (ierr != 0)
-        {
+        sb03ou_(&discr, &c_false, n, p, &a[a_offset], lda, &dwork[ku], p, &dwork[ktau],
+            &r__[r_offset], ldr, scaleo, &dwork[kw], &i__2, &ierr);
+        if (ierr != 0) {
             *info = 1;
             return 0;
         }
         /* Computing MAX */
-        d__1 = work, d__2 = dwork[kw] + (doublereal) (kw - 1);
-        work = max(d__1,d__2);
+        d__1 = work, d__2 = dwork[kw] + (doublereal)(kw - 1);
+        work = max(d__1, d__2);
     }
-    if (rightw && *mw > 0)
-    {
+    if (rightw && *mw > 0) {
         /*        Build the extended matrices */
         /*           Ai = ( A  B*Cw ) ,   Bi = ( B*Dw ) . */
         /*                ( 0   Aw  )          (  Bw  ) */
@@ -748,9 +683,11 @@ ftnlen weight_len;
         ku = kaw + nnw * nnw;
         dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[kaw], &nnw, 4L);
         dlaset_("Full", nw, n, &c_b16, &c_b16, &dwork[kaw + *n], &nnw, 4L);
-        dgemm_("No-transpose", "No-transpose", n, nw, m, &c_b20, &b[b_offset], ldb, &cw[cw_offset], ldcw, &c_b16, &dwork[kaw + nnw **n], &nnw, 12L, 12L);
-        dlacpy_("Full", nw, nw, &aw[aw_offset], ldaw, &dwork[kaw + nnw **n + *n], &nnw, 4L);
-        dgemm_("No-transpose", "No-transpose", n, mw, m, &c_b20, &b[b_offset], ldb, &dw[dw_offset], lddw, &c_b16, &dwork[ku], &nnw, 12L, 12L);
+        dgemm_("No-transpose", "No-transpose", n, nw, m, &c_b20, &b[b_offset], ldb, &cw[cw_offset],
+            ldcw, &c_b16, &dwork[kaw + nnw * *n], &nnw, 12L, 12L);
+        dlacpy_("Full", nw, nw, &aw[aw_offset], ldaw, &dwork[kaw + nnw * *n + *n], &nnw, 4L);
+        dgemm_("No-transpose", "No-transpose", n, mw, m, &c_b20, &b[b_offset], ldb, &dw[dw_offset],
+            lddw, &c_b16, &dwork[ku], &nnw, 12L, 12L);
         dlacpy_("Full", nw, mw, &bw[bw_offset], ldbw, &dwork[ku + *n], &nnw, 4L);
         /*        Solve for the Cholesky factor Si of Pi, Pi = Si*Si', */
         /*        the continuous-time Lyapunov equation (if DICO = 'C') */
@@ -759,46 +696,41 @@ ftnlen weight_len;
         /*            Ai*Pi*Ai' - Pi +  scalec^2*Bi*Bi' = 0. */
         /*        Workspace:  need   (N+NW)*(N+NW+MAX(N+NW,MW)+5); */
         /*                           prefer larger. */
-        ktau = ku + nnw * max(nnw,*mw);
+        ktau = ku + nnw * max(nnw, *mw);
         kw = ktau + nnw;
         i__2 = *ldwork - kw + 1;
-        sb03ou_(&discr, &c_true, &nnw, mw, &dwork[kaw], &nnw, &dwork[ku], &nnw, &dwork[ktau], &dwork[ku], &nnw, scalec, &dwork[kw], &i__2, &ierr);
-        if (ierr != 0)
-        {
+        sb03ou_(&discr, &c_true, &nnw, mw, &dwork[kaw], &nnw, &dwork[ku], &nnw, &dwork[ktau],
+            &dwork[ku], &nnw, scalec, &dwork[kw], &i__2, &ierr);
+        if (ierr != 0) {
             *info = 2;
             return 0;
         }
         /* Computing MAX */
-        d__1 = work, d__2 = dwork[kw] + (doublereal) (kw - 1);
-        work = max(d__1,d__2);
+        d__1 = work, d__2 = dwork[kw] + (doublereal)(kw - 1);
+        work = max(d__1, d__2);
         /*        Partition Si as Si = ( S11 S12 ) and compute S such that */
         /*                             (  0  S22 ) */
         /*        S*S' = S11*S11' + (1-ALPHAC**2)*S12*S12'. */
         dlacpy_("Upper", n, n, &dwork[ku], &nnw, &s[s_offset], lds, 5L);
-        if (*alphac != 0.)
-        {
-            t = sqrt(1. - *alphac **alphac);
+        if (*alphac != 0.) {
+            t = sqrt(1. - *alphac * *alphac);
             i__2 = ku + nnw * (nnw - 1);
             i__1 = nnw;
-            for (j = ku + nnw **n; i__1 < 0 ? j >= i__2 : j <= i__2; j += i__1)
-            {
+            for (j = ku + nnw * *n; i__1 < 0 ? j >= i__2 : j <= i__2; j += i__1) {
                 dscal_(n, &t, &dwork[j], &c__1);
                 /* L50: */
             }
         }
-        if (*alphac < 1. && *nw > 0)
-        {
+        if (*alphac < 1. && *nw > 0) {
             ktau = *n * nnw + 1;
             kw = ktau + *n;
-            mb04nd_("Full", n, &c__0, nw, &s[s_offset], lds, &dwork[ku + nnw **n], &nnw, dum, &c__1, dum, &c__1, &dwork[ktau], &dwork[kw], 4L);
+            mb04nd_("Full", n, &c__0, nw, &s[s_offset], lds, &dwork[ku + nnw * *n], &nnw, dum,
+                &c__1, dum, &c__1, &dwork[ktau], &dwork[kw], 4L);
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
-                if (s[j + j * s_dim1] < 0.)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                if (s[j + j * s_dim1] < 0.) {
                     i__2 = j;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__2; ++i__) {
                         s[i__ + j * s_dim1] = -s[i__ + j * s_dim1];
                         /* L60: */
                     }
@@ -806,39 +738,37 @@ ftnlen weight_len;
                 /* L70: */
             }
         }
-        if (lsame_(jobc, "E", 1L, 1L) && *alphac < 1.)
-        {
+        if (lsame_(jobc, "E", 1L, 1L) && *alphac < 1.) {
             /*           Form X = -A*(S*S')-(S*S')*A' if DICO = 'C', or */
             /*                X = -A*(S*S')*A'+(S*S') if DICO = 'D'. */
             dlacpy_("Upper", n, n, &s[s_offset], lds, &dwork[ku], n, 5L);
-            mb01wd_(dico, "Upper", "Transpose", "Hessenberg", n, &c_b43, &c_b16, &s[s_offset], lds, &dwork[kaw], &nnw, &dwork[ku], n, &ierr, 1L, 5L, 9L, 10L);
+            mb01wd_(dico, "Upper", "Transpose", "Hessenberg", n, &c_b43, &c_b16, &s[s_offset], lds,
+                &dwork[kaw], &nnw, &dwork[ku], n, &ierr, 1L, 5L, 9L, 10L);
             /*           Compute the eigendecomposition of X as X = Z*Sigma*Z'. */
             ku = *n + 1;
             i__1 = *ldwork - *n;
-            dsyev_("Vectors", "Upper", n, &s[s_offset], lds, &dwork[1], &dwork[ku], &i__1, &ierr, 7L, 5L);
-            if (ierr > 0)
-            {
+            dsyev_("Vectors", "Upper", n, &s[s_offset], lds, &dwork[1], &dwork[ku], &i__1, &ierr,
+                7L, 5L);
+            if (ierr > 0) {
                 *info = 3;
                 return 0;
             }
             /* Computing MAX */
-            d__1 = work, d__2 = dwork[ku] + (doublereal) (*n);
-            work = max(d__1,d__2);
+            d__1 = work, d__2 = dwork[ku] + (doublereal)(*n);
+            work = max(d__1, d__2);
             /*           Partition Sigma = (Sigma1,Sigma2), such that */
             /*           Sigma1 =< 0, Sigma2 > 0. */
             /*           Partition correspondingly Z = [Z1 Z2]. */
             /* Computing MAX */
             d__2 = abs(dwork[1]), d__3 = (d__1 = dwork[*n], abs(d__1));
-            tol = max(d__2,d__3) * dlamch_("Epsilon", 7L);
+            tol = max(d__2, d__3) * dlamch_("Epsilon", 7L);
             /*                _ */
             /*           Form B = [ Z2*sqrt(Sigma2) ] */
             mbbar = 0;
             i__ = ku;
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
-                if (dwork[j] > tol)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                if (dwork[j] > tol) {
                     ++mbbar;
                     d__1 = sqrt(dwork[j]);
                     dscal_(n, &d__1, &s[j * s_dim1 + 1], &c__1);
@@ -856,23 +786,21 @@ ftnlen weight_len;
             /*                   A*P*A' - P  +  t^2*B*B' = 0. */
             /*           Workspace:  need   maximum N*(N + 6); */
             /*                              prefer larger. */
-            ktau = ku + mbbar **n;
+            ktau = ku + mbbar * *n;
             kw = ktau + *n;
             i__1 = *ldwork - kw + 1;
-            sb03ou_(&discr, &c_true, n, &mbbar, &a[a_offset], lda, &dwork[ku], n, &dwork[ktau], &s[s_offset], lds, &t, &dwork[kw], &i__1, &ierr);
-            if (ierr != 0)
-            {
+            sb03ou_(&discr, &c_true, n, &mbbar, &a[a_offset], lda, &dwork[ku], n, &dwork[ktau],
+                &s[s_offset], lds, &t, &dwork[kw], &i__1, &ierr);
+            if (ierr != 0) {
                 *info = 2;
                 return 0;
             }
             *scalec *= t;
             /* Computing MAX */
-            d__1 = work, d__2 = dwork[kw] + (doublereal) (kw - 1);
-            work = max(d__1,d__2);
+            d__1 = work, d__2 = dwork[kw] + (doublereal)(kw - 1);
+            work = max(d__1, d__2);
         }
-    }
-    else
-    {
+    } else {
         /*        Solve for the Cholesky factor S of P, P = S*S', */
         /*        the continuous-time Lyapunov equation (if DICO = 'C') */
         /*            A*P + P*A' +  scalec^2*B*B' = 0, */
@@ -881,23 +809,22 @@ ftnlen weight_len;
         /*        Workspace:  need   N*(M+5); */
         /*                           prefer larger. */
         ku = 1;
-        ktau = ku + *n **m;
+        ktau = ku + *n * *m;
         kw = ktau + *n;
         dlacpy_("Full", n, m, &b[b_offset], ldb, &dwork[ku], n, 4L);
         i__1 = *ldwork - kw + 1;
-        sb03ou_(&discr, &c_true, n, m, &a[a_offset], lda, &dwork[ku], n, &dwork[ktau], &s[s_offset], lds, scalec, &dwork[kw], &i__1, &ierr);
-        if (ierr != 0)
-        {
+        sb03ou_(&discr, &c_true, n, m, &a[a_offset], lda, &dwork[ku], n, &dwork[ktau], &s[s_offset],
+            lds, scalec, &dwork[kw], &i__1, &ierr);
+        if (ierr != 0) {
             *info = 2;
             return 0;
         }
         /* Computing MAX */
-        d__1 = work, d__2 = dwork[kw] + (doublereal) (kw - 1);
-        work = max(d__1,d__2);
+        d__1 = work, d__2 = dwork[kw] + (doublereal)(kw - 1);
+        work = max(d__1, d__2);
     }
     /*     Save optimal workspace. */
     dwork[1] = work;
     return 0;
     /* *** Last line of AB09IY *** */
 } /* ab09iy_ */
-

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,14 +12,15 @@ static integer c__0 = 0;
 static doublereal c_b14 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb01rx_(side, uplo, trans, m, n, alpha, beta, r__, ldr, a, lda, b, ldb, info, side_len, uplo_len, trans_len)
-char *side, *uplo, *trans;
+EXPORTSYMBOL /* Subroutine */ int mb01rx_(side, uplo, trans, m, n, alpha, beta, r__, ldr, a, lda, b,
+    ldb, info, side_len, uplo_len, trans_len) char *side,
+    *uplo, *trans;
 integer *m, *n;
 doublereal *alpha, *beta, *r__;
-integer *ldr;
-doublereal *a;
-integer *lda;
-doublereal *b;
+integer* ldr;
+doublereal* a;
+integer* lda;
+doublereal* b;
 integer *ldb, *info;
 ftnlen side_len;
 ftnlen uplo_len;
@@ -190,62 +191,41 @@ ftnlen trans_len;
     lside = lsame_(side, "L", 1L, 1L);
     luplo = lsame_(uplo, "U", 1L, 1L);
     ltrans = lsame_(trans, "T", 1L, 1L) || lsame_(trans, "C", 1L, 1L);
-    if (! lside && ! lsame_(side, "R", 1L, 1L))
-    {
+    if (!lside && !lsame_(side, "R", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! luplo && ! lsame_(uplo, "L", 1L, 1L))
-    {
+    } else if (!luplo && !lsame_(uplo, "L", 1L, 1L)) {
         *info = -2;
-    }
-    else if (! ltrans && ! lsame_(trans, "N", 1L, 1L))
-    {
+    } else if (!ltrans && !lsame_(trans, "N", 1L, 1L)) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -5;
-    }
-    else if (*ldr < max(1,*m))
-    {
+    } else if (*ldr < max(1, *m)) {
         *info = -9;
-    }
-    else if (*lda < 1 || (lside && ! ltrans || ! lside && ltrans) && *lda < *m || (lside && ltrans || ! lside && ! ltrans) && *lda < *n)
-    {
+    } else if (*lda < 1 || (lside && !ltrans || !lside && ltrans) && *lda < *m
+        || (lside && ltrans || !lside && !ltrans) && *lda < *n) {
         *info = -11;
-    }
-    else if (*ldb < 1 || lside && *ldb < *n || ! lside && *ldb < *m)
-    {
+    } else if (*ldb < 1 || lside && *ldb < *n || !lside && *ldb < *m) {
         *info = -13;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB01RX", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*m == 0)
-    {
+    if (*m == 0) {
         return 0;
     }
-    if (*beta == 0. || *n == 0)
-    {
-        if (*alpha == 0.)
-        {
+    if (*beta == 0. || *n == 0) {
+        if (*alpha == 0.) {
             /*           Special case alpha = 0. */
             dlaset_(uplo, m, m, &c_b10, &c_b10, &r__[r_offset], ldr, 1L);
-        }
-        else
-        {
+        } else {
             /*           Special case beta = 0 or N = 0. */
-            if (*alpha != 1.)
-            {
+            if (*alpha != 1.) {
                 dlascl_(uplo, &c__0, &c__0, &c_b14, alpha, m, m, &r__[r_offset], ldr, info, 1L);
             }
         }
@@ -254,95 +234,74 @@ ftnlen trans_len;
     /*     General case: beta <> 0. */
     /*     Compute the required triangle of (1) or (2) using BLAS 2 */
     /*     operations. */
-    if (lside)
-    {
-        if (luplo)
-        {
-            if (ltrans)
-            {
+    if (lside) {
+        if (luplo) {
+            if (ltrans) {
                 i__1 = *m;
-                for (j = 1; j <= i__1; ++j)
-                {
-                    dgemv_(trans, n, &j, beta, &a[a_offset], lda, &b[j * b_dim1 + 1], &c__1, alpha, &r__[j * r_dim1 + 1], &c__1, 1L);
+                for (j = 1; j <= i__1; ++j) {
+                    dgemv_(trans, n, &j, beta, &a[a_offset], lda, &b[j * b_dim1 + 1], &c__1, alpha,
+                        &r__[j * r_dim1 + 1], &c__1, 1L);
                     /* L10: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *m;
-                for (j = 1; j <= i__1; ++j)
-                {
-                    dgemv_(trans, &j, n, beta, &a[a_offset], lda, &b[j * b_dim1 + 1], &c__1, alpha, &r__[j * r_dim1 + 1], &c__1, 1L);
+                for (j = 1; j <= i__1; ++j) {
+                    dgemv_(trans, &j, n, beta, &a[a_offset], lda, &b[j * b_dim1 + 1], &c__1, alpha,
+                        &r__[j * r_dim1 + 1], &c__1, 1L);
                     /* L20: */
                 }
             }
-        }
-        else
-        {
-            if (ltrans)
-            {
+        } else {
+            if (ltrans) {
                 i__1 = *m;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *m - j + 1;
-                    dgemv_(trans, n, &i__2, beta, &a[j * a_dim1 + 1], lda, &b[j * b_dim1 + 1], &c__1, alpha, &r__[j + j * r_dim1], &c__1, 1L);
+                    dgemv_(trans, n, &i__2, beta, &a[j * a_dim1 + 1], lda, &b[j * b_dim1 + 1],
+                        &c__1, alpha, &r__[j + j * r_dim1], &c__1, 1L);
                     /* L30: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *m;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *m - j + 1;
-                    dgemv_(trans, &i__2, n, beta, &a[j + a_dim1], lda, &b[j * b_dim1 + 1], &c__1, alpha, &r__[j + j * r_dim1], &c__1, 1L);
+                    dgemv_(trans, &i__2, n, beta, &a[j + a_dim1], lda, &b[j * b_dim1 + 1], &c__1,
+                        alpha, &r__[j + j * r_dim1], &c__1, 1L);
                     /* L40: */
                 }
             }
         }
-    }
-    else
-    {
-        if (luplo)
-        {
-            if (ltrans)
-            {
+    } else {
+        if (luplo) {
+            if (ltrans) {
                 i__1 = *m;
-                for (j = 1; j <= i__1; ++j)
-                {
-                    dgemv_("NoTranspose", &j, n, beta, &b[b_offset], ldb, &a[j + a_dim1], lda, alpha, &r__[j * r_dim1 + 1], &c__1, 11L);
+                for (j = 1; j <= i__1; ++j) {
+                    dgemv_("NoTranspose", &j, n, beta, &b[b_offset], ldb, &a[j + a_dim1], lda,
+                        alpha, &r__[j * r_dim1 + 1], &c__1, 11L);
                     /* L50: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *m;
-                for (j = 1; j <= i__1; ++j)
-                {
-                    dgemv_("NoTranspose", &j, n, beta, &b[b_offset], ldb, &a[j * a_dim1 + 1], &c__1, alpha, &r__[j * r_dim1 + 1], &c__1, 11L);
+                for (j = 1; j <= i__1; ++j) {
+                    dgemv_("NoTranspose", &j, n, beta, &b[b_offset], ldb, &a[j * a_dim1 + 1], &c__1,
+                        alpha, &r__[j * r_dim1 + 1], &c__1, 11L);
                     /* L60: */
                 }
             }
-        }
-        else
-        {
-            if (ltrans)
-            {
+        } else {
+            if (ltrans) {
                 i__1 = *m;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *m - j + 1;
-                    dgemv_("NoTranspose", &i__2, n, beta, &b[j + b_dim1], ldb, &a[j + a_dim1], lda, alpha, &r__[j + j * r_dim1], &c__1, 11L);
+                    dgemv_("NoTranspose", &i__2, n, beta, &b[j + b_dim1], ldb, &a[j + a_dim1], lda,
+                        alpha, &r__[j + j * r_dim1], &c__1, 11L);
                     /* L70: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *m;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *m - j + 1;
-                    dgemv_("NoTranspose", &i__2, n, beta, &b[j + b_dim1], ldb, &a[j * a_dim1 + 1], &c__1, alpha, &r__[j + j * r_dim1], &c__1, 11L);
+                    dgemv_("NoTranspose", &i__2, n, beta, &b[j + b_dim1], ldb, &a[j * a_dim1 + 1],
+                        &c__1, alpha, &r__[j + j * r_dim1], &c__1, 11L);
                     /* L80: */
                 }
             }
@@ -351,4 +310,3 @@ ftnlen trans_len;
     return 0;
     /* *** Last line of MB01RX *** */
 } /* mb01rx_ */
-

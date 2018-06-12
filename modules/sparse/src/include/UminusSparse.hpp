@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsSparse_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsSparse_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSPARSE_IMPEXP ArrayOf sparsedouble_uminus(ArrayOf a);
-    NLSSPARSE_IMPEXP ArrayOf sparselogical_uminus(ArrayOf a);
-}
+NLSSPARSE_IMPEXP ArrayOf
+sparsedouble_uminus(ArrayOf a);
+NLSSPARSE_IMPEXP ArrayOf
+sparselogical_uminus(ArrayOf a);
+} // namespace Nelson
 //=============================================================================

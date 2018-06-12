@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,18 +12,18 @@ static doublereal c_b8 = 1.;
 static doublereal c_b9 = -1.;
 static doublereal c_b22 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int mb02wd_(form, f, n, ipar, lipar, dpar, ldpar, itmax, a, lda, b, incb, x, incx, tol, dwork, ldwork, iwarn, info, form_len)
-char *form;
-/* Subroutine */ int (*f) ();
+EXPORTSYMBOL /* Subroutine */ int mb02wd_(form, f, n, ipar, lipar, dpar, ldpar, itmax, a, lda, b,
+    incb, x, incx, tol, dwork, ldwork, iwarn, info, form_len) char* form;
+/* Subroutine */ int (*f)();
 integer *n, *ipar, *lipar;
-doublereal *dpar;
+doublereal* dpar;
 integer *ldpar, *itmax;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *incb;
-doublereal *x;
-integer *incx;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* incb;
+doublereal* x;
+integer* incx;
 doublereal *tol, *dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen form_len;
@@ -275,72 +275,51 @@ ftnlen form_len;
     /*     Check the scalar input parameters. */
     *iwarn = 0;
     *info = 0;
-    if (! (mat || lsame_(form, "F", 1L, 1L)))
-    {
+    if (!(mat || lsame_(form, "F", 1L, 1L))) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (! mat && *lipar < 0)
-    {
+    } else if (!mat && *lipar < 0) {
         *info = -5;
-    }
-    else if (! mat && *ldpar < 0)
-    {
+    } else if (!mat && *ldpar < 0) {
         *info = -7;
-    }
-    else if (*itmax < 0)
-    {
+    } else if (*itmax < 0) {
         *info = -8;
-    }
-    else if (*lda < 1 || mat && *lda < *n)
-    {
+    } else if (*lda < 1 || mat && *lda < *n) {
         *info = -10;
-    }
-    else if (*incb <= 0)
-    {
+    } else if (*incb <= 0) {
         *info = -12;
-    }
-    else if (*incx <= 0)
-    {
+    } else if (*incx <= 0) {
         *info = -14;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 2, i__2 = *n * 3;
-        if (*ldwork < max(i__1,i__2))
-        {
+        if (*ldwork < max(i__1, i__2)) {
             *info = -17;
         }
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02WD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 0.;
         dwork[2] = 0.;
         return 0;
     }
-    if (*itmax == 0)
-    {
+    if (*itmax == 0) {
         dwork[1] = 0.;
         *iwarn = 2;
         return 0;
     }
     /*     Set default tolerance, if needed. */
     toldef = *tol;
-    if (toldef <= 0.)
-    {
-        toldef = (doublereal) (*n) * dlamch_("Epsilon", 7L) * dnrm2_(n, &b[1], incb);
+    if (toldef <= 0.) {
+        toldef = (doublereal)(*n) * dlamch_("Epsilon", 7L) * dnrm2_(n, &b[1], incb);
     }
     /*     Initialize local variables. */
     k = 0;
@@ -350,18 +329,15 @@ ftnlen form_len;
     r__ = *n + aq;
     dwleft = *n + r__;
     /*     Prepare the first iteration, initialize r and q. */
-    if (mat)
-    {
+    if (mat) {
         dcopy_(n, &b[1], incb, &dwork[r__], &c__1);
         dsymv_(form, n, &c_b8, &a[a_offset], lda, &x[1], incx, &c_b9, &dwork[r__], &c__1, 1L);
-    }
-    else
-    {
+    } else {
         dcopy_(n, &x[1], incx, &dwork[r__], &c__1);
         i__1 = *ldwork - dwleft + 1;
-        (*f)(n, &ipar[1], lipar, &dpar[1], ldpar, &a[a_offset], lda, &dwork[r__], &c__1, &dwork[dwleft], &i__1, info);
-        if (*info != 0)
-        {
+        (*f)(n, &ipar[1], lipar, &dpar[1], ldpar, &a[a_offset], lda, &dwork[r__], &c__1,
+            &dwork[dwleft], &i__1, info);
+        if (*info != 0) {
             return 0;
         }
         daxpy_(n, &c_b9, &b[1], incb, &dwork[r__], &c__1);
@@ -369,30 +345,27 @@ ftnlen form_len;
     dcopy_(n, &dwork[r__], &c__1, &dwork[1], &c__1);
     res = dnrm2_(n, &dwork[r__], &c__1);
     /*     Do nothing if x is already the solution. */
-    if (res <= toldef)
-    {
+    if (res <= toldef) {
         goto L20;
     }
     /*     Begin of the iteration loop. */
     /*     WHILE ( RES.GT.TOLDEF .AND. K.LE.ITMAX ) DO */
 L10:
     /*        Calculate A*q or f(A, q). */
-    if (mat)
-    {
+    if (mat) {
         dsymv_(form, n, &c_b8, &a[a_offset], lda, &dwork[1], &c__1, &c_b22, &dwork[aq], &c__1, 1L);
-    }
-    else
-    {
+    } else {
         dcopy_(n, &dwork[1], &c__1, &dwork[aq], &c__1);
         i__1 = *ldwork - dwleft + 1;
-        (*f)(n, &ipar[1], lipar, &dpar[1], ldpar, &a[a_offset], lda, &dwork[aq], &c__1, &dwork[dwleft], &i__1, info);
-        if (*info != 0)
-        {
+        (*f)(n, &ipar[1], lipar, &dpar[1], ldpar, &a[a_offset], lda, &dwork[aq], &c__1,
+            &dwork[dwleft], &i__1, info);
+        if (*info != 0) {
             return 0;
         }
     }
     /*        Calculate ALPHA(k). */
-    alpha = ddot_(n, &dwork[1], &c__1, &dwork[r__], &c__1) / ddot_(n, &dwork[1], &c__1, &dwork[aq], &c__1);
+    alpha = ddot_(n, &dwork[1], &c__1, &dwork[r__], &c__1)
+        / ddot_(n, &dwork[1], &c__1, &dwork[aq], &c__1);
     /*        x(k+1) = x(k) - ALPHA(k)*q(k). */
     d__1 = -alpha;
     daxpy_(n, &d__1, &dwork[1], &c__1, &x[1], incx);
@@ -403,8 +376,7 @@ L10:
     resold = res;
     res = dnrm2_(n, &dwork[r__], &c__1);
     /*        Exit if tolerance is reached. */
-    if (res <= toldef)
-    {
+    if (res <= toldef) {
         goto L20;
     }
     /*        Calculate BETA(k). */
@@ -416,16 +388,14 @@ L10:
     daxpy_(n, &c_b8, &dwork[r__], &c__1, &dwork[1], &c__1);
     /*        End of the iteration loop. */
     ++k;
-    if (k < *itmax)
-    {
+    if (k < *itmax) {
         goto L10;
     }
     /*     END WHILE 10 */
     /*     Tolerance was not reached! */
     *iwarn = 1;
 L20:
-    dwork[1] = (doublereal) k;
+    dwork[1] = (doublereal)k;
     dwork[2] = res;
     /* *** Last line of MB02WD *** */
 } /* mb02wd_ */
-

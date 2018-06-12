@@ -25,6 +25,6 @@
 #define NLSENGINE_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSENGINE_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSENGINE_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

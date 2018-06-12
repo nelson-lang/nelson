@@ -18,54 +18,76 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsStream_manager_exports.h"
-#include "Stream.hpp"
 #include "ArrayOf.hpp"
+#include "Stream.hpp"
+#include "nlsStream_manager_exports.h"
 //=============================================================================
 namespace Nelson {
-    class NLSSTREAM_MANAGER_IMPEXP Serialize {
-    private:
-        Stream *s;
-    public:
-        Serialize(Stream*);
-        ~Serialize();
+class NLSSTREAM_MANAGER_IMPEXP Serialize
+{
+private:
+    Stream* s;
 
+public:
+    Serialize(Stream*);
+    ~Serialize();
 
-        // Send a stream of base objects
-        // Check a signature
-        void sendSignature(const char sig, int count);
+    // Send a stream of base objects
+    // Check a signature
+    void
+    sendSignature(const char sig, int count);
 
-        void putByte(char b);
-        void putBytes(const char* ptr, int count);
+    void
+    putByte(char b);
+    void
+    putBytes(const char* ptr, int count);
 
-        void putBool(bool b);
-        void putBools(const bool *b, int count);
+    void
+    putBool(bool b);
+    void
+    putBools(const bool* b, int count);
 
-        void putInt(int i);
-        void putInts(const int *i, int count);
+    void
+    putInt(int i);
+    void
+    putInts(const int* i, int count);
 
-        void putString(std::string str);
-        void putWString(std::wstring wstr);
-        void putStringVector(stringVector vstr);
-        void putWStringVector(wstringVector vwstr);
+    void
+    putString(std::string str);
+    void
+    putWString(std::wstring wstr);
+    void
+    putStringVector(stringVector vstr);
+    void
+    putWStringVector(wstringVector vwstr);
 
-        // Send a signature
-        void checkSignature(const char sig, int count);
+    // Send a signature
+    void
+    checkSignature(const char sig, int count);
 
-        bool getBool();
-        void getBools(bool *b, int count);
+    bool
+    getBool();
+    void
+    getBools(bool* b, int count);
 
-        char getByte();
-        void getBytes(char *b, int count);
+    char
+    getByte();
+    void
+    getBytes(char* b, int count);
 
-        int getInt();
-        void getInts(int* ptr, int count);
+    int
+    getInt();
+    void
+    getInts(int* ptr, int count);
 
-        std::string getString();
-        std::wstring getWString();
-        stringVector getStringVector();
-        wstringVector getWStringVector();
-
-    };
-}
-//=============================================================================
+    std::string
+    getString();
+    std::wstring
+    getWString();
+    stringVector
+    getStringVector();
+    wstringVector
+    getWStringVector();
+};
+} // namespace Nelson
+  //=============================================================================

@@ -18,89 +18,118 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <portaudio.h>
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 #include "HandleGenericObject.hpp"
 #include "nlsAudio_exports.h"
-#include "Evaluator.hpp"
+#include <portaudio.h>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
+//=============================================================================
 #define AUDIOPLAYER_CATEGORY_STR L"audioplayer"
-    //=============================================================================
-    class NLSAUDIO_IMPEXP AudioplayerObject : public HandleGenericObject {
-    public:
-        AudioplayerObject();
-        ~AudioplayerObject();
-        bool isWriteableProperty(std::wstring propertyName);
+//=============================================================================
+class NLSAUDIO_IMPEXP AudioplayerObject : public HandleGenericObject
+{
+public:
+    AudioplayerObject();
+    ~AudioplayerObject();
+    bool
+    isWriteableProperty(std::wstring propertyName);
 
-        // getter
-        bool get(std::wstring propertyName, ArrayOf &res);
-        int getTotalSamples();
-        bool getRunning();
+    // getter
+    bool
+    get(std::wstring propertyName, ArrayOf& res);
+    int
+    getTotalSamples();
+    bool
+    getRunning();
 
-        // setter
-        bool set(std::wstring propertyName, ArrayOf propertyValue, std::wstring &errorMessage);
+    // setter
+    bool
+    set(std::wstring propertyName, ArrayOf propertyValue, std::wstring& errorMessage);
 
-        // disp
-        bool disp(Evaluator *eval);
-        wstringVector fieldnames();
-        bool isProperty(std::wstring propertyName);
-        bool isMethod(std::wstring methodName);
+    // disp
+    bool
+    disp(Evaluator* eval);
+    wstringVector
+    fieldnames();
+    bool
+    isProperty(std::wstring propertyName);
+    bool
+    isMethod(std::wstring methodName);
 
-        bool setSamples(ArrayOf data, int SampleRate, std::wstring &errorMessage);
-        bool setSamples(ArrayOf data, int SampleRate, int BitsPerSample, std::wstring &errorMessage);
-        bool setSamples(ArrayOf data, int SampleRate, int BitsPerSample, int deviceID, std::wstring &errorMessage);
+    bool
+    setSamples(ArrayOf data, int SampleRate, std::wstring& errorMessage);
+    bool
+    setSamples(ArrayOf data, int SampleRate, int BitsPerSample, std::wstring& errorMessage);
+    bool
+    setSamples(
+        ArrayOf data, int SampleRate, int BitsPerSample, int deviceID, std::wstring& errorMessage);
 
-        bool play(int start = 0, int end = 0);
-        bool pause();
-        bool resume();
-        bool stop();
+    bool
+    play(int start = 0, int end = 0);
+    bool
+    pause();
+    bool
+    resume();
+    bool
+    stop();
 
-    private:
-        wstringVector propertiesNames;
-        ArrayOf audioData;
-        int _SampleRate;
-        int _BitsPerSample;
-        int _NumberOfChannels;
-        int _DeviceID;
-        int _CurrentSample;
-        int _TotalSamples;
-        bool _Running;
-        std::wstring _Tag;
-        ArrayOf _UserData;
-        std::wstring _Type;
-        PaStream *paStream;
-        uint32 firstSample;
-        uint32 lastSample;
+private:
+    wstringVector propertiesNames;
+    ArrayOf audioData;
+    int _SampleRate;
+    int _BitsPerSample;
+    int _NumberOfChannels;
+    int _DeviceID;
+    int _CurrentSample;
+    int _TotalSamples;
+    bool _Running;
+    std::wstring _Tag;
+    ArrayOf _UserData;
+    std::wstring _Type;
+    PaStream* paStream;
+    uint32 firstSample;
+    uint32 lastSample;
 
-        // setter
-        bool setSampleRate(int sr);
-        bool setRunning(bool on);
-        bool setTag(std::wstring tag);
-        bool setUserData(Nelson::ArrayOf userData);
+    // setter
+    bool
+    setSampleRate(int sr);
+    bool
+    setRunning(bool on);
+    bool
+    setTag(std::wstring tag);
+    bool
+    setUserData(Nelson::ArrayOf userData);
 
-        // getter
-        int getSampleRate();
-        int getBitsPerSample();
-        int getNumberOfChannels();
-        int getDeviceID();
-        int getCurrentSample();
-        std::wstring getTag();
-        Nelson::ArrayOf getUserData();
-        std::wstring getType();
-        PaStream *getStream();
+    // getter
+    int
+    getSampleRate();
+    int
+    getBitsPerSample();
+    int
+    getNumberOfChannels();
+    int
+    getDeviceID();
+    int
+    getCurrentSample();
+    std::wstring
+    getTag();
+    Nelson::ArrayOf
+    getUserData();
+    std::wstring
+    getType();
+    PaStream*
+    getStream();
 
-        PaStreamParameters outputStreamParameters;
+    PaStreamParameters outputStreamParameters;
 
-        // callback
-        static int paPlayCallback(const void *inputBuffer,
-                                  void *outputBuffer,
-                                  unsigned long framesPerBuffer,
-                                  const PaStreamCallbackTimeInfo* timeInfo,
-                                  PaStreamCallbackFlags statusFlags,
-                                  void *userData);
-    };
-    //=============================================================================
-}
+    // callback
+    static int
+    paPlayCallback(const void* inputBuffer, void* outputBuffer, unsigned long framesPerBuffer,
+        const PaStreamCallbackTimeInfo* timeInfo, PaStreamCallbackFlags statusFlags,
+        void* userData);
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -33,12 +33,18 @@
 #define ERROR_UNRECOGNIZED_STATEMENT _W("Unrecognized statement type.")
 #define ERROR_INDEX_EXPRESSION_EXPECTED _W("Expected indexing expression!")
 #define ERROR_NEED_OVERLOAD _W("Need to Overload!")
-#define ERROR_DYNAMIC_FIELD_STRING_EXPECTED _W("dynamic field reference to structure requires a string argument")
+#define ERROR_DYNAMIC_FIELD_STRING_EXPECTED                                                        \
+    _W("dynamic field reference to structure requires a string argument")
 #define ERROR_NEED_TO_IMPLEMENT_ASSIGN _W("NEED TO IMPLEMENT ASSIGNATION FOR OBJECT.")
 #define ERROR_ASSIGN_TO_NON_STRUCT _W("Cannot apply A.field_name = B to non struct-array object A.")
-#define ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION _W("Illegal left hand side in multifunction expression")
-#define ERROR_MULTIPLE_ROWS_NOT_ALLOWED _W("Multiple rows not allowed in left hand side of multifunction expression")
-#define ERROR_PARENTHETICAL_EXPRESSION _W("Parenthetical expression in the left hand side of a function call must resolve to a single element.")
+#define ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION                                                \
+    _W("Illegal left hand side in multifunction expression")
+#define ERROR_MULTIPLE_ROWS_NOT_ALLOWED                                                            \
+    _W("Multiple rows not allowed in left hand side of multifunction expression")
+#define ERROR_PARENTHETICAL_EXPRESSION                                                             \
+    _W("Parenthetical expression in the left hand side of a function call must resolve to a "      \
+       "single "                                                                                   \
+       "element.")
 #define ERROR_CANNOT_USE_ARGS _W("Cannot use arguments in a call to a script.")
 #define ERROR_ASSIGN_OUTPUTS _W("Cannot assign outputs in a call to a script.")
 #define ERROR_ILLEGAL_EXPRESSION_IN_FUNCTION _W("Illegal expression in function expression")
@@ -48,61 +54,95 @@
 #define ERROR_WRONG_NUMBERS_OUTPUT_ARGS _W("Wrong numbers of output arguments.")
 #define ERROR_WRONG_NUMBERS_INPUT_ARGS _W("Wrong number of input arguments.")
 
-#define ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED _W("Wrong type for argument #1: string expected.")
-#define ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED _W("Wrong type for argument #2: string expected.")
-#define ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED _W("Wrong type for argument #3: string expected.")
-#define ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED _W("Wrong type for argument #%d: string expected.")
+#define ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED                                                \
+    _W("Wrong type for argument #1: string expected.")
+#define ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED                                                \
+    _W("Wrong type for argument #2: string expected.")
+#define ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED                                                \
+    _W("Wrong type for argument #3: string expected.")
+#define ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED                                                \
+    _W("Wrong type for argument #%d: string expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_TYPE_CELL_OF_STRINGS_EXPECTED _W("Wrong type for argument #1: cell of strings expected.")
-#define ERROR_WRONG_ARGUMENT_2_TYPE_CELL_OF_STRINGS_EXPECTED _W("Wrong type for argument #2: cell of strings expected.")
-#define ERROR_WRONG_ARGUMENT_X_TYPE_CELL_OF_STRINGS_EXPECTED _W("Wrong type for argument #%d: cell of strings expected.")
+#define ERROR_WRONG_ARGUMENT_1_TYPE_CELL_OF_STRINGS_EXPECTED                                       \
+    _W("Wrong type for argument #1: cell of strings expected.")
+#define ERROR_WRONG_ARGUMENT_2_TYPE_CELL_OF_STRINGS_EXPECTED                                       \
+    _W("Wrong type for argument #2: cell of strings expected.")
+#define ERROR_WRONG_ARGUMENT_X_TYPE_CELL_OF_STRINGS_EXPECTED                                       \
+    _W("Wrong type for argument #%d: cell of strings expected.")
 
+#define ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED                                               \
+    _W("Wrong type for argument #1: logical expected.")
+#define ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED                                               \
+    _W("Wrong type for argument #2: logical expected.")
+#define ERROR_WRONG_ARGUMENT_3_TYPE_LOGICAL_EXPECTED                                               \
+    _W("Wrong type for argument #3: logical expected.")
+#define ERROR_WRONG_ARGUMENT_4_TYPE_LOGICAL_EXPECTED                                               \
+    _W("Wrong type for argument #4: logical expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED _W("Wrong type for argument #1: logical expected.")
-#define ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED _W("Wrong type for argument #2: logical expected.")
-#define ERROR_WRONG_ARGUMENT_3_TYPE_LOGICAL_EXPECTED _W("Wrong type for argument #3: logical expected.")
-#define ERROR_WRONG_ARGUMENT_4_TYPE_LOGICAL_EXPECTED _W("Wrong type for argument #4: logical expected.")
+#define ERROR_WRONG_ARGUMENT_1_SIZE_LOGICAL_EXPECTED                                               \
+    _W("Wrong size for argument #1. logical matrix expected.")
+#define ERROR_WRONG_ARGUMENT_2_SIZE_LOGICAL_EXPECTED                                               \
+    _W("Wrong size for argument #2. logical matrix expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_SIZE_LOGICAL_EXPECTED _W("Wrong size for argument #1. logical matrix expected.")
-#define ERROR_WRONG_ARGUMENT_2_SIZE_LOGICAL_EXPECTED _W("Wrong size for argument #2. logical matrix expected.")
+#define ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED                                        \
+    _W("Wrong type for argument #1: sparse logical expected.")
+#define ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED                                        \
+    _W("Wrong type for argument #2: sparse logical expected.")
 
+#define ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED                                                \
+    _W("Wrong type for argument #1: double expected.")
+#define ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED                                                \
+    _W("Wrong type for argument #2: double expected.")
+#define ERROR_WRONG_ARGUMENT_3_TYPE_DOUBLE_EXPECTED                                                \
+    _W("Wrong type for argument #3: double expected.")
+#define ERROR_WRONG_ARGUMENT_4_TYPE_DOUBLE_EXPECTED                                                \
+    _W("Wrong type for argument #4: double expected.")
+#define ERROR_WRONG_ARGUMENT_5_TYPE_DOUBLE_EXPECTED                                                \
+    _W("Wrong type for argument #5: double expected.")
+#define ERROR_WRONG_ARGUMENT_6_TYPE_DOUBLE_EXPECTED                                                \
+    _W("Wrong type for argument #6: double expected.")
+#define ERROR_WRONG_ARGUMENT_X_TYPE_DOUBLE_EXPECTED                                                \
+    _W("Wrong type for argument #%d: double expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED _W("Wrong type for argument #1: sparse logical expected.")
-#define ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED _W("Wrong type for argument #2: sparse logical expected.")
+#define ERROR_WRONG_ARGUMENT_1_SIZE_DOUBLE_EXPECTED                                                \
+    _W("Wrong size for argument #1. double matrix expected.")
+#define ERROR_WRONG_ARGUMENT_2_SIZE_DOUBLE_EXPECTED                                                \
+    _W("Wrong size for argument #2. double matrix expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED _W("Wrong type for argument #1: double expected.")
-#define ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED _W("Wrong type for argument #2: double expected.")
-#define ERROR_WRONG_ARGUMENT_3_TYPE_DOUBLE_EXPECTED _W("Wrong type for argument #3: double expected.")
-#define ERROR_WRONG_ARGUMENT_4_TYPE_DOUBLE_EXPECTED _W("Wrong type for argument #4: double expected.")
-#define ERROR_WRONG_ARGUMENT_5_TYPE_DOUBLE_EXPECTED _W("Wrong type for argument #5: double expected.")
-#define ERROR_WRONG_ARGUMENT_6_TYPE_DOUBLE_EXPECTED _W("Wrong type for argument #6: double expected.")
-#define ERROR_WRONG_ARGUMENT_X_TYPE_DOUBLE_EXPECTED _W("Wrong type for argument #%d: double expected.")
+#define ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED                                         \
+    _W("Wrong type for argument #1: sparse double expected.")
+#define ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_DOUBLE_EXPECTED                                         \
+    _W("Wrong type for argument #2: sparse double expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_SIZE_DOUBLE_EXPECTED _W("Wrong size for argument #1. double matrix expected.")
-#define ERROR_WRONG_ARGUMENT_2_SIZE_DOUBLE_EXPECTED _W("Wrong size for argument #2. double matrix expected.")
+#define ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED                                                \
+    _W("Wrong type for argument #1: sparse expected.")
+#define ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_EXPECTED                                                \
+    _W("Wrong type for argument #2: sparse expected.")
 
+#define ERROR_WRONG_ARGUMENT_1_TYPE_SINGLE_EXPECTED                                                \
+    _W("Wrong type for argument #1: single expected.")
+#define ERROR_WRONG_ARGUMENT_2_TYPE_SINGLE_EXPECTED                                                \
+    _W("Wrong type for argument #2: single expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED _W("Wrong type for argument #1: sparse double expected.")
-#define ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_DOUBLE_EXPECTED _W("Wrong type for argument #2: sparse double expected.")
+#define ERROR_WRONG_ARGUMENT_1_SIZE_SINGLE_EXPECTED                                                \
+    _W("Wrong size for argument #1. single matrix expected.")
+#define ERROR_WRONG_ARGUMENT_2_SIZE_SINGLE_EXPECTED                                                \
+    _W("Wrong size for argument #2. single matrix expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED _W("Wrong type for argument #1: sparse expected.")
-#define ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_EXPECTED _W("Wrong type for argument #2: sparse expected.")
+#define ERROR_WRONG_ARGUMENT_1_TYPE_INTEGER_EXPECTED                                               \
+    _W("Wrong type for argument #1. integer expected.")
+#define ERROR_WRONG_ARGUMENT_2_TYPE_INTEGER_EXPECTED                                               \
+    _W("Wrong type for argument #2. integer expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_TYPE_SINGLE_EXPECTED _W("Wrong type for argument #1: single expected.")
-#define ERROR_WRONG_ARGUMENT_2_TYPE_SINGLE_EXPECTED _W("Wrong type for argument #2: single expected.")
+#define ERROR_WRONG_ARGUMENT_1_SIZE_INTEGER_EXPECTED                                               \
+    _W("Wrong size for argument #1. integer matrix expected.")
+#define ERROR_WRONG_ARGUMENT_2_SIZE_INTEGER_EXPECTED                                               \
+    _W("Wrong size for argument #2. integer matrix expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_SIZE_SINGLE_EXPECTED _W("Wrong size for argument #1. single matrix expected.")
-#define ERROR_WRONG_ARGUMENT_2_SIZE_SINGLE_EXPECTED _W("Wrong size for argument #2. single matrix expected.")
-
-#define ERROR_WRONG_ARGUMENT_1_TYPE_INTEGER_EXPECTED _W("Wrong type for argument #1. integer expected.")
-#define ERROR_WRONG_ARGUMENT_2_TYPE_INTEGER_EXPECTED _W("Wrong type for argument #2. integer expected.")
-
-#define ERROR_WRONG_ARGUMENT_1_SIZE_INTEGER_EXPECTED _W("Wrong size for argument #1. integer matrix expected.")
-#define ERROR_WRONG_ARGUMENT_2_SIZE_INTEGER_EXPECTED _W("Wrong size for argument #2. integer matrix expected.")
-
-#define ERROR_WRONG_ARGUMENT_1_SIZE_NDARRAY_INTEGER_EXPECTED _W("Wrong size for argument #1. integer n-d matrix expected.")
-#define ERROR_WRONG_ARGUMENT_2_SIZE_NDARRAY_INTEGER_EXPECTED _W("Wrong size for argument #2. integer n-d matrix expected.")
-
+#define ERROR_WRONG_ARGUMENT_1_SIZE_NDARRAY_INTEGER_EXPECTED                                       \
+    _W("Wrong size for argument #1. integer n-d matrix expected.")
+#define ERROR_WRONG_ARGUMENT_2_SIZE_NDARRAY_INTEGER_EXPECTED                                       \
+    _W("Wrong size for argument #2. integer n-d matrix expected.")
 
 #define ERROR_SAME_INTEGER_TYPE_EXPECTED _W("Same integer type expected.")
 
@@ -110,38 +150,51 @@
 #define ERROR_WRONG_ARGUMENT_1_TYPE_UINT8_EXPECTED _W("Wrong type for argument #1. uint8 expected.")
 
 #define ERROR_WRONG_ARGUMENT_1_TYPE_INT16_EXPECTED _W("Wrong type for argument #1. int16 expected.")
-#define ERROR_WRONG_ARGUMENT_1_TYPE_UINT16_EXPECTED _W("Wrong type for argument #1. uint16 expected.")
+#define ERROR_WRONG_ARGUMENT_1_TYPE_UINT16_EXPECTED                                                \
+    _W("Wrong type for argument #1. uint16 expected.")
 
 #define ERROR_WRONG_ARGUMENT_1_TYPE_INT32_EXPECTED _W("Wrong type for argument #1. int32 expected.")
-#define ERROR_WRONG_ARGUMENT_1_TYPE_UINT32_EXPECTED _W("Wrong type for argument #1. uint32 expected.")
+#define ERROR_WRONG_ARGUMENT_1_TYPE_UINT32_EXPECTED                                                \
+    _W("Wrong type for argument #1. uint32 expected.")
 
 #define ERROR_WRONG_ARGUMENT_1_TYPE_INT64_EXPECTED _W("Wrong type for argument #1. int64 expected.")
-#define ERROR_WRONG_ARGUMENT_1_TYPE_UINT64_EXPECTED _W("Wrong type for argument #1. uint64 expected.")
+#define ERROR_WRONG_ARGUMENT_1_TYPE_UINT64_EXPECTED                                                \
+    _W("Wrong type for argument #1. uint64 expected.")
 
+#define ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED                                       \
+    _W("Wrong type for argument #1: function handle expected.")
+#define ERROR_WRONG_ARGUMENT_X_TYPE_FUNCTION_HANDLE_EXPECTED                                       \
+    _W("Wrong type for argument #%d: function handle expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED _W("Wrong type for argument #1: function handle expected.")
-#define ERROR_WRONG_ARGUMENT_X_TYPE_FUNCTION_HANDLE_EXPECTED _W("Wrong type for argument #%d: function handle expected.")
+#define ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_FUNCTION_HANDLE_EXPECTED                             \
+    _W("Wrong type for argument #1: string or function handle expected.")
+#define ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_DOUBLE_EXPECTED                                      \
+    _W("Wrong type for argument #1: string or double expected.")
+#define ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED                                        \
+    _W("Wrong type for argument #1: string or cell expected.")
+#define ERROR_WRONG_ARGUMENT_2_TYPE_STRING_OR_CELL_EXPECTED                                        \
+    _W("Wrong type for argument #2: string or cell expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_FUNCTION_HANDLE_EXPECTED _W("Wrong type for argument #1: string or function handle expected.")
-#define ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_DOUBLE_EXPECTED _W("Wrong type for argument #1: string or double expected.")
-#define ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED _W("Wrong type for argument #1: string or cell expected.")
-#define ERROR_WRONG_ARGUMENT_2_TYPE_STRING_OR_CELL_EXPECTED _W("Wrong type for argument #2: string or cell expected.")
-
-
-#define ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED _W("Wrong type for #1 argument: numeric value expected.")
-#define ERROR_WRONG_ARGUMENT_2_TYPE_NUMERIC_EXPECTED _W("Wrong type for #1 argument: numeric value expected.")
+#define ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED                                               \
+    _W("Wrong type for #1 argument: numeric value expected.")
+#define ERROR_WRONG_ARGUMENT_2_TYPE_NUMERIC_EXPECTED                                               \
+    _W("Wrong type for #1 argument: numeric value expected.")
 
 #define ERROR_WRONG_ARGUMENT_1_TYPE_CELL_EXPECTED _W("Wrong type for argument #1. cell expected.")
 #define ERROR_WRONG_ARGUMENT_2_TYPE_CELL_EXPECTED _W("Wrong type for argument #2. cell expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED _W("Wrong type for argument #1. struct expected.")
-#define ERROR_WRONG_ARGUMENT_2_TYPE_STRUCT_EXPECTED _W("Wrong type for argument #2. struct expected.")
+#define ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED                                                \
+    _W("Wrong type for argument #1. struct expected.")
+#define ERROR_WRONG_ARGUMENT_2_TYPE_STRUCT_EXPECTED                                                \
+    _W("Wrong type for argument #2. struct expected.")
 
 #define ERROR_WRONG_ARGUMENTS_TYPE _W("Wrong types for inputs arguments.")
 #define ERROR_WRONG_ARGUMENT_1_TYPE _W("Wrong type: #1 argument.")
 #define ERROR_WRONG_ARGUMENT_2_TYPE _W("Wrong type: #2 argument.")
-#define ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED _W("Wrong type for input arguments: double expected.")
-#define ERROR_WRONG_ARGUMENTS_TYPE_SINGLE_EXPECTED _W("Wrong type for input arguments: single expected.")
+#define ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED                                                 \
+    _W("Wrong type for input arguments: double expected.")
+#define ERROR_WRONG_ARGUMENTS_TYPE_SINGLE_EXPECTED                                                 \
+    _W("Wrong type for input arguments: single expected.")
 
 #define ERROR_TYPE_LOGICAL_EXPECTED _W("logical expected.")
 #define ERROR_TYPE_STRUCT_EXPECTED _W("struct expected.")
@@ -150,57 +203,83 @@
 #define ERROR_TYPE_ALREADY_RESERVED _W("type reserved.")
 
 //=============================================================================
-#define ERROR_WRONG_ARGUMENTS_SIZE_FULL_MATRIX_EXPECTED _W("Wrong size for input arguments: full matrix expected.")
-#define ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED _W("Wrong size for input arguments: 2D matrix expected.")
+#define ERROR_WRONG_ARGUMENTS_SIZE_FULL_MATRIX_EXPECTED                                            \
+    _W("Wrong size for input arguments: full matrix expected.")
+#define ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED                                              \
+    _W("Wrong size for input arguments: 2D matrix expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_SIZE_FULL_MATRIX_EXPECTED _W("Wrong size for argument #1: full matrix expected.")
-#define ERROR_WRONG_ARGUMENT_1_SIZE_2D_MATRIX_EXPECTED _W("Wrong size for argument #1: 2D matrix expected.")
+#define ERROR_WRONG_ARGUMENT_1_SIZE_FULL_MATRIX_EXPECTED                                           \
+    _W("Wrong size for argument #1: full matrix expected.")
+#define ERROR_WRONG_ARGUMENT_1_SIZE_2D_MATRIX_EXPECTED                                             \
+    _W("Wrong size for argument #1: 2D matrix expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_EXPECTED _W("Wrong size for argument #1: scalar expected.")
-#define ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED _W("Wrong size for argument #2: scalar expected.")
-#define ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED _W("Wrong size for argument #%d: scalar expected.")
+#define ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_EXPECTED                                                \
+    _W("Wrong size for argument #1: scalar expected.")
+#define ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED                                                \
+    _W("Wrong size for argument #2: scalar expected.")
+#define ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED                                                \
+    _W("Wrong size for argument #%d: scalar expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_OR_ROW_VECTOR_EXPECTED _W("Wrong size for #1 argument. a scalar or a row vector expected.")
+#define ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_OR_ROW_VECTOR_EXPECTED                                  \
+    _W("Wrong size for #1 argument. a scalar or a row vector expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_SIZE_A_B_VECTOR_EXPECTED _W("Wrong size for #1 argument. [a, b] expected.")
-#define ERROR_WRONG_ARGUMENT_2_SIZE_A_B_VECTOR_EXPECTED _W("Wrong size for #2 argument. [a, b] expected.")
+#define ERROR_WRONG_ARGUMENT_1_SIZE_A_B_VECTOR_EXPECTED                                            \
+    _W("Wrong size for #1 argument. [a, b] expected.")
+#define ERROR_WRONG_ARGUMENT_2_SIZE_A_B_VECTOR_EXPECTED                                            \
+    _W("Wrong size for #2 argument. [a, b] expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_SIZE_ROW_VECTOR_EXPECTED _W("Wrong size for #1 argument. row vector expected.")
-#define ERROR_WRONG_ARGUMENT_2_SIZE_ROW_VECTOR_EXPECTED _W("Wrong size for #2 argument. row vector expected.")
+#define ERROR_WRONG_ARGUMENT_1_SIZE_ROW_VECTOR_EXPECTED                                            \
+    _W("Wrong size for #1 argument. row vector expected.")
+#define ERROR_WRONG_ARGUMENT_2_SIZE_ROW_VECTOR_EXPECTED                                            \
+    _W("Wrong size for #2 argument. row vector expected.")
 
 #define ERROR_SAME_SIZE_EXPECTED _W("Same size expected.")
 #define ERROR_SIZE_SCALAR_EXPECTED _W("A scalar expected.")
 //=============================================================================
-#define ERROR_WRONG_ARGUMENT_1_SIZE_A_B_VECTOR_EXPECTED _W("Wrong size for #1 argument. [a, b] expected.")
-#define ERROR_WRONG_ARGUMENT_2_SIZE_A_B_VECTOR_EXPECTED _W("Wrong size for #2 argument. [a, b] expected.")
+#define ERROR_WRONG_ARGUMENT_1_SIZE_A_B_VECTOR_EXPECTED                                            \
+    _W("Wrong size for #1 argument. [a, b] expected.")
+#define ERROR_WRONG_ARGUMENT_2_SIZE_A_B_VECTOR_EXPECTED                                            \
+    _W("Wrong size for #2 argument. [a, b] expected.")
 
 //=============================================================================
-#define ERROR_WRONG_ARGUMENT_1_VALUE  _W("Wrong value for #1 argument.")
-#define ERROR_WRONG_ARGUMENT_2_VALUE  _W("Wrong value for #2 argument.")
-#define ERROR_WRONG_ARGUMENT_X_VALUE  _W("Wrong value for #%d argument.")
+#define ERROR_WRONG_ARGUMENT_1_VALUE _W("Wrong value for #1 argument.")
+#define ERROR_WRONG_ARGUMENT_2_VALUE _W("Wrong value for #2 argument.")
+#define ERROR_WRONG_ARGUMENT_X_VALUE _W("Wrong value for #%d argument.")
 
-#define ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED _W("Wrong value for argument #1. Scalar integer value expected.")
-#define ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED _W("Wrong value for argument #2. Scalar integer value expected.")
-#define ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED _W("Wrong value for argument #%d. Scalar integer value expected.")
+#define ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED                                       \
+    _W("Wrong value for argument #1. Scalar integer value expected.")
+#define ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED                                       \
+    _W("Wrong value for argument #2. Scalar integer value expected.")
+#define ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED                                       \
+    _W("Wrong value for argument #%d. Scalar integer value expected.")
 
+#define ERROR_WRONG_ARGUMENT_1_FINITE_SCALAR_INTEGER_VALUE_EXPECTED                                \
+    _W("Wrong value for argument #1. A finite scalar integer value expected.")
+#define ERROR_WRONG_ARGUMENT_2_FINITE_SCALAR_INTEGER_VALUE_EXPECTED                                \
+    _W("Wrong value for argument #2. A finite scalar integer value expected.")
+#define ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED                                \
+    _W("Wrong value for argument #%d. A finite scalar integer value expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_FINITE_SCALAR_INTEGER_VALUE_EXPECTED _W("Wrong value for argument #1. A finite scalar integer value expected.")
-#define ERROR_WRONG_ARGUMENT_2_FINITE_SCALAR_INTEGER_VALUE_EXPECTED _W("Wrong value for argument #2. A finite scalar integer value expected.")
-#define ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED _W("Wrong value for argument #%d. A finite scalar integer value expected.")
-
-#define ERROR_WRONG_ARGUMENT_1_FINITE_VECTOR_INTEGER_VALUE_EXPECTED _W("Wrong value for argument #1. A finite vector of integer values expected.")
+#define ERROR_WRONG_ARGUMENT_1_FINITE_VECTOR_INTEGER_VALUE_EXPECTED                                \
+    _W("Wrong value for argument #1. A finite vector of integer values expected.")
 
 #define ERROR_WRONG_ARGUMENT_1_INVALID_VECTOR_SIZE _W("Wrong value for #1 :Invalid size.")
 #define ERROR_WRONG_ARGUMENT_2_INVALID_VECTOR_SIZE _W("Wrong value for #2 :Invalid size.")
 #define ERROR_WRONG_ARGUMENT_X_INVALID_VECTOR_SIZE _W("Wrong value for #%d :Invalid size.")
 
-#define ERROR_WRONG_ARGUMENT_1_POSITIVE_VALUE_EXPECTED _W("Wrong value for #1 argument. positive value expected.")
-#define ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED _W("Wrong value for #2 argument. positive value expected.")
-#define ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED _W("Wrong value for #%d argument. positive value expected.")
+#define ERROR_WRONG_ARGUMENT_1_POSITIVE_VALUE_EXPECTED                                             \
+    _W("Wrong value for #1 argument. positive value expected.")
+#define ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED                                             \
+    _W("Wrong value for #2 argument. positive value expected.")
+#define ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED                                             \
+    _W("Wrong value for #%d argument. positive value expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_A_MUST_BE_HIGHER_THAN_B _W("Wrong value for #1 argument. a must be higher than b ([a,b]).")
-#define ERROR_WRONG_ARGUMENT_2_A_MUST_BE_HIGHER_THAN_B _W("Wrong value for #2 argument. a must be higher than b ([a,b]).")
-#define ERROR_WRONG_ARGUMENT_X_A_MUST_BE_HIGHER_THAN_B _W("Wrong value for #2 argument. a must be higher than b ([a,b]).")
+#define ERROR_WRONG_ARGUMENT_1_A_MUST_BE_HIGHER_THAN_B                                             \
+    _W("Wrong value for #1 argument. a must be higher than b ([a,b]).")
+#define ERROR_WRONG_ARGUMENT_2_A_MUST_BE_HIGHER_THAN_B                                             \
+    _W("Wrong value for #2 argument. a must be higher than b ([a,b]).")
+#define ERROR_WRONG_ARGUMENT_X_A_MUST_BE_HIGHER_THAN_B                                             \
+    _W("Wrong value for #2 argument. a must be higher than b ([a,b]).")
 //=============================================================================
 #define MSG_CTRL_C_DETECTED _W("Interrupt (ctrl-c) encountered.")
 //=============================================================================
@@ -212,7 +291,11 @@
 
 #define ERROR_SCALAR_EXPECTED _W("A scalar expected.")
 
-#define ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED _W("Wrong type for argument #1: handle expected.")
-#define ERROR_WRONG_ARGUMENT_2_TYPE_HANDLE_EXPECTED _W("Wrong type for argument #2: handle expected.")
-#define ERROR_WRONG_ARGUMENT_3_TYPE_HANDLE_EXPECTED _W("Wrong type for argument #3: handle expected.")
-#define ERROR_WRONG_ARGUMENT_X_TYPE_HANDLE_EXPECTED _W("Wrong type for argument #%d: handle expected.")
+#define ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED                                                \
+    _W("Wrong type for argument #1: handle expected.")
+#define ERROR_WRONG_ARGUMENT_2_TYPE_HANDLE_EXPECTED                                                \
+    _W("Wrong type for argument #2: handle expected.")
+#define ERROR_WRONG_ARGUMENT_3_TYPE_HANDLE_EXPECTED                                                \
+    _W("Wrong type for argument #3: handle expected.")
+#define ERROR_WRONG_ARGUMENT_X_TYPE_HANDLE_EXPECTED                                                \
+    _W("Wrong type for argument #%d: handle expected.")

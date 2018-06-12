@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -15,20 +15,21 @@ static doublereal c_b66 = 0.;
 static doublereal c_b67 = 1.;
 static doublereal c_b81 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb02pd_(job, trana, uplo, n, a, lda, g, ldg, q, ldq, x, ldx, rcond, ferr, wr, wi, iwork, dwork, ldwork, info, job_len, trana_len, uplo_len)
-char *job, *trana, *uplo;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *g;
-integer *ldg;
-doublereal *q;
-integer *ldq;
-doublereal *x;
-integer *ldx;
+EXPORTSYMBOL /* Subroutine */ int sb02pd_(job, trana, uplo, n, a, lda, g, ldg, q, ldq, x, ldx,
+    rcond, ferr, wr, wi, iwork, dwork, ldwork, info, job_len, trana_len, uplo_len) char *job,
+    *trana, *uplo;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* g;
+integer* ldg;
+doublereal* q;
+integer* ldq;
+doublereal* x;
+integer* ldx;
 doublereal *rcond, *ferr, *wr, *wi;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen job_len;
 ftnlen trana_len;
@@ -299,67 +300,43 @@ ftnlen uplo_len;
     notrna = lsame_(trana, "N", 1L, 1L);
     lower = lsame_(uplo, "L", 1L, 1L);
     *info = 0;
-    if (! all && ! lsame_(job, "X", 1L, 1L))
-    {
+    if (!all && !lsame_(job, "X", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! lsame_(trana, "T", 1L, 1L) && ! lsame_(trana, "C", 1L, 1L) && ! notrna)
-    {
+    } else if (!lsame_(trana, "T", 1L, 1L) && !lsame_(trana, "C", 1L, 1L) && !notrna) {
         *info = -2;
-    }
-    else if (! lower && ! lsame_(uplo, "U", 1L, 1L))
-    {
+    } else if (!lower && !lsame_(uplo, "U", 1L, 1L)) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldg < max(1,*n))
-    {
+    } else if (*ldg < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldq < max(1,*n))
-    {
+    } else if (*ldq < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldx < max(1,*n))
-    {
+    } else if (*ldx < max(1, *n)) {
         *info = -12;
-    }
-    else
-    {
+    } else {
         /*        Compute workspace. */
-        if (all)
-        {
+        if (all) {
             /* Computing MAX */
-            i__1 = (*n << 2) **n + (*n << 3) + 1, i__2 = *n * 6 * *n;
-            minwrk = max(i__1,i__2);
+            i__1 = (*n << 2) * *n + (*n << 3) + 1, i__2 = *n * 6 * *n;
+            minwrk = max(i__1, i__2);
+        } else {
+            minwrk = (*n << 2) * *n + (*n << 3) + 1;
         }
-        else
-        {
-            minwrk = (*n << 2) **n + (*n << 3) + 1;
-        }
-        if (*ldwork < minwrk)
-        {
+        if (*ldwork < minwrk) {
             *info = -19;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SB02PD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
-        if (all)
-        {
+    if (*n == 0) {
+        if (all) {
             *rcond = 1.;
             *ferr = 0.;
         }
@@ -368,7 +345,7 @@ ftnlen uplo_len;
     }
     /*     Set tol. */
     eps = dlamch_("P", 1L);
-    tol = (doublereal) (*n) * 10. * eps;
+    tol = (doublereal)(*n) * 10. * eps;
     /*     Compute the square-roots of the norms of the matrices Q and G . */
     qnorm2 = sqrt(dlansy_("1", uplo, n, &q[q_offset], ldq, &dwork[1], 1L, 1L));
     gnorm2 = sqrt(dlansy_("1", uplo, n, &g[g_offset], ldg, &dwork[1], 1L, 1L));
@@ -387,37 +364,29 @@ ftnlen uplo_len;
     /*     stored in the lower triangle of DWORK. */
     /*     Workspace: need   4*N*N,        if UPLO = 'L'; */
     /*                       4*N*N + 2*N,  if UPLO = 'U'. */
-    if (lower)
-    {
+    if (lower) {
         ini = 0;
         isv = n2;
-        *(unsigned char *)loup = 'U';
+        *(unsigned char*)loup = 'U';
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             ij = (j - 1) * n2 + j;
             i__2 = *n;
-            for (i__ = j; i__ <= i__2; ++i__)
-            {
+            for (i__ = j; i__ <= i__2; ++i__) {
                 dwork[ij] = -q[i__ + j * q_dim1];
                 ++ij;
                 /* L10: */
             }
-            if (notrna)
-            {
+            if (notrna) {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     dwork[ij] = -a[i__ + j * a_dim1];
                     ++ij;
                     /* L20: */
                 }
-            }
-            else
-            {
+            } else {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     dwork[ij] = -a[j + i__ * a_dim1];
                     ++ij;
                     /* L30: */
@@ -426,31 +395,25 @@ ftnlen uplo_len;
             /* L40: */
         }
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             ij = (*n + j - 1) * n2 + *n + j;
             i__2 = *n;
-            for (i__ = j; i__ <= i__2; ++i__)
-            {
+            for (i__ = j; i__ <= i__2; ++i__) {
                 dwork[ij] = g[i__ + j * g_dim1];
                 ++ij;
                 /* L50: */
             }
             /* L60: */
         }
-    }
-    else
-    {
+    } else {
         ini = n2;
         isv = 0;
-        *(unsigned char *)loup = 'L';
+        *(unsigned char*)loup = 'L';
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             ij = j * n2 + 1;
             i__2 = j;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 dwork[ij] = -q[i__ + j * q_dim1];
                 ++ij;
                 /* L70: */
@@ -458,32 +421,25 @@ ftnlen uplo_len;
             /* L80: */
         }
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             ij = (*n + j) * n2 + 1;
-            if (notrna)
-            {
+            if (notrna) {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     dwork[ij] = -a[j + i__ * a_dim1];
                     ++ij;
                     /* L90: */
                 }
-            }
-            else
-            {
+            } else {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     dwork[ij] = -a[i__ + j * a_dim1];
                     ++ij;
                     /* L100: */
                 }
             }
             i__2 = j;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 dwork[ij] = g[i__ + j * g_dim1];
                 ++ij;
                 /* L110: */
@@ -493,10 +449,10 @@ ftnlen uplo_len;
     }
     /*     Block-scaling. */
     iscl = 0;
-    if (qnorm2 > gnorm2 && gnorm2 > 0.)
-    {
+    if (qnorm2 > gnorm2 && gnorm2 > 0.) {
         dlascl_(uplo, &c__0, &c__0, &qnorm2, &gnorm2, n, n, &dwork[ini + 1], &n2, &info2, 1L);
-        dlascl_(uplo, &c__0, &c__0, &gnorm2, &qnorm2, n, n, &dwork[n2 **n + *n + ini + 1], &n2, &info2, 1L);
+        dlascl_(uplo, &c__0, &c__0, &gnorm2, &qnorm2, n, n, &dwork[n2 * *n + *n + ini + 1], &n2,
+            &info2, 1L);
         iscl = 1;
     }
     /*     Workspace usage. */
@@ -504,26 +460,20 @@ ftnlen uplo_len;
     iwrk = itau + n2;
     lwamax = n2 * ilaenv_(&c__1, "DSYTRF", uplo, &n2, &c_n1, &c_n1, &c_n1, 6L, 1L);
     /*     Compute the matrix sign function. */
-    for (iter = 1; iter <= 50; ++iter)
-    {
+    for (iter = 1; iter <= 50; ++iter) {
         /*        Save the transpose of the corresponding triangle of the */
         /*        current iterate in the free locations of the shifted opposite */
         /*        triangle. */
         /*        Workspace: need   4*N*N + 2*N. */
-        if (lower)
-        {
+        if (lower) {
             i__1 = n2;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dcopy_(&i__, &dwork[i__], &n2, &dwork[i__ * n2 + 1], &c__1);
                 /* L130: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = n2;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dcopy_(&i__, &dwork[i__ * n2 + 1], &c__1, &dwork[i__], &n2);
                 /* L140: */
             }
@@ -535,23 +485,19 @@ ftnlen uplo_len;
         /*                   prefer 4*N*N + 2*N + 2*N*NB. */
         i__1 = *ldwork - iwrk;
         dsytrf_(uplo, &n2, &dwork[ini + 1], &n2, &iwork[1], &dwork[iwrk + 1], &i__1, &info2, 1L);
-        if (info2 > 0)
-        {
+        if (info2 > 0) {
             *info = 1;
             return 0;
         }
         /*        Workspace: need   4*N*N + 4*N. */
         dsytri_(uplo, &n2, &dwork[ini + 1], &n2, &iwork[1], &dwork[iwrk + 1], &info2, 1L);
         /*        Block-permutation of the inverse matrix. */
-        if (lower)
-        {
+        if (lower) {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 ij2 = (*n + j - 1) * n2 + *n + j;
                 i__2 = (j - 1) * n2 + *n;
-                for (ij1 = (j - 1) * n2 + j; ij1 <= i__2; ++ij1)
-                {
+                for (ij1 = (j - 1) * n2 + j; ij1 <= i__2; ++ij1) {
                     temp = dwork[ij1];
                     dwork[ij1] = -dwork[ij2];
                     dwork[ij2] = -temp;
@@ -562,16 +508,12 @@ ftnlen uplo_len;
                 dswap_(&i__2, &dwork[*n + j], &n2, &dwork[(j - 1) * n2 + *n + 1], &c__1);
                 /* L160: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 ij2 = (*n + j) * n2 + *n + 1;
                 i__2 = j * n2 + j;
-                for (ij1 = j * n2 + 1; ij1 <= i__2; ++ij1)
-                {
+                for (ij1 = j * n2 + 1; ij1 <= i__2; ++ij1) {
                     temp = dwork[ij1];
                     dwork[ij1] = -dwork[ij2];
                     dwork[ij2] = -temp;
@@ -587,15 +529,12 @@ ftnlen uplo_len;
         /*        the next iterate. */
         hinnrm = dlansy_("F", uplo, &n2, &dwork[ini + 1], &n2, &dwork[1], 1L, 1L);
         scale = sqrt(hinnrm / hnorm);
-        if (lower)
-        {
+        if (lower) {
             i__1 = n2;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 ji = (j - 1) * n2 + j;
                 i__2 = j * n2;
-                for (ij = ji; ij <= i__2; ++ij)
-                {
+                for (ij = ji; ij <= i__2; ++ij) {
                     ji += n2;
                     dwork[ij] = (dwork[ij] / scale + dwork[ji] * scale) / 2.;
                     dwork[ji] -= dwork[ij];
@@ -603,16 +542,12 @@ ftnlen uplo_len;
                 }
                 /* L200: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = n2;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 ji = j;
                 i__2 = j * n2 + j;
-                for (ij = j * n2 + 1; ij <= i__2; ++ij)
-                {
+                for (ij = j * n2 + 1; ij <= i__2; ++ij) {
                     dwork[ij] = (dwork[ij] / scale + dwork[ji] * scale) / 2.;
                     dwork[ji] -= dwork[ij];
                     ji += n2;
@@ -623,8 +558,7 @@ ftnlen uplo_len;
         }
         /*        Test for convergence. */
         conv = dlansy_("F", loup, &n2, &dwork[isv + 1], &n2, &dwork[1], 1L, 1L);
-        if (conv <= tol * hnorm)
-        {
+        if (conv <= tol * hnorm) {
             goto L240;
         }
         /* L230: */
@@ -634,27 +568,21 @@ ftnlen uplo_len;
     *info = 2;
 L240:
     /*     If UPLO = 'U', shift the upper triangle one column to the left. */
-    if (! lower)
-    {
+    if (!lower) {
         dlacpy_("U", &n2, &n2, &dwork[ini + 1], &n2, &dwork[1], &n2, 1L);
     }
     /*     Divide the triangle elements by -2 and then fill-in the other */
     /*     triangle by symmetry. */
-    if (lower)
-    {
+    if (lower) {
         i__1 = n2;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             i__2 = n2 - i__ + 1;
             dscal_(&i__2, &c_b57, &dwork[(i__ - 1) * n2 + i__], &c__1);
             /* L250: */
         }
-    }
-    else
-    {
+    } else {
         i__1 = n2;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dscal_(&i__, &c_b57, &dwork[(i__ - 1) * n2 + 1], &c__1);
             /* L260: */
         }
@@ -662,11 +590,9 @@ L240:
     ma02ed_(uplo, &n2, &dwork[1], &n2, 1L);
     /*     Back block-permutation. */
     i__1 = n2;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = (j - 1) * n2 + *n;
-        for (i__ = (j - 1) * n2 + 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = (j - 1) * n2 + 1; i__ <= i__2; ++i__) {
             temp = dwork[i__];
             dwork[i__] = -dwork[i__ + *n];
             dwork[i__ + *n] = temp;
@@ -679,8 +605,7 @@ L240:
     /*     Workspace: need   4*N*N + 8*N + 1. */
     /*                prefer 4*N*N + 6*N + ( 2*N+1 )*NB. */
     i__1 = n2;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         iwork[i__] = 0;
         dwork[(i__ - 1) * n2 + i__] += .5;
         /* L290: */
@@ -688,22 +613,23 @@ L240:
     i__1 = *ldwork - iwrk;
     dgeqp3_(&n2, &n2, &dwork[1], &n2, &iwork[1], &dwork[itau + 1], &dwork[iwrk + 1], &i__1, &info2);
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk + 1];
-    lwamax = max(i__1,lwamax);
+    i__1 = (integer)dwork[iwrk + 1];
+    lwamax = max(i__1, lwamax);
     /*     Accumulate the orthogonal transformations. Note that only the */
     /*     first N columns of the array DWORK, returned by DGEQP3, are */
     /*     needed, so that the last N columns of DWORK are used to get the */
     /*     orthogonal basis for the stable invariant subspace. */
     /*     Workspace: need   4*N*N + 3*N. */
     /*                prefer 4*N*N + 2*N + N*NB. */
-    ib = *n **n;
-    iaf = n2 **n;
+    ib = *n * *n;
+    iaf = n2 * *n;
     dlaset_("F", &n2, n, &c_b66, &c_b67, &dwork[iaf + 1], &n2, 1L);
     i__1 = *ldwork - iwrk;
-    dormqr_("L", "N", &n2, n, n, &dwork[1], &n2, &dwork[itau + 1], &dwork[iaf + 1], &n2, &dwork[iwrk + 1], &i__1, &info2, 1L, 1L);
+    dormqr_("L", "N", &n2, n, n, &dwork[1], &n2, &dwork[itau + 1], &dwork[iaf + 1], &n2,
+        &dwork[iwrk + 1], &i__1, &info2, 1L, 1L);
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk + 1];
-    lwamax = iwrk + max(i__1,lwamax);
+    i__1 = (integer)dwork[iwrk + 1];
+    lwamax = iwrk + max(i__1, lwamax);
     /*     Store the matrices V11 and V21' . */
     dlacpy_("F", n, n, &dwork[iaf + 1], &n2, &dwork[1], n, 1L);
     ma02ad_("F", n, n, &dwork[iaf + *n + 1], &n2, &dwork[ib + 1], n, 1L);
@@ -714,19 +640,18 @@ L240:
     iwrk = ibr + *n;
     /*     Compute the solution matrix X . */
     /*     Workspace: need   3*N*N + 8*N. */
-    dgesvx_("E", "T", n, n, &dwork[1], n, &dwork[iaf + 1], n, &iwork[1], equed, &dwork[ir + 1], &dwork[ic + 1], &dwork[ib + 1], n, &x[x_offset], ldx, rcond, &dwork[ifr + 1], &dwork[ibr + 1], &dwork[iwrk + 1], &iwork[*n + 1], &info2, 1L, 1L, 1L);
-    if (info2 > 0)
-    {
+    dgesvx_("E", "T", n, n, &dwork[1], n, &dwork[iaf + 1], n, &iwork[1], equed, &dwork[ir + 1],
+        &dwork[ic + 1], &dwork[ib + 1], n, &x[x_offset], ldx, rcond, &dwork[ifr + 1],
+        &dwork[ibr + 1], &dwork[iwrk + 1], &iwork[*n + 1], &info2, 1L, 1L, 1L);
+    if (info2 > 0) {
         *info = 3;
         return 0;
     }
     /*     Symmetrize the solution. */
     i__1 = *n - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = *n;
-        for (j = i__ + 1; j <= i__2; ++j)
-        {
+        for (j = i__ + 1; j <= i__2; ++j) {
             temp = (x[i__ + j * x_dim1] + x[j + i__ * x_dim1]) / 2.;
             x[i__ + j * x_dim1] = temp;
             x[j + i__ * x_dim1] = temp;
@@ -735,53 +660,51 @@ L240:
         /* L310: */
     }
     /*     Undo scaling for the solution matrix. */
-    if (iscl == 1)
-    {
+    if (iscl == 1) {
         dlascl_("G", &c__0, &c__0, &gnorm2, &qnorm2, n, n, &x[x_offset], ldx, &info2, 1L);
     }
-    if (all)
-    {
+    if (all) {
         /*        Compute the estimates of the reciprocal condition number and */
         /*        error bound. */
         /*        Workspace usage. */
         it = 1;
-        iu = it + *n **n;
-        iwrk = iu + *n **n;
+        iu = it + *n * *n;
+        iwrk = iu + *n * *n;
         dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[it + 1], n, 4L);
-        if (notrna)
-        {
+        if (notrna) {
             /*           Compute Ac = A-G*X . */
-            dsymm_("L", uplo, n, n, &c_b81, &g[g_offset], ldg, &x[x_offset], ldx, &c_b67, &dwork[it + 1], n, 1L, 1L);
-        }
-        else
-        {
+            dsymm_("L", uplo, n, n, &c_b81, &g[g_offset], ldg, &x[x_offset], ldx, &c_b67,
+                &dwork[it + 1], n, 1L, 1L);
+        } else {
             /*           Compute Ac = A-X*G . */
-            dsymm_("R", uplo, n, n, &c_b81, &g[g_offset], ldg, &x[x_offset], ldx, &c_b67, &dwork[it + 1], n, 1L, 1L);
+            dsymm_("R", uplo, n, n, &c_b81, &g[g_offset], ldg, &x[x_offset], ldx, &c_b67,
+                &dwork[it + 1], n, 1L, 1L);
         }
         /*        Compute the Schur factorization of Ac . */
         /*        Workspace: need   2*N*N + 5*N + 1; */
         /*                   prefer larger. */
         i__1 = *ldwork - iwrk;
-        dgees_("V", "N", select_, n, &dwork[it + 1], n, &sdim, &wr[1], &wi[1], &dwork[iu + 1], n, &dwork[iwrk + 1], &i__1, bwork, &info2, 1L, 1L);
-        if (info2 > 0)
-        {
+        dgees_("V", "N", select_, n, &dwork[it + 1], n, &sdim, &wr[1], &wi[1], &dwork[iu + 1], n,
+            &dwork[iwrk + 1], &i__1, bwork, &info2, 1L, 1L);
+        if (info2 > 0) {
             *info = 4;
             return 0;
         }
         /* Computing MAX */
-        i__1 = (integer) dwork[iwrk + 1];
-        lwamax = iwrk + max(i__1,lwamax);
+        i__1 = (integer)dwork[iwrk + 1];
+        lwamax = iwrk + max(i__1, lwamax);
         /*        Estimate the reciprocal condition number and the forward error. */
         /*        Workspace: need   6*N*N + 1; */
         /*                   prefer larger. */
         i__1 = *ldwork - iwrk;
-        sb02qd_("B", "F", trana, uplo, "O", n, &a[a_offset], lda, &dwork[it + 1], n, &dwork[iu + 1], n, &g[g_offset], ldg, &q[q_offset], ldq, &x[x_offset], ldx, &sep, rcond, ferr, &iwork[1], &dwork[iwrk + 1], &i__1, &info2, 1L, 1L, 1L, 1L, 1L);
+        sb02qd_("B", "F", trana, uplo, "O", n, &a[a_offset], lda, &dwork[it + 1], n, &dwork[iu + 1],
+            n, &g[g_offset], ldg, &q[q_offset], ldq, &x[x_offset], ldx, &sep, rcond, ferr,
+            &iwork[1], &dwork[iwrk + 1], &i__1, &info2, 1L, 1L, 1L, 1L, 1L);
         /* Computing MAX */
-        i__1 = (integer) dwork[iwrk + 1];
-        lwamax = iwrk + max(i__1,lwamax);
+        i__1 = (integer)dwork[iwrk + 1];
+        lwamax = iwrk + max(i__1, lwamax);
     }
-    dwork[1] = (doublereal) lwamax;
+    dwork[1] = (doublereal)lwamax;
     return 0;
     /* *** Last line of SB02PD */
 } /* sb02pd_ */
-

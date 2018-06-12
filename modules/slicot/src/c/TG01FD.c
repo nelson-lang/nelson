@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,31 +12,34 @@ static integer c_n1 = -1;
 static doublereal c_b42 = 0.;
 static doublereal c_b43 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int tg01fd_(compq, compz, joba, l, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, ranke, rnka22, tol, iwork, dwork, ldwork, info, compq_len, compz_len, joba_len)
-char *compq, *compz, *joba;
+EXPORTSYMBOL /* Subroutine */ int tg01fd_(compq, compz, joba, l, n, m, p, a, lda, e, lde, b, ldb,
+    c__, ldc, q, ldq, z__, ldz, ranke, rnka22, tol, iwork, dwork, ldwork, info, compq_len,
+    compz_len, joba_len) char *compq,
+    *compz, *joba;
 integer *l, *n, *m, *p;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *q;
-integer *ldq;
-doublereal *z__;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* q;
+integer* ldq;
+doublereal* z__;
 integer *ldz, *ranke, *rnka22;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen compq_len;
 ftnlen compz_len;
 ftnlen joba_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, e_dim1, e_offset, q_dim1, q_offset, z_dim1, z_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, e_dim1, e_offset, q_dim1,
+        q_offset, z_dim1, z_offset, i__1, i__2, i__3;
     doublereal d__1, d__2;
     /* Local variables */
     static logical reda;
@@ -317,43 +320,29 @@ ftnlen joba_len;
     --iwork;
     --dwork;
     /* Function Body */
-    if (lsame_(compq, "N", 1L, 1L))
-    {
+    if (lsame_(compq, "N", 1L, 1L)) {
         ilq = FALSE_;
         icompq = 1;
-    }
-    else if (lsame_(compq, "U", 1L, 1L))
-    {
+    } else if (lsame_(compq, "U", 1L, 1L)) {
         ilq = TRUE_;
         icompq = 2;
-    }
-    else if (lsame_(compq, "I", 1L, 1L))
-    {
+    } else if (lsame_(compq, "I", 1L, 1L)) {
         ilq = TRUE_;
         icompq = 3;
-    }
-    else
-    {
+    } else {
         icompq = 0;
     }
     /*     Decode COMPZ. */
-    if (lsame_(compz, "N", 1L, 1L))
-    {
+    if (lsame_(compz, "N", 1L, 1L)) {
         ilz = FALSE_;
         icompz = 1;
-    }
-    else if (lsame_(compz, "U", 1L, 1L))
-    {
+    } else if (lsame_(compz, "U", 1L, 1L)) {
         ilz = TRUE_;
         icompz = 2;
-    }
-    else if (lsame_(compz, "I", 1L, 1L))
-    {
+    } else if (lsame_(compz, "I", 1L, 1L)) {
         ilz = TRUE_;
         icompz = 3;
-    }
-    else
-    {
+    } else {
         icompz = 0;
     }
     reda = lsame_(joba, "R", 1L, 1L);
@@ -362,173 +351,130 @@ ftnlen joba_len;
     withc = *p > 0;
     lquery = *ldwork == -1;
     /*     Test the input parameters. */
-    ln = min(*l,*n);
+    ln = min(*l, *n);
     *info = 0;
     /* Computing MAX */
     /* Computing MAX */
-    i__3 = *n * 3 - 1, i__3 = max(i__3,*m);
-    i__1 = 1, i__2 = *n + *p, i__1 = max(i__1,i__2), i__2 = ln + max(i__3,*l);
-    wrkopt = max(i__1,i__2);
-    if (icompq <= 0)
-    {
+    i__3 = *n * 3 - 1, i__3 = max(i__3, *m);
+    i__1 = 1, i__2 = *n + *p, i__1 = max(i__1, i__2), i__2 = ln + max(i__3, *l);
+    wrkopt = max(i__1, i__2);
+    if (icompq <= 0) {
         *info = -1;
-    }
-    else if (icompz <= 0)
-    {
+    } else if (icompz <= 0) {
         *info = -2;
-    }
-    else if (! lsame_(joba, "N", 1L, 1L) && ! reda && ! redtr)
-    {
+    } else if (!lsame_(joba, "N", 1L, 1L) && !reda && !redtr) {
         *info = -3;
-    }
-    else if (*l < 0)
-    {
+    } else if (*l < 0) {
         *info = -4;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -5;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -6;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -7;
-    }
-    else if (*lda < max(1,*l))
-    {
+    } else if (*lda < max(1, *l)) {
         *info = -9;
-    }
-    else if (*lde < max(1,*l))
-    {
+    } else if (*lde < max(1, *l)) {
         *info = -11;
-    }
-    else if (*ldb < 1 || withb && *ldb < *l)
-    {
+    } else if (*ldb < 1 || withb && *ldb < *l) {
         *info = -13;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -15;
-    }
-    else if (ilq && *ldq < *l || *ldq < 1)
-    {
+    } else if (ilq && *ldq < *l || *ldq < 1) {
         *info = -17;
-    }
-    else if (ilz && *ldz < *n || *ldz < 1)
-    {
+    } else if (ilz && *ldz < *n || *ldz < 1) {
         *info = -19;
-    }
-    else if (*tol >= 1.)
-    {
+    } else if (*tol >= 1.) {
         *info = -22;
-    }
-    else
-    {
-        if (lquery)
-        {
+    } else {
+        if (lquery) {
             /* Computing MIN */
             i__1 = 64, i__2 = ilaenv_(&c__1, "DORMQR", "LC", l, n, &ln, &c_n1, 6L, 2L);
-            nb = min(i__1,i__2);
+            nb = min(i__1, i__2);
             /* Computing MAX */
             i__1 = wrkopt, i__2 = ln + *n * nb;
-            wrkopt = max(i__1,i__2);
-            if (withb)
-            {
+            wrkopt = max(i__1, i__2);
+            if (withb) {
                 /* Computing MIN */
                 i__1 = 64, i__2 = ilaenv_(&c__1, "DORMQR", "LC", l, m, &ln, &c_n1, 6L, 2L);
-                nb = min(i__1,i__2);
+                nb = min(i__1, i__2);
                 /* Computing MAX */
                 i__1 = wrkopt, i__2 = ln + *m * nb;
-                wrkopt = max(i__1,i__2);
+                wrkopt = max(i__1, i__2);
             }
-            if (ilq)
-            {
+            if (ilq) {
                 /* Computing MIN */
                 i__1 = 64, i__2 = ilaenv_(&c__1, "DORMQR", "RN", l, l, &ln, &c_n1, 6L, 2L);
-                nb = min(i__1,i__2);
+                nb = min(i__1, i__2);
                 /* Computing MAX */
                 i__1 = wrkopt, i__2 = ln + *l * nb;
-                wrkopt = max(i__1,i__2);
+                wrkopt = max(i__1, i__2);
             }
             nb = ilaenv_(&c__1, "DGERQF", " ", l, n, &c_n1, &c_n1, 6L, 1L);
             /* Computing MAX */
             i__1 = wrkopt, i__2 = ln + *n * nb;
-            wrkopt = max(i__1,i__2);
+            wrkopt = max(i__1, i__2);
             /* Computing MIN */
             i__1 = 64, i__2 = ilaenv_(&c__1, "DORMRQ", "RC", l, n, n, &c_n1, 6L, 2L);
-            nb = min(i__1,i__2);
+            nb = min(i__1, i__2);
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = *n + max(1,*l) * nb;
-            wrkopt = max(i__1,i__2);
-            if (withc)
-            {
+            i__1 = wrkopt, i__2 = *n + max(1, *l) * nb;
+            wrkopt = max(i__1, i__2);
+            if (withc) {
                 /* Computing MIN */
                 i__1 = 64, i__2 = ilaenv_(&c__1, "DORMRQ", "RC", p, n, n, &c_n1, 6L, 2L);
-                nb = min(i__1,i__2);
+                nb = min(i__1, i__2);
                 /* Computing MAX */
-                i__1 = wrkopt, i__2 = *n + max(1,*p) * nb;
-                wrkopt = max(i__1,i__2);
+                i__1 = wrkopt, i__2 = *n + max(1, *p) * nb;
+                wrkopt = max(i__1, i__2);
             }
-            if (ilz)
-            {
+            if (ilz) {
                 /* Computing MIN */
                 i__1 = 64, i__2 = ilaenv_(&c__1, "DORMRQ", "RC", n, n, n, &c_n1, 6L, 2L);
-                nb = min(i__1,i__2);
+                nb = min(i__1, i__2);
                 /* Computing MAX */
-                i__1 = wrkopt, i__2 = *n + max(1,*n) * nb;
-                wrkopt = max(i__1,i__2);
+                i__1 = wrkopt, i__2 = *n + max(1, *n) * nb;
+                wrkopt = max(i__1, i__2);
             }
-        }
-        else if (*ldwork < wrkopt)
-        {
+        } else if (*ldwork < wrkopt) {
             *info = -25;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("TG01FD", &i__1, 6L);
         return 0;
-    }
-    else if (lquery)
-    {
-        dwork[1] = (doublereal) wrkopt;
+    } else if (lquery) {
+        dwork[1] = (doublereal)wrkopt;
         return 0;
     }
     /*     Initialize Q and Z if necessary. */
-    if (icompq == 3)
-    {
+    if (icompq == 3) {
         dlaset_("Full", l, l, &c_b42, &c_b43, &q[q_offset], ldq, 4L);
     }
-    if (icompz == 3)
-    {
+    if (icompz == 3) {
         dlaset_("Full", n, n, &c_b42, &c_b43, &z__[z_offset], ldz, 4L);
     }
     /*     Quick return if possible. */
-    if (*l == 0 || *n == 0)
-    {
+    if (*l == 0 || *n == 0) {
         dwork[1] = 1.;
         *ranke = 0;
-        if (reda || redtr)
-        {
+        if (reda || redtr) {
             *rnka22 = 0;
         }
         return 0;
     }
     toldef = *tol;
-    if (toldef <= 0.)
-    {
+    if (toldef <= 0.) {
         /*        Use the default tolerance for rank determination. */
-        toldef = (doublereal) (*l **n) * dlamch_("EPSILON", 7L);
+        toldef = (doublereal)(*l * *n) * dlamch_("EPSILON", 7L);
     }
     /*     Set the estimate of maximum singular value of E to */
     /*     max(||E||,||A||) to detect negligible A or E matrices. */
     /* Computing MAX */
-    d__1 = dlange_("F", l, n, &e[e_offset], lde, &dwork[1], 1L), d__2 = dlange_("F", l, n, &a[a_offset], lda, &dwork[1], 1L);
-    svlmax = max(d__1,d__2);
+    d__1 = dlange_("F", l, n, &e[e_offset], lde, &dwork[1], 1L),
+    d__2 = dlange_("F", l, n, &a[a_offset], lda, &dwork[1], 1L);
+    svlmax = max(d__1, d__2);
     /*     Compute the rank-revealing QR decomposition of E, */
     /*                        ( E11 E12 ) */
     /*           E * P = Qr * (         ) , */
@@ -538,69 +484,63 @@ ftnlen joba_len;
     /*     Workspace: MIN(L,N) + 3*N - 1. */
     lwr = *ldwork - ln;
     kw = ln + 1;
-    mb03oy_(l, n, &e[e_offset], lde, &toldef, &svlmax, ranke, sval, &iwork[1], &dwork[1], &dwork[kw], info);
+    mb03oy_(l, n, &e[e_offset], lde, &toldef, &svlmax, ranke, sval, &iwork[1], &dwork[1],
+        &dwork[kw], info);
     /*     Apply transformation on the rest of matrices. */
-    if (*ranke > 0)
-    {
+    if (*ranke > 0) {
         /*        A <-- Qr' * A. */
         /*        Workspace: need   MIN(L,N) + N; */
         /*                   prefer MIN(L,N) + N*NB. */
-        dormqr_("Left", "Transpose", l, n, ranke, &e[e_offset], lde, &dwork[1], &a[a_offset], lda, &dwork[kw], &lwr, info, 4L, 9L);
+        dormqr_("Left", "Transpose", l, n, ranke, &e[e_offset], lde, &dwork[1], &a[a_offset], lda,
+            &dwork[kw], &lwr, info, 4L, 9L);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = ln + (integer) dwork[kw];
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = ln + (integer)dwork[kw];
+        wrkopt = max(i__1, i__2);
         /*        B <-- Qr' * B. */
         /*        Workspace: need   MIN(L,N) + M; */
         /*                   prefer MIN(L,N) + M*NB. */
-        if (withb)
-        {
-            dormqr_("Left", "Transpose", l, m, ranke, &e[e_offset], lde, &dwork[1], &b[b_offset], ldb, &dwork[kw], &lwr, info, 4L, 9L);
+        if (withb) {
+            dormqr_("Left", "Transpose", l, m, ranke, &e[e_offset], lde, &dwork[1], &b[b_offset],
+                ldb, &dwork[kw], &lwr, info, 4L, 9L);
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = ln + (integer) dwork[kw];
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = ln + (integer)dwork[kw];
+            wrkopt = max(i__1, i__2);
         }
         /*        Q <-- Q * Qr. */
         /*        Workspace: need   MIN(L,N) + L; */
         /*                   prefer MIN(L,N) + L*NB. */
-        if (ilq)
-        {
-            dormqr_("Right", "No Transpose", l, l, ranke, &e[e_offset], lde, &dwork[1], &q[q_offset], ldq, &dwork[kw], &lwr, info, 5L, 12L);
+        if (ilq) {
+            dormqr_("Right", "No Transpose", l, l, ranke, &e[e_offset], lde, &dwork[1],
+                &q[q_offset], ldq, &dwork[kw], &lwr, info, 5L, 12L);
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = ln + (integer) dwork[kw];
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = ln + (integer)dwork[kw];
+            wrkopt = max(i__1, i__2);
         }
         /*        Set lower triangle of E to zero. */
-        if (*l >= 2)
-        {
+        if (*l >= 2) {
             i__1 = *l - 1;
             dlaset_("Lower", &i__1, ranke, &c_b42, &c_b42, &e[e_dim1 + 2], lde, 5L);
         }
         /*        Compute A*P, C*P and Z*P by forward permuting the columns of */
         /*        A, C and Z based on information in IWORK. */
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             iwork[j] = -iwork[j];
             /* L10: */
         }
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            if (iwork[i__] < 0)
-            {
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            if (iwork[i__] < 0) {
                 j = i__;
                 iwork[j] = -iwork[j];
-L20:
+            L20:
                 k = iwork[j];
-                if (iwork[k] < 0)
-                {
+                if (iwork[k] < 0) {
                     dswap_(l, &a[j * a_dim1 + 1], &c__1, &a[k * a_dim1 + 1], &c__1);
-                    if (withc)
-                    {
+                    if (withc) {
                         dswap_(p, &c__[j * c_dim1 + 1], &c__1, &c__[k * c_dim1 + 1], &c__1);
                     }
-                    if (ilz)
-                    {
+                    if (ilz) {
                         dswap_(n, &z__[j * z_dim1 + 1], &c__1, &z__[k * z_dim1 + 1], &c__1);
                     }
                     iwork[k] = -iwork[k];
@@ -613,59 +553,53 @@ L20:
         /*        Determine an orthogonal matrix Y such that */
         /*           ( E11 E12 ) = ( Er  0 ) * Y . */
         /*        Compute E <-- E*Y', A <-- A*Y', C <-- C*Y', Z <-- Z*Y'. */
-        if (*ranke < *n)
-        {
+        if (*ranke < *n) {
             /*           Workspace: need   2*N; */
             /*                      prefer N + N*NB. */
             kw = *ranke + 1;
             i__1 = *ldwork - kw + 1;
             dtzrzf_(ranke, n, &e[e_offset], lde, &dwork[1], &dwork[kw], &i__1, info);
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+            wrkopt = max(i__1, i__2);
             /*           Workspace: need   N + MAX(L,P,N); */
             /*                      prefer N + MAX(L,P,N)*NB. */
             lh = *n - *ranke;
             i__1 = *ldwork - kw + 1;
-            dormrz_("Right", "Transpose", l, n, ranke, &lh, &e[e_offset], lde, &dwork[1], &a[a_offset], lda, &dwork[kw], &i__1, info, 5L, 9L);
+            dormrz_("Right", "Transpose", l, n, ranke, &lh, &e[e_offset], lde, &dwork[1],
+                &a[a_offset], lda, &dwork[kw], &i__1, info, 5L, 9L);
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-            wrkopt = max(i__1,i__2);
-            if (withc)
-            {
+            i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+            wrkopt = max(i__1, i__2);
+            if (withc) {
                 i__1 = *ldwork - kw + 1;
-                dormrz_("Right", "Transpose", p, n, ranke, &lh, &e[e_offset], lde, &dwork[1], &c__[c_offset], ldc, &dwork[kw], &i__1, info, 5L, 9L);
+                dormrz_("Right", "Transpose", p, n, ranke, &lh, &e[e_offset], lde, &dwork[1],
+                    &c__[c_offset], ldc, &dwork[kw], &i__1, info, 5L, 9L);
                 /* Computing MAX */
-                i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-                wrkopt = max(i__1,i__2);
+                i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+                wrkopt = max(i__1, i__2);
             }
-            if (ilz)
-            {
+            if (ilz) {
                 i__1 = *ldwork - kw + 1;
-                dormrz_("Right", "Transpose", n, n, ranke, &lh, &e[e_offset], lde, &dwork[1], &z__[z_offset], ldz, &dwork[kw], &i__1, info, 5L, 9L);
+                dormrz_("Right", "Transpose", n, n, ranke, &lh, &e[e_offset], lde, &dwork[1],
+                    &z__[z_offset], ldz, &dwork[kw], &i__1, info, 5L, 9L);
                 /* Computing MAX */
-                i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-                wrkopt = max(i__1,i__2);
+                i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+                wrkopt = max(i__1, i__2);
             }
             /*           Set E12 and E22 to zero. */
             dlaset_("Full", l, &lh, &c_b42, &c_b42, &e[kw * e_dim1 + 1], lde, 4L);
         }
-    }
-    else
-    {
+    } else {
         dlaset_("Full", l, n, &c_b42, &c_b42, &e[e_offset], lde, 4L);
     }
     /*     Reduce A22 if necessary. */
-    if (reda || redtr)
-    {
+    if (reda || redtr) {
         la22 = *l - *ranke;
         na22 = *n - *ranke;
-        if (min(la22,na22) == 0)
-        {
+        if (min(la22, na22) == 0) {
             *rnka22 = 0;
-        }
-        else
-        {
+        } else {
             /*           Compute the rank-revealing QR decomposition of A22, */
             /*                              ( R11 R12 ) */
             /*              A22 * P2 = Q2 * (         ) , */
@@ -674,62 +608,60 @@ L20:
             /*           condition estimation. */
             /*           Workspace: MIN(L,N) + 3*N - 1. */
             ir1 = *ranke + 1;
-            mb03oy_(&la22, &na22, &a[ir1 + ir1 * a_dim1], lda, &toldef, &svlmax, rnka22, sval, &iwork[1], &dwork[1], &dwork[kw], info);
+            mb03oy_(&la22, &na22, &a[ir1 + ir1 * a_dim1], lda, &toldef, &svlmax, rnka22, sval,
+                &iwork[1], &dwork[1], &dwork[kw], info);
             /*           Apply transformation on the rest of matrices. */
-            if (*rnka22 > 0)
-            {
+            if (*rnka22 > 0) {
                 /*              A <-- diag(I, Q2') * A */
                 /*              Workspace: need   MIN(L,N) + N; */
                 /*                         prefer MIN(L,N) + N*NB. */
-                dormqr_("Left", "Transpose", &la22, ranke, rnka22, &a[ir1 + ir1 * a_dim1], lda, &dwork[1], &a[ir1 + a_dim1], lda, &dwork[kw], &lwr, info, 4L, 9L);
+                dormqr_("Left", "Transpose", &la22, ranke, rnka22, &a[ir1 + ir1 * a_dim1], lda,
+                    &dwork[1], &a[ir1 + a_dim1], lda, &dwork[kw], &lwr, info, 4L, 9L);
                 /*              B <-- diag(I, Q2') * B */
                 /*              Workspace: need   MIN(L,N) + M; */
                 /*                         prefer MIN(L,N) + M*NB. */
-                if (withb)
-                {
-                    dormqr_("Left", "Transpose", &la22, m, rnka22, &a[ir1 + ir1 * a_dim1], lda, &dwork[1], &b[ir1 + b_dim1], ldb, &dwork[kw], &lwr, info, 4L, 9L);
+                if (withb) {
+                    dormqr_("Left", "Transpose", &la22, m, rnka22, &a[ir1 + ir1 * a_dim1], lda,
+                        &dwork[1], &b[ir1 + b_dim1], ldb, &dwork[kw], &lwr, info, 4L, 9L);
                 }
                 /*              Q <-- Q * diag(I, Q2) */
                 /*              Workspace: need   MIN(L,N) + L; */
                 /*                         prefer MIN(L,N) + L*NB. */
-                if (ilq)
-                {
-                    dormqr_("Right", "No transpose", l, &la22, rnka22, &a[ir1 + ir1 * a_dim1], lda, &dwork[1], &q[ir1 * q_dim1 + 1], ldq, &dwork[kw], &lwr, info, 5L, 12L);
+                if (ilq) {
+                    dormqr_("Right", "No transpose", l, &la22, rnka22, &a[ir1 + ir1 * a_dim1], lda,
+                        &dwork[1], &q[ir1 * q_dim1 + 1], ldq, &dwork[kw], &lwr, info, 5L, 12L);
                 }
                 /*              Set lower triangle of A22 to zero. */
-                if (la22 >= 2)
-                {
+                if (la22 >= 2) {
                     i__1 = la22 - 1;
-                    dlaset_("Lower", &i__1, rnka22, &c_b42, &c_b42, &a[ir1 + 1 + ir1 * a_dim1], lda, 5L);
+                    dlaset_("Lower", &i__1, rnka22, &c_b42, &c_b42, &a[ir1 + 1 + ir1 * a_dim1], lda,
+                        5L);
                 }
                 /*              Compute A*diag(I,P2), C*diag(I,P2) and Z*diag(I,P2) */
                 /*              by forward permuting the columns of A, C and Z based */
                 /*              on information in IWORK. */
                 i__1 = na22;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     iwork[j] = -iwork[j];
                     /* L40: */
                 }
                 i__1 = na22;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
-                    if (iwork[i__] < 0)
-                    {
+                for (i__ = 1; i__ <= i__1; ++i__) {
+                    if (iwork[i__] < 0) {
                         j = i__;
                         iwork[j] = -iwork[j];
-L50:
+                    L50:
                         k = iwork[j];
-                        if (iwork[k] < 0)
-                        {
-                            dswap_(ranke, &a[(*ranke + j) * a_dim1 + 1], &c__1, &a[(*ranke + k) * a_dim1 + 1], &c__1);
-                            if (withc)
-                            {
-                                dswap_(p, &c__[(*ranke + j) * c_dim1 + 1], &c__1, &c__[(*ranke + k) * c_dim1 + 1], &c__1);
+                        if (iwork[k] < 0) {
+                            dswap_(ranke, &a[(*ranke + j) * a_dim1 + 1], &c__1,
+                                &a[(*ranke + k) * a_dim1 + 1], &c__1);
+                            if (withc) {
+                                dswap_(p, &c__[(*ranke + j) * c_dim1 + 1], &c__1,
+                                    &c__[(*ranke + k) * c_dim1 + 1], &c__1);
                             }
-                            if (ilz)
-                            {
-                                dswap_(n, &z__[(*ranke + j) * z_dim1 + 1], &c__1, &z__[(*ranke + k) * z_dim1 + 1], &c__1);
+                            if (ilz) {
+                                dswap_(n, &z__[(*ranke + j) * z_dim1 + 1], &c__1,
+                                    &z__[(*ranke + k) * z_dim1 + 1], &c__1);
                             }
                             iwork[k] = -iwork[k];
                             j = k;
@@ -738,8 +670,7 @@ L50:
                     }
                     /* L60: */
                 }
-                if (reda && *rnka22 < na22)
-                {
+                if (reda && *rnka22 < na22) {
                     /*                 Determine an orthogonal matrix Y2 such that */
                     /*                 ( R11 R12 ) = ( Ar  0 ) * Y2 . */
                     /*                 Compute A <-- A*diag(I, Y2'), C <-- C*diag(I, Y2'), */
@@ -748,42 +679,40 @@ L50:
                     /*                            prefer N + N*NB. */
                     kw = *ranke + 1;
                     i__1 = *ldwork - kw + 1;
-                    dtzrzf_(rnka22, &na22, &a[ir1 + ir1 * a_dim1], lda, &dwork[1], &dwork[kw], &i__1, info);
+                    dtzrzf_(rnka22, &na22, &a[ir1 + ir1 * a_dim1], lda, &dwork[1], &dwork[kw],
+                        &i__1, info);
                     /* Computing MAX */
-                    i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-                    wrkopt = max(i__1,i__2);
+                    i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+                    wrkopt = max(i__1, i__2);
                     /*                 Workspace: need   N + MAX(P,N); */
                     /*                            prefer N + MAX(P,N)*NB. */
                     lh = na22 - *rnka22;
-                    if (withc)
-                    {
+                    if (withc) {
                         i__1 = *ldwork - kw + 1;
-                        dormrz_("Right", "Transpose", p, n, rnka22, &lh, &a[ir1 + ir1 * a_dim1], lda, &dwork[1], &c__[c_offset], ldc, &dwork[kw], &i__1, info, 5L, 9L);
+                        dormrz_("Right", "Transpose", p, n, rnka22, &lh, &a[ir1 + ir1 * a_dim1],
+                            lda, &dwork[1], &c__[c_offset], ldc, &dwork[kw], &i__1, info, 5L, 9L);
                         /* Computing MAX */
-                        i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-                        wrkopt = max(i__1,i__2);
+                        i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+                        wrkopt = max(i__1, i__2);
                     }
-                    if (ilz)
-                    {
+                    if (ilz) {
                         i__1 = *ldwork - kw + 1;
-                        dormrz_("Right", "Transpose", n, n, rnka22, &lh, &a[ir1 + ir1 * a_dim1], lda, &dwork[1], &z__[z_offset], ldz, &dwork[kw], &i__1, info, 5L, 9L);
+                        dormrz_("Right", "Transpose", n, n, rnka22, &lh, &a[ir1 + ir1 * a_dim1],
+                            lda, &dwork[1], &z__[z_offset], ldz, &dwork[kw], &i__1, info, 5L, 9L);
                         /* Computing MAX */
-                        i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-                        wrkopt = max(i__1,i__2);
+                        i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+                        wrkopt = max(i__1, i__2);
                     }
                     ire1 = *ranke + *rnka22 + 1;
                     /*                 Set R12 and R22 to zero. */
                     dlaset_("Full", &la22, &lh, &c_b42, &c_b42, &a[ir1 + ire1 * a_dim1], lda, 4L);
                 }
-            }
-            else
-            {
+            } else {
                 dlaset_("Full", &la22, &na22, &c_b42, &c_b42, &a[ir1 + ir1 * a_dim1], lda, 4L);
             }
         }
     }
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of TG01FD *** */
 } /* tg01fd_ */
-

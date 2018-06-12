@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,13 +12,14 @@ static integer c_n1 = -1;
 static integer c__0 = 0;
 static doublereal c_b32 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int mb03ud_(jobq, jobp, n, a, lda, q, ldq, sv, dwork, ldwork, info, jobq_len, jobp_len)
-char *jobq, *jobp;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *q;
-integer *ldq;
+EXPORTSYMBOL /* Subroutine */ int mb03ud_(
+    jobq, jobp, n, a, lda, q, ldq, sv, dwork, ldwork, info, jobq_len, jobp_len) char *jobq,
+    *jobp;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* q;
+integer* ldq;
 doublereal *sv, *dwork;
 integer *ldwork, *info;
 ftnlen jobq_len;
@@ -166,24 +167,15 @@ ftnlen jobp_len;
     wantq = lsame_(jobq, "V", 1L, 1L);
     wantp = lsame_(jobp, "V", 1L, 1L);
     minwrk = 1;
-    if (! wantq && ! lsame_(jobq, "N", 1L, 1L))
-    {
+    if (!wantq && !lsame_(jobq, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! wantp && ! lsame_(jobp, "N", 1L, 1L))
-    {
+    } else if (!wantp && !lsame_(jobp, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -5;
-    }
-    else if (wantq && *ldq < max(1,*n) || ! wantq && *ldq < 1)
-    {
+    } else if (wantq && *ldq < max(1, *n) || !wantq && *ldq < 1) {
         *info = -7;
     }
     /*     Compute workspace */
@@ -192,38 +184,34 @@ ftnlen jobp_len;
     /*     as well as the preferred amount for good performance. */
     /*     NB refers to the optimal block size for the immediately following */
     /*     subroutine, as returned by ILAENV.) */
-    if (*info == 0 && *ldwork >= 1 && *n > 0)
-    {
+    if (*info == 0 && *ldwork >= 1 && *n > 0) {
         maxwrk = *n * 3 + (*n << 1) * ilaenv_(&c__1, "DGEBRD", " ", n, n, &c_n1, &c_n1, 6L, 1L);
-        if (wantq)
-        {
+        if (wantq) {
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = *n * 3 + *n * ilaenv_(&c__1, "DORGBR", "Q", n, n, n, &c_n1, 6L, 1L);
-            maxwrk = max(i__1,i__2);
+            i__1 = maxwrk,
+            i__2 = *n * 3 + *n * ilaenv_(&c__1, "DORGBR", "Q", n, n, n, &c_n1, 6L, 1L);
+            maxwrk = max(i__1, i__2);
         }
-        if (wantp)
-        {
+        if (wantp) {
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = *n * 3 + *n * ilaenv_(&c__1, "DORGBR", "P", n, n, n, &c_n1, 6L, 1L);
-            maxwrk = max(i__1,i__2);
+            i__1 = maxwrk,
+            i__2 = *n * 3 + *n * ilaenv_(&c__1, "DORGBR", "P", n, n, n, &c_n1, 6L, 1L);
+            maxwrk = max(i__1, i__2);
         }
         minwrk = *n * 5;
-        maxwrk = max(maxwrk,minwrk);
-        dwork[1] = (doublereal) maxwrk;
+        maxwrk = max(maxwrk, minwrk);
+        dwork[1] = (doublereal)maxwrk;
     }
-    if (*ldwork < minwrk)
-    {
+    if (*ldwork < minwrk) {
         *info = -10;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB03UD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 1.;
         return 0;
     }
@@ -234,19 +222,15 @@ ftnlen jobp_len;
     /*     Scale A if max entry outside range [SMLNUM,BIGNUM]. */
     anrm = dlantr_("Max", "Upper", "Non-unit", n, n, &a[a_offset], lda, dum, 3L, 5L, 8L);
     iscl = 0;
-    if (anrm > 0. && anrm < smlnum)
-    {
+    if (anrm > 0. && anrm < smlnum) {
         iscl = 1;
         dlascl_("Upper", &c__0, &c__0, &anrm, &smlnum, n, n, &a[a_offset], lda, info, 5L);
-    }
-    else if (anrm > bignum)
-    {
+    } else if (anrm > bignum) {
         iscl = 1;
         dlascl_("Upper", &c__0, &c__0, &anrm, &bignum, n, n, &a[a_offset], lda, info, 5L);
     }
     /*     Zero out below. */
-    if (*n > 1)
-    {
+    if (*n > 1) {
         i__1 = *n - 1;
         i__2 = *n - 1;
         dlaset_("Lower", &i__1, &i__2, &c_b32, &c_b32, &a[a_dim1 + 2], lda, 5L);
@@ -261,9 +245,9 @@ ftnlen jobp_len;
     /*     elements will be in SV and the superdiagonals in DWORK(IE). */
     /*     (Workspace: need 4*N, prefer 3*N+2*N*NB) */
     i__1 = *ldwork - jwork + 1;
-    dgebrd_(n, n, &a[a_offset], lda, &sv[1], &dwork[ie], &dwork[itauq], &dwork[itaup], &dwork[jwork], &i__1, info);
-    if (wantq)
-    {
+    dgebrd_(n, n, &a[a_offset], lda, &sv[1], &dwork[ie], &dwork[itauq], &dwork[itaup],
+        &dwork[jwork], &i__1, info);
+    if (wantq) {
         /*        Generate the transformation matrix Q corresponding to the */
         /*        left singular vectors. */
         /*        (Workspace: need 4*N, prefer 3*N+N*NB) */
@@ -271,64 +255,52 @@ ftnlen jobp_len;
         dlacpy_("Lower", n, n, &a[a_offset], lda, &q[q_offset], ldq, 5L);
         i__1 = *ldwork - jwork + 1;
         dorgbr_("Q", n, n, n, &q[q_offset], ldq, &dwork[itauq], &dwork[jwork], &i__1, info, 1L);
-    }
-    else
-    {
+    } else {
         ncolq = 0;
     }
-    if (wantp)
-    {
+    if (wantp) {
         /*        Generate the transformation matrix P' corresponding to the */
         /*        right singular vectors. */
         /*        (Workspace: need 4*N, prefer 3*N+N*NB) */
         ncolp = *n;
         i__1 = *ldwork - jwork + 1;
         dorgbr_("P", n, n, n, &a[a_offset], lda, &dwork[itaup], &dwork[jwork], &i__1, info, 1L);
-    }
-    else
-    {
+    } else {
         ncolp = 0;
     }
     jwork = ie + *n;
     /*     Perform bidiagonal QR iteration, to obtain all or part of the */
     /*     singular value decomposition of A. */
     /*     (Workspace: need 5*N) */
-    dbdsqr_("U", n, &ncolp, &ncolq, &c__0, &sv[1], &dwork[ie], &a[a_offset], lda, &q[q_offset], ldq, dum, &c__1, &dwork[jwork], info, 1L);
+    dbdsqr_("U", n, &ncolp, &ncolq, &c__0, &sv[1], &dwork[ie], &a[a_offset], lda, &q[q_offset], ldq,
+        dum, &c__1, &dwork[jwork], info, 1L);
     /*     If DBDSQR failed to converge, copy unconverged superdiagonals */
     /*     to DWORK(2:N). */
-    if (*info != 0)
-    {
-        for (i__ = *n - 1; i__ >= 1; --i__)
-        {
+    if (*info != 0) {
+        for (i__ = *n - 1; i__ >= 1; --i__) {
             dwork[i__ + 1] = dwork[i__ + ie - 1];
             /* L10: */
         }
     }
     /*     Undo scaling if necessary. */
-    if (iscl == 1)
-    {
-        if (anrm > bignum)
-        {
+    if (iscl == 1) {
+        if (anrm > bignum) {
             dlascl_("G", &c__0, &c__0, &bignum, &anrm, n, &c__1, &sv[1], n, info, 1L);
         }
-        if (*info != 0 && anrm > bignum)
-        {
+        if (*info != 0 && anrm > bignum) {
             i__1 = *n - 1;
             dlascl_("G", &c__0, &c__0, &bignum, &anrm, &i__1, &c__1, &dwork[2], n, info, 1L);
         }
-        if (anrm < smlnum)
-        {
+        if (anrm < smlnum) {
             dlascl_("G", &c__0, &c__0, &smlnum, &anrm, n, &c__1, &sv[1], n, info, 1L);
         }
-        if (*info != 0 && anrm < smlnum)
-        {
+        if (*info != 0 && anrm < smlnum) {
             i__1 = *n - 1;
             dlascl_("G", &c__0, &c__0, &smlnum, &anrm, &i__1, &c__1, &dwork[2], n, info, 1L);
         }
     }
     /*     Return optimal workspace in DWORK(1). */
-    dwork[1] = (doublereal) maxwrk;
+    dwork[1] = (doublereal)maxwrk;
     return 0;
     /* *** Last line of MB03UD *** */
 } /* mb03ud_ */
-

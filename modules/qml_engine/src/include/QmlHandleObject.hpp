@@ -18,9 +18,9 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "HandleGenericObject.hpp"
 #include "nlsQml_engine_exports.h"
+#include <string>
 //=============================================================================
 #define QOBJECT_CATEGORY_STR L"QObject"
 #define QOBJECT_PROPERTY_PARENT_STR "parent"
@@ -28,12 +28,13 @@
 #define QOBJECT_PROPERTY_CLASSNAME_STR "className"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSQML_ENGINE_IMPEXP QmlHandleObject : public HandleGenericObject {
-    public:
-        QmlHandleObject( void *_ptr);
-        ~QmlHandleObject();
-    };
-    //=============================================================================
-}
+//=============================================================================
+class NLSQML_ENGINE_IMPEXP QmlHandleObject : public HandleGenericObject
+{
+public:
+    QmlHandleObject(void* _ptr);
+    ~QmlHandleObject();
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

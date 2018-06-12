@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,17 +10,18 @@
 static doublereal c_b3 = -1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int nf01bf_(iflag, nfun, lx, ipar, lipar, u, ldu, y, ldy, x, nfevl, e, j, ldj, dwork, ldwork, info)
-integer *iflag, *nfun, *lx, *ipar, *lipar;
-doublereal *u;
-integer *ldu;
-doublereal *y;
-integer *ldy;
-doublereal *x;
-integer *nfevl;
+EXPORTSYMBOL /* Subroutine */ int nf01bf_(iflag, nfun, lx, ipar, lipar, u, ldu, y, ldy, x, nfevl, e,
+    j, ldj, dwork, ldwork, info) integer *iflag,
+    *nfun, *lx, *ipar, *lipar;
+doublereal* u;
+integer* ldu;
+doublereal* y;
+integer* ldy;
+doublereal* x;
+integer* nfevl;
 doublereal *e, *j;
-integer *ldj;
-doublereal *dwork;
+integer* ldj;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
@@ -83,17 +84,13 @@ integer *ldwork, *info;
     l = ipar[2];
     m = ipar[5];
     n = ipar[6];
-    if (l == 0)
-    {
+    if (l == 0) {
         nsmp = *nfun;
-    }
-    else
-    {
+    } else {
         nsmp = *nfun / l;
     }
     *info = 0;
-    if (*iflag == 1)
-    {
+    if (*iflag == 1) {
         /*        Call NF01AD to compute the output y of the Wiener system (in E) */
         /*        and then the error functions (also in E). The array U must */
         /*        contain the input to the linear part of the Wiener system, and */
@@ -107,21 +104,19 @@ integer *ldwork, *info;
         /*                            where NN = IPAR(7) (number of neurons); */
         /*                   prefer:  larger. */
         i__1 = *lipar - 2;
-        nf01ad_(&nsmp, &m, &l, &ipar[6], &i__1, &x[1], lx, &u[u_offset], ldu, &e[1], &nsmp, &dwork[1], ldwork, info);
+        nf01ad_(&nsmp, &m, &l, &ipar[6], &i__1, &x[1], lx, &u[u_offset], ldu, &e[1], &nsmp,
+            &dwork[1], ldwork, info);
         i__1 = l;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             daxpy_(&nsmp, &c_b3, &y[i__ * y_dim1 + 1], &c__1, &e[(i__ - 1) * nsmp + 1], &c__1);
             /* L10: */
         }
         /* Computing MAX */
         /* Computing MAX */
         i__3 = n * (n + l), i__4 = n + m + l;
-        i__1 = ipar[7] << 1, i__2 = (n + l) * (n + m) + (n << 1) + max(i__3,i__4);
-        dwork[1] = (doublereal) (*nfun + max(i__1,i__2));
-    }
-    else if (*iflag == 2)
-    {
+        i__1 = ipar[7] << 1, i__2 = (n + l) * (n + m) + (n << 1) + max(i__3, i__4);
+        dwork[1] = (doublereal)(*nfun + max(i__1, i__2));
+    } else if (*iflag == 2) {
         /*        Call NF01BD to compute the Jacobian in a compressed form. */
         /*        Workspace: need:    2*NFUN + MAX( 2*NN, (N + L)*(N + M) + 2*N + */
         /*                                          MAX( N*(N + L), N + M + L )), */
@@ -131,16 +126,15 @@ integer *ldwork, *info;
         /*                                                              if M > 0; */
         /*                   prefer:  larger. */
         i__1 = *lipar - 2;
-        nf01bd_("N", &nsmp, &m, &l, &ipar[6], &i__1, &x[1], lx, &u[u_offset], ldu, &e[1], &j[j_offset], ldj, &dwork[1], &dwork[1], ldwork, info, 1L);
+        nf01bd_("N", &nsmp, &m, &l, &ipar[6], &i__1, &x[1], lx, &u[u_offset], ldu, &e[1],
+            &j[j_offset], ldj, &dwork[1], &dwork[1], ldwork, info, 1L);
         *nfevl = ipar[6] * (m + l + 1) + l * m;
         /* Computing MAX */
         /* Computing MAX */
         i__3 = n * (n + l), i__4 = n + m + l;
-        i__1 = ipar[7] << 1, i__2 = (n + l) * (n + m) + (n << 1) + max(i__3,i__4);
-        dwork[1] = (doublereal) ((*nfun << 1) + max(i__1,i__2));
-    }
-    else if (*iflag == 3)
-    {
+        i__1 = ipar[7] << 1, i__2 = (n + l) * (n + m) + (n << 1) + max(i__3, i__4);
+        dwork[1] = (doublereal)((*nfun << 1) + max(i__1, i__2));
+    } else if (*iflag == 3) {
         /*        Set the parameter LDJ, the length of the array J, and the sizes */
         /*        of the workspace for FCN (IFLAG = 1 or 2), QRFACT and LMPARM. */
         /*        Condition estimation (COND = 'E') is assumed in these routines. */
@@ -150,65 +144,51 @@ integer *ldwork, *info;
         full = l <= 1 || bsn == 0;
         *ldj = *nfun;
         ipar[1] = *ldj * (bsn + st);
-        if (m > 0)
-        {
+        if (m > 0) {
             /* Computing MAX */
             i__1 = n * (n + l), i__2 = n + m + l;
-            jwork = max(i__1,i__2);
-        }
-        else
-        {
+            jwork = max(i__1, i__2);
+        } else {
             /* Computing MAX */
             i__1 = n * (n + l);
-            jwork = max(i__1,l);
+            jwork = max(i__1, l);
         }
         /* Computing MAX */
         i__1 = (n + l) * (n + m) + (n << 1) + jwork, i__2 = nn << 1;
-        ipar[2] = *ldj + max(i__1,i__2);
+        ipar[2] = *ldj + max(i__1, i__2);
         ipar[3] = *ldj + ipar[2];
         jwork = 1;
-        if (full)
-        {
+        if (full) {
             jwork = (*lx << 2) + 1;
-        }
-        else if (bsn > 0)
-        {
+        } else if (bsn > 0) {
             /* Computing MAX */
             i__1 = bsn * 3 + 1;
-            jwork = bsn + max(i__1,st);
-            if (nsmp > bsn)
-            {
+            jwork = bsn + max(i__1, st);
+            if (nsmp > bsn) {
                 /* Computing MAX */
                 i__1 = jwork, i__2 = (st << 2) + 1;
-                jwork = max(i__1,i__2);
-                if (nsmp < bsn << 1)
-                {
+                jwork = max(i__1, i__2);
+                if (nsmp < bsn << 1) {
                     /* Computing MAX */
                     i__1 = jwork, i__2 = (nsmp - bsn) * (l - 1);
-                    jwork = max(i__1,i__2);
+                    jwork = max(i__1, i__2);
                 }
             }
         }
         ipar[4] = jwork;
-        if (full)
-        {
+        if (full) {
             jwork = *lx << 2;
-        }
-        else
-        {
-            jwork = st * (*lx - st) + (*lx << 1) + (max(bsn,st) << 1);
+        } else {
+            jwork = st * (*lx - st) + (*lx << 1) + (max(bsn, st) << 1);
         }
         ipar[5] = jwork;
-    }
-    else if (*iflag == 0)
-    {
+    } else if (*iflag == 0) {
         /*        Special call for printing intermediate results. */
         err = dnrm2_(nfun, &e[1], &c__1);
         s_wsfe(&io___12);
-        do_fio(&c__1, (char *)&err, (ftnlen)sizeof(doublereal));
+        do_fio(&c__1, (char*)&err, (ftnlen)sizeof(doublereal));
         e_wsfe();
     }
     return 0;
     /* *** Last line of NF01BF *** */
 } /* nf01bf_ */
-

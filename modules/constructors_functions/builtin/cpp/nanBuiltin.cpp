@@ -16,35 +16,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NaN.hpp"
 #include "nanBuiltin.hpp"
 #include "Error.hpp"
+#include "NaN.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ConstructorsGateway::nanBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ConstructorsGateway::nanBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     uint32 m = 1;
     uint32 n = 1;
     ArrayOfVector retval;
     ArrayOf p;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0)
-    {
+    if (argIn.size() == 0) {
         m = 1;
         n = 1;
-    }
-    else if (argIn.size() > 0)
-    {
+    } else if (argIn.size() > 0) {
         p = argIn[0];
         m = p.getContentAsInteger32Scalar();
         n = m;
     }
-    if (argIn.size() > 1)
-    {
+    if (argIn.size() > 1) {
         p = argIn[1];
         n = p.getContentAsInteger32Scalar();
     }

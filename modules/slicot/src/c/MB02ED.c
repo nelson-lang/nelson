@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,14 +11,14 @@ static doublereal c_b10 = 1.;
 static doublereal c_b19 = -1.;
 static doublereal c_b21 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int mb02ed_(typet, k, n, nrhs, t, ldt, b, ldb, dwork, ldwork, info, typet_len)
-char *typet;
+EXPORTSYMBOL /* Subroutine */ int mb02ed_(
+    typet, k, n, nrhs, t, ldt, b, ldb, dwork, ldwork, info, typet_len) char* typet;
 integer *k, *n, *nrhs;
-doublereal *t;
-integer *ldt;
-doublereal *b;
-integer *ldb;
-doublereal *dwork;
+doublereal* t;
+integer* ldt;
+doublereal* b;
+integer* ldb;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen typet_len;
 {
@@ -161,76 +161,59 @@ ftnlen typet_len;
     *info = 0;
     isrow = lsame_(typet, "R", 1L, 1L);
     /*     Check the scalar input parameters. */
-    if (! (isrow || lsame_(typet, "C", 1L, 1L)))
-    {
+    if (!(isrow || lsame_(typet, "C", 1L, 1L))) {
         *info = -1;
-    }
-    else if (*k < 0)
-    {
+    } else if (*k < 0) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*nrhs < 0)
-    {
+    } else if (*nrhs < 0) {
         *info = -4;
-    }
-    else if (*ldt < 1 || isrow && *ldt < *k || ! isrow && *ldt < *n **k)
-    {
+    } else if (*ldt < 1 || isrow && *ldt < *k || !isrow && *ldt < *n * *k) {
         *info = -6;
-    }
-    else if (*ldb < 1 || isrow && *ldb < *nrhs || ! isrow && *ldb < *n **k)
-    {
+    } else if (*ldb < 1 || isrow && *ldb < *nrhs || !isrow && *ldb < *n * *k) {
         *info = -8;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = 1, i__2 = *n **k **k + (*n + 2) **k;
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__1 = 1, i__2 = *n * *k * *k + (*n + 2) * *k;
+        if (*ldwork < max(i__1, i__2)) {
             /* Computing MAX */
-            i__1 = 1, i__2 = *n **k **k + (*n + 2) **k;
-            dwork[1] = (doublereal) max(i__1,i__2);
+            i__1 = 1, i__2 = *n * *k * *k + (*n + 2) * *k;
+            dwork[1] = (doublereal)max(i__1, i__2);
             *info = -10;
         }
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02ED", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*k,*n);
-    if (min(i__1,*nrhs) == 0)
-    {
+    i__1 = min(*k, *n);
+    if (min(i__1, *nrhs) == 0) {
         dwork[1] = 1.;
         return 0;
     }
     maxwrk = 0;
     startn = 1;
-    startt = *n **k **k + 1;
+    startt = *n * *k * *k + 1;
     starth = startt + *k * 3;
-    if (isrow)
-    {
+    if (isrow) {
         /*        T is the first block row of a block Toeplitz matrix. */
         /*        Bring T to proper form by triangularizing its first block. */
         dpotrf_("Upper", k, &t[t_offset], ldt, &ierr, 5L);
-        if (ierr != 0)
-        {
+        if (ierr != 0) {
             /*           Error return:  The matrix is not positive definite. */
             *info = 1;
             return 0;
         }
-        if (*n > 1)
-        {
-            i__1 = (*n - 1) **k;
-            dtrsm_("Left", "Upper", "Transpose", "NonUnit", k, &i__1, &c_b10, &t[t_offset], ldt, &t[(*k + 1) * t_dim1 + 1], ldt, 4L, 5L, 9L, 7L);
+        if (*n > 1) {
+            i__1 = (*n - 1) * *k;
+            dtrsm_("Left", "Upper", "Transpose", "NonUnit", k, &i__1, &c_b10, &t[t_offset], ldt,
+                &t[(*k + 1) * t_dim1 + 1], ldt, 4L, 5L, 9L, 7L);
         }
         /*        Initialize the generator, do the first Schur step and set */
         /*        B = -B. */
@@ -238,95 +221,105 @@ ftnlen typet_len;
         /*        generator and the inverse generator. */
         /*        DWORK(STARTN) contains the nonzero blocks of the negative parts */
         /*        in the generator and the inverse generator. */
-        dtrsm_("Right", "Upper", "NonTranspose", "NonUnit", nrhs, k, &c_b10, &t[t_offset], ldt, &b[b_offset], ldb, 5L, 5L, 12L, 7L);
-        if (*n > 1)
-        {
-            i__1 = (*n - 1) **k;
-            dgemm_("NonTranspose", "NonTranspose", nrhs, &i__1, k, &c_b10, &b[b_offset], ldb, &t[(*k + 1) * t_dim1 + 1], ldt, &c_b19, &b[(*k + 1) * b_dim1 + 1], ldb, 12L, 12L);
+        dtrsm_("Right", "Upper", "NonTranspose", "NonUnit", nrhs, k, &c_b10, &t[t_offset], ldt,
+            &b[b_offset], ldb, 5L, 5L, 12L, 7L);
+        if (*n > 1) {
+            i__1 = (*n - 1) * *k;
+            dgemm_("NonTranspose", "NonTranspose", nrhs, &i__1, k, &c_b10, &b[b_offset], ldb,
+                &t[(*k + 1) * t_dim1 + 1], ldt, &c_b19, &b[(*k + 1) * b_dim1 + 1], ldb, 12L, 12L);
         }
         dlaset_("All", k, k, &c_b21, &c_b10, &dwork[startn], k, 3L);
-        dtrsm_("Left", "Upper", "Transpose", "NonUnit", k, k, &c_b10, &t[t_offset], ldt, &dwork[startn], k, 4L, 5L, 9L, 7L);
-        if (*n > 1)
-        {
-            i__1 = (*n - 1) **k;
-            dlacpy_("All", k, &i__1, &t[(*k + 1) * t_dim1 + 1], ldt, &dwork[startn + *k **k], k, 3L);
+        dtrsm_("Left", "Upper", "Transpose", "NonUnit", k, k, &c_b10, &t[t_offset], ldt,
+            &dwork[startn], k, 4L, 5L, 9L, 7L);
+        if (*n > 1) {
+            i__1 = (*n - 1) * *k;
+            dlacpy_(
+                "All", k, &i__1, &t[(*k + 1) * t_dim1 + 1], ldt, &dwork[startn + *k * *k], k, 3L);
         }
-        dlacpy_("All", k, k, &dwork[startn], k, &t[((*n - 1) **k + 1) * t_dim1 + 1], ldt, 3L);
-        dtrmm_("Right", "Lower", "NonTranspose", "NonUnit", nrhs, k, &c_b10, &t[((*n - 1) **k + 1) * t_dim1 + 1], ldt, &b[b_offset], ldb, 5L, 5L, 12L, 7L);
+        dlacpy_("All", k, k, &dwork[startn], k, &t[((*n - 1) * *k + 1) * t_dim1 + 1], ldt, 3L);
+        dtrmm_("Right", "Lower", "NonTranspose", "NonUnit", nrhs, k, &c_b10,
+            &t[((*n - 1) * *k + 1) * t_dim1 + 1], ldt, &b[b_offset], ldb, 5L, 5L, 12L, 7L);
         /*        Processing the generator. */
         i__1 = *n;
-        for (i__ = 2; i__ <= i__1; ++i__)
-        {
-            startr = (i__ - 1) **k + 1;
-            starti = (*n - i__) **k + 1;
+        for (i__ = 2; i__ <= i__1; ++i__) {
+            startr = (i__ - 1) * *k + 1;
+            starti = (*n - i__) * *k + 1;
             /*           Transform the generator of T to proper form. */
             i__2 = *k * 3;
             i__3 = *ldwork - starth + 1;
-            mb02cx_("Row", k, k, k, &t[t_offset], ldt, &dwork[startn + (i__ - 1) **k **k], k, &dwork[startt], &i__2, &dwork[starth], &i__3, &ierr, 3L);
-            if (ierr != 0)
-            {
+            mb02cx_("Row", k, k, k, &t[t_offset], ldt, &dwork[startn + (i__ - 1) * *k * *k], k,
+                &dwork[startt], &i__2, &dwork[starth], &i__3, &ierr, 3L);
+            if (ierr != 0) {
                 /*              Error return:  The matrix is not positive definite. */
                 *info = 1;
                 return 0;
             }
             /* Computing MAX */
-            i__2 = maxwrk, i__3 = (integer) dwork[starth];
-            maxwrk = max(i__2,i__3);
-            i__2 = (*n - i__) **k;
+            i__2 = maxwrk, i__3 = (integer)dwork[starth];
+            maxwrk = max(i__2, i__3);
+            i__2 = (*n - i__) * *k;
             i__3 = *k * 3;
             i__4 = *ldwork - starth + 1;
-            mb02cy_("Row", "NoStructure", k, k, &i__2, k, &t[(*k + 1) * t_dim1 + 1], ldt, &dwork[startn + i__ **k **k], k, &dwork[startn + (i__ - 1) **k **k], k, &dwork[startt], &i__3, &dwork[starth], &i__4, &ierr, 3L, 11L);
+            mb02cy_("Row", "NoStructure", k, k, &i__2, k, &t[(*k + 1) * t_dim1 + 1], ldt,
+                &dwork[startn + i__ * *k * *k], k, &dwork[startn + (i__ - 1) * *k * *k], k,
+                &dwork[startt], &i__3, &dwork[starth], &i__4, &ierr, 3L, 11L);
             /* Computing MAX */
-            i__2 = maxwrk, i__3 = (integer) dwork[starth];
-            maxwrk = max(i__2,i__3);
+            i__2 = maxwrk, i__3 = (integer)dwork[starth];
+            maxwrk = max(i__2, i__3);
             /*           Block Gaussian eliminates the i-th block in B. */
-            dtrsm_("Right", "Upper", "NonTranspose", "NonUnit", nrhs, k, &c_b19, &t[t_offset], ldt, &b[startr * b_dim1 + 1], ldb, 5L, 5L, 12L, 7L);
-            if (*n > i__)
-            {
-                i__2 = (*n - i__) **k;
-                dgemm_("NonTranspose", "NonTranspose", nrhs, &i__2, k, &c_b10, &b[startr * b_dim1 + 1], ldb, &t[(*k + 1) * t_dim1 + 1], ldt, &c_b10, &b[(startr + *k) * b_dim1 + 1], ldb, 12L, 12L);
+            dtrsm_("Right", "Upper", "NonTranspose", "NonUnit", nrhs, k, &c_b19, &t[t_offset], ldt,
+                &b[startr * b_dim1 + 1], ldb, 5L, 5L, 12L, 7L);
+            if (*n > i__) {
+                i__2 = (*n - i__) * *k;
+                dgemm_("NonTranspose", "NonTranspose", nrhs, &i__2, k, &c_b10,
+                    &b[startr * b_dim1 + 1], ldb, &t[(*k + 1) * t_dim1 + 1], ldt, &c_b10,
+                    &b[(startr + *k) * b_dim1 + 1], ldb, 12L, 12L);
             }
             /*           Apply hyperbolic transformations on the negative generator. */
             dlaset_("All", k, k, &c_b21, &c_b21, &t[starti * t_dim1 + 1], ldt, 3L);
-            i__2 = (i__ - 1) **k;
+            i__2 = (i__ - 1) * *k;
             i__3 = *k * 3;
             i__4 = *ldwork - starth + 1;
-            mb02cy_("Row", "NoStructure", k, k, &i__2, k, &t[starti * t_dim1 + 1], ldt, &dwork[startn], k, &dwork[startn + (i__ - 1) **k **k], k, &dwork[startt], &i__3, &dwork[starth], &i__4, &ierr, 3L, 11L);
+            mb02cy_("Row", "NoStructure", k, k, &i__2, k, &t[starti * t_dim1 + 1], ldt,
+                &dwork[startn], k, &dwork[startn + (i__ - 1) * *k * *k], k, &dwork[startt], &i__3,
+                &dwork[starth], &i__4, &ierr, 3L, 11L);
             /* Computing MAX */
-            i__2 = maxwrk, i__3 = (integer) dwork[starth];
-            maxwrk = max(i__2,i__3);
+            i__2 = maxwrk, i__3 = (integer)dwork[starth];
+            maxwrk = max(i__2, i__3);
             /*           Note that  DWORK(STARTN+(I-1)*K*K)  serves simultaneously */
             /*           as the transformation container as well as the new block in */
             /*           the negative generator. */
             i__2 = *k * 3;
             i__3 = *ldwork - starth + 1;
-            mb02cy_("Row", "Triangular", k, k, k, k, &t[((*n - 1) **k + 1) * t_dim1 + 1], ldt, &dwork[startn + (i__ - 1) **k **k], k, &dwork[startn + (i__ - 1) **k **k], k, &dwork[startt], &i__2, &dwork[starth], &i__3, &ierr, 3L, 10L);
+            mb02cy_("Row", "Triangular", k, k, k, k, &t[((*n - 1) * *k + 1) * t_dim1 + 1], ldt,
+                &dwork[startn + (i__ - 1) * *k * *k], k, &dwork[startn + (i__ - 1) * *k * *k], k,
+                &dwork[startt], &i__2, &dwork[starth], &i__3, &ierr, 3L, 10L);
             /* Computing MAX */
-            i__2 = maxwrk, i__3 = (integer) dwork[starth];
-            maxwrk = max(i__2,i__3);
+            i__2 = maxwrk, i__3 = (integer)dwork[starth];
+            maxwrk = max(i__2, i__3);
             /*           Finally the Gaussian elimination is applied on the inverse */
             /*           generator. */
-            i__2 = (i__ - 1) **k;
-            dgemm_("NonTranspose", "NonTranspose", nrhs, &i__2, k, &c_b10, &b[startr * b_dim1 + 1], ldb, &t[starti * t_dim1 + 1], ldt, &c_b10, &b[b_offset], ldb, 12L, 12L);
-            dtrmm_("Right", "Lower", "NonTranspose", "NonUnit", nrhs, k, &c_b10, &t[((*n - 1) **k + 1) * t_dim1 + 1], ldt, &b[startr * b_dim1 + 1], ldb, 5L, 5L, 12L, 7L);
+            i__2 = (i__ - 1) * *k;
+            dgemm_("NonTranspose", "NonTranspose", nrhs, &i__2, k, &c_b10, &b[startr * b_dim1 + 1],
+                ldb, &t[starti * t_dim1 + 1], ldt, &c_b10, &b[b_offset], ldb, 12L, 12L);
+            dtrmm_("Right", "Lower", "NonTranspose", "NonUnit", nrhs, k, &c_b10,
+                &t[((*n - 1) * *k + 1) * t_dim1 + 1], ldt, &b[startr * b_dim1 + 1], ldb, 5L, 5L,
+                12L, 7L);
             /* L10: */
         }
-    }
-    else
-    {
+    } else {
         /*        T is the first block column of a block Toeplitz matrix. */
         /*        Bring T to proper form by triangularizing its first block. */
         dpotrf_("Lower", k, &t[t_offset], ldt, &ierr, 5L);
-        if (ierr != 0)
-        {
+        if (ierr != 0) {
             /*           Error return:  The matrix is not positive definite. */
             *info = 1;
             return 0;
         }
-        if (*n > 1)
-        {
-            i__1 = (*n - 1) **k;
-            dtrsm_("Right", "Lower", "Transpose", "NonUnit", &i__1, k, &c_b10, &t[t_offset], ldt, &t[*k + 1 + t_dim1], ldt, 5L, 5L, 9L, 7L);
+        if (*n > 1) {
+            i__1 = (*n - 1) * *k;
+            dtrsm_("Right", "Lower", "Transpose", "NonUnit", &i__1, k, &c_b10, &t[t_offset], ldt,
+                &t[*k + 1 + t_dim1], ldt, 5L, 5L, 9L, 7L);
         }
         /*        Initialize the generator, do the first Schur step and set */
         /*        B = -B. */
@@ -334,95 +327,104 @@ ftnlen typet_len;
         /*        generator and the inverse generator. */
         /*        DWORK(STARTN) contains the nonzero blocks of the negative parts */
         /*        in the generator and the inverse generator. */
-        dtrsm_("Left", "Lower", "NonTranspose", "NonUnit", k, nrhs, &c_b10, &t[t_offset], ldt, &b[b_offset], ldb, 4L, 5L, 12L, 7L);
-        if (*n > 1)
-        {
-            i__1 = (*n - 1) **k;
-            dgemm_("NonTranspose", "NonTranspose", &i__1, nrhs, k, &c_b10, &t[*k + 1 + t_dim1], ldt, &b[b_offset], ldb, &c_b19, &b[*k + 1 + b_dim1], ldb, 12L, 12L);
+        dtrsm_("Left", "Lower", "NonTranspose", "NonUnit", k, nrhs, &c_b10, &t[t_offset], ldt,
+            &b[b_offset], ldb, 4L, 5L, 12L, 7L);
+        if (*n > 1) {
+            i__1 = (*n - 1) * *k;
+            dgemm_("NonTranspose", "NonTranspose", &i__1, nrhs, k, &c_b10, &t[*k + 1 + t_dim1], ldt,
+                &b[b_offset], ldb, &c_b19, &b[*k + 1 + b_dim1], ldb, 12L, 12L);
         }
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dlaset_("All", k, k, &c_b21, &c_b10, &dwork[startn], &i__1, 3L);
-        i__1 = *n **k;
-        dtrsm_("Right", "Lower", "Transpose", "NonUnit", k, k, &c_b10, &t[t_offset], ldt, &dwork[startn], &i__1, 5L, 5L, 9L, 7L);
-        if (*n > 1)
-        {
-            i__1 = (*n - 1) **k;
-            i__2 = *n **k;
+        i__1 = *n * *k;
+        dtrsm_("Right", "Lower", "Transpose", "NonUnit", k, k, &c_b10, &t[t_offset], ldt,
+            &dwork[startn], &i__1, 5L, 5L, 9L, 7L);
+        if (*n > 1) {
+            i__1 = (*n - 1) * *k;
+            i__2 = *n * *k;
             dlacpy_("All", &i__1, k, &t[*k + 1 + t_dim1], ldt, &dwork[startn + *k], &i__2, 3L);
         }
-        i__1 = *n **k;
-        dlacpy_("All", k, k, &dwork[startn], &i__1, &t[(*n - 1) **k + 1 + t_dim1], ldt, 3L);
-        dtrmm_("Left", "Upper", "NonTranspose", "NonUnit", k, nrhs, &c_b10, &t[(*n - 1) **k + 1 + t_dim1], ldt, &b[b_offset], ldb, 4L, 5L, 12L, 7L);
+        i__1 = *n * *k;
+        dlacpy_("All", k, k, &dwork[startn], &i__1, &t[(*n - 1) * *k + 1 + t_dim1], ldt, 3L);
+        dtrmm_("Left", "Upper", "NonTranspose", "NonUnit", k, nrhs, &c_b10,
+            &t[(*n - 1) * *k + 1 + t_dim1], ldt, &b[b_offset], ldb, 4L, 5L, 12L, 7L);
         /*        Processing the generator. */
         i__1 = *n;
-        for (i__ = 2; i__ <= i__1; ++i__)
-        {
-            startr = (i__ - 1) **k + 1;
-            starti = (*n - i__) **k + 1;
+        for (i__ = 2; i__ <= i__1; ++i__) {
+            startr = (i__ - 1) * *k + 1;
+            starti = (*n - i__) * *k + 1;
             /*           Transform the generator of T to proper form. */
-            i__2 = *n **k;
+            i__2 = *n * *k;
             i__3 = *k * 3;
             i__4 = *ldwork - starth + 1;
-            mb02cx_("Column", k, k, k, &t[t_offset], ldt, &dwork[startn + (i__ - 1) **k], &i__2, &dwork[startt], &i__3, &dwork[starth], &i__4, &ierr, 6L);
-            if (ierr != 0)
-            {
+            mb02cx_("Column", k, k, k, &t[t_offset], ldt, &dwork[startn + (i__ - 1) * *k], &i__2,
+                &dwork[startt], &i__3, &dwork[starth], &i__4, &ierr, 6L);
+            if (ierr != 0) {
                 /*              Error return:  The matrix is not positive definite. */
                 *info = 1;
                 return 0;
             }
             /* Computing MAX */
-            i__2 = maxwrk, i__3 = (integer) dwork[starth];
-            maxwrk = max(i__2,i__3);
-            i__2 = (*n - i__) **k;
-            i__3 = *n **k;
-            i__4 = *n **k;
+            i__2 = maxwrk, i__3 = (integer)dwork[starth];
+            maxwrk = max(i__2, i__3);
+            i__2 = (*n - i__) * *k;
+            i__3 = *n * *k;
+            i__4 = *n * *k;
             i__5 = *k * 3;
             i__6 = *ldwork - starth + 1;
-            mb02cy_("Column", "NoStructure", k, k, &i__2, k, &t[*k + 1 + t_dim1], ldt, &dwork[startn + i__ **k], &i__3, &dwork[startn + (i__ - 1) **k], &i__4, &dwork[startt], &i__5, &dwork[starth], &i__6, &ierr, 6L, 11L);
+            mb02cy_("Column", "NoStructure", k, k, &i__2, k, &t[*k + 1 + t_dim1], ldt,
+                &dwork[startn + i__ * *k], &i__3, &dwork[startn + (i__ - 1) * *k], &i__4,
+                &dwork[startt], &i__5, &dwork[starth], &i__6, &ierr, 6L, 11L);
             /* Computing MAX */
-            i__2 = maxwrk, i__3 = (integer) dwork[starth];
-            maxwrk = max(i__2,i__3);
+            i__2 = maxwrk, i__3 = (integer)dwork[starth];
+            maxwrk = max(i__2, i__3);
             /*           Block Gaussian eliminates the i-th block in B. */
-            dtrsm_("Left", "Lower", "NonTranspose", "NonUnit", k, nrhs, &c_b19, &t[t_offset], ldt, &b[startr + b_dim1], ldb, 4L, 5L, 12L, 7L);
-            if (*n > i__)
-            {
-                i__2 = (*n - i__) **k;
-                dgemm_("NonTranspose", "NonTranspose", &i__2, nrhs, k, &c_b10, &t[*k + 1 + t_dim1], ldt, &b[startr + b_dim1], ldb, &c_b10, &b[startr + *k + b_dim1], ldb, 12L, 12L);
+            dtrsm_("Left", "Lower", "NonTranspose", "NonUnit", k, nrhs, &c_b19, &t[t_offset], ldt,
+                &b[startr + b_dim1], ldb, 4L, 5L, 12L, 7L);
+            if (*n > i__) {
+                i__2 = (*n - i__) * *k;
+                dgemm_("NonTranspose", "NonTranspose", &i__2, nrhs, k, &c_b10, &t[*k + 1 + t_dim1],
+                    ldt, &b[startr + b_dim1], ldb, &c_b10, &b[startr + *k + b_dim1], ldb, 12L, 12L);
             }
             /*           Apply hyperbolic transformations on the negative generator. */
             dlaset_("All", k, k, &c_b21, &c_b21, &t[starti + t_dim1], ldt, 3L);
-            i__2 = (i__ - 1) **k;
-            i__3 = *n **k;
-            i__4 = *n **k;
+            i__2 = (i__ - 1) * *k;
+            i__3 = *n * *k;
+            i__4 = *n * *k;
             i__5 = *k * 3;
             i__6 = *ldwork - starth + 1;
-            mb02cy_("Column", "NoStructure", k, k, &i__2, k, &t[starti + t_dim1], ldt, &dwork[startn], &i__3, &dwork[startn + (i__ - 1) **k], &i__4, &dwork[startt], &i__5, &dwork[starth], &i__6, &ierr, 6L, 11L);
+            mb02cy_("Column", "NoStructure", k, k, &i__2, k, &t[starti + t_dim1], ldt,
+                &dwork[startn], &i__3, &dwork[startn + (i__ - 1) * *k], &i__4, &dwork[startt],
+                &i__5, &dwork[starth], &i__6, &ierr, 6L, 11L);
             /* Computing MAX */
-            i__2 = maxwrk, i__3 = (integer) dwork[starth];
-            maxwrk = max(i__2,i__3);
+            i__2 = maxwrk, i__3 = (integer)dwork[starth];
+            maxwrk = max(i__2, i__3);
             /*           Note that  DWORK(STARTN+(I-1)*K)  serves simultaneously */
             /*           as the transformation container as well as the new block in */
             /*           the negative generator. */
-            i__2 = *n **k;
-            i__3 = *n **k;
+            i__2 = *n * *k;
+            i__3 = *n * *k;
             i__4 = *k * 3;
             i__5 = *ldwork - starth + 1;
-            mb02cy_("Column", "Triangular", k, k, k, k, &t[(*n - 1) **k + 1 + t_dim1], ldt, &dwork[startn + (i__ - 1) **k], &i__2, &dwork[startn + (i__ - 1) **k], &i__3, &dwork[startt], &i__4, &dwork[starth], &i__5, &ierr, 6L, 10L);
+            mb02cy_("Column", "Triangular", k, k, k, k, &t[(*n - 1) * *k + 1 + t_dim1], ldt,
+                &dwork[startn + (i__ - 1) * *k], &i__2, &dwork[startn + (i__ - 1) * *k], &i__3,
+                &dwork[startt], &i__4, &dwork[starth], &i__5, &ierr, 6L, 10L);
             /* Computing MAX */
-            i__2 = maxwrk, i__3 = (integer) dwork[starth];
-            maxwrk = max(i__2,i__3);
+            i__2 = maxwrk, i__3 = (integer)dwork[starth];
+            maxwrk = max(i__2, i__3);
             /*           Finally the Gaussian elimination is applied on the inverse */
             /*           generator. */
-            i__2 = (i__ - 1) **k;
-            dgemm_("NonTranspose", "NonTranspose", &i__2, nrhs, k, &c_b10, &t[starti + t_dim1], ldt, &b[startr + b_dim1], ldb, &c_b10, &b[b_offset], ldb, 12L, 12L);
-            dtrmm_("Left", "Upper", "NonTranspose", "NonUnit", k, nrhs, &c_b10, &t[(*n - 1) **k + 1 + t_dim1], ldt, &b[startr + b_dim1], ldb, 4L, 5L, 12L, 7L);
+            i__2 = (i__ - 1) * *k;
+            dgemm_("NonTranspose", "NonTranspose", &i__2, nrhs, k, &c_b10, &t[starti + t_dim1], ldt,
+                &b[startr + b_dim1], ldb, &c_b10, &b[b_offset], ldb, 12L, 12L);
+            dtrmm_("Left", "Upper", "NonTranspose", "NonUnit", k, nrhs, &c_b10,
+                &t[(*n - 1) * *k + 1 + t_dim1], ldt, &b[startr + b_dim1], ldb, 4L, 5L, 12L, 7L);
             /* L20: */
         }
     }
     /* Computing MAX */
     i__1 = 1, i__2 = starth - 1 + maxwrk;
-    dwork[1] = (doublereal) max(i__1,i__2);
+    dwork[1] = (doublereal)max(i__1, i__2);
     return 0;
     /* *** Last line of MB02ED *** */
 } /* mb02ed_ */
-

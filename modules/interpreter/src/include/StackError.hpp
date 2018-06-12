@@ -23,39 +23,49 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    class ErrorInfo {
-    private:
-        std::wstring filename;
-        std::wstring functionname;
-        int lineposition;
-        int columposition;
-    public:
-        ErrorInfo() {
-            this->filename = L"";
-            this->functionname = L"";
-            this->lineposition = -1;
-            this->columposition = -1;
-        };
-        ~ErrorInfo() {
-            this->filename = L"";
-            this->functionname = L"";
-            this->lineposition = -1;
-            this->columposition = -1;
-        };
-        void set(std::wstring _filename, std::wstring _functionname, int _lineposition, int _columposition) {
-            this->filename = _filename;
-            this->functionname = _functionname;
-            this->lineposition = _lineposition;
-            this->columposition = _columposition;
-        }
-        void get(std::wstring &_filename, std::wstring &_functionname, int &_lineposition, int &_columposition) {
-            _filename = this->filename;
-            _functionname = this->functionname;
-            _lineposition = this->lineposition;
-            _columposition = this->columposition;
-        }
-    };
+class ErrorInfo
+{
+private:
+    std::wstring filename;
+    std::wstring functionname;
+    int lineposition;
+    int columposition;
 
-    NLSINTERPRETER_IMPEXP std::vector<ErrorInfo> StackError(Evaluator *eval);
+public:
+    ErrorInfo()
+    {
+        this->filename = L"";
+        this->functionname = L"";
+        this->lineposition = -1;
+        this->columposition = -1;
+    };
+    ~ErrorInfo()
+    {
+        this->filename = L"";
+        this->functionname = L"";
+        this->lineposition = -1;
+        this->columposition = -1;
+    };
+    void
+    set(std::wstring _filename, std::wstring _functionname, int _lineposition, int _columposition)
+    {
+        this->filename = _filename;
+        this->functionname = _functionname;
+        this->lineposition = _lineposition;
+        this->columposition = _columposition;
+    }
+    void
+    get(std::wstring& _filename, std::wstring& _functionname, int& _lineposition,
+        int& _columposition)
+    {
+        _filename = this->filename;
+        _functionname = this->functionname;
+        _lineposition = this->lineposition;
+        _columposition = this->columposition;
+    }
+};
+
+NLSINTERPRETER_IMPEXP std::vector<ErrorInfo>
+StackError(Evaluator* eval);
 };
 //=============================================================================

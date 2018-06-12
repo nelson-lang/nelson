@@ -16,44 +16,38 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
 #include "RemoveModule.hpp"
+#include "Error.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "ModulesManager.hpp"
-#include "Error.hpp"
+#include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool RemoveModule(Evaluator* eval, std::wstring moduleshortname)
-    {
-        if (IsExistingModuleName(moduleshortname))
-        {
-            std::wstring rootpathmodule = GetModulePath(moduleshortname);
-            if (rootpathmodule.empty())
-            {
-                Error(eval, moduleshortname + _W(": This module is registered but it has no path."));
-            }
-            if (boost::filesystem::is_directory(rootpathmodule))
-            {
-                boost::filesystem::path pathfinish(rootpathmodule);
-                pathfinish += L"/etc/finish.nls";
-                if (boost::filesystem::exists(pathfinish) && !boost::filesystem::is_directory(pathfinish))
-                {
-                    EvaluateScriptFile(eval, pathfinish.generic_wstring().c_str());
-                }
-                else
-                {
-                    Error(eval, _W("finish.nls does not exist."));
-                }
-                return UnregisterModule(moduleshortname);
-            }
-            else
-            {
-                Error(eval, _W("An existing module root path expected."));
-            }
+//=============================================================================
+bool
+RemoveModule(Evaluator* eval, std::wstring moduleshortname)
+{
+    if (IsExistingModuleName(moduleshortname)) {
+        std::wstring rootpathmodule = GetModulePath(moduleshortname);
+        if (rootpathmodule.empty()) {
+            Error(eval, moduleshortname + _W(": This module is registered but it has no path."));
         }
-        return false;
+        if (boost::filesystem::is_directory(rootpathmodule)) {
+            boost::filesystem::path pathfinish(rootpathmodule);
+            pathfinish += L"/etc/finish.nls";
+            if (boost::filesystem::exists(pathfinish)
+                && !boost::filesystem::is_directory(pathfinish)) {
+                EvaluateScriptFile(eval, pathfinish.generic_wstring().c_str());
+            } else {
+                Error(eval, _W("finish.nls does not exist."));
+            }
+            return UnregisterModule(moduleshortname);
+        } else {
+            Error(eval, _W("An existing module root path expected."));
+        }
     }
-    //=============================================================================
+    return false;
+}
+//=============================================================================
 }
 //=============================================================================

@@ -19,69 +19,56 @@
 #include "ToInt8.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf ToInt8(ArrayOf a)
-    {
-        std::string destType = "int8";
-        Class destClass = NLS_INT8;
-        if (a.isSparse())
-        {
-            throw Exception(_("Conversion to '") + destType + _("' from sparse matrix is not possible."));
-        }
-        switch (a.getDataClass())
-        {
-            case NLS_DCOMPLEX:
-            case NLS_SCOMPLEX:
-            {
-                throw Exception(_("Invalid conversion from complex matrix to '") + destType + _("' matrix."));
-            }
-            break;
-            case NLS_HANDLE:
-            {
-                throw Exception(_("Conversion to '") + destType + _("' from handle is not possible."));
-            }
-            break;
-            case NLS_CELL_ARRAY:
-            {
-                throw Exception(_("Conversion to '") + destType + _("' from cell is not possible."));
-            }
-            break;
-            case NLS_STRUCT_ARRAY:
-            {
-                if (a.getStructType() != "struct")
-                {
-                    throw Exception(_("Undefined function '") + destType + _("' for input arguments of type '") + a.getStructType() + "'.");
-                }
-                else
-                {
-                    throw Exception(_("Conversion to '") + destType + _("' from struct is not possible."));
-                }
-            }
-            break;
-            case NLS_LOGICAL:
-            case NLS_UINT8:
-            case NLS_INT8:
-            case NLS_UINT16:
-            case NLS_INT16:
-            case NLS_UINT32:
-            case NLS_INT32:
-            case NLS_UINT64:
-            case NLS_INT64:
-            case NLS_CHAR:
-            case NLS_SINGLE:
-            case NLS_DOUBLE:
-            {
-                ArrayOf res(a);
-                res.promoteType(NLS_INT8);
-                return res;
-            }
-            break;
-            default:
-            {
-                throw Exception(_W("Invalid conversion."));
-            }
-            break;
-        }
+//=============================================================================
+ArrayOf
+ToInt8(ArrayOf a)
+{
+    std::string destType = "int8";
+    Class destClass = NLS_INT8;
+    if (a.isSparse()) {
+        throw Exception(
+            _("Conversion to '") + destType + _("' from sparse matrix is not possible."));
     }
+    switch (a.getDataClass()) {
+    case NLS_DCOMPLEX:
+    case NLS_SCOMPLEX: {
+        throw Exception(
+            _("Invalid conversion from complex matrix to '") + destType + _("' matrix."));
+    } break;
+    case NLS_HANDLE: {
+        throw Exception(_("Conversion to '") + destType + _("' from handle is not possible."));
+    } break;
+    case NLS_CELL_ARRAY: {
+        throw Exception(_("Conversion to '") + destType + _("' from cell is not possible."));
+    } break;
+    case NLS_STRUCT_ARRAY: {
+        if (a.getStructType() != "struct") {
+            throw Exception(_("Undefined function '") + destType
+                + _("' for input arguments of type '") + a.getStructType() + "'.");
+        } else {
+            throw Exception(_("Conversion to '") + destType + _("' from struct is not possible."));
+        }
+    } break;
+    case NLS_LOGICAL:
+    case NLS_UINT8:
+    case NLS_INT8:
+    case NLS_UINT16:
+    case NLS_INT16:
+    case NLS_UINT32:
+    case NLS_INT32:
+    case NLS_UINT64:
+    case NLS_INT64:
+    case NLS_CHAR:
+    case NLS_SINGLE:
+    case NLS_DOUBLE: {
+        ArrayOf res(a);
+        res.promoteType(NLS_INT8);
+        return res;
+    } break;
+    default: {
+        throw Exception(_W("Invalid conversion."));
+    } break;
+    }
+}
 };
 //=============================================================================

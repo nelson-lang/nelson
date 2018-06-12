@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,13 +10,14 @@
 static doublereal c_b5 = 0.;
 static doublereal c_b6 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb03vy_(n, p, ilo, ihi, a, lda1, lda2, tau, ldtau, dwork, ldwork, info)
-integer *n, *p, *ilo, *ihi;
-doublereal *a;
+EXPORTSYMBOL /* Subroutine */ int mb03vy_(
+    n, p, ilo, ihi, a, lda1, lda2, tau, ldtau, dwork, ldwork, info) integer *n,
+    *p, *ilo, *ihi;
+doublereal* a;
 integer *lda1, *lda2;
-doublereal *tau;
-integer *ldtau;
-doublereal *dwork;
+doublereal* tau;
+integer* ldtau;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
@@ -139,48 +140,33 @@ integer *ldwork, *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*p < 1)
-    {
+    } else if (*p < 1) {
         *info = -2;
-    }
-    else if (*ilo < 1 || *ilo > max(1,*n))
-    {
+    } else if (*ilo < 1 || *ilo > max(1, *n)) {
         *info = -3;
-    }
-    else if (*ihi < min(*ilo,*n) || *ihi > *n)
-    {
+    } else if (*ihi < min(*ilo, *n) || *ihi > *n) {
         *info = -4;
-    }
-    else if (*lda1 < max(1,*n))
-    {
+    } else if (*lda1 < max(1, *n)) {
         *info = -6;
-    }
-    else if (*lda2 < max(1,*n))
-    {
+    } else if (*lda2 < max(1, *n)) {
         *info = -7;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = *n - 1;
-        if (*ldtau < max(i__1,i__2))
-        {
+        if (*ldtau < max(i__1, i__2)) {
             *info = -9;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB03VY", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 1.;
         return 0;
     }
@@ -189,8 +175,7 @@ integer *ldwork, *info;
     wrkopt = dwork[1];
     nh = *ihi - *ilo + 1;
     i__1 = *p;
-    for (j = 2; j <= i__1; ++j)
-    {
+    for (j = 2; j <= i__1; ++j) {
         /*        Generate the orthogonal matrix Q_j. */
         /*        Set the first ILO-1 and the last N-IHI rows and columns of Q_j */
         /*        to those of the unit matrix. */
@@ -198,25 +183,26 @@ integer *ldwork, *info;
         dlaset_("Full", n, &i__2, &c_b5, &c_b6, &a[(j * a_dim2 + 1) * a_dim1 + 1], lda1, 4L);
         i__2 = *ilo - 1;
         dlaset_("Full", &i__2, &nh, &c_b5, &c_b5, &a[(*ilo + j * a_dim2) * a_dim1 + 1], lda1, 4L);
-        if (nh > 1)
-        {
+        if (nh > 1) {
             i__2 = nh - 1;
-            dorgqr_(&nh, &nh, &i__2, &a[*ilo + (*ilo + j * a_dim2) * a_dim1], lda1, &tau[*ilo + j * tau_dim1], &dwork[1], ldwork, info);
+            dorgqr_(&nh, &nh, &i__2, &a[*ilo + (*ilo + j * a_dim2) * a_dim1], lda1,
+                &tau[*ilo + j * tau_dim1], &dwork[1], ldwork, info);
         }
-        if (*ihi < *n)
-        {
+        if (*ihi < *n) {
             i__2 = *n - *ihi;
-            dlaset_("Full", &i__2, &nh, &c_b5, &c_b5, &a[*ihi + 1 + (*ilo + j * a_dim2) * a_dim1], lda1, 4L);
+            dlaset_("Full", &i__2, &nh, &c_b5, &c_b5, &a[*ihi + 1 + (*ilo + j * a_dim2) * a_dim1],
+                lda1, 4L);
             i__2 = *n - *ihi;
-            dlaset_("Full", ihi, &i__2, &c_b5, &c_b5, &a[(*ihi + 1 + j * a_dim2) * a_dim1 + 1], lda1, 4L);
+            dlaset_("Full", ihi, &i__2, &c_b5, &c_b5, &a[(*ihi + 1 + j * a_dim2) * a_dim1 + 1],
+                lda1, 4L);
             i__2 = *n - *ihi;
             i__3 = *n - *ihi;
-            dlaset_("Full", &i__2, &i__3, &c_b5, &c_b6, &a[*ihi + 1 + (*ihi + 1 + j * a_dim2) * a_dim1], lda1, 4L);
+            dlaset_("Full", &i__2, &i__3, &c_b5, &c_b6,
+                &a[*ihi + 1 + (*ihi + 1 + j * a_dim2) * a_dim1], lda1, 4L);
         }
         /* L20: */
     }
-    dwork[1] = max(wrkopt,dwork[1]);
+    dwork[1] = max(wrkopt, dwork[1]);
     return 0;
     /* *** Last line of MB03VY *** */
 } /* mb03vy_ */
-

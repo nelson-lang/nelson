@@ -25,6 +25,6 @@
 #define NLSERROR_MANAGER__BUILTIN_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSERROR_MANAGER__BUILTIN_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSERROR_MANAGER__BUILTIN_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

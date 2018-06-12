@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,12 +11,12 @@ static integer c__1 = 1;
 static doublereal c_b12 = 1.;
 static integer c_n1 = -1;
 
-EXPORTSYMBOL /* Subroutine */ int mb02vd_(trans, m, n, a, lda, ipiv, b, ldb, info, trans_len)
-char *trans;
+EXPORTSYMBOL /* Subroutine */ int mb02vd_(
+    trans, m, n, a, lda, ipiv, b, ldb, info, trans_len) char* trans;
 integer *m, *n;
-doublereal *a;
+doublereal* a;
 integer *lda, *ipiv;
-doublereal *b;
+doublereal* b;
 integer *ldb, *info;
 ftnlen trans_len;
 {
@@ -131,52 +131,41 @@ ftnlen trans_len;
     /* Function Body */
     *info = 0;
     tran = lsame_(trans, "T", 1L, 1L) || lsame_(trans, "C", 1L, 1L);
-    if (! tran && ! lsame_(trans, "N", 1L, 1L))
-    {
+    if (!tran && !lsame_(trans, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -5;
-    }
-    else if (*ldb < max(1,*m))
-    {
+    } else if (*ldb < max(1, *m)) {
         *info = -8;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02VD", &i__1, 6L);
         return 0;
     }
     /*     Compute the LU factorization of A. */
     dgetrf_(n, n, &a[a_offset], lda, &ipiv[1], info);
-    if (*info == 0)
-    {
-        if (tran)
-        {
+    if (*info == 0) {
+        if (tran) {
             /*           Compute X = B * A**(-T). */
             ma02gd_(m, &b[b_offset], ldb, &c__1, n, &ipiv[1], &c__1);
-            dtrsm_("Right", "Lower", "Transpose", "Unit", m, n, &c_b12, &a[a_offset], lda, &b[b_offset], ldb, 5L, 5L, 9L, 4L);
-            dtrsm_("Right", "Upper", "Transpose", "NonUnit", m, n, &c_b12, &a[a_offset], lda, &b[b_offset], ldb, 5L, 5L, 9L, 7L);
-        }
-        else
-        {
+            dtrsm_("Right", "Lower", "Transpose", "Unit", m, n, &c_b12, &a[a_offset], lda,
+                &b[b_offset], ldb, 5L, 5L, 9L, 4L);
+            dtrsm_("Right", "Upper", "Transpose", "NonUnit", m, n, &c_b12, &a[a_offset], lda,
+                &b[b_offset], ldb, 5L, 5L, 9L, 7L);
+        } else {
             /*           Compute X = B * A**(-1). */
-            dtrsm_("Right", "Upper", "NoTranspose", "NonUnit", m, n, &c_b12, &a[a_offset], lda, &b[b_offset], ldb, 5L, 5L, 11L, 7L);
-            dtrsm_("Right", "Lower", "NoTranspose", "Unit", m, n, &c_b12, &a[a_offset], lda, &b[b_offset], ldb, 5L, 5L, 11L, 4L);
+            dtrsm_("Right", "Upper", "NoTranspose", "NonUnit", m, n, &c_b12, &a[a_offset], lda,
+                &b[b_offset], ldb, 5L, 5L, 11L, 7L);
+            dtrsm_("Right", "Lower", "NoTranspose", "Unit", m, n, &c_b12, &a[a_offset], lda,
+                &b[b_offset], ldb, 5L, 5L, 11L, 4L);
             ma02gd_(m, &b[b_offset], ldb, &c__1, n, &ipiv[1], &c_n1);
         }
     }
     return 0;
     /* *** Last line of MB02VD *** */
 } /* mb02vd_ */
-

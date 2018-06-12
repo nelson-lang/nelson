@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,22 +13,24 @@ static integer c__0 = 0;
 static integer c__1 = 1;
 static doublereal c_b39 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb03sd_(job, fact, trana, uplo, lyapun, n, scale, a, lda, t, ldt, u, ldu, c__, ldc, x, ldx, sepd, rcond, ferr, iwork, dwork, ldwork, info, job_len, fact_len, trana_len, uplo_len, lyapun_len)
-char *job, *fact, *trana, *uplo, *lyapun;
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int sb03sd_(job, fact, trana, uplo, lyapun, n, scale, a, lda, t, ldt,
+    u, ldu, c__, ldc, x, ldx, sepd, rcond, ferr, iwork, dwork, ldwork, info, job_len, fact_len,
+    trana_len, uplo_len, lyapun_len) char *job,
+    *fact, *trana, *uplo, *lyapun;
+integer* n;
 doublereal *scale, *a;
-integer *lda;
-doublereal *t;
-integer *ldt;
-doublereal *u;
-integer *ldu;
-doublereal *c__;
-integer *ldc;
-doublereal *x;
-integer *ldx;
+integer* lda;
+doublereal* t;
+integer* ldt;
+doublereal* u;
+integer* ldu;
+doublereal* c__;
+integer* ldc;
+doublereal* x;
+integer* ldx;
 doublereal *sepd, *rcond, *ferr;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen job_len;
 ftnlen fact_len;
@@ -37,7 +39,8 @@ ftnlen uplo_len;
 ftnlen lyapun_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, c_dim1, c_offset, t_dim1, t_offset, u_dim1, u_offset, x_dim1, x_offset, i__1, i__2, i__3, i__4;
+    integer a_dim1, a_offset, c_dim1, c_offset, t_dim1, t_offset, u_dim1, u_offset, x_dim1,
+        x_offset, i__1, i__2, i__3, i__4;
     doublereal d__1, d__2;
     /* Local variables */
     static logical jobb, jobc, jobe;
@@ -319,83 +322,55 @@ ftnlen lyapun_len;
     notrna = lsame_(trana, "N", 1L, 1L);
     lower = lsame_(uplo, "L", 1L, 1L);
     update = lsame_(lyapun, "O", 1L, 1L);
-    nn = *n **n;
+    nn = *n * *n;
     /* Computing MAX */
     i__1 = 3, i__2 = nn << 1;
-    ldw = max(i__1,i__2) + nn;
+    ldw = max(i__1, i__2) + nn;
     *info = 0;
-    if (! (jobb || jobc || jobe))
-    {
+    if (!(jobb || jobc || jobe)) {
         *info = -1;
-    }
-    else if (! (nofact || lsame_(fact, "F", 1L, 1L)))
-    {
+    } else if (!(nofact || lsame_(fact, "F", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (notrna || lsame_(trana, "T", 1L, 1L) || lsame_(trana, "C", 1L, 1L)))
-    {
+    } else if (!(notrna || lsame_(trana, "T", 1L, 1L) || lsame_(trana, "C", 1L, 1L))) {
         *info = -3;
-    }
-    else if (! (lower || lsame_(uplo, "U", 1L, 1L)))
-    {
+    } else if (!(lower || lsame_(uplo, "U", 1L, 1L))) {
         *info = -4;
-    }
-    else if (! (update || lsame_(lyapun, "R", 1L, 1L)))
-    {
+    } else if (!(update || lsame_(lyapun, "R", 1L, 1L))) {
         *info = -5;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -6;
-    }
-    else if (*scale < 0. || *scale > 1.)
-    {
+    } else if (*scale < 0. || *scale > 1.) {
         *info = -7;
-    }
-    else if (*lda < 1 || *lda < *n && (update || nofact))
-    {
+    } else if (*lda < 1 || *lda < *n && (update || nofact)) {
         *info = -9;
-    }
-    else if (*ldt < max(1,*n))
-    {
+    } else if (*ldt < max(1, *n)) {
         *info = -11;
-    }
-    else if (*ldu < 1 || *ldu < *n && update)
-    {
+    } else if (*ldu < 1 || *ldu < *n && update) {
         *info = -13;
-    }
-    else if (*ldc < max(1,*n))
-    {
+    } else if (*ldc < max(1, *n)) {
         *info = -15;
-    }
-    else if (*ldx < max(1,*n))
-    {
+    } else if (*ldx < max(1, *n)) {
         *info = -17;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = ldw, i__2 = *n * 5;
-        if (*ldwork < 1 || *ldwork < ldw && jobc && ! nofact || *ldwork < max(i__1,i__2) && jobc && nofact || *ldwork < ldw + (*n << 1) && ! jobc)
-        {
+        if (*ldwork < 1 || *ldwork < ldw && jobc && !nofact
+            || *ldwork < max(i__1, i__2) && jobc && nofact || *ldwork < ldw + (*n << 1) && !jobc) {
             *info = -23;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SB03SD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
-        if (! jobe)
-        {
+    if (*n == 0) {
+        if (!jobe) {
             *rcond = 1.;
         }
-        if (! jobc)
-        {
+        if (!jobc) {
             *ferr = 0.;
         }
         dwork[1] = 1.;
@@ -403,43 +378,32 @@ ftnlen lyapun_len;
     }
     /*     Compute the 1-norm of the matrix X. */
     xnorm = dlansy_("1-norm", uplo, n, &x[x_offset], ldx, &dwork[1], 6L, 1L);
-    if (xnorm == 0.)
-    {
+    if (xnorm == 0.) {
         /*        The solution is zero. */
-        if (! jobe)
-        {
+        if (!jobe) {
             *rcond = 0.;
         }
-        if (! jobc)
-        {
+        if (!jobc) {
             *ferr = 0.;
         }
-        dwork[1] = (doublereal) (*n);
+        dwork[1] = (doublereal)(*n);
         return 0;
     }
     /*     Compute the 1-norm of A or T. */
-    if (nofact || update)
-    {
+    if (nofact || update) {
         anorm = dlange_("1-norm", n, n, &a[a_offset], lda, &dwork[1], 6L);
-    }
-    else
-    {
+    } else {
         anorm = dlanhs_("1-norm", n, &t[t_offset], ldt, &dwork[1], 6L);
     }
     /*     For the special case A = I, set SEPD and RCOND to 0. */
     /*     For the special case A = 0, set SEPD and RCOND to 1. */
     /*     A quick test is used in general. */
-    if (anorm == 1.)
-    {
-        if (nofact || update)
-        {
+    if (anorm == 1.) {
+        if (nofact || update) {
             dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[1], n, 4L);
-        }
-        else
-        {
+        } else {
             dlacpy_("Full", n, n, &t[t_offset], ldt, &dwork[1], n, 4L);
-            if (*n > 2)
-            {
+            if (*n > 2) {
                 i__1 = *n - 2;
                 i__2 = *n - 2;
                 dlaset_("Lower", &i__1, &i__2, &c_b21, &c_b21, &dwork[3], n, 5L);
@@ -448,60 +412,48 @@ ftnlen lyapun_len;
         dwork[nn + 1] = 1.;
         i__1 = *n + 1;
         daxpy_(n, &c_b23, &dwork[nn + 1], &c__0, &dwork[1], &i__1);
-        if (dlange_("Max", n, n, &dwork[1], n, &dwork[1], 3L) == 0.)
-        {
-            if (! jobe)
-            {
+        if (dlange_("Max", n, n, &dwork[1], n, &dwork[1], 3L) == 0.) {
+            if (!jobe) {
                 *sepd = 0.;
                 *rcond = 0.;
             }
-            if (! jobc)
-            {
+            if (!jobc) {
                 *ferr = 1.;
             }
-            dwork[1] = (doublereal) (nn + 1);
+            dwork[1] = (doublereal)(nn + 1);
             return 0;
         }
-    }
-    else if (anorm == 0.)
-    {
-        if (! jobe)
-        {
+    } else if (anorm == 0.) {
+        if (!jobe) {
             *sepd = 1.;
             *rcond = 1.;
         }
-        if (jobc)
-        {
-            dwork[1] = (doublereal) (*n);
+        if (jobc) {
+            dwork[1] = (doublereal)(*n);
             return 0;
-        }
-        else
-        {
+        } else {
             /*           Set FERR for the special case A = 0. */
             dlacpy_(uplo, n, n, &x[x_offset], ldx, &dwork[1], n, 1L);
-            if (lower)
-            {
+            if (lower) {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *n - j + 1;
-                    daxpy_(&i__2, scale, &c__[j + j * c_dim1], &c__1, &dwork[(j - 1) **n + j], &c__1);
+                    daxpy_(
+                        &i__2, scale, &c__[j + j * c_dim1], &c__1, &dwork[(j - 1) * *n + j], &c__1);
                     /* L10: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
-                    daxpy_(&j, scale, &c__[j * c_dim1 + 1], &c__1, &dwork[(j - 1) **n + 1], &c__1);
+                for (j = 1; j <= i__1; ++j) {
+                    daxpy_(&j, scale, &c__[j * c_dim1 + 1], &c__1, &dwork[(j - 1) * *n + 1], &c__1);
                     /* L20: */
                 }
             }
             /* Computing MIN */
-            d__1 = 1., d__2 = dlansy_("1-norm", uplo, n, &dwork[1], n, &dwork[nn + 1], 6L, 1L) / xnorm;
-            *ferr = min(d__1,d__2);
-            dwork[1] = (doublereal) (nn + *n);
+            d__1 = 1.,
+            d__2 = dlansy_("1-norm", uplo, n, &dwork[1], n, &dwork[nn + 1], 6L, 1L) / xnorm;
+            *ferr = min(d__1, d__2);
+            dwork[1] = (doublereal)(nn + *n);
             return 0;
         }
     }
@@ -511,12 +463,11 @@ ftnlen lyapun_len;
     iabs = nn;
     /* Computing MAX */
     i__1 = 3, i__2 = nn << 1;
-    ixma = max(i__1,i__2);
+    ixma = max(i__1, i__2);
     ires = ixma;
     iwrk = ixma + nn;
     wrkopt = 0;
-    if (nofact)
-    {
+    if (nofact) {
         /*        Compute the Schur factorization of A, A = U*T*U'. */
         /*        Workspace:  need   5*N; */
         /*                    prefer larger. */
@@ -524,78 +475,65 @@ ftnlen lyapun_len;
         /*        minimal amount of real workspace needed at that point in the */
         /*        code, as well as the preferred amount for good performance.) */
         dlacpy_("Full", n, n, &a[a_offset], lda, &t[t_offset], ldt, 4L);
-        if (update)
-        {
-            *(unsigned char *)sjob = 'V';
-        }
-        else
-        {
-            *(unsigned char *)sjob = 'N';
+        if (update) {
+            *(unsigned char*)sjob = 'V';
+        } else {
+            *(unsigned char*)sjob = 'N';
         }
         i__1 = *ldwork - (*n << 1);
-        dgees_(sjob, "Not ordered", select_, n, &t[t_offset], ldt, &sdim, &dwork[1], &dwork[*n + 1], &u[u_offset], ldu, &dwork[(*n << 1) + 1], &i__1, bwork, info, 1L, 11L);
-        if (*info > 0)
-        {
+        dgees_(sjob, "Not ordered", select_, n, &t[t_offset], ldt, &sdim, &dwork[1], &dwork[*n + 1],
+            &u[u_offset], ldu, &dwork[(*n << 1) + 1], &i__1, bwork, info, 1L, 11L);
+        if (*info > 0) {
             return 0;
         }
-        wrkopt = (integer) dwork[(*n << 1) + 1] + (*n << 1);
+        wrkopt = (integer)dwork[(*n << 1) + 1] + (*n << 1);
     }
     /*     Compute X*op(A) or X*op(T). */
-    if (update)
-    {
-        dgemm_("NoTranspose", trana, n, n, n, &c_b39, &x[x_offset], ldx, &a[a_offset], lda, &c_b21, &dwork[ixma + 1], n, 11L, 1L);
+    if (update) {
+        dgemm_("NoTranspose", trana, n, n, n, &c_b39, &x[x_offset], ldx, &a[a_offset], lda, &c_b21,
+            &dwork[ixma + 1], n, 11L, 1L);
+    } else {
+        mb01ud_("Right", trana, n, n, &c_b39, &t[t_offset], ldt, &x[x_offset], ldx,
+            &dwork[ixma + 1], n, info, 5L, 1L);
     }
-    else
-    {
-        mb01ud_("Right", trana, n, n, &c_b39, &t[t_offset], ldt, &x[x_offset], ldx, &dwork[ixma + 1], n, info, 5L, 1L);
-    }
-    if (! jobe)
-    {
+    if (!jobe) {
         /*        Estimate sepd(op(A),op(A)') = sepd(op(T),op(T)') and */
         /*        norm(Theta). */
         /*        Workspace max(3,2*N*N) + N*N. */
-        sb03sy_("Both", trana, lyapun, n, &t[t_offset], ldt, &u[u_offset], ldu, &dwork[ixma + 1], n, sepd, &thnorm, &iwork[1], &dwork[1], &ixma, info, 4L, 1L, 1L);
+        sb03sy_("Both", trana, lyapun, n, &t[t_offset], ldt, &u[u_offset], ldu, &dwork[ixma + 1], n,
+            sepd, &thnorm, &iwork[1], &dwork[1], &ixma, info, 4L, 1L, 1L);
         /* Computing MAX */
         /* Computing MAX */
         i__3 = 3, i__4 = nn << 1;
-        i__1 = wrkopt, i__2 = max(i__3,i__4) + nn;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = max(i__3, i__4) + nn;
+        wrkopt = max(i__1, i__2);
         /*        Return if the equation is singular. */
-        if (*sepd == 0.)
-        {
+        if (*sepd == 0.) {
             *rcond = 0.;
-            if (jobb)
-            {
+            if (jobb) {
                 *ferr = 1.;
             }
-            dwork[1] = (doublereal) wrkopt;
+            dwork[1] = (doublereal)wrkopt;
             return 0;
         }
         /*        Estimate the reciprocal condition number. */
         /* Computing MAX */
-        d__1 = max(*sepd,xnorm);
-        tmax = max(d__1,anorm);
-        if (tmax <= 1.)
-        {
+        d__1 = max(*sepd, xnorm);
+        tmax = max(d__1, anorm);
+        if (tmax <= 1.) {
             temp = *sepd * xnorm;
             denom = *scale * cnorm + *sepd * anorm * thnorm;
-        }
-        else
-        {
+        } else {
             temp = *sepd / tmax * (xnorm / tmax);
             denom = *scale / tmax * (cnorm / tmax) + *sepd / tmax * (anorm / tmax) * thnorm;
         }
-        if (temp >= denom)
-        {
+        if (temp >= denom) {
             *rcond = 1.;
-        }
-        else
-        {
+        } else {
             *rcond = temp / denom;
         }
     }
-    if (! jobc)
-    {
+    if (!jobc) {
         /*        Form a triangle of the residual matrix */
         /*        R = scale*C + X - op(A)'*X*op(A), or */
         /*        R = scale*C + X - op(T)'*X*op(T), */
@@ -603,46 +541,37 @@ ftnlen lyapun_len;
         /*        leading N-by-N upper/lower triangular part of DWORK, and it is */
         /*        finally moved in the location where X*op(A) or X*op(T) was */
         /*        stored, freeing workspace for the SB03SX call. */
-        if (notrna)
-        {
-            *(unsigned char *)tranat = 'T';
-        }
-        else
-        {
-            *(unsigned char *)tranat = 'N';
+        if (notrna) {
+            *(unsigned char*)tranat = 'T';
+        } else {
+            *(unsigned char*)tranat = 'N';
         }
         dlacpy_(uplo, n, n, &c__[c_offset], ldc, &dwork[1], n, 1L);
-        if (update)
-        {
-            mb01rx_("Left", uplo, tranat, n, n, scale, &c_b23, &dwork[1], n, &a[a_offset], lda, &dwork[ixma + 1], n, info, 4L, 1L, 1L);
+        if (update) {
+            mb01rx_("Left", uplo, tranat, n, n, scale, &c_b23, &dwork[1], n, &a[a_offset], lda,
+                &dwork[ixma + 1], n, info, 4L, 1L, 1L);
+        } else {
+            mb01ry_("Left", uplo, tranat, n, scale, &c_b23, &dwork[1], n, &t[t_offset], ldt,
+                &dwork[ixma + 1], n, &dwork[iwrk + 1], info, 4L, 1L, 1L);
         }
-        else
-        {
-            mb01ry_("Left", uplo, tranat, n, scale, &c_b23, &dwork[1], n, &t[t_offset], ldt, &dwork[ixma + 1], n, &dwork[iwrk + 1], info, 4L, 1L, 1L);
-        }
-        if (lower)
-        {
+        if (lower) {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n - j + 1;
-                daxpy_(&i__2, &c_b39, &x[j + j * x_dim1], &c__1, &dwork[(j - 1) **n + j], &c__1);
+                daxpy_(&i__2, &c_b39, &x[j + j * x_dim1], &c__1, &dwork[(j - 1) * *n + j], &c__1);
                 /* L30: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
-                daxpy_(&j, &c_b39, &x[j * x_dim1 + 1], &c__1, &dwork[(j - 1) **n + 1], &c__1);
+            for (j = 1; j <= i__1; ++j) {
+                daxpy_(&j, &c_b39, &x[j * x_dim1 + 1], &c__1, &dwork[(j - 1) * *n + 1], &c__1);
                 /* L40: */
             }
         }
         dlacpy_(uplo, n, n, &dwork[1], n, &dwork[ires + 1], n, 1L);
         /*        Get the machine precision. */
         eps = dlamch_("Epsilon", 7L);
-        epsn = eps * (doublereal) ((*n << 1) + 2);
+        epsn = eps * (doublereal)((*n << 1) + 2);
         /*        Add to abs(R) a term that takes account of rounding errors in */
         /*        forming R: */
         /*          abs(R) := abs(R) + EPS*(3*scale*abs(C) + 3*abs(X) + */
@@ -653,31 +582,24 @@ ftnlen lyapun_len;
         /*        Workspace max(3,2*N*N) + N*N + 2*N. */
         /*        Note that the lower or upper triangular part of X specified by */
         /*        UPLO is used as workspace, but it is finally restored. */
-        if (update)
-        {
+        if (update) {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
-                    dwork[iabs + (j - 1) **n + i__] = (d__1 = a[i__ + j * a_dim1], abs(d__1));
+                for (i__ = 1; i__ <= i__2; ++i__) {
+                    dwork[iabs + (j - 1) * *n + i__] = (d__1 = a[i__ + j * a_dim1], abs(d__1));
                     /* L50: */
                 }
                 /* L60: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 /* Computing MIN */
                 i__3 = j + 1;
-                i__2 = min(i__3,*n);
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
-                    dwork[iabs + (j - 1) **n + i__] = (d__1 = t[i__ + j * t_dim1], abs(d__1));
+                i__2 = min(i__3, *n);
+                for (i__ = 1; i__ <= i__2; ++i__) {
+                    dwork[iabs + (j - 1) * *n + i__] = (d__1 = t[i__ + j * t_dim1], abs(d__1));
                     /* L70: */
                 }
                 /* L80: */
@@ -685,72 +607,66 @@ ftnlen lyapun_len;
         }
         i__1 = *ldx + 1;
         dcopy_(n, &x[x_offset], &i__1, &dwork[iwrk + 1], &c__1);
-        if (lower)
-        {
+        if (lower) {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n;
-                for (i__ = j; i__ <= i__2; ++i__)
-                {
+                for (i__ = j; i__ <= i__2; ++i__) {
                     temp = (d__1 = x[i__ + j * x_dim1], abs(d__1));
                     x[i__ + j * x_dim1] = temp;
-                    dwork[ires + (j - 1) **n + i__] = (d__1 = dwork[ires + (j - 1) **n + i__], abs(d__1)) + eps * 3. * (*scale * (d__2 = c__[i__ + j * c_dim1], abs(d__2)) + temp);
+                    dwork[ires + (j - 1) * *n + i__]
+                        = (d__1 = dwork[ires + (j - 1) * *n + i__], abs(d__1))
+                        + eps * 3. * (*scale * (d__2 = c__[i__ + j * c_dim1], abs(d__2)) + temp);
                     /* L90: */
                 }
                 /* L100: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = j;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     temp = (d__1 = x[i__ + j * x_dim1], abs(d__1));
                     x[i__ + j * x_dim1] = temp;
-                    dwork[ires + (j - 1) **n + i__] = (d__1 = dwork[ires + (j - 1) **n + i__], abs(d__1)) + eps * 3. * (*scale * (d__2 = c__[i__ + j * c_dim1], abs(d__2)) + temp);
+                    dwork[ires + (j - 1) * *n + i__]
+                        = (d__1 = dwork[ires + (j - 1) * *n + i__], abs(d__1))
+                        + eps * 3. * (*scale * (d__2 = c__[i__ + j * c_dim1], abs(d__2)) + temp);
                     /* L110: */
                 }
                 /* L120: */
             }
         }
-        if (update)
-        {
-            mb01ru_(uplo, tranat, n, n, &c_b39, &epsn, &dwork[ires + 1], n, &dwork[iabs + 1], n, &x[x_offset], ldx, &dwork[1], &nn, info, 1L, 1L);
-        }
-        else
-        {
+        if (update) {
+            mb01ru_(uplo, tranat, n, n, &c_b39, &epsn, &dwork[ires + 1], n, &dwork[iabs + 1], n,
+                &x[x_offset], ldx, &dwork[1], &nn, info, 1L, 1L);
+        } else {
             /*           Compute W = abs(X)*abs(op(T)), and then premultiply by */
             /*           abs(T)' and add in the result. */
-            mb01ud_("Right", trana, n, n, &c_b39, &dwork[iabs + 1], n, &x[x_offset], ldx, &dwork[1], n, info, 5L, 1L);
-            mb01ry_("Left", uplo, tranat, n, &c_b39, &epsn, &dwork[ires + 1], n, &dwork[iabs + 1], n, &dwork[1], n, &dwork[iwrk + *n + 1], info, 4L, 1L, 1L);
+            mb01ud_("Right", trana, n, n, &c_b39, &dwork[iabs + 1], n, &x[x_offset], ldx, &dwork[1],
+                n, info, 5L, 1L);
+            mb01ry_("Left", uplo, tranat, n, &c_b39, &epsn, &dwork[ires + 1], n, &dwork[iabs + 1],
+                n, &dwork[1], n, &dwork[iwrk + *n + 1], info, 4L, 1L, 1L);
         }
         /* Computing MAX */
         /* Computing MAX */
         i__3 = 3, i__4 = nn << 1;
-        i__1 = wrkopt, i__2 = max(i__3,i__4) + nn + (*n << 1);
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = max(i__3, i__4) + nn + (*n << 1);
+        wrkopt = max(i__1, i__2);
         /*        Restore X. */
         i__1 = *ldx + 1;
         dcopy_(n, &dwork[iwrk + 1], &c__1, &x[x_offset], &i__1);
-        if (lower)
-        {
+        if (lower) {
             ma02ed_("Upper", n, &x[x_offset], ldx, 5L);
-        }
-        else
-        {
+        } else {
             ma02ed_("Lower", n, &x[x_offset], ldx, 5L);
         }
         /*        Compute forward error bound, using matrix norm estimator. */
         /*        Workspace max(3,2*N*N) + N*N. */
         xanorm = dlansy_("Max", uplo, n, &x[x_offset], ldx, &dwork[1], 3L, 1L);
-        sb03sx_(trana, uplo, lyapun, n, &xanorm, &t[t_offset], ldt, &u[u_offset], ldu, &dwork[ires + 1], n, ferr, &iwork[1], &dwork[1], &ires, info, 1L, 1L, 1L);
+        sb03sx_(trana, uplo, lyapun, n, &xanorm, &t[t_offset], ldt, &u[u_offset], ldu,
+            &dwork[ires + 1], n, ferr, &iwork[1], &dwork[1], &ires, info, 1L, 1L, 1L);
     }
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of SB03SD *** */
 } /* sb03sd_ */
-

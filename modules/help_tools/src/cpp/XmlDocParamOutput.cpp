@@ -17,77 +17,71 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocParamOutput.hpp"
+#include "HtmlTags.hpp"
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
-#include "HtmlTags.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    XmlDocParamOutput::XmlDocParamOutput()
-    {
-        paramOutputItemVector.clear();
+//=============================================================================
+XmlDocParamOutput::XmlDocParamOutput() { paramOutputItemVector.clear(); }
+//=============================================================================
+XmlDocParamOutput::~XmlDocParamOutput()
+{
+    for (size_t k = 0; k < paramOutputItemVector.size(); k++) {
+        delete paramOutputItemVector[k];
+        paramOutputItemVector[k] = nullptr;
     }
-    //=============================================================================
-    XmlDocParamOutput::~XmlDocParamOutput()
-    {
-        for (size_t k = 0; k < paramOutputItemVector.size(); k++)
-        {
-            delete paramOutputItemVector[k];
-            paramOutputItemVector[k] = nullptr;
-        }
-        paramOutputItemVector.clear();
+    paramOutputItemVector.clear();
+}
+//=============================================================================
+void
+XmlDocParamOutput::append(std::wstring name, std::wstring description)
+{
+    XmlDocParamOutputItem* item = nullptr;
+    try {
+        item = new XmlDocParamOutputItem(name, description);
+    } catch (std::bad_alloc& e) {
+        e;
+        item = nullptr;
     }
-    //=============================================================================
-    void XmlDocParamOutput::append(std::wstring name, std::wstring description)
-    {
-        XmlDocParamOutputItem *item = nullptr;
-        try
-        {
-            item = new XmlDocParamOutputItem(name, description);
-        }
-        catch (std::bad_alloc &e)
-        {
-            e;
-            item = nullptr;
-        }
-        if (item)
-        {
-            paramOutputItemVector.push_back(item);
-        }
+    if (item) {
+        paramOutputItemVector.push_back(item);
     }
-    //=============================================================================
-    std::wstring XmlDocParamOutput::getItemType()
-    {
-        return utf8_to_wstring(PARAM_OUTPUT_TAG);
+}
+//=============================================================================
+std::wstring
+XmlDocParamOutput::getItemType()
+{
+    return utf8_to_wstring(PARAM_OUTPUT_TAG);
+}
+//=============================================================================
+bool
+XmlDocParamOutput::writeAsHtml(std::string& utf8stream)
+{
+    utf8stream = utf8stream + HTML_H3_IN_TAG + _("Output argument") + HTML_H3_OUT_TAG + "\n";
+    utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
+    utf8stream = utf8stream + "\n";
+    utf8stream = utf8stream + HTML_DL_IN_TAG + "\n";
+    for (size_t k = 0; k < paramOutputItemVector.size(); k++) {
+        paramOutputItemVector[k]->writeAsHtml(utf8stream);
     }
-    //=============================================================================
-    bool XmlDocParamOutput::writeAsHtml(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + HTML_H3_IN_TAG + _("Output argument") + HTML_H3_OUT_TAG + "\n";
-        utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
-        utf8stream = utf8stream + "\n";
-        utf8stream = utf8stream + HTML_DL_IN_TAG + "\n";
-        for (size_t k = 0; k < paramOutputItemVector.size(); k++)
-        {
-            paramOutputItemVector[k]->writeAsHtml(utf8stream);
-        }
-        utf8stream = utf8stream + HTML_DL_OUT_TAG + "\n";
-        utf8stream = utf8stream + "\n";
-        return true;
+    utf8stream = utf8stream + HTML_DL_OUT_TAG + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
+bool
+XmlDocParamOutput::writeAsMarkdown(std::string& utf8stream)
+{
+    utf8stream = utf8stream + "## " + _("Output argument") + "\n";
+    utf8stream = utf8stream + "\n";
+    for (size_t k = 0; k < paramOutputItemVector.size(); k++) {
+        paramOutputItemVector[k]->writeAsMarkdown(utf8stream);
     }
-    //=============================================================================
-    bool XmlDocParamOutput::writeAsMarkdown(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + "## " + _("Output argument") + "\n";
-        utf8stream = utf8stream + "\n";
-        for (size_t k = 0; k < paramOutputItemVector.size(); k++)
-        {
-            paramOutputItemVector[k]->writeAsMarkdown(utf8stream);
-        }
-        utf8stream = utf8stream + "\n";
-        return true;
-    }
-    //=============================================================================
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

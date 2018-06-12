@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,27 +11,28 @@ static doublereal c_b6 = 0.;
 static doublereal c_b10 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tf01nd_(uplo, n, m, p, ny, a, lda, b, ldb, c__, ldc, d__, ldd, u, ldu, x, y, ldy, dwork, info, uplo_len)
-char *uplo;
+EXPORTSYMBOL /* Subroutine */ int tf01nd_(uplo, n, m, p, ny, a, lda, b, ldb, c__, ldc, d__, ldd, u,
+    ldu, x, y, ldy, dwork, info, uplo_len) char* uplo;
 integer *n, *m, *p, *ny;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *u;
-integer *ldu;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* u;
+integer* ldu;
 doublereal *x, *y;
-integer *ldy;
-doublereal *dwork;
-integer *info;
+integer* ldy;
+doublereal* dwork;
+integer* info;
 ftnlen uplo_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, u_dim1, u_offset, y_dim1, y_offset, i__1, i__2;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, u_dim1,
+        u_offset, y_dim1, y_offset, i__1, i__2;
     /* Local variables */
     static integer i__;
     extern /* Subroutine */ int dgemm_();
@@ -189,105 +190,75 @@ ftnlen uplo_len;
     *info = 0;
     luplo = lsame_(uplo, "U", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! luplo && ! lsame_(uplo, "L", 1L, 1L))
-    {
+    if (!luplo && !lsame_(uplo, "L", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -4;
-    }
-    else if (*ny < 0)
-    {
+    } else if (*ny < 0) {
         *info = -5;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -11;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -13;
-    }
-    else if (*ldu < max(1,*m))
-    {
+    } else if (*ldu < max(1, *m)) {
         *info = -15;
-    }
-    else if (*ldy < max(1,*p))
-    {
+    } else if (*ldy < max(1, *p)) {
         *info = -18;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TF01ND", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (min(*p,*ny) == 0)
-    {
+    if (min(*p, *ny) == 0) {
         return 0;
-    }
-    else if (*n == 0)
-    {
+    } else if (*n == 0) {
         /*        Non-dynamic system: compute the output vectors. */
-        if (*m == 0)
-        {
+        if (*m == 0) {
             dlaset_("Full", p, ny, &c_b6, &c_b6, &y[y_offset], ldy, 4L);
-        }
-        else
-        {
-            dgemm_("No transpose", "No transpose", p, ny, m, &c_b10, &d__[d_offset], ldd, &u[u_offset], ldu, &c_b6, &y[y_offset], ldy, 12L, 12L);
+        } else {
+            dgemm_("No transpose", "No transpose", p, ny, m, &c_b10, &d__[d_offset], ldd,
+                &u[u_offset], ldu, &c_b6, &y[y_offset], ldy, 12L, 12L);
         }
         return 0;
     }
     dcopy_(n, &x[1], &c__1, &dwork[1], &c__1);
     i__1 = *ny;
-    for (ik = 1; ik <= i__1; ++ik)
-    {
-        dgemv_("No transpose", p, n, &c_b10, &c__[c_offset], ldc, &dwork[1], &c__1, &c_b6, &y[ik * y_dim1 + 1], &c__1, 12L);
-        dtrmv_(uplo, "No transpose", "Non-unit", n, &a[a_offset], lda, &dwork[1], &c__1, 1L, 12L, 8L);
-        if (luplo)
-        {
+    for (ik = 1; ik <= i__1; ++ik) {
+        dgemv_("No transpose", p, n, &c_b10, &c__[c_offset], ldc, &dwork[1], &c__1, &c_b6,
+            &y[ik * y_dim1 + 1], &c__1, 12L);
+        dtrmv_(
+            uplo, "No transpose", "Non-unit", n, &a[a_offset], lda, &dwork[1], &c__1, 1L, 12L, 8L);
+        if (luplo) {
             i__2 = *n;
-            for (i__ = 2; i__ <= i__2; ++i__)
-            {
+            for (i__ = 2; i__ <= i__2; ++i__) {
                 dwork[i__] += a[i__ + (i__ - 1) * a_dim1] * x[i__ - 1];
                 /* L10: */
             }
-        }
-        else
-        {
+        } else {
             i__2 = *n - 1;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 dwork[i__] += a[i__ + (i__ + 1) * a_dim1] * x[i__ + 1];
                 /* L20: */
             }
         }
-        dgemv_("No transpose", n, m, &c_b10, &b[b_offset], ldb, &u[ik * u_dim1 + 1], &c__1, &c_b10, &dwork[1], &c__1, 12L);
+        dgemv_("No transpose", n, m, &c_b10, &b[b_offset], ldb, &u[ik * u_dim1 + 1], &c__1, &c_b10,
+            &dwork[1], &c__1, 12L);
         dcopy_(n, &dwork[1], &c__1, &x[1], &c__1);
         /* L30: */
     }
-    dgemm_("No transpose", "No transpose", p, ny, m, &c_b10, &d__[d_offset], ldd, &u[u_offset], ldu, &c_b10, &y[y_offset], ldy, 12L, 12L);
+    dgemm_("No transpose", "No transpose", p, ny, m, &c_b10, &d__[d_offset], ldd, &u[u_offset], ldu,
+        &c_b10, &y[y_offset], ldy, 12L, 12L);
     return 0;
     /* *** Last line of TF01ND *** */
 } /* tf01nd_ */
-

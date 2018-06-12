@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,15 +12,15 @@ static doublereal c_b10 = 0.;
 static doublereal c_b18 = 1.;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int tb01zd_(jobz, n, p, a, lda, b, c__, ldc, ncont, z__, ldz, tau, tol, dwork, ldwork, info, jobz_len)
-char *jobz;
+EXPORTSYMBOL /* Subroutine */ int tb01zd_(jobz, n, p, a, lda, b, c__, ldc, ncont, z__, ldz, tau,
+    tol, dwork, ldwork, info, jobz_len) char* jobz;
 integer *n, *p;
-doublereal *a;
-integer *lda;
+doublereal* a;
+integer* lda;
 doublereal *b, *c__;
 integer *ldc, *ncont;
-doublereal *z__;
-integer *ldz;
+doublereal* z__;
+integer* ldz;
 doublereal *tau, *tol, *dwork;
 integer *ldwork, *info;
 ftnlen jobz_len;
@@ -224,41 +224,27 @@ ftnlen jobz_len;
     ljobi = lsame_(jobz, "I", 1L, 1L);
     ljobz = ljobf || ljobi;
     /*     Test the input scalar arguments. */
-    if (! ljobz && ! lsame_(jobz, "N", 1L, 1L))
-    {
+    if (!ljobz && !lsame_(jobz, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -3;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -5;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -8;
-    }
-    else if (*ldz < 1 || ljobz && *ldz < *n)
-    {
+    } else if (*ldz < 1 || ljobz && *ldz < *n) {
         *info = -11;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = max(1,*n);
-        if (*ldwork < max(i__1,*p))
-        {
+        i__1 = max(1, *n);
+        if (*ldwork < max(i__1, *p)) {
             *info = -15;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TB01ZD", &i__1, 6L);
@@ -267,8 +253,7 @@ ftnlen jobz_len;
     /*     Quick return if possible. */
     *ncont = 0;
     dwork[1] = 1.;
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     /*     (Note: Comments in the code beginning "Workspace:" describe the */
@@ -281,15 +266,11 @@ ftnlen jobz_len;
     anorm = dlange_("Max", n, n, &a[a_offset], lda, &dwork[1], 3L);
     bnorm = dlange_("Max", n, &c__1, &b[1], n, &dwork[1], 3L);
     /*     Return if matrix B is zero. */
-    if (bnorm == 0.)
-    {
-        if (ljobf)
-        {
+    if (bnorm == 0.) {
+        if (ljobf) {
             dlaset_("Full", n, n, &c_b10, &c_b10, &z__[z_offset], ldz, 4L);
             dlaset_("Full", n, &c__1, &c_b10, &c_b10, &tau[1], n, 4L);
-        }
-        else if (ljobi)
-        {
+        } else if (ljobi) {
             dlaset_("Full", n, n, &c_b10, &c_b18, &z__[z_offset], ldz, 4L);
         }
         return 0;
@@ -302,18 +283,15 @@ ftnlen jobz_len;
     fanorm = dlange_("Frobenius", n, n, &a[a_offset], lda, &dwork[1], 9L);
     fbnorm = dlange_("1-norm", n, &c__1, &b[1], n, &dwork[1], 6L);
     toldef = *tol;
-    if (toldef <= 0.)
-    {
+    if (toldef <= 0.) {
         /*        Use the default tolerance in controllability determination. */
-        thresh = (doublereal) (*n) * dlamch_("EPSILON", 7L);
-        toldef = thresh * max(fanorm,fbnorm);
+        thresh = (doublereal)(*n) * dlamch_("EPSILON", 7L);
+        toldef = thresh * max(fanorm, fbnorm);
     }
     itau = 1;
-    if (fbnorm > toldef)
-    {
+    if (fbnorm > toldef) {
         /*        B is not negligible compared with A. */
-        if (*n > 1)
-        {
+        if (*n > 1) {
             /*           Transform B by a Householder matrix Z1: store vector */
             /*           describing this temporarily in B and in the local scalar H. */
             dlarfg_(n, &b[1], &b[2], &c__1, &h__);
@@ -329,9 +307,7 @@ ftnlen jobz_len;
             b[1] = b1;
             tau[1] = h__;
             ++itau;
-        }
-        else
-        {
+        } else {
             b1 = b[1];
             tau[1] = 0.;
         }
@@ -342,60 +318,53 @@ ftnlen jobz_len;
         wrkopt = dwork[1];
         /*        Form C * Z2. */
         /*        Workspace: need P;  prefer P*NB. */
-        dormhr_("Right", "No transpose", p, n, &c__1, n, &a[a_offset], lda, &tau[itau], &c__[c_offset], ldc, &dwork[1], ldwork, info, 5L, 12L);
-        wrkopt = max(wrkopt,dwork[1]);
-        if (ljobz)
-        {
+        dormhr_("Right", "No transpose", p, n, &c__1, n, &a[a_offset], lda, &tau[itau],
+            &c__[c_offset], ldc, &dwork[1], ldwork, info, 5L, 12L);
+        wrkopt = max(wrkopt, dwork[1]);
+        if (ljobz) {
             /*           Save the orthogonal transformations used, so that they could */
             /*           be accumulated by calling DORGQR routine. */
-            if (*n > 1)
-            {
+            if (*n > 1) {
                 i__1 = *n - 1;
                 i__2 = *n - 1;
                 dlacpy_("Full", &i__1, &c__1, &b[2], &i__2, &z__[z_dim1 + 2], ldz, 4L);
             }
-            if (*n > 2)
-            {
+            if (*n > 2) {
                 i__1 = *n - 2;
                 i__2 = *n - 2;
-                dlacpy_("Lower", &i__1, &i__2, &a[a_dim1 + 3], lda, &z__[(z_dim1 << 1) + 3], ldz, 5L);
+                dlacpy_(
+                    "Lower", &i__1, &i__2, &a[a_dim1 + 3], lda, &z__[(z_dim1 << 1) + 3], ldz, 5L);
             }
-            if (ljobi)
-            {
+            if (ljobi) {
                 /*              Form the orthogonal transformation matrix Z = Z1 * Z2. */
                 /*              Workspace: need N;  prefer N*NB. */
                 dorgqr_(n, n, n, &z__[z_offset], ldz, &tau[1], &dwork[1], ldwork, info);
-                wrkopt = max(wrkopt,dwork[1]);
+                wrkopt = max(wrkopt, dwork[1]);
             }
         }
         /*        Annihilate the lower part of A and B. */
-        if (*n > 2)
-        {
+        if (*n > 2) {
             i__1 = *n - 2;
             i__2 = *n - 2;
             dlaset_("Lower", &i__1, &i__2, &c_b10, &c_b10, &a[a_dim1 + 3], lda, 5L);
         }
-        if (*n > 1)
-        {
+        if (*n > 1) {
             i__1 = *n - 1;
             i__2 = *n - 1;
             dlaset_("Full", &i__1, &c__1, &c_b10, &c_b10, &b[2], &i__2, 4L);
         }
         /*        Find NCONT by checking sizes of the sub-diagonal elements of */
         /*        transformed A. */
-        if (*tol <= 0.)
-        {
+        if (*tol <= 0.) {
             /* Computing MAX */
             d__1 = fanorm, d__2 = abs(b1);
-            toldef = thresh * max(d__1,d__2);
+            toldef = thresh * max(d__1, d__2);
         }
         j = 1;
         /*        WHILE ( J < N and ABS( A(J+1,J) ) > TOLDEF ) DO */
-L10:
-        if (j < *n)
-        {
-            if ((d__1 = a[j + 1 + j * a_dim1], abs(d__1)) > toldef)
-            {
+    L10:
+        if (j < *n) {
+            if ((d__1 = a[j + 1 + j * a_dim1], abs(d__1)) > toldef) {
                 ++j;
                 goto L10;
             }
@@ -403,33 +372,28 @@ L10:
         /*        END WHILE 10 */
         /*        First negligible sub-diagonal element found, if any: set NCONT. */
         *ncont = j;
-        if (j < *n)
-        {
+        if (j < *n) {
             a[j + 1 + j * a_dim1] = 0.;
         }
         /*        Undo scaling of A and B. */
-        mb01pd_("U", "H", ncont, ncont, &c__0, &c__0, &anorm, &c__0, nblk, &a[a_offset], lda, info, 1L, 1L);
+        mb01pd_("U", "H", ncont, ncont, &c__0, &c__0, &anorm, &c__0, nblk, &a[a_offset], lda, info,
+            1L, 1L);
         mb01pd_("U", "G", &c__1, &c__1, &c__0, &c__0, &bnorm, &c__0, nblk, &b[1], n, info, 1L, 1L);
-        if (*ncont < *n)
-        {
+        if (*ncont < *n) {
             i__1 = *n - *ncont;
-            mb01pd_("U", "G", n, &i__1, &c__0, &c__0, &anorm, &c__0, nblk, &a[(*ncont + 1) * a_dim1 + 1], lda, info, 1L, 1L);
+            mb01pd_("U", "G", n, &i__1, &c__0, &c__0, &anorm, &c__0, nblk,
+                &a[(*ncont + 1) * a_dim1 + 1], lda, info, 1L, 1L);
         }
-    }
-    else
-    {
+    } else {
         /*        B is negligible compared with A. No computations for reducing */
         /*        the system to orthogonal canonical form have been performed, */
         /*        except scaling (which is undoed). */
         mb01pd_("U", "G", n, n, &c__0, &c__0, &anorm, &c__0, nblk, &a[a_offset], lda, info, 1L, 1L);
         mb01pd_("U", "G", n, &c__1, &c__0, &c__0, &bnorm, &c__0, nblk, &b[1], n, info, 1L, 1L);
-        if (ljobf)
-        {
+        if (ljobf) {
             dlaset_("Full", n, n, &c_b10, &c_b10, &z__[z_offset], ldz, 4L);
             dlaset_("Full", n, &c__1, &c_b10, &c_b10, &tau[1], n, 4L);
-        }
-        else if (ljobi)
-        {
+        } else if (ljobi) {
             dlaset_("Full", n, n, &c_b10, &c_b18, &z__[z_offset], ldz, 4L);
         }
     }
@@ -438,4 +402,3 @@ L10:
     return 0;
     /* *** Last line of TB01ZD *** */
 } /* tb01zd_ */
-

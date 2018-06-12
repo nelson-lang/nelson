@@ -1,40 +1,43 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
 /* Table of constant values */
 
-static doublecomplex c_b1 = {0.,0.};
+static doublecomplex c_b1 = { 0., 0. };
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tb05ad_(baleig, inita, n, m, p, freq, a, lda, b, ldb, c__, ldc, rcond, g, ldg, evre, evim, hinvb, ldhinv, iwork, dwork, ldwork, zwork, lzwork, info, baleig_len, inita_len)
-char *baleig, *inita;
+EXPORTSYMBOL /* Subroutine */ int tb05ad_(baleig, inita, n, m, p, freq, a, lda, b, ldb, c__, ldc,
+    rcond, g, ldg, evre, evim, hinvb, ldhinv, iwork, dwork, ldwork, zwork, lzwork, info, baleig_len,
+    inita_len) char *baleig,
+    *inita;
 integer *n, *m, *p;
-doublecomplex *freq;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *rcond;
-doublecomplex *g;
-integer *ldg;
+doublecomplex* freq;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* rcond;
+doublecomplex* g;
+integer* ldg;
 doublereal *evre, *evim;
-doublecomplex *hinvb;
+doublecomplex* hinvb;
 integer *ldhinv, *iwork;
-doublereal *dwork;
-integer *ldwork;
-doublecomplex *zwork;
+doublereal* dwork;
+integer* ldwork;
+doublecomplex* zwork;
 integer *lzwork, *info;
 ftnlen baleig_len;
 ftnlen inita_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, g_dim1, g_offset, hinvb_dim1, hinvb_offset, i__1, i__2, i__3, i__4, i__5, i__6, i__7;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, g_dim1, g_offset, hinvb_dim1,
+        hinvb_offset, i__1, i__2, i__3, i__4, i__5, i__6, i__7;
     doublereal d__1;
     doublecomplex z__1, z__2, z__3;
     /* Builtin functions */
@@ -274,78 +277,54 @@ ftnlen inita_len;
     lbalba = lbaleb || lbalea;
     linita = lsame_(inita, "G", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! lbalec && ! lbalba && ! lsame_(baleig, "N", 1L, 1L))
-    {
+    if (!lbalec && !lbalba && !lsame_(baleig, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! linita && ! lsame_(inita, "H", 1L, 1L))
-    {
+    } else if (!linita && !lsame_(inita, "H", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -5;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -12;
-    }
-    else if (*ldg < max(1,*p))
-    {
+    } else if (*ldg < max(1, *p)) {
         *info = -15;
-    }
-    else if (*ldhinv < max(1,*n))
-    {
+    } else if (*ldhinv < max(1, *n)) {
         *info = -19;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = max(*n,*m);
+        i__1 = max(*n, *m);
         /* Computing MAX */
-        i__2 = *n, i__3 = *m - 1, i__2 = max(i__2,i__3), i__3 = *p - 1;
-        if (linita && ! lbalec && ! lbalea && *ldwork < *n - 1 + max(i__1,*p) || linita && (lbalec || lbalea) && *ldwork < *n + max(i__2,i__3) || ! linita && (lbalec || lbalea) && *ldwork < *n << 1 || *ldwork < 1)
-        {
+        i__2 = *n, i__3 = *m - 1, i__2 = max(i__2, i__3), i__3 = *p - 1;
+        if (linita && !lbalec && !lbalea && *ldwork < *n - 1 + max(i__1, *p)
+            || linita && (lbalec || lbalea) && *ldwork < *n + max(i__2, i__3)
+            || !linita && (lbalec || lbalea) && *ldwork < *n << 1 || *ldwork < 1) {
             *info = -22;
-        }
-        else /* if(complicated condition) */
+        } else /* if(complicated condition) */
         {
             /* Computing MAX */
-            i__1 = 1, i__2 = *n **n;
-            if ((lbalec || lbalea) && *lzwork < *n * (*n + 2) || *lzwork < max(i__1,i__2))
-            {
+            i__1 = 1, i__2 = *n * *n;
+            if ((lbalec || lbalea) && *lzwork < *n * (*n + 2) || *lzwork < max(i__1, i__2)) {
                 *info = -24;
             }
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return */
         i__1 = -(*info);
         xerbla_("TB05AD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
-        if (min(*m,*p) > 0)
-        {
+    if (*n == 0) {
+        if (min(*m, *p) > 0) {
             zlaset_("Full", p, m, &c_b1, &c_b1, &g[g_offset], ldg, 4L);
         }
         *rcond = 1.;
@@ -358,62 +337,49 @@ ftnlen inita_len;
     /*     NB refers to the optimal block size for the immediately */
     /*     following subroutine, as returned by ILAENV.) */
     wrkopt = 1;
-    if (linita)
-    {
-        *(unsigned char *)balanc = 'N';
-        if (lbalba)
-        {
-            *(unsigned char *)balanc = 'B';
+    if (linita) {
+        *(unsigned char*)balanc = 'N';
+        if (lbalba) {
+            *(unsigned char*)balanc = 'B';
         }
         /*        Workspace: need N. */
         dgebal_(balanc, n, &a[a_offset], lda, &low, &igh, &dwork[1], info, 1L);
-        if (lbalba)
-        {
+        if (lbalba) {
             /*           Adjust B and C matrices based on information in the */
             /*           vector DWORK which describes the balancing of A and is */
             /*           defined in the subroutine DGEBAL. */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 jj = j;
-                if (jj < low || jj > igh)
-                {
-                    if (jj < low)
-                    {
+                if (jj < low || jj > igh) {
+                    if (jj < low) {
                         jj = low - jj;
                     }
-                    jp = (integer) dwork[jj];
-                    if (jp != jj)
-                    {
+                    jp = (integer)dwork[jj];
+                    if (jp != jj) {
                         /*                    Permute rows of B. */
-                        if (*m > 0)
-                        {
+                        if (*m > 0) {
                             dswap_(m, &b[jj + b_dim1], ldb, &b[jp + b_dim1], ldb);
                         }
                         /*                    Permute columns of C. */
-                        if (*p > 0)
-                        {
+                        if (*p > 0) {
                             dswap_(p, &c__[jj * c_dim1 + 1], &c__1, &c__[jp * c_dim1 + 1], &c__1);
                         }
                     }
                 }
                 /* L10: */
             }
-            if (igh != low)
-            {
+            if (igh != low) {
                 i__1 = igh;
-                for (j = low; j <= i__1; ++j)
-                {
+                for (j = low; j <= i__1; ++j) {
                     t = dwork[j];
                     /*                 Scale rows of permuted B. */
-                    if (*m > 0)
-                    {
+                    if (*m > 0) {
                         d__1 = 1. / t;
                         dscal_(m, &d__1, &b[j + b_dim1], ldb);
                     }
                     /*                 Scale columns of permuted C. */
-                    if (*p > 0)
-                    {
+                    if (*p > 0) {
                         dscal_(p, &t, &c__[j * c_dim1 + 1], &c__1);
                     }
                     /* L20: */
@@ -428,30 +394,29 @@ ftnlen inita_len;
         i__1 = *ldwork - jwork + 1;
         dgehrd_(n, &low, &igh, &a[a_offset], lda, &dwork[itau], &dwork[jwork], &i__1, info);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__1, i__2);
         /*        Workspace: need N - 1 + M;  prefer N - 1 + M*NB. */
         i__1 = *ldwork - jwork + 1;
-        dormhr_("Left", "Transpose", n, m, &low, &igh, &a[a_offset], lda, &dwork[itau], &b[b_offset], ldb, &dwork[jwork], &i__1, info, 4L, 9L);
+        dormhr_("Left", "Transpose", n, m, &low, &igh, &a[a_offset], lda, &dwork[itau],
+            &b[b_offset], ldb, &dwork[jwork], &i__1, info, 4L, 9L);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__1, i__2);
         /*        Workspace: need N - 1 + P;  prefer N - 1 + P*NB. */
         i__1 = *ldwork - jwork + 1;
-        dormhr_("Right", "No transpose", p, n, &low, &igh, &a[a_offset], lda, &dwork[itau], &c__[c_offset], ldc, &dwork[jwork], &i__1, info, 5L, 12L);
+        dormhr_("Right", "No transpose", p, n, &low, &igh, &a[a_offset], lda, &dwork[itau],
+            &c__[c_offset], ldc, &dwork[jwork], &i__1, info, 5L, 12L);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__1,i__2);
-        if (lbalba)
-        {
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__1, i__2);
+        if (lbalba) {
             /*           Temporarily store Hessenberg form of A in array ZWORK. */
             ij = 0;
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     ++ij;
                     i__3 = ij;
                     i__4 = i__ + j * a_dim1;
@@ -463,15 +428,14 @@ ftnlen inita_len;
             }
             /*           Compute the eigenvalues of A if that option is requested. */
             /*           Workspace: need N. */
-            dhseqr_("Eigenvalues", "No Schur", n, &low, &igh, &a[a_offset], lda, &evre[1], &evim[1], &dwork[1], &c__1, &dwork[1], ldwork, info, 11L, 8L);
+            dhseqr_("Eigenvalues", "No Schur", n, &low, &igh, &a[a_offset], lda, &evre[1], &evim[1],
+                &dwork[1], &c__1, &dwork[1], ldwork, info, 11L, 8L);
             /*           Restore upper Hessenberg form of A. */
             ij = 0;
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     ++ij;
                     i__3 = ij;
                     a[i__ + j * a_dim1] = zwork[i__3].r;
@@ -479,8 +443,7 @@ ftnlen inita_len;
                 }
                 /* L60: */
             }
-            if (*info > 0)
-            {
+            if (*info > 0) {
                 /*              DHSEQR could not evaluate the eigenvalues of A. */
                 *info = 1;
             }
@@ -490,11 +453,9 @@ ftnlen inita_len;
     ij = 0;
     jj = 1;
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             ++ij;
             i__3 = ij;
             i__4 = i__ + j * a_dim1;
@@ -510,57 +471,49 @@ ftnlen inita_len;
         jj = jj + *n + 1;
         /* L80: */
     }
-    if (lbalec || lbalea)
-    {
+    if (lbalec || lbalea) {
         /*        Efficiently compute the 1-norm of the matrix for condition */
         /*        estimation. */
         hnorm = 0.;
         jj = 1;
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = j - 1;
             t = z_abs(&zwork[jj]) + dasum_(&i__2, &a[j * a_dim1 + 1], &c__1);
-            if (j < *n)
-            {
+            if (j < *n) {
                 t += (d__1 = a[j + 1 + j * a_dim1], abs(d__1));
             }
-            hnorm = max(hnorm,t);
+            hnorm = max(hnorm, t);
             jj = jj + *n + 1;
             /* L90: */
         }
     }
     /*     Factor the complex Hessenberg matrix. */
     mb02sz_(n, &zwork[1], n, &iwork[1], info);
-    if (*info != 0)
-    {
+    if (*info != 0) {
         *info = 2;
     }
-    if (lbalec || lbalea)
-    {
+    if (lbalec || lbalea) {
         /*        Estimate the condition of the matrix. */
         /*        Workspace: need 2*N. */
-        mb02tz_("1-norm", n, &hnorm, &zwork[1], n, &iwork[1], rcond, &dwork[1], &zwork[*n **n + 1], info, 6L);
+        mb02tz_("1-norm", n, &hnorm, &zwork[1], n, &iwork[1], rcond, &dwork[1], &zwork[*n * *n + 1],
+            info, 6L);
         /* Computing MAX */
         i__1 = wrkopt, i__2 = *n << 1;
-        wrkopt = max(i__1,i__2);
-        if (*rcond < dlamch_("Epsilon", 7L))
-        {
+        wrkopt = max(i__1, i__2);
+        if (*rcond < dlamch_("Epsilon", 7L)) {
             *info = 2;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return: Linear system is numerically or exactly singular. */
         return 0;
     }
     /*     Compute  (H-INVERSE)*B. */
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             i__3 = i__ + j * hinvb_dim1;
             i__4 = i__ + j * b_dim1;
             z__1.r = b[i__4], z__1.i = 0.;
@@ -572,27 +525,24 @@ ftnlen inita_len;
     mb02rz_("No transpose", n, m, &zwork[1], n, &iwork[1], &hinvb[hinvb_offset], ldhinv, info, 12L);
     /*     Compute  C*(H-INVERSE)*B. */
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *p;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             i__3 = i__ + j * g_dim1;
             g[i__3].r = 0., g[i__3].i = 0.;
             /* L120: */
         }
         i__2 = *n;
-        for (k = 1; k <= i__2; ++k)
-        {
+        for (k = 1; k <= i__2; ++k) {
             i__3 = *p;
-            for (i__ = 1; i__ <= i__3; ++i__)
-            {
+            for (i__ = 1; i__ <= i__3; ++i__) {
                 i__4 = i__ + j * g_dim1;
                 i__5 = i__ + j * g_dim1;
                 i__6 = i__ + k * c_dim1;
                 z__3.r = c__[i__6], z__3.i = 0.;
                 i__7 = k + j * hinvb_dim1;
-                z__2.r = z__3.r * hinvb[i__7].r - z__3.i * hinvb[i__7].i, z__2.i = z__3.r * hinvb[i__7].i + z__3.i * hinvb[i__7].r;
+                z__2.r = z__3.r * hinvb[i__7].r - z__3.i * hinvb[i__7].i,
+                z__2.i = z__3.r * hinvb[i__7].i + z__3.i * hinvb[i__7].r;
                 z__1.r = g[i__5].r + z__2.r, z__1.i = g[i__5].i + z__2.i;
                 g[i__4].r = z__1.r, g[i__4].i = z__1.i;
                 /* L130: */
@@ -603,8 +553,7 @@ ftnlen inita_len;
     }
     /*     G now contains the desired frequency response matrix. */
     /*     Set the optimal workspace. */
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of TB05AD *** */
 } /* tb05ad_ */
-

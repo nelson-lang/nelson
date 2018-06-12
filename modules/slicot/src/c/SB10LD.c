@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,37 +11,41 @@ static doublereal c_b5 = 0.;
 static doublereal c_b6 = 1.;
 static doublereal c_b9 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb10ld_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, d__, ldd, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, ac, ldac, bc, ldbc, cc, ldcc, dc, lddc, iwork, dwork, ldwork, info)
-integer *n, *m, *np, *ncon, *nmeas;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *ak;
-integer *ldak;
-doublereal *bk;
-integer *ldbk;
-doublereal *ck;
-integer *ldck;
-doublereal *dk;
-integer *lddk;
-doublereal *ac;
-integer *ldac;
-doublereal *bc;
-integer *ldbc;
-doublereal *cc;
-integer *ldcc;
-doublereal *dc;
+EXPORTSYMBOL /* Subroutine */ int sb10ld_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, d__, ldd,
+    ak, ldak, bk, ldbk, ck, ldck, dk, lddk, ac, ldac, bc, ldbc, cc, ldcc, dc, lddc, iwork, dwork,
+    ldwork, info) integer *n,
+    *m, *np, *ncon, *nmeas;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* ak;
+integer* ldak;
+doublereal* bk;
+integer* ldbk;
+doublereal* ck;
+integer* ldck;
+doublereal* dk;
+integer* lddk;
+doublereal* ac;
+integer* ldac;
+doublereal* bc;
+integer* ldbc;
+doublereal* cc;
+integer* ldcc;
+doublereal* dc;
 integer *lddc, *iwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, ac_dim1, ac_offset, ak_dim1, ak_offset, b_dim1, b_offset, bc_dim1, bc_offset, bk_dim1, bk_offset, c_dim1, c_offset, cc_dim1, cc_offset, ck_dim1, ck_offset, d_dim1, d_offset, dc_dim1, dc_offset, dk_dim1, dk_offset, i__1;
+    integer a_dim1, a_offset, ac_dim1, ac_offset, ak_dim1, ak_offset, b_dim1, b_offset, bc_dim1,
+        bc_offset, bk_dim1, bk_offset, c_dim1, c_offset, cc_dim1, cc_offset, ck_dim1, ck_offset,
+        d_dim1, d_offset, dc_dim1, dc_offset, dk_dim1, dk_offset, i__1;
     /* Local variables */
     static integer iwrk, info2;
     extern /* Subroutine */ int dgemm_();
@@ -252,92 +256,54 @@ integer *ldwork, *info;
     np1 = *np - *nmeas;
     np2 = *nmeas;
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*np < 0)
-    {
+    } else if (*np < 0) {
         *info = -3;
-    }
-    else if (*ncon < 0 || m1 < 0 || m2 > np1)
-    {
+    } else if (*ncon < 0 || m1 < 0 || m2 > np1) {
         *info = -4;
-    }
-    else if (*nmeas < 0 || np1 < 0 || np2 > m1)
-    {
+    } else if (*nmeas < 0 || np1 < 0 || np2 > m1) {
         *info = -5;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldc < max(1,*np))
-    {
+    } else if (*ldc < max(1, *np)) {
         *info = -11;
-    }
-    else if (*ldd < max(1,*np))
-    {
+    } else if (*ldd < max(1, *np)) {
         *info = -13;
-    }
-    else if (*ldak < max(1,*n))
-    {
+    } else if (*ldak < max(1, *n)) {
         *info = -15;
-    }
-    else if (*ldbk < max(1,*n))
-    {
+    } else if (*ldbk < max(1, *n)) {
         *info = -17;
-    }
-    else if (*ldck < max(1,m2))
-    {
+    } else if (*ldck < max(1, m2)) {
         *info = -19;
-    }
-    else if (*lddk < max(1,m2))
-    {
+    } else if (*lddk < max(1, m2)) {
         *info = -21;
-    }
-    else if (*ldac < max(1,n2))
-    {
+    } else if (*ldac < max(1, n2)) {
         *info = -23;
-    }
-    else if (*ldbc < max(1,n2))
-    {
+    } else if (*ldbc < max(1, n2)) {
         *info = -25;
-    }
-    else if (*ldcc < max(1,np1))
-    {
+    } else if (*ldcc < max(1, np1)) {
         *info = -27;
-    }
-    else if (*lddc < max(1,np1))
-    {
+    } else if (*lddc < max(1, np1)) {
         *info = -29;
-    }
-    else
-    {
+    } else {
         /*        Compute workspace. */
-        minwrk = (*m << 1) **m + *np **np + (*m << 1) **n + *m **np + (*n << 1) **np;
-        if (*ldwork < minwrk)
-        {
+        minwrk = (*m << 1) * *m + *np * *np + (*m << 1) * *n + *m * *np + (*n << 1) * *np;
+        if (*ldwork < minwrk) {
             *info = -32;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SB10LD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *m == 0 || *np == 0 || m1 == 0 || m2 == 0 || np1 == 0 || np2 == 0)
-    {
+    if (*n == 0 || *m == 0 || *np == 0 || m1 == 0 || m2 == 0 || np1 == 0 || np2 == 0) {
         dwork[1] = 1.;
         return 0;
     }
@@ -346,91 +312,103 @@ integer *ldwork, *info;
     /*     Workspace usage. */
     iw2 = np2 * np2 + 1;
     iw3 = iw2 + m2 * m2;
-    iw4 = iw3 + np2 **n;
-    iw5 = iw4 + m2 **n;
+    iw4 = iw3 + np2 * *n;
+    iw5 = iw4 + m2 * *n;
     iw6 = iw5 + np2 * m1;
     iw7 = iw6 + m2 * m1;
-    iw8 = iw7 + m2 **n;
-    iwrk = iw8 + np2 **n;
+    iw8 = iw7 + m2 * *n;
+    iwrk = iw8 + np2 * *n;
     /*     Compute inv(Inp2 - D22*DK) . */
     dlaset_("Full", &np2, &np2, &c_b5, &c_b6, &dwork[1], &np2, 4L);
-    dgemm_("N", "N", &np2, &np2, &m2, &c_b9, &d__[np1 + 1 + (m1 + 1) * d_dim1], ldd, &dk[dk_offset], lddk, &c_b6, &dwork[1], &np2, 1L, 1L);
+    dgemm_("N", "N", &np2, &np2, &m2, &c_b9, &d__[np1 + 1 + (m1 + 1) * d_dim1], ldd, &dk[dk_offset],
+        lddk, &c_b6, &dwork[1], &np2, 1L, 1L);
     anorm = dlange_("1", &np2, &np2, &dwork[1], &np2, &dwork[iwrk], 1L);
     dgetrf_(&np2, &np2, &dwork[1], &np2, &iwork[1], &info2);
-    if (info2 > 0)
-    {
+    if (info2 > 0) {
         *info = 1;
         return 0;
     }
     dgecon_("1", &np2, &dwork[1], &np2, &anorm, &rcond, &dwork[iwrk], &iwork[np2 + 1], info, 1L);
-    lwamax = (integer) dwork[iwrk] + iwrk - 1;
+    lwamax = (integer)dwork[iwrk] + iwrk - 1;
     /*     Return if the matrix is singular to working precision. */
-    if (rcond < eps)
-    {
+    if (rcond < eps) {
         *info = 1;
         return 0;
     }
     i__1 = *ldwork - iwrk + 1;
     dgetri_(&np2, &dwork[1], &np2, &iwork[1], &dwork[iwrk], &i__1, &info2);
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk] + iwrk - 1;
-    lwamax = max(i__1,lwamax);
+    i__1 = (integer)dwork[iwrk] + iwrk - 1;
+    lwamax = max(i__1, lwamax);
     /*     Compute inv(Im2 - DK*D22) . */
     dlaset_("Full", &m2, &m2, &c_b5, &c_b6, &dwork[iw2], &m2, 4L);
-    dgemm_("N", "N", &m2, &m2, &np2, &c_b9, &dk[dk_offset], lddk, &d__[np1 + 1 + (m1 + 1) * d_dim1], ldd, &c_b6, &dwork[iw2], &m2, 1L, 1L);
+    dgemm_("N", "N", &m2, &m2, &np2, &c_b9, &dk[dk_offset], lddk, &d__[np1 + 1 + (m1 + 1) * d_dim1],
+        ldd, &c_b6, &dwork[iw2], &m2, 1L, 1L);
     anorm = dlange_("1", &m2, &m2, &dwork[iw2], &m2, &dwork[iwrk], 1L);
     dgetrf_(&m2, &m2, &dwork[iw2], &m2, &iwork[1], &info2);
-    if (info2 > 0)
-    {
+    if (info2 > 0) {
         *info = 2;
         return 0;
     }
     dgecon_("1", &m2, &dwork[iw2], &m2, &anorm, &rcond, &dwork[iwrk], &iwork[m2 + 1], info, 1L);
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk] + iwrk - 1;
-    lwamax = max(i__1,lwamax);
+    i__1 = (integer)dwork[iwrk] + iwrk - 1;
+    lwamax = max(i__1, lwamax);
     /*     Return if the matrix is singular to working precision. */
-    if (rcond < eps)
-    {
+    if (rcond < eps) {
         *info = 2;
         return 0;
     }
     i__1 = *ldwork - iwrk + 1;
     dgetri_(&m2, &dwork[iw2], &m2, &iwork[1], &dwork[iwrk], &i__1, &info2);
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk] + iwrk - 1;
-    lwamax = max(i__1,lwamax);
+    i__1 = (integer)dwork[iwrk] + iwrk - 1;
+    lwamax = max(i__1, lwamax);
     /*     Compute inv(Inp2 - D22*DK)*C2 . */
-    dgemm_("N", "N", &np2, n, &np2, &c_b6, &dwork[1], &np2, &c__[np1 + 1 + c_dim1], ldc, &c_b5, &dwork[iw3], &np2, 1L, 1L);
+    dgemm_("N", "N", &np2, n, &np2, &c_b6, &dwork[1], &np2, &c__[np1 + 1 + c_dim1], ldc, &c_b5,
+        &dwork[iw3], &np2, 1L, 1L);
     /*     Compute DK*inv(Inp2 - D22*DK)*C2 . */
-    dgemm_("N", "N", &m2, n, &np2, &c_b6, &dk[dk_offset], lddk, &dwork[iw3], &np2, &c_b5, &dwork[iw4], &m2, 1L, 1L);
+    dgemm_("N", "N", &m2, n, &np2, &c_b6, &dk[dk_offset], lddk, &dwork[iw3], &np2, &c_b5,
+        &dwork[iw4], &m2, 1L, 1L);
     /*     Compute inv(Inp2 - D22*DK)*D21 . */
-    dgemm_("N", "N", &np2, &m1, &np2, &c_b6, &dwork[1], &np2, &d__[np1 + 1 + d_dim1], ldd, &c_b5, &dwork[iw5], &np2, 1L, 1L);
+    dgemm_("N", "N", &np2, &m1, &np2, &c_b6, &dwork[1], &np2, &d__[np1 + 1 + d_dim1], ldd, &c_b5,
+        &dwork[iw5], &np2, 1L, 1L);
     /*     Compute DK*inv(Inp2 - D22*DK)*D21 . */
-    dgemm_("N", "N", &m2, &m1, &np2, &c_b6, &dk[dk_offset], lddk, &dwork[iw5], &np2, &c_b5, &dwork[iw6], &m2, 1L, 1L);
+    dgemm_("N", "N", &m2, &m1, &np2, &c_b6, &dk[dk_offset], lddk, &dwork[iw5], &np2, &c_b5,
+        &dwork[iw6], &m2, 1L, 1L);
     /*     Compute inv(Im2 - DK*D22)*CK . */
-    dgemm_("N", "N", &m2, n, &m2, &c_b6, &dwork[iw2], &m2, &ck[ck_offset], ldck, &c_b5, &dwork[iw7], &m2, 1L, 1L);
+    dgemm_("N", "N", &m2, n, &m2, &c_b6, &dwork[iw2], &m2, &ck[ck_offset], ldck, &c_b5, &dwork[iw7],
+        &m2, 1L, 1L);
     /*     Compute D22*inv(Im2 - DK*D22)*CK . */
-    dgemm_("N", "N", &np2, n, &m2, &c_b6, &d__[np1 + 1 + (m1 + 1) * d_dim1], ldd, &dwork[iw7], &m2, &c_b5, &dwork[iw8], &np2, 1L, 1L);
+    dgemm_("N", "N", &np2, n, &m2, &c_b6, &d__[np1 + 1 + (m1 + 1) * d_dim1], ldd, &dwork[iw7], &m2,
+        &c_b5, &dwork[iw8], &np2, 1L, 1L);
     /*     Compute AC . */
     dlacpy_("Full", n, n, &a[a_offset], lda, &ac[ac_offset], ldac, 4L);
-    dgemm_("N", "N", n, n, &m2, &c_b6, &b[(m1 + 1) * b_dim1 + 1], ldb, &dwork[iw4], &m2, &c_b6, &ac[ac_offset], ldac, 1L, 1L);
-    dgemm_("N", "N", n, n, &m2, &c_b6, &b[(m1 + 1) * b_dim1 + 1], ldb, &dwork[iw7], &m2, &c_b5, &ac[(*n + 1) * ac_dim1 + 1], ldac, 1L, 1L);
-    dgemm_("N", "N", n, n, &np2, &c_b6, &bk[bk_offset], ldbk, &dwork[iw3], &np2, &c_b5, &ac[*n + 1 + ac_dim1], ldac, 1L, 1L);
+    dgemm_("N", "N", n, n, &m2, &c_b6, &b[(m1 + 1) * b_dim1 + 1], ldb, &dwork[iw4], &m2, &c_b6,
+        &ac[ac_offset], ldac, 1L, 1L);
+    dgemm_("N", "N", n, n, &m2, &c_b6, &b[(m1 + 1) * b_dim1 + 1], ldb, &dwork[iw7], &m2, &c_b5,
+        &ac[(*n + 1) * ac_dim1 + 1], ldac, 1L, 1L);
+    dgemm_("N", "N", n, n, &np2, &c_b6, &bk[bk_offset], ldbk, &dwork[iw3], &np2, &c_b5,
+        &ac[*n + 1 + ac_dim1], ldac, 1L, 1L);
     dlacpy_("Full", n, n, &ak[ak_offset], ldak, &ac[*n + 1 + (*n + 1) * ac_dim1], ldac, 4L);
-    dgemm_("N", "N", n, n, &np2, &c_b6, &bk[bk_offset], ldbk, &dwork[iw8], &np2, &c_b6, &ac[*n + 1 + (*n + 1) * ac_dim1], ldac, 1L, 1L);
+    dgemm_("N", "N", n, n, &np2, &c_b6, &bk[bk_offset], ldbk, &dwork[iw8], &np2, &c_b6,
+        &ac[*n + 1 + (*n + 1) * ac_dim1], ldac, 1L, 1L);
     /*     Compute BC . */
     dlacpy_("Full", n, &m1, &b[b_offset], ldb, &bc[bc_offset], ldbc, 4L);
-    dgemm_("N", "N", n, &m1, &m2, &c_b6, &b[(m1 + 1) * b_dim1 + 1], ldb, &dwork[iw6], &m2, &c_b6, &bc[bc_offset], ldbc, 1L, 1L);
-    dgemm_("N", "N", n, &m1, &np2, &c_b6, &bk[bk_offset], ldbk, &dwork[iw5], &np2, &c_b5, &bc[*n + 1 + bc_dim1], ldbc, 1L, 1L);
+    dgemm_("N", "N", n, &m1, &m2, &c_b6, &b[(m1 + 1) * b_dim1 + 1], ldb, &dwork[iw6], &m2, &c_b6,
+        &bc[bc_offset], ldbc, 1L, 1L);
+    dgemm_("N", "N", n, &m1, &np2, &c_b6, &bk[bk_offset], ldbk, &dwork[iw5], &np2, &c_b5,
+        &bc[*n + 1 + bc_dim1], ldbc, 1L, 1L);
     /*     Compute CC . */
     dlacpy_("Full", &np1, n, &c__[c_offset], ldc, &cc[cc_offset], ldcc, 4L);
-    dgemm_("N", "N", &np1, n, &m2, &c_b6, &d__[(m1 + 1) * d_dim1 + 1], ldd, &dwork[iw4], &m2, &c_b6, &cc[cc_offset], ldcc, 1L, 1L);
-    dgemm_("N", "N", &np1, n, &m2, &c_b6, &d__[(m1 + 1) * d_dim1 + 1], ldd, &dwork[iw7], &m2, &c_b5, &cc[(*n + 1) * cc_dim1 + 1], ldcc, 1L, 1L);
+    dgemm_("N", "N", &np1, n, &m2, &c_b6, &d__[(m1 + 1) * d_dim1 + 1], ldd, &dwork[iw4], &m2, &c_b6,
+        &cc[cc_offset], ldcc, 1L, 1L);
+    dgemm_("N", "N", &np1, n, &m2, &c_b6, &d__[(m1 + 1) * d_dim1 + 1], ldd, &dwork[iw7], &m2, &c_b5,
+        &cc[(*n + 1) * cc_dim1 + 1], ldcc, 1L, 1L);
     /*     Compute DC . */
     dlacpy_("Full", &np1, &m1, &d__[d_offset], ldd, &dc[dc_offset], lddc, 4L);
-    dgemm_("N", "N", &np1, &m1, &m2, &c_b6, &d__[(m1 + 1) * d_dim1 + 1], ldd, &dwork[iw6], &m2, &c_b6, &dc[dc_offset], lddc, 1L, 1L);
+    dgemm_("N", "N", &np1, &m1, &m2, &c_b6, &d__[(m1 + 1) * d_dim1 + 1], ldd, &dwork[iw6], &m2,
+        &c_b6, &dc[dc_offset], lddc, 1L, 1L);
     return 0;
     /* *** Last line of SB10LD *** */
 } /* sb10ld_ */
-

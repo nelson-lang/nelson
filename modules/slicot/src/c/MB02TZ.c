@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,15 +9,15 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb02tz_(norm, n, hnorm, h__, ldh, ipiv, rcond, dwork, zwork, info, norm_len)
-char *norm;
-integer *n;
-doublereal *hnorm;
-doublecomplex *h__;
+EXPORTSYMBOL /* Subroutine */ int mb02tz_(
+    norm, n, hnorm, h__, ldh, ipiv, rcond, dwork, zwork, info, norm_len) char* norm;
+integer* n;
+doublereal* hnorm;
+doublecomplex* h__;
 integer *ldh, *ipiv;
 doublereal *rcond, *dwork;
-doublecomplex *zwork;
-integer *info;
+doublecomplex* zwork;
+integer* info;
 ftnlen norm_len;
 {
     /* System generated locals */
@@ -136,68 +136,50 @@ ftnlen norm_len;
     --zwork;
     /* Function Body */
     *info = 0;
-    onenrm = *(unsigned char *)norm == '1' || lsame_(norm, "O", 1L, 1L);
-    if (! onenrm && ! lsame_(norm, "I", 1L, 1L))
-    {
+    onenrm = *(unsigned char*)norm == '1' || lsame_(norm, "O", 1L, 1L);
+    if (!onenrm && !lsame_(norm, "I", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*hnorm < 0.)
-    {
+    } else if (*hnorm < 0.) {
         *info = -3;
-    }
-    else if (*ldh < max(1,*n))
-    {
+    } else if (*ldh < max(1, *n)) {
         *info = -5;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02TZ", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
     *rcond = 0.;
-    if (*n == 0)
-    {
+    if (*n == 0) {
         *rcond = 1.;
         return 0;
-    }
-    else if (*hnorm == 0.)
-    {
+    } else if (*hnorm == 0.) {
         return 0;
     }
     smlnum = dlamch_("Safe minimum", 12L);
     /*     Estimate the norm of inv(H). */
     hinvnm = 0.;
-    *(unsigned char *)normin = 'N';
-    if (onenrm)
-    {
+    *(unsigned char*)normin = 'N';
+    if (onenrm) {
         kase1 = 1;
-    }
-    else
-    {
+    } else {
         kase1 = 2;
     }
     kase = 0;
 L10:
     zlacon_(n, &zwork[*n + 1], &zwork[1], &hinvnm, &kase);
-    if (kase != 0)
-    {
-        if (kase == kase1)
-        {
+    if (kase != 0) {
+        if (kase == kase1) {
             /*           Multiply by inv(L). */
             i__1 = *n - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 jp = ipiv[j];
                 i__2 = jp;
                 t.r = zwork[i__2].r, t.i = zwork[i__2].i;
-                if (jp != j)
-                {
+                if (jp != j) {
                     i__2 = jp;
                     i__3 = j;
                     zwork[i__2].r = zwork[i__3].r, zwork[i__2].i = zwork[i__3].i;
@@ -207,31 +189,31 @@ L10:
                 i__2 = j + 1;
                 i__3 = j + 1;
                 i__4 = j + 1 + j * h_dim1;
-                z__2.r = t.r * h__[i__4].r - t.i * h__[i__4].i, z__2.i = t.r * h__[i__4].i + t.i * h__[i__4].r;
+                z__2.r = t.r * h__[i__4].r - t.i * h__[i__4].i,
+                z__2.i = t.r * h__[i__4].i + t.i * h__[i__4].r;
                 z__1.r = zwork[i__3].r - z__2.r, z__1.i = zwork[i__3].i - z__2.i;
                 zwork[i__2].r = z__1.r, zwork[i__2].i = z__1.i;
                 /* L20: */
             }
             /*           Multiply by inv(U). */
-            zlatrs_("Upper", "No transpose", "Non-unit", normin, n, &h__[h_offset], ldh, &zwork[1], &scale, &dwork[1], info, 5L, 12L, 8L, 1L);
-        }
-        else
-        {
+            zlatrs_("Upper", "No transpose", "Non-unit", normin, n, &h__[h_offset], ldh, &zwork[1],
+                &scale, &dwork[1], info, 5L, 12L, 8L, 1L);
+        } else {
             /*           Multiply by inv(U'). */
-            zlatrs_("Upper", "Conjugate transpose", "Non-unit", normin, n, &h__[h_offset], ldh, &zwork[1], &scale, &dwork[1], info, 5L, 19L, 8L, 1L);
+            zlatrs_("Upper", "Conjugate transpose", "Non-unit", normin, n, &h__[h_offset], ldh,
+                &zwork[1], &scale, &dwork[1], info, 5L, 19L, 8L, 1L);
             /*           Multiply by inv(L'). */
-            for (j = *n - 1; j >= 1; --j)
-            {
+            for (j = *n - 1; j >= 1; --j) {
                 i__1 = j;
                 i__2 = j;
                 d_cnjg(&z__3, &h__[j + 1 + j * h_dim1]);
                 i__3 = j + 1;
-                z__2.r = z__3.r * zwork[i__3].r - z__3.i * zwork[i__3].i, z__2.i = z__3.r * zwork[i__3].i + z__3.i * zwork[i__3].r;
+                z__2.r = z__3.r * zwork[i__3].r - z__3.i * zwork[i__3].i,
+                z__2.i = z__3.r * zwork[i__3].i + z__3.i * zwork[i__3].r;
                 z__1.r = zwork[i__2].r - z__2.r, z__1.i = zwork[i__2].i - z__2.i;
                 zwork[i__1].r = z__1.r, zwork[i__1].i = z__1.i;
                 jp = ipiv[j];
-                if (jp != j)
-                {
+                if (jp != j) {
                     i__1 = jp;
                     t.r = zwork[i__1].r, t.i = zwork[i__1].i;
                     i__1 = jp;
@@ -244,13 +226,13 @@ L10:
             }
         }
         /*        Divide X by 1/SCALE if doing so will not cause overflow. */
-        *(unsigned char *)normin = 'Y';
-        if (scale != 1.)
-        {
+        *(unsigned char*)normin = 'Y';
+        if (scale != 1.) {
             ix = izamax_(n, &zwork[1], &c__1);
             i__1 = ix;
-            if (scale < ((d__1 = zwork[i__1].r, abs(d__1)) + (d__2 = d_imag(&zwork[ix]), abs(d__2))) * smlnum || scale == 0.)
-            {
+            if (scale < ((d__1 = zwork[i__1].r, abs(d__1)) + (d__2 = d_imag(&zwork[ix]), abs(d__2)))
+                        * smlnum
+                || scale == 0.) {
                 goto L40;
             }
             zdrscl_(n, &scale, &zwork[1], &c__1);
@@ -258,12 +240,10 @@ L10:
         goto L10;
     }
     /*     Compute the estimate of the reciprocal condition number. */
-    if (hinvnm != 0.)
-    {
+    if (hinvnm != 0.) {
         *rcond = 1. / hinvnm / *hnorm;
     }
 L40:
     return 0;
     /* *** Last line of MB02TZ *** */
 } /* mb02tz_ */
-

@@ -1,13 +1,12 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int dg01ny_(indi, n, xr, xi, indi_len)
-char *indi;
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int dg01ny_(indi, n, xr, xi, indi_len) char* indi;
+integer* n;
 doublereal *xr, *xi;
 ftnlen indi_len;
 {
@@ -52,37 +51,31 @@ ftnlen indi_len;
     lindi = lsame_(indi, "D", 1L, 1L);
     /*     Initialisation. */
     pi2 = atan(1.) * 8.;
-    if (lindi)
-    {
+    if (lindi) {
         pi2 = -pi2;
     }
-    whelp = pi2 / (doublereal) (*n << 1);
+    whelp = pi2 / (doublereal)(*n << 1);
     wstpi = sin(whelp);
     whelp = sin(whelp * .5);
     wstpr = whelp * -2. * whelp;
     wi = 0.;
-    if (lindi)
-    {
+    if (lindi) {
         wr = 1.;
         xr[*n + 1] = xr[1];
         xi[*n + 1] = xi[1];
-    }
-    else
-    {
+    } else {
         wr = -1.;
     }
     /*     Recursion. */
     n2 = *n / 2 + 1;
     i__1 = n2;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         j = *n + 2 - i__;
         ar = xr[i__] + xr[j];
         ai = xi[i__] - xi[j];
         br = xi[i__] + xi[j];
         bi = xr[j] - xr[i__];
-        if (lindi)
-        {
+        if (lindi) {
             ar *= .5;
             ai *= .5;
             br *= .5;
@@ -102,4 +95,3 @@ ftnlen indi_len;
     return 0;
     /* *** Last line of DG01NY *** */
 } /* dg01ny_ */
-

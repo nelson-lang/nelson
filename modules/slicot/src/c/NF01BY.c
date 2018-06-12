@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,15 +13,15 @@ static doublereal c_b15 = -2.;
 static doublereal c_b22 = 1.;
 static doublereal c_b24 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int nf01by_(cjte, nsmp, nz, l, ipar, lipar, wb, lwb, z__, ldz, e, j, ldj, jte, dwork, ldwork, info, cjte_len)
-char *cjte;
+EXPORTSYMBOL /* Subroutine */ int nf01by_(cjte, nsmp, nz, l, ipar, lipar, wb, lwb, z__, ldz, e, j,
+    ldj, jte, dwork, ldwork, info, cjte_len) char* cjte;
 integer *nsmp, *nz, *l, *ipar, *lipar;
-doublereal *wb;
-integer *lwb;
-doublereal *z__;
-integer *ldz;
+doublereal* wb;
+integer* lwb;
+doublereal* z__;
+integer* ldz;
 doublereal *e, *j;
-integer *ldj;
+integer* ldj;
 doublereal *jte, *dwork;
 integer *ldwork, *info;
 ftnlen cjte_len;
@@ -187,62 +187,40 @@ ftnlen cjte_len;
     *info = 0;
     nn = ipar[1];
     nwb = nn * (*nz + 2) + 1;
-    if (! (wjte || lsame_(cjte, "N", 1L, 1L)))
-    {
+    if (!(wjte || lsame_(cjte, "N", 1L, 1L))) {
         *info = -1;
-    }
-    else if (*nsmp < 0)
-    {
+    } else if (*nsmp < 0) {
         *info = -2;
-    }
-    else if (*nz < 0)
-    {
+    } else if (*nz < 0) {
         *info = -3;
-    }
-    else if (*l != 1)
-    {
+    } else if (*l != 1) {
         *info = -4;
-    }
-    else if (*lipar < 1)
-    {
+    } else if (*lipar < 1) {
         *info = -6;
-    }
-    else if (ipar[1] < 0)
-    {
-        if (*info != 0)
-        {
+    } else if (ipar[1] < 0) {
+        if (*info != 0) {
             i__1 = -(*info);
             xerbla_("NF01BY", &i__1, 6L);
-        }
-        else
-        {
+        } else {
             ipar[1] = *nsmp * (abs(nn) * (*nz + 2) + 1);
             *ldj = *nsmp;
         }
         return 0;
-    }
-    else if (*lwb < nwb)
-    {
+    } else if (*lwb < nwb) {
         *info = -8;
-    }
-    else if (*ldz < max(1,*nsmp))
-    {
+    } else if (*ldz < max(1, *nsmp)) {
         *info = -10;
-    }
-    else if (*ldj < max(1,*nsmp))
-    {
+    } else if (*ldj < max(1, *nsmp)) {
         *info = -13;
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("NF01BY", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (min(*nsmp,*nz) == 0)
-    {
+    if (min(*nsmp, *nz) == 0) {
         return 0;
     }
     /*     Set parameters to avoid overflows and increase accuracy for */
@@ -258,37 +236,27 @@ ftnlen cjte_len;
     j[bp1 * j_dim1 + 1] = 1.;
     dcopy_(nsmp, &j[bp1 * j_dim1 + 1], &c__0, &j[bp1 * j_dim1 + 1], &c__1);
     i__1 = nn - 1;
-    for (i__ = 0; i__ <= i__1; ++i__)
-    {
+    for (i__ = 0; i__ <= i__1; ++i__) {
         dcopy_(nsmp, &wb[ib + i__], &c__0, &j[(ws + i__) * j_dim1 + 1], &c__1);
         /* L10: */
     }
-    dgemm_("NoTranspose", "NoTranspose", nsmp, &nn, nz, &c_b15, &z__[z_offset], ldz, &wb[1], nz, &c_b15, &j[ws * j_dim1 + 1], ldj, 11L, 11L);
+    dgemm_("NoTranspose", "NoTranspose", nsmp, &nn, nz, &c_b15, &z__[z_offset], ldz, &wb[1], nz,
+        &c_b15, &j[ws * j_dim1 + 1], ldj, 11L, 11L);
     di = 1;
     i__1 = nn - 1;
-    for (i__ = 0; i__ <= i__1; ++i__)
-    {
+    for (i__ = 0; i__ <= i__1; ++i__) {
         i__2 = *nsmp;
-        for (k = 1; k <= i__2; ++k)
-        {
+        for (k = 1; k <= i__2; ++k) {
             tmp = j[k + (ws + i__) * j_dim1];
-            if (abs(tmp) >= bignum)
-            {
-                if (tmp > 0.)
-                {
+            if (abs(tmp) >= bignum) {
+                if (tmp > 0.) {
                     j[k + (ws + i__) * j_dim1] = -1.;
-                }
-                else
-                {
+                } else {
                     j[k + (ws + i__) * j_dim1] = 1.;
                 }
-            }
-            else if (abs(tmp) <= smlnum)
-            {
+            } else if (abs(tmp) <= smlnum) {
                 j[k + (ws + i__) * j_dim1] = 0.;
-            }
-            else
-            {
+            } else {
                 j[k + (ws + i__) * j_dim1] = 2. / (exp(tmp) + 1.) - 1.;
             }
             /* Computing 2nd power */
@@ -297,11 +265,9 @@ ftnlen cjte_len;
             /* L20: */
         }
         i__2 = *nz - 1;
-        for (k = 0; k <= i__2; ++k)
-        {
+        for (k = 0; k <= i__2; ++k) {
             i__3 = *nsmp;
-            for (m = 1; m <= i__3; ++m)
-            {
+            for (m = 1; m <= i__3; ++m) {
                 j[m + (di + k) * j_dim1] = j[m + (ib + i__) * j_dim1] * z__[m + (k + 1) * z_dim1];
                 /* L30: */
             }
@@ -310,12 +276,11 @@ ftnlen cjte_len;
         di += *nz;
         /* L50: */
     }
-    if (wjte)
-    {
+    if (wjte) {
         /*        Compute J'e. */
-        dgemv_("Transpose", nsmp, &nwb, &c_b22, &j[j_offset], ldj, &e[1], &c__1, &c_b24, &jte[1], &c__1, 9L);
+        dgemv_("Transpose", nsmp, &nwb, &c_b22, &j[j_offset], ldj, &e[1], &c__1, &c_b24, &jte[1],
+            &c__1, 9L);
     }
     return 0;
     /* *** Last line of NF01BY *** */
 } /* nf01by_ */
-

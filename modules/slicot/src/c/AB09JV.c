@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,28 +14,30 @@ static doublereal c_b24 = 1.;
 static integer c__1 = 1;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int ab09jv_(job, dico, jobev, stbchk, n, m, p, nv, pv, a, lda, b, ldb, c__, ldc, d__, ldd, av, ldav, ev, ldev, bv, ldbv, cv, ldcv, dv, lddv, iwork, dwork, ldwork, info, job_len, dico_len, jobev_len, stbchk_len)
-char *job, *dico, *jobev, *stbchk;
+EXPORTSYMBOL /* Subroutine */ int ab09jv_(job, dico, jobev, stbchk, n, m, p, nv, pv, a, lda, b, ldb,
+    c__, ldc, d__, ldd, av, ldav, ev, ldev, bv, ldbv, cv, ldcv, dv, lddv, iwork, dwork, ldwork,
+    info, job_len, dico_len, jobev_len, stbchk_len) char *job,
+    *dico, *jobev, *stbchk;
 integer *n, *m, *p, *nv, *pv;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *av;
-integer *ldav;
-doublereal *ev;
-integer *ldev;
-doublereal *bv;
-integer *ldbv;
-doublereal *cv;
-integer *ldcv;
-doublereal *dv;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* av;
+integer* ldav;
+doublereal* ev;
+integer* ldev;
+doublereal* bv;
+integer* ldbv;
+doublereal* cv;
+integer* ldcv;
+doublereal* dv;
 integer *lddv, *iwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen job_len;
 ftnlen dico_len;
@@ -43,7 +45,9 @@ ftnlen jobev_len;
 ftnlen stbchk_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, av_dim1, av_offset, b_dim1, b_offset, bv_dim1, bv_offset, c_dim1, c_offset, cv_dim1, cv_offset, d_dim1, d_offset, dv_dim1, dv_offset, ev_dim1, ev_offset, i__1, i__2, i__3, i__4, i__5, i__6;
+    integer a_dim1, a_offset, av_dim1, av_offset, b_dim1, b_offset, bv_dim1, bv_offset, c_dim1,
+        c_offset, cv_dim1, cv_offset, d_dim1, d_offset, dv_dim1, dv_offset, ev_dim1, ev_offset,
+        i__1, i__2, i__3, i__4, i__5, i__6;
     doublereal d__1, d__2;
     /* Builtin functions */
     double sqrt();
@@ -383,207 +387,155 @@ ftnlen stbchk_len;
     unitev = lsame_(jobev, "I", 1L, 1L);
     stabck = lsame_(stbchk, "C", 1L, 1L);
     *info = 0;
-    if (unitev)
-    {
-        if (discr && conjs)
-        {
+    if (unitev) {
+        if (discr && conjs) {
             ia = *nv << 1;
-        }
-        else
-        {
+        } else {
             ia = 0;
         }
         /* Computing MAX */
         /* Computing MAX */
-        i__3 = ia, i__4 = *pv **n, i__3 = max(i__3,i__4), i__4 = *pv **m;
-        i__1 = 1, i__2 = *nv * (*nv + 5), i__1 = max(i__1,i__2), i__2 = *nv **n + max(i__3,i__4);
-        lw = max(i__1,i__2);
-    }
-    else
-    {
+        i__3 = ia, i__4 = *pv * *n, i__3 = max(i__3, i__4), i__4 = *pv * *m;
+        i__1 = 1, i__2 = *nv * (*nv + 5), i__1 = max(i__1, i__2), i__2 = *nv * *n + max(i__3, i__4);
+        lw = max(i__1, i__2);
+    } else {
         /* Computing MAX */
         /* Computing MAX */
-        i__3 = *nv * 11 + 16, i__4 = *p **nv, i__3 = max(i__3,i__4), i__4 = *pv **nv;
+        i__3 = *nv * 11 + 16, i__4 = *p * *nv, i__3 = max(i__3, i__4), i__4 = *pv * *nv;
         /* Computing MAX */
-        i__5 = *nv **n + *n **n, i__6 = *pv **n, i__5 = max(i__5,i__6), i__6 = *pv **m;
-        i__1 = (*nv << 1) **nv + max(i__3,i__4), i__2 = *nv **n + max(i__5,i__6);
-        lw = max(i__1,i__2);
+        i__5 = *nv * *n + *n * *n, i__6 = *pv * *n, i__5 = max(i__5, i__6), i__6 = *pv * *m;
+        i__1 = (*nv << 1) * *nv + max(i__3, i__4), i__2 = *nv * *n + max(i__5, i__6);
+        lw = max(i__1, i__2);
     }
     /*     Test the input scalar arguments. */
-    ldwn = max(1,*n);
-    ldw = max(1,*nv);
-    if (! (lsame_(job, "V", 1L, 1L) || conjs))
-    {
+    ldwn = max(1, *n);
+    ldw = max(1, *nv);
+    if (!(lsame_(job, "V", 1L, 1L) || conjs)) {
         *info = -1;
-    }
-    else if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    } else if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -2;
-    }
-    else if (! (lsame_(jobev, "G", 1L, 1L) || unitev))
-    {
+    } else if (!(lsame_(jobev, "G", 1L, 1L) || unitev)) {
         *info = -3;
-    }
-    else if (! (lsame_(stbchk, "N", 1L, 1L) || stabck))
-    {
+    } else if (!(lsame_(stbchk, "N", 1L, 1L) || stabck)) {
         *info = -4;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -5;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -6;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -7;
-    }
-    else if (*nv < 0)
-    {
+    } else if (*nv < 0) {
         *info = -8;
-    }
-    else if (*pv < 0)
-    {
+    } else if (*pv < 0) {
         *info = -9;
-    }
-    else if (*lda < ldwn)
-    {
+    } else if (*lda < ldwn) {
         *info = -11;
-    }
-    else if (*ldb < ldwn)
-    {
+    } else if (*ldb < ldwn) {
         *info = -13;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = max(1,*p);
-        if (*ldc < max(i__1,*pv))
-        {
+        i__1 = max(1, *p);
+        if (*ldc < max(i__1, *pv)) {
             *info = -15;
-        }
-        else /* if(complicated condition) */
+        } else /* if(complicated condition) */
         {
             /* Computing MAX */
-            i__1 = max(1,*p);
-            if (*ldd < max(i__1,*pv))
-            {
+            i__1 = max(1, *p);
+            if (*ldd < max(i__1, *pv)) {
                 *info = -17;
-            }
-            else if (*ldav < ldw)
-            {
+            } else if (*ldav < ldw) {
                 *info = -19;
-            }
-            else if (*ldev < 1 || ! unitev && *ldev < *nv)
-            {
+            } else if (*ldev < 1 || !unitev && *ldev < *nv) {
                 *info = -21;
-            }
-            else if (*ldbv < ldw)
-            {
+            } else if (*ldbv < ldw) {
                 *info = -23;
-            }
-            else if (! conjs && *ldcv < max(1,*pv) || conjs && *ldcv < max(1,*p))
-            {
+            } else if (!conjs && *ldcv < max(1, *pv) || conjs && *ldcv < max(1, *p)) {
                 *info = -25;
-            }
-            else if (! conjs && *lddv < max(1,*pv) || conjs && *lddv < max(1,*p))
-            {
+            } else if (!conjs && *lddv < max(1, *pv) || conjs && *lddv < max(1, *p)) {
                 *info = -27;
-            }
-            else if (*ldwork < lw)
-            {
+            } else if (*ldwork < lw) {
                 *info = -30;
             }
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB09JV", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*p == 0 || *pv == 0)
-    {
+    if (*p == 0 || *pv == 0) {
         dwork[1] = 1.;
         return 0;
     }
     /*     Set options for stability/antistability checking. */
-    if (discr)
-    {
+    if (discr) {
         alpha = 1.;
-    }
-    else
-    {
+    } else {
         alpha = 0.;
     }
     work = 1.;
     tolinf = dlamch_("Precision", 9L);
-    if (unitev)
-    {
+    if (unitev) {
         /*        EV is the identity matrix. */
-        if (*nv > 0)
-        {
+        if (*nv > 0) {
             /*           Reduce AV to the real Schur form using an orthogonal */
             /*           similarity transformation AV <- Q'*AV*Q and apply the */
             /*           transformation to BV and CV: BV <- Q'*BV and CV <- CV*Q. */
             /*           Workspace needed:  NV*(NV+5); */
             /*                              prefer larger. */
             kw = *nv * (*nv + 2) + 1;
-            if (conjs)
-            {
-                *(unsigned char *)stdom = 'S';
+            if (conjs) {
+                *(unsigned char*)stdom = 'S';
                 alpha += sqrt(tolinf);
                 i__1 = *ldwork - kw + 1;
-                tb01wd_(nv, pv, p, &av[av_offset], ldav, &bv[bv_offset], ldbv, &cv[cv_offset], ldcv, &dwork[(*nv << 1) + 1], nv, &dwork[1], &dwork[*nv + 1], &dwork[kw], &i__1, &ierr);
-            }
-            else
-            {
-                *(unsigned char *)stdom = 'U';
+                tb01wd_(nv, pv, p, &av[av_offset], ldav, &bv[bv_offset], ldbv, &cv[cv_offset], ldcv,
+                    &dwork[(*nv << 1) + 1], nv, &dwork[1], &dwork[*nv + 1], &dwork[kw], &i__1,
+                    &ierr);
+            } else {
+                *(unsigned char*)stdom = 'U';
                 alpha -= sqrt(tolinf);
                 i__1 = *ldwork - kw + 1;
-                tb01wd_(nv, p, pv, &av[av_offset], ldav, &bv[bv_offset], ldbv, &cv[cv_offset], ldcv, &dwork[(*nv << 1) + 1], nv, &dwork[1], &dwork[*nv + 1], &dwork[kw], &i__1, &ierr);
+                tb01wd_(nv, p, pv, &av[av_offset], ldav, &bv[bv_offset], ldbv, &cv[cv_offset], ldcv,
+                    &dwork[(*nv << 1) + 1], nv, &dwork[1], &dwork[*nv + 1], &dwork[kw], &i__1,
+                    &ierr);
             }
-            if (ierr != 0)
-            {
+            if (ierr != 0) {
                 *info = 1;
                 return 0;
             }
-            if (stabck)
-            {
+            if (stabck) {
                 /*              Check stability/antistability of eigenvalues of AV. */
-                ab09jx_(dico, stdom, "S", nv, &alpha, &dwork[1], &dwork[*nv + 1], &dwork[1], &tolinf, &ierr, 1L, 1L, 1L);
-                if (ierr != 0)
-                {
+                ab09jx_(dico, stdom, "S", nv, &alpha, &dwork[1], &dwork[*nv + 1], &dwork[1],
+                    &tolinf, &ierr, 1L, 1L, 1L);
+                if (ierr != 0) {
                     *info = 4;
                     return 0;
                 }
             }
             /* Computing MAX */
-            d__1 = work, d__2 = dwork[kw] + (doublereal) (kw - 1);
-            work = max(d__1,d__2);
+            d__1 = work, d__2 = dwork[kw] + (doublereal)(kw - 1);
+            work = max(d__1, d__2);
         }
-        kw = *nv **n + 1;
-        if (conjs)
-        {
+        kw = *nv * *n + 1;
+        if (conjs) {
             /*           Compute the projection of conj(V)*G. */
             /*           Total workspace needed:  NV*N + MAX( a, PV*N, PV*M ), where */
             /*                                    a = 0,    if DICO = 'C', */
             /*                                    a = 2*NV, if DICO = 'D'. */
             /*           Compute -CV'*C. */
             /*           Workspace needed: NV*N. */
-            dgemm_("T", "N", nv, n, p, &c_b17, &cv[cv_offset], ldcv, &c__[c_offset], ldc, &c_b18, &dwork[1], &ldw, 1L, 1L);
-            if (discr)
-            {
+            dgemm_("T", "N", nv, n, p, &c_b17, &cv[cv_offset], ldcv, &c__[c_offset], ldc, &c_b18,
+                &dwork[1], &ldw, 1L, 1L);
+            if (discr) {
                 /*              Compute X and SCALE satisfying */
                 /*              AV'*X*A - X = -SCALE*CV'*C. */
                 /*              Additional workspace needed: 2*NV. */
-                sb04py_("T", "N", &c_n1, nv, n, &av[av_offset], ldav, &a[a_offset], lda, &dwork[1], &ldw, &scale, &dwork[kw], &ierr, 1L, 1L);
-                if (ierr != 0)
-                {
+                sb04py_("T", "N", &c_n1, nv, n, &av[av_offset], ldav, &a[a_offset], lda, &dwork[1],
+                    &ldw, &scale, &dwork[kw], &ierr, 1L, 1L);
+                if (ierr != 0) {
                     *info = 3;
                     return 0;
                 }
@@ -591,27 +543,29 @@ ftnlen stbchk_len;
                 /*                        DS = DV'*D + BV'*X*B/SCALE. */
                 /*              Additional workspace needed: MAX( PV*N, PV*M ). */
                 /*              C <- DV'*C. */
-                dgemm_("T", "N", pv, n, p, &c_b24, &dv[dv_offset], lddv, &c__[c_offset], ldc, &c_b18, &dwork[kw], pv, 1L, 1L);
+                dgemm_("T", "N", pv, n, p, &c_b24, &dv[dv_offset], lddv, &c__[c_offset], ldc,
+                    &c_b18, &dwork[kw], pv, 1L, 1L);
                 dlacpy_("Full", pv, n, &dwork[kw], pv, &c__[c_offset], ldc, 4L);
                 /*              D <- DV'*D. */
-                dgemm_("T", "N", pv, m, p, &c_b24, &dv[dv_offset], lddv, &d__[d_offset], ldd, &c_b18, &dwork[kw], pv, 1L, 1L);
+                dgemm_("T", "N", pv, m, p, &c_b24, &dv[dv_offset], lddv, &d__[d_offset], ldd,
+                    &c_b18, &dwork[kw], pv, 1L, 1L);
                 dlacpy_("Full", pv, m, &dwork[kw], pv, &d__[d_offset], ldd, 4L);
                 /*              C <- C + BV'*X*A/SCALE. */
                 d__1 = 1. / scale;
-                dgemm_("T", "N", pv, n, nv, &d__1, &bv[bv_offset], ldbv, &dwork[1], &ldw, &c_b18, &dwork[kw], pv, 1L, 1L);
-                dgemm_("N", "N", pv, n, n, &c_b24, &dwork[kw], pv, &a[a_offset], lda, &c_b24, &c__[c_offset], ldc, 1L, 1L);
+                dgemm_("T", "N", pv, n, nv, &d__1, &bv[bv_offset], ldbv, &dwork[1], &ldw, &c_b18,
+                    &dwork[kw], pv, 1L, 1L);
+                dgemm_("N", "N", pv, n, n, &c_b24, &dwork[kw], pv, &a[a_offset], lda, &c_b24,
+                    &c__[c_offset], ldc, 1L, 1L);
                 /*              D <- D + BV'*X*B/SCALE. */
-                dgemm_("N", "N", pv, m, n, &c_b24, &dwork[kw], pv, &b[b_offset], ldb, &c_b24, &d__[d_offset], ldd, 1L, 1L);
-            }
-            else
-            {
+                dgemm_("N", "N", pv, m, n, &c_b24, &dwork[kw], pv, &b[b_offset], ldb, &c_b24,
+                    &d__[d_offset], ldd, 1L, 1L);
+            } else {
                 /*              Compute X and SCALE satisfying */
                 /*              AV'*X + X*A + SCALE*CV'*C = 0. */
-                if (*n > 0)
-                {
-                    dtrsyl_("T", "N", &c__1, nv, n, &av[av_offset], ldav, &a[a_offset], lda, &dwork[1], &ldw, &scale, &ierr, 1L, 1L);
-                    if (ierr != 0)
-                    {
+                if (*n > 0) {
+                    dtrsyl_("T", "N", &c__1, nv, n, &av[av_offset], ldav, &a[a_offset], lda,
+                        &dwork[1], &ldw, &scale, &ierr, 1L, 1L);
+                    if (ierr != 0) {
                         *info = 3;
                         return 0;
                     }
@@ -620,29 +574,30 @@ ftnlen stbchk_len;
                 /*                        DS = DV'*D. */
                 /*              Additional workspace needed: MAX( PV*N, PV*M ). */
                 /*              Construct C <- DV'*C + BV'*X/SCALE. */
-                dgemm_("T", "N", pv, n, p, &c_b24, &dv[dv_offset], lddv, &c__[c_offset], ldc, &c_b18, &dwork[kw], pv, 1L, 1L);
+                dgemm_("T", "N", pv, n, p, &c_b24, &dv[dv_offset], lddv, &c__[c_offset], ldc,
+                    &c_b18, &dwork[kw], pv, 1L, 1L);
                 dlacpy_("Full", pv, n, &dwork[kw], pv, &c__[c_offset], ldc, 4L);
                 d__1 = 1. / scale;
-                dgemm_("T", "N", pv, n, nv, &d__1, &bv[bv_offset], ldbv, &dwork[1], &ldw, &c_b24, &c__[c_offset], ldc, 1L, 1L);
+                dgemm_("T", "N", pv, n, nv, &d__1, &bv[bv_offset], ldbv, &dwork[1], &ldw, &c_b24,
+                    &c__[c_offset], ldc, 1L, 1L);
                 /*              Construct D <- DV'*D. */
-                dgemm_("T", "N", pv, m, p, &c_b24, &dv[dv_offset], lddv, &d__[d_offset], ldd, &c_b18, &dwork[kw], pv, 1L, 1L);
+                dgemm_("T", "N", pv, m, p, &c_b24, &dv[dv_offset], lddv, &d__[d_offset], ldd,
+                    &c_b18, &dwork[kw], pv, 1L, 1L);
                 dlacpy_("Full", pv, m, &dwork[kw], pv, &d__[d_offset], ldd, 4L);
             }
-        }
-        else
-        {
+        } else {
             /*           Compute the projection of V*G. */
             /*           Total workspace needed:  NV*N + MAX( PV*N, PV*M ). */
             /*           Compute -BV*C. */
             /*           Workspace needed: NV*N. */
-            dgemm_("N", "N", nv, n, p, &c_b17, &bv[bv_offset], ldbv, &c__[c_offset], ldc, &c_b18, &dwork[1], &ldw, 1L, 1L);
+            dgemm_("N", "N", nv, n, p, &c_b17, &bv[bv_offset], ldbv, &c__[c_offset], ldc, &c_b18,
+                &dwork[1], &ldw, 1L, 1L);
             /*           Compute X and SCALE satisfying */
             /*           AV*X - X*A + SCALE*BV*C = 0. */
-            if (*n > 0)
-            {
-                dtrsyl_("N", "N", &c_n1, nv, n, &av[av_offset], ldav, &a[a_offset], lda, &dwork[1], &ldw, &scale, &ierr, 1L, 1L);
-                if (ierr != 0)
-                {
+            if (*n > 0) {
+                dtrsyl_("N", "N", &c_n1, nv, n, &av[av_offset], ldav, &a[a_offset], lda, &dwork[1],
+                    &ldw, &scale, &ierr, 1L, 1L);
+                if (ierr != 0) {
                     *info = 3;
                     return 0;
                 }
@@ -651,20 +606,20 @@ ftnlen stbchk_len;
             /*                     DS = DV*D. */
             /*           Additional workspace needed: MAX( PV*N, PV*M ). */
             /*           Construct C <- DV*C + CV*X/SCALE. */
-            dgemm_("N", "N", pv, n, p, &c_b24, &dv[dv_offset], lddv, &c__[c_offset], ldc, &c_b18, &dwork[kw], pv, 1L, 1L);
+            dgemm_("N", "N", pv, n, p, &c_b24, &dv[dv_offset], lddv, &c__[c_offset], ldc, &c_b18,
+                &dwork[kw], pv, 1L, 1L);
             dlacpy_("Full", pv, n, &dwork[kw], pv, &c__[c_offset], ldc, 4L);
             d__1 = 1. / scale;
-            dgemm_("N", "N", pv, n, nv, &d__1, &cv[cv_offset], ldcv, &dwork[1], &ldw, &c_b24, &c__[c_offset], ldc, 1L, 1L);
+            dgemm_("N", "N", pv, n, nv, &d__1, &cv[cv_offset], ldcv, &dwork[1], &ldw, &c_b24,
+                &c__[c_offset], ldc, 1L, 1L);
             /*           Construct D <- DV*D. */
-            dgemm_("N", "N", pv, m, p, &c_b24, &dv[dv_offset], lddv, &d__[d_offset], ldd, &c_b18, &dwork[kw], pv, 1L, 1L);
+            dgemm_("N", "N", pv, m, p, &c_b24, &dv[dv_offset], lddv, &d__[d_offset], ldd, &c_b18,
+                &dwork[kw], pv, 1L, 1L);
             dlacpy_("Full", pv, m, &dwork[kw], pv, &d__[d_offset], ldd, 4L);
         }
-    }
-    else
-    {
+    } else {
         /*        EV is a general matrix. */
-        if (*nv > 0)
-        {
+        if (*nv > 0) {
             tolinf *= dlange_("1", nv, nv, &ev[ev_offset], ldev, &dwork[1], 1L);
             /*           Reduce (AV,EV), or (AV',EV') or (EV',AV') to a generalized */
             /*           real Schur form using an orthogonal equivalence */
@@ -673,131 +628,133 @@ ftnlen stbchk_len;
             /*           Workspace needed:  2*NV*NV + MAX( 11*NV+16, NV*P, NV*PV ); */
             /*                              prefer larger. */
             kq = 1;
-            kz = kq + *nv **nv;
-            kar = kz + *nv **nv;
+            kz = kq + *nv * *nv;
+            kar = kz + *nv * *nv;
             kai = kar + *nv;
             kb = kai + *nv;
             kw = kb + *nv;
-            if (conjs)
-            {
-                *(unsigned char *)stdom = 'S';
+            if (conjs) {
+                *(unsigned char*)stdom = 'S';
                 alpha += sqrt(tolinf);
                 /*              Transpose AV and EV, if non-scalar. */
                 i__1 = *nv - 1;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     i__2 = *nv - i__;
-                    dswap_(&i__2, &av[i__ + 1 + i__ * av_dim1], &c__1, &av[i__ + (i__ + 1) * av_dim1], ldav);
+                    dswap_(&i__2, &av[i__ + 1 + i__ * av_dim1], &c__1,
+                        &av[i__ + (i__ + 1) * av_dim1], ldav);
                     i__2 = *nv - i__;
-                    dswap_(&i__2, &ev[i__ + 1 + i__ * ev_dim1], &c__1, &ev[i__ + (i__ + 1) * ev_dim1], ldev);
+                    dswap_(&i__2, &ev[i__ + 1 + i__ * ev_dim1], &c__1,
+                        &ev[i__ + (i__ + 1) * ev_dim1], ldev);
                     /* L10: */
                 }
-                if (discr)
-                {
+                if (discr) {
                     /*                 Reduce (EV',AV') to a generalized real Schur form */
                     /*                 using orthogonal transformation matrices Q and Z */
                     /*                 such that Q'*EV'*Z results in a quasi-triangular form */
                     /*                 and Q'*AV'*Z results upper triangular. */
                     /*                 Total workspace needed: 2*NV*NV + 11*NV + 16. */
-                    *(unsigned char *)evtype = 'R';
+                    *(unsigned char*)evtype = 'R';
                     i__1 = *ldwork - kw + 1;
-                    dgges_("Vectors", "Vectors", "Not ordered", delctg_, nv, &ev[ev_offset], ldev, &av[av_offset], ldav, &sdim, &dwork[kar], &dwork[kai], &dwork[kb], &dwork[kq], &ldw, &dwork[kz], &ldw, &dwork[kw], &i__1, bwork, &ierr, 7L, 7L, 11L);
-                }
-                else
-                {
+                    dgges_("Vectors", "Vectors", "Not ordered", delctg_, nv, &ev[ev_offset], ldev,
+                        &av[av_offset], ldav, &sdim, &dwork[kar], &dwork[kai], &dwork[kb],
+                        &dwork[kq], &ldw, &dwork[kz], &ldw, &dwork[kw], &i__1, bwork, &ierr, 7L, 7L,
+                        11L);
+                } else {
                     /*                 Reduce (AV',EV') to a generalized real Schur form */
                     /*                 using orthogonal transformation matrices Q and Z */
                     /*                 such that Q'*AV'*Z results in a quasi-triangular form */
                     /*                 and Q'*EV'*Z results upper triangular. */
                     /*                 Total workspace needed: 2*NV*NV + 11*NV + 16. */
-                    *(unsigned char *)evtype = 'G';
+                    *(unsigned char*)evtype = 'G';
                     i__1 = *ldwork - kw + 1;
-                    dgges_("Vectors", "Vectors", "Not ordered", delctg_, nv, &av[av_offset], ldav, &ev[ev_offset], ldev, &sdim, &dwork[kar], &dwork[kai], &dwork[kb], &dwork[kq], &ldw, &dwork[kz], &ldw, &dwork[kw], &i__1, bwork, &ierr, 7L, 7L, 11L);
+                    dgges_("Vectors", "Vectors", "Not ordered", delctg_, nv, &av[av_offset], ldav,
+                        &ev[ev_offset], ldev, &sdim, &dwork[kar], &dwork[kai], &dwork[kb],
+                        &dwork[kq], &ldw, &dwork[kz], &ldw, &dwork[kw], &i__1, bwork, &ierr, 7L, 7L,
+                        11L);
                 }
-                if (ierr != 0)
-                {
+                if (ierr != 0) {
                     *info = 1;
                     return 0;
                 }
-                if (stabck)
-                {
+                if (stabck) {
                     /*                 Check stability/antistability of generalized */
                     /*                 eigenvalues of the pair (AV,EV). */
-                    ab09jx_(dico, stdom, evtype, nv, &alpha, &dwork[kar], &dwork[kai], &dwork[kb], &tolinf, &ierr, 1L, 1L, 1L);
-                    if (ierr != 0)
-                    {
+                    ab09jx_(dico, stdom, evtype, nv, &alpha, &dwork[kar], &dwork[kai], &dwork[kb],
+                        &tolinf, &ierr, 1L, 1L, 1L);
+                    if (ierr != 0) {
                         *info = 4;
                         return 0;
                     }
                 }
                 /* Computing MAX */
-                d__1 = work, d__2 = dwork[kw] + (doublereal) (kw - 1);
-                work = max(d__1,d__2);
+                d__1 = work, d__2 = dwork[kw] + (doublereal)(kw - 1);
+                work = max(d__1, d__2);
                 /*              Compute Z'*BV and CV*Q. */
                 /*              Total workspace needed: 2*NV*NV + NV*MAX(P,PV). */
                 kw = kar;
                 dlacpy_("Full", nv, pv, &bv[bv_offset], ldbv, &dwork[kw], &ldw, 4L);
-                dgemm_("T", "N", nv, pv, nv, &c_b24, &dwork[kz], &ldw, &dwork[kw], &ldw, &c_b18, &bv[bv_offset], ldbv, 1L, 1L);
+                dgemm_("T", "N", nv, pv, nv, &c_b24, &dwork[kz], &ldw, &dwork[kw], &ldw, &c_b18,
+                    &bv[bv_offset], ldbv, 1L, 1L);
                 dlacpy_("Full", p, nv, &cv[cv_offset], ldcv, &dwork[kw], p, 4L);
-                dgemm_("N", "N", p, nv, nv, &c_b24, &dwork[kw], p, &dwork[kq], &ldw, &c_b18, &cv[cv_offset], ldcv, 1L, 1L);
-            }
-            else
-            {
+                dgemm_("N", "N", p, nv, nv, &c_b24, &dwork[kw], p, &dwork[kq], &ldw, &c_b18,
+                    &cv[cv_offset], ldcv, 1L, 1L);
+            } else {
                 /*              Reduce (AV,EV) to a generalized real Schur form */
                 /*              using orthogonal transformation matrices Q and Z */
                 /*              such that Q'*AV*Z results in a quasi-triangular form */
                 /*              and Q'*EV*Z results upper triangular. */
                 /*              Total workspace needed: 2*NV*NV + 11*NV + 16. */
-                *(unsigned char *)stdom = 'U';
-                *(unsigned char *)evtype = 'G';
+                *(unsigned char*)stdom = 'U';
+                *(unsigned char*)evtype = 'G';
                 alpha -= sqrt(tolinf);
                 i__1 = *ldwork - kw + 1;
-                dgges_("Vectors", "Vectors", "Not ordered", delctg_, nv, &av[av_offset], ldav, &ev[ev_offset], ldev, &sdim, &dwork[kar], &dwork[kai], &dwork[kb], &dwork[kq], &ldw, &dwork[kz], &ldw, &dwork[kw], &i__1, bwork, &ierr, 7L, 7L, 11L);
-                if (ierr != 0)
-                {
+                dgges_("Vectors", "Vectors", "Not ordered", delctg_, nv, &av[av_offset], ldav,
+                    &ev[ev_offset], ldev, &sdim, &dwork[kar], &dwork[kai], &dwork[kb], &dwork[kq],
+                    &ldw, &dwork[kz], &ldw, &dwork[kw], &i__1, bwork, &ierr, 7L, 7L, 11L);
+                if (ierr != 0) {
                     *info = 1;
                     return 0;
                 }
-                if (stabck)
-                {
+                if (stabck) {
                     /*                 Check stability/antistability of generalized */
                     /*                 eigenvalues of the pair (AV,EV). */
-                    ab09jx_(dico, stdom, evtype, nv, &alpha, &dwork[kar], &dwork[kai], &dwork[kb], &tolinf, &ierr, 1L, 1L, 1L);
-                    if (ierr != 0)
-                    {
+                    ab09jx_(dico, stdom, evtype, nv, &alpha, &dwork[kar], &dwork[kai], &dwork[kb],
+                        &tolinf, &ierr, 1L, 1L, 1L);
+                    if (ierr != 0) {
                         *info = 4;
                         return 0;
                     }
                 }
                 /* Computing MAX */
-                d__1 = work, d__2 = dwork[kw] + (doublereal) (kw - 1);
-                work = max(d__1,d__2);
+                d__1 = work, d__2 = dwork[kw] + (doublereal)(kw - 1);
+                work = max(d__1, d__2);
                 /*              Compute Q'*BV and CV*Z. */
                 /*              Total workspace needed: 2*NV*NV + NV*MAX(P,PV). */
                 kw = kar;
                 dlacpy_("Full", nv, p, &bv[bv_offset], ldbv, &dwork[kw], &ldw, 4L);
-                dgemm_("T", "N", nv, p, nv, &c_b24, &dwork[kq], &ldw, &dwork[kw], &ldw, &c_b18, &bv[bv_offset], ldbv, 1L, 1L);
+                dgemm_("T", "N", nv, p, nv, &c_b24, &dwork[kq], &ldw, &dwork[kw], &ldw, &c_b18,
+                    &bv[bv_offset], ldbv, 1L, 1L);
                 dlacpy_("Full", pv, nv, &cv[cv_offset], ldcv, &dwork[kw], pv, 4L);
-                dgemm_("N", "N", pv, nv, nv, &c_b24, &dwork[kw], pv, &dwork[kz], &ldw, &c_b18, &cv[cv_offset], ldcv, 1L, 1L);
+                dgemm_("N", "N", pv, nv, nv, &c_b24, &dwork[kw], pv, &dwork[kz], &ldw, &c_b18,
+                    &cv[cv_offset], ldcv, 1L, 1L);
             }
             /* Computing MAX */
-            d__1 = work, d__2 = (doublereal) ((*nv << 1) **nv + *nv * max(*p,*pv));
-            work = max(d__1,d__2);
+            d__1 = work, d__2 = (doublereal)((*nv << 1) * *nv + *nv * max(*p, *pv));
+            work = max(d__1, d__2);
         }
         kc = 1;
-        kf = kc + *nv **n;
-        ke = kf + *nv **n;
-        kw = ke + *n **n;
+        kf = kc + *nv * *n;
+        ke = kf + *nv * *n;
+        kw = ke + *n * *n;
         dlaset_("Full", nv, n, &c_b18, &c_b18, &dwork[kf], &ldw, 4L);
-        if (conjs)
-        {
+        if (conjs) {
             /*           Compute the projection of conj(V)*G. */
             /*           Total workspace needed: NV*N + MAX( NV*N+N*N, PV*N, PV*M ) */
             /*           Compute CV'*C. */
             /*           Workspace needed: NV*N. */
-            dgemm_("T", "N", nv, n, p, &c_b24, &cv[cv_offset], ldcv, &c__[c_offset], ldc, &c_b18, &dwork[kc], &ldw, 1L, 1L);
-            if (discr)
-            {
+            dgemm_("T", "N", nv, n, p, &c_b24, &cv[cv_offset], ldcv, &c__[c_offset], ldc, &c_b18,
+                &dwork[kc], &ldw, 1L, 1L);
+            if (discr) {
                 /*              Compute X and SCALE satisfying */
                 /*              EV'*X - AV'*X*A = SCALE*CV'*C by solving equivalently */
                 /*              EV'*X - Y*A = SCALE*CV'*C, */
@@ -805,13 +762,13 @@ ftnlen stbchk_len;
                 /*              Additional workspace needed: */
                 /*              real    NV*N + N*N; */
                 /*              integer NV+N+6. */
-                if (*n > 0)
-                {
+                if (*n > 0) {
                     dlaset_("Full", n, n, &c_b18, &c_b24, &dwork[ke], &ldwn, 4L);
                     i__1 = *ldwork - kw + 1;
-                    dtgsyl_("N", &c__0, nv, n, &ev[ev_offset], ldev, &a[a_offset], lda, &dwork[kc], &ldw, &av[av_offset], ldav, &dwork[ke], &ldwn, &dwork[kf], &ldw, &scale, &dif, &dwork[kw], &i__1, &iwork[1], &ierr, 1L);
-                    if (ierr != 0)
-                    {
+                    dtgsyl_("N", &c__0, nv, n, &ev[ev_offset], ldev, &a[a_offset], lda, &dwork[kc],
+                        &ldw, &av[av_offset], ldav, &dwork[ke], &ldwn, &dwork[kf], &ldw, &scale,
+                        &dif, &dwork[kw], &i__1, &iwork[1], &ierr, 1L);
+                    if (ierr != 0) {
                         *info = 2;
                         return 0;
                     }
@@ -821,20 +778,23 @@ ftnlen stbchk_len;
                 /*              Additional workspace needed: MAX( PV*N, PV*M ). */
                 /*              C <- DV'*C. */
                 kw = kf;
-                dgemm_("T", "N", pv, n, p, &c_b24, &dv[dv_offset], lddv, &c__[c_offset], ldc, &c_b18, &dwork[kw], pv, 1L, 1L);
+                dgemm_("T", "N", pv, n, p, &c_b24, &dv[dv_offset], lddv, &c__[c_offset], ldc,
+                    &c_b18, &dwork[kw], pv, 1L, 1L);
                 dlacpy_("Full", pv, n, &dwork[kw], pv, &c__[c_offset], ldc, 4L);
                 /*              D <- DV'*D. */
-                dgemm_("T", "N", pv, m, p, &c_b24, &dv[dv_offset], lddv, &d__[d_offset], ldd, &c_b18, &dwork[kw], pv, 1L, 1L);
+                dgemm_("T", "N", pv, m, p, &c_b24, &dv[dv_offset], lddv, &d__[d_offset], ldd,
+                    &c_b18, &dwork[kw], pv, 1L, 1L);
                 dlacpy_("Full", pv, m, &dwork[kw], pv, &d__[d_offset], ldd, 4L);
                 /*              C <- C + BV'*X*A/SCALE. */
                 d__1 = 1. / scale;
-                dgemm_("T", "N", pv, n, nv, &d__1, &bv[bv_offset], ldbv, &dwork[kc], &ldw, &c_b18, &dwork[kw], pv, 1L, 1L);
-                dgemm_("N", "N", pv, n, n, &c_b24, &dwork[kw], pv, &a[a_offset], lda, &c_b24, &c__[c_offset], ldc, 1L, 1L);
+                dgemm_("T", "N", pv, n, nv, &d__1, &bv[bv_offset], ldbv, &dwork[kc], &ldw, &c_b18,
+                    &dwork[kw], pv, 1L, 1L);
+                dgemm_("N", "N", pv, n, n, &c_b24, &dwork[kw], pv, &a[a_offset], lda, &c_b24,
+                    &c__[c_offset], ldc, 1L, 1L);
                 /*              D <- D + BV'*X*B/SCALE. */
-                dgemm_("N", "N", pv, m, n, &c_b24, &dwork[kw], pv, &b[b_offset], ldb, &c_b24, &d__[d_offset], ldd, 1L, 1L);
-            }
-            else
-            {
+                dgemm_("N", "N", pv, m, n, &c_b24, &dwork[kw], pv, &b[b_offset], ldb, &c_b24,
+                    &d__[d_offset], ldd, 1L, 1L);
+            } else {
                 /*              Compute X and SCALE satisfying */
                 /*              AV'*X + EV'*X*A + SCALE*CV'*C = 0 by solving equivalently */
                 /*              AV'*X - Y*A    = -SCALE*CV'*C, */
@@ -842,36 +802,38 @@ ftnlen stbchk_len;
                 /*              Additional workspace needed: */
                 /*              real    NV*N+N*N; */
                 /*              integer NV+N+6. */
-                if (*n > 0)
-                {
+                if (*n > 0) {
                     dlaset_("Full", n, n, &c_b18, &c_b17, &dwork[ke], &ldwn, 4L);
                     i__1 = *ldwork - kw + 1;
-                    dtgsyl_("N", &c__0, nv, n, &av[av_offset], ldav, &a[a_offset], lda, &dwork[kc], &ldw, &ev[ev_offset], ldev, &dwork[ke], &ldwn, &dwork[kf], &ldw, &scale, &dif, &dwork[kw], &i__1, &iwork[1], &ierr, 1L);
+                    dtgsyl_("N", &c__0, nv, n, &av[av_offset], ldav, &a[a_offset], lda, &dwork[kc],
+                        &ldw, &ev[ev_offset], ldev, &dwork[ke], &ldwn, &dwork[kf], &ldw, &scale,
+                        &dif, &dwork[kw], &i__1, &iwork[1], &ierr, 1L);
                     /*                 Note that the computed solution in DWORK(KC) is -X. */
-                    if (ierr != 0)
-                    {
+                    if (ierr != 0) {
                         *info = 2;
                         return 0;
                     }
                 }
                 /*              Construct C <- DV'*C + BV'*X/SCALE. */
                 kw = kf;
-                dgemm_("T", "N", pv, n, p, &c_b24, &dv[dv_offset], lddv, &c__[c_offset], ldc, &c_b18, &dwork[kw], pv, 1L, 1L);
+                dgemm_("T", "N", pv, n, p, &c_b24, &dv[dv_offset], lddv, &c__[c_offset], ldc,
+                    &c_b18, &dwork[kw], pv, 1L, 1L);
                 dlacpy_("Full", pv, n, &dwork[kw], pv, &c__[c_offset], ldc, 4L);
                 d__1 = -1. / scale;
-                dgemm_("T", "N", pv, n, nv, &d__1, &bv[bv_offset], ldbv, &dwork[kc], &ldw, &c_b24, &c__[c_offset], ldc, 1L, 1L);
+                dgemm_("T", "N", pv, n, nv, &d__1, &bv[bv_offset], ldbv, &dwork[kc], &ldw, &c_b24,
+                    &c__[c_offset], ldc, 1L, 1L);
                 /*              Construct D <- DV'*D. */
-                dgemm_("T", "N", pv, m, p, &c_b24, &dv[dv_offset], lddv, &d__[d_offset], ldd, &c_b18, &dwork[kw], pv, 1L, 1L);
+                dgemm_("T", "N", pv, m, p, &c_b24, &dv[dv_offset], lddv, &d__[d_offset], ldd,
+                    &c_b18, &dwork[kw], pv, 1L, 1L);
                 dlacpy_("Full", pv, m, &dwork[kw], pv, &d__[d_offset], ldd, 4L);
             }
-        }
-        else
-        {
+        } else {
             /*           Compute the projection of V*G. */
             /*           Total workspace needed: NV*N + MAX( NV*N+N*N, PV*N, PV*M ) */
             /*           Compute -BV*C. */
             /*           Workspace needed: NV*N. */
-            dgemm_("N", "N", nv, n, p, &c_b17, &bv[bv_offset], ldbv, &c__[c_offset], ldc, &c_b18, &dwork[1], &ldw, 1L, 1L);
+            dgemm_("N", "N", nv, n, p, &c_b17, &bv[bv_offset], ldbv, &c__[c_offset], ldc, &c_b18,
+                &dwork[1], &ldw, 1L, 1L);
             /*           Compute X and SCALE satisfying */
             /*           AV*X - EV*X*A + SCALE*BV*C = 0 by solving equivalently */
             /*           AV*X - Y*A = -SCALE*BV*C, */
@@ -879,32 +841,34 @@ ftnlen stbchk_len;
             /*           Additional workspace needed: */
             /*           real    NV*N + N*N; */
             /*           integer NV+N+6. */
-            if (*n > 0)
-            {
+            if (*n > 0) {
                 dlaset_("Full", n, n, &c_b18, &c_b24, &dwork[ke], &ldwn, 4L);
                 i__1 = *ldwork - kw + 1;
-                dtgsyl_("N", &c__0, nv, n, &av[av_offset], ldav, &a[a_offset], lda, &dwork[kc], &ldw, &ev[ev_offset], ldev, &dwork[ke], &ldwn, &dwork[kf], &ldw, &scale, &dif, &dwork[kw], &i__1, &iwork[1], &ierr, 1L);
-                if (ierr != 0)
-                {
+                dtgsyl_("N", &c__0, nv, n, &av[av_offset], ldav, &a[a_offset], lda, &dwork[kc],
+                    &ldw, &ev[ev_offset], ldev, &dwork[ke], &ldwn, &dwork[kf], &ldw, &scale, &dif,
+                    &dwork[kw], &i__1, &iwork[1], &ierr, 1L);
+                if (ierr != 0) {
                     *info = 2;
                     return 0;
                 }
             }
             /*           Construct C <- DV*C + CV*X/SCALE. */
             kw = kf;
-            dgemm_("N", "N", pv, n, p, &c_b24, &dv[dv_offset], lddv, &c__[c_offset], ldc, &c_b18, &dwork[kw], pv, 1L, 1L);
+            dgemm_("N", "N", pv, n, p, &c_b24, &dv[dv_offset], lddv, &c__[c_offset], ldc, &c_b18,
+                &dwork[kw], pv, 1L, 1L);
             dlacpy_("Full", pv, n, &dwork[kw], pv, &c__[c_offset], ldc, 4L);
             d__1 = 1. / scale;
-            dgemm_("N", "N", pv, n, nv, &d__1, &cv[cv_offset], ldcv, &dwork[1], &ldw, &c_b24, &c__[c_offset], ldc, 1L, 1L);
+            dgemm_("N", "N", pv, n, nv, &d__1, &cv[cv_offset], ldcv, &dwork[1], &ldw, &c_b24,
+                &c__[c_offset], ldc, 1L, 1L);
             /*           Construct D <- DV*D. */
-            dgemm_("N", "N", pv, m, p, &c_b24, &dv[dv_offset], lddv, &d__[d_offset], ldd, &c_b18, &dwork[kw], pv, 1L, 1L);
+            dgemm_("N", "N", pv, m, p, &c_b24, &dv[dv_offset], lddv, &d__[d_offset], ldd, &c_b18,
+                &dwork[kw], pv, 1L, 1L);
             dlacpy_("Full", pv, m, &dwork[kw], pv, &d__[d_offset], ldd, 4L);
         }
     }
     /* Computing MAX */
-    d__1 = work, d__2 = (doublereal) lw;
-    dwork[1] = max(d__1,d__2);
+    d__1 = work, d__2 = (doublereal)lw;
+    dwork[1] = max(d__1, d__2);
     return 0;
     /* *** Last line of AB09JV *** */
 } /* ab09jv_ */
-

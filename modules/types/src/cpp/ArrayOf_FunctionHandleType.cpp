@@ -19,43 +19,42 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool ArrayOf::isFunctionHandle()
-    {
-        if (this->isClassStruct())
-        {
-            std::string classString = this->getStructType();
-            return (classString == NLS_FUNCTION_HANDLE_STR);
-        }
-        return false;
-    }
-    //=============================================================================
-    function_handle ArrayOf::getContentAsFunctionHandle()
-    {
-        function_handle fh = 0;
+//=============================================================================
+bool
+ArrayOf::isFunctionHandle()
+{
+    if (this->isClassStruct()) {
         std::string classString = this->getStructType();
-        if (classString == NLS_FUNCTION_HANDLE_STR)
-        {
-            ArrayOf value1 = this->getField(NLS_FUNCTION_HANDLE_STR);
-            fh = value1.getContentAsUnsignedInt64Scalar();
-        }
-        else
-        {
-            throw Exception(_W("Expected a function_handle."));
-        }
-        return fh;
+        return (classString == NLS_FUNCTION_HANDLE_STR);
     }
-    //=============================================================================
-    ArrayOf ArrayOf::functionHandleConstructor(std::wstring functionName, function_handle fptr)
-    {
-        stringVector fieldnames;
-        ArrayOfVector fieldvalues;
-        fieldnames.push_back(NLS_FUNCTION_HANDLE_STR);
-        fieldvalues.push_back(ArrayOf::uint64Constructor(fptr));
-        ArrayOf res = structConstructor(fieldnames, fieldvalues);
-        res.setStructType(NLS_FUNCTION_HANDLE_STR);
-        return res;
+    return false;
+}
+//=============================================================================
+function_handle
+ArrayOf::getContentAsFunctionHandle()
+{
+    function_handle fh = 0;
+    std::string classString = this->getStructType();
+    if (classString == NLS_FUNCTION_HANDLE_STR) {
+        ArrayOf value1 = this->getField(NLS_FUNCTION_HANDLE_STR);
+        fh = value1.getContentAsUnsignedInt64Scalar();
+    } else {
+        throw Exception(_W("Expected a function_handle."));
     }
-    //=============================================================================
+    return fh;
+}
+//=============================================================================
+ArrayOf
+ArrayOf::functionHandleConstructor(std::wstring functionName, function_handle fptr)
+{
+    stringVector fieldnames;
+    ArrayOfVector fieldvalues;
+    fieldnames.push_back(NLS_FUNCTION_HANDLE_STR);
+    fieldvalues.push_back(ArrayOf::uint64Constructor(fptr));
+    ArrayOf res = structConstructor(fieldnames, fieldvalues);
+    res.setStructType(NLS_FUNCTION_HANDLE_STR);
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

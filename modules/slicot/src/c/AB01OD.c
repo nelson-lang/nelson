@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,27 +11,30 @@ static doublereal c_b11 = 0.;
 static doublereal c_b12 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int ab01od_(stages, jobu, jobv, n, m, a, lda, b, ldb, u, ldu, v, ldv, ncont, indcon, kstair, tol, iwork, dwork, ldwork, info, stages_len, jobu_len, jobv_len)
-char *stages, *jobu, *jobv;
+EXPORTSYMBOL /* Subroutine */ int ab01od_(stages, jobu, jobv, n, m, a, lda, b, ldb, u, ldu, v, ldv,
+    ncont, indcon, kstair, tol, iwork, dwork, ldwork, info, stages_len, jobu_len,
+    jobv_len) char *stages,
+    *jobu, *jobv;
 integer *n, *m;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *u;
-integer *ldu;
-doublereal *v;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* u;
+integer* ldu;
+doublereal* v;
 integer *ldv, *ncont, *indcon, *kstair;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen stages_len;
 ftnlen jobu_len;
 ftnlen jobv_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, u_dim1, u_offset, v_dim1, v_offset, i__1, i__2, i__3, i__4, i__5, i__6;
+    integer a_dim1, a_offset, b_dim1, b_offset, u_dim1, u_offset, v_dim1, v_offset, i__1, i__2,
+        i__3, i__4, i__5, i__6;
     /* Local variables */
     static integer jini, itau, mcrt, ncrt;
     extern /* Subroutine */ int ab01nd_();
@@ -290,91 +293,61 @@ ftnlen jobv_len;
     ljobui = lsame_(jobu, "I", 1L, 1L);
     lstagb = lsame_(stages, "B", 1L, 1L);
     lstgab = lsame_(stages, "A", 1L, 1L) || lstagb;
-    if (lstgab)
-    {
+    if (lstgab) {
         ljobvi = lsame_(jobv, "I", 1L, 1L);
     }
     /*     Test the input scalar arguments. */
-    if (! lstgab && ! lsame_(stages, "F", 1L, 1L))
-    {
+    if (!lstgab && !lsame_(stages, "F", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! ljobui && ! lsame_(jobu, "N", 1L, 1L))
-    {
+    } else if (!ljobui && !lsame_(jobu, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -5;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldu < 1 || ljobui && *ldu < *n)
-    {
+    } else if (*ldu < 1 || ljobui && *ldu < *n) {
         *info = -11;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         /* Computing MAX */
         i__3 = *n, i__4 = *m * 3;
-        i__1 = 1, i__2 = *n + max(i__3,i__4);
+        i__1 = 1, i__2 = *n + max(i__3, i__4);
         /* Computing MAX */
-        i__5 = 1, i__6 = *m + max(*n,*m);
-        if (! lstagb && *ldwork < max(i__1,i__2) || lstagb && *ldwork < max(i__5,i__6))
-        {
+        i__5 = 1, i__6 = *m + max(*n, *m);
+        if (!lstagb && *ldwork < max(i__1, i__2) || lstagb && *ldwork < max(i__5, i__6)) {
             *info = -20;
-        }
-        else if (lstagb && *ncont > *n)
-        {
+        } else if (lstagb && *ncont > *n) {
             *info = -14;
-        }
-        else if (lstagb && *indcon > *n)
-        {
+        } else if (lstagb && *indcon > *n) {
             *info = -15;
-        }
-        else if (lstgab)
-        {
-            if (! ljobvi && ! lsame_(jobv, "N", 1L, 1L))
-            {
+        } else if (lstgab) {
+            if (!ljobvi && !lsame_(jobv, "N", 1L, 1L)) {
                 *info = -3;
-            }
-            else if (*ldv < 1 || ljobvi && *ldv < *m)
-            {
+            } else if (*ldv < 1 || ljobvi && *ldv < *m) {
                 *info = -13;
             }
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB01OD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (min(*n,*m) == 0)
-    {
+    if (min(*n, *m) == 0) {
         *ncont = 0;
         *indcon = 0;
-        if (*n > 0 && ljobui)
-        {
+        if (*n > 0 && ljobui) {
             dlaset_("F", n, n, &c_b11, &c_b12, &u[u_offset], ldu, 1L);
         }
-        if (lstgab)
-        {
-            if (*m > 0 && ljobvi)
-            {
+        if (lstgab) {
+            if (*m > 0 && ljobvi) {
                 dlaset_("F", m, m, &c_b11, &c_b12, &v[v_offset], ldv, 1L);
             }
         }
@@ -388,43 +361,38 @@ ftnlen jobv_len;
     /*     following subroutine, as returned by ILAENV.) */
     itau = 1;
     wrkopt = 1;
-    if (! lstagb)
-    {
+    if (!lstagb) {
         /*        Perform the forward stage computations of the staircase */
         /*        algorithm on B and A: reduce the (A, B) pair to orthogonal */
         /*        canonical form. */
         /*        Workspace: N + MAX(N,3*M). */
         jwork = *n + 1;
         i__1 = *ldwork - jwork + 1;
-        ab01nd_(jobu, n, m, &a[a_offset], lda, &b[b_offset], ldb, ncont, indcon, &kstair[1], &u[u_offset], ldu, &dwork[itau], tol, &iwork[1], &dwork[jwork], &i__1, info, 1L);
-        wrkopt = (integer) dwork[jwork] + jwork - 1;
+        ab01nd_(jobu, n, m, &a[a_offset], lda, &b[b_offset], ldb, ncont, indcon, &kstair[1],
+            &u[u_offset], ldu, &dwork[itau], tol, &iwork[1], &dwork[jwork], &i__1, info, 1L);
+        wrkopt = (integer)dwork[jwork] + jwork - 1;
     }
     /*     Exit if no further reduction to triangularize B1 and subdiagonal */
     /*     blocks of A is required, or if the order of the controllable part */
     /*     is 0. */
-    if (! lstgab)
-    {
-        dwork[1] = (doublereal) wrkopt;
+    if (!lstgab) {
+        dwork[1] = (doublereal)wrkopt;
         return 0;
-    }
-    else if (*ncont == 0 || *indcon == 0)
-    {
-        if (ljobvi)
-        {
+    } else if (*ncont == 0 || *indcon == 0) {
+        if (ljobvi) {
             dlaset_("F", m, m, &c_b11, &c_b12, &v[v_offset], ldv, 1L);
         }
-        dwork[1] = (doublereal) wrkopt;
+        dwork[1] = (doublereal)wrkopt;
         return 0;
     }
     /*     Now perform the backward steps except the last one. */
     mcrt = kstair[*indcon];
     i0 = *ncont - mcrt + 1;
     jwork = *m + 1;
-    for (ibstep = *indcon; ibstep >= 2; --ibstep)
-    {
+    for (ibstep = *indcon; ibstep >= 2; --ibstep) {
         ncrt = kstair[ibstep - 1];
         j0 = i0 - ncrt;
-        mm = min(ncrt,mcrt);
+        mm = min(ncrt, mcrt);
         /*        Compute the RQ factorization of the current subdiagonal block */
         /*        of A, Ai,i-1 = R*Q (where i is IBSTEP), of dimension */
         /*        MCRT-by-NCRT, starting in position (I0,J0). */
@@ -434,62 +402,61 @@ ftnlen jobv_len;
         i__1 = *ldwork - jwork + 1;
         dgerqf_(&mcrt, &ncrt, &a[i0 + j0 * a_dim1], lda, &dwork[itau], &dwork[jwork], &i__1, info);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__1, i__2);
         /*        Set JINI to the first column number in A where the current */
         /*        transformation Q is to be applied, taking the block Hessenberg */
         /*        form into account. */
-        if (ibstep > 2)
-        {
+        if (ibstep > 2) {
             jini = j0 - kstair[ibstep - 2];
-        }
-        else
-        {
+        } else {
             jini = 1;
             /*           Premultiply the first block row (B1) of B by Q. */
             /*           Workspace: need   2*M; */
             /*                      prefer M + M*NB. */
             i__1 = *ldwork - jwork + 1;
-            dormrq_("Left", "No transpose", &ncrt, m, &mm, &a[i0 + j0 * a_dim1], lda, &dwork[itau], &b[b_offset], ldb, &dwork[jwork], &i__1, info, 4L, 12L);
+            dormrq_("Left", "No transpose", &ncrt, m, &mm, &a[i0 + j0 * a_dim1], lda, &dwork[itau],
+                &b[b_offset], ldb, &dwork[jwork], &i__1, info, 4L, 12L);
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+            wrkopt = max(i__1, i__2);
         }
         /*        Premultiply the appropriate block row of A by Q. */
         /*        Workspace: need   M + N; */
         /*                   prefer M + N*NB. */
         i__1 = *n - jini + 1;
         i__2 = *ldwork - jwork + 1;
-        dormrq_("Left", "No transpose", &ncrt, &i__1, &mm, &a[i0 + j0 * a_dim1], lda, &dwork[itau], &a[j0 + jini * a_dim1], lda, &dwork[jwork], &i__2, info, 4L, 12L);
+        dormrq_("Left", "No transpose", &ncrt, &i__1, &mm, &a[i0 + j0 * a_dim1], lda, &dwork[itau],
+            &a[j0 + jini * a_dim1], lda, &dwork[jwork], &i__2, info, 4L, 12L);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__1, i__2);
         /*        Postmultiply the appropriate block column of A by Q'. */
         /*        Workspace: need   M +  I0-1; */
         /*                   prefer M + (I0-1)*NB. */
         i__1 = i0 - 1;
         i__2 = *ldwork - jwork + 1;
-        dormrq_("Right", "Transpose", &i__1, &ncrt, &mm, &a[i0 + j0 * a_dim1], lda, &dwork[itau], &a[j0 * a_dim1 + 1], lda, &dwork[jwork], &i__2, info, 5L, 9L);
+        dormrq_("Right", "Transpose", &i__1, &ncrt, &mm, &a[i0 + j0 * a_dim1], lda, &dwork[itau],
+            &a[j0 * a_dim1 + 1], lda, &dwork[jwork], &i__2, info, 5L, 9L);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__1,i__2);
-        if (ljobui)
-        {
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__1, i__2);
+        if (ljobui) {
             /*           Update U, postmultiplying it by Q'. */
             /*           Workspace: need   M + N; */
             /*                      prefer M + N*NB. */
             i__1 = *ldwork - jwork + 1;
-            dormrq_("Right", "Transpose", n, &ncrt, &mm, &a[i0 + j0 * a_dim1], lda, &dwork[itau], &u[j0 * u_dim1 + 1], ldu, &dwork[jwork], &i__1, info, 5L, 9L);
+            dormrq_("Right", "Transpose", n, &ncrt, &mm, &a[i0 + j0 * a_dim1], lda, &dwork[itau],
+                &u[j0 * u_dim1 + 1], ldu, &dwork[jwork], &i__1, info, 5L, 9L);
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+            wrkopt = max(i__1, i__2);
         }
         /*        Zero the subdiagonal elements of the current subdiagonal block */
         /*        of A. */
         i__1 = ncrt - mcrt;
         dlaset_("F", &mcrt, &i__1, &c_b11, &c_b11, &a[i0 + j0 * a_dim1], lda, 1L);
-        if (i0 < *n)
-        {
+        if (i0 < *n) {
             i__1 = mcrt - 1;
             i__2 = mcrt - 1;
             dlaset_("L", &i__1, &i__2, &c_b11, &c_b11, &a[i0 + 1 + (i0 - mcrt) * a_dim1], lda, 1L);
@@ -505,45 +472,41 @@ ftnlen jobv_len;
     i__1 = *ldwork - jwork + 1;
     dgerqf_(&mcrt, m, &b[b_offset], ldb, &dwork[itau], &dwork[jwork], &i__1, info);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
-    if (ljobvi)
-    {
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
+    if (ljobvi) {
         /*        Accumulate the input-space transformations V. */
         /*        Workspace: need 2*M;  prefer M + M*NB. */
         i__1 = *m - mcrt;
         dlacpy_("F", &mcrt, &i__1, &b[b_offset], ldb, &v[*m - mcrt + 1 + v_dim1], ldv, 1L);
-        if (mcrt > 1)
-        {
+        if (mcrt > 1) {
             i__1 = mcrt - 1;
             i__2 = mcrt - 1;
-            dlacpy_("L", &i__1, &i__2, &b[(*m - mcrt + 1) * b_dim1 + 2], ldb, &v[*m - mcrt + 2 + (*m - mcrt + 1) * v_dim1], ldv, 1L);
+            dlacpy_("L", &i__1, &i__2, &b[(*m - mcrt + 1) * b_dim1 + 2], ldb,
+                &v[*m - mcrt + 2 + (*m - mcrt + 1) * v_dim1], ldv, 1L);
         }
         i__1 = *ldwork - jwork + 1;
         dorgrq_(m, m, &mcrt, &v[v_offset], ldv, &dwork[itau], &dwork[jwork], &i__1, info);
         i__1 = *m;
-        for (i__ = 2; i__ <= i__1; ++i__)
-        {
+        for (i__ = 2; i__ <= i__1; ++i__) {
             i__2 = i__ - 1;
             dswap_(&i__2, &v[i__ + v_dim1], ldv, &v[i__ * v_dim1 + 1], &c__1);
             /* L20: */
         }
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__1, i__2);
     }
     /*     Zero the subdiagonal elements of the submatrix B1. */
     i__1 = *m - mcrt;
     dlaset_("F", &mcrt, &i__1, &c_b11, &c_b11, &b[b_offset], ldb, 1L);
-    if (mcrt > 1)
-    {
+    if (mcrt > 1) {
         i__1 = mcrt - 1;
         i__2 = mcrt - 1;
         dlaset_("L", &i__1, &i__2, &c_b11, &c_b11, &b[(*m - mcrt + 1) * b_dim1 + 2], ldb, 1L);
     }
     /*     Set optimal workspace dimension. */
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of AB01OD *** */
 } /* ab01od_ */
-

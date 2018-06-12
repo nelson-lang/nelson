@@ -18,12 +18,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsConstructors_functions_exports.h"
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
+#include "nlsConstructors_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf Ones(Evaluator *eval, Class cl);
-    NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf Ones(Evaluator *eval, Dimensions dims, Class cl);
-}
+NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
+Ones(Evaluator* eval, Class cl);
+NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
+Ones(Evaluator* eval, Dimensions dims, Class cl);
+} // namespace Nelson
 //=============================================================================

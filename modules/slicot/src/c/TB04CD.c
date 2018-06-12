@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,28 +9,31 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tb04cd_(jobd, equil, n, m, p, npz, a, lda, b, ldb, c__, ldc, d__, ldd, nz, ldnz, np, ldnp, zerosr, zerosi, polesr, polesi, gains, ldgain, tol, iwork, dwork, ldwork, info, jobd_len, equil_len)
-char *jobd, *equil;
+EXPORTSYMBOL /* Subroutine */ int tb04cd_(jobd, equil, n, m, p, npz, a, lda, b, ldb, c__, ldc, d__,
+    ldd, nz, ldnz, np, ldnp, zerosr, zerosi, polesr, polesi, gains, ldgain, tol, iwork, dwork,
+    ldwork, info, jobd_len, equil_len) char *jobd,
+    *equil;
 integer *n, *m, *p, *npz;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ldd, *nz, *ldnz, *np, *ldnp;
 doublereal *zerosr, *zerosi, *polesr, *polesi, *gains;
-integer *ldgain;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+integer* ldgain;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen jobd_len;
 ftnlen equil_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, gains_dim1, gains_offset, np_dim1, np_offset, nz_dim1, nz_offset, i__1, i__2, i__3, i__4;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, gains_dim1,
+        gains_offset, np_dim1, np_offset, nz_dim1, nz_offset, i__1, i__2, i__3, i__4;
     doublereal d__1, d__2;
     /* Local variables */
     static integer ierr, itau;
@@ -296,71 +299,43 @@ ftnlen equil_len;
     /* Function Body */
     *info = 0;
     withd = lsame_(jobd, "D", 1L, 1L);
-    if (! withd && ! lsame_(jobd, "Z", 1L, 1L))
-    {
+    if (!withd && !lsame_(jobd, "Z", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! (lsame_(equil, "S", 1L, 1L) || lsame_(equil, "N", 1L, 1L)))
-    {
+    } else if (!(lsame_(equil, "S", 1L, 1L) || lsame_(equil, "N", 1L, 1L))) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -5;
-    }
-    else if (*npz < 0)
-    {
+    } else if (*npz < 0) {
         *info = -6;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -12;
-    }
-    else if (*ldd < 1 || withd && *ldd < *p)
-    {
+    } else if (*ldd < 1 || withd && *ldd < *p) {
         *info = -14;
-    }
-    else if (*ldnz < max(1,*p))
-    {
+    } else if (*ldnz < max(1, *p)) {
         *info = -16;
-    }
-    else if (*ldnp < max(1,*p))
-    {
+    } else if (*ldnp < max(1, *p)) {
         *info = -18;
-    }
-    else if (*ldgain < max(1,*p))
-    {
+    } else if (*ldgain < max(1, *p)) {
         *info = -24;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         /* Computing MAX */
-        i__3 = *n + max(*n,*p), i__4 = *n * ((*n << 1) + 3);
-        i__1 = 1, i__2 = *n * (*n + *p) + max(i__3,i__4);
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__3 = *n + max(*n, *p), i__4 = *n * ((*n << 1) + 3);
+        i__1 = 1, i__2 = *n * (*n + *p) + max(i__3, i__4);
+        if (*ldwork < max(i__1, i__2)) {
             *info = -28;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TB04CD", &i__1, 6L);
@@ -369,21 +344,16 @@ ftnlen equil_len;
     /*     Quick return if possible. */
     dij = 0.;
     /* Computing MIN */
-    i__1 = min(*n,*p);
-    if (min(i__1,*m) == 0)
-    {
-        if (min(*p,*m) > 0)
-        {
+    i__1 = min(*n, *p);
+    if (min(i__1, *m) == 0) {
+        if (min(*p, *m) > 0) {
             i__1 = *m;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *p;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     nz[i__ + j * nz_dim1] = 0;
                     np[i__ + j * np_dim1] = 0;
-                    if (withd)
-                    {
+                    if (withd) {
                         dij = d__[i__ + j * d_dim1];
                     }
                     gains[i__ + j * gains_dim1] = dij;
@@ -397,35 +367,33 @@ ftnlen equil_len;
     }
     /*     Prepare the computation of the default tolerance. */
     toldef = *tol;
-    if (toldef <= 0.)
-    {
-        epsn = (doublereal) (*n) * dlamch_("Epsilon", 7L);
+    if (toldef <= 0.) {
+        epsn = (doublereal)(*n) * dlamch_("Epsilon", 7L);
         anorm = dlange_("Frobenius", n, n, &a[a_offset], lda, &dwork[1], 9L);
     }
     /*     Initializations. */
     ia = 1;
-    ic = ia + *n **n;
-    itau = ic + *p **n;
+    ic = ia + *n * *n;
+    itau = ic + *p * *n;
     jwork = itau + *n;
     iac = itau;
     k = 1;
     /*     (Note: Comments in the code beginning "Workspace:" describe the */
     /*     minimal amount of real workspace needed at that point in the */
     /*     code, as well as the preferred amount for good performance.) */
-    if (lsame_(equil, "S", 1L, 1L))
-    {
+    if (lsame_(equil, "S", 1L, 1L)) {
         /*        Scale simultaneously the matrices A, B and C: */
         /*        A <- inv(S)*A*S,  B <- inv(S)*B and C <- C*S, where S is a */
         /*        diagonal scaling matrix. */
         /*        Workspace: need   N. */
         maxred = 100.;
-        tb01id_("All", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[1], &ierr, 3L);
+        tb01id_("All", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+            &dwork[1], &ierr, 3L);
     }
     /*     Compute the transfer function matrix of the system (A,B,C,D), */
     /*     in the pole-zero-gain form. */
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         /*        Save A and C. */
         /*        Workspace: need   W1 = N*(N+P). */
         dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[ia], n, 4L);
@@ -434,10 +402,10 @@ ftnlen equil_len;
         /*        Workspace: need   W1+N+MAX(N,P); */
         /*                   prefer larger. */
         i__2 = *ldwork - jwork + 1;
-        tb01zd_("No Z", n, p, &dwork[ia], n, &b[j * b_dim1 + 1], &dwork[ic], p, &ncont, z__, &c__1, &dwork[itau], tol, &dwork[jwork], &i__2, &ierr, 4L);
-        if (j == 1)
-        {
-            wrkopt = (integer) dwork[jwork] + jwork - 1;
+        tb01zd_("No Z", n, p, &dwork[ia], n, &b[j * b_dim1 + 1], &dwork[ic], p, &ncont, z__, &c__1,
+            &dwork[itau], tol, &dwork[jwork], &i__2, &ierr, 4L);
+        if (j == 1) {
+            wrkopt = (integer)dwork[jwork] + jwork - 1;
         }
         ib = iac + ncont * ncont;
         icc = ib + ncont;
@@ -446,12 +414,9 @@ ftnlen equil_len;
         ias = itau1;
         jwork1 = ias + ncont * ncont;
         i__2 = *p;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            if (ncont > 0)
-            {
-                if (withd)
-                {
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            if (ncont > 0) {
+                if (withd) {
                     dij = d__[i__ + j * d_dim1];
                 }
                 /*              Form the matrices of the state-space representation of */
@@ -464,15 +429,14 @@ ftnlen equil_len;
                 /*              Workspace: need   W2+2*N; */
                 /*                         prefer larger. */
                 i__3 = *ldwork - jwk + 1;
-                tb01zd_("No Z", &ncont, &c__1, &dwork[iac], &ncont, &dwork[icc], &dwork[ib], &c__1, &ip, z__, &c__1, &dwork[itau1], tol, &dwork[jwk], &i__3, &ierr, 4L);
-                if (i__ == 1)
-                {
+                tb01zd_("No Z", &ncont, &c__1, &dwork[iac], &ncont, &dwork[icc], &dwork[ib], &c__1,
+                    &ip, z__, &c__1, &dwork[itau1], tol, &dwork[jwk], &i__3, &ierr, 4L);
+                if (i__ == 1) {
                     /* Computing MAX */
-                    i__3 = wrkopt, i__4 = (integer) dwork[jwk] + jwk - 1;
-                    wrkopt = max(i__3,i__4);
+                    i__3 = wrkopt, i__4 = (integer)dwork[jwk] + jwk - 1;
+                    wrkopt = max(i__3, i__4);
                 }
-                if (ip > 0)
-                {
+                if (ip > 0) {
                     /*                 Save the state matrix of the minimal part. */
                     /*                 Workspace: need   W3 = W2+N*N. */
                     dlacpy_("Full", &ip, &ip, &dwork[iac], &ncont, &dwork[ias], &ip, 4L);
@@ -480,25 +444,22 @@ ftnlen equil_len;
                     /*                 Workspace: need   W3+N; */
                     /*                            prefer larger. */
                     i__3 = *ldwork - jwork1 + 1;
-                    dhseqr_("Eigenvalues", "No vectors", &ip, &c__1, &ip, &dwork[iac], &ncont, &polesr[k], &polesi[k], z__, &c__1, &dwork[jwork1], &i__3, &ierr, 11L, 10L);
-                    if (ierr != 0)
-                    {
+                    dhseqr_("Eigenvalues", "No vectors", &ip, &c__1, &ip, &dwork[iac], &ncont,
+                        &polesr[k], &polesi[k], z__, &c__1, &dwork[jwork1], &i__3, &ierr, 11L, 10L);
+                    if (ierr != 0) {
                         *info = 2;
                         return 0;
                     }
                     /* Computing MAX */
-                    i__3 = wrkopt, i__4 = (integer) dwork[jwork1] + jwork1 - 1;
-                    wrkopt = max(i__3,i__4);
+                    i__3 = wrkopt, i__4 = (integer)dwork[jwork1] + jwork1 - 1;
+                    wrkopt = max(i__3, i__4);
                     /*                 Compute the zeros of the transfer function. */
                     ipm1 = ip - 1;
                     dijnz = withd && dij != 0.;
                     fndeig = dijnz || ipm1 > 0;
-                    if (! fndeig)
-                    {
+                    if (!fndeig) {
                         iz = 0;
-                    }
-                    else if (dijnz)
-                    {
+                    } else if (dijnz) {
                         /*                    Add the contribution due to D(i,j). */
                         /*                    Note that the matrix whose eigenvalues have to */
                         /*                    be computed remains in an upper Hessenberg form. */
@@ -506,69 +467,62 @@ ftnlen equil_len;
                         dlacpy_("Full", &iz, &iz, &dwork[ias], &ip, &dwork[iac], &ncont, 4L);
                         d__1 = -dwork[icc] / dij;
                         daxpy_(&iz, &d__1, &dwork[ib], &c__1, &dwork[iac], &ncont);
-                    }
-                    else
-                    {
-                        if (*tol <= 0.)
-                        {
+                    } else {
+                        if (*tol <= 0.) {
                             /* Computing MAX */
-                            d__1 = anorm, d__2 = dlange_("Frobenius", &ip, &c__1, &dwork[ib], &c__1, &dwork[1], 9L);
-                            toldef = epsn * max(d__1,d__2);
+                            d__1 = anorm,
+                            d__2 = dlange_(
+                                "Frobenius", &ip, &c__1, &dwork[ib], &c__1, &dwork[1], 9L);
+                            toldef = epsn * max(d__1, d__2);
                         }
                         i__3 = ipm1;
-                        for (im = 1; im <= i__3; ++im)
-                        {
-                            if ((d__1 = dwork[ib + im - 1], abs(d__1)) > toldef)
-                            {
+                        for (im = 1; im <= i__3; ++im) {
+                            if ((d__1 = dwork[ib + im - 1], abs(d__1)) > toldef) {
                                 goto L40;
                             }
                             /* L30: */
                         }
                         iz = 0;
                         goto L50;
-L40:
+                    L40:
                         /*                    Restore (part of) the saved state matrix. */
                         iz = ip - im;
-                        dlacpy_("Full", &iz, &iz, &dwork[ias + im * (ip + 1)], &ip, &dwork[iac], &ncont, 4L);
+                        dlacpy_("Full", &iz, &iz, &dwork[ias + im * (ip + 1)], &ip, &dwork[iac],
+                            &ncont, 4L);
                         /*                    Apply the output injection. */
                         d__1 = -dwork[ias + im * (ip + 1) - ip] / dwork[ib + im - 1];
                         daxpy_(&iz, &d__1, &dwork[ib + im], &c__1, &dwork[iac], &ncont);
                     }
-                    if (fndeig)
-                    {
+                    if (fndeig) {
                         /*                    Find the zeros. */
                         /*                    Workspace: need   W3+N; */
                         /*                               prefer larger. */
                         i__3 = *ldwork - jwork1 + 1;
-                        dhseqr_("Eigenvalues", "No vectors", &iz, &c__1, &iz, &dwork[iac], &ncont, &zerosr[k], &zerosi[k], z__, &c__1, &dwork[jwork1], &i__3, &ierr, 11L, 10L);
-                        if (ierr != 0)
-                        {
+                        dhseqr_("Eigenvalues", "No vectors", &iz, &c__1, &iz, &dwork[iac], &ncont,
+                            &zerosr[k], &zerosi[k], z__, &c__1, &dwork[jwork1], &i__3, &ierr, 11L,
+                            10L);
+                        if (ierr != 0) {
                             *info = 1;
                             return 0;
                         }
                     }
                     /*                 Compute the gain. */
-L50:
-                    if (dijnz)
-                    {
+                L50:
+                    if (dijnz) {
                         gains[i__ + j * gains_dim1] = dij;
-                    }
-                    else
-                    {
-                        tb04bx_(&ip, &iz, &dwork[ias], &ip, &dwork[icc], &dwork[ib], &dij, &polesr[k], &polesi[k], &zerosr[k], &zerosi[k], &gains[i__ + j * gains_dim1], &iwork[1]);
+                    } else {
+                        tb04bx_(&ip, &iz, &dwork[ias], &ip, &dwork[icc], &dwork[ib], &dij,
+                            &polesr[k], &polesi[k], &zerosr[k], &zerosi[k],
+                            &gains[i__ + j * gains_dim1], &iwork[1]);
                     }
                     nz[i__ + j * nz_dim1] = iz;
                     np[i__ + j * np_dim1] = ip;
-                }
-                else
-                {
+                } else {
                     /*                 Null element. */
                     nz[i__ + j * nz_dim1] = 0;
                     np[i__ + j * np_dim1] = 0;
                 }
-            }
-            else
-            {
+            } else {
                 /*              Null element. */
                 nz[i__ + j * nz_dim1] = 0;
                 np[i__ + j * np_dim1] = 0;
@@ -581,4 +535,3 @@ L50:
     return 0;
     /* *** Last line of TB04CD *** */
 } /* tb04cd_ */
-

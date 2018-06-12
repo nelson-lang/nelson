@@ -17,31 +17,30 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "logicalBuiltin.hpp"
-#include "logical_dispBuiltin.hpp"
-#include "trueBuiltin.hpp"
-#include "falseBuiltin.hpp"
-#include "ndarraylogical_dispBuiltin.hpp"
-#include "logical_or_logicalBuiltin.hpp"
-#include "logical_and_logicalBuiltin.hpp"
-#include "logical_notBuiltin.hpp"
-#include "xorBuiltin.hpp"
-#include "anyBuiltin.hpp"
 #include "allBuiltin.hpp"
-#include "logical_anyBuiltin.hpp"
+#include "anyBuiltin.hpp"
+#include "falseBuiltin.hpp"
+#include "logicalBuiltin.hpp"
 #include "logical_allBuiltin.hpp"
+#include "logical_and_logicalBuiltin.hpp"
+#include "logical_anyBuiltin.hpp"
+#include "logical_dispBuiltin.hpp"
 #include "logical_horzcat_logicalBuiltin.hpp"
+#include "logical_isequalBuiltin.hpp"
+#include "logical_notBuiltin.hpp"
+#include "logical_or_logicalBuiltin.hpp"
 #include "logical_vertcat_logicalBuiltin.hpp"
+#include "ndarraylogical_dispBuiltin.hpp"
 #include "ndarraylogical_horzcat_ndarraylogicalBuiltin.hpp"
 #include "ndarraylogical_vertcat_ndarraylogicalBuiltin.hpp"
-#include "logical_isequalBuiltin.hpp"
+#include "trueBuiltin.hpp"
+#include "xorBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"logical";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "logical", Nelson::LogicalGateway::logicalBuiltin, 1, 1 },
     { "true", Nelson::LogicalGateway::trueBuiltin, 1, 1 },
     { "false", Nelson::LogicalGateway::falseBuiltin, 1, 1 },
@@ -57,8 +56,10 @@ static const nlsGateway gateway[] =
     { "logical_all", Nelson::LogicalGateway::logical_allBuiltin, 1, 1 },
     { "logical_horzcat_logical", Nelson::LogicalGateway::logical_horzcat_logicalBuiltin, 1, 2 },
     { "logical_vertcat_logical", Nelson::LogicalGateway::logical_vertcat_logicalBuiltin, 1, 2 },
-    { "ndarraylogical_horzcat_ndarraylogical", Nelson::LogicalGateway::ndarraylogical_horzcat_ndarraylogicalBuiltin, 1, 2 },
-    { "ndarraylogical_vertcat_ndarraylogical", Nelson::LogicalGateway::ndarraylogical_vertcat_ndarraylogicalBuiltin, 1, 2 },
+    { "ndarraylogical_horzcat_ndarraylogical",
+        Nelson::LogicalGateway::ndarraylogical_horzcat_ndarraylogicalBuiltin, 1, 2 },
+    { "ndarraylogical_vertcat_ndarraylogical",
+        Nelson::LogicalGateway::ndarraylogical_vertcat_ndarraylogicalBuiltin, 1, 2 },
     { "logical_isequal", Nelson::LogicalGateway::logical_isequalBuiltin, 1, 2 },
     { "logical_isequaln", Nelson::LogicalGateway::logical_isequalBuiltin, 1, 2 },
     { "ndarraylogical_isequal", Nelson::LogicalGateway::logical_isequalBuiltin, 1, 2 },

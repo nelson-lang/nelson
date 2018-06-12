@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,10 +11,9 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 static doublereal c_b15 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb01xd_(uplo, n, a, lda, info, uplo_len)
-char *uplo;
-integer *n;
-doublereal *a;
+EXPORTSYMBOL /* Subroutine */ int mb01xd_(uplo, n, a, lda, info, uplo_len) char* uplo;
+integer* n;
+doublereal* a;
 integer *lda, *info;
 ftnlen uplo_len;
 {
@@ -119,81 +118,73 @@ ftnlen uplo_len;
     /* Function Body */
     *info = 0;
     upper = lsame_(uplo, "U", 1L, 1L);
-    if (! upper && ! lsame_(uplo, "L", 1L, 1L))
-    {
+    if (!upper && !lsame_(uplo, "L", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -4;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB01XD", &i__1, 6L);
         return 0;
     }
     /*     Quick return, if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     /*     Determine the block size for this environment (as for DLAUUM). */
     nb = ilaenv_(&c__1, "DLAUUM", uplo, n, &c_n1, &c_n1, &c_n1, 6L, 1L);
-    if (nb <= 1 || nb >= *n)
-    {
+    if (nb <= 1 || nb >= *n) {
         /*        Use unblocked code. */
         mb01xy_(uplo, n, &a[a_offset], lda, info, 1L);
-    }
-    else
-    {
+    } else {
         /*        Use blocked code. */
-        if (upper)
-        {
+        if (upper) {
             /*           Compute the product U' * U. */
             i__1 = -nb;
-            for (i__ = *n; i__1 < 0 ? i__ >= 1 : i__ <= 1; i__ += i__1)
-            {
-                ib = min(nb,i__);
+            for (i__ = *n; i__1 < 0 ? i__ >= 1 : i__ <= 1; i__ += i__1) {
+                ib = min(nb, i__);
                 ii = i__ - ib + 1;
-                if (i__ < *n)
-                {
+                if (i__ < *n) {
                     i__2 = *n - i__;
-                    dtrmm_("Left", "Upper", "Transpose", "Non-unit", &ib, &i__2, &c_b15, &a[ii + ii * a_dim1], lda, &a[ii + (ii + ib) * a_dim1], lda, 4L, 5L, 9L, 8L);
+                    dtrmm_("Left", "Upper", "Transpose", "Non-unit", &ib, &i__2, &c_b15,
+                        &a[ii + ii * a_dim1], lda, &a[ii + (ii + ib) * a_dim1], lda, 4L, 5L, 9L,
+                        8L);
                     i__2 = *n - i__;
                     i__3 = i__ - ib;
-                    dgemm_("Transpose", "No transpose", &ib, &i__2, &i__3, &c_b15, &a[ii * a_dim1 + 1], lda, &a[(ii + ib) * a_dim1 + 1], lda, &c_b15, &a[ii + (ii + ib) * a_dim1], lda, 9L, 12L);
+                    dgemm_("Transpose", "No transpose", &ib, &i__2, &i__3, &c_b15,
+                        &a[ii * a_dim1 + 1], lda, &a[(ii + ib) * a_dim1 + 1], lda, &c_b15,
+                        &a[ii + (ii + ib) * a_dim1], lda, 9L, 12L);
                 }
                 mb01xy_("Upper", &ib, &a[ii + ii * a_dim1], lda, info, 5L);
                 i__2 = ii - 1;
-                dsyrk_("Upper", "Transpose", &ib, &i__2, &c_b15, &a[ii * a_dim1 + 1], lda, &c_b15, &a[ii + ii * a_dim1], lda, 5L, 9L);
+                dsyrk_("Upper", "Transpose", &ib, &i__2, &c_b15, &a[ii * a_dim1 + 1], lda, &c_b15,
+                    &a[ii + ii * a_dim1], lda, 5L, 9L);
                 /* L10: */
             }
-        }
-        else
-        {
+        } else {
             /*           Compute the product L * L'. */
             i__1 = -nb;
-            for (i__ = *n; i__1 < 0 ? i__ >= 1 : i__ <= 1; i__ += i__1)
-            {
-                ib = min(nb,i__);
+            for (i__ = *n; i__1 < 0 ? i__ >= 1 : i__ <= 1; i__ += i__1) {
+                ib = min(nb, i__);
                 ii = i__ - ib + 1;
-                if (i__ < *n)
-                {
+                if (i__ < *n) {
                     i__2 = *n - i__;
-                    dtrmm_("Right", "Lower", "Transpose", "Non-unit", &i__2, &ib, &c_b15, &a[ii + ii * a_dim1], lda, &a[ii + ib + ii * a_dim1], lda, 5L, 5L, 9L, 8L);
+                    dtrmm_("Right", "Lower", "Transpose", "Non-unit", &i__2, &ib, &c_b15,
+                        &a[ii + ii * a_dim1], lda, &a[ii + ib + ii * a_dim1], lda, 5L, 5L, 9L, 8L);
                     i__2 = *n - i__;
                     i__3 = i__ - ib;
-                    dgemm_("No transpose", "Transpose", &i__2, &ib, &i__3, &c_b15, &a[ii + ib + a_dim1], lda, &a[ii + a_dim1], lda, &c_b15, &a[ii + ib + ii * a_dim1], lda, 12L, 9L);
+                    dgemm_("No transpose", "Transpose", &i__2, &ib, &i__3, &c_b15,
+                        &a[ii + ib + a_dim1], lda, &a[ii + a_dim1], lda, &c_b15,
+                        &a[ii + ib + ii * a_dim1], lda, 12L, 9L);
                 }
                 mb01xy_("Lower", &ib, &a[ii + ii * a_dim1], lda, info, 5L);
                 i__2 = ii - 1;
-                dsyrk_("Lower", "No Transpose", &ib, &i__2, &c_b15, &a[ii + a_dim1], lda, &c_b15, &a[ii + ii * a_dim1], lda, 5L, 12L);
+                dsyrk_("Lower", "No Transpose", &ib, &i__2, &c_b15, &a[ii + a_dim1], lda, &c_b15,
+                    &a[ii + ii * a_dim1], lda, 5L, 12L);
                 /* L20: */
             }
         }
@@ -201,4 +192,3 @@ ftnlen uplo_len;
     return 0;
     /* *** Last line of MB01XD *** */
 } /* mb01xd_ */
-

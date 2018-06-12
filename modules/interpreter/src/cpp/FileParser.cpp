@@ -20,28 +20,32 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    static std::wstring wfilename = L"";
-    //=============================================================================
-    void setParserFilename(const std::string &filename)
-    {
-        wfilename = utf8_to_wstring(filename);
-    }
-    //=============================================================================
-    void setParserFilename(const std::wstring &filename)
-    {
-        wfilename = filename;
-    }
-    //=============================================================================
-    std::string getParserFilenameU()
-    {
-        return wstring_to_utf8(wfilename);
-    }
-    //=============================================================================
-    std::wstring getParserFilenameW()
-    {
-        return wfilename;
-    }
-    //=============================================================================
+//=============================================================================
+static std::wstring wfilename = L"";
+//=============================================================================
+void
+setParserFilename(const std::string& filename)
+{
+    wfilename = utf8_to_wstring(filename);
+}
+//=============================================================================
+void
+setParserFilename(const std::wstring& filename)
+{
+    wfilename = filename;
+}
+//=============================================================================
+std::string
+getParserFilenameU()
+{
+    return wstring_to_utf8(wfilename);
+}
+//=============================================================================
+std::wstring
+getParserFilenameW()
+{
+    return wfilename;
+}
+//=============================================================================
 }
 //=============================================================================

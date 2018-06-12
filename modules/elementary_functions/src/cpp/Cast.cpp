@@ -20,35 +20,31 @@
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf Cast(ArrayOf arrayIn, Class destinationClass, bool isSparse)
-    {
-        ArrayOf res;
-        res = arrayIn;
-        Class originClass = res.getDataClass();
-        if (originClass == NLS_SCOMPLEX || originClass == NLS_DCOMPLEX)
-        {
-            if (destinationClass == NLS_DOUBLE)
-            {
-                destinationClass = NLS_DCOMPLEX;
-            }
-            if (destinationClass == NLS_SINGLE)
-            {
-                destinationClass = NLS_SCOMPLEX;
-            }
+//=============================================================================
+ArrayOf
+Cast(ArrayOf arrayIn, Class destinationClass, bool isSparse)
+{
+    ArrayOf res;
+    res = arrayIn;
+    Class originClass = res.getDataClass();
+    if (originClass == NLS_SCOMPLEX || originClass == NLS_DCOMPLEX) {
+        if (destinationClass == NLS_DOUBLE) {
+            destinationClass = NLS_DCOMPLEX;
         }
-        if ((originClass == NLS_SCOMPLEX || originClass == NLS_DCOMPLEX) &&
-                (destinationClass != NLS_SCOMPLEX && destinationClass != NLS_DCOMPLEX))
-        {
-            throw Exception(_W("Invalid conversion from complex."));
+        if (destinationClass == NLS_SINGLE) {
+            destinationClass = NLS_SCOMPLEX;
         }
-        res.promoteType(destinationClass);
-        if (isSparse)
-        {
-            res.makeSparse();
-        }
-        return res;
     }
-    //=============================================================================
+    if ((originClass == NLS_SCOMPLEX || originClass == NLS_DCOMPLEX)
+        && (destinationClass != NLS_SCOMPLEX && destinationClass != NLS_DCOMPLEX)) {
+        throw Exception(_W("Invalid conversion from complex."));
+    }
+    res.promoteType(destinationClass);
+    if (isSparse) {
+        res.makeSparse();
+    }
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

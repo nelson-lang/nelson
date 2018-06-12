@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsSingle_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsSingle_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSINGLE_IMPEXP ArrayOf single_uminus(ArrayOf a);
+NLSSINGLE_IMPEXP ArrayOf
+single_uminus(ArrayOf a);
 }
 //=============================================================================

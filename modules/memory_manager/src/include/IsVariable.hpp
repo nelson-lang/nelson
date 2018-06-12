@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsMemory_manager_exports.h"
 #include "Evaluator.hpp"
+#include "nlsMemory_manager_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSMEMORY_MANAGER_IMPEXP bool IsVariable(Evaluator* eval, SCOPE_LEVEL scopeLevel, std::wstring name);
+NLSMEMORY_MANAGER_IMPEXP bool
+IsVariable(Evaluator* eval, SCOPE_LEVEL scopeLevel, std::wstring name);
 }
 //=============================================================================

@@ -18,49 +18,40 @@
 //=============================================================================
 #include "fsizeBuiltin.hpp"
 #include "Error.hpp"
-#include "FilesManager.hpp"
 #include "File.hpp"
 #include "FileSize.hpp"
+#include "FilesManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::StreamGateway::fsizeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::StreamGateway::fsizeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    if (param1.isDoubleType())
-    {
-        FilesManager *fm = (FilesManager *)(eval->FileManager);
-        if (fm == nullptr)
-        {
+    if (param1.isDoubleType()) {
+        FilesManager* fm = (FilesManager*)(eval->FileManager);
+        if (fm == nullptr) {
             Error(eval, _W("Problem with file manager."));
         }
         int32 iValue = (int32)param1.getContentAsDoubleScalar();
-        if (fm->isStdStream(iValue))
-        {
+        if (fm->isStdStream(iValue)) {
             Error(eval, _W("Not implemented for requested file identifier."));
         }
-        if (fm->isOpened(iValue))
-        {
-            File *f = fm->getFile(iValue);
+        if (fm->isOpened(iValue)) {
+            File* f = fm->getFile(iValue);
             double sz = (double)FileSize(f);
             retval.push_back(ArrayOf::doubleConstructor(sz));
-        }
-        else
-        {
+        } else {
             Error(eval, _W("Invalid file identifier."));
         }
-    }
-    else
-    {
+    } else {
         Error(eval, _W("Invalid file identifier."));
     }
     return retval;

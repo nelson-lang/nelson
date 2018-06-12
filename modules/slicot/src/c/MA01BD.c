@@ -1,17 +1,18 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int ma01bd_(base, lgbas, k, s, a, inca, alpha, beta, scal)
-doublereal *base, *lgbas;
+EXPORTSYMBOL /* Subroutine */ int ma01bd_(
+    base, lgbas, k, s, a, inca, alpha, beta, scal) doublereal *base,
+    *lgbas;
 integer *k, *s;
-doublereal *a;
-integer *inca;
+doublereal* a;
+integer* inca;
 doublereal *alpha, *beta;
-integer *scal;
+integer* scal;
 {
     /* System generated locals */
     integer i__1;
@@ -82,61 +83,48 @@ integer *scal;
     *beta = 1.;
     *scal = 0;
     i__1 = *k;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        temp = a[(i__ - 1) **inca + 1];
-        if (temp != 0.)
-        {
-            sl = (integer) (log((abs(temp))) / *lgbas);
-            d__1 = (doublereal) sl;
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        temp = a[(i__ - 1) * *inca + 1];
+        if (temp != 0.) {
+            sl = (integer)(log((abs(temp))) / *lgbas);
+            d__1 = (doublereal)sl;
             temp /= pow_dd(base, &d__1);
         }
-        if (s[i__] == 1)
-        {
+        if (s[i__] == 1) {
             *alpha *= temp;
             *scal += sl;
-        }
-        else
-        {
+        } else {
             *beta *= temp;
             *scal -= sl;
         }
-        if (i__ % 10 == 0)
-        {
-            if (*alpha != 0.)
-            {
-                sl = (integer) (log((abs(*alpha))) / *lgbas);
+        if (i__ % 10 == 0) {
+            if (*alpha != 0.) {
+                sl = (integer)(log((abs(*alpha))) / *lgbas);
                 *scal += sl;
-                d__1 = (doublereal) sl;
+                d__1 = (doublereal)sl;
                 *alpha /= pow_dd(base, &d__1);
             }
-            if (*beta != 0.)
-            {
-                sl = (integer) (log((abs(*beta))) / *lgbas);
+            if (*beta != 0.) {
+                sl = (integer)(log((abs(*beta))) / *lgbas);
                 *scal -= sl;
-                d__1 = (doublereal) sl;
+                d__1 = (doublereal)sl;
                 *beta /= pow_dd(base, &d__1);
             }
         }
         /* L10: */
     }
-    if (*beta != 0.)
-    {
+    if (*beta != 0.) {
         *alpha /= *beta;
         *beta = 1.;
     }
-    if (*alpha == 0.)
-    {
+    if (*alpha == 0.) {
         *scal = 0;
-    }
-    else
-    {
-        sl = (integer) (log((abs(*alpha))) / *lgbas);
-        d__1 = (doublereal) sl;
+    } else {
+        sl = (integer)(log((abs(*alpha))) / *lgbas);
+        d__1 = (doublereal)sl;
         *alpha /= pow_dd(base, &d__1);
         *scal += sl;
     }
     return 0;
     /* *** Last line of MA01BD *** */
 } /* ma01bd_ */
-

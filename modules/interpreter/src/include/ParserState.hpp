@@ -19,20 +19,20 @@
 #pragma once
 //=============================================================================
 namespace Nelson {
-    /**
-     * These are the different parser states that
-     * the parser can be in after a successful parse:
-     *    - ScriptBlock corresponds to a parse of a sequence
-     *      of statements
-     *    - FuncDef corresponds to a parse of a function def
-     *    - ParseError corresponds to a syntax error when
-     *      parsing.
-     */
-    typedef enum
-    {
-        ScriptBlock,
-        FuncDef,
-        ParseError
-    } ParserState;
-}
+/**
+ * These are the different parser states that
+ * the parser can be in after a successful parse:
+ *    - ScriptBlock corresponds to a parse of a sequence
+ *      of statements
+ *    - FuncDef corresponds to a parse of a function def
+ *    - ParseError corresponds to a syntax error when
+ *      parsing.
+ */
+typedef enum
+{
+    ScriptBlock,
+    FuncDef,
+    ParseError
+} ParserState;
+} // namespace Nelson
 //=============================================================================

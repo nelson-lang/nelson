@@ -17,20 +17,20 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "assert_checkerrorBuiltin.hpp"
-#include "Error.hpp"
 #include "Assert_CheckError.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 2)
-    {
+    if (nLhs > 2) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
@@ -39,23 +39,17 @@ ArrayOfVector Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin(Evaluator
     bool res = false;
     std::wstring command = param1.getContentAsWideString();
     std::wstring expectedmsg = param2.getContentAsWideString();
-    if (expectedmsg == L"")
-    {
+    if (expectedmsg == L"") {
         Error(eval, _W("empty string not allowed as expected message."));
     }
     res = Assert_CheckError(eval, command, expectedmsg, msg);
-    if (nLhs == 0)
-    {
-        if (!res)
-        {
+    if (nLhs == 0) {
+        if (!res) {
             Error(eval, msg);
         }
-    }
-    else
-    {
+    } else {
         retval.push_back(ArrayOf::logicalConstructor(res));
-        if (nLhs > 1)
-        {
+        if (nLhs > 1) {
             retval.push_back(ArrayOf::stringConstructor(msg));
         }
     }

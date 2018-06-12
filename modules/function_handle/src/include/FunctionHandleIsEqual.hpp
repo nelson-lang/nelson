@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsFunction_handle_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsFunction_handle_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSFUNCTION_HANDLE_IMPEXP bool FunctionHandleIsEqual(ArrayOf A, ArrayOf B);
+NLSFUNCTION_HANDLE_IMPEXP bool
+FunctionHandleIsEqual(ArrayOf A, ArrayOf B);
 }
 //=============================================================================

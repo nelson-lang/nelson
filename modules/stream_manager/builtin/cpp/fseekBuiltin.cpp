@@ -18,87 +18,64 @@
 //=============================================================================
 #include "fseekBuiltin.hpp"
 #include "Error.hpp"
-#include "FilesManager.hpp"
 #include "File.hpp"
 #include "FileSeek.hpp"
+#include "FilesManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 3)
-    {
+    if (argIn.size() != 3) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     ArrayOf param3 = argIn[2];
     int ORIGIN;
-    if (param3.isSingleString())
-    {
+    if (param3.isSingleString()) {
         std::wstring str = param3.getContentAsWideString();
-        if ((str == L"bof") || (str == L"set"))
-        {
+        if ((str == L"bof") || (str == L"set")) {
             ORIGIN = -1;
-        }
-        else if ((str == L"cof") || (str == L"cur"))
-        {
+        } else if ((str == L"cof") || (str == L"cur")) {
             ORIGIN = 0;
-        }
-        else if ((str == L"eof") || (str == L"end"))
-        {
+        } else if ((str == L"eof") || (str == L"end")) {
             ORIGIN = 1;
-        }
-        else
-        {
+        } else {
             Error(eval, _W("Invalid origin."));
         }
-    }
-    else
-    {
+    } else {
         int iValue = (int)param3.getContentAsDoubleScalar();
-        switch (iValue)
-        {
-            case -1:
-            case 0:
-            case 1:
-            {
-                ORIGIN = iValue;
-            }
-            break;
-            default:
-            {
-                Error(eval, _W("Invalid origin."));
-            }
-            break;
+        switch (iValue) {
+        case -1:
+        case 0:
+        case 1: {
+            ORIGIN = iValue;
+        } break;
+        default: {
+            Error(eval, _W("Invalid origin."));
+        } break;
         }
     }
     int64 iOffset = (int64)param2.getContentAsDoubleScalar();
-    FilesManager *fm = (FilesManager *)(eval->FileManager);
-    if (fm == nullptr)
-    {
+    FilesManager* fm = (FilesManager*)(eval->FileManager);
+    if (fm == nullptr) {
         Error(eval, _W("Problem with file manager."));
     }
     int32 iValue = (int32)param1.getContentAsDoubleScalar();
-    if (fm->isOpened(iValue))
-    {
-        File *f = fm->getFile(iValue);
-        if (!FileSeek(f, iOffset, ORIGIN))
-        {
+    if (fm->isOpened(iValue)) {
+        File* f = fm->getFile(iValue);
+        if (!FileSeek(f, iOffset, ORIGIN)) {
             retval.push_back(ArrayOf::doubleConstructor(-1));
-        }
-        else
-        {
+        } else {
             retval.push_back(ArrayOf::doubleConstructor(0));
         }
-    }
-    else
-    {
+    } else {
         Error(eval, _W("Invalid file identifier."));
     }
     return retval;

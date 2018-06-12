@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,14 +12,14 @@ static doublereal c_b4 = 1.;
 static doublereal c_b13 = -1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mc03nx_(mp, np, dp, p, ldp1, ldp2, a, lda, e, lde)
-integer *mp, *np, *dp;
-doublereal *p;
+EXPORTSYMBOL /* Subroutine */ int mc03nx_(mp, np, dp, p, ldp1, ldp2, a, lda, e, lde) integer *mp,
+    *np, *dp;
+doublereal* p;
 integer *ldp1, *ldp2;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
 {
     /* System generated locals */
     integer a_dim1, a_offset, e_dim1, e_offset, p_dim1, p_dim2, p_offset, i__1;
@@ -115,12 +115,11 @@ integer *lde;
     e_offset = e_dim1 + 1;
     e -= e_offset;
     /* Function Body */
-    if (*mp <= 0 || *np <= 0)
-    {
+    if (*mp <= 0 || *np <= 0) {
         return 0;
     }
     /*     Initialisation of matrices A and E. */
-    h1 = *dp **mp;
+    h1 = *dp * *mp;
     hb = h1 - *mp;
     he = hb + *np;
     dlaset_("Full", &h1, &he, &c_b3, &c_b4, &a[a_offset], lda, 4L);
@@ -131,19 +130,17 @@ integer *lde;
     ++hb;
     dlacpy_("Full", mp, np, &p[(p_dim2 + 1) * p_dim1 + 1], ldp1, &a[hb + hb * a_dim1], lda, 4L);
     hi = 1;
-    for (k = *dp + 1; k >= 2; --k)
-    {
-        dlacpy_("Full", mp, np, &p[(k * p_dim2 + 1) * p_dim1 + 1], ldp1, &e[hi + hb * e_dim1], lde, 4L);
+    for (k = *dp + 1; k >= 2; --k) {
+        dlacpy_(
+            "Full", mp, np, &p[(k * p_dim2 + 1) * p_dim1 + 1], ldp1, &e[hi + hb * e_dim1], lde, 4L);
         hi += *mp;
         /* L20: */
     }
     i__1 = he;
-    for (j = hb; j <= i__1; ++j)
-    {
+    for (j = hb; j <= i__1; ++j) {
         dscal_(&h1, &c_b13, &e[j * e_dim1 + 1], &c__1);
         /* L40: */
     }
     return 0;
     /* *** Last line of MC03NX *** */
 } /* mc03nx_ */
-

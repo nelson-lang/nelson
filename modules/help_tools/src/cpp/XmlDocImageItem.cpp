@@ -22,106 +22,92 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 
+#include "Exception.hpp"
+#include "ImageTagHelpers.hpp"
 #include "XmlDocImageItem.hpp"
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
-#include "Exception.hpp"
-#include "ImageTagHelpers.hpp"
 //=============================================================================
 namespace Nelson {
-    XmlDocImageItem::XmlDocImageItem(const std::wstring &tag)
-    {
-        this->tag = tag;
+XmlDocImageItem::XmlDocImageItem(const std::wstring& tag) { this->tag = tag; }
+//=============================================================================
+XmlDocImageItem::~XmlDocImageItem() { tag = L""; }
+//=============================================================================
+std::wstring
+XmlDocImageItem::getItemType()
+{
+    return utf8_to_wstring(IMAGE_TAG);
+}
+//=============================================================================
+bool
+XmlDocImageItem::writeAsHtml(std::string& utf8stream)
+{
+    Nelson::copyImage(this->imageSource, this->imageDestination);
+    utf8stream = utf8stream + "\n";
+    utf8stream = utf8stream + wstring_to_utf8(tag) + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
+bool
+XmlDocImageItem::writeAsMarkdown(std::string& utf8stream)
+{
+    Nelson::copyImage(this->imageSource, this->imageDestination);
+    utf8stream = utf8stream + "\n";
+    utf8stream = utf8stream + wstring_to_utf8(tag) + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
+void
+XmlDocImageItem::findImage()
+{
+    if (!isValidImageTag(tag)) {
+        throw Exception(_W("Tag malformed."));
     }
-    //=============================================================================
-    XmlDocImageItem::~XmlDocImageItem()
-    {
-        tag = L"";
+    std::wstring newPath;
+    std::wstring oldPath;
+    if (parseImageTag(tag, srcDirectory, oldPath, newPath)) {
+        std::wstring filename = L"";
+        std::wstring extension = L"";
+        boost::filesystem::path absolutePath = oldPath;
+        if (absolutePath.has_filename()) {
+            filename = absolutePath.stem().generic_wstring();
+        }
+        if (absolutePath.has_extension()) {
+            extension = absolutePath.extension().generic_wstring();
+        }
+        std::wstring crc = crcFile(newPath);
+        std::wstring newfilename;
+        if (crc == L"") {
+            newfilename = filename + extension;
+        } else {
+            newfilename = filename + L"_" + crc + extension;
+        }
+        boost::replace_all(tag, oldPath, newfilename);
+        imageSource = newPath;
+        imageDestination = this->destDirectory + L"/" + newfilename;
+    } else {
+        throw Exception(_W("File does not exist:") + L" " + oldPath);
     }
-    //=============================================================================
-    std::wstring XmlDocImageItem::getItemType()
-    {
-        return utf8_to_wstring(IMAGE_TAG);
+}
+//=============================================================================
+void
+XmlDocImageItem::setDirectories(const std::wstring& srcDirectory, const std::wstring& destDirectory)
+{
+    if (boost::algorithm::ends_with(srcDirectory, L"/")
+        || boost::algorithm::ends_with(srcDirectory, L"\\")) {
+        this->srcDirectory = srcDirectory;
+    } else {
+        this->srcDirectory = srcDirectory + L"/";
     }
-    //=============================================================================
-    bool XmlDocImageItem::writeAsHtml(std::string &utf8stream)
-    {
-        Nelson::copyImage(this->imageSource, this->imageDestination);
-        utf8stream = utf8stream + "\n";
-        utf8stream = utf8stream + wstring_to_utf8(tag) + "\n";
-        utf8stream = utf8stream + "\n";
-        return true;
+    if (boost::algorithm::ends_with(destDirectory, L"/")
+        || boost::algorithm::ends_with(destDirectory, L"\\")) {
+        this->destDirectory = destDirectory;
+    } else {
+        this->destDirectory = destDirectory + L"/";
     }
-    //=============================================================================
-    bool XmlDocImageItem::writeAsMarkdown(std::string &utf8stream)
-    {
-        Nelson::copyImage(this->imageSource, this->imageDestination);
-        utf8stream = utf8stream + "\n";
-        utf8stream = utf8stream + wstring_to_utf8(tag) + "\n";
-        utf8stream = utf8stream + "\n";
-        return true;
-    }
-    //=============================================================================
-    void XmlDocImageItem::findImage()
-    {
-        if (!isValidImageTag(tag))
-        {
-            throw Exception(_W("Tag malformed."));
-        }
-        std::wstring newPath;
-        std::wstring oldPath;
-        if (parseImageTag(tag, srcDirectory, oldPath, newPath))
-        {
-            std::wstring filename = L"";
-            std::wstring extension = L"";
-            boost::filesystem::path absolutePath = oldPath;
-            if (absolutePath.has_filename())
-            {
-                filename = absolutePath.stem().generic_wstring();
-            }
-            if (absolutePath.has_extension())
-            {
-                extension = absolutePath.extension().generic_wstring();
-            }
-            std::wstring crc = crcFile(newPath);
-            std::wstring newfilename;
-            if (crc == L"")
-            {
-                newfilename = filename + extension;
-            }
-            else
-            {
-                newfilename = filename + L"_" + crc + extension;
-            }
-            boost::replace_all(tag, oldPath, newfilename);
-            imageSource = newPath;
-            imageDestination = this->destDirectory + L"/" + newfilename;
-        }
-        else
-        {
-            throw Exception(_W("File does not exist:") + L" " + oldPath);
-        }
-    }
-    //=============================================================================
-    void XmlDocImageItem::setDirectories(const std::wstring &srcDirectory, const std::wstring &destDirectory)
-    {
-        if (boost::algorithm::ends_with(srcDirectory, L"/") || boost::algorithm::ends_with(srcDirectory, L"\\"))
-        {
-            this->srcDirectory = srcDirectory;
-        }
-        else
-        {
-            this->srcDirectory = srcDirectory + L"/";
-        }
-        if (boost::algorithm::ends_with(destDirectory, L"/") || boost::algorithm::ends_with(destDirectory, L"\\"))
-        {
-            this->destDirectory = destDirectory;
-        }
-        else
-        {
-            this->destDirectory = destDirectory + L"/";
-        }
-    }
-    //=============================================================================
+}
+//=============================================================================
 }
 //=============================================================================

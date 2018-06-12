@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,18 +10,19 @@
 static integer c__1 = 1;
 static integer c__2 = 2;
 
-EXPORTSYMBOL /* Subroutine */ int mb3pyz_(m, n, a, lda, rcond, svlmax, rank, sval, jpvt, tau, dwork, zwork, info)
-integer *m, *n;
-doublecomplex *a;
-integer *lda;
+EXPORTSYMBOL /* Subroutine */ int mb3pyz_(
+    m, n, a, lda, rcond, svlmax, rank, sval, jpvt, tau, dwork, zwork, info) integer *m,
+    *n;
+doublecomplex* a;
+integer* lda;
 doublereal *rcond, *svlmax;
-integer *rank;
-doublereal *sval;
-integer *jpvt;
-doublecomplex *tau;
-doublereal *dwork;
-doublecomplex *zwork;
-integer *info;
+integer* rank;
+doublereal* sval;
+integer* jpvt;
+doublecomplex* tau;
+doublereal* dwork;
+doublecomplex* zwork;
+integer* info;
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2, i__3;
@@ -209,36 +210,25 @@ integer *info;
     --zwork;
     /* Function Body */
     *info = 0;
-    if (*m < 0)
-    {
+    if (*m < 0) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -4;
-    }
-    else if (*rcond < 0. || *rcond > 1.)
-    {
+    } else if (*rcond < 0. || *rcond > 1.) {
         *info = -5;
-    }
-    else if (*svlmax < 0.)
-    {
+    } else if (*svlmax < 0.) {
         *info = -6;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB3PYZ", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    k = min(*m,*n);
-    if (k == 0)
-    {
+    k = min(*m, *n);
+    if (k == 0) {
         *rank = 0;
         sval[1] = 0.;
         sval[2] = 0.;
@@ -252,8 +242,7 @@ integer *info;
     /*     Initialize partial row norms and pivoting vector. The first m */
     /*     elements of DWORK store the exact row norms. */
     i__1 = *m;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[i__] = dznrm2_(n, &a[i__ + a_dim1], lda);
         dwork[*m + i__] = dwork[i__];
         jpvt[i__] = i__;
@@ -263,15 +252,13 @@ integer *info;
     /*     condition estimation. */
     *rank = 0;
 L20:
-    if (*rank < k)
-    {
+    if (*rank < k) {
         i__ = k - *rank;
         /*        Determine ith pivot row and swap if necessary. */
         mki = *m - *rank;
         nki = *n - *rank;
         pvt = idamax_(&mki, &dwork[1], &c__1);
-        if (pvt != mki)
-        {
+        if (pvt != mki) {
             zswap_(n, &a[pvt + a_dim1], lda, &a[mki + a_dim1], lda);
             itemp = jpvt[pvt];
             jpvt[pvt] = jpvt[mki];
@@ -279,8 +266,7 @@ L20:
             dwork[pvt] = dwork[mki];
             dwork[*m + pvt] = dwork[*m + mki];
         }
-        if (nki > 1)
-        {
+        if (nki > 1) {
             /*           Save A(m-k+i,n-k+i) and generate elementary reflector H(i) */
             /*           to annihilate A(m-k+i,1:n-k+i-1), k = min(m,n). */
             /*               A(m-k+i,1:n-k+i) * H(tau,v)        = [0 , *]         <=> */
@@ -291,12 +277,10 @@ L20:
             aii.r = a[i__1].r, aii.i = a[i__1].i;
             zlarfg_(&nki, &a[mki + nki * a_dim1], &a[mki + a_dim1], lda, &tau[i__]);
         }
-        if (*rank == 0)
-        {
+        if (*rank == 0) {
             /*           Initialize; exit if matrix is zero (RANK = 0). */
             smax = z_abs(&a[*m + *n * a_dim1]);
-            if (smax == 0.)
-            {
+            if (smax == 0.) {
                 sval[1] = 0.;
                 sval[2] = 0.;
                 sval[3] = 0.;
@@ -307,22 +291,18 @@ L20:
             sminpr = smin;
             c1.r = 1., c1.i = 0.;
             c2.r = 1., c2.i = 0.;
-        }
-        else
-        {
+        } else {
             /*           One step of incremental condition estimation. */
             zcopy_(rank, &a[mki + (nki + 1) * a_dim1], lda, &zwork[jwork], &c__1);
-            zlaic1_(&c__2, rank, &zwork[ismin], &smin, &zwork[jwork], &a[mki + nki * a_dim1], &sminpr, &s1, &c1);
-            zlaic1_(&c__1, rank, &zwork[ismax], &smax, &zwork[jwork], &a[mki + nki * a_dim1], &smaxpr, &s2, &c2);
+            zlaic1_(&c__2, rank, &zwork[ismin], &smin, &zwork[jwork], &a[mki + nki * a_dim1],
+                &sminpr, &s1, &c1);
+            zlaic1_(&c__1, rank, &zwork[ismax], &smax, &zwork[jwork], &a[mki + nki * a_dim1],
+                &smaxpr, &s2, &c2);
         }
-        if (*svlmax **rcond <= smaxpr)
-        {
-            if (*svlmax **rcond <= sminpr)
-            {
-                if (smaxpr **rcond <= sminpr)
-                {
-                    if (mki > 1)
-                    {
+        if (*svlmax * *rcond <= smaxpr) {
+            if (*svlmax * *rcond <= sminpr) {
+                if (smaxpr * *rcond <= sminpr) {
+                    if (mki > 1) {
                         /*                    Continue factorization, as rank is at least RANK. */
                         /*                    Apply H(i) to A(1:m-k+i-1,1:n-k+i) from the right. */
                         i__1 = mki + nki * a_dim1;
@@ -330,30 +310,26 @@ L20:
                         i__1 = mki + nki * a_dim1;
                         a[i__1].r = 1., a[i__1].i = 0.;
                         i__1 = mki - 1;
-                        zlarf_("Right", &i__1, &nki, &a[mki + a_dim1], lda, &tau[i__], &a[a_offset], lda, &zwork[jwork], 5L);
+                        zlarf_("Right", &i__1, &nki, &a[mki + a_dim1], lda, &tau[i__], &a[a_offset],
+                            lda, &zwork[jwork], 5L);
                         i__1 = mki + nki * a_dim1;
                         a[i__1].r = aii.r, a[i__1].i = aii.i;
                         /*                    Update partial row norms. */
                         i__1 = mki - 1;
-                        for (j = 1; j <= i__1; ++j)
-                        {
-                            if (dwork[j] != 0.)
-                            {
+                        for (j = 1; j <= i__1; ++j) {
+                            if (dwork[j] != 0.) {
                                 temp = z_abs(&a[j + nki * a_dim1]) / dwork[j];
                                 /* Computing MAX */
                                 d__1 = (temp + 1.) * (1. - temp);
-                                temp = max(d__1,0.);
+                                temp = max(d__1, 0.);
                                 /* Computing 2nd power */
                                 d__1 = dwork[j] / dwork[*m + j];
                                 temp2 = temp * (d__1 * d__1);
-                                if (temp2 <= tolz)
-                                {
+                                if (temp2 <= tolz) {
                                     i__2 = nki - 1;
                                     dwork[j] = dznrm2_(&i__2, &a[j + a_dim1], lda);
                                     dwork[*m + j] = dwork[j];
-                                }
-                                else
-                                {
+                                } else {
                                     dwork[j] *= sqrt(temp);
                                 }
                             }
@@ -361,15 +337,16 @@ L20:
                         }
                     }
                     i__1 = *rank;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__1; ++i__) {
                         i__2 = ismin + i__ - 1;
                         i__3 = ismin + i__ - 1;
-                        z__1.r = s1.r * zwork[i__3].r - s1.i * zwork[i__3].i, z__1.i = s1.r * zwork[i__3].i + s1.i * zwork[i__3].r;
+                        z__1.r = s1.r * zwork[i__3].r - s1.i * zwork[i__3].i,
+                        z__1.i = s1.r * zwork[i__3].i + s1.i * zwork[i__3].r;
                         zwork[i__2].r = z__1.r, zwork[i__2].i = z__1.i;
                         i__2 = ismax + i__ - 1;
                         i__3 = ismax + i__ - 1;
-                        z__1.r = s2.r * zwork[i__3].r - s2.i * zwork[i__3].i, z__1.i = s2.r * zwork[i__3].i + s2.i * zwork[i__3].r;
+                        z__1.r = s2.r * zwork[i__3].r - s2.i * zwork[i__3].i,
+                        z__1.i = s2.r * zwork[i__3].i + s2.i * zwork[i__3].r;
                         zwork[i__2].r = z__1.r, zwork[i__2].i = z__1.i;
                         /* L40: */
                     }
@@ -388,15 +365,15 @@ L20:
         }
     }
     /*     Restore the changed part of the (M-RANK)-th row and set SVAL. */
-    if (*rank < k && nki > 1)
-    {
+    if (*rank < k && nki > 1) {
         i__1 = nki - 1;
         zlacgv_(&i__1, &a[mki + a_dim1], lda);
         i__1 = nki - 1;
         i__2 = mki + nki * a_dim1;
         z__2.r = -a[i__2].r, z__2.i = -a[i__2].i;
         i__3 = i__;
-        z__1.r = z__2.r * tau[i__3].r - z__2.i * tau[i__3].i, z__1.i = z__2.r * tau[i__3].i + z__2.i * tau[i__3].r;
+        z__1.r = z__2.r * tau[i__3].r - z__2.i * tau[i__3].i,
+        z__1.i = z__2.r * tau[i__3].i + z__2.i * tau[i__3].r;
         zscal_(&i__1, &z__1, &a[mki + a_dim1], lda);
         i__1 = mki + nki * a_dim1;
         a[i__1].r = aii.r, a[i__1].i = aii.i;
@@ -407,4 +384,3 @@ L20:
     return 0;
     /* *** Last line of MB3PYZ *** */
 } /* mb3pyz_ */
-

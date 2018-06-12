@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,17 +9,18 @@
 
 static doublereal c_b4 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb03oy_(discr, ltrans, isgn, s, lds, r__, ldr, a, lda, scale, info)
-logical *discr, *ltrans;
-integer *isgn;
-doublereal *s;
-integer *lds;
-doublereal *r__;
-integer *ldr;
-doublereal *a;
-integer *lda;
-doublereal *scale;
-integer *info;
+EXPORTSYMBOL /* Subroutine */ int sb03oy_(
+    discr, ltrans, isgn, s, lds, r__, ldr, a, lda, scale, info) logical *discr,
+    *ltrans;
+integer* isgn;
+doublereal* s;
+integer* lds;
+doublereal* r__;
+integer* ldr;
+doublereal* a;
+integer* lda;
+doublereal* scale;
+integer* info;
 {
     /* System generated locals */
     integer a_dim1, a_offset, r_dim1, r_offset, s_dim1, s_offset;
@@ -35,7 +36,8 @@ integer *info;
     extern /* Subroutine */ int dlabad_();
     static doublereal dp[2], s11, s12, s21, s22, dt[2], x11[2], x12[2], x21[2], x22[2];
     extern doublereal dlamch_();
-    static doublereal scaloc, bignum, smlnum, p3i, p3r, eta, csp[2], csq[2], eps, sgn, cst[2], snp, snq, snt;
+    static doublereal scaloc, bignum, smlnum, p3i, p3r, eta, csp[2], csq[2], eps, sgn, cst[2], snp,
+        snq, snt;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */
@@ -191,7 +193,7 @@ integer *info;
     a -= a_offset;
     /* Function Body */
     *info = 0;
-    sgn = (doublereal) (*isgn);
+    sgn = (doublereal)(*isgn);
     s11 = s[s_dim1 + 1];
     s12 = s[(s_dim1 << 1) + 1];
     s21 = s[s_dim1 + 2];
@@ -205,29 +207,24 @@ integer *info;
     bignum = 1. / smlnum;
     /* Computing MAX */
     /* Computing MAX */
-    d__3 = abs(s11), d__4 = abs(s12), d__3 = max(d__3,d__4), d__4 = abs(s21), d__3 = max(d__3,d__4), d__4 = abs(s22);
-    d__1 = smlnum, d__2 = eps * max(d__3,d__4);
-    smin = max(d__1,d__2);
+    d__3 = abs(s11), d__4 = abs(s12), d__3 = max(d__3, d__4), d__4 = abs(s21),
+    d__3 = max(d__3, d__4), d__4 = abs(s22);
+    d__1 = smlnum, d__2 = eps * max(d__3, d__4);
+    smin = max(d__1, d__2);
     *scale = 1.;
     dlanv2_(&s11, &s12, &s21, &s22, &tempr, &tempi, &e1, &e2, csp, csq);
-    if (tempi == 0.)
-    {
+    if (tempi == 0.) {
         *info = 4;
         return 0;
     }
     absb = dlapy2_(&e1, &e2);
-    if (*discr)
-    {
-        if (sgn * (absb - 1.) >= 0.)
-        {
+    if (*discr) {
+        if (sgn * (absb - 1.) >= 0.) {
             *info = 2;
             return 0;
         }
-    }
-    else
-    {
-        if (sgn * e1 >= 0.)
-        {
+    } else {
+        if (sgn * e1 >= 0.) {
             *info = 2;
             return 0;
         }
@@ -235,8 +232,7 @@ integer *info;
     /*     Compute the cos and sine that define  Qhat.  The sine is real. */
     temp[0] = s[s_dim1 + 1] - e1;
     temp[1] = e2;
-    if (*ltrans)
-    {
+    if (*ltrans) {
         temp[1] = -e2;
     }
     sb03ov_(temp, &s[s_dim1 + 2], csq, &snq);
@@ -247,8 +243,7 @@ integer *info;
     tempi = csq[1] * s[(s_dim1 << 1) + 2];
     t[0] = csq[0] * temp[0] - csq[1] * temp[1] + snq * tempr;
     t[1] = csq[0] * temp[1] + csq[1] * temp[0] + snq * tempi;
-    if (*ltrans)
-    {
+    if (*ltrans) {
         /*                                                         (     -- ) */
         /*        Case op(M) = M'.  Note that the modified  R  is  ( p3  p2 ). */
         /*                                                         ( 0   p1 ) */
@@ -267,9 +262,7 @@ integer *info;
         p2[1] = -csp[0] * temp[1] - csp[1] * temp[0] - snp * tempi;
         p3r = csp[0] * tempr + csp[1] * tempi - snp * temp[0];
         p3i = csp[0] * tempi - csp[1] * tempr - snp * temp[1];
-    }
-    else
-    {
+    } else {
         /*        Case op(M) = M. */
         /*        Compute the cos and sine that define  Phat. */
         temp[0] = csq[0] * r__[r_dim1 + 1] + snq * r__[(r_dim1 << 1) + 1];
@@ -289,61 +282,49 @@ integer *info;
     }
     /*     Make  p3  real by multiplying by  conjg ( p3 )/abs( p3 )  to give */
     /*     p3 := abs( p3 ). */
-    if (p3i == 0.)
-    {
+    if (p3i == 0.) {
         p3 = abs(p3r);
         dp[0] = d_sign(&c_b4, &p3r);
         dp[1] = 0.;
-    }
-    else
-    {
+    } else {
         p3 = dlapy2_(&p3r, &p3i);
         dp[0] = p3r / p3;
         dp[1] = -p3i / p3;
     }
     /*     Now compute the quantities v1, v2, v3 and y in (6.13) - (6.15), */
     /*     or (10.23) - (10.25). Care is taken to avoid overflows. */
-    if (*discr)
-    {
+    if (*discr) {
         alpha = sqrt((d__1 = 1. - absb, abs(d__1)) * (absb + 1.));
-    }
-    else
-    {
+    } else {
         alpha = sqrt((d__1 = e1 * 2., abs(d__1)));
     }
     scaloc = 1.;
-    if (alpha < smin)
-    {
+    if (alpha < smin) {
         alpha = smin;
         *info = 1;
     }
     abst = abs(p1);
-    if (alpha < 1. && abst > 1.)
-    {
-        if (abst > bignum * alpha)
-        {
+    if (alpha < 1. && abst > 1.) {
+        if (abst > bignum * alpha) {
             scaloc = 1. / abst;
         }
     }
-    if (scaloc != 1.)
-    {
+    if (scaloc != 1.) {
         p1 = scaloc * p1;
         p2[0] = scaloc * p2[0];
         p2[1] = scaloc * p2[1];
         p3 = scaloc * p3;
-        *scale = scaloc **scale;
+        *scale = scaloc * *scale;
     }
     v1 = p1 / alpha;
-    if (*discr)
-    {
+    if (*discr) {
         /* Computing 2nd power */
         d__1 = e2;
         g[0] = (1. - e1) * (e1 + 1.) + d__1 * d__1;
         g[1] = e1 * -2. * e2;
         absg = dlapy2_(g, &g[1]);
         scaloc = 1.;
-        if (absg < smin)
-        {
+        if (absg < smin) {
             absg = smin;
             *info = 1;
         }
@@ -351,16 +332,13 @@ integer *info;
         temp[1] = sgn * alpha * p2[1] + v1 * (e1 * t[1] + e2 * t[0]);
         /* Computing MAX */
         d__1 = abs(temp[0]), d__2 = abs(temp[1]);
-        abst = max(d__1,d__2);
-        if (absg < 1. && abst > 1.)
-        {
-            if (abst > bignum * absg)
-            {
+        abst = max(d__1, d__2);
+        if (absg < 1. && abst > 1.) {
+            if (abst > bignum * absg) {
                 scaloc = 1. / abst;
             }
         }
-        if (scaloc != 1.)
-        {
+        if (scaloc != 1.) {
             v1 = scaloc * v1;
             temp[0] = scaloc * temp[0];
             temp[1] = scaloc * temp[1];
@@ -368,7 +346,7 @@ integer *info;
             p2[0] = scaloc * p2[0];
             p2[1] = scaloc * p2[1];
             p3 = scaloc * p3;
-            *scale = scaloc **scale;
+            *scale = scaloc * *scale;
         }
         temp[0] /= absg;
         temp[1] /= absg;
@@ -377,16 +355,13 @@ integer *info;
         v2[1] = g[0] * temp[1] - g[1] * temp[0];
         /* Computing MAX */
         d__1 = abs(v2[0]), d__2 = abs(v2[1]);
-        abst = max(d__1,d__2);
-        if (absg < 1. && abst > 1.)
-        {
-            if (abst > bignum * absg)
-            {
+        abst = max(d__1, d__2);
+        if (absg < 1. && abst > 1.) {
+            if (abst > bignum * absg) {
                 scaloc = 1. / abst;
             }
         }
-        if (scaloc != 1.)
-        {
+        if (scaloc != 1.) {
             v1 = scaloc * v1;
             v2[0] = scaloc * v2[0];
             v2[1] = scaloc * v2[1];
@@ -394,7 +369,7 @@ integer *info;
             p2[0] = scaloc * p2[0];
             p2[1] = scaloc * p2[1];
             p3 = scaloc * p3;
-            *scale = scaloc **scale;
+            *scale = scaloc * *scale;
         }
         v2[0] /= absg;
         v2[1] /= absg;
@@ -403,23 +378,20 @@ integer *info;
         temp[1] = p1 * t[1] + e2 * 2. * p2[0];
         /* Computing MAX */
         d__1 = abs(temp[0]), d__2 = abs(temp[1]);
-        abst = max(d__1,d__2);
-        if (absg < 1. && abst > 1.)
-        {
-            if (abst > bignum * absg)
-            {
+        abst = max(d__1, d__2);
+        if (absg < 1. && abst > 1.) {
+            if (abst > bignum * absg) {
                 scaloc = 1. / abst;
             }
         }
-        if (scaloc != 1.)
-        {
+        if (scaloc != 1.) {
             temp[0] = scaloc * temp[0];
             temp[1] = scaloc * temp[1];
             v1 = scaloc * v1;
             v2[0] = scaloc * v2[0];
             v2[1] = scaloc * v2[1];
             p3 = scaloc * p3;
-            *scale = scaloc **scale;
+            *scale = scaloc * *scale;
         }
         temp[0] /= absg;
         temp[1] /= absg;
@@ -428,32 +400,26 @@ integer *info;
         y[1] = -(g[0] * temp[1] - g[1] * temp[0]);
         /* Computing MAX */
         d__1 = abs(y[0]), d__2 = abs(y[1]);
-        abst = max(d__1,d__2);
-        if (absg < 1. && abst > 1.)
-        {
-            if (abst > bignum * absg)
-            {
+        abst = max(d__1, d__2);
+        if (absg < 1. && abst > 1.) {
+            if (abst > bignum * absg) {
                 scaloc = 1. / abst;
             }
         }
-        if (scaloc != 1.)
-        {
+        if (scaloc != 1.) {
             y[0] = scaloc * y[0];
             y[1] = scaloc * y[1];
             v1 = scaloc * v1;
             v2[0] = scaloc * v2[0];
             v2[1] = scaloc * v2[1];
             p3 = scaloc * p3;
-            *scale = scaloc **scale;
+            *scale = scaloc * *scale;
         }
         y[0] /= absg;
         y[1] /= absg;
-    }
-    else
-    {
+    } else {
         scaloc = 1.;
-        if (absb < smin)
-        {
+        if (absb < smin) {
             absb = smin;
             *info = 1;
         }
@@ -461,23 +427,20 @@ integer *info;
         temp[1] = sgn * alpha * p2[1] + v1 * t[1];
         /* Computing MAX */
         d__1 = abs(temp[0]), d__2 = abs(temp[1]);
-        abst = max(d__1,d__2);
-        if (absb < 1. && abst > 1.)
-        {
-            if (abst > bignum * absb)
-            {
+        abst = max(d__1, d__2);
+        if (absb < 1. && abst > 1.) {
+            if (abst > bignum * absb) {
                 scaloc = 1. / abst;
             }
         }
-        if (scaloc != 1.)
-        {
+        if (scaloc != 1.) {
             v1 = scaloc * v1;
             temp[0] = scaloc * temp[0];
             temp[1] = scaloc * temp[1];
             p2[0] = scaloc * p2[0];
             p2[1] = scaloc * p2[1];
             p3 = scaloc * p3;
-            *scale = scaloc **scale;
+            *scale = scaloc * *scale;
         }
         temp[0] /= absb * 2.;
         temp[1] /= absb * 2.;
@@ -486,23 +449,20 @@ integer *info;
         v2[1] = -(e1 * temp[1] - e2 * temp[0]);
         /* Computing MAX */
         d__1 = abs(v2[0]), d__2 = abs(v2[1]);
-        abst = max(d__1,d__2);
-        if (absb < 1. && abst > 1.)
-        {
-            if (abst > bignum * absb)
-            {
+        abst = max(d__1, d__2);
+        if (absb < 1. && abst > 1.) {
+            if (abst > bignum * absb) {
                 scaloc = 1. / abst;
             }
         }
-        if (scaloc != 1.)
-        {
+        if (scaloc != 1.) {
             v1 = scaloc * v1;
             v2[0] = scaloc * v2[0];
             v2[1] = scaloc * v2[1];
             p2[0] = scaloc * p2[0];
             p2[1] = scaloc * p2[1];
             p3 = scaloc * p3;
-            *scale = scaloc **scale;
+            *scale = scaloc * *scale;
         }
         v2[0] /= absb;
         v2[1] /= absb;
@@ -511,25 +471,21 @@ integer *info;
     }
     scaloc = 1.;
     v3 = dlapy3_(&p3, y, &y[1]);
-    if (alpha < 1. && v3 > 1.)
-    {
-        if (v3 > bignum * alpha)
-        {
+    if (alpha < 1. && v3 > 1.) {
+        if (v3 > bignum * alpha) {
             scaloc = 1. / v3;
         }
     }
-    if (scaloc != 1.)
-    {
+    if (scaloc != 1.) {
         v1 = scaloc * v1;
         v2[0] = scaloc * v2[0];
         v2[1] = scaloc * v2[1];
         v3 = scaloc * v3;
         p3 = scaloc * p3;
-        *scale = scaloc **scale;
+        *scale = scaloc * *scale;
     }
     v3 /= alpha;
-    if (*ltrans)
-    {
+    if (*ltrans) {
         /*        Case op(M) = M'. */
         /*        Form  X = conjg( Qhat' )*v11. */
         x11[0] = csq[0] * v3;
@@ -547,21 +503,16 @@ integer *info;
         r__[(r_dim1 << 1) + 1] = cst[0] * x12[0] - cst[1] * x12[1] + snt * x11[0];
         tempr = cst[0] * x11[0] + cst[1] * x11[1] - snt * x12[0];
         tempi = cst[0] * x11[1] - cst[1] * x11[0] - snt * x12[1];
-        if (tempi == 0.)
-        {
+        if (tempi == 0.) {
             r__[r_dim1 + 1] = abs(tempr);
             dt[0] = d_sign(&c_b4, &tempr);
             dt[1] = 0.;
-        }
-        else
-        {
+        } else {
             r__[r_dim1 + 1] = dlapy2_(&tempr, &tempi);
             dt[0] = tempr / r__[r_dim1 + 1];
             dt[1] = -tempi / r__[r_dim1 + 1];
         }
-    }
-    else
-    {
+    } else {
         /*        Case op(M) = M. */
         /*        Now form  X = v11*conjg( Qhat' ). */
         x11[0] = csq[0] * v1 - snq * v2[0];
@@ -577,14 +528,11 @@ integer *info;
         r__[(r_dim1 << 1) + 1] = cst[0] * x12[0] + cst[1] * x12[1] + snt * x22[0];
         tempr = cst[0] * x22[0] - cst[1] * x22[1] - snt * x12[0];
         tempi = cst[0] * x22[1] + cst[1] * x22[0] - snt * x12[1];
-        if (tempi == 0.)
-        {
+        if (tempi == 0.) {
             r__[(r_dim1 << 1) + 2] = abs(tempr);
             dt[0] = d_sign(&c_b4, &tempr);
             dt[1] = 0.;
-        }
-        else
-        {
+        } else {
             r__[(r_dim1 << 1) + 2] = dlapy2_(&tempr, &tempi);
             dt[0] = tempr / r__[(r_dim1 << 1) + 2];
             dt[1] = -tempi / r__[(r_dim1 << 1) + 2];
@@ -592,30 +540,25 @@ integer *info;
     }
     /*     The computations below are not needed when B and A are not */
     /*     useful. Compute delta, eta and gamma as in (6.21) or (10.26). */
-    if (y[0] == 0. && y[1] == 0.)
-    {
+    if (y[0] == 0. && y[1] == 0.) {
         delta[0] = 0.;
         delta[1] = 0.;
         gamma[0] = 0.;
         gamma[1] = 0.;
         eta = alpha;
-    }
-    else
-    {
+    } else {
         delta[0] = y[0] / v3;
         delta[1] = y[1] / v3;
         gamma[0] = -alpha * delta[0];
         gamma[1] = -alpha * delta[1];
         eta = p3 / v3;
-        if (*discr)
-        {
+        if (*discr) {
             tempr = e1 * delta[0] - e2 * delta[1];
             delta[1] = e1 * delta[1] + e2 * delta[0];
             delta[0] = tempr;
         }
     }
-    if (*ltrans)
-    {
+    if (*ltrans) {
         /*        Case op(M) = M'. */
         /*        Find  X = conjg( That' )*( inv( v11 )*s11hat*v11 ). */
         /*        ( Defer the scaling.) */
@@ -655,9 +598,7 @@ integer *info;
         a[(a_dim1 << 1) + 1] = dt[0] * tempr + dt[1] * tempi;
         a[a_dim1 + 2] = 0.;
         a[(a_dim1 << 1) + 2] = cst[0] * x22[0] + cst[1] * x22[1] + snt * x12[0];
-    }
-    else
-    {
+    } else {
         /*        Case op(M) = M. */
         /*        Find  X = That*( v11*s11hat*inv( v11 ) ). ( Defer the scaling.) */
         x11[0] = cst[0] * e1 + cst[1] * e2;
@@ -695,8 +636,7 @@ integer *info;
         tempi = cst[0] * x22[1] - cst[1] * x22[0];
         a[(a_dim1 << 1) + 2] = dt[0] * tempr + dt[1] * tempi;
     }
-    if (*scale != 1.)
-    {
+    if (*scale != 1.) {
         a[a_dim1 + 1] = *scale * a[a_dim1 + 1];
         a[(a_dim1 << 1) + 1] = *scale * a[(a_dim1 << 1) + 1];
         a[(a_dim1 << 1) + 2] = *scale * a[(a_dim1 << 1) + 2];
@@ -704,4 +644,3 @@ integer *info;
     return 0;
     /* *** Last line of SB03OY *** */
 } /* sb03oy_ */
-

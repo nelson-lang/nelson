@@ -17,58 +17,58 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "TextEditor.hpp"
-#include "QtTextEditor.h"
 #include "QStringConverter.hpp"
+#include "QtTextEditor.h"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    static QtTextEditor *edit = nullptr;
-    //=============================================================================
-    bool editor(Evaluator *eval)
-    {
-        bool res = false;
-        if (edit == nullptr)
-        {
-            edit = new QtTextEditor(eval);
-        }
-        edit->showNormal();
-        edit->raise();
-        return res;
+//=============================================================================
+static QtTextEditor* edit = nullptr;
+//=============================================================================
+bool
+editor(Evaluator* eval)
+{
+    bool res = false;
+    if (edit == nullptr) {
+        edit = new QtTextEditor(eval);
     }
-    //=============================================================================
-    bool editor(Evaluator *eval, std::wstring filename)
-    {
-        bool res = false;
-        if (edit == nullptr)
-        {
-            edit = new QtTextEditor(eval);
-        }
-        edit->loadOrCreateFile(wstringToQString(filename));
-        edit->showNormal();
-        edit->raise();
-        return res;
+    edit->showNormal();
+    edit->raise();
+    return res;
+}
+//=============================================================================
+bool
+editor(Evaluator* eval, std::wstring filename)
+{
+    bool res = false;
+    if (edit == nullptr) {
+        edit = new QtTextEditor(eval);
     }
-    //=============================================================================
-    bool editor(Evaluator *eval, wstringVector filenames)
-    {
-        bool res = true;
-        for (size_t k = 0; k < filenames.size(); k++)
-        {
-            res = res && editor(eval, filenames[k]);
-        }
-        return res;
+    edit->loadOrCreateFile(wstringToQString(filename));
+    edit->showNormal();
+    edit->raise();
+    return res;
+}
+//=============================================================================
+bool
+editor(Evaluator* eval, wstringVector filenames)
+{
+    bool res = true;
+    for (size_t k = 0; k < filenames.size(); k++) {
+        res = res && editor(eval, filenames[k]);
     }
-    //=============================================================================
-    bool closeEditor()
-    {
-        if (edit != nullptr)
-        {
-            delete edit;
-            edit = nullptr;
-            return true;
-        }
-        return false;
+    return res;
+}
+//=============================================================================
+bool
+closeEditor()
+{
+    if (edit != nullptr) {
+        delete edit;
+        edit = nullptr;
+        return true;
     }
-    //=============================================================================
+    return false;
+}
+//=============================================================================
 }
 //=============================================================================

@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsModules_manager_exports.h"
 #include "Evaluator.hpp"
+#include "nlsModules_manager_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSMODULES_MANAGER_IMPEXP bool RemoveModule(Evaluator* eval, std::wstring moduleshortname);
+NLSMODULES_MANAGER_IMPEXP bool
+RemoveModule(Evaluator* eval, std::wstring moduleshortname);
 }
 //=============================================================================
