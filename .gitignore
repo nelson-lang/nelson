@@ -169,6 +169,7 @@ bin/macosx64/nelson-gui
 enc_temp_folder
 /tools/CMake/
 /*/*/.vscode
+.vscode
 ################################################################################
 # module_skeleton
 module_skeleton/builtin/CMakeLists.txt
@@ -180,3 +181,4 @@ module_skeleton/src/CMakeLists.txt
 module_skeleton/src/cleaner.nls
 module_skeleton/src/loader.nls
 module_skeleton/src/unloader.nls
+module_skeleton/*/*.manifest
