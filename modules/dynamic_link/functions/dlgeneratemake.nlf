@@ -238,11 +238,22 @@ function [r, defines_modified] = checkAndPrepareDefines(defines)
   end
 endfunction
 //=============================================================================
+function modifiedName = addLibrarySuffix(libraryName)
+  modifiedName = libraryName;
+  if ispc()
+    if ~(endsWith(libraryName, '.a') | endsWith(libraryName, '.lib'))
+      modifiedName = [libraryName, '.lib'];
+    end
+  else
+    modifiedName = [libraryName, getdynlibext()];
+  end
+endfunction
+//=============================================================================
 function [r, external_libraries_modified] = checkAndPrepareExternalLibraries(external_libraries)
   external_libraries_modified = '';
   r = false;
   if ischar(external_libraries)
-    external_libraries = {external_libraries};
+    external_libraries = {addLibrarySuffix(external_libraries)};
   end
   if isempty(external_libraries)
     external_libraries = {};
@@ -258,7 +269,7 @@ function [r, external_libraries_modified] = checkAndPrepareExternalLibraries(ext
         r = false;
         return
       end
-      external_libraries_modified = [external_libraries_modified, newline, ['"', k{1}, '"']];
+      external_libraries_modified = [external_libraries_modified, newline, ['"', addLibrarySuffix(k{1}), '"']];
     end
     r = true;
   else

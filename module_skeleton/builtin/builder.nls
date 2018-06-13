@@ -25,18 +25,17 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //=============================================================================
 currentpath = fileparts(nfilename('fullpathext'));
+dlgeneratecleaner(currentpath);
 dlgenerategateway([currentpath, '/cpp/'], 'module_skeleton', {{'cpp_sum', 1, 2}})
-
 [status, message] = dlgeneratemake(currentpath, ...
         'module_skeleton', ...
         {[currentpath, '/cpp/cpp_sumBuiltin.cpp'], [currentpath, '/cpp/Gateway.cpp']}, ...
          [{[currentpath, '/include']; [currentpath, '/../src/include']}; dlgetnelsonincludes()], ...
          [], ...
-         [dlgetnelsonlibraries(); [currentpath, '/../src/business_code.lib']]);
+         [dlgetnelsonlibraries(); [currentpath, '/../src/business_code']]);
 if ~status
   error(message);
 end
-dlgeneratecleaner(currentpath);
 dlgenerateloader(currentpath, 'module_skeleton');
 dlgenerateunloader(currentpath, 'module_skeleton');
 [status, message] = dlmake(currentpath);

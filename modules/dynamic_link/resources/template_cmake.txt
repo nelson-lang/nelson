@@ -4,6 +4,8 @@
 #==============================================================================
 CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 #==============================================================================
+set(CMAKE_SHARED_LIBRARY_PREFIX "")
+#==============================================================================
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "__OUTPUT_DIRECTORY__")
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 __CMAKE_BUILD_TYPE__

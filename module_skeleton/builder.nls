@@ -20,8 +20,12 @@ run([fileparts(nfilename('fullpath')), '/src/builder.nls']);
 run([fileparts(nfilename('fullpath')), '/builtin/builder.nls']);
 //=============================================================================
 if ~ismodule('module_skeleton')
+  // need to load module to build help
   run('loader.nls')
 end
 //=============================================================================
 buildhelp('module_skeleton')
+//=============================================================================
+// unload module and dependencies
+removemodule('module_skeleton')
 //=============================================================================

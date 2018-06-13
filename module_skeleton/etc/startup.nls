@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addpath([fileparts(nfilename('fullpath')), '/../functions']);
 run([fileparts(nfilename('fullpath')), '/../src/loader.nls']);
 addgateway([fileparts(nfilename('fullpath')), '/../builtin/', 'module_skeleton', getdynlibext()]);
+addpath([fileparts(nfilename('fullpath')), '/../functions']);
 //=============================================================================
