@@ -78,6 +78,7 @@
 #include "StackError.hpp"
 #include "Transpose.hpp"
 #include "VertCat.hpp"
+#include "CheckIfWhileCondition.hpp"
 #include "characters_encoding.hpp"
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
@@ -893,7 +894,7 @@ Evaluator::conditionedStatement(ASTPtr t)
     pushID(s->context());
     ArrayOf condVar;
     condVar = expression(s);
-    conditionState = !condVar.isRealAllZeros();
+    conditionState = checkIfWhileCondition(condVar);
     ASTPtr codeBlock = s->right;
     if (conditionState) {
         block(codeBlock);
@@ -1203,7 +1204,7 @@ Evaluator::whileStatement(ASTPtr t)
     codeBlock = t->right;
     breakEncountered = false;
     condVar = expression(testCondition);
-    conditionTrue = !condVar.isRealAllZeros();
+    conditionTrue = checkIfWhileCondition(condVar);
     context->enterLoop();
     while (conditionTrue && !breakEncountered) {
         block(codeBlock);
@@ -1216,7 +1217,7 @@ Evaluator::whileStatement(ASTPtr t)
         breakEncountered = (state == NLS_STATE_BREAK);
         if (!breakEncountered) {
             condVar = expression(testCondition);
-            conditionTrue = !condVar.isRealAllZeros();
+            conditionTrue = checkIfWhileCondition(condVar);
         } else {
             resetState();
         }
