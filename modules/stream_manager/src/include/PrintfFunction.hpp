@@ -16,18 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "StringPrintf.hpp"
-#include "PrintfFunction.hpp"
-#include "characters_encoding.hpp"
+#pragma once
+//=============================================================================
+#include <string>
+#include "ArrayOf.hpp"
+#include "nlsStream_manager_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-bool
-StringPrintf(
-    std::wstring& result, std::wstring& errormsg, Evaluator* eval, const ArrayOfVector& arg)
-{
-    return printfFunction(arg, errormsg, result);
-}
-//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP bool
+printfFunction(const ArrayOfVector& arg, std::wstring& errorMessage, std::wstring& result);
 }
 //=============================================================================

@@ -53,6 +53,7 @@ nlsElementary_mathematics
 nlsElementary_functions
 nlsTypes
 nlsData_structures
+nlStream_manager
 nlsI18n
 )
 #==============================================================================	
