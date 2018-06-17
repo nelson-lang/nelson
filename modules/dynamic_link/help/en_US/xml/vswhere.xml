@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>vswhere</keyword>
+	<short_description>Locate Visual Studio 2017 and newer installations</short_description>
+
+	<syntax>
+		<syntax_item>res = vswhere()</syntax_item>
+
+	</syntax>
+	
+	<param_output>
+		<param_output_item>
+			<param_name>res</param_name>
+			<param_description>a struct with information about Visual studio</param_description>
+		</param_output_item>
+	</param_output>
+
+	<description>
+     	<p><b>vswhere</b> allows to find easily Visual studio.</p>
+		<p><b>vswhere</b> is currently only implemented on Windows platform.</p>
+	</description>
+
+
+	<used_function></used_function>
+	<bibliography>https://github.com/Microsoft/vswhere</bibliography>
+
+<examples>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[vswhere()]]>
+	</example_item_data>
+	
+	</example_item>
+
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${dynamic_link}havecompiler">havecompiler</link>
+		</see_also_item>
+	</see_also>
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>
+
+
