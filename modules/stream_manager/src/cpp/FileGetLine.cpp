@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cstring>
+#include <stdexcept>
 #include "FileGetLine.hpp"
 #include "FileSeek.hpp"
 #include "characters_encoding.hpp"
