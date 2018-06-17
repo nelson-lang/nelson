@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>removecompilerconf</keyword>
+	<short_description>Remove used compiler configuration (on Windows).</short_description>
+
+	<syntax>
+		<syntax_item>res = removecompilerconf()</syntax_item>
+
+	</syntax>
+	
+	<param_output>
+		<param_output_item>
+			<param_name>res</param_name>
+			<param_description>a logical</param_description>
+		</param_output_item>
+	</param_output>
+
+	<description>
+     	<p><b>removecompilerconf</b> returns true if compiler was previously configured with <b>configuremsvc</b> or <b>configuremingw</b>.</p>
+		<p><b>removecompilerconf</b> returns always true on others platforms.</p>
+	</description>
+
+
+	<used_function></used_function>
+	<bibliography></bibliography>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${dynamic_link}configuremsvc">configuremsvc</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${dynamic_link}configuremingw">configuremingw</link>
+		</see_also_item>
+
+	</see_also>
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>
+
+
