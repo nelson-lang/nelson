@@ -100,7 +100,7 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
                             result.resize(nchar);
                             try {
                                 w = w.substr(nchar);
-                            } catch (std::out_of_range&) {
+                            } catch (std::out_of_range) {
                             }
                             std::string u = wstring_to_utf8(w);
                             int64 nseek = (int64)u.length();
