@@ -91,6 +91,7 @@ function [status, message] = configuremsvc()
   json = jsonencode(config);
   json = jsonprettyprint(json);
   filewrite([prefdir(), '/compiler_', arch, '.json'], json);
+  loadcompilerconf();
   status = true;
   msg = '';
 endfunction

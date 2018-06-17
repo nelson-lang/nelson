@@ -37,6 +37,7 @@ function [status, message] = configuremingw(mingw_bin_path)
        json = jsonencode(config);
        json = jsonprettyprint(json);
        filewrite([prefdir(), '/compiler_', arch, '.json'], json);
+       loadcompilerconf();
        status = true;
      else
        message = [ref_gcc_compiler, ' ', _('not found.')];
