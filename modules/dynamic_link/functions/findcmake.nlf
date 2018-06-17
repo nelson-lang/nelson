@@ -20,7 +20,7 @@ function [status, pathcmake] = findcmake()
   status = false;
   pathcmake = '';
   if ispc()
-    embedded = [nelsonroot(), '/tools/Cmake/bin/cmake.exe'];
+    embedded = [nelsonroot(), '/tools/cmake/bin/cmake.exe'];
     if isfile(embedded)
       status = true;
       pathcmake = embedded;
