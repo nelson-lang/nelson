@@ -19,12 +19,43 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsStream_manager_exports.h"
-#include <string>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSSTREAM_MANAGER_IMPEXP bool
-printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstring& result);
+class PrintfHelper
+{
+private:
+    const ArrayOfVector args;
+    int vectorIndex;
+    int elementIndex;
+    bool hasMoreData;
+    bool dataUsed;
+    void
+    IncrementDataPointer(void);
+    static int
+    flagCharacter(wchar_t c);
+    static int
+    convSpec(wchar_t c);
+    static std::wstring
+    ConvertEscapeSequences(const std::wstring& src);
+
+public:
+    PrintfHelper(const ArrayOfVector& arg_);
+    bool
+    GetNextVariableAsDouble(double& data, std::wstring& errorMessage, bool& isEmpty);
+    bool
+    GetNextVariableAsLongLong(long long& data, std::wstring& errorMessage, bool& isEmpty);
+    bool
+    GetNextVariableAsString(std::wstring& str, std::wstring& errorMessage);
+    bool
+    HasMoreData(void);
+    bool
+    WasDataUsed(void);
+    static bool
+    isEscape(wchar_t* dp);
+    static wchar_t*
+    validateFormatSpec(wchar_t* cp);
+};
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

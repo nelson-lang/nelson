@@ -6,25 +6,42 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+fprintf('hello');
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsStream_manager_exports.h"
-#include <string>
+R = fprintf('hello');
+REF = 5;
+assert_isequal(R, REF);
 //=============================================================================
-namespace Nelson {
+fileID = fopen([tempdir(), '/test_fprintf.txt'], 'wt');
+fprintf(fileID, '%s','hello');
+fclose(fileID);
+R = fileread([tempdir(), '/test_fprintf.txt']);
+REF = 'hello';
+assert_isequal(R, REF);
 //=============================================================================
-NLSSTREAM_MANAGER_IMPEXP bool
-printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstring& result);
-} // namespace Nelson
+fileID = fopen([tempdir(), '/test_fprintf.txt'], 'wt');
+R = fprintf(fileID, '%s %s', 'hello', 'Nelson');
+fclose(fileID);
+R = fileread([tempdir(), '/test_fprintf.txt']);
+REF = 'hello Nelson';
+assert_isequal(R, REF);
 //=============================================================================
+fileID = fopen([tempdir(), '/test_fprintf.txt'], 'wt');
+R = fprintf(fileID, '%f', -53);
+fclose(fileID);
+R = fileread([tempdir(), '/test_fprintf.txt']);
+REF = '-53.000000';
+assert_isequal(R, REF);
+//=============================================================================
+
+
