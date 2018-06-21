@@ -101,9 +101,7 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
                     }
                     sv = *np;
                     *np = 0;
-                    nprn = snwprintf(nbuff, BUFFER_SIZE_MAX, dp, str.c_str());
-                    nbuff[std::min(nprn + 1, BUFFER_SIZE_MAX - 1)] = L'\0';
-                    result = result + nbuff;
+                    result = result + str;
                 } else {
                     sv = *np;
                     *np = 0;
