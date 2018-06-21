@@ -1,7 +1,10 @@
 Features:
 ---------
 
+  * sprintf, fprintf functions: format data into a string or a file.
+
   * norm function: matrix and vectors norms.
+
   * [#128](http://github.com/Nelson-numerical-software/nelson/issues/128): code indented with clang-format (webkit coding style)
 
 Bug Fixes:
