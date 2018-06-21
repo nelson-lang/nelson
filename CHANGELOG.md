@@ -23,12 +23,17 @@ Features:
     - removecompilerconf function: remove compiler configuration
     - vswhere function: detects easily modern Microsoft compilers.
 
+  * sprintf, fprintf functions: format data into a string or a file.
+
   * norm function: matrix and vectors norms.
+
   * [#128](http://github.com/Nelson-numerical-software/nelson/issues/128): code indented with clang-format (webkit coding style)
 
 Bug Fixes:
 ---------
 
+  * [#136](http://github.com/Nelson-numerical-software/nelson/issues/136): Fix predecence of Colon ":" operator.
+  
   * [#134](http://github.com/Nelson-numerical-software/nelson/issues/134): Evaluation of Non-Scalar If-Condition Expression was not managed.
 
 
