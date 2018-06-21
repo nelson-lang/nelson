@@ -21,114 +21,117 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-template <class T> bool checkIfWhileCondition(const ArrayOf &A) {
-  bool res = true;
-  T first = ((T *)A.getDataPointer())[0];
-  if (A.isScalar()) {
-    return first != T(0);
-  } else {
-    if (!first) {
-      return false;
+template <class T>
+bool
+checkIfWhileCondition(const ArrayOf& A)
+{
+    bool res = true;
+    T first = ((T*)A.getDataPointer())[0];
+    if (A.isScalar()) {
+        return first != T(0);
+    } else {
+        if (!first) {
+            return false;
+        }
+        for (indexType i = 0; i < A.getDimensions().getElementCount(); i++) {
+            T valueToCompare = ((T*)A.getDataPointer())[i];
+            if (!valueToCompare) {
+                res = false;
+                break;
+            }
+        }
     }
-    for (indexType i = 0; i < A.getDimensions().getElementCount(); i++) {
-	  T valueToCompare = ((T*)A.getDataPointer())[i];
-      if (!valueToCompare) {
-        res = false;
-        break;
-      }
-    }
-  }
-  return res;
+    return res;
 }
 //=============================================================================
-bool checkIfWhileCondition(const ArrayOf &A) {
-  bool res = true;
-  if (A.isEmpty()) {
-    res = false;
-  } else {
-    if (A.isSparse()) {
-      res = false;
-      switch (A.getDataClass()) {
-      case NLS_LOGICAL: {
-        Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatA =
-            (Eigen::SparseMatrix<logical, 0, signedIndexType> *)
-                A.getSparseDataPointer();
-        Eigen::Index nnz = spMatA->nonZeros();
-        if (A.isScalar()) {
-          return (nnz == 1);
-        } else {
-          return (nnz == A.getDimensions().getElementCount());
-        }
-      } break;
-      case NLS_DOUBLE: {
-        Eigen::SparseMatrix<double, 0, signedIndexType> *spMatA =
-            (Eigen::SparseMatrix<double, 0, signedIndexType> *)
-                A.getSparseDataPointer();
-        Eigen::Index nnz = spMatA->nonZeros();
-        if (A.isScalar()) {
-          return (nnz == 1);
-        } else {
-          return (nnz == A.getDimensions().getElementCount());
-        }
-      } break;
-      case NLS_DCOMPLEX: {
-        throw Exception(_W("Complex cannot be converted to logical."));
-      } break;
-      default: {
-        throw Exception(_W(
-            "Unable to convert variable type to test for if/while statement"));
-      } break;
-      }
+bool
+checkIfWhileCondition(const ArrayOf& A)
+{
+    bool res = true;
+    if (A.isEmpty()) {
+        res = false;
     } else {
-      switch (A.getDataClass()) {
-      case NLS_LOGICAL: {
-        return checkIfWhileCondition<logical>(A);
-      } break;
-      case NLS_UINT8: {
-        return checkIfWhileCondition<uint8>(A);
-      } break;
-      case NLS_INT8: {
-        return checkIfWhileCondition<int8>(A);
-      } break;
-      case NLS_UINT16: {
-        return checkIfWhileCondition<uint16>(A);
-      } break;
-      case NLS_INT16: {
-        return checkIfWhileCondition<int16>(A);
-      } break;
-      case NLS_UINT32: {
-        return checkIfWhileCondition<uint32>(A);
-      } break;
-      case NLS_INT32: {
-        return checkIfWhileCondition<int32>(A);
-      } break;
-      case NLS_UINT64: {
-        return checkIfWhileCondition<uint64>(A);
-      } break;
-      case NLS_INT64: {
-        return checkIfWhileCondition<int64>(A);
-      } break;
-      case NLS_SINGLE: {
-        return checkIfWhileCondition<single>(A);
-      } break;
-      case NLS_DOUBLE: {
-        return checkIfWhileCondition<double>(A);
-      } break;
-      case NLS_CHAR: {
-        return checkIfWhileCondition<charType>(A);
-      } break;
-      case NLS_SCOMPLEX:
-      case NLS_DCOMPLEX: {
-        throw Exception(_W("Complex cannot be converted to logical."));
-      } break;
-      default: {
-        throw Exception(_W(
-            "Unable to convert variable type to test for if/while statement"));
-      } break;
-      }
+        if (A.isSparse()) {
+            res = false;
+            switch (A.getDataClass()) {
+            case NLS_LOGICAL: {
+                Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatA
+                    = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.getSparseDataPointer();
+                Eigen::Index nnz = spMatA->nonZeros();
+                if (A.isScalar()) {
+                    return (nnz == 1);
+                } else {
+                    return (nnz == A.getDimensions().getElementCount());
+                }
+            } break;
+            case NLS_DOUBLE: {
+                Eigen::SparseMatrix<double, 0, signedIndexType>* spMatA
+                    = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
+                Eigen::Index nnz = spMatA->nonZeros();
+                if (A.isScalar()) {
+                    return (nnz == 1);
+                } else {
+                    return (nnz == A.getDimensions().getElementCount());
+                }
+            } break;
+            case NLS_DCOMPLEX: {
+                throw Exception(_W("Complex cannot be converted to logical."));
+            } break;
+            default: {
+                throw Exception(
+                    _W("Unable to convert variable type to test for if/while statement"));
+            } break;
+            }
+        } else {
+            switch (A.getDataClass()) {
+            case NLS_LOGICAL: {
+                return checkIfWhileCondition<logical>(A);
+            } break;
+            case NLS_UINT8: {
+                return checkIfWhileCondition<uint8>(A);
+            } break;
+            case NLS_INT8: {
+                return checkIfWhileCondition<int8>(A);
+            } break;
+            case NLS_UINT16: {
+                return checkIfWhileCondition<uint16>(A);
+            } break;
+            case NLS_INT16: {
+                return checkIfWhileCondition<int16>(A);
+            } break;
+            case NLS_UINT32: {
+                return checkIfWhileCondition<uint32>(A);
+            } break;
+            case NLS_INT32: {
+                return checkIfWhileCondition<int32>(A);
+            } break;
+            case NLS_UINT64: {
+                return checkIfWhileCondition<uint64>(A);
+            } break;
+            case NLS_INT64: {
+                return checkIfWhileCondition<int64>(A);
+            } break;
+            case NLS_SINGLE: {
+                return checkIfWhileCondition<single>(A);
+            } break;
+            case NLS_DOUBLE: {
+                return checkIfWhileCondition<double>(A);
+            } break;
+            case NLS_CHAR: {
+                return checkIfWhileCondition<charType>(A);
+            } break;
+            case NLS_SCOMPLEX:
+            case NLS_DCOMPLEX: {
+                throw Exception(_W("Complex cannot be converted to logical."));
+            } break;
+            default: {
+                throw Exception(
+                    _W("Unable to convert variable type to test for if/while statement"));
+            } break;
+            }
+        }
     }
-  }
-  return res;
+    return res;
 }
 //=============================================================================
 } // namespace Nelson

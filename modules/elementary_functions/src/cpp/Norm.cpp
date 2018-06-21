@@ -24,7 +24,8 @@
 namespace Nelson {
 //=============================================================================
 static bool
-ispNormValid(double p) {
+ispNormValid(double p)
+{
     return (p == 1 || p == 2 || std::isinf(p) && (p > 0));
 }
 //=============================================================================
@@ -36,14 +37,11 @@ NormPVector(const ArrayOf& arrayIn, double p)
         (T*)arrayIn.getDataPointer(), (Eigen::Index)arrayIn.getDimensions().getRows(),
         (Eigen::Index)arrayIn.getDimensions().getColumns());
     T returnedValue = 0;
-	if (p == 1)
-	{
+    if (p == 1) {
         returnedValue = matArrayIn.template lpNorm<1>();
-	}
-	else if (p == 2)
-	{
+    } else if (p == 2) {
         returnedValue = matArrayIn.template lpNorm<2>();
-	} else if (std::isinf(p)) {
+    } else if (std::isinf(p)) {
         if (p > 0) {
             // max(abs(X))
             returnedValue = matArrayIn.array().abs().maxCoeff();
@@ -51,10 +49,10 @@ NormPVector(const ArrayOf& arrayIn, double p)
             // min(abs(X))
             returnedValue = matArrayIn.array().abs().minCoeff();
         }
-	} else {
-        //sum(abs(X).^ p) ^ (1 / p)
+    } else {
+        // sum(abs(X).^ p) ^ (1 / p)
         returnedValue = pow(matArrayIn.array().abs().pow(p).sum(), (1 / (T)p));
-	}
+    }
     return returnedValue;
 }
 //=============================================================================
@@ -91,8 +89,7 @@ T
 NormP2Matrix(const ArrayOf& arrayIn)
 {
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(
-        (T*)arrayIn.getDataPointer(),
-        (Eigen::Index)arrayIn.getDimensions().getRows(),
+        (T*)arrayIn.getDataPointer(), (Eigen::Index)arrayIn.getDimensions().getRows(),
         (Eigen::Index)arrayIn.getDimensions().getColumns());
     Eigen::JacobiSVD<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> svd(matArrayIn);
     T res = svd.singularValues()(0, 0);
@@ -108,18 +105,18 @@ template <class T>
 T
 NormP2ComplexMatrix(const ArrayOf& arrayIn)
 {
-    std::complex<T>* arrayInz
-        = reinterpret_cast<std::complex<T>*>((T*)arrayIn.getDataPointer());
-    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(
-        arrayInz, (Eigen::Index)arrayIn.getDimensions().getRows(),
+    std::complex<T>* arrayInz = reinterpret_cast<std::complex<T>*>((T*)arrayIn.getDataPointer());
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(arrayInz,
+        (Eigen::Index)arrayIn.getDimensions().getRows(),
         (Eigen::Index)arrayIn.getDimensions().getColumns());
-    Eigen::JacobiSVD<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> svd(matArrayIn);
+    Eigen::JacobiSVD<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> svd(
+        matArrayIn);
     T res = svd.singularValues()(0, 0);
     if (std::isnan(res)) {
         if (!matArrayIn.allFinite() && !matArrayIn.hasNaN()) {
             res = std::numeric_limits<T>::infinity();
         }
-	}
+    }
     return res;
 }
 //=============================================================================
@@ -175,19 +172,19 @@ NormPInfComplexMatrix(const ArrayOf& arrayIn)
         (Eigen::Index)arrayIn.getDimensions().getRows(),
         (Eigen::Index)arrayIn.getDimensions().getColumns());
     if (arrayIn.isScalar() || arrayIn.isVector()) {
-		return matArrayIn.template lpNorm<Eigen::Infinity>();
-	}
+        return matArrayIn.template lpNorm<Eigen::Infinity>();
+    }
     T maxValue = 0.0;
     if (!matArrayIn.hasNaN()) {
         if (matArrayIn.allFinite()) {
-			for (int i = 0; i < matArrayIn.rows(); ++i) {
-				T cn = matArrayIn.row(i).template lpNorm<1>();
-				if (cn > maxValue)
-					maxValue = cn;
-			}
+            for (int i = 0; i < matArrayIn.rows(); ++i) {
+                T cn = matArrayIn.row(i).template lpNorm<1>();
+                if (cn > maxValue)
+                    maxValue = cn;
+            }
         } else {
             maxValue = std::numeric_limits<T>::infinity();
-		}
+        }
     } else {
         maxValue = (T)std::nan("");
     }
@@ -202,8 +199,8 @@ NormPInfMatrix(const ArrayOf& arrayIn)
         (T*)arrayIn.getDataPointer(), (Eigen::Index)arrayIn.getDimensions().getRows(),
         (Eigen::Index)arrayIn.getDimensions().getColumns());
     if (arrayIn.isScalar() || arrayIn.isVector()) {
-		return matArrayIn.template lpNorm<Eigen::Infinity>();
-	}
+        return matArrayIn.template lpNorm<Eigen::Infinity>();
+    }
     T maxValue = 0.0;
     if (!matArrayIn.hasNaN()) {
         if (matArrayIn.allFinite()) {
@@ -214,10 +211,10 @@ NormPInfMatrix(const ArrayOf& arrayIn)
             }
         } else {
             maxValue = std::numeric_limits<T>::infinity();
-		}
+        }
     } else {
         maxValue = (T)std::nan("");
-	}
+    }
     return maxValue;
 }
 //=============================================================================
@@ -230,7 +227,6 @@ NormFrobeniusComplexMatrix(const ArrayOf& arrayIn)
         (Eigen::Index)arrayIn.getDimensions().getRows(),
         (Eigen::Index)arrayIn.getDimensions().getColumns());
     return matArrayIn.norm();
-
 }
 //=============================================================================
 template <class T>
@@ -244,7 +240,7 @@ NormFrobeniusMatrix(const ArrayOf& arrayIn)
 }
 //=============================================================================
 ArrayOf
-Norm(const ArrayOf &arrayIn, double p)
+Norm(const ArrayOf& arrayIn, double p)
 {
     ArrayOf res;
     if (!arrayIn.is2D()) {
@@ -253,16 +249,16 @@ Norm(const ArrayOf &arrayIn, double p)
 
     if (!ispNormValid(p) && !(arrayIn.isVector() || arrayIn.isScalar())) {
         throw Exception(ERROR_WRONG_ARGUMENT_2_VALUE);
-	}
+    }
     double normResultAsDouble = 0;
     single normResultAsSingle = 0;
     if (arrayIn.isEmpty()) {
         if (arrayIn.getDataClass() == NLS_SCOMPLEX || arrayIn.getDataClass() == NLS_SINGLE) {
             res = ArrayOf::singleConstructor(normResultAsSingle);
-		} else {
-            res = ArrayOf::doubleConstructor(normResultAsDouble);        
-		}
-	} else {
+        } else {
+            res = ArrayOf::doubleConstructor(normResultAsDouble);
+        }
+    } else {
         if (arrayIn.isVector() || arrayIn.isScalar()) {
             if (arrayIn.getDataClass() == NLS_SCOMPLEX) {
                 normResultAsSingle = NormPComplexVector<single>(arrayIn, p);
@@ -281,7 +277,7 @@ Norm(const ArrayOf &arrayIn, double p)
                 res = ArrayOf::doubleConstructor(normResultAsDouble);
             }
         } else {
-			// matrix
+            // matrix
             if (p == 2) {
                 if (arrayIn.getDataClass() == NLS_SCOMPLEX) {
                     normResultAsSingle = NormP2ComplexMatrix<single>(arrayIn);
@@ -337,12 +333,12 @@ Norm(const ArrayOf &arrayIn, double p)
                 throw Exception(ERROR_WRONG_ARGUMENT_2_VALUE);
             }
         }
-	}
+    }
     return res;
 }
 //=============================================================================
 ArrayOf
-NormFrobenius(const ArrayOf &arrayIn)
+NormFrobenius(const ArrayOf& arrayIn)
 {
     ArrayOf res;
     if (!arrayIn.is2D()) {
@@ -357,22 +353,22 @@ NormFrobenius(const ArrayOf &arrayIn)
             res = ArrayOf::doubleConstructor(normResultAsDouble);
         }
     } else {
-            if (arrayIn.getDataClass() == NLS_SCOMPLEX) {
-                normResultAsSingle = NormFrobeniusComplexMatrix<single>(arrayIn);
-                res = ArrayOf::singleConstructor(normResultAsSingle);
-            }
-            if (arrayIn.getDataClass() == NLS_SINGLE) {
-                normResultAsSingle = NormFrobeniusMatrix<single>(arrayIn);
-                res = ArrayOf::singleConstructor(normResultAsSingle);
-            }
-            if (arrayIn.getDataClass() == NLS_DCOMPLEX) {
-                normResultAsDouble = NormFrobeniusComplexMatrix<double>(arrayIn);
-                res = ArrayOf::doubleConstructor(normResultAsDouble);
-            }
-            if (arrayIn.getDataClass() == NLS_DOUBLE) {
-                normResultAsDouble = NormFrobeniusMatrix<double>(arrayIn);
-                res = ArrayOf::doubleConstructor(normResultAsDouble);
-            }
+        if (arrayIn.getDataClass() == NLS_SCOMPLEX) {
+            normResultAsSingle = NormFrobeniusComplexMatrix<single>(arrayIn);
+            res = ArrayOf::singleConstructor(normResultAsSingle);
+        }
+        if (arrayIn.getDataClass() == NLS_SINGLE) {
+            normResultAsSingle = NormFrobeniusMatrix<single>(arrayIn);
+            res = ArrayOf::singleConstructor(normResultAsSingle);
+        }
+        if (arrayIn.getDataClass() == NLS_DCOMPLEX) {
+            normResultAsDouble = NormFrobeniusComplexMatrix<double>(arrayIn);
+            res = ArrayOf::doubleConstructor(normResultAsDouble);
+        }
+        if (arrayIn.getDataClass() == NLS_DOUBLE) {
+            normResultAsDouble = NormFrobeniusMatrix<double>(arrayIn);
+            res = ArrayOf::doubleConstructor(normResultAsDouble);
+        }
     }
     return res;
 }
