@@ -23,11 +23,6 @@
 #include "PrintfHelper.hpp"
 #include <boost/algorithm/string.hpp>
 //=============================================================================
-#ifdef _MSC_VER
-#define snwprintf _snwprintf
-#else 
-#define snwprintf swprintf
-#endif
 namespace Nelson {
 //=============================================================================
 bool
@@ -90,7 +85,7 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
             } else {
                 wchar_t sv = 0;
                 if (*(np - 1) == L'%') {
-                    nprn = snwprintf(nbuff, BUFFER_SIZE_MAX, L"%%");
+                    nprn = swprintf(nbuff, BUFFER_SIZE_MAX, L"%%");
                     nbuff[std::min(nprn + 1, BUFFER_SIZE_MAX - 1)] = L'\0';
                     result = result + nbuff;
                     sv = 0;
@@ -122,13 +117,13 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
                             if (*(np - 1) == L'u') {
                                 std::wstring f(dp);
                                 boost::replace_all(f, L"u", L"llu");
-                                nprn = snwprintf(nbuff, BUFFER_SIZE_MAX, f.c_str(), data);
+                                nprn = swprintf(nbuff, BUFFER_SIZE_MAX, f.c_str(), data);
                             } else if (*(np - 1) == L'd') {
                                 std::wstring f(dp);
                                 boost::replace_all(f, L"d", L"lld");
-                                nprn = snwprintf(nbuff, BUFFER_SIZE_MAX, f.c_str(), data);
+                                nprn = swprintf(nbuff, BUFFER_SIZE_MAX, f.c_str(), data);
                             } else {
-                                nprn = snwprintf(nbuff, BUFFER_SIZE_MAX, dp, data);
+                                nprn = swprintf(nbuff, BUFFER_SIZE_MAX, dp, data);
                             }
                             nbuff[nprn + 1] = L'\0';
                             result = result + nbuff;
@@ -146,7 +141,7 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
                             return false;
                         }
                         if (!isEmpty) {
-                            nprn = snwprintf(nbuff, BUFFER_SIZE_MAX, dp, data);
+                            nprn = swprintf(nbuff, BUFFER_SIZE_MAX, dp, data);
                             nbuff[nprn + 1] = L'\0';
                             result = result + nbuff;
                         }

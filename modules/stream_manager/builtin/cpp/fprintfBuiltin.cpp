@@ -86,7 +86,7 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         } else {
             FILE* filepointer = (FILE*)f->getFilePointer();
             if (filepointer) {
-                fwprintf(filepointer, L"%s", result.c_str());
+                fwprintf(filepointer, L"%ls", result.c_str());
             } else {
                 Error(eval, _W("ID not supported."));
             }
