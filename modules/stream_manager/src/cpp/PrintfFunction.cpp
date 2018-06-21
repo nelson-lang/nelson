@@ -16,14 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <stdio.h>
+#include <vector>
 #include "PrintfFunction.hpp"
 #include "Exception.hpp"
 #include "PrintfHelper.hpp"
 #include <boost/algorithm/string.hpp>
-#include <stdio.h>
 //=============================================================================
 #ifdef _MSC_VER
 #define snwprintf _snwprintf
+#else 
+#define snwprintf swprintf
 #endif
 namespace Nelson {
 //=============================================================================
@@ -87,7 +90,7 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
             } else {
                 wchar_t sv = 0;
                 if (*(np - 1) == L'%') {
-                    nprn = _snwprintf(nbuff, BUFFER_SIZE_MAX, L"%%");
+                    nprn = snwprintf(nbuff, BUFFER_SIZE_MAX, L"%%");
                     nbuff[std::min(nprn + 1, BUFFER_SIZE_MAX - 1)] = L'\0';
                     result = result + nbuff;
                     sv = 0;

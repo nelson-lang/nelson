@@ -31,6 +31,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include
 )
 #==============================================================================	
@@ -53,8 +54,9 @@ nlsElementary_mathematics
 nlsElementary_functions
 nlsTypes
 nlsData_structures
-nlStream_manager
 nlsI18n
+nlsCharacters_encoding
+nlsStream_manager
 )
 #==============================================================================	
 set_target_properties(${module_library_name}
