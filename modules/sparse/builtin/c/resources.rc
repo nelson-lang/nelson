@@ -48,8 +48,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,2,5,0
- PRODUCTVERSION 0,2,5,0
+ FILEVERSION 0,2,6,0
+ PRODUCTVERSION 0,2,6,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -68,8 +68,8 @@ BEGIN
             VALUE "InternalName", "sparse_builtin"
             VALUE "OriginalFilename", "libnlssparse_builtin.dll"
             VALUE "ProductName", "Nelson (sparse_builtin)"
-            VALUE "ProductVersion", "0,2,5,0"
-            VALUE "FileVersion", "0,2,5,0"
+            VALUE "ProductVersion", "0,2,6,0"
+            VALUE "FileVersion", "0,2,6,0"
             VALUE "LegalCopyright", "Nelson Copyright (C) 2016-2018"
             VALUE "Comments", "All rights reserved."
             VALUE "CompanyName", "Allan CORNET"
