@@ -26,6 +26,10 @@ function r = test_makeref(filename)
     error(_('<--CHECK REF--> tag expected.'));
   end
   [p, f, e] = fileparts(filename);
+  if strcmp(p, '') == true;
+    p = pwd();
+    filename = [p, '/', f, e];
+  end
   dia_ref = [p, '/', f, '.ref'];
   // delete previous .ref
   rm = rmfile(dia_ref);
