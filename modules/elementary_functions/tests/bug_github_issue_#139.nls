@@ -1,0 +1,48 @@
+//=============================================================================
+// Copyright (c) 2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+// <-- Issue URL -->
+// https://github.com/Nelson-numerical-software/nelson/issues/139
+// <-- Short Description -->
+// fix(1e10) returned a wrong value
+//=============================================================================
+V = 1e10;
+R = fix(V);
+REF = V;
+assert_isequal(R, REF);
+//=============================================================================
+V = 1e32;
+R = fix(V);
+REF = V;
+assert_isequal(R, REF);
+//=============================================================================
+V = 1e333;
+R = fix(V);
+REF = inf;
+assert_isequal(R, REF);
+//=============================================================================
+V = 1e-433;
+R = fix(V);
+REF = 0;
+assert_isequal(R, REF);
+//=============================================================================
+V = [];
+R = fix(V);
+REF = [];
+assert_isequal(R, REF);
+//=============================================================================
