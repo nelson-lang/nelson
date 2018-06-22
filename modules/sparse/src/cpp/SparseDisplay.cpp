@@ -43,249 +43,244 @@ using std::showbase;
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-std::string
-single2hexastr(single d)
-{
-    char* buffer = new char[32];
-    sprintf(buffer, "%X", *(int*)&d);
-    return buffer;
+std::string single2hexastr(single d) {
+  char *buffer = new char[32];
+  sprintf(buffer, "%X", *(int *)&d);
+  return buffer;
 }
 //=============================================================================
-std::string
-double2hexastr(double d)
-{
-    char* buffer = new char[32];
-    sprintf(buffer, "%llx", *(unsigned long long*)&d);
-    return buffer;
+std::string double2hexastr(double d) {
+  char *buffer = new char[32];
+  sprintf(buffer, "%llx", *(unsigned long long *)&d);
+  return buffer;
 }
 //=============================================================================
-static std::string
-printNumber(double number, OutputFormatDisplay currentFormat)
-{
-    std::string strNumber = "";
-    boost::format fmtnbr;
-    if (IsInfinite(number)) {
-        if (number > 0) {
-            strNumber = " Inf";
-        } else {
-            strNumber = "-Inf";
-        }
+static std::string printNumber(double number,
+                               OutputFormatDisplay currentFormat) {
+  std::string strNumber = "";
+  boost::format fmtnbr;
+  if (IsInfinite(number)) {
+    if (number > 0) {
+      strNumber = " Inf";
     } else {
-        if (IsNaN(number)) {
-            strNumber = " NaN";
-        } else {
-            switch (currentFormat) {
-            case NLS_FORMAT_SHORT:
-                fmtnbr = boost::format("%1$10.4f");
-                if (number == 0.0) {
-                    strNumber = str(fmtnbr % 0.0);
-                } else {
-                    strNumber = str(fmtnbr % number);
-                }
-                break;
-            case NLS_FORMAT_LONG:
-                fmtnbr = boost::format("%1$20.16g");
-                if (number == 0.0) {
-                    strNumber = str(fmtnbr % 0.0);
-                } else {
-                    strNumber = str(fmtnbr % number);
-                }
-                break;
-            case NLS_FORMAT_SHORTE:
-                fmtnbr = boost::format("%1$10.5e");
-                if (number == 0.0) {
-                    strNumber = str(fmtnbr % 0.0);
-                } else {
-                    strNumber = str(fmtnbr % number);
-                }
-                break;
-            case NLS_FORMAT_LONGE:
-                fmtnbr = boost::format("%1$10.5le");
-                if (number == 0.0) {
-                    strNumber = str(fmtnbr % 0.0);
-                } else {
-                    strNumber = str(fmtnbr % number);
-                }
-                break;
-            case NLS_FORMAT_HEX:
-                strNumber = double2hexastr(number);
-                break;
-            }
-        }
+      strNumber = "-Inf";
     }
-    return strNumber;
-}
-//=============================================================================
-static std::string
-printNumber(double realpart, double imagpart, OutputFormatDisplay currentFormat)
-{
-    std::string strNumber = "";
-    if (imagpart != 0.0) {
-        if (imagpart > 0.0) {
-            strNumber = printNumber(realpart, currentFormat) + " + "
-                + printNumber(imagpart, currentFormat) + "i";
-        } else {
-            strNumber = printNumber(realpart, currentFormat) + " - "
-                + printNumber(abs(imagpart), currentFormat) + "i";
-        }
+  } else {
+    if (IsNaN(number)) {
+      strNumber = " NaN";
     } else {
-        strNumber = printNumber(realpart, currentFormat);
-    }
-    return strNumber;
-}
-//=============================================================================
-void
-SparseDoubleDisplay(Evaluator* eval, ArrayOf a)
-{
-    Interface* io = eval->getInterface();
-    if (io) {
-        size_t rows = a.getDimensionLength(0);
-        size_t cols = a.getDimensionLength(1);
-        if ((rows == 0) || (cols == 0)) {
-            std::string msg
-                = str(boost::format("\tAll zero sparse: %d-by-%d\n") % (int)rows % (int)cols);
-            io->outputMessage(msg);
+      switch (currentFormat) {
+      case NLS_FORMAT_SHORT:
+        fmtnbr = boost::format("%1$10.4f");
+        if (number == 0.0) {
+          strNumber = str(fmtnbr % 0.0);
         } else {
-            if (a.getNonzeros() == 0) {
-                std::string msg
-                    = str(boost::format("\tAll zero sparse: %d-by-%d\n") % (int)rows % (int)cols);
-                io->outputMessage(msg);
-            } else {
-                Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
-                    = (Eigen::SparseMatrix<double, 0, signedIndexType>*)a.getSparseDataPointer();
-                for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-                    if (eval->GetInterruptPending()) {
-                        break;
-                    }
-                    for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(
-                             *spMat, k);
-                         it; ++it) {
-                        if (eval->GetInterruptPending()) {
-                            break;
-                        }
-                        std::string strNumber
-                            = printNumber(it.value(), eval->getCurrentOutputFormatDisplay());
-                        std::string msg = str(boost::format("\t(%d,%d)\t%s\n") % (it.row() + 1)
-                            % (it.col() + 1) % strNumber.c_str());
-                        io->outputMessage(msg);
-                    }
-                }
-            }
+          strNumber = str(fmtnbr % number);
         }
-        io->outputMessage("\n");
+        break;
+      case NLS_FORMAT_LONG:
+        fmtnbr = boost::format("%1$20.16g");
+        if (number == 0.0) {
+          strNumber = str(fmtnbr % 0.0);
+        } else {
+          strNumber = str(fmtnbr % number);
+        }
+        break;
+      case NLS_FORMAT_SHORTE:
+        fmtnbr = boost::format("%1$10.5e");
+        if (number == 0.0) {
+          strNumber = str(fmtnbr % 0.0);
+        } else {
+          strNumber = str(fmtnbr % number);
+        }
+        break;
+      case NLS_FORMAT_LONGE:
+        fmtnbr = boost::format("%1$10.5le");
+        if (number == 0.0) {
+          strNumber = str(fmtnbr % 0.0);
+        } else {
+          strNumber = str(fmtnbr % number);
+        }
+        break;
+      case NLS_FORMAT_HEX:
+        strNumber = double2hexastr(number);
+        break;
+      }
     }
+  }
+  return strNumber;
 }
 //=============================================================================
-void
-SparseDoubleComplexDisplay(Evaluator* eval, ArrayOf a)
-{
-    Interface* io = eval->getInterface();
-    if (io) {
-        const double** src = (const double**)a.getSparseDataPointer();
-        size_t rows = a.getDimensionLength(0);
-        size_t cols = a.getDimensionLength(1);
-        if (rows == 0 || cols == 0) {
-            std::string msg
-                = str(boost::format("\tAll zero sparse: %d-by-%d\n") % (int)rows % (int)cols);
+static std::string printNumber(double realpart, double imagpart,
+                               OutputFormatDisplay currentFormat) {
+  std::string strNumber = "";
+  if (imagpart != 0.0) {
+    if (imagpart > 0.0) {
+      strNumber = printNumber(realpart, currentFormat) + " + " +
+                  printNumber(imagpart, currentFormat) + "i";
+    } else {
+      strNumber = printNumber(realpart, currentFormat) + " - " +
+                  printNumber(abs(imagpart), currentFormat) + "i";
+    }
+  } else {
+    strNumber = printNumber(realpart, currentFormat);
+  }
+  return strNumber;
+}
+//=============================================================================
+void SparseDoubleDisplay(Evaluator *eval, ArrayOf a) {
+  Interface *io = eval->getInterface();
+  if (io) {
+    size_t rows = a.getDimensionLength(0);
+    size_t cols = a.getDimensionLength(1);
+    if ((rows == 0) || (cols == 0)) {
+      std::string msg = str(boost::format(_("\tAll zero sparse: %d-by-%d\n")) %
+                            (int)rows % (int)cols);
+      io->outputMessage(msg);
+    } else {
+      if (a.getNonzeros() == 0) {
+        std::string msg =
+            str(boost::format(_("\tAll zero sparse: %lu-by-%lu\n")) %
+                (long long)rows % (long long)cols);
+        io->outputMessage(msg);
+      } else {
+        Eigen::SparseMatrix<double, 0, signedIndexType> *spMat =
+            (Eigen::SparseMatrix<double, 0, signedIndexType> *)
+                a.getSparseDataPointer();
+        for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
+          if (eval->GetInterruptPending()) {
+            break;
+          }
+          for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator
+                   it(*spMat, k);
+               it; ++it) {
+            if (eval->GetInterruptPending()) {
+              break;
+            }
+            std::string strNumber =
+                printNumber(it.value(), eval->getCurrentOutputFormatDisplay());
+            std::string msg = str(
+                boost::format("\t(%lu,%lu)\t%s\n") % (long long)(it.row() + 1) %
+                (long long)(it.col() + 1) % strNumber.c_str());
             io->outputMessage(msg);
-        } else {
-            if (a.getNonzeros() == 0) {
-                std::string msg
-                    = str(boost::format("\tAll zero sparse: %d-by-%d\n") % (int)rows % (int)cols);
-                io->outputMessage(msg);
-            } else {
-                Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMat
-                    = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)
-                          a.getSparseDataPointer();
-                for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-                    if (eval->GetInterruptPending()) {
-                        break;
-                    }
-                    for (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator it(
-                             *spMat, k);
-                         it; ++it) {
-                        if (eval->GetInterruptPending()) {
-                            break;
-                        }
-                        std::string strNumber = printNumber(it.value().real(), it.value().imag(),
+          }
+        }
+      }
+    }
+    io->outputMessage("\n");
+  }
+}
+//=============================================================================
+void SparseDoubleComplexDisplay(Evaluator *eval, ArrayOf a) {
+  Interface *io = eval->getInterface();
+  if (io) {
+    const double **src = (const double **)a.getSparseDataPointer();
+    size_t rows = a.getDimensionLength(0);
+    size_t cols = a.getDimensionLength(1);
+    if (rows == 0 || cols == 0) {
+      std::string msg = str(boost::format(_("\tAll zero sparse: %d-by-%d\n")) %
+                            (int)rows % (int)cols);
+      io->outputMessage(msg);
+    } else {
+      if (a.getNonzeros() == 0) {
+        std::string msg =
+            str(boost::format(_("\tAll zero sparse: %lu-by-%lu\n")) %
+                (long long)rows % (long long)cols);
+        io->outputMessage(msg);
+      } else {
+        Eigen::SparseMatrix<doublecomplex, 0, signedIndexType> *spMat =
+            (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType> *)
+                a.getSparseDataPointer();
+        for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
+          if (eval->GetInterruptPending()) {
+            break;
+          }
+          for (Eigen::SparseMatrix<doublecomplex, 0,
+                                   signedIndexType>::InnerIterator it(*spMat,
+                                                                      k);
+               it; ++it) {
+            if (eval->GetInterruptPending()) {
+              break;
+            }
+            std::string strNumber =
+                printNumber(it.value().real(), it.value().imag(),
                             eval->getCurrentOutputFormatDisplay());
-                        std::string msg = str(boost::format("\t(%d,%d)\t%s\n") % (it.row() + 1)
-                            % (it.col() + 1) % strNumber.c_str());
-                        io->outputMessage(msg);
-                    }
-                }
-            }
-        }
-        io->outputMessage("\n");
-    }
-}
-//=============================================================================
-void
-SparseLogicalDisplay(Evaluator* eval, ArrayOf a)
-{
-    Interface* io = eval->getInterface();
-    if (io) {
-        const logical** src = (const logical**)a.getSparseDataPointer();
-        size_t rows = a.getDimensionLength(0);
-        size_t cols = a.getDimensionLength(1);
-        if (rows == 0 || cols == 0) {
-            std::string msg
-                = str(boost::format("\tAll zero sparse: %d-by-%d\n") % (int)rows % (int)cols);
+            std::string msg = str(
+                boost::format("\t(%lu,%lu)\t%s\n") % (long long)(it.row() + 1) %
+                (long long)(it.col() + 1) % strNumber.c_str());
             io->outputMessage(msg);
-        } else {
-            if (a.getNonzeros() == 0) {
-                std::string msg
-                    = str(boost::format("\tAll zero sparse: %d-by-%d\n") % (int)rows % (int)cols);
-                io->outputMessage(msg);
-            } else {
-                Eigen::SparseMatrix<logical, 0, signedIndexType>* spMat
-                    = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)a.getSparseDataPointer();
-                for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-                    if (eval->GetInterruptPending()) {
-                        break;
-                    }
-                    for (Eigen::SparseMatrix<logical, 0, signedIndexType>::InnerIterator it(
-                             *spMat, k);
-                         it; ++it) {
-                        if (eval->GetInterruptPending()) {
-                            break;
-                        }
-                        std::string msg = "";
-                        if (it.value()) {
-                            msg = str(boost::format("\t(%d,%d) true\n") % (it.row() + 1)
-                                % (it.col() + 1));
-                        } else {
-                            msg = str(boost::format("\t(%d,%d) false\n") % (it.row() + 1)
-                                % (it.col() + 1));
-                        }
-                        io->outputMessage(msg);
-                    }
-                }
+          }
+        }
+      }
+    }
+    io->outputMessage("\n");
+  }
+}
+//=============================================================================
+void SparseLogicalDisplay(Evaluator *eval, ArrayOf a) {
+  Interface *io = eval->getInterface();
+  if (io) {
+    const logical **src = (const logical **)a.getSparseDataPointer();
+    size_t rows = a.getDimensionLength(0);
+    size_t cols = a.getDimensionLength(1);
+    if (rows == 0 || cols == 0) {
+      std::string msg = str(boost::format(_("\tAll zero sparse: %d-by-%d\n")) %
+                            (int)rows % (int)cols);
+      io->outputMessage(msg);
+    } else {
+      if (a.getNonzeros() == 0) {
+        std::string msg =
+            str(boost::format(_("\tAll zero sparse: %lu-by-%lu\n")) %
+                (long long)rows % (long long)cols);
+        io->outputMessage(msg);
+      } else {
+        Eigen::SparseMatrix<logical, 0, signedIndexType> *spMat =
+            (Eigen::SparseMatrix<logical, 0, signedIndexType> *)
+                a.getSparseDataPointer();
+        for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
+          if (eval->GetInterruptPending()) {
+            break;
+          }
+          for (Eigen::SparseMatrix<logical, 0, signedIndexType>::InnerIterator
+                   it(*spMat, k);
+               it; ++it) {
+            if (eval->GetInterruptPending()) {
+              break;
             }
+            std::string msg = "";
+            if (it.value()) {
+              msg = str(boost::format("\t(%lu,%lu) true\n") %
+                        (long long)(it.row() + 1) % (long long)(it.col() + 1));
+            } else {
+              msg = str(boost::format("\t(%lu,%lu) false\n") %
+                        (long long)(it.row() + 1) % (long long)(it.col() + 1));
+            }
+            io->outputMessage(msg);
+          }
         }
-        io->outputMessage("\n");
+      }
     }
+    io->outputMessage("\n");
+  }
 }
 //=============================================================================
-void
-SparseDisplay(Evaluator* eval, ArrayOf a)
-{
-    if (a.isSparse()) {
-        switch (a.getDataClass()) {
-        case NLS_DOUBLE:
-            SparseDoubleDisplay(eval, a);
-            break;
-        case NLS_DCOMPLEX:
-            SparseDoubleComplexDisplay(eval, a);
-            break;
-        case NLS_LOGICAL:
-            SparseLogicalDisplay(eval, a);
-            break;
-        default:
-            break;
-        }
+void SparseDisplay(Evaluator *eval, ArrayOf a) {
+  if (a.isSparse()) {
+    switch (a.getDataClass()) {
+    case NLS_DOUBLE:
+      SparseDoubleDisplay(eval, a);
+      break;
+    case NLS_DCOMPLEX:
+      SparseDoubleComplexDisplay(eval, a);
+      break;
+    case NLS_LOGICAL:
+      SparseLogicalDisplay(eval, a);
+      break;
+    default:
+      break;
     }
+  }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

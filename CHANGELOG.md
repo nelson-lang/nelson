@@ -36,6 +36,8 @@ Bug Fixes:
   
   * [#134](http://github.com/Nelson-numerical-software/nelson/issues/134): Evaluation of Non-Scalar If-Condition Expression was not managed.
 
+  * [#116](http://github.com/Nelson-numerical-software/nelson/issues/116): fix display size of big sparse matrix.
+
 
 Compilation:
 ---------
