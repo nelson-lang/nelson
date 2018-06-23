@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>dlgenerategateway</keyword>
+	<short_description>Generates C++ gateway.</short_description>
+
+	<syntax>
+		<syntax_item>dlgenerategateway(destinationdir, module_name, builtin_table)</syntax_item>
+
+	</syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>destinationdir</param_name>
+			<param_description>a string: destination directory where is generated the gateway file.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>module_name</param_name>
+			<param_description>a string: module name exposed in Nelson.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>builtin_table</param_name>
+			<param_description>a cell composed of cell with {name exposed in Nelson, nb output arguments, nb input arguments} </param_description>
+		</param_input_item>
+
+	</param_input>
+
+	<description>
+		<p><b>dlgenerategateway</b> generates a C++ gateway used by <b>addmodule</b>.</p>
+	</description>
+
+
+	<used_function></used_function>
+	<bibliography></bibliography>
+
+<examples>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description>See module skeleton for example</example_item_description>
+		<example_item_data><![CDATA[dlgenerategateway(tempdir(), 'module_skeleton', {{'cpp_sum', 1, 2}; {'cpp_sub', 2, 3}});
+text = fileread([tempdir(), '/Gateway.cpp'])]]>
+	</example_item_data>
+	
+	</example_item>
+
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${modules_manager}addmodule">addmodule</link>
+		</see_also_item>
+	</see_also>
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>
+
+
