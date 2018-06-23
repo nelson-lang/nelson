@@ -249,7 +249,7 @@ function status = test_run(varargin)
     
     lenCharsTestCasesMax = length(int2str(nbTestCasesMax));
     lenCharsTestSuitesMax = length(int2str(nbTestSuites));
-    
+    tic();
     k = 1;
     for ts = test_suites.tests_list
       fprintf(stdout, [' ', uniformizeNumbers(k, lenCharsTestSuitesMax), '/', int2str(nbTestSuites), ' - ', '[', ts.name, '] :', newline]);
@@ -291,13 +291,13 @@ function status = test_run(varargin)
           tc.msg = '';
         end
         test_suites.tests_list(k).test_cases_list(l) = tc;
-        test_suites.time = test_suites.time + test_suites.tests_list(k).time;
         l = l + 1;
       end
+      test_suites.time = test_suites.time + test_suites.tests_list(k).time;
       k = k + 1;
       disp(' ');
     end
-    
+    test_suites.total_time = toc();
     disp_summary(test_suites);
     
     if strcmp(result_outputfile, '') == false
@@ -417,9 +417,14 @@ function disp_summary(test_suites)
   fprintf(stdout, ['  ', _('Skipped:'), ' ',  int2str(test_suites.disabled), newline]);
   fprintf(stdout, ['  ', _('Benchs:'), ' ', int2str(test_suites.bench), newline]);
   if test_suites.time > 100
-    fprintf(stdout, ['  ', _('Time:'), ' ', mat2str(test_suites.time * inv(60), 2), ' min', newline]);
+    fprintf(stdout, ['  ', _('Tests time:'), ' ', mat2str(test_suites.time * inv(60), 2), ' min', newline]);
   else
-    fprintf(stdout, ['  ', _('Time:'), ' ', mat2str(test_suites.time, 2), ' s ', newline]);
+    fprintf(stdout, ['  ', _('Tests time:'), ' ', mat2str(test_suites.time, 2), ' s ', newline]);
+  end
+  if test_suites.total_time > 100
+    fprintf(stdout, ['  ', _('Total time:'), ' ', mat2str(test_suites.total_time * inv(60), 2), ' min', newline]);
+  else
+    fprintf(stdout, ['  ', _('Total time:'), ' ', mat2str(test_suites.total_time, 2), ' s ', newline]);
   end
   fprintf(stdout, ['  //===========================================================================', newline]);
 endfunction
