@@ -29,8 +29,8 @@ Source: {#RootPath}\{#MODULE_NAME}\functions\*.nlf; DestDir: {app}\{#MODULE_NAME
 Source: {#RootPath}\{#MODULE_NAME}\help\en_US\images\*.png; DestDir: {app}\{#MODULE_NAME}\help\en_US\images\;
 Source: {#RootPath}\{#MODULE_NAME}\help\en_US\xml\*.xml; DestDir: {app}\{#MODULE_NAME}\help\en_US\xml\;
 ;==============================================================================
-Source: {#RootPath}\{#MODULE_NAME}\src\*.*; DestDir: {app}\modules\{#MODULE_NAME}\src\; Flags: recursesubdirs
-Source: {#RootPath}\{#MODULE_NAME}\builtin\*.*; DestDir: {app}\modules\{#MODULE_NAME}\builtin\; Flags: recursesubdirs
+Source: {#RootPath}\{#MODULE_NAME}\src\*.*; DestDir: {app}\{#MODULE_NAME}\src\; Flags: recursesubdirs
+Source: {#RootPath}\{#MODULE_NAME}\builtin\*.*; DestDir: {app}\{#MODULE_NAME}\builtin\; Flags: recursesubdirs
 ;==============================================================================
-Source: {#RootPath}\{#MODULE_NAME}\tests\*.nls; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
+Source: {#RootPath}\{#MODULE_NAME}\tests\*.nls; DestDir: {app}\{#MODULE_NAME}\tests\; Flags: recursesubdirs
 ;==============================================================================

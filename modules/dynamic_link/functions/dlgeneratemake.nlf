@@ -174,7 +174,7 @@ function [r, c_cpp_files_modified] = checkAndPrepareCppFiles(c_cpp_files)
         r = false;
         return
       end
-      c_cpp_files_modified = [c_cpp_files_modified, newline, k{1}];
+      c_cpp_files_modified = [c_cpp_files_modified, newline, ['"', k{1}, '"']];
     end
     r = true;
   else
@@ -202,7 +202,7 @@ function [r, includes_modified] = checkAndPrepareIncludesDirectories(includes)
         r = false;
         return
       end
-      includes_modified = [includes_modified, newline, k{1}];
+      includes_modified = [includes_modified, newline, ['"', k{1}, '"']];
     end
     r = true;
   else
