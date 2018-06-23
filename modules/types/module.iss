@@ -18,6 +18,10 @@
 ;==============================================================================
 #define MODULE_NAME "types"
 ;==============================================================================
+Source: {#RootPath}bin\{#BinPath}\libnlsTypes.lib; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.hpp; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
+;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsTypes.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsTypes_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
