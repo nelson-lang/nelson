@@ -32,7 +32,9 @@ Features:
 Bug Fixes:
 ---------
 
-  * [#136](http://github.com/Nelson-numerical-software/nelson/issues/136): Fix predecence of Colon ":" operator.
+  * [#139](http://github.com/Nelson-numerical-software/nelson/issues/139): fix(1e10) returned a wrong value.
+
+  * [#136](http://github.com/Nelson-numerical-software/nelson/issues/136): Corrected predecence of Colon ":" operator.
   
   * [#134](http://github.com/Nelson-numerical-software/nelson/issues/134): Evaluation of Non-Scalar If-Condition Expression was not managed.
 
