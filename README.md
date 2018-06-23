@@ -49,7 +49,9 @@ these own data types and operations on these data types by using overload.
 
 - JSON decode/encode data support.
 
-- Foreign Function Interface.
+- Foreign Function Interface C/Fortran.
+
+- Interfacing C/C++ or Fortran with Nelson (build and load external code on the fly).
 
 - The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
 
