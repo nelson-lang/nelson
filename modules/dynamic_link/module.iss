@@ -37,4 +37,6 @@ Source: {#RootPath}modules\{#MODULE_NAME}\resources\*.bat; DestDir: {app}\module
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\*.json; DestDir: {app}\modules\{#MODULE_NAME}\resources\; Flags: recursesubdirs
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nls; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.c; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.h; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
 ;==============================================================================
