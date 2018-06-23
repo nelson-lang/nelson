@@ -54,12 +54,21 @@ try
     fprintf(stdout, ['  ', _('Skipped:'), ' ',  int2str(test_suites.disabled), newline]);
     fprintf(stdout, ['  ', _('Benchs:'), ' ', int2str(test_suites.bench), newline]);
     if test_suites.time > 100
-      fprintf(stdout, ['  ', _('Time:'), ' ', mat2str(test_suites.time * inv(60), 2), ' min', newline]);
+      fprintf(stdout, ['  ', _('Tests time:'), ' ', mat2str(test_suites.time * inv(60), 2), ' min', newline]);
     else
       if test_suites.time < 1e-3
-        fprintf(stdout, ['  ', _('Time:'), ' ', mat2str(test_suites.time * 1e3, 2), ' ms', newline]);
+        fprintf(stdout, ['  ', _('Tests time:'), ' ', mat2str(test_suites.time * 1e3, 2), ' ms', newline]);
       else
-        fprintf(stdout, ['  ', _('Time:'), ' ', mat2str(test_suites.time, 2), ' s', newline]);
+        fprintf(stdout, ['  ', _('Tests time:'), ' ', mat2str(test_suites.time, 2), ' s', newline]);
+      end
+    end
+    if test_suites.time > 100
+      fprintf(stdout, ['  ', _('Total time:'), ' ', mat2str(test_suites.total_time * inv(60), 2), ' min', newline]);
+    else
+      if test_suites.time < 1e-3
+        fprintf(stdout, ['  ', _('Total time:'), ' ', mat2str(test_suites.total_time * 1e3, 2), ' ms', newline]);
+      else
+        fprintf(stdout, ['  ', _('Total time:'), ' ', mat2str(test_suites.total_time, 2), ' s', newline]);
       end
     end
     fprintf(stdout, ['  //===========================================================================', newline]);
