@@ -36,12 +36,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <errno.h>
-#include <iostream>
-#include <math.h>
-#include <stdio.h>
 #include "Evaluator.hpp"
 #include "Exception.hpp"
 #include "LessEquals.hpp"
@@ -93,8 +87,24 @@
 #include "LessThan.hpp"
 #include "Equals.hpp"
 #include "NotEquals.hpp"
+#include "PathFuncManager.hpp"
+#include "Power.hpp"
+#include "ProcessEventsDynamicFunction.hpp"
+#include "RightDivide.hpp"
+#include "Serialize.hpp"
+#include "StackError.hpp"
+#include "Transpose.hpp"
+#include "VertCat.hpp"
+#include "CheckIfWhileCondition.hpp"
+#include "characters_encoding.hpp"
 #include "UnaryMinus.hpp"
 #include "UnaryPlus.hpp"
+#include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
+#include <errno.h>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
 
 #ifdef _MSC_VER
 #define strdup _strdup
@@ -819,7 +829,7 @@ Evaluator::conditionedStatement(ASTPtr t)
     pushID(s->context());
     ArrayOf condVar;
     condVar = expression(s);
-    conditionState = !condVar.isRealAllZeros();
+    conditionState = checkIfWhileCondition(condVar);
     ASTPtr codeBlock = s->right;
     if (conditionState) {
         block(codeBlock);
@@ -1129,7 +1139,7 @@ Evaluator::whileStatement(ASTPtr t)
     codeBlock = t->right;
     breakEncountered = false;
     condVar = expression(testCondition);
-    conditionTrue = !condVar.isRealAllZeros();
+    conditionTrue = checkIfWhileCondition(condVar);
     context->enterLoop();
     while (conditionTrue && !breakEncountered) {
         block(codeBlock);
@@ -1142,7 +1152,7 @@ Evaluator::whileStatement(ASTPtr t)
         breakEncountered = (state == NLS_STATE_BREAK);
         if (!breakEncountered) {
             condVar = expression(testCondition);
-            conditionTrue = !condVar.isRealAllZeros();
+            conditionTrue = checkIfWhileCondition(condVar);
         } else {
             resetState();
         }

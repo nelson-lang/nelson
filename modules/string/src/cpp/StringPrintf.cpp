@@ -17,6 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "StringPrintf.hpp"
+#include "PrintfFunction.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,10 +26,7 @@ bool
 StringPrintf(
     std::wstring& result, std::wstring& errormsg, Evaluator* eval, const ArrayOfVector& arg)
 {
-    bool bRes = false;
-    result = L"";
-    errormsg = L"";
-    return bRes;
+    return printfFunction(arg, errormsg, result);
 }
 //=============================================================================
 }

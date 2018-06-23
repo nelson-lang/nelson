@@ -1163,46 +1163,6 @@ ArrayOf::isPositive() const
 }
 #undef caseMacro
 
-const bool
-ArrayOf::isRealAllZeros() const
-{
-    bool allZeros;
-    indexType len = getLength();
-    indexType i;
-#define caseMacro(caseLabel, dpType, testcode)                                                     \
-    case caseLabel: {                                                                              \
-        const dpType* qp = (const dpType*)dp->getData();                                           \
-        while (allZeros && (i < len)) {                                                            \
-            allZeros = allZeros && (testcode);                                                     \
-            i++;                                                                                   \
-        }                                                                                          \
-        return allZeros;                                                                           \
-    }
-    allZeros = true;
-    i = 0;
-    if (isSparse()) {
-        throw Exception(_W("isPositive not supported for sparse arrays."));
-    }
-    switch (dp->dataClass) {
-        caseMacro(NLS_LOGICAL, logical, qp[i] == 0);
-        caseMacro(NLS_UINT8, uint8, qp[i] == 0);
-        caseMacro(NLS_INT8, int8, qp[i] == 0);
-        caseMacro(NLS_UINT16, uint16, qp[i] == 0);
-        caseMacro(NLS_INT16, int16, qp[i] == 0);
-        caseMacro(NLS_UINT32, uint32, qp[i] == 0);
-        caseMacro(NLS_INT32, int32, qp[i] == 0);
-        caseMacro(NLS_UINT64, uint64, qp[i] == 0);
-        caseMacro(NLS_INT64, int64, qp[i] == 0);
-        caseMacro(NLS_SINGLE, single, qp[i] <= std::numeric_limits<single>::epsilon());
-        caseMacro(NLS_DOUBLE, double, qp[i] <= std::numeric_limits<double>::epsilon());
-        caseMacro(NLS_SCOMPLEX, single, qp[i << 1] <= std::numeric_limits<single>::epsilon());
-        caseMacro(NLS_DCOMPLEX, double, qp[i << 1] <= std::numeric_limits<double>::epsilon());
-    default:
-        throw Exception(_W("Unable to convert variable type to test for if/while statement"));
-    }
-#undef caseMacro
-}
-
 #define caseMacroReal(caseLabel, type)                                                             \
     case caseLabel:                                                                                \
         retval = (*((const type*)x_dp) == *((const type*)y_dp));                                   \

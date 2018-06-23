@@ -314,13 +314,6 @@ public:
      */
     const bool
     isPositive() const;
-    /**
-     * Returns true if our real part is all zeros.  For integer types, this is an
-     * element-wise test.  For complex types, we check only the real part.
-     * Throws an exception if we are a string, cell-array or struct-array type.
-     */
-    const bool
-    isRealAllZeros() const;
     const bool
     isSparse() const;
 

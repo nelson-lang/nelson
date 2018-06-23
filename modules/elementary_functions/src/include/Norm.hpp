@@ -24,10 +24,10 @@
 namespace Nelson {
 //=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Norm(const ArrayOf &arrayIn, double p);
+Norm(const ArrayOf& arrayIn, double p);
 //=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-NormFrobenius(const ArrayOf &arrayIn);
+NormFrobenius(const ArrayOf& arrayIn);
 //=============================================================================
 }
 //=============================================================================

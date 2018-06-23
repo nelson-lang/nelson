@@ -25,9 +25,9 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector
 Nelson::ElementaryFunctionsGateway::normBuiltin(
-	Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	ArrayOfVector retval;
+    ArrayOfVector retval;
     if (argIn.size() < 1 || argIn.size() > 2) {
 		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
 	}
@@ -57,7 +57,7 @@ Nelson::ElementaryFunctionsGateway::normBuiltin(
                         }
                     } else {
                         ArrayOf param = argIn[1];
-						double p = param.getContentAsDoubleScalar();
+                        double p = param.getContentAsDoubleScalar();
                         retval.push_back(Norm(argIn[0], p));
                     }
                 } else {
@@ -68,9 +68,9 @@ Nelson::ElementaryFunctionsGateway::normBuiltin(
 		else {
             retval = OverloadFunction(eval, nLhs, argIn, "norm", bSuccess);
             if (!bSuccess) {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE);            
-			}
-		}
+                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE);
+            }
+        }
     }
     return retval;
 }
