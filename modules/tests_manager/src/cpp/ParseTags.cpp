@@ -113,6 +113,8 @@ ParseTags(Evaluator* eval, std::wstring filename, TestTags& options, std::wstrin
         bool firstMpiModeTag = true;
         bool firstAudioInputRequiredTag = true;
         bool firstAudioOutputRequiredTag = true;
+        bool firstCCompilerRequiredTag = true;
+        bool firstIndex64BitRequiredTag = true;
         std::string line;
         while (!istream.eof()) {
             std::getline(istream, line);
@@ -322,6 +324,26 @@ ParseTags(Evaluator* eval, std::wstring filename, TestTags& options, std::wstrin
                 }
                 options.setAudioOutputRequired(true);
                 firstAudioOutputRequiredTag = false;
+                continue;
+            }
+            if (compareTag(line, C_COMPILER_REQUIRED_TAG) && firstCCompilerRequiredTag) {
+                if (!firstCCompilerRequiredTag) {
+                    msg = _W("duplicated tag detected: <--C/C++ COMPILER REQUIRED-->.");
+                    istream.close();
+                    return false;
+                }
+                options.setCCompilerRequired(true);
+                firstCCompilerRequiredTag = false;
+                continue;
+            }
+            if (compareTag(line, INDEX_64_BIT_REQUIRED_TAG) && firstIndex64BitRequiredTag) {
+                if (!firstIndex64BitRequiredTag) {
+                    msg = _W("duplicated tag detected: <--INDEX 64 BIT REQUIRED-->.");
+                    istream.close();
+                    return false;
+                }
+                options.setIndex64BitRequired(true);
+                firstIndex64BitRequiredTag = false;
                 continue;
             }
         }

@@ -3571,7 +3571,8 @@ ArrayOf::getContentAsScalarIndex(bool bWithZero)
         double maxIndexType = (double)std::numeric_limits<indexType>::max();
         if ((*qp) > maxIndexType) {
             idx = static_cast<indexType>(maxIndexType);
-        } else if (*qp < 0) {
+            throw Exception(_W("Invalid index value > limit max."));
+		} else if (*qp < 0) {
             throw Exception(_W("Expected a positive integer scalar."));
         } else {
             double dVal = (*qp);
