@@ -3,8 +3,8 @@
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
-	<keyword>nelson_sum</keyword>
-	<short_description>Return sum (script version).</short_description>
+	<keyword>cpp_sum</keyword>
+	<short_description>Return sum (cpp version).</short_description>
 
 	<syntax>
 		<syntax_item>nelson_sum(A, B)</syntax_item>
@@ -31,40 +31,28 @@
 	</param_output>
 
 	<description><p><b>C = nelson_sum(A, B)</b> returns the sum of A and B variables.</p>
-	<p>here an example how to insert an image</p>
-	<img src="../images/banner_nelson.png" align= "middle"/>
-	 <p>another image:</p>
-	<img src="../images/fibonacci.png" align= "left"/>
- <p>another image again:</p><img src="../images/fibonacci.png" align= "left"/>
 </description>
 
 
 	<used_function>addition</used_function>
 	<bibliography></bibliography>
 	
-<img src= "../images/fibonacci.png" align= "right"/>
 
 <examples>
 
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>an example</example_item_description>
-		<example_item_data><![CDATA[nelson_sum(3, 4)]]>
-		</example_item_data>
-	  <example_item_img src="../images/banner_nelson.png" align= "middle"/>
-	
+		<example_item_data><![CDATA[cpp_sum(3, 4)]]>
+		</example_item_data>	
 	</example_item>
 
 </examples>
 
 	<see_also>
 		<see_also_item>
-			<link linkend="${types}isa">isa</link>
+			<link linkend="${module_skeleton}nelson_sum">nelson_sum</link>
 		</see_also_item>
-		<see_also_item>
-			<link linkend="${module_skeleton}cpp_sum">cpp_sum</link>
-		</see_also_item>
-
 	</see_also>
 
 	<history>
