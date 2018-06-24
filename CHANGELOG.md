@@ -1,7 +1,11 @@
+## 0.2.6 (2018-06-)
+
 Features:
 ---------
 
-  * helper's functions to build C/C++ code easily on Windows, Linux, MacosX
+  * module skeleton updated to build an example with C++ function (cpp_sum).
+
+  * helper's functions to build C/C++ code easily on Windows, Linux, MacOS X:
     - dlgeneratemake: generates a makefile for building a dynamic library.
     - dlgeneratecleaner: generates cleaner.nls file for C++ gateway.
     - dlgenerateloader: generates loader.nls file for C++ gateway.
@@ -54,7 +58,7 @@ Compilation:
   * libffi 3.2.1 dll on Windows 32 & 64 bit
 
 
-## 0.2.5 
+## 0.2.5 (2018-05-23)
 
 Features:
 ---------
