@@ -2,15 +2,14 @@ Features:
 ---------
 
   * helper's functions to build C/C++ code easily on Windows, Linux, MacosX
-    - dlbuild
     - dlmake
     - dlgeneratemake
-    - dlgeneratecleaner
-    - dlgenerateloader
-    - dlgenerateunloader
-    - dlgenerategateway
-    - cmake
-    - findcmake
+    - dlgeneratecleaner: generates cleaner.nls file for C++ gateway.
+    - dlgenerateloader: generates loader.nls file for C++ gateway.
+    - dlgenerateunloader: generates unloader.nls file for C++ gateway.
+    - dlgenerategateway: generates C++ gateway.
+    - cmake function: call CMake tool.
+    - findcmake: find CMake path.
 
   * detect and configure C/C++ compilers on Windows, Linux, MacosX
     - On Windows: 
@@ -25,9 +24,14 @@ Features:
 
   * sprintf, fprintf functions: format data into a string or a file.
 
+  * add "<--C/C++ COMPILER REQUIRED-->" tag managed by test engine.
+
+  * add "<--INDEX 64 BIT REQUIRED-->" tag managed by test engine.
+
   * norm function: matrix and vectors norms.
 
   * [#128](http://github.com/Nelson-numerical-software/nelson/issues/128): code indented with clang-format (webkit coding style)
+
 
 Bug Fixes:
 ---------

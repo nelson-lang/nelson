@@ -16,12 +16,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-if ~havecompiler() & ispc()
-  configuremsvc();
-end 
+// <--C/C++ COMPILER REQUIRED--> 
 //=============================================================================
 if ismodule('module_skeleton')
-  removemodule('module_skeleton')
+  assert_isequal(cpp_sum(3, 4), 7);
+  return
 end
 //=============================================================================
 sourcedir = [nelsonroot(),'/module_skeleton'];

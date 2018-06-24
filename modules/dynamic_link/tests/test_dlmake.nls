@@ -16,9 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-if ~havecompiler() & ispc()
-  configuremsvc();
-end 
+// <--C/C++ COMPILER REQUIRED--> 
 //=============================================================================
 destinationdir = [tempdir(), '/test_cmake'];
 mkdir(destinationdir);

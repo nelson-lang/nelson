@@ -497,8 +497,7 @@ function r = have_excel()
 endfunction
 //=============================================================================
 function r = have_c_cpp_compiler()
-  // r = havecompiler();
-  r = false;
+  r = havecompiler();
 endfunction
 //=============================================================================
 function r = have_64_bit_index_supported()
