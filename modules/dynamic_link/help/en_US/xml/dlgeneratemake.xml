@@ -4,7 +4,7 @@
 
 	<language>en_US</language>
 	<keyword>dlgeneratemake</keyword>
-	<short_description>Configure Nelson to use visual studio as default compiler</short_description>
+	<short_description>Generates a makefile for building a dynamic library.</short_description>
 
 	<syntax>
 	    <syntax_item>[res, message] = dlgeneratemake(destinationdir, libname, c_cpp_files, include)</syntax_item>
@@ -65,15 +65,13 @@
 
 	<description>
 	 	<p><b>dlgeneratemake</b> generates a makefile adapted to your system environment for building shared libraries.</p>
+		 <p>Thanks to <b>CMake</b> to help Nelson in this task.</p>
 	</description>
-
 
 	<used_function></used_function>
 	<bibliography></bibliography>
 
-
 <examples>
-
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description>See module skeleton for example</example_item_description>
@@ -84,12 +82,8 @@
 [], ...
 [dlgetnelsonlibraries(); [currentpath, '/../src/business_code']]);]]>
 	</example_item_data>
-	
 	</example_item>
-
-
 </examples>
-
 
 	<see_also>
 		<see_also_item>

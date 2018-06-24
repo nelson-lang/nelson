@@ -2,14 +2,14 @@ Features:
 ---------
 
   * helper's functions to build C/C++ code easily on Windows, Linux, MacosX
-    - dlmake
-    - dlgeneratemake
+    - dlgeneratemake: generates a makefile for building a dynamic library.
     - dlgeneratecleaner: generates cleaner.nls file for C++ gateway.
     - dlgenerateloader: generates loader.nls file for C++ gateway.
     - dlgenerateunloader: generates unloader.nls file for C++ gateway.
     - dlgenerategateway: generates C++ gateway.
-    - cmake function: call CMake tool.
     - findcmake: find CMake path.
+    - cmake function: call CMake tool.
+    - dlmake: call make or nmake tool.
 
   * detect and configure C/C++ compilers on Windows, Linux, MacosX
     - On Windows: 
