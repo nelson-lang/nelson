@@ -21,7 +21,10 @@ Features:
     - loadcompilerconf function: load compiler configuration
     - removecompilerconf function: remove compiler configuration
     - vswhere function: detects easily modern Microsoft compilers.
-
+   
+  * By default, Nelson does not try to detect a C/C++ compiler on Windows.
+    Do not forget to run 'configuremsvc' or 'configuremingw' once.
+  
   * sprintf, fprintf functions: format data into a string or a file.
 
   * add "<--C/C++ COMPILER REQUIRED-->" tag managed by test engine.
