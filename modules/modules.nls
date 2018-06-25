@@ -19,7 +19,6 @@
 modules_list = {
 'modules_manager';
 'functions_manager';
-'dynamic_link';
 'engine';
 'core';
 'localization';
@@ -29,6 +28,7 @@ modules_list = {
 'overload';
 'function_handle';
 'constructors_functions';
+'logical';
 'types';
 'single';
 'double';
@@ -37,12 +37,13 @@ modules_list = {
 'elementary_functions';
 'trigonometric_functions';
 'sparse';
-'logical';
 'files_folders_functions';
 'os_functions';
+'json';
+'stream_manager';
+'dynamic_link';
 'memory_manager';
 'console';
-'stream_manager';
 'interpreter';
 'time';
 'random';
@@ -62,7 +63,6 @@ modules_list = {
 'slicot';
 'text_editor';
 'mpi';
-'json';
 'audio'
 };
 %==============================================================================

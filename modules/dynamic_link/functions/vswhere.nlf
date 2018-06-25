@@ -1,0 +1,42 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function r = vswhere()
+  // https://github.com/Microsoft/vswhere
+  if ~ispc()
+    error(_('Not implemented on this platform.'));
+  end
+  arch = computer('arch');
+  if strcmp(arch, 'win64') == true
+    pathvswhere =  [getenv('ProgramFiles(x86)'), '\Microsoft Visual Studio\Installer\vswhere.exe'];
+  else
+    pathvswhere =  [getenv('ProgramFiles'), '\Microsoft Visual Studio\Installer\vswhere.exe'];
+  end
+  if ~isfile(pathvswhere)
+    error(_('vswhere not found.'));
+  end
+  jsonfile = [tempdir(), '/vswhere.json'];
+  cmd = ['"', pathvswhere, '"', ' -format json'];
+  [status, message] = unix(cmd);
+  status = (status == 0);
+  if (status == false)
+    error(_('Cannot read vswhere result.'));
+  end
+  r = jsondecode(message);
+ endfunction
+ //=============================================================================

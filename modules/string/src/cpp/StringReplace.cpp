@@ -19,10 +19,11 @@
 #ifdef _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
 #endif
-#include "StringReplace.hpp"
-#include "Exception.hpp"
-#include "IsCellOfStrings.hpp"
 #include <boost/algorithm/string.hpp>
+#include <boost/container/vector.hpp>
+#include "StringReplace.hpp"
+#include "IsCellOfStrings.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

@@ -18,11 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "AST.hpp"
+#include <sys/stat.h>
 #include "FunctionDef.hpp"
 #include "Serialize.hpp"
+#include "AST.hpp"
 #include "nlsInterpreter_exports.h"
-#include <sys/stat.h>
 //=============================================================================
 namespace Nelson {
 
@@ -116,7 +116,7 @@ public:
     virtual ArrayOfVector
     evaluateFunction(Evaluator*, ArrayOfVector&, int);
 
-    boost::container::vector<ASTPtr> ptAst;
+    std::vector<ASTPtr> ptAst;
 
     int
     nargin();
@@ -136,5 +136,5 @@ FreezeMacroFunction(MacroFunctionDef* fptr, Serialize* s);
  */
 NLSINTERPRETER_IMPEXP MacroFunctionDef*
 ThawMacroFunction(Serialize* s);
-} // namespace Nelson
+}
 //=============================================================================

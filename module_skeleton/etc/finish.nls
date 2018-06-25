@@ -16,3 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+rmpath([fileparts(nfilename('fullpath')), '/../functions']);
+removegateway([fileparts(nfilename('fullpath')), '/../builtin/', 'module_skeleton', getdynlibext()]);
+run([fileparts(nfilename('fullpath')), '/../src/loader.nls']);
+//=============================================================================

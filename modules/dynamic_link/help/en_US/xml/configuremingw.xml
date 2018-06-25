@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>configuremingw</keyword>
+	<short_description>Configure Nelson to use MinGW as default C compiler</short_description>
+
+	<syntax>
+		<syntax_item>[res, message] = configuremingw(mingw_path)</syntax_item>
+
+	</syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>mingw_path</param_name>
+			<param_description>a string: mingw root path.</param_description>
+		</param_input_item>
+	</param_input>
+
+	<param_output>
+		<param_output_item>
+			<param_name>res</param_name>
+			<param_description>a logical: true if MinGW was found</param_description>
+		</param_output_item>
+		<param_output_item>
+			<param_name>message</param_name>
+			<param_description>a string: empty if MinGW was found or an error message.</param_description>
+		</param_output_item>
+
+	</param_output>
+
+	<description>
+	 	<p>By default, Nelson has no C/C++ compiler defined as default on Windows.</p>
+	 	<p>On others platforms, we will suppose that a C/C++ compiler is always available and it is not required to call this function.</p>		 
+		<p>On Windows, you need to call once <b>configuremingw</b> if you want to use MinGW as default C compiler.</p>		 
+	</description>
+
+
+	<used_function></used_function>
+	<bibliography></bibliography>
+
+<examples>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[configuremingw('c:/mingw')]]>
+	</example_item_data>
+	
+	</example_item>
+
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${dynamic_link}havecompiler">havecompiler</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${dynamic_link}configuremsvc">configuremsvc</link>
+		</see_also_item>
+
+	</see_also>
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>
+
+

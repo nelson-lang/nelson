@@ -86,8 +86,8 @@ BuiltInFunctionDefManager::add(std::string name, BuiltInFuncPtr fptr, int argc_i
 bool
 BuiltInFunctionDefManager::remove(std::string name)
 {
-    for (boost::container::vector<FuncPtr>::iterator it = builtinVector.begin();
-         it != builtinVector.end(); ++it) {
+    for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end();
+         ++it) {
         if ((*it)->name == name) {
             BuiltInFunctionDef* p = (BuiltInFunctionDef*)*it;
             delete p;
@@ -102,12 +102,12 @@ BuiltInFunctionDefManager::remove(std::string name)
 bool
 BuiltInFunctionDefManager::remove(FuncPtr ptr)
 {
-    for (boost::container::vector<FuncPtr>::iterator it = builtinVector.begin();
-         it != builtinVector.end(); ++it) {
+    for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end();
+         ++it) {
         if (*it == ptr) {
             BuiltInFunctionDef* p = (BuiltInFunctionDef*)(*it);
             delete p;
-            boost::container::vector<FuncPtr>::iterator it_to_delete = it;
+            std::vector<FuncPtr>::iterator it_to_delete = it;
             clearCache();
             builtinVector.erase(it_to_delete);
         }
@@ -118,12 +118,12 @@ BuiltInFunctionDefManager::remove(FuncPtr ptr)
 bool
 BuiltInFunctionDefManager::remove(BuiltInFunctionDef* ptr)
 {
-    for (boost::container::vector<FuncPtr>::iterator it = builtinVector.begin();
-         it != builtinVector.end(); ++it) {
+    for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end();
+         ++it) {
         if (*it == ptr) {
             BuiltInFunctionDef* p = (BuiltInFunctionDef*)(*it);
             delete p;
-            boost::container::vector<FuncPtr>::iterator it_to_delete = it;
+            std::vector<FuncPtr>::iterator it_to_delete = it;
             clearCache();
             builtinVector.erase(it_to_delete);
         }
@@ -154,8 +154,8 @@ BuiltInFunctionDefManager::remove(BuiltInFuncPtr fptr)
 bool
 BuiltInFunctionDefManager::removeAll()
 {
-    for (boost::container::vector<FuncPtr>::iterator it = builtinVector.begin();
-         it != builtinVector.end(); ++it) {
+    for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end();
+         ++it) {
         delete *it;
     }
     builtinVector.clear();
@@ -163,12 +163,12 @@ BuiltInFunctionDefManager::removeAll()
     return false;
 }
 //=============================================================================
-boost::container::vector<FuncPtr>
+std::vector<FuncPtr>
 BuiltInFunctionDefManager::getTable()
 {
-    boost::container::vector<FuncPtr> builtinTable;
-    for (boost::container::vector<FuncPtr>::iterator it = builtinVector.begin();
-         it != builtinVector.end(); ++it) {
+    std::vector<FuncPtr> builtinTable;
+    for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end();
+         ++it) {
         builtinTable.push_back(*it);
     }
     return builtinTable;
@@ -178,8 +178,8 @@ stringVector
 BuiltInFunctionDefManager::getNameList()
 {
     stringVector nameList;
-    for (boost::container::vector<FuncPtr>::iterator it = builtinVector.begin();
-         it != builtinVector.end(); ++it) {
+    for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end();
+         ++it) {
         nameList.push_back((*it)->name);
     }
     return nameList;
@@ -189,7 +189,7 @@ bool
 BuiltInFunctionDefManager::isPointerOnBuiltInFunctionDef(FuncPtr ptr)
 {
     if (builtinVector.size() > 0) {
-        for (boost::container::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin();
+        for (std::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin();
              it != builtinVector.rend(); ++it) {
             if (*it == ptr) {
                 return true;
@@ -204,7 +204,7 @@ BuiltInFunctionDefManager::find(const std::string name, std::wstring& path)
 {
     bool res = false;
     if (builtinVector.size() > 0) {
-        for (boost::container::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin();
+        for (std::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin();
              it != builtinVector.rend(); ++it) {
             if ((*it)->name == name) {
                 path = ((BuiltInFunctionDef*)(*it))->fileName;
@@ -220,7 +220,7 @@ BuiltInFunctionDefManager::find(size_t hashid, std::wstring& functionname)
 {
     bool res = false;
     if (builtinVector.size() > 0) {
-        for (boost::container::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin();
+        for (std::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin();
              it != builtinVector.rend(); ++it) {
             if ((*it)->hashid == hashid) {
                 functionname = utf8_to_wstring((*it)->name);
@@ -236,7 +236,7 @@ BuiltInFunctionDefManager::find(const std::string name, wstringVector& paths)
 {
     bool res = false;
     if (builtinVector.size() > 0) {
-        for (boost::container::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin();
+        for (std::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin();
              it != builtinVector.rend(); ++it) {
             if ((*it)->name == name) {
                 paths.push_back(((BuiltInFunctionDef*)(*it))->fileName);
@@ -251,12 +251,12 @@ bool
 BuiltInFunctionDefManager::find(const std::string name, FuncPtr& ptr)
 {
     if (builtinVector.size() > 0) {
-        boost::unordered_map<std::string, FuncPtr>::const_iterator found = cachedBuiltin.find(name);
+        std::unordered_map<std::string, FuncPtr>::const_iterator found = cachedBuiltin.find(name);
         if (found != cachedBuiltin.end()) {
             ptr = found->second;
             return true;
         } else {
-            for (boost::container::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin();
+            for (std::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin();
                  it != builtinVector.rend(); ++it) {
                 if ((*it)->name == name) {
                     ptr = (FuncPtr)(*it);

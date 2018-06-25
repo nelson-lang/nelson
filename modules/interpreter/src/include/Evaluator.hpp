@@ -38,7 +38,7 @@
 
 #pragma once
 #include <stack>
-#include <boost/container/vector.hpp>
+#include <vector>
 #include "AST.hpp"
 #include "Context.hpp"
 #include "FunctionDef.hpp"
@@ -127,7 +127,7 @@ class NLSINTERPRETER_IMPEXP Evaluator
     // The debug stack - this stack tracks our current location
     // in each file, as well as the files themselves.
 
-    boost::container::vector<StackEntry> bpStack;
+    std::vector<StackEntry> bpStack;
     bool inStepMode;
     int lineNumber;
     StackEntry stepTrap;
@@ -144,7 +144,7 @@ class NLSINTERPRETER_IMPEXP Evaluator
     bool bQuietMode = false;
 
 public:
-    boost::container::vector<std::wstring> evaluatedFilenames;
+    std::vector<std::wstring> evaluatedFilenames;
 
     void* mainGuiObject = nullptr;
 
@@ -165,7 +165,7 @@ public:
     void
     setCurrentOutputFormatDisplay(OutputFormatDisplay newFormat);
 
-    boost::container::vector<StackEntry> cstack;
+    std::vector<StackEntry> cstack;
     void
     setCLI(bool bCLI);
     bool

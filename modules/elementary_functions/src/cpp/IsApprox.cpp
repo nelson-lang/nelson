@@ -16,10 +16,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "IsApprox.hpp"
-#include "ImagPart.hpp"
-#include "RealPart.hpp"
 #include <Eigen/Dense>
+#include <boost/container/vector.hpp>
+#include "IsApprox.hpp"
+#include "RealPart.hpp"
+#include "ImagPart.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

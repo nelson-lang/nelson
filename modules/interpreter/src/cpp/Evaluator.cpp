@@ -36,6 +36,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
+#include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
+#include <errno.h>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
 #include "Evaluator.hpp"
 #include "Exception.hpp"
 #include "LessEquals.hpp"
@@ -46,8 +52,12 @@
 #include "RightDivide.hpp"
 #include "LeftDivide.hpp"
 #include "Negate.hpp"
+#include "LessThan.hpp"
+#include "GreaterThan.hpp"
 #include "DotPower.hpp"
 #include "Power.hpp"
+#include "Equals.hpp"
+#include "NotEquals.hpp"
 #include "And.hpp"
 #include "Not.hpp"
 #include "Or.hpp"
@@ -90,11 +100,14 @@
 #include "PathFuncManager.hpp"
 #include "Power.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
-#include "RightDivide.hpp"
-#include "Serialize.hpp"
+#include "Error.hpp"
 #include "StackError.hpp"
-#include "Transpose.hpp"
 #include "VertCat.hpp"
+#include "HorzCat.hpp"
+#include "AstManager.hpp"
+#include "PathFuncManager.hpp"
+#include "HandleGenericObject.hpp"
+#include "HandleManager.hpp"
 #include "CheckIfWhileCondition.hpp"
 #include "characters_encoding.hpp"
 #include "UnaryMinus.hpp"
@@ -3137,10 +3150,10 @@ Evaluator::adjustBreakpoint(StackEntry& bp, bool dbstep)
 void
 Evaluator::adjustBreakpoints()
 {
-    boost::container::vector<StackEntry>::iterator i = bpStack.begin();
+    std::vector<StackEntry>::iterator i = bpStack.begin();
     while (i != bpStack.end()) {
         if (!adjustBreakpoint(*i, false)) {
-            boost::container::vector<StackEntry>::iterator b = i;
+            std::vector<StackEntry>::iterator b = i;
             bpStack.erase(b);
             ++i;
         } else {
@@ -3197,7 +3210,7 @@ Evaluator::stackTrace(bool includeCurrent)
 {
     stringVector outstack;
     char buffer[IDENTIFIER_LENGTH_MAX + 1];
-    boost::container::vector<ErrorInfo> errors = StackError(this);
+    std::vector<ErrorInfo> errors = StackError(this);
     outstack.reserve(errors.size());
     for (size_t k = 0; k < errors.size(); k++) {
         std::wstring filename;
@@ -3738,7 +3751,7 @@ Evaluator::evaluateString(std::string line, bool propogateException)
         command = line;
     }
     resetAstBackupPosition();
-    boost::container::vector<ASTPtr> pt;
+    std::vector<ASTPtr> pt;
     try {
         parserState = parseString(command);
         pt = getAstUsed();

@@ -1,3 +1,7 @@
+Features:
+---------
+
+
   * tanm, sinm builtin added.
 
   * Overload speed optimization:
@@ -9,14 +13,48 @@
   * [#133](http://github.com/Nelson-numerical-software/nelson/issues/133): Replaced uncommon term "trinary" by "ternary". 
  
 
+## 0.2.6 (2018-06-26)
+
+
 Features:
 ---------
 
+  * module skeleton updated to build an example with C++ function (cpp_sum).
+
+  * helper's functions to build C/C++ code easily on Windows, Linux, MacOS X:
+    - dlgeneratemake: generates a makefile for building a dynamic library.
+    - dlgeneratecleaner: generates cleaner.nls file for C++ gateway.
+    - dlgenerateloader: generates loader.nls file for C++ gateway.
+    - dlgenerateunloader: generates unloader.nls file for C++ gateway.
+    - dlgenerategateway: generates C++ gateway.
+    - findcmake: find CMake path.
+    - cmake function: call CMake tool.
+    - dlmake: call make or nmake tool.
+
+  * detect and configure C/C++ compilers on Windows, Linux, MacosX
+    - On Windows: 
+      - VS 2017 Professional, Entreprise, Community supported.
+      - MinGW-W64 for 32 and 64 bit supported.
+    - havecompiler function: returns if a compiler is configured.
+    - configuremingw function: select and configure Mingw-w64 compilers.
+    - configuremsvc function: select and configure Microsoft compilers.
+    - loadcompilerconf function: load compiler configuration
+    - removecompilerconf function: remove compiler configuration
+    - vswhere function: detects easily modern Microsoft compilers.
+   
+  * By default, Nelson does not try to detect a C/C++ compiler on Windows.
+    Do not forget to run 'configuremsvc' or 'configuremingw' once.
+  
   * sprintf, fprintf functions: format data into a string or a file.
+
+  * add "<--C/C++ COMPILER REQUIRED-->" tag managed by test engine.
+
+  * add "<--INDEX 64 BIT REQUIRED-->" tag managed by test engine.
 
   * norm function: matrix and vectors norms.
 
   * [#128](http://github.com/Nelson-numerical-software/nelson/issues/128): code indented with clang-format (webkit coding style)
+
 
 Bug Fixes:
 ---------
@@ -37,7 +75,6 @@ Compilation:
 
 
 ## 0.2.5 (2018-05-23)
-
 
 Features:
 ---------

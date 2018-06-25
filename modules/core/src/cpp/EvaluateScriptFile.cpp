@@ -18,15 +18,15 @@
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
 //=============================================================================
-#include "EvaluateScriptFile.hpp"
-#include "AstManager.hpp"
-#include "Error.hpp"
-#include "Exception.hpp"
-#include "IsEmptyScriptFile.hpp"
-#include "ParserInterface.hpp"
-#include "characters_encoding.hpp"
 #include <boost/filesystem.hpp>
 #include <cstdio>
+#include "Error.hpp"
+#include "EvaluateScriptFile.hpp"
+#include "characters_encoding.hpp"
+#include "ParserInterface.hpp"
+#include "Exception.hpp"
+#include "IsEmptyScriptFile.hpp"
+#include "AstManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -49,7 +49,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
     bool bIsFile;
     try {
         bIsFile = boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
-    } catch (boost::filesystem::filesystem_error& e) {
+    } catch (boost::filesystem::filesystem_error) {
         bIsFile = false;
     }
     if (!bIsFile) {
@@ -116,7 +116,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
     eval->pushEvaluateFilenameList(absolutePath.generic_wstring());
     ParserState pstate = ParseError;
     resetAstBackupPosition();
-    boost::container::vector<ASTPtr> pt;
+    std::vector<ASTPtr> pt;
     try {
         pstate = parseFile(fr, absolutePath.generic_string().c_str());
         pt = getAstUsed();
@@ -210,7 +210,9 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
             }
             eval->pushDebug("EvaluateScript", buffer);
             try {
-                eval->block(tree);
+                if (tree) {
+                    eval->block(tree);
+                }
             } catch (Exception& e) {
                 deleteAstVector(pt);
                 resetAstBackupPosition();
@@ -269,10 +271,11 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         } catch (Exception& e) {
             deleteAstVector(getAstUsed());
             resetAstBackupPosition();
-            if (!eval->cstack.empty()) {
-                e.setLinePosition(
-                    eval->cstack.end()->tokid & 0x0000FFFF, eval->cstack.end()->tokid >> 16);
-            }
+            StackEntry lastStackEntry = eval->cstack[eval->cstack.size() - 1];
+            int tokid = lastStackEntry.tokid;
+            int line_in = tokid & 0x0000FFFF;
+            int position_in = tokid >> 16;
+            e.setLinePosition(line_in, position_in);
             // removes stack
             while (eval->cstack.size() > stackdepth) {
                 eval->cstack.pop_back();

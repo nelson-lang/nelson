@@ -18,6 +18,10 @@
 ;==============================================================================
 #define MODULE_NAME "stream_manager"
 ;==============================================================================
+Source: {#RootPath}bin\{#BinPath}\libnlsStream_manager.lib; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.hpp; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
+;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsStream_manager.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsStream_manager_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================

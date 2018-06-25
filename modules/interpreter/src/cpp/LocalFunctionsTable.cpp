@@ -28,7 +28,7 @@ LocalFunctionsTable::~LocalFunctionsTable() { cachedLocalMacro.clear(); }
 bool
 LocalFunctionsTable::find(const std::string key, FuncPtr& dest)
 {
-    boost::unordered_map<std::string, FuncPtr>::const_iterator found = cachedLocalMacro.find(key);
+    std::unordered_map<std::string, FuncPtr>::const_iterator found = cachedLocalMacro.find(key);
     if (found != cachedLocalMacro.end()) {
         dest = found->second;
         return true;

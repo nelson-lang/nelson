@@ -4,7 +4,7 @@
 
 	<language>en_US</language>
 	<keyword>nelson_sum</keyword>
-	<short_description>Return sum.</short_description>
+	<short_description>Return sum (script version).</short_description>
 
 	<syntax>
 		<syntax_item>nelson_sum(A, B)</syntax_item>
@@ -61,6 +61,10 @@
 		<see_also_item>
 			<link linkend="${types}isa">isa</link>
 		</see_also_item>
+		<see_also_item>
+			<link linkend="${module_skeleton}cpp_sum">cpp_sum</link>
+		</see_also_item>
+
 	</see_also>
 
 	<history>

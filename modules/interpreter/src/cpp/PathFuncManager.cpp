@@ -456,7 +456,7 @@ PathFuncManager::processFile(std::wstring nlf_filename)
     }
     ParserState pstate = ParseError;
     resetAstBackupPosition();
-    boost::container::vector<ASTPtr> ptAst;
+    std::vector<ASTPtr> ptAst;
     try {
         pstate = parseFile(fr, wstring_to_utf8(nlf_filename).c_str());
         ptAst = getAstUsed();

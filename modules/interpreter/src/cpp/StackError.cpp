@@ -21,10 +21,10 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-boost::container::vector<ErrorInfo>
+std::vector<ErrorInfo>
 StackError(Evaluator* eval)
 {
-    boost::container::vector<ErrorInfo> vectErrorInfo;
+    std::vector<ErrorInfo> vectErrorInfo;
     stringVector outstack;
     size_t i = 0;
     while (i < eval->cstack.size()) {

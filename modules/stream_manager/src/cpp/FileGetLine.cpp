@@ -16,6 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <cstring>
+#include <stdexcept>
 #include "FileGetLine.hpp"
 #include "FileSeek.hpp"
 #include "characters_encoding.hpp"
@@ -99,7 +101,7 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
                             result.resize(nchar);
                             try {
                                 w = w.substr(nchar);
-                            } catch (std::out_of_range&) {
+                            } catch (std::out_of_range) {
                             }
                             std::string u = wstring_to_utf8(w);
                             int64 nseek = (int64)u.length();

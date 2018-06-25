@@ -16,13 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include "AstManager.hpp"
 #include "NelSonParser.h"
-#include <algorithm>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static boost::container::vector<ASTPtr> AstUsedVector;
+static std::vector<ASTPtr> AstUsedVector;
 //=============================================================================
 void
 resetAstBackupPosition()
@@ -30,17 +30,17 @@ resetAstBackupPosition()
     AstUsedVector.clear();
 }
 //=============================================================================
-boost::container::vector<ASTPtr>
+std::vector<ASTPtr>
 getAstUsed()
 {
     return AstUsedVector;
 }
 //=============================================================================
 bool
-deleteAst(ASTPtr pt, boost::container::vector<ASTPtr> v)
+deleteAst(ASTPtr pt, std::vector<ASTPtr> v)
 {
     bool bFind = false;
-    boost::container::vector<ASTPtr>::iterator it = std::find(v.begin(), v.end(), pt);
+    std::vector<ASTPtr>::iterator it = std::find(v.begin(), v.end(), pt);
     if (it != v.end()) {
         delete pt;
         v.erase(it);
@@ -50,7 +50,7 @@ deleteAst(ASTPtr pt, boost::container::vector<ASTPtr> v)
 }
 //=============================================================================
 void
-deleteAstVector(boost::container::vector<ASTPtr> v)
+deleteAstVector(std::vector<ASTPtr> v)
 {
     for (size_t k = 0; k < v.size(); ++k) {
         if (v[k]) {

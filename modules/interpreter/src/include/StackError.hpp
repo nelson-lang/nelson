@@ -18,9 +18,9 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "Evaluator.hpp"
+#include <vector>
 #include "nlsInterpreter_exports.h"
-#include <boost/container/vector.hpp>
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 class ErrorInfo
@@ -65,7 +65,7 @@ public:
     }
 };
 
-NLSINTERPRETER_IMPEXP boost::container::vector<ErrorInfo>
+NLSINTERPRETER_IMPEXP std::vector<ErrorInfo>
 StackError(Evaluator* eval);
-}; // namespace Nelson
+};
 //=============================================================================

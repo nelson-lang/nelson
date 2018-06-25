@@ -496,6 +496,15 @@ function r = have_excel()
   end
 endfunction
 //=============================================================================
+function r = have_c_cpp_compiler()
+  r = havecompiler();
+endfunction
+//=============================================================================
+function r = have_64_bit_index_supported()
+  compiler_info = version('-compiler');
+  r = strcmp(compiler_info{3}, '64');
+endfunction
+//=============================================================================
 function test_case_res = run_test_case(test, module_name, index, indexMax, nbTestCasesMax)
   test_case_res = test;
   is_bench = test.isbench;
@@ -510,6 +519,16 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
     skip = true;
   end
   if (test_case_res.options.audio_output_required & ~have_audio_output())
+    test_case_res.status = 'Skip';
+    test_case_res.time = 0.;
+    skip = true;
+  end
+  if (test_case_res.options.index_64_bit_required & ~have_64_bit_index_supported())
+    test_case_res.status = 'Skip';
+    test_case_res.time = 0.;
+    skip = true;
+  end
+  if (test_case_res.options.c_cpp_compiler_required & ~have_c_cpp_compiler())
     test_case_res.status = 'Skip';
     test_case_res.time = 0.;
     skip = true;

@@ -37,11 +37,11 @@
 // DEALINGS IN THE SOFTWARE.
 
 #pragma once
-#include "Keywords.hpp"
-#include "Serialize.hpp"
-#include "Types.hpp"
-#include "nlsInterpreter_exports.h"
 #include <string>
+#include "nlsInterpreter_exports.h"
+#include "Types.hpp"
+#include "Serialize.hpp"
+#include "Keywords.hpp"
 
 namespace Nelson {
 
@@ -227,7 +227,7 @@ public:
 };
 
 typedef AST* ASTPtr;
-typedef boost::container::vector<ASTPtr> ASTPtrVector;
+typedef std::vector<ASTPtr> ASTPtrVector;
 /** Print out the tree
  * Print out the tree using a tab-level scheme.  Peers are printed at the same
  * tab level, children are printed at a higher tab level.
@@ -262,4 +262,4 @@ typedef struct
     bool isToken;
     contextOrPointer v;
 } ParseRHS;
-} // namespace Nelson
+}

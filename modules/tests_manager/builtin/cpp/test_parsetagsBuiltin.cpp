@@ -74,7 +74,11 @@ Nelson::TestsManagerGateway::test_parsetagsBuiltin(
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isAudioInputRequired()));
     fieldnames.push_back(L"audio_output_required");
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isAudioOutputRequired()));
-    ArrayOf stack = ArrayOf::structConstructor(fieldnames, fieldvalues);
+    fieldnames.push_back(L"c_cpp_compiler_required");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isCCompilerRequired()));
+    fieldnames.push_back(L"index_64_bit_required");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isIndex64BitRequired()));
+	ArrayOf stack = ArrayOf::structConstructor(fieldnames, fieldvalues);
     retval.push_back(stack);
     return retval;
 }

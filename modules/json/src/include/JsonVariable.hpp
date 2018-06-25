@@ -18,22 +18,23 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "Types.hpp"
 #include <boost/container/vector.hpp>
 #include <boost/unordered_map.hpp>
+#include <vector>
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
 enum JSON_TO_NELSON_Type
 {
     JSON_TO_NELSON_UNDEFINED, // unknow
-    // primitives
+                              // primitives
     JSON_TO_NELSON_LOGICAL, // logical
     JSON_TO_NELSON_DOUBLE, // double
     JSON_TO_NELSON_STRING, // char
-    // array
+                           // array
     JSON_TO_NELSON_ARRAY, // matrix of
     JSON_TO_NELSON_EMPTY_MATRIX, // []
-    // object
+                                 // object
     JSON_TO_NELSON_STRUCT, // struct
     JSON_TO_NELSON_CELL // cell
 };
@@ -55,7 +56,7 @@ public:
 
     boost::container::vector<JsonVariable> vectorJsonVariable;
     boost::unordered_map<std::string, boost::container::vector<JsonVariable>> map;
-    boost::container::vector<std::string> fieldnames;
+    std::vector<std::string> fieldnames;
 
     bool reduced = false;
 
@@ -72,5 +73,5 @@ JsonVariable::JsonVariable()
 //=============================================================================
 JsonVariable::~JsonVariable(){};
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

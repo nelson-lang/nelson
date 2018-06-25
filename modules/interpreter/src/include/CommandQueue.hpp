@@ -18,17 +18,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsInterpreter_exports.h"
-#include <boost/container/vector.hpp>
-#include <boost/thread/mutex.hpp>
 #include <string>
+#include <vector>
+#include <mutex>
+#include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
 class NLSINTERPRETER_IMPEXP CommandQueue
 {
 private:
-    boost::mutex m_mutex;
-    boost::container::vector<std::string> commands;
+    std::mutex m_mutex;
+    std::vector<std::string> commands;
 
 public:
     CommandQueue();
@@ -42,5 +42,5 @@ public:
     bool
     get(std::string& cmd);
 };
-}; // namespace Nelson
+};
 //=============================================================================

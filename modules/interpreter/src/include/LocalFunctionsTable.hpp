@@ -18,18 +18,18 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "FunctionDef.hpp"
-#include "Types.hpp"
-#include <boost/unordered_map.hpp>
-#include <string>
+#include <unordered_map>
 #include <utility>
+#include <string>
+#include "Types.hpp"
+#include "FunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 class LocalFunctionsTable
 {
 private:
-    boost::unordered_map<std::string, FuncPtr> cachedLocalMacro;
+    std::unordered_map<std::string, FuncPtr> cachedLocalMacro;
 
 public:
     LocalFunctionsTable();
@@ -39,5 +39,5 @@ public:
     bool
     add(const std::string key, const FuncPtr val);
 };
-}; // namespace Nelson
+};
 //=============================================================================

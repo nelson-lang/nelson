@@ -37,7 +37,7 @@
 // DEALINGS IN THE SOFTWARE.
 
 #pragma once
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <complex>
 #include <iostream>
 #include <string>
@@ -52,10 +52,10 @@ namespace Nelson {
 
 class ArrayOf;
 
-typedef boost::container::vector<ArrayOf> ArrayOfVector;
+typedef std::vector<ArrayOf> ArrayOfVector;
 NLSTYPES_IMPEXP ArrayOfVector scalarArrayOfToArrayOfVector(ArrayOf);
 
-typedef boost::container::vector<ArrayOfVector> ArrayOfMatrix;
+typedef std::vector<ArrayOfVector> ArrayOfMatrix;
 
 class Data;
 

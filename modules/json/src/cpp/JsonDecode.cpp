@@ -21,10 +21,10 @@
 #include <jsmn.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/container/vector.hpp>
-#include "characters_encoding.hpp"
-#include "JsonDecode.hpp"
-#include "JsonVariable.hpp"
 #include "MakeValidFieldname.hpp"
+#include "JsonDecode.hpp"
+#include "characters_encoding.hpp"
+#include "JsonVariable.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -532,7 +532,7 @@ transformDoubleArray(JsonVariable& jsVar, size_t totaldims)
 static bool
 transformStructArray(JsonVariable& jsVar, size_t totaldims)
 {
-    boost::container::vector<std::string> fieldnamesRef;
+    std::vector<std::string> fieldnamesRef;
     for (auto elements : jsVar.vectorJsonVariable[0].fieldnames) {
         fieldnamesRef.push_back(elements);
     }

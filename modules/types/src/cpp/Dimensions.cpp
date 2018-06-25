@@ -38,6 +38,7 @@
 #include <memory>
 #include <stdlib.h>
 #include <string>
+#include <cstring>
 #include <stdio.h>
 #include "Dimensions.hpp"
 #include "Exception.hpp"

@@ -37,11 +37,11 @@
 // DEALINGS IN THE SOFTWARE.
 #pragma once
 //=============================================================================
+#include <string>
+#include <cstring>
+#include "nlsError_manager_exports.h"
 #include "Interface.hpp"
 #include "Messages.hpp"
-#include "nlsError_manager_exports.h"
-#include <cstring>
-#include <string>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -173,4 +173,4 @@ new_with_exception(size_t len, bool initializeToZero = true)
     return ptr;
 }
 
-} // namespace Nelson
+}
