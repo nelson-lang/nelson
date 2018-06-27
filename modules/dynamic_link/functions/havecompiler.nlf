@@ -17,22 +17,31 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function [status, compiler] = havecompiler()
-  if ispc()
-    arch = computer('arch');
-    jsonfile = [prefdir(), '/compiler_', arch, '.json'];
-    status = false;
-    compiler = '';
-    if isfile(jsonfile)
-      txt = fileread(jsonfile);
-      json = jsondecode(txt);
-      if isfield(json, 'COMPILER_CHOICE')
-        status = true;
-        compiler = json.COMPILER_CHOICE;
-      end
-    end    
+  persistent havecompilerStatus;
+  persistent havecompilerCompiler;
+  if isempty(havecompilerStatus)
+    if ispc()
+      arch = computer('arch');
+      jsonfile = [prefdir(), '/compiler_', arch, '.json'];
+      status = false;
+      compiler = '';
+      if isfile(jsonfile)
+        txt = fileread(jsonfile);
+        json = jsondecode(txt);
+        if isfield(json, 'COMPILER_CHOICE')
+          status = true;
+          compiler = json.COMPILER_CHOICE;
+        end
+      end    
+    else
+      status = true;
+      compiler = 'unix';
+    end
+    havecompilerStatus = status;
+    havecompilerCompiler = compiler;
   else
-    status = true;
-    compiler = 'unix';
+    status = havecompilerStatus;
+    compiler = havecompilerCompiler;
   end
 endfunction
 //=============================================================================

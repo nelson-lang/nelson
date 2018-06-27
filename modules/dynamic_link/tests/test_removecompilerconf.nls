@@ -17,10 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 // <--WINDOWS ONLY-->
+// <--C/C++ COMPILER REQUIRED--> 
 //=============================================================================
-if ~havecompiler()
-  configuremsvc();
-end 
 assert_istrue(havecompiler());
 r = removecompilerconf();
 assert_isfalse(havecompiler());
