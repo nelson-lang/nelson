@@ -16,6 +16,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+if ~havecompiler()
+  error(_('Please install and configure a C/C++ compiler'));
+end
+//=============================================================================
 run([fileparts(nfilename('fullpath')), '/src/builder.nls']);
 run([fileparts(nfilename('fullpath')), '/builtin/builder.nls']);
 //=============================================================================
