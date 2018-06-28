@@ -23,7 +23,7 @@ function varargout = COM_xlswrite(filename, value_to_save, varargin)
   nRhs = nargin;
   nLhs = nargout;
 
-  if nRhs < 2 | nRhs > 4
+  if nRhs < 2 || nRhs > 4
     error(_('Wrong number of input arguments.'));
   end
   if nLhs > 2

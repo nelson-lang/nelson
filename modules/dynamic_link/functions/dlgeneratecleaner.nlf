@@ -21,7 +21,7 @@ function dlgeneratecleaner(varargin)
   // dlgeneratecleaner(destinationdir, files)
   status = false;
   message = '';
-  if nargin < 1 | nargin > 2
+  if nargin < 1 || nargin > 2
     error(_('Wrong numbers of input arguments.'));
   end
   destinationdir = varargin{1};

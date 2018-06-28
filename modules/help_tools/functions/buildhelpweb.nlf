@@ -19,7 +19,7 @@
 function buildhelpweb(varargin)
   // buildhelpweb(destdir, [currentlang])
 
-  if ~(nargin() == 1 | nargin() == 2)
+  if ~(nargin() == 1 || nargin() == 2)
     error(_('Wrong number of input arguments.'));
   end 
 

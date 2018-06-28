@@ -745,18 +745,6 @@ public:
     void
     setLastWarningString(std::wstring msg);
 
-    /**
-     * Handles the logistics of shortcut evaluation
-     */
-    ArrayOf
-    ShortCutOr(ASTPtr t);
-    ArrayOf
-    ShortCutAnd(ASTPtr t);
-    ArrayOf
-    Or(ASTPtr t);
-    ArrayOf
-    And(ASTPtr t);
-
     /*
      * time value used by tic toc
      */
@@ -810,6 +798,21 @@ private:
     EndReference(ArrayOf v, indexType index, size_t count);
     size_t
     countSubExpressions(ASTPtr t);
+
+    /**
+     * Handles the logistics of shortcut evaluation
+     */
+    ArrayOf
+    shortCutOrOperator(ASTPtr t);
+    ArrayOf
+    shortCutAndOperator(ASTPtr t);
+    ArrayOf
+    orOperator(ASTPtr t);
+    ArrayOf
+    andOperator(ASTPtr t);
+
+	bool
+    needToOverloadLogicOperator(ArrayOf a);
 };
 NLSINTERPRETER_IMPEXP void
 sigInterrupt(int arg);

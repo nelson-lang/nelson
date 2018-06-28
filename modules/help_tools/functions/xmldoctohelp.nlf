@@ -18,7 +18,7 @@
 //=============================================================================
 function file_generated = xmldoctohelp(varargin)
   // narginchk(3, 4);
-  if nargin() < 3 | nargin() > 4
+  if nargin() < 3 || nargin() > 4
     error(_('Wrong number of input arguments.'));
   end
   dirs_input = varargin{1};

@@ -37,7 +37,7 @@ function status = test_run(varargin)
     modules_list = getmodules();
   else
     param1 = varargin{1};
-    if size(param1) == [0 0] & (strcmp(class(param1), 'double') == true)
+    if size(param1) == [0 0] && (strcmp(class(param1), 'double') == true)
       modules_list = getmodules();
     else
       if ischar(param1)
@@ -76,7 +76,7 @@ function status = test_run(varargin)
   
   if (nargin > 1)
     param2 = varargin{2};
-    if size(param2) == [0 0] & (strcmp(class(param2), 'double') == true)
+    if size(param2) == [0 0] && (strcmp(class(param2), 'double') == true)
       options = 'all';
     else
       if ischar(param2)
@@ -101,7 +101,7 @@ function status = test_run(varargin)
   if (nargin > 2)
     param3 = varargin{3};
     if ischar(param3)
-      if length(param3) == size(param3, 2) & length(param3) > 2
+      if length(param3) == size(param3, 2) && length(param3) > 2
         result_outputfile = param3;
       end
     end
@@ -276,7 +276,7 @@ function status = test_run(varargin)
               test_suites.errors = test_suites.errors + 1;
               status = false;
             else
-              if strcmp(tc.status, 'Skip') == true | strcmp(tc.status, 'Interactive') == true | strcmp(tc.status, 'No display') == true
+              if strcmp(tc.status, 'Skip') == true || strcmp(tc.status, 'Interactive') == true || strcmp(tc.status, 'No display') == true
                 test_suites.tests_list(k).disabled = test_suites.tests_list(k).disabled + 1;
                 test_suites.disabled = test_suites.disabled + 1;
               else
@@ -392,7 +392,7 @@ function res = save_as_xml(test_suites, xmlFileDestination)
               end
               fprintf(fp, ['    </testcase>', eol]);
             else
-              if strcmp(tc.status, 'Skip') == true | strcmp(tc.status, 'Interactive') == true | strcmp(tc.status, 'No display') == true
+              if strcmp(tc.status, 'Skip') == true || strcmp(tc.status, 'Interactive') == true || strcmp(tc.status, 'No display') == true
                 fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '"/>', eol]);
                 fprintf(fp, ['      <skipped/>', eol]);
               end
@@ -513,37 +513,37 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
   fprintf(stdout, startChars);
   
   skip = false;
-  if (test_case_res.options.audio_input_required & ~have_audio_input())
+  if (test_case_res.options.audio_input_required && ~have_audio_input())
     test_case_res.status = 'Skip';
     test_case_res.time = 0.;
     skip = true;
   end
-  if (test_case_res.options.audio_output_required & ~have_audio_output())
+  if (test_case_res.options.audio_output_required && ~have_audio_output())
     test_case_res.status = 'Skip';
     test_case_res.time = 0.;
     skip = true;
   end
-  if (test_case_res.options.index_64_bit_required & ~have_64_bit_index_supported())
+  if (test_case_res.options.index_64_bit_required && ~have_64_bit_index_supported())
     test_case_res.status = 'Skip';
     test_case_res.time = 0.;
     skip = true;
   end
-  if (test_case_res.options.c_cpp_compiler_required & ~have_c_cpp_compiler())
+  if (test_case_res.options.c_cpp_compiler_required && ~have_c_cpp_compiler())
     test_case_res.status = 'Skip';
     test_case_res.time = 0.;
     skip = true;
   end
-  if (test_case_res.options.excel_required & ~have_excel())
+  if (test_case_res.options.excel_required && ~have_excel())
     test_case_res.status = 'Skip';
     test_case_res.time = 0.;
     skip = true;
   end
-  if (test_case_res.options.release_only & ~is_release())
+  if (test_case_res.options.release_only && ~is_release())
     test_case_res.status = 'Skip';
     test_case_res.time = 0.;
     skip = true;
   end
-  if (~haveDisplay() & test_case_res.options.with_display)
+  if (~haveDisplay() && test_case_res.options.with_display)
     test_case_res.status = 'No display';
     test_case_res.time = 0.;
     skip = true;
@@ -559,9 +559,9 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
     skip = true;
   end
   if ~skip
-    is_all_platforms =  ~test_case_res.options.windows_only & ~test_case_res.options.mac_only & ~test_case_res.options.unix_only;
-    is_current_platform = (ispc() & test_case_res.options.windows_only) | (ismac() & test_case_res.options.mac_only) | (isunix() & ~ismac() & test_case_res.options.unix_only);
-    if (is_all_platforms | is_current_platform)
+    is_all_platforms =  ~test_case_res.options.windows_only && ~test_case_res.options.mac_only && ~test_case_res.options.unix_only;
+    is_current_platform = (ispc() && test_case_res.options.windows_only) || (ismac() && test_case_res.options.mac_only) || (isunix() && ~ismac() && test_case_res.options.unix_only);
+    if (is_all_platforms || is_current_platform)
       testfile = test.filename;
       [p, f, e] = fileparts(testfile);
       outputfile = [tempdir(), '/' , f, '.output'];

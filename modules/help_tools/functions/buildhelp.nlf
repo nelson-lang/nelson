@@ -50,7 +50,7 @@ function buildhelp_from_path(module, module_path)
   for k = getavailablelanguages()
     src = [module_path, '/help/', k{1}, '/xml'];
     if isdir(src)
-      if ispc() | ismac()
+      if ispc() || ismac()
         dstbuild = [tempdir(), '/build_help/modules/', module, '/help/', k{1}, '/'];
       else
         username = getenv('USER');
@@ -93,7 +93,7 @@ function helpForNelsonOnly()
       for md_filename = md_files
         html_filename = strrep(md_filename{1}, '.md', '.html');
         if needTobeGenerated([dir_src, '/', md_filename{1}], [dir_dst, html_filename])
-          if strcmp(md_filename{1}, 'homepage.md') | strcmp(md_filename{1}, 'license.md')
+          if strcmp(md_filename{1}, 'homepage.md') || strcmp(md_filename{1}, 'license.md')
             content = fileread([dir_src, '/', md_filename{1}]);
             content = strrep(content, '(CHANGELOG.md)', '(CHANGELOG.html)');
             content = strrep(content, '(CHANGELOG-0.1.x.md)', '(CHANGELOG-0.1.x.html)');

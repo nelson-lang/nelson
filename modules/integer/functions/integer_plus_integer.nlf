@@ -18,7 +18,7 @@
 //=============================================================================
 function R = integer_plus_integer(A, B)
 	// internal function (overload)
-	if isa(A, class(B)) & isa(B, class(B))
+	if isa(A, class(B)) && isa(B, class(B))
 	  R = single_plus_single(single(A), single(B));
 	  R = cast(R, 'like', B);
 	else

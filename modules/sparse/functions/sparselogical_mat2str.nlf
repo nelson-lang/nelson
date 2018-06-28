@@ -18,7 +18,7 @@
 //=============================================================================
 function r = sparselogical_mat2str(varargin)
   r = '';
-  if nargin > 0 & nargin < 4
+  if nargin > 0 && nargin < 4
 
     M = varargin{1};
 

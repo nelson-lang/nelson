@@ -47,10 +47,10 @@ m = fftw('planner');
 assert_isequal(m, 'estimate');
 //=============================================================================
 wd = fftw('dwisdom');
-assert_istrue(strncmp(wd, '(fftw-', 6) | length(wd) == 0);
+assert_istrue(strncmp(wd, '(fftw-', 6) || length(wd) == 0);
 //=============================================================================
 ws= fftw('swisdom');
-assert_istrue(strncmp(ws, '(fftw-', 6) | length(wd) == 0);
+assert_istrue(strncmp(ws, '(fftw-', 6) || length(wd) == 0);
 //=============================================================================
 fftw('dwisdom', []);
 fftw('swisdom', []);

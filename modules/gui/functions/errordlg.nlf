@@ -21,7 +21,7 @@ function h = errordlg(errorstring, dlgname, mode)
     errorstring = _('This is the default error string.');
   else
       if nargin > 1
-        if ~ischar(dlgname) & ~iscellstr(dlgname)
+        if ~ischar(dlgname) && ~iscellstr(dlgname)
           error(_('Wrong type for argument #1: string expected.'));
         end
       end
@@ -41,7 +41,7 @@ function h = errordlg(errorstring, dlgname, mode)
     if ~ischar(mode)
       error(_('Wrong type for argument #3: string expected.'));
     end
-    if strcmp(mode, 'modal') == false & strcmp(mode, 'nonmodal') == false & strcmp(mode, 'on') == false
+    if strcmp(mode, 'modal') == false && strcmp(mode, 'nonmodal') == false && strcmp(mode, 'on') == false
       error(_('Wrong value for argument #3: ''modal'', ''nonmodal'', ''on'' expected.'));
     end
   end

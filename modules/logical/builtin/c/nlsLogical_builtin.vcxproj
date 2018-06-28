@@ -174,12 +174,10 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\logicalBuiltin.cpp" />
     <ClCompile Include="..\cpp\logical_allBuiltin.cpp" />
-    <ClCompile Include="..\cpp\logical_and_logicalBuiltin.cpp" />
     <ClCompile Include="..\cpp\logical_anyBuiltin.cpp" />
     <ClCompile Include="..\cpp\logical_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\logical_horzcat_logicalBuiltin.cpp" />
     <ClCompile Include="..\cpp\logical_isequalBuiltin.cpp" />
-    <ClCompile Include="..\cpp\logical_or_logicalBuiltin.cpp" />
     <ClCompile Include="..\cpp\logical_vertcat_logicalBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarraylogical_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\logical_notBuiltin.cpp" />
@@ -226,7 +224,6 @@
     <ClInclude Include="..\include\logical_dispBuiltin.hpp" />
     <ClInclude Include="..\include\logical_horzcat_logicalBuiltin.hpp" />
     <ClInclude Include="..\include\logical_isequalBuiltin.hpp" />
-    <ClInclude Include="..\include\logical_or_logicalBuiltin.hpp" />
     <ClInclude Include="..\include\logical_vertcat_logicalBuiltin.hpp" />
     <ClInclude Include="..\include\ndarraylogical_dispBuiltin.hpp" />
     <ClInclude Include="..\include\ndarraylogical_horzcat_ndarraylogicalBuiltin.hpp" />

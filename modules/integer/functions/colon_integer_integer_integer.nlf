@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function R = colon_integer_integer_integer(A, B, C)
-  sameclass = isa(A, class(B)) & isa(B, class(C)) & isa(C, class(A));
+  sameclass = isa(A, class(B)) && isa(B, class(C)) && isa(C, class(A));
   if ~sameclass
     error(_('Colon must have same integer types.'));
   end

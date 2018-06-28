@@ -21,7 +21,7 @@ function Y = fftn(varargin)
   // Y = fftn(X)
   // Y = fftn(X, dims)
   
-  if ~(nargin() == 1 | nargin() == 2)
+  if ~(nargin() == 1 || nargin() == 2)
     error(_('Wrong number of input arguments.'));
   end
   X = varargin{1};

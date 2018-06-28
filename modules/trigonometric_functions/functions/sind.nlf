@@ -19,7 +19,7 @@
 function r = sind (x)
   I = x * inv(180);
   r = sin (I .* pi);
-  IDX = I == fix(I) & isfinite (I);
+  IDX = I == fix(I) && isfinite (I);
   r(IDX) = 0;
 endfunction
 //=============================================================================

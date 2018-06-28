@@ -18,7 +18,7 @@
 //=============================================================================
 function R = integer_minus_integer(A, B)
 	// internal function (overload)
-	if isa(A, class(B)) & isa(B, class(A))
+	if isa(A, class(B)) && isa(B, class(A))
     R = single_minus_single(single(A), single(B));
 	  R = cast(R, 'like', B);
 	else

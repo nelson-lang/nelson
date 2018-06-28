@@ -18,7 +18,7 @@
 //=============================================================================
 function res = exist(varargin)
   res = 0;
-  if (nargin == 0 | nargin > 2)
+  if (nargin == 0 || nargin > 2)
     error(_('Wrong number of input arguments.'));
   end
   varname = varargin{1};

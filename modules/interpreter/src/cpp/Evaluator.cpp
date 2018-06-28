@@ -87,6 +87,8 @@
 #include "HandleManager.hpp"
 #include "CheckIfWhileCondition.hpp"
 #include "characters_encoding.hpp"
+#include "Or.hpp"
+#include "And.hpp"
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <errno.h>
@@ -391,66 +393,96 @@ Evaluator::cellDefinition(ASTPtr t)
     return retval;
 }
 
-ArrayOf
-Evaluator::Or(ASTPtr t)
+bool
+Evaluator::needToOverloadLogicOperator(ArrayOf a)
 {
-    pushID(t->context());
-    ArrayOfVector argsOut
-        = CallOperatorFunction(this, "or", expression(t->down), expression(t->down->right), 1);
-    ArrayOf retval = argsOut[0];
-    popID();
-    return retval;
+    return ((a.getDataClass() == NLS_STRUCT_ARRAY) || (a.getDataClass() == NLS_CELL_ARRAY)
+        || a.isSparse() || a.isHandle());
 }
 
 ArrayOf
-Evaluator::And(ASTPtr t)
+Evaluator::orOperator(ASTPtr t)
 {
     pushID(t->context());
-    ArrayOfVector argsOut
-        = CallOperatorFunction(this, "and", expression(t->down), expression(t->down->right), 1);
-    ArrayOf retval = argsOut[0];
-    popID();
-    return retval;
-}
-
-ArrayOf
-Evaluator::ShortCutOr(ASTPtr t)
-{
-    pushID(t->context());
-    ArrayOfVector argsOut = CallOperatorFunction(
-        this, "shortcutor", expression(t->down), expression(t->down->right), 1);
-    ArrayOf retval = argsOut[0];
-    popID();
-    return retval;
-    /*
     ArrayOf retval;
-    if (!a.isScalar())
-    {
-    retval = Or(a, expression(t->down->right));
+    const ArrayOf A = expression(t->down);
+    const ArrayOf B = expression(t->down->right);
+    if (overloadOnBasicTypes || needToOverloadLogicOperator(A) || needToOverloadLogicOperator(B)) {
+        ArrayOfVector argsOut = CallOperatorFunction(this, "or", A, B, 1);
+        retval = argsOut[0];
+    } else {
+        retval = Or(A, B);
     }
-    else
-    {
-    // A is a scalar - is it true?
-    a.promoteType(NLS_LOGICAL);
-    if (*((const logical*)a.getDataPointer()))
-    {
-    retval = a;
-    }
-    else
-    {
-    retval = Or(a, expression(t->down->right));
-    }
-    }
-    */
+    popID();
+    return retval;
 }
 
 ArrayOf
-Evaluator::ShortCutAnd(ASTPtr t)
+Evaluator::andOperator(ASTPtr t)
 {
     pushID(t->context());
-    ArrayOfVector argsOut = CallOperatorFunction(
-        this, "shortcutand", expression(t->down), expression(t->down->right), 1);
-    ArrayOf retval = argsOut[0];
+    ArrayOf retval;
+    ArrayOf A = expression(t->down);
+    ArrayOf B = expression(t->down->right);
+    if (overloadOnBasicTypes || needToOverloadLogicOperator(A) || needToOverloadLogicOperator(B)) {
+        ArrayOfVector argsOut = CallOperatorFunction(this, "and", A, B, 1);
+        retval = argsOut[0];
+    } else {
+        retval = And(A, B);
+    }
+    popID();
+    return retval;
+}
+
+ArrayOf
+Evaluator::shortCutOrOperator(ASTPtr t)
+{
+    pushID(t->context());
+    ArrayOf retval;
+    const ArrayOf A = expression(t->down);
+    const ArrayOf B = expression(t->down->right);
+    if (overloadOnBasicTypes || needToOverloadLogicOperator(A) || needToOverloadLogicOperator(B)) {
+        ArrayOfVector argsOut = CallOperatorFunction(this, "shortcutor", A, B, 1);
+        retval = argsOut[0];
+    } else {
+        if (!A.isScalar()) {
+            retval = Or(A, B);
+        } else {
+            bool a = A.getContentAsLogicalScalar();
+            if (a) {
+                retval = A;
+            } else {
+                retval = Or(A, B);
+            }
+        }
+    }
+    popID();
+    return retval;
+}
+
+ArrayOf
+Evaluator::shortCutAndOperator(ASTPtr t)
+{
+    pushID(t->context());
+    ArrayOf retval;
+    ArrayOf A = expression(t->down);
+    ArrayOf B = expression(t->down->right);
+    if (overloadOnBasicTypes || needToOverloadLogicOperator(A) || needToOverloadLogicOperator(B)) {
+        ArrayOfVector argsOut = CallOperatorFunction(this, "shortcutand", A, B, 1);
+        retval = argsOut[0];
+    } else {
+        if (!A.isScalar()) {
+	        retval = And(A, B);
+        } else {
+            bool a = A.getContentAsLogicalScalar();
+            if (!a) {
+                retval = A;
+            } else {
+                retval = And(A, B);
+            }
+    
+		}
+    }
     popID();
     return retval;
     /*
@@ -583,16 +615,16 @@ Evaluator::expression(ASTPtr t)
             retval = argsOut[0];
         } break;
         case OP_SOR: {
-            retval = ShortCutOr(t);
+            retval = shortCutOrOperator(t);
         } break;
         case OP_OR: {
-            retval = Or(t);
+            retval = orOperator(t);
         } break;
         case OP_SAND: {
-            retval = ShortCutAnd(t);
+            retval = shortCutAndOperator(t);
         } break;
         case OP_AND: {
-            retval = And(t);
+            retval = andOperator(t);
         } break;
         case OP_LT: {
             ArrayOfVector argsOut = CallOperatorFunction(
@@ -2870,8 +2902,8 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                         }
                         q = q->right;
                     }
-                    // If any keywords were found, make another pass through the
-                    // arguments and remove them.
+                        // If any keywords were found, make another pass through the
+                        // arguments and remove them.
 #if 0
                         if (keywords.size() > 0)
                         {
