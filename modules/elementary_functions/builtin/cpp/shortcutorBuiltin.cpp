@@ -22,15 +22,35 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::shortcutorBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+static bool needToOverload(ArrayOf a) {
+  return ((a.getDataClass() == NLS_STRUCT_ARRAY) ||
+          (a.getDataClass() == NLS_CELL_ARRAY) || a.isSparse() || a.isHandle());
+}
+//=============================================================================
+ArrayOfVector Nelson::ElementaryFunctionsGateway::shortcutorBuiltin(
+    Evaluator *eval, int nLhs, const ArrayOfVector &argIn) {
+  ArrayOfVector retval;
+  if (argIn.size() != 2) {
+    Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+  }
+  ArrayOf A = argIn[0];
+  ArrayOf B = argIn[1];
+  if (eval->overloadOnBasicTypes || needToOverload(A) || needToOverload(B)) {
+    retval.push_back(OverloadBinaryOperator(eval, A, B, "shortcutpr"));
+  } else {
+    if (A.isScalar() && B.isScalar()) {
+      bool a = A.getContentAsLogicalScalar();
+      if (a) {
+        retval.push_back(ArrayOf::logicalConstructor(a));
+      } else {
+        bool b = B.getContentAsLogicalScalar();
+        retval.push_back(ArrayOf::logicalConstructor(a || b));
+      }
+    } else {
+      Error(eval, _W("Operands to || operator must be convertible to logical "
+                     "scalar values."));
     }
-    retval.push_back(OverloadBinaryOperator(eval, argIn[0], argIn[1], "shortcutor"));
-    return retval;
+  }
+  return retval;
 }
 //=============================================================================

@@ -36,59 +36,50 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <errno.h>
-#include <iostream>
-#include <math.h>
-#include <stdio.h>
 #include "Evaluator.hpp"
-#include "Exception.hpp"
-#include "LessEquals.hpp"
-#include "Transpose.hpp"
-#include "DotTranspose.hpp"
-#include "DotLeftDivide.hpp"
-#include "DotRightDivide.hpp"
-#include "RightDivide.hpp"
-#include "LeftDivide.hpp"
-#include "Negate.hpp"
-#include "LessThan.hpp"
-#include "GreaterThan.hpp"
-#include "DotPower.hpp"
-#include "Power.hpp"
-#include "Equals.hpp"
-#include "NotEquals.hpp"
 #include "And.hpp"
-#include "Not.hpp"
-#include "Or.hpp"
-#include "GreaterEquals.hpp"
-#include "Keywords.hpp"
 #include "ArrayOf.hpp"
-#include "ParserInterface.hpp"
-#include "LexerInterface.hpp"
-#include "Interface.hpp"
-#include "Serialize.hpp"
-#include "MacroFunctionDef.hpp"
-#include "ClassName.hpp"
-#include "CallOperatorFunction.hpp"
-#include "OverloadDisplay.hpp"
-#include "characters_encoding.hpp"
-#include "FileParser.hpp"
-#include "MainEvaluator.hpp"
-#include "CommandQueue.hpp"
-#include "ProcessEventsDynamicFunction.hpp"
-#include "Error.hpp"
-#include "StackError.hpp"
-#include "VertCat.hpp"
-#include "HorzCat.hpp"
 #include "AstManager.hpp"
-#include "PathFuncManager.hpp"
+#include "CallOperatorFunction.hpp"
+#include "CheckIfWhileCondition.hpp"
+#include "ClassName.hpp"
+#include "CommandQueue.hpp"
+#include "DotLeftDivide.hpp"
+#include "DotPower.hpp"
+#include "DotRightDivide.hpp"
+#include "DotTranspose.hpp"
+#include "Equals.hpp"
+#include "Error.hpp"
+#include "Exception.hpp"
+#include "FileParser.hpp"
+#include "GreaterEquals.hpp"
+#include "GreaterThan.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
-#include "CheckIfWhileCondition.hpp"
-#include "characters_encoding.hpp"
+#include "HorzCat.hpp"
+#include "Interface.hpp"
+#include "Keywords.hpp"
+#include "LeftDivide.hpp"
+#include "LessEquals.hpp"
+#include "LessThan.hpp"
+#include "LexerInterface.hpp"
+#include "MacroFunctionDef.hpp"
+#include "MainEvaluator.hpp"
+#include "Negate.hpp"
+#include "Not.hpp"
+#include "NotEquals.hpp"
 #include "Or.hpp"
-#include "And.hpp"
+#include "OverloadDisplay.hpp"
+#include "ParserInterface.hpp"
+#include "PathFuncManager.hpp"
+#include "Power.hpp"
+#include "ProcessEventsDynamicFunction.hpp"
+#include "RightDivide.hpp"
+#include "Serialize.hpp"
+#include "StackError.hpp"
+#include "Transpose.hpp"
+#include "VertCat.hpp"
+#include "characters_encoding.hpp"
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <errno.h>
@@ -111,141 +102,93 @@ bool InterruptPending = false;
  */
 bool InterruptCallback = false;
 
-bool
-Evaluator::SetInterrupCallback(bool bInterruptCallback)
-{
-    bool bPrevious = InterruptCallback;
-    InterruptCallback = bInterruptCallback;
-    return bPrevious;
+bool Evaluator::SetInterrupCallback(bool bInterruptCallback) {
+  bool bPrevious = InterruptCallback;
+  InterruptCallback = bInterruptCallback;
+  return bPrevious;
 }
 
-bool
-Evaluator::GetInterruptPending()
-{
-    return InterruptPending;
-}
+bool Evaluator::GetInterruptPending() { return InterruptPending; }
 
-bool
-Evaluator::SetInterruptPending(bool bInterruptPending)
-{
-    bool bPrevious = InterruptPending;
-    InterruptPending = bInterruptPending;
-    return bPrevious;
+bool Evaluator::SetInterruptPending(bool bInterruptPending) {
+  bool bPrevious = InterruptPending;
+  InterruptPending = bInterruptPending;
+  return bPrevious;
 }
 
 /**
  * Stores the current array for which to apply the "end" expression to.
  */
-class endData
-{
+class endData {
 public:
-    ArrayOf endArray;
-    int index = 0;
-    size_t count = 0;
-    endData(ArrayOf p, int ndx, size_t cnt)
-    {
-        endArray = p;
-        index = ndx;
-        count = cnt;
-    }
-    ~endData(){};
+  ArrayOf endArray;
+  int index = 0;
+  size_t count = 0;
+  endData(ArrayOf p, int ndx, size_t cnt) {
+    endArray = p;
+    index = ndx;
+    count = cnt;
+  }
+  ~endData(){};
 };
 std::vector<endData> endStack;
 
-void
-sigInterrupt(int arg)
-{
-    InterruptPending = true;
-}
+void sigInterrupt(int arg) { InterruptPending = true; }
 
-void
-Evaluator::pushID(int a)
-{
-    if (!cstack.empty()) {
-        if (cstack.size() > cstack.capacity() - 100) {
-            cstack.reserve(cstack.capacity() * 2);
-        }
-        cstack.push_back(StackEntry(cstack.back().cname, cstack.back().detail, a));
-    } else {
-        cstack.push_back(StackEntry("base", "base", a));
+void Evaluator::pushID(int a) {
+  if (!cstack.empty()) {
+    if (cstack.size() > cstack.capacity() - 100) {
+      cstack.reserve(cstack.capacity() * 2);
     }
+    cstack.push_back(StackEntry(cstack.back().cname, cstack.back().detail, a));
+  } else {
+    cstack.push_back(StackEntry("base", "base", a));
+  }
 }
 
-void
-Evaluator::popID()
-{
-    if (!cstack.empty()) {
-        cstack.pop_back();
-    } else {
-        io->outputMessage("IDERROR\n");
-    }
+void Evaluator::popID() {
+  if (!cstack.empty()) {
+    cstack.pop_back();
+  } else {
+    io->outputMessage("IDERROR\n");
+  }
 }
 
-void
-Evaluator::setPrintLimit(int lim)
-{
-    printLimit = lim;
+void Evaluator::setPrintLimit(int lim) { printLimit = lim; }
+
+int Evaluator::getPrintLimit() { return (printLimit); }
+
+void Evaluator::resetState() { state = NLS_STATE_OK; }
+
+void Evaluator::clearStacks() {
+  //    cname = "base";
+  cstack.clear();
+  //        cstack.reserve(4096 * 2);
+  //    gstack.push_back(cname);
 }
 
-int
-Evaluator::getPrintLimit()
-{
-    return (printLimit);
+State Evaluator::setState(State newState) {
+  State previousState = state;
+  state = newState;
+  return previousState;
 }
 
-void
-Evaluator::resetState()
-{
-    state = NLS_STATE_OK;
-}
+State Evaluator::getState() { return state; }
 
-void
-Evaluator::clearStacks()
-{
-    //    cname = "base";
-    cstack.clear();
-    //        cstack.reserve(4096 * 2);
-    //    gstack.push_back(cname);
-}
+int Evaluator::getExitCode() { return exitCode; }
 
-State
-Evaluator::setState(State newState)
-{
-    State previousState = state;
-    state = newState;
-    return previousState;
-}
+void Evaluator::setExitCode(int _exitCode) { exitCode = _exitCode; }
 
-State
-Evaluator::getState()
-{
-    return state;
-}
-
-int
-Evaluator::getExitCode()
-{
-    return exitCode;
-}
-
-void
-Evaluator::setExitCode(int _exitCode)
-{
-    exitCode = _exitCode;
-}
-
-ArrayOfVector
-Evaluator::rowDefinition(ASTPtr t)
-{
-    pushID(t->context());
-    if (t->opNum != OP_SEMICOLON) {
-        Error(this, ERROR_AST_SYNTAX_ERROR);
-    }
-    ASTPtr s = t->down;
-    ArrayOfVector expl = expressionList(s);
-    ArrayOfVector retval(expl);
-    popID();
-    return retval;
+ArrayOfVector Evaluator::rowDefinition(ASTPtr t) {
+  pushID(t->context());
+  if (t->opNum != OP_SEMICOLON) {
+    Error(this, ERROR_AST_SYNTAX_ERROR);
+  }
+  ASTPtr s = t->down;
+  ArrayOfVector expl = expressionList(s);
+  ArrayOfVector retval(expl);
+  popID();
+  return retval;
 }
 
 //!
@@ -308,30 +251,28 @@ Evaluator::rowDefinition(ASTPtr t)
 // F = ['hello';'there']
 //@>
 //!
-ArrayOf
-Evaluator::matrixDefinition(ASTPtr t)
-{
-    ArrayOfMatrix m;
-    // m.reserve(4096);
-    if (t->opNum != OP_BRACKETS) {
-        Error(this, ERROR_AST_SYNTAX_ERROR);
-    }
-    ASTPtr s = t->down;
-    pushID(s->context());
-    while (s != nullptr) {
-        m.push_back(rowDefinition(s));
-        s = s->right;
-    }
-    ArrayOfVector v;
-    for (indexType k = 0; k < m.size(); k++) {
-        ArrayOf h = HorzCat(this, m[k]);
-        v.push_back(h);
-    }
-    ArrayOf res = VertCat(this, v);
-    // ArrayOf retval(ArrayOf::matrixConstructor(m));
-    popID();
-    // return retval;
-    return res;
+ArrayOf Evaluator::matrixDefinition(ASTPtr t) {
+  ArrayOfMatrix m;
+  // m.reserve(4096);
+  if (t->opNum != OP_BRACKETS) {
+    Error(this, ERROR_AST_SYNTAX_ERROR);
+  }
+  ASTPtr s = t->down;
+  pushID(s->context());
+  while (s != nullptr) {
+    m.push_back(rowDefinition(s));
+    s = s->right;
+  }
+  ArrayOfVector v;
+  for (indexType k = 0; k < m.size(); k++) {
+    ArrayOf h = HorzCat(this, m[k]);
+    v.push_back(h);
+  }
+  ArrayOf res = VertCat(this, v);
+  // ArrayOf retval(ArrayOf::matrixConstructor(m));
+  popID();
+  // return retval;
+  return res;
 }
 
 //!
@@ -375,359 +316,329 @@ Evaluator::matrixDefinition(ASTPtr t)
 // C = {A,B}
 //@>
 //!
-ArrayOf
-Evaluator::cellDefinition(ASTPtr t)
-{
-    ArrayOfMatrix m;
-    if (t->opNum != OP_BRACES) {
-        Error(this, ERROR_AST_SYNTAX_ERROR);
-    }
-    ASTPtr s = t->down;
-    pushID(s->context());
-    while (s != nullptr) {
-        m.push_back(rowDefinition(s));
-        s = s->right;
-    }
-    ArrayOf retval(ArrayOf::cellConstructor(m));
-    popID();
-    return retval;
+ArrayOf Evaluator::cellDefinition(ASTPtr t) {
+  ArrayOfMatrix m;
+  if (t->opNum != OP_BRACES) {
+    Error(this, ERROR_AST_SYNTAX_ERROR);
+  }
+  ASTPtr s = t->down;
+  pushID(s->context());
+  while (s != nullptr) {
+    m.push_back(rowDefinition(s));
+    s = s->right;
+  }
+  ArrayOf retval(ArrayOf::cellConstructor(m));
+  popID();
+  return retval;
 }
 
-bool
-Evaluator::needToOverloadLogicOperator(ArrayOf a)
-{
-    return ((a.getDataClass() == NLS_STRUCT_ARRAY) || (a.getDataClass() == NLS_CELL_ARRAY)
-        || a.isSparse() || a.isHandle());
+bool Evaluator::needToOverloadLogicOperator(ArrayOf a) {
+  return ((a.getDataClass() == NLS_STRUCT_ARRAY) ||
+          (a.getDataClass() == NLS_CELL_ARRAY) || a.isSparse() || a.isHandle());
 }
 
-ArrayOf
-Evaluator::orOperator(ASTPtr t)
-{
-    pushID(t->context());
-    ArrayOf retval;
-    const ArrayOf A = expression(t->down);
-    const ArrayOf B = expression(t->down->right);
-    if (overloadOnBasicTypes || needToOverloadLogicOperator(A) || needToOverloadLogicOperator(B)) {
-        ArrayOfVector argsOut = CallOperatorFunction(this, "or", A, B, 1);
-        retval = argsOut[0];
+ArrayOf Evaluator::orOperator(ASTPtr t) {
+  pushID(t->context());
+  ArrayOf retval;
+  const ArrayOf A = expression(t->down);
+  const ArrayOf B = expression(t->down->right);
+  if (overloadOnBasicTypes || needToOverloadLogicOperator(A) ||
+      needToOverloadLogicOperator(B)) {
+    ArrayOfVector argsOut = CallOperatorFunction(this, "or", A, B, 1);
+    retval = argsOut[0];
+  } else {
+    retval = Or(A, B);
+  }
+  popID();
+  return retval;
+}
+
+ArrayOf Evaluator::andOperator(ASTPtr t) {
+  pushID(t->context());
+  ArrayOf retval;
+  ArrayOf A = expression(t->down);
+  ArrayOf B = expression(t->down->right);
+  if (overloadOnBasicTypes || needToOverloadLogicOperator(A) ||
+      needToOverloadLogicOperator(B)) {
+    ArrayOfVector argsOut = CallOperatorFunction(this, "and", A, B, 1);
+    retval = argsOut[0];
+  } else {
+    retval = And(A, B);
+  }
+  popID();
+  return retval;
+}
+
+ArrayOf Evaluator::shortCutOrOperator(ASTPtr t) {
+  pushID(t->context());
+  ArrayOf retval;
+  const ArrayOf A = expression(t->down);
+  const ArrayOf B = expression(t->down->right);
+  if (overloadOnBasicTypes || needToOverloadLogicOperator(A) ||
+      needToOverloadLogicOperator(B)) {
+    ArrayOfVector argsOut = CallOperatorFunction(this, "shortcutor", A, B, 1);
+    retval = argsOut[0];
+  } else {
+    if (A.isScalar() && B.isScalar()) {
+      bool a = A.getContentAsLogicalScalar();
+      if (a) {
+        retval = A;
+      } else {
+        bool b = B.getContentAsLogicalScalar();
+        return ArrayOf::logicalConstructor(a || b);
+      }
     } else {
-        retval = Or(A, B);
+      throw Exception(_W("Operands to || operator must be convertible to logical scalar values."));
     }
-    popID();
-    return retval;
+  }
+  popID();
+  return retval;
 }
 
-ArrayOf
-Evaluator::andOperator(ASTPtr t)
-{
-    pushID(t->context());
-    ArrayOf retval;
-    ArrayOf A = expression(t->down);
-    ArrayOf B = expression(t->down->right);
-    if (overloadOnBasicTypes || needToOverloadLogicOperator(A) || needToOverloadLogicOperator(B)) {
-        ArrayOfVector argsOut = CallOperatorFunction(this, "and", A, B, 1);
-        retval = argsOut[0];
+ArrayOf Evaluator::shortCutAndOperator(ASTPtr t) {
+  pushID(t->context());
+  ArrayOf retval;
+  ArrayOf A = expression(t->down);
+  ArrayOf B = expression(t->down->right);
+  if (overloadOnBasicTypes || needToOverloadLogicOperator(A) ||
+      needToOverloadLogicOperator(B)) {
+    ArrayOfVector argsOut = CallOperatorFunction(this, "shortcutand", A, B, 1);
+    retval = argsOut[0];
+  } else {
+    if (A.isScalar() && B.isScalar()) {
+      bool a = A.getContentAsLogicalScalar();
+      if (!a) {
+        retval = A;
+      } else {
+        bool b = B.getContentAsLogicalScalar();
+        return ArrayOf::logicalConstructor(a && b);
+      }
     } else {
-        retval = And(A, B);
+      throw Exception(_W("Operands to && operator must be convertible to logical scalar values."));
     }
-    popID();
-    return retval;
+  }
+  popID();
+  return retval;
 }
 
-ArrayOf
-Evaluator::shortCutOrOperator(ASTPtr t)
-{
-    pushID(t->context());
-    ArrayOf retval;
-    const ArrayOf A = expression(t->down);
-    const ArrayOf B = expression(t->down->right);
-    if (overloadOnBasicTypes || needToOverloadLogicOperator(A) || needToOverloadLogicOperator(B)) {
-        ArrayOfVector argsOut = CallOperatorFunction(this, "shortcutor", A, B, 1);
-        retval = argsOut[0];
+ArrayOf Evaluator::EndReference(ArrayOf v, indexType index, size_t count) {
+  Dimensions dim(v.getDimensions());
+  ArrayOf res;
+  if (count == 1) {
+    res = ArrayOf::doubleConstructor((double)dim.getElementCount());
+  } else {
+    res = ArrayOf::doubleConstructor((double)dim.getDimensionLength(index));
+  }
+  return res;
+}
+
+ArrayOf Evaluator::expression(ASTPtr t) {
+  pushID(t->context());
+  ArrayOf retval;
+  // by default as the target we create double
+  if (t->type == const_int_node) {
+    retval = ArrayOf::doubleConstructor(atof(t->text.c_str()));
+  } else if (t->type == const_uint64_node) {
+    char *endptr = nullptr;
+    unsigned long long int v = strtoull(t->text.c_str(), &endptr, 10);
+    uint64 r = (uint64)v;
+    retval = ArrayOf::uint64Constructor(r);
+  } else if (t->type == const_float_node) {
+    boost::replace_all(t->text, "D", "e");
+    boost::replace_all(t->text, "d", "e");
+    retval = ArrayOf::singleConstructor(((float)atof(t->text.c_str())));
+  } else if (t->type == const_double_node) {
+    boost::replace_all(t->text, "D", "e");
+    boost::replace_all(t->text, "d", "e");
+    retval = ArrayOf::doubleConstructor(atof(t->text.c_str()));
+  } else if (t->type == string_const_node) {
+    retval = ArrayOf::stringConstructor(std::string(t->text.c_str()));
+  } else if (t->type == const_complex_node || t->type == const_dcomplex_node) {
+    boost::replace_all(t->text, "D", "e");
+    boost::replace_all(t->text, "d", "e");
+    double val = atof(t->text.c_str());
+    if (val == 0.) {
+      retval = ArrayOf::doubleConstructor(0.);
     } else {
-        if (!A.isScalar()) {
-            retval = Or(A, B);
+      retval = ArrayOf::dcomplexConstructor(0, val);
+    }
+  } else if (t->type == reserved_node) {
+    if (t->tokenNumber == NLS_KEYWORD_END) {
+      if (endStack.empty()) {
+        Error(this, ERROR_END_ILLEGAL);
+      }
+      endData t(endStack.back());
+      retval = EndReference(t.endArray, t.index, t.count);
+    } else {
+      Error(this, ERROR_UNRECOGNIZED_NODE);
+    }
+  } else {
+    switch (t->opNum) {
+    case OP_COLON:
+      if ((t->down != nullptr) && (t->down->opNum == (OP_COLON))) {
+        retval = doubleColon(t);
+      } else {
+        retval = unitColon(t);
+      }
+      break;
+    case OP_EMPTY: {
+      retval = ArrayOf::emptyConstructor();
+    } break;
+    case OP_EMPTY_CELL: {
+      ArrayOf a(ArrayOf::emptyConstructor());
+      a.promoteType(NLS_CELL_ARRAY);
+      retval = a;
+    } break;
+    case OP_BRACKETS: {
+      retval = matrixDefinition(t);
+    } break;
+    case OP_BRACES: {
+      retval = cellDefinition(t);
+    } break;
+    case OP_PLUS: {
+      ArrayOfVector argsOut = CallOperatorFunction(
+          this, "plus", expression(t->down), expression(t->down->right), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_SUBTRACT: {
+      ArrayOfVector argsOut = CallOperatorFunction(
+          this, "minus", expression(t->down), expression(t->down->right), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_TIMES: {
+      ArrayOfVector argsOut = CallOperatorFunction(
+          this, "mtimes", expression(t->down), expression(t->down->right), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_RDIV: {
+      ArrayOfVector argsOut = CallOperatorFunction(
+          this, "mrdivide", expression(t->down), expression(t->down->right), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_LDIV: {
+      ArrayOfVector argsOut = CallOperatorFunction(
+          this, "mldivide", expression(t->down), expression(t->down->right), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_SOR: {
+      retval = shortCutOrOperator(t);
+    } break;
+    case OP_OR: {
+      retval = orOperator(t);
+    } break;
+    case OP_SAND: {
+      retval = shortCutAndOperator(t);
+    } break;
+    case OP_AND: {
+      retval = andOperator(t);
+    } break;
+    case OP_LT: {
+      ArrayOfVector argsOut = CallOperatorFunction(
+          this, "lt", expression(t->down), expression(t->down->right), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_LEQ: {
+      ArrayOfVector argsOut = CallOperatorFunction(
+          this, "le", expression(t->down), expression(t->down->right), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_GT: {
+      ArrayOfVector argsOut = CallOperatorFunction(
+          this, "gt", expression(t->down), expression(t->down->right), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_GEQ: {
+      ArrayOfVector argsOut = CallOperatorFunction(
+          this, "ge", expression(t->down), expression(t->down->right), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_EQ: {
+      ArrayOfVector argsOut = CallOperatorFunction(
+          this, "eq", expression(t->down), expression(t->down->right), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_NEQ: {
+      ArrayOfVector argsOut = CallOperatorFunction(
+          this, "ne", expression(t->down), expression(t->down->right), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_DOT_TIMES: {
+      ArrayOfVector argsOut = CallOperatorFunction(
+          this, "times", expression(t->down), expression(t->down->right), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_DOT_RDIV: {
+      ArrayOfVector argsOut = CallOperatorFunction(
+          this, "rdivide", expression(t->down), expression(t->down->right), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_DOT_LDIV: {
+      ArrayOfVector argsOut = CallOperatorFunction(
+          this, "ldivide", expression(t->down), expression(t->down->right), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_POS: {
+      ArrayOfVector argsOut =
+          CallOperatorFunction(this, "uplus", expression(t->down), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_NEG: {
+      ArrayOfVector argsOut =
+          CallOperatorFunction(this, "uminus", expression(t->down), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_NOT: {
+      ArrayOfVector argsOut =
+          CallOperatorFunction(this, "not", expression(t->down), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_POWER: {
+      ArrayOfVector argsOut = CallOperatorFunction(
+          this, "mpower", expression(t->down), expression(t->down->right), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_DOT_POWER: {
+      ArrayOfVector argsOut = CallOperatorFunction(
+          this, "power", expression(t->down), expression(t->down->right), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_TRANSPOSE: {
+      ArrayOfVector argsOut =
+          CallOperatorFunction(this, "ctranspose", expression(t->down), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_DOT_TRANSPOSE: {
+      ArrayOfVector argsOut =
+          CallOperatorFunction(this, "transpose", expression(t->down), 1);
+      retval = argsOut[0];
+    } break;
+    case OP_RHS: {
+      // Test for simple variable lookup
+      if (t->down->down == nullptr) {
+        retval = rhsExpressionSimple(t->down);
+      } else {
+        ArrayOfVector m(rhsExpression(t->down));
+        if (m.empty()) {
+          retval = ArrayOf::emptyConstructor();
         } else {
-            bool a = A.getContentAsLogicalScalar();
-            if (a) {
-                retval = A;
-            } else {
-                retval = Or(A, B);
-            }
+          retval = m[0];
         }
+      }
+    } break;
+    default:
+      Error(this, ERROR_UNRECOGNIZED_EXPRESSION);
     }
-    popID();
-    return retval;
-}
-
-ArrayOf
-Evaluator::shortCutAndOperator(ASTPtr t)
-{
-    pushID(t->context());
-    ArrayOf retval;
-    ArrayOf A = expression(t->down);
-    ArrayOf B = expression(t->down->right);
-    if (overloadOnBasicTypes || needToOverloadLogicOperator(A) || needToOverloadLogicOperator(B)) {
-        ArrayOfVector argsOut = CallOperatorFunction(this, "shortcutand", A, B, 1);
-        retval = argsOut[0];
-    } else {
-        if (!A.isScalar()) {
-	        retval = And(A, B);
-        } else {
-            bool a = A.getContentAsLogicalScalar();
-            if (!a) {
-                retval = A;
-            } else {
-                retval = And(A, B);
-            }
-    
-		}
-    }
-    popID();
-    return retval;
-    /*
-    pushID(t->context());
-    ArrayOf a(expression(t->down));
-    ArrayOf retval;
-    if (!a.isScalar())
-    {
-    retval = And(a, expression(t->down->right));
-    }
-    else
-    {
-    // A is a scalar - is it false?
-    a.promoteType(NLS_LOGICAL);
-    if (!*((const logical*)a.getDataPointer()))
-    {
-    retval = a;
-    }
-    else
-    {
-    retval = And(a, expression(t->down->right));
-    }
-    }
-    popID();
-    return retval;
-    */
-}
-
-ArrayOf
-Evaluator::EndReference(ArrayOf v, indexType index, size_t count)
-{
-    Dimensions dim(v.getDimensions());
-    ArrayOf res;
-    if (count == 1) {
-        res = ArrayOf::doubleConstructor((double)dim.getElementCount());
-    } else {
-        res = ArrayOf::doubleConstructor((double)dim.getDimensionLength(index));
-    }
-    return res;
-}
-
-ArrayOf
-Evaluator::expression(ASTPtr t)
-{
-    pushID(t->context());
-    ArrayOf retval;
-    // by default as the target we create double
-    if (t->type == const_int_node) {
-        retval = ArrayOf::doubleConstructor(atof(t->text.c_str()));
-    } else if (t->type == const_uint64_node) {
-        char* endptr = nullptr;
-        unsigned long long int v = strtoull(t->text.c_str(), &endptr, 10);
-        uint64 r = (uint64)v;
-        retval = ArrayOf::uint64Constructor(r);
-    } else if (t->type == const_float_node) {
-        boost::replace_all(t->text, "D", "e");
-        boost::replace_all(t->text, "d", "e");
-        retval = ArrayOf::singleConstructor(((float)atof(t->text.c_str())));
-    } else if (t->type == const_double_node) {
-        boost::replace_all(t->text, "D", "e");
-        boost::replace_all(t->text, "d", "e");
-        retval = ArrayOf::doubleConstructor(atof(t->text.c_str()));
-    } else if (t->type == string_const_node) {
-        retval = ArrayOf::stringConstructor(std::string(t->text.c_str()));
-    } else if (t->type == const_complex_node || t->type == const_dcomplex_node) {
-        boost::replace_all(t->text, "D", "e");
-        boost::replace_all(t->text, "d", "e");
-        double val = atof(t->text.c_str());
-        if (val == 0.) {
-            retval = ArrayOf::doubleConstructor(0.);
-        } else {
-            retval = ArrayOf::dcomplexConstructor(0, val);
-        }
-    } else if (t->type == reserved_node) {
-        if (t->tokenNumber == NLS_KEYWORD_END) {
-            if (endStack.empty()) {
-                Error(this, ERROR_END_ILLEGAL);
-            }
-            endData t(endStack.back());
-            retval = EndReference(t.endArray, t.index, t.count);
-        } else {
-            Error(this, ERROR_UNRECOGNIZED_NODE);
-        }
-    } else {
-        switch (t->opNum) {
-        case OP_COLON:
-            if ((t->down != nullptr) && (t->down->opNum == (OP_COLON))) {
-                retval = doubleColon(t);
-            } else {
-                retval = unitColon(t);
-            }
-            break;
-        case OP_EMPTY: {
-            retval = ArrayOf::emptyConstructor();
-        } break;
-        case OP_EMPTY_CELL: {
-            ArrayOf a(ArrayOf::emptyConstructor());
-            a.promoteType(NLS_CELL_ARRAY);
-            retval = a;
-        } break;
-        case OP_BRACKETS: {
-            retval = matrixDefinition(t);
-        } break;
-        case OP_BRACES: {
-            retval = cellDefinition(t);
-        } break;
-        case OP_PLUS: {
-            ArrayOfVector argsOut = CallOperatorFunction(
-                this, "plus", expression(t->down), expression(t->down->right), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_SUBTRACT: {
-            ArrayOfVector argsOut = CallOperatorFunction(
-                this, "minus", expression(t->down), expression(t->down->right), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_TIMES: {
-            ArrayOfVector argsOut = CallOperatorFunction(
-                this, "mtimes", expression(t->down), expression(t->down->right), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_RDIV: {
-            ArrayOfVector argsOut = CallOperatorFunction(
-                this, "mrdivide", expression(t->down), expression(t->down->right), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_LDIV: {
-            ArrayOfVector argsOut = CallOperatorFunction(
-                this, "mldivide", expression(t->down), expression(t->down->right), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_SOR: {
-            retval = shortCutOrOperator(t);
-        } break;
-        case OP_OR: {
-            retval = orOperator(t);
-        } break;
-        case OP_SAND: {
-            retval = shortCutAndOperator(t);
-        } break;
-        case OP_AND: {
-            retval = andOperator(t);
-        } break;
-        case OP_LT: {
-            ArrayOfVector argsOut = CallOperatorFunction(
-                this, "lt", expression(t->down), expression(t->down->right), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_LEQ: {
-            ArrayOfVector argsOut = CallOperatorFunction(
-                this, "le", expression(t->down), expression(t->down->right), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_GT: {
-            ArrayOfVector argsOut = CallOperatorFunction(
-                this, "gt", expression(t->down), expression(t->down->right), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_GEQ: {
-            ArrayOfVector argsOut = CallOperatorFunction(
-                this, "ge", expression(t->down), expression(t->down->right), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_EQ: {
-            ArrayOfVector argsOut = CallOperatorFunction(
-                this, "eq", expression(t->down), expression(t->down->right), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_NEQ: {
-            ArrayOfVector argsOut = CallOperatorFunction(
-                this, "ne", expression(t->down), expression(t->down->right), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_DOT_TIMES: {
-            ArrayOfVector argsOut = CallOperatorFunction(
-                this, "times", expression(t->down), expression(t->down->right), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_DOT_RDIV: {
-            ArrayOfVector argsOut = CallOperatorFunction(
-                this, "rdivide", expression(t->down), expression(t->down->right), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_DOT_LDIV: {
-            ArrayOfVector argsOut = CallOperatorFunction(
-                this, "ldivide", expression(t->down), expression(t->down->right), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_POS: {
-            ArrayOfVector argsOut = CallOperatorFunction(this, "uplus", expression(t->down), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_NEG: {
-            ArrayOfVector argsOut = CallOperatorFunction(this, "uminus", expression(t->down), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_NOT: {
-            ArrayOfVector argsOut = CallOperatorFunction(this, "not", expression(t->down), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_POWER: {
-            ArrayOfVector argsOut = CallOperatorFunction(
-                this, "mpower", expression(t->down), expression(t->down->right), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_DOT_POWER: {
-            ArrayOfVector argsOut = CallOperatorFunction(
-                this, "power", expression(t->down), expression(t->down->right), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_TRANSPOSE: {
-            ArrayOfVector argsOut
-                = CallOperatorFunction(this, "ctranspose", expression(t->down), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_DOT_TRANSPOSE: {
-            ArrayOfVector argsOut = CallOperatorFunction(this, "transpose", expression(t->down), 1);
-            retval = argsOut[0];
-        } break;
-        case OP_RHS: {
-            // Test for simple variable lookup
-            if (t->down->down == nullptr) {
-                retval = rhsExpressionSimple(t->down);
-            } else {
-                ArrayOfVector m(rhsExpression(t->down));
-                if (m.empty()) {
-                    retval = ArrayOf::emptyConstructor();
-                } else {
-                    retval = m[0];
-                }
-            }
-        } break;
-        default:
-            Error(this, ERROR_UNRECOGNIZED_EXPRESSION);
-        }
-    }
-    popID();
-    return retval;
+  }
+  popID();
+  return retval;
 }
 
 //!
 //@Module COLON Index Generation Operator
 //@@Section OPERATORS
 //@@Usage
-// There are two distinct syntaxes for the colon @|:| operator - the two argument form
+// There are two distinct syntaxes for the colon @|:| operator - the two
+// argument form
 //@[
 //  y = a : c
 //@]
@@ -735,7 +646,8 @@ Evaluator::expression(ASTPtr t)
 //@[
 //  y = a : b : c
 //@]
-// The two argument form is exactly equivalent to @|a:1:c|.  The output @|y| is the vector
+// The two argument form is exactly equivalent to @|a:1:c|.  The output @|y| is
+// the vector
 //\[
 //  y = [a,a+b,a+2b,\ldots,a+nb]
 //\]
@@ -754,8 +666,8 @@ Evaluator::expression(ASTPtr t)
 //@<
 // y = 4:-.5:1
 //@>
-// If the endpoints are the same, one point is generated, regardless of the step size (middle
-// argument)
+// If the endpoints are the same, one point is generated, regardless of the step
+// size (middle argument)
 //@<
 // y = 4:1:4
 //@>
@@ -764,38 +676,34 @@ Evaluator::expression(ASTPtr t)
 // y = 5:4
 //@>
 //!
-ArrayOf
-Evaluator::unitColon(ASTPtr t)
-{
-    ArrayOf a, b;
-    pushID(t->context());
-    a = expression(t->down);
-    b = expression(t->down->right);
-    /*
-    ArrayOf retval(UnitColon(a, b));
-    */
-    ArrayOfVector argsOut
-        = CallOperatorFunction(this, "colon", expression(t->down), expression(t->down->right), 1);
-    ArrayOf retval = argsOut[0];
-    popID();
-    return retval;
+ArrayOf Evaluator::unitColon(ASTPtr t) {
+  ArrayOf a, b;
+  pushID(t->context());
+  a = expression(t->down);
+  b = expression(t->down->right);
+  /*
+  ArrayOf retval(UnitColon(a, b));
+  */
+  ArrayOfVector argsOut = CallOperatorFunction(
+      this, "colon", expression(t->down), expression(t->down->right), 1);
+  ArrayOf retval = argsOut[0];
+  popID();
+  return retval;
 }
 
-ArrayOf
-Evaluator::doubleColon(ASTPtr t)
-{
-    ArrayOf a, b, c;
-    pushID(t->context());
-    a = expression(t->down->down);
-    b = expression(t->down->down->right);
-    c = expression(t->down->right);
-    ArrayOfVector argsOut = CallOperatorFunction(this, "colon", a, b, c, 1);
-    ArrayOf retval = argsOut[0];
-    /*
-    ArrayOf retval(DoubleColon(a, b, c));
-    */
-    popID();
-    return retval;
+ArrayOf Evaluator::doubleColon(ASTPtr t) {
+  ArrayOf a, b, c;
+  pushID(t->context());
+  a = expression(t->down->down);
+  b = expression(t->down->down->right);
+  c = expression(t->down->right);
+  ArrayOfVector argsOut = CallOperatorFunction(this, "colon", a, b, c, 1);
+  ArrayOf retval = argsOut[0];
+  /*
+  ArrayOf retval(DoubleColon(a, b, c));
+  */
+  popID();
+  return retval;
 }
 
 /**
@@ -804,142 +712,134 @@ Evaluator::doubleColon(ASTPtr t)
  * through rhsExpression, which can return
  * a vector of variables.
  */
-ArrayOfVector
-Evaluator::expressionList(ASTPtr t)
-{
-    ArrayOfVector m;
-    ArrayOfVector n;
-    ASTPtr root;
-    indexType tmp = 0;
-    indexType endVal = 0;
-    if (t == nullptr) {
-        return m;
-    }
-    pushID(t->context());
-    root = t;
-    while (t != nullptr) {
-        if (t->opNum == OP_KEYWORD) {
-            t = t->right;
-            continue;
-        }
-        if (t->type == non_terminal && t->opNum == (OP_RHS)) {
-            try {
-                n = rhsExpression(t->down);
-            } catch (Exception& e) {
-                if (!e.matches(ERROR_EMPTY_EXPRESSION)) {
-                    throw;
-                } else {
-                    n = ArrayOfVector();
-                }
-            }
-            for (size_t i = 0; i < n.size(); i++) {
-                m.push_back(n[i]);
-            }
-        } else if (t->type == non_terminal && t->opNum == (OP_ALL)) {
-            throw Exception(_W("Illegal use of the ':' operator"));
-        } else {
-            // Call the expression
-            m.push_back(expression(t));
-        }
-        t = t->right;
-    }
-    popID();
+ArrayOfVector Evaluator::expressionList(ASTPtr t) {
+  ArrayOfVector m;
+  ArrayOfVector n;
+  ASTPtr root;
+  indexType tmp = 0;
+  indexType endVal = 0;
+  if (t == nullptr) {
     return m;
-}
-
-ArrayOfVector
-Evaluator::expressionList(ASTPtr t, ArrayOf subRoot)
-{
-    ArrayOfVector m;
-    ArrayOfVector n;
-    ASTPtr root;
-    indexType index = 0, tmp = 0;
-    indexType endVal = 0;
-    if (t == nullptr) {
-        return m;
+  }
+  pushID(t->context());
+  root = t;
+  while (t != nullptr) {
+    if (t->opNum == OP_KEYWORD) {
+      t = t->right;
+      continue;
     }
-    pushID(t->context());
-    size_t count = countSubExpressions(t);
-    root = t;
-    index = 0;
-    while (t != nullptr) {
-        if (t->opNum == OP_KEYWORD) {
-            t = t->right;
-            continue;
-        }
-        if (t->type == non_terminal && t->opNum == (OP_RHS)) {
-            try {
-                n = rhsExpression(t->down);
-            } catch (Exception& e) {
-                if (!e.matches(ERROR_EMPTY_EXPRESSION)) {
-                    throw;
-                } else {
-                    n = ArrayOfVector();
-                }
-            }
-            for (size_t i = 0; i < n.size(); i++) {
-                m.push_back(n[i]);
-            }
-        } else if (t->type == non_terminal && t->opNum == (OP_ALL)) {
-            Dimensions dim = subRoot.getDimensions();
-            if (root->right == nullptr) {
-                // Singleton reference, with ':' - return 1:length as column vector...
-                tmp = dim.getElementCount();
-                m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, true));
-            } else {
-                tmp = dim.getDimensionLength(index);
-                m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, false));
-            }
+    if (t->type == non_terminal && t->opNum == (OP_RHS)) {
+      try {
+        n = rhsExpression(t->down);
+      } catch (Exception &e) {
+        if (!e.matches(ERROR_EMPTY_EXPRESSION)) {
+          throw;
         } else {
-            // Set up the value of the "end" token
-            endStack.push_back(endData(subRoot, (int)index, count));
-            // Call the expression
-            m.push_back(expression(t));
-            endStack.pop_back();
+          n = ArrayOfVector();
         }
-        index++;
-        t = t->right;
+      }
+      for (size_t i = 0; i < n.size(); i++) {
+        m.push_back(n[i]);
+      }
+    } else if (t->type == non_terminal && t->opNum == (OP_ALL)) {
+      throw Exception(_W("Illegal use of the ':' operator"));
+    } else {
+      // Call the expression
+      m.push_back(expression(t));
     }
-    popID();
+    t = t->right;
+  }
+  popID();
+  return m;
+}
+
+ArrayOfVector Evaluator::expressionList(ASTPtr t, ArrayOf subRoot) {
+  ArrayOfVector m;
+  ArrayOfVector n;
+  ASTPtr root;
+  indexType index = 0, tmp = 0;
+  indexType endVal = 0;
+  if (t == nullptr) {
     return m;
-}
-
-ArrayOfVector
-Evaluator::subsindex(ArrayOfVector m)
-{
-    ArrayOfVector n;
-    for (size_t k = 0; k < m.size(); k++) {
-        ArrayOfVector retval = CallOperatorFunction(this, "subsindex", m[k], 1);
-        ArrayOf t = retval[0];
-        t.promoteType(NLS_UINT32);
-        size_t len = t.getLength();
-        uint32* dp = (uint32*)t.getReadWriteDataPointer();
-        for (size_t j = 0; j < len; j++) {
-            dp[j]++;
+  }
+  pushID(t->context());
+  size_t count = countSubExpressions(t);
+  root = t;
+  index = 0;
+  while (t != nullptr) {
+    if (t->opNum == OP_KEYWORD) {
+      t = t->right;
+      continue;
+    }
+    if (t->type == non_terminal && t->opNum == (OP_RHS)) {
+      try {
+        n = rhsExpression(t->down);
+      } catch (Exception &e) {
+        if (!e.matches(ERROR_EMPTY_EXPRESSION)) {
+          throw;
+        } else {
+          n = ArrayOfVector();
         }
-        n.push_back(t);
+      }
+      for (size_t i = 0; i < n.size(); i++) {
+        m.push_back(n[i]);
+      }
+    } else if (t->type == non_terminal && t->opNum == (OP_ALL)) {
+      Dimensions dim = subRoot.getDimensions();
+      if (root->right == nullptr) {
+        // Singleton reference, with ':' - return 1:length as column vector...
+        tmp = dim.getElementCount();
+        m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, true));
+      } else {
+        tmp = dim.getDimensionLength(index);
+        m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, false));
+      }
+    } else {
+      // Set up the value of the "end" token
+      endStack.push_back(endData(subRoot, (int)index, count));
+      // Call the expression
+      m.push_back(expression(t));
+      endStack.pop_back();
     }
-    return n;
+    index++;
+    t = t->right;
+  }
+  popID();
+  return m;
 }
 
-bool
-Evaluator::conditionedStatement(ASTPtr t)
-{
-    bool conditionState;
-    if (t->opNum != OP_CSTAT) {
-        Error(this, ERROR_AST_SYNTAX_ERROR);
+ArrayOfVector Evaluator::subsindex(ArrayOfVector m) {
+  ArrayOfVector n;
+  for (size_t k = 0; k < m.size(); k++) {
+    ArrayOfVector retval = CallOperatorFunction(this, "subsindex", m[k], 1);
+    ArrayOf t = retval[0];
+    t.promoteType(NLS_UINT32);
+    size_t len = t.getLength();
+    uint32 *dp = (uint32 *)t.getReadWriteDataPointer();
+    for (size_t j = 0; j < len; j++) {
+      dp[j]++;
     }
-    ASTPtr s = t->down;
-    pushID(s->context());
-    ArrayOf condVar;
-    condVar = expression(s);
-    conditionState = checkIfWhileCondition(condVar);
-    ASTPtr codeBlock = s->right;
-    if (conditionState) {
-        block(codeBlock);
-    }
-    popID();
-    return conditionState;
+    n.push_back(t);
+  }
+  return n;
+}
+
+bool Evaluator::conditionedStatement(ASTPtr t) {
+  bool conditionState;
+  if (t->opNum != OP_CSTAT) {
+    Error(this, ERROR_AST_SYNTAX_ERROR);
+  }
+  ASTPtr s = t->down;
+  pushID(s->context());
+  ArrayOf condVar;
+  condVar = expression(s);
+  conditionState = checkIfWhileCondition(condVar);
+  ASTPtr codeBlock = s->right;
+  if (conditionState) {
+    block(codeBlock);
+  }
+  popID();
+  return conditionState;
 }
 
 /**
@@ -951,23 +851,21 @@ Evaluator::conditionedStatement(ASTPtr t)
  * any matches.  If x is a string and we are a cell-array, then
  * this is applied on an element-by-element basis also.
  */
-bool
-Evaluator::testCaseStatement(ASTPtr t, ArrayOf s)
-{
-    bool caseMatched;
-    ArrayOf r;
-    pushID(t->context());
-    if (t->type != reserved_node || t->tokenNumber != NLS_KEYWORD_CASE) {
-        Error(this, ERROR_AST_SYNTAX_ERROR);
-    }
-    t = t->down;
-    r = expression(t);
-    caseMatched = s.testForCaseMatch(r);
-    if (caseMatched) {
-        block(t->right);
-    }
-    popID();
-    return caseMatched;
+bool Evaluator::testCaseStatement(ASTPtr t, ArrayOf s) {
+  bool caseMatched;
+  ArrayOf r;
+  pushID(t->context());
+  if (t->type != reserved_node || t->tokenNumber != NLS_KEYWORD_CASE) {
+    Error(this, ERROR_AST_SYNTAX_ERROR);
+  }
+  t = t->down;
+  r = expression(t);
+  caseMatched = s.testForCaseMatch(r);
+  if (caseMatched) {
+    block(t->right);
+  }
+  popID();
+  return caseMatched;
 }
 
 //!
@@ -1012,43 +910,33 @@ Evaluator::testCaseStatement(ASTPtr t, ArrayOf s)
 // read_file('test_text.txt')
 //@>
 //!
-void
-Evaluator::tryStatement(ASTPtr t)
-{
-    // Turn off autostop for this statement block
-    bool autostop_save = autostop;
-    autostop = false;
-    // Get the state of the IDnum stack and the
-    // contextStack and the cnameStack
-    size_t stackdepth = cstack.size();
-    try {
-        block(t);
-    } catch (Exception& e) {
-        e.what();
-        while (cstack.size() > stackdepth) {
-            cstack.pop_back();
-        }
-        //      cname = cstack.back().cname;
-        t = t->right;
-        if (t != nullptr) {
-            autostop = autostop_save;
-            block(t);
-        }
+void Evaluator::tryStatement(ASTPtr t) {
+  // Turn off autostop for this statement block
+  bool autostop_save = autostop;
+  autostop = false;
+  // Get the state of the IDnum stack and the
+  // contextStack and the cnameStack
+  size_t stackdepth = cstack.size();
+  try {
+    block(t);
+  } catch (Exception &e) {
+    e.what();
+    while (cstack.size() > stackdepth) {
+      cstack.pop_back();
     }
-    autostop = autostop_save;
+    //      cname = cstack.back().cname;
+    t = t->right;
+    if (t != nullptr) {
+      autostop = autostop_save;
+      block(t);
+    }
+  }
+  autostop = autostop_save;
 }
 
-bool
-Evaluator::AutoStop()
-{
-    return autostop;
-}
+bool Evaluator::AutoStop() { return autostop; }
 
-void
-Evaluator::AutoStop(bool a)
-{
-    autostop = a;
-}
+void Evaluator::AutoStop(bool a) { autostop = a; }
 
 //!
 //@Module SWITCH Switch statement
@@ -1098,38 +986,36 @@ Evaluator::AutoStop(bool a)
 // switch_test('carpet')
 //@>
 //!
-void
-Evaluator::switchStatement(ASTPtr t)
-{
-    ArrayOf switchVal;
-    pushID(t->context());
-    // First, extract the value to perform the switch on.
-    switchVal = expression(t);
-    // Assess its type to determine if this is a scalar switch
-    // or a string switch.
-    if (!switchVal.isScalar() && !switchVal.isSingleString()) {
-        Error(this, ERROR_SWITCH_STATEMENTS);
+void Evaluator::switchStatement(ASTPtr t) {
+  ArrayOf switchVal;
+  pushID(t->context());
+  // First, extract the value to perform the switch on.
+  switchVal = expression(t);
+  // Assess its type to determine if this is a scalar switch
+  // or a string switch.
+  if (!switchVal.isScalar() && !switchVal.isSingleString()) {
+    Error(this, ERROR_SWITCH_STATEMENTS);
+  }
+  // Move to the next node in the AST
+  t = t->right;
+  // Check for additional conditions
+  if (t != nullptr) {
+    bool caseMatched = false;
+    if (t->opNum == (OP_CASEBLOCK)) {
+      ASTPtr s = t->down;
+      while (!caseMatched && s != nullptr) {
+        caseMatched = testCaseStatement(s, switchVal);
+        s = s->right;
+      }
     }
-    // Move to the next node in the AST
     t = t->right;
-    // Check for additional conditions
-    if (t != nullptr) {
-        bool caseMatched = false;
-        if (t->opNum == (OP_CASEBLOCK)) {
-            ASTPtr s = t->down;
-            while (!caseMatched && s != nullptr) {
-                caseMatched = testCaseStatement(s, switchVal);
-                s = s->right;
-            }
-        }
-        t = t->right;
-        if (!(caseMatched || (t == nullptr)))
-        // Do the "otherwise" code
-        {
-            block(t);
-        }
+    if (!(caseMatched || (t == nullptr)))
+    // Do the "otherwise" code
+    {
+      block(t);
     }
-    popID();
+  }
+  popID();
 }
 
 //!
@@ -1178,30 +1064,28 @@ Evaluator::switchStatement(ASTPtr t)
 // if_test(pi)
 //@>
 //!
-void
-Evaluator::ifStatement(ASTPtr t)
-{
-    pushID(t->context());
-    bool condStat = conditionedStatement(t);
-    if (!condStat) {
-        t = t->right;
-        // Check for additional conditions
-        if (t != nullptr) {
-            bool elseifMatched = false;
-            if (t->opNum == (OP_ELSEIFBLOCK)) {
-                ASTPtr s = t->down;
-                while (!elseifMatched && s != nullptr) {
-                    elseifMatched = conditionedStatement(s);
-                    s = s->right;
-                }
-                t = t->right;
-            }
-            if (!(elseifMatched || t == nullptr)) {
-                block(t);
-            }
+void Evaluator::ifStatement(ASTPtr t) {
+  pushID(t->context());
+  bool condStat = conditionedStatement(t);
+  if (!condStat) {
+    t = t->right;
+    // Check for additional conditions
+    if (t != nullptr) {
+      bool elseifMatched = false;
+      if (t->opNum == (OP_ELSEIFBLOCK)) {
+        ASTPtr s = t->down;
+        while (!elseifMatched && s != nullptr) {
+          elseifMatched = conditionedStatement(s);
+          s = s->right;
         }
+        t = t->right;
+      }
+      if (!(elseifMatched || t == nullptr)) {
+        block(t);
+      }
     }
-    popID();
+  }
+  popID();
 }
 
 //!
@@ -1230,39 +1114,38 @@ Evaluator::ifStatement(ASTPtr t)
 // accum
 //@>
 //!
-void
-Evaluator::whileStatement(ASTPtr t)
-{
-    ASTPtr testCondition;
-    ArrayOf condVar;
-    ASTPtr codeBlock;
-    bool conditionTrue;
-    bool breakEncountered;
-    pushID(t->context());
-    testCondition = t;
-    codeBlock = t->right;
-    breakEncountered = false;
-    condVar = expression(testCondition);
-    conditionTrue = checkIfWhileCondition(condVar);
-    context->enterLoop();
-    while (conditionTrue && !breakEncountered) {
-        block(codeBlock);
-        if (state == NLS_STATE_RETURN || state == NLS_STATE_ABORT || state == NLS_STATE_QUIT) {
-            break;
-        }
-        if (state == NLS_STATE_CONTINUE) {
-            resetState();
-        }
-        breakEncountered = (state == NLS_STATE_BREAK);
-        if (!breakEncountered) {
-            condVar = expression(testCondition);
-            conditionTrue = checkIfWhileCondition(condVar);
-        } else {
-            resetState();
-        }
+void Evaluator::whileStatement(ASTPtr t) {
+  ASTPtr testCondition;
+  ArrayOf condVar;
+  ASTPtr codeBlock;
+  bool conditionTrue;
+  bool breakEncountered;
+  pushID(t->context());
+  testCondition = t;
+  codeBlock = t->right;
+  breakEncountered = false;
+  condVar = expression(testCondition);
+  conditionTrue = checkIfWhileCondition(condVar);
+  context->enterLoop();
+  while (conditionTrue && !breakEncountered) {
+    block(codeBlock);
+    if (state == NLS_STATE_RETURN || state == NLS_STATE_ABORT ||
+        state == NLS_STATE_QUIT) {
+      break;
     }
-    context->exitLoop();
-    popID();
+    if (state == NLS_STATE_CONTINUE) {
+      resetState();
+    }
+    breakEncountered = (state == NLS_STATE_BREAK);
+    if (!breakEncountered) {
+      condVar = expression(testCondition);
+      conditionTrue = checkIfWhileCondition(condVar);
+    } else {
+      resetState();
+    }
+  }
+  context->exitLoop();
+  popID();
 }
 
 //!
@@ -1313,53 +1196,53 @@ Evaluator::whileStatement(ASTPtr t)
 // In the third example, we pre-initialize the loop variable
 // with the values it is to take
 //!
-void
-Evaluator::forStatement(ASTPtr t)
-{
-    ASTPtr codeBlock;
-    ArrayOf indexSet;
-    ArrayOf indexNum;
-    std::string indexVarName;
-    ArrayOf indexVar;
-    indexType elementCount = 0;
-    if (t == nullptr) {
-        resetState();
-        context->exitLoop();
-        return;
-    } else {
-        pushID(t->context());
-    }
-    /* Get the name of the indexing variable */
-    indexVarName = t->text;
-    /* Evaluate the index set */
-    indexSet = expression(t->down);
-    /* Get the code block */
-    codeBlock = t->right;
-    elementCount = indexSet.getLength();
-    context->enterLoop();
-    for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
-        // indexNum = ArrayOf::doubleConstructor(elementNumber + 1);
-        // indexVar = indexSet.getVectorSubset(indexNum);
-        // context->insertVariable(indexVarName, indexVar);
-        indexVar = indexSet.getValueAtIndex(elementNumber);
-        bool bInserted = context->insertVariable(indexVarName, indexVar);
-        if (!bInserted) {
-            Error(this, _W("Redefining permanent variable."));
-        }
-        block(codeBlock);
-        if (state == NLS_STATE_RETURN || state == NLS_STATE_ABORT || state == NLS_STATE_QUIT) {
-            break;
-        }
-        if (state == NLS_STATE_CONTINUE) {
-            resetState();
-        }
-        if (state == NLS_STATE_BREAK) {
-            resetState();
-            break;
-        }
-    }
+void Evaluator::forStatement(ASTPtr t) {
+  ASTPtr codeBlock;
+  ArrayOf indexSet;
+  ArrayOf indexNum;
+  std::string indexVarName;
+  ArrayOf indexVar;
+  indexType elementCount = 0;
+  if (t == nullptr) {
+    resetState();
     context->exitLoop();
-    popID();
+    return;
+  } else {
+    pushID(t->context());
+  }
+  /* Get the name of the indexing variable */
+  indexVarName = t->text;
+  /* Evaluate the index set */
+  indexSet = expression(t->down);
+  /* Get the code block */
+  codeBlock = t->right;
+  elementCount = indexSet.getLength();
+  context->enterLoop();
+  for (indexType elementNumber = 0; elementNumber < elementCount;
+       elementNumber++) {
+    // indexNum = ArrayOf::doubleConstructor(elementNumber + 1);
+    // indexVar = indexSet.getVectorSubset(indexNum);
+    // context->insertVariable(indexVarName, indexVar);
+    indexVar = indexSet.getValueAtIndex(elementNumber);
+    bool bInserted = context->insertVariable(indexVarName, indexVar);
+    if (!bInserted) {
+      Error(this, _W("Redefining permanent variable."));
+    }
+    block(codeBlock);
+    if (state == NLS_STATE_RETURN || state == NLS_STATE_ABORT ||
+        state == NLS_STATE_QUIT) {
+      break;
+    }
+    if (state == NLS_STATE_CONTINUE) {
+      resetState();
+    }
+    if (state == NLS_STATE_BREAK) {
+      resetState();
+      break;
+    }
+  }
+  context->exitLoop();
+  popID();
 }
 
 //!
@@ -1615,235 +1498,230 @@ Evaluator::forStatement(ASTPtr t)
 //@>
 //!
 
-void
-Evaluator::debugCLI()
-{
-    depth++;
-    bpActive = true;
-    evalCLI();
-    bpActive = false;
-    if (state == NLS_STATE_RETURN) {
-        resetState();
-    }
-    depth--;
+void Evaluator::debugCLI() {
+  depth++;
+  bpActive = true;
+  evalCLI();
+  bpActive = false;
+  if (state == NLS_STATE_RETURN) {
+    resetState();
+  }
+  depth--;
 }
 
-void
-Evaluator::handleDebug(int fullcontext)
-{
-    int linenumber;
-    linenumber = fullcontext & 0xffff;
-    if (debugActive) {
-        if (inStepMode) {
-            if ((stepTrap.cname == cstack.back().cname) && (stepTrap.tokid == linenumber)) {
-                // Finished stepping...
-                inStepMode = false;
-                char buffer[2048];
-                sprintf(buffer, _("Finished stepping to %s, line %d\n").c_str(),
-                    stepTrap.cname.c_str(), linenumber);
-                io->outputMessage(buffer);
-                debugCLI();
-            }
-        } else {
-            // check the breakpoint list
-            bool found = false;
-            size_t j = 0;
-            while ((j < bpStack.size()) && !found) {
-                // Is this a resolved breakpoint?
-                if ((bpStack[j].tokid >> 16) != 0) {
-                    if ((bpStack[j].cname == cstack.back().cname)
-                        && (bpStack[j].tokid == fullcontext)) {
-                        found = true;
-                    } else {
-                        found = false;
-                        j++;
-                    }
-                } else {
-                    if ((bpStack[j].cname == cstack.back().cname)
-                        && (bpStack[j].tokid == linenumber)) {
-                        found = true;
-                        bpStack[j].tokid = fullcontext;
-                    } else {
-                        found = false;
-                        j++;
-                    }
-                }
-            }
-            if (found) {
-                stepTrap = bpStack[j];
-                char buffer[2048];
-                sprintf(buffer, _("Encountered breakpoint at %s, line %d\n").c_str(),
-                    bpStack[j].cname.c_str(), linenumber);
-                io->outputMessage(buffer);
-                debugCLI();
-            }
-        }
-    }
-}
-
-void
-Evaluator::statementType(ASTPtr t, bool printIt)
-{
-    ArrayOfVector m;
-    FunctionDef* fdef;
-    if (haveEventsLoop()) {
-        ProcessEventsDynamicFunctionWithoutWait();
-    }
-    if (t == nullptr) {
-        return;
-    }
-    pushID(t->context());
-    // check the debug flag
-    int fullcontext = t->context();
-    handleDebug(fullcontext);
-    if (t->isEmpty()) {
-        /* Empty statement */
-    } else if (t->opNum == (OP_ASSIGN)) {
-        if (t->down->down == nullptr) {
-            ArrayOf b(expression(t->down->right));
-            bool bInserted = context->insertVariable(t->down->text, b);
-            if (!bInserted) {
-                Error(this, _W("Redefining permanent variable."));
-            }
-            if (printIt) {
-                io->outputMessage(t->down->text);
-                io->outputMessage(L" =\n\n");
-                OverloadDisplay(this, b);
-            }
-        } else {
-            ArrayOf expr(expression(t->down->right));
-            ArrayOf c(assignExpression(t->down, expr));
-            if (!c.isHandle()) {
-                bool bInserted = context->insertVariable(t->down->text, c);
-                if (!bInserted) {
-                    Error(this, _W("Redefining permanent variable."));
-                }
-                if (printIt) {
-                    io->outputMessage(t->down->text);
-                    io->outputMessage(L" =\n\n");
-                    OverloadDisplay(this, c);
-                }
-            }
-        }
-    } else if (t->opNum == (OP_MULTICALL)) {
-        multiFunctionCall(t->down, printIt);
-    } else if (t->opNum == (OP_SCALL)) {
-        ArrayOfVector m = specialFunctionCall(t->down, printIt);
-        if (m.size() > 0) {
-            io->outputMessage(L"\nans =\n\n");
-            OverloadDisplay(this, m[0]);
-            context->insertVariable("ans", m[0]);
-        }
-    } else if (t->type == reserved_node) {
-        switch (t->tokenNumber) {
-        case NLS_KEYWORD_FOR:
-            forStatement(t->down);
-            break;
-        case NLS_KEYWORD_WHILE:
-            whileStatement(t->down);
-            break;
-        case NLS_KEYWORD_IF:
-            ifStatement(t->down);
-            break;
-        case NLS_KEYWORD_BREAK:
-            if (context->inLoop()) {
-                state = NLS_STATE_BREAK;
-            }
-            break;
-        case NLS_KEYWORD_CONTINUE:
-            if (context->inLoop()) {
-                state = NLS_STATE_CONTINUE;
-            }
-            break;
-        case NLS_KEYWORD_RETURN:
-            state = NLS_STATE_RETURN;
-            break;
-        case NLS_KEYWORD_SWITCH:
-            switchStatement(t->down);
-            break;
-        case NLS_KEYWORD_TRY:
-            tryStatement(t->down);
-            break;
-        case NLS_KEYWORD_QUIT:
-            state = NLS_STATE_QUIT;
-            break;
-        case NLS_KEYWORD_ABORT:
-            state = NLS_STATE_ABORT;
-            if (depth) {
-                depth = 0;
-            }
-            break;
-        case NLS_KEYWORD_KEYBOARD:
-            depth++;
-            evalCLI();
-            if (state < NLS_STATE_QUIT) {
-                resetState();
-            }
-            depth--;
-            break;
-        case NLS_KEYWORD_ENDFUNCTION:
-            /* a workaround to have a endfunction keyword */
-            if (context->getCurrentScope()->getName() == "base") {
-                Error(this, ERROR_ENDFUNCTION_WRONG_USE);
-            }
-            state = NLS_STATE_RETURN;
-            break;
-        default:
-            Error(this, ERROR_UNRECOGNIZED_STATEMENT);
-        }
+void Evaluator::handleDebug(int fullcontext) {
+  int linenumber;
+  linenumber = fullcontext & 0xffff;
+  if (debugActive) {
+    if (inStepMode) {
+      if ((stepTrap.cname == cstack.back().cname) &&
+          (stepTrap.tokid == linenumber)) {
+        // Finished stepping...
+        inStepMode = false;
+        char buffer[2048];
+        sprintf(buffer, _("Finished stepping to %s, line %d\n").c_str(),
+                stepTrap.cname.c_str(), linenumber);
+        io->outputMessage(buffer);
+        debugCLI();
+      }
     } else {
-        // There is a special case to consider here - when a
-        // function call is made as a statement, we do not require
-        // that the function have an output.
-        ArrayOf b;
-        bool bUpdateAns = true;
-        if (t->opNum == (OP_RHS) && !context->lookupVariable(t->down->text, b)
-            && lookupFunction(t->down->text, fdef)) {
-            m = functionExpression(fdef, t->down, 0, true);
-            if (m.size() > 0) {
-                b = m[0];
-            } else {
-                bUpdateAns = false;
-            }
-            if (printIt && (m.size() > 0) && (state < NLS_STATE_QUIT)) {
-                io->outputMessage(L"\nans =\n\n");
-                OverloadDisplay(this, b);
-            }
-        } else if (t->opNum == OP_RHS) {
-            m = rhsExpression(t->down);
-            if (m.size() == 0) {
-                b = ArrayOf::emptyConstructor();
-            } else {
-                b = m[0];
-                if (printIt && (state < NLS_STATE_QUIT)) {
-                    // io->outputMessage(L"ans =\n\n");
-                    io->outputMessage("\n");
-                    for (size_t j = 0; j < m.size(); j++) {
-                        if (m.size() > 1) {
-                            char buffer[1000];
-                            sprintf(buffer, _("\n%d of %d:\n").c_str(), j + 1, m.size());
-                            io->outputMessage(buffer);
-                        }
-                        OverloadDisplay(this, m[j]);
-                    }
-                }
-            }
+      // check the breakpoint list
+      bool found = false;
+      size_t j = 0;
+      while ((j < bpStack.size()) && !found) {
+        // Is this a resolved breakpoint?
+        if ((bpStack[j].tokid >> 16) != 0) {
+          if ((bpStack[j].cname == cstack.back().cname) &&
+              (bpStack[j].tokid == fullcontext)) {
+            found = true;
+          } else {
+            found = false;
+            j++;
+          }
         } else {
-            b = expression(t);
-            if (printIt && (state < NLS_STATE_QUIT)) {
-                io->outputMessage(L"\nans =\n\n");
-                OverloadDisplay(this, b);
-            }
+          if ((bpStack[j].cname == cstack.back().cname) &&
+              (bpStack[j].tokid == linenumber)) {
+            found = true;
+            bpStack[j].tokid = fullcontext;
+          } else {
+            found = false;
+            j++;
+          }
         }
-        if (state == NLS_STATE_QUIT || state == NLS_STATE_ABORT) {
-            popID();
-            return;
-        }
-        if (bUpdateAns) {
-            context->insertVariable("ans", b);
-        }
+      }
+      if (found) {
+        stepTrap = bpStack[j];
+        char buffer[2048];
+        sprintf(buffer, _("Encountered breakpoint at %s, line %d\n").c_str(),
+                bpStack[j].cname.c_str(), linenumber);
+        io->outputMessage(buffer);
+        debugCLI();
+      }
     }
-    popID();
+  }
+}
+
+void Evaluator::statementType(ASTPtr t, bool printIt) {
+  ArrayOfVector m;
+  FunctionDef *fdef;
+  if (haveEventsLoop()) {
+    ProcessEventsDynamicFunctionWithoutWait();
+  }
+  if (t == nullptr) {
+    return;
+  }
+  pushID(t->context());
+  // check the debug flag
+  int fullcontext = t->context();
+  handleDebug(fullcontext);
+  if (t->isEmpty()) {
+    /* Empty statement */
+  } else if (t->opNum == (OP_ASSIGN)) {
+    if (t->down->down == nullptr) {
+      ArrayOf b(expression(t->down->right));
+      bool bInserted = context->insertVariable(t->down->text, b);
+      if (!bInserted) {
+        Error(this, _W("Redefining permanent variable."));
+      }
+      if (printIt) {
+        io->outputMessage(t->down->text);
+        io->outputMessage(L" =\n\n");
+        OverloadDisplay(this, b);
+      }
+    } else {
+      ArrayOf expr(expression(t->down->right));
+      ArrayOf c(assignExpression(t->down, expr));
+      if (!c.isHandle()) {
+        bool bInserted = context->insertVariable(t->down->text, c);
+        if (!bInserted) {
+          Error(this, _W("Redefining permanent variable."));
+        }
+        if (printIt) {
+          io->outputMessage(t->down->text);
+          io->outputMessage(L" =\n\n");
+          OverloadDisplay(this, c);
+        }
+      }
+    }
+  } else if (t->opNum == (OP_MULTICALL)) {
+    multiFunctionCall(t->down, printIt);
+  } else if (t->opNum == (OP_SCALL)) {
+    ArrayOfVector m = specialFunctionCall(t->down, printIt);
+    if (m.size() > 0) {
+      io->outputMessage(L"\nans =\n\n");
+      OverloadDisplay(this, m[0]);
+      context->insertVariable("ans", m[0]);
+    }
+  } else if (t->type == reserved_node) {
+    switch (t->tokenNumber) {
+    case NLS_KEYWORD_FOR:
+      forStatement(t->down);
+      break;
+    case NLS_KEYWORD_WHILE:
+      whileStatement(t->down);
+      break;
+    case NLS_KEYWORD_IF:
+      ifStatement(t->down);
+      break;
+    case NLS_KEYWORD_BREAK:
+      if (context->inLoop()) {
+        state = NLS_STATE_BREAK;
+      }
+      break;
+    case NLS_KEYWORD_CONTINUE:
+      if (context->inLoop()) {
+        state = NLS_STATE_CONTINUE;
+      }
+      break;
+    case NLS_KEYWORD_RETURN:
+      state = NLS_STATE_RETURN;
+      break;
+    case NLS_KEYWORD_SWITCH:
+      switchStatement(t->down);
+      break;
+    case NLS_KEYWORD_TRY:
+      tryStatement(t->down);
+      break;
+    case NLS_KEYWORD_QUIT:
+      state = NLS_STATE_QUIT;
+      break;
+    case NLS_KEYWORD_ABORT:
+      state = NLS_STATE_ABORT;
+      if (depth) {
+        depth = 0;
+      }
+      break;
+    case NLS_KEYWORD_KEYBOARD:
+      depth++;
+      evalCLI();
+      if (state < NLS_STATE_QUIT) {
+        resetState();
+      }
+      depth--;
+      break;
+    case NLS_KEYWORD_ENDFUNCTION:
+      /* a workaround to have a endfunction keyword */
+      if (context->getCurrentScope()->getName() == "base") {
+        Error(this, ERROR_ENDFUNCTION_WRONG_USE);
+      }
+      state = NLS_STATE_RETURN;
+      break;
+    default:
+      Error(this, ERROR_UNRECOGNIZED_STATEMENT);
+    }
+  } else {
+    // There is a special case to consider here - when a
+    // function call is made as a statement, we do not require
+    // that the function have an output.
+    ArrayOf b;
+    bool bUpdateAns = true;
+    if (t->opNum == (OP_RHS) && !context->lookupVariable(t->down->text, b) &&
+        lookupFunction(t->down->text, fdef)) {
+      m = functionExpression(fdef, t->down, 0, true);
+      if (m.size() > 0) {
+        b = m[0];
+      } else {
+        bUpdateAns = false;
+      }
+      if (printIt && (m.size() > 0) && (state < NLS_STATE_QUIT)) {
+        io->outputMessage(L"\nans =\n\n");
+        OverloadDisplay(this, b);
+      }
+    } else if (t->opNum == OP_RHS) {
+      m = rhsExpression(t->down);
+      if (m.size() == 0) {
+        b = ArrayOf::emptyConstructor();
+      } else {
+        b = m[0];
+        if (printIt && (state < NLS_STATE_QUIT)) {
+          // io->outputMessage(L"ans =\n\n");
+          io->outputMessage("\n");
+          for (size_t j = 0; j < m.size(); j++) {
+            if (m.size() > 1) {
+              char buffer[1000];
+              sprintf(buffer, _("\n%d of %d:\n").c_str(), j + 1, m.size());
+              io->outputMessage(buffer);
+            }
+            OverloadDisplay(this, m[j]);
+          }
+        }
+      }
+    } else {
+      b = expression(t);
+      if (printIt && (state < NLS_STATE_QUIT)) {
+        io->outputMessage(L"\nans =\n\n");
+        OverloadDisplay(this, b);
+      }
+    }
+    if (state == NLS_STATE_QUIT || state == NLS_STATE_ABORT) {
+      popID();
+      return;
+    }
+    if (bUpdateAns) {
+      context->insertVariable("ans", b);
+    }
+  }
+  popID();
 }
 
 // Trapping at the statement level is much better! - two
@@ -1862,582 +1740,557 @@ Evaluator::statementType(ASTPtr t, bool printIt)
 //
 
 //
-void
-Evaluator::statement(ASTPtr t)
-{
-    try {
-        pushID(t->context());
-        if (t->opNum == (OP_QSTATEMENT)) {
-            statementType(t->down, false);
-        } else if (t->opNum == (OP_RSTATEMENT)) {
-            statementType(t->down, true && bEchoMode);
-        } else {
-            statementType(t->down, true && bEchoMode);
-        }
-        popID();
-    } catch (Exception& e) {
-        e.what();
-        popID();
-        throw;
-        /*
-        if (autostop && !InCLI)
-        {
-        e.printMe(io);
-        stackTrace(true);
-        debugCLI();
-        if (state < NLS_STATE_QUIT)
-        {
-        resetState();
-        }
-        popID();
-        }
-        else
-        {
-        popID();
-        throw;
-        }
-        */
-    }
-}
-
-void
-Evaluator::block(ASTPtr t)
-{
-    try {
-        ASTPtr s = t->down;
-        if (state < NLS_STATE_QUIT) {
-            resetState();
-        }
-        while ((state < NLS_STATE_QUIT) && s != nullptr) {
-            if (InterruptCallback) {
-                InterruptCallback = false;
-                return;
-            } else if (InterruptPending) {
-                io->outputMessage(L"\n" + MSG_CTRL_C_DETECTED);
-                state = NLS_STATE_ABORT;
-                InterruptPending = false;
-                return;
-            } else {
-                statement(s);
-                if (state == NLS_STATE_BREAK || state == NLS_STATE_CONTINUE
-                    || state == NLS_STATE_RETURN || state == NLS_STATE_ABORT
-                    || state == NLS_STATE_QUIT) {
-                    break;
-                }
-                s = s->right;
-            }
-        }
-    } catch (Exception& e) {
-        if (!e.isEmpty()) {
-            if (lastException) {
-                delete lastException;
-            }
-            updateError(this, e);
-            try {
-                lastException = new Exception(e);
-            } catch (std::bad_alloc) {
-                lastException = nullptr;
-            }
-            throw;
-        }
-    }
-}
-//=============================================================================
-Context*
-Evaluator::getContext()
-{
-    return context;
-}
-
-ArrayOf
-Evaluator::simpleSubindexExpression(ArrayOf& r, ASTPtr t)
-{
-    Dimensions rhsDimensions;
-    ArrayOfVector m;
-    rhsDimensions = r.getDimensions();
-    if (t->opNum == (OP_PARENS)) {
-        m = expressionList(t->down, r);
-        if (m.size() == 0) {
-            Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
-        } else if (m.size() == 1) {
-            if (r.isClassStruct()) {
-                Error(this, ERROR_NEED_OVERLOAD);
-            } else {
-                try {
-                    return (r.getVectorSubset(m[0]));
-                } catch (Exception& e) {
-                    e.what();
-                    return (ArrayOf::emptyConstructor());
-                }
-            }
-        } else {
-            try {
-                return (r.getNDimSubset(m));
-            } catch (Exception& e) {
-                e.what();
-                return (ArrayOf::emptyConstructor());
-            }
-        }
-    }
-    if (t->opNum == (OP_BRACES)) {
-        m = expressionList(t->down, r);
-        if (m.size() == 0) {
-            Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
-        } else if (m.size() == 1) {
-            try {
-                return (r.getVectorContents(m[0]));
-            } catch (Exception& e) {
-                e.what();
-                return (ArrayOf::emptyConstructor());
-            }
-        } else {
-            try {
-                return (r.getNDimContents(m));
-            } catch (Exception& e) {
-                e.what();
-                return (ArrayOf::emptyConstructor());
-            }
-        }
-    }
-    if (t->opNum == (OP_DOT)) {
-        try {
-            return (r.getField(t->down->text));
-        } catch (Exception& e) {
-            e.what();
-            return (ArrayOf::emptyConstructor());
-        }
-    }
-    if (t->opNum == (OP_DOTDYN)) {
-        std::string field = "";
-        try {
-            ArrayOf fname(expression(t->down));
-            field = fname.getContentAsCString();
-        } catch (Exception& e) {
-            e.what();
-            Error(this, ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
-        }
-        try {
-            ArrayOf R = r.getField(field);
-            return R;
-        } catch (Exception& e) {
-            e.what();
-            return (ArrayOf::emptyConstructor());
-        }
-    }
-    return (ArrayOf::emptyConstructor());
-}
-
-void
-Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOf& value)
-{
-    ArrayOfVector vec;
-    vec.push_back(value);
-    simpleAssign(r, t, vec);
-}
-
-void
-Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
-{
-    Dimensions rhsDimensions;
-    ArrayOfVector m;
+void Evaluator::statement(ASTPtr t) {
+  try {
     pushID(t->context());
-    if (!r.isEmpty()) {
-        rhsDimensions = r.getDimensions();
-    } else if (t->opNum != OP_BRACES) {
-        rhsDimensions = value[0].getDimensions();
+    if (t->opNum == (OP_QSTATEMENT)) {
+      statementType(t->down, false);
+    } else if (t->opNum == (OP_RSTATEMENT)) {
+      statementType(t->down, true && bEchoMode);
     } else {
-        rhsDimensions.makeScalar();
-    }
-    if (t->opNum == (OP_PARENS)) {
-        m = expressionList(t->down, r);
-        if (m.size() == 0) {
-            Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
-        } else if (m.size() == 1) {
-            r.setVectorSubset(m[0], value[0]);
-            popID();
-            return;
-        } else {
-            r.setNDimSubset(m, value[0]);
-            popID();
-            return;
-        }
-    }
-    if (t->opNum == (OP_BRACES)) {
-        m = expressionList(t->down, r);
-        if (m.size() == 0) {
-            Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
-        } else if (m.size() == 1) {
-            if (r.isEmpty()) {
-                m[0] = ArrayOf::doubleConstructor(1);
-            }
-            r.setVectorContentsAsList(m[0], value);
-            popID();
-            return;
-        } else {
-            r.setNDimContentsAsList(m, value);
-            popID();
-            return;
-        }
-    }
-    if (t->opNum == (OP_DOT)) {
-        if (r.isClassStruct()) {
-            // TO DO
-            Error(this, ERROR_NEED_TO_IMPLEMENT_ASSIGN);
-        } else {
-            std::string fieldname = t->down->text;
-            if (r.isHandle()) {
-                setHandle(r, fieldname, value);
-            } else if (r.isStruct() || r.isEmpty()) {
-                r.setFieldAsList(fieldname, value);
-            } else {
-                Error(this, ERROR_ASSIGN_TO_NON_STRUCT);
-            }
-        }
-        popID();
-        return;
-    }
-    if (t->opNum == (OP_DOTDYN)) {
-        std::string field;
-        try {
-            ArrayOf fname(expression(t->down));
-            field = fname.getContentAsCString();
-        } catch (Exception& e) {
-            e.what();
-            Error(this, ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
-        }
-        if (r.isHandle()) {
-            setHandle(r, field, value);
-        } else {
-            r.setFieldAsList(field, value);
-        }
-        popID();
-        return;
+      statementType(t->down, true && bEchoMode);
     }
     popID();
+  } catch (Exception &e) {
+    e.what();
+    popID();
+    throw;
+    /*
+    if (autostop && !InCLI)
+    {
+    e.printMe(io);
+    stackTrace(true);
+    debugCLI();
+    if (state < NLS_STATE_QUIT)
+    {
+    resetState();
+    }
+    popID();
+    }
+    else
+    {
+    popID();
+    throw;
+    }
+    */
+  }
 }
 
-indexType
-Evaluator::countLeftHandSides(ASTPtr t)
-{
-    ArrayOf lhs;
-    if (!context->lookupVariable(t->text, lhs)) {
-        lhs = ArrayOf::emptyConstructor();
-    }
+void Evaluator::block(ASTPtr t) {
+  try {
     ASTPtr s = t->down;
-    if (s == nullptr) {
-        return 1;
+    if (state < NLS_STATE_QUIT) {
+      resetState();
     }
-    pushID(s->context());
-    while (s->right != nullptr) {
-        if (!lhs.isEmpty()) {
-            lhs = simpleSubindexExpression(lhs, s);
+    while ((state < NLS_STATE_QUIT) && s != nullptr) {
+      if (InterruptCallback) {
+        InterruptCallback = false;
+        return;
+      } else if (InterruptPending) {
+        io->outputMessage(L"\n" + MSG_CTRL_C_DETECTED);
+        state = NLS_STATE_ABORT;
+        InterruptPending = false;
+        return;
+      } else {
+        statement(s);
+        if (state == NLS_STATE_BREAK || state == NLS_STATE_CONTINUE ||
+            state == NLS_STATE_RETURN || state == NLS_STATE_ABORT ||
+            state == NLS_STATE_QUIT) {
+          break;
         }
         s = s->right;
+      }
     }
-    // We are down to the last subindexing expression...
-    // We have to special case this one
-    Dimensions rhsDimensions(lhs.getDimensions());
-    ArrayOfVector m;
-    if (s->opNum == (OP_PARENS)) {
-        m = expressionList(s->down, lhs);
-        if (m.size() == 0) {
-            Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
-        }
-        if (m.size() == 1) {
-            // m[0] should have only one element...
-            m[0].toOrdinalType();
-            if (m[0].getLength() > 1) {
-                Error(this, ERROR_PARENTHETICAL_EXPRESSION);
-            }
-            popID();
-            return (m[0].getLength());
-        } else {
-            size_t i = 0;
-            indexType outputCount = 1;
-            while (i < m.size()) {
-                m[i].toOrdinalType();
-                outputCount *= m[i].getLength();
-                i++;
-            }
-            if (outputCount > 1) {
-                Error(this, ERROR_PARENTHETICAL_EXPRESSION);
-            }
-            popID();
-            return (outputCount);
-        }
+  } catch (Exception &e) {
+    if (!e.isEmpty()) {
+      if (lastException) {
+        delete lastException;
+      }
+      updateError(this, e);
+      try {
+        lastException = new Exception(e);
+      } catch (std::bad_alloc) {
+        lastException = nullptr;
+      }
+      throw;
     }
-    if (s->opNum == (OP_BRACES)) {
-        m = expressionList(s->down, lhs);
-        if (m.size() == 0) {
-            Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
+  }
+}
+//=============================================================================
+Context *Evaluator::getContext() { return context; }
+
+ArrayOf Evaluator::simpleSubindexExpression(ArrayOf &r, ASTPtr t) {
+  Dimensions rhsDimensions;
+  ArrayOfVector m;
+  rhsDimensions = r.getDimensions();
+  if (t->opNum == (OP_PARENS)) {
+    m = expressionList(t->down, r);
+    if (m.size() == 0) {
+      Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
+    } else if (m.size() == 1) {
+      if (r.isClassStruct()) {
+        Error(this, ERROR_NEED_OVERLOAD);
+      } else {
+        try {
+          return (r.getVectorSubset(m[0]));
+        } catch (Exception &e) {
+          e.what();
+          return (ArrayOf::emptyConstructor());
         }
-        if (m.size() == 1) {
-            // m[0] should have only one element...
-            m[0].toOrdinalType();
-            popID();
-            return (m[0].getLength());
-        } else {
-            size_t i = 0;
-            indexType outputCount = 1;
-            while (i < m.size()) {
-                m[i].toOrdinalType();
-                outputCount *= m[i].getLength();
-                i++;
-            }
-            popID();
-            return (outputCount);
-        }
+      }
+    } else {
+      try {
+        return (r.getNDimSubset(m));
+      } catch (Exception &e) {
+        e.what();
+        return (ArrayOf::emptyConstructor());
+      }
     }
-    if (s->opNum == (OP_DOT)) {
-        popID();
-        return lhs.getLength();
+  }
+  if (t->opNum == (OP_BRACES)) {
+    m = expressionList(t->down, r);
+    if (m.size() == 0) {
+      Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
+    } else if (m.size() == 1) {
+      try {
+        return (r.getVectorContents(m[0]));
+      } catch (Exception &e) {
+        e.what();
+        return (ArrayOf::emptyConstructor());
+      }
+    } else {
+      try {
+        return (r.getNDimContents(m));
+      } catch (Exception &e) {
+        e.what();
+        return (ArrayOf::emptyConstructor());
+      }
     }
-    popID();
-    return (indexType)1;
+  }
+  if (t->opNum == (OP_DOT)) {
+    try {
+      return (r.getField(t->down->text));
+    } catch (Exception &e) {
+      e.what();
+      return (ArrayOf::emptyConstructor());
+    }
+  }
+  if (t->opNum == (OP_DOTDYN)) {
+    std::string field = "";
+    try {
+      ArrayOf fname(expression(t->down));
+      field = fname.getContentAsCString();
+    } catch (Exception &e) {
+      e.what();
+      Error(this, ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
+    }
+    try {
+      ArrayOf R = r.getField(field);
+      return R;
+    } catch (Exception &e) {
+      e.what();
+      return (ArrayOf::emptyConstructor());
+    }
+  }
+  return (ArrayOf::emptyConstructor());
 }
 
-ArrayOf
-Evaluator::assignExpression(ASTPtr t, ArrayOf& val)
-{
-    ArrayOfVector vec;
-    vec.push_back(val);
-    return assignExpression(t, vec);
+void Evaluator::simpleAssign(ArrayOf &r, ASTPtr t, ArrayOf &value) {
+  ArrayOfVector vec;
+  vec.push_back(value);
+  simpleAssign(r, t, vec);
+}
+
+void Evaluator::simpleAssign(ArrayOf &r, ASTPtr t, ArrayOfVector &value) {
+  Dimensions rhsDimensions;
+  ArrayOfVector m;
+  pushID(t->context());
+  if (!r.isEmpty()) {
+    rhsDimensions = r.getDimensions();
+  } else if (t->opNum != OP_BRACES) {
+    rhsDimensions = value[0].getDimensions();
+  } else {
+    rhsDimensions.makeScalar();
+  }
+  if (t->opNum == (OP_PARENS)) {
+    m = expressionList(t->down, r);
+    if (m.size() == 0) {
+      Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
+    } else if (m.size() == 1) {
+      r.setVectorSubset(m[0], value[0]);
+      popID();
+      return;
+    } else {
+      r.setNDimSubset(m, value[0]);
+      popID();
+      return;
+    }
+  }
+  if (t->opNum == (OP_BRACES)) {
+    m = expressionList(t->down, r);
+    if (m.size() == 0) {
+      Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
+    } else if (m.size() == 1) {
+      if (r.isEmpty()) {
+        m[0] = ArrayOf::doubleConstructor(1);
+      }
+      r.setVectorContentsAsList(m[0], value);
+      popID();
+      return;
+    } else {
+      r.setNDimContentsAsList(m, value);
+      popID();
+      return;
+    }
+  }
+  if (t->opNum == (OP_DOT)) {
+    if (r.isClassStruct()) {
+      // TO DO
+      Error(this, ERROR_NEED_TO_IMPLEMENT_ASSIGN);
+    } else {
+      std::string fieldname = t->down->text;
+      if (r.isHandle()) {
+        setHandle(r, fieldname, value);
+      } else if (r.isStruct() || r.isEmpty()) {
+        r.setFieldAsList(fieldname, value);
+      } else {
+        Error(this, ERROR_ASSIGN_TO_NON_STRUCT);
+      }
+    }
+    popID();
+    return;
+  }
+  if (t->opNum == (OP_DOTDYN)) {
+    std::string field;
+    try {
+      ArrayOf fname(expression(t->down));
+      field = fname.getContentAsCString();
+    } catch (Exception &e) {
+      e.what();
+      Error(this, ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
+    }
+    if (r.isHandle()) {
+      setHandle(r, field, value);
+    } else {
+      r.setFieldAsList(field, value);
+    }
+    popID();
+    return;
+  }
+  popID();
+}
+
+indexType Evaluator::countLeftHandSides(ASTPtr t) {
+  ArrayOf lhs;
+  if (!context->lookupVariable(t->text, lhs)) {
+    lhs = ArrayOf::emptyConstructor();
+  }
+  ASTPtr s = t->down;
+  if (s == nullptr) {
+    return 1;
+  }
+  pushID(s->context());
+  while (s->right != nullptr) {
+    if (!lhs.isEmpty()) {
+      lhs = simpleSubindexExpression(lhs, s);
+    }
+    s = s->right;
+  }
+  // We are down to the last subindexing expression...
+  // We have to special case this one
+  Dimensions rhsDimensions(lhs.getDimensions());
+  ArrayOfVector m;
+  if (s->opNum == (OP_PARENS)) {
+    m = expressionList(s->down, lhs);
+    if (m.size() == 0) {
+      Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
+    }
+    if (m.size() == 1) {
+      // m[0] should have only one element...
+      m[0].toOrdinalType();
+      if (m[0].getLength() > 1) {
+        Error(this, ERROR_PARENTHETICAL_EXPRESSION);
+      }
+      popID();
+      return (m[0].getLength());
+    } else {
+      size_t i = 0;
+      indexType outputCount = 1;
+      while (i < m.size()) {
+        m[i].toOrdinalType();
+        outputCount *= m[i].getLength();
+        i++;
+      }
+      if (outputCount > 1) {
+        Error(this, ERROR_PARENTHETICAL_EXPRESSION);
+      }
+      popID();
+      return (outputCount);
+    }
+  }
+  if (s->opNum == (OP_BRACES)) {
+    m = expressionList(s->down, lhs);
+    if (m.size() == 0) {
+      Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
+    }
+    if (m.size() == 1) {
+      // m[0] should have only one element...
+      m[0].toOrdinalType();
+      popID();
+      return (m[0].getLength());
+    } else {
+      size_t i = 0;
+      indexType outputCount = 1;
+      while (i < m.size()) {
+        m[i].toOrdinalType();
+        outputCount *= m[i].getLength();
+        i++;
+      }
+      popID();
+      return (outputCount);
+    }
+  }
+  if (s->opNum == (OP_DOT)) {
+    popID();
+    return lhs.getLength();
+  }
+  popID();
+  return (indexType)1;
+}
+
+ArrayOf Evaluator::assignExpression(ASTPtr t, ArrayOf &val) {
+  ArrayOfVector vec;
+  vec.push_back(val);
+  return assignExpression(t, vec);
 }
 
 // If we got this far, we must have at least one subindex
-ArrayOf
-Evaluator::assignExpression(ASTPtr t, ArrayOfVector& value)
-{
-    pushID(t->context());
-    if (t->down == nullptr) {
-        ArrayOf retval(value[0]);
-        value.erase(value.begin());
-        popID();
-        return retval;
-    }
-    // Get the variable in question
-    ArrayOf lhs;
-    bool bVarAlreadyExist = context->lookupVariable(t->text, lhs);
-    if (!bVarAlreadyExist) {
-        lhs = ArrayOf::emptyConstructor();
-    }
-    // Set up a stack
-    ArrayOfVector stack;
-    ASTPtrVector ref;
-    ASTPtr s = t->down;
-    ArrayOf data;
-    data = lhs;
-    // Subindex
-    while (s->right != nullptr) {
-        if (!data.isEmpty()) {
-            data = simpleSubindexExpression(data, s);
-        }
-        stack.push_back(data);
-        ref.push_back(s);
-        s = s->right;
-    }
-    // Do the assignment on the last temporary
-    ArrayOf tmp(data);
-    simpleAssign(tmp, s, value);
-    ArrayOf rhs(tmp);
-    if (stack.size() > 0) {
-        stack.pop_back();
-        // Now we have to "unwind" the stack
-        while (stack.size() > 0) {
-            // Grab the next temporary off the stack
-            tmp = stack.back();
-            // Make the assignment
-            simpleAssign(tmp, ref.back(), rhs);
-            // Assign this temporary to be the RHS of the next temporary
-            rhs = tmp;
-            // Pop the two stacks
-            stack.pop_back();
-            ref.pop_back();
-        }
-        // Complete the final assignment:
-        // Last assignment is to lhs
-        simpleAssign(lhs, ref.back(), tmp);
-    } else {
-        lhs = tmp;
-    }
+ArrayOf Evaluator::assignExpression(ASTPtr t, ArrayOfVector &value) {
+  pushID(t->context());
+  if (t->down == nullptr) {
+    ArrayOf retval(value[0]);
+    value.erase(value.begin());
     popID();
-    return lhs;
+    return retval;
+  }
+  // Get the variable in question
+  ArrayOf lhs;
+  bool bVarAlreadyExist = context->lookupVariable(t->text, lhs);
+  if (!bVarAlreadyExist) {
+    lhs = ArrayOf::emptyConstructor();
+  }
+  // Set up a stack
+  ArrayOfVector stack;
+  ASTPtrVector ref;
+  ASTPtr s = t->down;
+  ArrayOf data;
+  data = lhs;
+  // Subindex
+  while (s->right != nullptr) {
+    if (!data.isEmpty()) {
+      data = simpleSubindexExpression(data, s);
+    }
+    stack.push_back(data);
+    ref.push_back(s);
+    s = s->right;
+  }
+  // Do the assignment on the last temporary
+  ArrayOf tmp(data);
+  simpleAssign(tmp, s, value);
+  ArrayOf rhs(tmp);
+  if (stack.size() > 0) {
+    stack.pop_back();
+    // Now we have to "unwind" the stack
+    while (stack.size() > 0) {
+      // Grab the next temporary off the stack
+      tmp = stack.back();
+      // Make the assignment
+      simpleAssign(tmp, ref.back(), rhs);
+      // Assign this temporary to be the RHS of the next temporary
+      rhs = tmp;
+      // Pop the two stacks
+      stack.pop_back();
+      ref.pop_back();
+    }
+    // Complete the final assignment:
+    // Last assignment is to lhs
+    simpleAssign(lhs, ref.back(), tmp);
+  } else {
+    lhs = tmp;
+  }
+  popID();
+  return lhs;
 }
 
-ArrayOfVector
-Evaluator::specialFunctionCall(ASTPtr t, bool printIt)
-{
-    ArrayOfVector m;
-    stringVector args;
-    args.push_back(t->text);
-    ASTPtr s = t->right;
-    while (s) {
-        args.push_back(s->text);
-        s = s->right;
-    }
-    if (args.empty()) {
-        return m;
-    }
-    ArrayOfVector n;
-    for (size_t i = 1; i < args.size(); i++) {
-        n.push_back(ArrayOf::stringConstructor(args[i].c_str()));
-    }
-    FuncPtr val;
-    pushID(t->context());
-    if (!lookupFunction(args[0], val)) {
-        Error(this, utf8_to_wstring(_("unable to resolve ") + args[0] + _(" to a function call")));
-    }
-    bool CLIFlagsave = InCLI;
-    InCLI = false;
-    try {
-        m = val->evaluateFunction(this, n, 0);
-    } catch (Exception& e) {
-        e.what();
-        InCLI = CLIFlagsave;
-        popID();
-        throw;
-    }
+ArrayOfVector Evaluator::specialFunctionCall(ASTPtr t, bool printIt) {
+  ArrayOfVector m;
+  stringVector args;
+  args.push_back(t->text);
+  ASTPtr s = t->right;
+  while (s) {
+    args.push_back(s->text);
+    s = s->right;
+  }
+  if (args.empty()) {
+    return m;
+  }
+  ArrayOfVector n;
+  for (size_t i = 1; i < args.size(); i++) {
+    n.push_back(ArrayOf::stringConstructor(args[i].c_str()));
+  }
+  FuncPtr val;
+  pushID(t->context());
+  if (!lookupFunction(args[0], val)) {
+    Error(this, utf8_to_wstring(_("unable to resolve ") + args[0] +
+                                _(" to a function call")));
+  }
+  bool CLIFlagsave = InCLI;
+  InCLI = false;
+  try {
+    m = val->evaluateFunction(this, n, 0);
+  } catch (Exception &e) {
+    e.what();
     InCLI = CLIFlagsave;
     popID();
-    return m;
+    throw;
+  }
+  InCLI = CLIFlagsave;
+  popID();
+  return m;
 }
 
-void
-Evaluator::addBreakpoint(StackEntry bp)
-{
-    bpStack.push_back(bp);
-    adjustBreakpoints();
-    debugActive = true;
+void Evaluator::addBreakpoint(StackEntry bp) {
+  bpStack.push_back(bp);
+  adjustBreakpoints();
+  debugActive = true;
 }
 
-void
-Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
-{
-    ArrayOfVector m;
-    ASTPtr s, fAST, saveLHS, cAST;
-    ArrayOf c;
-    // int lhsSize;
-    FunctionDef* fptr;
-    cAST = t;
-    fAST = t->right;
-    bool bDeal = false;
-    pushID(fAST->context());
-    ArrayOf r;
-    if (!lookupFunction(fAST->text, fptr)) {
-        bool isVar = context->lookupVariable(fAST->text, r);
-        if (isVar) {
-            if (r.isClassStruct()) {
-                std::string className = r.getStructType();
-                std::string extractionFunctionName = className + "_extraction";
-                bool isFun = lookupFunction(extractionFunctionName, fptr);
-                if (!isFun) {
-                    Error(this,
-                        utf8_to_wstring(_("Undefined function") + " " + extractionFunctionName));
-                }
-            } else if (r.isCell()) {
-                // C = {rand(3),nan(3),zeros(3),inf(3)}
-                // [a, b, c, d] = C{ : }
-                if (t->opNum != OP_BRACKETS) {
-                    Error(this, ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
-                }
-                bDeal = true;
-            } else {
-                Error(this, utf8_to_wstring(_("Undefined function") + " " + fAST->text));
-            }
-        } else {
-            Error(this, utf8_to_wstring(_("Undefined function") + " " + fAST->text));
+void Evaluator::multiFunctionCall(ASTPtr t, bool printIt) {
+  ArrayOfVector m;
+  ASTPtr s, fAST, saveLHS, cAST;
+  ArrayOf c;
+  // int lhsSize;
+  FunctionDef *fptr;
+  cAST = t;
+  fAST = t->right;
+  bool bDeal = false;
+  pushID(fAST->context());
+  ArrayOf r;
+  if (!lookupFunction(fAST->text, fptr)) {
+    bool isVar = context->lookupVariable(fAST->text, r);
+    if (isVar) {
+      if (r.isClassStruct()) {
+        std::string className = r.getStructType();
+        std::string extractionFunctionName = className + "_extraction";
+        bool isFun = lookupFunction(extractionFunctionName, fptr);
+        if (!isFun) {
+          Error(this, utf8_to_wstring(_("Undefined function") + " " +
+                                      extractionFunctionName));
         }
-    }
-    if (t->opNum != OP_BRACKETS) {
-        Error(this, ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
-    }
-    s = t->down;
-    if (s->opNum != OP_SEMICOLON) {
-        Error(this, ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
-    }
-    if (s->right != nullptr) {
-        Error(this, ERROR_MULTIPLE_ROWS_NOT_ALLOWED);
-    }
-    // We have to make multiple passes through the LHS part of the AST.
-    // The first pass is to count how many function outputs are actually
-    // being requested.
-    // Calculate how many lhs objects there are
-    // lhsSize = s->peerCount();
-    s = s->down;
-    saveLHS = s;
-    // Get the lhs objects into rset
-    indexType lhsCount = 0;
-    ASTPtr mptr = s;
-    while (mptr != nullptr) {
-        indexType dmp = countLeftHandSides(mptr->down);
-        lhsCount += dmp;
-        mptr = mptr->right;
-    }
-    if (bDeal) {
+      } else if (r.isCell()) {
         // C = {rand(3),nan(3),zeros(3),inf(3)}
         // [a, b, c, d] = C{ : }
-        Dimensions rhsDimensions;
-        rhsDimensions = r.getDimensions();
-        m = expressionList(fAST->down->down, r);
-        if (m.size() == 0) {
-            Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
-        } else if (m.size() == 1) {
-            ArrayOfVector m2 = r.getVectorContentsAsList(m[0]);
-            if ((indexType)m2.size() < lhsCount) {
-                Error(this, _W("Insufficient number of outputs."));
-            } else {
-                m = m2;
-            }
-        } else {
-            Error(this, _W("Case not managed."));
+        if (t->opNum != OP_BRACKETS) {
+          Error(this, ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
         }
+        bDeal = true;
+      } else {
+        Error(this,
+              utf8_to_wstring(_("Undefined function") + " " + fAST->text));
+      }
     } else {
-        m = functionExpression(fptr, fAST, (int)lhsCount, false);
+      Error(this, utf8_to_wstring(_("Undefined function") + " " + fAST->text));
     }
-    s = saveLHS;
-    while ((s != nullptr) && (m.size() > 0)) {
-        ArrayOf c(assignExpression(s->down, m));
-        bool bInserted = context->insertVariable(s->down->text, c);
-        if (!bInserted) {
-            Error(this, _W("Redefining permanent variable."));
-        }
-        if (printIt) {
-            io->outputMessage(s->down->text);
-            io->outputMessage(L" =\n\n");
-            OverloadDisplay(this, c);
-        }
-        s = s->right;
+  }
+  if (t->opNum != OP_BRACKETS) {
+    Error(this, ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
+  }
+  s = t->down;
+  if (s->opNum != OP_SEMICOLON) {
+    Error(this, ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
+  }
+  if (s->right != nullptr) {
+    Error(this, ERROR_MULTIPLE_ROWS_NOT_ALLOWED);
+  }
+  // We have to make multiple passes through the LHS part of the AST.
+  // The first pass is to count how many function outputs are actually
+  // being requested.
+  // Calculate how many lhs objects there are
+  // lhsSize = s->peerCount();
+  s = s->down;
+  saveLHS = s;
+  // Get the lhs objects into rset
+  indexType lhsCount = 0;
+  ASTPtr mptr = s;
+  while (mptr != nullptr) {
+    indexType dmp = countLeftHandSides(mptr->down);
+    lhsCount += dmp;
+    mptr = mptr->right;
+  }
+  if (bDeal) {
+    // C = {rand(3),nan(3),zeros(3),inf(3)}
+    // [a, b, c, d] = C{ : }
+    Dimensions rhsDimensions;
+    rhsDimensions = r.getDimensions();
+    m = expressionList(fAST->down->down, r);
+    if (m.size() == 0) {
+      Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
+    } else if (m.size() == 1) {
+      ArrayOfVector m2 = r.getVectorContentsAsList(m[0]);
+      if ((indexType)m2.size() < lhsCount) {
+        Error(this, _W("Insufficient number of outputs."));
+      } else {
+        m = m2;
+      }
+    } else {
+      Error(this, _W("Case not managed."));
     }
-    if (s != nullptr) {
-        std::wstring message = _W("Function") + L" : " + utf8_to_wstring(fAST->text) + L"\n"
-            + WARNING_OUTPUTS_NOT_ASSIGNED;
-        io->warningMessage(message);
+  } else {
+    m = functionExpression(fptr, fAST, (int)lhsCount, false);
+  }
+  s = saveLHS;
+  while ((s != nullptr) && (m.size() > 0)) {
+    ArrayOf c(assignExpression(s->down, m));
+    bool bInserted = context->insertVariable(s->down->text, c);
+    if (!bInserted) {
+      Error(this, _W("Redefining permanent variable."));
     }
-    popID();
+    if (printIt) {
+      io->outputMessage(s->down->text);
+      io->outputMessage(L" =\n\n");
+      OverloadDisplay(this, c);
+    }
+    s = s->right;
+  }
+  if (s != nullptr) {
+    std::wstring message = _W("Function") + L" : " +
+                           utf8_to_wstring(fAST->text) + L"\n" +
+                           WARNING_OUTPUTS_NOT_ASSIGNED;
+    io->warningMessage(message);
+  }
+  popID();
 }
 
-int
-getArgumentIndex(stringVector list, const std::string& t)
-{
-    bool foundArg = false;
-    std::string q;
-    uint32 i;
-    i = 0;
-    while (i < list.size() && !foundArg) {
-        q = list[i];
-        if (q[0] == '&') {
-            q.erase(0, 1);
-        }
-        foundArg = (q == t);
-        if (!foundArg) {
-            i++;
-        }
+int getArgumentIndex(stringVector list, const std::string &t) {
+  bool foundArg = false;
+  std::string q;
+  uint32 i;
+  i = 0;
+  while (i < list.size() && !foundArg) {
+    q = list[i];
+    if (q[0] == '&') {
+      q.erase(0, 1);
     }
-    if (foundArg) {
-        return i;
-    } else {
-        return -1;
+    foundArg = (q == t);
+    if (!foundArg) {
+      i++;
     }
+  }
+  if (foundArg) {
+    return i;
+  } else {
+    return -1;
+  }
 }
 
 //!
@@ -2866,44 +2719,43 @@ getArgumentIndex(stringVector list, const std::string& t)
 // strcattest hi ho
 //@>
 //!
-ArrayOfVector
-Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool outputOptional)
-{
-    ArrayOfVector m, n;
-    ASTPtr s, q, p;
-    stringVector keywords;
-    ArrayOfVector keyvals;
-    ASTPtrVector keyexpr;
-    int* keywordNdx = nullptr;
-    int* argTypeMap = nullptr;
-    pushID(t->context());
-    bool CLIFlagsave = InCLI;
-    try {
-        {
-            // Look for arguments
-            if (t->down != nullptr) {
-                s = t->down;
-                if (s->opNum == (OP_PARENS)) {
-                    s = s->down;
-                    // Search for the keyword uses -
-                    // To handle keywords, we make one pass through the arguments,
-                    // recording a list of keywords used and using ::expression to
-                    // evaluate their values.
-                    q = s;
-                    while (q != nullptr) {
-                        if (q->opNum == OP_KEYWORD) {
-                            keywords.push_back(q->down->text);
-                            if (q->down->right != nullptr) {
-                                keyvals.push_back(expression(q->down->right));
-                            } else {
-                                keyvals.push_back(ArrayOf::logicalConstructor(true));
-                            }
-                            keyexpr.push_back(q->down->right);
-                        }
-                        q = q->right;
-                    }
-                        // If any keywords were found, make another pass through the
-                        // arguments and remove them.
+ArrayOfVector Evaluator::functionExpression(FunctionDef *funcDef, ASTPtr t,
+                                            int narg_out, bool outputOptional) {
+  ArrayOfVector m, n;
+  ASTPtr s, q, p;
+  stringVector keywords;
+  ArrayOfVector keyvals;
+  ASTPtrVector keyexpr;
+  int *keywordNdx = nullptr;
+  int *argTypeMap = nullptr;
+  pushID(t->context());
+  bool CLIFlagsave = InCLI;
+  try {
+    {
+      // Look for arguments
+      if (t->down != nullptr) {
+        s = t->down;
+        if (s->opNum == (OP_PARENS)) {
+          s = s->down;
+          // Search for the keyword uses -
+          // To handle keywords, we make one pass through the arguments,
+          // recording a list of keywords used and using ::expression to
+          // evaluate their values.
+          q = s;
+          while (q != nullptr) {
+            if (q->opNum == OP_KEYWORD) {
+              keywords.push_back(q->down->text);
+              if (q->down->right != nullptr) {
+                keyvals.push_back(expression(q->down->right));
+              } else {
+                keyvals.push_back(ArrayOf::logicalConstructor(true));
+              }
+              keyexpr.push_back(q->down->right);
+            }
+            q = q->right;
+          }
+          // If any keywords were found, make another pass through the
+          // arguments and remove them.
 #if 0
                         if (keywords.size() > 0)
                         {
@@ -2930,466 +2782,436 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                             }
                         }
 #endif
-                    m = expressionList(s);
-                    // Check for keywords
-                    if (keywords.size() > 0) {
-                        // If keywords were used, we have to permute the
-                        // entries of the arrayvector to the correct order.
-                        stringVector arguments;
-                        // Get the arguments from the MacroFunction pointer.
-                        arguments = funcDef->arguments;
-                        keywordNdx = new int[keywords.size()];
-                        int maxndx;
-                        maxndx = 0;
-                        // Map each keyword to an argument number
-                        for (size_t i = 0; i < (int)keywords.size(); ++i) {
-                            int ndx;
-                            ndx = getArgumentIndex(arguments, keywords[i]);
-                            if (ndx == -1) {
-                                Error(this,
-                                    utf8_to_wstring(_("out-of-order argument /") + keywords[i]
-                                        + _(" is not defined in the called function!")));
-                            }
-                            keywordNdx[i] = ndx;
-                            if (ndx > maxndx) {
-                                maxndx = ndx;
-                            }
-                        }
-                        // Next, we have to determine how many "holes" there are
-                        // in the argument list - we get the maximum list
-                        size_t holes = maxndx + 1 - keywords.size();
-                        // At this point, holes is the number of missing arguments
-                        // If holes > m.size(), then the total number of arguments
-                        // is just maxndx+1.  Otherwise, its
-                        // maxndx+1+(m.size() - holes)
-                        size_t totalCount;
-                        if (holes > m.size()) {
-                            totalCount = maxndx + 1;
-                        } else {
-                            totalCount = maxndx + 1 + (m.size() - holes);
-                        }
-                        // Next, we allocate a vector to hold the values
-                        ArrayOfVector toFill(totalCount);
-                        bool* filled = new bool[totalCount];
-                        argTypeMap = new int[totalCount];
-                        for (size_t i = 0; i < totalCount; i++) {
-                            filled[i] = false;
-                            argTypeMap[i] = -1;
-                        }
-                        // Finally...
-                        // Copy the keyword values in
-                        for (size_t i = 0; i < keywords.size(); i++) {
-                            toFill[keywordNdx[i]] = keyvals[i];
-                            filled[keywordNdx[i]] = true;
-                            argTypeMap[keywordNdx[i]] = (int)i;
-                        }
-                        // Fill out the rest of the values from m
-                        size_t n = 0;
-                        int p = 0;
-                        while (n < m.size()) {
-                            if (!filled[p]) {
-                                toFill[p] = m[n];
-                                filled[p] = true;
-                                argTypeMap[p] = -2;
-                                n++;
-                            }
-                            p++;
-                        }
-                        // Finally, fill in empty matrices for the
-                        // remaining arguments
-                        for (size_t i = 0; i < totalCount; i++)
-                            if (!filled[i]) {
-                                toFill[i] = ArrayOf::emptyConstructor();
-                            }
-                        // Clean up
-                        delete[] filled;
-                        // delete[] keywordNdx;
-                        // Reassign
-                        m = toFill;
-                    }
-                } else {
-                    ArrayOf r;
-                    bool isVar = context->lookupVariable(t->text, r);
-                    if (isVar) {
-                        if (r.isClassStruct()) {
-                            s = t->down;
-                            if (s) {
-                                if (s->opNum == (OP_DOT)) {
-                                    s = s->down;
-                                    return scalarArrayOfToArrayOfVector(r.getField(s->text));
-                                }
-                            }
-                        }
-                    }
-                    Error(this, ERROR_ILLEGAL_EXPRESSION_IN_FUNCTION);
-                }
+          m = expressionList(s);
+          // Check for keywords
+          if (keywords.size() > 0) {
+            // If keywords were used, we have to permute the
+            // entries of the arrayvector to the correct order.
+            stringVector arguments;
+            // Get the arguments from the MacroFunction pointer.
+            arguments = funcDef->arguments;
+            keywordNdx = new int[keywords.size()];
+            int maxndx;
+            maxndx = 0;
+            // Map each keyword to an argument number
+            for (size_t i = 0; i < (int)keywords.size(); ++i) {
+              int ndx;
+              ndx = getArgumentIndex(arguments, keywords[i]);
+              if (ndx == -1) {
+                Error(this, utf8_to_wstring(
+                                _("out-of-order argument /") + keywords[i] +
+                                _(" is not defined in the called function!")));
+              }
+              keywordNdx[i] = ndx;
+              if (ndx > maxndx) {
+                maxndx = ndx;
+              }
+            }
+            // Next, we have to determine how many "holes" there are
+            // in the argument list - we get the maximum list
+            size_t holes = maxndx + 1 - keywords.size();
+            // At this point, holes is the number of missing arguments
+            // If holes > m.size(), then the total number of arguments
+            // is just maxndx+1.  Otherwise, its
+            // maxndx+1+(m.size() - holes)
+            size_t totalCount;
+            if (holes > m.size()) {
+              totalCount = maxndx + 1;
             } else {
-                m = ArrayOfVector();
+              totalCount = maxndx + 1 + (m.size() - holes);
             }
-            // int nRhs = (int)m.size();
-            // int nLhs = funcDef->outputArgCount();
-            /*
-            if ((funcDef->inputArgCount() >= 0) &&
-            ((int)(m.size()) > funcDef->inputArgCount()))
-            Error(this, std::string("Too many inputs to function ")+t->text);
-            if ((funcDef->outputArgCount() >= 0) &&
-            (narg_out > funcDef->outputArgCount() && !outputOptional))
-            Error(this, std::string("Too many outputs to function ")+t->text);
-            */
-            CLIFlagsave = InCLI;
-            InCLI = false;
-            ArrayOf r;
-            bool isVar = context->lookupVariable(t->text, r);
-            bool haveDown = (t->down != nullptr);
-            if (isVar) {
-                // if it is a class C
-                if (r.isClassStruct()) {
-                    // C(X1, ..., XN)
-                    // we call : C_extract(C, X1, ..., XN)
-                    if (m.size() > 0) {
-                        m.insert(m.begin(), r);
-                    } else {
-                        // C() or C
-                        if (t->down != nullptr) {
-                            s = t->down;
-                            // C()
-                            if (s->opNum == (OP_PARENS)) {
-                                m.insert(m.begin(), r);
-                            }
-                            // C others ? C{}, C. ?
-                            // we do currently nothing
-                        } else {
-                            // C
-                            return scalarArrayOfToArrayOfVector(r);
-                            /*
-                                                            if (r.isFunctionHandle())
-                                                            {
-                                                                return
-                               scalarArrayOfToArrayOfVector(r);
-                                                            }
-                            */
-                        }
-                    }
-                }
-                n = funcDef->evaluateFunction(this, m, narg_out);
-            } else {
-                n = funcDef->evaluateFunction(this, m, narg_out);
+            // Next, we allocate a vector to hold the values
+            ArrayOfVector toFill(totalCount);
+            bool *filled = new bool[totalCount];
+            argTypeMap = new int[totalCount];
+            for (size_t i = 0; i < totalCount; i++) {
+              filled[i] = false;
+              argTypeMap[i] = -1;
             }
-            InCLI = CLIFlagsave;
-            if (state == NLS_STATE_ABORT) {
-                return n;
+            // Finally...
+            // Copy the keyword values in
+            for (size_t i = 0; i < keywords.size(); i++) {
+              toFill[keywordNdx[i]] = keyvals[i];
+              filled[keywordNdx[i]] = true;
+              argTypeMap[keywordNdx[i]] = (int)i;
             }
-            // Check for any pass by reference
-            if (!haveDown && (funcDef->arguments.size() > 0)) {
-                // Get the argument list
-                stringVector arguments;
-                arguments = funcDef->arguments;
-                // M functions can modify their arguments
-                size_t maxsearch = m.size();
-                if (maxsearch > arguments.size()) {
-                    maxsearch = arguments.size();
-                }
-                if (maxsearch != 0) {
-                    q = s;
-                }
-                for (size_t i = 0; i < maxsearch; i++) {
-                    // Was this argument passed out of order?
-                    if (argTypeMap) {
-                        if ((keywords.size() > 0) && (argTypeMap[i] == -1)) {
-                            continue;
-                        }
-                        if ((keywords.size() > 0) && (argTypeMap[i] >= 0)) {
-                            p = keyexpr[argTypeMap[i]];
-                        } else {
-                            p = q;
-                            if (q != nullptr) {
-                                q = q->right;
-                            }
-                        }
-                    }
-                    std::string args(arguments[i]);
-                    if (args[0] == '&') {
-                        args.erase(0, 1);
-                        // This argument was passed by reference
-                        if (p == nullptr || !(p->type == non_terminal && p->opNum == OP_RHS)) {
-                            Error(this, ERROR_MUST_HAVE_LVALUE);
-                        }
-                        if (p->down->down == nullptr && p->down->type == id_node) {
-                            bool bInserted = context->insertVariable(p->down->text, m[i]);
-                            if (!bInserted) {
-                                Error(this, _W("Redefining permanent variable."));
-                            }
-                        } else {
-                            ArrayOf c(assignExpression(p->down, m[i]));
-                            bool bInserted = context->insertVariable(p->down->text, c);
-                            if (!bInserted) {
-                                Error(this, _W("Redefining permanent variable."));
-                            }
-                        }
-                    }
-                }
+            // Fill out the rest of the values from m
+            size_t n = 0;
+            int p = 0;
+            while (n < m.size()) {
+              if (!filled[p]) {
+                toFill[p] = m[n];
+                filled[p] = true;
+                argTypeMap[p] = -2;
+                n++;
+              }
+              p++;
             }
+            // Finally, fill in empty matrices for the
+            // remaining arguments
+            for (size_t i = 0; i < totalCount; i++)
+              if (!filled[i]) {
+                toFill[i] = ArrayOf::emptyConstructor();
+              }
+            // Clean up
+            delete[] filled;
+            // delete[] keywordNdx;
+            // Reassign
+            m = toFill;
+          }
+        } else {
+          ArrayOf r;
+          bool isVar = context->lookupVariable(t->text, r);
+          if (isVar) {
+            if (r.isClassStruct()) {
+              s = t->down;
+              if (s) {
+                if (s->opNum == (OP_DOT)) {
+                  s = s->down;
+                  return scalarArrayOfToArrayOfVector(r.getField(s->text));
+                }
+              }
+            }
+          }
+          Error(this, ERROR_ILLEGAL_EXPRESSION_IN_FUNCTION);
         }
-        // Some routines (e.g., min and max) will return more outputs
-        // than were actually requested... so here we have to trim
-        // any elements received that we didn't ask for.
-        //	  narg_out = (int)n.size();
-        /*
-        while ((int)n.size() > narg_out)	n.pop_back();
-        */
-        popID();
+      } else {
+        m = ArrayOfVector();
+      }
+      // int nRhs = (int)m.size();
+      // int nLhs = funcDef->outputArgCount();
+      /*
+      if ((funcDef->inputArgCount() >= 0) &&
+      ((int)(m.size()) > funcDef->inputArgCount()))
+      Error(this, std::string("Too many inputs to function ")+t->text);
+      if ((funcDef->outputArgCount() >= 0) &&
+      (narg_out > funcDef->outputArgCount() && !outputOptional))
+      Error(this, std::string("Too many outputs to function ")+t->text);
+      */
+      CLIFlagsave = InCLI;
+      InCLI = false;
+      ArrayOf r;
+      bool isVar = context->lookupVariable(t->text, r);
+      bool haveDown = (t->down != nullptr);
+      if (isVar) {
+        // if it is a class C
+        if (r.isClassStruct()) {
+          // C(X1, ..., XN)
+          // we call : C_extract(C, X1, ..., XN)
+          if (m.size() > 0) {
+            m.insert(m.begin(), r);
+          } else {
+            // C() or C
+            if (t->down != nullptr) {
+              s = t->down;
+              // C()
+              if (s->opNum == (OP_PARENS)) {
+                m.insert(m.begin(), r);
+              }
+              // C others ? C{}, C. ?
+              // we do currently nothing
+            } else {
+              // C
+              return scalarArrayOfToArrayOfVector(r);
+              /*
+                                              if (r.isFunctionHandle())
+                                              {
+                                                  return
+                 scalarArrayOfToArrayOfVector(r);
+                                              }
+              */
+            }
+          }
+        }
+        n = funcDef->evaluateFunction(this, m, narg_out);
+      } else {
+        n = funcDef->evaluateFunction(this, m, narg_out);
+      }
+      InCLI = CLIFlagsave;
+      if (state == NLS_STATE_ABORT) {
         return n;
-    } catch (Exception& e) {
-        e.what();
-        InCLI = CLIFlagsave;
-        throw;
+      }
+      // Check for any pass by reference
+      if (!haveDown && (funcDef->arguments.size() > 0)) {
+        // Get the argument list
+        stringVector arguments;
+        arguments = funcDef->arguments;
+        // M functions can modify their arguments
+        size_t maxsearch = m.size();
+        if (maxsearch > arguments.size()) {
+          maxsearch = arguments.size();
+        }
+        if (maxsearch != 0) {
+          q = s;
+        }
+        for (size_t i = 0; i < maxsearch; i++) {
+          // Was this argument passed out of order?
+          if (argTypeMap) {
+            if ((keywords.size() > 0) && (argTypeMap[i] == -1)) {
+              continue;
+            }
+            if ((keywords.size() > 0) && (argTypeMap[i] >= 0)) {
+              p = keyexpr[argTypeMap[i]];
+            } else {
+              p = q;
+              if (q != nullptr) {
+                q = q->right;
+              }
+            }
+          }
+          std::string args(arguments[i]);
+          if (args[0] == '&') {
+            args.erase(0, 1);
+            // This argument was passed by reference
+            if (p == nullptr ||
+                !(p->type == non_terminal && p->opNum == OP_RHS)) {
+              Error(this, ERROR_MUST_HAVE_LVALUE);
+            }
+            if (p->down->down == nullptr && p->down->type == id_node) {
+              bool bInserted = context->insertVariable(p->down->text, m[i]);
+              if (!bInserted) {
+                Error(this, _W("Redefining permanent variable."));
+              }
+            } else {
+              ArrayOf c(assignExpression(p->down, m[i]));
+              bool bInserted = context->insertVariable(p->down->text, c);
+              if (!bInserted) {
+                Error(this, _W("Redefining permanent variable."));
+              }
+            }
+          }
+        }
+      }
     }
+    // Some routines (e.g., min and max) will return more outputs
+    // than were actually requested... so here we have to trim
+    // any elements received that we didn't ask for.
+    //	  narg_out = (int)n.size();
+    /*
+    while ((int)n.size() > narg_out)	n.pop_back();
+    */
     popID();
-    delete[] keywordNdx;
-    delete[] argTypeMap;
+    return n;
+  } catch (Exception &e) {
+    e.what();
+    InCLI = CLIFlagsave;
+    throw;
+  }
+  popID();
+  delete[] keywordNdx;
+  delete[] argTypeMap;
 }
 
-int
-COST(int a, int b)
-{
-    return (((a) >= (b)) ? ((a) - (b)) : 10000);
-}
+int COST(int a, int b) { return (((a) >= (b)) ? ((a) - (b)) : 10000); }
 
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 
-int
-GetClosestLineNumber(ASTPtr t, int lineno)
-{
-    if (t == nullptr) {
-        return 10000;
-    }
-    int linedwn = GetClosestLineNumber(t->down, lineno);
-    int linerght = GetClosestLineNumber(t->right, lineno);
-    int retval = (t->context() & 0xffff);
-    ;
-    int costthis = COST(retval, lineno);
-    return (MIN(linedwn, MIN(linerght, costthis)));
+int GetClosestLineNumber(ASTPtr t, int lineno) {
+  if (t == nullptr) {
+    return 10000;
+  }
+  int linedwn = GetClosestLineNumber(t->down, lineno);
+  int linerght = GetClosestLineNumber(t->right, lineno);
+  int retval = (t->context() & 0xffff);
+  ;
+  int costthis = COST(retval, lineno);
+  return (MIN(linedwn, MIN(linerght, costthis)));
 }
 
-void
-Evaluator::listBreakpoints()
-{
-    for (size_t i = 0; i < bpStack.size(); i++) {
-        char buffer[2048];
-        sprintf(buffer, _("%d   %s line %d\n").c_str(), i + 1, bpStack[i].cname.c_str(),
-            bpStack[i].tokid & 0xffff);
-        io->outputMessage(buffer);
-    }
+void Evaluator::listBreakpoints() {
+  for (size_t i = 0; i < bpStack.size(); i++) {
+    char buffer[2048];
+    sprintf(buffer, _("%d   %s line %d\n").c_str(), i + 1,
+            bpStack[i].cname.c_str(), bpStack[i].tokid & 0xffff);
+    io->outputMessage(buffer);
+  }
 }
 
-void
-Evaluator::deleteBreakpoint(int number)
-{
-    if ((number >= 1) && (number <= (int)bpStack.size())) {
-        bpStack.erase(bpStack.begin() + number - 1);
+void Evaluator::deleteBreakpoint(int number) {
+  if ((number >= 1) && (number <= (int)bpStack.size())) {
+    bpStack.erase(bpStack.begin() + number - 1);
+  } else {
+    char buffer[2048];
+    sprintf(buffer, _("Unable to delete breakpoint %d").c_str(), number);
+    Error(this, utf8_to_wstring(buffer));
+  }
+}
+
+bool Evaluator::adjustBreakpoint(StackEntry &bp, bool dbstep) {
+  bool isFun;
+  FuncPtr val;
+  std::string cname = bp.detail;
+  isFun = context->lookupFunction(cname, val);
+  if (!isFun) {
+    return false;
+  }
+  if (val->type() == NLS_MACRO_FUNCTION) {
+    MacroFunctionDef *mptr;
+    mptr = (MacroFunctionDef *)val;
+    int clinenum = 10000;
+    while (mptr) {
+      ASTPtr code = mptr->code;
+      int nxt = GetClosestLineNumber(code, bp.tokid & 0xffff);
+      clinenum = MIN(clinenum, nxt);
+      mptr = mptr->nextFunction;
+    }
+    if (clinenum == 10000) {
+      char buffer[2048];
+      if (dbstep) {
+        sprintf(buffer, "%s",
+                _("Unable to step the specified number of lines, execution "
+                  "will continue\n")
+                    .c_str());
+        inStepMode = false;
+      } else {
+        sprintf(buffer,
+                _("Failed to set breakpoint in %s at line %d - breakpoint is "
+                  "disabled\n")
+                    .c_str(),
+                cname.c_str(), bp.tokid & 0xffff);
+      }
+      io->warningMessage(buffer);
+      return false;
+    } else if (clinenum != 0) {
+      bp.tokid = (bp.tokid & 0xffff) + clinenum;
+    }
+  } else {
+    return false;
+  }
+  return true;
+}
+
+void Evaluator::adjustBreakpoints() {
+  std::vector<StackEntry>::iterator i = bpStack.begin();
+  while (i != bpStack.end()) {
+    if (!adjustBreakpoint(*i, false)) {
+      std::vector<StackEntry>::iterator b = i;
+      bpStack.erase(b);
+      ++i;
     } else {
-        char buffer[2048];
-        sprintf(buffer, _("Unable to delete breakpoint %d").c_str(), number);
-        Error(this, utf8_to_wstring(buffer));
+      ++i;
     }
+  }
+  if (inStepMode) {
+    adjustBreakpoint(stepTrap, true);
+  }
 }
 
-bool
-Evaluator::adjustBreakpoint(StackEntry& bp, bool dbstep)
-{
-    bool isFun;
-    FuncPtr val;
-    std::string cname = bp.detail;
-    isFun = context->lookupFunction(cname, val);
-    if (!isFun) {
-        return false;
-    }
-    if (val->type() == NLS_MACRO_FUNCTION) {
-        MacroFunctionDef* mptr;
-        mptr = (MacroFunctionDef*)val;
-        int clinenum = 10000;
-        while (mptr) {
-            ASTPtr code = mptr->code;
-            int nxt = GetClosestLineNumber(code, bp.tokid & 0xffff);
-            clinenum = MIN(clinenum, nxt);
-            mptr = mptr->nextFunction;
+stringVector Evaluator::getCallers(bool includeCurrent) {
+  stringVector callersName;
+  size_t i = 0;
+  while (i < this->cstack.size()) {
+    if (this->cstack[i].tokid == 0) {
+      size_t j = i + 1;
+      while ((j < this->cstack.size()) &&
+             (this->cstack[j].cname == this->cstack[i].cname) &&
+             (this->cstack[j].detail == this->cstack[i].detail) &&
+             (this->cstack[j].tokid != 0)) {
+        j++;
+      }
+      std::string functionname = this->cstack[j - 1].detail.c_str();
+      if (boost::algorithm::starts_with(functionname, "built-in ")) {
+        boost::algorithm::replace_all(functionname, "built-in ", "");
+      } else {
+        // remove all that is not functions
+        bool bOK = !boost::algorithm::contains(functionname, "(") &&
+                   !boost::algorithm::contains(functionname, ")") &&
+                   !boost::algorithm::contains(functionname, "'") &&
+                   !boost::algorithm::contains(functionname, "/") &&
+                   !boost::algorithm::contains(functionname, "\\") &&
+                   !boost::algorithm::contains(functionname, " ") &&
+                   !boost::algorithm::contains(functionname, ",");
+        if (bOK) {
+          callersName.push_back(functionname);
         }
-        if (clinenum == 10000) {
-            char buffer[2048];
-            if (dbstep) {
-                sprintf(buffer, "%s",
-                    _("Unable to step the specified number of lines, execution will continue\n")
-                        .c_str());
-                inStepMode = false;
-            } else {
-                sprintf(buffer,
-                    _("Failed to set breakpoint in %s at line %d - breakpoint is disabled\n")
-                        .c_str(),
-                    cname.c_str(), bp.tokid & 0xffff);
-            }
-            io->warningMessage(buffer);
-            return false;
-        } else if (clinenum != 0) {
-            bp.tokid = (bp.tokid & 0xffff) + clinenum;
-        }
+      }
+      i = j;
     } else {
-        return false;
+      i++;
     }
-    return true;
+  }
+  if (!includeCurrent) {
+    callersName.pop_back();
+  }
+  return callersName;
 }
 
-void
-Evaluator::adjustBreakpoints()
-{
-    std::vector<StackEntry>::iterator i = bpStack.begin();
-    while (i != bpStack.end()) {
-        if (!adjustBreakpoint(*i, false)) {
-            std::vector<StackEntry>::iterator b = i;
-            bpStack.erase(b);
-            ++i;
-        } else {
-            ++i;
-        }
-    }
-    if (inStepMode) {
-        adjustBreakpoint(stepTrap, true);
-    }
+void Evaluator::stackTrace(bool includeCurrent) {
+  stringVector outstack;
+  char buffer[IDENTIFIER_LENGTH_MAX + 1];
+  std::vector<ErrorInfo> errors = StackError(this);
+  outstack.reserve(errors.size());
+  for (size_t k = 0; k < errors.size(); k++) {
+    std::wstring filename;
+    std::wstring functionname;
+    int lineposition;
+    int columposition;
+    errors[k].get(filename, functionname, lineposition, columposition);
+    sprintf(buffer, _("In %s(%s), line %d, position %d\n").c_str(),
+            wstring_to_utf8(filename).c_str(),
+            wstring_to_utf8(functionname).c_str(), lineposition, columposition);
+    outstack.push_back(buffer);
+  }
+  for (int i = (int)outstack.size() - 1; i >= 0; i--) {
+    io->outputMessage(outstack[i].c_str());
+  }
 }
 
-stringVector
-Evaluator::getCallers(bool includeCurrent)
-{
-    stringVector callersName;
-    size_t i = 0;
-    while (i < this->cstack.size()) {
-        if (this->cstack[i].tokid == 0) {
-            size_t j = i + 1;
-            while ((j < this->cstack.size()) && (this->cstack[j].cname == this->cstack[i].cname)
-                && (this->cstack[j].detail == this->cstack[i].detail)
-                && (this->cstack[j].tokid != 0)) {
-                j++;
-            }
-            std::string functionname = this->cstack[j - 1].detail.c_str();
-            if (boost::algorithm::starts_with(functionname, "built-in ")) {
-                boost::algorithm::replace_all(functionname, "built-in ", "");
-            } else {
-                // remove all that is not functions
-                bool bOK = !boost::algorithm::contains(functionname, "(")
-                    && !boost::algorithm::contains(functionname, ")")
-                    && !boost::algorithm::contains(functionname, "'")
-                    && !boost::algorithm::contains(functionname, "/")
-                    && !boost::algorithm::contains(functionname, "\\")
-                    && !boost::algorithm::contains(functionname, " ")
-                    && !boost::algorithm::contains(functionname, ",");
-                if (bOK) {
-                    callersName.push_back(functionname);
-                }
-            }
-            i = j;
-        } else {
-            i++;
-        }
-    }
-    if (!includeCurrent) {
-        callersName.pop_back();
-    }
-    return callersName;
+void Evaluator::pushDebug(std::string fname, std::string detail) {
+  cstack.push_back(StackEntry(fname, detail, 0));
 }
 
-void
-Evaluator::stackTrace(bool includeCurrent)
-{
-    stringVector outstack;
-    char buffer[IDENTIFIER_LENGTH_MAX + 1];
-    std::vector<ErrorInfo> errors = StackError(this);
-    outstack.reserve(errors.size());
-    for (size_t k = 0; k < errors.size(); k++) {
-        std::wstring filename;
-        std::wstring functionname;
-        int lineposition;
-        int columposition;
-        errors[k].get(filename, functionname, lineposition, columposition);
-        sprintf(buffer, _("In %s(%s), line %d, position %d\n").c_str(),
-            wstring_to_utf8(filename).c_str(), wstring_to_utf8(functionname).c_str(), lineposition,
-            columposition);
-        outstack.push_back(buffer);
-    }
-    for (int i = (int)outstack.size() - 1; i >= 0; i--) {
-        io->outputMessage(outstack[i].c_str());
-    }
+void Evaluator::popDebug() {
+  if (!cstack.empty()) {
+    cstack.pop_back();
+  } else {
+    io->outputMessage("IDERROR\n");
+  }
 }
 
-void
-Evaluator::pushDebug(std::string fname, std::string detail)
-{
-    cstack.push_back(StackEntry(fname, detail, 0));
+void Evaluator::setInterface(Interface *_io) { io = _io; }
+
+Interface *Evaluator::getInterface() { return io; }
+
+bool Evaluator::lookupFunction(std::string funcName, FuncPtr &val) {
+  return context->lookupFunction(funcName, val);
 }
 
-void
-Evaluator::popDebug()
-{
-    if (!cstack.empty()) {
-        cstack.pop_back();
-    } else {
-        io->outputMessage("IDERROR\n");
-    }
-}
-
-void
-Evaluator::setInterface(Interface* _io)
-{
-    io = _io;
-}
-
-Interface*
-Evaluator::getInterface()
-{
-    return io;
-}
-
-bool
-Evaluator::lookupFunction(std::string funcName, FuncPtr& val)
-{
-    return context->lookupFunction(funcName, val);
-}
-
-ArrayOf
-Evaluator::rhsExpressionSimple(ASTPtr t)
-{
-    ArrayOf r;
-    ArrayOfVector m;
-    bool isVar = false;
-    bool isFun = false;
-    FunctionDef* funcDef;
-    pushID(t->context());
-    // Try to satisfy the rhs expression with what functions we have already
-    // loaded.
-    isVar = context->lookupVariable(t->text, r);
-    if (isVar && (t->down == nullptr)) {
-        popID();
-        return r;
-    }
-    if (!isVar) {
-        isFun = lookupFunction(t->text, funcDef);
-    }
-    if (!isVar && isFun) {
-        m = functionExpression(funcDef, t, 1, false);
-        if (m.empty()) {
-            popID();
-            return ArrayOf::emptyConstructor();
-        } else {
-            popID();
-            return m[0];
-        }
-    }
-    if (!isVar) {
-        Error(this, utf8_to_wstring(_("Undefined variable:") + " " + t->text));
-    }
-    if (!isFun) {
-        Error(this, utf8_to_wstring(_("Undefined function:") + " " + t->text));
-    }
+ArrayOf Evaluator::rhsExpressionSimple(ASTPtr t) {
+  ArrayOf r;
+  ArrayOfVector m;
+  bool isVar = false;
+  bool isFun = false;
+  FunctionDef *funcDef;
+  pushID(t->context());
+  // Try to satisfy the rhs expression with what functions we have already
+  // loaded.
+  isVar = context->lookupVariable(t->text, r);
+  if (isVar && (t->down == nullptr)) {
     popID();
     return r;
+  }
+  if (!isVar) {
+    isFun = lookupFunction(t->text, funcDef);
+  }
+  if (!isVar && isFun) {
+    m = functionExpression(funcDef, t, 1, false);
+    if (m.empty()) {
+      popID();
+      return ArrayOf::emptyConstructor();
+    } else {
+      popID();
+      return m[0];
+    }
+  }
+  if (!isVar) {
+    Error(this, utf8_to_wstring(_("Undefined variable:") + " " + t->text));
+  }
+  if (!isFun) {
+    Error(this, utf8_to_wstring(_("Undefined function:") + " " + t->text));
+  }
+  popID();
+  return r;
 }
 
 //!
@@ -3572,783 +3394,675 @@ Evaluator::rhsExpressionSimple(ASTPtr t)
 //'foo' with two double elements, the second of which is assigned
 // a value of pi.
 //!
-ArrayOfVector
-Evaluator::rhsExpression(ASTPtr t)
-{
-    ArrayOf r, q;
-    ArrayOf n, p;
-    ArrayOfVector m;
-    ArrayOfVector rv;
-    bool isVar;
-    bool isFun = false;
-    Dimensions rhsDimensions;
-    FunctionDef* funcDef = nullptr;
-    pushID(t->context());
-    // Try to satisfy the rhs expression with what functions we have already
-    // loaded.
-    isVar = context->lookupVariable(t->text, r);
-    if (isVar) {
-        if (r.isClassStruct()) {
-            std::string className = r.getStructType();
-            std::string extractionFunctionName = className + "_extraction";
-            isFun = lookupFunction(extractionFunctionName, funcDef);
-            if (isFun) {
-                m = functionExpression(funcDef, t, 1, false);
-                popID();
-                return m;
-            } else {
-                Error(
-                    this, utf8_to_wstring(_("Undefined function:") + " " + extractionFunctionName));
-            }
-        } else {
-            if (t->down == nullptr) {
+ArrayOfVector Evaluator::rhsExpression(ASTPtr t) {
+  ArrayOf r, q;
+  ArrayOf n, p;
+  ArrayOfVector m;
+  ArrayOfVector rv;
+  bool isVar;
+  bool isFun = false;
+  Dimensions rhsDimensions;
+  FunctionDef *funcDef = nullptr;
+  pushID(t->context());
+  // Try to satisfy the rhs expression with what functions we have already
+  // loaded.
+  isVar = context->lookupVariable(t->text, r);
+  if (isVar) {
+    if (r.isClassStruct()) {
+      std::string className = r.getStructType();
+      std::string extractionFunctionName = className + "_extraction";
+      isFun = lookupFunction(extractionFunctionName, funcDef);
+      if (isFun) {
+        m = functionExpression(funcDef, t, 1, false);
+        popID();
+        return m;
+      } else {
+        Error(this, utf8_to_wstring(_("Undefined function:") + " " +
+                                    extractionFunctionName));
+      }
+    } else {
+      if (t->down == nullptr) {
+        ArrayOfVector rv;
+        rv.push_back(r);
+        popID();
+        return rv;
+      } else {
+        ASTPtr tt;
+        tt = t->down;
+        if (tt->opNum == OP_PARENS) {
+          if (tt->down == nullptr) {
+            if (tt->right) {
+              tt = tt->right;
+              if (tt->opNum == OP_DOT) {
                 ArrayOfVector rv;
-                rv.push_back(r);
+                rv.push_back(r.getField(tt->down->text));
                 popID();
                 return rv;
-            } else {
-                ASTPtr tt;
-                tt = t->down;
-                if (tt->opNum == OP_PARENS) {
-                    if (tt->down == nullptr) {
-                        if (tt->right) {
-                            tt = tt->right;
-                            if (tt->opNum == OP_DOT) {
-                                ArrayOfVector rv;
-                                rv.push_back(r.getField(tt->down->text));
-                                popID();
-                                return rv;
-                            }
-                        }
-                    }
-                }
+              }
             }
+          }
         }
+      }
+    }
+  } else {
+    isFun = lookupFunction(t->text, funcDef);
+    if (isFun) {
+      if (funcDef->outputArgCount() == 0) {
+        throw Exception(ERROR_WRONG_NUMBERS_OUTPUT_ARGS,
+                        utf8_to_wstring(funcDef->name));
+      }
+      m = functionExpression(funcDef, t, 1, false);
+      popID();
+      return m;
     } else {
-        isFun = lookupFunction(t->text, funcDef);
-        if (isFun) {
-            if (funcDef->outputArgCount() == 0) {
-                throw Exception(ERROR_WRONG_NUMBERS_OUTPUT_ARGS, utf8_to_wstring(funcDef->name));
-            }
-            m = functionExpression(funcDef, t, 1, false);
-            popID();
-            return m;
+      Error(this, utf8_to_wstring(_("Undefined variable or function:") + " " +
+                                  t->text));
+    }
+  }
+  t = t->down;
+  while (t != nullptr) {
+    rhsDimensions = r.getDimensions();
+    if (!rv.empty()) {
+      Error(this,
+            _W("Cannot reindex an expression that returns multiple values."));
+    }
+    if (t->opNum == (OP_PARENS)) {
+      m = expressionList(t->down, r);
+      if (rhsDimensions.getLength() > (indexType)m.size()) {
+        Dimensions nDim;
+        if (m.size() >= 2) {
+          size_t d = 0;
+          for (d = 0; d < m.size() - 1; d++) {
+            nDim[d] = rhsDimensions[d];
+          }
+          indexType L = 1;
+          for (indexType k = d; k < rhsDimensions.getLength(); k++) {
+            L = L * rhsDimensions[k];
+          }
+          nDim[d] = L;
+          r.reshape(nDim);
+          rhsDimensions = r.getDimensions();
+          m = expressionList(t->down, r);
+        }
+      }
+      if (m.size() == 0) {
+        if (t->right == nullptr) {
+          ArrayOfVector rv;
+          rv.push_back(r);
+          popID();
+          return rv;
         } else {
-            Error(this, utf8_to_wstring(_("Undefined variable or function:") + " " + t->text));
+          Error(this, _W("index expected."));
         }
+      } else if (m.size() == 1) {
+        q = r.getVectorSubset(m[0]);
+        r = q;
+      } else {
+        q = r.getNDimSubset(m);
+        r = q;
+      }
     }
-    t = t->down;
-    while (t != nullptr) {
-        rhsDimensions = r.getDimensions();
-        if (!rv.empty()) {
-            Error(this, _W("Cannot reindex an expression that returns multiple values."));
+    if (t->opNum == (OP_BRACES)) {
+      m = expressionList(t->down, r);
+      if (rhsDimensions.getLength() > (indexType)m.size()) {
+        Dimensions nDim;
+        if (m.size() >= 2) {
+          size_t d = 0;
+          for (d = 0; d < m.size() - 1; d++) {
+            nDim[d] = rhsDimensions[d];
+          }
+          indexType L = 1;
+          for (indexType k = d; k < rhsDimensions.getLength(); k++) {
+            L = L * rhsDimensions[k];
+          }
+          nDim[d] = L;
+          r.reshape(nDim);
+          rhsDimensions = r.getDimensions();
+          m = expressionList(t->down, r);
         }
-        if (t->opNum == (OP_PARENS)) {
-            m = expressionList(t->down, r);
-            if (rhsDimensions.getLength() > (indexType)m.size()) {
-                Dimensions nDim;
-                if (m.size() >= 2) {
-                    size_t d = 0;
-                    for (d = 0; d < m.size() - 1; d++) {
-                        nDim[d] = rhsDimensions[d];
-                    }
-                    indexType L = 1;
-                    for (indexType k = d; k < rhsDimensions.getLength(); k++) {
-                        L = L * rhsDimensions[k];
-                    }
-                    nDim[d] = L;
-                    r.reshape(nDim);
-                    rhsDimensions = r.getDimensions();
-                    m = expressionList(t->down, r);
-                }
-            }
-            if (m.size() == 0) {
-                if (t->right == nullptr) {
-                    ArrayOfVector rv;
-                    rv.push_back(r);
-                    popID();
-                    return rv;
-                } else {
-                    Error(this, _W("index expected."));
-                }
-            } else if (m.size() == 1) {
-                q = r.getVectorSubset(m[0]);
-                r = q;
-            } else {
-                q = r.getNDimSubset(m);
-                r = q;
-            }
-        }
-        if (t->opNum == (OP_BRACES)) {
-            m = expressionList(t->down, r);
-            if (rhsDimensions.getLength() > (indexType)m.size()) {
-                Dimensions nDim;
-                if (m.size() >= 2) {
-                    size_t d = 0;
-                    for (d = 0; d < m.size() - 1; d++) {
-                        nDim[d] = rhsDimensions[d];
-                    }
-                    indexType L = 1;
-                    for (indexType k = d; k < rhsDimensions.getLength(); k++) {
-                        L = L * rhsDimensions[k];
-                    }
-                    nDim[d] = L;
-                    r.reshape(nDim);
-                    rhsDimensions = r.getDimensions();
-                    m = expressionList(t->down, r);
-                }
-            }
-            if (m.size() == 0) {
-                Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
-            } else if (m.size() == 1) {
-                rv = r.getVectorContentsAsList(m[0]);
-            } else {
-                rv = r.getNDimContentsAsList(m);
-            }
-            if (rv.size() == 1) {
-                r = rv[0];
-                rv = ArrayOfVector();
-            } else if (rv.size() == 0) {
-                r = ArrayOf::emptyConstructor();
-                Error(this, ERROR_EMPTY_EXPRESSION);
-            }
-        }
-        if (t->opNum == (OP_DOT)) {
-            std::string fieldname = t->down->text;
-            if (r.isHandle()) {
-                ArrayOfVector params;
-                logical isValidMethod = false;
-                try {
-                    isValidMethod = r.isHandleMethod(utf8_to_wstring(fieldname));
-                } catch (Exception) {
-                    if (r.isHandle()) {
-                        throw Exception(
-                            _W("Please define: ") + r.getHandleCategory() + L"_ismethod");
-                    }
-                    isValidMethod = false;
-                }
-                if (isValidMethod) {
-                    if (t->right) {
-                        params = expressionList(t->right->down, r);
-                        t = t->right;
-                    }
-                }
-                rv = getHandle(r, fieldname, params);
-            } else {
-                rv = r.getFieldAsList(fieldname);
-            }
-            if (rv.size() == 1) {
-                r = rv[0];
-                rv = ArrayOfVector();
-            } else if (rv.size() == 0) {
-                r = ArrayOf::emptyConstructor();
-                rv = ArrayOfVector();
-            }
-        }
-        if (t->opNum == (OP_DOTDYN)) {
-            std::string field;
-            try {
-                ArrayOf fname(expression(t->down));
-                field = fname.getContentAsCString();
-            } catch (Exception& e) {
-                e.what();
-                Error(this, _W("dynamic field reference to structure requires a string argument"));
-            }
-            if (r.isHandle()) {
-                ArrayOfVector v;
-                rv = getHandle(r, field, v);
-            } else {
-                rv = r.getFieldAsList(field);
-            }
-            if (rv.size() <= 1) {
-                r = rv[0];
-                rv = ArrayOfVector();
-            }
-        }
-        t = t->right;
+      }
+      if (m.size() == 0) {
+        Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
+      } else if (m.size() == 1) {
+        rv = r.getVectorContentsAsList(m[0]);
+      } else {
+        rv = r.getNDimContentsAsList(m);
+      }
+      if (rv.size() == 1) {
+        r = rv[0];
+        rv = ArrayOfVector();
+      } else if (rv.size() == 0) {
+        r = ArrayOf::emptyConstructor();
+        Error(this, ERROR_EMPTY_EXPRESSION);
+      }
     }
-    if (rv.empty()) {
-        rv.push_back(r);
-    }
-    popID();
-    return rv;
-}
-//=============================================================================
-Evaluator::Evaluator(Context* aContext, Interface* aInterface, int _engineMode)
-{
-    engineMode = _engineMode;
-    bAllowOverload = true;
-    lastException = nullptr;
-    context = aContext;
-    currentOutputFormatDisplay = NLS_FORMAT_SHORT;
-    resetState();
-    depth = 0;
-    io = aInterface;
-    ArrayOf::setArrayOfIOInterface(io);
-    InterruptPending = false;
-    printLimit = 1000;
-    autostop = true;
-    InCLI = false;
-    debugActive = false;
-    inStepMode = false;
-    bpActive = false;
-    clearStacks();
-    commandLineArguments.clear();
-}
-//=============================================================================
-Evaluator::~Evaluator()
-{
-    clearStacks();
-    commandLineArguments.clear();
-    if (lastException) {
-        delete lastException;
-    }
-}
-//=============================================================================
-void
-Evaluator::dbstep(int linecount)
-{
-    if (bpActive) {
-        stepTrap.tokid = (stepTrap.tokid & 0xffff) + linecount;
-        inStepMode = true;
-        adjustBreakpoints();
-        state = NLS_STATE_RETURN;
-    }
-}
-//=============================================================================
-bool
-Evaluator::evaluateString(std::wstring line, bool propogateException)
-{
-    return evaluateString(wstring_to_utf8(line), propogateException);
-}
-//=============================================================================
-bool
-Evaluator::evaluateString(std::string line, bool propogateException)
-{
-    ASTPtr tree = nullptr;
-    ParserState parserState = ParseError;
-    InterruptPending = false;
-    if (line.size() == 0) {
-        return false;
-    }
-    char ch = *line.rbegin();
-    std::string command;
-    // we add <RETURN> at the end
-    // the command need a <RETURN> to be correctly parser
-    if (ch != '\n') {
-        command = line + "\n";
-    } else {
-        command = line;
-    }
-    resetAstBackupPosition();
-    std::vector<ASTPtr> pt;
-    try {
-        parserState = parseString(command);
-        pt = getAstUsed();
-    } catch (Exception& e) {
-        deleteAstVector(getAstUsed());
-        resetAstBackupPosition();
-        resetParser();
-        if (lastException) {
-            delete lastException;
-        }
-        lastException = new Exception(e);
-        if (propogateException) {
-            throw;
-        }
-        e.printMe(io);
-        return false;
-    }
-    if (parserState != ScriptBlock) {
-        deleteAstVector(pt);
-        resetAstBackupPosition();
-        resetParser();
-        if (lastException) {
-            delete lastException;
-        }
-        Exception e(_W("a valid script expected."));
-        lastException = new Exception(e);
-        if (propogateException) {
-            throw;
-        }
-        return false;
-    }
-    tree = getParsedScriptBlock();
-    pushDebug("EvaluateString", command);
-    if (tree == nullptr) {
-        deleteAstVector(pt);
-        resetAstBackupPosition();
-        popDebug();
-        return false;
-    }
-    try {
-        block(tree);
-        deleteAstVector(pt);
-        resetAstBackupPosition();
-        tree = nullptr;
-        if (state == NLS_STATE_RETURN) {
-            if (depth > 0) {
-                popDebug();
-                depth--;
-                return true;
-            }
-        }
-        if (state == NLS_STATE_QUIT || state == NLS_STATE_ABORT) {
-            popDebug();
-            return true;
-        }
-    } catch (Exception& e) {
-        deleteAstVector(pt);
-        resetAstBackupPosition();
-        tree = nullptr;
-        if (lastException) {
-            delete lastException;
-        }
-        lastException = new Exception(e);
-        if (propogateException) {
-            throw;
-        }
-        e.printMe(io);
-        popDebug();
-        return false;
-    }
-    popDebug();
-    return true;
-}
-//=============================================================================
-std::wstring
-Evaluator::getLastErrorString()
-{
-    return lastException->getMessage();
-}
-//=============================================================================
-void
-Evaluator::setLastErrorString(std::wstring txt)
-{
-    if (lastException) {
-        lastException->setMessage(txt);
-    }
-}
-//=============================================================================
-void
-Evaluator::setLastErrorString(std::string txt)
-{
-    if (lastException) {
-        lastException->setMessage(txt);
-    }
-}
-//=============================================================================
-bool
-Evaluator::setLastException(Exception e)
-{
-    bool bAlloc = false;
-    if (lastException) {
-        delete lastException;
-    }
-    try {
-        lastException = new Exception(e);
-        bAlloc = true;
-    } catch (std::bad_alloc& e) {
-        e.what();
-        bAlloc = false;
-    }
-    return bAlloc;
-}
-//=============================================================================
-Exception
-Evaluator::getLastException()
-{
-    if (lastException) {
-        return *lastException;
-    }
-    return Exception("");
-}
-//=============================================================================
-std::wstring
-Evaluator::getLastWarningString()
-{
-    return lastwarn;
-}
-//=============================================================================
-void
-Evaluator::setLastWarningString(std::wstring txt)
-{
-    lastwarn = txt;
-}
-//=============================================================================
-void
-Evaluator::setLastWarningString(std::string txt)
-{
-    lastwarn = utf8_to_wstring(txt);
-}
-//=============================================================================
-std::wstring
-Evaluator::getCurrentEvaluateFilename()
-{
-    if (evaluatedFilenames.size() > 0) {
-        return evaluatedFilenames[evaluatedFilenames.size() - 1];
-    }
-    return L"";
-}
-//=============================================================================
-std::string
-Evaluator::getCallerFunctionName()
-{
-    int ipos = (int)cstack.size() - 2;
-    if (ipos >= 0) {
-        return cstack[ipos].cname;
-    }
-    return std::string("");
-}
-//=============================================================================
-std::wstring
-Evaluator::getCallerFunctionNameW()
-{
-    return utf8_to_wstring(getCallerFunctionName());
-}
-//=============================================================================
-std::wstring
-Evaluator::getCurrentFunctionNameW()
-{
-    return utf8_to_wstring(getCurrentFunctionName());
-}
-//=============================================================================
-std::string
-Evaluator::getCurrentFunctionName()
-{
-    int ipos = (int)cstack.size() - 1;
-    if (ipos >= 0) {
-        return cstack[cstack.size() - 1].cname;
-        // return cstack[cstack.size() - 1].detail;
-    }
-    return std::string("");
-}
-//=============================================================================
-int
-Evaluator::getDebugDepth()
-{
-    return depth;
-}
-//=============================================================================
-void
-Evaluator::increaseDebugDepth()
-{
-    depth++;
-}
-//=============================================================================
-void
-Evaluator::decreaseDebugDepth()
-{
-    depth--;
-}
-//=============================================================================
-void
-Evaluator::pushEvaluateFilenameList(const std::wstring filename)
-{
-    evaluatedFilenames.push_back(filename);
-}
-//=============================================================================
-void
-Evaluator::popEvaluateFilenameList()
-{
-    evaluatedFilenames.pop_back();
-}
-//=============================================================================
-void
-Evaluator::setCLI(bool bCLI)
-{
-    InCLI = bCLI;
-}
-//=============================================================================
-bool
-Evaluator::getCLI()
-{
-    return InCLI;
-}
-//=============================================================================
-bool
-Evaluator::getOverloadState()
-{
-    return bAllowOverload;
-}
-//=============================================================================
-void
-Evaluator::disableOverload()
-{
-    bAllowOverload = false;
-}
-//=============================================================================
-void
-Evaluator::enableOverload()
-{
-    bAllowOverload = true;
-}
-//=============================================================================
-std::string
-Evaluator::buildPrompt()
-{
-    std::string prompt = "\0";
-    if (depth > 0) {
-        if (bpActive) {
-            prompt = "-" + std::to_string(depth) + "D-> ";
-        } else {
-            prompt = "-" + std::to_string(depth) + "-> ";
-        }
-    } else {
-        if (bpActive) {
-            prompt = "D-> ";
-        } else {
-            prompt = "--> ";
-        }
-    }
-    return prompt;
-}
-//=============================================================================
-void
-Evaluator::evalCLI()
-{
-    std::string cmdline = "\0";
-    std::string dataline = "\0";
-    std::string prompt = "\0";
-    while (1) {
-        if (!bpActive) {
-            // clear macros cache at the prompt
-            stringVector exceptedFunctionsName = this->getCallers(true);
-            PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
-            FileWatcherManager::getInstance()->update();
-        }
-        prompt = buildPrompt();
-        if (cmdline == "\n") {
-            if (!commandQueue.isEmpty()) {
-                commandQueue.get(cmdline);
-            } else {
-                // DO NOTHING
-                cmdline.clear();
-            }
-        }
-        if (cmdline.empty()) {
-            cmdline = io->getLine(prompt);
-            if (cmdline.empty()) {
-                InCLI = false;
-                this->setState(NLS_STATE_QUIT);
-                return;
-            } else {
-                char ch = *cmdline.rbegin();
-                if (ch != '\n') {
-                    cmdline.push_back('\n');
-                }
-            }
-        }
-        // scan the line and tokenize it
-        resetAstBackupPosition();
-        setLexBuffer(cmdline.c_str());
+    if (t->opNum == (OP_DOT)) {
+      std::string fieldname = t->down->text;
+      if (r.isHandle()) {
+        ArrayOfVector params;
+        logical isValidMethod = false;
         try {
-            int lastCount = getContinuationCount();
-            bool bContinueLine = lexCheckForMoreInput(0);
+          isValidMethod = r.isHandleMethod(utf8_to_wstring(fieldname));
+        } catch (Exception) {
+          if (r.isHandle()) {
+            throw Exception(_W("Please define: ") + r.getHandleCategory() +
+                            L"_ismethod");
+          }
+          isValidMethod = false;
+        }
+        if (isValidMethod) {
+          if (t->right) {
+            params = expressionList(t->right->down, r);
+            t = t->right;
+          }
+        }
+        rv = getHandle(r, fieldname, params);
+      } else {
+        rv = r.getFieldAsList(fieldname);
+      }
+      if (rv.size() == 1) {
+        r = rv[0];
+        rv = ArrayOfVector();
+      } else if (rv.size() == 0) {
+        r = ArrayOf::emptyConstructor();
+        rv = ArrayOfVector();
+      }
+    }
+    if (t->opNum == (OP_DOTDYN)) {
+      std::string field;
+      try {
+        ArrayOf fname(expression(t->down));
+        field = fname.getContentAsCString();
+      } catch (Exception &e) {
+        e.what();
+        Error(this, _W("dynamic field reference to structure requires a string "
+                       "argument"));
+      }
+      if (r.isHandle()) {
+        ArrayOfVector v;
+        rv = getHandle(r, field, v);
+      } else {
+        rv = r.getFieldAsList(field);
+      }
+      if (rv.size() <= 1) {
+        r = rv[0];
+        rv = ArrayOfVector();
+      }
+    }
+    t = t->right;
+  }
+  if (rv.empty()) {
+    rv.push_back(r);
+  }
+  popID();
+  return rv;
+}
+//=============================================================================
+Evaluator::Evaluator(Context *aContext, Interface *aInterface,
+                     int _engineMode) {
+  engineMode = _engineMode;
+  bAllowOverload = true;
+  lastException = nullptr;
+  context = aContext;
+  currentOutputFormatDisplay = NLS_FORMAT_SHORT;
+  resetState();
+  depth = 0;
+  io = aInterface;
+  ArrayOf::setArrayOfIOInterface(io);
+  InterruptPending = false;
+  printLimit = 1000;
+  autostop = true;
+  InCLI = false;
+  debugActive = false;
+  inStepMode = false;
+  bpActive = false;
+  clearStacks();
+  commandLineArguments.clear();
+}
+//=============================================================================
+Evaluator::~Evaluator() {
+  clearStacks();
+  commandLineArguments.clear();
+  if (lastException) {
+    delete lastException;
+  }
+}
+//=============================================================================
+void Evaluator::dbstep(int linecount) {
+  if (bpActive) {
+    stepTrap.tokid = (stepTrap.tokid & 0xffff) + linecount;
+    inStepMode = true;
+    adjustBreakpoints();
+    state = NLS_STATE_RETURN;
+  }
+}
+//=============================================================================
+bool Evaluator::evaluateString(std::wstring line, bool propogateException) {
+  return evaluateString(wstring_to_utf8(line), propogateException);
+}
+//=============================================================================
+bool Evaluator::evaluateString(std::string line, bool propogateException) {
+  ASTPtr tree = nullptr;
+  ParserState parserState = ParseError;
+  InterruptPending = false;
+  if (line.size() == 0) {
+    return false;
+  }
+  char ch = *line.rbegin();
+  std::string command;
+  // we add <RETURN> at the end
+  // the command need a <RETURN> to be correctly parser
+  if (ch != '\n') {
+    command = line + "\n";
+  } else {
+    command = line;
+  }
+  resetAstBackupPosition();
+  std::vector<ASTPtr> pt;
+  try {
+    parserState = parseString(command);
+    pt = getAstUsed();
+  } catch (Exception &e) {
+    deleteAstVector(getAstUsed());
+    resetAstBackupPosition();
+    resetParser();
+    if (lastException) {
+      delete lastException;
+    }
+    lastException = new Exception(e);
+    if (propogateException) {
+      throw;
+    }
+    e.printMe(io);
+    return false;
+  }
+  if (parserState != ScriptBlock) {
+    deleteAstVector(pt);
+    resetAstBackupPosition();
+    resetParser();
+    if (lastException) {
+      delete lastException;
+    }
+    Exception e(_W("a valid script expected."));
+    lastException = new Exception(e);
+    if (propogateException) {
+      throw;
+    }
+    return false;
+  }
+  tree = getParsedScriptBlock();
+  pushDebug("EvaluateString", command);
+  if (tree == nullptr) {
+    deleteAstVector(pt);
+    resetAstBackupPosition();
+    popDebug();
+    return false;
+  }
+  try {
+    block(tree);
+    deleteAstVector(pt);
+    resetAstBackupPosition();
+    tree = nullptr;
+    if (state == NLS_STATE_RETURN) {
+      if (depth > 0) {
+        popDebug();
+        depth--;
+        return true;
+      }
+    }
+    if (state == NLS_STATE_QUIT || state == NLS_STATE_ABORT) {
+      popDebug();
+      return true;
+    }
+  } catch (Exception &e) {
+    deleteAstVector(pt);
+    resetAstBackupPosition();
+    tree = nullptr;
+    if (lastException) {
+      delete lastException;
+    }
+    lastException = new Exception(e);
+    if (propogateException) {
+      throw;
+    }
+    e.printMe(io);
+    popDebug();
+    return false;
+  }
+  popDebug();
+  return true;
+}
+//=============================================================================
+std::wstring Evaluator::getLastErrorString() {
+  return lastException->getMessage();
+}
+//=============================================================================
+void Evaluator::setLastErrorString(std::wstring txt) {
+  if (lastException) {
+    lastException->setMessage(txt);
+  }
+}
+//=============================================================================
+void Evaluator::setLastErrorString(std::string txt) {
+  if (lastException) {
+    lastException->setMessage(txt);
+  }
+}
+//=============================================================================
+bool Evaluator::setLastException(Exception e) {
+  bool bAlloc = false;
+  if (lastException) {
+    delete lastException;
+  }
+  try {
+    lastException = new Exception(e);
+    bAlloc = true;
+  } catch (std::bad_alloc &e) {
+    e.what();
+    bAlloc = false;
+  }
+  return bAlloc;
+}
+//=============================================================================
+Exception Evaluator::getLastException() {
+  if (lastException) {
+    return *lastException;
+  }
+  return Exception("");
+}
+//=============================================================================
+std::wstring Evaluator::getLastWarningString() { return lastwarn; }
+//=============================================================================
+void Evaluator::setLastWarningString(std::wstring txt) { lastwarn = txt; }
+//=============================================================================
+void Evaluator::setLastWarningString(std::string txt) {
+  lastwarn = utf8_to_wstring(txt);
+}
+//=============================================================================
+std::wstring Evaluator::getCurrentEvaluateFilename() {
+  if (evaluatedFilenames.size() > 0) {
+    return evaluatedFilenames[evaluatedFilenames.size() - 1];
+  }
+  return L"";
+}
+//=============================================================================
+std::string Evaluator::getCallerFunctionName() {
+  int ipos = (int)cstack.size() - 2;
+  if (ipos >= 0) {
+    return cstack[ipos].cname;
+  }
+  return std::string("");
+}
+//=============================================================================
+std::wstring Evaluator::getCallerFunctionNameW() {
+  return utf8_to_wstring(getCallerFunctionName());
+}
+//=============================================================================
+std::wstring Evaluator::getCurrentFunctionNameW() {
+  return utf8_to_wstring(getCurrentFunctionName());
+}
+//=============================================================================
+std::string Evaluator::getCurrentFunctionName() {
+  int ipos = (int)cstack.size() - 1;
+  if (ipos >= 0) {
+    return cstack[cstack.size() - 1].cname;
+    // return cstack[cstack.size() - 1].detail;
+  }
+  return std::string("");
+}
+//=============================================================================
+int Evaluator::getDebugDepth() { return depth; }
+//=============================================================================
+void Evaluator::increaseDebugDepth() { depth++; }
+//=============================================================================
+void Evaluator::decreaseDebugDepth() { depth--; }
+//=============================================================================
+void Evaluator::pushEvaluateFilenameList(const std::wstring filename) {
+  evaluatedFilenames.push_back(filename);
+}
+//=============================================================================
+void Evaluator::popEvaluateFilenameList() { evaluatedFilenames.pop_back(); }
+//=============================================================================
+void Evaluator::setCLI(bool bCLI) { InCLI = bCLI; }
+//=============================================================================
+bool Evaluator::getCLI() { return InCLI; }
+//=============================================================================
+bool Evaluator::getOverloadState() { return bAllowOverload; }
+//=============================================================================
+void Evaluator::disableOverload() { bAllowOverload = false; }
+//=============================================================================
+void Evaluator::enableOverload() { bAllowOverload = true; }
+//=============================================================================
+std::string Evaluator::buildPrompt() {
+  std::string prompt = "\0";
+  if (depth > 0) {
+    if (bpActive) {
+      prompt = "-" + std::to_string(depth) + "D-> ";
+    } else {
+      prompt = "-" + std::to_string(depth) + "-> ";
+    }
+  } else {
+    if (bpActive) {
+      prompt = "D-> ";
+    } else {
+      prompt = "--> ";
+    }
+  }
+  return prompt;
+}
+//=============================================================================
+void Evaluator::evalCLI() {
+  std::string cmdline = "\0";
+  std::string dataline = "\0";
+  std::string prompt = "\0";
+  while (1) {
+    if (!bpActive) {
+      // clear macros cache at the prompt
+      stringVector exceptedFunctionsName = this->getCallers(true);
+      PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
+      FileWatcherManager::getInstance()->update();
+    }
+    prompt = buildPrompt();
+    if (cmdline == "\n") {
+      if (!commandQueue.isEmpty()) {
+        commandQueue.get(cmdline);
+      } else {
+        // DO NOTHING
+        cmdline.clear();
+      }
+    }
+    if (cmdline.empty()) {
+      cmdline = io->getLine(prompt);
+      if (cmdline.empty()) {
+        InCLI = false;
+        this->setState(NLS_STATE_QUIT);
+        return;
+      } else {
+        char ch = *cmdline.rbegin();
+        if (ch != '\n') {
+          cmdline.push_back('\n');
+        }
+      }
+    }
+    // scan the line and tokenize it
+    resetAstBackupPosition();
+    setLexBuffer(cmdline.c_str());
+    try {
+      int lastCount = getContinuationCount();
+      bool bContinueLine = lexCheckForMoreInput(0);
+      deleteAstVector(getAstUsed());
+      resetAstBackupPosition();
+      if (bContinueLine) {
+        dataline = cmdline;
+        bool enoughInput = false;
+        // Loop until we have enough input
+        while (!enoughInput) {
+          cmdline = io->getLine("");
+          if (cmdline == "\n") {
+            cmdline = "";
+            return;
+          }
+          // User pressed ctrl-D (or equivalent) - stop looking for
+          if (cmdline.size() == 0) {
+            if (InterruptPending) {
+              cmdline = "";
+              return;
+            }
+            enoughInput = false;
+          } else {
+            char ch = *cmdline.rbegin();
+            if (ch != '\n') {
+              cmdline.push_back('\n');
+            }
+            // User didn't press ctrl-D -
+            // tack the new text onto the dataline
+            dataline.append(cmdline);
+            resetAstBackupPosition();
+            setLexBuffer(dataline.c_str());
+            // Update the check
+            enoughInput = !lexCheckForMoreInput(lastCount);
             deleteAstVector(getAstUsed());
             resetAstBackupPosition();
-            if (bContinueLine) {
-                dataline = cmdline;
-                bool enoughInput = false;
-                // Loop until we have enough input
-                while (!enoughInput) {
-                    cmdline = io->getLine("");
-                    if (cmdline == "\n") {
-                        cmdline = "";
-                        return;
-                    }
-                    // User pressed ctrl-D (or equivalent) - stop looking for
-                    if (cmdline.size() == 0) {
-                        if (InterruptPending) {
-                            cmdline = "";
-                            return;
-                        }
-                        enoughInput = false;
-                    } else {
-                        char ch = *cmdline.rbegin();
-                        if (ch != '\n') {
-                            cmdline.push_back('\n');
-                        }
-                        // User didn't press ctrl-D -
-                        // tack the new text onto the dataline
-                        dataline.append(cmdline);
-                        resetAstBackupPosition();
-                        setLexBuffer(dataline.c_str());
-                        // Update the check
-                        enoughInput = !lexCheckForMoreInput(lastCount);
-                        deleteAstVector(getAstUsed());
-                        resetAstBackupPosition();
-                        lastCount = getContinuationCount();
-                        if (enoughInput) {
-                            if (dataline[dataline.size() - 1] != '\n') {
-                                dataline.push_back('\n');
-                            }
-                        } else {
-                        }
-                        cmdline = dataline;
-                    }
-                }
+            lastCount = getContinuationCount();
+            if (enoughInput) {
+              if (dataline[dataline.size() - 1] != '\n') {
+                dataline.push_back('\n');
+              }
+            } else {
             }
-        } catch (Exception& e) {
-            e.printMe(io);
+            cmdline = dataline;
+          }
         }
-        InCLI = true;
-        if (cmdline.size() > 0 && cmdline != "\n") {
-            size_t stackdepth;
-            stackdepth = cstack.size();
-            bool tresult = evaluateString(cmdline, false);
-            cmdline.clear();
-            while (cstack.size() > stackdepth) {
-                cstack.pop_back();
-            }
-            if (!tresult || this->getState() == NLS_STATE_QUIT
-                || this->getState() == NLS_STATE_ABORT) {
-                InCLI = false;
-                return;
-            }
-        }
+      }
+    } catch (Exception &e) {
+      e.printMe(io);
     }
-}
-//=============================================================================
-OutputFormatDisplay
-Evaluator::getCurrentOutputFormatDisplay()
-{
-    return this->currentOutputFormatDisplay;
-}
-//=============================================================================
-void
-Evaluator::setCurrentOutputFormatDisplay(OutputFormatDisplay newFormat)
-{
-    this->currentOutputFormatDisplay = newFormat;
-}
-//=============================================================================
-bool
-Evaluator::haveEventsLoop()
-{
-    return ((this->engineMode != BASIC_ENGINE) && (this->engineMode != BASIC_TERMINAL));
-}
-//=============================================================================
-int
-Evaluator::getNelsonEngineMode()
-{
-    return this->engineMode;
-}
-//=============================================================================
-void
-Evaluator::setCommandLineArguments(wstringVector args)
-{
-    this->commandLineArguments = args;
-}
-//=============================================================================
-wstringVector
-Evaluator::getCommandLineArguments()
-{
-    return this->commandLineArguments;
-}
-//=============================================================================
-bool
-Evaluator::getEchoMode()
-{
-    return bEchoMode;
-}
-//=============================================================================
-void
-Evaluator::setEchoMode(bool _mode)
-{
-    bEchoMode = _mode;
-}
-//=============================================================================
-bool
-Evaluator::isQuietMode()
-{
-    return bQuietMode;
-}
-//=============================================================================
-void
-Evaluator::setQuietMode(bool _quiet)
-{
-    bQuietMode = _quiet;
-}
-//=============================================================================
-void
-Evaluator::setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue)
-{
-    if (fieldvalue.size() != 1) {
-        Error(this, _W("Right hand values must satisfy left hand side expression."));
+    InCLI = true;
+    if (cmdline.size() > 0 && cmdline != "\n") {
+      size_t stackdepth;
+      stackdepth = cstack.size();
+      bool tresult = evaluateString(cmdline, false);
+      cmdline.clear();
+      while (cstack.size() > stackdepth) {
+        cstack.pop_back();
+      }
+      if (!tresult || this->getState() == NLS_STATE_QUIT ||
+          this->getState() == NLS_STATE_ABORT) {
+        InCLI = false;
+        return;
+      }
     }
-    std::wstring currentType = r.getHandleCategory();
-    std::wstring ufunctionNameSetHandle = currentType + L"_set";
-    std::string functionNameSetHandle = wstring_to_utf8(ufunctionNameSetHandle);
-    Context* context = this->getContext();
-    FunctionDef* funcDef = nullptr;
-    if (!context->lookupFunction(functionNameSetHandle, funcDef)) {
-        Error(this, _W("Function not found."));
-    }
-    if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
-        Error(this, _W("Type function not valid."));
-    }
-    int nLhs = 0;
-    ArrayOfVector argIn;
-    argIn.push_back(r);
-    argIn.push_back(ArrayOf::stringConstructor(fieldname));
-    argIn.push_back(fieldvalue[0]);
-    funcDef->evaluateFunction(this, argIn, nLhs);
+  }
 }
 //=============================================================================
-ArrayOfVector
-Evaluator::getHandle(ArrayOf r, std::string fieldname, ArrayOfVector params)
-{
-    ArrayOfVector argIn;
-    std::wstring currentType = r.getHandleCategory();
-    Context* context = this->getContext();
-    FunctionDef* funcDef = nullptr;
-    std::string functionNameCurrentType = wstring_to_utf8(currentType) + "_" + fieldname;
-    if (context->lookupFunction(functionNameCurrentType, funcDef)) {
-        if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
-                || (funcDef->type() == NLS_MACRO_FUNCTION))) {
-            Error(this, _W("Type function not valid."));
-        }
-        int nLhs = 1;
-        argIn.push_back(r);
-        for (ArrayOf a : params) {
-            argIn.push_back(a);
-        }
-        return funcDef->evaluateFunction(this, argIn, nLhs);
-    }
-    std::string functionNameGetHandle = wstring_to_utf8(currentType) + "_get";
-    if (!context->lookupFunction(functionNameGetHandle, funcDef)) {
-        Error(this, _W("Function not found."));
-    }
-    if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
-        Error(this, _W("Type function not valid."));
+OutputFormatDisplay Evaluator::getCurrentOutputFormatDisplay() {
+  return this->currentOutputFormatDisplay;
+}
+//=============================================================================
+void Evaluator::setCurrentOutputFormatDisplay(OutputFormatDisplay newFormat) {
+  this->currentOutputFormatDisplay = newFormat;
+}
+//=============================================================================
+bool Evaluator::haveEventsLoop() {
+  return ((this->engineMode != BASIC_ENGINE) &&
+          (this->engineMode != BASIC_TERMINAL));
+}
+//=============================================================================
+int Evaluator::getNelsonEngineMode() { return this->engineMode; }
+//=============================================================================
+void Evaluator::setCommandLineArguments(wstringVector args) {
+  this->commandLineArguments = args;
+}
+//=============================================================================
+wstringVector Evaluator::getCommandLineArguments() {
+  return this->commandLineArguments;
+}
+//=============================================================================
+bool Evaluator::getEchoMode() { return bEchoMode; }
+//=============================================================================
+void Evaluator::setEchoMode(bool _mode) { bEchoMode = _mode; }
+//=============================================================================
+bool Evaluator::isQuietMode() { return bQuietMode; }
+//=============================================================================
+void Evaluator::setQuietMode(bool _quiet) { bQuietMode = _quiet; }
+//=============================================================================
+void Evaluator::setHandle(ArrayOf r, std::string fieldname,
+                          ArrayOfVector fieldvalue) {
+  if (fieldvalue.size() != 1) {
+    Error(this,
+          _W("Right hand values must satisfy left hand side expression."));
+  }
+  std::wstring currentType = r.getHandleCategory();
+  std::wstring ufunctionNameSetHandle = currentType + L"_set";
+  std::string functionNameSetHandle = wstring_to_utf8(ufunctionNameSetHandle);
+  Context *context = this->getContext();
+  FunctionDef *funcDef = nullptr;
+  if (!context->lookupFunction(functionNameSetHandle, funcDef)) {
+    Error(this, _W("Function not found."));
+  }
+  if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) ||
+        (funcDef->type() == NLS_MACRO_FUNCTION))) {
+    Error(this, _W("Type function not valid."));
+  }
+  int nLhs = 0;
+  ArrayOfVector argIn;
+  argIn.push_back(r);
+  argIn.push_back(ArrayOf::stringConstructor(fieldname));
+  argIn.push_back(fieldvalue[0]);
+  funcDef->evaluateFunction(this, argIn, nLhs);
+}
+//=============================================================================
+ArrayOfVector Evaluator::getHandle(ArrayOf r, std::string fieldname,
+                                   ArrayOfVector params) {
+  ArrayOfVector argIn;
+  std::wstring currentType = r.getHandleCategory();
+  Context *context = this->getContext();
+  FunctionDef *funcDef = nullptr;
+  std::string functionNameCurrentType =
+      wstring_to_utf8(currentType) + "_" + fieldname;
+  if (context->lookupFunction(functionNameCurrentType, funcDef)) {
+    if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) ||
+          (funcDef->type() == NLS_MACRO_FUNCTION))) {
+      Error(this, _W("Type function not valid."));
     }
     int nLhs = 1;
     argIn.push_back(r);
-    argIn.push_back(ArrayOf::stringConstructor(fieldname));
+    for (ArrayOf a : params) {
+      argIn.push_back(a);
+    }
     return funcDef->evaluateFunction(this, argIn, nLhs);
+  }
+  std::string functionNameGetHandle = wstring_to_utf8(currentType) + "_get";
+  if (!context->lookupFunction(functionNameGetHandle, funcDef)) {
+    Error(this, _W("Function not found."));
+  }
+  if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) ||
+        (funcDef->type() == NLS_MACRO_FUNCTION))) {
+    Error(this, _W("Type function not valid."));
+  }
+  int nLhs = 1;
+  argIn.push_back(r);
+  argIn.push_back(ArrayOf::stringConstructor(fieldname));
+  return funcDef->evaluateFunction(this, argIn, nLhs);
 }
 //=============================================================================
-void
-Evaluator::addCommandToQueue(std::wstring command, bool bIsPriority)
-{
-    wchar_t ch = *command.rbegin();
-    if (ch != L'\n') {
-        command.push_back('\n');
-    }
-    std::string ucmd = wstring_to_utf8(command);
-    this->commandQueue.add(ucmd, bIsPriority);
+void Evaluator::addCommandToQueue(std::wstring command, bool bIsPriority) {
+  wchar_t ch = *command.rbegin();
+  if (ch != L'\n') {
+    command.push_back('\n');
+  }
+  std::string ucmd = wstring_to_utf8(command);
+  this->commandQueue.add(ucmd, bIsPriority);
 }
 //=============================================================================
-size_t
-Evaluator::countSubExpressions(ASTPtr t)
-{
-    size_t count = 0;
-    while (t != NULL) {
-        t = t->right;
-        count++;
-    }
-    return count;
+size_t Evaluator::countSubExpressions(ASTPtr t) {
+  size_t count = 0;
+  while (t != NULL) {
+    t = t->right;
+    count++;
+  }
+  return count;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

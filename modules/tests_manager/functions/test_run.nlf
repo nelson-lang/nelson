@@ -37,7 +37,7 @@ function status = test_run(varargin)
     modules_list = getmodules();
   else
     param1 = varargin{1};
-    if size(param1) == [0 0] && (strcmp(class(param1), 'double') == true)
+    if isequal(size(param1), [0 0]) && (strcmp(class(param1), 'double') == true)
       modules_list = getmodules();
     else
       if ischar(param1)
