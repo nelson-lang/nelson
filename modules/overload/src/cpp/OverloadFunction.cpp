@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/filesystem.hpp>
 #include "OverloadFunction.hpp"
 #include "ClassName.hpp"
 //=============================================================================
@@ -24,11 +25,24 @@ ArrayOfVector
 OverloadFunction(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool& bSuccess)
 {
     std::string functionName = eval->getCurrentFunctionName();
-    if (functionName.compare("") != 0) {
+    bool bIsFile;
+    try {
+        bIsFile = boost::filesystem::exists(functionName)
+            && !boost::filesystem::is_directory(functionName);
+    } catch (boost::filesystem::filesystem_error) {
+        bIsFile = false;
+    }
+	if (functionName.compare("") != 0) {
         if (eval->getOverloadState()) {
             Context* context = eval->getContext();
             FunctionDef* funcDef = nullptr;
-            std::string OverloadName = ClassName(argIn[0]) + "_" + functionName;
+            std::string OverloadName;
+            if (bIsFile) {
+                boost::filesystem::path p(functionName);
+                OverloadName = p.stem().string();
+            } else {
+                OverloadName = ClassName(argIn[0]) + "_" + functionName;
+            }
             if (context->lookupFunction(OverloadName, funcDef)) {
                 if ((funcDef->type() == NLS_BUILT_IN_FUNCTION)
                     || (funcDef->type() == NLS_MACRO_FUNCTION)) {

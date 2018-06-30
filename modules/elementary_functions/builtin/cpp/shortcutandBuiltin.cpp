@@ -47,8 +47,9 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::shortcutandBuiltin(
         retval.push_back(ArrayOf::logicalConstructor(a && b));
       }
     } else {
-      Error(eval, _W("Operands to && operator must be convertible to logical "
-                     "scalar values."));
+        std::wstring msg
+            = _W("Operands to && operator must be convertible to logical scalar values.");
+        Error(eval, msg);
     }
   }
   return retval;
