@@ -76,7 +76,7 @@ function status = test_run(varargin)
   
   if (nargin > 1)
     param2 = varargin{2};
-    if size(param2) == [0 0] && (strcmp(class(param2), 'double') == true)
+    if isequal(size(param2),[0 0]) && (strcmp(class(param2), 'double') == true)
       options = 'all';
     else
       if ischar(param2)
@@ -101,7 +101,7 @@ function status = test_run(varargin)
   if (nargin > 2)
     param3 = varargin{3};
     if ischar(param3)
-      if length(param3) == size(param3, 2) && length(param3) > 2
+      if isequal(length(param3), size(param3, 2)) && length(param3) > 2
         result_outputfile = param3;
       end
     end
