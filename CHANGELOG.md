@@ -1,6 +1,8 @@
 Features:
 ---------
 
+  * &, |, &&, || operators reworked (Compatiblity Array Sizes increased).
+  
   * havecompiler uses a persistent variable to speedup result.
 
 ## 0.2.6 (2018-06-26)

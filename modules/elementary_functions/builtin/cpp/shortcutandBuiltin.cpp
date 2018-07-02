@@ -48,7 +48,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::shortcutandBuiltin(
       }
     } else {
         std::wstring msg
-            = _W("Operands to && operator must be convertible to logical scalar values.");
+            = _W("Operand to && operator must be convertible to logical scalar values.");
         Error(eval, msg);
     }
   }

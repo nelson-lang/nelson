@@ -388,7 +388,7 @@ ArrayOf Evaluator::shortCutOrOperator(ASTPtr t) {
         return ArrayOf::logicalConstructor(a || b);
       }
     } else {
-      throw Exception(_W("Operands to || operator must be convertible to logical scalar values."));
+      throw Exception(_W("Operand to || operator must be convertible to logical scalar values."));
     }
   }
   popID();
@@ -414,7 +414,7 @@ ArrayOf Evaluator::shortCutAndOperator(ASTPtr t) {
         return ArrayOf::logicalConstructor(a && b);
       }
     } else {
-      throw Exception(_W("Operands to && operator must be convertible to logical scalar values."));
+      throw Exception(_W("Operand to && operator must be convertible to logical scalar values."));
     }
   }
   popID();
