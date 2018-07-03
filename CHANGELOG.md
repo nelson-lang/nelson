@@ -1,6 +1,8 @@
 Features:
 ---------
 
+  * [#142](http://github.com/Nelson-numerical-software/nelson/issues/142): clear('functionName') clears all persistent variables of functionName function.
+
   * &, |, &&, || operators reworked (Compatiblity Array Sizes increased).
   
   * havecompiler uses a persistent variable to speedup result.
