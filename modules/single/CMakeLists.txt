@@ -30,6 +30,7 @@ ${Boost_INCLUDE_DIRS}
 	${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
+	${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 )
 #==============================================================================	
@@ -51,6 +52,7 @@ nlsInterpreter
 nlsTypes
 nlsI18n
 nlsString
+nlsApi_nelson
 nlsElementary_functions
 )
 #==============================================================================	

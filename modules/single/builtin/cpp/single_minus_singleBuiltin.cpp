@@ -18,7 +18,6 @@
 //=============================================================================
 #include "single_minus_singleBuiltin.hpp"
 #include "Error.hpp"
-#include "MatrixCheck.hpp"
 #include "MinusSingle.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -32,9 +31,8 @@ Nelson::SingleGateway::single_minus_singleBuiltin(
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    VectorCheck(A, B, "-");
     if (!A.isSingleType() || !B.isSingleType()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SINGLE_EXPECTED);
+        Error(eval, ERROR_WRONG_ARGUMENTS_TYPE_SINGLE_EXPECTED);
     }
     if (A.isSparse() || B.isSparse()) {
         Error(eval, ERROR_WRONG_ARGUMENTS_SIZE_FULL_MATRIX_EXPECTED);

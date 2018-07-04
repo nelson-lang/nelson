@@ -18,7 +18,6 @@
 //=============================================================================
 #include "single_plus_singleBuiltin.hpp"
 #include "Error.hpp"
-#include "MatrixCheck.hpp"
 #include "PlusSingle.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -32,9 +31,6 @@ Nelson::SingleGateway::single_plus_singleBuiltin(
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar())) {
-        Error(eval, _W("Size mismatch on arguments to arithmetic operator") + L" " + L"+");
-    }
     if (!A.isSingleType() || !B.isSingleType()) {
         Error(eval, ERROR_WRONG_ARGUMENTS_TYPE_SINGLE_EXPECTED);
     }

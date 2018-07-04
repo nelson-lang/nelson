@@ -17,160 +17,362 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "PlusDouble.hpp"
+#include "MatrixCheck.hpp"
 #include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf
-double_addition(ArrayOf a, ArrayOf b)
-{
-    Dimensions Cdim;
-    if (a.isEmpty()) {
-        Dimensions dimA = a.getDimensions();
-        size_t mA = dimA.getRows();
-        size_t nA = dimA.getColumns();
-        if (mA == nA) {
-            if (b.isEmpty()) {
-                Dimensions dimB = b.getDimensions();
-                size_t mB = dimB.getRows();
-                size_t nB = dimB.getColumns();
-                if ((mB == mA) && (nA == nB)) {
-                    return ArrayOf(a);
-                } else {
-                    throw Exception(_W("using operator '+' \n Matrix dimensions must agree."));
-                }
-            }
-            if (b.isScalar()) {
-                // [] + X returns []
-                return ArrayOf(a);
-            } else {
-                throw Exception(_W("using operator '+' \n Matrix dimensions must agree."));
-            }
-        }
-    }
-    if (a.isScalar()) {
-        Cdim = b.getDimensions();
-    } else {
-        Cdim = a.getDimensions();
-    }
-    indexType Clen = Cdim.getElementCount();
-    void* Cp = new_with_exception<double>(Clen);
-    size_t mC = Cdim.getRows();
-    size_t nC = Cdim.getColumns();
-    Eigen::Map<Eigen::MatrixXd> matC((double*)Cp, mC, nC);
-    Dimensions dimA = a.getDimensions();
-    size_t mA = dimA.getRows();
-    size_t nA = dimA.getColumns();
-    Dimensions dimB = b.getDimensions();
-    size_t mB = dimB.getRows();
-    size_t nB = dimB.getColumns();
-    if (a.isScalar()) {
-        Eigen::Map<Eigen::MatrixXd> matB((double*)b.getDataPointer(), mB, nB);
-        matC = a.getContentAsDoubleScalar() + matB.array();
-    } else if (b.isScalar()) {
-        Eigen::Map<Eigen::MatrixXd> matA((double*)a.getDataPointer(), mA, nA);
-        matC = matA.array() + b.getContentAsDoubleScalar();
-    } else {
-        Eigen::Map<Eigen::MatrixXd> matA((double*)a.getDataPointer(), mA, nA);
-        Eigen::Map<Eigen::MatrixXd> matB((double*)b.getDataPointer(), mB, nB);
-        matC = matA + matB;
-    }
-    return ArrayOf(NLS_DOUBLE, Cdim, Cp, false);
+static ArrayOf double_matrix_matrix_addition(const ArrayOf &a,
+                                             const ArrayOf &b) {
+  Dimensions dimsC = a.getDimensions();
+  indexType Clen = dimsC.getElementCount();
+  void *Cp = new_with_exception<double>(Clen, false);
+  Eigen::Map<Eigen::MatrixXd> matC((double *)Cp, 1, Clen);
+  Eigen::Map<Eigen::MatrixXd> matA((double *)a.getDataPointer(), 1, Clen);
+  Eigen::Map<Eigen::MatrixXd> matB((double *)b.getDataPointer(), 1, Clen);
+  matC = matA + matB;
+  return ArrayOf(NLS_DOUBLE, dimsC, Cp, false);
 }
 //=============================================================================
-ArrayOf
-dcomplex_addition(ArrayOf a, ArrayOf b)
-{
-    if (a.isEmpty()) {
-        Dimensions dimA = a.getDimensions();
-        size_t mA = dimA.getRows();
-        size_t nA = dimA.getColumns();
-        if (mA == nA) {
-            if (b.isEmpty()) {
-                Dimensions dimB = b.getDimensions();
-                size_t mB = dimB.getRows();
-                size_t nB = dimB.getColumns();
-                if ((mB == mA) && (nA == nB)) {
-                    return ArrayOf(a);
-                } else {
-                    throw Exception(_W("using operator '+' \n Matrix dimensions must agree."));
-                }
-            }
-            if (b.isScalar()) {
-                // [] + X returns []
-                return ArrayOf(a);
-            } else {
-                throw Exception(L"using operator '+' \n Matrix dimensions must agree.");
-            }
-        }
-    }
-    a.promoteType(NLS_DCOMPLEX);
-    b.promoteType(NLS_DCOMPLEX);
-    Dimensions Cdim;
-    if (a.isScalar()) {
-        Cdim = b.getDimensions();
-    } else {
-        Cdim = a.getDimensions();
-    }
-    indexType Clen = Cdim.getElementCount();
-    void* Cp = new_with_exception<double>(Clen * 2);
-    doublecomplex* Cz = reinterpret_cast<doublecomplex*>(Cp);
-    size_t mC = Cdim.getRows();
-    size_t nC = Cdim.getColumns();
-    Eigen::Map<Eigen::MatrixXcd> matC(Cz, mC, nC);
-    Dimensions dimA = a.getDimensions();
-    size_t mA = dimA.getRows();
-    size_t nA = dimA.getColumns();
-    Dimensions dimB = b.getDimensions();
-    size_t mB = dimB.getRows();
-    size_t nB = dimB.getColumns();
-    if (a.isScalar()) {
-        double* da = (double*)a.getDataPointer();
-        doublecomplex* Az = reinterpret_cast<doublecomplex*>(da);
-        if (b.getDataClass() == NLS_DCOMPLEX) {
-            double* db = (double*)b.getDataPointer();
-            doublecomplex* Bz = reinterpret_cast<doublecomplex*>(db);
-            Eigen::Map<Eigen::MatrixXcd> matB(Bz, mB, nB);
-            matC = Az[0] + matB.array();
-        } else {
-            double* Bz = (double*)b.getDataPointer();
-            Eigen::Map<Eigen::MatrixXd> matB(Bz, mB, nB);
-            matC = Az[0] + matB.cast<doublecomplex>().array();
-        }
-    } else if (b.isScalar()) {
-        doublecomplex* Bz = reinterpret_cast<doublecomplex*>((double*)b.getDataPointer());
-        if (a.getDataClass() == NLS_DCOMPLEX) {
-            doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)a.getDataPointer());
-            Eigen::Map<Eigen::MatrixXcd> matA(Az, mA, nA);
-            matC = matA.array() + Bz[0];
-        } else {
-            double* Az = (double*)a.getDataPointer();
-            Eigen::Map<Eigen::MatrixXd> matA(Az, mA, nA);
-            matC = matA.cast<doublecomplex>().array() + Bz[0];
-        }
-    } else {
-        doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)a.getDataPointer());
-        Eigen::Map<Eigen::MatrixXcd> matA(Az, mA, nA);
-        doublecomplex* Bz = reinterpret_cast<doublecomplex*>((double*)b.getDataPointer());
-        Eigen::Map<Eigen::MatrixXcd> matB(Bz, mB, nB);
-        matC = matA + matB;
-    }
-    ArrayOf res = ArrayOf(NLS_DCOMPLEX, Cdim, Cp, false);
-    if (res.allReal()) {
-        res.promoteType(NLS_DOUBLE);
-    }
-    return res;
+static ArrayOf doublecomplex_matrix_matrix_addition(const ArrayOf &a,
+                                                    const ArrayOf &b) {
+  Dimensions dimsC = a.getDimensions();
+  indexType Clen = dimsC.getElementCount();
+  void *Cp = new_with_exception<double>(Clen * 2, false);
+  doublecomplex *Cz = reinterpret_cast<doublecomplex *>(Cp);
+  Eigen::Map<Eigen::MatrixXcd> matC(Cz, 1, Clen);
+  doublecomplex *Az =
+      reinterpret_cast<doublecomplex *>((double *)a.getDataPointer());
+  Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, Clen);
+  doublecomplex *Bz =
+      reinterpret_cast<doublecomplex *>((double *)b.getDataPointer());
+  Eigen::Map<Eigen::MatrixXcd> matB(Bz, 1, Clen);
+  matC = matA + matB;
+  return ArrayOf(NLS_DCOMPLEX, dimsC, Cp, false);
 }
 //=============================================================================
-ArrayOf
-double_plus_double(ArrayOf a, ArrayOf b)
-{
-    if (a.isComplex() || b.isComplex()) {
-        return dcomplex_addition(a, b);
+static ArrayOf double_scalar_matrix_addition(ArrayOf &a, ArrayOf &b) {
+  Dimensions dimsC = b.getDimensions();
+  indexType Clen = dimsC.getElementCount();
+  void *Cp = new_with_exception<double>(Clen, false);
+  Eigen::Map<Eigen::MatrixXd> matC((double *)Cp, 1, Clen);
+  Eigen::Map<Eigen::MatrixXd> matB((double *)b.getDataPointer(), 1, Clen);
+  matC = a.getContentAsDoubleScalar() + matB.array();
+  return ArrayOf(NLS_DOUBLE, dimsC, Cp, false);
+}
+//=============================================================================
+static ArrayOf doublecomplex_scalar_matrix_addition(ArrayOf &a, ArrayOf &b) {
+  Dimensions dimsC = b.getDimensions();
+  indexType Clen = dimsC.getElementCount();
+  void *Cp = new_with_exception<double>(Clen * 2, false);
+  double *da = (double *)a.getDataPointer();
+  doublecomplex *Az = reinterpret_cast<doublecomplex *>(da);
+  doublecomplex *Cz = reinterpret_cast<doublecomplex *>(Cp);
+  Eigen::Map<Eigen::MatrixXcd> matC(Cz, 1, Clen);
+  doublecomplex *Bz =
+      reinterpret_cast<doublecomplex *>((double *)b.getDataPointer());
+  Eigen::Map<Eigen::MatrixXcd> matB(Bz, 1, Clen);
+  matC = Az[0] + matB.array();
+  return ArrayOf(NLS_DCOMPLEX, dimsC, Cp, false);
+}
+//=============================================================================
+static void double_vector_addition(double *C, const double *A, indexType NA,
+                                   const double *B, indexType NB) {
+  indexType m = 0;
+  for (indexType i = 0; i < NA; i++) {
+    for (indexType j = 0; j < NB; j++) {
+      C[m] = A[i] + B[j];
+      m++;
     }
-    return double_addition(a, b);
+  }
+}
+//=============================================================================
+static void doublecomplex_vector_addition(double *C, double *A, indexType NA,
+                                          double *B, indexType NB) {
+  indexType m = 0;
+  doublecomplex *Az = reinterpret_cast<doublecomplex *>(A);
+  doublecomplex *Bz = reinterpret_cast<doublecomplex *>(B);
+  doublecomplex *Cz = reinterpret_cast<doublecomplex *>(C);
+  for (indexType i = 0; i < NA; i++) {
+    for (indexType j = 0; j < NB; j++) {
+      Cz[m] = Az[i] + Bz[j];
+      m++;
+    }
+  }
+}
+//=============================================================================
+static ArrayOf double_vector_matrix_addition(const ArrayOf &a,
+                                             const ArrayOf &b) {
+  const double *ptrA = (const double *)a.getDataPointer();
+  const double *ptrB = (const double *)b.getDataPointer();
+  indexType q = 0;
+  Dimensions dimsC = b.getDimensions();
+  indexType Clen = dimsC.getElementCount();
+  void *Cp = new_with_exception<double>(Clen, false);
+  double *C = (double *)Cp;
+  for (indexType i = 0; i < dimsC.getRows(); i++) {
+    for (indexType j = 0; j < dimsC.getColumns(); j++) {
+      indexType m = i + j * a.getDimensions().getRows();
+      C[m] = ptrB[m] + ptrA[q];
+    }
+    q++;
+  }
+  return ArrayOf(NLS_DOUBLE, dimsC, Cp, false);
+}
+//=============================================================================
+static ArrayOf doublecomplex_vector_matrix_addition(const ArrayOf &a,
+                                                    const ArrayOf &b) {
+  Dimensions dimsC = b.getDimensions();
+  indexType q = 0;
+  indexType Clen = dimsC.getElementCount();
+  double *ptrA = (double *)a.getDataPointer();
+  double *ptrB = (double *)b.getDataPointer();
+  void *Cp = new_with_exception<double>(Clen * 2, false);
+  double *C = (double *)Cp;
+  doublecomplex *Az = reinterpret_cast<doublecomplex *>(ptrA);
+  doublecomplex *Bz = reinterpret_cast<doublecomplex *>(ptrB);
+  doublecomplex *Cz = reinterpret_cast<doublecomplex *>(C);
+  for (indexType i = 0; i < dimsC.getRows(); i++) {
+    for (indexType j = 0; j < dimsC.getColumns(); j++) {
+      indexType m = i + j * a.getDimensions().getRows();
+      Cz[m] = Bz[m] + Az[q];
+    }
+    q++;
+  }
+  return ArrayOf(NLS_DCOMPLEX, dimsC, Cp, false);
+}
+//=============================================================================
+static ArrayOf double_vector_column_addition(const ArrayOf &a,
+                                             const ArrayOf &b) {
+  const double *ptrA = (const double *)a.getDataPointer();
+  const double *ptrB = (const double *)b.getDataPointer();
+  Dimensions dimsC = b.getDimensions();
+  indexType Clen = dimsC.getElementCount();
+  void *Cp = new_with_exception<double>(Clen, false);
+  double *C = (double *)Cp;
+  for (indexType i = 0; i < dimsC.getRows(); i++) {
+    for (indexType j = 0; j < dimsC.getColumns(); j++) {
+      indexType m = i + j * b.getDimensions().getRows();
+      C[m] = ptrB[m] + ptrA[j];
+    }
+  }
+  return ArrayOf(NLS_DOUBLE, dimsC, Cp, false);
+}
+//=============================================================================
+static ArrayOf doublecomplex_vector_column_addition(const ArrayOf &a,
+                                                    const ArrayOf &b) {
+  indexType q = 0;
+  Dimensions dimsC = b.getDimensions();
+  indexType Clen = dimsC.getElementCount();
+  double *ptrA = (double *)a.getDataPointer();
+  double *ptrB = (double *)b.getDataPointer();
+  void *Cp = new_with_exception<double>(Clen * 2, false);
+  double *C = (double *)Cp;
+  doublecomplex *Az = reinterpret_cast<doublecomplex *>(ptrA);
+  doublecomplex *Bz = reinterpret_cast<doublecomplex *>(ptrB);
+  doublecomplex *Cz = reinterpret_cast<doublecomplex *>(C);
+  for (indexType i = 0; i < dimsC.getRows(); i++) {
+    for (indexType j = 0; j < dimsC.getColumns(); j++) {
+      indexType m = i + j * b.getDimensions().getRows();
+      Cz[m] = Bz[m] + Az[j];
+    }
+  }
+  return ArrayOf(NLS_DCOMPLEX, dimsC, Cp, false);
 }
 //=============================================================================
 
+ArrayOf double_addition(ArrayOf a, ArrayOf b) {
+  void *Cp = nullptr;
+  if (a.isScalar() && b.isScalar()) {
+    double res = (a.getContentAsDoubleScalar() + b.getContentAsDoubleScalar());
+    return ArrayOf::doubleConstructor(res);
+  }
+  Dimensions dimsA = a.getDimensions();
+  Dimensions dimsB = b.getDimensions();
+  Dimensions dimsC;
+  if (a.isEmpty() || b.isEmpty()) {
+    if (a.isScalar() || b.isScalar()) {
+      if (a.isScalar()) {
+        return ArrayOf(b);
+      } else {
+        return ArrayOf(a);
+      }
+    } else {
+      if (!(SameSizeCheck(dimsA, dimsB))) {
+        throw Exception(
+            _W("Size mismatch on arguments to arithmetic operator ") + L"+");
+      }
+      return ArrayOf(b);
+    }
+  }
+  if (SameSizeCheck(dimsA, dimsB)) {
+    return double_matrix_matrix_addition(a, b);
+  } else {
+    if (a.isScalar() || b.isScalar()) {
+      if (a.isScalar()) {
+        return double_scalar_matrix_addition(a, b);
+      } else {
+        // b.isScalar()
+        return double_scalar_matrix_addition(b, a);
+      }
+    } else {
+      if (a.isVector() || b.isVector()) {
+        if (a.isRowVector() && b.isColumnVector()) {
+          dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
+                             std::max(dimsA.getMax(), dimsB.getMax()));
+          indexType Clen = dimsC.getElementCount();
+          Cp = new_with_exception<double>(Clen, false);
+          double_vector_addition(
+              (double *)Cp, (const double *)a.getDataPointer(),
+              dimsA.getElementCount(), (const double *)b.getDataPointer(),
+              dimsB.getElementCount());
+        } else if (a.isColumnVector() && b.isRowVector()) {
+          dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
+                             std::max(dimsA.getMax(), dimsB.getMax()));
+          indexType Clen = dimsC.getElementCount();
+          Cp = new_with_exception<double>(Clen, false);
+          double_vector_addition(
+              (double *)Cp, (const double *)b.getDataPointer(),
+              dimsB.getElementCount(), (const double *)a.getDataPointer(),
+              dimsA.getElementCount());
+        } else if ((a.isRowVector() && b.isRowVector()) ||
+                   (a.isColumnVector() && b.isColumnVector())) {
+          throw Exception(
+              _W("Size mismatch on arguments to arithmetic operator ") + L"+");
+        } else {
+          const double *ptrA = (const double *)a.getDataPointer();
+          const double *ptrB = (const double *)b.getDataPointer();
+
+          if (dimsA[0] == dimsB[0]) {
+            if (a.isVector()) {
+              return double_vector_matrix_addition(a, b);
+            } else {
+              return double_vector_matrix_addition(b, a);
+            }
+          } else if (dimsA[1] == dimsB[1]) {
+            if (a.isVector()) {
+              return double_vector_column_addition(a, b);
+            } else {
+              return double_vector_column_addition(b, a);
+            }
+          } else {
+            throw Exception(
+                _W("Size mismatch on arguments to arithmetic operator ") +
+                L"+");
+          }
+        }
+      } else {
+        throw Exception(
+            _W("Size mismatch on arguments to arithmetic operator ") + L"+");
+      }
+    }
+  }
+  return ArrayOf(NLS_DOUBLE, dimsC, Cp, false);
 }
+//=============================================================================
+ArrayOf dcomplex_addition(ArrayOf a, ArrayOf b) {
+  a.promoteType(NLS_DCOMPLEX);
+  b.promoteType(NLS_DCOMPLEX);
+  void *Cp = nullptr;
+  if (a.isScalar() && b.isScalar()) {
+    doublecomplex ca = a.getContentAsDoubleComplexScalar();
+    doublecomplex cb = b.getContentAsDoubleComplexScalar();
+    doublecomplex res = ca + cb;
+    return ArrayOf::dcomplexConstructor(res.real(), res.imag());
+  }
+  Dimensions dimsA = a.getDimensions();
+  Dimensions dimsB = b.getDimensions();
+  Dimensions dimsC;
+  if (a.isEmpty() || b.isEmpty()) {
+    if (a.isScalar() || b.isScalar()) {
+      if (a.isScalar()) {
+        return ArrayOf(b);
+      } else {
+        return ArrayOf(a);
+      }
+    } else {
+      if (!(SameSizeCheck(dimsA, dimsB))) {
+        throw Exception(
+            _W("Size mismatch on arguments to arithmetic operator ") + L"+");
+      }
+      return ArrayOf(b);
+    }
+  }
+  if (SameSizeCheck(dimsA, dimsB)) {
+    return doublecomplex_matrix_matrix_addition(a, b);
+  } else {
+    if (a.isScalar() || b.isScalar()) {
+      if (a.isScalar()) {
+        return doublecomplex_scalar_matrix_addition(a, b);
+      } else {
+        // b.isScalar()
+        return doublecomplex_scalar_matrix_addition(b, a);
+      }
+    } else {
+      if (a.isVector() || b.isVector()) {
+        if (a.isRowVector() && b.isColumnVector()) {
+          dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
+                             std::max(dimsA.getMax(), dimsB.getMax()));
+          indexType Clen = dimsC.getElementCount();
+          Cp = new_with_exception<double>(Clen * 2, false);
+          doublecomplex_vector_addition(
+              (double *)Cp, (double *)a.getDataPointer(),
+              dimsA.getElementCount(), (double *)b.getDataPointer(),
+              dimsB.getElementCount());
+        } else if (a.isColumnVector() && b.isRowVector()) {
+          dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
+                             std::max(dimsA.getMax(), dimsB.getMax()));
+          indexType Clen = dimsC.getElementCount();
+          Cp = new_with_exception<double>(Clen * 2, false);
+          doublecomplex_vector_addition(
+              (double *)Cp, (double *)b.getDataPointer(),
+              dimsB.getElementCount(), (double *)a.getDataPointer(),
+              dimsA.getElementCount());
+        } else if ((a.isRowVector() && b.isRowVector()) ||
+                   (a.isColumnVector() && b.isColumnVector())) {
+          throw Exception(
+              _W("Size mismatch on arguments to arithmetic operator ") + L"+");
+        } else {
+          double *ptrA = (double *)a.getDataPointer();
+          double *ptrB = (double *)b.getDataPointer();
+
+          if (dimsA[0] == dimsB[0]) {
+            if (a.isVector()) {
+              return doublecomplex_vector_matrix_addition(a, b);
+            } else {
+              return doublecomplex_vector_matrix_addition(b, a);
+            }
+          } else if (dimsA[1] == dimsB[1]) {
+            if (a.isVector()) {
+              return doublecomplex_vector_column_addition(a, b);
+            } else {
+              return doublecomplex_vector_column_addition(b, a);
+            }
+          } else {
+            throw Exception(
+                _W("Size mismatch on arguments to arithmetic operator ") +
+                L"+");
+          }
+        }
+      } else {
+        throw Exception(
+            _W("Size mismatch on arguments to arithmetic operator ") + L"+");
+      }
+    }
+  }
+  return ArrayOf(NLS_DCOMPLEX, dimsC, Cp, false);
+}
+//=============================================================================
+ArrayOf double_plus_double(ArrayOf a, ArrayOf b) {
+  if (a.isComplex() || b.isComplex()) {
+    ArrayOf res = dcomplex_addition(a, b);
+      if (res.allReal()) {
+          res.promoteType(NLS_DOUBLE);
+      }
+      return res;
+  }
+  return double_addition(a, b);
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================
