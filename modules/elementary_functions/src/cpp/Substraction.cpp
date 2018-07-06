@@ -16,79 +16,87 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "MinusSingle.hpp"
+#include "Substraction.hpp"
 #include "MatrixCheck.hpp"
 #include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static ArrayOf single_matrix_matrix_subtraction(const ArrayOf &a,
-                                                const ArrayOf &b) {
+template <class T>
+static ArrayOf matrix_matrix_subtraction(Class classDestination,
+                                         const ArrayOf &a, const ArrayOf &b) {
   Dimensions dimsC = a.getDimensions();
   indexType Clen = dimsC.getElementCount();
-  void *Cp = new_with_exception<single>(Clen, false);
-  Eigen::Map<Eigen::MatrixXf> matC((single *)Cp, 1, Clen);
-  Eigen::Map<Eigen::MatrixXf> matA((single *)a.getDataPointer(), 1, Clen);
-  Eigen::Map<Eigen::MatrixXf> matB((single *)b.getDataPointer(), 1, Clen);
+  void *Cp = new_with_exception<T>(Clen, false);
+  Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
+  Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
+      (T*)a.getDataPointer(), 1, Clen);
+  Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
+      (T*)b.getDataPointer(), 1, Clen);
   matC = matA - matB;
-  return ArrayOf(NLS_SINGLE, dimsC, Cp, false);
+  return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
-static ArrayOf singlecomplex_matrix_matrix_subtraction(const ArrayOf &a,
-                                                       const ArrayOf &b) {
+template <class T>
+static ArrayOf complex_matrix_matrix_subtraction(Class classDestination,
+                                                 const ArrayOf &a,
+                                                 const ArrayOf &b) {
   Dimensions dimsC = a.getDimensions();
   indexType Clen = dimsC.getElementCount();
-  void *Cp = new_with_exception<single>(Clen * 2, false);
-  singlecomplex *Cz = reinterpret_cast<singlecomplex *>(Cp);
-  Eigen::Map<Eigen::MatrixXcf> matC(Cz, 1, Clen);
-  singlecomplex *Az =
-      reinterpret_cast<singlecomplex *>((single *)a.getDataPointer());
-  Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, Clen);
-  singlecomplex *Bz =
-      reinterpret_cast<singlecomplex *>((single *)b.getDataPointer());
-  Eigen::Map<Eigen::MatrixXcf> matB(Bz, 1, Clen);
+  void *Cp = new_with_exception<T>(Clen * 2, false);
+  std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+  Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(Cz, 1, Clen);
+  std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)a.getDataPointer());
+  Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az, 1, Clen);
+  std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)b.getDataPointer());
+  Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(Bz, 1, Clen);
   matC = matA - matB;
-  return ArrayOf(NLS_SCOMPLEX, dimsC, Cp, false);
+  return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
-static ArrayOf single_scalar_matrix_subtraction(ArrayOf &a, ArrayOf &b,
-                                                bool reverse = false) {
+template <class T>
+static ArrayOf scalar_matrix_subtraction(Class classDestination, ArrayOf &a,
+                                         ArrayOf &b, bool reverse = false) {
   Dimensions dimsC = b.getDimensions();
   indexType Clen = dimsC.getElementCount();
-  void *Cp = new_with_exception<single>(Clen, false);
-  Eigen::Map<Eigen::MatrixXf> matC((single *)Cp, 1, Clen);
-  Eigen::Map<Eigen::MatrixXf> matB((single *)b.getDataPointer(), 1, Clen);
+  void *Cp = new_with_exception<T>(Clen, false);
+  Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
+  Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
+      (T*)b.getDataPointer(), 1, Clen);
+  T* ptrA = (T*)a.getDataPointer();
   if (reverse) {
-    matC = matB.array() - a.getContentAsSingleScalar();
+      matC = matB.array() - ptrA[0];
   } else {
-    matC = a.getContentAsSingleScalar() - matB.array();
+      matC = ptrA[0] - matB.array();
   }
-  return ArrayOf(NLS_SINGLE, dimsC, Cp, false);
+  return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
-static ArrayOf singlecomplex_scalar_matrix_subtraction(ArrayOf &a, ArrayOf &b,
-                                                       bool reverse = false) {
+template <class T>
+static ArrayOf complex_scalar_matrix_subtraction(Class classDestination,
+                                                 ArrayOf &a, ArrayOf &b,
+                                                 bool reverse = false) {
   Dimensions dimsC = b.getDimensions();
   indexType Clen = dimsC.getElementCount();
-  void *Cp = new_with_exception<single>(Clen * 2, false);
-  single *da = (single *)a.getDataPointer();
-  singlecomplex *Az = reinterpret_cast<singlecomplex *>(da);
-  singlecomplex *Cz = reinterpret_cast<singlecomplex *>(Cp);
-  Eigen::Map<Eigen::MatrixXcf> matC(Cz, 1, Clen);
-  singlecomplex *Bz =
-      reinterpret_cast<singlecomplex *>((single *)b.getDataPointer());
-  Eigen::Map<Eigen::MatrixXcf> matB(Bz, 1, Clen);
+  void *Cp = new_with_exception<T>(Clen * 2, false);
+  T *da = (T *)a.getDataPointer();
+  std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(da);
+  std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+  Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(Cz, 1, Clen);
+  std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)b.getDataPointer());
+  Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(Bz, 1, Clen);
   if (reverse) {
     matC = matB.array() - Az[0];
   } else {
     matC = Az[0] - matB.array();
   }
-  return ArrayOf(NLS_SCOMPLEX, dimsC, Cp, false);
+  return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
-static void single_vector_subtraction(single *C, const single *A, indexType NA,
-                                      const single *B, indexType NB,
-                                      bool reverse = false) {
+template <class T>
+static void vector_subtraction(T *C, const T *A, indexType NA,
+                               const T *B, indexType NB,
+                               bool reverse = false) {
   indexType m = 0;
   if (reverse) {
     for (indexType i = 0; i < NA; i++) {
@@ -107,13 +115,14 @@ static void single_vector_subtraction(single *C, const single *A, indexType NA,
   }
 }
 //=============================================================================
-static void singlecomplex_vector_subtraction(single *C, single *A, indexType NA,
-                                             single *B, indexType NB,
-                                             bool reverse = false) {
+template <class T>
+static void complex_vector_subtraction(T *C, T *A, indexType NA,
+                                       T *B, indexType NB,
+                                       bool reverse = false) {
   indexType m = 0;
-  singlecomplex *Az = reinterpret_cast<singlecomplex *>(A);
-  singlecomplex *Bz = reinterpret_cast<singlecomplex *>(B);
-  singlecomplex *Cz = reinterpret_cast<singlecomplex *>(C);
+    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(A);
+  std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(B);
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(C);
   if (reverse) {
     for (indexType i = 0; i < NA; i++) {
       for (indexType j = 0; j < NB; j++) {
@@ -131,16 +140,17 @@ static void singlecomplex_vector_subtraction(single *C, single *A, indexType NA,
   }
 }
 //=============================================================================
-static ArrayOf single_vector_matrix_subtraction(const ArrayOf &a,
-                                                const ArrayOf &b,
-                                                bool reverse = false) {
-  const single *ptrA = (const single *)a.getDataPointer();
-  const single *ptrB = (const single *)b.getDataPointer();
+template <class T>
+static ArrayOf vector_matrix_subtraction(Class classDestination,
+                                         const ArrayOf &a, const ArrayOf &b,
+                                         bool reverse = false) {
+  const T *ptrA = (const T *)a.getDataPointer();
+  const T *ptrB = (const T *)b.getDataPointer();
   indexType q = 0;
   Dimensions dimsC = b.getDimensions();
   indexType Clen = dimsC.getElementCount();
-  void *Cp = new_with_exception<single>(Clen, false);
-  single *C = (single *)Cp;
+  void *Cp = new_with_exception<T>(Clen, false);
+  T *C = (T *)Cp;
   if (reverse) {
     for (indexType i = 0; i < dimsC.getRows(); i++) {
       for (indexType j = 0; j < dimsC.getColumns(); j++) {
@@ -158,22 +168,23 @@ static ArrayOf single_vector_matrix_subtraction(const ArrayOf &a,
       q++;
     }
   }
-  return ArrayOf(NLS_SINGLE, dimsC, Cp, false);
+  return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
-static ArrayOf singlecomplex_vector_matrix_subtraction(const ArrayOf &a,
-                                                       const ArrayOf &b,
-                                                       bool reverse = false) {
+template <class T>
+static ArrayOf
+complex_vector_matrix_subtraction(Class classDestination, const ArrayOf &a,
+                                  const ArrayOf &b, bool reverse = false) {
   Dimensions dimsC = b.getDimensions();
   indexType q = 0;
   indexType Clen = dimsC.getElementCount();
-  single *ptrA = (single *)a.getDataPointer();
-  single *ptrB = (single *)b.getDataPointer();
-  void *Cp = new_with_exception<single>(Clen * 2, false);
-  single *C = (single *)Cp;
-  singlecomplex *Az = reinterpret_cast<singlecomplex *>(ptrA);
-  singlecomplex *Bz = reinterpret_cast<singlecomplex *>(ptrB);
-  singlecomplex *Cz = reinterpret_cast<singlecomplex *>(C);
+  T *ptrA = (T *)a.getDataPointer();
+  T *ptrB = (T *)b.getDataPointer();
+  void *Cp = new_with_exception<T>(Clen * 2, false);
+  T *C = (T *)Cp;
+  std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
+  std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
+  std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(C);
   if (reverse) {
     for (indexType i = 0; i < dimsC.getRows(); i++) {
       for (indexType j = 0; j < dimsC.getColumns(); j++) {
@@ -191,18 +202,19 @@ static ArrayOf singlecomplex_vector_matrix_subtraction(const ArrayOf &a,
       q++;
     }
   }
-  return ArrayOf(NLS_SCOMPLEX, dimsC, Cp, false);
+  return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
-static ArrayOf single_vector_column_subtraction(const ArrayOf &a,
-                                                const ArrayOf &b,
-                                                bool reverse = false) {
-  const single *ptrA = (const single *)a.getDataPointer();
-  const single *ptrB = (const single *)b.getDataPointer();
+template <class T>
+static ArrayOf vector_column_subtraction(Class classDestination,
+                                         const ArrayOf &a, const ArrayOf &b,
+                                         bool reverse = false) {
+  const T *ptrA = (const T *)a.getDataPointer();
+  const T *ptrB = (const T *)b.getDataPointer();
   Dimensions dimsC = b.getDimensions();
   indexType Clen = dimsC.getElementCount();
-  void *Cp = new_with_exception<single>(Clen, false);
-  single *C = (single *)Cp;
+  void *Cp = new_with_exception<T>(Clen, false);
+  T *C = (T *)Cp;
   if (reverse) {
     for (indexType i = 0; i < dimsC.getRows(); i++) {
       for (indexType j = 0; j < dimsC.getColumns(); j++) {
@@ -218,22 +230,23 @@ static ArrayOf single_vector_column_subtraction(const ArrayOf &a,
       }
     }
   }
-  return ArrayOf(NLS_SINGLE, dimsC, Cp, false);
+  return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
-static ArrayOf singlecomplex_vector_column_subtraction(const ArrayOf &a,
-                                                       const ArrayOf &b,
-                                                       bool reverse = false) {
+template <class T>
+static ArrayOf
+complex_vector_column_subtraction(Class classDestination, const ArrayOf &a,
+                                  const ArrayOf &b, bool reverse = false) {
   indexType q = 0;
   Dimensions dimsC = b.getDimensions();
   indexType Clen = dimsC.getElementCount();
-  single *ptrA = (single *)a.getDataPointer();
-  single *ptrB = (single *)b.getDataPointer();
-  void *Cp = new_with_exception<single>(Clen * 2, false);
-  single *C = (single *)Cp;
-  singlecomplex *Az = reinterpret_cast<singlecomplex *>(ptrA);
-  singlecomplex *Bz = reinterpret_cast<singlecomplex *>(ptrB);
-  singlecomplex *Cz = reinterpret_cast<singlecomplex *>(C);
+  T *ptrA = (T *)a.getDataPointer();
+  T *ptrB = (T *)b.getDataPointer();
+  void *Cp = new_with_exception<T>(Clen * 2, false);
+  T *C = (T *)Cp;
+  std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
+  std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
+  std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(C);
   if (reverse) {
     for (indexType i = 0; i < dimsC.getRows(); i++) {
       for (indexType j = 0; j < dimsC.getColumns(); j++) {
@@ -249,14 +262,21 @@ static ArrayOf singlecomplex_vector_column_subtraction(const ArrayOf &a,
       }
     }
   }
-  return ArrayOf(NLS_SCOMPLEX, dimsC, Cp, false);
+  return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
-ArrayOf single_subtraction(ArrayOf a, ArrayOf b) {
+template <class T>
+ArrayOf subtraction(Class classDestination, ArrayOf a, ArrayOf b) {
   void *Cp = nullptr;
   if (a.isScalar() && b.isScalar()) {
-    single res = (a.getContentAsSingleScalar() - b.getContentAsSingleScalar());
-    return ArrayOf::singleConstructor(res);
+      T* ptrA = (T*)a.getDataPointer();
+      T* ptrB = (T*)b.getDataPointer();
+      T res = ptrA[0] - ptrB[0];
+      if (classDestination == NLS_DOUBLE) {
+          return ArrayOf::doubleConstructor((double)res);
+      } else {
+          return ArrayOf::singleConstructor((single)res);
+      }
   }
   Dimensions dimsA = a.getDimensions();
   Dimensions dimsB = b.getDimensions();
@@ -277,14 +297,14 @@ ArrayOf single_subtraction(ArrayOf a, ArrayOf b) {
     }
   }
   if (SameSizeCheck(dimsA, dimsB)) {
-    return single_matrix_matrix_subtraction(a, b);
+    return matrix_matrix_subtraction<T>(classDestination, a, b);
   } else {
     if (a.isScalar() || b.isScalar()) {
       if (a.isScalar()) {
-        return single_scalar_matrix_subtraction(a, b);
+            return scalar_matrix_subtraction<T>(classDestination, a, b);
       } else {
         // b.isScalar()
-        return single_scalar_matrix_subtraction(b, a, true);
+          return scalar_matrix_subtraction<T>(classDestination, b, a, true);
       }
     } else {
       if (a.isVector() || b.isVector()) {
@@ -292,39 +312,39 @@ ArrayOf single_subtraction(ArrayOf a, ArrayOf b) {
           dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
                              std::max(dimsA.getMax(), dimsB.getMax()));
           indexType Clen = dimsC.getElementCount();
-          Cp = new_with_exception<single>(Clen, false);
-          single_vector_subtraction(
-              (single *)Cp, (const single *)a.getDataPointer(),
-              dimsA.getElementCount(), (const single *)b.getDataPointer(),
+          Cp = new_with_exception<T>(Clen, false);
+          vector_subtraction<T>(
+              (T *)Cp, (const T *)a.getDataPointer(),
+              dimsA.getElementCount(), (const T *)b.getDataPointer(),
               dimsB.getElementCount());
         } else if (a.isColumnVector() && b.isRowVector()) {
           dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
                              std::max(dimsA.getMax(), dimsB.getMax()));
           indexType Clen = dimsC.getElementCount();
-          Cp = new_with_exception<single>(Clen, false);
-          single_vector_subtraction(
-              (single *)Cp, (const single *)b.getDataPointer(),
-              dimsB.getElementCount(), (const single *)a.getDataPointer(),
+          Cp = new_with_exception<T>(Clen, false);
+          vector_subtraction(
+              (T *)Cp, (const T *)b.getDataPointer(),
+              dimsB.getElementCount(), (const T *)a.getDataPointer(),
               dimsA.getElementCount(), true);
         } else if ((a.isRowVector() && b.isRowVector()) ||
                    (a.isColumnVector() && b.isColumnVector())) {
           throw Exception(
               _W("Size mismatch on arguments to arithmetic operator ") + L"-");
         } else {
-          const single *ptrA = (const single *)a.getDataPointer();
-          const single *ptrB = (const single *)b.getDataPointer();
+          const T *ptrA = (const T *)a.getDataPointer();
+          const T *ptrB = (const T *)b.getDataPointer();
 
           if (dimsA[0] == dimsB[0]) {
             if (a.isVector()) {
-              return single_vector_matrix_subtraction(a, b);
+              return vector_matrix_subtraction<T>(classDestination, a, b);
             } else {
-              return single_vector_matrix_subtraction(b, a, true);
+                return vector_matrix_subtraction<T>(classDestination, b, a, true);
             }
           } else if (dimsA[1] == dimsB[1]) {
             if (a.isVector()) {
-              return single_vector_column_subtraction(a, b);
+                  return vector_column_subtraction<T>(classDestination, a, b);
             } else {
-              return single_vector_column_subtraction(b, a, true);
+                return vector_column_subtraction<T>(classDestination, b, a, true);
             }
           } else {
             throw Exception(
@@ -338,18 +358,25 @@ ArrayOf single_subtraction(ArrayOf a, ArrayOf b) {
       }
     }
   }
-  return ArrayOf(NLS_SINGLE, dimsC, Cp, false);
+  return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
-ArrayOf scomplex_subtraction(ArrayOf a, ArrayOf b) {
-  a.promoteType(NLS_SCOMPLEX);
-  b.promoteType(NLS_SCOMPLEX);
+template <class T>
+ArrayOf complex_subtraction(Class classDestination, ArrayOf a, ArrayOf b) {
+    a.promoteType(classDestination);
+    b.promoteType(classDestination);
   void *Cp = nullptr;
   if (a.isScalar() && b.isScalar()) {
-    singlecomplex ca = a.getContentAsSingleComplexScalar();
-    singlecomplex cb = b.getContentAsSingleComplexScalar();
-    singlecomplex res = ca - cb;
-    return ArrayOf::complexConstructor(res.real(), res.imag());
+      T* ptrA = (T*)a.getDataPointer();
+      T* ptrB = (T*)b.getDataPointer();
+      std::complex<T> ca(ptrA[0], ptrA[1]);
+      std::complex<T> cb(ptrB[0], ptrB[1]);
+      std::complex<T> res = ca - cb;
+	  if (classDestination == NLS_DCOMPLEX) {
+          return ArrayOf::dcomplexConstructor((double)res.real(), (double)res.imag());
+      } else {
+          return ArrayOf::complexConstructor((single)res.real(), (single)res.imag());
+      }
   }
   Dimensions dimsA = a.getDimensions();
   Dimensions dimsB = b.getDimensions();
@@ -370,14 +397,14 @@ ArrayOf scomplex_subtraction(ArrayOf a, ArrayOf b) {
     }
   }
   if (SameSizeCheck(dimsA, dimsB)) {
-    return singlecomplex_matrix_matrix_subtraction(a, b);
+    return complex_matrix_matrix_subtraction<T>(classDestination, a, b);
   } else {
     if (a.isScalar() || b.isScalar()) {
       if (a.isScalar()) {
-        return singlecomplex_scalar_matrix_subtraction(a, b);
+            return complex_scalar_matrix_subtraction<T>(classDestination, a, b);
       } else {
         // b.isScalar()
-        return singlecomplex_scalar_matrix_subtraction(b, a, true);
+          return complex_scalar_matrix_subtraction<T>(classDestination, b, a, true);
       }
     } else {
       if (a.isVector() || b.isVector()) {
@@ -385,39 +412,39 @@ ArrayOf scomplex_subtraction(ArrayOf a, ArrayOf b) {
           dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
                              std::max(dimsA.getMax(), dimsB.getMax()));
           indexType Clen = dimsC.getElementCount();
-          Cp = new_with_exception<single>(Clen * 2, false);
-          singlecomplex_vector_subtraction(
-              (single *)Cp, (single *)a.getDataPointer(),
-              dimsA.getElementCount(), (single *)b.getDataPointer(),
+          Cp = new_with_exception<T>(Clen * 2, false);
+          complex_vector_subtraction(
+              (T *)Cp, (T *)a.getDataPointer(),
+              dimsA.getElementCount(), (T *)b.getDataPointer(),
               dimsB.getElementCount());
         } else if (a.isColumnVector() && b.isRowVector()) {
           dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
                              std::max(dimsA.getMax(), dimsB.getMax()));
           indexType Clen = dimsC.getElementCount();
-          Cp = new_with_exception<single>(Clen * 2, false);
-          singlecomplex_vector_subtraction(
-              (single *)Cp, (single *)b.getDataPointer(),
-              dimsB.getElementCount(), (single *)a.getDataPointer(),
+          Cp = new_with_exception<T>(Clen * 2, false);
+          complex_vector_subtraction<T>(
+              (T *)Cp, (T *)b.getDataPointer(),
+              dimsB.getElementCount(), (T *)a.getDataPointer(),
               dimsA.getElementCount(), true);
         } else if ((a.isRowVector() && b.isRowVector()) ||
                    (a.isColumnVector() && b.isColumnVector())) {
           throw Exception(
               _W("Size mismatch on arguments to arithmetic operator ") + L"-");
         } else {
-          single *ptrA = (single *)a.getDataPointer();
-          single *ptrB = (single *)b.getDataPointer();
+          T *ptrA = (T *)a.getDataPointer();
+          T *ptrB = (T *)b.getDataPointer();
 
           if (dimsA[0] == dimsB[0]) {
             if (a.isVector()) {
-              return singlecomplex_vector_matrix_subtraction(a, b);
+              return complex_vector_matrix_subtraction<T>(classDestination, a, b);
             } else {
-              return singlecomplex_vector_matrix_subtraction(b, a, true);
+              return complex_vector_matrix_subtraction<T>(classDestination, b, a, true);
             }
           } else if (dimsA[1] == dimsB[1]) {
             if (a.isVector()) {
-              return singlecomplex_vector_column_subtraction(a, b);
+              return complex_vector_column_subtraction<T>(classDestination, a, b);
             } else {
-              return singlecomplex_vector_column_subtraction(b, a, true);
+              return complex_vector_column_subtraction<T>(classDestination, b, a, true);
             }
           } else {
             throw Exception(
@@ -431,18 +458,29 @@ ArrayOf scomplex_subtraction(ArrayOf a, ArrayOf b) {
       }
     }
   }
-  return ArrayOf(NLS_SCOMPLEX, dimsC, Cp, false);
+  return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+ArrayOf double_minus_double(ArrayOf a, ArrayOf b) {
+  if (a.isComplex() || b.isComplex()) {
+    ArrayOf res = complex_subtraction<double>(NLS_DCOMPLEX, a, b);
+    if (res.allReal()) {
+      res.promoteType(NLS_DOUBLE);
+    }
+    return res;
+  }
+  return subtraction<double>(NLS_DOUBLE, a, b);
 }
 //=============================================================================
 ArrayOf single_minus_single(ArrayOf a, ArrayOf b) {
   if (a.isComplex() || b.isComplex()) {
-    ArrayOf res = scomplex_subtraction(a, b);
+    ArrayOf res = complex_subtraction<single>(NLS_SCOMPLEX, a, b);
     if (res.allReal()) {
       res.promoteType(NLS_SINGLE);
     }
     return res;
   }
-  return single_subtraction(a, b);
+  return subtraction<single>(NLS_SINGLE, a, b);
 }
 //=============================================================================
 } // namespace Nelson

@@ -3,7 +3,7 @@ Features:
 
   * [#142](http://github.com/Nelson-numerical-software/nelson/issues/142): clear('functionName') clears all persistent variables of functionName function.
 
-  * addition, substraction reworked (Compatiblity Array Sizes increased).
+  * addition, substraction reworked (Compatiblity Array Sizes increased, code factorized).
 
   * &, |, &&, || operators reworked (Compatiblity Array Sizes increased).
   

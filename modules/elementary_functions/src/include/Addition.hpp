@@ -19,11 +19,13 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsDouble_exports.h"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-NLSDOUBLE_IMPEXP ArrayOf
-double_plus_double(ArrayOf a, ArrayOf b);
-
-}
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf double_plus_double(ArrayOf a, ArrayOf b);
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf single_plus_single(ArrayOf a, ArrayOf b);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

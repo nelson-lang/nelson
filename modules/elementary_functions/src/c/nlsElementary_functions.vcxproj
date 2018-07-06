@@ -175,6 +175,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\AbsoluteValue.cpp" />
+    <ClCompile Include="..\cpp\Addition.cpp" />
     <ClCompile Include="..\cpp\And.cpp" />
     <ClCompile Include="..\cpp\Cast.cpp" />
     <ClCompile Include="..\cpp\ComplexConjugate.cpp" />
@@ -208,12 +209,14 @@
     <ClCompile Include="..\cpp\RealPart.cpp" />
     <ClCompile Include="..\cpp\Remainder.cpp" />
     <ClCompile Include="..\cpp\RightDivide.cpp" />
+    <ClCompile Include="..\cpp\Substraction.cpp" />
     <ClCompile Include="..\cpp\Transpose.cpp" />
     <ClCompile Include="..\cpp\TruncateFunctions.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AbsoluteValue.hpp" />
+    <ClInclude Include="..\include\Addition.hpp" />
     <ClInclude Include="..\include\And.hpp" />
     <ClInclude Include="..\include\Cast.hpp" />
     <ClInclude Include="..\include\ComplexConjugate.hpp" />
@@ -248,6 +251,7 @@
     <ClInclude Include="..\include\RealPart.hpp" />
     <ClInclude Include="..\include\Remainder.hpp" />
     <ClInclude Include="..\include\RightDivide.hpp" />
+    <ClInclude Include="..\include\Substraction.hpp" />
     <ClInclude Include="..\include\Transpose.hpp" />
     <ClInclude Include="..\include\TruncateFunctions.hpp" />
   </ItemGroup>
