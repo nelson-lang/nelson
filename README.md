@@ -1,12 +1,12 @@
-
-         __     _  __
+__     _  __
       /\ \ \___| |/ _\ ___  _ __
      /  \/ / _ | |\ \ / _ \| '_ \
     / /\  |  __| |_\ | (_) | | | |
     \_\ \/ \___|_|\__/\___/|_| |_|
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8865bc705b2d459c839b169e580d0526)](https://www.codacy.com/app/Nelson-numerical-software/nelson?utm_source=github.com&utm_medium=referral&utm_content=Nelson-numerical-software/nelson&utm_campaign=badger)
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/602/badge)](https://bestpractices.coreinfrastructure.org/projects/602) 
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/602/badge)](https://bestpractices.coreinfrastructure.org/projects/602) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FNelson-numerical-software%2Fnelson.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FNelson-numerical-software%2Fnelson?ref=badge_shield)
+
 [![GitHub license](https://img.shields.io/badge/license-GPL2-blue.svg)](https://github.com/Nelson-numerical-software/nelson/blob/master/COPYING.md)
 [![CLA assistant](https://cla-assistant.io/readme/badge/Nelson-numerical-software/nelson)](https://cla-assistant.io/Nelson-numerical-software/nelson)
 [![Open Hub](https://img.shields.io/badge/Open-Hub-blue.svg)](https://www.openhub.net/p/nelson-interpreter)
@@ -98,3 +98,7 @@ these own data types and operations on these data types by using overload.
 Allan CORNET (nelson.numerical.computation@gmail.com)
 
 dedicated to my parents
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FNelson-numerical-software%2Fnelson.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FNelson-numerical-software%2Fnelson?ref=badge_large)
