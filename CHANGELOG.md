@@ -9,6 +9,13 @@ Features:
   
   * havecompiler uses a persistent variable to speedup result.
 
+
+Bug Fixes:
+---------
+
+  * [#145](http://github.com/Nelson-numerical-software/nelson/issues/145): int32(NaN) did not return 0.
+
+
 ## 0.2.6 (2018-06-26)
 
 Features:

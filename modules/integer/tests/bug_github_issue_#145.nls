@@ -1,0 +1,33 @@
+//=============================================================================
+// Copyright (c) 2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+// <-- Issue URL -->
+// https://github.com/Nelson-numerical-software/nelson/issues/145
+// <-- Short Description -->
+// int32(NaN) did not return 0
+//=============================================================================
+assert_isequal(int8(NaN), int8(0));
+assert_isequal(int16(NaN), int16(0));
+assert_isequal(int32(NaN), int32(0));
+assert_isequal(int64(NaN), int64(0));
+assert_isequal(uint8(NaN), uint8(0));
+assert_isequal(uint16(NaN), uint16(0));
+assert_isequal(uint32(NaN), uint32(0));
+assert_isequal(uint64(NaN), uint64(0));
+assert_isequal(double(NaN), NaN);
+assert_istrue(isnan(single(NaN)));
