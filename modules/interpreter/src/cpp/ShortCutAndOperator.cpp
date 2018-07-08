@@ -25,7 +25,8 @@ ArrayOf
 Evaluator::shortCutAndOperator(ArrayOf A, ArrayOf B)
 {
     ArrayOf retval;
-	if (overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B)) {
+	if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))&&
+      !isOverloadAllowed()) {
         retval = OverloadBinaryOperator(this, A, B, "shortcutand");
     } else {
         if (A.isScalar() && B.isScalar()) {

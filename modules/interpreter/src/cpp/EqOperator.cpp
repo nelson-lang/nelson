@@ -32,8 +32,9 @@ ArrayOf Evaluator::eqOperator(ASTPtr t) {
 //=============================================================================
 ArrayOf Evaluator::eqOperator(ArrayOf A, ArrayOf B) {
   ArrayOf res;
-  if (overloadOnBasicTypes || needToOverloadOperator(A) ||
-      needToOverloadOperator(B)) {
+  if ((overloadOnBasicTypes || needToOverloadOperator(A) ||
+       needToOverloadOperator(B)) &&
+      !isOverloadAllowed()) {
     res = OverloadBinaryOperator(this, A, B, "eq");
   } else {
     bool needToOverload;

@@ -529,7 +529,7 @@ Evaluator::expression(ASTPtr t)
             retval = eqOperator(t);
         } break;
         case OP_NEQ: {
-            retval = doBinaryOperatorOverload(t, NotEquals, "ne");
+            retval = neOperator(t);
         } break;
         case OP_DOT_TIMES: {
             retval = OverloadBinaryOperator(
@@ -3937,7 +3937,7 @@ Evaluator::getCLI()
 }
 //=============================================================================
 bool
-Evaluator::getOverloadState()
+Evaluator::isOverloadAllowed()
 {
     return bAllowOverload;
 }

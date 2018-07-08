@@ -24,8 +24,9 @@ namespace Nelson {
 //=============================================================================
 ArrayOf Evaluator::andOperator(ArrayOf A, ArrayOf B) {
   ArrayOf retval;
-  if (overloadOnBasicTypes || needToOverloadOperator(A) ||
-      needToOverloadOperator(B)) {
+  if ((overloadOnBasicTypes || needToOverloadOperator(A) ||
+       needToOverloadOperator(B)) &&
+      !isOverloadAllowed()) {
     retval = OverloadBinaryOperator(this, A, B, "and");
   } else {
     retval = And(A, B);

@@ -16,31 +16,34 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "Or.hpp"
 #include "Evaluator.hpp"
+#include "NotEquals.hpp"
 #include "OverloadBinaryOperator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf Evaluator::orOperator(ArrayOf A, ArrayOf B) {
-  ArrayOf retval;
-  if ((overloadOnBasicTypes || needToOverloadOperator(A) ||
-       needToOverloadOperator(B)) &&
-      !isOverloadAllowed()) {
-    retval = OverloadBinaryOperator(this, A, B, "or");
-  } else {
-    retval = Or(A, B);
-  }
+ArrayOf Evaluator::neOperator(ASTPtr t) {
+  pushID(t->context());
+  ArrayOf retval =
+      this->neOperator(expression(t->down), expression(t->down->right));
+  popID();
   return retval;
 }
 //=============================================================================
-ArrayOf Evaluator::orOperator(ASTPtr t) {
-  pushID(t->context());
-  const ArrayOf A = expression(t->down);
-  const ArrayOf B = expression(t->down->right);
-  ArrayOf retval = orOperator(A, B);
-  popID();
-  return retval;
+ArrayOf Evaluator::neOperator(ArrayOf A, ArrayOf B) {
+  ArrayOf res;
+  if ((overloadOnBasicTypes || needToOverloadOperator(A) ||
+       needToOverloadOperator(B)) &&
+      !isOverloadAllowed()) {
+    res = OverloadBinaryOperator(this, A, B, "ne");
+  } else {
+    bool needToOverload;
+    res = NotEquals(A, B, needToOverload);
+    if (needToOverload) {
+      res = OverloadBinaryOperator(this, A, B, "ne");
+    }
+  }
+  return res;
 }
 //=============================================================================
 } // namespace Nelson

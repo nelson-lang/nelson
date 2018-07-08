@@ -85,30 +85,13 @@ notEqualsComplex(indexType N, logical* C, const T* A, int stride1, const T* B, i
 }
 //=============================================================================
 ArrayOf
-NotEquals(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
+NotEquals(ArrayOf& A, ArrayOf& B, bool& needToOverload)
 {
+    needToOverload = false;
     VectorCheck(A, B, "~=");
-    if (A.isSparse() || B.isSparse()) {
-        if (mustRaiseError) {
-            std::string overload = ClassName(A) + "_ne_" + ClassName(B);
-            throw Exception(_("function") + " " + overload + " " + _("undefined."));
-        } else {
-            bSuccess = false;
-            return ArrayOf();
-        }
-    }
     Class classCommon = FindCommonType(A, B, false);
-    try {
-        A.promoteType(classCommon);
-        B.promoteType(classCommon);
-    } catch (Exception) {
-        if (mustRaiseError) {
-            throw;
-        } else {
-            bSuccess = false;
-            return ArrayOf();
-        }
-    }
+    A.promoteType(classCommon);
+    B.promoteType(classCommon);
     int Astride = 0, Bstride = 0;
     indexType Clen = 0;
     Dimensions Cdim;
@@ -185,16 +168,9 @@ NotEquals(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
             (charType*)B.getDataPointer(), Bstride);
     } break;
     default: {
-        if (mustRaiseError) {
-            std::string overload = ClassName(A) + "_ne_" + ClassName(B);
-            throw Exception(_("function") + " " + overload + " " + _("undefined."));
-        } else {
-            bSuccess = false;
-            return ArrayOf();
-        }
+        needToOverload = true;
     } break;
     }
-    bSuccess = true;
     return ArrayOf(NLS_LOGICAL, Cdim, Cp);
 }
 //=============================================================================

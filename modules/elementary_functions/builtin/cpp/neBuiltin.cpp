@@ -18,7 +18,6 @@
 //=============================================================================
 #include "neBuiltin.hpp"
 #include "Error.hpp"
-#include "NotEquals.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -31,7 +30,7 @@ Nelson::ElementaryFunctionsGateway::neBuiltin(Evaluator* eval, int nLhs, const A
     }
     ArrayOf arg1 = argIn[0];
     ArrayOf arg2 = argIn[1];
-    retval.push_back(eval->doBinaryOperatorOverload(arg1, arg2, NotEquals, "ne"));
+    retval.push_back(eval->neOperator(arg1, arg2));
     return retval;
 }
 //=============================================================================

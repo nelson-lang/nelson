@@ -271,7 +271,7 @@ public:
      * Get current overload state (enabled by default)
      */
     bool
-    getOverloadState();
+    isOverloadAllowed();
     /**
      * disable overload
      */
@@ -818,6 +818,8 @@ public:
     leOperator(ArrayOf A, ArrayOf B);
     ArrayOf
     ltOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    neOperator(ArrayOf A, ArrayOf B);
 
     ArrayOf
     shortCutOrOperator(ArrayOf A, ArrayOf B);
@@ -874,6 +876,8 @@ private:
     leOperator(ASTPtr t);
     ArrayOf
     ltOperator(ASTPtr t);
+    ArrayOf
+    neOperator(ASTPtr t);
 
     bool
     needToOverloadOperator(ArrayOf a);

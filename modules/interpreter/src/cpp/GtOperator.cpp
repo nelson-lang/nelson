@@ -32,8 +32,9 @@ ArrayOf Evaluator::gtOperator(ASTPtr t) {
 //=============================================================================
 ArrayOf Evaluator::gtOperator(ArrayOf A, ArrayOf B) {
   ArrayOf res;
-  if (overloadOnBasicTypes || needToOverloadOperator(A) ||
-      needToOverloadOperator(B)) {
+  if ((overloadOnBasicTypes || needToOverloadOperator(A) ||
+       needToOverloadOperator(B)) &&
+      !isOverloadAllowed()) {
     res = OverloadBinaryOperator(this, A, B, "gt");
   } else {
     bool needToOverload;

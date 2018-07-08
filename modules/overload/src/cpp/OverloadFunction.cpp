@@ -25,7 +25,7 @@ OverloadFunction(Evaluator* eval, int nLhs, const ArrayOfVector& argIn,
     const std::string& functionName, bool& bSuccess)
 {
     if (functionName.compare("") != 0) {
-        if (eval->getOverloadState()) {
+        if (eval->isOverloadAllowed()) {
             Context* context = eval->getContext();
             FunctionDef* funcDef = nullptr;
             std::string OverloadName = ClassName(argIn[0]) + "_" + functionName;

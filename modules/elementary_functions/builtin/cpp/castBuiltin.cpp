@@ -45,7 +45,7 @@ Nelson::ElementaryFunctionsGateway::castBuiltin(
         if (argIn.size() == 2) {
             ArrayOf param2 = argIn[1];
             std::wstring dest = param2.getContentAsWideString();
-            if (eval->getOverloadState()) {
+            if (eval->isOverloadAllowed()) {
                 Context* context = eval->getContext();
                 FunctionDef* funcDef = nullptr;
                 if (context->lookupFunction(dest, funcDef)) {
