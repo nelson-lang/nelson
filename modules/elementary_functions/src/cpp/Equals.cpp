@@ -85,29 +85,12 @@ equalsComplex(indexType N, logical* C, const T* A, int stride1, const T* B, int 
 }
 //=============================================================================
 ArrayOf
-Equals(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
+Equals(ArrayOf& A, ArrayOf& B, bool& needToOverload)
 {
-    if (A.isSparse() || B.isSparse()) {
-        if (mustRaiseError) {
-            std::string overload = ClassName(A) + "_plus_" + ClassName(B);
-            throw Exception(_("function") + " " + overload + " " + _("undefined."));
-        } else {
-            bSuccess = false;
-            return ArrayOf();
-        }
-    }
+    needToOverload = false;
     Class classCommon = FindCommonType(A, B, false);
-    try {
-        A.promoteType(classCommon);
-        B.promoteType(classCommon);
-    } catch (Exception) {
-        if (mustRaiseError) {
-            throw;
-        } else {
-            bSuccess = false;
-            return ArrayOf();
-        }
-    }
+    A.promoteType(classCommon);
+    B.promoteType(classCommon);
     VectorCheck(A, B, "==");
     int Astride = 0, Bstride = 0;
     indexType Clen = 0;
@@ -165,16 +148,16 @@ Equals(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
             (int64*)B.getDataPointer(), Bstride);
     } break;
     case NLS_SINGLE: {
-        equalsReal<float>(Clen, (logical*)Cp, (float*)A.getDataPointer(), Astride,
-            (float*)B.getDataPointer(), Bstride);
+        equalsReal<single>(Clen, (logical*)Cp, (single*)A.getDataPointer(), Astride,
+            (single*)B.getDataPointer(), Bstride);
     } break;
     case NLS_DOUBLE: {
         equalsReal<double>(Clen, (logical*)Cp, (double*)A.getDataPointer(), Astride,
             (double*)B.getDataPointer(), Bstride);
     } break;
     case NLS_SCOMPLEX: {
-        equalsComplex<float>(Clen, (logical*)Cp, (float*)A.getDataPointer(), Astride,
-            (float*)B.getDataPointer(), Bstride);
+        equalsComplex<single>(Clen, (logical*)Cp, (single*)A.getDataPointer(), Astride,
+            (single*)B.getDataPointer(), Bstride);
     } break;
     case NLS_DCOMPLEX: {
         equalsComplex<double>(Clen, (logical*)Cp, (double*)A.getDataPointer(), Astride,
@@ -185,16 +168,9 @@ Equals(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
             (charType*)B.getDataPointer(), Bstride);
     } break;
     default: {
-        if (mustRaiseError) {
-            std::string overload = ClassName(A) + "_eq_" + ClassName(B);
-            throw Exception(_("function") + " " + overload + " " + _("undefined."));
-        } else {
-            bSuccess = false;
-            return ArrayOf();
-        }
+        needToOverload = true;
     } break;
     }
-    bSuccess = true;
     return ArrayOf(NLS_LOGICAL, Cdim, Cp);
 }
 //=============================================================================

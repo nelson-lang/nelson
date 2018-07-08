@@ -221,6 +221,7 @@
     <ClCompile Include="..\cpp\CommandQueue.cpp" />
     <ClCompile Include="..\cpp\Comments.cpp" />
     <ClCompile Include="..\cpp\Context.cpp" />
+    <ClCompile Include="..\cpp\EqOperator.cpp" />
     <ClCompile Include="..\cpp\EvaluateBuiltinCatchRuntimeException.cpp">
       <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Async</ExceptionHandling>
       <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Async</ExceptionHandling>
@@ -233,10 +234,14 @@
     <ClCompile Include="..\cpp\FileWatcher\FileWatcher.cpp" />
     <ClCompile Include="..\cpp\FileWatcher\FileWatcherWin32.cpp" />
     <ClCompile Include="..\cpp\FunctionDef.cpp" />
+    <ClCompile Include="..\cpp\GeOperator.cpp" />
+    <ClCompile Include="..\cpp\GtOperator.cpp" />
+    <ClCompile Include="..\cpp\LeOperator.cpp" />
     <ClCompile Include="..\cpp\LocalFunctionsTable.cpp" />
     <ClCompile Include="..\cpp\GetNelsonMainEvaluatorDynamicFunction.cpp" />
     <ClCompile Include="..\cpp\HorzCatOperator.cpp" />
     <ClCompile Include="..\cpp\Keywords.cpp" />
+    <ClCompile Include="..\cpp\LtOperator.cpp" />
     <ClCompile Include="..\cpp\MacroFunctionDef.cpp" />
     <ClCompile Include="..\cpp\NelsonLexer.cpp" />
     <ClCompile Include="..\cpp\Operators.cpp" />

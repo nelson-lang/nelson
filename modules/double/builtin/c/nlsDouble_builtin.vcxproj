@@ -203,7 +203,6 @@
     <ClCompile Include="..\cpp\double_mtimes_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_times_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
-    <ClCompile Include="..\cpp\ndarraydouble_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarraydouble_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarraydouble_isequalnBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />

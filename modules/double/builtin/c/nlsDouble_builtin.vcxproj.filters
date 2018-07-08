@@ -21,9 +21,6 @@
     <ClCompile Include="..\cpp\doubleBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\ndarraydouble_dispBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\double_colon_doubleBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

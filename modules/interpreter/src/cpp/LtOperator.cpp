@@ -16,17 +16,36 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "nlsElementary_functions_exports.h"
-#include "ArrayOf.hpp"
-#include "Exception.hpp"
+#include "Evaluator.hpp"
+#include "LessThan.hpp"
+#include "OverloadBinaryOperator.hpp"
 //=============================================================================
 namespace Nelson {
-/**
- * Element-wise compare (eq) of two arrays: C = (A == B).
- */
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Equals(ArrayOf& A, ArrayOf& B, bool &needToOverload);
+//=============================================================================
+ArrayOf
+Evaluator::ltOperator(ASTPtr t)
+{
+    pushID(t->context());
+    ArrayOf retval = this->ltOperator(expression(t->down), expression(t->down->right));
+    popID();
+    return retval;
 }
+//=============================================================================
+ArrayOf
+Evaluator::ltOperator(ArrayOf A, ArrayOf B)
+{
+    ArrayOf res;
+    if (overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B)) {
+        res = OverloadBinaryOperator(this, A, B, "lt");
+    } else {
+        bool needToOverload;
+        res = LessThan(A, B, needToOverload);
+        if (needToOverload) {
+            res = OverloadBinaryOperator(this, A, B, "le");
+        }
+    }
+    return res;
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

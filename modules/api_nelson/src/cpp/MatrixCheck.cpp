@@ -48,7 +48,7 @@ MatrixCheck(ArrayOf A, ArrayOf B, const std::string& opname) throw(Exception)
 }
 //=============================================================================
 Class
-FindCommonType(ArrayOf A, ArrayOf B, bool isDivOrMatrix)
+FindCommonType(const ArrayOf &A, const ArrayOf &B, bool isDivOrMatrix)
 {
     Class Cclass;
     Class Aclass = A.getDataClass();

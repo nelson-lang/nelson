@@ -56,25 +56,13 @@ greaterEqualsComplex(indexType N, logical* C, const T* A, int stride1, const T* 
 }
 //=============================================================================
 ArrayOf
-GreaterEquals(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
+GreaterEquals(ArrayOf& A, ArrayOf& B, bool& needToOverload)
 {
+    needToOverload = false;
     VectorCheck(A, B, ">=");
     Class classCommon = FindCommonType(A, B, false);
-    if (A.isSparse() || B.isSparse()) {
-        std::string overload = ClassName(A) + "_ge_" + ClassName(B);
-        throw Exception(_("function") + " " + overload + " " + _("undefined."));
-    }
-    try {
-        A.promoteType(classCommon);
-        B.promoteType(classCommon);
-    } catch (Exception) {
-        if (mustRaiseError) {
-            throw;
-        } else {
-            bSuccess = false;
-            return ArrayOf();
-        }
-    }
+    A.promoteType(classCommon);
+    B.promoteType(classCommon);
     int Astride, Bstride;
     indexType Clen = 0;
     Dimensions Cdim;
@@ -94,7 +82,43 @@ GreaterEquals(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
     Clen = Cdim.getElementCount();
     void* Cp = new_with_exception<logical>(Clen);
     switch (B.getDataClass()) {
-    case NLS_INT64: {
+    case NLS_CHAR: {
+        greaterEqualsReal<charType>(Clen, (logical*)Cp, (charType*)A.getDataPointer(), Astride,
+            (charType*)B.getDataPointer(), Bstride);
+    } break;
+    case NLS_LOGICAL: {
+        greaterEqualsReal<logical>(Clen, (logical*)Cp, (logical*)A.getDataPointer(), Astride,
+            (logical*)B.getDataPointer(), Bstride);
+    } break;
+	case NLS_UINT8: {
+        greaterEqualsReal<uint8>(Clen, (logical*)Cp, (uint8*)A.getDataPointer(), Astride,
+            (uint8*)B.getDataPointer(), Bstride);
+    } break;
+    case NLS_UINT16: {
+        greaterEqualsReal<uint16>(Clen, (logical*)Cp, (uint16*)A.getDataPointer(), Astride,
+            (uint16*)B.getDataPointer(), Bstride);
+    } break;
+    case NLS_UINT32: {
+        greaterEqualsReal<uint32>(Clen, (logical*)Cp, (uint32*)A.getDataPointer(), Astride,
+            (uint32*)B.getDataPointer(), Bstride);
+    } break;
+    case NLS_UINT64: {
+        greaterEqualsReal<uint64>(Clen, (logical*)Cp, (uint64*)A.getDataPointer(), Astride,
+            (uint64*)B.getDataPointer(), Bstride);
+    } break;
+	case NLS_INT8: {
+        greaterEqualsReal<int8>(Clen, (logical*)Cp, (int8*)A.getDataPointer(), Astride,
+            (int8*)B.getDataPointer(), Bstride);
+    } break;
+    case NLS_INT16: {
+        greaterEqualsReal<int16>(Clen, (logical*)Cp, (int16*)A.getDataPointer(), Astride,
+            (int16*)B.getDataPointer(), Bstride);
+    } break;
+    case NLS_INT32: {
+        greaterEqualsReal<int32>(Clen, (logical*)Cp, (int32*)A.getDataPointer(), Astride,
+            (int32*)B.getDataPointer(), Bstride);
+    } break;
+	case NLS_INT64: {
         greaterEqualsReal<int64>(Clen, (logical*)Cp, (int64*)A.getDataPointer(), Astride,
             (int64*)B.getDataPointer(), Bstride);
     } break;
@@ -115,16 +139,10 @@ GreaterEquals(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
             (double*)B.getDataPointer(), Bstride);
     } break;
     default: {
-        if (mustRaiseError) {
-            std::string overload = ClassName(A) + "_ge_" + ClassName(B);
-            throw Exception(_("function") + " " + overload + " " + _("undefined."));
-        } else {
-            bSuccess = false;
-            return ArrayOf();
-        }
+        needToOverload = true;
+        return ArrayOf();
     } break;
     }
-    bSuccess = true;
     return ArrayOf(NLS_LOGICAL, Cdim, Cp);
 }
 }

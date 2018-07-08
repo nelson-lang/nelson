@@ -52,16 +52,12 @@
 #include "RightDivide.hpp"
 #include "LeftDivide.hpp"
 #include "Negate.hpp"
-#include "LessThan.hpp"
-#include "GreaterThan.hpp"
 #include "DotPower.hpp"
 #include "Power.hpp"
-#include "Equals.hpp"
 #include "NotEquals.hpp"
 #include "And.hpp"
 #include "Not.hpp"
 #include "Or.hpp"
-#include "GreaterEquals.hpp"
 #include "Keywords.hpp"
 #include "ArrayOf.hpp"
 #include "ParserInterface.hpp"
@@ -89,12 +85,6 @@
 #include "OverloadTernaryOperator.hpp"
 #include "ComplexTranspose.hpp"
 #include "OverloadRequired.hpp"
-#include "Subtraction.hpp"
-#include "GreaterThan.hpp"
-#include "GreaterEquals.hpp"
-#include "LessEquals.hpp"
-#include "LessThan.hpp"
-#include "Equals.hpp"
 #include "NotEquals.hpp"
 #include "PathFuncManager.hpp"
 #include "Power.hpp"
@@ -410,7 +400,7 @@ Evaluator::cellDefinition(ASTPtr t)
     return retval;
 }
 
-bool Evaluator::needToOverloadLogicOperator(ArrayOf a) {
+bool Evaluator::needToOverloadOperator(ArrayOf a) {
   return ((a.getDataClass() == NLS_STRUCT_ARRAY) ||
           (a.getDataClass() == NLS_CELL_ARRAY) || a.isSparse() || a.isHandle());
 }
@@ -524,19 +514,19 @@ Evaluator::expression(ASTPtr t)
             retval = andOperator(t);
         } break;
         case OP_LT: {
-            retval = doBinaryOperatorOverload(t, LessThan, "lt");
+            retval = ltOperator(t);
         } break;
         case OP_LEQ: {
-            retval = doBinaryOperatorOverload(t, LessEquals, "le");
+            retval = leOperator(t);
         } break;
         case OP_GT: {
-            retval = doBinaryOperatorOverload(t, GreaterThan, "gt");
+            retval = gtOperator(t);
         } break;
         case OP_GEQ: {
-            retval = doBinaryOperatorOverload(t, GreaterEquals, "ge");
+            retval = geOperator(t);
         } break;
         case OP_EQ: {
-            retval = doBinaryOperatorOverload(t, Equals, "eq");
+            retval = eqOperator(t);
         } break;
         case OP_NEQ: {
             retval = doBinaryOperatorOverload(t, NotEquals, "ne");

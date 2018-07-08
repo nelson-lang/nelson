@@ -26,7 +26,7 @@ ArrayOf
 Evaluator::orOperator(ArrayOf A, ArrayOf B)
 {
     ArrayOf retval;
-    if (overloadOnBasicTypes || needToOverloadLogicOperator(A) || needToOverloadLogicOperator(B)) {
+    if (overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B)) {
         retval = OverloadBinaryOperator(this, A, B, "or");
     } else {
         retval = Or(A, B);

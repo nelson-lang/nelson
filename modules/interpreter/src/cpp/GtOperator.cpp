@@ -16,15 +16,34 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
 #include "Evaluator.hpp"
+#include "GreaterThan.hpp"
+#include "OverloadBinaryOperator.hpp"
 //=============================================================================
 namespace Nelson {
-namespace DoubleGateway {
-    ArrayOfVector
-    ndarraydouble_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+ArrayOf Evaluator::gtOperator(ASTPtr t) {
+  pushID(t->context());
+  ArrayOf retval =
+      this->gtOperator(expression(t->down), expression(t->down->right));
+  popID();
+  return retval;
 }
+//=============================================================================
+ArrayOf Evaluator::gtOperator(ArrayOf A, ArrayOf B) {
+  ArrayOf res;
+  if (overloadOnBasicTypes || needToOverloadOperator(A) ||
+      needToOverloadOperator(B)) {
+    res = OverloadBinaryOperator(this, A, B, "gt");
+  } else {
+    bool needToOverload;
+    res = GreaterThan(A, B, needToOverload);
+    if (needToOverload) {
+      res = OverloadBinaryOperator(this, A, B, "gt");
+    }
+  }
+  return res;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

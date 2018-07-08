@@ -18,7 +18,6 @@
 //=============================================================================
 #include "ltBuiltin.hpp"
 #include "Error.hpp"
-#include "LessThan.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -31,7 +30,7 @@ Nelson::ElementaryFunctionsGateway::ltBuiltin(Evaluator* eval, int nLhs, const A
     }
     ArrayOf arg1 = argIn[0];
     ArrayOf arg2 = argIn[1];
-    retval.push_back(eval->doBinaryOperatorOverload(arg1, arg2, LessThan, "lt"));
+    retval.push_back(eval->ltOperator(arg1, arg2));
     return retval;
 }
 //=============================================================================

@@ -805,9 +805,19 @@ public:
 
     ArrayOf
     additionOperator(ArrayOf A, ArrayOf B);
-
     ArrayOf
     subtractionOperator(ArrayOf A, ArrayOf B);
+
+    ArrayOf
+    eqOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    gtOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    geOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    leOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    ltOperator(ArrayOf A, ArrayOf B);
 
     ArrayOf
     shortCutOrOperator(ArrayOf A, ArrayOf B);
@@ -848,13 +858,25 @@ private:
     orOperator(ASTPtr t);
     ArrayOf
     andOperator(ASTPtr t);
+
     ArrayOf
     additionOperator(ASTPtr t);
     ArrayOf
     subtractionOperator(ASTPtr t);
 
+	ArrayOf
+    eqOperator(ASTPtr t);
+    ArrayOf
+    gtOperator(ASTPtr t);
+    ArrayOf
+    geOperator(ASTPtr t);
+    ArrayOf
+    leOperator(ASTPtr t);
+    ArrayOf
+    ltOperator(ASTPtr t);
+
     bool
-    needToOverloadLogicOperator(ArrayOf a);
+    needToOverloadOperator(ArrayOf a);
 };
 NLSINTERPRETER_IMPEXP void
 sigInterrupt(int arg);

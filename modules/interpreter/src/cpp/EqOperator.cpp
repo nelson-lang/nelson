@@ -16,26 +16,34 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ndarraydouble_dispBuiltin.hpp"
-#include "Error.hpp"
+#include "Equals.hpp"
+#include "Evaluator.hpp"
+#include "OverloadBinaryOperator.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-ArrayOfVector
-Nelson::DoubleGateway::ndarraydouble_dispBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (nLhs > 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    } else if (!argIn[0].isNdArrayDoubleType()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
-    } else {
-        argIn[0].printMe(eval->getPrintLimit(), eval->getInterface()->getTerminalWidth());
-    }
-    return retval;
+ArrayOf Evaluator::eqOperator(ASTPtr t) {
+  pushID(t->context());
+  ArrayOf retval =
+      this->eqOperator(expression(t->down), expression(t->down->right));
+  popID();
+  return retval;
 }
+//=============================================================================
+ArrayOf Evaluator::eqOperator(ArrayOf A, ArrayOf B) {
+  ArrayOf res;
+  if (overloadOnBasicTypes || needToOverloadOperator(A) ||
+      needToOverloadOperator(B)) {
+    res = OverloadBinaryOperator(this, A, B, "eq");
+  } else {
+    bool needToOverload;
+    res = Equals(A, B, needToOverload);
+    if (needToOverload) {
+      res = OverloadBinaryOperator(this, A, B, "eq");
+    }
+  }
+  return res;
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================
