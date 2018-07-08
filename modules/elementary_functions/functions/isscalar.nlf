@@ -19,7 +19,7 @@
 function res = isscalar (varargin)
   if (nargin == 1)
     [nr, nc] = size(varargin{1});
-    res = (nr == 1 & nc == 1);
+    res = (nr == 1 && nc == 1);
   else
     error(_('Wrong number of input arguments.'));
   end

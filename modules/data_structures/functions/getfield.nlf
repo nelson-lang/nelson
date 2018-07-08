@@ -42,7 +42,7 @@ function f = getfield(s, varargin)
 
   if (isempty(varargin) == false)
     fieldstr = varargin{1};
-    if (length(varargin) == 1 & ischar(fieldstr))
+    if (length(varargin) == 1 && ischar(fieldstr))
       f = s.(fieldstr);
     else
       f = s;

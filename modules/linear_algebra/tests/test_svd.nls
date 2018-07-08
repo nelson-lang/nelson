@@ -274,7 +274,7 @@ V_REF_MKL = [-0.5774, -0.5774;
 -0.5774, -0.2113];
 assert_isapprox(U, U_REF, 1e-4);
 assert_isapprox(S, S_REF, 1e-4);
-assert_istrue(isapprox(V, V_REF, 1e-4) | isapprox(V, V_REF_MKL, 1e-4));
+assert_istrue(isapprox(V, V_REF, 1e-4) || isapprox(V, V_REF_MKL, 1e-4));
 //=============================================================================
 A = ones(3, 3);
 [U1, S1, V1] = svd(A, 'econ');

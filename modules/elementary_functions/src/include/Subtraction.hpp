@@ -16,24 +16,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "logical_or_logicalBuiltin.hpp"
-#include "Error.hpp"
-#include "OrLogical.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
-ArrayOfVector
-Nelson::LogicalGateway::logical_or_logicalBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    retval.push_back(OrLogical(argIn[0], argIn[1]));
-    return retval;
-}
+namespace Nelson {
+//=============================================================================
+/**
+ * Addition (+) of two matrix: C = A - B).
+ */
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf double_minus_double(ArrayOf a,
+                                                           ArrayOf b);
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf single_minus_single(ArrayOf a,
+                                                           ArrayOf b);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

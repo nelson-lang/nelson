@@ -745,18 +745,6 @@ public:
     void
     setLastWarningString(std::wstring msg);
 
-    /**
-     * Handles the logistics of shortcut evaluation
-     */
-    ArrayOf
-    ShortCutOr(ASTPtr t);
-    ArrayOf
-    ShortCutAnd(ASTPtr t);
-    ArrayOf
-    Or(ASTPtr t);
-    ArrayOf
-    And(ASTPtr t);
-
     /*
      * time value used by tic toc
      */
@@ -815,7 +803,13 @@ public:
     doTernaryOperatorOverload(ArrayOf& A, ArrayOf& B, ArrayOf& C, TernaryFunction functionOperator,
         std::string functionName);
 
-private:
+	ArrayOf
+    addition(ArrayOf A, ArrayOf B);
+
+	ArrayOf
+    subtraction(ArrayOf A, ArrayOf B);
+
+ private:
     void
     setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue);
     ArrayOfVector
@@ -831,6 +825,25 @@ private:
     doBinaryOperatorOverload(ASTPtr t, BinaryFunction functionOperator, std::string functionName);
     ArrayOf
     doTernaryOperatorOverload(ASTPtr t, TernaryFunction functionOperator, std::string functionName);
+
+    /**
+     * Handles the logistics of shortcut evaluation
+     */
+    ArrayOf
+    shortCutOrOperator(ASTPtr t);
+    ArrayOf
+    shortCutAndOperator(ASTPtr t);
+    ArrayOf
+    orOperator(ASTPtr t);
+    ArrayOf
+    andOperator(ASTPtr t);
+    ArrayOf
+    additionOperator(ASTPtr t);
+    ArrayOf
+    subtractionOperator(ASTPtr t);
+
+	bool
+    needToOverloadLogicOperator(ArrayOf a);
 };
 NLSINTERPRETER_IMPEXP void
 sigInterrupt(int arg);

@@ -11,7 +11,28 @@ Features:
     - gamma function speed x4 (overloading)
 
   * [#133](http://github.com/Nelson-numerical-software/nelson/issues/133): Replaced uncommon term "trinary" by "ternary". 
- 
+
+
+## 0.2.7
+
+
+Features:
+---------
+
+  * [#142](http://github.com/Nelson-numerical-software/nelson/issues/142): clear('functionName') clears all persistent variables of functionName function.
+
+  * addition, substraction reworked (Compatiblity Array Sizes increased, code factorized).
+
+  * &, |, &&, || operators reworked (Compatiblity Array Sizes increased).
+  
+  * havecompiler uses a persistent variable to speedup result.
+
+
+Bug Fixes:
+---------
+
+  * [#145](http://github.com/Nelson-numerical-software/nelson/issues/145): int32(NaN) did not return 0.
+
 
 ## 0.2.6 (2018-06-26)
 
@@ -19,31 +40,39 @@ Features:
 Features:
 ---------
 
-  * module skeleton updated to build an example with C++ function (cpp_sum).
+  * Nelson provides a cross-platform command-line tool written in Nelson for compiling native addon modules for Nelson. It takes away the pain of dealing with the various differences in build platforms:
 
-  * helper's functions to build C/C++ code easily on Windows, Linux, MacOS X:
-    - dlgeneratemake: generates a makefile for building a dynamic library.
-    - dlgeneratecleaner: generates cleaner.nls file for C++ gateway.
-    - dlgenerateloader: generates loader.nls file for C++ gateway.
-    - dlgenerateunloader: generates unloader.nls file for C++ gateway.
-    - dlgenerategateway: generates C++ gateway.
-    - findcmake: find CMake path.
-    - cmake function: call CMake tool.
-    - dlmake: call make or nmake tool.
+    - helper's functions to build C/C++ code easily on Windows, Linux, MacOS X:
+      - dlgeneratemake: generates a makefile for building a dynamic library.
+      - dlgeneratecleaner: generates cleaner.nls file for C++ gateway.
+      - dlgenerateloader: generates loader.nls file for C++ gateway.
+      - dlgenerateunloader: generates unloader.nls file for C++ gateway.
+      - dlgenerategateway: generates C++ gateway.
+      - findcmake: find CMake path.
+      - cmake function: call CMake tool.
+      - dlmake: call make or nmake tool.
 
-  * detect and configure C/C++ compilers on Windows, Linux, MacosX
-    - On Windows: 
-      - VS 2017 Professional, Entreprise, Community supported.
-      - MinGW-W64 for 32 and 64 bit supported.
+    - detect and configure C/C++ compilers on Windows, Linux, MacosX:
+      - On Windows: 
+        - VS 2017 Professional, Entreprise, Community supported.
+        - MinGW-W64 for 32 and 64 bit supported.
+        - By default, Nelson does not try to detect a C/C++ compiler on Windows.
+          Do not forget to run 'configuremsvc' or 'configuremingw' once.
+
+      - On Linux:
+        - GNU C/C++ Compilers, Clang.
+
+      - MacOS X:
+        - Xcode or GNU compiler available via Homebrew .
+
     - havecompiler function: returns if a compiler is configured.
     - configuremingw function: select and configure Mingw-w64 compilers.
     - configuremsvc function: select and configure Microsoft compilers.
     - loadcompilerconf function: load compiler configuration
     - removecompilerconf function: remove compiler configuration
     - vswhere function: detects easily modern Microsoft compilers.
-   
-  * By default, Nelson does not try to detect a C/C++ compiler on Windows.
-    Do not forget to run 'configuremsvc' or 'configuremingw' once.
+
+  * module skeleton updated to build an example with C++ function (cpp_sum).
   
   * sprintf, fprintf functions: format data into a string or a file.
 

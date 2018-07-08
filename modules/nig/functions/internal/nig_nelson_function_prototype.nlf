@@ -21,7 +21,7 @@ function txt = nig_nelson_function_prototype(NIG_FUNCTION)
   input = '';
   output = '';
   for k = NIG_FUNCTION.VARIABLES
-    if strcmp(k.MODE, 'input') | strcmp(k.MODE, 'in_out')
+    if strcmp(k.MODE, 'input') || strcmp(k.MODE, 'in_out')
       if isempty(input)
         if strcmp(k.MODE, 'in_out')
           input = [k.NAME, '_IN, '];
@@ -36,7 +36,7 @@ function txt = nig_nelson_function_prototype(NIG_FUNCTION)
         end
       end
     end
-    if strcmp(k.MODE, 'output') | strcmp(k.MODE, 'in_out')
+    if strcmp(k.MODE, 'output') || strcmp(k.MODE, 'in_out')
       if isempty(output)
         if strcmp(k.MODE, 'in_out')
           output = [k.NAME, '_OUT, '];

@@ -209,6 +209,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\ActionMenu.cpp" />
+    <ClCompile Include="..\cpp\Addition.cpp" />
     <ClCompile Include="..\cpp\AST.cpp" />
     <ClCompile Include="..\cpp\AstManager.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDef.cpp" />
@@ -248,6 +249,7 @@
     <ClCompile Include="..\cpp\StackEntry.cpp" />
     <ClCompile Include="..\cpp\Evaluator.cpp" />
     <ClCompile Include="..\cpp\StackError.cpp" />
+    <ClCompile Include="..\cpp\Subtraction.cpp" />
     <ClCompile Include="..\cpp\VariablesTable.cpp" />
     <ClCompile Include="..\cpp\VertCatOperator.cpp" />
     <ClCompile Include="..\grammar\NelSonParser.cpp" />

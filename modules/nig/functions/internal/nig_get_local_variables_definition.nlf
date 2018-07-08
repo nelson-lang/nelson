@@ -22,7 +22,7 @@ function txt = nig_get_local_variables_definition(NIG_FUNCTION)
   for k = NIG_FUNCTION.VARIABLES
     if strcmp(k.MODE, 'local')
       if strcmp(k.TYPE, 'double_array')
-        if isfield(k, 'DIMENSION_M') & ~isempty(k.DIMENSION_M)
+        if isfield(k, 'DIMENSION_M') && ~isempty(k.DIMENSION_M)
           if isnumeric(k.DIMENSION_M)
             DIMENSION_M_str = int2str(k.DIMENSION_M);
           else
@@ -31,7 +31,7 @@ function txt = nig_get_local_variables_definition(NIG_FUNCTION)
         else
           DIMENSION_M_str = '1';
         end
-        if isfield(k, 'DIMENSION_N') & ~isempty(k.DIMENSION_N)
+        if isfield(k, 'DIMENSION_N') && ~isempty(k.DIMENSION_N)
           if isnumeric(k.DIMENSION_N)
             DIMENSION_N_str = int2str(k.DIMENSION_N);
           else
@@ -46,7 +46,7 @@ function txt = nig_get_local_variables_definition(NIG_FUNCTION)
 
       end
       if strcmp(k.TYPE, 'integer_array')
-        if isfield(k, 'DIMENSION_M') & ~isempty(k.DIMENSION_M)
+        if isfield(k, 'DIMENSION_M') && ~isempty(k.DIMENSION_M)
           if isnumeric(k.DIMENSION_M)
             DIMENSION_M_str = int2str(k.DIMENSION_M);
           else
@@ -55,7 +55,7 @@ function txt = nig_get_local_variables_definition(NIG_FUNCTION)
         else
           DIMENSION_M_str = '1';
         end
-        if isfield(k, 'DIMENSION_N') & ~isempty(k.DIMENSION_N)
+        if isfield(k, 'DIMENSION_N') && ~isempty(k.DIMENSION_N)
           if isnumeric(k.DIMENSION_N)
             DIMENSION_N_str = int2str(k.DIMENSION_N);
           else
@@ -69,7 +69,7 @@ function txt = nig_get_local_variables_definition(NIG_FUNCTION)
 
       end
       if strcmp(k.TYPE, 'double')
-        if isfield(k, 'VALUE') & ~isempty(k.VALUE)
+        if isfield(k, 'VALUE') && ~isempty(k.VALUE)
           txt{end + 1} = ['    ArrayOf ', k.NAME, ' = ArrayOf::doubleVectorConstructor(1);'];
           txt{end + 1} = ['    double*',  k.NAME, '_ptr', ' = (double*)', k.NAME, '.getDataPointer();'];
           txt{end + 1} = ['    ', k.NAME, '_ptr[0] = ', k.VALUE, ';'];
@@ -79,7 +79,7 @@ function txt = nig_get_local_variables_definition(NIG_FUNCTION)
         end
       end
       if strcmp(k.TYPE, 'integer')
-        if isfield(k, 'VALUE') & ~isempty(k.VALUE)
+        if isfield(k, 'VALUE') && ~isempty(k.VALUE)
           txt{end + 1} = ['    ArrayOf ', k.NAME, ' = ArrayOf::int32VectorConstructor(1);'];
           txt{end + 1} = ['    int* ', k.NAME, '_ptr', ' = (int*)', k.NAME, '.getDataPointer();'];
           txt{end + 1} = ['    ', k.NAME, '_ptr[0] = ', k.VALUE, ';'];

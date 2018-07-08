@@ -19,7 +19,7 @@
 [status, compiler] = loadcompilerconf();
 if ispc()
   assert_istrue(islogical(status));
-  assert_istrue(strcmp(compiler, '') | strcmp(compiler, 'mingw') |  strcmp(compiler, 'msvc'));
+  assert_istrue(strcmp(compiler, '') || strcmp(compiler, 'mingw') ||  strcmp(compiler, 'msvc'));
 else
   assert_isfalse(status);
   assert_isequal(compiler, 'unix');

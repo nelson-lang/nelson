@@ -34,7 +34,7 @@ function r = indexhelp(varargin)
   end
   pref_help = [prefdir(), '/help_index.bin'];
   attributes = helpbrowser('-attributes');
-  if ~isfile(pref_help) | force | isempty(attributes)
+  if ~isfile(pref_help) || force || isempty(attributes)
     r = reindexhelp(pref_help);
   else
     loadbin(pref_help);
@@ -45,7 +45,7 @@ function r = indexhelp(varargin)
       version_help = [0, 0, 0];
     end
     current_version = version('-number');
-    if (compareVersion(version_help, current_version) ~= 0) | ~isequal(attributes, modules_help_available) | isempty(modules_help_available)
+    if (compareVersion(version_help, current_version) ~= 0) || ~isequal(attributes, modules_help_available) || isempty(modules_help_available)
       r = reindexhelp(pref_help);
     else
       r = false;

@@ -17,20 +17,18 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "logicalBuiltin.hpp"
-#include "logical_dispBuiltin.hpp"
-#include "trueBuiltin.hpp"
-#include "falseBuiltin.hpp"
-#include "ndarraylogical_dispBuiltin.hpp"
-#include "logical_or_logicalBuiltin.hpp"
-#include "logical_and_logicalBuiltin.hpp"
-#include "logical_notBuiltin.hpp"
-#include "xorBuiltin.hpp"
-#include "anyBuiltin.hpp"
 #include "allBuiltin.hpp"
-#include "logical_anyBuiltin.hpp"
+#include "anyBuiltin.hpp"
+#include "falseBuiltin.hpp"
+#include "logicalBuiltin.hpp"
 #include "logical_allBuiltin.hpp"
+#include "logical_anyBuiltin.hpp"
+#include "logical_dispBuiltin.hpp"
 #include "logical_isequalBuiltin.hpp"
+#include "logical_notBuiltin.hpp"
+#include "ndarraylogical_dispBuiltin.hpp"
+#include "trueBuiltin.hpp"
+#include "xorBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -41,8 +39,6 @@ static const nlsGateway gateway[] = {
     { "true", Nelson::LogicalGateway::trueBuiltin, 1, 1 },
     { "false", Nelson::LogicalGateway::falseBuiltin, 1, 1 },
     { "logical_disp", Nelson::LogicalGateway::logical_dispBuiltin, 0, 1 },
-    { "logical_or_logical", Nelson::LogicalGateway::logical_or_logicalBuiltin, 1, 2 },
-    { "logical_and_logical", Nelson::LogicalGateway::logical_and_logicalBuiltin, 1, 2 },
     { "ndarraylogical_disp", Nelson::LogicalGateway::ndarraylogical_dispBuiltin, 0, 1 },
     { "logical_not", Nelson::LogicalGateway::logical_notBuiltin, 1, 1 },
     { "xor", Nelson::LogicalGateway::xorBuiltin, 1, 2 },

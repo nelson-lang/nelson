@@ -30,7 +30,7 @@ function nig(varargin)
   end
   addpath([modulepath(nelsonroot(), 'nig', 'root'), '/functions/internal']);
   try
-    have_module_subdirectories =  isdir([NIG_DESTINATION, '/builtin/cpp']) & isdir([NIG_DESTINATION, '/builtin/include']);
+    have_module_subdirectories =  isdir([NIG_DESTINATION, '/builtin/cpp']) && isdir([NIG_DESTINATION, '/builtin/include']);
     len = length(NIG_FUNCTIONS);
     for k = [1:len]
       if have_module_subdirectories

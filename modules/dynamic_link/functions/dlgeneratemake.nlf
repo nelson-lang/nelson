@@ -163,7 +163,7 @@ function [r, c_cpp_files_modified] = checkAndPrepareCppFiles(c_cpp_files)
   if isempty(c_cpp_files)
     c_cpp_files = {};
   end
-  if (isempty(c_cpp_files) & iscell(c_cpp_files))
+  if (isempty(c_cpp_files) && iscell(c_cpp_files))
     r = true;
     return
   end
@@ -191,7 +191,7 @@ function [r, includes_modified] = checkAndPrepareIncludesDirectories(includes)
   if isempty(includes)
     includes = {};
   end
-  if (isempty(includes) & iscell(includes))
+  if (isempty(includes) && iscell(includes))
     r = true;
     return
   end
@@ -219,7 +219,7 @@ function [r, defines_modified] = checkAndPrepareDefines(defines)
   if isempty(defines)
     defines = {};
   end
-  if (isempty(defines) & iscell(defines))
+  if (isempty(defines) && iscell(defines))
     r = true;
     return
   end
@@ -241,7 +241,7 @@ endfunction
 function modifiedName = addLibrarySuffix(libraryName)
   modifiedName = libraryName;
   if ispc()
-    if ~(endsWith(libraryName, '.a') | endsWith(libraryName, '.lib'))
+    if ~(endsWith(libraryName, '.a') || endsWith(libraryName, '.lib'))
       modifiedName = [libraryName, '.lib'];
     end
   else
@@ -258,7 +258,7 @@ function [r, external_libraries_modified] = checkAndPrepareExternalLibraries(ext
   if isempty(external_libraries)
     external_libraries = {};
   end
-  if (isempty(external_libraries) & iscell(external_libraries))
+  if (isempty(external_libraries) && iscell(external_libraries))
     r = true;
     return
   end
@@ -290,7 +290,7 @@ function [r, build_configuration_modified] = checkAndPrepareBuildConfiguration(b
     return
   end
   if ischar(build_configuration)
-    r = strcmp(build_configuration, 'Debug') | strcmp(build_configuration, 'Release');
+    r = strcmp(build_configuration, 'Debug') || strcmp(build_configuration, 'Release');
     if r
       build_configuration_modified = ['set(CMAKE_BUILD_TYPE ', build_configuration, ')'];
     end

@@ -20,7 +20,7 @@ function dlgenerateunloader(destinationdir, libraryname)
   if ~isdir(destinationdir)
     error(_('A valid destination directory expected.'));
   end
-  if ~ischar(libraryname) & ~iscellstr(libraryname)
+  if ~ischar(libraryname) && ~iscellstr(libraryname)
     error(_('#2 input argument: A string or cell of strings expected.'));
   end
   txt = template(libraryname);

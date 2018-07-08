@@ -38,7 +38,7 @@ function [status, builtin_table_modified] = checkAndPrepareBuiltinTable(builtin_
     for k = builtin_table
       if iscell(k{1})
         if length(k{1}) == 3
-          if ischar(k{1}{1}) & isscalar(k{1}{2}) & isscalar(k{1}{3})
+          if ischar(k{1}{1}) && isscalar(k{1}{2}) && isscalar(k{1}{3})
             if isempty(builtin_table_modified)
               builtin_table_modified = {{ k{1}{1}, double(k{1}{2}), double(k{1}{3}) }};
             else

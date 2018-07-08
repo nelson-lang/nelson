@@ -18,15 +18,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsElementary_functions_exports.h"
 #include "ArrayOf.hpp"
-#include "ClassName.hpp"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-/**
- * Addition (+) of two matrix: C = A + B).
- */
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Addition(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess);
-}
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf double_plus_double(ArrayOf a, ArrayOf b);
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf single_plus_single(ArrayOf a, ArrayOf b);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

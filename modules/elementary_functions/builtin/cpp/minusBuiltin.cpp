@@ -18,7 +18,6 @@
 //=============================================================================
 #include "minusBuiltin.hpp"
 #include "Error.hpp"
-#include "Substraction.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -30,9 +29,9 @@ Nelson::ElementaryFunctionsGateway::minusBuiltin(
     if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    ArrayOf arg1 = argIn[0];
-    ArrayOf arg2 = argIn[1];
-    retval.push_back(eval->doBinaryOperatorOverload(arg1, arg2, Substraction, "minus"));
+    ArrayOf A = argIn[0];
+    ArrayOf B = argIn[1];
+    retval.push_back(eval->subtraction(A, B));
     return retval;
 }
 //=============================================================================

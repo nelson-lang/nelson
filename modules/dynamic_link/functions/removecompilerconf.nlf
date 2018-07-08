@@ -18,6 +18,7 @@
 //=============================================================================
 function status = removecompilerconf()
   arch = computer('arch');
+  clear('havecompiler'); // clear persistent variable
   jsonfile = [prefdir(), '/compiler_', arch, '.json'];
   if isfile(jsonfile)
     [status, msg] = rmfile(jsonfile);

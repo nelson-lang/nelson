@@ -36,7 +36,7 @@ end
 r = methods(qobj.children(idx));
 ok = 0;
 for e = r
-  if strcmp(e, 'myQmlFunction1') == 1 | strcmp(e, 'myQmlFunction2') == 1 | strcmp(e, 'myQmlFunction3') == 1
+  if strcmp(e, 'myQmlFunction1') == 1 || strcmp(e, 'myQmlFunction2') == 1 || strcmp(e, 'myQmlFunction3') == 1
     ok = ok + 1;
   end
 end

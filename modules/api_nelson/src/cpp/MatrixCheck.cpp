@@ -106,9 +106,18 @@ BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname) throw(Excepti
 {
     A.promoteType(NLS_LOGICAL);
     B.promoteType(NLS_LOGICAL);
-    if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar())) {
-        throw Exception(std::string(_("Size mismatch on arguments to ")) + opname);
-    }
+    if (A.isVector() && B.isVector()) {
+        if ((A.isRowVector() && B.isRowVector()) || (A.isColumnVector() && B.isColumnVector())) {
+            if (A.getDimensions().getElementCount() != B.getDimensions().getElementCount()) {
+                throw Exception(std::string(_("Size mismatch on arguments to ")) + opname);
+            }
+		}
+    } else {
+        if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar()
+                || B.isScalar())) {
+            throw Exception(std::string(_("Size mismatch on arguments to ")) + opname);
+        }
+	}
 }
 //=============================================================================
 

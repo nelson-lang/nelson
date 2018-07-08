@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function Y = ifftn(varargin)
-  if ~(nargin() == 1 | nargin() == 2)
+  if ~(nargin() == 1 || nargin() == 2)
     error(_('Wrong number of input arguments.'));
   end
   X = varargin{1};

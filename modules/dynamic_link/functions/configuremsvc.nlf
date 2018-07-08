@@ -20,6 +20,7 @@ function [status, message] = configuremsvc()
   // currently only VS 2017 (compatibility with previous vs on demand)
   status = false;
   message = '';
+  clear('havecompiler');  // clear persistent variable
   if ~ispc()
     status = false;
     message = _('Not implemented on this platform.');

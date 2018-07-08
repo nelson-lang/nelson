@@ -23,7 +23,7 @@ function r = sparsedouble_isequal(a, b)
 		else
 			[IA, JA, VA] = IJV(a);
 			[IB, JB, VB] = IJV(b);
-			r = isequal(IA, IB) & isequal(JA, JB) & isequal(VA, VB);
+			r = isequal(IA, IB) && isequal(JA, JB) && isequal(VA, VB);
 		end
 	else
 		r = false;

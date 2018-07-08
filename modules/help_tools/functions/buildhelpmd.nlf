@@ -21,7 +21,7 @@ function buildhelpmd(varargin)
 // buildhelpmd(destdir) build help of Nelson
 // buildhelpmd(destdir, module_name) build help of a module loaded in Nelson
 //
-  if (nargin() > 2 | nargin() < 1) 
+  if (nargin() > 2 || nargin() < 1) 
     error(_('Wrong number of input arguments.'));
   end
   destinationdir = varargin{1};
@@ -72,7 +72,7 @@ function generatesLANGSmd(destinationdir, locales)
   done = {};
   for l = locales
     res = contains(done, l{1});
-    if isempty(res) | ~all(res) 
+    if isempty(res) || ~all(res) 
       content{end + 1} = ['* [', l{1} ,'](', l{1}, ')'];
       done{end + 1} = l{1};
     end  

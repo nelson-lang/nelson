@@ -26,6 +26,6 @@ assert_isequal(fieldnames(formats), {'Name'; 'Extension'; 'Subformats'});
 for k = [1: length(formats)]
   assert_istrue(ischar(formats(k).Name));
   assert_istrue(ischar(formats(k).Extension));
-  assert_istrue(iscellstr(formats(k).Subformats) | ischar(formats(k).Subformats));
+  assert_istrue(iscellstr(formats(k).Subformats) || ischar(formats(k).Subformats));
 end
 //=============================================================================

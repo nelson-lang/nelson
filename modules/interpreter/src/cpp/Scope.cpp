@@ -213,7 +213,7 @@ void
 Scope::deletePersistentVariablePointer(std::string varName)
 {
     stringVector::iterator i = std::find(persistentVars.begin(), persistentVars.end(), varName);
-    if (*i == varName) {
+    if (i != persistentVars.end()) {
         persistentVars.erase(i);
     }
 }

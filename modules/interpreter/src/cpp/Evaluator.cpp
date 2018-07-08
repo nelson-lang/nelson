@@ -89,8 +89,7 @@
 #include "OverloadTernaryOperator.hpp"
 #include "ComplexTranspose.hpp"
 #include "OverloadRequired.hpp"
-#include "Addition.hpp"
-#include "Substraction.hpp"
+#include "Subtraction.hpp"
 #include "GreaterThan.hpp"
 #include "GreaterEquals.hpp"
 #include "LessEquals.hpp"
@@ -411,42 +410,114 @@ Evaluator::cellDefinition(ASTPtr t)
     return retval;
 }
 
+bool
+Evaluator::needToOverloadLogicOperator(ArrayOf a)
+{
+    return ((a.getDataClass() == NLS_STRUCT_ARRAY) || (a.getDataClass() == NLS_CELL_ARRAY)
+        || a.isSparse() || a.isHandle());
+}
+
 ArrayOf
-Evaluator::Or(ASTPtr t)
+Evaluator::orOperator(ASTPtr t)
 {
     pushID(t->context());
-    ArrayOf retval
-        = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "or");
+    ArrayOf retval;
+    const ArrayOf A = expression(t->down);
+    const ArrayOf B = expression(t->down->right);
+    if (overloadOnBasicTypes || needToOverloadLogicOperator(A) || needToOverloadLogicOperator(B)) {
+        retval = OverloadBinaryOperator(this, A, B, "or");
+    } else {
+        retval = Or(A, B);
+    }
     popID();
     return retval;
 }
 
 ArrayOf
-Evaluator::And(ASTPtr t)
+Evaluator::andOperator(ASTPtr t)
 {
     pushID(t->context());
-    ArrayOf retval
-        = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "and");
+    ArrayOf retval;
+    ArrayOf A = expression(t->down);
+    ArrayOf B = expression(t->down->right);
+    if (overloadOnBasicTypes || needToOverloadLogicOperator(A) || needToOverloadLogicOperator(B)) {
+        retval = OverloadBinaryOperator(this, A, B, "and");
+    } else {
+        retval = And(A, B);
+    }
     popID();
     return retval;
 }
 
 ArrayOf
-Evaluator::ShortCutOr(ASTPtr t)
+Evaluator::shortCutOrOperator(ASTPtr t)
 {
     pushID(t->context());
-    ArrayOf retval = OverloadBinaryOperator(
-        this, expression(t->down), expression(t->down->right), "shortcutor");
+    ArrayOf retval;
+    const ArrayOf A = expression(t->down);
+    const ArrayOf B = expression(t->down->right);
+    if (overloadOnBasicTypes || needToOverloadLogicOperator(A) || needToOverloadLogicOperator(B)) {
+        retval = OverloadBinaryOperator(this, A, B, "shortcutor");
+    } else {
+        if (A.isScalar() && B.isScalar()) {
+            bool a = A.getContentAsLogicalScalar();
+            if (a) {
+                retval = A;
+            } else {
+                bool b = B.getContentAsLogicalScalar();
+                return ArrayOf::logicalConstructor(a || b);
+            }
+        } else {
+            throw Exception(
+                _W("Operand to || operator must be convertible to logical scalar values."));
+        }
+    }
     popID();
     return retval;
 }
 
 ArrayOf
-Evaluator::ShortCutAnd(ASTPtr t)
+Evaluator::shortCutAndOperator(ASTPtr t)
 {
     pushID(t->context());
-    ArrayOf retval = OverloadBinaryOperator(
-        this, expression(t->down), expression(t->down->right), "shortcutand");
+    ArrayOf retval;
+    ArrayOf A = expression(t->down);
+    ArrayOf B = expression(t->down->right);
+    if (overloadOnBasicTypes || needToOverloadLogicOperator(A) || needToOverloadLogicOperator(B)) {
+        retval = OverloadBinaryOperator(this, A, B, "shortcutand");
+    } else {
+        if (A.isScalar() && B.isScalar()) {
+            bool a = A.getContentAsLogicalScalar();
+            if (!a) {
+                retval = A;
+            } else {
+                bool b = B.getContentAsLogicalScalar();
+                return ArrayOf::logicalConstructor(a && b);
+            }
+        } else {
+            throw Exception(
+                _W("Operand to && operator must be convertible to logical scalar values."));
+        }
+    }
+    popID();
+    return retval;
+}
+
+ArrayOf
+Evaluator::additionOperator(ASTPtr t)
+{
+    pushID(t->context());
+    ArrayOf retval = this->addition(expression(t->down), expression(t->down->right));
+    popID();
+    return retval;
+}
+
+ArrayOf
+Evaluator::subtractionOperator(ASTPtr t)
+{
+    pushID(t->context());
+    ArrayOf retval = this->subtraction(expression(t->down), expression(t->down->right));
+    popID();
     return retval;
 }
 
@@ -529,10 +600,10 @@ Evaluator::expression(ASTPtr t)
             retval = cellDefinition(t);
         } break;
         case OP_PLUS: {
-            retval = doBinaryOperatorOverload(t, Addition, "plus");
+            retval = additionOperator(t);
         } break;
         case OP_SUBTRACT: {
-            retval = doBinaryOperatorOverload(t, Substraction, "minus");
+            retval = subtractionOperator(t);
         } break;
         case OP_TIMES: {
             retval = OverloadBinaryOperator(
@@ -547,16 +618,16 @@ Evaluator::expression(ASTPtr t)
                 this, expression(t->down), expression(t->down->right), "mldivide");
         } break;
         case OP_SOR: {
-            retval = ShortCutOr(t);
+            retval = shortCutOrOperator(t);
         } break;
         case OP_OR: {
-            retval = Or(t);
+            retval = orOperator(t);
         } break;
         case OP_SAND: {
-            retval = ShortCutAnd(t);
+            retval = shortCutAndOperator(t);
         } break;
         case OP_AND: {
-            retval = And(t);
+            retval = andOperator(t);
         } break;
         case OP_LT: {
             retval = doBinaryOperatorOverload(t, LessThan, "lt");
@@ -2811,8 +2882,8 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                         }
                         q = q->right;
                     }
-                    // If any keywords were found, make another pass through the
-                    // arguments and remove them.
+                        // If any keywords were found, make another pass through the
+                        // arguments and remove them.
 #if 0
                         if (keywords.size() > 0)
                         {

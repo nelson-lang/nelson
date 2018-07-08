@@ -16,274 +16,407 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Eigen/Dense>
 #include "Addition.hpp"
 #include "MatrixCheck.hpp"
+#include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+template <class T>
 static ArrayOf
-empty_plus_generic(ArrayOf A, ArrayOf B, bool mustRaiseError, bool& bSuccess);
-static Dimensions
-getOutputDimensions(ArrayOf A, ArrayOf B);
+matrix_matrix_addition(Class classDestination, const ArrayOf& a, const ArrayOf& b)
+{
+    Dimensions dimsC = a.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    void* Cp = new_with_exception<T>(Clen, false);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA((T*)a.getDataPointer(), 1, Clen);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB((T*)b.getDataPointer(), 1, Clen);
+    matC = matA + matB;
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+complex_matrix_matrix_addition(Class classDestination, const ArrayOf& a, const ArrayOf& b)
+{
+    Dimensions dimsC = a.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    void* Cp = new_with_exception<T>(Clen * 2, false);
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(Cz, 1, Clen);
+    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)a.getDataPointer());
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az, 1, Clen);
+    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)b.getDataPointer());
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(Bz, 1, Clen);
+    matC = matA + matB;
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+scalar_matrix_addition(Class classDestination, ArrayOf& a, ArrayOf& b)
+{
+    Dimensions dimsC = b.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    void* Cp = new_with_exception<T>(Clen, false);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB((T*)b.getDataPointer(),
+                                                                     1, Clen);
+    T* ptrA = (T*)a.getDataPointer();
+    matC = ptrA[0] + matB.array();
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+complex_scalar_matrix_addition(Class classDestination, ArrayOf& a, ArrayOf& b)
+{
+    Dimensions dimsC = b.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    void* Cp = new_with_exception<T>(Clen * 2, false);
+    T* da = (T*)a.getDataPointer();
+    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(da);
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(Cz, 1, Clen);
+    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)b.getDataPointer());
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(Bz, 1, Clen);
+    matC = Az[0] + matB.array();
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
 static void
-checkDimensions(ArrayOf A, ArrayOf B);
-//=============================================================================
-template <class T>
-ArrayOf
-real_plus_real(
-    Class commonClass, const ArrayOf& A, const ArrayOf& B, bool mustRaiseError, bool& bSuccess)
+vector_addition(T* C, const T* A, indexType NA, const T* B, indexType NB)
 {
-    ArrayOf res;
-    checkDimensions(A, B);
-    if (A.isEmpty()) {
-        return empty_plus_generic(A, B, mustRaiseError, bSuccess);
-    }
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
-    if (A.isScalar() && B.isScalar()) {
-        T* ptrC = (T*)ArrayOf::allocateArrayOf(commonClass, 1);
-        ptrC[0] = ptrA[0] + ptrB[0];
-        res = ArrayOf(commonClass, Dimensions(1, 1), ptrC, false);
-        bSuccess = true;
-    } else {
-        Dimensions dimsC = getOutputDimensions(A, B);
-        indexType Clen = dimsC.getElementCount();
-        T* ptrC = (T*)ArrayOf::allocateArrayOf(commonClass, Clen);
-        Dimensions dimA = A.getDimensions();
-        size_t mA = dimA.getRows();
-        size_t nA = dimA.getColumns();
-        Dimensions dimB = B.getDimensions();
-        size_t mB = dimB.getRows();
-        size_t nB = dimB.getColumns();
-        if (A.isScalar()) {
-            if (!B.is2D()) {
-                for (size_t k = 0; k < Clen; k++) {
-                    ptrC[k] = ptrA[0] + ptrB[k];
-                }
-            } else {
-                size_t mC = dimsC.getRows();
-                size_t nC = dimsC.getColumns();
-                Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrC, mC, nC);
-                Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(ptrB, mB, nB);
-                matC = ptrA[0] + matB.array();
-            }
-        } else if (B.isScalar()) {
-            if (!A.is2D()) {
-                for (size_t k = 0; k < Clen; k++) {
-                    ptrC[k] = ptrA[k] + ptrB[0];
-                }
-            } else {
-                size_t mC = dimsC.getRows();
-                size_t nC = dimsC.getColumns();
-                Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrC, mC, nC);
-                Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(ptrA, mA, nA);
-                matC = matA.array() + ptrB[0];
-            }
-        } else {
-            Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matC(ptrC, dimsC.getElementCount(), 1);
-            Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matA(
-                ptrA, A.getDimensions().getElementCount(), 1);
-            Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matB(
-                ptrB, B.getDimensions().getElementCount(), 1);
-            matC = matA + matB;
+    indexType m = 0;
+    for (indexType i = 0; i < NA; i++) {
+        for (indexType j = 0; j < NB; j++) {
+            C[m] = A[i] + B[j];
+            m++;
         }
-        res = ArrayOf(commonClass, dimsC, ptrC, false);
-        bSuccess = true;
     }
-    return res;
 }
 //=============================================================================
 template <class T>
-ArrayOf
-complex_plus_complex(Class commonClassComplex, Class commonClassReal, const ArrayOf& A,
-    const ArrayOf& B, bool mustRaiseError, bool& bSuccess)
+static void
+complex_vector_addition(T* C, T* A, indexType NA, T* B, indexType NB)
 {
-    ArrayOf res;
-    checkDimensions(A, B);
-    if (A.isEmpty()) {
-        return empty_plus_generic(A, B, mustRaiseError, bSuccess);
+    indexType m = 0;
+    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(A);
+    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(B);
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(C);
+    for (indexType i = 0; i < NA; i++) {
+        for (indexType j = 0; j < NB; j++) {
+            Cz[m] = Az[i] + Bz[j];
+            m++;
+        }
     }
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
-    std::complex<T>* ptrAz = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* ptrBz = reinterpret_cast<std::complex<T>*>(ptrB);
-    Dimensions dimsC = getOutputDimensions(A, B);
-    if (A.isScalar() && B.isScalar()) {
-        T* ptrC = (T*)ArrayOf::allocateArrayOf(commonClassComplex, 1);
-        std::complex<T>* ptrCz = reinterpret_cast<std::complex<T>*>(ptrC);
-        ptrCz[0] = ptrAz[0] + ptrBz[0];
-        res = ArrayOf(commonClassComplex, Dimensions(1, 1), ptrC, false);
-        bSuccess = true;
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+vector_matrix_addition(Class classDestination, const ArrayOf& a, const ArrayOf& b)
+{
+    const T* ptrA = (const T*)a.getDataPointer();
+    const T* ptrB = (const T*)b.getDataPointer();
+    indexType q = 0;
+    Dimensions dimsC = b.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    void* Cp = new_with_exception<T>(Clen, false);
+    T* C = (T*)Cp;
+    for (indexType i = 0; i < dimsC.getRows(); i++) {
+        for (indexType j = 0; j < dimsC.getColumns(); j++) {
+            indexType m = i + j * a.getDimensions().getRows();
+            C[m] = ptrB[m] + ptrA[q];
+        }
+        q++;
+    }
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+complex_vector_matrix_addition(Class classDestination, const ArrayOf& a, const ArrayOf& b)
+{
+    Dimensions dimsC = b.getDimensions();
+    indexType q = 0;
+    indexType Clen = dimsC.getElementCount();
+    T* ptrA = (T*)a.getDataPointer();
+    T* ptrB = (T*)b.getDataPointer();
+    void* Cp = new_with_exception<T>(Clen * 2, false);
+    T* C = (T*)Cp;
+    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
+    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(C);
+    for (indexType i = 0; i < dimsC.getRows(); i++) {
+        for (indexType j = 0; j < dimsC.getColumns(); j++) {
+            indexType m = i + j * a.getDimensions().getRows();
+            Cz[m] = Bz[m] + Az[q];
+        }
+        q++;
+    }
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+vector_column_addition(Class classDestination, const ArrayOf& a, const ArrayOf& b)
+{
+    const T* ptrA = (const T*)a.getDataPointer();
+    const T* ptrB = (const T*)b.getDataPointer();
+    Dimensions dimsC = b.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    void* Cp = new_with_exception<T>(Clen, false);
+    T* C = (T*)Cp;
+    for (indexType i = 0; i < dimsC.getRows(); i++) {
+        for (indexType j = 0; j < dimsC.getColumns(); j++) {
+            indexType m = i + j * b.getDimensions().getRows();
+            C[m] = ptrB[m] + ptrA[j];
+        }
+    }
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+complex_vector_column_addition(Class classDestination, const ArrayOf& a, const ArrayOf& b)
+{
+    indexType q = 0;
+    Dimensions dimsC = b.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    T* ptrA = (T*)a.getDataPointer();
+    T* ptrB = (T*)b.getDataPointer();
+    void* Cp = new_with_exception<T>(Clen * 2, false);
+    T* C = (T*)Cp;
+    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
+    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(C);
+    for (indexType i = 0; i < dimsC.getRows(); i++) {
+        for (indexType j = 0; j < dimsC.getColumns(); j++) {
+            indexType m = i + j * b.getDimensions().getRows();
+            Cz[m] = Bz[m] + Az[j];
+        }
+    }
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+ArrayOf
+addition(Class classDestination, ArrayOf a, ArrayOf b)
+{
+    void* Cp = nullptr;
+    if (a.isScalar() && b.isScalar()) {
+        T* ptrA = (T*)a.getDataPointer();
+        T* ptrB = (T*)b.getDataPointer();
+        T res = ptrA[0] + ptrB[0];
+        if (classDestination == NLS_DOUBLE) {
+            return ArrayOf::doubleConstructor((double)res);
+        } else {
+            return ArrayOf::singleConstructor((single)res);
+		}
+    }
+    Dimensions dimsA = a.getDimensions();
+    Dimensions dimsB = b.getDimensions();
+    Dimensions dimsC;
+    if (a.isEmpty() || b.isEmpty()) {
+        if (a.isScalar() || b.isScalar()) {
+            if (a.isScalar()) {
+                return ArrayOf(b);
+            } else {
+                return ArrayOf(a);
+            }
+        } else {
+            if (!(SameSizeCheck(dimsA, dimsB))) {
+                throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+            }
+            return ArrayOf(b);
+        }
+    }
+    if (SameSizeCheck(dimsA, dimsB)) {
+        return matrix_matrix_addition<T>(classDestination, a, b);
     } else {
-        Dimensions dimsC = getOutputDimensions(A, B);
-        indexType Clen = dimsC.getElementCount();
-        T* ptrC = (T*)ArrayOf::allocateArrayOf(commonClassComplex, Clen);
-        std::complex<T>* ptrCz = reinterpret_cast<std::complex<T>*>(ptrC);
-        Dimensions dimA = A.getDimensions();
-        size_t mA = dimA.getRows();
-        size_t nA = dimA.getColumns();
-        Dimensions dimB = B.getDimensions();
-        size_t mB = dimB.getRows();
-        size_t nB = dimB.getColumns();
-        if (A.isScalar()) {
-            if (!B.is2D()) {
-                for (size_t k = 0; k < Clen; k++) {
-                    ptrCz[k] = ptrAz[0] + ptrBz[k];
-                }
+        if (a.isScalar() || b.isScalar()) {
+            if (a.isScalar()) {
+                return scalar_matrix_addition<T>(classDestination, a, b);
             } else {
-                size_t mC = dimsC.getRows();
-                size_t nC = dimsC.getColumns();
-                Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(
-                    ptrCz, mC, nC);
-                Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(
-                    ptrBz, mB, nB);
-                matC = ptrAz[0] + matB.array();
-            }
-        } else if (B.isScalar()) {
-            if (!A.isScalar()) {
-                for (size_t k = 0; k < Clen; k++) {
-                    ptrCz[k] = ptrAz[k] + ptrBz[0];
-                }
-            } else {
-                size_t mC = dimsC.getRows();
-                size_t nC = dimsC.getColumns();
-                Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(
-                    ptrCz, mC, nC);
-                Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(
-                    ptrAz, mA, nA);
-                matC = matA.array() + ptrBz[0];
+                // b.isScalar()
+                return scalar_matrix_addition<T>(classDestination, b, a);
             }
         } else {
-            Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matC(
-                ptrCz, dimsC.getElementCount(), 1);
-            Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matA(
-                ptrAz, A.getDimensions().getElementCount(), 1);
-            Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matB(
-                ptrBz, B.getDimensions().getElementCount(), 1);
-            matC = matA + matB;
-        }
-        res = ArrayOf(commonClassComplex, dimsC, ptrC, false);
-    }
-    if (res.allReal()) {
-        res.promoteType(commonClassReal);
-    }
-    bSuccess = true;
-    return res;
-}
-//=============================================================================
-ArrayOf
-Addition(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
-{
-    bSuccess = false;
-    if (A.isSparse() || B.isSparse()) {
-        if (mustRaiseError) {
-            std::string overload = ClassName(A) + "_plus_" + ClassName(B);
-            throw Exception(_("function") + " " + overload + " " + _("undefined."));
-        } else {
-            return ArrayOf();
-        }
-    }
-    if ((A.isNdArrayDoubleType(true) || A.isDoubleType(true))
-        && (B.isNdArrayDoubleType(true) || B.isDoubleType(true))) {
-        return real_plus_real<double>(NLS_DOUBLE, A, B, mustRaiseError, bSuccess);
-    }
-    if ((A.isNdArraySingleType(true) || A.isSingleType(true))
-        && (B.isNdArraySingleType(true) || B.isSingleType(true))) {
-        return real_plus_real<single>(NLS_SINGLE, A, B, mustRaiseError, bSuccess);
-    }
-    if ((A.isNdArrayDoubleType(false) || A.isDoubleType(false))
-        && (B.isNdArrayDoubleType(false) || B.isDoubleType(false))) {
-        if (A.getDataClass() == B.getDataClass()) {
-            return complex_plus_complex<double>(
-                NLS_DCOMPLEX, NLS_DOUBLE, A, B, mustRaiseError, bSuccess);
-        } else {
-            A.promoteType(NLS_DCOMPLEX);
-            B.promoteType(NLS_DCOMPLEX);
-            return complex_plus_complex<double>(
-                NLS_DCOMPLEX, NLS_DOUBLE, A, B, mustRaiseError, bSuccess);
-        }
-    }
-    if ((A.isNdArraySingleType(false) || A.isSingleType(false))
-        && (B.isNdArraySingleType(false) || B.isSingleType(false))) {
-        if (A.getDataClass() == B.getDataClass()) {
-            return complex_plus_complex<single>(
-                NLS_SCOMPLEX, NLS_SINGLE, A, B, mustRaiseError, bSuccess);
-        } else {
-            A.promoteType(NLS_SCOMPLEX);
-            B.promoteType(NLS_SCOMPLEX);
-            return complex_plus_complex<single>(
-                NLS_SCOMPLEX, NLS_SINGLE, A, B, mustRaiseError, bSuccess);
-        }
-    }
-    if (mustRaiseError) {
-        std::string overload = ClassName(A) + "_plus_" + ClassName(B);
-        throw Exception(_("function") + " " + overload + " " + _("undefined."));
-    }
-    return ArrayOf();
-}
-//=============================================================================
-ArrayOf
-empty_plus_generic(ArrayOf A, ArrayOf B, bool mustRaiseError, bool& bSuccess)
-{
-    ArrayOf res;
-    Dimensions dimA = A.getDimensions();
-    size_t mA = dimA.getRows();
-    size_t nA = dimA.getColumns();
-    if (mA == nA) {
-        if (B.isEmpty()) {
-            Dimensions dimB = B.getDimensions();
-            size_t mB = dimB.getRows();
-            size_t nB = dimB.getColumns();
-            if ((mB == mA) && (nA == nB)) {
-                bSuccess = true;
-                return ArrayOf(A);
-            } else {
-                if (mustRaiseError) {
-                    throw Exception(_W("using operator '+' \n Matrix dimensions must agree."));
+            if (a.isVector() || b.isVector()) {
+                if (a.isRowVector() && b.isColumnVector()) {
+                    dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
+                        std::max(dimsA.getMax(), dimsB.getMax()));
+                    indexType Clen = dimsC.getElementCount();
+                    Cp = new_with_exception<T>(Clen, false);
+                    vector_addition((T*)Cp, (const T*)a.getDataPointer(),
+                        dimsA.getElementCount(), (const T*)b.getDataPointer(),
+                        dimsB.getElementCount());
+                } else if (a.isColumnVector() && b.isRowVector()) {
+                    dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
+                        std::max(dimsA.getMax(), dimsB.getMax()));
+                    indexType Clen = dimsC.getElementCount();
+                    Cp = new_with_exception<T>(Clen, false);
+                    vector_addition<T>((T*)Cp, (const T*)b.getDataPointer(),
+                        dimsB.getElementCount(), (const T*)a.getDataPointer(),
+                        dimsA.getElementCount());
+                } else if ((a.isRowVector() && b.isRowVector())
+                    || (a.isColumnVector() && b.isColumnVector())) {
+                    throw Exception(
+                        _W("Size mismatch on arguments to arithmetic operator ") + L"+");
                 } else {
-                    bSuccess = false;
-                    return ArrayOf();
+                    const T* ptrA = (const T*)a.getDataPointer();
+                    const T* ptrB = (const T*)b.getDataPointer();
+
+                    if (dimsA[0] == dimsB[0]) {
+                        if (a.isVector()) {
+                            return vector_matrix_addition<T>(classDestination, a, b);
+                        } else {
+                            return vector_matrix_addition<T>(classDestination, b, a);
+                        }
+                    } else if (dimsA[1] == dimsB[1]) {
+                        if (a.isVector()) {
+                            return vector_column_addition<T>(classDestination, a, b);
+                        } else {
+                            return vector_column_addition<T>(classDestination, b, a);
+                        }
+                    } else {
+                        throw Exception(
+                            _W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                    }
                 }
-            }
-        }
-        if (B.isScalar()) {
-            // [] + X returns []
-            bSuccess = true;
-            return ArrayOf(A);
-        } else {
-            if (mustRaiseError) {
-                throw Exception(_W("using operator '+' \n Matrix dimensions must agree."));
             } else {
-                bSuccess = false;
-                return ArrayOf();
+                throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
             }
         }
     }
-    res = ArrayOf(A);
-    bSuccess = true;
-    return res;
+    return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
-Dimensions
-getOutputDimensions(ArrayOf A, ArrayOf B)
+template <class T>
+ArrayOf
+complex_addition(Class classDestination, ArrayOf a, ArrayOf b)
 {
-    Dimensions outputDimensions;
-    if (A.isScalar()) {
-        outputDimensions = B.getDimensions();
+    a.promoteType(classDestination);
+    b.promoteType(classDestination);
+    void* Cp = nullptr;
+    if (a.isScalar() && b.isScalar()) {
+        T* ptrA = (T*)a.getDataPointer();
+        T* ptrB = (T*)b.getDataPointer();
+        std::complex<T> ca(ptrA[0], ptrA[1]);
+        std::complex<T> cb(ptrB[0], ptrB[1]);
+        std::complex<T> res = ca + cb;
+		if (classDestination == NLS_DCOMPLEX)
+		{
+            return ArrayOf::dcomplexConstructor((double)res.real(), (double)res.imag());
+		} else {
+            return ArrayOf::complexConstructor((single)res.real(), (single)res.imag());
+        }
+    }
+    Dimensions dimsA = a.getDimensions();
+    Dimensions dimsB = b.getDimensions();
+    Dimensions dimsC;
+    if (a.isEmpty() || b.isEmpty()) {
+        if (a.isScalar() || b.isScalar()) {
+            if (a.isScalar()) {
+                return ArrayOf(b);
+            } else {
+                return ArrayOf(a);
+            }
+        } else {
+            if (!(SameSizeCheck(dimsA, dimsB))) {
+                throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+            }
+            return ArrayOf(b);
+        }
+    }
+    if (SameSizeCheck(dimsA, dimsB)) {
+        return complex_matrix_matrix_addition<T>(classDestination, a, b);
     } else {
-        outputDimensions = A.getDimensions();
+        if (a.isScalar() || b.isScalar()) {
+            if (a.isScalar()) {
+                return complex_scalar_matrix_addition<T>(classDestination, a, b);
+            } else {
+                // b.isScalar()
+                return complex_scalar_matrix_addition<T>(classDestination, b, a);
+            }
+        } else {
+            if (a.isVector() || b.isVector()) {
+                if (a.isRowVector() && b.isColumnVector()) {
+                    dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
+                        std::max(dimsA.getMax(), dimsB.getMax()));
+                    indexType Clen = dimsC.getElementCount();
+                    Cp = new_with_exception<T>(Clen * 2, false);
+                    complex_vector_addition<T>((T*)Cp, (T*)a.getDataPointer(),
+                        dimsA.getElementCount(), (T*)b.getDataPointer(),
+                        dimsB.getElementCount());
+                } else if (a.isColumnVector() && b.isRowVector()) {
+                    dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
+                        std::max(dimsA.getMax(), dimsB.getMax()));
+                    indexType Clen = dimsC.getElementCount();
+                    Cp = new_with_exception<T>(Clen * 2, false);
+                    complex_vector_addition((T*)Cp, (T*)b.getDataPointer(),
+                        dimsB.getElementCount(), (T*)a.getDataPointer(),
+                        dimsA.getElementCount());
+                } else if ((a.isRowVector() && b.isRowVector())
+                    || (a.isColumnVector() && b.isColumnVector())) {
+                    throw Exception(
+                        _W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                } else {
+                    T* ptrA = (T*)a.getDataPointer();
+                    T* ptrB = (T*)b.getDataPointer();
+
+                    if (dimsA[0] == dimsB[0]) {
+                        if (a.isVector()) {
+                            return complex_vector_matrix_addition<T>(classDestination, a, b);
+                        } else {
+                            return complex_vector_matrix_addition<T>(classDestination, b, a);
+                        }
+                    } else if (dimsA[1] == dimsB[1]) {
+                        if (a.isVector()) {
+                            return complex_vector_column_addition<T>(classDestination, a, b);
+                        } else {
+                            return complex_vector_column_addition<T>(classDestination, b, a);
+                        }
+                    } else {
+                        throw Exception(
+                            _W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                    }
+                }
+            } else {
+                throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+            }
+        }
     }
-    return outputDimensions;
+    return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
-void
-checkDimensions(ArrayOf A, ArrayOf B)
+ArrayOf
+double_plus_double(ArrayOf a, ArrayOf b)
 {
-    if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar())) {
-        throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+    if (a.isComplex() || b.isComplex()) {
+        ArrayOf res = complex_addition<double>(NLS_DCOMPLEX, a, b);
+        if (res.allReal()) {
+            res.promoteType(NLS_DOUBLE);
+        }
+        return res;
     }
+    return addition<double>(NLS_DOUBLE, a, b);
 }
 //=============================================================================
+ArrayOf
+single_plus_single(ArrayOf a, ArrayOf b)
+{
+    if (a.isComplex() || b.isComplex()) {
+        ArrayOf res = complex_addition<single>(NLS_SCOMPLEX, a, b);
+        if (res.allReal()) {
+            res.promoteType(NLS_SINGLE);
+        }
+        return res;
+    }
+    return addition<single>(NLS_SINGLE, a, b);
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

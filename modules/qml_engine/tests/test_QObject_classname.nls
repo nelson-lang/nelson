@@ -25,7 +25,7 @@ qobj1 = qml_loadfile(qml_file);
 assert_isequal(QObject_classname(qobj1), 'QQuickWindow');
 ref_1 = {'QQuickRootItem';'QQuickText'};
 ref_2 = 'QQuickText';
-assert_istrue(isequal(QObject_classname(qobj1.children), ref_1) | isequal(QObject_classname(qobj1.children), ref_2));
+assert_istrue(isequal(QObject_classname(qobj1.children), ref_1) || isequal(QObject_classname(qobj1.children), ref_2));
 //=============================================================================
 res = isequal(qobj1.className, 'QQuickWindow');
 assert_istrue(res);
