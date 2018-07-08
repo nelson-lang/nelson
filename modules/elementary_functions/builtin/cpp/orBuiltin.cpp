@@ -18,17 +18,8 @@
 //=============================================================================
 #include "orBuiltin.hpp"
 #include "Error.hpp"
-#include "Or.hpp"
-#include "OverloadBinaryOperator.hpp"
 //=============================================================================
 using namespace Nelson;
-//=============================================================================
-static bool
-needToOverload(ArrayOf a)
-{
-    return ((a.getDataClass() == NLS_STRUCT_ARRAY) || (a.getDataClass() == NLS_CELL_ARRAY)
-        || a.isSparse() || a.isHandle());
-}
 //=============================================================================
 ArrayOfVector
 Nelson::ElementaryFunctionsGateway::orBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
@@ -39,15 +30,7 @@ Nelson::ElementaryFunctionsGateway::orBuiltin(Evaluator* eval, int nLhs, const A
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    if (eval->overloadOnBasicTypes) {
-        retval.push_back(OverloadBinaryOperator(eval, A, B, "or"));
-    } else {
-        if (needToOverload(A) || needToOverload(B)) {
-            retval.push_back(OverloadBinaryOperator(eval, A, B, "or"));
-        } else {
-            retval.push_back(Or(A, B));
-        }
-    }
+    retval.push_back(eval->orOperator(A, B));
     return retval;
 }
 //=============================================================================

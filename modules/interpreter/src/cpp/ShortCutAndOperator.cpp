@@ -16,22 +16,42 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "andBuiltin.hpp"
-#include "Error.hpp"
+#include "Evaluator.hpp"
+#include "OverloadBinaryOperator.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::andBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOf
+Evaluator::shortCutAndOperator(ArrayOf A, ArrayOf B)
 {
-    ArrayOfVector retval;
-    if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    ArrayOf retval;
+	if (overloadOnBasicTypes || needToOverloadLogicOperator(A) || needToOverloadLogicOperator(B)) {
+        retval = OverloadBinaryOperator(this, A, B, "shortcutand");
+    } else {
+        if (A.isScalar() && B.isScalar()) {
+            bool a = A.getContentAsLogicalScalar();
+            if (!a) {
+                retval = A;
+            } else {
+                bool b = B.getContentAsLogicalScalar();
+                return ArrayOf::logicalConstructor(a && b);
+            }
+        } else {
+            throw Exception(_W("Operand to && operator must be convertible to "
+                               "logical scalar values."));
+        }
     }
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    retval.push_back(eval->andOperator(A, B));
     return retval;
 }
+//=============================================================================
+ArrayOf Evaluator::shortCutAndOperator(ASTPtr t) {
+  pushID(t->context());
+  ArrayOf A = expression(t->down);
+  ArrayOf B = expression(t->down->right);
+  ArrayOf retval = shortCutAndOperator(A, B);
+  popID();
+  return retval;
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

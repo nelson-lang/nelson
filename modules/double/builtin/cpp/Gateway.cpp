@@ -18,7 +18,6 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "double_dispBuiltin.hpp"
-#include "ndarraydouble_dispBuiltin.hpp"
 #include "doubleBuiltin.hpp"
 #include "double_colon_doubleBuiltin.hpp"
 #include "colon_double_double_doubleBuiltin.hpp"
@@ -35,7 +34,7 @@ const std::wstring gatewayName = L"double";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "double_disp", Nelson::DoubleGateway::double_dispBuiltin, 0, 1 },
-    { "ndarraydouble_disp", Nelson::DoubleGateway::ndarraydouble_dispBuiltin, 0, 1 },
+    { "ndarraydouble_disp", Nelson::DoubleGateway::double_dispBuiltin, 0, 1 },
     { "double", Nelson::DoubleGateway::doubleBuiltin, 1, 1 },
     { "double_colon_double", Nelson::DoubleGateway::double_colon_doubleBuiltin, 1, 2 },
     { "colon_double_double_double", Nelson::DoubleGateway::colon_double_double_doubleBuiltin, 1,

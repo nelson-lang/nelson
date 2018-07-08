@@ -132,10 +132,22 @@
     <ClCompile Include="..\cpp\CheckIfWhileCondition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\Addition.cpp">
+    <ClCompile Include="..\cpp\AdditionOperator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\Subtraction.cpp">
+    <ClCompile Include="..\cpp\SubtractionOperator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\OrOperator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\AndOperator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\ShortCutOrOperator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\ShortCutAndOperator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

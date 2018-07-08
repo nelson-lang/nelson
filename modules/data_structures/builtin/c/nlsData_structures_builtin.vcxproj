@@ -177,6 +177,7 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\isfieldBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarraycell_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ndarraystruct_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\struct2cellBuiltin.cpp" />
     <ClCompile Include="..\cpp\structBuiltin.cpp" />
     <ClCompile Include="..\cpp\struct_dispBuiltin.cpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="..\include\iscellstrBuiltin.hpp" />
     <ClInclude Include="..\include\isfieldBuiltin.hpp" />
     <ClInclude Include="..\include\ndarraycell_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\ndarraystruct_dispBuiltin.hpp" />
     <ClInclude Include="..\include\nlsData_structures_builtin_exports.h" />
     <ClInclude Include="..\include\struct2cellBuiltin.hpp" />
     <ClInclude Include="..\include\structBuiltin.hpp" />

@@ -23,7 +23,16 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Evaluator::addition(ArrayOf A, ArrayOf B)
+Evaluator::additionOperator(ASTPtr t)
+{
+    pushID(t->context());
+    ArrayOf retval = this->additionOperator(expression(t->down), expression(t->down->right));
+    popID();
+    return retval;
+}
+//=============================================================================
+ArrayOf
+Evaluator::additionOperator(ArrayOf A, ArrayOf B)
 {
     ArrayOf res;
     if (overloadOnBasicTypes) {

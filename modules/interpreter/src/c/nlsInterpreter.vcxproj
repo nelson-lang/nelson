@@ -209,7 +209,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\ActionMenu.cpp" />
-    <ClCompile Include="..\cpp\Addition.cpp" />
+    <ClCompile Include="..\cpp\AdditionOperator.cpp" />
+    <ClCompile Include="..\cpp\AndOperator.cpp" />
     <ClCompile Include="..\cpp\AST.cpp" />
     <ClCompile Include="..\cpp\AstManager.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDef.cpp" />
@@ -239,6 +240,7 @@
     <ClCompile Include="..\cpp\MacroFunctionDef.cpp" />
     <ClCompile Include="..\cpp\NelsonLexer.cpp" />
     <ClCompile Include="..\cpp\Operators.cpp" />
+    <ClCompile Include="..\cpp\OrOperator.cpp" />
     <ClCompile Include="..\cpp\OverloadCache.cpp" />
     <ClCompile Include="..\cpp\OverloadDisplay.cpp" />
     <ClCompile Include="..\cpp\ParseFile.cpp" />
@@ -246,10 +248,12 @@
     <ClCompile Include="..\cpp\PathFuncManager.cpp" />
     <ClCompile Include="..\cpp\ProcessEventsDynamicFunction.cpp" />
     <ClCompile Include="..\cpp\Scope.cpp" />
+    <ClCompile Include="..\cpp\ShortCutAndOperator.cpp" />
+    <ClCompile Include="..\cpp\ShortCutOrOperator.cpp" />
     <ClCompile Include="..\cpp\StackEntry.cpp" />
     <ClCompile Include="..\cpp\Evaluator.cpp" />
     <ClCompile Include="..\cpp\StackError.cpp" />
-    <ClCompile Include="..\cpp\Subtraction.cpp" />
+    <ClCompile Include="..\cpp\SubtractionOperator.cpp" />
     <ClCompile Include="..\cpp\VariablesTable.cpp" />
     <ClCompile Include="..\cpp\VertCatOperator.cpp" />
     <ClCompile Include="..\grammar\NelSonParser.cpp" />

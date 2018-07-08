@@ -31,7 +31,7 @@ Nelson::ElementaryFunctionsGateway::minusBuiltin(
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    retval.push_back(eval->subtraction(A, B));
+    retval.push_back(eval->subtractionOperator(A, B));
     return retval;
 }
 //=============================================================================

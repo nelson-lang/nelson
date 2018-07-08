@@ -31,7 +31,7 @@ Nelson::ElementaryFunctionsGateway::plusBuiltin(
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    retval.push_back(eval->addition(A, B));
+    retval.push_back(eval->additionOperator(A, B));
     return retval;
 }
 //=============================================================================

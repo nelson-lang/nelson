@@ -16,22 +16,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "andBuiltin.hpp"
-#include "Error.hpp"
+#include "Or.hpp"
+#include "Evaluator.hpp"
+#include "OverloadBinaryOperator.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::andBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOf
+Evaluator::orOperator(ArrayOf A, ArrayOf B)
 {
-    ArrayOfVector retval;
-    if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    ArrayOf retval;
+    if (overloadOnBasicTypes || needToOverloadLogicOperator(A) || needToOverloadLogicOperator(B)) {
+        retval = OverloadBinaryOperator(this, A, B, "or");
+    } else {
+        retval = Or(A, B);
     }
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    retval.push_back(eval->andOperator(A, B));
     return retval;
 }
+//=============================================================================
+ArrayOf Evaluator::orOperator(ASTPtr t) {
+  pushID(t->context());
+  const ArrayOf A = expression(t->down);
+  const ArrayOf B = expression(t->down->right);
+  ArrayOf retval = orOperator(A, B);
+  popID();
+  return retval;
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -16,22 +16,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "andBuiltin.hpp"
+#include "ndarraystruct_dispBuiltin.hpp"
 #include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::andBuiltin(
+Nelson::DataStructuresGateway::ndarraystruct_dispBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (nLhs > 0) {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    retval.push_back(eval->andOperator(A, B));
+    if (argIn.size() != 1) {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } else if (argIn[0].getDataClass() != NLS_STRUCT_ARRAY) {
+        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
+    } else {
+        argIn[0].printMe(eval->getPrintLimit(), eval->getInterface()->getTerminalWidth());
+    }
     return retval;
 }
 //=============================================================================

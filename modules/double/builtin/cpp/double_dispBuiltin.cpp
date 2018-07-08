@@ -31,6 +31,10 @@ Nelson::DoubleGateway::double_dispBuiltin(Evaluator* eval, int nLhs, const Array
     }
     if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+	if (argIn[0].isNdArrayDoubleType())
+	{
+        argIn[0].printMe(eval->getPrintLimit(), eval->getInterface()->getTerminalWidth());
     } else if (!argIn[0].isDoubleType() || (argIn[0].isSparse())) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
     } else {

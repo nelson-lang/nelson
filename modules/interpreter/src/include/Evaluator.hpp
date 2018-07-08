@@ -804,10 +804,21 @@ public:
         std::string functionName);
 
     ArrayOf
-    addition(ArrayOf A, ArrayOf B);
+    additionOperator(ArrayOf A, ArrayOf B);
 
     ArrayOf
-    subtraction(ArrayOf A, ArrayOf B);
+    subtractionOperator(ArrayOf A, ArrayOf B);
+
+    ArrayOf
+    shortCutOrOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    shortCutAndOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    orOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    andOperator(ArrayOf A, ArrayOf B);
+
+
 
 private:
     void

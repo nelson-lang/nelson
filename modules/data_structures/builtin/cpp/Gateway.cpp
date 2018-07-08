@@ -19,6 +19,7 @@
 #include "NelsonGateway.hpp"
 #include "structBuiltin.hpp"
 #include "struct_dispBuiltin.hpp"
+#include "ndarraystruct_dispBuiltin.hpp"
 #include "cell_dispBuiltin.hpp"
 #include "iscellstrBuiltin.hpp"
 #include "cellBuiltin.hpp"
@@ -36,6 +37,7 @@ const std::wstring gatewayName = L"data_structures";
 static const nlsGateway gateway[] = {
     { "struct", Nelson::DataStructuresGateway::structBuiltin, 1, 1 },
     { "struct_disp", Nelson::DataStructuresGateway::struct_dispBuiltin, 0, 1 },
+    { "ndarraystruct_disp", Nelson::DataStructuresGateway::ndarraystruct_dispBuiltin, 0, 1 },
     { "cell_disp", Nelson::DataStructuresGateway::cell_dispBuiltin, 0, 1 },
     { "ndarraycell_disp", Nelson::DataStructuresGateway::ndarraycell_dispBuiltin, 0, 1 },
     { "iscellstr", Nelson::DataStructuresGateway::iscellstrBuiltin, 1, 1 },

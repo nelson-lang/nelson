@@ -13,11 +13,13 @@ ans =
 
 ans =
 
-   Empty matrix : 1-by-2-by-0
+  <double>  - size: 1x2x0
+  []
 
 ans =
 
-   Empty matrix : 5-by-0-by-2-by-4
+  <double>  - size: 5x0x2x4
+  []
 
 ans =
 
@@ -30,4 +32,5 @@ ans =
   []
 M =
 
-   Empty matrix : 4-by-3-by-0
+  <double>  - size: 4x3x0
+  []

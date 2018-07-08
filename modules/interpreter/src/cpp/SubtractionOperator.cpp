@@ -23,7 +23,16 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Evaluator::subtraction(ArrayOf A, ArrayOf B)
+Evaluator::subtractionOperator(ASTPtr t)
+{
+    pushID(t->context());
+    ArrayOf retval = this->subtractionOperator(expression(t->down), expression(t->down->right));
+    popID();
+    return retval;
+}
+//=============================================================================
+ArrayOf
+Evaluator::subtractionOperator(ArrayOf A, ArrayOf B)
 {
     ArrayOf res;
     if (overloadOnBasicTypes) {

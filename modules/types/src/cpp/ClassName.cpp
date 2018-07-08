@@ -93,7 +93,11 @@ ClassName(ArrayOf In)
     default:
         break;
     }
-    if ((In.is2D() || In.isEmpty() || In.isScalar()) && !In.isSparse()) {
+    if (In.getDimensions().getLength() > 2) {
+        if (!In.isEmpty()) {
+            classString = std::string(NLS_NDARRAY_STR) + classString;
+		}
+    } else if ((In.is2D() || In.isEmpty() || In.isScalar()) && !In.isSparse()) {
         return classString;
     } else if (In.isSparse()) {
         classString = std::string(NLS_SPARSE_STR) + classString;
