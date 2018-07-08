@@ -33,90 +33,89 @@ using namespace Nelson;
 // clear global varname
 // clear varname1 varname2 ... varnameN
 // clear function
-ArrayOfVector Nelson::MemoryGateway::clearBuiltin(Evaluator *eval, int nLhs,
-                                                  const ArrayOfVector &argIn) {
-  ArrayOfVector retval;
-  if (nLhs != 0) {
-    Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-  }
-  if (argIn.size() == 0) {
-    ClearAllVariables(eval);
-  } else {
-    for (size_t k = 0; k < argIn.size(); k++) {
-      if (!argIn[k].isSingleString()) {
-        Error(eval,
-              StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(),
-                           k + 1));
-      }
+ArrayOfVector
+Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (nLhs != 0) {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 1) {
-      std::wstring arg1 = argIn[0].getContentAsWideString();
-      if (arg1.compare(L"global") == 0) {
-        ClearAllGlobalVariables(eval);
-      } else if (arg1.compare(L"all") == 0) {
+    if (argIn.size() == 0) {
         ClearAllVariables(eval);
-        ClearAllGlobalVariables(eval);
-        ClearMacroCache(eval);
-      } else if (arg1.compare(L"variables") == 0) {
-        ClearAllVariables(eval);
-      } else if (arg1.compare(L"functions") == 0) {
-        ClearMacroCache(eval);
-        ClearAllPersistentVariables(eval);
-      } else {
-        if (!IsValidVariableName(arg1)) {
-          Error(eval, _W("A valid variable name expected."));
-        }
-        Context *ctxt = eval->getContext();
-        if (ctxt->isLockedVariable(wstring_to_utf8(arg1))) {
-          Error(eval, _W("variable is locked:") + arg1);
-        }
-		if (!ClearVariable(eval, arg1))
-		{
-            ClearPersistentVariable(eval, arg1);
-		}
-      }
-    } else if (argIn.size() == 2) {
-      // clear global varname
-      // clear varname1 varname2
-      std::wstring arg1 = argIn[0].getContentAsWideString();
-      std::wstring arg2 = argIn[1].getContentAsWideString();
-      Context *ctxt = eval->getContext();
-      if (arg1 == L"global") {
-        if (ctxt->getGlobalScope()->isLockedVariable(wstring_to_utf8(arg2))) {
-          Error(eval, _W("variable is locked:") + arg2);
-        }
-        ClearGlobalVariable(eval, arg2);
-      } else {
-        for (size_t k = 0; k < argIn.size(); k++) {
-          std::wstring arg = argIn[k].getContentAsWideString();
-          if (!IsValidVariableName(arg)) {
-            Error(eval, _W("A valid variable name expected."));
-          }
-          if (ctxt->isLockedVariable(wstring_to_utf8(arg))) {
-            Error(eval, _W("variable is locked:") + arg);
-          }
-          if (!ClearVariable(eval, arg)) {
-              ClearPersistentVariable(eval, arg);
-          }
-        }
-      }
     } else {
-      // clear varname1 varname2 ... varnameN
-      Context *ctxt = eval->getContext();
-      for (size_t k = 0; k < argIn.size(); k++) {
-        std::wstring arg = argIn[k].getContentAsWideString();
-        if (!IsValidVariableName(arg)) {
-          Error(eval, _W("A valid variable name expected."));
+        for (size_t k = 0; k < argIn.size(); k++) {
+            if (!argIn[k].isSingleString()) {
+                Error(
+                    eval, StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), k + 1));
+            }
         }
-        if (ctxt->isLockedVariable(wstring_to_utf8(arg))) {
-          Error(eval, _W("variable is locked:") + arg);
+        if (argIn.size() == 1) {
+            std::wstring arg1 = argIn[0].getContentAsWideString();
+            if (arg1.compare(L"global") == 0) {
+                ClearAllGlobalVariables(eval);
+            } else if (arg1.compare(L"all") == 0) {
+                ClearAllVariables(eval);
+                ClearAllGlobalVariables(eval);
+                ClearMacroCache(eval);
+            } else if (arg1.compare(L"variables") == 0) {
+                ClearAllVariables(eval);
+            } else if (arg1.compare(L"functions") == 0) {
+                ClearMacroCache(eval);
+                ClearAllPersistentVariables(eval);
+            } else {
+                if (!IsValidVariableName(arg1)) {
+                    Error(eval, _W("A valid variable name expected."));
+                }
+                Context* ctxt = eval->getContext();
+                if (ctxt->isLockedVariable(wstring_to_utf8(arg1))) {
+                    Error(eval, _W("variable is locked:") + arg1);
+                }
+                if (!ClearVariable(eval, arg1)) {
+                    ClearPersistentVariable(eval, arg1);
+                }
+            }
+        } else if (argIn.size() == 2) {
+            // clear global varname
+            // clear varname1 varname2
+            std::wstring arg1 = argIn[0].getContentAsWideString();
+            std::wstring arg2 = argIn[1].getContentAsWideString();
+            Context* ctxt = eval->getContext();
+            if (arg1 == L"global") {
+                if (ctxt->getGlobalScope()->isLockedVariable(wstring_to_utf8(arg2))) {
+                    Error(eval, _W("variable is locked:") + arg2);
+                }
+                ClearGlobalVariable(eval, arg2);
+            } else {
+                for (size_t k = 0; k < argIn.size(); k++) {
+                    std::wstring arg = argIn[k].getContentAsWideString();
+                    if (!IsValidVariableName(arg)) {
+                        Error(eval, _W("A valid variable name expected."));
+                    }
+                    if (ctxt->isLockedVariable(wstring_to_utf8(arg))) {
+                        Error(eval, _W("variable is locked:") + arg);
+                    }
+                    if (!ClearVariable(eval, arg)) {
+                        ClearPersistentVariable(eval, arg);
+                    }
+                }
+            }
+        } else {
+            // clear varname1 varname2 ... varnameN
+            Context* ctxt = eval->getContext();
+            for (size_t k = 0; k < argIn.size(); k++) {
+                std::wstring arg = argIn[k].getContentAsWideString();
+                if (!IsValidVariableName(arg)) {
+                    Error(eval, _W("A valid variable name expected."));
+                }
+                if (ctxt->isLockedVariable(wstring_to_utf8(arg))) {
+                    Error(eval, _W("variable is locked:") + arg);
+                }
+                if (!ClearVariable(eval, arg)) {
+                    ClearPersistentVariable(eval, arg);
+                }
+            }
         }
-        if (!ClearVariable(eval, arg)) {
-            ClearPersistentVariable(eval, arg);
-        }
-      }
     }
-  }
-  return retval;
+    return retval;
 }
 //=============================================================================

@@ -29,18 +29,18 @@ Nelson::ElementaryFunctionsGateway::normBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() < 1 || argIn.size() > 2) {
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	if (nLhs > 1) {
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	bool bSuccess = false;
-	if (eval->overloadOnBasicTypes) {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1) {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    bool bSuccess = false;
+    if (eval->overloadOnBasicTypes) {
         retval = OverloadFunction(eval, nLhs, argIn, "norm", bSuccess);
     }
-	if (!bSuccess) {
-		if (argIn[0].getDataClass() == NLS_SINGLE || argIn[0].getDataClass() == NLS_SCOMPLEX ||
-			argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_DCOMPLEX){
+    if (!bSuccess) {
+        if (argIn[0].getDataClass() == NLS_SINGLE || argIn[0].getDataClass() == NLS_SCOMPLEX
+            || argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_DCOMPLEX) {
             if (argIn[0].isSparse()) {
                 retval = OverloadFunction(eval, nLhs, argIn, "norm", bSuccess);
                 if (!bSuccess) {
@@ -63,9 +63,8 @@ Nelson::ElementaryFunctionsGateway::normBuiltin(
                 } else {
                     retval.push_back(Norm(argIn[0], 2));
                 }
-			}
-		}
-		else {
+            }
+        } else {
             retval = OverloadFunction(eval, nLhs, argIn, "norm", bSuccess);
             if (!bSuccess) {
                 Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE);

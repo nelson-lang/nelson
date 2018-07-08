@@ -23,9 +23,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf double_plus_double(ArrayOf a, ArrayOf b);
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+double_plus_double(ArrayOf a, ArrayOf b);
 //=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf single_plus_single(ArrayOf a, ArrayOf b);
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+single_plus_single(ArrayOf a, ArrayOf b);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

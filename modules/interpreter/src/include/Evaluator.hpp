@@ -803,13 +803,13 @@ public:
     doTernaryOperatorOverload(ArrayOf& A, ArrayOf& B, ArrayOf& C, TernaryFunction functionOperator,
         std::string functionName);
 
-	ArrayOf
+    ArrayOf
     addition(ArrayOf A, ArrayOf B);
 
-	ArrayOf
+    ArrayOf
     subtraction(ArrayOf A, ArrayOf B);
 
- private:
+private:
     void
     setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue);
     ArrayOfVector
@@ -842,7 +842,7 @@ public:
     ArrayOf
     subtractionOperator(ASTPtr t);
 
-	bool
+    bool
     needToOverloadLogicOperator(ArrayOf a);
 };
 NLSINTERPRETER_IMPEXP void

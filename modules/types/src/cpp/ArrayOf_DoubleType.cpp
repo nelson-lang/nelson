@@ -32,8 +32,8 @@ ArrayOf::isDoubleType(bool realOnly) const
     if (realOnly) {
         res = (dp->dataClass == NLS_DOUBLE) && (!dp->sparse) && is2D();
     } else {
-        res = ((dp->dataClass == NLS_DOUBLE)
-            || (dp->dataClass == NLS_DCOMPLEX)) && (!dp->sparse) && is2D();
+        res = ((dp->dataClass == NLS_DOUBLE) || (dp->dataClass == NLS_DCOMPLEX)) && (!dp->sparse)
+            && is2D();
     }
     return res;
 }
@@ -45,8 +45,8 @@ ArrayOf::isNdArrayDoubleType(bool realOnly) const
     if (realOnly) {
         res = (dp->dataClass == NLS_DOUBLE) && (!dp->sparse) && !is2D();
     } else {
-        res = ((dp->dataClass == NLS_DOUBLE)
-            || (dp->dataClass == NLS_DCOMPLEX)) && (!dp->sparse) && !is2D();
+        res = ((dp->dataClass == NLS_DOUBLE) || (dp->dataClass == NLS_DCOMPLEX)) && (!dp->sparse)
+            && !is2D();
     }
     return res;
 }

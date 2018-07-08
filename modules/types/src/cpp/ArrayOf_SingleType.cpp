@@ -31,8 +31,8 @@ ArrayOf::isSingleType(bool realOnly) const
     if (realOnly) {
         res = (dp->dataClass == NLS_SINGLE) && (!dp->sparse) && is2D();
     } else {
-        res = ((dp->dataClass == NLS_SINGLE)
-            || (dp->dataClass == NLS_SCOMPLEX)) && (!dp->sparse) && is2D();
+        res = ((dp->dataClass == NLS_SINGLE) || (dp->dataClass == NLS_SCOMPLEX)) && (!dp->sparse)
+            && is2D();
     }
     return res;
 }
@@ -44,8 +44,8 @@ ArrayOf::isNdArraySingleType(bool realOnly) const
     if (realOnly) {
         res = (dp->dataClass == NLS_SINGLE) && (!dp->sparse) && !is2D();
     } else {
-        res = ((dp->dataClass == NLS_SINGLE)
-            || (dp->dataClass == NLS_SCOMPLEX)) && (!dp->sparse) && !is2D();
+        res = ((dp->dataClass == NLS_SINGLE) || (dp->dataClass == NLS_SCOMPLEX)) && (!dp->sparse)
+            && !is2D();
     }
     return res;
 }

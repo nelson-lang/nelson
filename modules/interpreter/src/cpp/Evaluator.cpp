@@ -2882,8 +2882,8 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                         }
                         q = q->right;
                     }
-                        // If any keywords were found, make another pass through the
-                        // arguments and remove them.
+                    // If any keywords were found, make another pass through the
+                    // arguments and remove them.
 #if 0
                         if (keywords.size() > 0)
                         {

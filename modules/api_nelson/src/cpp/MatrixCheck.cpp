@@ -111,13 +111,13 @@ BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname) throw(Excepti
             if (A.getDimensions().getElementCount() != B.getDimensions().getElementCount()) {
                 throw Exception(std::string(_("Size mismatch on arguments to ")) + opname);
             }
-		}
+        }
     } else {
         if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar()
                 || B.isScalar())) {
             throw Exception(std::string(_("Size mismatch on arguments to ")) + opname);
         }
-	}
+    }
 }
 //=============================================================================
 

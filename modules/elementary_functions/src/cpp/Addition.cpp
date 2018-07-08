@@ -30,8 +30,10 @@ matrix_matrix_addition(Class classDestination, const ArrayOf& a, const ArrayOf& 
     indexType Clen = dimsC.getElementCount();
     void* Cp = new_with_exception<T>(Clen, false);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA((T*)a.getDataPointer(), 1, Clen);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB((T*)b.getDataPointer(), 1, Clen);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
+        (T*)a.getDataPointer(), 1, Clen);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
+        (T*)b.getDataPointer(), 1, Clen);
     matC = matA + matB;
     return ArrayOf(classDestination, dimsC, Cp, false);
 }
@@ -61,8 +63,8 @@ scalar_matrix_addition(Class classDestination, ArrayOf& a, ArrayOf& b)
     indexType Clen = dimsC.getElementCount();
     void* Cp = new_with_exception<T>(Clen, false);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB((T*)b.getDataPointer(),
-                                                                     1, Clen);
+    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
+        (T*)b.getDataPointer(), 1, Clen);
     T* ptrA = (T*)a.getDataPointer();
     matC = ptrA[0] + matB.array();
     return ArrayOf(classDestination, dimsC, Cp, false);
@@ -214,7 +216,7 @@ addition(Class classDestination, ArrayOf a, ArrayOf b)
             return ArrayOf::doubleConstructor((double)res);
         } else {
             return ArrayOf::singleConstructor((single)res);
-		}
+        }
     }
     Dimensions dimsA = a.getDimensions();
     Dimensions dimsB = b.getDimensions();
@@ -250,9 +252,8 @@ addition(Class classDestination, ArrayOf a, ArrayOf b)
                         std::max(dimsA.getMax(), dimsB.getMax()));
                     indexType Clen = dimsC.getElementCount();
                     Cp = new_with_exception<T>(Clen, false);
-                    vector_addition((T*)Cp, (const T*)a.getDataPointer(),
-                        dimsA.getElementCount(), (const T*)b.getDataPointer(),
-                        dimsB.getElementCount());
+                    vector_addition((T*)Cp, (const T*)a.getDataPointer(), dimsA.getElementCount(),
+                        (const T*)b.getDataPointer(), dimsB.getElementCount());
                 } else if (a.isColumnVector() && b.isRowVector()) {
                     dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
                         std::max(dimsA.getMax(), dimsB.getMax()));
@@ -307,10 +308,9 @@ complex_addition(Class classDestination, ArrayOf a, ArrayOf b)
         std::complex<T> ca(ptrA[0], ptrA[1]);
         std::complex<T> cb(ptrB[0], ptrB[1]);
         std::complex<T> res = ca + cb;
-		if (classDestination == NLS_DCOMPLEX)
-		{
+        if (classDestination == NLS_DCOMPLEX) {
             return ArrayOf::dcomplexConstructor((double)res.real(), (double)res.imag());
-		} else {
+        } else {
             return ArrayOf::complexConstructor((single)res.real(), (single)res.imag());
         }
     }
@@ -349,16 +349,14 @@ complex_addition(Class classDestination, ArrayOf a, ArrayOf b)
                     indexType Clen = dimsC.getElementCount();
                     Cp = new_with_exception<T>(Clen * 2, false);
                     complex_vector_addition<T>((T*)Cp, (T*)a.getDataPointer(),
-                        dimsA.getElementCount(), (T*)b.getDataPointer(),
-                        dimsB.getElementCount());
+                        dimsA.getElementCount(), (T*)b.getDataPointer(), dimsB.getElementCount());
                 } else if (a.isColumnVector() && b.isRowVector()) {
                     dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
                         std::max(dimsA.getMax(), dimsB.getMax()));
                     indexType Clen = dimsC.getElementCount();
                     Cp = new_with_exception<T>(Clen * 2, false);
-                    complex_vector_addition((T*)Cp, (T*)b.getDataPointer(),
-                        dimsB.getElementCount(), (T*)a.getDataPointer(),
-                        dimsA.getElementCount());
+                    complex_vector_addition((T*)Cp, (T*)b.getDataPointer(), dimsB.getElementCount(),
+                        (T*)a.getDataPointer(), dimsA.getElementCount());
                 } else if ((a.isRowVector() && b.isRowVector())
                     || (a.isColumnVector() && b.isColumnVector())) {
                     throw Exception(

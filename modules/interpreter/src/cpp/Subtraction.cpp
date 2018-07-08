@@ -22,64 +22,66 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf Evaluator::subtraction(ArrayOf A, ArrayOf B) {
-  ArrayOf res;
-  if (overloadOnBasicTypes) {
-    res = OverloadBinaryOperator(this, A, B, "minus");
-  } else {
-    bool isDoubleA = (A.isDoubleType() || A.isNdArrayDoubleType());
-    bool isDoubleB = (B.isDoubleType() || B.isNdArrayDoubleType());
-    bool isSingleA = (A.isSingleType() || A.isNdArraySingleType());
-    bool isSingleB = (B.isSingleType() || B.isNdArraySingleType());
-    if ((isDoubleA || isSingleA) && (isDoubleB || isSingleB)) {
-      if (isDoubleA && isDoubleB) {
-        res = double_minus_double(A, B);
-      } else if (isSingleA && isSingleB) {
-        res = single_minus_single(A, B);
-      } else {
-        if (A.getDataClass() == NLS_DOUBLE) {
-          A.promoteType(NLS_SINGLE);
-        } else {
-          A.promoteType(NLS_SCOMPLEX);
-        }
-        if (B.getDataClass() == NLS_DOUBLE) {
-          B.promoteType(NLS_SINGLE);
-        } else {
-          B.promoteType(NLS_SCOMPLEX);
-        }
-        res = single_minus_single(A, B);
-      }
+ArrayOf
+Evaluator::subtraction(ArrayOf A, ArrayOf B)
+{
+    ArrayOf res;
+    if (overloadOnBasicTypes) {
+        res = OverloadBinaryOperator(this, A, B, "minus");
     } else {
-      bool isIntegerA = A.isIntegerType() || A.isIntegerType();
-      bool isIntegerB = B.isIntegerType() || B.isIntegerType();
-      if (isIntegerA && isIntegerB) {
-        if (A.getDataClass() == B.getDataClass()) {
-          Class classA = A.getDataClass();
-          A.promoteType(NLS_SINGLE);
-          B.promoteType(NLS_SINGLE);
-          res = single_minus_single(A, B);
-          res.promoteType(classA);
+        bool isDoubleA = (A.isDoubleType() || A.isNdArrayDoubleType());
+        bool isDoubleB = (B.isDoubleType() || B.isNdArrayDoubleType());
+        bool isSingleA = (A.isSingleType() || A.isNdArraySingleType());
+        bool isSingleB = (B.isSingleType() || B.isNdArraySingleType());
+        if ((isDoubleA || isSingleA) && (isDoubleB || isSingleB)) {
+            if (isDoubleA && isDoubleB) {
+                res = double_minus_double(A, B);
+            } else if (isSingleA && isSingleB) {
+                res = single_minus_single(A, B);
+            } else {
+                if (A.getDataClass() == NLS_DOUBLE) {
+                    A.promoteType(NLS_SINGLE);
+                } else {
+                    A.promoteType(NLS_SCOMPLEX);
+                }
+                if (B.getDataClass() == NLS_DOUBLE) {
+                    B.promoteType(NLS_SINGLE);
+                } else {
+                    B.promoteType(NLS_SCOMPLEX);
+                }
+                res = single_minus_single(A, B);
+            }
         } else {
-          Error(this, _W("Integers of the same class expected."));
+            bool isIntegerA = A.isIntegerType() || A.isIntegerType();
+            bool isIntegerB = B.isIntegerType() || B.isIntegerType();
+            if (isIntegerA && isIntegerB) {
+                if (A.getDataClass() == B.getDataClass()) {
+                    Class classA = A.getDataClass();
+                    A.promoteType(NLS_SINGLE);
+                    B.promoteType(NLS_SINGLE);
+                    res = single_minus_single(A, B);
+                    res.promoteType(classA);
+                } else {
+                    Error(this, _W("Integers of the same class expected."));
+                }
+            } else {
+                if (isIntegerA && isDoubleB && B.isScalar()) {
+                    Class classA = A.getDataClass();
+                    A.promoteType(NLS_DOUBLE);
+                    res = double_minus_double(A, B);
+                    res.promoteType(classA);
+                } else if (isIntegerB && isDoubleA && A.isScalar()) {
+                    Class classB = B.getDataClass();
+                    B.promoteType(NLS_DOUBLE);
+                    res = double_minus_double(A, B);
+                    res.promoteType(classB);
+                } else {
+                    res = OverloadBinaryOperator(this, A, B, "minus");
+                }
+            }
         }
-      } else {
-        if (isIntegerA && isDoubleB && B.isScalar()) {
-          Class classA = A.getDataClass();
-          A.promoteType(NLS_DOUBLE);
-          res = double_minus_double(A, B);
-          res.promoteType(classA);
-        } else if (isIntegerB && isDoubleA && A.isScalar()) {
-          Class classB = B.getDataClass();
-          B.promoteType(NLS_DOUBLE);
-          res = double_minus_double(A, B);
-          res.promoteType(classB);
-        } else {
-          res = OverloadBinaryOperator(this, A, B, "minus");
-        }
-      }
     }
-  }
-  return res;
+    return res;
 }
 //=============================================================================
 } // namespace Nelson
