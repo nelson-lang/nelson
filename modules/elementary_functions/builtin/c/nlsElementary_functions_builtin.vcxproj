@@ -178,6 +178,7 @@
     <ClCompile Include="..\cpp\ctransposeBuiltin.cpp" />
     <ClCompile Include="..\cpp\dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\eqBuiltin.cpp" />
+    <ClCompile Include="..\cpp\expBuiltin.cpp" />
     <ClCompile Include="..\cpp\fixBuiltin.cpp" />
     <ClCompile Include="..\cpp\floorBuiltin.cpp" />
     <ClCompile Include="..\cpp\gammaBuiltin.cpp" />
@@ -262,6 +263,7 @@
     <ClInclude Include="..\include\ctransposeBuiltin.hpp" />
     <ClInclude Include="..\include\dispBuiltin.hpp" />
     <ClInclude Include="..\include\eqBuiltin.hpp" />
+    <ClInclude Include="..\include\expBuiltin.hpp" />
     <ClInclude Include="..\include\fixBuiltin.hpp" />
     <ClInclude Include="..\include\floorBuiltin.hpp" />
     <ClInclude Include="..\include\gammaBuiltin.hpp" />
