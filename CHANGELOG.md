@@ -1,6 +1,7 @@
 Features:
 ---------
 
+  * angle function (Phase angle)
 
   * atan2 builtin (four-quadrant inverse tangent)
 
