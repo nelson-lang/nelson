@@ -88,8 +88,6 @@ ArrayOf And(ArrayOf A, ArrayOf B) {
                          B.getDimensions().getElementCount(),
                          (const logical *)A.getDataPointer(),
                          A.getDimensions().getElementCount());
-    } else if (A.isRowVector() && B.isRowVector()) {
-    } else if (A.isColumnVector() && B.isColumnVector()) {
     }
   } else {
     boolean_and(Clen, (logical *)Cp, (const logical *)A.getDataPointer(),

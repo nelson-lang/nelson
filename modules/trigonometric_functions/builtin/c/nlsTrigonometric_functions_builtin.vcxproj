@@ -170,6 +170,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\acosBuiltin.cpp" />
     <ClCompile Include="..\cpp\asinBuiltin.cpp" />
+    <ClCompile Include="..\cpp\atan2Builtin.cpp" />
     <ClCompile Include="..\cpp\atanBuiltin.cpp" />
     <ClCompile Include="..\cpp\cosBuiltin.cpp" />
     <ClCompile Include="..\cpp\coshBuiltin.cpp" />
@@ -207,6 +208,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\acosBuiltin.hpp" />
     <ClInclude Include="..\include\asinBuiltin.hpp" />
+    <ClInclude Include="..\include\atan2Builtin.hpp" />
     <ClInclude Include="..\include\atanBuiltin.hpp" />
     <ClInclude Include="..\include\cosBuiltin.hpp" />
     <ClInclude Include="..\include\coshBuiltin.hpp" />

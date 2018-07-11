@@ -1,6 +1,9 @@
 Features:
 ---------
 
+
+  * atan2 builtin (four-quadrant inverse tangent)
+
   * exp builtin (exponential)
 
   * [#142](http://github.com/Nelson-numerical-software/nelson/issues/142): clear('functionName') clears all persistent variables of functionName function.
