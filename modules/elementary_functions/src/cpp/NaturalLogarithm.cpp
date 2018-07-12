@@ -107,7 +107,7 @@ ArrayOf NaturalLogarithm(ArrayOf A, bool &needToOverload) {
           res = NaturalLogarithmReal<single>(NLS_SINGLE, A);
         }
       } else {
-        res = NaturalLogarithmReal<single>(NLS_SCOMPLEX, A);
+          res = NaturalLogarithmComplex<single>(NLS_SCOMPLEX, A);
       }
     }
   } else {
