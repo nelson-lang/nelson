@@ -200,6 +200,7 @@
     <ClCompile Include="..\cpp\LessEquals.cpp" />
     <ClCompile Include="..\cpp\LessThan.cpp" />
     <ClCompile Include="..\cpp\Modulo.cpp" />
+    <ClCompile Include="..\cpp\NaturalLogarithm.cpp" />
     <ClCompile Include="..\cpp\Negate.cpp" />
     <ClCompile Include="..\cpp\Norm.cpp" />
     <ClCompile Include="..\cpp\Not.cpp" />
@@ -242,6 +243,7 @@
     <ClInclude Include="..\include\LessEquals.hpp" />
     <ClInclude Include="..\include\LessThan.hpp" />
     <ClInclude Include="..\include\Modulo.hpp" />
+    <ClInclude Include="..\include\NaturalLogarithm.hpp" />
     <ClInclude Include="..\include\Negate.hpp" />
     <ClInclude Include="..\include\nlsElementary_functions_exports.h" />
     <ClInclude Include="..\include\Norm.hpp" />

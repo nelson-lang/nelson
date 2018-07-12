@@ -1,6 +1,8 @@
 Features:
 ---------
 
+  * log builtin (Natural logarithm)
+
   * angle function (Phase angle)
 
   * atan2 builtin (four-quadrant inverse tangent)
