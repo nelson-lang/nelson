@@ -25,6 +25,8 @@ Bug Fixes:
 
   * [#145](http://github.com/Nelson-numerical-software/nelson/issues/145): int32(NaN) did not return 0.
 
+  * [#131](http://github.com/Nelson-numerical-software/nelson/issues/131): for, parfor, switch, try keywords were not documented.
+
 
 ## 0.2.6 (2018-06-26)
 
