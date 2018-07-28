@@ -34,7 +34,7 @@ Nelson::ComEngineGateway::COM_classBuiltin(Evaluator* eval, int nLhs, const Arra
     ArrayOfVector retval;
     std::wstring classname;
     classnameComHandle(argIn[0], classname);
-    retval.push_back(ArrayOf::stringConstructor(classname));
+    retval.push_back(ArrayOf::characterArrayConstructor(classname));
     return retval;
 }
 //=============================================================================

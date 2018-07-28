@@ -34,7 +34,7 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
     ArrayOfVector retval;
     bool bEcho = false;
     if (argIn.size() > 1) {
-        if (argIn[1].isSingleString()) {
+        if (argIn[1].isColonVectorCharacterArray()) {
             std::wstring flag = argIn[1].getContentAsWideString();
             if (flag.compare(L"-echo") == 0) {
                 bEcho = true;
@@ -52,7 +52,7 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
         bEcho = true;
     }
     std::wstring cmd = L"";
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isColonVectorCharacterArray()) {
         cmd = argIn[0].getContentAsWideString();
     } else {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

@@ -42,7 +42,7 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(Evaluator* eval, int nLhs, const Ar
         ArrayOf arg2 = argIn[1];
         std::wstring dest = arg2.getContentAsWideString();
         ArrayOf arg1 = argIn[0];
-        if (arg1.isSingleString()) {
+        if (arg1.isColonVectorCharacterArray()) {
             std::wstring src = arg1.getContentAsWideString();
             if (IsFile(src)) {
                 bRes = CopyFile(src, dest, bForce, errorMessage);
@@ -62,7 +62,7 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(Evaluator* eval, int nLhs, const Ar
         } else {
             retval.push_back(ArrayOf::logicalConstructor(bRes));
             if (nLhs > 1) {
-                retval.push_back(ArrayOf::stringConstructor(errorMessage));
+                retval.push_back(ArrayOf::characterArrayConstructor(errorMessage));
             }
             if (nLhs > 2) {
                 Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);

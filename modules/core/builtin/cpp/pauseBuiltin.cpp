@@ -41,9 +41,9 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     if (argIn.size() == 0) {
         if (nLhs == 1) {
             if (pauseOn) {
-                retval.push_back(ArrayOf::stringConstructor(L"on"));
+                retval.push_back(ArrayOf::characterArrayConstructor(L"on"));
             } else {
-                retval.push_back(ArrayOf::stringConstructor(L"off"));
+                retval.push_back(ArrayOf::characterArrayConstructor(L"off"));
             }
             return retval;
         }
@@ -53,7 +53,7 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         }
     } else {
         ArrayOf param1 = argIn[0];
-        if (param1.isSingleString()) {
+        if (param1.isColonVectorCharacterArray()) {
             std::wstring arg1Value = param1.getContentAsWideString();
             if (arg1Value == L"on" || arg1Value == L"off" || arg1Value == L"query") {
                 bool previousValue = pauseOn;
@@ -61,9 +61,9 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                     pauseOn = true;
                     if (nLhs == 1) {
                         if (previousValue) {
-                            retval.push_back(ArrayOf::stringConstructor(L"on"));
+                            retval.push_back(ArrayOf::characterArrayConstructor(L"on"));
                         } else {
-                            retval.push_back(ArrayOf::stringConstructor(L"off"));
+                            retval.push_back(ArrayOf::characterArrayConstructor(L"off"));
                         }
                         return retval;
                     }
@@ -71,17 +71,17 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                     pauseOn = false;
                     if (nLhs == 1) {
                         if (previousValue) {
-                            retval.push_back(ArrayOf::stringConstructor(L"on"));
+                            retval.push_back(ArrayOf::characterArrayConstructor(L"on"));
                         } else {
-                            retval.push_back(ArrayOf::stringConstructor(L"off"));
+                            retval.push_back(ArrayOf::characterArrayConstructor(L"off"));
                         }
                         return retval;
                     }
                 } else {
                     if (pauseOn) {
-                        retval.push_back(ArrayOf::stringConstructor(L"on"));
+                        retval.push_back(ArrayOf::characterArrayConstructor(L"on"));
                     } else {
-                        retval.push_back(ArrayOf::stringConstructor(L"off"));
+                        retval.push_back(ArrayOf::characterArrayConstructor(L"off"));
                     }
                     return retval;
                 }
@@ -91,9 +91,9 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         } else if (param1.isNumeric()) {
             if (nLhs == 1) {
                 if (pauseOn) {
-                    retval.push_back(ArrayOf::stringConstructor(L"on"));
+                    retval.push_back(ArrayOf::characterArrayConstructor(L"on"));
                 } else {
-                    retval.push_back(ArrayOf::stringConstructor(L"off"));
+                    retval.push_back(ArrayOf::characterArrayConstructor(L"off"));
                 }
                 return retval;
             } else {

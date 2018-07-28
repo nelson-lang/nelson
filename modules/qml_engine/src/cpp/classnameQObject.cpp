@@ -64,7 +64,7 @@ classnameQObject(ArrayOf A)
             }
         }
         if (names.size() == 1) {
-            res = ArrayOf::stringConstructor(names[0]);
+            res = ArrayOf::characterArrayConstructor(names[0]);
         } else {
             res = ToCellStringAsColumn(names);
         }

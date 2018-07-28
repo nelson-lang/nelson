@@ -85,7 +85,7 @@ single
 ArrayOf::getContentAsSingleScalar()
 {
     single* qp;
-    if (isComplex() || isReferenceType() || isString()) {
+    if (isComplex() || isReferenceType() || isCharacterArray()) {
         throw Exception(_W("Expected a real valued scalar"));
     }
     promoteType(NLS_SINGLE);
@@ -96,7 +96,7 @@ ArrayOf::getContentAsSingleScalar()
 std::complex<single>
 ArrayOf::getContentAsSingleComplexScalar()
 {
-    if (isReferenceType() || isString()) {
+    if (isReferenceType() || isCharacterArray()) {
         throw Exception(_W("Expected a real valued scalar"));
     }
     promoteType(NLS_SCOMPLEX);

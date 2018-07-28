@@ -44,7 +44,7 @@ Nelson::StringGateway::mat2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         if (argIn.size() == 3) {
             ArrayOf param3 = argIn[2];
             ArrayOf param2 = argIn[1];
-            if (param3.isSingleString()) {
+            if (param3.isColonVectorCharacterArray()) {
                 std::wstring str = param3.getContentAsWideString();
                 if (str == L"class") {
                     withClass = true;
@@ -59,7 +59,7 @@ Nelson::StringGateway::mat2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             }
         } else if (argIn.size() == 2) {
             ArrayOf param2 = argIn[1];
-            if (param2.isSingleString()) {
+            if (param2.isColonVectorCharacterArray()) {
                 std::wstring str = param2.getContentAsWideString();
                 if (str == L"class") {
                     defautPrecision = 15;
@@ -79,7 +79,7 @@ Nelson::StringGateway::mat2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             withClass = false;
         }
         ArrayOf A = argIn[0];
-        bool canBeConvert = A.isNumeric() || A.isLogical() || A.isString();
+        bool canBeConvert = A.isNumeric() || A.isLogical() || A.isCharacterArray();
         if (!canBeConvert) {
             retval = OverloadFunction(eval, nLhs, argIn, "mat2str", bSuccess);
             if (!bSuccess) {
@@ -95,7 +95,7 @@ Nelson::StringGateway::mat2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             return retval;
         }
         std::wstring res = MatrixToString(A, defautPrecision, withClass);
-        retval.push_back(ArrayOf::stringConstructor(res));
+        retval.push_back(ArrayOf::characterArrayConstructor(res));
     }
     return retval;
 }

@@ -34,7 +34,7 @@ Nelson::FunctionHandleGateway::str2funcBuiltin(
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring wfunctionname;
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isColonVectorCharacterArray()) {
         wfunctionname = argIn[0].getContentAsWideString();
     } else {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

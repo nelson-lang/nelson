@@ -41,7 +41,7 @@ Nelson::StringGateway::strlengthBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
     if (!bSuccess) {
         ArrayOf param = argIn[0];
-        if (IsCellOfString(param) || param.isString()) {
+        if (IsCellOfString(param) || param.isCharacterArray()) {
             retval.push_back(StringLength(argIn[0]));
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "strlength", bSuccess);

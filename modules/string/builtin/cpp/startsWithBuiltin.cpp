@@ -44,7 +44,7 @@ Nelson::StringGateway::startsWithBuiltin(Evaluator* eval, int nLhs, const ArrayO
         bool bCaseSensitive = true;
         ArrayOf A = argIn[0];
         ArrayOf B = argIn[1];
-        if (A.isString() || IsCellOfString(A)) {
+        if (A.isCharacterArray() || IsCellOfString(A)) {
             if (argIn.size() == 4) {
                 ArrayOf param3 = argIn[2];
                 std::wstring fieldname = param3.getContentAsWideString();

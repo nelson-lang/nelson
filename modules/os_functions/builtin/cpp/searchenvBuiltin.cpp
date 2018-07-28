@@ -35,7 +35,7 @@ Nelson::OsFunctionsGateway::searchenvBuiltin(Evaluator* eval, int nLhs, const Ar
     }
     std::wstring varEnvName = L"";
     std::wstring fileToSearch = L"";
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isColonVectorCharacterArray()) {
         fileToSearch = argIn[0].getContentAsWideString();
     } else {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

@@ -42,7 +42,7 @@ Nelson::LinearAlgebraGateway::sqrtmBuiltin(Evaluator* eval, int nLhs, const Arra
     if (!bSuccess) {
         if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
             || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
-            || argIn[0].isLogical() || argIn[0].isString() || argIn[0].isIntegerType()
+            || argIn[0].isLogical() || argIn[0].isCharacterArray() || argIn[0].isIntegerType()
             || argIn[0].isHandle()) {
             retval = OverloadFunction(eval, nLhs, argIn, "sqrtm", bSuccess);
             if (bSuccess) {

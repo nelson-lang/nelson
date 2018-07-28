@@ -87,6 +87,7 @@ typedef enum
     NLS_HANDLE = 0,
     NLS_CELL_ARRAY,
     NLS_STRUCT_ARRAY,
+    NLS_STRING_ARRAY,
     NLS_LOGICAL,
     NLS_UINT8,
     NLS_INT8,
@@ -123,6 +124,7 @@ typedef std::vector<std::wstring> wstringVector;
 #define NLS_SCOMPLEX_STR "single"
 #define NLS_DCOMPLEX_STR "double"
 #define NLS_CHAR_STR "char"
+#define NLS_STRING_ARRAY_STR "string"
 #define NLS_FUNCTION_HANDLE_STR "function_handle"
 #define NLS_HANDLE_STR "handle"
 #define NLS_GENERIC_STR "generic"

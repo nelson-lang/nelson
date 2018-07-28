@@ -34,13 +34,13 @@ Nelson::CoreGateway::echoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
             eval->setEchoMode(!toggle);
         } else {
             if (toggle) {
-                retval.push_back(ArrayOf::stringConstructor("on"));
+                retval.push_back(ArrayOf::characterArrayConstructor("on"));
             } else {
-                retval.push_back(ArrayOf::stringConstructor("off"));
+                retval.push_back(ArrayOf::characterArrayConstructor("off"));
             }
         }
     } else if (argIn.size() == 1) {
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isColonVectorCharacterArray()) {
             bool bMode = false;
             std::wstring arg = argIn[0].getContentAsWideString();
             if (arg.compare(L"on") == 0) {

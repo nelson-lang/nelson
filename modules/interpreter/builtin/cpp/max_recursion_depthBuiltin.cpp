@@ -35,7 +35,7 @@ Nelson::InterpreterGateway::max_recursion_depthBuiltin(
     } else if (argIn.size() == 1) {
         size_t previousrecursiondepth = eval->getContext()->getRecursionDepth();
         ArrayOf param1 = argIn[0];
-        if (param1.isSingleString()) {
+        if (param1.isColonVectorCharacterArray()) {
             std::wstring param = param1.getContentAsWideString();
             if (param == L"max") {
                 eval->getContext()->setRecursionDepth(

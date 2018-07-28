@@ -130,7 +130,7 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
             }
             resizestr[sizeReallyRead] = 0;
             delete[] str;
-            toRead = ArrayOf::stringConstructor(resizestr);
+            toRead = ArrayOf::characterArrayConstructor(resizestr);
             delete[] resizestr;
             if (!feof(fileptr)) {
                 if (skip) {
@@ -139,7 +139,7 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
             }
         } else {
             str[sizeReallyRead] = 0;
-            toRead = ArrayOf::stringConstructor(str);
+            toRead = ArrayOf::characterArrayConstructor(str);
             delete[] str;
         }
     } else {

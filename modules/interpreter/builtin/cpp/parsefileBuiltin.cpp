@@ -36,7 +36,7 @@ Nelson::InterpreterGateway::parsefileBuiltin(Evaluator* eval, int nLhs, const Ar
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring filename;
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isColonVectorCharacterArray()) {
         filename = argIn[0].getContentAsWideString();
     } else {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
@@ -44,13 +44,13 @@ Nelson::InterpreterGateway::parsefileBuiltin(Evaluator* eval, int nLhs, const Ar
     ParserState parserState = ParseFile(eval, filename);
     switch (parserState) {
     case ScriptBlock: {
-        retval.push_back(ArrayOf::stringConstructor("script"));
+        retval.push_back(ArrayOf::characterArrayConstructor("script"));
     } break;
     case FuncDef: {
-        retval.push_back(ArrayOf::stringConstructor("function"));
+        retval.push_back(ArrayOf::characterArrayConstructor("function"));
     } break;
     default: {
-        retval.push_back(ArrayOf::stringConstructor("error"));
+        retval.push_back(ArrayOf::characterArrayConstructor("error"));
     } break;
     }
     return retval;

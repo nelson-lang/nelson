@@ -32,7 +32,7 @@ Nelson::MemoryGateway::acquirevarBuiltin(Evaluator* eval, int nLhs, const ArrayO
     if (!((argIn.size() == 3) || (argIn.size() == 2))) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (!argIn[0].isSingleString()) {
+    if (!argIn[0].isColonVectorCharacterArray()) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     std::string scopename = argIn[0].getContentAsCString();
@@ -42,7 +42,7 @@ Nelson::MemoryGateway::acquirevarBuiltin(Evaluator* eval, int nLhs, const ArrayO
             _W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' "
                "expected."));
     }
-    if (!argIn[1].isSingleString()) {
+    if (!argIn[1].isColonVectorCharacterArray()) {
         Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
     }
     std::string varname = argIn[1].getContentAsCString();

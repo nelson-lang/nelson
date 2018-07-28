@@ -30,7 +30,7 @@ void
 PrintfHelper::IncrementDataPointer(void)
 {
     indexType len;
-    if (args[vectorIndex].isString()) {
+    if (args[vectorIndex].isCharacterArray()) {
         len = 1;
     } else {
         len = args[vectorIndex].getDimensions().getElementCount();

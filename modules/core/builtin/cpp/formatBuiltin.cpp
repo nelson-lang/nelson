@@ -32,19 +32,19 @@ Nelson::CoreGateway::formatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         if (nLhs == 1) {
             switch (eval->getCurrentOutputFormatDisplay()) {
             case NLS_FORMAT_SHORT: {
-                retval.push_back(ArrayOf::stringConstructor(L"short"));
+                retval.push_back(ArrayOf::characterArrayConstructor(L"short"));
             } break;
             case NLS_FORMAT_LONG: {
-                retval.push_back(ArrayOf::stringConstructor(L"long"));
+                retval.push_back(ArrayOf::characterArrayConstructor(L"long"));
             } break;
             case NLS_FORMAT_SHORTE: {
-                retval.push_back(ArrayOf::stringConstructor(L"shortE"));
+                retval.push_back(ArrayOf::characterArrayConstructor(L"shortE"));
             } break;
             case NLS_FORMAT_LONGE: {
-                retval.push_back(ArrayOf::stringConstructor(L"longE"));
+                retval.push_back(ArrayOf::characterArrayConstructor(L"longE"));
             } break;
             case NLS_FORMAT_HEX: {
-                retval.push_back(ArrayOf::stringConstructor(L"hex"));
+                retval.push_back(ArrayOf::characterArrayConstructor(L"hex"));
             } break;
             default: {
                 Error(eval, L"Unexpected format.");
@@ -56,7 +56,7 @@ Nelson::CoreGateway::formatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         return retval;
     }
     if (argIn.size() == 1) {
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isColonVectorCharacterArray()) {
             std::wstring str = argIn[0].getContentAsWideString();
             if (str.compare(L"get") == 0) {
                 if (nLhs > 1) {
@@ -64,19 +64,19 @@ Nelson::CoreGateway::formatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                 }
                 switch (eval->getCurrentOutputFormatDisplay()) {
                 case NLS_FORMAT_SHORT: {
-                    retval.push_back(ArrayOf::stringConstructor(L"short"));
+                    retval.push_back(ArrayOf::characterArrayConstructor(L"short"));
                 } break;
                 case NLS_FORMAT_LONG: {
-                    retval.push_back(ArrayOf::stringConstructor(L"long"));
+                    retval.push_back(ArrayOf::characterArrayConstructor(L"long"));
                 } break;
                 case NLS_FORMAT_SHORTE: {
-                    retval.push_back(ArrayOf::stringConstructor(L"shortE"));
+                    retval.push_back(ArrayOf::characterArrayConstructor(L"shortE"));
                 } break;
                 case NLS_FORMAT_LONGE: {
-                    retval.push_back(ArrayOf::stringConstructor(L"longE"));
+                    retval.push_back(ArrayOf::characterArrayConstructor(L"longE"));
                 } break;
                 case NLS_FORMAT_HEX: {
-                    retval.push_back(ArrayOf::stringConstructor(L"hex"));
+                    retval.push_back(ArrayOf::characterArrayConstructor(L"hex"));
                 } break;
                 default: {
                     Error(eval, L"Unexpected format.");

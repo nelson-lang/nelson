@@ -39,7 +39,7 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     }
     Interface* io = eval->getInterface();
     if (argIn.size() == 1) {
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isColonVectorCharacterArray()) {
             std::wstring param = argIn[0].getContentAsWideString();
             if (param.compare(L"on") == 0) {
                 if (nLhs != 0) {
@@ -75,7 +75,7 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         io->diary.toggle();
     } else if (argIn.size() == 2) {
         // get
-        if ((argIn[0].isSingleString()) && (argIn[1].isSingleString())) {
+        if ((argIn[0].isColonVectorCharacterArray()) && (argIn[1].isColonVectorCharacterArray())) {
             bool bLhs = (nLhs == 0) || (nLhs == 1);
             if (!bLhs) {
                 Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
@@ -87,25 +87,25 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             std::wstring param2 = argIn[1].getContentAsWideString();
             if (param2.compare(L"Diary") == 0) {
                 if (io->diary.getState()) {
-                    retval.push_back(ArrayOf::stringConstructor("on"));
+                    retval.push_back(ArrayOf::characterArrayConstructor("on"));
                 } else {
-                    retval.push_back(ArrayOf::stringConstructor("off"));
+                    retval.push_back(ArrayOf::characterArrayConstructor("off"));
                 }
             } else if (param2.compare(L"DiaryFile") == 0) {
-                retval.push_back(ArrayOf::stringConstructor(io->diary.getFilename()));
+                retval.push_back(ArrayOf::characterArrayConstructor(io->diary.getFilename()));
             } else {
                 Error(eval, _W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
             }
         } else {
-            if (!argIn[0].isSingleString()) {
+            if (!argIn[0].isColonVectorCharacterArray()) {
                 Error(eval, _W("#1 Argument \'get\' expected."));
             } else {
                 Error(eval, _W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
             }
         }
     } else if (argIn.size() == 3) {
-        if ((argIn[0].isSingleString()) && (argIn[1].isSingleString())
-            && (argIn[2].isSingleString())) {
+        if ((argIn[0].isColonVectorCharacterArray()) && (argIn[1].isColonVectorCharacterArray())
+            && (argIn[2].isColonVectorCharacterArray())) {
             std::wstring param1 = argIn[0].getContentAsWideString();
             if (param1.compare(L"set") != 0) {
                 Error(eval, _W("#1 Argument \'set\' expected."));
@@ -131,9 +131,9 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 Error(eval, _W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
             }
         } else {
-            if (!argIn[0].isSingleString()) {
+            if (!argIn[0].isColonVectorCharacterArray()) {
                 Error(eval, _W("#1 Argument \'set\' expected."));
-            } else if (!argIn[1].isSingleString()) {
+            } else if (!argIn[1].isColonVectorCharacterArray()) {
                 Error(eval, _W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
             } else {
                 Error(eval, _W("#3 Argument a string expected."));

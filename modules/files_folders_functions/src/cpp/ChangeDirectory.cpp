@@ -34,7 +34,7 @@ Cd(std::wstring newpath)
         e.what();
         throw Exception(_W("Cannot change directory: '") + newpath + L"'.");
     }
-    return ArrayOf::stringConstructor(previous_pwd.generic_wstring());
+    return ArrayOf::characterArrayConstructor(previous_pwd.generic_wstring());
 }
 //=============================================================================
 ArrayOf
@@ -47,7 +47,7 @@ Cd(std::string newpath)
         e.what();
         throw Exception(_("Cannot change directory '") + newpath + "'.");
     }
-    return ArrayOf::stringConstructor(previous_pwd.generic_string());
+    return ArrayOf::characterArrayConstructor(previous_pwd.generic_string());
 }
 //=============================================================================
 bool

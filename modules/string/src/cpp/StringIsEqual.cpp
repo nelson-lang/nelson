@@ -24,8 +24,8 @@ bool
 StringIsEqual(ArrayOf A, ArrayOf B)
 {
     bool bRes = false;
-    if (A.isString() && B.isString()) {
-        if (A.isNdArrayStringType() && B.isNdArrayStringType()) {
+    if (A.isCharacterArray() && B.isCharacterArray()) {
+        if (A.isNdArrayCharacterType() && B.isNdArrayCharacterType()) {
             if (!A.getDimensions().equals(B.getDimensions())) {
                 return false;
             }

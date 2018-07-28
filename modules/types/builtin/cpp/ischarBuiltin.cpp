@@ -37,7 +37,7 @@ Nelson::TypeGateway::ischarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         retval = OverloadFunction(eval, nLhs, argIn, "ischar", bSuccess);
     }
     if (!bSuccess) {
-        retval.push_back(ArrayOf::logicalConstructor(argIn[0].isString()));
+        retval.push_back(ArrayOf::logicalConstructor(argIn[0].isCharacterArray()));
     }
     return retval;
 }

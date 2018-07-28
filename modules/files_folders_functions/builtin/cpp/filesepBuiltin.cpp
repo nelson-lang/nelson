@@ -32,7 +32,7 @@ Nelson::FilesFoldersGateway::filesepBuiltin(Evaluator* eval, int nLhs, const Arr
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
 #ifdef _MSC_VER
-    retval.push_back(ArrayOf::stringConstructor(L"\\"));
+    retval.push_back(ArrayOf::characterArrayConstructor(L"\\"));
 #else
     retval.push_back(ArrayOf::stringConstructor(L"/"));
 #endif

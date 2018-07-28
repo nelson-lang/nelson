@@ -244,6 +244,13 @@ ArrayOf::allocateArrayOf(
         }
         return dp;
     } break;
+    case NLS_STRING_ARRAY: {
+        ArrayOf* dp = new_with_exception<ArrayOf>(length);
+        for (indexType i = 0; i < length; i++) {
+            dp[i] = ArrayOf(NLS_DOUBLE);
+        }
+        return dp;
+    } break;
     case NLS_STRUCT_ARRAY: {
         if (!haveValidFieldNames(names)) {
             throw Exception(_W("Field names must be valid."));
@@ -667,6 +674,9 @@ ArrayOf::toOrdinalType()
     case NLS_CELL_ARRAY: {
         throw Exception(_W("Cannot convert cell arrays to indices."));
     } break;
+    case NLS_STRING_ARRAY: {
+        throw Exception(_W("Cannot convert string arrays to indices."));
+    } break;
     case NLS_STRUCT_ARRAY: {
         throw Exception(_W("Cannot convert structure arrays to indices."));
     } break;
@@ -1076,6 +1086,8 @@ ArrayOf::getElementSize() const
         return sizeof(nelson_handle);
     case NLS_CELL_ARRAY:
         return sizeof(ArrayOf);
+    case NLS_STRING_ARRAY:
+        return sizeof(ArrayOf);
     case NLS_STRUCT_ARRAY:
         return (sizeof(ArrayOf) * dp->fieldNames.size());
     case NLS_LOGICAL:
@@ -1182,9 +1194,9 @@ ArrayOf::testCaseMatchScalar(ArrayOf x) const
     }
     // Now we have to compare ourselves to the argument.  Check for the
     // case that we are a string type
-    if (isSingleString()) {
+    if (isColonVectorCharacterArray()) {
         // If x is not a string, we cannot match
-        if (!x.isSingleString()) {
+        if (!x.isColonVectorCharacterArray()) {
             return false;
         }
         // if x is a string do a string, string compare.
@@ -1210,6 +1222,7 @@ ArrayOf::testCaseMatchScalar(ArrayOf x) const
     bool retval = false;
     switch (x.dp->dataClass) {
     case NLS_CELL_ARRAY:
+    case NLS_STRING_ARRAY:
     case NLS_CHAR:
     case NLS_HANDLE:
     case NLS_STRUCT_ARRAY:
@@ -1241,7 +1254,7 @@ ArrayOf::testForCaseMatch(ArrayOf x) const
         throw Exception(_W("isPositive not supported for sparse arrays."));
     }
     // We had better be a scalar
-    if (!(isScalar() || isString())) {
+    if (!(isScalar() || isCharacterArray())) {
         throw Exception(_W("Switch argument must be a scalar or a string"));
     }
     // And we had better not be a reference type
@@ -1249,10 +1262,10 @@ ArrayOf::testForCaseMatch(ArrayOf x) const
         throw Exception(_W("Switch argument cannot be a reference type (struct or cell array)"));
     }
     // If x is a scalar, we just need to call the scalar version
-    if (x.isScalar() || x.isSingleString()) {
+    if (x.isScalar() || x.isColonVectorCharacterArray()) {
         return testCaseMatchScalar(x);
     }
-    if (x.dp->dataClass != NLS_CELL_ARRAY) {
+    if (x.dp->dataClass != NLS_CELL_ARRAY && x.dp->dataClass != NLS_STRING_ARRAY) {
         throw Exception(_W("Case arguments must either be a scalar or a cell array"));
     }
     const ArrayOf* qp = (const ArrayOf*)x.dp->getData();
@@ -1331,7 +1344,8 @@ ArrayOf::isColumnVector() const
 const bool
 ArrayOf::isReferenceType() const
 {
-    return (dp->dataClass == NLS_STRUCT_ARRAY) || (dp->dataClass == NLS_CELL_ARRAY);
+    return (dp->dataClass == NLS_STRUCT_ARRAY) || (dp->dataClass == NLS_CELL_ARRAY)
+        || (dp->dataClass == NLS_STRING_ARRAY);
 }
 
 /**
@@ -1393,6 +1407,7 @@ ArrayOf::allReal() const
     } break;
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
+    case NLS_STRING_ARRAY:
     case NLS_STRUCT_ARRAY:
     default: {
         res = false;
@@ -1409,6 +1424,7 @@ ArrayOf::copyElements(indexType srcIndex, void* dstPtr, indexType dstIndex, inde
         throw Exception(_W("copyElements not supported for sparse arrays."));
     }
     switch (dp->dataClass) {
+    case NLS_STRING_ARRAY:
     case NLS_CELL_ARRAY: {
         const ArrayOf* sp = (const ArrayOf*)dp->getData();
         ArrayOf* qp = (ArrayOf*)dstPtr;
@@ -1574,6 +1590,12 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         }
     // Handle the reference types.
     // Cell arrays can be promoted with no effort to cell arrays.
+    if (dp->dataClass == NLS_STRING_ARRAY)
+        if (dstClass == NLS_STRING_ARRAY) {
+            return;
+        } else {
+            throw Exception(_W("Cannot convert string arrays to any other type."));
+        }
     if (dp->dataClass == NLS_CELL_ARRAY)
         if (dstClass == NLS_CELL_ARRAY) {
             return;
@@ -1638,7 +1660,8 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
             throw Exception(_W("Cannot convert struct-arrays to any other type."));
         }
     // Catch attempts to convert data types to reference types.
-    if ((dstClass == NLS_CELL_ARRAY) || (dstClass == NLS_STRUCT_ARRAY)) {
+    if ((dstClass == NLS_CELL_ARRAY) || (dstClass == NLS_STRUCT_ARRAY)
+        || (dstClass == NLS_STRING_ARRAY)) {
         throw Exception(_W("Cannot convert base types to reference types."));
     }
     // Do nothing for promoting to same class (no-op).
@@ -2240,7 +2263,7 @@ ArrayOf::getVectorSubset(ArrayOf& index)
     void* qp = nullptr;
     try {
         if (index.getLength() == 1) {
-            if (index.isSingleString()) {
+            if (index.isColonVectorCharacterArray()) {
                 std::wstring str = index.getContentAsWideString();
                 if (str != L":") {
                     throw Exception(_W("index must either be real positive integers or logicals."));
@@ -2347,7 +2370,7 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
                 bEmpty = true;
                 dimsDest[i] = 0;
             } else {
-                if (index[i].isSingleString()) {
+                if (index[i].isColonVectorCharacterArray()) {
                     std::wstring str = index[i].getContentAsWideString();
                     if (str != L":") {
                         throw Exception(
@@ -2438,6 +2461,10 @@ ArrayOf::deleteArrayOf(void* dp, Class dataclass)
         ArrayOf* rp = (ArrayOf*)dp;
         delete[] rp;
     } break;
+    case NLS_STRING_ARRAY: {
+        ArrayOf* rp = (ArrayOf*)dp;
+        delete[] rp;
+    } break;
     case NLS_STRUCT_ARRAY: {
         ArrayOf* rp = (ArrayOf*)dp;
         delete[] rp;
@@ -2518,7 +2545,7 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& data)
     if (index.isEmpty()) {
         return;
     }
-    if (index.isSingleString()) {
+    if (index.isColonVectorCharacterArray()) {
         std::wstring str = index.getContentAsWideString();
         if (str != L":") {
             throw Exception(_W("index must either be real positive integers or logicals."));
@@ -2636,7 +2663,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& data)
             if (index[i].isEmpty()) {
                 return;
             }
-            if (index[i].isSingleString()) {
+            if (index[i].isColonVectorCharacterArray()) {
                 std::wstring str = index[i].getContentAsWideString();
                 if (str != L":") {
                     throw Exception(_W("index must either be real positive integers or logicals."));
@@ -2858,7 +2885,7 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
         // it using 1 references, and throw an exception if there are
         // more indices than our dimension set.
         for (i = 0; i < (indexType)args.size(); i++) {
-            if (args[i].isSingleString()) {
+            if (args[i].isColonVectorCharacterArray()) {
                 std::wstring str = args[i].getContentAsWideString();
                 if (str != L":") {
                     throw Exception(_W("index must either be real positive integers or logicals."));
@@ -3053,6 +3080,11 @@ ArrayOf::summarizeCellEntry() const
         }
     } else {
         switch (dp->dataClass) {
+        case NLS_STRING_ARRAY:
+            io->outputMessage("{");
+            dp->dimensions.printMe(io);
+            io->outputMessage(" string }");
+            break;
         case NLS_CELL_ARRAY:
             io->outputMessage("{");
             dp->dimensions.printMe(io);
@@ -3392,6 +3424,15 @@ emitElement(char* msgBuffer, const void* dp, indexType num, Class dcls)
         }
         // io->outputMessage("  ");
     }
+    case NLS_STRING_ARRAY: {
+        ArrayOf* ap = (ArrayOf*)dp;
+        if (ap == nullptr) {
+            io->outputMessage("[]");
+        } else {
+            ap[num].summarizeCellEntry();
+        }
+        // io->outputMessage("  ");
+    }
     }
 }
 
@@ -3472,7 +3513,11 @@ ArrayOf::printMe(int printLimit, sizeType termWidth) const
         io->outputMessage("  <struct> ");
         nominalWidth = 10;
         break;
-    }
+	case NLS_STRING_ARRAY:
+		io->outputMessage("  <string> ");
+		nominalWidth = 10;
+		break;
+	}
     io->outputMessage("- size: ");
     dp->dimensions.printMe(io);
     io->outputMessage("\n");
@@ -3712,7 +3757,7 @@ ArrayOf::isNumeric() const
 bool
 ArrayOf::isDataClassReferenceType(Class cls)
 {
-    return (cls == NLS_CELL_ARRAY || cls == NLS_STRUCT_ARRAY);
+    return (cls == NLS_CELL_ARRAY || cls == NLS_STRUCT_ARRAY || cls == NLS_STRING_ARRAY);
 }
 
 template <class T>
@@ -3773,6 +3818,8 @@ ArrayOf::nzmax()
     case NLS_SCOMPLEX:
     case NLS_DCOMPLEX:
         return numel();
+    case NLS_STRING_ARRAY:
+        throw Exception(_W("Undefined function 'nzmax' for input arguments of type 'cell'."));
     case NLS_CELL_ARRAY:
         throw Exception(_W("Undefined function 'nzmax' for input arguments of type 'cell'."));
     case NLS_STRUCT_ARRAY:
@@ -3822,6 +3869,8 @@ ArrayOf::nnz()
         return DoCountNNZComplex<single>(dp->getData(), getLength());
     case NLS_DCOMPLEX:
         return DoCountNNZComplex<double>(dp->getData(), getLength());
+    case NLS_STRING_ARRAY:
+        throw Exception(_W("Undefined function 'nnz' for input arguments of type 'cell'."));
     case NLS_CELL_ARRAY:
         throw Exception(_W("Undefined function 'nnz' for input arguments of type 'cell'."));
     case NLS_STRUCT_ARRAY:

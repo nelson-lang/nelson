@@ -33,7 +33,7 @@ Nelson::DynamicLinkGateway::getdynlibextBuiltin(
     if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    retval.push_back(ArrayOf::stringConstructor(get_dynamic_library_extension()));
+    retval.push_back(ArrayOf::characterArrayConstructor(get_dynamic_library_extension()));
     return retval;
 }
 //=============================================================================

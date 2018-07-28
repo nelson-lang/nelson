@@ -34,7 +34,7 @@ Nelson::DynamicLinkGateway::dlopenBuiltin(Evaluator* eval, int nLhs, const Array
     if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isColonVectorCharacterArray()) {
         ArrayOf param1 = argIn[0];
         std::wstring libraryPath = param1.getContentAsWideString();
         DynamicLinkLibraryObject* dlObject = nullptr;

@@ -35,7 +35,7 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         variablesName = Who(eval, LOCAL_SCOPE, false);
     } else if (argIn.size() == 1) {
         std::wstring param1;
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isColonVectorCharacterArray()) {
             param1 = argIn[0].getContentAsWideString();
         } else {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

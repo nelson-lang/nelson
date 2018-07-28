@@ -38,7 +38,7 @@ Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     ArrayOf param2 = argIn[1];
     ArrayOf param3 = argIn[2];
     int ORIGIN;
-    if (param3.isSingleString()) {
+    if (param3.isColonVectorCharacterArray()) {
         std::wstring str = param3.getContentAsWideString();
         if ((str == L"bof") || (str == L"set")) {
             ORIGIN = -1;

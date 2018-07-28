@@ -92,7 +92,7 @@ bool
 DynamicLinkLibraryObject::get(std::wstring propertyName, ArrayOf& res)
 {
     if (propertyName == L"Path") {
-        res = ArrayOf::stringConstructor(_libraryPath);
+        res = ArrayOf::characterArrayConstructor(_libraryPath);
         return true;
     }
     return false;

@@ -182,7 +182,7 @@ ArrayOfVector
 ArrayOf::getVectorContentsAsList(ArrayOf& index)
 {
     ArrayOfVector m;
-    if (!this->isCell()) {
+    if (!this->isCell() && !this->isStringArray()) {
         throw Exception(_W("Attempt to apply contents-indexing to non cell-array object."));
     }
     if (isSparse()) {
@@ -191,7 +191,7 @@ ArrayOf::getVectorContentsAsList(ArrayOf& index)
     if (index.isEmpty()) {
         return ArrayOfVector();
     }
-    if (index.isSingleString()) {
+    if (index.isColonVectorCharacterArray()) {
         std::wstring str = index.getContentAsWideString();
         if (str != L":") {
             throw Exception(_W("index must either be real positive integers or logicals."));
@@ -225,7 +225,7 @@ ArrayOf::getVectorContentsAsList(ArrayOf& index)
 ArrayOfVector
 ArrayOf::getNDimContentsAsList(ArrayOfVector& index)
 {
-    if (!this->isCell()) {
+    if (!this->isCell() && !this->isStringArray()) {
         throw Exception(_W("Attempt to apply contents-indexing to non cell-array object."));
     }
     if (isSparse()) {
@@ -239,7 +239,7 @@ ArrayOf::getNDimContentsAsList(ArrayOfVector& index)
     Dimensions outDims(L);
     indexType i;
     for (i = 0; i < L; i++) {
-        if (index[i].isSingleString()) {
+        if (index[i].isColonVectorCharacterArray()) {
             std::wstring str = index[i].getContentAsWideString();
             if (str != L":") {
                 throw Exception(_W("index must either be real positive integers or logicals."));

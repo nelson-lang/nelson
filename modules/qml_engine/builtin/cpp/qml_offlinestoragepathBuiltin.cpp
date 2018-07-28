@@ -34,7 +34,7 @@ Nelson::QmlEngineGateway::qml_offlinestoragepathBuiltin(
     }
     ArrayOfVector retval;
     std::wstring res = QmlEngine::getInstance()->offlineStoragePath();
-    retval.push_back(ArrayOf::stringConstructor(res));
+    retval.push_back(ArrayOf::characterArrayConstructor(res));
     return retval;
 }
 //=============================================================================

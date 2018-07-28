@@ -35,7 +35,7 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (argIn.size() == 1) {
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isColonVectorCharacterArray()) {
             std::wstring argstr = argIn[0].getContentAsWideString();
             if ((argstr.compare(L"fullpath") == 0) || (argstr.compare(L"fullpathext") == 0)) {
                 if (argstr.compare(L"fullpath") == 0) {
@@ -63,7 +63,7 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     case 2:
         break;
     }
-    retval.push_back(ArrayOf::stringConstructor(path.generic_wstring()));
+    retval.push_back(ArrayOf::characterArrayConstructor(path.generic_wstring()));
     return retval;
 }
 //=============================================================================

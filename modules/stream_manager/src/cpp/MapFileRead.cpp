@@ -87,7 +87,7 @@ MapFileRead(std::wstring filename, std::wstring eol, std::wstring& errorMessage)
     const char* fileView = (const char*)_MapFileRead(filename.c_str(), &cbSize, isEmpty);
     ArrayOf res;
     if (isEmpty) {
-        res = ArrayOf::stringConstructor("");
+        res = ArrayOf::characterArrayConstructor("");
     } else {
         if (fileView) {
             try {
@@ -96,7 +96,7 @@ MapFileRead(std::wstring filename, std::wstring eol, std::wstring& errorMessage)
                 if (eol != L"\n") {
                     boost::replace_all(content, L"\n", eol);
                 }
-                res = ArrayOf::stringConstructor(content);
+                res = ArrayOf::characterArrayConstructor(content);
             } catch (...) {
                 errorMessage = _W("Cannot read file.");
             }

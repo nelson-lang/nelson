@@ -32,7 +32,7 @@ Nelson::StringGateway::ndarraychar_dispBuiltin(
     if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (!argIn[0].isNdArrayStringType()) {
+    if (!argIn[0].isNdArrayCharacterType()) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     argIn[0].printMe(eval->getPrintLimit(), eval->getInterface()->getTerminalWidth());

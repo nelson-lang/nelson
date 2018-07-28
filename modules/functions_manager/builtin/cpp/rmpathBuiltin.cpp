@@ -36,7 +36,7 @@ Nelson::FunctionsGateway::rmpathBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
     std::wstring previousPaths = PathFuncManager::getInstance()->getPathNameAsString();
     ArrayOf param1 = argIn[0];
-    if (param1.isSingleString()) {
+    if (param1.isColonVectorCharacterArray()) {
         std::wstring pathToRemove = param1.getContentAsWideString();
         boost::filesystem::path data_dir(pathToRemove);
         bool bRes = false;
@@ -67,7 +67,7 @@ Nelson::FunctionsGateway::rmpathBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     if (nLhs == 1) {
-        retval.push_back(ArrayOf::stringConstructor(previousPaths));
+        retval.push_back(ArrayOf::characterArrayConstructor(previousPaths));
     }
     return retval;
 }

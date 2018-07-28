@@ -34,7 +34,7 @@ Nelson::OsFunctionsGateway::createGUIDBuiltin(Evaluator* eval, int nLhs, const A
     }
     ArrayOfVector retval;
     if (argIn.size() == 0) {
-        retval.push_back(ArrayOf::stringConstructor(CreateGUID()));
+        retval.push_back(ArrayOf::characterArrayConstructor(CreateGUID()));
     } else {
         ArrayOf arg1 = argIn[0];
         if (arg1.isNumeric()) {

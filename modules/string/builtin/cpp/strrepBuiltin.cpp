@@ -40,7 +40,7 @@ Nelson::StringGateway::strrepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         retval = OverloadFunction(eval, nLhs, argIn, "strrep", bSuccess);
     }
     if (!bSuccess) {
-        if (argIn[0].isString() || IsCellOfString(argIn[0])) {
+        if (argIn[0].isCharacterArray() || IsCellOfString(argIn[0])) {
             retval.push_back(StringReplace(argIn[0], argIn[1], argIn[2], true));
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "strrep", bSuccess);

@@ -50,7 +50,7 @@ Nelson::FilesFoldersGateway::rmfileBuiltin(Evaluator* eval, int nLhs, const Arra
     case 2:
         bRes = RemoveFile(filenameToDelete, msg);
         retval.push_back(ArrayOf::logicalConstructor(bRes));
-        retval.push_back(ArrayOf::stringConstructor(msg));
+        retval.push_back(ArrayOf::characterArrayConstructor(msg));
         break;
     default:
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);

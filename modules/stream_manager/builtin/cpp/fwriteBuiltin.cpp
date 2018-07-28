@@ -50,7 +50,7 @@ fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     size_t skipSize = (size_t)param4.getContentAsScalarIndex();
     ArrayOf param3 = argIn[2];
     Class classDest = NLS_UINT8;
-    if (param3.isSingleString()) {
+    if (param3.isColonVectorCharacterArray()) {
         std::wstring precisionStr = param3.getContentAsWideString();
         bool bOK = false;
         classDest = precisionFromString(precisionStr, bOK);
@@ -111,19 +111,19 @@ fwriteBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector modifiedArgIn;
     modifiedArgIn.push_back(argIn[0]);
     modifiedArgIn.push_back(argIn[1]);
-    if (argIn[2].isSingleString()) {
+    if (argIn[2].isColonVectorCharacterArray()) {
         modifiedArgIn.push_back(argIn[2]);
-        if (argIn[3].isSingleString()) {
+        if (argIn[3].isColonVectorCharacterArray()) {
             modifiedArgIn.push_back(ArrayOf::doubleConstructor(0.));
             modifiedArgIn.push_back(argIn[3]);
         } else {
             modifiedArgIn.push_back(argIn[3]);
-            modifiedArgIn.push_back(ArrayOf::stringConstructor(L"n"));
+            modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"n"));
         }
     } else {
         modifiedArgIn.push_back(argIn[3]);
         modifiedArgIn.push_back(argIn[2]);
-        modifiedArgIn.push_back(ArrayOf::stringConstructor(L"n"));
+        modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"n"));
     }
     return fwriteBuiltinFiveRhs(eval, nLhs, modifiedArgIn);
 }
@@ -136,7 +136,7 @@ fwriteBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     modifiedArgIn.push_back(argIn[1]);
     modifiedArgIn.push_back(argIn[2]);
     modifiedArgIn.push_back(ArrayOf::doubleConstructor(0.));
-    modifiedArgIn.push_back(ArrayOf::stringConstructor(L"n"));
+    modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"n"));
     return fwriteBuiltinFiveRhs(eval, nLhs, modifiedArgIn);
 }
 //=============================================================================
@@ -146,9 +146,9 @@ fwriteBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector modifiedArgIn;
     modifiedArgIn.push_back(argIn[0]);
     modifiedArgIn.push_back(argIn[1]);
-    modifiedArgIn.push_back(ArrayOf::stringConstructor(L"uint8"));
+    modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"uint8"));
     modifiedArgIn.push_back(ArrayOf::doubleConstructor(0.));
-    modifiedArgIn.push_back(ArrayOf::stringConstructor(L"n"));
+    modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"n"));
     return fwriteBuiltinFiveRhs(eval, nLhs, modifiedArgIn);
 }
 //=============================================================================

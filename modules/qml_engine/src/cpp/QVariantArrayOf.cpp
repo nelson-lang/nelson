@@ -197,7 +197,7 @@ QVariantToArrayOf(QVariant Q)
         return ArrayOf::int8Constructor(i8);
     } break;
     case QVariant::Type::String: {
-        return ArrayOf::stringConstructor(QStringTowstring(Q.toString()));
+        return ArrayOf::characterArrayConstructor(QStringTowstring(Q.toString()));
     } break;
     case QVariant::Type::StringList: {
         QStringList stringlist = qvariant_cast<QStringList>(Q);
@@ -265,7 +265,7 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Url: {
         QUrl qurl = qvariant_cast<QUrl>(Q);
-        res = ArrayOf::stringConstructor(QStringTowstring(qurl.toString()));
+        res = ArrayOf::characterArrayConstructor(QStringTowstring(qurl.toString()));
     } break;
     case QVariant::Type::Rect: {
         QRect qrect = Q.toRect();
@@ -341,7 +341,7 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Uuid: {
         QUuid quuid = Q.toUuid();
-        return ArrayOf::stringConstructor(QStringTowstring(quuid.toString()));
+        return ArrayOf::characterArrayConstructor(QStringTowstring(quuid.toString()));
     } break;
     case QVariant::Type::Color: {
         QColor qcolor = qvariant_cast<QColor>(Q);
@@ -999,7 +999,7 @@ ArrayOfToQVariant(ArrayOf A)
         }
     } break;
     case NLS_CHAR: {
-        if (A.isSingleString()) {
+        if (A.isColonVectorCharacterArray()) {
             res = ArrayOfToQVariant(A, QVariant::Type::String);
         } else {
             throw Exception(_W("Type conversion to QVariant not managed."));

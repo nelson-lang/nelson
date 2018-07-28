@@ -159,14 +159,14 @@ jsonVariableToNelsonStringType(JsonVariable jsVar)
 {
     switch (jsVar.dims.size()) {
     case 0: {
-        return ArrayOf::stringConstructor(jsVar.scalarString);
+        return ArrayOf::characterArrayConstructor(jsVar.scalarString);
     } break;
     case 1: {
         Dimensions dims(jsVar.dims[0], 1);
         ArrayOf* dptr = (ArrayOf*)ArrayOf::allocateArrayOf(
             NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
         for (size_t k = 0; k < jsVar.vectorString.size(); k++) {
-            dptr[k] = ArrayOf::stringConstructor(jsVar.vectorString[k]);
+            dptr[k] = ArrayOf::characterArrayConstructor(jsVar.vectorString[k]);
         }
         return ArrayOf(NLS_CELL_ARRAY, dims, dptr);
     } break;
@@ -175,7 +175,7 @@ jsonVariableToNelsonStringType(JsonVariable jsVar)
         ArrayOf* dptr = (ArrayOf*)ArrayOf::allocateArrayOf(
             NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
         for (size_t k = 0; k < jsVar.vectorString.size(); k++) {
-            dptr[k] = ArrayOf::stringConstructor(jsVar.vectorString[k]);
+            dptr[k] = ArrayOf::characterArrayConstructor(jsVar.vectorString[k]);
         }
         return ArrayOf(NLS_CELL_ARRAY, dims, dptr);
     } break;
@@ -187,7 +187,7 @@ jsonVariableToNelsonStringType(JsonVariable jsVar)
         ArrayOf* dptr = (ArrayOf*)ArrayOf::allocateArrayOf(
             NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
         for (size_t k = 0; k < jsVar.vectorString.size(); k++) {
-            dptr[k] = ArrayOf::stringConstructor(jsVar.vectorString[k]);
+            dptr[k] = ArrayOf::characterArrayConstructor(jsVar.vectorString[k]);
         }
         return ArrayOf(NLS_CELL_ARRAY, dims, dptr);
     } break;

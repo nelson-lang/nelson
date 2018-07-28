@@ -59,7 +59,7 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         Error(eval, _W("Wrong value for machine format."));
     }
     skipSize = (size_t)param4.getContentAsScalarIndex();
-    if (param3.isSingleString()) {
+    if (param3.isColonVectorCharacterArray()) {
         std::wstring precisionStr = param3.getContentAsWideString();
         bool bOK = false;
         classDest = precisionFromString(precisionStr, bOK);
@@ -171,11 +171,11 @@ freadBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOf param3 = argIn[2];
     ArrayOf param4 = argIn[3];
     ArrayOf param5;
-    if (param4.isSingleString()) {
+    if (param4.isColonVectorCharacterArray()) {
         param5 = param4;
         param4 = ArrayOf::doubleConstructor(0);
     } else {
-        param5 = ArrayOf::stringConstructor(L"n");
+        param5 = ArrayOf::characterArrayConstructor(L"n");
     }
     ArrayOfVector modifiedArgIn;
     modifiedArgIn.push_back(param1);
@@ -194,14 +194,14 @@ freadBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOf param3 = argIn[2];
     ArrayOf param4;
     ArrayOf param5;
-    if (param2.isSingleString() && param3.isSingleString()) {
+    if (param2.isColonVectorCharacterArray() && param3.isColonVectorCharacterArray()) {
         param5 = param3;
         param3 = param2;
         param4 = ArrayOf::doubleConstructor(0);
         param2 = ArrayOf::doubleConstructor(std::numeric_limits<double>::infinity());
     } else {
         param4 = ArrayOf::doubleConstructor(0);
-        param5 = ArrayOf::stringConstructor(L"n");
+        param5 = ArrayOf::characterArrayConstructor(L"n");
     }
     ArrayOfVector modifiedArgIn;
     modifiedArgIn.push_back(param1);
@@ -218,14 +218,14 @@ freadBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     ArrayOf param3;
-    if (param2.isSingleString()) {
+    if (param2.isColonVectorCharacterArray()) {
         param3 = param2;
         param2 = ArrayOf::doubleConstructor(std::numeric_limits<double>::infinity());
     } else {
-        param3 = ArrayOf::stringConstructor(L"uint8");
+        param3 = ArrayOf::characterArrayConstructor(L"uint8");
     }
     ArrayOf param4 = ArrayOf::doubleConstructor(0);
-    ArrayOf param5 = ArrayOf::stringConstructor(L"n");
+    ArrayOf param5 = ArrayOf::characterArrayConstructor(L"n");
     ArrayOfVector modifiedArgIn;
     modifiedArgIn.push_back(param1);
     modifiedArgIn.push_back(param2);

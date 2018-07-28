@@ -40,7 +40,7 @@ Nelson::StringGateway::toupperBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         retval = OverloadFunction(eval, nLhs, argIn, "toupper", bSuccess);
     }
     if (!bSuccess) {
-        if (A.isString() || A.isCell()) {
+        if (A.isCharacterArray() || A.isCell()) {
             retval.push_back(ToUpper(eval, A));
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "toupper", bSuccess);

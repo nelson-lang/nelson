@@ -34,7 +34,7 @@ Nelson::TypeGateway::iscellBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
     bool bSuccess = false;
     if (eval->overloadOnBasicTypes) {
-        retval = OverloadFunction(eval, nLhs, argIn, "cell", bSuccess);
+        retval = OverloadFunction(eval, nLhs, argIn, "iscell", bSuccess);
     }
     if (!bSuccess) {
         retval.push_back(ArrayOf::logicalConstructor(argIn[0].getDataClass() == NLS_CELL_ARRAY));

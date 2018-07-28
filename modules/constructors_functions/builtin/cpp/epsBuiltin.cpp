@@ -50,7 +50,7 @@ Nelson::ConstructorsGateway::epsBuiltin(Evaluator* eval, int nLhs, const ArrayOf
             single* pV = (single*)argIn[0].getDataPointer();
             single dV = pV[0];
             retval.push_back(ArrayOf::singleConstructor(Epsilon((single)dV)));
-        } else if (argIn[0].isSingleString()) {
+        } else if (argIn[0].isColonVectorCharacterArray()) {
             std::wstring arg = argIn[0].getContentAsWideString();
             if (arg.compare(L"single") == 0) {
                 retval.push_back(ArrayOf::singleConstructor(Epsilon((single)1.0)));

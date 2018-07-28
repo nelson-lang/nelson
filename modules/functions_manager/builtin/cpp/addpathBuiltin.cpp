@@ -40,7 +40,7 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
     if (argIn.size() > 1) {
         size_t lastpos = argIn.size() - 1;
         ArrayOf lastParam = argIn[lastpos];
-        if (lastParam.isSingleString()) {
+        if (lastParam.isColonVectorCharacterArray()) {
             std::wstring option = lastParam.getContentAsWideString();
             if ((option == L"-begin") || (option == L"-end")) {
                 if (option == L"-begin") {
@@ -66,7 +66,7 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     for (size_t k = 0; k < lastpos; k++) {
         ArrayOf param = argIn[k];
-        if (param.isSingleString()) {
+        if (param.isColonVectorCharacterArray()) {
             params.push_back(param.getContentAsWideString());
         } else {
             Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), k + 1));
@@ -96,7 +96,7 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
         }
     }
     if (nLhs == 1) {
-        retval.push_back(ArrayOf::stringConstructor(previousPaths));
+        retval.push_back(ArrayOf::characterArrayConstructor(previousPaths));
     }
     return retval;
 }

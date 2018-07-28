@@ -49,7 +49,7 @@ Nelson::AssertFunctionsGateway::assert_isapproxBuiltin(
     } else {
         retval.push_back(ArrayOf::logicalConstructor(bRes));
         if (nLhs > 1) {
-            retval.push_back(ArrayOf::stringConstructor(msg));
+            retval.push_back(ArrayOf::characterArrayConstructor(msg));
         }
     }
     return retval;

@@ -43,11 +43,11 @@ Nelson::FftwGateway::fftwBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
         std::wstring infoDesired = param1.getContentAsWideString();
         ArrayOf res;
         if (infoDesired == L"dwisdom") {
-            res = ArrayOf::stringConstructor(getDoubleWisdomInformation());
+            res = ArrayOf::characterArrayConstructor(getDoubleWisdomInformation());
         } else if (infoDesired == L"swisdom") {
-            res = ArrayOf::stringConstructor(getSingleWisdomInformation());
+            res = ArrayOf::characterArrayConstructor(getSingleWisdomInformation());
         } else if (infoDesired == L"planner") {
-            res = ArrayOf::stringConstructor(getPlannerInformation());
+            res = ArrayOf::characterArrayConstructor(getPlannerInformation());
         } else {
             Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
         }
@@ -63,7 +63,7 @@ Nelson::FftwGateway::fftwBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
         }
         ArrayOf previousvalue;
         if (fieldname == L"dwisdom") {
-            previousvalue = ArrayOf::stringConstructor(getDoubleWisdomInformation());
+            previousvalue = ArrayOf::characterArrayConstructor(getDoubleWisdomInformation());
             if (doReset) {
                 resetDoubleWisdom();
             } else {
@@ -72,7 +72,7 @@ Nelson::FftwGateway::fftwBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
                 }
             }
         } else if (fieldname == L"swisdom") {
-            previousvalue = ArrayOf::stringConstructor(getSingleWisdomInformation());
+            previousvalue = ArrayOf::characterArrayConstructor(getSingleWisdomInformation());
             if (doReset) {
                 resetSingleWisdom();
             } else {
@@ -81,7 +81,7 @@ Nelson::FftwGateway::fftwBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
                 }
             }
         } else if (fieldname == L"planner") {
-            previousvalue = ArrayOf::stringConstructor(getPlannerInformation());
+            previousvalue = ArrayOf::characterArrayConstructor(getPlannerInformation());
             if (doReset) {
                 resetPlanner();
             } else {

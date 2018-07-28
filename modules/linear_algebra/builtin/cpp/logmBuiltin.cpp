@@ -42,7 +42,7 @@ Nelson::LinearAlgebraGateway::logmBuiltin(Evaluator* eval, int nLhs, const Array
     if (!bSuccess) {
         if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
             || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
-            || argIn[0].isLogical() || argIn[0].isString() || argIn[0].isIntegerType()
+            || argIn[0].isLogical() || argIn[0].isCharacterArray() || argIn[0].isIntegerType()
             || argIn[0].isHandle()) {
             retval = OverloadFunction(eval, nLhs, argIn, "logm", bSuccess);
             if (bSuccess) {

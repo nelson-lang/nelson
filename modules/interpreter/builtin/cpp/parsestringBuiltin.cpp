@@ -34,7 +34,7 @@ Nelson::InterpreterGateway::parsestringBuiltin(
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::string command;
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isColonVectorCharacterArray()) {
         command = argIn[0].getContentAsCString();
     } else {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
@@ -49,18 +49,18 @@ Nelson::InterpreterGateway::parsestringBuiltin(
     }
     switch (parserState) {
     case ScriptBlock: {
-        retval.push_back(ArrayOf::stringConstructor("script"));
+        retval.push_back(ArrayOf::characterArrayConstructor("script"));
     } break;
     case FuncDef: {
         MacroFunctionDef* cp = getParsedFunctionDef();
         if (cp) {
-            retval.push_back(ArrayOf::stringConstructor("function"));
+            retval.push_back(ArrayOf::characterArrayConstructor("function"));
         } else {
-            retval.push_back(ArrayOf::stringConstructor("script"));
+            retval.push_back(ArrayOf::characterArrayConstructor("script"));
         }
     } break;
     default: {
-        retval.push_back(ArrayOf::stringConstructor("error"));
+        retval.push_back(ArrayOf::characterArrayConstructor("error"));
     } break;
     }
     return retval;

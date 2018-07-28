@@ -33,7 +33,7 @@ Nelson::MemoryGateway::isglobalBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (!argIn[0].isSingleString()) {
+    if (!argIn[0].isColonVectorCharacterArray()) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     std::string arg = argIn[0].getContentAsCString();

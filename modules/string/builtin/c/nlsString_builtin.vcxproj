@@ -185,6 +185,8 @@
     <ClCompile Include="..\cpp\strfindBuiltin.cpp" />
     <ClCompile Include="..\cpp\char_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\char_isequalBuiltin.cpp" />
+    <ClCompile Include="..\cpp\stringBuiltin.cpp" />
+    <ClCompile Include="..\cpp\string_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\strlengthBuiltin.cpp" />
     <ClCompile Include="..\cpp\strncmpBuiltin.cpp" />
     <ClCompile Include="..\cpp\strrepBuiltin.cpp" />
@@ -237,6 +239,8 @@
     <ClInclude Include="..\include\str2doubleBuiltin.hpp" />
     <ClInclude Include="..\include\strfindBuiltin.hpp" />
     <ClInclude Include="..\include\char_isequalBuiltin.hpp" />
+    <ClInclude Include="..\include\stringBuiltin.hpp" />
+    <ClInclude Include="..\include\string_dispBuiltin.hpp" />
     <ClInclude Include="..\include\strlengthBuiltin.hpp" />
     <ClInclude Include="..\include\strncmpBuiltin.hpp" />
     <ClInclude Include="..\include\strrepBuiltin.hpp" />

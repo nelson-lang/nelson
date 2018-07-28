@@ -60,7 +60,7 @@ Nelson::StreamGateway::fgetsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             File* f = fm->getFile(iValue);
             std::wstring result;
             if (FileGetLine(f, nbCharacters, true, result)) {
-                retval.push_back(ArrayOf::stringConstructor(result));
+                retval.push_back(ArrayOf::characterArrayConstructor(result));
             } else {
                 retval.push_back(ArrayOf::doubleConstructor(-1));
             }

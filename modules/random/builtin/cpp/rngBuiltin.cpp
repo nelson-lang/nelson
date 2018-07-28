@@ -59,7 +59,7 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     } break;
     case 1: {
         ArrayOf arg1 = argIn[0];
-        if (arg1.isSingleString()) {
+        if (arg1.isColonVectorCharacterArray()) {
             std::wstring param = arg1.getContentAsWideString();
             if (!((param == L"default") || (param == L"shuffle") || (param == L"enginelist"))) {
                 Error(eval, _W("'default', 'shuffle' or 'enginelist' expected."));
@@ -105,7 +105,7 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     case 2: {
         ArrayOf arg1 = argIn[0];
         ArrayOf arg2 = argIn[1];
-        if (arg1.isNumeric() && arg2.isSingleString()) {
+        if (arg1.isNumeric() && arg2.isColonVectorCharacterArray()) {
             double s = arg1.getContentAsDoubleScalar();
             std::wstring genname = arg2.getContentAsWideString();
             if (!isRngType(genname)) {
@@ -119,7 +119,7 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             if (nLhs == 1) {
                 retval.push_back(backupCurrentRngStruct);
             }
-        } else if (arg1.isSingleString() && arg2.isSingleString()) {
+        } else if (arg1.isColonVectorCharacterArray() && arg2.isColonVectorCharacterArray()) {
             std::wstring param = arg1.getContentAsWideString();
             if (param != L"shuffle") {
                 Error(eval, _W("'shuffle' expected."));
@@ -151,7 +151,7 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
 static ArrayOf
 backupCurrentRng(Evaluator* eval)
 {
-    ArrayOf typeOfRng = ArrayOf::stringConstructor(RngGetType(eval));
+    ArrayOf typeOfRng = ArrayOf::characterArrayConstructor(RngGetType(eval));
     ArrayOf seedOfRng = RngGetSeed(eval);
     ArrayOf stateOfRng = RngGetState(eval);
     ArrayOf structRng;

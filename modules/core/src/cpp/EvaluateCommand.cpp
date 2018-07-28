@@ -210,7 +210,7 @@ EvaluateConsoleCommand(Evaluator* eval, int nLhs, std::wstring command, std::wst
             throw;
         }
     }
-    retval.insert(retval.begin(), ArrayOf::stringConstructor(buffer));
+    retval.insert(retval.begin(), ArrayOf::characterArrayConstructor(buffer));
     return retval;
 }
 //=============================================================================

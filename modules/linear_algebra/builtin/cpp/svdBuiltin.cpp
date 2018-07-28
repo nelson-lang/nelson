@@ -42,7 +42,7 @@ Nelson::LinearAlgebraGateway::svdBuiltin(Evaluator* eval, int nLhs, const ArrayO
     if (!bSuccess) {
         if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
             || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
-            || argIn[0].isLogical() || argIn[0].isString() || argIn[0].isIntegerType()
+            || argIn[0].isLogical() || argIn[0].isCharacterArray() || argIn[0].isIntegerType()
             || argIn[0].isHandle()) {
             retval = OverloadFunction(eval, nLhs, argIn, "svd", bSuccess);
             if (bSuccess) {
@@ -53,7 +53,7 @@ Nelson::LinearAlgebraGateway::svdBuiltin(Evaluator* eval, int nLhs, const ArrayO
         SVD_FLAG svdFlag = SVD_FLAG::SVD_DEFAULT;
         if (argIn.size() == 2) {
             ArrayOf param2 = argIn[1];
-            if (param2.isSingleString()) {
+            if (param2.isColonVectorCharacterArray()) {
                 std::wstring paramAsString = param2.getContentAsWideString();
                 if (L"econ" == paramAsString) {
                     svdFlag = SVD_FLAG::SVD_ECON;

@@ -33,7 +33,7 @@ ToCellStringAs(stringVector vectorStr, bool bAsColumn)
             throw Exception(ERROR_MEMORY_ALLOCATION);
         }
         for (size_t k = 0; k < nbElements; k++) {
-            elements[k] = ArrayOf::stringConstructor(vectorStr[k]);
+            elements[k] = ArrayOf::characterArrayConstructor(vectorStr[k]);
         }
     }
     ArrayOf c;
@@ -60,7 +60,7 @@ ToCellStringAs(wstringVector vectorStr, bool bAsColumn)
             throw Exception(ERROR_MEMORY_ALLOCATION);
         }
         for (size_t k = 0; k < nbElements; k++) {
-            elements[k] = ArrayOf::stringConstructor(vectorStr[k]);
+            elements[k] = ArrayOf::characterArrayConstructor(vectorStr[k]);
         }
     }
     ArrayOf c;

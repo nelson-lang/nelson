@@ -39,7 +39,7 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     }
     if (!bSuccess) {
         ArrayOf param1 = argIn[0];
-        if (!param1.isString()) {
+        if (!param1.isCharacterArray()) {
             retval = OverloadFunction(eval, nLhs, argIn, "sprintf", bSuccess);
             if (!bSuccess) {
                 Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
@@ -57,7 +57,7 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                 ArrayOf strArr = ArrayOf::emptyConstructor(Dimensions(1, 0));
                 strArr.promoteType(NLS_CHAR);
                 retval.push_back(strArr);
-                retval.push_back(ArrayOf::stringConstructor(error_message));
+                retval.push_back(ArrayOf::characterArrayConstructor(error_message));
             } else {
                 Error(eval, error_message);
             }
@@ -67,10 +67,10 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                 strArr.promoteType(NLS_CHAR);
                 retval.push_back(strArr);
             } else {
-                retval.push_back(ArrayOf::stringConstructor(result));
+                retval.push_back(ArrayOf::characterArrayConstructor(result));
             }
             if (nLhs > 1) {
-                retval.push_back(ArrayOf::stringConstructor(L""));
+                retval.push_back(ArrayOf::characterArrayConstructor(L""));
             }
         }
     }

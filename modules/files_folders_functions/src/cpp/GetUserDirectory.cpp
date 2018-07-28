@@ -29,7 +29,7 @@ static std::wstring userDir = L"";
 ArrayOf
 UserDir()
 {
-    return ArrayOf::stringConstructor(GetUserDirectory());
+    return ArrayOf::characterArrayConstructor(GetUserDirectory());
 }
 //=============================================================================
 std::wstring

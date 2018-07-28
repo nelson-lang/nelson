@@ -58,8 +58,8 @@ Nelson::AudioGateway::audiometadataBuiltin(Evaluator* eval, int nLhs, const Arra
         wstringVector currentValues;
         for (std::string fieldname : currentFieldnames) {
             ArrayOf value = param2.getField(fieldname);
-            if ((value.isEmpty(true) && value.isDoubleType()) || value.isSingleString()) {
-                if (value.isSingleString()) {
+            if ((value.isEmpty(true) && value.isDoubleType()) || value.isColonVectorCharacterArray()) {
+                if (value.isColonVectorCharacterArray()) {
                     wcurrentFieldname.push_back(utf8_to_wstring(fieldname));
                     currentValues.push_back(value.getContentAsWideString());
                 } else {
@@ -80,7 +80,7 @@ Nelson::AudioGateway::audiometadataBuiltin(Evaluator* eval, int nLhs, const Arra
     }
     ArrayOfVector fieldvalues;
     for (size_t i = 0; i < names.size(); i++) {
-        fieldvalues.push_back(ArrayOf::stringConstructor(values[i]));
+        fieldvalues.push_back(ArrayOf::characterArrayConstructor(values[i]));
     }
     retval.push_back(ArrayOf::structConstructor(names, fieldvalues));
     return retval;

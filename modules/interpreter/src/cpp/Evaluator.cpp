@@ -440,7 +440,7 @@ Evaluator::expression(ASTPtr t)
         boost::replace_all(t->text, "d", "e");
         retval = ArrayOf::doubleConstructor(atof(t->text.c_str()));
     } else if (t->type == string_const_node) {
-        retval = ArrayOf::stringConstructor(std::string(t->text.c_str()));
+        retval = ArrayOf::characterArrayConstructor(std::string(t->text.c_str()));
     } else if (t->type == const_complex_node || t->type == const_dcomplex_node) {
         boost::replace_all(t->text, "D", "e");
         boost::replace_all(t->text, "d", "e");
@@ -971,7 +971,7 @@ Evaluator::switchStatement(ASTPtr t)
     switchVal = expression(t);
     // Assess its type to determine if this is a scalar switch
     // or a string switch.
-    if (!switchVal.isScalar() && !switchVal.isSingleString()) {
+    if (!switchVal.isScalar() && !switchVal.isColonVectorCharacterArray()) {
         Error(this, ERROR_SWITCH_STATEMENTS);
     }
     // Move to the next node in the AST
@@ -2144,7 +2144,7 @@ Evaluator::specialFunctionCall(ASTPtr t, bool printIt)
     }
     ArrayOfVector n;
     for (size_t i = 1; i < args.size(); i++) {
-        n.push_back(ArrayOf::stringConstructor(args[i].c_str()));
+        n.push_back(ArrayOf::characterArrayConstructor(args[i].c_str()));
     }
     FuncPtr val;
     pushID(t->context());
@@ -4160,7 +4160,7 @@ Evaluator::setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue)
     int nLhs = 0;
     ArrayOfVector argIn;
     argIn.push_back(r);
-    argIn.push_back(ArrayOf::stringConstructor(fieldname));
+    argIn.push_back(ArrayOf::characterArrayConstructor(fieldname));
     argIn.push_back(fieldvalue[0]);
     funcDef->evaluateFunction(this, argIn, nLhs);
 }
@@ -4194,7 +4194,7 @@ Evaluator::getHandle(ArrayOf r, std::string fieldname, ArrayOfVector params)
     }
     int nLhs = 1;
     argIn.push_back(r);
-    argIn.push_back(ArrayOf::stringConstructor(fieldname));
+    argIn.push_back(ArrayOf::characterArrayConstructor(fieldname));
     return funcDef->evaluateFunction(this, argIn, nLhs);
 }
 //=============================================================================

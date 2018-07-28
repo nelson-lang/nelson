@@ -85,7 +85,7 @@ AudioRead(std::wstring filename, double dstart, double dend, std::wstring dataty
         rangeIndex = ArrayOf(NLS_INT32, dims, pV);
 #endif
         index.push_back(rangeIndex);
-        index.push_back(ArrayOf::stringConstructor(":"));
+        index.push_back(ArrayOf::characterArrayConstructor(":"));
         allFrames = false;
     }
     if (sf_command(file, SFC_SET_NORM_DOUBLE, NULL, SF_TRUE) == SF_FALSE) {

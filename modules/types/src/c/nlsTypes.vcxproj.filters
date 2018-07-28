@@ -101,9 +101,6 @@
     <ClCompile Include="..\cpp\ArrayOf_SparseType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\ArrayOf_StringType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\ArrayOf_StructType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -123,6 +120,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dllMain.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\ArrayOf_CharacterType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\ArrayOf_StringType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

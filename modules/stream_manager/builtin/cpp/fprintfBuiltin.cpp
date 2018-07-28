@@ -47,11 +47,11 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (param1.isDoubleType() && param1.isScalar()) {
         dID = param1.getContentAsDoubleScalar();
         ArrayOf param2 = argIn[1];
-        if (!param2.isString()) {
+        if (!param2.isCharacterArray()) {
             Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         firstArgumentPosition = 1;
-    } else if (param1.isSingleString()) {
+    } else if (param1.isColonVectorCharacterArray()) {
         dID = 1;
         firstArgumentPosition = 0;
     } else {

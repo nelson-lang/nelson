@@ -426,12 +426,12 @@ public:
      * Returns TRUE if we are a string.
      */
     const bool
-    isString() const;
+    isCharacterArray() const;
     const bool
-    isSingleString() const;
+    isColonVectorCharacterArray() const;
 
     const bool
-    isNdArrayStringType() const;
+    isNdArrayCharacterType() const;
 
     const bool
     isIntegerType() const;
@@ -576,14 +576,14 @@ public:
      * string as a value.
      */
     static ArrayOf
-    stringConstructor(std::string aval);
+    characterArrayConstructor(std::string aval);
 
     /**
      * String constructor - Construct an NLS_CHAR object with the given
      * string as a value.
      */
     static ArrayOf
-    stringConstructor(std::wstring aval);
+    characterArrayConstructor(std::wstring aval);
 
     /**
      * int64 vector constructor - Construct an NLS_INT64 object
@@ -1137,6 +1137,27 @@ public:
      */
     HandleGenericObject*
     getContentAsHandleScalar() const;
+
+	//=========================================================================
+	// string array
+    //=========================================================================
+    const bool
+    isStringArray() const;
+
+	const bool
+    isNdArrayString() const;
+
+	static ArrayOf
+    stringArrayConstructor(const std::string &value);
+
+	static ArrayOf
+    stringArrayConstructor(const std::wstring &value);
+
+	static ArrayOf
+    stringArrayConstructor(const stringVector values, Dimensions dims);
+
+	static ArrayOf
+    stringArrayConstructor(const wstringVector values, Dimensions dims);
 };
 
 void

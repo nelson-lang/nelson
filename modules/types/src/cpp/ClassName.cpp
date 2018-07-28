@@ -49,6 +49,10 @@ ClassName(ArrayOf In)
     case NLS_CELL_ARRAY: {
         classString = NLS_CELL_ARRAY_STR;
     } break;
+    case NLS_STRING_ARRAY: {
+        classString = NLS_STRING_ARRAY_STR;
+        return classString;
+    } break;
     case NLS_STRUCT_ARRAY: {
         classString = In.getStructType();
     } break;

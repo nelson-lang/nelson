@@ -44,7 +44,7 @@ Nelson::HelpBrowserGateway::helpbrowserBuiltin(
             ArrayOfVector retval;
             if (param1 == L"-cache") {
                 retval.push_back(
-                    ArrayOf::stringConstructor(HelpBrowser::getInstance()->getCachePath()));
+                    ArrayOf::characterArrayConstructor(HelpBrowser::getInstance()->getCachePath()));
             } else {
                 retval.push_back(ToCellStringAsColumn(HelpBrowser::getInstance()->getAttributes()));
             }

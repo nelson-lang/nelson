@@ -299,3 +299,7 @@
     _W("Wrong type for argument #3: handle expected.")
 #define ERROR_WRONG_ARGUMENT_X_TYPE_HANDLE_EXPECTED                                                \
     _W("Wrong type for argument #%d: handle expected.")
+
+//=============================================================================
+#define ERROR_TYPE_STRING_ARRAY_EXPECTED _W("Wrong type for argument #1: string array expected.")
+#define ERROR_WRONG_ARGUMENT_1_TYPE_STRING_ARRAY_EXPECTED _W("Wrong type for argument #1. string array expected.")

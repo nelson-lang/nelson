@@ -38,6 +38,8 @@
 #include "strrepBuiltin.hpp"
 #include "replaceBuiltin.hpp"
 #include "strlengthBuiltin.hpp"
+#include "stringBuiltin.hpp"
+#include "string_dispBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -71,6 +73,8 @@ static const nlsGateway gateway[] = {
     { "strrep", Nelson::StringGateway::strrepBuiltin, 1, 3 },
     { "replace", Nelson::StringGateway::replaceBuiltin, 1, 3 },
     { "strlength", Nelson::StringGateway::strlengthBuiltin, 1, 1 },
+    { "string", Nelson::StringGateway::stringBuiltin, 1, 1 },
+    { "string_disp", Nelson::StringGateway::string_dispBuiltin, 0, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

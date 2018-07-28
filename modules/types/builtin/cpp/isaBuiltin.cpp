@@ -36,7 +36,7 @@ Nelson::TypeGateway::isaBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
-    if (!param2.isSingleString()) {
+    if (!param2.isColonVectorCharacterArray()) {
         Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
     }
     std::wstring classnameExpected = param2.getContentAsWideString();

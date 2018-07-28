@@ -92,19 +92,19 @@ StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps)
                         e.what();
                         throw Exception(ERROR_MEMORY_ALLOCATION);
                     }
-                    elements[0] = ArrayOf::stringConstructor(result);
+                    elements[0] = ArrayOf::characterArrayConstructor(result);
                     res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
                 }
             } else {
-                res = ArrayOf::stringConstructor(result);
+                res = ArrayOf::characterArrayConstructor(result);
             }
         }
     } else {
         if (nbOutput == 0) {
-            if (OLD.isString() && wold.empty()) {
+            if (OLD.isCharacterArray() && wold.empty()) {
                 res = ArrayOf(STR);
             } else {
-                res = ArrayOf::stringConstructor("");
+                res = ArrayOf::characterArrayConstructor("");
                 res.promoteType(outputClass);
             }
         } else {
@@ -122,7 +122,7 @@ StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps)
                 size_t idx_str = (i)*str_incr;
                 size_t idx_old = (i)*old_incr;
                 size_t idx_new = (i)*new_incr;
-                elements[i] = ArrayOf::stringConstructor(
+                elements[i] = ArrayOf::characterArrayConstructor(
                     stringReplace(wstr[idx_str], wold[idx_old], wnew[idx_new], doOverlaps));
             }
             res = ArrayOf(NLS_CELL_ARRAY, outputDims, elements);
@@ -202,14 +202,14 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
                 e.what();
                 throw Exception(ERROR_MEMORY_ALLOCATION);
             }
-            elements[0] = ArrayOf::stringConstructor(wstr[0]);
+            elements[0] = ArrayOf::characterArrayConstructor(wstr[0]);
             res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
         } else {
-            res = ArrayOf::stringConstructor(wstr[0]);
+            res = ArrayOf::characterArrayConstructor(wstr[0]);
         }
         return res;
     }
-    if ((wstr.size() == 1) && OLD.isCell() && NEW.isString()) {
+    if ((wstr.size() == 1) && OLD.isCell() && NEW.isCharacterArray()) {
         for (size_t k = 0; k < OLD.getDimensions().getElementCount(); k++) {
             wstr[0] = Replace(wstr[0], wold[k], wnew[0]);
         }
@@ -221,14 +221,14 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
                 e.what();
                 throw Exception(ERROR_MEMORY_ALLOCATION);
             }
-            elements[0] = ArrayOf::stringConstructor(wstr[0]);
+            elements[0] = ArrayOf::characterArrayConstructor(wstr[0]);
             res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
         } else {
-            res = ArrayOf::stringConstructor(wstr[0]);
+            res = ArrayOf::characterArrayConstructor(wstr[0]);
         }
         return res;
     }
-    if (STR.isString() && OLD.isString() && NEW.isString()) {
+    if (STR.isCharacterArray() && OLD.isCharacterArray() && NEW.isCharacterArray()) {
         if (wstr.size() == 0) {
             wstr.push_back(L"");
         }
@@ -238,7 +238,7 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
         if (wnew.size() == 0) {
             wnew.push_back(L"");
         }
-        return ArrayOf::stringConstructor(Replace(wstr[0], wold[0], wnew[0]));
+        return ArrayOf::characterArrayConstructor(Replace(wstr[0], wold[0], wnew[0]));
     } else {
         size_t nbOutput;
         Dimensions outputDims;
@@ -290,14 +290,14 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
                 }
             }
         } else {
-            if (OLD.isString() && NEW.isCell()) {
+            if (OLD.isCharacterArray() && NEW.isCell()) {
                 if (wold.size() != wnew.size()) {
                     throw Exception(ERROR_SAME_SIZE_EXPECTED);
                 }
             }
         }
         Class outputClass = NLS_CHAR;
-        if (STR.isString() && (OLD.isCell() && !OLD.isScalar())) {
+        if (STR.isCharacterArray() && (OLD.isCell() && !OLD.isScalar())) {
             outputClass = NLS_CELL_ARRAY;
         }
         if (STR.isCell()) {
@@ -320,18 +320,18 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
                             e.what();
                             throw Exception(ERROR_MEMORY_ALLOCATION);
                         }
-                        elements[0] = ArrayOf::stringConstructor(result);
+                        elements[0] = ArrayOf::characterArrayConstructor(result);
                         res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
                     }
                 } else {
-                    res = ArrayOf::stringConstructor(result);
+                    res = ArrayOf::characterArrayConstructor(result);
                 }
             }
         } else {
             if (nbOutput == 0) {
-                if (OLD.isString() && wold.empty()) {
+                if (OLD.isCharacterArray() && wold.empty()) {
                     std::wstring result = Replace(wstr[0], wold[0], wnew[0]);
-                    res = ArrayOf::stringConstructor(result);
+                    res = ArrayOf::characterArrayConstructor(result);
                 } else {
                     if (outputClass == NLS_CELL_ARRAY) {
                         ArrayOf* elements = nullptr;
@@ -343,7 +343,7 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
                         }
                         res = ArrayOf(NLS_CELL_ARRAY, outputDims, elements);
                     } else {
-                        res = ArrayOf::stringConstructor("");
+                        res = ArrayOf::characterArrayConstructor("");
                     }
                 }
             } else {
@@ -363,14 +363,14 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
                         for (size_t k = 0; k < wnew.size(); k++) {
                             wstr[idx_str] = Replace(wstr[idx_str], wold[k], wnew[k]);
                         }
-                        elements[i] = ArrayOf::stringConstructor(wstr[idx_str]);
+                        elements[i] = ArrayOf::characterArrayConstructor(wstr[idx_str]);
                     }
                 } else {
                     for (size_t i = 0; i < nbOutput; i++) {
                         size_t idx_str = (i)*str_incr;
                         size_t idx_old = (i)*old_incr;
                         size_t idx_new = (i)*new_incr;
-                        elements[i] = ArrayOf::stringConstructor(
+                        elements[i] = ArrayOf::characterArrayConstructor(
                             Replace(wstr[idx_str], wold[idx_old], wnew[idx_new]));
                     }
                 }

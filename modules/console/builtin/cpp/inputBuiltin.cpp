@@ -32,13 +32,13 @@ Nelson::ConsoleGateway::inputBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     }
     std::wstring param1;
     std::wstring param2;
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isColonVectorCharacterArray()) {
         param1 = argIn[0].getContentAsWideString();
     } else {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     if (argIn.size() > 1) {
-        if (argIn[1].isSingleString()) {
+        if (argIn[1].isColonVectorCharacterArray()) {
             param2 = argIn[1].getContentAsWideString();
         } else {
             Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
@@ -53,7 +53,7 @@ Nelson::ConsoleGateway::inputBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         curline = io->getInput(param1);
     }
     ArrayOfVector retval;
-    retval.push_back(ArrayOf::stringConstructor(curline));
+    retval.push_back(ArrayOf::characterArrayConstructor(curline));
     return retval;
 }
 //=============================================================================

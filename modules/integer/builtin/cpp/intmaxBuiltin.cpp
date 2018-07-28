@@ -35,7 +35,7 @@ Nelson::IntegerGateway::intmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         retval.push_back(ArrayOf::int32Constructor(2147483647));
     } else {
         ArrayOf param1 = argIn[0];
-        if (!param1.isSingleString()) {
+        if (!param1.isColonVectorCharacterArray()) {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring classInt = param1.getContentAsWideString();

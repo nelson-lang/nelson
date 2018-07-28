@@ -41,7 +41,7 @@ Nelson::StringGateway::tolowerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         retval = OverloadFunction(eval, nLhs, argIn, "tolower", bSuccess);
     }
     if (!bSuccess) {
-        if (A.isString() || A.isCell()) {
+        if (A.isCharacterArray() || A.isCell()) {
             retval.push_back(ToLower(eval, A));
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "tolower", bSuccess);

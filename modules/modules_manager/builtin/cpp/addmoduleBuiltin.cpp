@@ -35,12 +35,12 @@ Nelson::ModulesManagerGateway::addmoduleBuiltin(
     }
     std::wstring modulerootpath = L"";
     std::wstring moduleshortname = L"";
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isColonVectorCharacterArray()) {
         modulerootpath = argIn[0].getContentAsWideString();
     } else {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-    if (argIn[1].isSingleString()) {
+    if (argIn[1].isColonVectorCharacterArray()) {
         moduleshortname = argIn[1].getContentAsWideString();
     } else {
         Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);

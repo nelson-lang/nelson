@@ -24,11 +24,11 @@ namespace Nelson {
 void
 StringDisplay(Evaluator* eval, ArrayOf Var, bool bFromBuiltin)
 {
-    if (!Var.isString()) {
+    if (!Var.isCharacterArray()) {
         Error(eval, _W("StringDisplay method: String expected."));
     }
     Interface* io = eval->getInterface();
-    if (Var.isSingleString()) {
+    if (Var.isColonVectorCharacterArray()) {
         std::wstring msg = Var.getContentAsWideString();
         if (msg.size() == 0) {
             if (!bFromBuiltin) {

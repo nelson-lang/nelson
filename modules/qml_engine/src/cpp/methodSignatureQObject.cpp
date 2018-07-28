@@ -64,7 +64,7 @@ methodSignatureQObject(ArrayOf A, const std::wstring& methodName)
     if (res == false) {
         throw Exception(_W("method not found."));
     }
-    return ArrayOf::stringConstructor(signature);
+    return ArrayOf::characterArrayConstructor(signature);
 }
 //=============================================================================
 }

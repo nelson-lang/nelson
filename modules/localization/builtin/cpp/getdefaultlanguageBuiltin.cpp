@@ -34,7 +34,7 @@ Nelson::LocalizationGateway::getdefaultlanguageBuiltin(
     if (argIn.size() != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(ArrayOf::stringConstructor(Localization::Instance()->getDefaultLanguage()));
+    retval.push_back(ArrayOf::characterArrayConstructor(Localization::Instance()->getDefaultLanguage()));
     return retval;
 }
 //=============================================================================

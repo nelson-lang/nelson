@@ -41,6 +41,7 @@
 #include "isuint32Builtin.hpp"
 #include "isuint64Builtin.hpp"
 #include "isuint8Builtin.hpp"
+#include "isstringBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -71,6 +72,7 @@ static const nlsGateway gateway[] = {
     { "isempty", Nelson::TypeGateway::isemptyBuiltin, 1, 1 },
     { "isclass", Nelson::TypeGateway::isclassBuiltin, 1, 1 },
     { "ishandle", Nelson::TypeGateway::ishandleBuiltin, 1, 1 },
+    { "isstring", Nelson::TypeGateway::isstringBuiltin, 1, 1 },
 
 };
 //=============================================================================

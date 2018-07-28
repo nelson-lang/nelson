@@ -378,7 +378,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
     bool isUniformOutput = true;
     function_handle errorFunc = 0;
     if (nbElementsInput - 2 > 0) {
-        if (argIn[nbElementsInput - 2].isSingleString()) {
+        if (argIn[nbElementsInput - 2].isColonVectorCharacterArray()) {
             std::wstring argName = argIn[nbElementsInput - 2].getContentAsWideString();
             if (argName == L"UniformOutput") {
                 if (argIn[nbElementsInput - 1].isLogical()) {
@@ -404,7 +404,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
         }
     }
     if (nbElementsInput - 4 > 0) {
-        if (argIn[nbElementsInput - 4].isSingleString()) {
+        if (argIn[nbElementsInput - 4].isColonVectorCharacterArray()) {
             std::wstring argName = argIn[nbElementsInput - 4].getContentAsWideString();
             if (argName == L"UniformOutput") {
                 if (argIn[nbElementsInput - 5].isLogical()) {
@@ -445,10 +445,10 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
     }
     ArrayOf param1 = argIn[0];
     FunctionDef* funcDef = nullptr;
-    if (!(param1.isSingleString() || param1.isFunctionHandle())) {
+    if (!(param1.isColonVectorCharacterArray() || param1.isFunctionHandle())) {
         Error(eval, _W("wrong type #1"));
     } else {
-        if (param1.isSingleString()) {
+        if (param1.isColonVectorCharacterArray()) {
             std::wstring functionName = param1.getContentAsWideString();
             if (functionName == L"isempty") {
                 return isempty_cellfunBuiltin(eval, nLhs, argIn);

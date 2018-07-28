@@ -35,19 +35,19 @@ Nelson::EngineGateway::getnelsonmodeBuiltin(Evaluator* eval, int nLhs, const Arr
     NELSON_ENGINE_MODE _mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
     switch (_mode) {
     case BASIC_ENGINE: {
-        retval.push_back(ArrayOf::stringConstructor("BASIC_ENGINE"));
+        retval.push_back(ArrayOf::characterArrayConstructor("BASIC_ENGINE"));
     } break;
     case ADVANCED_ENGINE: {
-        retval.push_back(ArrayOf::stringConstructor("ADVANCED_ENGINE"));
+        retval.push_back(ArrayOf::characterArrayConstructor("ADVANCED_ENGINE"));
     } break;
     case BASIC_TERMINAL: {
-        retval.push_back(ArrayOf::stringConstructor("BASIC_TERMINAL"));
+        retval.push_back(ArrayOf::characterArrayConstructor("BASIC_TERMINAL"));
     } break;
     case ADVANCED_TERMINAL: {
-        retval.push_back(ArrayOf::stringConstructor("ADVANCED_TERMINAL"));
+        retval.push_back(ArrayOf::characterArrayConstructor("ADVANCED_TERMINAL"));
     } break;
     case GUI: {
-        retval.push_back(ArrayOf::stringConstructor("GUI"));
+        retval.push_back(ArrayOf::characterArrayConstructor("GUI"));
     } break;
     default: {
         Error(eval, _W("unknown mode."));
