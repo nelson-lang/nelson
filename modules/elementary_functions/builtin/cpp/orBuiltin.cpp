@@ -23,29 +23,31 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static bool needToOverload(ArrayOf a) {
-  return ((a.getDataClass() == NLS_STRUCT_ARRAY) ||
-          (a.getDataClass() == NLS_CELL_ARRAY) || a.isSparse() || a.isHandle());
+static bool
+needToOverload(ArrayOf a)
+{
+    return ((a.getDataClass() == NLS_STRUCT_ARRAY) || (a.getDataClass() == NLS_CELL_ARRAY)
+        || a.isSparse() || a.isHandle());
 }
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::orBuiltin(Evaluator *eval, int nLhs,
-                                              const ArrayOfVector &argIn) {
-  ArrayOfVector retval;
-  if (argIn.size() != 2) {
-    Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-  }
-  ArrayOf A = argIn[0];
-  ArrayOf B = argIn[1];
-  if (eval->overloadOnBasicTypes) {
-    retval.push_back(OverloadBinaryOperator(eval, A, B, "or"));
-  } else {
-    if (needToOverload(A) || needToOverload(B)) {
-      retval.push_back(OverloadBinaryOperator(eval, A, B, "or"));
-    } else {
-        retval.push_back(Or(A, B));
+Nelson::ElementaryFunctionsGateway::orBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (argIn.size() != 2) {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-  }
-  return retval;
+    ArrayOf A = argIn[0];
+    ArrayOf B = argIn[1];
+    if (eval->overloadOnBasicTypes) {
+        retval.push_back(OverloadBinaryOperator(eval, A, B, "or"));
+    } else {
+        if (needToOverload(A) || needToOverload(B)) {
+            retval.push_back(OverloadBinaryOperator(eval, A, B, "or"));
+        } else {
+            retval.push_back(Or(A, B));
+        }
+    }
+    return retval;
 }
 //=============================================================================

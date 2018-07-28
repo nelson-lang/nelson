@@ -811,7 +811,7 @@ private:
     ArrayOf
     andOperator(ASTPtr t);
 
-	bool
+    bool
     needToOverloadLogicOperator(ArrayOf a);
 };
 NLSINTERPRETER_IMPEXP void

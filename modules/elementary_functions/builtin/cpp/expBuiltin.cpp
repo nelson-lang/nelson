@@ -25,31 +25,32 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::expBuiltin(Evaluator *eval, int nLhs,
-                                               const ArrayOfVector &argIn) {
-  ArrayOfVector retval;
-  if (argIn.size() != 1) {
-    Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-  }
-  if (nLhs > 1) {
-    Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-  }
-  bool bSuccess = false;
-  if (eval->overloadOnBasicTypes) {
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-  }
-  if (!bSuccess) {
-    bool needToOverload;
-    ArrayOf res = Exponential(argIn[0], needToOverload);
-    if (needToOverload) {
-      retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-      if (!bSuccess) {
-        OverloadRequired(eval, argIn, Nelson::FUNCTION);
-      }
-    } else {
-      retval.push_back(res);
+Nelson::ElementaryFunctionsGateway::expBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (argIn.size() != 1) {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-  }
-  return retval;
+    if (nLhs > 1) {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    bool bSuccess = false;
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    }
+    if (!bSuccess) {
+        bool needToOverload;
+        ArrayOf res = Exponential(argIn[0], needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+            if (!bSuccess) {
+                OverloadRequired(eval, argIn, Nelson::FUNCTION);
+            }
+        } else {
+            retval.push_back(res);
+        }
+    }
+    return retval;
 }
 //=============================================================================

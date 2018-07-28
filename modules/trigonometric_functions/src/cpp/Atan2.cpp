@@ -55,7 +55,7 @@ scalar_matrix_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
     for (indexType k = 0; k < Clen; k++) {
         ptrC[k] = atan2(ptrA[0], ptrB[k]);
     }
-	return ArrayOf(classDestination, dimsC, Cp, false);
+    return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
 template <class T>
@@ -140,123 +140,130 @@ vector_column_atan2(Class classDestination, const ArrayOf& a, const ArrayOf& b)
 }
 //=============================================================================
 template <class T>
-static ArrayOf Atan2(Class classDestination, const ArrayOf &A, const ArrayOf &B) {
-  void *Cp = nullptr;
-  if (A.isScalar() && B.isScalar()) {
-    T *ptrA = (T *)A.getDataPointer();
-    T *ptrB = (T *)B.getDataPointer();
-    T res = atan2(ptrA[0], ptrB[0]);
-    if (classDestination == NLS_SINGLE) {
-      return ArrayOf::singleConstructor((single)res);
-    } else {
-      return ArrayOf::doubleConstructor((double)res);
+static ArrayOf
+Atan2(Class classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    void* Cp = nullptr;
+    if (A.isScalar() && B.isScalar()) {
+        T* ptrA = (T*)A.getDataPointer();
+        T* ptrB = (T*)B.getDataPointer();
+        T res = atan2(ptrA[0], ptrB[0]);
+        if (classDestination == NLS_SINGLE) {
+            return ArrayOf::singleConstructor((single)res);
+        } else {
+            return ArrayOf::doubleConstructor((double)res);
+        }
     }
-  }
-  Dimensions dimsA = A.getDimensions();
-  Dimensions dimsB = B.getDimensions();
-  Dimensions dimsC;
-  if (A.isEmpty() || B.isEmpty()) {
-    if (A.isScalar() || B.isScalar()) {
-      if (A.isScalar()) {
-        return ArrayOf(B);
-      } else {
-        return ArrayOf(A);
-      }
-    } else {
-      if (!(SameSizeCheck(dimsA, dimsB))) {
-        throw Exception(
-            _W("Size mismatch on arguments to arithmetic operator ") +
-            L"atan2");
-      }
-      return ArrayOf(B);
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsB = B.getDimensions();
+    Dimensions dimsC;
+    if (A.isEmpty() || B.isEmpty()) {
+        if (A.isScalar() || B.isScalar()) {
+            if (A.isScalar()) {
+                return ArrayOf(B);
+            } else {
+                return ArrayOf(A);
+            }
+        } else {
+            if (!(SameSizeCheck(dimsA, dimsB))) {
+                throw Exception(
+                    _W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
+            }
+            return ArrayOf(B);
+        }
     }
-  }
-  if (SameSizeCheck(dimsA, dimsB)) {
-      return matrix_matrix_atan2<T>(classDestination, A, B);
-  } else {
-      if (A.isScalar() || B.isScalar()) {
-          if (A.isScalar()) {
-              return scalar_matrix_atan2<T>(classDestination, A, B);
-          } else {
-              // b.isScalar()
-              return matrix_scalar_atan2<T>(classDestination, A, B);
-          }
-      } else {
-          if (A.isVector() || B.isVector()) {
-              if (A.isRowVector() && B.isColumnVector()) {
-                  dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
-                      std::max(dimsA.getMax(), dimsB.getMax()));
-                  indexType Clen = dimsC.getElementCount();
-                  Cp = new_with_exception<T>(Clen, false);
-                  vector_row_column_atan2((T*)Cp, (const T*)A.getDataPointer(), dimsA.getElementCount(),
-                      (const T*)B.getDataPointer(), dimsB.getElementCount());
-              } else if (A.isColumnVector() && B.isRowVector()) {
-                  dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
-                      std::max(dimsA.getMax(), dimsB.getMax()));
-                  indexType Clen = dimsC.getElementCount();
-                  Cp = new_with_exception<T>(Clen, false);
-                  vector_column_row_atan2<T>((T*)Cp, (const T*)A.getDataPointer(), dimsA.getElementCount(),
-                      (const T*)B.getDataPointer(), dimsB.getElementCount());
-              } else if ((A.isRowVector() && B.isRowVector())
-                  || (A.isColumnVector() && B.isColumnVector())) {
-                  throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
-              } else {
-                  const T* ptrA = (const T*)A.getDataPointer();
-                  const T* ptrB = (const T*)B.getDataPointer();
+    if (SameSizeCheck(dimsA, dimsB)) {
+        return matrix_matrix_atan2<T>(classDestination, A, B);
+    } else {
+        if (A.isScalar() || B.isScalar()) {
+            if (A.isScalar()) {
+                return scalar_matrix_atan2<T>(classDestination, A, B);
+            } else {
+                // b.isScalar()
+                return matrix_scalar_atan2<T>(classDestination, A, B);
+            }
+        } else {
+            if (A.isVector() || B.isVector()) {
+                if (A.isRowVector() && B.isColumnVector()) {
+                    dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
+                        std::max(dimsA.getMax(), dimsB.getMax()));
+                    indexType Clen = dimsC.getElementCount();
+                    Cp = new_with_exception<T>(Clen, false);
+                    vector_row_column_atan2((T*)Cp, (const T*)A.getDataPointer(),
+                        dimsA.getElementCount(), (const T*)B.getDataPointer(),
+                        dimsB.getElementCount());
+                } else if (A.isColumnVector() && B.isRowVector()) {
+                    dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
+                        std::max(dimsA.getMax(), dimsB.getMax()));
+                    indexType Clen = dimsC.getElementCount();
+                    Cp = new_with_exception<T>(Clen, false);
+                    vector_column_row_atan2<T>((T*)Cp, (const T*)A.getDataPointer(),
+                        dimsA.getElementCount(), (const T*)B.getDataPointer(),
+                        dimsB.getElementCount());
+                } else if ((A.isRowVector() && B.isRowVector())
+                    || (A.isColumnVector() && B.isColumnVector())) {
+                    throw Exception(
+                        _W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
+                } else {
+                    const T* ptrA = (const T*)A.getDataPointer();
+                    const T* ptrB = (const T*)B.getDataPointer();
 
-                  if (dimsA[0] == dimsB[0]) {
-                      if (A.isVector()) {
-                          return vector_matrix_atan2<T>(classDestination, A, B);
-                      } else {
-                          return vector_matrix_atan2<T>(classDestination, B, A);
-                      }
-                  } else if (dimsA[1] == dimsB[1]) {
-                      if (A.isVector()) {
-                          return vector_column_atan2<T>(classDestination, A, B);
-                      } else {
-                          return vector_column_atan2<T>(classDestination, B, A);
-                      }
-                  } else {
-                      throw Exception(
-                          _W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
-                  }
-              }
-          } else {
-              throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
-          }
-      }
-  }
-  return ArrayOf(classDestination, dimsC, Cp, false);
+                    if (dimsA[0] == dimsB[0]) {
+                        if (A.isVector()) {
+                            return vector_matrix_atan2<T>(classDestination, A, B);
+                        } else {
+                            return vector_matrix_atan2<T>(classDestination, B, A);
+                        }
+                    } else if (dimsA[1] == dimsB[1]) {
+                        if (A.isVector()) {
+                            return vector_column_atan2<T>(classDestination, A, B);
+                        } else {
+                            return vector_column_atan2<T>(classDestination, B, A);
+                        }
+                    } else {
+                        throw Exception(
+                            _W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
+                    }
+                }
+            } else {
+                throw Exception(
+                    _W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
+            }
+        }
+    }
+    return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
-ArrayOf Atan2(ArrayOf A, ArrayOf B, bool &needToOverload) {
-  ArrayOf res;
-  needToOverload = false;
-  if (A.isSparse()) {
-    needToOverload = true;
-  } else {
-    if ((A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE) &&
-        (B.getDataClass() == NLS_DOUBLE || B.getDataClass() == NLS_SINGLE)) {
-      Class destinationClass;
-      if (A.getDataClass() == B.getDataClass()) {
-        destinationClass = A.getDataClass();
-      } else {
-        destinationClass = NLS_SINGLE;
-      }
-      if (destinationClass == NLS_SINGLE) {
-        A.promoteType(NLS_SINGLE);
-        B.promoteType(NLS_SINGLE);
-        res = Atan2<single>(destinationClass, A, B);
-      } else {
-        A.promoteType(NLS_DOUBLE);
-        B.promoteType(NLS_DOUBLE);
-        res = Atan2<double>(destinationClass, A, B);
-      }
+ArrayOf
+Atan2(ArrayOf A, ArrayOf B, bool& needToOverload)
+{
+    ArrayOf res;
+    needToOverload = false;
+    if (A.isSparse()) {
+        needToOverload = true;
     } else {
-      needToOverload = true;
+        if ((A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE)
+            && (B.getDataClass() == NLS_DOUBLE || B.getDataClass() == NLS_SINGLE)) {
+            Class destinationClass;
+            if (A.getDataClass() == B.getDataClass()) {
+                destinationClass = A.getDataClass();
+            } else {
+                destinationClass = NLS_SINGLE;
+            }
+            if (destinationClass == NLS_SINGLE) {
+                A.promoteType(NLS_SINGLE);
+                B.promoteType(NLS_SINGLE);
+                res = Atan2<single>(destinationClass, A, B);
+            } else {
+                A.promoteType(NLS_DOUBLE);
+                B.promoteType(NLS_DOUBLE);
+                res = Atan2<double>(destinationClass, A, B);
+            }
+        } else {
+            needToOverload = true;
+        }
     }
-  }
-  return res;
+    return res;
 }
 //=============================================================================
 } // namespace Nelson

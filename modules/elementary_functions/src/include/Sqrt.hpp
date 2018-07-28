@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Sqrt(ArrayOf arrayIn, bool &needToOverload);
+Sqrt(ArrayOf arrayIn, bool& needToOverload);
 }
 //=============================================================================

@@ -169,16 +169,16 @@ public:
     {
         return _audioOutputRequired;
     }
-	bool
-	isCCompilerRequired()
+    bool
+    isCCompilerRequired()
     {
         return _cCompilerRequired;
-	}
+    }
     bool
-	isIndex64BitRequired()
+    isIndex64BitRequired()
     {
         return _index64BitRequired;
-	}
+    }
 
     void
     setWithDisplay(bool val)
@@ -261,11 +261,11 @@ public:
     {
         _audioOutputRequired = val;
     }
-	void 
-    setCCompilerRequired(bool val) 
-	{
+    void
+    setCCompilerRequired(bool val)
+    {
         _cCompilerRequired = val;
-	}
+    }
     void
     setIndex64BitRequired(bool val)
     {

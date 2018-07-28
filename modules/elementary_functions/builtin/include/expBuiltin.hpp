@@ -24,9 +24,10 @@
 namespace Nelson {
 //=============================================================================
 namespace ElementaryFunctionsGateway {
-//=============================================================================
-ArrayOfVector expBuiltin(Evaluator *eval, int nLhs, const ArrayOfVector &argIn);
-//=============================================================================
+    //=============================================================================
+    ArrayOfVector
+    expBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
 } // namespace ElementaryFunctionsGateway
 //=============================================================================
 } // namespace Nelson

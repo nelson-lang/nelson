@@ -22,12 +22,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-template <class T> 
+template <class T>
 T
 ExponentialComplexScalar(T value)
 {
     // Z = X + i * Y
-	// EXP(Z) = EXP(X) * (COS(Y) + i * SIN(Y))
+    // EXP(Z) = EXP(X) * (COS(Y) + i * SIN(Y))
     T res(exp(value.real()) * cos(value.imag()), exp(value.real()) * sin(value.imag()));
     return res;
 }
@@ -45,14 +45,12 @@ Exponential(ArrayOf A, bool& needToOverload)
     ArrayOf res;
     needToOverload = false;
     Class classA = A.getDataClass();
-    if (classA == NLS_DOUBLE || classA == NLS_DCOMPLEX)
-	{
+    if (classA == NLS_DOUBLE || classA == NLS_DCOMPLEX) {
         if (A.isSparse()) {
             needToOverload = true;
         } else {
             Dimensions dimsA = A.getDimensions();
-			if (classA == NLS_DOUBLE)
-			{
+            if (classA == NLS_DOUBLE) {
                 double* ptrOut = (double*)ArrayOf::allocateArrayOf(
                     NLS_DOUBLE, dimsA.getElementCount(), stringVector(), false);
                 double* ptrIn = (double*)A.getDataPointer();
@@ -63,8 +61,7 @@ Exponential(ArrayOf A, bool& needToOverload)
             } else {
                 double* ptrOut = (double*)ArrayOf::allocateArrayOf(
                     NLS_DCOMPLEX, dimsA.getElementCount(), stringVector(), false);
-                std::complex<double>* Cz
-                    = reinterpret_cast<std::complex<double>*>((double*)ptrOut);
+                std::complex<double>* Cz = reinterpret_cast<std::complex<double>*>((double*)ptrOut);
                 double* ptrIn = (double*)A.getDataPointer();
                 std::complex<double>* Az
                     = reinterpret_cast<std::complex<double>*>((double*)A.getDataPointer());

@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-NaturalLogarithm(ArrayOf arrayIn, bool &needToOverload);
+NaturalLogarithm(ArrayOf arrayIn, bool& needToOverload);
 }
 //=============================================================================

@@ -27,6 +27,6 @@ namespace Nelson {
  * Element-wise exponential of an array: C = exp(A).
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Exponential(ArrayOf A, bool &needToOverload);
+Exponential(ArrayOf A, bool& needToOverload);
 } // namespace Nelson
 //=============================================================================

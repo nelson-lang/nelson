@@ -32,7 +32,7 @@ OverloadFunction(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool& bS
     } catch (boost::filesystem::filesystem_error) {
         bIsFile = false;
     }
-	if (functionName.compare("") != 0) {
+    if (functionName.compare("") != 0) {
         if (eval->getOverloadState()) {
             Context* context = eval->getContext();
             FunctionDef* funcDef = nullptr;
