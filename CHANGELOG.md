@@ -1,6 +1,8 @@
 Features:
 ---------
 
+  * sqrt builtin (Square root)
+
   * log builtin (Natural logarithm)
 
   * angle function (Phase angle)
