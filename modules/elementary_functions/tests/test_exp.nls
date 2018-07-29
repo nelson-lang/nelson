@@ -1,0 +1,49 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_isequal(nargin('exp'), 1)
+assert_isequal(nargout('exp'), 1)
+//=============================================================================
+A = 3;
+R = exp(A);
+REF = 20.0855;
+assert_isapprox(R, REF, 1e-4);
+//=============================================================================
+A = single(3);
+R = exp(A);
+REF = single(20.0855);
+assert_isapprox(R, REF, 1e-4);
+//=============================================================================
+A = 3 - i;
+R = exp(A);
+REF = complex(10.8523, -16.9014);
+assert_isapprox(R, REF, 1e-4);
+//=============================================================================
+assert_isequal(exp(NaN), NaN);
+assert_isequal(exp(Inf), Inf);
+assert_isequal(exp(-Inf), 0);
+assert_isequal(exp(zeros(0, 3)), zeros(0, 3));
+assert_isequal(exp([]), []);
+//=============================================================================
+R = exp(sparse(eye(2, 2)));
+REF =  sparse([2.7183  1.0000; 1.0000  2.7183]);
+assert_isapprox(full(R), full(REF), 1e-4);
+//=============================================================================
+R = exp(ones(2, 2, 2));
+assert_isapprox(R(1), 2.71828, 1e-4);
+//=============================================================================

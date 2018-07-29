@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>continue</keyword>
+  <short_description>continue evaluation in loop.</short_description>
+
+  <syntax>
+    <syntax_item>continue</syntax_item>
+  </syntax>
+  
+
+  <description>
+  <p><b>continue</b> statement can be used inside a <b>for</b> or a <b>while</b> loop.</p>
+  <p><b>continue</b> statement is used to pass control to the next iteration of a loop.</p>
+</description>
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[
+for i=1:10
+  if (i == 5)
+    continue;
+    disp('never here')
+    disp(i)
+  else
+    disp(i)
+  end
+end
+]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${interpreter}for">for</link>
+		</see_also_item>
+	</see_also>
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

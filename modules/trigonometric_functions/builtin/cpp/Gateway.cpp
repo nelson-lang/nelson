@@ -30,6 +30,7 @@
 #include "cosmBuiltin.hpp"
 #include "sinmBuiltin.hpp"
 #include "tanmBuiltin.hpp"
+#include "atan2Builtin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -48,6 +49,7 @@ static const nlsGateway gateway[] = {
     { "cosm", Nelson::TrigonometricGateway::cosmBuiltin, 1, 1 },
     { "sinm", Nelson::TrigonometricGateway::sinmBuiltin, 1, 1 },
     { "tanm", Nelson::TrigonometricGateway::tanmBuiltin, 1, 1 },
+    { "atan2", Nelson::TrigonometricGateway::atan2Builtin, 1, 2 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

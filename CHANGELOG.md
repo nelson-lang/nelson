@@ -1,6 +1,6 @@
+
 Features:
 ---------
-
 
   * tanm, sinm builtin added.
 
@@ -13,11 +13,21 @@ Features:
   * [#133](http://github.com/Nelson-numerical-software/nelson/issues/133): Replaced uncommon term "trinary" by "ternary". 
 
 
-## 0.2.7
+## 0.2.7 (2018-07-29)
 
 
 Features:
 ---------
+
+  * sqrt builtin (Square root)
+
+  * log builtin (Natural logarithm)
+
+  * angle function (Phase angle)
+
+  * atan2 builtin (four-quadrant inverse tangent)
+
+  * exp builtin (exponential)
 
   * [#142](http://github.com/Nelson-numerical-software/nelson/issues/142): clear('functionName') clears all persistent variables of functionName function.
 
@@ -32,6 +42,8 @@ Bug Fixes:
 ---------
 
   * [#145](http://github.com/Nelson-numerical-software/nelson/issues/145): int32(NaN) did not return 0.
+
+  * [#131](http://github.com/Nelson-numerical-software/nelson/issues/131): for, parfor, switch, try keywords were not documented.
 
 
 ## 0.2.6 (2018-06-26)
@@ -268,5 +280,8 @@ Compilation:
 
 * Update VS 2017 solution to VS 2017 15.5.4
 
+
+Previous changelog:
+---------
 
 [Changelog v0.1.x](https://github.com/Nelson-numerical-software/nelson/blob/master/CHANGELOG-0.1.x.md)

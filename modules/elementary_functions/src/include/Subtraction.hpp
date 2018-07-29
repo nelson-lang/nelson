@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 /**
- * Addition (+) of two matrix: C = A - B).
+ * Subtraction (-) of two matrix: C = A - B).
  */
 //=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf

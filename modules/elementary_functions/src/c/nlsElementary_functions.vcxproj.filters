@@ -144,10 +144,16 @@
     <ClCompile Include="..\cpp\Addition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\Substraction.cpp">
+    <ClCompile Include="..\cpp\Subtraction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\Subtraction.cpp">
+    <ClCompile Include="..\cpp\Exponential.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\NaturalLogarithm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\Sqrt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -281,10 +287,16 @@
     <ClInclude Include="..\include\Addition.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Substraction.hpp">
+    <ClInclude Include="..\include\Subtraction.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Subtraction.hpp">
+    <ClInclude Include="..\include\Exponential.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\NaturalLogarithm.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Sqrt.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
