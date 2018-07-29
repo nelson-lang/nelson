@@ -1,3 +1,5 @@
+## 0.2.7 (2018-07-29)
+
 Features:
 ---------
 
@@ -261,5 +263,8 @@ Compilation:
 
 * Update VS 2017 solution to VS 2017 15.5.4
 
+
+Previous changelog:
+---------
 
 [Changelog v0.1.x](https://github.com/Nelson-numerical-software/nelson/blob/master/CHANGELOG-0.1.x.md)
