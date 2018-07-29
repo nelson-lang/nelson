@@ -298,14 +298,14 @@ discardChar()
 }
 
 inline int
-testStringTerm()
+testCharacterArrayTerm()
 {
     return ((datap[0] == '\n') || (datap[0] == '\r') || (datap[0] == ';') || (datap[0] == ',')
         || (datap[0] == ' '));
 }
 
 void
-lexUntermString()
+lexUntermCharacterArray()
 {
     char stringval[IDENTIFIER_LENGTH_MAX + 1];
     char* strptr;
@@ -316,14 +316,14 @@ lexUntermString()
         lexState = Scanning;
         return;
     }
-    while (!testStringTerm()) {
+    while (!testCharacterArrayTerm()) {
         *strptr++ = currentChar();
         discardChar();
     }
     *strptr++ = '\0';
     setTokenType(STRING);
     tokenValue.isToken = false;
-    tokenValue.v.p = allocateAbstractSyntaxTree(string_const_node, stringval, (int)ContextInt());
+    tokenValue.v.p = allocateAbstractSyntaxTree(const_character_array_node, stringval, (int)ContextInt());
 #ifdef LEXDEBUG
     printf("Untermed string %s\r\n", stringval);
 #endif
@@ -334,6 +334,39 @@ lexUntermString()
 
 void
 lexString()
+{
+    char stringval[IDENTIFIER_LENGTH_MAX + 1];
+    memset(stringval, 0, IDENTIFIER_LENGTH_MAX + 1);
+    char* strptr = stringval;
+    discardChar();
+    int curchar = currentChar();
+    char ch = datap[1];
+    while ((curchar != '"') || ((curchar == '"') && (ch == '"')) && !testNewline()) {
+        if ((currentChar() == '"') && (ch == '"')) {
+            discardChar();
+        }
+        *strptr++ = curchar;
+        discardChar();
+        curchar = currentChar();
+        if (strlen(datap) > 1) {
+            ch = datap[1];
+        } else {
+            break;
+        }
+    }
+    if (testNewline()) {
+        LexerException(_("unterminated string").c_str());
+    }
+    discardChar();
+    *strptr++ = '\0';
+    setTokenType(STRING);
+    tokenValue.isToken = false;
+    tokenValue.v.p = allocateAbstractSyntaxTree(const_string_node, stringval, (int)ContextInt());
+    return;
+}
+
+void
+lexCharacterArray()
 {
     char stringval[IDENTIFIER_LENGTH_MAX + 1];
     memset(stringval, 0, IDENTIFIER_LENGTH_MAX + 1);
@@ -355,13 +388,13 @@ lexString()
         }
     }
     if (testNewline()) {
-        LexerException(_("unterminated string").c_str());
+        LexerException(_("unterminated character array").c_str());
     }
     discardChar();
     *strptr++ = '\0';
     setTokenType(STRING);
     tokenValue.isToken = false;
-    tokenValue.v.p = allocateAbstractSyntaxTree(string_const_node, stringval, (int)ContextInt());
+    tokenValue.v.p = allocateAbstractSyntaxTree(const_character_array_node, stringval, (int)ContextInt());
     return;
 }
 
@@ -607,6 +640,10 @@ lexScanningState()
         NextLine();
         return;
     }
+    if (currentChar() == '\"') {
+        lexString();
+        return;
+    }
     if (currentChar() == '\'')
         if ((previousChar() == ')') || (previousChar() == ']') || (previousChar() == '}')
             || (isalnum(previousChar()))) {
@@ -615,7 +652,7 @@ lexScanningState()
             discardChar();
             return;
         } else {
-            lexString();
+            lexCharacterArray();
             return;
         }
     if (isWhitespace()) {
@@ -788,7 +825,7 @@ yylexDoLex()
         lexScanningState();
         break;
     case SpecScan:
-        lexUntermString();
+        lexUntermCharacterArray();
         break;
     }
 }

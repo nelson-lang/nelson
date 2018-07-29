@@ -863,7 +863,7 @@ public:
      * Summarize this array when it appears in a Cell array.
      */
     void
-    summarizeCellEntry() const;
+    summarizeCellEntry(Interface *io) const;
     /**
      * Print some reasonable representation of this array to the
      * the supplied stream.
@@ -1158,6 +1158,12 @@ public:
 
 	static ArrayOf
     stringArrayConstructor(const wstringVector values, Dimensions dims);
+
+    /**
+     * Summarize String array.
+     */
+    void
+    summarizeStringArray(Interface* io) const;
 };
 
 void

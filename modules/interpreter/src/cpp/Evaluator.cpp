@@ -440,8 +440,10 @@ Evaluator::expression(ASTPtr t)
         boost::replace_all(t->text, "D", "e");
         boost::replace_all(t->text, "d", "e");
         retval = ArrayOf::doubleConstructor(atof(t->text.c_str()));
-    } else if (t->type == string_const_node) {
+    } else if (t->type == const_character_array_node) {
         retval = ArrayOf::characterArrayConstructor(std::string(t->text.c_str()));
+    } else if (t->type == const_string_node) {
+        retval = ArrayOf::stringArrayConstructor(std::string(t->text.c_str()));
     } else if (t->type == const_complex_node || t->type == const_dcomplex_node) {
         boost::replace_all(t->text, "D", "e");
         boost::replace_all(t->text, "d", "e");

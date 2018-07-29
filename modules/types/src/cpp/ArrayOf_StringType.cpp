@@ -94,5 +94,33 @@ ArrayOf::stringArrayConstructor(const wstringVector values, Dimensions dims)
     return ArrayOf(NLS_STRING_ARRAY, dims, elements);
 }
 //=============================================================================
+/**
+ * Print this object when it is an element of a string array.
+ */
+void
+ArrayOf::summarizeStringArray(Interface *io) const
+{
+    if (isEmpty()) {
+        io->outputMessage("\"\"");
+    } else {
+        if (dp->dataClass == NLS_CHAR) {
+            Dimensions dims = dp->dimensions;
+            if (dims.isRowVector()) {
+                if (dims.getColumns() < (indexType)(io->getTerminalWidth() - 3)) {
+                    std::wstring str = getContentAsWideString();
+                    str = L"\"" + str + L"\"";
+                    io->outputMessage(str);
+                    return;
+                }
+            }
+            io->outputMessage("[");
+            dp->dimensions.printMe(io);
+            io->outputMessage(" string]");
+        } else {
+            throw Exception(_W("character array expected."));
+        }
+    }
+}
+//=============================================================================
 }
 //=============================================================================

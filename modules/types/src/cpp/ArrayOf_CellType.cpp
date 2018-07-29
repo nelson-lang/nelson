@@ -447,5 +447,219 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
     }
 }
 //=============================================================================
+/**
+ * Print this object when it is an element of a cell array.  This is
+ * generally a shorthand summary of the description of the object.
+ */
+//=============================================================================
+#define MSGBUFLEN 2048
+static char msgBuffer[MSGBUFLEN];
+//=============================================================================
+void
+ArrayOf::summarizeCellEntry(Interface *io) const
+{
+    if (isEmpty()) {
+        if (dp->dataClass == NLS_CHAR) {
+            io->outputMessage("''");
+        } else {
+            io->outputMessage("[]");
+        }
+    } else {
+        switch (dp->dataClass) {
+        case NLS_STRING_ARRAY:
+            io->outputMessage("{");
+            dp->dimensions.printMe(io);
+            io->outputMessage(" string }");
+            break;
+        case NLS_CELL_ARRAY:
+            io->outputMessage("{");
+            dp->dimensions.printMe(io);
+            io->outputMessage(" cell }");
+            break;
+        case NLS_STRUCT_ARRAY:
+            io->outputMessage(" ");
+            dp->dimensions.printMe(io);
+            if (dp->getStructTypeName() == NLS_FUNCTION_HANDLE_STR) {
+                io->outputMessage(std::string(" ") + NLS_FUNCTION_HANDLE_STR);
+            } else if (dp->getStructTypeName() == NLS_STRUCT_ARRAY_STR) {
+                io->outputMessage(" struct array");
+            } else {
+                io->outputMessage(std::string(" class ") + dp->getStructTypeName());
+            }
+            break;
+        case NLS_CHAR: {
+            Dimensions dims = dp->dimensions;
+            if (dims.isRowVector()) {
+                if (dims.getColumns() < (indexType)(io->getTerminalWidth() - 3)) {
+                    std::wstring str = getContentAsWideString();
+                    str = L"\'" + str + L"\'";
+                    io->outputMessage(str);
+                    return;
+                }
+            }
+            io->outputMessage("[");
+            dp->dimensions.printMe(io);
+            io->outputMessage(" string]");
+        } break;
+        case NLS_HANDLE:
+            if (dp->dimensions.isScalar()) {
+                io->outputMessage("[handle]");
+            } else {
+                io->outputMessage("[");
+                dp->dimensions.printMe(io);
+                io->outputMessage(" handle]");
+            }
+            break;
+        case NLS_LOGICAL:
+            if (!isSparse() && dp->dimensions.isScalar()) {
+                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const logical*)dp->getData()));
+                io->outputMessage(msgBuffer);
+            } else {
+                io->outputMessage("[");
+                dp->dimensions.printMe(io);
+                if (isSparse()) {
+                    io->outputMessage(" sparse");
+                }
+                io->outputMessage(" logical]");
+            }
+            break;
+        case NLS_UINT8:
+            if (dp->dimensions.isScalar()) {
+                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const uint8*)dp->getData()));
+                io->outputMessage(msgBuffer);
+            } else {
+                io->outputMessage("[");
+                dp->dimensions.printMe(io);
+                io->outputMessage(" uint8]");
+            }
+            break;
+        case NLS_INT8:
+            if (dp->dimensions.isScalar()) {
+                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const int8*)dp->getData()));
+                io->outputMessage(msgBuffer);
+            } else {
+                io->outputMessage("[");
+                dp->dimensions.printMe(io);
+                io->outputMessage(" int8]");
+            }
+            break;
+        case NLS_UINT16:
+            if (dp->dimensions.isScalar()) {
+                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const uint16*)dp->getData()));
+                io->outputMessage(msgBuffer);
+            } else {
+                io->outputMessage("[");
+                dp->dimensions.printMe(io);
+                io->outputMessage(" uint16]");
+            }
+            break;
+        case NLS_INT16:
+            if (dp->dimensions.isScalar()) {
+                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const int16*)dp->getData()));
+                io->outputMessage(msgBuffer);
+            } else {
+                io->outputMessage("[");
+                dp->dimensions.printMe(io);
+                io->outputMessage(" int16]");
+            }
+            break;
+        case NLS_UINT32:
+            if (dp->dimensions.isScalar()) {
+                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const uint32*)dp->getData()));
+                io->outputMessage(msgBuffer);
+            } else {
+                io->outputMessage("[");
+                dp->dimensions.printMe(io);
+                io->outputMessage(" uint32]");
+            }
+            break;
+        case NLS_INT32:
+            if (dp->dimensions.isScalar()) {
+                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const int32*)dp->getData()));
+                io->outputMessage(msgBuffer);
+            } else {
+                io->outputMessage("[");
+                dp->dimensions.printMe(io);
+                io->outputMessage(" int32]");
+            }
+            break;
+        case NLS_UINT64: {
+            if (dp->dimensions.isScalar()) {
+                uint64 val = *((const uint64*)dp->getData());
+                std::string msg = "[" + std::to_string(val) + "]";
+                // snprintf(msgBuffer, MSGBUFLEN, "[" PRIu64 "]", *((const
+                // uint64*)dp->getData())); io->outputMessage(msgBuffer);
+                io->outputMessage(msg.c_str());
+            } else {
+                io->outputMessage("[");
+                dp->dimensions.printMe(io);
+                io->outputMessage(" uint64]");
+            }
+        } break;
+        case NLS_INT64: {
+            if (dp->dimensions.isScalar()) {
+                int64 value = *((const int64*)dp->getData());
+                std::string msg = std::string("[") + std::to_string(value) + std::string("]");
+                // snprintf(msgBuffer, MSGBUFLEN, "[" PRId64 "]", *((const
+                // int64*)dp->getData()));
+                io->outputMessage(msg.c_str());
+            } else {
+                io->outputMessage("[");
+                dp->dimensions.printMe(io);
+                io->outputMessage(" int64]");
+            }
+        } break;
+        case NLS_DOUBLE:
+            if (!isSparse() && dp->dimensions.isScalar()) {
+                snprintf(msgBuffer, MSGBUFLEN, "[%lf]", *((const double*)dp->getData()));
+                io->outputMessage(msgBuffer);
+            } else {
+                io->outputMessage("[");
+                dp->dimensions.printMe(io);
+                if (isSparse()) {
+                    io->outputMessage(" sparse");
+                }
+                io->outputMessage(" double]");
+            }
+            break;
+        case NLS_DCOMPLEX:
+            if (!isSparse() && dp->dimensions.isScalar()) {
+                const double* ap = (const double*)dp->getData();
+                snprintf(msgBuffer, MSGBUFLEN, "[%lf+%lfi]", ap[0], ap[1]);
+                io->outputMessage(msgBuffer);
+            } else {
+                io->outputMessage("[");
+                dp->dimensions.printMe(io);
+                if (isSparse()) {
+                    io->outputMessage(" sparse");
+                }
+                io->outputMessage(" dcomplex]");
+            }
+            break;
+        case NLS_SINGLE:
+            if (dp->dimensions.isScalar()) {
+                snprintf(msgBuffer, MSGBUFLEN, "[%f]", *((const single*)dp->getData()));
+                io->outputMessage(msgBuffer);
+            } else {
+                io->outputMessage("[");
+                dp->dimensions.printMe(io);
+                io->outputMessage(" single]");
+            }
+            break;
+        case NLS_SCOMPLEX:
+            if (dp->dimensions.isScalar()) {
+                const single* ap = (const single*)dp->getData();
+                snprintf(msgBuffer, MSGBUFLEN, "[%f+%fi]", ap[0], ap[1]);
+                io->outputMessage(msgBuffer);
+            } else {
+                io->outputMessage("[");
+                dp->dimensions.printMe(io);
+                io->outputMessage(" complex]");
+            }
+            break;
+        }
+    }
+}
+//=============================================================================
 }
 //=============================================================================

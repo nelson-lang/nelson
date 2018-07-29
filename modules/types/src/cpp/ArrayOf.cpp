@@ -1702,7 +1702,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
             caseMacro(NLS_INT32, int32, qp[i] = (int32)sp[i]);
             caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
             caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_LOGICAL: {
         const logical* sp = (const logical*)dp->getData();
@@ -1720,7 +1722,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
             caseMacro(NLS_INT32, int32, qp[i] = (int32)sp[i]);
             caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
             caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_UINT8: {
         const uint8* sp = (const uint8*)dp->getData();
@@ -1752,7 +1756,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_INT64: {
             saturate<uint8, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_INT8: {
         const int8* sp = (const int8*)dp->getData();
@@ -1784,7 +1790,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_INT64: {
             saturate<int8, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_UINT16: {
         const uint16* sp = (const uint16*)dp->getData();
@@ -1816,7 +1824,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_INT64: {
             saturate<uint16, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_INT16: {
         const int16* sp = (const int16*)dp->getData();
@@ -1848,7 +1858,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_INT64: {
             saturate<int16, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_UINT32: {
         const uint32* sp = (const uint32*)dp->getData();
@@ -1880,7 +1892,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_INT64: {
             saturate<uint32, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_INT32: {
         const int32* sp = (const int32*)dp->getData();
@@ -1912,7 +1926,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_INT64: {
             saturate<int32, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_INT64: {
         const int64* sp = (const int64*)dp->getData();
@@ -1944,7 +1960,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_UINT64: {
             saturate<int64, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_UINT64: {
         const uint64* sp = (const uint64*)dp->getData();
@@ -1976,7 +1994,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_INT64: {
             saturate<uint64, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_SINGLE: {
         const single* sp = (const single*)dp->getData();
@@ -2010,7 +2030,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_UINT64: {
             saturate<single, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_DOUBLE: {
         const double* sp = (const double*)dp->getData();
@@ -2044,7 +2066,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_UINT64: {
             saturate<double, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_SCOMPLEX: {
         const single* sp = (const single*)dp->getData();
@@ -2077,7 +2101,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i << 1]);
         caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i << 1]);
         */
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_DCOMPLEX: {
         const double* sp = (const double*)dp->getData();
@@ -2105,7 +2131,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
             caseMacro(NLS_INT32, int32, qp[i] = (int32)sp[i << 1]);
             caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i << 1]);
             caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i << 1]);
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     }
     dp = dp->putData(dstClass, dp->dimensions, dstPtr);
@@ -3065,216 +3093,6 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
  * Display functions *
  ********************************************************************************/
 
-/**
- * Print this object when it is an element of a cell array.  This is
- * generally a shorthand summary of the description of the object.
- */
-void
-ArrayOf::summarizeCellEntry() const
-{
-    if (isEmpty()) {
-        if (dp->dataClass == NLS_CHAR) {
-            io->outputMessage("''");
-        } else {
-            io->outputMessage("[]");
-        }
-    } else {
-        switch (dp->dataClass) {
-        case NLS_STRING_ARRAY:
-            io->outputMessage("{");
-            dp->dimensions.printMe(io);
-            io->outputMessage(" string }");
-            break;
-        case NLS_CELL_ARRAY:
-            io->outputMessage("{");
-            dp->dimensions.printMe(io);
-            io->outputMessage(" cell }");
-            break;
-        case NLS_STRUCT_ARRAY:
-            io->outputMessage(" ");
-            dp->dimensions.printMe(io);
-            if (dp->getStructTypeName() == NLS_FUNCTION_HANDLE_STR) {
-                io->outputMessage(std::string(" ") + NLS_FUNCTION_HANDLE_STR);
-            } else if (dp->getStructTypeName() == NLS_STRUCT_ARRAY_STR) {
-                io->outputMessage(" struct array");
-            } else {
-                io->outputMessage(std::string(" class ") + dp->getStructTypeName());
-            }
-            break;
-        case NLS_CHAR: {
-            Dimensions dims = dp->dimensions;
-            if (dims.isRowVector()) {
-                if (dims.getColumns() < (indexType)(io->getTerminalWidth() - 3)) {
-                    std::wstring str = getContentAsWideString();
-                    str = L"\'" + str + L"\'";
-                    io->outputMessage(str);
-                    return;
-                }
-            }
-            io->outputMessage("[");
-            dp->dimensions.printMe(io);
-            io->outputMessage(" string]");
-        } break;
-        case NLS_HANDLE:
-            if (dp->dimensions.isScalar()) {
-                io->outputMessage("[handle]");
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" handle]");
-            }
-            break;
-        case NLS_LOGICAL:
-            if (!isSparse() && dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const logical*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                if (isSparse()) {
-                    io->outputMessage(" sparse");
-                }
-                io->outputMessage(" logical]");
-            }
-            break;
-        case NLS_UINT8:
-            if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const uint8*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" uint8]");
-            }
-            break;
-        case NLS_INT8:
-            if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const int8*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" int8]");
-            }
-            break;
-        case NLS_UINT16:
-            if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const uint16*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" uint16]");
-            }
-            break;
-        case NLS_INT16:
-            if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const int16*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" int16]");
-            }
-            break;
-        case NLS_UINT32:
-            if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const uint32*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" uint32]");
-            }
-            break;
-        case NLS_INT32:
-            if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const int32*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" int32]");
-            }
-            break;
-        case NLS_UINT64: {
-            if (dp->dimensions.isScalar()) {
-                uint64 val = *((const uint64*)dp->getData());
-                std::string msg = "[" + std::to_string(val) + "]";
-                // snprintf(msgBuffer, MSGBUFLEN, "[" PRIu64 "]", *((const
-                // uint64*)dp->getData())); io->outputMessage(msgBuffer);
-                io->outputMessage(msg.c_str());
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" uint64]");
-            }
-        } break;
-        case NLS_INT64: {
-            if (dp->dimensions.isScalar()) {
-                int64 value = *((const int64*)dp->getData());
-                std::string msg = std::string("[") + std::to_string(value) + std::string("]");
-                // snprintf(msgBuffer, MSGBUFLEN, "[" PRId64 "]", *((const
-                // int64*)dp->getData()));
-                io->outputMessage(msg.c_str());
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" int64]");
-            }
-        } break;
-        case NLS_DOUBLE:
-            if (!isSparse() && dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%lf]", *((const double*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                if (isSparse()) {
-                    io->outputMessage(" sparse");
-                }
-                io->outputMessage(" double]");
-            }
-            break;
-        case NLS_DCOMPLEX:
-            if (!isSparse() && dp->dimensions.isScalar()) {
-                const double* ap = (const double*)dp->getData();
-                snprintf(msgBuffer, MSGBUFLEN, "[%lf+%lfi]", ap[0], ap[1]);
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                if (isSparse()) {
-                    io->outputMessage(" sparse");
-                }
-                io->outputMessage(" dcomplex]");
-            }
-            break;
-        case NLS_SINGLE:
-            if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%f]", *((const single*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" single]");
-            }
-            break;
-        case NLS_SCOMPLEX:
-            if (dp->dimensions.isScalar()) {
-                const single* ap = (const single*)dp->getData();
-                snprintf(msgBuffer, MSGBUFLEN, "[%f+%fi]", ap[0], ap[1]);
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" complex]");
-            }
-            break;
-        }
-    }
-}
-
 void
 emitElement(char* msgBuffer, const void* dp, indexType num, Class dcls)
 {
@@ -3420,7 +3238,7 @@ emitElement(char* msgBuffer, const void* dp, indexType num, Class dcls)
         if (ap == nullptr) {
             io->outputMessage("[]");
         } else {
-            ap[num].summarizeCellEntry();
+            ap[num].summarizeCellEntry(io);
         }
         // io->outputMessage("  ");
     }
@@ -3429,7 +3247,7 @@ emitElement(char* msgBuffer, const void* dp, indexType num, Class dcls)
         if (ap == nullptr) {
             io->outputMessage("[]");
         } else {
-            ap[num].summarizeCellEntry();
+            ap[num].summarizeStringArray(io);
         }
         // io->outputMessage("  ");
     }
@@ -3513,11 +3331,11 @@ ArrayOf::printMe(int printLimit, sizeType termWidth) const
         io->outputMessage("  <struct> ");
         nominalWidth = 10;
         break;
-	case NLS_STRING_ARRAY:
-		io->outputMessage("  <string> ");
-		nominalWidth = 10;
-		break;
-	}
+    case NLS_STRING_ARRAY:
+        io->outputMessage("  <string> ");
+        nominalWidth = 10;
+        break;
+    }
     io->outputMessage("- size: ");
     dp->dimensions.printMe(io);
     io->outputMessage("\n");
@@ -3551,7 +3369,7 @@ ArrayOf::printMe(int printLimit, sizeType termWidth) const
                 io->outputMessage("    ");
                 io->outputMessage(dp->fieldNames[n].c_str());
                 io->outputMessage(": ");
-                ap[n].summarizeCellEntry();
+                ap[n].summarizeCellEntry(io);
                 io->outputMessage("\n");
             }
         } else {
