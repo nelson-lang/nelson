@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>if</keyword>
+  <short_description>conditional statement.</short_description>
+
+  <syntax>
+    <syntax_item>if conditional_expression_1, statements_1, elseif conditional_expression_2, statements_2, else statements_N end</syntax_item>
+  </syntax>
+  
+
+  <description>
+    <p><b>if</b> and <b>else</b> statements form a control structure for conditional execution.</p>
+  </description>
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[i = 0;
+if i == 0
+  disp('ok')
+elseif i == 1
+  disp('not ok 1')
+else
+  disp('not ok 2')
+end]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${interpreter}for">for</link>
+		</see_also_item>
+	</see_also>
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

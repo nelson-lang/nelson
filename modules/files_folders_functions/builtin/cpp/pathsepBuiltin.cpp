@@ -34,7 +34,7 @@ Nelson::FilesFoldersGateway::pathsepBuiltin(Evaluator* eval, int nLhs, const Arr
 #ifdef _MSC_VER
     retval.push_back(ArrayOf::characterArrayConstructor(L";"));
 #else
-    retval.push_back(ArrayOf::stringConstructor(L":"));
+    retval.push_back(ArrayOf::characterArrayConstructor(L":"));
 #endif
     return retval;
 }

@@ -185,6 +185,7 @@
     <ClCompile Include="..\cpp\DotRightDivide.cpp" />
     <ClCompile Include="..\cpp\DotTranspose.cpp" />
     <ClCompile Include="..\cpp\Equals.cpp" />
+    <ClCompile Include="..\cpp\Exponential.cpp" />
     <ClCompile Include="..\cpp\Gamma.cpp" />
     <ClCompile Include="..\cpp\GreaterEquals.cpp" />
     <ClCompile Include="..\cpp\GreaterThan.cpp" />
@@ -198,6 +199,7 @@
     <ClCompile Include="..\cpp\LessEquals.cpp" />
     <ClCompile Include="..\cpp\LessThan.cpp" />
     <ClCompile Include="..\cpp\Modulo.cpp" />
+    <ClCompile Include="..\cpp\NaturalLogarithm.cpp" />
     <ClCompile Include="..\cpp\Negate.cpp" />
     <ClCompile Include="..\cpp\Norm.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
@@ -213,6 +215,7 @@
     <ClCompile Include="..\cpp\RealPart.cpp" />
     <ClCompile Include="..\cpp\Remainder.cpp" />
     <ClCompile Include="..\cpp\RightDivide.cpp" />
+    <ClCompile Include="..\cpp\Sqrt.cpp" />
     <ClCompile Include="..\cpp\Subtraction.cpp" />
     <ClCompile Include="..\cpp\Transpose.cpp" />
     <ClCompile Include="..\cpp\TruncateFunctions.cpp" />
@@ -235,6 +238,7 @@
     <ClInclude Include="..\include\DotRightDivide.hpp" />
     <ClInclude Include="..\include\DotTranspose.hpp" />
     <ClInclude Include="..\include\Equals.hpp" />
+    <ClInclude Include="..\include\Exponential.hpp" />
     <ClInclude Include="..\include\Gamma.hpp" />
     <ClInclude Include="..\include\GreaterEquals.hpp" />
     <ClInclude Include="..\include\GreaterThan.hpp" />
@@ -248,6 +252,7 @@
     <ClInclude Include="..\include\LessEquals.hpp" />
     <ClInclude Include="..\include\LessThan.hpp" />
     <ClInclude Include="..\include\Modulo.hpp" />
+    <ClInclude Include="..\include\NaturalLogarithm.hpp" />
     <ClInclude Include="..\include\Negate.hpp" />
     <ClInclude Include="..\include\nlsElementary_functions_exports.h" />
     <ClInclude Include="..\include\Norm.hpp" />
@@ -259,6 +264,7 @@
     <ClInclude Include="..\include\RealPart.hpp" />
     <ClInclude Include="..\include\Remainder.hpp" />
     <ClInclude Include="..\include\RightDivide.hpp" />
+    <ClInclude Include="..\include\Sqrt.hpp" />
     <ClInclude Include="..\include\Subtraction.hpp" />
     <ClInclude Include="..\include\Transpose.hpp" />
     <ClInclude Include="..\include\TruncateFunctions.hpp" />

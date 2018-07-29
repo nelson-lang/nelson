@@ -123,7 +123,7 @@ MapFileRead(std::wstring filename, std::wstring eol, std::wstring& errorMessage)
     ArrayOf res;
     errorMessage = L"";
     if (isEmptyFile(filename)) {
-        res = ArrayOf::stringConstructor("");
+        res = ArrayOf::characterArrayConstructor("");
     } else {
         boost::filesystem::path fileAsPath(filename);
         boost::iostreams::basic_mapped_file_params<boost::filesystem::path> param;
@@ -136,7 +136,7 @@ MapFileRead(std::wstring filename, std::wstring eol, std::wstring& errorMessage)
             if (eol != L"\n") {
                 boost::replace_all(content, L"\n", eol);
             }
-            res = ArrayOf::stringConstructor(content);
+            res = ArrayOf::characterArrayConstructor(content);
         } else {
             errorMessage = _W("Cannot open file.");
         }

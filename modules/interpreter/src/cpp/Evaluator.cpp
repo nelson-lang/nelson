@@ -174,10 +174,10 @@ void
 Evaluator::pushID(int a)
 {
     if (!cstack.empty()) {
-        if (cstack.size() > cstack.capacity() - 1) {
+        if (cstack.size() > cstack.capacity() - 100) {
             cstack.reserve(cstack.capacity() * 2);
         }
-        cstack.emplace_back(StackEntry(cstack.back().cname, cstack.back().detail, a));
+        cstack.push_back(StackEntry(cstack.back().cname, cstack.back().detail, a));
     } else {
         cstack.push_back(StackEntry("base", "base", a));
     }
@@ -404,6 +404,7 @@ bool Evaluator::needToOverloadOperator(ArrayOf a) {
   return ((a.getDataClass() == NLS_STRUCT_ARRAY) ||
           (a.getDataClass() == NLS_CELL_ARRAY) || a.isSparse() || a.isHandle());
 }
+
 
 ArrayOf
 Evaluator::EndReference(ArrayOf v, indexType index, size_t count)
@@ -3082,13 +3083,11 @@ Evaluator::adjustBreakpoint(StackEntry& bp, bool dbstep)
             char buffer[2048];
             if (dbstep) {
                 sprintf(buffer, "%s",
-                    _("Unable to step the specified number of lines, execution will continue\n")
-                        .c_str());
+                    _("Unable to step the specified number of lines, execution will continue\n").c_str());
                 inStepMode = false;
             } else {
                 sprintf(buffer,
-                    _("Failed to set breakpoint in %s at line %d - breakpoint is disabled\n")
-                        .c_str(),
+                    _("Failed to set breakpoint in %s at line %d - breakpoint is disabled\n").c_str(),
                     cname.c_str(), bp.tokid & 0xffff);
             }
             io->warningMessage(buffer);
@@ -3889,7 +3888,6 @@ Evaluator::getCurrentFunctionName()
             return pathForStem.stem().string();
         }
         return fullname;
-        // return cstack[cstack.size() - 1].detail;
     }
     return std::string("");
 }
