@@ -857,10 +857,18 @@ Evaluator::expressionList(ASTPtr t, ArrayOf subRoot)
             if (root->right == nullptr) {
                 // Singleton reference, with ':' - return 1:length as column vector...
                 tmp = dim.getElementCount();
-                m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, true));
+                if (tmp == 0) {
+                    m.push_back(ArrayOf::stringConstructor(":"));
+                } else {
+                    m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, true));
+                }
             } else {
                 tmp = dim.getDimensionLength(index);
-                m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, false));
+                if (tmp == 0) {
+                    m.push_back(ArrayOf::stringConstructor(":"));
+                } else {
+                    m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, false));
+                }
             }
         } else {
             // Set up the value of the "end" token
