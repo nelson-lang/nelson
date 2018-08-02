@@ -37,16 +37,16 @@
 // DEALINGS IN THE SOFTWARE.
 
 #pragma once
-#include <vector>
+#include "Dimensions.hpp"
+#include "Exception.hpp"
+#include "HandleGenericObject.hpp"
+#include "Interface.hpp"
+#include "Types.hpp"
+#include "nlsTypes_exports.h"
 #include <complex>
 #include <iostream>
 #include <string>
-#include "nlsTypes_exports.h"
-#include "Dimensions.hpp"
-#include "Types.hpp"
-#include "Exception.hpp"
-#include "Interface.hpp"
-#include "HandleGenericObject.hpp"
+#include <vector>
 
 namespace Nelson {
 
@@ -112,15 +112,6 @@ private:
      * $$1,\ldots,\mathrm{maxD}$.
      */
     bool* getBinaryMap(indexType);
-    /** Compute the maximum index.
-     * This computes the maximum value of the array as an index (meaning
-     * that it must be greater than 0.  Because this is an internal function, it
-     * assumes that the variable has already been passed through toOrdinalType()
-     * successfully.  Throws an exception if the maximum value is zero or
-     * negative.
-     */
-    indexType
-    getMaxAsIndex();
     /** Get the internal index corresponding to a given field name.
      * Get the internal index corresponding to a given field name.  This
      * is the index into the fieldname array of the argument.  If the
@@ -141,6 +132,14 @@ private:
     void
     deleteContents(void);
 
+    /* Check all fieldnames are valid */
+    static bool
+    haveValidFieldNames(stringVector fieldnames);
+
+    /* Check all fieldnames are unique */
+    static bool
+    haveUniqueFieldNames(stringVector fieldnames);
+
 public:
     /**
      * Allocate an array.
@@ -154,7 +153,8 @@ public:
      *  - For string types, this conversion is not defined.
      *  - For logical types, this is accomplished using a linear search (done in
      *      two passes - one to identify the length of
-     *      the final array, and another to identify the indices of non-zero values.
+     *      the final array, and another to identify the indices of non-zero
+     * values.
      *  - For double types, this is done by typecasting (truncation).  A warning
      *      is emitted if the source value is fractional (non-integer) or invalid
      *      (zero or negative).
@@ -307,10 +307,10 @@ public:
     indexType
     getByteSize() const;
     /**
-     * Returns true if we are (meaningfully) positive.  For the unsigned integer types,
-     * this is always true.  For complex types, this is false.  For the signed integer
-     * types or the floating point types, the result is based on a linear scan through
-     * the array.
+     * Returns true if we are (meaningfully) positive.  For the unsigned integer
+     * types, this is always true.  For complex types, this is false.  For the
+     * signed integer types or the floating point types, the result is based on a
+     * linear scan through the array.
      */
     const bool
     isPositive() const;
@@ -328,19 +328,18 @@ public:
     indexType
     getNonzeros() const;
     /**
-     * Returns true if we match the scalar value in x.  For strings, this is done by
-     * doing a string compare.  For numerical values, we promote to a common type
-     * and do a comparison.
+     * Returns true if we match the scalar value in x.  For strings, this is done
+     * by doing a string compare.  For numerical values, we promote to a common
+     * type and do a comparison.
      */
     const bool
     testCaseMatchScalar(ArrayOf x) const;
     /**
      * Returns true if we match the argument x, or if x is a cell-array,
-     * returns true if we match any of the cells in x.  Uses ArrayOf::testCaseMatchScalar
-     * to do the actual testing.
-     * Throws an exception for non-scalars (apart from strings) or reference types.
-     * Also throws an exception if the argument is not either a scalar or a cell
-     * array.
+     * returns true if we match any of the cells in x.  Uses
+     * ArrayOf::testCaseMatchScalar to do the actual testing. Throws an exception
+     * for non-scalars (apart from strings) or reference types. Also throws an
+     * exception if the argument is not either a scalar or a cell array.
      */
     const bool
     testForCaseMatch(ArrayOf x) const;
@@ -407,7 +406,8 @@ public:
     const bool
     isNdArrayDoubleType() const;
     /**
-     * Returns TRUE if it is a ndarraydouble type (not sparse, not scalar, 2D matrix)
+     * Returns TRUE if it is a ndarraydouble type (not sparse, not scalar, 2D
+     * matrix)
      */
     const bool
     isDoubleType() const;
@@ -419,7 +419,8 @@ public:
     isSingleType() const;
 
     /**
-     * Returns TRUE if it is a ndarraydouble type (not sparse, not scalar, 2D matrix)
+     * Returns TRUE if it is a ndarraydouble type (not sparse, not scalar, 2D
+     * matrix)
      */
     const bool
     isNdArraySingleType() const;
@@ -453,10 +454,12 @@ public:
      * Promote our array to a new type.  For empty arrays, this type
      * promotion always succeeds.  For cell arrays, this does nothing (except
      * throw an error if we attempt to promote it to a different type).  For
-     * structure arrays, promoting to a structure array has three possible outcomes:
-     *   - If the fields match in order and contents then the promotion is successful.
-     *   - If the fields match in contents but not in-order then the promotion involves
-     *     reordering the data.
+     * structure arrays, promoting to a structure array has three possible
+     * outcomes:
+     *   - If the fields match in order and contents then the promotion is
+     * successful.
+     *   - If the fields match in contents but not in-order then the promotion
+     * involves reordering the data.
      *   - If the fields match in contents but the destination type has
      *     additional fields, then the promotion involves reordering the data and
      *     adding space.
@@ -471,8 +474,8 @@ public:
     void
     promoteType(Class new_type, stringVector fieldNames);
     /**
-     * Promote our array to a new type.  This is a shortcut for when new_type is not
-     * NLS_STRUCT_ARRAY, so that the fieldNames argument is not needed.
+     * Promote our array to a new type.  This is a shortcut for when new_type is
+     * not NLS_STRUCT_ARRAY, so that the fieldNames argument is not needed.
      */
     void
     promoteType(Class new_type);
@@ -629,8 +632,9 @@ public:
     doubleMatrix2dConstructor(indexType m, indexType n);
 
     /**
-     * Construct a NLS_INT32 or NLS_INT64 (on x64 platform) vector (either vertical or horizontal)
-     * corresponding to minval:stepsize:maxval, with an optional transpose.
+     * Construct a NLS_INT32 or NLS_INT64 (on x64 platform) vector (either
+     * vertical or horizontal) corresponding to minval:stepsize:maxval, with an
+     * optional transpose.
      */
     static ArrayOf
     integerRangeConstructor(indexType minval, indexType stepsize, indexType maxval, bool vertical);
@@ -688,8 +692,8 @@ public:
 
     /**
      * Get a subset of an ArrayOf.  This is for vector-indexing, meaning that
-     * the argument is assumed to refer to the elements in their order as a vector.
-     * So, x(10) is equivalent to x(:)(10), even if, say, x is 3 x 4.
+     * the argument is assumed to refer to the elements in their order as a
+     * vector. So, x(10) is equivalent to x(:)(10), even if, say, x is 3 x 4.
      * Throws an exception if
      *  - the variable is empty
      *  - the argument subset exceeds our valid domain
@@ -729,10 +733,10 @@ public:
     ArrayOf
     getNDimContents(ArrayOfVector& index);
     /**
-     * Get the contents of a field from its field name.  Again, like getVectorContents
-     * and getNDimContents, this function is meant for assignments only, and the
-     * argument must be a scalar structure.
-     * Throws an exection if we are a vector, or if the supplied field do not exist.
+     * Get the contents of a field from its field name.  Again, like
+     * getVectorContents and getNDimContents, this function is meant for
+     * assignments only, and the argument must be a scalar structure. Throws an
+     * exection if we are a vector, or if the supplied field do not exist.
      */
     ArrayOf
     getField(std::string fieldName);
@@ -747,18 +751,18 @@ public:
     ArrayOfVector
     getFieldAsList(std::string fieldName);
     /**
-     * Get a subset of a (cell) ArrayOf using contents-addressing.  This is used when a
-     * cell array is used to supply a list of expressions.
-     * Throws an exception if
+     * Get a subset of a (cell) ArrayOf using contents-addressing.  This is used
+     * when a cell array is used to supply a list of expressions. Throws an
+     * exception if
      *   - we are not a cell-array
      *   - the indices exceed the array bounds
      */
     ArrayOfVector
     getVectorContentsAsList(ArrayOf& index);
     /**
-     * Get a subset of an ArrayOf using contents-addressing.  This is used when a cell array
-     * is used to supply a list of expressions.
-     * Throws an exception if we are not a cell-array.
+     * Get a subset of an ArrayOf using contents-addressing.  This is used when a
+     * cell array is used to supply a list of expressions. Throws an exception if
+     * we are not a cell-array.
      */
     ArrayOfVector
     getNDimContentsAsList(ArrayOfVector& index);
@@ -766,14 +770,16 @@ public:
      * Set a subset of an ArrayOf.  Uses vector-indexing, meaning that the
      * argument is assumed to refer to the elements in their order as a vector.
      * So, x(10) is equivalent to x(:)(10), even if, say, x is 3 x 4.
-     * Throws an exception if there is a size mismatch between the index and the data.
+     * Throws an exception if there is a size mismatch between the index and the
+     * data.
      */
     void
     setVectorSubset(ArrayOf& index, ArrayOf& data);
     /**
      * Set a subset of an ArrayOf.   This if for n-Dimensional-indexing, meaning
      * that x(10) is really x(10,1).
-     * Throws an exception if there is a size mismatch between the index and the data.
+     * Throws an exception if there is a size mismatch between the index and the
+     * data.
      */
     void
     setNDimSubset(ArrayOfVector& index, ArrayOf& data);
@@ -797,8 +803,8 @@ public:
     /**
      * Replace the contents of a field with the supplied array.  Only valid for
      * scalar structures.
-     * Throws an exception if we are not a structure array or we are a multi-element
-     * structure-array.
+     * Throws an exception if we are not a structure array or we are a
+     * multi-element structure-array.
      */
     void
     setField(std::string fieldName, ArrayOf& data);
@@ -829,8 +835,8 @@ public:
      * call, i.e.: [x.foo] = foo
      * Throws an exception if
      *   - we are not a structure array
-     *   - the number of elements in data is not equal to the number of elements in
-     *     our array.
+     *   - the number of elements in data is not equal to the number of elements
+     * in our array.
      */
     void
     setFieldAsList(std::string fieldName, ArrayOfVector& data);
@@ -883,22 +889,22 @@ public:
     getContentAsArrayOfCharacters() const;
 
     /**
-     * Get our contents as a C char * (pointer allocated with new). Only works for STRING types.
-     * Throws an exception for non-string types.
+     * Get our contents as a C char * (pointer allocated with new). Only works for
+     * STRING types. Throws an exception for non-string types.
      */
     char*
     getContentAsCharactersPointer() const;
 
     /**
-     * Get our contents as a C wchar_t * (pointer allocated with new). Only works for STRING types.
-     * Throws an exception for non-string types.
+     * Get our contents as a C wchar_t * (pointer allocated with new). Only works
+     * for STRING types. Throws an exception for non-string types.
      */
     wchar_t*
     getContentAsWideCharactersPointer() const;
 
     /**
-     * Get our contents as a vector wide string (UTF-16). Only works for CELL of STRING types.
-     * no check on dimensions
+     * Get our contents as a vector wide string (UTF-16). Only works for CELL of
+     * STRING types. no check on dimensions
      */
     wstringVector
     getContentAsWideStringVector(bool bCheckVector = true) const;
@@ -906,8 +912,8 @@ public:
     getContentAsCStringVector(bool bCheckVector = true) const;
 
     /**
-     * Get our contents as a vector wide string (UTF-16). Only works for CELL of STRING types.
-     * Check if it is a cell with a row vector dimension
+     * Get our contents as a vector wide string (UTF-16). Only works for CELL of
+     * STRING types. Check if it is a cell with a row vector dimension
      */
     wstringVector
     getContentAsWideStringRowVector(void) const;
@@ -915,8 +921,8 @@ public:
     getContentAsCStringRowVector(void) const;
 
     /**
-     * Get our contents as a vector wide string (UTF-16). Only works for CELL of STRING types.
-     * Check if it is a cell with a column vector dimension
+     * Get our contents as a vector wide string (UTF-16). Only works for CELL of
+     * STRING types. Check if it is a cell with a column vector dimension
      */
     wstringVector
     getContentAsWideStringColumnVector(void) const;
@@ -1132,9 +1138,26 @@ public:
      */
     HandleGenericObject*
     getContentAsHandleScalar() const;
+
+    /** Compute the maximum index.
+     * This computes the maximum value of the array as an index (meaning
+     * that it must be greater than 0.  Because this is an internal function, it
+     * assumes that the variable has already been passed through toOrdinalType()
+     * successfully.  Throws an exception if the maximum value is zero or
+     * negative.
+     */
+    indexType
+    getMaxAsIndex();
 };
 
 void
 dumpAllArrayOfs();
 
-}
+bool
+isColonOperator(const ArrayOf& a);
+
+constIndexPtr*
+ProcessNDimIndexes(bool preserveColons, Dimensions dims, ArrayOfVector& index, bool& anyEmpty,
+    int& colonIndex, Dimensions& outDims, bool argCheck);
+
+} // namespace Nelson
