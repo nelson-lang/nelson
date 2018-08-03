@@ -13,6 +13,12 @@ Features:
   * [#133](http://github.com/Nelson-numerical-software/nelson/issues/133): Replaced uncommon term "trinary" by "ternary". 
 
 
+Bug Fixes:
+---------
+
+  * [#152](http://github.com/Nelson-numerical-software/nelson/issues/152): insertion did not return expected result for empty matrix.
+
+
 ## 0.2.7 (2018-07-29)
 
 
