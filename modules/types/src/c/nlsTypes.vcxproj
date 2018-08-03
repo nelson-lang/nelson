@@ -213,8 +213,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\ArrayOf.cpp" />
+    <ClCompile Include="..\cpp\ArrayOf_Allocate.cpp" />
+    <ClCompile Include="..\cpp\ArrayOf_Assign.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_CellType.cpp" />
+    <ClCompile Include="..\cpp\ArrayOf_Constructors.cpp" />
+    <ClCompile Include="..\cpp\ArrayOf_Delete.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_DoubleType.cpp" />
+    <ClCompile Include="..\cpp\ArrayOf_Extract.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_FunctionHandleType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_HandleType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_IntegersType.cpp" />

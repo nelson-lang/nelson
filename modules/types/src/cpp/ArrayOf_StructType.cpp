@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/algorithm/string.hpp>
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "characters_encoding.hpp"
@@ -417,6 +418,35 @@ ArrayOf::emptyStructConstructor(wstringVector fNames, Dimensions dim)
         fs.push_back(wstring_to_utf8(fNames[k]));
     }
     return ArrayOf::emptyStructConstructor(fs, dim);
+}
+//=============================================================================
+bool
+ArrayOf::haveValidFieldNames(stringVector fieldnames)
+{
+    if (fieldnames.empty()) {
+        return true;
+    }
+    for (size_t k = 0; k < fieldnames.size(); ++k) {
+        if (fieldnames[k].size() == 0) {
+            return false;
+        }
+        if (boost::algorithm::contains(fieldnames[k], "\n")) {
+            return false;
+        }
+    }
+    return true;
+}
+//=============================================================================
+bool
+ArrayOf::haveUniqueFieldNames(stringVector fieldnames)
+{
+    stringVector copyVector(fieldnames);
+    if (fieldnames.size() > 1) {
+        std::sort(copyVector.begin(), copyVector.end());
+        copyVector.erase(std::unique(copyVector.begin(), copyVector.end()), copyVector.end());
+        return fieldnames.size() == copyVector.size();
+    }
+    return true;
 }
 //=============================================================================
 }
