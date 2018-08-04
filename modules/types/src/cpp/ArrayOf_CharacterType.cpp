@@ -134,6 +134,16 @@ ArrayOf::getContentAsWideString(void) const
         str.assign(buffer);
         delete[] buffer;
     } else {
+		if (dp->dataClass == NLS_STRING_ARRAY)
+		{
+			if (dp->dimensions.isScalar())
+			{
+                ArrayOf* arg = (ArrayOf*)(getDataPointer());
+                return arg[0].getContentAsWideString();
+			} else {
+                throw Exception(_W("Unable to convert string object to a single string."));
+            }
+		}
         if (dp->dataClass != NLS_CHAR) {
             throw Exception(_W("Unable to convert supplied object to a string."));
         }

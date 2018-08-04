@@ -94,6 +94,71 @@ ArrayOf::stringArrayConstructor(const wstringVector values, Dimensions dims)
     return ArrayOf(NLS_STRING_ARRAY, dims, elements);
 }
 //=============================================================================
+ArrayOf
+ArrayOf::stringArrayConstructor(ArrayOfMatrix& matrix)
+{
+    indexType columnCount = 0, rowCount = 0;
+    ArrayOf* qp = nullptr;
+    try {
+        ArrayOfMatrix::iterator i = matrix.begin();
+        while (i != matrix.end()) {
+            ArrayOfVector ptr = *i;
+            /**
+             * If this is the first row in the matrix def, then we
+             * record its size in columnCount.
+             */
+            if (i == matrix.begin()) {
+                columnCount = ptr.size();
+            } else {
+                /**
+                 * Otherwise, make sure the column counts are all the same...
+                 */
+                if (ptr.size() != columnCount) {
+                    throw Exception(
+                        _W("String definition must have same number of elements in each row."));
+                }
+            }
+            ++i;
+        }
+        /**
+         * At this point, we know how many columns our string array has,
+         * and the number of rows is also known (size of m).  So, set
+         * up our dimensions, and allocate the output.
+         */
+        rowCount = matrix.size();
+        Dimensions retDims(2);
+        retDims[0] = rowCount;
+        retDims[1] = columnCount;
+        /**
+         * Allocate storage space for the contents.
+         */
+        qp = (ArrayOf*)allocateArrayOf(NLS_STRING_ARRAY, retDims.getElementCount());
+        ArrayOf* sp = qp;
+        /**
+         * Loop through the rows.
+         */
+        i = matrix.begin();
+        while (i != matrix.end()) {
+            ArrayOfVector ptr = *i;
+            ArrayOf* cp = sp;
+            for (sizeType j = 0; j < (sizeType)ptr.size(); j++) {
+                *cp = ptr[j];
+                cp += rowCount;
+            }
+            ++i;
+            sp++;
+        }
+        return ArrayOf(NLS_STRING_ARRAY, retDims, qp);
+    } catch (Exception& e) {
+        ArrayOf* rp = (ArrayOf*)qp;
+        delete[] rp;
+        rp = nullptr;
+        qp = nullptr;
+        e.what();
+        throw;
+    }
+}
+//=============================================================================
 /**
  * Print this object when it is an element of a string array.
  */

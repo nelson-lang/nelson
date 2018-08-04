@@ -1163,6 +1163,10 @@ public:
 	static ArrayOf
     stringArrayConstructor(const wstringVector values, Dimensions dims);
 
+	/* constructor with missing object allowed */
+	static ArrayOf
+    stringArrayConstructor(ArrayOfMatrix& matrix);
+
     /**
      * Summarize String array.
      */
