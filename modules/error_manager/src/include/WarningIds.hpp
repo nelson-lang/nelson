@@ -16,24 +16,35 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "errorBuiltin.hpp"
-#include "lasterrorBuiltin.hpp"
-#include "warningBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "nlsError_manager_exports.h"
+#include <string>
+#include <vector>
 //=============================================================================
-const std::wstring gatewayName = L"error_manager";
+namespace Nelson {
 //=============================================================================
-static const nlsGateway gateway[] = { { "error", Nelson::ErrorManagerGateway::errorBuiltin, 0, 1 },
-    { "warning", Nelson::ErrorManagerGateway::warningBuiltin, -1, -1 },
-    { "lasterror", Nelson::ErrorManagerGateway::lasterrorBuiltin, 1, 1 } };
+typedef enum { DISABLED, ENABLED, AS_ERROR, NOT_FOUND } WARNING_STATE;
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+typedef struct {
+  std::vector<std::wstring> IDs;
+  std::vector<WARNING_STATE> states;
+} WARNING_IDS_STATES;
 //=============================================================================
-NLSGATEWAYINFO(gateway)
+NLSERROR_MANAGER_IMPEXP WARNING_STATE warningCheckState(std::wstring id);
 //=============================================================================
-NLSGATEWAYREMOVE(gateway)
+NLSERROR_MANAGER_IMPEXP void initializeDefaultWarningIdsList();
 //=============================================================================
-NLSGATEWAYNAME()
+NLSERROR_MANAGER_IMPEXP void
+clearWarningIdsList();
 //=============================================================================
+NLSERROR_MANAGER_IMPEXP void disableWarning(std::wstring id);
+//=============================================================================
+NLSERROR_MANAGER_IMPEXP void enableWarning(std::wstring id);
+//=============================================================================
+NLSERROR_MANAGER_IMPEXP void setWarningId(std::wstring id, WARNING_STATE state);
+//=============================================================================
+NLSERROR_MANAGER_IMPEXP WARNING_IDS_STATES getAllWarningState();
+//=============================================================================
+} // namespace Nelson
+  //=============================================================================

@@ -16,24 +16,58 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "errorBuiltin.hpp"
-#include "lasterrorBuiltin.hpp"
-#include "warningBuiltin.hpp"
+#include "WarningIds.hpp"
+#include <map>
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-const std::wstring gatewayName = L"error_manager";
+static std::map<std::wstring, WARNING_STATE> warningsMap;
 //=============================================================================
-static const nlsGateway gateway[] = { { "error", Nelson::ErrorManagerGateway::errorBuiltin, 0, 1 },
-    { "warning", Nelson::ErrorManagerGateway::warningBuiltin, -1, -1 },
-    { "lasterror", Nelson::ErrorManagerGateway::lasterrorBuiltin, 1, 1 } };
+WARNING_STATE
+warningCheckState(std::wstring id) { 
+	if (warningsMap.count(id) > 0)
+	{
+        std::map<std::wstring, WARNING_STATE>::iterator iter = warningsMap.find(id);
+        return iter->second;
+	}
+    return WARNING_STATE::NOT_FOUND;
+}
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+void initializeDefaultWarningIdsList() { 
+	setWarningId(L"all", WARNING_STATE::ENABLED);
+	setWarningId(L"Nelson:colon:array-as-scalar", WARNING_STATE::ENABLED);
+}
 //=============================================================================
-NLSGATEWAYINFO(gateway)
+void
+clearWarningIdsList()
+{
+    warningsMap.clear();
+}
 //=============================================================================
-NLSGATEWAYREMOVE(gateway)
+void disableWarning(std::wstring id) {
+  warningsMap.emplace(id, WARNING_STATE::DISABLED);
+}
 //=============================================================================
-NLSGATEWAYNAME()
+void enableWarning(std::wstring id) {
+  warningsMap.emplace(id, WARNING_STATE::ENABLED);
+}
+//=============================================================================
+void setWarningId(std::wstring id, WARNING_STATE state) {
+  warningsMap.emplace(id, state);
+}
+//=============================================================================
+WARNING_IDS_STATES
+getAllWarningState()
+{
+    WARNING_IDS_STATES list;
+    list.IDs.clear();
+    list.states.clear();
+    for (const auto& p : warningsMap) {
+        list.IDs.push_back(p.first);
+        list.states.push_back(p.second);
+    }
+    return list;
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

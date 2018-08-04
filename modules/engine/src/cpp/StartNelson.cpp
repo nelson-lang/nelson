@@ -45,6 +45,7 @@
 #include "StartNelsonUserScript.hpp"
 #include "TimeoutThread.hpp"
 #include "characters_encoding.hpp"
+#include "WarningIds.hpp"
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 #include <locale.h>
@@ -227,6 +228,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         return exitCode;
     }
     setMaxOpenedFiles();
+    initializeDefaultWarningIdsList();
 #ifdef _MSC_VER
 #if _MSC_VER < 1900
     _set_output_format(_TWO_DIGIT_EXPONENT);

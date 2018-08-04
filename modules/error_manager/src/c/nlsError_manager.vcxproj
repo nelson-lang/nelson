@@ -178,10 +178,12 @@
     <ClInclude Include="..\include\Error.hpp" />
     <ClInclude Include="..\include\ErrorToStruct.hpp" />
     <ClInclude Include="..\include\Messages.hpp" />
+    <ClInclude Include="..\include\WarningIds.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Error.cpp" />
     <ClCompile Include="..\cpp\Exception.cpp" />
+    <ClCompile Include="..\cpp\WarningIds.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
