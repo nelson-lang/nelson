@@ -1909,15 +1909,8 @@ Evaluator::block(ASTPtr t)
         }
     } catch (Exception& e) {
         if (!e.isEmpty()) {
-            if (lastException) {
-                delete lastException;
-            }
             updateError(this, e);
-            try {
-                lastException = new Exception(e);
-            } catch (std::bad_alloc) {
-                lastException = nullptr;
-            }
+            setLastErrorException(e);
             throw;
         }
     }
@@ -2882,8 +2875,8 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                         }
                         q = q->right;
                     }
-                    // If any keywords were found, make another pass through the
-                    // arguments and remove them.
+                        // If any keywords were found, make another pass through the
+                        // arguments and remove them.
 #if 0
                         if (keywords.size() > 0)
                         {
@@ -3762,7 +3755,8 @@ Evaluator::Evaluator(Context* aContext, Interface* aInterface, int _engineMode)
 {
     engineMode = _engineMode;
     bAllowOverload = true;
-    lastException = nullptr;
+    lastErrorException = nullptr;
+    lastWarningException = nullptr;
     context = aContext;
     currentOutputFormatDisplay = NLS_FORMAT_SHORT;
     resetState();
@@ -3784,8 +3778,8 @@ Evaluator::~Evaluator()
 {
     clearStacks();
     commandLineArguments.clear();
-    if (lastException) {
-        delete lastException;
+    if (lastErrorException) {
+        delete lastErrorException;
     }
 }
 //=============================================================================
@@ -3833,10 +3827,10 @@ Evaluator::evaluateString(std::string line, bool propogateException)
         deleteAstVector(getAstUsed());
         resetAstBackupPosition();
         resetParser();
-        if (lastException) {
-            delete lastException;
+        if (lastErrorException) {
+            delete lastErrorException;
         }
-        lastException = new Exception(e);
+        lastErrorException = new Exception(e);
         if (propogateException) {
             throw;
         }
@@ -3847,11 +3841,11 @@ Evaluator::evaluateString(std::string line, bool propogateException)
         deleteAstVector(pt);
         resetAstBackupPosition();
         resetParser();
-        if (lastException) {
-            delete lastException;
+        if (lastErrorException) {
+            delete lastErrorException;
         }
         Exception e(_W("a valid script expected."));
-        lastException = new Exception(e);
+        lastErrorException = new Exception(e);
         if (propogateException) {
             throw;
         }
@@ -3885,10 +3879,10 @@ Evaluator::evaluateString(std::string line, bool propogateException)
         deleteAstVector(pt);
         resetAstBackupPosition();
         tree = nullptr;
-        if (lastException) {
-            delete lastException;
+        if (lastErrorException) {
+            delete lastErrorException;
         }
-        lastException = new Exception(e);
+        lastErrorException = new Exception(e);
         if (propogateException) {
             throw;
         }
@@ -3903,34 +3897,34 @@ Evaluator::evaluateString(std::string line, bool propogateException)
 std::wstring
 Evaluator::getLastErrorString()
 {
-    return lastException->getMessage();
+    return lastErrorException->getMessage();
 }
 //=============================================================================
 void
-Evaluator::setLastErrorString(std::wstring txt)
+Evaluator::setLastErrorString(const std::wstring &txt)
 {
-    if (lastException) {
-        lastException->setMessage(txt);
+    if (lastErrorException) {
+        lastErrorException->setMessage(txt);
     }
 }
 //=============================================================================
 void
-Evaluator::setLastErrorString(std::string txt)
+Evaluator::setLastErrorString(const std::string &txt)
 {
-    if (lastException) {
-        lastException->setMessage(txt);
+    if (lastErrorException) {
+        lastErrorException->setMessage(txt);
     }
 }
 //=============================================================================
 bool
-Evaluator::setLastException(Exception e)
+Evaluator::setLastErrorException(const Exception &e)
 {
     bool bAlloc = false;
-    if (lastException) {
-        delete lastException;
+    if (lastErrorException) {
+        delete lastErrorException;
     }
     try {
-        lastException = new Exception(e);
+        lastErrorException = new Exception(e);
         bAlloc = true;
     } catch (std::bad_alloc& e) {
         e.what();
@@ -3940,30 +3934,38 @@ Evaluator::setLastException(Exception e)
 }
 //=============================================================================
 Exception
-Evaluator::getLastException()
+Evaluator::getLastErrorException()
 {
-    if (lastException) {
-        return *lastException;
+    if (lastErrorException) {
+        return *lastErrorException;
     }
     return Exception("");
 }
 //=============================================================================
-std::wstring
-Evaluator::getLastWarningString()
+Exception
+Evaluator::getLastWarningException()
 {
-    return lastwarn;
+    if (lastWarningException) {
+        return *lastWarningException;
+    }
+    return Exception("");
 }
 //=============================================================================
-void
-Evaluator::setLastWarningString(std::wstring txt)
+bool
+Evaluator::setLastWarningException(const Exception &e)
 {
-    lastwarn = txt;
-}
-//=============================================================================
-void
-Evaluator::setLastWarningString(std::string txt)
-{
-    lastwarn = utf8_to_wstring(txt);
+    bool bAlloc = false;
+    if (lastWarningException) {
+        delete lastWarningException;
+    }
+    try {
+        lastWarningException = new Exception(e);
+        bAlloc = true;
+    } catch (std::bad_alloc& e) {
+        e.what();
+        bAlloc = false;
+    }
+    return bAlloc;
 }
 //=============================================================================
 std::wstring
@@ -4332,6 +4334,19 @@ Evaluator::countSubExpressions(ASTPtr t)
         count++;
     }
     return count;
+}
+//=============================================================================
+void
+Evaluator::Warning(Exception e)
+{
+    Interface* io = getInterface();
+    if (io) {
+        std::wstring message = e.getFormattedErrorMessage();
+        if (message != L"") {
+            io->warningMessage(message);
+            setLastWarningException(e);
+		}
+    }
 }
 //=============================================================================
 } // namespace Nelson

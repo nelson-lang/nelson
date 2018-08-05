@@ -48,6 +48,7 @@
 #include "StackEntry.hpp"
 #include "CommandQueue.hpp"
 #include "Exception.hpp"
+#include "Warning.hpp"
 
 namespace Nelson {
 
@@ -108,12 +109,13 @@ class NLSINTERPRETER_IMPEXP Evaluator
     /**
      * The last error that occured.
      */
-    Exception* lastException;
+    Exception* lastErrorException;
 
     /**
      * The last warning that occured.
      */
-    std::wstring lastwarn = L"";
+    Exception* lastWarningException;
+
     /**
      * autostop storage flag
      */
@@ -713,38 +715,6 @@ public:
     void
     popEvaluateFilenameList();
 
-    /**
-     * Get the last error that occurred.
-     */
-    std::wstring
-    getLastErrorString();
-
-    Exception
-    getLastException();
-    bool
-    setLastException(Exception e);
-
-    /**
-     * Set the text for the last error.
-     */
-    void
-    setLastErrorString(std::wstring txt);
-    void
-    setLastErrorString(std::string txt);
-
-    /**
-     * Get the last warning that occurred.
-     */
-    std::wstring
-    getLastWarningString();
-    /**
-     * Set the text for the last warning.
-     */
-    void
-    setLastWarningString(std::string msg);
-    void
-    setLastWarningString(std::wstring msg);
-
     /*
      * time value used by tic toc
      */
@@ -788,6 +758,43 @@ public:
 
     void
     addCommandToQueue(std::wstring command, bool bIsPriority = false);
+
+	    /**
+     * Get the last error that occurred.
+     */
+    std::wstring
+    getLastErrorString();
+
+    Exception
+    getLastErrorException();
+    bool
+    setLastErrorException(const Exception& e);
+
+    /**
+     * Set the text for the last error.
+     */
+    void
+    setLastErrorString(const std::wstring& txt);
+    void
+    setLastErrorString(const std::string& txt);
+
+    /**
+     * Get the last warning that occurred.
+     */
+    Exception
+    getLastWarningException();
+    /**
+     * Set the text for the last warning.
+     */
+    bool
+    setLastWarningException(const Exception& e);
+
+    /**
+     * Raises a warning in evaluator
+     */
+    void
+    Warning(Exception e);
+
 
 private:
     void

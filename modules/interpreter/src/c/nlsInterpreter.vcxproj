@@ -250,6 +250,7 @@
     <ClCompile Include="..\cpp\StackError.cpp" />
     <ClCompile Include="..\cpp\VariablesTable.cpp" />
     <ClCompile Include="..\cpp\VertCat.cpp" />
+    <ClCompile Include="..\cpp\WarningEmitter.cpp" />
     <ClCompile Include="..\grammar\NelSonParser.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -300,6 +301,7 @@
     <ClInclude Include="..\include\ProcessEventsDynamicFunction.hpp" />
     <ClInclude Include="..\include\StackError.hpp" />
     <ClInclude Include="..\include\VertCat.hpp" />
+    <ClInclude Include="..\include\WarningEmitter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />

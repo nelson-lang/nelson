@@ -35,14 +35,14 @@ Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const A
             if (arg1.isSingleString()) {
                 std::wstring str = arg1.getContentAsWideString();
                 if (str == L"reset") {
-                    eval->setLastException(Exception(L""));
+                    eval->setLastErrorException(Exception(L""));
                 } else {
                     Error(eval, _W("Wrong value for #2 input argument.") + _W("'reset' expected."));
                 }
             } else if (arg1.isStruct()) {
                 Exception e(L"");
                 if (IsErrorStruct(arg1, e)) {
-                    eval->setLastException(e);
+                    eval->setLastErrorException(e);
                 } else {
                     Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
                 }
@@ -52,7 +52,7 @@ Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const A
                         + _W("a structure or the string 'reset' expected."));
             }
         }
-        Exception lasterror = eval->getLastException();
+        Exception lasterror = eval->getLastErrorException();
         retval.push_back(ErrorToStruct(lasterror));
     }
     return retval;

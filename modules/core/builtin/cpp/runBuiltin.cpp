@@ -62,7 +62,7 @@ runBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     try {
         bSuccess = EvaluateScriptFile(eval, wpath.c_str(), bChangeDir);
     } catch (Exception& e) {
-        eval->setLastException(e);
+        eval->setLastErrorException(e);
         std::string fname = wstring_to_utf8(wpath);
         if (bErrorCatch) {
             e.what();
@@ -126,7 +126,7 @@ runBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     try {
         bSuccess = EvaluateScriptFile(eval, wpath.c_str(), bChangeDir);
     } catch (Exception& e) {
-        eval->setLastException(e);
+        eval->setLastErrorException(e);
         std::string fname = wstring_to_utf8(wpath);
         if (bErrorCatch) {
             e.what();
@@ -164,7 +164,7 @@ runBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         try {
             EvaluateScriptFile(eval, wpath.c_str(), true);
         } catch (Exception& e) {
-            eval->setLastException(e);
+            eval->setLastErrorException(e);
             std::string fname = wstring_to_utf8(wpath);
             Interface* io = eval->getInterface();
             e.printMe(io);

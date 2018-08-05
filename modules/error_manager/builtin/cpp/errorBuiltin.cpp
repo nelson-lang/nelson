@@ -65,7 +65,7 @@ Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLhs, const Array
         } else {
             Exception e(L"");
             if (IsErrorStruct(argIn[0], e)) {
-                eval->setLastException(e);
+                eval->setLastErrorException(e);
                 throw Exception(e.getMessage(), e.getFunctionName(), e.getLine(), e.getPosition(),
                     e.getFilename());
             } else {

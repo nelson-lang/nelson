@@ -16,43 +16,40 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FinishNelsonMainScript.hpp"
-#include "CloseAllFiles.hpp"
-#include "EvaluateScriptFile.hpp"
-#include "GetNelsonPath.hpp"
+#include "WarningEmitter.h"
+#include "Exception.hpp"
 #include "Interface.hpp"
-#include <boost/filesystem.hpp>
+#include "Error.hpp"
 //=============================================================================
-bool
-FinishNelsonMainScript(Evaluator* eval)
+static Nelson::Evaluator* evaluatorWarning = nullptr;
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+void
+setWarningEvaluator(Evaluator* eval)
 {
-    Context* ctx = eval->getContext();
-    if (ctx) {
-        std::wstring rootPath = Nelson::GetRootPath();
-        boost::filesystem::path path(rootPath);
-        path += L"/etc/finish.nls";
-        bool bIsFile = boost::filesystem::exists(path) && !boost::filesystem::is_directory(path);
-        if (bIsFile) {
-            std::wstring wstr = path.generic_wstring();
-            try {
-                EvaluateScriptFile(eval, wstr.c_str());
-            } catch (Exception& e) {
-                CloseAllFiles();
-                Interface* io = eval->getInterface();
-                e.what();
-                eval->setLastErrorException(e);
-                std::wstring errmsg = _W("Main finish.nls failed to run.");
+    evaluatorWarning = eval;
+}
+//=============================================================================
+}
+//=============================================================================
+void
+NelsonWarningEmitter(void* exception, bool asError)
+{
+    if (exception) {
+        Nelson::Exception* warningException = (Nelson::Exception*)exception;
+        if (evaluatorWarning) {
+            if (asError) {
+                throw warningException;
+            } 
+			else {
+                evaluatorWarning->setLastWarningException(*warningException);
+                Nelson::Interface* io = evaluatorWarning->getInterface();
                 if (io) {
-                    io->errorMessage(errmsg);
-                } else {
-                    errmsg = errmsg + L"\n";
-                    fwprintf(stderr, L"%ls", errmsg.c_str());
+                    io->warningMessage(warningException->getFormattedErrorMessage());
                 }
             }
-            return true;
-        }
-        return false;
+		}
     }
-    return false;
 }
 //=============================================================================

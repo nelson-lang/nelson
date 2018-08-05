@@ -40,12 +40,12 @@ Nelson::InterpreterGateway::parsestringBuiltin(
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     ParserState parserState = ParseError;
-    Exception previousException(eval->getLastException());
+    Exception previousException(eval->getLastErrorException());
     try {
         parserState = parseString(command + "\n");
     } catch (const Exception&) {
         parserState = ParseError;
-        eval->setLastException(previousException);
+        eval->setLastErrorException(previousException);
     }
     switch (parserState) {
     case ScriptBlock: {

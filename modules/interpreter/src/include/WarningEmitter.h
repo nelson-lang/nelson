@@ -18,22 +18,22 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsError_manager_exports.h"
+#include "nlsInterpreter_exports.h"
+#include "Evaluator.hpp"
+//=============================================================================
+#ifdef __cplusplus
+extern "C" {
+#endif
 //=============================================================================
 namespace Nelson {
+    NLSINTERPRETER_IMPEXP void
+    setWarningEvaluator(Evaluator* eval);
+}
 //=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-Warning(std::wstring id, std::wstring message);
+NLSINTERPRETER_IMPEXP void
+NelsonWarningEmitter(void *exception, bool asError);
 //=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-Warning(std::wstring message);
-//=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-Warning(std::string id, std::string message);
-//=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-Warning(std::string message);
-//=============================================================================
-} // namespace Nelson
+#ifdef __cplusplus
+}
+#endif
 //=============================================================================

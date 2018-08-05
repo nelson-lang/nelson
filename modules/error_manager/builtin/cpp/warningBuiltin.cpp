@@ -115,13 +115,8 @@ Nelson::ErrorManagerGateway::warningBuiltin(Evaluator *eval, int nLhs,
       Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
   }
-  // Call overload if it exists
-  bool bSuccess = false;
-  retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-  if (!bSuccess) {
-    std::wstring msg = argIn[0].getContentAsWideString();
-    Warning(eval, msg);
-  }
+  std::wstring msg = argIn[0].getContentAsWideString();
+  Warning(msg);
   return retval;
 }
 //=============================================================================

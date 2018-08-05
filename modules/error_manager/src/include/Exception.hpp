@@ -149,9 +149,6 @@ public:
     void
     setIdentifier(std::string identifier_in);
 };
-
-void
-printExceptionCount();
 //=============================================================================
 template <class T>
 T*
@@ -172,5 +169,6 @@ new_with_exception(size_t len, bool initializeToZero = true)
     }
     return ptr;
 }
-
+//=============================================================================
 }
+//=============================================================================
