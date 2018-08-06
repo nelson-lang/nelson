@@ -1,3 +1,9 @@
+Features:
+---------
+
+  * [#16](http://github.com/Nelson-numerical-software/nelson/issues/16): lastwarn builtin (Last recorded warning message).
+
+
 Bug Fixes:
 ---------
 
