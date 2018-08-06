@@ -36,10 +36,10 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
             std::wstring message = arg1.getContentAsWideString();
             if (message == L"") {
                 eval->resetLastWarningException();
-			} else {
+            } else {
                 Exception newLastWarning(message, L"", -1, -1, L"", L"");
                 eval->setLastWarningException(newLastWarning);
-			}
+            }
         } else {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
@@ -55,7 +55,7 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
         }
         ArrayOf arg2 = argIn[1];
         if (arg2.isSingleString()) {
-			identifier = arg2.getContentAsWideString();
+            identifier = arg2.getContentAsWideString();
         } else {
             Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }

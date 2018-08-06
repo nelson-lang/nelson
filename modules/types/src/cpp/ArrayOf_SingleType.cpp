@@ -70,11 +70,12 @@ ArrayOf::complexConstructor(float aval, float bval)
 }
 //=============================================================================
 single
-ArrayOf::getContentAsSingleScalar()
+ArrayOf::getContentAsSingleScalar(bool arrayAsScalar)
 {
     single* qp;
-    if (isComplex() || isReferenceType() || isString()) {
-        throw Exception(_W("Expected a real valued scalar"));
+    if (isComplex() || isReferenceType() || isString() || isSparse() || isEmpty()
+        || (!arrayAsScalar && !isScalar())) {
+        throw Exception(_W("Expected a real value scalar."));
     }
     promoteType(NLS_SINGLE);
     qp = (single*)dp->getData();
@@ -82,9 +83,9 @@ ArrayOf::getContentAsSingleScalar()
 }
 //=============================================================================
 std::complex<single>
-ArrayOf::getContentAsSingleComplexScalar()
+ArrayOf::getContentAsSingleComplexScalar(bool arrayAsScalar)
 {
-    if (isReferenceType() || isString()) {
+    if (isReferenceType() || isString() || isEmpty() || (!arrayAsScalar && !isScalar())) {
         throw Exception(_W("Expected a real valued scalar"));
     }
     promoteType(NLS_SCOMPLEX);

@@ -41,15 +41,14 @@ NelsonWarningEmitter(void* exception, bool asError)
         if (evaluatorWarning) {
             if (asError) {
                 throw warningException;
-            } 
-			else {
+            } else {
                 evaluatorWarning->setLastWarningException(*warningException);
                 Nelson::Interface* io = evaluatorWarning->getInterface();
                 if (io) {
                     io->warningMessage(warningException->getFormattedErrorMessage());
                 }
             }
-		}
+        }
     }
 }
 //=============================================================================

@@ -50,12 +50,12 @@ ArrayOf::logicalConstructor(bool aval)
 }
 //=============================================================================
 logical
-ArrayOf::getContentAsLogicalScalar() const
+ArrayOf::getContentAsLogicalScalar(bool arrayAsScalar) const
 {
     if (!isLogical()) {
         throw Exception(ERROR_TYPE_LOGICAL_EXPECTED);
     }
-    if (getLength() != 1) {
+    if (isEmpty() || (!arrayAsScalar && !isScalar())) {
         throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
     }
     logical* qp = (logical*)dp->getData();

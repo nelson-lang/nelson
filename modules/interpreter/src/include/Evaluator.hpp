@@ -759,7 +759,7 @@ public:
     void
     addCommandToQueue(std::wstring command, bool bIsPriority = false);
 
-	    /**
+    /**
      * Get the last error that occurred.
      */
     std::wstring
@@ -788,13 +788,17 @@ public:
      */
     bool
     setLastWarningException(const Exception& e);
+    /**
+     * reset last warning
+     */
+    void
+    resetLastWarningException();
 
     /**
      * Raises a warning in evaluator
      */
     void
     Warning(Exception e);
-
 
 private:
     void

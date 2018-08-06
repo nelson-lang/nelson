@@ -2875,8 +2875,8 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                         }
                         q = q->right;
                     }
-                        // If any keywords were found, make another pass through the
-                        // arguments and remove them.
+                    // If any keywords were found, make another pass through the
+                    // arguments and remove them.
 #if 0
                         if (keywords.size() > 0)
                         {
@@ -3901,7 +3901,7 @@ Evaluator::getLastErrorString()
 }
 //=============================================================================
 void
-Evaluator::setLastErrorString(const std::wstring &txt)
+Evaluator::setLastErrorString(const std::wstring& txt)
 {
     if (lastErrorException) {
         lastErrorException->setMessage(txt);
@@ -3909,7 +3909,7 @@ Evaluator::setLastErrorString(const std::wstring &txt)
 }
 //=============================================================================
 void
-Evaluator::setLastErrorString(const std::string &txt)
+Evaluator::setLastErrorString(const std::string& txt)
 {
     if (lastErrorException) {
         lastErrorException->setMessage(txt);
@@ -3917,7 +3917,7 @@ Evaluator::setLastErrorString(const std::string &txt)
 }
 //=============================================================================
 bool
-Evaluator::setLastErrorException(const Exception &e)
+Evaluator::setLastErrorException(const Exception& e)
 {
     bool bAlloc = false;
     if (lastErrorException) {
@@ -3951,13 +3951,20 @@ Evaluator::getLastWarningException()
     return Exception("");
 }
 //=============================================================================
-bool
-Evaluator::setLastWarningException(const Exception &e)
+void
+Evaluator::resetLastWarningException()
 {
-    bool bAlloc = false;
     if (lastWarningException) {
         delete lastWarningException;
+        lastWarningException = nullptr;
     }
+}
+//=============================================================================
+bool
+Evaluator::setLastWarningException(const Exception& e)
+{
+    bool bAlloc = false;
+    resetLastWarningException();
     try {
         lastWarningException = new Exception(e);
         bAlloc = true;
@@ -4345,7 +4352,7 @@ Evaluator::Warning(Exception e)
         if (message != L"") {
             io->warningMessage(message);
             setLastWarningException(e);
-		}
+        }
     }
 }
 //=============================================================================

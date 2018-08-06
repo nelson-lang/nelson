@@ -24,27 +24,40 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-typedef enum { DISABLED, ENABLED, AS_ERROR, NOT_FOUND } WARNING_STATE;
+typedef enum
+{
+    DISABLED,
+    ENABLED,
+    AS_ERROR,
+    NOT_FOUND
+} WARNING_STATE;
 //=============================================================================
-typedef struct {
-  std::vector<std::wstring> IDs;
-  std::vector<WARNING_STATE> states;
+typedef struct
+{
+    std::vector<std::wstring> IDs;
+    std::vector<WARNING_STATE> states;
 } WARNING_IDS_STATES;
 //=============================================================================
-NLSERROR_MANAGER_IMPEXP WARNING_STATE warningCheckState(std::wstring id);
+NLSERROR_MANAGER_IMPEXP WARNING_STATE
+warningCheckState(const std::wstring &id);
 //=============================================================================
-NLSERROR_MANAGER_IMPEXP void initializeDefaultWarningIdsList();
+NLSERROR_MANAGER_IMPEXP void
+initializeDefaultWarningIdsList();
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP void
 clearWarningIdsList();
 //=============================================================================
-NLSERROR_MANAGER_IMPEXP void disableWarning(std::wstring id);
+NLSERROR_MANAGER_IMPEXP void
+disableWarning(const std::wstring &id);
 //=============================================================================
-NLSERROR_MANAGER_IMPEXP void enableWarning(std::wstring id);
+NLSERROR_MANAGER_IMPEXP void
+enableWarning(const std::wstring &id);
 //=============================================================================
-NLSERROR_MANAGER_IMPEXP void setWarningId(std::wstring id, WARNING_STATE state);
+NLSERROR_MANAGER_IMPEXP void
+setWarningId(const std::wstring &id, WARNING_STATE state);
 //=============================================================================
-NLSERROR_MANAGER_IMPEXP WARNING_IDS_STATES getAllWarningState();
+NLSERROR_MANAGER_IMPEXP WARNING_IDS_STATES
+getAllWarningState();
 //=============================================================================
 } // namespace Nelson
   //=============================================================================

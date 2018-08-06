@@ -9,6 +9,8 @@ Bug Fixes:
 
   * [#152](http://github.com/Nelson-numerical-software/nelson/issues/152): insertion did not return expected result for empty matrix.
 
+  * [#138](http://github.com/Nelson-numerical-software/nelson/issues/138): colon operator did not return expected for non scalar element.
+
 
 ## 0.2.7 (2018-07-29)
 

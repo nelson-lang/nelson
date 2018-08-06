@@ -208,10 +208,11 @@ ArrayOf::integerRangeConstructor(indexType minval, indexType stepsize, indexType
 }
 //=============================================================================
 uint8
-ArrayOf::getContentAsUnsignedInteger8Scalar()
+ArrayOf::getContentAsUnsignedInteger8Scalar(bool arrayAsScalar)
 {
     uint8* qp;
-    if (getLength() != 1) {
+    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
         throw Exception(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_UINT8);
@@ -220,10 +221,11 @@ ArrayOf::getContentAsUnsignedInteger8Scalar()
 }
 //=============================================================================
 int8
-ArrayOf::getContentAsInteger8Scalar()
+ArrayOf::getContentAsInteger8Scalar(bool arrayAsScalar)
 {
     int8* qp;
-    if (getLength() != 1) {
+    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
         throw Exception(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_INT8);
@@ -232,10 +234,11 @@ ArrayOf::getContentAsInteger8Scalar()
 }
 //=============================================================================
 int16
-ArrayOf::getContentAsInteger16Scalar()
+ArrayOf::getContentAsInteger16Scalar(bool arrayAsScalar)
 {
     int16* qp;
-    if (getLength() != 1) {
+    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
         throw Exception(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_INT16);
@@ -244,10 +247,11 @@ ArrayOf::getContentAsInteger16Scalar()
 }
 //=============================================================================
 uint16
-ArrayOf::getContentAsUnsignedInteger16Scalar()
+ArrayOf::getContentAsUnsignedInteger16Scalar(bool arrayAsScalar)
 {
     uint16* qp;
-    if (getLength() != 1) {
+    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
         throw Exception(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_UINT16);
@@ -256,10 +260,11 @@ ArrayOf::getContentAsUnsignedInteger16Scalar()
 }
 //=============================================================================
 int32
-ArrayOf::getContentAsInteger32Scalar()
+ArrayOf::getContentAsInteger32Scalar(bool arrayAsScalar)
 {
     int32* qp;
-    if (getLength() != 1) {
+    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
         throw Exception(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_INT32);
@@ -268,10 +273,11 @@ ArrayOf::getContentAsInteger32Scalar()
 }
 //=============================================================================
 uint32
-ArrayOf::getContentAsUnsignedInteger32Scalar()
+ArrayOf::getContentAsUnsignedInteger32Scalar(bool arrayAsScalar)
 {
     uint32* qp;
-    if (getLength() != 1) {
+    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
         throw Exception(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_UINT32);
@@ -280,10 +286,11 @@ ArrayOf::getContentAsUnsignedInteger32Scalar()
 }
 //=============================================================================
 int64
-ArrayOf::getContentAsInteger64Scalar()
+ArrayOf::getContentAsInteger64Scalar(bool arrayAsScalar)
 {
     int64* qp;
-    if (getLength() != 1) {
+    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
         throw Exception(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_INT64);
@@ -292,10 +299,11 @@ ArrayOf::getContentAsInteger64Scalar()
 }
 //=============================================================================
 uint64
-ArrayOf::getContentAsUnsignedInt64Scalar()
+ArrayOf::getContentAsUnsignedInt64Scalar(bool arrayAsScalar)
 {
     uint64* qp;
-    if (getLength() != 1) {
+    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
         throw Exception(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_UINT64);

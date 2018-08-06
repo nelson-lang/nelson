@@ -27,10 +27,10 @@ using namespace Nelson;
 const std::wstring gatewayName = L"error_manager";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    {"error", Nelson::ErrorManagerGateway::errorBuiltin, 0, 1},
-    {"warning", Nelson::ErrorManagerGateway::warningBuiltin, -1, -1},
-    {"lasterror", Nelson::ErrorManagerGateway::lasterrorBuiltin, 1, 1},
-    {"lastwarn", Nelson::ErrorManagerGateway::lastwarnBuiltin, 2, 2},
+    { "error", Nelson::ErrorManagerGateway::errorBuiltin, 0, 1 },
+    { "warning", Nelson::ErrorManagerGateway::warningBuiltin, -1, -1 },
+    { "lasterror", Nelson::ErrorManagerGateway::lasterrorBuiltin, 1, 1 },
+    { "lastwarn", Nelson::ErrorManagerGateway::lastwarnBuiltin, 2, 2 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

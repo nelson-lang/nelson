@@ -448,7 +448,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         if (!rightData.isEmpty(true)) {
             throw Exception(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
         }
-		bool deleteAllowed = (rightData.getDataClass() == NLS_DOUBLE)
+        bool deleteAllowed = (rightData.getDataClass() == NLS_DOUBLE)
             || (getDataClass() == NLS_CHAR && rightData.getDataClass() == NLS_CHAR);
         if (!deleteAllowed) {
             throw Exception(_W("Empty matrix of type double expected."));
@@ -551,7 +551,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
             throw Exception(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
         }
 
-		myDims = dp->dimensions;
+        myDims = dp->dimensions;
         // Get a writable data pointer
         void* qp = getReadWriteDataPointer();
         indexType outDimsInt[maxDims];

@@ -18,6 +18,7 @@
 //=============================================================================
 #include "ColonSingle.hpp"
 #include "Exception.hpp"
+#include "Warning.hpp"
 #include <Eigen/Dense>
 #include <cmath>
 //=============================================================================
@@ -26,17 +27,66 @@ namespace Nelson {
 ArrayOf
 colon_single(ArrayOf a, ArrayOf b)
 {
-    single A = a.getContentAsSingleScalar();
-    single B = b.getContentAsSingleScalar();
+    single A = 0;
+    single B = 0;
+    bool warningArrayAsScalar = false;
+    if (a.isEmpty() || b.isEmpty()) {
+        A = 1;
+        B = 0;
+    } else {
+        if (a.isScalar()) {
+            A = a.getContentAsSingleScalar();
+        } else {
+            warningArrayAsScalar = true;
+            A = a.getContentAsSingleScalar(true);
+        }
+        if (b.isScalar()) {
+            B = b.getContentAsSingleScalar();
+        } else {
+            warningArrayAsScalar = true;
+            B = b.getContentAsSingleScalar(true);
+        }
+    }
+    if (warningArrayAsScalar) {
+        Warning(L"array-as-scalar", _W("Array used as scalar."));
+    }
     return single_colon(A, B);
 }
 //=============================================================================
 ArrayOf
 colon_single(ArrayOf a, ArrayOf b, ArrayOf c)
 {
-    single A = a.getContentAsSingleScalar();
-    single B = b.getContentAsSingleScalar();
-    single C = c.getContentAsSingleScalar();
+    single A = 0;
+    single B = 0;
+    single C = 0;
+    bool warningArrayAsScalar = false;
+    if (a.isEmpty() || b.isEmpty() || c.isEmpty()) {
+        A = 1;
+        B = 0;
+        C = 0;
+    } else {
+        if (a.isScalar()) {
+            A = a.getContentAsSingleScalar();
+        } else {
+            warningArrayAsScalar = true;
+            A = a.getContentAsSingleScalar(true);
+        }
+        if (b.isScalar()) {
+            B = b.getContentAsSingleScalar();
+        } else {
+            warningArrayAsScalar = true;
+            B = b.getContentAsSingleScalar(true);
+        }
+        if (c.isScalar()) {
+            C = c.getContentAsSingleScalar();
+        } else {
+            warningArrayAsScalar = true;
+            C = c.getContentAsSingleScalar(true);
+        }
+    }
+    if (warningArrayAsScalar) {
+        Warning(L"array-as-scalar", _W("Array used as scalar."));
+    }
     return single_colon(A, B, C);
 }
 //=============================================================================

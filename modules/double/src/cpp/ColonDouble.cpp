@@ -20,23 +20,73 @@
 #include "Exception.hpp"
 #include <Eigen/Dense>
 #include <cmath>
+#include "Warning.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
 colon_double(ArrayOf a, ArrayOf b)
 {
-    double A = a.getContentAsDoubleScalar();
-    double B = b.getContentAsDoubleScalar();
+    double A = 0;
+    double B = 0;
+    bool warningArrayAsScalar = false;
+    if (a.isEmpty() || b.isEmpty()) {
+        A = 1;
+        B = 0;
+    } else {
+        if (a.isScalar()) {
+            A = a.getContentAsDoubleScalar();
+        } else {
+            warningArrayAsScalar = true;
+            A = a.getContentAsDoubleScalar(true);
+        }
+        if (b.isScalar()) {
+            B = b.getContentAsDoubleScalar();
+        } else {
+            warningArrayAsScalar = true;
+            B = b.getContentAsDoubleScalar(true);
+        }
+    }
+    if (warningArrayAsScalar) {
+        Warning(L"array-as-scalar", _W("Array used as scalar."));
+    }
     return double_colon(A, B);
 }
 //=============================================================================
 ArrayOf
 colon_double(ArrayOf a, ArrayOf b, ArrayOf c)
 {
-    double A = a.getContentAsDoubleScalar();
-    double B = b.getContentAsDoubleScalar();
-    double C = c.getContentAsDoubleScalar();
+    double A = 0;
+    double B = 0;
+    double C = 0;
+    bool warningArrayAsScalar = false;
+    if (a.isEmpty() || b.isEmpty() || c.isEmpty()) {
+        A = 1;
+        B = 0;
+        C = 0;
+    } else {
+        if (a.isScalar()) {
+            A = a.getContentAsDoubleScalar();
+        } else {
+            warningArrayAsScalar = true;
+            A = a.getContentAsDoubleScalar(true);
+        }
+        if (b.isScalar()) {
+            B = b.getContentAsDoubleScalar();
+        } else {
+            warningArrayAsScalar = true;
+            B = b.getContentAsDoubleScalar(true);
+        }
+        if (c.isScalar()) {
+            C = c.getContentAsDoubleScalar();
+        } else {
+            warningArrayAsScalar = true;
+            C = c.getContentAsDoubleScalar(true);
+        }
+    }
+    if (warningArrayAsScalar) {
+        Warning(L"array-as-scalar", _W("Array used as scalar."));
+    }
     return double_colon(A, B, C);
 }
 //=============================================================================

@@ -22,16 +22,17 @@
 #include "Evaluator.hpp"
 //=============================================================================
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
-//=============================================================================
-namespace Nelson {
+    //=============================================================================
+    namespace Nelson {
+        NLSINTERPRETER_IMPEXP void
+        setWarningEvaluator(Evaluator* eval);
+    }
+    //=============================================================================
     NLSINTERPRETER_IMPEXP void
-    setWarningEvaluator(Evaluator* eval);
-}
-//=============================================================================
-NLSINTERPRETER_IMPEXP void
-NelsonWarningEmitter(void *exception, bool asError);
+    NelsonWarningEmitter(void* exception, bool asError);
 //=============================================================================
 #ifdef __cplusplus
 }
