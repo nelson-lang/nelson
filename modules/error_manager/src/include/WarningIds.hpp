@@ -39,7 +39,7 @@ typedef struct
 } WARNING_IDS_STATES;
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP WARNING_STATE
-warningCheckState(const std::wstring &id);
+warningCheckState(const std::wstring& id);
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP void
 initializeDefaultWarningIdsList();
@@ -48,13 +48,13 @@ NLSERROR_MANAGER_IMPEXP void
 clearWarningIdsList();
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP void
-disableWarning(const std::wstring &id);
+disableWarning(const std::wstring& id);
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP void
-enableWarning(const std::wstring &id);
+enableWarning(const std::wstring& id);
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP void
-setWarningId(const std::wstring &id, WARNING_STATE state);
+setWarningId(const std::wstring& id, WARNING_STATE state, bool withClear = true);
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP WARNING_IDS_STATES
 getAllWarningState();

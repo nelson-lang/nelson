@@ -48,7 +48,7 @@ colon_single(ArrayOf a, ArrayOf b)
         }
     }
     if (warningArrayAsScalar) {
-        Warning(L"array-as-scalar", _W("Array used as scalar."));
+        Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
     }
     return single_colon(A, B);
 }
@@ -85,7 +85,7 @@ colon_single(ArrayOf a, ArrayOf b, ArrayOf c)
         }
     }
     if (warningArrayAsScalar) {
-        Warning(L"array-as-scalar", _W("Array used as scalar."));
+        Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
     }
     return single_colon(A, B, C);
 }

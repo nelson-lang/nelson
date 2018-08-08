@@ -16,39 +16,47 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "WarningEmitter.h"
-#include "Exception.hpp"
-#include "Interface.hpp"
-#include "Error.hpp"
-//=============================================================================
-static Nelson::Evaluator* evaluatorWarning = nullptr;
+#include "IsWarningStruct.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void
-setWarningEvaluator(Evaluator* eval)
-{
-    evaluatorWarning = eval;
-}
-//=============================================================================
-}
-//=============================================================================
-void
-NelsonWarningEmitter(void* exception, bool asError)
-{
-    if (exception) {
-        Nelson::Exception* warningException = (Nelson::Exception*)exception;
-        if (evaluatorWarning) {
-            if (asError) {
-                Nelson::Error(evaluatorWarning, warningException->getFormattedErrorMessage());
-            } else {
-                evaluatorWarning->setLastWarningException(*warningException);
-                Nelson::Interface* io = evaluatorWarning->getInterface();
-                if (io) {
-                    io->warningMessage(warningException->getFormattedErrorMessage());
-                }
-            }
-        }
+bool IsWarningStruct(ArrayOf arg, wstringVector &identifiers,
+                     wstringVector &states) {
+  identifiers.clear();
+  states.clear();
+
+  if (!arg.isStruct()) {
+    return false;
+  }
+  stringVector fs = arg.getFieldNames();
+  if (fs.size() != 2) {
+    return false;
+  }
+  if (fs[0] != "identifier") {
+    return false;
+  }
+  if (fs[1] != "state") {
+    return false;
+  }
+  ArrayOfVector idArray = arg.getFieldAsList("identifier");
+  ArrayOfVector stateArray = arg.getFieldAsList("state");
+
+  for (size_t k = 0; k < idArray.size(); k++) {
+    try {
+      identifiers.push_back(idArray[k].getContentAsWideString());
+    } catch (Exception) {
+      return false;
     }
+  }
+  for (size_t k = 0; k < stateArray.size(); k++) {
+    try {
+      states.push_back(stateArray[k].getContentAsWideString());
+    } catch (Exception) {
+      return false;
+    }
+  }
+  return true;
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

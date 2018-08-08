@@ -27,6 +27,7 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
 {
     ArrayOfVector retval;
     Exception lastWarning = eval->getLastWarningException();
+    bool wasReset = false;
     switch (argIn.size()) {
     case 0: {
     } break;
@@ -36,6 +37,7 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
             std::wstring message = arg1.getContentAsWideString();
             if (message == L"") {
                 eval->resetLastWarningException();
+                wasReset = true;
             } else {
                 Exception newLastWarning(message, L"", -1, -1, L"", L"");
                 eval->setLastWarningException(newLastWarning);
@@ -67,7 +69,12 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
     } break;
     }
     switch (nLhs) {
-    case 0:
+    case 0: {
+        if (!wasReset) {
+            std::wstring message = lastWarning.getFormattedErrorMessage();
+            retval.push_back(ArrayOf::stringConstructor(message));
+        }
+    } break;
     case 1: {
         std::wstring message = lastWarning.getFormattedErrorMessage();
         retval.push_back(ArrayOf::stringConstructor(message));

@@ -18,9 +18,9 @@
 //=============================================================================
 #include "ColonDouble.hpp"
 #include "Exception.hpp"
+#include "Warning.hpp"
 #include <Eigen/Dense>
 #include <cmath>
-#include "Warning.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -48,7 +48,7 @@ colon_double(ArrayOf a, ArrayOf b)
         }
     }
     if (warningArrayAsScalar) {
-        Warning(L"array-as-scalar", _W("Array used as scalar."));
+        Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
     }
     return double_colon(A, B);
 }
@@ -85,7 +85,7 @@ colon_double(ArrayOf a, ArrayOf b, ArrayOf c)
         }
     }
     if (warningArrayAsScalar) {
-        Warning(L"array-as-scalar", _W("Array used as scalar."));
+        Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
     }
     return double_colon(A, B, C);
 }
@@ -134,5 +134,5 @@ double_colon(double low, double high, double step)
     return V;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

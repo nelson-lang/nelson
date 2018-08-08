@@ -82,7 +82,7 @@ void
 Warning(std::wstring id, std::wstring message)
 {
     if (message.compare(L"") != 0) {
-        WARNING_STATE state = warningCheckState(message);
+        WARNING_STATE state = warningCheckState(id);
         switch (state) {
         case WARNING_STATE::AS_ERROR: {
             Exception warningException(message, L"", -1, -1, L"", id);

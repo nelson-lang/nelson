@@ -24,24 +24,29 @@ namespace Nelson {
 static std::map<std::wstring, WARNING_STATE> warningsMap;
 //=============================================================================
 WARNING_STATE
-warningCheckState(const std::wstring &id)
+warningCheckState(const std::wstring& id)
 {
+    WARNING_STATE state = WARNING_STATE::NOT_FOUND;
+    std::map<std::wstring, WARNING_STATE>::iterator iter;
     if (id == L"") {
-        std::map<std::wstring, WARNING_STATE>::iterator iter = warningsMap.find(L"all");
-        return iter->second;
+        iter = warningsMap.find(L"all");
+        if (iter != warningsMap.end()) {
+            state = iter->second;
+        }
+    } else if (warningsMap.count(id) > 0) {
+        iter = warningsMap.find(id);
+        if (iter != warningsMap.end()) {
+            state = iter->second;
+        }
     }
-    if (warningsMap.count(id) > 0) {
-        std::map<std::wstring, WARNING_STATE>::iterator iter = warningsMap.find(id);
-        return iter->second;
-    }
-    return WARNING_STATE::NOT_FOUND;
+    return state;
 }
 //=============================================================================
 void
 initializeDefaultWarningIdsList()
 {
-    setWarningId(L"all", WARNING_STATE::ENABLED);
-    setWarningId(L"Nelson:colon:array-as-scalar", WARNING_STATE::ENABLED);
+    setWarningId(L"all", WARNING_STATE::ENABLED, false);
+    setWarningId(L"Nelson:colon:array-as-scalar", WARNING_STATE::ENABLED, false);
 }
 //=============================================================================
 void
@@ -51,33 +56,33 @@ clearWarningIdsList()
 }
 //=============================================================================
 void
-disableWarning(const std::wstring &id)
+disableWarning(const std::wstring& id)
 {
-    if (id == L"") {
-        warningsMap.emplace(L"all", WARNING_STATE::DISABLED);
-	} else {
-        warningsMap.emplace(id, WARNING_STATE::DISABLED);
-	}
+    setWarningId(id, WARNING_STATE::DISABLED, true);
 }
 //=============================================================================
 void
-enableWarning(const std::wstring &id)
+enableWarning(const std::wstring& id)
 {
-    if (id == L"") {
-        warningsMap.emplace(L"all", WARNING_STATE::ENABLED);
-	} else {
-        warningsMap.emplace(id, WARNING_STATE::ENABLED);
-	}
+    setWarningId(id, WARNING_STATE::ENABLED, true);
 }
 //=============================================================================
 void
-setWarningId(const std::wstring &id, WARNING_STATE state)
+setWarningId(const std::wstring& id, WARNING_STATE state, bool withClear)
 {
-    if (id == L"") {
-        warningsMap.emplace(L"all", state);
-	} else {
+    std::wstring _id = id;
+    if (withClear) {
+        clearWarningIdsList();
+    }
+    if (id == L"" || id == L"all") {
+        _id = L"all";
+    }
+    std::map<std::wstring, WARNING_STATE>::iterator iter = warningsMap.find(_id);
+    if (iter != warningsMap.end()) {
+        std::swap(warningsMap[_id], iter->second);
+    } else {
         warningsMap.emplace(id, state);
-	}
+    }
 }
 //=============================================================================
 WARNING_IDS_STATES

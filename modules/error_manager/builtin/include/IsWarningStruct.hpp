@@ -16,39 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "WarningEmitter.h"
-#include "Exception.hpp"
-#include "Interface.hpp"
-#include "Error.hpp"
+#pragma once
 //=============================================================================
-static Nelson::Evaluator* evaluatorWarning = nullptr;
+#include "ArrayOf.hpp"
+#include "nlsError_manager_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void
-setWarningEvaluator(Evaluator* eval)
-{
-    evaluatorWarning = eval;
-}
+bool
+IsWarningStruct(ArrayOf arg, wstringVector &identifiers, wstringVector &states);
 //=============================================================================
-}
-//=============================================================================
-void
-NelsonWarningEmitter(void* exception, bool asError)
-{
-    if (exception) {
-        Nelson::Exception* warningException = (Nelson::Exception*)exception;
-        if (evaluatorWarning) {
-            if (asError) {
-                Nelson::Error(evaluatorWarning, warningException->getFormattedErrorMessage());
-            } else {
-                evaluatorWarning->setLastWarningException(*warningException);
-                Nelson::Interface* io = evaluatorWarning->getInterface();
-                if (io) {
-                    io->warningMessage(warningException->getFormattedErrorMessage());
-                }
-            }
-        }
-    }
-}
+} // namespace Nelson
 //=============================================================================

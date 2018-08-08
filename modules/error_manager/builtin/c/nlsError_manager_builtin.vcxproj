@@ -170,6 +170,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\errorBuiltin.cpp" />
     <ClCompile Include="..\cpp\IsErrorStruct.cpp" />
+    <ClCompile Include="..\cpp\IsWarningStruct.cpp" />
     <ClCompile Include="..\cpp\lasterrorBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\lastwarnBuiltin.cpp" />
@@ -202,6 +203,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\errorBuiltin.hpp" />
     <ClInclude Include="..\include\IsErrorStruct.hpp" />
+    <ClInclude Include="..\include\IsWarningStruct.hpp" />
     <ClInclude Include="..\include\lasterrorBuiltin.hpp" />
     <ClInclude Include="..\include\lastwarnBuiltin.hpp" />
     <ClInclude Include="..\include\nlsError_manager_builtin_exports.h" />
