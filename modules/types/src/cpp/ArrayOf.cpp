@@ -43,6 +43,7 @@
 #include "SparseDynamicFunctions.hpp"
 #include "SparseType.hpp"
 #include "characters_encoding.hpp"
+#include "Warning.hpp"
 #include <Eigen/Dense>
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
@@ -290,7 +291,7 @@ ArrayOf::toOrdinalType()
         throw Exception(_W("Cannot convert string data types to indices."));
     } break;
     case NLS_DCOMPLEX: {
-        io->warningMessage(_W("Imaginary part of complex index ignored.\n"));
+        Warning(_W("Imaginary part of complex index ignored.\n"));
         // We convert complex values into real values
         const double* rp = (const double*)dp->getData();
         indexType len = getLength();
@@ -314,7 +315,7 @@ ArrayOf::toOrdinalType()
 #endif
     } break;
     case NLS_SCOMPLEX: {
-        io->warningMessage("Imaginary part of complex index ignored.\n");
+        Warning("Imaginary part of complex index ignored.\n");
         // We convert complex values into real values
         const single* rp = (const single*)dp->getData();
         indexType len = getLength();
@@ -703,7 +704,7 @@ void*
 ArrayOf::getReadWriteDataPointer()
 {
     if (isSparse()) {
-        io->warningMessage(_W("Warning: sparse matrix converted to full for operation."));
+        Warning(_W("Warning: sparse matrix converted to full for operation."));
         makeDense();
     }
     ensureSingleOwner();
@@ -1575,7 +1576,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
             caseMacro(NLS_INT32, int32, qp[i] = (int32)sp[i]);
             caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
             caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_LOGICAL: {
         const logical* sp = (const logical*)dp->getData();
@@ -1593,7 +1596,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
             caseMacro(NLS_INT32, int32, qp[i] = (int32)sp[i]);
             caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
             caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_UINT8: {
         const uint8* sp = (const uint8*)dp->getData();
@@ -1625,7 +1630,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_INT64: {
             saturate<uint8, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_INT8: {
         const int8* sp = (const int8*)dp->getData();
@@ -1657,7 +1664,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_INT64: {
             saturate<int8, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_UINT16: {
         const uint16* sp = (const uint16*)dp->getData();
@@ -1689,7 +1698,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_INT64: {
             saturate<uint16, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_INT16: {
         const int16* sp = (const int16*)dp->getData();
@@ -1721,7 +1732,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_INT64: {
             saturate<int16, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_UINT32: {
         const uint32* sp = (const uint32*)dp->getData();
@@ -1753,7 +1766,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_INT64: {
             saturate<uint32, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_INT32: {
         const int32* sp = (const int32*)dp->getData();
@@ -1785,7 +1800,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_INT64: {
             saturate<int32, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_INT64: {
         const int64* sp = (const int64*)dp->getData();
@@ -1817,7 +1834,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_UINT64: {
             saturate<int64, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_UINT64: {
         const uint64* sp = (const uint64*)dp->getData();
@@ -1849,7 +1868,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_INT64: {
             saturate<uint64, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_SINGLE: {
         const single* sp = (const single*)dp->getData();
@@ -1883,7 +1904,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_UINT64: {
             saturate<single, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_DOUBLE: {
         const double* sp = (const double*)dp->getData();
@@ -1917,7 +1940,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_UINT64: {
             saturate<double, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_SCOMPLEX: {
         const single* sp = (const single*)dp->getData();
@@ -1950,7 +1975,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i << 1]);
         caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i << 1]);
         */
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     case NLS_DCOMPLEX: {
         const double* sp = (const double*)dp->getData();
@@ -1978,7 +2005,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
             caseMacro(NLS_INT32, int32, qp[i] = (int32)sp[i << 1]);
             caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i << 1]);
             caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i << 1]);
-        default: { } break; }
+        default: {
+        } break;
+        }
     } break;
     }
     dp = dp->putData(dstClass, dp->dimensions, dstPtr);

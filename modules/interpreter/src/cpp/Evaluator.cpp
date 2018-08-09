@@ -79,6 +79,7 @@
 #include "StackError.hpp"
 #include "Transpose.hpp"
 #include "VertCat.hpp"
+#include "Warning.hpp"
 #include "characters_encoding.hpp"
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
@@ -86,7 +87,6 @@
 #include <iostream>
 #include <math.h>
 #include <stdio.h>
-
 #ifdef _MSC_VER
 #define strdup _strdup
 #endif
@@ -2384,7 +2384,7 @@ Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
     if (s != nullptr) {
         std::wstring message = _W("Function") + L" : " + utf8_to_wstring(fAST->text) + L"\n"
             + WARNING_OUTPUTS_NOT_ASSIGNED;
-        io->warningMessage(message);
+        Warning(message);
     }
     popID();
 }
@@ -3202,7 +3202,7 @@ Evaluator::adjustBreakpoint(StackEntry& bp, bool dbstep)
                         .c_str(),
                     cname.c_str(), bp.tokid & 0xffff);
             }
-            io->warningMessage(buffer);
+            Warning(std::string(buffer));
             return false;
         } else if (clinenum != 0) {
             bp.tokid = (bp.tokid & 0xffff) + clinenum;

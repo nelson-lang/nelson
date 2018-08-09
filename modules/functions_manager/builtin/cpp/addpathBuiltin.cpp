@@ -20,6 +20,7 @@
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
 #include "StringFormat.hpp"
+#include "Warning.hpp"
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
 //=============================================================================
@@ -89,10 +90,7 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
                 PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
             }
         } else {
-            Interface* io = eval->getInterface();
-            if (io) {
-                io->warningMessage(_W("Warning: Not a directory:") + L" " + params[k] + L"\n");
-            }
+           Warning(_W("Warning: Not a directory:") + L" " + params[k] + L"\n");
         }
     }
     if (nLhs == 1) {

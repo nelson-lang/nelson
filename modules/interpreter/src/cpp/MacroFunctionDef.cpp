@@ -22,6 +22,7 @@
 #include "FileParser.hpp"
 #include "ParserInterface.hpp"
 #include "characters_encoding.hpp"
+#include "Warning.hpp"
 #include <boost/filesystem.hpp>
 //=============================================================================
 using namespace Nelson;
@@ -221,7 +222,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
                     if (!warningIssued) {
                         std::wstring message = _W("Function") + L" : " + utf8_to_wstring(name)
                             + L"\n" + WARNING_OUTPUTS_NOT_ASSIGNED;
-                        eval->getInterface()->warningMessage(message);
+                        Warning(message);
                         warningIssued = true;
                     }
                     a = ArrayOf::emptyConstructor();
@@ -236,7 +237,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
             for (int i = 0; i < explicitCount; i++) {
                 if (!context->lookupVariableLocally(returnVals[i], a)) {
                     if (!warningIssued) {
-                        eval->getInterface()->warningMessage(
+                        Warning(
                             _W("one or more outputs not assigned in call"));
                         warningIssued = true;
                     }
