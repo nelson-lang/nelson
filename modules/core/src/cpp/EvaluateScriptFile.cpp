@@ -208,7 +208,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
                 }
                 return false;
             }
-            eval->pushDebug("EvaluateScript", buffer);
+            eval->pushDebug(wstring_to_utf8(filename), buffer);
             try {
                 if (tree) {
                     eval->block(tree);
