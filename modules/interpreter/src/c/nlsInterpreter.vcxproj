@@ -245,6 +245,7 @@
     <ClCompile Include="..\cpp\PathFuncManager.cpp" />
     <ClCompile Include="..\cpp\ProcessEventsDynamicFunction.cpp" />
     <ClCompile Include="..\cpp\Scope.cpp" />
+    <ClCompile Include="..\cpp\PositionScript.cpp" />
     <ClCompile Include="..\cpp\StackEntry.cpp" />
     <ClCompile Include="..\cpp\Evaluator.cpp" />
     <ClCompile Include="..\cpp\StackError.cpp" />
@@ -298,6 +299,7 @@
     <ClInclude Include="..\include\ParserState.hpp" />
     <ClInclude Include="..\include\PathFunc.hpp" />
     <ClInclude Include="..\include\PathFuncManager.hpp" />
+    <ClInclude Include="..\include\PositionScript.hpp" />
     <ClInclude Include="..\include\ProcessEventsDynamicFunction.hpp" />
     <ClInclude Include="..\include\StackError.hpp" />
     <ClInclude Include="..\include\VertCat.hpp" />

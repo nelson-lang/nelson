@@ -37,23 +37,23 @@
 // DEALINGS IN THE SOFTWARE.
 
 #pragma once
+#include "AST.hpp"
+#include "ArrayOf.hpp"
+#include "CommandQueue.hpp"
+#include "Context.hpp"
+#include "Exception.hpp"
+#include "FunctionDef.hpp"
+#include "Interface.hpp"
+#include "StackEntry.hpp"
+#include "Warning.hpp"
+#include "PositionScript.hpp"
+#include "nlsInterpreter_exports.h"
 #include <stack>
 #include <vector>
-#include "AST.hpp"
-#include "Context.hpp"
-#include "FunctionDef.hpp"
-#include "ArrayOf.hpp"
-#include "Interface.hpp"
-#include "nlsInterpreter_exports.h"
-#include "StackEntry.hpp"
-#include "CommandQueue.hpp"
-#include "Exception.hpp"
-#include "Warning.hpp"
 
 namespace Nelson {
 
-typedef enum
-{
+typedef enum {
     NLS_FORMAT_SHORT,
     NLS_FORMAT_LONG,
     NLS_FORMAT_SHORTE,
@@ -61,8 +61,7 @@ typedef enum
     NLS_FORMAT_HEX
 } OutputFormatDisplay;
 
-typedef enum
-{
+typedef enum {
     NLS_STATE_OK = 0,
     NLS_STATE_BREAK = 1,
     NLS_STATE_CONTINUE = 2,
@@ -196,8 +195,7 @@ public:
     listBreakpoints();
     void
     deleteBreakpoint(int number);
-    void
-    stackTrace(bool includeCurrent);
+
     stringVector
     getCallers(bool includeCurrent);
 
@@ -302,8 +300,9 @@ public:
     rowDefinition(ASTPtr t);
     /**
      * Convert a matrix definition of the form: [expr1,expr2;expr3;expr4] into
-     * a vector of row definitions.  The first row is the vector [expr1,expr2], and
-     * the second is the vector [expr3,expr4].  The AST input should look like:
+     * a vector of row definitions.  The first row is the vector [expr1,expr2],
+     * and the second is the vector [expr3,expr4].  The AST input should look
+     * like:
      *  []
      *   |
      *   ;-> ; -> ... -> NULL
@@ -315,8 +314,9 @@ public:
     matrixDefinition(ASTPtr t);
     /**
      * Convert a cell defintion of the form: {expr1,expr2;expr3;expr4} into
-     * a vector of row definitions.  The first row is the vector {expr1,expr2}, and
-     * the second is the vector {expr3,expr4}.  The AST input should look like:
+     * a vector of row definitions.  The first row is the vector {expr1,expr2},
+     * and the second is the vector {expr3,expr4}.  The AST input should look
+     * like:
      *  {}
      *   |
      *   ;-> ; -> ... -> NULL
@@ -829,4 +829,4 @@ NLSINTERPRETER_IMPEXP void
 sigInterrupt(int arg);
 NLSINTERPRETER_IMPEXP void
 ExitInterrupt(int arg);
-}
+} // namespace Nelson

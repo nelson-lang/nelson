@@ -31,6 +31,7 @@
 #include "userpathBuiltin.hpp"
 #include "whatBuiltin.hpp"
 #include "whichBuiltin.hpp"
+#include "dbstackBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -51,6 +52,7 @@ static const nlsGateway gateway[] = {
     { "userpath", Nelson::FunctionsGateway::userpathBuiltin, 1, 1 },
     { "ismacro", Nelson::FunctionsGateway::ismacroBuiltin, 1, 1 },
     { "isbuiltin", Nelson::FunctionsGateway::isbuiltinBuiltin, 1, 1 },
+    { "dbstack", Nelson::FunctionsGateway::dbstackBuiltin, -1, -1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

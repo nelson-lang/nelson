@@ -193,10 +193,7 @@ Evaluator::resetState()
 void
 Evaluator::clearStacks()
 {
-    //    cname = "base";
     cstack.clear();
-    //        cstack.reserve(4096 * 2);
-    //    gstack.push_back(cname);
 }
 
 State
@@ -3272,29 +3269,6 @@ Evaluator::getCallers(bool includeCurrent)
 }
 
 void
-Evaluator::stackTrace(bool includeCurrent)
-{
-    stringVector outstack;
-    char buffer[IDENTIFIER_LENGTH_MAX + 1];
-    std::vector<ErrorInfo> errors = StackError(this);
-    outstack.reserve(errors.size());
-    for (size_t k = 0; k < errors.size(); k++) {
-        std::wstring filename;
-        std::wstring functionname;
-        int lineposition;
-        int columposition;
-        errors[k].get(filename, functionname, lineposition, columposition);
-        sprintf(buffer, _("In %s(%s), line %d, position %d\n").c_str(),
-            wstring_to_utf8(filename).c_str(), wstring_to_utf8(functionname).c_str(), lineposition,
-            columposition);
-        outstack.push_back(buffer);
-    }
-    for (int i = (int)outstack.size() - 1; i >= 0; i--) {
-        io->outputMessage(outstack[i].c_str());
-    }
-}
-
-void
 Evaluator::pushDebug(std::string fname, std::string detail)
 {
     cstack.push_back(StackEntry(fname, detail, 0));
@@ -4109,6 +4083,7 @@ Evaluator::evalCLI()
             stringVector exceptedFunctionsName = this->getCallers(true);
             PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
             FileWatcherManager::getInstance()->update();
+            clearStacks();
         }
         prompt = buildPrompt();
         if (cmdline == "\n") {

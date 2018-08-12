@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>dbstack</keyword>
+	<short_description>call stack.</short_description>
+
+	<syntax>
+		<syntax_item>dbstack</syntax_item>
+		<syntax_item>st = dbstack()</syntax_item>
+		<syntax_item>dbstack('-completenames')</syntax_item>
+		<syntax_item>st = dbstack('-completenames')</syntax_item>
+		<syntax_item>dbstack('-completenames', omit)</syntax_item>
+		<syntax_item>st = dbstack('-completenames', omit)</syntax_item>
+
+	</syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>omit</param_name>
+			<param_description>an integer value: Number of frames to omit (must be positive).</param_description>
+		</param_input_item>
+	</param_input>
+
+	<param_output>
+		<param_output_item>
+			<param_name>st</param_name>
+			<param_description>a struct</param_description>
+		</param_output_item>
+	</param_output>
+
+	<description><p><b>dbstack</b> displays the file names and line numbers of the function calls.</p>
+	<p><b>dbstack('-completenames')</b> displays the full file names.</p>
+    </description>
+	<used_function></used_function>
+	<bibliography></bibliography>
+
+<examples>
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description>Creates a myfun.nlf and calls it.</example_item_description>
+		<example_item_data><![CDATA[function myfun(x)
+dbstack();
+end]]>
+		</example_item_data>
+	</example_item>
+
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${functions_manager}which">which</link>
+		</see_also_item>
+	</see_also>
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>
+
+
