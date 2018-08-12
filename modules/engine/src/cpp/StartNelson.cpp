@@ -171,12 +171,14 @@ NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
     eval->resetState();
     if (!haveNoStartup) {
         StartNelsonMainScript(eval);
+        eval->clearStacks();
         if (eval->getState() == NLS_STATE_QUIT) {
             goto FINISH;
         }
         eval->resetState();
         if (!haveNoUserStartup) {
             StartNelsonUserScript(eval);
+            eval->clearStacks();
             if (eval->getState() == NLS_STATE_QUIT) {
                 goto FINISH;
             }
