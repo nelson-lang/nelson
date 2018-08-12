@@ -36,11 +36,14 @@ BuiltInFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int
 {
     ArrayOfVector outputs;
     eval->pushDebug(name, std::string("built-in ") + this->name);
+    std::vector<StackEntry> beforeStack = eval->cstack;
     try {
         outputs = EvaluateBuiltinCatchRuntimeException(eval, fptr, inputs, nargout);
+        eval->cstack = beforeStack;
         eval->popDebug();
         return outputs;
     } catch (Exception& e) {
+        eval->cstack = beforeStack;
         e.what();
         eval->popDebug();
         throw;
