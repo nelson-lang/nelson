@@ -28,7 +28,7 @@ Nelson::ElementaryFunctionsGateway::vertcatBuiltin(
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     retval.push_back(VertCat(eval, argIn));
     return retval;

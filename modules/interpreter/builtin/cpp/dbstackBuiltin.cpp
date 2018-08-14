@@ -20,7 +20,6 @@
 #include "DebugStack.hpp"
 #include "Error.hpp"
 #include "PositionScript.hpp"
-#include "ToCellString.hpp"
 #include "characters_encoding.hpp"
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
@@ -35,7 +34,7 @@ static void checkArgument(Evaluator *eval, ArrayOf arg, bool &withCompleteNames,
   if (arg.isSingleString()) {
     std::wstring str = arg.getContentAsWideString();
     if (str != L"-completenames") {
-      Error(eval, _W("'-completenames' expected."));
+      Error(_W("'-completenames' expected."));
     }
     withCompleteNames = true;
     isCompleteNames = true;
@@ -54,16 +53,16 @@ static void checkArgument(Evaluator *eval, ArrayOf arg, bool &withCompleteNames,
     } break;
     default: {
     } break;
-      Error(eval, ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
+      Error(ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
     }
     int intValue = (int)value;
     if ((double)intValue != value) {
-      Error(eval, ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
+      Error(ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
     }
     nbOmits = intValue + 1;
     isNbOmits = true;
   } else {
-    Error(eval,
+    Error(
           _W("'-completenames' expected or scalar integer value required."));
   }
 }
@@ -73,7 +72,8 @@ static std::wstring shortName(std::wstring filename) {
   return p.filename().generic_wstring();
 }
 //=============================================================================
-static ArrayOf dbstackAsStruct(std::vector<PositionScript> positions,
+static ArrayOf
+dbstackAsStruct(stackTrace positions,
                                bool withCompleteNames) {
   stringVector fieldnames;
   ArrayOf st;
@@ -140,7 +140,8 @@ static ArrayOf dbstackAsStruct(std::vector<PositionScript> positions,
   return st;
 }
 //=============================================================================
-void dbstackPrint(Interface *io, std::vector<PositionScript> positions,
+void
+dbstackPrint(Interface* io, stackTrace positions,
                   bool withCompleteNames) {
   for (size_t k = 0; k < positions.size(); k++) {
     std::wstring message;
@@ -171,12 +172,12 @@ void dbstackPrint(Interface *io, std::vector<PositionScript> positions,
 }
 //=============================================================================
 ArrayOfVector
-Nelson::FunctionsGateway::dbstackBuiltin(Evaluator *eval, int nLhs,
+Nelson::ErrorManagerGateway::dbstackBuiltin(Evaluator* eval, int nLhs,
                                          const ArrayOfVector &argIn) {
   ArrayOfVector retval;
   int nbOmits = 1;
   bool withCompleteNames = false;
-  std::vector<PositionScript> positions;
+  stackTrace positions;
   switch (argIn.size()) {
   case 0: {
   } break;
@@ -218,7 +219,7 @@ Nelson::FunctionsGateway::dbstackBuiltin(Evaluator *eval, int nLhs,
       nbOmits = _nbOmits;
     }
   } break;
-  default: { Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS); } break;
+  default: { Error(ERROR_WRONG_NUMBERS_INPUT_ARGS); } break;
   }
 
   DebugStack(eval->cstack, nbOmits, positions);
@@ -243,7 +244,7 @@ Nelson::FunctionsGateway::dbstackBuiltin(Evaluator *eval, int nLhs,
     }
     retval.push_back(ArrayOf::doubleConstructor(indexWorkspace));
   } break;
-  default: { Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS); } break;
+  default: { Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS); } break;
   }
   return retval;
 }

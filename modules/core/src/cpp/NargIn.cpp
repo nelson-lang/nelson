@@ -36,7 +36,7 @@ NargIn(Evaluator* eval, std::wstring functionName)
             nargin = fptr->inputArgCount();
         }
     } else {
-        Error(eval, _W("function not found."));
+        Error(_W("function not found."));
     }
     return nargin;
 }

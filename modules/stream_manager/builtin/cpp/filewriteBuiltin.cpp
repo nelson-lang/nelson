@@ -34,10 +34,10 @@ Nelson::StreamGateway::filewriteBuiltin(Evaluator* eval, int nLhs, const ArrayOf
 {
     ArrayOfVector retval;
     if (argIn.size() < 2 || argIn.size() > 3) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
@@ -59,7 +59,7 @@ Nelson::StreamGateway::filewriteBuiltin(Evaluator* eval, int nLhs, const ArrayOf
                 eol = L"\n";
             }
         } else {
-            Error(eval, _W("Wrong value for #3 argument."));
+            Error(_W("Wrong value for #3 argument."));
         }
     }
     wstringVector lines = param2.getContentAsWideStringVector(false);
@@ -69,7 +69,7 @@ Nelson::StreamGateway::filewriteBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     std::wofstream wof(wstring_to_utf8(filename), std::ios::trunc | std::ios::binary);
 #endif
     if (!wof.is_open()) {
-        Error(eval, _W("Cannot open file."));
+        Error(_W("Cannot open file."));
     }
     for (std::wstring line : lines) {
         boost::replace_all(line, L"\r\n", L"\n");

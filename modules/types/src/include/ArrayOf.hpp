@@ -38,7 +38,6 @@
 
 #pragma once
 #include "Dimensions.hpp"
-#include "Exception.hpp"
 #include "HandleGenericObject.hpp"
 #include "Interface.hpp"
 #include "Types.hpp"

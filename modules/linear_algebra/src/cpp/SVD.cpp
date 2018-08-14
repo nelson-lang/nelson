@@ -23,6 +23,7 @@
 #include <Eigen/Dense>
 #include <Eigen/SVD>
 #include <Eigen/src/misc/lapacke.h>
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -45,12 +46,12 @@ SVD_double(ArrayOf A, ArrayOf& s)
     double* vt = nullptr;
     Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
-        throw Exception(_("svd: cannot take svd of matrix containing Inf or NaN values."));
+        Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
     int info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(), lda,
         ds, u, ldu, vt, ldvt, superb);
     if (info > 0) {
-        throw Exception(_("LAPACKE_dgesvd error."));
+        Error(_("LAPACKE_dgesvd error."));
     }
     delete[] superb;
     superb = nullptr;
@@ -76,12 +77,12 @@ SVD_doublecomplex(ArrayOf A, ArrayOf& s)
     doublecomplex* vtz = nullptr;
     Eigen::Map<Eigen::MatrixXcd> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
-        throw Exception(_("svd: cannot take svd of matrix containing Inf or NaN values."));
+        Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
     int info = LAPACKE_zgesvd(
         LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, ds, uz, ldu, vtz, ldvt, superb);
     if (info > 0) {
-        throw Exception(_("LAPACKE_zgesvd error."));
+        Error(_("LAPACKE_zgesvd error."));
     }
     delete[] superb;
     superb = nullptr;
@@ -106,12 +107,12 @@ SVD_single(ArrayOf A, ArrayOf& s)
     single* vt = nullptr;
     Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
-        throw Exception(_("svd: cannot take svd of matrix containing Inf or NaN values."));
+        Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
     int info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(), lda,
         ds, u, ldu, vt, ldvt, superb);
     if (info > 0) {
-        throw Exception(_("LAPACKE_sgesvd error."));
+        Error(_("LAPACKE_sgesvd error."));
     }
     delete[] superb;
     superb = nullptr;
@@ -137,12 +138,12 @@ SVD_singlecomplex(ArrayOf A, ArrayOf& s)
     singlecomplex* vtz = nullptr;
     Eigen::Map<Eigen::MatrixXcf> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
-        throw Exception(_("svd: cannot take svd of matrix containing Inf or NaN values."));
+        Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
     int info = LAPACKE_cgesvd(
         LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, ds, uz, ldu, vtz, ldvt, superb);
     if (info > 0) {
-        throw Exception(_("LAPACKE_cgesvd error."));
+        Error(_("LAPACKE_cgesvd error."));
     }
     delete[] superb;
     superb = nullptr;
@@ -159,7 +160,7 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
     doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
     Eigen::Map<Eigen::MatrixXcd> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
-        throw Exception(_("svd: cannot take svd of matrix containing Inf or NaN values."));
+        Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
     if (flag == SVD_FLAG::SVD_DEFAULT) {
         char JOBU = 'A';
@@ -185,7 +186,7 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int info = LAPACKE_zgesvd(
             LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
         if (info > 0) {
-            throw Exception(_("LAPACKE_zgesvd error."));
+            Error(_("LAPACKE_zgesvd error."));
         }
         delete[] superb;
         superb = nullptr;
@@ -265,7 +266,7 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int info = LAPACKE_zgesvd(
             LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
         if (info > 0) {
-            throw Exception(_("LAPACKE_zgesvd error."));
+            Error(_("LAPACKE_zgesvd error."));
         }
         delete[] superb;
         superb = nullptr;
@@ -309,7 +310,7 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
     int n = (int)dimsA.getColumns();
     Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
-        throw Exception(_("svd: cannot take svd of matrix containing Inf or NaN values."));
+        Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
     if (flag == SVD_FLAG::SVD_DEFAULT) {
         char JOBU = 'A';
@@ -332,7 +333,7 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         int info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(),
             lda, dstemp, u, ldu, vt, ldvt, superb);
         if (info > 0) {
-            throw Exception(_("LAPACKE_sgesvd error."));
+            Error(_("LAPACKE_sgesvd error."));
         }
         delete[] superb;
         superb = nullptr;
@@ -406,7 +407,7 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         int info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(),
             lda, dstemp, u, ldu, vt, ldvt, superb);
         if (info > 0) {
-            throw Exception(_("LAPACKE_sgesvd error."));
+            Error(_("LAPACKE_sgesvd error."));
         }
         delete[] superb;
         superb = nullptr;
@@ -449,7 +450,7 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
     int n = (int)dimsA.getColumns();
     Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
-        throw Exception(_("svd: cannot take svd of matrix containing Inf or NaN values."));
+        Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
     if (flag == SVD_FLAG::SVD_DEFAULT) {
         char JOBU = 'A';
@@ -472,7 +473,7 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         int info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(),
             lda, dstemp, u, ldu, vt, ldvt, superb);
         if (info > 0) {
-            throw Exception(_("LAPACKE_dgesvd error."));
+            Error(_("LAPACKE_dgesvd error."));
         }
         delete[] superb;
         superb = nullptr;
@@ -549,7 +550,7 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         int info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(),
             lda, dstemp, u, ldu, vt, ldvt, superb);
         if (info > 0) {
-            throw Exception(_("LAPACKE_dgesvd error."));
+            Error(_("LAPACKE_dgesvd error."));
         }
         delete[] superb;
         superb = nullptr;
@@ -593,7 +594,7 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
     singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
     Eigen::Map<Eigen::MatrixXcf> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
-        throw Exception(_("svd: cannot take svd of matrix containing Inf or NaN values."));
+        Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
     if (flag == SVD_FLAG::SVD_DEFAULT) {
         char JOBU = 'A';
@@ -619,7 +620,7 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int info = LAPACKE_cgesvd(
             LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
         if (info > 0) {
-            throw Exception(_("LAPACKE_cgesvd error."));
+            Error(_("LAPACKE_cgesvd error."));
         }
         delete[] superb;
         superb = nullptr;
@@ -699,7 +700,7 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int info = LAPACKE_cgesvd(
             LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
         if (info > 0) {
-            throw Exception(_("LAPACKE_cgesvd error."));
+            Error(_("LAPACKE_cgesvd error."));
         }
         delete[] superb;
         superb = nullptr;
@@ -743,7 +744,7 @@ SVD(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
               || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
-        throw Exception(
+        Error(
             _("Undefined function 'svd' for input arguments of type") + " '" + ClassName(A) + "'.");
     }
     Dimensions DimsA = A.getDimensions();
@@ -836,7 +837,7 @@ SVD(ArrayOf A, ArrayOf& s)
               || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
-        throw Exception(
+        Error(
             _("Undefined function 'svd' for input arguments of type") + " '" + ClassName(A) + "'.");
     }
     if (A.isEmpty()) {

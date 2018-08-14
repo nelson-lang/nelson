@@ -28,7 +28,7 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 1) {
         bool bSuccess = false;
@@ -40,7 +40,7 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     } else if (argIn.size() == 2) {
         Context* ctx = eval->getContext();
         if (ctx->getCurrentScope()->getName() == "base") {
-            Error(eval, _W("This declaration is only allowed from a class constructor."));
+            Error(_W("This declaration is only allowed from a class constructor."));
         }
         ArrayOf arg1 = ArrayOf(argIn[0]);
         if (arg1.getDataClass() == NLS_STRUCT_ARRAY) {
@@ -59,15 +59,15 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                 (newType == NLS_SCOMPLEX_STR) || (newType == NLS_DCOMPLEX_STR)
                 || (newType == NLS_CHAR_STR) || (newType == NLS_FUNCTION_HANDLE_STR)
                 || (newType == NLS_HANDLE_STR) || (newType == NLS_GENERIC_STR)) {
-                Error(eval, ERROR_TYPE_ALREADY_RESERVED);
+                Error(ERROR_TYPE_ALREADY_RESERVED);
             }
             arg1.setStructType(newType);
             retval.push_back(arg1);
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
         }
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

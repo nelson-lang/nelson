@@ -22,7 +22,7 @@
 #endif
 #include "MatrixToString.hpp"
 #include "ClassName.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include <boost/algorithm/string.hpp>
 #include <math.h>
 #include <stdio.h>
@@ -35,14 +35,14 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
 {
     std::wstring res;
     if (!A.is2D()) {
-        throw Exception(_W("A 2D matrix expected."));
+        Error(_W("A 2D matrix expected."));
     }
     bool canBeConvert = A.isNumeric() || A.isLogical() || A.isString();
     if (!canBeConvert) {
-        throw Exception(_W("An numeric matrix expected."));
+        Error(_W("An numeric matrix expected."));
     }
     if (A.isSparse()) {
-        throw Exception(ERROR_TYPE_NOT_SUPPORTED);
+        Error(ERROR_TYPE_NOT_SUPPORTED);
     } else {
         std::wstring formatNumber = L"%." + std::to_wstring(precision) + L"g";
         std::wstring class_name = L"";
@@ -65,7 +65,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
             wchar_t buffer[1024];
             switch (A.getDataClass()) {
             default: {
-                throw Exception(ERROR_TYPE_NOT_SUPPORTED);
+                Error(ERROR_TYPE_NOT_SUPPORTED);
             } break;
             case NLS_SCOMPLEX: {
                 single* pValue = (single*)A.getDataPointer();

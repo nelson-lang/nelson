@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ColonDouble.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "Warning.hpp"
 #include <Eigen/Dense>
 #include <cmath>
@@ -101,7 +101,7 @@ double_colon(double low, double high, double step)
         return ArrayOf::doubleConstructor(nan(""));
     }
     if (!std::isfinite(low) || !std::isfinite(high) || !std::isfinite(step)) {
-        throw Exception(_W("Invalid range."));
+        Error(_W("Invalid range."));
     }
     if (low < high) {
         if (step < 0) {

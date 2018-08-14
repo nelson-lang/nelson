@@ -52,7 +52,7 @@ ArrayOf
 MatrixCos(ArrayOf A)
 {
     if (!A.isSquare()) {
-        throw Exception(_("Square matrix expected."));
+        Error(_("Square matrix expected."));
     }
     if (A.isEmpty()) {
         ArrayOf R(A);
@@ -60,7 +60,7 @@ MatrixCos(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '"
+        Error(_("Undefined function 'cosm' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     }
     switch (A.getDataClass()) {
@@ -76,7 +76,7 @@ MatrixCos(ArrayOf A)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_CHAR: {
-        throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '"
+        Error(_("Undefined function 'cosm' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     case NLS_SCOMPLEX: {
@@ -106,7 +106,7 @@ MatrixCos(ArrayOf A)
         return R;
     } break;
     default: {
-        throw Exception(_W("Invalid conversion."));
+        Error(_W("Invalid conversion."));
     } break;
     }
     return ArrayOf();

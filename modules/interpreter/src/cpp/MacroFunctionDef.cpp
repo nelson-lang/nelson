@@ -250,11 +250,11 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
                 ArrayOf varargout;
                 // Yes, get a pointer to the "vargout" variable that should be defined
                 if (!context->lookupVariableLocally("varargout", varargout)) {
-                    throw Exception(
+                    Error(
                         _W("The special variable 'varargout' was not defined as expected"));
                 }
                 if (varargout.getDataClass() != NLS_CELL_ARRAY) {
-                    throw Exception(
+                    Error(
                         _W("The special variable 'varargout' was not defined as a cell-array"));
                 }
                 // Get the data pointer
@@ -263,7 +263,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
                 indexType varlen = varargout.getLength();
                 int toFill = nargout - explicitCount;
                 if ((double)toFill > (double)varlen) {
-                    throw Exception(_W("Not enough outputs in varargout to satisfy call"));
+                    Error(_W("Not enough outputs in varargout to satisfy call"));
                 }
                 for (int i = 0; i < toFill; i++) {
                     outputs[explicitCount + i] = dp[i];

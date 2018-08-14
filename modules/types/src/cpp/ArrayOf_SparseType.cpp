@@ -19,6 +19,7 @@
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "SparseDynamicFunctions.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -84,14 +85,14 @@ void
 ArrayOf::makeSparse()
 {
     if (!is2D()) {
-        throw Exception(_W("Cannot make n-dimensional arrays sparse."));
+        Error(_W("Cannot make n-dimensional arrays sparse."));
     }
     if (isEmpty()) {
         dp = dp->putData(dp->dataClass, dp->dimensions, NULL, true, dp->fieldNames);
         return;
     }
     if (isReferenceType() || isString()) {
-        throw Exception(_W("Cannot make strings or reference types sparse."));
+        Error(_W("Cannot make strings or reference types sparse."));
     }
     if (isSparse()) {
         return;
@@ -100,7 +101,7 @@ ArrayOf::makeSparse()
         || (dp->dataClass == NLS_LOGICAL)) {
         ensureSingleOwner();
     } else {
-        throw Exception(_W("Cannot make sparse."));
+        Error(_W("Cannot make sparse."));
     }
     dp = dp->putData(dp->dataClass, dp->dimensions,
         MakeSparseArrayOfDynamicFunction(

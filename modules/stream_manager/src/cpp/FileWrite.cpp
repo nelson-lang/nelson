@@ -80,7 +80,7 @@ FileWrite(Evaluator* eval, File* fp, ArrayOf src, Class destClass, size_t skip,
                         } catch (std::bad_alloc& e) {
                             e.what();
                             skipdata = nullptr;
-                            Error(eval, ERROR_MEMORY_ALLOCATION);
+                            Error(ERROR_MEMORY_ALLOCATION);
                         }
                         if (skipdata) {
                             memset(skipdata, 0, skip);

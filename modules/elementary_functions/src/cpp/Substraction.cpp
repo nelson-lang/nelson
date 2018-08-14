@@ -19,6 +19,7 @@
 #include "Substraction.hpp"
 #include "MatrixCheck.hpp"
 #include <Eigen/Dense>
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -299,7 +300,7 @@ subtraction(Class classDestination, ArrayOf a, ArrayOf b)
             }
         } else {
             if (!(SameSizeCheck(dimsA, dimsB))) {
-                throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"-");
+                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"-");
             }
             return ArrayOf(b);
         }
@@ -334,7 +335,7 @@ subtraction(Class classDestination, ArrayOf a, ArrayOf b)
                         dimsA.getElementCount(), true);
                 } else if ((a.isRowVector() && b.isRowVector())
                     || (a.isColumnVector() && b.isColumnVector())) {
-                    throw Exception(
+                    Error(
                         _W("Size mismatch on arguments to arithmetic operator ") + L"-");
                 } else {
                     const T* ptrA = (const T*)a.getDataPointer();
@@ -353,12 +354,12 @@ subtraction(Class classDestination, ArrayOf a, ArrayOf b)
                             return vector_column_subtraction<T>(classDestination, b, a, true);
                         }
                     } else {
-                        throw Exception(
+                        Error(
                             _W("Size mismatch on arguments to arithmetic operator ") + L"-");
                     }
                 }
             } else {
-                throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"-");
+                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"-");
             }
         }
     }
@@ -396,7 +397,7 @@ complex_subtraction(Class classDestination, ArrayOf a, ArrayOf b)
             }
         } else {
             if (!(SameSizeCheck(dimsA, dimsB))) {
-                throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"-");
+                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"-");
             }
             return ArrayOf(b);
         }
@@ -430,7 +431,7 @@ complex_subtraction(Class classDestination, ArrayOf a, ArrayOf b)
                         true);
                 } else if ((a.isRowVector() && b.isRowVector())
                     || (a.isColumnVector() && b.isColumnVector())) {
-                    throw Exception(
+                    Error(
                         _W("Size mismatch on arguments to arithmetic operator ") + L"-");
                 } else {
                     T* ptrA = (T*)a.getDataPointer();
@@ -451,12 +452,12 @@ complex_subtraction(Class classDestination, ArrayOf a, ArrayOf b)
                                 classDestination, b, a, true);
                         }
                     } else {
-                        throw Exception(
+                        Error(
                             _W("Size mismatch on arguments to arithmetic operator ") + L"-");
                     }
                 }
             } else {
-                throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"-");
+                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"-");
             }
         }
     }

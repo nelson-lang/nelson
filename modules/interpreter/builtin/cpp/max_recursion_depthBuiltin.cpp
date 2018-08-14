@@ -27,7 +27,7 @@ Nelson::InterpreterGateway::max_recursion_depthBuiltin(
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0) {
         size_t recursiondepth = eval->getContext()->getRecursionDepth();
@@ -41,19 +41,19 @@ Nelson::InterpreterGateway::max_recursion_depthBuiltin(
                 eval->getContext()->setRecursionDepth(
                     eval->getContext()->getMaximumRecursionDepth());
             } else {
-                Error(eval, _W("Argument #1: 'max' expected."));
+                Error(_W("Argument #1: 'max' expected."));
             }
         } else {
             indexType value = param1.getContentAsScalarIndex();
             if (value <= (indexType)eval->getContext()->getMaximumRecursionDepth()) {
                 eval->getContext()->setRecursionDepth((size_t)value);
             } else {
-                Error(eval, _W("Argument #1: valid value expected."));
+                Error(_W("Argument #1: valid value expected."));
             }
         }
         retval.push_back(ArrayOf::doubleConstructor((double)previousrecursiondepth));
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

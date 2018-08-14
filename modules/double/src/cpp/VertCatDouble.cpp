@@ -18,7 +18,7 @@
 //=============================================================================
 #include "VertCatDouble.hpp"
 #include "ConcatenateNdArray.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
@@ -27,10 +27,10 @@ ArrayOf
 VertCatDouble(ArrayOf A, ArrayOf B)
 {
     if (!A.isDoubleType()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
     }
     if (!B.isDoubleType()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED);
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);
@@ -43,7 +43,7 @@ VertCatDouble(ArrayOf A, ArrayOf B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getColumns() != dimsB.getColumns()) {
-        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     Class classA = A.getDataClass();
     Class classB = B.getDataClass();
@@ -103,23 +103,23 @@ ArrayOf
 VertCatNdArrayDouble(ArrayOf A, ArrayOf B)
 {
     if (!A.isNdArrayDoubleType()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
     }
     if (!B.isNdArrayDoubleType()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED);
     }
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getColumns() != dimsB.getColumns()) {
-        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     if (dimsA.getLength() != dimsB.getLength()) {
-        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     for (indexType k = 0; k < dimsA.getLength(); k++) {
         if (k != 0) {
             if (dimsA.getDimensionLength(k) != dimsB.getDimensionLength(k)) {
-                throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+                Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
             }
         }
     }

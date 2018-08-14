@@ -81,9 +81,6 @@
     <ClCompile Include="..\cpp\Comments.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\StackError.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\HorzCat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -135,7 +132,10 @@
     <ClCompile Include="..\cpp\WarningEmitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\PositionScript.cpp">
+    <ClCompile Include="..\cpp\DebugStack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\ErrorEmitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -218,9 +218,6 @@
     <ClInclude Include="..\include\Comments.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\StackError.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\VertCat.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -282,6 +279,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\PositionScript.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\DebugStack.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ErrorEmitter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

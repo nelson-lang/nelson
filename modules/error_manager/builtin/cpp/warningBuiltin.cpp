@@ -145,7 +145,7 @@ static ArrayOfVector warningBuiltinNoRhs(Evaluator *eval, int nLhs,
   case 1: {
     retval = warningStruct(getAllWarningState());
   } break;
-  default: { Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS); } break;
+  default: { Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS); } break;
   }
   return retval;
 }
@@ -160,14 +160,14 @@ static ArrayOfVector warningBuiltinOneRhs(Evaluator *eval, int nLhs,
           clearWarningIdsList();
           for (size_t k = 0; k < states.size(); k++) {
               if (!isState(states[k])) {
-                  Error(eval, _W("Wrong value for #1 argument: valid warning struct expected."));
+                  Error(_W("Wrong value for #1 argument: valid warning struct expected."));
               }
 		  }
           for (size_t k = 0; k < identifiers.size(); k++) {
               setWarningId(identifiers[k], stringToState(states[k]), false);
           }
       } else {
-          Error(eval, _W("Wrong value for #1 argument: valid warning struct expected."));
+          Error(_W("Wrong value for #1 argument: valid warning struct expected."));
       }
   } else {
     Exception lastWarning = eval->getLastWarningException();
@@ -178,14 +178,14 @@ static ArrayOfVector warningBuiltinOneRhs(Evaluator *eval, int nLhs,
         case 0: {
         } break;
         case 1: {
-            retval.push_back(ArrayOf::stringConstructor(lastWarning.getFormattedErrorMessage()));
+            retval.push_back(ArrayOf::stringConstructor(lastWarning.getMessage()));
         } break;
         case 2: {
-            retval.push_back(ArrayOf::stringConstructor(lastWarning.getFormattedErrorMessage()));
+            retval.push_back(ArrayOf::stringConstructor(lastWarning.getMessage()));
 			retval.push_back(ArrayOf::stringConstructor(lastWarning.getIdentifier()));
         }
         default: {
-            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         } break;
         }
 	} else if (isQuery(msg)) {
@@ -196,7 +196,7 @@ static ArrayOfVector warningBuiltinOneRhs(Evaluator *eval, int nLhs,
       case 1: {
         retval = warningStruct(getAllWarningState());
       } break;
-      default: { Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS); } break;
+      default: { Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS); } break;
       }
     } else if (isState(msg)) {
       WARNING_IDS_STATES previousList = getAllWarningState();
@@ -208,7 +208,7 @@ static ArrayOfVector warningBuiltinOneRhs(Evaluator *eval, int nLhs,
       case 1: {
         retval = warningStruct(previousList);
       } break;
-      default: { Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS); } break;
+      default: { Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS); } break;
       }
     } else {
       Warning(msg);
@@ -218,15 +218,15 @@ static ArrayOfVector warningBuiltinOneRhs(Evaluator *eval, int nLhs,
       } break;
       case 1: {
         retval.push_back(
-            ArrayOf::stringConstructor(lastWarning.getFormattedErrorMessage()));
+            ArrayOf::stringConstructor(lastWarning.getMessage()));
       } break;
       case 2: {
         retval.push_back(
-            ArrayOf::stringConstructor(lastWarning.getFormattedErrorMessage()));
+            ArrayOf::stringConstructor(lastWarning.getMessage()));
         retval.push_back(
             ArrayOf::stringConstructor(lastWarning.getIdentifier()));
       } break;
-      default: { Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS); } break;
+      default: { Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS); } break;
       }
     }
   }
@@ -239,7 +239,7 @@ static ArrayOfVector warningBuiltinTwoRhs(Evaluator *eval, int nLhs,
   std::wstring id = argIn[0].getContentAsWideString();
   std::wstring msg = argIn[1].getContentAsWideString();
   if (isQuery(id)) {
-    Error(eval, _W("warning('query') does not require an second argument."));
+    Error(_W("warning('query') does not require an second argument."));
   } else if (isState(id)) {
     WARNING_STATE state = stringToState(id);
     setWarningId(msg, state);
@@ -256,7 +256,7 @@ static ArrayOfVector warningBuiltinTwoRhs(Evaluator *eval, int nLhs,
       fieldvalues.push_back(ArrayOf::stringConstructor(id));
       retval.push_back(ArrayOf::structConstructor(fieldnames, fieldvalues));
     } break;
-    default: { Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS); } break;
+    default: { Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS); } break;
     }
   } else {
     Exception lastWarning = eval->getLastWarningException();
@@ -267,14 +267,14 @@ static ArrayOfVector warningBuiltinTwoRhs(Evaluator *eval, int nLhs,
     } break;
     case 1: {
       retval.push_back(
-          ArrayOf::stringConstructor(lastWarning.getFormattedErrorMessage()));
+          ArrayOf::stringConstructor(lastWarning.getMessage()));
     } break;
     case 2: {
       retval.push_back(
-          ArrayOf::stringConstructor(lastWarning.getFormattedErrorMessage()));
+          ArrayOf::stringConstructor(lastWarning.getMessage()));
       retval.push_back(ArrayOf::stringConstructor(lastWarning.getIdentifier()));
     } break;
-    default: { Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS); } break;
+    default: { Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS); } break;
     }
   }
   return retval;
@@ -294,7 +294,7 @@ Nelson::ErrorManagerGateway::warningBuiltin(Evaluator *eval, int nLhs,
   case 2: {
     return warningBuiltinTwoRhs(eval, nLhs, argIn);
   } break;
-  default: { Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS); } break;
+  default: { Error(ERROR_WRONG_NUMBERS_INPUT_ARGS); } break;
   }
   return retval;
 }

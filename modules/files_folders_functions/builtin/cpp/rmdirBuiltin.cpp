@@ -34,25 +34,25 @@ Nelson::FilesFoldersGateway::rmdirBuiltin(Evaluator* eval, int nLhs, const Array
             if ((arg2 == L"s") || (arg2 == L"S")) {
                 bbSubfolder = true;
             } else {
-                Error(eval, "'s' expected.");
+                Error("'s' expected.");
             }
         }
         std::wstring errorMessage = L"";
         bool res = RemoveDirectory(arg1, bbSubfolder, errorMessage);
         if (nLhs == 0) {
             if (res == false) {
-                Error(eval, errorMessage);
+                Error(errorMessage);
             }
         } else {
             retval.push_back(ArrayOf::logicalConstructor(res));
             if (nLhs > 1) {
                 retval.push_back(ArrayOf::stringConstructor(errorMessage));
             } else {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         }
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

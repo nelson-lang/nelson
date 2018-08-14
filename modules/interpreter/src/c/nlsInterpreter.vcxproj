@@ -220,6 +220,8 @@
     <ClCompile Include="..\cpp\CommandQueue.cpp" />
     <ClCompile Include="..\cpp\Comments.cpp" />
     <ClCompile Include="..\cpp\Context.cpp" />
+    <ClCompile Include="..\cpp\DebugStack.cpp" />
+    <ClCompile Include="..\cpp\ErrorEmitter.cpp" />
     <ClCompile Include="..\cpp\EvaluateBuiltinCatchRuntimeException.cpp">
       <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Async</ExceptionHandling>
       <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Async</ExceptionHandling>
@@ -245,10 +247,8 @@
     <ClCompile Include="..\cpp\PathFuncManager.cpp" />
     <ClCompile Include="..\cpp\ProcessEventsDynamicFunction.cpp" />
     <ClCompile Include="..\cpp\Scope.cpp" />
-    <ClCompile Include="..\cpp\PositionScript.cpp" />
     <ClCompile Include="..\cpp\StackEntry.cpp" />
     <ClCompile Include="..\cpp\Evaluator.cpp" />
-    <ClCompile Include="..\cpp\StackError.cpp" />
     <ClCompile Include="..\cpp\VariablesTable.cpp" />
     <ClCompile Include="..\cpp\VertCat.cpp" />
     <ClCompile Include="..\cpp\WarningEmitter.cpp" />
@@ -278,6 +278,8 @@
     <ClInclude Include="..\include\ByteCodeFunctionDef.hpp" />
     <ClInclude Include="..\include\CheckIfWhileCondition.hpp" />
     <ClInclude Include="..\include\Comments.hpp" />
+    <ClInclude Include="..\include\DebugStack.hpp" />
+    <ClInclude Include="..\include\ErrorEmitter.h" />
     <ClInclude Include="..\include\EvaluateBuiltinCatchRuntimeException.hpp" />
     <ClInclude Include="..\include\FileFunc.hpp" />
     <ClInclude Include="..\include\FileWatcherManager.hpp" />
@@ -301,7 +303,6 @@
     <ClInclude Include="..\include\PathFuncManager.hpp" />
     <ClInclude Include="..\include\PositionScript.hpp" />
     <ClInclude Include="..\include\ProcessEventsDynamicFunction.hpp" />
-    <ClInclude Include="..\include\StackError.hpp" />
     <ClInclude Include="..\include\VertCat.hpp" />
     <ClInclude Include="..\include\WarningEmitter.h" />
   </ItemGroup>

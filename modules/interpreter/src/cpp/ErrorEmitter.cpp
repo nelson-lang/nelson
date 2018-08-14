@@ -16,15 +16,36 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "ErrorEmitter.h"
+#include "DebugStack.hpp"
+#include "Interface.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+static Nelson::Evaluator *evaluatorError = nullptr;
 //=============================================================================
 namespace Nelson {
-namespace FunctionsGateway {
-    ArrayOfVector
-    dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+void setErrorEvaluator(Evaluator *eval) { evaluatorError = eval; }
+//=============================================================================
+void
+throwException(Exception& e)
+{
+    throw e;
 }
+//=============================================================================
 } // namespace Nelson
+//=============================================================================
+void
+NelsonErrorEmitter(const wchar_t* msg, const wchar_t* id)
+{
+  std::wstring message(msg);
+  std::wstring identifier(id);
+  if (!message.empty()) {
+    if (evaluatorError) {
+      Nelson::stackTrace trace;
+      DebugStack(evaluatorError->cstack, 0, trace);
+      Nelson::Exception exception(message, trace, identifier);
+      Nelson::throwException(exception);
+    }
+  }
+}
 //=============================================================================

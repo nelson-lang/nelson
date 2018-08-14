@@ -30,7 +30,7 @@ RemoveModule(Evaluator* eval, std::wstring moduleshortname)
     if (IsExistingModuleName(moduleshortname)) {
         std::wstring rootpathmodule = GetModulePath(moduleshortname);
         if (rootpathmodule.empty()) {
-            Error(eval, moduleshortname + _W(": This module is registered but it has no path."));
+            Error(moduleshortname + _W(": This module is registered but it has no path."));
         }
         if (boost::filesystem::is_directory(rootpathmodule)) {
             boost::filesystem::path pathfinish(rootpathmodule);
@@ -39,11 +39,11 @@ RemoveModule(Evaluator* eval, std::wstring moduleshortname)
                 && !boost::filesystem::is_directory(pathfinish)) {
                 EvaluateScriptFile(eval, pathfinish.generic_wstring().c_str());
             } else {
-                Error(eval, _W("finish.nls does not exist."));
+                Error(_W("finish.nls does not exist."));
             }
             return UnregisterModule(moduleshortname);
         } else {
-            Error(eval, _W("An existing module root path expected."));
+            Error(_W("An existing module root path expected."));
         }
     }
     return false;

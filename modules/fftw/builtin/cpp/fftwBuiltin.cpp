@@ -34,10 +34,10 @@ Nelson::FftwGateway::fftwBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
     // previous = fftw('swisdom', str)
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0 || argIn.size() > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (argIn.size() == 1) {
         ArrayOf param1 = argIn[0];
@@ -50,7 +50,7 @@ Nelson::FftwGateway::fftwBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
         } else if (infoDesired == L"planner") {
             res = ArrayOf::stringConstructor(getPlannerInformation());
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+            Error(ERROR_WRONG_ARGUMENT_1_VALUE);
         }
         retval.push_back(res);
     } else {
@@ -69,7 +69,7 @@ Nelson::FftwGateway::fftwBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
                 resetDoubleWisdom();
             } else {
                 if (!setDoubleWisdomInformation(fieldvalue)) {
-                    Error(eval, _W("Cannot apply wisdom."));
+                    Error(_W("Cannot apply wisdom."));
                 }
             }
         } else if (fieldname == L"swisdom") {
@@ -78,7 +78,7 @@ Nelson::FftwGateway::fftwBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
                 resetSingleWisdom();
             } else {
                 if (!setSingleWisdomInformation(fieldvalue)) {
-                    Error(eval, _W("Cannot apply wisdom."));
+                    Error(_W("Cannot apply wisdom."));
                 }
             }
         } else if (fieldname == L"planner") {
@@ -97,11 +97,11 @@ Nelson::FftwGateway::fftwBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
                 } else if (fieldvalue == L"hybrid") {
                     setPlannerInformation(FftPlannerMethod::HYBRID);
                 } else {
-                    Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+                    Error(ERROR_WRONG_ARGUMENT_1_VALUE);
                 }
             }
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+            Error(ERROR_WRONG_ARGUMENT_1_VALUE);
         }
         retval.push_back(previousvalue);
     }

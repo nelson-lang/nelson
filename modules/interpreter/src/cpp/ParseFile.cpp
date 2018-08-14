@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ParseFile.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "ParserInterface.hpp"
 #include "characters_encoding.hpp"
 #include <boost/algorithm/string.hpp>

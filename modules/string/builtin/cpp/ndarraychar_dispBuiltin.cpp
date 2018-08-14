@@ -27,13 +27,13 @@ Nelson::StringGateway::ndarraychar_dispBuiltin(
 {
     ArrayOfVector retval;
     if (nLhs > 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (!argIn[0].isNdArrayStringType()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     argIn[0].printMe(eval->getPrintLimit(), eval->getInterface()->getTerminalWidth());
     return retval;

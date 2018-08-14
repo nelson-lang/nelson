@@ -47,7 +47,7 @@ Assert_CheckError(Evaluator* eval, const std::wstring& command, const std::wstri
                 + _W("computed error message =") + L" \"" + computedmsg + L"\"";
         }
     } else {
-        Error(eval, _W("No error was produced while evaluating command."));
+        Error(_W("No error was produced while evaluating command."));
     }
     return bRes;
 }

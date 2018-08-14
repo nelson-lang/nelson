@@ -19,6 +19,8 @@
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "Dimensions.hpp"
+#include "Error.hpp"
+#include "Exception.hpp"
 #include "SparseDynamicFunctions.hpp"
 #include "Types.hpp"
 //=============================================================================
@@ -446,12 +448,12 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
     constIndexPtr* indx = nullptr;
     if (rightData.isEmpty()) {
         if (!rightData.isEmpty(true)) {
-            throw Exception(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
+            Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
         }
         bool deleteAllowed = (rightData.getDataClass() == NLS_DOUBLE)
             || (getDataClass() == NLS_CHAR && rightData.getDataClass() == NLS_CHAR);
         if (!deleteAllowed) {
-            throw Exception(_W("Empty matrix of type double expected."));
+            Error(_W("Empty matrix of type double expected."));
         }
         deleteNDimSubset(index);
         return;
@@ -499,7 +501,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
 
         if (isEmpty()) {
             if ((dataCount > rightData.getDimensions().getElementCount()) && !haveColonOperator) {
-                throw Exception(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
+                Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
             }
         }
 
@@ -512,7 +514,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         } else if (!isEmpty() && (rightData.getLength() == dataCount)) {
             advance = 1;
         } else if (!isEmpty())
-            throw Exception(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
+            Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
         else {
             advance = 1;
         }
@@ -531,7 +533,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         }
         if (isSparse()) {
             if (L > 2) {
-                throw Exception(_W("Multidimensional indexing not legal for sparse "
+                Error(_W("Multidimensional indexing not legal for sparse "
                                    "arrays in assignment A(I1,I2,...,IN) = B"));
             }
             indexType rows = getDimensionLength(0);
@@ -548,7 +550,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
 
         resize(a);
         if (a.getElementCount() < rightData.getDimensions().getElementCount()) {
-            throw Exception(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
+            Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
         }
 
         myDims = dp->dimensions;
@@ -672,12 +674,12 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
     // we have a delete command in disguise.
     if (rightData.isEmpty()) {
         if (!rightData.isEmpty(true)) {
-            throw Exception(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
+            Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
         }
         bool deleteAllowed = (rightData.getDataClass() == NLS_DOUBLE)
             || (getDataClass() == NLS_CHAR && rightData.getDataClass() == NLS_CHAR);
         if (!deleteAllowed) {
-            throw Exception(_W("Empty matrix of type double expected."));
+            Error(_W("Empty matrix of type double expected."));
         }
         deleteVectorSubset(index);
         return;
@@ -693,7 +695,7 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
                 myDims = rightData.getDimensions();
             }
             if (myDims.getElementCount() != rightData.getLength()) {
-                throw Exception(_("Assignment A(:) = B requires A and B to be the same size"));
+                Error(_("Assignment A(:) = B requires A and B to be the same size"));
             }
             dp = rightData.dp->getCopy();
             reshape(myDims);
@@ -719,7 +721,7 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
     } else if (rightData.getLength() == index_length) {
         advance = 1;
     } else {
-        throw Exception("Size mismatch in assignment A(I) = B.\n");
+        Error("Size mismatch in assignment A(I) = B.\n");
     }
     // Compute the maximum index;
     indexType max_index = index.getMaxAsIndex();
@@ -776,11 +778,11 @@ void
 ArrayOf::setValueAtIndex(uint64 index, ArrayOf scalarValue)
 {
     if (!scalarValue.isScalar()) {
-        throw Exception(ERROR_SCALAR_EXPECTED);
+        Error(ERROR_SCALAR_EXPECTED);
     }
     uint64 length = (uint64)this->getLength();
     if (index >= length) {
-        throw Exception(_W("Index exceeds matrix dimensions."));
+        Error(_W("Index exceeds matrix dimensions."));
     }
     // call insertion overloading here for not supported types
     if (isSparse()) {

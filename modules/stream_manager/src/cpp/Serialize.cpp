@@ -21,7 +21,7 @@
 #else
 #include <netinet/in.h>
 #endif
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "Serialize.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -51,7 +51,7 @@ Serialize::checkSignature(const char sig, int count)
         char buffer[406];
         sprintf(buffer, "Serialization Mismatch: expected <%c, %d>, got <%c, %d>", sig, count,
             rtype, rcount);
-        throw Exception(buffer);
+        Error(buffer);
     }
 }
 //=============================================================================

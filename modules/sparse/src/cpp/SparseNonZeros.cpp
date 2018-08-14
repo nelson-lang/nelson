@@ -19,7 +19,7 @@
 #define _SCL_SECURE_NO_WARNINGS
 //=============================================================================
 #include "SparseNonZeros.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include <Eigen/Sparse>
 //=============================================================================
 namespace Nelson {
@@ -52,11 +52,11 @@ SparseNonZeros(ArrayOf a)
             }
         } break;
         default:
-            throw Exception(_W("type not supported."));
+            Error(_W("type not supported."));
             break;
         }
     } else {
-        throw Exception(_W("type not supported."));
+        Error(_W("type not supported."));
     }
     return nnz;
 }

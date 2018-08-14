@@ -27,10 +27,10 @@ ArrayOfVector
 Nelson::OsFunctionsGateway::createGUIDBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
     if (argIn.size() == 0) {
@@ -42,7 +42,7 @@ Nelson::OsFunctionsGateway::createGUIDBuiltin(Evaluator* eval, int nLhs, const A
             wstringVector strs = CreateGUID((size_t)idx);
             retval.push_back(ToCellStringAsColumn(strs));
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
         }
     }
     return retval;

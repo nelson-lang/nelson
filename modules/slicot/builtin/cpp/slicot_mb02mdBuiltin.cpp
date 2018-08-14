@@ -40,10 +40,10 @@ Nelson::SlicotGateway::slicot_mb02mdBuiltin(Evaluator* eval, int nLhs, const Arr
 {
     ArrayOfVector retval;
     if (nLhs > 6) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 7) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // INPUT VARIABLES
     ArrayOf JOB = argIn[0];
@@ -137,31 +137,31 @@ Nelson::SlicotGateway::slicot_mb02mdBuiltin(Evaluator* eval, int nLhs, const Arr
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsJOB.isScalar()) {
-        Error(eval, _W("Input argument #1: scalar expected."));
+        Error(_W("Input argument #1: scalar expected."));
     }
     if (!dimsM.isScalar()) {
-        Error(eval, _W("Input argument #2: scalar expected."));
+        Error(_W("Input argument #2: scalar expected."));
     }
     if (!dimsN.isScalar()) {
-        Error(eval, _W("Input argument #3: scalar expected."));
+        Error(_W("Input argument #3: scalar expected."));
     }
     if (!dimsL.isScalar()) {
-        Error(eval, _W("Input argument #4: scalar expected."));
+        Error(_W("Input argument #4: scalar expected."));
     }
     if (!dimsRANK.isScalar()) {
-        Error(eval, _W("Input argument #5: scalar expected."));
+        Error(_W("Input argument #5: scalar expected."));
     }
     Dimensions dimsC_expected(
         std::max(std::max(1, (int)M.getContentAsInteger32Scalar()),
             (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar()),
         (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar());
     if (!dimsC.equals(dimsC_expected)) {
-        Error(eval,
+        Error(
             _("Input argument #6: wrong size.") + " " + dimsC_expected.toString() + " " + "expected"
                 + ".");
     }
     if (!dimsTOL.isScalar()) {
-        Error(eval, _W("Input argument #7: scalar expected."));
+        Error(_W("Input argument #7: scalar expected."));
     }
     // CALL EXTERN FUNCTION
     try {
@@ -170,7 +170,7 @@ Nelson::SlicotGateway::slicot_mb02mdBuiltin(Evaluator* eval, int nLhs, const Arr
             INFO_output_ptr);
     } catch (std::runtime_error& e) {
         e.what();
-        Error(eval, "mb02md function fails.");
+        Error("mb02md function fails.");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

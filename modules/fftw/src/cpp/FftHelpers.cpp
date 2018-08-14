@@ -17,9 +17,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
+#include <cstring>
+#include <fftw3.h>
 #include "FftHelpers.hpp"
 #include "characters_encoding.hpp"
-#include <fftw3.h>
 //=============================================================================
 namespace Nelson {
 //=============================================================================

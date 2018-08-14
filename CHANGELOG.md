@@ -1,6 +1,10 @@
 Features:
 ---------
 
+  * error manager reworked.
+    - internal C++ function did no more require reference to evaluator.
+    - error and warning internally managed as exceptions.
+
   * 'dbstack' builtin get current instruction calling tree.
 
   * [#16](http://github.com/Nelson-numerical-software/nelson/issues/16): lastwarn builtin (Last recorded warning message).

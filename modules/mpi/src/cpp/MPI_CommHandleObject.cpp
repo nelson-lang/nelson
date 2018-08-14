@@ -32,7 +32,7 @@ HandleToMpiComm(ArrayOf A)
 {
     MPI_Comm commReturned = MPI_COMM_NULL;
     if (A.getHandleCategory() != MPI_COMM_CATEGORY_STR) {
-        throw Exception(_W("MPI_Comm handle expected."));
+        Error(_W("MPI_Comm handle expected."));
     }
     MPI_CommHandleObject* mpicommhandleobj = (MPI_CommHandleObject*)A.getContentAsHandleScalar();
     if (mpicommhandleobj != nullptr) {
@@ -40,10 +40,10 @@ HandleToMpiComm(ArrayOf A)
         if (obj != nullptr) {
             commReturned = obj->getComm();
         } else {
-            throw Exception(_W("MPI_Comm valid handle expected."));
+            Error(_W("MPI_Comm valid handle expected."));
         }
     } else {
-        throw Exception(_W("MPI_Comm valid handle expected."));
+        Error(_W("MPI_Comm valid handle expected."));
     }
     return commReturned;
 }
@@ -67,7 +67,7 @@ MPICommHandleDelete(ArrayOf A)
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
                     if (hlObj->getCategory() != MPI_COMM_CATEGORY_STR) {
-                        throw Exception(_W("MPI_Comm handle expected."));
+                        Error(_W("MPI_Comm handle expected."));
                     }
                     MPI_CommHandleObject* mpicommhandleobj = (MPI_CommHandleObject*)hlObj;
                     if (mpicommhandleobj != nullptr) {
@@ -76,7 +76,7 @@ MPICommHandleDelete(ArrayOf A)
                             delete obj;
                         }
                     } else {
-                        throw Exception(_W("MPI_Comm valid handle expected."));
+                        Error(_W("MPI_Comm valid handle expected."));
                     }
                     delete mpicommhandleobj;
                     HandleManager::getInstance()->removeHandle(hl);
@@ -84,7 +84,7 @@ MPICommHandleDelete(ArrayOf A)
                 }
             }
         } else {
-            throw Exception(_W("MPI_Comm valid handle expected."));
+            Error(_W("MPI_Comm valid handle expected."));
         }
     }
     return res;

@@ -185,11 +185,11 @@ InverseMatrix(ArrayOf A)
               || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
-        throw Exception(
+        Error(
             _("Undefined function 'inv' for input arguments of type") + " '" + ClassName(A) + "'.");
     }
     if (!A.isSquare()) {
-        throw Exception(_("Square matrix expected."));
+        Error(_("Square matrix expected."));
     }
     if (A.isEmpty()) {
         ArrayOf RES(A);

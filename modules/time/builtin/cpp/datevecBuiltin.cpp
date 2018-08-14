@@ -29,16 +29,16 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
 {
     ArrayOfVector retval;
     if (argIn.size() == 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 6) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
     if (!bSuccess) {
         if (argIn.size() != 1) {
-            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
         ArrayOf param1 = argIn[0];
         if (((param1.getDataClass() == NLS_DOUBLE) || (param1.getDataClass() == NLS_DCOMPLEX))
@@ -129,7 +129,7 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 }
             }
         } else {
-            Error(eval, ERROR_TYPE_NOT_SUPPORTED);
+            Error(ERROR_TYPE_NOT_SUPPORTED);
         }
     }
     return retval;

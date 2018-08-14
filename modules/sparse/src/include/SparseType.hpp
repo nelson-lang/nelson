@@ -32,95 +32,88 @@ extern "C"
 {
     //=============================================================================
     NLSSPARSE_IMPEXP void*
-    Eigen_EyeSparseMatrixConstructor(Class dclass, indexType rows, indexType cols) throw(Exception);
+    Eigen_EyeSparseMatrixConstructor(Class dclass, indexType rows, indexType cols);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
-    Eigen_LogicalSparseMatrixConstructor(indexType rows, indexType cols, bool bMotif) throw(
-        Exception);
+    Eigen_LogicalSparseMatrixConstructor(indexType rows, indexType cols, bool bMotif);
     //=============================================================================
     NLSSPARSE_IMPEXP void
-    Eigen_DeleteSparseMatrix(Class dclass, indexType rows, indexType cols, void** cp) throw(
-        Exception);
+    Eigen_DeleteSparseMatrix(Class dclass, indexType rows, indexType cols, void** cp);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
-    Eigen_MakeDenseArrayOf(Class dclass, indexType rows, indexType cols, const void* cp) throw(
-        Exception);
+    Eigen_MakeDenseArrayOf(Class dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
-    Eigen_MakeSparseArrayOf(Class dclass, indexType rows, indexType cols, const void* cp) throw(
-        Exception);
+    Eigen_MakeSparseArrayOf(Class dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_TypeConvertSparse(Class dclass, indexType rows, indexType cols, const void* cp,
-        Class oclass) throw(Exception);
+        Class oclass);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
-    Eigen_CopySparseMatrix(Class dclass, indexType rows, indexType cols, const void* cp) throw(
-        Exception);
+    Eigen_CopySparseMatrix(Class dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSSPARSE_IMPEXP indexType
-    Eigen_CountNonzerosMax(Class dclass, indexType rows, indexType cols, const void* cp) throw(
-        Exception);
+    Eigen_CountNonzerosMax(Class dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSSPARSE_IMPEXP indexType
-    Eigen_CountNonzeros(Class dclass, indexType rows, indexType cols, const void* cp) throw(
-        Exception);
+    Eigen_CountNonzeros(Class dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_SparseMatrixConstructor(
-        Class dclass, indexType rows, indexType cols, ArrayOfMatrix m) throw(Exception);
+        Class dclass, indexType rows, indexType cols, ArrayOfMatrix m);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_GetSparseVectorSubsets(Class dclass, indexType rows, indexType cols, const void* src,
-        const indexType* indx, indexType irows, indexType icols) throw(Exception);
+        const indexType* indx, indexType irows, indexType icols);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_GetSparseNDimSubsets(Class dclass, indexType rows, indexType cols, const void* src,
         const indexType* rindx, indexType irows, const indexType* cindx,
-        indexType icols) throw(Exception);
+        indexType icols);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_SetSparseVectorSubsets(Class dclass, indexType& rows, indexType& cols, const void* src,
         const indexType* indx, indexType irows, indexType icols, const void* data,
-        int advance) throw(Exception);
+        int advance);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_SetSparseNDimSubsets(Class dclass, indexType& rows, indexType& cols, const void* src,
         const indexType* rindx, indexType irows, const indexType* cindx, indexType icols,
-        const void* data, int advance) throw(Exception);
+        const void* data, int advance);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_GetSparseScalarElement(Class dclass, indexType rows, indexType cols, const void* src,
-        indexType rindx, indexType cindx) throw(Exception);
+        indexType rindx, indexType cindx);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_SparseToIJV(Class dclass, indexType rows, indexType cols, const void* cp, indexType*& I,
-        indexType*& J, int& nnz) throw(Exception);
+        indexType*& J, int& nnz);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_makeSparseFromIJV(Class dclass, indexType rows, indexType cols, indexType nnz,
         indexType* I, int istride, indexType* J, int jstride, const void* cp, int cpstride,
-        bool bScalarV) throw(Exception);
+        bool bScalarV);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_DeleteSparseMatrixCols(
-        Class dclass, indexType rows, indexType cols, const void* cp, bool* dmap) throw(Exception);
+        Class dclass, indexType rows, indexType cols, const void* cp, bool* dmap);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_DeleteSparseMatrixRows(
-        Class dclass, indexType rows, indexType cols, const void* cp, bool* dmap) throw(Exception);
+        Class dclass, indexType rows, indexType cols, const void* cp, bool* dmap);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_DeleteSparseMatrixVectorSubset(Class dclass, indexType& rows, indexType& cols,
-        const void* cp, const indexType* todel, indexType delete_len) throw(Exception);
+        const void* cp, const indexType* todel, indexType delete_len);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_ReshapeSparseMatrix(Class dclass, indexType rows, indexType cols, indexType newrows,
-        indexType newcols, const void* cp) throw(Exception);
+        indexType newcols, const void* cp);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_CopyResizeSparseMatrix(Class dclass, const void* src, indexType rows, indexType cols,
-        indexType maxrow, indexType maxcol) throw(Exception);
+        indexType maxrow, indexType maxcol);
     //=============================================================================
 };
 //=============================================================================

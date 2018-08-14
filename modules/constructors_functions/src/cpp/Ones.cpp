@@ -181,7 +181,7 @@ Ones(Evaluator* eval, Dimensions dims, Class cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     default:
-        Error(eval, ERROR_TYPE_NOT_SUPPORTED);
+        Error(ERROR_TYPE_NOT_SUPPORTED);
     }
     return ArrayOf();
 }

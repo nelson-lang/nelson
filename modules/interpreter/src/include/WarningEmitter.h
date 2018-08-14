@@ -32,8 +32,8 @@ extern "C"
     }
     //=============================================================================
     NLSINTERPRETER_IMPEXP void
-    NelsonWarningEmitter(void* exception, bool asError);
-//=============================================================================
+    NelsonWarningEmitter(const wchar_t* msg, const wchar_t* id, bool asError);
+    //=============================================================================
 #ifdef __cplusplus
 }
 #endif

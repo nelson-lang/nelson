@@ -30,10 +30,10 @@ Nelson::FunctionHandleGateway::func2strBuiltin(
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf arg1 = argIn[0];
     bool bSuccess = false;
@@ -49,10 +49,10 @@ Nelson::FunctionHandleGateway::func2strBuiltin(
             if (found) {
                 retval.push_back(ArrayOf::stringConstructor(functionname));
             } else {
-                Error(eval, _W("#1 Argument must contain a valid function_handle."));
+                Error(_W("#1 Argument must contain a valid function_handle."));
             }
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
         }
     }
     return retval;

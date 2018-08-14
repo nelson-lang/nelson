@@ -29,21 +29,21 @@ Nelson::DoubleGateway::double_gt_doubleBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
     if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar())) {
-        Error(eval, _W("Size mismatch on arguments to arithmetic operator ") + L">");
+        Error(_W("Size mismatch on arguments to arithmetic operator ") + L">");
     }
     if (!A.isDoubleType() || !B.isDoubleType()) {
-        Error(eval, ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED);
     }
     if (A.isSparse() || B.isSparse()) {
-        Error(eval, ERROR_WRONG_ARGUMENTS_SIZE_FULL_MATRIX_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENTS_SIZE_FULL_MATRIX_EXPECTED);
     }
     if (!A.is2D() || !B.is2D()) {
-        Error(eval, ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     ArrayOfVector retval;
     ArrayOf res;
@@ -51,7 +51,7 @@ Nelson::DoubleGateway::double_gt_doubleBuiltin(
         bool bSuccess = false;
         res = OverloadBinaryOperator(eval, A, B, "gt", bSuccess, "dcomplex_gt_dcomplex");
         if (!bSuccess) {
-            Error(eval, _W("complex comparaison not defined."));
+            Error(_W("complex comparaison not defined."));
         }
     } else {
         res = double_gt_double(A, B);

@@ -74,7 +74,7 @@
 #include "Evaluator.hpp"
 #include "FunctionDef.hpp"
 #include "ParserInterface.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "FileParser.hpp"
 #include "i18n.hpp"
 
@@ -152,7 +152,7 @@ namespace Nelson {
        xStr.c_str(),linenumber,colnumber,getParserFilenameU().c_str());
     else
       snprintf(msgBuffer,MSGBUFLEN,_("Expecting %s").c_str(),xStr.c_str());
-    throw Exception(msgBuffer);
+    Error(msgBuffer);
     return 0;
   }
 }

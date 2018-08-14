@@ -27,7 +27,7 @@ Nelson::TextEditorGateway::smartindentBuiltin(Evaluator* eval, int nLhs, const A
 {
     ArrayOfVector retval;
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring filename;
     indexType tabSize = 2;
@@ -44,7 +44,7 @@ Nelson::TextEditorGateway::smartindentBuiltin(Evaluator* eval, int nLhs, const A
         filename = argIn[0].getContentAsWideString();
     } break;
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     smartIndent(filename, (int)tabSize, doBackup ? true : false);

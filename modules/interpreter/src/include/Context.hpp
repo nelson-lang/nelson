@@ -99,7 +99,7 @@ public:
      * Throws an Exception if the global scope is popped.
      */
     void
-    popScope() throw(Exception);
+    popScope();
     /**
      * Insert the given variable into the right scope - the global
      * scope if the array is in the global list, and mangled in

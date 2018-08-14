@@ -92,7 +92,7 @@ IsFinite(ArrayOf A)
         C.setDataPointer(Cp);
     } break;
     default: {
-        throw Exception(_("Undefined function 'isfinite' for input arguments of type") + " '"
+        Error(_("Undefined function 'isfinite' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     }

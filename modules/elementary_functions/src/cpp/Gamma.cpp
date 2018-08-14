@@ -18,7 +18,7 @@
 //=============================================================================
 #include "Gamma.hpp"
 #include "ClassName.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include <Eigen/Dense>
 #include <cmath>
 #include <functional>
@@ -55,7 +55,7 @@ Gamma(ArrayOf arrayIn)
     ArrayOf res;
     if (arrayIn.isSparse() || arrayIn.getDataClass() == NLS_DCOMPLEX
         || arrayIn.getDataClass() == NLS_SCOMPLEX) {
-        throw Exception(_W("Input argument must be dense and real."));
+        Error(_W("Input argument must be dense and real."));
     }
     if (arrayIn.getDataClass() == NLS_DOUBLE || arrayIn.getDataClass() == NLS_SINGLE) {
         Dimensions dimsIn = arrayIn.getDimensions();
@@ -84,7 +84,7 @@ Gamma(ArrayOf arrayIn)
             res.ensureSingleOwner();
         }
     } else {
-        throw Exception(_("Undefined function 'gamma' for input arguments of type") + " '"
+        Error(_("Undefined function 'gamma' for input arguments of type") + " '"
             + ClassName(arrayIn) + "'.");
     }
     return res;

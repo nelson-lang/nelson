@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ColonSingle.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "Warning.hpp"
 #include <Eigen/Dense>
 #include <cmath>
@@ -103,7 +103,7 @@ single_colon(single low, single high, single step)
         return ArrayOf::singleConstructor(nanf(""));
     }
     if (!std::isfinite(low) || !std::isfinite(high) || !std::isfinite(step)) {
-        throw Exception(_W("Invalid range."));
+        Error(_W("Invalid range."));
     }
     if (low < high) {
         if (step < 0) {

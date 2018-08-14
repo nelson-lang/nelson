@@ -76,26 +76,26 @@ Context::pushScope(std::string name)
 {
     Scope* sc = nullptr;
     if (scopestack.size() > getRecursionDepth()) {
-        throw Exception(ERROR_STACK_DEPTH_EXCEEDED);
+        Error(ERROR_STACK_DEPTH_EXCEEDED);
     }
     try {
         sc = new Scope(name);
     } catch (std::bad_alloc& e) {
         e.what();
-        throw Exception(ERROR_STACK_DEPTH_EXCEEDED);
+        Error(ERROR_STACK_DEPTH_EXCEEDED);
     }
     if (sc) {
         scopestack.push_back(sc);
     } else {
-        throw Exception(ERROR_STACK_DEPTH_EXCEEDED);
+        Error(ERROR_STACK_DEPTH_EXCEEDED);
     }
 }
 //=============================================================================
 void
-Context::popScope() throw(Exception)
+Context::popScope()
 {
     if (scopestack.size() == 1) {
-        throw Exception(ERROR_POP_GLOBAL_SCOPE);
+        Error(ERROR_POP_GLOBAL_SCOPE);
     }
     delete scopestack.back();
     scopestack.pop_back();

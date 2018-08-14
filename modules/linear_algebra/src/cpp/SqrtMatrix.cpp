@@ -39,7 +39,7 @@ sqrtmComplex(ArrayOf& A)
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(Rz,
         (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
     if (!matA.allFinite()) {
-        throw Exception(_("Input must be finite."));
+        Error(_("Input must be finite."));
     } else {
         // [V, D] = eig(A);
         // sqrtm = V * diag(sqrt(diag(D))) * inv(V);
@@ -64,11 +64,11 @@ SqrtMatrix(ArrayOf A)
               || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
-        throw Exception(_("Undefined function 'sqrtm' for input arguments of type") + " '"
+        Error(_("Undefined function 'sqrtm' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     }
     if (!A.isSquare()) {
-        throw Exception(_("Square matrix expected."));
+        Error(_("Square matrix expected."));
     }
     if (A.isEmpty()) {
         ArrayOf res(A);

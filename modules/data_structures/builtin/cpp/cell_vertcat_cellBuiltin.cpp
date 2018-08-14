@@ -27,19 +27,19 @@ Nelson::DataStructuresGateway::cell_vertcat_cellBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
     ArrayOf C;
     if (!A.isCell()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_CELL_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_CELL_EXPECTED);
     }
     if (!B.isCell()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_CELL_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_CELL_EXPECTED);
     }
     if (A.isEmpty()) {
         C = B;
@@ -56,7 +56,7 @@ Nelson::DataStructuresGateway::cell_vertcat_cellBuiltin(
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getColumns() != dimsB.getColumns()) {
-        Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     indexType newColumnsSize = dimsA.getColumns();
     indexType newRowsSize = dimsA.getRows() + dimsB.getRows();

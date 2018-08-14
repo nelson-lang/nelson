@@ -29,10 +29,10 @@ Nelson::AudioGateway::audiowriteBuiltin(Evaluator* eval, int nLhs, const ArrayOf
 {
     ArrayOfVector retval;
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() < 3) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring errorMessage;
     ArrayOf param1 = argIn[0];
@@ -47,7 +47,7 @@ Nelson::AudioGateway::audiowriteBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     std::wstring Comment = L"";
     for (size_t i = 3; i < argIn.size(); i += 2) {
         if (i >= argIn.size() - 1) {
-            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
         ArrayOf paramFieldName = argIn[i];
         ArrayOf paramFieldValue = argIn[i + 1];
@@ -76,7 +76,7 @@ Nelson::AudioGateway::audiowriteBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         if (!validFieldname) {
             wchar_t buffer[4096];
             swprintf(buffer, 4096, std::wstring(ERROR_WRONG_ARGUMENT_X_VALUE).c_str(), i);
-            Error(eval, std::wstring(buffer));
+            Error(std::wstring(buffer));
         }
     }
     wstringVector metadata;
@@ -85,7 +85,7 @@ Nelson::AudioGateway::audiowriteBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     metadata.push_back(Comment);
     bool res = AudioWrite(filename, data, fs, metadata, BitsPerSample, BitRate, errorMessage);
     if (!res) {
-        Error(eval, errorMessage);
+        Error(errorMessage);
     }
     return retval;
 }

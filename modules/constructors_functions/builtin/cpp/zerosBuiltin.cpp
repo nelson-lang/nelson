@@ -27,7 +27,7 @@ Nelson::ConstructorsGateway::zerosBuiltin(Evaluator* eval, int nLhs, const Array
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     Class cl = NLS_DOUBLE;
     if (argIn.size() == 0) {
@@ -42,7 +42,7 @@ Nelson::ConstructorsGateway::zerosBuiltin(Evaluator* eval, int nLhs, const Array
                 if (paramstr == L"like") {
                     ArrayOf lastArg = argIn[argIn.size() - 1];
                     if (lastArg.isSparse()) {
-                        Error(eval, _W("A supported type expected at last argument."));
+                        Error(_W("A supported type expected at last argument."));
                     }
                     switch (lastArg.getDataClass()) {
                     case NLS_LOGICAL:
@@ -85,13 +85,13 @@ Nelson::ConstructorsGateway::zerosBuiltin(Evaluator* eval, int nLhs, const Array
                         cl = NLS_SCOMPLEX;
                         break;
                     default:
-                        Error(eval, _W("A supported type expected at last argument."));
+                        Error(_W("A supported type expected at last argument."));
                         break;
                     }
                     nRhs = nRhs - 2;
                     bCheckClassName = false;
                 } else {
-                    Error(eval, _W("\'like\' expected at n - 2 argument."));
+                    Error(_W("\'like\' expected at n - 2 argument."));
                 }
             }
         }
@@ -129,7 +129,7 @@ Nelson::ConstructorsGateway::zerosBuiltin(Evaluator* eval, int nLhs, const Array
                 cl = NLS_SINGLE;
                 nRhs--;
             } else {
-                Error(eval, _W("A supported type expected at last argument."));
+                Error(_W("A supported type expected at last argument."));
             }
         }
         if (nRhs == 0) {

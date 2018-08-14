@@ -28,7 +28,7 @@ Nelson::RandomGateway::randnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     Class cl = NLS_DOUBLE;
     if (argIn.size() == 0) {
@@ -50,13 +50,13 @@ Nelson::RandomGateway::randnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                         cl = NLS_SINGLE;
                         break;
                     default:
-                        Error(eval, _W("\'single\' or \'double\' expected at last argument."));
+                        Error(_W("\'single\' or \'double\' expected at last argument."));
                         break;
                     }
                     nRhs = nRhs - 2;
                     bCheckClassName = false;
                 } else {
-                    Error(eval, _W("\'like\' expected at n - 2 argument."));
+                    Error(_W("\'like\' expected at n - 2 argument."));
                 }
             }
         }
@@ -70,7 +70,7 @@ Nelson::RandomGateway::randnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 cl = NLS_SINGLE;
                 nRhs--;
             } else {
-                Error(eval, _W("\'single\' or \'double\' expected at last argument."));
+                Error(_W("\'single\' or \'double\' expected at last argument."));
             }
         }
         if (nRhs == 0) {
@@ -82,7 +82,7 @@ Nelson::RandomGateway::randnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             if (argIn[0].isNumeric() && !argIn[0].isSparse()) {
                 if (argIn[0].isRowVector()) {
                     if (argIn[0].isEmpty()) {
-                        Error(eval, ERROR_WRONG_ARGUMENT_1_SIZE_ROW_VECTOR_EXPECTED);
+                        Error(ERROR_WRONG_ARGUMENT_1_SIZE_ROW_VECTOR_EXPECTED);
                     }
                     if (argIn[0].getDimensions().getElementCount() < Nelson::maxDims) {
                         ArrayOf dimVector = argIn[0];
@@ -99,15 +99,15 @@ Nelson::RandomGateway::randnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                             dims[1] = dims[0];
                         }
                     } else {
-                        Error(eval,
+                        Error(
                             _W("Too many dimensions! Current limit is") + L" "
                                 + std::to_wstring(Nelson::maxDims) + L".");
                     }
                 } else {
-                    Error(eval, ERROR_WRONG_ARGUMENT_1_SIZE_ROW_VECTOR_EXPECTED);
+                    Error(ERROR_WRONG_ARGUMENT_1_SIZE_ROW_VECTOR_EXPECTED);
                 }
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED);
             }
         } else {
             for (sizeType k = 0; k < nRhs; k++) {

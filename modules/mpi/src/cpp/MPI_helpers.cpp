@@ -47,7 +47,7 @@ MPIErrorHandler(MPI_Comm* comm, int* errorcode, ...)
     int resultlen = 0;
     MPI_Error_string(*errorcode, buffer, &resultlen);
     buffer[resultlen] = 0;
-    throw Exception(buffer);
+    Error(buffer);
 }
 //=============================================================================
 int
@@ -223,7 +223,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 packpos, comm);
             break;
         default: {
-            throw Exception(_("Type not managed."));
+            Error(_("Type not managed."));
         } break;
         }
     }
@@ -279,14 +279,14 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 if (eval) {
                     function_handle fptr = StringToFunctionHandle(eval, functionName);
                     if (fptr == 0) {
-                        throw Exception(_W("A valid function name expected."));
+                        Error(_W("A valid function name expected."));
                     }
                     return ArrayOf::functionHandleConstructor(functionName, fptr);
                 } else {
-                    throw Exception(_W("Invalid evaluator."));
+                    Error(_W("Invalid evaluator."));
                 }
             } else {
-                throw Exception(_W("String expected."));
+                Error(_W("String expected."));
             }
         } else {
             ArrayOf* dp = new ArrayOf[fieldcnt * outDim.getElementCount()];
@@ -397,7 +397,7 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_WCHAR, comm);
         break;
     default: {
-        throw Exception(_W("Type not managed."));
+        Error(_W("Type not managed."));
     } break;
     }
     return ArrayOf(dataClass, outDim, cp);
@@ -586,7 +586,7 @@ getMpiCommName(MPI_Comm comm)
     name[0] = 0;
     int len;
     if (MPI_Comm_get_name(comm, name, &len) != MPI_SUCCESS) {
-        throw Exception(_W("Invalid communicator"));
+        Error(_W("Invalid communicator"));
     }
     if (len >= MPI_MAX_OBJECT_NAME) {
         len = MPI_MAX_OBJECT_NAME - 1;

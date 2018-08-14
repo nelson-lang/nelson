@@ -29,10 +29,10 @@ Nelson::DynamicLinkGateway::dlopenBuiltin(Evaluator* eval, int nLhs, const Array
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn[0].isSingleString()) {
         ArrayOf param1 = argIn[0];
@@ -41,13 +41,13 @@ Nelson::DynamicLinkGateway::dlopenBuiltin(Evaluator* eval, int nLhs, const Array
         try {
             dlObject = new DynamicLinkLibraryObject(libraryPath);
         } catch (std::bad_alloc) {
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         } catch (Exception) {
             throw;
         }
         retval.push_back(ArrayOf::handleConstructor(dlObject));
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     return retval;
 }

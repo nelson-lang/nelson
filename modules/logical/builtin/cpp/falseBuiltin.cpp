@@ -29,7 +29,7 @@ Nelson::LogicalGateway::falseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     bool bIsSparse = false;
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0) {
         Dimensions dim(1, 1);
@@ -44,7 +44,7 @@ Nelson::LogicalGateway::falseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
                 if (arg.compare(L"like") == 0) {
                     ArrayOf arg = argIn[pos + 1];
                     if (arg.getDataClass() != NLS_LOGICAL) {
-                        Error(eval, _W("Input following \'like\' is not a logical array."));
+                        Error(_W("Input following \'like\' is not a logical array."));
                     }
                     bIsSparse = arg.isSparse();
                     idxMax = argIn.size() - 2;
@@ -53,7 +53,7 @@ Nelson::LogicalGateway::falseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
                         dim[1] = 1;
                     }
                 } else {
-                    Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_VALUE.c_str(), pos + 1));
+                    Error(StringFormat(ERROR_WRONG_ARGUMENT_X_VALUE.c_str(), pos + 1));
                 }
             }
         }

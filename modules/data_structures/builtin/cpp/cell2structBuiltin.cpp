@@ -27,14 +27,14 @@ Nelson::DataStructuresGateway::cell2structBuiltin(
 {
     ArrayOfVector ret;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if ((argIn.size() > 3) || (argIn.size() < 2)) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     if (!param1.isCell()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_CELL_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_CELL_EXPECTED);
     }
     ArrayOf param2 = argIn[1];
     stringVector fieldnames = param2.getContentAsCStringVector(false);
@@ -46,14 +46,14 @@ Nelson::DataStructuresGateway::cell2structBuiltin(
         dim = param3.getContentAsScalarIndex(false) - 1;
     }
     if (dim > 1) {
-        throw Exception(_W("Not yet implemented with dim > 2"));
+        Error(_W("Not yet implemented with dim > 2"));
     }
     Dimensions dims1 = param1.getDimensions();
     Dimensions dims2 = param2.getDimensions();
     //    if (fieldnames.size() != 1)
     if (!param1.isEmpty()) {
         if (dims1[dim] != fieldnames.size()) {
-            throw Exception(
+            Error(
                 _W("Number of field names must match number of fields in new structure."));
         }
     }

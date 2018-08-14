@@ -20,12 +20,12 @@
 //=============================================================================
 namespace Nelson {
 ArrayOf
-LeftDivide(ArrayOf A, ArrayOf B) throw(Exception)
+LeftDivide(ArrayOf A, ArrayOf B)
 {
     if (A.isEmpty() || B.isEmpty()) {
         return ArrayOf::emptyConstructor();
     }
-    throw Exception(_W("LeftDivide currently not implemented in Nelson."));
+    Error(_W("LeftDivide currently not implemented in Nelson."));
 }
 }
 //=============================================================================

@@ -18,7 +18,6 @@
 //=============================================================================
 #include "DispQmlHandleObject.hpp"
 #include "Error.hpp"
-#include "Exception.hpp"
 #include "HandleManager.hpp"
 #include "QStringConverter.hpp"
 #include "QmlHandleObject.hpp"
@@ -252,7 +251,7 @@ DispQmlHandleObject(Evaluator* eval, ArrayOf A)
             if (A.isHandle()) {
                 if (A.isScalar()) {
                     if (A.getHandleCategory() != QOBJECT_CATEGORY_STR) {
-                        throw Exception(_W("QObject handle expected."));
+                        Error(_W("QObject handle expected."));
                     }
                     Dimensions dimsA = A.getDimensions();
                     io->outputMessage(L"[QObject] - size: ");
@@ -268,7 +267,7 @@ DispQmlHandleObject(Evaluator* eval, ArrayOf A)
                     io->outputMessage("\n");
                 }
             } else {
-                Error(eval, _W("QObject handle expected."));
+                Error(_W("QObject handle expected."));
             }
         }
     }

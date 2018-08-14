@@ -31,10 +31,10 @@ Nelson::HelpToolsGateway::xmldoccheckerBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf arg1 = argIn[0];
     if (arg1.isSingleString()) {
@@ -46,7 +46,7 @@ Nelson::HelpToolsGateway::xmldoccheckerBuiltin(
                 = boost::filesystem::exists(pathIn) && !boost::filesystem::is_directory(pathIn);
         } catch (const boost::filesystem::filesystem_error& e) {
             if (e.code() == boost::system::errc::permission_denied) {
-                throw Exception(_W("Permission denied."));
+                Error(_W("Permission denied."));
             }
             IsFileIn = false;
         }
@@ -93,11 +93,11 @@ Nelson::HelpToolsGateway::xmldoccheckerBuiltin(
                 }
             }
         } else {
-            Error(eval,
+            Error(
                 _W("Wrong value for argument #1: An existing .xml documentation file expected."));
         }
     } else {
-        Error(eval, _W("Wrong type for argument #1: .xml documentation file expected."));
+        Error(_W("Wrong type for argument #1: .xml documentation file expected."));
     }
     return retval;
 }

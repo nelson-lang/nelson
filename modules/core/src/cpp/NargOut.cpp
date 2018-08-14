@@ -36,7 +36,7 @@ NargOut(Evaluator* eval, std::wstring functionName)
             nargout = fptr->outputArgCount();
         }
     } else {
-        Error(eval, _W("function not found."));
+        Error(_W("function not found."));
     }
     return nargout;
 }

@@ -32,7 +32,7 @@ Nelson::AudioGateway::audioplayerBuiltin(Evaluator* eval, int nLhs, const ArrayO
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     AudioplayerObject* objPlayer = nullptr;
@@ -71,14 +71,14 @@ Nelson::AudioGateway::audioplayerBuiltin(Evaluator* eval, int nLhs, const ArrayO
         }
     } break;
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     if (!res) {
         if (objPlayer) {
             delete objPlayer;
         }
-        Error(eval, errorMessage);
+        Error(errorMessage);
     }
     retval.push_back(ArrayOf::handleConstructor(objPlayer));
     return retval;

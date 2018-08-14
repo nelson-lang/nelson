@@ -27,23 +27,23 @@ Nelson::OsFunctionsGateway::setenvBuiltin(Evaluator* eval, int nLhs, const Array
 {
     ArrayOfVector retval;
     if (argIn.size() > 2 || argIn.size() == 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring varEnvName = L"";
     std::wstring varEnvValue = L"";
     if (argIn[0].isSingleString()) {
         varEnvName = argIn[0].getContentAsWideString();
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     if (argIn.size() == 2) {
         varEnvValue = argIn[1].getContentAsWideString();
     }
     if (!SetVariableEnvironmentW(varEnvName, varEnvValue)) {
-        Error(eval, _W("Cannot set environment variable."));
+        Error(_W("Cannot set environment variable."));
     }
     return retval;
 }

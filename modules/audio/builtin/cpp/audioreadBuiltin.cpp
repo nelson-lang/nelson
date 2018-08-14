@@ -27,10 +27,10 @@ Nelson::AudioGateway::audioreadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 {
     ArrayOfVector retval;
     if (nLhs > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0 || argIn.size() > 3) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring errorMessage;
     std::wstring datatype = L"double";
@@ -56,10 +56,10 @@ Nelson::AudioGateway::audioreadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                 start = ptr[0];
                 end = ptr[1];
                 if (start < 1 || end < 1) {
-                    Error(eval, _W("Index >= 1 expected."));
+                    Error(_W("Index >= 1 expected."));
                 }
             } else {
-                Error(eval, _W("[start, end] vector expected."));
+                Error(_W("[start, end] vector expected."));
             }
         }
     } break;
@@ -74,23 +74,23 @@ Nelson::AudioGateway::audioreadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             start = ptr[0];
             end = ptr[1];
             if (start < 1 || end < 1) {
-                Error(eval, _W("Index >= 1 expected."));
+                Error(_W("Index >= 1 expected."));
             }
             start = start - 1;
             end = end - 1;
         } else {
-            Error(eval, _W("[start, end] vector expected."));
+            Error(_W("[start, end] vector expected."));
         }
         ArrayOf param3 = argIn[2];
         datatype = param3.getContentAsWideString();
     } break;
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     retval = AudioRead(filename, start, end, datatype, errorMessage);
     if (errorMessage != L"") {
-        Error(eval, errorMessage);
+        Error(errorMessage);
     }
     return retval;
 }

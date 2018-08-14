@@ -30,7 +30,7 @@ Nelson::TimeGateway::calendarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     ArrayOfVector retval;
     Calendar* cal = nullptr;
     if (nLhs > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     switch (argIn.size()) {
     case 0: {
@@ -45,28 +45,28 @@ Nelson::TimeGateway::calendarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         ArrayOf param1 = argIn[0];
         uint64 cyear = param1.getContentAsUnsignedInt64Scalar();
         if (cyear < 1400 || cyear > 9999) {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+            Error(ERROR_WRONG_ARGUMENT_1_VALUE);
         }
         ArrayOf param2 = argIn[1];
         int32 cmonth = param2.getContentAsInteger32Scalar();
         if (cmonth > 0 && cmonth < 13) {
             cal = new Calendar(cyear, (uint8)cmonth);
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
+            Error(ERROR_WRONG_ARGUMENT_2_VALUE);
         }
     } break;
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     if (cal == nullptr) {
-        Error(eval, _W("Calendar not initialized."));
+        Error(_W("Calendar not initialized."));
     }
     if (cal->getYear() < 1400 || cal->getYear() > 9999) {
-        Error(eval, _W("Year value is wrong [1400, 9999] expected."));
+        Error(_W("Year value is wrong [1400, 9999] expected."));
     }
     if (!(cal->getMonth() > 0 && cal->getMonth() < 13)) {
-        Error(eval, _W("Month value is wrong [1, 12] expected."));
+        Error(_W("Month value is wrong [1, 12] expected."));
     }
     switch (nLhs) {
     case 0: {
@@ -87,7 +87,7 @@ Nelson::TimeGateway::calendarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         delete cal;
     } break;
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     } break;
     }
     return retval;

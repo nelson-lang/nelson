@@ -92,7 +92,7 @@ IsInf(ArrayOf A)
         C.setDataPointer(Cp);
     } break;
     default: {
-        throw Exception(_("Undefined function 'isinf' for input arguments of type") + " '"
+        Error(_("Undefined function 'isinf' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     }

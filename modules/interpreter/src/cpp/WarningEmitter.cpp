@@ -20,6 +20,7 @@
 #include "Exception.hpp"
 #include "Interface.hpp"
 #include "Error.hpp"
+#include "DebugStack.hpp"
 //=============================================================================
 static Nelson::Evaluator* evaluatorWarning = nullptr;
 //=============================================================================
@@ -34,21 +35,25 @@ setWarningEvaluator(Evaluator* eval)
 }
 //=============================================================================
 void
-NelsonWarningEmitter(void* exception, bool asError)
+NelsonWarningEmitter(const wchar_t *msg, const wchar_t *id, bool asError)
 {
-    if (exception) {
-        Nelson::Exception* warningException = (Nelson::Exception*)exception;
-        if (evaluatorWarning) {
-            if (asError) {
-                Nelson::Error(evaluatorWarning, warningException->getFormattedErrorMessage());
-            } else {
-                evaluatorWarning->setLastWarningException(*warningException);
+    std::wstring message = std::wstring(msg);
+    std::wstring identifier = std::wstring(id);
+    if (!message.empty()) {
+        if (asError) {
+            Nelson::Error(message, identifier);
+        } else {
+            if (evaluatorWarning) {
+                Nelson::stackTrace trace;
+                DebugStack(evaluatorWarning->cstack, 1, trace);
+                Nelson::Exception exception(message, trace, identifier);
+                evaluatorWarning->setLastWarningException(exception);
                 Nelson::Interface* io = evaluatorWarning->getInterface();
                 if (io) {
-                    io->warningMessage(warningException->getFormattedErrorMessage());
+                    io->warningMessage(exception.getMessage());
                 }
-            }
-        }
+			}
+		}
     }
 }
 //=============================================================================

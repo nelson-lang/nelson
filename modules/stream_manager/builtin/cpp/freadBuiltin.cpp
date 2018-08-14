@@ -56,7 +56,7 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     } else if ((arg == L"l") || (arg == L"ieee-le")) {
         bIsLittleEndian = true;
     } else {
-        Error(eval, _W("Wrong value for machine format."));
+        Error(_W("Wrong value for machine format."));
     }
     skipSize = (size_t)param4.getContentAsScalarIndex();
     if (param3.isSingleString()) {
@@ -64,14 +64,14 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         bool bOK = false;
         classDest = precisionFromString(precisionStr, bOK);
         if (!bOK) {
-            Error(eval, _W("Wrong value for #3 argument: not supported precision."));
+            Error(_W("Wrong value for #3 argument: not supported precision."));
         }
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
     }
     if (param1.isDoubleType()) {
         if (!param2.isNumeric()) {
-            Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_NUMERIC_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_2_TYPE_NUMERIC_EXPECTED);
         }
         bool bSizeIs2D = param2.is2D() && !param2.isScalar();
         int64 isize = 0;
@@ -85,14 +85,14 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             double m = dValues[0];
             double n = dValues[1];
             if (std::isinf(m)) {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_INVALID_VECTOR_SIZE);
+                Error(ERROR_WRONG_ARGUMENT_2_INVALID_VECTOR_SIZE);
             }
             im = (int64)m;
             if (std::isinf(n)) {
                 if (n > 0) {
                     isize = -1;
                 } else {
-                    Error(eval, ERROR_WRONG_ARGUMENT_2_INVALID_VECTOR_SIZE);
+                    Error(ERROR_WRONG_ARGUMENT_2_INVALID_VECTOR_SIZE);
                 }
             } else {
                 in = (int64)n;
@@ -104,7 +104,7 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 if (dsize > 0) {
                     isize = -1;
                 } else {
-                    Error(eval, ERROR_WRONG_ARGUMENT_2_INVALID_VECTOR_SIZE);
+                    Error(ERROR_WRONG_ARGUMENT_2_INVALID_VECTOR_SIZE);
                 }
             } else {
                 isize = (int64)dsize;
@@ -113,7 +113,7 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         FilesManager* fm = (FilesManager*)(eval->FileManager);
         int32 iValue = (int32)param1.getContentAsDoubleScalar();
         if (fm == nullptr) {
-            Error(eval, _W("Problem with file manager."));
+            Error(_W("Problem with file manager."));
         }
         if (fm->isOpened(iValue)) {
             File* f = fm->getFile(iValue);
@@ -152,13 +152,13 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                     retval.push_back(ArrayOf::doubleConstructor(sizeReallyRead));
                 }
             } else {
-                Error(eval, _W("Problem to read data."));
+                Error(_W("Problem to read data."));
             }
         } else {
-            Error(eval, _W("Invalid file identifier."));
+            Error(_W("Invalid file identifier."));
         }
     } else {
-        Error(eval, _W("Invalid file identifier."));
+        Error(_W("Invalid file identifier."));
     }
     return retval;
 }
@@ -239,7 +239,7 @@ ArrayOfVector
 Nelson::StreamGateway::freadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (nLhs > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     switch (argIn.size()) {
     case 2:
@@ -251,7 +251,7 @@ Nelson::StreamGateway::freadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     case 5:
         return freadBuiltinFiveRhs(eval, nLhs, argIn);
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     ArrayOfVector retval;

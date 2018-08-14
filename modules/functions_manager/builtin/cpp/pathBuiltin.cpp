@@ -31,10 +31,10 @@ Nelson::FunctionsGateway::pathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     if (argIn.size() > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0) {
         if (nLhs == 0) {
@@ -62,7 +62,7 @@ Nelson::FunctionsGateway::pathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (argIn.size() == 1) {
         ArrayOf param1 = argIn[0];
         if (!param1.isSingleString()) {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring p = param1.getContentAsWideString();
         wstringVector paths;
@@ -81,11 +81,11 @@ Nelson::FunctionsGateway::pathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (argIn.size() == 2) {
         ArrayOf param1 = argIn[0];
         if (!param1.isSingleString()) {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         ArrayOf param2 = argIn[1];
         if (!param2.isSingleString()) {
-            Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
         std::wstring p1 = param1.getContentAsWideString();
         std::wstring p2 = param2.getContentAsWideString();

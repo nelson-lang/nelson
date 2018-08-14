@@ -35,7 +35,7 @@ DeleteAudioplayerHandleObject(ArrayOf A)
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
                     if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR) {
-                        throw Exception(_W("audioplayer handle expected."));
+                        Error(_W("audioplayer handle expected."));
                     }
                     AudioplayerObject* playerObj = (AudioplayerObject*)hlObj;
                     delete playerObj;
@@ -44,7 +44,7 @@ DeleteAudioplayerHandleObject(ArrayOf A)
                 }
             }
         } else {
-            throw Exception(_W("audioplayer valid handle expected."));
+            Error(_W("audioplayer valid handle expected."));
         }
     }
     return res;

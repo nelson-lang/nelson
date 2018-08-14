@@ -32,7 +32,7 @@ Nelson::ConstructorsGateway::eyeBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     indexType m = 1;
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     sizeType nRhs = argIn.size();
     ArrayOf res;
@@ -66,7 +66,7 @@ Nelson::ConstructorsGateway::eyeBuiltin(Evaluator* eval, int nLhs, const ArrayOf
                         wchar_t buffer[4096];
                         swprintf(
                             buffer, 4096, std::wstring(ERROR_WRONG_ARGUMENT_X_VALUE).c_str(), pos);
-                        Error(eval, std::wstring(buffer));
+                        Error(std::wstring(buffer));
                     }
                 }
             }
@@ -85,10 +85,10 @@ Nelson::ConstructorsGateway::eyeBuiltin(Evaluator* eval, int nLhs, const ArrayOf
                 m = pIndex[1];
                 delete[] pIndex;
             } else {
-                Error(eval, _W("N-dimensional arrays are not supported."));
+                Error(_W("N-dimensional arrays are not supported."));
             }
         } else {
-            Error(eval, _W("Size vector should be a row vector with real elements."));
+            Error(_W("Size vector should be a row vector with real elements."));
         }
     } else if (nRhs == 2) {
         ArrayOf arg1 = argIn[0];
@@ -96,7 +96,7 @@ Nelson::ConstructorsGateway::eyeBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         ArrayOf arg2 = argIn[1];
         m = arg2.getContentAsScalarIndex();
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     res = Eye(n, m, destClass, bIsSparse);
     retval.push_back(res);

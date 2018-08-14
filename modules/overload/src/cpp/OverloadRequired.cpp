@@ -52,11 +52,11 @@ OverloadRequired(Evaluator* eval, const ArrayOfVector& argIn, OVERLOAD_TYPE otyp
             OverloadName = ClassName(argIn[0]) + "_" + functionName;
             break;
         default:
-            Error(eval, _W("Wrong OVERLOAD_TYPE."));
+            Error(_W("Wrong OVERLOAD_TYPE."));
             break;
         }
     }
-    Error(eval, _("function") + " " + OverloadName + " " + _("undefined."));
+    Error(_("function") + " " + OverloadName + " " + _("undefined."));
 }
 //=============================================================================
 } // namespace Nelson

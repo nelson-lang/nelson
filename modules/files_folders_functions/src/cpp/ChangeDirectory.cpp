@@ -19,7 +19,7 @@
 #include <boost/filesystem.hpp>
 using namespace boost::filesystem;
 #include "ChangeDirectory.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -32,7 +32,7 @@ Cd(std::wstring newpath)
         current_path(newpath);
     } catch (boost::filesystem::filesystem_error& e) {
         e.what();
-        throw Exception(_W("Cannot change directory: '") + newpath + L"'.");
+        Error(_W("Cannot change directory: '") + newpath + L"'.");
     }
     return ArrayOf::stringConstructor(previous_pwd.generic_wstring());
 }
@@ -45,7 +45,7 @@ Cd(std::string newpath)
         current_path(newpath);
     } catch (boost::filesystem::filesystem_error& e) {
         e.what();
-        throw Exception(_("Cannot change directory '") + newpath + "'.");
+        Error(_("Cannot change directory '") + newpath + "'.");
     }
     return ArrayOf::stringConstructor(previous_pwd.generic_string());
 }

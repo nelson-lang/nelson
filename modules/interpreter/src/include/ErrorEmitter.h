@@ -19,19 +19,22 @@
 #pragma once
 //=============================================================================
 #include "Evaluator.hpp"
-#include "PositionScript.hpp"
-#include "StackEntry.hpp"
-#include "Types.hpp"
-#include "nlsFunctions_manager_exports.h"
-#include <string>
-#include <vector>
+#include "Exception.hpp"
+#include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-NLSFUNCTIONS_MANAGER_IMPEXP void
-DebugStack(
-    std::vector<StackEntry> cstack, int nbOmitLines,
-    std::vector<PositionScript>& stackPositions);
-//=============================================================================
+NLSINTERPRETER_IMPEXP void setErrorEvaluator(Evaluator *eval);
+NLSINTERPRETER_IMPEXP void throwException(Exception &e);
 } // namespace Nelson
+//=============================================================================
+#ifdef __cplusplus
+extern "C" {
+#endif
+//=============================================================================
+NLSINTERPRETER_IMPEXP void NelsonErrorEmitter(const wchar_t *msg,
+                                              const wchar_t *id);
+//=============================================================================
+#ifdef __cplusplus
+}
+#endif
 //=============================================================================

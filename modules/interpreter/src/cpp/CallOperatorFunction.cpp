@@ -57,10 +57,10 @@ CallOperatorFunction(
     Context* context = eval->getContext();
     FunctionDef* funcDef = nullptr;
     if (!context->lookupFunction(functionName, funcDef)) {
-        Error(eval, utf8_to_wstring(_("function") + " " + functionName + " " + _("undefined.")));
+        Error(utf8_to_wstring(_("function") + " " + functionName + " " + _("undefined.")));
     }
     if (!context->lookupFunction(functionName, funcDef)) {
-        Error(eval, utf8_to_wstring(_("function") + " " + functionName + " " + _("undefined.")));
+        Error(utf8_to_wstring(_("function") + " " + functionName + " " + _("undefined.")));
     }
     int nargout = (int)nLhs;
     ArrayOfVector res = funcDef->evaluateFunction(eval, ArgsIn, nargout);

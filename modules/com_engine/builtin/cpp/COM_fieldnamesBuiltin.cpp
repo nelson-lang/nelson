@@ -28,10 +28,10 @@ Nelson::ComEngineGateway::COM_fieldnamesBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() == 0 || argIn.size() > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool fullList = false;
     ArrayOfVector retval;
@@ -41,12 +41,12 @@ Nelson::ComEngineGateway::COM_fieldnamesBuiltin(
         if (param2str == L"-full") {
             fullList = true;
         } else {
-            Error(eval, _W("Unrecognized option. \"-full\" expected."));
+            Error(_W("Unrecognized option. \"-full\" expected."));
         }
     }
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
     }
     wstringVector fieldnames;
     fieldnamesComHandleObject(param1, fullList, fieldnames);

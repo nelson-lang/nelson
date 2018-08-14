@@ -31,15 +31,15 @@ Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs, const ArrayO
 {
     ArrayOfVector retval;
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(eval, _W("MPI must be initialized."));
+        Error(_W("MPI must be initialized."));
     }
     ArrayOf param1 = argIn[0];
     if (eval != nullptr) {
@@ -48,7 +48,7 @@ Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs, const ArrayO
             if (param1.isHandle()) {
                 if (param1.isScalar()) {
                     if (param1.getHandleCategory() != MPI_COMM_CATEGORY_STR) {
-                        throw Exception(_W("MPI_Comm handle expected."));
+                        Error(_W("MPI_Comm handle expected."));
                     }
                     Dimensions dimsParam1 = param1.getDimensions();
                     io->outputMessage(L"[MPI_Comm] - size: ");
@@ -73,7 +73,7 @@ Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs, const ArrayO
                     io->outputMessage("\n");
                 }
             } else {
-                Error(eval, _W("MPI_Comm handle expected."));
+                Error(_W("MPI_Comm handle expected."));
             }
         }
     }

@@ -76,7 +76,7 @@ sparseBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             || I.isScalar() && J.isScalar() && V.isScalar()) {
             retval.push_back(SparseConstructor(I, J, V));
         } else {
-            Error(eval,
+            Error(
                 _W("in I, J, V format, all three vectors must be the same size or be scalars."));
         }
     } else {
@@ -126,7 +126,7 @@ Nelson::SparseGateway::sparseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     switch (argIn.size()) {
     case 1:
@@ -139,7 +139,7 @@ Nelson::SparseGateway::sparseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     case 6:
         return sparseBuiltinFiveOrSixRhs(eval, nLhs, argIn);
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;

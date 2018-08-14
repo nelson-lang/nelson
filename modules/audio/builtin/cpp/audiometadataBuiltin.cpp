@@ -31,10 +31,10 @@ Nelson::AudioGateway::audiometadataBuiltin(Evaluator* eval, int nLhs, const Arra
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0 || argIn.size() > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring errorMessage;
     ArrayOf param1 = argIn[0];
@@ -43,15 +43,15 @@ Nelson::AudioGateway::audiometadataBuiltin(Evaluator* eval, int nLhs, const Arra
     wstringVector values;
     AudioFileMetaData(filename, names, values, errorMessage);
     if (errorMessage != L"") {
-        Error(eval, errorMessage);
+        Error(errorMessage);
     }
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
         if (!param2.isStruct()) {
-            Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRUCT_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRUCT_EXPECTED);
         }
         if (!param2.isScalar()) {
-            Error(eval, ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
         }
         stringVector currentFieldnames = param2.getFieldNames();
         wstringVector wcurrentFieldname;
@@ -65,18 +65,18 @@ Nelson::AudioGateway::audiometadataBuiltin(Evaluator* eval, int nLhs, const Arra
                 } else {
                     deleteAudioFileMetaData(filename, utf8_to_wstring(fieldname), errorMessage);
                     if (errorMessage != L"") {
-                        Error(eval, errorMessage);
+                        Error(errorMessage);
                     }
                 }
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
+                Error(ERROR_WRONG_ARGUMENT_2_VALUE);
             }
         }
         currentFieldnames.clear();
         setAudioFileMetaData(filename, wcurrentFieldname, currentValues, errorMessage);
     }
     if (errorMessage != L"") {
-        Error(eval, errorMessage);
+        Error(errorMessage);
     }
     ArrayOfVector fieldvalues;
     for (size_t i = 0; i < names.size(); i++) {

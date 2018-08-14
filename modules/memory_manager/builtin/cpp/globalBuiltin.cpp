@@ -28,19 +28,19 @@ Nelson::MemoryGateway::globalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
 {
     ArrayOfVector retval;
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     Context* context = eval->getContext();
     for (size_t k = 0; k < argIn.size(); k++) {
         if (!argIn[k].isSingleString()) {
-            Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), k + 1));
+            Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), k + 1));
         }
         std::string arg = argIn[k].getContentAsCString();
         if (!IsValidVariableName(arg)) {
-            Error(eval, _W("Argument must contain a valid variable name."));
+            Error(_W("Argument must contain a valid variable name."));
         }
         if (context->isLockedVariable(arg)) {
-            Error(eval, _W("variable is locked."));
+            Error(_W("variable is locked."));
         }
     }
     for (size_t k = 0; k < argIn.size(); k++) {

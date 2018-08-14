@@ -29,7 +29,7 @@ void
 methodsComHandleObject(ArrayOf A, wstringVector& methods)
 {
     if (A.getHandleCategory() != COM_CATEGORY_STR) {
-        throw Exception(_W("COM handle expected."));
+        Error(_W("COM handle expected."));
     }
     ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     methodsComHandleObject(comhandleobj, methods);
@@ -41,7 +41,7 @@ methodsComHandleObject(ComHandleObject* comHandle, wstringVector& methods)
     void* ptr = comHandle->getPointer();
     methods.clear();
     if (ptr == nullptr) {
-        throw Exception(_W("COM valid handle expected."));
+        Error(_W("COM valid handle expected."));
     }
     VARIANT* pVariant = (VARIANT*)ptr;
     ITypeInfo* ti;

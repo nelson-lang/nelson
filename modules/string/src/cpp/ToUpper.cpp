@@ -40,7 +40,7 @@ ToUpper(Evaluator* eval, ArrayOf A)
             ArrayOf* element = (ArrayOf*)(res.getDataPointer());
             for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
                 if (!element[k].isSingleString()) {
-                    Error(eval, ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
+                    Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
                 }
                 element[k]
                     = ArrayOf::stringConstructor(ToUpper(element[k].getContentAsWideString()));
@@ -48,7 +48,7 @@ ToUpper(Evaluator* eval, ArrayOf A)
             return res;
         }
     } else {
-        Error(eval, ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
+        Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
     }
     return res;
 }

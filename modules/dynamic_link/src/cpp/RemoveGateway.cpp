@@ -41,7 +41,7 @@ RemoveGateway(Evaluator* eval, std::wstring dynlibname)
     filename = p.filename().generic_wstring();
     filename = FindDynamicLibraryName(dirname, filename, false);
     if (filename.empty()) {
-        Error(eval, _W("File not found."));
+        Error(_W("File not found."));
     }
     boost::filesystem::path currentdirbackup = boost::filesystem::current_path();
     boost::filesystem::current_path(dir);
@@ -57,12 +57,12 @@ RemoveGateway(Evaluator* eval, std::wstring dynlibname)
             get_function(nlsModuleHandleDynamicLibrary, REMOVEGATEWAY_ENTRY));
         boost::filesystem::current_path(currentdirbackup);
         if (!RemoveGatewayPtr) {
-            Error(eval, _W("Module not loaded: symbol not found."));
+            Error(_W("Module not loaded: symbol not found."));
         }
         RemoveGatewayPtr((void*)eval, dynlibname.c_str());
     } else {
         boost::filesystem::current_path(currentdirbackup);
-        Error(eval, _W("Module not loaded: library not loaded."));
+        Error(_W("Module not loaded: library not loaded."));
     }
 }
 //=============================================================================

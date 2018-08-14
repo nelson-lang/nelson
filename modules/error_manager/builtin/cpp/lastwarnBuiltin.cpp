@@ -23,72 +23,68 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    Exception lastWarning = eval->getLastWarningException();
-    bool wasReset = false;
-    switch (argIn.size()) {
-    case 0: {
-    } break;
-    case 1: {
-        ArrayOf arg1 = argIn[0];
-        if (arg1.isSingleString()) {
-            std::wstring message = arg1.getContentAsWideString();
-            if (message == L"") {
-                eval->resetLastWarningException();
-                wasReset = true;
-            } else {
-                Exception newLastWarning(message, L"", -1, -1, L"", L"");
-                eval->setLastWarningException(newLastWarning);
-            }
-        } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
-        }
-    } break;
-    case 2: {
-        ArrayOf arg1 = argIn[0];
-        std::wstring message;
-        std::wstring identifier;
-        if (arg1.isSingleString()) {
-            message = arg1.getContentAsWideString();
-        } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
-        }
-        ArrayOf arg2 = argIn[1];
-        if (arg2.isSingleString()) {
-            identifier = arg2.getContentAsWideString();
-        } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
-        }
-        Exception newLastWarning(message, L"", -1, -1, L"", identifier);
+Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator *eval, int nLhs,
+                                             const ArrayOfVector &argIn) {
+  ArrayOfVector retval;
+  Exception lastWarning = eval->getLastWarningException();
+  bool wasReset = false;
+  switch (argIn.size()) {
+  case 0: {
+  } break;
+  case 1: {
+    ArrayOf arg1 = argIn[0];
+    if (arg1.isSingleString()) {
+      std::wstring message = arg1.getContentAsWideString();
+      if (message == L"") {
+        eval->resetLastWarningException();
+        wasReset = true;
+      } else {
+        Exception newLastWarning(message);
         eval->setLastWarningException(newLastWarning);
-    } break;
-    default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    } break;
+      }
+    } else {
+      Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-    switch (nLhs) {
-    case 0: {
-        if (!wasReset) {
-            std::wstring message = lastWarning.getFormattedErrorMessage();
-            retval.push_back(ArrayOf::stringConstructor(message));
-        }
-    } break;
-    case 1: {
-        std::wstring message = lastWarning.getFormattedErrorMessage();
-        retval.push_back(ArrayOf::stringConstructor(message));
-    } break;
-    case 2: {
-        std::wstring message = lastWarning.getFormattedErrorMessage();
-        std::wstring identifier = lastWarning.getIdentifier();
-        retval.push_back(ArrayOf::stringConstructor(message));
-        retval.push_back(ArrayOf::stringConstructor(identifier));
-    } break;
-    default: {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    } break;
+  } break;
+  case 2: {
+    ArrayOf arg1 = argIn[0];
+    std::wstring message;
+    std::wstring identifier;
+    if (arg1.isSingleString()) {
+      message = arg1.getContentAsWideString();
+    } else {
+      Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-    return retval;
+    ArrayOf arg2 = argIn[1];
+    if (arg2.isSingleString()) {
+      identifier = arg2.getContentAsWideString();
+    } else {
+      Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+    }
+    Exception newLastWarning(message, identifier);
+    eval->setLastWarningException(newLastWarning);
+  } break;
+  default: { Error(ERROR_WRONG_NUMBERS_INPUT_ARGS); } break;
+  }
+  switch (nLhs) {
+  case 0: {
+    if (!wasReset) {
+      std::wstring message = lastWarning.getMessage();
+      retval.push_back(ArrayOf::stringConstructor(message));
+    }
+  } break;
+  case 1: {
+    std::wstring message = lastWarning.getMessage();
+    retval.push_back(ArrayOf::stringConstructor(message));
+  } break;
+  case 2: {
+    std::wstring message = lastWarning.getMessage();
+    std::wstring identifier = lastWarning.getIdentifier();
+    retval.push_back(ArrayOf::stringConstructor(message));
+    retval.push_back(ArrayOf::stringConstructor(identifier));
+  } break;
+  default: { Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS); } break;
+  }
+  return retval;
 }
 //=============================================================================

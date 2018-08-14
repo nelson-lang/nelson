@@ -16,10 +16,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <cstring>
+#include <sndfile.h>
 #include "AudioSupportedFormats.hpp"
 #include "ToCellString.hpp"
 #include "characters_encoding.hpp"
-#include <sndfile.h>
 //=============================================================================
 namespace Nelson {
 //=============================================================================

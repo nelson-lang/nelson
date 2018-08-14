@@ -18,7 +18,7 @@
 //=============================================================================
 #include "VertCatString.hpp"
 #include "ConcatenateNdArray.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
@@ -27,10 +27,10 @@ ArrayOf
 VertCatString(ArrayOf A, ArrayOf B)
 {
     if (!A.isString()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     if (!B.isString()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);
@@ -43,7 +43,7 @@ VertCatString(ArrayOf A, ArrayOf B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getColumns() != dimsB.getColumns()) {
-        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     indexType newColumnsSize = dimsA.getColumns();
     indexType newRowsSize = dimsA.getRows() + dimsB.getRows();
@@ -66,23 +66,23 @@ ArrayOf
 VertCatNdArrayString(ArrayOf A, ArrayOf B)
 {
     if (!A.isNdArrayStringType()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     if (!B.isNdArrayStringType()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
     }
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getColumns() != dimsB.getColumns()) {
-        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     if (dimsA.getLength() != dimsB.getLength()) {
-        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     for (indexType k = 0; k < dimsA.getLength(); k++) {
         if (k != 0) {
             if (dimsA.getDimensionLength(k) != dimsB.getDimensionLength(k)) {
-                throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+                Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
             }
         }
     }

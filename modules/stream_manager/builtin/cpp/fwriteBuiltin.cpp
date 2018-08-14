@@ -44,7 +44,7 @@ fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     } else if ((arg == L"l") || (arg == L"ieee-le")) {
         bIsLittleEndian = true;
     } else {
-        Error(eval, _W("Wrong value for machine format."));
+        Error(_W("Wrong value for machine format."));
     }
     ArrayOf param4 = argIn[3];
     size_t skipSize = (size_t)param4.getContentAsScalarIndex();
@@ -55,19 +55,19 @@ fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         bool bOK = false;
         classDest = precisionFromString(precisionStr, bOK);
         if (!bOK) {
-            Error(eval, _W("Wrong value for #3 argument: not supported precision."));
+            Error(_W("Wrong value for #3 argument: not supported precision."));
         }
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     if (param1.isDoubleType()) {
         if (param2.isReferenceType()) {
-            Error(eval, _W("Cannot write references type."));
+            Error(_W("Cannot write references type."));
         }
         if (param2.isSparse()) {
-            Error(eval, _W("Cannot write sparse type."));
+            Error(_W("Cannot write sparse type."));
         }
         FilesManager* fm = (FilesManager*)(eval->FileManager);
         int32 iValue = (int32)param1.getContentAsDoubleScalar();
@@ -83,24 +83,24 @@ fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 }
             } break;
             case FWRITE_DATA_TYPE_NOT_SUPPORTED: {
-                Error(eval, _W("Type not supported."));
+                Error(_W("Type not supported."));
             } break;
             case FWRITE_ALLOCATION_MEMORY: {
-                Error(eval, _W("Memory allocation error... You may have run out of memory!"));
+                Error(_W("Memory allocation error... You may have run out of memory!"));
             } break;
             case FWRITE_FILE_DESTINATION_NOT_SUPPORTED:
             case FWRITE_INVALID_FILE: {
-                Error(eval, _W("Invalid file identifier."));
+                Error(_W("Invalid file identifier."));
             } break;
             case FWRITE_ENDIAN_CONVERSION_NOT_SUPPORTED: {
-                Error(eval, _W("Endian conversion not supported for this file identifier."));
+                Error(_W("Endian conversion not supported for this file identifier."));
             } break;
             }
         } else {
-            Error(eval, _W("Wrong value for #1 argument: a valid file ID expected."));
+            Error(_W("Wrong value for #1 argument: a valid file ID expected."));
         }
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
     }
     return retval;
 }
@@ -156,7 +156,7 @@ ArrayOfVector
 Nelson::StreamGateway::fwriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     switch (argIn.size()) {
     case 2:
@@ -168,7 +168,7 @@ Nelson::StreamGateway::fwriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     case 5:
         return fwriteBuiltinFiveRhs(eval, nLhs, argIn);
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     ArrayOfVector retval;

@@ -18,6 +18,7 @@
 //=============================================================================
 #include "GreaterThan.hpp"
 #include "MatrixCheck.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 template <class T>

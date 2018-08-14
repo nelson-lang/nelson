@@ -21,18 +21,18 @@
 namespace Nelson {
 //=============================================================================
 void
-CheckNumeric(ArrayOf A, ArrayOf B, const std::string& opname) throw(Exception)
+CheckNumeric(ArrayOf A, ArrayOf B, const std::string& opname)
 {
     bool Anumeric, Bnumeric;
     Anumeric = !A.isReferenceType();
     Bnumeric = !B.isReferenceType();
     if (!(Anumeric && Bnumeric))
-        throw Exception(std::string(_("Cannot apply numeric operation ")) + opname
+        Error(std::string(_("Cannot apply numeric operation ")) + opname
             + std::string(_(" to reference types.")));
 }
 //=============================================================================
 bool
-MatrixCheck(ArrayOf A, ArrayOf B, const std::string& opname) throw(Exception)
+MatrixCheck(ArrayOf A, ArrayOf B, const std::string& opname)
 {
     // Test for either a scalar (test 1)
     if (A.isScalar() || B.isScalar()) {
@@ -42,7 +42,7 @@ MatrixCheck(ArrayOf A, ArrayOf B, const std::string& opname) throw(Exception)
     CheckNumeric(A, B, opname);
     // Test for 2D
     if (!A.is2D() || !B.is2D())
-        throw Exception(std::string(_("Cannot apply matrix operation ")) + opname
+        Error(std::string(_("Cannot apply matrix operation ")) + opname
             + std::string(_(" to N-Dimensional arrays.")));
     return true;
 }
@@ -96,32 +96,32 @@ SameSizeCheck(Dimensions Adim, Dimensions Bdim)
 }
 //=============================================================================
 void
-VectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname) throw(Exception)
+VectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
 {
     stringVector dummySV;
     // Check for numeric types
     CheckNumeric(A, B, opname);
     if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar())) {
-        throw Exception(
+        Error(
             std::string(_("Size mismatch on arguments to arithmetic operator ")) + opname);
     }
 }
 //=============================================================================
 void
-BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname) throw(Exception)
+BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
 {
     A.promoteType(NLS_LOGICAL);
     B.promoteType(NLS_LOGICAL);
     if (A.isVector() && B.isVector()) {
         if ((A.isRowVector() && B.isRowVector()) || (A.isColumnVector() && B.isColumnVector())) {
             if (A.getDimensions().getElementCount() != B.getDimensions().getElementCount()) {
-                throw Exception(std::string(_("Size mismatch on arguments to ")) + opname);
+                Error(std::string(_("Size mismatch on arguments to ")) + opname);
             }
         }
     } else {
         if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar()
                 || B.isScalar())) {
-            throw Exception(std::string(_("Size mismatch on arguments to ")) + opname);
+            Error(std::string(_("Size mismatch on arguments to ")) + opname);
         }
     }
 }

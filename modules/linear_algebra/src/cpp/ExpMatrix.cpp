@@ -34,11 +34,11 @@ ExpMatrix(ArrayOf A)
               || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
-        throw Exception(_("Undefined function 'expm' for input arguments of type") + " '"
+        Error(_("Undefined function 'expm' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     }
     if (!A.isSquare()) {
-        throw Exception(_("Square matrix expected."));
+        Error(_("Square matrix expected."));
     }
     if (A.isEmpty()) {
         ArrayOf RES(A);

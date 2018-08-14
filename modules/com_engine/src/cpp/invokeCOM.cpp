@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "invokeCOM.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include <atlconv.h>
 //=============================================================================
 bool

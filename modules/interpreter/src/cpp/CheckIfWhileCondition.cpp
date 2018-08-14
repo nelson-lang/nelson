@@ -75,10 +75,10 @@ checkIfWhileCondition(const ArrayOf& A)
                 }
             } break;
             case NLS_DCOMPLEX: {
-                throw Exception(_W("Complex cannot be converted to logical."));
+                Error(_W("Complex cannot be converted to logical."));
             } break;
             default: {
-                throw Exception(
+                Error(
                     _W("Unable to convert variable type to test for if/while statement"));
             } break;
             }
@@ -122,10 +122,10 @@ checkIfWhileCondition(const ArrayOf& A)
             } break;
             case NLS_SCOMPLEX:
             case NLS_DCOMPLEX: {
-                throw Exception(_W("Complex cannot be converted to logical."));
+                Error(_W("Complex cannot be converted to logical."));
             } break;
             default: {
-                throw Exception(
+                Error(
                     _W("Unable to convert variable type to test for if/while statement"));
             } break;
             }

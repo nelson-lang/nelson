@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ListFiles.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "IsDirectory.hpp"
 #include "IsFile.hpp"
 #include <boost/algorithm/string.hpp>
@@ -71,7 +71,7 @@ ListFilesWithWildcard(std::wstring mask, bool bSubdirectories)
                     } catch (boost::filesystem::filesystem_error& e) {
                         if (!bSubdirectories) {
                             boost::system::error_code error_code = e.code();
-                            throw Exception(error_code.message());
+                            Error(error_code.message());
                         }
                     }
                 }
@@ -102,7 +102,7 @@ ListFilesWithWildcard(std::wstring mask, bool bSubdirectories)
                     } catch (boost::filesystem::filesystem_error& e) {
                         if (!bSubdirectories) {
                             boost::system::error_code error_code = e.code();
-                            throw Exception(error_code.message());
+                            Error(error_code.message());
                         }
                     }
                 }
@@ -165,7 +165,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                     } catch (boost::filesystem::filesystem_error& e) {
                         if (!bSubdirectories) {
                             boost::system::error_code error_code = e.code();
-                            throw Exception(error_code.message());
+                            Error(error_code.message());
                         }
                     }
                 }
@@ -186,7 +186,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                     } catch (boost::filesystem::filesystem_error& e) {
                         if (!bSubdirectories) {
                             boost::system::error_code error_code = e.code();
-                            throw Exception(error_code.message());
+                            Error(error_code.message());
                         }
                     }
                 }

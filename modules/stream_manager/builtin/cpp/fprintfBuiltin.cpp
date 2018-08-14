@@ -30,13 +30,13 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     if (argIn.size() == 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (argIn.size() < 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     double dID = 1;
@@ -48,25 +48,25 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         dID = param1.getContentAsDoubleScalar();
         ArrayOf param2 = argIn[1];
         if (!param2.isString()) {
-            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         firstArgumentPosition = 1;
     } else if (param1.isSingleString()) {
         dID = 1;
         firstArgumentPosition = 0;
     } else {
-        Error(eval, _W("valid format expected."));
+        Error(_W("valid format expected."));
     }
     for (indexType i = firstArgumentPosition; i < argIn.size(); i++) {
         args.push_back(argIn[i]);
     }
     if (!printfFunction(args, errorMessage, result)) {
-        Error(eval, errorMessage);
+        Error(errorMessage);
     }
     FilesManager* fm = (FilesManager*)(eval->FileManager);
     int32 iValue = (int32)dID;
     if (fm == nullptr) {
-        Error(eval, _W("Problem with file manager."));
+        Error(_W("Problem with file manager."));
     }
     if (fm->isOpened(iValue)) {
         File* f = fm->getFile(iValue);
@@ -81,21 +81,21 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                     }
                 }
             } else {
-                Error(eval, _W("ID not supported."));
+                Error(_W("ID not supported."));
             }
         } else {
             FILE* filepointer = (FILE*)f->getFilePointer();
             if (filepointer) {
                 fwprintf(filepointer, L"%ls", result.c_str());
             } else {
-                Error(eval, _W("ID not supported."));
+                Error(_W("ID not supported."));
             }
         }
         if (nLhs > 0) {
             retval.push_back(ArrayOf::doubleConstructor((double)result.length()));
         }
     } else {
-        Error(eval, _W("Wrong value for #1 argument: a valid file ID expected."));
+        Error(_W("Wrong value for #1 argument: a valid file ID expected."));
     }
     return retval;
 }

@@ -23,7 +23,7 @@ Please feel free to file issues on this repository if you have questions, concer
 - completion,
 - graphics output,
 - some basic openCV functions,
-- dynamic link functions (Nelson external modules)
+- dynamic link functions (Nelson external modules) (DONE v0.2.6)
 
 ### How can I help?
 

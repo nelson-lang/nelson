@@ -41,29 +41,29 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             std::wstring param = argIn[0].getContentAsWideString();
             if (param.compare(L"on") == 0) {
                 if (nLhs != 0) {
-                    Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                    Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
                 }
                 io->diary.setState(true);
             } else if (param.compare(L"off") == 0) {
                 if (nLhs != 0) {
-                    Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                    Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
                 }
                 io->diary.setState(false);
             } else {
                 if (nLhs != 0) {
-                    Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                    Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
                 }
                 bool bRes = io->diary.SetFilename(param);
                 if (!bRes) {
-                    Error(eval, _W("Error using diary."));
+                    Error(_W("Error using diary."));
                 }
             }
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
     } else if (argIn.size() == 0) {
         if (nLhs != 0) {
-            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         io->diary.toggle();
     } else if (argIn.size() == 2) {
@@ -71,11 +71,11 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         if ((argIn[0].isSingleString()) && (argIn[1].isSingleString())) {
             bool bLhs = (nLhs == 0) || (nLhs == 1);
             if (!bLhs) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             std::wstring param1 = argIn[0].getContentAsWideString();
             if (param1.compare(L"get") != 0) {
-                Error(eval, _W("#1 Argument \'get\' expected."));
+                Error(_W("#1 Argument \'get\' expected."));
             }
             std::wstring param2 = argIn[1].getContentAsWideString();
             if (param2.compare(L"Diary") == 0) {
@@ -87,13 +87,13 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             } else if (param2.compare(L"DiaryFile") == 0) {
                 retval.push_back(ArrayOf::stringConstructor(io->diary.getFilename()));
             } else {
-                Error(eval, _W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
+                Error(_W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
             }
         } else {
             if (!argIn[0].isSingleString()) {
-                Error(eval, _W("#1 Argument \'get\' expected."));
+                Error(_W("#1 Argument \'get\' expected."));
             } else {
-                Error(eval, _W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
+                Error(_W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
             }
         }
     } else if (argIn.size() == 3) {
@@ -101,7 +101,7 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             && (argIn[2].isSingleString())) {
             std::wstring param1 = argIn[0].getContentAsWideString();
             if (param1.compare(L"set") != 0) {
-                Error(eval, _W("#1 Argument \'set\' expected."));
+                Error(_W("#1 Argument \'set\' expected."));
             }
             std::wstring param3 = argIn[2].getContentAsWideString();
             std::wstring param2 = argIn[1].getContentAsWideString();
@@ -113,27 +113,27 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                         io->diary.setState(true);
                     }
                 } else {
-                    Error(eval, _W("#3 Argument \'on\' or \'off\' expected."));
+                    Error(_W("#3 Argument \'on\' or \'off\' expected."));
                 }
             } else if (param2.compare(L"DiaryFile") == 0) {
                 bool bRes = io->diary.SetFilename(param3);
                 if (!bRes) {
-                    Error(eval, _W("Error using diary."));
+                    Error(_W("Error using diary."));
                 }
             } else {
-                Error(eval, _W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
+                Error(_W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
             }
         } else {
             if (!argIn[0].isSingleString()) {
-                Error(eval, _W("#1 Argument \'set\' expected."));
+                Error(_W("#1 Argument \'set\' expected."));
             } else if (!argIn[1].isSingleString()) {
-                Error(eval, _W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
+                Error(_W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
             } else {
-                Error(eval, _W("#3 Argument a string expected."));
+                Error(_W("#3 Argument a string expected."));
             }
         }
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

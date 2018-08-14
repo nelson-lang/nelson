@@ -31,7 +31,7 @@ Cos(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        throw Exception(
+        Error(
             _("Undefined function 'cos' for input arguments of type") + " '" + ClassName(A) + "'.");
     }
     switch (A.getDataClass()) {
@@ -47,7 +47,7 @@ Cos(ArrayOf A)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_CHAR: {
-        throw Exception(
+        Error(
             _("Undefined function 'cos' for input arguments of type") + " '" + ClassName(A) + "'.");
     } break;
     case NLS_SCOMPLEX: {
@@ -94,7 +94,7 @@ Cos(ArrayOf A)
         return R;
     } break;
     default: {
-        throw Exception(_W("Invalid conversion."));
+        Error(_W("Invalid conversion."));
     } break;
     }
     return ArrayOf();
@@ -109,7 +109,7 @@ Sin(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        throw Exception(
+        Error(
             _("Undefined function 'sin' for input arguments of type") + " '" + ClassName(A) + "'.");
     }
     switch (A.getDataClass()) {
@@ -125,7 +125,7 @@ Sin(ArrayOf A)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_CHAR: {
-        throw Exception(
+        Error(
             _("Undefined function 'sin' for input arguments of type") + " '" + ClassName(A) + "'.");
     } break;
     case NLS_SCOMPLEX: {
@@ -172,7 +172,7 @@ Sin(ArrayOf A)
         return R;
     } break;
     default: {
-        throw Exception(_W("Invalid conversion."));
+        Error(_W("Invalid conversion."));
     } break;
     }
     return ArrayOf();
@@ -187,7 +187,7 @@ Tan(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        throw Exception(
+        Error(
             _("Undefined function 'tan' for input arguments of type") + " '" + ClassName(A) + "'.");
     }
     switch (A.getDataClass()) {
@@ -203,7 +203,7 @@ Tan(ArrayOf A)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_CHAR: {
-        throw Exception(
+        Error(
             _("Undefined function 'tan' for input arguments of type") + " '" + ClassName(A) + "'.");
     } break;
     case NLS_SCOMPLEX: {
@@ -250,7 +250,7 @@ Tan(ArrayOf A)
         return R;
     } break;
     default: {
-        throw Exception(_W("Invalid conversion."));
+        Error(_W("Invalid conversion."));
     } break;
     }
     return ArrayOf();
@@ -265,7 +265,7 @@ Cosh(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        throw Exception(_("Undefined function 'cosh' for input arguments of type") + " '"
+        Error(_("Undefined function 'cosh' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     }
     switch (A.getDataClass()) {
@@ -281,7 +281,7 @@ Cosh(ArrayOf A)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_CHAR: {
-        throw Exception(_("Undefined function 'cosh' for input arguments of type") + " '"
+        Error(_("Undefined function 'cosh' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     // cosh not implemented in Eigen, we use std cosh
@@ -341,7 +341,7 @@ Cosh(ArrayOf A)
         return R;
     } break;
     default: {
-        throw Exception(_W("Invalid conversion."));
+        Error(_W("Invalid conversion."));
     } break;
     }
     return ArrayOf();
@@ -356,7 +356,7 @@ Sinh(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        throw Exception(_("Undefined function 'sinh' for input arguments of type") + " '"
+        Error(_("Undefined function 'sinh' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     }
     switch (A.getDataClass()) {
@@ -372,7 +372,7 @@ Sinh(ArrayOf A)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_CHAR: {
-        throw Exception(_("Undefined function 'sinh' for input arguments of type") + " '"
+        Error(_("Undefined function 'sinh' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     // sinh not implemented in Eigen, we use std sinh
@@ -429,7 +429,7 @@ Sinh(ArrayOf A)
         return R;
     } break;
     default: {
-        throw Exception(_W("Invalid conversion."));
+        Error(_W("Invalid conversion."));
     } break;
     }
     return ArrayOf();
@@ -444,7 +444,7 @@ Tanh(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        throw Exception(_("Undefined function 'tanh' for input arguments of type") + " '"
+        Error(_("Undefined function 'tanh' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     }
     switch (A.getDataClass()) {
@@ -460,7 +460,7 @@ Tanh(ArrayOf A)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_CHAR: {
-        throw Exception(_("Undefined function 'tanh' for input arguments of type") + " '"
+        Error(_("Undefined function 'tanh' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     // tanh not implemented in Eigen, we use std tanh
@@ -520,7 +520,7 @@ Tanh(ArrayOf A)
         return R;
     } break;
     default: {
-        throw Exception(_W("Invalid conversion."));
+        Error(_W("Invalid conversion."));
     } break;
     }
     return ArrayOf();
@@ -535,7 +535,7 @@ Acos(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        throw Exception(_("Undefined function 'acos' for input arguments of type") + " '"
+        Error(_("Undefined function 'acos' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     }
     switch (A.getDataClass()) {
@@ -551,7 +551,7 @@ Acos(ArrayOf A)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_CHAR: {
-        throw Exception(_("Undefined function 'acos' for input arguments of type") + " '"
+        Error(_("Undefined function 'acos' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     case NLS_SINGLE:
@@ -587,7 +587,7 @@ Acos(ArrayOf A)
         return R;
     } break;
     default: {
-        throw Exception(_W("Invalid conversion."));
+        Error(_W("Invalid conversion."));
     } break;
     }
     return ArrayOf();
@@ -602,7 +602,7 @@ Asin(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        throw Exception(_("Undefined function 'asin' for input arguments of type") + " '"
+        Error(_("Undefined function 'asin' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     }
     switch (A.getDataClass()) {
@@ -618,7 +618,7 @@ Asin(ArrayOf A)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_CHAR: {
-        throw Exception(_("Undefined function 'asin' for input arguments of type") + " '"
+        Error(_("Undefined function 'asin' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     case NLS_SINGLE:
@@ -654,7 +654,7 @@ Asin(ArrayOf A)
         return R;
     } break;
     default: {
-        throw Exception(_W("Invalid conversion."));
+        Error(_W("Invalid conversion."));
     } break;
     }
     return ArrayOf();
@@ -669,7 +669,7 @@ Atan(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        throw Exception(_("Undefined function 'atan' for input arguments of type") + " '"
+        Error(_("Undefined function 'atan' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     }
     switch (A.getDataClass()) {
@@ -685,7 +685,7 @@ Atan(ArrayOf A)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_CHAR: {
-        throw Exception(_("Undefined function 'atan' for input arguments of type") + " '"
+        Error(_("Undefined function 'atan' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     case NLS_SINGLE:
@@ -732,7 +732,7 @@ Atan(ArrayOf A)
         return R;
     } break;
     default: {
-        throw Exception(_W("Invalid conversion."));
+        Error(_W("Invalid conversion."));
     } break;
     }
     return ArrayOf();

@@ -29,7 +29,7 @@ OverloadDisplay(Evaluator* eval, ArrayOf a)
     FunctionDef* funcDef = nullptr;
     std::string OverloadName = ClassName(a) + "_disp";
     if (!context->lookupFunction(OverloadName, funcDef)) {
-        Error(eval, utf8_to_wstring(_("function") + " " + OverloadName + " " + _("undefined.")));
+        Error(utf8_to_wstring(_("function") + " " + OverloadName + " " + _("undefined.")));
     }
     ArrayOfVector argsIn;
     argsIn.push_back(a);

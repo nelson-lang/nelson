@@ -18,7 +18,7 @@
 //=============================================================================
 #include "Prod.hpp"
 #include "ClassName.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include <algorithm>
 //=============================================================================
 namespace Nelson {
@@ -85,7 +85,7 @@ Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         std::wstring classname;
         ClassName(A, classname);
         std::wstring msg = _W("function") + L" " + classname + L"_prod" + L" " + _W("undefined.");
-        throw Exception(msg);
+        Error(msg);
     }
     if (A.isEmpty(true) && A.is2D()) {
         res = ArrayOf::doubleConstructor(1);
@@ -162,7 +162,7 @@ Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
             ClassName(A, classname);
             std::wstring msg
                 = _W("function") + L" " + classname + L"_prod" + L" " + _W("undefined.");
-            throw Exception(msg);
+            Error(msg);
         } break;
         }
     }

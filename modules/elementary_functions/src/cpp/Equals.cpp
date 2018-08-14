@@ -17,8 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Equals.hpp"
-#include "Exception.hpp"
 #include "MatrixCheck.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -166,7 +166,7 @@ Equals(ArrayOf A, ArrayOf B)
             (charType*)B.getDataPointer(), Bstride);
     } break;
     default: {
-        throw Exception(_W("Eq: type(s) not managed."));
+        Error(_W("Eq: type(s) not managed."));
     } break;
     }
     return ArrayOf(NLS_LOGICAL, Cdim, Cp);

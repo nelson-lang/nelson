@@ -41,13 +41,14 @@
 #include "ArrayOf.hpp"
 #include "CommandQueue.hpp"
 #include "Context.hpp"
-#include "Exception.hpp"
 #include "FunctionDef.hpp"
+#include "Error.hpp"
 #include "Interface.hpp"
 #include "StackEntry.hpp"
 #include "Warning.hpp"
 #include "PositionScript.hpp"
 #include "nlsInterpreter_exports.h"
+#include "Exception.hpp"
 #include <stack>
 #include <vector>
 
@@ -108,12 +109,12 @@ class NLSINTERPRETER_IMPEXP Evaluator
     /**
      * The last error that occured.
      */
-    Exception* lastErrorException;
+    Exception lastErrorException;
 
     /**
      * The last warning that occured.
      */
-    Exception* lastWarningException;
+    Exception lastWarningException;
 
     /**
      * autostop storage flag
@@ -762,21 +763,16 @@ public:
     /**
      * Get the last error that occurred.
      */
-    std::wstring
-    getLastErrorString();
-
     Exception
     getLastErrorException();
     bool
     setLastErrorException(const Exception& e);
 
-    /**
-     * Set the text for the last error.
+	/**
+     * reset last error
      */
     void
-    setLastErrorString(const std::wstring& txt);
-    void
-    setLastErrorString(const std::string& txt);
+    resetLastErrorException();
 
     /**
      * Get the last warning that occurred.

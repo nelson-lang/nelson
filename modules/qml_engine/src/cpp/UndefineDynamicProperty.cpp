@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "UndefineDynamicProperty.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "QStringConverter.hpp"
@@ -34,18 +34,18 @@ UndefineDynamicProperty(ArrayOf A, std::wstring propertyName)
     ArrayOf res;
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
-        throw Exception(_W("QObject handle expected."));
+        Error(_W("QObject handle expected."));
     }
     QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        throw Exception(_W("QObject valid handle expected."));
+        Error(_W("QObject valid handle expected."));
     }
     QObject* qobj = (QObject*)ptr;
     if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
-        throw Exception(_W("'parent' can not modified."));
+        Error(_W("'parent' can not modified."));
     } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR)) {
-        throw Exception(_W("'children' can not modified."));
+        Error(_W("'children' can not modified."));
     } else {
         bool isDynamicProperty = false;
         QList<QByteArray> names = qobj->dynamicPropertyNames();
@@ -61,7 +61,7 @@ UndefineDynamicProperty(ArrayOf A, std::wstring propertyName)
             QVariant undefined = QVariant();
             qobj->setProperty(upropertyname.c_str(), undefined);
         } else {
-            throw Exception(_W("'" + upropertyname + "'" + " can not modified."));
+            Error(_W("'" + upropertyname + "'" + " can not modified."));
         }
     }
 }

@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ismethodQObject.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "HandleManager.hpp"
 #include "QmlHandleObject.hpp"
 #include "characters_encoding.hpp"
@@ -30,7 +30,7 @@ ismethodQObject(QmlHandleObject* qmlhandleobj, const std::wstring& methodname)
 {
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        throw Exception(_W("QObject valid handle expected."));
+        Error(_W("QObject valid handle expected."));
     }
     QObject* qobj = (QObject*)ptr;
     const QMetaObject* metaObject = qobj->metaObject();
@@ -54,7 +54,7 @@ ismethodQObject(ArrayOf A, const std::wstring& methodname)
 {
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
-        throw Exception(_W("QObject handle expected."));
+        Error(_W("QObject handle expected."));
     }
     QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
     bool res = ismethodQObject(qmlhandleobj, methodname);

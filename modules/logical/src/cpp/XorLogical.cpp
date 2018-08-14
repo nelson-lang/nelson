@@ -19,6 +19,7 @@
 #include "XorLogical.hpp"
 #include "MatrixCheck.hpp"
 #include "Types.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -48,7 +49,7 @@ XorLogical(ArrayOf A, ArrayOf B)
     if ((A.getDataClass() == NLS_LOGICAL) && (B.getDataClass() == NLS_LOGICAL)) {
         if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar()
                 || B.isScalar())) {
-            throw Exception(_W("Size mismatch on arguments."));
+            Error(_W("Size mismatch on arguments."));
         }
         if (A.isScalar()) {
             size_t Blen(B.getLength());
@@ -67,7 +68,7 @@ XorLogical(ArrayOf A, ArrayOf B)
             C = ArrayOf(NLS_LOGICAL, A.getDimensions(), Cp);
         }
     } else {
-        throw Exception(_W("Invalid type."));
+        Error(_W("Invalid type."));
     }
     return C;
 }

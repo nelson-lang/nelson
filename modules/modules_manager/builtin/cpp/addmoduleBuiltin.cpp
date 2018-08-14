@@ -28,22 +28,22 @@ Nelson::ModulesManagerGateway::addmoduleBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring modulerootpath = L"";
     std::wstring moduleshortname = L"";
     if (argIn[0].isSingleString()) {
         modulerootpath = argIn[0].getContentAsWideString();
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     if (argIn[1].isSingleString()) {
         moduleshortname = argIn[1].getContentAsWideString();
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
     }
     AddModule(eval, modulerootpath, moduleshortname);
     return retval;

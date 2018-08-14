@@ -18,6 +18,7 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Data.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -90,7 +91,7 @@ ArrayOf::getContentAsDoubleScalar(bool arrayAsScalar)
 {
     if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
-        throw Exception(_W("Expected a real value scalar."));
+        Error(_W("Expected a real value scalar."));
     }
     promoteType(NLS_DOUBLE);
     double* qp = (double*)dp->getData();
@@ -102,7 +103,7 @@ ArrayOf::getContentAsDoubleComplexScalar(bool arrayAsScalar)
 {
     if (isEmpty() || isReferenceType() || isString() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
-        throw Exception(_W("Expected a real valued scalar"));
+        Error(_W("Expected a real valued scalar"));
     }
     promoteType(NLS_DCOMPLEX);
     double* qp = (double*)dp->getData();

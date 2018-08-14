@@ -27,10 +27,10 @@ Nelson::EngineGateway::getnelsonmodeBuiltin(Evaluator* eval, int nLhs, const Arr
 {
     ArrayOfVector retval;
     if (argIn.size() != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     NELSON_ENGINE_MODE _mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
     switch (_mode) {
@@ -50,7 +50,7 @@ Nelson::EngineGateway::getnelsonmodeBuiltin(Evaluator* eval, int nLhs, const Arr
         retval.push_back(ArrayOf::stringConstructor("GUI"));
     } break;
     default: {
-        Error(eval, _W("unknown mode."));
+        Error(_W("unknown mode."));
     } break;
     }
     return retval;

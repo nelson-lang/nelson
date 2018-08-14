@@ -165,7 +165,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\ClearFunction.cpp" />
-    <ClCompile Include="..\cpp\DebugStack.cpp" />
     <ClCompile Include="..\cpp\MacroArguments.cpp" />
     <ClCompile Include="..\cpp\What.cpp" />
     <ClCompile Include="..\cpp\Which.cpp" />
@@ -175,7 +174,6 @@
     <ClInclude Include="..\..\src\include\nlsFunctions_manager_exports.h" />
     <ClInclude Include="..\..\src\include\Which.hpp" />
     <ClInclude Include="..\include\ClearFunction.hpp" />
-    <ClInclude Include="..\include\DebugStack.hpp" />
     <ClInclude Include="..\include\MacroArguments.hpp" />
     <ClInclude Include="..\include\What.hpp" />
   </ItemGroup>

@@ -27,7 +27,7 @@ RealPart(ArrayOf arrayIn)
 {
     ArrayOf res;
     if (arrayIn.isSparse()) {
-        throw Exception(
+        Error(
             _W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_real'");
     }
     switch (arrayIn.getDataClass()) {
@@ -55,7 +55,7 @@ RealPart(ArrayOf arrayIn)
     case NLS_CELL_ARRAY:
     case NLS_STRUCT_ARRAY:
     default: {
-        throw Exception(
+        Error(
             _W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_real'");
     } break;
     case NLS_CHAR: {

@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "UminusInteger.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -26,7 +26,7 @@ integer_uminus(ArrayOf a)
 {
     ArrayOf R;
     if (a.isSparse()) {
-        throw Exception(_W("Type not managed in this case."));
+        Error(_W("Type not managed in this case."));
     }
     switch (a.getDataClass()) {
     case NLS_INT8: {
@@ -118,7 +118,7 @@ integer_uminus(ArrayOf a)
         return ArrayOf(a.getDataClass(), a.getDimensions(), pDest, a.isSparse());
     } break;
     default: {
-        throw Exception(_W("Type not managed in this case."));
+        Error(_W("Type not managed in this case."));
     } break;
     }
     return R;

@@ -18,7 +18,7 @@
 //=============================================================================
 #include "CreateDynamicLinkLibraryObject.hpp"
 #include "DynamicLinkSymbolObject.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "dynamic_library.hpp"
 //=============================================================================
@@ -31,23 +31,23 @@ createDynamicLinkSymbolObject(
     ArrayOf handle;
     HandleGenericObject* hlObj = dllibObject.getContentAsHandleScalar();
     if (hlObj->getCategory() != DLLIB_CATEGORY_STR) {
-        throw Exception(_W("Wrong type for argument #1: dllib scalar handle expected."));
+        Error(_W("Wrong type for argument #1: dllib scalar handle expected."));
     }
     DynamicLinkLibraryObject* obj = (DynamicLinkLibraryObject*)hlObj;
     if (!obj->getPointer()) {
         Exception(_W("Valid handle expected."));
     }
     if (!DynamicLinkSymbolObject::isValidDataType(returnType)) {
-        throw Exception(_W("Invalid argument type:") + returnType);
+        Error(_W("Invalid argument type:") + returnType);
     }
     for (std::wstring arg : argumentsType) {
         if (!DynamicLinkSymbolObject::isValidDataType(arg)) {
-            throw Exception(_W("Invalid argument type:") + arg);
+            Error(_W("Invalid argument type:") + arg);
         }
     }
     void* ptr = obj->getFunctionPointer(wstring_to_utf8(symbol));
     if (!ptr) {
-        throw Exception(_W("Invalid symbol name."));
+        Error(_W("Invalid symbol name."));
     }
     DynamicLinkSymbolObject* dlSymbolObject
         = new DynamicLinkSymbolObject(dllibObject, ptr, symbol, returnType, argumentsType);

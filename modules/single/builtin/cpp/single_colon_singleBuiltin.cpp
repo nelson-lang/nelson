@@ -28,12 +28,12 @@ Nelson::SingleGateway::single_colon_singleBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
     if (!A.isSingleType() || !B.isSingleType()) {
-        Error(eval, ERROR_WRONG_ARGUMENTS_TYPE_SINGLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENTS_TYPE_SINGLE_EXPECTED);
     }
     ArrayOfVector retval;
     ArrayOf res = colon_single(A, B);

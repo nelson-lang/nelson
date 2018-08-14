@@ -31,10 +31,10 @@ Nelson::HelpToolsGateway::markdownBuiltin(Evaluator* eval, int nLhs, const Array
 {
     ArrayOfVector retval;
     if (argIn.size() > 2 || argIn.size() == 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 2) {
         std::wstring filenameIn = L"";
@@ -42,7 +42,7 @@ Nelson::HelpToolsGateway::markdownBuiltin(Evaluator* eval, int nLhs, const Array
         if (argIn[0].isSingleString()) {
             filenameIn = argIn[0].getContentAsWideString();
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         filenameOut = argIn[1].getContentAsWideString();
         boost::filesystem::path pathIn(filenameIn);
@@ -51,7 +51,7 @@ Nelson::HelpToolsGateway::markdownBuiltin(Evaluator* eval, int nLhs, const Array
             IsDirIn = boost::filesystem::is_directory(pathIn);
         } catch (const boost::filesystem::filesystem_error& e) {
             if (e.code() == boost::system::errc::permission_denied) {
-                Error(eval, _W("Permission denied."));
+                Error(_W("Permission denied."));
             }
         }
         boost::filesystem::path pathOut(filenameOut);
@@ -60,7 +60,7 @@ Nelson::HelpToolsGateway::markdownBuiltin(Evaluator* eval, int nLhs, const Array
             IsDirOut = boost::filesystem::is_directory(pathOut);
         } catch (const boost::filesystem::filesystem_error& e) {
             if (e.code() == boost::system::errc::permission_denied) {
-                Error(eval, _W("Permission denied."));
+                Error(_W("Permission denied."));
             }
         }
         if (IsDirIn && IsDirOut) {
@@ -102,14 +102,14 @@ Nelson::HelpToolsGateway::markdownBuiltin(Evaluator* eval, int nLhs, const Array
             if (param1.isSingleString()) {
                 stringInput = param1.getContentAsWideString();
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
             }
         }
         std::wstring stringOutput = L"";
         if (MarkdownString(stringInput, stringOutput)) {
             retval.push_back(ArrayOf::stringConstructor(stringOutput));
         } else {
-            Error(eval, _W("Error markdown generation."));
+            Error(_W("Error markdown generation."));
         }
     }
     return retval;

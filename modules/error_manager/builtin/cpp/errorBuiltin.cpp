@@ -30,7 +30,7 @@ Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLhs, const Array
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
@@ -39,37 +39,15 @@ Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLhs, const Array
         if (argIn[0].isSingleString()) {
             std::wstring msg = argIn[0].getContentAsWideString();
             if (msg.compare(L"") != 0) {
-                if (eval->getCallerFunctionName().compare("EvaluateScript") == 0) {
-                    Error(eval, msg);
-                } else {
-                    std::wstring currentFilename = L"";
-                    size_t sz = eval->cstack.size();
-                    int line = -1;
-                    int position = -1;
-                    if (sz > 2) {
-                        line = eval->cstack[sz - 2].tokid & 0x0000FFFF;
-                        position = eval->cstack[sz - 2].tokid >> 16;
-                        std::wstring callerName = eval->getCallerFunctionNameW();
-                        std::wstring fileName = L"";
-                        if (callerName == L"EvaluateScript") {
-                            fileName = eval->getCurrentEvaluateFilename();
-                        } else {
-                            fileName = callerName;
-                        }
-                        currentFilename = fileName;
-                    }
-                    throw Exception(
-                        msg, eval->getCallerFunctionNameW(), line, position, currentFilename);
-                }
+                Error(msg);
             }
         } else {
-            Exception e(L"");
+            Exception e;
             if (IsErrorStruct(argIn[0], e)) {
                 eval->setLastErrorException(e);
-                throw Exception(e.getMessage(), e.getFunctionName(), e.getLine(), e.getPosition(),
-                    e.getFilename());
+                throw e;
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
             }
         }
     }

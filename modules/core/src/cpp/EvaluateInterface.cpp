@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "EvaluateInterface.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 EvaluateInterface::EvaluateInterface() { outputBuffer.clear(); }
@@ -39,7 +39,7 @@ EvaluateInterface::getLine(std::string prompt)
 std::wstring
 EvaluateInterface::getInput(std::wstring prompt)
 {
-    throw Exception(_W("input function not allowed from evalc."));
+    Error(_W("input function not allowed from evalc."));
     return L"";
 }
 //=============================================================================

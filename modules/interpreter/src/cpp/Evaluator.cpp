@@ -50,7 +50,6 @@
 #include "DotTranspose.hpp"
 #include "Equals.hpp"
 #include "Error.hpp"
-#include "Exception.hpp"
 #include "FileParser.hpp"
 #include "GreaterEquals.hpp"
 #include "GreaterThan.hpp"
@@ -76,7 +75,6 @@
 #include "ProcessEventsDynamicFunction.hpp"
 #include "RightDivide.hpp"
 #include "Serialize.hpp"
-#include "StackError.hpp"
 #include "Transpose.hpp"
 #include "VertCat.hpp"
 #include "Warning.hpp"
@@ -227,7 +225,7 @@ Evaluator::rowDefinition(ASTPtr t)
 {
     pushID(t->context());
     if (t->opNum != OP_SEMICOLON) {
-        Error(this, ERROR_AST_SYNTAX_ERROR);
+        Error(ERROR_AST_SYNTAX_ERROR);
     }
     ASTPtr s = t->down;
     ArrayOfVector expl = expressionList(s);
@@ -302,7 +300,7 @@ Evaluator::matrixDefinition(ASTPtr t)
     ArrayOfMatrix m;
     // m.reserve(4096);
     if (t->opNum != OP_BRACKETS) {
-        Error(this, ERROR_AST_SYNTAX_ERROR);
+        Error(ERROR_AST_SYNTAX_ERROR);
     }
     ASTPtr s = t->down;
     pushID(s->context());
@@ -368,7 +366,7 @@ Evaluator::cellDefinition(ASTPtr t)
 {
     ArrayOfMatrix m;
     if (t->opNum != OP_BRACES) {
-        Error(this, ERROR_AST_SYNTAX_ERROR);
+        Error(ERROR_AST_SYNTAX_ERROR);
     }
     ASTPtr s = t->down;
     pushID(s->context());
@@ -442,7 +440,7 @@ Evaluator::shortCutOrOperator(ASTPtr t)
                 return ArrayOf::logicalConstructor(a || b);
             }
         } else {
-            throw Exception(
+            Error(
                 _W("Operand to || operator must be convertible to logical scalar values."));
         }
     }
@@ -470,7 +468,7 @@ Evaluator::shortCutAndOperator(ASTPtr t)
                 return ArrayOf::logicalConstructor(a && b);
             }
         } else {
-            throw Exception(
+            Error(
                 _W("Operand to && operator must be convertible to logical scalar values."));
         }
     }
@@ -526,12 +524,12 @@ Evaluator::expression(ASTPtr t)
     } else if (t->type == reserved_node) {
         if (t->tokenNumber == NLS_KEYWORD_END) {
             if (endStack.empty()) {
-                Error(this, ERROR_END_ILLEGAL);
+                Error(ERROR_END_ILLEGAL);
             }
             endData t(endStack.back());
             retval = EndReference(t.endArray, t.index, t.count);
         } else {
-            Error(this, ERROR_UNRECOGNIZED_NODE);
+            Error(ERROR_UNRECOGNIZED_NODE);
         }
     } else {
         switch (t->opNum) {
@@ -683,7 +681,7 @@ Evaluator::expression(ASTPtr t)
             }
         } break;
         default:
-            Error(this, ERROR_UNRECOGNIZED_EXPRESSION);
+            Error(ERROR_UNRECOGNIZED_EXPRESSION);
         }
     }
     popID();
@@ -805,7 +803,7 @@ Evaluator::expressionList(ASTPtr t)
                 m.push_back(n[i]);
             }
         } else if (t->type == non_terminal && t->opNum == (OP_ALL)) {
-            throw Exception(_W("Illegal use of the ':' operator"));
+            Error(_W("Illegal use of the ':' operator"));
         } else {
             // Call the expression
             m.push_back(expression(t));
@@ -904,7 +902,7 @@ Evaluator::conditionedStatement(ASTPtr t)
 {
     bool conditionState;
     if (t->opNum != OP_CSTAT) {
-        Error(this, ERROR_AST_SYNTAX_ERROR);
+        Error(ERROR_AST_SYNTAX_ERROR);
     }
     ASTPtr s = t->down;
     pushID(s->context());
@@ -935,7 +933,7 @@ Evaluator::testCaseStatement(ASTPtr t, ArrayOf s)
     ArrayOf r;
     pushID(t->context());
     if (t->type != reserved_node || t->tokenNumber != NLS_KEYWORD_CASE) {
-        Error(this, ERROR_AST_SYNTAX_ERROR);
+        Error(ERROR_AST_SYNTAX_ERROR);
     }
     t = t->down;
     r = expression(t);
@@ -1085,7 +1083,7 @@ Evaluator::switchStatement(ASTPtr t)
     // Assess its type to determine if this is a scalar switch
     // or a string switch.
     if (!switchVal.isScalar() && !switchVal.isSingleString()) {
-        Error(this, ERROR_SWITCH_STATEMENTS);
+        Error(ERROR_SWITCH_STATEMENTS);
     }
     // Move to the next node in the AST
     t = t->right;
@@ -1321,7 +1319,7 @@ Evaluator::forStatement(ASTPtr t)
         indexVar = indexSet.getValueAtIndex(elementNumber);
         bool bInserted = context->insertVariable(indexVarName, indexVar);
         if (!bInserted) {
-            Error(this, _W("Redefining permanent variable."));
+            Error(_W("Redefining permanent variable."));
         }
         block(codeBlock);
         if (state == NLS_STATE_RETURN || state == NLS_STATE_ABORT || state == NLS_STATE_QUIT) {
@@ -1680,7 +1678,7 @@ Evaluator::statementType(ASTPtr t, bool printIt)
             ArrayOf b(expression(t->down->right));
             bool bInserted = context->insertVariable(t->down->text, b);
             if (!bInserted) {
-                Error(this, _W("Redefining permanent variable."));
+                Error(_W("Redefining permanent variable."));
             }
             if (printIt) {
                 io->outputMessage(t->down->text);
@@ -1693,7 +1691,7 @@ Evaluator::statementType(ASTPtr t, bool printIt)
             if (!c.isHandle()) {
                 bool bInserted = context->insertVariable(t->down->text, c);
                 if (!bInserted) {
-                    Error(this, _W("Redefining permanent variable."));
+                    Error(_W("Redefining permanent variable."));
                 }
                 if (printIt) {
                     io->outputMessage(t->down->text);
@@ -1761,12 +1759,12 @@ Evaluator::statementType(ASTPtr t, bool printIt)
         case NLS_KEYWORD_ENDFUNCTION:
             /* a workaround to have a endfunction keyword */
             if (context->getCurrentScope()->getName() == "base") {
-                Error(this, ERROR_ENDFUNCTION_WRONG_USE);
+                Error(ERROR_ENDFUNCTION_WRONG_USE);
             }
             state = NLS_STATE_RETURN;
             break;
         default:
-            Error(this, ERROR_UNRECOGNIZED_STATEMENT);
+            Error(ERROR_UNRECOGNIZED_STATEMENT);
         }
     } else {
         // There is a special case to consider here - when a
@@ -1906,7 +1904,6 @@ Evaluator::block(ASTPtr t)
         }
     } catch (Exception& e) {
         if (!e.isEmpty()) {
-            updateError(this, e);
             setLastErrorException(e);
             throw;
         }
@@ -1928,10 +1925,10 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, ASTPtr t)
     if (t->opNum == (OP_PARENS)) {
         m = expressionList(t->down, r);
         if (m.size() == 0) {
-            Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
+            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
         } else if (m.size() == 1) {
             if (r.isClassStruct()) {
-                Error(this, ERROR_NEED_OVERLOAD);
+                Error(ERROR_NEED_OVERLOAD);
             } else {
                 try {
                     return (r.getVectorSubset(m[0]));
@@ -1952,7 +1949,7 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, ASTPtr t)
     if (t->opNum == (OP_BRACES)) {
         m = expressionList(t->down, r);
         if (m.size() == 0) {
-            Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
+            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
         } else if (m.size() == 1) {
             try {
                 return (r.getVectorContents(m[0]));
@@ -1984,7 +1981,7 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, ASTPtr t)
             field = fname.getContentAsCString();
         } catch (Exception& e) {
             e.what();
-            Error(this, ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
+            Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
         }
         try {
             ArrayOf R = r.getField(field);
@@ -2021,7 +2018,7 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
     if (t->opNum == (OP_PARENS)) {
         m = expressionList(t->down, r);
         if (m.size() == 0) {
-            Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
+            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
         } else if (m.size() == 1) {
             r.setVectorSubset(m[0], value[0]);
             popID();
@@ -2035,7 +2032,7 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
     if (t->opNum == (OP_BRACES)) {
         m = expressionList(t->down, r);
         if (m.size() == 0) {
-            Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
+            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
         } else if (m.size() == 1) {
             if (r.isEmpty()) {
                 m[0] = ArrayOf::doubleConstructor(1);
@@ -2052,7 +2049,7 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
     if (t->opNum == (OP_DOT)) {
         if (r.isClassStruct()) {
             // TO DO
-            Error(this, ERROR_NEED_TO_IMPLEMENT_ASSIGN);
+            Error(ERROR_NEED_TO_IMPLEMENT_ASSIGN);
         } else {
             std::string fieldname = t->down->text;
             if (r.isHandle()) {
@@ -2060,7 +2057,7 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
             } else if (r.isStruct() || r.isEmpty()) {
                 r.setFieldAsList(fieldname, value);
             } else {
-                Error(this, ERROR_ASSIGN_TO_NON_STRUCT);
+                Error(ERROR_ASSIGN_TO_NON_STRUCT);
             }
         }
         popID();
@@ -2073,7 +2070,7 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
             field = fname.getContentAsCString();
         } catch (Exception& e) {
             e.what();
-            Error(this, ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
+            Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
         }
         if (r.isHandle()) {
             setHandle(r, field, value);
@@ -2111,13 +2108,13 @@ Evaluator::countLeftHandSides(ASTPtr t)
     if (s->opNum == (OP_PARENS)) {
         m = expressionList(s->down, lhs);
         if (m.size() == 0) {
-            Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
+            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
         }
         if (m.size() == 1) {
             // m[0] should have only one element...
             m[0].toOrdinalType();
             if (m[0].getLength() > 1) {
-                Error(this, ERROR_PARENTHETICAL_EXPRESSION);
+                Error(ERROR_PARENTHETICAL_EXPRESSION);
             }
             popID();
             return (m[0].getLength());
@@ -2130,7 +2127,7 @@ Evaluator::countLeftHandSides(ASTPtr t)
                 i++;
             }
             if (outputCount > 1) {
-                Error(this, ERROR_PARENTHETICAL_EXPRESSION);
+                Error(ERROR_PARENTHETICAL_EXPRESSION);
             }
             popID();
             return (outputCount);
@@ -2139,7 +2136,7 @@ Evaluator::countLeftHandSides(ASTPtr t)
     if (s->opNum == (OP_BRACES)) {
         m = expressionList(s->down, lhs);
         if (m.size() == 0) {
-            Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
+            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
         }
         if (m.size() == 1) {
             // m[0] should have only one element...
@@ -2255,7 +2252,7 @@ Evaluator::specialFunctionCall(ASTPtr t, bool printIt)
     FuncPtr val;
     pushID(t->context());
     if (!lookupFunction(args[0], val)) {
-        Error(this, utf8_to_wstring(_("unable to resolve ") + args[0] + _(" to a function call")));
+        Error(utf8_to_wstring(_("unable to resolve ") + args[0] + _(" to a function call")));
     }
     bool CLIFlagsave = InCLI;
     InCLI = false;
@@ -2301,32 +2298,32 @@ Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
                 std::string extractionFunctionName = className + "_extraction";
                 bool isFun = lookupFunction(extractionFunctionName, fptr);
                 if (!isFun) {
-                    Error(this,
+                    Error(
                         utf8_to_wstring(_("Undefined function") + " " + extractionFunctionName));
                 }
             } else if (r.isCell()) {
                 // C = {rand(3),nan(3),zeros(3),inf(3)}
                 // [a, b, c, d] = C{ : }
                 if (t->opNum != OP_BRACKETS) {
-                    Error(this, ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
+                    Error(ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
                 }
                 bDeal = true;
             } else {
-                Error(this, utf8_to_wstring(_("Undefined function") + " " + fAST->text));
+                Error(utf8_to_wstring(_("Undefined function") + " " + fAST->text));
             }
         } else {
-            Error(this, utf8_to_wstring(_("Undefined function") + " " + fAST->text));
+            Error(utf8_to_wstring(_("Undefined function") + " " + fAST->text));
         }
     }
     if (t->opNum != OP_BRACKETS) {
-        Error(this, ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
+        Error(ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
     }
     s = t->down;
     if (s->opNum != OP_SEMICOLON) {
-        Error(this, ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
+        Error(ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
     }
     if (s->right != nullptr) {
-        Error(this, ERROR_MULTIPLE_ROWS_NOT_ALLOWED);
+        Error(ERROR_MULTIPLE_ROWS_NOT_ALLOWED);
     }
     // We have to make multiple passes through the LHS part of the AST.
     // The first pass is to count how many function outputs are actually
@@ -2350,16 +2347,16 @@ Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
         rhsDimensions = r.getDimensions();
         m = expressionList(fAST->down->down, r);
         if (m.size() == 0) {
-            Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
+            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
         } else if (m.size() == 1) {
             ArrayOfVector m2 = r.getVectorContentsAsList(m[0]);
             if ((indexType)m2.size() < lhsCount) {
-                Error(this, _W("Insufficient number of outputs."));
+                Error(_W("Insufficient number of outputs."));
             } else {
                 m = m2;
             }
         } else {
-            Error(this, _W("Case not managed."));
+            Error(_W("Case not managed."));
         }
     } else {
         m = functionExpression(fptr, fAST, (int)lhsCount, false);
@@ -2369,7 +2366,7 @@ Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
         ArrayOf c(assignExpression(s->down, m));
         bool bInserted = context->insertVariable(s->down->text, c);
         if (!bInserted) {
-            Error(this, _W("Redefining permanent variable."));
+            Error(_W("Redefining permanent variable."));
         }
         if (printIt) {
             io->outputMessage(s->down->text);
@@ -2878,7 +2875,7 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                         if (keywords.size() > 0)
                         {
                             // 	    if (funcDef->type() != NLS_MACRO_FUNCTION)
-                            // 	      throw Exception(L"out of order argument passing only supported for M files");
+                            // 	      Error(L"out of order argument passing only supported for M files");
                             while (s != nullptr && s->opNum == OP_KEYWORD)
                             {
                                 s = s->right;
@@ -2916,7 +2913,7 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                             int ndx;
                             ndx = getArgumentIndex(arguments, keywords[i]);
                             if (ndx == -1) {
-                                Error(this,
+                                Error(
                                     utf8_to_wstring(_("out-of-order argument /") + keywords[i]
                                         + _(" is not defined in the called function!")));
                             }
@@ -2991,7 +2988,7 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                             }
                         }
                     }
-                    Error(this, ERROR_ILLEGAL_EXPRESSION_IN_FUNCTION);
+                    Error(ERROR_ILLEGAL_EXPRESSION_IN_FUNCTION);
                 }
             } else {
                 m = ArrayOfVector();
@@ -3001,10 +2998,10 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
             /*
             if ((funcDef->inputArgCount() >= 0) &&
             ((int)(m.size()) > funcDef->inputArgCount()))
-            Error(this, std::string("Too many inputs to function ")+t->text);
+            Error(std::string("Too many inputs to function ")+t->text);
             if ((funcDef->outputArgCount() >= 0) &&
             (narg_out > funcDef->outputArgCount() && !outputOptional))
-            Error(this, std::string("Too many outputs to function ")+t->text);
+            Error(std::string("Too many outputs to function ")+t->text);
             */
             CLIFlagsave = InCLI;
             InCLI = false;
@@ -3082,18 +3079,18 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                         args.erase(0, 1);
                         // This argument was passed by reference
                         if (p == nullptr || !(p->type == non_terminal && p->opNum == OP_RHS)) {
-                            Error(this, ERROR_MUST_HAVE_LVALUE);
+                            Error(ERROR_MUST_HAVE_LVALUE);
                         }
                         if (p->down->down == nullptr && p->down->type == id_node) {
                             bool bInserted = context->insertVariable(p->down->text, m[i]);
                             if (!bInserted) {
-                                Error(this, _W("Redefining permanent variable."));
+                                Error(_W("Redefining permanent variable."));
                             }
                         } else {
                             ArrayOf c(assignExpression(p->down, m[i]));
                             bool bInserted = context->insertVariable(p->down->text, c);
                             if (!bInserted) {
-                                Error(this, _W("Redefining permanent variable."));
+                                Error(_W("Redefining permanent variable."));
                             }
                         }
                     }
@@ -3160,7 +3157,7 @@ Evaluator::deleteBreakpoint(int number)
     } else {
         char buffer[2048];
         sprintf(buffer, _("Unable to delete breakpoint %d").c_str(), number);
-        Error(this, utf8_to_wstring(buffer));
+        Error(utf8_to_wstring(buffer));
     }
 }
 
@@ -3332,10 +3329,10 @@ Evaluator::rhsExpressionSimple(ASTPtr t)
         }
     }
     if (!isVar) {
-        Error(this, utf8_to_wstring(_("Undefined variable:") + " " + t->text));
+        Error(utf8_to_wstring(_("Undefined variable:") + " " + t->text));
     }
     if (!isFun) {
-        Error(this, utf8_to_wstring(_("Undefined function:") + " " + t->text));
+        Error(utf8_to_wstring(_("Undefined function:") + " " + t->text));
     }
     popID();
     return r;
@@ -3546,8 +3543,7 @@ Evaluator::rhsExpression(ASTPtr t)
                 popID();
                 return m;
             } else {
-                Error(
-                    this, utf8_to_wstring(_("Undefined function:") + " " + extractionFunctionName));
+                Error(utf8_to_wstring(_("Undefined function:") + " " + extractionFunctionName));
             }
         } else {
             if (t->down == nullptr) {
@@ -3577,20 +3573,20 @@ Evaluator::rhsExpression(ASTPtr t)
         isFun = lookupFunction(t->text, funcDef);
         if (isFun) {
             if (funcDef->outputArgCount() == 0) {
-                throw Exception(ERROR_WRONG_NUMBERS_OUTPUT_ARGS, utf8_to_wstring(funcDef->name));
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS, utf8_to_wstring(funcDef->name));
             }
             m = functionExpression(funcDef, t, 1, false);
             popID();
             return m;
         } else {
-            Error(this, utf8_to_wstring(_("Undefined variable or function:") + " " + t->text));
+            Error(utf8_to_wstring(_("Undefined variable or function:") + " " + t->text));
         }
     }
     t = t->down;
     while (t != nullptr) {
         rhsDimensions = r.getDimensions();
         if (!rv.empty()) {
-            Error(this, _W("Cannot reindex an expression that returns multiple values."));
+            Error(_W("Cannot reindex an expression that returns multiple values."));
         }
         if (t->opNum == (OP_PARENS)) {
             m = expressionList(t->down, r);
@@ -3618,7 +3614,7 @@ Evaluator::rhsExpression(ASTPtr t)
                     popID();
                     return rv;
                 } else {
-                    Error(this, _W("index expected."));
+                    Error(_W("index expected."));
                 }
             } else if (m.size() == 1) {
                 q = r.getVectorSubset(m[0]);
@@ -3648,7 +3644,7 @@ Evaluator::rhsExpression(ASTPtr t)
                 }
             }
             if (m.size() == 0) {
-                Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
+                Error(ERROR_INDEX_EXPRESSION_EXPECTED);
             } else if (m.size() == 1) {
                 rv = r.getVectorContentsAsList(m[0]);
             } else {
@@ -3659,7 +3655,7 @@ Evaluator::rhsExpression(ASTPtr t)
                 rv = ArrayOfVector();
             } else if (rv.size() == 0) {
                 r = ArrayOf::emptyConstructor();
-                Error(this, ERROR_EMPTY_EXPRESSION);
+                Error(ERROR_EMPTY_EXPRESSION);
             }
         }
         if (t->opNum == (OP_DOT)) {
@@ -3671,7 +3667,7 @@ Evaluator::rhsExpression(ASTPtr t)
                     isValidMethod = r.isHandleMethod(utf8_to_wstring(fieldname));
                 } catch (Exception) {
                     if (r.isHandle()) {
-                        throw Exception(
+                        Error(
                             _W("Please define: ") + r.getHandleCategory() + L"_ismethod");
                     }
                     isValidMethod = false;
@@ -3701,7 +3697,7 @@ Evaluator::rhsExpression(ASTPtr t)
                 field = fname.getContentAsCString();
             } catch (Exception& e) {
                 e.what();
-                Error(this,
+                Error(
                     _W("dynamic field reference to structure requires a string "
                        "argument"));
             }
@@ -3727,10 +3723,11 @@ Evaluator::rhsExpression(ASTPtr t)
 //=============================================================================
 Evaluator::Evaluator(Context* aContext, Interface* aInterface, int _engineMode)
 {
+    Exception e;
+    lastErrorException = e;
+    lastWarningException = e;
     engineMode = _engineMode;
     bAllowOverload = true;
-    lastErrorException = nullptr;
-    lastWarningException = nullptr;
     context = aContext;
     currentOutputFormatDisplay = NLS_FORMAT_SHORT;
     resetState();
@@ -3752,9 +3749,8 @@ Evaluator::~Evaluator()
 {
     clearStacks();
     commandLineArguments.clear();
-    if (lastErrorException) {
-        delete lastErrorException;
-    }
+    resetLastErrorException();
+    resetLastWarningException();
 }
 //=============================================================================
 void
@@ -3801,10 +3797,7 @@ Evaluator::evaluateString(std::string line, bool propogateException)
         deleteAstVector(getAstUsed());
         resetAstBackupPosition();
         resetParser();
-        if (lastErrorException) {
-            delete lastErrorException;
-        }
-        lastErrorException = new Exception(e);
+        setLastErrorException(e);
         if (propogateException) {
             throw;
         }
@@ -3815,11 +3808,8 @@ Evaluator::evaluateString(std::string line, bool propogateException)
         deleteAstVector(pt);
         resetAstBackupPosition();
         resetParser();
-        if (lastErrorException) {
-            delete lastErrorException;
-        }
         Exception e(_W("a valid script expected."));
-        lastErrorException = new Exception(e);
+        setLastErrorException(e);
         if (propogateException) {
             throw;
         }
@@ -3853,10 +3843,7 @@ Evaluator::evaluateString(std::string line, bool propogateException)
         deleteAstVector(pt);
         resetAstBackupPosition();
         tree = nullptr;
-        if (lastErrorException) {
-            delete lastErrorException;
-        }
-        lastErrorException = new Exception(e);
+        setLastErrorException(e);
         if (propogateException) {
             throw;
         }
@@ -3868,85 +3855,44 @@ Evaluator::evaluateString(std::string line, bool propogateException)
     return true;
 }
 //=============================================================================
-std::wstring
-Evaluator::getLastErrorString()
-{
-    return lastErrorException->getMessage();
-}
-//=============================================================================
-void
-Evaluator::setLastErrorString(const std::wstring& txt)
-{
-    if (lastErrorException) {
-        lastErrorException->setMessage(txt);
-    }
-}
-//=============================================================================
-void
-Evaluator::setLastErrorString(const std::string& txt)
-{
-    if (lastErrorException) {
-        lastErrorException->setMessage(txt);
-    }
-}
-//=============================================================================
 bool
 Evaluator::setLastErrorException(const Exception& e)
 {
-    bool bAlloc = false;
-    if (lastErrorException) {
-        delete lastErrorException;
-    }
-    try {
-        lastErrorException = new Exception(e);
-        bAlloc = true;
-    } catch (std::bad_alloc& e) {
-        e.what();
-        bAlloc = false;
-    }
-    return bAlloc;
+    lastErrorException = e;
+    return true;
 }
 //=============================================================================
 Exception
 Evaluator::getLastErrorException()
 {
-    if (lastErrorException) {
-        return *lastErrorException;
-    }
-    return Exception("");
+    return lastErrorException;
+}
+//=============================================================================
+void
+Evaluator::resetLastErrorException()
+{
+    Exception e;
+    lastErrorException = e;
 }
 //=============================================================================
 Exception
 Evaluator::getLastWarningException()
 {
-    if (lastWarningException) {
-        return *lastWarningException;
-    }
-    return Exception("");
+    return lastWarningException;
 }
 //=============================================================================
 void
 Evaluator::resetLastWarningException()
 {
-    if (lastWarningException) {
-        delete lastWarningException;
-        lastWarningException = nullptr;
-    }
+    Exception e;
+    lastWarningException = e;
 }
 //=============================================================================
 bool
 Evaluator::setLastWarningException(const Exception& e)
 {
-    bool bAlloc = false;
-    resetLastWarningException();
-    try {
-        lastWarningException = new Exception(e);
-        bAlloc = true;
-    } catch (std::bad_alloc& e) {
-        e.what();
-        bAlloc = false;
-    }
-    return bAlloc;
+    lastWarningException = e;
+    return true;
 }
 //=============================================================================
 std::wstring
@@ -4242,7 +4188,7 @@ void
 Evaluator::setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue)
 {
     if (fieldvalue.size() != 1) {
-        Error(this, _W("Right hand values must satisfy left hand side expression."));
+        Error(_W("Right hand values must satisfy left hand side expression."));
     }
     std::wstring currentType = r.getHandleCategory();
     std::wstring ufunctionNameSetHandle = currentType + L"_set";
@@ -4250,10 +4196,10 @@ Evaluator::setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue)
     Context* context = this->getContext();
     FunctionDef* funcDef = nullptr;
     if (!context->lookupFunction(functionNameSetHandle, funcDef)) {
-        Error(this, _W("Function not found."));
+        Error(_W("Function not found."));
     }
     if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
-        Error(this, _W("Type function not valid."));
+        Error(_W("Type function not valid."));
     }
     int nLhs = 0;
     ArrayOfVector argIn;
@@ -4274,7 +4220,7 @@ Evaluator::getHandle(ArrayOf r, std::string fieldname, ArrayOfVector params)
     if (context->lookupFunction(functionNameCurrentType, funcDef)) {
         if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
                 || (funcDef->type() == NLS_MACRO_FUNCTION))) {
-            Error(this, _W("Type function not valid."));
+            Error(_W("Type function not valid."));
         }
         int nLhs = 1;
         argIn.push_back(r);
@@ -4285,10 +4231,10 @@ Evaluator::getHandle(ArrayOf r, std::string fieldname, ArrayOfVector params)
     }
     std::string functionNameGetHandle = wstring_to_utf8(currentType) + "_get";
     if (!context->lookupFunction(functionNameGetHandle, funcDef)) {
-        Error(this, _W("Function not found."));
+        Error(_W("Function not found."));
     }
     if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
-        Error(this, _W("Type function not valid."));
+        Error(_W("Type function not valid."));
     }
     int nLhs = 1;
     argIn.push_back(r);

@@ -411,7 +411,7 @@ doPowerAssist(ArrayOf A, Class AClass, ArrayOf B, Class BClass, Class CClass, vv
     case o:                                                                                        \
         return doPowerAssist(A, a, B, b, c, f);
 inline ArrayOf
-DoPowerTwoArgFunction(ArrayOf A, ArrayOf B) throw(Exception)
+DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;
     bool Anegative;
@@ -423,7 +423,7 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B) throw(Exception)
     }
     CheckNumeric(A, B, "^");
     if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar())) {
-        throw Exception(L"Size mismatch on arguments to power (^) operator.");
+        Error(L"Size mismatch on arguments to power (^) operator.");
     }
     // If A is not at least a float type, promote it to double
     AClass = A.getDataClass();

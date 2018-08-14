@@ -47,6 +47,7 @@
 #include "characters_encoding.hpp"
 #include "WarningIds.hpp"
 #include "WarningEmitter.h"
+#include "ErrorEmitter.h"
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 #include <locale.h>
@@ -301,6 +302,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     Evaluator* eval = createMainEvaluator(_mode, lang);
     if (eval) {
         setWarningEvaluator(eval);
+        setErrorEvaluator(eval);
         eval->setQuietMode(bQuietMode);
         eval->setCommandLineArguments(args);
         if (lang != Localization::Instance()->getCurrentLanguage() && !lang.empty()) {

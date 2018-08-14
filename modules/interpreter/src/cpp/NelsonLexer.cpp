@@ -33,6 +33,7 @@
 #include "i18n.hpp"
 #define YYSTYPE Nelson::ParseRHS
 
+#include "Error.hpp"
 #include "Exception.hpp"
 #include "FileParser.hpp"
 #include "Keywords.hpp"
@@ -113,7 +114,7 @@ LexerException(std::string msg)
             sprintf(buffer, "%s", _("Lexical error").c_str());
         }
     }
-    throw Exception(buffer);
+    Error(buffer);
 }
 
 inline void
@@ -182,7 +183,7 @@ testSpecialFuncs()
     }
     size_t lenKeyword = strlen(datap) - strlen(cp);
     if (lenKeyword > IDENTIFIER_LENGTH_MAX) {
-        throw Exception(_("Maximum name length exceeded."));
+        Error(_("Maximum name length exceeded."));
     }
     keyword[cp - datap] = 0;
     ts.word = keyword;

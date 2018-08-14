@@ -16,40 +16,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "DebugStack.hpp"
-#include "characters_encoding.hpp"
+#pragma once
+//=============================================================================
+#include "Evaluator.hpp"
+#include "PositionScript.hpp"
+#include "StackEntry.hpp"
+#include "Types.hpp"
+#include "nlsInterpreter_exports.h"
+#include <string>
+#include <vector>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void DebugStack(std::vector<StackEntry> cstack, int nbOmitLines,
-                std::vector<PositionScript> &stackPositions) {
-  stackPositions.clear();
-  size_t i = 0;
-  while (i < cstack.size()) {
-    if (cstack[i].tokid == 0) {
-      size_t j = i + 1;
-      while ((j < cstack.size()) && (cstack[j].cname == cstack[i].cname) &&
-             (cstack[j].detail == cstack[i].detail) && (cstack[j].tokid != 0)) {
-        j++;
-      }
-      std::wstring filename = utf8_to_wstring(cstack[j - 1].cname.c_str());
-      std::wstring functionname = utf8_to_wstring(cstack[j - 1].detail.c_str());
-      int lineposition = cstack[j - 1].tokid & 0x0000FFFF;
-
-      if (!(filename == std::wstring(L"EvaluateString") && lineposition == 1)) {
-        stackPositions.push_back(
-            PositionScript(functionname, filename, lineposition));
-      }
-      i = j;
-    } else {
-      i++;
-    }
-  }
-  for (int k = 0; k < nbOmitLines; k++) {
-    stackPositions.pop_back();
-  }
-  std::reverse(std::begin(stackPositions), std::end(stackPositions));
-}
+typedef std::vector<PositionScript> stackTrace;
+//=============================================================================
+NLSINTERPRETER_IMPEXP void
+DebugStack(const std::vector<StackEntry> &cstack, int nbOmitLines, stackTrace & stackPositions);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

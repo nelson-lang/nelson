@@ -28,10 +28,10 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() < 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
@@ -39,10 +39,10 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(
         ArrayOf M = argIn[0];
         Dimensions dims;
         if (M.isClassStruct()) {
-            Error(eval, _W("Undefined function 'reshape' for input arguments of overloaded type."));
+            Error(_W("Undefined function 'reshape' for input arguments of overloaded type."));
         }
         if (M.isFunctionHandle()) {
-            Error(eval,
+            Error(
                 _W("Undefined function 'reshape' for input arguments of type 'function_handle'."));
         }
         if (argIn.size() == 2 && (!argIn[1].isScalar())) {
@@ -51,23 +51,23 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(
             double* dp = (double*)v.getDataPointer();
             for (indexType i = 0; i < v.getLength(); i++) {
                 if (!std::isfinite(dp[i])) {
-                    Error(eval, _W("finite value expected."));
+                    Error(_W("finite value expected."));
                 }
                 if (dp[i] != dp[i]) {
-                    Error(eval, _W("finite value expected."));
+                    Error(_W("finite value expected."));
                 }
                 int64 ivalue = (int64)dp[i];
                 if ((double)ivalue != dp[i]) {
-                    Error(eval, _W("real integer expected."));
+                    Error(_W("real integer expected."));
                 }
                 if (ivalue < 0) {
-                    Error(eval, _W("real positive integer expected."));
+                    Error(_W("real positive integer expected."));
                 }
                 dims[i] = (indexType)ivalue;
             }
         } else {
             if (argIn.size() < 3) {
-                Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
             }
             bool bAllIsScalar = true;
             for (size_t j = 1; j < argIn.size(); j++) {
@@ -85,7 +85,7 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(
                 for (size_t i = 1; i < argIn.size(); i++) {
                     if (bHaveAnEmptyMatrix) {
                         if (argIn[i].isEmpty()) {
-                            Error(eval, _W("only one unknown dimension allowed."));
+                            Error(_W("only one unknown dimension allowed."));
                         }
                     } else {
                         if (argIn[i].isEmpty()) {
@@ -108,24 +108,24 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(
                     indexType nbElementsM = M.getDimensions().getElementCount();
                     double rest = (double)nbElementsM / (double)dims.getElementCount();
                     if (!std::isfinite(rest)) {
-                        Error(eval, _W("finite value expected."));
+                        Error(_W("finite value expected."));
                     }
                     if (rest != rest) {
-                        Error(eval, _W("finite value expected."));
+                        Error(_W("finite value expected."));
                     }
                     int64 ivalue = (int64)rest;
                     if ((double)ivalue != rest) {
-                        Error(eval, _W("real integer expected."));
+                        Error(_W("real integer expected."));
                     }
                     if (ivalue < 0) {
-                        Error(eval, _W("real positive integer expected."));
+                        Error(_W("real positive integer expected."));
                     }
                     dims[idxEmptyPosition] = (indexType)ivalue;
                 }
             }
         }
         if (dims.getElementCount() != M.getLength()) {
-            throw Exception(_W("Reshape operation cannot change the number of elements in array."));
+            Error(_W("Reshape operation cannot change the number of elements in array."));
         }
         M.reshape(dims);
         retval.push_back(M);

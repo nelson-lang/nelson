@@ -58,14 +58,14 @@ OverloadUnaryOperator(
             eval, a, functionName, forcedName, &funcDef, forcedName);
     }
     if (!bSuccess) {
-        Error(eval, _("function") + " " + OverloadName + " " + _("undefined."));
+        Error(_("function") + " " + OverloadName + " " + _("undefined."));
     }
     ArrayOfVector argsIn;
     argsIn.push_back(a);
     int nargout = 1;
     ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
     if (res.size() != 1) {
-        Error(eval,
+        Error(
             _("function") + " " + OverloadName + " " + _("only one output argument expected."));
     }
     return res[0];

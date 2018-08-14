@@ -182,7 +182,6 @@
     <ClCompile Include="..\cpp\rmpathBuiltin.cpp" />
     <ClCompile Include="..\cpp\userpathBuiltin.cpp" />
     <ClCompile Include="..\cpp\whatBuiltin.cpp" />
-    <ClCompile Include="..\cpp\dbstackBuiltin.cpp" />
     <ClCompile Include="..\cpp\whichBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -233,7 +232,6 @@
     <ClInclude Include="..\include\rmpathBuiltin.hpp" />
     <ClInclude Include="..\include\userpathBuiltin.hpp" />
     <ClInclude Include="..\include\whatBuiltin.hpp" />
-    <ClInclude Include="..\include\dbstackBuiltin.hpp" />
     <ClInclude Include="..\include\whichBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -27,13 +27,13 @@ Nelson::SingleGateway::single_uminusBuiltin(Evaluator* eval, int nLhs, const Arr
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (!argIn[0].isSingleType()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SINGLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SINGLE_EXPECTED);
     }
     retval.push_back(single_uminus(argIn[0]));
     return retval;

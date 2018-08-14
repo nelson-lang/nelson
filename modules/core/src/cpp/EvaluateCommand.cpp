@@ -20,7 +20,6 @@
 #include "AstManager.hpp"
 #include "Error.hpp"
 #include "EvaluateInterface.hpp"
-#include "Exception.hpp"
 #include "ParserInterface.hpp"
 #include "characters_encoding.hpp"
 #include <string>
@@ -112,7 +111,7 @@ EvaluateCommand(
             retval = retrieveVariablesReturned(eval, nLhs);
             eval->getContext()->restoreBypassedScopes();
             if (retval.size() != nLhs) {
-                Error(eval, _W("Invalid use of statement list."));
+                Error(_W("Invalid use of statement list."));
             }
         }
     } else {
@@ -145,7 +144,7 @@ EvaluateCommand(
             }
             eval->AutoStop(true);
             if (retval.size() != nLhs) {
-                Error(eval, _W("Invalid use of statement list."));
+                Error(_W("Invalid use of statement list."));
             }
         }
     }
@@ -162,7 +161,7 @@ ArrayOfVector
 EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, std::wstring command)
 {
     if (scope == GLOBAL_SCOPE) {
-        Error(eval, _W("'local', 'caller', 'base' scope expected."));
+        Error(_W("'local', 'caller', 'base' scope expected."));
     }
     return EvaluateCommand(eval, nLhs, command, L"", scope);
 }
@@ -176,7 +175,7 @@ EvaluateConsoleCommand(Evaluator* eval, int nLhs, std::wstring command, std::wst
     try {
         tempIO = new EvaluateInterface();
     } catch (std::bad_alloc) {
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     eval->setInterface(tempIO);
     eval->getContext()->bypassScope(0);

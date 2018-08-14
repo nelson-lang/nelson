@@ -29,10 +29,10 @@ Nelson::StringGateway::startsWithBuiltin(Evaluator* eval, int nLhs, const ArrayO
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 2 && argIn.size() != 4) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
@@ -45,7 +45,7 @@ Nelson::StringGateway::startsWithBuiltin(Evaluator* eval, int nLhs, const ArrayO
             ArrayOf param3 = argIn[2];
             std::wstring fieldname = param3.getContentAsWideString();
             if (fieldname != L"IgnoreCase") {
-                Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_VALUE.c_str(), 3));
+                Error(StringFormat(ERROR_WRONG_ARGUMENT_X_VALUE.c_str(), 3));
             }
             ArrayOf param4 = argIn[3];
             logical fieldvalue = param4.getContentAsLogicalScalar();

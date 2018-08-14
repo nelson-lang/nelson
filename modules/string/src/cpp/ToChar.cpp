@@ -125,11 +125,11 @@ ToChar(ArrayOf A)
 {
     ArrayOf res;
     if (A.isSparse()) {
-        throw Exception(_W("Attempt to convert to unimplemented sparse type."));
+        Error(_W("Attempt to convert to unimplemented sparse type."));
     }
     switch (A.getDataClass()) {
     case NLS_HANDLE: {
-        throw Exception(_W("Conversion to char from handle is not possible."));
+        Error(_W("Conversion to char from handle is not possible."));
     } break;
     case NLS_CELL_ARRAY: {
         bool isCellOfString = true;
@@ -151,34 +151,34 @@ ToChar(ArrayOf A)
                 res = ToChar(res, V[k]);
             }
         } else {
-            throw Exception(
+            Error(
                 _W("Conversion to char from cell is possible only with cell of strings."));
         }
     } break;
     case NLS_STRUCT_ARRAY: {
         if (A.getStructType() != "struct") {
-            throw Exception(_("Undefined function 'char' for input arguments of type") + " '"
+            Error(_("Undefined function 'char' for input arguments of type") + " '"
                 + A.getStructType() + "'.");
         } else {
-            throw Exception(_W("Conversion to char from struct is not possible."));
+            Error(_W("Conversion to char from struct is not possible."));
         }
     } break;
     case NLS_LOGICAL: {
-        throw Exception(_W("Conversion to char from logical is not possible."));
+        Error(_W("Conversion to char from logical is not possible."));
     } break;
     case NLS_SCOMPLEX: {
-        throw Exception(_W("Conversion to char from complex is not possible."));
+        Error(_W("Conversion to char from complex is not possible."));
     } break;
     case NLS_CHAR: {
         if (A.isSparse()) {
-            throw Exception(_W("Attempt to convert to unimplemented sparse type."));
+            Error(_W("Attempt to convert to unimplemented sparse type."));
         } else {
             ArrayOf result = A;
             return result;
         }
     } break;
     case NLS_DCOMPLEX: {
-        throw Exception(_W("Conversion to char from complex is not possible."));
+        Error(_W("Conversion to char from complex is not possible."));
     } break;
     case NLS_UINT8:
     case NLS_INT8:
@@ -194,7 +194,7 @@ ToChar(ArrayOf A)
         res = ArrayOfDoubleToChar(A);
     } break;
     default: {
-        throw Exception(_W("Invalid conversion."));
+        Error(_W("Invalid conversion."));
     } break;
     }
     return res;

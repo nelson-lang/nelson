@@ -30,7 +30,7 @@ Nelson::ConstructorsGateway::infBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     ArrayOfVector retval;
     ArrayOf p;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0) {
         m = 1;
@@ -42,7 +42,7 @@ Nelson::ConstructorsGateway::infBuiltin(Evaluator* eval, int nLhs, const ArrayOf
                 m = p.getContentAsInteger32Scalar();
                 n = m;
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED);
             }
         }
         if (argIn.size() > 1) {
@@ -50,7 +50,7 @@ Nelson::ConstructorsGateway::infBuiltin(Evaluator* eval, int nLhs, const ArrayOf
                 p = argIn[1];
                 n = p.getContentAsInteger32Scalar();
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED);
             }
         }
     }

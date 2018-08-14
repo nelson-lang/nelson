@@ -189,7 +189,7 @@ IsSymmetric(ArrayOf A, bool skew)
         return isSymmetricNoSkew<uint64>((uint64*)A.getDataPointer(), A.getDimensions().getRows());
     }
     default: {
-        throw Exception(
+        Error(
             _("Undefined function 'inv' for input arguments of type") + " '" + ClassName(A) + "'.");
     } break;
     }
@@ -234,7 +234,7 @@ IsSymmetric(ArrayOf A, double tol)
     case NLS_UINT64:
         return isSymmetric<uint64>((uint64*)A.getDataPointer(), A.getDimensions().getRows(), tol);
     default: {
-        throw Exception(
+        Error(
             _("Undefined function 'inv' for input arguments of type") + " '" + ClassName(A) + "'.");
     } break;
     }

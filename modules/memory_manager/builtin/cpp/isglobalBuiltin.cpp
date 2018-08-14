@@ -28,17 +28,17 @@ Nelson::MemoryGateway::isglobalBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     Context* ctxt = eval->getContext();
     Scope* globalScope = ctxt->getGlobalScope();
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (!argIn[0].isSingleString()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     std::string arg = argIn[0].getContentAsCString();
     if (!IsValidVariableName(arg)) {
-        Error(eval, _W("Argument must contain a valid variable name."));
+        Error(_W("Argument must contain a valid variable name."));
     }
     bool bIsGlobal = globalScope->isVariable(arg);
     ArrayOfVector retval;

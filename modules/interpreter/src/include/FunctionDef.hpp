@@ -117,8 +117,7 @@ public:
      * Evaluate the function and return its output.
      */
     virtual ArrayOfVector
-    evaluateFunction(Evaluator*, ArrayOfVector&, int)
-        = 0;
+    evaluateFunction(Evaluator*, ArrayOfVector&, int) = 0;
 };
 
 typedef FunctionDef* FuncPtr;

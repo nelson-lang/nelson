@@ -28,7 +28,7 @@ void
 FunctionHandleDisplay(Evaluator* eval, ArrayOf Var)
 {
     if (!Var.isFunctionHandle()) {
-        Error(eval, _W("FunctionHandleDisplay method: function_handle expected."));
+        Error(_W("FunctionHandleDisplay method: function_handle expected."));
     }
     Interface* io = eval->getInterface();
     if (io) {

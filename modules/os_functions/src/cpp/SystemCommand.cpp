@@ -105,7 +105,7 @@ SystemCommandAttachedW_windows(const std::wstring& command, int& ierr)
     std::wstring commandwithredirection = L"\"" + command + L"\" 2>&1";
     FILE* pPipe = _wpopen(commandwithredirection.c_str(), L"rt");
     if (pPipe == nullptr) {
-        throw Exception(_W("Cannot call unix command."));
+        Error(_W("Cannot call unix command."));
     } else {
         char psBuffer[BUFFER_POPEN];
         if (feof(pPipe)) {
@@ -150,46 +150,46 @@ SystemCommandAttachedW_others(const std::wstring& command, int& ierr)
     int stderrBackup = dup(STDERR_FILENO);
     int stdinBackup = dup(STDIN_FILENO);
     if (stdoutBackup == -1) {
-        throw Exception(_W("Cannot duplicate stdout (1)."));
+        Error(_W("Cannot duplicate stdout (1)."));
     }
     if (stdinBackup == -1) {
-        throw Exception(_W("Cannot duplicate stdin (1)."));
+        Error(_W("Cannot duplicate stdin (1)."));
     }
     if (stderrBackup == -1) {
-        throw Exception(_W("Cannot duplicate stderr (1)."));
+        Error(_W("Cannot duplicate stderr (1)."));
     }
     FILE* fpStdOutRedirected = freopen(tempOutputFile.generic_string().c_str(), "w", stdout);
     FILE* fpStdErrRedirected = freopen(tempErrorFile.generic_string().c_str(), "w", stderr);
     if (fpStdOutRedirected == nullptr) {
-        throw Exception(_W("Cannot redirect stdout."));
+        Error(_W("Cannot redirect stdout."));
     }
     if (fpStdErrRedirected == nullptr) {
-        throw Exception(_W("Cannot redirect stderr."));
+        Error(_W("Cannot redirect stderr."));
     }
     close(STDIN_FILENO);
     ierr = systemCall(command);
     close(STDOUT_FILENO);
     close(STDERR_FILENO);
     if (dup2(stdoutBackup, STDOUT_FILENO) == -1) {
-        throw Exception(_W("Cannot restore stdout."));
+        Error(_W("Cannot restore stdout."));
     }
     if (dup2(stderrBackup, STDERR_FILENO) == -1) {
-        throw Exception(_W("Cannot restore stdout."));
+        Error(_W("Cannot restore stdout."));
     }
     if (dup2(stdinBackup, STDIN_FILENO) == -1) {
-        throw Exception(_W("Cannot restore stdin."));
+        Error(_W("Cannot restore stdin."));
     }
     clearerr(stdout);
     clearerr(stdin);
     clearerr(stderr);
     if (close(stdoutBackup) == -1) {
-        throw Exception(_W("Cannot close redirected stdout."));
+        Error(_W("Cannot close redirected stdout."));
     }
     if (close(stderrBackup) == -1) {
-        throw Exception(_W("Cannot close redirected stderr."));
+        Error(_W("Cannot close redirected stderr."));
     }
     if (close(stdinBackup) == -1) {
-        throw Exception(_W("Cannot close redirected stdin."));
+        Error(_W("Cannot close redirected stdin."));
     }
     fflush(NULL);
     FILE* pFile = nullptr;
@@ -214,7 +214,7 @@ SystemCommandAttachedW_others(const std::wstring& command, int& ierr)
         deleteFile(tempOutputFile);
         deleteFile(tempErrorFile);
         deleteFile(tempInputFile);
-        throw Exception(_W("Cannot read results."));
+        Error(_W("Cannot read results."));
     } else {
         std::string resultUTF = "";
         char buffer[4096];

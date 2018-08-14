@@ -18,6 +18,7 @@
 //=============================================================================
 #include "SparseDynamicFunctions.hpp"
 #include "dynamic_library.hpp"
+#include "Error.hpp"
 #include <boost/function.hpp>
 #include <cstdio>
 //=============================================================================
@@ -59,8 +60,7 @@ initSparseDynamicLibrary(void)
 }
 //=============================================================================
 void*
-EyeSparseMatrixConstructorDynamicFunction(Class dclass, indexType rows, indexType cols) throw(
-    Exception)
+EyeSparseMatrixConstructorDynamicFunction(Class dclass, indexType rows, indexType cols)
 {
     typedef void* (*PROC_EyeSparseMatrixConstructor)(Class dclass, indexType rows, indexType cols);
     static PROC_EyeSparseMatrixConstructor Eigen_EyeSparseMatrixConstructorPtr = nullptr;
@@ -69,15 +69,14 @@ EyeSparseMatrixConstructorDynamicFunction(Class dclass, indexType rows, indexTyp
         Eigen_EyeSparseMatrixConstructorPtr = reinterpret_cast<PROC_EyeSparseMatrixConstructor>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_EyeSparseMatrixConstructor"));
         if (!Eigen_EyeSparseMatrixConstructorPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_EyeSparseMatrixConstructorPtr(dclass, rows, cols);
 }
 //=============================================================================
 void*
-LogicalSparseMatrixConstructorDynamicFunction(indexType rows, indexType cols, bool bMotif) throw(
-    Exception)
+LogicalSparseMatrixConstructorDynamicFunction(indexType rows, indexType cols, bool bMotif)
 {
     typedef void* (*PROC_LogicalSparseMatrixConstructor)(
         indexType rows, indexType cols, bool bMotif);
@@ -88,15 +87,14 @@ LogicalSparseMatrixConstructorDynamicFunction(indexType rows, indexType cols, bo
             = reinterpret_cast<PROC_LogicalSparseMatrixConstructor>(get_function(
                 nlsSparseHandleDynamicLibrary, "Eigen_LogicalSparseMatrixConstructor"));
         if (!Eigen_LogicalSparseMatrixConstructorPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_LogicalSparseMatrixConstructorPtr(rows, cols, bMotif);
 }
 //=============================================================================
 void
-DeleteSparseMatrixDynamicFunction(Class dclass, indexType rows, indexType cols, void* cp) throw(
-    Exception)
+DeleteSparseMatrixDynamicFunction(Class dclass, indexType rows, indexType cols, void* cp)
 {
     typedef void (*PROC_DeleteSparseMatrix)(
         Class dclass, indexType rows, indexType cols, void** cp);
@@ -106,15 +104,14 @@ DeleteSparseMatrixDynamicFunction(Class dclass, indexType rows, indexType cols, 
         Eigen_DeleteSparseMatrixPtr = reinterpret_cast<PROC_DeleteSparseMatrix>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_DeleteSparseMatrix"));
         if (!Eigen_DeleteSparseMatrixPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     Eigen_DeleteSparseMatrixPtr(dclass, rows, cols, &cp);
 }
 //=============================================================================
 void*
-MakeDenseArrayOfDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp) throw(
-    Exception)
+MakeDenseArrayOfDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp)
 {
     typedef void* (*PROC_MakeDenseArrayOf)(
         Class dclass, indexType rows, indexType cols, const void* cp);
@@ -124,7 +121,7 @@ MakeDenseArrayOfDynamicFunction(Class dclass, indexType rows, indexType cols, co
         Eigen_MakeDenseArrayOfPtr = reinterpret_cast<PROC_MakeDenseArrayOf>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_MakeDenseArrayOf"));
         if (!Eigen_MakeDenseArrayOfPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_MakeDenseArrayOfPtr(dclass, rows, cols, cp);
@@ -132,7 +129,7 @@ MakeDenseArrayOfDynamicFunction(Class dclass, indexType rows, indexType cols, co
 //=============================================================================
 void*
 MakeSparseArrayOfDynamicFunction(
-    Class dclass, indexType rows, indexType cols, const void* cp) throw(Exception)
+    Class dclass, indexType rows, indexType cols, const void* cp)
 {
     typedef void* (*PROC_MakeSparseArrayOf)(
         Class dclass, indexType rows, indexType cols, const void* cp);
@@ -142,7 +139,7 @@ MakeSparseArrayOfDynamicFunction(
         Eigen_MakeSparseArrayOfPtr = reinterpret_cast<PROC_MakeSparseArrayOf>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_MakeSparseArrayOf"));
         if (!Eigen_MakeSparseArrayOfPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_MakeSparseArrayOfPtr(dclass, rows, cols, cp);
@@ -150,7 +147,7 @@ MakeSparseArrayOfDynamicFunction(
 //=============================================================================
 void*
 TypeConvertSparseDynamicFunction(
-    Class dclass, indexType rows, indexType cols, const void* cp, Class oclass) throw(Exception)
+    Class dclass, indexType rows, indexType cols, const void* cp, Class oclass)
 {
     typedef void* (*PROC_TypeConvertSparse)(
         Class dclass, indexType rows, indexType cols, const void* cp, Class oclass);
@@ -160,15 +157,14 @@ TypeConvertSparseDynamicFunction(
         Eigen_TypeConvertSparsePtr = reinterpret_cast<PROC_TypeConvertSparse>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_TypeConvertSparse"));
         if (!Eigen_TypeConvertSparsePtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_TypeConvertSparsePtr(dclass, rows, cols, cp, oclass);
 }
 //=============================================================================
 void*
-CopySparseMatrixDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp) throw(
-    Exception)
+CopySparseMatrixDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp)
 {
     typedef void* (*PROC_CopySparseMatrix)(
         Class dclass, indexType rows, indexType cols, const void* cp);
@@ -178,15 +174,14 @@ CopySparseMatrixDynamicFunction(Class dclass, indexType rows, indexType cols, co
         Eigen_CopySparseMatrixPtr = reinterpret_cast<PROC_CopySparseMatrix>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_CopySparseMatrix"));
         if (!Eigen_CopySparseMatrixPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_CopySparseMatrixPtr(dclass, rows, cols, cp);
 }
 //=============================================================================
 indexType
-CountNonzerosMaxDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp) throw(
-    Exception)
+CountNonzerosMaxDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp)
 {
     typedef indexType (*PROC_CountNonzerosMax)(
         Class dclass, indexType rows, indexType cols, const void* cp);
@@ -196,15 +191,14 @@ CountNonzerosMaxDynamicFunction(Class dclass, indexType rows, indexType cols, co
         Eigen_CountNonzerosMaxPtr = reinterpret_cast<PROC_CountNonzerosMax>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_CountNonzerosMax"));
         if (!Eigen_CountNonzerosMaxPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_CountNonzerosMaxPtr(dclass, rows, cols, cp);
 }
 //=============================================================================
 indexType
-CountNonzerosDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp) throw(
-    Exception)
+CountNonzerosDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp)
 {
     typedef indexType (*PROC_CountNonzeros)(
         Class dclass, indexType rows, indexType cols, const void* cp);
@@ -214,7 +208,7 @@ CountNonzerosDynamicFunction(Class dclass, indexType rows, indexType cols, const
         Eigen_CountNonzerosPtr = reinterpret_cast<PROC_CountNonzeros>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_CountNonzeros"));
         if (!Eigen_CountNonzerosPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_CountNonzerosPtr(dclass, rows, cols, cp);
@@ -222,7 +216,7 @@ CountNonzerosDynamicFunction(Class dclass, indexType rows, indexType cols, const
 //=============================================================================
 void*
 SparseMatrixConstructorDynamicFunction(
-    Class dclass, indexType rows, indexType cols, ArrayOfMatrix m) throw(Exception)
+    Class dclass, indexType rows, indexType cols, ArrayOfMatrix m)
 {
     typedef void* (*PROC_SparseMatrixConstructor)(
         Class dclass, indexType rows, indexType cols, ArrayOfMatrix m);
@@ -232,7 +226,7 @@ SparseMatrixConstructorDynamicFunction(
         Eigen_SparseMatrixConstructorPtr = reinterpret_cast<PROC_SparseMatrixConstructor>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_SparseMatrixConstructor"));
         if (!Eigen_SparseMatrixConstructorPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_SparseMatrixConstructorPtr(dclass, rows, cols, m);
@@ -240,7 +234,7 @@ SparseMatrixConstructorDynamicFunction(
 //=============================================================================
 void*
 GetSparseVectorSubsetsDynamicFunction(Class dclass, indexType rows, indexType cols, const void* src,
-    const indexType* indx, indexType irows, indexType icols) throw(Exception)
+    const indexType* indx, indexType irows, indexType icols)
 {
     typedef void* (*PROC_GetSparseVectorSubsets)(Class dclass, indexType rows, indexType cols,
         const void* src, const indexType* indx, indexType irows, indexType icols);
@@ -250,7 +244,7 @@ GetSparseVectorSubsetsDynamicFunction(Class dclass, indexType rows, indexType co
         Eigen_GetSparseVectorSubsetsPtr = reinterpret_cast<PROC_GetSparseVectorSubsets>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_GetSparseVectorSubsets"));
         if (!Eigen_GetSparseVectorSubsetsPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_GetSparseVectorSubsetsPtr(dclass, rows, cols, src, indx, irows, icols);
@@ -259,7 +253,7 @@ GetSparseVectorSubsetsDynamicFunction(Class dclass, indexType rows, indexType co
 void*
 GetSparseNDimSubsetsDynamicFunction(Class dclass, indexType rows, indexType cols, const void* src,
     const indexType* rindx, indexType irows, const indexType* cindx,
-    indexType icols) throw(Exception)
+    indexType icols)
 {
     typedef void* (*PROC_GetSparseNDimSubsets)(Class dclass, indexType rows, indexType cols,
         const void* src, const indexType* rindx, indexType irows, const indexType* cindx,
@@ -270,7 +264,7 @@ GetSparseNDimSubsetsDynamicFunction(Class dclass, indexType rows, indexType cols
         Eigen_GetSparseNDimSubsetsPtr = reinterpret_cast<PROC_GetSparseNDimSubsets>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_GetSparseNDimSubsets"));
         if (!Eigen_GetSparseNDimSubsetsPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_GetSparseNDimSubsetsPtr(dclass, rows, cols, src, rindx, irows, cindx, icols);
@@ -279,7 +273,7 @@ GetSparseNDimSubsetsDynamicFunction(Class dclass, indexType rows, indexType cols
 void*
 SetSparseVectorSubsetsDynamicFunction(Class dclass, indexType& rows, indexType& cols,
     const void* src, const indexType* indx, indexType irows, indexType icols, const void* data,
-    int advance) throw(Exception)
+    int advance)
 {
     typedef void* (*PROC_SetSparseVectorSubsets)(Class dclass, indexType & rows, indexType & cols,
         const void* src, const indexType* indx, indexType irows, indexType icols, const void* data,
@@ -290,7 +284,7 @@ SetSparseVectorSubsetsDynamicFunction(Class dclass, indexType& rows, indexType& 
         Eigen_SetSparseVectorSubsetsPtr = reinterpret_cast<PROC_SetSparseVectorSubsets>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_SetSparseVectorSubsets"));
         if (!Eigen_SetSparseVectorSubsetsPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_SetSparseVectorSubsetsPtr(
@@ -300,7 +294,7 @@ SetSparseVectorSubsetsDynamicFunction(Class dclass, indexType& rows, indexType& 
 void*
 SetSparseNDimSubsetsDynamicFunction(Class dclass, indexType& rows, indexType& cols, const void* src,
     const indexType* rindx, indexType irows, const indexType* cindx, indexType icols,
-    const void* data, int advance) throw(Exception)
+    const void* data, int advance)
 {
     typedef void* (*PROC_SetSparseNDimSubsets)(Class dclass, indexType & rows, indexType & cols,
         const void* src, const indexType* rindx, indexType irows, const indexType* cindx,
@@ -311,7 +305,7 @@ SetSparseNDimSubsetsDynamicFunction(Class dclass, indexType& rows, indexType& co
         Eigen_SetSparseNDimSubsetsPtr = reinterpret_cast<PROC_SetSparseNDimSubsets>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_SetSparseNDimSubsets"));
         if (!Eigen_SetSparseNDimSubsetsPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_SetSparseNDimSubsetsPtr(
@@ -320,7 +314,7 @@ SetSparseNDimSubsetsDynamicFunction(Class dclass, indexType& rows, indexType& co
 //=============================================================================
 void*
 GetSparseScalarElementDynamicFunction(Class dclass, indexType rows, indexType cols, const void* src,
-    indexType rindx, indexType cindx) throw(Exception)
+    indexType rindx, indexType cindx)
 {
     typedef void* (*PROC_GetSparseScalarElement)(Class dclass, indexType rows, indexType cols,
         const void* src, indexType rindx, indexType cindx);
@@ -330,7 +324,7 @@ GetSparseScalarElementDynamicFunction(Class dclass, indexType rows, indexType co
         Eigen_GetSparseScalarElementPtr = reinterpret_cast<PROC_GetSparseScalarElement>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_GetSparseScalarElement"));
         if (!Eigen_GetSparseScalarElementPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_GetSparseScalarElementPtr(dclass, rows, cols, src, rindx, cindx);
@@ -338,7 +332,7 @@ GetSparseScalarElementDynamicFunction(Class dclass, indexType rows, indexType co
 //=============================================================================
 void*
 DeleteSparseMatrixColsDynamicFunction(
-    Class dclass, indexType rows, indexType cols, const void* cp, bool* dmap) throw(Exception)
+    Class dclass, indexType rows, indexType cols, const void* cp, bool* dmap)
 {
     typedef void* (*PROC_DeleteSparseMatrixCols)(
         Class dclass, indexType rows, indexType cols, const void* cp, bool* dmap);
@@ -348,7 +342,7 @@ DeleteSparseMatrixColsDynamicFunction(
         Eigen_DeleteSparseMatrixColsPtr = reinterpret_cast<PROC_DeleteSparseMatrixCols>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_DeleteSparseMatrixCols"));
         if (!Eigen_DeleteSparseMatrixColsPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_DeleteSparseMatrixColsPtr(dclass, rows, cols, cp, dmap);
@@ -356,7 +350,7 @@ DeleteSparseMatrixColsDynamicFunction(
 //=============================================================================
 void*
 DeleteSparseMatrixRowsDynamicFunction(
-    Class dclass, indexType rows, indexType cols, const void* cp, bool* dmap) throw(Exception)
+    Class dclass, indexType rows, indexType cols, const void* cp, bool* dmap)
 {
     typedef void* (*PROC_DeleteSparseMatrixRows)(
         Class dclass, indexType rows, indexType cols, const void* cp, bool* dmap);
@@ -366,7 +360,7 @@ DeleteSparseMatrixRowsDynamicFunction(
         Eigen_DeleteSparseMatrixRowsPtr = reinterpret_cast<PROC_DeleteSparseMatrixRows>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_DeleteSparseMatrixRows"));
         if (!Eigen_DeleteSparseMatrixRowsPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_DeleteSparseMatrixRowsPtr(dclass, rows, cols, cp, dmap);
@@ -374,7 +368,7 @@ DeleteSparseMatrixRowsDynamicFunction(
 //=============================================================================
 void*
 DeleteSparseMatrixVectorSubsetDynamicFunction(Class dclass, indexType& rows, indexType& cols,
-    const void* cp, const indexType* todel, indexType delete_len) throw(Exception)
+    const void* cp, const indexType* todel, indexType delete_len)
 {
     typedef void* (*PROC_DeleteSparseMatrixVectorSubset)(Class dclass, indexType & rows,
         indexType & cols, const void* cp, const indexType* todel, indexType delete_len);
@@ -385,7 +379,7 @@ DeleteSparseMatrixVectorSubsetDynamicFunction(Class dclass, indexType& rows, ind
             = reinterpret_cast<PROC_DeleteSparseMatrixVectorSubset>(get_function(
                 nlsSparseHandleDynamicLibrary, "Eigen_DeleteSparseMatrixVectorSubset"));
         if (!Eigen_DeleteSparseMatrixVectorSubsetPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_DeleteSparseMatrixVectorSubsetPtr(dclass, rows, cols, cp, todel, delete_len);
@@ -393,7 +387,7 @@ DeleteSparseMatrixVectorSubsetDynamicFunction(Class dclass, indexType& rows, ind
 //=============================================================================
 void*
 ReshapeSparseMatrixDynamicFunction(Class dclass, indexType rows, indexType cols, indexType newrows,
-    indexType newcols, const void* cp) throw(Exception)
+    indexType newcols, const void* cp)
 {
     typedef void* (*PROC_Eigen_ReshapeSparseMatrix)(Class dclass, indexType rows, indexType cols,
         indexType newrows, indexType newcols, const void* cp);
@@ -403,7 +397,7 @@ ReshapeSparseMatrixDynamicFunction(Class dclass, indexType rows, indexType cols,
         Eigen_ReshapeSparseMatrixPtr = reinterpret_cast<PROC_Eigen_ReshapeSparseMatrix>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_ReshapeSparseMatrix"));
         if (!Eigen_ReshapeSparseMatrixPtr) {
-            throw Exception(_W("Sparse Function not loaded."));
+            Error(_W("Sparse Function not loaded."));
         }
     }
     return Eigen_ReshapeSparseMatrixPtr(dclass, rows, cols, newrows, newcols, cp);

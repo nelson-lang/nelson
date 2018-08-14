@@ -84,7 +84,7 @@ OverloadBinaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, std::string functi
     }
     if (!bSuccess) {
         if (bRaiseError) {
-            Error(eval, std::string("function ") + OverloadName + " undefined.");
+            Error(std::string("function ") + OverloadName + " undefined.");
         }
         return ArrayOf::emptyConstructor();
     }
@@ -95,7 +95,7 @@ OverloadBinaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, std::string functi
     ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
     if (res.size() != 1) {
         if (bRaiseError) {
-            Error(eval,
+            Error(
                 std::string("function ") + funcDef->name + " only one output argument expected.");
         }
         bSuccess = false;

@@ -46,14 +46,14 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(
                     dimval = 2;
                 }
             } else {
-                Error(eval, _W("Wrong value for argument #2. 'r' or 'c' expected"));
+                Error(_W("Wrong value for argument #2. 'r' or 'c' expected"));
             }
         } else {
             dimval = param1.getContentAsScalarIndex(false);
         }
     } break;
     default:
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         break;
     }
     // Call overload if it exists
@@ -62,7 +62,7 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(
     if (!bSuccess) {
         ArrayOf param1 = argIn[0];
         if (param1.isClassStruct()) {
-            Error(eval,
+            Error(
                 _("Undefined function 'size' for input arguments of type") + " '"
                     + ClassName(param1) + "'.");
         }
@@ -70,7 +70,7 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(
         sze.simplify();
         if (bChooseDimension) {
             if (nLhs > 1) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             if (dimval - 1 >= maxDims) {
                 retval.push_back(ArrayOf::doubleConstructor((double)(1.0)));

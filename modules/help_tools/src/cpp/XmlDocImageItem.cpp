@@ -22,7 +22,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "ImageTagHelpers.hpp"
 #include "XmlDocImageItem.hpp"
 #include "XmlDocumentTags.hpp"
@@ -63,7 +63,7 @@ void
 XmlDocImageItem::findImage()
 {
     if (!isValidImageTag(tag)) {
-        throw Exception(_W("Tag malformed."));
+        Error(_W("Tag malformed."));
     }
     std::wstring newPath;
     std::wstring oldPath;
@@ -88,7 +88,7 @@ XmlDocImageItem::findImage()
         imageSource = newPath;
         imageDestination = this->destDirectory + L"/" + newfilename;
     } else {
-        throw Exception(_W("File does not exist:") + L" " + oldPath);
+        Error(_W("File does not exist:") + L" " + oldPath);
     }
 }
 //=============================================================================

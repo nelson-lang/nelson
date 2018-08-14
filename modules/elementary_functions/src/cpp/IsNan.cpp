@@ -93,7 +93,7 @@ IsNaN(ArrayOf A)
         C.setDataPointer(Cp);
     } break;
     default: {
-        throw Exception(_("Undefined function 'isnan' for input arguments of type") + " '"
+        Error(_("Undefined function 'isnan' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     }

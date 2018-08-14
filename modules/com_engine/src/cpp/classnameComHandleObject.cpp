@@ -19,7 +19,7 @@
 #include "classnameComHandleObject.hpp"
 #include "ClassName.hpp"
 #include "ComHandleObject.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "HandleManager.hpp"
 #include <Ole2.h>
 #include <Windows.h>
@@ -91,7 +91,7 @@ classnameComHandle(ArrayOf A, std::wstring& classname)
 {
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != COM_CATEGORY_STR) {
-        throw Exception(_W("COM handle expected."));
+        Error(_W("COM handle expected."));
     }
     ComHandleObject* comhandleobj = (ComHandleObject*)hlObj;
     if (comhandleobj) {
@@ -104,12 +104,12 @@ classnameComHandle(ArrayOf A, wstringVector& classname)
 {
     classname.clear();
     if (!A.isHandle()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
     }
     std::wstring className;
     ClassName(A, className);
     if (className != COM_CATEGORY_STR) {
-        throw Exception(_W("COM handle expected."));
+        Error(_W("COM handle expected."));
     }
     Dimensions dimsA = A.getDimensions();
     nelson_handle* qp = (nelson_handle*)A.getDataPointer();

@@ -19,7 +19,7 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "nlsapi_nelson_exports.h"
 #include <string>
 //=============================================================================

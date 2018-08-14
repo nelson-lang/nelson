@@ -23,30 +23,64 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class NLSINTERPRETER_IMPEXP PositionScript {
+class PositionScript {
+  //=============================================================================
 private:
   std::wstring filename = L"";
   std::wstring functionname = L"";
   int line = -1;
-
+  //=============================================================================
 public:
+  //=============================================================================
   PositionScript(std::wstring functionname = L"", std::wstring filename = L"",
-                 int line = -1);
-  PositionScript(const PositionScript &copy);
-
-  void operator=(const PositionScript& copy);
-  ~PositionScript();
-
-  std::wstring getFilename();
-  void setFilename(std::wstring filename);
-
-  int getLine();
-  void setLine(int _line);
-
-  void setFunctionName(std::wstring functionname);
-  std::wstring getFunctionName();
-
-  bool isEmpty();
+                 int line = -1) {
+    this->filename = filename;
+    this->functionname = functionname;
+    this->line = line;
+  }
+  //=============================================================================
+  PositionScript(const PositionScript &copy) {
+    this->filename = copy.filename;
+    this->functionname = copy.functionname;
+    this->line = copy.line;
+  }
+  //=============================================================================
+  void operator=(const PositionScript &copy) {
+    if (this == &copy) {
+      return;
+    }
+    this->filename = copy.filename;
+    this->functionname = copy.functionname;
+    this->line = copy.line;
+  }
+  //=============================================================================
+  ~PositionScript() {
+    this->filename = L"";
+    this->functionname = L"";
+    this->line = -1;
+  }
+  //=============================================================================
+  std::wstring getFilename() {
+	  return this->filename; 
+  }
+  //=============================================================================
+  void setFilename(std::wstring filename) {
+	  this->filename = filename; 
+  }
+  //=============================================================================
+  int getLine() { return this->line; }
+  //=============================================================================
+  void setFunctionName(std::wstring functionname) {
+    this->functionname = functionname;
+  }
+  //=============================================================================
+  std::wstring getFunctionName() { return this->functionname; }
+  //=============================================================================
+  bool isEmpty() {
+    return (this->functionname == L"" && this->filename == L"" &&
+            this->line == -1);
+  }
+  //=============================================================================
 };
 //=============================================================================
 } // namespace Nelson

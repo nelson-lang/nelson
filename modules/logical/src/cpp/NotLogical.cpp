@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NotLogical.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -37,7 +38,7 @@ NotLogical(ArrayOf A)
             }
         }
     } else {
-        throw Exception(_W("Invalid type."));
+        Error(_W("Invalid type."));
     }
     return C;
 }

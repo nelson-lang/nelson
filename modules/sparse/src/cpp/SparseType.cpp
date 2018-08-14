@@ -19,6 +19,7 @@
 #define _SCL_SECURE_NO_WARNINGS
 //=============================================================================
 #include "SparseType.hpp"
+#include "Error.hpp"
 #include "Exception.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
@@ -34,7 +35,7 @@ Eigen_EyeSparseMatrixConstructor(indexType rows, indexType cols)
         } catch (std::bad_alloc& e) {
             e.what();
             spMat = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         spMat->setIdentity();
         spMat->finalize();
@@ -46,7 +47,7 @@ Eigen_EyeSparseMatrixConstructor(indexType rows, indexType cols)
 }
 //=============================================================================
 void*
-Eigen_EyeSparseMatrixConstructor(Class dclass, indexType rows, indexType cols) throw(Exception)
+Eigen_EyeSparseMatrixConstructor(Class dclass, indexType rows, indexType cols)
 {
     switch (dclass) {
     case NLS_LOGICAL: {
@@ -59,13 +60,13 @@ Eigen_EyeSparseMatrixConstructor(Class dclass, indexType rows, indexType cols) t
         return Eigen_EyeSparseMatrixConstructor<doublecomplex>(rows, cols);
     } break;
     default:
-        throw Exception(_W("Unsupported type in EyeSparseMatrixConstructor."));
+        Error(_W("Unsupported type in EyeSparseMatrixConstructor."));
     }
     return nullptr;
 }
 //=============================================================================
 void*
-Eigen_LogicalSparseMatrixConstructor(indexType rows, indexType cols, bool bMotif) throw(Exception)
+Eigen_LogicalSparseMatrixConstructor(indexType rows, indexType cols, bool bMotif)
 {
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMat;
     try {
@@ -73,7 +74,7 @@ Eigen_LogicalSparseMatrixConstructor(indexType rows, indexType cols, bool bMotif
     } catch (std::bad_alloc& e) {
         e.what();
         spMat = nullptr;
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     if (bMotif) {
         for (indexType i = 0; i < rows; i++) {
@@ -100,7 +101,7 @@ Eigen_DeleteSparseMatrix(void** cp)
 }
 //=============================================================================
 void
-Eigen_DeleteSparseMatrix(Class dclass, indexType rows, indexType cols, void** cp) throw(Exception)
+Eigen_DeleteSparseMatrix(Class dclass, indexType rows, indexType cols, void** cp)
 {
     switch (dclass) {
     case NLS_LOGICAL: {
@@ -113,7 +114,7 @@ Eigen_DeleteSparseMatrix(Class dclass, indexType rows, indexType cols, void** cp
         Eigen_DeleteSparseMatrix<doublecomplex>(cp);
     } break;
     default:
-        throw Exception(_W("Unsupported type in MakeSparseArrayOf."));
+        Error(_W("Unsupported type in MakeSparseArrayOf."));
     }
 }
 //=============================================================================
@@ -130,7 +131,7 @@ Eigen_MakeDenseArrayOf(indexType rows, indexType cols, const void* cp)
         } catch (std::bad_alloc& e) {
             e.what();
             spMat = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA((T*)pMat, rows, cols);
         matA = spMat->toDense();
@@ -139,8 +140,7 @@ Eigen_MakeDenseArrayOf(indexType rows, indexType cols, const void* cp)
 }
 //=============================================================================
 void*
-Eigen_MakeDenseArrayOf(Class dclass, indexType rows, indexType cols, const void* cp) throw(
-    Exception)
+Eigen_MakeDenseArrayOf(Class dclass, indexType rows, indexType cols, const void* cp)
 {
     switch (dclass) {
     case NLS_LOGICAL: {
@@ -161,7 +161,7 @@ Eigen_MakeDenseArrayOf(Class dclass, indexType rows, indexType cols, const void*
             } catch (std::bad_alloc& e) {
                 e.what();
                 spMat = nullptr;
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
             Eigen::Map<Eigen::Matrix<doublecomplex, Eigen::Dynamic, Eigen::Dynamic>> matA(
                 (doublecomplex*)pzMat, rows, cols);
@@ -170,7 +170,7 @@ Eigen_MakeDenseArrayOf(Class dclass, indexType rows, indexType cols, const void*
         return pMat;
     } break;
     default:
-        throw Exception(_W("Unsupported type in MakeDenseArrayOf."));
+        Error(_W("Unsupported type in MakeDenseArrayOf."));
     }
     return nullptr;
 }
@@ -186,7 +186,7 @@ Eigen_MakeSparseArrayOf(indexType rows, indexType cols, const void* cp)
     } catch (std::bad_alloc& e) {
         e.what();
         spMat = nullptr;
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     spMat->makeCompressed();
     spMat->data().squeeze();
@@ -194,8 +194,7 @@ Eigen_MakeSparseArrayOf(indexType rows, indexType cols, const void* cp)
 }
 //=============================================================================
 void*
-Eigen_MakeSparseArrayOf(Class dclass, indexType rows, indexType cols, const void* cp) throw(
-    Exception)
+Eigen_MakeSparseArrayOf(Class dclass, indexType rows, indexType cols, const void* cp)
 {
     switch (dclass) {
     case NLS_LOGICAL: {
@@ -214,14 +213,14 @@ Eigen_MakeSparseArrayOf(Class dclass, indexType rows, indexType cols, const void
         } catch (std::bad_alloc& e) {
             e.what();
             spMat = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         spMat->makeCompressed();
         spMat->data().squeeze();
         return (void*)spMat;
     } break;
     default: {
-        throw Exception(_W("Unsupported type in MakeSparseArrayOf"));
+        Error(_W("Unsupported type in MakeSparseArrayOf"));
     }
     }
     return nullptr;
@@ -240,7 +239,7 @@ Eigen_CopySparseMatrix(indexType rows, indexType cols, const void* cp)
         } catch (std::bad_alloc& e) {
             e.what();
             copiedpMat = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         copiedpMat->makeCompressed();
         copiedpMat->data().squeeze();
@@ -249,8 +248,7 @@ Eigen_CopySparseMatrix(indexType rows, indexType cols, const void* cp)
 }
 //=============================================================================
 void*
-Eigen_CopySparseMatrix(Class dclass, indexType rows, indexType cols, const void* cp) throw(
-    Exception)
+Eigen_CopySparseMatrix(Class dclass, indexType rows, indexType cols, const void* cp)
 {
     switch (dclass) {
     case NLS_LOGICAL: {
@@ -263,7 +261,7 @@ Eigen_CopySparseMatrix(Class dclass, indexType rows, indexType cols, const void*
         return Eigen_CopySparseMatrix<doublecomplex>(rows, cols, cp);
     } break;
     default: {
-        throw Exception(_W("Unsupported type in CopySparseMatrix."));
+        Error(_W("Unsupported type in CopySparseMatrix."));
     }
     }
     return nullptr;
@@ -288,7 +286,7 @@ Eigen_CountNonzerosMax(const void* cp)
 }
 //=============================================================================
 indexType
-Eigen_CountNonzeros(Class dclass, indexType rows, indexType cols, const void* cp) throw(Exception)
+Eigen_CountNonzeros(Class dclass, indexType rows, indexType cols, const void* cp)
 {
     switch (dclass) {
     case NLS_LOGICAL: {
@@ -301,15 +299,14 @@ Eigen_CountNonzeros(Class dclass, indexType rows, indexType cols, const void* cp
         return Eigen_CountNonzeros<doublecomplex>(cp);
     } break;
     default: {
-        throw Exception(_W("Unsupported type in CountNonzeros."));
+        Error(_W("Unsupported type in CountNonzeros."));
     } break;
     }
     return 0;
 }
 //=============================================================================
 indexType
-Eigen_CountNonzerosMax(Class dclass, indexType rows, indexType cols, const void* cp) throw(
-    Exception)
+Eigen_CountNonzerosMax(Class dclass, indexType rows, indexType cols, const void* cp)
 {
     switch (dclass) {
     case NLS_LOGICAL: {
@@ -322,15 +319,14 @@ Eigen_CountNonzerosMax(Class dclass, indexType rows, indexType cols, const void*
         return Eigen_CountNonzerosMax<doublecomplex>(cp);
     } break;
     default: {
-        throw Exception(_W("Unsupported type in CountNonzerosMax."));
+        Error(_W("Unsupported type in CountNonzerosMax."));
     } break;
     }
     return 0;
 }
 //=============================================================================
 void*
-Eigen_SparseMatrixConstructor(Class dclass, indexType rows, indexType cols, ArrayOfMatrix m) throw(
-    Exception)
+Eigen_SparseMatrixConstructor(Class dclass, indexType rows, indexType cols, ArrayOfMatrix m)
 {
     // Precondition the arrays by converting to sparse and to
     // the output type
@@ -351,7 +347,7 @@ Eigen_SparseMatrixConstructor(Class dclass, indexType rows, indexType cols, Arra
         } catch (std::bad_alloc& e) {
             e.what();
             spMat = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         indexType X = 0;
         indexType Y = 0;
@@ -373,7 +369,7 @@ Eigen_SparseMatrixConstructor(Class dclass, indexType rows, indexType cols, Arra
         Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMat = nullptr;
     } break;
     default: {
-        throw Exception(_W("Unsupported type in SparseMatrixConstructor."));
+        Error(_W("Unsupported type in SparseMatrixConstructor."));
     }
     }
     return nullptr;
@@ -410,7 +406,7 @@ Eigen_GetSparseVectorSubsetsInternal(indexType rows, indexType cols, const void*
     } catch (std::bad_alloc& e) {
         e.what();
         spMat = nullptr;
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     spMat->setFromTriplets(tripletList.begin(), tripletList.end());
     spMat->finalize();
@@ -419,14 +415,14 @@ Eigen_GetSparseVectorSubsetsInternal(indexType rows, indexType cols, const void*
 //=============================================================================
 void*
 Eigen_GetSparseVectorSubsets(Class dclass, indexType rows, indexType cols, const void* src,
-    const indexType* indx, indexType irows, indexType icols) throw(Exception)
+    const indexType* indx, indexType irows, indexType icols)
 {
     void* spMat = nullptr;
     indexType bound = rows * cols;
     for (indexType i = 0; i < irows * icols; i++) {
         double ndx = (double)indx[i] - 1;
         if ((ndx < 0) || ndx >= bound) {
-            throw Exception(_W("Index exceeds variable dimensions."));
+            Error(_W("Index exceeds variable dimensions."));
         }
     }
     switch (dclass) {
@@ -463,7 +459,7 @@ Eigen_GetSparseVectorSubsets(Class dclass, indexType rows, indexType cols, const
         } catch (std::bad_alloc& e) {
             e.what();
             spMat = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         spMat->setFromTriplets(tripletList.begin(), tripletList.end());
         spMat->finalize();
@@ -471,7 +467,7 @@ Eigen_GetSparseVectorSubsets(Class dclass, indexType rows, indexType cols, const
         return (void*)spMat;
     } break;
     default: {
-        throw Exception(_W("Unsupported type in CountNonzeros."));
+        Error(_W("Unsupported type in CountNonzeros."));
     }
     }
     return spMat;
@@ -480,7 +476,7 @@ Eigen_GetSparseVectorSubsets(Class dclass, indexType rows, indexType cols, const
 void*
 Eigen_GetSparseNDimSubsets(Class dclass, indexType rows, indexType cols, const void* src,
     const indexType* rindx, indexType irows, const indexType* cindx,
-    indexType icols) throw(Exception)
+    indexType icols)
 {
     void* spMat = nullptr;
     return spMat;
@@ -503,7 +499,7 @@ Eigen_CopyResizeSparseMatrix(
     } catch (std::bad_alloc& e) {
         e.what();
         copiedpMat = nullptr;
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     copiedpMat->conservativeResize(maxrow, maxcol);
     copiedpMat->finalize();
@@ -513,7 +509,7 @@ Eigen_CopyResizeSparseMatrix(
 //=============================================================================
 void*
 Eigen_CopyResizeSparseMatrix(Class dclass, const void* src, indexType rows, indexType cols,
-    indexType maxrow, indexType maxcol) throw(Exception)
+    indexType maxrow, indexType maxcol)
 {
     switch (dclass) {
     case NLS_LOGICAL: {
@@ -526,7 +522,7 @@ Eigen_CopyResizeSparseMatrix(Class dclass, const void* src, indexType rows, inde
         return Eigen_CopyResizeSparseMatrix<doublecomplex>(src, rows, cols, maxrow, maxcol);
     } break;
     default: {
-        throw Exception(_W("Unsupported type in SetSparseNDimSubsets."));
+        Error(_W("Unsupported type in SetSparseNDimSubsets."));
     } break;
     }
     return nullptr;
@@ -535,11 +531,11 @@ Eigen_CopyResizeSparseMatrix(Class dclass, const void* src, indexType rows, inde
 void*
 Eigen_SetSparseVectorSubsets(Class dclass, indexType& rows, indexType& cols, const void* src,
     const indexType* indx, indexType irows, indexType icols, const void* data,
-    int advance) throw(Exception)
+    int advance)
 {
     void* spMat = nullptr;
     if (advance) {
-        throw Exception(_W("Eigen_DeleteSparseMatrixVectorSubset advanced not yet implemented."));
+        Error(_W("Eigen_DeleteSparseMatrixVectorSubset advanced not yet implemented."));
     }
     indexType* rowvect = new_with_exception<indexType>(irows * icols);
     indexType* colvect = new_with_exception<indexType>(irows * icols);
@@ -584,10 +580,10 @@ Eigen_SetSparseNDimSubsetsInternal(indexType& rows, indexType& cols, const void*
 void*
 Eigen_SetSparseNDimSubsets(Class dclass, indexType& rows, indexType& cols, const void* src,
     const indexType* rindx, indexType irows, const indexType* cindx, indexType icols,
-    const void* data, int advance) throw(Exception)
+    const void* data, int advance)
 {
     if (advance) {
-        throw Exception(_W("Eigen_SetSparseNDimSubsets advanced not yet implemented."));
+        Error(_W("Eigen_SetSparseNDimSubsets advanced not yet implemented."));
     }
     void* res = nullptr;
     indexType i = 0;
@@ -622,13 +618,13 @@ Eigen_SetSparseNDimSubsets(Class dclass, indexType& rows, indexType& cols, const
             rows, cols, res, rindx, irows, cindx, icols, data);
     } break;
     default:
-        throw Exception(_W("Unsupported type in SetSparseNDimSubsets."));
+        Error(_W("Unsupported type in SetSparseNDimSubsets."));
     }
     return nullptr;
 }
 //=============================================================================
 void*
-Eigen_CreateSparseScalarElement(double v) throw(Exception)
+Eigen_CreateSparseScalarElement(double v)
 {
     Eigen::SparseMatrix<double, 0, signedIndexType>* pMat = nullptr;
     try {
@@ -636,7 +632,7 @@ Eigen_CreateSparseScalarElement(double v) throw(Exception)
     } catch (std::bad_alloc& e) {
         e.what();
         pMat = nullptr;
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     if (v != 0) {
         pMat->coeffRef(0, 0) = v;
@@ -647,7 +643,7 @@ Eigen_CreateSparseScalarElement(double v) throw(Exception)
 }
 //=============================================================================
 void*
-Eigen_CreateSparseScalarElement(doublecomplex v) throw(Exception)
+Eigen_CreateSparseScalarElement(doublecomplex v)
 {
     Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* pMat = nullptr;
     try {
@@ -655,7 +651,7 @@ Eigen_CreateSparseScalarElement(doublecomplex v) throw(Exception)
     } catch (std::bad_alloc& e) {
         e.what();
         pMat = nullptr;
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     if ((v.real() != 0.) && (v.imag() != 0.)) {
         pMat->coeffRef(0, 0) = v;
@@ -666,7 +662,7 @@ Eigen_CreateSparseScalarElement(doublecomplex v) throw(Exception)
 }
 //=============================================================================
 void*
-Eigen_CreateSparseScalarElement(logical v) throw(Exception)
+Eigen_CreateSparseScalarElement(logical v)
 {
     Eigen::SparseMatrix<logical, 0, signedIndexType>* pMat = nullptr;
     try {
@@ -674,7 +670,7 @@ Eigen_CreateSparseScalarElement(logical v) throw(Exception)
     } catch (std::bad_alloc& e) {
         e.what();
         pMat = nullptr;
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     if (v != 0) {
         pMat->coeffRef(0, 0) = v;
@@ -687,7 +683,7 @@ Eigen_CreateSparseScalarElement(logical v) throw(Exception)
 template <class T>
 void*
 Eigen_GetSparseScalarElement(indexType rows, indexType cols, const void* src, indexType rindx,
-    indexType cindx) throw(Exception)
+    indexType cindx)
 {
     Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
         = (Eigen::SparseMatrix<T, 0, signedIndexType>*)src;
@@ -698,7 +694,7 @@ Eigen_GetSparseScalarElement(indexType rows, indexType cols, const void* src, in
 //=============================================================================
 void*
 Eigen_GetSparseScalarElement(Class dclass, indexType rows, indexType cols, const void* src,
-    indexType rindx, indexType cindx) throw(Exception)
+    indexType rindx, indexType cindx)
 {
     switch (dclass) {
     case NLS_LOGICAL: {
@@ -711,7 +707,7 @@ Eigen_GetSparseScalarElement(Class dclass, indexType rows, indexType cols, const
         return Eigen_GetSparseScalarElement<doublecomplex>(rows, cols, src, rindx, cindx);
     } break;
     default: {
-        throw Exception(_W("Unsupported type in CountNonzeros."));
+        Error(_W("Unsupported type in CountNonzeros."));
     }
     }
     return nullptr;
@@ -745,7 +741,7 @@ Eigen_SparseToIJV(const void* cp, indexType*& I, indexType*& J, int& nnz)
 //=============================================================================
 void*
 Eigen_SparseToIJV(Class dclass, indexType rows, indexType cols, const void* cp, indexType*& I,
-    indexType*& J, int& nnz) throw(Exception)
+    indexType*& J, int& nnz)
 {
     switch (dclass) {
     case NLS_LOGICAL: {
@@ -782,7 +778,7 @@ Eigen_SparseToIJV(Class dclass, indexType rows, indexType cols, const void* cp, 
         return (void*)pV;
     } break;
     default: {
-        throw Exception(_W("Unsupported type in SparseToIJV."));
+        Error(_W("Unsupported type in SparseToIJV."));
     }
     }
     return nullptr;
@@ -836,7 +832,7 @@ Eigen_makeSparseFromIJVInternal(indexType rows, indexType cols, indexType nnz, i
     } catch (std::bad_alloc& e) {
         e.what();
         spMat = nullptr;
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     spMat->setFromTriplets(tripletList.begin(), tripletList.end());
     spMat->finalize();
@@ -861,7 +857,7 @@ Eigen_makeSparseFromIJVLogical(indexType rows, indexType cols, indexType nnz, in
         }
         std::vector<Triplet>::iterator it = tripletfind(tripletList.begin(), tripletList.end(), tr);
         if (it != tripletList.end()) {
-            throw Exception(_W("Repeated indices are not supported for sparse logical matrices."));
+            Error(_W("Repeated indices are not supported for sparse logical matrices."));
         }
         tripletList.push_back(tr);
     }
@@ -871,7 +867,7 @@ Eigen_makeSparseFromIJVLogical(indexType rows, indexType cols, indexType nnz, in
     } catch (std::bad_alloc& e) {
         e.what();
         spMat = nullptr;
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     spMat->setFromTriplets(tripletList.begin(), tripletList.end());
     spMat->finalize();
@@ -906,7 +902,7 @@ Eigen_makeSparseFromIJVComplex(indexType rows, indexType cols, indexType nnz, in
     } catch (std::bad_alloc& e) {
         e.what();
         spMat = nullptr;
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     spMat->setFromTriplets(tripletList.begin(), tripletList.end());
     spMat->finalize();
@@ -917,7 +913,7 @@ Eigen_makeSparseFromIJVComplex(indexType rows, indexType cols, indexType nnz, in
 void*
 Eigen_makeSparseFromIJV(Class dclass, indexType rows, indexType cols, indexType nnz, indexType* I,
     int istride, indexType* J, int jstride, const void* cp, int cpstride,
-    bool bScalarV) throw(Exception)
+    bool bScalarV)
 {
     switch (dclass) {
     case NLS_LOGICAL: {
@@ -930,7 +926,7 @@ Eigen_makeSparseFromIJV(Class dclass, indexType rows, indexType cols, indexType 
         return Eigen_makeSparseFromIJVComplex(rows, cols, nnz, I, J, cp, bScalarV);
     } break;
     default: {
-        throw Exception(_W("Unsupported type in SparseToIJV."));
+        Error(_W("Unsupported type in SparseToIJV."));
     }
     }
     return nullptr;
@@ -938,34 +934,34 @@ Eigen_makeSparseFromIJV(Class dclass, indexType rows, indexType cols, indexType 
 //=============================================================================
 void*
 Eigen_DeleteSparseMatrixCols(
-    Class dclass, indexType rows, indexType cols, const void* cp, bool* dmap) throw(Exception)
+    Class dclass, indexType rows, indexType cols, const void* cp, bool* dmap)
 {
     void* spMat = nullptr;
-    throw Exception(_W("Eigen_DeleteSparseMatrixCols not yet implemented."));
+    Error(_W("Eigen_DeleteSparseMatrixCols not yet implemented."));
     return spMat;
 }
 //=============================================================================
 void*
 Eigen_DeleteSparseMatrixRows(
-    Class dclass, indexType rows, indexType cols, const void* cp, bool* dmap) throw(Exception)
+    Class dclass, indexType rows, indexType cols, const void* cp, bool* dmap)
 {
     void* spMat = nullptr;
-    throw Exception(_W("Eigen_DeleteSparseMatrixRows not yet implemented."));
+    Error(_W("Eigen_DeleteSparseMatrixRows not yet implemented."));
     return spMat;
 }
 //=============================================================================
 void*
 Eigen_DeleteSparseMatrixVectorSubset(Class dclass, indexType& rows, indexType& cols, const void* cp,
-    const indexType* todel, indexType delete_len) throw(Exception)
+    const indexType* todel, indexType delete_len)
 {
     void* spMat = nullptr;
-    throw Exception(_W("Eigen_DeleteSparseMatrixVectorSubset not yet implemented."));
+    Error(_W("Eigen_DeleteSparseMatrixVectorSubset not yet implemented."));
     return spMat;
 }
 //=============================================================================
 void*
 Eigen_TypeConvertSparse(
-    Class dclass, indexType rows, indexType cols, const void* cp, Class oclass) throw(Exception)
+    Class dclass, indexType rows, indexType cols, const void* cp, Class oclass)
 {
     switch (oclass) {
     case NLS_LOGICAL: {
@@ -982,7 +978,7 @@ Eigen_TypeConvertSparse(
                     = new Eigen::SparseMatrix<double, 0, signedIndexType>(spMat->cast<double>());
             } catch (std::bad_alloc& e) {
                 e.what();
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
             spMatdest->finalize();
             spMatdest->makeCompressed();
@@ -995,14 +991,14 @@ Eigen_TypeConvertSparse(
                     spMat->cast<doublecomplex>());
             } catch (std::bad_alloc& e) {
                 e.what();
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
             spMatdest->finalize();
             spMatdest->makeCompressed();
             return (void*)spMatdest;
         } break;
         default: {
-            throw Exception(_W("Unsupported type in TypeConvertSparse."));
+            Error(_W("Unsupported type in TypeConvertSparse."));
         } break;
         }
     } break;
@@ -1016,7 +1012,7 @@ Eigen_TypeConvertSparse(
                 spMatdest = new Eigen::SparseMatrix<logical, 0, signedIndexType>(rows, cols);
             } catch (std::bad_alloc& e) {
                 e.what();
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
             for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
                 for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k);
@@ -1038,7 +1034,7 @@ Eigen_TypeConvertSparse(
                 spMatdest = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(rows, cols);
             } catch (std::bad_alloc& e) {
                 e.what();
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
             for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
                 for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k);
@@ -1052,28 +1048,28 @@ Eigen_TypeConvertSparse(
             return (void*)spMatdest;
         } break;
         default: {
-            throw Exception(_W("Unsupported type in TypeConvertSparse."));
+            Error(_W("Unsupported type in TypeConvertSparse."));
         } break;
         }
     } break;
     case NLS_DCOMPLEX: {
         switch (dclass) {
         case NLS_LOGICAL: {
-            throw Exception(_W("Unsupported type in TypeConvertSparse (complex to logical)."));
+            Error(_W("Unsupported type in TypeConvertSparse (complex to logical)."));
         } break;
         case NLS_DOUBLE: {
-            throw Exception(_W("Unsupported type in TypeConvertSparse (complex to double)."));
+            Error(_W("Unsupported type in TypeConvertSparse (complex to double)."));
         } break;
         case NLS_DCOMPLEX: {
             return Eigen_CopySparseMatrix<doublecomplex>(rows, cols, cp);
         } break;
         default: {
-            throw Exception(_W("Unsupported type in TypeConvertSparse."));
+            Error(_W("Unsupported type in TypeConvertSparse."));
         } break;
         }
     } break;
     default: {
-        throw Exception(_W("Unsupported type in TypeConvertSparse."));
+        Error(_W("Unsupported type in TypeConvertSparse."));
     } break;
     }
     return nullptr;
@@ -1133,7 +1129,7 @@ Eigen_ReshapeSparseMatrix(
 //=============================================================================
 void*
 Eigen_ReshapeSparseMatrix(Class dclass, indexType rows, indexType cols, indexType newrows,
-    indexType newcols, const void* cp) throw(Exception)
+    indexType newcols, const void* cp)
 {
     switch (dclass) {
     case NLS_LOGICAL: {
@@ -1146,7 +1142,7 @@ Eigen_ReshapeSparseMatrix(Class dclass, indexType rows, indexType cols, indexTyp
         return Eigen_ReshapeSparseMatrix<doublecomplex>(rows, cols, newrows, newcols, cp);
     } break;
     default: {
-        throw Exception(_W("Unsupported type in ReshapeSparseMatrix."));
+        Error(_W("Unsupported type in ReshapeSparseMatrix."));
     }
     }
     return nullptr;

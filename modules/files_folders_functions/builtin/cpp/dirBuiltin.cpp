@@ -33,34 +33,34 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     std::wstring woption;
     bool bSubDirectories = false;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     switch (argIn.size()) {
     case 0: {
         wpath = GetCurrentDirectory();
         if (wpath == L"") {
-            Error(eval, _W("Impossible to get current directory."));
+            Error(_W("Impossible to get current directory."));
         }
     } break;
     case 2: {
         if (!argIn[1].isSingleString()) {
-            Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
         woption = argIn[1].getContentAsWideString();
         if (woption == L"-s") {
             bSubDirectories = true;
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
+            Error(ERROR_WRONG_ARGUMENT_2_VALUE);
         }
     }
     case 1: {
         if (!argIn[0].isSingleString()) {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         wpath = argIn[0].getContentAsWideString();
     } break;
     default:
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         break;
     }
     boost::container::vector<FileInfo> res = ListFiles(wpath, bSubDirectories);

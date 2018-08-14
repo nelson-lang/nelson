@@ -29,7 +29,7 @@ void
 fieldnamesComHandleObject(ArrayOf A, bool fullList, wstringVector& fieldnames)
 {
     if (A.getHandleCategory() != COM_CATEGORY_STR) {
-        throw Exception(_W("COM handle expected."));
+        Error(_W("COM handle expected."));
     }
     ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     fieldnamesComHandleObject(comhandleobj, fullList, fieldnames);
@@ -41,7 +41,7 @@ fieldnamesComHandleObject(ComHandleObject* comHandle, bool fullList, wstringVect
     void* ptr = comHandle->getPointer();
     fieldnames.clear();
     if (ptr == nullptr) {
-        throw Exception(_W("COM valid handle expected."));
+        Error(_W("COM valid handle expected."));
     }
     VARIANT* pVariant = (VARIANT*)ptr;
     ITypeInfo* ti;

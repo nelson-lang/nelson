@@ -31,13 +31,13 @@ ComplexTranspose(ArrayOf A)
         ClassName(A, classname);
         std::wstring msg
             = _W("function") + L" " + classname + L"_ctranspose" + L" " + _W("undefined.");
-        throw Exception(msg);
+        Error(msg);
     }
     Dimensions dimsA = A.getDimensions();
     bool isSupported = (A.isEmpty() || A.isScalar() || A.is2D());
     if (!isSupported) {
         std::wstring msg = _W("ctranspose on N-D array is undefined.");
-        throw Exception(msg);
+        Error(msg);
     }
     ArrayOf Res(A);
     Res.ensureSingleOwner();

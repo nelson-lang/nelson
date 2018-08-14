@@ -27,13 +27,13 @@ Nelson::IntegerGateway::uint32_uminusBuiltin(Evaluator* eval, int nLhs, const Ar
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn[0].getDataClass() != NLS_UINT32) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_UINT32_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_UINT32_EXPECTED);
     }
     retval.push_back(integer_uminus(argIn[0]));
     return retval;

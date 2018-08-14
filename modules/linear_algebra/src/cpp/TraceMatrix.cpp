@@ -33,7 +33,7 @@ TraceMatrix(ArrayOf A)
               || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
-        throw Exception(_("Undefined function 'trace' for input arguments of type") + " '"
+        Error(_("Undefined function 'trace' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     }
     if (A.isEmpty()) {

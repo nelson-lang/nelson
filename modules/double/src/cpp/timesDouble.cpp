@@ -19,6 +19,7 @@
 #include "timesDouble.hpp"
 #include "MatrixCheck.hpp"
 #include <Eigen/Dense>
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -144,13 +145,13 @@ ArrayOf
 double_times_double(ArrayOf a, ArrayOf b)
 {
     if (!a.isDoubleType() || !b.isDoubleType()) {
-        throw Exception(ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED);
     }
     if (a.isSparse() || b.isSparse()) {
-        throw Exception(ERROR_WRONG_ARGUMENTS_SIZE_FULL_MATRIX_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENTS_SIZE_FULL_MATRIX_EXPECTED);
     }
     if (!(SameSizeCheck(a.getDimensions(), b.getDimensions()) || a.isScalar() || b.isScalar())) {
-        throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
+        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
     }
     if (a.isComplex() || b.isComplex()) {
         return dcomplex_times(a, b);

@@ -33,10 +33,10 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(
     // R = repmat(A, [m n p])
     ArrayOfVector retval;
     if (argIn.size() < 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
@@ -46,7 +46,7 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(
         Class classx = x.getDataClass();
         bool isNotSupportedType = (classx == NLS_HANDLE || x.isSparse());
         if (isNotSupportedType) {
-            Error(eval, ERROR_TYPE_NOT_SUPPORTED);
+            Error(ERROR_TYPE_NOT_SUPPORTED);
         }
         switch (argIn.size()) {
         case 2: {
@@ -58,14 +58,14 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(
                 if (param2.isRowVector()) {
                     param2.promoteType(NLS_UINT64);
                     if (param2.getLength() > maxDims) {
-                        Error(eval, _W("Too many dimensions!"));
+                        Error(_W("Too many dimensions!"));
                     }
                     uint64* dp = (uint64*)param2.getDataPointer();
                     for (indexType i = 0; i < param2.getLength(); i++) {
                         repcount[i] = dp[i];
                     }
                 } else {
-                    Error(eval, _W("An row vector expected."));
+                    Error(_W("An row vector expected."));
                 }
             }
         } break;

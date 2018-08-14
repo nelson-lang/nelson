@@ -18,6 +18,7 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Data.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -53,10 +54,10 @@ logical
 ArrayOf::getContentAsLogicalScalar(bool arrayAsScalar) const
 {
     if (!isLogical()) {
-        throw Exception(ERROR_TYPE_LOGICAL_EXPECTED);
+        Error(ERROR_TYPE_LOGICAL_EXPECTED);
     }
     if (isEmpty() || (!arrayAsScalar && !isScalar())) {
-        throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
+        Error(ERROR_SIZE_SCALAR_EXPECTED);
     }
     logical* qp = (logical*)dp->getData();
     return (*qp);

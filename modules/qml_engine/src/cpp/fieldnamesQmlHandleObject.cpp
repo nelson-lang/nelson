@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "fieldnamesQmlHandleObject.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "HandleManager.hpp"
 #include "QStringConverter.hpp"
 #include "QVariantArrayOf.hpp"
@@ -32,7 +32,7 @@ fieldnamesQmlHandleObject(ArrayOf A, bool fullList, wstringVector& fieldnames)
 {
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
-        throw Exception(_W("QObject handle expected."));
+        Error(_W("QObject handle expected."));
     }
     QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
     fieldnamesQmlHandleObject(qmlhandleobj, fullList, fieldnames);
@@ -44,7 +44,7 @@ fieldnamesQmlHandleObject(QmlHandleObject* qmlHandle, bool fullList, wstringVect
     void* ptr = qmlHandle->getPointer();
     fieldnames.clear();
     if (ptr == nullptr) {
-        throw Exception(_W("QObject valid handle expected."));
+        Error(_W("QObject valid handle expected."));
     }
     QObject* qobj = (QObject*)ptr;
     const QMetaObject* meta = qobj->metaObject();

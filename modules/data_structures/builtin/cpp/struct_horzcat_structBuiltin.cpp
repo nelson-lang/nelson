@@ -27,28 +27,28 @@ Nelson::DataStructuresGateway::struct_horzcat_structBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
     ArrayOf C;
     if (!A.isStruct()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
     }
     if (!B.isStruct()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRUCT_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRUCT_EXPECTED);
     }
     stringVector fieldnamesA = A.getFieldNames();
     stringVector fieldnamesB = B.getFieldNames();
     if (fieldnamesA.size() != fieldnamesB.size()) {
-        Error(eval, ERROR_FIELDNAMES_MUST_MATCH);
+        Error(ERROR_FIELDNAMES_MUST_MATCH);
     }
     for (size_t k = 0; k < fieldnamesA.size(); k++) {
         if (fieldnamesA[k] != fieldnamesB[k]) {
-            Error(eval, ERROR_FIELDNAMES_MUST_MATCH);
+            Error(ERROR_FIELDNAMES_MUST_MATCH);
         }
     }
     if (A.isEmpty()) {
@@ -66,7 +66,7 @@ Nelson::DataStructuresGateway::struct_horzcat_structBuiltin(
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getRows() != dimsB.getRows()) {
-        Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
     indexType newRowsSize = dimsA.getRows();

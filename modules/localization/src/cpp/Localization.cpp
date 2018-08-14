@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Localization.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "characters_encoding.hpp"
 #include <boost/foreach.hpp>
 #include <boost/function.hpp>
@@ -109,7 +109,7 @@ Localization::getPreferencesPathDynamic()
         GetPreferencesPathPtr = reinterpret_cast<PROC_GetPreferencesPath>(
             get_function(nlsCoreDynamicLibrary, "GetNelsonPreferencesPath"));
         if (!GetPreferencesPathPtr) {
-            throw Exception(L"Core Function not loaded.");
+            Error(L"Core Function not loaded.");
         }
     }
     return GetPreferencesPathPtr();
@@ -125,7 +125,7 @@ Localization::getNelsonPathDynamic()
         GetNelsonPathPtr = reinterpret_cast<PROC_GetNelsonPath>(
             get_function(nlsCoreDynamicLibrary, "GetNelsonPath"));
         if (!GetNelsonPathPtr) {
-            throw Exception(_W("Core Function not loaded."));
+            Error(_W("Core Function not loaded."));
         }
     }
     return GetNelsonPathPtr();
