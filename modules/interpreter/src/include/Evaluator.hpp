@@ -792,12 +792,6 @@ public:
     void
     resetLastWarningException();
 
-    /**
-     * Raises a warning in evaluator
-     */
-    void
-    Warning(Exception e);
-
 private:
     void
     setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue);

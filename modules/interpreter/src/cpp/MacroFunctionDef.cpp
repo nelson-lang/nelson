@@ -284,43 +284,5 @@ ArrayOfVector MacroFunctionDef::evaluateFunction(Evaluator *eval,
   }
 }
 //=============================================================================
-void Nelson::FreezeMacroFunction(MacroFunctionDef *fptr, Serialize *s) {
-  s->putString(fptr->name.c_str());
-  s->putStringVector(fptr->arguments);
-  s->putStringVector(fptr->returnVals);
-  s->putBool(fptr->localFunction);
-  FreezeAST(fptr->code, s);
-  if (fptr->nextFunction) {
-    s->putBool(true);
-    Nelson::FreezeMacroFunction(fptr->nextFunction, s);
-  } else {
-    s->putBool(false);
-  }
-}
-//=============================================================================
-MacroFunctionDef *Nelson::ThawMacroFunction(Serialize *s) {
-  MacroFunctionDef *t;
-  try {
-    t = new MacroFunctionDef();
-  } catch (std::bad_alloc) {
-    t = nullptr;
-  }
-  if (t) {
-    t->name = s->getString();
-    t->arguments = s->getStringVector();
-    t->returnVals = s->getStringVector();
-    t->localFunction = s->getBool();
-    t->code = ThawAST(s);
-    bool nextFun = s->getBool();
-    if (nextFun) {
-      t->nextFunction = ThawMacroFunction(s);
-      t->nextFunction->prevFunction = t;
-    } else {
-      t->nextFunction = nullptr;
-    }
-  }
-  return t;
-}
-//=============================================================================
 } // namespace Nelson
 //=============================================================================

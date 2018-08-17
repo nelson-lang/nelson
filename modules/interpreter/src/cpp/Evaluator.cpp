@@ -4264,18 +4264,5 @@ Evaluator::countSubExpressions(ASTPtr t)
     return count;
 }
 //=============================================================================
-void
-Evaluator::Warning(Exception e)
-{
-    Interface* io = getInterface();
-    if (io) {
-        std::wstring message = e.getFormattedErrorMessage();
-        if (message != L"") {
-            io->warningMessage(message);
-            setLastWarningException(e);
-        }
-    }
-}
-//=============================================================================
 } // namespace Nelson
 //=============================================================================
