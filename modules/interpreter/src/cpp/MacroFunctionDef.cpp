@@ -21,314 +21,306 @@
 #include "Context.hpp"
 #include "FileParser.hpp"
 #include "ParserInterface.hpp"
-#include "characters_encoding.hpp"
 #include "Warning.hpp"
+#include "Evaluator.hpp"
+#include "characters_encoding.hpp"
 #include <boost/filesystem.hpp>
-//=============================================================================
-using namespace Nelson;
 //=============================================================================
 #ifdef WIN32
 #define snprintf _snprintf
 #endif
 //=============================================================================
+namespace Nelson {
+//=============================================================================
 #define MSGBUFLEN 2048
 static char msgBuffer[MSGBUFLEN];
 //=============================================================================
-MacroFunctionDef::MacroFunctionDef()
-{
-    localFunction = false;
+MacroFunctionDef::MacroFunctionDef() {
+  localFunction = false;
+  nextFunction = nullptr;
+  prevFunction = nullptr;
+  code = nullptr;
+  ptAst.clear();
+}
+//=============================================================================
+MacroFunctionDef::~MacroFunctionDef() {
+  if (nextFunction != nullptr) {
+    delete nextFunction;
     nextFunction = nullptr;
-    prevFunction = nullptr;
-    code = nullptr;
-    ptAst.clear();
+  }
+  for (size_t k = 0; k < ptAst.size(); k++) {
+    ASTPtr p = ptAst[k];
+    if (p) {
+      deleteAst(p, ptAst);
+      p = nullptr;
+    }
+  }
+  ptAst.clear();
+  code = nullptr;
+  localFunction = false;
 }
 //=============================================================================
-MacroFunctionDef::~MacroFunctionDef()
-{
-    if (nextFunction != nullptr) {
-        delete nextFunction;
-        nextFunction = nullptr;
-    }
-    for (size_t k = 0; k < ptAst.size(); k++) {
-        ASTPtr p = ptAst[k];
-        if (p) {
-            deleteAst(p, ptAst);
-            p = nullptr;
-        }
-    }
-    ptAst.clear();
-    code = nullptr;
-    localFunction = false;
+int MacroFunctionDef::nargin() {
+  if (arguments.size() == 0) {
+    return 0;
+  }
+  if (arguments[arguments.size() - 1] == "varargin") {
+    return -(int)arguments.size();
+  } else {
+    return (int)arguments.size();
+  }
 }
 //=============================================================================
-int
-MacroFunctionDef::nargin()
-{
-    if (arguments.size() == 0) {
-        return 0;
-    }
-    if (arguments[arguments.size() - 1] == "varargin") {
-        return -(int)arguments.size();
-    } else {
-        return (int)arguments.size();
-    }
+int MacroFunctionDef::inputArgCount() {
+  if (arguments.size() == 0) {
+    return 0;
+  }
+  if (arguments[arguments.size() - 1] == "varargin") {
+    return -1;
+  } else {
+    return (int)arguments.size();
+  }
 }
 //=============================================================================
-int
-MacroFunctionDef::inputArgCount()
-{
-    if (arguments.size() == 0) {
-        return 0;
-    }
-    if (arguments[arguments.size() - 1] == "varargin") {
-        return -1;
-    } else {
-        return (int)arguments.size();
-    }
+int MacroFunctionDef::nargout() {
+  if (returnVals.size() == 0) {
+    return 0;
+  }
+  if (returnVals[returnVals.size() - 1] == "varargout") {
+    return -(int)returnVals.size();
+  } else {
+    return (int)returnVals.size();
+  }
 }
 //=============================================================================
-int
-MacroFunctionDef::nargout()
-{
-    if (returnVals.size() == 0) {
-        return 0;
-    }
-    if (returnVals[returnVals.size() - 1] == "varargout") {
-        return -(int)returnVals.size();
-    } else {
-        return (int)returnVals.size();
-    }
+int MacroFunctionDef::outputArgCount() {
+  if (returnVals.size() == 0) {
+    return 0;
+  }
+  if (returnVals[returnVals.size() - 1] == "varargout") {
+    return -1;
+  } else {
+    return (int)returnVals.size();
+  }
 }
 //=============================================================================
-int
-MacroFunctionDef::outputArgCount()
-{
-    if (returnVals.size() == 0) {
-        return 0;
-    }
-    if (returnVals[returnVals.size() - 1] == "varargout") {
-        return -1;
-    } else {
-        return (int)returnVals.size();
-    }
-}
-//=============================================================================
-void
-MacroFunctionDef::printMe(Interface* io)
-{
-    stringVector tmp;
-    snprintf(msgBuffer, MSGBUFLEN, _("Function name:%s\n").c_str(), name.c_str());
+void MacroFunctionDef::printMe(Interface *io) {
+  stringVector tmp;
+  snprintf(msgBuffer, MSGBUFLEN, _("Function name:%s\n").c_str(), name.c_str());
+  io->outputMessage(msgBuffer);
+  io->outputMessage(_W("Function class: Compiled M function\n"));
+  io->outputMessage(_W("returnVals: "));
+  tmp = returnVals;
+  size_t i;
+  for (i = 0; i < tmp.size(); i++) {
+    snprintf(msgBuffer, MSGBUFLEN, "%s ", tmp[i].c_str());
     io->outputMessage(msgBuffer);
-    io->outputMessage(_W("Function class: Compiled M function\n"));
-    io->outputMessage(_W("returnVals: "));
-    tmp = returnVals;
-    size_t i;
-    for (i = 0; i < tmp.size(); i++) {
-        snprintf(msgBuffer, MSGBUFLEN, "%s ", tmp[i].c_str());
-        io->outputMessage(msgBuffer);
-    }
-    io->outputMessage("\n");
-    io->outputMessage(_W("arguments: "));
-    tmp = arguments;
-    for (i = 0; i < tmp.size(); i++) {
-        snprintf(msgBuffer, MSGBUFLEN, "%s ", tmp[i].c_str());
-        io->outputMessage(msgBuffer);
-    }
-    io->outputMessage("\ncode: \n");
-    printAST(code);
+  }
+  io->outputMessage("\n");
+  io->outputMessage(_W("arguments: "));
+  tmp = arguments;
+  for (i = 0; i < tmp.size(); i++) {
+    snprintf(msgBuffer, MSGBUFLEN, "%s ", tmp[i].c_str());
+    io->outputMessage(msgBuffer);
+  }
+  io->outputMessage("\ncode: \n");
+  printAST(code);
 }
 //=============================================================================
-ArrayOfVector
-MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int nargout)
-{
-    ArrayOfVector outputs;
-    ArrayOf a;
-    size_t minCount = 0;
-    Context* context = eval->getContext();
-    context->pushScope(name);
-    eval->pushDebug(wstring_to_utf8(fileName), name);
-    // Push our local functions onto the function scope
-    MacroFunctionDef* cp;
-    // Walk up until we get to the head of the list
-    cp = this;
-    while (cp->prevFunction != nullptr) {
-        cp = cp->prevFunction;
-    }
+ArrayOfVector MacroFunctionDef::evaluateFunction(Evaluator *eval,
+                                                 ArrayOfVector &inputs,
+                                                 int nargout) {
+  ArrayOfVector outputs;
+  ArrayOf a;
+  size_t minCount = 0;
+  Context *context = eval->getContext();
+  context->pushScope(name);
+  eval->pushDebug(wstring_to_utf8(fileName), name);
+  // Push our local functions onto the function scope
+  MacroFunctionDef *cp;
+  // Walk up until we get to the head of the list
+  cp = this;
+  while (cp->prevFunction != nullptr) {
+    cp = cp->prevFunction;
+  }
+  cp = cp->nextFunction;
+  while (cp != nullptr) {
+    context->insertMacroFunctionLocally((FuncPtr)cp);
     cp = cp->nextFunction;
-    while (cp != nullptr) {
-        context->insertMacroFunctionLocally((FuncPtr)cp);
-        cp = cp->nextFunction;
+  }
+  // When the function is called, the number of inputs is
+  // at sometimes less than the number of arguments requested.
+  // Check the argument count.  If this is a non-varargin
+  // argument function, then use the following logic:
+  minCount = 0;
+  if (inputArgCount() != -1) {
+    minCount =
+        (inputs.size() < arguments.size()) ? inputs.size() : arguments.size();
+    for (size_t i = 0; i < minCount; i++) {
+      std::string arg(arguments[i]);
+      if (arg[0] == '&') {
+        arg.erase(0, 1);
+      }
+      context->insertVariableLocally(arg, inputs[i]);
     }
-    // When the function is called, the number of inputs is
-    // at sometimes less than the number of arguments requested.
-    // Check the argument count.  If this is a non-varargin
-    // argument function, then use the following logic:
-    minCount = 0;
-    if (inputArgCount() != -1) {
-        minCount = (inputs.size() < arguments.size()) ? inputs.size() : arguments.size();
-        for (size_t i = 0; i < minCount; i++) {
-            std::string arg(arguments[i]);
-            if (arg[0] == '&') {
-                arg.erase(0, 1);
-            }
-            context->insertVariableLocally(arg, inputs[i]);
+    // context->insertVariableLocally("nargin",
+    // ArrayOf::doubleConstructor((double)minCount));
+    context->getCurrentScope()->setNargIn((int)minCount);
+  } else {
+    // Count the number of supplied arguments
+    size_t inputCount = inputs.size();
+    // context->insertVariableLocally("nargin",
+    // ArrayOf::doubleConstructor((double)inputCount));
+    context->getCurrentScope()->setNargIn((int)inputCount);
+    // Get the number of explicit arguments
+    int explicitCount = (int)arguments.size() - 1;
+    // For each explicit argument (that we have an input for),
+    // insert it into the scope.
+    minCount = (explicitCount < (int)inputCount) ? (size_t)explicitCount
+                                                 : (size_t)inputCount;
+    size_t i;
+    for (i = 0; i < minCount; i++) {
+      std::string arg(arguments[i]);
+      if (arg[0] == '&') {
+        arg.erase(0, 1);
+      }
+      context->insertVariableLocally(arg, inputs[i]);
+    }
+    inputCount -= minCount;
+    // Put minCount...inputCount
+    ArrayOf varg(NLS_CELL_ARRAY);
+    varg.vectorResize(inputCount);
+    ArrayOf *dp = (ArrayOf *)varg.getReadWriteDataPointer();
+    for (i = 0; i < inputCount; i++) {
+      dp[i] = inputs[i + minCount];
+    }
+    context->insertVariableLocally("varargin", varg);
+  }
+  // context->insertVariableLocally("nargout",
+  // ArrayOf::doubleConstructor(nargout));
+  context->getCurrentScope()->setNargOut(nargout);
+  try {
+    eval->block(code);
+    State state(eval->getState());
+    if (state < NLS_STATE_QUIT) {
+      eval->resetState();
+    }
+    if (state == NLS_STATE_ABORT) {
+      return scalarArrayOfToArrayOfVector(ArrayOf::emptyConstructor());
+    }
+    bool warningIssued = false;
+    if (outputArgCount() != -1) {
+      outputs = ArrayOfVector(returnVals.size());
+      for (size_t i = 0; i < returnVals.size(); i++) {
+        if (!context->lookupVariableLocally(returnVals[i], a)) {
+          if (!warningIssued) {
+            std::wstring message = _W("Function") + L" : " +
+                                   utf8_to_wstring(name) + L"\n" +
+                                   WARNING_OUTPUTS_NOT_ASSIGNED;
+            Warning(message);
+            warningIssued = true;
+          }
+          a = ArrayOf::emptyConstructor();
         }
-        // context->insertVariableLocally("nargin", ArrayOf::doubleConstructor((double)minCount));
-        context->getCurrentScope()->setNargIn((int)minCount);
+        outputs[i] = a;
+      }
     } else {
-        // Count the number of supplied arguments
-        size_t inputCount = inputs.size();
-        // context->insertVariableLocally("nargin", ArrayOf::doubleConstructor((double)inputCount));
-        context->getCurrentScope()->setNargIn((int)inputCount);
-        // Get the number of explicit arguments
-        int explicitCount = (int)arguments.size() - 1;
-        // For each explicit argument (that we have an input for),
-        // insert it into the scope.
-        minCount = (explicitCount < (int)inputCount) ? (size_t)explicitCount : (size_t)inputCount;
-        size_t i;
-        for (i = 0; i < minCount; i++) {
-            std::string arg(arguments[i]);
-            if (arg[0] == '&') {
-                arg.erase(0, 1);
-            }
-            context->insertVariableLocally(arg, inputs[i]);
+      outputs = ArrayOfVector(nargout);
+      int explicitCount = (int)returnVals.size() - 1;
+      // For each explicit argument (that we have), insert it
+      // into the scope.
+      for (int i = 0; i < explicitCount; i++) {
+        if (!context->lookupVariableLocally(returnVals[i], a)) {
+          if (!warningIssued) {
+            Warning(_W("one or more outputs not assigned in call"));
+            warningIssued = true;
+          }
+          a = ArrayOf::emptyConstructor();
         }
-        inputCount -= minCount;
-        // Put minCount...inputCount
-        ArrayOf varg(NLS_CELL_ARRAY);
-        varg.vectorResize(inputCount);
-        ArrayOf* dp = (ArrayOf*)varg.getReadWriteDataPointer();
-        for (i = 0; i < inputCount; i++) {
-            dp[i] = inputs[i + minCount];
+        outputs[i] = a;
+      }
+      // Are there any outputs not yet filled?
+      if (nargout > explicitCount) {
+        ArrayOf varargout;
+        // Yes, get a pointer to the "vargout" variable that should be defined
+        if (!context->lookupVariableLocally("varargout", varargout)) {
+          Error(_W(
+              "The special variable 'varargout' was not defined as expected"));
         }
-        context->insertVariableLocally("varargin", varg);
+        if (varargout.getDataClass() != NLS_CELL_ARRAY) {
+          Error(_W("The special variable 'varargout' was not defined as a "
+                   "cell-array"));
+        }
+        // Get the data pointer
+        const ArrayOf *dp = ((const ArrayOf *)varargout.getDataPointer());
+        // Get the length
+        indexType varlen = varargout.getLength();
+        int toFill = nargout - explicitCount;
+        if ((double)toFill > (double)varlen) {
+          Error(_W("Not enough outputs in varargout to satisfy call"));
+        }
+        for (int i = 0; i < toFill; i++) {
+          outputs[explicitCount + i] = dp[i];
+        }
+      }
     }
-    // context->insertVariableLocally("nargout", ArrayOf::doubleConstructor(nargout));
-    context->getCurrentScope()->setNargOut(nargout);
-    try {
-        eval->block(code);
-        State state(eval->getState());
-        if (state < NLS_STATE_QUIT) {
-            eval->resetState();
-        }
-        if (state == NLS_STATE_ABORT) {
-            return scalarArrayOfToArrayOfVector(ArrayOf::emptyConstructor());
-        }
-        bool warningIssued = false;
-        if (outputArgCount() != -1) {
-            outputs = ArrayOfVector(returnVals.size());
-            for (size_t i = 0; i < returnVals.size(); i++) {
-                if (!context->lookupVariableLocally(returnVals[i], a)) {
-                    if (!warningIssued) {
-                        std::wstring message = _W("Function") + L" : " + utf8_to_wstring(name)
-                            + L"\n" + WARNING_OUTPUTS_NOT_ASSIGNED;
-                        Warning(message);
-                        warningIssued = true;
-                    }
-                    a = ArrayOf::emptyConstructor();
-                }
-                outputs[i] = a;
-            }
-        } else {
-            outputs = ArrayOfVector(nargout);
-            int explicitCount = (int)returnVals.size() - 1;
-            // For each explicit argument (that we have), insert it
-            // into the scope.
-            for (int i = 0; i < explicitCount; i++) {
-                if (!context->lookupVariableLocally(returnVals[i], a)) {
-                    if (!warningIssued) {
-                        Warning(
-                            _W("one or more outputs not assigned in call"));
-                        warningIssued = true;
-                    }
-                    a = ArrayOf::emptyConstructor();
-                }
-                outputs[i] = a;
-            }
-            // Are there any outputs not yet filled?
-            if (nargout > explicitCount) {
-                ArrayOf varargout;
-                // Yes, get a pointer to the "vargout" variable that should be defined
-                if (!context->lookupVariableLocally("varargout", varargout)) {
-                    Error(
-                        _W("The special variable 'varargout' was not defined as expected"));
-                }
-                if (varargout.getDataClass() != NLS_CELL_ARRAY) {
-                    Error(
-                        _W("The special variable 'varargout' was not defined as a cell-array"));
-                }
-                // Get the data pointer
-                const ArrayOf* dp = ((const ArrayOf*)varargout.getDataPointer());
-                // Get the length
-                indexType varlen = varargout.getLength();
-                int toFill = nargout - explicitCount;
-                if ((double)toFill > (double)varlen) {
-                    Error(_W("Not enough outputs in varargout to satisfy call"));
-                }
-                for (int i = 0; i < toFill; i++) {
-                    outputs[explicitCount + i] = dp[i];
-                }
-            }
-        }
-        // Check for arguments that were passed by reference, and
-        // update their values.
-        for (size_t i = 0; i < minCount; i++) {
-            std::string arg(arguments[i]);
-            if (arg[0] == '&') {
-                arg.erase(0, 1);
-            }
-            context->lookupVariableLocally(arg, inputs[i]);
-        }
-        context->popScope();
-        eval->popDebug();
-        return outputs;
-    } catch (Exception& e) {
-        context->popScope();
-        eval->popDebug();
-        e.what();
-        throw;
+    // Check for arguments that were passed by reference, and
+    // update their values.
+    for (size_t i = 0; i < minCount; i++) {
+      std::string arg(arguments[i]);
+      if (arg[0] == '&') {
+        arg.erase(0, 1);
+      }
+      context->lookupVariableLocally(arg, inputs[i]);
     }
+    context->popScope();
+    eval->popDebug();
+    return outputs;
+  } catch (Exception &e) {
+    context->popScope();
+    eval->popDebug();
+    e.what();
+    throw;
+  }
 }
 //=============================================================================
-void
-Nelson::FreezeMacroFunction(MacroFunctionDef* fptr, Serialize* s)
-{
-    s->putString(fptr->name.c_str());
-    s->putStringVector(fptr->arguments);
-    s->putStringVector(fptr->returnVals);
-    s->putBool(fptr->localFunction);
-    FreezeAST(fptr->code, s);
-    if (fptr->nextFunction) {
-        s->putBool(true);
-        Nelson::FreezeMacroFunction(fptr->nextFunction, s);
-    } else {
-        s->putBool(false);
-    }
+void Nelson::FreezeMacroFunction(MacroFunctionDef *fptr, Serialize *s) {
+  s->putString(fptr->name.c_str());
+  s->putStringVector(fptr->arguments);
+  s->putStringVector(fptr->returnVals);
+  s->putBool(fptr->localFunction);
+  FreezeAST(fptr->code, s);
+  if (fptr->nextFunction) {
+    s->putBool(true);
+    Nelson::FreezeMacroFunction(fptr->nextFunction, s);
+  } else {
+    s->putBool(false);
+  }
 }
 //=============================================================================
-MacroFunctionDef*
-Nelson::ThawMacroFunction(Serialize* s)
-{
-    MacroFunctionDef* t;
-    try {
-        t = new MacroFunctionDef();
-    } catch (std::bad_alloc) {
-        t = nullptr;
+MacroFunctionDef *Nelson::ThawMacroFunction(Serialize *s) {
+  MacroFunctionDef *t;
+  try {
+    t = new MacroFunctionDef();
+  } catch (std::bad_alloc) {
+    t = nullptr;
+  }
+  if (t) {
+    t->name = s->getString();
+    t->arguments = s->getStringVector();
+    t->returnVals = s->getStringVector();
+    t->localFunction = s->getBool();
+    t->code = ThawAST(s);
+    bool nextFun = s->getBool();
+    if (nextFun) {
+      t->nextFunction = ThawMacroFunction(s);
+      t->nextFunction->prevFunction = t;
+    } else {
+      t->nextFunction = nullptr;
     }
-    if (t) {
-        t->name = s->getString();
-        t->arguments = s->getStringVector();
-        t->returnVals = s->getStringVector();
-        t->localFunction = s->getBool();
-        t->code = ThawAST(s);
-        bool nextFun = s->getBool();
-        if (nextFun) {
-            t->nextFunction = ThawMacroFunction(s);
-            t->nextFunction->prevFunction = t;
-        } else {
-            t->nextFunction = nullptr;
-        }
-    }
-    return t;
+  }
+  return t;
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

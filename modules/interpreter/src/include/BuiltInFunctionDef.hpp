@@ -23,14 +23,13 @@
 #include "FunctionDef.hpp"
 #include "nlsInterpreter_exports.h"
 //=============================================================================
-
 namespace Nelson {
-typedef ArrayOfVector APtr;
-typedef APtr (*BuiltInFuncPtr)(Evaluator*, int, const APtr&);
-
-class NLSINTERPRETER_IMPEXP BuiltInFunctionDef : public FunctionDef
-{
-public:
+  //=============================================================================
+  typedef ArrayOfVector (*BuiltInFuncPtr)(Evaluator *, int,
+                                          const ArrayOfVector &);
+  //=============================================================================
+  class NLSINTERPRETER_IMPEXP BuiltInFunctionDef : public FunctionDef {
+  public:
     /**
      * Location of the function's defining dynamic library.
      */
@@ -57,38 +56,24 @@ public:
     /**
      * The type of the function is NLS_BUILT_IN_FUNCTION
      */
-    virtual const FunctionType
-    type()
-    {
-        return NLS_BUILT_IN_FUNCTION;
-    }
+    virtual const FunctionType type() { return NLS_BUILT_IN_FUNCTION; }
     /** Print a description of the function
      */
-    virtual void
-    printMe(Interface*);
+    virtual void printMe(Interface *);
     /**
      * The number of inputs required by this function.
      */
-    virtual int
-    inputArgCount()
-    {
-        return argCount;
-    }
+    virtual int inputArgCount() { return argCount; }
     /**
      * The number of outputs returned by this function.
      */
-    virtual int
-    outputArgCount()
-    {
-        return retCount;
-    }
+    virtual int outputArgCount() { return retCount; }
     /**
      * Evaluate the function and return the values.
      */
 
-    virtual ArrayOfVector
-    evaluateFunction(Evaluator*, ArrayOfVector&, int);
-};
-//=============================================================================
+    virtual ArrayOfVector evaluateFunction(Evaluator *, ArrayOfVector &, int);
+  };
+  //=============================================================================
 } // namespace Nelson
 //=============================================================================

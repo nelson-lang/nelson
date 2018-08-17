@@ -21,6 +21,7 @@
 #include "ArrayOf.hpp"
 #include "Context.hpp"
 #include "Evaluator.hpp"
+#include "BuiltInFunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
 ArrayOfVector

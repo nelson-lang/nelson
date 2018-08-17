@@ -70,6 +70,7 @@ typedef enum {
     NLS_STATE_QUIT = 4,
     NLS_STATE_ABORT = 5
 } State;
+
 class Context;
 
 /**
@@ -173,6 +174,12 @@ public:
     bool
     getCLI();
 
+	/**
+     * Get the context we are running with.
+     */
+    Context*
+    getContext();
+ 
     bool debugActive;
 
     void
@@ -695,11 +702,6 @@ public:
      */
     void
     evalCLI();
-    /**
-     * Get the context we are running with.
-     */
-    Context*
-    getContext();
     /**
      * The workhorse routine - "evaluate" the contents of a string
      * and execute it.

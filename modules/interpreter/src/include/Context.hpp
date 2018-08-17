@@ -35,19 +35,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-
+//=============================================================================
 #pragma once
+//=============================================================================
+#include <cstdarg>
 #include "ArrayOf.hpp"
-#include "BuiltInFunctionDef.hpp"
-#include "FunctionDef.hpp"
 #include "Scope.hpp"
 #include "nlsInterpreter_exports.h"
-#include <cstdarg>
-
+//=============================================================================
 namespace Nelson {
-typedef ArrayOfVector APtr;
-typedef APtr (*BuiltInFuncPtr)(Evaluator*, int, const APtr&);
-
 /**
  * This structure implements a linked list of Scope pointers.
  */
