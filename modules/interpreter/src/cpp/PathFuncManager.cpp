@@ -30,6 +30,7 @@
 #include "ParserInterface.hpp"
 #include "AstManager.hpp"
 #include "GetVariableEnvironment.hpp"
+#include "Error.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
