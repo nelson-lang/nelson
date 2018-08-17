@@ -192,6 +192,7 @@ void
 Evaluator::clearStacks()
 {
     cstack.clear();
+    cstack.reserve(64);
 }
 
 State
@@ -1606,8 +1607,7 @@ Evaluator::debugCLI()
 void
 Evaluator::handleDebug(int fullcontext)
 {
-    int linenumber;
-    linenumber = fullcontext & 0xffff;
+    int linenumber = fullcontext & 0xffff;
     if (debugActive) {
         if (inStepMode) {
             if ((stepTrap.cname == cstack.back().cname) && (stepTrap.tokid == linenumber)) {
@@ -3956,7 +3956,7 @@ Evaluator::decreaseDebugDepth()
 }
 //=============================================================================
 void
-Evaluator::pushEvaluateFilenameList(const std::wstring filename)
+Evaluator::pushEvaluateFilenameList(const std::wstring &filename)
 {
     evaluatedFilenames.push_back(filename);
 }

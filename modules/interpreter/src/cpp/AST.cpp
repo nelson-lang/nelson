@@ -61,7 +61,7 @@ AST::AST(void)
 AST::AST(NODE_TYPE ntype, const char* name, int context)
 {
     type = ntype;
-    text = name;
+    text = std::string(name);
     tokenNumber = 0;
     down = nullptr;
     right = nullptr;

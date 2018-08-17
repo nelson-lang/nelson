@@ -139,15 +139,15 @@ public:
      * Add a built in function to the global scope with the given name.
      */
     bool
-    lookupFunction(std::string funcName, FuncPtr& val, bool builtinOnly = false);
+    lookupFunction(const std::string &funcName, FuncPtr& val, bool builtinOnly = false);
     bool
-    lookupFunction(std::wstring wfuncName, FuncPtr& val, bool builtinOnly = false);
+    lookupFunction(const std::wstring &wfuncName, FuncPtr& val, bool builtinOnly = false);
 
     bool
-    lookupFunctionGlobally(std::string funcName, FuncPtr& val, bool builtinOnly = false);
+    lookupFunctionGlobally(const std::string &funcName, FuncPtr& val, bool builtinOnly = false);
 
     void
-    deleteFunctionGlobally(std::string funcName);
+    deleteFunctionGlobally(const std::string &funcName);
     /**
      * Add a persistent variable to the local stack.  This involves
      * two steps:

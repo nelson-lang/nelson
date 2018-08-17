@@ -714,7 +714,7 @@ public:
     std::wstring
     getCurrentEvaluateFilename();
     void
-    pushEvaluateFilenameList(const std::wstring filename);
+    pushEvaluateFilenameList(const std::wstring &filename);
     void
     popEvaluateFilenameList();
 

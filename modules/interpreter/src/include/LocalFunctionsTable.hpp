@@ -35,9 +35,9 @@ public:
     LocalFunctionsTable();
     ~LocalFunctionsTable();
     bool
-    find(const std::string key, FuncPtr& dest);
+    find(const std::string &key, FuncPtr& dest);
     bool
-    add(const std::string key, const FuncPtr val);
+    add(const std::string &key, const FuncPtr val);
 };
 };
 //=============================================================================
