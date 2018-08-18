@@ -62,8 +62,7 @@ static void checkArgument(Evaluator *eval, ArrayOf arg, bool &withCompleteNames,
     nbOmits = intValue + 1;
     isNbOmits = true;
   } else {
-    Error(
-          _W("'-completenames' expected or scalar integer value required."));
+    Error(_W("'-completenames' expected or scalar integer value required."));
   }
 }
 //=============================================================================
@@ -72,9 +71,7 @@ static std::wstring shortName(std::wstring filename) {
   return p.filename().generic_wstring();
 }
 //=============================================================================
-static ArrayOf
-dbstackAsStruct(stackTrace positions,
-                               bool withCompleteNames) {
+static ArrayOf dbstackAsStruct(stackTrace positions, bool withCompleteNames) {
   stringVector fieldnames;
   ArrayOf st;
   fieldnames.push_back("file");
@@ -97,40 +94,17 @@ dbstackAsStruct(stackTrace positions,
     line.reserve(positions.size());
     for (size_t k = 0; k < positions.size(); ++k) {
       std::wstring filename = positions[k].getFilename();
-      bool bIsFile = boost::filesystem::exists(filename) &&
-                     !boost::filesystem::is_directory(filename);
-      bool bIsNls = boost::algorithm::ends_with(filename, L".nls");
-      bool bIsNlf = boost::algorithm::ends_with(filename, L".nlf");
-
       if (!withCompleteNames) {
         filename = shortName(positions[k].getFilename());
       }
+      file.push_back(ArrayOf::stringConstructor(filename));
+      std::wstring functionName = positions[k].getFunctionName();
+      name.push_back(ArrayOf::stringConstructor(functionName));
       if (positions[k].getLine() == 0) {
-        std::wstring functionName = positions[k].getFunctionName();
-        if (boost::algorithm::starts_with(functionName, L"built-in ")) {
-          file.push_back(ArrayOf::stringConstructor(L""));
-          name.push_back(ArrayOf::stringConstructor(filename));
-          line.push_back(ArrayOf::emptyConstructor(Dimensions(0, 1)));
-        } else {
-            file.push_back(ArrayOf::stringConstructor(filename));
-            boost::filesystem::path p(filename);
-            name.push_back(ArrayOf::stringConstructor(p.stem().generic_wstring()));
-            line.push_back(ArrayOf::emptyConstructor(Dimensions(0, 1)));
-        }
+        line.push_back(ArrayOf::emptyConstructor(Dimensions(0, 1)));
       } else {
-        if (bIsNlf) {
-          file.push_back(ArrayOf::stringConstructor(filename));
-          name.push_back(
-              ArrayOf::stringConstructor(positions[k].getFunctionName()));
-          line.push_back(
-              ArrayOf::doubleConstructor((double)positions[k].getLine()));
-        } else {
-          file.push_back(ArrayOf::stringConstructor(filename));
-            boost::filesystem::path p(filename);
-            name.push_back(ArrayOf::stringConstructor(p.stem().generic_wstring()));
-            line.push_back(
-              ArrayOf::doubleConstructor((double)positions[k].getLine()));
-        }
+        line.push_back(
+            ArrayOf::doubleConstructor((double)positions[k].getLine()));
       }
     }
     st.setFieldAsList("file", file);
@@ -140,24 +114,19 @@ dbstackAsStruct(stackTrace positions,
   return st;
 }
 //=============================================================================
-void
-dbstackPrint(Interface* io, stackTrace positions,
-                  bool withCompleteNames) {
+void dbstackPrint(Interface *io, stackTrace positions, bool withCompleteNames) {
   for (size_t k = 0; k < positions.size(); k++) {
     std::wstring message;
     std::wstring filename = positions[k].getFilename();
     if (!withCompleteNames) {
-        filename = shortName(positions[k].getFilename());
+      filename = shortName(positions[k].getFilename());
     }
-    bool bIsFile = boost::filesystem::exists(filename) &&
-                   !boost::filesystem::is_directory(filename);
-    bool bIsNls = boost::algorithm::ends_with(filename, L".nls");
-    bool bIsNlf = boost::algorithm::ends_with(filename, L".nlf");
-
     if (positions[k].getLine() == 0) {
-      message = std::wstring(L"In ") + filename + L"\n";
+        if (filename != L"") {
+            message = std::wstring(L"In ") + filename + L"\n";
+        }
     } else {
-      if (bIsNlf) {
+      if (positions[k].getFunctionName() != L"") {
         message = std::wstring(L"In ") + filename + L" function " +
                   positions[k].getFunctionName() + L" (line " +
                   std::to_wstring(positions[k].getLine()) + L")\n";
@@ -172,8 +141,8 @@ dbstackPrint(Interface* io, stackTrace positions,
 }
 //=============================================================================
 ArrayOfVector
-Nelson::ErrorManagerGateway::dbstackBuiltin(Evaluator* eval, int nLhs,
-                                         const ArrayOfVector &argIn) {
+Nelson::ErrorManagerGateway::dbstackBuiltin(Evaluator *eval, int nLhs,
+                                            const ArrayOfVector &argIn) {
   ArrayOfVector retval;
   int nbOmits = 1;
   bool withCompleteNames = false;
@@ -185,7 +154,7 @@ Nelson::ErrorManagerGateway::dbstackBuiltin(Evaluator* eval, int nLhs,
     bool isCompleteNames = false;
     bool isNbOmits = false;
     bool _withCompleteNames = false;
-    int _nbOmits = -1;
+    int _nbOmits = 1;
     checkArgument(eval, argIn[0], _withCompleteNames, _nbOmits, isCompleteNames,
                   isNbOmits);
     if (isCompleteNames) {
@@ -199,7 +168,7 @@ Nelson::ErrorManagerGateway::dbstackBuiltin(Evaluator* eval, int nLhs,
     bool isCompleteNames = false;
     bool isNbOmits = false;
     bool _withCompleteNames = false;
-    int _nbOmits = -1;
+    int _nbOmits = 1;
     bool _wasWithCompleteNames = false;
     bool _wasNbOmits = false;
     checkArgument(eval, argIn[0], _withCompleteNames, _nbOmits, isCompleteNames,
