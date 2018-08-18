@@ -524,7 +524,7 @@ QtTerminal::helpOnSelection()
             void* veval = GetNelsonMainEvaluatorDynamicFunction();
             Nelson::Evaluator* eval = (Nelson::Evaluator*)veval;
             try {
-                eval->evaluateString(Nelson::wstring_to_utf8(cmd), true);
+                eval->evaluateString(cmd, true);
             } catch (Exception) {
             }
         }

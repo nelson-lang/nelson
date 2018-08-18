@@ -28,7 +28,7 @@ class NLSINTERPRETER_IMPEXP CommandQueue
 {
 private:
     std::mutex m_mutex;
-    std::vector<std::string> commands;
+    std::vector<std::wstring> commands;
 
 public:
     CommandQueue();
@@ -36,11 +36,11 @@ public:
     bool
     isEmpty();
     void
-    add(std::string cmdline, bool bIsPriority = false);
+    add(const std::wstring& cmdline, bool bIsPriority = false);
     void
     clear();
     bool
-    get(std::string& cmd);
+    get(std::wstring& cmd);
 };
 };
 //=============================================================================

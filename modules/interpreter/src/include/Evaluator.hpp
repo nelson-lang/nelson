@@ -140,7 +140,7 @@ class NLSINTERPRETER_IMPEXP Evaluator
 
     bool InCLI;
 
-    std::string
+    std::wstring
     buildPrompt();
     OutputFormatDisplay currentOutputFormatDisplay;
 
@@ -709,9 +709,9 @@ public:
      * and execute it.
      */
     bool
-    evaluateString(std::string cmdToEvaluate, bool propogateException = true);
+    evaluateString(const std::string& cmdToEvaluate, bool propogateException = true);
     bool
-    evaluateString(std::wstring cmdToEvaluate, bool propogateException = true);
+    evaluateString(const std::wstring& cmdToEvaluate, bool propogateException = true);
 
     std::wstring
     getCurrentEvaluateFilename();
@@ -762,7 +762,7 @@ public:
     setQuietMode(bool _quiet);
 
     void
-    addCommandToQueue(std::wstring command, bool bIsPriority = false);
+    addCommandToQueue(const std::wstring& command, bool bIsPriority = false);
 
     /**
      * Get the last error that occurred.

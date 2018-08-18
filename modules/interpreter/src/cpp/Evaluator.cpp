@@ -3759,18 +3759,21 @@ Evaluator::dbstep(int linecount)
 }
 //=============================================================================
 bool
-Evaluator::evaluateString(std::wstring line, bool propogateException)
+Evaluator::evaluateString(const std::wstring& line, bool propogateException)
 {
     return evaluateString(wstring_to_utf8(line), propogateException);
 }
 //=============================================================================
 bool
-Evaluator::evaluateString(std::string line, bool propogateException)
+Evaluator::evaluateString(const std::string& line, bool propogateException)
 {
     ASTPtr tree = nullptr;
     ParserState parserState = ParseError;
     InterruptPending = false;
     if (line.size() == 0) {
+        return false;
+    }
+    if (line == "\n") {
         return false;
     }
     char ch = *line.rbegin();
@@ -3991,21 +3994,21 @@ Evaluator::enableOverload()
     bAllowOverload = true;
 }
 //=============================================================================
-std::string
+std::wstring
 Evaluator::buildPrompt()
 {
-    std::string prompt = "\0";
+    std::wstring prompt;
     if (depth > 0) {
         if (bpActive) {
-            prompt = "-" + std::to_string(depth) + "D-> ";
+            prompt = L"-" + std::to_wstring(depth) + L"D-> ";
         } else {
-            prompt = "-" + std::to_string(depth) + "-> ";
+            prompt = L"-" + std::to_wstring(depth) + L"-> ";
         }
     } else {
         if (bpActive) {
-            prompt = "D-> ";
+            prompt = L"D-> ";
         } else {
-            prompt = "--> ";
+            prompt = L"--> ";
         }
     }
     return prompt;
@@ -4014,9 +4017,6 @@ Evaluator::buildPrompt()
 void
 Evaluator::evalCLI()
 {
-    std::string cmdline = "\0";
-    std::string dataline = "\0";
-    std::string prompt = "\0";
     while (1) {
         if (!bpActive) {
             // clear macros cache at the prompt
@@ -4025,91 +4025,69 @@ Evaluator::evalCLI()
             FileWatcherManager::getInstance()->update();
             clearStacks();
         }
-        prompt = buildPrompt();
-        if (cmdline == "\n") {
-            if (!commandQueue.isEmpty()) {
-                commandQueue.get(cmdline);
-            } else {
-                // DO NOTHING
-                cmdline.clear();
-            }
-        }
-        if (cmdline.empty()) {
-            cmdline = io->getLine(prompt);
-            if (cmdline.empty()) {
+        std::wstring prompt = buildPrompt();
+        std::wstring commandLine;
+        commandQueue.get(commandLine);
+        if (commandLine.empty()) {
+            commandLine = io->getLine(prompt);
+            if (commandLine.empty()) {
                 InCLI = false;
                 this->setState(NLS_STATE_QUIT);
                 return;
             } else {
-                char ch = *cmdline.rbegin();
-                if (ch != '\n') {
-                    cmdline.push_back('\n');
+                wchar_t ch = *commandLine.rbegin();
+                if (ch != L'\n') {
+                    commandLine.push_back(L'\n');
                 }
             }
         }
         // scan the line and tokenize it
         resetAstBackupPosition();
-        setLexBuffer(cmdline.c_str());
+        setLexBuffer(commandLine);
         try {
-            int lastCount = getContinuationCount();
+            int lastCount = 0;
             bool bContinueLine = lexCheckForMoreInput(0);
             deleteAstVector(getAstUsed());
             resetAstBackupPosition();
             if (bContinueLine) {
-                dataline = cmdline;
+                lastCount = getContinuationCount();
+                std::wstring lines = commandLine;
                 bool enoughInput = false;
-                // Loop until we have enough input
                 while (!enoughInput) {
-                    cmdline = io->getLine("");
-                    if (cmdline == "\n") {
-                        cmdline = "";
-                        return;
-                    }
-                    // User pressed ctrl-D (or equivalent) - stop looking for
-                    if (cmdline.size() == 0) {
+                    commandLine = io->getLine(L"");
+                    if (commandLine == L"\n" || commandLine.empty()) {
                         if (InterruptPending) {
-                            cmdline = "";
+                            commandLine = L"";
                             return;
                         }
-                        enoughInput = false;
+                        enoughInput = true;
                     } else {
-                        char ch = *cmdline.rbegin();
-                        if (ch != '\n') {
-                            cmdline.push_back('\n');
-                        }
-                        // User didn't press ctrl-D -
-                        // tack the new text onto the dataline
-                        dataline.append(cmdline);
+                        lines.append(commandLine);
                         resetAstBackupPosition();
-                        setLexBuffer(dataline.c_str());
-                        // Update the check
+                        setLexBuffer(lines);
                         enoughInput = !lexCheckForMoreInput(lastCount);
                         deleteAstVector(getAstUsed());
                         resetAstBackupPosition();
                         lastCount = getContinuationCount();
                         if (enoughInput) {
-                            if (dataline[dataline.size() - 1] != '\n') {
-                                dataline.push_back('\n');
-                            }
-                        } else {
+                            lines.append(L"\n");
                         }
-                        cmdline = dataline;
                     }
                 }
+                commandLine = lines;
             }
         } catch (Exception& e) {
             e.printMe(io);
+            commandLine.clear();
         }
         InCLI = true;
-        if (cmdline.size() > 0 && cmdline != "\n") {
-            size_t stackdepth;
-            stackdepth = cstack.size();
-            bool tresult = evaluateString(cmdline, false);
-            cmdline.clear();
+        if (!commandLine.empty()) {
+            size_t stackdepth = cstack.size();
+            bool evalResult = evaluateString(commandLine, false);
             while (cstack.size() > stackdepth) {
                 cstack.pop_back();
             }
-            if (!tresult || this->getState() == NLS_STATE_QUIT
+            if (!evalResult || this->getState() == NLS_STATE_QUIT
                 || this->getState() == NLS_STATE_ABORT) {
                 InCLI = false;
                 return;
@@ -4237,14 +4215,14 @@ Evaluator::getHandle(ArrayOf r, std::string fieldname, ArrayOfVector params)
 }
 //=============================================================================
 void
-Evaluator::addCommandToQueue(std::wstring command, bool bIsPriority)
+Evaluator::addCommandToQueue(const std::wstring& command, bool bIsPriority)
 {
     wchar_t ch = *command.rbegin();
     if (ch != L'\n') {
-        command.push_back('\n');
+        this->commandQueue.add(command + L"\n", bIsPriority);
+    } else {
+        this->commandQueue.add(command, bIsPriority);
     }
-    std::string ucmd = wstring_to_utf8(command);
-    this->commandQueue.add(ucmd, bIsPriority);
 }
 //=============================================================================
 size_t
