@@ -42,9 +42,8 @@ Nelson::ModulesManagerGateway::requiremoduleBuiltin(
     }
     bool bRes = IsExistingModuleName(moduleshortname);
     if (!bRes) {
-        Error(
-            std::wstring(L"\'") + moduleshortname + std::wstring(L"\' ")
-                + _W(" is not installed."));
+        Error(std::wstring(L"\'") + moduleshortname + std::wstring(L"\' ")
+            + _W(" is not installed."));
     }
     return retval;
 }

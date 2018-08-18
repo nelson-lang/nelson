@@ -34,35 +34,29 @@ extern "C"
     EyeSparseMatrixConstructorDynamicFunction(Class dclass, indexType rows, indexType cols);
     //=============================================================================
     NLSTYPES_IMPEXP void*
-    LogicalSparseMatrixConstructorDynamicFunction(
-        indexType rows, indexType cols, bool bMotif);
+    LogicalSparseMatrixConstructorDynamicFunction(indexType rows, indexType cols, bool bMotif);
     //=============================================================================
     NLSTYPES_IMPEXP void
     DeleteSparseMatrixDynamicFunction(Class dclass, indexType rows, indexType cols, void* cp);
     //=============================================================================
     NLSTYPES_IMPEXP void*
-    MakeDenseArrayOfDynamicFunction(
-        Class dclass, indexType rows, indexType cols, const void* cp);
+    MakeDenseArrayOfDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSTYPES_IMPEXP void*
-    MakeSparseArrayOfDynamicFunction(
-        Class dclass, indexType rows, indexType cols, const void* cp);
+    MakeSparseArrayOfDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSTYPES_IMPEXP void*
-    TypeConvertSparseDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp,
-        Class oclass);
+    TypeConvertSparseDynamicFunction(
+        Class dclass, indexType rows, indexType cols, const void* cp, Class oclass);
     //=============================================================================
     NLSTYPES_IMPEXP void*
-    CopySparseMatrixDynamicFunction(
-        Class dclass, indexType rows, indexType cols, const void* cp);
+    CopySparseMatrixDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSTYPES_IMPEXP indexType
-    CountNonzerosDynamicFunction(
-        Class dclass, indexType rows, indexType cols, const void* cp);
+    CountNonzerosDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSTYPES_IMPEXP indexType
-    CountNonzerosMaxDynamicFunction(
-        Class dclass, indexType rows, indexType cols, const void* cp);
+    CountNonzerosMaxDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSTYPES_IMPEXP void*
     SparseMatrixConstructorDynamicFunction(

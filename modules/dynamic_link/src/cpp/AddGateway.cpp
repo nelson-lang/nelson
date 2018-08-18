@@ -61,9 +61,8 @@ AddGateway(Evaluator* eval, std::wstring dynlibname)
         } else {
             std::string error_msg = get_dynamic_library_error();
             boost::filesystem::current_path(currentdirbackup);
-            Error(
-                _W("Module not loaded: library not loaded.\n") + dynlibname + L"\n"
-                    + utf8_to_wstring(error_msg) + L"\n");
+            Error(_W("Module not loaded: library not loaded.\n") + dynlibname + L"\n"
+                + utf8_to_wstring(error_msg) + L"\n");
         }
     }
 }

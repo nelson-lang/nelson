@@ -20,11 +20,15 @@
 #include "DebugStack.hpp"
 #include "Interface.hpp"
 //=============================================================================
-static Nelson::Evaluator *evaluatorError = nullptr;
+static Nelson::Evaluator* evaluatorError = nullptr;
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void setErrorEvaluator(Evaluator *eval) { evaluatorError = eval; }
+void
+setErrorEvaluator(Evaluator* eval)
+{
+    evaluatorError = eval;
+}
 //=============================================================================
 void
 throwException(Exception& e)
@@ -37,15 +41,15 @@ throwException(Exception& e)
 void
 NelsonErrorEmitter(const wchar_t* msg, const wchar_t* id)
 {
-  std::wstring message(msg);
-  std::wstring identifier(id);
-  if (!message.empty()) {
-    if (evaluatorError) {
-      Nelson::stackTrace trace;
-      DebugStack(evaluatorError->cstack, 0, trace);
-      Nelson::Exception exception(message, trace, identifier);
-      Nelson::throwException(exception);
+    std::wstring message(msg);
+    std::wstring identifier(id);
+    if (!message.empty()) {
+        if (evaluatorError) {
+            Nelson::stackTrace trace;
+            DebugStack(evaluatorError->cstack, 0, trace);
+            Nelson::Exception exception(message, trace, identifier);
+            Nelson::throwException(exception);
+        }
     }
-  }
 }
 //=============================================================================

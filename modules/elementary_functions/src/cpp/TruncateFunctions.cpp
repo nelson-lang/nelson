@@ -105,20 +105,20 @@ Truncate(ArrayOf arrayIn, TRUNCATE_LEVEL level)
     if (arrayIn.isSparse()) {
         switch (level) {
         case TRUNCATE_LEVEL::CEIL:
-            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_"
-                + L"ceil" + L"'");
+            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_" + L"ceil"
+                + L"'");
             break;
         case TRUNCATE_LEVEL::ROUND:
-            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_"
-                + L"round" + L"'");
+            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_" + L"round"
+                + L"'");
             break;
         case TRUNCATE_LEVEL::FIX:
-            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_"
-                + L"fix" + L"'");
+            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_" + L"fix"
+                + L"'");
             break;
         case TRUNCATE_LEVEL::FLOOR:
-            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_"
-                + L"floor" + L"'");
+            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_" + L"floor"
+                + L"'");
             break;
         }
     }
@@ -172,20 +172,20 @@ Truncate(ArrayOf arrayIn, TRUNCATE_LEVEL level)
     default: {
         switch (level) {
         case TRUNCATE_LEVEL::CEIL:
-            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_"
-                + L"ceil" + L"'");
+            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_" + L"ceil"
+                + L"'");
             break;
         case TRUNCATE_LEVEL::ROUND:
-            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_"
-                + L"round" + L"'");
+            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_" + L"round"
+                + L"'");
             break;
         case TRUNCATE_LEVEL::FIX:
-            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_"
-                + L"fix" + L"'");
+            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_" + L"fix"
+                + L"'");
             break;
         case TRUNCATE_LEVEL::FLOOR:
-            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_"
-                + L"floor" + L"'");
+            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_" + L"floor"
+                + L"'");
             break;
         }
     } break;

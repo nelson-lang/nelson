@@ -37,24 +37,21 @@ CheckIJV(
         } else if (ilen == olen) {
             istride = 1;
         } else {
-            Error(
-                _W("in I, J, V format, all three vectors must be the same size or be scalars."));
+            Error(_W("in I, J, V format, all three vectors must be the same size or be scalars."));
         }
         if (jlen == 1) {
             jstride = 0;
         } else if (jlen == olen) {
             jstride = 1;
         } else {
-            Error(
-                _W("in I, J, V format, all three vectors must be the same size or be scalars."));
+            Error(_W("in I, J, V format, all three vectors must be the same size or be scalars."));
         }
         if (vlen == 1) {
             vstride = 0;
         } else if (vlen == olen) {
             vstride = 1;
         } else {
-            Error(
-                _W("in I, J, V format, all three vectors must be the same size or be scalars."));
+            Error(_W("in I, J, V format, all three vectors must be the same size or be scalars."));
         }
     }
     return true;

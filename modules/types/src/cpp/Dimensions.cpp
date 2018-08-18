@@ -89,8 +89,8 @@ Dimensions::getMax()
 indexType& Dimensions::operator[](indexType i)
 {
     if (i >= maxDims) {
-        Error(_("Too many dimensions! Current limit is") + " "
-            + std::to_string(Nelson::maxDims) + ".");
+        Error(_("Too many dimensions! Current limit is") + " " + std::to_string(Nelson::maxDims)
+            + ".");
     }
     if (i >= length) {
         indexType new_length = i + 1;

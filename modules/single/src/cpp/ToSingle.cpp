@@ -47,8 +47,8 @@ ToSingle(ArrayOf A)
     } break;
     case NLS_STRUCT_ARRAY: {
         if (A.getStructType() != "struct") {
-            Error(_("Undefined function 'single' for input arguments of type '")
-                + A.getStructType() + "'.");
+            Error(_("Undefined function 'single' for input arguments of type '") + A.getStructType()
+                + "'.");
         } else {
             Error(_W("Conversion to single from struct is not possible."));
         }

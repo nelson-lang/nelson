@@ -441,8 +441,7 @@ Evaluator::shortCutOrOperator(ASTPtr t)
                 return ArrayOf::logicalConstructor(a || b);
             }
         } else {
-            Error(
-                _W("Operand to || operator must be convertible to logical scalar values."));
+            Error(_W("Operand to || operator must be convertible to logical scalar values."));
         }
     }
     popID();
@@ -469,8 +468,7 @@ Evaluator::shortCutAndOperator(ASTPtr t)
                 return ArrayOf::logicalConstructor(a && b);
             }
         } else {
-            Error(
-                _W("Operand to && operator must be convertible to logical scalar values."));
+            Error(_W("Operand to && operator must be convertible to logical scalar values."));
         }
     }
     popID();
@@ -2298,8 +2296,7 @@ Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
                 std::string extractionFunctionName = className + "_extraction";
                 bool isFun = lookupFunction(extractionFunctionName, fptr);
                 if (!isFun) {
-                    Error(
-                        utf8_to_wstring(_("Undefined function") + " " + extractionFunctionName));
+                    Error(utf8_to_wstring(_("Undefined function") + " " + extractionFunctionName));
                 }
             } else if (r.isCell()) {
                 // C = {rand(3),nan(3),zeros(3),inf(3)}
@@ -2913,9 +2910,8 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                             int ndx;
                             ndx = getArgumentIndex(arguments, keywords[i]);
                             if (ndx == -1) {
-                                Error(
-                                    utf8_to_wstring(_("out-of-order argument /") + keywords[i]
-                                        + _(" is not defined in the called function!")));
+                                Error(utf8_to_wstring(_("out-of-order argument /") + keywords[i]
+                                    + _(" is not defined in the called function!")));
                             }
                             keywordNdx[i] = ndx;
                             if (ndx > maxndx) {
@@ -3667,8 +3663,7 @@ Evaluator::rhsExpression(ASTPtr t)
                     isValidMethod = r.isHandleMethod(utf8_to_wstring(fieldname));
                 } catch (Exception) {
                     if (r.isHandle()) {
-                        Error(
-                            _W("Please define: ") + r.getHandleCategory() + L"_ismethod");
+                        Error(_W("Please define: ") + r.getHandleCategory() + L"_ismethod");
                     }
                     isValidMethod = false;
                 }
@@ -3697,9 +3692,8 @@ Evaluator::rhsExpression(ASTPtr t)
                 field = fname.getContentAsCString();
             } catch (Exception& e) {
                 e.what();
-                Error(
-                    _W("dynamic field reference to structure requires a string "
-                       "argument"));
+                Error(_W("dynamic field reference to structure requires a string "
+                         "argument"));
             }
             if (r.isHandle()) {
                 ArrayOfVector v;
@@ -3956,7 +3950,7 @@ Evaluator::decreaseDebugDepth()
 }
 //=============================================================================
 void
-Evaluator::pushEvaluateFilenameList(const std::wstring &filename)
+Evaluator::pushEvaluateFilenameList(const std::wstring& filename)
 {
     evaluatedFilenames.push_back(filename);
 }

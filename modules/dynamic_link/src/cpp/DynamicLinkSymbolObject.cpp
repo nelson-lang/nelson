@@ -309,15 +309,13 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
                 LibPointerObject* objLibPointer
                     = (LibPointerObject*)params[k].getContentAsHandleScalar();
                 if (objLibPointer->getDataType() != _paramsTypes[k]) {
-                    Error(
-                        StringFormat(
-                            _W("Invalid type for #%d input argument: %ls expected.").c_str(), k + 1,
-                            _paramsTypes[k].c_str()));
+                    Error(StringFormat(
+                        _W("Invalid type for #%d input argument: %ls expected.").c_str(), k + 1,
+                        _paramsTypes[k].c_str()));
                 }
             } else {
-                Error(
-                    StringFormat(_W("Invalid type for #%d input argument: %ls expected.").c_str(),
-                        k + 1, _paramsTypes[k].c_str()));
+                Error(StringFormat(_W("Invalid type for #%d input argument: %ls expected.").c_str(),
+                    k + 1, _paramsTypes[k].c_str()));
             }
         }
     }

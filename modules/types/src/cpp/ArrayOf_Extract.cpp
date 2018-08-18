@@ -179,8 +179,7 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
                 if (index[i].isSingleString()) {
                     std::wstring str = index[i].getContentAsWideString();
                     if (str != L":") {
-                        Error(
-                            _W("index must either be real positive integers or logicals."));
+                        Error(_W("index must either be real positive integers or logicals."));
                     }
                     indexType maxVal = dp->dimensions.getDimensionLength(i);
                     index[i] = ArrayOf::integerRangeConstructor(1, 1, maxVal, false);
@@ -210,7 +209,7 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
             if (isSparse()) {
                 if (L > 2) {
                     Error(_W("multidimensional indexing (more than 2 dimensions) not "
-                                       "legal for sparse arrays"));
+                             "legal for sparse arrays"));
                 }
                 if ((outDims[0] == 1) && (outDims[1] == 1)) {
                     return ArrayOf(dp->dataClass, outDims,

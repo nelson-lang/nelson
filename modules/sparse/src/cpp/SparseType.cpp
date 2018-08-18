@@ -475,8 +475,7 @@ Eigen_GetSparseVectorSubsets(Class dclass, indexType rows, indexType cols, const
 //=============================================================================
 void*
 Eigen_GetSparseNDimSubsets(Class dclass, indexType rows, indexType cols, const void* src,
-    const indexType* rindx, indexType irows, const indexType* cindx,
-    indexType icols)
+    const indexType* rindx, indexType irows, const indexType* cindx, indexType icols)
 {
     void* spMat = nullptr;
     return spMat;
@@ -530,8 +529,7 @@ Eigen_CopyResizeSparseMatrix(Class dclass, const void* src, indexType rows, inde
 //=============================================================================
 void*
 Eigen_SetSparseVectorSubsets(Class dclass, indexType& rows, indexType& cols, const void* src,
-    const indexType* indx, indexType irows, indexType icols, const void* data,
-    int advance)
+    const indexType* indx, indexType irows, indexType icols, const void* data, int advance)
 {
     void* spMat = nullptr;
     if (advance) {
@@ -682,8 +680,8 @@ Eigen_CreateSparseScalarElement(logical v)
 //=============================================================================
 template <class T>
 void*
-Eigen_GetSparseScalarElement(indexType rows, indexType cols, const void* src, indexType rindx,
-    indexType cindx)
+Eigen_GetSparseScalarElement(
+    indexType rows, indexType cols, const void* src, indexType rindx, indexType cindx)
 {
     Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
         = (Eigen::SparseMatrix<T, 0, signedIndexType>*)src;
@@ -693,8 +691,8 @@ Eigen_GetSparseScalarElement(indexType rows, indexType cols, const void* src, in
 }
 //=============================================================================
 void*
-Eigen_GetSparseScalarElement(Class dclass, indexType rows, indexType cols, const void* src,
-    indexType rindx, indexType cindx)
+Eigen_GetSparseScalarElement(
+    Class dclass, indexType rows, indexType cols, const void* src, indexType rindx, indexType cindx)
 {
     switch (dclass) {
     case NLS_LOGICAL: {
@@ -912,8 +910,7 @@ Eigen_makeSparseFromIJVComplex(indexType rows, indexType cols, indexType nnz, in
 //=============================================================================
 void*
 Eigen_makeSparseFromIJV(Class dclass, indexType rows, indexType cols, indexType nnz, indexType* I,
-    int istride, indexType* J, int jstride, const void* cp, int cpstride,
-    bool bScalarV)
+    int istride, indexType* J, int jstride, const void* cp, int cpstride, bool bScalarV)
 {
     switch (dclass) {
     case NLS_LOGICAL: {
@@ -960,8 +957,7 @@ Eigen_DeleteSparseMatrixVectorSubset(Class dclass, indexType& rows, indexType& c
 }
 //=============================================================================
 void*
-Eigen_TypeConvertSparse(
-    Class dclass, indexType rows, indexType cols, const void* cp, Class oclass)
+Eigen_TypeConvertSparse(Class dclass, indexType rows, indexType cols, const void* cp, Class oclass)
 {
     switch (oclass) {
     case NLS_LOGICAL: {

@@ -231,7 +231,7 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
                         true);
                 } else {
                     Error(_W("sparse matrices do not support deleting "
-                                       "n-dimensional planes - Only 2-D"));
+                             "n-dimensional planes - Only 2-D"));
                 }
                 delete[] deletionMap;
                 deletionMap = nullptr;

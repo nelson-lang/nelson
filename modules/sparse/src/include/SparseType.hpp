@@ -47,8 +47,8 @@ extern "C"
     Eigen_MakeSparseArrayOf(Class dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
-    Eigen_TypeConvertSparse(Class dclass, indexType rows, indexType cols, const void* cp,
-        Class oclass);
+    Eigen_TypeConvertSparse(
+        Class dclass, indexType rows, indexType cols, const void* cp, Class oclass);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_CopySparseMatrix(Class dclass, indexType rows, indexType cols, const void* cp);
@@ -60,8 +60,7 @@ extern "C"
     Eigen_CountNonzeros(Class dclass, indexType rows, indexType cols, const void* cp);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
-    Eigen_SparseMatrixConstructor(
-        Class dclass, indexType rows, indexType cols, ArrayOfMatrix m);
+    Eigen_SparseMatrixConstructor(Class dclass, indexType rows, indexType cols, ArrayOfMatrix m);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_GetSparseVectorSubsets(Class dclass, indexType rows, indexType cols, const void* src,
@@ -69,13 +68,11 @@ extern "C"
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_GetSparseNDimSubsets(Class dclass, indexType rows, indexType cols, const void* src,
-        const indexType* rindx, indexType irows, const indexType* cindx,
-        indexType icols);
+        const indexType* rindx, indexType irows, const indexType* cindx, indexType icols);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_SetSparseVectorSubsets(Class dclass, indexType& rows, indexType& cols, const void* src,
-        const indexType* indx, indexType irows, indexType icols, const void* data,
-        int advance);
+        const indexType* indx, indexType irows, indexType icols, const void* data, int advance);
     //=============================================================================
     NLSSPARSE_IMPEXP void*
     Eigen_SetSparseNDimSubsets(Class dclass, indexType& rows, indexType& cols, const void* src,

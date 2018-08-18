@@ -93,8 +93,7 @@ Nelson::HelpToolsGateway::xmldoccheckerBuiltin(
                 }
             }
         } else {
-            Error(
-                _W("Wrong value for argument #1: An existing .xml documentation file expected."));
+            Error(_W("Wrong value for argument #1: An existing .xml documentation file expected."));
         }
     } else {
         Error(_W("Wrong type for argument #1: .xml documentation file expected."));

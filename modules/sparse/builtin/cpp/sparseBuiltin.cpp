@@ -76,8 +76,7 @@ sparseBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             || I.isScalar() && J.isScalar() && V.isScalar()) {
             retval.push_back(SparseConstructor(I, J, V));
         } else {
-            Error(
-                _W("in I, J, V format, all three vectors must be the same size or be scalars."));
+            Error(_W("in I, J, V format, all three vectors must be the same size or be scalars."));
         }
     } else {
         ArrayOf r = OverloadUnaryOperator(eval, argIn[2], "sparse");

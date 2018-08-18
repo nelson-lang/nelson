@@ -128,8 +128,7 @@ MakeDenseArrayOfDynamicFunction(Class dclass, indexType rows, indexType cols, co
 }
 //=============================================================================
 void*
-MakeSparseArrayOfDynamicFunction(
-    Class dclass, indexType rows, indexType cols, const void* cp)
+MakeSparseArrayOfDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp)
 {
     typedef void* (*PROC_MakeSparseArrayOf)(
         Class dclass, indexType rows, indexType cols, const void* cp);
@@ -252,8 +251,7 @@ GetSparseVectorSubsetsDynamicFunction(Class dclass, indexType rows, indexType co
 //=============================================================================
 void*
 GetSparseNDimSubsetsDynamicFunction(Class dclass, indexType rows, indexType cols, const void* src,
-    const indexType* rindx, indexType irows, const indexType* cindx,
-    indexType icols)
+    const indexType* rindx, indexType irows, const indexType* cindx, indexType icols)
 {
     typedef void* (*PROC_GetSparseNDimSubsets)(Class dclass, indexType rows, indexType cols,
         const void* src, const indexType* rindx, indexType irows, const indexType* cindx,
@@ -313,8 +311,8 @@ SetSparseNDimSubsetsDynamicFunction(Class dclass, indexType& rows, indexType& co
 }
 //=============================================================================
 void*
-GetSparseScalarElementDynamicFunction(Class dclass, indexType rows, indexType cols, const void* src,
-    indexType rindx, indexType cindx)
+GetSparseScalarElementDynamicFunction(
+    Class dclass, indexType rows, indexType cols, const void* src, indexType rindx, indexType cindx)
 {
     typedef void* (*PROC_GetSparseScalarElement)(Class dclass, indexType rows, indexType cols,
         const void* src, indexType rindx, indexType cindx);

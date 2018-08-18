@@ -26,14 +26,12 @@ ToUint8(ArrayOf a)
     std::string destType = "uint8";
     Class destClass = NLS_UINT8;
     if (a.isSparse()) {
-        Error(
-            _("Conversion to '") + destType + _("' from sparse matrix is not possible."));
+        Error(_("Conversion to '") + destType + _("' from sparse matrix is not possible."));
     }
     switch (a.getDataClass()) {
     case NLS_DCOMPLEX:
     case NLS_SCOMPLEX: {
-        Error(
-            _("Invalid conversion from complex matrix to '") + destType + _("' matrix."));
+        Error(_("Invalid conversion from complex matrix to '") + destType + _("' matrix."));
     } break;
     case NLS_HANDLE: {
         Error(_("Conversion to '") + destType + _("' from handle is not possible."));
@@ -43,8 +41,8 @@ ToUint8(ArrayOf a)
     } break;
     case NLS_STRUCT_ARRAY: {
         if (a.getStructType() != "struct") {
-            Error(_("Undefined function '") + destType
-                + _("' for input arguments of type '") + a.getStructType() + "'.");
+            Error(_("Undefined function '") + destType + _("' for input arguments of type '")
+                + a.getStructType() + "'.");
         } else {
             Error(_("Conversion to '") + destType + _("' from struct is not possible."));
         }

@@ -145,7 +145,7 @@ ArrayOf::structConstructor(stringVector fNames, ArrayOfVector& values)
                         dims = values[i].dp->dimensions;
                     } else if (!dims.equals(values[i].dp->dimensions)) {
                         Error(_W("ArrayOf dimensions of non-scalar entries must agree in "
-                                           "structure construction."));
+                                 "structure construction."));
                     }
                 }
             }

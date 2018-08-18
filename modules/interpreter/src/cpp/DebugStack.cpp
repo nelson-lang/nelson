@@ -65,14 +65,13 @@ cleanupDebugStack(stackTrace stackPositions)
             cleanedPositions.push_back(pos);
             k++;
         } else if (isBuiltin(stackPositions[k])) {
-            PositionScript pos(stackPositions[k].getFilename(), L"",
-                stackPositions[k].getLine());
+            PositionScript pos(stackPositions[k].getFilename(), L"", stackPositions[k].getLine());
             cleanedPositions.push_back(pos);
             k++;
         } else {
             k++;
         }
-	}
+    }
     return cleanedPositions;
 }
 //=============================================================================

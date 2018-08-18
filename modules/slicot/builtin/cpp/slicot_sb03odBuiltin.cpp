@@ -127,9 +127,8 @@ Nelson::SlicotGateway::slicot_sb03odBuiltin(Evaluator* eval, int nLhs, const Arr
     Dimensions dimsQ_expected(
         std::max(1, (int)A.getDimensions().getRows()), (int)A.getDimensions().getRows());
     if (!dimsQ.equals(dimsQ_expected)) {
-        Error(
-            _("Input argument #5: wrong size.") + " " + dimsQ_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #5: wrong size.") + " " + dimsQ_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsB_expected(TRANS.getContentAsCString().compare("N") == 0
             ? std::max(
@@ -137,9 +136,8 @@ Nelson::SlicotGateway::slicot_sb03odBuiltin(Evaluator* eval, int nLhs, const Arr
             : std::max(1, (int)A.getDimensions().getRows()),
         (int)A.getDimensions().getRows());
     if (!dimsB.equals(dimsB_expected)) {
-        Error(
-            _("Input argument #6: wrong size.") + " " + dimsB_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #6: wrong size.") + " " + dimsB_expected.toString() + " "
+            + "expected" + ".");
     }
     // CALL EXTERN FUNCTION
     try {

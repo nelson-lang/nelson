@@ -151,8 +151,7 @@ ToChar(ArrayOf A)
                 res = ToChar(res, V[k]);
             }
         } else {
-            Error(
-                _W("Conversion to char from cell is possible only with cell of strings."));
+            Error(_W("Conversion to char from cell is possible only with cell of strings."));
         }
     } break;
     case NLS_STRUCT_ARRAY: {

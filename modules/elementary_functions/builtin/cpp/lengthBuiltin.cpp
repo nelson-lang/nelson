@@ -40,9 +40,8 @@ Nelson::ElementaryFunctionsGateway::lengthBuiltin(
     if (!bSuccess) {
         ArrayOf param1 = argIn[0];
         if (param1.isClassStruct()) {
-            Error(
-                _("Undefined function 'length' for input arguments of type") + " '"
-                    + ClassName(param1) + "'.");
+            Error(_("Undefined function 'length' for input arguments of type") + " '"
+                + ClassName(param1) + "'.");
         }
         double len = 0;
         Dimensions sze(param1.getDimensions());

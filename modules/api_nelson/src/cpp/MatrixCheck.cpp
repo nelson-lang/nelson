@@ -102,8 +102,7 @@ VectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
     // Check for numeric types
     CheckNumeric(A, B, opname);
     if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar())) {
-        Error(
-            std::string(_("Size mismatch on arguments to arithmetic operator ")) + opname);
+        Error(std::string(_("Size mismatch on arguments to arithmetic operator ")) + opname);
     }
 }
 //=============================================================================

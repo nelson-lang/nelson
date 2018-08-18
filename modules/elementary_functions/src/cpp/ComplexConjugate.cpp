@@ -27,8 +27,8 @@ ComplexConjugate(ArrayOf A)
 {
     Class classA = A.getDataClass();
     if (classA < NLS_LOGICAL || A.isSparse()) {
-        Error(_("Undefined function 'conj' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'conj' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     }
     Dimensions dimsA = A.getDimensions();
     ArrayOf C(A);
@@ -69,8 +69,8 @@ ComplexConjugate(ArrayOf A)
     case NLS_CHAR:
     case NLS_LOGICAL:
     default: {
-        Error(_("Undefined function 'conj' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'conj' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     } break;
     }
     return C;

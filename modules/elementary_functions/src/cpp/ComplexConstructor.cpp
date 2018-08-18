@@ -145,8 +145,7 @@ ComplexConstructor(ArrayOf arrayA)
 {
     ArrayOf res;
     if (arrayA.isSparse()) {
-        Error(
-            _W("Undefined function '") + utf8_to_wstring(ClassName(arrayA)) + L"_complex'");
+        Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayA)) + L"_complex'");
     }
     switch (arrayA.getDataClass()) {
     case NLS_SCOMPLEX:
@@ -159,8 +158,7 @@ ComplexConstructor(ArrayOf arrayA)
     case NLS_CHAR:
     case NLS_LOGICAL:
     default: {
-        Error(
-            _W("Undefined function '") + utf8_to_wstring(ClassName(arrayA)) + L"_complex'");
+        Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayA)) + L"_complex'");
     } break;
     case NLS_DOUBLE:
     case NLS_UINT8:

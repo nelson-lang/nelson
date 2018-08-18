@@ -39,9 +39,8 @@ Nelson::MemoryGateway::varlockBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     std::string scopename = argIn[0].getContentAsCString();
     if (!((scopename.compare("global") == 0) || (scopename.compare("base") == 0)
             || (scopename.compare("caller") == 0) || (scopename.compare("local") == 0))) {
-        Error(
-            _W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' "
-               "expected."));
+        Error(_W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' "
+                 "expected."));
     }
     Context* context = eval->getContext();
     Scope* scope = nullptr;

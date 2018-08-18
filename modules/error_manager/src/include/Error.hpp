@@ -25,7 +25,7 @@
 namespace Nelson {
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP void
-Error(const std::wstring& msg, const std::wstring &id = L"");
+Error(const std::wstring& msg, const std::wstring& id = L"");
 NLSERROR_MANAGER_IMPEXP void
 Error(const std::string& msg, const std::string& id = "");
 //=============================================================================

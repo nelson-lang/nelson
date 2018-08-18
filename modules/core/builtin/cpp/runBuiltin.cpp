@@ -33,29 +33,31 @@
 using namespace Nelson;
 //=============================================================================
 static std::wstring
-getBackTraceMessage(Exception &e) {
+getBackTraceMessage(Exception& e)
+{
     std::wstring message;
     message = e.getMessage();
     std::vector<PositionScript> traces = e.getTrace();
     size_t nbTraces = traces.size();
     if (nbTraces > 0) {
         PositionScript trace = traces[0];
-        if (trace.getLine() == 0)
-		{
+        if (trace.getLine() == 0) {
             if (nbTraces > 1) {
                 trace = traces[1];
             }
-		}
+        }
         if (trace.getLine() != 0) {
-			if (trace.getFilename().size() > 50) {
-				message = message + L"\n" + StringFormat(
-					_W("at line %5d\nof \'%s\'\n").c_str(), trace.getLine(), trace.getFilename().c_str());
-			} else {
-				message = message + L"\n" + StringFormat(_W("at line %5d of \'%s\'\n").c_str(), trace.getLine(),
-					trace.getFilename().c_str());
-			}
-		}
-	}
+            if (trace.getFilename().size() > 50) {
+                message = message + L"\n"
+                    + StringFormat(_W("at line %5d\nof \'%s\'\n").c_str(), trace.getLine(),
+                          trace.getFilename().c_str());
+            } else {
+                message = message + L"\n"
+                    + StringFormat(_W("at line %5d of \'%s\'\n").c_str(), trace.getLine(),
+                          trace.getFilename().c_str());
+            }
+        }
+    }
     return message;
 }
 //=============================================================================

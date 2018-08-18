@@ -114,16 +114,14 @@ Nelson::SlicotGateway::slicot_mb03rdBuiltin(Evaluator* eval, int nLhs, const Arr
     Dimensions dimsA_expected(
         std::max(1, (int)A.getDimensions().getColumns()), (int)A.getDimensions().getColumns());
     if (!dimsA.equals(dimsA_expected)) {
-        Error(
-            _("Input argument #4: wrong size.") + " " + dimsA_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #4: wrong size.") + " " + dimsA_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsX_expected(
         std::max(1, (int)A.getDimensions().getColumns()), (int)A.getDimensions().getColumns());
     if (!dimsX.equals(dimsX_expected)) {
-        Error(
-            _("Input argument #5: wrong size.") + " " + dimsX_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #5: wrong size.") + " " + dimsX_expected.toString() + " "
+            + "expected" + ".");
     }
     if (!dimsTOL.isScalar()) {
         Error(_W("Input argument #6: scalar expected."));

@@ -31,8 +31,8 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
               || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
-        Error(_("Undefined function 'schur' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'schur' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     }
     if (!A.isSquare()) {
         Error(_("Square matrix expected."));
@@ -123,8 +123,8 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& U, ArrayOf& T)
               || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
-        Error(_("Undefined function 'schur' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'schur' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     }
     if (!A.isSquare()) {
         Error(_("Square matrix expected."));

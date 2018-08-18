@@ -33,8 +33,7 @@ EqHandle(ArrayOf A, ArrayOf B)
         Error(_W("handle expected."));
     }
     if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar())) {
-        Error(
-            std::string(_("Size mismatch on arguments to arithmetic operator ")) + "eq");
+        Error(std::string(_("Size mismatch on arguments to arithmetic operator ")) + "eq");
     }
     int Astride = 0, Bstride = 0;
     void* Cp = nullptr;

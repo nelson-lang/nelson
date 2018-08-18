@@ -60,8 +60,8 @@ MatrixCos(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        Error(_("Undefined function 'cosm' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'cosm' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     }
     switch (A.getDataClass()) {
     case NLS_CELL_ARRAY:
@@ -76,8 +76,8 @@ MatrixCos(ArrayOf A)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_CHAR: {
-        Error(_("Undefined function 'cosm' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'cosm' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     } break;
     case NLS_SCOMPLEX: {
         ArrayOf R = cosmComplex<single>(A);

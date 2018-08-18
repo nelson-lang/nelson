@@ -101,25 +101,22 @@ Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const Arra
                     ArrayOf arg = argIn[k];
                     double dindex = arg.getContentAsDoubleScalar();
                     if (!std::isfinite(dindex)) {
-                        Error(
-                            StringFormat(
-                                ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED.c_str(),
-                                k + 1));
+                        Error(StringFormat(
+                            ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED.c_str(),
+                            k + 1));
                     }
                     if (dindex < 0) {
                         dindex = 0;
                     }
                     indexType index = (indexType)dindex;
                     if ((double)index != dindex) {
-                        Error(
-                            StringFormat(
-                                ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED.c_str(),
-                                k + 1));
+                        Error(StringFormat(
+                            ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED.c_str(),
+                            k + 1));
                     }
                     dims.setDimensionLength(k, index);
                 } else {
-                    Error(
-                        StringFormat(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED.c_str(), k + 1));
+                    Error(StringFormat(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED.c_str(), k + 1));
                 }
             } else {
                 Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_DOUBLE_EXPECTED.c_str(), k + 1));

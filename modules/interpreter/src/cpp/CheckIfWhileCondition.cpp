@@ -78,8 +78,7 @@ checkIfWhileCondition(const ArrayOf& A)
                 Error(_W("Complex cannot be converted to logical."));
             } break;
             default: {
-                Error(
-                    _W("Unable to convert variable type to test for if/while statement"));
+                Error(_W("Unable to convert variable type to test for if/while statement"));
             } break;
             }
         } else {
@@ -125,8 +124,7 @@ checkIfWhileCondition(const ArrayOf& A)
                 Error(_W("Complex cannot be converted to logical."));
             } break;
             default: {
-                Error(
-                    _W("Unable to convert variable type to test for if/while statement"));
+                Error(_W("Unable to convert variable type to test for if/while statement"));
             } break;
             }
         }

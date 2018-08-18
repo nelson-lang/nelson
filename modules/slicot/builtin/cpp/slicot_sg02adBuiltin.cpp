@@ -243,34 +243,30 @@ Nelson::SlicotGateway::slicot_sg02adBuiltin(Evaluator* eval, int nLhs, const Arr
     Dimensions dimsA_expected(
         std::max(1, (int)A.getDimensions().getRows()), (int)A.getDimensions().getRows());
     if (!dimsA.equals(dimsA_expected)) {
-        Error(
-            _("Input argument #10: wrong size.") + " " + dimsA_expected.toString() + " "
-                + "expected" + ".");
+        Error(_("Input argument #10: wrong size.") + " " + dimsA_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsE_expected(
         std::max(1, (int)A.getDimensions().getRows()), (int)A.getDimensions().getRows());
     if (!dimsE.equals(dimsE_expected)) {
-        Error(
-            _("Input argument #11: wrong size.") + " " + dimsE_expected.toString() + " "
-                + "expected" + ".");
+        Error(_("Input argument #11: wrong size.") + " " + dimsE_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsQ_expected(
         std::max(
             1, std::max((int)A.getDimensions().getRows(), (int)P.getContentAsInteger32Scalar())),
         (int)A.getDimensions().getRows());
     if (!dimsQ.equals(dimsQ_expected)) {
-        Error(
-            _("Input argument #13: wrong size.") + " " + dimsQ_expected.toString() + " "
-                + "expected" + ".");
+        Error(_("Input argument #13: wrong size.") + " " + dimsQ_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsR_expected(
         std::max(
             1, std::max((int)P.getContentAsInteger32Scalar(), (int)B.getDimensions().getColumns())),
         (int)B.getDimensions().getColumns());
     if (!dimsR.equals(dimsR_expected)) {
-        Error(
-            _("Input argument #14: wrong size.") + " " + dimsR_expected.toString() + " "
-                + "expected" + ".");
+        Error(_("Input argument #14: wrong size.") + " " + dimsR_expected.toString() + " "
+            + "expected" + ".");
     }
     if (!dimsTOL.isScalar()) {
         Error(_W("Input argument #16: scalar expected."));

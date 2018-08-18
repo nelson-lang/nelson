@@ -265,8 +265,7 @@ addition(Class classDestination, ArrayOf a, ArrayOf b)
                         dimsA.getElementCount());
                 } else if ((a.isRowVector() && b.isRowVector())
                     || (a.isColumnVector() && b.isColumnVector())) {
-                    Error(
-                        _W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                    Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
                 } else {
                     const T* ptrA = (const T*)a.getDataPointer();
                     const T* ptrB = (const T*)b.getDataPointer();
@@ -284,8 +283,7 @@ addition(Class classDestination, ArrayOf a, ArrayOf b)
                             return vector_column_addition<T>(classDestination, b, a);
                         }
                     } else {
-                        Error(
-                            _W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
                     }
                 }
             } else {
@@ -360,8 +358,7 @@ complex_addition(Class classDestination, ArrayOf a, ArrayOf b)
                         (T*)a.getDataPointer(), dimsA.getElementCount());
                 } else if ((a.isRowVector() && b.isRowVector())
                     || (a.isColumnVector() && b.isColumnVector())) {
-                    Error(
-                        _W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                    Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
                 } else {
                     T* ptrA = (T*)a.getDataPointer();
                     T* ptrB = (T*)b.getDataPointer();
@@ -379,8 +376,7 @@ complex_addition(Class classDestination, ArrayOf a, ArrayOf b)
                             return complex_vector_column_addition<T>(classDestination, b, a);
                         }
                     } else {
-                        Error(
-                            _W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
                     }
                 }
             } else {

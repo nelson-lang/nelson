@@ -161,23 +161,20 @@ Nelson::SlicotGateway::slicot_ab01odBuiltin(Evaluator* eval, int nLhs, const Arr
     Dimensions dimsA_expected(
         std::max(1, (int)A.getDimensions().getRows()), (int)A.getDimensions().getRows());
     if (!dimsA.equals(dimsA_expected)) {
-        Error(
-            _("Input argument #4: wrong size.") + " " + dimsA_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #4: wrong size.") + " " + dimsA_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsB_expected(
         std::max(1, (int)A.getDimensions().getRows()), (int)B.getDimensions().getColumns());
     if (!dimsB.equals(dimsB_expected)) {
-        Error(
-            _("Input argument #5: wrong size.") + " " + dimsB_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #5: wrong size.") + " " + dimsB_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsU_expected(
         std::max(1, (int)A.getDimensions().getRows()), (int)A.getDimensions().getRows());
     if (!dimsU.equals(dimsU_expected)) {
-        Error(
-            _("Input argument #6: wrong size.") + " " + dimsU_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #6: wrong size.") + " " + dimsU_expected.toString() + " "
+            + "expected" + ".");
     }
     if (!dimsNCONT.isScalar()) {
         Error(_W("Input argument #7: scalar expected."));
@@ -187,9 +184,8 @@ Nelson::SlicotGateway::slicot_ab01odBuiltin(Evaluator* eval, int nLhs, const Arr
     }
     Dimensions dimsKSTAIR_expected(1, (int)A.getDimensions().getRows());
     if (!dimsKSTAIR.equals(dimsKSTAIR_expected)) {
-        Error(
-            _("Input argument #9: wrong size.") + " " + dimsKSTAIR_expected.toString() + " "
-                + "expected" + ".");
+        Error(_("Input argument #9: wrong size.") + " " + dimsKSTAIR_expected.toString() + " "
+            + "expected" + ".");
     }
     if (!dimsTOL.isScalar()) {
         Error(_W("Input argument #10: scalar expected."));

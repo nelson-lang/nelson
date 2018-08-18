@@ -30,7 +30,7 @@ private:
     size_t _hashid;
 
 public:
-    FileFunc(const std::wstring &directory, const std::wstring &name);
+    FileFunc(const std::wstring& directory, const std::wstring& name);
     ~FileFunc();
     std::wstring
     getFilename();

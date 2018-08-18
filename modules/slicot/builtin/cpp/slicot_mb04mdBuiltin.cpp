@@ -77,9 +77,8 @@ Nelson::SlicotGateway::slicot_mb04mdBuiltin(Evaluator* eval, int nLhs, const Arr
     Dimensions dimsA_expected(
         (int)A.getDimensions().getRows(), (int)A.getDimensions().getColumns());
     if (!dimsA.equals(dimsA_expected)) {
-        Error(
-            _("Input argument #2: wrong size.") + " " + dimsA_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #2: wrong size.") + " " + dimsA_expected.toString() + " "
+            + "expected" + ".");
     }
     // CALL EXTERN FUNCTION
     try {

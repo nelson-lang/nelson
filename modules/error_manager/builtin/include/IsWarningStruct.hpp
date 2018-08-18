@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-IsWarningStruct(ArrayOf arg, wstringVector &identifiers, wstringVector &states);
+IsWarningStruct(ArrayOf arg, wstringVector& identifiers, wstringVector& states);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -23,16 +23,19 @@
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
-NLSINTERPRETER_IMPEXP void setErrorEvaluator(Evaluator *eval);
-NLSINTERPRETER_IMPEXP void throwException(Exception &e);
+NLSINTERPRETER_IMPEXP void
+setErrorEvaluator(Evaluator* eval);
+NLSINTERPRETER_IMPEXP void
+throwException(Exception& e);
 } // namespace Nelson
 //=============================================================================
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
-//=============================================================================
-NLSINTERPRETER_IMPEXP void NelsonErrorEmitter(const wchar_t *msg,
-                                              const wchar_t *id);
+    //=============================================================================
+    NLSINTERPRETER_IMPEXP void
+    NelsonErrorEmitter(const wchar_t* msg, const wchar_t* id);
 //=============================================================================
 #ifdef __cplusplus
 }

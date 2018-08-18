@@ -129,37 +129,32 @@ Nelson::SlicotGateway::slicot_sb10jdBuiltin(Evaluator* eval, int nLhs, const Arr
     Dimensions dimsA_expected(
         std::max(1, (int)A.getDimensions().getColumns()), (int)A.getDimensions().getColumns());
     if (!dimsA.equals(dimsA_expected)) {
-        Error(
-            _("Input argument #1: wrong size.") + " " + dimsA_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #1: wrong size.") + " " + dimsA_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsB_expected(
         std::max(1, (int)A.getDimensions().getColumns()), (int)B.getDimensions().getRows());
     if (!dimsB.equals(dimsB_expected)) {
-        Error(
-            _("Input argument #2: wrong size.") + " " + dimsB_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #2: wrong size.") + " " + dimsB_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsC_expected(
         std::max(1, (int)A.getDimensions().getColumns()), (int)A.getDimensions().getColumns());
     if (!dimsC.equals(dimsC_expected)) {
-        Error(
-            _("Input argument #3: wrong size.") + " " + dimsC_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #3: wrong size.") + " " + dimsC_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsD_expected(
         std::max(1, (int)C.getDimensions().getColumns()), (int)B.getDimensions().getRows());
     if (!dimsD.equals(dimsD_expected)) {
-        Error(
-            _("Input argument #4: wrong size.") + " " + dimsD_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #4: wrong size.") + " " + dimsD_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsE_expected(
         std::max(1, (int)A.getDimensions().getColumns()), (int)A.getDimensions().getColumns());
     if (!dimsE.equals(dimsE_expected)) {
-        Error(
-            _("Input argument #5: wrong size.") + " " + dimsE_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #5: wrong size.") + " " + dimsE_expected.toString() + " "
+            + "expected" + ".");
     }
     // CALL EXTERN FUNCTION
     try {

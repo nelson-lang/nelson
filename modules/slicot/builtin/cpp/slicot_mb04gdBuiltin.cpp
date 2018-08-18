@@ -79,15 +79,13 @@ Nelson::SlicotGateway::slicot_mb04gdBuiltin(Evaluator* eval, int nLhs, const Arr
     Dimensions dimsA_expected(std::max(1, (int)A.getDimensions().getRows()),
         std::max(1, (int)A.getDimensions().getColumns()));
     if (!dimsA.equals(dimsA_expected)) {
-        Error(
-            _("Input argument #1: wrong size.") + " " + dimsA_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #1: wrong size.") + " " + dimsA_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsJPVT_expected(1, std::max(1, (int)A.getDimensions().getRows()));
     if (!dimsJPVT.equals(dimsJPVT_expected)) {
-        Error(
-            _("Input argument #2: wrong size.") + " " + dimsJPVT_expected.toString() + " "
-                + "expected" + ".");
+        Error(_("Input argument #2: wrong size.") + " " + dimsJPVT_expected.toString() + " "
+            + "expected" + ".");
     }
     // CALL EXTERN FUNCTION
     try {

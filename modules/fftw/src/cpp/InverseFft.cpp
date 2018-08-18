@@ -27,8 +27,8 @@ ArrayOf
 InverseFft(ArrayOf X, indexType n, indexType dim)
 {
     if (X.isReferenceType() || X.isHandle()) {
-        Error(_("Undefined function 'ifft' for input arguments of type") + " '"
-            + ClassName(X) + "'.");
+        Error(_("Undefined function 'ifft' for input arguments of type") + " '" + ClassName(X)
+            + "'.");
     }
     if (X.isScalar() || X.isEmpty()) {
         return ArrayOf(X);

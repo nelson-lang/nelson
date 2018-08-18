@@ -54,8 +54,7 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
                 withOption = false;
             }
         } else {
-            Error(
-                StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), lastpos + 1));
+            Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), lastpos + 1));
         }
     }
     wstringVector params;
@@ -90,7 +89,7 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
                 PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
             }
         } else {
-           Warning(_W("Warning: Not a directory:") + L" " + params[k] + L"\n");
+            Warning(_W("Warning: Not a directory:") + L" " + params[k] + L"\n");
         }
     }
     if (nLhs == 1) {

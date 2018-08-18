@@ -99,9 +99,8 @@ Nelson::RandomGateway::randBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                             dims[1] = dims[0];
                         }
                     } else {
-                        Error(
-                            _W("Too many dimensions! Current limit is") + L" "
-                                + std::to_wstring(Nelson::maxDims) + L".");
+                        Error(_W("Too many dimensions! Current limit is") + L" "
+                            + std::to_wstring(Nelson::maxDims) + L".");
                     }
                 } else {
                     Error(ERROR_WRONG_ARGUMENT_1_SIZE_ROW_VECTOR_EXPECTED);

@@ -156,9 +156,8 @@ Nelson::SlicotGateway::slicot_mb02mdBuiltin(Evaluator* eval, int nLhs, const Arr
             (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar()),
         (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar());
     if (!dimsC.equals(dimsC_expected)) {
-        Error(
-            _("Input argument #6: wrong size.") + " " + dimsC_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #6: wrong size.") + " " + dimsC_expected.toString() + " "
+            + "expected" + ".");
     }
     if (!dimsTOL.isScalar()) {
         Error(_W("Input argument #7: scalar expected."));

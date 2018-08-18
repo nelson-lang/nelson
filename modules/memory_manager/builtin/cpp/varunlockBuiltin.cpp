@@ -39,9 +39,8 @@ Nelson::MemoryGateway::varunlockBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     std::string scopename = argIn[0].getContentAsCString();
     if (!((scopename.compare("global") == 0) || (scopename.compare("base") == 0)
             || (scopename.compare("caller") == 0) || (scopename.compare("local") == 0))) {
-        Error(
-            _W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' "
-               "expected."));
+        Error(_W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' "
+                 "expected."));
     }
     if (!argIn[1].isSingleString()) {
         Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);

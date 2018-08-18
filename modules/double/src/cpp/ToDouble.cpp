@@ -48,8 +48,8 @@ ToDouble(ArrayOf A)
     } break;
     case NLS_STRUCT_ARRAY: {
         if (A.getStructType() != "struct") {
-            Error(_("Undefined function 'double' for input arguments of type '")
-                + A.getStructType() + "'.");
+            Error(_("Undefined function 'double' for input arguments of type '") + A.getStructType()
+                + "'.");
         } else {
             Error(_W("Conversion to double from struct is not possible."));
         }

@@ -64,13 +64,12 @@ private:
     std::wstring msg = L"";
 
 public:
-    Exception(std::string msg_in, std::vector<PositionScript> positions, std::string identifier_in = "");
     Exception(
-        std::wstring msg_in, std::vector<PositionScript> positions, std::wstring identifier_in = L"");
-    Exception(
-        std::string msg_in, PositionScript position, std::string identifier_in = "");
-    Exception(std::wstring msg_in, PositionScript position,
+        std::string msg_in, std::vector<PositionScript> positions, std::string identifier_in = "");
+    Exception(std::wstring msg_in, std::vector<PositionScript> positions,
         std::wstring identifier_in = L"");
+    Exception(std::string msg_in, PositionScript position, std::string identifier_in = "");
+    Exception(std::wstring msg_in, PositionScript position, std::wstring identifier_in = L"");
     Exception(std::string msg_in, std::string identifier_in = "");
     Exception(std::wstring msg_in, std::wstring identifier_in = L"");
     Exception();
@@ -106,7 +105,7 @@ public:
     std::wstring
     getMessage();
 
-	void
+    void
     setIdentifier(std::wstring identifier_in);
     void
     setIdentifier(std::string identifier_in);
@@ -119,11 +118,12 @@ public:
         return msg;
     }
 
-	std::wstring getFilename();
+    std::wstring
+    getFilename();
 
-	int
+    int
     getLine();
-    
+
     std::wstring
     getFunctionName();
 
@@ -133,7 +133,7 @@ public:
     std::wstring
     getIdentifier();
 
-	std::vector<PositionScript>
+    std::vector<PositionScript>
     getTrace();
 };
 //=============================================================================

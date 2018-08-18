@@ -161,8 +161,7 @@ OverloadTrinaryOperator(
     int nargout = 1;
     ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
     if (res.size() != 1) {
-        Error(
-            _("function") + " " + funcDef->name + " " + _("only one output argument expected."));
+        Error(_("function") + " " + funcDef->name + " " + _("only one output argument expected."));
     }
     return res[0];
 }

@@ -113,9 +113,8 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                                 elements[k] = ArrayOf::emptyConstructor();
                             }
                         } else {
-                            Error(
-                                _W("First argument must be a cell of strings (or a string) and "
-                                   "second argument a string."));
+                            Error(_W("First argument must be a cell of strings (or a string) and "
+                                     "second argument a string."));
                         }
                     }
                     retval.push_back(ArrayOf(NLS_CELL_ARRAY, dimA, elements));
@@ -126,17 +125,15 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                         Error(_W("Input strings must have one row."));
                     }
                 } else {
-                    Error(
-                        _W("First argument must be a cell of strings (or a string) and second "
-                           "argument a string."));
+                    Error(_W("First argument must be a cell of strings (or a string) and second "
+                             "argument a string."));
                 }
             } else {
                 Error(_W("Second argument a single string expected."));
             }
         } else {
-            Error(
-                _W("First argument must be a cell of strings (or a string) and second argument a "
-                   "string."));
+            Error(_W("First argument must be a cell of strings (or a string) and second argument a "
+                     "string."));
         }
     }
     return retval;

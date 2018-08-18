@@ -97,7 +97,7 @@ IsErrorStruct(ArrayOf arg, Exception& e)
     } else {
         Exception newException(message, identifier);
         e = newException;
-	}
+    }
     return true;
 }
 //=============================================================================

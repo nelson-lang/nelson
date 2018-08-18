@@ -53,8 +53,7 @@ Nelson::DataStructuresGateway::cell2structBuiltin(
     //    if (fieldnames.size() != 1)
     if (!param1.isEmpty()) {
         if (dims1[dim] != fieldnames.size()) {
-            Error(
-                _W("Number of field names must match number of fields in new structure."));
+            Error(_W("Number of field names must match number of fields in new structure."));
         }
     }
     ArrayOf* arg = (ArrayOf*)(param1.getDataPointer());

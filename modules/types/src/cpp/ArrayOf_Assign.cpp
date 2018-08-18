@@ -534,7 +534,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         if (isSparse()) {
             if (L > 2) {
                 Error(_W("Multidimensional indexing not legal for sparse "
-                                   "arrays in assignment A(I1,I2,...,IN) = B"));
+                         "arrays in assignment A(I1,I2,...,IN) = B"));
             }
             indexType rows = getDimensionLength(0);
             indexType cols = getDimensionLength(1);

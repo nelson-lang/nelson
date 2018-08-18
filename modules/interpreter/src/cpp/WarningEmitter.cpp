@@ -35,7 +35,7 @@ setWarningEvaluator(Evaluator* eval)
 }
 //=============================================================================
 void
-NelsonWarningEmitter(const wchar_t *msg, const wchar_t *id, bool asError)
+NelsonWarningEmitter(const wchar_t* msg, const wchar_t* id, bool asError)
 {
     std::wstring message = std::wstring(msg);
     std::wstring identifier = std::wstring(id);
@@ -52,8 +52,8 @@ NelsonWarningEmitter(const wchar_t *msg, const wchar_t *id, bool asError)
                 if (io) {
                     io->warningMessage(exception.getMessage());
                 }
-			}
-		}
+            }
+        }
     }
 }
 //=============================================================================

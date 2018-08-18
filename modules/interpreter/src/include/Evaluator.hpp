@@ -54,7 +54,8 @@
 
 namespace Nelson {
 
-typedef enum {
+typedef enum
+{
     NLS_FORMAT_SHORT,
     NLS_FORMAT_LONG,
     NLS_FORMAT_SHORTE,
@@ -62,7 +63,8 @@ typedef enum {
     NLS_FORMAT_HEX
 } OutputFormatDisplay;
 
-typedef enum {
+typedef enum
+{
     NLS_STATE_OK = 0,
     NLS_STATE_BREAK = 1,
     NLS_STATE_CONTINUE = 2,
@@ -174,12 +176,12 @@ public:
     bool
     getCLI();
 
-	/**
+    /**
      * Get the context we are running with.
      */
     Context*
     getContext();
- 
+
     bool debugActive;
 
     void
@@ -714,7 +716,7 @@ public:
     std::wstring
     getCurrentEvaluateFilename();
     void
-    pushEvaluateFilenameList(const std::wstring &filename);
+    pushEvaluateFilenameList(const std::wstring& filename);
     void
     popEvaluateFilenameList();
 
@@ -770,7 +772,7 @@ public:
     bool
     setLastErrorException(const Exception& e);
 
-	/**
+    /**
      * reset last error
      */
     void

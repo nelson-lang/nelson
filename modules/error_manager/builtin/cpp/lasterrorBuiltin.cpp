@@ -47,9 +47,8 @@ Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const A
                     Error(ERROR_WRONG_ARGUMENT_2_VALUE);
                 }
             } else {
-                Error(
-                    ERROR_WRONG_ARGUMENT_2_TYPE
-                        + _W("a structure or the string 'reset' expected."));
+                Error(ERROR_WRONG_ARGUMENT_2_TYPE
+                    + _W("a structure or the string 'reset' expected."));
             }
         }
         Exception lasterror = eval->getLastErrorException();

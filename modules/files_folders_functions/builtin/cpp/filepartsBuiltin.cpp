@@ -42,9 +42,8 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(Evaluator* eval, int nLhs, const A
                 } else if (wtype.compare(L"extension") == 0) {
                     // OK
                 } else {
-                    Error(
-                        _W("Argument #2 must contain a valid string 'path', 'filename' or "
-                           "'extension' expected."));
+                    Error(_W("Argument #2 must contain a valid string 'path', 'filename' or "
+                             "'extension' expected."));
                 }
             } else {
                 Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);

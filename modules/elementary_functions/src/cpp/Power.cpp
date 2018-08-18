@@ -39,8 +39,7 @@ Power(ArrayOf A, ArrayOf B)
     // Both arguments must be square
     if ((A.getDimensionLength(0) != A.getDimensionLength(1))
         || (B.getDimensionLength(0) != B.getDimensionLength(1))) {
-        Error(
-            _W("Power (^) operator can only be applied to scalar and square arguments."));
+        Error(_W("Power (^) operator can only be applied to scalar and square arguments."));
     }
     Error(_W("Power (^) currently not implemented in Nelson."));
 }

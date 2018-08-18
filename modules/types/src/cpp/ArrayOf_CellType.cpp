@@ -49,8 +49,7 @@ ArrayOf::cellConstructor(ArrayOfMatrix& m)
                  * Otherwise, make sure the column counts are all the same...
                  */
                 if (ptr.size() != columnCount) {
-                    Error(
-                        _W("Cell definition must have same number of elements in each row"));
+                    Error(_W("Cell definition must have same number of elements in each row"));
                 }
             }
             ++i;
@@ -284,8 +283,7 @@ ArrayOf::setVectorContents(ArrayOf& index, ArrayOf& data)
         return;
     }
     if (index.getLength() != 1) {
-        Error(
-            _W("In expression A{I} = B, I must reference a single element of cell-array A."));
+        Error(_W("In expression A{I} = B, I must reference a single element of cell-array A."));
     }
     constIndexPtr index_p = (constIndexPtr)index.dp->getData();
     if (*index_p == 0) {
@@ -316,7 +314,7 @@ ArrayOf::setNDimContents(ArrayOfVector& index, ArrayOf& data)
         index[i].toOrdinalType();
         if (!index[i].isScalar()) {
             Error(_W("In expression A{I1,I2,...,IN} = B, (I1,...,IN) must reference a "
-                               "single element of cell-array A."));
+                     "single element of cell-array A."));
         }
         constIndexPtr sp = (constIndexPtr)index[i].dp->getData();
         outPos[i] = *sp;
@@ -348,8 +346,7 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
     promoteType(NLS_CELL_ARRAY);
     index.toOrdinalType();
     if ((indexType)data.size() < index.getLength()) {
-        Error(
-            _W("Not enough right hand side values to satisy left hand side expression."));
+        Error(_W("Not enough right hand side values to satisy left hand side expression."));
     }
     // Get the maximum index
     indexType max_index = index.getMaxAsIndex();
@@ -407,8 +404,7 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
             dataCount *= argLengths[i];
         }
         if ((int)data.size() < dataCount) {
-            Error(
-                _W("Not enough right hand side values to satisfy left hand side expression"));
+            Error(_W("Not enough right hand side values to satisfy left hand side expression"));
         }
         // Resize us as necessary
         resize(a);

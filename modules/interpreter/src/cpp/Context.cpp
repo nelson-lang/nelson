@@ -181,14 +181,14 @@ Context::insertMacroFunctionLocally(FuncPtr f)
 }
 //=============================================================================
 bool
-Context::lookupFunction(const std::wstring &wfuncName, FuncPtr& val, bool builtinOnly)
+Context::lookupFunction(const std::wstring& wfuncName, FuncPtr& val, bool builtinOnly)
 {
     std::string funcName = wstring_to_utf8(wfuncName);
     return lookupFunction(funcName, val, builtinOnly);
 }
 //=============================================================================
 bool
-Context::lookupFunction(const std::string &funcName, FuncPtr& val, bool builtinOnly)
+Context::lookupFunction(const std::string& funcName, FuncPtr& val, bool builtinOnly)
 {
     if (scopestack.back()->lookupFunction(funcName, val, builtinOnly)) {
         return true;
@@ -197,13 +197,13 @@ Context::lookupFunction(const std::string &funcName, FuncPtr& val, bool builtinO
 }
 //=============================================================================
 bool
-Context::lookupFunctionGlobally(const std::string &funcName, FuncPtr& val, bool builtinOnly)
+Context::lookupFunctionGlobally(const std::string& funcName, FuncPtr& val, bool builtinOnly)
 {
     return scopestack.front()->lookupFunction(funcName, val, builtinOnly);
 }
 //=============================================================================
 void
-Context::deleteFunctionGlobally(const std::string &funcName)
+Context::deleteFunctionGlobally(const std::string& funcName)
 {
     scopestack.front()->deleteFunction(funcName);
 }

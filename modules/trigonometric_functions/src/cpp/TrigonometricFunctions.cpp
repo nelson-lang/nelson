@@ -265,8 +265,8 @@ Cosh(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        Error(_("Undefined function 'cosh' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'cosh' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     }
     switch (A.getDataClass()) {
     case NLS_CELL_ARRAY:
@@ -281,8 +281,8 @@ Cosh(ArrayOf A)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_CHAR: {
-        Error(_("Undefined function 'cosh' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'cosh' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     } break;
     // cosh not implemented in Eigen, we use std cosh
     case NLS_SCOMPLEX: {
@@ -356,8 +356,8 @@ Sinh(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        Error(_("Undefined function 'sinh' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'sinh' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     }
     switch (A.getDataClass()) {
     case NLS_CELL_ARRAY:
@@ -372,8 +372,8 @@ Sinh(ArrayOf A)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_CHAR: {
-        Error(_("Undefined function 'sinh' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'sinh' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     } break;
     // sinh not implemented in Eigen, we use std sinh
     case NLS_SCOMPLEX: {
@@ -444,8 +444,8 @@ Tanh(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        Error(_("Undefined function 'tanh' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'tanh' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     }
     switch (A.getDataClass()) {
     case NLS_CELL_ARRAY:
@@ -460,8 +460,8 @@ Tanh(ArrayOf A)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_CHAR: {
-        Error(_("Undefined function 'tanh' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'tanh' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     } break;
     // tanh not implemented in Eigen, we use std tanh
     case NLS_SCOMPLEX: {
@@ -535,8 +535,8 @@ Acos(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        Error(_("Undefined function 'acos' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'acos' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     }
     switch (A.getDataClass()) {
     case NLS_CELL_ARRAY:
@@ -551,8 +551,8 @@ Acos(ArrayOf A)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_CHAR: {
-        Error(_("Undefined function 'acos' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'acos' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     } break;
     case NLS_SINGLE:
     case NLS_SCOMPLEX: {
@@ -602,8 +602,8 @@ Asin(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        Error(_("Undefined function 'asin' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'asin' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     }
     switch (A.getDataClass()) {
     case NLS_CELL_ARRAY:
@@ -618,8 +618,8 @@ Asin(ArrayOf A)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_CHAR: {
-        Error(_("Undefined function 'asin' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'asin' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     } break;
     case NLS_SINGLE:
     case NLS_SCOMPLEX: {
@@ -669,8 +669,8 @@ Atan(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        Error(_("Undefined function 'atan' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'atan' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     }
     switch (A.getDataClass()) {
     case NLS_CELL_ARRAY:
@@ -685,8 +685,8 @@ Atan(ArrayOf A)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_CHAR: {
-        Error(_("Undefined function 'atan' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'atan' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     } break;
     case NLS_SINGLE:
     case NLS_SCOMPLEX: {
