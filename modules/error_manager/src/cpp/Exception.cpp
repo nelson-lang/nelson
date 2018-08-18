@@ -19,9 +19,6 @@
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/path.hpp>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,12 +30,10 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-int exceptionCount = 0;
-//=============================================================================
 Exception::Exception() {
-    this->backtrace.clear();
-    this->identifier.clear();
-    this->msg.clear();
+  this->backtrace.clear();
+  this->identifier.clear();
+  this->msg.clear();
 }
 //=============================================================================
 Exception::Exception(std::string msg_in, std::vector<PositionScript> positions,
@@ -51,7 +46,6 @@ Exception::Exception(std::wstring msg_in, std::vector<PositionScript> positions,
   this->backtrace = positions;
   this->identifier = identifier_in;
   this->msg = msg_in;
-  exceptionCount++;
 }
 //=============================================================================
 Exception::Exception(std::string msg_in, PositionScript position,
@@ -65,7 +59,6 @@ Exception::Exception(std::wstring msg_in, PositionScript position,
   this->backtrace.push_back(position);
   this->msg = msg_in;
   this->identifier = identifier_in;
-  exceptionCount++;
 }
 //=============================================================================
 Exception::Exception(std::string msg_in, std::string identifier_in) {
@@ -76,21 +69,18 @@ Exception::Exception(std::wstring msg_in, std::wstring identifier_in) {
   this->backtrace.clear();
   this->msg = msg_in;
   this->identifier = identifier_in;
-  exceptionCount++;
 }
 //=============================================================================
 Exception::~Exception() {
   this->backtrace.clear();
   this->msg = L"";
   this->identifier = L"";
-  exceptionCount--;
 }
 //=============================================================================
 Exception::Exception(const Exception &copy) {
   this->msg = copy.msg;
   this->identifier = copy.identifier;
   this->backtrace = copy.backtrace;
-  exceptionCount++;
 }
 //=============================================================================
 void Exception::operator=(const Exception &copy) {
@@ -119,35 +109,24 @@ bool Exception::matches(std::string tst_msg) {
 std::wstring Exception::getMessage() { return msg; }
 //=============================================================================
 int Exception::getLine() {
-    if (backtrace.empty()) {
-        return -1;
-    }
-    if ((backtrace[0].getLine() == 0 || backtrace[0].getLine() == -1) && backtrace.size() > 1) {
-        return backtrace[1].getLine();
-    }
-	return backtrace[0].getLine(); 
+  if (backtrace.empty()) {
+    return -1;
+  }
+  return backtrace[0].getLine();
 }
 //=============================================================================
 std::wstring Exception::getFunctionName() {
-    if (backtrace.empty()) {
-        return L"";
-    }
-    if ((backtrace[0].getLine() == 0 || backtrace[0].getLine() == -1) && backtrace.size() > 1) {
-        return backtrace[1].getFunctionName();
-    }
-    return backtrace[0].getFunctionName();
+  if (backtrace.empty()) {
+    return L"";
+  }
+  return backtrace[0].getFunctionName();
 }
 //=============================================================================
-std::wstring
-Exception::getFilename()
-{
-    if (backtrace.empty()) {
-        return L"";
-    }
-    if ((backtrace[0].getLine() == 0 || backtrace[0].getLine() == -1) && backtrace.size() > 1) {
-        return backtrace[1].getFilename();
-    }
-	return backtrace[0].getFilename();
+std::wstring Exception::getFilename() {
+  if (backtrace.empty()) {
+    return L"";
+  }
+  return backtrace[0].getFilename();
 }
 //=============================================================================
 std::wstring Exception::getFormattedErrorMessage() {
@@ -159,27 +138,25 @@ std::wstring Exception::getFormattedErrorMessage() {
     std::wstring filename = backtrace[0].getFilename();
     std::wstring functionName = backtrace[0].getFunctionName();
     int line = backtrace[0].getLine();
-
-     bool bIsFile
-        = boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
-    bool bIsNls = boost::algorithm::ends_with(filename, L".nls");
-    bool bIsNlf = boost::algorithm::ends_with(filename, L".nlf");
     formattedMessage.append(L"\n");
-	if (line == 0) {
-        msg = std::wstring(L"In ") + filename + L"\n";
+    if (line == 0) {
+      if (filename != L"") {
+        formattedMessage =
+            formattedMessage + std::wstring(L"In ") + filename + L"\n";
+      }
     } else {
-        if (bIsNlf) {
-            msg = std::wstring(L"In ") + filename + L" function "
-                + functionName + L" (line "
-                + std::to_wstring(line) + L")\n";
-        } else {
-            msg = std::wstring(L"In ") + filename + L" (line "
-                + std::to_wstring(line) + L")\n";
-        }
+      if (functionName != L"") {
+        formattedMessage = std::wstring(L"In ") + filename + L" function " +
+                           functionName + L" (line " + std::to_wstring(line) +
+                           L")\n";
+      } else {
+        formattedMessage = std::wstring(L"In ") + filename + L" (line " +
+                           std::to_wstring(line) + L")\n";
+      }
     }
     formattedMessage.append(msg);
-	}
- 
+  }
+
   return formattedMessage;
 }
 //=============================================================================
