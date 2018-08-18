@@ -20,6 +20,12 @@ Bug Fixes:
   * [#138](http://github.com/Nelson-numerical-software/nelson/issues/138): colon operator did not return expected for non scalar element.
 
 
+Compilation:
+---------
+
+  * Qt 5.11.1 on Windows
+   
+
 ## 0.2.7 (2018-07-29)
 
 Features:
