@@ -47,11 +47,11 @@ function txt = nig_generate_builtin_cpp(NIG_FUNCTION)
   txt{end + 1} = '    ArrayOfVector retval;';
   txt{end + 1} = ['    if (nLhs > ', int2str(nig_nargout(NIG_FUNCTION)) ,')'];
   txt{end + 1} = '    {';
-  txt{end + 1} = '        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);';
+  txt{end + 1} = '        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);';
   txt{end + 1} = '    }';
   txt{end + 1} = ['    if (argIn.size() != ', int2str(nig_nargin(NIG_FUNCTION)), ')'];
   txt{end + 1} = '    {';
-  txt{end + 1} = '        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);';
+  txt{end + 1} = '        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);';
   txt{end + 1} = '    }';
   txt{end + 1} = '';
 
