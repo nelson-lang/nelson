@@ -42,6 +42,7 @@ Power(ArrayOf A, ArrayOf B)
         Error(_W("Power (^) operator can only be applied to scalar and square arguments."));
     }
     Error(_W("Power (^) currently not implemented in Nelson."));
+    return ArrayOf();
 }
 }
 //=============================================================================
