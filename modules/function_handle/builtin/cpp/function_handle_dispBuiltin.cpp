@@ -29,14 +29,14 @@ Nelson::FunctionHandleGateway::function_handle_dispBuiltin(
 {
     ArrayOfVector retval;
     if (nLhs > 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf Arg = argIn[0];
     if (!Arg.isFunctionHandle()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
     }
     FunctionHandleDisplay(eval, Arg);
     return retval;

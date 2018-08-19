@@ -27,10 +27,10 @@ Nelson::MemoryGateway::isvarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
 {
     ArrayOfVector retval;
     if (argIn.size() == 0 || argIn.size() > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 1) {
         ArrayOf param1 = argIn[0];
@@ -52,7 +52,7 @@ Nelson::MemoryGateway::isvarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         } else if (scopeName.compare(L"caller") == 0) {
             res = IsVariable(eval, SCOPE_LEVEL::CALLER_SCOPE, varName);
         } else {
-            Error(eval, _W("Argument #1 : 'global', 'base', 'local' or 'caller' expected."));
+            Error(_W("Argument #1 : 'global', 'base', 'local' or 'caller' expected."));
         }
         retval.push_back(ArrayOf::logicalConstructor(res));
     }

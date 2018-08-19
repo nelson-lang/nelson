@@ -17,17 +17,17 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "HandleGenericObject.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 HandleGenericObject::HandleGenericObject(std::wstring _category, void* _ptr, bool isScoped)
 {
     if (_category.empty()) {
-        throw Exception(_W("handle must have a type."));
+        Error(_W("handle must have a type."));
     }
     if (_ptr == nullptr) {
-        throw Exception(_W("handle must have a pointer."));
+        Error(_W("handle must have a pointer."));
     }
     this->category = _category;
     this->ptr = _ptr;

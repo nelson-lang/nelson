@@ -29,10 +29,10 @@ Nelson::ModulesManagerGateway::getmodulesBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bReverse = false;
     if (argIn.size() == 1) {
@@ -40,7 +40,7 @@ Nelson::ModulesManagerGateway::getmodulesBuiltin(
         if (argIn[0].isSingleString()) {
             param = argIn[0].getContentAsWideString();
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         if (param.compare(L"reverse") == 0) {
             bReverse = true;

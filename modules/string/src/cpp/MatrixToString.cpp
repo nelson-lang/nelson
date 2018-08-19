@@ -20,13 +20,13 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRT_NON_CONFORMING_SWPRINTFS
 #endif
-#include "MatrixToString.hpp"
-#include "ClassName.hpp"
-#include "Exception.hpp"
 #include <boost/algorithm/string.hpp>
 #include <math.h>
 #include <stdio.h>
 #include <wchar.h>
+#include "MatrixToString.hpp"
+#include "ClassName.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -35,7 +35,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
 {
     std::wstring res;
     if (!A.is2D()) {
-        throw Exception(_W("A 2D matrix expected."));
+        Error(_W("A 2D matrix expected."));
     }
     std::wstring formatNumber = L"%." + std::to_wstring(precision) + L"g";
     std::wstring class_name = L"";
@@ -58,7 +58,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
         wchar_t buffer[1024];
         switch (A.getDataClass()) {
         default: {
-            throw Exception(ERROR_TYPE_NOT_SUPPORTED);
+            Error(ERROR_TYPE_NOT_SUPPORTED);
         } break;
         case NLS_SCOMPLEX: {
             single* pValue = (single*)A.getDataPointer();

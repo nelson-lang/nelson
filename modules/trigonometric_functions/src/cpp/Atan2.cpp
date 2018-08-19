@@ -16,12 +16,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
 #include <Eigen/Dense>
 #include "Atan2.hpp"
 #include "ArrayOf.hpp"
 #include "MatrixCheck.hpp"
+#include "Exception.hpp"
 #include "nlsTrigonometric_functions_exports.h"
 //=============================================================================
 namespace Nelson {
@@ -166,8 +165,7 @@ Atan2(Class classDestination, const ArrayOf& A, const ArrayOf& B)
             }
         } else {
             if (!(SameSizeCheck(dimsA, dimsB))) {
-                throw Exception(
-                    _W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
+                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
             }
             return ArrayOf(B);
         }
@@ -202,8 +200,7 @@ Atan2(Class classDestination, const ArrayOf& A, const ArrayOf& B)
                         dimsB.getElementCount());
                 } else if ((A.isRowVector() && B.isRowVector())
                     || (A.isColumnVector() && B.isColumnVector())) {
-                    throw Exception(
-                        _W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
+                    Error(_W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
                 } else {
                     const T* ptrA = (const T*)A.getDataPointer();
                     const T* ptrB = (const T*)B.getDataPointer();
@@ -221,13 +218,11 @@ Atan2(Class classDestination, const ArrayOf& A, const ArrayOf& B)
                             return vector_column_atan2<T>(classDestination, B, A);
                         }
                     } else {
-                        throw Exception(
-                            _W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
+                        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
                     }
                 }
             } else {
-                throw Exception(
-                    _W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
+                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
             }
         }
     }

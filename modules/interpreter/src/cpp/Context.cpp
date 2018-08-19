@@ -76,26 +76,26 @@ Context::pushScope(std::string name)
 {
     Scope* sc = nullptr;
     if (scopestack.size() > getRecursionDepth()) {
-        throw Exception(ERROR_STACK_DEPTH_EXCEEDED);
+        Error(ERROR_STACK_DEPTH_EXCEEDED);
     }
     try {
         sc = new Scope(name);
     } catch (std::bad_alloc& e) {
         e.what();
-        throw Exception(ERROR_STACK_DEPTH_EXCEEDED);
+        Error(ERROR_STACK_DEPTH_EXCEEDED);
     }
     if (sc) {
         scopestack.push_back(sc);
     } else {
-        throw Exception(ERROR_STACK_DEPTH_EXCEEDED);
+        Error(ERROR_STACK_DEPTH_EXCEEDED);
     }
 }
 //=============================================================================
 void
-Context::popScope() throw(Exception)
+Context::popScope()
 {
     if (scopestack.size() == 1) {
-        throw Exception(ERROR_POP_GLOBAL_SCOPE);
+        Error(ERROR_POP_GLOBAL_SCOPE);
     }
     delete scopestack.back();
     scopestack.pop_back();
@@ -181,14 +181,14 @@ Context::insertMacroFunctionLocally(FuncPtr f)
 }
 //=============================================================================
 bool
-Context::lookupFunction(std::wstring wfuncName, FuncPtr& val, bool builtinOnly)
+Context::lookupFunction(const std::wstring& wfuncName, FuncPtr& val, bool builtinOnly)
 {
     std::string funcName = wstring_to_utf8(wfuncName);
     return lookupFunction(funcName, val, builtinOnly);
 }
 //=============================================================================
 bool
-Context::lookupFunction(std::string funcName, FuncPtr& val, bool builtinOnly)
+Context::lookupFunction(const std::string& funcName, FuncPtr& val, bool builtinOnly)
 {
     if (scopestack.back()->lookupFunction(funcName, val, builtinOnly)) {
         return true;
@@ -197,13 +197,13 @@ Context::lookupFunction(std::string funcName, FuncPtr& val, bool builtinOnly)
 }
 //=============================================================================
 bool
-Context::lookupFunctionGlobally(std::string funcName, FuncPtr& val, bool builtinOnly)
+Context::lookupFunctionGlobally(const std::string& funcName, FuncPtr& val, bool builtinOnly)
 {
     return scopestack.front()->lookupFunction(funcName, val, builtinOnly);
 }
 //=============================================================================
 void
-Context::deleteFunctionGlobally(std::string funcName)
+Context::deleteFunctionGlobally(const std::string& funcName)
 {
     scopestack.front()->deleteFunction(funcName);
 }

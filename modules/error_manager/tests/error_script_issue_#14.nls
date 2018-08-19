@@ -23,9 +23,9 @@ try
   C = A / B; // matrix dimensions error
 catch
   do_error = true;
-  l1 = lasterror();
+  l1 = lasterror()
   lasterror('reset');
-  l2 = lasterror();
+  l2 = lasterror()
   assert_isequal(l2.message, '');
   error(l1);
 end

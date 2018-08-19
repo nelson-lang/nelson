@@ -32,8 +32,7 @@ AbsoluteValue(ArrayOf arrayIn)
     case NLS_CELL_ARRAY:
     case NLS_STRUCT_ARRAY:
     default: {
-        throw Exception(
-            _W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_abs'");
+        Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_abs'");
     } break;
     case NLS_UINT8:
     case NLS_UINT16:

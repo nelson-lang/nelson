@@ -19,7 +19,6 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Exception.hpp"
 #include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
@@ -27,6 +26,6 @@ namespace Nelson {
  * Matrix to matrix power.  A^B
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Power(ArrayOf A, ArrayOf B) throw(Exception);
+Power(ArrayOf A, ArrayOf B);
 } // namespace Nelson
 //=============================================================================

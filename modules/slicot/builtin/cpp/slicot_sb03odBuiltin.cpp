@@ -40,10 +40,10 @@ Nelson::SlicotGateway::slicot_sb03odBuiltin(Evaluator* eval, int nLhs, const Arr
 {
     ArrayOfVector retval;
     if (nLhs > 6) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 6) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // INPUT VARIABLES
     ArrayOf DICO = argIn[0];
@@ -116,20 +116,19 @@ Nelson::SlicotGateway::slicot_sb03odBuiltin(Evaluator* eval, int nLhs, const Arr
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {
-        Error(eval, _W("Input argument #1: scalar expected."));
+        Error(_W("Input argument #1: scalar expected."));
     }
     if (!dimsFACT.isScalar()) {
-        Error(eval, _W("Input argument #2: scalar expected."));
+        Error(_W("Input argument #2: scalar expected."));
     }
     if (!dimsTRANS.isScalar()) {
-        Error(eval, _W("Input argument #3: scalar expected."));
+        Error(_W("Input argument #3: scalar expected."));
     }
     Dimensions dimsQ_expected(
         std::max(1, (int)A.getDimensions().getRows()), (int)A.getDimensions().getRows());
     if (!dimsQ.equals(dimsQ_expected)) {
-        Error(eval,
-            _("Input argument #5: wrong size.") + " " + dimsQ_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #5: wrong size.") + " " + dimsQ_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsB_expected(TRANS.getContentAsCString().compare("N") == 0
             ? std::max(
@@ -137,9 +136,8 @@ Nelson::SlicotGateway::slicot_sb03odBuiltin(Evaluator* eval, int nLhs, const Arr
             : std::max(1, (int)A.getDimensions().getRows()),
         (int)A.getDimensions().getRows());
     if (!dimsB.equals(dimsB_expected)) {
-        Error(eval,
-            _("Input argument #6: wrong size.") + " " + dimsB_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #6: wrong size.") + " " + dimsB_expected.toString() + " "
+            + "expected" + ".");
     }
     // CALL EXTERN FUNCTION
     try {
@@ -148,7 +146,7 @@ Nelson::SlicotGateway::slicot_sb03odBuiltin(Evaluator* eval, int nLhs, const Arr
             LDWORK_ptr, INFO_output_ptr);
     } catch (std::runtime_error& e) {
         e.what();
-        Error(eval, "sb03od function fails.");
+        Error("sb03od function fails.");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

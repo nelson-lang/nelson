@@ -18,6 +18,7 @@
 //=============================================================================
 #include "Addition.hpp"
 #include "MatrixCheck.hpp"
+#include "Exception.hpp"
 #include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
@@ -230,7 +231,7 @@ addition(Class classDestination, ArrayOf a, ArrayOf b)
             }
         } else {
             if (!(SameSizeCheck(dimsA, dimsB))) {
-                throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
             }
             return ArrayOf(b);
         }
@@ -264,8 +265,7 @@ addition(Class classDestination, ArrayOf a, ArrayOf b)
                         dimsA.getElementCount());
                 } else if ((a.isRowVector() && b.isRowVector())
                     || (a.isColumnVector() && b.isColumnVector())) {
-                    throw Exception(
-                        _W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                    Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
                 } else {
                     const T* ptrA = (const T*)a.getDataPointer();
                     const T* ptrB = (const T*)b.getDataPointer();
@@ -283,12 +283,11 @@ addition(Class classDestination, ArrayOf a, ArrayOf b)
                             return vector_column_addition<T>(classDestination, b, a);
                         }
                     } else {
-                        throw Exception(
-                            _W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
                     }
                 }
             } else {
-                throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
             }
         }
     }
@@ -326,7 +325,7 @@ complex_addition(Class classDestination, ArrayOf a, ArrayOf b)
             }
         } else {
             if (!(SameSizeCheck(dimsA, dimsB))) {
-                throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
             }
             return ArrayOf(b);
         }
@@ -359,8 +358,7 @@ complex_addition(Class classDestination, ArrayOf a, ArrayOf b)
                         (T*)a.getDataPointer(), dimsA.getElementCount());
                 } else if ((a.isRowVector() && b.isRowVector())
                     || (a.isColumnVector() && b.isColumnVector())) {
-                    throw Exception(
-                        _W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                    Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
                 } else {
                     T* ptrA = (T*)a.getDataPointer();
                     T* ptrB = (T*)b.getDataPointer();
@@ -378,12 +376,11 @@ complex_addition(Class classDestination, ArrayOf a, ArrayOf b)
                             return complex_vector_column_addition<T>(classDestination, b, a);
                         }
                     } else {
-                        throw Exception(
-                            _W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
                     }
                 }
             } else {
-                throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
             }
         }
     }

@@ -26,13 +26,13 @@ Nelson::IntegerGateway::integer_dispBuiltin(Evaluator* eval, int nLhs, const Arr
 {
     ArrayOfVector retval;
     if (nLhs > 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (argIn[0].getDataClass() < NLS_UINT8 || argIn[0].getDataClass() > NLS_INT64) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_INTEGER_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_INTEGER_EXPECTED);
     }
     argIn[0].printMe(eval->getPrintLimit(), eval->getInterface()->getTerminalWidth());
     return retval;

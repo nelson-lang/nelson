@@ -28,17 +28,17 @@ Nelson::TestsManagerGateway::test_parsetagsBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     TestTags tags;
     ArrayOf param1 = argIn[0];
     std::wstring value = param1.getContentAsWideString();
     std::wstring msg;
     if (!ParseTags(eval, value, tags, msg)) {
-        Error(eval, msg);
+        Error(msg);
     }
     wstringVector fieldnames;
     ArrayOfVector fieldvalues;

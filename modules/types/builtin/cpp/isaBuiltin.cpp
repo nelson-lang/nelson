@@ -29,15 +29,15 @@ Nelson::TypeGateway::isaBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     if (!param2.isSingleString()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
     }
     std::wstring classnameExpected = param2.getContentAsWideString();
     if (classnameExpected == L"numeric") {

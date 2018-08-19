@@ -28,7 +28,7 @@ Nelson::ElementaryFunctionsGateway::powerBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     retval.push_back(OverloadBinaryOperator(eval, argIn[0], argIn[1], "power"));
     return retval;

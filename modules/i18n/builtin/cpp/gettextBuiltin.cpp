@@ -27,10 +27,10 @@ Nelson::I18nGateway::gettextBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring txt = argIn[0].getContentAsWideString();
     retval.push_back(ArrayOf::stringConstructor(gettextw(txt)));

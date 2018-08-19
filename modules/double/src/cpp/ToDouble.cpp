@@ -41,17 +41,17 @@ ToDouble(ArrayOf A)
 {
     switch (A.getDataClass()) {
     case NLS_HANDLE: {
-        throw Exception(_W("Conversion to double from handle is not possible."));
+        Error(_W("Conversion to double from handle is not possible."));
     } break;
     case NLS_CELL_ARRAY: {
-        throw Exception(_W("Conversion to double from cell is not possible."));
+        Error(_W("Conversion to double from cell is not possible."));
     } break;
     case NLS_STRUCT_ARRAY: {
         if (A.getStructType() != "struct") {
-            throw Exception(_("Undefined function 'double' for input arguments of type '")
-                + A.getStructType() + "'.");
+            Error(_("Undefined function 'double' for input arguments of type '") + A.getStructType()
+                + "'.");
         } else {
-            throw Exception(_W("Conversion to double from struct is not possible."));
+            Error(_W("Conversion to double from struct is not possible."));
         }
     } break;
     case NLS_LOGICAL: {
@@ -65,49 +65,49 @@ ToDouble(ArrayOf A)
     } break;
     case NLS_UINT8: {
         if (A.isSparse()) {
-            throw Exception(_W("Invalid conversion: unimplemented sparse type."));
+            Error(_W("Invalid conversion: unimplemented sparse type."));
         }
         return ToDouble<uint8>(A);
     } break;
     case NLS_INT8: {
         if (A.isSparse()) {
-            throw Exception(_W("Invalid conversion: unimplemented sparse type."));
+            Error(_W("Invalid conversion: unimplemented sparse type."));
         }
         return ToDouble<int8>(A);
     } break;
     case NLS_UINT16: {
         if (A.isSparse()) {
-            throw Exception(_W("Invalid conversion: unimplemented sparse type."));
+            Error(_W("Invalid conversion: unimplemented sparse type."));
         }
         return ToDouble<uint16>(A);
     } break;
     case NLS_INT16: {
         if (A.isSparse()) {
-            throw Exception(_W("Invalid conversion: unimplemented sparse type."));
+            Error(_W("Invalid conversion: unimplemented sparse type."));
         }
         return ToDouble<int16>(A);
     } break;
     case NLS_UINT32: {
         if (A.isSparse()) {
-            throw Exception(_W("Invalid conversion: unimplemented sparse type."));
+            Error(_W("Invalid conversion: unimplemented sparse type."));
         }
         return ToDouble<uint32>(A);
     } break;
     case NLS_INT32: {
         if (A.isSparse()) {
-            throw Exception(_W("Invalid conversion: unimplemented sparse type."));
+            Error(_W("Invalid conversion: unimplemented sparse type."));
         }
         return ToDouble<int32>(A);
     } break;
     case NLS_UINT64: {
         if (A.isSparse()) {
-            throw Exception(_W("Invalid conversion: unimplemented sparse type."));
+            Error(_W("Invalid conversion: unimplemented sparse type."));
         }
         return ToDouble<uint64>(A);
     } break;
     case NLS_INT64: {
         if (A.isSparse()) {
-            throw Exception(_W("Invalid conversion: unimplemented sparse type."));
+            Error(_W("Invalid conversion: unimplemented sparse type."));
         }
         return ToDouble<int64>(A);
     } break;
@@ -119,7 +119,7 @@ ToDouble(ArrayOf A)
     } break;
     case NLS_SCOMPLEX: {
         if (A.isSparse()) {
-            throw Exception(_W("Invalid conversion: unimplemented sparse type."));
+            Error(_W("Invalid conversion: unimplemented sparse type."));
         }
         double* pDouble = (double*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength() * 2);
         ArrayOf r = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), pDouble, A.isSparse());
@@ -134,21 +134,21 @@ ToDouble(ArrayOf A)
     } break;
     case NLS_SINGLE: {
         if (A.isSparse()) {
-            throw Exception(_W("Invalid conversion: unimplemented sparse type."));
+            Error(_W("Invalid conversion: unimplemented sparse type."));
         }
         return ToDouble<single>(A);
     } break;
     case NLS_CHAR: {
         if (A.isSparse()) {
-            throw Exception(_W("Invalid conversion: unimplemented sparse type."));
+            Error(_W("Invalid conversion: unimplemented sparse type."));
         }
         return ToDouble<charType>(A);
     } break;
     default: {
         if (A.isSparse()) {
-            throw Exception(_W("Invalid conversion: unimplemented sparse type."));
+            Error(_W("Invalid conversion: unimplemented sparse type."));
         }
-        throw Exception(_W("Invalid conversion: unimplemented type."));
+        Error(_W("Invalid conversion: unimplemented type."));
     } break;
     }
     return ArrayOf();

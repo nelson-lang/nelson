@@ -20,6 +20,8 @@
 #include "MatrixCheck.hpp"
 #include "ClassName.hpp"
 #include "complex_abs.hpp"
+#include "Error.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

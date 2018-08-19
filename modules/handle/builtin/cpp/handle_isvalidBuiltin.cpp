@@ -27,7 +27,7 @@ Nelson::HandleGateway::handle_isvalidBuiltin(Evaluator* eval, int nLhs, const Ar
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     retval.push_back(IsValidHandle(eval, argIn[0]));
     return retval;

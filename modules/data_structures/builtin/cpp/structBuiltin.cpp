@@ -31,14 +31,14 @@ Nelson::DataStructuresGateway::structBuiltin(Evaluator* eval, int nLhs, const Ar
         return retval;
     } else if (argIn.size() == 1) {
         if (!argIn[0].isEmpty()) {
-            Error(eval, _W("struct([]) expected."));
+            Error(_W("struct([]) expected."));
         }
         Dimensions dim = argIn[0].getDimensions();
         wstringVector fieldnames;
         retval.push_back(ArrayOf::emptyStructConstructor(fieldnames, dim));
     } else {
         if (argIn.size() % 2) {
-            Error(eval, _W("requires pairs of field names and values."));
+            Error(_W("requires pairs of field names and values."));
         }
         size_t pairCount = argIn.size() / 2;
         stringVector names;
@@ -48,11 +48,11 @@ Nelson::DataStructuresGateway::structBuiltin(Evaluator* eval, int nLhs, const Ar
         }
         for (size_t i = 0; i < pairCount * 2; i += 2) {
             if (!(argIn[i].isSingleString())) {
-                Error(eval, _W("requires pairs of field names and values."));
+                Error(_W("requires pairs of field names and values."));
             }
             std::string field = argIn[i].getContentAsCString();
             if (!IsValidFieldname(field)) {
-                Error(eval, _W("requires a valid fieldname."));
+                Error(_W("requires a valid fieldname."));
             }
             names.push_back(field);
             values[i / 2] = argIn[i + 1];

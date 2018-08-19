@@ -28,15 +28,15 @@ Nelson::ComEngineGateway::COM_dispBuiltin(Evaluator* eval, int nLhs, const Array
     ArrayOfVector retval;
 #ifdef _MSC_VER
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     DispComHandleObject(eval, param1);
 #else
-    Error(eval, _W("Not implemented on this platform."));
+    Error(_W("Not implemented on this platform."));
 #endif
     return retval;
 }

@@ -28,22 +28,22 @@ ArrayOfVector
 Nelson::AudioGateway::audioplayer_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval;
     if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
-        Error(eval, _W("audioplayer handle expected."));
+        Error(_W("audioplayer handle expected."));
     }
     AudioplayerObject* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     ArrayOf res;
     if (!objPlayer->get(propertyName, res)) {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
+        Error(ERROR_WRONG_ARGUMENT_2_VALUE);
     }
     retval.push_back(res);
     return retval;

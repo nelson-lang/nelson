@@ -157,7 +157,7 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
                     }
                     res = ArrayOf(NLS_LOGICAL, dimC, Cp);
                 } else {
-                    throw Exception(ERROR_SAME_SIZE_EXPECTED);
+                    Error(ERROR_SAME_SIZE_EXPECTED);
                 }
             }
         } else if ((A.isCell() || (B.isCell()))) {

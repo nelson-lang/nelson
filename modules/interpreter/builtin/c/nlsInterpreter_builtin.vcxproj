@@ -181,6 +181,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\dbstackBuiltin.cpp" />
     <ClCompile Include="..\cpp\iskeywordBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\max_recursion_depthBuiltin.cpp" />
@@ -192,6 +193,7 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\dbstackBuiltin.hpp" />
     <ClInclude Include="..\include\iskeywordBuiltin.hpp" />
     <ClInclude Include="..\include\max_recursion_depthBuiltin.hpp" />
     <ClInclude Include="..\include\nlsInterpreter_builtin_exports.h" />

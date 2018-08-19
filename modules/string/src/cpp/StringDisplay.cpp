@@ -25,7 +25,7 @@ void
 StringDisplay(Evaluator* eval, ArrayOf Var, bool bFromBuiltin)
 {
     if (!Var.isString()) {
-        Error(eval, _W("StringDisplay method: String expected."));
+        Error(_W("StringDisplay method: String expected."));
     }
     Interface* io = eval->getInterface();
     if (Var.isSingleString()) {

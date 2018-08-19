@@ -23,6 +23,7 @@
 #include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "GetQtPath.hpp"
 #include "GuiTerminal.hpp"
+#include "Warning.hpp"
 #include "Nelson_VERSION.h"
 #include "QtMainWindow.h"
 #include <QtCore/QtGlobal>
@@ -54,25 +55,13 @@ QtMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString
     }
     switch (type) {
     case QtDebugMsg: {
-        Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-        if (eval) {
-            Interface* io = eval->getInterface();
-            if (io) {
-                io->outputMessage(str);
-            }
-        }
+        Warning(str);
     } break;
 #if QT_VERSION > QT_VERSION_CHECK(5, 5, 0)
     case QtInfoMsg:
 #endif
     case QtWarningMsg: {
-        Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-        if (eval) {
-            Interface* io = eval->getInterface();
-            if (io) {
-                io->warningMessage(str);
-            }
-        }
+        Warning(str);
     } break;
     case QtCriticalMsg:
     case QtFatalMsg: {

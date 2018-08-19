@@ -18,6 +18,7 @@
 //=============================================================================
 #include "IsErrorStruct.hpp"
 #include "Exception.hpp"
+#include "PositionScript.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -60,7 +61,7 @@ IsErrorStruct(ArrayOf arg, Exception& e)
     std::wstring message = L"";
     std::wstring identifier = L"";
     std::wstring filename = L"";
-    std::wstring name = L"";
+    std::wstring functionName = L"";
     int line = -1;
     ArrayOf msgArray = arg.getField("message");
     ArrayOf idArray = arg.getField("identifier");
@@ -86,23 +87,24 @@ IsErrorStruct(ArrayOf arg, Exception& e)
             return false;
         }
         filename = fileArray.getContentAsWideString();
-        name = nameArray.getContentAsWideString();
+        functionName = nameArray.getContentAsWideString();
         if (!lineArray.isEmpty()) {
             line = (int)lineArray.getContentAsDoubleScalar();
         }
+        PositionScript position(functionName, filename, line);
+        Exception newException(message, position, identifier);
+        e = newException;
+    } else {
+        Exception newException(message, identifier);
+        e = newException;
     }
-    e.setMessage(message);
-    e.setIdentifier(identifier);
-    e.setFileName(filename);
-    e.setFunctionName(name);
-    e.setLinePosition(line, -1);
     return true;
 }
 //=============================================================================
 bool
 IsErrorStruct(const ArrayOf arg)
 {
-    Exception e(L"");
+    Exception e;
     return IsErrorStruct(arg, e);
 }
 //=============================================================================

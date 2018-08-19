@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ModulePath.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "FindDynamicLibraryName.hpp"
 #include "ModulesHelpers.hpp"
 #include "ModulesManager.hpp"
@@ -42,21 +42,21 @@ ModulePath(const std::wstring& modulerootpath, const std::wstring& moduleshortna
         p = ConstructBinariesPath(modulerootpath);
         p = p.generic_wstring();
         if (!boost::filesystem::is_directory(p)) {
-            throw Exception(_W("Path does not exist:") + L"\n" + p.generic_wstring());
+            Error(_W("Path does not exist:") + L"\n" + p.generic_wstring());
         }
     } break;
     case GET_ROOT_PATH: {
         p = ConstructRootName(modulerootpath, moduleshortname);
         p = p.generic_wstring();
         if (!boost::filesystem::is_directory(p)) {
-            throw Exception(_W("Path does not exist:") + L"\n" + p.generic_wstring());
+            Error(_W("Path does not exist:") + L"\n" + p.generic_wstring());
         }
     } break;
     case GET_ETC_PATH: {
         p = ConstructEtcName(modulerootpath, moduleshortname);
         p = p.generic_wstring();
         if (!boost::filesystem::is_directory(p)) {
-            throw Exception(_W("Path does not exist:") + L"\n" + p.generic_wstring());
+            Error(_W("Path does not exist:") + L"\n" + p.generic_wstring());
         }
     } break;
     case GET_DYNLIB_FULLPATH: {
@@ -65,18 +65,18 @@ ModulePath(const std::wstring& modulerootpath, const std::wstring& moduleshortna
         std::wstring filename = FindDynamicLibraryName(
             p.parent_path().generic_wstring(), p.filename().generic_wstring(), false);
         if (filename.empty()) {
-            throw Exception(_W("File does not exist:") + L"\n" + p.generic_wstring());
+            Error(_W("File does not exist:") + L"\n" + p.generic_wstring());
         }
     } break;
     case GET_SCRIPT_PATH: {
         p = ConstructScriptName(modulerootpath, moduleshortname);
         p = p.generic_wstring();
         if (!boost::filesystem::is_directory(p)) {
-            throw Exception(_W("Path does not exist:") + L"\n" + p.generic_wstring());
+            Error(_W("Path does not exist:") + L"\n" + p.generic_wstring());
         }
     } break;
     default: {
-        throw Exception(_W("Wrong option."));
+        Error(_W("Wrong option."));
     } break;
     }
     return p.generic_wstring();

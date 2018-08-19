@@ -18,7 +18,6 @@
 //=============================================================================
 #include "modulepathBuiltin.hpp"
 #include "Error.hpp"
-#include "Exception.hpp"
 #include "ModulePath.hpp"
 #include "ModulesHelpers.hpp"
 #include "ModulesManager.hpp"
@@ -45,22 +44,22 @@ Nelson::ModulesManagerGateway::modulepathBuiltin(
     // p = modulepath('path', 'module short name', 'builtin')
     ArrayOfVector retval;
     if ((argIn.size() != 1) && (argIn.size() != 3)) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 1) {
         std::wstring moduleshortname = L"";
         if (argIn[0].isSingleString()) {
             moduleshortname = argIn[0].getContentAsWideString();
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         if (IsExistingModuleName(moduleshortname)) {
             retval.push_back(ArrayOf::stringConstructor(GetModulePath(moduleshortname)));
         } else {
-            Error(eval, _W("invalid module name."));
+            Error(_W("invalid module name."));
         }
     } else // argIn.size() == 3
     {
@@ -70,17 +69,17 @@ Nelson::ModulesManagerGateway::modulepathBuiltin(
         if (argIn[0].isSingleString()) {
             modulerootpath = argIn[0].getContentAsWideString();
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         if (argIn[1].isSingleString()) {
             moduleshortname = argIn[1].getContentAsWideString();
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
         if (argIn[2].isSingleString()) {
             option = argIn[2].getContentAsWideString();
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
         }
         if (option.compare(STR_OPTION_ETC) == 0) {
             retval.push_back(ArrayOf::stringConstructor(
@@ -98,7 +97,7 @@ Nelson::ModulesManagerGateway::modulepathBuiltin(
             retval.push_back(ArrayOf::stringConstructor(
                 ModulePath(modulerootpath, moduleshortname, GET_SCRIPT_PATH)));
         } else {
-            Error(eval, _W("Argument #3 must be a valid option."));
+            Error(_W("Argument #3 must be a valid option."));
         }
     }
     return retval;

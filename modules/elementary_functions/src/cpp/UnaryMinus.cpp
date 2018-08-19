@@ -67,7 +67,7 @@ UnaryMinus(const ArrayOf& A)
 {
     if (A.isSparse()) {
         std::string overload = ClassName(A) + "_uminus";
-        throw Exception(_("function") + " " + overload + " " + _("undefined."));
+        Error(_("function") + " " + overload + " " + _("undefined."));
     }
     ArrayOf res;
     switch (A.getDataClass()) {
@@ -111,7 +111,7 @@ UnaryMinus(const ArrayOf& A)
     } break;
     default: {
         std::string overload = ClassName(A) + "_uminus";
-        throw Exception(_("function") + " " + overload + " " + _("undefined."));
+        Error(_("function") + " " + overload + " " + _("undefined."));
     } break;
     }
     return res;

@@ -30,15 +30,15 @@ Nelson::HandleGateway::handle_fieldnamesBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() == 0 || argIn.size() > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     std::wstring handleTypeName = param1.getHandleCategory();
     if (handleTypeName == utf8_to_wstring(NLS_HANDLE_STR) || handleTypeName == L"") {
-        Error(eval, _W("Invalid handle."));
+        Error(_W("Invalid handle."));
     }
     std::wstring ufunctionNameGetHandle = handleTypeName + L"_fieldnames";
     std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
@@ -46,7 +46,7 @@ Nelson::HandleGateway::handle_fieldnamesBuiltin(
     FunctionDef* funcDef = nullptr;
     if (!context->lookupFunction(functionNameGetHandle, funcDef)) {
         std::wstring msg = ufunctionNameGetHandle + L" " + _W("not defined.");
-        Error(eval, msg);
+        Error(msg);
     }
     if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)) {
         ArrayOfVector argInCopy;
@@ -57,7 +57,7 @@ Nelson::HandleGateway::handle_fieldnamesBuiltin(
         retval = funcDef->evaluateFunction(eval, argInCopy, nLhs);
     } else {
         std::wstring msg = ufunctionNameGetHandle + L" " + _W("not defined.");
-        Error(eval, msg);
+        Error(msg);
     }
     return retval;
 }

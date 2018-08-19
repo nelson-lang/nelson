@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "QmlEngine.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "MainGuiObject.hpp"
 #include "QStringConverter.hpp"
 #include "QVariantArrayOf.hpp"
@@ -56,7 +56,7 @@ allocateQmlHandle(QObject* qobj)
     } catch (std::bad_alloc& e) {
         e.what();
         qmlHandle = nullptr;
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     return qmlHandle;
 }
@@ -73,7 +73,7 @@ QmlEngine::setData(std::wstring data)
         QObject* topLevel = component->create();
         if (!topLevel && component->isError()) {
             component->deleteLater();
-            throw Exception(QStringTowstring(component->errorString()));
+            Error(QStringTowstring(component->errorString()));
         }
         std::string classname = std::string(topLevel->metaObject()->className());
         if (topLevel->isWindowType() || (classname == "QQuickAbstractMessageDialog")) {
@@ -96,7 +96,7 @@ QmlEngine::loadQmlFile(std::wstring filename)
         QObject* topLevel = component->create();
         if (!topLevel && component->isError()) {
             component->deleteLater();
-            throw Exception(QStringTowstring(component->errorString()));
+            Error(QStringTowstring(component->errorString()));
         }
         std::string classname = std::string(topLevel->metaObject()->className());
         if (topLevel->isWindowType() || (classname == "QQuickAbstractMessageDialog")) {
@@ -121,7 +121,7 @@ QmlEngine::createQQuickView(std::wstring filename)
         topLevel = view->rootObject();
         if (topLevel == nullptr) {
             view->deleteLater();
-            throw Exception(_W("Cannot create QQuickView."));
+            Error(_W("Cannot create QQuickView."));
         }
         topLevel->setParent(view);
         view->show();
@@ -129,7 +129,7 @@ QmlEngine::createQQuickView(std::wstring filename)
         topLevel->setParent(QMainWindowParent);
         return allocateQmlHandle(topLevel);
     } else {
-        throw Exception(_W("File does not exist:") + L"\n" + filename);
+        Error(_W("File does not exist:") + L"\n" + filename);
     }
     return allocateQmlHandle(topLevel);
 }
@@ -138,7 +138,7 @@ QmlEngine::QmlEngine()
 {
     qmlengine = new QQmlEngine();
     if (qmlengine == nullptr) {
-        throw Exception(_W("QML engine not initialized."));
+        Error(_W("QML engine not initialized."));
     }
     nelsonObject* qobjnelson = new nelsonObject();
     QQmlContext* ctxt = qmlengine->rootContext();
@@ -150,7 +150,7 @@ void
 QmlEngine::clearComponentCache()
 {
     if (qmlengine == nullptr) {
-        throw Exception(_W("QML engine not initialized."));
+        Error(_W("QML engine not initialized."));
     }
     qmlengine->clearComponentCache();
 }
@@ -160,7 +160,7 @@ QmlEngine::importPathList()
 {
     wstringVector res;
     if (qmlengine == nullptr) {
-        throw Exception(_W("QML engine not initialized."));
+        Error(_W("QML engine not initialized."));
     }
     QStringList list = qmlengine->importPathList();
     for (int k = 0; k < list.size(); k++) {
@@ -174,7 +174,7 @@ QmlEngine::pluginPathList()
 {
     wstringVector res;
     if (qmlengine == nullptr) {
-        throw Exception(_W("QML engine not initialized."));
+        Error(_W("QML engine not initialized."));
     }
     QStringList list = qmlengine->pluginPathList();
     for (int k = 0; k < list.size(); k++) {
@@ -187,7 +187,7 @@ void
 QmlEngine::addImportPath(std::wstring path)
 {
     if (qmlengine == nullptr) {
-        throw Exception(_W("QML engine not initialized."));
+        Error(_W("QML engine not initialized."));
     }
     qmlengine->addImportPath(wstringToQString(path));
 }
@@ -196,7 +196,7 @@ void
 QmlEngine::addPluginPath(std::wstring path)
 {
     if (qmlengine == nullptr) {
-        throw Exception(_W("QML engine not initialized."));
+        Error(_W("QML engine not initialized."));
     }
     qmlengine->addPluginPath(wstringToQString(path));
 }
@@ -205,7 +205,7 @@ std::wstring
 QmlEngine::offlineStoragePath()
 {
     if (qmlengine == nullptr) {
-        throw Exception(_W("QML engine not initialized."));
+        Error(_W("QML engine not initialized."));
     }
     return QStringTowstring(qmlengine->offlineStoragePath());
 }
@@ -214,7 +214,7 @@ void
 QmlEngine::setOfflineStoragePath(std::wstring dir)
 {
     if (qmlengine == nullptr) {
-        throw Exception(_W("QML engine not initialized."));
+        Error(_W("QML engine not initialized."));
     }
     qmlengine->setOfflineStoragePath(wstringToQString(dir));
 }
@@ -223,7 +223,7 @@ void
 QmlEngine::collectGarbage()
 {
     if (qmlengine == nullptr) {
-        throw Exception(_W("QML engine not initialized."));
+        Error(_W("QML engine not initialized."));
     }
     qmlengine->collectGarbage();
 }
@@ -243,7 +243,7 @@ errorMessage(QJSValue evaluationResult)
                 + QStringTowstring(evaluationResult.property("lineNumber").toString()) + L"\n"
                 + QStringTowstring(evaluationResult.toString());
         }
-        throw Exception(msg);
+        Error(msg);
     }
 }
 //=============================================================================
@@ -266,7 +266,7 @@ ArrayOf
 QmlEngine::evaluateString(std::wstring program, bool& withOuput)
 {
     if (qmlengine == nullptr) {
-        throw Exception(_W("QML engine not initialized."));
+        Error(_W("QML engine not initialized."));
     }
     QJSValue evaluationResult = qmlengine->evaluate(wstringToQString(program));
     errorMessage(evaluationResult);
@@ -282,14 +282,14 @@ QmlEngine::evaluateFile(std::wstring filename, bool& withOuput)
 {
     QFile qf(wstringToQString(filename));
     if (!qf.exists()) {
-        throw Exception(_W("File does not exist:") + L"\n" + filename);
+        Error(_W("File does not exist:") + L"\n" + filename);
     }
     qf.open(QFile::ReadOnly);
     QString source = QString::fromUtf8(qf.readAll());
     qf.close();
     ArrayOf res;
     if (qmlengine == nullptr) {
-        throw Exception(_W("QML engine not initialized."));
+        Error(_W("QML engine not initialized."));
     }
     QJSValue evaluationResult = qmlengine->evaluate(source, wstringToQString(filename));
     errorMessage(evaluationResult);

@@ -33,7 +33,7 @@ Nelson::ElementaryFunctionsGateway::colonBuiltin(
     } else if (argIn.size() == 3) {
         retval.push_back(OverloadTernaryOperator(eval, argIn[0], argIn[1], argIn[2], "colon"));
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

@@ -38,7 +38,7 @@ Evaluator::shortCutAndOperator(ArrayOf A, ArrayOf B)
                 return ArrayOf::logicalConstructor(a && b);
             }
         } else {
-            throw Exception(_W("Operand to && operator must be convertible to "
+            Error(_W("Operand to && operator must be convertible to "
                                "logical scalar values."));
         }
     }

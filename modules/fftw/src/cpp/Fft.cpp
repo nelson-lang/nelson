@@ -18,7 +18,7 @@
 //=============================================================================
 #include "Fft.hpp"
 #include "ClassName.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "FftHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -27,7 +27,7 @@ ArrayOf
 Fft(ArrayOf X, indexType n, indexType dim)
 {
     if (X.isReferenceType() || X.isHandle()) {
-        throw Exception(
+        Error(
             _("Undefined function 'fft' for input arguments of type") + " '" + ClassName(X) + "'.");
     }
     if (X.isScalar() || X.isEmpty()) {

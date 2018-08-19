@@ -38,7 +38,7 @@ SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf
             ptrJ = new indexType[nnz];
         } catch (std::bad_alloc& e) {
             e.what();
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         int nz = 0;
         void* ptrV = Eigen_SparseToIJV(spA.getDataClass(), dims.getRows(), dims.getColumns(),
@@ -60,7 +60,7 @@ SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf
         N = ArrayOf::doubleConstructor((double)dims.getColumns());
         NNZ = ArrayOf::doubleConstructor((double)spA.nzmax());
     } else {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
     }
 }
 //=============================================================================

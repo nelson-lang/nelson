@@ -28,7 +28,7 @@ Nelson::DoubleGateway::doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
@@ -43,14 +43,14 @@ Nelson::DoubleGateway::doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
             if (bSuccess) {
                 return retval;
             }
-            Error(eval, _W("Conversion to double from handle is not possible."));
+            Error(_W("Conversion to double from handle is not possible."));
         } break;
         case NLS_CELL_ARRAY: {
             retval = OverloadFunction(eval, nLhs, argIn, "double", bSuccess);
             if (bSuccess) {
                 return retval;
             }
-            Error(eval, _W("Conversion to double from cell is not possible."));
+            Error(_W("Conversion to double from cell is not possible."));
         } break;
         case NLS_STRUCT_ARRAY: {
             retval = OverloadFunction(eval, nLhs, argIn, "double", bSuccess);
@@ -58,11 +58,10 @@ Nelson::DoubleGateway::doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
                 return retval;
             }
             if (argIn[0].getStructType() != "struct") {
-                Error(eval,
-                    _("Undefined function 'double' for input arguments of type '")
+                Error(_("Undefined function 'double' for input arguments of type '")
                         + argIn[0].getStructType() + "'.");
             } else {
-                Error(eval, _W("Conversion to double from struct is not possible."));
+                Error(_W("Conversion to double from struct is not possible."));
             }
         } break;
         default:

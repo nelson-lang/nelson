@@ -27,15 +27,15 @@ Nelson::MpiGateway::MPI_FinalizeBuiltin(Evaluator* eval, int nLhs, const ArrayOf
 {
     ArrayOfVector retval;
     if (argIn.size() != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(eval, _W("MPI must be initialized."));
+        Error(_W("MPI must be initialized."));
     }
     int flag = MPI_Finalize();
     retval.push_back(ArrayOf::logicalConstructor(flag));

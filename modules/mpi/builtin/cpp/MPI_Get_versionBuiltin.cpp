@@ -27,10 +27,10 @@ Nelson::MpiGateway::MPI_Get_versionBuiltin(Evaluator* eval, int nLhs, const Arra
 {
     ArrayOfVector retval;
     if (argIn.size() != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int version = 0;
     int subversion = 0;

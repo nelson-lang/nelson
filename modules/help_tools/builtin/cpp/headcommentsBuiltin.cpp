@@ -31,10 +31,10 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring filename = L"";
     if (argIn.size() == 1) {
@@ -52,10 +52,10 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
                         MacroFunctionDef* fm = (MacroFunctionDef*)funcDef;
                         filename = fm->fileName;
                     } else {
-                        Error(eval, _W("built-in have no comments."));
+                        Error(_W("built-in have no comments."));
                     }
                 } else {
-                    Error(eval, _W("function does not exist."));
+                    Error(_W("function does not exist."));
                 }
             }
         } else if (arg1.isFunctionHandle()) {
@@ -66,10 +66,10 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
                     MacroFunctionDef* fm = (MacroFunctionDef*)fun;
                     filename = fm->fileName;
                 } else {
-                    Error(eval, _W("built-in have no comments."));
+                    Error(_W("built-in have no comments."));
                 }
             } else {
-                Error(eval, _W("function does not exist."));
+                Error(_W("function does not exist."));
             }
         }
         HEADCOMMENTS_ERROR err = HEADCOMMENTS_ERROR::MACRO_OK;
@@ -88,10 +88,10 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
             }
         } break;
         case HEADCOMMENTS_ERROR::NOT_A_MACRO: {
-            Error(eval, _W("A valid function expected."));
+            Error(_W("A valid function expected."));
         } break;
         case HEADCOMMENTS_ERROR::FILE_NOT_EXIST: {
-            Error(eval, _W("File does not exist."));
+            Error(_W("File does not exist."));
         } break;
         }
     }

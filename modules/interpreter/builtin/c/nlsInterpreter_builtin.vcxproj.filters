@@ -33,6 +33,9 @@
     <ClCompile Include="..\cpp\max_recursion_depthBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\dbstackBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
@@ -51,6 +54,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\max_recursion_depthBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\dbstackBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

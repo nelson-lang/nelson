@@ -45,6 +45,9 @@
 #include "StartNelsonUserScript.hpp"
 #include "TimeoutThread.hpp"
 #include "characters_encoding.hpp"
+#include "WarningIds.hpp"
+#include "WarningEmitter.h"
+#include "ErrorEmitter.h"
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 #include <locale.h>
@@ -169,12 +172,14 @@ NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
     eval->resetState();
     if (!haveNoStartup) {
         StartNelsonMainScript(eval);
+        eval->clearStacks();
         if (eval->getState() == NLS_STATE_QUIT) {
             goto FINISH;
         }
         eval->resetState();
         if (!haveNoUserStartup) {
             StartNelsonUserScript(eval);
+            eval->clearStacks();
             if (eval->getState() == NLS_STATE_QUIT) {
                 goto FINISH;
             }
@@ -215,6 +220,7 @@ FINISH:
 EXIT:
     int exitCode = eval->getExitCode();
     ::destroyMainEvaluator();
+    clearWarningIdsList();
     return exitCode;
 }
 //=============================================================================
@@ -227,6 +233,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         return exitCode;
     }
     setMaxOpenedFiles();
+    initializeDefaultWarningIdsList();
 #ifdef _MSC_VER
 #if _MSC_VER < 1900
     _set_output_format(_TWO_DIGIT_EXPONENT);
@@ -294,12 +301,14 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     }
     Evaluator* eval = createMainEvaluator(_mode, lang);
     if (eval) {
+        setWarningEvaluator(eval);
+        setErrorEvaluator(eval);
         eval->setQuietMode(bQuietMode);
         eval->setCommandLineArguments(args);
         if (lang != Localization::Instance()->getCurrentLanguage() && !lang.empty()) {
             Interface* io = eval->getInterface();
             Exception e(L"Wrong language.");
-            eval->setLastException(e);
+            eval->setLastErrorException(e);
             io->errorMessage(e.getMessage());
         }
         try {
@@ -312,12 +321,13 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         } catch (Exception& e) {
             e.what();
             Interface* io = eval->getInterface();
-            eval->setLastException(e);
+            eval->setLastErrorException(e);
             io->errorMessage(_W("Nelson cannot load base modules.\n"));
         }
         exitCode = NelsonMainStates(eval, po.haveNoStartup(), po.haveNoUserStartup(),
             commandToExecute, fileToExecute, filesToOpen);
         ::destroyMainEvaluator();
+        clearWarningIdsList();
     } else {
         ErrorInterpreter(_mode);
     }

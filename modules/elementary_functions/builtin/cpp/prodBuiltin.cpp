@@ -30,10 +30,10 @@ Nelson::ElementaryFunctionsGateway::prodBuiltin(
     ArrayOfVector retval;
     size_t nRhs = argIn.size();
     if (nRhs == 0 || nRhs > 4) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
     if (eval->overloadOnBasicTypes) {
@@ -68,7 +68,7 @@ Nelson::ElementaryFunctionsGateway::prodBuiltin(
                         withnan = false;
                     }
                 } else {
-                    Error(eval, _W("Wrong value for #4 argument."));
+                    Error(_W("Wrong value for #4 argument."));
                 }
             } else {
                 d = param2.getContentAsScalarIndex(false);
@@ -82,7 +82,7 @@ Nelson::ElementaryFunctionsGateway::prodBuiltin(
                 if ((wstr1 == L"double") || (wstr1 == L"native") || (wstr1 == L"default")) {
                     strtype = wstr1;
                 } else {
-                    Error(eval, _W("Wrong value for #2 argument."));
+                    Error(_W("Wrong value for #2 argument."));
                 }
                 std::wstring wstr2 = param3.getContentAsWideString();
                 if ((wstr2 == L"includenan") || (wstr2 == L"omitnan")) {
@@ -92,7 +92,7 @@ Nelson::ElementaryFunctionsGateway::prodBuiltin(
                         withnan = false;
                     }
                 } else {
-                    Error(eval, _W("Wrong value for #3 argument."));
+                    Error(_W("Wrong value for #3 argument."));
                 }
             } else {
                 d = param2.getContentAsScalarIndex(false);
@@ -106,7 +106,7 @@ Nelson::ElementaryFunctionsGateway::prodBuiltin(
                         withnan = false;
                     }
                 } else {
-                    Error(eval, _W("Wrong value for #3 argument."));
+                    Error(_W("Wrong value for #3 argument."));
                 }
             }
         } break;
@@ -120,7 +120,7 @@ Nelson::ElementaryFunctionsGateway::prodBuiltin(
             if ((wstr1 == L"double") || (wstr1 == L"native") || (wstr1 == L"default")) {
                 strtype = wstr1;
             } else {
-                Error(eval, _W("Wrong value for #3 argument."));
+                Error(_W("Wrong value for #3 argument."));
             }
             if ((wstr2 == L"includenan") || (wstr2 == L"omitnan")) {
                 if (wstr2 == L"includenan") {
@@ -129,11 +129,11 @@ Nelson::ElementaryFunctionsGateway::prodBuiltin(
                     withnan = false;
                 }
             } else {
-                Error(eval, _W("Wrong value for #4 argument."));
+                Error(_W("Wrong value for #4 argument."));
             }
         } break;
         default: {
-            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         } break;
         }
         retval.push_back(Prod(X, d, strtype, withnan));

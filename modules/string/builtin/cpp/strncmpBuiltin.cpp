@@ -28,10 +28,10 @@ strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool bCase
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 3) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];

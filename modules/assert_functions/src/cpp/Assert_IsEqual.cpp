@@ -18,7 +18,6 @@
 //=============================================================================
 #include "Assert_IsEqual.hpp"
 #include "Error.hpp"
-#include "Exception.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -38,20 +37,20 @@ Assert_IsEqual(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, st
             try {
                 ArrayOfVector resVect = funcDef->evaluateFunction(eval, argInCopy, 1);
                 if (resVect.size() != 1) {
-                    Error(eval, _W("isequaln returns more than one output argument."));
+                    Error(_W("isequaln returns more than one output argument."));
                 }
                 ArrayOf r = resVect[0];
                 if (r.isScalar() && r.isLogical()) {
                     bRes = r.getContentAsLogicalScalar() ? true : false;
                 } else {
-                    Error(eval, _W("isequaln must return an logical."));
+                    Error(_W("isequaln must return an logical."));
                 }
             } catch (Exception) {
-                Error(eval, _W("isequaln returns an unexpected error."));
+                Error(_W("isequaln returns an unexpected error."));
             }
         }
     } else {
-        Error(eval, "isequaln function not found.");
+        Error("isequaln function not found.");
     }
     if (!bRes) {
         msg = _W("Assertion failed: expected and computed values are different.");

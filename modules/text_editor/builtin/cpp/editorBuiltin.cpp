@@ -27,7 +27,7 @@ Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayO
 {
     ArrayOfVector retval;
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     switch (argIn.size()) {
     case 0: {
@@ -38,7 +38,7 @@ Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayO
         editor(eval, filename);
     } break;
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;

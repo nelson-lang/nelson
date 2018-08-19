@@ -221,13 +221,16 @@
     <ClCompile Include="..\cpp\CommandQueue.cpp" />
     <ClCompile Include="..\cpp\Comments.cpp" />
     <ClCompile Include="..\cpp\Context.cpp" />
+    <ClCompile Include="..\cpp\DebugStack.cpp" />
     <ClCompile Include="..\cpp\EqOperator.cpp" />
+    <ClCompile Include="..\cpp\ErrorEmitter.cpp" />
     <ClCompile Include="..\cpp\EvaluateBuiltinCatchRuntimeException.cpp">
       <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Async</ExceptionHandling>
       <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Async</ExceptionHandling>
       <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Async</ExceptionHandling>
       <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Async</ExceptionHandling>
     </ClCompile>
+    <ClCompile Include="..\cpp\Evaluator.cpp" />
     <ClCompile Include="..\cpp\FileFunc.cpp" />
     <ClCompile Include="..\cpp\FileParser.cpp" />
     <ClCompile Include="..\cpp\FileWatcherManager.cpp" />
@@ -235,12 +238,12 @@
     <ClCompile Include="..\cpp\FileWatcher\FileWatcherWin32.cpp" />
     <ClCompile Include="..\cpp\FunctionDef.cpp" />
     <ClCompile Include="..\cpp\GeOperator.cpp" />
-    <ClCompile Include="..\cpp\GtOperator.cpp" />
-    <ClCompile Include="..\cpp\LeOperator.cpp" />
-    <ClCompile Include="..\cpp\LocalFunctionsTable.cpp" />
     <ClCompile Include="..\cpp\GetNelsonMainEvaluatorDynamicFunction.cpp" />
+    <ClCompile Include="..\cpp\GtOperator.cpp" />
     <ClCompile Include="..\cpp\HorzCatOperator.cpp" />
     <ClCompile Include="..\cpp\Keywords.cpp" />
+    <ClCompile Include="..\cpp\LeOperator.cpp" />
+    <ClCompile Include="..\cpp\LocalFunctionsTable.cpp" />
     <ClCompile Include="..\cpp\LtOperator.cpp" />
     <ClCompile Include="..\cpp\MacroFunctionDef.cpp" />
     <ClCompile Include="..\cpp\NelsonLexer.cpp" />
@@ -257,63 +260,17 @@
     <ClCompile Include="..\cpp\ShortCutAndOperator.cpp" />
     <ClCompile Include="..\cpp\ShortCutOrOperator.cpp" />
     <ClCompile Include="..\cpp\StackEntry.cpp" />
-    <ClCompile Include="..\cpp\Evaluator.cpp" />
-    <ClCompile Include="..\cpp\StackError.cpp" />
     <ClCompile Include="..\cpp\SubtractionOperator.cpp" />
     <ClCompile Include="..\cpp\VariablesTable.cpp" />
     <ClCompile Include="..\cpp\VertCatOperator.cpp" />
+    <ClCompile Include="..\cpp\WarningEmitter.cpp" />
     <ClCompile Include="..\grammar\NelSonParser.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\include\ActionMenu.hpp" />
-    <ClInclude Include="..\..\src\include\AST.hpp" />
-    <ClInclude Include="..\..\src\include\BuiltInFunctionDef.hpp" />
-    <ClInclude Include="..\..\src\include\CommandQueue.hpp" />
-    <ClInclude Include="..\..\src\include\Context.hpp" />
-    <ClInclude Include="..\..\src\include\FileParser.hpp" />
-    <ClInclude Include="..\..\src\include\FunctionDef.hpp" />
-    <ClInclude Include="..\..\src\include\GetNelsonMainEvaluatorDynamicFunction.hpp" />
-    <ClInclude Include="..\..\src\include\Keywords.hpp" />
-    <ClInclude Include="..\..\src\include\LexerInterface.hpp" />
-    <ClInclude Include="..\cpp\FileWatcher\FileWatcher.h" />
-    <ClInclude Include="..\cpp\FileWatcher\FileWatcherImpl.h" />
-    <ClInclude Include="..\cpp\FileWatcher\FileWatcherLinux.h" />
-    <ClInclude Include="..\cpp\FileWatcher\FileWatcherOSX.h" />
-    <ClInclude Include="..\cpp\FileWatcher\FileWatcherWin32.h" />
-    <ClInclude Include="..\include\AstManager.hpp" />
-    <ClInclude Include="..\include\BuiltInFunctionDefManager.hpp" />
-    <ClInclude Include="..\include\ByteCode.hpp" />
-    <ClInclude Include="..\include\ByteCodeFunctionDef.hpp" />
-    <ClInclude Include="..\include\CheckIfWhileCondition.hpp" />
-    <ClInclude Include="..\include\Comments.hpp" />
-    <ClInclude Include="..\include\EvaluateBuiltinCatchRuntimeException.hpp" />
-    <ClInclude Include="..\include\FileFunc.hpp" />
-    <ClInclude Include="..\include\FileWatcherManager.hpp" />
-    <ClInclude Include="..\include\LocalFunctionsTable.hpp" />
-    <ClInclude Include="..\include\HorzCatOperator.hpp" />
-    <ClInclude Include="..\include\NelsonGateway.hpp" />
-    <ClInclude Include="..\include\MacroFunctionDef.hpp" />
-    <ClInclude Include="..\..\src\include\nlsInterpreter_exports.h" />
-    <ClInclude Include="..\..\src\include\OverloadDisplay.hpp" />
-    <ClInclude Include="..\..\src\include\ParserInterface.hpp" />
-    <ClInclude Include="..\..\src\include\Scope.hpp" />
-    <ClInclude Include="..\..\src\include\StackEntry.hpp" />
-    <ClInclude Include="..\..\src\include\SymbolTable.hpp" />
-    <ClInclude Include="..\..\src\include\VariablesTable.hpp" />
-    <ClInclude Include="..\..\src\include\Evaluator.hpp" />
-    <ClInclude Include="..\grammar\NelSonParser.h" />
-    <ClInclude Include="..\include\Operators.hpp" />
-    <ClInclude Include="..\include\OverloadCache.hpp" />
-    <ClInclude Include="..\include\ParseFile.hpp" />
-    <ClInclude Include="..\include\ParserState.hpp" />
-    <ClInclude Include="..\include\PathFunc.hpp" />
-    <ClInclude Include="..\include\PathFuncManager.hpp" />
-    <ClInclude Include="..\include\ProcessEventsDynamicFunction.hpp" />
-    <ClInclude Include="..\include\StackError.hpp" />
-    <ClInclude Include="..\include\VertCatOperator.hpp" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="..\..\etc\finish.nls" />
+    <None Include="..\..\etc\startup.nls" />
+    <None Include="..\..\loader.nls" />
     <None Include="..\..\module.iss" />
     <None Include="..\grammar\NelSonParser.yxx" />
   </ItemGroup>
@@ -341,10 +298,56 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\CMakeLists.txt" />
+    <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resources.rc" />
+    <ClInclude Include="..\grammar\NelSonParser.h" />
+    <ClInclude Include="..\include\ActionMenu.hpp" />
+    <ClInclude Include="..\include\AST.hpp" />
+    <ClInclude Include="..\include\AstManager.hpp" />
+    <ClInclude Include="..\include\BuiltInFunctionDef.hpp" />
+    <ClInclude Include="..\include\BuiltInFunctionDefManager.hpp" />
+    <ClInclude Include="..\include\ByteCode.hpp" />
+    <ClInclude Include="..\include\ByteCodeFunctionDef.hpp" />
+    <ClInclude Include="..\include\CheckIfWhileCondition.hpp" />
+    <ClInclude Include="..\include\CommandQueue.hpp" />
+    <ClInclude Include="..\include\Comments.hpp" />
+    <ClInclude Include="..\include\Context.hpp" />
+    <ClInclude Include="..\include\DebugStack.hpp" />
+    <ClInclude Include="..\include\ErrorEmitter.h" />
+    <ClInclude Include="..\include\EvaluateBuiltinCatchRuntimeException.hpp" />
+    <ClInclude Include="..\include\Evaluator.hpp" />
+    <ClInclude Include="..\include\FileFunc.hpp" />
+    <ClInclude Include="..\include\FileParser.hpp" />
+    <ClInclude Include="..\include\FileWatcherManager.hpp" />
+    <ClInclude Include="..\include\FunctionDef.hpp" />
+    <ClInclude Include="..\include\GetNelsonMainEvaluatorDynamicFunction.hpp" />
+    <ClInclude Include="..\include\HorzCatOperator.hpp" />
+    <ClInclude Include="..\include\Keywords.hpp" />
+    <ClInclude Include="..\include\LexerInterface.hpp" />
+    <ClInclude Include="..\include\LocalFunctionsTable.hpp" />
+    <ClInclude Include="..\include\MacroFunctionDef.hpp" />
+    <ClInclude Include="..\include\NelsonGateway.hpp" />
+    <ClInclude Include="..\include\nlsInterpreter_exports.h" />
+    <ClInclude Include="..\include\Operators.hpp" />
+    <ClInclude Include="..\include\OverloadCache.hpp" />
+    <ClInclude Include="..\include\OverloadDisplay.hpp" />
+    <ClInclude Include="..\include\ParseFile.hpp" />
+    <ClInclude Include="..\include\ParserInterface.hpp" />
+    <ClInclude Include="..\include\ParserState.hpp" />
+    <ClInclude Include="..\include\PathFunc.hpp" />
+    <ClInclude Include="..\include\PathFuncManager.hpp" />
+    <ClInclude Include="..\include\PositionScript.hpp" />
+    <ClInclude Include="..\include\ProcessEventsDynamicFunction.hpp" />
+    <ClInclude Include="..\include\Scope.hpp" />
+    <ClInclude Include="..\include\StackEntry.hpp" />
+    <ClInclude Include="..\include\SymbolTable.hpp" />
+    <ClInclude Include="..\include\VariablesTable.hpp" />
+    <ClInclude Include="..\include\VertCatOperator.hpp" />
+    <ClInclude Include="..\include\WarningEmitter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

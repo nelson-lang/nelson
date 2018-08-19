@@ -30,7 +30,7 @@ std::wstring
 RngGetType(Evaluator* eval)
 {
     if (eval->RandomEngine == nullptr) {
-        Error(eval, _W("random engine not initialized."));
+        Error(_W("random engine not initialized."));
     }
     RandomInterface* randEngine = (RandomInterface*)eval->RandomEngine;
     return randEngine->getGeneratorName();
@@ -40,7 +40,7 @@ void
 RngSetSeed(Evaluator* eval, double seed)
 {
     if (eval->RandomEngine == nullptr) {
-        Error(eval, _W("random engine not initialized."));
+        Error(_W("random engine not initialized."));
     }
     RandomInterface* randEngine = (RandomInterface*)eval->RandomEngine;
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
@@ -67,7 +67,7 @@ ArrayOf
 RngGetSeed(Evaluator* eval)
 {
     if (eval->RandomEngine == nullptr) {
-        Error(eval, _W("random engine not initialized."));
+        Error(_W("random engine not initialized."));
     }
     RandomInterface* randEngine = (RandomInterface*)eval->RandomEngine;
     ArrayOf res;
@@ -93,7 +93,7 @@ ArrayOf
 RngGetState(Evaluator* eval)
 {
     if (eval->RandomEngine == nullptr) {
-        Error(eval, _W("random engine not initialized."));
+        Error(_W("random engine not initialized."));
     }
     ArrayOf state;
     RandomInterface* randEngine = (RandomInterface*)eval->RandomEngine;
@@ -152,7 +152,7 @@ RngSetDefault(Evaluator* eval)
         eval->RandomEngine = (void*)new RandomMersenneTwister();
     }
     if (eval->RandomEngine == nullptr) {
-        Error(eval, _W("random engine not initialized."));
+        Error(_W("random engine not initialized."));
     }
 }
 //=============================================================================
@@ -160,7 +160,7 @@ void
 RngShuffle(Evaluator* eval)
 {
     if (eval->RandomEngine == nullptr) {
-        Error(eval, _W("random engine not initialized."));
+        Error(_W("random engine not initialized."));
     }
     RandomInterface* randEngine = (RandomInterface*)eval->RandomEngine;
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
@@ -187,7 +187,7 @@ bool
 RngSetEngine(Evaluator* eval, double seed, std::wstring engineName)
 {
     if (eval->RandomEngine == nullptr) {
-        Error(eval, _W("random engine not initialized."));
+        Error(_W("random engine not initialized."));
     }
     if (isRngType(engineName)) {
         RngDelete(eval);
@@ -204,11 +204,11 @@ RngSetEngine(Evaluator* eval, double seed, std::wstring engineName)
         } break;
         }
         if (eval->RandomEngine == nullptr) {
-            Error(eval, _W("random engine not initialized."));
+            Error(_W("random engine not initialized."));
         }
         RngSetSeed(eval, seed);
     } else {
-        Error(eval, _W("A valid generator expected."));
+        Error(_W("A valid generator expected."));
     }
     return false;
 }
@@ -242,15 +242,15 @@ RngSetState(Evaluator* eval, ArrayOf st)
                 } else {
                     std::wstring msg = _W("dimensions of state must be") + L" "
                         + std::to_wstring(randEngine->getStateSize()) + std::wstring(L"x1.");
-                    Error(eval, msg);
+                    Error(msg);
                 }
             } else {
                 std::wstring msg = _W("dimensions of state must be") + L" "
                     + std::to_wstring(randEngine->getStateSize()) + std::wstring(L"x1.");
-                Error(eval, msg);
+                Error(msg);
             }
         } else {
-            Error(eval, _W("type of state must be uint32."));
+            Error(_W("type of state must be uint32."));
         }
     } break;
     case RNG_TWISTER64: {
@@ -265,15 +265,15 @@ RngSetState(Evaluator* eval, ArrayOf st)
                 } else {
                     std::wstring msg = _W("dimensions of state must be") + L" "
                         + std::to_wstring(randEngine->getStateSize()) + std::wstring(L"x1.");
-                    Error(eval, msg);
+                    Error(msg);
                 }
             } else {
                 std::wstring msg = _W("dimensions of state must be") + L" "
                     + std::to_wstring(randEngine->getStateSize()) + std::wstring(L"x1.");
-                Error(eval, msg);
+                Error(msg);
             }
         } else {
-            Error(eval, _W("type of state must be uint64."));
+            Error(_W("type of state must be uint64."));
         }
     } break;
     case RNG_LAGGED_FIBONACCI_607: {
@@ -288,15 +288,15 @@ RngSetState(Evaluator* eval, ArrayOf st)
                 } else {
                     std::wstring msg = _W("dimensions of state must be") + L" "
                         + std::to_wstring(randEngine->getStateSize()) + std::wstring(L"x1.");
-                    Error(eval, msg);
+                    Error(msg);
                 }
             } else {
                 std::wstring msg = _W("dimensions of state must be") + L" "
                     + std::to_wstring(randEngine->getStateSize()) + std::wstring(L"x1.");
-                Error(eval, msg);
+                Error(msg);
             }
         } else {
-            Error(eval, _W("type of state must be uint32."));
+            Error(_W("type of state must be uint32."));
         }
     } break;
     }

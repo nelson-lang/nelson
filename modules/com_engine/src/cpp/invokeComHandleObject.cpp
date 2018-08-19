@@ -18,7 +18,7 @@
 //=============================================================================
 #include "invokeComHandleObject.hpp"
 #include "ComHandleObject.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "HandleManager.hpp"
 #include "VariantConversionHelpers.hpp"
 #include "characters_encoding.hpp"
@@ -37,22 +37,22 @@ invokeComHandleObject(
     ArrayOf res;
     haveReturnValue = false;
     if (params.size() > NB_PARAMS_MAX) {
-        throw Exception(_W("Only 7 input parameters expected."));
+        Error(_W("Only 7 input parameters expected."));
     }
     if (A.getHandleCategory() != COM_CATEGORY_STR) {
-        throw Exception(_W("COM handle expected."));
+        Error(_W("COM handle expected."));
     }
     ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     void* ptr = comhandleobj->getPointer();
     if (ptr == nullptr) {
-        throw Exception(_W("COM valid handle expected."));
+        Error(_W("COM valid handle expected."));
     }
     const VARIANT* pVariant = (VARIANT*)ptr;
-    VARIANT* pVarResult;
+    VARIANT* pVarResult = nullptr;
     try {
         pVarResult = new VARIANT;
     } catch (std::bad_alloc) {
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     if (pVarResult) {
         size_t nbParams = params.size();
@@ -63,7 +63,7 @@ invokeComHandleObject(
             } catch (std::bad_alloc) {
                 delete pVarResult;
                 pVarResult = nullptr;
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
             std::wstring errorMessage;
             for (size_t k = 0; k < nbParams; k++) {
@@ -71,7 +71,7 @@ invokeComHandleObject(
                 if (!bSuccess) {
                     delete[] args;
                     args = nullptr;
-                    throw Exception(errorMessage);
+                    Error(errorMessage);
                 }
             }
         }
@@ -93,13 +93,13 @@ invokeComHandleObject(
                 if (!bSuccess) {
                     delete pVarResult;
                     pVarResult = nullptr;
-                    throw Exception(errorMessage);
+                    Error(errorMessage);
                 }
             }
         } else {
             delete pVarResult;
             pVarResult = nullptr;
-            throw Exception(errorMessage);
+            Error(errorMessage);
         }
     }
     return res;

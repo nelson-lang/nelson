@@ -40,7 +40,7 @@ TransposeSparseDouble(ArrayOf A)
             } catch (std::bad_alloc& e) {
                 e.what();
                 spMatC = nullptr;
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
             *spMatC = spMatA->transpose();
             Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());
@@ -55,7 +55,7 @@ TransposeSparseDouble(ArrayOf A)
             } catch (std::bad_alloc& e) {
                 e.what();
                 spMatC = nullptr;
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
             *spMatC = spMatA->transpose();
             Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());

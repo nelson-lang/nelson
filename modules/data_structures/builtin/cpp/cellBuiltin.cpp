@@ -29,7 +29,7 @@ Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const Arra
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0) {
         indexType index = (indexType)0;
@@ -45,14 +45,14 @@ Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const Arra
                     ArrayOf arg = argIn[0];
                     double dindex = arg.getContentAsDoubleScalar();
                     if (!std::isfinite(dindex)) {
-                        Error(eval, ERROR_WRONG_ARGUMENT_1_FINITE_SCALAR_INTEGER_VALUE_EXPECTED);
+                        Error(ERROR_WRONG_ARGUMENT_1_FINITE_SCALAR_INTEGER_VALUE_EXPECTED);
                     }
                     if (dindex < 0) {
                         dindex = 0;
                     }
                     indexType index = (indexType)dindex;
                     if ((double)index != dindex) {
-                        Error(eval, ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
+                        Error(ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
                     }
                     Dimensions dims(index, index);
                     ArrayOf* elements = new ArrayOf[index * index];
@@ -68,16 +68,14 @@ Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const Arra
                     for (indexType k = 0; k < (indexType)arg.getLength(); k++) {
                         double _dIndex = dindex[k];
                         if (!std::isfinite(_dIndex)) {
-                            Error(
-                                eval, ERROR_WRONG_ARGUMENT_1_FINITE_VECTOR_INTEGER_VALUE_EXPECTED);
+                            Error(ERROR_WRONG_ARGUMENT_1_FINITE_VECTOR_INTEGER_VALUE_EXPECTED);
                         }
                         if (_dIndex < 0) {
                             _dIndex = 0;
                         }
                         indexType index = (indexType)_dIndex;
                         if ((double)index != _dIndex) {
-                            Error(
-                                eval, ERROR_WRONG_ARGUMENT_1_FINITE_VECTOR_INTEGER_VALUE_EXPECTED);
+                            Error(ERROR_WRONG_ARGUMENT_1_FINITE_VECTOR_INTEGER_VALUE_EXPECTED);
                         }
                         dims.setDimensionLength(k, index);
                     }
@@ -90,10 +88,10 @@ Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const Arra
                     retval.push_back(c);
                 }
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_OR_ROW_VECTOR_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_OR_ROW_VECTOR_EXPECTED);
             }
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
         }
     } else {
         Dimensions dims(argIn.size());
@@ -103,29 +101,25 @@ Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const Arra
                     ArrayOf arg = argIn[k];
                     double dindex = arg.getContentAsDoubleScalar();
                     if (!std::isfinite(dindex)) {
-                        Error(eval,
-                            StringFormat(
-                                ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED.c_str(),
-                                k + 1));
+                        Error(StringFormat(
+                            ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED.c_str(),
+                            k + 1));
                     }
                     if (dindex < 0) {
                         dindex = 0;
                     }
                     indexType index = (indexType)dindex;
                     if ((double)index != dindex) {
-                        Error(eval,
-                            StringFormat(
-                                ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED.c_str(),
-                                k + 1));
+                        Error(StringFormat(
+                            ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED.c_str(),
+                            k + 1));
                     }
                     dims.setDimensionLength(k, index);
                 } else {
-                    Error(eval,
-                        StringFormat(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED.c_str(), k + 1));
+                    Error(StringFormat(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED.c_str(), k + 1));
                 }
             } else {
-                Error(
-                    eval, StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_DOUBLE_EXPECTED.c_str(), k + 1));
+                Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_DOUBLE_EXPECTED.c_str(), k + 1));
             }
         }
         dims.simplify();

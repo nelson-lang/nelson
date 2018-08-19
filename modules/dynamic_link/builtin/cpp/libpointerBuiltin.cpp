@@ -27,7 +27,7 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(Evaluator* eval, int nLhs, const A
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     LibPointerObject* libPointerObject = nullptr;
     std::wstring DataType;
@@ -37,7 +37,7 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(Evaluator* eval, int nLhs, const A
         try {
             libPointerObject = new LibPointerObject();
         } catch (std::bad_alloc) {
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         } catch (Exception) {
             throw;
         }
@@ -47,7 +47,7 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(Evaluator* eval, int nLhs, const A
         try {
             libPointerObject = new LibPointerObject(DataType);
         } catch (std::bad_alloc) {
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         } catch (Exception) {
             throw;
         }
@@ -58,13 +58,13 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(Evaluator* eval, int nLhs, const A
         try {
             libPointerObject = new LibPointerObject(DataType, Value);
         } catch (std::bad_alloc) {
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         } catch (Exception) {
             throw;
         }
     } break;
     default:
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         break;
     }
     retval.push_back(ArrayOf::handleConstructor(libPointerObject));

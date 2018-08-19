@@ -27,7 +27,7 @@ Nelson::CoreGateway::formatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     ArrayOfVector retval;
     if (argIn.size() == 0) {
         if (nLhs > 1) {
-            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         if (nLhs == 1) {
             switch (eval->getCurrentOutputFormatDisplay()) {
@@ -47,7 +47,7 @@ Nelson::CoreGateway::formatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                 retval.push_back(ArrayOf::stringConstructor(L"hex"));
             } break;
             default: {
-                Error(eval, L"Unexpected format.");
+                Error(L"Unexpected format.");
             } break;
             }
         } else {
@@ -60,7 +60,7 @@ Nelson::CoreGateway::formatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             std::wstring str = argIn[0].getContentAsWideString();
             if (str.compare(L"get") == 0) {
                 if (nLhs > 1) {
-                    Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                    Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
                 }
                 switch (eval->getCurrentOutputFormatDisplay()) {
                 case NLS_FORMAT_SHORT: {
@@ -79,12 +79,12 @@ Nelson::CoreGateway::formatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                     retval.push_back(ArrayOf::stringConstructor(L"hex"));
                 } break;
                 default: {
-                    Error(eval, L"Unexpected format.");
+                    Error(L"Unexpected format.");
                 } break;
                 }
             } else {
                 if (nLhs != 0) {
-                    Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                    Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
                 }
                 if (str.compare(L"short") == 0) {
                     eval->setCurrentOutputFormatDisplay(NLS_FORMAT_SHORT);
@@ -97,14 +97,14 @@ Nelson::CoreGateway::formatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                 } else if (str.compare(L"hex") == 0) {
                     eval->setCurrentOutputFormatDisplay(NLS_FORMAT_HEX);
                 } else {
-                    Error(eval, _W("unexpected format."));
+                    Error(_W("unexpected format."));
                 }
             }
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

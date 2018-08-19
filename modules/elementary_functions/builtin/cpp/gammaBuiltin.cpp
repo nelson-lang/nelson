@@ -30,10 +30,10 @@ Nelson::ElementaryFunctionsGateway::gammaBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
     if (eval->overloadOnBasicTypes) {
@@ -42,14 +42,14 @@ Nelson::ElementaryFunctionsGateway::gammaBuiltin(
     if (!bSuccess) {
         if (argIn[0].isSparse() || argIn[0].getDataClass() == NLS_DCOMPLEX
             || argIn[0].getDataClass() == NLS_SCOMPLEX) {
-            Error(eval, _W("Input argument must be dense and real."));
+            Error(_W("Input argument must be dense and real."));
         }
         if (argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_SINGLE) {
             retval.push_back(Gamma(argIn[0]));
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "gamma", bSuccess);
             if (!bSuccess) {
-                Error(eval,
+                Error(
                     _("Undefined function 'gamma' for input arguments of type") + " '"
                         + ClassName(argIn[0]) + "'.");
             }

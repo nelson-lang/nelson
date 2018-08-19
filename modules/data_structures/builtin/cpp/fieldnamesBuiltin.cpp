@@ -30,7 +30,7 @@ Nelson::DataStructuresGateway::fieldnamesBuiltin(
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
     if (eval->overloadOnBasicTypes) {
@@ -38,7 +38,7 @@ Nelson::DataStructuresGateway::fieldnamesBuiltin(
     }
     if (!bSuccess) {
         if (argIn.size() != 1) {
-            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
         ArrayOf arg1 = argIn[0];
         if (arg1.isClassStruct() || arg1.isHandle()) {
@@ -46,8 +46,7 @@ Nelson::DataStructuresGateway::fieldnamesBuiltin(
             if (bSuccess) {
                 return retval;
             }
-            Error(
-                eval, utf8_to_wstring(arg1.getStructType()) + L"_fieldnames " + _W("not defined."));
+            Error(utf8_to_wstring(arg1.getStructType()) + L"_fieldnames " + _W("not defined."));
         } else {
             if (arg1.isStruct()) {
                 if (arg1.isEmpty()) {
@@ -64,7 +63,7 @@ Nelson::DataStructuresGateway::fieldnamesBuiltin(
                 if (bSuccess) {
                     return retval;
                 }
-                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
             }
         }
     }

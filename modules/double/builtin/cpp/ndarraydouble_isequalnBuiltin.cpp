@@ -28,10 +28,10 @@ Nelson::DoubleGateway::ndarraydouble_isequalnBuiltin(
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bRes = double_isequaln(argIn[0], argIn[1]);
     retval.push_back(ArrayOf::logicalConstructor(bRes));

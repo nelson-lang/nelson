@@ -21,6 +21,7 @@
 #include "VertCatSparseLogical.hpp"
 #include "HorzCatSparseLogical.hpp"
 #include "CtransposeSparseLogical.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -29,10 +30,10 @@ VertCatSparseLogical(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;
     if (!A.isSparseLogicalType()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
     }
     if (!B.isSparseLogicalType()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED);
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);

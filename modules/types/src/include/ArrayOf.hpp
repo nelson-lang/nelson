@@ -38,7 +38,6 @@
 
 #pragma once
 #include "Dimensions.hpp"
-#include "Exception.hpp"
 #include "HandleGenericObject.hpp"
 #include "Interface.hpp"
 #include "Types.hpp"
@@ -937,49 +936,49 @@ public:
      * Throws an exception if we are not a scalar logical type.
      */
     logical
-    getContentAsLogicalScalar() const;
+    getContentAsLogicalScalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an integer 8 bits scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     int8
-    getContentAsInteger8Scalar();
+    getContentAsInteger8Scalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as an unsigned integer 8 bits scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     uint8
-    getContentAsUnsignedInteger8Scalar();
+    getContentAsUnsignedInteger8Scalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as an integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     int16
-    getContentAsInteger16Scalar();
+    getContentAsInteger16Scalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as an unsigned integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     uint16
-    getContentAsUnsignedInteger16Scalar();
+    getContentAsUnsignedInteger16Scalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as an integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     int32
-    getContentAsInteger32Scalar();
+    getContentAsInteger32Scalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as an unsigned integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     uint32
-    getContentAsUnsignedInteger32Scalar();
+    getContentAsUnsignedInteger32Scalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as a double scalar.
@@ -987,21 +986,21 @@ public:
      * be converted to a double precision value.
      */
     double
-    getContentAsDoubleScalar();
+    getContentAsDoubleScalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as an unsigned integer scalar 64.
      * Throws an exception if we are not a scalar integer type.
      */
     uint64
-    getContentAsUnsignedInt64Scalar();
+    getContentAsUnsignedInt64Scalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as an integer scalar 64.
      * Throws an exception if we are not a scalar integer type.
      */
     int64
-    getContentAsInteger64Scalar();
+    getContentAsInteger64Scalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as a index type scalar.
@@ -1020,7 +1019,7 @@ public:
      * be converted to a double precision value.
      */
     doublecomplex
-    getContentAsDoubleComplexScalar();
+    getContentAsDoubleComplexScalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as a float scalar.
@@ -1028,7 +1027,7 @@ public:
      * be converted to a double precision value.
      */
     single
-    getContentAsSingleScalar();
+    getContentAsSingleScalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as a single complex scalar.
@@ -1036,7 +1035,7 @@ public:
      * be converted to a single precision value.
      */
     std::complex<single>
-    getContentAsSingleComplexScalar();
+    getContentAsSingleComplexScalar(bool arrayAsScalar = false);
 
     /**
      * Returns true if the given Class is either NLS_CELL_ARRAY or

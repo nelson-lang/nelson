@@ -40,7 +40,7 @@ FinishNelsonMainScript(Evaluator* eval)
                 CloseAllFiles();
                 Interface* io = eval->getInterface();
                 e.what();
-                eval->setLastException(e);
+                eval->setLastErrorException(e);
                 std::wstring errmsg = _W("Main finish.nls failed to run.");
                 if (io) {
                     io->errorMessage(errmsg);

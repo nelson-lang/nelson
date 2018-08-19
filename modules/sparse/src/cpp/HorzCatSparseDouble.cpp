@@ -19,6 +19,7 @@
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include "HorzCatSparseDouble.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,10 +28,10 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;
     if (!A.isSparseDoubleType()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
     }
     if (!B.isSparseDoubleType()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_DOUBLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_DOUBLE_EXPECTED);
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);
@@ -43,7 +44,7 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getRows() != dimsB.getRows()) {
-        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     if (A.isComplex() || B.isComplex()) {
         A.promoteType(NLS_DCOMPLEX);
@@ -65,7 +66,7 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
         } catch (std::bad_alloc& e) {
             e.what();
             spMatC = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         spMatC->middleCols(0, spMatA->cols()) = *spMatA;
         spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;
@@ -88,7 +89,7 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
         } catch (std::bad_alloc& e) {
             e.what();
             spMatC = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         spMatC->middleCols(0, spMatA->cols()) = *spMatA;
         spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;

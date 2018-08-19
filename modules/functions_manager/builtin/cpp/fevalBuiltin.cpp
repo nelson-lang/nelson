@@ -28,7 +28,7 @@ ArrayOfVector
 Nelson::FunctionsGateway::fevalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() < 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     Context* context = eval->getContext();
     FunctionDef* funcDef = nullptr;
@@ -44,13 +44,13 @@ Nelson::FunctionsGateway::fevalBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         if (found) {
             fname = wstring_to_utf8(functionname);
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
         }
     } else {
         fname = param1.getContentAsCString();
     }
     if (!context->lookupFunction(fname, funcDef)) {
-        Error(eval, _W("function \'") + utf8_to_wstring(fname) + _W("\' is not a function."));
+        Error(_W("function \'") + utf8_to_wstring(fname) + _W("\' is not a function."));
     }
     ArrayOfVector newarg(argIn);
     newarg.erase(newarg.begin());

@@ -18,7 +18,6 @@
 //=============================================================================
 #include "Assert_IsApprox.hpp"
 #include "Error.hpp"
-#include "Exception.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -40,20 +39,20 @@ Assert_IsApprox(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, d
             try {
                 ArrayOfVector resVect = funcDef->evaluateFunction(eval, argInCopy, 1);
                 if (resVect.size() != 1) {
-                    Error(eval, _W("isapprox returns more than one output argument."));
+                    Error(_W("isapprox returns more than one output argument."));
                 }
                 ArrayOf r = resVect[0];
                 if (r.isScalar() && r.isLogical()) {
                     bRes = r.getContentAsLogicalScalar() ? true : false;
                 } else {
-                    Error(eval, _W("isapprox must return an logical."));
+                    Error(_W("isapprox must return an logical."));
                 }
             } catch (Exception) {
                 throw;
             }
         }
     } else {
-        Error(eval, "isapprox function not found.");
+        Error("isapprox function not found.");
     }
     if (!bRes) {
         msg = _W("Assertion failed: expected and computed values are too different.");

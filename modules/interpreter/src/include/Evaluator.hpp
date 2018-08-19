@@ -37,17 +37,20 @@
 // DEALINGS IN THE SOFTWARE.
 
 #pragma once
-#include <stack>
-#include <vector>
 #include "AST.hpp"
+#include "ArrayOf.hpp"
+#include "CommandQueue.hpp"
 #include "Context.hpp"
 #include "FunctionDef.hpp"
-#include "ArrayOf.hpp"
+#include "Error.hpp"
 #include "Interface.hpp"
-#include "nlsInterpreter_exports.h"
 #include "StackEntry.hpp"
-#include "CommandQueue.hpp"
+#include "Warning.hpp"
+#include "PositionScript.hpp"
+#include "nlsInterpreter_exports.h"
 #include "Exception.hpp"
+#include <stack>
+#include <vector>
 
 namespace Nelson {
 
@@ -69,6 +72,7 @@ typedef enum
     NLS_STATE_QUIT = 4,
     NLS_STATE_ABORT = 5
 } State;
+
 class Context;
 
 /**
@@ -108,12 +112,13 @@ class NLSINTERPRETER_IMPEXP Evaluator
     /**
      * The last error that occured.
      */
-    Exception* lastException;
+    Exception lastErrorException;
 
     /**
      * The last warning that occured.
      */
-    std::wstring lastwarn = L"";
+    Exception lastWarningException;
+
     /**
      * autostop storage flag
      */
@@ -135,7 +140,7 @@ class NLSINTERPRETER_IMPEXP Evaluator
 
     bool InCLI;
 
-    std::string
+    std::wstring
     buildPrompt();
     OutputFormatDisplay currentOutputFormatDisplay;
 
@@ -171,6 +176,12 @@ public:
     bool
     getCLI();
 
+    /**
+     * Get the context we are running with.
+     */
+    Context*
+    getContext();
+
     bool debugActive;
 
     void
@@ -194,8 +205,7 @@ public:
     listBreakpoints();
     void
     deleteBreakpoint(int number);
-    void
-    stackTrace(bool includeCurrent);
+
     stringVector
     getCallers(bool includeCurrent);
 
@@ -300,8 +310,9 @@ public:
     rowDefinition(ASTPtr t);
     /**
      * Convert a matrix definition of the form: [expr1,expr2;expr3;expr4] into
-     * a vector of row definitions.  The first row is the vector [expr1,expr2], and
-     * the second is the vector [expr3,expr4].  The AST input should look like:
+     * a vector of row definitions.  The first row is the vector [expr1,expr2],
+     * and the second is the vector [expr3,expr4].  The AST input should look
+     * like:
      *  []
      *   |
      *   ;-> ; -> ... -> NULL
@@ -313,8 +324,9 @@ public:
     matrixDefinition(ASTPtr t);
     /**
      * Convert a cell defintion of the form: {expr1,expr2;expr3;expr4} into
-     * a vector of row definitions.  The first row is the vector {expr1,expr2}, and
-     * the second is the vector {expr3,expr4}.  The AST input should look like:
+     * a vector of row definitions.  The first row is the vector {expr1,expr2},
+     * and the second is the vector {expr3,expr4}.  The AST input should look
+     * like:
      *  {}
      *   |
      *   ;-> ; -> ... -> NULL
@@ -693,57 +705,20 @@ public:
     void
     evalCLI();
     /**
-     * Get the context we are running with.
-     */
-    Context*
-    getContext();
-    /**
      * The workhorse routine - "evaluate" the contents of a string
      * and execute it.
      */
     bool
-    evaluateString(std::string cmdToEvaluate, bool propogateException = true);
+    evaluateString(const std::string& cmdToEvaluate, bool propogateException = true);
     bool
-    evaluateString(std::wstring cmdToEvaluate, bool propogateException = true);
+    evaluateString(const std::wstring& cmdToEvaluate, bool propogateException = true);
 
     std::wstring
     getCurrentEvaluateFilename();
     void
-    pushEvaluateFilenameList(const std::wstring filename);
+    pushEvaluateFilenameList(const std::wstring& filename);
     void
     popEvaluateFilenameList();
-
-    /**
-     * Get the last error that occurred.
-     */
-    std::wstring
-    getLastErrorString();
-
-    Exception
-    getLastException();
-    bool
-    setLastException(Exception e);
-
-    /**
-     * Set the text for the last error.
-     */
-    void
-    setLastErrorString(std::wstring txt);
-    void
-    setLastErrorString(std::string txt);
-
-    /**
-     * Get the last warning that occurred.
-     */
-    std::wstring
-    getLastWarningString();
-    /**
-     * Set the text for the last warning.
-     */
-    void
-    setLastWarningString(std::string msg);
-    void
-    setLastWarningString(std::wstring msg);
 
     /*
      * time value used by tic toc
@@ -787,7 +762,37 @@ public:
     setQuietMode(bool _quiet);
 
     void
-    addCommandToQueue(std::wstring command, bool bIsPriority = false);
+    addCommandToQueue(const std::wstring& command, bool bIsPriority = false);
+
+    /**
+     * Get the last error that occurred.
+     */
+    Exception
+    getLastErrorException();
+    bool
+    setLastErrorException(const Exception& e);
+
+    /**
+     * reset last error
+     */
+    void
+    resetLastErrorException();
+
+    /**
+     * Get the last warning that occurred.
+     */
+    Exception
+    getLastWarningException();
+    /**
+     * Set the text for the last warning.
+     */
+    bool
+    setLastWarningException(const Exception& e);
+    /**
+     * reset last warning
+     */
+    void
+    resetLastWarningException();
 
     typedef ArrayOf (*UnaryFunction)(const ArrayOf& A);
     typedef ArrayOf (*BinaryFunction)(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess);
@@ -886,4 +891,4 @@ NLSINTERPRETER_IMPEXP void
 sigInterrupt(int arg);
 NLSINTERPRETER_IMPEXP void
 ExitInterrupt(int arg);
-}
+} // namespace Nelson

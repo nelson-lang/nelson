@@ -74,7 +74,7 @@
 #include "Evaluator.hpp"
 #include "FunctionDef.hpp"
 #include "ParserInterface.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "FileParser.hpp"
 #include "i18n.hpp"
 
@@ -152,7 +152,7 @@ namespace Nelson {
        xStr.c_str(),linenumber,colnumber,getParserFilenameU().c_str());
     else
       snprintf(msgBuffer,MSGBUFLEN,_("Expecting %s").c_str(),xStr.c_str());
-    throw Exception(msgBuffer);
+    Error(msgBuffer);
     return 0;
   }
 }
@@ -3482,22 +3482,22 @@ namespace Nelson {
       return FuncDef;
   }
   
-  ParserState parseString(std::string txt) {
+  ParserState parseString(const std::string &txt) {
     resetParser();
     interactiveMode = true;
-    setLexBuffer(txt.c_str());
+    setLexBuffer(txt);
     yyparse();
     return parseState();
   }
   
-  ParserState parseFile(FILE *fp, const char* fname) {
+  ParserState parseFile(FILE *fp, const std::string &fname) {
     resetParser();
     interactiveMode = false;
-  setParserFilename(fname);
+    setParserFilename(fname);
     setLexFile(fp);
     yyparse();
-  ParserState pstate = parseState();
-  setParserFilename("");
+    ParserState pstate = parseState();
+    setParserFilename("");
     return pstate;
   }
 // clang-format on

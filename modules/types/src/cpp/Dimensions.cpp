@@ -41,7 +41,7 @@
 #include <cstring>
 #include <stdio.h>
 #include "Dimensions.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 
 #ifdef _MSC_VER
 #define snprintf _snprintf
@@ -65,11 +65,11 @@ Dimensions::Dimensions(indexType rows, indexType cols)
     length = 2;
 }
 
-Dimensions::Dimensions(indexType dimCount) throw(Exception)
+Dimensions::Dimensions(indexType dimCount)
 {
 #ifndef NLS_INDEX_TYPE_64
     if (dimCount < 0) {
-        throw Exception(_W("Illegal argument to Dimensions constructor"));
+        Error(_W("Illegal argument to Dimensions constructor"));
     }
 #endif
     memset(data, 0, sizeof(indexType) * dimCount);
@@ -86,11 +86,11 @@ Dimensions::getMax()
     return maxL;
 }
 
-indexType& Dimensions::operator[](indexType i) throw(Exception)
+indexType& Dimensions::operator[](indexType i)
 {
     if (i >= maxDims) {
-        throw Exception(_("Too many dimensions! Current limit is") + " "
-            + std::to_string(Nelson::maxDims) + ".");
+        Error(_("Too many dimensions! Current limit is") + " " + std::to_string(Nelson::maxDims)
+            + ".");
     }
     if (i >= length) {
         indexType new_length = i + 1;
@@ -164,7 +164,7 @@ Dimensions::setDimensionLength(indexType dim, indexType len)
 }
 
 indexType
-Dimensions::mapPoint(const Dimensions& point) throw(Exception)
+Dimensions::mapPoint(const Dimensions& point)
 {
     indexType retval;
     indexType nextCoeff;
@@ -174,14 +174,14 @@ Dimensions::mapPoint(const Dimensions& point) throw(Exception)
     testableDims = (point.length < length) ? point.length : length;
     for (indexType i = 0; i < testableDims; i++) {
         if ((point.data[i] < 0) || (point.data[i] >= data[i])) {
-            throw Exception(_W("Index exceeds dimensions."));
+            Error(_W("Index exceeds dimensions."));
         }
         retval += nextCoeff * point.data[i];
         nextCoeff *= data[i];
     }
     for (sizeType j = testableDims; j < point.length; j++) {
         if (point.data[j] != 0) {
-            throw Exception(_W("Index exceeds dimensions."));
+            Error(_W("Index exceeds dimensions."));
         }
     }
     return retval;

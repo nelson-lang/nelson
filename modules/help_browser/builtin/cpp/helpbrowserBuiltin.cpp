@@ -29,17 +29,17 @@ Nelson::HelpBrowserGateway::helpbrowserBuiltin(
 {
     if (argIn.size() == 0) {
         if (nLhs != 0) {
-            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         std::wstring msg;
         if (!HelpBrowser::getInstance()->startBrowser(msg)) {
-            Error(eval, msg);
+            Error(msg);
         }
     } else if (argIn.size() == 1) {
         std::wstring param1 = argIn[0].getContentAsWideString();
         if (param1 == L"-cache" || param1 == L"-attributes") {
             if (nLhs > 1) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             ArrayOfVector retval;
             if (param1 == L"-cache") {
@@ -51,7 +51,7 @@ Nelson::HelpBrowserGateway::helpbrowserBuiltin(
             return retval;
         } else {
             if (nLhs != 0) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             if (param1 == L"-close") {
                 HelpBrowser::getInstance()->closeBrowser();
@@ -60,12 +60,12 @@ Nelson::HelpBrowserGateway::helpbrowserBuiltin(
             } else if (param1 == L"-sync") {
                 HelpBrowser::getInstance()->syncBrowser();
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+                Error(ERROR_WRONG_ARGUMENT_1_VALUE);
             }
         }
     } else if (argIn.size() == 2) {
         if (nLhs != 0) {
-            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         std::wstring param1 = argIn[0].getContentAsWideString();
         std::wstring param2 = argIn[1].getContentAsWideString();
@@ -83,7 +83,7 @@ Nelson::HelpBrowserGateway::helpbrowserBuiltin(
                 std::wstring command = L"show " + param2;
                 HelpBrowser::getInstance()->sendCommand(command);
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
+                Error(ERROR_WRONG_ARGUMENT_2_VALUE);
             }
         } else if (param1 == L"-hide") {
             if ((param2 == L"contents") || (param2 == L"index") || (param2 == L"bookmarks")
@@ -91,13 +91,13 @@ Nelson::HelpBrowserGateway::helpbrowserBuiltin(
                 std::wstring command = L"hide " + param2;
                 HelpBrowser::getInstance()->sendCommand(command);
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
+                Error(ERROR_WRONG_ARGUMENT_2_VALUE);
             }
         } else if (param1 == L"-setsource") {
             std::wstring command = L"setSource " + param2;
             HelpBrowser::getInstance()->sendCommand(command);
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+            Error(ERROR_WRONG_ARGUMENT_1_VALUE);
         }
     }
     ArrayOfVector retval;

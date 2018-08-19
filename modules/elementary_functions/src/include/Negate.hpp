@@ -19,7 +19,6 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Exception.hpp"
 #include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
@@ -28,6 +27,6 @@ namespace Nelson {
  *
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Negate(ArrayOf A) throw(Exception);
+Negate(ArrayOf A);
 } // namespace Nelson
 //=============================================================================

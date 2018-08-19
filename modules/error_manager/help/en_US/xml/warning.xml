@@ -7,18 +7,46 @@
 	<short_description>Display a warning message.</short_description>
 
 	<syntax>
+		<syntax_item>warning()</syntax_item>
 		<syntax_item>warning(msg)</syntax_item>
+		<syntax_item>warning(id, msg)</syntax_item>
+		<syntax_item>warning(state)</syntax_item>
+    	<syntax_item>warning(state, id)</syntax_item>
+    	<syntax_item>st = warning()</syntax_item>
+    	<syntax_item>warning(st)</syntax_item>
 	</syntax>
+
+
+	<param_input>
+		<param_input_item>
+			<param_name>id</param_name>
+			<param_description>a string: identifier for the warning.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>msg</param_name>
+			<param_description>a string: message to warn.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>state</param_name>
+			<param_description>a string: 'on', 'off', 'aserror', 'all' or 'query'.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>st</param_name>
+			<param_description>a struct: set warning settings.</param_description>
+		</param_input_item>
+	</param_input>
+
 
 	<param_output>
 		<param_output_item>
-			<param_name>msg</param_name>
-			<param_description>a string.</param_description>
+			<param_name>st</param_name>
+			<param_description>a struct, warning settings.</param_description>
 		</param_output_item>
 	</param_output>
 
 	<description>
 		<p><b>warning</b> displays a warning message.</p>
+		<p><b>warning('')</b> resets lastwarn state.</p>
 	</description>
 
 
@@ -34,6 +62,21 @@
 		</example_item_data>
 	</example_item>
 
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[warning('on', 'myModule:identifier');
+warning('myModule:identifier', 'my message 1 on');
+warning('off', 'myModule:identifier');
+warning('myModule:identifier', 'my message 2 off');
+warning('aserror', 'myModule:identifier');
+warning('myModule:identifier', 'my message 3 as error');
+
+]]>
+		</example_item_data>
+	</example_item>
+
+
 </examples>
 
 	<see_also>
@@ -41,7 +84,10 @@
 			<link linkend="${error_manager}lasterror">lasterror</link>
 		</see_also_item>
 		<see_also_item>
-			<link linkend="${error_manager}error">warning</link>
+			<link linkend="${error_manager}error">error</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${error_manager}lastwarn">lastwarn</link>
 		</see_also_item>
 
 	</see_also>

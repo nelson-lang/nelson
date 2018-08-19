@@ -39,7 +39,7 @@ DeleteQmlHandleObject(ArrayOf A)
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
                     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
-                        throw Exception(_W("QObject handle expected."));
+                        Error(_W("QObject handle expected."));
                     }
                     QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
                     void* ptr = qmlhandleobj->getPointer();
@@ -64,7 +64,7 @@ DeleteQmlHandleObject(ArrayOf A)
                 }
             }
         } else {
-            throw Exception(_W("QObject scalar handle expected."));
+            Error(_W("QObject scalar handle expected."));
         }
     }
     return res;

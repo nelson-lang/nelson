@@ -48,10 +48,10 @@ OverloadRequired(Evaluator* eval, const ArrayOfVector& argIn, Overload::Overload
         OverloadName = ClassName(argIn[0]) + "_" + _functionName;
         break;
     default:
-        Error(eval, _W("Wrong Overloading::OverloadClass."));
+        Error(_W("Wrong Overloading::OverloadClass."));
         break;
     }
-    Error(eval, _("function") + " " + OverloadName + " " + _("undefined."));
+    Error(_("function") + " " + OverloadName + " " + _("undefined."));
 }
 //=============================================================================
 }

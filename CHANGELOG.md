@@ -1,4 +1,3 @@
-
 Features:
 ---------
 
@@ -13,11 +12,36 @@ Features:
   * [#133](http://github.com/Nelson-numerical-software/nelson/issues/133): Replaced uncommon term "trinary" by "ternary". 
 
 
+## 0.2.8
+
+
+Features:
+---------
+
+  * error manager reworked.
+    - internal C++ function did no more require reference to evaluator.
+    - error and warning internally managed as exceptions.
+
+  * 'dbstack' builtin get current instruction calling tree.
+
+  * [#16](http://github.com/Nelson-numerical-software/nelson/issues/16): lastwarn builtin (Last recorded warning message).
+
+  * [#15](http://github.com/Nelson-numerical-software/nelson/issues/15): warning builtin was extended (state and identifier added).
+
+
 Bug Fixes:
 ---------
 
   * [#152](http://github.com/Nelson-numerical-software/nelson/issues/152): insertion did not return expected result for empty matrix.
 
+  * [#138](http://github.com/Nelson-numerical-software/nelson/issues/138): colon operator did not return expected for non scalar element.
+
+
+Compilation:
+---------
+
+  * Qt 5.11.1 on Windows
+   
 
 ## 0.2.7 (2018-07-29)
 

@@ -18,6 +18,7 @@
 //=============================================================================
 #include "ReciprocalConditionNumber.hpp"
 #include "ClassName.hpp"
+#include "Error.hpp"
 #include "Exception.hpp"
 #include "lapack_eigen.hpp"
 #include <Eigen/Dense>
@@ -61,7 +62,7 @@ ReciprocalConditionNumber_Double(const ArrayOf A)
             delete[] ipiv;
             ipiv = nullptr;
             if (info < 0) {
-                throw Exception(_("LAPACK_dgetrf error."));
+                Error(_("LAPACK_dgetrf error."));
             }
             info = 0;
             double* work = new_with_exception<double>(4 * n);
@@ -74,7 +75,7 @@ ReciprocalConditionNumber_Double(const ArrayOf A)
             delete[] work;
             work = nullptr;
             if (info < 0) {
-                throw Exception(_("LAPACK_dgecon error."));
+                Error(_("LAPACK_dgecon error."));
             }
             rcond = ArrayOf::doubleConstructor(res);
         }
@@ -119,7 +120,7 @@ ReciprocalConditionNumber_DoubleComplex(ArrayOf A)
             delete[] ipiv;
             ipiv = nullptr;
             if (info < 0) {
-                throw Exception(_("LAPACK_zgetrf error."));
+                Error(_("LAPACK_zgetrf error."));
             }
             info = 0;
             doublecomplex* work = new_with_exception<doublecomplex>(4 * n);
@@ -131,7 +132,7 @@ ReciprocalConditionNumber_DoubleComplex(ArrayOf A)
             delete[] work;
             work = nullptr;
             if (info < 0) {
-                throw Exception(_("LAPACK_zgecon error."));
+                Error(_("LAPACK_zgecon error."));
             }
             rcond = ArrayOf::doubleConstructor(res);
         }
@@ -174,7 +175,7 @@ ReciprocalConditionNumber_Single(ArrayOf A)
             delete[] ipiv;
             ipiv = nullptr;
             if (info < 0) {
-                throw Exception(_("LAPACK_sgetrf error."));
+                Error(_("LAPACK_sgetrf error."));
             }
             info = 0;
             single* work = new_with_exception<single>(4 * n);
@@ -187,7 +188,7 @@ ReciprocalConditionNumber_Single(ArrayOf A)
             delete[] work;
             work = nullptr;
             if (info < 0) {
-                throw Exception(_("LAPACK_sgecon error."));
+                Error(_("LAPACK_sgecon error."));
             }
             rcond = ArrayOf::singleConstructor(res);
         }
@@ -232,7 +233,7 @@ ReciprocalConditionNumber_SingleComplex(ArrayOf A)
             delete[] ipiv;
             ipiv = nullptr;
             if (info < 0) {
-                throw Exception(_("LAPACK_cgetrf error."));
+                Error(_("LAPACK_cgetrf error."));
             }
             info = 0;
             singlecomplex* work = new_with_exception<singlecomplex>(4 * n);
@@ -244,7 +245,7 @@ ReciprocalConditionNumber_SingleComplex(ArrayOf A)
             delete[] work;
             work = nullptr;
             if (info < 0) {
-                throw Exception(_("LAPACK_cgecon error."));
+                Error(_("LAPACK_cgecon error."));
             }
             rcond = ArrayOf::singleConstructor(res);
         }
@@ -261,11 +262,11 @@ ReciprocalConditionNumber(ArrayOf A)
               || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
-        throw Exception(_("Undefined function 'rcond' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'rcond' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     }
     if (!A.isSquare()) {
-        throw Exception(_("Square matrix expected."));
+        Error(_("Square matrix expected."));
     }
     if (A.isEmpty()) {
         if (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_DCOMPLEX) {

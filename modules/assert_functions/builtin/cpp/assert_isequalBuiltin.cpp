@@ -28,10 +28,10 @@ Nelson::AssertFunctionsGateway::assert_isequalBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
@@ -39,7 +39,7 @@ Nelson::AssertFunctionsGateway::assert_isequalBuiltin(
     bool bRes = Assert_IsEqual(eval, param1, param2, msg);
     if (nLhs == 0) {
         if (!bRes) {
-            Error(eval, msg);
+            Error(msg);
         }
     } else {
         retval.push_back(ArrayOf::logicalConstructor(bRes));

@@ -18,22 +18,23 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <sys/stat.h>
+#include "AST.hpp"
 #include "FunctionDef.hpp"
 #include "Serialize.hpp"
-#include "AST.hpp"
 #include "nlsInterpreter_exports.h"
+#include <sys/stat.h>
 //=============================================================================
 namespace Nelson {
-
+//=============================================================================
 class MacroFunctionDef;
-
+//=============================================================================
 /**
  * An MacroFunctionDef is a FunctionDef for an interpreted function.  The
  * function pointer stores the name of the file where the function is
  * located. The number of input and output arguments are computed
  * based on the contents of the returnVals and arguments stringVectors.
  */
+//=============================================================================
 class NLSINTERPRETER_IMPEXP MacroFunctionDef : public FunctionDef
 {
 public:
@@ -123,18 +124,6 @@ public:
     int
     nargout();
 };
-
-/**
- * Routine to freeze an M-function to a serializing
- * stream.
- */
-NLSINTERPRETER_IMPEXP void
-FreezeMacroFunction(MacroFunctionDef* fptr, Serialize* s);
-
-/**
- * Routine to thaw an M-function from a stream.
- */
-NLSINTERPRETER_IMPEXP MacroFunctionDef*
-ThawMacroFunction(Serialize* s);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

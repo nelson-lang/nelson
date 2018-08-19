@@ -21,14 +21,16 @@
 #include "Context.hpp"
 #include "FileParser.hpp"
 #include "ParserInterface.hpp"
+#include "Warning.hpp"
+#include "Evaluator.hpp"
 #include "characters_encoding.hpp"
 #include <boost/filesystem.hpp>
-//=============================================================================
-using namespace Nelson;
 //=============================================================================
 #ifdef WIN32
 #define snprintf _snprintf
 #endif
+//=============================================================================
+namespace Nelson {
 //=============================================================================
 #define MSGBUFLEN 2048
 static char msgBuffer[MSGBUFLEN];
@@ -172,12 +174,14 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
             }
             context->insertVariableLocally(arg, inputs[i]);
         }
-        // context->insertVariableLocally("nargin", ArrayOf::doubleConstructor((double)minCount));
+        // context->insertVariableLocally("nargin",
+        // ArrayOf::doubleConstructor((double)minCount));
         context->getCurrentScope()->setNargIn((int)minCount);
     } else {
         // Count the number of supplied arguments
         size_t inputCount = inputs.size();
-        // context->insertVariableLocally("nargin", ArrayOf::doubleConstructor((double)inputCount));
+        // context->insertVariableLocally("nargin",
+        // ArrayOf::doubleConstructor((double)inputCount));
         context->getCurrentScope()->setNargIn((int)inputCount);
         // Get the number of explicit arguments
         int explicitCount = (int)arguments.size() - 1;
@@ -202,7 +206,8 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
         }
         context->insertVariableLocally("varargin", varg);
     }
-    // context->insertVariableLocally("nargout", ArrayOf::doubleConstructor(nargout));
+    // context->insertVariableLocally("nargout",
+    // ArrayOf::doubleConstructor(nargout));
     context->getCurrentScope()->setNargOut(nargout);
     try {
         eval->block(code);
@@ -221,7 +226,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
                     if (!warningIssued) {
                         std::wstring message = _W("Function") + L" : " + utf8_to_wstring(name)
                             + L"\n" + WARNING_OUTPUTS_NOT_ASSIGNED;
-                        eval->getInterface()->warningMessage(message);
+                        Warning(message);
                         warningIssued = true;
                     }
                     a = ArrayOf::emptyConstructor();
@@ -236,8 +241,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
             for (int i = 0; i < explicitCount; i++) {
                 if (!context->lookupVariableLocally(returnVals[i], a)) {
                     if (!warningIssued) {
-                        eval->getInterface()->warningMessage(
-                            _W("one or more outputs not assigned in call"));
+                        Warning(_W("one or more outputs not assigned in call"));
                         warningIssued = true;
                     }
                     a = ArrayOf::emptyConstructor();
@@ -249,12 +253,11 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
                 ArrayOf varargout;
                 // Yes, get a pointer to the "vargout" variable that should be defined
                 if (!context->lookupVariableLocally("varargout", varargout)) {
-                    throw Exception(
-                        _W("The special variable 'varargout' was not defined as expected"));
+                    Error(_W("The special variable 'varargout' was not defined as expected"));
                 }
                 if (varargout.getDataClass() != NLS_CELL_ARRAY) {
-                    throw Exception(
-                        _W("The special variable 'varargout' was not defined as a cell-array"));
+                    Error(_W("The special variable 'varargout' was not defined as a "
+                             "cell-array"));
                 }
                 // Get the data pointer
                 const ArrayOf* dp = ((const ArrayOf*)varargout.getDataPointer());
@@ -262,7 +265,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
                 indexType varlen = varargout.getLength();
                 int toFill = nargout - explicitCount;
                 if ((double)toFill > (double)varlen) {
-                    throw Exception(_W("Not enough outputs in varargout to satisfy call"));
+                    Error(_W("Not enough outputs in varargout to satisfy call"));
                 }
                 for (int i = 0; i < toFill; i++) {
                     outputs[explicitCount + i] = dp[i];
@@ -289,45 +292,5 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
     }
 }
 //=============================================================================
-void
-Nelson::FreezeMacroFunction(MacroFunctionDef* fptr, Serialize* s)
-{
-    s->putString(fptr->name.c_str());
-    s->putStringVector(fptr->arguments);
-    s->putStringVector(fptr->returnVals);
-    s->putBool(fptr->localFunction);
-    FreezeAST(fptr->code, s);
-    if (fptr->nextFunction) {
-        s->putBool(true);
-        Nelson::FreezeMacroFunction(fptr->nextFunction, s);
-    } else {
-        s->putBool(false);
-    }
-}
-//=============================================================================
-MacroFunctionDef*
-Nelson::ThawMacroFunction(Serialize* s)
-{
-    MacroFunctionDef* t;
-    try {
-        t = new MacroFunctionDef();
-    } catch (std::bad_alloc) {
-        t = nullptr;
-    }
-    if (t) {
-        t->name = s->getString();
-        t->arguments = s->getStringVector();
-        t->returnVals = s->getStringVector();
-        t->localFunction = s->getBool();
-        t->code = ThawAST(s);
-        bool nextFun = s->getBool();
-        if (nextFun) {
-            t->nextFunction = ThawMacroFunction(s);
-            t->nextFunction->prevFunction = t;
-        } else {
-            t->nextFunction = nullptr;
-        }
-    }
-    return t;
-}
+} // namespace Nelson
 //=============================================================================

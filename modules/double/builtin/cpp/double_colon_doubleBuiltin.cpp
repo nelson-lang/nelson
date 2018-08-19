@@ -28,12 +28,12 @@ Nelson::DoubleGateway::double_colon_doubleBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
     if (!A.isDoubleType() || !B.isDoubleType()) {
-        Error(eval, ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED);
     }
     ArrayOfVector retval;
     ArrayOf res = colon_double(A, B);

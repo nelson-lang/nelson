@@ -35,19 +35,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-
+//=============================================================================
 #pragma once
+//=============================================================================
+#include <cstdarg>
 #include "ArrayOf.hpp"
-#include "BuiltInFunctionDef.hpp"
-#include "FunctionDef.hpp"
 #include "Scope.hpp"
 #include "nlsInterpreter_exports.h"
-#include <cstdarg>
-
+//=============================================================================
 namespace Nelson {
-typedef ArrayOfVector APtr;
-typedef APtr (*BuiltInFuncPtr)(Evaluator*, int, const APtr&);
-
 /**
  * This structure implements a linked list of Scope pointers.
  */
@@ -99,7 +95,7 @@ public:
      * Throws an Exception if the global scope is popped.
      */
     void
-    popScope() throw(Exception);
+    popScope();
     /**
      * Insert the given variable into the right scope - the global
      * scope if the array is in the global list, and mangled in
@@ -143,15 +139,15 @@ public:
      * Add a built in function to the global scope with the given name.
      */
     bool
-    lookupFunction(std::string funcName, FuncPtr& val, bool builtinOnly = false);
+    lookupFunction(const std::string& funcName, FuncPtr& val, bool builtinOnly = false);
     bool
-    lookupFunction(std::wstring wfuncName, FuncPtr& val, bool builtinOnly = false);
+    lookupFunction(const std::wstring& wfuncName, FuncPtr& val, bool builtinOnly = false);
 
     bool
-    lookupFunctionGlobally(std::string funcName, FuncPtr& val, bool builtinOnly = false);
+    lookupFunctionGlobally(const std::string& funcName, FuncPtr& val, bool builtinOnly = false);
 
     void
-    deleteFunctionGlobally(std::string funcName);
+    deleteFunctionGlobally(const std::string& funcName);
     /**
      * Add a persistent variable to the local stack.  This involves
      * two steps:

@@ -25,26 +25,26 @@ ArrayOfVector
 Nelson::ConsoleGateway::inputBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if ((argIn.size() == 0) || (argIn.size() > 2)) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring param1;
     std::wstring param2;
     if (argIn[0].isSingleString()) {
         param1 = argIn[0].getContentAsWideString();
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     if (argIn.size() > 1) {
         if (argIn[1].isSingleString()) {
             param2 = argIn[1].getContentAsWideString();
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
         if (param2.compare(L"s") != 0) {
-            Error(eval, _W("Unrecognized option. \"s\" expected."));
+            Error(_W("Unrecognized option. \"s\" expected."));
         }
     }
     Interface* io = eval->getInterface();

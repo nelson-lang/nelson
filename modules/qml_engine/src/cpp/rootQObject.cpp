@@ -37,7 +37,7 @@ rootQObject()
         } catch (std::bad_alloc& e) {
             e.what();
             qmlHandle = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         res = ArrayOf::handleConstructor(qmlHandle);
     } else {

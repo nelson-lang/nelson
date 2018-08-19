@@ -39,10 +39,10 @@ Nelson::SlicotGateway::slicot_mc01tdBuiltin(Evaluator* eval, int nLhs, const Arr
 {
     ArrayOfVector retval;
     if (nLhs > 5) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 3) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // INPUT VARIABLES
     ArrayOf DICO = argIn[0];
@@ -75,10 +75,10 @@ Nelson::SlicotGateway::slicot_mc01tdBuiltin(Evaluator* eval, int nLhs, const Arr
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {
-        Error(eval, _W("Input argument #1: scalar expected."));
+        Error(_W("Input argument #1: scalar expected."));
     }
     if (!dimsDP.isScalar()) {
-        Error(eval, _W("Input argument #2: scalar expected."));
+        Error(_W("Input argument #2: scalar expected."));
     }
     // CALL EXTERN FUNCTION
     try {
@@ -86,7 +86,7 @@ Nelson::SlicotGateway::slicot_mc01tdBuiltin(Evaluator* eval, int nLhs, const Arr
             IWARN_output_ptr, INFO_output_ptr);
     } catch (std::runtime_error& e) {
         e.what();
-        Error(eval, "mc01td function fails.");
+        Error("mc01td function fails.");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

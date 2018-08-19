@@ -29,10 +29,10 @@ Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
 {
     ArrayOfVector retval;
     if (argIn.size() != 3) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
@@ -47,7 +47,7 @@ Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         } else if ((str == L"eof") || (str == L"end")) {
             ORIGIN = 1;
         } else {
-            Error(eval, _W("Invalid origin."));
+            Error(_W("Invalid origin."));
         }
     } else {
         int iValue = (int)param3.getContentAsDoubleScalar();
@@ -58,14 +58,14 @@ Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             ORIGIN = iValue;
         } break;
         default: {
-            Error(eval, _W("Invalid origin."));
+            Error(_W("Invalid origin."));
         } break;
         }
     }
     int64 iOffset = (int64)param2.getContentAsDoubleScalar();
     FilesManager* fm = (FilesManager*)(eval->FileManager);
     if (fm == nullptr) {
-        Error(eval, _W("Problem with file manager."));
+        Error(_W("Problem with file manager."));
     }
     int32 iValue = (int32)param1.getContentAsDoubleScalar();
     if (fm->isOpened(iValue)) {
@@ -76,7 +76,7 @@ Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             retval.push_back(ArrayOf::doubleConstructor(0));
         }
     } else {
-        Error(eval, _W("Invalid file identifier."));
+        Error(_W("Invalid file identifier."));
     }
     return retval;
 }

@@ -28,10 +28,10 @@ Nelson::DataStructuresGateway::iscellstrBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     retval.push_back(ArrayOf::logicalConstructor(IsCellOfString(argIn[0])));
     return retval;

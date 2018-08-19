@@ -29,10 +29,10 @@ Nelson::StringGateway::tolowerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf A = argIn[0];
     // Call overload if it exists
@@ -46,7 +46,7 @@ Nelson::StringGateway::tolowerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "tolower", bSuccess);
             if (!bSuccess) {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
             }
         }
     }

@@ -31,13 +31,13 @@ Transpose(ArrayOf A)
         ClassName(A, classname);
         std::wstring msg
             = _W("function") + L" " + classname + L"_transpose" + L" " + _W("undefined.");
-        throw Exception(msg);
+        Error(msg);
     }
     Dimensions dimsA = A.getDimensions();
     bool isSupported = (A.isEmpty() || A.isScalar() || A.is2D());
     if (!isSupported) {
         std::wstring msg = _W("transpose on N-D array is undefined.");
-        throw Exception(msg);
+        Error(msg);
     }
     ArrayOf Res(A);
     Res.ensureSingleOwner();

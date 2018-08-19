@@ -115,11 +115,11 @@ ArrayOfVector Nelson::ExampleGateway::example_nig_sumBuiltin(Evaluator* eval, in
     ArrayOfVector retval;
     if (nLhs > 1)
     {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 2)
     {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
 
     // INPUT VARIABLES
@@ -148,11 +148,11 @@ ArrayOfVector Nelson::ExampleGateway::example_nig_sumBuiltin(Evaluator* eval, in
 
     if (!dimsA.isScalar())
     {
-        Error(eval, _W("Input argument #1: scalar expected."));
+        Error(_W("Input argument #1: scalar expected."));
     }
     if (!dimsB.isScalar())
     {
-        Error(eval, _W("Input argument #2: scalar expected."));
+        Error( _W("Input argument #2: scalar expected."));
     }
 
     // CALL EXTERN FUNCTION
@@ -164,7 +164,7 @@ ArrayOfVector Nelson::ExampleGateway::example_nig_sumBuiltin(Evaluator* eval, in
     catch (std::runtime_error &e)
     {
         e.what();
-        Error(eval, "sum function fails.");
+        Error("sum function fails.");
     }
 
     // ASSIGN OUTPUT VARIABLES

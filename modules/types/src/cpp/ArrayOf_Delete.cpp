@@ -20,6 +20,8 @@
 #include "Data.hpp"
 #include "Dimensions.hpp"
 #include "SparseDynamicFunctions.hpp"
+#include "Error.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -131,7 +133,7 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
             if (args[i].isSingleString()) {
                 std::wstring str = args[i].getContentAsWideString();
                 if (str != L":") {
-                    throw Exception(_W("index must either be real positive integers or logicals."));
+                    Error(_W("index must either be real positive integers or logicals."));
                 }
                 indexType maxVal = dp->dimensions.getDimensionLength(i);
                 args[i] = ArrayOf::integerRangeConstructor(1, 1, maxVal, false);
@@ -179,7 +181,7 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
         //  Case 3. Two or more singleton references.  Can't do it -
         //	      throw an error.
         if (singletonReferences > 1) {
-            throw Exception(_W("Statement A(...) = [] can only contain one non-colon index."));
+            Error(_W("Statement A(...) = [] can only contain one non-colon index."));
         }
         if (singletonReferences == 0) {
             singletonDimension = -1;
@@ -228,8 +230,8 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
                             dp->dataClass, rows, cols, dp->getData(), deletionMap),
                         true);
                 } else {
-                    throw Exception(_W("sparse matrices do not support deleting "
-                                       "n-dimensional planes - Only 2-D"));
+                    Error(_W("sparse matrices do not support deleting "
+                             "n-dimensional planes - Only 2-D"));
                 }
                 delete[] deletionMap;
                 deletionMap = nullptr;

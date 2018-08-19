@@ -28,10 +28,10 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     if (nLhs > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
     if (eval->overloadOnBasicTypes) {
@@ -42,12 +42,12 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         if (!param1.isString()) {
             retval = OverloadFunction(eval, nLhs, argIn, "sprintf", bSuccess);
             if (!bSuccess) {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
             }
             return retval;
         }
         if (!param1.isVector()) {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring result = L"";
         std::wstring error_message = L"";
@@ -59,7 +59,7 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                 retval.push_back(strArr);
                 retval.push_back(ArrayOf::stringConstructor(error_message));
             } else {
-                Error(eval, error_message);
+                Error(error_message);
             }
         } else {
             if (result == L"") {

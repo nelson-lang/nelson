@@ -20,7 +20,7 @@
 //=============================================================================
 #include "SparseImagPart.hpp"
 #include "ClassName.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "SparseType.hpp"
 #include <Eigen/Sparse>
 //=============================================================================
@@ -31,7 +31,7 @@ SparseImagPart(ArrayOf a)
 {
     ArrayOf res;
     if (!a.isSparse()) {
-        throw Exception(_W("Sparse expected."));
+        Error(_W("Sparse expected."));
     }
     switch (a.getDataClass()) {
     case NLS_DOUBLE:
@@ -47,7 +47,7 @@ SparseImagPart(ArrayOf a)
             res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
         } catch (std::bad_alloc& e) {
             e.what();
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -71,11 +71,11 @@ SparseImagPart(ArrayOf a)
             res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
         } catch (std::bad_alloc& e) {
             e.what();
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
     } break;
     default: {
-        throw Exception(_("Cannot do imag with current type '") + ClassName(a) + "'.");
+        Error(_("Cannot do imag with current type '") + ClassName(a) + "'.");
     } break;
     }
     return res;

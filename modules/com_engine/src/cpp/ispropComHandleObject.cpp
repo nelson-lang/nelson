@@ -19,7 +19,7 @@
 #include "ispropComHandleObject.hpp"
 #include "ComHandleObject.hpp"
 #include "ComHelpers.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "HandleManager.hpp"
 #include "characters_encoding.hpp"
 #include <Windows.h>
@@ -31,7 +31,7 @@ ispropComHandleObject(ComHandleObject* comhandleobj, const std::wstring& propert
 {
     void* ptr = comhandleobj->getPointer();
     if (ptr == nullptr) {
-        throw Exception(_W("COM valid handle expected."));
+        Error(_W("COM valid handle expected."));
     }
     VARIANT* pVariant = (VARIANT*)ptr;
     return isPropertyGetCom(pVariant->pdispVal, propertyName)
@@ -42,7 +42,7 @@ ArrayOf
 ispropComHandleObject(ArrayOf A, const std::wstring& propertyName)
 {
     if (A.getHandleCategory() != COM_CATEGORY_STR) {
-        throw Exception(_W("COM handle expected."));
+        Error(_W("COM handle expected."));
     }
     ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     bool res = ispropComHandleObject(comhandleobj, propertyName);

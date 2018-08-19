@@ -28,15 +28,15 @@ Nelson::MpiGateway::MPI_Get_processor_nameBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 3) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int flag = 0;
     MPI_Initialized(&flag);
     if (flag == 0) {
-        Error(eval, _W("Attempting to use an MPI routine before initializing MPI."));
+        Error(_W("Attempting to use an MPI routine before initializing MPI."));
     }
     std::string processorName;
     char argv[MPI_MAX_PROCESSOR_NAME];

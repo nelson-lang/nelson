@@ -16,12 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "TrigonometricFunctions.hpp"
-#include "ClassName.hpp"
 #include <Eigen/Dense>
 #include <cmath>
 #include <complex>
 #include <functional>
+#include "TrigonometricFunctions.hpp"
+#include "ClassName.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -36,7 +37,7 @@ Cos(const ArrayOf& A)
     }
     switch (A.getDataClass()) {
     default: {
-        throw Exception(
+        Error(
             _("Undefined function 'cos' for input arguments of type") + " '" + ClassName(A) + "'.");
     } break;
     case NLS_SCOMPLEX: {
@@ -96,7 +97,7 @@ Sin(const ArrayOf& A)
     }
     switch (A.getDataClass()) {
     default: {
-        throw Exception(
+        Error(
             _("Undefined function 'sin' for input arguments of type") + " '" + ClassName(A) + "'.");
     } break;
     case NLS_SCOMPLEX: {
@@ -156,7 +157,7 @@ Tan(const ArrayOf& A)
     ArrayOf R;
     switch (A.getDataClass()) {
     default: {
-        throw Exception(
+        Error(
             _("Undefined function 'tan' for input arguments of type") + " '" + ClassName(A) + "'.");
     } break;
     case NLS_SCOMPLEX: {
@@ -216,7 +217,7 @@ Cosh(const ArrayOf& A)
     ArrayOf R;
     switch (A.getDataClass()) {
     default: {
-        throw Exception(_("Undefined function 'cosh' for input arguments of type") + " '"
+        Error(_("Undefined function 'cosh' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     case NLS_SCOMPLEX: {
@@ -278,7 +279,7 @@ Sinh(const ArrayOf& A)
     ArrayOf R;
     switch (A.getDataClass()) {
     default: {
-        throw Exception(_("Undefined function 'sinh' for input arguments of type") + " '"
+        Error(_("Undefined function 'sinh' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     case NLS_SCOMPLEX: {
@@ -340,7 +341,7 @@ Tanh(const ArrayOf& A)
     ArrayOf R;
     switch (A.getDataClass()) {
     default: {
-        throw Exception(_("Undefined function 'tanh' for input arguments of type") + " '"
+        Error(_("Undefined function 'tanh' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     case NLS_SCOMPLEX: {
@@ -402,7 +403,7 @@ Acos(const ArrayOf& A)
     ArrayOf R;
     switch (A.getDataClass()) {
     default: {
-        throw Exception(_("Undefined function 'acos' for input arguments of type") + " '"
+        Error(_("Undefined function 'acos' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     case NLS_SINGLE: {
@@ -502,7 +503,7 @@ Asin(const ArrayOf& A)
     ArrayOf R;
     switch (A.getDataClass()) {
     default: {
-        throw Exception(_("Undefined function 'asin' for input arguments of type") + " '"
+        Error(_("Undefined function 'asin' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     case NLS_SINGLE: {
@@ -604,7 +605,7 @@ Atan(const ArrayOf& A)
     ArrayOf R;
     switch (A.getDataClass()) {
     default: {
-        throw Exception(_("Undefined function 'atan' for input arguments of type") + " '"
+        Error(_("Undefined function 'atan' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     case NLS_SINGLE: {

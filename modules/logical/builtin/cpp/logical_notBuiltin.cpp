@@ -27,9 +27,9 @@ Nelson::LogicalGateway::logical_notBuiltin(Evaluator* eval, int nLhs, const Arra
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } else if (argIn[0].isSparse()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED);
     } else {
         retval.push_back(NotLogical(argIn[0]));
     }

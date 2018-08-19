@@ -20,7 +20,7 @@
 //=============================================================================
 #include "UminusSparse.hpp"
 #include "ClassName.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "SparseType.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
@@ -62,7 +62,7 @@ sparsedouble_uminus(ArrayOf a)
         return ArrayOf(NLS_DCOMPLEX, a.getDimensions(), (void*)res, true);
     } break;
     default: {
-        throw Exception(_("Cannot do uminus with current type") + " '" + ClassName(a) + "'.");
+        Error(_("Cannot do uminus with current type") + " '" + ClassName(a) + "'.");
     } break;
     }
     return ArrayOf();

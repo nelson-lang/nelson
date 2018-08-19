@@ -29,10 +29,10 @@ Nelson::StringGateway::replaceBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 3) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
@@ -45,7 +45,7 @@ Nelson::StringGateway::replaceBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "replace", bSuccess);
             if (!bSuccess) {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
             }
         }
     }

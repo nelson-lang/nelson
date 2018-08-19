@@ -50,11 +50,11 @@ parseState();
  * Parse the given string.
  */
 NLSINTERPRETER_IMPEXP ParserState
-parseString(std::string txt);
+parseString(const std::string& txt);
 /**
  * Parse the given file (with the given filename).
  */
 NLSINTERPRETER_IMPEXP ParserState
-parseFile(FILE*, const char*);
+parseFile(FILE*, const std::string&);
 } // namespace Nelson
 //=============================================================================

@@ -18,7 +18,7 @@
 //=============================================================================
 #include "HorzCatInteger.hpp"
 #include "ConcatenateNdArray.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
@@ -48,21 +48,21 @@ ArrayOf
 HorzCatInteger(ArrayOf A, ArrayOf B)
 {
     if (!A.isIntegerType()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_INTEGER_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_INTEGER_EXPECTED);
     }
     if (!B.isIntegerType()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_INTEGER_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_INTEGER_EXPECTED);
     }
     if (!A.is2D()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_SIZE_INTEGER_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_SIZE_INTEGER_EXPECTED);
     }
     if (!B.is2D()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_2_SIZE_INTEGER_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_2_SIZE_INTEGER_EXPECTED);
     }
     Class classA = A.getDataClass();
     Class classB = B.getDataClass();
     if (classA != classB) {
-        throw Exception(ERROR_SAME_INTEGER_TYPE_EXPECTED);
+        Error(ERROR_SAME_INTEGER_TYPE_EXPECTED);
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);
@@ -76,7 +76,7 @@ HorzCatInteger(ArrayOf A, ArrayOf B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getRows() != dimsB.getRows()) {
-        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
     indexType newRowsSize = dimsA.getRows();
@@ -117,23 +117,23 @@ ArrayOf
 HorzCatNdArrayInteger(ArrayOf A, ArrayOf B)
 {
     if (!A.isNdArrayIntegerType()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_INTEGER_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_INTEGER_EXPECTED);
     }
     if (!B.isNdArrayIntegerType()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_INTEGER_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_INTEGER_EXPECTED);
     }
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getRows() != dimsB.getRows()) {
-        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     if (dimsA.getLength() != dimsB.getLength()) {
-        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     for (indexType k = 0; k < dimsA.getLength(); k++) {
         if (k != 1) {
             if (dimsA.getDimensionLength(k) != dimsB.getDimensionLength(k)) {
-                throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+                Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
             }
         }
     }
@@ -143,7 +143,7 @@ HorzCatNdArrayInteger(ArrayOf A, ArrayOf B)
     if (classA == classB) {
         classC = classA;
     } else {
-        throw Exception(ERROR_SAME_INTEGER_TYPE_EXPECTED);
+        Error(ERROR_SAME_INTEGER_TYPE_EXPECTED);
     }
     ArrayOfMatrix m;
     ArrayOfVector v;

@@ -26,27 +26,25 @@ ToInt16(ArrayOf a)
     std::string destType = "int16";
     Class destClass = NLS_INT16;
     if (a.isSparse()) {
-        throw Exception(
-            _("Conversion to '") + destType + _("' from sparse matrix is not possible."));
+        Error(_("Conversion to '") + destType + _("' from sparse matrix is not possible."));
     }
     switch (a.getDataClass()) {
     case NLS_DCOMPLEX:
     case NLS_SCOMPLEX: {
-        throw Exception(
-            _("Invalid conversion from complex matrix to '") + destType + _("' matrix."));
+        Error(_("Invalid conversion from complex matrix to '") + destType + _("' matrix."));
     } break;
     case NLS_HANDLE: {
-        throw Exception(_("Conversion to '") + destType + _("' from handle is not possible."));
+        Error(_("Conversion to '") + destType + _("' from handle is not possible."));
     } break;
     case NLS_CELL_ARRAY: {
-        throw Exception(_("Conversion to '") + destType + _("' from cell is not possible."));
+        Error(_("Conversion to '") + destType + _("' from cell is not possible."));
     } break;
     case NLS_STRUCT_ARRAY: {
         if (a.getStructType() != "struct") {
-            throw Exception(_("Undefined function '") + destType
-                + _("' for input arguments of type '") + a.getStructType() + "'.");
+            Error(_("Undefined function '") + destType + _("' for input arguments of type '")
+                + a.getStructType() + "'.");
         } else {
-            throw Exception(_("Conversion to '") + destType + _("' from struct is not possible."));
+            Error(_("Conversion to '") + destType + _("' from struct is not possible."));
         }
     } break;
     case NLS_LOGICAL:
@@ -65,7 +63,7 @@ ToInt16(ArrayOf a)
         return res;
     } break;
     default: {
-        throw Exception(_W("Invalid conversion."));
+        Error(_W("Invalid conversion."));
     } break;
     }
     return ArrayOf();

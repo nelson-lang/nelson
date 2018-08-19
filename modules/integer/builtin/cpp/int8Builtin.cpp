@@ -28,7 +28,7 @@ Nelson::IntegerGateway::int8Builtin(Evaluator* eval, int nLhs, const ArrayOfVect
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;

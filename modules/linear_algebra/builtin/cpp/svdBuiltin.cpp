@@ -29,10 +29,10 @@ Nelson::LinearAlgebraGateway::svdBuiltin(Evaluator* eval, int nLhs, const ArrayO
 {
     ArrayOfVector retval;
     if (!(argIn.size() == 1 || argIn.size() == 2)) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 3) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
@@ -58,14 +58,14 @@ Nelson::LinearAlgebraGateway::svdBuiltin(Evaluator* eval, int nLhs, const ArrayO
                 if (L"econ" == paramAsString) {
                     svdFlag = SVD_FLAG::SVD_ECON;
                 } else {
-                    Error(eval, _W("svd(X, 0) or svd(X, 'econ') expected."));
+                    Error(_W("svd(X, 0) or svd(X, 'econ') expected."));
                 }
             } else {
                 indexType paramAsIndex = param2.getContentAsScalarIndex(true);
                 if (paramAsIndex == 0) {
                     svdFlag = SVD_FLAG::SVD_0;
                 } else {
-                    Error(eval, _W("svd(X, 0) or svd(X, 'econ') expected."));
+                    Error(_W("svd(X, 0) or svd(X, 'econ') expected."));
                 }
             }
         }
@@ -93,7 +93,7 @@ Nelson::LinearAlgebraGateway::svdBuiltin(Evaluator* eval, int nLhs, const ArrayO
             retval.push_back(V);
         } break;
         default:
-            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             break;
         }
     }

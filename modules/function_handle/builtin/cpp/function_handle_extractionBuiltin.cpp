@@ -53,13 +53,13 @@ Nelson::FunctionHandleGateway::function_handle_extractionBuiltin(
                 }
                 retval = funcDef->evaluateFunction(eval, m, nLhs);
             } else {
-                Error(eval, _W("Function does not exist."));
+                Error(_W("Function does not exist."));
             }
         } else {
-            Error(eval, _W("Argument #1 must be a valid function_handle."));
+            Error(_W("Argument #1 must be a valid function_handle."));
         }
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

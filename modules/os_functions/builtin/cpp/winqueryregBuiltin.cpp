@@ -29,22 +29,22 @@ Nelson::OsFunctionsGateway::winqueryregBuiltin(
     ArrayOfVector retval;
 #ifdef _MSC_VER
     if (argIn.size() < 2 || argIn.size() > 3) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     switch (argIn.size()) {
     case 2: {
         std::wstring rootkey = argIn[0].getContentAsWideString();
         std::wstring subkey = argIn[1].getContentAsWideString();
         if (rootkey == L"name") {
-            Error(eval, _W("'name' argument requires 3 input arguments."));
+            Error(_W("'name' argument requires 3 input arguments."));
         }
         std::wstring errorMessage;
         ArrayOf res = windowsQueryRegistryValueName(rootkey, subkey, L"", errorMessage);
         if (!errorMessage.empty()) {
-            Error(eval, errorMessage);
+            Error(errorMessage);
         }
         retval.push_back(res);
     } break;
@@ -62,16 +62,16 @@ Nelson::OsFunctionsGateway::winqueryregBuiltin(
             res = windowsQueryRegistryValueName(rootkey, subkey, valname, errorMessage);
         }
         if (!errorMessage.empty()) {
-            Error(eval, errorMessage);
+            Error(errorMessage);
         }
         retval.push_back(res);
     } break;
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
 #else
-    Error(eval, _W("Not implemented on this platform."));
+    Error(_W("Not implemented on this platform."));
 #endif
     return retval;
 }

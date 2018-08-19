@@ -24,7 +24,6 @@
 #include "EvaluateScriptFile.hpp"
 #include "characters_encoding.hpp"
 #include "ParserInterface.hpp"
-#include "Exception.hpp"
 #include "IsEmptyScriptFile.hpp"
 #include "AstManager.hpp"
 //=============================================================================
@@ -38,7 +37,7 @@ changeDir(const wchar_t* path, bool doException)
     } catch (boost::filesystem::filesystem_error& e) {
         e.what();
         if (doException) {
-            throw Exception(_("Cannot change directory '") + wstring_to_utf8(path) + "'.");
+            Error(_("Cannot change directory '") + wstring_to_utf8(path) + "'.");
         }
     }
 }
@@ -53,7 +52,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         bIsFile = false;
     }
     if (!bIsFile) {
-        Error(eval, _W("File does not exist."));
+        Error(_W("File does not exist."));
     }
     if (IsEmptyScriptFile(filename)) {
         return true;
@@ -178,7 +177,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
             if (bNeedToRestoreDirectory) {
                 changeDir(initialDir.generic_wstring().c_str(), false);
             }
-            Error(eval, _W("Memory allocation."));
+            Error(_W("Memory allocation."));
         }
         if (bSheBang || bBOM) {
             fsetpos(fr, &pos);
@@ -208,7 +207,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
                 }
                 return false;
             }
-            eval->pushDebug("EvaluateScript", buffer);
+            eval->pushDebug(wstring_to_utf8(filename), buffer);
             try {
                 if (tree) {
                     eval->block(tree);
@@ -268,14 +267,9 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
                 changeDir(initialDir.generic_wstring().c_str(), false);
             }
             return true;
-        } catch (Exception& e) {
+        } catch (Exception) {
             deleteAstVector(getAstUsed());
             resetAstBackupPosition();
-            StackEntry lastStackEntry = eval->cstack[eval->cstack.size() - 1];
-            int tokid = lastStackEntry.tokid;
-            int line_in = tokid & 0x0000FFFF;
-            int position_in = tokid >> 16;
-            e.setLinePosition(line_in, position_in);
             // removes stack
             while (eval->cstack.size() > stackdepth) {
                 eval->cstack.pop_back();

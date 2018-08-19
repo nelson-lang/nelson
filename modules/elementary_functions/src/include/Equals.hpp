@@ -20,7 +20,6 @@
 //=============================================================================
 #include "nlsElementary_functions_exports.h"
 #include "ArrayOf.hpp"
-#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 /**

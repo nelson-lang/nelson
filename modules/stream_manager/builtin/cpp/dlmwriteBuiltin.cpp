@@ -110,7 +110,7 @@ dlmwriteBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     if (paramStr == L"-append") {
         res.isAppend = true;
     } else {
-        throw Exception(_W("'-append' expected."));
+        Error(_W("'-append' expected."));
     }
     ArrayOf param4 = argIn[3];
     paramStr = param4.getContentAsWideString();
@@ -135,7 +135,7 @@ dlmwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOf param3 = argIn[2];
     std::wstring paramStr = param3.getContentAsWideString();
     if (paramStr == L"-append") {
-        throw Exception(_W("a valid delimiter expected."));
+        Error(_W("a valid delimiter expected."));
     }
     boost::replace_all(paramStr, L"\\t", L"\t");
     boost::replace_all(paramStr, L"\\n", L"\n");
@@ -188,7 +188,7 @@ dlmwriteBuiltinSixRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         if (eolStr == L"pc" || eolStr == L"unix") {
             res.isPcEOL = (eolStr == L"pc");
         } else {
-            throw Exception(_W("'pc' or 'unix' expected."));
+            Error(_W("'pc' or 'unix' expected."));
         }
     }
     return res;
@@ -207,7 +207,7 @@ dlmwriteBuiltinSevenRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         if (eolStr == L"pc" || eolStr == L"unix") {
             res.isPcEOL = (eolStr == L"pc");
         } else {
-            throw Exception(_W("'pc' or 'unix' expected."));
+            Error(_W("'pc' or 'unix' expected."));
         }
     } else {
         // dlmwrite(filename, M, delimiter, r, c, eol, precision) rhs == 7
@@ -235,7 +235,7 @@ dlmwriteBuiltinEightRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOf param3 = argIn[2];
     std::wstring paramStr = param3.getContentAsWideString();
     if (paramStr != L"-append") {
-        throw Exception(_W("'-append' expected."));
+        Error(_W("'-append' expected."));
     }
     res.isAppend = true;
     ArrayOf param4 = argIn[3];
@@ -253,7 +253,7 @@ dlmwriteBuiltinEightRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     if (eolStr == L"pc" || eolStr == L"unix") {
         res.isPcEOL = (eolStr == L"pc");
     } else {
-        throw Exception(_W("'pc' or 'unix' expected."));
+        Error(_W("'pc' or 'unix' expected."));
     }
     ArrayOf param8 = argIn[7];
     if (param8.isString()) {
@@ -270,10 +270,10 @@ Nelson::StreamGateway::dlmwriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 {
     ArrayOfVector retval;
     if (nLhs > 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() < 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
@@ -289,7 +289,7 @@ Nelson::StreamGateway::dlmwriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                 try {
                     ArrayOfVector resVect = funcDef->evaluateFunction(eval, argInCopy, 1);
                     if (resVect.size() != 1) {
-                        Error(eval, _W("cell2mat returns more than one output argument."));
+                        Error(_W("cell2mat returns more than one output argument."));
                     }
                     param2 = resVect[0];
                 } catch (Exception) {
@@ -297,7 +297,7 @@ Nelson::StreamGateway::dlmwriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                 }
             }
         } else {
-            Error(eval, "cell2mat function not found.");
+            Error("cell2mat function not found.");
         }
     }
     std::wstring filename = param1.getContentAsWideString();
@@ -325,7 +325,7 @@ Nelson::StreamGateway::dlmwriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         opts = dlmwriteBuiltinEightRhs(eval, nLhs, argIn);
     } break;
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     delimitedWrite(param2, filename, opts.isAppend, opts.delimiter, opts.rowsOffset,

@@ -39,7 +39,7 @@ CtransposeSparseLogical(ArrayOf A)
         } catch (std::bad_alloc& e) {
             e.what();
             spMatC = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         *spMatC = spMatA->adjoint();
         Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());

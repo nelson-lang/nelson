@@ -31,7 +31,7 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(Evaluator* eval, int nLhs, const A
         std::wstring wtype;
         if (argIn.size() == 2) {
             if (nLhs > 1) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             if (argIn[1].isSingleString()) {
                 wtype = argIn[1].getContentAsWideString();
@@ -42,22 +42,21 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(Evaluator* eval, int nLhs, const A
                 } else if (wtype.compare(L"extension") == 0) {
                     // OK
                 } else {
-                    Error(eval,
-                        _W("Argument #2 must contain a valid string 'path', 'filename' or "
-                           "'extension' expected."));
+                    Error(_W("Argument #2 must contain a valid string 'path', 'filename' or "
+                             "'extension' expected."));
                 }
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
             }
         } else {
             if (nLhs > 3) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         }
         if (argIn[0].isSingleString()) {
             wpath = argIn[0].getContentAsWideString();
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring respath;
         std::wstring resfilename;
@@ -81,7 +80,7 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(Evaluator* eval, int nLhs, const A
             }
         }
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

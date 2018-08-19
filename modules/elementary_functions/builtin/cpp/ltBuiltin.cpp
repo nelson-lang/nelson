@@ -26,7 +26,7 @@ Nelson::ElementaryFunctionsGateway::ltBuiltin(Evaluator* eval, int nLhs, const A
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf arg1 = argIn[0];
     ArrayOf arg2 = argIn[1];

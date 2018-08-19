@@ -1,0 +1,50 @@
+//=============================================================================
+// Copyright (c) 2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_isequal(nargin('lastwarn'), 2);
+assert_isequal(nargout('lastwarn'), 2);
+//=============================================================================
+lastwarn();
+//=============================================================================
+msg = lastwarn();
+assert_isequal(msg, '');
+//=============================================================================
+[msg, id] = lastwarn();
+assert_isequal(msg, '');
+assert_isequal(id, '');
+//=============================================================================
+lastwarn('toto');
+[msg, id] = lastwarn();
+assert_isequal(msg, 'toto');
+assert_isequal(id, '');
+//=============================================================================
+lastwarn('');
+[msg, id] = lastwarn();
+assert_isequal(msg, '');
+assert_isequal(id, '');
+//=============================================================================
+lastwarn('toto','titi');
+[msg, id] = lastwarn();
+assert_isequal(msg, 'toto');
+assert_isequal(id, 'titi');
+//=============================================================================
+lastwarn('');
+[msg, id] = lastwarn();
+assert_isequal(msg, '');
+assert_isequal(id, '');
+//=============================================================================

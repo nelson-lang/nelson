@@ -29,10 +29,10 @@ Nelson::ElementaryFunctionsGateway::isequalnBuiltin(
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() < 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     for (size_t k = 1; k < argIn.size(); k++) {
         ArrayOfVector v1v2;
@@ -48,7 +48,7 @@ Nelson::ElementaryFunctionsGateway::isequalnBuiltin(
         if (retval.size() > 0) {
             res = retval[0].getContentAsLogicalScalar() == 0 ? false : true;
         } else {
-            Error(eval, _W("overload of isequaln must return a logical."));
+            Error(_W("overload of isequaln must return a logical."));
         }
         if (!res) {
             return retval;

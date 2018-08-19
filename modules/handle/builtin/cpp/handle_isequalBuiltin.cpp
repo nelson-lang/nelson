@@ -27,15 +27,15 @@ Nelson::HandleGateway::handle_isequalBuiltin(Evaluator* eval, int nLhs, const Ar
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
     if (!A.isHandle()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
     }
     retval.push_back(ArrayOf::logicalConstructor(IsEqualHandle(A, B)));
     return retval;

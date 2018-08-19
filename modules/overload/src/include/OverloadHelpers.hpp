@@ -38,7 +38,7 @@ callOverloadedFunction(Evaluator* eval, ArrayOfVector argsIn,
     ArrayOf res;
     if (!wasFound) {
         if (bRaiseError) {
-            Error(eval, std::string("function ") + OverloadNameDesired + " undefined.");
+            Error(std::string("function ") + OverloadNameDesired + " undefined.");
         } else {
             res = ArrayOf::emptyConstructor();
         }
@@ -47,7 +47,7 @@ callOverloadedFunction(Evaluator* eval, ArrayOfVector argsIn,
         ArrayOfVector val = funcDef->evaluateFunction(eval, argsIn, nargout);
         if (val.size() != 1) {
             if (bRaiseError) {
-                Error(eval,
+                Error(
                     std::string("function ") + funcDef->name
                         + " only one output argument expected.");
             }

@@ -27,10 +27,10 @@ Nelson::FilesFoldersGateway::isdirBuiltin(Evaluator* eval, int nLhs, const Array
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn[0].isEmpty()) {
         retval.push_back(ArrayOf::logicalConstructor(false));
@@ -53,14 +53,14 @@ Nelson::FilesFoldersGateway::isdirBuiltin(Evaluator* eval, int nLhs, const Array
                         bmat[k] = IsDirectory(arg[k].getContentAsWideString());
                     } else {
                         delete[] bmat;
-                        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+                        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
                     }
                 }
                 ArrayOf res = ArrayOf(NLS_LOGICAL, argIn[0].getDimensions(), bmat, false);
                 retval.push_back(res);
             }
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
         }
     }
     return retval;

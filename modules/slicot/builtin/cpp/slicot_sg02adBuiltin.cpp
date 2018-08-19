@@ -45,10 +45,10 @@ Nelson::SlicotGateway::slicot_sg02adBuiltin(Evaluator* eval, int nLhs, const Arr
 {
     ArrayOfVector retval;
     if (nLhs > 10) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 16) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // INPUT VARIABLES
     ArrayOf DICO = argIn[0];
@@ -214,66 +214,62 @@ Nelson::SlicotGateway::slicot_sg02adBuiltin(Evaluator* eval, int nLhs, const Arr
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {
-        Error(eval, _W("Input argument #1: scalar expected."));
+        Error(_W("Input argument #1: scalar expected."));
     }
     if (!dimsJOBB.isScalar()) {
-        Error(eval, _W("Input argument #2: scalar expected."));
+        Error(_W("Input argument #2: scalar expected."));
     }
     if (!dimsFACT.isScalar()) {
-        Error(eval, _W("Input argument #3: scalar expected."));
+        Error(_W("Input argument #3: scalar expected."));
     }
     if (!dimsUPLO.isScalar()) {
-        Error(eval, _W("Input argument #4: scalar expected."));
+        Error(_W("Input argument #4: scalar expected."));
     }
     if (!dimsJOBL.isScalar()) {
-        Error(eval, _W("Input argument #5: scalar expected."));
+        Error(_W("Input argument #5: scalar expected."));
     }
     if (!dimsSCAL.isScalar()) {
-        Error(eval, _W("Input argument #6: scalar expected."));
+        Error(_W("Input argument #6: scalar expected."));
     }
     if (!dimsSORT.isScalar()) {
-        Error(eval, _W("Input argument #7: scalar expected."));
+        Error(_W("Input argument #7: scalar expected."));
     }
     if (!dimsACC.isScalar()) {
-        Error(eval, _W("Input argument #8: scalar expected."));
+        Error(_W("Input argument #8: scalar expected."));
     }
     if (!dimsP.isScalar()) {
-        Error(eval, _W("Input argument #9: scalar expected."));
+        Error(_W("Input argument #9: scalar expected."));
     }
     Dimensions dimsA_expected(
         std::max(1, (int)A.getDimensions().getRows()), (int)A.getDimensions().getRows());
     if (!dimsA.equals(dimsA_expected)) {
-        Error(eval,
-            _("Input argument #10: wrong size.") + " " + dimsA_expected.toString() + " "
-                + "expected" + ".");
+        Error(_("Input argument #10: wrong size.") + " " + dimsA_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsE_expected(
         std::max(1, (int)A.getDimensions().getRows()), (int)A.getDimensions().getRows());
     if (!dimsE.equals(dimsE_expected)) {
-        Error(eval,
-            _("Input argument #11: wrong size.") + " " + dimsE_expected.toString() + " "
-                + "expected" + ".");
+        Error(_("Input argument #11: wrong size.") + " " + dimsE_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsQ_expected(
         std::max(
             1, std::max((int)A.getDimensions().getRows(), (int)P.getContentAsInteger32Scalar())),
         (int)A.getDimensions().getRows());
     if (!dimsQ.equals(dimsQ_expected)) {
-        Error(eval,
-            _("Input argument #13: wrong size.") + " " + dimsQ_expected.toString() + " "
-                + "expected" + ".");
+        Error(_("Input argument #13: wrong size.") + " " + dimsQ_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsR_expected(
         std::max(
             1, std::max((int)P.getContentAsInteger32Scalar(), (int)B.getDimensions().getColumns())),
         (int)B.getDimensions().getColumns());
     if (!dimsR.equals(dimsR_expected)) {
-        Error(eval,
-            _("Input argument #14: wrong size.") + " " + dimsR_expected.toString() + " "
-                + "expected" + ".");
+        Error(_("Input argument #14: wrong size.") + " " + dimsR_expected.toString() + " "
+            + "expected" + ".");
     }
     if (!dimsTOL.isScalar()) {
-        Error(eval, _W("Input argument #16: scalar expected."));
+        Error(_W("Input argument #16: scalar expected."));
     }
     // CALL EXTERN FUNCTION
     try {
@@ -285,7 +281,7 @@ Nelson::SlicotGateway::slicot_sg02adBuiltin(Evaluator* eval, int nLhs, const Arr
             BWORK_ptr, IWARN_output_ptr, INFO_output_ptr);
     } catch (std::runtime_error& e) {
         e.what();
-        Error(eval, "sg02ad function fails.");
+        Error("sg02ad function fails.");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

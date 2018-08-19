@@ -28,10 +28,10 @@ ArrayOfVector
 Nelson::TimeGateway::tocBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if ((nLhs != 0) && (nLhs != 1)) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 1) {
         ArrayOf paramOne = argIn[0];
@@ -47,14 +47,13 @@ Nelson::TimeGateway::tocBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
             }
             return retval;
         } else {
-            Error(eval, _W("Cannot call toc."));
+            Error(_W("Cannot call toc."));
         }
     } else // argIn.size() == 0
     {
         if (eval->TimerValue == 0) {
-            Error(eval,
-                _W("You must call \'tic\' without an output argument before calling \'toc\' "
-                   "without an input argument."));
+            Error(_W("You must call \'tic\' without an output argument before calling \'toc\' "
+                     "without an input argument."));
         }
         double r = 0;
         if (Toc(eval, r)) {
@@ -67,9 +66,8 @@ Nelson::TimeGateway::tocBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
             }
             return retval;
         } else {
-            Error(eval,
-                _W("You must call \'tic\' without an output argument before calling \'toc\' "
-                   "without an input argument."));
+            Error(_W("You must call \'tic\' without an output argument before calling \'toc\' "
+                     "without an input argument."));
         }
     }
     // NEVER HERE

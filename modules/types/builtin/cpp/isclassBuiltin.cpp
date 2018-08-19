@@ -27,10 +27,10 @@ Nelson::TypeGateway::isclassBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bIsClass = argIn[0].isClassStruct();
     if (bIsClass) {

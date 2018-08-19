@@ -26,17 +26,17 @@ Nelson::IntegerGateway::intmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     if (argIn.size() > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0) {
         retval.push_back(ArrayOf::int32Constructor(2147483647));
     } else {
         ArrayOf param1 = argIn[0];
         if (!param1.isSingleString()) {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring classInt = param1.getContentAsWideString();
         if (classInt == L"int8") {
@@ -56,7 +56,7 @@ Nelson::IntegerGateway::intmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         } else if (classInt == L"uint64") {
             retval.push_back(ArrayOf::uint64Constructor(std::numeric_limits<uint64>::max()));
         } else {
-            Error(eval, _W("The name of an integer class expected."));
+            Error(_W("The name of an integer class expected."));
         }
     }
     return retval;

@@ -26,7 +26,7 @@ Nelson::CoreGateway::exitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
 {
     ArrayOfVector retval;
     if (argIn.size() > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     int iValue = 0;
     if (argIn.size() == 0) {
@@ -34,16 +34,16 @@ Nelson::CoreGateway::exitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
     } else {
         ArrayOf param1 = argIn[0];
         if (!param1.isDoubleType() || (param1.isSparse())) {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
         } else {
             ArrayOf param1 = argIn[0];
             if (!param1.isScalar()) {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_EXPECTED);
             }
             double dValue = param1.getContentAsDoubleScalar();
             iValue = (int)dValue;
             if ((double)iValue != dValue) {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
             }
         }
     }

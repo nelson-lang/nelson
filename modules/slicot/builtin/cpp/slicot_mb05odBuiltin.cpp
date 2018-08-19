@@ -39,10 +39,10 @@ Nelson::SlicotGateway::slicot_mb05odBuiltin(Evaluator* eval, int nLhs, const Arr
 {
     ArrayOfVector retval;
     if (nLhs > 5) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 4) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // INPUT VARIABLES
     ArrayOf BALANC = argIn[0];
@@ -96,20 +96,19 @@ Nelson::SlicotGateway::slicot_mb05odBuiltin(Evaluator* eval, int nLhs, const Arr
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsBALANC.isScalar()) {
-        Error(eval, _W("Input argument #1: scalar expected."));
+        Error(_W("Input argument #1: scalar expected."));
     }
     if (!dimsNDIAG.isScalar()) {
-        Error(eval, _W("Input argument #2: scalar expected."));
+        Error(_W("Input argument #2: scalar expected."));
     }
     if (!dimsDELTA.isScalar()) {
-        Error(eval, _W("Input argument #3: scalar expected."));
+        Error(_W("Input argument #3: scalar expected."));
     }
     Dimensions dimsA_expected(
         std::max(1, (int)N.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsA.equals(dimsA_expected)) {
-        Error(eval,
-            _("Input argument #4: wrong size.") + " " + dimsA_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #4: wrong size.") + " " + dimsA_expected.toString() + " "
+            + "expected" + ".");
     }
     // CALL EXTERN FUNCTION
     try {
@@ -117,7 +116,7 @@ Nelson::SlicotGateway::slicot_mb05odBuiltin(Evaluator* eval, int nLhs, const Arr
             IDIG_output_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr, IWARN_output_ptr, INFO_output_ptr);
     } catch (std::runtime_error& e) {
         e.what();
-        Error(eval, "mb05od function fails.");
+        Error("mb05od function fails.");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

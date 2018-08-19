@@ -30,10 +30,10 @@ Nelson::ElementaryFunctionsGateway::castBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() < 2 || argIn.size() > 3) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
     if (eval->overloadOnBasicTypes) {
@@ -63,7 +63,7 @@ Nelson::ElementaryFunctionsGateway::castBuiltin(
             ArrayOf param2 = argIn[1];
             std::wstring like = param2.getContentAsWideString();
             if (like != L"like") {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
+                Error(ERROR_WRONG_ARGUMENT_2_VALUE);
             }
             destinationClass = argIn[2].getDataClass();
             isSparse = argIn[2].isSparse();

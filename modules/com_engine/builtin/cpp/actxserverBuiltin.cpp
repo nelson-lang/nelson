@@ -28,7 +28,7 @@ Nelson::ComEngineGateway::actxserverBuiltin(Evaluator* eval, int nLhs, const Arr
     ArrayOfVector retval;
 #ifdef _MSC_VER
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring progid = L"";
     std::wstring machine = L"";
@@ -39,19 +39,19 @@ Nelson::ComEngineGateway::actxserverBuiltin(Evaluator* eval, int nLhs, const Arr
     case 3: {
         std::wstring type = argIn[2].getContentAsWideString();
         if (!(type == L"machine")) {
-            Error(eval, _W("'machine' value expected."));
+            Error(_W("'machine' value expected."));
         }
         progid = argIn[0].getContentAsWideString();
     } break;
     case 2:
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     ComHandleObject* comhandle = ActiveXServer(progid, machine);
     retval.push_back(ArrayOf::handleConstructor(comhandle));
 #else
-    Error(eval, _W("Not implemented on this platform."));
+    Error(_W("Not implemented on this platform."));
 #endif
     return retval;
 }

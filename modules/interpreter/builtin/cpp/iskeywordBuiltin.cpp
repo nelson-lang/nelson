@@ -27,7 +27,7 @@ Nelson::InterpreterGateway::iskeywordBuiltin(Evaluator* eval, int nLhs, const Ar
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0) {
         wstringVector keys = GetKeywords(true);
@@ -40,7 +40,7 @@ Nelson::InterpreterGateway::iskeywordBuiltin(Evaluator* eval, int nLhs, const Ar
         retval.push_back(c);
     } else {
         if (!argIn[0].isSingleString()) {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring warg = argIn[0].getContentAsWideString();
         retval.push_back(ArrayOf::logicalConstructor(isKeyword(warg)));

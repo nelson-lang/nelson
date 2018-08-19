@@ -35,7 +35,7 @@ DeleteDynamicLinkLibraryObject(ArrayOf A)
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
                     if (hlObj->getCategory() != DLLIB_CATEGORY_STR) {
-                        throw Exception(_W("dllib handle expected."));
+                        Error(_W("dllib handle expected."));
                     }
                     DynamicLinkLibraryObject* obj = (DynamicLinkLibraryObject*)hlObj;
                     delete obj;
@@ -44,7 +44,7 @@ DeleteDynamicLinkLibraryObject(ArrayOf A)
                 }
             }
         } else {
-            throw Exception(_W("dllib valid handle expected."));
+            Error(_W("dllib valid handle expected."));
         }
     }
     return res;

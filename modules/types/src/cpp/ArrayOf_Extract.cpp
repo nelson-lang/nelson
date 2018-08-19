@@ -20,6 +20,8 @@
 #include "Data.hpp"
 #include "Dimensions.hpp"
 #include "SparseDynamicFunctions.hpp"
+#include "Error.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -34,7 +36,7 @@ ArrayOf::getValueAtIndex(uint64 index)
 {
     uint64 length = (uint64)this->getLength();
     if (index >= length) {
-        throw Exception(_W("Index exceeds matrix dimensions."));
+        Error(_W("Index exceeds matrix dimensions."));
     }
     // call extration overloading here for not supported types
     Dimensions retdims(1, 1);
@@ -70,7 +72,7 @@ ArrayOf::getVectorSubset(ArrayOf& index)
             if (index.isSingleString()) {
                 std::wstring str = index.getContentAsWideString();
                 if (str != L":") {
-                    throw Exception(_W("index must either be real positive integers or logicals."));
+                    Error(_W("index must either be real positive integers or logicals."));
                 }
                 ArrayOf newIndex = ArrayOf::integerRangeConstructor(
                     1, 1, dp->dimensions.getElementCount(), true);
@@ -79,7 +81,7 @@ ArrayOf::getVectorSubset(ArrayOf& index)
                 double idx = index.getContentAsDoubleScalar();
                 int64 iidx = (int64)idx;
                 if (idx != (double)iidx || idx < 0) {
-                    throw Exception(_W("index must either be real positive integers or logicals."));
+                    Error(_W("index must either be real positive integers or logicals."));
                 }
                 if (isSparse()) {
                     return getValueAtIndex((uint64)idx);
@@ -134,7 +136,7 @@ ArrayOf::getVectorSubset(ArrayOf& index)
             for (indexType i = 0; i < length; i++) {
                 ndx = index_p[i] - 1;
                 if (ndx < 0 || ndx >= bound) {
-                    throw Exception(_W("Index exceeds variable dimensions."));
+                    Error(_W("Index exceeds variable dimensions."));
                 }
                 copyElements(ndx, qp, i, 1);
             }
@@ -160,7 +162,7 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
     void* qp = nullptr;
     indexType i;
     if (isEmpty()) {
-        throw Exception(_W("Cannot index into empty variable."));
+        Error(_W("Cannot index into empty variable."));
     }
     try {
         indexType L = index.size();
@@ -177,8 +179,7 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
                 if (index[i].isSingleString()) {
                     std::wstring str = index[i].getContentAsWideString();
                     if (str != L":") {
-                        throw Exception(
-                            _W("index must either be real positive integers or logicals."));
+                        Error(_W("index must either be real positive integers or logicals."));
                     }
                     indexType maxVal = dp->dimensions.getDimensionLength(i);
                     index[i] = ArrayOf::integerRangeConstructor(1, 1, maxVal, false);
@@ -207,8 +208,8 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
         } else {
             if (isSparse()) {
                 if (L > 2) {
-                    throw Exception(_W("multidimensional indexing (more than 2 dimensions) not "
-                                       "legal for sparse arrays"));
+                    Error(_W("multidimensional indexing (more than 2 dimensions) not "
+                             "legal for sparse arrays"));
                 }
                 if ((outDims[0] == 1) && (outDims[1] == 1)) {
                     return ArrayOf(dp->dataClass, outDims,

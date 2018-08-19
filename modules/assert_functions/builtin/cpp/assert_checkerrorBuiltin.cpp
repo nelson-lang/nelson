@@ -28,10 +28,10 @@ Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
@@ -40,12 +40,12 @@ Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin(
     std::wstring command = param1.getContentAsWideString();
     std::wstring expectedmsg = param2.getContentAsWideString();
     if (expectedmsg == L"") {
-        Error(eval, _W("empty string not allowed as expected message."));
+        Error(_W("empty string not allowed as expected message."));
     }
     res = Assert_CheckError(eval, command, expectedmsg, msg);
     if (nLhs == 0) {
         if (!res) {
-            Error(eval, msg);
+            Error(msg);
         }
     } else {
         retval.push_back(ArrayOf::logicalConstructor(res));

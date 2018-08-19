@@ -31,12 +31,12 @@ findchildrenQObject(ArrayOf H, std::wstring fieldname, bool bRecursively)
     res.promoteType(NLS_HANDLE);
     HandleGenericObject* hlObj = H.getContentAsHandleScalar();
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
-        throw Exception(_W("QObject handle expected."));
+        Error(_W("QObject handle expected."));
     }
     QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        throw Exception(_W("QObject valid handle expected."));
+        Error(_W("QObject valid handle expected."));
     }
     QObject* qobj = (QObject*)ptr;
     Qt::FindChildOption option = Qt::FindDirectChildrenOnly;
@@ -58,7 +58,7 @@ findchildrenQObject(ArrayOf H, std::wstring fieldname, bool bRecursively)
                 } catch (std::bad_alloc& e) {
                     e.what();
                     qmlHandle = nullptr;
-                    throw Exception(ERROR_MEMORY_ALLOCATION);
+                    Error(ERROR_MEMORY_ALLOCATION);
                 }
                 nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
             }

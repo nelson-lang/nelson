@@ -158,10 +158,10 @@ ToChar(ArrayOf A)
     } break;
     case NLS_SCOMPLEX:
     case NLS_DCOMPLEX: {
-        throw Exception(_W("Conversion to char from complex is not possible."));
+        Error(_W("Conversion to char from complex is not possible."));
     } break;
     default: {
-        throw Exception(_W("Invalid conversion."));
+        Error(_W("Invalid conversion."));
     } break;
     }
     return res;

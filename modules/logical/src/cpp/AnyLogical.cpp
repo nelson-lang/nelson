@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "AnyLogical.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {

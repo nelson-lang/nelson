@@ -18,7 +18,7 @@
 //=============================================================================
 #include "lapack_eigen.hpp"
 #include "Norm.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
@@ -244,11 +244,11 @@ Norm(const ArrayOf& arrayIn, double p)
 {
     ArrayOf res;
     if (!arrayIn.is2D()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_SIZE_2D_MATRIX_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_SIZE_2D_MATRIX_EXPECTED);
     }
 
     if (!ispNormValid(p) && !(arrayIn.isVector() || arrayIn.isScalar())) {
-        throw Exception(ERROR_WRONG_ARGUMENT_2_VALUE);
+        Error(ERROR_WRONG_ARGUMENT_2_VALUE);
     }
     double normResultAsDouble = 0;
     single normResultAsSingle = 0;
@@ -330,7 +330,7 @@ Norm(const ArrayOf& arrayIn, double p)
                     res = ArrayOf::doubleConstructor(normResultAsDouble);
                 }
             } else {
-                throw Exception(ERROR_WRONG_ARGUMENT_2_VALUE);
+                Error(ERROR_WRONG_ARGUMENT_2_VALUE);
             }
         }
     }
@@ -342,7 +342,7 @@ NormFrobenius(const ArrayOf& arrayIn)
 {
     ArrayOf res;
     if (!arrayIn.is2D()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_SIZE_2D_MATRIX_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_SIZE_2D_MATRIX_EXPECTED);
     }
     double normResultAsDouble = 0;
     single normResultAsSingle = 0;

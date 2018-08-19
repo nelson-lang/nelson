@@ -17,7 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ColonDouble.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
+#include "Warning.hpp"
 #include <Eigen/Dense>
 #include <cmath>
 //=============================================================================
@@ -26,17 +27,66 @@ namespace Nelson {
 ArrayOf
 colon_double(ArrayOf a, ArrayOf b)
 {
-    double A = a.getContentAsDoubleScalar();
-    double B = b.getContentAsDoubleScalar();
+    double A = 0;
+    double B = 0;
+    bool warningArrayAsScalar = false;
+    if (a.isEmpty() || b.isEmpty()) {
+        A = 1;
+        B = 0;
+    } else {
+        if (a.isScalar()) {
+            A = a.getContentAsDoubleScalar();
+        } else {
+            warningArrayAsScalar = true;
+            A = a.getContentAsDoubleScalar(true);
+        }
+        if (b.isScalar()) {
+            B = b.getContentAsDoubleScalar();
+        } else {
+            warningArrayAsScalar = true;
+            B = b.getContentAsDoubleScalar(true);
+        }
+    }
+    if (warningArrayAsScalar) {
+        Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
+    }
     return double_colon(A, B);
 }
 //=============================================================================
 ArrayOf
 colon_double(ArrayOf a, ArrayOf b, ArrayOf c)
 {
-    double A = a.getContentAsDoubleScalar();
-    double B = b.getContentAsDoubleScalar();
-    double C = c.getContentAsDoubleScalar();
+    double A = 0;
+    double B = 0;
+    double C = 0;
+    bool warningArrayAsScalar = false;
+    if (a.isEmpty() || b.isEmpty() || c.isEmpty()) {
+        A = 1;
+        B = 0;
+        C = 0;
+    } else {
+        if (a.isScalar()) {
+            A = a.getContentAsDoubleScalar();
+        } else {
+            warningArrayAsScalar = true;
+            A = a.getContentAsDoubleScalar(true);
+        }
+        if (b.isScalar()) {
+            B = b.getContentAsDoubleScalar();
+        } else {
+            warningArrayAsScalar = true;
+            B = b.getContentAsDoubleScalar(true);
+        }
+        if (c.isScalar()) {
+            C = c.getContentAsDoubleScalar();
+        } else {
+            warningArrayAsScalar = true;
+            C = c.getContentAsDoubleScalar(true);
+        }
+    }
+    if (warningArrayAsScalar) {
+        Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
+    }
     return double_colon(A, B, C);
 }
 //=============================================================================
@@ -51,7 +101,7 @@ double_colon(double low, double high, double step)
         return ArrayOf::doubleConstructor(nan(""));
     }
     if (!std::isfinite(low) || !std::isfinite(high) || !std::isfinite(step)) {
-        throw Exception(_W("Invalid range."));
+        Error(_W("Invalid range."));
     }
     if (low < high) {
         if (step < 0) {
@@ -84,5 +134,5 @@ double_colon(double low, double high, double step)
     return V;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

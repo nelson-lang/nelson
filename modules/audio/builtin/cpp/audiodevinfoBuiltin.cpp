@@ -35,7 +35,7 @@ Nelson::AudioGateway::audiodevinfoBuiltin(Evaluator* eval, int nLhs, const Array
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring errorMessage;
     ArrayOf res;
@@ -53,7 +53,7 @@ Nelson::AudioGateway::audiodevinfoBuiltin(Evaluator* eval, int nLhs, const Array
             if (str == L"default") {
                 res = AudioDevInfoDefault(errorMessage);
             } else {
-                Error(eval, _W("Wrong value for #1 argument."));
+                Error(_W("Wrong value for #1 argument."));
             }
         } else {
             int io = param1.getContentAsInteger32Scalar();
@@ -79,7 +79,7 @@ Nelson::AudioGateway::audiodevinfoBuiltin(Evaluator* eval, int nLhs, const Array
         ArrayOf param3 = argIn[2];
         std::wstring str3 = param3.getContentAsWideString();
         if (str3 != L"DriverVersion") {
-            Error(eval, _W("Wrong value for #3 argument."));
+            Error(_W("Wrong value for #3 argument."));
         }
         ArrayOf param1 = argIn[0];
         int io = param1.getContentAsInteger32Scalar();
@@ -114,11 +114,11 @@ Nelson::AudioGateway::audiodevinfoBuiltin(Evaluator* eval, int nLhs, const Array
         res = AudioDevInfo(io, id, rate, bits, chans, errorMessage);
     } break;
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     if (!errorMessage.empty()) {
-        Error(eval, errorMessage);
+        Error(errorMessage);
     }
     retval.push_back(res);
     return retval;

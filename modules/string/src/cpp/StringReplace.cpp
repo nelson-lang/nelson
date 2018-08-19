@@ -23,7 +23,7 @@
 #include <boost/container/vector.hpp>
 #include "StringReplace.hpp"
 #include "IsCellOfStrings.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -46,26 +46,26 @@ StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps)
         outputDims = STR.getDimensions();
     } else if (wstr.size() == 1) {
         if (!OLD.getDimensions().equals(NEW.getDimensions())) {
-            throw Exception(ERROR_SAME_SIZE_EXPECTED);
+            Error(ERROR_SAME_SIZE_EXPECTED);
         }
         nbOutput = wold.size();
         outputDims = OLD.getDimensions();
     } else if (wold.size() == 1) {
         if (!STR.getDimensions().equals(NEW.getDimensions())) {
-            throw Exception(ERROR_SAME_SIZE_EXPECTED);
+            Error(ERROR_SAME_SIZE_EXPECTED);
         }
         nbOutput = wstr.size();
         outputDims = STR.getDimensions();
     } else if (wnew.size() == 1) {
         if (!STR.getDimensions().equals(OLD.getDimensions())) {
-            throw Exception(ERROR_SAME_SIZE_EXPECTED);
+            Error(ERROR_SAME_SIZE_EXPECTED);
         }
         nbOutput = wstr.size();
         outputDims = STR.getDimensions();
     } else {
         if ((!STR.getDimensions().equals(OLD.getDimensions()))
             || (!STR.getDimensions().equals(NEW.getDimensions()))) {
-            throw Exception(ERROR_SAME_SIZE_EXPECTED);
+            Error(ERROR_SAME_SIZE_EXPECTED);
         }
         nbOutput = wstr.size();
         outputDims = STR.getDimensions();
@@ -90,7 +90,7 @@ StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps)
                         elements = new ArrayOf[nbOutput];
                     } catch (std::bad_alloc& e) {
                         e.what();
-                        throw Exception(ERROR_MEMORY_ALLOCATION);
+                        Error(ERROR_MEMORY_ALLOCATION);
                     }
                     elements[0] = ArrayOf::stringConstructor(result);
                     res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
@@ -116,7 +116,7 @@ StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps)
                 elements = new ArrayOf[nbOutput];
             } catch (std::bad_alloc& e) {
                 e.what();
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
             for (size_t i = 0; i < nbOutput; i++) {
                 size_t idx_str = (i)*str_incr;
@@ -200,7 +200,7 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
                 elements = new ArrayOf[wstr.size()];
             } catch (std::bad_alloc& e) {
                 e.what();
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
             elements[0] = ArrayOf::stringConstructor(wstr[0]);
             res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
@@ -219,7 +219,7 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
                 elements = new ArrayOf[wstr.size()];
             } catch (std::bad_alloc& e) {
                 e.what();
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
             elements[0] = ArrayOf::stringConstructor(wstr[0]);
             res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
@@ -253,25 +253,25 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
             outputDims = STR.getDimensions();
         } else if (wstr.size() == 1) {
             if (!OLD.getDimensions().equals(NEW.getDimensions())) {
-                throw Exception(ERROR_SAME_SIZE_EXPECTED);
+                Error(ERROR_SAME_SIZE_EXPECTED);
             }
             nbOutput = wold.size();
             outputDims = OLD.getDimensions();
         } else if (wold.size() == 1) {
             if (!STR.getDimensions().equals(NEW.getDimensions())) {
-                throw Exception(ERROR_SAME_SIZE_EXPECTED);
+                Error(ERROR_SAME_SIZE_EXPECTED);
             }
             nbOutput = wstr.size();
             outputDims = STR.getDimensions();
         } else if (wnew.size() == 1) {
             if (!STR.getDimensions().equals(OLD.getDimensions())) {
-                throw Exception(ERROR_SAME_SIZE_EXPECTED);
+                Error(ERROR_SAME_SIZE_EXPECTED);
             }
             nbOutput = wstr.size();
             outputDims = STR.getDimensions();
         } else {
             if (!NEW.getDimensions().equals(OLD.getDimensions())) {
-                throw Exception(ERROR_SAME_SIZE_EXPECTED);
+                Error(ERROR_SAME_SIZE_EXPECTED);
             }
             nbOutput = wstr.size();
             outputDims = STR.getDimensions();
@@ -286,13 +286,13 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
             Dimensions newDims = NEW.getDimensions();
             if (!(OLD.isScalar() || NEW.isScalar())) {
                 if (!newDims.equals(oldDims)) {
-                    throw Exception(ERROR_SAME_SIZE_EXPECTED);
+                    Error(ERROR_SAME_SIZE_EXPECTED);
                 }
             }
         } else {
             if (OLD.isString() && NEW.isCell()) {
                 if (wold.size() != wnew.size()) {
-                    throw Exception(ERROR_SAME_SIZE_EXPECTED);
+                    Error(ERROR_SAME_SIZE_EXPECTED);
                 }
             }
         }
@@ -318,7 +318,7 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
                             elements = new ArrayOf[nbOutput];
                         } catch (std::bad_alloc& e) {
                             e.what();
-                            throw Exception(ERROR_MEMORY_ALLOCATION);
+                            Error(ERROR_MEMORY_ALLOCATION);
                         }
                         elements[0] = ArrayOf::stringConstructor(result);
                         res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
@@ -339,7 +339,7 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
                             elements = new ArrayOf[nbOutput];
                         } catch (std::bad_alloc& e) {
                             e.what();
-                            throw Exception(ERROR_MEMORY_ALLOCATION);
+                            Error(ERROR_MEMORY_ALLOCATION);
                         }
                         res = ArrayOf(NLS_CELL_ARRAY, outputDims, elements);
                     } else {
@@ -355,7 +355,7 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
                     elements = new ArrayOf[nbOutput];
                 } catch (std::bad_alloc& e) {
                     e.what();
-                    throw Exception(ERROR_MEMORY_ALLOCATION);
+                    Error(ERROR_MEMORY_ALLOCATION);
                 }
                 if (wold.size() == wnew.size() && wnew.size() > 1) {
                     for (size_t i = 0; i < nbOutput; i++) {

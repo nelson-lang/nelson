@@ -40,7 +40,7 @@ CommandQueue::isEmpty()
 }
 //=============================================================================
 void
-CommandQueue::add(std::string cmdline, bool bIsPriority)
+CommandQueue::add(const std::wstring& cmdline, bool bIsPriority)
 {
     std::lock_guard<std::mutex> lock(m_mutex);
     commands.push_back(cmdline);
@@ -54,7 +54,7 @@ CommandQueue::clear()
 }
 //=============================================================================
 bool
-CommandQueue::get(std::string& cmd)
+CommandQueue::get(std::wstring& cmd)
 {
     std::lock_guard<std::mutex> lock(m_mutex);
     if (commands.size() > 0) {
@@ -62,7 +62,7 @@ CommandQueue::get(std::string& cmd)
         commands.pop_back();
         return true;
     }
-    cmd = "";
+    cmd = L"";
     return false;
 }
 //=============================================================================

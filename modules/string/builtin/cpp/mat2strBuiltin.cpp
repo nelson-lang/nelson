@@ -28,10 +28,10 @@ Nelson::StringGateway::mat2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
@@ -49,13 +49,13 @@ Nelson::StringGateway::mat2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                 if (str == L"class") {
                     withClass = true;
                 } else {
-                    Error(eval, _W("'class' argument expected."));
+                    Error(_W("'class' argument expected."));
                 }
             }
             if (param2.isNumeric()) {
                 defautPrecision = param2.getContentAsScalarIndex();
             } else {
-                Error(eval, _W("Second input argument must be a real positive integers."));
+                Error(_W("Second input argument must be a real positive integers."));
             }
         } else if (argIn.size() == 2) {
             ArrayOf param2 = argIn[1];
@@ -65,13 +65,13 @@ Nelson::StringGateway::mat2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                     defautPrecision = 15;
                     withClass = true;
                 } else {
-                    Error(eval, _W("'class' argument expected."));
+                    Error(_W("'class' argument expected."));
                 }
             } else if (param2.isNumeric()) {
                 defautPrecision = param2.getContentAsScalarIndex();
                 withClass = false;
             } else {
-                Error(eval, _W("Second input argument must be a real positive integers."));
+                Error(_W("Second input argument must be a real positive integers."));
             }
         } else // argIn.size() == 1
         {
@@ -83,14 +83,14 @@ Nelson::StringGateway::mat2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         if (!canBeConvert) {
             retval = OverloadFunction(eval, nLhs, argIn, "mat2str", bSuccess);
             if (!bSuccess) {
-                Error(eval, _W("An numeric matrix expected."));
+                Error(_W("An numeric matrix expected."));
             }
             return retval;
         }
         if (A.isSparse()) {
             retval = OverloadFunction(eval, nLhs, argIn, "mat2str", bSuccess);
             if (!bSuccess) {
-                Error(eval, ERROR_TYPE_NOT_SUPPORTED);
+                Error(ERROR_TYPE_NOT_SUPPORTED);
             }
             return retval;
         }

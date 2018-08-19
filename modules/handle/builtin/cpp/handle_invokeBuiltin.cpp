@@ -29,10 +29,10 @@ Nelson::HandleGateway::handle_invokeBuiltin(Evaluator* eval, int nLhs, const Arr
 {
     ArrayOfVector retval;
     if (argIn.size() == 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     if (!param1.isEmpty()) {
@@ -68,13 +68,13 @@ Nelson::HandleGateway::handle_invokeBuiltin(Evaluator* eval, int nLhs, const Arr
                 }
                 if (!doOverload) {
                     std::wstring msg = ufunctionNameGetHandle + L" " + _W("not defined.");
-                    Error(eval, msg);
+                    Error(msg);
                 }
             } else {
-                Error(eval, _W("Invalid handle."));
+                Error(_W("Invalid handle."));
             }
         } else {
-            Error(eval, _W("Invalid handle."));
+            Error(_W("Invalid handle."));
         }
     } else {
         if (nLhs > 0) {

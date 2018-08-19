@@ -18,7 +18,7 @@
 //=============================================================================
 #include "OverloadExtraction.hpp"
 #include "ClassName.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 ArrayOfVector
@@ -30,7 +30,7 @@ OverloadExtraction(Evaluator* eval, const std::string& ClassName, ArrayOfVector 
     std::string OverloadName = ClassName(a) + "_" + functionName;
     if (!context->lookupFunction(OverloadName, funcDef))
     {
-        throw Exception(std::string("function ") + OverloadName + " undefined.");
+        Error(std::string("function ") + OverloadName + " undefined.");
     }
     ArrayOfVector argsIn;
     argsIn.push_back(a);
@@ -38,7 +38,7 @@ OverloadExtraction(Evaluator* eval, const std::string& ClassName, ArrayOfVector 
     ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
     if (res.size() != 1)
     {
-        throw Exception(std::string("function ") + OverloadName + " only one output argument
+        Error(std::string("function ") + OverloadName + " only one output argument
     expected.");
     }
     return res[0];

@@ -19,6 +19,8 @@
 #include <Eigen/Dense>
 #include "MtimesDouble.hpp"
 #include "MatrixCheck.hpp"
+#include "Error.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -163,13 +165,13 @@ double_mtimes_double(ArrayOf a, ArrayOf b)
     Dimensions dimsA = a.getDimensions();
     Dimensions dimsB = b.getDimensions();
     if (dimsA.getLength() > 2 || dimsB.getLength() > 2) {
-        throw Exception(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     if (!a.isDoubleType() || !b.isDoubleType()) {
-        throw Exception(ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED);
     }
     if (a.isSparse() || b.isSparse()) {
-        throw Exception(ERROR_WRONG_ARGUMENTS_SIZE_FULL_MATRIX_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENTS_SIZE_FULL_MATRIX_EXPECTED);
     }
     if (a.isEmpty() || b.isEmpty()) {
         dimsA.simplify();
@@ -204,16 +206,16 @@ double_mtimes_double(ArrayOf a, ArrayOf b)
             Dimensions dimsC(dimsA[0], 0);
             return ArrayOf::emptyConstructor(dimsC);
         }
-        throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
+        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
     }
     if (!a.is2D() || !b.is2D()) {
-        throw Exception(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     bool isVector = ((a.isVector() && b.isScalar()) || (b.isVector() && a.isScalar())
         || (a.isRowVector() && b.isColumnVector()) || (b.isRowVector() && a.isColumnVector()));
     if (!(SameSizeCheck(a.getDimensions(), b.getDimensions()) || a.isScalar() || b.isScalar())
         && !isVector && a.getDimensions().getColumns() != b.getDimensions().getRows()) {
-        throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
+        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
     }
     if (a.isEmpty()) {
         Dimensions dimA = a.getDimensions();
@@ -224,7 +226,7 @@ double_mtimes_double(ArrayOf a, ArrayOf b)
                 // [] + X returns []
                 return ArrayOf(b.getDataClass());
             } else {
-                throw Exception(_W("using operator '*' \n Matrix dimensions must agree."));
+                Error(_W("using operator '*' \n Matrix dimensions must agree."));
             }
         }
     }

@@ -51,7 +51,7 @@ ArrayOf
 MatrixTan(const ArrayOf& A)
 {
     if (!A.isSquare()) {
-        throw Exception(_("Square matrix expected."));
+        Error(_("Square matrix expected."));
     }
     if (A.isEmpty()) {
         ArrayOf R(A);
@@ -60,7 +60,7 @@ MatrixTan(const ArrayOf& A)
     }
     switch (A.getDataClass()) {
     default: {
-        throw Exception(_("Undefined function 'tanm' for input arguments of type") + " '"
+        Error(_("Undefined function 'tanm' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     case NLS_SCOMPLEX: {

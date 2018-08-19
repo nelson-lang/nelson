@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "StringCount.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "IsCellOfStrings.hpp"
 #include <boost/algorithm/string.hpp>
 //=============================================================================
@@ -92,7 +92,7 @@ StringCount(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
             }
             res = ArrayOf(NLS_DOUBLE, dimA, result);
         } else {
-            throw Exception(_W("char vector or cell of strings expected."));
+            Error(_W("char vector or cell of strings expected."));
         }
     }
     return res;

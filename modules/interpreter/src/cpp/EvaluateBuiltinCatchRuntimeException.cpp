@@ -25,7 +25,6 @@
 #endif
 #include "Error.hpp"
 #include "EvaluateBuiltinCatchRuntimeException.hpp"
-#include "Exception.hpp"
 #include "i18n.hpp"
 //=============================================================================
 #ifndef _MSC_VER
@@ -125,7 +124,7 @@ EvaluateBuiltinCatchRuntimeException(
         outputs = fptr(eval, nargout, inputs);
     } catch (std::runtime_error& e) {
         _set_se_translator(NULL);
-        Error(eval, e.what());
+        Error(e.what());
     }
     _set_se_translator(NULL);
 #else
@@ -155,7 +154,7 @@ EvaluateBuiltinCatchRuntimeException(
         signal(SIGSEGV, SIG_DFL);
         signal(SIGFPE, SIG_DFL);
         signal(SIGILL, SIG_DFL);
-        Error(eval, error_message);
+        Error(error_message);
     }
     signal(SIGSEGV, SIG_DFL);
     signal(SIGFPE, SIG_DFL);

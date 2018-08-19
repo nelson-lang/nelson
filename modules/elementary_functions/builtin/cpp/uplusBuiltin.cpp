@@ -28,7 +28,7 @@ Nelson::ElementaryFunctionsGateway::uplusBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf arg1 = argIn[0];
     retval.push_back(eval->doUnaryOperatorOverload(arg1, UnaryPlus, "uplus"));

@@ -30,10 +30,10 @@ Nelson::ElementaryFunctionsGateway::absBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
     if (eval->overloadOnBasicTypes) {
@@ -45,7 +45,7 @@ Nelson::ElementaryFunctionsGateway::absBuiltin(
             if (bSuccess) {
                 return retval;
             }
-            Error(eval, _("Undefined function '") + ClassName(argIn[0]) + "_abs'");
+            Error(_("Undefined function '") + ClassName(argIn[0]) + "_abs'");
         }
         if (argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
             || argIn[0].isClassStruct()) {

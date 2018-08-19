@@ -33,10 +33,10 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (argIn.size() == 0) {
         if (nLhs == 1) {
@@ -86,7 +86,7 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                     return retval;
                 }
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+                Error(ERROR_WRONG_ARGUMENT_1_VALUE);
             }
         } else if (param1.isNumeric()) {
             if (nLhs == 1) {

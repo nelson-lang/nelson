@@ -27,12 +27,12 @@ Nelson::DataStructuresGateway::struct_dispBuiltin(
 {
     ArrayOfVector retval;
     if (nLhs > 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } else if (argIn[0].getDataClass() != NLS_STRUCT_ARRAY) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
     } else {
         argIn[0].printMe(eval->getPrintLimit(), eval->getInterface()->getTerminalWidth());
     }

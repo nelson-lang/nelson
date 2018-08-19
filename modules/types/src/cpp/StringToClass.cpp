@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "StringToClass.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -56,7 +56,7 @@ StringToClass(std::wstring classname)
     } else if (classname.compare(L"struct") == 0) {
         destClass = NLS_STRUCT_ARRAY;
     } else {
-        throw Exception(_W("input must be a valid class name."));
+        Error(_W("input must be a valid class name."));
     }
     return destClass;
 }

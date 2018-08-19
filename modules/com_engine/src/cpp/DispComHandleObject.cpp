@@ -50,7 +50,7 @@ DispComHandleObject(Evaluator* eval, ArrayOf A)
                     nelson_handle hl = qp[0];
                     HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                     if (hlObj->getCategory() != COM_CATEGORY_STR) {
-                        throw Exception(_W("COM handle expected."));
+                        Error(_W("COM handle expected."));
                     }
                     Dimensions dimsA = A.getDimensions();
                     io->outputMessage(L"[COM] - size: ");
@@ -66,7 +66,7 @@ DispComHandleObject(Evaluator* eval, ArrayOf A)
                     io->outputMessage("\n");
                 }
             } else {
-                Error(eval, _W("COM handle expected."));
+                Error(_W("COM handle expected."));
             }
         }
     }

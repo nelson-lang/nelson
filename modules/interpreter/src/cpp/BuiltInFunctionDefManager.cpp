@@ -107,9 +107,8 @@ BuiltInFunctionDefManager::remove(FuncPtr ptr)
         if (*it == ptr) {
             BuiltInFunctionDef* p = (BuiltInFunctionDef*)(*it);
             delete p;
-            std::vector<FuncPtr>::iterator it_to_delete = it;
             clearCache();
-            builtinVector.erase(it_to_delete);
+            builtinVector.erase(it);
         }
     }
     return false;
@@ -123,9 +122,8 @@ BuiltInFunctionDefManager::remove(BuiltInFunctionDef* ptr)
         if (*it == ptr) {
             BuiltInFunctionDef* p = (BuiltInFunctionDef*)(*it);
             delete p;
-            std::vector<FuncPtr>::iterator it_to_delete = it;
             clearCache();
-            builtinVector.erase(it_to_delete);
+            builtinVector.erase(it);
         }
     }
     return false;

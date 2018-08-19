@@ -38,11 +38,13 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Data.hpp"
-#include "Exception.hpp"
 #include "IEEEFP.hpp"
 #include "SparseDynamicFunctions.hpp"
 #include "SparseType.hpp"
 #include "characters_encoding.hpp"
+#include "Warning.hpp"
+#include "Error.hpp"
+#include "Exception.hpp"
 #include <Eigen/Dense>
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
@@ -216,7 +218,7 @@ ArrayOf::getBinaryMap(indexType maxD)
         {
             delete[] map;
             map = nullptr;
-            throw Exception(_W("Matrix index is out of range."));
+            Error(_W("Matrix index is out of range."));
         }
         if (map) {
             map[n] = true;
@@ -238,7 +240,7 @@ ArrayOf::getMaxAsIndex()
         }
     }
     if (maxval <= 0) {
-        throw Exception(_W("Illegal zero or negative index"));
+        Error(_W("Illegal zero or negative index"));
     }
     return maxval;
 }
@@ -287,10 +289,10 @@ ArrayOf::toOrdinalType()
 #endif
     } break;
     case NLS_CHAR: {
-        throw Exception(_W("Cannot convert string data types to indices."));
+        Error(_W("Cannot convert string data types to indices."));
     } break;
     case NLS_DCOMPLEX: {
-        io->warningMessage(_W("Imaginary part of complex index ignored.\n"));
+        Warning(_W("Imaginary part of complex index ignored.\n"));
         // We convert complex values into real values
         const double* rp = (const double*)dp->getData();
         indexType len = getLength();
@@ -300,10 +302,10 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = (indexType)rp[i << 1];
             if ((double)ndx != rp[i << 1]) {
-                throw Exception(_W("index must either be real positive integers or logicals."));
+                Error(_W("index must either be real positive integers or logicals."));
             }
             if (ndx <= 0) {
-                throw Exception(_W("Zero or negative index encountered."));
+                Error(_W("Zero or negative index encountered."));
             }
             lp[i] = ndx;
         }
@@ -314,7 +316,7 @@ ArrayOf::toOrdinalType()
 #endif
     } break;
     case NLS_SCOMPLEX: {
-        io->warningMessage("Imaginary part of complex index ignored.\n");
+        Warning("Imaginary part of complex index ignored.\n");
         // We convert complex values into real values
         const single* rp = (const single*)dp->getData();
         indexType len = getLength();
@@ -324,10 +326,10 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = (indexType)rp[i << 1];
             if ((double)ndx != rp[i << 1]) {
-                throw Exception(_W("index must either be real positive integers or logicals."));
+                Error(_W("index must either be real positive integers or logicals."));
             }
             if (ndx <= 0) {
-                throw Exception(_W("Zero or negative index encountered."));
+                Error(_W("Zero or negative index encountered."));
             }
             lp[i] = ndx;
         }
@@ -346,10 +348,10 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = (indexType)rp[i];
             if ((double)ndx != rp[i]) {
-                throw Exception(_W("index must either be real positive integers or logicals."));
+                Error(_W("index must either be real positive integers or logicals."));
             }
             if (ndx <= 0) {
-                throw Exception(_W("Zero or negative index encountered."));
+                Error(_W("Zero or negative index encountered."));
             }
             lp[i] = ndx;
         }
@@ -368,10 +370,10 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = (indexType)rp[i];
             if ((double)ndx != rp[i]) {
-                throw Exception(_W("index must either be real positive integers or logicals."));
+                Error(_W("index must either be real positive integers or logicals."));
             }
             if (ndx <= 0) {
-                throw Exception(_W("Zero or negative index encountered."));
+                Error(_W("Zero or negative index encountered."));
             }
             lp[i] = ndx;
         }
@@ -389,7 +391,7 @@ ArrayOf::toOrdinalType()
         indexType* lp = new_with_exception<indexType>(len);
         for (indexType i = 0; i < len; i++) {
             if (rp[i] <= 0) {
-                throw Exception(_W("Zero or negative index encountered."));
+                Error(_W("Zero or negative index encountered."));
             }
             ndx = (indexType)rp[i];
             lp[i] = ndx;
@@ -411,11 +413,11 @@ ArrayOf::toOrdinalType()
 #endif
         for (indexType i = 0; i < len; i++) {
             if (rp[i] > std::numeric_limits<indexType>::max()) {
-                throw Exception(_W("Too big index encountered."));
+                Error(_W("Too big index encountered."));
             }
             ndx = (indexType)rp[i];
             if (rp[i] <= 0) {
-                throw Exception(_W("Zero or negative index encountered."));
+                Error(_W("Zero or negative index encountered."));
             }
             lp[i] = ndx;
         }
@@ -437,7 +439,7 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                throw Exception(_W("Zero or negative index encountered."));
+                Error(_W("Zero or negative index encountered."));
             }
             lp[i] = ndx;
         }
@@ -459,7 +461,7 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                throw Exception(_W("Zero or negative index encountered."));
+                Error(_W("Zero or negative index encountered."));
             }
             lp[i] = ndx;
         }
@@ -481,7 +483,7 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                throw Exception(_W("Zero or negative index encountered."));
+                Error(_W("Zero or negative index encountered."));
             }
             lp[i] = ndx;
         }
@@ -503,7 +505,7 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                throw Exception(_W("Zero or negative index encountered."));
+                Error(_W("Zero or negative index encountered."));
             }
             lp[i] = ndx;
         }
@@ -525,7 +527,7 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                throw Exception(_W("Zero or negative index encountered."));
+                Error(_W("Zero or negative index encountered."));
             }
             lp[i] = ndx;
         }
@@ -547,7 +549,7 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                throw Exception(_W("Zero or negative index encountered."));
+                Error(_W("Zero or negative index encountered."));
             }
             lp[i] = ndx;
         }
@@ -558,13 +560,13 @@ ArrayOf::toOrdinalType()
 #endif
     } break;
     case NLS_HANDLE: {
-        throw Exception(_W("Cannot convert handle arrays to indices."));
+        Error(_W("Cannot convert handle arrays to indices."));
     } break;
     case NLS_CELL_ARRAY: {
-        throw Exception(_W("Cannot convert cell arrays to indices."));
+        Error(_W("Cannot convert cell arrays to indices."));
     } break;
     case NLS_STRUCT_ARRAY: {
-        throw Exception(_W("Cannot convert structure arrays to indices."));
+        Error(_W("Cannot convert structure arrays to indices."));
     } break;
     }
 }
@@ -668,7 +670,7 @@ const void*
 ArrayOf::getDataPointer() const
 {
     if (isSparse()) {
-        throw Exception(_W("operation does not support sparse matrix arguments."));
+        Error(_W("operation does not support sparse matrix arguments."));
     }
     if (dp) {
         return dp->getData();
@@ -703,7 +705,7 @@ void*
 ArrayOf::getReadWriteDataPointer()
 {
     if (isSparse()) {
-        io->warningMessage(_W("Warning: sparse matrix converted to full for operation."));
+        Warning(_W("Warning: sparse matrix converted to full for operation."));
         makeDense();
     }
     ensureSingleOwner();
@@ -720,10 +722,10 @@ void
 ArrayOf::scalarToMatrix(Dimensions newDimensions)
 {
     if (isSparse()) {
-        throw Exception(_W("Sparse not supported."));
+        Error(_W("Sparse not supported."));
     }
     if (!isScalar()) {
-        throw Exception(ERROR_SCALAR_EXPECTED);
+        Error(ERROR_SCALAR_EXPECTED);
     }
     if (newDimensions.isScalar()) {
         return;
@@ -833,7 +835,7 @@ ArrayOf::scalarToMatrix(Dimensions newDimensions)
         }
     } break;
     default: {
-        throw Exception(_W("Type not supported."));
+        Error(_W("Type not supported."));
     } break;
     }
 }
@@ -857,7 +859,7 @@ ArrayOf::resize(Dimensions& a)
         return;
     }
     if (isSparse()) {
-        throw Exception(_W("Cannot resize sparse arrays."));
+        Error(_W("Cannot resize sparse arrays."));
     }
     // Allocate space for our new size.
     void* dst_data = allocateArrayOf(dp->dataClass, newSize.getElementCount(), dp->fieldNames);
@@ -925,13 +927,13 @@ void
 ArrayOf::reshape(Dimensions& a)
 {
     if (isClassStruct()) {
-        throw Exception(_W("Reshape operation not allowed for overloaded type."));
+        Error(_W("Reshape operation not allowed for overloaded type."));
     }
     if (isFunctionHandle()) {
-        throw Exception(_W("Reshape operation not allowed for 'function_handle' type."));
+        Error(_W("Reshape operation not allowed for 'function_handle' type."));
     }
     if (a.getElementCount() != getLength()) {
-        throw Exception(_W("Reshape operation cannot change the number of elements in array."));
+        Error(_W("Reshape operation cannot change the number of elements in array."));
     }
     if (isSparse()) {
         if (a.is2D() || a.isVector() || a.isScalar()) {
@@ -940,7 +942,7 @@ ArrayOf::reshape(Dimensions& a)
             dp = dp->putData(dp->dataClass, a, reshapedSparseMatrix, true);
             dp->dimensions = a;
         } else {
-            throw Exception(_W("Reshape operation not allowed with N Dimensions sparse arrays."));
+            Error(_W("Reshape operation not allowed with N Dimensions sparse arrays."));
         }
     } else {
         ensureSingleOwner();
@@ -1013,7 +1015,7 @@ indexType
 ArrayOf::getByteSize() const
 {
     if (isSparse()) {
-        throw Exception(_W("Byte size calculation not supported for sparse arrays."));
+        Error(_W("Byte size calculation not supported for sparse arrays."));
     }
     return getElementSize() * getLength();
 }
@@ -1045,7 +1047,7 @@ ArrayOf::isPositive() const
         return false;
     }
     if (isSparse()) {
-        throw Exception(_W("isPositive not supported for sparse arrays."));
+        Error(_W("isPositive not supported for sparse arrays."));
     }
     switch (dp->dataClass) {
         caseMacro(NLS_SINGLE, single);
@@ -1074,7 +1076,7 @@ const bool
 ArrayOf::testCaseMatchScalar(ArrayOf x) const
 {
     if (isSparse()) {
-        throw Exception(_W("isPositive not supported for sparse arrays."));
+        Error(_W("isPositive not supported for sparse arrays."));
     }
     // Now we have to compare ourselves to the argument.  Check for the
     // case that we are a string type
@@ -1134,22 +1136,22 @@ const bool
 ArrayOf::testForCaseMatch(ArrayOf x) const
 {
     if (isSparse()) {
-        throw Exception(_W("isPositive not supported for sparse arrays."));
+        Error(_W("isPositive not supported for sparse arrays."));
     }
     // We had better be a scalar
     if (!(isScalar() || isString())) {
-        throw Exception(_W("Switch argument must be a scalar or a string"));
+        Error(_W("Switch argument must be a scalar or a string"));
     }
     // And we had better not be a reference type
     if (isReferenceType()) {
-        throw Exception(_W("Switch argument cannot be a reference type (struct or cell array)"));
+        Error(_W("Switch argument cannot be a reference type (struct or cell array)"));
     }
     // If x is a scalar, we just need to call the scalar version
     if (x.isScalar() || x.isSingleString()) {
         return testCaseMatchScalar(x);
     }
     if (x.dp->dataClass != NLS_CELL_ARRAY) {
-        throw Exception(_W("Case arguments must either be a scalar or a cell array"));
+        Error(_W("Case arguments must either be a scalar or a cell array"));
     }
     const ArrayOf* qp = (const ArrayOf*)x.dp->getData();
     indexType len = x.getLength();
@@ -1302,7 +1304,7 @@ ArrayOf::copyElements(indexType srcIndex, void* dstPtr, indexType dstIndex, inde
 {
     indexType elSize(getElementSize());
     if (isSparse()) {
-        throw Exception(_W("copyElements not supported for sparse arrays."));
+        Error(_W("copyElements not supported for sparse arrays."));
     }
     switch (dp->dataClass) {
     case NLS_CELL_ARRAY: {
@@ -1466,7 +1468,7 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         if (dstClass == NLS_HANDLE) {
             return;
         } else {
-            throw Exception(_W("Cannot convert handle-arrays to any other type."));
+            Error(_W("Cannot convert handle-arrays to any other type."));
         }
     // Handle the reference types.
     // Cell arrays can be promoted with no effort to cell arrays.
@@ -1474,7 +1476,7 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         if (dstClass == NLS_CELL_ARRAY) {
             return;
         } else {
-            throw Exception(_W("Cannot convert cell-arrays to any other type."));
+            Error(_W("Cannot convert cell-arrays to any other type."));
         }
     // Structure arrays can be promoted to structure arrays with different
     // field structures, but have to be rearranged.
@@ -1483,9 +1485,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
             // TODO: Generalize this code to allow for one more field in destination
             // than in source...
             if (dp->fieldNames.size() > fNames.size()) {
-                throw Exception(_W("Cannot combine structures with different fields if the "
-                                   "combination "
-                                   "requires fields to be deleted from one of the structures."));
+                Error(_W("Cannot combine structures with different fields if the "
+                         "combination "
+                         "requires fields to be deleted from one of the structures."));
             }
             // We are promoting a struct array to a struct array.
             // To do so, we have to make sure that the field names work out.
@@ -1507,9 +1509,9 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
             }
             // Now, matchCount should be equal to the size of fieldNames
             if (matchCount != dp->fieldNames.size()) {
-                throw Exception(_W("Cannot combine structures with different fields if the "
-                                   "combination "
-                                   "requires fields to be deleted from one of the structures."));
+                Error(_W("Cannot combine structures with different fields if the "
+                         "combination "
+                         "requires fields to be deleted from one of the structures."));
             }
             void* dstPtr = allocateArrayOf(dp->dataClass, getLength(), fNames);
             const ArrayOf* src_rp = (const ArrayOf*)dp->getData();
@@ -1531,11 +1533,11 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
             dp = dp->putData(dp->dataClass, dp->dimensions, dstPtr, false, fNames);
             return;
         } else {
-            throw Exception(_W("Cannot convert struct-arrays to any other type."));
+            Error(_W("Cannot convert struct-arrays to any other type."));
         }
     // Catch attempts to convert data types to reference types.
     if ((dstClass == NLS_CELL_ARRAY) || (dstClass == NLS_STRUCT_ARRAY)) {
-        throw Exception(_W("Cannot convert base types to reference types."));
+        Error(_W("Cannot convert base types to reference types."));
     }
     // Do nothing for promoting to same class (no-op).
     if (isSparse()) {
@@ -2580,7 +2582,7 @@ ArrayOf::getContentAsScalarIndex(bool bWithZero)
 {
     indexType idx = 0;
     if (getLength() != 1) {
-        throw Exception(ERROR_SCALAR_EXPECTED);
+        Error(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_DOUBLE);
     double* qp = (double*)dp->getData();
@@ -2588,24 +2590,24 @@ ArrayOf::getContentAsScalarIndex(bool bWithZero)
         double maxIndexType = (double)std::numeric_limits<indexType>::max();
         if ((*qp) > maxIndexType) {
             idx = static_cast<indexType>(maxIndexType);
-            throw Exception(_W("Invalid index value > limit max."));
+            Error(_W("Invalid index value > limit max."));
         } else if (*qp < 0) {
-            throw Exception(_W("Expected a positive integer scalar."));
+            Error(_W("Expected a positive integer scalar."));
         } else {
             double dVal = (*qp);
             idx = static_cast<indexType>(dVal);
         }
     } else {
         if (IsFinite(*qp)) {
-            throw Exception(_W("Expected a integer."));
+            Error(_W("Expected a integer."));
         } else {
-            throw Exception(_W("NaN and Inf not allowed."));
+            Error(_W("NaN and Inf not allowed."));
         }
     }
     if (!bWithZero) {
         if (idx == 0) {
-            throw Exception(_W("Dimension argument must be a positive integer scalar "
-                               "within indexing range."));
+            Error(_W("Dimension argument must be a positive integer scalar "
+                     "within indexing range."));
         }
     }
     return idx;
@@ -2632,9 +2634,9 @@ ArrayOf::getContentAsIndexPointer()
         } else {
             delete[] pIndex;
             if (IsFinite(qp[k])) {
-                throw Exception(_W("Expected integer index."));
+                Error(_W("Expected integer index."));
             } else {
-                throw Exception(_W("NaN and Inf not allowed."));
+                Error(_W("NaN and Inf not allowed."));
             }
         }
     }
@@ -2733,12 +2735,13 @@ ArrayOf::nzmax()
     case NLS_DCOMPLEX:
         return numel();
     case NLS_CELL_ARRAY:
-        throw Exception(_W("Undefined function 'nzmax' for input arguments of type 'cell'."));
+        Error(_W("Undefined function 'nzmax' for input arguments of type 'cell'."));
     case NLS_STRUCT_ARRAY:
-        throw Exception(_W("Undefined function 'nzmax' for input arguments of type 'struct'."));
+        Error(_W("Undefined function 'nzmax' for input arguments of type 'struct'."));
     default:
-        throw Exception(_W("Undefined function 'nzmax' for input arguments."));
+        Error(_W("Undefined function 'nzmax' for input arguments."));
     }
+    return 0; // never here
 }
 
 indexType
@@ -2782,11 +2785,11 @@ ArrayOf::nnz()
     case NLS_DCOMPLEX:
         return DoCountNNZComplex<double>(dp->getData(), getLength());
     case NLS_CELL_ARRAY:
-        throw Exception(_W("Undefined function 'nnz' for input arguments of type 'cell'."));
+        Error(_W("Undefined function 'nnz' for input arguments of type 'cell'."));
     case NLS_STRUCT_ARRAY:
-        throw Exception(_W("Undefined function 'nnz' for input arguments of type 'struct'."));
+        Error(_W("Undefined function 'nnz' for input arguments of type 'struct'."));
     default:
-        throw Exception(_W("Undefined function 'nnz' for input arguments."));
+        Error(_W("Undefined function 'nnz' for input arguments."));
     }
     return 0;
 }
@@ -2843,7 +2846,7 @@ ProcessNDimIndexes(bool preserveColons, Dimensions dims, ArrayOfVector& index, b
         } else {
             index[i].toOrdinalType();
             if (argCheck && (index[i].getMaxAsIndex() > dims[i])) {
-                throw Exception(_W("Index exceeds array bounds."));
+                Error(_W("Index exceeds array bounds."));
             }
             outndx[i] = (constIndexPtr)index[i].getDataPointer();
             outDims[i] = index[i].getLength();

@@ -35,18 +35,21 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-
-#ifndef __LexerInterface_hpp__
-#define __LexerInterface_hpp__
-
+//=============================================================================
+#pragma once
+//=============================================================================
 #include <stdio.h>
-
+#include <string>
+//=============================================================================
 namespace Nelson {
 /**
  * Set the string buffer to be processed by the lexer.
  */
 void
-setLexBuffer(const char* buffer);
+setLexBuffer(const std::wstring& buffer);
+void
+setLexBuffer(const std::string& buffer);
+
 /**
  * Set the FILE pointer for the file to be processed
  * by the lexer.
@@ -59,21 +62,10 @@ setLexFile(FILE* fp);
 bool
 lexCheckForMoreInput(int pcount);
 /**
- * Set the contents of the lexical buffer, and reset the
- * continuationCount to zero.
- */
-void
-lexSetAdditionalInput(char* buffer);
-/**
  * Retrieve the contents of the continuationCount.
  */
 int
 getContinuationCount();
-/**
- * Get an error message that describes the current token
- */
-void
-GetLexTokenDescription(char* buffer);
+//=============================================================================
 } // namespace Nelson
-
-#endif
+//=============================================================================

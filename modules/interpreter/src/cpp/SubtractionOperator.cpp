@@ -71,7 +71,7 @@ Evaluator::subtractionOperator(ArrayOf A, ArrayOf B)
                     res = single_minus_single(A, B);
                     res.promoteType(classA);
                 } else {
-                    Error(this, _W("Integers of the same class expected."));
+                    Error(_W("Integers of the same class expected."));
                 }
             } else {
                 if (isIntegerA && isDoubleB && B.isScalar()) {

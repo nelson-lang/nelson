@@ -32,6 +32,7 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../linear_algebra/src/include
+	${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 	${Boost_INCLUDE_DIRS}
 
 )

@@ -32,6 +32,8 @@
 #include "AstManager.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "OverloadCache.hpp"
+#include "Error.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -451,8 +453,8 @@ PathFuncManager::processFile(std::wstring nlf_filename)
         std::string msg2;
         snprintf(buff, sizeof(buff), _("Error opening file: %s").c_str(), strerror(errnum));
         msg2 = buff;
-        throw Exception(_W("Cannot open:") + L" " + nlf_filename + L"\n" + utf8_to_wstring(msg1)
-            + L"\n" + utf8_to_wstring(msg2));
+        Error(_W("Cannot open:") + L" " + nlf_filename + L"\n" + utf8_to_wstring(msg1) + L"\n"
+            + utf8_to_wstring(msg2));
     }
     ParserState pstate = ParseError;
     resetAstBackupPosition();
@@ -470,18 +472,15 @@ PathFuncManager::processFile(std::wstring nlf_filename)
     if (pstate != FuncDef) {
         deleteAstVector(ptAst);
         resetAstBackupPosition();
-        throw Exception(
-            _W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
+        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
     }
     try {
         fptr = getParsedFunctionDef();
     } catch (const Exception&) {
-        throw Exception(
-            _W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
+        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
     }
     if (fptr == nullptr) {
-        throw Exception(
-            _W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
+        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
     }
     fptr->ptAst = ptAst;
     resetAstBackupPosition();
@@ -491,7 +490,7 @@ PathFuncManager::processFile(std::wstring nlf_filename)
         std::string name = fptr->name;
         delete fptr;
         fptr = nullptr;
-        throw Exception(_("filename and function name are not same (") + name + _(" vs ")
+        Error(_("filename and function name are not same (") + name + _(" vs ")
             + functionNameFromFile + "). " + _("function not loaded."));
     }
     return fptr;

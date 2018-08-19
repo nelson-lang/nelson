@@ -19,7 +19,6 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Exception.hpp"
 #include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {

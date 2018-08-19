@@ -101,7 +101,7 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
         } catch (std::bad_alloc& e) {
             e.what();
             str = nullptr;
-            Error(eval, ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         size_t count = (size_t)sizeToRead;
         size_t elsize = sizeof(char);
@@ -120,7 +120,7 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
                 str = nullptr;
             }
             if (str == nullptr) {
-                Error(eval, ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
             memcpy(resizestr, str, sizeof(char) * sizeReallyRead);
             if (bIsLittleEndian != isLittleEndianFormat()) {

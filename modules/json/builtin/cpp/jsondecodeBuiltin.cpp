@@ -28,10 +28,10 @@ Nelson::JsonGateway::jsondecodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
@@ -51,7 +51,7 @@ Nelson::JsonGateway::jsondecodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         std::wstring errorMessage;
         ArrayOf res = jsonDecode(jsonString, errorMessage);
         if (!errorMessage.empty()) {
-            Error(eval, errorMessage);
+            Error(errorMessage);
         }
         retval.push_back(res);
     }

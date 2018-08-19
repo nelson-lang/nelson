@@ -30,10 +30,10 @@ Nelson::ElementaryFunctionsGateway::isapproxBuiltin(
 {
     ArrayOfVector retval;
     if (!(argIn.size() == 2 || argIn.size() == 3)) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
     if (eval->overloadOnBasicTypes) {
@@ -56,7 +56,7 @@ Nelson::ElementaryFunctionsGateway::isapproxBuiltin(
         ArrayOf param2 = argIn[1];
         if (param1.isNumeric() && param2.isNumeric()) {
             if (param1.isSparse() || param2.isSparse()) {
-                Error(eval, _W("Sparse type not supported."));
+                Error(_W("Sparse type not supported."));
             }
             if (param1.isComplex() || param2.isComplex()) {
                 param1.promoteType(NLS_DCOMPLEX);
@@ -67,7 +67,7 @@ Nelson::ElementaryFunctionsGateway::isapproxBuiltin(
             }
             retval.push_back(ArrayOf::logicalConstructor(IsApprox(param1, param2, precision)));
         } else {
-            Error(eval, _W("Numerics types expected."));
+            Error(_W("Numerics types expected."));
         }
     }
     return retval;

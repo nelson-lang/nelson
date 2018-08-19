@@ -30,10 +30,10 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
@@ -44,7 +44,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         if (argIn[0].isSparse()) {
             retval = OverloadFunction(eval, nLhs, argIn, "char", bSuccess);
             if (!bSuccess) {
-                Error(eval, _W("Attempt to convert to unimplemented sparse type."));
+                Error(_W("Attempt to convert to unimplemented sparse type."));
             }
             return retval;
         }
@@ -64,7 +64,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         } break;
         case NLS_SCOMPLEX:
         case NLS_DCOMPLEX: {
-            Error(eval, _W("Conversion to char from complex is not possible."));
+            Error(_W("Conversion to char from complex is not possible."));
         } break;
         default:
         case NLS_STRUCT_ARRAY:
@@ -72,8 +72,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         case NLS_HANDLE: {
             retval = OverloadFunction(eval, nLhs, argIn, "char", bSuccess);
             if (!bSuccess) {
-                Error(eval,
-                    _("Undefined function 'char' for input arguments of type") + " '"
+                Error(_("Undefined function 'char' for input arguments of type") + " '"
                         + ClassName(argIn[0]) + "'.");
             }
         } break;
@@ -81,8 +80,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             if (!IsCellOfString(argIn[0])) {
                 retval = OverloadFunction(eval, nLhs, argIn, "char", bSuccess);
                 if (!bSuccess) {
-                    Error(eval,
-                        _("Undefined function 'char' for input arguments of type") + " '"
+                    Error(_("Undefined function 'char' for input arguments of type") + " '"
                             + ClassName(argIn[0]) + "'.");
                 }
             }

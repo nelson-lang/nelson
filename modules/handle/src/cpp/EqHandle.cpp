@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "EqHandle.hpp"
+#include "Error.hpp"
 #include "Exception.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -29,11 +30,10 @@ EqHandle(ArrayOf A, ArrayOf B)
 {
     ArrayOf res;
     if (!A.isHandle() && !B.isHandle()) {
-        throw Exception(_W("handle expected."));
+        Error(_W("handle expected."));
     }
     if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar())) {
-        throw Exception(
-            std::string(_("Size mismatch on arguments to arithmetic operator ")) + "eq");
+        Error(std::string(_("Size mismatch on arguments to arithmetic operator ")) + "eq");
     }
     int Astride = 0, Bstride = 0;
     void* Cp = nullptr;

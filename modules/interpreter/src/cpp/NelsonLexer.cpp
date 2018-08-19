@@ -16,11 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-
-/*
- * A lexical analyzer... my apologies for this, but I couldn't get
- * FLEX to do what I wanted.
- */
+#include "characters_encoding.hpp"
 #include "nlsInterpreter_exports.h"
 #include <ctype.h>
 #include <stdio.h>
@@ -33,6 +29,7 @@
 #include "i18n.hpp"
 #define YYSTYPE Nelson::ParseRHS
 
+#include "Error.hpp"
 #include "Exception.hpp"
 #include "FileParser.hpp"
 #include "Keywords.hpp"
@@ -72,7 +69,7 @@ int tokenType;
 ParseRHS tokenValue;
 
 keywordStruct ts, *p;
-
+//=============================================================================
 void
 clearTextBufferLexer()
 {
@@ -81,7 +78,7 @@ clearTextBufferLexer()
         textbuffer = nullptr;
     }
 }
-
+//=============================================================================
 indexType
 ContextInt()
 {
@@ -91,14 +88,14 @@ ContextInt()
         return ((datap - linestart + 1) << 16) | (lineNumber + 1);
     }
 }
-
+//=============================================================================
 void
 NextLine()
 {
     lineNumber++;
     linestart = datap;
 }
-
+//=============================================================================
 void
 LexerException(std::string msg)
 {
@@ -113,15 +110,15 @@ LexerException(std::string msg)
             sprintf(buffer, "%s", _("Lexical error").c_str());
         }
     }
-    throw Exception(buffer);
+    Error(buffer);
 }
-
+//=============================================================================
 inline void
 pushBracket(char t)
 {
     bracketStack[bracketStackSize++] = t;
 }
-
+//=============================================================================
 inline void
 popBracket(char t)
 {
@@ -132,19 +129,19 @@ popBracket(char t)
         LexerException(_("mismatched parenthesis").c_str());
     }
 }
-
+//=============================================================================
 inline void
 pushVCState()
 {
     vcStack[vcStackSize++] = vcFlag;
 }
-
+//=============================================================================
 inline void
 popVCState()
 {
     vcFlag = vcStack[--vcStackSize];
 }
-
+//=============================================================================
 inline bool
 testSpecialFuncs()
 {
@@ -159,8 +156,8 @@ testSpecialFuncs()
     // dir c:/Windows
     // dir ('c:/Windows')
     // dir('c:/Windows')
-    // FIXME - this should check the current context to see if any of these have been
-    // masked or assigned
+    // FIXME - this should check the current context to see if any of these have
+    // been masked or assigned
     /*
     bool test1 = ((strncmp(datap, "cd ", 3) == 0) ||
                   (strncmp(datap, "ls ", 3) == 0) ||
@@ -173,7 +170,8 @@ testSpecialFuncs()
     if (test1) {
         return test1;
     }
-    // Check for non-keyword identifier followed by whitespace followed by alphanum
+    // Check for non-keyword identifier followed by whitespace followed by
+    // alphanum
     char keyword[IDENTIFIER_LENGTH_MAX + 1];
     char* cp = datap;
     while (isalnum(*cp)) {
@@ -182,7 +180,7 @@ testSpecialFuncs()
     }
     size_t lenKeyword = strlen(datap) - strlen(cp);
     if (lenKeyword > IDENTIFIER_LENGTH_MAX) {
-        throw Exception(_("Maximum name length exceeded."));
+        Error(_("Maximum name length exceeded."));
     }
     keyword[cp - datap] = 0;
     ts.word = keyword;
@@ -198,7 +196,7 @@ testSpecialFuncs()
     }
     return false;
 }
-
+//=============================================================================
 inline void
 setTokenType(int type)
 {
@@ -207,7 +205,7 @@ setTokenType(int type)
     tokenValue.isToken = true;
     tokenValue.v.p = nullptr;
 }
-
+//=============================================================================
 inline int
 match(char* str)
 {
@@ -217,25 +215,25 @@ match(char* str)
     }
     return 0;
 }
-
+//=============================================================================
 inline int
 isE(char p)
 {
     return ((p == 'e') || (p == 'E') || (p == 'd') || (p == 'D'));
 }
-
+//=============================================================================
 inline int
 isWhitespace()
 {
     return (match(" ") || match("\t"));
 }
-
+//=============================================================================
 inline int
 isNewline()
 {
     return (match("\n") || match("\r\n"));
 }
-
+//=============================================================================
 inline int
 testAlphaChar()
 {
@@ -245,7 +243,7 @@ testAlphaChar()
     }
     return (isalpha(c));
 }
-
+//=============================================================================
 inline int
 testAlphaNumChar()
 {
@@ -255,26 +253,26 @@ testAlphaNumChar()
     }
     return (isalnum(c) || (c == '_'));
 }
-
+//=============================================================================
 inline int
 _isDigit(char c)
 {
     return (c >= 48 && c <= 57);
 }
-
+//=============================================================================
 inline int
 testDigit()
 {
     int c = (int)datap[0];
     return (_isDigit(c));
 }
-
+//=============================================================================
 inline int
 testNewline()
 {
     return ((datap[0] == 0) || (datap[0] == '\n') || ((datap[0] == '\r') && (datap[1] == '\n')));
 }
-
+//=============================================================================
 inline int
 previousChar()
 {
@@ -284,26 +282,26 @@ previousChar()
         return datap[-1];
     }
 }
-
+//=============================================================================
 inline int
 currentChar()
 {
     return datap[0];
 }
-
+//=============================================================================
 inline void
 discardChar()
 {
     datap++;
 }
-
+//=============================================================================
 inline int
 testStringTerm()
 {
     return ((datap[0] == '\n') || (datap[0] == '\r') || (datap[0] == ';') || (datap[0] == ',')
         || (datap[0] == ' '));
 }
-
+//=============================================================================
 void
 lexUntermString()
 {
@@ -327,11 +325,12 @@ lexUntermString()
 #ifdef LEXDEBUG
     printf("Untermed string %s\r\n", stringval);
 #endif
-    //   if ((datap[0] == ';') || (datap[0] == '\r') || (datap[0] == ',') || (datap[0] == '\n'))
+    //   if ((datap[0] == ';') || (datap[0] == '\r') || (datap[0] == ',') ||
+    //   (datap[0] == '\n'))
     //     lexState = Scanning;
     lexState = Scanning;
 }
-
+//=============================================================================
 void
 lexString()
 {
@@ -364,7 +363,7 @@ lexString()
     tokenValue.v.p = allocateAbstractSyntaxTree(string_const_node, stringval, (int)ContextInt());
     return;
 }
-
+//=============================================================================
 void
 lexIdentifier()
 {
@@ -410,7 +409,7 @@ lexIdentifier()
         tokenValue.v.p = allocateAbstractSyntaxTree(id_node, ident, (int)ContextInt());
     }
 }
-
+//=============================================================================
 int
 lexNumber()
 {
@@ -582,6 +581,7 @@ lexNumber()
     }
     return 1;
 }
+//=============================================================================
 /*
  * String detection is a bit tricky, I suppose....  A quote character
  * immediately following (without whitespace) a bracket or a alphanumeric
@@ -756,7 +756,7 @@ lexScanningState()
     setTokenType(currentChar());
     discardChar();
 }
-
+//=============================================================================
 void
 lexInitialState()
 {
@@ -776,7 +776,7 @@ lexInitialState()
         lexState = Scanning;
     }
 }
-
+//=============================================================================
 void
 yylexDoLex()
 {
@@ -792,7 +792,7 @@ yylexDoLex()
         break;
     }
 }
-
+//=============================================================================
 int
 yylexScreen()
 {
@@ -813,8 +813,9 @@ yylexScreen()
                 || ((currentChar() == '.') && (_isDigit(datap[1])))
                 || (strncmp(datap, "...", 3) == 0)) {
                 /*
-                   OK - now we have to decide if the "+/-" are infix or prefix operators...
-                   In fact, this decision alone is the reason for this whole lexer.
+                   OK - now we have to decide if the "+/-" are infix or prefix
+                   operators... In fact, this decision alone is the reason for this
+                   whole lexer.
                 */
                 if ((currentChar() == '+') || (currentChar() == '-')) {
                     /* If we are inside a parenthetical, we never insert virtual commas */
@@ -837,7 +838,7 @@ yylexScreen()
     previousToken = tokenType;
     return tokenType;
 }
-
+//=============================================================================
 int
 yylex()
 {
@@ -853,10 +854,11 @@ yylex()
     }
     return retval;
 }
-
+//=============================================================================
 namespace Nelson {
+//=============================================================================
 void
-setLexBuffer(const char* buf)
+setLexBuffer(const std::string& buffer)
 {
     continuationCount = 0;
     bracketStackSize = 0;
@@ -864,15 +866,21 @@ setLexBuffer(const char* buf)
     lexState = Initial;
     vcStackSize = 0;
     clearTextBufferLexer();
-    textbuffer = (char*)calloc(strlen(buf) + 1, sizeof(char));
+    textbuffer = (char*)calloc(strlen(buffer.c_str()) + 1, sizeof(char));
     datap = textbuffer;
     if (textbuffer) {
-        strcpy(textbuffer, buf);
+        strcpy(textbuffer, buffer.c_str());
     }
     linestart = datap;
     lineNumber = 0;
 }
-
+//=============================================================================
+void
+setLexBuffer(const std::wstring& buffer)
+{
+    setLexBuffer(wstring_to_utf8(buffer));
+}
+//=============================================================================
 void
 setLexFile(FILE* fp)
 {
@@ -900,7 +908,7 @@ setLexFile(FILE* fp)
         linestart = datap;
     }
 }
-
+//=============================================================================
 bool
 lexCheckForMoreInput(int ccount)
 {
@@ -918,10 +926,12 @@ lexCheckForMoreInput(int ccount)
         return false;
     }
 }
-
+//=============================================================================
 int
 getContinuationCount()
 {
     return continuationCount;
 }
-}
+//=============================================================================
+} // namespace Nelson
+//=============================================================================

@@ -39,10 +39,10 @@ Nelson::SlicotGateway::slicot_sb04qdBuiltin(Evaluator* eval, int nLhs, const Arr
 {
     ArrayOfVector retval;
     if (nLhs > 5) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 3) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // INPUT VARIABLES
     // IN/OUT VARIABLES
@@ -112,23 +112,20 @@ Nelson::SlicotGateway::slicot_sb04qdBuiltin(Evaluator* eval, int nLhs, const Arr
     Dimensions dimsA_expected(
         std::max(1, (int)A.getDimensions().getColumns()), (int)A.getDimensions().getColumns());
     if (!dimsA.equals(dimsA_expected)) {
-        Error(eval,
-            _("Input argument #1: wrong size.") + " " + dimsA_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #1: wrong size.") + " " + dimsA_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsB_expected(
         std::max(1, (int)B.getDimensions().getRows()), (int)B.getDimensions().getRows());
     if (!dimsB.equals(dimsB_expected)) {
-        Error(eval,
-            _("Input argument #2: wrong size.") + " " + dimsB_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #2: wrong size.") + " " + dimsB_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsC_expected(
         std::max(1, (int)B.getDimensions().getRows()), (int)B.getDimensions().getRows());
     if (!dimsC.equals(dimsC_expected)) {
-        Error(eval,
-            _("Input argument #3: wrong size.") + " " + dimsC_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #3: wrong size.") + " " + dimsC_expected.toString() + " "
+            + "expected" + ".");
     }
     // CALL EXTERN FUNCTION
     try {
@@ -136,7 +133,7 @@ Nelson::SlicotGateway::slicot_sb04qdBuiltin(Evaluator* eval, int nLhs, const Arr
             Z_output_ptr, LDZ_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr, INFO_output_ptr);
     } catch (std::runtime_error& e) {
         e.what();
-        Error(eval, "sb04qd function fails.");
+        Error("sb04qd function fails.");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

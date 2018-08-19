@@ -23,11 +23,10 @@
 #include "FunctionDef.hpp"
 #include "nlsInterpreter_exports.h"
 //=============================================================================
-
 namespace Nelson {
-typedef ArrayOfVector APtr;
-typedef APtr (*BuiltInFuncPtr)(Evaluator*, int, const APtr&);
-
+//=============================================================================
+typedef ArrayOfVector (*BuiltInFuncPtr)(Evaluator*, int, const ArrayOfVector&);
+//=============================================================================
 class NLSINTERPRETER_IMPEXP BuiltInFunctionDef : public FunctionDef
 {
 public:

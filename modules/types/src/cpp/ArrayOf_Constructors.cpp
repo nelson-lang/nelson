@@ -19,6 +19,7 @@
 #include "ArrayOf.hpp"
 #include "Types.hpp"
 #include "Data.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -31,7 +32,7 @@ ArrayOf::diagonalConstructor(ArrayOf src, int diagonalOrder)
 {
     ArrayOf retval;
     if (!src.isVector()) {
-        throw Exception(_W("Argument to diagonal constructor must by a vector!"));
+        Error(_W("Argument to diagonal constructor must by a vector!"));
     }
     indexType length = src.getLength();
     indexType M = 0;
@@ -71,7 +72,7 @@ ArrayOf::emptyConstructor(Dimensions dim, bool bIsSparse)
     if (dim.getElementCount() == 0) {
         return ArrayOf(NLS_DOUBLE, dim, NULL, bIsSparse);
     } else {
-        throw Exception(_W("Invalid dimensions."));
+        Error(_W("Invalid dimensions."));
     }
     return ArrayOf();
 }
@@ -83,7 +84,7 @@ ArrayOf::emptyConstructor(indexType m, indexType n, bool bIsSparse)
         Dimensions dim(m, n);
         return ArrayOf(NLS_DOUBLE, dim, NULL, bIsSparse);
     } else {
-        throw Exception(_W("Invalid dimensions."));
+        Error(_W("Invalid dimensions."));
     }
     return ArrayOf();
 }

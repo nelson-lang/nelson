@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GetQmlHandleObject.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "QVariantArrayOf.hpp"
@@ -33,12 +33,12 @@ GetQmlHandleObject(ArrayOf A, std::wstring propertyName)
     ArrayOf res;
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
-        throw Exception(_W("QObject handle expected."));
+        Error(_W("QObject handle expected."));
     }
     QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        throw Exception(_W("QObject valid handle expected."));
+        Error(_W("QObject valid handle expected."));
     }
     QObject* qobj = (QObject*)ptr;
     if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
@@ -54,12 +54,12 @@ GetQmlHandleObject(ArrayOf A, std::wstring propertyName)
                 } catch (std::bad_alloc& e) {
                     e.what();
                     qmlHandle = nullptr;
-                    throw Exception(ERROR_MEMORY_ALLOCATION);
+                    Error(ERROR_MEMORY_ALLOCATION);
                 }
                 res = ArrayOf::handleConstructor(qmlHandle);
             }
         } else {
-            throw Exception(_W("No parent."));
+            Error(_W("No parent."));
         }
     } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR)) {
         std::string name = std::string(qobj->metaObject()->className());
@@ -86,7 +86,7 @@ GetQmlHandleObject(ArrayOf A, std::wstring propertyName)
                     } catch (std::bad_alloc& e) {
                         e.what();
                         qmlHandle = nullptr;
-                        throw Exception(ERROR_MEMORY_ALLOCATION);
+                        Error(ERROR_MEMORY_ALLOCATION);
                     }
                     nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }

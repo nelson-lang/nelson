@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>lastwarn</keyword>
+  <short_description>Returns last recorded warning message.</short_description>
+
+  <syntax>
+    <syntax_item>last_message = lastwarn()</syntax_item>
+    <syntax_item>[last_message, last_identifier] = lastwarn()</syntax_item>
+    <syntax_item>lastwarn('')</syntax_item>
+    <syntax_item>lastwarn(new_message)</syntax_item>
+    <syntax_item>lastwarn(new_message, new_identifier)</syntax_item>
+    <syntax_item>[last_message, last_identifier] = lastwarn('')</syntax_item>
+    <syntax_item>[last_message, last_identifier] = lastwarn(new_message)</syntax_item>
+    <syntax_item>[last_message, last_identifier] = lastwarn(new_message, new_identifier)</syntax_item>
+
+  </syntax>
+
+  <param_output>
+    <param_output_item>
+      <param_name>last_message</param_name>
+      <param_description>string: last warning message.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>last_identifier</param_name>
+      <param_description>string: identifier.</param_description>
+    </param_output_item>
+
+  </param_output>
+
+  <description>
+    <p><b>last_message = lastwarn()</b> returns a string containing the last warning message.</p>
+    <p><b>lastwarn('')</b> clears last warning.</p>
+
+  </description>
+
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[
+    [1:3]:3
+    lastwarn
+    [msg, id] = lastwarn()
+    lastwarn('')
+    [msg, id] = lastwarn()
+    ]]>
+    </example_item_data>
+  </example_item>
+
+
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${error_manager}error">error</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}warning">warning</link>
+    </see_also_item>
+
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
+
+

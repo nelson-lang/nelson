@@ -54,25 +54,25 @@ historyBuiltin_size_one_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argI
                     }
                 }
             } else {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         } else if (str == L"save") {
             if (nLhs == 0) {
                 ptrHistoryManager->saveToFile();
             } else {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         } else if (str == L"load") {
             if (nLhs == 0) {
                 ptrHistoryManager->loadFromFile();
             } else {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         } else if (str == L"clear") {
             if (nLhs == 0) {
                 ptrHistoryManager->clear(true);
             } else {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         } else if (str == L"duplicated") {
             retval.push_back(
@@ -83,10 +83,10 @@ historyBuiltin_size_one_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argI
         } else if (str == L"removeexit") {
             retval.push_back(ArrayOf::logicalConstructor(ptrHistoryManager->getRemoveExit()));
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
+            Error(ERROR_WRONG_ARGUMENT_2_VALUE);
         }
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE);
     }
     return retval;
 }
@@ -121,58 +121,58 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         HistoryManager* ptrHistoryManager = (HistoryManager*)eval->HistoryManager;
         if (str == L"size") {
             if (nLhs > 0) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             if (arg2.isScalar()) {
                 if (arg2.getDataClass() == NLS_DOUBLE) {
                     double dvalue = arg2.getContentAsDoubleScalar();
                     if (!std::isfinite(dvalue)) {
-                        Error(eval, ERROR_WRONG_ARGUMENT_2_FINITE_SCALAR_INTEGER_VALUE_EXPECTED);
+                        Error(ERROR_WRONG_ARGUMENT_2_FINITE_SCALAR_INTEGER_VALUE_EXPECTED);
                     }
                     if (dvalue < 0) {
-                        Error(eval, ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
+                        Error(ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
                     }
                     size_t ivalue = (size_t)dvalue;
                     if ((double)ivalue != dvalue) {
-                        Error(eval, ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
+                        Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                     }
                     ptrHistoryManager->setLastNCommandsSize(ivalue);
                 } else {
-                    Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
+                    Error(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
                 }
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
             }
         } else if (str == L"enable_save") {
             if (nLhs > 0) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             if (arg2.isScalar()) {
                 if (arg2.isLogical()) {
                     logical bEnable = arg2.getContentAsLogicalScalar();
                     ptrHistoryManager->setSaveEnabled(bEnable ? true : false);
                 } else {
-                    Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
+                    Error(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
                 }
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
             }
         } else if (str == L"delete") {
             if (nLhs > 0) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             if (arg2.getDataClass() == NLS_DOUBLE) {
                 if (arg2.isScalar()) {
                     double dvalue = arg2.getContentAsDoubleScalar();
                     if (!std::isfinite(dvalue)) {
-                        Error(eval, ERROR_WRONG_ARGUMENT_2_FINITE_SCALAR_INTEGER_VALUE_EXPECTED);
+                        Error(ERROR_WRONG_ARGUMENT_2_FINITE_SCALAR_INTEGER_VALUE_EXPECTED);
                     }
                     if (dvalue < 0) {
-                        Error(eval, ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
+                        Error(ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
                     }
                     size_t ivalue = (size_t)dvalue;
                     if ((double)ivalue != dvalue) {
-                        Error(eval, ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
+                        Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                     }
                     ptrHistoryManager->remove(ivalue);
                 } else {
@@ -183,36 +183,35 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                         double dvalue1 = dvalues[0];
                         double dvalue2 = dvalues[1] + 1;
                         if (!std::isfinite(dvalue1) || !std::isfinite(dvalue2)) {
-                            Error(
-                                eval, ERROR_WRONG_ARGUMENT_2_FINITE_SCALAR_INTEGER_VALUE_EXPECTED);
+                            Error(ERROR_WRONG_ARGUMENT_2_FINITE_SCALAR_INTEGER_VALUE_EXPECTED);
                         }
                         if (dvalue1 < 0 || dvalue2 < 0) {
-                            Error(eval, ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
+                            Error(ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
                         }
                         size_t ivalue1 = (size_t)dvalue1;
                         size_t ivalue2 = (size_t)dvalue2;
                         if (((double)ivalue1 != dvalue1) || ((double)ivalue2 != dvalue2)) {
-                            Error(eval, ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
+                            Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                         }
                         if (ivalue2 <= ivalue1) {
-                            Error(eval, ERROR_WRONG_ARGUMENT_2_A_MUST_BE_HIGHER_THAN_B);
+                            Error(ERROR_WRONG_ARGUMENT_2_A_MUST_BE_HIGHER_THAN_B);
                         }
                         if ((ivalue1 >= ptrHistoryManager->getCurrentSize())
                             || (ivalue2 >= ptrHistoryManager->getCurrentSize())) {
-                            Error(eval, ERROR_WRONG_ARGUMENT_2_A_MUST_BE_HIGHER_THAN_B);
+                            Error(ERROR_WRONG_ARGUMENT_2_A_MUST_BE_HIGHER_THAN_B);
                         } else {
                             ptrHistoryManager->remove(ivalue1, ivalue2);
                         }
                     } else {
-                        Error(eval, ERROR_WRONG_ARGUMENT_2_SIZE_A_B_VECTOR_EXPECTED);
+                        Error(ERROR_WRONG_ARGUMENT_2_SIZE_A_B_VECTOR_EXPECTED);
                     }
                 }
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED);
             }
         } else if (str == L"append") {
             if (nLhs > 0) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             if (arg2.isSingleString()) {
                 std::wstring str = arg2.getContentAsWideString();
@@ -225,82 +224,82 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                     ptrHistoryManager->appendLine(arg[k].getContentAsWideString());
                 }
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_OR_CELL_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_OR_CELL_EXPECTED);
             }
         } else if (str == L"filename") {
             if (nLhs > 0) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             if (arg2.isSingleString()) {
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->setFilename(filename);
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
             }
         } else if (str == L"load") {
             if (nLhs > 0) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             if (arg2.isSingleString()) {
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->loadFromFile(filename);
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
             }
         } else if (str == L"save") {
             if (nLhs > 0) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             if (arg2.isSingleString()) {
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->saveToFile(filename);
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
             }
         } else if (str == L"duplicated") {
             if (nLhs > 0) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             if (arg2.isScalar()) {
                 if (arg2.isLogical()) {
                     logical bDuplicated = arg2.getContentAsLogicalScalar();
                     ptrHistoryManager->setAllowDuplicatedLines(bDuplicated ? true : false);
                 } else {
-                    Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
+                    Error(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
                 }
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
             }
         } else if (str == L"removeexit") {
             if (nLhs > 0) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             if (arg2.isScalar()) {
                 if (arg2.isLogical()) {
                     logical bRemove = arg2.getContentAsLogicalScalar();
                     ptrHistoryManager->setRemoveExit(bRemove ? true : false);
                 } else {
-                    Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
+                    Error(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
                 }
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
             }
         } else if (str == L"get") {
             if (nLhs > 1) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             if (arg2.getDataClass() == NLS_DOUBLE) {
                 if (arg2.isScalar()) {
                     double dvalue = arg2.getContentAsDoubleScalar();
                     if (!std::isfinite(dvalue)) {
-                        Error(eval, ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
+                        Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                     }
                     if (dvalue < 0) {
-                        Error(eval, ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
+                        Error(ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
                     }
                     size_t ivalue = (size_t)dvalue;
                     if ((double)ivalue != dvalue) {
-                        Error(eval, ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
+                        Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                     }
                     std::wstring line = ptrHistoryManager->get(ivalue);
                     retval.push_back(ArrayOf::stringConstructor(line));
@@ -312,62 +311,62 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                         double dvalue1 = dvalues[0];
                         double dvalue2 = dvalues[1] + 1;
                         if (!std::isfinite(dvalue1) || !std::isfinite(dvalue2)) {
-                            Error(eval, ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
+                            Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                         }
                         if (dvalue1 < 0 || dvalue2 < 0) {
-                            Error(eval, ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
+                            Error(ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
                         }
                         size_t ivalue1 = (size_t)dvalue1;
                         size_t ivalue2 = (size_t)dvalue2;
                         if (((double)ivalue1 != dvalue1) || ((double)ivalue2 != dvalue2)) {
-                            Error(eval, ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
+                            Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                         }
                         if (ivalue2 <= ivalue1) {
-                            Error(eval, ERROR_WRONG_ARGUMENT_2_A_MUST_BE_HIGHER_THAN_B);
+                            Error(ERROR_WRONG_ARGUMENT_2_A_MUST_BE_HIGHER_THAN_B);
                         }
                         if ((ivalue1 >= ptrHistoryManager->getCurrentSize())
                             || (ivalue2 >= ptrHistoryManager->getCurrentSize())) {
-                            Error(eval, ERROR_WRONG_ARGUMENT_2_A_MUST_BE_HIGHER_THAN_B);
+                            Error(ERROR_WRONG_ARGUMENT_2_A_MUST_BE_HIGHER_THAN_B);
                         } else {
                             wstringVector res = ptrHistoryManager->get(ivalue1, ivalue2);
                             retval.push_back(ToCellStringAsColumn(res));
                         }
                     } else {
-                        Error(eval, ERROR_WRONG_ARGUMENT_2_SIZE_A_B_VECTOR_EXPECTED);
+                        Error(ERROR_WRONG_ARGUMENT_2_SIZE_A_B_VECTOR_EXPECTED);
                     }
                 }
             } else if (str == L"saveafter") {
                 if (nLhs > 0) {
-                    Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                    Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
                 }
                 if (arg2.isScalar()) {
                     if (arg2.getDataClass() == NLS_DOUBLE) {
                         double dvalue = arg2.getContentAsDoubleScalar();
                         if (!std::isfinite(dvalue)) {
-                            Error(eval, ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
+                            Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                         }
                         if (dvalue < 0) {
-                            Error(eval, ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
+                            Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                         }
                         size_t ivalue = (size_t)dvalue;
                         if ((double)ivalue != dvalue) {
-                            Error(eval, ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
+                            Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                         }
                         ptrHistoryManager->setSaveAfterNCommands(ivalue);
                     } else {
-                        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED);
+                        Error(ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED);
                     }
                 } else {
-                    Error(eval, ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
+                    Error(ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
                 }
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+                Error(ERROR_WRONG_ARGUMENT_1_VALUE);
             }
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+            Error(ERROR_WRONG_ARGUMENT_1_VALUE);
         }
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     return retval;
 }
@@ -377,10 +376,10 @@ Nelson::HistoryManagerGateway::historyBuiltin(Evaluator* eval, int nLhs, const A
 {
     ArrayOfVector retval;
     if (eval->HistoryManager == nullptr) {
-        Error(eval, _W("History manager not enabled."));
+        Error(_W("History manager not enabled."));
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     switch (argIn.size()) {
     case 0: {
@@ -393,7 +392,7 @@ Nelson::HistoryManagerGateway::historyBuiltin(Evaluator* eval, int nLhs, const A
         return historyBuiltin_two_rhs(eval, nLhs, argIn);
     } break;
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;

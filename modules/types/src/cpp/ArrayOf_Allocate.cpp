@@ -18,6 +18,8 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Types.hpp"
+#include "Error.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 void*
@@ -37,10 +39,10 @@ ArrayOf::allocateArrayOf(
     } break;
     case NLS_STRUCT_ARRAY: {
         if (!haveValidFieldNames(names)) {
-            throw Exception(_W("Field names must be valid."));
+            Error(_W("Field names must be valid."));
         }
         if (!haveUniqueFieldNames(names)) {
-            throw Exception(_W("Duplicated field detected."));
+            Error(_W("Duplicated field detected."));
         }
         indexType n = (indexType)(length * names.size());
         ArrayOf* dp = new_with_exception<ArrayOf>(n);

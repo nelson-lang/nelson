@@ -29,10 +29,10 @@ Nelson::TrigonometricGateway::cosBuiltin(Evaluator* eval, int nLhs, const ArrayO
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
     if (eval->overloadOnBasicTypes) {
@@ -42,7 +42,7 @@ Nelson::TrigonometricGateway::cosBuiltin(Evaluator* eval, int nLhs, const ArrayO
         if (argIn[0].isSparse()) {
             retval = OverloadFunction(eval, nLhs, argIn, "cos", bSuccess);
             if (!bSuccess) {
-                throw Exception(_("Undefined function 'cos' for input arguments of type") + " '"
+                Error(_("Undefined function 'cos' for input arguments of type") + " '"
                     + ClassName(argIn[0]) + "'.");
             }
             return retval;
@@ -63,7 +63,7 @@ Nelson::TrigonometricGateway::cosBuiltin(Evaluator* eval, int nLhs, const ArrayO
         case NLS_CHAR: {
             retval = OverloadFunction(eval, nLhs, argIn, "cos", bSuccess);
             if (!bSuccess) {
-                throw Exception(_("Undefined function 'cos' for input arguments of type") + " '"
+                Error(_("Undefined function 'cos' for input arguments of type") + " '"
                     + ClassName(argIn[0]) + "'.");
             }
         } break;

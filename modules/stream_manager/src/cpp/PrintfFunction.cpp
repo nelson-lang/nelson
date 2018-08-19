@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include <vector>
 #include "PrintfFunction.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "PrintfHelper.hpp"
 #include <boost/algorithm/string.hpp>
 //=============================================================================

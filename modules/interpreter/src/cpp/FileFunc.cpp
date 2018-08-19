@@ -22,7 +22,7 @@
 #include <iosfwd>
 //=============================================================================
 namespace Nelson {
-FileFunc::FileFunc(const std::wstring directory, const std::wstring name)
+FileFunc::FileFunc(const std::wstring& directory, const std::wstring& name)
 {
     _nlf_fullfilename = directory + L"/" + name + L".nlf";
     _name = name;

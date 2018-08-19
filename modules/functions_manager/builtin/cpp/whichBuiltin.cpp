@@ -30,10 +30,10 @@ Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if ((argIn.size() != 1) && (argIn.size() != 2)) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } else if (argIn.size() == 1) {
         if (argIn[0].isSingleString()) {
             std::wstring wfunctionname = argIn[0].getContentAsWideString();
@@ -58,7 +58,7 @@ Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                 retval.push_back(ArrayOf::stringConstructor(Which(wfunctionname)));
             }
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
     } else {
         // case argIn.size() == 2
@@ -66,13 +66,13 @@ Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         if (argIn[0].isSingleString()) {
             wfunctionname = argIn[0].getContentAsWideString();
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring wparam2;
         if (argIn[1].isSingleString()) {
             wparam2 = argIn[1].getContentAsWideString();
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
         if (wparam2.compare(L"-all") == 0) {
             wstringVector res = WhichAll(wfunctionname);
@@ -107,7 +107,7 @@ Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                 retval.push_back(ToCellStringAsColumn(res));
             }
         } else {
-            Error(eval, _W("#2 Argument must be \'-all\' or  \'-module\'."));
+            Error(_W("#2 Argument must be \'-all\' or  \'-module\'."));
         }
     }
     return retval;

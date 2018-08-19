@@ -36,7 +36,7 @@ SparseConstructor(indexType m, indexType n)
         res = ArrayOf(NLS_DOUBLE, dims, (void*)spmat, true);
     } catch (std::bad_alloc& e) {
         e.what();
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     return res;
 }
@@ -100,7 +100,7 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n)
     Dimensions dims = res.getDimensions();
     Dimensions newdims(m, n);
     if (dims.getElementCount() > newdims.getElementCount()) {
-        throw Exception(_W("Index exceeds matrix dimensions."));
+        Error(_W("Index exceeds matrix dimensions."));
     }
     void* spmat = Eigen_CopyResizeSparseMatrix(
         res.getDataClass(), res.getSparseDataPointer(), dims.getRows(), dims.getColumns(), m, n);
@@ -120,7 +120,7 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n, ind
             spmat->finalize();
             spmat->makeCompressed();
         } else {
-            throw Exception(_W("Index exceeds matrix dimensions."));
+            Error(_W("Index exceeds matrix dimensions."));
         }
     } break;
     case NLS_DOUBLE: {
@@ -132,7 +132,7 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n, ind
             spmat->finalize();
             spmat->makeCompressed();
         } else {
-            throw Exception(_W("Index exceeds matrix dimensions."));
+            Error(_W("Index exceeds matrix dimensions."));
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -143,7 +143,7 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n, ind
             spmat->finalize();
             spmat->makeCompressed();
         } else {
-            throw Exception(_W("Index exceeds matrix dimensions."));
+            Error(_W("Index exceeds matrix dimensions."));
         }
     } break;
     }

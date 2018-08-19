@@ -21,6 +21,8 @@
 #include "ClassName.hpp"
 #include "MatrixCheck.hpp"
 #include "ConcatenateNdArray.hpp"
+#include "Error.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -73,7 +75,7 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
     if (A.isSparse() || B.isSparse()) {
         if (mustRaiseError) {
             std::string overload = ClassName(A) + "_vertcat_" + ClassName(B);
-            throw Exception(_("function") + " " + overload + " " + _("undefined."));
+            Error(_("function") + " " + overload + " " + _("undefined."));
         } else {
             bSuccess = false;
             return ArrayOf();
@@ -145,15 +147,15 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getColumns() != dimsB.getColumns()) {
-        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     if (dimsA.getLength() != dimsB.getLength()) {
-        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     for (indexType k = 0; k < dimsA.getLength(); k++) {
         if (k != 0) {
             if (dimsA.getDimensionLength(k) != dimsB.getDimensionLength(k)) {
-                throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+                Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
             }
         }
     }
@@ -162,11 +164,11 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         stringVector fieldnamesA = A.getFieldNames();
         stringVector fieldnamesB = B.getFieldNames();
         if (fieldnamesA.size() != fieldnamesB.size()) {
-            throw Exception(ERROR_FIELDNAMES_MUST_MATCH);
+            Error(ERROR_FIELDNAMES_MUST_MATCH);
         }
         for (size_t k = 0; k < fieldnamesA.size(); k++) {
             if (fieldnamesA[k] != fieldnamesB[k]) {
-                throw Exception(ERROR_FIELDNAMES_MUST_MATCH);
+                Error(ERROR_FIELDNAMES_MUST_MATCH);
             }
         }
         indexType newColumnsSize = dimsA.getColumns();

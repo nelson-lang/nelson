@@ -28,10 +28,10 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (!(argIn.size() == 2 || argIn.size() == 4)) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool forceAsCell = false;
     if (argIn.size() == 4) {
@@ -40,15 +40,15 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         if (param3.isSingleString()) {
             std::wstring str = param3.getContentAsWideString();
             if (str != L"ForceCellOutput") {
-                Error(eval, _W("'ForceCellOutput' expected as third input argument."));
+                Error(_W("'ForceCellOutput' expected as third input argument."));
             }
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
         }
         if (param4.isScalar() && param4.isLogical()) {
             forceAsCell = param4.getContentAsLogicalScalar();
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_4_TYPE_LOGICAL_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_4_TYPE_LOGICAL_EXPECTED);
         }
     }
     ArrayOf A = argIn[0];
@@ -62,7 +62,7 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         if (!(A.isSingleString() || A.isCell() || A.isNumeric())) {
             retval = OverloadFunction(eval, nLhs, argIn, "strfind", bSuccess);
             if (!bSuccess) {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
             }
             return retval;
         }
@@ -79,7 +79,7 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                                     elements = new ArrayOf[nbElements];
                                 } catch (std::bad_alloc& e) {
                                     e.what();
-                                    Error(eval, ERROR_MEMORY_ALLOCATION);
+                                    Error(ERROR_MEMORY_ALLOCATION);
                                 }
                                 for (size_t k = 0; k < nbElements; k++) {
                                     // ArrayOf *cellA = (ArrayOf*)(A.getDataPointer());
@@ -92,7 +92,7 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                                     A.getContentAsWideString(), B.getContentAsWideString()));
                             }
                         } else {
-                            Error(eval, _W("Second argument a single string expected."));
+                            Error(_W("Second argument a single string expected."));
                         }
                     } else {
                         retval.push_back(ArrayOf::emptyConstructor());
@@ -105,7 +105,7 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                         elements = new ArrayOf[nbElements];
                     } catch (std::bad_alloc& e) {
                         e.what();
-                        Error(eval, ERROR_MEMORY_ALLOCATION);
+                        Error(ERROR_MEMORY_ALLOCATION);
                     }
                     for (size_t k = 0; k < nbElements; k++) {
                         ArrayOf* cellA = (ArrayOf*)(A.getDataPointer());
@@ -116,15 +116,14 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                                     elements[k]
                                         = StringFind(cellA[k].getContentAsWideString(), valB);
                                 } else {
-                                    Error(eval, _W("Second argument a single string expected."));
+                                    Error(_W("Second argument a single string expected."));
                                 }
                             } else {
                                 elements[k] = ArrayOf::emptyConstructor();
                             }
                         } else {
-                            Error(eval,
-                                _W("First argument must be a cell of strings (or a string) and "
-                                   "second argument a string."));
+                            Error(_W("First argument must be a cell of strings (or a string) and "
+                                     "second argument a string."));
                         }
                     }
                     retval.push_back(ArrayOf(NLS_CELL_ARRAY, dimA, elements));
@@ -132,20 +131,18 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                     if ((A.isRowVector() && !A.isEmpty()) || A.isScalar() || A.isEmpty(true)) {
                         retval.push_back(ArrayOf::emptyConstructor());
                     } else {
-                        Error(eval, _W("Input strings must have one row."));
+                        Error(_W("Input strings must have one row."));
                     }
                 } else {
-                    Error(eval,
-                        _W("First argument must be a cell of strings (or a string) and second "
-                           "argument a string."));
+                    Error(_W("First argument must be a cell of strings (or a string) and second "
+                             "argument a string."));
                 }
             } else {
-                Error(eval, _W("Second argument a single string expected."));
+                Error(_W("Second argument a single string expected."));
             }
         } else {
-            Error(eval,
-                _W("First argument must be a cell of strings (or a string) and second argument a "
-                   "string."));
+            Error(_W("First argument must be a cell of strings (or a string) and second argument a "
+                     "string."));
         }
     }
     return retval;

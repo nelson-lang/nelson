@@ -18,6 +18,7 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Data.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -91,10 +92,11 @@ ArrayOf::dcomplexConstructor(double aval, double bval)
 }
 //=============================================================================
 double
-ArrayOf::getContentAsDoubleScalar()
+ArrayOf::getContentAsDoubleScalar(bool arrayAsScalar)
 {
-    if (isComplex() || isReferenceType() || isString() || isSparse() || !isScalar()) {
-        throw Exception(_W("Expected a real value scalar."));
+    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
+        Error(_W("Expected a real value scalar."));
     }
     promoteType(NLS_DOUBLE);
     double* qp = (double*)dp->getData();
@@ -102,10 +104,11 @@ ArrayOf::getContentAsDoubleScalar()
 }
 //=============================================================================
 doublecomplex
-ArrayOf::getContentAsDoubleComplexScalar()
+ArrayOf::getContentAsDoubleComplexScalar(bool arrayAsScalar)
 {
-    if (isReferenceType() || isString() || isSparse() || !isScalar()) {
-        throw Exception(_W("Expected a real valued scalar"));
+    if (isEmpty() || isReferenceType() || isString() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
+        Error(_W("Expected a real valued scalar"));
     }
     promoteType(NLS_DCOMPLEX);
     double* qp = (double*)dp->getData();

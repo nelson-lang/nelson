@@ -28,7 +28,7 @@ Nelson::OsFunctionsGateway::computerBuiltin(Evaluator* eval, int nLhs, const Arr
     ArrayOfVector retval;
     if (argIn.size() == 0) {
         if (nLhs > 3) {
-            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         if (nLhs >= 0) {
             retval.push_back(ArrayOf::stringConstructor(GetArchitectureType()));
@@ -45,18 +45,18 @@ Nelson::OsFunctionsGateway::computerBuiltin(Evaluator* eval, int nLhs, const Arr
         }
     } else if (argIn.size() == 1) {
         if (nLhs > 1) {
-            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         if (!argIn[0].isSingleString()) {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring warg = argIn[0].getContentAsWideString();
         if (warg.compare(L"arch") != 0) {
-            Error(eval, _W("Unknown command option."));
+            Error(_W("Unknown command option."));
         }
         retval.push_back(ArrayOf::stringConstructor(GetArchitecture()));
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

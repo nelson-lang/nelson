@@ -17,95 +17,41 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 clear('functions');
+[builtin_list, macro_list] = what();
 [u1, s1] = memory();
-execstr('test_runfile;', 'errcatch');
-execstr('test_makeref;', 'errcatch');
-execstr('string_horzcat_generic;', 'errcatch');
-execstr('string_any;', 'errcatch');
-execstr('string_all;', 'errcatch');
-execstr('generic_horzcat_string;', 'errcatch');
-execstr('typeofbin;', 'errcatch');
-execstr('typebin;', 'errcatch');
-execstr('stdout;', 'errcatch');
-execstr('stdin;', 'errcatch');
-execstr('stderr;', 'errcatch');
-execstr('SEEK_SET;', 'errcatch');
-execstr('SEEK_END;', 'errcatch');
-execstr('SEEK_CUR;', 'errcatch');
-execstr('fileread;', 'errcatch');
-execstr('sparselogical_plus_sparselogical;', 'errcatch');
-execstr('sparselogical_minus_sparselogical;', 'errcatch');
-execstr('sparselogical_isequaln;', 'errcatch');
-execstr('sparselogical_isequal;', 'errcatch');
-execstr('sparselogical_int2str;', 'errcatch');
-execstr('sparsedouble_isequaln;', 'errcatch');
-execstr('sparsedouble_isequal;', 'errcatch');
-execstr('sparsedouble_isapprox;', 'errcatch');
-execstr('single_plus_generic;', 'errcatch');
-execstr('single_not;', 'errcatch');
-execstr('single_minus_generic;', 'errcatch');
-execstr('single_any;', 'errcatch');
-execstr('single_all;', 'errcatch');
-execstr('generic_plus_single;', 'errcatch');
-execstr('generic_minus_single;', 'errcatch');
-execstr('colon_single_generic_generic;', 'errcatch');
-execstr('colon_generic_single_generic;', 'errcatch');
-execstr('colon_single_single_single;', 'errcatch');
-execstr('colon_generic_generic_single;', 'errcatch');
-execstr('logical_plus_logical;', 'errcatch');
-execstr('logical_minus_logical;', 'errcatch');
-execstr('generic_or_generic;', 'errcatch');
-execstr('sparsedouble_int2str;', 'errcatch');
-execstr('generic_and_generic;', 'errcatch');
-execstr('uint8_any;', 'errcatch');
-execstr('uint8_all;', 'errcatch');
-execstr('uint64_any;', 'errcatch');
-execstr('uint64_all;', 'errcatch');
-execstr('uint32_any;', 'errcatch');
-execstr('uint16_any;', 'errcatch');
-execstr('uint16_all;', 'errcatch');
-execstr('int8_plus_int8;', 'errcatch');
-execstr('int8_minus_int8;', 'errcatch');
-execstr('int8_any;', 'errcatch');
-execstr('int8_all;', 'errcatch');
-execstr('int64_any;', 'errcatch');
-execstr('int64_all;', 'errcatch');
-execstr('logical_ne_logical;', 'errcatch');
-execstr('int32_ne_double;', 'errcatch');
-execstr('int32_any;', 'errcatch');
-execstr('int32_all;', 'errcatch');
-execstr('int16_any;', 'errcatch');
-execstr('int16_all;', 'errcatch');
-execstr('double_colon_int32;', 'errcatch');
-execstr('poheader;', 'errcatch');
-execstr('xmldoctohtml;', 'errcatch');
-execstr('xmldoctohelp;', 'errcatch');
-execstr('qhelpgenerator;', 'errcatch');
-execstr('buildhelpweb;', 'errcatch');
-execstr('isscalar;', 'errcatch');
-execstr('ndarraydouble_vertcat_double;', 'errcatch');
-execstr('double_vertcat_ndarraydouble;', 'errcatch');
-execstr('double_not;', 'errcatch');
-execstr('double_any;', 'errcatch');
-execstr('double_all;', 'errcatch');
-execstr('struct_isequaln;', 'errcatch');
-execstr('struct_isequal;', 'errcatch');
-execstr('ndarraycell_isequaln;', 'errcatch');
-execstr('getfield;', 'errcatch');
-execstr('deal;', 'errcatch');
-execstr('cell_vertcat_struct;', 'errcatch');
-execstr('uint32_all;', 'errcatch');
-execstr('cell_isequaln;', 'errcatch');
-execstr('ndarraycell_isequal;', 'errcatch');
-execstr('cell_isequal;', 'errcatch');
-execstr('narginchk;', 'errcatch');
-execstr('savebin;', 'errcatch');
-execstr('loadbin;', 'errcatch');
+filtered = { 'buildhelp';
+ 'buildhelpmd';
+ 'buildhelpweb';
+ 'configuremingw';
+ 'configuremsvc';
+ 'doc';
+ 'edit';
+ 'errordlg';
+ 'helpdlg';
+ 'indexhelp';
+ 'msgbox';
+ 'qml_demos';
+ 'questdlg';
+ 'removecompilerconf';
+ 'test_run';
+ 'typebin';
+ 'typeofbin';
+ 'vswhere';
+ 'warndlg';
+ 'qcollectiongenerator'};
+
+
+for k = 1:length(macro_list)
+  if strcmp(macro_list{k}, filtered) == false
+    execstr([macro_list{k}, ';'], 'errcatch');
+  end
+end
 [u2, s2] = memory();
 clear('functions');
 [u3, s3] = memory();
 disp(u3.MemUsedNelson - u2.MemUsedNelson)
 assert_istrue(u3.MemUsedNelson - u2.MemUsedNelson <= 300000)
 disp(u2.MemUsedNelson - u1.MemUsedNelson)
-assert_istrue(u2.MemUsedNelson - u1.MemUsedNelson < 1500000)
+assert_istrue(u2.MemUsedNelson - u1.MemUsedNelson < 15000000)
 disp(u3.MemUsedNelson - u1.MemUsedNelson)
+assert_istrue(u3.MemUsedNelson - u1.MemUsedNelson < 15000000)

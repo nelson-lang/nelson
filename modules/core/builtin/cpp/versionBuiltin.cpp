@@ -30,7 +30,7 @@ Nelson::CoreGateway::versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     ArrayOfVector retval;
     if (argIn.size() == 0) {
         if (nLhs > 2) {
-            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         std::string version;
         version.append(NELSON_VERSION_STRING);
@@ -43,13 +43,13 @@ Nelson::CoreGateway::versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         }
     } else if (argIn.size() == 1) {
         if (nLhs > 1) {
-            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         std::wstring option;
         if (argIn[0].isSingleString()) {
             option = argIn[0].getContentAsWideString();
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         if (option.compare(L"-date") == 0) {
             retval.push_back(ArrayOf::stringConstructor(__TIMESTAMP__));
@@ -72,10 +72,10 @@ Nelson::CoreGateway::versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             }
             retval.push_back(vectRes);
         } else {
-            Error(eval, _W("Unknow option."));
+            Error(_W("Unknow option."));
         }
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

@@ -1,0 +1,61 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_isequal(nargin('dbstack'), -1);
+assert_isequal(nargout('dbstack'), -1);
+//=============================================================================
+dbstack();
+dbstack('-completenames');
+//=============================================================================
+[st, idx] = dbstack();
+ref_st_1.file = 'test_dbstack.nls';
+ref_st_1.name = 'test_dbstack';
+ref_st_1.line = 25;
+assert_isequal(st(1), ref_st_1);
+ref_st_2.file = '';
+ref_st_2.name = 'run';
+ref_st_2.line = zeros(0, 1);
+assert_isequal(st(2), ref_st_2);
+//=============================================================================
+dbstack();
+dbstack('-completenames');
+//=============================================================================
+addpath(fileparts(nfilename('fullpathext'), 'path'));
+[st, idx] = test_dbstack();
+//=============================================================================
+ref_st_3.file = '';
+ref_st_3.name = 'run';
+ref_st_3.line = zeros(0, 1);
+assert_isequal(st(3), ref_st_3);
+//=============================================================================
+ref_st_2.file = 'test_dbstack.nls';
+ref_st_2.name = 'test_dbstack';
+ref_st_2.line = 39;
+assert_isequal(st(2), ref_st_2);
+//=============================================================================
+ref_st_1.file = 'test_dbstack.nlf';
+ref_st_1.name = 'test_dbstack';
+ref_st_1.line = 22;
+assert_isequal(st(1), ref_st_1);
+//=============================================================================
+[st, idx] = dbstack(1);
+ref_st_1.file = '';
+ref_st_1.name = 'run';
+ref_st_1.line = zeros(0, 1);
+assert_isequal(st(1), ref_st_1);
+//=============================================================================

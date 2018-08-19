@@ -30,7 +30,7 @@ Nelson::ConstructorsGateway::nanBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     ArrayOfVector retval;
     ArrayOf p;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0) {
         m = 1;

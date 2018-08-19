@@ -29,10 +29,10 @@ Nelson::LinearAlgebraGateway::schurBuiltin(Evaluator* eval, int nLhs, const Arra
 {
     ArrayOfVector retval;
     if (argIn.size() > 2 || argIn.size() < 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
@@ -59,7 +59,7 @@ Nelson::LinearAlgebraGateway::schurBuiltin(Evaluator* eval, int nLhs, const Arra
                     asComplex = true;
                 }
             } else {
-                Error(eval, _W("Second input argument must be 'real' or 'complex'."));
+                Error(_W("Second input argument must be 'real' or 'complex'."));
             }
         }
         if (nLhs == 2) {

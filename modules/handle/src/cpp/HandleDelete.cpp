@@ -62,7 +62,7 @@ HandleDelete(Evaluator* eval, ArrayOf A)
                     } else {
                         msg = handleTypeName + L"_delete" + L" " + _W("not defined.");
                     }
-                    throw Exception(msg);
+                    Error(msg);
                 }
             }
             HandleManager::getInstance()->removeHandle(hl);

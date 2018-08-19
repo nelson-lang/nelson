@@ -27,7 +27,7 @@ UnaryPlus(const ArrayOf& A)
     ArrayOf res;
     if (A.isSparse()) {
         std::string overload = ClassName(A) + "_uplus";
-        throw Exception(_("function") + " " + overload + " " + _("undefined."));
+        Error(_("function") + " " + overload + " " + _("undefined."));
     }
     switch (A.getDataClass()) {
     case NLS_LOGICAL:
@@ -53,7 +53,7 @@ UnaryPlus(const ArrayOf& A)
     } break;
     default: {
         std::string overload = ClassName(A) + "_uplus";
-        throw Exception(_("function") + " " + overload + " " + _("undefined."));
+        Error(_("function") + " " + overload + " " + _("undefined."));
     } break;
     }
     return res;
