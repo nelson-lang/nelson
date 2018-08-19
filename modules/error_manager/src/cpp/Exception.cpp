@@ -179,9 +179,7 @@ Exception::getFormattedErrorMessage()
                     = std::wstring(L"In ") + filename + L" (line " + std::to_wstring(line) + L")\n";
             }
         }
-        formattedMessage.append(msg);
     }
-
     return formattedMessage;
 }
 //=============================================================================
