@@ -73,13 +73,13 @@ Nelson::AudioGateway::audioplayer_playBuiltin(Evaluator* eval, int nLhs, const A
             if (start > objPlayer->getTotalSamples()) {
                 Error(_W("Invalid range."));
             }
-            objPlayer->play(start);
+            objPlayer->play((int)start);
         } else {
             if (start > objPlayer->getTotalSamples() || start > end
                 || end > objPlayer->getTotalSamples()) {
                 Error(_W("Invalid range."));
             }
-            objPlayer->play(start, end);
+            objPlayer->play((int)start, (int)end);
         }
     }
     return retval;

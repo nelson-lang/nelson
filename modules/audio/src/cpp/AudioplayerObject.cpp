@@ -388,7 +388,7 @@ AudioplayerObject::setSamples(
         }
         rows = audioData.getDimensions().getRows();
         columns = audioData.getDimensions().getColumns();
-        _NumberOfChannels = columns;
+        _NumberOfChannels = (int)columns;
         if (_NumberOfChannels > pdi_output->maxOutputChannels) {
             errorMessage = _W("Too many output channels.");
             return false;
@@ -449,7 +449,7 @@ AudioplayerObject::paPlayCallback(const void* inputBuffer, void* outputBuffer,
     Class dataClass = data->audioData.getDataClass();
     for (unsigned int i = 0; i < framesPerBuffer; i++) {
         for (int c = 0; c < data->_NumberOfChannels; c++) {
-            if (data->_CurrentSample < data->lastSample) {
+            if ((uint32)data->_CurrentSample < data->lastSample) {
                 switch (dataClass) {
                 case NLS_SINGLE: {
                     single* ptrData = (single*)data->audioData.getDataPointer();
@@ -505,7 +505,7 @@ AudioplayerObject::paPlayCallback(const void* inputBuffer, void* outputBuffer,
         }
         data->_CurrentSample++;
     }
-    if (data->_CurrentSample >= data->lastSample) {
+    if ((uint32)data->_CurrentSample >= data->lastSample) {
         data->_CurrentSample = data->lastSample;
         data->_Running = false;
         data->paStream = nullptr;

@@ -152,7 +152,7 @@ ArrayOfVector Nelson::ExampleGateway::example_nig_sumBuiltin(Evaluator* eval, in
     }
     if (!dimsB.isScalar())
     {
-        Error( _W("Input argument #2: scalar expected."));
+        Error(_W("Input argument #2: scalar expected."));
     }
 
     // CALL EXTERN FUNCTION

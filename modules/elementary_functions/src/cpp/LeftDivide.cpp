@@ -26,6 +26,8 @@ LeftDivide(ArrayOf A, ArrayOf B)
         return ArrayOf::emptyConstructor();
     }
     Error(_W("LeftDivide currently not implemented in Nelson."));
+    return ArrayOf();
 }
+//=============================================================================
 }
 //=============================================================================
