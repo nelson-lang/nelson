@@ -399,11 +399,12 @@ Evaluator::cellDefinition(ASTPtr t)
     return retval;
 }
 
-bool Evaluator::needToOverloadOperator(ArrayOf a) {
-  return ((a.getDataClass() == NLS_STRUCT_ARRAY) ||
-          (a.getDataClass() == NLS_CELL_ARRAY) || a.isSparse() || a.isHandle());
+bool
+Evaluator::needToOverloadOperator(ArrayOf a)
+{
+    return ((a.getDataClass() == NLS_STRUCT_ARRAY) || (a.getDataClass() == NLS_CELL_ARRAY)
+        || a.isSparse() || a.isHandle());
 }
-
 
 ArrayOf
 Evaluator::EndReference(ArrayOf v, indexType index, size_t count)
@@ -3079,11 +3080,13 @@ Evaluator::adjustBreakpoint(StackEntry& bp, bool dbstep)
             char buffer[2048];
             if (dbstep) {
                 sprintf(buffer, "%s",
-                    _("Unable to step the specified number of lines, execution will continue\n").c_str());
+                    _("Unable to step the specified number of lines, execution will continue\n")
+                        .c_str());
                 inStepMode = false;
             } else {
                 sprintf(buffer,
-                    _("Failed to set breakpoint in %s at line %d - breakpoint is disabled\n").c_str(),
+                    _("Failed to set breakpoint in %s at line %d - breakpoint is disabled\n")
+                        .c_str(),
                     cname.c_str(), bp.tokid & 0xffff);
             }
             Warning(std::string(buffer));
@@ -3620,7 +3623,6 @@ Evaluator::Evaluator(Context* aContext, Interface* aInterface, int _engineMode)
     resetState();
     depth = 0;
     io = aInterface;
-    ArrayOf::setArrayOfIOInterface(io);
     InterruptPending = false;
     printLimit = 1000;
     autostop = true;
@@ -3890,6 +3892,24 @@ void
 Evaluator::enableOverload()
 {
     bAllowOverload = true;
+}
+//=============================================================================
+bool
+Evaluator::canOverloadBasicTypes()
+{
+    return overloadOnBasicTypes;
+}
+//=============================================================================
+void
+Evaluator::enableOverloadBasicTypes()
+{
+    overloadOnBasicTypes = true;
+}
+//=============================================================================
+void
+Evaluator::disableOverloadBasicTypes()
+{
+    overloadOnBasicTypes = false;
 }
 //=============================================================================
 std::wstring

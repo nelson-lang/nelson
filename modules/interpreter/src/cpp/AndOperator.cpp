@@ -22,25 +22,28 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf Evaluator::andOperator(ArrayOf A, ArrayOf B) {
-  ArrayOf retval;
-  if ((overloadOnBasicTypes || needToOverloadOperator(A) ||
-       needToOverloadOperator(B)) &&
-      !isOverloadAllowed()) {
-    retval = OverloadBinaryOperator(this, A, B, "and");
-  } else {
-    retval = And(A, B);
-  }
-  return retval;
+ArrayOf
+Evaluator::andOperator(ArrayOf A, ArrayOf B)
+{
+    ArrayOf retval;
+    if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
+        && !isOverloadAllowed()) {
+        retval = OverloadBinaryOperator(this, A, B, "and");
+    } else {
+        retval = And(A, B);
+    }
+    return retval;
 }
 //=============================================================================
-ArrayOf Evaluator::andOperator(ASTPtr t) {
-  pushID(t->context());
-  ArrayOf A = expression(t->down);
-  ArrayOf B = expression(t->down->right);
-  ArrayOf retval = andOperator(A, B);
-  popID();
-  return retval;
+ArrayOf
+Evaluator::andOperator(ASTPtr t)
+{
+    pushID(t->context());
+    ArrayOf A = expression(t->down);
+    ArrayOf B = expression(t->down->right);
+    ArrayOf retval = andOperator(A, B);
+    popID();
+    return retval;
 }
 //=============================================================================
 } // namespace Nelson

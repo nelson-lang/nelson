@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSSINGLE_IMPEXP ArrayOf
-ToSingle(ArrayOf A);
+ToSingle(const ArrayOf &A, bool &needToOverload);
 }
 //=============================================================================

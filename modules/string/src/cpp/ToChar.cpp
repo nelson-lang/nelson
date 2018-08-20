@@ -23,8 +23,9 @@
 #include <boost/container/vector.hpp>
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 static ArrayOf
-ArrayOfDoubleToChar(ArrayOf A)
+ArrayOfDoubleToChar(const ArrayOf& A)
 {
     Dimensions dimsA = A.getDimensions();
     std::wstring res;
@@ -67,11 +68,17 @@ ArrayOfDoubleToChar(ArrayOf A)
 }
 //=============================================================================
 ArrayOf
-ToChar(ArrayOf A, ArrayOf B)
+ToChar(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     ArrayOf res;
-    ArrayOf charA = ToChar(A);
-    ArrayOf charB = ToChar(B);
+    ArrayOf charA = ToChar(A, needToOverload);
+    if (needToOverload) {
+        return res;
+    }
+    ArrayOf charB = ToChar(B, needToOverload);
+    if (needToOverload) {
+        return res;
+    }
     Dimensions dimsA = charA.getDimensions();
     Dimensions dimsB = charB.getDimensions();
     wstringVector vA = charA.getContentAsWideStringVector();
@@ -123,19 +130,28 @@ ToChar(ArrayOf A, ArrayOf B)
 }
 //=============================================================================
 ArrayOf
-ToChar(ArrayOf A)
+ToChar(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
+    needToOverload = false;
     switch (A.getDataClass()) {
     case NLS_CELL_ARRAY: {
         ArrayOfVector V;
         ArrayOf* arg = (ArrayOf*)(A.getDataPointer());
         for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-            V.push_back(ToChar(arg[k]));
+            ArrayOf val = ToChar(arg[k], needToOverload);
+            if (needToOverload) {
+                return res;
+            }
+            V.push_back(val);
         }
         res = V[0];
         for (indexType k = 1; k < V.size(); k++) {
-            res = ToChar(res, V[k]);
+            ArrayOf val = ToChar(res, V[k], needToOverload);
+            if (needToOverload) {
+                return res;
+            }
+            res = val;
         }
     } break;
     case NLS_CHAR: {
@@ -153,15 +169,14 @@ ToChar(ArrayOf A)
     case NLS_INT64:
     case NLS_SINGLE:
     case NLS_DOUBLE: {
-        A.promoteType(NLS_DOUBLE);
-        res = ArrayOfDoubleToChar(A);
+        ArrayOf AA = A;
+        AA.promoteType(NLS_DOUBLE);
+        res = ArrayOfDoubleToChar(AA);
     } break;
     case NLS_SCOMPLEX:
-    case NLS_DCOMPLEX: {
-        Error(_W("Conversion to char from complex is not possible."));
-    } break;
+    case NLS_DCOMPLEX:
     default: {
-        Error(_W("Invalid conversion."));
+        needToOverload = true;
     } break;
     }
     return res;

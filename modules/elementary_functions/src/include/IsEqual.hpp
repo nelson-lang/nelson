@@ -16,29 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "IsEqualLogical.hpp"
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-bool
-logical_isequal(ArrayOf a, ArrayOf b)
-{
-    if (a.getDataClass() == NLS_LOGICAL && b.getDataClass() == NLS_LOGICAL) {
-        Dimensions dimsA = a.getDimensions();
-        Dimensions dimsB = b.getDimensions();
-        if (dimsA.equals(dimsB)) {
-            logical* ptrA = (logical*)a.getDataPointer();
-            logical* ptrB = (logical*)b.getDataPointer();
-            for (indexType k = 0; k < dimsA.getElementCount(); k++) {
-                if (ptrA[k] != ptrB[k]) {
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
-    return false;
-}
+NLSELEMENTARY_FUNCTIONS_IMPEXP bool
+IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverload);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

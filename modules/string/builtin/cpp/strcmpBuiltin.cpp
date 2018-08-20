@@ -35,7 +35,7 @@ strcmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool bCaseS
     }
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         if (bCaseSensitive) {
             retval = OverloadFunction(eval, nLhs, argIn, "strcmp", bSuccess);
         } else {

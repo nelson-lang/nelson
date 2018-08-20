@@ -17,5 +17,24 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function r = cell_isequaln(a, b)
-  r = ndarraycell_isequaln(a, b);
+  if iscell(b)
+    s1 = size(a);
+    s2 = size(b);
+    if isequal(s1, s2)
+      r = true;
+      k = 1;
+      for e = a
+        if ~isequaln(e{1}, b{k})
+          r = false;
+          break;
+        else
+          k = k + 1;
+        end
+      end
+    else
+      r = false;
+    end
+  else
+    r = false;
+  end
 endfunction

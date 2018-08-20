@@ -26,6 +26,6 @@ namespace Nelson {
  * Element-wise compare (lt) of two arrays.
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-LessThan(ArrayOf& A, ArrayOf& B, bool &needToOverload);
+LessThan(ArrayOf& A, ArrayOf& B, bool& needToOverload);
 }
 //=============================================================================

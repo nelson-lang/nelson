@@ -32,10 +32,13 @@ Nelson::StringGateway::char_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     if (argIn.size() != 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (!argIn[0].isString()) {
+    if (argIn[0].isNdArrayStringType()) {
+        argIn[0].printMe(eval->getPrintLimit(), eval->getInterface()->getTerminalWidth());
+    } else if (argIn[0].isString()) {
+        StringDisplay(eval, argIn[0], true);
+    } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-    StringDisplay(eval, argIn[0], true);
     return retval;
 }
 //=============================================================================

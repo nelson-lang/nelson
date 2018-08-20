@@ -68,6 +68,7 @@ static const nlsGateway gateway[] = {
     { "handle_eq_generic", Nelson::HandleGateway::handle_eq_genericBuiltin, 1, 2 },
     { "handle_isequal", Nelson::HandleGateway::handle_isequalBuiltin, 1, 2 },
     { "handle_isequaln", Nelson::HandleGateway::handle_isequalBuiltin, 1, 2 },
+    { "handle_isequalto", Nelson::HandleGateway::handle_isequalBuiltin, 1, 2 },
 
     { "handle_get", Nelson::HandleGateway::handle_getBuiltin, 1, 1 },
     { "handle_set", Nelson::HandleGateway::handle_setBuiltin, 1, 1 },

@@ -192,6 +192,7 @@
     <ClCompile Include="..\cpp\HorzCat.cpp" />
     <ClCompile Include="..\cpp\ImagPart.cpp" />
     <ClCompile Include="..\cpp\IsApprox.cpp" />
+    <ClCompile Include="..\cpp\IsEqual.cpp" />
     <ClCompile Include="..\cpp\IsFinite.cpp" />
     <ClCompile Include="..\cpp\IsInf.cpp" />
     <ClCompile Include="..\cpp\IsNan.cpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="..\include\HorzCat.hpp" />
     <ClInclude Include="..\include\ImagPart.hpp" />
     <ClInclude Include="..\include\IsApprox.hpp" />
+    <ClInclude Include="..\include\IsEqual.hpp" />
     <ClInclude Include="..\include\IsFinite.hpp" />
     <ClInclude Include="..\include\IsInf.hpp" />
     <ClInclude Include="..\include\IsNaN.hpp" />

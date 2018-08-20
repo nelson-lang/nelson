@@ -37,7 +37,7 @@ Nelson::StringGateway::containsBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     }
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "contains", bSuccess);
     }
     if (!bSuccess) {

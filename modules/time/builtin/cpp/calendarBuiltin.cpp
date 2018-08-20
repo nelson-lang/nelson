@@ -63,9 +63,11 @@ Nelson::TimeGateway::calendarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         Error(_W("Calendar not initialized."));
     }
     if (cal->getYear() < 1400 || cal->getYear() > 9999) {
+        delete cal;
         Error(_W("Year value is wrong [1400, 9999] expected."));
     }
     if (!(cal->getMonth() > 0 && cal->getMonth() < 13)) {
+        delete cal;
         Error(_W("Month value is wrong [1, 12] expected."));
     }
     switch (nLhs) {
@@ -87,6 +89,7 @@ Nelson::TimeGateway::calendarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         delete cal;
     } break;
     default: {
+        delete cal;
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     } break;
     }

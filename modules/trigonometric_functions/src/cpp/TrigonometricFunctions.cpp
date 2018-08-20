@@ -27,18 +27,22 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Cos(const ArrayOf& A)
+Cos(const ArrayOf& A, bool& needToOverload)
 {
+    needToOverload = false;
     ArrayOf R;
     if (A.isEmpty()) {
         R = A;
         R.ensureSingleOwner();
         return R;
     }
+    if (A.isSparse()) {
+        needToOverload = true;
+        return R;
+    }
     switch (A.getDataClass()) {
     default: {
-        Error(
-            _("Undefined function 'cos' for input arguments of type") + " '" + ClassName(A) + "'.");
+        needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
         single* ptrR
@@ -87,18 +91,22 @@ Cos(const ArrayOf& A)
 }
 //=============================================================================
 ArrayOf
-Sin(const ArrayOf& A)
+Sin(const ArrayOf& A, bool& needToOverload)
 {
+    needToOverload = false;
     ArrayOf R;
     if (A.isEmpty()) {
         R = A;
         R.ensureSingleOwner();
         return R;
     }
+    if (A.isSparse()) {
+        needToOverload = true;
+        return R;
+    }
     switch (A.getDataClass()) {
     default: {
-        Error(
-            _("Undefined function 'sin' for input arguments of type") + " '" + ClassName(A) + "'.");
+        needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
         single* ptrR
@@ -147,18 +155,22 @@ Sin(const ArrayOf& A)
 }
 //=============================================================================
 ArrayOf
-Tan(const ArrayOf& A)
+Tan(const ArrayOf& A, bool& needToOverload)
 {
+    needToOverload = false;
     if (A.isEmpty()) {
         ArrayOf R(A);
         R.ensureSingleOwner();
         return R;
     }
     ArrayOf R;
+    if (A.isSparse()) {
+        needToOverload = true;
+        return R;
+    }
     switch (A.getDataClass()) {
     default: {
-        Error(
-            _("Undefined function 'tan' for input arguments of type") + " '" + ClassName(A) + "'.");
+        needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
         single* ptrR
@@ -207,18 +219,22 @@ Tan(const ArrayOf& A)
 }
 //=============================================================================
 ArrayOf
-Cosh(const ArrayOf& A)
+Cosh(const ArrayOf& A, bool& needToOverload)
 {
+    needToOverload = false;
     if (A.isEmpty()) {
         ArrayOf R(A);
         R.ensureSingleOwner();
         return R;
     }
     ArrayOf R;
+    if (A.isSparse()) {
+        needToOverload = true;
+        return R;
+    }
     switch (A.getDataClass()) {
     default: {
-        Error(_("Undefined function 'cosh' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
         single* ptrR
@@ -269,18 +285,22 @@ Cosh(const ArrayOf& A)
 }
 //=============================================================================
 ArrayOf
-Sinh(const ArrayOf& A)
+Sinh(const ArrayOf& A, bool& needToOverload)
 {
+    needToOverload = false;
     if (A.isEmpty()) {
         ArrayOf R(A);
         R.ensureSingleOwner();
         return R;
     }
     ArrayOf R;
+    if (A.isSparse()) {
+        needToOverload = true;
+        return R;
+    }
     switch (A.getDataClass()) {
     default: {
-        Error(_("Undefined function 'sinh' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
         single* ptrR
@@ -331,18 +351,22 @@ Sinh(const ArrayOf& A)
 }
 //=============================================================================
 ArrayOf
-Tanh(const ArrayOf& A)
+Tanh(const ArrayOf& A, bool& needToOverload)
 {
+    needToOverload = false;
     if (A.isEmpty()) {
         ArrayOf R(A);
         R.ensureSingleOwner();
         return R;
     }
     ArrayOf R;
+    if (A.isSparse()) {
+        needToOverload = true;
+        return R;
+    }
     switch (A.getDataClass()) {
     default: {
-        Error(_("Undefined function 'tanh' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
         single* ptrR
@@ -393,18 +417,22 @@ Tanh(const ArrayOf& A)
 }
 //=============================================================================
 ArrayOf
-Acos(const ArrayOf& A)
+Acos(const ArrayOf& A, bool& needToOverload)
 {
+    needToOverload = false;
     if (A.isEmpty()) {
         ArrayOf R(A);
         R.ensureSingleOwner();
         return R;
     }
     ArrayOf R;
+    if (A.isSparse()) {
+        needToOverload = true;
+        return R;
+    }
     switch (A.getDataClass()) {
     default: {
-        Error(_("Undefined function 'acos' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        needToOverload = true;
     } break;
     case NLS_SINGLE: {
         R = A;
@@ -493,18 +521,22 @@ Acos(const ArrayOf& A)
 }
 //=============================================================================
 ArrayOf
-Asin(const ArrayOf& A)
+Asin(const ArrayOf& A, bool& needToOverload)
 {
+    needToOverload = false;
     if (A.isEmpty()) {
         ArrayOf R(A);
         R.ensureSingleOwner();
         return R;
     }
     ArrayOf R;
+    if (A.isSparse()) {
+        needToOverload = true;
+        return R;
+    }
     switch (A.getDataClass()) {
     default: {
-        Error(_("Undefined function 'asin' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        needToOverload = true;
     } break;
     case NLS_SINGLE: {
         R = A;
@@ -595,18 +627,22 @@ Asin(const ArrayOf& A)
 }
 //=============================================================================
 ArrayOf
-Atan(const ArrayOf& A)
+Atan(const ArrayOf& A, bool& needToOverload)
 {
+    needToOverload = false;
     if (A.isEmpty()) {
         ArrayOf R(A);
         R.ensureSingleOwner();
         return R;
     }
     ArrayOf R;
+    if (A.isSparse()) {
+        needToOverload = true;
+        return R;
+    }
     switch (A.getDataClass()) {
     default: {
-        Error(_("Undefined function 'atan' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        needToOverload = true;
     } break;
     case NLS_SINGLE: {
         single* ptrR

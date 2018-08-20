@@ -58,7 +58,7 @@ lessThanComplex(indexType N, logical* C, const T* A, int stride1, const T* B, in
 }
 //=============================================================================
 ArrayOf
-LessThan(ArrayOf& A, ArrayOf& B, bool &needToOverload)
+LessThan(ArrayOf& A, ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
     VectorCheck(A, B, "<");
@@ -92,7 +92,7 @@ LessThan(ArrayOf& A, ArrayOf& B, bool &needToOverload)
         lessThanReal<charType>(Clen, (logical*)Cp, (charType*)A.getDataPointer(), Astride,
             (charType*)B.getDataPointer(), Bstride);
     } break;
-	case NLS_UINT8: {
+    case NLS_UINT8: {
         lessThanReal<uint8>(Clen, (logical*)Cp, (uint8*)A.getDataPointer(), Astride,
             (uint8*)B.getDataPointer(), Bstride);
     } break;
@@ -108,7 +108,7 @@ LessThan(ArrayOf& A, ArrayOf& B, bool &needToOverload)
         lessThanReal<uint64>(Clen, (logical*)Cp, (uint64*)A.getDataPointer(), Astride,
             (uint64*)B.getDataPointer(), Bstride);
     } break;
-	case NLS_INT8: {
+    case NLS_INT8: {
         lessThanReal<int8>(Clen, (logical*)Cp, (int8*)A.getDataPointer(), Astride,
             (int8*)B.getDataPointer(), Bstride);
     } break;
@@ -116,11 +116,11 @@ LessThan(ArrayOf& A, ArrayOf& B, bool &needToOverload)
         lessThanReal<int16>(Clen, (logical*)Cp, (int16*)A.getDataPointer(), Astride,
             (int16*)B.getDataPointer(), Bstride);
     } break;
-	case NLS_INT32: {
+    case NLS_INT32: {
         lessThanReal<int32>(Clen, (logical*)Cp, (int32*)A.getDataPointer(), Astride,
             (int32*)B.getDataPointer(), Bstride);
     } break;
-	case NLS_INT64: {
+    case NLS_INT64: {
         lessThanReal<int64>(Clen, (logical*)Cp, (int64*)A.getDataPointer(), Astride,
             (int64*)B.getDataPointer(), Bstride);
     } break;

@@ -35,7 +35,7 @@ Nelson::ElementaryFunctionsGateway::normBuiltin(
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "norm", bSuccess);
     }
     if (!bSuccess) {

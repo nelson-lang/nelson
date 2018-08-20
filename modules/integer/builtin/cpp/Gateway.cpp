@@ -25,8 +25,6 @@
 #include "uint16Builtin.hpp"
 #include "uint32Builtin.hpp"
 #include "uint64Builtin.hpp"
-#include "integer_isequalBuiltin.hpp"
-#include "ndarrayinteger_isequalBuiltin.hpp"
 #include "intmaxBuiltin.hpp"
 #include "intminBuiltin.hpp"
 #include "integer_dispBuiltin.hpp"
@@ -44,38 +42,6 @@ static const nlsGateway gateway[] = {
     { "uint16", Nelson::IntegerGateway::uint16Builtin, 1, 1 },
     { "uint32", Nelson::IntegerGateway::uint32Builtin, 1, 1 },
     { "uint64", Nelson::IntegerGateway::uint64Builtin, 1, 1 },
-    { "int8_isequal", Nelson::IntegerGateway::int8_isequalBuiltin, 1, 2 },
-    { "int16_isequal", Nelson::IntegerGateway::int16_isequalBuiltin, 1, 2 },
-    { "int32_isequal", Nelson::IntegerGateway::int32_isequalBuiltin, 1, 2 },
-    { "int64_isequal", Nelson::IntegerGateway::int64_isequalBuiltin, 1, 2 },
-    { "uint8_isequal", Nelson::IntegerGateway::uint8_isequalBuiltin, 1, 2 },
-    { "uint16_isequal", Nelson::IntegerGateway::uint16_isequalBuiltin, 1, 2 },
-    { "uint32_isequal", Nelson::IntegerGateway::uint32_isequalBuiltin, 1, 2 },
-    { "uint64_isequal", Nelson::IntegerGateway::uint64_isequalBuiltin, 1, 2 },
-    { "ndarrayint8_isequal", Nelson::IntegerGateway::ndarrayint8_isequalBuiltin, 1, 2 },
-    { "ndarrayint16_isequal", Nelson::IntegerGateway::ndarrayint16_isequalBuiltin, 1, 2 },
-    { "ndarrayint32_isequal", Nelson::IntegerGateway::ndarrayint32_isequalBuiltin, 1, 2 },
-    { "ndarrayint64_isequal", Nelson::IntegerGateway::ndarrayint64_isequalBuiltin, 1, 2 },
-    { "ndarrayuint8_isequal", Nelson::IntegerGateway::ndarrayuint8_isequalBuiltin, 1, 2 },
-    { "ndarrayuint16_isequal", Nelson::IntegerGateway::ndarrayuint16_isequalBuiltin, 1, 2 },
-    { "ndarrayuint32_isequal", Nelson::IntegerGateway::ndarrayuint32_isequalBuiltin, 1, 2 },
-    { "ndarrayuint64_isequal", Nelson::IntegerGateway::ndarrayuint64_isequalBuiltin, 1, 2 },
-    { "int8_isequaln", Nelson::IntegerGateway::int8_isequalBuiltin, 1, 2 },
-    { "int16_isequaln", Nelson::IntegerGateway::int16_isequalBuiltin, 1, 2 },
-    { "int32_isequaln", Nelson::IntegerGateway::int32_isequalBuiltin, 1, 2 },
-    { "int64_isequaln", Nelson::IntegerGateway::int64_isequalBuiltin, 1, 2 },
-    { "uint8_isequaln", Nelson::IntegerGateway::uint8_isequalBuiltin, 1, 2 },
-    { "uint16_isequaln", Nelson::IntegerGateway::uint16_isequalBuiltin, 1, 2 },
-    { "uint32_isequaln", Nelson::IntegerGateway::uint32_isequalBuiltin, 1, 2 },
-    { "uint64_isequaln", Nelson::IntegerGateway::uint64_isequalBuiltin, 1, 2 },
-    { "ndarrayint8_isequaln", Nelson::IntegerGateway::ndarrayint8_isequalBuiltin, 1, 2 },
-    { "ndarrayint16_isequaln", Nelson::IntegerGateway::ndarrayint16_isequalBuiltin, 1, 2 },
-    { "ndarrayint32_isequaln", Nelson::IntegerGateway::ndarrayint32_isequalBuiltin, 1, 2 },
-    { "ndarrayint64_isequaln", Nelson::IntegerGateway::ndarrayint64_isequalBuiltin, 1, 2 },
-    { "ndarrayuint8_isequaln", Nelson::IntegerGateway::ndarrayuint8_isequalBuiltin, 1, 2 },
-    { "ndarrayuint16_isequaln", Nelson::IntegerGateway::ndarrayuint16_isequalBuiltin, 1, 2 },
-    { "ndarrayuint32_isequaln", Nelson::IntegerGateway::ndarrayuint32_isequalBuiltin, 1, 2 },
-    { "ndarrayuint64_isequaln", Nelson::IntegerGateway::ndarrayuint64_isequalBuiltin, 1, 2 },
     { "intmax", Nelson::IntegerGateway::intmaxBuiltin, -1, -1 },
     { "intmin", Nelson::IntegerGateway::intminBuiltin, -1, -1 },
     { "int8_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },

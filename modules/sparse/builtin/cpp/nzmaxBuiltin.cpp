@@ -35,7 +35,7 @@ Nelson::SparseGateway::nzmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     }
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "nzmax", bSuccess);
     }
     if (!bSuccess) {
@@ -66,9 +66,8 @@ Nelson::SparseGateway::nzmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         case NLS_STRUCT_ARRAY:
             retval = OverloadFunction(eval, nLhs, argIn, "nzmax", bSuccess);
             if (!bSuccess) {
-                Error(
-                    _W("Undefined function 'nzmax' for input arguments of type "
-                       "'struct'."));
+                Error(_W("Undefined function 'nzmax' for input arguments of type "
+                         "'struct'."));
             }
         default:
             retval = OverloadFunction(eval, nLhs, argIn, "nzmax", bSuccess);
@@ -76,11 +75,6 @@ Nelson::SparseGateway::nzmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 Error(_W("Undefined function 'nzmax' for input arguments."));
             }
         }
-        return retval;
-    }
-    if (!bSuccess) {
-        ArrayOf R(argIn[0]);
-        retval.push_back(ArrayOf::doubleConstructor((double)R.nzmax()));
     }
     return retval;
 }

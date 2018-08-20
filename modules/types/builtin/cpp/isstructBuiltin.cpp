@@ -32,15 +32,9 @@ Nelson::TypeGateway::isstructBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     if (argIn.size() != 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
-        retval = OverloadFunction(eval, nLhs, argIn, "isstruct", bSuccess);
-    }
-    if (!bSuccess) {
-        ArrayOf paramOne = argIn[0];
-        bool bRes = paramOne.isStruct();
-        retval.push_back(ArrayOf::logicalConstructor(bRes));
-    }
+    ArrayOf paramOne = argIn[0];
+    bool bRes = paramOne.isStruct();
+    retval.push_back(ArrayOf::logicalConstructor(bRes));
     return retval;
 }
 //=============================================================================

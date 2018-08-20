@@ -39,7 +39,7 @@ strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool bCase
     indexType len = C.getContentAsScalarIndex(false);
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         if (bCaseSensitive) {
             retval = OverloadFunction(eval, nLhs, argIn, "strncmp", bSuccess);
         } else {

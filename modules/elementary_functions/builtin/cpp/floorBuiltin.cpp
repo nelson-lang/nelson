@@ -35,7 +35,7 @@ Nelson::ElementaryFunctionsGateway::floorBuiltin(
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "floor", bSuccess);
     }
     if (!bSuccess) {

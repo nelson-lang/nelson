@@ -207,13 +207,22 @@ function res = struct_load_data(fr)
   lendim = fread(fr, 1, 'double', 'l');
   dim = fread(fr, lendim, 'double', 'l');
   dim = reshape(dim, 1, []);
-  prod = 1;
-  for k = 1:lendim
-    prod = prod * dim(k);
-  end
   names = load_data(fr);
   ce = load_data(fr);
-  res = cell2struct(ce, names);
+  if isequal(dim, [1 1]) && isempty(names)
+    res = struct();
+  else
+    if isempty(names)
+      res = struct(zeros(dim));
+    else
+      restmp = cell2struct(ce, names);
+      try
+        res = reshape(restmp, dim);
+      catch
+        res = restmp;
+      end
+    end
+  end
 endfunction 
 //=============================================================================
 function res = generic_notcomplex_load_data(fr, typestr)

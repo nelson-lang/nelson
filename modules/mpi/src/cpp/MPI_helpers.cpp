@@ -136,7 +136,11 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         case NLS_LOGICAL:
             if (A.isSparse()) {
                 ArrayOf I, J, V, M, N, NNZ;
-                SparseToIJV(A, I, J, V, M, N, NNZ);
+                bool needToOverload;
+                SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+                if (needToOverload) {
+                    Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+				}
                 packMPI(I, buffer, bufsize, packpos, comm);
                 packMPI(J, buffer, bufsize, packpos, comm);
                 packMPI(V, buffer, bufsize, packpos, comm);
@@ -187,7 +191,11 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         case NLS_DOUBLE:
             if (A.isSparse()) {
                 ArrayOf I, J, V, M, N, NNZ;
-                SparseToIJV(A, I, J, V, M, N, NNZ);
+                bool needToOverload;
+                SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+                if (needToOverload) {
+                    Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+                }
                 packMPI(I, buffer, bufsize, packpos, comm);
                 packMPI(J, buffer, bufsize, packpos, comm);
                 packMPI(V, buffer, bufsize, packpos, comm);
@@ -206,7 +214,11 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         case NLS_DCOMPLEX:
             if (A.isSparse()) {
                 ArrayOf I, J, V, M, N, NNZ;
-                SparseToIJV(A, I, J, V, M, N, NNZ);
+                bool needToOverload;
+                SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+                if (needToOverload) {
+                    Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+                }
                 packMPI(I, buffer, bufsize, packpos, comm);
                 packMPI(J, buffer, bufsize, packpos, comm);
                 packMPI(V, buffer, bufsize, packpos, comm);
@@ -450,7 +462,11 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
     case NLS_LOGICAL:
         if (A.isSparse()) {
             ArrayOf I, J, V, M, N, NNZ;
-            SparseToIJV(A, I, J, V, M, N, NNZ);
+            bool needToOverload;
+            SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+            if (needToOverload) {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+            }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);
             int sV = getArrayOfFootPrint(V, comm);
@@ -482,7 +498,11 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
     case NLS_DOUBLE:
         if (A.isSparse()) {
             ArrayOf I, J, V, M, N, NNZ;
-            SparseToIJV(A, I, J, V, M, N, NNZ);
+            bool needToOverload;
+            SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+            if (needToOverload) {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+            }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);
             int sV = getArrayOfFootPrint(V, comm);
@@ -498,7 +518,11 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
     case NLS_DCOMPLEX:
         if (A.isSparse()) {
             ArrayOf I, J, V, M, N, NNZ;
-            SparseToIJV(A, I, J, V, M, N, NNZ);
+            bool needToOverload;
+            SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+            if (needToOverload) {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+            }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);
             int sV = getArrayOfFootPrint(V, comm);

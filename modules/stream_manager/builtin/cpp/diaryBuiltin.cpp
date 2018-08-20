@@ -30,7 +30,7 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     // Call overload if it exists
     if (argIn.size() >= 1) {
         bool bSuccess = false;
-        if (eval->overloadOnBasicTypes) {
+        if (eval->canOverloadBasicTypes()) {
             retval = OverloadFunction(eval, nLhs, argIn, "diary", bSuccess);
             if (bSuccess) {
                 return retval;

@@ -174,7 +174,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\IntegerIsEqual.cpp" />
     <ClCompile Include="..\cpp\ToInt16.cpp" />
     <ClCompile Include="..\cpp\ToInt32.cpp" />
     <ClCompile Include="..\cpp\ToInt64.cpp" />
@@ -194,7 +193,6 @@
     <ClInclude Include="..\..\src\include\ToUint32.hpp" />
     <ClInclude Include="..\..\src\include\ToUint64.hpp" />
     <ClInclude Include="..\..\src\include\ToUint8.hpp" />
-    <ClInclude Include="..\include\IntegerIsEqual.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />

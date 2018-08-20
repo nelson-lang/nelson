@@ -1,6 +1,8 @@
 Features:
 ---------
 
+  * isequalto builtin added (Return true if all arguments x1, x2, … , xn are equal (same type, same dimensions, same values or NaNs).
+
   * tanm, sinm builtin added.
 
   * Overload speed optimization:

@@ -48,8 +48,9 @@ cosmComplex(const ArrayOf& A)
 }
 //=============================================================================
 ArrayOf
-MatrixCos(const ArrayOf& A)
+MatrixCos(const ArrayOf& A, bool& needToOverload)
 {
+    needToOverload = false;
     if (!A.isSquare()) {
         Error(_("Square matrix expected."));
     }
@@ -58,10 +59,13 @@ MatrixCos(const ArrayOf& A)
         R.ensureSingleOwner();
         return R;
     }
+    if (A.isSparse()) {
+        needToOverload = true;
+        return ArrayOf();
+    }
     switch (A.getDataClass()) {
     default: {
-        Error(_("Undefined function 'cosm' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
         ArrayOf R = cosmComplex<single>(A);

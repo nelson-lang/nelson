@@ -148,6 +148,12 @@ class NLSINTERPRETER_IMPEXP Evaluator
 
     bool bQuietMode = false;
 
+    // by default, overload on basic types is called after hardcoded operators.
+    // faster but double, single, char, logical, integers does not allow overload.
+    // "overloadbasictypes(true)" modify this behavior.
+    // overload on basic types can be usefull (example: code generator).
+    bool overloadOnBasicTypes = false;
+
 public:
     std::vector<std::wstring> evaluatedFilenames;
 
@@ -158,12 +164,6 @@ public:
     void* RandomEngine = nullptr;
 
     void* HistoryManager = nullptr;
-
-    // by default, overload on basic types is called after hardcoded operators.
-    // faster but double, single, char, logical, integers does not allow overload.
-    // "overloadbasictypes(true)" modify this behavior.
-    // overload on basic types can be usefull (example: code generator).
-    bool overloadOnBasicTypes = false;
 
     OutputFormatDisplay
     getCurrentOutputFormatDisplay();
@@ -292,7 +292,21 @@ public:
      */
     void
     enableOverload();
-
+    /**
+     *  return current overload basic types
+     */
+    bool
+    canOverloadBasicTypes();
+    /**
+     * enable overload basic type
+     */
+    void
+    enableOverloadBasicTypes();
+    /**
+     * disable overload basic type
+     */
+    void
+    disableOverloadBasicTypes();
     /**
      * Get exit code.
      */
@@ -835,8 +849,6 @@ public:
     ArrayOf
     andOperator(ArrayOf A, ArrayOf B);
 
-
-
 private:
     void
     setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue);
@@ -871,7 +883,7 @@ private:
     ArrayOf
     subtractionOperator(ASTPtr t);
 
-	ArrayOf
+    ArrayOf
     eqOperator(ASTPtr t);
     ArrayOf
     gtOperator(ASTPtr t);

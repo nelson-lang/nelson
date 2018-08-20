@@ -32,7 +32,7 @@ Nelson::DoubleGateway::doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     }
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "double", bSuccess);
     }
     if (!bSuccess) {
@@ -59,7 +59,7 @@ Nelson::DoubleGateway::doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
             }
             if (argIn[0].getStructType() != "struct") {
                 Error(_("Undefined function 'double' for input arguments of type '")
-                        + argIn[0].getStructType() + "'.");
+                    + argIn[0].getStructType() + "'.");
             } else {
                 Error(_W("Conversion to double from struct is not possible."));
             }

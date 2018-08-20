@@ -22,28 +22,30 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf Evaluator::neOperator(ASTPtr t) {
-  pushID(t->context());
-  ArrayOf retval =
-      this->neOperator(expression(t->down), expression(t->down->right));
-  popID();
-  return retval;
+ArrayOf
+Evaluator::neOperator(ASTPtr t)
+{
+    pushID(t->context());
+    ArrayOf retval = this->neOperator(expression(t->down), expression(t->down->right));
+    popID();
+    return retval;
 }
 //=============================================================================
-ArrayOf Evaluator::neOperator(ArrayOf A, ArrayOf B) {
-  ArrayOf res;
-  if ((overloadOnBasicTypes || needToOverloadOperator(A) ||
-       needToOverloadOperator(B)) &&
-      !isOverloadAllowed()) {
-    res = OverloadBinaryOperator(this, A, B, "ne");
-  } else {
-    bool needToOverload;
-    res = NotEquals(A, B, needToOverload);
-    if (needToOverload) {
-      res = OverloadBinaryOperator(this, A, B, "ne");
+ArrayOf
+Evaluator::neOperator(ArrayOf A, ArrayOf B)
+{
+    ArrayOf res;
+    if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
+        && !isOverloadAllowed()) {
+        res = OverloadBinaryOperator(this, A, B, "ne");
+    } else {
+        bool needToOverload;
+        res = NotEquals(A, B, needToOverload);
+        if (needToOverload) {
+            res = OverloadBinaryOperator(this, A, B, "ne");
+        }
     }
-  }
-  return res;
+    return res;
 }
 //=============================================================================
 } // namespace Nelson

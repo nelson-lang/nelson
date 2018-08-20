@@ -47,9 +47,8 @@ callOverloadedFunction(Evaluator* eval, ArrayOfVector argsIn,
         ArrayOfVector val = funcDef->evaluateFunction(eval, argsIn, nargout);
         if (val.size() != 1) {
             if (bRaiseError) {
-                Error(
-                    std::string("function ") + funcDef->name
-                        + " only one output argument expected.");
+                Error(std::string("function ") + funcDef->name
+                    + " only one output argument expected.");
             }
             return ArrayOf::emptyConstructor();
         }

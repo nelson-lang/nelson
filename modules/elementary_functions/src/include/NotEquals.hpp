@@ -26,6 +26,6 @@ namespace Nelson {
  * EElement-wise compare (ne) of two arrays: C = A != B
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-NotEquals(ArrayOf& A, ArrayOf& B, bool &needToOverload);
+NotEquals(ArrayOf& A, ArrayOf& B, bool& needToOverload);
 }
 //=============================================================================

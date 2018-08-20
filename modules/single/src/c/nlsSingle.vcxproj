@@ -166,8 +166,6 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\ColonSingle.cpp" />
     <ClCompile Include="..\cpp\SingleDisplay.cpp" />
-    <ClCompile Include="..\cpp\SingleIsEqual.cpp" />
-    <ClCompile Include="..\cpp\SingleIsEqualn.cpp" />
     <ClCompile Include="..\cpp\ToSingle.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -176,8 +174,6 @@
     <ClInclude Include="..\..\src\include\ToSingle.hpp" />
     <ClInclude Include="..\include\ColonSingle.hpp" />
     <ClInclude Include="..\include\SingleDisplay.hpp" />
-    <ClInclude Include="..\include\SingleIsEqual.hpp" />
-    <ClInclude Include="..\include\SingleIsEqualn.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">

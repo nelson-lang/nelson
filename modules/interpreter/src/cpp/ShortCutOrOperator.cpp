@@ -21,36 +21,39 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf Evaluator::shortCutOrOperator(ArrayOf A, ArrayOf B) {
-  ArrayOf retval;
-  if ((overloadOnBasicTypes || needToOverloadOperator(A) ||
-       needToOverloadOperator(B)) &&
-      !isOverloadAllowed()) {
-    retval = OverloadBinaryOperator(this, A, B, "shortcutor");
-  } else {
-    if (A.isScalar() && B.isScalar()) {
-      bool a = A.getContentAsLogicalScalar();
-      if (a) {
-        retval = A;
-      } else {
-        bool b = B.getContentAsLogicalScalar();
-        return ArrayOf::logicalConstructor(a || b);
-      }
+ArrayOf
+Evaluator::shortCutOrOperator(ArrayOf A, ArrayOf B)
+{
+    ArrayOf retval;
+    if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
+        && !isOverloadAllowed()) {
+        retval = OverloadBinaryOperator(this, A, B, "shortcutor");
     } else {
-      Error(_W("Operand to || operator must be convertible to "
-                         "logical scalar values."));
+        if (A.isScalar() && B.isScalar()) {
+            bool a = A.getContentAsLogicalScalar();
+            if (a) {
+                retval = A;
+            } else {
+                bool b = B.getContentAsLogicalScalar();
+                return ArrayOf::logicalConstructor(a || b);
+            }
+        } else {
+            Error(_W("Operand to || operator must be convertible to "
+                     "logical scalar values."));
+        }
     }
-  }
-  return retval;
+    return retval;
 }
 //=============================================================================
-ArrayOf Evaluator::shortCutOrOperator(ASTPtr t) {
-  pushID(t->context());
-  const ArrayOf A = expression(t->down);
-  const ArrayOf B = expression(t->down->right);
-  ArrayOf retval = shortCutOrOperator(A, B);
-  popID();
-  return retval;
+ArrayOf
+Evaluator::shortCutOrOperator(ASTPtr t)
+{
+    pushID(t->context());
+    const ArrayOf A = expression(t->down);
+    const ArrayOf B = expression(t->down->right);
+    ArrayOf retval = shortCutOrOperator(A, B);
+    popID();
+    return retval;
 }
 //=============================================================================
 } // namespace Nelson

@@ -148,7 +148,7 @@ assert_checkerror('char()', _('Wrong number of input arguments.'));
 assert_checkerror('char(true)', [_('Undefined function ''char'' for input arguments of type '''), class(true), '''.']);
 assert_checkerror('char([65i, 65])', _('Conversion to char from complex is not possible.'));
 //=============================================================================
-assert_checkerror('R = char([65, 66, 67], i)', _('Conversion to char from complex is not possible.'));
+assert_checkerror('R = char([65, 66, 67], i)', _('Undefined function ''char'' for input arguments.'));
 assert_checkerror('char({''test'', [115, 101, 116]})', [_('Undefined function ''char'' for input arguments of type '''), class({'test', [115, 101, 116]}), '''.']);
 //=============================================================================
 assert_checkerror('char({''of'', ''strings''; ''in'', 97})',  [_('Undefined function ''char'' for input arguments of type '''), class({'test', [115, 101, 116]}), '''.']);

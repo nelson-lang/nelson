@@ -22,28 +22,30 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf Evaluator::geOperator(ASTPtr t) {
-  pushID(t->context());
-  ArrayOf retval =
-      this->geOperator(expression(t->down), expression(t->down->right));
-  popID();
-  return retval;
+ArrayOf
+Evaluator::geOperator(ASTPtr t)
+{
+    pushID(t->context());
+    ArrayOf retval = this->geOperator(expression(t->down), expression(t->down->right));
+    popID();
+    return retval;
 }
 //=============================================================================
-ArrayOf Evaluator::geOperator(ArrayOf A, ArrayOf B) {
-  ArrayOf res;
-  if ((overloadOnBasicTypes || needToOverloadOperator(A) ||
-       needToOverloadOperator(B)) &&
-      !isOverloadAllowed()) {
-    res = OverloadBinaryOperator(this, A, B, "gt");
-  } else {
-    bool needToOverload = false;
-    res = GreaterEquals(A, B, needToOverload);
-    if (needToOverload) {
-      res = OverloadBinaryOperator(this, A, B, "gt");
+ArrayOf
+Evaluator::geOperator(ArrayOf A, ArrayOf B)
+{
+    ArrayOf res;
+    if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
+        && !isOverloadAllowed()) {
+        res = OverloadBinaryOperator(this, A, B, "gt");
+    } else {
+        bool needToOverload = false;
+        res = GreaterEquals(A, B, needToOverload);
+        if (needToOverload) {
+            res = OverloadBinaryOperator(this, A, B, "gt");
+        }
     }
-  }
-  return res;
+    return res;
 }
 //=============================================================================
 } // namespace Nelson

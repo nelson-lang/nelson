@@ -36,17 +36,19 @@ Nelson::StringGateway::strrepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     }
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "strrep", bSuccess);
     }
     if (!bSuccess) {
-        if (argIn[0].isString() || IsCellOfString(argIn[0])) {
-            retval.push_back(StringReplace(argIn[0], argIn[1], argIn[2], true));
-        } else {
+        bool needToOverload;
+        ArrayOf res = StringReplace(argIn[0], argIn[1], argIn[2], true, needToOverload);
+        if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "strrep", bSuccess);
             if (!bSuccess) {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+                Error(_W("Invalid input argument(s): cell or string expected."));
             }
+        } else {
+            retval.push_back(res);
         }
     }
     return retval;

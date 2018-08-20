@@ -36,7 +36,7 @@ Nelson::ElementaryFunctionsGateway::lengthBuiltin(
     }
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "length", bSuccess);
     }
     if (!bSuccess) {

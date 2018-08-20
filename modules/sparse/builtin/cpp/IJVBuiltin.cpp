@@ -37,7 +37,7 @@ Nelson::SparseGateway::IJVBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     }
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "IJV", bSuccess);
     }
     if (!bSuccess) {
@@ -48,22 +48,30 @@ Nelson::SparseGateway::IJVBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         ArrayOf M;
         ArrayOf N;
         ArrayOf NNZ;
-        SparseToIJV(A, I, J, V, M, N, NNZ);
-        retval.push_back(I);
-        if (nLhs > 1) {
-            retval.push_back(J);
-        }
-        if (nLhs > 2) {
-            retval.push_back(V);
-        }
-        if (nLhs > 3) {
-            retval.push_back(M);
-        }
-        if (nLhs > 4) {
-            retval.push_back(N);
-        }
-        if (nLhs > 5) {
-            retval.push_back(NNZ);
+        bool needToOverload;
+        SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "IJV", bSuccess);
+            if (!bSuccess) {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+            }
+        } else {
+            retval.push_back(I);
+            if (nLhs > 1) {
+                retval.push_back(J);
+            }
+            if (nLhs > 2) {
+                retval.push_back(V);
+            }
+            if (nLhs > 3) {
+                retval.push_back(M);
+            }
+            if (nLhs > 4) {
+                retval.push_back(N);
+            }
+            if (nLhs > 5) {
+                retval.push_back(NNZ);
+            }
         }
     }
     return retval;

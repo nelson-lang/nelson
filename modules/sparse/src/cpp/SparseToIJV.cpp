@@ -26,8 +26,9 @@
 namespace Nelson {
 //=============================================================================
 void
-SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf& N, ArrayOf& NNZ)
+SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf& N, ArrayOf& NNZ, bool &needToOverload)
 {
+    needToOverload = false;
     if (spA.isSparse()) {
         Dimensions dims = spA.getDimensions();
         indexType nnz = SparseNonZeros(spA);
@@ -60,7 +61,7 @@ SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf
         N = ArrayOf::doubleConstructor((double)dims.getColumns());
         NNZ = ArrayOf::doubleConstructor((double)spA.nzmax());
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+        needToOverload = true;
     }
 }
 //=============================================================================

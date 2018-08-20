@@ -34,7 +34,11 @@ Nelson::SingleGateway::single_dispBuiltin(Evaluator* eval, int nLhs, const Array
     } else if (!argIn[0].isSingleType() || argIn[0].isSparse()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_SINGLE_EXPECTED);
     } else {
-        SingleDisplay(eval, argIn[0]);
+        if (argIn[0].isNdArraySingleType()) {
+            argIn[0].printMe(eval->getPrintLimit(), eval->getInterface()->getTerminalWidth());
+        } else {
+            SingleDisplay(eval, argIn[0]);
+        }
     }
     return retval;
 }

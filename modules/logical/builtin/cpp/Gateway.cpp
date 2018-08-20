@@ -24,7 +24,6 @@
 #include "logical_allBuiltin.hpp"
 #include "logical_anyBuiltin.hpp"
 #include "logical_dispBuiltin.hpp"
-#include "logical_isequalBuiltin.hpp"
 #include "logical_notBuiltin.hpp"
 #include "ndarraylogical_dispBuiltin.hpp"
 #include "trueBuiltin.hpp"
@@ -46,10 +45,6 @@ static const nlsGateway gateway[] = {
     { "all", Nelson::LogicalGateway::allBuiltin, 1, 1 },
     { "logical_any", Nelson::LogicalGateway::logical_anyBuiltin, 1, 2 },
     { "logical_all", Nelson::LogicalGateway::logical_allBuiltin, 1, 1 },
-    { "logical_isequal", Nelson::LogicalGateway::logical_isequalBuiltin, 1, 2 },
-    { "logical_isequaln", Nelson::LogicalGateway::logical_isequalBuiltin, 1, 2 },
-    { "ndarraylogical_isequal", Nelson::LogicalGateway::logical_isequalBuiltin, 1, 2 },
-    { "ndarraylogical_isequaln", Nelson::LogicalGateway::logical_isequalBuiltin, 1, 2 },
 
 };
 //=============================================================================

@@ -108,7 +108,7 @@ GreaterThan(ArrayOf& A, ArrayOf& B, bool& needToOverload)
         greaterThanReal<uint64>(Clen, (logical*)Cp, (uint64*)A.getDataPointer(), Astride,
             (uint64*)B.getDataPointer(), Bstride);
     } break;
-	case NLS_INT8: {
+    case NLS_INT8: {
         greaterThanReal<int8>(Clen, (logical*)Cp, (int8*)A.getDataPointer(), Astride,
             (int8*)B.getDataPointer(), Bstride);
     } break;
@@ -120,7 +120,7 @@ GreaterThan(ArrayOf& A, ArrayOf& B, bool& needToOverload)
         greaterThanReal<int32>(Clen, (logical*)Cp, (int32*)A.getDataPointer(), Astride,
             (int32*)B.getDataPointer(), Bstride);
     } break;
-	case NLS_INT64: {
+    case NLS_INT64: {
         greaterThanReal<int64>(Clen, (logical*)Cp, (int64*)A.getDataPointer(), Astride,
             (int64*)B.getDataPointer(), Bstride);
     } break;

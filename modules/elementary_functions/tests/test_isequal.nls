@@ -44,7 +44,7 @@ assert_isequal(isequal([11, 21, 31, 41], [11, 21; 31, 41]), false);
 assert_isequal(isequal([11, 21, 31, 41], [11, 31; 21, 41]), false);
 //=============================================================================
 assert_isequal(isequal([], []), true);
-assert_isequal(isequal([], single([])), false);
+assert_isequal(isequal([], single([])), true);
 //=============================================================================
 assert_isequal(isequal([], [], 1), false);
 assert_isequal(isequal([], 1, []), false);
@@ -77,13 +77,13 @@ assert_isequal(isequal({'nelson', 'sonnel', 'son', 'nel'}, {'nelson', 'sonnel', 
 assert_isequal(isequal({'nelson', 'sonnel', 'son', 'nel'}, {'nelson'; 'sonnel'; 'son'; 'nel'}), false);
 assert_isequal(isequal(['nelson', 'sonnel', 'son', 'nel'], {'nelson', 'sonnel', 'son', 'nel'}), false);
 //=============================================================================
-assert_isequal(isequal(sparse([]), []), false);
-assert_isequal(isequal([], sparse([])), false);
+assert_isequal(isequal(sparse([]), []), true);
+assert_isequal(isequal([], sparse([])), true);
 assert_isequal(isequal(sparse([]), sparse([])), true);
 assert_isequal(isequal(sparse(0, 1), sparse(0, 1)), true);
-assert_isequal(isequal(sparse(0, 1), zeros(0, 1)), false);
+assert_isequal(isequal(sparse(0, 1), zeros(0, 1)), true);
 assert_isequal(isequal(sparse(2, 2), sparse(2, 2)), true);
-assert_isequal(isequal(zeros(2, 2), sparse(2, 2)), false);
+assert_isequal(isequal(zeros(2, 2), sparse(2, 2)), true);
 assert_isequal(isequal(sparse(0, 1), sparse(1, 0)), false)
 //=============================================================================
 assert_isequal(isequal(NaN, NaN), false);
@@ -112,7 +112,7 @@ assert_isequal(isequal(['ab1';'cd1'], 'acbd1'), false);
 assert_isequal(isequal(['ab1'; 'cd1'], ['a1'; 'b1'; 'c1'; 'd1']), false);
 assert_isequal(isequal(['ab1'; 'cd1'], ['a1'; 'c1'; 'b1'; 'd1']), false);
 assert_isequal(isequal(['a1b1'; 'c1d1'], ['a1', 'b1'; 'c1', 'd1']), true);
-assert_isequal(isequal(['ab1'; 'cd1'], [97, 98, double('1'); 99, 100, double('1')]), false);
+assert_isequal(isequal(['ab1'; 'cd1'], [97, 98, double('1'); 99, 100, double('1')]), true);
 assert_isequal(isequal({'test_nelson', ['ab'; 'cd'], 2i-8i, {{9+2i}, [2, 3, 4i]}}, {'test_nelson', ['ab'; 'cd'], 2i-8i, {{9+2i}, [2, 3, 0]}}), false);
 assert_isequal(isequal({'test_nelson', ['ab'; 'cd'], 2i-8i, {{9+2i}, [2, 3, 4i]}}, {'test_nelson', ['ab'; 'cd'], 2i-8i, {{7+2i}, [2, 3, 4i]}}), false);
 assert_isequal(isequal({'test_nelson', ['ab'; 'cd'], 2i-8i, {{9+2i}, [2, 3, 4i]}}, {'test_nelson', ['ab'; 'cd'], 2i-8i, {{8+2i}, [2, 3, 4i]}}), false);
@@ -125,20 +125,20 @@ assert_isequal(isequal({11, 21, 31}, {11, 21, 5i-31}), false);
 assert_isequal(isequal(false, false), true);
 assert_isequal(isequal(false, true), false);
 //=============================================================================
-assert_isequal(isequal(single(1), double(1)), false);
+assert_isequal(isequal(single(1), double(1)), true);
 assert_isequal(isequal(single(1), single(2)), false);
 assert_isequal(isequal(single(1), single(1)), true);
 assert_isequal(isequal(single(ones(3, 3, 3)), single(ones(3, 3, 3))), true);
 //=============================================================================
-assert_isequal(isequal(int8(1), double(1)), false);
+assert_isequal(isequal(int8(1), double(1)), true);
 assert_isequal(isequal(int8(1), int8(1)), true);
 assert_isequal(isequal(int8(ones(3, 3, 3)), int8(ones(3, 3, 3))), true);
 assert_isequal(isequal(int16(ones(3, 3, 3)), int16(ones(3, 3, 3))), true);
 assert_isequal(isequal(int32(ones(3, 3, 3)), int32(ones(3, 3, 3))), true);
 assert_isequal(isequal(int64(ones(3, 3, 3)), int64(ones(3, 3, 3))), true);
 //=============================================================================
-assert_isequal(isequal(int8(ones(3, 3, 3)), int16(ones(3, 3, 3))), false);
-assert_isequal(isequal(int16(ones(3, 3, 3)), int32(ones(3, 3, 3))), false);
-assert_isequal(isequal(int32(ones(3, 3, 3)), int64(ones(3, 3, 3))), false);
-assert_isequal(isequal(int64(ones(3, 3, 3)), int8(ones(3, 3, 3))), false);
+assert_isequal(isequal(int8(ones(3, 3, 3)), int16(ones(3, 3, 3))), true);
+assert_isequal(isequal(int16(ones(3, 3, 3)), int32(ones(3, 3, 3))), true);
+assert_isequal(isequal(int32(ones(3, 3, 3)), int64(ones(3, 3, 3))), true);
+assert_isequal(isequal(int64(ones(3, 3, 3)), int8(ones(3, 3, 3))), true);
 //=============================================================================

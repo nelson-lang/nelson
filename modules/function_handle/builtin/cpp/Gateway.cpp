@@ -41,6 +41,8 @@ static const nlsGateway gateway[] = {
     { "function_handle_isequal", Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1,
         2 },
     { "function_handle_isequaln", Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1,
+        2 },
+    { "function_handle_isequalto", Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1,
         2 }
 
 };

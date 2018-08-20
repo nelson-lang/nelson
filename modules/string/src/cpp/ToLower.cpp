@@ -26,8 +26,9 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-ToLower(Evaluator* eval, ArrayOf A)
+ToLower(const ArrayOf& A, bool& needToOverload)
 {
+    needToOverload = false;
     ArrayOf res;
     if (A.isSingleString()) {
         return ArrayOf::stringConstructor(ToLower(A.getContentAsWideString()));
@@ -48,7 +49,7 @@ ToLower(Evaluator* eval, ArrayOf A)
             return res;
         }
     } else {
-        Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
+        needToOverload = true;
     }
     return res;
 }

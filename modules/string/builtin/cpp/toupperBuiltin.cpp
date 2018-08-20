@@ -36,17 +36,19 @@ Nelson::StringGateway::toupperBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     ArrayOf A = argIn[0];
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "toupper", bSuccess);
     }
     if (!bSuccess) {
-        if (A.isString() || A.isCell()) {
-            retval.push_back(ToUpper(eval, A));
-        } else {
+        bool needToOverload;
+        ArrayOf res = ToUpper(A, needToOverload);
+        if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "toupper", bSuccess);
             if (!bSuccess) {
                 Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
             }
+        } else {
+            retval.push_back(res);
         }
     }
     return retval;

@@ -32,6 +32,11 @@ ArrayOf
 Rand(Evaluator* eval, Dimensions dims, Class cl)
 {
     dims.simplify();
+    if (dims.isEmpty(false)) {
+        ArrayOf res = ArrayOf::emptyConstructor(dims);
+        res.promoteType(cl);
+        return res;
+    }
     if (eval->RandomEngine == nullptr) {
         Error(_W("random engine not initialized."));
     }

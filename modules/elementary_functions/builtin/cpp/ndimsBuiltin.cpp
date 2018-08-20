@@ -36,7 +36,7 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(
     }
     ArrayOf param1 = argIn[0];
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "ndims", bSuccess);
     }
     if (!bSuccess) {
@@ -46,7 +46,7 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(
                 return retval;
             }
             Error(_("Undefined function 'ndims' for input arguments of type") + " '"
-                    + ClassName(param1) + "'.");
+                + ClassName(param1) + "'.");
         }
         switch (param1.getDataClass()) {
         case NLS_LOGICAL:
@@ -77,7 +77,7 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(
                 return retval;
             }
             Error(_("Undefined function 'ndims' for input arguments of type") + " '"
-                    + ClassName(param1) + "'.");
+                + ClassName(param1) + "'.");
         } break;
         }
     }

@@ -22,28 +22,30 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf Evaluator::eqOperator(ASTPtr t) {
-  pushID(t->context());
-  ArrayOf retval =
-      this->eqOperator(expression(t->down), expression(t->down->right));
-  popID();
-  return retval;
+ArrayOf
+Evaluator::eqOperator(ASTPtr t)
+{
+    pushID(t->context());
+    ArrayOf retval = this->eqOperator(expression(t->down), expression(t->down->right));
+    popID();
+    return retval;
 }
 //=============================================================================
-ArrayOf Evaluator::eqOperator(ArrayOf A, ArrayOf B) {
-  ArrayOf res;
-  if ((overloadOnBasicTypes || needToOverloadOperator(A) ||
-       needToOverloadOperator(B)) &&
-      !isOverloadAllowed()) {
-    res = OverloadBinaryOperator(this, A, B, "eq");
-  } else {
-    bool needToOverload;
-    res = Equals(A, B, needToOverload);
-    if (needToOverload) {
-      res = OverloadBinaryOperator(this, A, B, "eq");
+ArrayOf
+Evaluator::eqOperator(ArrayOf A, ArrayOf B)
+{
+    ArrayOf res;
+    if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
+        && !isOverloadAllowed()) {
+        res = OverloadBinaryOperator(this, A, B, "eq");
+    } else {
+        bool needToOverload;
+        res = Equals(A, B, needToOverload);
+        if (needToOverload) {
+            res = OverloadBinaryOperator(this, A, B, "eq");
+        }
     }
-  }
-  return res;
+    return res;
 }
 //=============================================================================
 } // namespace Nelson

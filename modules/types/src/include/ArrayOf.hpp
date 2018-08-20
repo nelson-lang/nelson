@@ -873,6 +873,9 @@ public:
      */
     void
     printMe(int printLimit, sizeType termWidth = 80) const;
+
+	void
+    displayMe(Interface* io, bool &needToOverload) const;
     /**
      * Get our contents as a C-string (UTF-8). Only works for STRING types.
      * Throws an exception for non-string types.
@@ -1042,17 +1045,8 @@ public:
      * NLS_STRUCT_ARRAY.
      */
     static bool isDataClassReferenceType(Class);
-    /**
-     * Sets the IO interface used by instances of the ArrayOf class.
-     */
-    static void
-    setArrayOfIOInterface(Interface* io);
-    /**
-     * Returns the IO interface being used by instances of the ArrayOf class.
-     */
-    static Interface*
-    getArrayOfIOInterface();
-    /**
+    
+	/**
      * Returns the number of nonzero elements in the array.  For reference
      * types, this is a best-guess.
      */

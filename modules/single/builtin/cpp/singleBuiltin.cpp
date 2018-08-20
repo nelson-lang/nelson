@@ -34,35 +34,21 @@ Nelson::SingleGateway::singleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     ArrayOf A(argIn[0]);
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "single", bSuccess);
-    switch (A.getDataClass()) {
-    case NLS_HANDLE:
-    case NLS_CELL_ARRAY:
-    case NLS_STRUCT_ARRAY:
-    default: {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "single", bSuccess);
-        if (bSuccess) {
-            return retval;
-        }
-        retval.push_back(ToSingle(A));
-    } break;
-    case NLS_LOGICAL:
-    case NLS_UINT8:
-    case NLS_INT8:
-    case NLS_UINT16:
-    case NLS_INT16:
-    case NLS_UINT32:
-    case NLS_INT32:
-    case NLS_UINT64:
-    case NLS_INT64:
-    case NLS_SCOMPLEX:
-    case NLS_SINGLE:
-    case NLS_DCOMPLEX:
-    case NLS_DOUBLE:
-    case NLS_CHAR:
-        retval.push_back(ToSingle(A));
-        break;
     }
+    if (!bSuccess) {
+        bool needToOverload;
+        ArrayOf res = ToSingle(A, needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "single", bSuccess);
+            if (!bSuccess) {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE);
+            }
+        } else {
+            retval.push_back(res);
+        }
+	}
     return retval;
 }
 //=============================================================================

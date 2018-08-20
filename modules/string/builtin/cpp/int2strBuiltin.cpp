@@ -88,7 +88,7 @@ Nelson::StringGateway::int2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     }
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "int2str", bSuccess);
     }
     if (!bSuccess) {

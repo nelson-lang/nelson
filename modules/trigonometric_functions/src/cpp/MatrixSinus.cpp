@@ -48,8 +48,9 @@ sinmComplex(const ArrayOf& A)
 }
 //=============================================================================
 ArrayOf
-MatrixSin(const ArrayOf& A)
+MatrixSin(const ArrayOf& A, bool& needToOverload)
 {
+    needToOverload = false;
     if (!A.isSquare()) {
         Error(_("Square matrix expected."));
     }
@@ -58,10 +59,13 @@ MatrixSin(const ArrayOf& A)
         R.ensureSingleOwner();
         return R;
     }
+    if (A.isSparse()) {
+        needToOverload = true;
+        return ArrayOf();
+    }
     switch (A.getDataClass()) {
     default: {
-        Error(_("Undefined function 'sinm' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
         ArrayOf R = sinmComplex<single>(A);

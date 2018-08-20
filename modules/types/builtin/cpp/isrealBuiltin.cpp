@@ -33,7 +33,7 @@ Nelson::TypeGateway::isrealBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "isreal", bSuccess);
     }
     if (!bSuccess) {

@@ -31,7 +31,7 @@ Nelson::ConstructorsGateway::zerosBuiltin(Evaluator* eval, int nLhs, const Array
     }
     Class cl = NLS_DOUBLE;
     if (argIn.size() == 0) {
-        retval.push_back(Zeros(eval, cl));
+        retval.push_back(Zeros(cl));
     } else {
         sizeType nRhs = argIn.size();
         bool bCheckClassName = true;
@@ -133,19 +133,51 @@ Nelson::ConstructorsGateway::zerosBuiltin(Evaluator* eval, int nLhs, const Array
             }
         }
         if (nRhs == 0) {
-            retval.push_back(Zeros(eval, cl));
+            retval.push_back(Zeros(cl));
             return retval;
         }
         Dimensions dims;
-        for (sizeType k = 0; k < nRhs; k++) {
-            ArrayOf param = argIn[k];
-            indexType idx = param.getContentAsScalarIndex();
-            dims[k] = idx;
+        if (nRhs == 1) {
+            if (argIn[0].isNumeric() && !argIn[0].isSparse()) {
+                if (argIn[0].isRowVector()) {
+                    if (argIn[0].isEmpty()) {
+                        Error(ERROR_WRONG_ARGUMENT_1_SIZE_ROW_VECTOR_EXPECTED);
+                    }
+                    if (argIn[0].getDimensions().getElementCount() < Nelson::maxDims) {
+                        ArrayOf dimVector = argIn[0];
+                        dimVector.promoteType(NLS_DOUBLE);
+                        double* ptrValues = (double*)dimVector.getDataPointer();
+                        for (sizeType k = 0; k < argIn[0].getDimensions().getElementCount(); k++) {
+                            if (ptrValues[k] > 0) {
+                                dims[k] = (indexType)ptrValues[k];
+                            } else {
+                                dims[k] = 0;
+                            }
+                        }
+                        if (dims.getLength() == 1) {
+                            dims[1] = dims[0];
+                        }
+                    } else {
+                        Error(_W("Too many dimensions! Current limit is") + L" "
+                            + std::to_wstring(Nelson::maxDims) + L".");
+                    }
+                } else {
+                    Error(ERROR_WRONG_ARGUMENT_1_SIZE_ROW_VECTOR_EXPECTED);
+                }
+            } else {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED);
+            }
+        } else {
+            for (sizeType k = 0; k < nRhs; k++) {
+                ArrayOf param = argIn[k];
+                indexType idx = param.getContentAsScalarIndex();
+                dims[k] = idx;
+            }
+            if (dims.getLength() == 1) {
+                dims[1] = dims[0];
+            }
         }
-        if (dims.getLength() == 1) {
-            dims[1] = dims[0];
-        }
-        retval.push_back(Zeros(eval, dims, cl));
+        retval.push_back(Zeros(dims, cl));
     }
     return retval;
 }

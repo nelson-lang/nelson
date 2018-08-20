@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-MatrixCos(const ArrayOf& A);
+MatrixCos(const ArrayOf& A, bool& needToOverload);
 }
 //=============================================================================

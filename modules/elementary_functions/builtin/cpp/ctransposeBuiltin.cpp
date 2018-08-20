@@ -32,7 +32,7 @@ Nelson::ElementaryFunctionsGateway::ctransposeBuiltin(
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "ctranspose", bSuccess);
     }
     if (!bSuccess) {

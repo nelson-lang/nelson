@@ -22,28 +22,30 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf Evaluator::gtOperator(ASTPtr t) {
-  pushID(t->context());
-  ArrayOf retval =
-      this->gtOperator(expression(t->down), expression(t->down->right));
-  popID();
-  return retval;
+ArrayOf
+Evaluator::gtOperator(ASTPtr t)
+{
+    pushID(t->context());
+    ArrayOf retval = this->gtOperator(expression(t->down), expression(t->down->right));
+    popID();
+    return retval;
 }
 //=============================================================================
-ArrayOf Evaluator::gtOperator(ArrayOf A, ArrayOf B) {
-  ArrayOf res;
-  if ((overloadOnBasicTypes || needToOverloadOperator(A) ||
-       needToOverloadOperator(B)) &&
-      !isOverloadAllowed()) {
-    res = OverloadBinaryOperator(this, A, B, "gt");
-  } else {
-    bool needToOverload;
-    res = GreaterThan(A, B, needToOverload);
-    if (needToOverload) {
-      res = OverloadBinaryOperator(this, A, B, "gt");
+ArrayOf
+Evaluator::gtOperator(ArrayOf A, ArrayOf B)
+{
+    ArrayOf res;
+    if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
+        && !isOverloadAllowed()) {
+        res = OverloadBinaryOperator(this, A, B, "gt");
+    } else {
+        bool needToOverload;
+        res = GreaterThan(A, B, needToOverload);
+        if (needToOverload) {
+            res = OverloadBinaryOperator(this, A, B, "gt");
+        }
     }
-  }
-  return res;
+    return res;
 }
 //=============================================================================
 } // namespace Nelson

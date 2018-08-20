@@ -36,14 +36,14 @@ Nelson::ElementaryFunctionsGateway::sqrtBuiltin(
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "sqrt", bSuccess);
     }
     if (!bSuccess) {
         bool needToOverload;
         ArrayOf res = Sqrt(argIn[0], needToOverload);
         if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "sqrt",  bSuccess);
+            retval = OverloadFunction(eval, nLhs, argIn, "sqrt", bSuccess);
             if (!bSuccess) {
                 OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
             }

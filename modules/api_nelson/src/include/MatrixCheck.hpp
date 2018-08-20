@@ -63,7 +63,7 @@ MatrixCheck(ArrayOf A, ArrayOf B, const std::string& opname);
  *
  */
 NLSAPI_NELSON_IMPEXP Class
-FindCommonType(const ArrayOf &A, const ArrayOf &B, bool isDivOrMatrix);
+FindCommonType(const ArrayOf& A, const ArrayOf& B, bool isDivOrMatrix);
 
 /**
  * Check that both of the argument objects are numeric.

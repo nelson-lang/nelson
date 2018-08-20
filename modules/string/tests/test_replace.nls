@@ -182,15 +182,15 @@ ref =  {'ccaeba'};
 assert_isequal(r, ref);
 //=============================================================================
 cmd = 'r = replace(''str'',''str'',[]);';
-ref = _('A cell expected.');
+ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = replace(3i,''str'',''str'');';
-ref = _('Wrong type for argument #1: string or cell expected.');
+ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = replace(''str'',''str'',3i);';
-ref = _('A cell expected.');
+ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = replace({''cccc'',''ccbbcca''},{''cc'',''bb''},{''cc'',''e'',''ddd''});';
@@ -202,11 +202,11 @@ ref = _('Same size expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = replace({{''bbb''},''ccabbba''},{''cc'',''bb''},{{''cc'',''e'',''ddd''},''str''});';
-ref = _('Wrong type for argument #1: string or cell expected.');
+ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = replace(''ccabbba'',{''cc'',{},''bb''},{{''cc'',''e'',''ddd''}})';
-ref = _('A cell of string expected.');
+ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = replace(''cccc'',''cc'',{});';

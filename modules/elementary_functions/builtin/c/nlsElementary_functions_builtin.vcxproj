@@ -190,6 +190,7 @@
     <ClCompile Include="..\cpp\isapproxBuiltin.cpp" />
     <ClCompile Include="..\cpp\isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\isequalnBuiltin.cpp" />
+    <ClCompile Include="..\cpp\isequaltoBuiltin.cpp" />
     <ClCompile Include="..\cpp\isfiniteBuiltin.cpp" />
     <ClCompile Include="..\cpp\isinfBuiltin.cpp" />
     <ClCompile Include="..\cpp\isnanBuiltin.cpp" />
@@ -276,6 +277,7 @@
     <ClInclude Include="..\include\isapproxBuiltin.hpp" />
     <ClInclude Include="..\include\isequalBuiltin.hpp" />
     <ClInclude Include="..\include\isequalnBuiltin.hpp" />
+    <ClInclude Include="..\include\isequaltoBuiltin.hpp" />
     <ClInclude Include="..\include\isfiniteBuiltin.hpp" />
     <ClInclude Include="..\include\isinfBuiltin.hpp" />
     <ClInclude Include="..\include\isnanBuiltin.hpp" />

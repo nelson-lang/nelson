@@ -24,8 +24,8 @@
 //=============================================================================
 namespace Nelson {
 NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
-Ones(Evaluator* eval, Class cl);
+Ones(Class cl);
 NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
-Ones(Evaluator* eval, Dimensions dims, Class cl);
+Ones(Dimensions dims, Class cl);
 } // namespace Nelson
 //=============================================================================

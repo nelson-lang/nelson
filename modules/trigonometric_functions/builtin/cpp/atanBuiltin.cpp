@@ -35,44 +35,20 @@ Nelson::TrigonometricGateway::atanBuiltin(Evaluator* eval, int nLhs, const Array
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "atan", bSuccess);
     }
     if (!bSuccess) {
-        if (argIn[0].isSparse()) {
+        bool needToOverload;
+        ArrayOf res = Atan(argIn[0], needToOverload);
+        if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "atan", bSuccess);
             if (!bSuccess) {
                 Error(_("Undefined function 'atan' for input arguments of type") + " '"
                     + ClassName(argIn[0]) + "'.");
             }
-            return retval;
-        }
-        switch (argIn[0].getDataClass()) {
-        default:
-        case NLS_CELL_ARRAY:
-        case NLS_STRUCT_ARRAY:
-        case NLS_LOGICAL:
-        case NLS_UINT8:
-        case NLS_INT8:
-        case NLS_UINT16:
-        case NLS_INT16:
-        case NLS_UINT32:
-        case NLS_INT32:
-        case NLS_UINT64:
-        case NLS_INT64:
-        case NLS_CHAR: {
-            retval = OverloadFunction(eval, nLhs, argIn, "atan", bSuccess);
-            if (!bSuccess) {
-                Error(_("Undefined function 'atan' for input arguments of type") + " '"
-                    + ClassName(argIn[0]) + "'.");
-            }
-        } break;
-        case NLS_SINGLE:
-        case NLS_SCOMPLEX:
-        case NLS_DOUBLE:
-        case NLS_DCOMPLEX: {
-            retval.push_back(Atan(argIn[0]));
-        } break;
+        } else {
+            retval.push_back(res);
         }
     }
     return retval;

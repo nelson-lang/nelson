@@ -37,7 +37,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "char", bSuccess);
     }
     if (!bSuccess) {
@@ -51,13 +51,46 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         switch (argIn[0].getDataClass()) {
         case NLS_CHAR: {
             if (argIn.size() == 2) {
-                retval.push_back(ToChar(argIn[0], argIn[1]));
+                bool needToOverload;
+                ArrayOf res = ToChar(argIn[0], argIn[1], needToOverload);
+                if (needToOverload) {
+                    ArrayOfVector tmp;
+                    tmp.push_back(argIn[0]);
+                    tmp.push_back(argIn[1]);
+                    retval = OverloadFunction(eval, nLhs, tmp, "char", bSuccess);
+                    if (!bSuccess) {
+                        Error(_("Undefined function 'char' for input arguments."));
+                    }
+                } else {
+                    retval.push_back(res);
+                }
             } else if (argIn.size() == 1) {
-                retval.push_back(ToChar(argIn[0]));
+                bool needToOverload;
+                ArrayOf res = ToChar(argIn[0], needToOverload);
+                if (needToOverload) {
+                    retval = OverloadFunction(eval, nLhs, argIn, "char", bSuccess);
+                    if (!bSuccess) {
+                        Error(_("Undefined function 'char' for input arguments of type") + " '"
+                            + ClassName(argIn[0]) + "'.");
+                    }
+                } else {
+                    retval.push_back(res);
+                }
             } else {
                 ArrayOf res = argIn[0];
                 for (size_t k = 1; k < argIn.size(); ++k) {
-                    res = ToChar(res, argIn[k]);
+                    bool needToOverload;
+                    res = ToChar(res, argIn[k], needToOverload);
+                    if (needToOverload) {
+                        ArrayOfVector tmp;
+                        tmp.push_back(argIn[k]);
+                        ArrayOfVector tmpRet = OverloadFunction(eval, nLhs, tmp, "char", bSuccess);
+                        if (!bSuccess) {
+                            Error(_("Undefined function 'char' for input arguments of type") + " '"
+                                + ClassName(argIn[k]) + "'.");
+                        }
+                        res = tmpRet[0];
+                    }
                 }
                 retval.push_back(res);
             }
@@ -73,7 +106,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             retval = OverloadFunction(eval, nLhs, argIn, "char", bSuccess);
             if (!bSuccess) {
                 Error(_("Undefined function 'char' for input arguments of type") + " '"
-                        + ClassName(argIn[0]) + "'.");
+                    + ClassName(argIn[0]) + "'.");
             }
         } break;
         case NLS_CELL_ARRAY: {
@@ -81,7 +114,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                 retval = OverloadFunction(eval, nLhs, argIn, "char", bSuccess);
                 if (!bSuccess) {
                     Error(_("Undefined function 'char' for input arguments of type") + " '"
-                            + ClassName(argIn[0]) + "'.");
+                        + ClassName(argIn[0]) + "'.");
                 }
             }
         }
@@ -97,13 +130,47 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         case NLS_DOUBLE: {
             Dimensions dims;
             if (argIn.size() == 2) {
-                retval.push_back(ToChar(argIn[0], argIn[1]));
+                bool needToOverload;
+                ArrayOf r = ToChar(argIn[0], argIn[1], needToOverload);
+                if (needToOverload) {
+                    ArrayOfVector tmp;
+                    tmp.push_back(argIn[0]);
+                    tmp.push_back(argIn[1]);
+                    retval = OverloadFunction(eval, nLhs, tmp, "char", bSuccess);
+                    if (!bSuccess) {
+                        Error(_("Undefined function 'char' for input arguments."));
+                    }
+                } else {
+                    retval.push_back(r);
+                }
             } else if (argIn.size() == 1) {
-                retval.push_back(ToChar(argIn[0]));
+                bool needToOverload;
+                ArrayOf r = ToChar(argIn[0], needToOverload);
+                if (needToOverload) {
+                    retval = OverloadFunction(eval, nLhs, argIn, "char", bSuccess);
+                    if (!bSuccess) {
+                        Error(_("Undefined function 'char' for input arguments."));
+                    }
+                } else {
+                    retval.push_back(r);
+                }
             } else {
                 ArrayOf res = argIn[0];
                 for (size_t k = 1; k < argIn.size(); ++k) {
-                    res = ToChar(res, argIn[k]);
+                    bool needToOverload;
+                    ArrayOf r = ToChar(res, argIn[k], needToOverload);
+                    if (needToOverload) {
+                        ArrayOfVector tmp;
+                        tmp.push_back(res);
+                        tmp.push_back(argIn[k]);
+                        retval = OverloadFunction(eval, nLhs, tmp, "char", bSuccess);
+                        if (!bSuccess) {
+                            Error(_("Undefined function 'char' for input arguments."));
+                        }
+                        res = retval[0];
+                    } else {
+                        res = r;
+                    }
                 }
                 retval.push_back(res);
             }

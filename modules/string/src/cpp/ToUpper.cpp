@@ -26,9 +26,10 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-ToUpper(Evaluator* eval, ArrayOf A)
+ToUpper(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
+    needToOverload = false;
     if (A.isSingleString()) {
         return ArrayOf::stringConstructor(ToUpper(A.getContentAsWideString()));
     } else if (A.getDataClass() == NLS_CELL_ARRAY) {
@@ -48,7 +49,7 @@ ToUpper(Evaluator* eval, ArrayOf A)
             return res;
         }
     } else {
-        Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
+        needToOverload = true;
     }
     return res;
 }

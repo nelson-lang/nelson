@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-MatrixSin(const ArrayOf& A);
+MatrixSin(const ArrayOf& A, bool& needToOverload);
 }
 //=============================================================================

@@ -37,6 +37,7 @@
 #include "isapproxBuiltin.hpp"
 #include "isequalBuiltin.hpp"
 #include "isequalnBuiltin.hpp"
+#include "isequaltoBuiltin.hpp"
 #include "isfiniteBuiltin.hpp"
 #include "isinfBuiltin.hpp"
 #include "isnanBuiltin.hpp"
@@ -122,6 +123,7 @@ static const nlsGateway gateway[] = {
     { "vertcat", Nelson::ElementaryFunctionsGateway::vertcatBuiltin, 1, 1 },
     { "isequal", Nelson::ElementaryFunctionsGateway::isequalBuiltin, 1, -1 },
     { "isequaln", Nelson::ElementaryFunctionsGateway::isequalnBuiltin, 1, -1 },
+    { "isequalto", Nelson::ElementaryFunctionsGateway::isequaltoBuiltin, 1, -1 },
     { "numel", Nelson::ElementaryFunctionsGateway::numelBuiltin, 1, 1 },
     { "isapprox", Nelson::ElementaryFunctionsGateway::isapproxBuiltin, 1, -2 },
     { "ceil", Nelson::ElementaryFunctionsGateway::ceilBuiltin, 1, 1 },

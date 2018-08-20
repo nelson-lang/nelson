@@ -22,16 +22,21 @@
 //=============================================================================
 namespace Nelson {
 ArrayOf
-Ones(Evaluator* eval, Class cl)
+Ones(Class cl)
 {
     Dimensions dims(1, 1);
-    return Ones(eval, dims, cl);
+    return Ones(dims, cl);
 }
 //=============================================================================
 ArrayOf
-Ones(Evaluator* eval, Dimensions dims, Class cl)
+Ones(Dimensions dims, Class cl)
 {
     dims.simplify();
+    if (dims.isEmpty(false)) {
+        ArrayOf res = ArrayOf::emptyConstructor(dims);
+        res.promoteType(cl);
+        return res;
+    }
     switch (cl) {
     case NLS_LOGICAL: {
         indexType nbElements = dims.getElementCount();

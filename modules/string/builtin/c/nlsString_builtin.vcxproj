@@ -175,8 +175,6 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\int2strBuiltin.cpp" />
     <ClCompile Include="..\cpp\mat2strBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraychar_dispBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraychar_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\replaceBuiltin.cpp" />
     <ClCompile Include="..\cpp\sprintfBuiltin.cpp" />
     <ClCompile Include="..\cpp\startsWithBuiltin.cpp" />
@@ -184,7 +182,6 @@
     <ClCompile Include="..\cpp\strcmpBuiltin.cpp" />
     <ClCompile Include="..\cpp\strfindBuiltin.cpp" />
     <ClCompile Include="..\cpp\char_dispBuiltin.cpp" />
-    <ClCompile Include="..\cpp\char_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\strlengthBuiltin.cpp" />
     <ClCompile Include="..\cpp\strncmpBuiltin.cpp" />
     <ClCompile Include="..\cpp\strrepBuiltin.cpp" />
@@ -228,15 +225,12 @@
     <ClInclude Include="..\include\endsWithBuiltin.hpp" />
     <ClInclude Include="..\include\int2strBuiltin.hpp" />
     <ClInclude Include="..\include\mat2strBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraychar_dispBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraychar_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\nlsString_builtin_exports.h" />
     <ClInclude Include="..\include\replaceBuiltin.hpp" />
     <ClInclude Include="..\include\sprintfBuiltin.hpp" />
     <ClInclude Include="..\include\startsWithBuiltin.hpp" />
     <ClInclude Include="..\include\str2doubleBuiltin.hpp" />
     <ClInclude Include="..\include\strfindBuiltin.hpp" />
-    <ClInclude Include="..\include\char_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\strlengthBuiltin.hpp" />
     <ClInclude Include="..\include\strncmpBuiltin.hpp" />
     <ClInclude Include="..\include\strrepBuiltin.hpp" />

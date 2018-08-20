@@ -24,15 +24,26 @@
 #include "StringReplace.hpp"
 #include "IsCellOfStrings.hpp"
 #include "Error.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps)
+StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool doOverlaps,
+    bool& needToOverload)
 {
-    wstringVector wstr = STR.getContentAsWideStringVector(false);
-    wstringVector wold = OLD.getContentAsWideStringVector(false);
-    wstringVector wnew = NEW.getContentAsWideStringVector(false);
+    needToOverload = false;
+    wstringVector wstr;
+    wstringVector wold;
+    wstringVector wnew;
+    try {
+        wstr = STR.getContentAsWideStringVector(false);
+        wold = OLD.getContentAsWideStringVector(false);
+        wnew = NEW.getContentAsWideStringVector(false);
+    } catch (Exception&) {
+        needToOverload = true;
+        return ArrayOf();
+    }
     size_t nbOutput;
     Dimensions outputDims;
     if (wstr.size() == 1 && wold.size() == 1) {
@@ -183,12 +194,21 @@ stringReplace(std::wstring originStr, std::wstring subStr, std::wstring replaceS
 }
 //=============================================================================
 ArrayOf
-Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
+Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needToOverload)
 {
     ArrayOf res;
-    wstringVector wstr = STR.getContentAsWideStringVector(false);
-    wstringVector wold = OLD.getContentAsWideStringVector(false);
-    wstringVector wnew = NEW.getContentAsWideStringVector(false);
+    wstringVector wstr;
+    wstringVector wold;
+    wstringVector wnew;
+    needToOverload = false;
+    try {
+        wstr = STR.getContentAsWideStringVector(false);
+        wold = OLD.getContentAsWideStringVector(false);
+        wnew = NEW.getContentAsWideStringVector(false);
+    } catch (Exception&) {
+        needToOverload = true;
+        return res;
+    }
     if ((wstr.size() == 1) && OLD.isCell() && NEW.isCell()
         && OLD.getDimensions().equals(NEW.getDimensions())) {
         for (size_t k = 0; k < OLD.getDimensions().getElementCount(); k++) {

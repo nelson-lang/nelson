@@ -375,6 +375,7 @@ assert_isequal(A, REF);
 //=============================================================================
 A = struct(ones(0,1));
 savebin([tempdir(), '/test_saveload.bin'], 'A');
+REF = A;
 clear A;
 loadbin([tempdir(), '/test_saveload.bin'])
 assert_isequal(A, REF);

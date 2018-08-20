@@ -28,8 +28,8 @@ Assert_IsEqual(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, st
     bool bRes = false;
     Context* context = eval->getContext();
     FunctionDef* funcDef = nullptr;
-    std::string IsEqualnName = "isequaln";
-    if (context->lookupFunction(IsEqualnName, funcDef)) {
+    std::string IsEqualToName = "isequalto";
+    if (context->lookupFunction(IsEqualToName, funcDef)) {
         if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)) {
             ArrayOfVector argInCopy;
             argInCopy.push_back(computedArray);
@@ -37,20 +37,20 @@ Assert_IsEqual(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, st
             try {
                 ArrayOfVector resVect = funcDef->evaluateFunction(eval, argInCopy, 1);
                 if (resVect.size() != 1) {
-                    Error(_W("isequaln returns more than one output argument."));
+                    Error(_W("isequalto returns more than one output argument."));
                 }
                 ArrayOf r = resVect[0];
                 if (r.isScalar() && r.isLogical()) {
                     bRes = r.getContentAsLogicalScalar() ? true : false;
                 } else {
-                    Error(_W("isequaln must return an logical."));
+                    Error(_W("isequalto must return an logical."));
                 }
             } catch (Exception) {
-                Error(_W("isequaln returns an unexpected error."));
+                Error(_W("isequalto returns an unexpected error."));
             }
         }
     } else {
-        Error("isequaln function not found.");
+        Error("isequalto function not found.");
     }
     if (!bRes) {
         msg = _W("Assertion failed: expected and computed values are different.");

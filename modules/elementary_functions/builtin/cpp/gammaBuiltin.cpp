@@ -36,7 +36,7 @@ Nelson::ElementaryFunctionsGateway::gammaBuiltin(
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "gamma", bSuccess);
     }
     if (!bSuccess) {
@@ -49,9 +49,8 @@ Nelson::ElementaryFunctionsGateway::gammaBuiltin(
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "gamma", bSuccess);
             if (!bSuccess) {
-                Error(
-                    _("Undefined function 'gamma' for input arguments of type") + " '"
-                        + ClassName(argIn[0]) + "'.");
+                Error(_("Undefined function 'gamma' for input arguments of type") + " '"
+                    + ClassName(argIn[0]) + "'.");
             }
         }
     }

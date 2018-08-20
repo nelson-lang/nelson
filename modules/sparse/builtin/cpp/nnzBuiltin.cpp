@@ -35,7 +35,7 @@ Nelson::SparseGateway::nnzBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     }
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "nnz", bSuccess);
     }
     if (!bSuccess) {
@@ -66,14 +66,13 @@ Nelson::SparseGateway::nnzBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         case NLS_STRUCT_ARRAY:
             retval = OverloadFunction(eval, nLhs, argIn, "nnz", bSuccess);
             if (!bSuccess) {
-                Error(
-                    _W("Undefined function 'nnz' for input arguments of type "
-                       "'struct'."));
+                Error(_W("Undefined function 'nnz' for input arguments of type "
+                         "'struct'."));
             }
         default:
             retval = OverloadFunction(eval, nLhs, argIn, "nnz", bSuccess);
             if (!bSuccess) {
-                Error( _W("Undefined function 'nnz' for input arguments."));
+                Error(_W("Undefined function 'nnz' for input arguments."));
             }
         }
     }

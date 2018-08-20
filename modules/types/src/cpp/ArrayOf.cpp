@@ -50,23 +50,16 @@
 #include <boost/algorithm/string.hpp>
 #include <inttypes.h>
 #include <math.h>
-#include <set>
 #include <stdio.h>
-
+//=============================================================================
 #ifdef _MSC_VER
 #define snprintf _snprintf
 #endif
-
+//=============================================================================
 namespace Nelson {
-
+//=============================================================================
 static int objectBalance;
-#define MSGBUFLEN 2048
-static char msgBuffer[MSGBUFLEN];
-static Interface* io;
-
-typedef std::set<uint32, std::less<uint32>> intSet;
-intSet addresses;
-
+//=============================================================================
 ArrayOfVector
 scalarArrayOfToArrayOfVector(ArrayOf a)
 {
@@ -74,111 +67,7 @@ scalarArrayOfToArrayOfVector(ArrayOf a)
     retval.push_back(a);
     return retval;
 }
-
-void
-ArrayOf::setArrayOfIOInterface(Interface* a_io)
-{
-    io = a_io;
-}
-
-Interface*
-ArrayOf::getArrayOfIOInterface()
-{
-    return io;
-}
-
-void
-outputDoublePrecisionFloat(char* buf, double num)
-{
-    char temp_buf[100];
-    char* tbuf;
-    sizeType len;
-    tbuf = temp_buf;
-    if (num >= 0) {
-        sprintf(tbuf, " ");
-        tbuf++;
-    }
-    if (IsInfinite(num)) {
-        sprintf(tbuf, "   Inf");
-    } else if (IsNaN(num)) {
-        sprintf(tbuf, "   NaN");
-    } else if ((fabs(num) >= 0.1f && fabs(num) < 1.0f)
-        || num <= std::numeric_limits<single>::epsilon()) {
-        sprintf(tbuf, "  %0.15f", num);
-    } else if (fabs(num) >= 0.01f && fabs(num) < 0.1f) {
-        sprintf(tbuf, "  %0.16f", num);
-    } else if (fabs(num) >= 0.001f && fabs(num) < 0.01f) {
-        sprintf(tbuf, "  %0.17f", num);
-    } else if (fabs(num) >= 1.0f && fabs(num) < 10.0f) {
-        sprintf(tbuf, "  %1.15f", num);
-    } else if (fabs(num) >= 10.0f && fabs(num) < 100.0f) {
-        sprintf(tbuf, " %2.13f", num);
-    } else if (fabs(num) >= 100.0f && fabs(num) < 1000.0f) {
-        sprintf(tbuf, "%3.12f", num);
-    } else {
-        sprintf(tbuf, "  %1.14e", num);
-    }
-    len = strlen(temp_buf);
-    memcpy(buf, temp_buf, len);
-    memset(buf + len, ' ', 24 - len);
-    buf[24] = 0;
-}
-
-void
-outputSinglePrecisionFloat(char* buf, single num)
-{
-    char temp_buf[100];
-    char* tbuf;
-    sizeType len;
-    tbuf = temp_buf;
-    if (num >= 0) {
-        sprintf(tbuf, " ");
-        tbuf++;
-    }
-    if (IsNaN(num)) {
-        sprintf(tbuf, "   NaN");
-    } else if ((fabs(num) >= 0.1f && fabs(num) < 1.0f)
-        || num <= std::numeric_limits<single>::epsilon()) {
-        sprintf(tbuf, "  %0.8f", num);
-    } else if (fabs(num) >= 0.01f && fabs(num) < 0.1f) {
-        sprintf(tbuf, "  %0.9f", num);
-    } else if (fabs(num) >= 0.001f && fabs(num) < 0.01f) {
-        sprintf(tbuf, "  %0.10f", num);
-    } else if (fabs(num) >= 1.0f && fabs(num) < 10.0f) {
-        sprintf(tbuf, "  %1.7f", num);
-    } else if (fabs(num) >= 10.0f && fabs(num) < 100.0f) {
-        sprintf(tbuf, " %2.6f", num);
-    } else if (fabs(num) >= 100.0f && fabs(num) < 1000.0f) {
-        sprintf(tbuf, "%3.5f", num);
-    } else {
-        sprintf(tbuf, "  %1.7e", num);
-    }
-    len = strlen(temp_buf);
-    memcpy(buf, temp_buf, len);
-    memset(buf + len, ' ', 17 - len);
-    buf[17] = 0;
-}
-
-void
-dumpAllArrayOfs()
-{
-    intSet::iterator i = addresses.begin();
-    int j = 0;
-    while (i != addresses.end()) {
-        uint64 addr = *i;
-        ArrayOf* aptr = (ArrayOf*)addr;
-        std::cout << "ArrayOf Number " << j << " = " << aptr->getReferenceCount() << "\n";
-#ifdef NLS_INDEX_TYPE_64
-        printf("  Address = %llx\n", addr);
-#else
-        printf("  Address = %08x\n", addr);
-#endif
-        aptr->printMe(1000, 80);
-        ++i;
-        j++;
-    }
-}
-
+//=============================================================================
 void
 ArrayOf::copyObject(const ArrayOf& copy)
 {
@@ -188,7 +77,7 @@ ArrayOf::copyObject(const ArrayOf& copy)
         dp = nullptr;
     }
 }
-
+//=============================================================================
 inline void
 ArrayOf::deleteContents(void)
 {
@@ -201,7 +90,7 @@ ArrayOf::deleteContents(void)
         dp = nullptr;
     }
 }
-
+//=============================================================================
 bool*
 ArrayOf::getBinaryMap(indexType maxD)
 {
@@ -226,7 +115,7 @@ ArrayOf::getBinaryMap(indexType maxD)
     }
     return map;
 }
-
+//=============================================================================
 indexType
 ArrayOf::getMaxAsIndex()
 {
@@ -244,7 +133,7 @@ ArrayOf::getMaxAsIndex()
     }
     return maxval;
 }
-
+//=============================================================================
 void
 ArrayOf::toOrdinalType()
 {
@@ -570,13 +459,13 @@ ArrayOf::toOrdinalType()
     } break;
     }
 }
-
+//=============================================================================
 ArrayOf::ArrayOf()
 {
     Dimensions dims(0, 0);
     dp = nullptr;
 }
-
+//=============================================================================
 /**
  * Create a variable with the specified contents.
  */
@@ -585,13 +474,13 @@ ArrayOf::ArrayOf(
 {
     dp = new Data(type, dims, data, sparse, fnames);
 }
-
+//=============================================================================
 ArrayOf::ArrayOf(Class type)
 {
     Dimensions dims(0, 0);
     dp = new Data(type, dims, NULL);
 }
-
+//=============================================================================
 /**
  * Destructor - free the data object.
  */
@@ -606,7 +495,7 @@ ArrayOf::~ArrayOf()
         dp = nullptr;
     }
 }
-
+//=============================================================================
 void
 ArrayOf::operator=(const ArrayOf& copy)
 {
@@ -625,7 +514,7 @@ ArrayOf::operator=(const ArrayOf& copy)
         dp = nullptr;
     }
 }
-
+//=============================================================================
 int
 ArrayOf::getReferenceCount() const
 {
@@ -635,7 +524,7 @@ ArrayOf::getReferenceCount() const
         return 0;
     }
 }
-
+//=============================================================================
 indexType
 ArrayOf::getLength() const
 {
@@ -645,7 +534,7 @@ ArrayOf::getLength() const
         return 0;
     }
 }
-
+//=============================================================================
 Dimensions
 ArrayOf::getDimensions() const
 {
@@ -655,7 +544,7 @@ ArrayOf::getDimensions() const
         return Dimensions();
     }
 }
-
+//=============================================================================
 indexType
 ArrayOf::getDimensionLength(int t) const
 {
@@ -665,7 +554,7 @@ ArrayOf::getDimensionLength(int t) const
         return 0;
     }
 }
-
+//=============================================================================
 const void*
 ArrayOf::getDataPointer() const
 {
@@ -678,7 +567,7 @@ ArrayOf::getDataPointer() const
         return nullptr;
     }
 }
-
+//=============================================================================
 void
 ArrayOf::ensureSingleOwner()
 {
@@ -700,7 +589,7 @@ ArrayOf::ensureSingleOwner()
         }
     }
 }
-
+//=============================================================================
 void*
 ArrayOf::getReadWriteDataPointer()
 {
@@ -711,13 +600,13 @@ ArrayOf::getReadWriteDataPointer()
     ensureSingleOwner();
     return dp->getWriteableData();
 }
-
+//=============================================================================
 void
 ArrayOf::setDataPointer(void* rp)
 {
     dp = dp->putData(dp->dataClass, dp->dimensions, rp, dp->sparse, dp->fieldNames);
 }
-
+//=============================================================================
 void
 ArrayOf::scalarToMatrix(Dimensions newDimensions)
 {
@@ -839,7 +728,7 @@ ArrayOf::scalarToMatrix(Dimensions newDimensions)
     } break;
     }
 }
-
+//=============================================================================
 void
 ArrayOf::resize(Dimensions& a)
 {
@@ -888,7 +777,7 @@ ArrayOf::resize(Dimensions& a)
     }
     dp = dp->putData(dp->dataClass, newSize, dst_data, dp->sparse, dp->fieldNames);
 }
-
+//=============================================================================
 void
 ArrayOf::vectorResize(indexType max_index)
 {
@@ -918,7 +807,7 @@ ArrayOf::vectorResize(indexType max_index)
         resize(newDim);
     }
 }
-
+//=============================================================================
 /**
  * Reshape an array.  This is only legal if the number of
  * elements remains the same after reshaping.
@@ -949,7 +838,7 @@ ArrayOf::reshape(Dimensions& a)
         dp->dimensions = a;
     }
 }
-
+//=============================================================================
 /**
  * Get our data class (of type Class).
  */
@@ -962,7 +851,7 @@ ArrayOf::getDataClass() const
         return NLS_DOUBLE;
     }
 }
-
+//=============================================================================
 /**
  * Calculate the size of each element in this array.
  */
@@ -1007,7 +896,7 @@ ArrayOf::getElementSize() const
     }
     return 0;
 }
-
+//=============================================================================
 /**
  * Calculate the total number of bytes required to store this array.
  */
@@ -1019,7 +908,7 @@ ArrayOf::getByteSize() const
     }
     return getElementSize() * getLength();
 }
-
+//=============================================================================
 /**
  * Returns true if we are positive.
  */
@@ -1035,7 +924,7 @@ ArrayOf::getByteSize() const
         }                                                                                          \
         return allPositive;                                                                        \
     }
-
+//=============================================================================
 const bool
 ArrayOf::isPositive() const
 {
@@ -1059,19 +948,20 @@ ArrayOf::isPositive() const
     }
     return false;
 }
+//=============================================================================
 #undef caseMacro
-
+//=============================================================================
 #define caseMacroReal(caseLabel, type)                                                             \
     case caseLabel:                                                                                \
         retval = (*((const type*)x_dp) == *((const type*)y_dp));                                   \
         break;
-
+//=============================================================================
 #define caseMacroComplex(caseLabel, type)                                                          \
     case caseLabel:                                                                                \
         retval = (((const type*)x_dp)[0] == ((const type*)y_dp)[0])                                \
             && (((const type*)x_dp)[1] == ((const type*)y_dp)[1]);                                 \
         break;
-
+//=============================================================================
 const bool
 ArrayOf::testCaseMatchScalar(ArrayOf x) const
 {
@@ -1131,7 +1021,7 @@ ArrayOf::testCaseMatchScalar(ArrayOf x) const
 }
 #undef caseMacroReal
 #undef caseMacroComplex
-
+//=============================================================================
 const bool
 ArrayOf::testForCaseMatch(ArrayOf x) const
 {
@@ -1163,7 +1053,7 @@ ArrayOf::testForCaseMatch(ArrayOf x) const
     }
     return foundMatch;
 }
-
+//=============================================================================
 /**
  * Returns TRUE if we are empty (we have no elements).
  */
@@ -1173,7 +1063,7 @@ ArrayOf::isEmpty(bool allDimensionsIsZero) const
     Dimensions dims = dp->getDimensions();
     return dims.isEmpty(allDimensionsIsZero);
 }
-
+//=============================================================================
 /*
  * Returns TRUE if we have only a single element.
  */
@@ -1182,7 +1072,7 @@ ArrayOf::isScalar() const
 {
     return dp->dimensions.isScalar();
 }
-
+//=============================================================================
 /**
  * Returns TRUE if we are 2-Dimensional.
  */
@@ -1191,7 +1081,7 @@ ArrayOf::is2D() const
 {
     return dp->dimensions.is2D();
 }
-
+//=============================================================================
 /**
  * Returns TRUE if we are 2-Dimensional and cols == rows.
  */
@@ -1200,7 +1090,7 @@ ArrayOf::isSquare() const
 {
     return dp->dimensions.isSquare();
 }
-
+//=============================================================================
 /**
  * Returns TRUE if we are a vector.
  */
@@ -1209,19 +1099,19 @@ ArrayOf::isVector() const
 {
     return dp->dimensions.isVector();
 }
-
+//=============================================================================
 const bool
 ArrayOf::isRowVector() const
 {
     return dp->dimensions.isRowVector();
 }
-
+//=============================================================================
 const bool
 ArrayOf::isColumnVector() const
 {
     return dp->dimensions.isColumnVector();
 }
-
+//=============================================================================
 /**
  * Returns TRUE if we are a reference type (cell array or
  * struct array).
@@ -1231,7 +1121,7 @@ ArrayOf::isReferenceType() const
 {
     return (dp->dataClass == NLS_STRUCT_ARRAY) || (dp->dataClass == NLS_CELL_ARRAY);
 }
-
+//=============================================================================
 /**
  * Returns TRUE if we are a complex data type.
  */
@@ -1240,7 +1130,7 @@ ArrayOf::isComplex() const
 {
     return (dp->dataClass == NLS_DCOMPLEX || dp->dataClass == NLS_SCOMPLEX);
 }
-
+//=============================================================================
 /**
  * Returns TRUE if we are a real data type.
  */
@@ -1249,7 +1139,7 @@ ArrayOf::isReal() const
 {
     return (!isComplex());
 }
-
+//=============================================================================
 const bool
 ArrayOf::allReal() const
 {
@@ -1298,7 +1188,7 @@ ArrayOf::allReal() const
     }
     return res;
 }
-
+//=============================================================================
 void
 ArrayOf::copyElements(indexType srcIndex, void* dstPtr, indexType dstIndex, indexType count)
 {
@@ -1942,16 +1832,6 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         case NLS_UINT8: {
             saturate<single, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
         } break;
-        /*
-        caseMacro(NLS_UINT8, uint8, qp[i] = (uint8)sp[i << 1]);
-        caseMacro(NLS_INT8, int8, qp[i] = (int8)sp[i << 1]);
-        caseMacro(NLS_UINT16, uint16, qp[i] = (uint16)sp[i << 1]);
-        caseMacro(NLS_INT16, int16, qp[i] = (int16)sp[i << 1]);
-        caseMacro(NLS_UINT32, uint32, qp[i] = (uint32)sp[i << 1]);
-        caseMacro(NLS_INT32, int32, qp[i] = (int32)sp[i << 1]);
-        caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i << 1]);
-        caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i << 1]);
-        */
         default: { } break; }
     } break;
     case NLS_DCOMPLEX: {
@@ -1985,598 +1865,16 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
     }
     dp = dp->putData(dstClass, dp->dimensions, dstPtr);
 }
-
+//=============================================================================
 #undef caseMacro
-
+//=============================================================================
 void
 ArrayOf::promoteType(Class dstClass)
 {
     stringVector dummy;
     promoteType(dstClass, dummy);
 }
-
-/********************************************************************************
- * Display functions *
- ********************************************************************************/
-
-/**
- * Print this object when it is an element of a cell array.  This is
- * generally a shorthand summary of the description of the object.
- */
-void
-ArrayOf::summarizeCellEntry() const
-{
-    if (isEmpty()) {
-        if (dp->dataClass == NLS_CHAR) {
-            io->outputMessage("''");
-        } else {
-            io->outputMessage("[]");
-        }
-    } else {
-        switch (dp->dataClass) {
-        case NLS_CELL_ARRAY:
-            io->outputMessage("{");
-            dp->dimensions.printMe(io);
-            io->outputMessage(" cell }");
-            break;
-        case NLS_STRUCT_ARRAY:
-            io->outputMessage(" ");
-            dp->dimensions.printMe(io);
-            if (dp->getStructTypeName() == NLS_FUNCTION_HANDLE_STR) {
-                io->outputMessage(std::string(" ") + NLS_FUNCTION_HANDLE_STR);
-            } else if (dp->getStructTypeName() == NLS_STRUCT_ARRAY_STR) {
-                io->outputMessage(" struct array");
-            } else {
-                io->outputMessage(std::string(" class ") + dp->getStructTypeName());
-            }
-            break;
-        case NLS_CHAR: {
-            Dimensions dims = dp->dimensions;
-            if (dims.isRowVector()) {
-                if (dims.getColumns() < (indexType)(io->getTerminalWidth() - 3)) {
-                    std::wstring str = getContentAsWideString();
-                    str = L"\'" + str + L"\'";
-                    io->outputMessage(str);
-                    return;
-                }
-            }
-            io->outputMessage("[");
-            dp->dimensions.printMe(io);
-            io->outputMessage(" string]");
-        } break;
-        case NLS_HANDLE:
-            if (dp->dimensions.isScalar()) {
-                io->outputMessage("[handle]");
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" handle]");
-            }
-            break;
-        case NLS_LOGICAL:
-            if (!isSparse() && dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const logical*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                if (isSparse()) {
-                    io->outputMessage(" sparse");
-                }
-                io->outputMessage(" logical]");
-            }
-            break;
-        case NLS_UINT8:
-            if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const uint8*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" uint8]");
-            }
-            break;
-        case NLS_INT8:
-            if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const int8*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" int8]");
-            }
-            break;
-        case NLS_UINT16:
-            if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const uint16*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" uint16]");
-            }
-            break;
-        case NLS_INT16:
-            if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const int16*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" int16]");
-            }
-            break;
-        case NLS_UINT32:
-            if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const uint32*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" uint32]");
-            }
-            break;
-        case NLS_INT32:
-            if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const int32*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" int32]");
-            }
-            break;
-        case NLS_UINT64: {
-            if (dp->dimensions.isScalar()) {
-                uint64 val = *((const uint64*)dp->getData());
-                std::string msg = "[" + std::to_string(val) + "]";
-                // snprintf(msgBuffer, MSGBUFLEN, "[" PRIu64 "]", *((const
-                // uint64*)dp->getData())); io->outputMessage(msgBuffer);
-                io->outputMessage(msg.c_str());
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" uint64]");
-            }
-        } break;
-        case NLS_INT64: {
-            if (dp->dimensions.isScalar()) {
-                int64 value = *((const int64*)dp->getData());
-                std::string msg = std::string("[") + std::to_string(value) + std::string("]");
-                // snprintf(msgBuffer, MSGBUFLEN, "[" PRId64 "]", *((const
-                // int64*)dp->getData()));
-                io->outputMessage(msg.c_str());
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" int64]");
-            }
-        } break;
-        case NLS_DOUBLE:
-            if (!isSparse() && dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%lf]", *((const double*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                if (isSparse()) {
-                    io->outputMessage(" sparse");
-                }
-                io->outputMessage(" double]");
-            }
-            break;
-        case NLS_DCOMPLEX:
-            if (!isSparse() && dp->dimensions.isScalar()) {
-                const double* ap = (const double*)dp->getData();
-                snprintf(msgBuffer, MSGBUFLEN, "[%lf+%lfi]", ap[0], ap[1]);
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                if (isSparse()) {
-                    io->outputMessage(" sparse");
-                }
-                io->outputMessage(" dcomplex]");
-            }
-            break;
-        case NLS_SINGLE:
-            if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%f]", *((const single*)dp->getData()));
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" single]");
-            }
-            break;
-        case NLS_SCOMPLEX:
-            if (dp->dimensions.isScalar()) {
-                const single* ap = (const single*)dp->getData();
-                snprintf(msgBuffer, MSGBUFLEN, "[%f+%fi]", ap[0], ap[1]);
-                io->outputMessage(msgBuffer);
-            } else {
-                io->outputMessage("[");
-                dp->dimensions.printMe(io);
-                io->outputMessage(" complex]");
-            }
-            break;
-        }
-    }
-}
-
-void
-emitElement(char* msgBuffer, const void* dp, indexType num, Class dcls)
-{
-    switch (dcls) {
-    case NLS_STRUCT_ARRAY: {
-    } break;
-    case NLS_HANDLE: {
-    } break;
-    case NLS_INT8: {
-        const int8* ap = (const int8*)dp;
-        snprintf(msgBuffer, MSGBUFLEN, "% 4d", ap[num]);
-        io->outputMessage(msgBuffer);
-        snprintf(msgBuffer, MSGBUFLEN, "  ");
-        io->outputMessage(msgBuffer);
-        break;
-    }
-    case NLS_UINT8: {
-        const uint8* ap = (const uint8*)dp;
-        snprintf(msgBuffer, MSGBUFLEN, "%3u", ap[num]);
-        io->outputMessage(msgBuffer);
-        snprintf(msgBuffer, MSGBUFLEN, "  ");
-        io->outputMessage(msgBuffer);
-        break;
-    }
-    case NLS_INT16: {
-        const int16* ap = (const int16*)dp;
-        snprintf(msgBuffer, MSGBUFLEN, "% 6d", ap[num]);
-        io->outputMessage(msgBuffer);
-        snprintf(msgBuffer, MSGBUFLEN, "  ");
-        io->outputMessage(msgBuffer);
-        break;
-    }
-    case NLS_UINT16: {
-        const uint16* ap = (const uint16*)dp;
-        snprintf(msgBuffer, MSGBUFLEN, "%5u", ap[num]);
-        io->outputMessage(msgBuffer);
-        snprintf(msgBuffer, MSGBUFLEN, "  ");
-        io->outputMessage(msgBuffer);
-        break;
-    }
-    case NLS_INT32: {
-        const int32* ap = (const int32*)dp;
-        snprintf(msgBuffer, MSGBUFLEN, "%13d", ap[num]);
-        io->outputMessage(msgBuffer);
-        snprintf(msgBuffer, MSGBUFLEN, "  ");
-        io->outputMessage(msgBuffer);
-        break;
-    }
-    case NLS_UINT32: {
-        const uint32* ap = (const uint32*)dp;
-        snprintf(msgBuffer, MSGBUFLEN, "%12u", ap[num]);
-        io->outputMessage(msgBuffer);
-        snprintf(msgBuffer, MSGBUFLEN, "  ");
-        io->outputMessage(msgBuffer);
-        break;
-    }
-    case NLS_INT64: {
-        const int64* ap = (const int64*)dp;
-        std::string msg = std::to_string(ap[num]) + "  ";
-        // snprintf(msgBuffer, MSGBUFLEN, "%13d", ap[num]);
-        // io->outputMessage(msgBuffer);
-        // snprintf(msgBuffer, MSGBUFLEN, "  ");
-        // io->outputMessage(msgBuffer);
-        io->outputMessage(msg.c_str());
-        break;
-    }
-    case NLS_UINT64: {
-        const uint64* ap = (const uint64*)dp;
-        std::string msg("");
-        msg = std::to_string(ap[num]) + "  ";
-        // snprintf(msgBuffer, MSGBUFLEN, "%12u", ap[num]);
-        // io->outputMessage(msgBuffer);
-        // snprintf(msgBuffer, MSGBUFLEN, "  ");
-        // io->outputMessage(msgBuffer);
-        io->outputMessage(msg.c_str());
-        break;
-    }
-    case NLS_LOGICAL: {
-        const logical* ap = (const logical*)dp;
-        if (ap[num] == 0) {
-            snprintf(msgBuffer, MSGBUFLEN, "false  ");
-        } else {
-            snprintf(msgBuffer, MSGBUFLEN, "true   ");
-        }
-        io->outputMessage(msgBuffer);
-        break;
-    }
-    case NLS_CHAR: {
-        const wchar_t* ap = (const wchar_t*)dp;
-        std::wstring wstr;
-        wstr.push_back(ap[num]);
-        io->outputMessage(wstr);
-        break;
-    }
-    case NLS_SINGLE: {
-        const single* ap = (const single*)dp;
-        outputSinglePrecisionFloat(msgBuffer, ap[num]);
-        io->outputMessage(msgBuffer);
-        memset(msgBuffer, 0, MSGBUFLEN);
-        snprintf(msgBuffer, MSGBUFLEN, "  ");
-        io->outputMessage(msgBuffer);
-        break;
-    }
-    case NLS_DOUBLE: {
-        const double* ap = (const double*)dp;
-        outputDoublePrecisionFloat(msgBuffer, ap[num]);
-        io->outputMessage(msgBuffer);
-        memset(msgBuffer, 0, MSGBUFLEN);
-        snprintf(msgBuffer, MSGBUFLEN, "  ");
-        io->outputMessage(msgBuffer);
-        break;
-    }
-    case NLS_SCOMPLEX: {
-        const single* ap = (const single*)dp;
-        outputSinglePrecisionFloat(msgBuffer, ap[2 * num]);
-        io->outputMessage(msgBuffer);
-        memset(msgBuffer, 0, MSGBUFLEN);
-        snprintf(msgBuffer, MSGBUFLEN, " ");
-        io->outputMessage(msgBuffer);
-        outputSinglePrecisionFloat(msgBuffer, ap[2 * num + 1]);
-        io->outputMessage(msgBuffer);
-        memset(msgBuffer, 0, MSGBUFLEN);
-        snprintf(msgBuffer, MSGBUFLEN, "i  ");
-        io->outputMessage(msgBuffer);
-        break;
-    }
-    case NLS_DCOMPLEX: {
-        const double* ap = (const double*)dp;
-        outputDoublePrecisionFloat(msgBuffer, ap[2 * num]);
-        io->outputMessage(msgBuffer);
-        memset(msgBuffer, 0, MSGBUFLEN);
-        snprintf(msgBuffer, MSGBUFLEN, " ");
-        io->outputMessage(msgBuffer);
-        outputDoublePrecisionFloat(msgBuffer, ap[2 * num + 1]);
-        io->outputMessage(msgBuffer);
-        memset(msgBuffer, 0, MSGBUFLEN);
-        snprintf(msgBuffer, MSGBUFLEN, "i  ");
-        io->outputMessage(msgBuffer);
-        break;
-    }
-    case NLS_CELL_ARRAY: {
-        ArrayOf* ap = (ArrayOf*)dp;
-        if (ap == nullptr) {
-            io->outputMessage("[]");
-        } else {
-            ap[num].summarizeCellEntry();
-        }
-        // io->outputMessage("  ");
-    }
-    }
-}
-
-/**
- * Display this variable on the given output stream.
- */
-void
-ArrayOf::printMe(int printLimit, sizeType termWidth) const
-{
-    int nominalWidth;
-    // Print the class...
-    switch (dp->dataClass) {
-    case NLS_HANDLE:
-        io->outputMessage("  <handle>  ");
-        nominalWidth = 5;
-        break;
-    case NLS_UINT8:
-        io->outputMessage("  <uint8>  ");
-        nominalWidth = 5;
-        break;
-    case NLS_INT8:
-        io->outputMessage("  <int8>  ");
-        nominalWidth = 6;
-        break;
-    case NLS_UINT16:
-        io->outputMessage("  <uint16>  ");
-        nominalWidth = 7;
-        break;
-    case NLS_INT16:
-        io->outputMessage("  <int16>  ");
-        nominalWidth = 8;
-        break;
-    case NLS_UINT32:
-        io->outputMessage("  <uint32>  ");
-        nominalWidth = 14;
-        break;
-    case NLS_INT32:
-        io->outputMessage("  <int32>  ");
-        nominalWidth = 15;
-        break;
-    case NLS_UINT64:
-        io->outputMessage("  <uint64>  ");
-        nominalWidth = 14;
-        break;
-    case NLS_INT64:
-        io->outputMessage("  <int64>  ");
-        nominalWidth = 15;
-        break;
-    case NLS_SINGLE:
-        io->outputMessage("  <single>  ");
-        nominalWidth = 20;
-        break;
-    case NLS_DOUBLE:
-        io->outputMessage("  <double>  ");
-        nominalWidth = 30;
-        break;
-    case NLS_LOGICAL:
-        io->outputMessage("  <logical>  ");
-        nominalWidth = 2;
-        break;
-    case NLS_CHAR:
-        io->outputMessage("  <string>  ");
-        nominalWidth = 1;
-        break;
-    case NLS_SCOMPLEX:
-        io->outputMessage("  <single>  ");
-        nominalWidth = 36;
-        break;
-    case NLS_DCOMPLEX:
-        io->outputMessage("  <double>  ");
-        nominalWidth = 54;
-        break;
-    case NLS_CELL_ARRAY:
-        io->outputMessage("  <cell> ");
-        nominalWidth = 10;
-        break;
-    case NLS_STRUCT_ARRAY:
-        io->outputMessage("  <struct> ");
-        nominalWidth = 10;
-        break;
-    }
-    io->outputMessage("- size: ");
-    dp->dimensions.printMe(io);
-    io->outputMessage("\n");
-    if (isEmpty()) {
-        if (isStruct()) {
-            stringVector fieldsName = getFieldNames();
-            if (fieldsName.size() == 0) {
-                io->outputMessage("  []\n");
-            } else {
-                for (size_t k = 0; k < fieldsName.size(); k++) {
-                    io->outputMessage("    ");
-                    io->outputMessage(fieldsName[k]);
-                    io->outputMessage("\n");
-                }
-            }
-        } else {
-            io->outputMessage("  []\n");
-        }
-        return;
-    }
-    if (isSparse()) {
-        sprintf(msgBuffer, _("\tMatrix is sparse with %d nonzeros\n").c_str(), getNonzeros());
-        io->outputMessage(msgBuffer);
-        return;
-    }
-    if (dp->dataClass == NLS_STRUCT_ARRAY) {
-        if (dp->dimensions.isScalar()) {
-            ArrayOf* ap;
-            ap = (ArrayOf*)dp->getData();
-            for (sizeType n = 0; n < (sizeType)dp->fieldNames.size(); n++) {
-                io->outputMessage("    ");
-                io->outputMessage(dp->fieldNames[n].c_str());
-                io->outputMessage(": ");
-                ap[n].summarizeCellEntry();
-                io->outputMessage("\n");
-            }
-        } else {
-            if (dp->fieldNames.size() > 0) {
-                io->outputMessage("  Fields\n");
-                for (sizeType n = 0; n < (sizeType)dp->fieldNames.size(); n++) {
-                    io->outputMessage("    ");
-                    io->outputMessage(dp->fieldNames[n].c_str());
-                    io->outputMessage("\n");
-                }
-            }
-        }
-    } else {
-        const void* ap = dp->getData();
-        if (dp->dimensions.getLength() == 2) {
-            indexType rows = dp->dimensions.getRows();
-            indexType columns = dp->dimensions.getColumns();
-            int items_printed;
-            items_printed = 0;
-            // Determine how many columns will fit across
-            // the terminal width
-            indexType colsPerPage = (indexType)floor((termWidth - 1) / ((single)nominalWidth));
-            indexType pageCount = (indexType)ceil(columns / ((single)colsPerPage));
-            for (indexType k = 0; k < pageCount && (items_printed < printLimit); k++) {
-                indexType colsInThisPage = columns - colsPerPage * k;
-                colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-                if (dp->dimensions.getElementCount() > 1 && dp->dataClass != NLS_CHAR) {
-                    snprintf(msgBuffer, MSGBUFLEN, _("\nColumns %d to %d\n").c_str(),
-                        k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
-                    io->outputMessage(msgBuffer);
-                }
-                memset(msgBuffer, 0, MSGBUFLEN);
-                for (indexType i = 0; i < rows && (items_printed < printLimit); i++) {
-                    snprintf(msgBuffer, MSGBUFLEN, " ");
-                    io->outputMessage(msgBuffer);
-                    memset(msgBuffer, 0, MSGBUFLEN);
-                    for (indexType j = 0; j < colsInThisPage && (items_printed < printLimit); j++) {
-                        emitElement(msgBuffer, ap, i + (k * colsPerPage + j) * rows, dp->dataClass);
-                        items_printed++;
-                    }
-                    snprintf(msgBuffer, MSGBUFLEN, "\n");
-                    io->outputMessage(msgBuffer);
-                    memset(msgBuffer, 0, MSGBUFLEN);
-                }
-            }
-            if (items_printed >= printLimit) {
-                io->outputMessage(_W("\n... Output truncated - use setprintlimit function to see "
-                                     "more of the output ...\n"));
-            }
-        } else if (dp->dimensions.getLength() > 2) {
-            /**
-             * For N-ary arrays, data slice  -  start with
-             * [1,1,1,...,1].  We keep doing the matrix
-             * print , incrementing from the highest dimension,
-             * and rolling downwards.
-             */
-            Dimensions wdims(dp->dimensions.getLength());
-            indexType rows(dp->dimensions.getRows());
-            indexType columns(dp->dimensions.getColumns());
-            int items_printed;
-            items_printed = 0;
-            indexType offset = 0;
-            while (wdims.inside(dp->dimensions) && (items_printed < printLimit)) {
-                snprintf(msgBuffer, MSGBUFLEN, "(:,:");
-                io->outputMessage(msgBuffer);
-                for (sizeType m = 2; m < dp->dimensions.getLength(); m++) {
-                    snprintf(msgBuffer, MSGBUFLEN, ",%d", (int)wdims[m] + 1);
-                    io->outputMessage(msgBuffer);
-                }
-                snprintf(msgBuffer, MSGBUFLEN, ") =\n\n");
-                io->outputMessage(msgBuffer);
-                // Determine how many columns will fit across
-                // the terminal width
-                indexType colsPerPage = (indexType)floor((termWidth - 1) / ((single)nominalWidth));
-                int pageCount;
-                pageCount = (int)ceil(columns / ((single)colsPerPage));
-                for (int k = 0; k < pageCount && (items_printed < printLimit); k++) {
-                    indexType colsInThisPage = columns - colsPerPage * k;
-                    colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-                    snprintf(msgBuffer, MSGBUFLEN, _("\nColumns %d to %d\n").c_str(),
-                        k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
-                    io->outputMessage(msgBuffer);
-                    memset(msgBuffer, 0, MSGBUFLEN);
-                    for (indexType i = 0; i < rows && (items_printed < printLimit); i++) {
-                        snprintf(msgBuffer, MSGBUFLEN, " ");
-                        io->outputMessage(msgBuffer);
-                        memset(msgBuffer, 0, MSGBUFLEN);
-                        for (indexType j = 0; j < colsInThisPage && (items_printed < printLimit);
-                             j++) {
-                            emitElement(msgBuffer, ap, i + (k * colsPerPage + j) * rows + offset,
-                                dp->dataClass);
-                            items_printed++;
-                        }
-                        snprintf(msgBuffer, MSGBUFLEN, "\n");
-                        io->outputMessage(msgBuffer);
-                        memset(msgBuffer, 0, MSGBUFLEN);
-                    }
-                }
-                offset += rows * columns;
-                wdims.incrementModulo(dp->dimensions, 2);
-            }
-            if (items_printed >= printLimit) {
-                io->outputMessage(_W("\n... Output truncated - use setprintlimit function to see "
-                                     "more of the output ...\n"));
-            }
-        }
-    }
-}
-
+//=============================================================================
 indexType
 ArrayOf::getContentAsScalarIndex(bool bWithZero)
 {
@@ -2612,7 +1910,7 @@ ArrayOf::getContentAsScalarIndex(bool bWithZero)
     }
     return idx;
 }
-
+//=============================================================================
 indexType*
 ArrayOf::getContentAsIndexPointer()
 {
@@ -2642,7 +1940,7 @@ ArrayOf::getContentAsIndexPointer()
     }
     return pIndex;
 }
-
+//=============================================================================
 const bool
 ArrayOf::isNumeric() const
 {
@@ -2669,13 +1967,13 @@ ArrayOf::isNumeric() const
     }
     return bRes;
 }
-
+//=============================================================================
 bool
 ArrayOf::isDataClassReferenceType(Class cls)
 {
     return (cls == NLS_CELL_ARRAY || cls == NLS_STRUCT_ARRAY);
 }
-
+//=============================================================================
 template <class T>
 indexType
 DoCountNNZReal(const void* dp, indexType len)
@@ -2691,7 +1989,7 @@ DoCountNNZReal(const void* dp, indexType len)
         }
     return accum;
 }
-
+//=============================================================================
 template <class T>
 indexType
 DoCountNNZComplex(const void* dp, indexType len)
@@ -2707,7 +2005,7 @@ DoCountNNZComplex(const void* dp, indexType len)
         }
     return accum;
 }
-
+//=============================================================================
 indexType
 ArrayOf::nzmax()
 {
@@ -2743,7 +2041,7 @@ ArrayOf::nzmax()
     }
     return 0; // never here
 }
-
+//=============================================================================
 indexType
 ArrayOf::nnz()
 {

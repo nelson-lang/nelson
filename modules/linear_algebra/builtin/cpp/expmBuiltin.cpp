@@ -36,7 +36,7 @@ Nelson::LinearAlgebraGateway::expmBuiltin(Evaluator* eval, int nLhs, const Array
     }
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->overloadOnBasicTypes) {
+    if (eval->canOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "expm", bSuccess);
     }
     if (!bSuccess) {

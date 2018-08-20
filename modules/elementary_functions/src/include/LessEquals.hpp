@@ -27,6 +27,6 @@ namespace Nelson {
  * Element-wise compare (le) of two arrays: C = (A <= B)
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-LessEquals(ArrayOf& A, ArrayOf& B, bool &needToOverload);
+LessEquals(ArrayOf& A, ArrayOf& B, bool& needToOverload);
 }
 //=============================================================================

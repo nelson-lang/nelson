@@ -33,9 +33,6 @@
     <ClCompile Include="..\cpp\AllLogical.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\IsEqualLogical.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\nlsLogical_exports.h">
@@ -57,9 +54,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\AnyLogical.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\IsEqualLogical.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

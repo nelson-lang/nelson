@@ -29,8 +29,8 @@ Assert_IsApprox(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, d
     bool bRes = false;
     Context* context = eval->getContext();
     FunctionDef* funcDef = nullptr;
-    std::string IsEqualnName = "isapprox";
-    if (context->lookupFunction(IsEqualnName, funcDef)) {
+    std::string IsApproxName = "isapprox";
+    if (context->lookupFunction(IsApproxName, funcDef)) {
         if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)) {
             ArrayOfVector argInCopy;
             argInCopy.push_back(computedArray);
