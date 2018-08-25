@@ -16,15 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "DisplayIntegers.hpp"
 //=============================================================================
 namespace Nelson {
-namespace LogicalGateway {
-    ArrayOfVector
-    ndarraylogical_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+void
+DisplayInteger(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
+{
+    A.printMe(io);
 }
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

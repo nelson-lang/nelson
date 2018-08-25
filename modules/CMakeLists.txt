@@ -20,6 +20,7 @@ include_directories(${EIGEN_INCLUDE_DIR})
 #==============================================================================	
 LIST(APPEND moduleslist
 characters_encoding
+nelson_manager
 i18n
 elementary_mathematics
 error_manager

@@ -16,15 +16,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <Windows.h>
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-//=============================================================================
-namespace Nelson {
-namespace IntegerGateway {
-    ArrayOfVector
-    integer_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+int WINAPI
+DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+{
+    switch (reason) {
+    case DLL_PROCESS_ATTACH:
+        break;
+    case DLL_PROCESS_DETACH:
+        break;
+    case DLL_THREAD_ATTACH:
+        break;
+    }
+    return 1;
 }
-} // namespace Nelson
 //=============================================================================

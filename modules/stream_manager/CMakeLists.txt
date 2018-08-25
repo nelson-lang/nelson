@@ -23,6 +23,8 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+	${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+	${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
@@ -45,6 +47,7 @@ target_link_libraries(${module_library_name}
 nlsTypes
 nlsCharacters_encoding
 nlsError_manager
+nlsNelson_manager
 nlsI18n
 ${BOOST_LIBRARY}
 )

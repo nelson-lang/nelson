@@ -17,10 +17,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "double_dispBuiltin.hpp"
+#include "colon_double_double_doubleBuiltin.hpp"
 #include "doubleBuiltin.hpp"
 #include "double_colon_doubleBuiltin.hpp"
-#include "colon_double_double_doubleBuiltin.hpp"
 #include "double_mtimes_doubleBuiltin.hpp"
 #include "double_times_doubleBuiltin.hpp"
 //=============================================================================
@@ -29,18 +28,21 @@ using namespace Nelson;
 const std::wstring gatewayName = L"double";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "double_disp", Nelson::DoubleGateway::double_dispBuiltin, 0, 1 },
-    { "ndarraydouble_disp", Nelson::DoubleGateway::double_dispBuiltin, 0, 1 },
-    { "double", Nelson::DoubleGateway::doubleBuiltin, 1, 1 },
-    { "double_colon_double", Nelson::DoubleGateway::double_colon_doubleBuiltin, 1, 2 },
-    { "colon_double_double_double", Nelson::DoubleGateway::colon_double_double_doubleBuiltin, 1,
-        3 },
-    { "double_mtimes_double", Nelson::DoubleGateway::double_mtimes_doubleBuiltin, 1, 2 },
-    { "double_times_double", Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2 },
-    { "ndarraydouble_times_ndarraydouble", Nelson::DoubleGateway::double_times_doubleBuiltin, 1,
-        2 },
-    { "double_times_ndarraydouble", Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2 },
-    { "ndarraydouble_times_double", Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2 },
+    {"double", Nelson::DoubleGateway::doubleBuiltin, 1, 1},
+    {"double_colon_double", Nelson::DoubleGateway::double_colon_doubleBuiltin,
+     1, 2},
+    {"colon_double_double_double",
+     Nelson::DoubleGateway::colon_double_double_doubleBuiltin, 1, 3},
+    {"double_mtimes_double", Nelson::DoubleGateway::double_mtimes_doubleBuiltin,
+     1, 2},
+    {"double_times_double", Nelson::DoubleGateway::double_times_doubleBuiltin,
+     1, 2},
+    {"ndarraydouble_times_ndarraydouble",
+     Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2},
+    {"double_times_ndarraydouble",
+     Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2},
+    {"ndarraydouble_times_double",
+     Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2},
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

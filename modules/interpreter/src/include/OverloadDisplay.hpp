@@ -24,6 +24,6 @@
 //=============================================================================
 namespace Nelson {
 NLSINTERPRETER_IMPEXP void
-OverloadDisplay(Evaluator* eval, ArrayOf a);
+OverloadDisplay(Evaluator* eval, ArrayOf a, bool fromBuiltin = false);
 }
 //=============================================================================

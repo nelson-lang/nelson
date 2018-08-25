@@ -16,15 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "DisplayCell.hpp"
 //=============================================================================
 namespace Nelson {
-namespace DataStructuresGateway {
-    ArrayOfVector
-    ndarraycell_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+void
+DisplayCell(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
+{
+    A.printMe(io);
 }
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -866,16 +866,13 @@ public:
      * Summarize this array when it appears in a Cell array.
      */
     void
-    summarizeCellEntry() const;
+    summarizeCellEntry(Interface *io) const;
     /**
      * Print some reasonable representation of this array to the
      * the supplied stream.
      */
     void
-    printMe(int printLimit, sizeType termWidth = 80) const;
-
-	void
-    displayMe(Interface* io, bool &needToOverload) const;
+    printMe(Interface *io) const;
     /**
      * Get our contents as a C-string (UTF-8). Only works for STRING types.
      * Throws an exception for non-string types.
@@ -1145,9 +1142,6 @@ public:
     indexType
     getMaxAsIndex();
 };
-
-void
-dumpAllArrayOfs();
 
 bool
 isColonOperator(const ArrayOf& a);

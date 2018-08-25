@@ -26,6 +26,7 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/src/grammar
 	${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/FileWatcher
+	${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -53,6 +54,7 @@ ADD_LIBRARY(
 #==============================================================================	
 target_link_libraries(${module_library_name}
 nlsCharacters_encoding
+nlsNelson_manager
 nlsElementary_functions
 nlsError_manager
 nlsStream_manager

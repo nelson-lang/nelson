@@ -19,12 +19,10 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "Interface.hpp"
 //=============================================================================
 namespace Nelson {
-namespace SingleGateway {
-    ArrayOfVector
-    single_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+void
+DisplayCharacters(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload);
 }
-} // namespace Nelson
 //=============================================================================

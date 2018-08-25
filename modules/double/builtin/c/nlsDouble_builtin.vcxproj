@@ -197,7 +197,6 @@
     <ClCompile Include="..\cpp\colon_double_double_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_colon_doubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_mtimes_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_times_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
@@ -210,7 +209,6 @@
     <ClInclude Include="..\include\colon_double_double_doubleBuiltin.hpp" />
     <ClInclude Include="..\include\doubleBuiltin.hpp" />
     <ClInclude Include="..\include\double_colon_doubleBuiltin.hpp" />
-    <ClInclude Include="..\include\double_dispBuiltin.hpp" />
     <ClInclude Include="..\include\double_mtimes_doubleBuiltin.hpp" />
     <ClInclude Include="..\include\double_times_doubleBuiltin.hpp" />
     <ClInclude Include="..\include\double_uminusBuiltin.hpp" />

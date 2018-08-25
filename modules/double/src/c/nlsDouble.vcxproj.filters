@@ -29,9 +29,6 @@
     <ClInclude Include="..\include\ColonDouble.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\DoubleDisplay.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\MtimesDouble.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -50,9 +47,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\ColonDouble.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\DoubleDisplay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\MtimesDouble.cpp">

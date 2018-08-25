@@ -30,6 +30,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
 )
@@ -49,6 +50,7 @@ ADD_LIBRARY(
 target_link_libraries(${module_library_name}
 nlsOs_functions
 nlsInterpreter
+nlsNelson_manager
 nlsTypes
 nlsError_manager
 nlsStream_manager
@@ -75,6 +77,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
 )
 #==============================================================================	
 ADD_LIBRARY(
@@ -87,6 +90,7 @@ target_link_libraries(${module_library_builtin_name}
 ${module_library_name}
 nlsCharacters_encoding
 nlsError_manager
+nlsNelson_manager
 nlsInterpreter
 nlsTypes
 nlsI18n

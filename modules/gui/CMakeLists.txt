@@ -37,6 +37,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../history_manager/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
@@ -58,6 +59,7 @@ target_link_libraries(${module_library_name}
 nlsInterpreter
 nlsTypes
 nlsError_manager
+nlsNelson_manager
 nlsCharacters_encoding
 nlsCore
 nlsHistory_manager

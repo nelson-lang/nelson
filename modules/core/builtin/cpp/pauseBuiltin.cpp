@@ -23,6 +23,7 @@
 #include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -102,7 +103,7 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                     return retval;
                 }
                 if (std::isinf(val)) {
-                    while (!eval->GetInterruptPending()) {
+                    while (!NelsonConfiguration::getInstance()->getInterruptPending()) {
                         boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(10)));
                         if (eval->haveEventsLoop()) {
                             ProcessEventsDynamicFunctionWithoutWait();
@@ -122,7 +123,7 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                         if (eval->haveEventsLoop()) {
                             ProcessEventsDynamicFunctionWithoutWait();
                         }
-                    } while (!eval->GetInterruptPending() && (bContinue == true));
+                    } while (!NelsonConfiguration::getInstance()->getInterruptPending() && (bContinue == true));
                 }
             }
         } else {

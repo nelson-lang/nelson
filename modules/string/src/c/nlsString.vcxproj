@@ -169,10 +169,8 @@
     <ClCompile Include="..\cpp\StringCompare.cpp" />
     <ClCompile Include="..\cpp\StringContains.cpp" />
     <ClCompile Include="..\cpp\StringCount.cpp" />
-    <ClCompile Include="..\cpp\StringDisplay.cpp" />
     <ClCompile Include="..\cpp\StringEndsWith.cpp" />
     <ClCompile Include="..\cpp\StringFind.cpp" />
-    <ClCompile Include="..\cpp\StringFormat.cpp" />
     <ClCompile Include="..\cpp\StringLength.cpp" />
     <ClCompile Include="..\cpp\StringPrintf.cpp" />
     <ClCompile Include="..\cpp\StringReplace.cpp" />
@@ -186,7 +184,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\nlsString_exports.h" />
-    <ClInclude Include="..\..\src\include\StringDisplay.hpp" />
     <ClInclude Include="..\..\src\include\ToChar.hpp" />
     <ClInclude Include="..\include\IntegerToString.hpp" />
     <ClInclude Include="..\include\MatrixToString.hpp" />

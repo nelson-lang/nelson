@@ -16,26 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "cell_dispBuiltin.hpp"
-#include "Error.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Interface.hpp"
 //=============================================================================
-ArrayOfVector
-Nelson::DataStructuresGateway::cell_dispBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (nLhs > 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    } else if (argIn[0].getDataClass() != NLS_CELL_ARRAY) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_CELL_EXPECTED);
-    } else {
-        argIn[0].printMe(eval->getPrintLimit(), eval->getInterface()->getTerminalWidth());
-    }
-    return retval;
-}
+namespace Nelson {
+//=============================================================================
+void DisplayLogical(Interface *io, const ArrayOf &A, bool fromDispBuiltin,
+                    bool &needToOverload);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -18,9 +18,6 @@
     <ClCompile Include="..\cpp\singleBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\single_dispBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="dllMain.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -39,12 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsSingle_builtin_exports.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\single_dispBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\single_minus_singleBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\singleBuiltin.hpp">

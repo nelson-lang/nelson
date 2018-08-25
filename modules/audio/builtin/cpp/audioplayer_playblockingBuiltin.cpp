@@ -22,6 +22,7 @@
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -88,7 +89,7 @@ Nelson::AudioGateway::audioplayer_playblockingBuiltin(
         if (eval->haveEventsLoop()) {
             ProcessEventsDynamicFunctionWithoutWait();
         }
-    } while (!eval->GetInterruptPending() && objPlayer->getRunning());
+    } while (!NelsonConfiguration::getInstance()->getInterruptPending() && objPlayer->getRunning());
     objPlayer->stop();
     return retval;
 }

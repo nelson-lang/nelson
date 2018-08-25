@@ -16,11 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <set>
+#include <cstring>
+#include <limits>
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "IEEEFP.hpp"
 #include "Interface.hpp"
-#include <set>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -100,30 +102,11 @@ void outputSinglePrecisionFloat(char *buf, single num) {
   buf[17] = 0;
 }
 //=============================================================================
-void dumpAllArrayOfs() {
-  intSet::iterator i = addresses.begin();
-  int j = 0;
-  while (i != addresses.end()) {
-    uint64 addr = *i;
-    ArrayOf *aptr = (ArrayOf *)addr;
-    std::cout << "ArrayOf Number " << j << " = " << aptr->getReferenceCount()
-              << "\n";
-#ifdef NLS_INDEX_TYPE_64
-    printf("  Address = %llx\n", addr);
-#else
-    printf("  Address = %08x\n", addr);
-#endif
-    aptr->printMe(1000, 80);
-    ++i;
-    j++;
-  }
-}
-//=============================================================================
 /**
  * Print this object when it is an element of a cell array.  This is
  * generally a shorthand summary of the description of the object.
  */
-void ArrayOf::summarizeCellEntry() const {
+void ArrayOf::summarizeCellEntry(Interface *io) const {
   if (isEmpty()) {
     if (dp->dataClass == NLS_CHAR) {
       io->outputMessage("''");
@@ -328,7 +311,7 @@ void ArrayOf::summarizeCellEntry() const {
   }
 }
 //=============================================================================
-void emitElement(char *msgBuffer, const void *dp, indexType num, Class dcls) {
+void emitElement(Interface *io, char *msgBuffer, const void *dp, indexType num, Class dcls) {
   switch (dcls) {
   case NLS_STRUCT_ARRAY: {
   } break;
@@ -414,7 +397,7 @@ void emitElement(char *msgBuffer, const void *dp, indexType num, Class dcls) {
     break;
   }
   case NLS_CHAR: {
-    const wchar_t *ap = (const wchar_t *)dp;
+    const charType* ap = (const charType*)dp;
     std::wstring wstr;
     wstr.push_back(ap[num]);
     io->outputMessage(wstr);
@@ -471,9 +454,8 @@ void emitElement(char *msgBuffer, const void *dp, indexType num, Class dcls) {
     if (ap == nullptr) {
       io->outputMessage("[]");
     } else {
-      ap[num].summarizeCellEntry();
+      ap[num].summarizeCellEntry(io);
     }
-    // io->outputMessage("  ");
   }
   }
 }
@@ -481,12 +463,9 @@ void emitElement(char *msgBuffer, const void *dp, indexType num, Class dcls) {
 /**
  * Display this variable on the given output stream.
  */
-void ArrayOf::printMe(int printLimit, sizeType termWidth) const {
+void ArrayOf::printMe(Interface *io) const {
   int nominalWidth;
-
-
-
-
+    sizeType termWidth = io->getTerminalWidth();
   // Print the class...
   switch (dp->dataClass) {
   case NLS_HANDLE:
@@ -592,7 +571,7 @@ void ArrayOf::printMe(int printLimit, sizeType termWidth) const {
         io->outputMessage("    ");
         io->outputMessage(dp->fieldNames[n].c_str());
         io->outputMessage(": ");
-        ap[n].summarizeCellEntry();
+        ap[n].summarizeCellEntry(io);
         io->outputMessage("\n");
       }
     } else {
@@ -617,8 +596,7 @@ void ArrayOf::printMe(int printLimit, sizeType termWidth) const {
       indexType colsPerPage =
           (indexType)floor((termWidth - 1) / ((single)nominalWidth));
       indexType pageCount = (indexType)ceil(columns / ((single)colsPerPage));
-      for (indexType k = 0; k < pageCount && (items_printed < printLimit);
-           k++) {
+      for (indexType k = 0; k < pageCount; k++) {
         indexType colsInThisPage = columns - colsPerPage * k;
         colsInThisPage =
             (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
@@ -628,25 +606,22 @@ void ArrayOf::printMe(int printLimit, sizeType termWidth) const {
           io->outputMessage(msgBuffer);
         }
         memset(msgBuffer, 0, MSGBUFLEN);
-        for (indexType i = 0; i < rows && (items_printed < printLimit); i++) {
+        for (indexType i = 0; i < rows; i++) {
           snprintf(msgBuffer, MSGBUFLEN, " ");
           io->outputMessage(msgBuffer);
           memset(msgBuffer, 0, MSGBUFLEN);
-          for (indexType j = 0;
-               j < colsInThisPage && (items_printed < printLimit); j++) {
-            emitElement(msgBuffer, ap, i + (k * colsPerPage + j) * rows,
+          for (indexType j = 0; j < colsInThisPage; j++) {
+            emitElement(io, msgBuffer, ap, i + (k * colsPerPage + j) * rows,
                         dp->dataClass);
+              if (j < colsInThisPage - 1) {
+                io->outputMessage(" ");
+              }
             items_printed++;
           }
           snprintf(msgBuffer, MSGBUFLEN, "\n");
           io->outputMessage(msgBuffer);
           memset(msgBuffer, 0, MSGBUFLEN);
         }
-      }
-      if (items_printed >= printLimit) {
-        io->outputMessage(
-            _W("\n... Output truncated - use setprintlimit function to see "
-               "more of the output ...\n"));
       }
     } else if (dp->dimensions.getLength() > 2) {
       /**
@@ -661,7 +636,7 @@ void ArrayOf::printMe(int printLimit, sizeType termWidth) const {
       int items_printed;
       items_printed = 0;
       indexType offset = 0;
-      while (wdims.inside(dp->dimensions) && (items_printed < printLimit)) {
+      while (wdims.inside(dp->dimensions)) {
         snprintf(msgBuffer, MSGBUFLEN, "(:,:");
         io->outputMessage(msgBuffer);
         for (sizeType m = 2; m < dp->dimensions.getLength(); m++) {
@@ -676,7 +651,7 @@ void ArrayOf::printMe(int printLimit, sizeType termWidth) const {
             (indexType)floor((termWidth - 1) / ((single)nominalWidth));
         int pageCount;
         pageCount = (int)ceil(columns / ((single)colsPerPage));
-        for (int k = 0; k < pageCount && (items_printed < printLimit); k++) {
+        for (int k = 0; k < pageCount; k++) {
           indexType colsInThisPage = columns - colsPerPage * k;
           colsInThisPage =
               (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
@@ -684,16 +659,21 @@ void ArrayOf::printMe(int printLimit, sizeType termWidth) const {
                    k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
           io->outputMessage(msgBuffer);
           memset(msgBuffer, 0, MSGBUFLEN);
-          for (indexType i = 0; i < rows && (items_printed < printLimit); i++) {
+          for (indexType i = 0; i < rows; i++) {
             snprintf(msgBuffer, MSGBUFLEN, " ");
             io->outputMessage(msgBuffer);
             memset(msgBuffer, 0, MSGBUFLEN);
-            for (indexType j = 0;
-                 j < colsInThisPage && (items_printed < printLimit); j++) {
-              emitElement(msgBuffer, ap,
+            if (dp->dataClass == NLS_CHAR) {
+                io->outputMessage("'");
+            }
+            for (indexType j = 0; j < colsInThisPage; j++) {
+              emitElement(io, msgBuffer, ap,
                           i + (k * colsPerPage + j) * rows + offset,
                           dp->dataClass);
               items_printed++;
+            }
+            if (dp->dataClass == NLS_CHAR) {
+                io->outputMessage("'");
             }
             snprintf(msgBuffer, MSGBUFLEN, "\n");
             io->outputMessage(msgBuffer);
@@ -703,27 +683,8 @@ void ArrayOf::printMe(int printLimit, sizeType termWidth) const {
         offset += rows * columns;
         wdims.incrementModulo(dp->dimensions, 2);
       }
-      if (items_printed >= printLimit) {
-        io->outputMessage(
-            _W("\n... Output truncated - use setprintlimit function to see "
-               "more of the output ...\n"));
-      }
     }
   }
-}
-//=============================================================================
-void
-ArrayOf::displayMe(Interface* io, bool& needToOverload) const
-{
-    needToOverload = false;
-	switch (getDataClass()) {
-    case NLS_CHAR: {
-    } break;
-    default:
-	{
-        needToOverload = true;
-	} break;
-	}
 }
 //=============================================================================
 } // namespace Nelson

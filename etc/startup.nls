@@ -55,9 +55,9 @@ for k = modules_list
   clear('all');
   if (isquietmode() == false)
     banner();
-    disp(version());
-    disp(version('-date'));
-    disp(' ');
+    fprintf(stdout(), '%s\n', version());
+    fprintf(stdout(), '%s\n', version('-date'));
+    fprintf(stdout(), '%s\n', ' ');
   end
   cd(nelsonroot());
   %==============================================================================

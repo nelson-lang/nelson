@@ -56,15 +56,6 @@ namespace Nelson {
 
 typedef enum
 {
-    NLS_FORMAT_SHORT,
-    NLS_FORMAT_LONG,
-    NLS_FORMAT_SHORTE,
-    NLS_FORMAT_LONGE,
-    NLS_FORMAT_HEX
-} OutputFormatDisplay;
-
-typedef enum
-{
     NLS_STATE_OK = 0,
     NLS_STATE_BREAK = 1,
     NLS_STATE_CONTINUE = 2,
@@ -105,11 +96,6 @@ class NLSINTERPRETER_IMPEXP Evaluator
      */
     Interface* io;
     /**
-     * The print limit (how many elements get printed before output
-     * stops).
-     */
-    int printLimit;
-    /**
      * The last error that occured.
      */
     Exception lastErrorException;
@@ -142,7 +128,6 @@ class NLSINTERPRETER_IMPEXP Evaluator
 
     std::wstring
     buildPrompt();
-    OutputFormatDisplay currentOutputFormatDisplay;
 
     bool bEchoMode = true;
 
@@ -164,11 +149,6 @@ public:
     void* RandomEngine = nullptr;
 
     void* HistoryManager = nullptr;
-
-    OutputFormatDisplay
-    getCurrentOutputFormatDisplay();
-    void
-    setCurrentOutputFormatDisplay(OutputFormatDisplay newFormat);
 
     std::vector<StackEntry> cstack;
     void
@@ -209,14 +189,6 @@ public:
     stringVector
     getCallers(bool includeCurrent);
 
-    bool
-    GetInterruptPending();
-    bool
-    SetInterruptPending(bool bInterruptPending);
-
-    bool
-    SetInterrupCallback(bool bInterruptCallback);
-
     /* Command Queue */
     CommandQueue commandQueue;
 
@@ -247,20 +219,8 @@ public:
     AutoStop();
     void
     AutoStop(bool a);
-    /**
-     * Set the print limit (number of element printed prior to truncation).
-     */
-    void
-    setPrintLimit(int);
-    /**
-     * Get the print limit (number of element printed prior to truncation).
-     */
-    int
-    getPrintLimit();
-    /**
-     * Clear the context stacks.
-     */
-    void
+
+	void
     clearStacks();
     /**
      * Reset the state of the tree walker.

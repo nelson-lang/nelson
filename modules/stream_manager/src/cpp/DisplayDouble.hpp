@@ -19,12 +19,10 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "Interface.hpp"
 //=============================================================================
 namespace Nelson {
-namespace DataStructuresGateway {
-    ArrayOfVector
-    struct_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+void
+DisplayDouble(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload);
 }
-} // namespace Nelson
 //=============================================================================

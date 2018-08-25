@@ -18,7 +18,6 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "charBuiltin.hpp"
-#include "char_dispBuiltin.hpp"
 #include "containsBuiltin.hpp"
 #include "countBuiltin.hpp"
 #include "endsWithBuiltin.hpp"
@@ -46,9 +45,6 @@ static const nlsGateway gateway[] = { { "char", Nelson::StringGateway::charBuilt
     { "strcmpi", Nelson::StringGateway::strcmpiBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "strncmp", Nelson::StringGateway::strncmpBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
     { "strncmpi", Nelson::StringGateway::strncmpiBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
-    { "char_disp", Nelson::StringGateway::char_dispBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "ndarraychar_disp", Nelson::StringGateway::char_dispBuiltin, 0, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
     { "tolower", Nelson::StringGateway::tolowerBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "lower", Nelson::StringGateway::tolowerBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "toupper", Nelson::StringGateway::toupperBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },

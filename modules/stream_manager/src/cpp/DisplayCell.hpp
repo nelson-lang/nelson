@@ -16,38 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "StringDisplay.hpp"
-#include "Error.hpp"
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "Interface.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
 void
-StringDisplay(Evaluator* eval, ArrayOf Var, bool bFromBuiltin)
-{
-    if (!Var.isString()) {
-        Error(_W("StringDisplay method: String expected."));
-    }
-    Interface* io = eval->getInterface();
-    if (Var.isSingleString()) {
-        std::wstring msg = Var.getContentAsWideString();
-        if (msg.size() == 0) {
-            if (!bFromBuiltin) {
-                io->outputMessage("\'\'");
-            } else {
-                return;
-            }
-        } else {
-            io->outputMessage(msg + L"\n");
-        }
-    } else {
-        wstringVector msg = Var.getContentAsWideStringVector();
-        for (indexType i = 0; i < msg.size(); ++i) {
-            io->outputMessage(msg[i] + L"\n");
-            if (eval->GetInterruptPending()) {
-                break;
-            }
-        }
-    }
-}
+DisplayCell(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload);
 }
 //=============================================================================

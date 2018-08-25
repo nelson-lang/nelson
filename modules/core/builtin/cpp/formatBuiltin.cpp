@@ -18,6 +18,7 @@
 //=============================================================================
 #include "formatBuiltin.hpp"
 #include "Error.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -30,7 +31,7 @@ Nelson::CoreGateway::formatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         if (nLhs == 1) {
-            switch (eval->getCurrentOutputFormatDisplay()) {
+            switch (NelsonConfiguration::getInstance()->getOutputFormatDisplay()) {
             case NLS_FORMAT_SHORT: {
                 retval.push_back(ArrayOf::stringConstructor(L"short"));
             } break;
@@ -51,7 +52,7 @@ Nelson::CoreGateway::formatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             } break;
             }
         } else {
-            eval->setCurrentOutputFormatDisplay(NLS_FORMAT_SHORT);
+            NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_SHORT);
         }
         return retval;
     }
@@ -62,7 +63,7 @@ Nelson::CoreGateway::formatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                 if (nLhs > 1) {
                     Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
                 }
-                switch (eval->getCurrentOutputFormatDisplay()) {
+                switch (NelsonConfiguration::getInstance()->getOutputFormatDisplay()) {
                 case NLS_FORMAT_SHORT: {
                     retval.push_back(ArrayOf::stringConstructor(L"short"));
                 } break;
@@ -87,15 +88,15 @@ Nelson::CoreGateway::formatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                     Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
                 }
                 if (str.compare(L"short") == 0) {
-                    eval->setCurrentOutputFormatDisplay(NLS_FORMAT_SHORT);
+                    NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_SHORT);
                 } else if (str.compare(L"long") == 0) {
-                    eval->setCurrentOutputFormatDisplay(NLS_FORMAT_LONG);
+                    NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_LONG);
                 } else if (str.compare(L"shortE") == 0) {
-                    eval->setCurrentOutputFormatDisplay(NLS_FORMAT_SHORTE);
+                    NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_SHORTE);
                 } else if (str.compare(L"longE") == 0) {
-                    eval->setCurrentOutputFormatDisplay(NLS_FORMAT_LONGE);
+                    NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_LONGE);
                 } else if (str.compare(L"hex") == 0) {
-                    eval->setCurrentOutputFormatDisplay(NLS_FORMAT_HEX);
+                    NelsonConfiguration::getInstance()->setOutputFormatDisplay(NLS_FORMAT_HEX);
                 } else {
                     Error(_W("unexpected format."));
                 }

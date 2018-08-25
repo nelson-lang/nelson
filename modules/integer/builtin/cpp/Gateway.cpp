@@ -27,7 +27,6 @@
 #include "uint64Builtin.hpp"
 #include "intmaxBuiltin.hpp"
 #include "intminBuiltin.hpp"
-#include "integer_dispBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -44,23 +43,6 @@ static const nlsGateway gateway[] = {
     { "uint64", Nelson::IntegerGateway::uint64Builtin, 1, 1 },
     { "intmax", Nelson::IntegerGateway::intmaxBuiltin, -1, -1 },
     { "intmin", Nelson::IntegerGateway::intminBuiltin, -1, -1 },
-    { "int8_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
-    { "int16_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
-    { "int32_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
-    { "int64_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
-    { "uint8_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
-    { "uint16_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
-    { "uint32_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
-    { "uint64_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
-    { "ndarrayint8_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
-    { "ndarrayint16_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
-    { "ndarrayint32_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
-    { "ndarrayint64_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
-    { "ndarrayuint8_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
-    { "ndarrayuint16_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
-    { "ndarrayuint32_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
-    { "ndarrayuint64_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
-
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

@@ -33,7 +33,7 @@ Nelson::ElementaryFunctionsGateway::dispBuiltin(
     if (nLhs > 0) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    OverloadDisplay(eval, argIn[0]);
+    OverloadDisplay(eval, argIn[0], true);
     return retval;
 }
 //=============================================================================

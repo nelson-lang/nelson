@@ -1,7 +1,7 @@
 
 ans =
 
-function test_smartindent()
+'function test_smartindent()
   a = 2
   if a==2
     disp('ok')
@@ -14,4 +14,4 @@ function test_smartindent()
     end
     disp('not ok')
   end
-endfunction
+endfunction'

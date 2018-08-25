@@ -26,6 +26,7 @@
 #include "ParserInterface.hpp"
 #include "IsEmptyScriptFile.hpp"
 #include "AstManager.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -192,7 +193,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         size_t stackdepth = eval->cstack.size();
         eval->setCLI(true);
         try {
-            eval->SetInterruptPending(false);
+            NelsonConfiguration::getInstance()->setInterruptPending(false);
             ASTPtr tree = getParsedScriptBlock();
             if (tree == nullptr) {
                 deleteAstVector(pt);

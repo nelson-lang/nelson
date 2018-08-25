@@ -16,15 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "DisplayHelpers.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-namespace DataStructuresGateway {
-    ArrayOfVector
-    cell_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+std::wstring double2hexastr(double d) {
+  char *buffer = new char[32];
+  sprintf(buffer, "%llx", *(unsigned long long *)&d);
+  return utf8_to_wstring(buffer);
 }
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

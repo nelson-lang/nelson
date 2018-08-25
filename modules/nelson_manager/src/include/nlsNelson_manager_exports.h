@@ -18,13 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-//=============================================================================
-namespace Nelson {
-namespace LogicalGateway {
-    ArrayOfVector
-    logical_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
-} // namespace Nelson
+#ifdef _MSC_VER
+#ifdef NLSNELSON_MANAGER_EXPORTS
+#define NLSNELSON_MANAGER_IMPEXP __declspec(dllexport)
+#else
+#define NLSNELSON_MANAGER_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSNELSON_MANAGER_IMPEXP __attribute__((visibility("default")))
+#endif
 //=============================================================================

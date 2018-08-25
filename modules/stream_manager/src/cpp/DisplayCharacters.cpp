@@ -16,26 +16,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ndarraystruct_dispBuiltin.hpp"
-#include "Error.hpp"
+#include "DisplayCharacters.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-ArrayOfVector
-Nelson::DataStructuresGateway::ndarraystruct_dispBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (nLhs > 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    } else if (argIn[0].getDataClass() != NLS_STRUCT_ARRAY) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
+void DisplayCharacters(Interface *io, const ArrayOf &A, bool fromDispBuiltin,
+                       bool &needToOverload) {
+  if (A.isSingleString()) {
+    std::wstring msg = A.getContentAsWideString();
+    if (msg.size() == 0) {
+      if (fromDispBuiltin) {
+        io->outputMessage("");
+      } else {
+        io->outputMessage("\'\'");
+      }
     } else {
-        argIn[0].printMe(eval->getPrintLimit(), eval->getInterface()->getTerminalWidth());
+      if (fromDispBuiltin) {
+        io->outputMessage(msg + L"\n");
+      } else {
+        io->outputMessage(L"\'" + msg + L"\'\n");
+      }
     }
-    return retval;
+  } else {
+    A.printMe(io);
+  }
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

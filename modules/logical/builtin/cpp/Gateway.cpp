@@ -23,9 +23,7 @@
 #include "logicalBuiltin.hpp"
 #include "logical_allBuiltin.hpp"
 #include "logical_anyBuiltin.hpp"
-#include "logical_dispBuiltin.hpp"
 #include "logical_notBuiltin.hpp"
-#include "ndarraylogical_dispBuiltin.hpp"
 #include "trueBuiltin.hpp"
 #include "xorBuiltin.hpp"
 //=============================================================================
@@ -37,8 +35,6 @@ static const nlsGateway gateway[] = {
     { "logical", Nelson::LogicalGateway::logicalBuiltin, 1, 1 },
     { "true", Nelson::LogicalGateway::trueBuiltin, 1, 1 },
     { "false", Nelson::LogicalGateway::falseBuiltin, 1, 1 },
-    { "logical_disp", Nelson::LogicalGateway::logical_dispBuiltin, 0, 1 },
-    { "ndarraylogical_disp", Nelson::LogicalGateway::ndarraylogical_dispBuiltin, 0, 1 },
     { "logical_not", Nelson::LogicalGateway::logical_notBuiltin, 1, 1 },
     { "xor", Nelson::LogicalGateway::xorBuiltin, 1, 2 },
     { "any", Nelson::LogicalGateway::anyBuiltin, 1, 2 },

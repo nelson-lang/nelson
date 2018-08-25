@@ -16,29 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "char_dispBuiltin.hpp"
-#include "Error.hpp"
-#include "StringDisplay.hpp"
+#include "DisplayLogical.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-ArrayOfVector
-Nelson::StringGateway::char_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (nLhs > 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (argIn[0].isNdArrayStringType()) {
-        argIn[0].printMe(eval->getPrintLimit(), eval->getInterface()->getTerminalWidth());
-    } else if (argIn[0].isString()) {
-        StringDisplay(eval, argIn[0], true);
-    } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
-    }
-    return retval;
+void DisplayLogical(Interface *io, const ArrayOf &A, bool fromDispBuiltin,
+                    bool &needToOverload) {
+  A.printMe(io);
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

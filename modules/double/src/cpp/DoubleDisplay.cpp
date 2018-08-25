@@ -17,10 +17,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
-#include "DoubleDisplay.hpp"
-#include "Error.hpp"
-#include "StringFormat.hpp"
-#include "characters_encoding.hpp"
 #include <Eigen/Dense>
 #include <boost/algorithm/string.hpp>
 #include <cstdio>
@@ -28,6 +24,11 @@
 #include <iostream>
 #include <memory> // For std::unique_ptr
 #include <stdarg.h> // For va_start, etc.
+#include "DoubleDisplay.hpp"
+#include "Error.hpp"
+#include "StringFormat.hpp"
+#include "characters_encoding.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -212,10 +213,10 @@ DoubleDisplay(Evaluator* eval, ArrayOf A)
             if (A.isComplex()) {
                 doublecomplex* cplx = reinterpret_cast<doublecomplex*>(pValueA);
                 strNumber = printNumber(
-                    cplx->real(), cplx->imag(), eval->getCurrentOutputFormatDisplay(), false, true);
+                    cplx->real(), cplx->imag(), NelsonConfiguration::getInstance()->getOutputFormatDisplay(), false, true);
             } else {
                 strNumber = printNumber(
-                    pValueA[0], eval->getCurrentOutputFormatDisplay(), asInteger, true);
+                    pValueA[0], NelsonConfiguration::getInstance()->getOutputFormatDisplay(), asInteger, true);
             }
             io->outputMessage(strNumber);
             io->outputMessage(L"\n");
@@ -223,7 +224,7 @@ DoubleDisplay(Evaluator* eval, ArrayOf A)
         {
             indexType format_width = 8;
             bool bIsComplex = A.isComplex();
-            switch (eval->getCurrentOutputFormatDisplay()) {
+            switch (NelsonConfiguration::getInstance()->getOutputFormatDisplay()) {
             case NLS_FORMAT_SHORT: {
                 if (asInteger && !bIsComplex) {
                     if (fabs(minDouble) > fabs(maxDouble)) {
@@ -307,7 +308,7 @@ DoubleDisplay(Evaluator* eval, ArrayOf A)
             indexType block_page = 0;
             bool continueDisplay = true;
             for (indexType k = 0; k < pageCount && continueDisplay; k++) {
-                if (eval->GetInterruptPending()) {
+                if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                     continueDisplay = false;
                     break;
                 }
@@ -321,7 +322,7 @@ DoubleDisplay(Evaluator* eval, ArrayOf A)
                 for (indexType i = 0; i < rows && continueDisplay; i++) {
                     buffer.append(L"  ");
                     for (indexType j = 0; j < colsInThisPage; j++) {
-                        if (eval->GetInterruptPending()) {
+                        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                             continueDisplay = false;
                             break;
                         }
@@ -329,10 +330,10 @@ DoubleDisplay(Evaluator* eval, ArrayOf A)
                         std::wstring numberAsStr;
                         if (bIsComplex) {
                             numberAsStr = printNumber(pValueA[2 * idx], pValueA[2 * idx + 1],
-                                eval->getCurrentOutputFormatDisplay(), false, false);
+                                NelsonConfiguration::getInstance()->getOutputFormatDisplay(), false, false);
                         } else {
                             numberAsStr = printNumber(pValueA[idx],
-                                eval->getCurrentOutputFormatDisplay(), asInteger, false);
+                                NelsonConfiguration::getInstance()->getOutputFormatDisplay(), asInteger, false);
                             size_t len = numberAsStr.size();
                             if (len < format_width) {
                                 size_t nb = format_width - len;

@@ -171,16 +171,12 @@
     <ClCompile Include="..\cpp\cell2structBuiltin.cpp" />
     <ClCompile Include="..\cpp\cellBuiltin.cpp" />
     <ClCompile Include="..\cpp\cellfunBuiltin.cpp" />
-    <ClCompile Include="..\cpp\cell_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\iscellstrBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\isfieldBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraycell_dispBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraystruct_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\struct2cellBuiltin.cpp" />
     <ClCompile Include="..\cpp\structBuiltin.cpp" />
-    <ClCompile Include="..\cpp\struct_dispBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -222,17 +218,13 @@
     <ClInclude Include="..\include\cell2structBuiltin.hpp" />
     <ClInclude Include="..\include\cellBuiltin.hpp" />
     <ClInclude Include="..\include\cellfunBuiltin.hpp" />
-    <ClInclude Include="..\include\cell_dispBuiltin.hpp" />
     <ClInclude Include="..\include\cell_vertcat_cellBuiltin.hpp" />
     <ClInclude Include="..\include\fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\iscellstrBuiltin.hpp" />
     <ClInclude Include="..\include\isfieldBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraycell_dispBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraystruct_dispBuiltin.hpp" />
     <ClInclude Include="..\include\nlsData_structures_builtin_exports.h" />
     <ClInclude Include="..\include\struct2cellBuiltin.hpp" />
     <ClInclude Include="..\include\structBuiltin.hpp" />
-    <ClInclude Include="..\include\struct_dispBuiltin.hpp" />
     <ClInclude Include="..\include\struct_horzcat_structBuiltin.hpp" />
     <ClInclude Include="..\include\struct_vertcat_structBuiltin.hpp" />
   </ItemGroup>

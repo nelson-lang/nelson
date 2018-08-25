@@ -16,30 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "single_dispBuiltin.hpp"
-#include "Error.hpp"
-#include "SingleDisplay.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Interface.hpp"
+#include "nlsStream_manager_exports.h"
 //=============================================================================
-ArrayOfVector
-Nelson::SingleGateway::single_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (nLhs > 0) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    } else if (!argIn[0].isSingleType() || argIn[0].isSparse()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SINGLE_EXPECTED);
-    } else {
-        if (argIn[0].isNdArraySingleType()) {
-            argIn[0].printMe(eval->getPrintLimit(), eval->getInterface()->getTerminalWidth());
-        } else {
-            SingleDisplay(eval, argIn[0]);
-        }
-    }
-    return retval;
-}
+namespace Nelson {
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP void
+DisplayVariable(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

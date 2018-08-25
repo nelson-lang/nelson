@@ -22,6 +22,7 @@
 #include "ListFiles.hpp"
 #include "StringFormat.hpp"
 #include <boost/container/vector.hpp>
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -73,7 +74,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         } else {
             for (boost::container::vector<FileInfo>::iterator it = res.begin(); it != res.end();
                  ++it) {
-                if (eval->GetInterruptPending()) {
+                if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                     break;
                 }
                 if (it->isDir()) {

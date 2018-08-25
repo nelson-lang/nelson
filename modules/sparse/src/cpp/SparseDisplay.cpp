@@ -26,16 +26,16 @@
 #include <cstdio>
 #include <iomanip>
 #include <iostream>
-
+#include "NelsonConfiguration.hpp"
 #include "IEEEFP.hpp"
 #include "Interface.hpp"
 #include "SparseType.hpp"
+//=============================================================================
 using boost::io::group;
 using std::hex;
 using std::setfill;
 using std::setw;
 using std::showbase;
-
 //=============================================================================
 #ifdef _MSC_VER
 #define snprintf _snprintf
@@ -154,17 +154,17 @@ SparseDoubleDisplay(Evaluator* eval, ArrayOf a)
                 Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
                     = (Eigen::SparseMatrix<double, 0, signedIndexType>*)a.getSparseDataPointer();
                 for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-                    if (eval->GetInterruptPending()) {
+                    if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                         break;
                     }
                     for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(
                              *spMat, k);
                          it; ++it) {
-                        if (eval->GetInterruptPending()) {
+                        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                             break;
                         }
                         std::string strNumber
-                            = printNumber(it.value(), eval->getCurrentOutputFormatDisplay());
+                            = printNumber(it.value(), NelsonConfiguration::getInstance()->getOutputFormatDisplay());
                         std::string msg
                             = str(boost::format("\t(%lu,%lu)\t%s\n") % (long long)(it.row() + 1)
                                 % (long long)(it.col() + 1) % strNumber.c_str());
@@ -199,17 +199,17 @@ SparseDoubleComplexDisplay(Evaluator* eval, ArrayOf a)
                     = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)
                           a.getSparseDataPointer();
                 for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-                    if (eval->GetInterruptPending()) {
+                    if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                         break;
                     }
                     for (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator it(
                              *spMat, k);
                          it; ++it) {
-                        if (eval->GetInterruptPending()) {
+                        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                             break;
                         }
                         std::string strNumber = printNumber(it.value().real(), it.value().imag(),
-                            eval->getCurrentOutputFormatDisplay());
+                            NelsonConfiguration::getInstance()->getOutputFormatDisplay());
                         std::string msg
                             = str(boost::format("\t(%lu,%lu)\t%s\n") % (long long)(it.row() + 1)
                                 % (long long)(it.col() + 1) % strNumber.c_str());
@@ -243,13 +243,13 @@ SparseLogicalDisplay(Evaluator* eval, ArrayOf a)
                 Eigen::SparseMatrix<logical, 0, signedIndexType>* spMat
                     = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)a.getSparseDataPointer();
                 for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-                    if (eval->GetInterruptPending()) {
+                    if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                         break;
                     }
                     for (Eigen::SparseMatrix<logical, 0, signedIndexType>::InnerIterator it(
                              *spMat, k);
                          it; ++it) {
-                        if (eval->GetInterruptPending()) {
+                        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                             break;
                         }
                         std::string msg = "";

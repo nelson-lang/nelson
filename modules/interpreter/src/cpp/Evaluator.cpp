@@ -35,13 +35,13 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-
+//=============================================================================
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
+#include <stdio.h>
 #include <errno.h>
 #include <iostream>
 #include <math.h>
-#include <stdio.h>
 #include "Evaluator.hpp"
 #include "Exception.hpp"
 #include "LessEquals.hpp"
@@ -100,48 +100,12 @@
 #include "characters_encoding.hpp"
 #include "UnaryMinus.hpp"
 #include "UnaryPlus.hpp"
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <errno.h>
-#include <iostream>
-#include <math.h>
-#include <stdio.h>
+#include "NelsonConfiguration.hpp"
+//=============================================================================
 #ifdef _MSC_VER
 #define strdup _strdup
 #endif
 namespace Nelson {
-
-/**
- * Pending control-C
- */
-bool InterruptPending = false;
-
-/*
- * ALT-F4 or Exit cross invoked
- */
-bool InterruptCallback = false;
-
-bool
-Evaluator::SetInterrupCallback(bool bInterruptCallback)
-{
-    bool bPrevious = InterruptCallback;
-    InterruptCallback = bInterruptCallback;
-    return bPrevious;
-}
-
-bool
-Evaluator::GetInterruptPending()
-{
-    return InterruptPending;
-}
-
-bool
-Evaluator::SetInterruptPending(bool bInterruptPending)
-{
-    bool bPrevious = InterruptPending;
-    InterruptPending = bInterruptPending;
-    return bPrevious;
-}
 
 /**
  * Stores the current array for which to apply the "end" expression to.
@@ -165,7 +129,7 @@ std::vector<endData> endStack;
 void
 sigInterrupt(int arg)
 {
-    InterruptPending = true;
+    NelsonConfiguration::getInstance()->setInterruptPending(true);
 }
 
 void
@@ -189,18 +153,6 @@ Evaluator::popID()
     } else {
         io->outputMessage("IDERROR\n");
     }
-}
-
-void
-Evaluator::setPrintLimit(int lim)
-{
-    printLimit = lim;
-}
-
-int
-Evaluator::getPrintLimit()
-{
-    return (printLimit);
 }
 
 void
@@ -1781,14 +1733,11 @@ Evaluator::block(ASTPtr t)
             resetState();
         }
         while ((state < NLS_STATE_QUIT) && s != nullptr) {
-            if (InterruptCallback) {
-                InterruptCallback = false;
-                return;
-            } else if (InterruptPending) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                 io->outputMessage(L"\n" + MSG_CTRL_C_DETECTED);
                 state = NLS_STATE_ABORT;
-                InterruptPending = false;
-                return;
+                NelsonConfiguration::getInstance()->setInterruptPending(false);
+				return;
             } else {
                 statement(s);
                 if (state == NLS_STATE_BREAK || state == NLS_STATE_CONTINUE
@@ -3619,12 +3568,9 @@ Evaluator::Evaluator(Context* aContext, Interface* aInterface, int _engineMode)
     engineMode = _engineMode;
     bAllowOverload = true;
     context = aContext;
-    currentOutputFormatDisplay = NLS_FORMAT_SHORT;
     resetState();
     depth = 0;
     io = aInterface;
-    InterruptPending = false;
-    printLimit = 1000;
     autostop = true;
     InCLI = false;
     debugActive = false;
@@ -3665,7 +3611,7 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
 {
     ASTPtr tree = nullptr;
     ParserState parserState = ParseError;
-    InterruptPending = false;
+    NelsonConfiguration::getInstance()->setInterruptPending(false);
     if (line.size() == 0) {
         return false;
     }
@@ -3974,7 +3920,7 @@ Evaluator::evalCLI()
                 while (!enoughInput) {
                     commandLine = io->getLine(L"");
                     if (commandLine == L"\n" || commandLine.empty()) {
-                        if (InterruptPending) {
+                        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                             commandLine = L"";
                             return;
                         }
@@ -4012,18 +3958,6 @@ Evaluator::evalCLI()
             }
         }
     }
-}
-//=============================================================================
-OutputFormatDisplay
-Evaluator::getCurrentOutputFormatDisplay()
-{
-    return this->currentOutputFormatDisplay;
-}
-//=============================================================================
-void
-Evaluator::setCurrentOutputFormatDisplay(OutputFormatDisplay newFormat)
-{
-    this->currentOutputFormatDisplay = newFormat;
 }
 //=============================================================================
 bool
