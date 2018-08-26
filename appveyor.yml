@@ -20,7 +20,6 @@ matrix:
     - platform: x86
 
 install:
-- choco install -y curl InnoSetup
 - ps: (new-object net.webclient).DownloadFile("https://download.microsoft.com/download/4/A/6/4A6AAED8-200C-457C-AB86-37505DE4C90D/msmpisetup.exe", "C:\build_chain\MSMpiSetup.exe")
 - C:\build_chain\MSMpiSetup.exe -unattend -minimal
 - set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
