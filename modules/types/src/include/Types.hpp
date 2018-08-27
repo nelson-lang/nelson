@@ -106,7 +106,6 @@ typedef std::vector<std::string> stringVector;
 typedef std::vector<std::wstring> wstringVector;
 
 #define NLS_SPARSE_STR "sparse"
-#define NLS_NDARRAY_STR "ndarray"
 #define NLS_CELL_ARRAY_STR "cell"
 #define NLS_STRUCT_ARRAY_STR "struct"
 #define NLS_LOGICAL_STR "logical"

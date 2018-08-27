@@ -212,69 +212,69 @@ ans =
   <int8>  - size: 3x3
 
 Columns 1 to 3
-    1     0     0  
-    0     1     0  
-    0     0     1  
+    1      0      0  
+    0      1      0  
+    0      0      1  
 
 ans =
 
   <int16>  - size: 3x3
 
 Columns 1 to 3
-      1       0       0  
-      0       1       0  
-      0       0       1  
+      1        0        0  
+      0        1        0  
+      0        0        1  
 
 ans =
 
   <int32>  - size: 3x3
 
 Columns 1 to 3
-             1              0              0  
-             0              1              0  
-             0              0              1  
+             1               0               0  
+             0               1               0  
+             0               0               1  
 
 ans =
 
   <int64>  - size: 3x3
 
 Columns 1 to 3
- 1  0  0  
- 0  1  0  
- 0  0  1  
+ 1   0   0  
+ 0   1   0  
+ 0   0   1  
 
 ans =
 
   <uint8>  - size: 3x3
 
 Columns 1 to 3
-   1    0    0  
-   0    1    0  
-   0    0    1  
+   1     0     0  
+   0     1     0  
+   0     0     1  
 
 ans =
 
   <uint16>  - size: 3x3
 
 Columns 1 to 3
-     1      0      0  
-     0      1      0  
-     0      0      1  
+     1       0       0  
+     0       1       0  
+     0       0       1  
 
 ans =
 
   <uint32>  - size: 3x3
 
 Columns 1 to 3
-            1             0             0  
-            0             1             0  
-            0             0             1  
+            1              0              0  
+            0              1              0  
+            0              0              1  
 
 ans =
 
   <uint64>  - size: 3x3
 
 Columns 1 to 3
- 1  0  0  
- 0  1  0  
- 0  0  1  
+ 1   0   0  
+ 0   1   0  
+ 0   0   1  

@@ -129,7 +129,7 @@ REF = [2052 2372; 4492 5212];
 assert_isequal(R, REF);
 //=============================================================================
 a = ones(3, 3, 3);
-assert_checkerror('a * a', _('function ndarraydouble_mtimes_ndarraydouble undefined.'));
+assert_checkerror('a * a', _('Wrong size for input arguments: 2D matrix expected.'));
 //=============================================================================
 a = ones(3, 9, 3);
 R = a .* a;

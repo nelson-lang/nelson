@@ -37,12 +37,6 @@ static const nlsGateway gateway[] = {
      1, 2},
     {"double_times_double", Nelson::DoubleGateway::double_times_doubleBuiltin,
      1, 2},
-    {"ndarraydouble_times_ndarraydouble",
-     Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2},
-    {"double_times_ndarraydouble",
-     Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2},
-    {"ndarraydouble_times_double",
-     Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2},
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

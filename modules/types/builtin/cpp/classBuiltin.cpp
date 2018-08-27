@@ -55,7 +55,7 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             arg1.ensureSingleOwner();
             ArrayOf arg2 = argIn[1];
             std::string newType = arg2.getContentAsCString();
-            if ((newType == NLS_SPARSE_STR) || (newType == NLS_NDARRAY_STR)
+            if ((newType == NLS_SPARSE_STR)
                 || (newType == NLS_CELL_ARRAY_STR) || (newType == NLS_STRUCT_ARRAY_STR)
                 || (newType == NLS_LOGICAL_STR) || (newType == NLS_UINT8_STR)
                 || (newType == NLS_INT8_STR) || (newType == NLS_UINT16_STR)

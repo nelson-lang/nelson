@@ -1,6 +1,8 @@
 Features:
 ---------
 
+  * ndarray subclass no more exists. class merged with basic type (speed optimization).
+
   * isequalto builtin added (Return true if all arguments x1, x2, … , xn are equal (same type, same dimensions, same values or NaNs).
 
   * tanm, sinm builtin added.
@@ -14,7 +16,7 @@ Features:
   * [#133](http://github.com/Nelson-numerical-software/nelson/issues/133): Replaced uncommon term "trinary" by "ternary". 
 
 
-## 0.2.8
+## 0.2.8 (2018-08-26)
 
 
 Features:
