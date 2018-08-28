@@ -9,3 +9,4 @@ extraction:
 path_classifiers:
   library:
     - modules/qml_engine/examples
+    - modules/slicot
