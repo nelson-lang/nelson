@@ -21,10 +21,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-std::wstring double2hexastr(double d) {
-  char *buffer = new char[32];
-  sprintf(buffer, "%llx", *(unsigned long long *)&d);
-  return utf8_to_wstring(buffer);
+std::wstring
+double2hexastr(double d)
+{
+    char* buffer = new char[32];
+    sprintf(buffer, "%llx", *(unsigned long long*)&d);
+    return utf8_to_wstring(buffer);
 }
 //=============================================================================
 } // namespace Nelson

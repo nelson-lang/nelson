@@ -123,7 +123,8 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                         if (eval->haveEventsLoop()) {
                             ProcessEventsDynamicFunctionWithoutWait();
                         }
-                    } while (!NelsonConfiguration::getInstance()->getInterruptPending() && (bContinue == true));
+                    } while (!NelsonConfiguration::getInstance()->getInterruptPending()
+                        && (bContinue == true));
                 }
             }
         } else {

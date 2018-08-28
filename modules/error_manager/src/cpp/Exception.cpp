@@ -180,7 +180,6 @@ Exception::getFormattedErrorMessage()
             }
         }
     }
-
     return formattedMessage;
 }
 //=============================================================================

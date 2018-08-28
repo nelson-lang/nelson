@@ -49,7 +49,7 @@ Serialize::checkSignature(const char sig, int count)
     rcount = ntohl(rcount);
     if (!((sig == rtype) && (count == rcount))) {
         char buffer[406];
-        sprintf(buffer, "Serialization Mismatch: expected <%c, %d>, got <%c, %d>", sig, count,
+        sprintf(buffer, "Serialization Mismatch: expected <%c, %d>, got <%c, %ld>", sig, count,
             rtype, rcount);
         Error(buffer);
     }

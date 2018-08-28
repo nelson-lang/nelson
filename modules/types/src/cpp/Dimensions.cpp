@@ -280,15 +280,15 @@ Dimensions::toString() const
     if (length > 0) {
         for (indexType i = 0; i < length - 1; i++) {
             if (length >= 1) {
-                sprintf(buf, "%dx", data[i]);
+                sprintf(buf, "%lux", (unsigned long)data[i]);
             } else {
-                sprintf(buf, "%d", data[i]);
+                sprintf(buf, "%lu", (unsigned long)data[i]);
             }
             strcat(msgBuffer, buf);
         }
     }
     if (length >= 1) {
-        sprintf(buf, "%d", data[length - 1]);
+        sprintf(buf, "%lu", (unsigned long)data[length - 1]);
         strcat(msgBuffer, buf);
     }
     txt = msgBuffer;

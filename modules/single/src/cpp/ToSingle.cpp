@@ -23,7 +23,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 ArrayOf
-ToSingle(const ArrayOf &A)
+ToSingle(const ArrayOf& A)
 {
     single* pSingle = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength());
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
@@ -36,13 +36,13 @@ ToSingle(const ArrayOf &A)
 }
 //=============================================================================
 ArrayOf
-ToSingle(const ArrayOf &A, bool &needToOverload)
+ToSingle(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
     if (A.isSparse()) {
         needToOverload = true;
         return ArrayOf();
-	}
+    }
     switch (A.getDataClass()) {
     case NLS_LOGICAL: {
         return ToSingle<logical>(A);

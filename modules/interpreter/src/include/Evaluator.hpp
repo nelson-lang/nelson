@@ -220,7 +220,7 @@ public:
     void
     AutoStop(bool a);
 
-	void
+    void
     clearStacks();
     /**
      * Reset the state of the tree walker.

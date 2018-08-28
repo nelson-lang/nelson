@@ -23,8 +23,8 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void DisplayInteger(Interface *io, const ArrayOf &A, bool fromDispBuiltin,
-                    bool &needToOverload);
+void
+DisplayInteger(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -20,9 +20,10 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void DisplayLogical(Interface *io, const ArrayOf &A, bool fromDispBuiltin,
-                    bool &needToOverload) {
-  A.printMe(io);
+void
+DisplayLogical(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
+{
+    A.printMe(io);
 }
 //=============================================================================
 } // namespace Nelson

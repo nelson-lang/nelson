@@ -23,6 +23,7 @@
 //=============================================================================
 namespace Nelson {
 NLSSPARSE_IMPEXP void
-SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf& N, ArrayOf& NNZ, bool &needToOverload);
+SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf& N, ArrayOf& NNZ,
+    bool& needToOverload);
 }
 //=============================================================================

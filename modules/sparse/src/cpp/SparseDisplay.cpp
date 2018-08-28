@@ -163,8 +163,8 @@ SparseDoubleDisplay(Evaluator* eval, ArrayOf a)
                         if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                             break;
                         }
-                        std::string strNumber
-                            = printNumber(it.value(), NelsonConfiguration::getInstance()->getOutputFormatDisplay());
+                        std::string strNumber = printNumber(it.value(),
+                            NelsonConfiguration::getInstance()->getOutputFormatDisplay());
                         std::string msg
                             = str(boost::format("\t(%lu,%lu)\t%s\n") % (long long)(it.row() + 1)
                                 % (long long)(it.col() + 1) % strNumber.c_str());

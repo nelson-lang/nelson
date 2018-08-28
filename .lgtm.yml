@@ -1,0 +1,13 @@
+extraction:
+  cpp:
+    prepare:
+      packages:
+        - qtbase5-dev
+        - qtdeclarative5-dev
+        - libqt5webkit5-dev
+
+path_classifiers:
+  library:
+    - modules/qml_engine/examples
+    - modules/slicot
+    - modules/f2c

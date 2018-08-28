@@ -866,13 +866,13 @@ public:
      * Summarize this array when it appears in a Cell array.
      */
     void
-    summarizeCellEntry(Interface *io) const;
+    summarizeCellEntry(Interface* io) const;
     /**
      * Print some reasonable representation of this array to the
      * the supplied stream.
      */
     void
-    printMe(Interface *io) const;
+    printMe(Interface* io) const;
     /**
      * Get our contents as a C-string (UTF-8). Only works for STRING types.
      * Throws an exception for non-string types.
@@ -1042,8 +1042,8 @@ public:
      * NLS_STRUCT_ARRAY.
      */
     static bool isDataClassReferenceType(Class);
-    
-	/**
+
+    /**
      * Returns the number of nonzero elements in the array.  For reference
      * types, this is a best-guess.
      */

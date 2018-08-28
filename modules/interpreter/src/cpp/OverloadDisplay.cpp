@@ -26,43 +26,45 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void OverloadDisplay(Evaluator *eval, ArrayOf a, bool fromBuiltin) {
-  bool bSuccess = false;
-  if (eval->canOverloadBasicTypes()) {
-    Context *context = eval->getContext();
-    if (context) {
-      FunctionDef *funcDef = nullptr;
-      std::string OverloadName = ClassName(a) + "_disp";
-      if (context->lookupFunction(OverloadName, funcDef)) {
-        bSuccess = true;
-        ArrayOfVector argsIn;
-        argsIn.push_back(a);
-        int nargout = 0;
-        ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
-      }
-    }
-  }
-  if (!bSuccess) {
-    bool needToOverload;
-    DisplayVariable(eval->getInterface(), a, fromBuiltin, needToOverload);
-    if (needToOverload) {
-      Context *context = eval->getContext();
-      if (context) {
-        FunctionDef *funcDef = nullptr;
-        std::string OverloadName = ClassName(a) + "_disp";
-        if (context->lookupFunction(OverloadName, funcDef)) {
-          bSuccess = true;
-          ArrayOfVector argsIn;
-          argsIn.push_back(a);
-          int nargout = 0;
-          ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
-        } else {
-          Error(utf8_to_wstring(_("function") + " " + OverloadName + " " +
-                                _("undefined.")));
+void
+OverloadDisplay(Evaluator* eval, ArrayOf a, bool fromBuiltin)
+{
+    bool bSuccess = false;
+    if (eval->canOverloadBasicTypes()) {
+        Context* context = eval->getContext();
+        if (context) {
+            FunctionDef* funcDef = nullptr;
+            std::string OverloadName = ClassName(a) + "_disp";
+            if (context->lookupFunction(OverloadName, funcDef)) {
+                bSuccess = true;
+                ArrayOfVector argsIn;
+                argsIn.push_back(a);
+                int nargout = 0;
+                ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
+            }
         }
-      }
     }
-  }
+    if (!bSuccess) {
+        bool needToOverload;
+        DisplayVariable(eval->getInterface(), a, fromBuiltin, needToOverload);
+        if (needToOverload) {
+            Context* context = eval->getContext();
+            if (context) {
+                FunctionDef* funcDef = nullptr;
+                std::string OverloadName = ClassName(a) + "_disp";
+                if (context->lookupFunction(OverloadName, funcDef)) {
+                    bSuccess = true;
+                    ArrayOfVector argsIn;
+                    argsIn.push_back(a);
+                    int nargout = 0;
+                    ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
+                } else {
+                    Error(utf8_to_wstring(
+                        _("function") + " " + OverloadName + " " + _("undefined.")));
+                }
+            }
+        }
+    }
 }
 //=============================================================================
 } // namespace Nelson

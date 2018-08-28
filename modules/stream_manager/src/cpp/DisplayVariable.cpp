@@ -28,50 +28,52 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void DisplayVariable(Interface *io, const ArrayOf &A, bool fromDispBuiltin,
-                     bool &needToOverload) {
-  needToOverload = false;
-  if (io == nullptr) {
-    return;
-  }
-  if (A.isSparse()) {
-      needToOverload = true;
-      return;
-  }
-  switch (A.getDataClass()) {
-  case NLS_CELL_ARRAY: {
-      DisplayCell(io, A, fromDispBuiltin, needToOverload);
-  } break;
-  case NLS_STRUCT_ARRAY: {
-      DisplayStruct(io, A, fromDispBuiltin, needToOverload);
-  } break;
-  case NLS_CHAR: {
-    DisplayCharacters(io, A, fromDispBuiltin, needToOverload);
-  } break;
-  case NLS_DCOMPLEX:
-  case NLS_DOUBLE: {
-      DisplayDouble(io, A, fromDispBuiltin, needToOverload);
-  } break;
-  case NLS_SCOMPLEX:
-  case NLS_SINGLE: {
-      DisplaySingle(io, A, fromDispBuiltin, needToOverload);
-  } break;
-  case NLS_LOGICAL: {
-      DisplayLogical(io, A, fromDispBuiltin, needToOverload);
-  } break;
-  case NLS_UINT8:
-  case NLS_INT8:
-  case NLS_UINT16:
-  case NLS_INT16:
-  case NLS_UINT32:
-  case NLS_INT32:
-  case NLS_UINT64:
-  case NLS_INT64:
-  {
-      DisplayInteger(io, A, fromDispBuiltin, needToOverload);
-  } break;
-  default: { needToOverload = true; } break;
-  }
+void
+DisplayVariable(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
+{
+    needToOverload = false;
+    if (io == nullptr) {
+        return;
+    }
+    if (A.isSparse()) {
+        needToOverload = true;
+        return;
+    }
+    switch (A.getDataClass()) {
+    case NLS_CELL_ARRAY: {
+        DisplayCell(io, A, fromDispBuiltin, needToOverload);
+    } break;
+    case NLS_STRUCT_ARRAY: {
+        DisplayStruct(io, A, fromDispBuiltin, needToOverload);
+    } break;
+    case NLS_CHAR: {
+        DisplayCharacters(io, A, fromDispBuiltin, needToOverload);
+    } break;
+    case NLS_DCOMPLEX:
+    case NLS_DOUBLE: {
+        DisplayDouble(io, A, fromDispBuiltin, needToOverload);
+    } break;
+    case NLS_SCOMPLEX:
+    case NLS_SINGLE: {
+        DisplaySingle(io, A, fromDispBuiltin, needToOverload);
+    } break;
+    case NLS_LOGICAL: {
+        DisplayLogical(io, A, fromDispBuiltin, needToOverload);
+    } break;
+    case NLS_UINT8:
+    case NLS_INT8:
+    case NLS_UINT16:
+    case NLS_INT16:
+    case NLS_UINT32:
+    case NLS_INT32:
+    case NLS_UINT64:
+    case NLS_INT64: {
+        DisplayInteger(io, A, fromDispBuiltin, needToOverload);
+    } break;
+    default: {
+        needToOverload = true;
+    } break;
+    }
 }
 //=============================================================================
 } // namespace Nelson

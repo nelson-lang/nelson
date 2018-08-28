@@ -1737,7 +1737,7 @@ Evaluator::block(ASTPtr t)
                 io->outputMessage(L"\n" + MSG_CTRL_C_DETECTED);
                 state = NLS_STATE_ABORT;
                 NelsonConfiguration::getInstance()->setInterruptPending(false);
-				return;
+                return;
             } else {
                 statement(s);
                 if (state == NLS_STATE_BREAK || state == NLS_STATE_CONTINUE

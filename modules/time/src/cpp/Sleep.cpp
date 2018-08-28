@@ -25,37 +25,41 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void SleepSeconds(uint64 tValue) {
-  boost::this_thread::sleep_for(boost::chrono::seconds(tValue));
+void
+SleepSeconds(uint64 tValue)
+{
+    boost::this_thread::sleep_for(boost::chrono::seconds(tValue));
 }
 //=============================================================================
-bool Sleep(Evaluator *eval, double tValue) {
-  if (tValue > 0) {
-    if (std::isinf(tValue)) {
-      while (!NelsonConfiguration::getInstance()->getInterruptPending()) {
-        boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(10)));
-        if (eval->haveEventsLoop()) {
-          ProcessEventsDynamicFunctionWithoutWait();
+bool
+Sleep(Evaluator* eval, double tValue)
+{
+    if (tValue > 0) {
+        if (std::isinf(tValue)) {
+            while (!NelsonConfiguration::getInstance()->getInterruptPending()) {
+                boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(10)));
+                if (eval->haveEventsLoop()) {
+                    ProcessEventsDynamicFunctionWithoutWait();
+                }
+            }
+        } else {
+            boost::chrono::nanoseconds begin_time
+                = boost::chrono::high_resolution_clock::now().time_since_epoch();
+            bool bContinue = true;
+            do {
+                boost::this_thread::sleep_for(boost::chrono::nanoseconds(uint64(10)));
+                boost::chrono::nanoseconds current_time
+                    = boost::chrono::high_resolution_clock::now().time_since_epoch();
+                boost::chrono::nanoseconds difftime = (current_time - begin_time);
+                bContinue = !(difftime.count() > int64(tValue * 1e9));
+                if (eval->haveEventsLoop()) {
+                    ProcessEventsDynamicFunctionWithoutWait();
+                }
+            } while (
+                !NelsonConfiguration::getInstance()->getInterruptPending() && (bContinue == true));
         }
-      }
-    } else {
-      boost::chrono::nanoseconds begin_time =
-          boost::chrono::high_resolution_clock::now().time_since_epoch();
-      bool bContinue = true;
-      do {
-        boost::this_thread::sleep_for(boost::chrono::nanoseconds(uint64(10)));
-        boost::chrono::nanoseconds current_time =
-            boost::chrono::high_resolution_clock::now().time_since_epoch();
-        boost::chrono::nanoseconds difftime = (current_time - begin_time);
-        bContinue = !(difftime.count() > int64(tValue * 1e9));
-        if (eval->haveEventsLoop()) {
-          ProcessEventsDynamicFunctionWithoutWait();
-        }
-      } while (!NelsonConfiguration::getInstance()->getInterruptPending() &&
-               (bContinue == true));
     }
-  }
-  return true;
+    return true;
 }
 //=============================================================================
 } // namespace Nelson

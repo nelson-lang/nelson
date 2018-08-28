@@ -31,36 +31,41 @@ typedef enum
     NLS_FORMAT_HEX
 } OutputFormatDisplay;
 //=============================================================================
-class NLSNELSON_MANAGER_IMPEXP NelsonConfiguration {
-  //=============================================================================
+class NLSNELSON_MANAGER_IMPEXP NelsonConfiguration
+{
+    //=============================================================================
 public:
-  //=============================================================================
-  static NelsonConfiguration *getInstance();
-  //=============================================================================
-  bool getInterruptPending();
-  bool setInterruptPending(bool bInterruptPending);
-  //=============================================================================
-  OutputFormatDisplay
-  setOutputFormatDisplay(OutputFormatDisplay desiredOutputFormatDisplay);
-  OutputFormatDisplay
-  getOutputFormatDisplay();
-  //=============================================================================
-  void destroy();
-  //=============================================================================
+    //=============================================================================
+    static NelsonConfiguration*
+    getInstance();
+    //=============================================================================
+    bool
+    getInterruptPending();
+    bool
+    setInterruptPending(bool bInterruptPending);
+    //=============================================================================
+    OutputFormatDisplay
+    setOutputFormatDisplay(OutputFormatDisplay desiredOutputFormatDisplay);
+    OutputFormatDisplay
+    getOutputFormatDisplay();
+    //=============================================================================
+    void
+    destroy();
+    //=============================================================================
 private:
-  NelsonConfiguration();
-  //=============================================================================
-  static NelsonConfiguration *m_pInstance;
-  //=============================================================================
-  /**
-   * Pending control-C
-   */
-  bool InterruptPending;
-  //=============================================================================
-  /**
-  * Current output format
-  */
-  OutputFormatDisplay currentOutputFormatDisplay;
+    NelsonConfiguration();
+    //=============================================================================
+    static NelsonConfiguration* m_pInstance;
+    //=============================================================================
+    /**
+     * Pending control-C
+     */
+    bool InterruptPending;
+    //=============================================================================
+    /**
+     * Current output format
+     */
+    OutputFormatDisplay currentOutputFormatDisplay;
 };
 //=============================================================================
 } // namespace Nelson

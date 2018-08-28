@@ -48,7 +48,7 @@ Nelson::SingleGateway::singleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         } else {
             retval.push_back(res);
         }
-	}
+    }
     return retval;
 }
 //=============================================================================

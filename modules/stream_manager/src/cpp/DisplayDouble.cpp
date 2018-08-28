@@ -169,14 +169,15 @@ printNumber(double realpart, double imagpart, OutputFormatDisplay currentFormat,
     return strNumber;
 }
 //=============================================================================
-void DisplayDouble(Interface *io, const ArrayOf &A, bool fromDispBuiltin,
-                   bool &needToOverload) {
+void
+DisplayDouble(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
+{
     if (A.isNdArrayDoubleType()) {
         A.printMe(io);
         return;
-	}
+    }
     Dimensions dimsA = A.getDimensions();
-	indexType termWidth = io->getTerminalWidth();
+    indexType termWidth = io->getTerminalWidth();
     if (A.isEmpty()) {
         if (A.isEmpty(true)) {
             io->outputMessage(L"     []\n");
@@ -205,11 +206,11 @@ void DisplayDouble(Interface *io, const ArrayOf &A, bool fromDispBuiltin,
             std::wstring strNumber;
             if (A.isComplex()) {
                 doublecomplex* cplx = reinterpret_cast<doublecomplex*>(pValueA);
-                strNumber = printNumber(
-                    cplx->real(), cplx->imag(), NelsonConfiguration::getInstance()->getOutputFormatDisplay(), false, true);
+                strNumber = printNumber(cplx->real(), cplx->imag(),
+                    NelsonConfiguration::getInstance()->getOutputFormatDisplay(), false, true);
             } else {
-                strNumber = printNumber(
-                    pValueA[0], NelsonConfiguration::getInstance()->getOutputFormatDisplay(), asInteger, true);
+                strNumber = printNumber(pValueA[0],
+                    NelsonConfiguration::getInstance()->getOutputFormatDisplay(), asInteger, true);
             }
             io->outputMessage(strNumber);
             io->outputMessage(L"\n");
@@ -323,10 +324,12 @@ void DisplayDouble(Interface *io, const ArrayOf &A, bool fromDispBuiltin,
                         std::wstring numberAsStr;
                         if (bIsComplex) {
                             numberAsStr = printNumber(pValueA[2 * idx], pValueA[2 * idx + 1],
-                                NelsonConfiguration::getInstance()->getOutputFormatDisplay(), false, false);
+                                NelsonConfiguration::getInstance()->getOutputFormatDisplay(), false,
+                                false);
                         } else {
                             numberAsStr = printNumber(pValueA[idx],
-                                NelsonConfiguration::getInstance()->getOutputFormatDisplay(), asInteger, false);
+                                NelsonConfiguration::getInstance()->getOutputFormatDisplay(),
+                                asInteger, false);
                             size_t len = numberAsStr.size();
                             if (len < format_width) {
                                 size_t nb = format_width - len;

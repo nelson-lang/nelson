@@ -21,14 +21,17 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NelsonConfiguration *NelsonConfiguration::m_pInstance = nullptr;
+NelsonConfiguration* NelsonConfiguration::m_pInstance = nullptr;
 //=============================================================================
-NelsonConfiguration::NelsonConfiguration() { 
-	InterruptPending = false;
+NelsonConfiguration::NelsonConfiguration()
+{
+    InterruptPending = false;
     currentOutputFormatDisplay = NLS_FORMAT_SHORT;
 }
 //=============================================================================
-NelsonConfiguration *NelsonConfiguration::getInstance() {
+NelsonConfiguration*
+NelsonConfiguration::getInstance()
+{
     if (m_pInstance == nullptr) {
         try {
             m_pInstance = new NelsonConfiguration();
@@ -48,18 +51,23 @@ NelsonConfiguration::destroy()
     }
 }
 //=============================================================================
-bool NelsonConfiguration::getInterruptPending() {
+bool
+NelsonConfiguration::getInterruptPending()
+{
     return InterruptPending;
 }
 //=============================================================================
-bool NelsonConfiguration::setInterruptPending(bool bInterruptPending) {
-  bool bPrevious = InterruptPending;
-  InterruptPending = bInterruptPending;
-  return bPrevious;
+bool
+NelsonConfiguration::setInterruptPending(bool bInterruptPending)
+{
+    bool bPrevious = InterruptPending;
+    InterruptPending = bInterruptPending;
+    return bPrevious;
 }
 //=============================================================================
 OutputFormatDisplay
-NelsonConfiguration::setOutputFormatDisplay(OutputFormatDisplay desiredOutputFormatDisplay){
+NelsonConfiguration::setOutputFormatDisplay(OutputFormatDisplay desiredOutputFormatDisplay)
+{
     OutputFormatDisplay previousOutputFormatDisplay = currentOutputFormatDisplay;
     currentOutputFormatDisplay = desiredOutputFormatDisplay;
     return previousOutputFormatDisplay;

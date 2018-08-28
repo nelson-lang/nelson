@@ -210,11 +210,11 @@ SingleDisplay(Evaluator* eval, ArrayOf A)
             std::wstring strNumber;
             if (A.isComplex()) {
                 singlecomplex* cplx = reinterpret_cast<singlecomplex*>(pValueA);
-                strNumber = printNumber(
-                    cplx->real(), cplx->imag(), NelsonConfiguration::getInstance()->getOutputFormatDisplay(), false, true);
+                strNumber = printNumber(cplx->real(), cplx->imag(),
+                    NelsonConfiguration::getInstance()->getOutputFormatDisplay(), false, true);
             } else {
-                strNumber = printNumber(
-                    pValueA[0], NelsonConfiguration::getInstance()->getOutputFormatDisplay(), asInteger, true);
+                strNumber = printNumber(pValueA[0],
+                    NelsonConfiguration::getInstance()->getOutputFormatDisplay(), asInteger, true);
             }
             io->outputMessage(strNumber);
             io->outputMessage(L"\n");
@@ -328,10 +328,12 @@ SingleDisplay(Evaluator* eval, ArrayOf A)
                         std::wstring numberAsStr;
                         if (bIsComplex) {
                             numberAsStr = printNumber(pValueA[2 * idx], pValueA[2 * idx + 1],
-                                NelsonConfiguration::getInstance()->getOutputFormatDisplay(), false, false);
+                                NelsonConfiguration::getInstance()->getOutputFormatDisplay(), false,
+                                false);
                         } else {
                             numberAsStr = printNumber(pValueA[idx],
-                                NelsonConfiguration::getInstance()->getOutputFormatDisplay(), asInteger, false);
+                                NelsonConfiguration::getInstance()->getOutputFormatDisplay(),
+                                asInteger, false);
                             size_t len = numberAsStr.size();
                             if (len < format_width) {
                                 size_t nb = format_width - len;

@@ -140,7 +140,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
                 if (needToOverload) {
                     Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
-				}
+                }
                 packMPI(I, buffer, bufsize, packpos, comm);
                 packMPI(J, buffer, bufsize, packpos, comm);
                 packMPI(V, buffer, bufsize, packpos, comm);

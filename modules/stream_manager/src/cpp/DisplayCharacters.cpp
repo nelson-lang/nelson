@@ -20,26 +20,27 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void DisplayCharacters(Interface *io, const ArrayOf &A, bool fromDispBuiltin,
-                       bool &needToOverload) {
-  if (A.isSingleString()) {
-    std::wstring msg = A.getContentAsWideString();
-    if (msg.size() == 0) {
-      if (fromDispBuiltin) {
-        io->outputMessage("");
-      } else {
-        io->outputMessage("\'\'");
-      }
+void
+DisplayCharacters(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
+{
+    if (A.isSingleString()) {
+        std::wstring msg = A.getContentAsWideString();
+        if (msg.size() == 0) {
+            if (fromDispBuiltin) {
+                io->outputMessage("");
+            } else {
+                io->outputMessage("\'\'");
+            }
+        } else {
+            if (fromDispBuiltin) {
+                io->outputMessage(msg + L"\n");
+            } else {
+                io->outputMessage(L"\'" + msg + L"\'\n");
+            }
+        }
     } else {
-      if (fromDispBuiltin) {
-        io->outputMessage(msg + L"\n");
-      } else {
-        io->outputMessage(L"\'" + msg + L"\'\n");
-      }
+        A.printMe(io);
     }
-  } else {
-    A.printMe(io);
-  }
 }
 //=============================================================================
 } // namespace Nelson
