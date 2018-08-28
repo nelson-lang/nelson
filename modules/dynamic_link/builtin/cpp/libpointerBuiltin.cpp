@@ -38,7 +38,7 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(Evaluator* eval, int nLhs, const A
             libPointerObject = new LibPointerObject();
         } catch (std::bad_alloc) {
             Error(ERROR_MEMORY_ALLOCATION);
-        } catch (Exception) {
+        } catch (const Exception &) {
             throw;
         }
     } break;
@@ -48,7 +48,7 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(Evaluator* eval, int nLhs, const A
             libPointerObject = new LibPointerObject(DataType);
         } catch (std::bad_alloc) {
             Error(ERROR_MEMORY_ALLOCATION);
-        } catch (Exception) {
+        } catch (const Exception &) {
             throw;
         }
     } break;
@@ -59,7 +59,7 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(Evaluator* eval, int nLhs, const A
             libPointerObject = new LibPointerObject(DataType, Value);
         } catch (std::bad_alloc) {
             Error(ERROR_MEMORY_ALLOCATION);
-        } catch (Exception) {
+        } catch (const Exception &) {
             throw;
         }
     } break;

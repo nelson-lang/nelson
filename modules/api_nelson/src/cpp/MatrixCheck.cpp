@@ -82,7 +82,7 @@ FindCommonType(const ArrayOf& A, const ArrayOf& B, bool isDivOrMatrix)
 }
 //=============================================================================
 bool
-SameSizeCheck(Dimensions Adim, Dimensions Bdim)
+SameSizeCheck(Dimensions &Adim, Dimensions &Bdim)
 {
     Adim.simplify();
     Bdim.simplify();

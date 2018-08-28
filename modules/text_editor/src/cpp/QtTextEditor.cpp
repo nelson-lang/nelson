@@ -840,7 +840,7 @@ QtTextEditor::helpOnSelection()
         std::wstring cmd = L"doc('" + text + L"');";
         try {
             nlsEvaluator->evaluateString(Nelson::wstring_to_utf8(cmd), true);
-        } catch (Exception) {
+        } catch (const Exception &) {
         }
     }
 }

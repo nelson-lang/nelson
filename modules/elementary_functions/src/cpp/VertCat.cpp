@@ -136,7 +136,7 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
                 B.promoteType(classCommon);
             }
         }
-    } catch (Exception) {
+    } catch (const Exception &) {
         if (mustRaiseError) {
             throw;
         } else {

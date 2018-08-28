@@ -526,7 +526,7 @@ QtTerminal::helpOnSelection()
             Nelson::Evaluator* eval = (Nelson::Evaluator*)veval;
             try {
                 eval->evaluateString(cmd, true);
-            } catch (Exception) {
+            } catch (const Exception &) {
             }
         }
     }

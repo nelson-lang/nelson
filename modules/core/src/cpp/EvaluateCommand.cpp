@@ -122,7 +122,7 @@ EvaluateCommand(
                 eval->getContext()->bypassScope(scopeValue);
                 eval->evaluateString(command, true);
                 eval->getContext()->restoreBypassedScopes();
-            } catch (Exception) {
+            } catch (const Exception &) {
                 eval->getContext()->restoreBypassedScopes();
                 eval->evaluateString(catchCommand, false);
             }
@@ -137,7 +137,7 @@ EvaluateCommand(
                 eval->evaluateString(preparedCommand, true);
                 retval = retrieveVariablesReturned(eval, nLhs);
                 eval->getContext()->restoreBypassedScopes();
-            } catch (Exception) {
+            } catch (const Exception &) {
                 eval->getContext()->restoreBypassedScopes();
                 eval->evaluateString(preparedCatchCommand, false);
                 retval = retrieveVariablesReturned(eval, nLhs);
@@ -191,14 +191,14 @@ EvaluateConsoleCommand(Evaluator* eval, int nLhs, std::wstring command, std::wst
         buffer = tempIO->getOutputBuffer();
         eval->setInterface(io);
         delete tempIO;
-    } catch (Exception) {
+    } catch (const Exception &) {
         if (catchCommand != L"") {
             try {
                 retval = EvaluateCommand(eval, nbOutput, catchCommand, L"");
                 buffer = tempIO->getOutputBuffer();
                 eval->setInterface(io);
                 delete tempIO;
-            } catch (Exception) {
+            } catch (const Exception &) {
                 eval->setInterface(io);
                 delete tempIO;
                 throw;

@@ -268,7 +268,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
                 changeDir(initialDir.generic_wstring().c_str(), false);
             }
             return true;
-        } catch (Exception) {
+        } catch (const Exception &) {
             deleteAstVector(getAstUsed());
             resetAstBackupPosition();
             // removes stack

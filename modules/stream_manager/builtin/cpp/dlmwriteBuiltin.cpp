@@ -292,7 +292,7 @@ Nelson::StreamGateway::dlmwriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                         Error(_W("cell2mat returns more than one output argument."));
                     }
                     param2 = resVect[0];
-                } catch (Exception) {
+                } catch (const Exception &) {
                     throw;
                 }
             }

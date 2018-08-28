@@ -3507,7 +3507,7 @@ Evaluator::rhsExpression(ASTPtr t)
                 logical isValidMethod = false;
                 try {
                     isValidMethod = r.isHandleMethod(utf8_to_wstring(fieldname));
-                } catch (Exception) {
+                } catch (const Exception &) {
                     if (r.isHandle()) {
                         Error(_W("Please define: ") + r.getHandleCategory() + L"_ismethod");
                     }
