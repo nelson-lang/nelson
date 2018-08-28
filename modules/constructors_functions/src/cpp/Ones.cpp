@@ -29,7 +29,7 @@ Ones(Class cl)
 }
 //=============================================================================
 ArrayOf
-Ones(Dimensions dims, Class cl)
+Ones(Dimensions &dims, Class cl)
 {
     dims.simplify();
     if (dims.isEmpty(false)) {

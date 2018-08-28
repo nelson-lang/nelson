@@ -399,7 +399,9 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
         return ArrayOf::emptyConstructor();
     }
     CheckNumeric(A, B, "^");
-    if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar())) {
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsB = B.getDimensions();
+    if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
         Error(L"Size mismatch on arguments to power (^) operator.");
     }
     // If A is not at least a float type, promote it to double

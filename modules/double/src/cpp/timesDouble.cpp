@@ -152,7 +152,9 @@ double_times_double(ArrayOf a, ArrayOf b)
     if (a.isSparse() || b.isSparse()) {
         Error(ERROR_WRONG_ARGUMENTS_SIZE_FULL_MATRIX_EXPECTED);
     }
-    if (!(SameSizeCheck(a.getDimensions(), b.getDimensions()) || a.isScalar() || b.isScalar())) {
+    Dimensions dimsA = a.getDimensions();
+    Dimensions dimsB = b.getDimensions();
+    if (!(SameSizeCheck(dimsA, dimsB) || a.isScalar() || b.isScalar())) {
         Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
     }
     if (a.isComplex() || b.isComplex()) {

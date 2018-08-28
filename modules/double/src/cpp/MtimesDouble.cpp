@@ -213,14 +213,13 @@ double_mtimes_double(ArrayOf a, ArrayOf b)
     }
     bool isVector = ((a.isVector() && b.isScalar()) || (b.isVector() && a.isScalar())
         || (a.isRowVector() && b.isColumnVector()) || (b.isRowVector() && a.isColumnVector()));
-    if (!(SameSizeCheck(a.getDimensions(), b.getDimensions()) || a.isScalar() || b.isScalar())
-        && !isVector && a.getDimensions().getColumns() != b.getDimensions().getRows()) {
+    if (!(SameSizeCheck(dimsA, dimsB) || a.isScalar() || b.isScalar())
+        && !isVector && dimsA.getColumns() != dimsB.getRows()) {
         Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
     }
     if (a.isEmpty()) {
-        Dimensions dimA = a.getDimensions();
-        size_t mA = dimA.getRows();
-        size_t nA = dimA.getColumns();
+        size_t mA = dimsA.getRows();
+        size_t nA = dimsA.getColumns();
         if (mA == nA) {
             if (b.isScalar()) {
                 // [] + X returns []

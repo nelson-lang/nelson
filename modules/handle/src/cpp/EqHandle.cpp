@@ -32,7 +32,9 @@ EqHandle(ArrayOf A, ArrayOf B)
     if (!A.isHandle() && !B.isHandle()) {
         Error(_W("handle expected."));
     }
-    if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar())) {
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsB = B.getDimensions();
+    if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
         Error(std::string(_("Size mismatch on arguments to arithmetic operator ")) + "eq");
     }
     int Astride = 0, Bstride = 0;
@@ -42,15 +44,15 @@ EqHandle(ArrayOf A, ArrayOf B)
     if (A.isScalar()) {
         Astride = 0;
         Bstride = 1;
-        Cdim = B.getDimensions();
+        Cdim = dimsB;
     } else if (B.isScalar()) {
         Astride = 1;
         Bstride = 0;
-        Cdim = A.getDimensions();
+        Cdim = dimsA;
     } else {
         Astride = 1;
         Bstride = 1;
-        Cdim = A.getDimensions();
+        Cdim = dimsA;
     }
     Clen = Cdim.getElementCount();
     Cp = new_with_exception<logical>(Clen);

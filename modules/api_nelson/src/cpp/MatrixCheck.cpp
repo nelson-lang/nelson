@@ -95,7 +95,9 @@ VectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
     stringVector dummySV;
     // Check for numeric types
     CheckNumeric(A, B, opname);
-    if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar())) {
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsB = B.getDimensions();
+    if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
         Error(std::string(_("Size mismatch on arguments to arithmetic operator ")) + opname);
     }
 }
@@ -112,7 +114,9 @@ BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
             }
         }
     } else {
-        if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar()
+        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsB = B.getDimensions();
+        if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar()
                 || B.isScalar())) {
             Error(std::string(_("Size mismatch on arguments to ")) + opname);
         }
