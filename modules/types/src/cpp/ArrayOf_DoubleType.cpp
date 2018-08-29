@@ -26,7 +26,7 @@ namespace Nelson {
  * Returns TRUE if it is a double type (not ndarray, not sparse)
  */
 //=============================================================================
-const bool
+bool
 ArrayOf::isDoubleType(bool realOnly) const
 {
     bool res = false;
@@ -39,7 +39,7 @@ ArrayOf::isDoubleType(bool realOnly) const
     return res;
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isNdArrayDoubleType(bool realOnly) const
 {
     bool res = false;

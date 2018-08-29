@@ -256,7 +256,7 @@ PathFuncManager::addPath(const std::wstring path, bool begin)
     PathFunc* pf;
     try {
         pf = new PathFunc(path);
-    } catch (std::bad_alloc) {
+    } catch (const std::bad_alloc &) {
         pf = nullptr;
     }
     if (pf) {
@@ -350,7 +350,7 @@ PathFuncManager::resetUserPath()
     try {
         boost::filesystem::path p = userPathFile;
         boost::filesystem::remove(p);
-    } catch (boost::filesystem::filesystem_error const&) {
+    } catch (const boost::filesystem::filesystem_error &) {
     }
     userpathCompute();
 }
@@ -581,7 +581,7 @@ PathFuncManager::userpathCompute()
         std::wstring userPathFile;
         try {
             prefDir = getPreferencesPath();
-        } catch (Exception&) {
+        } catch (const Exception&) {
             prefDir = L"";
         }
         try {
@@ -669,7 +669,7 @@ PathFuncManager::loadUserPathFromFile()
             try {
                 boost::property_tree::read_json(is, pt);
                 preferedUserPath = utf8_to_wstring(pt.get<std::string>("userpath"));
-            } catch (boost::property_tree::json_parser::json_parser_error& je) {
+            } catch (const boost::property_tree::json_parser::json_parser_error& je) {
                 je.message();
             }
         }

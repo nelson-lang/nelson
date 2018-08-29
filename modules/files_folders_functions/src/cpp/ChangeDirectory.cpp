@@ -30,7 +30,7 @@ Cd(std::wstring newpath)
     path previous_pwd = current_path();
     try {
         current_path(newpath);
-    } catch (boost::filesystem::filesystem_error& e) {
+    } catch (const boost::filesystem::filesystem_error& e) {
         e.what();
         Error(_W("Cannot change directory: '") + newpath + L"'.");
     }
@@ -43,7 +43,7 @@ Cd(std::string newpath)
     path previous_pwd = current_path();
     try {
         current_path(newpath);
-    } catch (boost::filesystem::filesystem_error& e) {
+    } catch (const boost::filesystem::filesystem_error& e) {
         e.what();
         Error(_("Cannot change directory '") + newpath + "'.");
     }
@@ -55,7 +55,7 @@ ChangeDirectory(std::wstring newpath)
 {
     try {
         current_path(newpath);
-    } catch (boost::filesystem::filesystem_error& e) {
+    } catch (const boost::filesystem::filesystem_error& e) {
         e.what();
         return false;
     }

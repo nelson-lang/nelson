@@ -95,12 +95,11 @@ ArrayOf::deleteVectorSubset(ArrayOf& arg)
             }
         }
         dp = dp->putData(dp->dataClass, newDim, qp, dp->sparse, dp->fieldNames);
-    } catch (Exception& e) {
+    } catch (const Exception&) {
         deleteArrayOf(qp, dp->dataClass);
         qp = nullptr;
         delete[] deletionMap;
         deletionMap = nullptr;
-        e.what();
         throw;
     }
 }
@@ -294,14 +293,13 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
             newDims[idxm] = m;
             dp = dp->putData(dp->dataClass, newDims, NULL, dp->sparse, dp->fieldNames);
         }
-    } catch (Exception& e) {
+    } catch (const Exception&) {
         delete[] deletionMap;
         deletionMap = nullptr;
         deleteArrayOf(cp, dp->dataClass);
         cp = nullptr;
         delete[] indxCovered;
         indxCovered = nullptr;
-        e.what();
         throw;
     }
 }

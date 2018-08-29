@@ -284,10 +284,9 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
         context->popScope();
         eval->popDebug();
         return outputs;
-    } catch (Exception& e) {
+    } catch (const Exception&) {
         context->popScope();
         eval->popDebug();
-        e.what();
         throw;
     }
 }

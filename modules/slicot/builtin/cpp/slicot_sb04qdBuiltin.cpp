@@ -131,7 +131,7 @@ Nelson::SlicotGateway::slicot_sb04qdBuiltin(Evaluator* eval, int nLhs, const Arr
     try {
         sb04qd_(N_ptr, M_ptr, A_output_ptr, LDA_ptr, B_output_ptr, LDB_ptr, C_output_ptr, LDC_ptr,
             Z_output_ptr, LDZ_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr, INFO_output_ptr);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         e.what();
         Error("sb04qd function fails.");
     }

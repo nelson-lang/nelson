@@ -80,7 +80,7 @@ Context::pushScope(std::string name)
     }
     try {
         sc = new Scope(name);
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         e.what();
         Error(ERROR_STACK_DEPTH_EXCEEDED);
     }

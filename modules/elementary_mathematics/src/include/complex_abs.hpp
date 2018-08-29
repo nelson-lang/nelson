@@ -16,6 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#pragma once
+//=============================================================================
 template <class T>
 T
 complex_abs(T real, T imag)

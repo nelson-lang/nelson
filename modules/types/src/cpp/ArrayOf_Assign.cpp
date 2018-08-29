@@ -652,7 +652,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         }
         delete[] indx;
         dp->dimensions.simplify();
-    } catch (Exception& e) {
+    } catch (const Exception& e) {
         delete[] indx;
         throw e;
     }

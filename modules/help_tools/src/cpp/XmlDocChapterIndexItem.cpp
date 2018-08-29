@@ -46,7 +46,7 @@ XmlDocChapterIndexItem::append(
     XmlDocChapterRefItem* item = nullptr;
     try {
         item = new XmlDocChapterRefItem(linkname, linkurl, description);
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         e;
         item = nullptr;
     }

@@ -68,7 +68,7 @@ ListFilesWithWildcard(std::wstring mask, bool bSubdirectories)
                                 res.push_back(FileInfo(current.wstring(), bSubdirectories));
                             }
                         }
-                    } catch (boost::filesystem::filesystem_error& e) {
+                    } catch (const boost::filesystem::filesystem_error& e) {
                         if (!bSubdirectories) {
                             boost::system::error_code error_code = e.code();
                             Error(error_code.message());
@@ -99,7 +99,7 @@ ListFilesWithWildcard(std::wstring mask, bool bSubdirectories)
                                 res.push_back(FileInfo(current.wstring(), bSubdirectories));
                             }
                         }
-                    } catch (boost::filesystem::filesystem_error& e) {
+                    } catch (const boost::filesystem::filesystem_error& e) {
                         if (!bSubdirectories) {
                             boost::system::error_code error_code = e.code();
                             Error(error_code.message());
@@ -162,7 +162,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                             boost::filesystem::path current = dir_iter->path();
                             res.push_back(FileInfo(current.wstring(), bSubdirectories));
                         }
-                    } catch (boost::filesystem::filesystem_error& e) {
+                    } catch (const boost::filesystem::filesystem_error& e) {
                         if (!bSubdirectories) {
                             boost::system::error_code error_code = e.code();
                             Error(error_code.message());
@@ -183,7 +183,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                             boost::filesystem::path current = dir_iter->path();
                             res.push_back(FileInfo(current.wstring(), bSubdirectories));
                         }
-                    } catch (boost::filesystem::filesystem_error& e) {
+                    } catch (const boost::filesystem::filesystem_error& e) {
                         if (!bSubdirectories) {
                             boost::system::error_code error_code = e.code();
                             Error(error_code.message());

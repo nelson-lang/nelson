@@ -41,7 +41,7 @@ XmlDocSyntax::append(std::wstring value)
     XmlDocSyntaxItem* item = nullptr;
     try {
         item = new XmlDocSyntaxItem(value);
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         e;
         item = nullptr;
     }

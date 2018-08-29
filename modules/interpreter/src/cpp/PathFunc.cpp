@@ -96,7 +96,7 @@ PathFunc::comparePathname(std::wstring path1, std::wstring path2)
     bool res = false;
     try {
         boost::filesystem::equivalent(p1, p2);
-    } catch (boost::filesystem::filesystem_error const&) {
+    } catch (const boost::filesystem::filesystem_error &) {
         res = (p1 == p2);
     }
     return res;
@@ -186,7 +186,7 @@ PathFunc::rehash()
                         FileFunc* ff;
                         try {
                             ff = new FileFunc(_path, name);
-                        } catch (std::bad_alloc) {
+                        } catch (const std::bad_alloc &) {
                             ff = nullptr;
                         }
                         if (ff) {

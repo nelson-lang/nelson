@@ -128,7 +128,7 @@ Nelson::SlicotGateway::slicot_tb01idBuiltin(Evaluator* eval, int nLhs, const Arr
     try {
         tb01id_(JOB_ptr, N_ptr, M_ptr, P_ptr, MAXRED_output_ptr, A_output_ptr, LDA_ptr,
             B_output_ptr, LDB_ptr, C_output_ptr, LDC_ptr, SCALE_output_ptr, INFO_output_ptr);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         e.what();
         Error("tb01id function fails.");
     }

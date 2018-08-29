@@ -920,8 +920,7 @@ lexCheckForMoreInput(int ccount)
                    && ((bracketStack[bracketStackSize - 1] == '[')
                           || (bracketStack[bracketStackSize - 1] == '{')))
             || inBlock);
-    } catch (Exception& e) {
-        e.what();
+    } catch (const Exception&) {
         continuationCount = 0;
         return false;
     }

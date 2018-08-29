@@ -32,7 +32,7 @@ Eigen_EyeSparseMatrixConstructor(indexType rows, indexType cols)
         Eigen::SparseMatrix<T, 0, signedIndexType>* spMat;
         try {
             spMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(rows, cols);
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             spMat = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);
@@ -71,7 +71,7 @@ Eigen_LogicalSparseMatrixConstructor(indexType rows, indexType cols, bool bMotif
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMat;
     try {
         spMat = new Eigen::SparseMatrix<logical, 0, signedIndexType>(rows, cols);
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         e.what();
         spMat = nullptr;
         Error(ERROR_MEMORY_ALLOCATION);
@@ -128,7 +128,7 @@ Eigen_MakeDenseArrayOf(indexType rows, indexType cols, const void* cp)
     if (rows * cols) {
         try {
             pMat = new T[rows * cols];
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             spMat = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);
@@ -158,7 +158,7 @@ Eigen_MakeDenseArrayOf(Class dclass, indexType rows, indexType cols, const void*
             try {
                 pMat = new double[rows * cols * 2];
                 pzMat = reinterpret_cast<doublecomplex*>((double*)pMat);
-            } catch (std::bad_alloc& e) {
+            } catch (const std::bad_alloc& e) {
                 e.what();
                 spMat = nullptr;
                 Error(ERROR_MEMORY_ALLOCATION);
@@ -183,7 +183,7 @@ Eigen_MakeSparseArrayOf(indexType rows, indexType cols, const void* cp)
     Eigen::SparseMatrix<T, 0, signedIndexType>* spMat;
     try {
         spMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(matA.sparseView());
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         e.what();
         spMat = nullptr;
         Error(ERROR_MEMORY_ALLOCATION);
@@ -210,7 +210,7 @@ Eigen_MakeSparseArrayOf(Class dclass, indexType rows, indexType cols, const void
         Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMat;
         try {
             spMat = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(matA.sparseView());
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             spMat = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);
@@ -236,7 +236,7 @@ Eigen_CopySparseMatrix(indexType rows, indexType cols, const void* cp)
             = (Eigen::SparseMatrix<T, 0, signedIndexType>*)cp;
         try {
             copiedpMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(*spMat);
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             copiedpMat = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);
@@ -344,7 +344,7 @@ Eigen_SparseMatrixConstructor(Class dclass, indexType rows, indexType cols, Arra
         Eigen::SparseMatrix<double, 0, signedIndexType>* spMat = nullptr;
         try {
             spMat = new Eigen::SparseMatrix<double, 0, signedIndexType>(rows, cols);
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             spMat = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);
@@ -403,7 +403,7 @@ Eigen_GetSparseVectorSubsetsInternal(indexType rows, indexType cols, const void*
     Eigen::SparseMatrix<T, 0, signedIndexType>* spMat = nullptr;
     try {
         spMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(irows, icols);
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         e.what();
         spMat = nullptr;
         Error(ERROR_MEMORY_ALLOCATION);
@@ -456,7 +456,7 @@ Eigen_GetSparseVectorSubsets(Class dclass, indexType rows, indexType cols, const
         Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMat = nullptr;
         try {
             spMat = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(irows, icols);
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             spMat = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);
@@ -495,7 +495,7 @@ Eigen_CopyResizeSparseMatrix(
         } else {
             copiedpMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(*spMat);
         }
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         e.what();
         copiedpMat = nullptr;
         Error(ERROR_MEMORY_ALLOCATION);
@@ -627,7 +627,7 @@ Eigen_CreateSparseScalarElement(double v)
     Eigen::SparseMatrix<double, 0, signedIndexType>* pMat = nullptr;
     try {
         pMat = new Eigen::SparseMatrix<double, 0, signedIndexType>(1, 1);
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         e.what();
         pMat = nullptr;
         Error(ERROR_MEMORY_ALLOCATION);
@@ -646,7 +646,7 @@ Eigen_CreateSparseScalarElement(doublecomplex v)
     Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* pMat = nullptr;
     try {
         pMat = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(1, 1);
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         e.what();
         pMat = nullptr;
         Error(ERROR_MEMORY_ALLOCATION);
@@ -665,7 +665,7 @@ Eigen_CreateSparseScalarElement(logical v)
     Eigen::SparseMatrix<logical, 0, signedIndexType>* pMat = nullptr;
     try {
         pMat = new Eigen::SparseMatrix<logical, 0, signedIndexType>(1, 1);
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         e.what();
         pMat = nullptr;
         Error(ERROR_MEMORY_ALLOCATION);
@@ -827,7 +827,7 @@ Eigen_makeSparseFromIJVInternal(indexType rows, indexType cols, indexType nnz, i
     Eigen::SparseMatrix<T, 0, signedIndexType>* spMat = nullptr;
     try {
         spMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(rows, cols);
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         e.what();
         spMat = nullptr;
         Error(ERROR_MEMORY_ALLOCATION);
@@ -862,7 +862,7 @@ Eigen_makeSparseFromIJVLogical(indexType rows, indexType cols, indexType nnz, in
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMat = nullptr;
     try {
         spMat = new Eigen::SparseMatrix<logical, 0, signedIndexType>(rows, cols);
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         e.what();
         spMat = nullptr;
         Error(ERROR_MEMORY_ALLOCATION);
@@ -897,7 +897,7 @@ Eigen_makeSparseFromIJVComplex(indexType rows, indexType cols, indexType nnz, in
     Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMat = nullptr;
     try {
         spMat = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(rows, cols);
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         e.what();
         spMat = nullptr;
         Error(ERROR_MEMORY_ALLOCATION);
@@ -972,7 +972,7 @@ Eigen_TypeConvertSparse(Class dclass, indexType rows, indexType cols, const void
             try {
                 spMatdest
                     = new Eigen::SparseMatrix<double, 0, signedIndexType>(spMat->cast<double>());
-            } catch (std::bad_alloc& e) {
+            } catch (const std::bad_alloc& e) {
                 e.what();
                 Error(ERROR_MEMORY_ALLOCATION);
             }
@@ -985,7 +985,7 @@ Eigen_TypeConvertSparse(Class dclass, indexType rows, indexType cols, const void
             try {
                 spMatdest = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(
                     spMat->cast<doublecomplex>());
-            } catch (std::bad_alloc& e) {
+            } catch (const std::bad_alloc& e) {
                 e.what();
                 Error(ERROR_MEMORY_ALLOCATION);
             }
@@ -1006,7 +1006,7 @@ Eigen_TypeConvertSparse(Class dclass, indexType rows, indexType cols, const void
             Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatdest = nullptr;
             try {
                 spMatdest = new Eigen::SparseMatrix<logical, 0, signedIndexType>(rows, cols);
-            } catch (std::bad_alloc& e) {
+            } catch (const std::bad_alloc& e) {
                 e.what();
                 Error(ERROR_MEMORY_ALLOCATION);
             }
@@ -1028,7 +1028,7 @@ Eigen_TypeConvertSparse(Class dclass, indexType rows, indexType cols, const void
             Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMatdest = nullptr;
             try {
                 spMatdest = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(rows, cols);
-            } catch (std::bad_alloc& e) {
+            } catch (const std::bad_alloc& e) {
                 e.what();
                 Error(ERROR_MEMORY_ALLOCATION);
             }

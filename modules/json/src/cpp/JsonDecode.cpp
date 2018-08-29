@@ -141,8 +141,8 @@ convertToJsonVariable(const jsmntok_t& token, JsonVariable& jsVar)
             jsVar.jsonVariableType = JSON_TO_NELSON_DOUBLE;
             jsVar.scalarDouble = val;
             return true;
-        } catch (std::invalid_argument e) {
-        } catch (std::out_of_range e) {
+        } catch (const std::invalid_argument &e) {
+        } catch (const std::out_of_range &e) {
         }
         jsVar.jsonVariableType = JSON_TO_NELSON_STRING;
         jsVar.scalarString = decodeCharacters(strValue);

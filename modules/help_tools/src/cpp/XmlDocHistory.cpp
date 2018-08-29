@@ -41,7 +41,7 @@ XmlDocHistory::append(std::wstring version, std::wstring description)
     XmlDocHistoryItem* item = nullptr;
     try {
         item = new XmlDocHistoryItem(version, description);
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         e;
         item = nullptr;
     }

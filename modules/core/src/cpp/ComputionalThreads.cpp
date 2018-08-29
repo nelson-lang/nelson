@@ -57,7 +57,7 @@ setDefaultMaxNumCompThreads()
     } else {
         try {
             nbOfCoresToUse = boost::lexical_cast<unsigned int>(omp_env.c_str());
-        } catch (boost::bad_lexical_cast const&) {
+        } catch (const boost::bad_lexical_cast &) {
             nbOfCoresToUse = 0;
         }
         if (nbOfCoresToUse == 0) {

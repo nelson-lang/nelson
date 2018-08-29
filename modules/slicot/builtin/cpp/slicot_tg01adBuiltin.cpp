@@ -153,7 +153,7 @@ Nelson::SlicotGateway::slicot_tg01adBuiltin(Evaluator* eval, int nLhs, const Arr
         tg01ad_(JOB_ptr, L_ptr, N_ptr, M_ptr, P_ptr, THRESH_ptr, A_output_ptr, LDA_ptr,
             E_output_ptr, LDE_ptr, B_output_ptr, LDB_ptr, C_output_ptr, LDC_ptr, LSCALE_output_ptr,
             RSCALE_output_ptr, DWORK_ptr, INFO_output_ptr);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         e.what();
         Error("tg01ad function fails.");
     }

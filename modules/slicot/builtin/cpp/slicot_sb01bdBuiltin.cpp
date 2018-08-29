@@ -156,7 +156,7 @@ Nelson::SlicotGateway::slicot_sb01bdBuiltin(Evaluator* eval, int nLhs, const Arr
             WR_output_ptr, WI_output_ptr, NFP_output_ptr, NAP_output_ptr, NUP_output_ptr,
             F_output_ptr, LDF_ptr, Z_output_ptr, LDZ_ptr, TOL_ptr, DWORK_ptr, LDWORK_ptr,
             IWARN_output_ptr, INFO_output_ptr);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         e.what();
         Error("sb01bd function fails.");
     }

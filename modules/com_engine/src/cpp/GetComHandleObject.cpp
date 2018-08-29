@@ -44,7 +44,7 @@ GetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOfVector pa
     VARIANT* pVarResult;
     try {
         pVarResult = new VARIANT;
-    } catch (std::bad_alloc) {
+    } catch (const std::bad_alloc &) {
         pVarResult = nullptr;
     }
     if (pVarResult) {
@@ -53,7 +53,7 @@ GetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOfVector pa
         if (nbParams > 0) {
             try {
                 args = new VARIANT[nbParams];
-            } catch (std::bad_alloc) {
+            } catch (const std::bad_alloc &) {
                 delete pVarResult;
                 pVarResult = nullptr;
                 Error(ERROR_MEMORY_ALLOCATION);

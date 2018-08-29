@@ -132,7 +132,7 @@ Nelson::SlicotGateway::slicot_ab07ndBuiltin(Evaluator* eval, int nLhs, const Arr
         ab07nd_(N_ptr, M_ptr, A_output_ptr, LDA_ptr, B_output_ptr, LDB_ptr, C_output_ptr, LDC_ptr,
             D_output_ptr, LDD_ptr, RCOND_output_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr,
             INFO_output_ptr);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         e.what();
         Error("ab07nd function fails.");
     }

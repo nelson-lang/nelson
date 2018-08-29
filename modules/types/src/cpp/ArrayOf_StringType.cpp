@@ -27,19 +27,19 @@ namespace Nelson {
 /**
  * Returns TRUE if we are a string.
  */
-const bool
+bool
 ArrayOf::isString() const
 {
     return (dp->dataClass == NLS_CHAR) && (!dp->sparse);
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isSingleString() const
 {
     return (isString() && (!dp->sparse) && (isRowVector() || isEmpty()));
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isNdArrayStringType() const
 {
     return (dp->dataClass == NLS_CHAR) && (!dp->sparse) && !is2D();

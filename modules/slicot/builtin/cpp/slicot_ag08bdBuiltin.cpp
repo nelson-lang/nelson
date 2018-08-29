@@ -212,7 +212,7 @@ Nelson::SlicotGateway::slicot_ag08bdBuiltin(Evaluator* eval, int nLhs, const Arr
             NIZ_output_ptr, DINFZ_output_ptr, NKROR_output_ptr, NINFE_output_ptr, NKROL_output_ptr,
             INFZ_output_ptr, KRONR_output_ptr, INFE_output_ptr, KRONL_output_ptr, TOL_ptr,
             IWORK_ptr, DWORK_ptr, LDWORK_ptr, INFO_output_ptr);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         e.what();
         Error("ag08bd function fails.");
     }

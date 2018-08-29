@@ -229,34 +229,34 @@ public:
     /**
      * Returns true if and only if we are equal to $$[1,1]$$.
      */
-    const bool
+    bool
     isScalar() const;
     /**
      * Returns true if and only if we are equal to $$[1,n]$$ or $$[n,1]$$ for
      * some value of $$n$$.
      */
-    const bool
+    bool
     isVector() const;
-    const bool
+    bool
     isRowVector() const;
-    const bool
+    bool
     isColumnVector() const;
     /**
      * Returns true if we have exactly 2 dimensions allocated.
      */
-    const bool
+    bool
     is2D() const;
 
     /**
      * Returns true if we have exactly 2 dimensions allocated and cols == rows.
      */
-    const bool
+    bool
     isSquare() const;
 
     /**
      * Returns TRUE if we are empty (we have no elements).
      */
-    const bool
+    bool
     isEmpty(bool allDimensionsIsZero) const;
 };
 } // namespace Nelson

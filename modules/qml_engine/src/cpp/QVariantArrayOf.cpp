@@ -465,7 +465,7 @@ QVariantToArrayOf(QVariant Q)
                     QmlHandleObject* qmlHandle = nullptr;
                     try {
                         qmlHandle = new QmlHandleObject(qobject);
-                    } catch (std::bad_alloc& e) {
+                    } catch (const std::bad_alloc& e) {
                         e.what();
                         qmlHandle = nullptr;
                         Error(ERROR_MEMORY_ALLOCATION);
@@ -495,7 +495,7 @@ QVariantToArrayOf(QVariant Q)
                         QmlHandleObject* qmlHandle = nullptr;
                         try {
                             qmlHandle = new QmlHandleObject(qobj);
-                        } catch (std::bad_alloc& e) {
+                        } catch (const std::bad_alloc& e) {
                             e.what();
                             qmlHandle = nullptr;
                             Error(ERROR_MEMORY_ALLOCATION);
@@ -531,7 +531,7 @@ QVariantToArrayOf(QVariant Q)
                         QmlHandleObject* qmlHandle = nullptr;
                         try {
                             qmlHandle = new QmlHandleObject(qobj);
-                        } catch (std::bad_alloc& e) {
+                        } catch (const std::bad_alloc& e) {
                             e.what();
                             qmlHandle = nullptr;
                             Error(ERROR_MEMORY_ALLOCATION);
@@ -553,7 +553,7 @@ QVariantToArrayOf(QVariant Q)
         try {
             QObject* obj = qvariant_cast<QObject*>(Q);
             qmlHandle = new QmlHandleObject(obj);
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             qmlHandle = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);

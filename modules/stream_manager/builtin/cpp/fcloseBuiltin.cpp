@@ -58,7 +58,7 @@ Nelson::StreamGateway::fcloseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
             Nelson::FilesManager* nfm;
             try {
                 nfm = new Nelson::FilesManager();
-            } catch (std::bad_alloc) {
+            } catch (const std::bad_alloc &) {
                 nfm = nullptr;
             }
             if (nfm) {

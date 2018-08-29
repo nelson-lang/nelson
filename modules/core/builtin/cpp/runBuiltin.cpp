@@ -100,7 +100,6 @@ runBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         eval->setLastErrorException(e);
         std::string fname = wstring_to_utf8(wpath);
         if (bErrorCatch) {
-            e.what();
             bSuccess = false;
         } else {
             Interface* io = eval->getInterface();
@@ -156,7 +155,6 @@ runBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         eval->setLastErrorException(e);
         std::string fname = wstring_to_utf8(wpath);
         if (bErrorCatch) {
-            e.what();
             bSuccess = false;
         } else {
             Interface* io = eval->getInterface();

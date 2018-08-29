@@ -23,13 +23,13 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-const bool
+bool
 ArrayOf::isSparse() const
 {
     return (dp->sparse);
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isSparseDoubleType(bool realOnly) const
 {
     if (dp->sparse) {

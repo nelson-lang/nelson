@@ -28,7 +28,7 @@ ToCellStringAs(stringVector vectorStr, bool bAsColumn)
     if (nbElements > 0) {
         try {
             elements = new ArrayOf[nbElements];
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             Error(ERROR_MEMORY_ALLOCATION);
         }
@@ -55,7 +55,7 @@ ToCellStringAs(wstringVector vectorStr, bool bAsColumn)
     if (nbElements > 0) {
         try {
             elements = new ArrayOf[nbElements];
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             Error(ERROR_MEMORY_ALLOCATION);
         }

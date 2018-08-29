@@ -312,7 +312,7 @@ ArrayOf::getContentAsUnsignedInt64Scalar(bool arrayAsScalar)
     return (*qp);
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isIntegerType() const
 {
     return ((dp->dataClass == NLS_UINT8) || (dp->dataClass == NLS_UINT16)
@@ -321,7 +321,7 @@ ArrayOf::isIntegerType() const
         || (dp->dataClass == NLS_INT32) || (dp->dataClass == NLS_INT64));
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isNdArrayIntegerType() const
 {
     return (isIntegerType() && !isSparse() && !is2D());

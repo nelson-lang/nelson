@@ -381,7 +381,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
             LibPointerObject* obj = nullptr;
             try {
                 obj = new LibPointerObject(returnedValue);
-            } catch (std::bad_alloc) {
+            } catch (const std::bad_alloc &) {
                 Error(ERROR_MEMORY_ALLOCATION);
             }
             retval.push_back(ArrayOf::handleConstructor(obj));

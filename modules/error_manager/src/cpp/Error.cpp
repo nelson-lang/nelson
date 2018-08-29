@@ -37,7 +37,7 @@ initInterpreterDynamicLibrary(void)
         char* buf;
         try {
             buf = new char[MAX_PATH];
-        } catch (std::bad_alloc) {
+        } catch (const std::bad_alloc &) {
             buf = nullptr;
         }
         if (buf) {

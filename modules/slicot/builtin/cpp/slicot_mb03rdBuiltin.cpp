@@ -131,7 +131,7 @@ Nelson::SlicotGateway::slicot_mb03rdBuiltin(Evaluator* eval, int nLhs, const Arr
         mb03rd_(JOBX_ptr, SORT_ptr, N_ptr, PMAX_ptr, A_output_ptr, LDA_ptr, X_output_ptr, LDX_ptr,
             NBLCKS_output_ptr, BLSIZE_output_ptr, WR_output_ptr, WI_output_ptr, TOL_ptr, DWORK_ptr,
             INFO_output_ptr);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         e.what();
         Error("mb03rd function fails.");
     }

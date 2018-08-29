@@ -190,7 +190,7 @@ Serialize::getString()
     char* cp;
     try {
         cp = new char[len];
-    } catch (std::bad_alloc) {
+    } catch (const std::bad_alloc &) {
         cp = nullptr;
     }
     if (cp) {

@@ -41,7 +41,7 @@ XmlDocAuthors::append(std::wstring value)
     XmlDocAuthorItem* item = nullptr;
     try {
         item = new XmlDocAuthorItem(value);
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         e;
         item = nullptr;
     }

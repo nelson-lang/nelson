@@ -585,7 +585,7 @@ QtTerminal::contextMenuEvent(QContextMenuEvent* event)
     if (contextMenu == nullptr) {
         try {
             contextMenu = new QMenu(this);
-        } catch (std::bad_alloc) {
+        } catch (const std::bad_alloc &) {
             contextMenu = nullptr;
         }
         QString fileNameIcon;

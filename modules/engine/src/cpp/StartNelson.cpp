@@ -318,8 +318,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
             AddGateway(
                 eval, ConstructDynamicLibraryFullname(Nelson::GetRootPath(), L"dynamic_link"));
             AddGateway(eval, ConstructDynamicLibraryFullname(Nelson::GetRootPath(), L"string"));
-        } catch (Exception& e) {
-            e.what();
+        } catch (const Exception& e) {
             Interface* io = eval->getInterface();
             eval->setLastErrorException(e);
             io->errorMessage(_W("Nelson cannot load base modules.\n"));

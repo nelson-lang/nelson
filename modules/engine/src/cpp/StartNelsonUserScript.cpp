@@ -38,11 +38,10 @@ StartNelsonUserScript(Evaluator* eval)
             std::wstring wstr = path.generic_wstring();
             try {
                 EvaluateScriptFile(eval, wstr.c_str());
-            } catch (Exception& e) {
+            } catch (const Exception& e) {
                 // close all opened files
                 CloseAllFiles();
                 Interface* io = eval->getInterface();
-                e.what();
                 eval->setLastErrorException(e);
                 std::wstring errmsg = _W("User startup.nls failed to run.");
                 if (io) {

@@ -122,7 +122,7 @@ EvaluateBuiltinCatchRuntimeException(
     _set_se_translator(translator_SE);
     try {
         outputs = fptr(eval, nargout, inputs);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         _set_se_translator(NULL);
         Error(e.what());
     }

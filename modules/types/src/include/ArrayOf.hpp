@@ -311,9 +311,9 @@ public:
      * signed integer types or the floating point types, the result is based on a
      * linear scan through the array.
      */
-    const bool
+    bool
     isPositive() const;
-    const bool
+    bool
     isSparse() const;
 
     void
@@ -327,7 +327,7 @@ public:
      * by doing a string compare.  For numerical values, we promote to a common
      * type and do a comparison.
      */
-    const bool
+    bool
     testCaseMatchScalar(ArrayOf x) const;
     /**
      * Returns true if we match the argument x, or if x is a cell-array,
@@ -336,104 +336,104 @@ public:
      * for non-scalars (apart from strings) or reference types. Also throws an
      * exception if the argument is not either a scalar or a cell array.
      */
-    const bool
+    bool
     testForCaseMatch(ArrayOf x) const;
     /**
      * Returns TRUE if we are empty (we have no elements).
      */
-    const bool
+    bool
     isEmpty(bool allDimensionsIsZero = false) const;
     /**
      * Returns TRUE if we have only a single element.
      */
-    const bool
+    bool
     isScalar() const;
     /**
      * Returns TRUE if we are 2-Dimensional.
      */
-    const bool
+    bool
     is2D() const;
     /**
      * Returns TRUE if we are 2-Dimensional and rows == cols.
      */
-    const bool
+    bool
     isSquare() const;
     /**
      * Returns TRUE if we are a vector.
      */
-    const bool
+    bool
     isVector() const;
 
-    const bool
+    bool
     isRowVector() const;
 
-    const bool
+    bool
     isColumnVector() const;
     /**
      * Returns TRUE if we are a reference type (cell array or
      * struct array).
      */
-    const bool
+    bool
     isReferenceType() const;
     /**
      * Returns TRUE if we are a complex data type.
      */
-    const bool
+    bool
     isComplex() const;
     /**
      * Returns TRUE if we are a real data type.
      */
-    const bool
+    bool
     isReal() const;
     /**
      * Returns TRUE if all values are real.
      */
-    const bool
+    bool
     allReal() const;
     /**
      * Returns TRUE if we are a sparse double or complex data type.
      */
-    const bool
+    bool
     isSparseDoubleType(bool realOnly = false) const;
 
     /**
      * Returns TRUE if it is a ndarraydouble type (not sparse, not scalar, 2D matrix)
      */
-    const bool
+    bool
     isNdArrayDoubleType(bool realOnly = false) const;
 
     /**
      * Returns TRUE if it is a double type (not ndarray, not sparse)
      */
-    const bool
+    bool
     isDoubleType(bool realOnly = false) const;
 
     /**
      * Returns TRUE if it is a single type (not ndarray, not sparse)
      */
-    const bool
+    bool
     isSingleType(bool realOnly = false) const;
 
     /**
      * Returns TRUE if it is a ndarraysingle type (not sparse, not scalar, 2D matrix)
      */
-    const bool
+    bool
     isNdArraySingleType(bool realOnly = false) const;
 
     /**
      * Returns TRUE if we are a string.
      */
-    const bool
+    bool
     isString() const;
-    const bool
+    bool
     isSingleString() const;
 
-    const bool
+    bool
     isNdArrayStringType() const;
 
-    const bool
+    bool
     isIntegerType() const;
-    const bool
+    bool
     isNdArrayIntegerType() const;
 
     /**
@@ -1062,10 +1062,10 @@ public:
     indexType
     numel();
 
-    const bool
+    bool
     isCell() const;
 
-    const bool
+    bool
     isStruct() const;
     void
     setStructType(std::string structname);
@@ -1073,7 +1073,7 @@ public:
     setStructType(std::wstring structname);
     std::string
     getStructType() const;
-    const bool
+    bool
     isClassStruct() const;
 
     static ArrayOf
@@ -1083,14 +1083,14 @@ public:
     bool
     isFunctionHandle();
 
-    const bool
+    bool
     isLogical() const;
-    const bool
+    bool
     isNdArrayLogical() const;
-    const bool
+    bool
     isSparseLogicalType() const;
 
-    const bool
+    bool
     isNumeric() const;
 
     void
@@ -1102,7 +1102,7 @@ public:
     /*
      * check is handle type
      */
-    const bool
+    bool
     isHandle() const;
     /*
      * handle constructors

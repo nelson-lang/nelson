@@ -100,7 +100,7 @@ copyImages(wstringVector srcImages, wstringVector dstImages)
             try {
                 boost::filesystem::copy_file(srcImages[k], dstImages[k],
                     boost::filesystem::copy_option::overwrite_if_exists);
-            } catch (boost::filesystem::filesystem_error const& e) {
+            } catch (const boost::filesystem::filesystem_error &e) {
                 e.what();
             }
         } else {

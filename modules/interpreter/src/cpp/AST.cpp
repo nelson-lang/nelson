@@ -347,7 +347,7 @@ ThawAST(Serialize* s)
     ASTPtr t;
     try {
         t = new AST();
-    } catch (std::bad_alloc) {
+    } catch (const std::bad_alloc &) {
         t = nullptr;
     }
     if (t) {

@@ -114,7 +114,7 @@ Nelson::SlicotGateway::slicot_mb05odBuiltin(Evaluator* eval, int nLhs, const Arr
     try {
         mb05od_(BALANC_ptr, N_ptr, NDIAG_ptr, DELTA_ptr, A_output_ptr, LDA_ptr, MDIG_output_ptr,
             IDIG_output_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr, IWARN_output_ptr, INFO_output_ptr);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         e.what();
         Error("mb05od function fails.");
     }

@@ -848,8 +848,7 @@ Evaluator::tryStatement(ASTPtr t)
     size_t stackdepth = cstack.size();
     try {
         block(t);
-    } catch (Exception& e) {
-        e.what();
+    } catch (const Exception&) {
         while (cstack.size() > stackdepth) {
             cstack.pop_back();
         }
@@ -1699,8 +1698,7 @@ Evaluator::statement(ASTPtr t)
             statementType(t->down, true && bEchoMode);
         }
         popID();
-    } catch (Exception& e) {
-        e.what();
+    } catch (const Exception&) {
         popID();
         throw;
         /*
@@ -1778,16 +1776,14 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, ASTPtr t)
             } else {
                 try {
                     return (r.getVectorSubset(m[0]));
-                } catch (Exception& e) {
-                    e.what();
+                } catch (const Exception&) {
                     return (ArrayOf::emptyConstructor());
                 }
             }
         } else {
             try {
                 return (r.getNDimSubset(m));
-            } catch (Exception& e) {
-                e.what();
+            } catch (const Exception&) {
                 return (ArrayOf::emptyConstructor());
             }
         }
@@ -1799,15 +1795,13 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, ASTPtr t)
         } else if (m.size() == 1) {
             try {
                 return (r.getVectorContents(m[0]));
-            } catch (Exception& e) {
-                e.what();
+            } catch (const Exception&) {
                 return (ArrayOf::emptyConstructor());
             }
         } else {
             try {
                 return (r.getNDimContents(m));
-            } catch (Exception& e) {
-                e.what();
+            } catch (const Exception&) {
                 return (ArrayOf::emptyConstructor());
             }
         }
@@ -1815,8 +1809,7 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, ASTPtr t)
     if (t->opNum == (OP_DOT)) {
         try {
             return (r.getField(t->down->text));
-        } catch (Exception& e) {
-            e.what();
+        } catch (const Exception&) {
             return (ArrayOf::emptyConstructor());
         }
     }
@@ -1825,15 +1818,13 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, ASTPtr t)
         try {
             ArrayOf fname(expression(t->down));
             field = fname.getContentAsCString();
-        } catch (Exception& e) {
-            e.what();
+        } catch (const Exception&) {
             Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
         }
         try {
             ArrayOf R = r.getField(field);
             return R;
-        } catch (Exception& e) {
-            e.what();
+        } catch (const Exception&) {
             return (ArrayOf::emptyConstructor());
         }
     }
@@ -1914,8 +1905,7 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
         try {
             ArrayOf fname(expression(t->down));
             field = fname.getContentAsCString();
-        } catch (Exception& e) {
-            e.what();
+        } catch (const Exception&) {
             Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
         }
         if (r.isHandle()) {
@@ -2104,8 +2094,7 @@ Evaluator::specialFunctionCall(ASTPtr t, bool printIt)
     InCLI = false;
     try {
         m = val->evaluateFunction(this, n, 0);
-    } catch (Exception& e) {
-        e.what();
+    } catch (const Exception&) {
         InCLI = CLIFlagsave;
         popID();
         throw;
@@ -2950,8 +2939,7 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
         */
         popID();
         return n;
-    } catch (Exception& e) {
-        e.what();
+    } catch (const Exception&) {
         InCLI = CLIFlagsave;
         throw;
     }
@@ -3536,8 +3524,7 @@ Evaluator::rhsExpression(ASTPtr t)
             try {
                 ArrayOf fname(expression(t->down));
                 field = fname.getContentAsCString();
-            } catch (Exception& e) {
-                e.what();
+            } catch (const Exception&) {
                 Error(_W("dynamic field reference to structure requires a string argument"));
             }
             if (r.isHandle()) {

@@ -98,7 +98,7 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
         char* str = nullptr;
         try {
             str = new char[(indexType)(sizeToRead + 1)];
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             str = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);
@@ -114,7 +114,7 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
             char* resizestr = nullptr;
             try {
                 resizestr = new char[sizeReallyRead + 1];
-            } catch (std::bad_alloc& e) {
+            } catch (const std::bad_alloc& e) {
                 e.what();
                 delete[] str;
                 str = nullptr;

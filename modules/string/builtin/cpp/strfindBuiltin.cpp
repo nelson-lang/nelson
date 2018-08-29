@@ -77,7 +77,7 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                                 ArrayOf* elements = nullptr;
                                 try {
                                     elements = new ArrayOf[nbElements];
-                                } catch (std::bad_alloc& e) {
+                                } catch (const std::bad_alloc& e) {
                                     e.what();
                                     Error(ERROR_MEMORY_ALLOCATION);
                                 }
@@ -103,7 +103,7 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                     ArrayOf* elements = nullptr;
                     try {
                         elements = new ArrayOf[nbElements];
-                    } catch (std::bad_alloc& e) {
+                    } catch (const std::bad_alloc& e) {
                         e.what();
                         Error(ERROR_MEMORY_ALLOCATION);
                     }

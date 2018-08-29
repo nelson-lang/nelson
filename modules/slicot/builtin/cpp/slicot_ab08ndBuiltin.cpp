@@ -187,7 +187,7 @@ Nelson::SlicotGateway::slicot_ab08ndBuiltin(Evaluator* eval, int nLhs, const Arr
             NKROL_output_ptr, INFZ_output_ptr, KRONR_output_ptr, KRONL_output_ptr, AF_output_ptr,
             LDAF_ptr, BF_output_ptr, LDBF_ptr, TOL_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr,
             INFO_output_ptr);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         e.what();
         Error("ab08nd function fails.");
     }

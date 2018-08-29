@@ -140,7 +140,7 @@ Nelson::SlicotGateway::slicot_sb03mdBuiltin(Evaluator* eval, int nLhs, const Arr
         sb03md_(DICO_ptr, JOB_ptr, FACT_ptr, TRANA_ptr, N_ptr, A_ptr, LDA_ptr, U_output_ptr,
             LDU_ptr, C_output_ptr, LDC_ptr, SCALE_output_ptr, SEP_output_ptr, FERR_output_ptr,
             WR_output_ptr, WI_output_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr, INFO_output_ptr);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         e.what();
         Error("sb03md function fails.");
     }

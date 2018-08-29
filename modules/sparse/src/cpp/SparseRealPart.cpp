@@ -53,7 +53,7 @@ SparseRealPart(ArrayOf a)
             spmatDST->makeCompressed();
             void* pRes = (void*)spmatDST;
             res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             Error(ERROR_MEMORY_ALLOCATION);
         }
@@ -80,7 +80,7 @@ SparseRealPart(ArrayOf a)
             spmatDST->makeCompressed();
             void* pRes = (void*)spmatDST;
             res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             Error(ERROR_MEMORY_ALLOCATION);
         }

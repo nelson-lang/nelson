@@ -23,7 +23,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-const bool
+bool
 ArrayOf::isCell() const
 {
     return (this->getDataClass() == NLS_CELL_ARRAY);
@@ -95,12 +95,11 @@ ArrayOf::cellConstructor(ArrayOfMatrix& m)
             sp++;
         }
         return ArrayOf(NLS_CELL_ARRAY, retDims, qp);
-    } catch (Exception& e) {
+    } catch (const Exception&) {
         ArrayOf* rp = (ArrayOf*)qp;
         delete[] rp;
         rp = nullptr;
         qp = nullptr;
-        e.what();
         throw;
     }
 }
@@ -438,10 +437,9 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
         delete[] indx;
         indx = nullptr;
         dp->dimensions.simplify();
-    } catch (Exception& e) {
+    } catch (const Exception&) {
         delete[] indx;
         indx = nullptr;
-        e.what();
         throw;
     }
 }

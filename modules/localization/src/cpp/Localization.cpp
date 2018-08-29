@@ -177,7 +177,7 @@ Localization::initLanguageSupported(void)
                 boost::property_tree::ptree::value_type& v, pt2.get_child("supported_languages")) {
                 LanguageSupported.push_back(utf8_to_wstring(v.second.data()));
             }
-        } catch (boost::property_tree::json_parser::json_parser_error& je) {
+        } catch (const boost::property_tree::json_parser::json_parser_error& je) {
             je.message();
             LanguageSupported.push_back(std::wstring(L"en_US"));
         }
@@ -235,7 +235,7 @@ Localization::setLanguage(std::wstring lang, bool save)
                 out << json;
                 out.close();
                 return true;
-            } catch (boost::property_tree::json_parser::json_parser_error& je) {
+            } catch (const boost::property_tree::json_parser::json_parser_error& je) {
                 je.message();
                 return false;
             }
@@ -294,7 +294,7 @@ Localization::initializeLocalization(std::wstring lang)
             try {
                 boost::property_tree::read_json(is, pt);
                 language_saved = utf8_to_wstring(pt.get<std::string>("language"));
-            } catch (boost::property_tree::json_parser::json_parser_error& je) {
+            } catch (const boost::property_tree::json_parser::json_parser_error& je) {
                 je.message();
                 language_saved = L"";
             }

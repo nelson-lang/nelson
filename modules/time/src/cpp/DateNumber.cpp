@@ -86,7 +86,7 @@ DateNumber(std::wstring datestring, std::wstring formatIn, bool& bParsed)
     is.exceptions(std::ios_base::failbit);
     try {
         is >> pt;
-    } catch (const std::ios_base::failure) {
+    } catch (const std::ios_base::failure &) {
         return res;
     }
     if (pt != boost::posix_time::ptime()) {

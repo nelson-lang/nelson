@@ -63,7 +63,7 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
         try {
             spMatC = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(
                 newRowsSize, newColumnsSize);
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             spMatC = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);
@@ -86,7 +86,7 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
         try {
             spMatC
                 = new Eigen::SparseMatrix<double, 0, signedIndexType>(newRowsSize, newColumnsSize);
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             spMatC = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);

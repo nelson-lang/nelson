@@ -41,7 +41,7 @@ CopyFile(std::wstring srcFile, std::wstring destFileOrDirectory, bool bForce, st
         boost::filesystem::copy_file(
             srcPath, destPath, boost::filesystem::copy_option::overwrite_if_exists);
         bRes = true;
-    } catch (boost::filesystem::filesystem_error const& e) {
+    } catch (const boost::filesystem::filesystem_error& e) {
         bRes = false;
         boost::system::error_code error_code = e.code();
         message = utf8_to_wstring(error_code.message());
@@ -71,7 +71,7 @@ CopyDirectory(std::wstring srcDir, std::wstring destDir, bool bForce, std::wstri
     try {
         boost::filesystem::copy_directory(srcPath, destPath);
         bRes = true;
-    } catch (boost::filesystem::filesystem_error const& e) {
+    } catch (const boost::filesystem::filesystem_error &e) {
         bRes = false;
         boost::system::error_code error_code = e.code();
         message = utf8_to_wstring(error_code.message());
@@ -105,7 +105,7 @@ CopyFiles(wstringVector srcFiles, std::wstring destDir, bool bForce, std::wstrin
         try {
             boost::filesystem::copy_file(srcPath, destPath);
             bRes = true;
-        } catch (boost::filesystem::filesystem_error const& e) {
+        } catch (const boost::filesystem::filesystem_error &e) {
             bRes = false;
             boost::system::error_code error_code = e.code();
             message = utf8_to_wstring(error_code.message());

@@ -25,13 +25,13 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-const bool
+bool
 ArrayOf::isStruct() const
 {
     return (this->getDataClass() == NLS_STRUCT_ARRAY);
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isClassStruct() const
 {
     if (this->isStruct()) {
@@ -101,8 +101,7 @@ ArrayOf::structScalarConstructor(stringVector fNames, ArrayOfVector& values)
             }
         }
         return ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, fNames);
-    } catch (Exception& e) {
-        e.what();
+    } catch (const Exception&) {
         ArrayOf* rp = (ArrayOf*)qp;
         delete[] rp;
         rp = nullptr;
@@ -185,8 +184,7 @@ ArrayOf::structConstructor(stringVector fNames, ArrayOfVector& values)
                 offset++;
             }
         return ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, fNames);
-    } catch (Exception& e) {
-        e.what();
+    } catch (const Exception&) {
         ArrayOf* rp = (ArrayOf*)qp;
         delete[] rp;
         rp = nullptr;

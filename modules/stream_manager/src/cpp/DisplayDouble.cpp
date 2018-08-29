@@ -297,7 +297,7 @@ DisplayDouble(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needT
             std::wstring buffer;
             try {
                 buffer.reserve(20 * columns);
-            } catch (std::bad_alloc) {
+            } catch (const std::bad_alloc &) {
             }
             indexType block_page = 0;
             bool continueDisplay = true;

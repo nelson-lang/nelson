@@ -41,7 +41,7 @@ cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* ev
         size_t nbElements = argdims.getElementCount();
         try {
             elements = new ArrayOf[nbElements];
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             Error(ERROR_MEMORY_ALLOCATION);
         }
@@ -61,7 +61,7 @@ cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* ev
         if (fptrHandleError) {
             try {
                 ret = fptr->evaluateFunction(eval, input, nargout);
-            } catch (Exception& e) {
+            } catch (const Exception& e) {
                 ArrayOfVector in2;
                 in2.push_back(ErrorToStruct(e));
                 for (size_t k = 0; k < input.size(); k++) {
@@ -101,7 +101,7 @@ cellfun_uniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval,
         if (fptrHandleError) {
             try {
                 ret = fptr->evaluateFunction(eval, input, nargout);
-            } catch (Exception& e) {
+            } catch (const Exception& e) {
                 ArrayOfVector in2;
                 in2.push_back(ErrorToStruct(e));
                 for (size_t k = 0; k < input.size(); k++) {

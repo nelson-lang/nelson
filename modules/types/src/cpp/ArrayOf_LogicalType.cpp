@@ -22,19 +22,19 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-const bool
+bool
 ArrayOf::isLogical() const
 {
     return (dp->dataClass == NLS_LOGICAL);
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isNdArrayLogical() const
 {
     return (dp->dataClass == NLS_LOGICAL) && !is2D();
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isSparseLogicalType() const
 {
     return (dp->dataClass == NLS_LOGICAL) && (dp->sparse) && is2D();

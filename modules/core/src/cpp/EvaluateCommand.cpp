@@ -174,7 +174,7 @@ EvaluateConsoleCommand(Evaluator* eval, int nLhs, std::wstring command, std::wst
     EvaluateInterface* tempIO = nullptr;
     try {
         tempIO = new EvaluateInterface();
-    } catch (std::bad_alloc) {
+    } catch (const std::bad_alloc &) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
     eval->setInterface(tempIO);

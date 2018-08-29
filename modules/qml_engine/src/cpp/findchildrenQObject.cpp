@@ -55,7 +55,7 @@ findchildrenQObject(ArrayOf H, std::wstring fieldname, bool bRecursively)
                 QmlHandleObject* qmlHandle = nullptr;
                 try {
                     qmlHandle = new QmlHandleObject(qobjfound[k]);
-                } catch (std::bad_alloc& e) {
+                } catch (const std::bad_alloc& e) {
                     e.what();
                     qmlHandle = nullptr;
                     Error(ERROR_MEMORY_ALLOCATION);

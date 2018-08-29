@@ -925,7 +925,7 @@ ArrayOf::getByteSize() const
         return allPositive;                                                                        \
     }
 //=============================================================================
-const bool
+bool
 ArrayOf::isPositive() const
 {
     if (dp->dataClass == NLS_UINT8 || dp->dataClass == NLS_UINT16 || dp->dataClass == NLS_UINT32
@@ -962,7 +962,7 @@ ArrayOf::isPositive() const
             && (((const type*)x_dp)[1] == ((const type*)y_dp)[1]);                                 \
         break;
 //=============================================================================
-const bool
+bool
 ArrayOf::testCaseMatchScalar(ArrayOf x) const
 {
     if (isSparse()) {
@@ -1022,7 +1022,7 @@ ArrayOf::testCaseMatchScalar(ArrayOf x) const
 #undef caseMacroReal
 #undef caseMacroComplex
 //=============================================================================
-const bool
+bool
 ArrayOf::testForCaseMatch(ArrayOf x) const
 {
     if (isSparse()) {
@@ -1057,7 +1057,7 @@ ArrayOf::testForCaseMatch(ArrayOf x) const
 /**
  * Returns TRUE if we are empty (we have no elements).
  */
-const bool
+bool
 ArrayOf::isEmpty(bool allDimensionsIsZero) const
 {
     Dimensions dims = dp->getDimensions();
@@ -1067,7 +1067,7 @@ ArrayOf::isEmpty(bool allDimensionsIsZero) const
 /*
  * Returns TRUE if we have only a single element.
  */
-const bool
+bool
 ArrayOf::isScalar() const
 {
     return dp->dimensions.isScalar();
@@ -1076,7 +1076,7 @@ ArrayOf::isScalar() const
 /**
  * Returns TRUE if we are 2-Dimensional.
  */
-const bool
+bool
 ArrayOf::is2D() const
 {
     return dp->dimensions.is2D();
@@ -1085,7 +1085,7 @@ ArrayOf::is2D() const
 /**
  * Returns TRUE if we are 2-Dimensional and cols == rows.
  */
-const bool
+bool
 ArrayOf::isSquare() const
 {
     return dp->dimensions.isSquare();
@@ -1094,19 +1094,19 @@ ArrayOf::isSquare() const
 /**
  * Returns TRUE if we are a vector.
  */
-const bool
+bool
 ArrayOf::isVector() const
 {
     return dp->dimensions.isVector();
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isRowVector() const
 {
     return dp->dimensions.isRowVector();
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isColumnVector() const
 {
     return dp->dimensions.isColumnVector();
@@ -1116,7 +1116,7 @@ ArrayOf::isColumnVector() const
  * Returns TRUE if we are a reference type (cell array or
  * struct array).
  */
-const bool
+bool
 ArrayOf::isReferenceType() const
 {
     return (dp->dataClass == NLS_STRUCT_ARRAY) || (dp->dataClass == NLS_CELL_ARRAY);
@@ -1125,7 +1125,7 @@ ArrayOf::isReferenceType() const
 /**
  * Returns TRUE if we are a complex data type.
  */
-const bool
+bool
 ArrayOf::isComplex() const
 {
     return (dp->dataClass == NLS_DCOMPLEX || dp->dataClass == NLS_SCOMPLEX);
@@ -1134,13 +1134,13 @@ ArrayOf::isComplex() const
 /**
  * Returns TRUE if we are a real data type.
  */
-const bool
+bool
 ArrayOf::isReal() const
 {
     return (!isComplex());
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::allReal() const
 {
     bool res;
@@ -1941,7 +1941,7 @@ ArrayOf::getContentAsIndexPointer()
     return pIndex;
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isNumeric() const
 {
     bool bRes = false;

@@ -142,8 +142,7 @@ ArrayOf::getVectorSubset(ArrayOf& index)
             }
             return ArrayOf(dp->dataClass, retdims, qp, dp->sparse, dp->fieldNames);
         }
-    } catch (Exception& e) {
-        e.what();
+    } catch (const Exception&) {
         deleteArrayOf(qp, dp->dataClass);
         qp = nullptr;
         throw;
@@ -244,12 +243,11 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
             outDims.simplify();
             return ArrayOf(dp->dataClass, outDims, qp, dp->sparse, dp->fieldNames);
         }
-    } catch (Exception& e) {
+    } catch (const Exception&) {
         delete[] indx;
         indx = nullptr;
         deleteArrayOf(qp, dp->dataClass);
         qp = nullptr;
-        e.what();
         throw;
     }
 }

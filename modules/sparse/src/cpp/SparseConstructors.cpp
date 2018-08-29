@@ -34,7 +34,7 @@ SparseConstructor(indexType m, indexType n)
         Eigen::SparseMatrix<double, 0, signedIndexType>* spmat
             = new Eigen::SparseMatrix<double, 0, signedIndexType>(m, n);
         res = ArrayOf(NLS_DOUBLE, dims, (void*)spmat, true);
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         e.what();
         Error(ERROR_MEMORY_ALLOCATION);
     }

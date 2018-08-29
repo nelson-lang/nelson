@@ -34,7 +34,7 @@ rootQObject()
         QmlHandleObject* qmlHandle = nullptr;
         try {
             qmlHandle = new QmlHandleObject(parent);
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             qmlHandle = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);

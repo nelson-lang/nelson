@@ -279,7 +279,7 @@ Nelson::SlicotGateway::slicot_sg02adBuiltin(Evaluator* eval, int nLhs, const Arr
             ALFAR_output_ptr, ALFAI_output_ptr, BETA_output_ptr, S_output_ptr, LDS_ptr,
             T_output_ptr, LDT_ptr, U_output_ptr, LDU_ptr, TOL_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr,
             BWORK_ptr, IWARN_output_ptr, INFO_output_ptr);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         e.what();
         Error("sg02ad function fails.");
     }

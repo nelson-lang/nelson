@@ -167,7 +167,7 @@ Nelson::SlicotGateway::slicot_mb02mdBuiltin(Evaluator* eval, int nLhs, const Arr
         mb02md_(JOB_ptr, M_ptr, N_ptr, L_ptr, RANK_output_ptr, C_output_ptr, LDC_ptr, S_output_ptr,
             X_output_ptr, LDX_ptr, TOL_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr, IWARN_output_ptr,
             INFO_output_ptr);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         e.what();
         Error("mb02md function fails.");
     }

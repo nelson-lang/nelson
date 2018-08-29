@@ -44,7 +44,7 @@ SetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOf B)
     VARIANT* pVarResult;
     try {
         pVarResult = new VARIANT;
-    } catch (std::bad_alloc) {
+    } catch (const std::bad_alloc &) {
         pVarResult = nullptr;
         Error(ERROR_MEMORY_ALLOCATION);
     }
@@ -53,7 +53,7 @@ SetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOf B)
     VARIANT* param = nullptr;
     try {
         param = new VARIANT();
-    } catch (std::bad_alloc) {
+    } catch (const std::bad_alloc &) {
         delete pVarResult;
         Error(ERROR_MEMORY_ALLOCATION);
     }

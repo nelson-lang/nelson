@@ -40,7 +40,7 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
         wstr = STR.getContentAsWideStringVector(false);
         wold = OLD.getContentAsWideStringVector(false);
         wnew = NEW.getContentAsWideStringVector(false);
-    } catch (Exception&) {
+    } catch (const Exception&) {
         needToOverload = true;
         return ArrayOf();
     }
@@ -99,7 +99,7 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
                 } else {
                     try {
                         elements = new ArrayOf[nbOutput];
-                    } catch (std::bad_alloc& e) {
+                    } catch (const std::bad_alloc& e) {
                         e.what();
                         Error(ERROR_MEMORY_ALLOCATION);
                     }
@@ -125,7 +125,7 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
             ArrayOf* elements = nullptr;
             try {
                 elements = new ArrayOf[nbOutput];
-            } catch (std::bad_alloc& e) {
+            } catch (const std::bad_alloc& e) {
                 e.what();
                 Error(ERROR_MEMORY_ALLOCATION);
             }
@@ -205,7 +205,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
         wstr = STR.getContentAsWideStringVector(false);
         wold = OLD.getContentAsWideStringVector(false);
         wnew = NEW.getContentAsWideStringVector(false);
-    } catch (Exception&) {
+    } catch (const Exception&) {
         needToOverload = true;
         return res;
     }
@@ -218,7 +218,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             ArrayOf* elements = nullptr;
             try {
                 elements = new ArrayOf[wstr.size()];
-            } catch (std::bad_alloc& e) {
+            } catch (const std::bad_alloc& e) {
                 e.what();
                 Error(ERROR_MEMORY_ALLOCATION);
             }
@@ -237,7 +237,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             ArrayOf* elements = nullptr;
             try {
                 elements = new ArrayOf[wstr.size()];
-            } catch (std::bad_alloc& e) {
+            } catch (const std::bad_alloc& e) {
                 e.what();
                 Error(ERROR_MEMORY_ALLOCATION);
             }
@@ -336,7 +336,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                     } else {
                         try {
                             elements = new ArrayOf[nbOutput];
-                        } catch (std::bad_alloc& e) {
+                        } catch (const std::bad_alloc& e) {
                             e.what();
                             Error(ERROR_MEMORY_ALLOCATION);
                         }
@@ -357,7 +357,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                         ArrayOf* elements = nullptr;
                         try {
                             elements = new ArrayOf[nbOutput];
-                        } catch (std::bad_alloc& e) {
+                        } catch (const std::bad_alloc& e) {
                             e.what();
                             Error(ERROR_MEMORY_ALLOCATION);
                         }
@@ -373,7 +373,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                 ArrayOf* elements = nullptr;
                 try {
                     elements = new ArrayOf[nbOutput];
-                } catch (std::bad_alloc& e) {
+                } catch (const std::bad_alloc& e) {
                     e.what();
                     Error(ERROR_MEMORY_ALLOCATION);
                 }

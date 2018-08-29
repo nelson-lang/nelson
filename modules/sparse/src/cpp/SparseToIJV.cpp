@@ -38,7 +38,7 @@ SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf
         try {
             ptrI = new indexType[nnz];
             ptrJ = new indexType[nnz];
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             Error(ERROR_MEMORY_ALLOCATION);
         }

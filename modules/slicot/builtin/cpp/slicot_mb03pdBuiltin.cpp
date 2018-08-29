@@ -118,7 +118,7 @@ Nelson::SlicotGateway::slicot_mb03pdBuiltin(Evaluator* eval, int nLhs, const Arr
         mb03pd_(JOBRQ_ptr, M_ptr, N_ptr, A_output_ptr, LDA_ptr, JPVT_output_ptr, RCOND_ptr,
             SVLMAX_ptr, TAU_output_ptr, RANK_output_ptr, SVAL_output_ptr, DWORK_ptr,
             INFO_output_ptr);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         e.what();
         Error("mb03pd function fails.");
     }

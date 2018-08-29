@@ -127,7 +127,7 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
         try {
             A.promoteType(NLS_DOUBLE);
             B.promoteType(NLS_DOUBLE);
-        } catch (Exception&) {
+        } catch (const Exception&) {
             needToOverload = true;
             return false;
         }

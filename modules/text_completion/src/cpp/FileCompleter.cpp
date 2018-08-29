@@ -180,7 +180,7 @@ FileCompleter(std::wstring prefix)
                                 }
                             }
                         }
-                    } catch (boost::filesystem::filesystem_error) {
+                    } catch (const boost::filesystem::filesystem_error &) {
                     }
                 }
             }

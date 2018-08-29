@@ -44,11 +44,10 @@ BuiltInFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int
         }
         eval->popDebug();
         return outputs;
-    } catch (Exception& e) {
+    } catch (const Exception&) {
         while (eval->cstack.size() > stackDepth) {
             eval->cstack.pop_back();
         }
-        e.what();
         eval->popDebug();
         throw;
     }

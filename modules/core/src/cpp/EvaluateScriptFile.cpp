@@ -35,7 +35,7 @@ changeDir(const wchar_t* path, bool doException)
 {
     try {
         boost::filesystem::current_path(path);
-    } catch (boost::filesystem::filesystem_error& e) {
+    } catch (const boost::filesystem::filesystem_error& e) {
         e.what();
         if (doException) {
             Error(_("Cannot change directory '") + wstring_to_utf8(path) + "'.");
@@ -49,7 +49,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
     bool bIsFile;
     try {
         bIsFile = boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
-    } catch (boost::filesystem::filesystem_error) {
+    } catch (const boost::filesystem::filesystem_error &) {
         bIsFile = false;
     }
     if (!bIsFile) {
@@ -120,7 +120,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
     try {
         pstate = parseFile(fr, absolutePath.generic_string().c_str());
         pt = getAstUsed();
-    } catch (Exception&) {
+    } catch (const Exception&) {
         deleteAstVector(getAstUsed());
         resetAstBackupPosition();
         fclose(fr);
@@ -170,7 +170,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         try {
             buffer = new char[cpos + 2];
             memset(buffer, 0, cpos + 2);
-        } catch (std::bad_alloc& ba) {
+        } catch (const std::bad_alloc& ba) {
             deleteAstVector(pt);
             resetAstBackupPosition();
             ba.what();
@@ -213,11 +213,10 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
                 if (tree) {
                     eval->block(tree);
                 }
-            } catch (Exception& e) {
+            } catch (const Exception&) {
                 deleteAstVector(pt);
                 resetAstBackupPosition();
                 tree = nullptr;
-                e.what();
                 eval->popDebug();
                 eval->popEvaluateFilenameList();
                 if (buffer) {

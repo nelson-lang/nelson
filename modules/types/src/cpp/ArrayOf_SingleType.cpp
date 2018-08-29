@@ -25,7 +25,7 @@ namespace Nelson {
 /**
  * Returns TRUE if it is a single type (not ndarray, not sparse)
  */
-const bool
+bool
 ArrayOf::isSingleType(bool realOnly) const
 {
     bool res = false;
@@ -38,7 +38,7 @@ ArrayOf::isSingleType(bool realOnly) const
     return res;
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isNdArraySingleType(bool realOnly) const
 {
     bool res = false;
