@@ -141,10 +141,9 @@ Localization::setLanguageEnvironment(const std::wstring lang)
             gen.add_messages_path(wstring_to_utf8(localesPath).c_str());
             gen.add_messages_domain("nelson");
             std::string effectiveLang = wstring_to_utf8(lang);
-            const std::string lang = effectiveLang + std::string(".UTF-8");
-            std::locale::global(gen(lang));
-        } catch (const std::exception& e) {
-            e.what();
+            const std::string langDesired = effectiveLang + std::string(".UTF-8");
+            std::locale::global(gen(langDesired));
+        } catch (const std::exception&) {
         }
         setlocale(LC_NUMERIC, "C");
     }

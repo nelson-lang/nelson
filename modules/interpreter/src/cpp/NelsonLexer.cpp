@@ -68,7 +68,7 @@ int tokenActive;
 int tokenType;
 ParseRHS tokenValue;
 
-keywordStruct ts, *p;
+keywordStruct tSearch, *pSearch;
 //=============================================================================
 void
 clearTextBufferLexer()
@@ -183,9 +183,9 @@ testSpecialFuncs()
         Error(_("Maximum name length exceeded."));
     }
     keyword[cp - datap] = 0;
-    ts.word = keyword;
-    p = (keywordStruct*)bsearch(&ts, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword);
-    if (p != nullptr) {
+    tSearch.word = keyword;
+    pSearch = (keywordStruct*)bsearch(&tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword);
+    if (pSearch != nullptr) {
         return false;
     }
     while ((*cp == ' ') || (*cp == '\t')) {
@@ -380,10 +380,11 @@ lexIdentifier()
         discardChar();
     }
     ident[i] = '\0';
-    ts.word = ident;
-    p = (keywordStruct*)bsearch(&ts, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword);
-    if (p != nullptr) {
-        setTokenType(p->token);
+    tSearch.word = ident;
+    pSearch = (keywordStruct*)bsearch(
+        &tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword);
+    if (pSearch != nullptr) {
+        setTokenType(pSearch->token);
         if (strcmp(ident, "end") == 0) {
             if (bracketStackSize == 0) {
                 setTokenType(END);
@@ -396,9 +397,10 @@ lexIdentifier()
         // to match them up.  But we need this information to determine
         // if more text is needed...
         tokenValue.isToken = false;
-        tokenValue.v.p = allocateAbstractSyntaxTree(reserved_node, p->ordinal, (int)ContextInt());
-        if ((p->token == FOR) || (p->token == WHILE) || (p->token == IF) || (p->token == ELSEIF)
-            || (p->token == CASE)) {
+        tokenValue.v.p
+            = allocateAbstractSyntaxTree(reserved_node, pSearch->ordinal, (int)ContextInt());
+        if ((pSearch->token == FOR) || (pSearch->token == WHILE) || (pSearch->token == IF)
+            || (pSearch->token == ELSEIF) || (pSearch->token == CASE)) {
             vcFlag = 1;
             inBlock++;
         }

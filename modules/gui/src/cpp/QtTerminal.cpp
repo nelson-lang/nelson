@@ -372,8 +372,7 @@ QtTerminal::keyPressEvent(QKeyEvent* event)
         }
         return;
     } else if (event->matches(QKeySequence::Copy)) {
-        if (mCommandLineReady) {
-        } else {
+        if (!mCommandLineReady) {
             if (eval == nullptr) {
                 void* veval = GetNelsonMainEvaluatorDynamicFunction();
                 eval = (Nelson::Evaluator*)veval;

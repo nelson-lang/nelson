@@ -311,6 +311,7 @@ printAST(ASTPtr t)
     } else if (t->type == string_const_node) {
         printf("string: '%s'\r\n", t->text.c_str());
     } else if (t->type == null_node) {
+		// NOTHING TO DO
     } else {
         printf("context: %s\r\n", t->text.c_str());
     }

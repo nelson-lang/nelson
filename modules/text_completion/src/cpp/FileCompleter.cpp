@@ -97,8 +97,8 @@ FileCompleter(std::wstring prefix)
 #endif
         } else {
             wchar_t ch = *path.rbegin();
-            if (ch == DIR_SEPARATOR_WINDOWS || ch == DIR_SEPARATOR_OTHERS) {
-            } else {
+            bool isSeparator = (ch == DIR_SEPARATOR_WINDOWS || ch == DIR_SEPARATOR_OTHERS);
+            if (!isSeparator) {
 #ifdef _MSC_VER
                 path.push_back(DIR_SEPARATOR_WINDOWS);
 #else

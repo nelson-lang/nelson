@@ -60,9 +60,9 @@ Nelson::HandleGateway::handle_invokeBuiltin(Evaluator* eval, int nLhs, const Arr
                 if (context->lookupFunction(functionNameGetHandle, funcDef)) {
                     if ((funcDef->type() == NLS_BUILT_IN_FUNCTION)
                         || (funcDef->type() == NLS_MACRO_FUNCTION)) {
-                        ArrayOfVector argIn;
-                        argIn.push_back(param1);
-                        funcDef->evaluateFunction(eval, argIn, nLhs);
+                        ArrayOfVector args;
+                        args.push_back(param1);
+                        funcDef->evaluateFunction(eval, args, nLhs);
                         doOverload = true;
                     }
                 }
