@@ -38,6 +38,7 @@ deleteFile(boost::filesystem::path p)
             boost::filesystem::remove(p);
         } catch (const boost::filesystem::filesystem_error& e) {
             if (e.code() == boost::system::errc::permission_denied) {
+                // ONLY FOR DEBUG
             }
         }
     }
@@ -199,6 +200,7 @@ SystemCommandAttachedW_others(const std::wstring& command, int& ierr)
             fsize = (int)boost::filesystem::file_size(tempErrorFile);
         } catch (const boost::filesystem::filesystem_error& e) {
             if (e.code() == boost::system::errc::permission_denied) {
+                // ONLY FOR DEBUG
             }
             fsize = 0;
         }

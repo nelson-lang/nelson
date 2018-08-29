@@ -51,6 +51,7 @@ UiGetDirectory(std::wstring pathOrigin, std::wstring title, std::wstring& pathSe
                 bRes = boost::filesystem::is_directory(data_dir);
             } catch (const boost::filesystem::filesystem_error& e) {
                 if (e.code() == boost::system::errc::permission_denied) {
+                    // ONLY FOR DEBUG
                 }
                 bRes = false;
             }

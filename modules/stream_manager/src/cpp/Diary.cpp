@@ -63,6 +63,7 @@ Diary::SetFilename(std::wstring wFilename)
             boost::filesystem::remove(p);
         } catch (const boost::filesystem::filesystem_error& e) {
             if (e.code() == boost::system::errc::permission_denied) {
+                // ONLY FOR DEBUG
             }
         }
     }

@@ -87,6 +87,7 @@ isDir(std::wstring dirname)
         IsDirIn = boost::filesystem::exists(pathIn) && boost::filesystem::is_directory(pathIn);
     } catch (const boost::filesystem::filesystem_error& e) {
         if (e.code() == boost::system::errc::permission_denied) {
+			// ONLY FOR DEBUG
         }
         IsDirIn = false;
     }
