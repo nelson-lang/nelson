@@ -388,7 +388,15 @@ function res = save_as_xml(test_suites, xmlFileDestination)
                 msg = tc.msg;
               end
               if length(msg) > 0
-                fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', msg, ']]>', '</error>', eol]);
+                if iscellstr(msg)
+                  fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', eol]);
+                  for m = msg
+                    fprintf(fp, [m{1}, eol]);
+                  end
+                  fprintf(fp, [']]>', '</error>', eol]);
+                else 
+                  fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', msg, ']]>', '</error>', eol]);
+                end
               end
               fprintf(fp, ['    </testcase>', eol]);
             else
