@@ -172,11 +172,12 @@ Exception::getFormattedErrorMessage()
             }
         } else {
             if (functionName != L"") {
-                formattedMessage = std::wstring(L"In ") + filename + L" function " + functionName
+                formattedMessage = formattedMessage + std::wstring(L"In ") + filename + L" function "
+                    + functionName
                     + L" (line " + std::to_wstring(line) + L")\n";
             } else {
-                formattedMessage
-                    = std::wstring(L"In ") + filename + L" (line " + std::to_wstring(line) + L")\n";
+                formattedMessage = formattedMessage + std::wstring(L"In ") + filename + L" (line "
+                    + std::to_wstring(line) + L")\n";
             }
         }
     }
