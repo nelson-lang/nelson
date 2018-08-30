@@ -18,3 +18,7 @@
 #==============================================================================
 languages:
 - cpp
+exclude:
+- /modules/slicot/src/c/.*
+- /modules/slicot/builtin/cpp/.*
+- /modules/random/src/include/.*
