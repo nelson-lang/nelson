@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "uint8Builtin.hpp"
-#include "ToUint8.hpp"
+#include "ToInteger.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
 //=============================================================================
@@ -43,7 +43,7 @@ Nelson::IntegerGateway::uint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVec
                 return retval;
             }
         }
-        retval.push_back(ToUint8(argIn[0]));
+        retval.push_back(ToInteger(NLS_UINT8, argIn[0]));
     }
     return retval;
 }

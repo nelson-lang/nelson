@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "uint64Builtin.hpp"
-#include "ToUint64.hpp"
+#include "ToInteger.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
 //=============================================================================
@@ -43,7 +43,7 @@ Nelson::IntegerGateway::uint64Builtin(Evaluator* eval, int nLhs, const ArrayOfVe
                 return retval;
             }
         }
-        retval.push_back(ToUint64(argIn[0]));
+        retval.push_back(ToInteger(NLS_UINT64, argIn[0]));
     }
     return retval;
 }

@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "uint16Builtin.hpp"
-#include "ToUint16.hpp"
+#include "ToInteger.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
 //=============================================================================
@@ -43,7 +43,7 @@ Nelson::IntegerGateway::uint16Builtin(Evaluator* eval, int nLhs, const ArrayOfVe
                 return retval;
             }
         }
-        retval.push_back(ToUint16(argIn[0]));
+        retval.push_back(ToInteger(NLS_UINT16, argIn[0]));
     }
     return retval;
 }

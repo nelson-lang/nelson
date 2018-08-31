@@ -16,58 +16,66 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ToInt16.hpp"
+#include "ClassToString.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf
-ToInt16(ArrayOf a)
-{
-    std::string destType = "int16";
-    Class destClass = NLS_INT16;
-    if (a.isSparse()) {
-        Error(_("Conversion to '") + destType + _("' from sparse matrix is not possible."));
-    }
-    switch (a.getDataClass()) {
-    case NLS_DCOMPLEX:
-    case NLS_SCOMPLEX: {
-        Error(_("Invalid conversion from complex matrix to '") + destType + _("' matrix."));
-    } break;
+std::wstring ClassToString(Class classType) {
+    std::wstring classString(L"");
+    switch (classType) {
     case NLS_HANDLE: {
-        Error(_("Conversion to '") + destType + _("' from handle is not possible."));
+        classString = utf8_to_wstring(NLS_HANDLE_STR);
     } break;
     case NLS_CELL_ARRAY: {
-        Error(_("Conversion to '") + destType + _("' from cell is not possible."));
+        classString = utf8_to_wstring(NLS_CELL_ARRAY_STR);
     } break;
     case NLS_STRUCT_ARRAY: {
-        if (a.getStructType() != "struct") {
-            Error(_("Undefined function '") + destType + _("' for input arguments of type '")
-                + a.getStructType() + "'.");
-        } else {
-            Error(_("Conversion to '") + destType + _("' from struct is not possible."));
-        }
+        classString = utf8_to_wstring(NLS_STRUCT_ARRAY_STR);
+    } break;
+    case NLS_DCOMPLEX:
+    case NLS_DOUBLE: {
+        classString = utf8_to_wstring(NLS_DOUBLE_STR);
+    } break;
+    case NLS_SCOMPLEX:
+    case NLS_SINGLE: {
+        classString = utf8_to_wstring(NLS_SINGLE_STR);
     } break;
     case NLS_LOGICAL:
-    case NLS_INT8:
-    case NLS_INT16:
-    case NLS_INT32:
-    case NLS_INT64:
+        classString = utf8_to_wstring(NLS_LOGICAL_STR);
+        break;
     case NLS_UINT8:
+        classString = utf8_to_wstring(NLS_UINT8_STR);
+        break;
+    case NLS_INT8:
+        classString = utf8_to_wstring(NLS_INT8_STR);
+        break;
+    case NLS_UINT16:
+        classString = utf8_to_wstring(NLS_UINT16_STR);
+        break;
+    case NLS_INT16:
+        classString = utf8_to_wstring(NLS_INT16_STR);
+        break;
     case NLS_UINT32:
+        classString = utf8_to_wstring(NLS_UINT32_STR);
+        break;
+    case NLS_INT32:
+        classString = utf8_to_wstring(NLS_INT32_STR);
+        break;
     case NLS_UINT64:
-    case NLS_SINGLE:
-    case NLS_DOUBLE:
-    case NLS_CHAR: {
-        ArrayOf res(a);
-        res.promoteType(NLS_INT16);
-        return res;
-    } break;
-    default: {
-        Error(_W("Invalid conversion."));
-    } break;
+        classString = utf8_to_wstring(NLS_UINT64_STR);
+        break;
+    case NLS_INT64:
+        classString = utf8_to_wstring(NLS_INT64_STR);
+        break;
+    case NLS_CHAR:
+        classString = utf8_to_wstring(NLS_CHAR_STR);
+        break;
+    default:
+        break;
     }
-    return ArrayOf();
+    return classString;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

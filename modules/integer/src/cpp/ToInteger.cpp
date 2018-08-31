@@ -16,51 +16,52 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ToUint64.hpp"
+#include "ToInteger.hpp"
+#include "ClassToString.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-ToUint64(ArrayOf a)
-{
-    std::string destType = "uint64";
-    Class destClass = NLS_UINT64;
-    if (a.isSparse()) {
-        Error(_("Conversion to '") + destType + _("' from sparse matrix is not possible."));
+ToInteger(Class destinationClass, const ArrayOf& A) {
+
+    std::wstring destType = ClassToString(destinationClass);
+    if (A.isSparse()) {
+        Error(_W("Conversion to '") + destType + _W("' from sparse matrix is not possible."));
     }
-    switch (a.getDataClass()) {
+    switch (A.getDataClass()) {
     case NLS_DCOMPLEX:
     case NLS_SCOMPLEX: {
-        Error(_("Invalid conversion from complex matrix to '") + destType + _("' matrix."));
+        Error(_W("Invalid conversion from complex matrix to '") + destType + _W("' matrix."));
     } break;
     case NLS_HANDLE: {
-        Error(_("Conversion to '") + destType + _("' from handle is not possible."));
+        Error(_W("Conversion to '") + destType + _W("' from handle is not possible."));
     } break;
     case NLS_CELL_ARRAY: {
-        Error(_("Conversion to '") + destType + _("' from cell is not possible."));
+        Error(_W("Conversion to '") + destType + _W("' from cell is not possible."));
     } break;
     case NLS_STRUCT_ARRAY: {
-        if (a.getStructType() != "struct") {
-            Error(_("Undefined function '") + destType + _("' for input arguments of type '")
-                + a.getStructType() + "'.");
+        if (A.getStructType() != "struct") {
+            Error(_W("Undefined function '") + destType + _W("' for input arguments of type '")
+                + utf8_to_wstring(A.getStructType()) + L"'.");
         } else {
-            Error(_("Conversion to '") + destType + _("' from struct is not possible."));
+            Error(_W("Conversion to '") + destType + _W("' from struct is not possible."));
         }
     } break;
     case NLS_LOGICAL:
-    case NLS_INT8:
-    case NLS_INT16:
-    case NLS_INT32:
-    case NLS_INT64:
     case NLS_UINT8:
+    case NLS_INT8:
     case NLS_UINT16:
+    case NLS_INT16:
     case NLS_UINT32:
+    case NLS_INT32:
     case NLS_UINT64:
+    case NLS_INT64:
+    case NLS_CHAR:
     case NLS_SINGLE:
-    case NLS_DOUBLE:
-    case NLS_CHAR: {
-        ArrayOf res(a);
-        res.promoteType(NLS_UINT64);
+    case NLS_DOUBLE: {
+        ArrayOf res(A);
+        res.promoteType(destinationClass);
         return res;
     } break;
     default: {
