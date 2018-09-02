@@ -22,7 +22,7 @@
     <ProjectGuid>{6AEF4600-4B33-4148-A7CD-88A57A190ACB}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsAudio_builtin</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
