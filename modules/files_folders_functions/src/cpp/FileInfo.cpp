@@ -37,7 +37,7 @@ local_ptime_from_utc_time_t(std::time_t const t)
     return c_local_adjustor<ptime>::utc_to_local(from_time_t(t));
 }
 //=============================================================================
-FileInfo::FileInfo(std::wstring _filename, bool fullpath)
+FileInfo::FileInfo(const std::wstring &_filename, bool fullpath)
 {
     boost::filesystem::path _path = _filename;
     // uniformize path separator

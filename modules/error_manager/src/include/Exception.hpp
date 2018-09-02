@@ -65,13 +65,15 @@ private:
 
 public:
     Exception(
-        std::string msg_in, std::vector<PositionScript> positions, std::string identifier_in = "");
-    Exception(std::wstring msg_in, std::vector<PositionScript> positions,
-        std::wstring identifier_in = L"");
-    Exception(std::string msg_in, PositionScript position, std::string identifier_in = "");
-    Exception(std::wstring msg_in, PositionScript position, std::wstring identifier_in = L"");
-    Exception(std::string msg_in, std::string identifier_in = "");
-    Exception(std::wstring msg_in, std::wstring identifier_in = L"");
+        const std::string &msg_in, std::vector<PositionScript> positions, const std::string &identifier_in = "");
+    Exception(const std::wstring &msg_in, std::vector<PositionScript> positions,
+        const std::wstring &identifier_in = L"");
+    Exception(const std::string& msg_in, const PositionScript& position,
+        const std::string &identifier_in = "");
+    Exception(const std::wstring& msg_in, const PositionScript &position,
+        const std::wstring &identifier_in = L"");
+    Exception(const std::string& msg_in, const std::string &identifier_in = "");
+    Exception(const std::wstring& msg_in, const std::wstring &identifier_in = L"");
     Exception();
 
     /**
@@ -96,9 +98,9 @@ public:
      * compares messages
      */
     bool
-    matches(std::string tst_msg);
+    matches(const std::string &tst_msg);
     bool
-    matches(std::wstring tst_msg);
+    matches(const std::wstring &tst_msg);
     /**
      * Get the message member function.
      */
@@ -106,9 +108,9 @@ public:
     getMessage();
 
     void
-    setIdentifier(std::wstring identifier_in);
+    setIdentifier(const std::wstring &identifier_in);
     void
-    setIdentifier(std::string identifier_in);
+    setIdentifier(const std::string &identifier_in);
 
     std::wstring
     getFormattedErrorMessage();

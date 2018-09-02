@@ -65,7 +65,7 @@ ninfIndices(T* values, indexType nbElements)
 //=============================================================================
 template <class T>
 bool
-IsApprox(T* ptrA, T* ptrB, Dimensions dims, double precision)
+IsApprox(T* ptrA, T* ptrB, const Dimensions &dims, double precision)
 {
     bool bRes = false;
     boost::container::vector<indexType> infA = infIndices<T>(ptrA, dims.getElementCount());

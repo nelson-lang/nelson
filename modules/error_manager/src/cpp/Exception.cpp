@@ -37,26 +37,28 @@ Exception::Exception()
     this->msg.clear();
 }
 //=============================================================================
-Exception::Exception(
-    std::string msg_in, std::vector<PositionScript> positions, std::string identifier_in)
+Exception::Exception(const std::string& msg_in, std::vector<PositionScript> positions,
+    const std::string &identifier_in)
 {
     Exception(utf8_to_wstring(msg_in), positions, utf8_to_wstring(identifier_in));
 }
 //=============================================================================
-Exception::Exception(
-    std::wstring msg_in, std::vector<PositionScript> positions, std::wstring identifier_in)
+Exception::Exception(const std::wstring& msg_in, std::vector<PositionScript> positions,
+    const std::wstring &identifier_in)
 {
     this->backtrace = positions;
     this->identifier = identifier_in;
     this->msg = msg_in;
 }
 //=============================================================================
-Exception::Exception(std::string msg_in, PositionScript position, std::string identifier_in)
+Exception::Exception(
+    const std::string& msg_in, const PositionScript& position, const std::string &identifier_in)
 {
     Exception(utf8_to_wstring(msg_in), position, utf8_to_wstring(identifier_in));
 }
 //=============================================================================
-Exception::Exception(std::wstring msg_in, PositionScript position, std::wstring identifier_in)
+Exception::Exception(
+    const std::wstring& msg_in, const PositionScript& position, const std::wstring &identifier_in)
 {
     this->backtrace.clear();
     this->backtrace.push_back(position);
@@ -64,12 +66,12 @@ Exception::Exception(std::wstring msg_in, PositionScript position, std::wstring 
     this->identifier = identifier_in;
 }
 //=============================================================================
-Exception::Exception(std::string msg_in, std::string identifier_in)
+Exception::Exception(const std::string& msg_in, const std::string &identifier_in)
 {
     Exception(utf8_to_wstring(msg_in), utf8_to_wstring(identifier_in));
 }
 //=============================================================================
-Exception::Exception(std::wstring msg_in, std::wstring identifier_in)
+Exception::Exception(const std::wstring& msg_in, const std::wstring &identifier_in)
 {
     this->backtrace.clear();
     this->msg = msg_in;
@@ -110,13 +112,13 @@ Exception::printMe(Interface* io)
 }
 //=============================================================================
 bool
-Exception::matches(std::wstring tst_msg)
+Exception::matches(const std::wstring &tst_msg)
 {
     return (msg.compare(tst_msg) == 0);
 }
 //=============================================================================
 bool
-Exception::matches(std::string tst_msg)
+Exception::matches(const std::string &tst_msg)
 {
     return (msg.compare(utf8_to_wstring(tst_msg)) == 0);
 }
@@ -203,13 +205,13 @@ Exception::getIdentifier()
 }
 //=============================================================================
 void
-Exception::setIdentifier(std::wstring identifier_in)
+Exception::setIdentifier(const std::wstring &identifier_in)
 {
     this->identifier = identifier_in;
 }
 //=============================================================================
 void
-Exception::setIdentifier(std::string identifier_in)
+Exception::setIdentifier(const std::string &identifier_in)
 {
     this->identifier = utf8_to_wstring(identifier_in);
 }
