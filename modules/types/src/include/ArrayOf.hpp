@@ -436,6 +436,20 @@ public:
     bool
     isNdArrayIntegerType() const;
 
+	/*
+	* helpers function
+	* NLS_UINT8, ..., NLS_UINT64
+	*/
+	bool
+    isUnsignedIntegerType() const;
+
+	/*
+     * helpers function
+     * NLS_INT8, ..., NLS_INT64
+     */
+	bool
+    isSignedIntegerType() const;
+
     /**
      * Copy data from our data array to the specified array.  This is a
      * deep copy, in the sense that pointers are copied by creating
@@ -590,27 +604,27 @@ public:
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    int64VectorConstructor(int len);
+    int64VectorConstructor(indexType len);
 
     /**
      * int32 vector constructor - Construct an NLS_INT32 object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    int32VectorConstructor(int len);
+    int32VectorConstructor(indexType len);
     /**
      * Double vector constructor - Construct an NLS_DOUBLE object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    doubleVectorConstructor(int len);
+    doubleVectorConstructor(indexType len);
 
     /**
      * Single vector constructor - Construct an NLS_SINGLE object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    singleVectorConstructor(int len);
+    singleVectorConstructor(indexType len);
 
     /**
      * int32 matrix constructor - Construct an NLS_INT32 object

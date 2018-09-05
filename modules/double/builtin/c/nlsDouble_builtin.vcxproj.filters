@@ -18,12 +18,6 @@
     <ClCompile Include="..\cpp\doubleBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\double_colon_doubleBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\colon_double_double_doubleBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="dllMain.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -41,12 +35,6 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\colon_double_double_doubleBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\double_colon_doubleBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\double_uminusBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

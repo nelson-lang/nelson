@@ -16,29 +16,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "colon_double_double_doubleBuiltin.hpp"
-#include "ColonDouble.hpp"
-#include "Error.hpp"
-#include "MatrixCheck.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
-ArrayOfVector
-Nelson::DoubleGateway::colon_double_double_doubleBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    if (argIn.size() != 3) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    ArrayOf C = argIn[2];
-    if (!A.isDoubleType() || !B.isDoubleType() || !C.isDoubleType()) {
-        Error(ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED);
-    }
-    ArrayOfVector retval;
-    ArrayOf res = colon_double(A, C, B);
-    retval.push_back(res);
-    return retval;
-}
+namespace Nelson {
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Colon(ArrayOf &J, ArrayOf &K, bool &needToOverload);
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

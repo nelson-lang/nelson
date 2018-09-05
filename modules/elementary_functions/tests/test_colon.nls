@@ -6,36 +6,52 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "doubleBuiltin.hpp"
-#include "double_mtimes_doubleBuiltin.hpp"
-#include "double_times_doubleBuiltin.hpp"
+R = int32(1):4;
+REF = int32([1 2 3 4]);
+assert_isequal(R, REF);
 //=============================================================================
-using namespace Nelson;
+R = 1:2:10;
+REF = [1  3  5  7  9];
+assert_isequal(R, REF);
 //=============================================================================
-const std::wstring gatewayName = L"double";
+R = 1:single(2):10;
+REF = single([1  3  5  7  9]);
+assert_isequal(R, REF);
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "double", Nelson::DoubleGateway::doubleBuiltin, 1, 1 },
-    { "double_mtimes_double", Nelson::DoubleGateway::double_mtimes_doubleBuiltin, 1, 2 },
-    { "double_times_double", Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2 },
-};
+R = 1:int64(3);
+REF = int64([1:3]);
+assert_isequal(R, REF);
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+R = 1:int32(2):4;
+REF = int32([1 3]);
+assert_isequal(R, REF);
 //=============================================================================
-NLSGATEWAYINFO(gateway)
+R = 1:char(2):4;
+RR = double(R);
+REF = [1:2:4];
+assert_isequal(RR, REF);
 //=============================================================================
-NLSGATEWAYREMOVE(gateway)
+R = 1:1;
+REF = 1;
+assert_isequal(R, REF);
 //=============================================================================
-NLSGATEWAYNAME()
+R = double(intmax('uint32'))-3:1:intmax('uint32');
+REF = uint32([4294967292   4294967293   4294967294   4294967295]);
+assert_isequal(R, REF);
+//=============================================================================
+R = 9:int32(-2):4;
+REF =  int32([9   7   5]);
+assert_isequal(R, REF);
+//=============================================================================
+assert_checkerror('single(1):int32(2):single(4)', _('Colon input arguments must have same type.'));
 //=============================================================================

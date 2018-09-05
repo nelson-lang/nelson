@@ -18,8 +18,6 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "singleBuiltin.hpp"
-#include "single_colon_singleBuiltin.hpp"
-#include "colon_single_single_singleBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -27,9 +25,6 @@ const std::wstring gatewayName = L"single";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "single", Nelson::SingleGateway::singleBuiltin, 1, 1 },
-    { "single_colon_single", Nelson::SingleGateway::single_colon_singleBuiltin, 1, 2 },
-    { "colon_single_single_single", Nelson::SingleGateway::colon_single_single_singleBuiltin, 1,
-        3 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

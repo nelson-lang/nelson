@@ -98,9 +98,11 @@ DebugStack(const std::vector<StackEntry>& cstack, int nbOmitLines, stackTrace& s
     }
     std::reverse(std::begin(stackPositions), std::end(stackPositions));
     stackPositions = cleanupDebugStack(stackPositions);
-    for (int k = 0; k < nbOmitLines; k++) {
-        stackPositions.erase(stackPositions.begin());
-    }
+	for (int k = 0; k < nbOmitLines; k++) {
+		if (stackPositions.size() > 0) {
+            stackPositions.erase(stackPositions.begin());
+        }
+	}
 }
 //=============================================================================
 } // namespace Nelson

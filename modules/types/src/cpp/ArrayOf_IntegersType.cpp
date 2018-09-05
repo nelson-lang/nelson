@@ -104,7 +104,7 @@ ArrayOf::int64Constructor(int64 aval)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::int64VectorConstructor(int len)
+ArrayOf::int64VectorConstructor(indexType len)
 {
     Dimensions dim;
     dim.makeScalar();
@@ -114,7 +114,7 @@ ArrayOf::int64VectorConstructor(int len)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::int32VectorConstructor(int len)
+ArrayOf::int32VectorConstructor(indexType len)
 {
     Dimensions dim;
     dim.makeScalar();
@@ -325,6 +325,20 @@ bool
 ArrayOf::isNdArrayIntegerType() const
 {
     return (isIntegerType() && !isSparse() && !is2D());
+}
+//=============================================================================
+bool
+ArrayOf::isUnsignedIntegerType() const
+{
+    return getDataClass() == NLS_UINT8 || getDataClass() == NLS_UINT16
+        || getDataClass() == NLS_UINT32 || getDataClass() == NLS_UINT64;
+}
+//=============================================================================
+bool
+ArrayOf::isSignedIntegerType() const
+{
+    return getDataClass() == NLS_INT8 || getDataClass() == NLS_INT16
+        || getDataClass() == NLS_INT32 || getDataClass() == NLS_INT64;
 }
 //=============================================================================
 }

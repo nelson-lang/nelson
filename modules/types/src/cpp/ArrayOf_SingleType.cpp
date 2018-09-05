@@ -62,7 +62,7 @@ ArrayOf::singleConstructor(float aval)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::singleVectorConstructor(int len)
+ArrayOf::singleVectorConstructor(indexType len)
 {
     Dimensions dim;
     dim.makeScalar();

@@ -17,5 +17,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 addpath([modulepath('overload'),'/tests']);
+M = 1:1e5;
 overloadbasictypes(true);
-tic;for i=1:1e5;3 == 3;end;toc()
+tic;for i=M
+  3 == 3;
+end
+toc()

@@ -176,6 +176,7 @@
     <ClCompile Include="..\cpp\Addition.cpp" />
     <ClCompile Include="..\cpp\And.cpp" />
     <ClCompile Include="..\cpp\Cast.cpp" />
+    <ClCompile Include="..\cpp\Colon.cpp" />
     <ClCompile Include="..\cpp\ComplexConjugate.cpp" />
     <ClCompile Include="..\cpp\ComplexConstructor.cpp" />
     <ClCompile Include="..\cpp\ComplexTranspose.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="..\include\Addition.hpp" />
     <ClInclude Include="..\include\And.hpp" />
     <ClInclude Include="..\include\Cast.hpp" />
+    <ClInclude Include="..\include\Colon.hpp" />
     <ClInclude Include="..\include\ComplexConjugate.hpp" />
     <ClInclude Include="..\include\ComplexConstructor.hpp" />
     <ClInclude Include="..\include\ComplexTranspose.hpp" />

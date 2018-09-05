@@ -101,6 +101,7 @@
 #include "UnaryMinus.hpp"
 #include "UnaryPlus.hpp"
 #include "NelsonConfiguration.hpp"
+#include "Colon.hpp"
 //=============================================================================
 #ifdef _MSC_VER
 #define strdup _strdup
@@ -598,7 +599,18 @@ Evaluator::unitColon(ASTPtr t)
     pushID(t->context());
     a = expression(t->down);
     b = expression(t->down->right);
-    ArrayOf retval = OverloadBinaryOperator(this, a, b, "colon");
+    bool bSuccess = false;
+    ArrayOf retval;
+	if (canOverloadBasicTypes()) {
+        retval = OverloadBinaryOperator(this, a, b, "colon", false, bSuccess, "");
+	}
+    if (!bSuccess) {
+        bool needToOverload;
+        retval = Colon(a, b, needToOverload);
+        if (needToOverload) {
+            retval = OverloadBinaryOperator(this, a, b, "colon");
+        }
+	}
     popID();
     return retval;
 }
@@ -611,7 +623,18 @@ Evaluator::doubleColon(ASTPtr t)
     a = expression(t->down->down);
     b = expression(t->down->down->right);
     c = expression(t->down->right);
-    ArrayOf retval = OverloadTernaryOperator(this, a, b, c, "colon");
+    ArrayOf retval;
+    bool bSuccess = false;
+    if (canOverloadBasicTypes()) {
+        retval = OverloadTernaryOperator(this, a, b, c, "colon", false, bSuccess, "");
+    }
+    if (!bSuccess) {
+        bool needToOverload;
+        retval = Colon(a, b, c, needToOverload);
+        if (needToOverload) {
+            retval = OverloadTernaryOperator(this, a, b, c, "colon");
+        }
+    }
     popID();
     return retval;
 }
@@ -3495,7 +3518,7 @@ Evaluator::rhsExpression(ASTPtr t)
                 logical isValidMethod = false;
                 try {
                     isValidMethod = r.isHandleMethod(utf8_to_wstring(fieldname));
-                } catch (const Exception &) {
+                } catch (const Exception&) {
                     if (r.isHandle()) {
                         Error(_W("Please define: ") + r.getHandleCategory() + L"_ismethod");
                     }

@@ -16,5 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+M = 1:1e5;
 overloadbasictypes(false);
-tic;for i=1:1e5;3 == 3;end;toc()
+tic;for i=M;3 == 3;end;toc()

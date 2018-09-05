@@ -168,8 +168,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\colon_single_single_singleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_colon_singleBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\singleBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -204,10 +202,8 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\colon_single_single_singleBuiltin.hpp" />
     <ClInclude Include="..\include\nlsSingle_builtin_exports.h" />
     <ClInclude Include="..\include\singleBuiltin.hpp" />
-    <ClInclude Include="..\include\single_colon_singleBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.nls" />

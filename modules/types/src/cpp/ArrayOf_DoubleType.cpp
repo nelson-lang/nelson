@@ -63,7 +63,7 @@ ArrayOf::doubleConstructor(double aval)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::doubleVectorConstructor(int len)
+ArrayOf::doubleVectorConstructor(indexType len)
 {
     Dimensions dim;
     dim.makeScalar();

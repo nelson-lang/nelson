@@ -413,6 +413,7 @@ clear A;
 loadbin([tempdir(), '/test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
+clear C;
 C{1}='tim';
 C{2}='love';
 C{3}=1.73;
@@ -423,6 +424,7 @@ clear A;
 loadbin([tempdir(), '/test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
+clear C;
 C{1}='tim';
 C{2}='love';
 C{3}=1.73;

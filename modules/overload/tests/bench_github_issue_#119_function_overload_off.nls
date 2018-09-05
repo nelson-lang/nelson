@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-overloadbasictypes(false);
 A = struct([]);
-tic;for i=1:1e5;isequal(A,A);end;toc()
+M = 1:1e5;
+overloadbasictypes(false);
+tic;for i=M;isequal(A,A);end;toc()
