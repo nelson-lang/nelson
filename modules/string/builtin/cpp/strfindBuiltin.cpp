@@ -55,7 +55,7 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     ArrayOf B = argIn[1];
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->canOverloadBasicTypes()) {
+    if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "strfind", bSuccess);
     }
     if (!bSuccess) {

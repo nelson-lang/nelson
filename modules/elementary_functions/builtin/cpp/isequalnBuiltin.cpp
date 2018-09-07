@@ -36,7 +36,7 @@ Nelson::ElementaryFunctionsGateway::isequalnBuiltin(
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    if (eval->canOverloadBasicTypes()) {
+    if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "isequaln", bSuccess);
     }
     if (!bSuccess) {

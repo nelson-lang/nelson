@@ -30,7 +30,7 @@ void
 OverloadDisplay(Evaluator* eval, ArrayOf a, bool fromBuiltin)
 {
     bool bSuccess = false;
-    if (eval->canOverloadBasicTypes()) {
+    if (eval->mustOverloadBasicTypes()) {
         Context* context = eval->getContext();
         if (context) {
             FunctionDef* funcDef = nullptr;

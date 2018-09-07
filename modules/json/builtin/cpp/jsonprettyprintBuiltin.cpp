@@ -35,7 +35,7 @@ Nelson::JsonGateway::jsonprettyprintBuiltin(Evaluator* eval, int nLhs, const Arr
     }
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->canOverloadBasicTypes()) {
+    if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "jsonprettyprint", bSuccess);
     }
     if (!bSuccess) {

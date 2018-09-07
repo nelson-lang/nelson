@@ -36,7 +36,7 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(
     }
     ArrayOf param1 = argIn[0];
     bool bSuccess = false;
-    if (eval->canOverloadBasicTypes()) {
+    if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "ndims", bSuccess);
     }
     if (!bSuccess) {

@@ -32,7 +32,7 @@ Nelson::IntegerGateway::uint16Builtin(Evaluator* eval, int nLhs, const ArrayOfVe
     }
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->canOverloadBasicTypes()) {
+    if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "uint16", bSuccess);
     }
     if (!bSuccess) {

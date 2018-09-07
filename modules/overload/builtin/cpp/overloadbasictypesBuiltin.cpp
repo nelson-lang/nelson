@@ -32,7 +32,7 @@ Nelson::OverloadGateway::overloadbasictypesBuiltin(
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    bool previousValue = eval->canOverloadBasicTypes();
+    bool previousValue = eval->mustOverloadBasicTypes();
     if (argIn.size() == 1) {
         bool newValue = argIn[0].getContentAsLogicalScalar();
         if (newValue) {

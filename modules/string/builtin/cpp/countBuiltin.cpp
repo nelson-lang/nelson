@@ -37,7 +37,7 @@ Nelson::StringGateway::countBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     }
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->canOverloadBasicTypes()) {
+    if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "count", bSuccess);
     }
     if (!bSuccess) {

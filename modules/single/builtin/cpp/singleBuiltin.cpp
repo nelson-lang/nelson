@@ -34,7 +34,7 @@ Nelson::SingleGateway::singleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     ArrayOf A(argIn[0]);
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->canOverloadBasicTypes()) {
+    if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "single", bSuccess);
     }
     if (!bSuccess) {

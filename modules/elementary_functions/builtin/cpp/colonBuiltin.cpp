@@ -35,7 +35,7 @@ Nelson::ElementaryFunctionsGateway::colonBuiltin(
     if (argIn.size() == 2) {
         ArrayOf A = argIn[0];
         ArrayOf B = argIn[1];
-		if (eval->canOverloadBasicTypes()) {
+		if (eval->mustOverloadBasicTypes()) {
             res = OverloadBinaryOperator(eval, A, B, "colon", false, bSuccess, "");
         }
         if (!bSuccess) {
@@ -48,7 +48,7 @@ Nelson::ElementaryFunctionsGateway::colonBuiltin(
         ArrayOf A = argIn[0];
         ArrayOf B = argIn[1];
         ArrayOf C = argIn[2];
-        if (eval->canOverloadBasicTypes()) {
+        if (eval->mustOverloadBasicTypes()) {
             res = OverloadTernaryOperator(eval, A, B, C, "colon", false, bSuccess, "");
 		}
         if (!bSuccess) {

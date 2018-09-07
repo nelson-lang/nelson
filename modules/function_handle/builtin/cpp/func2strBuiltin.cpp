@@ -37,7 +37,7 @@ Nelson::FunctionHandleGateway::func2strBuiltin(
     }
     ArrayOf arg1 = argIn[0];
     bool bSuccess = false;
-    if (eval->canOverloadBasicTypes()) {
+    if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "func2str", bSuccess);
     }
     if (!bSuccess) {

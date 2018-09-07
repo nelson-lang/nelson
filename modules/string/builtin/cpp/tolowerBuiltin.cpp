@@ -37,7 +37,7 @@ Nelson::StringGateway::tolowerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     ArrayOf A = argIn[0];
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->canOverloadBasicTypes()) {
+    if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "tolower", bSuccess);
     }
     if (!bSuccess) {

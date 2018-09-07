@@ -601,7 +601,7 @@ Evaluator::unitColon(ASTPtr t)
     b = expression(t->down->right);
     bool bSuccess = false;
     ArrayOf retval;
-	if (canOverloadBasicTypes()) {
+	if (mustOverloadBasicTypes()) {
         retval = OverloadBinaryOperator(this, a, b, "colon", false, bSuccess, "");
 	}
     if (!bSuccess) {
@@ -625,7 +625,7 @@ Evaluator::doubleColon(ASTPtr t)
     c = expression(t->down->right);
     ArrayOf retval;
     bool bSuccess = false;
-    if (canOverloadBasicTypes()) {
+    if (mustOverloadBasicTypes()) {
         retval = OverloadTernaryOperator(this, a, b, c, "colon", false, bSuccess, "");
     }
     if (!bSuccess) {
@@ -3851,7 +3851,7 @@ Evaluator::enableOverload()
 }
 //=============================================================================
 bool
-Evaluator::canOverloadBasicTypes()
+Evaluator::mustOverloadBasicTypes()
 {
     return overloadOnBasicTypes;
 }

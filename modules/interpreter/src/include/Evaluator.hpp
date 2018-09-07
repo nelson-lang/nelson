@@ -256,7 +256,7 @@ public:
      *  return current overload basic types
      */
     bool
-    canOverloadBasicTypes();
+    mustOverloadBasicTypes();
     /**
      * enable overload basic type
      */

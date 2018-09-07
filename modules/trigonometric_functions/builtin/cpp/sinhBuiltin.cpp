@@ -35,7 +35,7 @@ Nelson::TrigonometricGateway::sinhBuiltin(Evaluator* eval, int nLhs, const Array
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    if (eval->canOverloadBasicTypes()) {
+    if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "sinh", bSuccess);
     }
     if (!bSuccess) {

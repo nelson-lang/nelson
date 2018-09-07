@@ -32,7 +32,7 @@ Nelson::IntegerGateway::uint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVec
     }
     // Call overload if it exists
     bool bSuccess = false;
-    if (eval->canOverloadBasicTypes()) {
+    if (eval->mustOverloadBasicTypes()) {
         retval = OverloadFunction(eval, nLhs, argIn, "uint8", bSuccess);
     }
     if (!bSuccess) {
