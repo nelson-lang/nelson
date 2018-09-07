@@ -118,22 +118,21 @@ single_colon(single low, single high, single step)
         }
     }
     single dn = (single)((((high - low) / step) + 1));
-    indexType n = (indexType)std::trunc(dn);
+    indexType n;
+    if (single(step) == step) {
+        n = (indexType)std::floor(dn);
+    } else {
+        n = (indexType)std::round(dn);
+	}
     single* pV = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, n, stringVector(), false);
     ArrayOf V = ArrayOf(NLS_SINGLE, Dimensions(1, n), pV);
-    if (dn == (single(n))) {
-        Eigen::Map<Eigen::VectorXf> Range(pV, n);
-        Range = Eigen::VectorXf::LinSpaced(n, low, high);
-    } else {
-        // We must use another algo. in this case
-        // 1:2:10
-        int i = 0;
-        single v = low;
-        while ((low < high && v <= high) || (low > high && v >= high)) {
-            pV[i] = v;
-            v = v + step;
-            i++;
+    if (int(step) == step) {
+		for (indexType k = 0; k < n; k++) {
+            pV[k] = (k == 0) ? low : pV[k - 1] + step;
         }
+    } else {
+		Eigen::Map<Eigen::VectorXf> Range(pV, n);
+        Range = Eigen::VectorXf::LinSpaced(n, low, high);
     }
     return V;
 }
@@ -162,22 +161,21 @@ double_colon(double low, double high, double step)
         }
     }
     double dn = (double)((((high - low) / step) + 1));
-    indexType n = (indexType)std::trunc(dn);
+    indexType n;
+    if (int(step) == step) {
+        n = (indexType)std::floor(dn);
+    } else {
+        n = (indexType)std::round(dn);
+    }
     double* pV = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, n, stringVector(), false);
     ArrayOf V = ArrayOf(NLS_DOUBLE, Dimensions(1, n), pV);
-    if (dn == (double(n))) {
+    if (double(step) == step) {
+        for (indexType k = 0; k < n; k++) {
+            pV[k] = (k == 0) ? low : pV[k - 1] + step;
+        }
+    } else {
         Eigen::Map<Eigen::VectorXd> Range(pV, n);
         Range = Eigen::VectorXd::LinSpaced(n, low, high);
-    } else {
-        // We must use another algo. in this case
-        // 1:2:10
-        indexType i = 0;
-        double v = low;
-        while ((low < high && v <= high) || (low > high && v >= high)) {
-            pV[i] = v;
-            v = v + step;
-            i++;
-        }
     }
     return V;
 }
