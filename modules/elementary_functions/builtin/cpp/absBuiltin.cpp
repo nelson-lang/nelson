@@ -40,21 +40,16 @@ Nelson::ElementaryFunctionsGateway::absBuiltin(
         retval = OverloadFunction(eval, nLhs, argIn, "abs", bSuccess);
     }
     if (!bSuccess) {
-        if (argIn[0].isSparse()) {
+        bool needToOverload;
+        ArrayOf res = AbsoluteValue(argIn[0], needToOverload);
+        if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "abs", bSuccess);
-            if (bSuccess) {
-                return retval;
+            if (!bSuccess) {
+                Error(_("Undefined function '") + ClassName(argIn[0]) + "_abs'");
             }
-            Error(_("Undefined function '") + ClassName(argIn[0]) + "_abs'");
-        }
-        if (argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassStruct()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "fix", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-        }
-        retval.push_back(AbsoluteValue(argIn[0]));
+        } else {
+            retval.push_back(res);
+		}
     }
     return retval;
 }

@@ -24,15 +24,21 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-AbsoluteValue(ArrayOf arrayIn)
+AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
 {
     ArrayOf res;
+    needToOverload = false;
+    if (arrayIn.isSparse()) {
+        needToOverload = true;
+        return ArrayOf();
+    }
     switch (arrayIn.getDataClass()) {
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
     case NLS_STRUCT_ARRAY:
     default: {
-        Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_abs'");
+        needToOverload = true;
+        return ArrayOf();
     } break;
     case NLS_UINT8:
     case NLS_UINT16:
