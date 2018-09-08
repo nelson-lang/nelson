@@ -168,14 +168,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\allBuiltin.cpp" />
-    <ClCompile Include="..\cpp\anyBuiltin.cpp" />
     <ClCompile Include="..\cpp\falseBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\logicalBuiltin.cpp" />
-    <ClCompile Include="..\cpp\logical_allBuiltin.cpp" />
-    <ClCompile Include="..\cpp\logical_anyBuiltin.cpp" />
-    <ClCompile Include="..\cpp\logical_notBuiltin.cpp" />
     <ClCompile Include="..\cpp\trueBuiltin.cpp" />
     <ClCompile Include="..\cpp\xorBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -207,14 +202,9 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\allBuiltin.hpp" />
-    <ClInclude Include="..\include\anyBuiltin.hpp" />
     <ClInclude Include="..\include\falseBuiltin.hpp" />
     <ClInclude Include="..\include\logicalBuiltin.hpp" />
-    <ClInclude Include="..\include\logical_allBuiltin.hpp" />
-    <ClInclude Include="..\include\logical_anyBuiltin.hpp" />
     <ClInclude Include="..\include\nlsLogical_builtin_exports.h" />
-    <ClInclude Include="..\include\logical_notBuiltin.hpp" />
     <ClInclude Include="..\include\trueBuiltin.hpp" />
     <ClInclude Include="..\include\xorBuiltin.hpp" />
   </ItemGroup>

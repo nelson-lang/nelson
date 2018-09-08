@@ -353,7 +353,7 @@ Evaluator::cellDefinition(ASTPtr t)
 }
 
 bool
-Evaluator::needToOverloadOperator(ArrayOf a)
+Evaluator::needToOverloadOperator(const ArrayOf &a)
 {
     return ((a.getDataClass() == NLS_STRUCT_ARRAY) || (a.getDataClass() == NLS_CELL_ARRAY)
         || a.isSparse() || a.isHandle());
@@ -504,7 +504,7 @@ Evaluator::expression(ASTPtr t)
             retval = doUnaryOperatorOverload(t, UnaryMinus, "uminus");
         } break;
         case OP_NOT: {
-            retval = OverloadUnaryOperator(this, expression(t->down), "not");
+            retval = notOperator(t);
         } break;
         case OP_POWER: {
             retval = OverloadBinaryOperator(

@@ -17,13 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "allBuiltin.hpp"
-#include "anyBuiltin.hpp"
 #include "falseBuiltin.hpp"
 #include "logicalBuiltin.hpp"
-#include "logical_allBuiltin.hpp"
-#include "logical_anyBuiltin.hpp"
-#include "logical_notBuiltin.hpp"
 #include "trueBuiltin.hpp"
 #include "xorBuiltin.hpp"
 //=============================================================================
@@ -35,13 +30,7 @@ static const nlsGateway gateway[] = {
     { "logical", Nelson::LogicalGateway::logicalBuiltin, 1, 1 },
     { "true", Nelson::LogicalGateway::trueBuiltin, 1, 1 },
     { "false", Nelson::LogicalGateway::falseBuiltin, 1, 1 },
-    { "logical_not", Nelson::LogicalGateway::logical_notBuiltin, 1, 1 },
     { "xor", Nelson::LogicalGateway::xorBuiltin, 1, 2 },
-    { "any", Nelson::LogicalGateway::anyBuiltin, 1, 2 },
-    { "all", Nelson::LogicalGateway::allBuiltin, 1, 1 },
-    { "logical_any", Nelson::LogicalGateway::logical_anyBuiltin, 1, 2 },
-    { "logical_all", Nelson::LogicalGateway::logical_allBuiltin, 1, 1 },
-
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

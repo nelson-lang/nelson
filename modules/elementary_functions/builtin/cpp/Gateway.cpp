@@ -54,6 +54,8 @@
 #include "ndimsBuiltin.hpp"
 #include "neBuiltin.hpp"
 #include "notBuiltin.hpp"
+#include "allBuiltin.hpp"
+#include "anyBuiltin.hpp"
 #include "numelBuiltin.hpp"
 #include "orBuiltin.hpp"
 #include "plusBuiltin.hpp"
@@ -107,6 +109,8 @@ static const nlsGateway gateway[] = {
     { "times", Nelson::ElementaryFunctionsGateway::timesBuiltin, 1, 2 },
     { "not", Nelson::ElementaryFunctionsGateway::notBuiltin, 1, 1 },
     { "or", Nelson::ElementaryFunctionsGateway::orBuiltin, 1, 2 },
+    { "any", Nelson::ElementaryFunctionsGateway::anyBuiltin, 1, 2 },
+    { "all", Nelson::ElementaryFunctionsGateway::allBuiltin, 1, 1 },
     { "power", Nelson::ElementaryFunctionsGateway::powerBuiltin, 1, 2 },
     { "shortcutor", Nelson::ElementaryFunctionsGateway::shortcutorBuiltin, 1, 2 },
     { "shortcutand", Nelson::ElementaryFunctionsGateway::shortcutandBuiltin, 1, 2 },

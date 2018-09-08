@@ -16,32 +16,46 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NotLogical.hpp"
-#include "Exception.hpp"
+#include "anyBuiltin.hpp"
+#include "Error.hpp"
+#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
+#include "Any.hpp"
 //=============================================================================
-namespace Nelson {
+using namespace Nelson;
 //=============================================================================
-ArrayOf
-NotLogical(ArrayOf A)
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::anyBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOf C;
-    if (A.getDataClass() == NLS_LOGICAL) {
-        size_t Alen(A.getLength());
-        logical* Cp = new_with_exception<logical>(Alen);
-        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), Cp);
-        logical* Ap = (logical*)A.getDataPointer();
-        for (size_t i = 0; i < Alen; i++) {
-            if (Ap[i] == 0) {
-                Cp[i] = 1;
-            } else {
-                Cp[i] = 0;
-            }
-        }
-    } else {
-        Error(_W("Invalid type."));
+    ArrayOfVector retval;
+    bool bSuccess = false;
+    if (!((argIn.size() == 1) || (argIn.size() == 2))) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    return C;
-}
-//=============================================================================
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "any", bSuccess);
+    }
+    if (!bSuccess) {
+        indexType d = 0;
+        ArrayOf arg1 = argIn[0];
+        if (argIn.size() > 1) {
+            ArrayOf arg2 = argIn[1];
+            d = arg2.getContentAsScalarIndex(false);
+        }
+        bool needToOverload = false;
+        ArrayOf res = Any(arg1, d, needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "any", bSuccess);
+            if (!bSuccess) {
+                OverloadRequired(eval, argIn, Overload::FUNCTION, "any");
+            }
+        } else {
+            retval.push_back(res);
+        }
+    }
+    return retval;
 }
 //=============================================================================

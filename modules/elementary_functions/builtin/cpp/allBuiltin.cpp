@@ -16,28 +16,45 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "anyBuiltin.hpp"
+#include "allBuiltin.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
+#include "All.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::LogicalGateway::anyBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::allBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
+	bool bSuccess = false;
     if (!((argIn.size() == 1) || (argIn.size() == 2))) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    // Call overload if it exists
-    bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "any", bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "all", bSuccess);
+    }
     if (!bSuccess) {
-        OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
+        indexType d = 0;
+        ArrayOf arg1 = argIn[0];
+        if (argIn.size() > 1) {
+            ArrayOf arg2 = argIn[1];
+            d = arg2.getContentAsScalarIndex(false);
+        }
+        bool needToOverload = false;
+        ArrayOf res = All(arg1, d, needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "all", bSuccess);
+            if (!bSuccess) {
+                OverloadRequired(eval, argIn, Overload::FUNCTION, "all");
+            }
+        } else {
+            retval.push_back(res);
+        }
     }
     return retval;
 }

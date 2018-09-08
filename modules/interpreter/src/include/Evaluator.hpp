@@ -808,6 +808,8 @@ public:
     orOperator(ArrayOf A, ArrayOf B);
     ArrayOf
     andOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    notOperator(ArrayOf A);
 
 private:
     void
@@ -855,9 +857,11 @@ private:
     ltOperator(ASTPtr t);
     ArrayOf
     neOperator(ASTPtr t);
+    ArrayOf
+    notOperator(ASTPtr t);
 
     bool
-    needToOverloadOperator(ArrayOf a);
+    needToOverloadOperator(const ArrayOf &a);
 };
 NLSINTERPRETER_IMPEXP void
 sigInterrupt(int arg);

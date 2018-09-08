@@ -248,6 +248,7 @@
     <ClCompile Include="..\cpp\MacroFunctionDef.cpp" />
     <ClCompile Include="..\cpp\NelsonLexer.cpp" />
     <ClCompile Include="..\cpp\NeOperator.cpp" />
+    <ClCompile Include="..\cpp\NotOperator.cpp" />
     <ClCompile Include="..\cpp\Operators.cpp" />
     <ClCompile Include="..\cpp\OrOperator.cpp" />
     <ClCompile Include="..\cpp\OverloadCache.cpp" />

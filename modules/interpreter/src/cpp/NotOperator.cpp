@@ -6,23 +6,47 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function r = double_any(varargin)
-  if (nargin() == 1)
-    r = logical_any(logical(varargin{1}));
-  elseif (nargin() == 2)
-      r = logical_any(logical(varargin{1}), varargin{2});
-  else
-      error('Wrong number of input arguments.');
-  end
-endfunction
+#include "Evaluator.hpp"
+#include "Not.hpp"
+#include "OverloadUnaryOperator.hpp"
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+ArrayOf
+Evaluator::notOperator(ASTPtr t)
+{
+    pushID(t->context());
+    ArrayOf retval = this->notOperator(expression(t->down));
+    popID();
+    return retval;
+}
+//=============================================================================
+ArrayOf
+Evaluator::notOperator(ArrayOf A)
+{
+    ArrayOf res;
+    if ((overloadOnBasicTypes || needToOverloadOperator(A))
+        && !isOverloadAllowed()) {
+        res = OverloadUnaryOperator(this, A, "not");
+    } else {
+        bool needToOverload;
+        res = Not(A, needToOverload);
+        if (needToOverload) {
+            res = OverloadUnaryOperator(this, A, "not");
+        }
+    }
+    return res;
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

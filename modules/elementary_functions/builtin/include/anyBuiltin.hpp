@@ -19,10 +19,14 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsLogical_exports.h"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-NLSLOGICAL_IMPEXP ArrayOf
-NotLogical(ArrayOf A);
+//=============================================================================
+namespace ElementaryFunctionsGateway {
+    ArrayOfVector
+    anyBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

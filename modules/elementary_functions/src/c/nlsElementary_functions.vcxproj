@@ -174,7 +174,9 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\AbsoluteValue.cpp" />
     <ClCompile Include="..\cpp\Addition.cpp" />
+    <ClCompile Include="..\cpp\All.cpp" />
     <ClCompile Include="..\cpp\And.cpp" />
+    <ClCompile Include="..\cpp\Any.cpp" />
     <ClCompile Include="..\cpp\Cast.cpp" />
     <ClCompile Include="..\cpp\Colon.cpp" />
     <ClCompile Include="..\cpp\ComplexConjugate.cpp" />
@@ -229,7 +231,9 @@
   <ItemGroup>
     <ClInclude Include="..\include\AbsoluteValue.hpp" />
     <ClInclude Include="..\include\Addition.hpp" />
+    <ClInclude Include="..\include\All.hpp" />
     <ClInclude Include="..\include\And.hpp" />
+    <ClInclude Include="..\include\Any.hpp" />
     <ClInclude Include="..\include\Cast.hpp" />
     <ClInclude Include="..\include\Colon.hpp" />
     <ClInclude Include="..\include\ComplexConjugate.hpp" />
