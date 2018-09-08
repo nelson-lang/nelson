@@ -25,6 +25,13 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static bool
+isSignedInteger(Class destinationClass)
+{
+    return (destinationClass == NLS_INT8 || destinationClass == NLS_INT16
+        || destinationClass == NLS_INT32 || destinationClass == NLS_INT64);
+}
+//=============================================================================
 template <class T>
 static ArrayOf
 integer_colon(Class destinationClass, T low, T high, T step)
@@ -35,10 +42,12 @@ integer_colon(Class destinationClass, T low, T high, T step)
         return res;
     }
     if (low < high) {
-        if (step < 0) {
-            ArrayOf res = ArrayOf::emptyConstructor(1, 0);
-            res.promoteType(destinationClass);
-            return res;
+        if (isSignedInteger(destinationClass)) {
+            if (step < 0) {
+                ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+                res.promoteType(destinationClass);
+                return res;
+            }
         }
     }
     if (low > high) {
@@ -88,63 +97,20 @@ char_colon(charType low, charType high, charType step)
     return ArrayOf(NLS_CHAR, Dimensions(1, n), pV);
 }
 //=============================================================================
+template <class T>
 static ArrayOf
-single_colon(single low, single high, single step)
+real_colon(Class destinationClass, T low, T high, T step)
 {
     if (step == 0) {
         ArrayOf res = ArrayOf::emptyConstructor(1, 0);
-        res.promoteType(NLS_SINGLE);
+        res.promoteType(destinationClass);
         return res;
     }
     if (std::isnan(low) || std::isnan(high) || std::isnan(step)) {
         Dimensions Cdim(1, 1);
-        return ArrayOf::singleConstructor(nanf(""));
-    }
-    if (!std::isfinite(low) || !std::isfinite(high) || !std::isfinite(step)) {
-        Error(_W("Invalid range."));
-    }
-    if (low < high) {
-        if (step < 0) {
-            ArrayOf res = ArrayOf::emptyConstructor(1, 0);
-            res.promoteType(NLS_SINGLE);
-            return res;
+        if (destinationClass == NLS_SINGLE) {
+            return ArrayOf::singleConstructor(nanf(""));
         }
-    }
-    if (low > high) {
-        if (step > 0) {
-            ArrayOf res = ArrayOf::emptyConstructor(1, 0);
-            res.promoteType(NLS_SINGLE);
-            return res;
-        }
-    }
-    single dn = (single)((((high - low) / step) + 1));
-    indexType n;
-    if (single(step) == step) {
-        n = (indexType)std::floor(dn);
-    } else {
-        n = (indexType)std::round(dn);
-	}
-    single* pV = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, n, stringVector(), false);
-    ArrayOf V = ArrayOf(NLS_SINGLE, Dimensions(1, n), pV);
-    if (int(step) == step) {
-		for (indexType k = 0; k < n; k++) {
-            pV[k] = (k == 0) ? low : pV[k - 1] + step;
-        }
-    } else {
-		Eigen::Map<Eigen::VectorXf> Range(pV, n);
-        Range = Eigen::VectorXf::LinSpaced(n, low, high);
-    }
-    return V;
-}
-//=============================================================================
-static ArrayOf
-double_colon(double low, double high, double step)
-{
-    if (step == 0) {
-        return ArrayOf::emptyConstructor(1, 0);
-    }
-    if (std::isnan(low) || std::isnan(high) || std::isnan(step)) {
-        Dimensions Cdim(1, 1);
         return ArrayOf::doubleConstructor(nan(""));
     }
     if (!std::isfinite(low) || !std::isfinite(high) || !std::isfinite(step)) {
@@ -152,30 +118,33 @@ double_colon(double low, double high, double step)
     }
     if (low < high) {
         if (step < 0) {
-            return ArrayOf::emptyConstructor(1, 0);
+            ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+            res.promoteType(destinationClass);
+            return res;
         }
     }
     if (low > high) {
         if (step > 0) {
-            return ArrayOf::emptyConstructor(1, 0);
+            ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+            res.promoteType(destinationClass);
+            return res;
         }
     }
-    double dn = (double)((((high - low) / step) + 1));
+    T dn = (T)((((high - low) / step) + 1));
     indexType n;
-    if (int(step) == step) {
+    T truncatedStep = T(int(step));
+    if (truncatedStep == step) {
         n = (indexType)std::floor(dn);
     } else {
-        n = (indexType)std::round(dn);
-    }
-    double* pV = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, n, stringVector(), false);
-    ArrayOf V = ArrayOf(NLS_DOUBLE, Dimensions(1, n), pV);
-    if (double(step) == step) {
-        for (indexType k = 0; k < n; k++) {
-            pV[k] = (k == 0) ? low : pV[k - 1] + step;
-        }
-    } else {
-        Eigen::Map<Eigen::VectorXd> Range(pV, n);
-        Range = Eigen::VectorXd::LinSpaced(n, low, high);
+        T nMax = (T)(std::nextafter(high - low, high - low + step) / std::nextafter(step, 0));
+        T nSize = std::floor(nMax);
+        nSize++;
+        n = (indexType)nSize;
+	}
+    T* pV = (T*)ArrayOf::allocateArrayOf(destinationClass, n, stringVector(), false);
+    ArrayOf V = ArrayOf(destinationClass, Dimensions(1, n), pV);
+    for (indexType k = 0; k < n; k++) {
+        pV[k] = (k == 0) ? low : pV[k - 1] + step;
     }
     return V;
 }
@@ -511,7 +480,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             if (warningArrayAsScalar) {
                 Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
             }
-            return single_colon(low, high, step);
+            return real_colon<single>(NLS_SINGLE, low, high, step);
         } break;
         case NLS_DOUBLE: {
             double step;
@@ -538,7 +507,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             if (warningArrayAsScalar) {
                 Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
             }
-            return double_colon(low, high, step);
+            return real_colon<double>(NLS_DOUBLE, low, high, step);
         } break;
         case NLS_SCOMPLEX: {
             single step;
@@ -571,7 +540,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             if (warningArrayAsScalar) {
                 Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
             }
-            return single_colon(low, high, step);
+            return real_colon<single>(NLS_SINGLE, low, high, step);
         } break;
         case NLS_DCOMPLEX: {
             double step;
@@ -604,7 +573,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             if (warningArrayAsScalar) {
                 Warning(L"Nelson:colon:array-as-scalar", _W("Array used as scalar."));
             }
-            return double_colon(low, high, step);
+            return real_colon<double>(NLS_DOUBLE, low, high, step);
         } break;
         case NLS_CHAR: {
             charType step;
