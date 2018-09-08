@@ -45,7 +45,7 @@ Assert_IsEqual(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, st
                 } else {
                     Error(_W("isequalto must return an logical."));
                 }
-            } catch (const Exception &) {
+            } catch (const Exception&) {
                 Error(_W("isequalto returns an unexpected error."));
             }
         }

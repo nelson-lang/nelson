@@ -49,7 +49,7 @@ Nelson::ElementaryFunctionsGateway::absBuiltin(
             }
         } else {
             retval.push_back(res);
-		}
+        }
     }
     return retval;
 }

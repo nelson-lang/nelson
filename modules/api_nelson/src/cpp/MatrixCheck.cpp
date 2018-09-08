@@ -82,7 +82,7 @@ FindCommonType(const ArrayOf& A, const ArrayOf& B, bool isDivOrMatrix)
 }
 //=============================================================================
 bool
-SameSizeCheck(Dimensions &Adim, Dimensions &Bdim)
+SameSizeCheck(Dimensions& Adim, Dimensions& Bdim)
 {
     Adim.simplify();
     Bdim.simplify();
@@ -116,8 +116,7 @@ BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
     } else {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsB = B.getDimensions();
-        if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar()
-                || B.isScalar())) {
+        if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
             Error(std::string(_("Size mismatch on arguments to ")) + opname);
         }
     }

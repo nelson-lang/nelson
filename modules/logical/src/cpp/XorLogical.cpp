@@ -49,8 +49,7 @@ XorLogical(ArrayOf A, ArrayOf B)
     if ((A.getDataClass() == NLS_LOGICAL) && (B.getDataClass() == NLS_LOGICAL)) {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsB = B.getDimensions();
-        if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar()
-                || B.isScalar())) {
+        if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
             Error(_W("Size mismatch on arguments."));
         }
         if (A.isScalar()) {

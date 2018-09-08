@@ -60,7 +60,7 @@ integer_colon(Class destinationClass, T low, T high, T step)
     double dn = (double)((((high - low) / step) + 1));
     indexType n = (indexType)std::trunc(dn);
     T* pV = (T*)ArrayOf::allocateArrayOf(destinationClass, n, stringVector(), false);
-	for (indexType k = 0; k < n; k++) {
+    for (indexType k = 0; k < n; k++) {
         pV[k] = (k == 0) ? low : pV[k - 1] + step;
     }
     return ArrayOf(destinationClass, Dimensions(1, n), pV);
@@ -140,7 +140,7 @@ real_colon(Class destinationClass, T low, T high, T step)
         T nSize = std::floor(nMax);
         nSize++;
         n = (indexType)nSize;
-	}
+    }
     T* pV = (T*)ArrayOf::allocateArrayOf(destinationClass, n, stringVector(), false);
     ArrayOf V = ArrayOf(destinationClass, Dimensions(1, n), pV);
     for (indexType k = 0; k < n; k++) {

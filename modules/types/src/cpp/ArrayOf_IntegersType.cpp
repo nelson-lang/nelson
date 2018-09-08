@@ -337,8 +337,8 @@ ArrayOf::isUnsignedIntegerType() const
 bool
 ArrayOf::isSignedIntegerType() const
 {
-    return getDataClass() == NLS_INT8 || getDataClass() == NLS_INT16
-        || getDataClass() == NLS_INT32 || getDataClass() == NLS_INT64;
+    return getDataClass() == NLS_INT8 || getDataClass() == NLS_INT16 || getDataClass() == NLS_INT32
+        || getDataClass() == NLS_INT64;
 }
 //=============================================================================
 }

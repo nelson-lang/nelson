@@ -42,7 +42,7 @@ BuiltInFunctionDefManager::getInstance()
     if (m_pInstance == nullptr) {
         try {
             m_pInstance = new BuiltInFunctionDefManager();
-        } catch (const std::bad_alloc &) {
+        } catch (const std::bad_alloc&) {
             m_pInstance = nullptr;
         }
     }
@@ -66,7 +66,7 @@ BuiltInFunctionDefManager::add(std::string name, BuiltInFuncPtr fptr, int argc_i
     BuiltInFunctionDef* f2def;
     try {
         f2def = new BuiltInFunctionDef();
-    } catch (const std::bad_alloc &) {
+    } catch (const std::bad_alloc&) {
         f2def = nullptr;
     }
     if (f2def) {

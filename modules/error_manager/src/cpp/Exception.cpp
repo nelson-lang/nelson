@@ -38,13 +38,13 @@ Exception::Exception()
 }
 //=============================================================================
 Exception::Exception(const std::string& msg_in, std::vector<PositionScript> positions,
-    const std::string &identifier_in)
+    const std::string& identifier_in)
 {
     Exception(utf8_to_wstring(msg_in), positions, utf8_to_wstring(identifier_in));
 }
 //=============================================================================
 Exception::Exception(const std::wstring& msg_in, std::vector<PositionScript> positions,
-    const std::wstring &identifier_in)
+    const std::wstring& identifier_in)
 {
     this->backtrace = positions;
     this->identifier = identifier_in;
@@ -52,13 +52,13 @@ Exception::Exception(const std::wstring& msg_in, std::vector<PositionScript> pos
 }
 //=============================================================================
 Exception::Exception(
-    const std::string& msg_in, const PositionScript& position, const std::string &identifier_in)
+    const std::string& msg_in, const PositionScript& position, const std::string& identifier_in)
 {
     Exception(utf8_to_wstring(msg_in), position, utf8_to_wstring(identifier_in));
 }
 //=============================================================================
 Exception::Exception(
-    const std::wstring& msg_in, const PositionScript& position, const std::wstring &identifier_in)
+    const std::wstring& msg_in, const PositionScript& position, const std::wstring& identifier_in)
 {
     this->backtrace.clear();
     this->backtrace.push_back(position);
@@ -66,12 +66,12 @@ Exception::Exception(
     this->identifier = identifier_in;
 }
 //=============================================================================
-Exception::Exception(const std::string& msg_in, const std::string &identifier_in)
+Exception::Exception(const std::string& msg_in, const std::string& identifier_in)
 {
     Exception(utf8_to_wstring(msg_in), utf8_to_wstring(identifier_in));
 }
 //=============================================================================
-Exception::Exception(const std::wstring& msg_in, const std::wstring &identifier_in)
+Exception::Exception(const std::wstring& msg_in, const std::wstring& identifier_in)
 {
     this->backtrace.clear();
     this->msg = msg_in;
@@ -112,13 +112,13 @@ Exception::printMe(Interface* io)
 }
 //=============================================================================
 bool
-Exception::matches(const std::wstring &tst_msg)
+Exception::matches(const std::wstring& tst_msg)
 {
     return (msg.compare(tst_msg) == 0);
 }
 //=============================================================================
 bool
-Exception::matches(const std::string &tst_msg)
+Exception::matches(const std::string& tst_msg)
 {
     return (msg.compare(utf8_to_wstring(tst_msg)) == 0);
 }
@@ -174,9 +174,8 @@ Exception::getFormattedErrorMessage()
             }
         } else {
             if (functionName != L"") {
-                formattedMessage = formattedMessage + std::wstring(L"In ") + filename + L" function "
-                    + functionName
-                    + L" (line " + std::to_wstring(line) + L")\n";
+                formattedMessage = formattedMessage + std::wstring(L"In ") + filename
+                    + L" function " + functionName + L" (line " + std::to_wstring(line) + L")\n";
             } else {
                 formattedMessage = formattedMessage + std::wstring(L"In ") + filename + L" (line "
                     + std::to_wstring(line) + L")\n";
@@ -205,13 +204,13 @@ Exception::getIdentifier()
 }
 //=============================================================================
 void
-Exception::setIdentifier(const std::wstring &identifier_in)
+Exception::setIdentifier(const std::wstring& identifier_in)
 {
     this->identifier = identifier_in;
 }
 //=============================================================================
 void
-Exception::setIdentifier(const std::string &identifier_in)
+Exception::setIdentifier(const std::string& identifier_in)
 {
     this->identifier = utf8_to_wstring(identifier_in);
 }

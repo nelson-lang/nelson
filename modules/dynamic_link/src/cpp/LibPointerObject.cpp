@@ -286,7 +286,7 @@ LibPointerObject::plus(indexType offset)
         newPtr = new LibPointerObject(incrementedPtr, _DataType, _currentType);
         newPtr->_initialDimX = _initialDimX;
         newPtr->_initialDimY = _initialDimY;
-    } catch (const std::bad_alloc &) {
+    } catch (const std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
     return newPtr;

@@ -56,7 +56,7 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
             }
             needToOverload = true;
             return false;
-        } catch (const Exception &) {
+        } catch (const Exception&) {
             return false;
         }
     }

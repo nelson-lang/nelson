@@ -75,7 +75,7 @@ CheckNumeric(ArrayOf A, ArrayOf B, const std::string& opname);
  * Check to see if two dimensions (when treated as vectors) are equivalent in size.
  */
 NLSAPI_NELSON_IMPEXP bool
-SameSizeCheck(Dimensions &Adim, Dimensions &Bdim);
+SameSizeCheck(Dimensions& Adim, Dimensions& Bdim);
 
 /**
  * We want to perform a vector operation between two data objects.

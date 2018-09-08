@@ -256,7 +256,7 @@ PathFuncManager::addPath(const std::wstring path, bool begin)
     PathFunc* pf;
     try {
         pf = new PathFunc(path);
-    } catch (const std::bad_alloc &) {
+    } catch (const std::bad_alloc&) {
         pf = nullptr;
     }
     if (pf) {
@@ -350,7 +350,7 @@ PathFuncManager::resetUserPath()
     try {
         boost::filesystem::path p = userPathFile;
         boost::filesystem::remove(p);
-    } catch (const boost::filesystem::filesystem_error &) {
+    } catch (const boost::filesystem::filesystem_error&) {
     }
     userpathCompute();
 }

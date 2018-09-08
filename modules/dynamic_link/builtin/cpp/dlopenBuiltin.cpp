@@ -40,9 +40,9 @@ Nelson::DynamicLinkGateway::dlopenBuiltin(Evaluator* eval, int nLhs, const Array
         DynamicLinkLibraryObject* dlObject = nullptr;
         try {
             dlObject = new DynamicLinkLibraryObject(libraryPath);
-        } catch (const std::bad_alloc &) {
+        } catch (const std::bad_alloc&) {
             Error(ERROR_MEMORY_ALLOCATION);
-        } catch (const Exception &) {
+        } catch (const Exception&) {
             throw;
         }
         retval.push_back(ArrayOf::handleConstructor(dlObject));

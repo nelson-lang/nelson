@@ -23,7 +23,8 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-ToInteger(Class destinationClass, const ArrayOf& A) {
+ToInteger(Class destinationClass, const ArrayOf& A)
+{
 
     std::wstring destType = ClassToString(destinationClass);
     if (A.isSparse()) {

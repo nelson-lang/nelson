@@ -436,18 +436,18 @@ public:
     bool
     isNdArrayIntegerType() const;
 
-	/*
-	* helpers function
-	* NLS_UINT8, ..., NLS_UINT64
-	*/
-	bool
+    /*
+     * helpers function
+     * NLS_UINT8, ..., NLS_UINT64
+     */
+    bool
     isUnsignedIntegerType() const;
 
-	/*
+    /*
      * helpers function
      * NLS_INT8, ..., NLS_INT64
      */
-	bool
+    bool
     isSignedIntegerType() const;
 
     /**

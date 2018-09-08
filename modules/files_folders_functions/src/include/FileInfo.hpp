@@ -36,7 +36,7 @@ private:
     double datenum;
 
 public:
-    FileInfo(const std::wstring &_filename, bool fullpath = false);
+    FileInfo(const std::wstring& _filename, bool fullpath = false);
     ~FileInfo();
     std::wstring
     getName();

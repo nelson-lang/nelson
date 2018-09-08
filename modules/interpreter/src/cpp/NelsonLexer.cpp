@@ -184,7 +184,8 @@ testSpecialFuncs()
     }
     keyword[cp - datap] = 0;
     tSearch.word = keyword;
-    pSearch = (keywordStruct*)bsearch(&tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword);
+    pSearch = (keywordStruct*)bsearch(
+        &tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword);
     if (pSearch != nullptr) {
         return false;
     }

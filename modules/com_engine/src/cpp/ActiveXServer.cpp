@@ -73,7 +73,7 @@ ActiveXServer(std::wstring progId, std::wstring machine)
     VARIANT* pVariantApplication = nullptr;
     try {
         pVariantApplication = new VARIANT;
-    } catch (const std::bad_alloc &) {
+    } catch (const std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
     VariantInit(pVariantApplication);
@@ -112,7 +112,7 @@ GetRunningActiveXServer(std::wstring progId)
     }
     try {
         pVariantApplication = new VARIANT;
-    } catch (const std::bad_alloc &) {
+    } catch (const std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
     VariantInit(pVariantApplication);

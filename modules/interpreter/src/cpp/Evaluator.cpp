@@ -601,16 +601,16 @@ Evaluator::unitColon(ASTPtr t)
     b = expression(t->down->right);
     bool bSuccess = false;
     ArrayOf retval;
-	if (mustOverloadBasicTypes()) {
+    if (mustOverloadBasicTypes()) {
         retval = OverloadBinaryOperator(this, a, b, "colon", false, bSuccess, "");
-	}
+    }
     if (!bSuccess) {
         bool needToOverload;
         retval = Colon(a, b, needToOverload);
         if (needToOverload) {
             retval = OverloadBinaryOperator(this, a, b, "colon");
         }
-	}
+    }
     popID();
     return retval;
 }

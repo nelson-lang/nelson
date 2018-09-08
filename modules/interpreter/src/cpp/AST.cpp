@@ -311,7 +311,7 @@ printAST(ASTPtr t)
     } else if (t->type == string_const_node) {
         printf("string: '%s'\r\n", t->text.c_str());
     } else if (t->type == null_node) {
-		// NOTHING TO DO
+        // NOTHING TO DO
     } else {
         printf("context: %s\r\n", t->text.c_str());
     }
@@ -348,7 +348,7 @@ ThawAST(Serialize* s)
     ASTPtr t;
     try {
         t = new AST();
-    } catch (const std::bad_alloc &) {
+    } catch (const std::bad_alloc&) {
         t = nullptr;
     }
     if (t) {

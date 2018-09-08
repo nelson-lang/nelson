@@ -77,9 +77,9 @@ Nelson::TimeGateway::datenumBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 return retval;
             } else if (param1.is2D()) {
                 if (param1.getDimensions().getColumns() == 3) {
-					// OK
+                    // OK
                 } else if (param1.getDimensions().getColumns() == 6) {
-					// OK
+                    // OK
                 } else {
                     retval.push_back(param1);
                     return retval;

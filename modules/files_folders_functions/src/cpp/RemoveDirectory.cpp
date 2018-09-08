@@ -38,7 +38,7 @@ RemoveDirectory(std::wstring folderName, bool bSubfolder, std::wstring& message)
                 boost::filesystem::remove(p);
             }
             res = true;
-        } catch (const boost::filesystem::filesystem_error &e) {
+        } catch (const boost::filesystem::filesystem_error& e) {
             res = false;
             boost::system::error_code error_code = e.code();
             message = utf8_to_wstring(error_code.message());

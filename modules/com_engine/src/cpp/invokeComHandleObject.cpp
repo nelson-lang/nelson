@@ -51,7 +51,7 @@ invokeComHandleObject(
     VARIANT* pVarResult = nullptr;
     try {
         pVarResult = new VARIANT;
-    } catch (const std::bad_alloc &) {
+    } catch (const std::bad_alloc&) {
         Error(ERROR_MEMORY_ALLOCATION);
     }
     if (pVarResult) {
@@ -60,7 +60,7 @@ invokeComHandleObject(
         if (nbParams > 0) {
             try {
                 args = new VARIANT[nbParams + 1];
-            } catch (const std::bad_alloc &) {
+            } catch (const std::bad_alloc&) {
                 delete pVarResult;
                 pVarResult = nullptr;
                 Error(ERROR_MEMORY_ALLOCATION);

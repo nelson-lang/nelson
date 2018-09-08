@@ -47,7 +47,7 @@ Assert_IsApprox(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, d
                 } else {
                     Error(_W("isapprox must return an logical."));
                 }
-            } catch (const Exception &) {
+            } catch (const Exception&) {
                 throw;
             }
         }

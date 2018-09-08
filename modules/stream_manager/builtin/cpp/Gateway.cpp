@@ -65,7 +65,7 @@ initializeModule(Nelson::Evaluator* eval)
         Nelson::FilesManager* fm;
         try {
             fm = new Nelson::FilesManager(io);
-        } catch (const std::bad_alloc &) {
+        } catch (const std::bad_alloc&) {
             fm = nullptr;
         }
         if (fm) {

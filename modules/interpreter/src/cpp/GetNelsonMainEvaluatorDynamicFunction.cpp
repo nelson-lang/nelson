@@ -34,7 +34,7 @@ initEngineDynamicLibrary(void)
         char* buf;
         try {
             buf = new char[MAX_PATH];
-        } catch (const std::bad_alloc &) {
+        } catch (const std::bad_alloc&) {
             buf = nullptr;
         }
         if (buf) {

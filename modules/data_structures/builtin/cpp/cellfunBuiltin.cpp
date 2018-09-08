@@ -33,7 +33,7 @@ using namespace Nelson;
 //=============================================================================
 static ArrayOfVector
 cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval,
-    const Dimensions &argdims, indexType argcount, FuncPtr fptr, FuncPtr fptrHandleError)
+    const Dimensions& argdims, indexType argcount, FuncPtr fptr, FuncPtr fptrHandleError)
 {
     ArrayOfVector outputs;
     for (int j = 0; j < nargout; j++) {
@@ -87,8 +87,8 @@ cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* ev
 }
 //=============================================================================
 static ArrayOfVector
-cellfun_uniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval, Dimensions &argdims,
-    indexType argcount, FuncPtr fptr, FuncPtr fptrHandleError)
+cellfun_uniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval,
+    Dimensions& argdims, indexType argcount, FuncPtr fptr, FuncPtr fptrHandleError)
 {
     ArrayOfVector outputs;
     for (int i = 0; i < argdims.getElementCount(); i++) {

@@ -49,7 +49,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
     bool bIsFile;
     try {
         bIsFile = boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
-    } catch (const boost::filesystem::filesystem_error &) {
+    } catch (const boost::filesystem::filesystem_error&) {
         bIsFile = false;
     }
     if (!bIsFile) {
@@ -267,7 +267,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
                 changeDir(initialDir.generic_wstring().c_str(), false);
             }
             return true;
-        } catch (const Exception &) {
+        } catch (const Exception&) {
             deleteAstVector(getAstUsed());
             resetAstBackupPosition();
             // removes stack

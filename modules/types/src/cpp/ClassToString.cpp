@@ -21,7 +21,9 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-std::wstring ClassToString(Class classType) {
+std::wstring
+ClassToString(Class classType)
+{
     std::wstring classString(L"");
     switch (classType) {
     case NLS_HANDLE: {

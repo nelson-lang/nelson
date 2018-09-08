@@ -213,8 +213,8 @@ double_mtimes_double(ArrayOf a, ArrayOf b)
     }
     bool isVector = ((a.isVector() && b.isScalar()) || (b.isVector() && a.isScalar())
         || (a.isRowVector() && b.isColumnVector()) || (b.isRowVector() && a.isColumnVector()));
-    if (!(SameSizeCheck(dimsA, dimsB) || a.isScalar() || b.isScalar())
-        && !isVector && dimsA.getColumns() != dimsB.getRows()) {
+    if (!(SameSizeCheck(dimsA, dimsB) || a.isScalar() || b.isScalar()) && !isVector
+        && dimsA.getColumns() != dimsB.getRows()) {
         Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
     }
     if (a.isEmpty()) {

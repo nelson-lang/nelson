@@ -35,7 +35,7 @@ PathFunc::isdir(std::wstring path)
         bRes = boost::filesystem::is_directory(data_dir);
     } catch (const boost::filesystem::filesystem_error& e) {
         if (e.code() == boost::system::errc::permission_denied) {
-			// ONLY FOR DEBUG
+            // ONLY FOR DEBUG
         }
         bRes = false;
     }
@@ -97,7 +97,7 @@ PathFunc::comparePathname(std::wstring path1, std::wstring path2)
     bool res = false;
     try {
         boost::filesystem::equivalent(p1, p2);
-    } catch (const boost::filesystem::filesystem_error &) {
+    } catch (const boost::filesystem::filesystem_error&) {
         res = (p1 == p2);
     }
     return res;
@@ -187,7 +187,7 @@ PathFunc::rehash()
                         FileFunc* ff;
                         try {
                             ff = new FileFunc(_path, name);
-                        } catch (const std::bad_alloc &) {
+                        } catch (const std::bad_alloc&) {
                             ff = nullptr;
                         }
                         if (ff) {

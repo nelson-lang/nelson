@@ -525,7 +525,7 @@ QtTerminal::helpOnSelection()
             Nelson::Evaluator* eval = (Nelson::Evaluator*)veval;
             try {
                 eval->evaluateString(cmd, true);
-            } catch (const Exception &) {
+            } catch (const Exception&) {
             }
         }
     }
@@ -584,7 +584,7 @@ QtTerminal::contextMenuEvent(QContextMenuEvent* event)
     if (contextMenu == nullptr) {
         try {
             contextMenu = new QMenu(this);
-        } catch (const std::bad_alloc &) {
+        } catch (const std::bad_alloc&) {
             contextMenu = nullptr;
         }
         QString fileNameIcon;

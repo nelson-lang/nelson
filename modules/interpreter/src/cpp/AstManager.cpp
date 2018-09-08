@@ -68,7 +68,7 @@ allocateAbstractSyntaxTree(void)
     try {
         p = new AST();
         AstUsedVector.push_back(p);
-    } catch (const std::bad_alloc &) {
+    } catch (const std::bad_alloc&) {
         p = nullptr;
     }
     return p;
@@ -81,7 +81,7 @@ allocateAbstractSyntaxTree(NODE_TYPE ntype, const char* name, int context)
     try {
         p = new AST(ntype, name, context);
         AstUsedVector.push_back(p);
-    } catch (const std::bad_alloc &) {
+    } catch (const std::bad_alloc&) {
         p = nullptr;
     }
     return p;
@@ -94,7 +94,7 @@ allocateAbstractSyntaxTree(NODE_TYPE ntype, int token, int context)
     try {
         p = new AST(ntype, token, context);
         AstUsedVector.push_back(p);
-    } catch (const std::bad_alloc &) {
+    } catch (const std::bad_alloc&) {
         p = nullptr;
     }
     return p;
@@ -107,7 +107,7 @@ allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr lt, ASTPtr rt, int context)
     try {
         p = new AST(op, lt, rt, context);
         AstUsedVector.push_back(p);
-    } catch (const std::bad_alloc &) {
+    } catch (const std::bad_alloc&) {
         p = nullptr;
     }
     return p;
@@ -120,7 +120,7 @@ allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr lt, ASTPtr md, ASTPtr rt, int cont
     try {
         p = new AST(op, lt, md, rt, context);
         AstUsedVector.push_back(p);
-    } catch (const std::bad_alloc &) {
+    } catch (const std::bad_alloc&) {
         p = nullptr;
     }
     return p;
@@ -133,7 +133,7 @@ allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr arg, int context)
     try {
         p = new AST(op, arg, context);
         AstUsedVector.push_back(p);
-    } catch (const std::bad_alloc &) {
+    } catch (const std::bad_alloc&) {
         p = nullptr;
     }
     return p;

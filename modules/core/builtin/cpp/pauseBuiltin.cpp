@@ -110,7 +110,7 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                         }
                     }
                 } else if (std::isnan(val)) {
-					// DO NOTHING
+                    // DO NOTHING
                 } else {
                     boost::chrono::nanoseconds begin_time
                         = boost::chrono::high_resolution_clock::now().time_since_epoch();

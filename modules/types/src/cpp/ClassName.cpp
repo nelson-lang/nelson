@@ -45,12 +45,12 @@ ClassName(ArrayOf In)
                 }
             }
         }
-	} else if (In.getDataClass() == NLS_STRUCT_ARRAY) {
+    } else if (In.getDataClass() == NLS_STRUCT_ARRAY) {
         classString = In.getStructType();
     }
     if (In.isSparse()) {
         classString = std::string(NLS_SPARSE_STR) + classString;
-	}
+    }
     return classString;
 }
 //=============================================================================

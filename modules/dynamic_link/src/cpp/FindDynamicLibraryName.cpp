@@ -40,7 +40,7 @@ FindDynamicLibraryName(
             && !boost::filesystem::is_directory(fullfilename);
     } catch (const boost::filesystem::filesystem_error& e) {
         if (e.code() == boost::system::errc::permission_denied) {
-			// ONLY FOR DEDUG
+            // ONLY FOR DEDUG
         }
         bRes = false;
     }

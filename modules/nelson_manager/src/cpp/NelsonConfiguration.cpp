@@ -35,7 +35,7 @@ NelsonConfiguration::getInstance()
     if (m_pInstance == nullptr) {
         try {
             m_pInstance = new NelsonConfiguration();
-        } catch (const std::bad_alloc &) {
+        } catch (const std::bad_alloc&) {
             m_pInstance = nullptr;
         }
     }
