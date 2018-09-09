@@ -382,7 +382,8 @@ AudioplayerObject::setSamples(
         indexType rows = data.getDimensions().getRows();
         indexType columns = data.getDimensions().getColumns();
         if (columns > rows) {
-            audioData = ComplexTranspose(data);
+            bool needToOverload = false;
+            audioData = ComplexTranspose(data, needToOverload);
         } else {
             audioData = data;
         }

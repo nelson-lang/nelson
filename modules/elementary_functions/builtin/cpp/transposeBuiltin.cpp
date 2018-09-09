@@ -19,7 +19,7 @@
 #include "transposeBuiltin.hpp"
 #include "Error.hpp"
 #include "Transpose.hpp"
-#include "OverloadFunction.hpp"
+#include "OverloadUnaryOperator.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -31,20 +31,23 @@ Nelson::ElementaryFunctionsGateway::transposeBuiltin(
     if (argIn.size() != 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
     bool bSuccess = false;
+    ArrayOf res;
+    ArrayOf a = argIn[0];
     if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "transpose", bSuccess);
+        res = OverloadUnaryOperator(eval, a, "transpose", bSuccess);
     }
     if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-            || argIn[0].isClassStruct()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "transpose", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
+        bool needToOverload = false;
+        res = Transpose(a, needToOverload);
+        if (needToOverload) {
+            res = OverloadUnaryOperator(eval, a, "transpose", bSuccess);
         }
-        retval.push_back(Transpose(argIn[0]));
     }
+    retval.push_back(res);
     return retval;
 }
 //=============================================================================

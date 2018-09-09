@@ -108,7 +108,8 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
     indexType columns = data.getDimensions().getColumns();
     ArrayOf audioData;
     if (columns > rows) {
-        audioData = ComplexTranspose(data);
+        bool needToOverload;
+        audioData = ComplexTranspose(data, needToOverload);
     } else {
         audioData = data;
     }

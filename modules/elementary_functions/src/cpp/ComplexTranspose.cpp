@@ -16,23 +16,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ComplexTranspose.hpp"
-#include "ClassName.hpp"
 #include <Eigen/Dense>
+#include "ComplexTranspose.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-ComplexTranspose(ArrayOf A)
+ComplexTranspose(const ArrayOf& A, bool& needToOverload)
 {
+    needToOverload = false;
     Class classA = A.getDataClass();
     if (classA < NLS_LOGICAL || A.isSparse()) {
-        std::wstring classname;
-        ClassName(A, classname);
-        std::wstring msg
-            = _W("function") + L" " + classname + L"_ctranspose" + L" " + _W("undefined.");
-        Error(msg);
-    }
+        needToOverload = true;
+        return ArrayOf();
+	}
     Dimensions dimsA = A.getDimensions();
     bool isSupported = (A.isEmpty() || A.isScalar() || A.is2D());
     if (!isSupported) {
@@ -149,6 +146,10 @@ ComplexTranspose(ArrayOf A)
             (charType*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
         matTransposed = matOrigin.conjugate().transpose().eval();
     } break;
+	default: {
+        needToOverload = true;
+        return ArrayOf();
+	} break;
     }
     Res.reshape(dimsRes);
     return Res;

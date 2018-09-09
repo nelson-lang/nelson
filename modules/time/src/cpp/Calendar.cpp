@@ -124,7 +124,8 @@ Calendar::get()
     }
     Dimensions dimCal(NBR_DAY_IN_A_WEEK, NBR_WEEK_IN_A_MONTH_MAX);
     ArrayOf Cal = ArrayOf(NLS_DOUBLE, dimCal, Month);
-    return Transpose(Cal);
+    bool needToOverload;
+    return Transpose(Cal, needToOverload);
 }
 //=============================================================================
 wstringVector

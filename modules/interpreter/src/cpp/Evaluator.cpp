@@ -513,19 +513,31 @@ Evaluator::expression(ASTPtr t)
                 this, expression(t->down), expression(t->down->right), "power");
         } break;
         case OP_TRANSPOSE: {
-            bool bSuccess;
+            bool bSuccess = false;
             ArrayOf a = expression(t->down);
-            retval = OverloadUnaryOperator(this, a, "ctranspose", bSuccess);
+            if (overloadOnBasicTypes) {
+				retval = OverloadUnaryOperator(this, a, "ctranspose", bSuccess);
+			}
             if (!bSuccess) {
-                retval = ComplexTranspose(a);
+                bool needToOverload = false;
+                retval = ComplexTranspose(a, needToOverload);
+                if (needToOverload) {
+                    retval = OverloadUnaryOperator(this, a, "ctranspose", bSuccess);
+                }
             }
         } break;
         case OP_DOT_TRANSPOSE: {
-            bool bSuccess;
+            bool bSuccess = false;
             ArrayOf a = expression(t->down);
-            retval = OverloadUnaryOperator(this, a, "transpose", bSuccess);
+            if (overloadOnBasicTypes) {
+				retval = OverloadUnaryOperator(this, a, "transpose", bSuccess);
+			}
             if (!bSuccess) {
-                retval = Transpose(a);
+                bool needToOverload = false;
+                retval = Transpose(a, needToOverload);
+                if (needToOverload) {
+                    retval = OverloadUnaryOperator(this, a, "transpose", bSuccess);
+				}
             }
         } break;
         case OP_RHS: {

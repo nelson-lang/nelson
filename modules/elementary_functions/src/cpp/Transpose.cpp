@@ -16,22 +16,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Eigen/Dense>
 #include "Transpose.hpp"
 #include "ClassName.hpp"
-#include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Transpose(ArrayOf A)
+Transpose(const ArrayOf &A, bool &needToOverload)
 {
+    needToOverload = false;
     Class classA = A.getDataClass();
     if (classA < NLS_LOGICAL || A.isSparse()) {
-        std::wstring classname;
-        ClassName(A, classname);
-        std::wstring msg
-            = _W("function") + L" " + classname + L"_transpose" + L" " + _W("undefined.");
-        Error(msg);
+        needToOverload = true;
+        return ArrayOf();
     }
     Dimensions dimsA = A.getDimensions();
     bool isSupported = (A.isEmpty() || A.isScalar() || A.is2D());
@@ -149,6 +147,10 @@ Transpose(ArrayOf A)
             (charType*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
         matTransposed = matOrigin.transpose().eval();
     } break;
+	default: {
+        needToOverload = true;
+        return ArrayOf();
+	} break;
     }
     Res.reshape(dimsRes);
     return Res;
