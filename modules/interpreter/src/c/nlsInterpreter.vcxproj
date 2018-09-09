@@ -262,6 +262,7 @@
     <ClCompile Include="..\cpp\ShortCutOrOperator.cpp" />
     <ClCompile Include="..\cpp\StackEntry.cpp" />
     <ClCompile Include="..\cpp\SubtractionOperator.cpp" />
+    <ClCompile Include="..\cpp\TimesOperator.cpp" />
     <ClCompile Include="..\cpp\VariablesTable.cpp" />
     <ClCompile Include="..\cpp\VertCatOperator.cpp" />
     <ClCompile Include="..\cpp\WarningEmitter.cpp" />

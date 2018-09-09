@@ -16,15 +16,37 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
 #include "Evaluator.hpp"
+#include "ElementWiseMultiplication.hpp"
+#include "OverloadBinaryOperator.hpp"
 //=============================================================================
 namespace Nelson {
-namespace DoubleGateway {
-    ArrayOfVector
-    double_times_doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+ArrayOf
+Evaluator::timesOperator(ASTPtr t)
+{
+    pushID(t->context());
+    ArrayOf retval = this->timesOperator(expression(t->down), expression(t->down->right));
+    popID();
+    return retval;
 }
+//=============================================================================
+ArrayOf
+Evaluator::timesOperator(ArrayOf A, ArrayOf B)
+{
+    ArrayOf res;
+    if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
+        && !isOverloadAllowed()) {
+        res = OverloadBinaryOperator(this, A, B, "times");
+    } else {
+        bool needToOverload = false;
+        res = elementWiseMultiplication(A, B, needToOverload);
+        if (needToOverload) {
+            res = OverloadBinaryOperator(this, A, B, "times");
+        }
+    }
+    return res;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

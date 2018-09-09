@@ -486,8 +486,7 @@ Evaluator::expression(ASTPtr t)
             retval = neOperator(t);
         } break;
         case OP_DOT_TIMES: {
-            retval = OverloadBinaryOperator(
-                this, expression(t->down), expression(t->down->right), "times");
+            retval = timesOperator(t);
         } break;
         case OP_DOT_RDIV: {
             retval = OverloadBinaryOperator(

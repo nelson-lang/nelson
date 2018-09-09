@@ -786,6 +786,8 @@ public:
     additionOperator(ArrayOf A, ArrayOf B);
     ArrayOf
     subtractionOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    timesOperator(ArrayOf A, ArrayOf B);
 
     ArrayOf
     eqOperator(ArrayOf A, ArrayOf B);
@@ -844,6 +846,8 @@ private:
     additionOperator(ASTPtr t);
     ArrayOf
     subtractionOperator(ASTPtr t);
+    ArrayOf
+    timesOperator(ASTPtr t);
 
     ArrayOf
     eqOperator(ASTPtr t);

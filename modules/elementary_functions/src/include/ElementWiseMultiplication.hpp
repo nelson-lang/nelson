@@ -16,27 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "double_times_doubleBuiltin.hpp"
-#include "Error.hpp"
-#include "timesDouble.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
-ArrayOfVector
-Nelson::DoubleGateway::double_times_doubleBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    ArrayOfVector retval;
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    ArrayOf res = double_times_double(A, B);
-    retval.push_back(res);
-    return retval;
-}
+namespace Nelson {
+//=============================================================================
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+elementWiseMultiplication(ArrayOf& A, ArrayOf& B, bool &needToOverload);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

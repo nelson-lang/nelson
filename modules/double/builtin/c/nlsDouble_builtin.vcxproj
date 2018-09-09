@@ -196,7 +196,6 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_mtimes_doubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_times_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -206,7 +205,6 @@
   <ItemGroup>
     <ClInclude Include="..\include\doubleBuiltin.hpp" />
     <ClInclude Include="..\include\double_mtimes_doubleBuiltin.hpp" />
-    <ClInclude Include="..\include\double_times_doubleBuiltin.hpp" />
     <ClInclude Include="..\include\double_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\ndarraydouble_dispBuiltin.hpp" />
     <ClInclude Include="..\include\nlsDouble_builtin_exports.h" />
