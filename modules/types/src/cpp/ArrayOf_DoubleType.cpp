@@ -22,6 +22,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+bool
+ArrayOf::isDoubleClass() const
+{
+    return (dp->dataClass == NLS_DOUBLE || dp->dataClass == NLS_DCOMPLEX);
+}
+//=============================================================================
 /**
  * Returns TRUE if it is a double type (not ndarray, not sparse)
  */
@@ -33,8 +39,8 @@ ArrayOf::isDoubleType(bool realOnly) const
     if (realOnly) {
         res = (dp->dataClass == NLS_DOUBLE) && (!dp->sparse) && is2D();
     } else {
-        res = ((dp->dataClass == NLS_DOUBLE) || (dp->dataClass == NLS_DCOMPLEX)) && (!dp->sparse)
-            && is2D();
+        res = (isDoubleClass() && (!dp->sparse)
+            && is2D());
     }
     return res;
 }
@@ -46,8 +52,8 @@ ArrayOf::isNdArrayDoubleType(bool realOnly) const
     if (realOnly) {
         res = (dp->dataClass == NLS_DOUBLE) && (!dp->sparse) && !is2D();
     } else {
-        res = ((dp->dataClass == NLS_DOUBLE) || (dp->dataClass == NLS_DCOMPLEX)) && (!dp->sparse)
-            && !is2D();
+        res = (isDoubleClass() && (!dp->sparse)
+            && !is2D());
     }
     return res;
 }

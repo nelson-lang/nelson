@@ -207,12 +207,9 @@
   <ItemGroup>
     <ClInclude Include="..\include\MtimesDouble.hpp" />
     <ClInclude Include="..\include\nlsDouble_exports.h" />
-    <ClInclude Include="..\include\timesDouble.hpp" />
     <ClInclude Include="..\include\ToDouble.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\MtimesDouble.cpp" />
-    <ClCompile Include="..\cpp\timesDouble.cpp" />
     <ClCompile Include="..\cpp\ToDouble.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>

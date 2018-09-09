@@ -18,7 +18,6 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "doubleBuiltin.hpp"
-#include "double_mtimes_doubleBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,7 +25,6 @@ const std::wstring gatewayName = L"double";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "double", Nelson::DoubleGateway::doubleBuiltin, 1, 1 },
-    { "double_mtimes_double", Nelson::DoubleGateway::double_mtimes_doubleBuiltin, 1, 2 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

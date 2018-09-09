@@ -414,6 +414,18 @@ public:
     bool
     isSingleType(bool realOnly = false) const;
 
+	/**
+     * Returns TRUE if it is a NLS_DOUBLE or NLS_DCOMPLEX
+     */
+	bool
+    isDoubleClass() const;
+
+	/**
+     * Returns TRUE if it is a NLS_SINGLE or NLS_SCOMPLEX
+     */
+	bool
+    isSingleClass() const;
+
     /**
      * Returns TRUE if it is a ndarraysingle type (not sparse, not scalar, 2D matrix)
      */

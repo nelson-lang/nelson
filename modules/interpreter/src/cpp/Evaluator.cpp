@@ -444,8 +444,7 @@ Evaluator::expression(ASTPtr t)
             retval = subtractionOperator(t);
         } break;
         case OP_TIMES: {
-            retval = OverloadBinaryOperator(
-                this, expression(t->down), expression(t->down->right), "mtimes");
+            retval = mtimesOperator(t);
         } break;
         case OP_RDIV: {
             retval = OverloadBinaryOperator(

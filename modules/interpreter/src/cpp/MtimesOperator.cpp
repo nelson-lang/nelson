@@ -16,13 +16,37 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsSingle_exports.h"
+#include "Evaluator.hpp"
+#include "MatrixMultiplication.hpp"
+#include "OverloadBinaryOperator.hpp"
 //=============================================================================
 namespace Nelson {
-NLSSINGLE_IMPEXP bool
-single_isequal(ArrayOf a, ArrayOf b);
+//=============================================================================
+ArrayOf
+Evaluator::mtimesOperator(ASTPtr t)
+{
+    pushID(t->context());
+    ArrayOf retval = this->mtimesOperator(expression(t->down), expression(t->down->right));
+    popID();
+    return retval;
 }
+//=============================================================================
+ArrayOf
+Evaluator::mtimesOperator(ArrayOf A, ArrayOf B)
+{
+    ArrayOf res;
+    if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
+        && !isOverloadAllowed()) {
+        res = OverloadBinaryOperator(this, A, B, "mtimes");
+    } else {
+        bool needToOverload = false;
+        res = matrixMultiplication(A, B, needToOverload);
+        if (needToOverload) {
+            res = OverloadBinaryOperator(this, A, B, "mtimes");
+        }
+    }
+    return res;
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

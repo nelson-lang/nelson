@@ -186,28 +186,14 @@ T_times_T(Class realClass, Class complexClass, ArrayOf &A, ArrayOf &B)
     return real_times<T>(realClass, A, B);
 }
 //=============================================================================
-static bool
-isDoubleClass(const ArrayOf& A)
-{
-    Class classA = A.getDataClass();
-    return (classA == NLS_DOUBLE || classA == NLS_DCOMPLEX);
-}
-//=============================================================================
-static bool
-isSingleClass(const ArrayOf& A)
-{
-    Class classA = A.getDataClass();
-    return (classA == NLS_SINGLE || classA == NLS_SCOMPLEX);
-}
-//=============================================================================
 ArrayOf
 elementWiseMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload)
 {
     if (A.isSparse() || B.isSparse()) {
         needToOverload = true;
-	} else if (isDoubleClass(A) && isDoubleClass(B)) {
+	} else if (A.isDoubleClass() && B.isDoubleClass()) {
         return T_times_T<double>(NLS_DOUBLE, NLS_DCOMPLEX, A, B);
-    } else if (isSingleClass(A) && isSingleClass(B)) {
+    } else if (A.isSingleClass() && B.isSingleClass()) {
         return T_times_T<single>(NLS_SINGLE, NLS_SCOMPLEX, A, B);
     } else if (A.getDataClass() == B.getDataClass()) {
         needToOverload = true;
