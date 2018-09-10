@@ -19,6 +19,7 @@
 #include "uminusBuiltin.hpp"
 #include "Error.hpp"
 #include "UnaryMinus.hpp"
+#include "OverloadUnaryOperator.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -31,7 +32,26 @@ Nelson::ElementaryFunctionsGateway::uminusBuiltin(
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf arg1 = argIn[0];
-    retval.push_back(eval->doUnaryOperatorOverload(arg1, UnaryMinus, "uminus"));
+    bool bSuccess = false;
+    ArrayOf a = argIn[0];
+    ArrayOf res;
+    if (eval->mustOverloadBasicTypes()) {
+        res = OverloadUnaryOperator(eval, a, "uminus", bSuccess);
+    }
+    if (!bSuccess) {
+        bool needToOverload = false;
+        res = UnaryMinus(a, needToOverload);
+        if (needToOverload) {
+            res = OverloadUnaryOperator(eval, a, "uminus");
+            if (bSuccess) {
+                retval.push_back(res);
+            }
+        } else {
+            retval.push_back(res);
+        }
+    } else {
+        retval.push_back(res);
+	}
     return retval;
 }
 //=============================================================================

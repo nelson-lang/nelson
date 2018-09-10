@@ -43,10 +43,7 @@ Nelson::ElementaryFunctionsGateway::sqrtBuiltin(
         bool needToOverload;
         ArrayOf res = Sqrt(argIn[0], needToOverload);
         if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "sqrt", bSuccess);
-            if (!bSuccess) {
-                OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
-            }
+            retval = OverloadFunction(eval, nLhs, argIn, "sqrt");
         } else {
             retval.push_back(res);
         }

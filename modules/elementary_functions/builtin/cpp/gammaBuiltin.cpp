@@ -47,11 +47,7 @@ Nelson::ElementaryFunctionsGateway::gammaBuiltin(
         if (argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_SINGLE) {
             retval.push_back(Gamma(argIn[0]));
         } else {
-            retval = OverloadFunction(eval, nLhs, argIn, "gamma", bSuccess);
-            if (!bSuccess) {
-                Error(_("Undefined function 'gamma' for input arguments of type") + " '"
-                    + ClassName(argIn[0]) + "'.");
-            }
+            retval = OverloadFunction(eval, nLhs, argIn, "gamma");
         }
     }
     return retval;

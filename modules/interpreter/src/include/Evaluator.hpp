@@ -774,13 +774,8 @@ public:
         ArrayOf& A, ArrayOf& B, ArrayOf& C, bool mustRaiseError, bool& bSuccess);
 
     ArrayOf
-    doUnaryOperatorOverload(ArrayOf& A, UnaryFunction functionOperator, std::string functionName);
-    ArrayOf
     doBinaryOperatorOverload(
         ArrayOf& A, ArrayOf& B, BinaryFunction functionOperator, std::string functionName);
-    ArrayOf
-    doTernaryOperatorOverload(ArrayOf& A, ArrayOf& B, ArrayOf& C, TernaryFunction functionOperator,
-        std::string functionName);
 
     ArrayOf
     additionOperator(ArrayOf A, ArrayOf B);

@@ -63,11 +63,12 @@ uminusInteger(const ArrayOf& A)
 }
 //=============================================================================
 ArrayOf
-UnaryMinus(const ArrayOf& A)
+UnaryMinus(const ArrayOf& A, bool &needToOverload)
 {
+    needToOverload = false;
     if (A.isSparse()) {
-        std::string overload = ClassName(A) + "_uminus";
-        Error(_("function") + " " + overload + " " + _("undefined."));
+        needToOverload = true;
+        return ArrayOf();
     }
     ArrayOf res;
     switch (A.getDataClass()) {
@@ -110,8 +111,8 @@ UnaryMinus(const ArrayOf& A)
         res = uminusComplex<double>(A);
     } break;
     default: {
-        std::string overload = ClassName(A) + "_uminus";
-        Error(_("function") + " " + overload + " " + _("undefined."));
+        needToOverload = true;
+        return ArrayOf();
     } break;
     }
     return res;

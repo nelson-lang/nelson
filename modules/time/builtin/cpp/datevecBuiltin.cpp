@@ -131,10 +131,7 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 }
             }
         } else {
-            retval = OverloadFunction(eval, nLhs, argIn, "datevec", bSuccess);
-            if (!bSuccess) {
-                Error(ERROR_TYPE_NOT_SUPPORTED);
-            }
+            retval = OverloadFunction(eval, nLhs, argIn, "datevec");
         }
     }
     return retval;

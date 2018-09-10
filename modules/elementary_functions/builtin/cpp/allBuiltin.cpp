@@ -48,10 +48,7 @@ Nelson::ElementaryFunctionsGateway::allBuiltin(Evaluator* eval, int nLhs, const 
         bool needToOverload = false;
         ArrayOf res = All(arg1, d, needToOverload);
         if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "all", bSuccess);
-            if (!bSuccess) {
-                OverloadRequired(eval, argIn, Overload::FUNCTION, "all");
-            }
+            retval = OverloadFunction(eval, nLhs, argIn, "all");
         } else {
             retval.push_back(res);
         }

@@ -43,10 +43,7 @@ Nelson::ElementaryFunctionsGateway::absBuiltin(
         bool needToOverload;
         ArrayOf res = AbsoluteValue(argIn[0], needToOverload);
         if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "abs", bSuccess);
-            if (!bSuccess) {
-                Error(_("Undefined function '") + ClassName(argIn[0]) + "_abs'");
-            }
+            retval = OverloadFunction(eval, nLhs, argIn, "abs");
         } else {
             retval.push_back(res);
         }

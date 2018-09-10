@@ -43,10 +43,7 @@ Nelson::ElementaryFunctionsGateway::logBuiltin(
         bool needToOverload;
         ArrayOf res = NaturalLogarithm(argIn[0], needToOverload);
         if (needToOverload) {
-            retval = OverloadFunction(eval, nLhs, argIn, "log", bSuccess);
-            if (!bSuccess) {
-                OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
-            }
+            retval = OverloadFunction(eval, nLhs, argIn, "log");
         } else {
             retval.push_back(res);
         }

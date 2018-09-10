@@ -496,11 +496,33 @@ Evaluator::expression(ASTPtr t)
                 this, expression(t->down), expression(t->down->right), "ldivide");
         } break;
         case OP_POS: {
-            retval = doUnaryOperatorOverload(t, UnaryPlus, "uplus");
-        } break;
+            bool bSuccess = false;
+            ArrayOf a = expression(t->down);
+            if (overloadOnBasicTypes) {
+                retval = OverloadUnaryOperator(this, a, "uplus", bSuccess);
+            }
+            if (!bSuccess) {
+                bool needToOverload = false;
+                retval = UnaryPlus(a, needToOverload);
+                if (needToOverload) {
+                    retval = OverloadUnaryOperator(this, a, "uplus");
+                }
+			}
+		} break;
         case OP_NEG: {
-            retval = doUnaryOperatorOverload(t, UnaryMinus, "uminus");
-        } break;
+			bool bSuccess = false;
+            ArrayOf a = expression(t->down);
+            if (overloadOnBasicTypes) {
+                retval = OverloadUnaryOperator(this, a, "uminus", bSuccess);
+            }
+            if (!bSuccess) {
+                bool needToOverload = false;
+                retval = UnaryMinus(a, needToOverload);
+                if (needToOverload) {
+                    retval = OverloadUnaryOperator(this, a, "uminus");
+                }
+            }
+		} break;
         case OP_NOT: {
             retval = notOperator(t);
         } break;
@@ -522,7 +544,7 @@ Evaluator::expression(ASTPtr t)
                 bool needToOverload = false;
                 retval = ComplexTranspose(a, needToOverload);
                 if (needToOverload) {
-                    retval = OverloadUnaryOperator(this, a, "ctranspose", bSuccess);
+                    retval = OverloadUnaryOperator(this, a, "ctranspose");
                 }
             }
         } break;
@@ -536,7 +558,7 @@ Evaluator::expression(ASTPtr t)
                 bool needToOverload = false;
                 retval = Transpose(a, needToOverload);
                 if (needToOverload) {
-                    retval = OverloadUnaryOperator(this, a, "transpose", bSuccess);
+                    retval = OverloadUnaryOperator(this, a, "transpose");
 				}
             }
         } break;
@@ -612,7 +634,7 @@ Evaluator::unitColon(ASTPtr t)
     bool bSuccess = false;
     ArrayOf retval;
     if (mustOverloadBasicTypes()) {
-        retval = OverloadBinaryOperator(this, a, b, "colon", false, bSuccess, "");
+        retval = OverloadBinaryOperator(this, a, b, "colon", bSuccess);
     }
     if (!bSuccess) {
         bool needToOverload;
@@ -636,7 +658,7 @@ Evaluator::doubleColon(ASTPtr t)
     ArrayOf retval;
     bool bSuccess = false;
     if (mustOverloadBasicTypes()) {
-        retval = OverloadTernaryOperator(this, a, b, c, "colon", false, bSuccess, "");
+        retval = OverloadTernaryOperator(this, a, b, c, "colon", bSuccess);
     }
     if (!bSuccess) {
         bool needToOverload;
@@ -4109,56 +4131,12 @@ Evaluator::countSubExpressions(ASTPtr t)
 }
 //=============================================================================
 ArrayOf
-Evaluator::doUnaryOperatorOverload(
-    ASTPtr t, UnaryFunction functionOperator, std::string functionName)
-{
-    ArrayOf A(expression(t->down));
-    return doUnaryOperatorOverload(A, functionOperator, functionName);
-}
-//=============================================================================
-ArrayOf
 Evaluator::doBinaryOperatorOverload(
     ASTPtr t, BinaryFunction functionOperator, std::string functionName)
 {
     ArrayOf A(expression(t->down));
     ArrayOf B(expression(t->down->right));
     return doBinaryOperatorOverload(A, B, functionOperator, functionName);
-}
-//=============================================================================
-ArrayOf
-Evaluator::doTernaryOperatorOverload(
-    ASTPtr t, TernaryFunction functionOperator, std::string functionName)
-{
-    ArrayOf A = expression(t->down->down);
-    ArrayOf B = expression(t->down->down->right);
-    ArrayOf C = expression(t->down->right);
-    return doTernaryOperatorOverload(A, B, C, functionOperator, functionName);
-}
-//=============================================================================
-ArrayOf
-Evaluator::doUnaryOperatorOverload(
-    ArrayOf& A, UnaryFunction functionOperator, std::string functionName)
-{
-    ArrayOf res;
-    bool bSuccess = false;
-    if (overloadOnBasicTypes) {
-        res = OverloadUnaryOperator(this, A, functionName, bSuccess);
-        if (!bSuccess) {
-            res = functionOperator(A);
-        }
-    } else {
-        if (A.isHandle() || A.isClassStruct() || A.isSparse()) {
-            res = OverloadUnaryOperator(this, A, functionName, bSuccess);
-            if (!bSuccess) {
-                ArrayOfVector argsIn;
-                argsIn.push_back(A);
-                OverloadRequired(this, argsIn, Overload::OverloadClass::UNARY, functionName);
-            }
-        } else {
-            res = functionOperator(A);
-        }
-    }
-    return res;
 }
 //=============================================================================
 ArrayOf
@@ -4182,33 +4160,6 @@ Evaluator::doBinaryOperatorOverload(
         res = OverloadBinaryOperator(this, A, B, functionName, bSuccess);
         if (!bSuccess) {
             res = functionOperator(A, B, true, bSuccess);
-        }
-    }
-    return res;
-}
-//=============================================================================
-ArrayOf
-Evaluator::doTernaryOperatorOverload(
-    ArrayOf& A, ArrayOf& B, ArrayOf& C, TernaryFunction functionOperator, std::string functionName)
-{
-    ArrayOf res;
-    bool bSuccess = false;
-    if (!overloadOnBasicTypes) {
-        res = functionOperator(A, B, C, false, bSuccess);
-        if (!bSuccess) {
-            res = OverloadTernaryOperator(this, A, B, C, functionName, bSuccess);
-            if (!bSuccess) {
-                ArrayOfVector argsIn;
-                argsIn.push_back(A);
-                argsIn.push_back(B);
-                argsIn.push_back(C);
-                OverloadRequired(this, argsIn, Overload::OverloadClass::TERNARY, functionName);
-            }
-        }
-    } else {
-        res = OverloadTernaryOperator(this, A, B, C, functionName, bSuccess);
-        if (!bSuccess) {
-            res = functionOperator(A, B, C, true, bSuccess);
         }
     }
     return res;
