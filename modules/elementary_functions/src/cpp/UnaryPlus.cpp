@@ -22,7 +22,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-UnaryPlus(const ArrayOf& A, bool &needToOverload)
+UnaryPlus(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;

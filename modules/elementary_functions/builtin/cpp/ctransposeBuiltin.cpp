@@ -33,7 +33,7 @@ Nelson::ElementaryFunctionsGateway::ctransposeBuiltin(
     }
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
+    }
     bool bSuccess = false;
     ArrayOf res;
     ArrayOf a = argIn[0];

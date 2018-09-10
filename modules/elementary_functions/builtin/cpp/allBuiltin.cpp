@@ -25,10 +25,11 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::ElementaryFunctionsGateway::allBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::ElementaryFunctionsGateway::allBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-	bool bSuccess = false;
+    bool bSuccess = false;
     if (!((argIn.size() == 1) || (argIn.size() == 2))) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }

@@ -29,7 +29,7 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
     if (classA < NLS_LOGICAL || A.isSparse()) {
         needToOverload = true;
         return ArrayOf();
-	}
+    }
     Dimensions dimsA = A.getDimensions();
     bool isSupported = (A.isEmpty() || A.isScalar() || A.is2D());
     if (!isSupported) {
@@ -146,10 +146,10 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
             (charType*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
         matTransposed = matOrigin.conjugate().transpose().eval();
     } break;
-	default: {
+    default: {
         needToOverload = true;
         return ArrayOf();
-	} break;
+    } break;
     }
     Res.reshape(dimsRes);
     return Res;

@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Any(ArrayOf &A, indexType dim, bool &needToOverload);
+Any(ArrayOf& A, indexType dim, bool& needToOverload);
 //=============================================================================
 }
 //=============================================================================

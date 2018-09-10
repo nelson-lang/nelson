@@ -51,7 +51,7 @@ Nelson::ElementaryFunctionsGateway::isequalnBuiltin(
                 v1v2.push_back(param1);
                 v1v2.push_back(param2);
                 ArrayOfVector ret = OverloadFunction(eval, nLhs, v1v2, "isequaln");
-				{
+                {
                     if (ret.size() == 1) {
                         res = ret[0].getContentAsLogicalScalar(false) == 0 ? false : true;
                         if (!res) {

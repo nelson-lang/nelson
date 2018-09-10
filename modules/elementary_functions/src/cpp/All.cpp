@@ -23,7 +23,8 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf All(ArrayOf &A, indexType dim, bool &needToOverload)
+ArrayOf
+All(ArrayOf& A, indexType dim, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;

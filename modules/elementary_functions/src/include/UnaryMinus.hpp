@@ -27,6 +27,6 @@ namespace Nelson {
  * C = -A
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-UnaryMinus(const ArrayOf& A, bool &needToOverload);
+UnaryMinus(const ArrayOf& A, bool& needToOverload);
 }
 //=============================================================================

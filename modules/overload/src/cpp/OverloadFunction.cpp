@@ -45,14 +45,14 @@ OverloadFunction(Evaluator* eval, int nLhs, const ArrayOfVector& argIn,
 }
 //=============================================================================
 ArrayOfVector
-OverloadFunction(Evaluator* eval, int nLhs, const ArrayOfVector& argIn,
-	const std::string& functionName)
+OverloadFunction(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn, const std::string& functionName)
 {
     bool bSuccess;
     ArrayOfVector res = OverloadFunction(eval, nLhs, argIn, functionName, bSuccess);
     if (!bSuccess) {
         OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION, functionName);
-	}
+    }
     return res;
 }
 //=============================================================================

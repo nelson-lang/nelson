@@ -63,7 +63,7 @@ uminusInteger(const ArrayOf& A)
 }
 //=============================================================================
 ArrayOf
-UnaryMinus(const ArrayOf& A, bool &needToOverload)
+UnaryMinus(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
     if (A.isSparse()) {

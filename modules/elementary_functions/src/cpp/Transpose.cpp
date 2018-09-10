@@ -23,7 +23,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Transpose(const ArrayOf &A, bool &needToOverload)
+Transpose(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
     Class classA = A.getDataClass();
@@ -147,10 +147,10 @@ Transpose(const ArrayOf &A, bool &needToOverload)
             (charType*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
         matTransposed = matOrigin.transpose().eval();
     } break;
-	default: {
+    default: {
         needToOverload = true;
         return ArrayOf();
-	} break;
+    } break;
     }
     Res.reshape(dimsRes);
     return Res;

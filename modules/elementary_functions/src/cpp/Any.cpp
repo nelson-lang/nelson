@@ -24,13 +24,13 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Any(ArrayOf &A, indexType dim, bool &needToOverload)
+Any(ArrayOf& A, indexType dim, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
     try {
         A.promoteType(NLS_LOGICAL);
-    } catch (Exception &) {
+    } catch (Exception&) {
         needToOverload = true;
         return ArrayOf();
     }

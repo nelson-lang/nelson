@@ -27,7 +27,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 static ArrayOf
-real_times(Class currentClass, ArrayOf &A, ArrayOf &B)
+real_times(Class currentClass, ArrayOf& A, ArrayOf& B)
 {
     if (A.isScalar() && B.isScalar()) {
         // s .* s
@@ -37,7 +37,7 @@ real_times(Class currentClass, ArrayOf &A, ArrayOf &B)
         } else {
             return ArrayOf::singleConstructor(
                 A.getContentAsSingleScalar() * B.getContentAsSingleScalar());
-		}
+        }
     } else {
         if (A.isScalar() || B.isScalar()) {
             // mxn .* s
@@ -94,7 +94,7 @@ real_times(Class currentClass, ArrayOf &A, ArrayOf &B)
 //=============================================================================
 template <class T>
 static ArrayOf
-complex_times(Class currentClass, ArrayOf &A, ArrayOf &B)
+complex_times(Class currentClass, ArrayOf& A, ArrayOf& B)
 {
     ArrayOf res;
     A.promoteType(currentClass);
@@ -120,11 +120,10 @@ complex_times(Class currentClass, ArrayOf &A, ArrayOf &B)
                 dimsC = B.getDimensions();
                 Cp = new_with_exception<T>(2 * dimsC.getElementCount());
                 std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
-                Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matC(Cz, 1, dimsC.getElementCount());
-                std::complex<T>* Az
-                    = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
-                std::complex<T>* Bz
-                    = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
+                Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matC(
+                    Cz, 1, dimsC.getElementCount());
+                std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
+                std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
                 Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matB(
                     Bz, 1, dimsC.getElementCount());
                 matC = Az[0] * matB.array();
@@ -134,10 +133,8 @@ complex_times(Class currentClass, ArrayOf &A, ArrayOf &B)
                 std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
                 Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matC(
                     Cz, 1, dimsC.getElementCount());
-                std::complex<T>* Bz
-                    = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
-                std::complex<T>* Az
-                    = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
+                std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
+                std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
                 Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matA(
                     Az, 1, dimsC.getElementCount());
                 matC = matA.array() * Bz[0];
@@ -151,13 +148,12 @@ complex_times(Class currentClass, ArrayOf &A, ArrayOf &B)
             } else {
                 void* Cp = new_with_exception<T>(2 * dimsC.getElementCount());
                 std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
-                std::complex<T>* Az
-                    = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
+                std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
                 Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matA(
                     Az, 1, dimsC.getElementCount());
-                std::complex<T>* Bz
-                    = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
-                Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matB(Bz, 1, dimsC.getElementCount());
+                std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
+                Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matB(
+                    Bz, 1, dimsC.getElementCount());
                 Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matC(
                     Cz, 1, dimsC.getElementCount());
                 matC = matA.cwiseProduct(matB);
@@ -170,7 +166,7 @@ complex_times(Class currentClass, ArrayOf &A, ArrayOf &B)
 //=============================================================================
 template <class T>
 ArrayOf
-T_times_T(Class realClass, Class complexClass, ArrayOf &A, ArrayOf &B)
+T_times_T(Class realClass, Class complexClass, ArrayOf& A, ArrayOf& B)
 {
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
@@ -192,7 +188,7 @@ elementWiseMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload)
 {
     if (A.isSparse() || B.isSparse()) {
         needToOverload = true;
-	} else if (A.isDoubleClass() && B.isDoubleClass()) {
+    } else if (A.isDoubleClass() && B.isDoubleClass()) {
         return T_times_T<double>(NLS_DOUBLE, NLS_DCOMPLEX, A, B);
     } else if (A.isSingleClass() && B.isSingleClass()) {
         return T_times_T<single>(NLS_SINGLE, NLS_SCOMPLEX, A, B);

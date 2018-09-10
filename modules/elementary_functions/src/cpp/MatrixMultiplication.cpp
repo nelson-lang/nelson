@@ -27,7 +27,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 static ArrayOf
-real_mtimes(Class currentClass, ArrayOf &A, ArrayOf &B)
+real_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
 {
     Dimensions Cdim;
     if (A.isVector() && B.isScalar()) {
@@ -68,7 +68,7 @@ real_mtimes(Class currentClass, ArrayOf &A, ArrayOf &B)
     } else if (B.isScalar()) {
         Eigen::Map<Eigen::Matrix<T, -1, -1>> matA((T*)A.getDataPointer(), mA, nA);
         if (currentClass == NLS_DOUBLE) {
-			matC = matA.array() * B.getContentAsDoubleScalar();
+            matC = matA.array() * B.getContentAsDoubleScalar();
         } else {
             matC = matA.array() * B.getContentAsSingleScalar();
         }
@@ -82,7 +82,7 @@ real_mtimes(Class currentClass, ArrayOf &A, ArrayOf &B)
 //=============================================================================
 template <class T>
 static ArrayOf
-complex_mtimes(Class currentClass, ArrayOf &A, ArrayOf &B)
+complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
 {
     Dimensions Cdim;
     A.promoteType(currentClass);
@@ -200,8 +200,7 @@ T_mtimes_T(Class realClass, Class complexClass, ArrayOf& A, ArrayOf& B)
         // [](mx0) * [](0xn) = 0(mxn)
         if ((dimsA[1] == 0) && (dimsB[0] == 0) && (dimsB.getLength() < 3)) {
             Dimensions dimsC(dimsA[0], dimsB[1]);
-            T* pT
-                = (T*)ArrayOf::allocateArrayOf(realClass, dimsC.getElementCount());
+            T* pT = (T*)ArrayOf::allocateArrayOf(realClass, dimsC.getElementCount());
             return ArrayOf(realClass, dimsC, pT, false);
         }
         // [](0xm) * M(mxn) = [](0xn)

@@ -31,13 +31,13 @@ boolean_not(indexType N, logical* C, const logical* A)
 }
 //=============================================================================
 ArrayOf
-Not(ArrayOf &A, bool &needToOverload)
-{ 
+Not(ArrayOf& A, bool& needToOverload)
+{
     ArrayOf C;
     needToOverload = false;
     if (A.getDataClass() == NLS_SCOMPLEX || A.getDataClass() == NLS_DCOMPLEX) {
         Error(_W("Input argument must be real."));
-    }  
+    }
     try {
         A.promoteType(NLS_LOGICAL);
     } catch (Exception&) {

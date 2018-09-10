@@ -864,7 +864,7 @@ private:
     notOperator(ASTPtr t);
 
     bool
-    needToOverloadOperator(const ArrayOf &a);
+    needToOverloadOperator(const ArrayOf& a);
 };
 NLSINTERPRETER_IMPEXP void
 sigInterrupt(int arg);

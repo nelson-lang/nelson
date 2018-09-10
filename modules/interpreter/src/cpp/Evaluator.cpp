@@ -353,7 +353,7 @@ Evaluator::cellDefinition(ASTPtr t)
 }
 
 bool
-Evaluator::needToOverloadOperator(const ArrayOf &a)
+Evaluator::needToOverloadOperator(const ArrayOf& a)
 {
     return ((a.getDataClass() == NLS_STRUCT_ARRAY) || (a.getDataClass() == NLS_CELL_ARRAY)
         || a.isSparse() || a.isHandle());
@@ -507,10 +507,10 @@ Evaluator::expression(ASTPtr t)
                 if (needToOverload) {
                     retval = OverloadUnaryOperator(this, a, "uplus");
                 }
-			}
-		} break;
+            }
+        } break;
         case OP_NEG: {
-			bool bSuccess = false;
+            bool bSuccess = false;
             ArrayOf a = expression(t->down);
             if (overloadOnBasicTypes) {
                 retval = OverloadUnaryOperator(this, a, "uminus", bSuccess);
@@ -522,7 +522,7 @@ Evaluator::expression(ASTPtr t)
                     retval = OverloadUnaryOperator(this, a, "uminus");
                 }
             }
-		} break;
+        } break;
         case OP_NOT: {
             retval = notOperator(t);
         } break;
@@ -538,8 +538,8 @@ Evaluator::expression(ASTPtr t)
             bool bSuccess = false;
             ArrayOf a = expression(t->down);
             if (overloadOnBasicTypes) {
-				retval = OverloadUnaryOperator(this, a, "ctranspose", bSuccess);
-			}
+                retval = OverloadUnaryOperator(this, a, "ctranspose", bSuccess);
+            }
             if (!bSuccess) {
                 bool needToOverload = false;
                 retval = ComplexTranspose(a, needToOverload);
@@ -552,14 +552,14 @@ Evaluator::expression(ASTPtr t)
             bool bSuccess = false;
             ArrayOf a = expression(t->down);
             if (overloadOnBasicTypes) {
-				retval = OverloadUnaryOperator(this, a, "transpose", bSuccess);
-			}
+                retval = OverloadUnaryOperator(this, a, "transpose", bSuccess);
+            }
             if (!bSuccess) {
                 bool needToOverload = false;
                 retval = Transpose(a, needToOverload);
                 if (needToOverload) {
                     retval = OverloadUnaryOperator(this, a, "transpose");
-				}
+                }
             }
         } break;
         case OP_RHS: {

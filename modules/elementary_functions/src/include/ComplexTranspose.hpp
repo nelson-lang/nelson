@@ -26,6 +26,6 @@ namespace Nelson {
  * Transposes the argument.
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-ComplexTranspose(const ArrayOf &A, bool &needToOverload);
+ComplexTranspose(const ArrayOf& A, bool& needToOverload);
 } // namespace Nelson
 //=============================================================================

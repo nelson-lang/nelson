@@ -51,7 +51,7 @@ Nelson::ElementaryFunctionsGateway::uminusBuiltin(
         }
     } else {
         retval.push_back(res);
-	}
+    }
     return retval;
 }
 //=============================================================================

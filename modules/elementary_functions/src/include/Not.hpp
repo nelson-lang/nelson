@@ -27,7 +27,7 @@ namespace Nelson {
  * Element-wise not of argument: C = !A.
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Not(ArrayOf &A, bool &needToOverload);
+Not(ArrayOf& A, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
