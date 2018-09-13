@@ -1,0 +1,83 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_isequal(nargin('power'), 2)
+assert_isequal(nargout('power'), 1)
+//=============================================================================
+R = [1:5].^2;
+REF = [1     4     9    16    25];
+assert_isequal(R, REF);
+//=============================================================================
+R = power([1:5], 2);
+REF = [1     4     9    16    25];
+assert_isequal(R, REF);
+//=============================================================================
+R = [ -Inf ].^2;
+REF = Inf;
+assert_isequal(R, REF);
+//=============================================================================
+R = complex(-Inf,0).^complex(2,0);
+REF = Inf;
+assert_isequal(R, REF);
+//=============================================================================
+R = complex(0,Inf).^complex(2,0);
+REF = -Inf;
+//=============================================================================
+R = [ Inf ].^2;
+REF = Inf;
+assert_isequal(R, REF);
+//=============================================================================
+R = [ NaN ].^2;
+REF = NaN;
+assert_isequal(R, REF);
+//=============================================================================
+R = [1 2 3; 4 5 6; 7 8 9].^-1;
+REF = [1.0000    0.5000    0.3333;
+    0.2500    0.2000    0.1667;
+    0.1429    0.1250    0.1111];
+assert_isapprox(R, REF, 1e-4);
+//=============================================================================
+R = (-1) .^ (inv(3));
+REF = 0.5000 + 0.8660i;
+assert_isapprox(R, REF, 1e-4);
+//=============================================================================
+R = [1 NaN 2].^2;
+REF =  [1 NaN 4];
+assert_isequal(R, REF);
+//=============================================================================
+R = [1 Inf 2].^2;
+REF =  [1 Inf 4];
+assert_isequal(R, REF);
+//=============================================================================
+R = [1 -Inf 2].^2;
+REF =  [1 Inf 4];
+assert_isequal(R, REF);
+//=============================================================================
+R = [Inf:5].^2;
+REF = zeros(1, 0);
+assert_isequal(R, REF);
+//=============================================================================
+R = [1 2;3 4] .^ 2.5;
+REF = [1.0000    5.6569; 15.5885   32.0000];
+assert_isapprox(R, REF, 1e-4);
+//=============================================================================
+R = [1 2;3 4] .^ i;
+REF = [1.0000+0.0000i   0.7692+0.6390i;
+0.4548+0.8906i   0.1835+0.9830i];
+assert_isapprox(R, REF, 1e-4);
+//=============================================================================

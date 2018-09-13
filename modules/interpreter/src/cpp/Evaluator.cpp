@@ -446,14 +446,6 @@ Evaluator::expression(ASTPtr t)
         case OP_TIMES: {
             retval = mtimesOperator(t);
         } break;
-        case OP_RDIV: {
-            retval = OverloadBinaryOperator(
-                this, expression(t->down), expression(t->down->right), "mrdivide");
-        } break;
-        case OP_LDIV: {
-            retval = OverloadBinaryOperator(
-                this, expression(t->down), expression(t->down->right), "mldivide");
-        } break;
         case OP_SOR: {
             retval = shortCutOrOperator(t);
         } break;
@@ -487,14 +479,6 @@ Evaluator::expression(ASTPtr t)
         case OP_DOT_TIMES: {
             retval = timesOperator(t);
         } break;
-        case OP_DOT_RDIV: {
-            retval = OverloadBinaryOperator(
-                this, expression(t->down), expression(t->down->right), "rdivide");
-        } break;
-        case OP_DOT_LDIV: {
-            retval = OverloadBinaryOperator(
-                this, expression(t->down), expression(t->down->right), "ldivide");
-        } break;
         case OP_POS: {
             bool bSuccess = false;
             ArrayOf a = expression(t->down);
@@ -525,14 +509,6 @@ Evaluator::expression(ASTPtr t)
         } break;
         case OP_NOT: {
             retval = notOperator(t);
-        } break;
-        case OP_POWER: {
-            retval = OverloadBinaryOperator(
-                this, expression(t->down), expression(t->down->right), "mpower");
-        } break;
-        case OP_DOT_POWER: {
-            retval = OverloadBinaryOperator(
-                this, expression(t->down), expression(t->down->right), "power");
         } break;
         case OP_TRANSPOSE: {
             bool bSuccess = false;
@@ -573,6 +549,45 @@ Evaluator::expression(ASTPtr t)
                 } else {
                     retval = m[0];
                 }
+            }
+        } break;
+        case OP_RDIV: {
+            retval = OverloadBinaryOperator(
+                this, expression(t->down), expression(t->down->right), "mrdivide");
+        } break;
+        case OP_LDIV: {
+            retval = OverloadBinaryOperator(
+                this, expression(t->down), expression(t->down->right), "mldivide");
+        } break;
+        case OP_DOT_RDIV: {
+            retval = OverloadBinaryOperator(
+                this, expression(t->down), expression(t->down->right), "rdivide");
+        } break;
+        case OP_DOT_LDIV: {
+            retval = OverloadBinaryOperator(
+                this, expression(t->down), expression(t->down->right), "ldivide");
+        } break;
+        case OP_POWER: {
+            retval = OverloadBinaryOperator(
+                this, expression(t->down), expression(t->down->right), "mpower");
+        } break;
+        case OP_DOT_POWER: {
+            ArrayOf A = expression(t->down);
+            ArrayOf B = expression(t->down->right);
+            bool bSuccess = false;
+            if (overloadOnBasicTypes) {
+                retval = OverloadBinaryOperator(this, A, B, "power", bSuccess);
+            }
+            if (!bSuccess) {
+                bool needToOverload;
+                retval = DotPower(A, B, needToOverload);
+                if (needToOverload) {
+                    ArrayOfVector args;
+                    args.push_back(A);
+                    args.push_back(B);
+                    retval = OverloadBinaryOperator(
+                        this, expression(t->down), expression(t->down->right), "power");
+                } 
             }
         } break;
         default:

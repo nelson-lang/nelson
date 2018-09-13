@@ -28,7 +28,8 @@ Power(ArrayOf A, ArrayOf B)
         return ArrayOf::emptyConstructor();
     }
     if (A.isScalar() && B.isScalar()) {
-        return DotPower(A, B);
+        bool needToOverload;
+        return DotPower(A, B, needToOverload);
     }
     // Check for A & B numeric
     CheckNumeric(A, B, "^");

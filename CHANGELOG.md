@@ -2,6 +2,8 @@
 Features:
 ---------
   
+  * power element-wise operator reworked (overloading and mixed types).
+
   * colon operator reworked (overloading and mixed types).
 
   * ndarray subclass no more exists. class merged with basic type (speed optimization).
