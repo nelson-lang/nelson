@@ -16,40 +16,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "gammaBuiltin.hpp"
-#include "Error.hpp"
-#include "Gamma.hpp"
-#include "OverloadFunction.hpp"
-#include "ClassName.hpp"
+#include <Windows.h>
 //=============================================================================
-using namespace Nelson;
+#pragma comment(lib, "libnlsblaslapack.lib")
 //=============================================================================
-ArrayOfVector
-Nelson::ElementaryFunctionsGateway::gammaBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+int WINAPI
+DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
 {
-    ArrayOfVector retval;
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    switch (reason) {
+    case DLL_PROCESS_ATTACH:
+        break;
+    case DLL_PROCESS_DETACH:
+        break;
+    case DLL_THREAD_ATTACH:
+        break;
+    case DLL_THREAD_DETACH:
+        break;
     }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "gamma", bSuccess);
-    }
-    if (!bSuccess) {
-        if (argIn[0].isSparse() || argIn[0].getDataClass() == NLS_DCOMPLEX
-            || argIn[0].getDataClass() == NLS_SCOMPLEX) {
-            Error(_W("Input argument must be dense and real."));
-        }
-        if (argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_SINGLE) {
-            retval.push_back(Gamma(argIn[0]));
-        } else {
-            retval = OverloadFunction(eval, nLhs, argIn, "gamma");
-        }
-    }
-    return retval;
+    return 1;
 }
 //=============================================================================

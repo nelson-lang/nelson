@@ -29,7 +29,6 @@
 #include "eqBuiltin.hpp"
 #include "fixBuiltin.hpp"
 #include "floorBuiltin.hpp"
-#include "gammaBuiltin.hpp"
 #include "geBuiltin.hpp"
 #include "gtBuiltin.hpp"
 #include "horzcatBuiltin.hpp"
@@ -146,7 +145,6 @@ static const nlsGateway gateway[] = {
     { "repmat", Nelson::ElementaryFunctionsGateway::repmatBuiltin, 1, -1 },
     { "rem", Nelson::ElementaryFunctionsGateway::remBuiltin, 1, 2 },
     { "cast", Nelson::ElementaryFunctionsGateway::castBuiltin, 1, 3 },
-    { "gamma", Nelson::ElementaryFunctionsGateway::gammaBuiltin, 1, 1 },
     { "norm", Nelson::ElementaryFunctionsGateway::normBuiltin, 1, 1 },
     { "exp", Nelson::ElementaryFunctionsGateway::expBuiltin, 1, 1 },
     { "log", Nelson::ElementaryFunctionsGateway::logBuiltin, 1, 1 },

@@ -28,6 +28,7 @@ types
 api_nelson
 stream_manager
 elementary_functions
+special_functions
 interpreter
 double
 single

@@ -35,6 +35,7 @@ modules_list = {
 'data_structures';
 'integer';
 'elementary_functions';
+'special_functions';
 'trigonometric_functions';
 'sparse';
 'files_folders_functions';
@@ -77,6 +78,7 @@ modules_help_list = {
 'memory_manager';
 'modules_manager';
 'elementary_functions';
+'special_functions';
 'constructors_functions';
 'types';
 'string';

@@ -42,6 +42,7 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\;
 #include "data_structures/module.iss"
 #include "integer/module.iss"
 #include "elementary_functions/module.iss"
+#include "special_functions/module.iss"
 #include "trigonometric_functions/module.iss"
 #include "sparse/module.iss"
 #include "logical/module.iss"

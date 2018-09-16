@@ -183,7 +183,6 @@
     <ClCompile Include="..\cpp\expBuiltin.cpp" />
     <ClCompile Include="..\cpp\fixBuiltin.cpp" />
     <ClCompile Include="..\cpp\floorBuiltin.cpp" />
-    <ClCompile Include="..\cpp\gammaBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\geBuiltin.cpp" />
     <ClCompile Include="..\cpp\gtBuiltin.cpp" />
@@ -276,7 +275,6 @@
     <ClInclude Include="..\include\expBuiltin.hpp" />
     <ClInclude Include="..\include\fixBuiltin.hpp" />
     <ClInclude Include="..\include\floorBuiltin.hpp" />
-    <ClInclude Include="..\include\gammaBuiltin.hpp" />
     <ClInclude Include="..\include\geBuiltin.hpp" />
     <ClInclude Include="..\include\gtBuiltin.hpp" />
     <ClInclude Include="..\include\horzcatBuiltin.hpp" />
