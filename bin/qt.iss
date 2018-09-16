@@ -28,7 +28,7 @@ Source: {#RootPath}bin\{#BinPath}\d3dcompiler_*.dll; DestDir: {app}\bin\{#BinPat
 Source: {#RootPath}bin\{#BinPath}\libEGL.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\libGLESv2.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\opengl32sw.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt53DCore.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt5*.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt53DExtras.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt53DInput.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt53DLogic.dll; DestDir: {app}\bin\{#BinPath}\
@@ -57,9 +57,9 @@ Source: {#RootPath}bin\{#BinPath}\Qt5Sensors.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5Sql.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5Svg.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5WebChannel.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5WebEngine.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5WebEngineCore.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5WebEngineWidgets.dll; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\Qt5WebEngine.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}bin\{#BinPath}\Qt5WebEngineCore.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
+Source: {#RootPath}bin\{#BinPath}\Qt5WebEngineWidgets.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
 Source: {#RootPath}bin\{#BinPath}\Qt5WebSockets.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5WebView.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5Widgets.dll; DestDir: {app}\bin\{#BinPath}\
