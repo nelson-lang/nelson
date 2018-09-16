@@ -1,16 +1,6 @@
 
 Features:
 ---------
-  
-  * power element-wise operator reworked (overloading and mixed types).
-
-  * colon operator reworked (overloading and mixed types).
-
-  * ndarray subclass no more exists. class merged with basic type (speed optimization).
-
-  * isequalto builtin added (Return true if all arguments x1, x2, … , xn are equal (same type, same dimensions, same values or NaNs).
-
-  * tanm, sinm builtin added.
 
   * Overload speed optimization:
 
@@ -18,8 +8,25 @@ Features:
     - add overloadbasictypes function to change default behavior.
     - gamma function speed x4 (overloading)
 
+  * power element-wise operator reworked (overloading and mixed types).
+
+  * colon operator reworked (overloading and mixed types).
+
+  * ndarray subclass no more exists. class merged with basic type (speed optimization).
+
+  * isequalto builtin added (Return true if all arguments x1, x2, … , xn are equal i.e same type, same dimensions, same values or NaNs).
+
+  * tanm, sinm builtin added.
+
   * [#133](http://github.com/Nelson-numerical-software/nelson/issues/133): Replaced uncommon term "trinary" by "ternary". 
 
+  * [#119](http://github.com/Nelson-numerical-software/nelson/issues/119): Execution of simple expression "1+2+3" was rather slow.
+
+  * [#115](http://github.com/Nelson-numerical-software/nelson/issues/115):code about single & double operators was factorized 
+
+  * [#114](http://github.com/Nelson-numerical-software/nelson/issues/114): Move gamma function in a dedicated module "special_functions". 
+
+  * Enable LGTM.com analysis for C/C++ code.
 
 ## 0.2.8 (2018-08-26)
 
