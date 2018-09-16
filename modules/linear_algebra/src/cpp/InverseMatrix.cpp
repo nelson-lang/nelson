@@ -178,15 +178,16 @@ InverseSingleComplex(ArrayOf A, single rcond)
 }
 //=============================================================================
 ArrayOf
-InverseMatrix(ArrayOf A)
+InverseMatrix(ArrayOf &A, bool &needToOverload)
 {
+    needToOverload = false;
     bool isSupportedTypes
         = (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE
               || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
-        Error(
-            _("Undefined function 'inv' for input arguments of type") + " '" + ClassName(A) + "'.");
+        needToOverload = true;
+        return ArrayOf();
     }
     if (!A.isSquare()) {
         Error(_("Square matrix expected."));

@@ -19,13 +19,15 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsElementary_functions_exports.h"
+#include "nlsLinear_algebra_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 /**
  * Matrix to matrix power.  A^B
  */
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Power(ArrayOf A, ArrayOf B);
+NLSLINEAR_ALGEBRA_IMPEXP ArrayOf 
+MatrixPower(ArrayOf &A, ArrayOf &B, bool &needToOverload);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

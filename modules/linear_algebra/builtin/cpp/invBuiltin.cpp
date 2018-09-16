@@ -40,17 +40,14 @@ Nelson::LinearAlgebraGateway::invBuiltin(Evaluator* eval, int nLhs, const ArrayO
         retval = OverloadFunction(eval, nLhs, argIn, "inv", bSuccess);
     }
     if (!bSuccess) {
-        if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
-            || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
-            || argIn[0].isLogical() || argIn[0].isString() || argIn[0].isIntegerType()
-            || argIn[0].isHandle()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "inv", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-            OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
+        bool needToOverload;
+        ArrayOf param1 = argIn[0];
+        ArrayOf res = InverseMatrix(param1, needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "inv");
+        } else {
+            retval.push_back(res);
         }
-        retval.push_back(InverseMatrix(argIn[0]));
     }
     return retval;
 }

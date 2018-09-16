@@ -215,7 +215,6 @@
     <ClCompile Include="..\cpp\Not.cpp" />
     <ClCompile Include="..\cpp\NotEquals.cpp" />
     <ClCompile Include="..\cpp\Or.cpp" />
-    <ClCompile Include="..\cpp\Power.cpp" />
     <ClCompile Include="..\cpp\Prod.cpp" />
     <ClCompile Include="..\cpp\RealPart.cpp" />
     <ClCompile Include="..\cpp\Remainder.cpp" />
@@ -270,7 +269,6 @@
     <ClInclude Include="..\include\Not.hpp" />
     <ClInclude Include="..\include\NotEquals.hpp" />
     <ClInclude Include="..\include\Or.hpp" />
-    <ClInclude Include="..\include\Power.hpp" />
     <ClInclude Include="..\include\Prod.hpp" />
     <ClInclude Include="..\include\RealPart.hpp" />
     <ClInclude Include="..\include\Remainder.hpp" />

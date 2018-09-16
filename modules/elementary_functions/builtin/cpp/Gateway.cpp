@@ -112,6 +112,7 @@ static const nlsGateway gateway[] = {
     { "any", Nelson::ElementaryFunctionsGateway::anyBuiltin, 1, 2 },
     { "all", Nelson::ElementaryFunctionsGateway::allBuiltin, 1, 1 },
     { "power", Nelson::ElementaryFunctionsGateway::powerBuiltin, 1, 2 },
+    { "mpower", Nelson::ElementaryFunctionsGateway::mpowerBuiltin, 1, 2 },
     { "shortcutor", Nelson::ElementaryFunctionsGateway::shortcutorBuiltin, 1, 2 },
     { "shortcutand", Nelson::ElementaryFunctionsGateway::shortcutandBuiltin, 1, 2 },
     { "subsindex", Nelson::ElementaryFunctionsGateway::subsindexBuiltin, 1, 1 },

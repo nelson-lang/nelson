@@ -77,6 +77,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../linear_algebra/src/include
 )
 #==============================================================================	
 ADD_LIBRARY(
@@ -91,6 +92,7 @@ nlsError_manager
 nlsInterpreter
 nlsOverload
 nlsI18n
+nlsLinear_algebra
 nlsTypes)
 #==============================================================================
 set_target_properties(${module_library_builtin_name}

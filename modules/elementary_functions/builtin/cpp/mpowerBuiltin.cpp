@@ -18,7 +18,8 @@
 //=============================================================================
 #include "mpowerBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadBinaryOperator.hpp"
+#include "OverloadFunction.hpp"
+#include "MatrixPower.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -30,7 +31,24 @@ Nelson::ElementaryFunctionsGateway::mpowerBuiltin(
     if (argIn.size() != 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(OverloadBinaryOperator(eval, argIn[0], argIn[1], "mpower"));
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    bool bSuccess = false;
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "mpower", bSuccess);
+    }
+    if (!bSuccess) {
+        bool needToOverload;
+        ArrayOf param1 = argIn[0];
+        ArrayOf param2 = argIn[1];
+        ArrayOf res = MatrixPower(param1, param2, needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "mpower");
+        } else {
+            retval.push_back(res);
+        }
+    }
     return retval;
 }
 //=============================================================================

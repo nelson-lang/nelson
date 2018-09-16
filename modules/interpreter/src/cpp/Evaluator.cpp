@@ -53,7 +53,6 @@
 #include "LeftDivide.hpp"
 #include "Negate.hpp"
 #include "DotPower.hpp"
-#include "Power.hpp"
 #include "NotEquals.hpp"
 #include "And.hpp"
 #include "Not.hpp"
@@ -86,7 +85,6 @@
 #include "OverloadRequired.hpp"
 #include "NotEquals.hpp"
 #include "PathFuncManager.hpp"
-#include "Power.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
 #include "Error.hpp"
 #include "VertCat.hpp"
@@ -568,8 +566,23 @@ Evaluator::expression(ASTPtr t)
                 this, expression(t->down), expression(t->down->right), "ldivide");
         } break;
         case OP_POWER: {
-            retval = OverloadBinaryOperator(
-                this, expression(t->down), expression(t->down->right), "mpower");
+            FunctionDef* mpowerFuncDef = nullptr;
+            if (!context->lookupFunction("mpower", mpowerFuncDef)) {
+                Error(_W("mpower function not found."));
+            }
+			if (!((mpowerFuncDef->type() == NLS_BUILT_IN_FUNCTION) ||
+				(mpowerFuncDef->type() == NLS_MACRO_FUNCTION))) {
+                Error(_W("Type function not valid."));
+            }
+            int nLhs = 1;
+            ArrayOfVector args;
+            args.push_back(expression(t->down));
+            args.push_back(expression(t->down->right));
+            ArrayOfVector res = mpowerFuncDef->evaluateFunction(this, args, nLhs);
+			if (res.size() == 0) {
+				Error(_W("mpower returned fewer outputs than expected."));
+			}
+			retval = res[0];
         } break;
         case OP_DOT_POWER: {
             ArrayOf A = expression(t->down);
