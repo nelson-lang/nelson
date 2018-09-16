@@ -49,13 +49,13 @@ matrixScalarPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
         } else {
             return realMatrixScalarPower<single>(A, B);
         }
-	} else {
+    } else {
         if (A.isComplex()) {
             return complexMatrixScalarPower<double>(A, B);
         } else {
             return realMatrixScalarPower<double>(A, B);
         }
-	}
+    }
     return ArrayOf();
 }
 //=============================================================================
@@ -106,7 +106,7 @@ MatrixPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
         || (B.getDimensionLength(0) != B.getDimensionLength(1))) {
         Error(_W("Power (^) operator can only be applied to scalar and square arguments."));
     }
-    
+
     bool isSupportedType = (A.isSingleClass() || A.isDoubleClass())
         && (B.isSingleClass() || B.isDoubleClass()) && !A.isSparse() && !B.isSparse();
     if (!isSupportedType) {

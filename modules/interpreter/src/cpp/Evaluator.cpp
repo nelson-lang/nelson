@@ -570,8 +570,8 @@ Evaluator::expression(ASTPtr t)
             if (!context->lookupFunction("mpower", mpowerFuncDef)) {
                 Error(_W("mpower function not found."));
             }
-			if (!((mpowerFuncDef->type() == NLS_BUILT_IN_FUNCTION) ||
-				(mpowerFuncDef->type() == NLS_MACRO_FUNCTION))) {
+            if (!((mpowerFuncDef->type() == NLS_BUILT_IN_FUNCTION)
+                    || (mpowerFuncDef->type() == NLS_MACRO_FUNCTION))) {
                 Error(_W("Type function not valid."));
             }
             int nLhs = 1;
@@ -579,10 +579,10 @@ Evaluator::expression(ASTPtr t)
             args.push_back(expression(t->down));
             args.push_back(expression(t->down->right));
             ArrayOfVector res = mpowerFuncDef->evaluateFunction(this, args, nLhs);
-			if (res.size() == 0) {
-				Error(_W("mpower returned fewer outputs than expected."));
-			}
-			retval = res[0];
+            if (res.size() == 0) {
+                Error(_W("mpower returned fewer outputs than expected."));
+            }
+            retval = res[0];
         } break;
         case OP_DOT_POWER: {
             ArrayOf A = expression(t->down);
@@ -600,7 +600,7 @@ Evaluator::expression(ASTPtr t)
                     args.push_back(B);
                     retval = OverloadBinaryOperator(
                         this, expression(t->down), expression(t->down->right), "power");
-                } 
+                }
             }
         } break;
         default:
