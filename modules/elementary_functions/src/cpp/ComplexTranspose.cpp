@@ -26,7 +26,8 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
     Class classA = A.getDataClass();
-    if (classA < NLS_LOGICAL || A.isSparse()) {
+    if ( (classA < NLS_LOGICAL || A.isSparse()) &&
+		!(A.isCell() || A.isStruct())) {
         needToOverload = true;
         return ArrayOf();
     }
@@ -145,6 +146,23 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
         Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
             (charType*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
         matTransposed = matOrigin.conjugate().transpose().eval();
+    } break;
+    case NLS_STRUCT_ARRAY:
+    case NLS_CELL_ARRAY: {
+        Dimensions dimsA = A.getDimensions();
+        indexType rowCount = dimsA[0];
+        indexType colCount = dimsA[1];
+        Dimensions dimsRes(colCount, rowCount);
+        ArrayOf res(A);
+        void* dstPtr = res.getReadWriteDataPointer();
+        int ptr = 0;
+        for (indexType i = 0; i < rowCount; i++)
+            for (indexType j = 0; j < colCount; j++) {
+				res.copyElements(i + j * rowCount, dstPtr, ptr, 1);
+                ptr++;
+            }
+        res.reshape(dimsRes);
+		return res;
     } break;
     default: {
         needToOverload = true;

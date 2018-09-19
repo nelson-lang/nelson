@@ -186,7 +186,6 @@
     <ClCompile Include="..\cpp\DotLeftDivide.cpp" />
     <ClCompile Include="..\cpp\DotPower.cpp" />
     <ClCompile Include="..\cpp\DotRightDivide.cpp" />
-    <ClCompile Include="..\cpp\DotTranspose.cpp" />
     <ClCompile Include="..\cpp\Equals.cpp" />
     <ClCompile Include="..\cpp\Exponential.cpp" />
     <ClCompile Include="..\cpp\GreaterEquals.cpp" />
@@ -243,7 +242,6 @@
     <ClInclude Include="..\include\DotLeftDivide.hpp" />
     <ClInclude Include="..\include\DotPower.hpp" />
     <ClInclude Include="..\include\DotRightDivide.hpp" />
-    <ClInclude Include="..\include\DotTranspose.hpp" />
     <ClInclude Include="..\include\Equals.hpp" />
     <ClInclude Include="..\include\Exponential.hpp" />
     <ClInclude Include="..\include\GreaterEquals.hpp" />

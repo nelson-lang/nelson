@@ -18,6 +18,8 @@ Features:
 
   * tanm, sinm builtin added.
 
+  * cell & struct managed for complex transpose & transpose.
+
   * [#133](http://github.com/Nelson-numerical-software/nelson/issues/133): Replaced uncommon term "trinary" by "ternary". 
 
   * [#119](http://github.com/Nelson-numerical-software/nelson/issues/119): Execution of simple expression "1+2+3" was rather slow.
