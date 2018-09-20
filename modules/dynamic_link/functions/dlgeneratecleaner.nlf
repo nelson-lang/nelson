@@ -36,7 +36,7 @@ function dlgeneratecleaner(varargin)
   if ischar(files)
     files = {files};
   end
-  for k = files
+  for k = files(:)'
     if ~ischar(k{1})
       error(_('Valid files list expected.'));
     end
@@ -72,7 +72,7 @@ function txt = templatecleanerpart1(destinationdir)
 //=============================================================================
 function txt = templatecleanerpart2(files)
   txt = {};
-  for k = files
+  for k = files(:)'
     txt = [txt; ['if isfile(''', k{1}, ''')']];
     txt = [txt; ['  rmfile(''', k{1}, ''');']];
     txt = [txt; 'end'];
@@ -119,11 +119,11 @@ function txt = templatecleanerpart4()
   txt = [txt; 'end'];
   if ispc()
     txt = [txt; 'f = dir(''*.exp'');'];
-    txt = [txt; 'for k = f'];
+    txt = [txt; 'for k = f(:)'''];
     txt = [txt; '  rmfile(k.name);'];
     txt = [txt; 'end'];
     txt = [txt; 'f = dir(''*.ilk'');'];
-    txt = [txt; 'for k = f'];
+    txt = [txt; 'for k = f(:)'''];
     txt = [txt; '  rmfile(k.name);'];
     txt = [txt; 'end'];
   end

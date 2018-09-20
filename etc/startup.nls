@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 run([nelsonroot() '/modules/' 'modules.nls']);
-for k = modules_list
+for k = modules_list'
   switch k{1}
     case 'text_editor'
       if (strcmp(getnelsonmode(), 'GUI') == true || ...

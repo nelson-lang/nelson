@@ -18,7 +18,7 @@
 //=============================================================================
 function n = nig_nargin(NIG_FUNCTION)
   n = 0;
-  for k = NIG_FUNCTION.VARIABLES
+  for k = NIG_FUNCTION.VARIABLES(:)'
     if strcmp(k.MODE, 'input') || strcmp(k.MODE, 'in_out')
       n = n + 1;
     end

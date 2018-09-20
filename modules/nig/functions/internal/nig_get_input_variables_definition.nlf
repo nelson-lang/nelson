@@ -20,7 +20,7 @@ function txt = nig_get_input_variables_definition(NIG_FUNCTION)
   txt = {'    // INPUT VARIABLES';
          ''};
   n = 0;
-  for k = NIG_FUNCTION.VARIABLES
+  for k = NIG_FUNCTION.VARIABLES(:)'
     if strcmp(k.MODE, 'input')
       txt{end + 1} = ['    ArrayOf ', k.NAME, ' = argIn[', int2str(n), '];'];
       txt{end + 1} = ['    Dimensions dims', k.NAME, ' = ', k.NAME, '.getDimensions();'];

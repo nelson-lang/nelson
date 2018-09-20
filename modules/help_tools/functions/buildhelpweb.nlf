@@ -23,7 +23,6 @@ function buildhelpweb(varargin)
     error(_('Wrong number of input arguments.'));
   end 
 
-
   if nargin() == 2
     lang = varargin{2};
   else
@@ -37,7 +36,7 @@ function buildhelpweb(varargin)
 
   srclist = {};
   run([nelsonroot() '/modules/' 'modules.nls']);
-  for module = modules_help_list
+  for module = modules_help_list(:)'
     src = [modulepath(module{1}), '/help/', lang, '/xml'];
     if isdir(src)
       srclist{end + 1} = src;

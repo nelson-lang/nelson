@@ -20,7 +20,7 @@ function txt = nig_nelson_function_prototype(NIG_FUNCTION)
   txt = '';
   input = '';
   output = '';
-  for k = NIG_FUNCTION.VARIABLES
+  for k = NIG_FUNCTION.VARIABLES(:)'
     if strcmp(k.MODE, 'input') || strcmp(k.MODE, 'in_out')
       if isempty(input)
         if strcmp(k.MODE, 'in_out')

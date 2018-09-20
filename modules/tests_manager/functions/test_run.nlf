@@ -57,7 +57,7 @@ function status = test_run(varargin)
         end
       else
         if iscell(param1)
-          for p = param1
+          for p = param1(:)'
             if ~ischar(p{1})
               error(_('a valid module name expected.'));
             else
@@ -112,7 +112,7 @@ function status = test_run(varargin)
   if is_minimal_tests
     nelson_version = version('-number');
     nelson_version_str = ['Nelson', '-', int2str(nelson_version(1)), '.', int2str(nelson_version(2)), '.', int2str(nelson_version(3)), '.', int2str(nelson_version(4))];
-    for m = minimal_tests
+    for m = minimal_tests(:)'
       if length(m) == 1
         if length(m{1}) == 1
           if ~ismodule(m{1}{1})
@@ -134,7 +134,7 @@ function status = test_run(varargin)
             test_suite.name = m{1}{1};
             tests_dir = [modulepath(m{1}{1}), '/tests/'];
             k = 1;
-            for f = m{1}{2}
+            for f = m{1}{2}(:)'
               filename = [tests_dir, [f{1}, '.nls']];
               if isfile(filename)
                 tests_list(k) = dir(filename);
@@ -153,7 +153,7 @@ function status = test_run(varargin)
       
       nbTestCasesMax = 0;
       if ~isempty(tests_list)
-        for t = tests_list
+        for t = tests_list(:)'
           test_case = create_test_case([tests_dir, t.name]);
           test_case.classname = [nelson_version_str, '.', test_suite.name];
           if isempty(test_suite.test_cases_list)
@@ -186,7 +186,7 @@ function status = test_run(varargin)
       nelson_version_str = ['Nelson', '-', int2str(nelson_version(1)), '.', int2str(nelson_version(2)), '.', int2str(nelson_version(3)), '.', int2str(nelson_version(4))];
       nbTestCasesMax = 0;
 
-      for m = modules_list
+      for m = modules_list(:)'
         test_suite = create_test_suite();
         test_suite.name = m{1};
         tests_list = [];
@@ -222,7 +222,7 @@ function status = test_run(varargin)
           end
           nbTestCasesMax = 0;
           if ~isempty(tests_list)
-            for t = tests_list
+            for t = tests_list(:)'
               test_case = create_test_case([tests_dir, t.name]);
               test_case.classname = [nelson_version_str, '.', test_suite.name];
               if isempty(test_suite.test_cases_list)
@@ -251,11 +251,11 @@ function status = test_run(varargin)
     lenCharsTestSuitesMax = length(int2str(nbTestSuites));
     tic();
     k = 1;
-    for ts = test_suites.tests_list
+    for ts = test_suites.tests_list(:)'
       fprintf(stdout, [' ', uniformizeNumbers(k, lenCharsTestSuitesMax), '/', int2str(nbTestSuites), ' - ', '[', ts.name, '] :', newline]);
       l = 1;
       nbTestCases = length(ts.test_cases_list);
-      for tc = ts.test_cases_list
+      for tc = ts.test_cases_list(:)'
         tc = run_test_case(tc, ts.name, l, nbTestCases, lenCharsTestCasesMax);
         test_suites.tests_list(k).time = test_suites.tests_list(k).time + tc.time;
         if tc.isbench
@@ -336,13 +336,13 @@ function res = save_as_xml(test_suites, xmlFileDestination)
     fprintf(fp, ['<?xml version="1.0"?>', eol]);
     fprintf(fp, ['<testsuites tests="', int2str(test_suites.tests), '" disabled="', int2str(test_suites.disabled), '" time="', mat2str(test_suites.time, 2), '" errors="', int2str(test_suites.errors),'">', eol]);
     
-    for t = test_suites.tests_list
+    for t = test_suites.tests_list(:)'
       fprintf(fp, ['  <testsuite name="', t.name, '" id="', t.id, '" time="', mat2str(t.time, 2), '" tests="', int2str(t.tests), '" skipped="', int2str(t.disabled),'" errors="', int2str(t.errors), '" hostname="', t.hostname, '" timestamp="', t.timestamp, '" ', '>', eol]);
       fprintf(fp, ['    <properties>', eol]);
       fprintf(fp, ['      <property name="', 'environment', '" value="', t.environment,'"/>', eol]);
       fprintf(fp, ['    </properties>', eol]);
       
-      for tc = t.test_cases_list
+      for tc = t.test_cases_list(:)'
         if tc.isbench
           if strcmp(tc.status, 'Fail') == true
             fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
@@ -390,7 +390,7 @@ function res = save_as_xml(test_suites, xmlFileDestination)
               if length(msg) > 0
                 if iscellstr(msg)
                   fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', eol]);
-                  for m = msg
+                  for m = msg(:)'
                     fprintf(fp, [m{1}, eol]);
                   end
                   fprintf(fp, [']]>', '</error>', eol]);
@@ -676,7 +676,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
     if strcmp(test_case_res.msg, '') == false
       disp(_('    Error:'));
       if strcmp(class(test_case_res.msg), 'cell') == 1
-        for k = test_case_res.msg
+        for k = test_case_res.msg(:)'
           disp(['      ', k]);
         end
       else

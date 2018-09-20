@@ -20,6 +20,8 @@ Features:
 
   * cell & struct managed for complex transpose & transpose.
 
+  * for, index column or matrix: behavior changed - Warning: It is a breaking feature.
+
   * [#133](http://github.com/Nelson-numerical-software/nelson/issues/133): Replaced uncommon term "trinary" by "ternary". 
 
   * [#119](http://github.com/Nelson-numerical-software/nelson/issues/119): Execution of simple expression "1+2+3" was rather slow.
@@ -29,6 +31,7 @@ Features:
   * [#114](http://github.com/Nelson-numerical-software/nelson/issues/114): Move gamma function in a dedicated module "special_functions". 
 
   * Enable LGTM.com analysis for C/C++ code.
+
 
 ## 0.2.8 (2018-08-26)
 

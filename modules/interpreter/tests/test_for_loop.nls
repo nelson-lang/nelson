@@ -16,37 +16,50 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <--C/C++ COMPILER REQUIRED--> 
+k = 0;
+for i = [1 2]', assert_isequal(i, [1 2]'), k = k + 1; end
+assert_isequal(k, 1);
 //=============================================================================
-if ismodule('module_skeleton')
-  assert_isequal(cpp_sum(3, 4), 7);
-  return
-end
-//=============================================================================
-sourcedir = [nelsonroot(),'/module_skeleton'];
-files = dir(sourcedir, '-s');
-//=============================================================================
-destinationdir = [tempdir(), '/module_skeleton'];
-if isdir(destinationdir)
-  rmdir(destinationdir, 's');
-end
-mkdir(destinationdir);
-for f = files(:)'
-  sourcefile = f.name;
-  destinationfile = replace(f.name, sourcedir, destinationdir);
-  if isdir(sourcefile)
-    mkdir(destinationfile);
+k = 0;
+for i = [1 2]
+  if k == 0
+    assert_isequal(i, 1)
   else
-    copyfile(sourcefile, destinationfile);
+    assert_isequal(i, 2)
   end
+  k = k + 1;
 end
-run([destinationdir, '/builder.nls']);
-run([destinationdir, '/loader.nls']);
+assert_isequal(k, 2);
 //=============================================================================
-assert_isequal(cpp_sum(3, 4), 7);
+k = 0;
+for i = {1;2}, assert_isequal(i, {1;2}), k = k + 1; end
+assert_isequal(k, 1);
 //=============================================================================
-// unload module and dependencies
-if ismodule('module_skeleton')
-  removemodule('module_skeleton')
+k = 0;
+for i = {1 2}
+  if k == 0
+    assert_isequal(i, {1})
+  else
+    assert_isequal(i, {2})
+  end
+  k = k + 1;
 end
+assert_isequal(k, 2);
+//=============================================================================
+A = [1 2; 3 4];
+B = repmat(A,[2 3 2]);
+k = 0;
+for i = B
+  if k == 0
+    assert_isequal(i, [1;3;1;3]);
+  elseif k == 1
+    assert_isequal(i, [2;4;2;4]);
+  elseif k == 2
+    assert_isequal(i, [1;3;1;3]);
+  else
+    k;
+  end
+  k = k + 1;
+end
+assert_isequal(k, 6);
 //=============================================================================

@@ -35,7 +35,7 @@ function [status, builtin_table_modified] = checkAndPrepareBuiltinTable(builtin_
   builtin_table_modified = {};
   status = true;
   if iscell(builtin_table)
-    for k = builtin_table
+    for k = builtin_table(:)'
       if iscell(k{1})
         if length(k{1}) == 3
           if ischar(k{1}{1}) && isscalar(k{1}{2}) && isscalar(k{1}{3})
@@ -99,7 +99,7 @@ function txt = template(module_name, builtin_table)
   txt = [txt; '//============================================================================='];
   txt = [txt; 'using namespace Nelson;'];
   txt = [txt; '//============================================================================='];
-  for k = builtin_table
+  for k = builtin_table(:)'
     if iscell(k{1}{1})
       name = k{1}{1}(1){1};
     else
@@ -112,7 +112,7 @@ function txt = template(module_name, builtin_table)
   txt = [txt; '//============================================================================='];
   txt = [txt; 'static const nlsGateway gateway[] ='];
   txt = [txt; '{'];
-  for k = builtin_table
+  for k = builtin_table(:)'
     if iscell(k{1}{1})
       name = k{1}{1}(1){1};
       nboutputs = k{1}{1}{2};

@@ -20,18 +20,18 @@ function r = struct_isequal(a, b)
 	if isstruct(b)
 		fieldA = fieldnames(a);
 		fieldB = fieldnames(b);
-		if ~isequal(fieldA, fieldB)
+		if ~isequalto(fieldA, fieldB)
 			r = false;
 		else
-				r = true;
-				for f = fieldA
-					valueA = getfield(a, f{:});
-					valueB = getfield(b, f{:});
-					if ~isequal(valueA, valueB)
-						r = false;
-						break;
-					end
+			r = true;
+			for f = fieldA(:)'
+				valueA = getfield(a, f{:});
+				valueB = getfield(b, f{:});
+				if ~isequal(valueA, valueB)
+					r = false;
+					break;
 				end
+			end
 		end
 	else
 		r = false;

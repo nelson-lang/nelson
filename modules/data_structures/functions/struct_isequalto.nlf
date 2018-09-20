@@ -23,15 +23,15 @@ function r = struct_isequalto(a, b)
 		if ~isequalto(fieldA, fieldB)
 			r = false;
 		else
-				r = true;
-				for f = fieldA
-					valueA = getfield(a, f{:});
-					valueB = getfield(b, f{:});
-					if ~isequalto(valueA, valueB)
-						r = false;
-						break;
-					end
+			r = true;
+			for f = fieldA(:)'
+				valueA = getfield(a, f{:});
+				valueB = getfield(b, f{:});
+				if ~isequalto(valueA, valueB)
+					r = false;
+					break;
 				end
+			end
 		end
 	else
 		r = false;

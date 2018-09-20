@@ -55,7 +55,7 @@ function txt = template(libraryname)
   txt = [txt; '// POSSIBILITY OF SUCH DAMAGE.'];
   txt = [txt; '//============================================================================='];
   if iscellstr(libraryname)
-    for l = libraryname
+    for l = libraryname(:)'
       txt = [txt; '[tf, lib] = dllibisloaded([''', l{1}, ''', getdynlibext()]);'];
       txt = [txt; 'if tf'];
       txt = [txt; '  dlclose(lib);'];

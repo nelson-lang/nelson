@@ -20,7 +20,7 @@ function txt = nig_assign_output_variables(NIG_FUNCTION)
   txt = {'    // ASSIGN OUTPUT VARIABLES';
          ''};
   n = 0;
-  for k = NIG_FUNCTION.VARIABLES
+  for k = NIG_FUNCTION.VARIABLES(:)'
     if strcmp(k.MODE, 'output') || strcmp(k.MODE, 'in_out')
       txt{end + 1} = ['    if (nLhs > ', int2str(n), ')'];
       txt{end + 1} = '    {';

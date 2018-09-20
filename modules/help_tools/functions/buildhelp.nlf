@@ -35,7 +35,7 @@ function buildhelp(varargin)
     helpForNelsonOnly()
     run([nelsonroot() '/modules/' 'modules.nls']);
     
-    for m = modules_help_list
+    for m = modules_help_list(:)'
       module_path = [nelsonroot() '/modules/' m{1}];
       buildhelp_from_path(m{1}, module_path);
     end
@@ -47,7 +47,7 @@ function buildhelp(varargin)
 endfunction
 //=============================================================================
 function buildhelp_from_path(module, module_path)
-  for k = getavailablelanguages()
+  for k = getavailablelanguages()(:)'
     src = [module_path, '/help/', k{1}, '/xml'];
     if isdir(src)
       if ispc() || ismac()
@@ -83,14 +83,14 @@ endfunction
 //=============================================================================
 function helpForNelsonOnly()
   changes_md = {[nelsonroot(), '/CHANGELOG.md']; [nelsonroot(), '/CHANGELOG-0.1.x.md']};
-  for k = getavailablelanguages()
+  for k = getavailablelanguages()(:)'
     dir_src = [nelsonroot(), '/modules/main/help/', k{1}, '/md'];
     dir_dst = [nelsonroot(), '/modules/main/help/', k{1}, '/html/'];
     if isdir(dir_src)
       banner_png = 'banner_homepage.png';
       copyfile([dir_src, '/', banner_png], [dir_dst, '/', banner_png]);
       md_files = {'homepage.md', 'license.md', 'GPL2.md'};
-      for md_filename = md_files
+      for md_filename = md_files(:)'
         html_filename = strrep(md_filename{1}, '.md', '.html');
         if needTobeGenerated([dir_src, '/', md_filename{1}], [dir_dst, html_filename])
           if strcmp(md_filename{1}, 'homepage.md') || strcmp(md_filename{1}, 'license.md')
@@ -109,7 +109,7 @@ function helpForNelsonOnly()
           end
         end
       end
-      for md = changes_md
+      for md = changes_md(:)'
         basename_src = fileparts(md{1}, 'filename');
         destination = [dir_dst, basename_src, '.html'];
         if needTobeGenerated(md{1}, destination)

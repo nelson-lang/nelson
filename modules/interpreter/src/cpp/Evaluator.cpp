@@ -46,7 +46,6 @@
 #include "Exception.hpp"
 #include "LessEquals.hpp"
 #include "Transpose.hpp"
-#include "DotTranspose.hpp"
 #include "DotLeftDivide.hpp"
 #include "DotRightDivide.hpp"
 #include "RightDivide.hpp"
@@ -1240,15 +1239,31 @@ Evaluator::forStatement(ASTPtr t)
     indexVarName = t->text;
     /* Evaluate the index set */
     indexSet = expression(t->down);
+    if (indexSet.isEmpty()) {
+        return;
+    }
     /* Get the code block */
     codeBlock = t->right;
-    elementCount = indexSet.getLength();
+    bool isRowVector = indexSet.isRowVector();
+    bool isColumnVector = indexSet.isColumnVector();
+    if (isRowVector) {
+        elementCount = indexSet.getLength();
+    } else if (isColumnVector) {
+        elementCount = 1;
+    } else {
+		elementCount = indexSet.getDimensions().getColumns();
+	}
     context->enterLoop();
     for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
-        // indexNum = ArrayOf::doubleConstructor(elementNumber + 1);
-        // indexVar = indexSet.getVectorSubset(indexNum);
-        // context->insertVariable(indexVarName, indexVar);
-        indexVar = indexSet.getValueAtIndex(elementNumber);
+		if (isRowVector) {
+            indexVar = indexSet.getValueAtIndex(elementNumber);
+        } else {
+            int tmp = indexSet.getDimensions().getRows();
+            ArrayOfVector m;
+            m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, false));
+            m.push_back(ArrayOf::doubleConstructor(elementNumber + 1));
+            indexVar = indexSet.getNDimSubset(m);
+		} 
         bool bInserted = context->insertVariable(indexVarName, indexVar);
         if (!bInserted) {
             Error(_W("Redefining permanent variable."));

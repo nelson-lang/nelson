@@ -23,7 +23,7 @@ function r = cell_isequalto(a, b)
     if isequalto(s1, s2)
       r = true;
       k = 1;
-      for e = a
+      for e = a(:)'
         if ~isequalto(e{1}, b{k})
           r = false;
           break;

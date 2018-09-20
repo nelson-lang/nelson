@@ -168,7 +168,7 @@ function [r, c_cpp_files_modified] = checkAndPrepareCppFiles(c_cpp_files)
     return
   end
   if iscellstr(c_cpp_files)
-    for k = c_cpp_files
+    for k = c_cpp_files(:)'
       if ~isfile(k{1})
         c_cpp_files_modified = '';
         r = false;
@@ -196,7 +196,7 @@ function [r, includes_modified] = checkAndPrepareIncludesDirectories(includes)
     return
   end
   if iscellstr(includes)
-    for k = includes
+    for k = includes(:)'
       if ~isdir(k{1})
         includes_modified = '';
         r = false;
@@ -224,7 +224,7 @@ function [r, defines_modified] = checkAndPrepareDefines(defines)
     return
   end
   if iscellstr(defines)
-    for k = defines
+    for k = defines(:)'
       if ~ischar(k{1})
         defines_modified = '';
         r = false;
@@ -263,7 +263,7 @@ function [r, external_libraries_modified] = checkAndPrepareExternalLibraries(ext
     return
   end
   if iscellstr(external_libraries)
-    for k = external_libraries
+    for k = external_libraries(:)'
       if ~ischar(k{1})
         external_libraries_modified = '';
         r = false;

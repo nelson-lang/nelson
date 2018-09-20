@@ -33,7 +33,7 @@ DOMAIN = 'nelson';
 
 langs = getavailablelanguages();
 
-for l = langs
+for l = langs(:)'
   posrc = [nelsonroot(), '/locale/', l{1}, '/LC_MESSAGES/', DOMAIN, '.po'];
   modst = [nelsonroot(), '/locale/', l{1}, '/LC_MESSAGES/', DOMAIN, '.mo'];
   dir_posrc = dir(posrc);

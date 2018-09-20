@@ -77,7 +77,7 @@ function [name, description, value] = COM_xlsformat(formatAsInt)
   {'xlXMLSpreadsheet', 46, 'XML Spreadsheet'}};
 
   found = {};
-  for c = formats
+  for c = formats(:)'
     
     if c{1}{2} == searchValue
       found = c{1};

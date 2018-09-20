@@ -29,7 +29,7 @@ function [status, compiler] = loadcompilerconf()
    if isfile(jsonfile)
      txt = fileread(jsonfile);
      json = jsondecode(txt);
-     for f = fieldnames(json)
+     for f = fieldnames(json)(:)'
        if strcmp(f{1},'COMPILER_CHOICE')
          compiler = getfield(json,f{1});
          status = true;

@@ -114,7 +114,7 @@ end
 
 langs = getavailablelanguages();
 
-for l = langs
+for l = langs(:)'
   disp([_('update .po for:'), l{1}])
   dirdest = [nelsonroot(), '/locale/', l{1}, '/LC_MESSAGES/'];
   if ~isdir(dirdest)

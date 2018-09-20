@@ -29,7 +29,7 @@ function txt = nig_call_function(NIG_FUNCTION)
     t = ['        ', NIG_FUNCTION.SYMBOL];
   end
   t = [t, ' ('];
-  for k = NIG_FUNCTION.VARIABLES
+  for k = NIG_FUNCTION.VARIABLES(:)'
       if strcmp(k.MODE, 'input')
         t = [t, ' ', k.NAME, '_ptr'];
       end

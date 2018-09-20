@@ -55,7 +55,7 @@ function txt = template(libraryname)
   txt = [txt; '// POSSIBILITY OF SUCH DAMAGE.'];
   txt = [txt; '//============================================================================='];
   if iscellstr(libraryname)
-    for l = libraryname
+    for l = libraryname(:)'
       txt = [txt; 'dlopen([fileparts(nfilename(''fullpathext'')), ''/'', ''', l{1}, ''', getdynlibext()]);'];
     end
   else

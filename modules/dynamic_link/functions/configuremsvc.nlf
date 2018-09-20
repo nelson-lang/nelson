@@ -71,7 +71,7 @@ function [status, message] = configuremsvc()
   end
   names = {};
   values = {};
-  for k = msvc2017.ENVIRONMENT_VARIABLES
+  for k = msvc2017.ENVIRONMENT_VARIABLES(:)'
     cmd = [vcinfo_batch, ' ', vcvarsbat, ' ', k{1}];
     [s, m] = unix(cmd);
     if (s ~= 0)
