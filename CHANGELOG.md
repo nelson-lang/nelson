@@ -20,7 +20,21 @@ Features:
 
   * cell & struct managed for complex transpose & transpose.
 
-  * for, index column or matrix: behavior changed - Warning: It is a breaking feature.
+  * for, index column or matrix: behavior changed.
+   
+    Warning: It is a breaking feature.
+
+    Please replace:
+
+    ```
+    A = [1:4]';
+    for i = A, x = i + 1, end
+    ```
+    by:
+    ```
+    A = [1:4]';
+    for i = A(:)', x = i + 1, end
+    ```
 
   * [#133](http://github.com/Nelson-numerical-software/nelson/issues/133): Replaced uncommon term "trinary" by "ternary". 
 
