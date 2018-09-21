@@ -2,9 +2,9 @@
 Features:
 ---------
 
-  * Overload speed optimization:
+  * Overload and speed optimization:
 
-    - plus, minus, eq, ne, gt, ge, le, lt, horzcat, vertcat, uplus, uminus, colon, not, any, all, times, mtimes ... operators use by default predefined functions and search if operators are missing.
+    - all operators use by default predefined functions. Nelson will search if operators are missing for a specific type.
     - add overloadbasictypes function to change default behavior.
     - gamma function speed x4 (overloading)
 
@@ -14,24 +14,21 @@ Features:
 
   * ndarray subclass no more exists. class merged with basic type (speed optimization).
 
-  * isequalto builtin added (Return true if all arguments x1, x2, … , xn are equal i.e same type, same dimensions, same values or NaNs).
+  * isequalto builtin added (returns true if all arguments x1, x2, ... , xn are equal i.e same type, same dimensions, same values or NaNs).
 
   * tanm, sinm builtin added.
 
   * cell & struct managed for complex transpose & transpose.
 
   * for, index column or matrix: behavior changed.
-   
+
     Warning: It is a breaking feature.
 
-    Please replace:
-
     ```
+    // Please replace:
     A = [1:4]';
     for i = A, x = i + 1, end
-    ```
-    by:
-    ```
+    // by: 
     A = [1:4]';
     for i = A(:)', x = i + 1, end
     ```
