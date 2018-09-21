@@ -4,7 +4,7 @@
 
 	<language>en_US</language>
 	<keyword>isequal</keyword>
-	<short_description>Return true if all arguments x1, x2, … , xn are equal (same dimensions, same values).</short_description>
+	<short_description>Return true if all arguments x1, x2, ... , xn are equal (same dimensions, same values).</short_description>
 
 	<syntax>
 		<syntax_item>res = isequal(x1, x2)</syntax_item>

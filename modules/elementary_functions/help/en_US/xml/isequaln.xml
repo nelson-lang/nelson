@@ -4,7 +4,7 @@
 
 	<language>en_US</language>
 	<keyword>isequaln</keyword>
-	<short_description>Return true if all arguments x1, x2, … , xn are equal (same dimensions, same values or NaNs).</short_description>
+	<short_description>Return true if all arguments x1, x2, ... , xn are equal (same dimensions, same values or NaNs).</short_description>
 
 	<syntax>
 		<syntax_item>res = isequaln(x1, x2)</syntax_item>
