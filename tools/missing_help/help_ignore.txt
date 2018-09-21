@@ -394,3 +394,14 @@ MPI_Comm_isprop
 MPI_Comm_vertcat_MPI_Comm
 audioplayer_horzcat_audioplayer
 audioplayer_vertcat_audioplayer
+function_handle_isequalto
+handle_isequalto
+struct_isequalto
+sparsedouble_isequalto
+sparselogical_isequalto
+dllib_isequalto
+dlsym_isequalto
+libpointer_isequalto
+QObject_isequalto
+COM_isequalto
+cell_isequalto
