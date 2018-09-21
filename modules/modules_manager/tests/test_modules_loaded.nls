@@ -20,7 +20,7 @@
 modules_loaded = getmodules();
 run([nelsonroot(), '/modules/modules.nls']);
 if ~ispc()
-  modules_list(strcmp(m{1},'com_engine')) = [];
+  modules_list(strcmp(modules_list,'com_engine')) = [];
 end
 assert_isequal(modules_loaded, modules_list);
 //=============================================================================
