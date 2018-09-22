@@ -6,6 +6,7 @@ environment:
   QTDIR64: C:\Qt\5.11.1\msvc2017_64
   QTDIR32: C:\Qt\5.11.1\msvc2015
   BUILD_CHAIN_DIR: c:\build_chain\nelson
+  APPVEYOR_RDP_PASSWORD: nelson-debug
 
 branches:
   only:
@@ -18,6 +19,10 @@ platform:
 matrix:
   allow_failures:
     - platform: x86
+
+
+init:
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))    
 
 install:
 - ps: (new-object net.webclient).DownloadFile("https://download.microsoft.com/download/4/A/6/4A6AAED8-200C-457C-AB86-37505DE4C90D/msmpisetup.exe", "C:\build_chain\MSMpiSetup.exe")
@@ -46,6 +51,8 @@ after_build:
 - c:\build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-adv-cli --quiet -f c:\build_chain/nelson/tools/tests_all/runtests_all.nls
 - c:\build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:\build_chain/nelson/tools/tests_result/tests_result.nls
 
+on_finish:
+- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 artifacts:
   - path: ./*.exe
