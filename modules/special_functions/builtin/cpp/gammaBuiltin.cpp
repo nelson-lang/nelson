@@ -25,8 +25,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::SpecialFunctionsGateway::gammaBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SpecialFunctionsGateway::gammaBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {

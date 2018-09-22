@@ -1251,11 +1251,11 @@ Evaluator::forStatement(ASTPtr t)
     } else if (isColumnVector) {
         elementCount = 1;
     } else {
-		elementCount = indexSet.getDimensions().getColumns();
-	}
+        elementCount = indexSet.getDimensions().getColumns();
+    }
     context->enterLoop();
     for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
-		if (isRowVector) {
+        if (isRowVector) {
             indexVar = indexSet.getValueAtIndex(elementNumber);
         } else {
             int tmp = indexSet.getDimensions().getRows();
@@ -1263,7 +1263,7 @@ Evaluator::forStatement(ASTPtr t)
             m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, false));
             m.push_back(ArrayOf::doubleConstructor(elementNumber + 1));
             indexVar = indexSet.getNDimSubset(m);
-		} 
+        }
         bool bInserted = context->insertVariable(indexVarName, indexVar);
         if (!bInserted) {
             Error(_W("Redefining permanent variable."));
