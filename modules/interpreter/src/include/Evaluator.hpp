@@ -176,7 +176,7 @@ public:
     popDebug();
 
     void
-    addBreakpoint(StackEntry bp);
+    addBreakpoint(StackEntry &bp);
     bool
     adjustBreakpoint(StackEntry& bp, bool dbstep);
     void

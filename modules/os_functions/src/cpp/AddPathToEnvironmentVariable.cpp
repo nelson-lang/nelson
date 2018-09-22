@@ -66,7 +66,7 @@ concateEnvironmentPath(boost::container::vector<std::wstring> listPath)
         res.append(L":");
 #endif
     }
-    if (listPath.size() - 1 >= 0) {
+    if (listPath.size() >= 1) {
         res.append(listPath[listPath.size() - 1]);
     }
     return res;

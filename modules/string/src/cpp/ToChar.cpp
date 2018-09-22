@@ -115,12 +115,12 @@ ToChar(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     res = ArrayOf::stringConstructor(vA[0]);
     bool bSuccess;
     for (size_t i = 1; i < vA.size(); i++) {
-        ArrayOf B = ArrayOf::stringConstructor(vA[i]);
-        res = VertCat(res, B, true, bSuccess);
+        ArrayOf BA = ArrayOf::stringConstructor(vA[i]);
+        res = VertCat(res, BA, true, bSuccess);
     }
     for (size_t i = 0; i < vB.size(); i++) {
-        ArrayOf B = ArrayOf::stringConstructor(vB[i]);
-        res = VertCat(res, B, true, bSuccess);
+        ArrayOf BB = ArrayOf::stringConstructor(vB[i]);
+        res = VertCat(res, BB, true, bSuccess);
     }
     return res;
 }

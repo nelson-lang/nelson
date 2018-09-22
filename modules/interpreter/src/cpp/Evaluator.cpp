@@ -406,8 +406,8 @@ Evaluator::expression(ASTPtr t)
             if (endStack.empty()) {
                 Error(ERROR_END_ILLEGAL);
             }
-            endData t(endStack.back());
-            retval = EndReference(t.endArray, t.index, t.count);
+            endData enddatat(endStack.back());
+            retval = EndReference(enddatat.endArray, enddatat.index, enddatat.count);
         } else {
             Error(ERROR_UNRECOGNIZED_NODE);
         }
@@ -1258,7 +1258,7 @@ Evaluator::forStatement(ASTPtr t)
         if (isRowVector) {
             indexVar = indexSet.getValueAtIndex(elementNumber);
         } else {
-            int tmp = indexSet.getDimensions().getRows();
+            indexType tmp = indexSet.getDimensions().getRows();
             ArrayOfVector m;
             m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, false));
             m.push_back(ArrayOf::doubleConstructor(elementNumber + 1));
@@ -2203,7 +2203,7 @@ Evaluator::specialFunctionCall(ASTPtr t, bool printIt)
 }
 
 void
-Evaluator::addBreakpoint(StackEntry bp)
+Evaluator::addBreakpoint(StackEntry &bp)
 {
     bpStack.push_back(bp);
     adjustBreakpoints();

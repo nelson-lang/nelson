@@ -608,7 +608,7 @@ ArrayOf::setDataPointer(void* rp)
 }
 //=============================================================================
 void
-ArrayOf::scalarToMatrix(Dimensions newDimensions)
+ArrayOf::scalarToMatrix(Dimensions &newDimensions)
 {
     if (isSparse()) {
         Error(_W("Sparse not supported."));
@@ -2116,7 +2116,7 @@ isColonOperator(const ArrayOf& A)
  * are expanded out into vectors).
  */
 constIndexPtr*
-ProcessNDimIndexes(bool preserveColons, Dimensions dims, ArrayOfVector& index, bool& anyEmpty,
+ProcessNDimIndexes(bool preserveColons, Dimensions &dims, ArrayOfVector& index, bool& anyEmpty,
     int& colonIndex, Dimensions& outDims, bool argCheck)
 {
     indexType L = index.size();

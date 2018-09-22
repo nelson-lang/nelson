@@ -61,7 +61,7 @@ haveNelsonMutex()
         boost::interprocess::named_mutex other_nelson_mutex(
             boost::interprocess::open_only, NELSON_VERSION_NMMM_STRING);
         res = true;
-    } catch (const boost::interprocess::interprocess_exception e) {
+    } catch (const boost::interprocess::interprocess_exception &) {
         res = false;
     }
     return res;

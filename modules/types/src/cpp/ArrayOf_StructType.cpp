@@ -400,7 +400,7 @@ ArrayOf::emptyStructWithoutFields()
 }
 //=============================================================================
 ArrayOf
-ArrayOf::emptyStructConstructor(stringVector fNames, Dimensions dim)
+ArrayOf::emptyStructConstructor(stringVector fNames, Dimensions &dim)
 {
     if (dim.getElementCount() != 0) {
         Error(_W("Invalid dimensions."));
@@ -410,7 +410,7 @@ ArrayOf::emptyStructConstructor(stringVector fNames, Dimensions dim)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::emptyStructConstructor(wstringVector fNames, Dimensions dim)
+ArrayOf::emptyStructConstructor(wstringVector fNames, Dimensions &dim)
 {
     stringVector fs;
     fs.reserve(fNames.size());

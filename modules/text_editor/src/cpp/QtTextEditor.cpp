@@ -587,7 +587,13 @@ QtTextEditor::open()
     }
 }
 //=============================================================================
-QtTextEditor::~QtTextEditor() { saveAll(); }
+QtTextEditor::~QtTextEditor() { 
+	saveAll(); 
+	if (contextMenu) {
+        delete contextMenu;
+        contextMenu = nullptr;
+    }
+}
 //=============================================================================
 void
 QtTextEditor::font()

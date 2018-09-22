@@ -116,13 +116,13 @@ QtTextEdit::keyPressEvent(QKeyEvent* e)
             QString completionPrefix = textUnderCursor();
             complete(completionPrefix);
         } else {
-            if (e->key() == Qt::Key_Tab
+            if ((e->key() == Qt::Key_Tab)
                 || (QApplication::keyboardModifiers() && Qt::ControlModifier
-                       && e->key() == Qt::Key_Space)) {
+                       && (e->key() == Qt::Key_Space))) {
                 QString completionPrefix = textUnderCursor();
                 complete(completionPrefix);
             } else {
-                if (e->key() == Qt::Key_A && Qt::ControlModifier) {
+                if ((e->key() == Qt::Key_A) && Qt::ControlModifier) {
                     QTextEdit::keyPressEvent(e);
                     return;
                 }

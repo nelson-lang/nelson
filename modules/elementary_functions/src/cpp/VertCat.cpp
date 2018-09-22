@@ -28,7 +28,7 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 ArrayOf
-VertCatTemplate(ArrayOf A, ArrayOf B, Dimensions dimsRes)
+VertCatTemplate(ArrayOf A, ArrayOf B, Dimensions &dimsRes)
 {
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
@@ -49,7 +49,7 @@ VertCatTemplate(ArrayOf A, ArrayOf B, Dimensions dimsRes)
 //=============================================================================
 template <class T>
 ArrayOf
-VertCatComplexTemplate(ArrayOf A, ArrayOf B, Dimensions dimsRes)
+VertCatComplexTemplate(ArrayOf A, ArrayOf B, Dimensions &dimsRes)
 {
     void* pRes = ArrayOf::allocateArrayOf(A.getDataClass(), dimsRes.getElementCount() * 2);
     T* ptrC = (T*)pRes;

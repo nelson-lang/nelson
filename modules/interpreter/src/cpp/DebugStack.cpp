@@ -24,25 +24,25 @@
 namespace Nelson {
 //=============================================================================
 static bool
-isNlf(PositionScript pos)
+isNlf(PositionScript &pos)
 {
     return boost::algorithm::ends_with(pos.getFilename(), L".nlf");
 }
 //=============================================================================
 static bool
-isNls(PositionScript pos)
+isNls(PositionScript &pos)
 {
     return boost::algorithm::ends_with(pos.getFilename(), L".nls");
 }
 //=============================================================================
 static bool
-isEvaluateString(PositionScript pos)
+isEvaluateString(PositionScript &pos)
 {
     return boost::algorithm::starts_with(pos.getFunctionName(), L"EvaluateString");
 }
 //=============================================================================
 static bool
-isBuiltin(PositionScript pos)
+isBuiltin(PositionScript &pos)
 {
     return boost::algorithm::starts_with(pos.getFunctionName(), L"built-in");
 }

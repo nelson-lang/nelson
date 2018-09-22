@@ -16,6 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#pragma once
+//=============================================================================
 #include "ArrayOf.hpp"
 #include "DynamicLinkLibraryObject.hpp"
 #include "nlsDynamic_link_exports.h"

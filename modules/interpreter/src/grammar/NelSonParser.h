@@ -16,7 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-
+#pragma once 
+//=============================================================================
 /* A Bison parser, made by GNU Bison 1.875c.  */
 
 /* Tokens.  */

@@ -23,7 +23,7 @@
 //=============================================================================
 namespace Nelson {
 ArrayOf
-TrueConstructor(Dimensions dim, bool bIsSparse)
+TrueConstructor(Dimensions &dim, bool bIsSparse)
 {
     ArrayOf res;
     if (bIsSparse) {
@@ -43,7 +43,7 @@ TrueConstructor(Dimensions dim, bool bIsSparse)
 }
 //=============================================================================
 ArrayOf
-FalseConstructor(Dimensions dim, bool bIsSparse)
+FalseConstructor(Dimensions &dim, bool bIsSparse)
 {
     ArrayOf res;
     if (bIsSparse) {
