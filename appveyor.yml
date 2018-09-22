@@ -6,7 +6,7 @@ environment:
   QTDIR64: C:\Qt\5.11.1\msvc2017_64
   QTDIR32: C:\Qt\5.11.1\msvc2015
   BUILD_CHAIN_DIR: c:\build_chain\nelson
-  APPVEYOR_RDP_PASSWORD: nelson_64_AC
+  APPVEYOR_RDP_PASSWORD: 12_#AC_DE!324_DE
 
 branches:
   only:
