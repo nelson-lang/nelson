@@ -43,8 +43,8 @@ after_build:
 - c:\build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:\build_chain/nelson/tools/tests_minimal/runtests_minimal.nls
 - c:\build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -e run('c:\build_chain/nelson/tools/innosetup/innosetup.nls');exit
 - iscc c:\build_chain/nelson/tools/innosetup/Nelson.iss
-- c:\build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:\build_chain/nelson/tools/tests_all/runtests_all.nls
-#- c:\build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:\build_chain/nelson/tools/tests_result/tests_result.nls
+- c:\build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-adv-cli --quiet -f c:\build_chain/nelson/tools/tests_all/runtests_all.nls
+- c:\build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:\build_chain/nelson/tools/tests_result/tests_result.nls
 
 
 artifacts:
