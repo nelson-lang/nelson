@@ -20,7 +20,6 @@ matrix:
   allow_failures:
     - platform: x86
 
-
 init:
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))    
 
