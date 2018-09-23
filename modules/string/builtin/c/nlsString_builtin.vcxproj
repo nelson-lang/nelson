@@ -184,6 +184,7 @@
     <ClCompile Include="..\cpp\strlengthBuiltin.cpp" />
     <ClCompile Include="..\cpp\strncmpBuiltin.cpp" />
     <ClCompile Include="..\cpp\strrepBuiltin.cpp" />
+    <ClCompile Include="..\cpp\strtrimBuiltin.cpp" />
     <ClCompile Include="..\cpp\tolowerBuiltin.cpp" />
     <ClCompile Include="..\cpp\toupperBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -233,6 +234,7 @@
     <ClInclude Include="..\include\strlengthBuiltin.hpp" />
     <ClInclude Include="..\include\strncmpBuiltin.hpp" />
     <ClInclude Include="..\include\strrepBuiltin.hpp" />
+    <ClInclude Include="..\include\strtrimBuiltin.hpp" />
     <ClInclude Include="..\include\tolowerBuiltin.hpp" />
     <ClInclude Include="..\include\strcmpBuiltin.hpp" />
     <ClInclude Include="..\include\toupperBuiltin.hpp" />

@@ -125,7 +125,8 @@ bool
 PrintfHelper::isEscape(wchar_t* dp)
 {
     return ((dp[0] == L'\\')
-        && ((dp[1] == L'n') || (dp[1] == L't') || (dp[1] == L'r') || (dp[1] == L'\\')));
+        && ((dp[1] == L'n') || (dp[1] == L't') || (dp[1] == L'r') || (dp[1] == L'v')
+               || (dp[1] == L'f') || (dp[1] == L'\\')));
 }
 //=============================================================================
 int
@@ -183,6 +184,12 @@ PrintfHelper::ConvertEscapeSequences(const std::wstring& src)
                 i++;
             } else if (src[i + 1] == L'r') {
                 dest += L'\r';
+                i++;
+            } else if (src[i + 1] == L'v') {
+                dest += L'\v';
+                i++;
+            } else if (src[i + 1] == L'f') {
+                dest += L'\f';
                 i++;
             } else {
                 dest += src[i + 1];

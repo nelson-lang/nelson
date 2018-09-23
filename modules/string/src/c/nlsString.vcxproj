@@ -177,6 +177,7 @@
     <ClCompile Include="..\cpp\StringStartsWith.cpp" />
     <ClCompile Include="..\cpp\StringToDouble.cpp" />
     <ClCompile Include="..\cpp\StringToDoubleComplex.cpp" />
+    <ClCompile Include="..\cpp\StringTrim.cpp" />
     <ClCompile Include="..\cpp\ToChar.cpp" />
     <ClCompile Include="..\cpp\ToLower.cpp" />
     <ClCompile Include="..\cpp\ToUpper.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="..\include\StringStartsWith.hpp" />
     <ClInclude Include="..\include\StringToDoubleComplex.hpp" />
     <ClInclude Include="..\include\StringToDouble.hpp" />
+    <ClInclude Include="..\include\StringTrim.hpp" />
     <ClInclude Include="..\include\ToLower.hpp" />
     <ClInclude Include="..\include\ToUpper.hpp" />
   </ItemGroup>
