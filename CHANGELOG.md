@@ -1,3 +1,5 @@
+## 0.2.9 (2018-09-23)
+
 
 Features:
 ---------
@@ -35,6 +37,9 @@ Features:
     for i = A(:)', x = i + 1, end
     ```
 
+Bug Fixes:
+---------
+
   * [#133](http://github.com/Nelson-numerical-software/nelson/issues/133): Replaced uncommon term "trinary" by "ternary". 
 
   * [#119](http://github.com/Nelson-numerical-software/nelson/issues/119): Execution of simple expression "1+2+3" was rather slow.
@@ -42,6 +47,9 @@ Features:
   * [#115](http://github.com/Nelson-numerical-software/nelson/issues/115):code about single & double operators was factorized 
 
   * [#114](http://github.com/Nelson-numerical-software/nelson/issues/114): Move gamma function in a dedicated module "special_functions". 
+
+Compilation:
+---------
 
   * Enable LGTM.com analysis for C/C++ code.
 
