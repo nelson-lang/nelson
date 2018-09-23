@@ -34,6 +34,7 @@
 #include "strrepBuiltin.hpp"
 #include "tolowerBuiltin.hpp"
 #include "toupperBuiltin.hpp"
+#include "strtrimBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -60,6 +61,7 @@ static const nlsGateway gateway[] = { { "char", Nelson::StringGateway::charBuilt
     { "count", Nelson::StringGateway::countBuiltin, 1, -3, CPP_BUILTIN_WITH_EVALUATOR },
     { "strrep", Nelson::StringGateway::strrepBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
     { "replace", Nelson::StringGateway::replaceBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
+    { "strtrim", Nelson::StringGateway::strtrimBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "strlength", Nelson::StringGateway::strlengthBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR } };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

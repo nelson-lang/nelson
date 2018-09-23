@@ -18,6 +18,8 @@ Features:
 
   * tanm, sinm builtin added.
 
+  * strtrim builtin: removes leading and trailing whitespace from a cell of strings or a string.
+
   * cell & struct managed for complex transpose & transpose.
 
   * for, index column or matrix: behavior changed.
