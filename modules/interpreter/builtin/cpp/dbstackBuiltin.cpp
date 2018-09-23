@@ -106,7 +106,7 @@ dbstackAsStruct(stackTrace positions, bool withCompleteNames)
             std::wstring functionName = positions[k].getFunctionName();
             name.push_back(ArrayOf::stringConstructor(functionName));
             if (positions[k].getLine() == 0) {
-                line.push_back(ArrayOf::emptyConstructor(Dimensions(0, 1)));
+                line.push_back(ArrayOf::emptyConstructor(0, 1));
             } else {
                 line.push_back(ArrayOf::doubleConstructor((double)positions[k].getLine()));
             }

@@ -31,7 +31,8 @@ StringVectorToString(wstringVector V, Dimensions DimsV)
 {
     ArrayOf strArr;
     if (V.size() == 0) {
-        strArr = ArrayOf::emptyConstructor(Dimensions(1, 0));
+        Dimensions dims(1, 0);
+        strArr = ArrayOf::emptyConstructor(dims);
         strArr.promoteType(NLS_CHAR);
     } else {
         if (V.size() == 1) {

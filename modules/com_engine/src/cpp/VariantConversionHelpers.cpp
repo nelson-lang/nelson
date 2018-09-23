@@ -141,7 +141,8 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
         return true;
     } break;
     case VT_EMPTY: {
-        res = ArrayOf::emptyConstructor(Dimensions(0, 0));
+        Dimensions dims(0, 0);
+        res = ArrayOf::emptyConstructor(dims);
         return true;
     }
     default: {

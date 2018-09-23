@@ -162,7 +162,8 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(ArrayOf dllibObject, void* poin
 //=============================================================================
 DynamicLinkSymbolObject::~DynamicLinkSymbolObject()
 {
-    _dllibObject = ArrayOf::emptyConstructor(Dimensions(0, 0));
+    Dimensions dims(0, 0);
+    _dllibObject = ArrayOf::emptyConstructor(dims);
     _pointerFunction = nullptr;
     _symbol = L"";
     _returnType = L"";

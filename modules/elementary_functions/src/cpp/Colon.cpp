@@ -124,12 +124,14 @@ real_colon(Class destinationClass, T low, T high, T step)
         }
         if (!std::isfinite(low)) {
             if (low > 0) {
-                return ArrayOf::emptyConstructor(Dimensions(1, 0));
+                Dimensions dims(1, 0);
+                return ArrayOf::emptyConstructor(dims);
             }
         }
         if (!std::isfinite(step)) {
             if (step < 0) {
-                return ArrayOf::emptyConstructor(Dimensions(1, 0));
+                Dimensions dims(1, 0);
+                return ArrayOf::emptyConstructor(dims);
             } else {
                 if (destinationClass == NLS_SINGLE) {
                     return ArrayOf::singleConstructor((single)low);
@@ -139,7 +141,8 @@ real_colon(Class destinationClass, T low, T high, T step)
         }
         if (!std::isfinite(high)) {
             if (high < 0) {
-                return ArrayOf::emptyConstructor(Dimensions(1, 0));
+                Dimensions dims(1, 0);
+                return ArrayOf::emptyConstructor(dims);
             }
         }
         Error(_W("Invalid range."));

@@ -54,7 +54,8 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         bool bRes = StringPrintf(result, error_message, eval, argIn);
         if (!bRes) {
             if (nLhs > 1) {
-                ArrayOf strArr = ArrayOf::emptyConstructor(Dimensions(1, 0));
+                Dimensions dims(1, 0);
+                ArrayOf strArr = ArrayOf::emptyConstructor(dims);
                 strArr.promoteType(NLS_CHAR);
                 retval.push_back(strArr);
                 retval.push_back(ArrayOf::stringConstructor(error_message));
@@ -63,7 +64,8 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             }
         } else {
             if (result == L"") {
-                ArrayOf strArr = ArrayOf::emptyConstructor(Dimensions(1, 0));
+                Dimensions dims(1, 0);
+                ArrayOf strArr = ArrayOf::emptyConstructor(dims);
                 strArr.promoteType(NLS_CHAR);
                 retval.push_back(strArr);
             } else {

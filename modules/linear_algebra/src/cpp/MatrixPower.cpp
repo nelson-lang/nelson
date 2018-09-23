@@ -81,11 +81,13 @@ MatrixPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
     }
 
     if (A.isEmpty() || B.isEmpty()) {
+        Dimensions dims;
         if (A.isEmpty()) {
-            return ArrayOf::emptyConstructor(A.getDimensions());
+            dims = A.getDimensions();
         } else {
-            return ArrayOf::emptyConstructor(B.getDimensions());
+            dims = B.getDimensions();
         }
+        return ArrayOf::emptyConstructor(dims);
     }
 
     // Test for 2D on both A & B

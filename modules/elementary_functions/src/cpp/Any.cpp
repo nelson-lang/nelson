@@ -41,23 +41,27 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
                 res = ArrayOf::logicalConstructor(false);
             } else {
                 if (A.getDimensions().getRows() > A.getDimensions().getColumns()) {
-                    res = ArrayOf::emptyConstructor(Dimensions(1, 0));
+                    Dimensions dims(1, 0);
+                    res = ArrayOf::emptyConstructor(dims);
                     res.promoteType(NLS_LOGICAL);
                 } else {
                     logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
                         NLS_LOGICAL, A.getDimensions().getColumns());
+                    Dimensions dims(1, A.getDimensions().getColumns());
                     res = ArrayOf(
-                        NLS_LOGICAL, Dimensions(1, A.getDimensions().getColumns()), logicalarray);
+                        NLS_LOGICAL, dims, logicalarray);
                 }
             }
         } else {
             Dimensions dims2Dzeros(0, 0);
             if (A.getDimensions().equals(dims2Dzeros)) {
                 if (dim - 1 == 0) {
-                    res = ArrayOf::emptyConstructor(Dimensions(1, 0));
+                    Dimensions dims(1, 0);
+                    res = ArrayOf::emptyConstructor(dims);
                     res.promoteType(NLS_LOGICAL);
                 } else if (dim - 1 == 1) {
-                    res = ArrayOf::emptyConstructor(Dimensions(0, 1));
+                    Dimensions dims(0, 1);
+                    res = ArrayOf::emptyConstructor(dims);
                     res.promoteType(NLS_LOGICAL);
                 } else {
                     res = ArrayOf::emptyConstructor();
@@ -66,29 +70,34 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
             } else {
                 if (A.getDimensions().getRows() > A.getDimensions().getColumns()) {
                     if (dim - 1 == 0) {
-                        res = ArrayOf::emptyConstructor(Dimensions(1, 0));
+                        Dimensions dims(1, 0);
+                        res = ArrayOf::emptyConstructor(dims);
                         res.promoteType(NLS_LOGICAL);
                     } else if (dim - 1 == 1) {
                         logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
                             NLS_LOGICAL, A.getDimensions().getRows());
+                        Dimensions dims(A.getDimensions().getRows(), 1);
                         res = ArrayOf(
-                            NLS_LOGICAL, Dimensions(A.getDimensions().getRows(), 1), logicalarray);
+                            NLS_LOGICAL, dims, logicalarray);
                     } else {
-                        res = ArrayOf::emptyConstructor(Dimensions(A.getDimensions().getRows(), 0));
+                        Dimensions dims(A.getDimensions().getRows(), 0);
+                        res = ArrayOf::emptyConstructor(dims);
                         res.promoteType(NLS_LOGICAL);
                     }
                 } else {
                     if (dim - 1 == 0) {
                         logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
                             NLS_LOGICAL, A.getDimensions().getColumns());
-                        res = ArrayOf(NLS_LOGICAL, Dimensions(1, A.getDimensions().getColumns()),
+                        Dimensions dims(1, A.getDimensions().getColumns());
+                        res = ArrayOf(NLS_LOGICAL, dims,
                             logicalarray);
                     } else if (dim - 1 == 1) {
-                        res = ArrayOf::emptyConstructor(Dimensions(0, 1));
+                        Dimensions dims(0, 1);
+                        res = ArrayOf::emptyConstructor(dims);
                         res.promoteType(NLS_LOGICAL);
                     } else {
-                        res = ArrayOf::emptyConstructor(
-                            Dimensions(0, A.getDimensions().getColumns()));
+                        Dimensions dims(0, A.getDimensions().getColumns());
+                        res = ArrayOf::emptyConstructor(dims);
                         res.promoteType(NLS_LOGICAL);
                     }
                 }

@@ -27,7 +27,7 @@ namespace Nelson {
 ArrayOf
 findchildrenQObject(ArrayOf H, std::wstring fieldname, bool bRecursively)
 {
-    ArrayOf res = ArrayOf::emptyConstructor(Dimensions(0, 0));
+    ArrayOf res = ArrayOf::emptyConstructor(0, 0);
     res.promoteType(NLS_HANDLE);
     HandleGenericObject* hlObj = H.getContentAsHandleScalar();
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {

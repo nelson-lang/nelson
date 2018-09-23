@@ -47,7 +47,8 @@ Nelson::TimeGateway::datenumBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             if (param1.isScalar()) {
                 year = param1.getContentAsDoubleScalar();
             } else if (param1.isEmpty()) {
-                retval.push_back(ArrayOf::emptyConstructor(param1.getDimensions()));
+                Dimensions dims = param1.getDimensions();
+                retval.push_back(ArrayOf::emptyConstructor(dims));
                 return retval;
             } else if (param1.isRowVector()) {
                 indexType len = param1.getLength();

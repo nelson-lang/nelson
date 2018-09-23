@@ -350,12 +350,13 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
     int opType;
 
     if (A.isEmpty() || B.isEmpty()) {
+        Dimensions dims;
         if (A.isEmpty()) {
-            C = ArrayOf::emptyConstructor(A.getDimensions());
+            dims = A.getDimensions();
         } else {
-            C = ArrayOf::emptyConstructor(B.getDimensions());
+            dims = B.getDimensions();
         }
-        return C;
+        return ArrayOf::emptyConstructor(dims);
     }
     CheckNumeric(A, B, "^");
     Dimensions dimsA = A.getDimensions();

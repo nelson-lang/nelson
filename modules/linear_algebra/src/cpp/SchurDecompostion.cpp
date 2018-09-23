@@ -38,7 +38,8 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
         Error(_("Square matrix expected."));
     }
     if (A.isEmpty()) {
-        T = ArrayOf::emptyConstructor(A.getDimensions());
+        Dimensions dims = A.getDimensions();
+        T = ArrayOf::emptyConstructor(dims);
         T.promoteType(A.getDataClass());
         return;
     }
@@ -130,9 +131,10 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& U, ArrayOf& T)
         Error(_("Square matrix expected."));
     }
     if (A.isEmpty()) {
-        U = ArrayOf::emptyConstructor(A.getDimensions());
+        Dimensions dimsA = A.getDimensions();
+        U = ArrayOf::emptyConstructor(dimsA);
         U.promoteType(A.getDataClass());
-        T = ArrayOf::emptyConstructor(A.getDimensions());
+        T = ArrayOf::emptyConstructor(dimsA);
         T.promoteType(A.getDataClass());
         return;
     }

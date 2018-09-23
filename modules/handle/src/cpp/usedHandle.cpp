@@ -37,7 +37,7 @@ usedHandle(const std::wstring& category)
         }
         res = ArrayOf(NLS_HANDLE, dims, (void*)nh);
     } else {
-        res = ArrayOf::emptyConstructor(Dimensions(0, 0));
+        res = ArrayOf::emptyConstructor(0, 0);
         res.promoteType(NLS_HANDLE);
     }
     return res;
