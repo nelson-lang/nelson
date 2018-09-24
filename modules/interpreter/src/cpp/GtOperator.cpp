@@ -35,10 +35,12 @@ ArrayOf
 Evaluator::gtOperator(ArrayOf A, ArrayOf B)
 {
     ArrayOf res;
+    bool bSuccess = false;
     if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
         && !isOverloadAllowed()) {
-        res = OverloadBinaryOperator(this, A, B, "gt");
-    } else {
+        res = OverloadBinaryOperator(this, A, B, "gt", bSuccess);
+    }
+    if (!bSuccess) {
         bool needToOverload;
         res = GreaterThan(A, B, needToOverload);
         if (needToOverload) {

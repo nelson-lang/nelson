@@ -35,10 +35,12 @@ ArrayOf
 Evaluator::timesOperator(ArrayOf A, ArrayOf B)
 {
     ArrayOf res;
+    bool bSuccess = false;
     if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
         && !isOverloadAllowed()) {
-        res = OverloadBinaryOperator(this, A, B, "times");
-    } else {
+        res = OverloadBinaryOperator(this, A, B, "times", bSuccess);
+    }
+    if (!bSuccess) {
         bool needToOverload = false;
         res = elementWiseMultiplication(A, B, needToOverload);
         if (needToOverload) {

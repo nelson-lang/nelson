@@ -35,9 +35,11 @@ ArrayOf
 Evaluator::additionOperator(ArrayOf A, ArrayOf B)
 {
     ArrayOf res;
+    bool bSuccess = false;
     if (overloadOnBasicTypes) {
-        res = OverloadBinaryOperator(this, A, B, "plus");
-    } else {
+        res = OverloadBinaryOperator(this, A, B, "plus", bSuccess);
+    }
+    if (!bSuccess) {
         bool isDoubleA = (A.isDoubleType() || A.isNdArrayDoubleType());
         bool isDoubleB = (B.isDoubleType() || B.isNdArrayDoubleType());
         bool isSingleA = (A.isSingleType() || A.isNdArraySingleType());

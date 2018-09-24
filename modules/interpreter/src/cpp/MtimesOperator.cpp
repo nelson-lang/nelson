@@ -35,10 +35,12 @@ ArrayOf
 Evaluator::mtimesOperator(ArrayOf A, ArrayOf B)
 {
     ArrayOf res;
+    bool bSuccess = false;
     if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
         && !isOverloadAllowed()) {
-        res = OverloadBinaryOperator(this, A, B, "mtimes");
-    } else {
+        res = OverloadBinaryOperator(this, A, B, "mtimes", bSuccess);
+    }
+    if (!bSuccess) {
         bool needToOverload = false;
         res = matrixMultiplication(A, B, needToOverload);
         if (needToOverload) {

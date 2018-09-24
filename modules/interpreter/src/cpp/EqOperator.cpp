@@ -35,10 +35,12 @@ ArrayOf
 Evaluator::eqOperator(ArrayOf A, ArrayOf B)
 {
     ArrayOf res;
+    bool bSuccess = false;
     if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
         && !isOverloadAllowed()) {
-        res = OverloadBinaryOperator(this, A, B, "eq");
-    } else {
+        res = OverloadBinaryOperator(this, A, B, "eq", bSuccess);
+    }
+	if (!bSuccess) {
         bool needToOverload;
         res = Equals(A, B, needToOverload);
         if (needToOverload) {

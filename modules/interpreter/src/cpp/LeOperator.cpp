@@ -35,10 +35,12 @@ ArrayOf
 Evaluator::leOperator(ArrayOf A, ArrayOf B)
 {
     ArrayOf res;
+    bool bSuccess = false;
     if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
         && !isOverloadAllowed()) {
-        res = OverloadBinaryOperator(this, A, B, "le");
-    } else {
+        res = OverloadBinaryOperator(this, A, B, "le", bSuccess);
+    }
+    if (!bSuccess) {
         bool needToOverload;
         res = LessEquals(A, B, needToOverload);
         if (needToOverload) {

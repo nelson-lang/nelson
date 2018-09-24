@@ -35,9 +35,11 @@ ArrayOf
 Evaluator::subtractionOperator(ArrayOf A, ArrayOf B)
 {
     ArrayOf res;
+    bool bSuccess = false;
     if (overloadOnBasicTypes) {
-        res = OverloadBinaryOperator(this, A, B, "minus");
-    } else {
+        res = OverloadBinaryOperator(this, A, B, "minus", bSuccess);
+    }
+    if (!bSuccess) {
         bool isDoubleA = (A.isDoubleType() || A.isNdArrayDoubleType());
         bool isDoubleB = (B.isDoubleType() || B.isNdArrayDoubleType());
         bool isSingleA = (A.isSingleType() || A.isNdArraySingleType());

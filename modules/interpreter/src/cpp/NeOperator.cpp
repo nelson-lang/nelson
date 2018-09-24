@@ -35,10 +35,12 @@ ArrayOf
 Evaluator::neOperator(ArrayOf A, ArrayOf B)
 {
     ArrayOf res;
+    bool bSuccess = false;
     if ((overloadOnBasicTypes || needToOverloadOperator(A) || needToOverloadOperator(B))
         && !isOverloadAllowed()) {
-        res = OverloadBinaryOperator(this, A, B, "ne");
-    } else {
+        res = OverloadBinaryOperator(this, A, B, "ne", bSuccess);
+    }
+    if (!bSuccess) {
         bool needToOverload;
         res = NotEquals(A, B, needToOverload);
         if (needToOverload) {
