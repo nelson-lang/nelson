@@ -39,7 +39,7 @@ Nelson::LogicalGateway::trueBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         indexType idxMax = argIn.size();
         if (((double)(argIn.size()) - 2.) >= 0.) {
             indexType pos = argIn.size() - 2;
-            if (argIn[pos].isSingleString()) {
+            if (argIn[pos].isColonVectorCharacterArray()) {
                 std::wstring arg = argIn[pos].getContentAsWideString();
                 if (arg.compare(L"like") == 0) {
                     ArrayOf arg = argIn[pos + 1];

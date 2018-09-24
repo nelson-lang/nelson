@@ -129,7 +129,7 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
         // it using 1 references, and throw an exception if there are
         // more indices than our dimension set.
         for (i = 0; i < (indexType)args.size(); i++) {
-            if (args[i].isSingleString()) {
+            if (args[i].isColonVectorCharacterArray()) {
                 std::wstring str = args[i].getContentAsWideString();
                 if (str != L":") {
                     Error(_W("index must either be real positive integers or logicals."));

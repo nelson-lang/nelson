@@ -47,7 +47,7 @@ deleteFile(boost::filesystem::path p)
 ArrayOf
 SystemCommand(const std::wstring& command, int& ierr)
 {
-    return ArrayOf::stringConstructor(SystemCommandW(command, ierr));
+    return ArrayOf::characterArrayConstructor(SystemCommandW(command, ierr));
 }
 //=============================================================================
 static bool

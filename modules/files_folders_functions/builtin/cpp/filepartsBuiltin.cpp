@@ -33,7 +33,7 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(Evaluator* eval, int nLhs, const A
             if (nLhs > 1) {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
-            if (argIn[1].isSingleString()) {
+            if (argIn[1].isColonVectorCharacterArray()) {
                 wtype = argIn[1].getContentAsWideString();
                 if (wtype.compare(L"path") == 0) {
                     // OK
@@ -53,7 +53,7 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(Evaluator* eval, int nLhs, const A
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         }
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isColonVectorCharacterArray()) {
             wpath = argIn[0].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
@@ -63,20 +63,20 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(Evaluator* eval, int nLhs, const A
         std::wstring resextension;
         FileParts(wpath, respath, resfilename, resextension);
         if (wtype.empty()) {
-            retval.push_back(ArrayOf::stringConstructor(respath));
+            retval.push_back(ArrayOf::characterArrayConstructor(respath));
             if (nLhs > 1) {
-                retval.push_back(ArrayOf::stringConstructor(resfilename));
+                retval.push_back(ArrayOf::characterArrayConstructor(resfilename));
             }
             if (nLhs > 2) {
-                retval.push_back(ArrayOf::stringConstructor(resextension));
+                retval.push_back(ArrayOf::characterArrayConstructor(resextension));
             }
         } else {
             if (wtype.compare(L"path") == 0) {
-                retval.push_back(ArrayOf::stringConstructor(respath));
+                retval.push_back(ArrayOf::characterArrayConstructor(respath));
             } else if (wtype.compare(L"filename") == 0) {
-                retval.push_back(ArrayOf::stringConstructor(resfilename));
+                retval.push_back(ArrayOf::characterArrayConstructor(resfilename));
             } else if (wtype.compare(L"extension") == 0) {
-                retval.push_back(ArrayOf::stringConstructor(resextension));
+                retval.push_back(ArrayOf::characterArrayConstructor(resextension));
             }
         }
     } else {

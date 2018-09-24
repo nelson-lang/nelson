@@ -55,7 +55,7 @@ static ArrayOf
 CompareStringString(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len = 0)
 {
     bool bEq = false;
-    if (A.isSingleString() && B.isSingleString()) {
+    if (A.isColonVectorCharacterArray() && B.isColonVectorCharacterArray()) {
         bEq = compareString(
             A.getContentAsWideString(), B.getContentAsWideString(), bCaseSensitive, len);
     } else {
@@ -80,7 +80,7 @@ ArrayOf
 StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
 {
     ArrayOf res;
-    if (A.isString() && B.isString()) {
+    if (A.isCharacterArray() && B.isCharacterArray()) {
         return CompareStringString(A, B, bCaseSensitive, len);
     }
     if ((A.isCell() && A.isEmpty()) || (B.isCell() && B.isEmpty())) {
@@ -97,10 +97,10 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
                 for (size_t k = 0; k < Clen; k++) {
                     ArrayOf elementA = cellA[k];
                     ArrayOf elementB = cellB[k];
-                    if (elementA.isSingleString() && elementB.isSingleString()) {
+                    if (elementA.isColonVectorCharacterArray() && elementB.isColonVectorCharacterArray()) {
                         Cp[k] = compareString(elementA.getContentAsWideString(),
                             elementB.getContentAsWideString(), bCaseSensitive, len);
-                    } else if (elementA.isString() && elementB.isString()) {
+                    } else if (elementA.isCharacterArray() && elementB.isCharacterArray()) {
                         wstringVector s1 = elementA.getContentAsWideStringVector();
                         wstringVector s2 = elementB.getContentAsWideStringVector();
                         if (s1.size() == s2.size()) {
@@ -141,7 +141,7 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
                             p1 = cellA[k];
                             p2 = cellB[0];
                         }
-                        if (p1.isString() && p2.isString()) {
+                        if (p1.isCharacterArray() && p2.isCharacterArray()) {
                             wstringVector s1 = p1.getContentAsWideStringVector();
                             wstringVector s2 = p2.getContentAsWideStringVector();
                             if (s1.size() == s2.size()) {
@@ -179,11 +179,11 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
             logical* Cp = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, Clen);
             ArrayOf* cellA = (ArrayOf*)(cell1.getDataPointer());
             for (size_t k = 0; k < Clen; k++) {
-                if (!scalar2.isString()) {
+                if (!scalar2.isCharacterArray()) {
                     Cp[k] = false;
                 } else {
                     ArrayOf elementA = cellA[k];
-                    if (elementA.isString() && scalar2.isString()) {
+                    if (elementA.isCharacterArray() && scalar2.isCharacterArray()) {
                         Cp[k] = compareString(elementA.getContentAsWideString(),
                             scalar2.getContentAsWideString(), bCaseSensitive, len);
                     } else {

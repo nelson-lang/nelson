@@ -212,7 +212,7 @@ uint8
 ArrayOf::getContentAsUnsignedInteger8Scalar(bool arrayAsScalar)
 {
     uint8* qp;
-    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
         Error(ERROR_SCALAR_EXPECTED);
     }
@@ -225,7 +225,7 @@ int8
 ArrayOf::getContentAsInteger8Scalar(bool arrayAsScalar)
 {
     int8* qp;
-    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
         Error(ERROR_SCALAR_EXPECTED);
     }
@@ -238,7 +238,7 @@ int16
 ArrayOf::getContentAsInteger16Scalar(bool arrayAsScalar)
 {
     int16* qp;
-    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
         Error(ERROR_SCALAR_EXPECTED);
     }
@@ -251,7 +251,7 @@ uint16
 ArrayOf::getContentAsUnsignedInteger16Scalar(bool arrayAsScalar)
 {
     uint16* qp;
-    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
         Error(ERROR_SCALAR_EXPECTED);
     }
@@ -264,7 +264,7 @@ int32
 ArrayOf::getContentAsInteger32Scalar(bool arrayAsScalar)
 {
     int32* qp;
-    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
         Error(ERROR_SCALAR_EXPECTED);
     }
@@ -277,7 +277,7 @@ uint32
 ArrayOf::getContentAsUnsignedInteger32Scalar(bool arrayAsScalar)
 {
     uint32* qp;
-    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
         Error(ERROR_SCALAR_EXPECTED);
     }
@@ -290,7 +290,7 @@ int64
 ArrayOf::getContentAsInteger64Scalar(bool arrayAsScalar)
 {
     int64* qp;
-    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
         Error(ERROR_SCALAR_EXPECTED);
     }
@@ -303,7 +303,7 @@ uint64
 ArrayOf::getContentAsUnsignedInt64Scalar(bool arrayAsScalar)
 {
     uint64* qp;
-    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
         Error(ERROR_SCALAR_EXPECTED);
     }

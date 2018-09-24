@@ -88,7 +88,7 @@ ArrayOf::makeSparse()
         dp = dp->putData(dp->dataClass, dp->dimensions, NULL, true, dp->fieldNames);
         return;
     }
-    if (isReferenceType() || isString()) {
+    if (isReferenceType() || isCharacterArray()) {
         Error(_W("Cannot make strings or reference types sparse."));
     }
     if (isSparse()) {

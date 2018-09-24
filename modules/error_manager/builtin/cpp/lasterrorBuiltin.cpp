@@ -32,7 +32,7 @@ Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const A
     } else {
         if (argIn.size() == 1) {
             ArrayOf arg1 = argIn[0];
-            if (arg1.isSingleString()) {
+            if (arg1.isColonVectorCharacterArray()) {
                 std::wstring str = arg1.getContentAsWideString();
                 if (str == L"reset") {
                     eval->setLastErrorException(Exception());

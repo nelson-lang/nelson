@@ -43,7 +43,7 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                 }
             }
             std::string str = ClassName(argIn[0]);
-            retval.push_back(ArrayOf::stringConstructor(str));
+            retval.push_back(ArrayOf::characterArrayConstructor(str));
         }
     } else if (argIn.size() == 2) {
         Context* ctx = eval->getContext();

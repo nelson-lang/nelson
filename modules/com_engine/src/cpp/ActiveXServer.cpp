@@ -217,14 +217,14 @@ ActiveXContolList()
     Dimensions dims(fieldsName.size(), 3);
     ArrayOf* cell = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount());
     for (size_t k = 0; k < fieldsName.size(); k = k + 1) {
-        cell[k] = ArrayOf::stringConstructor(fieldsName[k]);
+        cell[k] = ArrayOf::characterArrayConstructor(fieldsName[k]);
     }
     for (size_t k = 0; k < fieldsProgId.size(); k = k + 1) {
-        cell[k + fieldsName.size()] = ArrayOf::stringConstructor(fieldsProgId[k]);
+        cell[k + fieldsName.size()] = ArrayOf::characterArrayConstructor(fieldsProgId[k]);
     }
     for (size_t k = 0; k < fieldsFilename.size(); k = k + 1) {
         cell[k + fieldsName.size() + fieldsProgId.size()]
-            = ArrayOf::stringConstructor(fieldsFilename[k]);
+            = ArrayOf::characterArrayConstructor(fieldsFilename[k]);
     }
     res = ArrayOf(NLS_CELL_ARRAY, dims, cell);
     return res;
@@ -299,14 +299,14 @@ ActiveXServerList()
     Dimensions dims(fieldsName.size(), 3);
     ArrayOf* cell = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount());
     for (size_t k = 0; k < fieldsName.size(); k = k + 1) {
-        cell[k] = ArrayOf::stringConstructor(fieldsName[k]);
+        cell[k] = ArrayOf::characterArrayConstructor(fieldsName[k]);
     }
     for (size_t k = 0; k < fieldsProgId.size(); k = k + 1) {
-        cell[k + fieldsName.size()] = ArrayOf::stringConstructor(fieldsProgId[k]);
+        cell[k + fieldsName.size()] = ArrayOf::characterArrayConstructor(fieldsProgId[k]);
     }
     for (size_t k = 0; k < fieldsFilename.size(); k = k + 1) {
         cell[k + fieldsName.size() + fieldsProgId.size()]
-            = ArrayOf::stringConstructor(fieldsFilename[k]);
+            = ArrayOf::characterArrayConstructor(fieldsFilename[k]);
     }
     res = ArrayOf(NLS_CELL_ARRAY, dims, cell);
     return res;

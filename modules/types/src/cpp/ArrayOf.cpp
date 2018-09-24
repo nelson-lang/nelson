@@ -970,9 +970,9 @@ ArrayOf::testCaseMatchScalar(ArrayOf x) const
     }
     // Now we have to compare ourselves to the argument.  Check for the
     // case that we are a string type
-    if (isSingleString()) {
+    if (isColonVectorCharacterArray()) {
         // If x is not a string, we cannot match
-        if (!x.isSingleString()) {
+        if (!x.isColonVectorCharacterArray()) {
             return false;
         }
         // if x is a string do a string, string compare.
@@ -1029,7 +1029,7 @@ ArrayOf::testForCaseMatch(ArrayOf x) const
         Error(_W("isPositive not supported for sparse arrays."));
     }
     // We had better be a scalar
-    if (!(isScalar() || isString())) {
+    if (!(isScalar() || isCharacterArray())) {
         Error(_W("Switch argument must be a scalar or a string"));
     }
     // And we had better not be a reference type
@@ -1037,7 +1037,7 @@ ArrayOf::testForCaseMatch(ArrayOf x) const
         Error(_W("Switch argument cannot be a reference type (struct or cell array)"));
     }
     // If x is a scalar, we just need to call the scalar version
-    if (x.isScalar() || x.isSingleString()) {
+    if (x.isScalar() || x.isColonVectorCharacterArray()) {
         return testCaseMatchScalar(x);
     }
     if (x.dp->dataClass != NLS_CELL_ARRAY) {

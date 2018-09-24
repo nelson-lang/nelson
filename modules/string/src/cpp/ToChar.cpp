@@ -58,7 +58,7 @@ ArrayOfDoubleToChar(const ArrayOf& A)
             }
         }
     }
-    ArrayOf result = ArrayOf::stringConstructor(res);
+    ArrayOf result = ArrayOf::characterArrayConstructor(res);
     result.reshape(dimsA);
     return result;
 }
@@ -112,14 +112,14 @@ ToChar(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
             }
         }
     }
-    res = ArrayOf::stringConstructor(vA[0]);
+    res = ArrayOf::characterArrayConstructor(vA[0]);
     bool bSuccess;
     for (size_t i = 1; i < vA.size(); i++) {
-        ArrayOf BA = ArrayOf::stringConstructor(vA[i]);
+        ArrayOf BA = ArrayOf::characterArrayConstructor(vA[i]);
         res = VertCat(res, BA, true, bSuccess);
     }
     for (size_t i = 0; i < vB.size(); i++) {
-        ArrayOf BB = ArrayOf::stringConstructor(vB[i]);
+        ArrayOf BB = ArrayOf::characterArrayConstructor(vB[i]);
         res = VertCat(res, BB, true, bSuccess);
     }
     return res;
@@ -192,11 +192,11 @@ ToChar(wstringVector V, boost::container::vector<Dimensions> dimsVector, Dimensi
         dims = dimsVector[0];
         return V[0];
     } else {
-        ArrayOf resAsArrayOf = ArrayOf::stringConstructor(V[0]);
+        ArrayOf resAsArrayOf = ArrayOf::characterArrayConstructor(V[0]);
         resAsArrayOf.reshape(dimsVector[0]);
         bool bSuccess;
         for (size_t i = 1; i < V.size(); i++) {
-            ArrayOf B = ArrayOf::stringConstructor(V[i]);
+            ArrayOf B = ArrayOf::characterArrayConstructor(V[i]);
             B.reshape(dimsVector[i]), resAsArrayOf = VertCat(resAsArrayOf, B, true, bSuccess);
         }
         res = resAsArrayOf.getContentAsArrayOfCharacters();

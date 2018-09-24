@@ -174,8 +174,8 @@ getDevicesInfo(
                     double defaultLowLatency = (double)info.padeviceInfo->defaultLowInputLatency;
                     double defaultHighLatency = (double)info.padeviceInfo->defaultHighInputLatency;
                     double defaultSampleRate = (double)info.padeviceInfo->defaultSampleRate;
-                    name.push_back(ArrayOf::stringConstructor(deviceName));
-                    driverversion.push_back(ArrayOf::stringConstructor(deviceDriverVersion));
+                    name.push_back(ArrayOf::characterArrayConstructor(deviceName));
+                    driverversion.push_back(ArrayOf::characterArrayConstructor(deviceDriverVersion));
                     maxchannels.push_back(ArrayOf::doubleConstructor(maxChannels));
                     defaultsamplerate.push_back(ArrayOf::doubleConstructor(defaultSampleRate));
                     defaultlowlatency.push_back(ArrayOf::doubleConstructor(defaultLowLatency));
@@ -188,8 +188,8 @@ getDevicesInfo(
                     double defaultLowLatency = (double)info.padeviceInfo->defaultLowOutputLatency;
                     double defaultHighLatency = (double)info.padeviceInfo->defaultHighOutputLatency;
                     double defaultSampleRate = (double)info.padeviceInfo->defaultSampleRate;
-                    name.push_back(ArrayOf::stringConstructor(deviceName));
-                    driverversion.push_back(ArrayOf::stringConstructor(deviceDriverVersion));
+                    name.push_back(ArrayOf::characterArrayConstructor(deviceName));
+                    driverversion.push_back(ArrayOf::characterArrayConstructor(deviceDriverVersion));
                     defaultsamplerate.push_back(ArrayOf::doubleConstructor(defaultSampleRate));
                     maxchannels.push_back(ArrayOf::doubleConstructor(maxChannels));
                     defaultlowlatency.push_back(ArrayOf::doubleConstructor(defaultLowLatency));
@@ -335,7 +335,7 @@ AudioDevInfo(int io, int id, std::wstring& errorMessage)
                     errorMessage = _W("Wrong value for #1 argument.");
                 }
             }
-            return ArrayOf::stringConstructor(utf8_to_wstring(infoFound.padeviceInfo->name));
+            return ArrayOf::characterArrayConstructor(utf8_to_wstring(infoFound.padeviceInfo->name));
         } else {
             errorMessage = _W("Wrong value for #2 argument.");
         }
@@ -406,7 +406,7 @@ AudioDevInfoDriverVersion(int io, int id, std::wstring& errorMessage)
             }
             const PaHostApiInfo* apiInfo = Pa_GetHostApiInfo(infoFound.padeviceInfo->hostApi);
             const char* driverVersion = apiInfo ? apiInfo->name : "";
-            return ArrayOf::stringConstructor(utf8_to_wstring(driverVersion));
+            return ArrayOf::characterArrayConstructor(utf8_to_wstring(driverVersion));
         } else {
             errorMessage = _W("Wrong value for #2 argument.");
         }

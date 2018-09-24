@@ -46,7 +46,7 @@ Nelson::AudioGateway::audioreadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         ArrayOf param1 = argIn[0];
         filename = param1.getContentAsWideString();
         ArrayOf param2 = argIn[1];
-        if (param2.isString()) {
+        if (param2.isCharacterArray()) {
             datatype = param2.getContentAsWideString();
         } else {
             Dimensions dimsParam2 = param2.getDimensions();

@@ -32,7 +32,7 @@ Nelson::CoreGateway::prefdirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(ArrayOf::stringConstructor(GetPreferencesPath()));
+    retval.push_back(ArrayOf::characterArrayConstructor(GetPreferencesPath()));
     return retval;
 }
 //=============================================================================

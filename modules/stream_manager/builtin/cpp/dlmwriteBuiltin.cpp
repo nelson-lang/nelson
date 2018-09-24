@@ -211,7 +211,7 @@ dlmwriteBuiltinSevenRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         }
     } else {
         // dlmwrite(filename, M, delimiter, r, c, eol, precision) rhs == 7
-        if (param7.isString()) {
+        if (param7.isCharacterArray()) {
             res.fmt = param7.getContentAsWideString();
         } else {
             indexType precision = param7.getContentAsScalarIndex(true);
@@ -256,7 +256,7 @@ dlmwriteBuiltinEightRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         Error(_W("'pc' or 'unix' expected."));
     }
     ArrayOf param8 = argIn[7];
-    if (param8.isString()) {
+    if (param8.isCharacterArray()) {
         res.fmt = param8.getContentAsWideString();
     } else {
         indexType precision = param8.getContentAsScalarIndex(true);

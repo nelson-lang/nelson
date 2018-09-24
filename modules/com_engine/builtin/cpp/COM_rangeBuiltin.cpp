@@ -41,7 +41,7 @@ Nelson::ComEngineGateway::COM_rangeBuiltin(Evaluator* eval, int nLhs, const Arra
         ArrayOf param2 = argIn[1];
         indexType m = param1.getContentAsScalarIndex();
         indexType n = param2.getContentAsScalarIndex();
-        retval.push_back(ArrayOf::stringConstructor(xlsIndexToRange(m, n)));
+        retval.push_back(ArrayOf::characterArrayConstructor(xlsIndexToRange(m, n)));
     }
     return retval;
 }

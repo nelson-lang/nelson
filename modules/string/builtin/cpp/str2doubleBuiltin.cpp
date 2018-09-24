@@ -40,8 +40,8 @@ Nelson::StringGateway::str2doubleBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     if (!bSuccess) {
         ArrayOf param1 = argIn[0];
-        if (param1.isString() || param1.isCell()) {
-            if (param1.isString()) {
+        if (param1.isCharacterArray() || param1.isCell()) {
+            if (param1.isCharacterArray()) {
                 std::wstring str = argIn[0].getContentAsArrayOfCharacters();
                 bool wasConverted = false;
                 doublecomplex value = stringToDoubleComplex(str, wasConverted);
@@ -61,7 +61,7 @@ Nelson::StringGateway::str2doubleBuiltin(Evaluator* eval, int nLhs, const ArrayO
                     ArrayOf* cellParam1 = (ArrayOf*)(param1.getDataPointer());
                     for (size_t k = 0; k < nbElements; k++) {
                         ArrayOf element = cellParam1[k];
-                        if (element.isString()) {
+                        if (element.isCharacterArray()) {
                             std::wstring str = element.getContentAsArrayOfCharacters();
                             bool wasConverted = false;
                             outPutAsComplex[k] = stringToDoubleComplex(str, wasConverted);

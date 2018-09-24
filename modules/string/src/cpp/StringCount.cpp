@@ -50,11 +50,11 @@ ArrayOf
 StringCount(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
 {
     ArrayOf res;
-    if (A.isString() && Pattern.isString()) {
+    if (A.isCharacterArray() && Pattern.isCharacterArray()) {
         res = ArrayOf::doubleConstructor(countString(
             A.getContentAsWideString(), Pattern.getContentAsWideString(), bCaseSensitive));
     } else {
-        if (A.isString() && IsCellOfString(Pattern)) {
+        if (A.isCharacterArray() && IsCellOfString(Pattern)) {
             std::wstring strA = A.getContentAsWideString();
             Dimensions dimPattern = Pattern.getDimensions();
             size_t nbPattern = dimPattern.getElementCount();
@@ -65,7 +65,7 @@ StringCount(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
                 count = count + countString(strA, pattern, bCaseSensitive);
             }
             res = ArrayOf::doubleConstructor(count);
-        } else if (IsCellOfString(A) && Pattern.isString()) {
+        } else if (IsCellOfString(A) && Pattern.isCharacterArray()) {
             std::wstring pattern = Pattern.getContentAsWideString();
             Dimensions dimA = A.getDimensions();
             size_t nbA = dimA.getElementCount();

@@ -342,7 +342,7 @@ bool
 LibPointerObject::get(std::wstring propertyName, ArrayOf& res)
 {
     if (propertyName == L"DataType") {
-        res = ArrayOf::stringConstructor(_DataType);
+        res = ArrayOf::characterArrayConstructor(_DataType);
         return true;
     }
     if (propertyName == L"Value") {

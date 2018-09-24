@@ -42,7 +42,7 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(Evaluator* eval, int nLhs, const Ar
     }
     ArrayOf argSourceDirs = argIn[0];
     wstringVector listOfDirectories;
-    if (argSourceDirs.isSingleString()) {
+    if (argSourceDirs.isColonVectorCharacterArray()) {
         std::wstring dir = argSourceDirs.getContentAsWideString();
         listOfDirectories.push_back(dir);
     } else if (argSourceDirs.isCell()) {
@@ -92,7 +92,7 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(Evaluator* eval, int nLhs, const Ar
         } catch (Exception& e) {
             Error(e.getMessage());
         }
-        retval.push_back(ArrayOf::stringConstructor(outputModuleName));
+        retval.push_back(ArrayOf::characterArrayConstructor(outputModuleName));
     } else {
         Error(xmlDirs.getLastError());
     }

@@ -1,3 +1,9 @@
+  * internal API C++ methods renamed:
+    - "stringConstructor" --> "characterArrayConstructor".
+    - "isString" --> "isCharacterArray"
+    - "isSingleString" --> "isColonVectorCharacterArray"
+
+
 ## 0.2.9 (2018-09-23)
 
 

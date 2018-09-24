@@ -34,7 +34,7 @@ Nelson::OsFunctionsGateway::winopenBuiltin(Evaluator* eval, int nLhs, const Arra
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring cmd = L"";
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isColonVectorCharacterArray()) {
         cmd = argIn[0].getContentAsWideString();
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

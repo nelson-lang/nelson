@@ -35,7 +35,7 @@ Nelson::ModulesManagerGateway::requiremoduleBuiltin(
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring moduleshortname = L"";
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isColonVectorCharacterArray()) {
         moduleshortname = argIn[0].getContentAsWideString();
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

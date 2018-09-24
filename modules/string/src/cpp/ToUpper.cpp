@@ -30,8 +30,8 @@ ToUpper(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
-    if (A.isSingleString()) {
-        return ArrayOf::stringConstructor(ToUpper(A.getContentAsWideString()));
+    if (A.isColonVectorCharacterArray()) {
+        return ArrayOf::characterArrayConstructor(ToUpper(A.getContentAsWideString()));
     } else if (A.getDataClass() == NLS_CELL_ARRAY) {
         if (A.isEmpty()) {
             return ArrayOf(A);
@@ -40,11 +40,11 @@ ToUpper(const ArrayOf& A, bool& needToOverload)
             res.ensureSingleOwner();
             ArrayOf* element = (ArrayOf*)(res.getDataPointer());
             for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-                if (!element[k].isSingleString()) {
+                if (!element[k].isColonVectorCharacterArray()) {
                     Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
                 }
                 element[k]
-                    = ArrayOf::stringConstructor(ToUpper(element[k].getContentAsWideString()));
+                    = ArrayOf::characterArrayConstructor(ToUpper(element[k].getContentAsWideString()));
             }
             return res;
         }

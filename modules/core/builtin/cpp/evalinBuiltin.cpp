@@ -31,7 +31,7 @@ Nelson::CoreGateway::evalinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     SCOPE_LEVEL scope;
     std::wstring command;
     std::wstring catchCommand;
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isColonVectorCharacterArray()) {
         std::wstring scopeName = argIn[0].getContentAsWideString();
         if (scopeName == L"caller" || scopeName == L"base" || scopeName == L"local") {
             if (scopeName == L"caller") {
@@ -49,7 +49,7 @@ Nelson::CoreGateway::evalinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     } else {
         Error(_W("#1 string expected."));
     }
-    if (argIn[1].isSingleString()) {
+    if (argIn[1].isColonVectorCharacterArray()) {
         command = argIn[1].getContentAsWideString();
     } else {
         Error(_W("#2 string expected."));

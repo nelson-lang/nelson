@@ -221,7 +221,7 @@ ArrayOf
 jsonPrettyPrint(const std::wstring& stringToPrettify)
 {
     std::wstring jsonPrettified = JSONPrettify(stringToPrettify, Colons::TIGHT);
-    return ArrayOf::stringConstructor(jsonPrettified);
+    return ArrayOf::characterArrayConstructor(jsonPrettified);
 }
 //=============================================================================
 }

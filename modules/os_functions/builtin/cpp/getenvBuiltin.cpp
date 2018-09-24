@@ -32,10 +32,10 @@ Nelson::OsFunctionsGateway::getenvBuiltin(Evaluator* eval, int nLhs, const Array
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isColonVectorCharacterArray()) {
         std::wstring varEnvName = argIn[0].getContentAsWideString();
         std::wstring ret = GetVariableEnvironment(varEnvName);
-        retval.push_back(ArrayOf::stringConstructor(ret));
+        retval.push_back(ArrayOf::characterArrayConstructor(ret));
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }

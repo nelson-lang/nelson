@@ -228,7 +228,7 @@
     <ClCompile Include="..\cpp\ArrayOf_LogicalType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_SingleType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_SparseType.cpp" />
-    <ClCompile Include="..\cpp\ArrayOf_StringType.cpp">
+    <ClCompile Include="..\cpp\ArrayOf_CharacterType.cpp">
       <WholeProgramOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</WholeProgramOptimization>
     </ClCompile>
     <ClCompile Include="..\cpp\ArrayOf_StructType.cpp" />

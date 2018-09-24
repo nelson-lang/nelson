@@ -32,7 +32,7 @@ Nelson::DynamicLinkGateway::addgatewayBuiltin(Evaluator* eval, int nLhs, const A
     if (nLhs != 0) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isColonVectorCharacterArray()) {
         std::wstring dynlibName = argIn[0].getContentAsWideString();
         AddGateway(eval, dynlibName);
     } else {

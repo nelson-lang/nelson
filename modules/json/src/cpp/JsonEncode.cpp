@@ -769,7 +769,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
         }
         encode_array(ValueToEncode, true);
     }
-    return ArrayOf::stringConstructor(jsonString);
+    return ArrayOf::characterArrayConstructor(jsonString);
 }
 //=============================================================================
 ArrayOf

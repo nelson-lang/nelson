@@ -40,7 +40,7 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
     if (argIn.size() == 1) {
         ArrayOf arg1 = argIn[0];
         std::wstring functionName = L"";
-        if (arg1.isSingleString()) {
+        if (arg1.isColonVectorCharacterArray()) {
             functionName = arg1.getContentAsWideString();
             if (IsFile(functionName)) {
                 filename = functionName;

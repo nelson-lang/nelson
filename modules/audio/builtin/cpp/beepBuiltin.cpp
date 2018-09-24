@@ -52,9 +52,9 @@ Nelson::AudioGateway::beepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     if (nLhs > 0) {
         bool beepState = getBeepState();
         if (beepState) {
-            retval.push_back(ArrayOf::stringConstructor(L"on"));
+            retval.push_back(ArrayOf::characterArrayConstructor(L"on"));
         } else {
-            retval.push_back(ArrayOf::stringConstructor(L"off"));
+            retval.push_back(ArrayOf::characterArrayConstructor(L"off"));
         }
     }
     return retval;

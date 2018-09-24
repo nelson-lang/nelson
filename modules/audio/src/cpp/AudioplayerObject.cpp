@@ -285,14 +285,14 @@ AudioplayerObject::get(std::wstring propertyName, ArrayOf& res)
     }
     if (propertyName == L"Running") {
         if (getRunning()) {
-            res = ArrayOf::stringConstructor(L"on");
+            res = ArrayOf::characterArrayConstructor(L"on");
         } else {
-            res = ArrayOf::stringConstructor(L"off");
+            res = ArrayOf::characterArrayConstructor(L"off");
         }
         return true;
     }
     if (propertyName == L"Tag") {
-        res = ArrayOf::stringConstructor(getTag());
+        res = ArrayOf::characterArrayConstructor(getTag());
         return true;
     }
     if (propertyName == L"UserData") {
@@ -300,7 +300,7 @@ AudioplayerObject::get(std::wstring propertyName, ArrayOf& res)
         return true;
     }
     if (propertyName == L"Type") {
-        res = ArrayOf::stringConstructor(getType());
+        res = ArrayOf::characterArrayConstructor(getType());
         return true;
     }
     return false;

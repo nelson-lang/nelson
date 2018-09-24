@@ -33,13 +33,13 @@ Nelson::FilesFoldersGateway::mkdirBuiltin(Evaluator* eval, int nLhs, const Array
         std::wstring parentDir;
         std::wstring newDir;
         if (argIn.size() == 2) {
-            if (argIn[1].isSingleString()) {
+            if (argIn[1].isColonVectorCharacterArray()) {
                 newDir = argIn[1].getContentAsWideString();
             } else {
                 Error(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
             }
         }
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isColonVectorCharacterArray()) {
             parentDir = argIn[0].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
@@ -60,7 +60,7 @@ Nelson::FilesFoldersGateway::mkdirBuiltin(Evaluator* eval, int nLhs, const Array
                 retval.push_back(ArrayOf::logicalConstructor(bOK));
             }
             if (nLhs > 1) {
-                retval.push_back(ArrayOf::stringConstructor(message));
+                retval.push_back(ArrayOf::characterArrayConstructor(message));
             }
         }
     } else {

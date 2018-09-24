@@ -43,7 +43,7 @@ Nelson::ConstructorsGateway::eyeBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         bIsSparse = false;
     } else {
         ArrayOf lastarg = argIn[nRhs - 1];
-        if (lastarg.isSingleString()) {
+        if (lastarg.isColonVectorCharacterArray()) {
             std::wstring strarg = lastarg.getContentAsWideString();
             destClass = StringToClass(strarg);
             nRhs--;
@@ -51,7 +51,7 @@ Nelson::ConstructorsGateway::eyeBuiltin(Evaluator* eval, int nLhs, const ArrayOf
             double n = (double)nRhs - 2.;
             if (n >= 0) {
                 indexType pos = argIn.size() - 2;
-                if (argIn[pos].isSingleString()) {
+                if (argIn[pos].isColonVectorCharacterArray()) {
                     std::wstring arg = argIn[pos].getContentAsWideString();
                     if (arg.compare(L"like") == 0) {
                         ArrayOf arg = argIn[pos + 1];

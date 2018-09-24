@@ -31,30 +31,30 @@ Nelson::OsFunctionsGateway::computerBuiltin(Evaluator* eval, int nLhs, const Arr
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         if (nLhs >= 0) {
-            retval.push_back(ArrayOf::stringConstructor(GetArchitectureType()));
+            retval.push_back(ArrayOf::characterArrayConstructor(GetArchitectureType()));
         }
         if (nLhs > 1) {
             retval.push_back(ArrayOf::doubleConstructor(GetMaxArrayOfSizeSupported()));
         }
         if (nLhs > 2) {
             if (IsBigEndian()) {
-                retval.push_back(ArrayOf::stringConstructor(L"B"));
+                retval.push_back(ArrayOf::characterArrayConstructor(L"B"));
             } else {
-                retval.push_back(ArrayOf::stringConstructor(L"L"));
+                retval.push_back(ArrayOf::characterArrayConstructor(L"L"));
             }
         }
     } else if (argIn.size() == 1) {
         if (nLhs > 1) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
-        if (!argIn[0].isSingleString()) {
+        if (!argIn[0].isColonVectorCharacterArray()) {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring warg = argIn[0].getContentAsWideString();
         if (warg.compare(L"arch") != 0) {
             Error(_W("Unknown command option."));
         }
-        retval.push_back(ArrayOf::stringConstructor(GetArchitecture()));
+        retval.push_back(ArrayOf::characterArrayConstructor(GetArchitecture()));
     } else {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }

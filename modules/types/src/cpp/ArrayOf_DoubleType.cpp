@@ -98,7 +98,7 @@ ArrayOf::dcomplexConstructor(double aval, double bval)
 double
 ArrayOf::getContentAsDoubleScalar(bool arrayAsScalar)
 {
-    if (isEmpty() || isComplex() || isReferenceType() || isString() || isSparse()
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
         Error(_W("Expected a real value scalar."));
     }
@@ -110,7 +110,7 @@ ArrayOf::getContentAsDoubleScalar(bool arrayAsScalar)
 doublecomplex
 ArrayOf::getContentAsDoubleComplexScalar(bool arrayAsScalar)
 {
-    if (isEmpty() || isReferenceType() || isString() || isSparse()
+    if (isEmpty() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
         Error(_W("Expected a real valued scalar"));
     }

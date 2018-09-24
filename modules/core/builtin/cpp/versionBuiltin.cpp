@@ -37,30 +37,30 @@ Nelson::CoreGateway::versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         version.append(" (");
         version.append(NELSON_RELEASE_NAME);
         version.append(")");
-        retval.push_back(ArrayOf::stringConstructor(version));
+        retval.push_back(ArrayOf::characterArrayConstructor(version));
         if (nLhs > 1) {
-            retval.push_back(ArrayOf::stringConstructor(__DATE__));
+            retval.push_back(ArrayOf::characterArrayConstructor(__DATE__));
         }
     } else if (argIn.size() == 1) {
         if (nLhs > 1) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         std::wstring option;
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isColonVectorCharacterArray()) {
             option = argIn[0].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         if (option.compare(L"-date") == 0) {
-            retval.push_back(ArrayOf::stringConstructor(__TIMESTAMP__));
+            retval.push_back(ArrayOf::characterArrayConstructor(__TIMESTAMP__));
         } else if (option.compare(L"-description") == 0) {
-            retval.push_back(ArrayOf::stringConstructor(L""));
+            retval.push_back(ArrayOf::characterArrayConstructor(L""));
         } else if (option.compare(L"-release") == 0) {
-            retval.push_back(ArrayOf::stringConstructor(NELSON_RELEASE_NAME));
+            retval.push_back(ArrayOf::characterArrayConstructor(NELSON_RELEASE_NAME));
         } else if (option.compare(L"-compiler") == 0) {
             retval.push_back(ToCellStringAsRow(VersionCompilerFlags()));
         } else if (option.compare(L"-commit_hash") == 0) {
-            retval.push_back(ArrayOf::stringConstructor(NELSON_VERSION_COMMIT_HASH));
+            retval.push_back(ArrayOf::characterArrayConstructor(NELSON_VERSION_COMMIT_HASH));
         } else if (option.compare(L"-number") == 0) {
             ArrayOf vectRes = ArrayOf::doubleVectorConstructor(4);
             double* vectAsDouble = (double*)vectRes.getReadWriteDataPointer();

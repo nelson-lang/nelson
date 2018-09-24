@@ -44,12 +44,12 @@ Nelson::FilesFoldersGateway::cdBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                     io->outputMessage(pwd);
                 }
             } else {
-                retval.push_back(ArrayOf::stringConstructor(pwd));
+                retval.push_back(ArrayOf::characterArrayConstructor(pwd));
             }
         }
     } else // argIn.size() == 1
     {
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isColonVectorCharacterArray()) {
             std::wstring wpath = argIn[0].getContentAsWideString();
             ArrayOf res = Cd(wpath);
             if (nLhs == 1) {

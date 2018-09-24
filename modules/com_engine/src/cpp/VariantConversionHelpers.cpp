@@ -63,7 +63,7 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
         VariantInit(&variantConverted);
         if (SUCCEEDED(
                 VariantChangeType(&variantConverted, variant, VARIANT_NOUSEROVERRIDE, VT_BSTR))) {
-            res = ArrayOf::stringConstructor(variantConverted.bstrVal);
+            res = ArrayOf::characterArrayConstructor(variantConverted.bstrVal);
             return true;
         } else {
             errorMessage = _W("VARIANT conversion fails.");

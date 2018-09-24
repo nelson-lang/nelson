@@ -51,9 +51,9 @@ StringTrim(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
     ArrayOf res;
-    if (A.isSingleString()) {
+    if (A.isColonVectorCharacterArray()) {
         std::wstring str = A.getContentAsWideString();
-        return ArrayOf::stringConstructor(Trim(str));
+        return ArrayOf::characterArrayConstructor(Trim(str));
     } else if (A.getDataClass() == NLS_CELL_ARRAY) {
         if (A.isEmpty()) {
             return ArrayOf(A);
@@ -62,11 +62,11 @@ StringTrim(const ArrayOf& A, bool& needToOverload)
             res.ensureSingleOwner();
             ArrayOf* element = (ArrayOf*)(res.getDataPointer());
             for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-                if (!element[k].isSingleString()) {
+                if (!element[k].isColonVectorCharacterArray()) {
                     Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
                 }
                 std::wstring str = element[k].getContentAsWideString();
-                element[k] = ArrayOf::stringConstructor(Trim(str));
+                element[k] = ArrayOf::characterArrayConstructor(Trim(str));
             }
             return res;
         }

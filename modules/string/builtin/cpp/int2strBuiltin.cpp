@@ -36,7 +36,7 @@ StringVectorToString(wstringVector V, Dimensions DimsV)
         strArr.promoteType(NLS_CHAR);
     } else {
         if (V.size() == 1) {
-            strArr = ArrayOf::stringConstructor(V[0]);
+            strArr = ArrayOf::characterArrayConstructor(V[0]);
         } else {
             wstringVector L;
             size_t lenMax = 0;
@@ -59,10 +59,10 @@ StringVectorToString(wstringVector V, Dimensions DimsV)
                     line = line + spaces + V[m];
                     if (q == C - 1) {
                         if (r == 0) {
-                            strArr = ArrayOf::stringConstructor(line);
+                            strArr = ArrayOf::characterArrayConstructor(line);
                         } else {
                             bool bSuccess;
-                            ArrayOf B = ArrayOf::stringConstructor(line);
+                            ArrayOf B = ArrayOf::characterArrayConstructor(line);
                             strArr = VertCat(strArr, B, true, bSuccess);
                         }
                         line = L"";

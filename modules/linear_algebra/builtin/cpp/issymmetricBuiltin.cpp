@@ -40,7 +40,7 @@ Nelson::LinearAlgebraGateway::issymmetricBuiltin(
     bool withTol = false;
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
-        if (param2.isSingleString()) {
+        if (param2.isColonVectorCharacterArray()) {
             withTol = false;
             std::wstring str = param2.getContentAsWideString();
             if (str == L"skew" || str == L"nonskew") {
@@ -68,7 +68,7 @@ Nelson::LinearAlgebraGateway::issymmetricBuiltin(
     if (!bSuccess) {
         if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
             || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
-            || argIn[0].isLogical() || argIn[0].isString() || argIn[0].isHandle()) {
+            || argIn[0].isLogical() || argIn[0].isCharacterArray() || argIn[0].isHandle()) {
             retval = OverloadFunction(eval, nLhs, argIn, "issymmetric", bSuccess);
             if (bSuccess) {
                 return retval;

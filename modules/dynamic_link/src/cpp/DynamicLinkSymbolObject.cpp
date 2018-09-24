@@ -457,13 +457,13 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
         char* returnedValue;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
         if (nLhs > retval.size()) {
-            retval.push_back(ArrayOf::stringConstructor(returnedValue));
+            retval.push_back(ArrayOf::characterArrayConstructor(returnedValue));
         }
     } else if (_returnType == L"wstring") {
         wchar_t* returnedValue;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
         if (nLhs > retval.size()) {
-            retval.push_back(ArrayOf::stringConstructor(returnedValue));
+            retval.push_back(ArrayOf::characterArrayConstructor(returnedValue));
         }
     } else {
         int dummy;
@@ -505,7 +505,7 @@ bool
 DynamicLinkSymbolObject::get(std::wstring propertyName, ArrayOf& res)
 {
     if (propertyName == L"Prototype") {
-        res = ArrayOf::stringConstructor(_prototype);
+        res = ArrayOf::characterArrayConstructor(_prototype);
         return true;
     }
     if (propertyName == L"Input") {

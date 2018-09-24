@@ -51,13 +51,13 @@ Nelson::ModulesManagerGateway::modulepathBuiltin(
     }
     if (argIn.size() == 1) {
         std::wstring moduleshortname = L"";
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isColonVectorCharacterArray()) {
             moduleshortname = argIn[0].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         if (IsExistingModuleName(moduleshortname)) {
-            retval.push_back(ArrayOf::stringConstructor(GetModulePath(moduleshortname)));
+            retval.push_back(ArrayOf::characterArrayConstructor(GetModulePath(moduleshortname)));
         } else {
             Error(_W("invalid module name."));
         }
@@ -66,35 +66,35 @@ Nelson::ModulesManagerGateway::modulepathBuiltin(
         std::wstring modulerootpath = L"";
         std::wstring moduleshortname = L"";
         std::wstring option = L"";
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isColonVectorCharacterArray()) {
             modulerootpath = argIn[0].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        if (argIn[1].isSingleString()) {
+        if (argIn[1].isColonVectorCharacterArray()) {
             moduleshortname = argIn[1].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
-        if (argIn[2].isSingleString()) {
+        if (argIn[2].isColonVectorCharacterArray()) {
             option = argIn[2].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
         }
         if (option.compare(STR_OPTION_ETC) == 0) {
-            retval.push_back(ArrayOf::stringConstructor(
+            retval.push_back(ArrayOf::characterArrayConstructor(
                 ModulePath(modulerootpath, moduleshortname, GET_ETC_PATH)));
         } else if (option.compare(STR_OPTION_BIN) == 0) {
-            retval.push_back(ArrayOf::stringConstructor(
+            retval.push_back(ArrayOf::characterArrayConstructor(
                 ModulePath(modulerootpath, moduleshortname, GET_BINARY_PATH)));
         } else if (option.compare(STR_OPTION_ROOT) == 0) {
-            retval.push_back(ArrayOf::stringConstructor(
+            retval.push_back(ArrayOf::characterArrayConstructor(
                 ModulePath(modulerootpath, moduleshortname, GET_ROOT_PATH)));
         } else if (option.compare(STR_OPTION_BUILTIN) == 0) {
-            retval.push_back(ArrayOf::stringConstructor(
+            retval.push_back(ArrayOf::characterArrayConstructor(
                 ModulePath(modulerootpath, moduleshortname, GET_DYNLIB_FULLPATH)));
         } else if (option.compare(STR_OPTION_SCRIPTS) == 0) {
-            retval.push_back(ArrayOf::stringConstructor(
+            retval.push_back(ArrayOf::characterArrayConstructor(
                 ModulePath(modulerootpath, moduleshortname, GET_SCRIPT_PATH)));
         } else {
             Error(_W("Argument #3 must be a valid option."));

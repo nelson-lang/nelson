@@ -56,12 +56,12 @@ Nelson::FunctionsGateway::pathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             }
         } else {
             retval.push_back(
-                ArrayOf::stringConstructor(PathFuncManager::getInstance()->getPathNameAsString()));
+                ArrayOf::characterArrayConstructor(PathFuncManager::getInstance()->getPathNameAsString()));
         }
     }
     if (argIn.size() == 1) {
         ArrayOf param1 = argIn[0];
-        if (!param1.isSingleString()) {
+        if (!param1.isColonVectorCharacterArray()) {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring p = param1.getContentAsWideString();
@@ -80,11 +80,11 @@ Nelson::FunctionsGateway::pathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     }
     if (argIn.size() == 2) {
         ArrayOf param1 = argIn[0];
-        if (!param1.isSingleString()) {
+        if (!param1.isColonVectorCharacterArray()) {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         ArrayOf param2 = argIn[1];
-        if (!param2.isSingleString()) {
+        if (!param2.isColonVectorCharacterArray()) {
             Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
         std::wstring p1 = param1.getContentAsWideString();

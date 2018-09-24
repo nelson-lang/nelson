@@ -42,7 +42,7 @@ Nelson::FilesFoldersGateway::pwdBuiltin(Evaluator* eval, int nLhs, const ArrayOf
             io->outputMessage(pwd);
         }
     } else {
-        retval.push_back(ArrayOf::stringConstructor(pwd));
+        retval.push_back(ArrayOf::characterArrayConstructor(pwd));
     }
     return retval;
 }

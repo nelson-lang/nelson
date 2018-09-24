@@ -33,7 +33,7 @@ Nelson::DynamicLinkGateway::removegatewayBuiltin(
     if (nLhs != 0) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isColonVectorCharacterArray()) {
         std::wstring dynlibName = argIn[0].getContentAsWideString();
         RemoveGateway(eval, dynlibName);
     } else {

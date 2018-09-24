@@ -69,7 +69,7 @@ ArrayOf::getVectorSubset(ArrayOf& index)
     void* qp = nullptr;
     try {
         if (index.getLength() == 1) {
-            if (index.isSingleString()) {
+            if (index.isColonVectorCharacterArray()) {
                 std::wstring str = index.getContentAsWideString();
                 if (str != L":") {
                     Error(_W("index must either be real positive integers or logicals."));
@@ -175,7 +175,7 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
                 bEmpty = true;
                 dimsDest[i] = 0;
             } else {
-                if (index[i].isSingleString()) {
+                if (index[i].isColonVectorCharacterArray()) {
                     std::wstring str = index[i].getContentAsWideString();
                     if (str != L":") {
                         Error(_W("index must either be real positive integers or logicals."));

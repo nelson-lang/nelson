@@ -46,7 +46,7 @@ Nelson::DataStructuresGateway::isfieldBuiltin(Evaluator* eval, int nLhs, const A
             }
         }
         if (param1.isStruct()) {
-            if (param2.isSingleString()) {
+            if (param2.isColonVectorCharacterArray()) {
                 stringVector fieldnames = param1.getFieldNames();
                 std::string name = param2.getContentAsCString();
                 bool res = false;
@@ -67,7 +67,7 @@ Nelson::DataStructuresGateway::isfieldBuiltin(Evaluator* eval, int nLhs, const A
                         = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dims2.getElementCount());
                     for (size_t k = 0; k < dims2.getElementCount(); ++k) {
                         res[k] = false;
-                        if (elements[k].isSingleString()) {
+                        if (elements[k].isColonVectorCharacterArray()) {
                             std::string name = elements[k].getContentAsCString();
                             for (size_t i = 0; i < fieldnames.size(); ++i) {
                                 if (fieldnames[i].compare(name) == 0) {

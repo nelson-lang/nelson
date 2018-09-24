@@ -436,12 +436,12 @@ public:
      * Returns TRUE if we are a string.
      */
     bool
-    isString() const;
+    isCharacterArray() const;
     bool
-    isSingleString() const;
+    isColonVectorCharacterArray() const;
 
     bool
-    isNdArrayStringType() const;
+    isNdArrayCharacterType() const;
 
     bool
     isIntegerType() const;
@@ -602,14 +602,14 @@ public:
      * string as a value.
      */
     static ArrayOf
-    stringConstructor(std::string aval);
+    characterArrayConstructor(std::string aval);
 
     /**
      * String constructor - Construct an NLS_CHAR object with the given
      * string as a value.
      */
     static ArrayOf
-    stringConstructor(std::wstring aval);
+    characterArrayConstructor(std::wstring aval);
 
     /**
      * int64 vector constructor - Construct an NLS_INT64 object

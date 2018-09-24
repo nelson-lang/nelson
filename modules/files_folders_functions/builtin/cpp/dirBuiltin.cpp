@@ -44,7 +44,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         }
     } break;
     case 2: {
-        if (!argIn[1].isSingleString()) {
+        if (!argIn[1].isColonVectorCharacterArray()) {
             Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
         woption = argIn[1].getContentAsWideString();
@@ -55,7 +55,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         }
     }
     case 1: {
-        if (!argIn[0].isSingleString()) {
+        if (!argIn[0].isColonVectorCharacterArray()) {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         wpath = argIn[0].getContentAsWideString();
@@ -116,8 +116,8 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
             datenums.reserve(res.size());
             for (boost::container::vector<FileInfo>::iterator it = res.begin(); it != res.end();
                  ++it) {
-                names.push_back(ArrayOf::stringConstructor(it->getName()));
-                dates.push_back(ArrayOf::stringConstructor(it->getDate()));
+                names.push_back(ArrayOf::characterArrayConstructor(it->getName()));
+                dates.push_back(ArrayOf::characterArrayConstructor(it->getDate()));
                 double bytesval = it->getBytes();
                 if (bytesval == -1) {
                     bytes.push_back(ArrayOf::emptyConstructor());

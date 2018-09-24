@@ -33,13 +33,13 @@ Nelson::InterpreterGateway::iskeywordBuiltin(Evaluator* eval, int nLhs, const Ar
         wstringVector keys = GetKeywords(true);
         ArrayOf* elements = new_with_exception<ArrayOf>(keys.size());
         for (size_t k = 0; k < keys.size(); k++) {
-            elements[k] = ArrayOf::stringConstructor(keys[k]);
+            elements[k] = ArrayOf::characterArrayConstructor(keys[k]);
         }
         Dimensions dims(keys.size(), 1);
         ArrayOf c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
         retval.push_back(c);
     } else {
-        if (!argIn[0].isSingleString()) {
+        if (!argIn[0].isColonVectorCharacterArray()) {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring warg = argIn[0].getContentAsWideString();

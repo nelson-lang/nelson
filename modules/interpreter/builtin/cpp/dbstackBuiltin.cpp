@@ -32,7 +32,7 @@ static void
 checkArgument(Evaluator* eval, ArrayOf arg, bool& withCompleteNames, int& nbOmits,
     bool& isCompleteNames, bool& isNbOmits)
 {
-    if (arg.isSingleString()) {
+    if (arg.isColonVectorCharacterArray()) {
         std::wstring str = arg.getContentAsWideString();
         if (str != L"-completenames") {
             Error(_W("'-completenames' expected."));
@@ -102,9 +102,9 @@ dbstackAsStruct(stackTrace positions, bool withCompleteNames)
             if (!withCompleteNames) {
                 filename = shortName(positions[k].getFilename());
             }
-            file.push_back(ArrayOf::stringConstructor(filename));
+            file.push_back(ArrayOf::characterArrayConstructor(filename));
             std::wstring functionName = positions[k].getFunctionName();
-            name.push_back(ArrayOf::stringConstructor(functionName));
+            name.push_back(ArrayOf::characterArrayConstructor(functionName));
             if (positions[k].getLine() == 0) {
                 line.push_back(ArrayOf::emptyConstructor(0, 1));
             } else {

@@ -124,20 +124,20 @@ warningStruct(WARNING_IDS_STATES list)
         identifiers.reserve(dims[0]);
         states.reserve(dims[0]);
         for (size_t k = 0; k < list.IDs.size(); ++k) {
-            identifiers.push_back(ArrayOf::stringConstructor(list.IDs[k]));
+            identifiers.push_back(ArrayOf::characterArrayConstructor(list.IDs[k]));
             switch (list.states[k]) {
             case WARNING_STATE::AS_ERROR:
-                states.push_back(ArrayOf::stringConstructor(L"aserror"));
+                states.push_back(ArrayOf::characterArrayConstructor(L"aserror"));
                 break;
             case WARNING_STATE::DISABLED:
-                states.push_back(ArrayOf::stringConstructor(L"off"));
+                states.push_back(ArrayOf::characterArrayConstructor(L"off"));
                 break;
             case WARNING_STATE::ENABLED:
-                states.push_back(ArrayOf::stringConstructor(L"on"));
+                states.push_back(ArrayOf::characterArrayConstructor(L"on"));
                 break;
             case WARNING_STATE::NOT_FOUND:
             default:
-                states.push_back(ArrayOf::stringConstructor(L"notfound"));
+                states.push_back(ArrayOf::characterArrayConstructor(L"notfound"));
                 break;
             }
         }
@@ -196,11 +196,11 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             case 0: {
             } break;
             case 1: {
-                retval.push_back(ArrayOf::stringConstructor(lastWarning.getMessage()));
+                retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getMessage()));
             } break;
             case 2: {
-                retval.push_back(ArrayOf::stringConstructor(lastWarning.getMessage()));
-                retval.push_back(ArrayOf::stringConstructor(lastWarning.getIdentifier()));
+                retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getMessage()));
+                retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getIdentifier()));
             }
             default: {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
@@ -239,11 +239,11 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 // NOTHING TO DO
             } break;
             case 1: {
-                retval.push_back(ArrayOf::stringConstructor(lastWarning.getMessage()));
+                retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getMessage()));
             } break;
             case 2: {
-                retval.push_back(ArrayOf::stringConstructor(lastWarning.getMessage()));
-                retval.push_back(ArrayOf::stringConstructor(lastWarning.getIdentifier()));
+                retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getMessage()));
+                retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getIdentifier()));
             } break;
             default: {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
@@ -274,8 +274,8 @@ warningBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             ArrayOfVector fieldvalues;
             fieldnames.push_back(L"identifier");
             fieldnames.push_back(L"state");
-            fieldvalues.push_back(ArrayOf::stringConstructor(msg));
-            fieldvalues.push_back(ArrayOf::stringConstructor(id));
+            fieldvalues.push_back(ArrayOf::characterArrayConstructor(msg));
+            fieldvalues.push_back(ArrayOf::characterArrayConstructor(id));
             retval.push_back(ArrayOf::structConstructor(fieldnames, fieldvalues));
         } break;
         default: {
@@ -290,11 +290,11 @@ warningBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             // NOTHING TO DO
         } break;
         case 1: {
-            retval.push_back(ArrayOf::stringConstructor(lastWarning.getMessage()));
+            retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getMessage()));
         } break;
         case 2: {
-            retval.push_back(ArrayOf::stringConstructor(lastWarning.getMessage()));
-            retval.push_back(ArrayOf::stringConstructor(lastWarning.getIdentifier()));
+            retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getMessage()));
+            retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getIdentifier()));
         } break;
         default: {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);

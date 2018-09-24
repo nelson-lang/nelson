@@ -33,7 +33,7 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
     } break;
     case 1: {
         ArrayOf arg1 = argIn[0];
-        if (arg1.isSingleString()) {
+        if (arg1.isColonVectorCharacterArray()) {
             std::wstring message = arg1.getContentAsWideString();
             if (message == L"") {
                 eval->resetLastWarningException();
@@ -50,13 +50,13 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
         ArrayOf arg1 = argIn[0];
         std::wstring message;
         std::wstring identifier;
-        if (arg1.isSingleString()) {
+        if (arg1.isColonVectorCharacterArray()) {
             message = arg1.getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         ArrayOf arg2 = argIn[1];
-        if (arg2.isSingleString()) {
+        if (arg2.isColonVectorCharacterArray()) {
             identifier = arg2.getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
@@ -72,18 +72,18 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
     case 0: {
         if (!wasReset) {
             std::wstring message = lastWarning.getMessage();
-            retval.push_back(ArrayOf::stringConstructor(message));
+            retval.push_back(ArrayOf::characterArrayConstructor(message));
         }
     } break;
     case 1: {
         std::wstring message = lastWarning.getMessage();
-        retval.push_back(ArrayOf::stringConstructor(message));
+        retval.push_back(ArrayOf::characterArrayConstructor(message));
     } break;
     case 2: {
         std::wstring message = lastWarning.getMessage();
         std::wstring identifier = lastWarning.getIdentifier();
-        retval.push_back(ArrayOf::stringConstructor(message));
-        retval.push_back(ArrayOf::stringConstructor(identifier));
+        retval.push_back(ArrayOf::characterArrayConstructor(message));
+        retval.push_back(ArrayOf::characterArrayConstructor(identifier));
     } break;
     default: {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);

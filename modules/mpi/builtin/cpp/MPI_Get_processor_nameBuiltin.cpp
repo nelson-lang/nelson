@@ -44,7 +44,7 @@ Nelson::MpiGateway::MPI_Get_processor_nameBuiltin(
     int info = MPI_Get_processor_name(argv, &lenReturned);
     argv[lenReturned] = '\0';
     processorName = argv;
-    retval.push_back(ArrayOf::stringConstructor(processorName));
+    retval.push_back(ArrayOf::characterArrayConstructor(processorName));
     if (nLhs > 1) {
         retval.push_back(ArrayOf::doubleConstructor(lenReturned));
     }

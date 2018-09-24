@@ -63,7 +63,7 @@ GetQmlHandleObject(ArrayOf A, std::wstring propertyName)
         }
     } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR)) {
         std::string name = std::string(qobj->metaObject()->className());
-        res = ArrayOf::stringConstructor(name);
+        res = ArrayOf::characterArrayConstructor(name);
     } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR)) {
         QObjectList childs = qobj->children();
         int nbChilds = childs.size();

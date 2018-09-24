@@ -33,7 +33,7 @@ Nelson::MpiGateway::MPI_Get_library_versionBuiltin(
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    retval.push_back(ArrayOf::stringConstructor(getMpiLibraryVersion()));
+    retval.push_back(ArrayOf::characterArrayConstructor(getMpiLibraryVersion()));
     return retval;
 }
 //=============================================================================

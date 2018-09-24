@@ -26,7 +26,7 @@ StringLength(ArrayOf A)
 {
     ArrayOf res;
     wstringVector wstr = A.getContentAsWideStringVector(false);
-    if (A.isString() && wstr.empty()) {
+    if (A.isCharacterArray() && wstr.empty()) {
         wstr.push_back(A.getContentAsWideString());
     }
     Dimensions outputDims;

@@ -48,7 +48,7 @@ Nelson::AudioGateway::audiodevinfoBuiltin(Evaluator* eval, int nLhs, const Array
         // devinfo = audiodevinfo(io)
         // devinfo = audiodevinfo('default')
         ArrayOf param1 = argIn[0];
-        if (param1.isString()) {
+        if (param1.isCharacterArray()) {
             std::wstring str = param1.getContentAsWideString();
             if (str == L"default") {
                 res = AudioDevInfoDefault(errorMessage);
@@ -64,7 +64,7 @@ Nelson::AudioGateway::audiodevinfoBuiltin(Evaluator* eval, int nLhs, const Array
         ArrayOf param1 = argIn[0];
         int io = param1.getContentAsInteger32Scalar();
         ArrayOf param2 = argIn[1];
-        if (param2.isSingleString()) {
+        if (param2.isColonVectorCharacterArray()) {
             // devinfo = audiodevinfo(io, name)
             std::wstring name = param2.getContentAsWideString();
             res = AudioDevInfo(io, name, errorMessage);

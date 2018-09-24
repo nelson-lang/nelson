@@ -35,7 +35,7 @@ Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     if ((argIn.size() != 1) && (argIn.size() != 2)) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } else if (argIn.size() == 1) {
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isColonVectorCharacterArray()) {
             std::wstring wfunctionname = argIn[0].getContentAsWideString();
             if (nLhs == 0) {
                 Interface* io = eval->getInterface();
@@ -55,7 +55,7 @@ Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                     }
                 }
             } else {
-                retval.push_back(ArrayOf::stringConstructor(Which(wfunctionname)));
+                retval.push_back(ArrayOf::characterArrayConstructor(Which(wfunctionname)));
             }
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
@@ -63,13 +63,13 @@ Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     } else {
         // case argIn.size() == 2
         std::wstring wfunctionname;
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isColonVectorCharacterArray()) {
             wfunctionname = argIn[0].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring wparam2;
-        if (argIn[1].isSingleString()) {
+        if (argIn[1].isColonVectorCharacterArray()) {
             wparam2 = argIn[1].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);

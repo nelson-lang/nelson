@@ -73,7 +73,7 @@ runBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED);
     }
-    if (argIn[1].isSingleString()) {
+    if (argIn[1].isColonVectorCharacterArray()) {
         std::wstring arg2 = argIn[1].getContentAsWideString();
         if (arg2.compare(L"errcatch") == 0) {
             bErrorCatch = true;
@@ -88,7 +88,7 @@ runBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isColonVectorCharacterArray()) {
         wpath = argIn[0].getContentAsWideString();
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
@@ -127,7 +127,7 @@ runBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         }
         bChangeDir = (argIn[1].getContentAsLogicalScalar() == 0) ? false : true;
     } else {
-        if (argIn[1].isSingleString()) {
+        if (argIn[1].isColonVectorCharacterArray()) {
             std::wstring arg2 = argIn[1].getContentAsWideString();
             if (arg2.compare(L"errcatch") == 0) {
                 bErrorCatch = true;
@@ -143,7 +143,7 @@ runBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             Error(ERROR_WRONG_ARGUMENT_2_TYPE);
         }
     }
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isColonVectorCharacterArray()) {
         wpath = argIn[0].getContentAsWideString();
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
@@ -176,7 +176,7 @@ runBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     if (nLhs != 0) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isColonVectorCharacterArray()) {
         std::wstring wpath = argIn[0].getContentAsWideString();
         try {
             EvaluateScriptFile(eval, wpath.c_str(), true);

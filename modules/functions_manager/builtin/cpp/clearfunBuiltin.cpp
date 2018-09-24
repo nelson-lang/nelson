@@ -35,7 +35,7 @@ Nelson::FunctionsGateway::clearfunBuiltin(Evaluator* eval, int nLhs, const Array
     }
     ArrayOf param1 = argIn[0];
     std::wstring functionname;
-    if (param1.isSingleString()) {
+    if (param1.isColonVectorCharacterArray()) {
         functionname = argIn[0].getContentAsWideString();
     } else if (param1.isFunctionHandle()) {
         function_handle fh = param1.getContentAsFunctionHandle();

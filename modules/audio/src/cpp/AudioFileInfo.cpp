@@ -243,9 +243,9 @@ AudioFileInfo(std::wstring filename, std::wstring& errorMessage)
     stringVector fieldnames;
     ArrayOfVector fieldvalues;
     fieldnames.push_back("Filename");
-    fieldvalues.push_back(ArrayOf::stringConstructor(filename));
+    fieldvalues.push_back(ArrayOf::characterArrayConstructor(filename));
     fieldnames.push_back("CompressionMethod");
-    fieldvalues.push_back(ArrayOf::stringConstructor(CompressionMethod));
+    fieldvalues.push_back(ArrayOf::characterArrayConstructor(CompressionMethod));
     fieldnames.push_back("NumChannels");
     fieldvalues.push_back(ArrayOf::doubleConstructor(NumChannels));
     fieldnames.push_back("SampleRate");
@@ -258,19 +258,19 @@ AudioFileInfo(std::wstring filename, std::wstring& errorMessage)
     if (Title == L"") {
         fieldvalues.push_back(ArrayOf::emptyConstructor());
     } else {
-        fieldvalues.push_back(ArrayOf::stringConstructor(Title));
+        fieldvalues.push_back(ArrayOf::characterArrayConstructor(Title));
     }
     fieldnames.push_back("Comment");
     if (Comment == L"") {
         fieldvalues.push_back(ArrayOf::emptyConstructor());
     } else {
-        fieldvalues.push_back(ArrayOf::stringConstructor(Comment));
+        fieldvalues.push_back(ArrayOf::characterArrayConstructor(Comment));
     }
     fieldnames.push_back("Artist");
     if (Artist == L"") {
         fieldvalues.push_back(ArrayOf::emptyConstructor());
     } else {
-        fieldvalues.push_back(ArrayOf::stringConstructor(Artist));
+        fieldvalues.push_back(ArrayOf::characterArrayConstructor(Artist));
     }
     fieldnames.push_back("BitsPerSample");
     fieldvalues.push_back(ArrayOf::doubleConstructor(BitsPerSample));

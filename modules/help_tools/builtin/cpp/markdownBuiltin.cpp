@@ -39,7 +39,7 @@ Nelson::HelpToolsGateway::markdownBuiltin(Evaluator* eval, int nLhs, const Array
     if (argIn.size() == 2) {
         std::wstring filenameIn = L"";
         std::wstring filenameOut = L"";
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isColonVectorCharacterArray()) {
             filenameIn = argIn[0].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
@@ -99,7 +99,7 @@ Nelson::HelpToolsGateway::markdownBuiltin(Evaluator* eval, int nLhs, const Array
                 stringInput = stringInput + L"\n" + vstr[k];
             }
         } else {
-            if (param1.isSingleString()) {
+            if (param1.isColonVectorCharacterArray()) {
                 stringInput = param1.getContentAsWideString();
             } else {
                 Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
@@ -107,7 +107,7 @@ Nelson::HelpToolsGateway::markdownBuiltin(Evaluator* eval, int nLhs, const Array
         }
         std::wstring stringOutput = L"";
         if (MarkdownString(stringInput, stringOutput)) {
-            retval.push_back(ArrayOf::stringConstructor(stringOutput));
+            retval.push_back(ArrayOf::characterArrayConstructor(stringOutput));
         } else {
             Error(_W("Error markdown generation."));
         }

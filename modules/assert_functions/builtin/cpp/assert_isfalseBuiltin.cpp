@@ -55,7 +55,7 @@ Nelson::AssertFunctionsGateway::assert_isfalseBuiltin(
     } else {
         retval.push_back(ArrayOf::logicalConstructor(res == 0 ? false : true));
         if (nLhs > 1) {
-            retval.push_back(ArrayOf::stringConstructor(msg));
+            retval.push_back(ArrayOf::characterArrayConstructor(msg));
         }
     }
     return retval;

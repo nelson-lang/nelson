@@ -37,7 +37,7 @@ Nelson::HelpToolsGateway::xmldoccheckerBuiltin(
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf arg1 = argIn[0];
-    if (arg1.isSingleString()) {
+    if (arg1.isColonVectorCharacterArray()) {
         std::wstring fileOrDirName = arg1.getContentAsWideString();
         boost::filesystem::path pathIn(fileOrDirName);
         bool IsFileIn = false;

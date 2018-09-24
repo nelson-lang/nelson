@@ -28,25 +28,25 @@ namespace Nelson {
  * Returns TRUE if we are a string.
  */
 bool
-ArrayOf::isString() const
+ArrayOf::isCharacterArray() const
 {
     return (dp->dataClass == NLS_CHAR) && (!dp->sparse);
 }
 //=============================================================================
 bool
-ArrayOf::isSingleString() const
+ArrayOf::isColonVectorCharacterArray() const
 {
-    return (isString() && (!dp->sparse) && (isRowVector() || isEmpty()));
+    return (isCharacterArray() && (!dp->sparse) && (isRowVector() || isEmpty()));
 }
 //=============================================================================
 bool
-ArrayOf::isNdArrayStringType() const
+ArrayOf::isNdArrayCharacterType() const
 {
     return (dp->dataClass == NLS_CHAR) && (!dp->sparse) && !is2D();
 }
 //=============================================================================
 ArrayOf
-ArrayOf::stringConstructor(std::wstring astr)
+ArrayOf::characterArrayConstructor(std::wstring astr)
 {
     indexType length = astr.length();
     Dimensions dim(0, length);
@@ -61,10 +61,10 @@ ArrayOf::stringConstructor(std::wstring astr)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::stringConstructor(std::string astr)
+ArrayOf::characterArrayConstructor(std::string astr)
 {
     std::wstring str = utf8_to_wstring(astr);
-    return stringConstructor(str);
+    return characterArrayConstructor(str);
 }
 //=============================================================================
 std::string
@@ -105,7 +105,7 @@ wchar_t*
 ArrayOf::getContentAsWideCharactersPointer() const
 {
     charType* buffer = nullptr;
-    if (isSingleString()) {
+    if (isColonVectorCharacterArray()) {
         indexType M = getLength();
         buffer = new_with_exception<charType>(M + 1, false);
         const charType* qp = (const charType*)dp->getData();
@@ -126,7 +126,7 @@ std::wstring
 ArrayOf::getContentAsWideString(void) const
 {
     std::wstring str = L"";
-    if (isSingleString()) {
+    if (isColonVectorCharacterArray()) {
         indexType M = getLength();
         str.reserve(M + 1);
         charType* buffer = new_with_exception<charType>(M + 1);

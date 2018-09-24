@@ -110,7 +110,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             int isclassstruct((int)A.isClassStruct());
             MPI_Pack(&isclassstruct, 1, MPI_INT, buffer, bufsize, packpos, comm);
             if (A.isClassStruct()) {
-                ArrayOf classnameAsArray = ArrayOf::stringConstructor(A.getStructType());
+                ArrayOf classnameAsArray = ArrayOf::characterArrayConstructor(A.getStructType());
                 packMPI(classnameAsArray, buffer, bufsize, packpos, comm);
             }
             if (A.isFunctionHandle()) {
@@ -121,7 +121,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                     found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
                 }
                 if (found) {
-                    ArrayOf nameAsArray = ArrayOf::stringConstructor(functionname);
+                    ArrayOf nameAsArray = ArrayOf::characterArrayConstructor(functionname);
                     packMPI(nameAsArray, buffer, bufsize, packpos, comm);
                 }
             } else {
@@ -285,7 +285,7 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         }
         if (classname == NLS_FUNCTION_HANDLE_STR) {
             ArrayOf functionNameAsArray = unpackMPI(buffer, bufsize, packpos, comm);
-            if (functionNameAsArray.isSingleString()) {
+            if (functionNameAsArray.isColonVectorCharacterArray()) {
                 std::wstring functionName = functionNameAsArray.getContentAsWideString();
                 Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
                 if (eval) {
@@ -447,7 +447,7 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             fieldsize += getCanonicalSize(1, MPI_INT, comm);
             int isclassstruct((int)A.isClassStruct());
             if (isclassstruct) {
-                ArrayOf classnameAsArray = ArrayOf::stringConstructor(A.getStructType());
+                ArrayOf classnameAsArray = ArrayOf::characterArrayConstructor(A.getStructType());
                 fieldsize += getCanonicalSize((int)classnameAsArray.getLength(), MPI_WCHAR, comm);
             }
             ArrayOf* dp = (ArrayOf*)A.getDataPointer();

@@ -47,7 +47,7 @@ Nelson::DataStructuresGateway::structBuiltin(Evaluator* eval, int nLhs, const Ar
             values.push_back(ArrayOf());
         }
         for (size_t i = 0; i < pairCount * 2; i += 2) {
-            if (!(argIn[i].isSingleString())) {
+            if (!(argIn[i].isColonVectorCharacterArray())) {
                 Error(_W("requires pairs of field names and values."));
             }
             std::string field = argIn[i].getContentAsCString();

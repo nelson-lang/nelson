@@ -98,7 +98,7 @@ get_basepathU()
 ArrayOf
 GetRootFolder()
 {
-    return ArrayOf::stringConstructor(GetNelsonPath());
+    return ArrayOf::characterArrayConstructor(GetNelsonPath());
 }
 //=============================================================================
 std::wstring
