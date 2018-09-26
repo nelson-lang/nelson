@@ -420,6 +420,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
                 errorMessage = _W("VARIANT conversion fails.");
                 return false;
             } break;
+            case NLS_STRING_ARRAY:
             case NLS_CELL_ARRAY: {
                 ArrayOf* cell = (ArrayOf*)(A.getDataPointer());
                 Dimensions dims = A.getDimensions();
@@ -533,6 +534,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
                     return false;
                 }
             } break;
+            case NLS_STRING_ARRAY:
             case NLS_CELL_ARRAY: {
                 ArrayOf* cell = (ArrayOf*)(A.getDataPointer());
                 Dimensions dims = A.getDimensions();

@@ -92,7 +92,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         MPI_Pack(&tmp, 1, MPI_INT, buffer, bufsize, packpos, comm);
     }
     if (A.isReferenceType()) {
-        if (dataClass == NLS_CELL_ARRAY) {
+        if (dataClass == NLS_CELL_ARRAY || dataClass == NLS_STRING_ARRAY) {
             ArrayOf* dp = (ArrayOf*)A.getDataPointer();
             for (int i = 0; i < A.getLength(); i++) {
                 packMPI(dp[i], buffer, bufsize, packpos, comm);
@@ -257,7 +257,13 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         MPI_Unpack(buffer, bufsize, packpos, &tmp, 1, MPI_INT, comm);
         outDim[j] = tmp;
     }
-    if (dataClass == NLS_CELL_ARRAY) {
+    if (dataClass == NLS_STRING_ARRAY) {
+        ArrayOf* dp = new ArrayOf[outDim.getElementCount()];
+        for (int i = 0; i < outDim.getElementCount(); i++) {
+            dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
+        }
+        return ArrayOf(NLS_STRING_ARRAY, outDim, dp);
+	} else if (dataClass == NLS_CELL_ARRAY) {
         ArrayOf* dp = new ArrayOf[outDim.getElementCount()];
         for (int i = 0; i < outDim.getElementCount(); i++) {
             dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
@@ -429,7 +435,7 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
     unsigned int overhead = getCanonicalSize(maxDims + 1, MPI_INT, comm);
     Class dataClass(A.getDataClass());
     if (A.isReferenceType()) {
-        if (dataClass == NLS_CELL_ARRAY) {
+        if (dataClass == NLS_CELL_ARRAY || dataClass == NLS_STRING_ARRAY) {
             int total = 0;
             ArrayOf* dp = (ArrayOf*)A.getDataPointer();
             for (int i = 0; i < A.getLength(); i++) {

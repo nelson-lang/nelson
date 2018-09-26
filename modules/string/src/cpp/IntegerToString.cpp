@@ -85,6 +85,7 @@ IntegerToString(ArrayOf A, wstringVector& result, std::wstring& error_message)
         Class classA = A.getDataClass();
         switch (classA) {
         case NLS_HANDLE:
+        case NLS_STRING_ARRAY:
         case NLS_CELL_ARRAY:
         case NLS_STRUCT_ARRAY:
         default: {

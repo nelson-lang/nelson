@@ -498,6 +498,7 @@ DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
         case NLS_LOGICAL:
         case NLS_HANDLE:
         case NLS_CELL_ARRAY:
+        case NLS_STRING_ARRAY:
         case NLS_STRUCT_ARRAY:
         default: {
             needToOverload = true;

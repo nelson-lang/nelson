@@ -152,6 +152,10 @@ Data::freeDataBlock()
                 ArrayOf* rp = (ArrayOf*)cp;
                 delete[] rp;
             } break;
+            case NLS_STRING_ARRAY: {
+                ArrayOf* rp = (ArrayOf*)cp;
+                delete[] rp;
+            } break;
             case NLS_HANDLE: {
                 nelson_handle* rp = (nelson_handle*)cp;
                 delete[] rp;

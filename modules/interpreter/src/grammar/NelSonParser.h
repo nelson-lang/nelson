@@ -16,10 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once 
-//=============================================================================
 /* A Bison parser, made by GNU Bison 1.875c.  */
-
+//=============================================================================
 /* Tokens.  */
 #ifndef YYTOKENTYPE
 #define YYTOKENTYPE
@@ -74,7 +72,7 @@ enum yytokentype
     POS = 302
 };
 #endif
-
+//=============================================================================
 #define IDENT 258
 #define NUMERIC 259
 #define ENDQSTMNT 260
@@ -120,15 +118,16 @@ enum yytokentype
 #define NOT 300
 #define NEG 301
 #define POS 302
-
+//=============================================================================
 #if !defined(YYSTYPE) && !defined(YYSTYPE_IS_DECLARED)
 typedef int YYSTYPE;
 #define yystype YYSTYPE /* obsolescent; will be withdrawn */
 #define YYSTYPE_IS_DECLARED 1
 #define YYSTYPE_IS_TRIVIAL 1
 #endif
-
+//=============================================================================
 extern YYSTYPE yylval;
-
+//=============================================================================
 void
 clearTextBufferLexer();
+//=============================================================================

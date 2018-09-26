@@ -51,6 +51,7 @@ isSupportedType(ArrayOf ValueToEncode)
     switch (ValueToEncode.getDataClass()) {
     case NLS_HANDLE:
         return false;
+    case NLS_STRING_ARRAY:
     case NLS_CELL_ARRAY:
     case NLS_STRUCT_ARRAY:
     case NLS_LOGICAL:
@@ -223,7 +224,8 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
             errorMessage = _W("Unsupported type to convert as JSON.");
             return ArrayOf();
         } break;
-        case NLS_CELL_ARRAY: {
+        case NLS_STRING_ARRAY: 
+		case NLS_CELL_ARRAY: {
             ArrayOf* elements = (ArrayOf*)ValueToEncode.getDataPointer();
             for (int i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
                 jsonEncodeInternal(elements[i], convertNanInf, errorMessage);

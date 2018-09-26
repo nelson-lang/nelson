@@ -108,6 +108,9 @@
     <ClInclude Include="..\cpp\DisplayStruct.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\cpp\DisplayStringArray.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Interface.cpp">
@@ -198,6 +201,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\DisplayStruct.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\DisplayStringArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

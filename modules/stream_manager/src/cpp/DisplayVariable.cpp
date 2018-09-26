@@ -18,6 +18,7 @@
 //=============================================================================
 #include "DisplayVariable.hpp"
 #include "DisplayCharacters.hpp"
+#include "DisplayStringArray.hpp"
 #include "DisplayDouble.hpp"
 #include "DisplaySingle.hpp"
 #include "DisplayLogical.hpp"
@@ -43,7 +44,10 @@ DisplayVariable(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& nee
     case NLS_CELL_ARRAY: {
         DisplayCell(io, A, fromDispBuiltin, needToOverload);
     } break;
-    case NLS_STRUCT_ARRAY: {
+    case NLS_STRING_ARRAY: {
+        DisplayStringArray(io, A, fromDispBuiltin, needToOverload);
+    } break;
+	case NLS_STRUCT_ARRAY: {
         DisplayStruct(io, A, fromDispBuiltin, needToOverload);
     } break;
     case NLS_CHAR: {

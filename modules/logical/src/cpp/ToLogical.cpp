@@ -33,6 +33,9 @@ ToLogical(ArrayOf A)
     case NLS_HANDLE: {
         Error(_W("Conversion to logical from handle is not possible."));
     } break;
+    case NLS_STRING_ARRAY: {
+        Error(_W("Conversion to logical from string is not possible."));
+    } break;
     case NLS_CELL_ARRAY: {
         Error(_W("Conversion to logical from cell is not possible."));
     } break;

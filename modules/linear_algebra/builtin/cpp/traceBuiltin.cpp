@@ -40,10 +40,8 @@ Nelson::LinearAlgebraGateway::traceBuiltin(Evaluator* eval, int nLhs, const Arra
         retval = OverloadFunction(eval, nLhs, argIn, "trace", bSuccess);
     }
     if (!bSuccess) {
-        if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
-            || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
-            || argIn[0].isLogical() || argIn[0].isCharacterArray() || argIn[0].isIntegerType()
-            || argIn[0].isHandle()) {
+        if (argIn[0].isReferenceType() || argIn[0].isSparse()
+            || argIn[0].isLogical() || argIn[0].isCharacterArray() || argIn[0].isIntegerType()) {
             retval = OverloadFunction(eval, nLhs, argIn, "trace", bSuccess);
             if (bSuccess) {
                 return retval;

@@ -30,7 +30,14 @@ ArrayOf::allocateArrayOf(
     case NLS_HANDLE: {
         return (void*)new_with_exception<nelson_handle>(length);
     } break;
-    case NLS_CELL_ARRAY: {
+    case NLS_STRING_ARRAY: {
+        ArrayOf* dp = new_with_exception<ArrayOf>(length);
+        for (indexType i = 0; i < length; i++) {
+            dp[i] = ArrayOf(NLS_DOUBLE);
+        }
+        return dp;
+    } break;
+	case NLS_CELL_ARRAY: {
         ArrayOf* dp = new_with_exception<ArrayOf>(length);
         for (indexType i = 0; i < length; i++) {
             dp[i] = ArrayOf(NLS_DOUBLE);
@@ -105,7 +112,11 @@ ArrayOf::deleteArrayOf(void* dp, Class dataclass)
         nelson_handle* rp = (nelson_handle*)dp;
         delete[] rp;
     } break;
-    case NLS_CELL_ARRAY: {
+    case NLS_STRING_ARRAY: {
+        ArrayOf* rp = (ArrayOf*)dp;
+        delete[] rp;
+    } break;
+	case NLS_CELL_ARRAY: {
         ArrayOf* rp = (ArrayOf*)dp;
         delete[] rp;
     } break;

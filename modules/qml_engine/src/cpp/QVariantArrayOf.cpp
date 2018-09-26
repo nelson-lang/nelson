@@ -1005,6 +1005,33 @@ ArrayOfToQVariant(ArrayOf A)
             Error(_W("Type conversion to QVariant not managed."));
         }
     } break;
+    case NLS_STRING_ARRAY: {
+        if (A.isVector()) {
+            wstringVector vstr = A.getContentAsWideStringVector();
+            QStringList stringlist;
+            for (size_t k = 0; k < vstr.size(); k++) {
+                stringlist.push_back(wstringToQString(vstr[k]));
+            }
+            QVariant res = stringlist;
+            return res;
+        } else {
+            QVariantList qlistVariantRows;
+            Dimensions dimsA = A.getDimensions();
+            ArrayOf* cellArray = (ArrayOf*)A.getDataPointer();
+            indexType rows = dimsA.getRows();
+            indexType columns = dimsA.getColumns();
+            for (indexType i = 0; i < rows; i++) {
+                QVariantList qlistVariantColumns;
+                for (indexType j = 0; j < columns; j++) {
+                    size_t idx = i + j * rows;
+                    QVariant Q = ArrayOfToQVariant(cellArray[idx]);
+                    qlistVariantColumns.push_back(Q);
+                }
+                qlistVariantRows.push_back(qlistVariantColumns);
+            }
+            res = qlistVariantRows;
+        }
+    } break;
     case NLS_CELL_ARRAY: {
         if (A.isVector()) {
             if (IsCellOfString(A)) {

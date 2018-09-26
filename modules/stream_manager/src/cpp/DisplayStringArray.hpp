@@ -16,40 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "rcondBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
-#include "OverloadRequired.hpp"
-#include "ReciprocalConditionNumber.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Interface.hpp"
 //=============================================================================
-ArrayOfVector
-Nelson::LinearAlgebraGateway::rcondBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    // Call overload if it exists
-    bool bSuccess = false;
-    if (eval->mustOverloadBasicTypes()) {
-        retval = OverloadFunction(eval, nLhs, argIn, "rcond", bSuccess);
-    }
-    if (!bSuccess) {
-        if (argIn[0].isReferenceType() || argIn[0].isSparse()
-            || argIn[0].isLogical() || argIn[0].isCharacterArray() || argIn[0].isIntegerType()) {
-            retval = OverloadFunction(eval, nLhs, argIn, "rcond", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-            OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
-        }
-        retval.push_back(ReciprocalConditionNumber(argIn[0]));
-    }
-    return retval;
+namespace Nelson {
+void
+DisplayStringArray(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload);
 }
 //=============================================================================

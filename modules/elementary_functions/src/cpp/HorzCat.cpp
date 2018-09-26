@@ -110,7 +110,10 @@ HorzCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         }
     }
     Class classCommon = FindCommonType(A, B, false);
-    if (A.isCell() || B.isCell()) {
+    if (A.isStringArray() || B.isStringArray()) {
+        classCommon = NLS_STRING_ARRAY;
+    } 
+    else if (A.isCell() || B.isCell()) {
         classCommon = NLS_CELL_ARRAY;
     } else {
         if (A.isStruct() && B.isStruct()) {
@@ -123,7 +126,16 @@ HorzCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         }
     }
     try {
-        if (classCommon == NLS_CELL_ARRAY) {
+        if (classCommon == NLS_STRING_ARRAY) {
+            if (!A.isCell()) {
+                A = ArrayOf::toCell(A);
+                A.promoteType(NLS_STRING_ARRAY);
+            }
+            if (!B.isCell()) {
+                B = ArrayOf::toCell(B);
+                B.promoteType(NLS_STRING_ARRAY);
+            }
+        } else if (classCommon == NLS_CELL_ARRAY) {
             if (!A.isCell()) {
                 A = ArrayOf::toCell(A);
             }

@@ -134,7 +134,8 @@ ArrayOf::structConstructor(stringVector fNames, ArrayOfVector& values)
              * Check the type of the entry.  If its a non-cell array, then
              * then ignore this entry.
              */
-            if (values[i].dp->dataClass == NLS_CELL_ARRAY) {
+            if (values[i].dp->dataClass == NLS_CELL_ARRAY
+                || values[i].dp->dataClass == NLS_STRING_ARRAY) {
                 /**
                  * This is a cell-array, so look for non-scalar cell-arrays.
                  */
@@ -172,7 +173,7 @@ ArrayOf::structConstructor(stringVector fNames, ArrayOfVector& values)
             for (i = 0; i < (sizeType)fNames.size(); i++) {
                 ArrayOf rval = values[i];
                 rptr = (const ArrayOf*)rval.dp->getData();
-                if (rval.dp->dataClass == NLS_CELL_ARRAY) {
+                if (rval.dp->dataClass == NLS_CELL_ARRAY || rval.dp->dataClass == NLS_STRING_ARRAY) {
                     if (rval.isScalar()) {
                         qp[offset] = rptr[0];
                     } else {

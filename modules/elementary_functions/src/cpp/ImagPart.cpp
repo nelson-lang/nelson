@@ -52,6 +52,7 @@ ImagPart(ArrayOf arrayIn)
     } break;
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
+    case NLS_STRING_ARRAY:
     case NLS_STRUCT_ARRAY:
     default: {
         Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_imag'");

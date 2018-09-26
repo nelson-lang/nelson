@@ -638,12 +638,11 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 (const ArrayOf*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L,
                 advance);
             break;
-            /*
-            case NLS_STRING_ARRAY:
-                setNDimSubsetDispatchReal<ArrayOf>(colonIndex, (ArrayOf*)qp,
-                    (const ArrayOf*)data.getDataPointer(), outDimsInt, srcDimsInt,
-            indx, L, advance); break;
-            */
+        case NLS_STRING_ARRAY:
+            setNDimSubsetDispatchReal<ArrayOf>(colonIndex, (ArrayOf*)qp,
+                (const ArrayOf*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L,
+                advance);
+            break;
         case NLS_STRUCT_ARRAY:
             setNDimSubsetDispatchBurst<ArrayOf>(colonIndex, (ArrayOf*)qp,
                 (const ArrayOf*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L,

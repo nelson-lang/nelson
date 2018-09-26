@@ -38,6 +38,9 @@ ToInteger(Class destinationClass, const ArrayOf& A)
     case NLS_HANDLE: {
         Error(_W("Conversion to '") + destType + _W("' from handle is not possible."));
     } break;
+    case NLS_STRING_ARRAY: {
+        Error(_W("Conversion to '") + destType + _W("' from string is not possible."));
+    } break;
     case NLS_CELL_ARRAY: {
         Error(_W("Conversion to '") + destType + _W("' from cell is not possible."));
     } break;

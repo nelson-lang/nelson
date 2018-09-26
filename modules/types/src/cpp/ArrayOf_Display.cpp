@@ -106,6 +106,35 @@ outputSinglePrecisionFloat(char* buf, single num)
     buf[17] = 0;
 }
 //=============================================================================
+void
+ArrayOf::summarizeStringArray(Interface* io) const
+{
+    if (isEmpty()) {
+        if (isCharacterArray()) {
+            io->outputMessage("\"\"");
+		} else {
+            io->outputMessage("<missing>");
+        }
+    } else {
+        if (dp->dataClass == NLS_CHAR) {
+            Dimensions dims = dp->dimensions;
+            if (dims.isRowVector()) {
+                if (dims.getColumns() < (indexType)(io->getTerminalWidth() - 3)) {
+                    std::wstring str = getContentAsWideString();
+                    str = L"\"" + str + L"\"";
+                    io->outputMessage(str);
+                    return;
+                }
+            }
+            io->outputMessage("[");
+            dp->dimensions.printMe(io);
+            io->outputMessage(" string]");
+        } else {
+            Error(_W("character array expected."));
+        }
+    }
+}
+//=============================================================================
 /**
  * Print this object when it is an element of a cell array.  This is
  * generally a shorthand summary of the description of the object.
@@ -126,7 +155,12 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             dp->dimensions.printMe(io);
             io->outputMessage(" cell }");
             break;
-        case NLS_STRUCT_ARRAY:
+        case NLS_STRING_ARRAY:
+            io->outputMessage("[");
+            dp->dimensions.printMe(io);
+            io->outputMessage(" string ]");
+            break;
+		case NLS_STRUCT_ARRAY:
             io->outputMessage(" ");
             dp->dimensions.printMe(io);
             if (dp->getStructTypeName() == NLS_FUNCTION_HANDLE_STR) {
@@ -459,6 +493,14 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
             ap[num].summarizeCellEntry(io);
         }
     }
+    case NLS_STRING_ARRAY: {
+        ArrayOf* ap = (ArrayOf*)dp;
+        if (ap == nullptr) {
+            io->outputMessage("[]");
+        } else {
+            ap[num].summarizeStringArray(io);
+        }
+    }
     }
 }
 //=============================================================================
@@ -538,6 +580,10 @@ ArrayOf::printMe(Interface* io) const
         break;
     case NLS_STRUCT_ARRAY:
         io->outputMessage("  <struct> ");
+        nominalWidth = 10;
+        break;
+    case NLS_STRING_ARRAY:
+        io->outputMessage("  <string> ");
         nominalWidth = 10;
         break;
     }
@@ -683,7 +729,7 @@ ArrayOf::printMe(Interface* io) const
             }
         }
     }
-}
+} 
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

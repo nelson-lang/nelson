@@ -154,6 +154,7 @@ ComplexConstructor(ArrayOf arrayA)
     } break;
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
+    case NLS_STRING_ARRAY:
     case NLS_STRUCT_ARRAY:
     case NLS_CHAR:
     case NLS_LOGICAL:

@@ -454,7 +454,10 @@ ArrayOf::toOrdinalType()
     case NLS_CELL_ARRAY: {
         Error(_W("Cannot convert cell arrays to indices."));
     } break;
-    case NLS_STRUCT_ARRAY: {
+    case NLS_STRING_ARRAY: {
+        Error(_W("Cannot convert string arrays to indices."));
+    } break;
+	case NLS_STRUCT_ARRAY: {
         Error(_W("Cannot convert structure arrays to indices."));
     } break;
     }
@@ -861,7 +864,9 @@ ArrayOf::getElementSize() const
     switch (dp->dataClass) {
     case NLS_HANDLE:
         return sizeof(nelson_handle);
-    case NLS_CELL_ARRAY:
+    case NLS_STRING_ARRAY:
+        return sizeof(ArrayOf);
+	case NLS_CELL_ARRAY:
         return sizeof(ArrayOf);
     case NLS_STRUCT_ARRAY:
         return (sizeof(ArrayOf) * dp->fieldNames.size());
@@ -998,6 +1003,7 @@ ArrayOf::testCaseMatchScalar(ArrayOf x) const
     bool retval = false;
     switch (x.dp->dataClass) {
     case NLS_CELL_ARRAY:
+    case NLS_STRING_ARRAY:
     case NLS_CHAR:
     case NLS_HANDLE:
     case NLS_STRUCT_ARRAY:
@@ -1040,7 +1046,7 @@ ArrayOf::testForCaseMatch(ArrayOf x) const
     if (x.isScalar() || x.isColonVectorCharacterArray()) {
         return testCaseMatchScalar(x);
     }
-    if (x.dp->dataClass != NLS_CELL_ARRAY) {
+    if (x.dp->dataClass != NLS_CELL_ARRAY && x.dp->dataClass != NLS_STRING_ARRAY) {
         Error(_W("Case arguments must either be a scalar or a cell array"));
     }
     const ArrayOf* qp = (const ArrayOf*)x.dp->getData();
@@ -1113,13 +1119,14 @@ ArrayOf::isColumnVector() const
 }
 //=============================================================================
 /**
- * Returns TRUE if we are a reference type (cell array or
- * struct array).
+ * Returns TRUE if we are a reference type (cell array, string array,
+ * struct array, or handle).
  */
 bool
 ArrayOf::isReferenceType() const
 {
-    return (dp->dataClass == NLS_STRUCT_ARRAY) || (dp->dataClass == NLS_CELL_ARRAY);
+    return (dp->dataClass == NLS_STRUCT_ARRAY) || (dp->dataClass == NLS_CELL_ARRAY)
+        || (dp->dataClass == NLS_STRING_ARRAY) || (dp->dataClass == NLS_HANDLE);
 }
 //=============================================================================
 /**
@@ -1181,6 +1188,7 @@ ArrayOf::allReal() const
     } break;
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
+    case NLS_STRING_ARRAY:
     case NLS_STRUCT_ARRAY:
     default: {
         res = false;
@@ -1197,6 +1205,13 @@ ArrayOf::copyElements(indexType srcIndex, void* dstPtr, indexType dstIndex, inde
         Error(_W("copyElements not supported for sparse arrays."));
     }
     switch (dp->dataClass) {
+    case NLS_STRING_ARRAY: {
+        const ArrayOf* sp = (const ArrayOf*)dp->getData();
+        ArrayOf* qp = (ArrayOf*)dstPtr;
+        for (indexType i = 0; i < count; i++) {
+            qp[dstIndex + i] = sp[srcIndex + i];
+        }
+    } break;
     case NLS_CELL_ARRAY: {
         const ArrayOf* sp = (const ArrayOf*)dp->getData();
         ArrayOf* qp = (ArrayOf*)dstPtr;
@@ -1368,7 +1383,13 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         } else {
             Error(_W("Cannot convert cell-arrays to any other type."));
         }
-    // Structure arrays can be promoted to structure arrays with different
+    if (dp->dataClass == NLS_STRING_ARRAY)
+        if (dstClass == NLS_STRING_ARRAY) {
+            return;
+        } else {
+            Error(_W("Cannot convert string-arrays to any other type."));
+        }
+	// Structure arrays can be promoted to structure arrays with different
     // field structures, but have to be rearranged.
     if (dp->dataClass == NLS_STRUCT_ARRAY)
         if (dstClass == NLS_STRUCT_ARRAY) {
@@ -1426,7 +1447,8 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
             Error(_W("Cannot convert struct-arrays to any other type."));
         }
     // Catch attempts to convert data types to reference types.
-    if ((dstClass == NLS_CELL_ARRAY) || (dstClass == NLS_STRUCT_ARRAY)) {
+    if ((dstClass == NLS_STRING_ARRAY) || (dstClass == NLS_CELL_ARRAY)
+        || (dstClass == NLS_STRUCT_ARRAY)) {
         Error(_W("Cannot convert base types to reference types."));
     }
     // Do nothing for promoting to same class (no-op).
@@ -1971,7 +1993,7 @@ ArrayOf::isNumeric() const
 bool
 ArrayOf::isDataClassReferenceType(Class cls)
 {
-    return (cls == NLS_CELL_ARRAY || cls == NLS_STRUCT_ARRAY);
+    return (cls == NLS_CELL_ARRAY || cls == NLS_STRUCT_ARRAY || cls == NLS_STRING_ARRAY);
 }
 //=============================================================================
 template <class T>
@@ -2034,7 +2056,9 @@ ArrayOf::nzmax()
         return numel();
     case NLS_CELL_ARRAY:
         Error(_W("Undefined function 'nzmax' for input arguments of type 'cell'."));
-    case NLS_STRUCT_ARRAY:
+    case NLS_STRING_ARRAY:
+        Error(_W("Undefined function 'nzmax' for input arguments of type 'string'."));
+	case NLS_STRUCT_ARRAY:
         Error(_W("Undefined function 'nzmax' for input arguments of type 'struct'."));
     default:
         Error(_W("Undefined function 'nzmax' for input arguments."));
@@ -2084,6 +2108,8 @@ ArrayOf::nnz()
         return DoCountNNZComplex<double>(dp->getData(), getLength());
     case NLS_CELL_ARRAY:
         Error(_W("Undefined function 'nnz' for input arguments of type 'cell'."));
+    case NLS_STRING_ARRAY:
+        Error(_W("Undefined function 'nnz' for input arguments of type 'string'."));
     case NLS_STRUCT_ARRAY:
         Error(_W("Undefined function 'nnz' for input arguments of type 'struct'."));
     default:

@@ -57,6 +57,12 @@ Nelson::SparseGateway::nzmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         case NLS_DCOMPLEX:
             retval.push_back(ArrayOf::doubleConstructor((double)R.nzmax()));
             break;
+        case NLS_STRING_ARRAY:
+            retval = OverloadFunction(eval, nLhs, argIn, "nzmax", bSuccess);
+            if (!bSuccess) {
+                Error(_W("Undefined function 'nzmax' for input arguments of type 'string'."));
+            }
+            return retval;
         case NLS_CELL_ARRAY:
             retval = OverloadFunction(eval, nLhs, argIn, "nzmax", bSuccess);
             if (!bSuccess) {

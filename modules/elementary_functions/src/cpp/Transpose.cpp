@@ -148,6 +148,7 @@ Transpose(const ArrayOf& A, bool& needToOverload)
         matTransposed = matOrigin.transpose().eval();
     } break;
     case NLS_STRUCT_ARRAY:
+    case NLS_STRING_ARRAY:
     case NLS_CELL_ARRAY: {
         Dimensions dimsA = A.getDimensions();
         indexType rowCount = dimsA[0];

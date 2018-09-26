@@ -131,6 +131,7 @@ ToChar(const ArrayOf& A, bool& needToOverload)
     ArrayOf res;
     needToOverload = false;
     switch (A.getDataClass()) {
+    case NLS_STRING_ARRAY: 
     case NLS_CELL_ARRAY: {
         ArrayOfVector V;
         ArrayOf* arg = (ArrayOf*)(A.getDataPointer());

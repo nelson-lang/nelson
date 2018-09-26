@@ -1167,13 +1167,42 @@ public:
      */
     indexType
     getMaxAsIndex();
-};
 
+	//=========================================================================
+    // string array
+    //=========================================================================
+    const bool
+    isStringArray() const;
+
+    const bool
+    isNdArrayString() const;
+
+    static ArrayOf
+    stringArrayConstructor(const std::string& value);
+
+    static ArrayOf
+    stringArrayConstructor(const std::wstring& value);
+
+    static ArrayOf
+    stringArrayConstructor(const stringVector values, Dimensions dims);
+
+    static ArrayOf
+    stringArrayConstructor(const wstringVector values, Dimensions dims);
+
+	/**
+     * Summarize String array.
+     */
+    void
+    summarizeStringArray(Interface* io) const;
+    //=========================================================================
+};
+//=========================================================================
 bool
 isColonOperator(const ArrayOf& a);
-
+//=========================================================================
 constIndexPtr*
 ProcessNDimIndexes(bool preserveColons, Dimensions &dims, ArrayOfVector& index, bool& anyEmpty,
     int& colonIndex, Dimensions& outDims, bool argCheck);
-
+//=========================================================================
 } // namespace Nelson
+//=========================================================================

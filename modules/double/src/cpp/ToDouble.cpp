@@ -43,7 +43,10 @@ ToDouble(ArrayOf A)
     case NLS_HANDLE: {
         Error(_W("Conversion to double from handle is not possible."));
     } break;
-    case NLS_CELL_ARRAY: {
+    case NLS_STRING_ARRAY: {
+        Error(_W("Conversion to double from string is not possible."));
+    } break;
+	case NLS_CELL_ARRAY: {
         Error(_W("Conversion to double from cell is not possible."));
     } break;
     case NLS_STRUCT_ARRAY: {

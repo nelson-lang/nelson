@@ -16,8 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "characters_encoding.hpp"
 #include "nlsInterpreter_exports.h"
+#include "characters_encoding.hpp"
 #include <ctype.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -29,7 +29,6 @@
 #include "i18n.hpp"
 #define YYSTYPE Nelson::ParseRHS
 
-#include "Error.hpp"
 #include "Exception.hpp"
 #include "FileParser.hpp"
 #include "Keywords.hpp"
@@ -60,7 +59,7 @@ int bracketStackSize;
 int vcStack[DEFAULT_BUFFER_SIZE_LEXER];
 int vcStackSize;
 int vcFlag;
-
+//=============================================================================
 /*
  * These variables capture the token information
  */
@@ -156,8 +155,8 @@ testSpecialFuncs()
     // dir c:/Windows
     // dir ('c:/Windows')
     // dir('c:/Windows')
-    // FIXME - this should check the current context to see if any of these have
-    // been masked or assigned
+    // FIXME - this should check the current context to see if any of these have been
+    // masked or assigned
     /*
     bool test1 = ((strncmp(datap, "cd ", 3) == 0) ||
                   (strncmp(datap, "ls ", 3) == 0) ||
@@ -170,8 +169,7 @@ testSpecialFuncs()
     if (test1) {
         return test1;
     }
-    // Check for non-keyword identifier followed by whitespace followed by
-    // alphanum
+    // Check for non-keyword identifier followed by whitespace followed by alphanum
     char keyword[IDENTIFIER_LENGTH_MAX + 1];
     char* cp = datap;
     while (isalnum(*cp)) {
@@ -297,14 +295,14 @@ discardChar()
 }
 //=============================================================================
 inline int
-testStringTerm()
+testCharacterArrayTerm()
 {
     return ((datap[0] == '\n') || (datap[0] == '\r') || (datap[0] == ';') || (datap[0] == ',')
         || (datap[0] == ' '));
 }
 //=============================================================================
 void
-lexUntermString()
+lexUntermCharacterArray()
 {
     char stringval[IDENTIFIER_LENGTH_MAX + 1];
     char* strptr;
@@ -315,25 +313,58 @@ lexUntermString()
         lexState = Scanning;
         return;
     }
-    while (!testStringTerm()) {
+    while (!testCharacterArrayTerm()) {
         *strptr++ = currentChar();
         discardChar();
     }
     *strptr++ = '\0';
     setTokenType(STRING);
     tokenValue.isToken = false;
-    tokenValue.v.p = allocateAbstractSyntaxTree(string_const_node, stringval, (int)ContextInt());
+    tokenValue.v.p
+        = allocateAbstractSyntaxTree(const_character_array_node, stringval, (int)ContextInt());
 #ifdef LEXDEBUG
     printf("Untermed string %s\r\n", stringval);
 #endif
-    //   if ((datap[0] == ';') || (datap[0] == '\r') || (datap[0] == ',') ||
-    //   (datap[0] == '\n'))
+    //   if ((datap[0] == ';') || (datap[0] == '\r') || (datap[0] == ',') || (datap[0] == '\n'))
     //     lexState = Scanning;
     lexState = Scanning;
 }
 //=============================================================================
 void
 lexString()
+{
+    char stringval[IDENTIFIER_LENGTH_MAX + 1];
+    memset(stringval, 0, IDENTIFIER_LENGTH_MAX + 1);
+    char* strptr = stringval;
+    discardChar();
+    int curchar = currentChar();
+    char ch = datap[1];
+    while ((curchar != '"') || ((curchar == '"') && (ch == '"')) && !testNewline()) {
+        if ((currentChar() == '"') && (ch == '"')) {
+            discardChar();
+        }
+        *strptr++ = curchar;
+        discardChar();
+        curchar = currentChar();
+        if (strlen(datap) > 1) {
+            ch = datap[1];
+        } else {
+            break;
+        }
+    }
+    if (testNewline()) {
+        LexerException(_("unterminated string").c_str());
+    }
+    discardChar();
+    *strptr++ = '\0';
+    setTokenType(STRING);
+    tokenValue.isToken = false;
+    tokenValue.v.p = allocateAbstractSyntaxTree(const_string_node, stringval, (int)ContextInt());
+    return;
+}
+//=============================================================================
+void
+lexCharacterArray()
 {
     char stringval[IDENTIFIER_LENGTH_MAX + 1];
     memset(stringval, 0, IDENTIFIER_LENGTH_MAX + 1);
@@ -355,16 +386,17 @@ lexString()
         }
     }
     if (testNewline()) {
-        LexerException(_("unterminated string").c_str());
+        LexerException(_("unterminated character array").c_str());
     }
     discardChar();
     *strptr++ = '\0';
     setTokenType(STRING);
     tokenValue.isToken = false;
-    tokenValue.v.p = allocateAbstractSyntaxTree(string_const_node, stringval, (int)ContextInt());
+    tokenValue.v.p
+        = allocateAbstractSyntaxTree(const_character_array_node, stringval, (int)ContextInt());
     return;
 }
-//=============================================================================
+
 void
 lexIdentifier()
 {
@@ -610,6 +642,10 @@ lexScanningState()
         NextLine();
         return;
     }
+    if (currentChar() == '\"') {
+        lexString();
+        return;
+    }
     if (currentChar() == '\'')
         if ((previousChar() == ')') || (previousChar() == ']') || (previousChar() == '}')
             || (isalnum(previousChar()))) {
@@ -618,7 +654,7 @@ lexScanningState()
             discardChar();
             return;
         } else {
-            lexString();
+            lexCharacterArray();
             return;
         }
     if (isWhitespace()) {
@@ -791,7 +827,7 @@ yylexDoLex()
         lexScanningState();
         break;
     case SpecScan:
-        lexUntermString();
+        lexUntermCharacterArray();
         break;
     }
 }
@@ -816,9 +852,8 @@ yylexScreen()
                 || ((currentChar() == '.') && (_isDigit(datap[1])))
                 || (strncmp(datap, "...", 3) == 0)) {
                 /*
-                   OK - now we have to decide if the "+/-" are infix or prefix
-                   operators... In fact, this decision alone is the reason for this
-                   whole lexer.
+                   OK - now we have to decide if the "+/-" are infix or prefix operators...
+                   In fact, this decision alone is the reason for this whole lexer.
                 */
                 if ((currentChar() == '+') || (currentChar() == '-')) {
                     /* If we are inside a parenthetical, we never insert virtual commas */
@@ -859,7 +894,6 @@ yylex()
 }
 //=============================================================================
 namespace Nelson {
-//=============================================================================
 void
 setLexBuffer(const std::string& buffer)
 {
@@ -876,7 +910,7 @@ setLexBuffer(const std::string& buffer)
     }
     linestart = datap;
     lineNumber = 0;
-}
+} 
 //=============================================================================
 void
 setLexBuffer(const std::wstring& buffer)
@@ -923,7 +957,8 @@ lexCheckForMoreInput(int ccount)
                    && ((bracketStack[bracketStackSize - 1] == '[')
                           || (bracketStack[bracketStackSize - 1] == '{')))
             || inBlock);
-    } catch (const Exception&) {
+    } catch (Exception& e) {
+        e.what();
         continuationCount = 0;
         return false;
     }

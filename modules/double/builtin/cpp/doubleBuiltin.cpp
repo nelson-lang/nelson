@@ -45,6 +45,13 @@ Nelson::DoubleGateway::doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
             }
             Error(_W("Conversion to double from handle is not possible."));
         } break;
+        case NLS_STRING_ARRAY: {
+            retval = OverloadFunction(eval, nLhs, argIn, "double", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+            Error(_W("Conversion to double from string is not possible."));
+		} break;
         case NLS_CELL_ARRAY: {
             retval = OverloadFunction(eval, nLhs, argIn, "double", bSuccess);
             if (bSuccess) {

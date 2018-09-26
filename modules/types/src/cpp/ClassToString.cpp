@@ -32,6 +32,9 @@ ClassToString(Class classType)
     case NLS_CELL_ARRAY: {
         classString = utf8_to_wstring(NLS_CELL_ARRAY_STR);
     } break;
+    case NLS_STRING_ARRAY: {
+        classString = utf8_to_wstring(NLS_STRING_ARRAY_STR);
+    } break;
     case NLS_STRUCT_ARRAY: {
         classString = utf8_to_wstring(NLS_STRUCT_ARRAY_STR);
     } break;
