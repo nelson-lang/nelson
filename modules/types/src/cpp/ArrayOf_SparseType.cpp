@@ -26,6 +26,9 @@ namespace Nelson {
 bool
 ArrayOf::isSparse() const
 {
+    if (dp == nullptr) {
+        return false;
+    }
     return (dp->sparse);
 }
 //=============================================================================

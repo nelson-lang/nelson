@@ -457,7 +457,7 @@ ArrayOf::toOrdinalType()
     case NLS_STRING_ARRAY: {
         Error(_W("Cannot convert string arrays to indices."));
     } break;
-	case NLS_STRUCT_ARRAY: {
+    case NLS_STRUCT_ARRAY: {
         Error(_W("Cannot convert structure arrays to indices."));
     } break;
     }
@@ -611,7 +611,7 @@ ArrayOf::setDataPointer(void* rp)
 }
 //=============================================================================
 void
-ArrayOf::scalarToMatrix(Dimensions &newDimensions)
+ArrayOf::scalarToMatrix(Dimensions& newDimensions)
 {
     if (isSparse()) {
         Error(_W("Sparse not supported."));
@@ -861,12 +861,15 @@ ArrayOf::getDataClass() const
 indexType
 ArrayOf::getElementSize() const
 {
+    if (dp == nullptr) {
+        Error(_W("Invalid data class."));
+    }
     switch (dp->dataClass) {
     case NLS_HANDLE:
         return sizeof(nelson_handle);
     case NLS_STRING_ARRAY:
         return sizeof(ArrayOf);
-	case NLS_CELL_ARRAY:
+    case NLS_CELL_ARRAY:
         return sizeof(ArrayOf);
     case NLS_STRUCT_ARRAY:
         return (sizeof(ArrayOf) * dp->fieldNames.size());
@@ -1389,7 +1392,7 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
         } else {
             Error(_W("Cannot convert string-arrays to any other type."));
         }
-	// Structure arrays can be promoted to structure arrays with different
+    // Structure arrays can be promoted to structure arrays with different
     // field structures, but have to be rearranged.
     if (dp->dataClass == NLS_STRUCT_ARRAY)
         if (dstClass == NLS_STRUCT_ARRAY) {
@@ -2058,7 +2061,7 @@ ArrayOf::nzmax()
         Error(_W("Undefined function 'nzmax' for input arguments of type 'cell'."));
     case NLS_STRING_ARRAY:
         Error(_W("Undefined function 'nzmax' for input arguments of type 'string'."));
-	case NLS_STRUCT_ARRAY:
+    case NLS_STRUCT_ARRAY:
         Error(_W("Undefined function 'nzmax' for input arguments of type 'struct'."));
     default:
         Error(_W("Undefined function 'nzmax' for input arguments."));
@@ -2142,7 +2145,7 @@ isColonOperator(const ArrayOf& A)
  * are expanded out into vectors).
  */
 constIndexPtr*
-ProcessNDimIndexes(bool preserveColons, Dimensions &dims, ArrayOfVector& index, bool& anyEmpty,
+ProcessNDimIndexes(bool preserveColons, Dimensions& dims, ArrayOfVector& index, bool& anyEmpty,
     int& colonIndex, Dimensions& outDims, bool argCheck)
 {
     indexType L = index.size();

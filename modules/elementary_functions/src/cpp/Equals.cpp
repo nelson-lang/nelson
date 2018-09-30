@@ -88,6 +88,10 @@ ArrayOf
 Equals(ArrayOf& A, ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
+    if (A.isReferenceType() || B.isReferenceType()) {
+        needToOverload = true;
+        return ArrayOf();
+    }
     Class classCommon = FindCommonType(A, B, false);
     A.promoteType(classCommon);
     B.promoteType(classCommon);

@@ -514,12 +514,23 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         } else if (!isEmpty() && (rightData.getLength() == dataCount)) {
             advance = 1;
         } else if (!isEmpty())
-            Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
+            if (isStringArray() && rightData.isCharacterArray()
+                && rightData.isRowVector()) {
+                advance = 0;
+            } else {
+                Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
+            }
         else {
             advance = 1;
         }
+        if (isStringArray()) {
+            bool needToOverload = false;
+            ArrayOf promute = ArrayOf::toStringArray(rightData, needToOverload);
+            if (needToOverload) {
+            }
+            rightData = promute;
 
-        if (!isEmpty() && (rightData.getDataClass() == NLS_STRUCT_ARRAY)
+        } else if (!isEmpty() && (rightData.getDataClass() == NLS_STRUCT_ARRAY)
             && (getDataClass() == NLS_STRUCT_ARRAY)) {
             if (rightData.dp->fieldNames.size() > dp->fieldNames.size())
                 promoteType(NLS_STRUCT_ARRAY, rightData.dp->fieldNames);
@@ -715,7 +726,9 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
     if (rightData.isSparse()) {
         rightData.makeDense();
     }
-    if (rightData.isScalar()) {
+    if (isStringArray() && (rightData.isCharacterArray() && rightData.isRowVector())) {
+        advance = 0;
+    } else if (rightData.isScalar())  {
         advance = 0;
     } else if (rightData.getLength() == index_length) {
         advance = 1;
@@ -728,7 +741,14 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
     // force our type to agree with the inserted data.
     // Also, if we are empty, we promote ourselves (regardless of
     // our type).
-    if (!isEmpty() && (rightData.getDataClass() == NLS_STRUCT_ARRAY)
+    if (isStringArray()) {
+        bool needToOverload = false;
+        ArrayOf promute = ArrayOf::toStringArray(rightData, needToOverload);
+        if (needToOverload) {
+        }
+        rightData = promute;
+    }
+    else if (!isEmpty() && (rightData.getDataClass() == NLS_STRUCT_ARRAY)
         && (getDataClass() == NLS_STRUCT_ARRAY)) {
         if (rightData.dp->fieldNames.size() > dp->fieldNames.size())
             promoteType(NLS_STRUCT_ARRAY, rightData.dp->fieldNames);

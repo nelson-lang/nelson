@@ -30,7 +30,10 @@ namespace Nelson {
 bool
 ArrayOf::isCharacterArray() const
 {
-    return (dp->dataClass == NLS_CHAR) && (!dp->sparse);
+    if (dp) {
+        return (dp->dataClass == NLS_CHAR) && (!dp->sparse);
+    }
+    return false;
 }
 //=============================================================================
 bool
@@ -136,12 +139,17 @@ ArrayOf::getContentAsWideString(void) const
         str.assign(buffer);
         delete[] buffer;
     } else {
-        if (dp->dataClass != NLS_CHAR) {
-            Error(_W("Unable to convert supplied object to a string."));
-        }
-        if (!isRowVector()) {
-            Error(_W("Unable to convert supplied object to a single string."));
-        }
+        if (isStringArray() && isScalar()) {
+            ArrayOf* element = (ArrayOf*)getDataPointer();
+            return element[0].getContentAsWideString();
+        } else {
+            if ((dp == nullptr) || dp->dataClass != NLS_CHAR) {
+                Error(_W("Unable to convert supplied object to a string."));
+            }
+            if (!isRowVector()) {
+                Error(_W("Unable to convert supplied object to a single string."));
+            }
+		}
     }
     return str;
 }

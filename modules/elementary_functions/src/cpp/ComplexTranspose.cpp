@@ -26,7 +26,7 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
     Class classA = A.getDataClass();
-    if ((classA < NLS_LOGICAL || A.isSparse()) && !(A.isCell() || A.isStruct())) {
+    if ((classA < NLS_LOGICAL || A.isSparse()) && !(A.isCell() || A.isStruct() || A.isStringArray())) {
         needToOverload = true;
         return ArrayOf();
     }

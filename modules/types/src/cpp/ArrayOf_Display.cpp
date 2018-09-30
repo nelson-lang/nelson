@@ -492,6 +492,7 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
         } else {
             ap[num].summarizeCellEntry(io);
         }
+        break;
     }
     case NLS_STRING_ARRAY: {
         ArrayOf* ap = (ArrayOf*)dp;
@@ -500,6 +501,7 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
         } else {
             ap[num].summarizeStringArray(io);
         }
+        break;
     }
     }
 }
@@ -563,7 +565,7 @@ ArrayOf::printMe(Interface* io) const
         nominalWidth = 2;
         break;
     case NLS_CHAR:
-        io->outputMessage("  <string>  ");
+        io->outputMessage("  <char>  ");
         nominalWidth = 1;
         break;
     case NLS_SCOMPLEX:
@@ -654,18 +656,26 @@ ArrayOf::printMe(Interface* io) const
                 }
                 memset(msgBuffer, 0, MSGBUFLEN);
                 for (indexType i = 0; i < rows; i++) {
-                    snprintf(msgBuffer, MSGBUFLEN, " ");
+                    if (dp->dataClass == NLS_CHAR) {
+                        snprintf(msgBuffer, MSGBUFLEN, " '");
+                    } else {
+                        snprintf(msgBuffer, MSGBUFLEN, " ");
+                    }
                     io->outputMessage(msgBuffer);
                     memset(msgBuffer, 0, MSGBUFLEN);
                     for (indexType j = 0; j < colsInThisPage; j++) {
                         emitElement(
                             io, msgBuffer, ap, i + (k * colsPerPage + j) * rows, dp->dataClass);
-                        if (j < colsInThisPage - 1) {
+                        if ((j < colsInThisPage - 1) && dp->dataClass != NLS_CHAR) {
                             io->outputMessage(" ");
                         }
                         items_printed++;
                     }
-                    snprintf(msgBuffer, MSGBUFLEN, "\n");
+                    if (dp->dataClass == NLS_CHAR) {
+                        snprintf(msgBuffer, MSGBUFLEN, "'\n");
+                    } else {
+                        snprintf(msgBuffer, MSGBUFLEN, "\n");
+                    }
                     io->outputMessage(msgBuffer);
                     memset(msgBuffer, 0, MSGBUFLEN);
                 }

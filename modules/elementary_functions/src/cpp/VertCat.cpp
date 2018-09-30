@@ -126,13 +126,19 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
     }
     try {
         if (classCommon == NLS_STRING_ARRAY) {
-            if (!A.isCell()) {
-                A = ArrayOf::toCell(A);
-                A.promoteType(NLS_STRING_ARRAY);
+            if (!A.isStringArray()) {
+                bool needToOverload;
+                A = ArrayOf::toStringArray(A, needToOverload);
+                if (needToOverload) {
+                    Error(_W("Cannot promote to string array."));
+                }
             }
-            if (!B.isCell()) {
-                B = ArrayOf::toCell(B);
-                B.promoteType(NLS_STRING_ARRAY);
+            if (!B.isStringArray()) {
+                bool needToOverload;
+                B = ArrayOf::toStringArray(B, needToOverload);
+                if (needToOverload) {
+                    Error(_W("Cannot promote to string array."));
+                }
             }
         } else if (classCommon == NLS_CELL_ARRAY) {
             if (!A.isCell()) {

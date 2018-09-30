@@ -70,7 +70,25 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
         needToOverload = true;
         return false;
     }
-    bool isComplexA = A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX;
+    if (A.isStringArray() || B.isStringArray()) {
+        if (A.isStringArray() && B.isStringArray()) {
+            ArrayOf* elementA = (ArrayOf*)A.getDataPointer();
+            ArrayOf* elementB = (ArrayOf*)B.getDataPointer();
+            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+                bool res = IsEqual(elementA[k], elementB[k], sameTypes, withNaN, needToOverload);
+                if (needToOverload) {
+                    return false;
+                } else {
+                    if (!res) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        return false; 
+    }
+	bool isComplexA = A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX;
     bool isComplexB = B.getDataClass() == NLS_DCOMPLEX || B.getDataClass() == NLS_SCOMPLEX;
     bool isRealA = A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE;
     bool isRealB = B.getDataClass() == NLS_DOUBLE || B.getDataClass() == NLS_SINGLE;

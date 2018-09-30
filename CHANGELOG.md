@@ -1,3 +1,9 @@
+  * string array type added:
+    - strings, string builtin: string array constructor.
+    - isequal, isequaln, isequalto extended to manage string array.
+    - transpose, ctranspose extended to manage string array.
+    - horzcat, vertcat extended to manage string array.
+
   * internal API C++ methods renamed:
     - "stringConstructor" --> "characterArrayConstructor".
     - "isString" --> "isCharacterArray"

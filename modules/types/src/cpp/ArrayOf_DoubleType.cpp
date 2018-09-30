@@ -25,6 +25,9 @@ namespace Nelson {
 bool
 ArrayOf::isDoubleClass() const
 {
+    if (dp == nullptr) {
+        return false;
+    }
     return (dp->dataClass == NLS_DOUBLE || dp->dataClass == NLS_DCOMPLEX);
 }
 //=============================================================================

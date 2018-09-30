@@ -16,13 +16,39 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "stringBuiltin.hpp"
+#include "Error.hpp"
+#include "OverloadFunction.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsDouble_exports.h"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-NLSDOUBLE_IMPEXP ArrayOf
-ToDouble(ArrayOf A, bool &needToOverload);
+ArrayOfVector
+Nelson::StringGateway::stringBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (argIn.size() > 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (argIn.size() == 0) {
+        retval.push_back(ArrayOf::stringArrayConstructor(std::string("")));
+    } else {
+        bool bSuccess = false;
+        if (eval->mustOverloadBasicTypes()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "string", bSuccess);
+        }
+        if (!bSuccess) {
+            bool needToOverload = false;
+            ArrayOf res = ArrayOf::toStringArray(argIn[0], needToOverload);
+            if (needToOverload) {
+                retval = OverloadFunction(eval, nLhs, argIn, "string");
+            } else {
+                retval.push_back(res);
+			}
+        }
+    }
+    return retval;
 }
 //=============================================================================

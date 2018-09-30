@@ -6,23 +6,30 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+assert_isequal(nargin('string'), 1);
+assert_isequal(nargout('string'), 1);
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsDouble_exports.h"
+R = string({1,2;3,4});
+REF = ["1", "2"; "3", "4"];
+assert_isequal(R, REF);
 //=============================================================================
-namespace Nelson {
-NLSDOUBLE_IMPEXP ArrayOf
-ToDouble(ArrayOf A, bool &needToOverload);
-}
+assert_checkerror('R = string({[1, 2],2;3,4})', _('Unable to convert supplied object to a string.'));
+//=============================================================================
+R = string([1 2 NaN Inf]);
+REF = ["1", "2", string(NaN), "Inf"];
+assert_isequal(R, REF);
+//=============================================================================
+R = string(inv(3));
+REF = "0.3333";
+assert_isequal(R, REF);
 //=============================================================================

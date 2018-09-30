@@ -36,44 +36,12 @@ Nelson::DoubleGateway::doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         retval = OverloadFunction(eval, nLhs, argIn, "double", bSuccess);
     }
     if (!bSuccess) {
-        switch (argIn[0].getDataClass()) {
-
-        case NLS_HANDLE: {
-            retval = OverloadFunction(eval, nLhs, argIn, "double", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-            Error(_W("Conversion to double from handle is not possible."));
-        } break;
-        case NLS_STRING_ARRAY: {
-            retval = OverloadFunction(eval, nLhs, argIn, "double", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-            Error(_W("Conversion to double from string is not possible."));
-		} break;
-        case NLS_CELL_ARRAY: {
-            retval = OverloadFunction(eval, nLhs, argIn, "double", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-            Error(_W("Conversion to double from cell is not possible."));
-        } break;
-        case NLS_STRUCT_ARRAY: {
-            retval = OverloadFunction(eval, nLhs, argIn, "double", bSuccess);
-            if (bSuccess) {
-                return retval;
-            }
-            if (argIn[0].getStructType() != "struct") {
-                Error(_("Undefined function 'double' for input arguments of type '")
-                    + argIn[0].getStructType() + "'.");
-            } else {
-                Error(_W("Conversion to double from struct is not possible."));
-            }
-        } break;
-        default:
-            retval.push_back(ToDouble(argIn[0]));
-            break;
+        bool needToOverload;
+        ArrayOf res = ToDouble(argIn[0], needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "double");
+        } else {
+            retval.push_back(res);
         }
     }
     return retval;

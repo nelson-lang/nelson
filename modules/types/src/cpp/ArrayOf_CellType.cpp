@@ -183,7 +183,7 @@ ArrayOfVector
 ArrayOf::getVectorContentsAsList(ArrayOf& index)
 {
     ArrayOfVector m;
-    if (!this->isCell()) {
+    if (!this->isCell() && !this->isStringArray()) {
         Error(_W("Attempt to apply contents-indexing to non cell-array object."));
     }
     if (isSparse()) {
@@ -226,8 +226,9 @@ ArrayOf::getVectorContentsAsList(ArrayOf& index)
 ArrayOfVector
 ArrayOf::getNDimContentsAsList(ArrayOfVector& index)
 {
-    if (!this->isCell()) {
-        Error(_W("Attempt to apply contents-indexing to non cell-array object."));
+    bool isStringArray = this->isStringArray();
+    if (!this->isCell() && !isStringArray) {
+        Error(_W("Attempt to apply contents-indexing to non cell or string array object."));
     }
     if (isSparse()) {
         Error(_W("getNDimContentsAsList not supported for sparse arrays."));
@@ -265,6 +266,11 @@ ArrayOf::getNDimContentsAsList(ArrayOfVector& index)
             currentIndex[i] = indx[i][argPointer[i]] - 1;
         }
         srcindex = dp->dimensions.mapPoint(currentIndex);
+        if (isStringArray) {
+            if (!qp[srcindex].isCharacterArray()) {
+                Error(_W("Conversion from <missing> to character vector is not supported."));
+            }
+        }
         m.push_back(qp[srcindex]);
         argPointer.incrementModulo(outDims, 0);
     }
@@ -353,7 +359,12 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
     if (isSparse()) {
         Error(_W("setVectorContentsAsList not supported for sparse arrays."));
     }
-    promoteType(NLS_CELL_ARRAY);
+    bool asStringArray = (getDataClass() == NLS_STRING_ARRAY);
+    if (asStringArray) {
+        promoteType(NLS_STRING_ARRAY);
+    } else {
+        promoteType(NLS_CELL_ARRAY);
+    }
     index.toOrdinalType();
     if ((indexType)data.size() < index.getLength()) {
         Error(_W("Not enough right hand side values to satisy left hand side expression."));
@@ -371,9 +382,23 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
     // Copy in the data
     for (indexType i = 0; i < index_length; i++) {
         indexType ndx = index_p[i] - 1;
-        qp[ndx] = data.front();
-        //      data.pop_front();
-        data.erase(data.begin());
+        
+            if (asStringArray) {
+            if (data.front().isCharacterArray() && data.front().isRowVector()) {
+                    qp[ndx] = data.front();
+            } else {
+                if (data.front().isDoubleType(true) && data.front().isEmpty(true)) {
+                    qp[ndx] = data.front();
+                } else {
+                    Error(_W("{} assignment expects a character vector."));
+                }
+            }
+            } else {
+                qp[ndx] = data.front();
+            }
+
+
+		data.erase(data.begin());
     }
     dp->dimensions.simplify();
 }
@@ -388,11 +413,15 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
     if (isSparse()) {
         Error(_W("setNDimContentsAsList not supported for sparse arrays."));
     }
-    promoteType(NLS_CELL_ARRAY);
+    bool asStringArray = (getDataClass() == NLS_STRING_ARRAY);
+    if (asStringArray) {
+        promoteType(NLS_STRING_ARRAY);
+    } else {
+        promoteType(NLS_CELL_ARRAY);
+    }
     indexType L = index.size();
     // Convert the indexing variables into an ordinal type.
-    indexType i;
-    for (i = 0; i < L; i++) {
+    for (indexType i = 0; i < L; i++) {
         index[i].toOrdinalType();
     }
     // Set up data pointers
@@ -401,7 +430,7 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
         Dimensions a(L);
         // First, we compute the maximum along each dimension.
         // We also get pointers to each of the index pointers.
-        for (i = 0; i < L; i++) {
+        for (indexType i = 0; i < L; i++) {
             a[i] = index[i].getMaxAsIndex();
             indx[i] = (constIndexPtr)index[i].dp->getData();
         }
@@ -409,7 +438,7 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
         Dimensions argLengths(L);
         Dimensions argPointer(L);
         indexType dataCount = 1;
-        for (i = 0; i < L; i++) {
+        for (indexType i = 0; i < L; i++) {
             argLengths[i] = index[i].getLength();
             dataCount *= argLengths[i];
         }
@@ -425,12 +454,25 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
         Dimensions currentIndex(dp->dimensions.getLength());
         indexType j;
         while (argPointer.inside(argLengths)) {
-            for (i = 0; i < L; i++) {
+            for (indexType i = 0; i < L; i++) {
                 currentIndex[i] = (indexType)indx[i][argPointer[i]] - 1;
             }
             j = dp->dimensions.mapPoint(currentIndex);
-            qp[j] = data.front();
-            //	data.pop_front();
+            if (asStringArray) {
+                if (data.front().isCharacterArray() && data.front().isRowVector()) {
+                    qp[j] = data.front();
+                } else {
+                    if (data.front().isDoubleType(true) && data.front().isEmpty(true)) {
+                        qp[j] = data.front();
+                    } else {
+                        Error(_W("{} assignment expects a character vector."));
+                    }
+                    
+                }
+            } else {
+                qp[j] = data.front();
+            }
+
             data.erase(data.begin());
             argPointer.incrementModulo(argLengths, 0);
         }

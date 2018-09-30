@@ -1194,7 +1194,14 @@ public:
      */
     void
     summarizeStringArray(Interface* io) const;
-    //=========================================================================
+
+    /**
+     * Converts a variable to a string array with the content
+     * if m is a string array returned value is m
+     */
+    static ArrayOf
+    toStringArray(ArrayOf m, bool &needToOverload);
+	//=========================================================================
 };
 //=========================================================================
 bool
