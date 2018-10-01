@@ -37,7 +37,7 @@ Negate(ArrayOf A)
         Error(L"Cannot negate non-numeric types.");
     }
     Aclass = A.getDataClass();
-    if (A.isColonVectorCharacterArray()) {
+    if (A.isRowVectorCharacterArray()) {
         Aclass = NLS_DOUBLE;
     } else if (Aclass < NLS_INT32) {
         Aclass = NLS_INT32;

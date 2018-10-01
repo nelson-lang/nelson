@@ -35,7 +35,7 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (argIn.size() == 1) {
-        if (argIn[0].isColonVectorCharacterArray()) {
+        if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring argstr = argIn[0].getContentAsWideString();
             if ((argstr.compare(L"fullpath") == 0) || (argstr.compare(L"fullpathext") == 0)) {
                 if (argstr.compare(L"fullpath") == 0) {

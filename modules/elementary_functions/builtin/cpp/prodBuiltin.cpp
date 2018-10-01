@@ -57,7 +57,7 @@ Nelson::ElementaryFunctionsGateway::prodBuiltin(
         } break;
         case 2: {
             ArrayOf param2 = argIn[1];
-            if (param2.isColonVectorCharacterArray()) {
+            if (param2.isRowVectorCharacterArray()) {
                 std::wstring wstr = param2.getContentAsWideString();
                 if ((wstr == L"double") || (wstr == L"native") || (wstr == L"default")) {
                     strtype = wstr;
@@ -77,7 +77,7 @@ Nelson::ElementaryFunctionsGateway::prodBuiltin(
         case 3: {
             ArrayOf param2 = argIn[1];
             ArrayOf param3 = argIn[2];
-            if (param2.isColonVectorCharacterArray()) {
+            if (param2.isRowVectorCharacterArray()) {
                 std::wstring wstr1 = param2.getContentAsWideString();
                 if ((wstr1 == L"double") || (wstr1 == L"native") || (wstr1 == L"default")) {
                     strtype = wstr1;

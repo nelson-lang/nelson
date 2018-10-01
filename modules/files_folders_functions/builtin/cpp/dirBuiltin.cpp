@@ -44,7 +44,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         }
     } break;
     case 2: {
-        if (!argIn[1].isColonVectorCharacterArray()) {
+        if (!argIn[1].isRowVectorCharacterArray()) {
             Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
         woption = argIn[1].getContentAsWideString();
@@ -55,7 +55,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         }
     }
     case 1: {
-        if (!argIn[0].isColonVectorCharacterArray()) {
+        if (!argIn[0].isRowVectorCharacterArray()) {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         wpath = argIn[0].getContentAsWideString();

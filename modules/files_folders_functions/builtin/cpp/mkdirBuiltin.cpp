@@ -33,13 +33,13 @@ Nelson::FilesFoldersGateway::mkdirBuiltin(Evaluator* eval, int nLhs, const Array
         std::wstring parentDir;
         std::wstring newDir;
         if (argIn.size() == 2) {
-            if (argIn[1].isColonVectorCharacterArray()) {
+            if (argIn[1].isRowVectorCharacterArray()) {
                 newDir = argIn[1].getContentAsWideString();
             } else {
                 Error(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
             }
         }
-        if (argIn[0].isColonVectorCharacterArray()) {
+        if (argIn[0].isRowVectorCharacterArray()) {
             parentDir = argIn[0].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

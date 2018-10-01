@@ -34,7 +34,7 @@ Nelson::FunctionHandleGateway::str2funcBuiltin(
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring wfunctionname;
-    if (argIn[0].isColonVectorCharacterArray()) {
+    if (argIn[0].isRowVectorCharacterArray()) {
         wfunctionname = argIn[0].getContentAsWideString();
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

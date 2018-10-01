@@ -47,7 +47,7 @@ Nelson::OsFunctionsGateway::computerBuiltin(Evaluator* eval, int nLhs, const Arr
         if (nLhs > 1) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
-        if (!argIn[0].isColonVectorCharacterArray()) {
+        if (!argIn[0].isRowVectorCharacterArray()) {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring warg = argIn[0].getContentAsWideString();

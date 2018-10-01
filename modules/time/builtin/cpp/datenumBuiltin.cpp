@@ -90,7 +90,7 @@ Nelson::TimeGateway::datenumBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 return retval;
             }
         } else {
-            if (param1.isColonVectorCharacterArray()) {
+            if (param1.isRowVectorCharacterArray()) {
                 std::wstring strdate = param1.getContentAsWideString();
                 bool bParsed;
                 res = DateNumber(strdate, bParsed);
@@ -105,7 +105,7 @@ Nelson::TimeGateway::datenumBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     case 2: {
         ArrayOf param1 = argIn[0];
         ArrayOf param2 = argIn[1];
-        if (param1.isColonVectorCharacterArray() && param2.isColonVectorCharacterArray()) {
+        if (param1.isRowVectorCharacterArray() && param2.isRowVectorCharacterArray()) {
             std::wstring datestr = param1.getContentAsWideString();
             std::wstring dateformat = param2.getContentAsWideString();
             bool bParsed = false;

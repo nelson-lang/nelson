@@ -32,7 +32,7 @@ static void
 checkArgument(Evaluator* eval, ArrayOf arg, bool& withCompleteNames, int& nbOmits,
     bool& isCompleteNames, bool& isNbOmits)
 {
-    if (arg.isColonVectorCharacterArray()) {
+    if (arg.isRowVectorCharacterArray()) {
         std::wstring str = arg.getContentAsWideString();
         if (str != L"-completenames") {
             Error(_W("'-completenames' expected."));

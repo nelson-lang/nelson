@@ -57,7 +57,7 @@ Nelson::CoreGateway::formatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         return retval;
     }
     if (argIn.size() == 1) {
-        if (argIn[0].isColonVectorCharacterArray()) {
+        if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring str = argIn[0].getContentAsWideString();
             if (str.compare(L"get") == 0) {
                 if (nLhs > 1) {

@@ -40,7 +40,7 @@ Nelson::LinearAlgebraGateway::issymmetricBuiltin(
     bool withTol = false;
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
-        if (param2.isColonVectorCharacterArray()) {
+        if (param2.isRowVectorCharacterArray()) {
             withTol = false;
             std::wstring str = param2.getContentAsWideString();
             if (str == L"skew" || str == L"nonskew") {

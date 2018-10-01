@@ -192,7 +192,7 @@ ArrayOf::getVectorContentsAsList(ArrayOf& index)
     if (index.isEmpty()) {
         return ArrayOfVector();
     }
-    if (index.isColonVectorCharacterArray()) {
+    if (index.isRowVectorCharacterArray()) {
         std::wstring str = index.getContentAsWideString();
         if (str != L":") {
             Error(_W("index must either be real positive integers or logicals."));
@@ -241,7 +241,7 @@ ArrayOf::getNDimContentsAsList(ArrayOfVector& index)
     Dimensions outDims(L);
     indexType i;
     for (i = 0; i < L; i++) {
-        if (index[i].isColonVectorCharacterArray()) {
+        if (index[i].isRowVectorCharacterArray()) {
             std::wstring str = index[i].getContentAsWideString();
             if (str != L":") {
                 Error(_W("index must either be real positive integers or logicals."));

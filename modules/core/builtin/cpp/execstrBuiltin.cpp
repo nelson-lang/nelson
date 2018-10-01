@@ -35,13 +35,13 @@ Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring line;
-    if (argIn[0].isColonVectorCharacterArray()) {
+    if (argIn[0].isRowVectorCharacterArray()) {
         line = argIn[0].getContentAsWideString();
     } else {
         Error(_W("#1 string expected."));
     }
     if (argIn.size() > 1) {
-        if (argIn[1].isColonVectorCharacterArray()) {
+        if (argIn[1].isRowVectorCharacterArray()) {
             std::wstring catchstr;
             catchstr = argIn[1].getContentAsWideString();
             if ((catchstr.compare(L"errcatch") == 0) || (catchstr.compare(L"nocatch") == 0)) {

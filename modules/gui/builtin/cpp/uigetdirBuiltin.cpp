@@ -36,14 +36,14 @@ Nelson::GuiGateway::uigetdirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     std::wstring pathOrigin;
     std::wstring title;
     if (argIn.size() > 0) {
-        if (argIn[0].isColonVectorCharacterArray()) {
+        if (argIn[0].isRowVectorCharacterArray()) {
             pathOrigin = argIn[0].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
     }
     if (argIn.size() > 1) {
-        if (argIn[1].isColonVectorCharacterArray()) {
+        if (argIn[1].isRowVectorCharacterArray()) {
             title = argIn[1].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);

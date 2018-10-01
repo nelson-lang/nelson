@@ -33,7 +33,7 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(Evaluator* eval, int nLhs, const A
             if (nLhs > 1) {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
-            if (argIn[1].isColonVectorCharacterArray()) {
+            if (argIn[1].isRowVectorCharacterArray()) {
                 wtype = argIn[1].getContentAsWideString();
                 if (wtype.compare(L"path") == 0) {
                     // OK
@@ -53,7 +53,7 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(Evaluator* eval, int nLhs, const A
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         }
-        if (argIn[0].isColonVectorCharacterArray()) {
+        if (argIn[0].isRowVectorCharacterArray()) {
             wpath = argIn[0].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

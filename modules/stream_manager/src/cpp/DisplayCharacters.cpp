@@ -23,7 +23,7 @@ namespace Nelson {
 void
 DisplayCharacters(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
 {
-    if (A.isColonVectorCharacterArray()) {
+    if (A.isRowVectorCharacterArray()) {
         std::wstring msg = A.getContentAsWideString();
         if (msg.size() == 0) {
             if (fromDispBuiltin) {

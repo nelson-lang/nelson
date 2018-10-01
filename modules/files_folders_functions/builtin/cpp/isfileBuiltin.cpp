@@ -34,7 +34,7 @@ Nelson::FilesFoldersGateway::isfileBuiltin(Evaluator* eval, int nLhs, const Arra
     }
     if (argIn[0].isEmpty()) {
         retval.push_back(ArrayOf::logicalConstructor(false));
-    } else if (argIn[0].isColonVectorCharacterArray()) {
+    } else if (argIn[0].isRowVectorCharacterArray()) {
         std::wstring wpath = argIn[0].getContentAsWideString();
         retval.push_back(ArrayOf::logicalConstructor(IsFile(wpath)));
     } else {
@@ -49,7 +49,7 @@ Nelson::FilesFoldersGateway::isfileBuiltin(Evaluator* eval, int nLhs, const Arra
                 for (indexType k = 0; k < argIn[0].getDimensions().getElementCount(); k++) {
                     ArrayOf cell(argIn[0]);
                     ArrayOf* arg = (ArrayOf*)(cell.getDataPointer());
-                    if (arg[k].isColonVectorCharacterArray()) {
+                    if (arg[k].isRowVectorCharacterArray()) {
                         bmat[k] = IsFile(arg[k].getContentAsWideString());
                     } else {
                         delete[] bmat;

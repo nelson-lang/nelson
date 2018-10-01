@@ -39,7 +39,7 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     }
     Interface* io = eval->getInterface();
     if (argIn.size() == 1) {
-        if (argIn[0].isColonVectorCharacterArray()) {
+        if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring param = argIn[0].getContentAsWideString();
             if (param.compare(L"on") == 0) {
                 if (nLhs != 0) {
@@ -75,7 +75,7 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         io->diary.toggle();
     } else if (argIn.size() == 2) {
         // get
-        if ((argIn[0].isColonVectorCharacterArray()) && (argIn[1].isColonVectorCharacterArray())) {
+        if ((argIn[0].isRowVectorCharacterArray()) && (argIn[1].isRowVectorCharacterArray())) {
             bool bLhs = (nLhs == 0) || (nLhs == 1);
             if (!bLhs) {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
@@ -97,15 +97,15 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 Error(_W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
             }
         } else {
-            if (!argIn[0].isColonVectorCharacterArray()) {
+            if (!argIn[0].isRowVectorCharacterArray()) {
                 Error(_W("#1 Argument \'get\' expected."));
             } else {
                 Error(_W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
             }
         }
     } else if (argIn.size() == 3) {
-        if ((argIn[0].isColonVectorCharacterArray()) && (argIn[1].isColonVectorCharacterArray())
-            && (argIn[2].isColonVectorCharacterArray())) {
+        if ((argIn[0].isRowVectorCharacterArray()) && (argIn[1].isRowVectorCharacterArray())
+            && (argIn[2].isRowVectorCharacterArray())) {
             std::wstring param1 = argIn[0].getContentAsWideString();
             if (param1.compare(L"set") != 0) {
                 Error(_W("#1 Argument \'set\' expected."));
@@ -131,9 +131,9 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 Error(_W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
             }
         } else {
-            if (!argIn[0].isColonVectorCharacterArray()) {
+            if (!argIn[0].isRowVectorCharacterArray()) {
                 Error(_W("#1 Argument \'set\' expected."));
-            } else if (!argIn[1].isColonVectorCharacterArray()) {
+            } else if (!argIn[1].isRowVectorCharacterArray()) {
                 Error(_W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
             } else {
                 Error(_W("#3 Argument a string expected."));

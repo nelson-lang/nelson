@@ -38,7 +38,7 @@ Nelson::HelpToolsGateway::htmltopdfBuiltin(Evaluator* eval, int nLhs, const Arra
     }
     ArrayOf arg1 = argIn[0];
     ArrayOf arg2 = argIn[1];
-    if (arg1.isColonVectorCharacterArray() && arg2.isColonVectorCharacterArray()) {
+    if (arg1.isRowVectorCharacterArray() && arg2.isRowVectorCharacterArray()) {
         std::wstring param1 = arg1.getContentAsWideString();
         std::wstring param2 = arg2.getContentAsWideString();
         if (!IsFile(param1)) {

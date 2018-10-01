@@ -42,7 +42,7 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(Evaluator* eval, int nLhs, const Ar
         ArrayOf arg2 = argIn[1];
         std::wstring dest = arg2.getContentAsWideString();
         ArrayOf arg1 = argIn[0];
-        if (arg1.isColonVectorCharacterArray()) {
+        if (arg1.isRowVectorCharacterArray()) {
             std::wstring src = arg1.getContentAsWideString();
             if (IsFile(src)) {
                 bRes = CopyFile(src, dest, bForce, errorMessage);

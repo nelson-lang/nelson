@@ -34,7 +34,7 @@ Nelson::DynamicLinkGateway::gatewayinfoBuiltin(
     if (nLhs > 2) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn[0].isColonVectorCharacterArray()) {
+    if (argIn[0].isRowVectorCharacterArray()) {
         std::wstring dynlibName = argIn[0].getContentAsWideString();
         std::wstring moduleName = L"";
         stringVector builtinList;

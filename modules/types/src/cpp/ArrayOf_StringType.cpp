@@ -380,7 +380,7 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
         return complexToStringArray<double>(m);
     } break;
     case NLS_CHAR: {
-        if (m.isColonVectorCharacterArray()) {
+        if (m.isRowVectorCharacterArray()) {
             return ArrayOf::stringArrayConstructor(m.getContentAsWideString());
         } else if (m.getDimensions().getLength() == 2) {
             return character2dArrayTotoStringArray(m);

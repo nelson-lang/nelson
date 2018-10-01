@@ -110,7 +110,7 @@ Nelson::StreamGateway::fopenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 Error(_W("Invalid file identifier."));
             }
             return retval;
-        } else if (param1.isColonVectorCharacterArray()) {
+        } else if (param1.isRowVectorCharacterArray()) {
             filename = param1.getContentAsWideString();
             if (filename == L"all") {
                 return FopenAll(eval);
@@ -124,12 +124,12 @@ Nelson::StreamGateway::fopenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     case 2: {
         ArrayOf param1 = argIn[0];
         ArrayOf param2 = argIn[1];
-        if (param1.isColonVectorCharacterArray() && param2.isColonVectorCharacterArray()) {
+        if (param1.isRowVectorCharacterArray() && param2.isRowVectorCharacterArray()) {
             filename = param1.getContentAsWideString();
             mode = param2.getContentAsWideString();
             return Fopen(eval, filename, mode);
         } else {
-            if (param1.isColonVectorCharacterArray()) {
+            if (param1.isRowVectorCharacterArray()) {
                 Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
             } else {
                 Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

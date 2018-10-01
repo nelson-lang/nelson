@@ -51,7 +51,7 @@ Nelson::ModulesManagerGateway::modulepathBuiltin(
     }
     if (argIn.size() == 1) {
         std::wstring moduleshortname = L"";
-        if (argIn[0].isColonVectorCharacterArray()) {
+        if (argIn[0].isRowVectorCharacterArray()) {
             moduleshortname = argIn[0].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
@@ -66,17 +66,17 @@ Nelson::ModulesManagerGateway::modulepathBuiltin(
         std::wstring modulerootpath = L"";
         std::wstring moduleshortname = L"";
         std::wstring option = L"";
-        if (argIn[0].isColonVectorCharacterArray()) {
+        if (argIn[0].isRowVectorCharacterArray()) {
             modulerootpath = argIn[0].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        if (argIn[1].isColonVectorCharacterArray()) {
+        if (argIn[1].isRowVectorCharacterArray()) {
             moduleshortname = argIn[1].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
-        if (argIn[2].isColonVectorCharacterArray()) {
+        if (argIn[2].isRowVectorCharacterArray()) {
             option = argIn[2].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);

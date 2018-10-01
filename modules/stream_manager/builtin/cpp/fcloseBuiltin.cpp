@@ -49,7 +49,7 @@ Nelson::StreamGateway::fcloseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         } else {
             Error(_W("Invalid file identifier."));
         }
-    } else if (param1.isColonVectorCharacterArray()) {
+    } else if (param1.isRowVectorCharacterArray()) {
         if (nLhs != 0) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }

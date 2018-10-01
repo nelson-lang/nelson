@@ -45,7 +45,7 @@ Nelson::CoreGateway::nargoutBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     {
         ArrayOf param1 = argIn[0];
         std::wstring name;
-        if (param1.isColonVectorCharacterArray()) {
+        if (param1.isRowVectorCharacterArray()) {
             name = param1.getContentAsWideString();
         } else if (param1.isFunctionHandle()) {
             function_handle fh = param1.getContentAsFunctionHandle();

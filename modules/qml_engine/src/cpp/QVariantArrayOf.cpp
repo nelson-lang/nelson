@@ -999,7 +999,7 @@ ArrayOfToQVariant(ArrayOf A)
         }
     } break;
     case NLS_CHAR: {
-        if (A.isColonVectorCharacterArray()) {
+        if (A.isRowVectorCharacterArray()) {
             res = ArrayOfToQVariant(A, QVariant::Type::String);
         } else {
             Error(_W("Type conversion to QVariant not managed."));

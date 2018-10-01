@@ -30,13 +30,13 @@ Nelson::CoreGateway::evalcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     }
     std::wstring command;
     std::wstring catchCommand;
-    if (argIn[0].isColonVectorCharacterArray()) {
+    if (argIn[0].isRowVectorCharacterArray()) {
         command = argIn[0].getContentAsWideString();
     } else {
         Error(_W("#1 string expected."));
     }
     if (argIn.size() > 1) {
-        if (argIn[1].isColonVectorCharacterArray()) {
+        if (argIn[1].isRowVectorCharacterArray()) {
             catchCommand = argIn[1].getContentAsWideString();
         } else {
             Error(_W("#2 string expected."));

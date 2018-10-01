@@ -55,7 +55,7 @@ static ArrayOf
 CompareStringString(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len = 0)
 {
     bool bEq = false;
-    if (A.isColonVectorCharacterArray() && B.isColonVectorCharacterArray()) {
+    if (A.isRowVectorCharacterArray() && B.isRowVectorCharacterArray()) {
         bEq = compareString(
             A.getContentAsWideString(), B.getContentAsWideString(), bCaseSensitive, len);
     } else {
@@ -97,7 +97,7 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
                 for (size_t k = 0; k < Clen; k++) {
                     ArrayOf elementA = cellA[k];
                     ArrayOf elementB = cellB[k];
-                    if (elementA.isColonVectorCharacterArray() && elementB.isColonVectorCharacterArray()) {
+                    if (elementA.isRowVectorCharacterArray() && elementB.isRowVectorCharacterArray()) {
                         Cp[k] = compareString(elementA.getContentAsWideString(),
                             elementB.getContentAsWideString(), bCaseSensitive, len);
                     } else if (elementA.isCharacterArray() && elementB.isCharacterArray()) {

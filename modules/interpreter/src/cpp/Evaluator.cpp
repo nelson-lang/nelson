@@ -1017,7 +1017,7 @@ Evaluator::switchStatement(ASTPtr t)
     switchVal = expression(t);
     // Assess its type to determine if this is a scalar switch
     // or a string switch.
-    if (!switchVal.isScalar() && !switchVal.isColonVectorCharacterArray()) {
+    if (!switchVal.isScalar() && !switchVal.isRowVectorCharacterArray()) {
         Error(ERROR_SWITCH_STATEMENTS);
     }
     // Move to the next node in the AST

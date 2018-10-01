@@ -54,7 +54,7 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         }
     } else {
         ArrayOf param1 = argIn[0];
-        if (param1.isColonVectorCharacterArray()) {
+        if (param1.isRowVectorCharacterArray()) {
             std::wstring arg1Value = param1.getContentAsWideString();
             if (arg1Value == L"on" || arg1Value == L"off" || arg1Value == L"query") {
                 bool previousValue = pauseOn;

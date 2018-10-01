@@ -42,7 +42,7 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(Evaluator* eval, int nLhs, const Ar
     }
     ArrayOf argSourceDirs = argIn[0];
     wstringVector listOfDirectories;
-    if (argSourceDirs.isColonVectorCharacterArray()) {
+    if (argSourceDirs.isRowVectorCharacterArray()) {
         std::wstring dir = argSourceDirs.getContentAsWideString();
         listOfDirectories.push_back(dir);
     } else if (argSourceDirs.isCell()) {

@@ -33,7 +33,7 @@ Nelson::FunctionsGateway::userpathBuiltin(Evaluator* eval, int nLhs, const Array
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         ArrayOf param1 = argIn[0];
-        if (param1.isColonVectorCharacterArray()) {
+        if (param1.isRowVectorCharacterArray()) {
             std::wstring paramstr = param1.getContentAsWideString();
             if (paramstr == L"clear") {
                 PathFuncManager::getInstance()->clearUserPath(true);

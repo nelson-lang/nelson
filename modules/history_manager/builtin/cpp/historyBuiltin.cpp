@@ -29,7 +29,7 @@ historyBuiltin_size_one_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argI
 {
     ArrayOfVector retval;
     ArrayOf arg1 = argIn[0];
-    if (arg1.isColonVectorCharacterArray()) {
+    if (arg1.isRowVectorCharacterArray()) {
         std::wstring str = arg1.getContentAsWideString();
         HistoryManager* ptrHistoryManager = (HistoryManager*)eval->HistoryManager;
         if (str == L"size") {
@@ -116,7 +116,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     ArrayOf arg1 = argIn[0];
     ArrayOf arg2 = argIn[1];
-    if (arg1.isColonVectorCharacterArray()) {
+    if (arg1.isRowVectorCharacterArray()) {
         std::wstring str = arg1.getContentAsWideString();
         HistoryManager* ptrHistoryManager = (HistoryManager*)eval->HistoryManager;
         if (str == L"size") {
@@ -213,7 +213,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             if (nLhs > 0) {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
-            if (arg2.isColonVectorCharacterArray()) {
+            if (arg2.isRowVectorCharacterArray()) {
                 std::wstring str = arg2.getContentAsWideString();
                 HistoryManager* ptrHistoryManager = (HistoryManager*)eval->HistoryManager;
                 ptrHistoryManager->appendLine(str);
@@ -230,7 +230,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             if (nLhs > 0) {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
-            if (arg2.isColonVectorCharacterArray()) {
+            if (arg2.isRowVectorCharacterArray()) {
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->setFilename(filename);
             } else {
@@ -240,7 +240,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             if (nLhs > 0) {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
-            if (arg2.isColonVectorCharacterArray()) {
+            if (arg2.isRowVectorCharacterArray()) {
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->loadFromFile(filename);
             } else {
@@ -250,7 +250,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             if (nLhs > 0) {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
-            if (arg2.isColonVectorCharacterArray()) {
+            if (arg2.isRowVectorCharacterArray()) {
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->saveToFile(filename);
             } else {

@@ -59,7 +59,7 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         Error(_W("Wrong value for machine format."));
     }
     skipSize = (size_t)param4.getContentAsScalarIndex();
-    if (param3.isColonVectorCharacterArray()) {
+    if (param3.isRowVectorCharacterArray()) {
         std::wstring precisionStr = param3.getContentAsWideString();
         bool bOK = false;
         classDest = precisionFromString(precisionStr, bOK);
@@ -171,7 +171,7 @@ freadBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOf param3 = argIn[2];
     ArrayOf param4 = argIn[3];
     ArrayOf param5;
-    if (param4.isColonVectorCharacterArray()) {
+    if (param4.isRowVectorCharacterArray()) {
         param5 = param4;
         param4 = ArrayOf::doubleConstructor(0);
     } else {
@@ -194,7 +194,7 @@ freadBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOf param3 = argIn[2];
     ArrayOf param4;
     ArrayOf param5;
-    if (param2.isColonVectorCharacterArray() && param3.isColonVectorCharacterArray()) {
+    if (param2.isRowVectorCharacterArray() && param3.isRowVectorCharacterArray()) {
         param5 = param3;
         param3 = param2;
         param4 = ArrayOf::doubleConstructor(0);
@@ -218,7 +218,7 @@ freadBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     ArrayOf param3;
-    if (param2.isColonVectorCharacterArray()) {
+    if (param2.isRowVectorCharacterArray()) {
         param3 = param2;
         param2 = ArrayOf::doubleConstructor(std::numeric_limits<double>::infinity());
     } else {

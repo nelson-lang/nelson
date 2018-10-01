@@ -50,7 +50,7 @@ fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     size_t skipSize = (size_t)param4.getContentAsScalarIndex();
     ArrayOf param3 = argIn[2];
     Class classDest = NLS_UINT8;
-    if (param3.isColonVectorCharacterArray()) {
+    if (param3.isRowVectorCharacterArray()) {
         std::wstring precisionStr = param3.getContentAsWideString();
         bool bOK = false;
         classDest = precisionFromString(precisionStr, bOK);
@@ -111,9 +111,9 @@ fwriteBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector modifiedArgIn;
     modifiedArgIn.push_back(argIn[0]);
     modifiedArgIn.push_back(argIn[1]);
-    if (argIn[2].isColonVectorCharacterArray()) {
+    if (argIn[2].isRowVectorCharacterArray()) {
         modifiedArgIn.push_back(argIn[2]);
-        if (argIn[3].isColonVectorCharacterArray()) {
+        if (argIn[3].isRowVectorCharacterArray()) {
             modifiedArgIn.push_back(ArrayOf::doubleConstructor(0.));
             modifiedArgIn.push_back(argIn[3]);
         } else {

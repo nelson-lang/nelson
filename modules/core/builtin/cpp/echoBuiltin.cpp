@@ -40,7 +40,7 @@ Nelson::CoreGateway::echoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
             }
         }
     } else if (argIn.size() == 1) {
-        if (argIn[0].isColonVectorCharacterArray()) {
+        if (argIn[0].isRowVectorCharacterArray()) {
             bool bMode = false;
             std::wstring arg = argIn[0].getContentAsWideString();
             if (arg.compare(L"on") == 0) {

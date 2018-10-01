@@ -46,7 +46,7 @@ Nelson::CoreGateway::versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         std::wstring option;
-        if (argIn[0].isColonVectorCharacterArray()) {
+        if (argIn[0].isRowVectorCharacterArray()) {
             option = argIn[0].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

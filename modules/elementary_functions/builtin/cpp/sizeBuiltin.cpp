@@ -37,7 +37,7 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(
     case 2: {
         bChooseDimension = true;
         ArrayOf param1(argIn[1]);
-        if (param1.isColonVectorCharacterArray()) {
+        if (param1.isRowVectorCharacterArray()) {
             std::wstring str = param1.getContentAsWideString();
             if ((str == L"r") || (str == L"c")) {
                 if (str == L"r") {

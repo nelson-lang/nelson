@@ -34,7 +34,7 @@ Nelson::OsFunctionsGateway::setenvBuiltin(Evaluator* eval, int nLhs, const Array
     }
     std::wstring varEnvName = L"";
     std::wstring varEnvValue = L"";
-    if (argIn[0].isColonVectorCharacterArray()) {
+    if (argIn[0].isRowVectorCharacterArray()) {
         varEnvName = argIn[0].getContentAsWideString();
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

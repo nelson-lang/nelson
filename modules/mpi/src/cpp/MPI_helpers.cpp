@@ -291,7 +291,7 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         }
         if (classname == NLS_FUNCTION_HANDLE_STR) {
             ArrayOf functionNameAsArray = unpackMPI(buffer, bufsize, packpos, comm);
-            if (functionNameAsArray.isColonVectorCharacterArray()) {
+            if (functionNameAsArray.isRowVectorCharacterArray()) {
                 std::wstring functionName = functionNameAsArray.getContentAsWideString();
                 Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
                 if (eval) {

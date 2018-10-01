@@ -37,7 +37,7 @@ ArrayOf::isCharacterArray() const
 }
 //=============================================================================
 bool
-ArrayOf::isColonVectorCharacterArray() const
+ArrayOf::isRowVectorCharacterArray() const
 {
     return (isCharacterArray() && (!dp->sparse) && (isRowVector() || isEmpty()));
 }
@@ -108,7 +108,7 @@ wchar_t*
 ArrayOf::getContentAsWideCharactersPointer() const
 {
     charType* buffer = nullptr;
-    if (isColonVectorCharacterArray()) {
+    if (isRowVectorCharacterArray()) {
         indexType M = getLength();
         buffer = new_with_exception<charType>(M + 1, false);
         const charType* qp = (const charType*)dp->getData();
@@ -129,7 +129,7 @@ std::wstring
 ArrayOf::getContentAsWideString(void) const
 {
     std::wstring str = L"";
-    if (isColonVectorCharacterArray()) {
+    if (isRowVectorCharacterArray()) {
         indexType M = getLength();
         str.reserve(M + 1);
         charType* buffer = new_with_exception<charType>(M + 1);

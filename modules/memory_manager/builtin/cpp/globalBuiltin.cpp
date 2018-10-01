@@ -32,7 +32,7 @@ Nelson::MemoryGateway::globalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     }
     Context* context = eval->getContext();
     for (size_t k = 0; k < argIn.size(); k++) {
-        if (!argIn[k].isColonVectorCharacterArray()) {
+        if (!argIn[k].isRowVectorCharacterArray()) {
             Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), k + 1));
         }
         std::string arg = argIn[k].getContentAsCString();

@@ -48,7 +48,7 @@ Nelson::ElementaryFunctionsGateway::normBuiltin(
                 }
             } else {
                 if (argIn.size() > 1) {
-                    if (argIn[1].isColonVectorCharacterArray()) {
+                    if (argIn[1].isRowVectorCharacterArray()) {
                         std::wstring param = argIn[1].getContentAsWideString();
                         if (param == L"fro") {
                             retval.push_back(NormFrobenius(argIn[0]));

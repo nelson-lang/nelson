@@ -36,7 +36,7 @@ Nelson::CoreGateway::maxNumCompThreadsBuiltin(Evaluator* eval, int nLhs, const A
     } break;
     case 1: {
         ArrayOf param1 = argIn[0];
-        if (param1.isColonVectorCharacterArray()) {
+        if (param1.isRowVectorCharacterArray()) {
             std::wstring str = param1.getContentAsWideString();
             if (str == L"automatic") {
                 setDefaultMaxNumCompThreads();

@@ -37,7 +37,7 @@ Nelson::ModulesManagerGateway::getmodulesBuiltin(
     bool bReverse = false;
     if (argIn.size() == 1) {
         std::wstring param;
-        if (argIn[0].isColonVectorCharacterArray()) {
+        if (argIn[0].isRowVectorCharacterArray()) {
             param = argIn[0].getContentAsWideString();
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

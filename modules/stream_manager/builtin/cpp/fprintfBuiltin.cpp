@@ -51,7 +51,7 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         firstArgumentPosition = 1;
-    } else if (param1.isColonVectorCharacterArray()) {
+    } else if (param1.isRowVectorCharacterArray()) {
         dID = 1;
         firstArgumentPosition = 0;
     } else {

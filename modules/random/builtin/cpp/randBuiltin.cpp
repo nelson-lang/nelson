@@ -37,7 +37,7 @@ Nelson::RandomGateway::randBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         bool bCheckClassName = true;
         if ((int)nRhs - 2 >= 0) {
             ArrayOf Arg = argIn[argIn.size() - 2];
-            if (Arg.isColonVectorCharacterArray()) {
+            if (Arg.isRowVectorCharacterArray()) {
                 std::wstring paramstr = Arg.getContentAsWideString();
                 if (paramstr == L"like") {
                     ArrayOf lastArg = argIn[argIn.size() - 1];
@@ -60,7 +60,7 @@ Nelson::RandomGateway::randBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             }
         }
         ArrayOf lastArg = argIn[argIn.size() - 1];
-        if (lastArg.isColonVectorCharacterArray() && bCheckClassName) {
+        if (lastArg.isRowVectorCharacterArray() && bCheckClassName) {
             std::wstring paramstr = lastArg.getContentAsWideString();
             if (paramstr == L"double") {
                 cl = NLS_DOUBLE;

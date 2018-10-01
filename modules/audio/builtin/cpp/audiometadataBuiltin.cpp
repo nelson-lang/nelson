@@ -58,8 +58,8 @@ Nelson::AudioGateway::audiometadataBuiltin(Evaluator* eval, int nLhs, const Arra
         wstringVector currentValues;
         for (std::string fieldname : currentFieldnames) {
             ArrayOf value = param2.getField(fieldname);
-            if ((value.isEmpty(true) && value.isDoubleType()) || value.isColonVectorCharacterArray()) {
-                if (value.isColonVectorCharacterArray()) {
+            if ((value.isEmpty(true) && value.isDoubleType()) || value.isRowVectorCharacterArray()) {
+                if (value.isRowVectorCharacterArray()) {
                     wcurrentFieldname.push_back(utf8_to_wstring(fieldname));
                     currentValues.push_back(value.getContentAsWideString());
                 } else {

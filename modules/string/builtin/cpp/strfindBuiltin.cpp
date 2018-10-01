@@ -37,7 +37,7 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (argIn.size() == 4) {
         ArrayOf param3 = argIn[2];
         ArrayOf param4 = argIn[3];
-        if (param3.isColonVectorCharacterArray()) {
+        if (param3.isRowVectorCharacterArray()) {
             std::wstring str = param3.getContentAsWideString();
             if (str != L"ForceCellOutput") {
                 Error(_W("'ForceCellOutput' expected as third input argument."));
@@ -59,17 +59,17 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         retval = OverloadFunction(eval, nLhs, argIn, "strfind", bSuccess);
     }
     if (!bSuccess) {
-        if (!(A.isColonVectorCharacterArray() || A.isCell() || A.isNumeric())) {
+        if (!(A.isRowVectorCharacterArray() || A.isCell() || A.isNumeric())) {
             retval = OverloadFunction(eval, nLhs, argIn, "strfind", bSuccess);
             if (!bSuccess) {
                 Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
             }
             return retval;
         }
-        if (A.isColonVectorCharacterArray() || A.isCell() || A.isNumeric()) {
-            if (B.isColonVectorCharacterArray() || B.isNumeric()) {
-                if (A.isColonVectorCharacterArray()) {
-                    if (B.isColonVectorCharacterArray()) {
+        if (A.isRowVectorCharacterArray() || A.isCell() || A.isNumeric()) {
+            if (B.isRowVectorCharacterArray() || B.isNumeric()) {
+                if (A.isRowVectorCharacterArray()) {
+                    if (B.isRowVectorCharacterArray()) {
                         if ((B.isRowVector() && !B.isEmpty()) || B.isEmpty(true)) {
                             if (forceAsCell) {
                                 Dimensions dimA(1, 1);
@@ -109,8 +109,8 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                     }
                     for (size_t k = 0; k < nbElements; k++) {
                         ArrayOf* cellA = (ArrayOf*)(A.getDataPointer());
-                        if (cellA[k].isColonVectorCharacterArray()) {
-                            if (B.isColonVectorCharacterArray()) {
+                        if (cellA[k].isRowVectorCharacterArray()) {
+                            if (B.isRowVectorCharacterArray()) {
                                 if ((B.isRowVector() && !B.isEmpty()) || B.isEmpty(true)) {
                                     std::wstring valB = B.getContentAsWideString();
                                     elements[k]

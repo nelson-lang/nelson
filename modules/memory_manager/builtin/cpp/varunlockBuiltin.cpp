@@ -33,7 +33,7 @@ Nelson::MemoryGateway::varunlockBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     if (argIn.size() != 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (!argIn[0].isColonVectorCharacterArray()) {
+    if (!argIn[0].isRowVectorCharacterArray()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     std::string scopename = argIn[0].getContentAsCString();
@@ -42,7 +42,7 @@ Nelson::MemoryGateway::varunlockBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         Error(_W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' "
                  "expected."));
     }
-    if (!argIn[1].isColonVectorCharacterArray()) {
+    if (!argIn[1].isRowVectorCharacterArray()) {
         Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
     }
     std::string varname = argIn[1].getContentAsCString();

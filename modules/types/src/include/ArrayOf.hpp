@@ -438,7 +438,7 @@ public:
     bool
     isCharacterArray() const;
     bool
-    isColonVectorCharacterArray() const;
+    isRowVectorCharacterArray() const;
 
     bool
     isNdArrayCharacterType() const;

@@ -65,10 +65,10 @@ IsErrorStruct(ArrayOf arg, Exception& e)
     int line = -1;
     ArrayOf msgArray = arg.getField("message");
     ArrayOf idArray = arg.getField("identifier");
-    if (!msgArray.isColonVectorCharacterArray()) {
+    if (!msgArray.isRowVectorCharacterArray()) {
         return false;
     }
-    if (!idArray.isColonVectorCharacterArray()) {
+    if (!idArray.isRowVectorCharacterArray()) {
         return false;
     }
     message = msgArray.getContentAsWideString();
@@ -77,10 +77,10 @@ IsErrorStruct(ArrayOf arg, Exception& e)
         ArrayOf fileArray = stack.getField("file");
         ArrayOf nameArray = stack.getField("name");
         ArrayOf lineArray = stack.getField("line");
-        if (!fileArray.isColonVectorCharacterArray()) {
+        if (!fileArray.isRowVectorCharacterArray()) {
             return false;
         }
-        if (!nameArray.isColonVectorCharacterArray()) {
+        if (!nameArray.isRowVectorCharacterArray()) {
             return false;
         }
         if (!lineArray.isDoubleType() || !lineArray.isScalar()) {

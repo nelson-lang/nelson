@@ -37,7 +37,7 @@ Nelson::FunctionsGateway::rmpathBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
     std::wstring previousPaths = PathFuncManager::getInstance()->getPathNameAsString();
     ArrayOf param1 = argIn[0];
-    if (param1.isColonVectorCharacterArray()) {
+    if (param1.isRowVectorCharacterArray()) {
         std::wstring pathToRemove = param1.getContentAsWideString();
         boost::filesystem::path data_dir(pathToRemove);
         bool bRes = false;

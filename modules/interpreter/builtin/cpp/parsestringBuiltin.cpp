@@ -34,7 +34,7 @@ Nelson::InterpreterGateway::parsestringBuiltin(
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::string command;
-    if (argIn[0].isColonVectorCharacterArray()) {
+    if (argIn[0].isRowVectorCharacterArray()) {
         command = argIn[0].getContentAsCString();
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

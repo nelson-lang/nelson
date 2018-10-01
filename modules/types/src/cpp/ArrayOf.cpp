@@ -978,9 +978,9 @@ ArrayOf::testCaseMatchScalar(ArrayOf x) const
     }
     // Now we have to compare ourselves to the argument.  Check for the
     // case that we are a string type
-    if (isColonVectorCharacterArray()) {
+    if (isRowVectorCharacterArray()) {
         // If x is not a string, we cannot match
-        if (!x.isColonVectorCharacterArray()) {
+        if (!x.isRowVectorCharacterArray()) {
             return false;
         }
         // if x is a string do a string, string compare.
@@ -1046,7 +1046,7 @@ ArrayOf::testForCaseMatch(ArrayOf x) const
         Error(_W("Switch argument cannot be a reference type (struct or cell array)"));
     }
     // If x is a scalar, we just need to call the scalar version
-    if (x.isScalar() || x.isColonVectorCharacterArray()) {
+    if (x.isScalar() || x.isRowVectorCharacterArray()) {
         return testCaseMatchScalar(x);
     }
     if (x.dp->dataClass != NLS_CELL_ARRAY && x.dp->dataClass != NLS_STRING_ARRAY) {

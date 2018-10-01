@@ -49,7 +49,7 @@ Nelson::FilesFoldersGateway::cdBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         }
     } else // argIn.size() == 1
     {
-        if (argIn[0].isColonVectorCharacterArray()) {
+        if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring wpath = argIn[0].getContentAsWideString();
             ArrayOf res = Cd(wpath);
             if (nLhs == 1) {

@@ -4,11 +4,12 @@
     - transpose, ctranspose extended to manage string array.
     - horzcat, vertcat extended to manage string array.
     - double extended to manage string array.
+    - tolower, toupper  extended to manage string array.
 
   * internal API C++ methods renamed:
     - "stringConstructor" --> "characterArrayConstructor".
     - "isString" --> "isCharacterArray"
-    - "isSingleString" --> "isColonVectorCharacterArray"
+    - "isSingleString" --> "isRowVectorCharacterArray"
 
 
 ## 0.2.9 (2018-09-23)

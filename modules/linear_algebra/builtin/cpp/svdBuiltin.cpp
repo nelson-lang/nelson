@@ -51,7 +51,7 @@ Nelson::LinearAlgebraGateway::svdBuiltin(Evaluator* eval, int nLhs, const ArrayO
         SVD_FLAG svdFlag = SVD_FLAG::SVD_DEFAULT;
         if (argIn.size() == 2) {
             ArrayOf param2 = argIn[1];
-            if (param2.isColonVectorCharacterArray()) {
+            if (param2.isRowVectorCharacterArray()) {
                 std::wstring paramAsString = param2.getContentAsWideString();
                 if (L"econ" == paramAsString) {
                     svdFlag = SVD_FLAG::SVD_ECON;
