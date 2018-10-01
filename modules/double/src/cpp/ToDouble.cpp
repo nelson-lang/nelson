@@ -16,9 +16,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ToDouble.hpp"
-#include "SparseDynamicFunctions.hpp"
 #include <Eigen/Dense>
+#include "ToDouble.hpp"
+#include "StringToDoubleComplex.hpp"
+#include "SparseDynamicFunctions.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -37,7 +38,7 @@ ToDouble(ArrayOf A)
 }
 //=============================================================================
 ArrayOf
-ToDouble(ArrayOf A, bool &needToOverload)
+ToDouble(ArrayOf A, bool& needToOverload)
 {
     needToOverload = false;
     switch (A.getDataClass()) {
@@ -46,10 +47,37 @@ ToDouble(ArrayOf A, bool &needToOverload)
         return ArrayOf();
     } break;
     case NLS_STRING_ARRAY: {
-        needToOverload = true;
-        return ArrayOf();
+        Dimensions dimsA = A.getDimensions();
+        indexType nbElements = dimsA.getElementCount();
+        double* ptrComplex = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbElements);
+        ArrayOf* strElements = (ArrayOf*)A.getDataPointer();
+        indexType q = 0;
+        for (indexType k = 0; k < nbElements; k = k + 1) {
+            ArrayOf element = strElements[k];
+            if (element.getDataClass() == NLS_CHAR) {
+                std::wstring str = element.getContentAsWideString();
+                bool wasConverted = false;
+                doublecomplex asComplex = stringToDoubleComplex(str, wasConverted);
+                if (wasConverted) {
+                    ptrComplex[q] = asComplex.real();
+                    ptrComplex[q + 1] = asComplex.imag();
+                } else {
+                    ptrComplex[q] = std::nan("NaN");
+                    ptrComplex[q + 1] = 0;
+                }
+            } else {
+                ptrComplex[k] = std::nan("NaN");
+                ptrComplex[k + 1] = 0;
+            }
+            q = q + 2;
+        }
+        ArrayOf R = ArrayOf(NLS_DCOMPLEX, dimsA, ptrComplex);
+        if (R.allReal()) {
+            R.promoteType(NLS_DOUBLE);
+        }
+        return R;
     } break;
-	case NLS_CELL_ARRAY: {
+    case NLS_CELL_ARRAY: {
         needToOverload = true;
         return ArrayOf();
     } break;

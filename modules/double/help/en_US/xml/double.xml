@@ -51,6 +51,15 @@ B - A]]>
 		</example_item_data>
 	</example_item>
 
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[A = ["3.134", "NaN"; "Inf", "-5"];
+B = double(A)]]>
+		</example_item_data>
+
+	</example_item>
+
 
 </examples>
 
