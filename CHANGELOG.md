@@ -5,6 +5,7 @@
     - horzcat, vertcat extended to manage string array.
     - double extended to manage string array.
     - tolower, toupper  extended to manage string array.
+    - fileread, filewrite extended to manage string array.
 
   * internal API C++ methods renamed:
     - "stringConstructor" --> "characterArrayConstructor".

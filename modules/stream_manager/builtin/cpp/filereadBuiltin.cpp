@@ -64,7 +64,7 @@ Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     if (argIn.size() > 1) {
         ArrayOf param2 = argIn[1];
         std::wstring str = param2.getContentAsWideString();
-        if (str == L"char" || str == L"cell") {
+        if (str == L"char" || str == L"cell" || str == L"string") {
             outputClass = str;
         } else {
             Error(_W("Wrong value for #2 argument."));
@@ -117,7 +117,11 @@ Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             lines.push_back(line);
         }
         wif.close();
-        retval.push_back(ToCellStringAsColumn(lines));
+        if (outputClass == L"string") {
+            retval.push_back(ArrayOf::stringArrayConstructor(lines, Dimensions(lines.size(), 1)));
+        } else {
+            retval.push_back(ToCellStringAsColumn(lines));
+		}
     }
     return retval;
 }

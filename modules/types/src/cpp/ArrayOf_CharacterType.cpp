@@ -188,20 +188,30 @@ ArrayOf::getContentAsWideStringVector(bool bCheckVector) const
             res.push_back(getContentAsWideString());
         }
     } else {
-        if (dp->dataClass != NLS_CELL_ARRAY) {
-            Error(_W("A cell expected."));
+        if (!isCell() && !isStringArray()) {
+            Error(_W("A cell or string array expected."));
         } else if (isEmpty()) {
             return res;
         } else if (isVector() || !bCheckVector) {
             ArrayOf* arg = (ArrayOf*)(getDataPointer());
             indexType nbElements = getDimensions().getElementCount();
             res.reserve(nbElements);
-            for (indexType k = 0; k < nbElements; k++) {
-                if (arg[k].getDataClass() != NLS_CHAR) {
-                    res.clear();
-                    Error(_W("A cell of string expected."));
-                } else {
-                    res.push_back(arg[k].getContentAsWideString());
+            if (isCell()) {
+                for (indexType k = 0; k < nbElements; k++) {
+                    if (arg[k].getDataClass() != NLS_CHAR) {
+                        res.clear();
+                        Error(_W("A cell of string expected."));
+                    } else {
+                        res.push_back(arg[k].getContentAsWideString());
+                    }
+                }
+            } else {
+                for (indexType k = 0; k < nbElements; k++) {
+                    if (arg[k].getDataClass() != NLS_CHAR) {
+                        res.push_back(L"");
+                    } else {
+                        res.push_back(arg[k].getContentAsWideString());
+                    }
                 }
             }
         } else {
@@ -227,21 +237,31 @@ wstringVector
 ArrayOf::getContentAsWideStringRowVector(void) const
 {
     wstringVector res;
-    if (dp->dataClass != NLS_CELL_ARRAY) {
-        Error(_W("A cell expected."));
+    if (!isCell() || !isStringArray()) {
+        Error(_W("A cell or string array expected."));
     }
     if (isRowVector()) {
         ArrayOf* arg = (ArrayOf*)(getDataPointer());
         indexType nbElements = getDimensions().getElementCount();
         res.reserve(nbElements);
-        for (indexType k = 0; k < nbElements; k++) {
-            if (arg[k].getDataClass() != NLS_CHAR) {
-                res.clear();
-                Error(_W("A cell of string expected."));
-            } else {
-                res.push_back(arg[k].getContentAsWideString());
+        if (isCell()) {
+            for (indexType k = 0; k < nbElements; k++) {
+                if (arg[k].getDataClass() != NLS_CHAR) {
+                    res.clear();
+                    Error(_W("A cell of string expected."));
+                } else {
+                    res.push_back(arg[k].getContentAsWideString());
+                }
             }
-        }
+        } else {
+            for (indexType k = 0; k < nbElements; k++) {
+                if (arg[k].getDataClass() != NLS_CHAR) {
+                    res.push_back(L"");
+                } else {
+                    res.push_back(arg[k].getContentAsWideString());
+                }
+            }        
+		}
     } else {
         Error(_W("An row vector expected."));
     }
@@ -264,19 +284,29 @@ wstringVector
 ArrayOf::getContentAsWideStringColumnVector(void) const
 {
     wstringVector res;
-    if (dp->dataClass != NLS_CELL_ARRAY) {
+    if (!isCell() || !isStringArray()) {
         Error(_W("A cell expected."));
     }
     if (isColumnVector()) {
         ArrayOf* arg = (ArrayOf*)(getDataPointer());
         indexType nbElements = getDimensions().getElementCount();
         res.reserve(nbElements);
-        for (indexType k = 0; k < nbElements; k++) {
-            if (arg[k].getDataClass() != NLS_CHAR) {
-                res.clear();
-                Error(_W("A cell of string expected."));
-            } else {
-                res.push_back(arg[k].getContentAsWideString());
+        if (isCell()) {
+            for (indexType k = 0; k < nbElements; k++) {
+                if (arg[k].getDataClass() != NLS_CHAR) {
+                    res.clear();
+                    Error(_W("A cell of string expected."));
+                } else {
+                    res.push_back(arg[k].getContentAsWideString());
+                }
+            }
+        } else {
+            for (indexType k = 0; k < nbElements; k++) {
+                if (arg[k].getDataClass() != NLS_CHAR) {
+                    res.push_back(L"");
+                } else {
+                    res.push_back(arg[k].getContentAsWideString());
+                }
             }
         }
     } else {

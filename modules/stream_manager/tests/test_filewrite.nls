@@ -22,5 +22,14 @@ if isfile(dest)
 end
 R1 = {['nel', char(10)], ['son', char(13), char(10)], ['soft', char(13), 'ware', char(10)]};
 filewrite(dest, R1);
-R2 = fileread(dest)
+R2 = fileread(dest);
+//=============================================================================
+dest = [tempdir(), '/test_filewrite_string.txt'];
+if isfile(dest)
+  rmfile(dest);
+end
+R3 = ["Nelson"; "is"; "open"];
+filewrite(dest, R3);
+R4 = fileread(dest, "string");
+assert_isequal(R3, R4);
 //=============================================================================
