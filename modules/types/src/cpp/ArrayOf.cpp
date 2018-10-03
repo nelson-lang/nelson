@@ -51,6 +51,7 @@
 #include <inttypes.h>
 #include <math.h>
 #include <stdio.h>
+#include <limits>
 //=============================================================================
 #ifdef _MSC_VER
 #define snprintf _snprintf

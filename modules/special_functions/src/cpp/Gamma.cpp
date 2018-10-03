@@ -19,6 +19,7 @@
 #include <Eigen/Dense>
 #include <cmath>
 #include <functional>
+#include <limits>
 #include "Gamma.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"

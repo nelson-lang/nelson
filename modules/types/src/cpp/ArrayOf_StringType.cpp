@@ -18,6 +18,7 @@
 //=============================================================================
 #include <wchar.h>
 #include <stdio.h>
+#include <limits>
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "characters_encoding.hpp"
