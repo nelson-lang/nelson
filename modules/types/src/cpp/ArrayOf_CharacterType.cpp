@@ -149,7 +149,7 @@ ArrayOf::getContentAsWideString(void) const
             if (!isRowVector()) {
                 Error(_W("Unable to convert supplied object to a single string."));
             }
-		}
+        }
     }
     return str;
 }
@@ -260,8 +260,8 @@ ArrayOf::getContentAsWideStringRowVector(void) const
                 } else {
                     res.push_back(arg[k].getContentAsWideString());
                 }
-            }        
-		}
+            }
+        }
     } else {
         Error(_W("An row vector expected."));
     }

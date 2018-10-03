@@ -514,8 +514,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         } else if (!isEmpty() && (rightData.getLength() == dataCount)) {
             advance = 1;
         } else if (!isEmpty())
-            if (isStringArray() && rightData.isCharacterArray()
-                && rightData.isRowVector()) {
+            if (isStringArray() && rightData.isCharacterArray() && rightData.isRowVector()) {
                 advance = 0;
             } else {
                 Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
@@ -729,7 +728,7 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
     }
     if (isStringArray() && (rightData.isCharacterArray() && rightData.isRowVector())) {
         advance = 0;
-    } else if (rightData.isScalar())  {
+    } else if (rightData.isScalar()) {
         advance = 0;
     } else if (rightData.getLength() == index_length) {
         advance = 1;
@@ -749,8 +748,7 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
             Error(_W("Cannot promote to string array."));
         }
         rightData = promute;
-    }
-    else if (!isEmpty() && (rightData.getDataClass() == NLS_STRUCT_ARRAY)
+    } else if (!isEmpty() && (rightData.getDataClass() == NLS_STRUCT_ARRAY)
         && (getDataClass() == NLS_STRUCT_ARRAY)) {
         if (rightData.dp->fieldNames.size() > dp->fieldNames.size())
             promoteType(NLS_STRUCT_ARRAY, rightData.dp->fieldNames);

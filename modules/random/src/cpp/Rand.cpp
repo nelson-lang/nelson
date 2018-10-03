@@ -29,7 +29,7 @@ Rand(Evaluator* eval, Class cl)
 }
 //=============================================================================
 ArrayOf
-Rand(Evaluator* eval, Dimensions &dims, Class cl)
+Rand(Evaluator* eval, Dimensions& dims, Class cl)
 {
     dims.simplify();
     if (dims.isEmpty(false)) {

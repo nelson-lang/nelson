@@ -587,9 +587,10 @@ QtTextEditor::open()
     }
 }
 //=============================================================================
-QtTextEditor::~QtTextEditor() { 
-	saveAll(); 
-	if (contextMenu) {
+QtTextEditor::~QtTextEditor()
+{
+    saveAll();
+    if (contextMenu) {
         delete contextMenu;
         contextMenu = nullptr;
     }

@@ -91,7 +91,7 @@ NotEquals(ArrayOf& A, ArrayOf& B, bool& needToOverload)
     if (A.isReferenceType() || B.isReferenceType()) {
         needToOverload = true;
         return ArrayOf();
-	}
+    }
     VectorCheck(A, B, "~=");
     Class classCommon = FindCommonType(A, B, false);
     A.promoteType(classCommon);

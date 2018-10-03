@@ -263,7 +263,7 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
         }
         return ArrayOf(NLS_STRING_ARRAY, outDim, dp);
-	} else if (dataClass == NLS_CELL_ARRAY) {
+    } else if (dataClass == NLS_CELL_ARRAY) {
         ArrayOf* dp = new ArrayOf[outDim.getElementCount()];
         for (int i = 0; i < outDim.getElementCount(); i++) {
             dp[i] = unpackMPI(buffer, bufsize, packpos, comm);

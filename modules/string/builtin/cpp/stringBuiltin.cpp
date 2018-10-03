@@ -46,7 +46,7 @@ Nelson::StringGateway::stringBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
                 retval = OverloadFunction(eval, nLhs, argIn, "string");
             } else {
                 retval.push_back(res);
-			}
+            }
         }
     }
     return retval;

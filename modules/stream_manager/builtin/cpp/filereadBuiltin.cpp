@@ -121,7 +121,7 @@ Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             retval.push_back(ArrayOf::stringArrayConstructor(lines, Dimensions(lines.size(), 1)));
         } else {
             retval.push_back(ToCellStringAsColumn(lines));
-		}
+        }
     }
     return retval;
 }

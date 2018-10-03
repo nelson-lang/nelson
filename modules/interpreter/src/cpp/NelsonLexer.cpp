@@ -910,7 +910,7 @@ setLexBuffer(const std::string& buffer)
     }
     linestart = datap;
     lineNumber = 0;
-} 
+}
 //=============================================================================
 void
 setLexBuffer(const std::wstring& buffer)

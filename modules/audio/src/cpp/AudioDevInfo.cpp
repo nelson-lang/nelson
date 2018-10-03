@@ -175,7 +175,8 @@ getDevicesInfo(
                     double defaultHighLatency = (double)info.padeviceInfo->defaultHighInputLatency;
                     double defaultSampleRate = (double)info.padeviceInfo->defaultSampleRate;
                     name.push_back(ArrayOf::characterArrayConstructor(deviceName));
-                    driverversion.push_back(ArrayOf::characterArrayConstructor(deviceDriverVersion));
+                    driverversion.push_back(
+                        ArrayOf::characterArrayConstructor(deviceDriverVersion));
                     maxchannels.push_back(ArrayOf::doubleConstructor(maxChannels));
                     defaultsamplerate.push_back(ArrayOf::doubleConstructor(defaultSampleRate));
                     defaultlowlatency.push_back(ArrayOf::doubleConstructor(defaultLowLatency));
@@ -189,7 +190,8 @@ getDevicesInfo(
                     double defaultHighLatency = (double)info.padeviceInfo->defaultHighOutputLatency;
                     double defaultSampleRate = (double)info.padeviceInfo->defaultSampleRate;
                     name.push_back(ArrayOf::characterArrayConstructor(deviceName));
-                    driverversion.push_back(ArrayOf::characterArrayConstructor(deviceDriverVersion));
+                    driverversion.push_back(
+                        ArrayOf::characterArrayConstructor(deviceDriverVersion));
                     defaultsamplerate.push_back(ArrayOf::doubleConstructor(defaultSampleRate));
                     maxchannels.push_back(ArrayOf::doubleConstructor(maxChannels));
                     defaultlowlatency.push_back(ArrayOf::doubleConstructor(defaultLowLatency));
@@ -335,7 +337,8 @@ AudioDevInfo(int io, int id, std::wstring& errorMessage)
                     errorMessage = _W("Wrong value for #1 argument.");
                 }
             }
-            return ArrayOf::characterArrayConstructor(utf8_to_wstring(infoFound.padeviceInfo->name));
+            return ArrayOf::characterArrayConstructor(
+                utf8_to_wstring(infoFound.padeviceInfo->name));
         } else {
             errorMessage = _W("Wrong value for #2 argument.");
         }

@@ -352,10 +352,8 @@ Evaluator::cellDefinition(ASTPtr t)
 bool
 Evaluator::needToOverloadOperator(const ArrayOf& a)
 {
-    return ((a.getDataClass() == NLS_STRUCT_ARRAY) ||
-		(a.getDataClass() == NLS_CELL_ARRAY) ||
-		(a.getDataClass() == NLS_STRING_ARRAY) || a.isSparse() ||
-		a.isHandle());
+    return ((a.getDataClass() == NLS_STRUCT_ARRAY) || (a.getDataClass() == NLS_CELL_ARRAY)
+        || (a.getDataClass() == NLS_STRING_ARRAY) || a.isSparse() || a.isHandle());
 }
 
 ArrayOf

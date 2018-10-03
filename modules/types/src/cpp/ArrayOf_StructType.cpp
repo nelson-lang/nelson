@@ -173,7 +173,8 @@ ArrayOf::structConstructor(stringVector fNames, ArrayOfVector& values)
             for (i = 0; i < (sizeType)fNames.size(); i++) {
                 ArrayOf rval = values[i];
                 rptr = (const ArrayOf*)rval.dp->getData();
-                if (rval.dp->dataClass == NLS_CELL_ARRAY || rval.dp->dataClass == NLS_STRING_ARRAY) {
+                if (rval.dp->dataClass == NLS_CELL_ARRAY
+                    || rval.dp->dataClass == NLS_STRING_ARRAY) {
                     if (rval.isScalar()) {
                         qp[offset] = rptr[0];
                     } else {
@@ -401,7 +402,7 @@ ArrayOf::emptyStructWithoutFields()
 }
 //=============================================================================
 ArrayOf
-ArrayOf::emptyStructConstructor(stringVector fNames, Dimensions &dim)
+ArrayOf::emptyStructConstructor(stringVector fNames, Dimensions& dim)
 {
     if (dim.getElementCount() != 0) {
         Error(_W("Invalid dimensions."));
@@ -411,7 +412,7 @@ ArrayOf::emptyStructConstructor(stringVector fNames, Dimensions &dim)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::emptyStructConstructor(wstringVector fNames, Dimensions &dim)
+ArrayOf::emptyStructConstructor(wstringVector fNames, Dimensions& dim)
 {
     stringVector fs;
     fs.reserve(fNames.size());

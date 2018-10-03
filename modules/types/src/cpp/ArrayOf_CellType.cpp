@@ -382,10 +382,10 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
     // Copy in the data
     for (indexType i = 0; i < index_length; i++) {
         indexType ndx = index_p[i] - 1;
-        
-            if (asStringArray) {
+
+        if (asStringArray) {
             if (data.front().isCharacterArray() && data.front().isRowVector()) {
-                    qp[ndx] = data.front();
+                qp[ndx] = data.front();
             } else {
                 if (data.front().isDoubleType(true) && data.front().isEmpty(true)) {
                     qp[ndx] = data.front();
@@ -393,12 +393,11 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
                     Error(_W("{} assignment expects a character vector."));
                 }
             }
-            } else {
-                qp[ndx] = data.front();
-            }
+        } else {
+            qp[ndx] = data.front();
+        }
 
-
-		data.erase(data.begin());
+        data.erase(data.begin());
     }
     dp->dimensions.simplify();
 }
@@ -467,7 +466,6 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
                     } else {
                         Error(_W("{} assignment expects a character vector."));
                     }
-                    
                 }
             } else {
                 qp[j] = data.front();

@@ -67,7 +67,7 @@ ArrayOf::diagonalConstructor(ArrayOf src, int diagonalOrder)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::emptyConstructor(Dimensions &dim, bool bIsSparse)
+ArrayOf::emptyConstructor(Dimensions& dim, bool bIsSparse)
 {
     if (dim.getElementCount() == 0) {
         return ArrayOf(NLS_DOUBLE, dim, NULL, bIsSparse);

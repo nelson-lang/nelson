@@ -29,7 +29,7 @@ RandNormal(Evaluator* eval, Class cl)
 }
 //=============================================================================
 ArrayOf
-RandNormal(Evaluator* eval, Dimensions &dims, Class cl)
+RandNormal(Evaluator* eval, Dimensions& dims, Class cl)
 {
     dims.simplify();
     if (eval->RandomEngine == nullptr) {

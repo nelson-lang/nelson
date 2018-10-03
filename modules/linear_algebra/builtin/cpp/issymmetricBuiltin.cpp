@@ -66,8 +66,8 @@ Nelson::LinearAlgebraGateway::issymmetricBuiltin(
         retval = OverloadFunction(eval, nLhs, argIn, "issymmetric", bSuccess);
     }
     if (!bSuccess) {
-        if (argIn[0].isReferenceType() || argIn[0].isSparse()
-            || argIn[0].isLogical() || argIn[0].isCharacterArray()) {
+        if (argIn[0].isReferenceType() || argIn[0].isSparse() || argIn[0].isLogical()
+            || argIn[0].isCharacterArray()) {
             retval = OverloadFunction(eval, nLhs, argIn, "issymmetric", bSuccess);
             if (bSuccess) {
                 return retval;

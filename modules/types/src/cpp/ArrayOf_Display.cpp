@@ -112,7 +112,7 @@ ArrayOf::summarizeStringArray(Interface* io) const
     if (isEmpty()) {
         if (isCharacterArray()) {
             io->outputMessage("\"\"");
-		} else {
+        } else {
             io->outputMessage("<missing>");
         }
     } else {
@@ -160,7 +160,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             dp->dimensions.printMe(io);
             io->outputMessage(" string ]");
             break;
-		case NLS_STRUCT_ARRAY:
+        case NLS_STRUCT_ARRAY:
             io->outputMessage(" ");
             dp->dimensions.printMe(io);
             if (dp->getStructTypeName() == NLS_FUNCTION_HANDLE_STR) {
@@ -739,7 +739,7 @@ ArrayOf::printMe(Interface* io) const
             }
         }
     }
-} 
+}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -119,14 +119,14 @@ ParseComplexValue(const std::wstring& tx, double& real, double& imag)
     if (num1.empty() && num2.empty()) {
         if (boost::algorithm::starts_with(ToUpper(tx), "-INF")) {
             real = -std::numeric_limits<double>::infinity();
-        } else if (boost::algorithm::starts_with(ToUpper(tx), "+INF") ||
-			boost::algorithm::starts_with(ToUpper(tx), "INF")) {
+        } else if (boost::algorithm::starts_with(ToUpper(tx), "+INF")
+            || boost::algorithm::starts_with(ToUpper(tx), "INF")) {
             real = std::numeric_limits<double>::infinity();
         } else {
             real = nan("");
         }
         if (boost::algorithm::ends_with(ToUpper(tx), "-INFI")) {
-            imag = - std::numeric_limits<double>::infinity();
+            imag = -std::numeric_limits<double>::infinity();
         } else if (boost::algorithm::ends_with(ToUpper(tx), "+INFI")) {
             imag = std::numeric_limits<double>::infinity();
         } else if (boost::algorithm::ends_with(ToUpper(tx), "NANI")) {

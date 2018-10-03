@@ -152,10 +152,10 @@ convertToJsonVariable(const jsmntok_t& token, JsonVariable& jsVar)
 }
 //=============================================================================
 static ArrayOf
-jsonVariableToNelson(JsonVariable &jsVar);
+jsonVariableToNelson(JsonVariable& jsVar);
 //=============================================================================
 static ArrayOf
-jsonVariableToNelsonStringType(JsonVariable &jsVar)
+jsonVariableToNelsonStringType(JsonVariable& jsVar)
 {
     switch (jsVar.dims.size()) {
     case 0: {
@@ -198,7 +198,7 @@ jsonVariableToNelsonStringType(JsonVariable &jsVar)
 }
 //=============================================================================
 static ArrayOf
-jsonVariableToNelsonLogicalType(JsonVariable &jsVar)
+jsonVariableToNelsonLogicalType(JsonVariable& jsVar)
 {
     switch (jsVar.dims.size()) {
     case 0: {
@@ -235,7 +235,7 @@ jsonVariableToNelsonLogicalType(JsonVariable &jsVar)
 }
 //=============================================================================
 static ArrayOf
-jsonVariableToNelsonDoubleType(JsonVariable &jsVar)
+jsonVariableToNelsonDoubleType(JsonVariable& jsVar)
 {
     switch (jsVar.dims.size()) {
     case 0: {
@@ -270,7 +270,7 @@ jsonVariableToNelsonDoubleType(JsonVariable &jsVar)
 }
 //=============================================================================
 static ArrayOf
-jsonVariableToNelsonStructType(JsonVariable &jsVar, Dimensions &dims)
+jsonVariableToNelsonStructType(JsonVariable& jsVar, Dimensions& dims)
 {
     stringVector fieldnames = jsVar.fieldnames;
     ArrayOf* ptrStruct
@@ -288,7 +288,7 @@ jsonVariableToNelsonStructType(JsonVariable &jsVar, Dimensions &dims)
 }
 //=============================================================================
 static ArrayOf
-jsonVariableToNelsonStructType(JsonVariable &jsVar)
+jsonVariableToNelsonStructType(JsonVariable& jsVar)
 {
     switch (jsVar.dims.size()) {
     case 0: {
@@ -331,7 +331,7 @@ jsonVariableToNelsonStructType(JsonVariable &jsVar)
 }
 //=============================================================================
 static ArrayOf
-jsonVariableToNelsonCellType(JsonVariable &jsVar)
+jsonVariableToNelsonCellType(JsonVariable& jsVar)
 {
     Dimensions dims(jsVar.vectorJsonVariable.size(), 1);
     ArrayOf* dptr = (ArrayOf*)ArrayOf::allocateArrayOf(
@@ -343,7 +343,7 @@ jsonVariableToNelsonCellType(JsonVariable &jsVar)
 }
 //=============================================================================
 static ArrayOf
-jsonVariableToNelson(JsonVariable &jsVar)
+jsonVariableToNelson(JsonVariable& jsVar)
 {
     switch (jsVar.jsonVariableType) {
     case JSON_TO_NELSON_LOGICAL: {
@@ -371,7 +371,7 @@ jsonVariableToNelson(JsonVariable &jsVar)
 }
 //=============================================================================
 static JSON_TO_NELSON_Type
-findCommonJsonVariableType(JsonVariable &jsVar)
+findCommonJsonVariableType(JsonVariable& jsVar)
 {
     JSON_TO_NELSON_Type commonType = JSON_TO_NELSON_UNDEFINED;
     if (jsVar.vectorJsonVariable.size() > 0) {

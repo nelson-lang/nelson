@@ -55,7 +55,7 @@ StringToClass(std::wstring classname)
         destClass = NLS_CELL_ARRAY;
     } else if (classname.compare(L"string") == 0) {
         destClass = NLS_STRING_ARRAY;
-	} else if (classname.compare(L"struct") == 0) {
+    } else if (classname.compare(L"struct") == 0) {
         destClass = NLS_STRUCT_ARRAY;
     } else {
         Error(_W("input must be a valid class name."));

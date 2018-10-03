@@ -40,7 +40,7 @@ Evaluator::eqOperator(ArrayOf A, ArrayOf B)
         && !isOverloadAllowed()) {
         res = OverloadBinaryOperator(this, A, B, "eq", bSuccess);
     }
-	if (!bSuccess) {
+    if (!bSuccess) {
         bool needToOverload;
         res = Equals(A, B, needToOverload);
         if (needToOverload) {

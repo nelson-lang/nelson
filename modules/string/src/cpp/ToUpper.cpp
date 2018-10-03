@@ -43,8 +43,8 @@ ToUpper(const ArrayOf& A, bool& needToOverload)
                 if (!element[k].isRowVectorCharacterArray()) {
                     Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
                 }
-                element[k]
-                    = ArrayOf::characterArrayConstructor(ToUpper(element[k].getContentAsWideString()));
+                element[k] = ArrayOf::characterArrayConstructor(
+                    ToUpper(element[k].getContentAsWideString()));
             }
             return res;
         }

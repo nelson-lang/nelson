@@ -38,8 +38,8 @@ Evaluator::notOperator(ArrayOf A)
     bool bSuccess = false;
     if ((overloadOnBasicTypes || needToOverloadOperator(A)) && !isOverloadAllowed()) {
         res = OverloadUnaryOperator(this, A, "not", bSuccess);
-    } 
-	if (!bSuccess) {
+    }
+    if (!bSuccess) {
         bool needToOverload;
         res = Not(A, needToOverload);
         if (needToOverload) {

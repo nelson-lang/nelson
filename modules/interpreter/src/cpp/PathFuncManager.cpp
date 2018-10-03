@@ -324,7 +324,7 @@ PathFuncManager::setUserPath(const std::wstring path, bool saveToFile)
 {
     clearUserPath();
     if (_userPath == nullptr) {
-        _userPath = new PathFunc(path); 
+        _userPath = new PathFunc(path);
     }
     if (saveToFile) {
         saveUserPathToFile();

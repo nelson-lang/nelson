@@ -40,7 +40,7 @@ Evaluator::geOperator(ArrayOf A, ArrayOf B)
         && !isOverloadAllowed()) {
         res = OverloadBinaryOperator(this, A, B, "ge", bSuccess);
     }
-	if (!bSuccess) {
+    if (!bSuccess) {
         bool needToOverload = false;
         res = GreaterEquals(A, B, needToOverload);
         if (needToOverload) {

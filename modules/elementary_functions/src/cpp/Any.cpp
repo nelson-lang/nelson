@@ -48,8 +48,7 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
                     logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
                         NLS_LOGICAL, A.getDimensions().getColumns());
                     Dimensions dims(1, A.getDimensions().getColumns());
-                    res = ArrayOf(
-                        NLS_LOGICAL, dims, logicalarray);
+                    res = ArrayOf(NLS_LOGICAL, dims, logicalarray);
                 }
             }
         } else {
@@ -77,8 +76,7 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
                         logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
                             NLS_LOGICAL, A.getDimensions().getRows());
                         Dimensions dims(A.getDimensions().getRows(), 1);
-                        res = ArrayOf(
-                            NLS_LOGICAL, dims, logicalarray);
+                        res = ArrayOf(NLS_LOGICAL, dims, logicalarray);
                     } else {
                         Dimensions dims(A.getDimensions().getRows(), 0);
                         res = ArrayOf::emptyConstructor(dims);
@@ -89,8 +87,7 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
                         logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
                             NLS_LOGICAL, A.getDimensions().getColumns());
                         Dimensions dims(1, A.getDimensions().getColumns());
-                        res = ArrayOf(NLS_LOGICAL, dims,
-                            logicalarray);
+                        res = ArrayOf(NLS_LOGICAL, dims, logicalarray);
                     } else if (dim - 1 == 1) {
                         Dimensions dims(0, 1);
                         res = ArrayOf::emptyConstructor(dims);

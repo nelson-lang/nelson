@@ -40,8 +40,8 @@ Nelson::LinearAlgebraGateway::expmBuiltin(Evaluator* eval, int nLhs, const Array
         retval = OverloadFunction(eval, nLhs, argIn, "expm", bSuccess);
     }
     if (!bSuccess) {
-        if (argIn[0].isReferenceType() || argIn[0].isSparse()
-            || argIn[0].isLogical() || argIn[0].isCharacterArray() || argIn[0].isIntegerType()) {
+        if (argIn[0].isReferenceType() || argIn[0].isSparse() || argIn[0].isLogical()
+            || argIn[0].isCharacterArray() || argIn[0].isIntegerType()) {
             retval = OverloadFunction(eval, nLhs, argIn, "expm", bSuccess);
             if (bSuccess) {
                 return retval;

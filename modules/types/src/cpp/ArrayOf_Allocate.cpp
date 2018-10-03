@@ -37,7 +37,7 @@ ArrayOf::allocateArrayOf(
         }
         return dp;
     } break;
-	case NLS_CELL_ARRAY: {
+    case NLS_CELL_ARRAY: {
         ArrayOf* dp = new_with_exception<ArrayOf>(length);
         for (indexType i = 0; i < length; i++) {
             dp[i] = ArrayOf(NLS_DOUBLE);
@@ -116,7 +116,7 @@ ArrayOf::deleteArrayOf(void* dp, Class dataclass)
         ArrayOf* rp = (ArrayOf*)dp;
         delete[] rp;
     } break;
-	case NLS_CELL_ARRAY: {
+    case NLS_CELL_ARRAY: {
         ArrayOf* rp = (ArrayOf*)dp;
         delete[] rp;
     } break;

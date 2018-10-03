@@ -56,12 +56,12 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             ArrayOf arg2 = argIn[1];
             std::string newType = arg2.getContentAsCString();
             if ((newType == NLS_SPARSE_STR) || (newType == NLS_CELL_ARRAY_STR)
-				|| (newType == NLS_STRING_ARRAY_STR)
-                || (newType == NLS_STRUCT_ARRAY_STR) || (newType == NLS_LOGICAL_STR)
-                || (newType == NLS_UINT8_STR) || (newType == NLS_INT8_STR)
-                || (newType == NLS_UINT16_STR) || (newType == NLS_INT16_STR)
-                || (newType == NLS_UINT32_STR) || (newType == NLS_INT32_STR)
-                || (newType == NLS_UINT64_STR) || (newType == NLS_INT64_STR) ||
+                || (newType == NLS_STRING_ARRAY_STR) || (newType == NLS_STRUCT_ARRAY_STR)
+                || (newType == NLS_LOGICAL_STR) || (newType == NLS_UINT8_STR)
+                || (newType == NLS_INT8_STR) || (newType == NLS_UINT16_STR)
+                || (newType == NLS_INT16_STR) || (newType == NLS_UINT32_STR)
+                || (newType == NLS_INT32_STR) || (newType == NLS_UINT64_STR)
+                || (newType == NLS_INT64_STR) ||
                 //  (newType == NLS_DOUBLE_STR) ||
                 //	(newType == NLS_SINGLE_STR) ||
                 (newType == NLS_SCOMPLEX_STR) || (newType == NLS_DCOMPLEX_STR)

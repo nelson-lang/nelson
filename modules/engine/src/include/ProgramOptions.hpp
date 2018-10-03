@@ -98,11 +98,11 @@ private:
     bool
     parse();
     bool
-    parseOption(Option &op, bool& bFind);
+    parseOption(Option& op, bool& bFind);
     bool
-    parseOptionWithValue(Option &op, bool& bFind, std::wstring& value);
+    parseOptionWithValue(Option& op, bool& bFind, std::wstring& value);
     bool
-    parseOptionWithValues(Option &op, wstringVector& values);
+    parseOptionWithValues(Option& op, wstringVector& values);
     bool _isvalid;
     bool _ishelp;
     bool _isversion;

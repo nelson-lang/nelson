@@ -221,7 +221,7 @@ complexToStringArray(const ArrayOf& m)
                 }
             } else {
                 char buffer[1024];
-                if (std::abs(trunc(realPart)- realPart) < DBL_EPSILON) {
+                if (std::abs(trunc(realPart) - realPart) < std::numeric_limits<double>::epsilon()) {
                     sprintf(buffer, "%d", (int)realPart);
                 } else {
                     sprintf(buffer, "%.4f", realPart);
@@ -233,7 +233,8 @@ complexToStringArray(const ArrayOf& m)
                 imagStr = "Inf";
             } else {
                 char buffer[1024];
-                if (std::abs(trunc(absImagPart) - absImagPart) < DBL_EPSILON) {
+                if (std::abs(trunc(absImagPart) - absImagPart)
+                    < std::numeric_limits<double>::epsilon()) {
                     sprintf(buffer, "%d", (int)absImagPart);
                 } else {
                     sprintf(buffer, "%.4f", absImagPart);
@@ -247,7 +248,6 @@ complexToStringArray(const ArrayOf& m)
             }
             elements[k] = ArrayOf::characterArrayConstructor(str);
         }
-		
     }
     return ArrayOf(NLS_STRING_ARRAY, dimsM, elements);
 }
@@ -280,7 +280,7 @@ realToStringArray(const ArrayOf& m)
                 }
             } else {
                 char buffer[1024];
-                if (std::abs(trunc(val) - val) < DBL_EPSILON) {
+                if (std::abs(trunc(val) - val) < std::numeric_limits<double>::epsilon()) {
                     sprintf(buffer, "%d", (int)val);
                 } else {
                     sprintf(buffer, "%.4f", val);
@@ -329,15 +329,15 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
         }
         for (size_t k = 0; k < nbElements; k++) {
             bool over;
-			ArrayOf el = ArrayOf::toStringArray(elementsCell[k], over);
+            ArrayOf el = ArrayOf::toStringArray(elementsCell[k], over);
             if (over) {
                 delete[] elementsOutput;
                 needToOverload = true;
                 return ArrayOf();
             }
             elementsOutput[k] = ArrayOf::characterArrayConstructor(el.getContentAsWideString());
-		}		
-		return ArrayOf(NLS_STRING_ARRAY, dimsM, elementsOutput);
+        }
+        return ArrayOf(NLS_STRING_ARRAY, dimsM, elementsOutput);
     } break;
     case NLS_LOGICAL: {
         return logicalToStringArray(m);

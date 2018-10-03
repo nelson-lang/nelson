@@ -514,7 +514,7 @@ public:
      * Empty constructor
      */
     static ArrayOf
-    emptyConstructor(Dimensions &dim, bool bIsSparse = false);
+    emptyConstructor(Dimensions& dim, bool bIsSparse = false);
     static ArrayOf
     emptyConstructor(indexType m = 0, indexType n = 0, bool bIsSparse = false);
     /**
@@ -701,9 +701,9 @@ public:
     static ArrayOf
     emptyStructWithoutFields();
     static ArrayOf
-    emptyStructConstructor(stringVector fNames, Dimensions &dim);
+    emptyStructConstructor(stringVector fNames, Dimensions& dim);
     static ArrayOf
-    emptyStructConstructor(wstringVector fNames, Dimensions &dim);
+    emptyStructConstructor(wstringVector fNames, Dimensions& dim);
 
     static ArrayOf
     structScalarConstructor(stringVector fNames, ArrayOfVector& values);
@@ -1120,7 +1120,7 @@ public:
     isNumeric() const;
 
     void
-    scalarToMatrix(Dimensions &newDimensions);
+    scalarToMatrix(Dimensions& newDimensions);
 
     void
     deleteArrayOf(void* dp, Class dataclass);
@@ -1168,7 +1168,7 @@ public:
     indexType
     getMaxAsIndex();
 
-	//=========================================================================
+    //=========================================================================
     // string array
     //=========================================================================
     bool
@@ -1189,7 +1189,7 @@ public:
     static ArrayOf
     stringArrayConstructor(const wstringVector values, Dimensions dims);
 
-	/**
+    /**
      * Summarize String array.
      */
     void
@@ -1200,15 +1200,15 @@ public:
      * if m is a string array returned value is m
      */
     static ArrayOf
-    toStringArray(ArrayOf m, bool &needToOverload);
-	//=========================================================================
+    toStringArray(ArrayOf m, bool& needToOverload);
+    //=========================================================================
 };
 //=========================================================================
 bool
 isColonOperator(const ArrayOf& a);
 //=========================================================================
 constIndexPtr*
-ProcessNDimIndexes(bool preserveColons, Dimensions &dims, ArrayOfVector& index, bool& anyEmpty,
+ProcessNDimIndexes(bool preserveColons, Dimensions& dims, ArrayOfVector& index, bool& anyEmpty,
     int& colonIndex, Dimensions& outDims, bool argCheck);
 //=========================================================================
 } // namespace Nelson

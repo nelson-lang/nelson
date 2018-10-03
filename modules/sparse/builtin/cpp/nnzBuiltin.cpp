@@ -63,7 +63,7 @@ Nelson::SparseGateway::nnzBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                 Error(_W("Undefined function 'nnz' for input arguments of type 'string'."));
             }
             return retval;
-		case NLS_CELL_ARRAY:
+        case NLS_CELL_ARRAY:
             retval = OverloadFunction(eval, nLhs, argIn, "nnz", bSuccess);
             if (!bSuccess) {
                 Error(_W("Undefined function 'nnz' for input arguments of type 'cell'."));

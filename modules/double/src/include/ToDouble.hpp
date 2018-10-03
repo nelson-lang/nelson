@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSDOUBLE_IMPEXP ArrayOf
-ToDouble(ArrayOf A, bool &needToOverload);
+ToDouble(ArrayOf A, bool& needToOverload);
 }
 //=============================================================================

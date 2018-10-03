@@ -26,6 +26,6 @@ namespace Nelson {
 NLSRANDOM_IMPEXP ArrayOf
 Rand(Evaluator* eval, Class cl);
 NLSRANDOM_IMPEXP ArrayOf
-Rand(Evaluator* eval, Dimensions &dims, Class cl);
+Rand(Evaluator* eval, Dimensions& dims, Class cl);
 } // namespace Nelson
 //=============================================================================

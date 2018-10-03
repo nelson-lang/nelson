@@ -112,8 +112,7 @@ HorzCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
     Class classCommon = FindCommonType(A, B, false);
     if (A.isStringArray() || B.isStringArray()) {
         classCommon = NLS_STRING_ARRAY;
-    } 
-    else if (A.isCell() || B.isCell()) {
+    } else if (A.isCell() || B.isCell()) {
         classCommon = NLS_CELL_ARRAY;
     } else {
         if (A.isStruct() && B.isStruct()) {

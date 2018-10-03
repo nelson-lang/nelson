@@ -66,7 +66,8 @@ Nelson::FunctionsGateway::userpathBuiltin(Evaluator* eval, int nLhs, const Array
         if (nLhs > 1) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
-        retval.push_back(ArrayOf::characterArrayConstructor(PathFuncManager::getInstance()->getUserPath()));
+        retval.push_back(
+            ArrayOf::characterArrayConstructor(PathFuncManager::getInstance()->getUserPath()));
     }
     return retval;
 }
