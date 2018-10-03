@@ -527,6 +527,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
             bool needToOverload = false;
             ArrayOf promute = ArrayOf::toStringArray(rightData, needToOverload);
             if (needToOverload) {
+                Error(_W("Cannot promote to string array."));
             }
             rightData = promute;
 
@@ -719,7 +720,7 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
         return;
     // Get a pointer to the index data set
     constIndexPtr index_p = (constIndexPtr)index.dp->getData();
-    int advance;
+    int advance = 0;
     // Set the right hand side advance pointer to
     //  - 0 if the rhs is a scalar
     //  - 1 else
@@ -745,6 +746,7 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
         bool needToOverload = false;
         ArrayOf promute = ArrayOf::toStringArray(rightData, needToOverload);
         if (needToOverload) {
+            Error(_W("Cannot promote to string array."));
         }
         rightData = promute;
     }

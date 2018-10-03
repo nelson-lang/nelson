@@ -1171,10 +1171,10 @@ public:
 	//=========================================================================
     // string array
     //=========================================================================
-    const bool
+    bool
     isStringArray() const;
 
-    const bool
+    bool
     isNdArrayString() const;
 
     static ArrayOf

@@ -24,13 +24,13 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-const bool
+bool
 ArrayOf::isStringArray() const
 {
     return (dp->dataClass == NLS_STRING_ARRAY);
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isNdArrayString() const
 {
     return (dp->dataClass == NLS_STRING_ARRAY) && !is2D();
@@ -221,7 +221,7 @@ complexToStringArray(const ArrayOf& m)
                 }
             } else {
                 char buffer[1024];
-                if (trunc(realPart) == realPart) {
+                if (std::abs(trunc(realPart)- realPart) < DBL_EPSILON) {
                     sprintf(buffer, "%d", (int)realPart);
                 } else {
                     sprintf(buffer, "%.4f", realPart);
@@ -233,7 +233,7 @@ complexToStringArray(const ArrayOf& m)
                 imagStr = "Inf";
             } else {
                 char buffer[1024];
-                if (trunc(absImagPart) == absImagPart) {
+                if (std::abs(trunc(absImagPart) - absImagPart) < DBL_EPSILON) {
                     sprintf(buffer, "%d", (int)absImagPart);
                 } else {
                     sprintf(buffer, "%.4f", absImagPart);
@@ -280,7 +280,7 @@ realToStringArray(const ArrayOf& m)
                 }
             } else {
                 char buffer[1024];
-                if (trunc(val) == val) {
+                if (std::abs(trunc(val) - val) < DBL_EPSILON) {
                     sprintf(buffer, "%d", (int)val);
                 } else {
                     sprintf(buffer, "%.4f", val);
@@ -320,7 +320,6 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
     case NLS_CELL_ARRAY: {
         ArrayOf* elementsOutput = nullptr;
         ArrayOf* elementsCell = (ArrayOf*)m.getDataPointer();
-        Dimensions dimsM = m.getDimensions();
         size_t nbElements = dimsM.getElementCount();
         try {
             elementsOutput = new ArrayOf[nbElements];

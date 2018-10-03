@@ -75,9 +75,9 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
             ArrayOf* elementA = (ArrayOf*)A.getDataPointer();
             ArrayOf* elementB = (ArrayOf*)B.getDataPointer();
             for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-                ArrayOf A = elementA[k];
-                ArrayOf B = elementB[k];
-                bool res = IsEqual(A, B, sameTypes, withNaN, needToOverload);
+                ArrayOf el1 = elementA[k];
+                ArrayOf el2 = elementB[k];
+                bool res = IsEqual(el1, el2, sameTypes, withNaN, needToOverload);
                 if (needToOverload) {
                     return false;
                 } else {

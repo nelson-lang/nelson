@@ -130,6 +130,7 @@ ParseComplexValue(const std::wstring& tx, double& real, double& imag)
         } else if (boost::algorithm::ends_with(ToUpper(tx), "+INFI")) {
             imag = std::numeric_limits<double>::infinity();
         } else if (boost::algorithm::ends_with(ToUpper(tx), "NANI")) {
+            imag = nan("");
         } else {
             imag = 0;
         }
