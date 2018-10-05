@@ -22,6 +22,6 @@ run([nelsonroot(), '/modules/modules.nls']);
 if ~ispc()
   modules_list(strcmp(modules_list,'com_engine')) = [];
 end
-assert_isequal(modules_loaded, modules_list);
+assert_isequal(modules_loaded, cellstr(modules_list));
 //=============================================================================
 

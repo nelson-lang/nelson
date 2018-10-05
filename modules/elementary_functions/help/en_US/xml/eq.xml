@@ -66,6 +66,14 @@
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description></example_item_description>
+		<example_item_data><![CDATA["Nelson" == "Noslen"]]>
+		</example_item_data>
+	</example_item>
+
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
 		<example_item_data><![CDATA['Nelson' == 'l']]>
 		</example_item_data>
 	</example_item>

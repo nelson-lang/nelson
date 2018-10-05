@@ -31,6 +31,19 @@ CheckNumeric(ArrayOf A, ArrayOf B, const std::string& opname)
             + std::string(_(" to reference types.")));
 }
 //=============================================================================
+void
+VectorCheckReference(ArrayOf& A, ArrayOf& B, const std::string& opname)
+{
+    if (!(A.isReferenceType() && B.isReferenceType())) {
+        Error(_W("Same reference type expected."));
+    }
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsB = B.getDimensions();
+    if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
+        Error(std::string(_("Size mismatch on arguments to arithmetic operator ")) + opname);
+    }
+}
+//=============================================================================
 bool
 MatrixCheck(ArrayOf A, ArrayOf B, const std::string& opname)
 {

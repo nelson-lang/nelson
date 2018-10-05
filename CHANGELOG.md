@@ -6,6 +6,8 @@
     - double extended to manage string array.
     - tolower, toupper  extended to manage string array.
     - fileread, filewrite extended to manage string array.
+    - operator == , eq extended to manage string array.
+    - operator != extended to manage string array.
 
   * internal API C++ methods renamed:
     - "stringConstructor" --> "characterArrayConstructor".

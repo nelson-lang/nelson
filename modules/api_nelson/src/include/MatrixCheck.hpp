@@ -88,6 +88,16 @@ NLSAPI_NELSON_IMPEXP void
 VectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname);
 
 /**
+ * We want to perform a vector operation between two data objects.
+ * The following checks are required:
+ *  1. Both A & B must be same reference type
+ *  2. Either A & B are the same size or
+ *      A is a scalar or B is a scalar.
+ */
+NLSAPI_NELSON_IMPEXP void
+VectorCheckReference(ArrayOf& A, ArrayOf& B, const std::string& opname);
+
+/**
  * We want to perform a vector operator between two logical data objects.
  * The following operations are performed:
  *  1. Both A & B are converted to logical types.
