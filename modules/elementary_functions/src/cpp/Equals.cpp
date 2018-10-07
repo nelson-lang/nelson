@@ -932,15 +932,21 @@ Equals(ArrayOf& A, ArrayOf& B, bool& needToOverload)
     if (A.isEmpty() || B.isEmpty()) {
         if (A.isScalar() || B.isScalar()) {
             if (A.isScalar()) {
-                return ArrayOf(B);
+                ArrayOf res = ArrayOf::emptyConstructor(B.getDimensions());
+                res.promoteType(NLS_LOGICAL);
+                return res;				
             } else {
-                return ArrayOf(A);
+                ArrayOf res = ArrayOf::emptyConstructor(A.getDimensions());
+                res.promoteType(NLS_LOGICAL);
+                return res;
             }
         } else {
             if (!(SameSizeCheck(dimsA, dimsB))) {
                 Error(_W("Size mismatch on arguments to arithmetic operator ") + L"==");
             }
-            return ArrayOf(B);
+            ArrayOf res = ArrayOf::emptyConstructor(B.getDimensions());
+            res.promoteType(NLS_LOGICAL);
+            return res;				
         }
     }
     if (SameSizeCheck(dimsA, dimsB)) {
