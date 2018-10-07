@@ -762,11 +762,11 @@ GreaterThan(ArrayOf& A, ArrayOf& B, bool& needToOverload)
     if (A.isEmpty() || B.isEmpty()) {
         if (A.isScalar() || B.isScalar()) {
             if (A.isScalar()) {
-                ArrayOf res = ArrayOf::emptyConstructor(B.getDimensions());
+                ArrayOf res = ArrayOf::emptyConstructor(dimsB);
                 res.promoteType(NLS_LOGICAL);
                 return res;
             } else {
-                ArrayOf res = ArrayOf::emptyConstructor(A.getDimensions());
+                ArrayOf res = ArrayOf::emptyConstructor(dimsA);
                 res.promoteType(NLS_LOGICAL);
                 return res;
             }
@@ -774,7 +774,7 @@ GreaterThan(ArrayOf& A, ArrayOf& B, bool& needToOverload)
             if (!(SameSizeCheck(dimsA, dimsB))) {
                 Error(_W("Size mismatch on arguments to arithmetic operator ") + L">");
             }
-            ArrayOf res = ArrayOf::emptyConstructor(B.getDimensions());
+            ArrayOf res = ArrayOf::emptyConstructor(dimsB);
             res.promoteType(NLS_LOGICAL);
             return res;
         }
