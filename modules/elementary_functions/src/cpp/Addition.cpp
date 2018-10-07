@@ -386,7 +386,7 @@ complex_addition(Class classDestination, ArrayOf a, ArrayOf b)
 }
 //=============================================================================
 ArrayOf
-double_plus_double(const ArrayOf &a, const ArrayOf &b)
+double_plus_double(const ArrayOf& a, const ArrayOf& b)
 {
     if (a.isComplex() || b.isComplex()) {
         ArrayOf res = complex_addition<double>(NLS_DCOMPLEX, a, b);
@@ -399,7 +399,7 @@ double_plus_double(const ArrayOf &a, const ArrayOf &b)
 }
 //=============================================================================
 ArrayOf
-single_plus_single(const ArrayOf &a, const ArrayOf &b)
+single_plus_single(const ArrayOf& a, const ArrayOf& b)
 {
     if (a.isComplex() || b.isComplex()) {
         ArrayOf res = complex_addition<single>(NLS_SCOMPLEX, a, b);

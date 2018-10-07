@@ -703,7 +703,7 @@ matrix_vector_equals(ArrayOf& A, ArrayOf& B)
     return ArrayOf(NLS_LOGICAL, dimsC, Cp, false);
 }
 //=============================================================================
-static ArrayOf 
+static ArrayOf
 vector_column_matrix_equals(ArrayOf& A, ArrayOf& B)
 {
 
@@ -714,7 +714,7 @@ vector_column_matrix_equals(ArrayOf& A, ArrayOf& B)
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * A.getDimensions().getColumns();
-			switch (A.getDataClass()) {
+            switch (A.getDataClass()) {
             case NLS_STRING_ARRAY: {
                 ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
                 ArrayOf* elementsB = (ArrayOf*)B.getDataPointer();
@@ -811,11 +811,11 @@ matrix_vector_column_equals(ArrayOf& A, ArrayOf& B)
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * B.getDimensions().getColumns();
-			switch (A.getDataClass()) {
+            switch (A.getDataClass()) {
             case NLS_STRING_ARRAY: {
                 ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
                 ArrayOf* elementsB = (ArrayOf*)B.getDataPointer();
-				if (elementsA[m].isCharacterArray() && elementsB[j].isCharacterArray()) {
+                if (elementsA[m].isCharacterArray() && elementsB[j].isCharacterArray()) {
                     Cp[m] = string_compare_is_equals(elementsA[m].getContentAsWideString(),
                         elementsB[j].getContentAsWideString());
                 } else {
@@ -846,7 +846,7 @@ matrix_vector_column_equals(ArrayOf& A, ArrayOf& B)
                 int16* ptrA = (int16*)A.getDataPointer();
                 int16* ptrB = (int16*)B.getDataPointer();
                 Cp[m] = (ptrA[m] == ptrB[j]);
-			} break;
+            } break;
             case NLS_UINT32: {
                 uint32* ptrA = (uint32*)A.getDataPointer();
                 uint32* ptrB = (uint32*)B.getDataPointer();
@@ -885,14 +885,14 @@ matrix_vector_column_equals(ArrayOf& A, ArrayOf& B)
             case NLS_DCOMPLEX: {
                 double* ptrA = (double*)A.getDataPointer();
                 double* ptrB = (double*)B.getDataPointer();
-				Cp[i] = (ptrA[2 * m] == ptrB[2 * j]) && (ptrA[2 * m + 1] == ptrB[2 * j + 1]);
+                Cp[i] = (ptrA[2 * m] == ptrB[2 * j]) && (ptrA[2 * m + 1] == ptrB[2 * j + 1]);
             } break;
             case NLS_CHAR: {
                 charType* ptrA = (charType*)A.getDataPointer();
                 charType* ptrB = (charType*)B.getDataPointer();
                 Cp[m] = (ptrA[m] == ptrB[j]);
             } break;
-			}
+            }
         }
     }
     return ArrayOf(NLS_LOGICAL, dimsC, Cp, false);
@@ -906,9 +906,9 @@ Equals(ArrayOf& A, ArrayOf& B, bool& needToOverload)
         needToOverload = true;
         return ArrayOf();
     }
-    bool asStringArray = (A.isStringArray() && B.isStringArray()) ||
-		(A.isStringArray() && B.isRowVectorCharacterArray()) ||
-		(B.isStringArray() && A.isRowVectorCharacterArray());
+    bool asStringArray = (A.isStringArray() && B.isStringArray())
+        || (A.isStringArray() && B.isRowVectorCharacterArray())
+        || (B.isStringArray() && A.isRowVectorCharacterArray());
     if ((A.isReferenceType() || B.isReferenceType()) && !asStringArray) {
         needToOverload = true;
         return ArrayOf();

@@ -50,7 +50,8 @@ scalar_matrix_string_addition(const ArrayOf& a, const ArrayOf& b)
     indexType Clen = dimsC.getElementCount();
     ArrayOf* elementsA = (ArrayOf*)a.getDataPointer();
     ArrayOf* elementsB = (ArrayOf*)b.getDataPointer();
-    ArrayOf* elementsC = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, Clen, stringVector(), false);
+    ArrayOf* elementsC
+        = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, Clen, stringVector(), false);
     ArrayOf res = ArrayOf(NLS_STRING_ARRAY, dimsC, elementsC);
     for (indexType i = 0; i < Clen; i++) {
         if (elementsA[0].isCharacterArray() && elementsB[i].isCharacterArray()) {
@@ -120,18 +121,18 @@ static ArrayOf
 vector_matrix_string_addition(const ArrayOf& a, const ArrayOf& b)
 {
     Dimensions dimsC = b.getDimensions();
-	ArrayOf* elementsA = (ArrayOf*)a.getDataPointer();
+    ArrayOf* elementsA = (ArrayOf*)a.getDataPointer();
     ArrayOf* elementsB = (ArrayOf*)b.getDataPointer();
-	ArrayOf* elementsC = (ArrayOf*)ArrayOf::allocateArrayOf(
+    ArrayOf* elementsC = (ArrayOf*)ArrayOf::allocateArrayOf(
         NLS_STRING_ARRAY, dimsC.getElementCount(), stringVector(), false);
     indexType q = 0;
     ArrayOf res = ArrayOf(NLS_STRING_ARRAY, dimsC, elementsC);
 
-	for (indexType i = 0; i < dimsC.getRows(); i++) {
+    for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * a.getDimensions().getRows();
 
-			if (elementsA[q].isCharacterArray() && elementsB[m].isCharacterArray()) {
+            if (elementsA[q].isCharacterArray() && elementsB[m].isCharacterArray()) {
                 std::wstring strA = elementsA[q].getContentAsWideString();
                 std::wstring strB = elementsB[m].getContentAsWideString();
                 elementsC[m] = ArrayOf::characterArrayConstructor(strA + strB);
@@ -182,17 +183,17 @@ vector_column_matrix_string_addition(const ArrayOf& a, const ArrayOf& b)
         NLS_STRING_ARRAY, dimsC.getElementCount(), stringVector(), false);
     ArrayOf res = ArrayOf(NLS_STRING_ARRAY, dimsC, elementsC);
 
-	for (indexType i = 0; i < dimsC.getRows(); i++) {
+    for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * a.getDimensions().getColumns();
-			if (elementsA[j].isCharacterArray() && elementsB[m].isCharacterArray()) {
+            if (elementsA[j].isCharacterArray() && elementsB[m].isCharacterArray()) {
                 std::wstring strA = elementsA[j].getContentAsWideString();
                 std::wstring strB = elementsB[m].getContentAsWideString();
                 elementsC[m] = ArrayOf::characterArrayConstructor(strA + strB);
             } else {
                 elementsC[m] = ArrayOf::emptyConstructor();
             }
-		}
+        }
     }
     return res;
 }
@@ -267,13 +268,13 @@ stringArray_plus_stringArray(const ArrayOf& a, const ArrayOf& b)
                     || (a.isColumnVector() && b.isColumnVector())) {
                     Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
                 } else {
-					if (dimsA[1] == dimsB[1]) {
+                    if (dimsA[1] == dimsB[1]) {
                         if (a.isVector()) {
                             return vector_column_matrix_string_addition(a, b);
                         } else {
                             return matrix_vector_column_string_addition(a, b);
                         }
-					} else if ((dimsA[0] == dimsB[0]) && (dimsA[0] != 1) ) {
+                    } else if ((dimsA[0] == dimsB[0]) && (dimsA[0] != 1)) {
                         if (a.isVector()) {
                             return vector_matrix_string_addition(a, b);
                         } else {
