@@ -16,6 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/algorithm/string.hpp>
+#include <algorithm>
 #include "LessThan.hpp"
 #include "MatrixCheck.hpp"
 #include "complex_abs.hpp"
@@ -25,126 +27,783 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-template <class T>
-void
-lessThanReal(indexType N, logical* C, const T* A, int stride1, const T* B, int stride2)
+static bool
+string_compare_is_less_than(const std::wstring& A, const std::wstring& B)
 {
-    indexType m = 0, p = 0;
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-    for (indexType i = 0; i < N; i++) {
-        C[i] = (A[m] < B[p]) ? logical(1) : logical(0);
-        m += stride1;
-        p += stride2;
+    if (A.empty() || B.empty()) {
+        if (A.empty() && B.empty()) {
+            return true;
+        }
+        if (A.empty()) {
+            return true;
+        }
+        return false;
     }
+    return wcscmp(A.c_str(), B.c_str()) < 0;
 }
 //=============================================================================
-template <class T>
-void
-lessThanComplex(indexType N, logical* C, const T* A, int stride1, const T* B, int stride2)
+static ArrayOf
+matrix_matrix_less_than(ArrayOf& A, ArrayOf& B)
 {
-    indexType m = 0, p = 0;
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-    for (indexType i = 0; i < N; i++) {
-        C[i] = (complex_abs<T>(A[2 * m], A[2 * m + 1]) < complex_abs<T>(B[2 * p], B[2 * p + 1]))
-            ? logical(1)
-            : logical(0);
-        m += stride1;
-        p += stride2;
+    ArrayOf res;
+    Dimensions dimsC = A.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    logical* Cp = new_with_exception<logical>(Clen, false);
+
+    for (indexType i = 0; i < A.getDimensions().getElementCount(); i++) {
+        switch (A.getDataClass()) {
+        case NLS_STRING_ARRAY: {
+            ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
+            ArrayOf* elementsB = (ArrayOf*)B.getDataPointer();
+            if (elementsA[i].isCharacterArray() && elementsB[i].isCharacterArray()) {
+                Cp[i] = string_compare_is_less_than(
+                    elementsA[i].getContentAsWideString(), elementsB[i].getContentAsWideString());
+            } else {
+                Cp[i] = logical(0);
+            }
+        } break;
+        case NLS_LOGICAL: {
+            logical* ptrA = (logical*)A.getDataPointer();
+            logical* ptrB = (logical*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[i]);
+        } break;
+        case NLS_UINT8: {
+            uint8* ptrA = (uint8*)A.getDataPointer();
+            uint8* ptrB = (uint8*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[i]);
+        } break;
+        case NLS_INT8: {
+            int8* ptrA = (int8*)A.getDataPointer();
+            int8* ptrB = (int8*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[i]);
+        } break;
+        case NLS_UINT16: {
+            uint16* ptrA = (uint16*)A.getDataPointer();
+            uint16* ptrB = (uint16*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[i]);
+        } break;
+        case NLS_INT16: {
+            int16* ptrA = (int16*)A.getDataPointer();
+            int16* ptrB = (int16*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[i]);
+        } break;
+        case NLS_UINT32: {
+            uint32* ptrA = (uint32*)A.getDataPointer();
+            uint32* ptrB = (uint32*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[i]);
+        } break;
+        case NLS_INT32: {
+            int32* ptrA = (int32*)A.getDataPointer();
+            int32* ptrB = (int32*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[i]);
+        } break;
+        case NLS_UINT64: {
+            uint64* ptrA = (uint64*)A.getDataPointer();
+            uint64* ptrB = (uint64*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[i]);
+        } break;
+        case NLS_INT64: {
+            int64* ptrA = (int64*)A.getDataPointer();
+            int64* ptrB = (int64*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[i]);
+        } break;
+        case NLS_SINGLE: {
+            single* ptrA = (single*)A.getDataPointer();
+            single* ptrB = (single*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[i]);
+        } break;
+        case NLS_DOUBLE: {
+            double* ptrA = (double*)A.getDataPointer();
+            double* ptrB = (double*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[i]);
+        } break;
+        case NLS_SCOMPLEX: {
+            single* ptrA = (single*)A.getDataPointer();
+            single* ptrB = (single*)B.getDataPointer();
+            Cp[i] = (complex_abs<single>(ptrA[2 * i], ptrA[2 * i + 1])
+                < complex_abs<single>(ptrB[2 * i], ptrB[2 * i + 1]));
+        } break;
+        case NLS_DCOMPLEX: {
+            double* ptrA = (double*)A.getDataPointer();
+            double* ptrB = (double*)B.getDataPointer();
+            Cp[i] = (complex_abs<double>(ptrA[2 * i], ptrA[2 * i + 1])
+                < complex_abs<double>(ptrB[2 * i], ptrB[2 * i + 1]));
+        } break;
+        case NLS_CHAR: {
+            charType* ptrA = (charType*)A.getDataPointer();
+            charType* ptrB = (charType*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[i]);
+        } break;
+        }
     }
+    return ArrayOf(NLS_LOGICAL, dimsC, Cp, false);
+}
+//=============================================================================
+static ArrayOf
+scalar_matrix_less_than(ArrayOf& A, ArrayOf& B)
+{
+    Dimensions dimsC = B.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    logical* Cp = new_with_exception<logical>(Clen, false);
+    for (indexType i = 0; i < Clen; i++) {
+        switch (A.getDataClass()) {
+        case NLS_STRING_ARRAY: {
+            ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
+            ArrayOf* elementsB = (ArrayOf*)B.getDataPointer();
+            if (elementsA[0].isCharacterArray() && elementsB[i].isCharacterArray()) {
+                Cp[i] = string_compare_is_less_than(
+                    elementsA[0].getContentAsWideString(), elementsB[i].getContentAsWideString());
+            } else {
+                Cp[i] = logical(0);
+            }
+        } break;
+        case NLS_LOGICAL: {
+            logical* ptrA = (logical*)A.getDataPointer();
+            logical* ptrB = (logical*)B.getDataPointer();
+            Cp[i] = (ptrA[0] < ptrB[i]);
+        } break;
+        case NLS_UINT8: {
+            uint8* ptrA = (uint8*)A.getDataPointer();
+            uint8* ptrB = (uint8*)B.getDataPointer();
+            Cp[i] = (ptrA[0] < ptrB[i]);
+        } break;
+        case NLS_INT8: {
+            int8* ptrA = (int8*)A.getDataPointer();
+            int8* ptrB = (int8*)B.getDataPointer();
+            Cp[i] = (ptrA[0] < ptrB[i]);
+        } break;
+        case NLS_UINT16: {
+            uint16* ptrA = (uint16*)A.getDataPointer();
+            uint16* ptrB = (uint16*)B.getDataPointer();
+            Cp[i] = (ptrA[0] < ptrB[i]);
+        } break;
+        case NLS_INT16: {
+            int16* ptrA = (int16*)A.getDataPointer();
+            int16* ptrB = (int16*)B.getDataPointer();
+            Cp[i] = (ptrA[0] < ptrB[i]);
+        } break;
+        case NLS_UINT32: {
+            uint32* ptrA = (uint32*)A.getDataPointer();
+            uint32* ptrB = (uint32*)B.getDataPointer();
+            Cp[i] = (ptrA[0] < ptrB[i]);
+        } break;
+        case NLS_INT32: {
+            int32* ptrA = (int32*)A.getDataPointer();
+            int32* ptrB = (int32*)B.getDataPointer();
+            Cp[i] = (ptrA[0] < ptrB[i]);
+        } break;
+        case NLS_UINT64: {
+            uint64* ptrA = (uint64*)A.getDataPointer();
+            uint64* ptrB = (uint64*)B.getDataPointer();
+            Cp[i] = (ptrA[0] < ptrB[i]);
+        } break;
+        case NLS_INT64: {
+            int64* ptrA = (int64*)A.getDataPointer();
+            int64* ptrB = (int64*)B.getDataPointer();
+            Cp[i] = (ptrA[0] < ptrB[i]);
+        } break;
+        case NLS_SINGLE: {
+            single* ptrA = (single*)A.getDataPointer();
+            single* ptrB = (single*)B.getDataPointer();
+            Cp[i] = (ptrA[0] < ptrB[i]);
+        } break;
+        case NLS_DOUBLE: {
+            double* ptrA = (double*)A.getDataPointer();
+            double* ptrB = (double*)B.getDataPointer();
+            Cp[i] = (ptrA[0] < ptrB[i]);
+        } break;
+        case NLS_SCOMPLEX: {
+            single* ptrA = (single*)A.getDataPointer();
+            single* ptrB = (single*)B.getDataPointer();
+            Cp[i] = (complex_abs<single>(ptrA[0], ptrA[1])
+                < complex_abs<single>(ptrB[2 * i], ptrB[2 * i + 1]));
+        } break;
+        case NLS_DCOMPLEX: {
+            double* ptrA = (double*)A.getDataPointer();
+            double* ptrB = (double*)B.getDataPointer();
+            Cp[i] = (complex_abs<double>(ptrA[0], ptrA[1])
+                < complex_abs<double>(ptrB[2 * i], ptrB[2 * i + 1]));
+        } break;
+        case NLS_CHAR: {
+            charType* ptrA = (charType*)A.getDataPointer();
+            charType* ptrB = (charType*)B.getDataPointer();
+            Cp[i] = (ptrA[0] < ptrB[i]);
+        } break;
+        }
+    }
+    return ArrayOf(NLS_LOGICAL, dimsC, Cp, false);
+}
+//=============================================================================
+static ArrayOf
+matrix_scalar_less_than(ArrayOf& A, ArrayOf& B)
+{
+    Dimensions dimsC = A.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    logical* Cp = new_with_exception<logical>(Clen, false);
+    for (indexType i = 0; i < Clen; i++) {
+        switch (A.getDataClass()) {
+        case NLS_STRING_ARRAY: {
+            ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
+            ArrayOf* elementsB = (ArrayOf*)B.getDataPointer();
+            if (elementsA[i].isCharacterArray() && elementsB[0].isCharacterArray()) {
+                Cp[i] = string_compare_is_less_than(
+                    elementsA[i].getContentAsWideString(), elementsB[0].getContentAsWideString());
+            } else {
+                Cp[i] = logical(0);
+            }
+        } break;
+        case NLS_LOGICAL: {
+            logical* ptrA = (logical*)A.getDataPointer();
+            logical* ptrB = (logical*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[0]);
+        } break;
+        case NLS_UINT8: {
+            uint8* ptrA = (uint8*)A.getDataPointer();
+            uint8* ptrB = (uint8*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[0]);
+        } break;
+        case NLS_INT8: {
+            int8* ptrA = (int8*)A.getDataPointer();
+            int8* ptrB = (int8*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[0]);
+        } break;
+        case NLS_UINT16: {
+            uint16* ptrA = (uint16*)A.getDataPointer();
+            uint16* ptrB = (uint16*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[0]);
+        } break;
+        case NLS_INT16: {
+            int16* ptrA = (int16*)A.getDataPointer();
+            int16* ptrB = (int16*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[0]);
+        } break;
+        case NLS_UINT32: {
+            uint32* ptrA = (uint32*)A.getDataPointer();
+            uint32* ptrB = (uint32*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[0]);
+        } break;
+        case NLS_INT32: {
+            int32* ptrA = (int32*)A.getDataPointer();
+            int32* ptrB = (int32*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[0]);
+        } break;
+        case NLS_UINT64: {
+            uint64* ptrA = (uint64*)A.getDataPointer();
+            uint64* ptrB = (uint64*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[0]);
+        } break;
+        case NLS_INT64: {
+            int64* ptrA = (int64*)A.getDataPointer();
+            int64* ptrB = (int64*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[0]);
+        } break;
+        case NLS_SINGLE: {
+            single* ptrA = (single*)A.getDataPointer();
+            single* ptrB = (single*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[0]);
+        } break;
+        case NLS_DOUBLE: {
+            double* ptrA = (double*)A.getDataPointer();
+            double* ptrB = (double*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[0]);
+        } break;
+        case NLS_SCOMPLEX: {
+            single* ptrA = (single*)A.getDataPointer();
+            single* ptrB = (single*)B.getDataPointer();
+            Cp[i] = (complex_abs<single>(ptrA[2 * i], ptrA[2 * i + 1])
+                < complex_abs<single>(ptrB[0], ptrB[1]));
+        } break;
+        case NLS_DCOMPLEX: {
+            double* ptrA = (double*)A.getDataPointer();
+            double* ptrB = (double*)B.getDataPointer();
+            Cp[i] = (complex_abs<double>(ptrA[2 * i], ptrA[2 * i + 1])
+                < complex_abs<double>(ptrB[0], ptrB[1]));
+        } break;
+        case NLS_CHAR: {
+            charType* ptrA = (charType*)A.getDataPointer();
+            charType* ptrB = (charType*)B.getDataPointer();
+            Cp[i] = (ptrA[i] < ptrB[0]);
+        } break;
+        }
+    }
+    return ArrayOf(NLS_LOGICAL, dimsC, Cp, false);
+}
+//=============================================================================
+static ArrayOf
+vector_row_column_less_than(const Dimensions& outputDimensions, ArrayOf& A, ArrayOf& B)
+{
+    ArrayOf res;
+    indexType Clen = outputDimensions.getElementCount();
+    logical* Cp = new_with_exception<logical>(Clen, false);
+
+    indexType m = 0;
+    for (indexType i = 0; i < A.getDimensions().getElementCount(); i++) {
+        for (indexType j = 0; j < B.getDimensions().getElementCount(); j++) {
+            switch (A.getDataClass()) {
+            case NLS_STRING_ARRAY: {
+                ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
+                ArrayOf* elementsB = (ArrayOf*)B.getDataPointer();
+                if (elementsA[i].isCharacterArray() && elementsB[j].isCharacterArray()) {
+                    Cp[m] = string_compare_is_less_than(elementsA[i].getContentAsWideString(),
+                        elementsB[j].getContentAsWideString());
+                } else {
+                    Cp[m] = logical(0);
+                }
+            } break;
+            case NLS_LOGICAL: {
+                logical* ptrA = (logical*)A.getDataPointer();
+                logical* ptrB = (logical*)B.getDataPointer();
+                Cp[m] = (ptrA[i] < ptrB[j]);
+            } break;
+            case NLS_UINT8: {
+                uint8* ptrA = (uint8*)A.getDataPointer();
+                uint8* ptrB = (uint8*)B.getDataPointer();
+                Cp[m] = (ptrA[i] < ptrB[j]);
+            } break;
+            case NLS_INT8: {
+                int8* ptrA = (int8*)A.getDataPointer();
+                int8* ptrB = (int8*)B.getDataPointer();
+                Cp[m] = (ptrA[i] < ptrB[j]);
+            } break;
+            case NLS_UINT16: {
+                uint16* ptrA = (uint16*)A.getDataPointer();
+                uint16* ptrB = (uint16*)B.getDataPointer();
+                Cp[m] = (ptrA[i] < ptrB[j]);
+            } break;
+            case NLS_INT16: {
+                int16* ptrA = (int16*)A.getDataPointer();
+                int16* ptrB = (int16*)B.getDataPointer();
+                Cp[m] = (ptrA[i] < ptrB[j]);
+            } break;
+            case NLS_UINT32: {
+                uint32* ptrA = (uint32*)A.getDataPointer();
+                uint32* ptrB = (uint32*)B.getDataPointer();
+                Cp[m] = (ptrA[i] < ptrB[j]);
+            } break;
+            case NLS_INT32: {
+                int32* ptrA = (int32*)A.getDataPointer();
+                int32* ptrB = (int32*)B.getDataPointer();
+                Cp[m] = (ptrA[i] < ptrB[j]);
+            } break;
+            case NLS_UINT64: {
+                uint64* ptrA = (uint64*)A.getDataPointer();
+                uint64* ptrB = (uint64*)B.getDataPointer();
+                Cp[m] = (ptrA[i] < ptrB[j]);
+            } break;
+            case NLS_INT64: {
+                int64* ptrA = (int64*)A.getDataPointer();
+                int64* ptrB = (int64*)B.getDataPointer();
+                Cp[m] = (ptrA[i] < ptrB[j]);
+            } break;
+            case NLS_SINGLE: {
+                single* ptrA = (single*)A.getDataPointer();
+                single* ptrB = (single*)B.getDataPointer();
+                Cp[m] = (ptrA[i] < ptrB[j]);
+            } break;
+            case NLS_DOUBLE: {
+                double* ptrA = (double*)A.getDataPointer();
+                double* ptrB = (double*)B.getDataPointer();
+                Cp[m] = (ptrA[i] < ptrB[j]);
+            } break;
+            case NLS_SCOMPLEX: {
+                single* ptrA = (single*)A.getDataPointer();
+                single* ptrB = (single*)B.getDataPointer();
+                Cp[m] = (complex_abs<single>(ptrA[2 * i], ptrA[2 * i + 1])
+                    < complex_abs<single>(ptrB[2 * j], ptrB[2 * j + 1]));
+            } break;
+            case NLS_DCOMPLEX: {
+                double* ptrA = (double*)A.getDataPointer();
+                double* ptrB = (double*)B.getDataPointer();
+                Cp[m] = (complex_abs<double>(ptrA[2 * i], ptrA[2 * i + 1])
+                    < complex_abs<double>(ptrB[2 * j], ptrB[2 * j + 1]));
+            } break;
+            case NLS_CHAR: {
+                charType* ptrA = (charType*)A.getDataPointer();
+                charType* ptrB = (charType*)B.getDataPointer();
+                Cp[m] = (ptrA[i] < ptrB[j]);
+            } break;
+            }
+            m++;
+        }
+    }
+    return ArrayOf(NLS_LOGICAL, outputDimensions, Cp, false);
+}
+//=============================================================================
+static ArrayOf
+vector_column_row_less_than(const Dimensions& outputDimensions, ArrayOf& A, ArrayOf& B)
+{
+    ArrayOf res;
+    indexType Clen = outputDimensions.getElementCount();
+    logical* Cp = new_with_exception<logical>(Clen, false);
+
+    indexType m = 0;
+    for (indexType i = 0; i < B.getDimensions().getElementCount(); i++) {
+        for (indexType j = 0; j < A.getDimensions().getElementCount(); j++) {
+            switch (A.getDataClass()) {
+            case NLS_STRING_ARRAY: {
+                ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
+                ArrayOf* elementsB = (ArrayOf*)B.getDataPointer();
+                if (elementsA[j].isCharacterArray() && elementsB[i].isCharacterArray()) {
+                    Cp[m] = string_compare_is_less_than(elementsA[j].getContentAsWideString(),
+                        elementsB[i].getContentAsWideString());
+                } else {
+                    Cp[m] = logical(0);
+                }
+            } break;
+            case NLS_LOGICAL: {
+                logical* ptrA = (logical*)A.getDataPointer();
+                logical* ptrB = (logical*)B.getDataPointer();
+                Cp[m] = (ptrA[j] < ptrB[i]);
+            } break;
+            case NLS_UINT8: {
+                uint8* ptrA = (uint8*)A.getDataPointer();
+                uint8* ptrB = (uint8*)B.getDataPointer();
+                Cp[m] = (ptrA[j] < ptrB[i]);
+            } break;
+            case NLS_INT8: {
+                int8* ptrA = (int8*)A.getDataPointer();
+                int8* ptrB = (int8*)B.getDataPointer();
+                Cp[m] = (ptrA[j] < ptrB[i]);
+            } break;
+            case NLS_UINT16: {
+                uint16* ptrA = (uint16*)A.getDataPointer();
+                uint16* ptrB = (uint16*)B.getDataPointer();
+                Cp[m] = (ptrA[j] < ptrB[i]);
+            } break;
+            case NLS_INT16: {
+                int16* ptrA = (int16*)A.getDataPointer();
+                int16* ptrB = (int16*)B.getDataPointer();
+                Cp[m] = (ptrA[j] < ptrB[i]);
+            } break;
+            case NLS_UINT32: {
+                uint32* ptrA = (uint32*)A.getDataPointer();
+                uint32* ptrB = (uint32*)B.getDataPointer();
+                Cp[m] = (ptrA[j] < ptrB[i]);
+            } break;
+            case NLS_INT32: {
+                int32* ptrA = (int32*)A.getDataPointer();
+                int32* ptrB = (int32*)B.getDataPointer();
+                Cp[m] = (ptrA[j] < ptrB[i]);
+            } break;
+            case NLS_UINT64: {
+                uint64* ptrA = (uint64*)A.getDataPointer();
+                uint64* ptrB = (uint64*)B.getDataPointer();
+                Cp[m] = (ptrA[j] < ptrB[i]);
+            } break;
+            case NLS_INT64: {
+                int64* ptrA = (int64*)A.getDataPointer();
+                int64* ptrB = (int64*)B.getDataPointer();
+                Cp[m] = (ptrA[j] < ptrB[i]);
+            } break;
+            case NLS_SINGLE: {
+                single* ptrA = (single*)A.getDataPointer();
+                single* ptrB = (single*)B.getDataPointer();
+                Cp[m] = (ptrA[j] < ptrB[i]);
+            } break;
+            case NLS_DOUBLE: {
+                double* ptrA = (double*)A.getDataPointer();
+                double* ptrB = (double*)B.getDataPointer();
+                Cp[m] = (ptrA[j] < ptrB[i]);
+            } break;
+            case NLS_SCOMPLEX: {
+                single* ptrA = (single*)A.getDataPointer();
+                single* ptrB = (single*)B.getDataPointer();
+                Cp[m] = (complex_abs<single>(ptrA[2 * j], ptrA[2 * j + 1])
+                    < complex_abs<single>(ptrB[2 * i], ptrB[2 * i + 1]));
+            } break;
+            case NLS_DCOMPLEX: {
+                double* ptrA = (double*)A.getDataPointer();
+                double* ptrB = (double*)B.getDataPointer();
+                Cp[m] = (complex_abs<double>(ptrA[2 * j], ptrA[2 * j + 1])
+                    < complex_abs<double>(ptrB[2 * i], ptrB[2 * i + 1]));
+            } break;
+            case NLS_CHAR: {
+                charType* ptrA = (charType*)A.getDataPointer();
+                charType* ptrB = (charType*)B.getDataPointer();
+                Cp[m] = (ptrA[j] < ptrB[i]);
+            } break;
+            }
+            m++;
+        }
+    }
+    return ArrayOf(NLS_LOGICAL, outputDimensions, Cp, false);
+}
+//=============================================================================
+static ArrayOf
+vector_matrix_less_than(ArrayOf& A, ArrayOf& B)
+{
+    indexType q = 0;
+    Dimensions dimsC = B.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    logical* Cp = new_with_exception<logical>(Clen, false);
+    for (indexType i = 0; i < dimsC.getRows(); i++) {
+        for (indexType j = 0; j < dimsC.getColumns(); j++) {
+            indexType m = i + j * A.getDimensions().getRows();
+            switch (A.getDataClass()) {
+            case NLS_STRING_ARRAY: {
+                ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
+                ArrayOf* elementsB = (ArrayOf*)B.getDataPointer();
+                if (elementsA[m].isCharacterArray() && elementsB[q].isCharacterArray()) {
+                    Cp[m] = string_compare_is_less_than(elementsA[q].getContentAsWideString(),
+                        elementsB[m].getContentAsWideString());
+                } else {
+                    Cp[i] = logical(0);
+                }
+            } break;
+            case NLS_LOGICAL: {
+                logical* ptrA = (logical*)A.getDataPointer();
+                logical* ptrB = (logical*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_UINT8: {
+                uint8* ptrA = (uint8*)A.getDataPointer();
+                uint8* ptrB = (uint8*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_INT8: {
+                int8* ptrA = (int8*)A.getDataPointer();
+                int8* ptrB = (int8*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_UINT16: {
+                uint16* ptrA = (uint16*)A.getDataPointer();
+                uint16* ptrB = (uint16*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_INT16: {
+                int16* ptrA = (int16*)A.getDataPointer();
+                int16* ptrB = (int16*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_UINT32: {
+                uint32* ptrA = (uint32*)A.getDataPointer();
+                uint32* ptrB = (uint32*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_INT32: {
+                int32* ptrA = (int32*)A.getDataPointer();
+                int32* ptrB = (int32*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_UINT64: {
+                uint64* ptrA = (uint64*)A.getDataPointer();
+                uint64* ptrB = (uint64*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_INT64: {
+                int64* ptrA = (int64*)A.getDataPointer();
+                int64* ptrB = (int64*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_SINGLE: {
+                single* ptrA = (single*)A.getDataPointer();
+                single* ptrB = (single*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_DOUBLE: {
+                double* ptrA = (double*)A.getDataPointer();
+                double* ptrB = (double*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_SCOMPLEX: {
+                single* ptrA = (single*)A.getDataPointer();
+                single* ptrB = (single*)B.getDataPointer();
+                Cp[m] = (complex_abs<single>(ptrA[2 * q], ptrA[2 * q + 1])
+                    < complex_abs<single>(ptrB[2 * m], ptrB[2 * m + 1]));
+            } break;
+            case NLS_DCOMPLEX: {
+                double* ptrA = (double*)A.getDataPointer();
+                double* ptrB = (double*)B.getDataPointer();
+                Cp[m] = (complex_abs<double>(ptrA[2 * q], ptrA[2 * q + 1])
+                    < complex_abs<double>(ptrB[2 * m], ptrB[2 * m + 1]));
+            } break;
+            case NLS_CHAR: {
+                charType* ptrA = (charType*)A.getDataPointer();
+                charType* ptrB = (charType*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            }
+        }
+        q++;
+    }
+    return ArrayOf(NLS_LOGICAL, dimsC, Cp, false);
+}
+//=============================================================================
+static ArrayOf
+matrix_vector_less_than(ArrayOf& A, ArrayOf& B)
+{
+    indexType q = 0;
+    Dimensions dimsC = A.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    logical* Cp = new_with_exception<logical>(Clen, false);
+    for (indexType i = 0; i < dimsC.getRows(); i++) {
+        for (indexType j = 0; j < dimsC.getColumns(); j++) {
+            indexType m = i + j * B.getDimensions().getRows();
+            switch (A.getDataClass()) {
+            case NLS_STRING_ARRAY: {
+                ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
+                ArrayOf* elementsB = (ArrayOf*)B.getDataPointer();
+                if (elementsA[q].isCharacterArray() && elementsB[m].isCharacterArray()) {
+                    Cp[m] = string_compare_is_less_than(elementsA[q].getContentAsWideString(),
+                        elementsB[m].getContentAsWideString());
+                } else {
+                    Cp[i] = logical(0);
+                }
+            } break;
+            case NLS_LOGICAL: {
+                logical* ptrA = (logical*)A.getDataPointer();
+                logical* ptrB = (logical*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_UINT8: {
+                uint8* ptrA = (uint8*)A.getDataPointer();
+                uint8* ptrB = (uint8*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_INT8: {
+                int8* ptrA = (int8*)A.getDataPointer();
+                int8* ptrB = (int8*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_UINT16: {
+                uint16* ptrA = (uint16*)A.getDataPointer();
+                uint16* ptrB = (uint16*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_INT16: {
+                int16* ptrA = (int16*)A.getDataPointer();
+                int16* ptrB = (int16*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_UINT32: {
+                uint32* ptrA = (uint32*)A.getDataPointer();
+                uint32* ptrB = (uint32*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_INT32: {
+                int32* ptrA = (int32*)A.getDataPointer();
+                int32* ptrB = (int32*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_UINT64: {
+                uint64* ptrA = (uint64*)A.getDataPointer();
+                uint64* ptrB = (uint64*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_INT64: {
+                int64* ptrA = (int64*)A.getDataPointer();
+                int64* ptrB = (int64*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_SINGLE: {
+                single* ptrA = (single*)A.getDataPointer();
+                single* ptrB = (single*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_DOUBLE: {
+                double* ptrA = (double*)A.getDataPointer();
+                double* ptrB = (double*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            case NLS_SCOMPLEX: {
+                single* ptrA = (single*)A.getDataPointer();
+                single* ptrB = (single*)B.getDataPointer();
+                Cp[m] = (complex_abs<single>(ptrA[2 * q], ptrA[2 * q + 1])
+                    < complex_abs<single>(ptrB[2 * m], ptrB[2 * m + 1]));
+            } break;
+            case NLS_DCOMPLEX: {
+                double* ptrA = (double*)A.getDataPointer();
+                double* ptrB = (double*)B.getDataPointer();
+                Cp[m] = (complex_abs<double>(ptrA[2 * q], ptrA[2 * q + 1])
+                    < complex_abs<double>(ptrB[2 * m], ptrB[2 * m + 1]));
+            } break;
+            case NLS_CHAR: {
+                charType* ptrA = (charType*)A.getDataPointer();
+                charType* ptrB = (charType*)B.getDataPointer();
+                Cp[m] = (ptrA[q] < ptrB[m]);
+            } break;
+            }
+        }
+        q++;
+    }
+    return ArrayOf(NLS_LOGICAL, dimsC, Cp, false);
 }
 //=============================================================================
 ArrayOf
 LessThan(ArrayOf& A, ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
-    VectorCheck(A, B, "<");
+    if (A.isSparse() || B.isSparse()) {
+        needToOverload = true;
+        return ArrayOf();
+    }
+    bool isStringArray = A.isStringArray() && B.isStringArray();
+    if ((A.isReferenceType() || B.isReferenceType()) && !isStringArray) {
+        needToOverload = true;
+        return ArrayOf();
+    }
     Class classCommon = FindCommonType(A, B, false);
     A.promoteType(classCommon);
     B.promoteType(classCommon);
-    int Astride, Bstride;
-    indexType Clen = 0;
-    Dimensions Cdim;
-    if (A.isScalar()) {
-        Astride = 0;
-        Bstride = 1;
-        Cdim = B.getDimensions();
-    } else if (B.isScalar()) {
-        Astride = 1;
-        Bstride = 0;
-        Cdim = A.getDimensions();
+
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsB = B.getDimensions();
+    Dimensions dimsC;
+    if (A.isEmpty() || B.isEmpty()) {
+        if (A.isScalar() || B.isScalar()) {
+            if (A.isScalar()) {
+                return ArrayOf(B);
+            } else {
+                return ArrayOf(A);
+            }
+        } else {
+            if (!(SameSizeCheck(dimsA, dimsB))) {
+                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"<");
+            }
+            return ArrayOf(B);
+        }
+    }
+    if (SameSizeCheck(dimsA, dimsB)) {
+        return matrix_matrix_less_than(A, B);
     } else {
-        Astride = 1;
-        Bstride = 1;
-        Cdim = A.getDimensions();
+        if (A.isScalar() || B.isScalar()) {
+            if (A.isScalar()) {
+                return scalar_matrix_less_than(A, B);
+            } else {
+                return matrix_scalar_less_than(A, B);
+            }
+        } else {
+            if (A.isVector() || B.isVector()) {
+                if (A.isRowVector() && B.isColumnVector()) {
+                    dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
+                        std::max(dimsA.getMax(), dimsB.getMax()));
+                    return vector_row_column_less_than(dimsC, A, B);
+                } else if (A.isColumnVector() && B.isRowVector()) {
+                    dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
+                        std::max(dimsA.getMax(), dimsB.getMax()));
+                    return vector_column_row_less_than(dimsC, A, B);
+                } else if ((A.isRowVector() && B.isRowVector())
+                    || (A.isColumnVector() && B.isColumnVector())) {
+                    Error(_W("Size mismatch on arguments to arithmetic operator ") + L"<");
+                } else {
+                    if ((dimsA[0] == dimsB[0]) && (dimsA[0] != 1)) {
+                        if (A.isVector()) {
+                            return vector_matrix_less_than(A, B);
+                        } else {
+                            return matrix_vector_less_than(A, B);
+                        }
+                    } else {
+                        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"<");
+                    }
+                }
+            } else {
+                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"<");
+            }
+        }
     }
-    Clen = Cdim.getElementCount();
-    void* Cp = new_with_exception<logical>(Clen);
-    switch (B.getDataClass()) {
-    case NLS_LOGICAL: {
-        lessThanReal<logical>(Clen, (logical*)Cp, (logical*)A.getDataPointer(), Astride,
-            (logical*)B.getDataPointer(), Bstride);
-    } break;
-    case NLS_CHAR: {
-        lessThanReal<charType>(Clen, (logical*)Cp, (charType*)A.getDataPointer(), Astride,
-            (charType*)B.getDataPointer(), Bstride);
-    } break;
-    case NLS_UINT8: {
-        lessThanReal<uint8>(Clen, (logical*)Cp, (uint8*)A.getDataPointer(), Astride,
-            (uint8*)B.getDataPointer(), Bstride);
-    } break;
-    case NLS_UINT16: {
-        lessThanReal<uint16>(Clen, (logical*)Cp, (uint16*)A.getDataPointer(), Astride,
-            (uint16*)B.getDataPointer(), Bstride);
-    } break;
-    case NLS_UINT32: {
-        lessThanReal<uint32>(Clen, (logical*)Cp, (uint32*)A.getDataPointer(), Astride,
-            (uint32*)B.getDataPointer(), Bstride);
-    } break;
-    case NLS_UINT64: {
-        lessThanReal<uint64>(Clen, (logical*)Cp, (uint64*)A.getDataPointer(), Astride,
-            (uint64*)B.getDataPointer(), Bstride);
-    } break;
-    case NLS_INT8: {
-        lessThanReal<int8>(Clen, (logical*)Cp, (int8*)A.getDataPointer(), Astride,
-            (int8*)B.getDataPointer(), Bstride);
-    } break;
-    case NLS_INT16: {
-        lessThanReal<int16>(Clen, (logical*)Cp, (int16*)A.getDataPointer(), Astride,
-            (int16*)B.getDataPointer(), Bstride);
-    } break;
-    case NLS_INT32: {
-        lessThanReal<int32>(Clen, (logical*)Cp, (int32*)A.getDataPointer(), Astride,
-            (int32*)B.getDataPointer(), Bstride);
-    } break;
-    case NLS_INT64: {
-        lessThanReal<int64>(Clen, (logical*)Cp, (int64*)A.getDataPointer(), Astride,
-            (int64*)B.getDataPointer(), Bstride);
-    } break;
-    case NLS_SINGLE: {
-        lessThanReal<single>(Clen, (logical*)Cp, (single*)A.getDataPointer(), Astride,
-            (single*)B.getDataPointer(), Bstride);
-    } break;
-    case NLS_DOUBLE: {
-        lessThanReal<double>(Clen, (logical*)Cp, (double*)A.getDataPointer(), Astride,
-            (double*)B.getDataPointer(), Bstride);
-    } break;
-    case NLS_SCOMPLEX: {
-        lessThanComplex<single>(Clen, (logical*)Cp, (single*)A.getDataPointer(), Astride,
-            (single*)B.getDataPointer(), Bstride);
-    } break;
-    case NLS_DCOMPLEX: {
-        lessThanComplex<double>(Clen, (logical*)Cp, (double*)A.getDataPointer(), Astride,
-            (double*)B.getDataPointer(), Bstride);
-    } break;
-    default: {
-        needToOverload = true;
-    } break;
-    }
-    return ArrayOf(NLS_LOGICAL, Cdim, Cp);
+    needToOverload = true;
+    return ArrayOf();
 }
+//=============================================================================
 }
 //=============================================================================

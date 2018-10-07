@@ -79,3 +79,7 @@ A = [true, false, true];
 B = [true, false, true, true];
 assert_checkerror('B | A', [_('Size mismatch on arguments to '), '|']);
 //=============================================================================
+A = ones(1,2,3);
+B = [1:3];
+assert_checkerror('A | B', [_('Size mismatch on arguments to '), '|']);
+//=============================================================================

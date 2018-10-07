@@ -270,7 +270,7 @@ addition(Class classDestination, ArrayOf a, ArrayOf b)
                     const T* ptrA = (const T*)a.getDataPointer();
                     const T* ptrB = (const T*)b.getDataPointer();
 
-                    if (dimsA[0] == dimsB[0]) {
+                    if ((dimsA[0] == dimsB[0]) && (dimsA[0] != 1)) {
                         if (a.isVector()) {
                             return vector_matrix_addition<T>(classDestination, a, b);
                         } else {
