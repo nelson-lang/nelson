@@ -218,6 +218,7 @@
     <ClCompile Include="..\cpp\Remainder.cpp" />
     <ClCompile Include="..\cpp\RightDivide.cpp" />
     <ClCompile Include="..\cpp\Sqrt.cpp" />
+    <ClCompile Include="..\cpp\StringArrayAddition.cpp" />
     <ClCompile Include="..\cpp\Subtraction.cpp" />
     <ClCompile Include="..\cpp\ElementWiseMultiplication.cpp" />
     <ClCompile Include="..\cpp\Transpose.cpp" />
@@ -270,6 +271,7 @@
     <ClInclude Include="..\include\Remainder.hpp" />
     <ClInclude Include="..\include\RightDivide.hpp" />
     <ClInclude Include="..\include\Sqrt.hpp" />
+    <ClInclude Include="..\include\StringArrayAddition.hpp" />
     <ClInclude Include="..\include\Subtraction.hpp" />
     <ClInclude Include="..\include\ElementWiseMultiplication.hpp" />
     <ClInclude Include="..\include\Transpose.hpp" />

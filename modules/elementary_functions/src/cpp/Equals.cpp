@@ -521,11 +521,11 @@ vector_matrix_equals(ArrayOf& A, ArrayOf& B)
             case NLS_STRING_ARRAY: {
                 ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
                 ArrayOf* elementsB = (ArrayOf*)B.getDataPointer();
-                if (elementsA[m].isCharacterArray() && elementsB[q].isCharacterArray()) {
+                if (elementsA[q].isCharacterArray() && elementsB[m].isCharacterArray()) {
                     Cp[m] = string_compare_is_equals(elementsA[q].getContentAsWideString(),
                         elementsB[m].getContentAsWideString());
                 } else {
-                    Cp[i] = logical(0);
+                    Cp[m] = logical(0);
                 }
             } break;
             case NLS_LOGICAL: {
@@ -619,9 +619,9 @@ matrix_vector_equals(ArrayOf& A, ArrayOf& B)
             case NLS_STRING_ARRAY: {
                 ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
                 ArrayOf* elementsB = (ArrayOf*)B.getDataPointer();
-                if (elementsA[q].isCharacterArray() && elementsB[m].isCharacterArray()) {
-                    Cp[m] = string_compare_is_equals(elementsA[q].getContentAsWideString(),
-                        elementsB[m].getContentAsWideString());
+                if (elementsA[m].isCharacterArray() && elementsB[q].isCharacterArray()) {
+                    Cp[m] = string_compare_is_equals(elementsA[m].getContentAsWideString(),
+                        elementsB[q].getContentAsWideString());
                 } else {
                     Cp[i] = logical(0);
                 }
@@ -703,6 +703,201 @@ matrix_vector_equals(ArrayOf& A, ArrayOf& B)
     return ArrayOf(NLS_LOGICAL, dimsC, Cp, false);
 }
 //=============================================================================
+static ArrayOf 
+vector_column_matrix_equals(ArrayOf& A, ArrayOf& B)
+{
+
+    Dimensions dimsC = B.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    logical* Cp = new_with_exception<logical>(Clen, false);
+
+    for (indexType i = 0; i < dimsC.getRows(); i++) {
+        for (indexType j = 0; j < dimsC.getColumns(); j++) {
+            indexType m = i + j * A.getDimensions().getColumns();
+			switch (A.getDataClass()) {
+            case NLS_STRING_ARRAY: {
+                ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
+                ArrayOf* elementsB = (ArrayOf*)B.getDataPointer();
+                if (elementsA[j].isCharacterArray() && elementsB[m].isCharacterArray()) {
+                    Cp[m] = string_compare_is_equals(elementsA[j].getContentAsWideString(),
+                        elementsB[m].getContentAsWideString());
+                } else {
+                    Cp[i] = logical(0);
+                }
+            } break;
+            case NLS_LOGICAL: {
+                logical* ptrA = (logical*)A.getDataPointer();
+                logical* ptrB = (logical*)B.getDataPointer();
+                Cp[m] = (ptrA[j] == ptrB[m]);
+            } break;
+            case NLS_UINT8: {
+                uint8* ptrA = (uint8*)A.getDataPointer();
+                uint8* ptrB = (uint8*)B.getDataPointer();
+                Cp[m] = (ptrA[j] == ptrB[m]);
+            } break;
+            case NLS_INT8: {
+                int8* ptrA = (int8*)A.getDataPointer();
+                int8* ptrB = (int8*)B.getDataPointer();
+                Cp[m] = (ptrA[j] == ptrB[m]);
+            } break;
+            case NLS_UINT16: {
+                uint16* ptrA = (uint16*)A.getDataPointer();
+                uint16* ptrB = (uint16*)B.getDataPointer();
+                Cp[m] = (ptrA[j] == ptrB[m]);
+            } break;
+            case NLS_INT16: {
+                int16* ptrA = (int16*)A.getDataPointer();
+                int16* ptrB = (int16*)B.getDataPointer();
+                Cp[m] = (ptrA[j] == ptrB[m]);
+            } break;
+            case NLS_UINT32: {
+                uint32* ptrA = (uint32*)A.getDataPointer();
+                uint32* ptrB = (uint32*)B.getDataPointer();
+                Cp[m] = (ptrA[j] == ptrB[m]);
+            } break;
+            case NLS_INT32: {
+                int32* ptrA = (int32*)A.getDataPointer();
+                int32* ptrB = (int32*)B.getDataPointer();
+                Cp[m] = (ptrA[j] == ptrB[m]);
+            } break;
+            case NLS_UINT64: {
+                uint64* ptrA = (uint64*)A.getDataPointer();
+                uint64* ptrB = (uint64*)B.getDataPointer();
+                Cp[m] = (ptrA[j] == ptrB[m]);
+            } break;
+            case NLS_INT64: {
+                int64* ptrA = (int64*)A.getDataPointer();
+                int64* ptrB = (int64*)B.getDataPointer();
+                Cp[m] = (ptrA[j] == ptrB[m]);
+            } break;
+            case NLS_SINGLE: {
+                single* ptrA = (single*)A.getDataPointer();
+                single* ptrB = (single*)B.getDataPointer();
+                Cp[m] = (ptrA[j] == ptrB[m]);
+            } break;
+            case NLS_DOUBLE: {
+                double* ptrA = (double*)A.getDataPointer();
+                double* ptrB = (double*)B.getDataPointer();
+                Cp[m] = (ptrA[j] == ptrB[m]);
+            } break;
+            case NLS_SCOMPLEX: {
+                single* ptrA = (single*)A.getDataPointer();
+                single* ptrB = (single*)B.getDataPointer();
+                Cp[i] = (ptrA[2 * j] == ptrB[2 * m]) && (ptrA[2 * j + 1] == ptrB[2 * m + 1]);
+            } break;
+            case NLS_DCOMPLEX: {
+                double* ptrA = (double*)A.getDataPointer();
+                double* ptrB = (double*)B.getDataPointer();
+                Cp[i] = (ptrA[2 * j] == ptrB[2 * m]) && (ptrA[2 * j + 1] == ptrB[2 * m + 1]);
+            } break;
+            case NLS_CHAR: {
+                charType* ptrA = (charType*)A.getDataPointer();
+                charType* ptrB = (charType*)B.getDataPointer();
+                Cp[m] = (ptrA[j] == ptrB[m]);
+            } break;
+            }
+        }
+    }
+    return ArrayOf(NLS_LOGICAL, dimsC, Cp, false);
+}
+//=============================================================================
+static ArrayOf
+matrix_vector_column_equals(ArrayOf& A, ArrayOf& B)
+{
+    Dimensions dimsC = A.getDimensions();
+    indexType Clen = dimsC.getElementCount();
+    logical* Cp = new_with_exception<logical>(Clen, false);
+
+    for (indexType i = 0; i < dimsC.getRows(); i++) {
+        for (indexType j = 0; j < dimsC.getColumns(); j++) {
+            indexType m = i + j * B.getDimensions().getColumns();
+			switch (A.getDataClass()) {
+            case NLS_STRING_ARRAY: {
+                ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
+                ArrayOf* elementsB = (ArrayOf*)B.getDataPointer();
+				if (elementsA[m].isCharacterArray() && elementsB[j].isCharacterArray()) {
+                    Cp[m] = string_compare_is_equals(elementsA[m].getContentAsWideString(),
+                        elementsB[j].getContentAsWideString());
+                } else {
+                    Cp[i] = logical(0);
+                }
+            } break;
+            case NLS_LOGICAL: {
+                logical* ptrA = (logical*)A.getDataPointer();
+                logical* ptrB = (logical*)B.getDataPointer();
+                Cp[m] = (ptrA[m] == ptrB[j]);
+            } break;
+            case NLS_UINT8: {
+                uint8* ptrA = (uint8*)A.getDataPointer();
+                uint8* ptrB = (uint8*)B.getDataPointer();
+                Cp[m] = (ptrA[m] == ptrB[j]);
+            } break;
+            case NLS_INT8: {
+                int8* ptrA = (int8*)A.getDataPointer();
+                int8* ptrB = (int8*)B.getDataPointer();
+                Cp[m] = (ptrA[m] == ptrB[j]);
+            } break;
+            case NLS_UINT16: {
+                uint16* ptrA = (uint16*)A.getDataPointer();
+                uint16* ptrB = (uint16*)B.getDataPointer();
+                Cp[m] = (ptrA[m] == ptrB[j]);
+            } break;
+            case NLS_INT16: {
+                int16* ptrA = (int16*)A.getDataPointer();
+                int16* ptrB = (int16*)B.getDataPointer();
+                Cp[m] = (ptrA[m] == ptrB[j]);
+			} break;
+            case NLS_UINT32: {
+                uint32* ptrA = (uint32*)A.getDataPointer();
+                uint32* ptrB = (uint32*)B.getDataPointer();
+                Cp[m] = (ptrA[m] == ptrB[j]);
+            } break;
+            case NLS_INT32: {
+                int32* ptrA = (int32*)A.getDataPointer();
+                int32* ptrB = (int32*)B.getDataPointer();
+                Cp[m] = (ptrA[m] == ptrB[j]);
+            } break;
+            case NLS_UINT64: {
+                uint64* ptrA = (uint64*)A.getDataPointer();
+                uint64* ptrB = (uint64*)B.getDataPointer();
+                Cp[m] = (ptrA[m] == ptrB[j]);
+            } break;
+            case NLS_INT64: {
+                int64* ptrA = (int64*)A.getDataPointer();
+                int64* ptrB = (int64*)B.getDataPointer();
+                Cp[m] = (ptrA[m] == ptrB[j]);
+            } break;
+            case NLS_SINGLE: {
+                single* ptrA = (single*)A.getDataPointer();
+                single* ptrB = (single*)B.getDataPointer();
+                Cp[m] = (ptrA[m] == ptrB[j]);
+            } break;
+            case NLS_DOUBLE: {
+                double* ptrA = (double*)A.getDataPointer();
+                double* ptrB = (double*)B.getDataPointer();
+                Cp[m] = (ptrA[m] == ptrB[j]);
+            } break;
+            case NLS_SCOMPLEX: {
+                single* ptrA = (single*)A.getDataPointer();
+                single* ptrB = (single*)B.getDataPointer();
+                Cp[i] = (ptrA[2 * m] == ptrB[2 * j]) && (ptrA[2 * m + 1] == ptrB[2 * j + 1]);
+            } break;
+            case NLS_DCOMPLEX: {
+                double* ptrA = (double*)A.getDataPointer();
+                double* ptrB = (double*)B.getDataPointer();
+				Cp[i] = (ptrA[2 * m] == ptrB[2 * j]) && (ptrA[2 * m + 1] == ptrB[2 * j + 1]);
+            } break;
+            case NLS_CHAR: {
+                charType* ptrA = (charType*)A.getDataPointer();
+                charType* ptrB = (charType*)B.getDataPointer();
+                Cp[m] = (ptrA[m] == ptrB[j]);
+            } break;
+			}
+        }
+    }
+    return ArrayOf(NLS_LOGICAL, dimsC, Cp, false);
+}
+//=============================================================================
 ArrayOf
 Equals(ArrayOf& A, ArrayOf& B, bool& needToOverload)
 {
@@ -711,14 +906,25 @@ Equals(ArrayOf& A, ArrayOf& B, bool& needToOverload)
         needToOverload = true;
         return ArrayOf();
     }
-    bool isStringArray = A.isStringArray() && B.isStringArray();
-    if ((A.isReferenceType() || B.isReferenceType()) && !isStringArray) {
+    bool asStringArray = (A.isStringArray() && B.isStringArray()) ||
+		(A.isStringArray() && B.isRowVectorCharacterArray()) ||
+		(B.isStringArray() && A.isRowVectorCharacterArray());
+    if ((A.isReferenceType() || B.isReferenceType()) && !asStringArray) {
         needToOverload = true;
         return ArrayOf();
     }
     Class classCommon = FindCommonType(A, B, false);
-    A.promoteType(classCommon);
-    B.promoteType(classCommon);
+    if (asStringArray) {
+        if (!A.isStringArray()) {
+            A = ArrayOf::toStringArray(A, needToOverload);
+        }
+        if (!B.isStringArray()) {
+            B = ArrayOf::toStringArray(B, needToOverload);
+        }
+    } else {
+        A.promoteType(classCommon);
+        B.promoteType(classCommon);
+    }
 
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
@@ -760,14 +966,20 @@ Equals(ArrayOf& A, ArrayOf& B, bool& needToOverload)
                     || (A.isColumnVector() && B.isColumnVector())) {
                     Error(_W("Size mismatch on arguments to arithmetic operator ") + L"==");
                 } else {
-                    if ((dimsA[0] == dimsB[0]) && (dimsA[0] != 1)) {
+                    if (dimsA[1] == dimsB[1]) {
+                        if (A.isVector()) {
+                            return vector_column_matrix_equals(A, B);
+                        } else {
+                            return matrix_vector_column_equals(A, B);
+                        }
+                    } else if ((dimsA[0] == dimsB[0]) && (dimsA[0] != 1)) {
                         if (A.isVector()) {
                             return vector_matrix_equals(A, B);
                         } else {
                             return matrix_vector_equals(A, B);
                         }
                     } else {
-                        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"==");
+                        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
                     }
                 }
             } else {

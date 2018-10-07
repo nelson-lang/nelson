@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include "Addition.hpp"
 #include "MatrixCheck.hpp"
 #include "Exception.hpp"
@@ -267,9 +268,6 @@ addition(Class classDestination, ArrayOf a, ArrayOf b)
                     || (a.isColumnVector() && b.isColumnVector())) {
                     Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
                 } else {
-                    const T* ptrA = (const T*)a.getDataPointer();
-                    const T* ptrB = (const T*)b.getDataPointer();
-
                     if ((dimsA[0] == dimsB[0]) && (dimsA[0] != 1)) {
                         if (a.isVector()) {
                             return vector_matrix_addition<T>(classDestination, a, b);
@@ -388,7 +386,7 @@ complex_addition(Class classDestination, ArrayOf a, ArrayOf b)
 }
 //=============================================================================
 ArrayOf
-double_plus_double(ArrayOf a, ArrayOf b)
+double_plus_double(const ArrayOf &a, const ArrayOf &b)
 {
     if (a.isComplex() || b.isComplex()) {
         ArrayOf res = complex_addition<double>(NLS_DCOMPLEX, a, b);
@@ -401,7 +399,7 @@ double_plus_double(ArrayOf a, ArrayOf b)
 }
 //=============================================================================
 ArrayOf
-single_plus_single(ArrayOf a, ArrayOf b)
+single_plus_single(const ArrayOf &a, const ArrayOf &b)
 {
     if (a.isComplex() || b.isComplex()) {
         ArrayOf res = complex_addition<single>(NLS_SCOMPLEX, a, b);

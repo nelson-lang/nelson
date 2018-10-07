@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Addition.hpp"
+#include "StringArrayAddition.hpp"
 #include "Evaluator.hpp"
 #include "OverloadBinaryOperator.hpp"
 //=============================================================================
@@ -40,6 +41,18 @@ Evaluator::additionOperator(ArrayOf A, ArrayOf B)
         res = OverloadBinaryOperator(this, A, B, "plus", bSuccess);
     }
     if (!bSuccess) {
+        if (A.isStringArray() || B.isStringArray()) {
+            bool needToOverload = false;
+            A = ArrayOf::toStringArray(A, needToOverload);
+            if (needToOverload) {
+                return OverloadBinaryOperator(this, A, B, "plus");
+            }
+            B = ArrayOf::toStringArray(B, needToOverload);
+            if (needToOverload) {
+                return OverloadBinaryOperator(this, A, B, "plus");
+            }
+            return stringArray_plus_stringArray(A, B);
+        }
         bool isDoubleA = (A.isDoubleType() || A.isNdArrayDoubleType());
         bool isDoubleB = (B.isDoubleType() || B.isNdArrayDoubleType());
         bool isSingleA = (A.isSingleType() || A.isNdArraySingleType());

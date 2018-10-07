@@ -337,9 +337,6 @@ subtraction(Class classDestination, ArrayOf a, ArrayOf b)
                     || (a.isColumnVector() && b.isColumnVector())) {
                     Error(_W("Size mismatch on arguments to arithmetic operator ") + L"-");
                 } else {
-                    const T* ptrA = (const T*)a.getDataPointer();
-                    const T* ptrB = (const T*)b.getDataPointer();
-
                     if (dimsA[0] == dimsB[0]) {
                         if (a.isVector()) {
                             return vector_matrix_subtraction<T>(classDestination, a, b);

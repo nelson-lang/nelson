@@ -1,3 +1,6 @@
+Features:
+---------
+
   * string array type added:
     - strings, string builtin: string array constructor.
     - isequal, isequaln, isequalto extended to manage string array.
@@ -7,6 +10,7 @@
     - tolower, toupper  extended to manage string array.
     - fileread, filewrite extended to manage string array.
     - operators ==, ~=, <, >, >=, <= extended to manage string array.
+    - operator plus extended to manage string array.
 
   * operators ==, ~=, <, >, >=, <= reworked (Compatiblity Array Sizes increased).
 

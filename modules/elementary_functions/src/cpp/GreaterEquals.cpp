@@ -737,14 +737,25 @@ GreaterEquals(ArrayOf& A, ArrayOf& B, bool& needToOverload)
         needToOverload = true;
         return ArrayOf();
     }
-    bool isStringArray = A.isStringArray() && B.isStringArray();
-    if ((A.isReferenceType() || B.isReferenceType()) && !isStringArray) {
+    bool asStringArray = (A.isStringArray() && B.isStringArray())
+        || (A.isStringArray() && B.isRowVectorCharacterArray())
+        || (B.isStringArray() && A.isRowVectorCharacterArray());
+    if ((A.isReferenceType() || B.isReferenceType()) && !asStringArray) {
         needToOverload = true;
         return ArrayOf();
     }
     Class classCommon = FindCommonType(A, B, false);
-    A.promoteType(classCommon);
-    B.promoteType(classCommon);
+    if (asStringArray) {
+        if (!A.isStringArray()) {
+            A = ArrayOf::toStringArray(A, needToOverload);
+        }
+        if (!B.isStringArray()) {
+            B = ArrayOf::toStringArray(B, needToOverload);
+        }
+    } else {
+        A.promoteType(classCommon);
+        B.promoteType(classCommon);
+    }
 
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
