@@ -158,7 +158,7 @@ matrix_vector_string_addition(const ArrayOf& a, const ArrayOf& b)
 
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * b.getDimensions().getRows();
+            indexType m = i + j * a.getDimensions().getRows();
 
             if (elementsA[m].isCharacterArray() && elementsB[q].isCharacterArray()) {
                 std::wstring strA = elementsA[m].getContentAsWideString();

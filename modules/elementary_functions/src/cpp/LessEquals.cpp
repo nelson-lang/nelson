@@ -635,7 +635,7 @@ matrix_vector_less_equals(ArrayOf& A, ArrayOf& B)
     logical* Cp = new_with_exception<logical>(Clen, false);
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * B.getDimensions().getRows();
+            indexType m = i + j * A.getDimensions().getRows();
             switch (A.getDataClass()) {
             case NLS_STRING_ARRAY: {
                 ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
