@@ -19,6 +19,8 @@ Features:
     - "isString" --> "isCharacterArray"
     - "isSingleString" --> "isRowVectorCharacterArray"
 
+  * [#164](http://github.com/Nelson-numerical-software/nelson/issues/164): operators ==, ~=, <, >, >=, <= code factorized.
+
 
 ## 0.2.9 (2018-09-23)
 

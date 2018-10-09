@@ -26,7 +26,7 @@ assert_isfalse(ne(string(1), string(1)));
 A = ["Nel", NaN, "son"];
 B = ["Nel", NaN, "son"];
 R = (A ~= B);
-REF = [false false false];
+REF = [false true false];
 assert_isequal(R, REF);
 //=============================================================================
 A = ["Nel", NaN, "son"];

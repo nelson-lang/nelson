@@ -215,6 +215,7 @@
     <ClCompile Include="..\cpp\Or.cpp" />
     <ClCompile Include="..\cpp\Prod.cpp" />
     <ClCompile Include="..\cpp\RealPart.cpp" />
+    <ClCompile Include="..\cpp\RelationalOperator.cpp" />
     <ClCompile Include="..\cpp\Remainder.cpp" />
     <ClCompile Include="..\cpp\RightDivide.cpp" />
     <ClCompile Include="..\cpp\Sqrt.cpp" />
@@ -268,6 +269,7 @@
     <ClInclude Include="..\include\Or.hpp" />
     <ClInclude Include="..\include\Prod.hpp" />
     <ClInclude Include="..\include\RealPart.hpp" />
+    <ClInclude Include="..\include\RelationOperator.hpp" />
     <ClInclude Include="..\include\Remainder.hpp" />
     <ClInclude Include="..\include\RightDivide.hpp" />
     <ClInclude Include="..\include\Sqrt.hpp" />
