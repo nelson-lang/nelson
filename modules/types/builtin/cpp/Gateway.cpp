@@ -41,6 +41,7 @@
 #include "isuint32Builtin.hpp"
 #include "isuint64Builtin.hpp"
 #include "isuint8Builtin.hpp"
+#include "isstringBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -49,6 +50,7 @@ const std::wstring gatewayName = L"types";
 static const nlsGateway gateway[] = {
     { "class", Nelson::TypeGateway::classBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "ischar", Nelson::TypeGateway::ischarBuiltin, 1, 1, CPP_BUILTIN },
+    { "isstring", Nelson::TypeGateway::isstringBuiltin, 1, 1, CPP_BUILTIN },
     { "isfloat", Nelson::TypeGateway::isfloatBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "iscell", Nelson::TypeGateway::iscellBuiltin, 1, 1, CPP_BUILTIN },
     { "isdouble", Nelson::TypeGateway::isdoubleBuiltin, 1, 1, CPP_BUILTIN },
