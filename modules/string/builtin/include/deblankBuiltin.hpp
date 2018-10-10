@@ -6,49 +6,26 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('strtrim'), 1);
-assert_isequal(nargout('strtrim'), 1);
+#pragma once
 //=============================================================================
-TXT = sprintf(' \t\n\r\f\v');
-R = strtrim(TXT);
-REF = '';
-assert_isequal(R, REF);
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-TXT = sprintf('  \t   AbCd   EfGg hijkl ... ');
-R = strtrim(TXT);
-REF = 'AbCd   EfGg hijkl ...';
-assert_isequal(R, REF);
+namespace Nelson {
+namespace StringGateway {
+    ArrayOfVector
+    deblankBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+}
 //=============================================================================
-C = {'     A string with whitespace';
-       ' Remove trailing whitespace ...       '};
-R = strtrim(C);
-REF = {'A string with whitespace';
-       'Remove trailing whitespace ...'};
-assert_isequal(R, REF);
-//=============================================================================
-TXT = '     Test significant whitespace';
-TXT = [TXT char(160) char(160) char(8199) char(8239) '   '];
-R = strtrim(TXT);
-REF = ['Test significant whitespace', char(160) char(160) char(8199) char(8239)];
-assert_isequal(R, REF);
-//=============================================================================
-C = {'f ', 1};
-assert_checkerror('R = strtrim(C);', _('cell of strings expected.'));
-//=============================================================================
-C = ["     A string with whitespace";
-       " Remove trailing whitespace ...       "];
-R = strtrim(C);
-REF = ["A string with whitespace";
-       "Remove trailing whitespace ..."];
-assert_isequal(R, REF);
+} // namespace Nelson
 //=============================================================================

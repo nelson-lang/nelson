@@ -169,6 +169,7 @@
     <ClCompile Include="..\cpp\StringCompare.cpp" />
     <ClCompile Include="..\cpp\StringContains.cpp" />
     <ClCompile Include="..\cpp\StringCount.cpp" />
+    <ClCompile Include="..\cpp\StringDeblank.cpp" />
     <ClCompile Include="..\cpp\StringEndsWith.cpp" />
     <ClCompile Include="..\cpp\StringFind.cpp" />
     <ClCompile Include="..\cpp\StringLength.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="..\include\StringCompare.hpp" />
     <ClInclude Include="..\include\StringContains.hpp" />
     <ClInclude Include="..\include\StringCount.hpp" />
+    <ClInclude Include="..\include\StringDeblank.hpp" />
     <ClInclude Include="..\include\StringEndsWith.hpp" />
     <ClInclude Include="..\include\StringFind.hpp" />
     <ClInclude Include="..\include\StringFormat.hpp" />

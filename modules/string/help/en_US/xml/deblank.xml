@@ -3,11 +3,11 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
-  <keyword>strtrim</keyword>
-  <short_description>Remove leading and trailing whitespace.</short_description>
+  <keyword>deblank</keyword>
+  <short_description>Remove trailing whitespace.</short_description>
 
   <syntax>
-    <syntax_item>res = strtrim(str)</syntax_item>
+    <syntax_item>res = deblank(str)</syntax_item>
   </syntax>
   
   <param_input>
@@ -20,13 +20,13 @@
   <param_output>
     <param_output_item>
       <param_name>res</param_name>
-      <param_description>a string without leading or trailing whitespace.</param_description>
+      <param_description>a string without trailing whitespace.</param_description>
     </param_output_item>
   </param_output>
 
   <description>
-  <p><b>strtrim</b> removes leading and trailing whitespace.</p>
-  <p><b>strtrim</b> does not remove all significant whitespace (only characters ' \t\n\r\f\v' removed).</p>
+  <p><b>deblank</b> removes trailing whitespace.</p>
+  <p><b>deblank</b> does not remove all significant whitespace (only characters ' \t\n\r\f\v' removed).</p>
   </description>
 
   <used_function></used_function>
@@ -36,28 +36,28 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[strtrim(' Nel Son')]]>
+    <example_item_data><![CDATA[deblank(' Nel Son ')]]>
     </example_item_data>
   </example_item>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[strtrim(" Nel Son")]]>
+    <example_item_data><![CDATA[deblank(" Nel Son ")]]>
     </example_item_data>
   </example_item>
 
 <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[strtrim([' Nel Son', char(160)])]]>
+    <example_item_data><![CDATA[deblank([' Nel Son ', char(160)])]]>
     </example_item_data>
   </example_item>  
 </examples>
 
   <see_also>
      <see_also_item>
-      <link linkend="${string}deblank">deblank</link>
+      <link linkend="${string}strtrim">strtrim</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${string}toupper">toupper</link>

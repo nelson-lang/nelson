@@ -171,6 +171,7 @@
     <ClCompile Include="..\cpp\charBuiltin.cpp" />
     <ClCompile Include="..\cpp\containsBuiltin.cpp" />
     <ClCompile Include="..\cpp\countBuiltin.cpp" />
+    <ClCompile Include="..\cpp\deblankBuiltin.cpp" />
     <ClCompile Include="..\cpp\endsWithBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\int2strBuiltin.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="..\include\charBuiltin.hpp" />
     <ClInclude Include="..\include\containsBuiltin.hpp" />
     <ClInclude Include="..\include\countBuiltin.hpp" />
+    <ClInclude Include="..\include\deblankBuiltin.hpp" />
     <ClInclude Include="..\include\endsWithBuiltin.hpp" />
     <ClInclude Include="..\include\int2strBuiltin.hpp" />
     <ClInclude Include="..\include\mat2strBuiltin.hpp" />

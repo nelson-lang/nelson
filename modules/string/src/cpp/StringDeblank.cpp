@@ -19,45 +19,39 @@
 #include <algorithm>
 #include <cctype>
 #include <string>
-#include "StringTrim.hpp"
+#include "StringDeblank.hpp"
 #include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static const wchar_t* ws = L" \t\n\r\f\v";
-//=============================================================================
-inline std::wstring&
+static std::wstring&
 rtrim(std::wstring& s)
 {
+    const wchar_t* ws = L" \t\n\r\f\v";
     s.erase(s.find_last_not_of(ws) + 1);
     return s;
 }
 //=============================================================================
-inline std::wstring&
-ltrim(std::wstring& s)
+static std::wstring&
+Deblank(std::wstring& s)
 {
-    s.erase(0, s.find_first_not_of(ws));
-    return s;
-}
-//=============================================================================
-inline std::wstring&
-Trim(std::wstring& s)
-{
-    return ltrim(rtrim(s));
+    return rtrim(s);
 }
 //=============================================================================
 ArrayOf
-StringTrim(const ArrayOf& A, bool& needToOverload)
+StringDeblank(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
     ArrayOf res;
+    if (A.isEmpty()) {
+        res = ArrayOf::emptyConstructor();
+        res.promoteType(A.getDataClass());
+        return res;
+    }
     if (A.isRowVectorCharacterArray()) {
         std::wstring str = A.getContentAsWideString();
-        return ArrayOf::characterArrayConstructor(Trim(str));
+        res = ArrayOf::characterArrayConstructor(Deblank(str));
     } else if (A.getDataClass() == NLS_CELL_ARRAY) {
-        if (A.isEmpty()) {
-            return ArrayOf(A);
-        } else {
             res = ArrayOf(A);
             res.ensureSingleOwner();
             ArrayOf* element = (ArrayOf*)(res.getDataPointer());
@@ -66,24 +60,17 @@ StringTrim(const ArrayOf& A, bool& needToOverload)
                     Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
                 }
                 std::wstring str = element[k].getContentAsWideString();
-                element[k] = ArrayOf::characterArrayConstructor(Trim(str));
+                element[k] = ArrayOf::characterArrayConstructor(Deblank(str));
             }
-            return res;
-        }
     } else if (A.getDataClass() == NLS_STRING_ARRAY) {
-        if (A.isEmpty()) {
-            return ArrayOf(A);
-        } else {
-            res = ArrayOf(A);
-            res.ensureSingleOwner();
-            ArrayOf* element = (ArrayOf*)(res.getDataPointer());
-            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-                if (element[k].isRowVectorCharacterArray()) {
-                    std::wstring str = element[k].getContentAsWideString();
-                    element[k] = ArrayOf::characterArrayConstructor(Trim(str));
-                }
+        res = ArrayOf(A);
+        res.ensureSingleOwner();
+        ArrayOf* element = (ArrayOf*)(res.getDataPointer());
+        for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+            if (element[k].isRowVectorCharacterArray()) {
+                std::wstring str = element[k].getContentAsWideString();
+                element[k] = ArrayOf::characterArrayConstructor(Deblank(str));
             }
-            return res;
         }
     } else {
         needToOverload = true;
