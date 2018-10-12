@@ -79,6 +79,7 @@
 #include "expBuiltin.hpp"
 #include "logBuiltin.hpp"
 #include "sqrtBuiltin.hpp"
+#include "ismissingBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -149,6 +150,7 @@ static const nlsGateway gateway[] = {
     { "exp", Nelson::ElementaryFunctionsGateway::expBuiltin, 1, 1 },
     { "log", Nelson::ElementaryFunctionsGateway::logBuiltin, 1, 1 },
     { "sqrt", Nelson::ElementaryFunctionsGateway::sqrtBuiltin, 1, 1 },
+    { "ismissing", Nelson::ElementaryFunctionsGateway::ismissingBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

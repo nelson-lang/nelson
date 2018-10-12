@@ -39,7 +39,19 @@ Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const Arra
         retval.push_back(c);
     }
     if (argIn.size() == 1) {
-        if (argIn[0].getDataClass() == NLS_DOUBLE) {
+        if (argIn[0].getDataClass() == NLS_STRING_ARRAY) {
+            ArrayOf* elementsCell = (ArrayOf*)ArrayOf::allocateArrayOf(
+                NLS_CELL_ARRAY, argIn[0].getDimensions().getElementCount(), stringVector(), false);
+
+			ArrayOf* elementsStringArray = (ArrayOf*)argIn[0].getDataPointer();
+            for (indexType k = 0; k < argIn[0].getDimensions().getElementCount(); k++) {
+                if (elementsStringArray[k].isCharacterArray()) {
+                    elementsCell[k] = elementsStringArray[k];
+                }
+            }
+			ArrayOf res = ArrayOf(NLS_CELL_ARRAY, argIn[0].getDimensions(), elementsCell);
+            retval.push_back(res);
+        } else if (argIn[0].getDataClass() == NLS_DOUBLE) {
             if (argIn[0].isVector() || argIn[0].isScalar()) {
                 if (argIn[0].isScalar()) {
                     ArrayOf arg = argIn[0];

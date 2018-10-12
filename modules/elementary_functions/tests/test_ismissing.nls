@@ -16,24 +16,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('string'), 1);
-assert_isequal(nargout('string'), 1);
+assert_isequal(nargin('ismissing'), 1);
+assert_isequal(nargout('ismissing'), 1);
 //=============================================================================
-R = string({1,2;3,4});
-REF = ["1", "2"; "3", "4"];
+A = ["Nel", NaN, "son"];
+R = ismissing(A);
+REF = [false, true, false];
 assert_isequal(R, REF);
 //=============================================================================
-assert_checkerror('R = string({[1, 2],2;3,4})', _('Unable to convert supplied object to a string.'));
-//=============================================================================
-R = string([1 2 NaN Inf]);
-REF = ["1", "2", string(NaN), "Inf"];
+B = [1 2 NaN Inf];
+R = ismissing(B);
+REF = [false false true false];
 assert_isequal(R, REF);
 //=============================================================================
-R = string(inv(3));
-REF = "0.3333";
+C = 'Nel son';
+R = ismissing(C);
+REF = [false false false true false false false];
 assert_isequal(R, REF);
 //=============================================================================
-R = string({''});
-REF = "";
+D = {'Nel' '' 'son'};
+R = ismissing(D);
+REF = [false true false];
 assert_isequal(R, REF);
 //=============================================================================

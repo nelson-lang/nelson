@@ -336,7 +336,11 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
                 needToOverload = true;
                 return ArrayOf();
             }
-            elementsOutput[k] = ArrayOf::characterArrayConstructor(el.getContentAsWideString());
+            if (el.isScalar() || el.isEmpty()) {
+                elementsOutput[k] = ArrayOf::characterArrayConstructor(el.getContentAsWideString());
+            } else {
+                Error(_W("Unable to convert supplied object to a string."));
+            }
         }
         return ArrayOf(NLS_STRING_ARRAY, dimsM, elementsOutput);
     } break;

@@ -16,24 +16,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('string'), 1);
-assert_isequal(nargout('string'), 1);
-//=============================================================================
-R = string({1,2;3,4});
-REF = ["1", "2"; "3", "4"];
-assert_isequal(R, REF);
-//=============================================================================
-assert_checkerror('R = string({[1, 2],2;3,4})', _('Unable to convert supplied object to a string.'));
-//=============================================================================
-R = string([1 2 NaN Inf]);
-REF = ["1", "2", string(NaN), "Inf"];
-assert_isequal(R, REF);
-//=============================================================================
-R = string(inv(3));
-REF = "0.3333";
-assert_isequal(R, REF);
-//=============================================================================
-R = string({''});
-REF = "";
-assert_isequal(R, REF);
+function ce = cellstr(obj)
+  if iscellstr(obj)
+    ce = obj;
+  elseif isstring(obj)
+    if ~any(ismissing(obj))
+      ce = cell(obj);
+    else
+      error(_('Cannot convert missing element.'));
+    end
+  elseif iscell(obj)
+    error(_('Cell must be string scalars or character arrays.'));
+  elseif ischar(obj)
+    if isempty(obj)
+      ce = {''};
+    elseif ndims(size(obj)) != 2
+      error(_('Matrix 2D expected.'));
+    else
+      numrows = size(obj,1);
+      ce = cell(numrows,1);
+      for i = 1:numrows
+        ce{i} = obj(i, :);
+      end
+      ce = deblank(ce);
+    end
+  else
+    error(_(['Type not supported:' ,' ', class(obj)]));    
+  end
+endfunction
 //=============================================================================

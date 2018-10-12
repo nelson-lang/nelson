@@ -196,6 +196,7 @@
     <ClCompile Include="..\cpp\IsEqual.cpp" />
     <ClCompile Include="..\cpp\IsFinite.cpp" />
     <ClCompile Include="..\cpp\IsInf.cpp" />
+    <ClCompile Include="..\cpp\IsMissing.cpp" />
     <ClCompile Include="..\cpp\IsNan.cpp" />
     <ClCompile Include="..\cpp\LeftDivide.cpp" />
     <ClCompile Include="..\cpp\LessEquals.cpp" />
@@ -254,6 +255,7 @@
     <ClInclude Include="..\include\IsEqual.hpp" />
     <ClInclude Include="..\include\IsFinite.hpp" />
     <ClInclude Include="..\include\IsInf.hpp" />
+    <ClInclude Include="..\include\IsMissing.hpp" />
     <ClInclude Include="..\include\IsNaN.hpp" />
     <ClInclude Include="..\include\LeftDivide.hpp" />
     <ClInclude Include="..\include\LessEquals.hpp" />

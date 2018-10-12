@@ -12,6 +12,7 @@
 		<syntax_item>C = cell(m, n)</syntax_item>
 		<syntax_item>C = cell(m, n, ... , p)</syntax_item>
 		<syntax_item>C = cell(sz)</syntax_item>
+		<syntax_item>C = cell(A)</syntax_item>
 
 	</syntax>
 	
@@ -24,6 +25,11 @@
 			<param_name>sz</param_name>
 			<param_description>a vector of integer values (dimensions of the cell to create).</param_description>
 		</param_input_item>
+		<param_input_item>
+			<param_name>A</param_name>
+			<param_description>a string array.</param_description>
+		</param_input_item>
+	
 	</param_input>
 
 	<param_output>
@@ -37,6 +43,8 @@
 	<description>
 		<p><b>cell</b> returns a cell array of empty matrices.</p>
 		<p><b>cell()</b> is equivalent to <b>cell(0)</b></p>
+		<p><b>cell(A)</b> with A a string array converts to cell.</p>
+	
 	</description>
 
 
@@ -54,6 +62,16 @@ C = cell(sz)]]>
 		</example_item_data>
 	
 	</example_item>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[A = ["Nel", "son"; "open", "source"];
+C = cell(A)]]>
+		</example_item_data>
+	
+	</example_item>
+
 
 </examples>
 

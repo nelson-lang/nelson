@@ -6,34 +6,25 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('string'), 1);
-assert_isequal(nargout('string'), 1);
+#pragma once
 //=============================================================================
-R = string({1,2;3,4});
-REF = ["1", "2"; "3", "4"];
-assert_isequal(R, REF);
+#include "ArrayOf.hpp"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
-assert_checkerror('R = string({[1, 2],2;3,4})', _('Unable to convert supplied object to a string.'));
+namespace Nelson {
 //=============================================================================
-R = string([1 2 NaN Inf]);
-REF = ["1", "2", string(NaN), "Inf"];
-assert_isequal(R, REF);
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+isMissing(const ArrayOf& A, bool& needToOverload);
 //=============================================================================
-R = string(inv(3));
-REF = "0.3333";
-assert_isequal(R, REF);
-//=============================================================================
-R = string({''});
-REF = "";
-assert_isequal(R, REF);
+}
 //=============================================================================

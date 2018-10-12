@@ -139,9 +139,13 @@ ArrayOf::getContentAsWideString(void) const
         str.assign(buffer);
         delete[] buffer;
     } else {
-        if (isStringArray() && isScalar()) {
-            ArrayOf* element = (ArrayOf*)getDataPointer();
-            return element[0].getContentAsWideString();
+        if (isStringArray()) {
+            if (isScalar()) {
+                ArrayOf* element = (ArrayOf*)getDataPointer();
+                return element[0].getContentAsWideString();
+            } else if (isEmpty()) {
+                return std::wstring();
+            }
         } else {
             if ((dp == nullptr) || dp->dataClass != NLS_CHAR) {
                 Error(_W("Unable to convert supplied object to a string."));

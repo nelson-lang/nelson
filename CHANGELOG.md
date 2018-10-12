@@ -6,6 +6,7 @@ Features:
     - isstring: Return true if variable var is a string array.
     - isequal, isequaln, isequalto extended to manage string array.
     - transpose, ctranspose extended to manage string array.
+    - cell extended to manage string array.
     - horzcat, vertcat extended to manage string array.
     - double extended to manage string array.
     - tolower, toupper extended to manage string array.
@@ -14,7 +15,11 @@ Features:
     - operators ==, ~=, <, >, >=, <= extended to manage string array.
     - operator plus extended to manage string array.
 
-  * deblank builtin: removes trailing whitespace from a cell of strings, a string array or a string.
+  * deblank builtin: removes trailing whitespace from a cell of strings, a string array or a character vectors.
+
+  * ismissing builtin: search missing values.
+
+  * cellstr function: converts to cell array of character vectors.
 
   * operators ==, ~=, <, >, >=, <= reworked (Compatiblity Array Sizes increased).
 
