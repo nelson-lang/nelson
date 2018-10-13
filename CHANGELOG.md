@@ -6,13 +6,14 @@ Features:
     - isstring: Return true if variable var is a string array.
     - isequal, isequaln, isequalto extended to manage string array.
     - transpose, ctranspose extended to manage string array.
-    - cell extended to manage string array.
     - horzcat, vertcat extended to manage string array.
+    - cell extended to manage string array.
     - double extended to manage string array.
     - tolower, toupper extended to manage string array.
     - strtrim extended to manage string array.
     - strlength extended to manage string array.
     - count extended to manage string array.    
+    - contains extended to manage string array.    
     - strcmp, strcmpi, strncmp, strncmpi extended to manage string array.
     - fileread, filewrite extended to manage string array.
     - operators ==, ~=, <, >, >=, <= extended to manage string array.
