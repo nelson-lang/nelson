@@ -10,7 +10,8 @@ Features:
     - horzcat, vertcat extended to manage string array.
     - double extended to manage string array.
     - tolower, toupper extended to manage string array.
-    - strtrim extended to manage string array. 
+    - strtrim extended to manage string array.
+    - strlength extended to manage string array.
     - fileread, filewrite extended to manage string array.
     - operators ==, ~=, <, >, >=, <= extended to manage string array.
     - operator plus extended to manage string array.
