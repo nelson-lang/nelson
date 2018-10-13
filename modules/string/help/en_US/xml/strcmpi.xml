@@ -13,11 +13,11 @@
   <param_input>
     <param_input_item>
       <param_name>s1</param_name>
-      <param_description>a string or cell of strings.</param_description>
+      <param_description>a string, string array or cell of strings.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>s2</param_name>
-      <param_description>a string or cell of strings.</param_description>
+      <param_description>a string, string array or cell of strings.</param_description>
     </param_input_item>
   </param_input>
 

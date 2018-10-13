@@ -83,10 +83,11 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
     if (A.isCharacterArray() && B.isCharacterArray()) {
         return CompareStringString(A, B, bCaseSensitive, len);
     }
-    if ((A.isCell() && A.isEmpty()) || (B.isCell() && B.isEmpty())) {
+    if ((A.isCell() && A.isEmpty()) || (B.isCell() && B.isEmpty()) || 
+		(A.isStringArray() && A.isEmpty()) || (B.isStringArray() && B.isEmpty())) {
         return ArrayOf::emptyConstructor();
     } else {
-        if (A.isCell() && B.isCell()) {
+        if ((A.isCell() && B.isCell()) || (A.isStringArray() && B.isStringArray())) {
             Dimensions dimA = A.getDimensions();
             Dimensions dimB = B.getDimensions();
             if (dimA.equals(dimB)) {
@@ -161,12 +162,28 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
                     Error(ERROR_SAME_SIZE_EXPECTED);
                 }
             }
-        } else if ((A.isCell() || (B.isCell()))) {
+        } else if (A.isCell() || B.isCell() || A.isStringArray() || B.isStringArray())
+            {
+			Dimensions dimsA = A.getDimensions();
+            Dimensions dimsB = B.getDimensions();
+
+			bool checkDims = false;
+            if ((!A.isCell() && !A.isStringArray()) || (!B.isCell() && !B.isStringArray())) {
+                checkDims = true;
+            } else {
+                checkDims = A.isRowVectorCharacterArray() || B.isRowVectorCharacterArray()
+                    || (A.isStringArray() && A.isScalar()) || (B.isStringArray() && B.isScalar())
+                    || (A.isCell() && A.isScalar()) || (B.isCell() && B.isScalar())
+                    || dimsA.equals(dimsB);
+            } 
+            if (!checkDims) {
+                Error(_W("Same size or scalar expected."));
+            }
             size_t Clen;
             Dimensions dimC;
             ArrayOf cell1;
             ArrayOf scalar2;
-            if (A.isCell()) {
+            if (A.isCell() || A.isStringArray()) {
                 cell1 = A;
                 scalar2 = B;
                 dimC = A.getDimensions();
@@ -177,6 +194,7 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
                 dimC = B.getDimensions();
                 Clen = dimC.getElementCount();
             }
+
             logical* Cp = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, Clen);
             ArrayOf* cellA = (ArrayOf*)(cell1.getDataPointer());
             for (size_t k = 0; k < Clen; k++) {
