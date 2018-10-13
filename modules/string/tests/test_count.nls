@@ -54,3 +54,15 @@ c1 = {'abs.docx','data.gz','code.nls','results.nlf'};
 c2 = {1};
 assert_checkerror('res = count(c1, c2);', _('char vector or cell of strings expected.'));
 //=============================================================================
+c1 = 'time';
+c2 = ["Once", "upon"; "a", "time"];
+res = count(c1, c2);
+ref = 1;
+assert_isequal(res, ref); 
+//=============================================================================
+c1 = ["abs.docx", "data.gz"; "ABS.nls", "DAta.nlf"];
+c2 = ["abs", "data"];
+res = count(c1, c2, 'IgnoreCase', true);
+ref = [1, 1; 1, 1];
+assert_isequal(res, ref); 
+//=============================================================================
