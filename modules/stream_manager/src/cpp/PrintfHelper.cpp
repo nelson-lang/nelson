@@ -101,10 +101,18 @@ PrintfHelper::GetNextVariableAsString(std::wstring& str, std::wstring& errorMess
         errorMessage = _W("No more data.");
         return false;
     }
-    ArrayOf d(args[vectorIndex]);
-    if (!d.isEmpty()) {
-        str = d.getContentAsArrayOfCharacters();
-    }
+    ArrayOf value = args[vectorIndex];
+    if (value.isCharacterArray()) {
+        if (!value.isEmpty()) {
+            str = value.getContentAsArrayOfCharacters();
+        }
+    } else if (value.isStringArray()) {
+        ArrayOf* ptr = (ArrayOf*)value.getDataPointer();
+        ArrayOf data = ptr[elementIndex];
+        if (!data.isEmpty()) {
+            str = data.getContentAsWideString();
+        }
+	}
     IncrementDataPointer();
     return true;
 }

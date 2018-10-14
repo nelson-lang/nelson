@@ -39,7 +39,8 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     }
     if (!bSuccess) {
         ArrayOf param1 = argIn[0];
-        if (!param1.isCharacterArray()) {
+        bool supported = param1.isCharacterArray() || (param1.isStringArray() && param1.isScalar());
+        if (!supported) {
             retval = OverloadFunction(eval, nLhs, argIn, "sprintf", bSuccess);
             if (!bSuccess) {
                 Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
@@ -64,12 +65,20 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             }
         } else {
             if (result == L"") {
-                Dimensions dims(1, 0);
-                ArrayOf strArr = ArrayOf::emptyConstructor(dims);
-                strArr.promoteType(NLS_CHAR);
-                retval.push_back(strArr);
+                if (param1.getDataClass() == NLS_CHAR) {
+                    Dimensions dims(1, 0);
+                    ArrayOf strArr = ArrayOf::emptyConstructor(dims);
+                    strArr.promoteType(NLS_CHAR);
+                    retval.push_back(strArr);
+                } else {
+                    retval.push_back(ArrayOf::stringArrayConstructor(result));
+                }
             } else {
-                retval.push_back(ArrayOf::characterArrayConstructor(result));
+                if (param1.getDataClass() == NLS_CHAR) {
+					retval.push_back(ArrayOf::characterArrayConstructor(result));
+                } else {
+                    retval.push_back(ArrayOf::stringArrayConstructor(result));
+                }
             }
             if (nLhs > 1) {
                 retval.push_back(ArrayOf::characterArrayConstructor(L""));

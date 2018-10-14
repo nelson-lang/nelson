@@ -159,7 +159,8 @@ R = fileread([tempdir(), '/fprintf.txt'])]]>
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[fprintf(1, 'an value %g.', pi);]]>
+    <example_item_data><![CDATA[fprintf(1, 'an value %g.', pi);
+fprintf(2, "an value %g.", pi);]]>
     </example_item_data>
   
   </example_item>

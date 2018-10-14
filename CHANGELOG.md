@@ -16,6 +16,7 @@ Features:
     - contains extended to manage string array.
     - startsWith, endsWith extended to manage string array.
     - str2double extended to manage string array.
+    - fprintf, sprintf extended to manage string array.
     - strcmp, strcmpi, strncmp, strncmpi extended to manage string array.
     - fileread, filewrite extended to manage string array.
     - operators ==, ~=, <, >, >=, <= extended to manage string array.
