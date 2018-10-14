@@ -15,6 +15,7 @@ Features:
     - count extended to manage string array.    
     - contains extended to manage string array.
     - startsWith, endsWith extended to manage string array.
+    - replace, strrep extended to manage string array.
     - str2double extended to manage string array.
     - fprintf, sprintf extended to manage string array.
     - strfind extended to manage string array.

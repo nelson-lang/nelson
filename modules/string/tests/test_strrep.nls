@@ -208,3 +208,17 @@ cmd = 'r = strrep({''ccabbba'',''bbccbb'';''abba'',''bccb''},{''cc'';''bb''},{''
 ref = _('Same size expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
+r = strrep("This is a string.", 'is', 'is not');
+ref = "This not is not a string.";
+assert_isequal(r, ref);
+//=============================================================================
+str = ["First Date: ___";
+"Last Date: ___"];
+old = '___';
+new = {'1973-04-08';
+'1974-15-08'};
+r = strrep(str, old, new);
+ref = ["First Date: 1973-04-08";
+"Last Date: 1974-15-08"];
+assert_isequal(r, ref);
+//=============================================================================

@@ -13,15 +13,15 @@
   <param_input>
     <param_input_item>
       <param_name>str</param_name>
-      <param_description>a string or cell of strings.</param_description>
+      <param_description>a string, string array or cell of strings.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>old</param_name>
-      <param_description>a string or cell of strings to find.</param_description>
+      <param_description>a string, string array or cell of strings to find.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>new</param_name>
-      <param_description>a string or cell of strings.</param_description>
+      <param_description>a string, string array or cell of strings.</param_description>
     </param_input_item>
     
   </param_input>
@@ -29,7 +29,7 @@
   <param_output>
     <param_output_item>
       <param_name>res</param_name>
-      <param_description>a string or cell of strings.</param_description>
+      <param_description>a string, string array or cell of strings.</param_description>
     </param_output_item>
   </param_output>
 

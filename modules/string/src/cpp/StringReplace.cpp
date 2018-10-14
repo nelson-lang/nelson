@@ -85,17 +85,20 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
     if (STR.isCell() || OLD.isCell() || NEW.isCell()) {
         outputClass = NLS_CELL_ARRAY;
     }
+    if (STR.isStringArray()) {
+        outputClass = NLS_STRING_ARRAY;
+	}
     ArrayOf res;
     if (nbOutput == 1) {
         if (OLD.isCell() && OLD.isEmpty()) {
             ArrayOf* elements = nullptr;
-            res = ArrayOf(NLS_CELL_ARRAY, Dimensions(0, 0), elements);
+            res = ArrayOf(outputClass, Dimensions(0, 0), elements);
         } else {
             std::wstring result = stringReplace(wstr[0], wold[0], wnew[0], doOverlaps);
-            if (outputClass == NLS_CELL_ARRAY) {
+            if (outputClass == NLS_CELL_ARRAY || outputClass == NLS_STRING_ARRAY) {
                 ArrayOf* elements = nullptr;
                 if (result.empty()) {
-                    res = ArrayOf(NLS_CELL_ARRAY, Dimensions(0, 0), elements);
+                    res = ArrayOf(outputClass, Dimensions(0, 0), elements);
                 } else {
                     try {
                         elements = new ArrayOf[nbOutput];
@@ -104,7 +107,7 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
                         Error(ERROR_MEMORY_ALLOCATION);
                     }
                     elements[0] = ArrayOf::characterArrayConstructor(result);
-                    res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
+                    res = ArrayOf(outputClass, Dimensions(1, 1), elements);
                 }
             } else {
                 res = ArrayOf::characterArrayConstructor(result);
@@ -136,7 +139,7 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
                 elements[i] = ArrayOf::characterArrayConstructor(
                     stringReplace(wstr[idx_str], wold[idx_old], wnew[idx_new], doOverlaps));
             }
-            res = ArrayOf(NLS_CELL_ARRAY, outputDims, elements);
+            res = ArrayOf(outputClass, outputDims, elements);
         }
     }
     return res;
@@ -209,12 +212,12 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
         needToOverload = true;
         return res;
     }
-    if ((wstr.size() == 1) && OLD.isCell() && NEW.isCell()
+    if ((wstr.size() == 1) && (OLD.isCell() || OLD.isStringArray()) && (NEW.isCell() || NEW.isStringArray())
         && OLD.getDimensions().equals(NEW.getDimensions())) {
         for (size_t k = 0; k < OLD.getDimensions().getElementCount(); k++) {
             wstr[0] = Replace(wstr[0], wold[k], wnew[k]);
         }
-        if (STR.isCell()) {
+        if (STR.isCell() || STR.isStringArray()) {
             ArrayOf* elements = nullptr;
             try {
                 elements = new ArrayOf[wstr.size()];
@@ -223,17 +226,21 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                 Error(ERROR_MEMORY_ALLOCATION);
             }
             elements[0] = ArrayOf::characterArrayConstructor(wstr[0]);
-            res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
+            if (STR.isStringArray()) {
+                res = ArrayOf(NLS_STRING_ARRAY, Dimensions(1, 1), elements);
+            } else {
+                res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
+			}
         } else {
             res = ArrayOf::characterArrayConstructor(wstr[0]);
         }
         return res;
     }
-    if ((wstr.size() == 1) && OLD.isCell() && NEW.isCharacterArray()) {
+    if ((wstr.size() == 1) && (OLD.isCell() || OLD.isStringArray()) && (NEW.isCharacterArray() || NEW.isStringArray())) {
         for (size_t k = 0; k < OLD.getDimensions().getElementCount(); k++) {
             wstr[0] = Replace(wstr[0], wold[k], wnew[0]);
         }
-        if (STR.isCell()) {
+        if (STR.isCell() || STR.isStringArray()) {
             ArrayOf* elements = nullptr;
             try {
                 elements = new ArrayOf[wstr.size()];
@@ -242,13 +249,19 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                 Error(ERROR_MEMORY_ALLOCATION);
             }
             elements[0] = ArrayOf::characterArrayConstructor(wstr[0]);
-            res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
+            if (STR.isStringArray()) {
+                res = ArrayOf(NLS_STRING_ARRAY, Dimensions(1, 1), elements);
+            } else {
+                res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
+			}
         } else {
             res = ArrayOf::characterArrayConstructor(wstr[0]);
         }
         return res;
     }
-    if (STR.isCharacterArray() && OLD.isCharacterArray() && NEW.isCharacterArray()) {
+    if ((STR.isCharacterArray() || (STR.isStringArray() && STR.isScalar())) &&
+		(OLD.isCharacterArray() || (OLD.isStringArray() && OLD.isScalar())) &&
+		(NEW.isCharacterArray() || (NEW.isStringArray() && NEW.isScalar()))) {
         if (wstr.size() == 0) {
             wstr.push_back(L"");
         }
@@ -258,7 +271,11 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
         if (wnew.size() == 0) {
             wnew.push_back(L"");
         }
-        return ArrayOf::characterArrayConstructor(Replace(wstr[0], wold[0], wnew[0]));
+        if (STR.isStringArray()) {
+            return ArrayOf::stringArrayConstructor(Replace(wstr[0], wold[0], wnew[0]));
+        } else {
+            return ArrayOf::characterArrayConstructor(Replace(wstr[0], wold[0], wnew[0]));
+		}
     } else {
         size_t nbOutput;
         Dimensions outputDims;
@@ -296,12 +313,12 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             nbOutput = wstr.size();
             outputDims = STR.getDimensions();
         }
-        if (OLD.isEmpty() && OLD.isCell()) {
+        if (OLD.isEmpty() && (OLD.isCell() || OLD.isStringArray())) {
             res = STR;
             res.ensureSingleOwner();
             return res;
         }
-        if (OLD.isCell() && NEW.isCell()) {
+        if ((OLD.isCell() || OLD.isStringArray()) && (NEW.isCell() || NEW.isStringArray())) {
             Dimensions oldDims = OLD.getDimensions();
             Dimensions newDims = NEW.getDimensions();
             if (!(OLD.isScalar() || NEW.isScalar())) {
@@ -310,29 +327,38 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                 }
             }
         } else {
-            if (OLD.isCharacterArray() && NEW.isCell()) {
+            if ((OLD.isCharacterArray() || (OLD.isStringArray() && OLD.isScalar())) &&
+				(NEW.isCell() || NEW.isStringArray())) {
                 if (wold.size() != wnew.size()) {
                     Error(ERROR_SAME_SIZE_EXPECTED);
                 }
             }
         }
         Class outputClass = NLS_CHAR;
-        if (STR.isCharacterArray() && (OLD.isCell() && !OLD.isScalar())) {
-            outputClass = NLS_CELL_ARRAY;
+        if ((STR.isCharacterArray() || (STR.isStringArray() && STR.isScalar())) &&
+			((OLD.isCell() || OLD.isStringArray()) && !OLD.isScalar())) {
+            if (STR.isStringArray()) {
+                outputClass = NLS_STRING_ARRAY;
+            } else {
+                outputClass = NLS_CELL_ARRAY;
+            }
         }
         if (STR.isCell()) {
             outputClass = NLS_CELL_ARRAY;
         }
+        if (STR.isStringArray()) {
+            outputClass = NLS_STRING_ARRAY;
+        }
         if (nbOutput == 1) {
-            if (OLD.isCell() && OLD.isEmpty()) {
+            if ((OLD.isCell() || OLD.isStringArray()) && OLD.isEmpty()) {
                 ArrayOf* elements = nullptr;
-                res = ArrayOf(NLS_CELL_ARRAY, Dimensions(0, 0), elements);
+                res = ArrayOf(outputClass, Dimensions(0, 0), elements);
             } else {
                 std::wstring result = Replace(wstr[0], wold[0], wnew[0]);
-                if (outputClass == NLS_CELL_ARRAY) {
+                if (outputClass == NLS_CELL_ARRAY || outputClass == NLS_STRING_ARRAY) {
                     ArrayOf* elements = nullptr;
                     if (result.empty()) {
-                        res = ArrayOf(NLS_CELL_ARRAY, Dimensions(0, 0), elements);
+                        res = ArrayOf(outputClass, Dimensions(0, 0), elements);
                     } else {
                         try {
                             elements = new ArrayOf[nbOutput];
@@ -341,7 +367,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                             Error(ERROR_MEMORY_ALLOCATION);
                         }
                         elements[0] = ArrayOf::characterArrayConstructor(result);
-                        res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
+                        res = ArrayOf(outputClass, Dimensions(1, 1), elements);
                     }
                 } else {
                     res = ArrayOf::characterArrayConstructor(result);
@@ -353,7 +379,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                     std::wstring result = Replace(wstr[0], wold[0], wnew[0]);
                     res = ArrayOf::characterArrayConstructor(result);
                 } else {
-                    if (outputClass == NLS_CELL_ARRAY) {
+                    if (outputClass == NLS_CELL_ARRAY || outputClass == NLS_STRING_ARRAY) {
                         ArrayOf* elements = nullptr;
                         try {
                             elements = new ArrayOf[nbOutput];
@@ -361,7 +387,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                             e.what();
                             Error(ERROR_MEMORY_ALLOCATION);
                         }
-                        res = ArrayOf(NLS_CELL_ARRAY, outputDims, elements);
+                        res = ArrayOf(outputClass, outputDims, elements);
                     } else {
                         res = ArrayOf::characterArrayConstructor("");
                     }
@@ -394,7 +420,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                             Replace(wstr[idx_str], wold[idx_old], wnew[idx_new]));
                     }
                 }
-                res = ArrayOf(NLS_CELL_ARRAY, outputDims, elements);
+                res = ArrayOf(outputClass, outputDims, elements);
             }
         }
     }

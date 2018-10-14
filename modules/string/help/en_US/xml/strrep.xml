@@ -13,15 +13,15 @@
   <param_input>
     <param_input_item>
       <param_name>str</param_name>
-      <param_description>a string or cell of strings.</param_description>
+      <param_description>a string, string array or cell of strings.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>old</param_name>
-      <param_description>a string or cell of strings to find.</param_description>
+      <param_description>a string, string array or cell of strings to find.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>new</param_name>
-      <param_description>a string or cell of strings.</param_description>
+      <param_description>a string, string array or cell of strings.</param_description>
     </param_input_item>
     
   </param_input>
@@ -29,7 +29,7 @@
   <param_output>
     <param_output_item>
       <param_name>res</param_name>
-      <param_description>a string or cell of strings.</param_description>
+      <param_description>a string, string array or cell of strings.</param_description>
     </param_output_item>
   </param_output>
 
@@ -47,7 +47,8 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
     <example_item_data><![CDATA[r = strrep('This is a string.', 'is', 'is not')
-r = strrep({'cccc','ccbbcca'},{'cc','bb'},{'cc'})]]>
+r = strrep({'cccc','ccbbcca'},{'cc','bb'},{'cc'})
+r = strrep("This is a string.", "is", 'is not')]]>
     </example_item_data>
   </example_item>
 </examples>

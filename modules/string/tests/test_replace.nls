@@ -234,3 +234,26 @@ cmd = 'r = replace(''cccc'',''cc'', {''a'',''bb''})';
 ref = _('Same size expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
+r = replace("This is a string.", 'is', 'is not');
+ref = "This not is not a string.";
+assert_isequal(r, ref);
+//=============================================================================
+r = replace('This is a string.', "is", 'is not');
+ref = 'This not is not a string.';
+assert_isequal(r, ref);
+//=============================================================================
+r = replace('This is a string.', 'is', "is not");
+ref = 'This not is not a string.';
+assert_isequal(r, ref);
+//=============================================================================
+r = replace("ccabbba",{'cc','bb'},{'cc','e'});
+ref =  "ccaeba";
+assert_isequal(r, ref);
+//=============================================================================
+str = ["the quick yellow canary";
+"and the lazy bunny"];
+r = replace(str,'the','a');
+ref = ["a quick yellow canary";
+"and a lazy bunny"];
+assert_isequal(r, ref);
+//=============================================================================
