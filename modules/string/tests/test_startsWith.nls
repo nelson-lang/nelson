@@ -45,3 +45,15 @@ c1 = {'abs.docx','data.gz','code.nls','results.nlf'};
 c2 = {1};
 assert_checkerror('res = startsWith(c1, c2);', _('char vector or cell of strings expected.'));
 //=============================================================================
+c1 = "time";
+c2 = ["Once", "upon"; "a", "time"];
+res = startsWith(c1, c2);
+ref = true;
+assert_isequal(res, ref); 
+//=============================================================================
+c1 = ["Data.docx", "data.gz"; "code.nls", "AbS.nlf"];
+c2 = ["abs", "data"];
+res = startsWith(c1, c2, 'IgnoreCase', true);
+ref = [true, true; false, true];
+assert_isequal(res, ref); 
+//=============================================================================

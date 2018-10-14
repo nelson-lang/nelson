@@ -16,7 +16,7 @@
   <param_input>
     <param_input_item>
       <param_name>str</param_name>
-      <param_description>a string or cell of strings.</param_description>
+      <param_description>a string, string array or cell of strings.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>pattern</param_name>
@@ -49,6 +49,9 @@ k = startsWith (str, 'to', 'IgnoreCase', true)
 
 A = {'Nel', 'son'; 'Nelson', 'Modules'}
 k = startsWith(A, 'Nel')
+
+A = ["Nel", "son"; "Nelson", "Modules"];
+k = startsWith(A, "Nel")
 
 ]]>
     </example_item_data>

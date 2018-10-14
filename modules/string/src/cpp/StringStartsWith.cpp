@@ -39,11 +39,14 @@ ArrayOf
 StringStartsWith(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
 {
     ArrayOf res;
-    if (A.isCharacterArray() && Pattern.isCharacterArray()) {
+    if ((A.isCharacterArray() || (A.isStringArray() && A.isScalar()))
+        && (Pattern.isCharacterArray() || (Pattern.isStringArray() && Pattern.isScalar()))) {
         res = ArrayOf::logicalConstructor(startsWithString(
             A.getContentAsWideString(), Pattern.getContentAsWideString(), bCaseSensitive));
     } else {
-        if (A.isCharacterArray() && IsCellOfString(Pattern)) {
+        if ((A.isCharacterArray()
+                || (A.isStringArray() && A.isScalar())
+                    && (Pattern.isStringArray() || IsCellOfString(Pattern)))) {
             std::wstring strA = A.getContentAsWideString();
             Dimensions dimPattern = Pattern.getDimensions();
             size_t nbPattern = dimPattern.getElementCount();
@@ -57,7 +60,8 @@ StringStartsWith(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
                 }
             }
             res = ArrayOf::logicalConstructor(val);
-        } else if (IsCellOfString(A) && Pattern.isCharacterArray()) {
+        } else if ((A.isStringArray() || IsCellOfString(A))
+            && (Pattern.isCharacterArray() || (Pattern.isStringArray() && Pattern.isScalar()))) {
             std::wstring pattern = Pattern.getContentAsWideString();
             Dimensions dimA = A.getDimensions();
             size_t nbA = dimA.getElementCount();
@@ -68,7 +72,8 @@ StringStartsWith(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
                     = startsWithString(cellA[k].getContentAsWideString(), pattern, bCaseSensitive);
             }
             res = ArrayOf(NLS_LOGICAL, dimA, result);
-        } else if (IsCellOfString(A) && IsCellOfString(Pattern)) {
+        } else if ((A.isStringArray() || IsCellOfString(A))
+            && (A.isStringArray() || IsCellOfString(Pattern))) {
             Dimensions dimA = A.getDimensions();
             size_t nbA = dimA.getElementCount();
             Dimensions dimPattern = Pattern.getDimensions();
