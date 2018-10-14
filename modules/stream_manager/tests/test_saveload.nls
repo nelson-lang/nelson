@@ -435,3 +435,13 @@ clear A;
 loadbin([tempdir(), '/test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
+A = ["NelSon";
+"is";
+"not";
+"LensOn"];
+savebin([tempdir(), '/test_saveload.bin'], 'A');
+REF = A;
+clear A;
+loadbin([tempdir(), '/test_saveload.bin']);
+assert_isequal(A, REF);
+//=============================================================================

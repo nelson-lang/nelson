@@ -180,6 +180,24 @@ function cell_save_data(fd, data)
   generic_cell_save_data(fd, data)
 endfunction 
 //=============================================================================
+function string_save_data(fd, data)
+  fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
+  dim = size(data);
+  len = length(dim);
+  fwrite(fd, len, 'double', 'l');
+  fwrite(fd, dim, 'double', 'l');
+
+  if ~isempty(data)
+    prod = 1;
+    for k = 1:len
+      prod = prod * dim(k);
+    end
+    for k = 1:prod
+      save_data(fd, data{k});
+    end
+  end
+endfunction 
+//=============================================================================
 function struct_save_data(fd, data)
   fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
   dim = size(data);

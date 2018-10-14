@@ -176,7 +176,7 @@ function res = ndarraydouble_load_data(fr)
   res = ndarraygeneric_load_data(fr);
 endfunction 
 //=============================================================================
-function res = ndarraystring_load_data(fr)
+function res = ndarraychar_load_data(fr)
   res = ndarraygeneric_load_data(fr);
 endfunction 
 //=============================================================================
@@ -201,6 +201,21 @@ endfunction
 //=============================================================================
 function res = cell_load_data(fr);
   res = generic_cell_load_data(fr);
+endfunction 
+//=============================================================================
+function res = string_load_data(fr);
+  lendim = fread(fr, 1, 'double', 'l');
+  dim = fread(fr, lendim, 'double', 'l');
+  dim = reshape(dim, 1, []);
+  res = strings(dim);
+  prod = 1;
+  for k = 1:lendim
+    prod = prod * dim(k);
+  end
+  for k = 1:prod
+    res{k} = load_data(fr);
+  end 
+  res = reshape(res, dim);
 endfunction 
 //=============================================================================
 function res = struct_load_data(fr)
@@ -273,7 +288,7 @@ function res = int64_load_data(fr)
   res = generic_notcomplex_load_data(fr, 'int64');
 endfunction 
 //=============================================================================
-function res = string_load_data(fr)
+function res = char_load_data(fr)
   res = generic_notcomplex_load_data(fr, 'uint32');
   res = char(res);
 endfunction   

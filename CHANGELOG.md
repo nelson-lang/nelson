@@ -23,6 +23,7 @@ Features:
     - fileread, filewrite extended to manage string array.
     - operators ==, ~=, <, >, >=, <= extended to manage string array.
     - operator plus extended to manage string array.
+    - loadbin, savebin extended to manage string array.
     - MPI interface extended to manage string array.
 
   * deblank builtin: removes trailing whitespace from a cell of strings, a string array or a character vectors.
