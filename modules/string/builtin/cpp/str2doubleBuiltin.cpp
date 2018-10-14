@@ -40,7 +40,7 @@ Nelson::StringGateway::str2doubleBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     if (!bSuccess) {
         ArrayOf param1 = argIn[0];
-        if (param1.isCharacterArray() || param1.isCell()) {
+        if (param1.isCharacterArray() || param1.isStringArray() || param1.isCell()) {
             if (param1.isCharacterArray()) {
                 std::wstring str = argIn[0].getContentAsArrayOfCharacters();
                 bool wasConverted = false;
@@ -50,8 +50,9 @@ Nelson::StringGateway::str2doubleBuiltin(Evaluator* eval, int nLhs, const ArrayO
                     output.promoteType(NLS_DOUBLE);
                 }
                 retval.push_back(output);
+                return retval;
             } else {
-                if (param1.isCell()) {
+                if (param1.isStringArray() || param1.isCell()) {
                     Dimensions dimParam1 = param1.getDimensions();
                     Dimensions dimOutput(dimParam1);
                     size_t nbElements = dimParam1.getElementCount();
@@ -74,6 +75,7 @@ Nelson::StringGateway::str2doubleBuiltin(Evaluator* eval, int nLhs, const ArrayO
                         output.promoteType(NLS_DOUBLE);
                     }
                     retval.push_back(output);
+                    return retval;
                 } else {
                     retval = OverloadFunction(eval, nLhs, argIn, "str2double", bSuccess);
                     if (!bSuccess) {
@@ -83,6 +85,6 @@ Nelson::StringGateway::str2doubleBuiltin(Evaluator* eval, int nLhs, const ArrayO
             }
         }
     }
-    return retval;
-    //=============================================================================
+    return OverloadFunction(eval, nLhs, argIn, "str2double");
 }
+//=============================================================================

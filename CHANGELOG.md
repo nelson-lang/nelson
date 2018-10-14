@@ -14,7 +14,8 @@ Features:
     - strlength extended to manage string array.
     - count extended to manage string array.    
     - contains extended to manage string array.
-    - startsWith, endsWith extended to manage string array.   
+    - startsWith, endsWith extended to manage string array.
+    - str2double extended to manage string array.
     - strcmp, strcmpi, strncmp, strncmpi extended to manage string array.
     - fileread, filewrite extended to manage string array.
     - operators ==, ~=, <, >, >=, <= extended to manage string array.
@@ -29,7 +30,7 @@ Features:
 
   * operators ==, ~=, <, >, >=, <= reworked (Compatiblity Array Sizes increased).
 
-  * ==, ~=, isequal speed optimization.
+  * ==, ~=, isequal: speed optimization.
 
   * internal API C++ methods renamed:
     - "stringConstructor" --> "characterArrayConstructor".
