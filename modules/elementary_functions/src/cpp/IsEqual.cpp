@@ -70,11 +70,12 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
         needToOverload = true;
         return false;
     }
+    indexType nbElementsA = dimsA.getElementCount();
     if (A.isStringArray() || B.isStringArray()) {
         if (A.isStringArray() && B.isStringArray()) {
             ArrayOf* elementA = (ArrayOf*)A.getDataPointer();
             ArrayOf* elementB = (ArrayOf*)B.getDataPointer();
-            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+            for (indexType k = 0; k < nbElementsA; k++) {
                 ArrayOf el1 = elementA[k];
                 ArrayOf el2 = elementB[k];
                 bool res = IsEqual(el1, el2, sameTypes, withNaN, needToOverload);
@@ -103,13 +104,13 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
             double* ptrA = (double*)A.getDataPointer();
             double* ptrB = (double*)B.getDataPointer();
             if (withNaN) {
-                for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+                for (indexType k = 0; k < nbElementsA; k++) {
                     if (!isequalornan(ptrA[k], ptrB[k])) {
                         return false;
                     }
                 }
             } else {
-                for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+                for (indexType k = 0; k < nbElementsA; k++) {
                     if (ptrA[k] != ptrB[k]) {
                         return false;
                     }
@@ -128,14 +129,14 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
             double* ptrImagA = (double*)imagPartA.getDataPointer();
             double* ptrImagB = (double*)imagPartB.getDataPointer();
             if (withNaN) {
-                for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+                for (indexType k = 0; k < nbElementsA; k++) {
                     if (!isequalornan(ptrRealA[k], ptrRealB[k])
                         || !isequalornan(ptrImagA[k], ptrImagB[k])) {
                         return false;
                     }
                 }
             } else {
-                for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+                for (indexType k = 0; k < nbElementsA; k++) {
                     if ((ptrRealA[k] != ptrRealB[k]) || (ptrImagA[k] != ptrImagB[k])) {
                         return false;
                     }
@@ -154,13 +155,13 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
         double* ptrA = (double*)A.getDataPointer();
         double* ptrB = (double*)B.getDataPointer();
         if (withNaN) {
-            for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+            for (indexType k = 0; k < nbElementsA; k++) {
                 if (!isequalornan(ptrA[k], ptrB[k])) {
                     return false;
                 }
             }
         } else {
-            for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+            for (indexType k = 0; k < nbElementsA; k++) {
                 if (ptrA[k] != ptrB[k]) {
                     return false;
                 }

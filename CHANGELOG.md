@@ -28,6 +28,8 @@ Features:
 
   * operators ==, ~=, <, >, >=, <= reworked (Compatiblity Array Sizes increased).
 
+  *  ==, ~=, isequal speed optimization.
+
   * internal API C++ methods renamed:
     - "stringConstructor" --> "characterArrayConstructor".
     - "isString" --> "isCharacterArray"

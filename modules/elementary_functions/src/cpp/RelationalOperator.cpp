@@ -27,63 +27,66 @@ namespace Nelson {
 static ArrayOf
 matrix_matrix_operator(ArrayOf& A, ArrayOf& B,
     logical (*realRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+		Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB))
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
     logical* Cp = new_with_exception<logical>(Clen, false);
 
-    for (indexType i = 0; i < A.getDimensions().getElementCount(); i++) {
-        switch (A.getDataClass()) {
+	void* ptrA = (void*)A.getDataPointer();
+    void* ptrB = (void*)B.getDataPointer();
+	Class classA = A.getDataClass();
+    for (indexType i = 0; i < dimsC.getElementCount(); i++) {
+        switch (classA) {
         case NLS_STRING_ARRAY: {
-            Cp[i] = (*stringRelationOperator)(A, B, i, i);
+            Cp[i] = (*stringRelationOperator)(classA, ptrA, ptrB, i, i);
         } break;
         case NLS_LOGICAL: {
-            Cp[i] = (*realRelationOperator)(A, B, i, i);
+            Cp[i] = (*realRelationOperator)(classA, ptrA, ptrB, i, i);
         } break;
         case NLS_UINT8: {
-            Cp[i] = (*realRelationOperator)(A, B, i, i);
+            Cp[i] = (*realRelationOperator)(classA, ptrA, ptrB, i, i);
         } break;
         case NLS_INT8: {
-            Cp[i] = (*realRelationOperator)(A, B, i, i);
+            Cp[i] = (*realRelationOperator)(classA, ptrA, ptrB, i, i);
         } break;
         case NLS_UINT16: {
-            Cp[i] = (*realRelationOperator)(A, B, i, i);
+            Cp[i] = (*realRelationOperator)(classA, ptrA, ptrB, i, i);
         } break;
         case NLS_INT16: {
-            Cp[i] = (*realRelationOperator)(A, B, i, i);
+            Cp[i] = (*realRelationOperator)(classA, ptrA, ptrB, i, i);
         } break;
         case NLS_UINT32: {
-            Cp[i] = (*realRelationOperator)(A, B, i, i);
+            Cp[i] = (*realRelationOperator)(classA, ptrA, ptrB, i, i);
         } break;
         case NLS_INT32: {
-            Cp[i] = (*realRelationOperator)(A, B, i, i);
+            Cp[i] = (*realRelationOperator)(classA, ptrA, ptrB, i, i);
         } break;
         case NLS_UINT64: {
-            Cp[i] = (*realRelationOperator)(A, B, i, i);
+            Cp[i] = (*realRelationOperator)(classA, ptrA, ptrB, i, i);
         } break;
         case NLS_INT64: {
-            Cp[i] = (*realRelationOperator)(A, B, i, i);
+            Cp[i] = (*realRelationOperator)(classA, ptrA, ptrB, i, i);
         } break;
         case NLS_SINGLE: {
-            Cp[i] = (*realRelationOperator)(A, B, i, i);
+            Cp[i] = (*realRelationOperator)(classA, ptrA, ptrB, i, i);
         } break;
         case NLS_DOUBLE: {
-            Cp[i] = (*realRelationOperator)(A, B, i, i);
+            Cp[i] = (*realRelationOperator)(classA, ptrA, ptrB, i, i);
         } break;
         case NLS_SCOMPLEX: {
-            Cp[i] = (*complexRelationOperator)(A, B, i, i);
+            Cp[i] = (*complexRelationOperator)(classA, ptrA, ptrB, i, i);
         } break;
         case NLS_DCOMPLEX: {
-            Cp[i] = (*complexRelationOperator)(A, B, i, i);
+            Cp[i] = (*complexRelationOperator)(classA, ptrA, ptrB, i, i);
         } break;
         case NLS_CHAR: {
-            Cp[i] = (*realRelationOperator)(A, B, i, i);
+            Cp[i] = (*realRelationOperator)(classA, ptrA, ptrB, i, i);
         } break;
         }
     }
@@ -93,61 +96,64 @@ matrix_matrix_operator(ArrayOf& A, ArrayOf& B,
 static ArrayOf
 scalar_matrix_operator(ArrayOf& A, ArrayOf& B,
     logical (*realRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB))
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
     Dimensions dimsC = B.getDimensions();
     indexType Clen = dimsC.getElementCount();
     logical* Cp = new_with_exception<logical>(Clen, false);
+    void* ptrA = (void*)A.getDataPointer();
+    void* ptrB = (void*)B.getDataPointer();
+    Class classA = A.getDataClass();
     for (indexType i = 0; i < Clen; i++) {
-        switch (A.getDataClass()) {
+        switch (classA) {
         case NLS_STRING_ARRAY: {
-            Cp[i] = stringRelationOperator(A, B, 0, i);
+            Cp[i] = stringRelationOperator(classA, ptrA, ptrB, 0, i);
         } break;
         case NLS_LOGICAL: {
-            Cp[i] = realRelationOperator(A, B, 0, i);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, 0, i);
         } break;
         case NLS_UINT8: {
-            Cp[i] = realRelationOperator(A, B, 0, i);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, 0, i);
         } break;
         case NLS_INT8: {
-            Cp[i] = realRelationOperator(A, B, 0, i);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, 0, i);
         } break;
         case NLS_UINT16: {
-            Cp[i] = realRelationOperator(A, B, 0, i);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, 0, i);
         } break;
         case NLS_INT16: {
-            Cp[i] = realRelationOperator(A, B, 0, i);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, 0, i);
         } break;
         case NLS_UINT32: {
-            Cp[i] = realRelationOperator(A, B, 0, i);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, 0, i);
         } break;
         case NLS_INT32: {
-            Cp[i] = realRelationOperator(A, B, 0, i);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, 0, i);
         } break;
         case NLS_UINT64: {
-            Cp[i] = realRelationOperator(A, B, 0, i);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, 0, i);
         } break;
         case NLS_INT64: {
-            Cp[i] = realRelationOperator(A, B, 0, i);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, 0, i);
         } break;
         case NLS_SINGLE: {
-            Cp[i] = realRelationOperator(A, B, 0, i);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, 0, i);
         } break;
         case NLS_DOUBLE: {
-            Cp[i] = realRelationOperator(A, B, 0, i);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, 0, i);
         } break;
         case NLS_SCOMPLEX: {
-            Cp[i] = complexRelationOperator(A, B, 0, i);
+            Cp[i] = complexRelationOperator(classA, ptrA, ptrB, 0, i);
         } break;
         case NLS_DCOMPLEX: {
-            Cp[i] = complexRelationOperator(A, B, 0, i);
+            Cp[i] = complexRelationOperator(classA, ptrA, ptrB, 0, i);
         } break;
         case NLS_CHAR: {
-            Cp[i] = realRelationOperator(A, B, 0, i);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, 0, i);
         } break;
         }
     }
@@ -157,61 +163,64 @@ scalar_matrix_operator(ArrayOf& A, ArrayOf& B,
 static ArrayOf
 matrix_scalar_operator(ArrayOf& A, ArrayOf& B,
     logical (*realRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB))
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
     logical* Cp = new_with_exception<logical>(Clen, false);
+    void* ptrA = (void*)A.getDataPointer();
+    void* ptrB = (void*)B.getDataPointer();
+    Class classA = A.getDataClass();
     for (indexType i = 0; i < Clen; i++) {
-        switch (A.getDataClass()) {
+        switch (classA) {
         case NLS_STRING_ARRAY: {
-            Cp[i] = stringRelationOperator(A, B, i, 0); 
+            Cp[i] = stringRelationOperator(classA, ptrA, ptrB, i, 0); 
         } break;
         case NLS_LOGICAL: {
-            Cp[i] = realRelationOperator(A, B, i, 0);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, i, 0);
         } break;
         case NLS_UINT8: {
-            Cp[i] = realRelationOperator(A, B, i, 0);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, i, 0);
         } break;
         case NLS_INT8: {
-            Cp[i] = realRelationOperator(A, B, i, 0);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, i, 0);
         } break;
         case NLS_UINT16: {
-            Cp[i] = realRelationOperator(A, B, i, 0);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, i, 0);
         } break;
         case NLS_INT16: {
-            Cp[i] = realRelationOperator(A, B, i, 0);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, i, 0);
         } break;
         case NLS_UINT32: {
-            Cp[i] = realRelationOperator(A, B, i, 0);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, i, 0);
         } break;
         case NLS_INT32: {
-            Cp[i] = realRelationOperator(A, B, i, 0);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, i, 0);
         } break;
         case NLS_UINT64: {
-            Cp[i] = realRelationOperator(A, B, i, 0);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, i, 0);
         } break;
         case NLS_INT64: {
-            Cp[i] = realRelationOperator(A, B, i, 0);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, i, 0);
         } break;
         case NLS_SINGLE: {
-            Cp[i] = realRelationOperator(A, B, i, 0);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, i, 0);
         } break;
         case NLS_DOUBLE: {
-            Cp[i] = realRelationOperator(A, B, i, 0);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, i, 0);
         } break;
         case NLS_SCOMPLEX: {
-            Cp[i] = complexRelationOperator(A, B, i, 0);
+            Cp[i] = complexRelationOperator(classA, ptrA, ptrB, i, 0);
         } break;
         case NLS_DCOMPLEX: {
-            Cp[i] = complexRelationOperator(A, B, i, 0);
+            Cp[i] = complexRelationOperator(classA, ptrA, ptrB, i, 0);
         } break;
         case NLS_CHAR: {
-            Cp[i] = realRelationOperator(A, B, i, 0);
+            Cp[i] = realRelationOperator(classA, ptrA, ptrB, i, 0);
         } break;
         }
     }
@@ -221,64 +230,68 @@ matrix_scalar_operator(ArrayOf& A, ArrayOf& B,
 static ArrayOf
 vector_row_column_operator(const Dimensions& outputDimensions, ArrayOf& A, ArrayOf& B,
     logical (*realRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB))
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
     ArrayOf res;
     indexType Clen = outputDimensions.getElementCount();
     logical* Cp = new_with_exception<logical>(Clen, false);
-
+    void* ptrA = (void*)A.getDataPointer();
+    void* ptrB = (void*)B.getDataPointer();
+    indexType nbElementsA = A.getDimensions().getElementCount();
+    indexType nbElementsB = B.getDimensions().getElementCount();
+    Class classA = A.getDataClass();
     indexType m = 0;
-    for (indexType i = 0; i < A.getDimensions().getElementCount(); i++) {
-        for (indexType j = 0; j < B.getDimensions().getElementCount(); j++) {
-            switch (A.getDataClass()) {
+    for (indexType i = 0; i < nbElementsA; i++) {
+        for (indexType j = 0; j < nbElementsB; j++) {
+            switch (classA) {
             case NLS_STRING_ARRAY: {
-                Cp[m] = stringRelationOperator(A, B, i, j);
+                Cp[m] = stringRelationOperator(classA, ptrA, ptrB, i, j);
             } break;
             case NLS_LOGICAL: {
-                Cp[m] = realRelationOperator(A, B, i, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, i, j);
             } break;
             case NLS_UINT8: {
-                Cp[m] = realRelationOperator(A, B, i, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, i, j);
             } break;
             case NLS_INT8: {
-                Cp[m] = realRelationOperator(A, B, i, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, i, j);
             } break;
             case NLS_UINT16: {
-                Cp[m] = realRelationOperator(A, B, i, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, i, j);
             } break;
             case NLS_INT16: {
-                Cp[m] = realRelationOperator(A, B, i, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, i, j);
             } break;
             case NLS_UINT32: {
-                Cp[m] = realRelationOperator(A, B, i, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, i, j);
             } break;
             case NLS_INT32: {
-                Cp[m] = realRelationOperator(A, B, i, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, i, j);
             } break;
             case NLS_UINT64: {
-                Cp[m] = realRelationOperator(A, B, i, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, i, j);
             } break;
             case NLS_INT64: {
-                Cp[m] = realRelationOperator(A, B, i, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, i, j);
             } break;
             case NLS_SINGLE: {
-                Cp[m] = realRelationOperator(A, B, i, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, i, j);
             } break;
             case NLS_DOUBLE: {
-                Cp[m] = realRelationOperator(A, B, i, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, i, j);
             } break;
             case NLS_SCOMPLEX: {
-                Cp[m] = complexRelationOperator(A, B, i, j);
+                Cp[m] = complexRelationOperator(classA, ptrA, ptrB, i, j);
             } break;
             case NLS_DCOMPLEX: {
-                Cp[m] = complexRelationOperator(A, B, i, j);
+                Cp[m] = complexRelationOperator(classA, ptrA, ptrB, i, j);
             } break;
             case NLS_CHAR: {
-                Cp[m] = realRelationOperator(A, B, i, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, i, j);
             } break;
             }
             m++;
@@ -290,64 +303,66 @@ vector_row_column_operator(const Dimensions& outputDimensions, ArrayOf& A, Array
 static ArrayOf
 vector_column_row_operator(const Dimensions& outputDimensions, ArrayOf& A, ArrayOf& B,
     logical (*realRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB))
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
     ArrayOf res;
     indexType Clen = outputDimensions.getElementCount();
     logical* Cp = new_with_exception<logical>(Clen, false);
-
+    void* ptrA = (void*)A.getDataPointer();
+    void* ptrB = (void*)B.getDataPointer();
+    Class classA = A.getDataClass();
     indexType m = 0;
     for (indexType i = 0; i < B.getDimensions().getElementCount(); i++) {
         for (indexType j = 0; j < A.getDimensions().getElementCount(); j++) {
-            switch (A.getDataClass()) {
+            switch (classA) {
             case NLS_STRING_ARRAY: {
-                Cp[m] = stringRelationOperator(A, B, j, i); 
+                Cp[m] = stringRelationOperator(classA, ptrA, ptrB, j, i); 
             } break;
             case NLS_LOGICAL: {
-                Cp[m] = realRelationOperator(A, B, j, i); 
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i); 
             } break;
             case NLS_UINT8: {
-                Cp[m] = realRelationOperator(A, B, j, i); 
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i); 
             } break;
             case NLS_INT8: {
-                Cp[m] = realRelationOperator(A, B, j, i);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i);
             } break;
             case NLS_UINT16: {
-                Cp[m] = realRelationOperator(A, B, j, i);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i);
             } break;
             case NLS_INT16: {
-                Cp[m] = realRelationOperator(A, B, j, i);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i);
             } break;
             case NLS_UINT32: {
-                Cp[m] = realRelationOperator(A, B, j, i);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i);
             } break;
             case NLS_INT32: {
-                Cp[m] = realRelationOperator(A, B, j, i);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i);
             } break;
             case NLS_UINT64: {
-                Cp[m] = realRelationOperator(A, B, j, i);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i);
             } break;
             case NLS_INT64: {
-                Cp[m] = realRelationOperator(A, B, j, i);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i);
             } break;
             case NLS_SINGLE: {
-                Cp[m] = realRelationOperator(A, B, j, i);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i);
             } break;
             case NLS_DOUBLE: {
-                Cp[m] = realRelationOperator(A, B, j, i);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i);
             } break;
             case NLS_SCOMPLEX: {
-                Cp[m] = complexRelationOperator(A, B, j, i);
+                Cp[m] = complexRelationOperator(classA, ptrA, ptrB, j, i);
             } break;
             case NLS_DCOMPLEX: {
-                Cp[m] = complexRelationOperator(A, B, j, i);
+                Cp[m] = complexRelationOperator(classA, ptrA, ptrB, j, i);
             } break;
             case NLS_CHAR: {
-                Cp[m] = realRelationOperator(A, B, j, i);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i);
             } break;
             }
             m++;
@@ -359,64 +374,67 @@ vector_column_row_operator(const Dimensions& outputDimensions, ArrayOf& A, Array
 static ArrayOf
 vector_matrix_operator(ArrayOf& A, ArrayOf& B,
     logical (*realRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB))
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
     indexType q = 0;
     Dimensions dimsC = B.getDimensions();
     indexType Clen = dimsC.getElementCount();
     logical* Cp = new_with_exception<logical>(Clen, false);
+    void* ptrA = (void*)A.getDataPointer();
+    void* ptrB = (void*)B.getDataPointer();
+    Class classA = A.getDataClass();
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * A.getDimensions().getRows();
-            switch (A.getDataClass()) {
+            switch (classA) {
             case NLS_STRING_ARRAY: {
-                Cp[m] = stringRelationOperator(A, B, q, m); 
+                Cp[m] = stringRelationOperator(classA, ptrA, ptrB, q, m); 
             } break;
             case NLS_LOGICAL: {
-                Cp[m] = realRelationOperator(A, B, q, m); 
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m); 
             } break;
             case NLS_UINT8: {
-                Cp[m] = realRelationOperator(A, B, q, m); 
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m); 
             } break;
             case NLS_INT8: {
-                Cp[m] = realRelationOperator(A, B, q, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m);
             } break;
             case NLS_UINT16: {
-                Cp[m] = realRelationOperator(A, B, q, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m);
             } break;
             case NLS_INT16: {
-                Cp[m] = realRelationOperator(A, B, q, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m);
             } break;
             case NLS_UINT32: {
-                Cp[m] = realRelationOperator(A, B, q, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m);
             } break;
             case NLS_INT32: {
-                Cp[m] = realRelationOperator(A, B, q, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m);
             } break;
             case NLS_UINT64: {
-                Cp[m] = realRelationOperator(A, B, q, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m);
             } break;
             case NLS_INT64: {
-                Cp[m] = realRelationOperator(A, B, q, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m);
             } break;
             case NLS_SINGLE: {
-                Cp[m] = realRelationOperator(A, B, q, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m);
             } break;
             case NLS_DOUBLE: {
-                Cp[m] = realRelationOperator(A, B, q, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m);
             } break;
             case NLS_SCOMPLEX: {
-                Cp[m] = complexRelationOperator(A, B, q, m);
+                Cp[m] = complexRelationOperator(classA, ptrA, ptrB, q, m);
             } break;
             case NLS_DCOMPLEX: {
-                Cp[m] = complexRelationOperator(A, B, q, m);
+                Cp[m] = complexRelationOperator(classA, ptrA, ptrB, q, m);
             } break;
             case NLS_CHAR: {
-                Cp[m] = realRelationOperator(A, B, q, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m);
             } break;
             }
         }
@@ -428,64 +446,67 @@ vector_matrix_operator(ArrayOf& A, ArrayOf& B,
 static ArrayOf
 matrix_vector_operator(ArrayOf& A, ArrayOf& B,
     logical (*realRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB))
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
     indexType q = 0;
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
     logical* Cp = new_with_exception<logical>(Clen, false);
-    for (indexType i = 0; i < dimsC.getRows(); i++) {
+    void* ptrA = (void*)A.getDataPointer();
+    void* ptrB = (void*)B.getDataPointer();
+    Class classA = A.getDataClass();
+	for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * A.getDimensions().getRows();
-            switch (A.getDataClass()) {
+            switch (classA) {
             case NLS_STRING_ARRAY: {
-                Cp[m] = stringRelationOperator(A, B, m, q); 
+                Cp[m] = stringRelationOperator(classA, ptrA, ptrB, m, q); 
             } break;
             case NLS_LOGICAL: {
-                Cp[m] = realRelationOperator(A, B, m, q); 
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, q); 
             } break;
             case NLS_UINT8: {
-                Cp[m] = realRelationOperator(A, B, m, q);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, q);
             } break;
             case NLS_INT8: {
-                Cp[m] = realRelationOperator(A, B, m, q);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, q);
             } break;
             case NLS_UINT16: {
-                Cp[m] = realRelationOperator(A, B, m, q);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, q);
             } break;
             case NLS_INT16: {
-                Cp[m] = realRelationOperator(A, B, m, q);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, q);
             } break;
             case NLS_UINT32: {
-                Cp[m] = realRelationOperator(A, B, m, q);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, q);
             } break;
             case NLS_INT32: {
-                Cp[m] = realRelationOperator(A, B, m, q);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, q);
             } break;
             case NLS_UINT64: {
-                Cp[m] = realRelationOperator(A, B, m, q);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, q);
             } break;
             case NLS_INT64: {
-                Cp[m] = realRelationOperator(A, B, m, q);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, q);
             } break;
             case NLS_SINGLE: {
-                Cp[m] = realRelationOperator(A, B, m, q);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, q);
             } break;
             case NLS_DOUBLE: {
-                Cp[m] = realRelationOperator(A, B, m, q);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, q);
             } break;
             case NLS_SCOMPLEX: {
-                Cp[m] = complexRelationOperator(A, B, m, q);
+                Cp[m] = complexRelationOperator(classA, ptrA, ptrB, m, q);
             } break;
             case NLS_DCOMPLEX: {
-                Cp[m] = complexRelationOperator(A, B, m, q);
+                Cp[m] = complexRelationOperator(classA, ptrA, ptrB, m, q);
             } break;
             case NLS_CHAR: {
-                Cp[m] = realRelationOperator(A, B, m, q);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, q);
             } break;
             }
         }
@@ -497,65 +518,67 @@ matrix_vector_operator(ArrayOf& A, ArrayOf& B,
 static ArrayOf
 vector_column_matrix_operator(ArrayOf& A, ArrayOf& B,
     logical (*realRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB))
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
 
     Dimensions dimsC = B.getDimensions();
     indexType Clen = dimsC.getElementCount();
     logical* Cp = new_with_exception<logical>(Clen, false);
-
+    void* ptrA = (void*)A.getDataPointer();
+    void* ptrB = (void*)B.getDataPointer();
+    Class classA = A.getDataClass();
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * A.getDimensions().getColumns();
-            switch (A.getDataClass()) {
+            switch (classA) {
             case NLS_STRING_ARRAY: {
-                Cp[m] = stringRelationOperator(A, B, j, m); 
+                Cp[m] = stringRelationOperator(classA, ptrA, ptrB, j, m); 
             } break;
             case NLS_LOGICAL: {
-                Cp[m] = realRelationOperator(A, B, j, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, m);
             } break;
             case NLS_UINT8: {
-                Cp[m] = realRelationOperator(A, B, j, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, m);
             } break;
             case NLS_INT8: {
-                Cp[m] = realRelationOperator(A, B, j, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, m);
             } break;
             case NLS_UINT16: {
-                Cp[m] = realRelationOperator(A, B, j, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, m);
             } break;
             case NLS_INT16: {
-                Cp[m] = realRelationOperator(A, B, j, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, m);
             } break;
             case NLS_UINT32: {
-                Cp[m] = realRelationOperator(A, B, j, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, m);
             } break;
             case NLS_INT32: {
-                Cp[m] = realRelationOperator(A, B, j, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, m);
             } break;
             case NLS_UINT64: {
-                Cp[m] = realRelationOperator(A, B, j, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, m);
             } break;
             case NLS_INT64: {
-                Cp[m] = realRelationOperator(A, B, j, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, m);
             } break;
             case NLS_SINGLE: {
-                Cp[m] = realRelationOperator(A, B, j, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, m);
             } break;
             case NLS_DOUBLE: {
-                Cp[m] = realRelationOperator(A, B, j, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, m);
             } break;
             case NLS_SCOMPLEX: {
-                Cp[m] = complexRelationOperator(A, B, j, m);
+                Cp[m] = complexRelationOperator(classA, ptrA, ptrB, j, m);
             } break;
             case NLS_DCOMPLEX: {
-                Cp[m] = complexRelationOperator(A, B, j, m);
+                Cp[m] = complexRelationOperator(classA, ptrA, ptrB, j, m);
             } break;
             case NLS_CHAR: {
-                Cp[m] = realRelationOperator(A, B, j, m);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, m);
             } break;
             }
         }
@@ -566,64 +589,66 @@ vector_column_matrix_operator(ArrayOf& A, ArrayOf& B,
 static ArrayOf
 matrix_vector_column_operator(ArrayOf& A, ArrayOf& B,
     logical (*realRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB))
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB))
 {
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
     logical* Cp = new_with_exception<logical>(Clen, false);
-
+    void* ptrA = (void*)A.getDataPointer();
+    void* ptrB = (void*)B.getDataPointer();
+    Class classA = A.getDataClass();
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * B.getDimensions().getColumns();
-            switch (A.getDataClass()) {
+            switch (classA) {
             case NLS_STRING_ARRAY: {
-                Cp[m] = stringRelationOperator(A, B, m, j); 
+                Cp[m] = stringRelationOperator(classA, ptrA, ptrB, m, j); 
             } break;
             case NLS_LOGICAL: {
-                Cp[m] = realRelationOperator(A, B, m, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, j);
             } break;
             case NLS_UINT8: {
-                Cp[m] = realRelationOperator(A, B, m, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, j);
             } break;
             case NLS_INT8: {
-                Cp[m] = realRelationOperator(A, B, m, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, j);
             } break;
             case NLS_UINT16: {
-                Cp[m] = realRelationOperator(A, B, m, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, j);
             } break;
             case NLS_INT16: {
-                Cp[m] = realRelationOperator(A, B, m, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, j);
             } break;
             case NLS_UINT32: {
-                Cp[m] = realRelationOperator(A, B, m, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, j);
             } break;
             case NLS_INT32: {
-                Cp[m] = realRelationOperator(A, B, m, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, j);
             } break;
             case NLS_UINT64: {
-                Cp[m] = realRelationOperator(A, B, m, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, j);
             } break;
             case NLS_INT64: {
-                Cp[m] = realRelationOperator(A, B, m, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, j);
             } break;
             case NLS_SINGLE: {
-                Cp[m] = realRelationOperator(A, B, m, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, j);
             } break;
             case NLS_DOUBLE: {
-                Cp[m] = realRelationOperator(A, B, m, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, j);
             } break;
             case NLS_SCOMPLEX: {
-                Cp[m] = complexRelationOperator(A, B, m, j);
+                Cp[m] = complexRelationOperator(classA, ptrA, ptrB, m, j);
             } break;
             case NLS_DCOMPLEX: {
-                Cp[m] = complexRelationOperator(A, B, m, j);
+                Cp[m] = complexRelationOperator(classA, ptrA, ptrB, m, j);
             } break;
             case NLS_CHAR: {
-                Cp[m] = realRelationOperator(A, B, m, j);
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, j);
             } break;
             }
         }
@@ -635,11 +660,11 @@ ArrayOf
 relationOperator(ArrayOf& A, ArrayOf& B, 
 	const std::wstring& operatorName,
     logical (*realRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
-        const ArrayOf& A, const ArrayOf& B, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     bool& needToOverload)
 {
     needToOverload = false;
