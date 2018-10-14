@@ -117,3 +117,18 @@ k = strfind(str,'in','ForceCellOutput',false);
 assert_isequal(iscell(k), false);
 assert_isequal(k, [6 14]);
 //=============================================================================
+S = "Find the starting indices of the pattern string";
+k = strfind(S, "in");
+ref = [2    15    19    45];
+assert_isequal(k, ref);
+//=============================================================================
+idx = strfind(5, "aa");
+ref = [];
+assert_isequal(idx, ref);
+//=============================================================================
+idx = strfind(["aaa", "bbb"; "aab", "bba"; "", NaN], "aa");
+ref = cell(3, 2);
+ref{1, 1} = [1, 2];
+ref{2, 1} = 1;
+assert_isequal(idx, ref);
+//=============================================================================

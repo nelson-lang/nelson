@@ -37,7 +37,7 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (argIn.size() == 4) {
         ArrayOf param3 = argIn[2];
         ArrayOf param4 = argIn[3];
-        if (param3.isRowVectorCharacterArray()) {
+        if (param3.isRowVectorCharacterArray() || (param3.isStringArray() && param3.isScalar())) {
             std::wstring str = param3.getContentAsWideString();
             if (str != L"ForceCellOutput") {
                 Error(_W("'ForceCellOutput' expected as third input argument."));
@@ -59,17 +59,17 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         retval = OverloadFunction(eval, nLhs, argIn, "strfind", bSuccess);
     }
     if (!bSuccess) {
-        if (!(A.isRowVectorCharacterArray() || A.isCell() || A.isNumeric())) {
+        if (!(A.isRowVectorCharacterArray() || A.isStringArray() || A.isCell() || A.isNumeric())) {
             retval = OverloadFunction(eval, nLhs, argIn, "strfind", bSuccess);
             if (!bSuccess) {
                 Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
             }
             return retval;
         }
-        if (A.isRowVectorCharacterArray() || A.isCell() || A.isNumeric()) {
-            if (B.isRowVectorCharacterArray() || B.isNumeric()) {
-                if (A.isRowVectorCharacterArray()) {
-                    if (B.isRowVectorCharacterArray()) {
+        if (A.isRowVectorCharacterArray() || A.isStringArray() || A.isCell() || A.isNumeric()) {
+            if (B.isRowVectorCharacterArray() || ( B.isStringArray() && B.isScalar()) || B.isNumeric()) {
+                if (A.isRowVectorCharacterArray() || (A.isStringArray() && A.isScalar())) {
+                    if (B.isRowVectorCharacterArray() || (B.isStringArray() && B.isScalar())) {
                         if ((B.isRowVector() && !B.isEmpty()) || B.isEmpty(true)) {
                             if (forceAsCell) {
                                 Dimensions dimA(1, 1);
@@ -97,7 +97,7 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                     } else {
                         retval.push_back(ArrayOf::emptyConstructor());
                     }
-                } else if (A.isCell()) {
+                } else if (A.isCell() || A.isStringArray()) {
                     Dimensions dimA = A.getDimensions();
                     size_t nbElements = dimA.getElementCount();
                     ArrayOf* elements = nullptr;
@@ -110,7 +110,7 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                     for (size_t k = 0; k < nbElements; k++) {
                         ArrayOf* cellA = (ArrayOf*)(A.getDataPointer());
                         if (cellA[k].isRowVectorCharacterArray()) {
-                            if (B.isRowVectorCharacterArray()) {
+                            if (B.isRowVectorCharacterArray() || (B.isStringArray() && B.isScalar())) {
                                 if ((B.isRowVector() && !B.isEmpty()) || B.isEmpty(true)) {
                                     std::wstring valB = B.getContentAsWideString();
                                     elements[k]
@@ -122,8 +122,13 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                                 elements[k] = ArrayOf::emptyConstructor();
                             }
                         } else {
-                            Error(_W("First argument must be a cell of strings (or a string) and "
-                                     "second argument a string."));
+                            if (A.isStringArray()) {
+                                elements[k] = ArrayOf::emptyConstructor();
+                            } else {
+                                Error(
+                                    _W("First argument must be a cell of strings (or a string) and "
+                                       "second argument a string."));
+                            }
                         }
                     }
                     retval.push_back(ArrayOf(NLS_CELL_ARRAY, dimA, elements));
