@@ -53,8 +53,8 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         firstArgumentPosition = 1;
-    } else if (param1.isRowVectorCharacterArray() ||
-		(param1.isStringArray() && param1.isScalar())) {
+    } else if (param1.isRowVectorCharacterArray()
+        || (param1.isStringArray() && param1.isScalar())) {
         dID = 1;
         firstArgumentPosition = 0;
     } else {

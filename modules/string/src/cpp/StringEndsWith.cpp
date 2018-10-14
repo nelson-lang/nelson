@@ -39,13 +39,14 @@ ArrayOf
 StringEndsWith(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
 {
     ArrayOf res;
-    if ((A.isCharacterArray() || (A.isStringArray() && A.isScalar())) &&
-		(Pattern.isCharacterArray() || (Pattern.isStringArray() && Pattern.isScalar()))) {
+    if ((A.isCharacterArray() || (A.isStringArray() && A.isScalar()))
+        && (Pattern.isCharacterArray() || (Pattern.isStringArray() && Pattern.isScalar()))) {
         res = ArrayOf::logicalConstructor(endsWithString(
             A.getContentAsWideString(), Pattern.getContentAsWideString(), bCaseSensitive));
     } else {
-        if ((A.isCharacterArray() || (A.isStringArray() && A.isScalar()) && 
-			(Pattern.isStringArray() || IsCellOfString(Pattern)))) {
+        if ((A.isCharacterArray()
+                || (A.isStringArray() && A.isScalar())
+                    && (Pattern.isStringArray() || IsCellOfString(Pattern)))) {
             std::wstring strA = A.getContentAsWideString();
             Dimensions dimPattern = Pattern.getDimensions();
             size_t nbPattern = dimPattern.getElementCount();
@@ -59,8 +60,8 @@ StringEndsWith(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
                 }
             }
             res = ArrayOf::logicalConstructor(val);
-        } else if ((A.isStringArray() || IsCellOfString(A)) &&
-			(Pattern.isCharacterArray() || (Pattern.isStringArray() && Pattern.isScalar()))) {
+        } else if ((A.isStringArray() || IsCellOfString(A))
+            && (Pattern.isCharacterArray() || (Pattern.isStringArray() && Pattern.isScalar()))) {
             std::wstring pattern = Pattern.getContentAsWideString();
             Dimensions dimA = A.getDimensions();
             size_t nbA = dimA.getElementCount();
@@ -71,8 +72,8 @@ StringEndsWith(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
                     = endsWithString(cellA[k].getContentAsWideString(), pattern, bCaseSensitive);
             }
             res = ArrayOf(NLS_LOGICAL, dimA, result);
-        } else if ((A.isStringArray() || IsCellOfString(A)) &&
-			(A.isStringArray() || IsCellOfString(Pattern))) {
+        } else if ((A.isStringArray() || IsCellOfString(A))
+            && (A.isStringArray() || IsCellOfString(Pattern))) {
             Dimensions dimA = A.getDimensions();
             size_t nbA = dimA.getElementCount();
             Dimensions dimPattern = Pattern.getDimensions();

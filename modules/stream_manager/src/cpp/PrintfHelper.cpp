@@ -112,7 +112,7 @@ PrintfHelper::GetNextVariableAsString(std::wstring& str, std::wstring& errorMess
         if (!data.isEmpty()) {
             str = data.getContentAsWideString();
         }
-	}
+    }
     IncrementDataPointer();
     return true;
 }

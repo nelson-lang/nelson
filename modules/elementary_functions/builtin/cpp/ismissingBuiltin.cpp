@@ -50,7 +50,7 @@ Nelson::ElementaryFunctionsGateway::ismissingBuiltin(
         retval.push_back(isMissing(argIn[0], needToOverload));
         if (needToOverload) {
             retval = OverloadFunction(eval, nLhs, argIn, "ismissing");
-		}
+        }
     }
     return retval;
 }

@@ -119,7 +119,7 @@ stringArrayComparatorGreaterEquals(
 {
     if (commonClass == NLS_STRING_ARRAY) {
         ArrayOf* ptrA = (ArrayOf*)vptrA;
-		ArrayOf* ptrB = (ArrayOf*)vptrB;
+        ArrayOf* ptrB = (ArrayOf*)vptrB;
         if (ptrA[idxA].isCharacterArray() && ptrB[idxB].isCharacterArray()) {
             return ptrA[idxA].getContentAsWideString() >= ptrB[idxB].getContentAsWideString();
         }

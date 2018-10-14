@@ -26,11 +26,11 @@ logical
 realComparatorEquals(Class commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB)
 {
     switch (commonClass) {
-	case NLS_LOGICAL: {
+    case NLS_LOGICAL: {
         logical* ptrA = (logical*)vptrA;
         logical* ptrB = (logical*)vptrB;
         return (ptrA[idxA] == ptrB[idxB]);
-	} break;
+    } break;
     case NLS_UINT8: {
         uint8* ptrA = (uint8*)vptrA;
         uint8* ptrB = (uint8*)vptrB;
@@ -86,7 +86,7 @@ realComparatorEquals(Class commonClass, void* vptrA, void* vptrB, indexType idxA
         charType* ptrB = (charType*)vptrB;
         return (ptrA[idxA] == ptrB[idxB]);
     } break;
-	}
+    }
     return false;
 }
 //=============================================================================
@@ -94,7 +94,7 @@ logical
 complexComparatorEquals(Class commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB)
 {
     switch (commonClass) {
-    case NLS_SCOMPLEX:{
+    case NLS_SCOMPLEX: {
         single* ptrA = (single*)vptrA;
         single* ptrB = (single*)vptrB;
         return (ptrA[2 * idxA] == ptrB[2 * idxB]) && (ptrA[2 * idxA + 1] == ptrB[2 * idxB + 1]);
@@ -104,7 +104,7 @@ complexComparatorEquals(Class commonClass, void* vptrA, void* vptrB, indexType i
         double* ptrB = (double*)vptrB;
         return (ptrA[2 * idxA] == ptrB[2 * idxB]) && (ptrA[2 * idxA + 1] == ptrB[2 * idxB + 1]);
     } break;
-	}
+    }
     return false;
 }
 //=============================================================================

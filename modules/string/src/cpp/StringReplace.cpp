@@ -87,7 +87,7 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
     }
     if (STR.isStringArray()) {
         outputClass = NLS_STRING_ARRAY;
-	}
+    }
     ArrayOf res;
     if (nbOutput == 1) {
         if (OLD.isCell() && OLD.isEmpty()) {
@@ -212,7 +212,8 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
         needToOverload = true;
         return res;
     }
-    if ((wstr.size() == 1) && (OLD.isCell() || OLD.isStringArray()) && (NEW.isCell() || NEW.isStringArray())
+    if ((wstr.size() == 1) && (OLD.isCell() || OLD.isStringArray())
+        && (NEW.isCell() || NEW.isStringArray())
         && OLD.getDimensions().equals(NEW.getDimensions())) {
         for (size_t k = 0; k < OLD.getDimensions().getElementCount(); k++) {
             wstr[0] = Replace(wstr[0], wold[k], wnew[k]);
@@ -230,13 +231,14 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                 res = ArrayOf(NLS_STRING_ARRAY, Dimensions(1, 1), elements);
             } else {
                 res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
-			}
+            }
         } else {
             res = ArrayOf::characterArrayConstructor(wstr[0]);
         }
         return res;
     }
-    if ((wstr.size() == 1) && (OLD.isCell() || OLD.isStringArray()) && (NEW.isCharacterArray() || NEW.isStringArray())) {
+    if ((wstr.size() == 1) && (OLD.isCell() || OLD.isStringArray())
+        && (NEW.isCharacterArray() || NEW.isStringArray())) {
         for (size_t k = 0; k < OLD.getDimensions().getElementCount(); k++) {
             wstr[0] = Replace(wstr[0], wold[k], wnew[0]);
         }
@@ -253,15 +255,15 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                 res = ArrayOf(NLS_STRING_ARRAY, Dimensions(1, 1), elements);
             } else {
                 res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
-			}
+            }
         } else {
             res = ArrayOf::characterArrayConstructor(wstr[0]);
         }
         return res;
     }
-    if ((STR.isCharacterArray() || (STR.isStringArray() && STR.isScalar())) &&
-		(OLD.isCharacterArray() || (OLD.isStringArray() && OLD.isScalar())) &&
-		(NEW.isCharacterArray() || (NEW.isStringArray() && NEW.isScalar()))) {
+    if ((STR.isCharacterArray() || (STR.isStringArray() && STR.isScalar()))
+        && (OLD.isCharacterArray() || (OLD.isStringArray() && OLD.isScalar()))
+        && (NEW.isCharacterArray() || (NEW.isStringArray() && NEW.isScalar()))) {
         if (wstr.size() == 0) {
             wstr.push_back(L"");
         }
@@ -275,7 +277,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             return ArrayOf::stringArrayConstructor(Replace(wstr[0], wold[0], wnew[0]));
         } else {
             return ArrayOf::characterArrayConstructor(Replace(wstr[0], wold[0], wnew[0]));
-		}
+        }
     } else {
         size_t nbOutput;
         Dimensions outputDims;
@@ -327,16 +329,16 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                 }
             }
         } else {
-            if ((OLD.isCharacterArray() || (OLD.isStringArray() && OLD.isScalar())) &&
-				(NEW.isCell() || NEW.isStringArray())) {
+            if ((OLD.isCharacterArray() || (OLD.isStringArray() && OLD.isScalar()))
+                && (NEW.isCell() || NEW.isStringArray())) {
                 if (wold.size() != wnew.size()) {
                     Error(ERROR_SAME_SIZE_EXPECTED);
                 }
             }
         }
         Class outputClass = NLS_CHAR;
-        if ((STR.isCharacterArray() || (STR.isStringArray() && STR.isScalar())) &&
-			((OLD.isCell() || OLD.isStringArray()) && !OLD.isScalar())) {
+        if ((STR.isCharacterArray() || (STR.isStringArray() && STR.isScalar()))
+            && ((OLD.isCell() || OLD.isStringArray()) && !OLD.isScalar())) {
             if (STR.isStringArray()) {
                 outputClass = NLS_STRING_ARRAY;
             } else {

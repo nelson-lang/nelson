@@ -39,7 +39,7 @@ StringLength(ArrayOf A)
                 ptrLength[k] = std::nan("NaN");
             }
         }
-	} else {
+    } else {
         wstringVector wstr = A.getContentAsWideStringVector(false);
         if (A.isCharacterArray() && wstr.empty()) {
             wstr.push_back(A.getContentAsWideString());
@@ -49,12 +49,11 @@ StringLength(ArrayOf A)
         } else {
             outputDims = A.getDimensions();
         }
-        ptrLength
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outputDims.getElementCount());
+        ptrLength = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outputDims.getElementCount());
         for (size_t k = 0; k < wstr.size(); k++) {
             ptrLength[k] = (double)wstr[k].length();
         }
-	}
+    }
     return ArrayOf(NLS_DOUBLE, outputDims, ptrLength);
 }
 //=============================================================================

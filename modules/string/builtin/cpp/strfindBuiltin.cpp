@@ -67,7 +67,8 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             return retval;
         }
         if (A.isRowVectorCharacterArray() || A.isStringArray() || A.isCell() || A.isNumeric()) {
-            if (B.isRowVectorCharacterArray() || ( B.isStringArray() && B.isScalar()) || B.isNumeric()) {
+            if (B.isRowVectorCharacterArray() || (B.isStringArray() && B.isScalar())
+                || B.isNumeric()) {
                 if (A.isRowVectorCharacterArray() || (A.isStringArray() && A.isScalar())) {
                     if (B.isRowVectorCharacterArray() || (B.isStringArray() && B.isScalar())) {
                         if ((B.isRowVector() && !B.isEmpty()) || B.isEmpty(true)) {
@@ -110,7 +111,8 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                     for (size_t k = 0; k < nbElements; k++) {
                         ArrayOf* cellA = (ArrayOf*)(A.getDataPointer());
                         if (cellA[k].isRowVectorCharacterArray()) {
-                            if (B.isRowVectorCharacterArray() || (B.isStringArray() && B.isScalar())) {
+                            if (B.isRowVectorCharacterArray()
+                                || (B.isStringArray() && B.isScalar())) {
                                 if ((B.isRowVector() && !B.isEmpty()) || B.isEmpty(true)) {
                                     std::wstring valB = B.getContentAsWideString();
                                     elements[k]

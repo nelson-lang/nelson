@@ -41,11 +41,11 @@ Nelson::StringGateway::strlengthBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
     if (!bSuccess) {
         ArrayOf param = argIn[0];
-		switch (param.getDataClass()) {
+        switch (param.getDataClass()) {
         case NLS_CHAR:
         case NLS_STRING_ARRAY: {
             retval.push_back(StringLength(argIn[0]));
-		} break;
+        } break;
         default:
         case NLS_CELL_ARRAY: {
             if (IsCellOfString(param)) {
@@ -56,8 +56,8 @@ Nelson::StringGateway::strlengthBuiltin(Evaluator* eval, int nLhs, const ArrayOf
                     Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
                 }
             }
-		} break;
-		}
+        } break;
+        }
     }
     return retval;
 }

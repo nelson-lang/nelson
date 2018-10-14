@@ -23,14 +23,13 @@
 //=============================================================================
 namespace Nelson {
 ArrayOf
-relationOperator(ArrayOf& A, ArrayOf& B, 
-	const std::wstring &operatorName,
+relationOperator(ArrayOf& A, ArrayOf& B, const std::wstring& operatorName,
     logical (*realRelationOperator)(
         Class commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
         Class commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
         Class commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB),
-	bool& needToOverload);
+    bool& needToOverload);
 }
 //=============================================================================

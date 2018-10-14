@@ -28,8 +28,8 @@ isMissing(const ArrayOf& A, bool& needToOverload)
     needToOverload = false;
     Dimensions dimsA = A.getDimensions();
     logical* resultAslogical = nullptr;
-	
-	switch (A.getDataClass()) {
+
+    switch (A.getDataClass()) {
     case NLS_STRING_ARRAY: {
         resultAslogical = (logical*)ArrayOf::allocateArrayOf(
             NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false);
@@ -67,7 +67,7 @@ isMissing(const ArrayOf& A, bool& needToOverload)
             NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false);
         single* ptrA = (single*)A.getDataPointer();
         for (indexType k = 0; k < dimsA.getElementCount() * 2; k++) {
-			resultAslogical[k] = std::isnan(ptrA[k]) || std::isnan(ptrA[k + 1]);
+            resultAslogical[k] = std::isnan(ptrA[k]) || std::isnan(ptrA[k + 1]);
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -78,7 +78,7 @@ isMissing(const ArrayOf& A, bool& needToOverload)
             resultAslogical[k] = std::isnan(ptrA[k]) || std::isnan(ptrA[k + 1]);
         }
     } break;
-	case NLS_CHAR: {
+    case NLS_CHAR: {
         resultAslogical = (logical*)ArrayOf::allocateArrayOf(
             NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false);
         charType* ptrA = (charType*)A.getDataPointer();
@@ -86,12 +86,12 @@ isMissing(const ArrayOf& A, bool& needToOverload)
             resultAslogical[k] = (ptrA[k] == L' ');
         }
     } break;
-	default: {
+    default: {
         needToOverload = true;
         return ArrayOf();
-	} break;
-	}
-	return ArrayOf(NLS_LOGICAL, dimsA, resultAslogical);
+    } break;
+    }
+    return ArrayOf(NLS_LOGICAL, dimsA, resultAslogical);
 }
 //=============================================================================
 }

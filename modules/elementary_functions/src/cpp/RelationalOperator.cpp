@@ -27,7 +27,7 @@ namespace Nelson {
 static ArrayOf
 matrix_matrix_operator(ArrayOf& A, ArrayOf& B,
     logical (*realRelationOperator)(
-		Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
+        Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
         Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*stringRelationOperator)(
@@ -38,9 +38,9 @@ matrix_matrix_operator(ArrayOf& A, ArrayOf& B,
     indexType Clen = dimsC.getElementCount();
     logical* Cp = new_with_exception<logical>(Clen, false);
 
-	void* ptrA = (void*)A.getDataPointer();
+    void* ptrA = (void*)A.getDataPointer();
     void* ptrB = (void*)B.getDataPointer();
-	Class classA = A.getDataClass();
+    Class classA = A.getDataClass();
     for (indexType i = 0; i < dimsC.getElementCount(); i++) {
         switch (classA) {
         case NLS_STRING_ARRAY: {
@@ -178,7 +178,7 @@ matrix_scalar_operator(ArrayOf& A, ArrayOf& B,
     for (indexType i = 0; i < Clen; i++) {
         switch (classA) {
         case NLS_STRING_ARRAY: {
-            Cp[i] = stringRelationOperator(classA, ptrA, ptrB, i, 0); 
+            Cp[i] = stringRelationOperator(classA, ptrA, ptrB, i, 0);
         } break;
         case NLS_LOGICAL: {
             Cp[i] = realRelationOperator(classA, ptrA, ptrB, i, 0);
@@ -320,13 +320,13 @@ vector_column_row_operator(const Dimensions& outputDimensions, ArrayOf& A, Array
         for (indexType j = 0; j < A.getDimensions().getElementCount(); j++) {
             switch (classA) {
             case NLS_STRING_ARRAY: {
-                Cp[m] = stringRelationOperator(classA, ptrA, ptrB, j, i); 
+                Cp[m] = stringRelationOperator(classA, ptrA, ptrB, j, i);
             } break;
             case NLS_LOGICAL: {
-                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i); 
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i);
             } break;
             case NLS_UINT8: {
-                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i); 
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i);
             } break;
             case NLS_INT8: {
                 Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, i);
@@ -392,13 +392,13 @@ vector_matrix_operator(ArrayOf& A, ArrayOf& B,
             indexType m = i + j * A.getDimensions().getRows();
             switch (classA) {
             case NLS_STRING_ARRAY: {
-                Cp[m] = stringRelationOperator(classA, ptrA, ptrB, q, m); 
+                Cp[m] = stringRelationOperator(classA, ptrA, ptrB, q, m);
             } break;
             case NLS_LOGICAL: {
-                Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m); 
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m);
             } break;
             case NLS_UINT8: {
-                Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m); 
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m);
             } break;
             case NLS_INT8: {
                 Cp[m] = realRelationOperator(classA, ptrA, ptrB, q, m);
@@ -459,15 +459,15 @@ matrix_vector_operator(ArrayOf& A, ArrayOf& B,
     void* ptrA = (void*)A.getDataPointer();
     void* ptrB = (void*)B.getDataPointer();
     Class classA = A.getDataClass();
-	for (indexType i = 0; i < dimsC.getRows(); i++) {
+    for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
             indexType m = i + j * A.getDimensions().getRows();
             switch (classA) {
             case NLS_STRING_ARRAY: {
-                Cp[m] = stringRelationOperator(classA, ptrA, ptrB, m, q); 
+                Cp[m] = stringRelationOperator(classA, ptrA, ptrB, m, q);
             } break;
             case NLS_LOGICAL: {
-                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, q); 
+                Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, q);
             } break;
             case NLS_UINT8: {
                 Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, q);
@@ -536,7 +536,7 @@ vector_column_matrix_operator(ArrayOf& A, ArrayOf& B,
             indexType m = i + j * A.getDimensions().getColumns();
             switch (classA) {
             case NLS_STRING_ARRAY: {
-                Cp[m] = stringRelationOperator(classA, ptrA, ptrB, j, m); 
+                Cp[m] = stringRelationOperator(classA, ptrA, ptrB, j, m);
             } break;
             case NLS_LOGICAL: {
                 Cp[m] = realRelationOperator(classA, ptrA, ptrB, j, m);
@@ -606,7 +606,7 @@ matrix_vector_column_operator(ArrayOf& A, ArrayOf& B,
             indexType m = i + j * B.getDimensions().getColumns();
             switch (classA) {
             case NLS_STRING_ARRAY: {
-                Cp[m] = stringRelationOperator(classA, ptrA, ptrB, m, j); 
+                Cp[m] = stringRelationOperator(classA, ptrA, ptrB, m, j);
             } break;
             case NLS_LOGICAL: {
                 Cp[m] = realRelationOperator(classA, ptrA, ptrB, m, j);
@@ -657,8 +657,7 @@ matrix_vector_column_operator(ArrayOf& A, ArrayOf& B,
 }
 //=============================================================================
 ArrayOf
-relationOperator(ArrayOf& A, ArrayOf& B, 
-	const std::wstring& operatorName,
+relationOperator(ArrayOf& A, ArrayOf& B, const std::wstring& operatorName,
     logical (*realRelationOperator)(
         Class commonClass, void* ptrA, void* ptrB, indexType idxA, indexType idxB),
     logical (*complexRelationOperator)(
@@ -700,7 +699,7 @@ relationOperator(ArrayOf& A, ArrayOf& B,
             if (A.isScalar()) {
                 ArrayOf res = ArrayOf::emptyConstructor(dimsB);
                 res.promoteType(NLS_LOGICAL);
-                return res;				
+                return res;
             } else {
                 ArrayOf res = ArrayOf::emptyConstructor(dimsA);
                 res.promoteType(NLS_LOGICAL);
@@ -712,7 +711,7 @@ relationOperator(ArrayOf& A, ArrayOf& B,
             }
             ArrayOf res = ArrayOf::emptyConstructor(dimsB);
             res.promoteType(NLS_LOGICAL);
-            return res;				
+            return res;
         }
     }
     if (SameSizeCheck(dimsA, dimsB)) {
@@ -721,7 +720,8 @@ relationOperator(ArrayOf& A, ArrayOf& B,
     } else {
         if (A.isScalar() || B.isScalar()) {
             if (A.isScalar()) {
-                return scalar_matrix_operator(A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
+                return scalar_matrix_operator(
+                    A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
             } else {
                 return matrix_scalar_operator(
                     A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);

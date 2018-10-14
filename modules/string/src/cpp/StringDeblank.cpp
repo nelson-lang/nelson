@@ -52,16 +52,16 @@ StringDeblank(const ArrayOf& A, bool& needToOverload)
         std::wstring str = A.getContentAsWideString();
         res = ArrayOf::characterArrayConstructor(Deblank(str));
     } else if (A.getDataClass() == NLS_CELL_ARRAY) {
-            res = ArrayOf(A);
-            res.ensureSingleOwner();
-            ArrayOf* element = (ArrayOf*)(res.getDataPointer());
-            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-                if (!element[k].isRowVectorCharacterArray()) {
-                    Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
-                }
-                std::wstring str = element[k].getContentAsWideString();
-                element[k] = ArrayOf::characterArrayConstructor(Deblank(str));
+        res = ArrayOf(A);
+        res.ensureSingleOwner();
+        ArrayOf* element = (ArrayOf*)(res.getDataPointer());
+        for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+            if (!element[k].isRowVectorCharacterArray()) {
+                Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
             }
+            std::wstring str = element[k].getContentAsWideString();
+            element[k] = ArrayOf::characterArrayConstructor(Deblank(str));
+        }
     } else if (A.getDataClass() == NLS_STRING_ARRAY) {
         res = ArrayOf(A);
         res.ensureSingleOwner();

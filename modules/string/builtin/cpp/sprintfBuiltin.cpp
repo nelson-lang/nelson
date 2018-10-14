@@ -75,7 +75,7 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                 }
             } else {
                 if (param1.getDataClass() == NLS_CHAR) {
-					retval.push_back(ArrayOf::characterArrayConstructor(result));
+                    retval.push_back(ArrayOf::characterArrayConstructor(result));
                 } else {
                     retval.push_back(ArrayOf::stringArrayConstructor(result));
                 }

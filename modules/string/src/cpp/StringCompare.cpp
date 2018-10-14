@@ -83,8 +83,8 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
     if (A.isCharacterArray() && B.isCharacterArray()) {
         return CompareStringString(A, B, bCaseSensitive, len);
     }
-    if ((A.isCell() && A.isEmpty()) || (B.isCell() && B.isEmpty()) || 
-		(A.isStringArray() && A.isEmpty()) || (B.isStringArray() && B.isEmpty())) {
+    if ((A.isCell() && A.isEmpty()) || (B.isCell() && B.isEmpty())
+        || (A.isStringArray() && A.isEmpty()) || (B.isStringArray() && B.isEmpty())) {
         return ArrayOf::emptyConstructor();
     } else {
         if ((A.isCell() && B.isCell()) || (A.isStringArray() && B.isStringArray())) {
@@ -162,12 +162,11 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
                     Error(ERROR_SAME_SIZE_EXPECTED);
                 }
             }
-        } else if (A.isCell() || B.isCell() || A.isStringArray() || B.isStringArray())
-            {
-			Dimensions dimsA = A.getDimensions();
+        } else if (A.isCell() || B.isCell() || A.isStringArray() || B.isStringArray()) {
+            Dimensions dimsA = A.getDimensions();
             Dimensions dimsB = B.getDimensions();
 
-			bool checkDims = false;
+            bool checkDims = false;
             if ((!A.isCell() && !A.isStringArray()) || (!B.isCell() && !B.isStringArray())) {
                 checkDims = true;
             } else {
@@ -175,7 +174,7 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
                     || (A.isStringArray() && A.isScalar()) || (B.isStringArray() && B.isScalar())
                     || (A.isCell() && A.isScalar()) || (B.isCell() && B.isScalar())
                     || dimsA.equals(dimsB);
-            } 
+            }
             if (!checkDims) {
                 Error(_W("Same size or scalar expected."));
             }
