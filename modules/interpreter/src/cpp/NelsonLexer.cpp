@@ -318,7 +318,7 @@ lexUntermCharacterArray()
         discardChar();
     }
     *strptr++ = '\0';
-    setTokenType(STRING);
+    setTokenType(CHARACTER);
     tokenValue.isToken = false;
     tokenValue.v.p
         = allocateAbstractSyntaxTree(const_character_array_node, stringval, (int)ContextInt());
@@ -390,7 +390,7 @@ lexCharacterArray()
     }
     discardChar();
     *strptr++ = '\0';
-    setTokenType(STRING);
+    setTokenType(CHARACTER);
     tokenValue.isToken = false;
     tokenValue.v.p
         = allocateAbstractSyntaxTree(const_character_array_node, stringval, (int)ContextInt());
@@ -843,7 +843,8 @@ yylexScreen()
     if ((tokenType == WS) && vcFlag) {
         /* Check for virtual commas... */
         if ((previousToken == ')') || (previousToken == '\'') || (previousToken == NUMERIC)
-            || (previousToken == STRING) || (previousToken == ']') || (previousToken == '}')
+            || (previousToken == CHARACTER) || (previousToken == STRING)
+            || (previousToken == ']') || (previousToken == '}')
             || (previousToken == IDENT) || (previousToken == MAGICEND)) {
             /* Test if next character indicates the start of an expression */
             if ((currentChar() == '(') || (currentChar() == '+') || (currentChar() == '-')
@@ -869,6 +870,9 @@ yylexScreen()
                 } else {
                     tokenType = ',';
                 }
+            }
+            if (currentChar() == '"' && previousToken == STRING) {
+                tokenType = ',';
             }
         }
     }

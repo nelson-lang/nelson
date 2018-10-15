@@ -4,6 +4,10 @@ Features:
   * string array type added:
     - strings, string builtin: string array constructor.
     - isstring: Return true if variable var is a string array.
+    - parser updated to manage string array:
+    ```
+      A = ["Nelson" "manages"; "string" "array"]
+    ```
     - isequal, isequaln, isequalto extended to manage string array.
     - transpose, ctranspose extended to manage string array.
     - horzcat, vertcat extended to manage string array.

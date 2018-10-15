@@ -120,7 +120,7 @@ using namespace Nelson;
 %token LE GE EQ
 %token DOTTIMES DOTRDIV DOTLDIV
 %token DOTPOWER DOTTRANSPOSE
-%token STRING SPECIALCALL
+%token CHARACTER STRING SPECIALCALL
 %token END IF FUNCTION FOR BREAK
 %token MAGICEND
 %token WHILE ELSE ELSEIF
@@ -299,9 +299,12 @@ endfunctionStatement:
 specialSyntaxStatement:
   IDENT NUMERIC {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context());} |
   STRING STRING {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context());} |
+  CHARACTER CHARACTER {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context());} |
   IDENT STRING {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context());} |
+  IDENT CHARACTER {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context());} |
   IDENT IDENT {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context()); } |
   specialSyntaxStatement STRING {$1.v.p->addChild($2.v.p);} |
+  specialSyntaxStatement CHARACTER {$1.v.p->addChild($2.v.p);} |
   specialSyntaxStatement IDENT {$1.v.p->addChild($2.v.p);} |
   specialSyntaxStatement NUMERIC {$1.v.p->addChild($2.v.p);}
 
@@ -556,7 +559,8 @@ expr:
   ;
 
 terminal:
-      NUMERIC
+	NUMERIC
+  | CHARACTER
   | STRING
   | MAGICEND
   | symbRefList {$$.v.p = allocateAbstractSyntaxTree(OP_RHS,$1.v.p,$1.v.p->context());}
@@ -565,28 +569,25 @@ terminal:
     | '[' rowSeperator matrixDef ']' {$$.v.p = $3.v.p;}
     | '[' matrixDef rowSeperator ']' {$$.v.p = $2.v.p;}
     | '[' rowSeperator matrixDef rowSeperator ']' {$$.v.p = $3.v.p;}
-  | '[' ']' {$$.v.p = allocateAbstractSyntaxTree(OP_EMPTY,NULL,$1.v.i);}
+	| '[' ']' {$$.v.p = allocateAbstractSyntaxTree(OP_EMPTY,NULL,$1.v.i);}
     | '{' cellDef '}' {$$.v.p = $2.v.p;}
     | '{' rowSeperator cellDef '}' {$$.v.p = $3.v.p;}
     | '{' cellDef rowSeperator '}' {$$.v.p = $2.v.p;}
     | '{' rowSeperator cellDef rowSeperator '}' {$$.v.p = $3.v.p;}
-  | '{' '}' {$$.v.p = allocateAbstractSyntaxTree(OP_EMPTY_CELL,NULL,$1.v.i);}
-  | '{' error {yyxpt(_("a cell-array definition followed by a right brace"),$1);}
-        ;
+	| '{' '}' {$$.v.p = allocateAbstractSyntaxTree(OP_EMPTY_CELL,NULL,$1.v.i);}
+	| '{' error {yyxpt(_("a cell-array definition followed by a right brace"),$1);};
 symbRefList:
   IDENT 
-        | symbRefList symbRef {$$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);}
-        ;
+    | symbRefList symbRef {$$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);};
   
 symbRef:
   '(' indexList ')' {$$.v.p = allocateAbstractSyntaxTree(OP_PARENS,$2.v.p,$1.v.i); }
     | '(' ')' {$$.v.p = allocateAbstractSyntaxTree(OP_PARENS,NULL,$1.v.i); }
-  | '(' indexList error {yyxpt(_("matching right parenthesis"),$1);}
+	| '(' indexList error {yyxpt(_("matching right parenthesis"),$1);}
     | '{' indexList '}' {$$.v.p = allocateAbstractSyntaxTree(OP_BRACES,$2.v.p,$1.v.i); }
-  | '{' indexList error {yyxpt(_("matching right brace"),$1);}
+	| '{' indexList error {yyxpt(_("matching right brace"),$1);}
     | '.' IDENT {$$.v.p = allocateAbstractSyntaxTree(OP_DOT,$2.v.p,$1.v.i); }
-  | '.' '(' expr ')' {$$.v.p = allocateAbstractSyntaxTree(OP_DOTDYN,$3.v.p,$1.v.i);}
-        ;
+	| '.' '(' expr ')' {$$.v.p = allocateAbstractSyntaxTree(OP_DOTDYN,$3.v.p,$1.v.i);};
 
 indexElement:
   expr
@@ -622,8 +623,7 @@ columnSep:
 
 rowDef:
        expr {$$.v.p = allocateAbstractSyntaxTree(OP_SEMICOLON,$1.v.p,$1.v.p->context());} |
-       rowDef  columnSep expr {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
-       ;
+       rowDef columnSep expr {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);};
 
 %%
 
@@ -673,6 +673,5 @@ namespace Nelson {
     setParserFilename("");
     return pstate;
   }
-  // clang-format on
 }
 // clang-format on

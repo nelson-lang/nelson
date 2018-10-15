@@ -36,7 +36,7 @@ the best way to go.
 
 ### How can I add something to the roadmap?
 
-The roadmap process is new to Nelson: we are only beginning to structure and document the
-project objectives. Our immediate goal is to be more transparent, and work with our community to
+The roadmap process is new to Nelson: we are only beginning to structure and document the project objectives.
+Our immediate goal is to be more transparent, and work with our community to
 focus our efforts on fewer prioritized topics.
 
