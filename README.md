@@ -40,7 +40,8 @@ these own data types and operations on these data types by using overload.
   * double and double complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
   * single and single complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix. 
   * logical: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
-  * string (UNICODE supported).
+  * character array (UNICODE supported).
+  * string array (UNICODE supported).
   * integers 8, 16, 32, 64 signed and unsigned: scalar, vector, matrix 2D, N dimensions array.
   * handle objects.
 
@@ -100,4 +101,3 @@ these own data types and operations on these data types by using overload.
 
 Allan CORNET (nelson.numerical.computation@gmail.com)
 
-dedicated to my parents
