@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-ErrorToStruct(Exception e)
+ErrorToStruct(Exception &e)
 {
     ArrayOf result;
     wstringVector fieldnames;

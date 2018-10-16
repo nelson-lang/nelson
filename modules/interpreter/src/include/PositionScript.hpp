@@ -96,7 +96,7 @@ public:
     }
     //=============================================================================
     bool
-    isEmpty()
+    isEmpty() const
     {
         return (this->functionname == L"" && this->filename == L"" && this->line == -1);
     }

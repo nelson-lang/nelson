@@ -61,7 +61,7 @@ cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* ev
         if (fptrHandleError) {
             try {
                 ret = fptr->evaluateFunction(eval, input, nargout);
-            } catch (const Exception& e) {
+            } catch (Exception& e) {
                 ArrayOfVector in2;
                 in2.push_back(ErrorToStruct(e));
                 for (size_t k = 0; k < input.size(); k++) {
@@ -101,7 +101,7 @@ cellfun_uniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval,
         if (fptrHandleError) {
             try {
                 ret = fptr->evaluateFunction(eval, input, nargout);
-            } catch (const Exception& e) {
+            } catch (Exception& e) {
                 ArrayOfVector in2;
                 in2.push_back(ErrorToStruct(e));
                 for (size_t k = 0; k < input.size(); k++) {

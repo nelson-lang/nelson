@@ -34,6 +34,7 @@ private:
     // cache to speed up search
     boost::unordered_map<std::string, FuncPtr> cachedPathFunc;
     PathFuncManager();
+	~PathFuncManager();
     static PathFuncManager* m_pInstance;
     PathFunc* _userPath;
     MacroFunctionDef*

@@ -59,6 +59,14 @@ PathFuncManager::PathFuncManager()
     userpathCompute();
 }
 //=============================================================================
+PathFuncManager::~PathFuncManager()
+{
+    if (_userPath) {
+        delete _userPath;
+        _userPath = nullptr;
+    }
+}
+//=============================================================================
 PathFuncManager*
 PathFuncManager::getInstance()
 {

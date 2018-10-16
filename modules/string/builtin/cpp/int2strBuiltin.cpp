@@ -97,7 +97,8 @@ Nelson::StringGateway::int2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         std::wstring error_message;
         bool bRes = IntegerToString(argIn[0], result, error_message);
         if (bRes) {
-            retval.push_back(StringVectorToString(result, argIn[0].getDimensions()));
+            Dimensions dims = argIn[0].getDimensions();
+            retval.push_back(StringVectorToString(result, dims));
         } else {
             retval = OverloadFunction(eval, nLhs, argIn, "int2str", bSuccess);
             if (!bSuccess) {
