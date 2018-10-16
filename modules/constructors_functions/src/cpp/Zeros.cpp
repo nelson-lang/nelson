@@ -28,7 +28,7 @@ Zeros(Class cl)
 }
 //=============================================================================
 ArrayOf
-Zeros(Dimensions dims, Class cl)
+Zeros(Dimensions &dims, Class cl)
 {
     dims.simplify();
     if (dims.isEmpty(false)) {

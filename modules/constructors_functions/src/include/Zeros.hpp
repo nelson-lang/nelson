@@ -26,6 +26,6 @@ namespace Nelson {
 NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
 Zeros(Class cl);
 NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
-Zeros(Dimensions dims, Class cl);
+Zeros(Dimensions &dims, Class cl);
 } // namespace Nelson
 //=============================================================================
