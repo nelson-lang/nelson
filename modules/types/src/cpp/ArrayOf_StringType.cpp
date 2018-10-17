@@ -42,7 +42,8 @@ ArrayOf::stringArrayConstructor(const std::string& value)
 {
     stringVector strVector;
     strVector.push_back(value);
-    return stringArrayConstructor(strVector, Dimensions(1, 1));
+    Dimensions dims(1, 1);
+    return stringArrayConstructor(strVector, dims);
 }
 //=============================================================================
 ArrayOf
@@ -50,7 +51,8 @@ ArrayOf::stringArrayConstructor(const std::wstring& value)
 {
     wstringVector strVector;
     strVector.push_back(value);
-    return stringArrayConstructor(strVector, Dimensions(1, 1));
+    Dimensions dims(1, 1);
+    return stringArrayConstructor(strVector, dims);
 }
 //=============================================================================
 ArrayOf
