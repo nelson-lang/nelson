@@ -843,9 +843,8 @@ yylexScreen()
     if ((tokenType == WS) && vcFlag) {
         /* Check for virtual commas... */
         if ((previousToken == ')') || (previousToken == '\'') || (previousToken == NUMERIC)
-            || (previousToken == CHARACTER) || (previousToken == STRING)
-            || (previousToken == ']') || (previousToken == '}')
-            || (previousToken == IDENT) || (previousToken == MAGICEND)) {
+            || (previousToken == CHARACTER) || (previousToken == STRING) || (previousToken == ']')
+            || (previousToken == '}') || (previousToken == IDENT) || (previousToken == MAGICEND)) {
             /* Test if next character indicates the start of an expression */
             if ((currentChar() == '(') || (currentChar() == '+') || (currentChar() == '-')
                 || (currentChar() == '~') || (currentChar() == '[') || (currentChar() == '{')
