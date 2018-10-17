@@ -47,6 +47,8 @@ Features:
 
   * [#164](http://github.com/Nelson-numerical-software/nelson/issues/164): operators ==, ~=, <, >, >=, <= code factorized.
 
+  * [#159](http://github.com/Nelson-numerical-software/nelson/issues/159): addpath must return an warning and not an error for an non existing path.
+
 
 ## 0.2.9 (2018-09-23)
 
