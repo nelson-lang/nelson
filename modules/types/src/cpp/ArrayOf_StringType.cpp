@@ -113,7 +113,8 @@ character2dArrayTotoStringArray(ArrayOf m)
         }
         v.push_back(s);
     }
-    return ArrayOf::stringArrayConstructor(v, Dimensions(v.size(), 1));
+    Dimensions dims(v.size(), 1);
+    return ArrayOf::stringArrayConstructor(v, dims);
 }
 //=============================================================================
 static ArrayOf
