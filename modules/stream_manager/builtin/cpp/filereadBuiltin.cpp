@@ -118,7 +118,8 @@ Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         }
         wif.close();
         if (outputClass == L"string") {
-            retval.push_back(ArrayOf::stringArrayConstructor(lines, Dimensions(lines.size(), 1)));
+            Dimensions dims(lines.size(), 1);
+            retval.push_back(ArrayOf::stringArrayConstructor(lines, dims));
         } else {
             retval.push_back(ToCellStringAsColumn(lines));
         }
