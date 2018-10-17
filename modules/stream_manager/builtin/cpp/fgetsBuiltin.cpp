@@ -28,7 +28,7 @@ ArrayOfVector
 Nelson::StreamGateway::fgetsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if ((argIn.size() < 0) || (argIn.size() > 2)) {
+    if ((argIn.size() == 0) || (argIn.size() > 2)) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {

@@ -82,8 +82,8 @@ public:
     ~MacroFunctionDef();
     /** The type of the function
      */
-    virtual const FunctionType
-    type()
+    virtual FunctionType
+    type() const
     {
         return NLS_MACRO_FUNCTION;
     }

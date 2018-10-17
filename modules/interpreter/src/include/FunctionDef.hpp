@@ -92,7 +92,7 @@ public:
     /**
      * The type of the function (NLS_MACRO_FUNCTION, NLS_BUILT_IN_FUNCTION).
      */
-    virtual const FunctionType
+    virtual FunctionType
     type()
         = 0;
     /**

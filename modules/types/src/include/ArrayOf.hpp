@@ -1184,10 +1184,10 @@ public:
     stringArrayConstructor(const std::wstring& value);
 
     static ArrayOf
-    stringArrayConstructor(const stringVector values, Dimensions dims);
+    stringArrayConstructor(const stringVector values, Dimensions &dims);
 
     static ArrayOf
-    stringArrayConstructor(const wstringVector values, Dimensions dims);
+    stringArrayConstructor(const wstringVector values, Dimensions &dims);
 
     /**
      * Summarize String array.

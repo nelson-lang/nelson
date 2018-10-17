@@ -56,8 +56,8 @@ public:
     /**
      * The type of the function is NLS_BUILT_IN_FUNCTION
      */
-    virtual const FunctionType
-    type()
+    virtual FunctionType
+    type() const
     {
         return NLS_BUILT_IN_FUNCTION;
     }

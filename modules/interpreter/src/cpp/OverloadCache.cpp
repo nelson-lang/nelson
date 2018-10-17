@@ -59,6 +59,7 @@ namespace Overload {
         case TERNARY:
             return cachedFunctionNameTernary;
         }
+        return "";
     }
     //=============================================================================
     FunctionDef*
@@ -72,6 +73,7 @@ namespace Overload {
         case TERNARY:
             return cachedFunctionPointerTernary;
         }
+        return nullptr;
     }
     //=============================================================================
     void
