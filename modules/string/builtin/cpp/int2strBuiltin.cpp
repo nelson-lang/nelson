@@ -27,7 +27,7 @@
 using namespace Nelson;
 //=============================================================================
 static ArrayOf
-StringVectorToString(wstringVector V, Dimensions &DimsV)
+StringVectorToString(wstringVector V, Dimensions& DimsV)
 {
     ArrayOf strArr;
     if (V.size() == 0) {

@@ -73,7 +73,7 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 double* MN = nullptr;
                 double* S = nullptr;
 
-				Y = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
+                Y = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
                 M = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
                 if (nLhs > 2) {
                     D = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
@@ -111,7 +111,7 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 dimParam1.setDimensionLength(0, 1);
                 Dimensions dim(param1.getDimensions().getRows(), dimParam1.getElementCount());
                 retval.push_back(ArrayOf(NLS_DOUBLE, dim, Y));
-				retval.push_back(ArrayOf(NLS_DOUBLE, dim, M));
+                retval.push_back(ArrayOf(NLS_DOUBLE, dim, M));
                 if (nLhs > 2) {
                     retval.push_back(ArrayOf(NLS_DOUBLE, dim, D));
                 }

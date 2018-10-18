@@ -931,8 +931,7 @@ XmlDocDocument::readFileCaseSyntax(xmlDocPtr doc, xmlNodePtr node)
     }
     try {
         syntaxItems = new XmlDocSyntax();
-    } catch (const std::bad_alloc& e) {
-        e;
+    } catch (const std::bad_alloc&) {
         xmlFreeDoc(doc);
         errorMessage.push_back(_W("cannot allocate memory."));
         this->bReadOk = false;
@@ -1258,8 +1257,7 @@ XmlDocDocument::readFileCaseAuthors(xmlDocPtr doc, xmlNodePtr node)
     }
     try {
         authorsItems = new XmlDocAuthors();
-    } catch (const std::bad_alloc& e) {
-        e;
+    } catch (const std::bad_alloc&) {
         xmlFreeDoc(doc);
         errorMessage.push_back(_W("cannot allocate memory."));
         this->bReadOk = false;
@@ -1340,8 +1338,7 @@ XmlDocDocument::readFileCaseHistory(xmlDocPtr doc, xmlNodePtr node)
     }
     try {
         historyItems = new XmlDocHistory();
-    } catch (const std::bad_alloc& e) {
-        e;
+    } catch (const std::bad_alloc&) {
         xmlFreeDoc(doc);
         errorMessage.push_back(_W("cannot allocate memory."));
         this->bReadOk = false;
@@ -1505,8 +1502,7 @@ XmlDocDocument::readFileCaseParamInput(xmlDocPtr doc, xmlNodePtr node)
     }
     try {
         paramInputItems = new XmlDocParamInput();
-    } catch (const std::bad_alloc& e) {
-        e;
+    } catch (const std::bad_alloc&) {
         xmlFreeDoc(doc);
         errorMessage.push_back(_W("cannot allocate memory."));
         this->bReadOk = false;
@@ -1667,8 +1663,7 @@ XmlDocDocument::readFileCaseParamOutput(xmlDocPtr doc, xmlNodePtr node)
     }
     try {
         paramOutputItems = new XmlDocParamOutput();
-    } catch (const std::bad_alloc& e) {
-        e;
+    } catch (const std::bad_alloc&) {
         xmlFreeDoc(doc);
         errorMessage.push_back(_W("cannot allocate memory."));
         this->bReadOk = false;
@@ -1831,8 +1826,7 @@ XmlDocDocument::readFileCaseExamples(xmlDocPtr doc, xmlNodePtr node)
     }
     try {
         examplesItems = new XmlDocExamples(this->outputTarget);
-    } catch (const std::bad_alloc& e) {
-        e;
+    } catch (const std::bad_alloc&) {
         xmlFreeDoc(doc);
         errorMessage.push_back(_W("cannot allocate memory."));
         this->bReadOk = false;
@@ -2114,8 +2108,7 @@ XmlDocDocument::readFileCaseSeeAlso(xmlDocPtr doc, xmlNodePtr node)
     }
     try {
         seeAlsoItems = new XmlDocSeeAlso();
-    } catch (const std::bad_alloc& e) {
-        e;
+    } catch (const std::bad_alloc&) {
         xmlFreeDoc(doc);
         errorMessage.push_back(_W("cannot allocate memory."));
         this->bReadOk = false;
@@ -2273,8 +2266,7 @@ XmlDocDocument::readFileCaseChapterIndex(xmlDocPtr doc, xmlNodePtr node)
     }
     try {
         chapterIndexItem = new XmlDocChapterIndexItem();
-    } catch (const std::bad_alloc& e) {
-        e;
+    } catch (const std::bad_alloc&) {
         xmlFreeDoc(doc);
         errorMessage.push_back(_W("cannot allocate memory."));
         this->bReadOk = false;

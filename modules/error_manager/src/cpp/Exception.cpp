@@ -40,7 +40,9 @@ Exception::Exception()
 Exception::Exception(const std::string& msg_in, std::vector<PositionScript> positions,
     const std::string& identifier_in)
 {
-    Exception(utf8_to_wstring(msg_in), positions, utf8_to_wstring(identifier_in));
+    this->backtrace = positions;
+    this->identifier = utf8_to_wstring(identifier_in);
+    this->msg = utf8_to_wstring(msg_in);
 }
 //=============================================================================
 Exception::Exception(const std::wstring& msg_in, std::vector<PositionScript> positions,
@@ -54,7 +56,10 @@ Exception::Exception(const std::wstring& msg_in, std::vector<PositionScript> pos
 Exception::Exception(
     const std::string& msg_in, const PositionScript& position, const std::string& identifier_in)
 {
-    Exception(utf8_to_wstring(msg_in), position, utf8_to_wstring(identifier_in));
+	this->backtrace.clear();
+    this->backtrace.push_back(position);
+    this->msg = utf8_to_wstring(msg_in);
+    this->identifier = utf8_to_wstring(identifier_in);
 }
 //=============================================================================
 Exception::Exception(
@@ -68,7 +73,9 @@ Exception::Exception(
 //=============================================================================
 Exception::Exception(const std::string& msg_in, const std::string& identifier_in)
 {
-    Exception(utf8_to_wstring(msg_in), utf8_to_wstring(identifier_in));
+    this->backtrace.clear();
+    this->msg = utf8_to_wstring(msg_in);
+    this->identifier = utf8_to_wstring(identifier_in);
 }
 //=============================================================================
 Exception::Exception(const std::wstring& msg_in, const std::wstring& identifier_in)

@@ -84,6 +84,16 @@ FileWatcherManager* FileWatcherManager::m_pInstance = nullptr;
 //=============================================================================
 FileWatcherManager::FileWatcherManager() { fileWatcher = (void*)new FW::FileWatcher(); }
 //=============================================================================
+void
+FileWatcherManager::release()
+{
+    FW::FileWatcher* ptr = (FW::FileWatcher*)fileWatcher;
+    if (ptr) {
+        delete ptr;
+        fileWatcher = nullptr;
+    }
+}
+//=============================================================================
 FileWatcherManager*
 FileWatcherManager::getInstance()
 {

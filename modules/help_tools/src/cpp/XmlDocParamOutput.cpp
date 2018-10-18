@@ -41,8 +41,7 @@ XmlDocParamOutput::append(std::wstring name, std::wstring description)
     XmlDocParamOutputItem* item = nullptr;
     try {
         item = new XmlDocParamOutputItem(name, description);
-    } catch (const std::bad_alloc& e) {
-        e;
+    } catch (const std::bad_alloc&) {
         item = nullptr;
     }
     if (item) {

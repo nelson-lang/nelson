@@ -33,6 +33,8 @@ public:
     removeWatch(std::wstring directory);
     void
     update();
+    void
+    release();
 
 private:
     FileWatcherManager();

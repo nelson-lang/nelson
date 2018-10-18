@@ -41,8 +41,7 @@ XmlDocSeeAlso::append(std::wstring name, std::wstring link)
     XmlDocSeeAlsoItem* item = nullptr;
     try {
         item = new XmlDocSeeAlsoItem(name, link);
-    } catch (const std::bad_alloc& e) {
-        e;
+    } catch (const std::bad_alloc&) {
         item = nullptr;
     }
     if (item) {

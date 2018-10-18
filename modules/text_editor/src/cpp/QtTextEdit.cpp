@@ -96,7 +96,7 @@ QtTextEdit::keyPressEvent(QKeyEvent* e)
 {
     bool tab = false;
     int keycode = e->key();
-    if ((keycode == Qt::Key_S) && QApplication::keyboardModifiers() && Qt::ControlModifier) {
+    if ((keycode == Qt::Key_S) && QApplication::keyboardModifiers() & Qt::ControlModifier) {
         e->accept();
     } else {
         if (qCompleter && qCompleter->popup()->isVisible()) {
@@ -118,7 +118,7 @@ QtTextEdit::keyPressEvent(QKeyEvent* e)
         } else {
             if ((e->key() == Qt::Key_Tab)
                 || (QApplication::keyboardModifiers() && Qt::ControlModifier
-                       && (e->key() == Qt::Key_Space))) {
+                       & (e->key() == Qt::Key_Space))) {
                 QString completionPrefix = textUnderCursor();
                 complete(completionPrefix);
             } else {

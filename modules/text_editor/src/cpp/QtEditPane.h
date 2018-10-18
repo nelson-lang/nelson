@@ -33,6 +33,7 @@ class QtEditPane : public QWidget
 
 public:
     QtEditPane();
+    ~QtEditPane();
     QtTextEdit*
     getEditor();
     void

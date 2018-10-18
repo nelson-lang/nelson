@@ -803,6 +803,7 @@ lexInitialState()
         NextLine();
     } else if (isWhitespace()) {
     } else if (match(";")) {
+		// nothing
     } else if (match("%") || match("//") || match("#")) {
         while (!isNewline()) {
             discardChar();
