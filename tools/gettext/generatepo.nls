@@ -43,13 +43,13 @@ TARGETDIR = [tempdir(), '/', DOMAIN, '_pot'];
 mkdir(TARGETDIR);
 
 
-FILESINFO_SRC = {};
+FILESINFO_SRC = [];
 for k = EXTENSIONS_SRC_NELSON
   f = dir([nelsonroot(),'/', k{1}], '-s');
   FILESINFO_SRC = [FILESINFO_SRC; f];
 end
 
-FILESINFO_MACROS = {};
+FILESINFO_MACROS = [];
 for k = EXTENSIONS_MACROS_NELSON
   f = dir([nelsonroot(),'/', k{1}], '-s');
   FILESINFO_MACROS = [FILESINFO_MACROS; f];
