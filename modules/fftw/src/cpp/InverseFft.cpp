@@ -18,7 +18,7 @@
 //=============================================================================
 #include "InverseFft.hpp"
 #include "ClassName.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "FftHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -27,8 +27,8 @@ ArrayOf
 InverseFft(ArrayOf X, indexType n, indexType dim)
 {
     if (X.isReferenceType() || X.isHandle()) {
-        throw Exception(_("Undefined function 'ifft' for input arguments of type") + " '"
-            + ClassName(X) + "'.");
+        Error(_("Undefined function 'ifft' for input arguments of type") + " '" + ClassName(X)
+            + "'.");
     }
     if (X.isScalar() || X.isEmpty()) {
         return ArrayOf(X);

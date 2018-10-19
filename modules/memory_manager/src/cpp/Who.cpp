@@ -39,7 +39,7 @@ Who(Evaluator* eval, SCOPE_LEVEL scopeLevel, bool withPersistent)
         names = eval->getContext()->getCurrentScope()->getVariablesList(withPersistent);
     } break;
     default: {
-        Error(eval, _W("Wrong scope."));
+        Error(_W("Wrong scope."));
     } break;
     }
     return names;

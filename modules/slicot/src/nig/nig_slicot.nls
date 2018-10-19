@@ -48,7 +48,7 @@ FILES = {
 };
 
 NIG_FUNCTIONS = struct([]);
-for f = FILES
+for f = FILES(:)'
   NIG_FUNCTION = jsondecode(fileread(f{1}));
   if isempty(NIG_FUNCTIONS)
     NIG_FUNCTIONS = NIG_FUNCTION;

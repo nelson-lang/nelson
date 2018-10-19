@@ -17,9 +17,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "classBuiltin.hpp"
+#include "OverloadFunction.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,27 +28,35 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 1) {
         bool bSuccess = false;
-        retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+        if (eval->mustOverloadBasicTypes()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "class", bSuccess);
+        }
         if (!bSuccess) {
+            if (argIn[0].isClassStruct() || argIn[0].isHandle()) {
+                retval = OverloadFunction(eval, nLhs, argIn, "class", bSuccess);
+                if (bSuccess) {
+                    return retval;
+                }
+            }
             std::string str = ClassName(argIn[0]);
-            retval.push_back(ArrayOf::stringConstructor(str));
+            retval.push_back(ArrayOf::characterArrayConstructor(str));
         }
     } else if (argIn.size() == 2) {
         Context* ctx = eval->getContext();
         if (ctx->getCurrentScope()->getName() == "base") {
-            Error(eval, _W("This declaration is only allowed from a class constructor."));
+            Error(_W("This declaration is only allowed from a class constructor."));
         }
         ArrayOf arg1 = ArrayOf(argIn[0]);
         if (arg1.getDataClass() == NLS_STRUCT_ARRAY) {
             arg1.ensureSingleOwner();
             ArrayOf arg2 = argIn[1];
             std::string newType = arg2.getContentAsCString();
-            if ((newType == NLS_SPARSE_STR) || (newType == NLS_NDARRAY_STR)
-                || (newType == NLS_CELL_ARRAY_STR) || (newType == NLS_STRUCT_ARRAY_STR)
+            if ((newType == NLS_SPARSE_STR) || (newType == NLS_CELL_ARRAY_STR)
+                || (newType == NLS_STRING_ARRAY_STR) || (newType == NLS_STRUCT_ARRAY_STR)
                 || (newType == NLS_LOGICAL_STR) || (newType == NLS_UINT8_STR)
                 || (newType == NLS_INT8_STR) || (newType == NLS_UINT16_STR)
                 || (newType == NLS_INT16_STR) || (newType == NLS_UINT32_STR)
@@ -59,15 +67,15 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                 (newType == NLS_SCOMPLEX_STR) || (newType == NLS_DCOMPLEX_STR)
                 || (newType == NLS_CHAR_STR) || (newType == NLS_FUNCTION_HANDLE_STR)
                 || (newType == NLS_HANDLE_STR) || (newType == NLS_GENERIC_STR)) {
-                Error(eval, ERROR_TYPE_ALREADY_RESERVED);
+                Error(ERROR_TYPE_ALREADY_RESERVED);
             }
             arg1.setStructType(newType);
             retval.push_back(arg1);
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
         }
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

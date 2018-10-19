@@ -20,6 +20,7 @@
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
+#include "IsEqual.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,30 +30,46 @@ Nelson::ElementaryFunctionsGateway::isequalBuiltin(
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() < 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    for (size_t k = 1; k < argIn.size(); k++) {
-        ArrayOfVector v1v2;
-        v1v2.push_back(argIn[k - 1]);
-        v1v2.push_back(argIn[k]);
-        // Call overload if it exists
-        bool bSuccess = false;
-        retval = OverloadFunction(eval, nLhs, v1v2, bSuccess);
-        if (!bSuccess) {
-            OverloadRequired(eval, v1v2, Nelson::FUNCTION);
-        }
+    bool bSuccess = false;
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "isequal", bSuccess);
+    }
+    if (!bSuccess) {
         bool res = false;
-        if (retval.size() > 0) {
-            res = retval[0].getContentAsLogicalScalar() == 0 ? false : true;
-        } else {
-            Error(eval, _W("overload of isequal must return a logical."));
+        for (size_t k = 1; k < argIn.size(); k++) {
+            bool needToOverload = false;
+            ArrayOf param1 = argIn[k - 1];
+            ArrayOf param2 = argIn[k];
+            res = IsEqual(param1, param2, false, false, needToOverload);
+            if (needToOverload) {
+                ArrayOfVector v1v2;
+                v1v2.push_back(param1);
+                v1v2.push_back(param2);
+                ArrayOfVector ret = OverloadFunction(eval, nLhs, v1v2, "isequal");
+                {
+                    if (ret.size() == 1) {
+                        res = ret[0].getContentAsLogicalScalar(false) == 0 ? false : true;
+                        if (!res) {
+                            retval.push_back(ArrayOf::logicalConstructor(res));
+                            return retval;
+                        }
+                    } else {
+                        Error(_W("overload of isequal must return a logical."));
+                    }
+                }
+            } else {
+                if (!res) {
+                    retval.push_back(ArrayOf::logicalConstructor(res));
+                    return retval;
+                }
+            }
         }
-        if (!res) {
-            return retval;
-        }
+        retval.push_back(ArrayOf::logicalConstructor(res));
     }
     return retval;
 }

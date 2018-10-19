@@ -37,11 +37,11 @@
 // DEALINGS IN THE SOFTWARE.
 
 #pragma once
-#include "Keywords.hpp"
-#include "Serialize.hpp"
-#include "Types.hpp"
-#include "nlsInterpreter_exports.h"
 #include <string>
+#include "nlsInterpreter_exports.h"
+#include "Types.hpp"
+#include "Serialize.hpp"
+#include "Keywords.hpp"
 
 namespace Nelson {
 
@@ -52,7 +52,8 @@ typedef enum
     const_int_node,
     const_double_node,
     const_float_node,
-    string_const_node,
+    const_character_array_node,
+    const_string_node,
     null_node,
     reserved_node,
     const_dcomplex_node,
@@ -227,7 +228,7 @@ public:
 };
 
 typedef AST* ASTPtr;
-typedef boost::container::vector<ASTPtr> ASTPtrVector;
+typedef std::vector<ASTPtr> ASTPtrVector;
 /** Print out the tree
  * Print out the tree using a tab-level scheme.  Peers are printed at the same
  * tab level, children are printed at a higher tab level.
@@ -262,4 +263,4 @@ typedef struct
     bool isToken;
     contextOrPointer v;
 } ParseRHS;
-} // namespace Nelson
+}

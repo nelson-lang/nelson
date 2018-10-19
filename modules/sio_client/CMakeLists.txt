@@ -20,39 +20,27 @@ set(module_name sio_client)
 set(module_library_name nlsSio_client)
 set(module_library_builtin_name ${module_library_name}_builtin)
 #==============================================================================
-if (WITH_SIO_CLIENT)
 include_directories(
 ${Boost_INCLUDE_DIRS}
-${SIO_CLIENT_INCLUDE}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-)
-else()
-include_directories(
-${CMAKE_CURRENT_SOURCE_DIR}/no-src/include
-)
-endif()
-#==============================================================================	
-include_directories(
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/src
+${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/src/internal
+${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/lib/websocketpp
+${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/lib/rapidjson/include
 )
 #==============================================================================	
-if (WITH_SIO_CLIENT)
 FILE(
 GLOB
 SIO_CLIENT_SRC
 "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/src/*.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/socket_io/src/internal/*.cpp"
 )
-else()
-FILE(
-GLOB
-SIO_CLIENT_SRC
-"${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp/*.cpp"
-)
-endif()
 #==============================================================================	
 ADD_LIBRARY(
 	${module_library_name}
@@ -65,13 +53,7 @@ nlsError_manager
 nlsTypes
 nlsInterpreter
 nlsCharacters_encoding
-nlsI18n
-)
-if (WITH_SIO_CLIENT)
-target_link_libraries(${module_library_name}
-${SIO_CLIENT_LIBRARY}
-)
-endif()
+nlsI18n)
 #==============================================================================	
 set_target_properties(${module_library_name}
                       PROPERTIES 
@@ -83,5 +65,3 @@ install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.nls DESTINAT
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name})
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.qch" PATTERN "xml" EXCLUDE PATTERN "md" EXCLUDE)
 #==============================================================================
-
-

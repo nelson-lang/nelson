@@ -13,6 +13,7 @@
     <syntax_item>clear all</syntax_item>
     <syntax_item>clear variables</syntax_item>
     <syntax_item>clear functions</syntax_item>
+    <syntax_item>clear function_name</syntax_item>
     <syntax_item>clear variable_name_1 ... variable_name_N</syntax_item>
     <syntax_item>clear global variable_name</syntax_item>
 
@@ -39,6 +40,10 @@
     <param_input_item>
       <param_name>functions</param_name>
       <param_description>clears cache of macros functions and associated persistent variables.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>function_name</param_name>
+      <param_description>clears persistent variables of a function.</param_description>
     </param_input_item>
   </param_input>
 

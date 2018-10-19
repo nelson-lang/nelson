@@ -84,6 +84,16 @@ FileWatcherManager* FileWatcherManager::m_pInstance = nullptr;
 //=============================================================================
 FileWatcherManager::FileWatcherManager() { fileWatcher = (void*)new FW::FileWatcher(); }
 //=============================================================================
+void
+FileWatcherManager::release()
+{
+    FW::FileWatcher* ptr = (FW::FileWatcher*)fileWatcher;
+    if (ptr) {
+        delete ptr;
+        fileWatcher = nullptr;
+    }
+}
+//=============================================================================
 FileWatcherManager*
 FileWatcherManager::getInstance()
 {
@@ -104,7 +114,7 @@ FileWatcherManager::addWacth(std::wstring directory)
 #else
         id = ((FW::FileWatcher*)fileWatcher)->addWatch(wstring_to_utf8(directory), watcher);
 #endif
-    } catch (FW::FWException&) {
+    } catch (const FW::FWException&) {
     }
 }
 //=============================================================================
@@ -117,7 +127,7 @@ FileWatcherManager::removeWatch(std::wstring directory)
 #else
         ((FW::FileWatcher*)fileWatcher)->removeWatch(wstring_to_utf8(directory));
 #endif
-    } catch (FW::FWException&) {
+    } catch (const FW::FWException&) {
     }
 }
 //=============================================================================
@@ -126,7 +136,7 @@ FileWatcherManager::update()
 {
     try {
         ((FW::FileWatcher*)fileWatcher)->update();
-    } catch (FW::FWException&) {
+    } catch (const FW::FWException&) {
     }
 }
 //=============================================================================

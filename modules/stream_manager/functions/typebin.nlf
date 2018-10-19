@@ -47,9 +47,13 @@ function res = typebin(strtype)
 	case 'ndarraychar'
 		res = 110;	
 	case 'ndarraycell'
-		res = 117;	
+		res = 117;
+	case 'ndarraystruct'
+		res = 115;
+	case 'string'
+		res = 18;
 	case 'cell'
-		res = 17;	
+		res = 17;
 	case 'struct'
 		res = 15;
 	case 'logical'
@@ -84,11 +88,6 @@ function res = typebin(strtype)
 		res = 1000;	
 	otherwise
 		res = -1;
-	end
-	if (res == -1)
-		if isclass(data)
-			res = 2000;
-		end
 	end
 endfunction
 

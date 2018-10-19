@@ -34,7 +34,7 @@ RemoveFile(std::wstring filename, std::wstring& message)
             boost::filesystem::path p = filename;
             boost::filesystem::remove(p);
             res = !IsFile(filename);
-        } catch (boost::filesystem::filesystem_error const& e) {
+        } catch (const boost::filesystem::filesystem_error& e) {
             res = false;
             boost::system::error_code error_code = e.code();
             message = utf8_to_wstring(error_code.message());

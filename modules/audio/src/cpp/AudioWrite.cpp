@@ -108,13 +108,14 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
     indexType columns = data.getDimensions().getColumns();
     ArrayOf audioData;
     if (columns > rows) {
-        audioData = ComplexTranspose(data);
+        bool needToOverload;
+        audioData = ComplexTranspose(data, needToOverload);
     } else {
         audioData = data;
     }
     rows = audioData.getDimensions().getRows();
     columns = audioData.getDimensions().getColumns();
-    int nbChannels = columns;
+    int nbChannels = (int)columns;
     boost::filesystem::path pathFilename = filename;
     std::wstring extension;
     if (pathFilename.has_extension()) {
@@ -158,7 +159,7 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
             do {
                 writecount = BUFFER;
                 if (total + writecount > rows) {
-                    writecount = rows - total;
+                    writecount = (int)(rows - total);
                 }
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
@@ -188,7 +189,7 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
             do {
                 writecount = BUFFER;
                 if (total + writecount > rows) {
-                    writecount = rows - total;
+                    writecount = (int)(rows - total);
                 }
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
@@ -214,7 +215,7 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
             do {
                 writecount = BUFFER;
                 if (total + writecount > rows) {
-                    writecount = rows - total;
+                    writecount = (int)(rows - total);
                 }
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
@@ -241,7 +242,7 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
             do {
                 writecount = BUFFER;
                 if (total + writecount > rows) {
-                    writecount = rows - total;
+                    writecount = (int)(rows - total);
                 }
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
@@ -268,7 +269,7 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
             do {
                 writecount = BUFFER;
                 if (total + writecount > rows) {
-                    writecount = rows - total;
+                    writecount = (int)(rows - total);
                 }
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {

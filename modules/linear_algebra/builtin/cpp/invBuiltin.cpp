@@ -18,9 +18,9 @@
 //=============================================================================
 #include "invBuiltin.hpp"
 #include "Error.hpp"
-#include "InverseMatrix.hpp"
 #include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
+#include "InverseMatrix.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,21 +29,25 @@ Nelson::LinearAlgebraGateway::invBuiltin(Evaluator* eval, int nLhs, const ArrayO
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "inv", bSuccess);
+    }
     if (!bSuccess) {
-        if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
-            || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
-            || argIn[0].isLogical() || argIn[0].isString() || argIn[0].isIntegerType()) {
-            OverloadRequired(eval, argIn, Nelson::FUNCTION);
+        bool needToOverload;
+        ArrayOf param1 = argIn[0];
+        ArrayOf res = InverseMatrix(param1, needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "inv");
+        } else {
+            retval.push_back(res);
         }
-        retval.push_back(InverseMatrix(argIn[0]));
     }
     return retval;
 }

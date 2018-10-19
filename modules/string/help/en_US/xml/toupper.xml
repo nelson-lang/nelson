@@ -13,7 +13,7 @@
   <param_input>
     <param_input_item>
       <param_name>str</param_name>
-      <param_description>a string.</param_description>
+      <param_description>a row character array, a cell of strings or an string array.</param_description>
     </param_input_item>
   </param_input>
 
@@ -38,6 +38,14 @@
     <example_item_data><![CDATA[toupper('NelSon')]]>
     </example_item_data>
   </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[upper(["NelSon", "is", "open"])]]>
+    </example_item_data>
+  </example_item>
+
 </examples>
 
   <see_also>

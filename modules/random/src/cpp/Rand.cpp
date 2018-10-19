@@ -29,11 +29,16 @@ Rand(Evaluator* eval, Class cl)
 }
 //=============================================================================
 ArrayOf
-Rand(Evaluator* eval, Dimensions dims, Class cl)
+Rand(Evaluator* eval, Dimensions& dims, Class cl)
 {
     dims.simplify();
+    if (dims.isEmpty(false)) {
+        ArrayOf res = ArrayOf::emptyConstructor(dims);
+        res.promoteType(cl);
+        return res;
+    }
     if (eval->RandomEngine == nullptr) {
-        Error(eval, _W("random engine not initialized."));
+        Error(_W("random engine not initialized."));
     }
     RandomInterface* randEngine = (RandomInterface*)eval->RandomEngine;
     switch (cl) {
@@ -52,7 +57,7 @@ Rand(Evaluator* eval, Dimensions dims, Class cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     default:
-        Error(eval, ERROR_TYPE_NOT_SUPPORTED);
+        Error(ERROR_TYPE_NOT_SUPPORTED);
     }
     return ArrayOf();
 }

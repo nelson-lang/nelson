@@ -28,31 +28,30 @@ Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const A
 {
     ArrayOfVector retval;
     if (argIn.size() > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } else {
         if (argIn.size() == 1) {
             ArrayOf arg1 = argIn[0];
-            if (arg1.isSingleString()) {
+            if (arg1.isRowVectorCharacterArray()) {
                 std::wstring str = arg1.getContentAsWideString();
                 if (str == L"reset") {
-                    eval->setLastException(Exception(L""));
+                    eval->setLastErrorException(Exception());
                 } else {
-                    Error(eval, _W("Wrong value for #2 input argument.") + _W("'reset' expected."));
+                    Error(_W("Wrong value for #2 input argument.") + _W("'reset' expected."));
                 }
             } else if (arg1.isStruct()) {
-                Exception e(L"");
+                Exception e;
                 if (IsErrorStruct(arg1, e)) {
-                    eval->setLastException(e);
+                    eval->setLastErrorException(e);
                 } else {
-                    Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
+                    Error(ERROR_WRONG_ARGUMENT_2_VALUE);
                 }
             } else {
-                Error(eval,
-                    ERROR_WRONG_ARGUMENT_2_TYPE
-                        + _W("a structure or the string 'reset' expected."));
+                Error(ERROR_WRONG_ARGUMENT_2_TYPE
+                    + _W("a structure or the string 'reset' expected."));
             }
         }
-        Exception lasterror = eval->getLastException();
+        Exception lasterror = eval->getLastErrorException();
         retval.push_back(ErrorToStruct(lasterror));
     }
     return retval;

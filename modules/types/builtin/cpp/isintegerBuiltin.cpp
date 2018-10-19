@@ -27,13 +27,15 @@ Nelson::TypeGateway::isintegerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "isinteger", bSuccess);
+    }
     if (!bSuccess) {
         bool bRes = (argIn[0].getDataClass() == NLS_UINT8 || argIn[0].getDataClass() == NLS_INT8
             || argIn[0].getDataClass() == NLS_UINT16 || argIn[0].getDataClass() == NLS_INT16

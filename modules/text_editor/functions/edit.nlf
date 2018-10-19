@@ -21,7 +21,7 @@ function edit(varargin)
   if nargin == 0
     editor();
   else
-    for v = varargin
+    for v = varargin(:)'
       name = v{1};
       if ismacro(name)
         filename = which(name);

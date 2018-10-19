@@ -38,11 +38,10 @@ FinishNelsonUserScript(Evaluator* eval)
             std::wstring wstr = path.generic_wstring();
             try {
                 EvaluateScriptFile(eval, wstr.c_str());
-            } catch (Exception& e) {
+            } catch (const Exception& e) {
                 CloseAllFiles();
                 Interface* io = eval->getInterface();
-                e.what();
-                eval->setLastException(e);
+                eval->setLastErrorException(e);
                 std::wstring errmsg = _W("User finish.nls failed to run.");
                 if (io) {
                     io->errorMessage(errmsg);

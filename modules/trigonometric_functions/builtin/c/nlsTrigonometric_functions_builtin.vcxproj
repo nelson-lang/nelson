@@ -22,7 +22,7 @@
     <ProjectGuid>{E7E9CA2A-8485-4777-A753-69BBAC2D1E83}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsTrigonometric_functions_builtin</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -170,6 +170,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\acosBuiltin.cpp" />
     <ClCompile Include="..\cpp\asinBuiltin.cpp" />
+    <ClCompile Include="..\cpp\atan2Builtin.cpp" />
     <ClCompile Include="..\cpp\atanBuiltin.cpp" />
     <ClCompile Include="..\cpp\cosBuiltin.cpp" />
     <ClCompile Include="..\cpp\coshBuiltin.cpp" />
@@ -177,8 +178,10 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\sinBuiltin.cpp" />
     <ClCompile Include="..\cpp\sinhBuiltin.cpp" />
+    <ClCompile Include="..\cpp\sinmBuiltin.cpp" />
     <ClCompile Include="..\cpp\tanBuiltin.cpp" />
     <ClCompile Include="..\cpp\tanhBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tanmBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -207,6 +210,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\acosBuiltin.hpp" />
     <ClInclude Include="..\include\asinBuiltin.hpp" />
+    <ClInclude Include="..\include\atan2Builtin.hpp" />
     <ClInclude Include="..\include\atanBuiltin.hpp" />
     <ClInclude Include="..\include\cosBuiltin.hpp" />
     <ClInclude Include="..\include\coshBuiltin.hpp" />
@@ -214,8 +218,10 @@
     <ClInclude Include="..\include\nlsTrigonometric_functions_builtin_exports.h" />
     <ClInclude Include="..\include\sinBuiltin.hpp" />
     <ClInclude Include="..\include\sinhBuiltin.hpp" />
+    <ClInclude Include="..\include\sinmBuiltin.hpp" />
     <ClInclude Include="..\include\tanBuiltin.hpp" />
     <ClInclude Include="..\include\tanhBuiltin.hpp" />
+    <ClInclude Include="..\include\tanmBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.nls" />

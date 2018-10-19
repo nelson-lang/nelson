@@ -177,15 +177,15 @@ ref = {   'First Date: 1973-04-08';
 assert_isequal(r, ref);
 //=============================================================================
 cmd = 'r = strrep(''str'',''str'',[]);';
-ref = _('A cell expected.');
+ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = strrep(3i,''str'',''str'');';
-ref = _('A cell expected.');
+ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = strrep(''str'',''str'',3i);';
-ref = _('A cell expected.');
+ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = strrep({''cccc'',''ccbbcca''},{''cc'',''bb''},{''cc'',''e'',''ddd''});';
@@ -197,14 +197,28 @@ ref = _('Same size expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = strrep({{''bbb''},''ccabbba''},{''cc'',''bb''},{{''cc'',''e'',''ddd''},''str''});';
-ref = _('A cell of string expected.');
+ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = strrep(''ccabbba'',{''cc'',{},''bb''},{{''cc'',''e'',''ddd''}})';
-ref = _('A cell of string expected.');
+ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = strrep({''ccabbba'',''bbccbb'';''abba'',''bccb''},{''cc'';''bb''},{''cc'';''e''});';
 ref = _('Same size expected.');
 assert_checkerror(cmd, ref);
+//=============================================================================
+r = strrep("This is a string.", 'is', 'is not');
+ref = "This not is not a string.";
+assert_isequal(r, ref);
+//=============================================================================
+str = ["First Date: ___";
+"Last Date: ___"];
+old = '___';
+new = {'1973-04-08';
+'1974-15-08'};
+r = strrep(str, old, new);
+ref = ["First Date: 1973-04-08";
+"Last Date: 1974-15-08"];
+assert_isequal(r, ref);
 //=============================================================================

@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "FileStream.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -30,7 +30,7 @@ FileStream::FileStream(const std::wstring filename, const std::wstring accessmod
     fp = fopen(wstring_to_utf8(filename).c_str(), wstring_to_utf8(accessmode).c_str());
 #endif
     if (fp == NULL) {
-        throw Exception(_W("Unable to open file ") + filename);
+        Error(_W("Unable to open file ") + filename);
     }
     autoclose = true;
 }

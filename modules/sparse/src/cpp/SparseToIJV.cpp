@@ -26,8 +26,10 @@
 namespace Nelson {
 //=============================================================================
 void
-SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf& N, ArrayOf& NNZ)
+SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf& N, ArrayOf& NNZ,
+    bool& needToOverload)
 {
+    needToOverload = false;
     if (spA.isSparse()) {
         Dimensions dims = spA.getDimensions();
         indexType nnz = SparseNonZeros(spA);
@@ -36,9 +38,9 @@ SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf
         try {
             ptrI = new indexType[nnz];
             ptrJ = new indexType[nnz];
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         int nz = 0;
         void* ptrV = Eigen_SparseToIJV(spA.getDataClass(), dims.getRows(), dims.getColumns(),
@@ -60,7 +62,7 @@ SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf
         N = ArrayOf::doubleConstructor((double)dims.getColumns());
         NNZ = ArrayOf::doubleConstructor((double)spA.nzmax());
     } else {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+        needToOverload = true;
     }
 }
 //=============================================================================

@@ -22,16 +22,22 @@
 #include "nlsString_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 // historic algo.
 NLSSTRING_IMPEXP std::wstring
 stringReplace(
     std::wstring searchStr, std::wstring pattern, std::wstring replacement, bool doOverlaps);
+//=============================================================================
 NLSSTRING_IMPEXP ArrayOf
-StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps);
+StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool doOverlaps,
+    bool& needToOverload);
+//=============================================================================
 // modern algo.
 NLSSTRING_IMPEXP std::wstring
 Replace(std::wstring searchStr, std::wstring pattern, std::wstring replacement);
+//=============================================================================
 NLSSTRING_IMPEXP ArrayOf
-Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW);
+Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needToOverload);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

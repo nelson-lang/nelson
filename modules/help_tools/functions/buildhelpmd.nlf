@@ -21,7 +21,7 @@ function buildhelpmd(varargin)
 // buildhelpmd(destdir) build help of Nelson
 // buildhelpmd(destdir, module_name) build help of a module loaded in Nelson
 //
-  if (nargin() > 2 | nargin() < 1) 
+  if (nargin() > 2 || nargin() < 1) 
     error(_('Wrong number of input arguments.'));
   end
   destinationdir = varargin{1};
@@ -29,7 +29,7 @@ function buildhelpmd(varargin)
     helpForNelsonOnly(destinationdir);
     run([nelsonroot() '/modules/' 'modules.nls']);
     locales = {};
-    for m = modules_help_list
+    for m = modules_help_list(:)'
       module_path = [nelsonroot() '/modules/' m{1}];
       l = buildHelpFromPath(destinationdir, m{1}, module_path);
       locales = [locales, l];
@@ -47,7 +47,7 @@ endfunction
 //=============================================================================
 function locales = buildHelpFromPath(destinationdir, module, module_path)
   locales = {};
-  for k = getavailablelanguages()
+  for k = getavailablelanguages()(:)'
     locale = k{1}(1:2);
     src = [module_path, '/help/', k{1}, '/xml'];
     if isdir(src)
@@ -70,9 +70,9 @@ endfunction
 function generatesLANGSmd(destinationdir, locales)
   content = {'# Languages'; ''};
   done = {};
-  for l = locales
+  for l = locales(:)'
     res = contains(done, l{1});
-    if isempty(res) | ~all(res) 
+    if isempty(res) || ~all(res) 
       content{end + 1} = ['* [', l{1} ,'](', l{1}, ')'];
       done{end + 1} = l{1};
     end  
@@ -82,10 +82,10 @@ function generatesLANGSmd(destinationdir, locales)
 endfunction
 //=============================================================================
 function buildSummary(destinationdir, locales, modules_help_list, is_nelson_help)
-  for l = locales
+  for l = locales(:)'
     global_summary = {['# ', 'Summary']; ''};
     global_summary_path = [destinationdir, '/', l{1}, '/',  'SUMMARY.md'];
-    for m = modules_help_list
+    for m = modules_help_list(:)'
       module_summary_path = [destinationdir, '/', l{1}, '/', m{1}, '/', 'SUMMARY.md'];
       content = fileread(module_summary_path, 'cell');
       content = strrep(content, '](', ['](./', m{1}, '/']);
@@ -98,7 +98,7 @@ endfunction
 function helpForNelsonOnly(destinationdir)
   src_files = {'homepage.md', 'banner_homepage.png'};
     dst_files = {'README.md', 'banner_homepage.png'};
-    for k = getavailablelanguages()
+    for k = getavailablelanguages()(:)'
       locale = k{1}(1:2);
       dir_dst = [destinationdir, '/', locale];
       dir_src = [nelsonroot(), '/modules/main/help/', k{1}, '/md'];

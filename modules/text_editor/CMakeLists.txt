@@ -34,6 +34,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
@@ -64,6 +65,7 @@ nlsI18n
 nlsCore
 nlsInterpreter
 nlsModules_manager
+nlsNelson_manager
 nlsOs_functions
 nlsText_completion
 ${Qt5Widgets_LIBRARIES}

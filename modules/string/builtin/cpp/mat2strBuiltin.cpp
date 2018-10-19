@@ -28,56 +28,74 @@ Nelson::StringGateway::mat2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() == 0 || argIn.size() > 3) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "mat2str", bSuccess);
+    }
     if (!bSuccess) {
         indexType defautPrecision = 15;
         bool withClass = false;
         if (argIn.size() == 3) {
             ArrayOf param3 = argIn[2];
             ArrayOf param2 = argIn[1];
-            if (param3.isSingleString()) {
+            if (param3.isRowVectorCharacterArray()) {
                 std::wstring str = param3.getContentAsWideString();
                 if (str == L"class") {
                     withClass = true;
                 } else {
-                    Error(eval, _W("'class' argument expected."));
+                    Error(_W("'class' argument expected."));
                 }
             }
             if (param2.isNumeric()) {
                 defautPrecision = param2.getContentAsScalarIndex();
             } else {
-                Error(eval, _W("Second input argument must be a real positive integers."));
+                Error(_W("Second input argument must be a real positive integers."));
             }
         } else if (argIn.size() == 2) {
             ArrayOf param2 = argIn[1];
-            if (param2.isSingleString()) {
+            if (param2.isRowVectorCharacterArray()) {
                 std::wstring str = param2.getContentAsWideString();
                 if (str == L"class") {
                     defautPrecision = 15;
                     withClass = true;
                 } else {
-                    Error(eval, _W("'class' argument expected."));
+                    Error(_W("'class' argument expected."));
                 }
             } else if (param2.isNumeric()) {
                 defautPrecision = param2.getContentAsScalarIndex();
                 withClass = false;
             } else {
-                Error(eval, _W("Second input argument must be a real positive integers."));
+                Error(_W("Second input argument must be a real positive integers."));
             }
         } else // argIn.size() == 1
         {
             defautPrecision = 15;
             withClass = false;
         }
-        std::wstring res = MatrixToString(argIn[0], defautPrecision, withClass);
-        retval.push_back(ArrayOf::stringConstructor(res));
+        ArrayOf A = argIn[0];
+        bool canBeConvert = A.isNumeric() || A.isLogical() || A.isCharacterArray();
+        if (!canBeConvert) {
+            retval = OverloadFunction(eval, nLhs, argIn, "mat2str", bSuccess);
+            if (!bSuccess) {
+                Error(_W("An numeric matrix expected."));
+            }
+            return retval;
+        }
+        if (A.isSparse()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "mat2str", bSuccess);
+            if (!bSuccess) {
+                Error(ERROR_TYPE_NOT_SUPPORTED);
+            }
+            return retval;
+        }
+        std::wstring res = MatrixToString(A, defautPrecision, withClass);
+        retval.push_back(ArrayOf::characterArrayConstructor(res));
     }
     return retval;
 }

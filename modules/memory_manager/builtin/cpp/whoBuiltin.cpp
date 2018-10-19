@@ -29,16 +29,16 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     ArrayOfVector retval;
     stringVector variablesName;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0) {
         variablesName = Who(eval, LOCAL_SCOPE, false);
     } else if (argIn.size() == 1) {
         std::wstring param1;
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isRowVectorCharacterArray()) {
             param1 = argIn[0].getContentAsWideString();
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         if (param1.compare(L"global") == 0) {
             variablesName = Who(eval, GLOBAL_SCOPE, false);
@@ -49,10 +49,10 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         } else if (param1.compare(L"caller") == 0) {
             variablesName = Who(eval, CALLER_SCOPE, false);
         } else {
-            Error(eval, _W("Argument #1 : 'global', 'base', 'local' or 'caller' expected."));
+            Error(_W("Argument #1 : 'global', 'base', 'local' or 'caller' expected."));
         }
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs == 0) {
         Interface* io = eval->getInterface();

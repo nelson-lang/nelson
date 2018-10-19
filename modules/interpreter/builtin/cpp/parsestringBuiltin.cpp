@@ -28,39 +28,39 @@ Nelson::InterpreterGateway::parsestringBuiltin(
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::string command;
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isRowVectorCharacterArray()) {
         command = argIn[0].getContentAsCString();
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     ParserState parserState = ParseError;
-    Exception previousException(eval->getLastException());
+    Exception previousException(eval->getLastErrorException());
     try {
         parserState = parseString(command + "\n");
     } catch (const Exception&) {
         parserState = ParseError;
-        eval->setLastException(previousException);
+        eval->setLastErrorException(previousException);
     }
     switch (parserState) {
     case ScriptBlock: {
-        retval.push_back(ArrayOf::stringConstructor("script"));
+        retval.push_back(ArrayOf::characterArrayConstructor("script"));
     } break;
     case FuncDef: {
         MacroFunctionDef* cp = getParsedFunctionDef();
         if (cp) {
-            retval.push_back(ArrayOf::stringConstructor("function"));
+            retval.push_back(ArrayOf::characterArrayConstructor("function"));
         } else {
-            retval.push_back(ArrayOf::stringConstructor("script"));
+            retval.push_back(ArrayOf::characterArrayConstructor("script"));
         }
     } break;
     default: {
-        retval.push_back(ArrayOf::stringConstructor("error"));
+        retval.push_back(ArrayOf::characterArrayConstructor("error"));
     } break;
     }
     return retval;

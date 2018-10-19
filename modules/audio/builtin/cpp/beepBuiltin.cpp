@@ -27,10 +27,10 @@ Nelson::AudioGateway::beepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (argIn.size() == 0) {
         if (nLhs == 0) {
@@ -46,15 +46,15 @@ Nelson::AudioGateway::beepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                 setBeepOff();
             }
         } else {
-            Error(eval, _W("Wrong value for #1 argument."));
+            Error(_W("Wrong value for #1 argument."));
         }
     }
     if (nLhs > 0) {
         bool beepState = getBeepState();
         if (beepState) {
-            retval.push_back(ArrayOf::stringConstructor(L"on"));
+            retval.push_back(ArrayOf::characterArrayConstructor(L"on"));
         } else {
-            retval.push_back(ArrayOf::stringConstructor(L"off"));
+            retval.push_back(ArrayOf::characterArrayConstructor(L"off"));
         }
     }
     return retval;

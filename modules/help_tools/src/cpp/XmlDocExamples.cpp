@@ -47,8 +47,7 @@ XmlDocExamples::append(
     XmlDocExampleItem* item = nullptr;
     try {
         item = new XmlDocExampleItem(type, description, data, imageTag, this->outputTarget);
-    } catch (std::bad_alloc& e) {
-        e;
+    } catch (const std::bad_alloc&) {
         item = nullptr;
     }
     if (item) {

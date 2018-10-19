@@ -27,14 +27,14 @@ Nelson::DataStructuresGateway::struct2cellBuiltin(
 {
     ArrayOfVector ret;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     if (!param1.isStruct()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
     }
     stringVector fieldnames = param1.getFieldNames();
     size_t nbFields = fieldnames.size();
@@ -44,9 +44,9 @@ Nelson::DataStructuresGateway::struct2cellBuiltin(
     try {
         indexType nbElements = dimsStruct.getElementCount() * nbFields;
         elements = new ArrayOf[nbElements];
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         e.what();
-        Error(eval, ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     try {
         ArrayOfVector* v = new ArrayOfVector[nbFields];
@@ -63,10 +63,10 @@ Nelson::DataStructuresGateway::struct2cellBuiltin(
             }
         }
         delete[] v;
-    } catch (std::bad_alloc& e) {
+    } catch (const std::bad_alloc& e) {
         delete[] elements;
         e.what();
-        Error(eval, ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     Dimensions dims;
     dims[0] = nbFields;

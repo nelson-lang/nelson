@@ -16,10 +16,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <cstring>
+#include <sndfile.h>
 #include "AudioSupportedFormats.hpp"
 #include "ToCellString.hpp"
 #include "characters_encoding.hpp"
-#include <sndfile.h>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -72,12 +73,12 @@ AudioSupportedFormats()
         SF_FORMAT_INFO info;
         info.format = i;
         sf_command(NULL, SFC_GET_FORMAT_MAJOR, &info, sizeof(info));
-        formats.push_back(ArrayOf::stringConstructor(info.name));
+        formats.push_back(ArrayOf::characterArrayConstructor(info.name));
         std::string extension = std::string(info.extension);
         if (extension[0] != '.') {
             extension = "." + extension;
         }
-        extensions.push_back(ArrayOf::stringConstructor(extension));
+        extensions.push_back(ArrayOf::characterArrayConstructor(extension));
         subformats.push_back(ToCellStringAsColumn(AudioSubFormats(info.format)));
     }
     st.setFieldAsList("Name", formats);

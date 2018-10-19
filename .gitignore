@@ -55,6 +55,8 @@ tests_*.json
 *.orig
 *.tmp
 *.cppcheck
+/modules/qml_engine/nlsQml_engine_automoc.dir/
+/modules/text_editor/nlsText_editor_automoc.dir/
 /modules/*/builtin/c/x64
 /modules/*/builtin/c/Debug
 /modules/*/builtin/c/Release
@@ -170,3 +172,18 @@ bin/macosx64/nelson-gui
 /modules/*/src/c/*/Debug
 /modules/*/src/c/*/Release
 enc_temp_folder
+/tools/CMake/
+/*/*/.vscode
+.vscode
+################################################################################
+# module_skeleton
+module_skeleton/builtin/CMakeLists.txt
+module_skeleton/builtin/cleaner.nls
+module_skeleton/builtin/loader.nls
+module_skeleton/builtin/unloader.nls
+module_skeleton/builtin/cpp/Gateway.cpp
+module_skeleton/src/CMakeLists.txt
+module_skeleton/src/cleaner.nls
+module_skeleton/src/loader.nls
+module_skeleton/src/unloader.nls
+module_skeleton/*/*.manifest

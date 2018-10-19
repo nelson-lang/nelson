@@ -19,7 +19,8 @@
 #include "colonBuiltin.hpp"
 #include "Error.hpp"
 #include "OverloadBinaryOperator.hpp"
-#include "OverloadTrinaryOperator.hpp"
+#include "OverloadTernaryOperator.hpp"
+#include "Colon.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,13 +29,38 @@ Nelson::ElementaryFunctionsGateway::colonBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
+    bool needToOverload;
+    bool bSuccess = false;
+    ArrayOf res;
     if (argIn.size() == 2) {
-        retval.push_back(OverloadBinaryOperator(eval, argIn[0], argIn[1], "colon"));
+        ArrayOf A = argIn[0];
+        ArrayOf B = argIn[1];
+        if (eval->mustOverloadBasicTypes()) {
+            res = OverloadBinaryOperator(eval, A, B, "colon", false, bSuccess, "");
+        }
+        if (!bSuccess) {
+            res = Colon(A, B, needToOverload);
+            if (needToOverload) {
+                res = OverloadBinaryOperator(eval, A, B, "colon");
+            }
+        }
     } else if (argIn.size() == 3) {
-        retval.push_back(OverloadTrinaryOperator(eval, argIn[0], argIn[1], argIn[2], "colon"));
+        ArrayOf A = argIn[0];
+        ArrayOf B = argIn[1];
+        ArrayOf C = argIn[2];
+        if (eval->mustOverloadBasicTypes()) {
+            res = OverloadTernaryOperator(eval, A, B, C, "colon", false, bSuccess, "");
+        }
+        if (!bSuccess) {
+            res = Colon(A, B, C, needToOverload);
+            if (needToOverload) {
+                res = OverloadTernaryOperator(eval, A, B, C, "colon");
+            }
+        }
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+    retval.push_back(res);
     return retval;
 }
 //=============================================================================

@@ -1,0 +1,85 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_istrue(or(true, true));
+assert_istrue(or(true, false));
+assert_isfalse(or(false, false));
+assert_istrue(or(false, true));
+//=============================================================================
+assert_istrue(true | true);
+assert_istrue(true | false);
+assert_isfalse(false | false);
+assert_istrue(false | true);
+//=============================================================================
+A = [50 70 0; 0 20 90; 50 0 0];
+B = [60 60 0; 10 30 50; -10 0 0];
+R1 = or(A, B);
+R2 = A | B;
+assert_isequal(R1, R2);
+REF =  logical([   1   1   0; 1   1   1;  1   0   0]);
+assert_isequal(R1, REF);
+//=============================================================================
+A = [true, false];
+B = [true; false];
+R1 = or(A, B);
+R2 = A | B; 
+assert_isequal(R1, R2);
+REF =  [true, true;  true, false];
+assert_isequal(R1, REF);
+//=============================================================================
+A = [true false, true];
+B = [true; false];
+R1 = or(A, B);
+R2 = A | B; 
+assert_isequal(R1, R2);
+REF =  [true, true,  true; true, false, true];
+assert_isequal(R1, REF);
+//=============================================================================
+A = [true false, true];
+B = [true; false];
+R1 = or(B, A);
+R2 = B | A; 
+assert_isequal(R1, R2);
+REF =  [true, true,  true; true, false, true];
+assert_isequal(R1, REF);
+//=============================================================================
+A = [true, false, true];
+B = [true, false, true];
+R1 = or(B, A);
+R2 = B | A; 
+assert_isequal(R1, R2);
+REF =  [true, false,  true];
+assert_isequal(R1, REF);
+//=============================================================================
+A = zeros(3, 2, 2);
+R = A | A;
+REF = logical(A);
+assert_isequal(R, REF);
+//=============================================================================
+A = [true, false, true];
+B = [true, false, true, true];
+assert_checkerror('A | B', [_('Size mismatch on arguments to '), '|']);
+//=============================================================================
+A = [true, false, true];
+B = [true, false, true, true];
+assert_checkerror('B | A', [_('Size mismatch on arguments to '), '|']);
+//=============================================================================
+A = ones(1,2,3);
+B = [1:3];
+assert_checkerror('A | B', [_('Size mismatch on arguments to '), '|']);
+//=============================================================================

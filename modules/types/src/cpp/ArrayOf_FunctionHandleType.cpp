@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,7 +40,7 @@ ArrayOf::getContentAsFunctionHandle()
         ArrayOf value1 = this->getField(NLS_FUNCTION_HANDLE_STR);
         fh = value1.getContentAsUnsignedInt64Scalar();
     } else {
-        throw Exception(_W("Expected a function_handle."));
+        Error(_W("Expected a function_handle."));
     }
     return fh;
 }

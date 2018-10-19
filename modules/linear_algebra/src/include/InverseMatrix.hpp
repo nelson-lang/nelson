@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOf
-InverseMatrix(ArrayOf A);
+InverseMatrix(ArrayOf& A, bool& needToOverload);
 }
 //=============================================================================

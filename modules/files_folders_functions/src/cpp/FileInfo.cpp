@@ -37,7 +37,7 @@ local_ptime_from_utc_time_t(std::time_t const t)
     return c_local_adjustor<ptime>::utc_to_local(from_time_t(t));
 }
 //=============================================================================
-FileInfo::FileInfo(std::wstring _filename, bool fullpath)
+FileInfo::FileInfo(const std::wstring& _filename, bool fullpath)
 {
     boost::filesystem::path _path = _filename;
     // uniformize path separator
@@ -50,7 +50,7 @@ FileInfo::FileInfo(std::wstring _filename, bool fullpath)
     }
     try {
         this->isdir = (bool)boost::filesystem::is_directory(_path);
-    } catch (const boost::filesystem::filesystem_error& ex) {
+    } catch (const boost::filesystem::filesystem_error&) {
         this->isdir = false;
     }
     if (this->isdir) {
@@ -58,7 +58,7 @@ FileInfo::FileInfo(std::wstring _filename, bool fullpath)
     } else {
         try {
             this->bytes = (double)boost::filesystem::file_size(_path);
-        } catch (const boost::filesystem::filesystem_error& ex) {
+        } catch (const boost::filesystem::filesystem_error&) {
             this->bytes = -1;
         }
     }
@@ -74,7 +74,7 @@ FileInfo::FileInfo(std::wstring _filename, bool fullpath)
         int s = (int)hms.seconds();
         this->date = boost::posix_time::to_simple_wstring(pt);
         this->datenum = DateNumber(year, month, day, h, m, s);
-    } catch (const boost::filesystem::filesystem_error& ex) {
+    } catch (const boost::filesystem::filesystem_error&) {
         this->date = std::wstring();
         this->datenum = -1;
     }

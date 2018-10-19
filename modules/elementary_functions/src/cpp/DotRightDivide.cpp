@@ -18,6 +18,8 @@
 //=============================================================================
 #include "DotRightDivide.hpp"
 #include "MatrixCheck.hpp"
+#include "Exception.hpp"
+
 //=============================================================================
 namespace Nelson {
 template <class T>

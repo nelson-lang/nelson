@@ -28,16 +28,16 @@ Nelson::ModulesManagerGateway::removemoduleBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring moduleshortname = L"";
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isRowVectorCharacterArray()) {
         moduleshortname = argIn[0].getContentAsWideString();
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     RemoveModule(eval, moduleshortname);
     return retval;

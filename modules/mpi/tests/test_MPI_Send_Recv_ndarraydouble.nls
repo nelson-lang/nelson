@@ -32,7 +32,7 @@ if (my_rank != 0)
 else
   for source = 1:num_ranks - 1
     receive = MPI_Recv (source, TAG);
-    assert_istrue(isa(receive, 'ndarraydouble'));
+    assert_istrue(isa(receive, 'double'));
     assert_isequal(receive, A)
   end
 end

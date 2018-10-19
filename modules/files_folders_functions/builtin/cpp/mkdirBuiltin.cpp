@@ -28,21 +28,21 @@ Nelson::FilesFoldersGateway::mkdirBuiltin(Evaluator* eval, int nLhs, const Array
     ArrayOfVector retval;
     if (argIn.size() == 1 || argIn.size() == 2) {
         if (nLhs > 2) {
-            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         std::wstring parentDir;
         std::wstring newDir;
         if (argIn.size() == 2) {
-            if (argIn[1].isSingleString()) {
+            if (argIn[1].isRowVectorCharacterArray()) {
                 newDir = argIn[1].getContentAsWideString();
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
             }
         }
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isRowVectorCharacterArray()) {
             parentDir = argIn[0].getContentAsWideString();
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring message;
         bool bOK = false;
@@ -53,18 +53,18 @@ Nelson::FilesFoldersGateway::mkdirBuiltin(Evaluator* eval, int nLhs, const Array
         }
         if (nLhs == 0) {
             if (!bOK) {
-                Error(eval, message);
+                Error(message);
             }
         } else {
             if (nLhs > 0) {
                 retval.push_back(ArrayOf::logicalConstructor(bOK));
             }
             if (nLhs > 1) {
-                retval.push_back(ArrayOf::stringConstructor(message));
+                retval.push_back(ArrayOf::characterArrayConstructor(message));
             }
         }
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

@@ -29,7 +29,7 @@ static std::wstring tempDir = L"";
 ArrayOf
 TempDir()
 {
-    return ArrayOf::stringConstructor(GetSystemTemporaryDirectory());
+    return ArrayOf::characterArrayConstructor(GetSystemTemporaryDirectory());
 }
 //=============================================================================
 std::wstring

@@ -18,14 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "FileFunc.hpp"
-#include "FunctionDef.hpp"
-#include "MacroFunctionDef.hpp"
-#include "PathFunc.hpp"
-#include "dynamic_library.hpp"
-#include "nlsInterpreter_exports.h"
 #include <boost/container/vector.hpp>
 #include <boost/unordered_map.hpp>
+#include "FunctionDef.hpp"
+#include "PathFunc.hpp"
+#include "FileFunc.hpp"
+#include "MacroFunctionDef.hpp"
+#include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
 class NLSINTERPRETER_IMPEXP PathFuncManager
@@ -35,6 +34,7 @@ private:
     // cache to speed up search
     boost::unordered_map<std::string, FuncPtr> cachedPathFunc;
     PathFuncManager();
+    ~PathFuncManager();
     static PathFuncManager* m_pInstance;
     PathFunc* _userPath;
     MacroFunctionDef*
@@ -104,5 +104,5 @@ public:
     bool
     isPointerOnPathFunctionDef(FuncPtr ptr);
 };
-} // namespace Nelson
+}
 //=============================================================================

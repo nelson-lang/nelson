@@ -29,10 +29,10 @@ Nelson::HandleGateway::handle_invokeBuiltin(Evaluator* eval, int nLhs, const Arr
 {
     ArrayOfVector retval;
     if (argIn.size() == 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     if (!param1.isEmpty()) {
@@ -60,21 +60,21 @@ Nelson::HandleGateway::handle_invokeBuiltin(Evaluator* eval, int nLhs, const Arr
                 if (context->lookupFunction(functionNameGetHandle, funcDef)) {
                     if ((funcDef->type() == NLS_BUILT_IN_FUNCTION)
                         || (funcDef->type() == NLS_MACRO_FUNCTION)) {
-                        ArrayOfVector argIn;
-                        argIn.push_back(param1);
-                        funcDef->evaluateFunction(eval, argIn, nLhs);
+                        ArrayOfVector args;
+                        args.push_back(param1);
+                        funcDef->evaluateFunction(eval, args, nLhs);
                         doOverload = true;
                     }
                 }
                 if (!doOverload) {
                     std::wstring msg = ufunctionNameGetHandle + L" " + _W("not defined.");
-                    Error(eval, msg);
+                    Error(msg);
                 }
             } else {
-                Error(eval, _W("Invalid handle."));
+                Error(_W("Invalid handle."));
             }
         } else {
-            Error(eval, _W("Invalid handle."));
+            Error(_W("Invalid handle."));
         }
     } else {
         if (nLhs > 0) {

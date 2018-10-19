@@ -16,28 +16,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Eigen/Dense>
 #include "Transpose.hpp"
 #include "ClassName.hpp"
-#include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Transpose(ArrayOf A)
+Transpose(const ArrayOf& A, bool& needToOverload)
 {
+    needToOverload = false;
     Class classA = A.getDataClass();
-    if (classA < NLS_LOGICAL || A.isSparse()) {
-        std::wstring classname;
-        ClassName(A, classname);
-        std::wstring msg
-            = _W("function") + L" " + classname + L"_transpose" + L" " + _W("undefined.");
-        throw Exception(msg);
+    if ((classA < NLS_LOGICAL || A.isSparse())
+        && !(A.isCell() || A.isStruct() || A.isStringArray())) {
+        needToOverload = true;
+        return ArrayOf();
     }
     Dimensions dimsA = A.getDimensions();
     bool isSupported = (A.isEmpty() || A.isScalar() || A.is2D());
     if (!isSupported) {
         std::wstring msg = _W("transpose on N-D array is undefined.");
-        throw Exception(msg);
+        Error(msg);
     }
     ArrayOf Res(A);
     Res.ensureSingleOwner();
@@ -148,6 +147,28 @@ Transpose(ArrayOf A)
         Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
             (charType*)Res.getDataPointer(), dimsRes.getRows(), dimsRes.getColumns());
         matTransposed = matOrigin.transpose().eval();
+    } break;
+    case NLS_STRUCT_ARRAY:
+    case NLS_STRING_ARRAY:
+    case NLS_CELL_ARRAY: {
+        Dimensions dimsA = A.getDimensions();
+        indexType rowCount = dimsA[0];
+        indexType colCount = dimsA[1];
+        Dimensions dimsRes(colCount, rowCount);
+        ArrayOf res(A);
+        void* dstPtr = res.getReadWriteDataPointer();
+        int ptr = 0;
+        for (indexType i = 0; i < rowCount; i++)
+            for (indexType j = 0; j < colCount; j++) {
+                res.copyElements(i + j * rowCount, dstPtr, ptr, 1);
+                ptr++;
+            }
+        res.reshape(dimsRes);
+        return res;
+    } break;
+    default: {
+        needToOverload = true;
+        return ArrayOf();
     } break;
     }
     Res.reshape(dimsRes);

@@ -221,3 +221,5 @@ By making a contribution to this project, I certify that:
   maintained indefinitely and may be redistributed consistent with
   this project or the open source license(s) involved.
 
+* (e) As contributor, you must agree a [Contributor Licensing Agreement](https://cla-assistant.io/Nelson-numerical-software/nelson).
+This CLA allows to main author(s) to re-licensing Nelson (GPLv3, LGPL, ...) without need to ask all others contributors.

@@ -49,18 +49,18 @@ fclose(fd);
 all_help_keys = iskeyword();
 all_help_keys = [all_help_keys; what()];
 
-for m = getmodules()
+for m = getmodules()(:)'
   path_functions = [modulepath(m{1}), '/functions'];
   if isdir(path_functions)
     functions_info = dir([path_functions,'/*.nlf']);
-    for f = functions_info
+    for f = functions_info(:)'
       all_help_keys {end + 1} = f.name(1:end-4);
     end
   end
 end
 
 keys_need_documented = {};
-for k = all_help_keys
+for k = all_help_keys(:)'
   r = strfind(ignored, k{1});
   if all(cellfun('isempty', r))
     keys_need_documented = vertcat(keys_need_documented, k);
@@ -68,10 +68,10 @@ for k = all_help_keys
 end
 
 helps = {};
-for m = getmodules()
+for m = getmodules()(:)'
   path_help = [modulepath(m{1}), '/help/', LANGUAGE, '/xml/'];
   files_info = dir([path_help,'*.xml']);
-  for f = files_info
+  for f = files_info(:)'
     name = fileparts(f.name, 'filename');
     if ~strcmp(name, 'chapter')
       helps = vertcat(helps, {name});
@@ -80,7 +80,7 @@ for m = getmodules()
 end 
 
 missing ={};
-for k = keys_need_documented
+for k = keys_need_documented(:)'
   r = strfind(helps, k{1});
   if all(cellfun('isempty', r))
     missing = vertcat(missing, k);
@@ -95,7 +95,7 @@ fprintf(stdout, ['//============================================================
 if length(missing) == 0
   fprintf(stdout, ['// ', _('Congratulations all functions are documented.'), char(10)]);
 end
-for m = missing
+for m = missing(:)'
   if iskeyword(m{1})
     fprintf(stdout, ['// ', m{1}, char(10)]);
   else

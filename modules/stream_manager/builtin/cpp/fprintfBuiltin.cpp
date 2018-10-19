@@ -21,6 +21,7 @@
 #include "File.hpp"
 #include "FilesManager.hpp"
 #include "Interface.hpp"
+#include "PrintfFunction.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,29 +30,46 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     if (argIn.size() == 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (argIn.size() < 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() < 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     double dID = 1;
+    std::wstring result;
+    std::wstring errorMessage;
+    indexType firstArgumentPosition = 0;
+    ArrayOfVector args;
     if (param1.isDoubleType() && param1.isScalar()) {
         dID = param1.getContentAsDoubleScalar();
+        ArrayOf param2 = argIn[1];
+        bool isSupported
+            = param2.isCharacterArray() || (param2.isStringArray() && param2.isScalar());
+        if (!isSupported) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
+        firstArgumentPosition = 1;
+    } else if (param1.isRowVectorCharacterArray()
+        || (param1.isStringArray() && param1.isScalar())) {
+        dID = 1;
+        firstArgumentPosition = 0;
+    } else {
+        Error(_W("valid format expected."));
     }
-    ArrayOf param2 = argIn[1];
-    std::string msg;
-    if (!param2.isString()) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    for (indexType i = firstArgumentPosition; i < argIn.size(); i++) {
+        args.push_back(argIn[i]);
     }
-    msg = param2.getContentAsCString();
+    if (!printfFunction(args, errorMessage, result)) {
+        Error(errorMessage);
+    }
     FilesManager* fm = (FilesManager*)(eval->FileManager);
     int32 iValue = (int32)dID;
     if (fm == nullptr) {
-        Error(eval, _W("Problem with file manager."));
+        Error(_W("Problem with file manager."));
     }
     if (fm->isOpened(iValue)) {
         File* f = fm->getFile(iValue);
@@ -60,24 +78,27 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                 Interface* io = eval->getInterface();
                 if (io) {
                     if (f->getFileName() == L"stdout") {
-                        io->outputMessage(msg);
+                        io->outputMessage(result);
                     } else {
-                        io->errorMessage(msg);
+                        io->errorMessage(result);
                     }
                 }
             } else {
-                Error(eval, _W("ID not supported."));
+                Error(_W("ID not supported."));
             }
         } else {
             FILE* filepointer = (FILE*)f->getFilePointer();
             if (filepointer) {
-                fprintf(filepointer, "%s", msg.c_str());
+                fwprintf(filepointer, L"%ls", result.c_str());
             } else {
-                Error(eval, _W("ID not supported."));
+                Error(_W("ID not supported."));
             }
         }
+        if (nLhs > 0) {
+            retval.push_back(ArrayOf::doubleConstructor((double)result.length()));
+        }
     } else {
-        Error(eval, _W("Wrong value for #1 argument: a valid file ID expected."));
+        Error(_W("Wrong value for #1 argument: a valid file ID expected."));
     }
     return retval;
 }

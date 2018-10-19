@@ -26,15 +26,15 @@ ArrayOfVector
 Nelson::ComEngineGateway::COM_classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
     std::wstring classname;
     classnameComHandle(argIn[0], classname);
-    retval.push_back(ArrayOf::stringConstructor(classname));
+    retval.push_back(ArrayOf::characterArrayConstructor(classname));
     return retval;
 }
 //=============================================================================

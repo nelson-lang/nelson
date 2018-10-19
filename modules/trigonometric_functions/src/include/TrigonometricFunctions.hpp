@@ -22,25 +22,33 @@
 #include "nlsTrigonometric_functions_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Cos(ArrayOf A);
+Cos(const ArrayOf& A, bool& needToOverload);
+//=============================================================================
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Sin(ArrayOf A);
+Sin(const ArrayOf& A, bool& needToOverload);
+//=============================================================================
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Tan(ArrayOf A);
-
+Tan(const ArrayOf& A, bool& needToOverload);
+//=============================================================================
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Acos(ArrayOf A);
+Acos(const ArrayOf& A, bool& needToOverload);
+//=============================================================================
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Asin(ArrayOf A);
+Asin(const ArrayOf& A, bool& needToOverload);
+//=============================================================================
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Atan(ArrayOf A);
-
+Atan(const ArrayOf& A, bool& needToOverload);
+//=============================================================================
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Cosh(ArrayOf A);
+Cosh(const ArrayOf& A, bool& needToOverload);
+//=============================================================================
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Sinh(ArrayOf A);
+Sinh(const ArrayOf& A, bool& needToOverload);
+//=============================================================================
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Tanh(ArrayOf A);
+Tanh(const ArrayOf& A, bool& needToOverload);
+//=============================================================================
 } // namespace Nelson
-  //=============================================================================
+//=============================================================================

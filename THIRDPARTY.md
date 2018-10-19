@@ -220,8 +220,22 @@ C++11 implementation of Socket.IO client
 
 > https://github.com/socketio/socket.io-client-cpp
 
-> https://github.com/Nelson-numerical-software/sio-client-cpp
-
 > https://github.com/llamerada-jp/socket.io-cpp-client-sample
 
 >https://github.com/socketio/socket.io-client-cpp/blob/master/LICENSE (MIT)
+
+- rapidJSON
+
+A fast JSON parser/generator for C++ with both SAX/DOM style API
+
+> https://github.com/Tencent/rapidjson
+
+> https://github.com/Tencent/rapidjson/blob/master/license.txt (MIT)
+
+- websocketpp
+
+C++ websocket client/server library
+
+> http://www.zaphoyd.com/websocketpp
+
+> https://github.com/zaphoyd/websocketpp/blob/master/COPYING

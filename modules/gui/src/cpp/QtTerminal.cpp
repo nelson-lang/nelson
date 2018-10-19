@@ -16,15 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "QtTerminal.h"
-#include "Evaluator.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
-#include "GetNelsonPath.hpp"
-#include "NelsonHistory.hpp"
-#include "ProcessEvents.hpp"
-#include "QStringConverter.hpp"
-#include "QtTranslation.hpp"
-#include "characters_encoding.hpp"
 #include <QtCore/QMimeData>
 #include <QtGui/QClipboard>
 #include <QtGui/QImageReader>
@@ -39,6 +30,16 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QScrollBar>
 #include <boost/algorithm/string.hpp>
+#include "QtTerminal.h"
+#include "Evaluator.hpp"
+#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
+#include "GetNelsonPath.hpp"
+#include "NelsonHistory.hpp"
+#include "ProcessEvents.hpp"
+#include "QStringConverter.hpp"
+#include "QtTranslation.hpp"
+#include "characters_encoding.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -371,14 +372,13 @@ QtTerminal::keyPressEvent(QKeyEvent* event)
         }
         return;
     } else if (event->matches(QKeySequence::Copy)) {
-        if (mCommandLineReady) {
-        } else {
+        if (!mCommandLineReady) {
             if (eval == nullptr) {
                 void* veval = GetNelsonMainEvaluatorDynamicFunction();
                 eval = (Nelson::Evaluator*)veval;
             }
             if (eval) {
-                eval->SetInterruptPending(true);
+                NelsonConfiguration::getInstance()->setInterruptPending(true);
             }
         }
     }
@@ -468,7 +468,7 @@ QtTerminal::closeEvent(QCloseEvent* event)
         eval = (Nelson::Evaluator*)veval;
     }
     if (eval) {
-        eval->SetInterruptPending(true);
+        NelsonConfiguration::getInstance()->setInterruptPending(true);
     }
     lineToSend = L"exit";
 }
@@ -521,11 +521,13 @@ QtTerminal::helpOnSelection()
             std::wstring text = QStringTowstring(textSelected);
             boost::algorithm::replace_all(text, "'", "\"");
             std::wstring cmd = L"doc('" + text + L"');";
-            void* veval = GetNelsonMainEvaluatorDynamicFunction();
-            Nelson::Evaluator* eval = (Nelson::Evaluator*)veval;
+            if (eval == nullptr) {
+                void* veval = GetNelsonMainEvaluatorDynamicFunction();
+                eval = (Nelson::Evaluator*)veval;
+            }
             try {
-                eval->evaluateString(Nelson::wstring_to_utf8(cmd), true);
-            } catch (Exception) {
+                eval->evaluateString(cmd, true);
+            } catch (const Exception&) {
             }
         }
     }
@@ -574,7 +576,7 @@ QtTerminal::stopRun()
         eval = (Nelson::Evaluator*)veval;
     }
     if (eval) {
-        eval->SetInterruptPending(true);
+        NelsonConfiguration::getInstance()->setInterruptPending(true);
     }
 }
 //=============================================================================
@@ -584,7 +586,7 @@ QtTerminal::contextMenuEvent(QContextMenuEvent* event)
     if (contextMenu == nullptr) {
         try {
             contextMenu = new QMenu(this);
-        } catch (std::bad_alloc) {
+        } catch (const std::bad_alloc&) {
             contextMenu = nullptr;
         }
         QString fileNameIcon;

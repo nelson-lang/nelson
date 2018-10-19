@@ -34,8 +34,8 @@ IsEmptyScriptFile(std::wstring filename)
     if (fr) {
         int ch;
         while (EOF != (ch = getc(fr))) {
-            if ((ch == ' ') || (ch == '\r') || (ch == '\n')) {
-            } else {
+            bool isCharManaged = (ch == ' ') || (ch == '\r') || (ch == '\n');
+            if (!isCharManaged) {
                 fclose(fr);
                 return false;
             }

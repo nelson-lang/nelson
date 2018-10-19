@@ -22,7 +22,7 @@
     <ProjectGuid>{8BDE7AF5-8C8E-4B96-9D91-AD5B913569C7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsDouble_builtin</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSDOUBLE_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/double/builtin/include;$(SolutionDir)modules/double/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/double/builtin/include;$(SolutionDir)modules/double/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
@@ -113,7 +113,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSDOUBLE_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/double/builtin/include;$(SolutionDir)modules/double/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/double/builtin/include;$(SolutionDir)modules/double/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
@@ -133,7 +133,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSDOUBLE_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/double/builtin/include;$(SolutionDir)modules/double/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/double/builtin/include;$(SolutionDir)modules/double/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
@@ -155,7 +155,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSDOUBLE_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/double/builtin/include;$(SolutionDir)modules/double/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/double/builtin/include;$(SolutionDir)modules/double/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
@@ -170,6 +170,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">
       <Project>{1c76cdc6-19d8-429a-9ec1-817ad139f80d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\elementary_functions\src\c\nlsElementary_functions.vcxproj">
+      <Project>{c87973dd-f66c-4f35-b875-5e0a0a47b3e7}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
@@ -191,59 +194,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\colon_double_double_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\doubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_colon_doubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_dispBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_ge_doubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_gt_doubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_horzcat_doubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_isequalBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_isequalnBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_le_doubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_lt_doubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_minus_doubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_mtimes_doubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_ne_doubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_plus_doubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_times_doubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_uminusBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_vertcat_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
-    <ClCompile Include="..\cpp\ndarraydouble_dispBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraydouble_horzcat_ndarraydoubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraydouble_isequalBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraydouble_isequalnBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraydouble_vertcat_ndarraydoubleBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\colon_double_double_doubleBuiltin.hpp" />
     <ClInclude Include="..\include\doubleBuiltin.hpp" />
-    <ClInclude Include="..\include\double_colon_doubleBuiltin.hpp" />
-    <ClInclude Include="..\include\double_dispBuiltin.hpp" />
-    <ClInclude Include="..\include\double_ge_doubleBuiltin.hpp" />
-    <ClInclude Include="..\include\double_gt_doubleBuiltin.hpp" />
-    <ClInclude Include="..\include\double_horzcat_doubleBuiltin.hpp" />
-    <ClInclude Include="..\include\double_isequalBuiltin.hpp" />
-    <ClInclude Include="..\include\double_isequalnBuiltin.hpp" />
-    <ClInclude Include="..\include\double_le_doubleBuiltin.hpp" />
-    <ClInclude Include="..\include\double_lt_doubleBuiltin.hpp" />
-    <ClInclude Include="..\include\double_minus_doubleBuiltin.hpp" />
-    <ClInclude Include="..\include\double_mtimes_doubleBuiltin.hpp" />
-    <ClInclude Include="..\include\double_ne_doubleBuiltin.hpp" />
-    <ClInclude Include="..\include\double_plus_doubleBuiltin.hpp" />
-    <ClInclude Include="..\include\double_times_doubleBuiltin.hpp" />
-    <ClInclude Include="..\include\double_uminusBuiltin.hpp" />
-    <ClInclude Include="..\include\double_vertcat_doubleBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraydouble_dispBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraydouble_horzcat_ndarraydoubleBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraydouble_isequalBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraydouble_isequalnBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraydouble_vertcat_ndarraydoubleBuiltin.hpp" />
     <ClInclude Include="..\include\nlsDouble_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>

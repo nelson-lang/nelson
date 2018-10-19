@@ -63,7 +63,7 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
         VariantInit(&variantConverted);
         if (SUCCEEDED(
                 VariantChangeType(&variantConverted, variant, VARIANT_NOUSEROVERRIDE, VT_BSTR))) {
-            res = ArrayOf::stringConstructor(variantConverted.bstrVal);
+            res = ArrayOf::characterArrayConstructor(variantConverted.bstrVal);
             return true;
         } else {
             errorMessage = _W("VARIANT conversion fails.");
@@ -141,7 +141,8 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
         return true;
     } break;
     case VT_EMPTY: {
-        res = ArrayOf::emptyConstructor(Dimensions(0, 0));
+        Dimensions dims(0, 0);
+        res = ArrayOf::emptyConstructor(dims);
         return true;
     }
     default: {
@@ -419,6 +420,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
                 errorMessage = _W("VARIANT conversion fails.");
                 return false;
             } break;
+            case NLS_STRING_ARRAY:
             case NLS_CELL_ARRAY: {
                 ArrayOf* cell = (ArrayOf*)(A.getDataPointer());
                 Dimensions dims = A.getDimensions();
@@ -532,6 +534,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
                     return false;
                 }
             } break;
+            case NLS_STRING_ARRAY:
             case NLS_CELL_ARRAY: {
                 ArrayOf* cell = (ArrayOf*)(A.getDataPointer());
                 Dimensions dims = A.getDimensions();

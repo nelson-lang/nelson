@@ -18,7 +18,7 @@
 //=============================================================================
 function Y = circshift(varargin)
   nRhs = nargin;
-  if (nRhs < 2 | nRhs > 3)
+  if (nRhs < 2 || nRhs > 3)
     error(_('Wrong number of input arguments.'));
   end
   X = varargin{1};
@@ -36,7 +36,7 @@ function Y = circshift(varargin)
     error (_('All values of N must be integer values.'));
   end
   if ~isempty(X)
-    if (~isvector(N) | length(N) > nd)
+    if (~isvector(N) || length(N) > nd)
       error (_('N must be a vector.'));
     elseif (any (N ~= fix(N)))
       error (_('All values of N must be integer values.'));

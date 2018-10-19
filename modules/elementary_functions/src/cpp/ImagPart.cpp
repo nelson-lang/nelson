@@ -27,8 +27,7 @@ ImagPart(ArrayOf arrayIn)
 {
     ArrayOf res;
     if (arrayIn.isSparse()) {
-        throw Exception(
-            _W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_imag'");
+        Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_imag'");
     }
     switch (arrayIn.getDataClass()) {
     case NLS_SCOMPLEX: {
@@ -53,10 +52,10 @@ ImagPart(ArrayOf arrayIn)
     } break;
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
+    case NLS_STRING_ARRAY:
     case NLS_STRUCT_ARRAY:
     default: {
-        throw Exception(
-            _W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_imag'");
+        Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_imag'");
     } break;
     case NLS_CHAR:
     case NLS_DOUBLE:

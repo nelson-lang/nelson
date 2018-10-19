@@ -45,10 +45,13 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static boost::unordered_map<std::string, FuncPtr> cachedFunc;
+//=============================================================================
 Scope::Scope(std::string scopeName)
 {
     name = scopeName;
     loopLevel = 0;
+    cachedFunc.clear();
 }
 //=============================================================================
 Scope::~Scope() {}
@@ -62,30 +65,46 @@ Scope::insertMacroFunctionLocally(FuncPtr a)
 bool
 Scope::deleteBuiltin(void* fptr)
 {
+    cachedFunc.clear();
     return BuiltInFunctionDefManager::getInstance()->remove((BuiltInFuncPtr)fptr);
 }
 //=============================================================================
 void
 Scope::deleteFunction(const std::string funcName)
 {
+    cachedFunc.clear();
     BuiltInFunctionDefManager::getInstance()->remove(funcName);
 }
 //=============================================================================
 bool
 Scope::lookupFunction(std::string funcName, FuncPtr& val, bool builtinOnly)
 {
+    boost::unordered_map<std::string, FuncPtr>::const_iterator foundit = cachedFunc.find(funcName);
+    if (foundit != cachedFunc.end()) {
+        val = foundit->second;
+        return true;
+    }
+    bool found = false;
     if (builtinOnly) {
-        return BuiltInFunctionDefManager::getInstance()->find(funcName, val);
+        found = BuiltInFunctionDefManager::getInstance()->find(funcName, val);
+        if (found) {
+            cachedFunc.emplace(funcName, val);
+        }
+        return found;
     } else {
-        if (currentLocalFunctions.find(funcName, val)) {
+        found = currentLocalFunctions.find(funcName, val);
+        if (found) {
+            cachedFunc.emplace(funcName, val);
             return true;
         }
-        bool res = PathFuncManager::getInstance()->find(funcName, val);
-        if (res) {
+        found = PathFuncManager::getInstance()->find(funcName, val);
+        if (found) {
+            cachedFunc.emplace(funcName, val);
             return true;
         }
-        res = BuiltInFunctionDefManager::getInstance()->find(funcName, val);
-        if (res) {
+        found = BuiltInFunctionDefManager::getInstance()->find(funcName, val);
+        if (found) {
+            cachedFunc.emplace(funcName, val);
             return true;
         }
     }
@@ -194,7 +213,7 @@ void
 Scope::deletePersistentVariablePointer(std::string varName)
 {
     stringVector::iterator i = std::find(persistentVars.begin(), persistentVars.end(), varName);
-    if (*i == varName) {
+    if (i != persistentVars.end()) {
         persistentVars.erase(i);
     }
 }

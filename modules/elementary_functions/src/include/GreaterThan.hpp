@@ -19,7 +19,6 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Exception.hpp"
 #include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
@@ -27,6 +26,6 @@ namespace Nelson {
  * Element-wise compare (gt).
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-GreaterThan(ArrayOf A, ArrayOf B);
-} // namespace Nelson
+GreaterThan(ArrayOf& A, ArrayOf& B, bool& needToOverload);
+}
 //=============================================================================

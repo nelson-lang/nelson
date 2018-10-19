@@ -19,19 +19,31 @@
 #ifdef _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
 #endif
-#include "StringReplace.hpp"
-#include "Exception.hpp"
-#include "IsCellOfStrings.hpp"
 #include <boost/algorithm/string.hpp>
+#include <boost/container/vector.hpp>
+#include "StringReplace.hpp"
+#include "IsCellOfStrings.hpp"
+#include "Error.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps)
+StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool doOverlaps,
+    bool& needToOverload)
 {
-    wstringVector wstr = STR.getContentAsWideStringVector(false);
-    wstringVector wold = OLD.getContentAsWideStringVector(false);
-    wstringVector wnew = NEW.getContentAsWideStringVector(false);
+    needToOverload = false;
+    wstringVector wstr;
+    wstringVector wold;
+    wstringVector wnew;
+    try {
+        wstr = STR.getContentAsWideStringVector(false);
+        wold = OLD.getContentAsWideStringVector(false);
+        wnew = NEW.getContentAsWideStringVector(false);
+    } catch (const Exception&) {
+        needToOverload = true;
+        return ArrayOf();
+    }
     size_t nbOutput;
     Dimensions outputDims;
     if (wstr.size() == 1 && wold.size() == 1) {
@@ -45,26 +57,26 @@ StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps)
         outputDims = STR.getDimensions();
     } else if (wstr.size() == 1) {
         if (!OLD.getDimensions().equals(NEW.getDimensions())) {
-            throw Exception(ERROR_SAME_SIZE_EXPECTED);
+            Error(ERROR_SAME_SIZE_EXPECTED);
         }
         nbOutput = wold.size();
         outputDims = OLD.getDimensions();
     } else if (wold.size() == 1) {
         if (!STR.getDimensions().equals(NEW.getDimensions())) {
-            throw Exception(ERROR_SAME_SIZE_EXPECTED);
+            Error(ERROR_SAME_SIZE_EXPECTED);
         }
         nbOutput = wstr.size();
         outputDims = STR.getDimensions();
     } else if (wnew.size() == 1) {
         if (!STR.getDimensions().equals(OLD.getDimensions())) {
-            throw Exception(ERROR_SAME_SIZE_EXPECTED);
+            Error(ERROR_SAME_SIZE_EXPECTED);
         }
         nbOutput = wstr.size();
         outputDims = STR.getDimensions();
     } else {
         if ((!STR.getDimensions().equals(OLD.getDimensions()))
             || (!STR.getDimensions().equals(NEW.getDimensions()))) {
-            throw Exception(ERROR_SAME_SIZE_EXPECTED);
+            Error(ERROR_SAME_SIZE_EXPECTED);
         }
         nbOutput = wstr.size();
         outputDims = STR.getDimensions();
@@ -73,37 +85,40 @@ StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps)
     if (STR.isCell() || OLD.isCell() || NEW.isCell()) {
         outputClass = NLS_CELL_ARRAY;
     }
+    if (STR.isStringArray()) {
+        outputClass = NLS_STRING_ARRAY;
+    }
     ArrayOf res;
     if (nbOutput == 1) {
         if (OLD.isCell() && OLD.isEmpty()) {
             ArrayOf* elements = nullptr;
-            res = ArrayOf(NLS_CELL_ARRAY, Dimensions(0, 0), elements);
+            res = ArrayOf(outputClass, Dimensions(0, 0), elements);
         } else {
             std::wstring result = stringReplace(wstr[0], wold[0], wnew[0], doOverlaps);
-            if (outputClass == NLS_CELL_ARRAY) {
+            if (outputClass == NLS_CELL_ARRAY || outputClass == NLS_STRING_ARRAY) {
                 ArrayOf* elements = nullptr;
                 if (result.empty()) {
-                    res = ArrayOf(NLS_CELL_ARRAY, Dimensions(0, 0), elements);
+                    res = ArrayOf(outputClass, Dimensions(0, 0), elements);
                 } else {
                     try {
                         elements = new ArrayOf[nbOutput];
-                    } catch (std::bad_alloc& e) {
+                    } catch (const std::bad_alloc& e) {
                         e.what();
-                        throw Exception(ERROR_MEMORY_ALLOCATION);
+                        Error(ERROR_MEMORY_ALLOCATION);
                     }
-                    elements[0] = ArrayOf::stringConstructor(result);
-                    res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
+                    elements[0] = ArrayOf::characterArrayConstructor(result);
+                    res = ArrayOf(outputClass, Dimensions(1, 1), elements);
                 }
             } else {
-                res = ArrayOf::stringConstructor(result);
+                res = ArrayOf::characterArrayConstructor(result);
             }
         }
     } else {
         if (nbOutput == 0) {
-            if (OLD.isString() && wold.empty()) {
+            if (OLD.isCharacterArray() && wold.empty()) {
                 res = ArrayOf(STR);
             } else {
-                res = ArrayOf::stringConstructor("");
+                res = ArrayOf::characterArrayConstructor("");
                 res.promoteType(outputClass);
             }
         } else {
@@ -113,18 +128,18 @@ StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps)
             ArrayOf* elements = nullptr;
             try {
                 elements = new ArrayOf[nbOutput];
-            } catch (std::bad_alloc& e) {
+            } catch (const std::bad_alloc& e) {
                 e.what();
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
             for (size_t i = 0; i < nbOutput; i++) {
                 size_t idx_str = (i)*str_incr;
                 size_t idx_old = (i)*old_incr;
                 size_t idx_new = (i)*new_incr;
-                elements[i] = ArrayOf::stringConstructor(
+                elements[i] = ArrayOf::characterArrayConstructor(
                     stringReplace(wstr[idx_str], wold[idx_old], wnew[idx_new], doOverlaps));
             }
-            res = ArrayOf(NLS_CELL_ARRAY, outputDims, elements);
+            res = ArrayOf(outputClass, outputDims, elements);
         }
     }
     return res;
@@ -182,52 +197,73 @@ stringReplace(std::wstring originStr, std::wstring subStr, std::wstring replaceS
 }
 //=============================================================================
 ArrayOf
-Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
+Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needToOverload)
 {
     ArrayOf res;
-    wstringVector wstr = STR.getContentAsWideStringVector(false);
-    wstringVector wold = OLD.getContentAsWideStringVector(false);
-    wstringVector wnew = NEW.getContentAsWideStringVector(false);
-    if ((wstr.size() == 1) && OLD.isCell() && NEW.isCell()
+    wstringVector wstr;
+    wstringVector wold;
+    wstringVector wnew;
+    needToOverload = false;
+    try {
+        wstr = STR.getContentAsWideStringVector(false);
+        wold = OLD.getContentAsWideStringVector(false);
+        wnew = NEW.getContentAsWideStringVector(false);
+    } catch (const Exception&) {
+        needToOverload = true;
+        return res;
+    }
+    if ((wstr.size() == 1) && (OLD.isCell() || OLD.isStringArray())
+        && (NEW.isCell() || NEW.isStringArray())
         && OLD.getDimensions().equals(NEW.getDimensions())) {
         for (size_t k = 0; k < OLD.getDimensions().getElementCount(); k++) {
             wstr[0] = Replace(wstr[0], wold[k], wnew[k]);
         }
-        if (STR.isCell()) {
+        if (STR.isCell() || STR.isStringArray()) {
             ArrayOf* elements = nullptr;
             try {
                 elements = new ArrayOf[wstr.size()];
-            } catch (std::bad_alloc& e) {
+            } catch (const std::bad_alloc& e) {
                 e.what();
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
-            elements[0] = ArrayOf::stringConstructor(wstr[0]);
-            res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
+            elements[0] = ArrayOf::characterArrayConstructor(wstr[0]);
+            if (STR.isStringArray()) {
+                res = ArrayOf(NLS_STRING_ARRAY, Dimensions(1, 1), elements);
+            } else {
+                res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
+            }
         } else {
-            res = ArrayOf::stringConstructor(wstr[0]);
+            res = ArrayOf::characterArrayConstructor(wstr[0]);
         }
         return res;
     }
-    if ((wstr.size() == 1) && OLD.isCell() && NEW.isString()) {
+    if ((wstr.size() == 1) && (OLD.isCell() || OLD.isStringArray())
+        && (NEW.isCharacterArray() || NEW.isStringArray())) {
         for (size_t k = 0; k < OLD.getDimensions().getElementCount(); k++) {
             wstr[0] = Replace(wstr[0], wold[k], wnew[0]);
         }
-        if (STR.isCell()) {
+        if (STR.isCell() || STR.isStringArray()) {
             ArrayOf* elements = nullptr;
             try {
                 elements = new ArrayOf[wstr.size()];
-            } catch (std::bad_alloc& e) {
+            } catch (const std::bad_alloc& e) {
                 e.what();
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
-            elements[0] = ArrayOf::stringConstructor(wstr[0]);
-            res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
+            elements[0] = ArrayOf::characterArrayConstructor(wstr[0]);
+            if (STR.isStringArray()) {
+                res = ArrayOf(NLS_STRING_ARRAY, Dimensions(1, 1), elements);
+            } else {
+                res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
+            }
         } else {
-            res = ArrayOf::stringConstructor(wstr[0]);
+            res = ArrayOf::characterArrayConstructor(wstr[0]);
         }
         return res;
     }
-    if (STR.isString() && OLD.isString() && NEW.isString()) {
+    if ((STR.isCharacterArray() || (STR.isStringArray() && STR.isScalar()))
+        && (OLD.isCharacterArray() || (OLD.isStringArray() && OLD.isScalar()))
+        && (NEW.isCharacterArray() || (NEW.isStringArray() && NEW.isScalar()))) {
         if (wstr.size() == 0) {
             wstr.push_back(L"");
         }
@@ -237,7 +273,11 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
         if (wnew.size() == 0) {
             wnew.push_back(L"");
         }
-        return ArrayOf::stringConstructor(Replace(wstr[0], wold[0], wnew[0]));
+        if (STR.isStringArray()) {
+            return ArrayOf::stringArrayConstructor(Replace(wstr[0], wold[0], wnew[0]));
+        } else {
+            return ArrayOf::characterArrayConstructor(Replace(wstr[0], wold[0], wnew[0]));
+        }
     } else {
         size_t nbOutput;
         Dimensions outputDims;
@@ -252,97 +292,106 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
             outputDims = STR.getDimensions();
         } else if (wstr.size() == 1) {
             if (!OLD.getDimensions().equals(NEW.getDimensions())) {
-                throw Exception(ERROR_SAME_SIZE_EXPECTED);
+                Error(ERROR_SAME_SIZE_EXPECTED);
             }
             nbOutput = wold.size();
             outputDims = OLD.getDimensions();
         } else if (wold.size() == 1) {
             if (!STR.getDimensions().equals(NEW.getDimensions())) {
-                throw Exception(ERROR_SAME_SIZE_EXPECTED);
+                Error(ERROR_SAME_SIZE_EXPECTED);
             }
             nbOutput = wstr.size();
             outputDims = STR.getDimensions();
         } else if (wnew.size() == 1) {
             if (!STR.getDimensions().equals(OLD.getDimensions())) {
-                throw Exception(ERROR_SAME_SIZE_EXPECTED);
+                Error(ERROR_SAME_SIZE_EXPECTED);
             }
             nbOutput = wstr.size();
             outputDims = STR.getDimensions();
         } else {
             if (!NEW.getDimensions().equals(OLD.getDimensions())) {
-                throw Exception(ERROR_SAME_SIZE_EXPECTED);
+                Error(ERROR_SAME_SIZE_EXPECTED);
             }
             nbOutput = wstr.size();
             outputDims = STR.getDimensions();
         }
-        if (OLD.isEmpty() && OLD.isCell()) {
+        if (OLD.isEmpty() && (OLD.isCell() || OLD.isStringArray())) {
             res = STR;
             res.ensureSingleOwner();
             return res;
         }
-        if (OLD.isCell() && NEW.isCell()) {
+        if ((OLD.isCell() || OLD.isStringArray()) && (NEW.isCell() || NEW.isStringArray())) {
             Dimensions oldDims = OLD.getDimensions();
             Dimensions newDims = NEW.getDimensions();
             if (!(OLD.isScalar() || NEW.isScalar())) {
                 if (!newDims.equals(oldDims)) {
-                    throw Exception(ERROR_SAME_SIZE_EXPECTED);
+                    Error(ERROR_SAME_SIZE_EXPECTED);
                 }
             }
         } else {
-            if (OLD.isString() && NEW.isCell()) {
+            if ((OLD.isCharacterArray() || (OLD.isStringArray() && OLD.isScalar()))
+                && (NEW.isCell() || NEW.isStringArray())) {
                 if (wold.size() != wnew.size()) {
-                    throw Exception(ERROR_SAME_SIZE_EXPECTED);
+                    Error(ERROR_SAME_SIZE_EXPECTED);
                 }
             }
         }
         Class outputClass = NLS_CHAR;
-        if (STR.isString() && (OLD.isCell() && !OLD.isScalar())) {
-            outputClass = NLS_CELL_ARRAY;
+        if ((STR.isCharacterArray() || (STR.isStringArray() && STR.isScalar()))
+            && ((OLD.isCell() || OLD.isStringArray()) && !OLD.isScalar())) {
+            if (STR.isStringArray()) {
+                outputClass = NLS_STRING_ARRAY;
+            } else {
+                outputClass = NLS_CELL_ARRAY;
+            }
         }
         if (STR.isCell()) {
             outputClass = NLS_CELL_ARRAY;
         }
+        if (STR.isStringArray()) {
+            outputClass = NLS_STRING_ARRAY;
+        }
         if (nbOutput == 1) {
-            if (OLD.isCell() && OLD.isEmpty()) {
+            if ((OLD.isCell() || OLD.isStringArray()) && OLD.isEmpty()) {
                 ArrayOf* elements = nullptr;
-                res = ArrayOf(NLS_CELL_ARRAY, Dimensions(0, 0), elements);
+                res = ArrayOf(outputClass, Dimensions(0, 0), elements);
             } else {
                 std::wstring result = Replace(wstr[0], wold[0], wnew[0]);
-                if (outputClass == NLS_CELL_ARRAY) {
+                if (outputClass == NLS_CELL_ARRAY || outputClass == NLS_STRING_ARRAY) {
                     ArrayOf* elements = nullptr;
                     if (result.empty()) {
-                        res = ArrayOf(NLS_CELL_ARRAY, Dimensions(0, 0), elements);
+                        res = ArrayOf(outputClass, Dimensions(0, 0), elements);
                     } else {
                         try {
                             elements = new ArrayOf[nbOutput];
-                        } catch (std::bad_alloc& e) {
+                        } catch (const std::bad_alloc& e) {
                             e.what();
-                            throw Exception(ERROR_MEMORY_ALLOCATION);
+                            Error(ERROR_MEMORY_ALLOCATION);
                         }
-                        elements[0] = ArrayOf::stringConstructor(result);
-                        res = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
+                        elements[0] = ArrayOf::characterArrayConstructor(result);
+                        res = ArrayOf(outputClass, Dimensions(1, 1), elements);
                     }
                 } else {
-                    res = ArrayOf::stringConstructor(result);
+                    res = ArrayOf::characterArrayConstructor(result);
                 }
             }
         } else {
             if (nbOutput == 0) {
-                if (OLD.isString() && wold.empty()) {
+                if (OLD.isCharacterArray() && wold.empty()) {
                     std::wstring result = Replace(wstr[0], wold[0], wnew[0]);
-                    res = ArrayOf::stringConstructor(result);
+                    res = ArrayOf::characterArrayConstructor(result);
                 } else {
-                    if (outputClass == NLS_CELL_ARRAY) {
+                    if (outputClass == NLS_CELL_ARRAY || outputClass == NLS_STRING_ARRAY) {
                         ArrayOf* elements = nullptr;
                         try {
                             elements = new ArrayOf[nbOutput];
-                        } catch (std::bad_alloc& e) {
+                        } catch (const std::bad_alloc& e) {
                             e.what();
-                            throw Exception(ERROR_MEMORY_ALLOCATION);
+                            Error(ERROR_MEMORY_ALLOCATION);
                         }
-                        res = ArrayOf(NLS_CELL_ARRAY, outputDims, elements);
+                        res = ArrayOf(outputClass, outputDims, elements);
                     } else {
-                        res = ArrayOf::stringConstructor("");
+                        res = ArrayOf::characterArrayConstructor("");
                     }
                 }
             } else {
@@ -352,9 +401,9 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
                 ArrayOf* elements = nullptr;
                 try {
                     elements = new ArrayOf[nbOutput];
-                } catch (std::bad_alloc& e) {
+                } catch (const std::bad_alloc& e) {
                     e.what();
-                    throw Exception(ERROR_MEMORY_ALLOCATION);
+                    Error(ERROR_MEMORY_ALLOCATION);
                 }
                 if (wold.size() == wnew.size() && wnew.size() > 1) {
                     for (size_t i = 0; i < nbOutput; i++) {
@@ -362,18 +411,18 @@ Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
                         for (size_t k = 0; k < wnew.size(); k++) {
                             wstr[idx_str] = Replace(wstr[idx_str], wold[k], wnew[k]);
                         }
-                        elements[i] = ArrayOf::stringConstructor(wstr[idx_str]);
+                        elements[i] = ArrayOf::characterArrayConstructor(wstr[idx_str]);
                     }
                 } else {
                     for (size_t i = 0; i < nbOutput; i++) {
                         size_t idx_str = (i)*str_incr;
                         size_t idx_old = (i)*old_incr;
                         size_t idx_new = (i)*new_incr;
-                        elements[i] = ArrayOf::stringConstructor(
+                        elements[i] = ArrayOf::characterArrayConstructor(
                             Replace(wstr[idx_str], wold[idx_old], wnew[idx_new]));
                     }
                 }
-                res = ArrayOf(NLS_CELL_ARRAY, outputDims, elements);
+                res = ArrayOf(outputClass, outputDims, elements);
             }
         }
     }

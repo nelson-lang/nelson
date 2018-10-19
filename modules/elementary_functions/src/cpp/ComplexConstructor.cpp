@@ -63,14 +63,14 @@ ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB)
 {
     ArrayOf res;
     if (arrayA.isSparse() || arrayB.isSparse()) {
-        throw Exception(_W("Input arguments must be full."));
+        Error(_W("Input arguments must be full."));
     }
     if (!arrayA.isNumeric() || !arrayB.isNumeric()) {
-        throw Exception(_W("Input arguments must be numeric."));
+        Error(_W("Input arguments must be numeric."));
     }
     if ((arrayA.getDataClass() == NLS_SCOMPLEX) || (arrayA.getDataClass() == NLS_DCOMPLEX)
         || (arrayB.getDataClass() == NLS_SCOMPLEX) || (arrayB.getDataClass() == NLS_DCOMPLEX)) {
-        throw Exception(_W("Input arguments must be real."));
+        Error(_W("Input arguments must be real."));
     }
     Class DestinationClass = NLS_DCOMPLEX;
     if ((arrayA.getDataClass() == NLS_SINGLE) || (arrayB.getDataClass() == NLS_SINGLE)) {
@@ -78,7 +78,7 @@ ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB)
     }
     if (!(arrayA.getDimensions().equals(arrayB.getDimensions()) || arrayA.isScalar()
             || arrayB.isScalar())) {
-        throw Exception(_W("Input arguments must have the same size."));
+        Error(_W("Input arguments must have the same size."));
     }
     if (DestinationClass == NLS_SCOMPLEX) {
         arrayA.promoteType(NLS_SINGLE);
@@ -145,8 +145,7 @@ ComplexConstructor(ArrayOf arrayA)
 {
     ArrayOf res;
     if (arrayA.isSparse()) {
-        throw Exception(
-            _W("Undefined function '") + utf8_to_wstring(ClassName(arrayA)) + L"_complex'");
+        Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayA)) + L"_complex'");
     }
     switch (arrayA.getDataClass()) {
     case NLS_SCOMPLEX:
@@ -155,12 +154,12 @@ ComplexConstructor(ArrayOf arrayA)
     } break;
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
+    case NLS_STRING_ARRAY:
     case NLS_STRUCT_ARRAY:
     case NLS_CHAR:
     case NLS_LOGICAL:
     default: {
-        throw Exception(
-            _W("Undefined function '") + utf8_to_wstring(ClassName(arrayA)) + L"_complex'");
+        Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayA)) + L"_complex'");
     } break;
     case NLS_DOUBLE:
     case NLS_UINT8:

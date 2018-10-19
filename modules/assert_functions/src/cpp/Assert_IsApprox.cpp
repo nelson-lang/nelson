@@ -18,7 +18,6 @@
 //=============================================================================
 #include "Assert_IsApprox.hpp"
 #include "Error.hpp"
-#include "Exception.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -30,8 +29,8 @@ Assert_IsApprox(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, d
     bool bRes = false;
     Context* context = eval->getContext();
     FunctionDef* funcDef = nullptr;
-    std::string IsEqualnName = "isapprox";
-    if (context->lookupFunction(IsEqualnName, funcDef)) {
+    std::string IsApproxName = "isapprox";
+    if (context->lookupFunction(IsApproxName, funcDef)) {
         if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)) {
             ArrayOfVector argInCopy;
             argInCopy.push_back(computedArray);
@@ -40,20 +39,20 @@ Assert_IsApprox(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, d
             try {
                 ArrayOfVector resVect = funcDef->evaluateFunction(eval, argInCopy, 1);
                 if (resVect.size() != 1) {
-                    Error(eval, _W("isapprox returns more than one output argument."));
+                    Error(_W("isapprox returns more than one output argument."));
                 }
                 ArrayOf r = resVect[0];
                 if (r.isScalar() && r.isLogical()) {
                     bRes = r.getContentAsLogicalScalar() ? true : false;
                 } else {
-                    Error(eval, _W("isapprox must return an logical."));
+                    Error(_W("isapprox must return an logical."));
                 }
-            } catch (Exception) {
+            } catch (const Exception&) {
                 throw;
             }
         }
     } else {
-        Error(eval, "isapprox function not found.");
+        Error("isapprox function not found.");
     }
     if (!bRes) {
         msg = _W("Assertion failed: expected and computed values are too different.");

@@ -34,7 +34,7 @@ initGuiDynamicLibrary(void)
         char* buf;
         try {
             buf = new char[MAX_PATH];
-        } catch (std::bad_alloc) {
+        } catch (const std::bad_alloc&) {
             buf = nullptr;
         }
         if (buf) {
@@ -70,7 +70,7 @@ HtmlFileToPdfFile(std::wstring htmlsrcfilename, std::wstring pdfdestfilename)
         HtmlFileToPdfFilePtr = reinterpret_cast<PROC_HtmlFileToPdfFile>(
             get_function(nlsGuiHandleDynamicLibrary, "HtmlFileToPdfFile"));
         if (!HtmlFileToPdfFilePtr) {
-            throw Exception(_W("HtmlFileToPdfFile not loaded."));
+            Error(_W("HtmlFileToPdfFile not loaded."));
         }
     }
     return HtmlFileToPdfFilePtr(htmlsrcfilename, pdfdestfilename);
@@ -86,7 +86,7 @@ HtmlStreamToPdfFile(std::wstring htmlstream, std::wstring pdfdestfilename)
         HtmlStreamToPdfFilePtr = reinterpret_cast<PROC_HtmlStreamToPdfFile>(
             get_function(nlsGuiHandleDynamicLibrary, "HtmlStreamToPdfFile"));
         if (!HtmlStreamToPdfFilePtr) {
-            throw Exception(_W("HtmlStreamToPdfFile not loaded."));
+            Error(_W("HtmlStreamToPdfFile not loaded."));
         }
     }
     return HtmlStreamToPdfFilePtr(htmlstream, pdfdestfilename);

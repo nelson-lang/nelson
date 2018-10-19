@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Sleep.hpp"
+#include "NelsonConfiguration.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
 #include <boost/chrono/chrono.hpp>
 #include <boost/thread/thread.hpp>
@@ -35,7 +36,7 @@ Sleep(Evaluator* eval, double tValue)
 {
     if (tValue > 0) {
         if (std::isinf(tValue)) {
-            while (!eval->GetInterruptPending()) {
+            while (!NelsonConfiguration::getInstance()->getInterruptPending()) {
                 boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(10)));
                 if (eval->haveEventsLoop()) {
                     ProcessEventsDynamicFunctionWithoutWait();
@@ -54,11 +55,12 @@ Sleep(Evaluator* eval, double tValue)
                 if (eval->haveEventsLoop()) {
                     ProcessEventsDynamicFunctionWithoutWait();
                 }
-            } while (!eval->GetInterruptPending() && (bContinue == true));
+            } while (
+                !NelsonConfiguration::getInstance()->getInterruptPending() && (bContinue == true));
         }
     }
     return true;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

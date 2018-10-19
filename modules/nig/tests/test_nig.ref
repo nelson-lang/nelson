@@ -1,7 +1,7 @@
 
 ans =
 
-//=============================================================================
+'//=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,11 +39,11 @@ NLSGATEWAYREMOVE(gateway)
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================
-
+'
 
 ans =
 
-//=============================================================================
+'//=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -72,11 +72,11 @@ namespace Nelson {
     }
 }
 //=============================================================================
-
+'
 
 ans =
 
-//=============================================================================
+'//=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -115,11 +115,11 @@ ArrayOfVector Nelson::ExampleGateway::example_nig_sumBuiltin(Evaluator* eval, in
     ArrayOfVector retval;
     if (nLhs > 1)
     {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 2)
     {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
 
     // INPUT VARIABLES
@@ -148,11 +148,11 @@ ArrayOfVector Nelson::ExampleGateway::example_nig_sumBuiltin(Evaluator* eval, in
 
     if (!dimsA.isScalar())
     {
-        Error(eval, _W("Input argument #1: scalar expected."));
+        Error(_W("Input argument #1: scalar expected."));
     }
     if (!dimsB.isScalar())
     {
-        Error(eval, _W("Input argument #2: scalar expected."));
+        Error(_W("Input argument #2: scalar expected."));
     }
 
     // CALL EXTERN FUNCTION
@@ -161,10 +161,10 @@ ArrayOfVector Nelson::ExampleGateway::example_nig_sumBuiltin(Evaluator* eval, in
     {
         sum_ ( A_ptr, B_ptr, OUTPUT_output_ptr);
     }
-    catch (std::runtime_error &e)
+    catch (const std::runtime_error &e)
     {
         e.what();
-        Error(eval, "sum function fails.");
+        Error("sum function fails.");
     }
 
     // ASSIGN OUTPUT VARIABLES
@@ -177,4 +177,4 @@ ArrayOfVector Nelson::ExampleGateway::example_nig_sumBuiltin(Evaluator* eval, in
     return retval;
 }
 //=============================================================================
-
+'

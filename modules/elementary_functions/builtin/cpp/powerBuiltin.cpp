@@ -19,6 +19,8 @@
 #include "powerBuiltin.hpp"
 #include "Error.hpp"
 #include "OverloadBinaryOperator.hpp"
+#include "DotPower.hpp"
+#include "OverloadFunction.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,9 +30,23 @@ Nelson::ElementaryFunctionsGateway::powerBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(OverloadBinaryOperator(eval, argIn[0], argIn[1], "power"));
+    bool bSuccess = false;
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "power", bSuccess);
+    }
+    if (!bSuccess) {
+        bool needToOverload;
+        ArrayOf param1 = argIn[0];
+        ArrayOf param2 = argIn[1];
+        ArrayOf res = DotPower(param1, param2, needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "power");
+        } else {
+            retval.push_back(res);
+        }
+    }
     return retval;
 }
 //=============================================================================

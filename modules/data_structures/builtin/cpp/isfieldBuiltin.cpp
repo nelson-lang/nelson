@@ -27,18 +27,26 @@ Nelson::DataStructuresGateway::isfieldBuiltin(Evaluator* eval, int nLhs, const A
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "isfield", bSuccess);
+    }
     if (!bSuccess) {
         ArrayOf param1 = argIn[0];
         ArrayOf param2 = argIn[1];
-        if (param1.isStruct() && !param1.isClassStruct()) {
-            if (param2.isSingleString()) {
+        if (param1.isClassStruct() || param1.isHandle()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "isfield", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
+        if (param1.isStruct()) {
+            if (param2.isRowVectorCharacterArray()) {
                 stringVector fieldnames = param1.getFieldNames();
                 std::string name = param2.getContentAsCString();
                 bool res = false;
@@ -59,7 +67,7 @@ Nelson::DataStructuresGateway::isfieldBuiltin(Evaluator* eval, int nLhs, const A
                         = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dims2.getElementCount());
                     for (size_t k = 0; k < dims2.getElementCount(); ++k) {
                         res[k] = false;
-                        if (elements[k].isSingleString()) {
+                        if (elements[k].isRowVectorCharacterArray()) {
                             std::string name = elements[k].getContentAsCString();
                             for (size_t i = 0; i < fieldnames.size(); ++i) {
                                 if (fieldnames[i].compare(name) == 0) {

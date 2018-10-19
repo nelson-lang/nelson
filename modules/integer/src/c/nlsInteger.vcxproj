@@ -22,7 +22,7 @@
     <ProjectGuid>{364A44B0-B6CF-4ECD-8EA2-8A315B32C5EF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsInteger</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSINTEGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/integer/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/integer/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -111,7 +111,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSINTEGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/integer/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/integer/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -129,7 +129,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSINTEGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/integer/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/integer/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -149,7 +149,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSINTEGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/integer/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/integer/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -160,6 +160,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
+      <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\elementary_functions\src\c\nlsElementary_functions.vcxproj">
       <Project>{c87973dd-f66c-4f35-b875-5e0a0a47b3e7}</Project>
     </ProjectReference>
@@ -174,33 +177,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\HorzCatInteger.cpp" />
-    <ClCompile Include="..\cpp\IntegerIsEqual.cpp" />
-    <ClCompile Include="..\cpp\ToInt16.cpp" />
-    <ClCompile Include="..\cpp\ToInt32.cpp" />
-    <ClCompile Include="..\cpp\ToInt64.cpp" />
-    <ClCompile Include="..\cpp\ToInt8.cpp" />
-    <ClCompile Include="..\cpp\ToUint16.cpp" />
-    <ClCompile Include="..\cpp\ToUint32.cpp" />
-    <ClCompile Include="..\cpp\ToUint64.cpp" />
-    <ClCompile Include="..\cpp\ToUint8.cpp" />
-    <ClCompile Include="..\cpp\UminusInteger.cpp" />
-    <ClCompile Include="..\cpp\VertCatInteger.cpp" />
+    <ClCompile Include="..\cpp\ToInteger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\nlsInteger_exports.h" />
-    <ClInclude Include="..\..\src\include\ToInt16.hpp" />
-    <ClInclude Include="..\..\src\include\ToInt32.hpp" />
-    <ClInclude Include="..\..\src\include\ToInt64.hpp" />
-    <ClInclude Include="..\..\src\include\ToInt8.hpp" />
-    <ClInclude Include="..\..\src\include\ToUint16.hpp" />
-    <ClInclude Include="..\..\src\include\ToUint32.hpp" />
-    <ClInclude Include="..\..\src\include\ToUint64.hpp" />
-    <ClInclude Include="..\..\src\include\ToUint8.hpp" />
-    <ClInclude Include="..\include\HorzCatInteger.hpp" />
-    <ClInclude Include="..\include\IntegerIsEqual.hpp" />
-    <ClInclude Include="..\include\UminusInteger.hpp" />
-    <ClInclude Include="..\include\VertCatInteger.hpp" />
+    <ClInclude Include="..\include\ToInteger.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />

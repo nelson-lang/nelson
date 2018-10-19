@@ -47,7 +47,7 @@ MPIErrorHandler(MPI_Comm* comm, int* errorcode, ...)
     int resultlen = 0;
     MPI_Error_string(*errorcode, buffer, &resultlen);
     buffer[resultlen] = 0;
-    throw Exception(buffer);
+    Error(buffer);
 }
 //=============================================================================
 int
@@ -92,7 +92,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         MPI_Pack(&tmp, 1, MPI_INT, buffer, bufsize, packpos, comm);
     }
     if (A.isReferenceType()) {
-        if (dataClass == NLS_CELL_ARRAY) {
+        if (dataClass == NLS_CELL_ARRAY || dataClass == NLS_STRING_ARRAY) {
             ArrayOf* dp = (ArrayOf*)A.getDataPointer();
             for (int i = 0; i < A.getLength(); i++) {
                 packMPI(dp[i], buffer, bufsize, packpos, comm);
@@ -110,7 +110,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             int isclassstruct((int)A.isClassStruct());
             MPI_Pack(&isclassstruct, 1, MPI_INT, buffer, bufsize, packpos, comm);
             if (A.isClassStruct()) {
-                ArrayOf classnameAsArray = ArrayOf::stringConstructor(A.getStructType());
+                ArrayOf classnameAsArray = ArrayOf::characterArrayConstructor(A.getStructType());
                 packMPI(classnameAsArray, buffer, bufsize, packpos, comm);
             }
             if (A.isFunctionHandle()) {
@@ -121,7 +121,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                     found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
                 }
                 if (found) {
-                    ArrayOf nameAsArray = ArrayOf::stringConstructor(functionname);
+                    ArrayOf nameAsArray = ArrayOf::characterArrayConstructor(functionname);
                     packMPI(nameAsArray, buffer, bufsize, packpos, comm);
                 }
             } else {
@@ -136,7 +136,11 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         case NLS_LOGICAL:
             if (A.isSparse()) {
                 ArrayOf I, J, V, M, N, NNZ;
-                SparseToIJV(A, I, J, V, M, N, NNZ);
+                bool needToOverload;
+                SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+                if (needToOverload) {
+                    Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+                }
                 packMPI(I, buffer, bufsize, packpos, comm);
                 packMPI(J, buffer, bufsize, packpos, comm);
                 packMPI(V, buffer, bufsize, packpos, comm);
@@ -187,7 +191,11 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         case NLS_DOUBLE:
             if (A.isSparse()) {
                 ArrayOf I, J, V, M, N, NNZ;
-                SparseToIJV(A, I, J, V, M, N, NNZ);
+                bool needToOverload;
+                SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+                if (needToOverload) {
+                    Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+                }
                 packMPI(I, buffer, bufsize, packpos, comm);
                 packMPI(J, buffer, bufsize, packpos, comm);
                 packMPI(V, buffer, bufsize, packpos, comm);
@@ -206,7 +214,11 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         case NLS_DCOMPLEX:
             if (A.isSparse()) {
                 ArrayOf I, J, V, M, N, NNZ;
-                SparseToIJV(A, I, J, V, M, N, NNZ);
+                bool needToOverload;
+                SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+                if (needToOverload) {
+                    Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+                }
                 packMPI(I, buffer, bufsize, packpos, comm);
                 packMPI(J, buffer, bufsize, packpos, comm);
                 packMPI(V, buffer, bufsize, packpos, comm);
@@ -223,7 +235,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 packpos, comm);
             break;
         default: {
-            throw Exception(_("Type not managed."));
+            Error(_("Type not managed."));
         } break;
         }
     }
@@ -245,7 +257,13 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         MPI_Unpack(buffer, bufsize, packpos, &tmp, 1, MPI_INT, comm);
         outDim[j] = tmp;
     }
-    if (dataClass == NLS_CELL_ARRAY) {
+    if (dataClass == NLS_STRING_ARRAY) {
+        ArrayOf* dp = new ArrayOf[outDim.getElementCount()];
+        for (int i = 0; i < outDim.getElementCount(); i++) {
+            dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
+        }
+        return ArrayOf(NLS_STRING_ARRAY, outDim, dp);
+    } else if (dataClass == NLS_CELL_ARRAY) {
         ArrayOf* dp = new ArrayOf[outDim.getElementCount()];
         for (int i = 0; i < outDim.getElementCount(); i++) {
             dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
@@ -273,20 +291,20 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         }
         if (classname == NLS_FUNCTION_HANDLE_STR) {
             ArrayOf functionNameAsArray = unpackMPI(buffer, bufsize, packpos, comm);
-            if (functionNameAsArray.isSingleString()) {
+            if (functionNameAsArray.isRowVectorCharacterArray()) {
                 std::wstring functionName = functionNameAsArray.getContentAsWideString();
                 Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
                 if (eval) {
                     function_handle fptr = StringToFunctionHandle(eval, functionName);
                     if (fptr == 0) {
-                        throw Exception(_W("A valid function name expected."));
+                        Error(_W("A valid function name expected."));
                     }
                     return ArrayOf::functionHandleConstructor(functionName, fptr);
                 } else {
-                    throw Exception(_W("Invalid evaluator."));
+                    Error(_W("Invalid evaluator."));
                 }
             } else {
-                throw Exception(_W("String expected."));
+                Error(_W("String expected."));
             }
         } else {
             ArrayOf* dp = new ArrayOf[fieldcnt * outDim.getElementCount()];
@@ -397,7 +415,7 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_WCHAR, comm);
         break;
     default: {
-        throw Exception(_W("Type not managed."));
+        Error(_W("Type not managed."));
     } break;
     }
     return ArrayOf(dataClass, outDim, cp);
@@ -417,7 +435,7 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
     unsigned int overhead = getCanonicalSize(maxDims + 1, MPI_INT, comm);
     Class dataClass(A.getDataClass());
     if (A.isReferenceType()) {
-        if (dataClass == NLS_CELL_ARRAY) {
+        if (dataClass == NLS_CELL_ARRAY || dataClass == NLS_STRING_ARRAY) {
             int total = 0;
             ArrayOf* dp = (ArrayOf*)A.getDataPointer();
             for (int i = 0; i < A.getLength(); i++) {
@@ -435,7 +453,7 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             fieldsize += getCanonicalSize(1, MPI_INT, comm);
             int isclassstruct((int)A.isClassStruct());
             if (isclassstruct) {
-                ArrayOf classnameAsArray = ArrayOf::stringConstructor(A.getStructType());
+                ArrayOf classnameAsArray = ArrayOf::characterArrayConstructor(A.getStructType());
                 fieldsize += getCanonicalSize((int)classnameAsArray.getLength(), MPI_WCHAR, comm);
             }
             ArrayOf* dp = (ArrayOf*)A.getDataPointer();
@@ -450,7 +468,11 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
     case NLS_LOGICAL:
         if (A.isSparse()) {
             ArrayOf I, J, V, M, N, NNZ;
-            SparseToIJV(A, I, J, V, M, N, NNZ);
+            bool needToOverload;
+            SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+            if (needToOverload) {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+            }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);
             int sV = getArrayOfFootPrint(V, comm);
@@ -482,7 +504,11 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
     case NLS_DOUBLE:
         if (A.isSparse()) {
             ArrayOf I, J, V, M, N, NNZ;
-            SparseToIJV(A, I, J, V, M, N, NNZ);
+            bool needToOverload;
+            SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+            if (needToOverload) {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+            }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);
             int sV = getArrayOfFootPrint(V, comm);
@@ -498,7 +524,11 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
     case NLS_DCOMPLEX:
         if (A.isSparse()) {
             ArrayOf I, J, V, M, N, NNZ;
-            SparseToIJV(A, I, J, V, M, N, NNZ);
+            bool needToOverload;
+            SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+            if (needToOverload) {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+            }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);
             int sV = getArrayOfFootPrint(V, comm);
@@ -586,7 +616,7 @@ getMpiCommName(MPI_Comm comm)
     name[0] = 0;
     int len;
     if (MPI_Comm_get_name(comm, name, &len) != MPI_SUCCESS) {
-        throw Exception(_W("Invalid communicator"));
+        Error(_W("Invalid communicator"));
     }
     if (len >= MPI_MAX_OBJECT_NAME) {
         len = MPI_MAX_OBJECT_NAME - 1;

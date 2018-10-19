@@ -16,26 +16,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Eigen/Dense>
+#include <boost/algorithm/string.hpp>
 #include "int2strBuiltin.hpp"
 #include "Error.hpp"
 #include "IntegerToString.hpp"
 #include "OverloadFunction.hpp"
-#include "VertCatString.hpp"
-#include <Eigen/Dense>
-#include <boost/algorithm/string.hpp>
+#include "VertCat.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 static ArrayOf
-StringVectorToString(wstringVector V, Dimensions DimsV)
+StringVectorToString(wstringVector V, Dimensions& DimsV)
 {
     ArrayOf strArr;
     if (V.size() == 0) {
-        strArr = ArrayOf::emptyConstructor(Dimensions(1, 0));
+        Dimensions dims(1, 0);
+        strArr = ArrayOf::emptyConstructor(dims);
         strArr.promoteType(NLS_CHAR);
     } else {
         if (V.size() == 1) {
-            strArr = ArrayOf::stringConstructor(V[0]);
+            strArr = ArrayOf::characterArrayConstructor(V[0]);
         } else {
             wstringVector L;
             size_t lenMax = 0;
@@ -58,10 +59,11 @@ StringVectorToString(wstringVector V, Dimensions DimsV)
                     line = line + spaces + V[m];
                     if (q == C - 1) {
                         if (r == 0) {
-                            strArr = ArrayOf::stringConstructor(line);
+                            strArr = ArrayOf::characterArrayConstructor(line);
                         } else {
-                            ArrayOf B = ArrayOf::stringConstructor(line);
-                            strArr = VertCatString(strArr, B);
+                            bool bSuccess;
+                            ArrayOf B = ArrayOf::characterArrayConstructor(line);
+                            strArr = VertCat(strArr, B, true, bSuccess);
                         }
                         line = L"";
                         q = 0;
@@ -80,22 +82,28 @@ Nelson::StringGateway::int2strBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "int2str", bSuccess);
+    }
     if (!bSuccess) {
         wstringVector result;
         std::wstring error_message;
         bool bRes = IntegerToString(argIn[0], result, error_message);
         if (bRes) {
-            retval.push_back(StringVectorToString(result, argIn[0].getDimensions()));
+            Dimensions dims = argIn[0].getDimensions();
+            retval.push_back(StringVectorToString(result, dims));
         } else {
-            Error(eval, error_message);
+            retval = OverloadFunction(eval, nLhs, argIn, "int2str", bSuccess);
+            if (!bSuccess) {
+                Error(error_message);
+            }
         }
     }
     return retval;

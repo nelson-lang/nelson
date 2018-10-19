@@ -112,7 +112,7 @@ windowsQueryRegistryValueName(const std::wstring& rootkey, const std::wstring& s
                 if (RegQueryValueEx(
                         desiredHkey, valname.c_str(), NULL, &ouputType, (LPBYTE)&Line, &Length)
                     == ERROR_SUCCESS) {
-                    res = ArrayOf::stringConstructor(Line);
+                    res = ArrayOf::characterArrayConstructor(Line);
                 }
             } else {
                 DWORD size = 4;

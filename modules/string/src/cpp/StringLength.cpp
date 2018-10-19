@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "StringLength.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -25,19 +25,34 @@ ArrayOf
 StringLength(ArrayOf A)
 {
     ArrayOf res;
-    wstringVector wstr = A.getContentAsWideStringVector(false);
-    if (A.isString() && wstr.empty()) {
-        wstr.push_back(A.getContentAsWideString());
-    }
     Dimensions outputDims;
-    if (wstr.size() == 1) {
-        outputDims = Dimensions(1, 1);
-    } else {
+    double* ptrLength = nullptr;
+    if (A.isStringArray()) {
         outputDims = A.getDimensions();
-    }
-    double* ptrLength = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outputDims.getElementCount());
-    for (size_t k = 0; k < wstr.size(); k++) {
-        ptrLength[k] = (double)wstr[k].length();
+        ArrayOf* elements = (ArrayOf*)A.getDataPointer();
+        ptrLength = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outputDims.getElementCount());
+        for (size_t k = 0; k < outputDims.getElementCount(); k++) {
+            if (elements[k].isCharacterArray()) {
+                std::wstring wstr = elements[k].getContentAsWideString();
+                ptrLength[k] = (double)wstr.length();
+            } else {
+                ptrLength[k] = std::nan("NaN");
+            }
+        }
+    } else {
+        wstringVector wstr = A.getContentAsWideStringVector(false);
+        if (A.isCharacterArray() && wstr.empty()) {
+            wstr.push_back(A.getContentAsWideString());
+        }
+        if (wstr.size() == 1) {
+            outputDims = Dimensions(1, 1);
+        } else {
+            outputDims = A.getDimensions();
+        }
+        ptrLength = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outputDims.getElementCount());
+        for (size_t k = 0; k < wstr.size(); k++) {
+            ptrLength[k] = (double)wstr[k].length();
+        }
     }
     return ArrayOf(NLS_DOUBLE, outputDims, ptrLength);
 }

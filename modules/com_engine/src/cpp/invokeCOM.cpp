@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "invokeCOM.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include <atlconv.h>
 //=============================================================================
 bool
@@ -49,7 +49,7 @@ invokeCom(int autoType, VARIANT* pvResult, std::wstring& errorMessage, IDispatch
     try {
         hr = pDisp->Invoke(dispID, IID_NULL, LOCALE_SYSTEM_DEFAULT, (WORD)autoType, &dp, pvResult,
             &excepinfo, NULL);
-    } catch (std::runtime_error) {
+    } catch (const std::runtime_error) {
         invokeFails = true;
     }
     if (FAILED(hr) || invokeFails) {

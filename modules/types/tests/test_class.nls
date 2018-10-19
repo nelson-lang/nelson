@@ -42,7 +42,7 @@ assert_isequal(res, 'sparselogical');
 //=============================================================================
 A = ones(3, 3, 3);
 res = class(A);
-assert_isequal(res, 'ndarraydouble');
+assert_isequal(res, 'double');
 //=============================================================================
 A = {'r', 1};
 res = class(A);

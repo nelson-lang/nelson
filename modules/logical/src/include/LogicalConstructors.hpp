@@ -23,8 +23,8 @@
 //=============================================================================
 namespace Nelson {
 NLSLOGICAL_IMPEXP ArrayOf
-TrueConstructor(Dimensions dim, bool bIsSparse = false);
+TrueConstructor(Dimensions& dim, bool bIsSparse = false);
 NLSLOGICAL_IMPEXP ArrayOf
-FalseConstructor(Dimensions dim, bool bIsSparse = false);
+FalseConstructor(Dimensions& dim, bool bIsSparse = false);
 } // namespace Nelson
 //=============================================================================

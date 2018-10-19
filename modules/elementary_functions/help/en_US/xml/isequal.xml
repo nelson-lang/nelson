@@ -4,7 +4,7 @@
 
 	<language>en_US</language>
 	<keyword>isequal</keyword>
-	<short_description>Return true if all arguments x1, x2, … , xn are equal (same type, same dimensions, same values).</short_description>
+	<short_description>Return true if all arguments x1, x2, ... , xn are equal (same dimensions, same values).</short_description>
 
 	<syntax>
 		<syntax_item>res = isequal(x1, x2)</syntax_item>
@@ -37,7 +37,7 @@
 		</param_output_item>
 	</param_output>
 
-	<description><b>isequal</b>	returns true if x1 and x2 are the same type, same size and their contents are of equal value; otherwise, it returns false.
+	<description><b>isequal</b>	returns true if x1 and x2 are the same size and their contents are of equal value; otherwise, it returns false.
 <b>isequal</b> compares real and imaginary parts of numeric arrays. NaN (Not a Number) values are considered to be <b>unequal</b> to other elements.
 </description>
 
@@ -58,7 +58,8 @@ res = isequal(A, A)]]>
 		<example_item_description></example_item_description>
 		<example_item_data><![CDATA[A = eye(3, 3);
 B = single(A)
-res = isequal(A, B)]]>
+res = isequal(A, B)
+res = isequalto(A, B)]]>
 		</example_item_data>
 	</example_item>
 
@@ -83,6 +84,10 @@ res = isequal(A, B)]]>
 		<see_also_item>
 			<link linkend="${elementary_functions}isequaln">isequaln</link>
 		</see_also_item>
+		<see_also_item>
+			<link linkend="${elementary_functions}isequalto">isequalto</link>
+		</see_also_item>
+
 	</see_also>
 
 	<history>

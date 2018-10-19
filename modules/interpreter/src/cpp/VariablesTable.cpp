@@ -16,8 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "VariablesTable.hpp"
 #include <algorithm>
+#include "VariablesTable.hpp"
 //=============================================================================
 #define SYMTAB 4096 * 2
 //=============================================================================
@@ -38,7 +38,7 @@ VariablesTable::~VariablesTable()
 bool
 VariablesTable::findVariable(const key_type& key, value_type& dest)
 {
-    boost::unordered_map<key_type, value_type>::iterator it = variablesMap.find(key);
+    std::unordered_map<key_type, value_type>::iterator it = variablesMap.find(key);
     if (it != variablesMap.end()) {
         dest = it->second;
         return true;

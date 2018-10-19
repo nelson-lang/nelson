@@ -16,13 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "StringToDoubleComplex.hpp"
-#include "StringToDouble.hpp"
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp>
 #include <locale>
 #include <math.h>
+#include "StringToDoubleComplex.hpp"
+#include "StringToDouble.hpp"
 //=============================================================================
 namespace Nelson {
 #define ComplexCharI L'i'
@@ -116,8 +117,23 @@ ParseComplexValue(const std::wstring& tx, double& real, double& imag)
     std::wstring num1 = tx.substr(0, lnum);
     std::wstring num2 = tx.substr(lnum, rnum);
     if (num1.empty() && num2.empty()) {
-        real = nan("");
-        imag = 0;
+        if (boost::algorithm::starts_with(ToUpper(tx), "-INF")) {
+            real = -std::numeric_limits<double>::infinity();
+        } else if (boost::algorithm::starts_with(ToUpper(tx), "+INF")
+            || boost::algorithm::starts_with(ToUpper(tx), "INF")) {
+            real = std::numeric_limits<double>::infinity();
+        } else {
+            real = nan("");
+        }
+        if (boost::algorithm::ends_with(ToUpper(tx), "-INFI")) {
+            imag = -std::numeric_limits<double>::infinity();
+        } else if (boost::algorithm::ends_with(ToUpper(tx), "+INFI")) {
+            imag = std::numeric_limits<double>::infinity();
+        } else if (boost::algorithm::ends_with(ToUpper(tx), "NANI")) {
+            imag = nan("");
+        } else {
+            imag = 0;
+        }
         return;
     }
     bool wasConverted;

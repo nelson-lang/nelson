@@ -18,6 +18,7 @@
 //=============================================================================
 #include "IsErrorStruct.hpp"
 #include "Exception.hpp"
+#include "PositionScript.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -60,14 +61,14 @@ IsErrorStruct(ArrayOf arg, Exception& e)
     std::wstring message = L"";
     std::wstring identifier = L"";
     std::wstring filename = L"";
-    std::wstring name = L"";
+    std::wstring functionName = L"";
     int line = -1;
     ArrayOf msgArray = arg.getField("message");
     ArrayOf idArray = arg.getField("identifier");
-    if (!msgArray.isSingleString()) {
+    if (!msgArray.isRowVectorCharacterArray()) {
         return false;
     }
-    if (!idArray.isSingleString()) {
+    if (!idArray.isRowVectorCharacterArray()) {
         return false;
     }
     message = msgArray.getContentAsWideString();
@@ -76,33 +77,34 @@ IsErrorStruct(ArrayOf arg, Exception& e)
         ArrayOf fileArray = stack.getField("file");
         ArrayOf nameArray = stack.getField("name");
         ArrayOf lineArray = stack.getField("line");
-        if (!fileArray.isSingleString()) {
+        if (!fileArray.isRowVectorCharacterArray()) {
             return false;
         }
-        if (!nameArray.isSingleString()) {
+        if (!nameArray.isRowVectorCharacterArray()) {
             return false;
         }
         if (!lineArray.isDoubleType() || !lineArray.isScalar()) {
             return false;
         }
         filename = fileArray.getContentAsWideString();
-        name = nameArray.getContentAsWideString();
+        functionName = nameArray.getContentAsWideString();
         if (!lineArray.isEmpty()) {
             line = (int)lineArray.getContentAsDoubleScalar();
         }
+        PositionScript position(functionName, filename, line);
+        Exception newException(message, position, identifier);
+        e = newException;
+    } else {
+        Exception newException(message, identifier);
+        e = newException;
     }
-    e.setMessage(message);
-    e.setIdentifier(identifier);
-    e.setFileName(filename);
-    e.setFunctionName(name);
-    e.setLinePosition(line, -1);
     return true;
 }
 //=============================================================================
 bool
 IsErrorStruct(const ArrayOf arg)
 {
-    Exception e(L"");
+    Exception e;
     return IsErrorStruct(arg, e);
 }
 //=============================================================================

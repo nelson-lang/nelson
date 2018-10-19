@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>dlmake</keyword>
+	<short_description>call make or nmake tool</short_description>
+	<syntax>
+	    <syntax_item>[res, message] = dlmake(destinationdir)</syntax_item>
+		<syntax_item>[res, message] = dlgeneratemake(destinationdir, libname, c_cpp_files, includes, defines, external_libraries, build_configuration, c_flags, cxx_flags)</syntax_item>
+	</syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>destinationdir</param_name>
+			<param_description>a string: destination directory where is the makefile to call.</param_description>
+		</param_input_item>
+	</param_input>
+
+
+	<param_output>
+		<param_output_item>
+			<param_name>res</param_name>
+			<param_description>a logical: true if makefile execution was successfully.</param_description>
+		</param_output_item>
+		<param_output_item>
+			<param_name>message</param_name>
+			<param_description>a string: empty if makefile execution was successfully or an error message.</param_description>
+		</param_output_item>
+
+	</param_output>
+
+
+	<description>
+	 	<p><b>dlmake</b> used to provide an multiplatform way to build C/C++.</p>
+	</description>
+
+	<used_function></used_function>
+	<bibliography></bibliography>
+
+<examples>
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description>basic example to call dlmake</example_item_description>
+		<example_item_data><![CDATA[
+dest = [tempdir(), '/dlmake_help']; 
+mkdir(dest);		
+txt = 'MESSAGE( STATUS "Hello world !")';		
+filewrite([dest, '/CMakeLists.txt'], txt);
+[status, message] = dlmake(dest)		
+]]>
+	</example_item_data>
+	</example_item>
+</examples>
+
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${dynamic_link}dlgeneratemake">dlgeneratemake</link>
+		</see_also_item>
+	</see_also>
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>
+

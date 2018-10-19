@@ -18,6 +18,7 @@
 //=============================================================================
 #include "absBuiltin.hpp"
 #include "AbsoluteValue.hpp"
+#include "ClassName.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
 //=============================================================================
@@ -29,15 +30,23 @@ Nelson::ElementaryFunctionsGateway::absBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "abs", bSuccess);
+    }
     if (!bSuccess) {
-        retval.push_back(AbsoluteValue(argIn[0]));
+        bool needToOverload;
+        ArrayOf res = AbsoluteValue(argIn[0], needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "abs");
+        } else {
+            retval.push_back(res);
+        }
     }
     return retval;
 }

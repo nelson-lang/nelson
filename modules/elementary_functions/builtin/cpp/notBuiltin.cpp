@@ -18,7 +18,6 @@
 //=============================================================================
 #include "notBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadUnaryOperator.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -27,10 +26,15 @@ Nelson::ElementaryFunctionsGateway::notBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
+    bool bSuccess = false;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(OverloadUnaryOperator(eval, argIn[0], "not"));
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOf res = eval->notOperator(argIn[0]);
+    retval.push_back(res);
     return retval;
 }
 //=============================================================================

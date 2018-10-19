@@ -24,7 +24,7 @@ function varargout = f2c(varargin)
   if ~isfile(path_f2c)
     error(_('nelson_f2c not found.'))
   end
-  if nargin < 2 | nargin > 3
+  if nargin < 2 || nargin > 3
     error(_('Wrong number of input arguments.'));
   end
   if nargout > 2

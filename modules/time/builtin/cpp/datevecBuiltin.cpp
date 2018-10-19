@@ -16,11 +16,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "datevecBuiltin.hpp"
-#include "DateVector.hpp"
-#include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include <string>
+#include "datevecBuiltin.hpp"
+#include "Error.hpp"
+#include "DateVector.hpp"
+#include "OverloadFunction.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,16 +29,18 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
 {
     ArrayOfVector retval;
     if (argIn.size() == 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 6) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "datevec", bSuccess);
+    }
     if (!bSuccess) {
         if (argIn.size() != 1) {
-            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
         ArrayOf param1 = argIn[0];
         if (((param1.getDataClass() == NLS_DOUBLE) || (param1.getDataClass() == NLS_DCOMPLEX))
@@ -70,10 +72,9 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 double* H = nullptr;
                 double* MN = nullptr;
                 double* S = nullptr;
-                if (nLhs > 1) {
-                    Y = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
-                    M = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
-                }
+
+                Y = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
+                M = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
                 if (nLhs > 2) {
                     D = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
                 }
@@ -90,10 +91,8 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                     double DT = ptd[k];
                     double V1, V2, V3, V4, V5, V6;
                     DateVector(DT, V1, V2, V3, V4, V5, V6);
-                    if (nLhs > 1) {
-                        Y[k] = V1;
-                        M[k] = V2;
-                    }
+                    Y[k] = V1;
+                    M[k] = V2;
                     if (nLhs > 2) {
                         D[k] = V3;
                     }
@@ -111,10 +110,8 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 dimParam1.simplify();
                 dimParam1.setDimensionLength(0, 1);
                 Dimensions dim(param1.getDimensions().getRows(), dimParam1.getElementCount());
-                if (nLhs > 1) {
-                    retval.push_back(ArrayOf(NLS_DOUBLE, dim, Y));
-                    retval.push_back(ArrayOf(NLS_DOUBLE, dim, M));
-                }
+                retval.push_back(ArrayOf(NLS_DOUBLE, dim, Y));
+                retval.push_back(ArrayOf(NLS_DOUBLE, dim, M));
                 if (nLhs > 2) {
                     retval.push_back(ArrayOf(NLS_DOUBLE, dim, D));
                 }
@@ -129,7 +126,7 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 }
             }
         } else {
-            Error(eval, ERROR_TYPE_NOT_SUPPORTED);
+            retval = OverloadFunction(eval, nLhs, argIn, "datevec");
         }
     }
     return retval;

@@ -18,8 +18,8 @@
 //=============================================================================
 #include "strncmpBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "StringCompare.hpp"
+#include "OverloadFunction.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,10 +28,10 @@ strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool bCase
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 3) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
@@ -39,7 +39,13 @@ strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool bCase
     indexType len = C.getContentAsScalarIndex(false);
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        if (bCaseSensitive) {
+            retval = OverloadFunction(eval, nLhs, argIn, "strncmp", bSuccess);
+        } else {
+            retval = OverloadFunction(eval, nLhs, argIn, "strncmpi", bSuccess);
+        }
+    }
     if (!bSuccess) {
         retval.push_back(StringCompare(A, B, bCaseSensitive, len));
     }

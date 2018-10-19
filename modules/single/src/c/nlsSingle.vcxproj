@@ -22,7 +22,7 @@
     <ProjectGuid>{164A8647-4646-41F5-BE19-795E94FB732A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsSingle</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSSINGLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/single/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/single/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -112,7 +112,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSSINGLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/single/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/single/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -131,7 +131,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSSINGLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/single/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/single/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -152,7 +152,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSSINGLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/single/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/single/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -164,40 +164,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\ColonSingle.cpp" />
-    <ClCompile Include="..\cpp\GeSingle.cpp" />
-    <ClCompile Include="..\cpp\GtSingle.cpp" />
-    <ClCompile Include="..\cpp\HorzCatSingle.cpp" />
-    <ClCompile Include="..\cpp\LeSingle.cpp" />
-    <ClCompile Include="..\cpp\LtSingle.cpp" />
-    <ClCompile Include="..\cpp\MinusSingle.cpp" />
-    <ClCompile Include="..\cpp\NeqSingle.cpp" />
-    <ClCompile Include="..\cpp\PlusSingle.cpp" />
-    <ClCompile Include="..\cpp\SingleDisplay.cpp" />
-    <ClCompile Include="..\cpp\SingleIsEqual.cpp" />
-    <ClCompile Include="..\cpp\SingleIsEqualn.cpp" />
     <ClCompile Include="..\cpp\ToSingle.cpp" />
-    <ClCompile Include="..\cpp\UminusSingle.cpp" />
-    <ClCompile Include="..\cpp\VertCatSingle.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\include\MinusSingle.hpp" />
     <ClInclude Include="..\..\src\include\nlsSingle_exports.h" />
-    <ClInclude Include="..\..\src\include\PlusSingle.hpp" />
     <ClInclude Include="..\..\src\include\ToSingle.hpp" />
-    <ClInclude Include="..\..\src\include\UminusSingle.hpp" />
-    <ClInclude Include="..\include\ColonSingle.hpp" />
-    <ClInclude Include="..\include\GeSingle.hpp" />
-    <ClInclude Include="..\include\GtSingle.hpp" />
-    <ClInclude Include="..\include\HorzCatSingle.hpp" />
-    <ClInclude Include="..\include\LeSingle.hpp" />
-    <ClInclude Include="..\include\LtSingle.hpp" />
-    <ClInclude Include="..\include\NeqSingle.hpp" />
-    <ClInclude Include="..\include\SingleDisplay.hpp" />
-    <ClInclude Include="..\include\SingleIsEqual.hpp" />
-    <ClInclude Include="..\include\SingleIsEqualn.hpp" />
-    <ClInclude Include="..\include\VertCatSingle.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
@@ -214,6 +186,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
       <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
+      <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\string\src\c\nlsString.vcxproj">
       <Project>{601eba38-309b-4b7b-919e-e736690a82b5}</Project>

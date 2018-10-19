@@ -29,15 +29,15 @@ Nelson::MpiGateway::MPI_BcastBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
 {
     ArrayOfVector retval;
     if ((argIn.size() < 2) || (argIn.size() > 3)) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(eval, _W("MPI must be initialized."));
+        Error(_W("MPI must be initialized."));
     }
     ArrayOf A = argIn[0];
     ArrayOf tmp = argIn[1];
@@ -60,7 +60,7 @@ Nelson::MpiGateway::MPI_BcastBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
             free(cp);
             retval.push_back(A);
         } else {
-            Error(eval, _W("Memory allocation."));
+            Error(_W("Memory allocation."));
         }
     } else {
         int msgsize = 0;
@@ -73,7 +73,7 @@ Nelson::MpiGateway::MPI_BcastBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
             free(cp);
             retval.push_back(A2);
         } else {
-            Error(eval, _W("Memory allocation."));
+            Error(_W("Memory allocation."));
         }
     }
     return retval;

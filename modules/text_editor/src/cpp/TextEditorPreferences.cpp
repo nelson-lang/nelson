@@ -145,7 +145,7 @@ TextEditorLoadPreferences(
                 pref_pos_y = pt.get<int>("POSITION_Y");
                 pref_sz_x = pt.get<int>("SIZE_X");
                 pref_sz_y = pt.get<int>("SIZE_Y");
-            } catch (boost::property_tree::json_parser::json_parser_error& je) {
+            } catch (const boost::property_tree::json_parser::json_parser_error& je) {
                 je.message();
             }
         }

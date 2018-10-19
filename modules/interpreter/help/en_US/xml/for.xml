@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>for</keyword>
+  <keyword>parfor</keyword>
+  <short_description>for loop.</short_description>
+
+  <syntax>
+    <syntax_item>for variable = expression, statements, end</syntax_item>
+    <syntax_item>for variable, statements, end</syntax_item>
+
+  </syntax>
+  
+
+  <description>
+  <p><b>for</b> loop executes a set of statements with an index variable looping through each element in a vector.</p>
+  <p><b>parfor</b> is currently an alias on <b>for</b> keyword.</p>
+</description>
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[for i = 1:10, disp(i), end]]>
+    </example_item_data>
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[for i = [1, 2; 3 4], disp(i), disp('next'), end]]>
+    </example_item_data>
+  </example_item>
+
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${interpreter}while">while</link>
+		</see_also_item>
+	</see_also>
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

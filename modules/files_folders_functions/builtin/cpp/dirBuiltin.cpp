@@ -22,6 +22,7 @@
 #include "ListFiles.hpp"
 #include "StringFormat.hpp"
 #include <boost/container/vector.hpp>
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -33,34 +34,34 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     std::wstring woption;
     bool bSubDirectories = false;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     switch (argIn.size()) {
     case 0: {
         wpath = GetCurrentDirectory();
         if (wpath == L"") {
-            Error(eval, _W("Impossible to get current directory."));
+            Error(_W("Impossible to get current directory."));
         }
     } break;
     case 2: {
-        if (!argIn[1].isSingleString()) {
-            Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+        if (!argIn[1].isRowVectorCharacterArray()) {
+            Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
         woption = argIn[1].getContentAsWideString();
         if (woption == L"-s") {
             bSubDirectories = true;
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
+            Error(ERROR_WRONG_ARGUMENT_2_VALUE);
         }
     }
     case 1: {
-        if (!argIn[0].isSingleString()) {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        if (!argIn[0].isRowVectorCharacterArray()) {
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         wpath = argIn[0].getContentAsWideString();
     } break;
     default:
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         break;
     }
     boost::container::vector<FileInfo> res = ListFiles(wpath, bSubDirectories);
@@ -73,7 +74,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         } else {
             for (boost::container::vector<FileInfo>::iterator it = res.begin(); it != res.end();
                  ++it) {
-                if (eval->GetInterruptPending()) {
+                if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                     break;
                 }
                 if (it->isDir()) {
@@ -115,8 +116,8 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
             datenums.reserve(res.size());
             for (boost::container::vector<FileInfo>::iterator it = res.begin(); it != res.end();
                  ++it) {
-                names.push_back(ArrayOf::stringConstructor(it->getName()));
-                dates.push_back(ArrayOf::stringConstructor(it->getDate()));
+                names.push_back(ArrayOf::characterArrayConstructor(it->getName()));
+                dates.push_back(ArrayOf::characterArrayConstructor(it->getDate()));
                 double bytesval = it->getBytes();
                 if (bytesval == -1) {
                     bytes.push_back(ArrayOf::emptyConstructor());

@@ -17,10 +17,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "endsWithBuiltin.hpp"
+#include "StringEndsWith.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
-#include "StringEndsWith.hpp"
 #include "StringFormat.hpp"
+#include "IsCellOfStrings.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,29 +30,38 @@ Nelson::StringGateway::endsWithBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 2 && argIn.size() != 4) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "endsWith", bSuccess);
+    }
     if (!bSuccess) {
         bool bCaseSensitive = true;
         ArrayOf A = argIn[0];
         ArrayOf B = argIn[1];
-        if (argIn.size() == 4) {
-            ArrayOf param3 = argIn[2];
-            std::wstring fieldname = param3.getContentAsWideString();
-            if (fieldname != L"IgnoreCase") {
-                Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_VALUE.c_str(), 3));
+        if (A.isCharacterArray() || A.isStringArray() || IsCellOfString(A)) {
+            if (argIn.size() == 4) {
+                ArrayOf param3 = argIn[2];
+                std::wstring fieldname = param3.getContentAsWideString();
+                if (fieldname != L"IgnoreCase") {
+                    Error(StringFormat(ERROR_WRONG_ARGUMENT_X_VALUE.c_str(), 3));
+                }
+                ArrayOf param4 = argIn[3];
+                logical fieldvalue = param4.getContentAsLogicalScalar();
+                bCaseSensitive = (fieldvalue == 0);
             }
-            ArrayOf param4 = argIn[3];
-            logical fieldvalue = param4.getContentAsLogicalScalar();
-            bCaseSensitive = (fieldvalue == 0);
+            retval.push_back(StringEndsWith(A, B, bCaseSensitive));
+        } else {
+            retval = OverloadFunction(eval, nLhs, argIn, "count", bSuccess);
+            if (!bSuccess) {
+                Error(_W("char vector or cell of strings expected."));
+            }
         }
-        retval.push_back(StringEndsWith(A, B, bCaseSensitive));
     }
     return retval;
 }

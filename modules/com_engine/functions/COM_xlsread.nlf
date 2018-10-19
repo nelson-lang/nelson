@@ -26,7 +26,7 @@ function [numeric_data, text_data, raw_data] = COM_xlsread(varargin)
   sheet = 1;
   range = '';
 
-  if nRhs < 1 | nRhs > 3
+  if nRhs < 1 || nRhs > 3
     error(_('Wrong number of input arguments.'));
   end
 

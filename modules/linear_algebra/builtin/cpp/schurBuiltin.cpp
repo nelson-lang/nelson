@@ -29,19 +29,24 @@ Nelson::LinearAlgebraGateway::schurBuiltin(Evaluator* eval, int nLhs, const Arra
 {
     ArrayOfVector retval;
     if (argIn.size() > 2 || argIn.size() < 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "schur", bSuccess);
+    }
     if (!bSuccess) {
-        if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
-            || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
-            || argIn[0].isLogical() || argIn[0].isString() || argIn[0].isIntegerType()) {
-            OverloadRequired(eval, argIn, Nelson::FUNCTION);
+        if (argIn[0].isReferenceType() || argIn[0].isSparse() || argIn[0].isLogical()
+            || argIn[0].isCharacterArray() || argIn[0].isIntegerType()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "schur", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+            OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
         }
         bool asComplex = false;
         if (argIn.size() == 2) {
@@ -52,7 +57,7 @@ Nelson::LinearAlgebraGateway::schurBuiltin(Evaluator* eval, int nLhs, const Arra
                     asComplex = true;
                 }
             } else {
-                Error(eval, _W("Second input argument must be 'real' or 'complex'."));
+                Error(_W("Second input argument must be 'real' or 'complex'."));
             }
         }
         if (nLhs == 2) {

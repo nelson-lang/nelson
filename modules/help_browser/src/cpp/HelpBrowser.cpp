@@ -247,7 +247,7 @@ HelpBrowser::getCacheFile()
     bool isdir = false;
     try {
         isdir = boost::filesystem::exists(base_dir) && boost::filesystem::is_directory(base_dir);
-    } catch (const boost::filesystem::filesystem_error& e) {
+    } catch (const boost::filesystem::filesystem_error&) {
         isdir = false;
     }
     if (isdir) {

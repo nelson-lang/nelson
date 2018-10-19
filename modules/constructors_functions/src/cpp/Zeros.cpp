@@ -21,16 +21,21 @@
 //=============================================================================
 namespace Nelson {
 ArrayOf
-Zeros(Evaluator* eval, Class cl)
+Zeros(Class cl)
 {
     Dimensions dims(1, 1);
-    return Zeros(eval, dims, cl);
+    return Zeros(dims, cl);
 }
 //=============================================================================
 ArrayOf
-Zeros(Evaluator* eval, Dimensions dims, Class cl)
+Zeros(Dimensions& dims, Class cl)
 {
     dims.simplify();
+    if (dims.isEmpty(false)) {
+        ArrayOf res = ArrayOf::emptyConstructor(dims);
+        res.promoteType(cl);
+        return res;
+    }
     switch (cl) {
     case NLS_LOGICAL: {
         indexType nbElements = dims.getElementCount();
@@ -137,7 +142,7 @@ Zeros(Evaluator* eval, Dimensions dims, Class cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     default:
-        Error(eval, ERROR_TYPE_NOT_SUPPORTED);
+        Error(ERROR_TYPE_NOT_SUPPORTED);
     }
     return ArrayOf();
 }

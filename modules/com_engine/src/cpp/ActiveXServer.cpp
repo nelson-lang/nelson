@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ActiveXServer.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include <Ole2.h>
 #include <Windows.h>
 #include <atlconv.h>
@@ -33,11 +33,11 @@ ActiveXServer(std::wstring progId, std::wstring machine)
     ComHandleObject* res = nullptr;
     if (boost::algorithm::starts_with(progId, L"{")) {
         if (FAILED(CLSIDFromString(progId.c_str(), &clsApplication))) {
-            throw Exception(_W("Error CLSIDFromString."));
+            Error(_W("Error CLSIDFromString."));
         }
     } else {
         if (FAILED(CLSIDFromProgID(progId.c_str(), &clsApplication))) {
-            throw Exception(_W("Error CLSIDFromProgID."));
+            Error(_W("Error CLSIDFromProgID."));
         }
     }
     if (machine != L"") {
@@ -61,20 +61,20 @@ ActiveXServer(std::wstring progId, std::wstring machine)
         qi.pIID = &IID_IDispatch;
         if (FAILED(CoCreateInstanceEx(
                 clsApplication, NULL, CLSCTX_REMOTE_SERVER, &ServerInfo, 1, &qi))) {
-            throw Exception(_W("Error CoCreateInstanceEx."));
+            Error(_W("Error CoCreateInstanceEx."));
         }
         pdispApplication = (IDispatch*)qi.pItf;
     } else {
         if (FAILED(CoCreateInstance(
                 clsApplication, NULL, CLSCTX_SERVER, IID_IDispatch, (void**)&pdispApplication))) {
-            throw Exception(_W("Error CoCreateInstanceEx."));
+            Error(_W("Error CoCreateInstanceEx."));
         }
     }
-    VARIANT* pVariantApplication;
+    VARIANT* pVariantApplication = nullptr;
     try {
         pVariantApplication = new VARIANT;
-    } catch (std::bad_alloc) {
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+    } catch (const std::bad_alloc&) {
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     VariantInit(pVariantApplication);
     pVariantApplication->vt = VT_DISPATCH;
@@ -94,26 +94,26 @@ GetRunningActiveXServer(std::wstring progId)
     LPOLESTR idName = W2OLE((wchar_t*)progId.c_str());
     if (progId[0] == L'{') {
         if (FAILED(CLSIDFromString(idName, &clsApplication))) {
-            throw Exception(_W("Invalid PROGID."));
+            Error(_W("Invalid PROGID."));
         }
     } else {
         if (FAILED(CLSIDFromProgID(idName, &clsApplication))) {
-            throw Exception(_W("Invalid PROGID."));
+            Error(_W("Invalid PROGID."));
         }
     }
     hRes = GetActiveObject(clsApplication, NULL, &pUnknown);
     if (FAILED(hRes)) {
-        throw Exception(_W("Server is not running on this system."));
+        Error(_W("Server is not running on this system."));
     }
     hRes = pUnknown->QueryInterface(IID_IDispatch, (void**)&pdispApplication);
     pUnknown->Release();
     if (FAILED(hRes)) {
-        throw Exception(_W("Fails to connect to server."));
+        Error(_W("Fails to connect to server."));
     }
     try {
         pVariantApplication = new VARIANT;
-    } catch (std::bad_alloc) {
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+    } catch (const std::bad_alloc&) {
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     VariantInit(pVariantApplication);
     pVariantApplication->vt = VT_DISPATCH;
@@ -157,7 +157,7 @@ ActiveXContolList()
     bool found = false;
     if (err != ERROR_SUCCESS) {
         RegCloseKey(hclsid);
-        throw Exception("Cannot read registry.");
+        Error("Cannot read registry.");
     }
     wstringVector fieldsName;
     wstringVector fieldsProgId;
@@ -217,14 +217,14 @@ ActiveXContolList()
     Dimensions dims(fieldsName.size(), 3);
     ArrayOf* cell = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount());
     for (size_t k = 0; k < fieldsName.size(); k = k + 1) {
-        cell[k] = ArrayOf::stringConstructor(fieldsName[k]);
+        cell[k] = ArrayOf::characterArrayConstructor(fieldsName[k]);
     }
     for (size_t k = 0; k < fieldsProgId.size(); k = k + 1) {
-        cell[k + fieldsName.size()] = ArrayOf::stringConstructor(fieldsProgId[k]);
+        cell[k + fieldsName.size()] = ArrayOf::characterArrayConstructor(fieldsProgId[k]);
     }
     for (size_t k = 0; k < fieldsFilename.size(); k = k + 1) {
         cell[k + fieldsName.size() + fieldsProgId.size()]
-            = ArrayOf::stringConstructor(fieldsFilename[k]);
+            = ArrayOf::characterArrayConstructor(fieldsFilename[k]);
     }
     res = ArrayOf(NLS_CELL_ARRAY, dims, cell);
     return res;
@@ -239,7 +239,7 @@ ActiveXServerList()
     bool found = false;
     if (err != ERROR_SUCCESS) {
         RegCloseKey(hclsid);
-        throw Exception("Cannot read registry.");
+        Error("Cannot read registry.");
     }
     wstringVector fieldsName;
     wstringVector fieldsProgId;
@@ -299,14 +299,14 @@ ActiveXServerList()
     Dimensions dims(fieldsName.size(), 3);
     ArrayOf* cell = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount());
     for (size_t k = 0; k < fieldsName.size(); k = k + 1) {
-        cell[k] = ArrayOf::stringConstructor(fieldsName[k]);
+        cell[k] = ArrayOf::characterArrayConstructor(fieldsName[k]);
     }
     for (size_t k = 0; k < fieldsProgId.size(); k = k + 1) {
-        cell[k + fieldsName.size()] = ArrayOf::stringConstructor(fieldsProgId[k]);
+        cell[k + fieldsName.size()] = ArrayOf::characterArrayConstructor(fieldsProgId[k]);
     }
     for (size_t k = 0; k < fieldsFilename.size(); k = k + 1) {
         cell[k + fieldsName.size() + fieldsProgId.size()]
-            = ArrayOf::stringConstructor(fieldsFilename[k]);
+            = ArrayOf::characterArrayConstructor(fieldsFilename[k]);
     }
     res = ArrayOf(NLS_CELL_ARRAY, dims, cell);
     return res;

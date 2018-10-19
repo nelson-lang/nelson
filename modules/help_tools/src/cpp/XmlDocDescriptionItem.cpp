@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocDescriptionItem.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "HtmlTags.hpp"
 #include "ImageTagHelpers.hpp"
 #include "Types.hpp"
@@ -140,7 +140,7 @@ XmlDocDescriptionItem::replaceImageTag()
             imagesSource.push_back(newPath);
             imagesDestination.push_back(this->destDirectory + L"/" + newfilename);
         } else {
-            throw Exception(_W("File does not exist:") + L" " + oldPath);
+            Error(_W("File does not exist:") + L" " + oldPath);
         }
     }
 }

@@ -30,14 +30,10 @@ Inf(void)
 ArrayOf
 Inf(uint32 m, uint32 n)
 {
-    double* mat
-        = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, m * n, Nelson::stringVector(), false);
+    double* mat = (double*)ArrayOf::allocateArrayOf(
+        NLS_DOUBLE, (indexType)(m * n), Nelson::stringVector(), false);
     Eigen::Map<Eigen::MatrixXd> matInf(mat, m, n);
-    Eigen::MatrixXd matOne(m, n);
-    Eigen::MatrixXd matZero(m, n);
-    matZero.setConstant(0.);
-    matOne.setConstant(1.);
-    matInf = matOne.cwiseQuotient(matZero);
+    matInf.setConstant(std::numeric_limits<double>::infinity());
     Dimensions dimMat(m, n);
     ArrayOf res = ArrayOf(NLS_DOUBLE, dimMat, mat);
     return res;

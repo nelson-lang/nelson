@@ -20,6 +20,7 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\;
 ;==============================================================================
 #include "main/module.iss"
 #include "characters_encoding/module.iss"
+#include "nelson_manager/module.iss"
 #include "terminal/module.iss"
 #include "elementary_mathematics/module.iss"
 #include "api_nelson/module.iss"
@@ -41,6 +42,7 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\;
 #include "data_structures/module.iss"
 #include "integer/module.iss"
 #include "elementary_functions/module.iss"
+#include "special_functions/module.iss"
 #include "trigonometric_functions/module.iss"
 #include "sparse/module.iss"
 #include "logical/module.iss"
@@ -50,6 +52,7 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\;
 #include "console/module.iss"
 #include "stream_manager/module.iss"
 #include "interpreter/module.iss"
+#include "debugger/module.iss"
 #include "time/module.iss"
 #include "random/module.iss"
 #include "history_manager/module.iss"

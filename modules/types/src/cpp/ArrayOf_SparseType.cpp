@@ -19,25 +19,26 @@
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "SparseDynamicFunctions.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-const bool
+bool
 ArrayOf::isSparse() const
 {
+    if (dp == nullptr) {
+        return false;
+    }
     return (dp->sparse);
 }
 //=============================================================================
-const bool
-ArrayOf::isSparseDouble() const
+bool
+ArrayOf::isSparseDoubleType(bool realOnly) const
 {
-    return (dp->dataClass == NLS_DOUBLE || dp->dataClass == NLS_DCOMPLEX) && (dp->sparse);
-}
-//=============================================================================
-const bool
-ArrayOf::isSparseLogical() const
-{
-    return (dp->dataClass == NLS_LOGICAL) && (dp->sparse);
+    if (dp->sparse) {
+        return dp->dataClass == NLS_DOUBLE || (dp->dataClass == NLS_DCOMPLEX && !realOnly);
+    }
+    return false;
 }
 //=============================================================================
 const void*
@@ -84,14 +85,14 @@ void
 ArrayOf::makeSparse()
 {
     if (!is2D()) {
-        throw Exception(_W("Cannot make n-dimensional arrays sparse."));
+        Error(_W("Cannot make n-dimensional arrays sparse."));
     }
     if (isEmpty()) {
         dp = dp->putData(dp->dataClass, dp->dimensions, NULL, true, dp->fieldNames);
         return;
     }
-    if (isReferenceType() || isString()) {
-        throw Exception(_W("Cannot make strings or reference types sparse."));
+    if (isReferenceType() || isCharacterArray()) {
+        Error(_W("Cannot make strings or reference types sparse."));
     }
     if (isSparse()) {
         return;
@@ -100,7 +101,7 @@ ArrayOf::makeSparse()
         || (dp->dataClass == NLS_LOGICAL)) {
         ensureSingleOwner();
     } else {
-        throw Exception(_W("Cannot make sparse."));
+        Error(_W("Cannot make sparse."));
     }
     dp = dp->putData(dp->dataClass, dp->dimensions,
         MakeSparseArrayOfDynamicFunction(

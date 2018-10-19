@@ -375,6 +375,7 @@ assert_isequal(A, REF);
 //=============================================================================
 A = struct(ones(0,1));
 savebin([tempdir(), '/test_saveload.bin'], 'A');
+REF = A;
 clear A;
 loadbin([tempdir(), '/test_saveload.bin'])
 assert_isequal(A, REF);
@@ -412,6 +413,7 @@ clear A;
 loadbin([tempdir(), '/test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
+clear C;
 C{1}='tim';
 C{2}='love';
 C{3}=1.73;
@@ -422,10 +424,21 @@ clear A;
 loadbin([tempdir(), '/test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
+clear C;
 C{1}='tim';
 C{2}='love';
 C{3}=1.73;
 A=cell2struct(C,{'firstname'});
+savebin([tempdir(), '/test_saveload.bin'], 'A');
+REF = A;
+clear A;
+loadbin([tempdir(), '/test_saveload.bin']);
+assert_isequal(A, REF);
+//=============================================================================
+A = ["NelSon";
+"is";
+"not";
+"LensOn"];
 savebin([tempdir(), '/test_saveload.bin'], 'A');
 REF = A;
 clear A;

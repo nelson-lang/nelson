@@ -20,7 +20,7 @@
 //=============================================================================
 #include "SparseRealPart.hpp"
 #include "ClassName.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "SparseType.hpp"
 #include <Eigen/Sparse>
 //=============================================================================
@@ -31,7 +31,7 @@ SparseRealPart(ArrayOf a)
 {
     ArrayOf res;
     if (!a.isSparse()) {
-        throw Exception(_W("Sparse expected."));
+        Error(_W("Sparse expected."));
     }
     switch (a.getDataClass()) {
     case NLS_LOGICAL: {
@@ -53,9 +53,9 @@ SparseRealPart(ArrayOf a)
             spmatDST->makeCompressed();
             void* pRes = (void*)spmatDST;
             res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DOUBLE: {
@@ -80,13 +80,13 @@ SparseRealPart(ArrayOf a)
             spmatDST->makeCompressed();
             void* pRes = (void*)spmatDST;
             res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
     } break;
     default: {
-        throw Exception(_("Cannot do real with current type '") + ClassName(a) + "'.");
+        Error(_("Cannot do real with current type '") + ClassName(a) + "'.");
     } break;
     }
     return res;

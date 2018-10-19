@@ -27,7 +27,7 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(Evaluator* eval, int nLhs, const A
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     LibPointerObject* libPointerObject = nullptr;
     std::wstring DataType;
@@ -36,9 +36,9 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(Evaluator* eval, int nLhs, const A
     case 0: {
         try {
             libPointerObject = new LibPointerObject();
-        } catch (std::bad_alloc) {
-            throw Exception(ERROR_MEMORY_ALLOCATION);
-        } catch (Exception) {
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        } catch (const Exception&) {
             throw;
         }
     } break;
@@ -46,9 +46,9 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(Evaluator* eval, int nLhs, const A
         std::wstring DataType = argIn[0].getContentAsWideString();
         try {
             libPointerObject = new LibPointerObject(DataType);
-        } catch (std::bad_alloc) {
-            throw Exception(ERROR_MEMORY_ALLOCATION);
-        } catch (Exception) {
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        } catch (const Exception&) {
             throw;
         }
     } break;
@@ -57,14 +57,14 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(Evaluator* eval, int nLhs, const A
         ArrayOf Value = argIn[1];
         try {
             libPointerObject = new LibPointerObject(DataType, Value);
-        } catch (std::bad_alloc) {
-            throw Exception(ERROR_MEMORY_ALLOCATION);
-        } catch (Exception) {
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        } catch (const Exception&) {
             throw;
         }
     } break;
     default:
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         break;
     }
     retval.push_back(ArrayOf::handleConstructor(libPointerObject));

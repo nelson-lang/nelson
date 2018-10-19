@@ -1,0 +1,52 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+// <--C/C++ COMPILER REQUIRED--> 
+//=============================================================================
+if ismodule('module_skeleton')
+  assert_isequal(cpp_sum(3, 4), 7);
+  return
+end
+//=============================================================================
+sourcedir = [nelsonroot(),'/module_skeleton'];
+files = dir(sourcedir, '-s');
+//=============================================================================
+destinationdir = [tempdir(), '/module_skeleton'];
+if isdir(destinationdir)
+  rmdir(destinationdir, 's');
+end
+mkdir(destinationdir);
+for f = files(:)'
+  sourcefile = f.name;
+  destinationfile = replace(f.name, sourcedir, destinationdir);
+  if isdir(sourcefile)
+    mkdir(destinationfile);
+  else
+    copyfile(sourcefile, destinationfile);
+  end
+end
+run([destinationdir, '/builder.nls']);
+run([destinationdir, '/loader.nls']);
+//=============================================================================
+assert_isequal(cpp_sum(3, 4), 7);
+//=============================================================================
+// unload module and dependencies
+if ismodule('module_skeleton')
+  removemodule('module_skeleton')
+end
+//=============================================================================

@@ -98,7 +98,7 @@ GetFFIType(std::wstring type)
     if (ffiTypesMap.count(type) != 0) {
         ret = ffiTypesMap[type];
     } else {
-        throw Exception(StringFormat(
+        Error(StringFormat(
             _W("import type %s not defined in FFI type table.").c_str(), type.c_str()));
     }
     return ret.FFIType;
@@ -111,7 +111,7 @@ DynamicLinkSymbolObject::GetNelsonType(std::wstring type)
     if (ffiTypesMap.count(type) != 0) {
         ret = ffiTypesMap[type];
     } else {
-        throw Exception(StringFormat(
+        Error(StringFormat(
             _W("import type %s not defined in FFI type table.").c_str(), type.c_str()));
     }
     return ret.NelsonClass;
@@ -137,7 +137,7 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(ArrayOf dllibObject, void* poin
     }
     for (std::wstring param : _paramsTypes) {
         if (param == L"void") {
-            throw Exception(_W("'void' not allowed as input type."));
+            Error(_W("'void' not allowed as input type."));
         }
         if (boost::algorithm::ends_with(param, L"Ptr")) {
             _nArgOut++;
@@ -147,7 +147,7 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(ArrayOf dllibObject, void* poin
     buildPrototype();
     ffi_type** args = (ffi_type**)malloc(sizeof(ffi_type*) * _paramsTypes.size());
     if (!args) {
-        throw Exception(_W("error memory allocation."));
+        Error(_W("error memory allocation."));
     }
     int i = 0;
     for (std::wstring param : _paramsTypes) {
@@ -156,13 +156,14 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(ArrayOf dllibObject, void* poin
     if (ffi_prep_cif(
             &_cif, FFI_DEFAULT_ABI, (unsigned int)paramsTypes.size(), GetFFIType(_returnType), args)
         != FFI_OK) {
-        throw Exception(_W("Unable to import function through FFI."));
+        Error(_W("Unable to import function through FFI."));
     }
 }
 //=============================================================================
 DynamicLinkSymbolObject::~DynamicLinkSymbolObject()
 {
-    _dllibObject = ArrayOf::emptyConstructor(Dimensions(0, 0));
+    Dimensions dims(0, 0);
+    _dllibObject = ArrayOf::emptyConstructor(dims);
     _pointerFunction = nullptr;
     _symbol = L"";
     _returnType = L"";
@@ -295,29 +296,27 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
     ArrayOf isValidAsArray = IsValidHandle(eval, _dllibObject);
     logical isValid = isValidAsArray.getContentAsLogicalScalar();
     if (!isValid) {
-        Error(eval, _W("dllib valid handle expected."));
+        Error(_W("dllib valid handle expected."));
     }
     if (params.size() != _nArgIn) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     for (size_t k = 0; k < params.size(); k++) {
         if (GetNelsonType(_paramsTypes[k]) != params[k].getDataClass()) {
             if (params[k].getDataClass() == NLS_HANDLE) {
                 if (params[k].getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
-                    Error(eval, _W("libpointer handle expected."));
+                    Error(_W("libpointer handle expected."));
                 }
                 LibPointerObject* objLibPointer
                     = (LibPointerObject*)params[k].getContentAsHandleScalar();
                 if (objLibPointer->getDataType() != _paramsTypes[k]) {
-                    Error(eval,
-                        StringFormat(
-                            _W("Invalid type for #%d input argument: %ls expected.").c_str(), k + 1,
-                            _paramsTypes[k].c_str()));
+                    Error(StringFormat(
+                        _W("Invalid type for #%d input argument: %ls expected.").c_str(), k + 1,
+                        _paramsTypes[k].c_str()));
                 }
             } else {
-                Error(eval,
-                    StringFormat(_W("Invalid type for #%d input argument: %ls expected.").c_str(),
-                        k + 1, _paramsTypes[k].c_str()));
+                Error(StringFormat(_W("Invalid type for #%d input argument: %ls expected.").c_str(),
+                    k + 1, _paramsTypes[k].c_str()));
             }
         }
     }
@@ -350,7 +349,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
     for (int i = 0; i < params.size(); i++) {
         if (params[i].getDataClass() == NLS_HANDLE) {
             if (params[i].getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
-                Error(eval, _W("libpointer handle expected."));
+                Error(_W("libpointer handle expected."));
             }
             LibPointerObject* objLibPointer
                 = (LibPointerObject*)params[i].getContentAsHandleScalar();
@@ -383,8 +382,8 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
             LibPointerObject* obj = nullptr;
             try {
                 obj = new LibPointerObject(returnedValue);
-            } catch (std::bad_alloc) {
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+            } catch (const std::bad_alloc&) {
+                Error(ERROR_MEMORY_ALLOCATION);
             }
             retval.push_back(ArrayOf::handleConstructor(obj));
         }
@@ -458,13 +457,13 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
         char* returnedValue;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
         if (nLhs > retval.size()) {
-            retval.push_back(ArrayOf::stringConstructor(returnedValue));
+            retval.push_back(ArrayOf::characterArrayConstructor(returnedValue));
         }
     } else if (_returnType == L"wstring") {
         wchar_t* returnedValue;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
         if (nLhs > retval.size()) {
-            retval.push_back(ArrayOf::stringConstructor(returnedValue));
+            retval.push_back(ArrayOf::characterArrayConstructor(returnedValue));
         }
     } else {
         int dummy;
@@ -475,7 +474,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
         if (boost::algorithm::ends_with(_paramsTypes[i], L"Ptr")) {
             if (params[i].getDataClass() == NLS_HANDLE) {
                 if (params[i].getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
-                    Error(eval, _W("libpointer handle expected."));
+                    Error(_W("libpointer handle expected."));
                 }
                 LibPointerObject* objLibPointer
                     = (LibPointerObject*)params[i].getContentAsHandleScalar();
@@ -506,7 +505,7 @@ bool
 DynamicLinkSymbolObject::get(std::wstring propertyName, ArrayOf& res)
 {
     if (propertyName == L"Prototype") {
-        res = ArrayOf::stringConstructor(_prototype);
+        res = ArrayOf::characterArrayConstructor(_prototype);
         return true;
     }
     if (propertyName == L"Input") {

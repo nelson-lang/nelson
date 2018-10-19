@@ -16,9 +16,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "HorzCatSparseDouble.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
+#include "HorzCatSparseDouble.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -26,11 +27,11 @@ ArrayOf
 HorzCatSparseDouble(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;
-    if (!A.isSparseDouble()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
+    if (!A.isSparseDoubleType()) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
     }
-    if (!B.isSparseDouble()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_DOUBLE_EXPECTED);
+    if (!B.isSparseDoubleType()) {
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_DOUBLE_EXPECTED);
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);
@@ -43,7 +44,7 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getRows() != dimsB.getRows()) {
-        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     if (A.isComplex() || B.isComplex()) {
         A.promoteType(NLS_DCOMPLEX);
@@ -62,10 +63,10 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
         try {
             spMatC = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(
                 newRowsSize, newColumnsSize);
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             spMatC = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         spMatC->middleCols(0, spMatA->cols()) = *spMatA;
         spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;
@@ -85,10 +86,10 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
         try {
             spMatC
                 = new Eigen::SparseMatrix<double, 0, signedIndexType>(newRowsSize, newColumnsSize);
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             spMatC = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         spMatC->middleCols(0, spMatA->cols()) = *spMatA;
         spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;

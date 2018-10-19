@@ -37,7 +37,7 @@ Cast(ArrayOf arrayIn, Class destinationClass, bool isSparse)
     }
     if ((originClass == NLS_SCOMPLEX || originClass == NLS_DCOMPLEX)
         && (destinationClass != NLS_SCOMPLEX && destinationClass != NLS_DCOMPLEX)) {
-        throw Exception(_W("Invalid conversion from complex."));
+        Error(_W("Invalid conversion from complex."));
     }
     res.promoteType(destinationClass);
     if (isSparse) {

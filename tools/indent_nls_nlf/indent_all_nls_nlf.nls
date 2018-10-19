@@ -18,6 +18,6 @@
 //=============================================================================
 nls_files = dir([nelsonroot(), '/', '*.nls'], '-s');
 nlf_files = dir([nelsonroot(), '/', '*.nlf'], '-s');
-for f = nls_files
+for f = nls_files(:)'
   smartindent(f.name)
 end

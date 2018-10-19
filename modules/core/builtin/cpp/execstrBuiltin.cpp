@@ -20,7 +20,6 @@
 #include "execstrBuiltin.hpp"
 #include "Error.hpp"
 #include "EvaluateCommand.hpp"
-#include "Exception.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -30,19 +29,19 @@ Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     ArrayOfVector retval;
     bool bErrorCatch = false;
     if (argIn.size() == 0 || argIn.size() > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring line;
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isRowVectorCharacterArray()) {
         line = argIn[0].getContentAsWideString();
     } else {
-        Error(eval, _W("#1 string expected."));
+        Error(_W("#1 string expected."));
     }
     if (argIn.size() > 1) {
-        if (argIn[1].isSingleString()) {
+        if (argIn[1].isRowVectorCharacterArray()) {
             std::wstring catchstr;
             catchstr = argIn[1].getContentAsWideString();
             if ((catchstr.compare(L"errcatch") == 0) || (catchstr.compare(L"nocatch") == 0)) {
@@ -52,10 +51,10 @@ Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                     bErrorCatch = false;
                 }
             } else {
-                Error(eval, _W("#2 'errcatch' or 'nocatch' expected."));
+                Error(_W("#2 'errcatch' or 'nocatch' expected."));
             }
         } else {
-            Error(eval, _W("#2 string expected."));
+            Error(_W("#2 string expected."));
         }
     }
     if (bErrorCatch) {

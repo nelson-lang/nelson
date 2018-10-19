@@ -77,7 +77,7 @@ function varargout = msgbox(varargin)
       error(_('Wrong number of input arguments.'));
   end
 
-  if ~ischar(text) & ~iscellstr(text)
+  if ~ischar(text) && ~iscellstr(text)
     error(_('Wrong type for ''text'' argument. A string name expected.'));
   end
 
@@ -137,7 +137,7 @@ function varargout = msgbox(varargin)
   end
 
   bfound = false;
-  if strcmp(mode, 'modal') == true | strcmp(mode, 'on') == true
+  if strcmp(mode, 'modal') == true || strcmp(mode, 'on') == true
     dlg_list = QObject_findchildren(QObject_root(),objectName, true);
     if ~isempty(dlg_list)
       for dlg = dlg_list
@@ -171,7 +171,7 @@ function varargout = msgbox(varargin)
   else
     bfirst = true;
     for dlg = dlg_list
-      if (strcmp(dlg.title, title) == true & bfirst)
+      if (strcmp(dlg.title, title) == true && bfirst)
         h = dlg;
         bfirst = false;
       else
@@ -224,16 +224,16 @@ function txt = cellstr_to_txt(cstr)
 endfunction
 //=============================================================================
 function ok = ismsgboxmode(value)
-  ok = strcmp(value, 'modal') == true | ...
-       strcmp(value, 'nonmodal') == true | ...
+  ok = strcmp(value, 'modal') == true || ...
+       strcmp(value, 'nonmodal') == true || ...
        strcmp(value, 'on') == true;
 endfunction
 //=============================================================================
 function ok = ismsgboxicon(value)
-  ok = (strcmp(value, 'none') == true | ...
-      strcmp(value, 'error') == true | ...
-      strcmp(value, 'help') == true | ...
-      strcmp(value, 'warn') == true | ...
+  ok = (strcmp(value, 'none') == true || ...
+      strcmp(value, 'error') == true || ...
+      strcmp(value, 'help') == true || ...
+      strcmp(value, 'warn') == true || ...
       strcmp(value, 'question') == true);
 endfunction
 //=============================================================================

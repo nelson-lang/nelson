@@ -29,12 +29,12 @@ Nelson::MpiGateway::MPI_SendBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
 {
     ArrayOfVector retval;
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(eval, _W("MPI must be initialized."));
+        Error(_W("MPI must be initialized."));
     }
     ArrayOf A;
     int dest = 0;
@@ -58,7 +58,7 @@ Nelson::MpiGateway::MPI_SendBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         comm = HandleToMpiComm(param4);
     } break;
     default:
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         break;
     }
     int Asize = getArrayOfFootPrint(A, comm);

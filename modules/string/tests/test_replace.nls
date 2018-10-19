@@ -182,15 +182,15 @@ ref =  {'ccaeba'};
 assert_isequal(r, ref);
 //=============================================================================
 cmd = 'r = replace(''str'',''str'',[]);';
-ref = _('A cell expected.');
+ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = replace(3i,''str'',''str'');';
-ref = _('A cell expected.');
+ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = replace(''str'',''str'',3i);';
-ref = _('A cell expected.');
+ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = replace({''cccc'',''ccbbcca''},{''cc'',''bb''},{''cc'',''e'',''ddd''});';
@@ -202,11 +202,11 @@ ref = _('Same size expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = replace({{''bbb''},''ccabbba''},{''cc'',''bb''},{{''cc'',''e'',''ddd''},''str''});';
-ref = _('A cell of string expected.');
+ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = replace(''ccabbba'',{''cc'',{},''bb''},{{''cc'',''e'',''ddd''}})';
-ref = _('A cell of string expected.');
+ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 cmd = 'r = replace(''cccc'',''cc'',{});';
@@ -233,4 +233,27 @@ assert_checkerror(cmd, ref);
 cmd = 'r = replace(''cccc'',''cc'', {''a'',''bb''})';
 ref = _('Same size expected.');
 assert_checkerror(cmd, ref);
+//=============================================================================
+r = replace("This is a string.", 'is', 'is not');
+ref = "This not is not a string.";
+assert_isequal(r, ref);
+//=============================================================================
+r = replace('This is a string.', "is", 'is not');
+ref = 'This not is not a string.';
+assert_isequal(r, ref);
+//=============================================================================
+r = replace('This is a string.', 'is', "is not");
+ref = 'This not is not a string.';
+assert_isequal(r, ref);
+//=============================================================================
+r = replace("ccabbba",{'cc','bb'},{'cc','e'});
+ref =  "ccaeba";
+assert_isequal(r, ref);
+//=============================================================================
+str = ["the quick yellow canary";
+"and the lazy bunny"];
+r = replace(str,'the','a');
+ref = ["a quick yellow canary";
+"and a lazy bunny"];
+assert_isequal(r, ref);
 //=============================================================================

@@ -19,7 +19,7 @@
 function txt = nig_get_output_variables_definition(NIG_FUNCTION)
   txt = {'    // OUTPUT VARIABLES';
          ''};
-  for k = NIG_FUNCTION.VARIABLES
+  for k = NIG_FUNCTION.VARIABLES(:)'
     if strcmp(k.MODE, 'output') 
       if strcmp(k.TYPE, 'double_array')
         txt{end + 1} = ['    ArrayOf ', k.NAME, '_output = ArrayOf::doubleMatrix2dConstructor((indexType)', k.DIMENSION_M, ', (indexType)', k.DIMENSION_N, ');'];

@@ -29,17 +29,17 @@ Nelson::AudioGateway::audioinfoBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring errorMessage;
     ArrayOf param1 = argIn[0];
     std::wstring filename = param1.getContentAsWideString();
     ArrayOf res = AudioFileInfo(filename, errorMessage);
     if (errorMessage != L"") {
-        Error(eval, errorMessage);
+        Error(errorMessage);
     }
     retval.push_back(res);
     return retval;

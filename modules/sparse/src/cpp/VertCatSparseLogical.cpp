@@ -16,11 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "VertCatSparseLogical.hpp"
-#include "CtransposeSparseLogical.hpp"
-#include "HorzCatSparseLogical.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
+#include "VertCatSparseLogical.hpp"
+#include "HorzCatSparseLogical.hpp"
+#include "CtransposeSparseLogical.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -28,11 +29,11 @@ ArrayOf
 VertCatSparseLogical(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;
-    if (!A.isSparseLogical()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
+    if (!A.isSparseLogicalType()) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
     }
-    if (!B.isSparseLogical()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED);
+    if (!B.isSparseLogicalType()) {
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED);
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);

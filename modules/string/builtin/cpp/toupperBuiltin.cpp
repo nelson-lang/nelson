@@ -18,8 +18,8 @@
 //=============================================================================
 #include "toupperBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "ToUpper.hpp"
+#include "OverloadFunction.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,17 +28,28 @@ Nelson::StringGateway::toupperBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf A = argIn[0];
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "toupper", bSuccess);
+    }
     if (!bSuccess) {
-        retval.push_back(ToUpper(eval, argIn[0]));
+        bool needToOverload;
+        ArrayOf res = ToUpper(A, needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "toupper", bSuccess);
+            if (!bSuccess) {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+            }
+        } else {
+            retval.push_back(res);
+        }
     }
     return retval;
 }

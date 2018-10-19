@@ -20,6 +20,7 @@
 #include "ClassName.hpp"
 #include "MatrixCheck.hpp"
 #include <Eigen/Dense>
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -146,12 +147,12 @@ Modulo(ArrayOf A, ArrayOf B)
     indexType Clen = 0;
     Dimensions Cdim;
     if (!A.isNumeric() || !B.isNumeric()) {
-        throw Exception(_W("Input arguments must be numeric."));
+        Error(_W("Input arguments must be numeric."));
     } else if (A.isComplex() || B.isComplex()) {
-        throw Exception(_("Undefined function 'mod' for complex input argument."));
+        Error(_("Undefined function 'mod' for complex input argument."));
     } else if (A.isIntegerType() || B.isIntegerType()) {
         if (A.isSparse() || B.isSparse()) {
-            throw Exception(_("Undefined function 'mod' for sparse input argument."));
+            Error(_("Undefined function 'mod' for sparse input argument."));
         }
         VectorCheck(A, B, "mod");
         computeEntries(A, B, Astride, Bstride, Clen, Cdim);
@@ -209,16 +210,16 @@ Modulo(ArrayOf A, ArrayOf B)
                     (uint64*)B.getDataPointer(), Bstride);
             } break;
             default: {
-                throw Exception(_("Integers type not managed."));
+                Error(_("Integers type not managed."));
             } break;
             }
             M = ArrayOf(classA, Cdim, Cp);
         } else {
-            throw Exception(_("Integers must be combined with integers of the same class."));
+            Error(_("Integers must be combined with integers of the same class."));
         }
     } else {
         if (A.isSparse() || B.isSparse()) {
-            throw Exception(_("Undefined function 'mod' for sparse input argument."));
+            Error(_("Undefined function 'mod' for sparse input argument."));
         }
         VectorCheck(A, B, "mod");
         computeEntries(A, B, Astride, Bstride, Clen, Cdim);

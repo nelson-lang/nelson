@@ -18,15 +18,15 @@
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
 //=============================================================================
-#include "EvaluateScriptFile.hpp"
-#include "AstManager.hpp"
-#include "Error.hpp"
-#include "Exception.hpp"
-#include "IsEmptyScriptFile.hpp"
-#include "ParserInterface.hpp"
-#include "characters_encoding.hpp"
 #include <boost/filesystem.hpp>
 #include <cstdio>
+#include "Error.hpp"
+#include "EvaluateScriptFile.hpp"
+#include "characters_encoding.hpp"
+#include "ParserInterface.hpp"
+#include "IsEmptyScriptFile.hpp"
+#include "AstManager.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -35,10 +35,10 @@ changeDir(const wchar_t* path, bool doException)
 {
     try {
         boost::filesystem::current_path(path);
-    } catch (boost::filesystem::filesystem_error& e) {
+    } catch (const boost::filesystem::filesystem_error& e) {
         e.what();
         if (doException) {
-            throw Exception(_("Cannot change directory '") + wstring_to_utf8(path) + "'.");
+            Error(_("Cannot change directory '") + wstring_to_utf8(path) + "'.");
         }
     }
 }
@@ -49,11 +49,11 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
     bool bIsFile;
     try {
         bIsFile = boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
-    } catch (boost::filesystem::filesystem_error& e) {
+    } catch (const boost::filesystem::filesystem_error&) {
         bIsFile = false;
     }
     if (!bIsFile) {
-        Error(eval, _W("File does not exist."));
+        Error(_W("File does not exist."));
     }
     if (IsEmptyScriptFile(filename)) {
         return true;
@@ -116,11 +116,11 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
     eval->pushEvaluateFilenameList(absolutePath.generic_wstring());
     ParserState pstate = ParseError;
     resetAstBackupPosition();
-    boost::container::vector<ASTPtr> pt;
+    std::vector<ASTPtr> pt;
     try {
         pstate = parseFile(fr, absolutePath.generic_string().c_str());
         pt = getAstUsed();
-    } catch (Exception&) {
+    } catch (const Exception&) {
         deleteAstVector(getAstUsed());
         resetAstBackupPosition();
         fclose(fr);
@@ -170,7 +170,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         try {
             buffer = new char[cpos + 2];
             memset(buffer, 0, cpos + 2);
-        } catch (std::bad_alloc& ba) {
+        } catch (const std::bad_alloc& ba) {
             deleteAstVector(pt);
             resetAstBackupPosition();
             ba.what();
@@ -178,7 +178,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
             if (bNeedToRestoreDirectory) {
                 changeDir(initialDir.generic_wstring().c_str(), false);
             }
-            Error(eval, _W("Memory allocation."));
+            Error(_W("Memory allocation."));
         }
         if (bSheBang || bBOM) {
             fsetpos(fr, &pos);
@@ -193,7 +193,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         size_t stackdepth = eval->cstack.size();
         eval->setCLI(true);
         try {
-            eval->SetInterruptPending(false);
+            NelsonConfiguration::getInstance()->setInterruptPending(false);
             ASTPtr tree = getParsedScriptBlock();
             if (tree == nullptr) {
                 deleteAstVector(pt);
@@ -208,14 +208,15 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
                 }
                 return false;
             }
-            eval->pushDebug("EvaluateScript", buffer);
+            eval->pushDebug(wstring_to_utf8(filename), buffer);
             try {
-                eval->block(tree);
-            } catch (Exception& e) {
+                if (tree) {
+                    eval->block(tree);
+                }
+            } catch (const Exception&) {
                 deleteAstVector(pt);
                 resetAstBackupPosition();
                 tree = nullptr;
-                e.what();
                 eval->popDebug();
                 eval->popEvaluateFilenameList();
                 if (buffer) {
@@ -266,11 +267,9 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
                 changeDir(initialDir.generic_wstring().c_str(), false);
             }
             return true;
-        } catch (Exception& e) {
+        } catch (const Exception&) {
             deleteAstVector(getAstUsed());
             resetAstBackupPosition();
-            e.setLinePosition(
-                eval->cstack.end()->tokid & 0x0000FFFF, eval->cstack.end()->tokid >> 16);
             // removes stack
             while (eval->cstack.size() > stackdepth) {
                 eval->cstack.pop_back();

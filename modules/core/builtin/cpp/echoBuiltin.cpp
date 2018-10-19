@@ -25,7 +25,7 @@ ArrayOfVector
 Nelson::CoreGateway::echoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
     if (argIn.size() == 0) {
@@ -34,13 +34,13 @@ Nelson::CoreGateway::echoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
             eval->setEchoMode(!toggle);
         } else {
             if (toggle) {
-                retval.push_back(ArrayOf::stringConstructor("on"));
+                retval.push_back(ArrayOf::characterArrayConstructor("on"));
             } else {
-                retval.push_back(ArrayOf::stringConstructor("off"));
+                retval.push_back(ArrayOf::characterArrayConstructor("off"));
             }
         }
     } else if (argIn.size() == 1) {
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isRowVectorCharacterArray()) {
             bool bMode = false;
             std::wstring arg = argIn[0].getContentAsWideString();
             if (arg.compare(L"on") == 0) {
@@ -48,14 +48,14 @@ Nelson::CoreGateway::echoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
             } else if (arg.compare(L"off") == 0) {
                 bMode = false;
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+                Error(ERROR_WRONG_ARGUMENT_1_VALUE);
             }
             eval->setEchoMode(bMode);
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

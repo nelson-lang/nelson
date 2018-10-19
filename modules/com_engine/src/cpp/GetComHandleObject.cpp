@@ -18,7 +18,7 @@
 //=============================================================================
 #include "GetComHandleObject.hpp"
 #include "ComHandleObject.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "VariantConversionHelpers.hpp"
@@ -33,18 +33,18 @@ GetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOfVector pa
 {
     ArrayOf res;
     if (A.getHandleCategory() != COM_CATEGORY_STR) {
-        throw Exception(_W("COM handle expected."));
+        Error(_W("COM handle expected."));
     }
     ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     void* ptr = comhandleobj->getPointer();
     if (ptr == nullptr) {
-        throw Exception(_W("COM valid handle expected."));
+        Error(_W("COM valid handle expected."));
     }
     VARIANT* pVariant = (VARIANT*)ptr;
     VARIANT* pVarResult;
     try {
         pVarResult = new VARIANT;
-    } catch (std::bad_alloc) {
+    } catch (const std::bad_alloc&) {
         pVarResult = nullptr;
     }
     if (pVarResult) {
@@ -53,10 +53,10 @@ GetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOfVector pa
         if (nbParams > 0) {
             try {
                 args = new VARIANT[nbParams];
-            } catch (std::bad_alloc) {
+            } catch (const std::bad_alloc&) {
                 delete pVarResult;
                 pVarResult = nullptr;
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
             std::wstring errorMessage;
             for (size_t k = 0; k < nbParams; k++) {
@@ -64,7 +64,7 @@ GetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOfVector pa
                 if (!bSuccess) {
                     delete[] args;
                     args = nullptr;
-                    throw Exception(errorMessage);
+                    Error(errorMessage);
                 }
             }
         }
@@ -80,14 +80,14 @@ GetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOfVector pa
             bSuccess = ComVariantToNelson(pVarResult, res, errorMessage);
             if (!bSuccess) {
                 delete pVarResult;
-                throw Exception(errorMessage);
+                Error(errorMessage);
             }
         } else {
             delete pVarResult;
-            throw Exception(errorMessage);
+            Error(errorMessage);
         }
     } else {
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     return res;
 }

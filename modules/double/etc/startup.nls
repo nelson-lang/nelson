@@ -17,4 +17,3 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 addgateway(modulepath(nelsonroot(), 'double', 'builtin'));
-addpath(modulepath(nelsonroot(), 'double', 'functions'))

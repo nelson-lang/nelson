@@ -38,10 +38,10 @@ Nelson::SlicotGateway::slicot_mb04mdBuiltin(Evaluator* eval, int nLhs, const Arr
 {
     ArrayOfVector retval;
     if (nLhs > 4) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // INPUT VARIABLES
     // IN/OUT VARIABLES
@@ -72,21 +72,20 @@ Nelson::SlicotGateway::slicot_mb04mdBuiltin(Evaluator* eval, int nLhs, const Arr
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsMAXRED.isScalar()) {
-        Error(eval, _W("Input argument #1: scalar expected."));
+        Error(_W("Input argument #1: scalar expected."));
     }
     Dimensions dimsA_expected(
         (int)A.getDimensions().getRows(), (int)A.getDimensions().getColumns());
     if (!dimsA.equals(dimsA_expected)) {
-        Error(eval,
-            _("Input argument #2: wrong size.") + " " + dimsA_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #2: wrong size.") + " " + dimsA_expected.toString() + " "
+            + "expected" + ".");
     }
     // CALL EXTERN FUNCTION
     try {
         mb04md_(N_ptr, MAXRED_output_ptr, A_output_ptr, LDA_ptr, SCALE_output_ptr, INFO_output_ptr);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         e.what();
-        Error(eval, "mb04md function fails.");
+        Error("mb04md function fails.");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

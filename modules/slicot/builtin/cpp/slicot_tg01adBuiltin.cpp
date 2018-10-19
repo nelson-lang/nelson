@@ -41,10 +41,10 @@ Nelson::SlicotGateway::slicot_tg01adBuiltin(Evaluator* eval, int nLhs, const Arr
 {
     ArrayOfVector retval;
     if (nLhs > 7) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 6) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // INPUT VARIABLES
     ArrayOf JOB = argIn[0];
@@ -119,47 +119,43 @@ Nelson::SlicotGateway::slicot_tg01adBuiltin(Evaluator* eval, int nLhs, const Arr
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsJOB.isScalar()) {
-        Error(eval, _W("Input argument #1: scalar expected."));
+        Error(_W("Input argument #1: scalar expected."));
     }
     if (!dimsTHRESH.isScalar()) {
-        Error(eval, _W("Input argument #2: scalar expected."));
+        Error(_W("Input argument #2: scalar expected."));
     }
     Dimensions dimsA_expected(
         std::max(1, (int)L.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsA.equals(dimsA_expected)) {
-        Error(eval,
-            _("Input argument #3: wrong size.") + " " + dimsA_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #3: wrong size.") + " " + dimsA_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsE_expected(
         std::max(1, (int)L.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsE.equals(dimsE_expected)) {
-        Error(eval,
-            _("Input argument #4: wrong size.") + " " + dimsE_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #4: wrong size.") + " " + dimsE_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsB_expected(
         std::max(1, (int)L.getContentAsInteger32Scalar()), (int)M.getContentAsInteger32Scalar());
     if (!dimsB.equals(dimsB_expected)) {
-        Error(eval,
-            _("Input argument #5: wrong size.") + " " + dimsB_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #5: wrong size.") + " " + dimsB_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsC_expected(
         std::max(1, (int)P.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsC.equals(dimsC_expected)) {
-        Error(eval,
-            _("Input argument #6: wrong size.") + " " + dimsC_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #6: wrong size.") + " " + dimsC_expected.toString() + " "
+            + "expected" + ".");
     }
     // CALL EXTERN FUNCTION
     try {
         tg01ad_(JOB_ptr, L_ptr, N_ptr, M_ptr, P_ptr, THRESH_ptr, A_output_ptr, LDA_ptr,
             E_output_ptr, LDE_ptr, B_output_ptr, LDB_ptr, C_output_ptr, LDC_ptr, LSCALE_output_ptr,
             RSCALE_output_ptr, DWORK_ptr, INFO_output_ptr);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         e.what();
-        Error(eval, "tg01ad function fails.");
+        Error("tg01ad function fails.");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

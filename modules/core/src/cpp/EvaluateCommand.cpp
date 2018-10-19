@@ -20,7 +20,6 @@
 #include "AstManager.hpp"
 #include "Error.hpp"
 #include "EvaluateInterface.hpp"
-#include "Exception.hpp"
 #include "ParserInterface.hpp"
 #include "characters_encoding.hpp"
 #include <string>
@@ -112,7 +111,7 @@ EvaluateCommand(
             retval = retrieveVariablesReturned(eval, nLhs);
             eval->getContext()->restoreBypassedScopes();
             if (retval.size() != nLhs) {
-                Error(eval, _W("Invalid use of statement list."));
+                Error(_W("Invalid use of statement list."));
             }
         }
     } else {
@@ -123,7 +122,7 @@ EvaluateCommand(
                 eval->getContext()->bypassScope(scopeValue);
                 eval->evaluateString(command, true);
                 eval->getContext()->restoreBypassedScopes();
-            } catch (Exception) {
+            } catch (const Exception&) {
                 eval->getContext()->restoreBypassedScopes();
                 eval->evaluateString(catchCommand, false);
             }
@@ -138,14 +137,14 @@ EvaluateCommand(
                 eval->evaluateString(preparedCommand, true);
                 retval = retrieveVariablesReturned(eval, nLhs);
                 eval->getContext()->restoreBypassedScopes();
-            } catch (Exception) {
+            } catch (const Exception&) {
                 eval->getContext()->restoreBypassedScopes();
                 eval->evaluateString(preparedCatchCommand, false);
                 retval = retrieveVariablesReturned(eval, nLhs);
             }
             eval->AutoStop(true);
             if (retval.size() != nLhs) {
-                Error(eval, _W("Invalid use of statement list."));
+                Error(_W("Invalid use of statement list."));
             }
         }
     }
@@ -162,7 +161,7 @@ ArrayOfVector
 EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, std::wstring command)
 {
     if (scope == GLOBAL_SCOPE) {
-        Error(eval, _W("'local', 'caller', 'base' scope expected."));
+        Error(_W("'local', 'caller', 'base' scope expected."));
     }
     return EvaluateCommand(eval, nLhs, command, L"", scope);
 }
@@ -175,8 +174,8 @@ EvaluateConsoleCommand(Evaluator* eval, int nLhs, std::wstring command, std::wst
     EvaluateInterface* tempIO = nullptr;
     try {
         tempIO = new EvaluateInterface();
-    } catch (std::bad_alloc) {
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+    } catch (const std::bad_alloc&) {
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     eval->setInterface(tempIO);
     eval->getContext()->bypassScope(0);
@@ -192,14 +191,14 @@ EvaluateConsoleCommand(Evaluator* eval, int nLhs, std::wstring command, std::wst
         buffer = tempIO->getOutputBuffer();
         eval->setInterface(io);
         delete tempIO;
-    } catch (Exception) {
+    } catch (const Exception&) {
         if (catchCommand != L"") {
             try {
                 retval = EvaluateCommand(eval, nbOutput, catchCommand, L"");
                 buffer = tempIO->getOutputBuffer();
                 eval->setInterface(io);
                 delete tempIO;
-            } catch (Exception) {
+            } catch (const Exception&) {
                 eval->setInterface(io);
                 delete tempIO;
                 throw;
@@ -210,7 +209,7 @@ EvaluateConsoleCommand(Evaluator* eval, int nLhs, std::wstring command, std::wst
             throw;
         }
     }
-    retval.insert(retval.begin(), ArrayOf::stringConstructor(buffer));
+    retval.insert(retval.begin(), ArrayOf::characterArrayConstructor(buffer));
     return retval;
 }
 //=============================================================================

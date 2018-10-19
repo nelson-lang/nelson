@@ -28,13 +28,13 @@ Nelson::SparseGateway::sparsedouble_imagBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (!argIn[0].isDoubleSparseType()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
+    if (!argIn[0].isSparseDoubleType()) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
     }
     retval.push_back(SparseImagPart(argIn[0]));
     return retval;

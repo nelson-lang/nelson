@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include <math.h>
+#include <limits>
 //=============================================================================
 namespace Nelson {
 //=============================================================================

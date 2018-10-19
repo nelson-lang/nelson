@@ -20,6 +20,7 @@
 #include "Error.hpp"
 #include "PathFuncManager.hpp"
 #include "StringFormat.hpp"
+#include "Warning.hpp"
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
 //=============================================================================
@@ -30,17 +31,17 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool begin = true;
     bool withOption = false;
     if (argIn.size() > 1) {
         size_t lastpos = argIn.size() - 1;
         ArrayOf lastParam = argIn[lastpos];
-        if (lastParam.isSingleString()) {
+        if (lastParam.isRowVectorCharacterArray()) {
             std::wstring option = lastParam.getContentAsWideString();
             if ((option == L"-begin") || (option == L"-end")) {
                 if (option == L"-begin") {
@@ -53,8 +54,7 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
                 withOption = false;
             }
         } else {
-            Error(eval,
-                StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), lastpos + 1));
+            Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), lastpos + 1));
         }
     }
     wstringVector params;
@@ -66,10 +66,10 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     for (size_t k = 0; k < lastpos; k++) {
         ArrayOf param = argIn[k];
-        if (param.isSingleString()) {
+        if (param.isRowVectorCharacterArray()) {
             params.push_back(param.getContentAsWideString());
         } else {
-            Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), k + 1));
+            Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), k + 1));
         }
     }
     std::wstring previousPaths = PathFuncManager::getInstance()->getPathNameAsString();
@@ -80,6 +80,7 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
             bRes = boost::filesystem::is_directory(data_dir);
         } catch (const boost::filesystem::filesystem_error& e) {
             if (e.code() == boost::system::errc::permission_denied) {
+                // ONLY FOR DEBUG
             }
             bRes = false;
         }
@@ -89,14 +90,11 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
                 PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
             }
         } else {
-            Interface* io = eval->getInterface();
-            if (io) {
-                io->warningMessage(_W("Warning: Not a directory:") + L" " + params[k] + L"\n");
-            }
+            Warning(_W("Warning: Not a directory:") + L" " + params[k] + L"\n");
         }
     }
     if (nLhs == 1) {
-        retval.push_back(ArrayOf::stringConstructor(previousPaths));
+        retval.push_back(ArrayOf::characterArrayConstructor(previousPaths));
     }
     return retval;
 }

@@ -65,7 +65,6 @@ target_link_libraries(nelson-gui
 nlsEngine
 )
 #==============================================================================
-if (WITH_SIO_CLIENT)
 FILE(
 GLOB
 MAINSIOCLI_SRC
@@ -80,7 +79,6 @@ ADD_EXECUTABLE(
 target_link_libraries(nelson-sio-cli
 nlsEngine
 )
-endif()
 #==============================================================================
 add_custom_target(Name ALL
     COMMAND nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatemo.nls"

@@ -41,24 +41,18 @@
 #include "ArrayOf.hpp"
 #include "CommandQueue.hpp"
 #include "Context.hpp"
-#include "Exception.hpp"
 #include "FunctionDef.hpp"
+#include "Error.hpp"
 #include "Interface.hpp"
 #include "StackEntry.hpp"
+#include "Warning.hpp"
+#include "PositionScript.hpp"
 #include "nlsInterpreter_exports.h"
-#include <boost/container/vector.hpp>
+#include "Exception.hpp"
 #include <stack>
+#include <vector>
 
 namespace Nelson {
-
-typedef enum
-{
-    NLS_FORMAT_SHORT,
-    NLS_FORMAT_LONG,
-    NLS_FORMAT_SHORTE,
-    NLS_FORMAT_LONGE,
-    NLS_FORMAT_HEX
-} OutputFormatDisplay;
 
 typedef enum
 {
@@ -69,6 +63,7 @@ typedef enum
     NLS_STATE_QUIT = 4,
     NLS_STATE_ABORT = 5
 } State;
+
 class Context;
 
 /**
@@ -101,19 +96,15 @@ class NLSINTERPRETER_IMPEXP Evaluator
      */
     Interface* io;
     /**
-     * The print limit (how many elements get printed before output
-     * stops).
-     */
-    int printLimit;
-    /**
      * The last error that occured.
      */
-    Exception* lastException;
+    Exception lastErrorException;
 
     /**
      * The last warning that occured.
      */
-    std::wstring lastwarn = L"";
+    Exception lastWarningException;
+
     /**
      * autostop storage flag
      */
@@ -127,7 +118,7 @@ class NLSINTERPRETER_IMPEXP Evaluator
     // The debug stack - this stack tracks our current location
     // in each file, as well as the files themselves.
 
-    boost::container::vector<StackEntry> bpStack;
+    std::vector<StackEntry> bpStack;
     bool inStepMode;
     int lineNumber;
     StackEntry stepTrap;
@@ -135,16 +126,21 @@ class NLSINTERPRETER_IMPEXP Evaluator
 
     bool InCLI;
 
-    std::string
+    std::wstring
     buildPrompt();
-    OutputFormatDisplay currentOutputFormatDisplay;
 
     bool bEchoMode = true;
 
     bool bQuietMode = false;
 
+    // by default, overload on basic types is called after hardcoded operators.
+    // faster but double, single, char, logical, integers does not allow overload.
+    // "overloadbasictypes(true)" modify this behavior.
+    // overload on basic types can be usefull (example: code generator).
+    bool overloadOnBasicTypes = false;
+
 public:
-    boost::container::vector<std::wstring> evaluatedFilenames;
+    std::vector<std::wstring> evaluatedFilenames;
 
     void* mainGuiObject = nullptr;
 
@@ -154,16 +150,17 @@ public:
 
     void* HistoryManager = nullptr;
 
-    OutputFormatDisplay
-    getCurrentOutputFormatDisplay();
-    void
-    setCurrentOutputFormatDisplay(OutputFormatDisplay newFormat);
-
-    boost::container::vector<StackEntry> cstack;
+    std::vector<StackEntry> cstack;
     void
     setCLI(bool bCLI);
     bool
     getCLI();
+
+    /**
+     * Get the context we are running with.
+     */
+    Context*
+    getContext();
 
     bool debugActive;
 
@@ -179,7 +176,7 @@ public:
     popDebug();
 
     void
-    addBreakpoint(StackEntry bp);
+    addBreakpoint(StackEntry& bp);
     bool
     adjustBreakpoint(StackEntry& bp, bool dbstep);
     void
@@ -188,18 +185,9 @@ public:
     listBreakpoints();
     void
     deleteBreakpoint(int number);
-    void
-    stackTrace(bool includeCurrent);
+
     stringVector
     getCallers(bool includeCurrent);
-
-    bool
-    GetInterruptPending();
-    bool
-    SetInterruptPending(bool bInterruptPending);
-
-    bool
-    SetInterrupCallback(bool bInterruptCallback);
 
     /* Command Queue */
     CommandQueue commandQueue;
@@ -231,19 +219,7 @@ public:
     AutoStop();
     void
     AutoStop(bool a);
-    /**
-     * Set the print limit (number of element printed prior to truncation).
-     */
-    void
-    setPrintLimit(int);
-    /**
-     * Get the print limit (number of element printed prior to truncation).
-     */
-    int
-    getPrintLimit();
-    /**
-     * Clear the context stacks.
-     */
+
     void
     clearStacks();
     /**
@@ -265,7 +241,7 @@ public:
      * Get current overload state (enabled by default)
      */
     bool
-    getOverloadState();
+    isOverloadAllowed();
     /**
      * disable overload
      */
@@ -276,7 +252,21 @@ public:
      */
     void
     enableOverload();
-
+    /**
+     *  return current overload basic types
+     */
+    bool
+    mustOverloadBasicTypes();
+    /**
+     * enable overload basic type
+     */
+    void
+    enableOverloadBasicTypes();
+    /**
+     * disable overload basic type
+     */
+    void
+    disableOverloadBasicTypes();
     /**
      * Get exit code.
      */
@@ -294,8 +284,9 @@ public:
     rowDefinition(ASTPtr t);
     /**
      * Convert a matrix definition of the form: [expr1,expr2;expr3;expr4] into
-     * a vector of row definitions.  The first row is the vector [expr1,expr2], and
-     * the second is the vector [expr3,expr4].  The AST input should look like:
+     * a vector of row definitions.  The first row is the vector [expr1,expr2],
+     * and the second is the vector [expr3,expr4].  The AST input should look
+     * like:
      *  []
      *   |
      *   ;-> ; -> ... -> NULL
@@ -307,8 +298,9 @@ public:
     matrixDefinition(ASTPtr t);
     /**
      * Convert a cell defintion of the form: {expr1,expr2;expr3;expr4} into
-     * a vector of row definitions.  The first row is the vector {expr1,expr2}, and
-     * the second is the vector {expr3,expr4}.  The AST input should look like:
+     * a vector of row definitions.  The first row is the vector {expr1,expr2},
+     * and the second is the vector {expr3,expr4}.  The AST input should look
+     * like:
      *  {}
      *   |
      *   ;-> ; -> ... -> NULL
@@ -687,69 +679,20 @@ public:
     void
     evalCLI();
     /**
-     * Get the context we are running with.
-     */
-    Context*
-    getContext();
-    /**
      * The workhorse routine - "evaluate" the contents of a string
      * and execute it.
      */
     bool
-    evaluateString(std::string cmdToEvaluate, bool propogateException = true);
+    evaluateString(const std::string& cmdToEvaluate, bool propogateException = true);
     bool
-    evaluateString(std::wstring cmdToEvaluate, bool propogateException = true);
+    evaluateString(const std::wstring& cmdToEvaluate, bool propogateException = true);
 
     std::wstring
     getCurrentEvaluateFilename();
     void
-    pushEvaluateFilenameList(const std::wstring filename);
+    pushEvaluateFilenameList(const std::wstring& filename);
     void
     popEvaluateFilenameList();
-
-    /**
-     * Get the last error that occurred.
-     */
-    std::wstring
-    getLastErrorString();
-
-    Exception
-    getLastException();
-    bool
-    setLastException(Exception e);
-
-    /**
-     * Set the text for the last error.
-     */
-    void
-    setLastErrorString(std::wstring txt);
-    void
-    setLastErrorString(std::string txt);
-
-    /**
-     * Get the last warning that occurred.
-     */
-    std::wstring
-    getLastWarningString();
-    /**
-     * Set the text for the last warning.
-     */
-    void
-    setLastWarningString(std::string msg);
-    void
-    setLastWarningString(std::wstring msg);
-
-    /**
-     * Handles the logistics of shortcut evaluation
-     */
-    ArrayOf
-    ShortCutOr(ASTPtr t);
-    ArrayOf
-    ShortCutAnd(ASTPtr t);
-    ArrayOf
-    Or(ASTPtr t);
-    ArrayOf
-    And(ASTPtr t);
 
     /*
      * time value used by tic toc
@@ -793,7 +736,79 @@ public:
     setQuietMode(bool _quiet);
 
     void
-    addCommandToQueue(std::wstring command, bool bIsPriority = false);
+    addCommandToQueue(const std::wstring& command, bool bIsPriority = false);
+
+    /**
+     * Get the last error that occurred.
+     */
+    Exception
+    getLastErrorException();
+    bool
+    setLastErrorException(const Exception& e);
+
+    /**
+     * reset last error
+     */
+    void
+    resetLastErrorException();
+
+    /**
+     * Get the last warning that occurred.
+     */
+    Exception
+    getLastWarningException();
+    /**
+     * Set the text for the last warning.
+     */
+    bool
+    setLastWarningException(const Exception& e);
+    /**
+     * reset last warning
+     */
+    void
+    resetLastWarningException();
+
+    typedef ArrayOf (*UnaryFunction)(const ArrayOf& A);
+    typedef ArrayOf (*BinaryFunction)(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess);
+    typedef ArrayOf (*TernaryFunction)(
+        ArrayOf& A, ArrayOf& B, ArrayOf& C, bool mustRaiseError, bool& bSuccess);
+
+    ArrayOf
+    doBinaryOperatorOverload(
+        ArrayOf& A, ArrayOf& B, BinaryFunction functionOperator, std::string functionName);
+
+    ArrayOf
+    additionOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    subtractionOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    timesOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    mtimesOperator(ArrayOf A, ArrayOf B);
+
+    ArrayOf
+    eqOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    gtOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    geOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    leOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    ltOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    neOperator(ArrayOf A, ArrayOf B);
+
+    ArrayOf
+    shortCutOrOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    shortCutAndOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    orOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    andOperator(ArrayOf A, ArrayOf B);
+    ArrayOf
+    notOperator(ArrayOf A);
 
 private:
     void
@@ -804,6 +819,52 @@ private:
     EndReference(ArrayOf v, indexType index, size_t count);
     size_t
     countSubExpressions(ASTPtr t);
+
+    ArrayOf
+    doUnaryOperatorOverload(ASTPtr t, UnaryFunction functionOperator, std::string functionName);
+    ArrayOf
+    doBinaryOperatorOverload(ASTPtr t, BinaryFunction functionOperator, std::string functionName);
+    ArrayOf
+    doTernaryOperatorOverload(ASTPtr t, TernaryFunction functionOperator, std::string functionName);
+
+    /**
+     * Handles the logistics of shortcut evaluation
+     */
+    ArrayOf
+    shortCutOrOperator(ASTPtr t);
+    ArrayOf
+    shortCutAndOperator(ASTPtr t);
+    ArrayOf
+    orOperator(ASTPtr t);
+    ArrayOf
+    andOperator(ASTPtr t);
+
+    ArrayOf
+    additionOperator(ASTPtr t);
+    ArrayOf
+    subtractionOperator(ASTPtr t);
+    ArrayOf
+    timesOperator(ASTPtr t);
+    ArrayOf
+    mtimesOperator(ASTPtr t);
+
+    ArrayOf
+    eqOperator(ASTPtr t);
+    ArrayOf
+    gtOperator(ASTPtr t);
+    ArrayOf
+    geOperator(ASTPtr t);
+    ArrayOf
+    leOperator(ASTPtr t);
+    ArrayOf
+    ltOperator(ASTPtr t);
+    ArrayOf
+    neOperator(ASTPtr t);
+    ArrayOf
+    notOperator(ASTPtr t);
+
+    bool
+    needToOverloadOperator(const ArrayOf& a);
 };
 NLSINTERPRETER_IMPEXP void
 sigInterrupt(int arg);

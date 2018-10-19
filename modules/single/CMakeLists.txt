@@ -27,9 +27,11 @@ ${Boost_INCLUDE_DIRS}
 	${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
+	${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
+	${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 )
 #==============================================================================	
@@ -47,10 +49,12 @@ ADD_LIBRARY(
 #==============================================================================	
 target_link_libraries(${module_library_name}
 nlsError_manager
+nlsNelson_manager
 nlsInterpreter
 nlsTypes
 nlsI18n
 nlsString
+nlsApi_nelson
 nlsElementary_functions
 )
 #==============================================================================	
@@ -71,6 +75,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
 )
 #==============================================================================	
 ADD_LIBRARY(
@@ -87,6 +92,7 @@ nlsInterpreter
 nlsOverload
 nlsTypes
 nlsI18n
+nlsElementary_functions
 )
 #==============================================================================
 set_target_properties(${module_library_builtin_name}

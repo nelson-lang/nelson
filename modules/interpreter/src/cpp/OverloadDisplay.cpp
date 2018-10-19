@@ -18,24 +18,54 @@
 //=============================================================================
 #include "OverloadDisplay.hpp"
 #include "ClassName.hpp"
+#include "DisplayVariable.hpp"
 #include "Error.hpp"
+#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 void
-OverloadDisplay(Evaluator* eval, ArrayOf a)
+OverloadDisplay(Evaluator* eval, ArrayOf a, bool fromBuiltin)
 {
-    Context* context = eval->getContext();
-    FunctionDef* funcDef = nullptr;
-    std::string OverloadName = ClassName(a) + "_disp";
-    if (!context->lookupFunction(OverloadName, funcDef)) {
-        Error(eval, utf8_to_wstring(_("function") + " " + OverloadName + " " + _("undefined.")));
+    bool bSuccess = false;
+    if (eval->mustOverloadBasicTypes()) {
+        Context* context = eval->getContext();
+        if (context) {
+            FunctionDef* funcDef = nullptr;
+            std::string OverloadName = ClassName(a) + "_disp";
+            if (context->lookupFunction(OverloadName, funcDef)) {
+                bSuccess = true;
+                ArrayOfVector argsIn;
+                argsIn.push_back(a);
+                int nargout = 0;
+                ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
+            }
+        }
     }
-    ArrayOfVector argsIn;
-    argsIn.push_back(a);
-    int nargout = 0;
-    ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
+    if (!bSuccess) {
+        bool needToOverload;
+        DisplayVariable(eval->getInterface(), a, fromBuiltin, needToOverload);
+        if (needToOverload) {
+            Context* context = eval->getContext();
+            if (context) {
+                FunctionDef* funcDef = nullptr;
+                std::string OverloadName = ClassName(a) + "_disp";
+                if (context->lookupFunction(OverloadName, funcDef)) {
+                    bSuccess = true;
+                    ArrayOfVector argsIn;
+                    argsIn.push_back(a);
+                    int nargout = 0;
+                    ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
+                } else {
+                    Error(utf8_to_wstring(
+                        _("function") + " " + OverloadName + " " + _("undefined.")));
+                }
+            }
+        }
+    }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

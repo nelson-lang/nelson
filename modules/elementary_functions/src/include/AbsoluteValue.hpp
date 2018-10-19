@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-AbsoluteValue(ArrayOf arrayIn);
+AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload);
 }
 //=============================================================================

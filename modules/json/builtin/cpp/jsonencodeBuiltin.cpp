@@ -28,15 +28,24 @@ Nelson::JsonGateway::jsonencodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (!((argIn.size() == 1 || argIn.size() == 3))) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "jsonencode", bSuccess);
+    }
     if (!bSuccess) {
+        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "jsonencode", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
         bool convertNanInf = false;
         ArrayOf param1 = argIn[0];
         if (argIn.size() == 3) {
@@ -44,7 +53,7 @@ Nelson::JsonGateway::jsonencodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             ArrayOf param3 = argIn[2];
             std::wstring fieldname = param2.getContentAsWideString();
             if (fieldname != L"ConvertInfAndNaN") {
-                Error(eval, _W("Wrong value for argument #2: 'ConvertInfAndNaN' expected."));
+                Error(_W("Wrong value for argument #2: 'ConvertInfAndNaN' expected."));
             }
             logical fieldvalue = param3.getContentAsLogicalScalar();
             convertNanInf = (fieldvalue != 0);
@@ -52,7 +61,7 @@ Nelson::JsonGateway::jsonencodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         std::wstring errorMessage;
         ArrayOf res = jsonEncode(param1, convertNanInf, errorMessage);
         if (!errorMessage.empty()) {
-            Error(eval, errorMessage);
+            Error(errorMessage);
         }
         retval.push_back(res);
     }

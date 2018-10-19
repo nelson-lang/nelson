@@ -21,10 +21,10 @@
 #include <jsmn.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/container/vector.hpp>
-#include "characters_encoding.hpp"
-#include "JsonDecode.hpp"
-#include "JsonVariable.hpp"
 #include "MakeValidFieldname.hpp"
+#include "JsonDecode.hpp"
+#include "characters_encoding.hpp"
+#include "JsonVariable.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -141,8 +141,8 @@ convertToJsonVariable(const jsmntok_t& token, JsonVariable& jsVar)
             jsVar.jsonVariableType = JSON_TO_NELSON_DOUBLE;
             jsVar.scalarDouble = val;
             return true;
-        } catch (std::invalid_argument e) {
-        } catch (std::out_of_range e) {
+        } catch (const std::invalid_argument& e) {
+        } catch (const std::out_of_range& e) {
         }
         jsVar.jsonVariableType = JSON_TO_NELSON_STRING;
         jsVar.scalarString = decodeCharacters(strValue);
@@ -152,21 +152,21 @@ convertToJsonVariable(const jsmntok_t& token, JsonVariable& jsVar)
 }
 //=============================================================================
 static ArrayOf
-jsonVariableToNelson(JsonVariable jsVar);
+jsonVariableToNelson(JsonVariable& jsVar);
 //=============================================================================
 static ArrayOf
-jsonVariableToNelsonStringType(JsonVariable jsVar)
+jsonVariableToNelsonStringType(JsonVariable& jsVar)
 {
     switch (jsVar.dims.size()) {
     case 0: {
-        return ArrayOf::stringConstructor(jsVar.scalarString);
+        return ArrayOf::characterArrayConstructor(jsVar.scalarString);
     } break;
     case 1: {
         Dimensions dims(jsVar.dims[0], 1);
         ArrayOf* dptr = (ArrayOf*)ArrayOf::allocateArrayOf(
             NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
         for (size_t k = 0; k < jsVar.vectorString.size(); k++) {
-            dptr[k] = ArrayOf::stringConstructor(jsVar.vectorString[k]);
+            dptr[k] = ArrayOf::characterArrayConstructor(jsVar.vectorString[k]);
         }
         return ArrayOf(NLS_CELL_ARRAY, dims, dptr);
     } break;
@@ -175,7 +175,7 @@ jsonVariableToNelsonStringType(JsonVariable jsVar)
         ArrayOf* dptr = (ArrayOf*)ArrayOf::allocateArrayOf(
             NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
         for (size_t k = 0; k < jsVar.vectorString.size(); k++) {
-            dptr[k] = ArrayOf::stringConstructor(jsVar.vectorString[k]);
+            dptr[k] = ArrayOf::characterArrayConstructor(jsVar.vectorString[k]);
         }
         return ArrayOf(NLS_CELL_ARRAY, dims, dptr);
     } break;
@@ -187,7 +187,7 @@ jsonVariableToNelsonStringType(JsonVariable jsVar)
         ArrayOf* dptr = (ArrayOf*)ArrayOf::allocateArrayOf(
             NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
         for (size_t k = 0; k < jsVar.vectorString.size(); k++) {
-            dptr[k] = ArrayOf::stringConstructor(jsVar.vectorString[k]);
+            dptr[k] = ArrayOf::characterArrayConstructor(jsVar.vectorString[k]);
         }
         return ArrayOf(NLS_CELL_ARRAY, dims, dptr);
     } break;
@@ -198,7 +198,7 @@ jsonVariableToNelsonStringType(JsonVariable jsVar)
 }
 //=============================================================================
 static ArrayOf
-jsonVariableToNelsonLogicalType(JsonVariable jsVar)
+jsonVariableToNelsonLogicalType(JsonVariable& jsVar)
 {
     switch (jsVar.dims.size()) {
     case 0: {
@@ -235,7 +235,7 @@ jsonVariableToNelsonLogicalType(JsonVariable jsVar)
 }
 //=============================================================================
 static ArrayOf
-jsonVariableToNelsonDoubleType(JsonVariable jsVar)
+jsonVariableToNelsonDoubleType(JsonVariable& jsVar)
 {
     switch (jsVar.dims.size()) {
     case 0: {
@@ -270,7 +270,7 @@ jsonVariableToNelsonDoubleType(JsonVariable jsVar)
 }
 //=============================================================================
 static ArrayOf
-jsonVariableToNelsonStructType(JsonVariable jsVar, Dimensions dims)
+jsonVariableToNelsonStructType(JsonVariable& jsVar, Dimensions& dims)
 {
     stringVector fieldnames = jsVar.fieldnames;
     ArrayOf* ptrStruct
@@ -288,7 +288,7 @@ jsonVariableToNelsonStructType(JsonVariable jsVar, Dimensions dims)
 }
 //=============================================================================
 static ArrayOf
-jsonVariableToNelsonStructType(JsonVariable jsVar)
+jsonVariableToNelsonStructType(JsonVariable& jsVar)
 {
     switch (jsVar.dims.size()) {
     case 0: {
@@ -331,7 +331,7 @@ jsonVariableToNelsonStructType(JsonVariable jsVar)
 }
 //=============================================================================
 static ArrayOf
-jsonVariableToNelsonCellType(JsonVariable jsVar)
+jsonVariableToNelsonCellType(JsonVariable& jsVar)
 {
     Dimensions dims(jsVar.vectorJsonVariable.size(), 1);
     ArrayOf* dptr = (ArrayOf*)ArrayOf::allocateArrayOf(
@@ -343,7 +343,7 @@ jsonVariableToNelsonCellType(JsonVariable jsVar)
 }
 //=============================================================================
 static ArrayOf
-jsonVariableToNelson(JsonVariable jsVar)
+jsonVariableToNelson(JsonVariable& jsVar)
 {
     switch (jsVar.jsonVariableType) {
     case JSON_TO_NELSON_LOGICAL: {
@@ -371,7 +371,7 @@ jsonVariableToNelson(JsonVariable jsVar)
 }
 //=============================================================================
 static JSON_TO_NELSON_Type
-findCommonJsonVariableType(JsonVariable jsVar)
+findCommonJsonVariableType(JsonVariable& jsVar)
 {
     JSON_TO_NELSON_Type commonType = JSON_TO_NELSON_UNDEFINED;
     if (jsVar.vectorJsonVariable.size() > 0) {
@@ -392,7 +392,7 @@ transformStringArray(JsonVariable& jsVar, size_t totaldims)
     case 1: {
         jsVar.vectorString.resize(totaldims * jsVar.vectorJsonVariable.size());
         std::transform(jsVar.vectorJsonVariable.begin(), jsVar.vectorJsonVariable.end(),
-            jsVar.vectorString.begin(), [](JsonVariable val) { return val.scalarString; });
+            jsVar.vectorString.begin(), [](JsonVariable& val) { return val.scalarString; });
     } break;
     case 2: {
         jsVar.vectorString.resize(totaldims * jsVar.vectorJsonVariable.size());
@@ -440,7 +440,7 @@ transformLogicalArray(JsonVariable& jsVar, size_t totaldims)
     case 1: {
         jsVar.vectorLogical.resize(totaldims * jsVar.vectorJsonVariable.size());
         std::transform(jsVar.vectorJsonVariable.begin(), jsVar.vectorJsonVariable.end(),
-            jsVar.vectorLogical.begin(), [](JsonVariable val) { return val.scalarLogical; });
+            jsVar.vectorLogical.begin(), [](JsonVariable& val) { return val.scalarLogical; });
     } break;
     case 2: {
         jsVar.vectorLogical.resize(totaldims * jsVar.vectorJsonVariable.size());
@@ -488,7 +488,7 @@ transformDoubleArray(JsonVariable& jsVar, size_t totaldims)
     case 1: {
         jsVar.vectorDouble.resize(totaldims * jsVar.vectorJsonVariable.size());
         std::transform(jsVar.vectorJsonVariable.begin(), jsVar.vectorJsonVariable.end(),
-            jsVar.vectorDouble.begin(), [](JsonVariable val) { return val.scalarDouble; });
+            jsVar.vectorDouble.begin(), [](JsonVariable& val) { return val.scalarDouble; });
     } break;
     case 2: {
         jsVar.vectorDouble.resize(totaldims * jsVar.vectorJsonVariable.size());
@@ -532,7 +532,7 @@ transformDoubleArray(JsonVariable& jsVar, size_t totaldims)
 static bool
 transformStructArray(JsonVariable& jsVar, size_t totaldims)
 {
-    boost::container::vector<std::string> fieldnamesRef;
+    std::vector<std::string> fieldnamesRef;
     for (auto elements : jsVar.vectorJsonVariable[0].fieldnames) {
         fieldnamesRef.push_back(elements);
     }

@@ -27,22 +27,22 @@ Nelson::ConstructorsGateway::onesBuiltin(Evaluator* eval, int nLhs, const ArrayO
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     Class cl = NLS_DOUBLE;
     if (argIn.size() == 0) {
-        retval.push_back(Ones(eval, cl));
+        retval.push_back(Ones(cl));
     } else {
         sizeType nRhs = argIn.size();
         bool bCheckClassName = true;
         if ((int)nRhs - 2 >= 0) {
             ArrayOf Arg = argIn[argIn.size() - 2];
-            if (Arg.isSingleString()) {
+            if (Arg.isRowVectorCharacterArray()) {
                 std::wstring paramstr = Arg.getContentAsWideString();
                 if (paramstr == L"like") {
                     ArrayOf lastArg = argIn[argIn.size() - 1];
                     if (lastArg.isSparse()) {
-                        Error(eval, _W("A supported type expected at last argument."));
+                        Error(_W("A supported type expected at last argument."));
                     }
                     switch (lastArg.getDataClass()) {
                     case NLS_LOGICAL:
@@ -85,18 +85,18 @@ Nelson::ConstructorsGateway::onesBuiltin(Evaluator* eval, int nLhs, const ArrayO
                         cl = NLS_SCOMPLEX;
                         break;
                     default:
-                        Error(eval, _W("A supported type expected at last argument."));
+                        Error(_W("A supported type expected at last argument."));
                         break;
                     }
                     nRhs = nRhs - 2;
                     bCheckClassName = false;
                 } else {
-                    Error(eval, _W("\'like\' expected at n - 2 argument."));
+                    Error(_W("\'like\' expected at n - 2 argument."));
                 }
             }
         }
         ArrayOf lastArg = argIn[argIn.size() - 1];
-        if (lastArg.isSingleString() && bCheckClassName) {
+        if (lastArg.isRowVectorCharacterArray() && bCheckClassName) {
             std::wstring paramstr = lastArg.getContentAsWideString();
             if (paramstr == L"int8") {
                 cl = NLS_INT8;
@@ -129,23 +129,55 @@ Nelson::ConstructorsGateway::onesBuiltin(Evaluator* eval, int nLhs, const ArrayO
                 cl = NLS_SINGLE;
                 nRhs--;
             } else {
-                Error(eval, _W("A supported type expected at last argument."));
+                Error(_W("A supported type expected at last argument."));
             }
         }
         if (nRhs == 0) {
-            retval.push_back(Ones(eval, cl));
+            retval.push_back(Ones(cl));
             return retval;
         }
         Dimensions dims;
-        for (sizeType k = 0; k < nRhs; k++) {
-            ArrayOf param = argIn[k];
-            indexType idx = param.getContentAsScalarIndex();
-            dims[k] = idx;
+        if (nRhs == 1) {
+            if (argIn[0].isNumeric() && !argIn[0].isSparse()) {
+                if (argIn[0].isRowVector()) {
+                    if (argIn[0].isEmpty()) {
+                        Error(ERROR_WRONG_ARGUMENT_1_SIZE_ROW_VECTOR_EXPECTED);
+                    }
+                    if (argIn[0].getDimensions().getElementCount() < Nelson::maxDims) {
+                        ArrayOf dimVector = argIn[0];
+                        dimVector.promoteType(NLS_DOUBLE);
+                        double* ptrValues = (double*)dimVector.getDataPointer();
+                        for (sizeType k = 0; k < argIn[0].getDimensions().getElementCount(); k++) {
+                            if (ptrValues[k] > 0) {
+                                dims[k] = (indexType)ptrValues[k];
+                            } else {
+                                dims[k] = 0;
+                            }
+                        }
+                        if (dims.getLength() == 1) {
+                            dims[1] = dims[0];
+                        }
+                    } else {
+                        Error(_W("Too many dimensions! Current limit is") + L" "
+                            + std::to_wstring(Nelson::maxDims) + L".");
+                    }
+                } else {
+                    Error(ERROR_WRONG_ARGUMENT_1_SIZE_ROW_VECTOR_EXPECTED);
+                }
+            } else {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED);
+            }
+        } else {
+            for (sizeType k = 0; k < nRhs; k++) {
+                ArrayOf param = argIn[k];
+                indexType idx = param.getContentAsScalarIndex();
+                dims[k] = idx;
+            }
+            if (dims.getLength() == 1) {
+                dims[1] = dims[0];
+            }
         }
-        if (dims.getLength() == 1) {
-            dims[1] = dims[0];
-        }
-        retval.push_back(Ones(eval, dims, cl));
+        retval.push_back(Ones(dims, cl));
     }
     return retval;
 }

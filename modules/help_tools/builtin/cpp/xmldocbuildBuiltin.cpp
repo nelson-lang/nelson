@@ -35,37 +35,37 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(Evaluator* eval, int nLhs, const Ar
 {
     ArrayOfVector retval;
     if (argIn.size() != 5) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf argSourceDirs = argIn[0];
     wstringVector listOfDirectories;
-    if (argSourceDirs.isSingleString()) {
+    if (argSourceDirs.isRowVectorCharacterArray()) {
         std::wstring dir = argSourceDirs.getContentAsWideString();
         listOfDirectories.push_back(dir);
     } else if (argSourceDirs.isCell()) {
         listOfDirectories = argSourceDirs.getContentAsWideStringVector(true);
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_CELL_OF_STRINGS_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_CELL_OF_STRINGS_EXPECTED);
     }
     for (size_t k = 0; k < listOfDirectories.size(); k++) {
         if (!IsDirectory(listOfDirectories[k])) {
-            Error(eval, _W("Existing directory expected."));
+            Error(_W("Existing directory expected."));
         }
     }
     ArrayOf argDestinationDir = argIn[1];
     std::wstring dstDirectory = argDestinationDir.getContentAsWideString();
     if (!IsDirectory(dstDirectory)) {
-        Error(eval, _W("Existing directory expected."));
+        Error(_W("Existing directory expected."));
     }
     ArrayOf argMainTitle = argIn[2];
     std::wstring mainTitle = argMainTitle.getContentAsWideString();
     ArrayOf argExportFormat = argIn[3];
     std::wstring exportFormat = argExportFormat.getContentAsWideString();
     if ((exportFormat != L"help") && (exportFormat != L"html") && (exportFormat != L"md")) {
-        Error(eval, _W("format not supported: 'help', 'html' or 'md' expected."));
+        Error(_W("format not supported: 'help', 'html' or 'md' expected."));
     }
     DOCUMENT_OUTPUT outputTarget;
     if (exportFormat == L"help") {
@@ -90,11 +90,11 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(Evaluator* eval, int nLhs, const Ar
                 xmlDirs.writeAsHtml();
             }
         } catch (Exception& e) {
-            Error(eval, e.getMessage());
+            Error(e.getMessage());
         }
-        retval.push_back(ArrayOf::stringConstructor(outputModuleName));
+        retval.push_back(ArrayOf::characterArrayConstructor(outputModuleName));
     } else {
-        Error(eval, xmlDirs.getLastError());
+        Error(xmlDirs.getLastError());
     }
     return retval;
 }

@@ -18,7 +18,7 @@
 //=============================================================================
 #include "SetComHandleObject.hpp"
 #include "ComHandleObject.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "VariantConversionHelpers.hpp"
@@ -33,34 +33,34 @@ SetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOf B)
 {
     ArrayOf res;
     if (A.getHandleCategory() != COM_CATEGORY_STR) {
-        throw Exception(_W("COM handle expected."));
+        Error(_W("COM handle expected."));
     }
     ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     void* ptr = comhandleobj->getPointer();
     if (ptr == nullptr) {
-        throw Exception(_W("COM valid handle expected."));
+        Error(_W("COM valid handle expected."));
     }
     VARIANT* pVariant = (VARIANT*)ptr;
     VARIANT* pVarResult;
     try {
         pVarResult = new VARIANT;
-    } catch (std::bad_alloc) {
+    } catch (const std::bad_alloc&) {
         pVarResult = nullptr;
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     VariantInit(pVarResult);
     std::wstring errorMessage;
-    VARIANT* param;
+    VARIANT* param = nullptr;
     try {
         param = new VARIANT();
-    } catch (std::bad_alloc) {
+    } catch (const std::bad_alloc&) {
         delete pVarResult;
-        throw Exception(ERROR_MEMORY_ALLOCATION);
+        Error(ERROR_MEMORY_ALLOCATION);
     }
     VariantInit(param);
     bool bSuccess = NelsonToComVariant(B, param, errorMessage);
     if (!bSuccess) {
-        throw Exception(errorMessage);
+        Error(errorMessage);
     }
     errorMessage = L"";
     bSuccess = invokeCom(
@@ -70,12 +70,12 @@ SetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOf B)
         delete pVarResult;
         pVarResult = nullptr;
         if (!bSuccess) {
-            throw Exception(errorMessage);
+            Error(errorMessage);
         }
     } else {
         delete pVarResult;
         pVarResult = nullptr;
-        throw Exception(errorMessage);
+        Error(errorMessage);
     }
 }
 //=============================================================================

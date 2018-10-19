@@ -13,8 +13,11 @@
 [![Weblate](https://img.shields.io/badge/Weblate--green.svg)](https://hosted.weblate.org/projects/nelson/)
 [![Build Status](https://travis-ci.org/Nelson-numerical-software/nelson.svg?branch=master)](https://travis-ci.org/Nelson-numerical-software/nelson)
 [![Build status](https://ci.appveyor.com/api/projects/status/github/Nelson-numerical-software/nelson?svg=true)](https://ci.appveyor.com/project/Nelson-numerical-software/nelson)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/Nelson-numerical-software/nelson.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Nelson-numerical-software/nelson/alerts/)
+
 [![CircleCI](https://circleci.com/gh/Nelson-numerical-software/nelson/tree/master.svg?style=svg)](https://circleci.com/gh/Nelson-numerical-software/nelson/tree/master)
 [![Build Status](https://semaphoreci.com/api/v1/nelson-numerical-software/nelson/branches/master/badge.svg)](https://semaphoreci.com/nelson-numerical-software/nelson)
+
 
 [![Join the chat at https://gitter.im/nelson-numerical-software/Lobby](https://badges.gitter.im/nelson-numerical-software/Lobby.svg)](https://gitter.im/nelson-numerical-software/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -37,7 +40,8 @@ these own data types and operations on these data types by using overload.
   * double and double complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
   * single and single complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix. 
   * logical: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
-  * string (UNICODE supported).
+  * character array (UNICODE supported).
+  * string array (UNICODE supported).
   * integers 8, 16, 32, 64 signed and unsigned: scalar, vector, matrix 2D, N dimensions array.
   * handle objects.
 
@@ -49,7 +53,9 @@ these own data types and operations on these data types by using overload.
 
 - JSON decode/encode data support.
 
-- Foreign Function Interface.
+- Foreign Function Interface C/Fortran.
+
+- Interfacing C/C++ or Fortran with Nelson (build and load external code on the fly).
 
 - The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
 
@@ -95,4 +101,3 @@ these own data types and operations on these data types by using overload.
 
 Allan CORNET (nelson.numerical.computation@gmail.com)
 
-dedicated to my parents

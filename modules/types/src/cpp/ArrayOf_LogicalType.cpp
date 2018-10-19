@@ -18,23 +18,24 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Data.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-const bool
+bool
 ArrayOf::isLogical() const
 {
     return (dp->dataClass == NLS_LOGICAL);
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isNdArrayLogical() const
 {
     return (dp->dataClass == NLS_LOGICAL) && !is2D();
 }
 //=============================================================================
-const bool
-ArrayOf::isLogicalSparseType() const
+bool
+ArrayOf::isSparseLogicalType() const
 {
     return (dp->dataClass == NLS_LOGICAL) && (dp->sparse) && is2D();
 }
@@ -50,13 +51,13 @@ ArrayOf::logicalConstructor(bool aval)
 }
 //=============================================================================
 logical
-ArrayOf::getContentAsLogicalScalar() const
+ArrayOf::getContentAsLogicalScalar(bool arrayAsScalar) const
 {
     if (!isLogical()) {
-        throw Exception(ERROR_TYPE_LOGICAL_EXPECTED);
+        Error(ERROR_TYPE_LOGICAL_EXPECTED);
     }
-    if (getLength() != 1) {
-        throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
+    if (isEmpty() || (!arrayAsScalar && !isScalar())) {
+        Error(ERROR_SIZE_SCALAR_EXPECTED);
     }
     logical* qp = (logical*)dp->getData();
     return (*qp);

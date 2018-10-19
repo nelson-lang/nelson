@@ -19,8 +19,8 @@
 assert_isequal(nargin('asin'), 1);
 assert_isequal(nargout('asin'), 1);
 //=============================================================================
-assert_isequal(asin(NaN), complex(NaN, NaN));
-assert_isequal(asin(-NaN), complex(NaN, NaN));
+assert_isequal(asin(NaN), NaN);
+assert_isequal(asin(-NaN), NaN);
 if ismac()
   assert_isequal(asin(Inf), complex(pi * 0.5, Inf));
 else
@@ -62,5 +62,5 @@ assert_isequal(X, REF);
 //=============================================================================
 assert_isequal(asin([]), []);
 //=============================================================================
-assert_checkerror('asin(''a'')', [_('function'), ' ', 'char_asin', ' ', _('undefined.')]);
+assert_checkerror('asin(''a'')', [_('Undefined function ''asin'' for input arguments of type '''), class('a'), '''.']);
 //=============================================================================

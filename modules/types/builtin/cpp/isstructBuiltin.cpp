@@ -18,7 +18,6 @@
 //=============================================================================
 #include "isstructBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -27,18 +26,14 @@ Nelson::TypeGateway::isstructBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess) {
-        ArrayOf paramOne = argIn[0];
-        bool bRes = paramOne.isStruct();
-        retval.push_back(ArrayOf::logicalConstructor(bRes));
-    }
+    ArrayOf paramOne = argIn[0];
+    bool bRes = paramOne.isStruct();
+    retval.push_back(ArrayOf::logicalConstructor(bRes));
     return retval;
 }
 //=============================================================================

@@ -28,15 +28,15 @@ Nelson::FilesFoldersGateway::cdBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 {
     ArrayOfVector retval;
     if (argIn.size() > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0) {
         std::wstring pwd = GetCurrentDirectory();
         if (pwd == L"") {
-            Error(eval, _W("Impossible to get current directory."));
+            Error(_W("Impossible to get current directory."));
         } else {
             if (nLhs == 0) {
                 Interface* io = eval->getInterface();
@@ -44,19 +44,19 @@ Nelson::FilesFoldersGateway::cdBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                     io->outputMessage(pwd);
                 }
             } else {
-                retval.push_back(ArrayOf::stringConstructor(pwd));
+                retval.push_back(ArrayOf::characterArrayConstructor(pwd));
             }
         }
     } else // argIn.size() == 1
     {
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring wpath = argIn[0].getContentAsWideString();
             ArrayOf res = Cd(wpath);
             if (nLhs == 1) {
                 retval.push_back(res);
             }
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
     }
     return retval;

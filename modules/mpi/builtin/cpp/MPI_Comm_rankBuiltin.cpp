@@ -28,15 +28,15 @@ Nelson::MpiGateway::MPI_Comm_rankBuiltin(Evaluator* eval, int nLhs, const ArrayO
 {
     ArrayOfVector retval;
     if (argIn.size() > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(eval, _W("MPI must be initialized."));
+        Error(_W("MPI must be initialized."));
     }
     MPI_Comm comm = MPI_COMM_WORLD;
     if (argIn.size() == 1) {

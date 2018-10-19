@@ -17,8 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "sparsedouble_ctransposeBuiltin.hpp"
-#include "CtransposeSparseDouble.hpp"
 #include "Error.hpp"
+#include "CtransposeSparseDouble.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,14 +28,14 @@ Nelson::SparseGateway::sparsedouble_ctransposeBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf A = argIn[0];
-    if (!A.isSparseDouble()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
+    if (!A.isSparseDoubleType()) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
     }
     retval.push_back(CtransposeSparseDouble(A));
     return retval;

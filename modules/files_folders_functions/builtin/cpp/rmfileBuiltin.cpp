@@ -27,10 +27,10 @@ Nelson::FilesFoldersGateway::rmfileBuiltin(Evaluator* eval, int nLhs, const Arra
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     std::wstring filenameToDelete = param1.getContentAsWideString();
@@ -40,7 +40,7 @@ Nelson::FilesFoldersGateway::rmfileBuiltin(Evaluator* eval, int nLhs, const Arra
     case 0: {
         bRes = RemoveFile(filenameToDelete, msg);
         if (bRes == false) {
-            Error(eval, msg);
+            Error(msg);
         }
     } break;
     case 1:
@@ -50,10 +50,10 @@ Nelson::FilesFoldersGateway::rmfileBuiltin(Evaluator* eval, int nLhs, const Arra
     case 2:
         bRes = RemoveFile(filenameToDelete, msg);
         retval.push_back(ArrayOf::logicalConstructor(bRes));
-        retval.push_back(ArrayOf::stringConstructor(msg));
+        retval.push_back(ArrayOf::characterArrayConstructor(msg));
         break;
     default:
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         break;
     }
     return retval;

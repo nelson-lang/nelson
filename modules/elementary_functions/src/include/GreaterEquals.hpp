@@ -18,15 +18,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Exception.hpp"
 #include "nlsElementary_functions_exports.h"
+#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 /**
  * Element-wise compare (ge) of two arrays: C = A >= B
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-GreaterEquals(ArrayOf A, ArrayOf B);
-} // namespace Nelson
+GreaterEquals(ArrayOf& A, ArrayOf& B, bool& needToOverload);
+}
 //=============================================================================

@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "invokeQObject.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "HandleManager.hpp"
 #include "QVariantArrayOf.hpp"
 #include "QmlHandleObject.hpp"
@@ -34,16 +34,16 @@ invokeQObject(ArrayOf A, std::wstring wmethodname, ArrayOfVector params, bool& h
     ArrayOf res;
     haveReturnValue = false;
     if (params.size() > NB_PARAMS_MAX) {
-        throw Exception(_W("Only 10 input parameters expected."));
+        Error(_W("Only 10 input parameters expected."));
     }
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
-        throw Exception(_W("QObject handle expected."));
+        Error(_W("QObject handle expected."));
     }
     QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        throw Exception(_W("QObject valid handle expected."));
+        Error(_W("QObject valid handle expected."));
     }
     QObject* qobj = (QObject*)ptr;
     const QMetaObject* metaObject = qobj->metaObject();
@@ -89,10 +89,10 @@ invokeQObject(ArrayOf A, std::wstring wmethodname, ArrayOfVector params, bool& h
             }
         }
         if (!ok) {
-            throw Exception(_W("Invalid parameters"));
+            Error(_W("Invalid parameters"));
         }
     } else {
-        throw Exception(_W("method not found."));
+        Error(_W("method not found."));
     }
     return res;
 }

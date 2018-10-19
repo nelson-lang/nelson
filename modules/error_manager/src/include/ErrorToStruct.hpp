@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-ErrorToStruct(Exception e)
+ErrorToStruct(Exception& e)
 {
     ArrayOf result;
     wstringVector fieldnames;
@@ -42,8 +42,8 @@ ErrorToStruct(Exception e)
             Dimensions dim(0, 1);
             stack = ArrayOf::emptyStructConstructor(fieldnames, dim);
         } else {
-            fieldvalues.push_back(ArrayOf::stringConstructor(e.getFilename()));
-            fieldvalues.push_back(ArrayOf::stringConstructor(e.getFunctionName()));
+            fieldvalues.push_back(ArrayOf::characterArrayConstructor(e.getFilename()));
+            fieldvalues.push_back(ArrayOf::characterArrayConstructor(e.getFunctionName()));
             fieldvalues.push_back(ArrayOf::doubleConstructor(e.getLine()));
             stack = ArrayOf::structConstructor(fieldnames, fieldvalues);
         }
@@ -53,8 +53,8 @@ ErrorToStruct(Exception e)
     fieldnames.push_back(L"identifier");
     fieldnames.push_back(L"stack");
     fieldvalues.clear();
-    fieldvalues.push_back(ArrayOf::stringConstructor(e.getMessage()));
-    fieldvalues.push_back(ArrayOf::stringConstructor(e.getIdentifier()));
+    fieldvalues.push_back(ArrayOf::characterArrayConstructor(e.getMessage()));
+    fieldvalues.push_back(ArrayOf::characterArrayConstructor(e.getIdentifier()));
     fieldvalues.push_back(stack);
     result = ArrayOf::structConstructor(fieldnames, fieldvalues);
     return result;

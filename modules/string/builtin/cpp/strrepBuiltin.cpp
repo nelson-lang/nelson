@@ -18,8 +18,9 @@
 //=============================================================================
 #include "strrepBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "StringReplace.hpp"
+#include "OverloadFunction.hpp"
+#include "IsCellOfStrings.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,16 +29,27 @@ Nelson::StringGateway::strrepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 3) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "strrep", bSuccess);
+    }
     if (!bSuccess) {
-        retval.push_back(StringReplace(argIn[0], argIn[1], argIn[2], true));
+        bool needToOverload;
+        ArrayOf res = StringReplace(argIn[0], argIn[1], argIn[2], true, needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "strrep", bSuccess);
+            if (!bSuccess) {
+                Error(_W("Invalid input argument(s): cell or string expected."));
+            }
+        } else {
+            retval.push_back(res);
+        }
     }
     return retval;
 }

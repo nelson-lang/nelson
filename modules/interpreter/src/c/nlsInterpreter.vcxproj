@@ -22,7 +22,7 @@
     <ProjectGuid>{17135B09-BC25-448E-9750-C09A87FDE6F8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsInterpreter</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -94,7 +94,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSINTERPRETER_EXPORTS;YY_NEVER_INTERACTIVE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/cpp/FileWatcher;$(SolutionDir)modules/interpreter/src/grammar;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/cpp/FileWatcher;$(SolutionDir)modules/interpreter/src/grammar;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251;4065</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -121,7 +121,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSINTERPRETER_EXPORTS;YY_NEVER_INTERACTIVE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/cpp/FileWatcher;$(SolutionDir)modules/interpreter/src/grammar;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/cpp/FileWatcher;$(SolutionDir)modules/interpreter/src/grammar;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251;4065</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -150,7 +150,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSINTERPRETER_EXPORTS;YY_NEVER_INTERACTIVE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/cpp/FileWatcher;$(SolutionDir)modules/interpreter/src/grammar;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/cpp/FileWatcher;$(SolutionDir)modules/interpreter/src/grammar;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251;4065</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <WholeProgramOptimization>false</WholeProgramOptimization>
@@ -183,7 +183,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSINTERPRETER_EXPORTS;YY_NEVER_INTERACTIVE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/cpp/FileWatcher;$(SolutionDir)modules/interpreter/src/grammar;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/terminal/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/interpreter/src/cpp/FileWatcher;$(SolutionDir)modules/interpreter/src/grammar;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251;4065</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <WholeProgramOptimization>false</WholeProgramOptimization>
@@ -209,97 +209,71 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\ActionMenu.cpp" />
+    <ClCompile Include="..\cpp\AdditionOperator.cpp" />
+    <ClCompile Include="..\cpp\AndOperator.cpp" />
     <ClCompile Include="..\cpp\AST.cpp" />
     <ClCompile Include="..\cpp\AstManager.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDef.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDefManager.cpp" />
     <ClCompile Include="..\cpp\ByteCode.cpp" />
     <ClCompile Include="..\cpp\ByteCodeFunctionDef.cpp" />
-    <ClCompile Include="..\cpp\CallOperatorFunction.cpp" />
+    <ClCompile Include="..\cpp\CheckIfWhileCondition.cpp" />
     <ClCompile Include="..\cpp\CommandQueue.cpp" />
     <ClCompile Include="..\cpp\Comments.cpp" />
     <ClCompile Include="..\cpp\Context.cpp" />
+    <ClCompile Include="..\cpp\DebugStack.cpp" />
+    <ClCompile Include="..\cpp\EqOperator.cpp" />
+    <ClCompile Include="..\cpp\ErrorEmitter.cpp" />
     <ClCompile Include="..\cpp\EvaluateBuiltinCatchRuntimeException.cpp">
       <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Async</ExceptionHandling>
       <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Async</ExceptionHandling>
       <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Async</ExceptionHandling>
       <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Async</ExceptionHandling>
     </ClCompile>
+    <ClCompile Include="..\cpp\Evaluator.cpp" />
     <ClCompile Include="..\cpp\FileFunc.cpp" />
     <ClCompile Include="..\cpp\FileParser.cpp" />
     <ClCompile Include="..\cpp\FileWatcherManager.cpp" />
     <ClCompile Include="..\cpp\FileWatcher\FileWatcher.cpp" />
     <ClCompile Include="..\cpp\FileWatcher\FileWatcherWin32.cpp" />
     <ClCompile Include="..\cpp\FunctionDef.cpp" />
-    <ClCompile Include="..\cpp\LocalFunctionsTable.cpp" />
+    <ClCompile Include="..\cpp\GeOperator.cpp" />
     <ClCompile Include="..\cpp\GetNelsonMainEvaluatorDynamicFunction.cpp" />
-    <ClCompile Include="..\cpp\HorzCat.cpp" />
+    <ClCompile Include="..\cpp\GtOperator.cpp" />
+    <ClCompile Include="..\cpp\HorzCatOperator.cpp" />
     <ClCompile Include="..\cpp\Keywords.cpp" />
+    <ClCompile Include="..\cpp\LeOperator.cpp" />
+    <ClCompile Include="..\cpp\LocalFunctionsTable.cpp" />
+    <ClCompile Include="..\cpp\LtOperator.cpp" />
     <ClCompile Include="..\cpp\MacroFunctionDef.cpp" />
+    <ClCompile Include="..\cpp\MtimesOperator.cpp" />
     <ClCompile Include="..\cpp\NelsonLexer.cpp" />
+    <ClCompile Include="..\cpp\NeOperator.cpp" />
+    <ClCompile Include="..\cpp\NotOperator.cpp" />
     <ClCompile Include="..\cpp\Operators.cpp" />
+    <ClCompile Include="..\cpp\OrOperator.cpp" />
+    <ClCompile Include="..\cpp\OverloadCache.cpp" />
     <ClCompile Include="..\cpp\OverloadDisplay.cpp" />
     <ClCompile Include="..\cpp\ParseFile.cpp" />
     <ClCompile Include="..\cpp\PathFunc.cpp" />
     <ClCompile Include="..\cpp\PathFuncManager.cpp" />
     <ClCompile Include="..\cpp\ProcessEventsDynamicFunction.cpp" />
     <ClCompile Include="..\cpp\Scope.cpp" />
+    <ClCompile Include="..\cpp\ShortCutAndOperator.cpp" />
+    <ClCompile Include="..\cpp\ShortCutOrOperator.cpp" />
     <ClCompile Include="..\cpp\StackEntry.cpp" />
-    <ClCompile Include="..\cpp\Evaluator.cpp" />
-    <ClCompile Include="..\cpp\StackError.cpp" />
+    <ClCompile Include="..\cpp\SubtractionOperator.cpp" />
+    <ClCompile Include="..\cpp\TimesOperator.cpp" />
     <ClCompile Include="..\cpp\VariablesTable.cpp" />
-    <ClCompile Include="..\cpp\VertCat.cpp" />
+    <ClCompile Include="..\cpp\VertCatOperator.cpp" />
+    <ClCompile Include="..\cpp\WarningEmitter.cpp" />
     <ClCompile Include="..\grammar\NelSonParser.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\include\ActionMenu.hpp" />
-    <ClInclude Include="..\..\src\include\AST.hpp" />
-    <ClInclude Include="..\..\src\include\BuiltInFunctionDef.hpp" />
-    <ClInclude Include="..\..\src\include\CallOperatorFunction.hpp" />
-    <ClInclude Include="..\..\src\include\CommandQueue.hpp" />
-    <ClInclude Include="..\..\src\include\Context.hpp" />
-    <ClInclude Include="..\..\src\include\FileParser.hpp" />
-    <ClInclude Include="..\..\src\include\FunctionDef.hpp" />
-    <ClInclude Include="..\..\src\include\GetNelsonMainEvaluatorDynamicFunction.hpp" />
-    <ClInclude Include="..\..\src\include\Keywords.hpp" />
-    <ClInclude Include="..\..\src\include\LexerInterface.hpp" />
-    <ClInclude Include="..\cpp\FileWatcher\FileWatcher.h" />
-    <ClInclude Include="..\cpp\FileWatcher\FileWatcherImpl.h" />
-    <ClInclude Include="..\cpp\FileWatcher\FileWatcherLinux.h" />
-    <ClInclude Include="..\cpp\FileWatcher\FileWatcherOSX.h" />
-    <ClInclude Include="..\cpp\FileWatcher\FileWatcherWin32.h" />
-    <ClInclude Include="..\include\AstManager.hpp" />
-    <ClInclude Include="..\include\BuiltInFunctionDefManager.hpp" />
-    <ClInclude Include="..\include\ByteCode.hpp" />
-    <ClInclude Include="..\include\ByteCodeFunctionDef.hpp" />
-    <ClInclude Include="..\include\Comments.hpp" />
-    <ClInclude Include="..\include\EvaluateBuiltinCatchRuntimeException.hpp" />
-    <ClInclude Include="..\include\FileFunc.hpp" />
-    <ClInclude Include="..\include\FileWatcherManager.hpp" />
-    <ClInclude Include="..\include\LocalFunctionsTable.hpp" />
-    <ClInclude Include="..\include\HorzCat.hpp" />
-    <ClInclude Include="..\include\NelsonGateway.hpp" />
-    <ClInclude Include="..\include\MacroFunctionDef.hpp" />
-    <ClInclude Include="..\..\src\include\nlsInterpreter_exports.h" />
-    <ClInclude Include="..\..\src\include\OverloadDisplay.hpp" />
-    <ClInclude Include="..\..\src\include\ParserInterface.hpp" />
-    <ClInclude Include="..\..\src\include\Scope.hpp" />
-    <ClInclude Include="..\..\src\include\StackEntry.hpp" />
-    <ClInclude Include="..\..\src\include\SymbolTable.hpp" />
-    <ClInclude Include="..\..\src\include\VariablesTable.hpp" />
-    <ClInclude Include="..\..\src\include\Evaluator.hpp" />
-    <ClInclude Include="..\grammar\NelSonParser.h" />
-    <ClInclude Include="..\include\Operators.hpp" />
-    <ClInclude Include="..\include\ParseFile.hpp" />
-    <ClInclude Include="..\include\ParserState.hpp" />
-    <ClInclude Include="..\include\PathFunc.hpp" />
-    <ClInclude Include="..\include\PathFuncManager.hpp" />
-    <ClInclude Include="..\include\ProcessEventsDynamicFunction.hpp" />
-    <ClInclude Include="..\include\StackError.hpp" />
-    <ClInclude Include="..\include\VertCat.hpp" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="..\..\etc\finish.nls" />
+    <None Include="..\..\etc\startup.nls" />
+    <None Include="..\..\loader.nls" />
     <None Include="..\..\module.iss" />
     <None Include="..\grammar\NelSonParser.yxx" />
   </ItemGroup>
@@ -316,6 +290,9 @@
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
+      <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\os_functions\src\c\nlsOs_functions.vcxproj">
       <Project>{fa50a5eb-b1b3-4035-87bb-8d3124cb7c80}</Project>
     </ProjectReference>
@@ -327,10 +304,56 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\CMakeLists.txt" />
+    <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resources.rc" />
+    <ClInclude Include="..\grammar\NelSonParser.h" />
+    <ClInclude Include="..\include\ActionMenu.hpp" />
+    <ClInclude Include="..\include\AST.hpp" />
+    <ClInclude Include="..\include\AstManager.hpp" />
+    <ClInclude Include="..\include\BuiltInFunctionDef.hpp" />
+    <ClInclude Include="..\include\BuiltInFunctionDefManager.hpp" />
+    <ClInclude Include="..\include\ByteCode.hpp" />
+    <ClInclude Include="..\include\ByteCodeFunctionDef.hpp" />
+    <ClInclude Include="..\include\CheckIfWhileCondition.hpp" />
+    <ClInclude Include="..\include\CommandQueue.hpp" />
+    <ClInclude Include="..\include\Comments.hpp" />
+    <ClInclude Include="..\include\Context.hpp" />
+    <ClInclude Include="..\include\DebugStack.hpp" />
+    <ClInclude Include="..\include\ErrorEmitter.h" />
+    <ClInclude Include="..\include\EvaluateBuiltinCatchRuntimeException.hpp" />
+    <ClInclude Include="..\include\Evaluator.hpp" />
+    <ClInclude Include="..\include\FileFunc.hpp" />
+    <ClInclude Include="..\include\FileParser.hpp" />
+    <ClInclude Include="..\include\FileWatcherManager.hpp" />
+    <ClInclude Include="..\include\FunctionDef.hpp" />
+    <ClInclude Include="..\include\GetNelsonMainEvaluatorDynamicFunction.hpp" />
+    <ClInclude Include="..\include\HorzCatOperator.hpp" />
+    <ClInclude Include="..\include\Keywords.hpp" />
+    <ClInclude Include="..\include\LexerInterface.hpp" />
+    <ClInclude Include="..\include\LocalFunctionsTable.hpp" />
+    <ClInclude Include="..\include\MacroFunctionDef.hpp" />
+    <ClInclude Include="..\include\NelsonGateway.hpp" />
+    <ClInclude Include="..\include\nlsInterpreter_exports.h" />
+    <ClInclude Include="..\include\Operators.hpp" />
+    <ClInclude Include="..\include\OverloadCache.hpp" />
+    <ClInclude Include="..\include\OverloadDisplay.hpp" />
+    <ClInclude Include="..\include\ParseFile.hpp" />
+    <ClInclude Include="..\include\ParserInterface.hpp" />
+    <ClInclude Include="..\include\ParserState.hpp" />
+    <ClInclude Include="..\include\PathFunc.hpp" />
+    <ClInclude Include="..\include\PathFuncManager.hpp" />
+    <ClInclude Include="..\include\PositionScript.hpp" />
+    <ClInclude Include="..\include\ProcessEventsDynamicFunction.hpp" />
+    <ClInclude Include="..\include\Scope.hpp" />
+    <ClInclude Include="..\include\StackEntry.hpp" />
+    <ClInclude Include="..\include\SymbolTable.hpp" />
+    <ClInclude Include="..\include\VariablesTable.hpp" />
+    <ClInclude Include="..\include\VertCatOperator.hpp" />
+    <ClInclude Include="..\include\WarningEmitter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

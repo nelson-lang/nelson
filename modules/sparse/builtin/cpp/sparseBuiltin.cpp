@@ -17,11 +17,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "sparseBuiltin.hpp"
-#include "CheckIJV.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
 #include "OverloadUnaryOperator.hpp"
 #include "SparseConstructors.hpp"
+#include "CheckIJV.hpp"
 #include "SparseType.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -32,7 +32,9 @@ sparseBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "sparse", bSuccess);
+    }
     if (!bSuccess) {
         ArrayOf A(argIn[0]);
         if (A.isSparse()
@@ -76,8 +78,7 @@ sparseBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             || I.isScalar() && J.isScalar() && V.isScalar()) {
             retval.push_back(SparseConstructor(I, J, V));
         } else {
-            Error(eval,
-                _W("in I, J, V format, all three vectors must be the same size or be scalars."));
+            Error(_W("in I, J, V format, all three vectors must be the same size or be scalars."));
         }
     } else {
         ArrayOf r = OverloadUnaryOperator(eval, argIn[2], "sparse");
@@ -126,7 +127,7 @@ Nelson::SparseGateway::sparseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     switch (argIn.size()) {
     case 1:
@@ -139,7 +140,7 @@ Nelson::SparseGateway::sparseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     case 6:
         return sparseBuiltinFiveOrSixRhs(eval, nLhs, argIn);
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;

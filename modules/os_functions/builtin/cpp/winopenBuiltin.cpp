@@ -28,22 +28,22 @@ Nelson::OsFunctionsGateway::winopenBuiltin(Evaluator* eval, int nLhs, const Arra
     ArrayOfVector retval;
 #ifdef _MSC_VER
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring cmd = L"";
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isRowVectorCharacterArray()) {
         cmd = argIn[0].getContentAsWideString();
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     if (!WinOpen(cmd)) {
-        Error(eval, _W("Filename not associated to an application."));
+        Error(_W("Filename not associated to an application."));
     }
 #else
-    Error(eval, _W("Not implemented on this platform."));
+    Error(_W("Not implemented on this platform."));
 #endif
     return retval;
 }

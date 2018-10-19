@@ -18,8 +18,8 @@
 //=============================================================================
 #include "fftBuiltin.hpp"
 #include "Error.hpp"
-#include "Fft.hpp"
 #include "OverloadFunction.hpp"
+#include "Fft.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,11 +28,11 @@ fftBuiltinPrivate(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf res;
     if (argIn.size() < 1 || argIn.size() > 3) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf X = argIn[0];
     switch (argIn.size()) {
@@ -70,7 +70,7 @@ fftBuiltinPrivate(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         res = Fft(X, n, dim - 1);
     } break;
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     retval.push_back(res);
@@ -82,12 +82,21 @@ Nelson::FftwGateway::fftBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
 {
     ArrayOfVector retval;
     if (argIn.size() < 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "fft", bSuccess);
+    }
     if (!bSuccess) {
+        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "fft", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
         retval = fftBuiltinPrivate(eval, nLhs, argIn);
     }
     return retval;

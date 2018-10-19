@@ -36,10 +36,10 @@ CtransposeSparseLogical(ArrayOf A)
         try {
             spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(
                 spMatA->cols(), spMatA->rows());
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             spMatC = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         *spMatC = spMatA->adjoint();
         Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());

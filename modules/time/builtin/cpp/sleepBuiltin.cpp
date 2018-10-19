@@ -17,9 +17,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "sleepBuiltin.hpp"
+#include "Sleep.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
-#include "Sleep.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,18 +29,24 @@ Nelson::TimeGateway::sleepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "sleep", bSuccess);
+    }
     if (!bSuccess) {
         ArrayOf Parameter1 = argIn[0];
-        double dValue = Parameter1.getContentAsDoubleScalar();
-        Sleep(eval, dValue);
+        if (Parameter1.isDoubleType()) {
+            double dValue = Parameter1.getContentAsDoubleScalar();
+            Sleep(eval, dValue);
+        } else {
+            retval = OverloadFunction(eval, nLhs, argIn, "sleep");
+        }
     }
     return retval;
 }

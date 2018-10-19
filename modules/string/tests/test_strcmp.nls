@@ -145,3 +145,41 @@ assert_isequal(res, ref);
 cmd = 'res = strcmp([''ab''; ''cd''], [''ab'';''c''])';
 assert_checkerror(cmd, _('Dimensions concatenated are not consistent.'));
 //=============================================================================
+c1 = 'time';
+c2 = ["Once","upon"; "a","time"];
+res = strcmp(c1, c2);
+ref = [false, false; false, true];
+assert_isequal(res, ref); 
+//=============================================================================
+res = strcmp(c1, c1);
+assert_isequal(res, true); 
+//=============================================================================
+res = strcmp(c2, c2);
+ref = [true, true; true, true];
+assert_isequal(res, ref); 
+//=============================================================================
+res = strcmp(c2, 1);
+ref = [false, false; false, false];
+assert_isequal(res, ref); 
+//=============================================================================
+res = strcmp(string([]), 3);
+ref = [];
+assert_isequal(res, ref); 
+//=============================================================================
+res = strcmp('', "test");
+ref = false;
+assert_isequal(res, ref); 
+//=============================================================================
+cmd = 'res = strcmp(["a", "b", "c", "d"], ["a"; "b"; "c"; "d"]);';
+assert_checkerror(cmd, _('Same size expected.'));
+//=============================================================================
+A = ["abc", "def"; NaN, "def"];
+B =  'def';
+res = strcmp(A, B);
+ref = [false, true; false, true];
+assert_isequal(res, ref); 
+//=============================================================================
+A = ["abc", "def"; NaN, "def"];
+B =  {'abc'; 'def'};
+assert_checkerror('res = strcmp(A, B)', _('Same size or scalar expected.'));
+//=============================================================================

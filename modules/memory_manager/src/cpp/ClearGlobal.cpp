@@ -18,7 +18,9 @@
 //=============================================================================
 #include "ClearGlobal.hpp"
 #include "HandleManager.hpp"
+#include "MacroFunctionDef.hpp"
 #include "characters_encoding.hpp"
+#include <boost/algorithm/string.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -107,5 +109,29 @@ ClearAllPersistentVariables(Evaluator* eval)
     return bUnlocked;
 }
 //=============================================================================
+bool
+ClearPersistentVariable(Evaluator* eval, std::wstring variable)
+{
+    return ClearPersistentVariable(eval, wstring_to_utf8(variable));
 }
+//=============================================================================
+bool
+ClearPersistentVariable(Evaluator* eval, std::string variable)
+{
+    bool res = false;
+    FuncPtr func;
+    bool isFun = eval->lookupFunction(variable, func);
+    if (isFun && func->type() == NLS_MACRO_FUNCTION) {
+        stringVector allVariableNames
+            = eval->getContext()->getGlobalScope()->getVariablesList(true);
+        for (std::string name : allVariableNames) {
+            if (boost::algorithm::starts_with(name, "_" + variable + "_")) {
+                res = res || eval->getContext()->getGlobalScope()->deleteVariable(name);
+            }
+        }
+    }
+    return res;
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

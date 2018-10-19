@@ -61,7 +61,7 @@ AST::AST(void)
 AST::AST(NODE_TYPE ntype, const char* name, int context)
 {
     type = ntype;
-    text = name;
+    text = std::string(name);
     tokenNumber = 0;
     down = nullptr;
     right = nullptr;
@@ -308,9 +308,12 @@ printAST(ASTPtr t)
         printf("double: %si\r\n", t->text.c_str());
     } else if (t->type == const_complex_node) {
         printf("single: %si\r\n", t->text.c_str());
-    } else if (t->type == string_const_node) {
+    } else if (t->type == const_character_array_node) {
+        printf("string: '%s'\r\n", t->text.c_str());
+    } else if (t->type == const_string_node) {
         printf("string: '%s'\r\n", t->text.c_str());
     } else if (t->type == null_node) {
+        // NOTHING TO DO
     } else {
         printf("context: %s\r\n", t->text.c_str());
     }
@@ -347,7 +350,7 @@ ThawAST(Serialize* s)
     ASTPtr t;
     try {
         t = new AST();
-    } catch (std::bad_alloc) {
+    } catch (const std::bad_alloc&) {
         t = nullptr;
     }
     if (t) {

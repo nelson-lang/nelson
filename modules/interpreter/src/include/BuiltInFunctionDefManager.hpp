@@ -18,11 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <vector>
+#include <unordered_map>
+#include <string>
 #include "BuiltInFunctionDef.hpp"
 #include "nlsInterpreter_exports.h"
-#include <boost/container/vector.hpp>
-#include <boost/unordered_map.hpp>
-#include <string>
 //=============================================================================
 namespace Nelson {
 class NLSINTERPRETER_IMPEXP BuiltInFunctionDefManager
@@ -48,7 +48,7 @@ public:
     void
     destroy();
 
-    boost::container::vector<FuncPtr>
+    std::vector<FuncPtr>
     getTable();
     stringVector
     getNameList();
@@ -73,10 +73,10 @@ private:
 
     BuiltInFunctionDefManager();
     static BuiltInFunctionDefManager* m_pInstance;
-    boost::container::vector<FuncPtr> builtinVector;
+    std::vector<FuncPtr> builtinVector;
 
     // cache to speed up search
-    boost::unordered_map<std::string, FuncPtr> cachedBuiltin;
+    std::unordered_map<std::string, FuncPtr> cachedBuiltin;
 };
-} // namespace Nelson
+}
 //=============================================================================

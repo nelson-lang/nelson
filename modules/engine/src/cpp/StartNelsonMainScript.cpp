@@ -40,8 +40,7 @@ StartNelsonMainScript(Evaluator* eval)
                 // close all files in case of error at start-up
                 CloseAllFiles();
                 Interface* io = eval->getInterface();
-                e.what();
-                eval->setLastException(e);
+                eval->setLastErrorException(e);
                 std::wstring errmsg = _W("Main startup.nls failed to run.");
                 if (io) {
                     io->errorMessage(errmsg);

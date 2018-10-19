@@ -13,14 +13,14 @@
   <param_input>
     <param_input_item>
       <param_name>str</param_name>
-      <param_description>a string.</param_description>
+      <param_description>a row character array, a cell of strings or an string array.</param_description>
     </param_input_item>
   </param_input>
 
   <param_output>
     <param_output_item>
       <param_name>res</param_name>
-      <param_description>a string lower case</param_description>
+      <param_description>lower case equivalent</param_description>
     </param_output_item>
   </param_output>
 
@@ -38,6 +38,14 @@
     <example_item_data><![CDATA[tolower('NelSon')]]>
     </example_item_data>
   </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[tolower(["NelSon", "is", "open"])]]>
+    </example_item_data>
+  </example_item>
+
 </examples>
 
   <see_also>

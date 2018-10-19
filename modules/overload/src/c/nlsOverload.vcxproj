@@ -22,7 +22,7 @@
     <ProjectGuid>{937BEE8B-E934-45F1-98EF-33AAF951E5E9}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsOverload</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -168,7 +168,8 @@
     <ClInclude Include="..\..\src\include\OverloadBinaryOperator.hpp" />
     <ClInclude Include="..\..\src\include\OverloadFunction.hpp" />
     <ClInclude Include="..\..\src\include\OverloadRequired.hpp" />
-    <ClInclude Include="..\..\src\include\OverloadTrinaryOperator.hpp" />
+    <ClInclude Include="..\include\Overload.hpp" />
+    <ClInclude Include="..\include\OverloadTernaryOperator.hpp" />
     <ClInclude Include="..\..\src\include\OverloadUnaryOperator.hpp" />
     <ClInclude Include="..\include\OverloadExtraction.hpp" />
     <ClInclude Include="..\include\OverloadHelpers.hpp" />
@@ -176,10 +177,6 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\OverloadExtraction.cpp" />
     <ClCompile Include="..\cpp\OverloadFunction.cpp" />
-    <ClCompile Include="..\cpp\OverloadHelpers.cpp" />
-    <ClCompile Include="..\cpp\OverloadRequired.cpp" />
-    <ClCompile Include="..\cpp\OverloadTrinaryOperator.cpp" />
-    <ClCompile Include="..\cpp\OverloadUnaryOperator.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>

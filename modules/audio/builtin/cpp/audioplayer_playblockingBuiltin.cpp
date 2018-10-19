@@ -22,6 +22,7 @@
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -31,10 +32,10 @@ Nelson::AudioGateway::audioplayer_playblockingBuiltin(
 {
     ArrayOfVector retval;
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() < 1 || argIn.size() > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     double start = -1;
@@ -47,7 +48,7 @@ Nelson::AudioGateway::audioplayer_playblockingBuiltin(
             start = param2.getContentAsDoubleScalar();
             startOnly = true;
             if (start < 1) {
-                Error(eval, _W("start >= 1 expected."));
+                Error(_W("start >= 1 expected."));
             }
             start = start - 1;
         } else if (param2.isVector() && param2.isNumeric() && (dimsParam2.getElementCount() == 2)) {
@@ -56,16 +57,16 @@ Nelson::AudioGateway::audioplayer_playblockingBuiltin(
             start = ptr[0];
             end = ptr[1];
             if (start < 1 || end < 1) {
-                Error(eval, _W("Index >= 1 expected."));
+                Error(_W("Index >= 1 expected."));
             }
             start = start - 1;
             end = end - 1;
         } else {
-            Error(eval, _W("scalar or [start, end] vector expected."));
+            Error(_W("scalar or [start, end] vector expected."));
         }
     }
     if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
-        Error(eval, _W("audioplayer handle expected."));
+        Error(_W("audioplayer handle expected."));
     }
     AudioplayerObject* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     if (argIn.size() == 1) {
@@ -73,22 +74,22 @@ Nelson::AudioGateway::audioplayer_playblockingBuiltin(
     } else {
         if (startOnly) {
             if (start > objPlayer->getTotalSamples()) {
-                Error(eval, _W("Invalid range."));
+                Error(_W("Invalid range."));
             }
-            objPlayer->play(start);
+            objPlayer->play((int)start);
         } else {
             if (start > objPlayer->getTotalSamples() || start > end
                 || end > objPlayer->getTotalSamples()) {
-                Error(eval, _W("Invalid range."));
+                Error(_W("Invalid range."));
             }
-            objPlayer->play(start, end);
+            objPlayer->play((int)start, (int)end);
         }
     }
     do {
         if (eval->haveEventsLoop()) {
             ProcessEventsDynamicFunctionWithoutWait();
         }
-    } while (!eval->GetInterruptPending() && objPlayer->getRunning());
+    } while (!NelsonConfiguration::getInstance()->getInterruptPending() && objPlayer->getRunning());
     objPlayer->stop();
     return retval;
 }

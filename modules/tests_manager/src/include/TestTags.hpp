@@ -41,6 +41,8 @@ namespace Nelson {
 #define MPI_MODE_TAG "<--MPI MODE-->"
 #define AUDIO_INPUT_REQUIRED_TAG "<--AUDIO INPUT REQUIRED-->"
 #define AUDIO_OUTPUT_REQUIRED_TAG "<--AUDIO OUTPUT REQUIRED-->"
+#define C_COMPILER_REQUIRED_TAG "<--C/C++ COMPILER REQUIRED-->"
+#define INDEX_64_BIT_REQUIRED_TAG "<--INDEX 64 BIT REQUIRED-->"
 
 class NLSTESTS_MANAGER_IMPEXP TestTags
 {
@@ -61,6 +63,8 @@ private:
     bool _mpiMode;
     bool _audioInputRequired;
     bool _audioOutputRequired;
+    bool _cCompilerRequired;
+    bool _index64BitRequired;
 
 public:
     TestTags()
@@ -81,6 +85,8 @@ public:
         _mpiMode = false;
         _audioInputRequired = false;
         _audioOutputRequired = false;
+        _cCompilerRequired = false;
+        _index64BitRequired = false;
     }
 
     bool
@@ -163,6 +169,16 @@ public:
     {
         return _audioOutputRequired;
     }
+    bool
+    isCCompilerRequired()
+    {
+        return _cCompilerRequired;
+    }
+    bool
+    isIndex64BitRequired()
+    {
+        return _index64BitRequired;
+    }
 
     void
     setWithDisplay(bool val)
@@ -244,6 +260,16 @@ public:
     setAudioOutputRequired(bool val)
     {
         _audioOutputRequired = val;
+    }
+    void
+    setCCompilerRequired(bool val)
+    {
+        _cCompilerRequired = val;
+    }
+    void
+    setIndex64BitRequired(bool val)
+    {
+        _index64BitRequired = val;
     }
 };
 } // namespace Nelson

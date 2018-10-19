@@ -27,27 +27,26 @@ Nelson::MemoryGateway::assigninBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 {
     ArrayOfVector retval;
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 3) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (!argIn[0].isSingleString()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+    if (!argIn[0].isRowVectorCharacterArray()) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     std::string scopename = argIn[0].getContentAsCString();
     if (!((scopename.compare("global") == 0) || (scopename.compare("base") == 0)
             || (scopename.compare("caller") == 0) || (scopename.compare("local") == 0))) {
-        Error(eval,
-            _W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' "
-               "expected."));
+        Error(_W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' "
+                 "expected."));
     }
-    if (!argIn[1].isSingleString()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+    if (!argIn[1].isRowVectorCharacterArray()) {
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
     }
     std::string varname = argIn[1].getContentAsCString();
     if (!IsValidVariableName(varname)) {
-        Error(eval, _W("#2 Argument must contain a valid variable name."));
+        Error(_W("#2 Argument must contain a valid variable name."));
     }
     ArrayOf varValue = argIn[2];
     Context* context = eval->getContext();
@@ -65,7 +64,7 @@ Nelson::MemoryGateway::assigninBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         scope = context->getCurrentScope();
     }
     if (scope->isLockedVariable(varname)) {
-        Error(eval, _W("Redefining permanent variable."));
+        Error(_W("Redefining permanent variable."));
     }
     scope->insertVariable(varname, varValue);
     return retval;

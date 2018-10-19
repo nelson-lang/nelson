@@ -22,7 +22,7 @@
     <ProjectGuid>{23dd3b6a-49ae-4ad1-ac80-ccad6857682d}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>NelSonsio</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -165,6 +165,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\engine\src\c\nlsEngine.vcxproj">
       <Project>{b6946bbd-72c9-4257-aa48-535ae9b4d776}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\sio_client\src\c\nlsSio_client.vcxproj">
+      <Project>{31effd09-dc10-4163-bc2f-4f285f96a7d6}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

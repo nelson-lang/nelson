@@ -18,24 +18,41 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Data.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+bool
+ArrayOf::isSingleClass() const
+{
+    return (dp->dataClass == NLS_SINGLE || dp->dataClass == NLS_SCOMPLEX);
+}
 //=============================================================================
 /**
  * Returns TRUE if it is a single type (not ndarray, not sparse)
  */
-const bool
-ArrayOf::isSingleType() const
+bool
+ArrayOf::isSingleType(bool realOnly) const
 {
-    return (dp->dataClass == NLS_SINGLE)
-        || (dp->dataClass == NLS_SCOMPLEX) && (!dp->sparse) && is2D();
+    bool res = false;
+    if (realOnly) {
+        res = (dp->dataClass == NLS_SINGLE) && (!dp->sparse) && is2D();
+    } else {
+        res = (isSingleClass() && (!dp->sparse) && is2D());
+    }
+    return res;
 }
 //=============================================================================
-const bool
-ArrayOf::isNdArraySingleType() const
+bool
+ArrayOf::isNdArraySingleType(bool realOnly) const
 {
-    return (dp->dataClass == NLS_SINGLE)
-        || (dp->dataClass == NLS_SCOMPLEX) && (!dp->sparse) && !is2D();
+    bool res = false;
+    if (realOnly) {
+        res = (dp->dataClass == NLS_SINGLE) && (!dp->sparse) && !is2D();
+    } else {
+        res = (isSingleClass() && (!dp->sparse) && !is2D());
+    }
+    return res;
 }
 //=============================================================================
 ArrayOf
@@ -49,7 +66,7 @@ ArrayOf::singleConstructor(float aval)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::singleVectorConstructor(int len)
+ArrayOf::singleVectorConstructor(indexType len)
 {
     Dimensions dim;
     dim.makeScalar();
@@ -70,11 +87,12 @@ ArrayOf::complexConstructor(float aval, float bval)
 }
 //=============================================================================
 single
-ArrayOf::getContentAsSingleScalar()
+ArrayOf::getContentAsSingleScalar(bool arrayAsScalar)
 {
     single* qp;
-    if (isComplex() || isReferenceType() || isString()) {
-        throw Exception(_W("Expected a real valued scalar"));
+    if (isComplex() || isReferenceType() || isCharacterArray() || isSparse() || isEmpty()
+        || (!arrayAsScalar && !isScalar())) {
+        Error(_W("Expected a real value scalar."));
     }
     promoteType(NLS_SINGLE);
     qp = (single*)dp->getData();
@@ -82,10 +100,10 @@ ArrayOf::getContentAsSingleScalar()
 }
 //=============================================================================
 std::complex<single>
-ArrayOf::getContentAsSingleComplexScalar()
+ArrayOf::getContentAsSingleComplexScalar(bool arrayAsScalar)
 {
-    if (isReferenceType() || isString()) {
-        throw Exception(_W("Expected a real valued scalar"));
+    if (isReferenceType() || isCharacterArray() || isEmpty() || (!arrayAsScalar && !isScalar())) {
+        Error(_W("Expected a real valued scalar"));
     }
     promoteType(NLS_SCOMPLEX);
     single* qp = (single*)dp->getData();

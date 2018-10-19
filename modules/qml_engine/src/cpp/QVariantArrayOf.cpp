@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "QVariantArrayOf.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "GetQmlHandleObject.hpp"
 #include "HandleManager.hpp"
 #include "IsCellOfStrings.hpp"
@@ -169,7 +169,7 @@ QVariantToArrayOf(QVariant Q)
 {
     ArrayOf res;
     if (!Q.isValid()) {
-        throw Exception(_W("QVariant invalid."));
+        Error(_W("QVariant invalid."));
     }
     QVariant::Type qtype = Q.type();
     switch (qtype) {
@@ -197,7 +197,7 @@ QVariantToArrayOf(QVariant Q)
         return ArrayOf::int8Constructor(i8);
     } break;
     case QVariant::Type::String: {
-        return ArrayOf::stringConstructor(QStringTowstring(Q.toString()));
+        return ArrayOf::characterArrayConstructor(QStringTowstring(Q.toString()));
     } break;
     case QVariant::Type::StringList: {
         QStringList stringlist = qvariant_cast<QStringList>(Q);
@@ -265,7 +265,7 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Url: {
         QUrl qurl = qvariant_cast<QUrl>(Q);
-        res = ArrayOf::stringConstructor(QStringTowstring(qurl.toString()));
+        res = ArrayOf::characterArrayConstructor(QStringTowstring(qurl.toString()));
     } break;
     case QVariant::Type::Rect: {
         QRect qrect = Q.toRect();
@@ -341,7 +341,7 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Uuid: {
         QUuid quuid = Q.toUuid();
-        return ArrayOf::stringConstructor(QStringTowstring(quuid.toString()));
+        return ArrayOf::characterArrayConstructor(QStringTowstring(quuid.toString()));
     } break;
     case QVariant::Type::Color: {
         QColor qcolor = qvariant_cast<QColor>(Q);
@@ -465,10 +465,10 @@ QVariantToArrayOf(QVariant Q)
                     QmlHandleObject* qmlHandle = nullptr;
                     try {
                         qmlHandle = new QmlHandleObject(qobject);
-                    } catch (std::bad_alloc& e) {
+                    } catch (const std::bad_alloc& e) {
                         e.what();
                         qmlHandle = nullptr;
-                        throw Exception(ERROR_MEMORY_ALLOCATION);
+                        Error(ERROR_MEMORY_ALLOCATION);
                     }
                     nh[0] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }
@@ -495,10 +495,10 @@ QVariantToArrayOf(QVariant Q)
                         QmlHandleObject* qmlHandle = nullptr;
                         try {
                             qmlHandle = new QmlHandleObject(qobj);
-                        } catch (std::bad_alloc& e) {
+                        } catch (const std::bad_alloc& e) {
                             e.what();
                             qmlHandle = nullptr;
-                            throw Exception(ERROR_MEMORY_ALLOCATION);
+                            Error(ERROR_MEMORY_ALLOCATION);
                         }
                         nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
                     }
@@ -531,10 +531,10 @@ QVariantToArrayOf(QVariant Q)
                         QmlHandleObject* qmlHandle = nullptr;
                         try {
                             qmlHandle = new QmlHandleObject(qobj);
-                        } catch (std::bad_alloc& e) {
+                        } catch (const std::bad_alloc& e) {
                             e.what();
                             qmlHandle = nullptr;
-                            throw Exception(ERROR_MEMORY_ALLOCATION);
+                            Error(ERROR_MEMORY_ALLOCATION);
                         }
                         nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
                     }
@@ -547,16 +547,16 @@ QVariantToArrayOf(QVariant Q)
         }
         QObject* obj = qvariant_cast<QObject*>(Q);
         if (obj == nullptr) {
-            throw Exception(_W("property type not managed."));
+            Error(_W("property type not managed."));
         }
         QmlHandleObject* qmlHandle = nullptr;
         try {
             QObject* obj = qvariant_cast<QObject*>(Q);
             qmlHandle = new QmlHandleObject(obj);
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             qmlHandle = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         return ArrayOf::handleConstructor(qmlHandle);
     } break;
@@ -615,7 +615,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
     case QVariant::Type::ByteArray: {
         Dimensions dimsA = A.getDimensions();
         if (!A.isVector()) {
-            throw Exception(_W("vector expected."));
+            Error(_W("vector expected."));
         }
         A.promoteType(NLS_INT8);
         int8* arrayInt8 = (int8*)A.getDataPointer();
@@ -630,7 +630,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
     case QVariant::Type::BitArray: {
         Dimensions dimsA = A.getDimensions();
         if (!A.isVector()) {
-            throw Exception(_W("vector expected."));
+            Error(_W("vector expected."));
         }
         A.promoteType(NLS_LOGICAL);
         logical* arrayLogical = (logical*)A.getDataPointer();
@@ -645,7 +645,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 3);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("vector 1x3 expected."));
+            Error(_W("vector 1x3 expected."));
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -656,7 +656,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("vector 1x4 expected."));
+            Error(_W("vector 1x4 expected."));
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -667,7 +667,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 7);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("vector 1x7 expected."));
+            Error(_W("vector 1x7 expected."));
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -686,7 +686,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("vector 1x4 expected."));
+            Error(_W("vector 1x4 expected."));
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -697,7 +697,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("vector 1x4 expected."));
+            Error(_W("vector 1x4 expected."));
         }
         A.promoteType(NLS_DOUBLE);
         double* arrayDouble = (double*)A.getDataPointer();
@@ -708,7 +708,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("vector 1x2 expected."));
+            Error(_W("vector 1x2 expected."));
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -719,7 +719,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("vector 1x2 expected."));
+            Error(_W("vector 1x2 expected."));
         }
         A.promoteType(NLS_DOUBLE);
         double* arrayDouble = (double*)A.getDataPointer();
@@ -730,7 +730,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("vector 1x4 expected."));
+            Error(_W("vector 1x4 expected."));
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -741,7 +741,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("vector 1x4 expected."));
+            Error(_W("vector 1x4 expected."));
         }
         A.promoteType(NLS_DOUBLE);
         double* arrayDouble = (double*)A.getDataPointer();
@@ -752,7 +752,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("vector 1x2 expected."));
+            Error(_W("vector 1x2 expected."));
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -763,7 +763,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("vector 1x2 expected."));
+            Error(_W("vector 1x2 expected."));
         }
         A.promoteType(NLS_DOUBLE);
         double* arrayDouble = (double*)A.getDataPointer();
@@ -779,7 +779,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("vector 1x4 expected."));
+            Error(_W("vector 1x4 expected."));
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -791,7 +791,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 6);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("vector 1x6 expected."));
+            Error(_W("vector 1x6 expected."));
         }
         A.promoteType(NLS_DOUBLE);
         double* arrayDouble = (double*)A.getDataPointer();
@@ -804,7 +804,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(3, 3);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("matrix 3x3 expected."));
+            Error(_W("matrix 3x3 expected."));
         }
         A.promoteType(NLS_DOUBLE);
         double* arrayDouble = (double*)A.getDataPointer();
@@ -816,7 +816,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(4, 4);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("matrix 4x4 expected."));
+            Error(_W("matrix 4x4 expected."));
         }
         A.promoteType(NLS_SINGLE);
         single* arraySingle = (single*)A.getDataPointer();
@@ -831,7 +831,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("vector 1x2 expected."));
+            Error(_W("vector 1x2 expected."));
         }
         A.promoteType(NLS_SINGLE);
         single* arraySingle = (single*)A.getDataPointer();
@@ -842,7 +842,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 3);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("vector 1x3 expected."));
+            Error(_W("vector 1x3 expected."));
         }
         A.promoteType(NLS_SINGLE);
         single* arraySingle = (single*)A.getDataPointer();
@@ -853,7 +853,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("vector 1x4 expected."));
+            Error(_W("vector 1x4 expected."));
         }
         A.promoteType(NLS_SINGLE);
         single* arraySingle = (single*)A.getDataPointer();
@@ -864,7 +864,7 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            throw Exception(_W("vector 1x4 expected."));
+            Error(_W("vector 1x4 expected."));
         }
         A.promoteType(NLS_SINGLE);
         single* arraySingle = (single*)A.getDataPointer();
@@ -873,18 +873,18 @@ ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest)
     } break;
     case QVariant::Type::List: {
         if (!A.isCell()) {
-            throw Exception(_W("cell expected."));
+            Error(_W("cell expected."));
         }
         res = ArrayOfToQVariant(A);
     } break;
     case QVariant::Type::Map: {
         if (!A.isStruct()) {
-            throw Exception(_W("structs expected."));
+            Error(_W("structs expected."));
         }
         res = ArrayOfToQVariant(A);
     } break;
     default: {
-        throw Exception(_W("QVariant type not managed."));
+        Error(_W("QVariant type not managed."));
     } break;
     }
     return res;
@@ -929,10 +929,10 @@ ArrayOfToQVariant(ArrayOf A)
 {
     QVariant res;
     if (A.isSparse() || !A.is2D()) {
-        throw Exception(_W("Type conversion to QVariant not managed."));
+        Error(_W("Type conversion to QVariant not managed."));
     }
     if (A.isEmpty()) {
-        throw Exception(_W("Empty matrix not managed."));
+        Error(_W("Empty matrix not managed."));
     }
     Class ClassA = A.getDataClass();
     switch (ClassA) {
@@ -999,10 +999,37 @@ ArrayOfToQVariant(ArrayOf A)
         }
     } break;
     case NLS_CHAR: {
-        if (A.isSingleString()) {
+        if (A.isRowVectorCharacterArray()) {
             res = ArrayOfToQVariant(A, QVariant::Type::String);
         } else {
-            throw Exception(_W("Type conversion to QVariant not managed."));
+            Error(_W("Type conversion to QVariant not managed."));
+        }
+    } break;
+    case NLS_STRING_ARRAY: {
+        if (A.isVector()) {
+            wstringVector vstr = A.getContentAsWideStringVector();
+            QStringList stringlist;
+            for (size_t k = 0; k < vstr.size(); k++) {
+                stringlist.push_back(wstringToQString(vstr[k]));
+            }
+            QVariant res = stringlist;
+            return res;
+        } else {
+            QVariantList qlistVariantRows;
+            Dimensions dimsA = A.getDimensions();
+            ArrayOf* cellArray = (ArrayOf*)A.getDataPointer();
+            indexType rows = dimsA.getRows();
+            indexType columns = dimsA.getColumns();
+            for (indexType i = 0; i < rows; i++) {
+                QVariantList qlistVariantColumns;
+                for (indexType j = 0; j < columns; j++) {
+                    size_t idx = i + j * rows;
+                    QVariant Q = ArrayOfToQVariant(cellArray[idx]);
+                    qlistVariantColumns.push_back(Q);
+                }
+                qlistVariantRows.push_back(qlistVariantColumns);
+            }
+            res = qlistVariantRows;
         }
     } break;
     case NLS_CELL_ARRAY: {
@@ -1054,7 +1081,7 @@ ArrayOfToQVariant(ArrayOf A)
     case NLS_SCOMPLEX:
     case NLS_DCOMPLEX:
     default: {
-        throw Exception(_W("Type conversion to QVariant not managed."));
+        Error(_W("Type conversion to QVariant not managed."));
     } break;
     }
     return res;

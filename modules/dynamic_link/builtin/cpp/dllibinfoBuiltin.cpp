@@ -28,14 +28,14 @@ Nelson::DynamicLinkGateway::dllibinfoBuiltin(Evaluator* eval, int nLhs, const Ar
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != DLLIB_CATEGORY_STR) {
-        Error(eval, _W("dllib handle expected."));
+        Error(_W("dllib handle expected."));
     }
     DynamicLinkLibraryObject* obj = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
     retval.push_back(ToCellStringAsColumn(obj->getAvailableSymbols()));

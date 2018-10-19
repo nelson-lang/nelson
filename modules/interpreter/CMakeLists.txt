@@ -21,10 +21,12 @@ set(module_library_name nlsInterpreter)
 set(module_library_builtin_name ${module_library_name}_builtin)
 #==============================================================================
 include_directories(
+	${EIGEN3_INCLUDE_DIR}
 	${Boost_INCLUDE_DIRS}
 	${CMAKE_CURRENT_SOURCE_DIR}/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/src/grammar
 	${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/FileWatcher
+	${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -52,6 +54,7 @@ ADD_LIBRARY(
 #==============================================================================	
 target_link_libraries(${module_library_name}
 nlsCharacters_encoding
+nlsNelson_manager
 nlsElementary_functions
 nlsError_manager
 nlsStream_manager
@@ -105,6 +108,8 @@ install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.nls DESTINAT
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name})
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nlf")
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.qch" PATTERN "xml" EXCLUDE PATTERN "md" EXCLUDE)
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/src/include DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.h")
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/src/include DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.hpp")
 #==============================================================================
 
 

@@ -27,17 +27,17 @@ Nelson::HistoryManagerGateway::history_managerBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
     if (argIn.size() == 0) {
         if (eval->HistoryManager) {
-            retval.push_back(ArrayOf::stringConstructor(L"on"));
+            retval.push_back(ArrayOf::characterArrayConstructor(L"on"));
         } else {
-            retval.push_back(ArrayOf::stringConstructor(L"off"));
+            retval.push_back(ArrayOf::characterArrayConstructor(L"off"));
         }
     } else if (argIn.size() == 1) {
-        if (argIn[0].isString()) {
+        if (argIn[0].isCharacterArray()) {
             bool bOldMode = false;
             std::wstring arg = argIn[0].getContentAsWideString();
             if (eval->HistoryManager) {
@@ -57,18 +57,18 @@ Nelson::HistoryManagerGateway::history_managerBuiltin(
                 }
                 eval->HistoryManager = nullptr;
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+                Error(ERROR_WRONG_ARGUMENT_1_VALUE);
             }
             if (bOldMode) {
-                retval.push_back(ArrayOf::stringConstructor(L"on"));
+                retval.push_back(ArrayOf::characterArrayConstructor(L"on"));
             } else {
-                retval.push_back(ArrayOf::stringConstructor(L"off"));
+                retval.push_back(ArrayOf::characterArrayConstructor(L"off"));
             }
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

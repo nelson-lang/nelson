@@ -34,14 +34,14 @@ rootQObject()
         QmlHandleObject* qmlHandle = nullptr;
         try {
             qmlHandle = new QmlHandleObject(parent);
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             qmlHandle = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
         res = ArrayOf::handleConstructor(qmlHandle);
     } else {
-        res = ArrayOf::emptyConstructor(Dimensions(0, 0));
+        res = ArrayOf::emptyConstructor(0, 0);
         res.promoteType(NLS_HANDLE);
     }
     return res;

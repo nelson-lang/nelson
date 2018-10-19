@@ -193,7 +193,7 @@ cmd = 'c = cell2struct({1, 2, 3, 4; 5, 6, 7, 8}, {97, ''b'', ''c'', ''d''}, 2);'
 assert_checkerror(cmd, _('A cell of string expected.'));
 //=============================================================================
 cmd = 'c = cell2struct({}, []);';
-assert_checkerror(cmd, _('A cell expected.'));
+assert_checkerror(cmd, _('A cell or string array expected.'));
 //=============================================================================
 f = {'category','height','name'};
 cmd = 's = cell2struct(c, f, 2);';

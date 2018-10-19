@@ -26,11 +26,12 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"interpreter";
 //=============================================================================
-static const nlsGateway gateway[]
-    = { { "iskeyword", Nelson::InterpreterGateway::iskeywordBuiltin, 1, 1 },
-          { "parsefile", Nelson::InterpreterGateway::parsefileBuiltin, 1, 1 },
-          { "parsestring", Nelson::InterpreterGateway::parsestringBuiltin, 1, 1 },
-          { "max_recursion_depth", Nelson::InterpreterGateway::max_recursion_depthBuiltin, 1, 1 } };
+static const nlsGateway gateway[] = {
+    { "iskeyword", Nelson::InterpreterGateway::iskeywordBuiltin, 1, 1 },
+    { "parsefile", Nelson::InterpreterGateway::parsefileBuiltin, 1, 1 },
+    { "parsestring", Nelson::InterpreterGateway::parsestringBuiltin, 1, 1 },
+    { "max_recursion_depth", Nelson::InterpreterGateway::max_recursion_depthBuiltin, 1, 1 },
+};
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

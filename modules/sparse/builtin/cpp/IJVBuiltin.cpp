@@ -19,9 +19,9 @@
 #include "IJVBuiltin.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
+#include "SparseType.hpp"
 #include "SparseNonZeros.hpp"
 #include "SparseToIJV.hpp"
-#include "SparseType.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -30,14 +30,16 @@ Nelson::SparseGateway::IJVBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
 {
     ArrayOfVector retval;
     if (nLhs > 6) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "IJV", bSuccess);
+    }
     if (!bSuccess) {
         ArrayOf A(argIn[0]);
         ArrayOf I;
@@ -46,22 +48,30 @@ Nelson::SparseGateway::IJVBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         ArrayOf M;
         ArrayOf N;
         ArrayOf NNZ;
-        SparseToIJV(A, I, J, V, M, N, NNZ);
-        retval.push_back(I);
-        if (nLhs > 1) {
-            retval.push_back(J);
-        }
-        if (nLhs > 2) {
-            retval.push_back(V);
-        }
-        if (nLhs > 3) {
-            retval.push_back(M);
-        }
-        if (nLhs > 4) {
-            retval.push_back(N);
-        }
-        if (nLhs > 5) {
-            retval.push_back(NNZ);
+        bool needToOverload;
+        SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "IJV", bSuccess);
+            if (!bSuccess) {
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+            }
+        } else {
+            retval.push_back(I);
+            if (nLhs > 1) {
+                retval.push_back(J);
+            }
+            if (nLhs > 2) {
+                retval.push_back(V);
+            }
+            if (nLhs > 3) {
+                retval.push_back(M);
+            }
+            if (nLhs > 4) {
+                retval.push_back(N);
+            }
+            if (nLhs > 5) {
+                retval.push_back(NNZ);
+            }
         }
     }
     return retval;

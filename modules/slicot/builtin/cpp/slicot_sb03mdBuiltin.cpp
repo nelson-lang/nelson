@@ -42,10 +42,10 @@ Nelson::SlicotGateway::slicot_sb03mdBuiltin(Evaluator* eval, int nLhs, const Arr
 {
     ArrayOfVector retval;
     if (nLhs > 8) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 7) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // INPUT VARIABLES
     ArrayOf DICO = argIn[0];
@@ -124,25 +124,25 @@ Nelson::SlicotGateway::slicot_sb03mdBuiltin(Evaluator* eval, int nLhs, const Arr
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {
-        Error(eval, _W("Input argument #1: scalar expected."));
+        Error(_W("Input argument #1: scalar expected."));
     }
     if (!dimsJOB.isScalar()) {
-        Error(eval, _W("Input argument #2: scalar expected."));
+        Error(_W("Input argument #2: scalar expected."));
     }
     if (!dimsFACT.isScalar()) {
-        Error(eval, _W("Input argument #3: scalar expected."));
+        Error(_W("Input argument #3: scalar expected."));
     }
     if (!dimsTRANA.isScalar()) {
-        Error(eval, _W("Input argument #4: scalar expected."));
+        Error(_W("Input argument #4: scalar expected."));
     }
     // CALL EXTERN FUNCTION
     try {
         sb03md_(DICO_ptr, JOB_ptr, FACT_ptr, TRANA_ptr, N_ptr, A_ptr, LDA_ptr, U_output_ptr,
             LDU_ptr, C_output_ptr, LDC_ptr, SCALE_output_ptr, SEP_output_ptr, FERR_output_ptr,
             WR_output_ptr, WI_output_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr, INFO_output_ptr);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         e.what();
-        Error(eval, "sb03md function fails.");
+        Error("sb03md function fails.");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

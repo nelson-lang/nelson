@@ -30,15 +30,15 @@ Nelson::MpiGateway::MPI_RecvBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
 {
     ArrayOfVector retval;
     if ((argIn.size() < 2) || (argIn.size() > 3)) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(eval, _W("MPI must be initialized."));
+        Error(_W("MPI must be initialized."));
     }
     ArrayOf tmp = argIn[0];
     int source = tmp.getContentAsInteger32Scalar();

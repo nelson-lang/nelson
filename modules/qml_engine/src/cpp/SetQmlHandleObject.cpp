@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "SetQmlHandleObject.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "QStringConverter.hpp"
@@ -42,36 +42,36 @@ SetQmlHandleObject(ArrayOf A, std::wstring propertyName, ArrayOf B)
     ArrayOf res;
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
-        throw Exception(_W("QObject handle expected."));
+        Error(_W("QObject handle expected."));
     }
     QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        throw Exception(_W("QObject valid handle expected."));
+        Error(_W("QObject valid handle expected."));
     }
     QObject* qobj = (QObject*)ptr;
     if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
         HandleGenericObject* hlObjParent = B.getContentAsHandleScalar();
         if (hlObjParent == nullptr) {
-            throw Exception(_W("QObject valid handle expected."));
+            Error(_W("QObject valid handle expected."));
         }
         if (hlObjParent->getCategory() != QOBJECT_CATEGORY_STR) {
-            throw Exception(_W("QObject handle expected."));
+            Error(_W("QObject handle expected."));
         }
         QmlHandleObject* qmlhandleobjparent = (QmlHandleObject*)hlObjParent;
         void* ptr = qmlhandleobjparent->getPointer();
         if (ptr == nullptr) {
-            throw Exception(_W("QObject valid handle expected."));
+            Error(_W("QObject valid handle expected."));
         }
         QObject* qobjParent = (QObject*)ptr;
         if (qobjParent == qobj) {
-            throw Exception(_W("QObject parent egals to the child."));
+            Error(_W("QObject parent egals to the child."));
         }
         qobj->setParent(qobjParent);
     } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR)) {
-        throw Exception(_W("'children' can not modified."));
+        Error(_W("'children' can not modified."));
     } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR)) {
-        throw Exception(_W("'className' can not modified."));
+        Error(_W("'className' can not modified."));
     } else {
         QVariant propertyValue = qobj->property(wstring_to_utf8(propertyName).c_str());
         if (!propertyValue.isValid()) {
@@ -83,7 +83,7 @@ SetQmlHandleObject(ArrayOf A, std::wstring propertyName, ArrayOf B)
             if (v.isValid()) {
                 qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
             } else {
-                throw Exception(_W("QVariant invalid."));
+                Error(_W("QVariant invalid."));
             }
         }
     }

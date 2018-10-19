@@ -1,4 +1,5 @@
 %{
+// clang-format off
 //=============================================================================
 // Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
@@ -17,7 +18,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-
+// clang-format off
 //bison -L C -k -o NelSonParser.cpp NelSonParser.yxx
 
 #include <stdio.h>
@@ -27,7 +28,7 @@
 #include "Evaluator.hpp"
 #include "FunctionDef.hpp"
 #include "ParserInterface.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "FileParser.hpp"
 #include "i18n.hpp"
 
@@ -105,7 +106,7 @@ namespace Nelson {
        xStr.c_str(),linenumber,colnumber,getParserFilenameU().c_str());
     else
       snprintf(msgBuffer,MSGBUFLEN,_("Expecting %s").c_str(),xStr.c_str());
-    throw Exception(msgBuffer);
+    Error(msgBuffer);
     return 0;
   }
 }
@@ -119,7 +120,7 @@ using namespace Nelson;
 %token LE GE EQ
 %token DOTTIMES DOTRDIV DOTLDIV
 %token DOTPOWER DOTTRANSPOSE
-%token STRING SPECIALCALL
+%token CHARACTER STRING SPECIALCALL
 %token END IF FUNCTION FOR BREAK
 %token MAGICEND
 %token WHILE ELSE ELSEIF
@@ -134,8 +135,8 @@ using namespace Nelson;
 %left SAND
 %left '|'
 %left '&'
-%left ':'
 %left '<' LE '>' GE EQ NE
+%left ':'
 %left '+' '-'
 %left '*' '/' '\\' DOTTIMES DOTRDIV DOTLDIV
 %left POS NEG NOT
@@ -298,9 +299,12 @@ endfunctionStatement:
 specialSyntaxStatement:
   IDENT NUMERIC {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context());} |
   STRING STRING {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context());} |
+  CHARACTER CHARACTER {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context());} |
   IDENT STRING {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context());} |
+  IDENT CHARACTER {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context());} |
   IDENT IDENT {$$.v.p = allocateAbstractSyntaxTree(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->context()); } |
   specialSyntaxStatement STRING {$1.v.p->addChild($2.v.p);} |
+  specialSyntaxStatement CHARACTER {$1.v.p->addChild($2.v.p);} |
   specialSyntaxStatement IDENT {$1.v.p->addChild($2.v.p);} |
   specialSyntaxStatement NUMERIC {$1.v.p->addChild($2.v.p);}
 
@@ -555,7 +559,8 @@ expr:
   ;
 
 terminal:
-      NUMERIC
+	NUMERIC
+  | CHARACTER
   | STRING
   | MAGICEND
   | symbRefList {$$.v.p = allocateAbstractSyntaxTree(OP_RHS,$1.v.p,$1.v.p->context());}
@@ -564,28 +569,25 @@ terminal:
     | '[' rowSeperator matrixDef ']' {$$.v.p = $3.v.p;}
     | '[' matrixDef rowSeperator ']' {$$.v.p = $2.v.p;}
     | '[' rowSeperator matrixDef rowSeperator ']' {$$.v.p = $3.v.p;}
-  | '[' ']' {$$.v.p = allocateAbstractSyntaxTree(OP_EMPTY,NULL,$1.v.i);}
+	| '[' ']' {$$.v.p = allocateAbstractSyntaxTree(OP_EMPTY,NULL,$1.v.i);}
     | '{' cellDef '}' {$$.v.p = $2.v.p;}
     | '{' rowSeperator cellDef '}' {$$.v.p = $3.v.p;}
     | '{' cellDef rowSeperator '}' {$$.v.p = $2.v.p;}
     | '{' rowSeperator cellDef rowSeperator '}' {$$.v.p = $3.v.p;}
-  | '{' '}' {$$.v.p = allocateAbstractSyntaxTree(OP_EMPTY_CELL,NULL,$1.v.i);}
-  | '{' error {yyxpt(_("a cell-array definition followed by a right brace"),$1);}
-        ;
+	| '{' '}' {$$.v.p = allocateAbstractSyntaxTree(OP_EMPTY_CELL,NULL,$1.v.i);}
+	| '{' error {yyxpt(_("a cell-array definition followed by a right brace"),$1);};
 symbRefList:
   IDENT 
-        | symbRefList symbRef {$$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);}
-        ;
+    | symbRefList symbRef {$$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);};
   
 symbRef:
   '(' indexList ')' {$$.v.p = allocateAbstractSyntaxTree(OP_PARENS,$2.v.p,$1.v.i); }
     | '(' ')' {$$.v.p = allocateAbstractSyntaxTree(OP_PARENS,NULL,$1.v.i); }
-  | '(' indexList error {yyxpt(_("matching right parenthesis"),$1);}
+	| '(' indexList error {yyxpt(_("matching right parenthesis"),$1);}
     | '{' indexList '}' {$$.v.p = allocateAbstractSyntaxTree(OP_BRACES,$2.v.p,$1.v.i); }
-  | '{' indexList error {yyxpt(_("matching right brace"),$1);}
+	| '{' indexList error {yyxpt(_("matching right brace"),$1);}
     | '.' IDENT {$$.v.p = allocateAbstractSyntaxTree(OP_DOT,$2.v.p,$1.v.i); }
-  | '.' '(' expr ')' {$$.v.p = allocateAbstractSyntaxTree(OP_DOTDYN,$3.v.p,$1.v.i);}
-        ;
+	| '.' '(' expr ')' {$$.v.p = allocateAbstractSyntaxTree(OP_DOTDYN,$3.v.p,$1.v.i);};
 
 indexElement:
   expr
@@ -621,8 +623,7 @@ columnSep:
 
 rowDef:
        expr {$$.v.p = allocateAbstractSyntaxTree(OP_SEMICOLON,$1.v.p,$1.v.p->context());} |
-       rowDef  columnSep expr {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
-       ;
+       rowDef columnSep expr {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);};
 
 %%
 
@@ -654,22 +655,23 @@ namespace Nelson {
       return FuncDef;
   }
   
-  ParserState parseString(std::string txt) {
+  ParserState parseString(const std::string &txt) {
     resetParser();
     interactiveMode = true;
-    setLexBuffer(txt.c_str());
+    setLexBuffer(txt);
     yyparse();
     return parseState();
   }
   
-  ParserState parseFile(FILE *fp, const char* fname) {
+  ParserState parseFile(FILE *fp, const std::string &fname) {
     resetParser();
     interactiveMode = false;
-  setParserFilename(fname);
+    setParserFilename(fname);
     setLexFile(fp);
     yyparse();
-  ParserState pstate = parseState();
-  setParserFilename("");
+    ParserState pstate = parseState();
+    setParserFilename("");
     return pstate;
   }
 }
+// clang-format on

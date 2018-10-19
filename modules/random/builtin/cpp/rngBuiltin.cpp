@@ -48,21 +48,21 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     switch (argIn.size()) {
     case 0: {
         if (eval->RandomEngine == nullptr) {
-            Error(eval, _W("random engine not initialized."));
+            Error(_W("random engine not initialized."));
         }
         retval.push_back(backupCurrentRng(eval));
     } break;
     case 1: {
         ArrayOf arg1 = argIn[0];
-        if (arg1.isSingleString()) {
+        if (arg1.isRowVectorCharacterArray()) {
             std::wstring param = arg1.getContentAsWideString();
             if (!((param == L"default") || (param == L"shuffle") || (param == L"enginelist"))) {
-                Error(eval, _W("'default', 'shuffle' or 'enginelist' expected."));
+                Error(_W("'default', 'shuffle' or 'enginelist' expected."));
             }
             ArrayOf backupCurrentRngStruct;
             if (nLhs == 1) {
@@ -99,17 +99,17 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             RngSetEngine(eval, s, genname);
             RngSetState(eval, elements[2]);
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE);
         }
     } break;
     case 2: {
         ArrayOf arg1 = argIn[0];
         ArrayOf arg2 = argIn[1];
-        if (arg1.isNumeric() && arg2.isSingleString()) {
+        if (arg1.isNumeric() && arg2.isRowVectorCharacterArray()) {
             double s = arg1.getContentAsDoubleScalar();
             std::wstring genname = arg2.getContentAsWideString();
             if (!isRngType(genname)) {
-                Error(eval, _W("A valid generator name expected."));
+                Error(_W("A valid generator name expected."));
             }
             ArrayOf backupCurrentRngStruct;
             if (nLhs == 1) {
@@ -119,14 +119,14 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             if (nLhs == 1) {
                 retval.push_back(backupCurrentRngStruct);
             }
-        } else if (arg1.isSingleString() && arg2.isSingleString()) {
+        } else if (arg1.isRowVectorCharacterArray() && arg2.isRowVectorCharacterArray()) {
             std::wstring param = arg1.getContentAsWideString();
             if (param != L"shuffle") {
-                Error(eval, _W("'shuffle' expected."));
+                Error(_W("'shuffle' expected."));
             }
             std::wstring genname = arg2.getContentAsWideString();
             if (!isRngType(genname)) {
-                Error(eval, _W("A valid generator name expected."));
+                Error(_W("A valid generator name expected."));
             }
             ArrayOf backupCurrentRngStruct;
             if (nLhs == 1) {
@@ -138,11 +138,11 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                 retval.push_back(backupCurrentRngStruct);
             }
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENTS_TYPE);
+            Error(ERROR_WRONG_ARGUMENTS_TYPE);
         }
     } break;
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;
@@ -151,7 +151,7 @@ Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
 static ArrayOf
 backupCurrentRng(Evaluator* eval)
 {
-    ArrayOf typeOfRng = ArrayOf::stringConstructor(RngGetType(eval));
+    ArrayOf typeOfRng = ArrayOf::characterArrayConstructor(RngGetType(eval));
     ArrayOf seedOfRng = RngGetSeed(eval);
     ArrayOf stateOfRng = RngGetState(eval);
     ArrayOf structRng;
@@ -183,7 +183,7 @@ splitRngStruct(Evaluator* eval, ArrayOf structRng)
             return elements;
         }
     }
-    Error(eval, _W("Must contain generator settings captured previously."));
+    Error(_W("Must contain generator settings captured previously."));
     return elements;
 }
 //=============================================================================

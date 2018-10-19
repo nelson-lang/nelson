@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>isequalto</keyword>
+	<short_description>Return true if all arguments x1, x2, ... , xn are equal (same type, same dimensions, same values or NaNs).</short_description>
+
+	<syntax>
+		<syntax_item>res = isequalto(x1, x2)</syntax_item>
+		<syntax_item>res = isequalto(x1, x2, xn)</syntax_item>
+
+	</syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>x1</param_name>
+			<param_description>a value</param_description>
+		</param_input_item>
+
+		<param_input_item>
+			<param_name>x2</param_name>
+			<param_description>a value</param_description>
+		</param_input_item>
+
+		<param_input_item>
+			<param_name>xn</param_name>
+			<param_description>a value</param_description>
+		</param_input_item>
+
+	</param_input>
+
+	<param_output>
+		<param_output_item>
+			<param_name>res</param_name>
+			<param_description>a logical value</param_description>
+		</param_output_item>
+	</param_output>
+
+	<description><b>isequalto</b> returns true if x1 and x2 are the same type, same size and same values; otherwise, it returns false.</description>
+
+	<used_function></used_function>
+	<bibliography></bibliography>
+
+<examples>
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[A = eye(3, 3);
+res = isequal(A, single(A))
+res = isequalto(A, single(A))
+]]>
+		</example_item_data>
+	</example_item>
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${elementary_functions}isequal">isequal</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${elementary_functions}isequaln">isequaln</link>
+		</see_also_item>
+
+	</see_also>
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>
+
+

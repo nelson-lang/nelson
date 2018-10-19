@@ -26,7 +26,7 @@ l1 = qml_pluginpathlist();
 qml_addpluginpath(nelsonroot());
 l2 = qml_pluginpathlist();
 assert_istrue(length(l2) > length(l1)) 
-for k = l2
+for k = l2(:)'
   assert_istrue(isdir(k));
 end
 //=============================================================================

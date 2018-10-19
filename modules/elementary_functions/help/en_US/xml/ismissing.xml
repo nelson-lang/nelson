@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>ismissing</keyword>
+  <short_description>Check for missing values.</short_description>
+
+  <syntax>
+    <syntax_item>tf = ismissing(M)</syntax_item>
+  </syntax>
+  
+  <param_input>
+    <param_input_item>
+      <param_name>M</param_name>
+      <param_description>a variable</param_description>
+    </param_input_item>
+  </param_input>
+
+  <param_output>
+
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>logical: result of 'ismissing'.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+    <p><b>ismissing</b> returns a logical array which is true where elements of M are <b>missing</b> values.</p>
+    <p>missing data are defined as:</p>
+    <p><b>NaN</b> for double or single</p> 
+    <p><b>missing</b> for string array</p> 
+    <p><b>' '</b> for character array</p> 
+    <p><b>''</b> for cell of character array</p> 
+  </description>
+
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data>
+      <![CDATA[A = ["Nel", NaN, "son"];
+ismissing(A)
+B = [1 2 NaN Inf];
+ismissing(B)
+C = 'Nel son'
+ismissing(C)
+D = {'Nel' '' 'son'}
+ismissing(D)
+]]>
+    </example_item_data>
+  </example_item>
+
+
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}isfinite">isfinite</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
+

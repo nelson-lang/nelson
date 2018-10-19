@@ -16,18 +16,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <cstring>
 #include "LogicalConstructors.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "SparseDynamicFunctions.hpp"
 //=============================================================================
 namespace Nelson {
 ArrayOf
-TrueConstructor(Dimensions dim, bool bIsSparse)
+TrueConstructor(Dimensions& dim, bool bIsSparse)
 {
     ArrayOf res;
     if (bIsSparse) {
         if (dim.getLength() > 2) {
-            throw Exception(_W("N-dimensional sparse arrays are not supported."));
+            Error(_W("N-dimensional sparse arrays are not supported."));
         } else {
             void* pLogicalSparse = LogicalSparseMatrixConstructorDynamicFunction(
                 dim.getRows(), dim.getColumns(), (logical)1);
@@ -42,12 +43,12 @@ TrueConstructor(Dimensions dim, bool bIsSparse)
 }
 //=============================================================================
 ArrayOf
-FalseConstructor(Dimensions dim, bool bIsSparse)
+FalseConstructor(Dimensions& dim, bool bIsSparse)
 {
     ArrayOf res;
     if (bIsSparse) {
         if (dim.getLength() > 2) {
-            throw Exception(_W("N-dimensional sparse arrays are not supported."));
+            Error(_W("N-dimensional sparse arrays are not supported."));
         } else {
             void* pLogicalSparse = LogicalSparseMatrixConstructorDynamicFunction(
                 dim.getRows(), dim.getColumns(), (logical)0);

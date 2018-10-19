@@ -22,7 +22,7 @@
     <ProjectGuid>{AB85E897-56B7-4792-8A8E-F3797BE2B7CC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsTypes</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -94,7 +94,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSTYPES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)modules/dynamic_link/src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)modules/dynamic_link/src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -119,7 +119,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSTYPES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)modules/dynamic_link/src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)modules/dynamic_link/src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -146,7 +146,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSTYPES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)modules/dynamic_link/src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)modules/dynamic_link/src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -175,7 +175,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSTYPES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)modules/dynamic_link/src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)modules/dynamic_link/src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -206,6 +206,7 @@
     <ClInclude Include="..\..\src\include\SparseDynamicFunctions.hpp" />
     <ClInclude Include="..\..\src\include\StringToClass.hpp" />
     <ClInclude Include="..\..\src\include\Types.hpp" />
+    <ClInclude Include="..\include\ClassToString.hpp" />
     <ClInclude Include="..\include\HandleGenericObject.hpp" />
     <ClInclude Include="..\include\HandleManager.hpp" />
     <ClInclude Include="..\include\IsValidVariableName.hpp" />
@@ -213,19 +214,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\ArrayOf.cpp" />
+    <ClCompile Include="..\cpp\ArrayOf_Allocate.cpp" />
+    <ClCompile Include="..\cpp\ArrayOf_Assign.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_CellType.cpp" />
+    <ClCompile Include="..\cpp\ArrayOf_Constructors.cpp" />
+    <ClCompile Include="..\cpp\ArrayOf_Delete.cpp" />
+    <ClCompile Include="..\cpp\ArrayOf_Display.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_DoubleType.cpp" />
+    <ClCompile Include="..\cpp\ArrayOf_Extract.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_FunctionHandleType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_HandleType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_IntegersType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_LogicalType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_SingleType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_SparseType.cpp" />
-    <ClCompile Include="..\cpp\ArrayOf_StringType.cpp">
+    <ClCompile Include="..\cpp\ArrayOf_CharacterType.cpp">
       <WholeProgramOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</WholeProgramOptimization>
     </ClCompile>
+    <ClCompile Include="..\cpp\ArrayOf_StringType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_StructType.cpp" />
     <ClCompile Include="..\cpp\ClassName.cpp" />
+    <ClCompile Include="..\cpp\ClassToString.cpp" />
     <ClCompile Include="..\cpp\Data.cpp" />
     <ClCompile Include="..\cpp\Dimensions.cpp" />
     <ClCompile Include="..\cpp\HandleGenericObject.cpp" />

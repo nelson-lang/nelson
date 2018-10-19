@@ -59,7 +59,7 @@ Fopen(Evaluator* eval, std::wstring filename, std::wstring mode)
     } break;
     }
     retval.push_back(ArrayOf::doubleConstructor((double)filepos));
-    retval.push_back(ArrayOf::stringConstructor(msg));
+    retval.push_back(ArrayOf::characterArrayConstructor(msg));
     return retval;
 }
 //=============================================================================
@@ -97,20 +97,20 @@ Nelson::StreamGateway::fopenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             FilesManager* fm = (FilesManager*)(eval->FileManager);
             File* _file = fm->getFile(iValue);
             if (nLhs > 2) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             if (_file) {
                 if (nLhs >= 0) {
-                    retval.push_back(ArrayOf::stringConstructor(_file->getFileName()));
+                    retval.push_back(ArrayOf::characterArrayConstructor(_file->getFileName()));
                 }
                 if (nLhs > 0) {
-                    retval.push_back(ArrayOf::stringConstructor(_file->getFileMode()));
+                    retval.push_back(ArrayOf::characterArrayConstructor(_file->getFileMode()));
                 }
             } else {
-                Error(eval, _W("Invalid file identifier."));
+                Error(_W("Invalid file identifier."));
             }
             return retval;
-        } else if (param1.isSingleString()) {
+        } else if (param1.isRowVectorCharacterArray()) {
             filename = param1.getContentAsWideString();
             if (filename == L"all") {
                 return FopenAll(eval);
@@ -118,26 +118,26 @@ Nelson::StreamGateway::fopenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 return Fopen(eval, filename, mode);
             }
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_DOUBLE_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_DOUBLE_EXPECTED);
         }
     } break;
     case 2: {
         ArrayOf param1 = argIn[0];
         ArrayOf param2 = argIn[1];
-        if (param1.isSingleString() && param2.isSingleString()) {
+        if (param1.isRowVectorCharacterArray() && param2.isRowVectorCharacterArray()) {
             filename = param1.getContentAsWideString();
             mode = param2.getContentAsWideString();
             return Fopen(eval, filename, mode);
         } else {
-            if (param1.isSingleString()) {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+            if (param1.isRowVectorCharacterArray()) {
+                Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
             }
         }
     } break;
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;

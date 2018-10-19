@@ -26,11 +26,12 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-ToLower(Evaluator* eval, ArrayOf A)
+ToLower(const ArrayOf& A, bool& needToOverload)
 {
+    needToOverload = false;
     ArrayOf res;
-    if (A.isSingleString()) {
-        return ArrayOf::stringConstructor(ToLower(A.getContentAsWideString()));
+    if (A.isRowVectorCharacterArray()) {
+        return ArrayOf::characterArrayConstructor(ToLower(A.getContentAsWideString()));
     } else if (A.getDataClass() == NLS_CELL_ARRAY) {
         if (A.isEmpty()) {
             return ArrayOf(A);
@@ -39,16 +40,33 @@ ToLower(Evaluator* eval, ArrayOf A)
             res.ensureSingleOwner();
             ArrayOf* element = (ArrayOf*)(res.getDataPointer());
             for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-                if (!element[k].isSingleString()) {
-                    Error(eval, ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
+                if (!element[k].isRowVectorCharacterArray()) {
+                    Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
                 }
-                element[k]
-                    = ArrayOf::stringConstructor(ToLower(element[k].getContentAsWideString()));
+                element[k] = ArrayOf::characterArrayConstructor(
+                    ToLower(element[k].getContentAsWideString()));
+            }
+            return res;
+        }
+    } else if (A.getDataClass() == NLS_STRING_ARRAY) {
+        if (A.isEmpty()) {
+            return ArrayOf(A);
+        } else {
+            res = ArrayOf(A);
+            res.ensureSingleOwner();
+            ArrayOf* element = (ArrayOf*)(res.getDataPointer());
+            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+                if (element[k].isRowVectorCharacterArray()) {
+                    element[k] = ArrayOf::characterArrayConstructor(
+                        ToLower(element[k].getContentAsWideString()));
+                } else {
+                    element[k] = ArrayOf::emptyConstructor();
+                }
             }
             return res;
         }
     } else {
-        Error(eval, ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
+        needToOverload = true;
     }
     return res;
 }

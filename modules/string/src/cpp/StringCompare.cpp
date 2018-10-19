@@ -55,7 +55,7 @@ static ArrayOf
 CompareStringString(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len = 0)
 {
     bool bEq = false;
-    if (A.isSingleString() && B.isSingleString()) {
+    if (A.isRowVectorCharacterArray() && B.isRowVectorCharacterArray()) {
         bEq = compareString(
             A.getContentAsWideString(), B.getContentAsWideString(), bCaseSensitive, len);
     } else {
@@ -80,13 +80,14 @@ ArrayOf
 StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
 {
     ArrayOf res;
-    if (A.isString() && B.isString()) {
+    if (A.isCharacterArray() && B.isCharacterArray()) {
         return CompareStringString(A, B, bCaseSensitive, len);
     }
-    if ((A.isCell() && A.isEmpty()) || (B.isCell() && B.isEmpty())) {
+    if ((A.isCell() && A.isEmpty()) || (B.isCell() && B.isEmpty())
+        || (A.isStringArray() && A.isEmpty()) || (B.isStringArray() && B.isEmpty())) {
         return ArrayOf::emptyConstructor();
     } else {
-        if (A.isCell() && B.isCell()) {
+        if ((A.isCell() && B.isCell()) || (A.isStringArray() && B.isStringArray())) {
             Dimensions dimA = A.getDimensions();
             Dimensions dimB = B.getDimensions();
             if (dimA.equals(dimB)) {
@@ -97,10 +98,11 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
                 for (size_t k = 0; k < Clen; k++) {
                     ArrayOf elementA = cellA[k];
                     ArrayOf elementB = cellB[k];
-                    if (elementA.isSingleString() && elementB.isSingleString()) {
+                    if (elementA.isRowVectorCharacterArray()
+                        && elementB.isRowVectorCharacterArray()) {
                         Cp[k] = compareString(elementA.getContentAsWideString(),
                             elementB.getContentAsWideString(), bCaseSensitive, len);
-                    } else if (elementA.isString() && elementB.isString()) {
+                    } else if (elementA.isCharacterArray() && elementB.isCharacterArray()) {
                         wstringVector s1 = elementA.getContentAsWideStringVector();
                         wstringVector s2 = elementB.getContentAsWideStringVector();
                         if (s1.size() == s2.size()) {
@@ -141,7 +143,7 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
                             p1 = cellA[k];
                             p2 = cellB[0];
                         }
-                        if (p1.isString() && p2.isString()) {
+                        if (p1.isCharacterArray() && p2.isCharacterArray()) {
                             wstringVector s1 = p1.getContentAsWideStringVector();
                             wstringVector s2 = p2.getContentAsWideStringVector();
                             if (s1.size() == s2.size()) {
@@ -157,15 +159,30 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
                     }
                     res = ArrayOf(NLS_LOGICAL, dimC, Cp);
                 } else {
-                    throw Exception(ERROR_SAME_SIZE_EXPECTED);
+                    Error(ERROR_SAME_SIZE_EXPECTED);
                 }
             }
-        } else if ((A.isCell() || (B.isCell()))) {
+        } else if (A.isCell() || B.isCell() || A.isStringArray() || B.isStringArray()) {
+            Dimensions dimsA = A.getDimensions();
+            Dimensions dimsB = B.getDimensions();
+
+            bool checkDims = false;
+            if ((!A.isCell() && !A.isStringArray()) || (!B.isCell() && !B.isStringArray())) {
+                checkDims = true;
+            } else {
+                checkDims = A.isRowVectorCharacterArray() || B.isRowVectorCharacterArray()
+                    || (A.isStringArray() && A.isScalar()) || (B.isStringArray() && B.isScalar())
+                    || (A.isCell() && A.isScalar()) || (B.isCell() && B.isScalar())
+                    || dimsA.equals(dimsB);
+            }
+            if (!checkDims) {
+                Error(_W("Same size or scalar expected."));
+            }
             size_t Clen;
             Dimensions dimC;
             ArrayOf cell1;
             ArrayOf scalar2;
-            if (A.isCell()) {
+            if (A.isCell() || A.isStringArray()) {
                 cell1 = A;
                 scalar2 = B;
                 dimC = A.getDimensions();
@@ -176,14 +193,15 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
                 dimC = B.getDimensions();
                 Clen = dimC.getElementCount();
             }
+
             logical* Cp = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, Clen);
             ArrayOf* cellA = (ArrayOf*)(cell1.getDataPointer());
             for (size_t k = 0; k < Clen; k++) {
-                if (!scalar2.isString()) {
+                if (!scalar2.isCharacterArray()) {
                     Cp[k] = false;
                 } else {
                     ArrayOf elementA = cellA[k];
-                    if (elementA.isString() && scalar2.isString()) {
+                    if (elementA.isCharacterArray() && scalar2.isCharacterArray()) {
                         Cp[k] = compareString(elementA.getContentAsWideString(),
                             scalar2.getContentAsWideString(), bCaseSensitive, len);
                     } else {

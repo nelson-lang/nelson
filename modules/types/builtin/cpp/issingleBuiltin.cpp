@@ -18,7 +18,6 @@
 //=============================================================================
 #include "issingleBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -27,18 +26,13 @@ Nelson::TypeGateway::issingleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess) {
-        bool bRes
-            = (argIn[0].getDataClass() == NLS_SINGLE || argIn[0].getDataClass() == NLS_SCOMPLEX);
-        retval.push_back(ArrayOf::logicalConstructor(bRes));
-    }
+    bool bRes = (argIn[0].getDataClass() == NLS_SINGLE || argIn[0].getDataClass() == NLS_SCOMPLEX);
+    retval.push_back(ArrayOf::logicalConstructor(bRes));
     return retval;
 }
 //=============================================================================

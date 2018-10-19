@@ -22,7 +22,7 @@
     <ProjectGuid>{1B461DB6-82EA-4436-A674-D2975F184B90}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsStream_manager</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -94,7 +94,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSSTREAM_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251;4290</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -113,7 +113,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSSTREAM_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251;4290</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -134,7 +134,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSSTREAM_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251;4290</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -157,7 +157,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSSTREAM_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251;4290</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -177,7 +177,18 @@
     <ClInclude Include="..\..\src\include\nlsStream_manager_exports.h" />
     <ClInclude Include="..\..\src\include\Serialize.hpp" />
     <ClInclude Include="..\..\src\include\Stream.hpp" />
+    <ClInclude Include="..\cpp\DisplayCell.hpp" />
+    <ClInclude Include="..\cpp\DisplayCharacters.hpp" />
+    <ClInclude Include="..\cpp\DisplayDouble.hpp" />
+    <ClInclude Include="..\cpp\DisplayHelpers.hpp" />
+    <ClInclude Include="..\cpp\DisplayIntegers.hpp" />
+    <ClInclude Include="..\cpp\DisplayLogical.hpp" />
+    <ClInclude Include="..\cpp\DisplaySingle.hpp" />
+    <ClInclude Include="..\cpp\DisplayStringArray.hpp" />
+    <ClInclude Include="..\cpp\DisplayStruct.hpp" />
+    <ClInclude Include="..\cpp\PrintfHelper.hpp" />
     <ClInclude Include="..\include\DelimitedFile.hpp" />
+    <ClInclude Include="..\include\DisplayVariable.hpp" />
     <ClInclude Include="..\include\Endian.hpp" />
     <ClInclude Include="..\include\FileClose.hpp" />
     <ClInclude Include="..\include\FileGetLine.hpp" />
@@ -192,10 +203,21 @@
     <ClInclude Include="..\include\FileTell.hpp" />
     <ClInclude Include="..\include\FileWrite.hpp" />
     <ClInclude Include="..\include\MapFileRead.hpp" />
+    <ClInclude Include="..\include\PrintfFunction.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\DelimitedFile.cpp" />
     <ClCompile Include="..\cpp\Diary.cpp" />
+    <ClCompile Include="..\cpp\DisplayCell.cpp" />
+    <ClCompile Include="..\cpp\DisplayCharacters.cpp" />
+    <ClCompile Include="..\cpp\DisplayDouble.cpp" />
+    <ClCompile Include="..\cpp\DisplayHelpers.cpp" />
+    <ClCompile Include="..\cpp\DisplayIntegers.cpp" />
+    <ClCompile Include="..\cpp\DisplayLogical.cpp" />
+    <ClCompile Include="..\cpp\DisplaySingle.cpp" />
+    <ClCompile Include="..\cpp\DisplayStringArray.cpp" />
+    <ClCompile Include="..\cpp\DisplayStruct.cpp" />
+    <ClCompile Include="..\cpp\DisplayVariable.cpp" />
     <ClCompile Include="..\cpp\Endian.cpp" />
     <ClCompile Include="..\cpp\FileClose.cpp" />
     <ClCompile Include="..\cpp\FileGetLine.cpp" />
@@ -211,6 +233,8 @@
     <ClCompile Include="..\cpp\FileWrite.cpp" />
     <ClCompile Include="..\cpp\Interface.cpp" />
     <ClCompile Include="..\cpp\MapFileRead.cpp" />
+    <ClCompile Include="..\cpp\PrintfHelper.cpp" />
+    <ClCompile Include="..\cpp\PrintfFunction.cpp" />
     <ClCompile Include="..\cpp\Serialize.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -223,6 +247,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
+      <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>

@@ -27,7 +27,7 @@ Nelson::CoreGateway::maxNumCompThreadsBuiltin(Evaluator* eval, int nLhs, const A
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     unsigned int currentValue = getMaxNumCompThreads();
     switch (argIn.size()) {
@@ -36,12 +36,12 @@ Nelson::CoreGateway::maxNumCompThreadsBuiltin(Evaluator* eval, int nLhs, const A
     } break;
     case 1: {
         ArrayOf param1 = argIn[0];
-        if (param1.isSingleString()) {
+        if (param1.isRowVectorCharacterArray()) {
             std::wstring str = param1.getContentAsWideString();
             if (str == L"automatic") {
                 setDefaultMaxNumCompThreads();
             } else {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+                Error(ERROR_WRONG_ARGUMENT_1_VALUE);
             }
         } else {
             indexType N = param1.getContentAsScalarIndex(false);
@@ -50,7 +50,7 @@ Nelson::CoreGateway::maxNumCompThreadsBuiltin(Evaluator* eval, int nLhs, const A
         retval.push_back(ArrayOf::doubleConstructor((double)currentValue));
     } break;
     default: {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;

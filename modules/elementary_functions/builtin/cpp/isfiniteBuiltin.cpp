@@ -18,8 +18,8 @@
 //=============================================================================
 #include "isfiniteBuiltin.hpp"
 #include "Error.hpp"
-#include "IsFinite.hpp"
 #include "OverloadFunction.hpp"
+#include "IsFinite.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,14 +29,23 @@ Nelson::ElementaryFunctionsGateway::isfiniteBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "isfinite", bSuccess);
+    }
     if (!bSuccess) {
+        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "isfinite", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
         retval.push_back(IsFinite(argIn[0]));
     }
     return retval;

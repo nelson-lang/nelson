@@ -22,7 +22,7 @@
     <ProjectGuid>{54A0DFBE-2FA2-4BCA-BA82-887EE2CEE308}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsTypes_builtin</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -187,6 +187,7 @@
     <ClCompile Include="..\cpp\isrealBuiltin.cpp" />
     <ClCompile Include="..\cpp\issingleBuiltin.cpp" />
     <ClCompile Include="..\cpp\issparseBuiltin.cpp" />
+    <ClCompile Include="..\cpp\isstringBuiltin.cpp" />
     <ClCompile Include="..\cpp\isstructBuiltin.cpp" />
     <ClCompile Include="..\cpp\isuint16Builtin.cpp" />
     <ClCompile Include="..\cpp\isuint32Builtin.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="..\include\isrealBuiltin.hpp" />
     <ClInclude Include="..\include\issingleBuiltin.hpp" />
     <ClInclude Include="..\include\issparseBuiltin.hpp" />
+    <ClInclude Include="..\include\isstringBuiltin.hpp" />
     <ClInclude Include="..\include\isstructBuiltin.hpp" />
     <ClInclude Include="..\include\isuint16Builtin.hpp" />
     <ClInclude Include="..\include\isuint32Builtin.hpp" />

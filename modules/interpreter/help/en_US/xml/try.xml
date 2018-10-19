@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>try</keyword>
+  <keyword>catch</keyword>
+  <short_description>try/catch statement.</short_description>
+
+  <syntax>
+    <syntax_item>try, statements_1, catch, statements_2, end</syntax_item>
+  </syntax>
+  
+
+  <description>
+  <p><b>try</b> and <b>catch</b> statements are used for error handling and control in files.</p>
+</description>
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description>try/catch in a script file</example_item_description>
+    <example_item_data><![CDATA[try 
+error('an error')
+catch
+  disp('error catched')
+end]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${core}run">run</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${core}execstr">execstr</link>
+		</see_also_item>
+
+	</see_also>
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

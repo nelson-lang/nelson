@@ -16,19 +16,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/algorithm/string.hpp>
 #include "ArrayOf.hpp"
 #include "Data.hpp"
+#include "Error.hpp"
+#include "Exception.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-const bool
+bool
 ArrayOf::isStruct() const
 {
     return (this->getDataClass() == NLS_STRUCT_ARRAY);
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isClassStruct() const
 {
     if (this->isStruct()) {
@@ -51,7 +54,7 @@ std::string
 ArrayOf::getStructType() const
 {
     if (dp->dataClass != NLS_STRUCT_ARRAY) {
-        throw Exception(ERROR_TYPE_STRUCT_EXPECTED);
+        Error(ERROR_TYPE_STRUCT_EXPECTED);
     }
     return dp->getStructTypeName();
 }
@@ -66,7 +69,7 @@ void
 ArrayOf::setStructType(std::string structname)
 {
     if (this->getDataClass() != NLS_STRUCT_ARRAY) {
-        throw Exception(ERROR_TYPE_STRUCT_EXPECTED);
+        Error(ERROR_TYPE_STRUCT_EXPECTED);
     }
     dp->setStructTypeName(structname);
 }
@@ -79,7 +82,7 @@ ArrayOf::structScalarConstructor(stringVector fNames, ArrayOfVector& values)
     ArrayOf* qp = nullptr;
     try {
         if (fNames.size() != values.size()) {
-            throw Exception(
+            Error(
                 _W("Number of field names must match number of values in structure constructor."));
         }
         Dimensions dims(1, 1);
@@ -98,8 +101,7 @@ ArrayOf::structScalarConstructor(stringVector fNames, ArrayOfVector& values)
             }
         }
         return ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, fNames);
-    } catch (Exception& e) {
-        e.what();
+    } catch (const Exception&) {
         ArrayOf* rp = (ArrayOf*)qp;
         delete[] rp;
         rp = nullptr;
@@ -117,7 +119,7 @@ ArrayOf::structConstructor(stringVector fNames, ArrayOfVector& values)
     ArrayOf* qp = nullptr;
     try {
         if (fNames.size() != values.size()) {
-            throw Exception(
+            Error(
                 _W("Number of field names must match number of values in structure constructor."));
         }
         /**
@@ -132,7 +134,8 @@ ArrayOf::structConstructor(stringVector fNames, ArrayOfVector& values)
              * Check the type of the entry.  If its a non-cell array, then
              * then ignore this entry.
              */
-            if (values[i].dp->dataClass == NLS_CELL_ARRAY) {
+            if (values[i].dp->dataClass == NLS_CELL_ARRAY
+                || values[i].dp->dataClass == NLS_STRING_ARRAY) {
                 /**
                  * This is a cell-array, so look for non-scalar cell-arrays.
                  */
@@ -141,8 +144,8 @@ ArrayOf::structConstructor(stringVector fNames, ArrayOfVector& values)
                         nonSingularFound = true;
                         dims = values[i].dp->dimensions;
                     } else if (!dims.equals(values[i].dp->dimensions)) {
-                        throw Exception(_W("ArrayOf dimensions of non-scalar entries must agree in "
-                                           "structure construction."));
+                        Error(_W("ArrayOf dimensions of non-scalar entries must agree in "
+                                 "structure construction."));
                     }
                 }
             }
@@ -170,7 +173,8 @@ ArrayOf::structConstructor(stringVector fNames, ArrayOfVector& values)
             for (i = 0; i < (sizeType)fNames.size(); i++) {
                 ArrayOf rval = values[i];
                 rptr = (const ArrayOf*)rval.dp->getData();
-                if (rval.dp->dataClass == NLS_CELL_ARRAY) {
+                if (rval.dp->dataClass == NLS_CELL_ARRAY
+                    || rval.dp->dataClass == NLS_STRING_ARRAY) {
                     if (rval.isScalar()) {
                         qp[offset] = rptr[0];
                     } else {
@@ -182,8 +186,7 @@ ArrayOf::structConstructor(stringVector fNames, ArrayOfVector& values)
                 offset++;
             }
         return ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, fNames);
-    } catch (Exception& e) {
-        e.what();
+    } catch (const Exception&) {
         ArrayOf* rp = (ArrayOf*)qp;
         delete[] rp;
         rp = nullptr;
@@ -207,15 +210,15 @@ ArrayOf::getField(std::string fieldName)
 {
     // First make sure that we are a scalar value.
     if (!isScalar()) {
-        throw Exception(_W("Cannot dereference a field of a multi-element structure array."));
+        Error(_W("Cannot dereference a field of a multi-element structure array."));
     }
     if (isSparse()) {
-        throw Exception(_W("getField not supported for sparse arrays."));
+        Error(_W("getField not supported for sparse arrays."));
     }
     // Then, find the field index.
     int64 ndx = getFieldIndex(fieldName);
     if (ndx < 0) {
-        throw Exception(_("Reference to non-existent field") + " " + fieldName);
+        Error(_("Reference to non-existent field") + " " + fieldName);
     }
     // Cast real part into a data pointer, and return a copy of what the caller asked for!
     const ArrayOf* qp = (const ArrayOf*)dp->getData();
@@ -226,10 +229,10 @@ ArrayOfVector
 ArrayOf::getFieldAsList(std::string fieldName)
 {
     if (!isStruct()) {
-        throw Exception(_W("Attempt to apply field-indexing to non structure-array object."));
+        Error(_W("Attempt to apply field-indexing to non structure-array object."));
     }
     if (isSparse()) {
-        throw Exception(_W("getFieldAsList not supported for sparse arrays."));
+        Error(_W("getFieldAsList not supported for sparse arrays."));
     }
     ArrayOfVector m;
     const ArrayOf* qp = (const ArrayOf*)dp->getData();
@@ -237,7 +240,7 @@ ArrayOf::getFieldAsList(std::string fieldName)
     indexType fieldCount = dp->fieldNames.size();
     int64 ndx = getFieldIndex(fieldName);
     if (ndx < 0) {
-        throw Exception(_("Reference to non-existent field") + " " + fieldName);
+        Error(_("Reference to non-existent field") + " " + fieldName);
     }
     indexType i = 0;
     for (i = 0; i < N; i++) {
@@ -262,13 +265,13 @@ ArrayOf::setField(std::string fieldName, ArrayOf& data)
         resize(a);
     }
     if (isSparse()) {
-        throw Exception(_W("setField not supported for sparse arrays."));
+        Error(_W("setField not supported for sparse arrays."));
     }
     if (dp->dataClass != NLS_STRUCT_ARRAY) {
-        throw Exception(ERROR_ASSIGN_TO_NON_STRUCT);
+        Error(ERROR_ASSIGN_TO_NON_STRUCT);
     }
     if (!isScalar()) {
-        throw Exception(_W("Cannot apply A.field_name = B to multi-element structure array A."));
+        Error(_W("Cannot apply A.field_name = B to multi-element structure array A."));
     }
     double field_ndx = (double)getFieldIndex(fieldName);
     if (field_ndx == -1) {
@@ -286,7 +289,7 @@ void
 ArrayOf::setFieldAsList(std::string fieldName, ArrayOfVector& data)
 {
     if (isSparse()) {
-        throw Exception(_W("setFieldAsList not supported for sparse arrays."));
+        Error(_W("setFieldAsList not supported for sparse arrays."));
     }
     if (isEmpty()) {
         bool bFieldAlreadyExist = false;
@@ -309,10 +312,10 @@ ArrayOf::setFieldAsList(std::string fieldName, ArrayOfVector& data)
         //       return;
     }
     if (!this->isStruct()) {
-        throw Exception(ERROR_ASSIGN_TO_NON_STRUCT);
+        Error(ERROR_ASSIGN_TO_NON_STRUCT);
     }
     if ((int)data.size() < getLength()) {
-        throw Exception(_W("Not enough right hand values to satisfy left hand side expression."));
+        Error(_W("Not enough right hand values to satisfy left hand side expression."));
     }
     indexType indexLength = getLength();
     int64 field_ndx = getFieldIndex(fieldName);
@@ -336,7 +339,7 @@ indexType
 ArrayOf::insertFieldName(std::string fieldName)
 {
     if (isSparse()) {
-        throw Exception(_W("insertFieldName not supported for sparse arrays."));
+        Error(_W("insertFieldName not supported for sparse arrays."));
     }
     stringVector names(dp->fieldNames);
     names.push_back(fieldName);
@@ -399,17 +402,17 @@ ArrayOf::emptyStructWithoutFields()
 }
 //=============================================================================
 ArrayOf
-ArrayOf::emptyStructConstructor(stringVector fNames, Dimensions dim)
+ArrayOf::emptyStructConstructor(stringVector fNames, Dimensions& dim)
 {
     if (dim.getElementCount() != 0) {
-        throw Exception(_W("Invalid dimensions."));
+        Error(_W("Invalid dimensions."));
     }
     ArrayOf* qp = (ArrayOf*)allocateArrayOf(NLS_STRUCT_ARRAY, dim.getElementCount(), fNames);
     return ArrayOf(NLS_STRUCT_ARRAY, dim, qp, false, fNames);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::emptyStructConstructor(wstringVector fNames, Dimensions dim)
+ArrayOf::emptyStructConstructor(wstringVector fNames, Dimensions& dim)
 {
     stringVector fs;
     fs.reserve(fNames.size());
@@ -417,6 +420,35 @@ ArrayOf::emptyStructConstructor(wstringVector fNames, Dimensions dim)
         fs.push_back(wstring_to_utf8(fNames[k]));
     }
     return ArrayOf::emptyStructConstructor(fs, dim);
+}
+//=============================================================================
+bool
+ArrayOf::haveValidFieldNames(stringVector fieldnames)
+{
+    if (fieldnames.empty()) {
+        return true;
+    }
+    for (size_t k = 0; k < fieldnames.size(); ++k) {
+        if (fieldnames[k].size() == 0) {
+            return false;
+        }
+        if (boost::algorithm::contains(fieldnames[k], "\n")) {
+            return false;
+        }
+    }
+    return true;
+}
+//=============================================================================
+bool
+ArrayOf::haveUniqueFieldNames(stringVector fieldnames)
+{
+    stringVector copyVector(fieldnames);
+    if (fieldnames.size() > 1) {
+        std::sort(copyVector.begin(), copyVector.end());
+        copyVector.erase(std::unique(copyVector.begin(), copyVector.end()), copyVector.end());
+        return fieldnames.size() == copyVector.size();
+    }
+    return true;
 }
 //=============================================================================
 }

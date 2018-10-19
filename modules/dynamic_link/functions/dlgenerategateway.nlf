@@ -1,0 +1,139 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function dlgenerategateway(destinationdir, module_name, builtin_table)
+  if ~isdir(destinationdir)
+    error(_('Invalid directory.'));
+  end
+  if ~ischar(module_name)
+    error(_('Wrong type for argument #2: string expected.'));
+  end
+  [status, builtin_table] = checkAndPrepareBuiltinTable(builtin_table);
+  if ~status
+    error(_('Invalid builtin list.'));
+  end
+  txt = template(module_name, builtin_table);
+  filewrite([destinationdir, '/Gateway.cpp'], txt);
+endfunction
+//=============================================================================
+function [status, builtin_table_modified] = checkAndPrepareBuiltinTable(builtin_table)
+  builtin_table_modified = {};
+  status = true;
+  if iscell(builtin_table)
+    for k = builtin_table(:)'
+      if iscell(k{1})
+        if length(k{1}) == 3
+          if ischar(k{1}{1}) && isscalar(k{1}{2}) && isscalar(k{1}{3})
+            if isempty(builtin_table_modified)
+              builtin_table_modified = {{ k{1}{1}, double(k{1}{2}), double(k{1}{3}) }};
+            else
+              builtin_table_modified = {builtin_table_modified, { k{1}{1}, double(k{1}{2}), double(k{1}{3}) }};
+            end
+          else
+            status = false;
+            return;
+          end
+        else
+          status = false;
+          return;
+        end
+      else
+        if ischar(k{1})
+          if isempty(builtin_table_modified)
+            builtin_table_modified = {{k{1}, -1, -1}};
+          else
+            builtin_table_modified = {builtin_table_modified, {k{1}, -1, -1}};
+          end
+        else
+          status = false;
+          return;
+        end
+      end
+    end
+  end
+endfunction
+//=============================================================================
+function txt = template(module_name, builtin_table)
+  txt = {'//============================================================================='};
+  txt = [txt; '// Copyright (c) 2018 Allan CORNET (Nelson)'];
+  txt = [txt; '//'];
+  txt = [txt; '// Redistribution and use in source and binary forms, with or without'];
+  txt = [txt; '// modification, are permitted provided that the following conditions are met:'];
+  txt = [txt; '//'];
+  txt = [txt; '// Redistributions of source code must retain the above copyright notice, this'];
+  txt = [txt; '// list of conditions and the following disclaimer. Redistributions in binary'];
+  txt = [txt; '// form must reproduce the above copyright notice, this list of conditions and'];
+  txt = [txt; '// the following disclaimer in the documentation and/or other materials'];
+  txt = [txt; '// provided with the distribution. Neither the name of the nor the names of'];
+  txt = [txt; '// its contributors may be used to endorse or promote products derived from'];
+  txt = [txt; '// this software without specific prior written permission.'];
+  txt = [txt; '//'];
+  txt = [txt; '// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"'];
+  txt = [txt; '// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE'];
+  txt = [txt; '// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE'];
+  txt = [txt; '// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE'];
+  txt = [txt; '// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR'];
+  txt = [txt; '// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF'];
+  txt = [txt; '// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS'];
+  txt = [txt; '// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN'];
+  txt = [txt; '// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)'];
+  txt = [txt; '// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE'];
+  txt = [txt; '// POSSIBILITY OF SUCH DAMAGE.'];
+  txt = [txt; '//============================================================================='];
+  txt = [txt; '#include "NelsonGateway.hpp"'];
+  txt = [txt; '//============================================================================='];
+  txt = [txt; 'using namespace Nelson;'];
+  txt = [txt; '//============================================================================='];
+  for k = builtin_table(:)'
+    if iscell(k{1}{1})
+      name = k{1}{1}(1){1};
+    else
+      name = k{1}{1};
+    end
+    txt = [txt; ['extern ArrayOfVector ', name, 'Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);']];
+  end
+  txt = [txt; '//============================================================================='];
+  txt = [txt; 'const std::wstring gatewayName = L"module_skeleton";'];
+  txt = [txt; '//============================================================================='];
+  txt = [txt; 'static const nlsGateway gateway[] ='];
+  txt = [txt; '{'];
+  for k = builtin_table(:)'
+    if iscell(k{1}{1})
+      name = k{1}{1}(1){1};
+      nboutputs = k{1}{1}{2};
+      nbinputs = k{1}{1}{3};
+    else
+      name = k{1}{1};
+      nboutputs = k{1}{2};
+      nbinputs = k{1}{3};
+    end
+    txt = [txt; ['    { "', name, '", ', name, 'Builtin, ', int2str(nboutputs), ', ', int2str(nbinputs), ' },']];
+  end
+  txt = [txt; '};'];
+  txt = [txt; '//============================================================================='];
+  txt = [txt; 'NLSGATEWAYFUNC(gateway)'];
+  txt = [txt; '//============================================================================='];
+  txt = [txt; 'NLSGATEWAYINFO(gateway)'];
+  txt = [txt; '//============================================================================='];
+  txt = [txt; 'NLSGATEWAYREMOVE(gateway)'];
+  txt = [txt; '//============================================================================='];
+  txt = [txt; 'NLSGATEWAYNAME()'];
+  txt = [txt; '//============================================================================='];
+
+endfunction
+//=============================================================================

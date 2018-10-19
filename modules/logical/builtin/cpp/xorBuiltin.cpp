@@ -18,8 +18,8 @@
 //=============================================================================
 #include "xorBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "XorLogical.hpp"
+#include "OverloadFunction.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,15 +28,24 @@ Nelson::LogicalGateway::xorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "xor", bSuccess);
+    }
     if (!bSuccess) {
+        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "xor", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
         ArrayOf A = argIn[0];
         ArrayOf B = argIn[1];
         A.promoteType(NLS_LOGICAL);

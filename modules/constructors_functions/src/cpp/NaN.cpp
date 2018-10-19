@@ -30,11 +30,10 @@ NaN(void)
 ArrayOf
 NaN(indexType m, indexType n)
 {
-    double* mat
-        = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, m * n, Nelson::stringVector(), false);
+    double* mat = (double*)ArrayOf::allocateArrayOf(
+        NLS_DOUBLE, (indexType)(m * n), Nelson::stringVector(), false);
     Eigen::Map<Eigen::MatrixXd> matNaN(mat, m, n);
-    matNaN.setZero();
-    matNaN = matNaN.cwiseQuotient(matNaN);
+    matNaN.setConstant(std::nan("NaN"));
     Dimensions dimMat(m, n);
     ArrayOf res = ArrayOf(NLS_DOUBLE, dimMat, mat);
     return res;

@@ -31,14 +31,15 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
               || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
-        throw Exception(_("Undefined function 'schur' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'schur' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     }
     if (!A.isSquare()) {
-        throw Exception(_("Square matrix expected."));
+        Error(_("Square matrix expected."));
     }
     if (A.isEmpty()) {
-        T = ArrayOf::emptyConstructor(A.getDimensions());
+        Dimensions dims = A.getDimensions();
+        T = ArrayOf::emptyConstructor(dims);
         T.promoteType(A.getDataClass());
         return;
     }
@@ -49,7 +50,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
                 (Eigen::Index)A.getDimensions().getColumns());
             if (!matA.allFinite()) {
-                throw Exception(_("Input argument must not contain NaN or Inf."));
+                Error(_("Input argument must not contain NaN or Inf."));
             }
             ArrayOf T_temp(A);
             T_temp.ensureSingleOwner();
@@ -65,7 +66,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
                 (Eigen::Index)A.getDimensions().getColumns());
             if (!matA.allFinite()) {
-                throw Exception(_("Input argument must not contain NaN or Inf."));
+                Error(_("Input argument must not contain NaN or Inf."));
             }
             ArrayOf T_temp(A);
             T_temp.ensureSingleOwner();
@@ -84,7 +85,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
                 (Eigen::Index)A.getDimensions().getRows(),
                 (Eigen::Index)A.getDimensions().getColumns());
             if (!matA.allFinite()) {
-                throw Exception(_("Input argument must not contain NaN or Inf."));
+                Error(_("Input argument must not contain NaN or Inf."));
             }
             Eigen::Map<Eigen::MatrixXf> matT((single*)T_temp.getDataPointer(),
                 (Eigen::Index)A.getDimensions().getRows(),
@@ -96,7 +97,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
                 (Eigen::Index)A.getDimensions().getRows(),
                 (Eigen::Index)A.getDimensions().getColumns());
             if (!matA.allFinite()) {
-                throw Exception(_("Input argument must not contain NaN or Inf."));
+                Error(_("Input argument must not contain NaN or Inf."));
             }
             Eigen::Map<Eigen::MatrixXd> matT((double*)T_temp.getDataPointer(),
                 (Eigen::Index)A.getDimensions().getRows(),
@@ -123,16 +124,17 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& U, ArrayOf& T)
               || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
-        throw Exception(_("Undefined function 'schur' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        Error(_("Undefined function 'schur' for input arguments of type") + " '" + ClassName(A)
+            + "'.");
     }
     if (!A.isSquare()) {
-        throw Exception(_("Square matrix expected."));
+        Error(_("Square matrix expected."));
     }
     if (A.isEmpty()) {
-        U = ArrayOf::emptyConstructor(A.getDimensions());
+        Dimensions dimsA = A.getDimensions();
+        U = ArrayOf::emptyConstructor(dimsA);
         U.promoteType(A.getDataClass());
-        T = ArrayOf::emptyConstructor(A.getDimensions());
+        T = ArrayOf::emptyConstructor(dimsA);
         T.promoteType(A.getDataClass());
         return;
     }
@@ -142,7 +144,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& U, ArrayOf& T)
         Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
             (Eigen::Index)A.getDimensions().getColumns());
         if (!matA.allFinite()) {
-            throw Exception(_("Input argument must not contain NaN or Inf."));
+            Error(_("Input argument must not contain NaN or Inf."));
         }
         ArrayOf U_temp(A);
         U_temp.ensureSingleOwner();
@@ -164,7 +166,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& U, ArrayOf& T)
             (Eigen::Index)A.getDimensions().getRows(),
             (Eigen::Index)A.getDimensions().getColumns());
         if (!matA.allFinite()) {
-            throw Exception(_("Input argument must not contain NaN or Inf."));
+            Error(_("Input argument must not contain NaN or Inf."));
         }
         ArrayOf U_temp(A);
         U_temp.ensureSingleOwner();

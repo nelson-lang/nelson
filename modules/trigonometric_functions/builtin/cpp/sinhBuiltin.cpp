@@ -18,9 +18,9 @@
 //=============================================================================
 #include "sinhBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
-#include "OverloadRequired.hpp"
 #include "TrigonometricFunctions.hpp"
+#include "OverloadFunction.hpp"
+#include "ClassName.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,21 +29,27 @@ Nelson::TrigonometricGateway::sinhBuiltin(Evaluator* eval, int nLhs, const Array
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "sinh", bSuccess);
+    }
     if (!bSuccess) {
-        if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
-            || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
-            || argIn[0].isLogical() || argIn[0].isString() || argIn[0].isIntegerType()) {
-            OverloadRequired(eval, argIn, Nelson::FUNCTION);
+        bool needToOverload;
+        ArrayOf res = Sinh(argIn[0], needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "sinh", bSuccess);
+            if (!bSuccess) {
+                Error(_("Undefined function 'sinh' for input arguments of type") + " '"
+                    + ClassName(argIn[0]) + "'.");
+            }
+        } else {
+            retval.push_back(res);
         }
-        retval.push_back(Sinh(argIn[0]));
     }
     return retval;
 }

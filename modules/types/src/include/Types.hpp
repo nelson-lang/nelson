@@ -19,12 +19,12 @@
 
 #pragma once
 
-#include "nlsConfig.h"
-#include <boost/container/vector.hpp>
 #include <complex>
+#include <string>
+#include <vector>
 #include <cstddef>
 #include <stdint.h>
-#include <string>
+#include "nlsConfig.h"
 
 namespace Nelson {
 
@@ -87,6 +87,7 @@ typedef enum
     NLS_HANDLE = 0,
     NLS_CELL_ARRAY,
     NLS_STRUCT_ARRAY,
+    NLS_STRING_ARRAY,
     NLS_LOGICAL,
     NLS_UINT8,
     NLS_INT8,
@@ -102,13 +103,13 @@ typedef enum
     NLS_DCOMPLEX,
     NLS_CHAR,
 } Class;
-typedef boost::container::vector<std::string> stringVector;
-typedef boost::container::vector<std::wstring> wstringVector;
+typedef std::vector<std::string> stringVector;
+typedef std::vector<std::wstring> wstringVector;
 
 #define NLS_SPARSE_STR "sparse"
-#define NLS_NDARRAY_STR "ndarray"
 #define NLS_CELL_ARRAY_STR "cell"
 #define NLS_STRUCT_ARRAY_STR "struct"
+#define NLS_STRING_ARRAY_STR "string"
 #define NLS_LOGICAL_STR "logical"
 #define NLS_UINT8_STR "uint8"
 #define NLS_INT8_STR "int8"
@@ -128,4 +129,4 @@ typedef boost::container::vector<std::wstring> wstringVector;
 #define NLS_GENERIC_STR "generic"
 #define NLS_INTEGER_STR "integer"
 
-} // namespace Nelson
+}

@@ -1,0 +1,76 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function dlgenerateunloader(destinationdir, libraryname)
+  if ~isdir(destinationdir)
+    error(_('A valid destination directory expected.'));
+  end
+  if ~ischar(libraryname) && ~iscellstr(libraryname)
+    error(_('#2 input argument: A string or cell of strings expected.'));
+  end
+  txt = template(libraryname);
+  filewrite([destinationdir, '/unloader.nls'], txt);
+endfunction
+//=============================================================================
+function txt = template(libraryname)
+  txt = {'//============================================================================='};
+  txt = [txt; '// Copyright (c) 2018 Allan CORNET (Nelson)'];
+  txt = [txt; '//'];
+  txt = [txt; '// Redistribution and use in source and binary forms, with or without'];
+  txt = [txt; '// modification, are permitted provided that the following conditions are met:'];
+  txt = [txt; '//'];
+  txt = [txt; '// Redistributions of source code must retain the above copyright notice, this'];
+  txt = [txt; '// list of conditions and the following disclaimer. Redistributions in binary'];
+  txt = [txt; '// form must reproduce the above copyright notice, this list of conditions and'];
+  txt = [txt; '// the following disclaimer in the documentation and/or other materials'];
+  txt = [txt; '// provided with the distribution. Neither the name of the nor the names of'];
+  txt = [txt; '// its contributors may be used to endorse or promote products derived from'];
+  txt = [txt; '// this software without specific prior written permission.'];
+  txt = [txt; '//'];
+  txt = [txt; '// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"'];
+  txt = [txt; '// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE'];
+  txt = [txt; '// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE'];
+  txt = [txt; '// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE'];
+  txt = [txt; '// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR'];
+  txt = [txt; '// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF'];
+  txt = [txt; '// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS'];
+  txt = [txt; '// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN'];
+  txt = [txt; '// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)'];
+  txt = [txt; '// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE'];
+  txt = [txt; '// POSSIBILITY OF SUCH DAMAGE.'];
+  txt = [txt; '//============================================================================='];
+  if iscellstr(libraryname)
+    for l = libraryname(:)'
+      txt = [txt; '[tf, lib] = dllibisloaded([''', l{1}, ''', getdynlibext()]);'];
+      txt = [txt; 'if tf'];
+      txt = [txt; '  dlclose(lib);'];
+      txt = [txt; 'end'];
+      txt = [txt; '//============================================================================='];      
+    end
+  else
+    txt = [txt; '[tf, lib] = dllibisloaded([''', libraryname, ''', getdynlibext()]);'];
+    txt = [txt; 'if tf'];
+    txt = [txt; '  dlclose(lib);'];
+    txt = [txt; 'end'];
+    txt = [txt; '//============================================================================='];
+  end
+  txt = [txt; 'clear(''tf'');'];
+  txt = [txt; 'clear(''lib'');'];
+  txt = [txt; '//============================================================================='];
+endfunction
+//=============================================================================

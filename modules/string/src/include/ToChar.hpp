@@ -23,14 +23,14 @@
 //=============================================================================
 namespace Nelson {
 NLSSTRING_IMPEXP std::wstring
-ToChar(ArrayOf A, Dimensions& dims);
+ToChar(const ArrayOf& A, Dimensions& dims);
 NLSSTRING_IMPEXP std::wstring
-ToChar(ArrayOfVector A, Dimensions& dims);
+ToChar(const ArrayOfVector& A, Dimensions& dims);
 
 NLSSTRING_IMPEXP ArrayOf
-ToChar(ArrayOf A, ArrayOf B);
+ToChar(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 NLSSTRING_IMPEXP ArrayOf
-ToChar(ArrayOf A);
+ToChar(const ArrayOf& A, bool& needToOverload);
 
 } // namespace Nelson
   //=============================================================================

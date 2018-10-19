@@ -49,25 +49,25 @@ Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 {
     ArrayOfVector retval;
     if (argIn.size() < 1 || argIn.size() > 3) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring fileToRead = argIn[0].getContentAsWideString();
     bool bIsFile
         = boost::filesystem::exists(fileToRead) && !boost::filesystem::is_directory(fileToRead);
     if (!bIsFile) {
-        Error(eval, _W("A valid filename expected."));
+        Error(_W("A valid filename expected."));
     }
     std::wstring outputClass = L"char";
     if (argIn.size() > 1) {
         ArrayOf param2 = argIn[1];
         std::wstring str = param2.getContentAsWideString();
-        if (str == L"char" || str == L"cell") {
+        if (str == L"char" || str == L"cell" || str == L"string") {
             outputClass = str;
         } else {
-            Error(eval, _W("Wrong value for #2 argument."));
+            Error(_W("Wrong value for #2 argument."));
         }
     }
     std::wstring eol = L"\n";
@@ -89,17 +89,17 @@ Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                 }
             }
         } else {
-            Error(eval, _W("Wrong value for #3 argument."));
+            Error(_W("Wrong value for #3 argument."));
         }
         if (outputClass == L"cell") {
-            Error(eval, _W("Wrong value for #2 argument."));
+            Error(_W("Wrong value for #2 argument."));
         }
     }
     if (outputClass == L"char") {
         std::wstring errorMessage;
         ArrayOf res = MapFileRead(fileToRead, eol, errorMessage);
         if (!errorMessage.empty()) {
-            Error(eval, errorMessage);
+            Error(errorMessage);
         }
         retval.push_back(res);
     } else {
@@ -109,7 +109,7 @@ Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         std::wifstream wif(wstring_to_utf8(fileToRead), std::ios::binary);
 #endif
         if (!wif.is_open()) {
-            Error(eval, _W("Cannot open file."));
+            Error(_W("Cannot open file."));
         }
         std::wstring line;
         wstringVector lines;
@@ -117,7 +117,12 @@ Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             lines.push_back(line);
         }
         wif.close();
-        retval.push_back(ToCellStringAsColumn(lines));
+        if (outputClass == L"string") {
+            Dimensions dims(lines.size(), 1);
+            retval.push_back(ArrayOf::stringArrayConstructor(lines, dims));
+        } else {
+            retval.push_back(ToCellStringAsColumn(lines));
+        }
     }
     return retval;
 }

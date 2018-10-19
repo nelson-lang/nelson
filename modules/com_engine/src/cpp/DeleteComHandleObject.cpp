@@ -36,7 +36,7 @@ DeleteComHandleObject(ArrayOf A)
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
                     if (hlObj->getCategory() != COM_CATEGORY_STR) {
-                        throw Exception(_W("COM handle expected."));
+                        Error(_W("COM handle expected."));
                     }
                     ComHandleObject* comhandleobj = (ComHandleObject*)hlObj;
                     VARIANT* pVariant = (VARIANT*)comhandleobj->getPointer();
@@ -51,7 +51,7 @@ DeleteComHandleObject(ArrayOf A)
                 }
             }
         } else {
-            throw Exception(_W("COM valid handle expected."));
+            Error(_W("COM valid handle expected."));
         }
     }
     return res;

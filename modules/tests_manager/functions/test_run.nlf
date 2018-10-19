@@ -37,7 +37,7 @@ function status = test_run(varargin)
     modules_list = getmodules();
   else
     param1 = varargin{1};
-    if size(param1) == [0 0] & (strcmp(class(param1), 'double') == true)
+    if isequal(size(param1), [0 0]) && (strcmp(class(param1), 'double') == true)
       modules_list = getmodules();
     else
       if ischar(param1)
@@ -57,7 +57,7 @@ function status = test_run(varargin)
         end
       else
         if iscell(param1)
-          for p = param1
+          for p = param1(:)'
             if ~ischar(p{1})
               error(_('a valid module name expected.'));
             else
@@ -76,7 +76,7 @@ function status = test_run(varargin)
   
   if (nargin > 1)
     param2 = varargin{2};
-    if size(param2) == [0 0] & (strcmp(class(param2), 'double') == true)
+    if isequal(size(param2),[0 0]) && (strcmp(class(param2), 'double') == true)
       options = 'all';
     else
       if ischar(param2)
@@ -101,7 +101,7 @@ function status = test_run(varargin)
   if (nargin > 2)
     param3 = varargin{3};
     if ischar(param3)
-      if length(param3) == size(param3, 2) & length(param3) > 2
+      if isequal(length(param3), size(param3, 2)) && length(param3) > 2
         result_outputfile = param3;
       end
     end
@@ -112,7 +112,7 @@ function status = test_run(varargin)
   if is_minimal_tests
     nelson_version = version('-number');
     nelson_version_str = ['Nelson', '-', int2str(nelson_version(1)), '.', int2str(nelson_version(2)), '.', int2str(nelson_version(3)), '.', int2str(nelson_version(4))];
-    for m = minimal_tests
+    for m = minimal_tests(:)'
       if length(m) == 1
         if length(m{1}) == 1
           if ~ismodule(m{1}{1})
@@ -134,7 +134,7 @@ function status = test_run(varargin)
             test_suite.name = m{1}{1};
             tests_dir = [modulepath(m{1}{1}), '/tests/'];
             k = 1;
-            for f = m{1}{2}
+            for f = m{1}{2}(:)'
               filename = [tests_dir, [f{1}, '.nls']];
               if isfile(filename)
                 tests_list(k) = dir(filename);
@@ -153,7 +153,7 @@ function status = test_run(varargin)
       
       nbTestCasesMax = 0;
       if ~isempty(tests_list)
-        for t = tests_list
+        for t = tests_list(:)'
           test_case = create_test_case([tests_dir, t.name]);
           test_case.classname = [nelson_version_str, '.', test_suite.name];
           if isempty(test_suite.test_cases_list)
@@ -186,7 +186,7 @@ function status = test_run(varargin)
       nelson_version_str = ['Nelson', '-', int2str(nelson_version(1)), '.', int2str(nelson_version(2)), '.', int2str(nelson_version(3)), '.', int2str(nelson_version(4))];
       nbTestCasesMax = 0;
 
-      for m = modules_list
+      for m = modules_list(:)'
         test_suite = create_test_suite();
         test_suite.name = m{1};
         tests_list = [];
@@ -222,7 +222,7 @@ function status = test_run(varargin)
           end
           nbTestCasesMax = 0;
           if ~isempty(tests_list)
-            for t = tests_list
+            for t = tests_list(:)'
               test_case = create_test_case([tests_dir, t.name]);
               test_case.classname = [nelson_version_str, '.', test_suite.name];
               if isempty(test_suite.test_cases_list)
@@ -249,13 +249,13 @@ function status = test_run(varargin)
     
     lenCharsTestCasesMax = length(int2str(nbTestCasesMax));
     lenCharsTestSuitesMax = length(int2str(nbTestSuites));
-    
+    tic();
     k = 1;
-    for ts = test_suites.tests_list
+    for ts = test_suites.tests_list(:)'
       fprintf(stdout, [' ', uniformizeNumbers(k, lenCharsTestSuitesMax), '/', int2str(nbTestSuites), ' - ', '[', ts.name, '] :', newline]);
       l = 1;
       nbTestCases = length(ts.test_cases_list);
-      for tc = ts.test_cases_list
+      for tc = ts.test_cases_list(:)'
         tc = run_test_case(tc, ts.name, l, nbTestCases, lenCharsTestCasesMax);
         test_suites.tests_list(k).time = test_suites.tests_list(k).time + tc.time;
         if tc.isbench
@@ -276,7 +276,7 @@ function status = test_run(varargin)
               test_suites.errors = test_suites.errors + 1;
               status = false;
             else
-              if strcmp(tc.status, 'Skip') == true | strcmp(tc.status, 'Interactive') == true | strcmp(tc.status, 'No display') == true
+              if strcmp(tc.status, 'Skip') == true || strcmp(tc.status, 'Interactive') == true || strcmp(tc.status, 'No display') == true
                 test_suites.tests_list(k).disabled = test_suites.tests_list(k).disabled + 1;
                 test_suites.disabled = test_suites.disabled + 1;
               else
@@ -291,13 +291,13 @@ function status = test_run(varargin)
           tc.msg = '';
         end
         test_suites.tests_list(k).test_cases_list(l) = tc;
-        test_suites.time = test_suites.time + test_suites.tests_list(k).time;
         l = l + 1;
       end
+      test_suites.time = test_suites.time + test_suites.tests_list(k).time;
       k = k + 1;
       disp(' ');
     end
-    
+    test_suites.total_time = toc();
     disp_summary(test_suites);
     
     if strcmp(result_outputfile, '') == false
@@ -336,13 +336,13 @@ function res = save_as_xml(test_suites, xmlFileDestination)
     fprintf(fp, ['<?xml version="1.0"?>', eol]);
     fprintf(fp, ['<testsuites tests="', int2str(test_suites.tests), '" disabled="', int2str(test_suites.disabled), '" time="', mat2str(test_suites.time, 2), '" errors="', int2str(test_suites.errors),'">', eol]);
     
-    for t = test_suites.tests_list
+    for t = test_suites.tests_list(:)'
       fprintf(fp, ['  <testsuite name="', t.name, '" id="', t.id, '" time="', mat2str(t.time, 2), '" tests="', int2str(t.tests), '" skipped="', int2str(t.disabled),'" errors="', int2str(t.errors), '" hostname="', t.hostname, '" timestamp="', t.timestamp, '" ', '>', eol]);
       fprintf(fp, ['    <properties>', eol]);
       fprintf(fp, ['      <property name="', 'environment', '" value="', t.environment,'"/>', eol]);
       fprintf(fp, ['    </properties>', eol]);
       
-      for tc = t.test_cases_list
+      for tc = t.test_cases_list(:)'
         if tc.isbench
           if strcmp(tc.status, 'Fail') == true
             fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
@@ -388,11 +388,19 @@ function res = save_as_xml(test_suites, xmlFileDestination)
                 msg = tc.msg;
               end
               if length(msg) > 0
-                fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', msg, ']]>', '</error>', eol]);
+                if iscellstr(msg)
+                  fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', eol]);
+                  for m = msg(:)'
+                    fprintf(fp, [m{1}, eol]);
+                  end
+                  fprintf(fp, [']]>', '</error>', eol]);
+                else 
+                  fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', msg, ']]>', '</error>', eol]);
+                end
               end
               fprintf(fp, ['    </testcase>', eol]);
             else
-              if strcmp(tc.status, 'Skip') == true | strcmp(tc.status, 'Interactive') == true | strcmp(tc.status, 'No display') == true
+              if strcmp(tc.status, 'Skip') == true || strcmp(tc.status, 'Interactive') == true || strcmp(tc.status, 'No display') == true
                 fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '"/>', eol]);
                 fprintf(fp, ['      <skipped/>', eol]);
               end
@@ -417,9 +425,14 @@ function disp_summary(test_suites)
   fprintf(stdout, ['  ', _('Skipped:'), ' ',  int2str(test_suites.disabled), newline]);
   fprintf(stdout, ['  ', _('Benchs:'), ' ', int2str(test_suites.bench), newline]);
   if test_suites.time > 100
-    fprintf(stdout, ['  ', _('Time:'), ' ', mat2str(test_suites.time * inv(60), 2), ' min', newline]);
+    fprintf(stdout, ['  ', _('Tests time:'), ' ', mat2str(test_suites.time * inv(60), 2), ' min', newline]);
   else
-    fprintf(stdout, ['  ', _('Time:'), ' ', mat2str(test_suites.time, 2), ' s ', newline]);
+    fprintf(stdout, ['  ', _('Tests time:'), ' ', mat2str(test_suites.time, 2), ' s ', newline]);
+  end
+  if test_suites.total_time > 100
+    fprintf(stdout, ['  ', _('Total time:'), ' ', mat2str(test_suites.total_time * inv(60), 2), ' min', newline]);
+  else
+    fprintf(stdout, ['  ', _('Total time:'), ' ', mat2str(test_suites.total_time, 2), ' s ', newline]);
   end
   fprintf(stdout, ['  //===========================================================================', newline]);
 endfunction
@@ -491,6 +504,15 @@ function r = have_excel()
   end
 endfunction
 //=============================================================================
+function r = have_c_cpp_compiler()
+  r = havecompiler();
+endfunction
+//=============================================================================
+function r = have_64_bit_index_supported()
+  compiler_info = version('-compiler');
+  r = strcmp(compiler_info{3}, '64');
+endfunction
+//=============================================================================
 function test_case_res = run_test_case(test, module_name, index, indexMax, nbTestCasesMax)
   test_case_res = test;
   is_bench = test.isbench;
@@ -499,27 +521,37 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
   fprintf(stdout, startChars);
   
   skip = false;
-  if (test_case_res.options.audio_input_required & ~have_audio_input())
+  if (test_case_res.options.audio_input_required && ~have_audio_input())
     test_case_res.status = 'Skip';
     test_case_res.time = 0.;
     skip = true;
   end
-  if (test_case_res.options.audio_output_required & ~have_audio_output())
+  if (test_case_res.options.audio_output_required && ~have_audio_output())
     test_case_res.status = 'Skip';
     test_case_res.time = 0.;
     skip = true;
   end
-  if (test_case_res.options.excel_required & ~have_excel())
+  if (test_case_res.options.index_64_bit_required && ~have_64_bit_index_supported())
     test_case_res.status = 'Skip';
     test_case_res.time = 0.;
     skip = true;
   end
-  if (test_case_res.options.release_only & ~is_release())
+  if (test_case_res.options.c_cpp_compiler_required && ~have_c_cpp_compiler())
     test_case_res.status = 'Skip';
     test_case_res.time = 0.;
     skip = true;
   end
-  if (~haveDisplay() & test_case_res.options.with_display)
+  if (test_case_res.options.excel_required && ~have_excel())
+    test_case_res.status = 'Skip';
+    test_case_res.time = 0.;
+    skip = true;
+  end
+  if (test_case_res.options.release_only && ~is_release())
+    test_case_res.status = 'Skip';
+    test_case_res.time = 0.;
+    skip = true;
+  end
+  if (~haveDisplay() && test_case_res.options.with_display)
     test_case_res.status = 'No display';
     test_case_res.time = 0.;
     skip = true;
@@ -535,9 +567,9 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
     skip = true;
   end
   if ~skip
-    is_all_platforms =  ~test_case_res.options.windows_only & ~test_case_res.options.mac_only & ~test_case_res.options.unix_only;
-    is_current_platform = (ispc() & test_case_res.options.windows_only) | (ismac() & test_case_res.options.mac_only) | (isunix() & ~ismac() & test_case_res.options.unix_only);
-    if (is_all_platforms | is_current_platform)
+    is_all_platforms =  ~test_case_res.options.windows_only && ~test_case_res.options.mac_only && ~test_case_res.options.unix_only;
+    is_current_platform = (ispc() && test_case_res.options.windows_only) || (ismac() && test_case_res.options.mac_only) || (isunix() && ~ismac() && test_case_res.options.unix_only);
+    if (is_all_platforms || is_current_platform)
       testfile = test.filename;
       [p, f, e] = fileparts(testfile);
       outputfile = [tempdir(), '/' , f, '.output'];
@@ -644,7 +676,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
     if strcmp(test_case_res.msg, '') == false
       disp(_('    Error:'));
       if strcmp(class(test_case_res.msg), 'cell') == 1
-        for k = test_case_res.msg
+        for k = test_case_res.msg(:)'
           disp(['      ', k]);
         end
       else

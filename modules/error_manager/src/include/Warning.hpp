@@ -18,27 +18,22 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "Evaluator.hpp"
-#include "characters_encoding.hpp"
-#include "nlsError_manager_exports.h"
 #include <string>
+#include "nlsError_manager_exports.h"
 //=============================================================================
 namespace Nelson {
-void
-Warning(Evaluator* eval, std::wstring msg)
-{
-    if (msg.compare(L"") != 0) {
-        Interface* io = eval->getInterface();
-        eval->setLastWarningString(msg);
-        io->warningMessage(msg);
-    }
-}
 //=============================================================================
-void
-Warning(Evaluator* eval, std::string msg)
-{
-    Warning(eval, utf8_to_wstring(msg));
-}
+NLSERROR_MANAGER_IMPEXP void
+Warning(std::wstring id, std::wstring message);
+//=============================================================================
+NLSERROR_MANAGER_IMPEXP void
+Warning(std::wstring message);
+//=============================================================================
+NLSERROR_MANAGER_IMPEXP void
+Warning(std::string id, std::string message);
+//=============================================================================
+NLSERROR_MANAGER_IMPEXP void
+Warning(std::string message);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

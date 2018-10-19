@@ -18,14 +18,15 @@
 //=============================================================================
 #include "OverloadFunction.hpp"
 #include "ClassName.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 namespace Nelson {
 ArrayOfVector
-OverloadFunction(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool& bSuccess)
+OverloadFunction(Evaluator* eval, int nLhs, const ArrayOfVector& argIn,
+    const std::string& functionName, bool& bSuccess)
 {
-    std::string functionName = eval->getCurrentFunctionName();
     if (functionName.compare("") != 0) {
-        if (eval->getOverloadState()) {
+        if (eval->isOverloadAllowed()) {
             Context* context = eval->getContext();
             FunctionDef* funcDef = nullptr;
             std::string OverloadName = ClassName(argIn[0]) + "_" + functionName;
@@ -41,6 +42,18 @@ OverloadFunction(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool& bS
     }
     bSuccess = false;
     return ArrayOfVector();
+}
+//=============================================================================
+ArrayOfVector
+OverloadFunction(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn, const std::string& functionName)
+{
+    bool bSuccess;
+    ArrayOfVector res = OverloadFunction(eval, nLhs, argIn, functionName, bSuccess);
+    if (!bSuccess) {
+        OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION, functionName);
+    }
+    return res;
 }
 //=============================================================================
 }

@@ -24,12 +24,19 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+typedef enum
+{
+    CPP_BUILTIN,
+    CPP_BUILTIN_WITH_EVALUATOR
+} GATEWAY_PROTOTYPE;
+//=============================================================================
 typedef struct nlsGatewayStructType
 {
     std::string functionName;
     BuiltInFuncPtr fptr;
     int nLhs;
     int nRhs;
+    GATEWAY_PROTOTYPE gatewayPrototype;
 } nlsGateway;
 //=============================================================================
 } // namespace Nelson

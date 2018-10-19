@@ -1,0 +1,51 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+fprintf('hello');
+//=============================================================================
+R = fprintf('hello');
+REF = 5;
+assert_isequal(R, REF);
+//=============================================================================
+fileID = fopen([tempdir(), '/test_fprintf.txt'], 'wt');
+fprintf(fileID, '%s','hello');
+fclose(fileID);
+R = fileread([tempdir(), '/test_fprintf.txt']);
+REF = 'hello';
+assert_isequal(R, REF);
+//=============================================================================
+fileID = fopen([tempdir(), '/test_fprintf.txt'], 'wt');
+R = fprintf(fileID, '%s %s', 'hello', 'Nelson');
+fclose(fileID);
+R = fileread([tempdir(), '/test_fprintf.txt']);
+REF = 'hello Nelson';
+assert_isequal(R, REF);
+//=============================================================================
+fileID = fopen([tempdir(), '/test_fprintf.txt'], 'wt');
+R = fprintf(fileID, '%f', -53);
+fclose(fileID);
+R = fileread([tempdir(), '/test_fprintf.txt']);
+REF = '-53.000000';
+assert_isequal(R, REF);
+//=============================================================================
+R = fprintf("hello");
+REF = 5;
+assert_isequal(R, REF);
+//=============================================================================
+fprintf(2, "an value %g.", pi);
+//=============================================================================

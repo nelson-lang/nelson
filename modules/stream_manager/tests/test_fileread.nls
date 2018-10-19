@@ -21,6 +21,7 @@ r = fileread(filesrc);
 r1 = fileread(filesrc, 'char');
 r2 = fileread(filesrc, 'cell');
 r3 = fileread(filesrc, 'char', 'unix');
+r4 = fileread(filesrc, 'string');
 assert_isequal(class(r), 'char');
 assert_isequal(class(r1), 'char');
 assert_isequal(r, r1);
@@ -28,4 +29,6 @@ assert_istrue(iscellstr(r2))
 assert_isequal(size(r2), [339 1]);
 assert_isequal(size(r1), [  1     18092]);
 assert_isequal(size(r1), size(r3));
+assert_isequal(size(r4), [339 1]);
+assert_istrue(isa(r4, 'string'));
 //=============================================================================

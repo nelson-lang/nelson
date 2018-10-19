@@ -29,7 +29,6 @@
 #include "eqBuiltin.hpp"
 #include "fixBuiltin.hpp"
 #include "floorBuiltin.hpp"
-#include "gammaBuiltin.hpp"
 #include "geBuiltin.hpp"
 #include "gtBuiltin.hpp"
 #include "horzcatBuiltin.hpp"
@@ -37,6 +36,7 @@
 #include "isapproxBuiltin.hpp"
 #include "isequalBuiltin.hpp"
 #include "isequalnBuiltin.hpp"
+#include "isequaltoBuiltin.hpp"
 #include "isfiniteBuiltin.hpp"
 #include "isinfBuiltin.hpp"
 #include "isnanBuiltin.hpp"
@@ -53,6 +53,8 @@
 #include "ndimsBuiltin.hpp"
 #include "neBuiltin.hpp"
 #include "notBuiltin.hpp"
+#include "allBuiltin.hpp"
+#include "anyBuiltin.hpp"
 #include "numelBuiltin.hpp"
 #include "orBuiltin.hpp"
 #include "plusBuiltin.hpp"
@@ -73,6 +75,11 @@
 #include "uminusBuiltin.hpp"
 #include "uplusBuiltin.hpp"
 #include "vertcatBuiltin.hpp"
+#include "normBuiltin.hpp"
+#include "expBuiltin.hpp"
+#include "logBuiltin.hpp"
+#include "sqrtBuiltin.hpp"
+#include "ismissingBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -83,7 +90,6 @@ static const nlsGateway gateway[] = {
     { "minus", Nelson::ElementaryFunctionsGateway::minusBuiltin, 1, 2 },
     { "uminus", Nelson::ElementaryFunctionsGateway::uminusBuiltin, 1, 1 },
     { "uplus", Nelson::ElementaryFunctionsGateway::uplusBuiltin, 1, 1 },
-
     { "and", Nelson::ElementaryFunctionsGateway::andBuiltin, 1, 2 },
     { "colon", Nelson::ElementaryFunctionsGateway::colonBuiltin, 1, 2 },
     { "ctranspose", Nelson::ElementaryFunctionsGateway::ctransposeBuiltin, 1, 1 },
@@ -103,7 +109,10 @@ static const nlsGateway gateway[] = {
     { "times", Nelson::ElementaryFunctionsGateway::timesBuiltin, 1, 2 },
     { "not", Nelson::ElementaryFunctionsGateway::notBuiltin, 1, 1 },
     { "or", Nelson::ElementaryFunctionsGateway::orBuiltin, 1, 2 },
+    { "any", Nelson::ElementaryFunctionsGateway::anyBuiltin, 1, 2 },
+    { "all", Nelson::ElementaryFunctionsGateway::allBuiltin, 1, 1 },
     { "power", Nelson::ElementaryFunctionsGateway::powerBuiltin, 1, 2 },
+    { "mpower", Nelson::ElementaryFunctionsGateway::mpowerBuiltin, 1, 2 },
     { "shortcutor", Nelson::ElementaryFunctionsGateway::shortcutorBuiltin, 1, 2 },
     { "shortcutand", Nelson::ElementaryFunctionsGateway::shortcutandBuiltin, 1, 2 },
     { "subsindex", Nelson::ElementaryFunctionsGateway::subsindexBuiltin, 1, 1 },
@@ -119,6 +128,7 @@ static const nlsGateway gateway[] = {
     { "vertcat", Nelson::ElementaryFunctionsGateway::vertcatBuiltin, 1, 1 },
     { "isequal", Nelson::ElementaryFunctionsGateway::isequalBuiltin, 1, -1 },
     { "isequaln", Nelson::ElementaryFunctionsGateway::isequalnBuiltin, 1, -1 },
+    { "isequalto", Nelson::ElementaryFunctionsGateway::isequaltoBuiltin, 1, -1 },
     { "numel", Nelson::ElementaryFunctionsGateway::numelBuiltin, 1, 1 },
     { "isapprox", Nelson::ElementaryFunctionsGateway::isapproxBuiltin, 1, -2 },
     { "ceil", Nelson::ElementaryFunctionsGateway::ceilBuiltin, 1, 1 },
@@ -136,7 +146,11 @@ static const nlsGateway gateway[] = {
     { "repmat", Nelson::ElementaryFunctionsGateway::repmatBuiltin, 1, -1 },
     { "rem", Nelson::ElementaryFunctionsGateway::remBuiltin, 1, 2 },
     { "cast", Nelson::ElementaryFunctionsGateway::castBuiltin, 1, 3 },
-    { "gamma", Nelson::ElementaryFunctionsGateway::gammaBuiltin, 1, 1 },
+    { "norm", Nelson::ElementaryFunctionsGateway::normBuiltin, 1, 1 },
+    { "exp", Nelson::ElementaryFunctionsGateway::expBuiltin, 1, 1 },
+    { "log", Nelson::ElementaryFunctionsGateway::logBuiltin, 1, 1 },
+    { "sqrt", Nelson::ElementaryFunctionsGateway::sqrtBuiltin, 1, 1 },
+    { "ismissing", Nelson::ElementaryFunctionsGateway::ismissingBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

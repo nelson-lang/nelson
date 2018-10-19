@@ -17,10 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "eqBuiltin.hpp"
-#include "Equals.hpp"
 #include "Error.hpp"
-#include "OverloadBinaryOperator.hpp"
-#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,27 +26,14 @@ Nelson::ElementaryFunctionsGateway::eqBuiltin(Evaluator* eval, int nLhs, const A
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    bool bSuccess = false;
-    ArrayOf res = OverloadBinaryOperator(eval, argIn[0], argIn[1], "eq", bSuccess);
-    if (bSuccess) {
-        retval.push_back(res);
-        return retval;
-    } else {
-        if ((argIn[0].getDataClass() == NLS_HANDLE) || (argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
-            || (argIn[0].getDataClass() == NLS_CELL_ARRAY)
-            || (argIn[1].getDataClass() == NLS_HANDLE)
-            || (argIn[1].getDataClass() == NLS_STRUCT_ARRAY)
-            || (argIn[1].getDataClass() == NLS_CELL_ARRAY)
-            || (argIn[0].isSparse() || argIn[1].isSparse())) {
-            OverloadRequired(eval, argIn, Nelson::BINARY);
-        }
-        retval.push_back(Equals(argIn[0], argIn[1]));
-    }
+    ArrayOf A = argIn[0];
+    ArrayOf B = argIn[1];
+    retval.push_back(eval->eqOperator(A, B));
     return retval;
 }
 //=============================================================================

@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ListFiles.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "IsDirectory.hpp"
 #include "IsFile.hpp"
 #include <boost/algorithm/string.hpp>
@@ -68,10 +68,10 @@ ListFilesWithWildcard(std::wstring mask, bool bSubdirectories)
                                 res.push_back(FileInfo(current.wstring(), bSubdirectories));
                             }
                         }
-                    } catch (boost::filesystem::filesystem_error& e) {
+                    } catch (const boost::filesystem::filesystem_error& e) {
                         if (!bSubdirectories) {
                             boost::system::error_code error_code = e.code();
-                            throw Exception(error_code.message());
+                            Error(error_code.message());
                         }
                     }
                 }
@@ -99,10 +99,10 @@ ListFilesWithWildcard(std::wstring mask, bool bSubdirectories)
                                 res.push_back(FileInfo(current.wstring(), bSubdirectories));
                             }
                         }
-                    } catch (boost::filesystem::filesystem_error& e) {
+                    } catch (const boost::filesystem::filesystem_error& e) {
                         if (!bSubdirectories) {
                             boost::system::error_code error_code = e.code();
-                            throw Exception(error_code.message());
+                            Error(error_code.message());
                         }
                     }
                 }
@@ -162,10 +162,10 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                             boost::filesystem::path current = dir_iter->path();
                             res.push_back(FileInfo(current.wstring(), bSubdirectories));
                         }
-                    } catch (boost::filesystem::filesystem_error& e) {
+                    } catch (const boost::filesystem::filesystem_error& e) {
                         if (!bSubdirectories) {
                             boost::system::error_code error_code = e.code();
-                            throw Exception(error_code.message());
+                            Error(error_code.message());
                         }
                     }
                 }
@@ -183,10 +183,10 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                             boost::filesystem::path current = dir_iter->path();
                             res.push_back(FileInfo(current.wstring(), bSubdirectories));
                         }
-                    } catch (boost::filesystem::filesystem_error& e) {
+                    } catch (const boost::filesystem::filesystem_error& e) {
                         if (!bSubdirectories) {
                             boost::system::error_code error_code = e.code();
-                            throw Exception(error_code.message());
+                            Error(error_code.message());
                         }
                     }
                 }
@@ -197,7 +197,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
         struct
         {
             bool
-            operator()(FileInfo a, FileInfo b)
+            operator()(FileInfo a, FileInfo b) // lgtm [cpp/large-parameter]
             {
                 return a.getName() < b.getName();
             }
@@ -206,7 +206,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
         struct
         {
             bool
-            operator()(FileInfo a, FileInfo b)
+            operator()(FileInfo a, FileInfo b) // lgtm [cpp/large-parameter]
             {
                 return a.isDir() > b.isDir();
             }

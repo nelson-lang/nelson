@@ -37,7 +37,7 @@ load_dynamic_library(std::string library_name)
     library_handle hl;
     try {
         hl = LoadLibraryA(library_name.c_str());
-    } catch (std::runtime_error&) {
+    } catch (const std::runtime_error&) {
         hl = nullptr;
     }
     return hl;
@@ -49,7 +49,7 @@ load_dynamic_libraryW(std::wstring library_name)
     library_handle hl;
     try {
         hl = LoadLibraryW(library_name.c_str());
-    } catch (std::runtime_error&) {
+    } catch (const std::runtime_error&) {
         hl = nullptr;
     }
     return hl;
@@ -106,7 +106,7 @@ load_dynamic_library(std::string library_name)
     library_handle hl;
     try {
         hl = dlopen(library_name.c_str(), RTLD_NOW | RTLD_GLOBAL);
-    } catch (std::runtime_error&) {
+    } catch (const std::runtime_error&) {
         hl = nullptr;
     }
     return hl;

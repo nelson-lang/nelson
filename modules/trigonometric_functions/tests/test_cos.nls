@@ -64,5 +64,5 @@ REF = [8.660254037844386755E-01;
 -1.000000000000000000E+00];
 assert_isapprox(cos(X), REF, 1e-15);
 //=============================================================================
-assert_checkerror('cos(''a'')', [_('function'), ' ', 'char_cos', ' ', _('undefined.')]);
+assert_checkerror('cos(''a'')', [_('Undefined function ''cos'' for input arguments of type '''), class('a'), '''.']);
 //=============================================================================

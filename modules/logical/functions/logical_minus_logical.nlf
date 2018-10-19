@@ -18,5 +18,5 @@
 //=============================================================================
 function R = logical_minus_logical(A, B)
 	// internal function (overload)
-	R = double_minus_double(double(A), double(B));
+	R = double(A) - double(B);
 endfunction

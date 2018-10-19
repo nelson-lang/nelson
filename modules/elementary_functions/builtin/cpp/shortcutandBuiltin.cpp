@@ -18,7 +18,6 @@
 //=============================================================================
 #include "shortcutandBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadBinaryOperator.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,9 +27,11 @@ Nelson::ElementaryFunctionsGateway::shortcutandBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(OverloadBinaryOperator(eval, argIn[0], argIn[1], "shortcutand"));
+    ArrayOf A = argIn[0];
+    ArrayOf B = argIn[1];
+    retval.push_back(eval->shortCutAndOperator(A, B));
     return retval;
 }
 //=============================================================================

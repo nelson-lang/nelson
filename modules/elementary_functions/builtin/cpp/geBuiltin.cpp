@@ -18,7 +18,7 @@
 //=============================================================================
 #include "geBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadBinaryOperator.hpp"
+#include "GreaterEquals.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -27,9 +27,11 @@ Nelson::ElementaryFunctionsGateway::geBuiltin(Evaluator* eval, int nLhs, const A
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(OverloadBinaryOperator(eval, argIn[0], argIn[1], "ge"));
+    ArrayOf arg1 = argIn[0];
+    ArrayOf arg2 = argIn[1];
+    retval.push_back(eval->geOperator(arg1, arg2));
     return retval;
 }
 //=============================================================================

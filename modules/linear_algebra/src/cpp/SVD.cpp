@@ -23,6 +23,7 @@
 #include <Eigen/Dense>
 #include <Eigen/SVD>
 #include <Eigen/src/misc/lapacke.h>
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -45,12 +46,12 @@ SVD_double(ArrayOf A, ArrayOf& s)
     double* vt = nullptr;
     Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
-        throw Exception(_("svd: cannot take svd of matrix containing Inf or NaN values."));
+        Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
     int info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(), lda,
         ds, u, ldu, vt, ldvt, superb);
     if (info > 0) {
-        throw Exception(_("LAPACKE_dgesvd error."));
+        Error(_("LAPACKE_dgesvd error."));
     }
     delete[] superb;
     superb = nullptr;
@@ -76,12 +77,12 @@ SVD_doublecomplex(ArrayOf A, ArrayOf& s)
     doublecomplex* vtz = nullptr;
     Eigen::Map<Eigen::MatrixXcd> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
-        throw Exception(_("svd: cannot take svd of matrix containing Inf or NaN values."));
+        Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
     int info = LAPACKE_zgesvd(
         LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, ds, uz, ldu, vtz, ldvt, superb);
     if (info > 0) {
-        throw Exception(_("LAPACKE_zgesvd error."));
+        Error(_("LAPACKE_zgesvd error."));
     }
     delete[] superb;
     superb = nullptr;
@@ -106,12 +107,12 @@ SVD_single(ArrayOf A, ArrayOf& s)
     single* vt = nullptr;
     Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
-        throw Exception(_("svd: cannot take svd of matrix containing Inf or NaN values."));
+        Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
     int info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(), lda,
         ds, u, ldu, vt, ldvt, superb);
     if (info > 0) {
-        throw Exception(_("LAPACKE_sgesvd error."));
+        Error(_("LAPACKE_sgesvd error."));
     }
     delete[] superb;
     superb = nullptr;
@@ -137,12 +138,12 @@ SVD_singlecomplex(ArrayOf A, ArrayOf& s)
     singlecomplex* vtz = nullptr;
     Eigen::Map<Eigen::MatrixXcf> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
-        throw Exception(_("svd: cannot take svd of matrix containing Inf or NaN values."));
+        Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
     int info = LAPACKE_cgesvd(
         LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, ds, uz, ldu, vtz, ldvt, superb);
     if (info > 0) {
-        throw Exception(_("LAPACKE_cgesvd error."));
+        Error(_("LAPACKE_cgesvd error."));
     }
     delete[] superb;
     superb = nullptr;
@@ -159,7 +160,7 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
     doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
     Eigen::Map<Eigen::MatrixXcd> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
-        throw Exception(_("svd: cannot take svd of matrix containing Inf or NaN values."));
+        Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
     if (flag == SVD_FLAG::SVD_DEFAULT) {
         char JOBU = 'A';
@@ -174,24 +175,24 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int maxMN = std::max(m, n);
         double* superb = new_with_exception<double>(minMN - 1);
         double* dstemp = new_with_exception<double>(minMN);
-        double* u = new_with_exception<double>(ldu * m * 2);
+        double* u = new_with_exception<double>(((size_t)ldu * (size_t)m * (size_t)2));
         doublecomplex* uz = reinterpret_cast<doublecomplex*>(u);
         double* vt = nullptr;
         doublecomplex* vtz = nullptr;
         if (withV) {
-            vt = new_with_exception<double>(ldvt * n * 2);
+            vt = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2);
             vtz = reinterpret_cast<doublecomplex*>(vt);
         }
         int info = LAPACKE_zgesvd(
             LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
         if (info > 0) {
-            throw Exception(_("LAPACKE_zgesvd error."));
+            Error(_("LAPACKE_zgesvd error."));
         }
         delete[] superb;
         superb = nullptr;
         Dimensions dimsU(maxMN, maxMN);
         U = ArrayOf(NLS_DCOMPLEX, dimsU, u);
-        double* ds = new_with_exception<double>(minMN * maxMN);
+        double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN);
         Dimensions dimsS(m, n);
         Eigen::Map<Eigen::VectorXd> matStmp(dstemp, minMN);
         Eigen::Map<Eigen::MatrixXd> matS(ds, maxMN, minMN);
@@ -254,32 +255,32 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int maxMN = std::max(m, n);
         double* superb = new_with_exception<double>(minMN - 1);
         double* dstemp = new_with_exception<double>(minMN);
-        double* u = new_with_exception<double>(ldu * m * 2);
+        double* u = new_with_exception<double>((size_t)ldu * (size_t)m * (size_t)2);
         doublecomplex* uz = reinterpret_cast<doublecomplex*>(u);
         double* vt = nullptr;
         doublecomplex* vtz = nullptr;
         if (withV) {
-            vt = new_with_exception<double>(ldvt * n * 2);
+            vt = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2);
             vtz = reinterpret_cast<doublecomplex*>(vt);
         }
         int info = LAPACKE_zgesvd(
             LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
         if (info > 0) {
-            throw Exception(_("LAPACKE_zgesvd error."));
+            Error(_("LAPACKE_zgesvd error."));
         }
         delete[] superb;
         superb = nullptr;
         U = ArrayOf(NLS_DCOMPLEX, dimsU, u);
         Eigen::Map<Eigen::VectorXd> matStmp(dstemp, minMN);
         if (m > n) {
-            double* ds = new_with_exception<double>(n * n);
+            double* ds = new_with_exception<double>((size_t)n * (size_t)n);
             Eigen::Map<Eigen::MatrixXd> matS(ds, n, n);
             for (size_t k = 0; k < minMN; k++) {
                 matS(k, k) = matStmp(k);
             }
             S = ArrayOf(NLS_DOUBLE, dimsS, ds);
         } else {
-            double* ds = new_with_exception<double>(minMN * maxMN);
+            double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN);
             Eigen::Map<Eigen::MatrixXd> matS(ds, m, m);
             for (size_t k = 0; k < minMN; k++) {
                 matS(k, k) = matStmp(k);
@@ -290,7 +291,7 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         dstemp = nullptr;
         if (withV) {
             Eigen::Map<Eigen::MatrixXcd> matV(vtz, ldvt, n);
-            double* vt2 = new_with_exception<double>(ldvt * n * 2);
+            double* vt2 = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2);
             doublecomplex* vt2z = reinterpret_cast<doublecomplex*>(vt2);
             Eigen::Map<Eigen::MatrixXcd> matV2(vt2z, n, ldvt);
             matV2 = matV.transpose().eval();
@@ -309,7 +310,7 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
     int n = (int)dimsA.getColumns();
     Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
-        throw Exception(_("svd: cannot take svd of matrix containing Inf or NaN values."));
+        Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
     if (flag == SVD_FLAG::SVD_DEFAULT) {
         char JOBU = 'A';
@@ -324,21 +325,21 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         int maxMN = std::max(m, n);
         single* superb = new_with_exception<single>(minMN - 1);
         single* dstemp = new_with_exception<single>(minMN);
-        single* u = new_with_exception<single>(ldu * m);
+        single* u = new_with_exception<single>((size_t)(ldu * m));
         single* vt = nullptr;
         if (withV) {
-            vt = new_with_exception<single>(ldvt * n);
+            vt = new_with_exception<single>((size_t)ldvt * (size_t)n);
         }
         int info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(),
             lda, dstemp, u, ldu, vt, ldvt, superb);
         if (info > 0) {
-            throw Exception(_("LAPACKE_sgesvd error."));
+            Error(_("LAPACKE_sgesvd error."));
         }
         delete[] superb;
         superb = nullptr;
         Dimensions dimsU(maxMN, maxMN);
         U = ArrayOf(NLS_SINGLE, dimsU, u);
-        single* ds = new_with_exception<single>(minMN * maxMN);
+        single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN);
         Dimensions dimsS(m, n);
         Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
         Eigen::Map<Eigen::MatrixXf> matS(ds, maxMN, minMN);
@@ -398,29 +399,29 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         int maxMN = std::max(m, n);
         single* superb = new_with_exception<single>(minMN - 1);
         single* dstemp = new_with_exception<single>(minMN);
-        single* u = new_with_exception<single>(ldu * m);
+        single* u = new_with_exception<single>((size_t)ldu * (size_t)m);
         single* vt = nullptr;
         if (withV) {
-            vt = new_with_exception<single>(ldvt * n);
+            vt = new_with_exception<single>((size_t)ldvt * (size_t)n);
         }
         int info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(),
             lda, dstemp, u, ldu, vt, ldvt, superb);
         if (info > 0) {
-            throw Exception(_("LAPACKE_sgesvd error."));
+            Error(_("LAPACKE_sgesvd error."));
         }
         delete[] superb;
         superb = nullptr;
         U = ArrayOf(NLS_SINGLE, dimsU, u);
         Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
         if (m > n) {
-            single* ds = new_with_exception<single>(n * n);
+            single* ds = new_with_exception<single>((size_t)n * (size_t)n);
             Eigen::Map<Eigen::MatrixXf> matS(ds, n, n);
             for (size_t k = 0; k < minMN; k++) {
                 matS(k, k) = matStmp(k);
             }
             S = ArrayOf(NLS_SINGLE, dimsS, ds);
         } else {
-            single* ds = new_with_exception<single>(minMN * maxMN);
+            single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN);
             Eigen::Map<Eigen::MatrixXf> matS(ds, m, m);
             for (size_t k = 0; k < minMN; k++) {
                 matS(k, k) = matStmp(k);
@@ -431,7 +432,7 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         dstemp = nullptr;
         if (withV) {
             Eigen::Map<Eigen::MatrixXf> matV(vt, ldvt, n);
-            single* vt2 = new_with_exception<single>(ldvt * n);
+            single* vt2 = new_with_exception<single>((size_t)ldvt * (size_t)n);
             Eigen::Map<Eigen::MatrixXf> matV2(vt2, n, ldvt);
             matV2 = matV.transpose().eval();
             delete[] vt;
@@ -449,7 +450,7 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
     int n = (int)dimsA.getColumns();
     Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
-        throw Exception(_("svd: cannot take svd of matrix containing Inf or NaN values."));
+        Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
     if (flag == SVD_FLAG::SVD_DEFAULT) {
         char JOBU = 'A';
@@ -464,21 +465,21 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         int maxMN = std::max(m, n);
         double* superb = new_with_exception<double>(minMN - 1);
         double* dstemp = new_with_exception<double>(minMN);
-        double* u = new_with_exception<double>(ldu * m);
+        double* u = new_with_exception<double>((size_t)ldu * (size_t)m);
         double* vt = nullptr;
         if (withV) {
-            vt = new_with_exception<double>(ldvt * n);
+            vt = new_with_exception<double>((size_t)ldvt * (size_t)n);
         }
         int info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(),
             lda, dstemp, u, ldu, vt, ldvt, superb);
         if (info > 0) {
-            throw Exception(_("LAPACKE_dgesvd error."));
+            Error(_("LAPACKE_dgesvd error."));
         }
         delete[] superb;
         superb = nullptr;
         Dimensions dimsU(maxMN, maxMN);
         U = ArrayOf(NLS_DOUBLE, dimsU, u);
-        double* ds = new_with_exception<double>(minMN * maxMN);
+        double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN);
         Dimensions dimsS(m, n);
         Eigen::Map<Eigen::VectorXd> matStmp(dstemp, minMN);
         Eigen::Map<Eigen::MatrixXd> matS(ds, maxMN, minMN);
@@ -541,29 +542,29 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         int maxMN = std::max(m, n);
         double* superb = new_with_exception<double>(minMN - 1);
         double* dstemp = new_with_exception<double>(minMN);
-        double* u = new_with_exception<double>(ldu * m);
+        double* u = new_with_exception<double>((size_t)ldu * (size_t)m);
         double* vt = nullptr;
         if (withV) {
-            vt = new_with_exception<double>(ldvt * n);
+            vt = new_with_exception<double>((size_t)ldvt * (size_t)n);
         }
         int info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(),
             lda, dstemp, u, ldu, vt, ldvt, superb);
         if (info > 0) {
-            throw Exception(_("LAPACKE_dgesvd error."));
+            Error(_("LAPACKE_dgesvd error."));
         }
         delete[] superb;
         superb = nullptr;
         U = ArrayOf(NLS_DOUBLE, dimsU, u);
         Eigen::Map<Eigen::VectorXd> matStmp(dstemp, minMN);
         if (m > n) {
-            double* ds = new_with_exception<double>(n * n);
+            double* ds = new_with_exception<double>((size_t)n * (size_t)n);
             Eigen::Map<Eigen::MatrixXd> matS(ds, n, n);
             for (size_t k = 0; k < minMN; k++) {
                 matS(k, k) = matStmp(k);
             }
             S = ArrayOf(NLS_DOUBLE, dimsS, ds);
         } else {
-            double* ds = new_with_exception<double>(minMN * maxMN);
+            double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN);
             Eigen::Map<Eigen::MatrixXd> matS(ds, m, m);
             for (size_t k = 0; k < minMN; k++) {
                 matS(k, k) = matStmp(k);
@@ -574,7 +575,7 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         dstemp = nullptr;
         if (withV) {
             Eigen::Map<Eigen::MatrixXd> matV(vt, ldvt, n);
-            double* vt2 = new_with_exception<double>(ldvt * n);
+            double* vt2 = new_with_exception<double>((size_t)ldvt * (size_t)n);
             Eigen::Map<Eigen::MatrixXd> matV2(vt2, n, ldvt);
             matV2 = matV.transpose().eval();
             delete[] vt;
@@ -593,7 +594,7 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
     singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
     Eigen::Map<Eigen::MatrixXcf> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
-        throw Exception(_("svd: cannot take svd of matrix containing Inf or NaN values."));
+        Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
     if (flag == SVD_FLAG::SVD_DEFAULT) {
         char JOBU = 'A';
@@ -608,24 +609,24 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int maxMN = std::max(m, n);
         single* superb = new_with_exception<single>(minMN - 1);
         single* dstemp = new_with_exception<single>(minMN);
-        single* u = new_with_exception<single>(ldu * m * 2);
+        single* u = new_with_exception<single>((size_t)ldu * (size_t)m * (size_t)2);
         single* vt = nullptr;
         singlecomplex* vtz = nullptr;
         if (withV) {
-            vt = new_with_exception<single>(ldvt * n * 2);
+            vt = new_with_exception<single>((size_t)ldvt * (size_t)n * (size_t)2);
             vtz = reinterpret_cast<singlecomplex*>(vt);
         }
         singlecomplex* uz = reinterpret_cast<singlecomplex*>(u);
         int info = LAPACKE_cgesvd(
             LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
         if (info > 0) {
-            throw Exception(_("LAPACKE_cgesvd error."));
+            Error(_("LAPACKE_cgesvd error."));
         }
         delete[] superb;
         superb = nullptr;
         Dimensions dimsU(maxMN, maxMN);
         U = ArrayOf(NLS_SCOMPLEX, dimsU, u);
-        single* ds = new_with_exception<single>(minMN * maxMN);
+        single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN);
         Dimensions dimsS(m, n);
         Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
         Eigen::Map<Eigen::MatrixXf> matS(ds, maxMN, minMN);
@@ -688,32 +689,32 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int maxMN = std::max(m, n);
         single* superb = new_with_exception<single>(minMN - 1);
         single* dstemp = new_with_exception<single>(minMN);
-        single* u = new_with_exception<single>(ldu * m * 2);
+        single* u = new_with_exception<single>((size_t)ldu * (size_t)m * (size_t)2);
         singlecomplex* uz = reinterpret_cast<singlecomplex*>(u);
         single* vt = nullptr;
         singlecomplex* vtz = nullptr;
         if (withV) {
-            vt = new_with_exception<single>(ldvt * n * 2);
+            vt = new_with_exception<single>((size_t)ldvt * (size_t)n * (size_t)2);
             vtz = reinterpret_cast<singlecomplex*>(vt);
         }
         int info = LAPACKE_cgesvd(
             LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
         if (info > 0) {
-            throw Exception(_("LAPACKE_cgesvd error."));
+            Error(_("LAPACKE_cgesvd error."));
         }
         delete[] superb;
         superb = nullptr;
         U = ArrayOf(NLS_SCOMPLEX, dimsU, u);
         Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
         if (m > n) {
-            single* ds = new_with_exception<single>(n * n);
+            single* ds = new_with_exception<single>((size_t)n * (size_t)n);
             Eigen::Map<Eigen::MatrixXf> matS(ds, n, n);
             for (size_t k = 0; k < minMN; k++) {
                 matS(k, k) = matStmp(k);
             }
             S = ArrayOf(NLS_SINGLE, dimsS, ds);
         } else {
-            single* ds = new_with_exception<single>(minMN * maxMN);
+            single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN);
             Eigen::Map<Eigen::MatrixXf> matS(ds, m, m);
             for (size_t k = 0; k < minMN; k++) {
                 matS(k, k) = matStmp(k);
@@ -724,7 +725,7 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         dstemp = nullptr;
         if (withV) {
             Eigen::Map<Eigen::MatrixXcf> matV(vtz, ldvt, n);
-            single* vt2 = new_with_exception<single>(ldvt * n * 2);
+            single* vt2 = new_with_exception<single>((size_t)ldvt * (size_t)n * (size_t)2);
             singlecomplex* vt2z = reinterpret_cast<singlecomplex*>(vt2);
             Eigen::Map<Eigen::MatrixXcf> matV2(vt2z, n, ldvt);
             matV2 = matV.transpose().eval();
@@ -743,7 +744,7 @@ SVD(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
               || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
-        throw Exception(
+        Error(
             _("Undefined function 'svd' for input arguments of type") + " '" + ClassName(A) + "'.");
     }
     Dimensions DimsA = A.getDimensions();
@@ -825,7 +826,7 @@ void
 SVD(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S)
 {
     ArrayOf V;
-    SVD(A, flag, U, S, V, false);
+    SVD(A, flag, U, S, V);
 }
 //=============================================================================
 void
@@ -836,7 +837,7 @@ SVD(ArrayOf A, ArrayOf& s)
               || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
-        throw Exception(
+        Error(
             _("Undefined function 'svd' for input arguments of type") + " '" + ClassName(A) + "'.");
     }
     if (A.isEmpty()) {

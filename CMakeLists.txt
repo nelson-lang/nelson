@@ -22,7 +22,7 @@ set(CMAKE_INSTALL_PREFIX "$ENV{HOME}")
 #============================================================================== 
 set (Nelson_VERSION_MAJOR_DEFAULT 0)
 set (Nelson_VERSION_MINOR_DEFAULT 2)
-set (Nelson_VERSION_MAINTENANCE_DEFAULT 5)
+set (Nelson_VERSION_MAINTENANCE_DEFAULT 10)
 set (Nelson_VERSION_BUILD_DEFAULT 0)
 #============================================================================== 
 if(DEFINED ENV{NELSON_VERSION_MAJOR})
@@ -191,16 +191,6 @@ FIND_PACKAGE(LibSndFile REQUIRED)
 FIND_PACKAGE(Taglib REQUIRED)
 #============================================================================== 
 find_package(LIBFFI REQUIRED)
-#==============================================================================
-find_library(SIO_CLIENT_LIBRARY NAMES sioclient)
-find_path(SIO_CLIENT_INCLUDE NAMES sio_client.h)
-if (NOT SIO_CLIENT_LIBRARY OR NOT SIO_CLIENT_INCLUDE)
-message(STATUS "sioclient-cpp not found (disabled)")
-set(WITH_SIO_CLIENT FALSE)
-else()
-message(STATUS "Found libsioclient: ${SIO_CLIENT_INCLUDE} ${SIO_CLIENT_LIBRARY}")
-set(WITH_SIO_CLIENT TRUE)
-endif()
 #==============================================================================
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   execute_process(COMMAND brew --prefix libffi

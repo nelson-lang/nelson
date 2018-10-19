@@ -19,7 +19,6 @@
 #include "fftwBuiltin.hpp"
 #include "Error.hpp"
 #include "FftHelpers.hpp"
-#include "OverloadFunction.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -34,23 +33,23 @@ Nelson::FftwGateway::fftwBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
     // previous = fftw('swisdom', str)
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0 || argIn.size() > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (argIn.size() == 1) {
         ArrayOf param1 = argIn[0];
         std::wstring infoDesired = param1.getContentAsWideString();
         ArrayOf res;
         if (infoDesired == L"dwisdom") {
-            res = ArrayOf::stringConstructor(getDoubleWisdomInformation());
+            res = ArrayOf::characterArrayConstructor(getDoubleWisdomInformation());
         } else if (infoDesired == L"swisdom") {
-            res = ArrayOf::stringConstructor(getSingleWisdomInformation());
+            res = ArrayOf::characterArrayConstructor(getSingleWisdomInformation());
         } else if (infoDesired == L"planner") {
-            res = ArrayOf::stringConstructor(getPlannerInformation());
+            res = ArrayOf::characterArrayConstructor(getPlannerInformation());
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+            Error(ERROR_WRONG_ARGUMENT_1_VALUE);
         }
         retval.push_back(res);
     } else {
@@ -64,25 +63,25 @@ Nelson::FftwGateway::fftwBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
         }
         ArrayOf previousvalue;
         if (fieldname == L"dwisdom") {
-            previousvalue = ArrayOf::stringConstructor(getDoubleWisdomInformation());
+            previousvalue = ArrayOf::characterArrayConstructor(getDoubleWisdomInformation());
             if (doReset) {
                 resetDoubleWisdom();
             } else {
                 if (!setDoubleWisdomInformation(fieldvalue)) {
-                    Error(eval, _W("Cannot apply wisdom."));
+                    Error(_W("Cannot apply wisdom."));
                 }
             }
         } else if (fieldname == L"swisdom") {
-            previousvalue = ArrayOf::stringConstructor(getSingleWisdomInformation());
+            previousvalue = ArrayOf::characterArrayConstructor(getSingleWisdomInformation());
             if (doReset) {
                 resetSingleWisdom();
             } else {
                 if (!setSingleWisdomInformation(fieldvalue)) {
-                    Error(eval, _W("Cannot apply wisdom."));
+                    Error(_W("Cannot apply wisdom."));
                 }
             }
         } else if (fieldname == L"planner") {
-            previousvalue = ArrayOf::stringConstructor(getPlannerInformation());
+            previousvalue = ArrayOf::characterArrayConstructor(getPlannerInformation());
             if (doReset) {
                 resetPlanner();
             } else {
@@ -97,11 +96,11 @@ Nelson::FftwGateway::fftwBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
                 } else if (fieldvalue == L"hybrid") {
                     setPlannerInformation(FftPlannerMethod::HYBRID);
                 } else {
-                    Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+                    Error(ERROR_WRONG_ARGUMENT_1_VALUE);
                 }
             }
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+            Error(ERROR_WRONG_ARGUMENT_1_VALUE);
         }
         retval.push_back(previousvalue);
     }

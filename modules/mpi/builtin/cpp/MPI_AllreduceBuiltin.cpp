@@ -31,25 +31,25 @@ Nelson::MpiGateway::MPI_AllreduceBuiltin(Evaluator* eval, int nLhs, const ArrayO
 {
     ArrayOfVector retval;
     if ((argIn.size() < 2) || (argIn.size() > 3)) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(eval, _W("MPI must be initialized."));
+        Error(_W("MPI must be initialized."));
     }
     ArrayOf A = argIn[0];
     if (A.isSparse() || A.isReferenceType()) {
-        Error(eval, _W("Unsupported type to reduce."));
+        Error(_W("Unsupported type to reduce."));
     }
     ArrayOf Operation = argIn[1];
     std::wstring op_str = Operation.getContentAsWideString();
     MPI_Op mpi_op = stringToMpiOp(op_str);
     if (mpi_op == MPI_OP_NULL) {
-        Error(eval, _W("Unsupported operator type."));
+        Error(_W("Unsupported operator type."));
     }
     MPI_Comm comm = MPI_COMM_WORLD;
     if (argIn.size() > 2) {
@@ -112,7 +112,7 @@ Nelson::MpiGateway::MPI_AllreduceBuiltin(Evaluator* eval, int nLhs, const ArrayO
             2 * (int)A.getLength(), MPI_DOUBLE, mpi_op, comm);
         break;
     default:
-        Error(eval, _W("Unsupported Type: must be a numerical type."));
+        Error(_W("Unsupported Type: must be a numerical type."));
     }
     retval.push_back(dest);
     return retval;

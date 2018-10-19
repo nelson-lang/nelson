@@ -29,15 +29,15 @@ Nelson::MpiGateway::MPI_Comm_splitBuiltin(Evaluator* eval, int nLhs, const Array
 {
     ArrayOfVector retval;
     if ((argIn.size() != 3)) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(eval, _W("MPI must be initialized."));
+        Error(_W("MPI must be initialized."));
     }
     MPI_Comm comm = HandleToMpiComm(argIn[0]);
     ArrayOf param2 = argIn[1];
@@ -46,7 +46,7 @@ Nelson::MpiGateway::MPI_Comm_splitBuiltin(Evaluator* eval, int nLhs, const Array
     int key = param3.getContentAsInteger32Scalar();
     MPI_Comm newcomm = MPI_COMM_NULL;
     if (MPI_Comm_split(comm, color, key, &newcomm) != MPI_SUCCESS) {
-        Error(eval, _W("MPI_Comm_split fails."));
+        Error(_W("MPI_Comm_split fails."));
     }
     retval.push_back(MpiCommToHandle(newcomm));
     return retval;

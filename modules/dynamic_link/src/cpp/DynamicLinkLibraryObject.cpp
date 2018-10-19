@@ -21,7 +21,7 @@
 #include <boost/dll/library_info.hpp>
 #include <boost/filesystem.hpp>
 #undef GetCurrentDirectory
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "GetCurrentDirectory.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
@@ -37,13 +37,13 @@ DynamicLinkLibraryObject::DynamicLinkLibraryObject(std::wstring libraryPath)
         boost::system::error_code errorCode;
         boost::dll::shared_library lib(fullLibraryPath, errorCode);
         if (errorCode) {
-            throw Exception(_("Cannot load library: ") + errorCode.message());
+            Error(_("Cannot load library: ") + errorCode.message());
         }
         boost::filesystem::path full_path = lib.location();
         _libraryPath = full_path.generic_wstring();
         _shared_library = lib;
     } else {
-        throw Exception(_W("Cannot load library: ") + libraryPath);
+        Error(_W("Cannot load library: ") + libraryPath);
     }
 }
 //=============================================================================
@@ -92,7 +92,7 @@ bool
 DynamicLinkLibraryObject::get(std::wstring propertyName, ArrayOf& res)
 {
     if (propertyName == L"Path") {
-        res = ArrayOf::stringConstructor(_libraryPath);
+        res = ArrayOf::characterArrayConstructor(_libraryPath);
         return true;
     }
     return false;

@@ -16,10 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Eigen/Dense>
+#include <cmath>
+#include <functional>
 #include "TruncateFunctions.hpp"
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"
-#include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
 typedef enum
@@ -33,13 +35,13 @@ typedef enum
 static double
 fixDouble(double a)
 {
-    return double(int64((double)a));
+    return std::trunc(a);
 }
 //=============================================================================
 static single
 fixSingle(single a)
 {
-    return single(int64((single)a));
+    return std::trunc(a);
 }
 //=============================================================================
 static double
@@ -103,20 +105,20 @@ Truncate(ArrayOf arrayIn, TRUNCATE_LEVEL level)
     if (arrayIn.isSparse()) {
         switch (level) {
         case TRUNCATE_LEVEL::CEIL:
-            throw Exception(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_"
-                + L"ceil" + L"'");
+            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_" + L"ceil"
+                + L"'");
             break;
         case TRUNCATE_LEVEL::ROUND:
-            throw Exception(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_"
-                + L"round" + L"'");
+            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_" + L"round"
+                + L"'");
             break;
         case TRUNCATE_LEVEL::FIX:
-            throw Exception(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_"
-                + L"fix" + L"'");
+            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_" + L"fix"
+                + L"'");
             break;
         case TRUNCATE_LEVEL::FLOOR:
-            throw Exception(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_"
-                + L"floor" + L"'");
+            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_" + L"floor"
+                + L"'");
             break;
         }
     }
@@ -166,24 +168,25 @@ Truncate(ArrayOf arrayIn, TRUNCATE_LEVEL level)
     } break;
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
+    case NLS_STRING_ARRAY:
     case NLS_STRUCT_ARRAY:
     default: {
         switch (level) {
         case TRUNCATE_LEVEL::CEIL:
-            throw Exception(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_"
-                + L"ceil" + L"'");
+            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_" + L"ceil"
+                + L"'");
             break;
         case TRUNCATE_LEVEL::ROUND:
-            throw Exception(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_"
-                + L"round" + L"'");
+            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_" + L"round"
+                + L"'");
             break;
         case TRUNCATE_LEVEL::FIX:
-            throw Exception(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_"
-                + L"fix" + L"'");
+            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_" + L"fix"
+                + L"'");
             break;
         case TRUNCATE_LEVEL::FLOOR:
-            throw Exception(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_"
-                + L"floor" + L"'");
+            Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_" + L"floor"
+                + L"'");
             break;
         }
     } break;
@@ -239,16 +242,15 @@ Truncate(ArrayOf arrayIn, TRUNCATE_LEVEL level)
             Eigen::Map<Eigen::MatrixXd> matR(
                 (double*)OutputAsDouble.getDataPointer(), 1, OutputAsDouble.getLength());
             matR = matA.array().round();
+
         } break;
         case TRUNCATE_LEVEL::FIX: {
-            size_t len = InputAsDouble.getLength();
-            double* dp = (double*)InputAsDouble.getDataPointer();
-            double* ptr = (double*)OutputAsDouble.getDataPointer();
-            for (size_t i = 0; i < len; i++) {
-                if (std::isfinite(dp[i])) {
-                    ptr[i] = double(int(dp[i]));
-                }
-            }
+            Eigen::Map<Eigen::MatrixXd> matA(
+                (double*)InputAsDouble.getDataPointer(), 1, InputAsDouble.getLength());
+            Eigen::Map<Eigen::MatrixXd> matR(
+                (double*)OutputAsDouble.getDataPointer(), 1, OutputAsDouble.getLength());
+            matR = matA.unaryExpr(std::ref(fixDouble));
+
         } break;
         case TRUNCATE_LEVEL::FLOOR: {
             // to speed up computations, we use a vector with eigen library and MKL

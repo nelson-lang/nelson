@@ -31,22 +31,25 @@ ToLogical(ArrayOf A)
         return r;
     } break;
     case NLS_HANDLE: {
-        throw Exception(_W("Conversion to logical from handle is not possible."));
+        Error(_W("Conversion to logical from handle is not possible."));
+    } break;
+    case NLS_STRING_ARRAY: {
+        Error(_W("Conversion to logical from string is not possible."));
     } break;
     case NLS_CELL_ARRAY: {
-        throw Exception(_W("Conversion to logical from cell is not possible."));
+        Error(_W("Conversion to logical from cell is not possible."));
     } break;
     case NLS_STRUCT_ARRAY: {
         if (A.getStructType() != "struct") {
-            throw Exception(_("Undefined function 'logical' for input arguments of type '")
+            Error(_("Undefined function 'logical' for input arguments of type '")
                 + A.getStructType() + "'.");
         } else {
-            throw Exception(_W("Conversion to logical from struct is not possible."));
+            Error(_W("Conversion to logical from struct is not possible."));
         }
     } break;
     case NLS_DCOMPLEX:
     case NLS_SCOMPLEX: {
-        throw Exception(_W("Conversion to logical from complex is not possible."));
+        Error(_W("Conversion to logical from complex is not possible."));
     } break;
     case NLS_DOUBLE: {
         if (A.isSparse()) {
@@ -63,7 +66,7 @@ ToLogical(ArrayOf A)
 #endif
             for (indexType k = 0; k < A.getLength(); k++) {
                 if (std::isnan(pDouble[k])) {
-                    throw Exception(_W("Conversion to logical with NaN is not possible."));
+                    Error(_W("Conversion to logical with NaN is not possible."));
                 }
                 pLogical[k] = (logical)(pDouble[k] != 0.0);
             }
@@ -72,7 +75,7 @@ ToLogical(ArrayOf A)
     } break;
     case NLS_SINGLE: {
         if (A.isSparse()) {
-            throw Exception(_W("Conversion to logical from single is not possible."));
+            Error(_W("Conversion to logical from single is not possible."));
         } else {
             logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
@@ -82,7 +85,7 @@ ToLogical(ArrayOf A)
 #endif
             for (indexType k = 0; k < A.getLength(); k++) {
                 if (std::isnan(pSingle[k])) {
-                    throw Exception(_W("Conversion to logical with NaN is not possible."));
+                    Error(_W("Conversion to logical with NaN is not possible."));
                 }
                 pLogical[k] = (logical)(pSingle[k] != 0.0);
             }
@@ -91,7 +94,7 @@ ToLogical(ArrayOf A)
     } break;
     case NLS_UINT8: {
         if (A.isSparse()) {
-            throw Exception(_W("Conversion to logical from sparse uint8 is not possible."));
+            Error(_W("Conversion to logical from sparse uint8 is not possible."));
         } else {
             logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
@@ -107,7 +110,7 @@ ToLogical(ArrayOf A)
     } break;
     case NLS_INT8: {
         if (A.isSparse()) {
-            throw Exception(_W("Conversion to logical from sparse int8 is not possible."));
+            Error(_W("Conversion to logical from sparse int8 is not possible."));
         } else {
             logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
@@ -123,7 +126,7 @@ ToLogical(ArrayOf A)
     } break;
     case NLS_UINT16: {
         if (A.isSparse()) {
-            throw Exception(_W("Conversion to logical from sparse uint16 is not possible."));
+            Error(_W("Conversion to logical from sparse uint16 is not possible."));
         } else {
             logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
@@ -139,7 +142,7 @@ ToLogical(ArrayOf A)
     } break;
     case NLS_INT16: {
         if (A.isSparse()) {
-            throw Exception(_W("Conversion to logical from sparse int16 is not possible."));
+            Error(_W("Conversion to logical from sparse int16 is not possible."));
         } else {
             logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
@@ -155,7 +158,7 @@ ToLogical(ArrayOf A)
     } break;
     case NLS_UINT32: {
         if (A.isSparse()) {
-            throw Exception(_W("Conversion to logical from sparse uint32 is not possible."));
+            Error(_W("Conversion to logical from sparse uint32 is not possible."));
         } else {
             logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
@@ -171,7 +174,7 @@ ToLogical(ArrayOf A)
     } break;
     case NLS_INT32: {
         if (A.isSparse()) {
-            throw Exception(_W("Conversion to logical from sparse int32 is not possible."));
+            Error(_W("Conversion to logical from sparse int32 is not possible."));
         } else {
             logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
@@ -187,7 +190,7 @@ ToLogical(ArrayOf A)
     } break;
     case NLS_UINT64: {
         if (A.isSparse()) {
-            throw Exception(_W("Conversion to logical from sparse uint64 is not possible."));
+            Error(_W("Conversion to logical from sparse uint64 is not possible."));
         } else {
             logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
@@ -203,7 +206,7 @@ ToLogical(ArrayOf A)
     } break;
     case NLS_INT64: {
         if (A.isSparse()) {
-            throw Exception(_W("Conversion to logical from sparse int64 is not possible."));
+            Error(_W("Conversion to logical from sparse int64 is not possible."));
         } else {
             logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
@@ -218,7 +221,7 @@ ToLogical(ArrayOf A)
         }
     } break;
     default: {
-        throw Exception(_W("Invalid conversion."));
+        Error(_W("Invalid conversion."));
     } break;
     }
     return ArrayOf();

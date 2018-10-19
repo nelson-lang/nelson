@@ -1,0 +1,98 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_isequal(nargin('atan2'), 2);
+assert_isequal(nargout('atan2'), 1);
+//=============================================================================
+A = [1 2; 3 4];
+B = [4 3; 2 1];
+C = atan2(A, B);
+REF = [0.2450    0.5880;
+    0.9828    1.3258];
+assert_isapprox(C, REF, 1e-4);
+//=============================================================================
+A = [1 2; 3 4];
+B = 2;
+C = atan2(A, B);
+REF = [ 0.4636    0.7854;
+    0.9828    1.1071];
+assert_isapprox(C, REF, 1e-4);
+//=============================================================================
+A = 2;
+B = [1 2; 3 4];
+C = atan2(A, B);
+REF = [1.1071      0.7854;
+      0.5880      0.4636];
+assert_isapprox(C, REF, 1e-4);
+//=============================================================================
+A = [1 2; 3 4; 5 6; 7 8];
+B = [8; 7; 6; 5];
+C = atan2(A, B);
+REF = [  0.1244      0.2450;
+      0.4049      0.5191;
+      0.6947      0.7854;
+      0.9505      1.0122];
+assert_isapprox(C, REF, 1e-4);
+//=============================================================================
+A = [1; 2];
+B = [3 4 5];
+C = atan2(A, B);
+REF1 = [atan2(A(1), B(1)), atan2(A(1), B(2)), atan2(A(1), B(3));
+atan2(A(2), B(1)), atan2(A(2), B(2)), atan2(A(2), B(3))];
+REF2 = [0.3218    0.2450    0.1974;
+    0.5880    0.4636    0.3805];
+assert_isapprox(C, REF2, 1e-4);
+assert_isapprox(REF1, REF2, 1e-4);
+//=============================================================================
+A = [3 4 5];
+B = [1; 2];
+C = atan2(A, B);
+REF = [1.2490      1.3258      1.3734;
+      0.9828      1.1071      1.1903];
+assert_isapprox(C, REF, 1e-4);
+//=============================================================================
+A = [1 2; 3 4; 5 6; 7 8];
+B = [8 7 6 5 4];
+assert_checkerror('atan2(A, B)', _(['Size mismatch on arguments to arithmetic operator ', 'atan2']))
+//=============================================================================
+A = [1 2; 3 4; 5 6; 7 8];
+B = [8 7 6 5];
+assert_checkerror('atan2(A, B)', _(['Size mismatch on arguments to arithmetic operator ', 'atan2']))
+//=============================================================================
+R = atan2(NaN,Inf);
+REF = NaN;
+assert_isequal(R, REF);
+//=============================================================================
+R = atan2([],2);
+assert_isequal(R, []);
+//=============================================================================
+R = atan2(3,[]);
+assert_isequal(R, []);
+//=============================================================================
+R = atan2(zeros(3,0), zeros(3, 0));
+REF = zeros(3, 0);
+assert_isequal(R, REF);
+//=============================================================================
+C = 4 + 3i;
+R = atan2(imag(C), real(C));
+REF = 0.6435;
+assert_isapprox(R, REF, 1e-4);
+//=============================================================================
+R = atan2(0, 0);
+assert_isequal(R, 0);
+//=============================================================================

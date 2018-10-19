@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>sprintf</keyword>
+  <short_description>Writes data to a string.</short_description>
+
+  <syntax>
+    <syntax_item>sprintf(format, v1, ... , vn)</syntax_item>
+  </syntax>
+  
+  <param_input>
+
+    
+    <param_input_item>
+      <param_name>format</param_name>
+      <param_description>a string describing the format to used_function.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>v1, ... , vn</param_name>
+      <param_description>data to convert and print according to the previous format parameter.</param_description>
+    </param_input_item>
+
+
+  </param_input>
+  
+  
+
+  <description>
+  <p>Write data in text form to a string.</p>
+  <p>The <b>format</b> follows C fprintf syntax.</p>
+    <style>
+table, th, td {
+    border: 1px solid black;
+}
+  </style>
+    <table style="width:100%">
+  <tr>
+    <th>Value type</th>
+    <th>format</th>
+    <th>comment</th>
+  </tr>
+    
+<tr>
+<td>Integer</td>
+<td>%i</td>
+<td>base 10</td>
+</tr>
+
+<tr>
+<td>Integer signed</td>
+<td>%d</td>
+<td>base 10</td>
+</tr>
+
+<tr>
+<td>Integer unsigned</td>
+<td>%u</td>
+<td>base 10</td>
+</tr>
+
+<tr>
+<td>Integer</td>
+<td>%o</td>
+<td>Octal (base 8)</td>
+</tr>
+
+<tr>
+<td>Integer</td>
+<td>%x</td>
+<td>Hexadecimal (lowercase)</td>
+</tr>
+
+<tr>
+<td>Integer</td>
+<td>%X</td>
+<td>Hexadecimal (uppercase)</td>
+</tr>
+
+<tr>
+<td>Floating-point number</td>
+<td>%f</td>
+<td>Fixed-point notation</td>
+</tr>
+
+<tr>
+<td>Floating-point number</td>
+<td>%e</td>
+<td>Exponential notation (lowercase)</td>
+</tr>
+
+<tr>
+<td>Floating-point number</td>
+<td>%E</td>
+<td>Exponential notation (uppercase)</td>
+</tr>
+
+<tr>
+<td>Floating-point number</td>
+<td>%g</td>
+<td>Exponential notation (compact format, lowercase)</td>
+</tr>
+
+<tr>
+<td>Floating-point number</td>
+<td>%G</td>
+<td>Exponential notation (compact format, uppercase)</td>
+</tr>
+
+<tr>
+<td>Character</td>
+<td>%c</td>
+<td>Single character</td>
+</tr>
+
+<tr>
+<td>String</td>
+<td>%s</td>
+<td>Character vector.</td>
+</tr>
+     </table>
+
+  </description>
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[sprintf('an example of %s.', 'text')]]>
+    </example_item_data>
+  
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[sprintf("an example of %s.", "text")]]>
+    </example_item_data>
+  
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[sprintf('an value %g.', pi)]]>
+    </example_item_data>
+  
+  </example_item>
+
+
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}fprintf">fprintf</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
+
+

@@ -28,7 +28,7 @@ ArrayOfVector
 Nelson::FunctionsGateway::builtinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() < 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     Context* context = eval->getContext();
     FunctionDef* funcDef = nullptr;
@@ -41,7 +41,7 @@ Nelson::FunctionsGateway::builtinBuiltin(Evaluator* eval, int nLhs, const ArrayO
         if (!found) {
             found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
             if (!found) {
-                Error(eval, _W("function handle not defined."));
+                Error(_W("function handle not defined."));
             }
         }
         fname = wstring_to_utf8(functionname);
@@ -49,7 +49,7 @@ Nelson::FunctionsGateway::builtinBuiltin(Evaluator* eval, int nLhs, const ArrayO
         fname = argIn[0].getContentAsCString();
     }
     if (!context->lookupFunction(fname, funcDef, true)) {
-        Error(eval, _W("function \'") + utf8_to_wstring(fname) + _W("\' is not a builtin."));
+        Error(_W("function \'") + utf8_to_wstring(fname) + _W("\' is not a builtin."));
     }
     ArrayOfVector newarg(argIn);
     newarg.erase(newarg.begin());

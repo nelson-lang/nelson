@@ -17,10 +17,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "func2strBuiltin.hpp"
-#include "BuiltInFunctionDefManager.hpp"
-#include "Error.hpp"
 #include "OverloadFunction.hpp"
+#include "Error.hpp"
 #include "PathFuncManager.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -30,14 +30,16 @@ Nelson::FunctionHandleGateway::func2strBuiltin(
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf arg1 = argIn[0];
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "func2str", bSuccess);
+    }
     if (!bSuccess) {
         if (arg1.isFunctionHandle()) {
             function_handle fh = arg1.getContentAsFunctionHandle();
@@ -47,12 +49,16 @@ Nelson::FunctionHandleGateway::func2strBuiltin(
                 found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
             }
             if (found) {
-                retval.push_back(ArrayOf::stringConstructor(functionname));
+                retval.push_back(ArrayOf::characterArrayConstructor(functionname));
             } else {
-                Error(eval, _W("#1 Argument must contain a valid function_handle."));
+                Error(_W("#1 Argument must contain a valid function_handle."));
             }
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+            retval = OverloadFunction(eval, nLhs, argIn, "func2str", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
         }
     }
     return retval;

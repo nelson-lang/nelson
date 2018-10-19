@@ -29,10 +29,10 @@ Nelson::LocalizationGateway::setlanguageBuiltin(
     ArrayOfVector retval;
     wstringVector langs;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring desiredLang = argIn[0].getContentAsWideString();
     if (Localization::Instance()->isSupportedLanguage(desiredLang)) {

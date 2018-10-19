@@ -18,6 +18,7 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Data.hpp"
+#include "Error.hpp"
 #include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
@@ -103,7 +104,7 @@ ArrayOf::int64Constructor(int64 aval)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::int64VectorConstructor(int len)
+ArrayOf::int64VectorConstructor(indexType len)
 {
     Dimensions dim;
     dim.makeScalar();
@@ -113,7 +114,7 @@ ArrayOf::int64VectorConstructor(int len)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::int32VectorConstructor(int len)
+ArrayOf::int32VectorConstructor(indexType len)
 {
     Dimensions dim;
     dim.makeScalar();
@@ -208,11 +209,12 @@ ArrayOf::integerRangeConstructor(indexType minval, indexType stepsize, indexType
 }
 //=============================================================================
 uint8
-ArrayOf::getContentAsUnsignedInteger8Scalar()
+ArrayOf::getContentAsUnsignedInteger8Scalar(bool arrayAsScalar)
 {
     uint8* qp;
-    if (getLength() != 1) {
-        throw Exception(ERROR_SCALAR_EXPECTED);
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
+        Error(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_UINT8);
     qp = (uint8*)dp->getData();
@@ -220,11 +222,12 @@ ArrayOf::getContentAsUnsignedInteger8Scalar()
 }
 //=============================================================================
 int8
-ArrayOf::getContentAsInteger8Scalar()
+ArrayOf::getContentAsInteger8Scalar(bool arrayAsScalar)
 {
     int8* qp;
-    if (getLength() != 1) {
-        throw Exception(ERROR_SCALAR_EXPECTED);
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
+        Error(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_INT8);
     qp = (int8*)dp->getData();
@@ -232,11 +235,12 @@ ArrayOf::getContentAsInteger8Scalar()
 }
 //=============================================================================
 int16
-ArrayOf::getContentAsInteger16Scalar()
+ArrayOf::getContentAsInteger16Scalar(bool arrayAsScalar)
 {
     int16* qp;
-    if (getLength() != 1) {
-        throw Exception(ERROR_SCALAR_EXPECTED);
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
+        Error(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_INT16);
     qp = (int16*)dp->getData();
@@ -244,11 +248,12 @@ ArrayOf::getContentAsInteger16Scalar()
 }
 //=============================================================================
 uint16
-ArrayOf::getContentAsUnsignedInteger16Scalar()
+ArrayOf::getContentAsUnsignedInteger16Scalar(bool arrayAsScalar)
 {
     uint16* qp;
-    if (getLength() != 1) {
-        throw Exception(ERROR_SCALAR_EXPECTED);
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
+        Error(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_UINT16);
     qp = (uint16*)dp->getData();
@@ -256,11 +261,12 @@ ArrayOf::getContentAsUnsignedInteger16Scalar()
 }
 //=============================================================================
 int32
-ArrayOf::getContentAsInteger32Scalar()
+ArrayOf::getContentAsInteger32Scalar(bool arrayAsScalar)
 {
     int32* qp;
-    if (getLength() != 1) {
-        throw Exception(ERROR_SCALAR_EXPECTED);
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
+        Error(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_INT32);
     qp = (int32*)dp->getData();
@@ -268,11 +274,12 @@ ArrayOf::getContentAsInteger32Scalar()
 }
 //=============================================================================
 uint32
-ArrayOf::getContentAsUnsignedInteger32Scalar()
+ArrayOf::getContentAsUnsignedInteger32Scalar(bool arrayAsScalar)
 {
     uint32* qp;
-    if (getLength() != 1) {
-        throw Exception(ERROR_SCALAR_EXPECTED);
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
+        Error(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_UINT32);
     qp = (uint32*)dp->getData();
@@ -280,11 +287,12 @@ ArrayOf::getContentAsUnsignedInteger32Scalar()
 }
 //=============================================================================
 int64
-ArrayOf::getContentAsInteger64Scalar()
+ArrayOf::getContentAsInteger64Scalar(bool arrayAsScalar)
 {
     int64* qp;
-    if (getLength() != 1) {
-        throw Exception(ERROR_SCALAR_EXPECTED);
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
+        Error(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_INT64);
     qp = (int64*)dp->getData();
@@ -292,18 +300,19 @@ ArrayOf::getContentAsInteger64Scalar()
 }
 //=============================================================================
 uint64
-ArrayOf::getContentAsUnsignedInt64Scalar()
+ArrayOf::getContentAsUnsignedInt64Scalar(bool arrayAsScalar)
 {
     uint64* qp;
-    if (getLength() != 1) {
-        throw Exception(ERROR_SCALAR_EXPECTED);
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
+        Error(ERROR_SCALAR_EXPECTED);
     }
     promoteType(NLS_UINT64);
     qp = (uint64*)dp->getData();
     return (*qp);
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isIntegerType() const
 {
     return ((dp->dataClass == NLS_UINT8) || (dp->dataClass == NLS_UINT16)
@@ -312,10 +321,24 @@ ArrayOf::isIntegerType() const
         || (dp->dataClass == NLS_INT32) || (dp->dataClass == NLS_INT64));
 }
 //=============================================================================
-const bool
+bool
 ArrayOf::isNdArrayIntegerType() const
 {
     return (isIntegerType() && !isSparse() && !is2D());
+}
+//=============================================================================
+bool
+ArrayOf::isUnsignedIntegerType() const
+{
+    return getDataClass() == NLS_UINT8 || getDataClass() == NLS_UINT16
+        || getDataClass() == NLS_UINT32 || getDataClass() == NLS_UINT64;
+}
+//=============================================================================
+bool
+ArrayOf::isSignedIntegerType() const
+{
+    return getDataClass() == NLS_INT8 || getDataClass() == NLS_INT16 || getDataClass() == NLS_INT32
+        || getDataClass() == NLS_INT64;
 }
 //=============================================================================
 }

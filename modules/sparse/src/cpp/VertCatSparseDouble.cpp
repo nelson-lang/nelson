@@ -16,11 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Eigen/Dense>
+#include <Eigen/Sparse>
 #include "VertCatSparseDouble.hpp"
 #include "CtransposeSparseDouble.hpp"
 #include "HorzCatSparseDouble.hpp"
-#include <Eigen/Dense>
-#include <Eigen/Sparse>
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -28,11 +29,11 @@ ArrayOf
 VertCatSparseDouble(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;
-    if (!A.isSparseDouble()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
+    if (!A.isSparseDoubleType()) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
     }
-    if (!B.isSparseDouble()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_DOUBLE_EXPECTED);
+    if (!B.isSparseDoubleType()) {
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_DOUBLE_EXPECTED);
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);
@@ -45,7 +46,7 @@ VertCatSparseDouble(ArrayOf A, ArrayOf B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getColumns() != dimsB.getColumns()) {
-        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
     A = CtransposeSparseDouble(A);
     B = CtransposeSparseDouble(B);

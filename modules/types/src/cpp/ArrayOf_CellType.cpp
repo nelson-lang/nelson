@@ -18,13 +18,26 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Data.hpp"
+#include "Error.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
-ArrayOf::isCell()
+ArrayOf::isCell() const
 {
     return (this->getDataClass() == NLS_CELL_ARRAY);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::toCell(ArrayOf m)
+{
+    if (m.isCell()) {
+        return m;
+    }
+    ArrayOf* elements = (ArrayOf*)allocateArrayOf(NLS_CELL_ARRAY, 1);
+    elements[0] = m;
+    return ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
 }
 //=============================================================================
 ArrayOf
@@ -47,8 +60,7 @@ ArrayOf::cellConstructor(ArrayOfMatrix& m)
                  * Otherwise, make sure the column counts are all the same...
                  */
                 if (ptr.size() != columnCount) {
-                    throw Exception(
-                        _W("Cell definition must have same number of elements in each row"));
+                    Error(_W("Cell definition must have same number of elements in each row"));
                 }
             }
             ++i;
@@ -83,12 +95,11 @@ ArrayOf::cellConstructor(ArrayOfMatrix& m)
             sp++;
         }
         return ArrayOf(NLS_CELL_ARRAY, retDims, qp);
-    } catch (Exception& e) {
+    } catch (const Exception&) {
         ArrayOf* rp = (ArrayOf*)qp;
         delete[] rp;
         rp = nullptr;
         qp = nullptr;
-        e.what();
         throw;
     }
 }
@@ -100,13 +111,13 @@ ArrayOf
 ArrayOf::getVectorContents(ArrayOf& indexing)
 {
     if (this->isCell()) {
-        throw Exception(_W("Attempt to apply contents-indexing to non-cell array object."));
+        Error(_W("Attempt to apply contents-indexing to non-cell array object."));
     }
     if (indexing.isEmpty()) {
-        throw Exception(_W("Empty contents indexing is not defined."));
+        Error(_W("Empty contents indexing is not defined."));
     }
     if (isSparse()) {
-        throw Exception(_W("getVectorContents not supported for sparse arrays."));
+        Error(_W("getVectorContents not supported for sparse arrays."));
     }
     indexing.toOrdinalType();
     //
@@ -116,21 +127,22 @@ ArrayOf::getVectorContents(ArrayOf& indexing)
     //
     // The index HAS to be a scalar for contents-based addressing
     if (indexing.getLength() != 1) {
-        throw Exception(_W("Content indexing must return a single value."));
+        Error(_W("Content indexing must return a single value."));
     }
     constIndexPtr index_p = (constIndexPtr)indexing.dp->getData();
     if (*index_p == 0) {
-        throw Exception(_W("Index exceeds cell array dimensions"));
+        Error(_W("Index exceeds cell array dimensions"));
     } else {
         indexType ndx = *index_p - 1;
         indexType bound = getLength();
         if (ndx >= bound) {
-            throw Exception(_W("Index exceeds cell array dimensions"));
+            Error(_W("Index exceeds cell array dimensions"));
         }
         const ArrayOf* srcPart = (const ArrayOf*)dp->getData();
         // Make a source of whatever is in that index, and return it.
         return srcPart[ndx];
     }
+    return ArrayOf(); // never here
 }
 //=============================================================================
 /**
@@ -140,10 +152,10 @@ ArrayOf
 ArrayOf::getNDimContents(ArrayOfVector& indexing)
 {
     if (!this->isCell()) {
-        throw Exception(_W("Attempt to apply contents-indexing to non-cell array object."));
+        Error(_W("Attempt to apply contents-indexing to non-cell array object."));
     }
     if (isSparse()) {
-        throw Exception(_W("getNDimContents not supported for sparse arrays."));
+        Error(_W("getNDimContents not supported for sparse arrays."));
     }
     indexType L = indexing.size();
     Dimensions outPos(L);
@@ -154,7 +166,7 @@ ArrayOf::getNDimContents(ArrayOfVector& indexing)
     for (indexType i = 0; i < L; i++) {
         indexing[i].toOrdinalType();
         if (indexing[i].getLength() != 1) {
-            throw Exception(_W("Content indexing must return a single value."));
+            Error(_W("Content indexing must return a single value."));
         }
         constIndexPtr sp = (constIndexPtr)indexing[i].dp->getData();
         outPos[i] = *sp - 1;
@@ -171,19 +183,19 @@ ArrayOfVector
 ArrayOf::getVectorContentsAsList(ArrayOf& index)
 {
     ArrayOfVector m;
-    if (!this->isCell()) {
-        throw Exception(_W("Attempt to apply contents-indexing to non cell-array object."));
+    if (!this->isCell() && !this->isStringArray()) {
+        Error(_W("Attempt to apply contents-indexing to non cell-array object."));
     }
     if (isSparse()) {
-        throw Exception(_W("getVectorContentsAsList not supported for sparse arrays."));
+        Error(_W("getVectorContentsAsList not supported for sparse arrays."));
     }
     if (index.isEmpty()) {
         return ArrayOfVector();
     }
-    if (index.isSingleString()) {
+    if (index.isRowVectorCharacterArray()) {
         std::wstring str = index.getContentAsWideString();
         if (str != L":") {
-            throw Exception(_W("index must either be real positive integers or logicals."));
+            Error(_W("index must either be real positive integers or logicals."));
         }
         index = ArrayOf::integerRangeConstructor(1, 1, dp->dimensions.getElementCount(), true);
     }
@@ -193,7 +205,7 @@ ArrayOf::getVectorContentsAsList(ArrayOf& index)
     // Get our length
     indexType bound = getLength();
     if (max_index > bound) {
-        throw Exception(_W("ArrayOf index exceeds bounds of cell-array"));
+        Error(_W("ArrayOf index exceeds bounds of cell-array"));
     }
     // Get the length of the index object
     indexType index_length = index.getLength();
@@ -214,11 +226,12 @@ ArrayOf::getVectorContentsAsList(ArrayOf& index)
 ArrayOfVector
 ArrayOf::getNDimContentsAsList(ArrayOfVector& index)
 {
-    if (!this->isCell()) {
-        throw Exception(_W("Attempt to apply contents-indexing to non cell-array object."));
+    bool isStringArray = this->isStringArray();
+    if (!this->isCell() && !isStringArray) {
+        Error(_W("Attempt to apply contents-indexing to non cell or string array object."));
     }
     if (isSparse()) {
-        throw Exception(_W("getNDimContentsAsList not supported for sparse arrays."));
+        Error(_W("getNDimContentsAsList not supported for sparse arrays."));
     }
     // Store the return value here
     ArrayOfVector m;
@@ -228,10 +241,10 @@ ArrayOf::getNDimContentsAsList(ArrayOfVector& index)
     Dimensions outDims(L);
     indexType i;
     for (i = 0; i < L; i++) {
-        if (index[i].isSingleString()) {
+        if (index[i].isRowVectorCharacterArray()) {
             std::wstring str = index[i].getContentAsWideString();
             if (str != L":") {
-                throw Exception(_W("index must either be real positive integers or logicals."));
+                Error(_W("index must either be real positive integers or logicals."));
             }
             indexType maxVal = dp->dimensions.getDimensionLength(i);
             index[i] = ArrayOf::integerRangeConstructor(1, 1, maxVal, false);
@@ -253,6 +266,11 @@ ArrayOf::getNDimContentsAsList(ArrayOfVector& index)
             currentIndex[i] = indx[i][argPointer[i]] - 1;
         }
         srcindex = dp->dimensions.mapPoint(currentIndex);
+        if (isStringArray) {
+            if (!qp[srcindex].isCharacterArray()) {
+                Error(_W("Conversion from <missing> to character vector is not supported."));
+            }
+        }
         m.push_back(qp[srcindex]);
         argPointer.incrementModulo(outDims, 0);
     }
@@ -274,19 +292,18 @@ ArrayOf::setVectorContents(ArrayOf& index, ArrayOf& data)
 {
     promoteType(NLS_CELL_ARRAY, data.dp->fieldNames);
     if (isSparse()) {
-        throw Exception(_W("setVectorContents not supported for sparse arrays."));
+        Error(_W("setVectorContents not supported for sparse arrays."));
     }
     index.toOrdinalType();
     if (index.getLength() == 0) {
         return;
     }
     if (index.getLength() != 1) {
-        throw Exception(
-            _W("In expression A{I} = B, I must reference a single element of cell-array A."));
+        Error(_W("In expression A{I} = B, I must reference a single element of cell-array A."));
     }
     constIndexPtr index_p = (constIndexPtr)index.dp->getData();
     if (*index_p == 0) {
-        throw Exception(_W("Illegal negative index in expression A{I} = B."));
+        Error(_W("Illegal negative index in expression A{I} = B."));
     }
     indexType ndx = *index_p - 1;
     vectorResize(ndx + 1);
@@ -304,7 +321,7 @@ ArrayOf::setNDimContents(ArrayOfVector& index, ArrayOf& data)
 {
     promoteType(NLS_CELL_ARRAY, data.dp->fieldNames);
     if (isSparse()) {
-        throw Exception(_W("setNDimContents not supported for sparse arrays."));
+        Error(_W("setNDimContents not supported for sparse arrays."));
     }
     indexType L = index.size();
     Dimensions outPos(L);
@@ -312,8 +329,8 @@ ArrayOf::setNDimContents(ArrayOfVector& index, ArrayOf& data)
     for (i = 0; i < L; i++) {
         index[i].toOrdinalType();
         if (!index[i].isScalar()) {
-            throw Exception(_W("In expression A{I1,I2,...,IN} = B, (I1,...,IN) must reference a "
-                               "single element of cell-array A."));
+            Error(_W("In expression A{I1,I2,...,IN} = B, (I1,...,IN) must reference a "
+                     "single element of cell-array A."));
         }
         constIndexPtr sp = (constIndexPtr)index[i].dp->getData();
         outPos[i] = *sp;
@@ -340,13 +357,17 @@ void
 ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
 {
     if (isSparse()) {
-        throw Exception(_W("setVectorContentsAsList not supported for sparse arrays."));
+        Error(_W("setVectorContentsAsList not supported for sparse arrays."));
     }
-    promoteType(NLS_CELL_ARRAY);
+    bool asStringArray = (getDataClass() == NLS_STRING_ARRAY);
+    if (asStringArray) {
+        promoteType(NLS_STRING_ARRAY);
+    } else {
+        promoteType(NLS_CELL_ARRAY);
+    }
     index.toOrdinalType();
     if ((indexType)data.size() < index.getLength()) {
-        throw Exception(
-            _W("Not enough right hand side values to satisy left hand side expression."));
+        Error(_W("Not enough right hand side values to satisy left hand side expression."));
     }
     // Get the maximum index
     indexType max_index = index.getMaxAsIndex();
@@ -361,8 +382,21 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
     // Copy in the data
     for (indexType i = 0; i < index_length; i++) {
         indexType ndx = index_p[i] - 1;
-        qp[ndx] = data.front();
-        //      data.pop_front();
+
+        if (asStringArray) {
+            if (data.front().isCharacterArray() && data.front().isRowVector()) {
+                qp[ndx] = data.front();
+            } else {
+                if (data.front().isDoubleType(true) && data.front().isEmpty(true)) {
+                    qp[ndx] = data.front();
+                } else {
+                    Error(_W("{} assignment expects a character vector."));
+                }
+            }
+        } else {
+            qp[ndx] = data.front();
+        }
+
         data.erase(data.begin());
     }
     dp->dimensions.simplify();
@@ -376,13 +410,17 @@ void
 ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
 {
     if (isSparse()) {
-        throw Exception(_W("setNDimContentsAsList not supported for sparse arrays."));
+        Error(_W("setNDimContentsAsList not supported for sparse arrays."));
     }
-    promoteType(NLS_CELL_ARRAY);
+    bool asStringArray = (getDataClass() == NLS_STRING_ARRAY);
+    if (asStringArray) {
+        promoteType(NLS_STRING_ARRAY);
+    } else {
+        promoteType(NLS_CELL_ARRAY);
+    }
     indexType L = index.size();
     // Convert the indexing variables into an ordinal type.
-    indexType i;
-    for (i = 0; i < L; i++) {
+    for (indexType i = 0; i < L; i++) {
         index[i].toOrdinalType();
     }
     // Set up data pointers
@@ -391,7 +429,7 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
         Dimensions a(L);
         // First, we compute the maximum along each dimension.
         // We also get pointers to each of the index pointers.
-        for (i = 0; i < L; i++) {
+        for (indexType i = 0; i < L; i++) {
             a[i] = index[i].getMaxAsIndex();
             indx[i] = (constIndexPtr)index[i].dp->getData();
         }
@@ -399,13 +437,12 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
         Dimensions argLengths(L);
         Dimensions argPointer(L);
         indexType dataCount = 1;
-        for (i = 0; i < L; i++) {
+        for (indexType i = 0; i < L; i++) {
             argLengths[i] = index[i].getLength();
             dataCount *= argLengths[i];
         }
         if ((int)data.size() < dataCount) {
-            throw Exception(
-                _W("Not enough right hand side values to satisfy left hand side expression"));
+            Error(_W("Not enough right hand side values to satisfy left hand side expression"));
         }
         // Resize us as necessary
         resize(a);
@@ -416,22 +453,33 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
         Dimensions currentIndex(dp->dimensions.getLength());
         indexType j;
         while (argPointer.inside(argLengths)) {
-            for (i = 0; i < L; i++) {
+            for (indexType i = 0; i < L; i++) {
                 currentIndex[i] = (indexType)indx[i][argPointer[i]] - 1;
             }
             j = dp->dimensions.mapPoint(currentIndex);
-            qp[j] = data.front();
-            //	data.pop_front();
+            if (asStringArray) {
+                if (data.front().isCharacterArray() && data.front().isRowVector()) {
+                    qp[j] = data.front();
+                } else {
+                    if (data.front().isDoubleType(true) && data.front().isEmpty(true)) {
+                        qp[j] = data.front();
+                    } else {
+                        Error(_W("{} assignment expects a character vector."));
+                    }
+                }
+            } else {
+                qp[j] = data.front();
+            }
+
             data.erase(data.begin());
             argPointer.incrementModulo(argLengths, 0);
         }
         delete[] indx;
         indx = nullptr;
         dp->dimensions.simplify();
-    } catch (Exception& e) {
+    } catch (const Exception&) {
         delete[] indx;
         indx = nullptr;
-        e.what();
         throw;
     }
 }

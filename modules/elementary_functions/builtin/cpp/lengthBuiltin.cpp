@@ -17,9 +17,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "lengthBuiltin.hpp"
-#include "ClassName.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
+#include "ClassName.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,20 +29,28 @@ Nelson::ElementaryFunctionsGateway::lengthBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "length", bSuccess);
+    }
     if (!bSuccess) {
+        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "length", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
         ArrayOf param1 = argIn[0];
         if (param1.isClassStruct()) {
-            Error(eval,
-                _("Undefined function 'length' for input arguments of type") + " '"
-                    + ClassName(param1) + "'.");
+            Error(_("Undefined function 'length' for input arguments of type") + " '"
+                + ClassName(param1) + "'.");
         }
         double len = 0;
         Dimensions sze(param1.getDimensions());

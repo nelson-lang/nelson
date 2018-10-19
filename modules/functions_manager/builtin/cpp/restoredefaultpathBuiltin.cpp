@@ -31,10 +31,10 @@ Nelson::FunctionsGateway::restoredefaultpathBuiltin(
 {
     ArrayOfVector retval;
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     PathFuncManager::getInstance()->clearUserPath();
     PathFuncManager::getInstance()->resetUserPath();
@@ -48,6 +48,7 @@ Nelson::FunctionsGateway::restoredefaultpathBuiltin(
             bRes = boost::filesystem::is_directory(data_dir);
         } catch (const boost::filesystem::filesystem_error& e) {
             if (e.code() == boost::system::errc::permission_denied) {
+                // ONLY FOR DEBUG
             }
             bRes = false;
         }

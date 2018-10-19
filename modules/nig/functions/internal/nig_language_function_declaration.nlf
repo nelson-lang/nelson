@@ -24,7 +24,7 @@ function txt = nig_language_function_declaration(NIG_FUNCTION)
     txt = ['int ', NIG_FUNCTION.SYMBOL];
   end
   txt = [txt, ' ('];
-  for k = NIG_FUNCTION.VARIABLES
+  for k = NIG_FUNCTION.VARIABLES(:)'
     txt = [txt, nig_variable_by_type(k, true), ','];
   end
   if txt(end) == ','

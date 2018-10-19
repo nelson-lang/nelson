@@ -22,7 +22,7 @@
     <ProjectGuid>{5E8618C5-4E44-4038-93DB-0BE2462CA875}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsSingle_builtin</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSSINGLE_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/single/builtin/include;$(SolutionDir)modules/single/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/single/builtin/include;$(SolutionDir)modules/single/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
@@ -113,7 +113,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSSINGLE_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/single/builtin/include;$(SolutionDir)modules/single/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/single/builtin/include;$(SolutionDir)modules/single/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
@@ -133,7 +133,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSSINGLE_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/single/builtin/include;$(SolutionDir)modules/single/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/single/builtin/include;$(SolutionDir)modules/single/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
@@ -155,7 +155,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSSINGLE_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/single/builtin/include;$(SolutionDir)modules/single/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/single/builtin/include;$(SolutionDir)modules/single/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
@@ -168,33 +168,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\colon_single_single_singleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraysingle_dispBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraysingle_horzcat_ndarraysingleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraysingle_isequalBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraysingle_isequalnBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraysingle_vertcat_ndarraysingleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_colon_singleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\singleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_ge_singleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_gt_singleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_horzcat_singleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_isequalBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_isequalnBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_le_singleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_lt_singleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_minus_singleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_ne_singleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_plus_singleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_uminusBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_vertcat_singleBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">
       <Project>{1c76cdc6-19d8-429a-9ec1-817ad139f80d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\elementary_functions\src\c\nlsElementary_functions.vcxproj">
+      <Project>{c87973dd-f66c-4f35-b875-5e0a0a47b3e7}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
@@ -219,28 +202,8 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\colon_single_single_singleBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraysingle_dispBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraysingle_horzcat_ndarraysingleBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraysingle_isequalBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraysingle_isequalnBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraysingle_vertcat_ndarraysingleBuiltin.hpp" />
     <ClInclude Include="..\include\nlsSingle_builtin_exports.h" />
     <ClInclude Include="..\include\singleBuiltin.hpp" />
-    <ClInclude Include="..\include\single_colon_singleBuiltin.hpp" />
-    <ClInclude Include="..\include\single_dispBuiltin.hpp" />
-    <ClInclude Include="..\include\single_ge_singleBuiltin.hpp" />
-    <ClInclude Include="..\include\single_gt_singleBuiltin.hpp" />
-    <ClInclude Include="..\include\single_horzcat_singleBuiltin.hpp" />
-    <ClInclude Include="..\include\single_isequalBuiltin.hpp" />
-    <ClInclude Include="..\include\single_isequalnBuiltin.hpp" />
-    <ClInclude Include="..\include\single_le_singleBuiltin.hpp" />
-    <ClInclude Include="..\include\single_lt_singleBuiltin.hpp" />
-    <ClInclude Include="..\include\single_minus_singleBuiltin.hpp" />
-    <ClInclude Include="..\include\single_ne_singleBuiltin.hpp" />
-    <ClInclude Include="..\include\single_plus_singleBuiltin.hpp" />
-    <ClInclude Include="..\include\single_uminusBuiltin.hpp" />
-    <ClInclude Include="..\include\single_vertcat_singleBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.nls" />

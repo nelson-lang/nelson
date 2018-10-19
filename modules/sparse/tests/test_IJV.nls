@@ -46,7 +46,7 @@ REF_A = zeros(0, 1);
 assert_isequal(A, REF_A);
 REF_B = zeros(0, 1);
 assert_isequal(B, REF_B);
-REF_C = zeros(0, 1);
+REF_C = complex(zeros(0, 1));
 assert_isequal(C, REF_C);
 REF_D = 0;
 assert_isequal(D, REF_D);

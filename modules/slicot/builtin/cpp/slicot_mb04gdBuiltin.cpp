@@ -38,10 +38,10 @@ Nelson::SlicotGateway::slicot_mb04gdBuiltin(Evaluator* eval, int nLhs, const Arr
 {
     ArrayOfVector retval;
     if (nLhs > 4) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // INPUT VARIABLES
     // IN/OUT VARIABLES
@@ -79,23 +79,21 @@ Nelson::SlicotGateway::slicot_mb04gdBuiltin(Evaluator* eval, int nLhs, const Arr
     Dimensions dimsA_expected(std::max(1, (int)A.getDimensions().getRows()),
         std::max(1, (int)A.getDimensions().getColumns()));
     if (!dimsA.equals(dimsA_expected)) {
-        Error(eval,
-            _("Input argument #1: wrong size.") + " " + dimsA_expected.toString() + " " + "expected"
-                + ".");
+        Error(_("Input argument #1: wrong size.") + " " + dimsA_expected.toString() + " "
+            + "expected" + ".");
     }
     Dimensions dimsJPVT_expected(1, std::max(1, (int)A.getDimensions().getRows()));
     if (!dimsJPVT.equals(dimsJPVT_expected)) {
-        Error(eval,
-            _("Input argument #2: wrong size.") + " " + dimsJPVT_expected.toString() + " "
-                + "expected" + ".");
+        Error(_("Input argument #2: wrong size.") + " " + dimsJPVT_expected.toString() + " "
+            + "expected" + ".");
     }
     // CALL EXTERN FUNCTION
     try {
         mb04gd_(M_ptr, N_ptr, A_output_ptr, LDA_ptr, JPVT_output_ptr, TAU_output_ptr, DWORK_ptr,
             INFO_output_ptr);
-    } catch (std::runtime_error& e) {
+    } catch (const std::runtime_error& e) {
         e.what();
-        Error(eval, "mb04gd function fails.");
+        Error("mb04gd function fails.");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

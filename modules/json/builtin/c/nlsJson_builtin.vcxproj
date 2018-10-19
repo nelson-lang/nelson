@@ -22,7 +22,7 @@
     <ProjectGuid>{DDCCE99F-2EB8-4692-9E79-84F5FE42B7DE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsJson_builtin</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -17,8 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "sparselogical_ctransposeBuiltin.hpp"
-#include "CtransposeSparseLogical.hpp"
 #include "Error.hpp"
+#include "CtransposeSparseLogical.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,14 +28,14 @@ Nelson::SparseGateway::sparselogical_ctransposeBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf A = argIn[0];
-    if (!A.isSparseLogical()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
+    if (!A.isSparseLogicalType()) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
     }
     retval.push_back(CtransposeSparseLogical(A));
     return retval;

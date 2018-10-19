@@ -1,0 +1,54 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_isequal(nargin('deblank'), 1);
+assert_isequal(nargout('deblank'), 1);
+//=============================================================================
+TXT = sprintf(' \t\n\r\f\v');
+R = deblank(TXT);
+REF = '';
+assert_isequal(R, REF);
+//=============================================================================
+TXT = sprintf(' AbCd   EfGg hijkl ...   ');
+R = deblank(TXT);
+REF = ' AbCd   EfGg hijkl ...';
+assert_isequal(R, REF);
+//=============================================================================
+C = {'     A string with whitespace';
+       ' Remove trailing whitespace ...       '};
+R = deblank(C);
+REF = {'     A string with whitespace';
+       ' Remove trailing whitespace ...'};
+assert_isequal(R, REF);
+//=============================================================================
+TXT = '     Test significant whitespace';
+TXT = [TXT char(160) char(160) char(8199) char(8239) '   '];
+R = deblank(TXT);
+REF = ['     Test significant whitespace', char(160) char(160) char(8199) char(8239)];
+assert_isequal(R, REF);
+//=============================================================================
+C = {'f ', 1};
+assert_checkerror('R = deblank(C);', _('cell of strings expected.'));
+//=============================================================================
+C = ["     A string with whitespace";
+       " Remove trailing whitespace ...       "];
+R = deblank(C);
+REF = ["     A string with whitespace";
+       " Remove trailing whitespace ..."];
+assert_isequal(R, REF);
+//=============================================================================

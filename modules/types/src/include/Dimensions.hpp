@@ -38,7 +38,7 @@
 
 #pragma once
 
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "Interface.hpp"
 #include "Types.hpp"
 #include "nlsTypes_exports.h"
@@ -86,7 +86,7 @@ public:
      * and all contents set to zero.
      * Throws an Exception if the dimension count is negative.
      */
-    Dimensions(indexType dimCount) throw(Exception);
+    Dimensions(indexType dimCount);
     /**
      * Return a 2-D dimension object with the specified number of
      * rows and columns.
@@ -101,7 +101,7 @@ public:
      * our contents to $$[2,3,1]$$.
      * Throws an exception if the argument is negative.
      */
-    indexType& operator[](indexType i) throw(Exception);
+    indexType& operator[](indexType i);
     /**
      * Get the number of currently allocated dimensions.
      */
@@ -124,7 +124,7 @@ public:
      *     $$b_i < 0$$ or $$b_i >= a_i$$.
      */
     indexType
-    mapPoint(const Dimensions& point) throw(Exception);
+    mapPoint(const Dimensions& point);
     /**
      * Returns the first dimension value (or zero if no dimensions have
      * been defined yet).
@@ -229,34 +229,34 @@ public:
     /**
      * Returns true if and only if we are equal to $$[1,1]$$.
      */
-    const bool
+    bool
     isScalar() const;
     /**
      * Returns true if and only if we are equal to $$[1,n]$$ or $$[n,1]$$ for
      * some value of $$n$$.
      */
-    const bool
+    bool
     isVector() const;
-    const bool
+    bool
     isRowVector() const;
-    const bool
+    bool
     isColumnVector() const;
     /**
      * Returns true if we have exactly 2 dimensions allocated.
      */
-    const bool
+    bool
     is2D() const;
 
     /**
      * Returns true if we have exactly 2 dimensions allocated and cols == rows.
      */
-    const bool
+    bool
     isSquare() const;
 
     /**
      * Returns TRUE if we are empty (we have no elements).
      */
-    const bool
+    bool
     isEmpty(bool allDimensionsIsZero) const;
 };
 } // namespace Nelson

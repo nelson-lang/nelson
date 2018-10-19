@@ -19,7 +19,6 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Exception.hpp"
 #include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
@@ -27,6 +26,6 @@ namespace Nelson {
  * Transposes the argument.
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-ComplexTranspose(ArrayOf A);
+ComplexTranspose(const ArrayOf& A, bool& needToOverload);
 } // namespace Nelson
 //=============================================================================

@@ -20,7 +20,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>txt</param_name>
-      <param_description>a string or cell of string: content to save in file</param_description>
+      <param_description>a string, cell of string or string array: content to save in file</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>eol</param_name>
@@ -30,7 +30,7 @@
   </param_input>
 
   <description>
-    <p><b>filewrite</b> saves a string or cell of string to a file.</p>
+    <p><b>filewrite</b> saves a character array, cell of string or string array to a file.</p>
     <p>file saved uses ascii or UTF-8 (NO-BOM) encoding.</p>
 </description>
 
@@ -42,7 +42,7 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[str = fileread([nelsonroot(),'/CHANGELOG.md'])
+    <example_item_data><![CDATA[str = fileread([nelsonroot(),'/CHANGELOG.md'], 'string')
     	filewrite([tempdir(), '/CHANGELOG.md'], str)]]>
     </example_item_data>
   

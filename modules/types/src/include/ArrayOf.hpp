@@ -38,24 +38,23 @@
 
 #pragma once
 #include "Dimensions.hpp"
-#include "Exception.hpp"
 #include "HandleGenericObject.hpp"
 #include "Interface.hpp"
 #include "Types.hpp"
 #include "nlsTypes_exports.h"
-#include <boost/container/vector.hpp>
 #include <complex>
 #include <iostream>
 #include <string>
+#include <vector>
 
 namespace Nelson {
 
 class ArrayOf;
 
-typedef boost::container::vector<ArrayOf> ArrayOfVector;
+typedef std::vector<ArrayOf> ArrayOfVector;
 NLSTYPES_IMPEXP ArrayOfVector scalarArrayOfToArrayOfVector(ArrayOf);
 
-typedef boost::container::vector<ArrayOfVector> ArrayOfMatrix;
+typedef std::vector<ArrayOfVector> ArrayOfMatrix;
 
 class Data;
 
@@ -112,15 +111,6 @@ private:
      * $$1,\ldots,\mathrm{maxD}$.
      */
     bool* getBinaryMap(indexType);
-    /** Compute the maximum index.
-     * This computes the maximum value of the array as an index (meaning
-     * that it must be greater than 0.  Because this is an internal function, it
-     * assumes that the variable has already been passed through toOrdinalType()
-     * successfully.  Throws an exception if the maximum value is zero or
-     * negative.
-     */
-    indexType
-    getMaxAsIndex();
     /** Get the internal index corresponding to a given field name.
      * Get the internal index corresponding to a given field name.  This
      * is the index into the fieldname array of the argument.  If the
@@ -141,6 +131,14 @@ private:
     void
     deleteContents(void);
 
+    /* Check all fieldnames are valid */
+    static bool
+    haveValidFieldNames(stringVector fieldnames);
+
+    /* Check all fieldnames are unique */
+    static bool
+    haveUniqueFieldNames(stringVector fieldnames);
+
 public:
     /**
      * Allocate an array.
@@ -154,7 +152,8 @@ public:
      *  - For string types, this conversion is not defined.
      *  - For logical types, this is accomplished using a linear search (done in
      *      two passes - one to identify the length of
-     *      the final array, and another to identify the indices of non-zero values.
+     *      the final array, and another to identify the indices of non-zero
+     * values.
      *  - For double types, this is done by typecasting (truncation).  A warning
      *      is emitted if the source value is fractional (non-integer) or invalid
      *      (zero or negative).
@@ -307,26 +306,15 @@ public:
     indexType
     getByteSize() const;
     /**
-     * Returns true if we are (meaningfully) positive.  For the unsigned integer types,
-     * this is always true.  For complex types, this is false.  For the signed integer
-     * types or the floating point types, the result is based on a linear scan through
-     * the array.
+     * Returns true if we are (meaningfully) positive.  For the unsigned integer
+     * types, this is always true.  For complex types, this is false.  For the
+     * signed integer types or the floating point types, the result is based on a
+     * linear scan through the array.
      */
-    const bool
+    bool
     isPositive() const;
-    /**
-     * Returns true if our real part is all zeros.  For integer types, this is an
-     * element-wise test.  For complex types, we check only the real part.
-     * Throws an exception if we are a string, cell-array or struct-array type.
-     */
-    const bool
-    isRealAllZeros() const;
-    const bool
+    bool
     isSparse() const;
-    const bool
-    isSparseDouble() const;
-    const bool
-    isSparseLogical() const;
 
     void
     makeSparse();
@@ -335,117 +323,144 @@ public:
     indexType
     getNonzeros() const;
     /**
-     * Returns true if we match the scalar value in x.  For strings, this is done by
-     * doing a string compare.  For numerical values, we promote to a common type
-     * and do a comparison.
+     * Returns true if we match the scalar value in x.  For strings, this is done
+     * by doing a string compare.  For numerical values, we promote to a common
+     * type and do a comparison.
      */
-    const bool
+    bool
     testCaseMatchScalar(ArrayOf x) const;
     /**
      * Returns true if we match the argument x, or if x is a cell-array,
-     * returns true if we match any of the cells in x.  Uses ArrayOf::testCaseMatchScalar
-     * to do the actual testing.
-     * Throws an exception for non-scalars (apart from strings) or reference types.
-     * Also throws an exception if the argument is not either a scalar or a cell
-     * array.
+     * returns true if we match any of the cells in x.  Uses
+     * ArrayOf::testCaseMatchScalar to do the actual testing. Throws an exception
+     * for non-scalars (apart from strings) or reference types. Also throws an
+     * exception if the argument is not either a scalar or a cell array.
      */
-    const bool
+    bool
     testForCaseMatch(ArrayOf x) const;
     /**
      * Returns TRUE if we are empty (we have no elements).
      */
-    const bool
+    bool
     isEmpty(bool allDimensionsIsZero = false) const;
     /**
      * Returns TRUE if we have only a single element.
      */
-    const bool
+    bool
     isScalar() const;
     /**
      * Returns TRUE if we are 2-Dimensional.
      */
-    const bool
+    bool
     is2D() const;
     /**
      * Returns TRUE if we are 2-Dimensional and rows == cols.
      */
-    const bool
+    bool
     isSquare() const;
     /**
      * Returns TRUE if we are a vector.
      */
-    const bool
+    bool
     isVector() const;
 
-    const bool
+    bool
     isRowVector() const;
 
-    const bool
+    bool
     isColumnVector() const;
     /**
      * Returns TRUE if we are a reference type (cell array or
      * struct array).
      */
-    const bool
+    bool
     isReferenceType() const;
     /**
      * Returns TRUE if we are a complex data type.
      */
-    const bool
+    bool
     isComplex() const;
     /**
      * Returns TRUE if we are a real data type.
      */
-    const bool
+    bool
     isReal() const;
     /**
      * Returns TRUE if all values are real.
      */
-    const bool
+    bool
     allReal() const;
     /**
      * Returns TRUE if we are a sparse double or complex data type.
      */
-    const bool
-    isDoubleSparseType() const;
-    /**
-     * Returns TRUE if it is a double type (not ndarray, not sparse)
-     */
-    const bool
-    isNdArrayDoubleType() const;
-    /**
-     * Returns TRUE if it is a ndarraydouble type (not sparse, not scalar, 2D matrix)
-     */
-    const bool
-    isDoubleType() const;
-
-    /**
-     * Returns TRUE if it is a double type (not ndarray, not sparse)
-     */
-    const bool
-    isSingleType() const;
+    bool
+    isSparseDoubleType(bool realOnly = false) const;
 
     /**
      * Returns TRUE if it is a ndarraydouble type (not sparse, not scalar, 2D matrix)
      */
-    const bool
-    isNdArraySingleType() const;
+    bool
+    isNdArrayDoubleType(bool realOnly = false) const;
+
+    /**
+     * Returns TRUE if it is a double type (not ndarray, not sparse)
+     */
+    bool
+    isDoubleType(bool realOnly = false) const;
+
+    /**
+     * Returns TRUE if it is a single type (not ndarray, not sparse)
+     */
+    bool
+    isSingleType(bool realOnly = false) const;
+
+    /**
+     * Returns TRUE if it is a NLS_DOUBLE or NLS_DCOMPLEX
+     */
+    bool
+    isDoubleClass() const;
+
+    /**
+     * Returns TRUE if it is a NLS_SINGLE or NLS_SCOMPLEX
+     */
+    bool
+    isSingleClass() const;
+
+    /**
+     * Returns TRUE if it is a ndarraysingle type (not sparse, not scalar, 2D matrix)
+     */
+    bool
+    isNdArraySingleType(bool realOnly = false) const;
 
     /**
      * Returns TRUE if we are a string.
      */
-    const bool
-    isString() const;
-    const bool
-    isSingleString() const;
+    bool
+    isCharacterArray() const;
+    bool
+    isRowVectorCharacterArray() const;
 
-    const bool
-    isNdArrayStringType() const;
+    bool
+    isNdArrayCharacterType() const;
 
-    const bool
+    bool
     isIntegerType() const;
-    const bool
+    bool
     isNdArrayIntegerType() const;
+
+    /*
+     * helpers function
+     * NLS_UINT8, ..., NLS_UINT64
+     */
+    bool
+    isUnsignedIntegerType() const;
+
+    /*
+     * helpers function
+     * NLS_INT8, ..., NLS_INT64
+     */
+    bool
+    isSignedIntegerType() const;
 
     /**
      * Copy data from our data array to the specified array.  This is a
@@ -460,10 +475,12 @@ public:
      * Promote our array to a new type.  For empty arrays, this type
      * promotion always succeeds.  For cell arrays, this does nothing (except
      * throw an error if we attempt to promote it to a different type).  For
-     * structure arrays, promoting to a structure array has three possible outcomes:
-     *   - If the fields match in order and contents then the promotion is successful.
-     *   - If the fields match in contents but not in-order then the promotion involves
-     *     reordering the data.
+     * structure arrays, promoting to a structure array has three possible
+     * outcomes:
+     *   - If the fields match in order and contents then the promotion is
+     * successful.
+     *   - If the fields match in contents but not in-order then the promotion
+     * involves reordering the data.
      *   - If the fields match in contents but the destination type has
      *     additional fields, then the promotion involves reordering the data and
      *     adding space.
@@ -478,8 +495,8 @@ public:
     void
     promoteType(Class new_type, stringVector fieldNames);
     /**
-     * Promote our array to a new type.  This is a shortcut for when new_type is not
-     * NLS_STRUCT_ARRAY, so that the fieldNames argument is not needed.
+     * Promote our array to a new type.  This is a shortcut for when new_type is
+     * not NLS_STRUCT_ARRAY, so that the fieldNames argument is not needed.
      */
     void
     promoteType(Class new_type);
@@ -497,7 +514,7 @@ public:
      * Empty constructor
      */
     static ArrayOf
-    emptyConstructor(Dimensions dim, bool bIsSparse = false);
+    emptyConstructor(Dimensions& dim, bool bIsSparse = false);
     static ArrayOf
     emptyConstructor(indexType m = 0, indexType n = 0, bool bIsSparse = false);
     /**
@@ -585,41 +602,41 @@ public:
      * string as a value.
      */
     static ArrayOf
-    stringConstructor(std::string aval);
+    characterArrayConstructor(std::string aval);
 
     /**
      * String constructor - Construct an NLS_CHAR object with the given
      * string as a value.
      */
     static ArrayOf
-    stringConstructor(std::wstring aval);
+    characterArrayConstructor(std::wstring aval);
 
     /**
      * int64 vector constructor - Construct an NLS_INT64 object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    int64VectorConstructor(int len);
+    int64VectorConstructor(indexType len);
 
     /**
      * int32 vector constructor - Construct an NLS_INT32 object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    int32VectorConstructor(int len);
+    int32VectorConstructor(indexType len);
     /**
      * Double vector constructor - Construct an NLS_DOUBLE object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    doubleVectorConstructor(int len);
+    doubleVectorConstructor(indexType len);
 
     /**
      * Single vector constructor - Construct an NLS_SINGLE object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    singleVectorConstructor(int len);
+    singleVectorConstructor(indexType len);
 
     /**
      * int32 matrix constructor - Construct an NLS_INT32 object
@@ -636,8 +653,9 @@ public:
     doubleMatrix2dConstructor(indexType m, indexType n);
 
     /**
-     * Construct a NLS_INT32 or NLS_INT64 (on x64 platform) vector (either vertical or horizontal)
-     * corresponding to minval:stepsize:maxval, with an optional transpose.
+     * Construct a NLS_INT32 or NLS_INT64 (on x64 platform) vector (either
+     * vertical or horizontal) corresponding to minval:stepsize:maxval, with an
+     * optional transpose.
      */
     static ArrayOf
     integerRangeConstructor(indexType minval, indexType stepsize, indexType maxval, bool vertical);
@@ -650,9 +668,16 @@ public:
      * each row has the same number of elements in it.
      * Throws an exception if the geometry of the argumens is incompatible.
      */
-
     static ArrayOf
     cellConstructor(ArrayOfMatrix& m);
+
+    /**
+     * Converts a variable to a cell with the content
+     * if m is a cell returned value is m
+     */
+    static ArrayOf
+    toCell(ArrayOf m);
+
     /**
      * Structure constructor - this is equivalent to the built in struct command.
      * First, we have to make sure that each entry of "values" have
@@ -676,9 +701,9 @@ public:
     static ArrayOf
     emptyStructWithoutFields();
     static ArrayOf
-    emptyStructConstructor(stringVector fNames, Dimensions dim);
+    emptyStructConstructor(stringVector fNames, Dimensions& dim);
     static ArrayOf
-    emptyStructConstructor(wstringVector fNames, Dimensions dim);
+    emptyStructConstructor(wstringVector fNames, Dimensions& dim);
 
     static ArrayOf
     structScalarConstructor(stringVector fNames, ArrayOfVector& values);
@@ -695,8 +720,8 @@ public:
 
     /**
      * Get a subset of an ArrayOf.  This is for vector-indexing, meaning that
-     * the argument is assumed to refer to the elements in their order as a vector.
-     * So, x(10) is equivalent to x(:)(10), even if, say, x is 3 x 4.
+     * the argument is assumed to refer to the elements in their order as a
+     * vector. So, x(10) is equivalent to x(:)(10), even if, say, x is 3 x 4.
      * Throws an exception if
      *  - the variable is empty
      *  - the argument subset exceeds our valid domain
@@ -736,10 +761,10 @@ public:
     ArrayOf
     getNDimContents(ArrayOfVector& index);
     /**
-     * Get the contents of a field from its field name.  Again, like getVectorContents
-     * and getNDimContents, this function is meant for assignments only, and the
-     * argument must be a scalar structure.
-     * Throws an exection if we are a vector, or if the supplied field do not exist.
+     * Get the contents of a field from its field name.  Again, like
+     * getVectorContents and getNDimContents, this function is meant for
+     * assignments only, and the argument must be a scalar structure. Throws an
+     * exection if we are a vector, or if the supplied field do not exist.
      */
     ArrayOf
     getField(std::string fieldName);
@@ -754,18 +779,18 @@ public:
     ArrayOfVector
     getFieldAsList(std::string fieldName);
     /**
-     * Get a subset of a (cell) ArrayOf using contents-addressing.  This is used when a
-     * cell array is used to supply a list of expressions.
-     * Throws an exception if
+     * Get a subset of a (cell) ArrayOf using contents-addressing.  This is used
+     * when a cell array is used to supply a list of expressions. Throws an
+     * exception if
      *   - we are not a cell-array
      *   - the indices exceed the array bounds
      */
     ArrayOfVector
     getVectorContentsAsList(ArrayOf& index);
     /**
-     * Get a subset of an ArrayOf using contents-addressing.  This is used when a cell array
-     * is used to supply a list of expressions.
-     * Throws an exception if we are not a cell-array.
+     * Get a subset of an ArrayOf using contents-addressing.  This is used when a
+     * cell array is used to supply a list of expressions. Throws an exception if
+     * we are not a cell-array.
      */
     ArrayOfVector
     getNDimContentsAsList(ArrayOfVector& index);
@@ -773,14 +798,16 @@ public:
      * Set a subset of an ArrayOf.  Uses vector-indexing, meaning that the
      * argument is assumed to refer to the elements in their order as a vector.
      * So, x(10) is equivalent to x(:)(10), even if, say, x is 3 x 4.
-     * Throws an exception if there is a size mismatch between the index and the data.
+     * Throws an exception if there is a size mismatch between the index and the
+     * data.
      */
     void
     setVectorSubset(ArrayOf& index, ArrayOf& data);
     /**
      * Set a subset of an ArrayOf.   This if for n-Dimensional-indexing, meaning
      * that x(10) is really x(10,1).
-     * Throws an exception if there is a size mismatch between the index and the data.
+     * Throws an exception if there is a size mismatch between the index and the
+     * data.
      */
     void
     setNDimSubset(ArrayOfVector& index, ArrayOf& data);
@@ -804,8 +831,8 @@ public:
     /**
      * Replace the contents of a field with the supplied array.  Only valid for
      * scalar structures.
-     * Throws an exception if we are not a structure array or we are a multi-element
-     * structure-array.
+     * Throws an exception if we are not a structure array or we are a
+     * multi-element structure-array.
      */
     void
     setField(std::string fieldName, ArrayOf& data);
@@ -836,8 +863,8 @@ public:
      * call, i.e.: [x.foo] = foo
      * Throws an exception if
      *   - we are not a structure array
-     *   - the number of elements in data is not equal to the number of elements in
-     *     our array.
+     *   - the number of elements in data is not equal to the number of elements
+     * in our array.
      */
     void
     setFieldAsList(std::string fieldName, ArrayOfVector& data);
@@ -865,13 +892,13 @@ public:
      * Summarize this array when it appears in a Cell array.
      */
     void
-    summarizeCellEntry() const;
+    summarizeCellEntry(Interface* io) const;
     /**
      * Print some reasonable representation of this array to the
      * the supplied stream.
      */
     void
-    printMe(int printLimit, sizeType termWidth = 80) const;
+    printMe(Interface* io) const;
     /**
      * Get our contents as a C-string (UTF-8). Only works for STRING types.
      * Throws an exception for non-string types.
@@ -890,22 +917,22 @@ public:
     getContentAsArrayOfCharacters() const;
 
     /**
-     * Get our contents as a C char * (pointer allocated with new). Only works for STRING types.
-     * Throws an exception for non-string types.
+     * Get our contents as a C char * (pointer allocated with new). Only works for
+     * STRING types. Throws an exception for non-string types.
      */
     char*
     getContentAsCharactersPointer() const;
 
     /**
-     * Get our contents as a C wchar_t * (pointer allocated with new). Only works for STRING types.
-     * Throws an exception for non-string types.
+     * Get our contents as a C wchar_t * (pointer allocated with new). Only works
+     * for STRING types. Throws an exception for non-string types.
      */
     wchar_t*
     getContentAsWideCharactersPointer() const;
 
     /**
-     * Get our contents as a vector wide string (UTF-16). Only works for CELL of STRING types.
-     * no check on dimensions
+     * Get our contents as a vector wide string (UTF-16). Only works for CELL of
+     * STRING types. no check on dimensions
      */
     wstringVector
     getContentAsWideStringVector(bool bCheckVector = true) const;
@@ -913,8 +940,8 @@ public:
     getContentAsCStringVector(bool bCheckVector = true) const;
 
     /**
-     * Get our contents as a vector wide string (UTF-16). Only works for CELL of STRING types.
-     * Check if it is a cell with a row vector dimension
+     * Get our contents as a vector wide string (UTF-16). Only works for CELL of
+     * STRING types. Check if it is a cell with a row vector dimension
      */
     wstringVector
     getContentAsWideStringRowVector(void) const;
@@ -922,8 +949,8 @@ public:
     getContentAsCStringRowVector(void) const;
 
     /**
-     * Get our contents as a vector wide string (UTF-16). Only works for CELL of STRING types.
-     * Check if it is a cell with a column vector dimension
+     * Get our contents as a vector wide string (UTF-16). Only works for CELL of
+     * STRING types. Check if it is a cell with a column vector dimension
      */
     wstringVector
     getContentAsWideStringColumnVector(void) const;
@@ -935,49 +962,49 @@ public:
      * Throws an exception if we are not a scalar logical type.
      */
     logical
-    getContentAsLogicalScalar() const;
+    getContentAsLogicalScalar(bool arrayAsScalar = false) const;
 
     /**
      * Get our contents as an integer 8 bits scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     int8
-    getContentAsInteger8Scalar();
+    getContentAsInteger8Scalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as an unsigned integer 8 bits scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     uint8
-    getContentAsUnsignedInteger8Scalar();
+    getContentAsUnsignedInteger8Scalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as an integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     int16
-    getContentAsInteger16Scalar();
+    getContentAsInteger16Scalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as an unsigned integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     uint16
-    getContentAsUnsignedInteger16Scalar();
+    getContentAsUnsignedInteger16Scalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as an integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     int32
-    getContentAsInteger32Scalar();
+    getContentAsInteger32Scalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as an unsigned integer scalar.
      * Throws an exception if we are not a scalar integer type.
      */
     uint32
-    getContentAsUnsignedInteger32Scalar();
+    getContentAsUnsignedInteger32Scalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as a double scalar.
@@ -985,21 +1012,21 @@ public:
      * be converted to a double precision value.
      */
     double
-    getContentAsDoubleScalar();
+    getContentAsDoubleScalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as an unsigned integer scalar 64.
      * Throws an exception if we are not a scalar integer type.
      */
     uint64
-    getContentAsUnsignedInt64Scalar();
+    getContentAsUnsignedInt64Scalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as an integer scalar 64.
      * Throws an exception if we are not a scalar integer type.
      */
     int64
-    getContentAsInteger64Scalar();
+    getContentAsInteger64Scalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as a index type scalar.
@@ -1018,7 +1045,7 @@ public:
      * be converted to a double precision value.
      */
     doublecomplex
-    getContentAsDoubleComplexScalar();
+    getContentAsDoubleComplexScalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as a float scalar.
@@ -1026,7 +1053,7 @@ public:
      * be converted to a double precision value.
      */
     single
-    getContentAsSingleScalar();
+    getContentAsSingleScalar(bool arrayAsScalar = false);
 
     /**
      * Get our contents as a single complex scalar.
@@ -1034,23 +1061,14 @@ public:
      * be converted to a single precision value.
      */
     std::complex<single>
-    getContentAsSingleComplexScalar();
+    getContentAsSingleComplexScalar(bool arrayAsScalar = false);
 
     /**
      * Returns true if the given Class is either NLS_CELL_ARRAY or
      * NLS_STRUCT_ARRAY.
      */
     static bool isDataClassReferenceType(Class);
-    /**
-     * Sets the IO interface used by instances of the ArrayOf class.
-     */
-    static void
-    setArrayOfIOInterface(Interface* io);
-    /**
-     * Returns the IO interface being used by instances of the ArrayOf class.
-     */
-    static Interface*
-    getArrayOfIOInterface();
+
     /**
      * Returns the number of nonzero elements in the array.  For reference
      * types, this is a best-guess.
@@ -1071,9 +1089,9 @@ public:
     numel();
 
     bool
-    isCell();
+    isCell() const;
 
-    const bool
+    bool
     isStruct() const;
     void
     setStructType(std::string structname);
@@ -1081,7 +1099,7 @@ public:
     setStructType(std::wstring structname);
     std::string
     getStructType() const;
-    const bool
+    bool
     isClassStruct() const;
 
     static ArrayOf
@@ -1091,18 +1109,18 @@ public:
     bool
     isFunctionHandle();
 
-    const bool
+    bool
     isLogical() const;
-    const bool
+    bool
     isNdArrayLogical() const;
-    const bool
-    isLogicalSparseType() const;
+    bool
+    isSparseLogicalType() const;
 
-    const bool
+    bool
     isNumeric() const;
 
     void
-    scalarToMatrix(Dimensions newDimensions);
+    scalarToMatrix(Dimensions& newDimensions);
 
     void
     deleteArrayOf(void* dp, Class dataclass);
@@ -1110,7 +1128,7 @@ public:
     /*
      * check is handle type
      */
-    const bool
+    bool
     isHandle() const;
     /*
      * handle constructors
@@ -1139,9 +1157,59 @@ public:
      */
     HandleGenericObject*
     getContentAsHandleScalar() const;
+
+    /** Compute the maximum index.
+     * This computes the maximum value of the array as an index (meaning
+     * that it must be greater than 0.  Because this is an internal function, it
+     * assumes that the variable has already been passed through toOrdinalType()
+     * successfully.  Throws an exception if the maximum value is zero or
+     * negative.
+     */
+    indexType
+    getMaxAsIndex();
+
+    //=========================================================================
+    // string array
+    //=========================================================================
+    bool
+    isStringArray() const;
+
+    bool
+    isNdArrayString() const;
+
+    static ArrayOf
+    stringArrayConstructor(const std::string& value);
+
+    static ArrayOf
+    stringArrayConstructor(const std::wstring& value);
+
+    static ArrayOf
+    stringArrayConstructor(const stringVector values, Dimensions& dims);
+
+    static ArrayOf
+    stringArrayConstructor(const wstringVector values, Dimensions& dims);
+
+    /**
+     * Summarize String array.
+     */
+    void
+    summarizeStringArray(Interface* io) const;
+
+    /**
+     * Converts a variable to a string array with the content
+     * if m is a string array returned value is m
+     */
+    static ArrayOf
+    toStringArray(ArrayOf m, bool& needToOverload);
+    //=========================================================================
 };
-
-void
-dumpAllArrayOfs();
-
+//=========================================================================
+bool
+isColonOperator(const ArrayOf& a);
+//=========================================================================
+constIndexPtr*
+ProcessNDimIndexes(bool preserveColons, Dimensions& dims, ArrayOfVector& index, bool& anyEmpty,
+    int& colonIndex, Dimensions& outDims, bool argCheck);
+//=========================================================================
 } // namespace Nelson
+//=========================================================================

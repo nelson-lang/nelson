@@ -37,10 +37,10 @@ TransposeSparseDouble(ArrayOf A)
             try {
                 spMatC = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(
                     spMatA->cols(), spMatA->rows());
-            } catch (std::bad_alloc& e) {
+            } catch (const std::bad_alloc& e) {
                 e.what();
                 spMatC = nullptr;
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
             *spMatC = spMatA->transpose();
             Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());
@@ -52,10 +52,10 @@ TransposeSparseDouble(ArrayOf A)
             try {
                 spMatC = new Eigen::SparseMatrix<double, 0, signedIndexType>(
                     spMatA->cols(), spMatA->rows());
-            } catch (std::bad_alloc& e) {
+            } catch (const std::bad_alloc& e) {
                 e.what();
                 spMatC = nullptr;
-                throw Exception(ERROR_MEMORY_ALLOCATION);
+                Error(ERROR_MEMORY_ALLOCATION);
             }
             *spMatC = spMatA->transpose();
             Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());

@@ -63,5 +63,5 @@ A = zeros(1000, 1000);
 C = sin(A);
 assert_isapprox(C, A); 
 //=============================================================================
-assert_checkerror('sin(''a'')', [_('function'), ' ', 'char_sin', ' ', _('undefined.')]);
+assert_checkerror('sin(''a'')', [_('Undefined function ''sin'' for input arguments of type '''), class('a'), '''.']);
 //=============================================================================

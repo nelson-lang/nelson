@@ -196,8 +196,6 @@ GuiTerminal::getBufferScreenLine()
 void
 GuiTerminal::setBufferScreenLine(int newMax)
 {
-    if (qtterm) {
-    }
 }
 //=============================================================================
 bool

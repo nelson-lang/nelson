@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ParseFile.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "ParserInterface.hpp"
 #include "characters_encoding.hpp"
 #include <boost/algorithm/string.hpp>
@@ -44,12 +44,12 @@ ParseFile(Evaluator* eval, std::wstring filename, bool bIgnoreException)
     if (!fr) {
         return ParserState::ParseError;
     }
-    Exception previousException(eval->getLastException());
+    Exception previousException(eval->getLastErrorException());
     try {
         ps = parseFile(fr, wstring_to_utf8(filename).c_str());
     } catch (const Exception&) {
         if (bIgnoreException) {
-            eval->setLastException(previousException);
+            eval->setLastErrorException(previousException);
         }
         ps = ParserState::ParseError;
     }

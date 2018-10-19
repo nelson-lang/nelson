@@ -42,7 +42,7 @@ XmlDocListOfDirectories::XmlDocListOfDirectories(wstringVector srcDirectories,
         try {
             xmlDirectory = new XmlDocDirectory(srcDirectories[k], this->dstDirectory,
                 this->bOverwriteExistingFiles, this->outputTarget);
-        } catch (std::bad_alloc) {
+        } catch (const std::bad_alloc&) {
             xmlDirectory = nullptr;
         }
         if (xmlDirectory) {
@@ -94,7 +94,7 @@ XmlDocListOfDirectories::read()
     try {
         mainIndex = new XmlDocMainIndex(
             this->dstDirectory, this->mainTitle, this->getOutputHelpBasename(), outputTarget);
-    } catch (std::bad_alloc) {
+    } catch (const std::bad_alloc&) {
         mainIndex = nullptr;
     }
     if (mainIndex) {

@@ -28,9 +28,11 @@ Nelson::ElementaryFunctionsGateway::timesBuiltin(
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(OverloadBinaryOperator(eval, argIn[0], argIn[1], "times"));
+    ArrayOf arg1 = argIn[0];
+    ArrayOf arg2 = argIn[1];
+    retval.push_back(eval->timesOperator(arg1, arg2));
     return retval;
 }
 //=============================================================================

@@ -21,7 +21,7 @@
 #else
 #include <netinet/in.h>
 #endif
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "Serialize.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -49,9 +49,9 @@ Serialize::checkSignature(const char sig, int count)
     rcount = ntohl(rcount);
     if (!((sig == rtype) && (count == rcount))) {
         char buffer[406];
-        sprintf(buffer, "Serialization Mismatch: expected <%c, %d>, got <%c, %d>", sig, count,
+        sprintf(buffer, "Serialization Mismatch: expected <%c, %d>, got <%c, %ld>", sig, count,
             rtype, rcount);
-        throw Exception(buffer);
+        Error(buffer);
     }
 }
 //=============================================================================
@@ -190,7 +190,7 @@ Serialize::getString()
     char* cp;
     try {
         cp = new char[len];
-    } catch (std::bad_alloc) {
+    } catch (const std::bad_alloc&) {
         cp = nullptr;
     }
     if (cp) {

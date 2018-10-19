@@ -37,11 +37,12 @@
 // DEALINGS IN THE SOFTWARE.
 #pragma once
 //=============================================================================
-#include "Interface.hpp"
-#include "Messages.hpp"
-#include "nlsError_manager_exports.h"
 #include <cstring>
-#include <string>
+#include <vector>
+#include "nlsError_manager_exports.h"
+#include "Interface.hpp"
+#include "PositionScript.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -58,21 +59,22 @@ namespace Nelson {
 class NLSERROR_MANAGER_IMPEXP Exception
 {
 private:
-    std::wstring functionname = L"";
-    std::wstring msg = L"";
-    int line = -1;
-    int position = -1;
-    std::wstring filename = L"";
+    std::vector<PositionScript> backtrace;
     std::wstring identifier = L"";
+    std::wstring msg = L"";
 
 public:
-    /**
-     * Construct an exception object with a given STL-string.
-     */
-    Exception(std::string msg_in, std::string functionname = "", int line_in = -1,
-        int position_in = -1, std::string filename_in = "", std::string identifier_in = "");
-    Exception(std::wstring msg_in, std::wstring functionname = L"", int line_in = -1,
-        int position_in = -1, std::wstring filename_in = L"", std::wstring identifier_in = L"");
+    Exception(const std::string& msg_in, std::vector<PositionScript> positions,
+        const std::string& identifier_in = "");
+    Exception(const std::wstring& msg_in, std::vector<PositionScript> positions,
+        const std::wstring& identifier_in = L"");
+    Exception(const std::string& msg_in, const PositionScript& position,
+        const std::string& identifier_in = "");
+    Exception(const std::wstring& msg_in, const PositionScript& position,
+        const std::wstring& identifier_in = L"");
+    Exception(const std::string& msg_in, const std::string& identifier_in = "");
+    Exception(const std::wstring& msg_in, const std::wstring& identifier_in = L"");
+    Exception();
 
     /**
      * Copy constructor.
@@ -96,14 +98,20 @@ public:
      * compares messages
      */
     bool
-    matches(std::string tst_msg);
+    matches(const std::string& tst_msg);
     bool
-    matches(std::wstring tst_msg);
+    matches(const std::wstring& tst_msg);
     /**
      * Get the message member function.
      */
     std::wstring
     getMessage();
+
+    void
+    setIdentifier(const std::wstring& identifier_in);
+    void
+    setIdentifier(const std::string& identifier_in);
+
     std::wstring
     getFormattedErrorMessage();
     std::wstring
@@ -111,30 +119,12 @@ public:
     {
         return msg;
     }
+
     std::wstring
-    getFilename()
-    {
-        return filename;
-    }
+    getFilename();
 
     int
     getLine();
-    int
-    getPosition();
-    void
-    setLinePosition(int line_in, int position_in);
-    void
-    setMessage(std::string msg_in);
-    void
-    setMessage(std::wstring msg_in);
-
-    void
-    setFunctionName(std::wstring functionname);
-    void
-    setFunctionName(std::string functionname);
-
-    void
-    setFileName(std::wstring filename);
 
     std::wstring
     getFunctionName();
@@ -144,14 +134,10 @@ public:
 
     std::wstring
     getIdentifier();
-    void
-    setIdentifier(std::wstring identifier_in);
-    void
-    setIdentifier(std::string identifier_in);
-};
 
-void
-printExceptionCount();
+    std::vector<PositionScript>
+    getTrace();
+};
 //=============================================================================
 template <class T>
 T*
@@ -164,13 +150,14 @@ new_with_exception(size_t len, bool initializeToZero = true)
             if (initializeToZero) {
                 memset(ptr, 0, sizeof(T) * len);
             }
-        } catch (std::bad_alloc& e) {
+        } catch (const std::bad_alloc& e) {
             e.what();
             ptr = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
+            Error(ERROR_MEMORY_ALLOCATION);
         }
     }
     return ptr;
 }
-
-} // namespace Nelson
+//=============================================================================
+}
+//=============================================================================

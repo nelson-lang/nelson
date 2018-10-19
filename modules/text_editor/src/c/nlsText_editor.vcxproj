@@ -151,6 +151,9 @@
     <ProjectReference Include="..\..\..\modules_manager\src\c\nlsModules_manager.vcxproj">
       <Project>{f666ac18-eeda-4a00-acd2-4cafe3865c15}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
+      <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\os_functions\src\c\nlsOs_functions.vcxproj">
       <Project>{fa50a5eb-b1b3-4035-87bb-8d3124cb7c80}</Project>
     </ProjectReference>
@@ -171,7 +174,7 @@
     <ProjectGuid>{02AD5A6D-F80A-4888-9178-29A0D7D04814}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlstext_editor</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -248,7 +251,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSTEXT_EDITOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/functions_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/text_completion/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/functions_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/text_completion/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -270,7 +273,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSTEXT_EDITOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/functions_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/text_completion/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/functions_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/text_completion/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -294,7 +297,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSTEXT_EDITOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/functions_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/text_completion/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/functions_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/text_completion/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -321,7 +324,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSTEXT_EDITOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/functions_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/text_completion/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/functions_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/text_completion/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>

@@ -19,7 +19,7 @@
 #include "ismethodComHandleObject.hpp"
 #include "ComHandleObject.hpp"
 #include "ComHelpers.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "HandleManager.hpp"
 #include "characters_encoding.hpp"
 #include <Windows.h>
@@ -31,7 +31,7 @@ ismethodComHandleObject(ComHandleObject* comhandleobj, const std::wstring& metho
 {
     void* ptr = comhandleobj->getPointer();
     if (ptr == nullptr) {
-        throw Exception(_W("COM valid handle expected."));
+        Error(_W("COM valid handle expected."));
     }
     VARIANT* pVariant = (VARIANT*)ptr;
     return isMethodCom(pVariant->pdispVal, methodname);
@@ -41,7 +41,7 @@ ArrayOf
 ismethodComHandleObject(ArrayOf A, const std::wstring& methodname)
 {
     if (A.getHandleCategory() != COM_CATEGORY_STR) {
-        throw Exception(_W("COM handle expected."));
+        Error(_W("COM handle expected."));
     }
     ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     bool res = ismethodComHandleObject(comhandleobj, methodname);

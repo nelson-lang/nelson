@@ -18,9 +18,9 @@
 //=============================================================================
 #include "issymmetricBuiltin.hpp"
 #include "Error.hpp"
-#include "IsSymmetric.hpp"
 #include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
+#include "IsSymmetric.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -30,17 +30,17 @@ Nelson::LinearAlgebraGateway::issymmetricBuiltin(
 {
     ArrayOfVector retval;
     if (!(argIn.size() == 1 || argIn.size() == 2)) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool skew = false;
     double tol = 0;
     bool withTol = false;
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
-        if (param2.isSingleString()) {
+        if (param2.isRowVectorCharacterArray()) {
             withTol = false;
             std::wstring str = param2.getContentAsWideString();
             if (str == L"skew" || str == L"nonskew") {
@@ -50,24 +50,29 @@ Nelson::LinearAlgebraGateway::issymmetricBuiltin(
                     skew = false;
                 }
             } else {
-                Error(eval, _W("Second input must be 'skew' or 'nonskew'."));
+                Error(_W("Second input must be 'skew' or 'nonskew'."));
             }
         } else {
             withTol = true;
             tol = param2.getContentAsDoubleScalar();
             if (!std::isfinite(tol) || tol < 0.) {
-                Error(eval, _W("Second input must be finite and >= 0."));
+                Error(_W("Second input must be finite and >= 0."));
             }
         }
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "issymmetric", bSuccess);
+    }
     if (!bSuccess) {
-        if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
-            || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
-            || argIn[0].isLogical() || argIn[0].isString()) {
-            OverloadRequired(eval, argIn, Nelson::FUNCTION);
+        if (argIn[0].isReferenceType() || argIn[0].isSparse() || argIn[0].isLogical()
+            || argIn[0].isCharacterArray()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "issymmetric", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+            OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
         }
         if (withTol) {
             retval.push_back(ArrayOf::logicalConstructor(IsSymmetric(argIn[0], tol)));

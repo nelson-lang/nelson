@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "DelimitedFile.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "characters_encoding.hpp"
 #include <fstream>
 #include <iostream>
@@ -30,10 +30,10 @@ delimitedWrite(ArrayOf mat, std::wstring filenameDestination, bool bAppend, std:
 {
     bool bTypeSupported = mat.isNumeric() || mat.isLogical();
     if (!bTypeSupported) {
-        throw Exception(_W("An numeric matrix expected."));
+        Error(_W("An numeric matrix expected."));
     }
     if (mat.isSparse()) {
-        throw Exception(ERROR_TYPE_NOT_SUPPORTED);
+        Error(ERROR_TYPE_NOT_SUPPORTED);
     }
     if (mat.isComplex()) {
         mat.promoteType(NLS_DCOMPLEX);
@@ -52,7 +52,7 @@ delimitedWrite(ArrayOf mat, std::wstring filenameDestination, bool bAppend, std:
     std::wofstream outputStream(wstring_to_utf8(filenameDestination), wofstream_mode);
 #endif
     if (!outputStream.is_open()) {
-        throw Exception(_W("Impossible to open file."));
+        Error(_W("Impossible to open file."));
     } else {
         Dimensions dims = mat.getDimensions();
         std::wstring fmt_with_delimiter = formatPrecision + delimiter;

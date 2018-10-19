@@ -18,6 +18,7 @@
 //=============================================================================
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
+#include <boost/algorithm/string.hpp>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,52 +30,73 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-int exceptionCount = 0;
-//=============================================================================
-Exception::Exception(std::string msg_in, std::string functionname, int line_in, int position_in,
-    std::string filename_in, std::string identifier_in)
+Exception::Exception()
 {
-    this->msg = utf8_to_wstring(msg_in);
-    this->functionname = utf8_to_wstring(functionname);
-    this->line = line_in;
-    this->position = position_in;
-    this->filename = utf8_to_wstring(filename_in);
-    this->identifier = utf8_to_wstring(identifier_in);
-    exceptionCount++;
+    this->backtrace.clear();
+    this->identifier.clear();
+    this->msg.clear();
 }
 //=============================================================================
-Exception::Exception(std::wstring msg_in, std::wstring functionname, int line_in, int position_in,
-    std::wstring filename_in, std::wstring identifier_in)
+Exception::Exception(const std::string& msg_in, std::vector<PositionScript> positions,
+    const std::string& identifier_in)
 {
-    this->msg = msg_in;
-    this->functionname = functionname;
-    this->line = line_in;
-    this->position = position_in;
-    this->filename = filename_in;
+    this->backtrace = positions;
+    this->identifier = utf8_to_wstring(identifier_in);
+    this->msg = utf8_to_wstring(msg_in);
+}
+//=============================================================================
+Exception::Exception(const std::wstring& msg_in, std::vector<PositionScript> positions,
+    const std::wstring& identifier_in)
+{
+    this->backtrace = positions;
     this->identifier = identifier_in;
-    exceptionCount++;
+    this->msg = msg_in;
+}
+//=============================================================================
+Exception::Exception(
+    const std::string& msg_in, const PositionScript& position, const std::string& identifier_in)
+{
+	this->backtrace.clear();
+    this->backtrace.push_back(position);
+    this->msg = utf8_to_wstring(msg_in);
+    this->identifier = utf8_to_wstring(identifier_in);
+}
+//=============================================================================
+Exception::Exception(
+    const std::wstring& msg_in, const PositionScript& position, const std::wstring& identifier_in)
+{
+    this->backtrace.clear();
+    this->backtrace.push_back(position);
+    this->msg = msg_in;
+    this->identifier = identifier_in;
+}
+//=============================================================================
+Exception::Exception(const std::string& msg_in, const std::string& identifier_in)
+{
+    this->backtrace.clear();
+    this->msg = utf8_to_wstring(msg_in);
+    this->identifier = utf8_to_wstring(identifier_in);
+}
+//=============================================================================
+Exception::Exception(const std::wstring& msg_in, const std::wstring& identifier_in)
+{
+    this->backtrace.clear();
+    this->msg = msg_in;
+    this->identifier = identifier_in;
 }
 //=============================================================================
 Exception::~Exception()
 {
+    this->backtrace.clear();
     this->msg = L"";
-    this->line = -1;
-    this->position = -1;
-    this->functionname = L"";
-    this->filename = L"";
     this->identifier = L"";
-    exceptionCount--;
 }
 //=============================================================================
 Exception::Exception(const Exception& copy)
 {
     this->msg = copy.msg;
-    this->line = copy.line;
-    this->position = copy.position;
-    this->functionname = copy.functionname;
-    this->filename = copy.filename;
     this->identifier = copy.identifier;
-    exceptionCount++;
+    this->backtrace = copy.backtrace;
 }
 //=============================================================================
 void
@@ -84,11 +106,8 @@ Exception::operator=(const Exception& copy)
         return;
     }
     this->msg = copy.msg;
-    this->functionname = copy.functionname;
-    this->position = copy.position;
-    this->line = copy.line;
-    this->filename = copy.filename;
     this->identifier = copy.identifier;
+    this->backtrace = copy.backtrace;
 }
 //=============================================================================
 void
@@ -100,13 +119,13 @@ Exception::printMe(Interface* io)
 }
 //=============================================================================
 bool
-Exception::matches(std::wstring tst_msg)
+Exception::matches(const std::wstring& tst_msg)
 {
     return (msg.compare(tst_msg) == 0);
 }
 //=============================================================================
 bool
-Exception::matches(std::string tst_msg)
+Exception::matches(const std::string& tst_msg)
 {
     return (msg.compare(utf8_to_wstring(tst_msg)) == 0);
 }
@@ -120,83 +139,69 @@ Exception::getMessage()
 int
 Exception::getLine()
 {
-    return line;
-}
-//=============================================================================
-int
-Exception::getPosition()
-{
-    return position;
-}
-//=============================================================================
-void
-Exception::setLinePosition(int line_in, int position_in)
-{
-    line = line_in;
-    position = position_in;
-}
-//=============================================================================
-void
-Exception::setMessage(std::string msg_in)
-{
-    msg = utf8_to_wstring(msg_in);
-}
-//=============================================================================
-void
-Exception::setMessage(std::wstring msg_in)
-{
-    msg = msg_in;
-}
-//=============================================================================
-void
-Exception::setFunctionName(std::wstring functionname)
-{
-    this->functionname = functionname;
-}
-//=============================================================================
-void
-Exception::setFunctionName(std::string functionname)
-{
-    this->functionname = utf8_to_wstring(functionname);
+    if (backtrace.empty()) {
+        return -1;
+    }
+    return backtrace[0].getLine();
 }
 //=============================================================================
 std::wstring
 Exception::getFunctionName()
 {
-    return this->functionname;
+    if (backtrace.empty()) {
+        return L"";
+    }
+    return backtrace[0].getFunctionName();
+}
+//=============================================================================
+std::wstring
+Exception::getFilename()
+{
+    if (backtrace.empty()) {
+        return L"";
+    }
+    return backtrace[0].getFilename();
 }
 //=============================================================================
 std::wstring
 Exception::getFormattedErrorMessage()
 {
     std::wstring formattedMessage;
-    formattedMessage.append(msg);
-    if ((functionname != L"") && (functionname != L"EvaluateScript")) {
+    if (!msg.empty()) {
+        formattedMessage.append(msg);
+    }
+    if (!backtrace.empty()) {
+        std::wstring filename = backtrace[0].getFilename();
+        std::wstring functionName = backtrace[0].getFunctionName();
+        int line = backtrace[0].getLine();
         formattedMessage.append(L"\n");
-        formattedMessage.append(_W("called from:\n"));
-        if (line > 0 && position > 0) {
-            formattedMessage.append(functionname);
-            formattedMessage.append(_W("\nat line: ") + std::to_wstring(line) + _W(" position: ")
-                + std::to_wstring(position));
+        if (line == 0) {
+            if (filename != L"") {
+                formattedMessage = formattedMessage + std::wstring(L"In ") + filename + L"\n";
+            }
         } else {
-            formattedMessage.append(functionname);
+            if (functionName != L"") {
+                formattedMessage = formattedMessage + std::wstring(L"In ") + filename
+                    + L" function " + functionName + L" (line " + std::to_wstring(line) + L")\n";
+            } else {
+                formattedMessage = formattedMessage + std::wstring(L"In ") + filename + L" (line "
+                    + std::to_wstring(line) + L")\n";
+            }
         }
-        formattedMessage.append(L"\n");
     }
     return formattedMessage;
-}
-//=============================================================================
-void
-Exception::setFileName(std::wstring filename)
-{
-    this->filename = filename;
 }
 //=============================================================================
 bool
 Exception::isEmpty()
 {
-    return ((this->msg == L"") && (this->line == -1) && (this->position == -1)
-        && (this->functionname == L"") && (this->filename == L"") && (this->identifier == L""));
+    return backtrace.empty() && (this->msg == L"");
+}
+//=============================================================================
+std::vector<PositionScript>
+Exception::getTrace()
+{
+    return this->backtrace;
 }
 //=============================================================================
 std::wstring
@@ -206,16 +211,16 @@ Exception::getIdentifier()
 }
 //=============================================================================
 void
-Exception::setIdentifier(std::wstring identifier_in)
+Exception::setIdentifier(const std::wstring& identifier_in)
 {
     this->identifier = identifier_in;
 }
 //=============================================================================
 void
-Exception::setIdentifier(std::string identifier_in)
+Exception::setIdentifier(const std::string& identifier_in)
 {
     this->identifier = utf8_to_wstring(identifier_in);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

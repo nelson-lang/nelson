@@ -22,7 +22,7 @@
     <ProjectGuid>{A53505BF-559A-4FEB-9A34-C72A7684070E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsLogical</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -160,30 +160,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\AllLogical.cpp" />
-    <ClCompile Include="..\cpp\AndLogical.cpp" />
-    <ClCompile Include="..\cpp\AnyLogical.cpp" />
-    <ClCompile Include="..\cpp\HorzCatLogical.cpp" />
-    <ClCompile Include="..\cpp\IsEqualLogical.cpp" />
     <ClCompile Include="..\cpp\LogicalConstructors.cpp" />
-    <ClCompile Include="..\cpp\NotLogical.cpp" />
-    <ClCompile Include="..\cpp\OrLogical.cpp" />
     <ClCompile Include="..\cpp\ToLogical.cpp" />
-    <ClCompile Include="..\cpp\VertCatLogical.cpp" />
     <ClCompile Include="..\cpp\XorLogical.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\LogicalConstructors.hpp" />
     <ClInclude Include="..\..\src\include\nlsLogical_exports.h" />
     <ClInclude Include="..\..\src\include\ToLogical.hpp" />
-    <ClInclude Include="..\include\AllLogical.hpp" />
-    <ClInclude Include="..\include\AndLogical.hpp" />
-    <ClInclude Include="..\include\AnyLogical.hpp" />
-    <ClInclude Include="..\include\HorzCatLogical.hpp" />
-    <ClInclude Include="..\include\IsEqualLogical.hpp" />
-    <ClInclude Include="..\include\NotLogical.hpp" />
-    <ClInclude Include="..\include\OrLogical.hpp" />
-    <ClInclude Include="..\include\VertCatLogical.hpp" />
     <ClInclude Include="..\include\XorLogical.hpp" />
   </ItemGroup>
   <ItemGroup>

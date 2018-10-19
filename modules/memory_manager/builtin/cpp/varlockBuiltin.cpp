@@ -28,20 +28,19 @@ Nelson::MemoryGateway::varlockBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (!argIn[0].isSingleString()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+    if (!argIn[0].isRowVectorCharacterArray()) {
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     std::string scopename = argIn[0].getContentAsCString();
     if (!((scopename.compare("global") == 0) || (scopename.compare("base") == 0)
             || (scopename.compare("caller") == 0) || (scopename.compare("local") == 0))) {
-        Error(eval,
-            _W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' "
-               "expected."));
+        Error(_W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' "
+                 "expected."));
     }
     Context* context = eval->getContext();
     Scope* scope = nullptr;
@@ -57,15 +56,15 @@ Nelson::MemoryGateway::varlockBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (scopename.compare("local") == 0) {
         scope = context->getCurrentScope();
     }
-    if (!argIn[1].isSingleString()) {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+    if (!argIn[1].isRowVectorCharacterArray()) {
+        Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
     }
     std::string varname = argIn[1].getContentAsCString();
     if (!IsValidVariableName(varname)) {
-        Error(eval, _W("#2 Argument must contain a valid variable name."));
+        Error(_W("#2 Argument must contain a valid variable name."));
     }
     if (!scope->isVariable(varname)) {
-        Error(eval, _W("#2 Argument must be an existing variable name."));
+        Error(_W("#2 Argument must be an existing variable name."));
     }
     LockVariable(varname, scope);
     return retval;

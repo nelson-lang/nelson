@@ -28,15 +28,15 @@ Nelson::MpiGateway::MPI_Comm_objectBuiltin(Evaluator* eval, int nLhs, const Arra
 {
     ArrayOfVector retval;
     if (argIn.size() > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(eval, _W("MPI must be initialized."));
+        Error(_W("MPI must be initialized."));
     }
     MPI_Comm comm = MPI_COMM_WORLD;
     if (argIn.size() == 1) {
@@ -46,9 +46,9 @@ Nelson::MpiGateway::MPI_Comm_objectBuiltin(Evaluator* eval, int nLhs, const Arra
         } else if (description == L"MPI_COMM_WORLD") {
             comm = MPI_COMM_WORLD;
         } else if (description == L"MPI_COMM_NULL") {
-            Error(eval, _W("MPI_COMM_NULL not allowed."));
+            Error(_W("MPI_COMM_NULL not allowed."));
         } else {
-            Error(eval, description + _W(" not allowed."));
+            Error(description + _W(" not allowed."));
         }
     }
     retval.push_back(MpiCommToHandle(comm));

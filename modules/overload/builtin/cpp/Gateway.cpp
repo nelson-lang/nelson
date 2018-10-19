@@ -16,20 +16,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-//#include "NelsonGateway.hpp"
+#include "NelsonGateway.hpp"
+#include "overloadbasictypesBuiltin.hpp"
 //=============================================================================
-// const std::wstring gatewayName = L"overload";
+using namespace Nelson;
 //=============================================================================
-/*static const nlsGateway gateway[] =
-{
-    { "", NULL, 0, 1 }
-}*/
+const std::wstring gatewayName = L"overload";
 //=============================================================================
-// NLSGATEWAYFUNC(gateway)
+static const nlsGateway gateway[] = {
+    { "overloadbasictypes", Nelson::OverloadGateway::overloadbasictypesBuiltin, 1, -1 },
+};
 //=============================================================================
-// NLSGATEWAYINFO(gateway)
+NLSGATEWAYFUNC(gateway)
 //=============================================================================
-// NLSGATEWAYREMOVE(gateway)
+NLSGATEWAYINFO(gateway)
 //=============================================================================
-// NLSGATEWAYNAME()
+NLSGATEWAYREMOVE(gateway)
+//=============================================================================
+NLSGATEWAYNAME()
 //=============================================================================

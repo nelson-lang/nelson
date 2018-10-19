@@ -18,6 +18,7 @@
 //=============================================================================
 #include "rmpathBuiltin.hpp"
 #include "Error.hpp"
+#include "Warning.hpp"
 #include "PathFuncManager.hpp"
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
@@ -29,14 +30,14 @@ Nelson::FunctionsGateway::rmpathBuiltin(Evaluator* eval, int nLhs, const ArrayOf
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring previousPaths = PathFuncManager::getInstance()->getPathNameAsString();
     ArrayOf param1 = argIn[0];
-    if (param1.isSingleString()) {
+    if (param1.isRowVectorCharacterArray()) {
         std::wstring pathToRemove = param1.getContentAsWideString();
         boost::filesystem::path data_dir(pathToRemove);
         bool bRes = false;
@@ -44,30 +45,25 @@ Nelson::FunctionsGateway::rmpathBuiltin(Evaluator* eval, int nLhs, const ArrayOf
             bRes = boost::filesystem::is_directory(data_dir);
         } catch (const boost::filesystem::filesystem_error& e) {
             if (e.code() == boost::system::errc::permission_denied) {
+                // ONLY FOR DEBUG
             }
             bRes = false;
         }
         if (bRes) {
             if (!PathFuncManager::getInstance()->removePath(pathToRemove)) {
-                Interface* io = eval->getInterface();
-                if (io) {
-                    io->warningMessage(_W("Warning: Not in path:") + L" " + pathToRemove + L"\n");
-                }
+                Warning(_W("Warning: Not in path:") + L" " + pathToRemove + L"\n");
             } else {
                 stringVector exceptedFunctionsName = eval->getCallers(true);
                 PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
             }
         } else {
-            Interface* io = eval->getInterface();
-            if (io) {
-                io->warningMessage(_W("Warning: Not a directory:") + L" " + pathToRemove + L"\n");
-            }
+            Warning(_W("Warning: Not a directory:") + L" " + pathToRemove + L"\n");
         }
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     if (nLhs == 1) {
-        retval.push_back(ArrayOf::stringConstructor(previousPaths));
+        retval.push_back(ArrayOf::characterArrayConstructor(previousPaths));
     }
     return retval;
 }

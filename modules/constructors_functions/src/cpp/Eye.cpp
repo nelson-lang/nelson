@@ -54,7 +54,7 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
         } break;
         case NLS_SCOMPLEX: {
             if (bIsSparse) {
-                throw Exception(_W("sparse not supported."));
+                Error(_W("sparse not supported."));
             }
             single* mat = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, m * n);
             singlecomplex* pzMat = reinterpret_cast<singlecomplex*>((single*)mat);
@@ -65,7 +65,7 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
         } break;
         case NLS_SINGLE: {
             if (bIsSparse) {
-                throw Exception(_W("sparse not supported."));
+                Error(_W("sparse not supported."));
             }
             single* mat = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, m * n);
             for (size_t i = 0; i < std::min(m, n); i++) {
@@ -86,7 +86,7 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
         } break;
         case NLS_INT8: {
             if (bIsSparse) {
-                throw Exception(_W("sparse not supported."));
+                Error(_W("sparse not supported."));
             }
             int8* mat = (int8*)ArrayOf::allocateArrayOf(NLS_INT8, m * n);
             for (size_t i = 0; i < std::min(m, n); i++) {
@@ -96,7 +96,7 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
         } break;
         case NLS_INT16: {
             if (bIsSparse) {
-                throw Exception(_W("sparse not supported."));
+                Error(_W("sparse not supported."));
             }
             int16* mat = (int16*)ArrayOf::allocateArrayOf(NLS_INT16, m * n);
             for (size_t i = 0; i < std::min(m, n); i++) {
@@ -106,7 +106,7 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
         } break;
         case NLS_INT32: {
             if (bIsSparse) {
-                throw Exception(_W("sparse not supported."));
+                Error(_W("sparse not supported."));
             }
             int32* mat = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, m * n);
             for (size_t i = 0; i < std::min(m, n); i++) {
@@ -116,7 +116,7 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
         } break;
         case NLS_INT64: {
             if (bIsSparse) {
-                throw Exception(_W("sparse not supported."));
+                Error(_W("sparse not supported."));
             }
             int64* mat = (int64*)ArrayOf::allocateArrayOf(NLS_INT64, m * n);
             for (size_t i = 0; i < std::min(m, n); i++) {
@@ -126,7 +126,7 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
         } break;
         case NLS_UINT8: {
             if (bIsSparse) {
-                throw Exception(_W("sparse not supported."));
+                Error(_W("sparse not supported."));
             }
             uint8* mat = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, m * n);
             for (size_t i = 0; i < std::min(m, n); i++) {
@@ -136,7 +136,7 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
         } break;
         case NLS_UINT16: {
             if (bIsSparse) {
-                throw Exception(_W("sparse not supported."));
+                Error(_W("sparse not supported."));
             }
             uint16* mat = (uint16*)ArrayOf::allocateArrayOf(NLS_UINT16, m * n);
             for (size_t i = 0; i < std::min(m, n); i++) {
@@ -146,7 +146,7 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
         } break;
         case NLS_UINT32: {
             if (bIsSparse) {
-                throw Exception(_W("sparse not supported."));
+                Error(_W("sparse not supported."));
             }
             uint32* mat = (uint32*)ArrayOf::allocateArrayOf(NLS_UINT32, m * n);
             for (size_t i = 0; i < std::min(m, n); i++) {
@@ -156,7 +156,7 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
         } break;
         case NLS_UINT64: {
             if (bIsSparse) {
-                throw Exception(_W("sparse not supported."));
+                Error(_W("sparse not supported."));
             }
             uint64* mat = (uint64*)ArrayOf::allocateArrayOf(NLS_UINT64, m * n);
             for (size_t i = 0; i < std::min(m, n); i++) {
@@ -165,7 +165,7 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             vmat = (void*)mat;
         } break;
         default: {
-            throw Exception(_W("Input following \'like'' is not a numeric array."));
+            Error(_W("Input following \'like'' is not a numeric array."));
         } break;
         }
     } else {
@@ -186,12 +186,12 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
         case NLS_UINT32:
         case NLS_UINT64: {
             if (bIsSparse) {
-                throw Exception(_W("sparse not supported."));
+                Error(_W("sparse not supported."));
             }
             vmat = nullptr;
         } break;
         default: {
-            throw Exception(_W("Input following \'like\' is not a numeric array."));
+            Error(_W("Input following \'like\' is not a numeric array."));
         } break;
         }
     }

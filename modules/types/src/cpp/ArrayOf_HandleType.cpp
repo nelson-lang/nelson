@@ -19,10 +19,11 @@
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "HandleManager.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-const bool
+bool
 ArrayOf::isHandle() const
 {
     bool ishandle = (dp->dataClass == NLS_HANDLE);
@@ -51,14 +52,14 @@ HandleGenericObject*
 ArrayOf::getContentAsHandleScalar() const
 {
     if (!isHandle()) {
-        throw Exception(_W("Expected a handle scalar."));
+        Error(_W("Expected a handle scalar."));
     }
     if (!isScalar()) {
-        throw Exception(_W("Expected a handle scalar."));
+        Error(_W("Expected a handle scalar."));
     }
     nelson_handle* qp = (nelson_handle*)dp->getData();
     if (qp == nullptr) {
-        throw Exception(_W("Expected a valid handle."));
+        Error(_W("Expected a valid handle."));
     }
     nelson_handle hl = (*qp);
     return HandleManager::getInstance()->getPointer(hl);

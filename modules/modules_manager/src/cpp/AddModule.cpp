@@ -41,21 +41,21 @@ AddModule(Evaluator* eval, std::wstring modulerootpath, std::wstring moduleshort
             } else {
                 if ((IsExistingModuleName(moduleshortname)
                         && IsExistingModulePath(modulerootpath))) {
-                    Error(eval, moduleshortname + _W(": This module is already used."));
+                    Error(moduleshortname + _W(": This module is already used."));
                 } else {
                     if (IsExistingModuleName(moduleshortname)) {
-                        Error(eval, _W("An existing module with the same name already used."));
+                        Error(_W("An existing module with the same name already used."));
                     }
                     if (IsExistingModulePath(modulerootpath)) {
-                        Error(eval, _W("An existing module with the same path already defined."));
+                        Error(_W("An existing module with the same path already defined."));
                     }
                 }
             }
         } else {
-            Error(eval, _W("startup.nls does not exist."));
+            Error(_W("startup.nls does not exist."));
         }
     } else {
-        Error(eval, _W("An existing module root path expected."));
+        Error(_W("An existing module root path expected."));
     }
 }
 //=============================================================================

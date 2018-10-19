@@ -16,11 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ModulesManager.hpp"
-#include <boost/algorithm/string.hpp>
-#include <boost/container/vector.hpp>
-#include <map>
 #include <unordered_map>
+#include <map>
+#include <algorithm>
+#include <boost/container/vector.hpp>
+#include <boost/algorithm/string.hpp>
+#include "ModulesManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

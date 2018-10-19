@@ -27,17 +27,17 @@ Nelson::ConstructorsGateway::epsBuiltin(Evaluator* eval, int nLhs, const ArrayOf
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (argIn.size() == 0) {
         retval.push_back(ArrayOf::doubleConstructor(Epsilon((double)1.0)));
     } else {
         if (argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_DCOMPLEX) {
             if (!argIn[0].isScalar()) {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_EXPECTED);
             }
             double* pV = (double*)argIn[0].getDataPointer();
             double dV = pV[0];
@@ -45,22 +45,22 @@ Nelson::ConstructorsGateway::epsBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         } else if (argIn[0].getDataClass() == NLS_SINGLE
             || argIn[0].getDataClass() == NLS_SCOMPLEX) {
             if (!argIn[0].isScalar()) {
-                Error(eval, ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_EXPECTED);
+                Error(ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_EXPECTED);
             }
             single* pV = (single*)argIn[0].getDataPointer();
             single dV = pV[0];
             retval.push_back(ArrayOf::singleConstructor(Epsilon((single)dV)));
-        } else if (argIn[0].isSingleString()) {
+        } else if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring arg = argIn[0].getContentAsWideString();
             if (arg.compare(L"single") == 0) {
                 retval.push_back(ArrayOf::singleConstructor(Epsilon((single)1.0)));
             } else if (arg.compare(L"double") == 0) {
                 retval.push_back(ArrayOf::doubleConstructor(Epsilon((double)1.0)));
             } else {
-                Error(eval, _W("Type \'double\' or \'single\' expected."));
+                Error(_W("Type \'double\' or \'single\' expected."));
             }
         } else {
-            Error(eval, _W("Type \'double\' or \'single\' expected."));
+            Error(_W("Type \'double\' or \'single\' expected."));
         }
     }
     return retval;

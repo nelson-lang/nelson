@@ -13,7 +13,7 @@
   <param_input>
     <param_input_item>
       <param_name>str</param_name>
-      <param_description>a cell of strings, or a string.</param_description>
+      <param_description>a cell of strings, string array or a string.</param_description>
     </param_input_item>
 
   </param_input>
@@ -39,6 +39,7 @@
     <example_item_data><![CDATA[R = str2double('2.6 + 3j')
 R = str2double('+NaNi')
 R = str2double({'2.71' '3.1415'})
+R = str2double(["2.71" "3.1415"])
 ]]>
     </example_item_data>
   </example_item>

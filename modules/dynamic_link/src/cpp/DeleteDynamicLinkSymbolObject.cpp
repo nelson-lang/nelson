@@ -35,7 +35,7 @@ DeleteDynamicLinkSymbolObject(ArrayOf A)
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
                     if (hlObj->getCategory() != DLSYM_CATEGORY_STR) {
-                        throw Exception(_W("dlsym handle expected."));
+                        Error(_W("dlsym handle expected."));
                     }
                     DynamicLinkSymbolObject* obj = (DynamicLinkSymbolObject*)hlObj;
                     delete obj;
@@ -44,7 +44,7 @@ DeleteDynamicLinkSymbolObject(ArrayOf A)
                 }
             }
         } else {
-            throw Exception(_W("dlsym valid handle expected."));
+            Error(_W("dlsym valid handle expected."));
         }
     }
     return res;

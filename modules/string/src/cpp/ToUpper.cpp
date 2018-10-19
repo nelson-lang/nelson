@@ -26,11 +26,12 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-ToUpper(Evaluator* eval, ArrayOf A)
+ToUpper(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
-    if (A.isSingleString()) {
-        return ArrayOf::stringConstructor(ToUpper(A.getContentAsWideString()));
+    needToOverload = false;
+    if (A.isRowVectorCharacterArray()) {
+        return ArrayOf::characterArrayConstructor(ToUpper(A.getContentAsWideString()));
     } else if (A.getDataClass() == NLS_CELL_ARRAY) {
         if (A.isEmpty()) {
             return ArrayOf(A);
@@ -39,16 +40,33 @@ ToUpper(Evaluator* eval, ArrayOf A)
             res.ensureSingleOwner();
             ArrayOf* element = (ArrayOf*)(res.getDataPointer());
             for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-                if (!element[k].isSingleString()) {
-                    Error(eval, ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
+                if (!element[k].isRowVectorCharacterArray()) {
+                    Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
                 }
-                element[k]
-                    = ArrayOf::stringConstructor(ToUpper(element[k].getContentAsWideString()));
+                element[k] = ArrayOf::characterArrayConstructor(
+                    ToUpper(element[k].getContentAsWideString()));
+            }
+            return res;
+        }
+    } else if (A.getDataClass() == NLS_STRING_ARRAY) {
+        if (A.isEmpty()) {
+            return ArrayOf(A);
+        } else {
+            res = ArrayOf(A);
+            res.ensureSingleOwner();
+            ArrayOf* element = (ArrayOf*)(res.getDataPointer());
+            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+                if (!element[k].isRowVectorCharacterArray()) {
+                    element[k] = ArrayOf::emptyConstructor();
+                } else {
+                    element[k] = ArrayOf::characterArrayConstructor(
+                        ToUpper(element[k].getContentAsWideString()));
+                }
             }
             return res;
         }
     } else {
-        Error(eval, ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
+        needToOverload = true;
     }
     return res;
 }

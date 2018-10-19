@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function varargout = mpiexec(varargin)
-  if nargin == 0 | nargin > 2
+  if nargin == 0 || nargin > 2
     error(_('Wrong number of input arguments.'));
   end
   if nargout > 2

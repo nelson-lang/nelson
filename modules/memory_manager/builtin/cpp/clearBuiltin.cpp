@@ -38,15 +38,14 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
 {
     ArrayOfVector retval;
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0) {
         ClearAllVariables(eval);
     } else {
         for (size_t k = 0; k < argIn.size(); k++) {
-            if (!argIn[k].isSingleString()) {
-                Error(
-                    eval, StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), k + 1));
+            if (!argIn[k].isRowVectorCharacterArray()) {
+                Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), k + 1));
             }
         }
         if (argIn.size() == 1) {
@@ -64,13 +63,15 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 ClearAllPersistentVariables(eval);
             } else {
                 if (!IsValidVariableName(arg1)) {
-                    Error(eval, _W("A valid variable name expected."));
+                    Error(_W("A valid variable name expected."));
                 }
                 Context* ctxt = eval->getContext();
                 if (ctxt->isLockedVariable(wstring_to_utf8(arg1))) {
-                    Error(eval, _W("variable is locked:") + arg1);
+                    Error(_W("variable is locked:") + arg1);
                 }
-                ClearVariable(eval, arg1);
+                if (!ClearVariable(eval, arg1)) {
+                    ClearPersistentVariable(eval, arg1);
+                }
             }
         } else if (argIn.size() == 2) {
             // clear global varname
@@ -80,19 +81,21 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             Context* ctxt = eval->getContext();
             if (arg1 == L"global") {
                 if (ctxt->getGlobalScope()->isLockedVariable(wstring_to_utf8(arg2))) {
-                    Error(eval, _W("variable is locked:") + arg2);
+                    Error(_W("variable is locked:") + arg2);
                 }
                 ClearGlobalVariable(eval, arg2);
             } else {
                 for (size_t k = 0; k < argIn.size(); k++) {
                     std::wstring arg = argIn[k].getContentAsWideString();
                     if (!IsValidVariableName(arg)) {
-                        Error(eval, _W("A valid variable name expected."));
+                        Error(_W("A valid variable name expected."));
                     }
                     if (ctxt->isLockedVariable(wstring_to_utf8(arg))) {
-                        Error(eval, _W("variable is locked:") + arg);
+                        Error(_W("variable is locked:") + arg);
                     }
-                    ClearVariable(eval, arg);
+                    if (!ClearVariable(eval, arg)) {
+                        ClearPersistentVariable(eval, arg);
+                    }
                 }
             }
         } else {
@@ -101,12 +104,14 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             for (size_t k = 0; k < argIn.size(); k++) {
                 std::wstring arg = argIn[k].getContentAsWideString();
                 if (!IsValidVariableName(arg)) {
-                    Error(eval, _W("A valid variable name expected."));
+                    Error(_W("A valid variable name expected."));
                 }
                 if (ctxt->isLockedVariable(wstring_to_utf8(arg))) {
-                    Error(eval, _W("variable is locked:") + arg);
+                    Error(_W("variable is locked:") + arg);
                 }
-                ClearVariable(eval, arg);
+                if (!ClearVariable(eval, arg)) {
+                    ClearPersistentVariable(eval, arg);
+                }
             }
         }
     }

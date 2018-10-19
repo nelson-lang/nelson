@@ -20,7 +20,7 @@ function h = helpdlg(helpstring, dlgname, mode)
   if nargin < 1
     helpstring = _('This is the default help string.');
   else
-      if ~ischar(dlgname) & ~iscellstr(dlgname)
+      if ~ischar(dlgname) && ~iscellstr(dlgname)
         error(_('Wrong type for argument #1: string expected.'));
       end
   end
@@ -39,7 +39,7 @@ function h = helpdlg(helpstring, dlgname, mode)
     if ~ischar(mode)
       error(_('Wrong type for argument #3: string expected.'));
     end
-    if strcmp(mode, 'modal') == false & strcmp(mode, 'nonmodal') == false & strcmp(mode, 'on') == false
+    if strcmp(mode, 'modal') == false && strcmp(mode, 'nonmodal') == false && strcmp(mode, 'on') == false
       error(_('Wrong value for argument #3: ''modal'', ''nonmodal'', ''on'' expected.'));
     end
   end

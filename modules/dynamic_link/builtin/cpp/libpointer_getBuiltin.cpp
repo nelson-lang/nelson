@@ -29,15 +29,15 @@ Nelson::DynamicLinkGateway::libpointer_getBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() == 0 || argIn.size() > 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     ArrayOfVector retval;
     if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
-        Error(eval, _W("libpointer handle expected."));
+        Error(_W("libpointer handle expected."));
     }
     LibPointerObject* objLibPointer = (LibPointerObject*)param1.getContentAsHandleScalar();
     ArrayOf res;
@@ -47,7 +47,7 @@ Nelson::DynamicLinkGateway::libpointer_getBuiltin(
         ArrayOf param2 = argIn[1];
         std::wstring propertyName = param2.getContentAsWideString();
         if (!objLibPointer->get(propertyName, res)) {
-            Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
+            Error(ERROR_WRONG_ARGUMENT_2_VALUE);
         }
     }
     retval.push_back(res);

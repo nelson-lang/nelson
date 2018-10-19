@@ -50,5 +50,10 @@ ref = [8 7; 8 11];
 assert_isequal(res, ref); 
 //=============================================================================
 cmd = 'res = strlength(1)';
-assert_checkerror(cmd, _('A cell expected.'));
+assert_checkerror(cmd, _('Wrong type for argument #1: string or cell expected.'));
+//=============================================================================
+B = ["Nel", NaN, "son"; "is", "open", "source"];
+R = strlength(B);
+REF = [3   NaN     3;    2     4     6];
+assert_isequal(R, REF); 
 //=============================================================================

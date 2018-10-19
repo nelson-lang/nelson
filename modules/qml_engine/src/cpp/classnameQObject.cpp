@@ -18,7 +18,7 @@
 //=============================================================================
 #include "classnameQObject.hpp"
 #include "ClassName.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "HandleManager.hpp"
 #include "QmlHandleObject.hpp"
 #include "ToCellString.hpp"
@@ -30,12 +30,12 @@ ArrayOf
 classnameQObject(ArrayOf A)
 {
     if (!A.isHandle()) {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
     }
     std::wstring className;
     ClassName(A, className);
     if (className != QOBJECT_CATEGORY_STR) {
-        throw Exception(_W("QObject handle expected."));
+        Error(_W("QObject handle expected."));
     }
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();
@@ -64,7 +64,7 @@ classnameQObject(ArrayOf A)
             }
         }
         if (names.size() == 1) {
-            res = ArrayOf::stringConstructor(names[0]);
+            res = ArrayOf::characterArrayConstructor(names[0]);
         } else {
             res = ToCellStringAsColumn(names);
         }

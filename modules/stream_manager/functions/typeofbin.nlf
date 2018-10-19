@@ -48,6 +48,10 @@ function res = typeofbin(code_type)
 			res = 'ndarraystring';
 		case 117	
 			res = 'ndarraycell';
+		case 115
+			res = 'ndarraystruct';
+		case 18	
+			res = 'string';
 		case 17	
 			res = 'cell';
 		case 15	
@@ -75,7 +79,7 @@ function res = typeofbin(code_type)
 		case 1		
 			res = 'double';
 		case 10
-			res = 'string';
+			res = 'char';
 		case 14	
 			res = 'function_handle';
 		case 9

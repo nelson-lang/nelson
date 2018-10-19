@@ -24,16 +24,15 @@
 namespace Nelson {
 template <class T>
 ArrayOf
-cosmComplex(ArrayOf& A)
+cosmComplex(const ArrayOf& A)
 {
-    ArrayOf R(A);
-    R.ensureSingleOwner();
+    T* ptrR = (T*)ArrayOf::allocateArrayOf(A.getDataClass(), A.getLength(), stringVector(), false);
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
-    std::complex<T>* Rz = reinterpret_cast<std::complex<T>*>((T*)R.getDataPointer());
+    std::complex<T>* Rz = reinterpret_cast<std::complex<T>*>((T*)ptrR);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az,
         (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(Rz,
-        (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
+        (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
     // [V, D] = eig(A);
     // cosm = V * diag(cos(diag(D))) * inv(V);
     Eigen::ComplexEigenSolver<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>>
@@ -45,14 +44,15 @@ cosmComplex(ArrayOf& A)
     }
     auto evalsdiag = evals.asDiagonal();
     matR = evects * evalsdiag * evects.inverse();
-    return R;
+    return ArrayOf(A.getDataClass(), A.getDimensions(), ptrR);
 }
 //=============================================================================
 ArrayOf
-MatrixCos(ArrayOf A)
+MatrixCos(const ArrayOf& A, bool& needToOverload)
 {
+    needToOverload = false;
     if (!A.isSquare()) {
-        throw Exception(_("Square matrix expected."));
+        Error(_("Square matrix expected."));
     }
     if (A.isEmpty()) {
         ArrayOf R(A);
@@ -60,24 +60,12 @@ MatrixCos(ArrayOf A)
         return R;
     }
     if (A.isSparse()) {
-        throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+        needToOverload = true;
+        return ArrayOf();
     }
     switch (A.getDataClass()) {
-    case NLS_CELL_ARRAY:
-    case NLS_STRUCT_ARRAY:
-    case NLS_LOGICAL:
-    case NLS_UINT8:
-    case NLS_INT8:
-    case NLS_UINT16:
-    case NLS_INT16:
-    case NLS_UINT32:
-    case NLS_INT32:
-    case NLS_UINT64:
-    case NLS_INT64:
-    case NLS_CHAR: {
-        throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
+    default: {
+        needToOverload = true;
     } break;
     case NLS_SCOMPLEX: {
         ArrayOf R = cosmComplex<single>(A);
@@ -87,8 +75,9 @@ MatrixCos(ArrayOf A)
         return R;
     }
     case NLS_SINGLE: {
-        A.promoteType(NLS_SCOMPLEX);
-        ArrayOf R = cosmComplex<single>(A);
+        ArrayOf R(A);
+        R.promoteType(NLS_SCOMPLEX);
+        R = cosmComplex<single>(R);
         R.promoteType(NLS_SINGLE);
         return R;
     } break;
@@ -100,17 +89,15 @@ MatrixCos(ArrayOf A)
         return R;
     } break;
     case NLS_DOUBLE: {
-        A.promoteType(NLS_DCOMPLEX);
-        ArrayOf R = cosmComplex<double>(A);
+        ArrayOf R(A);
+        R.promoteType(NLS_DCOMPLEX);
+        R = cosmComplex<double>(R);
         R.promoteType(NLS_DOUBLE);
         return R;
-    } break;
-    default: {
-        throw Exception(_W("Invalid conversion."));
     } break;
     }
     return ArrayOf();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

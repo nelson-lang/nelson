@@ -18,32 +18,45 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Data.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+bool
+ArrayOf::isDoubleClass() const
+{
+    if (dp == nullptr) {
+        return false;
+    }
+    return (dp->dataClass == NLS_DOUBLE || dp->dataClass == NLS_DCOMPLEX);
+}
 //=============================================================================
 /**
  * Returns TRUE if it is a double type (not ndarray, not sparse)
  */
 //=============================================================================
-const bool
-ArrayOf::isDoubleSparseType() const
+bool
+ArrayOf::isDoubleType(bool realOnly) const
 {
-    return (dp->dataClass == NLS_DOUBLE)
-        || (dp->dataClass == NLS_DCOMPLEX) && (dp->sparse) && is2D();
+    bool res = false;
+    if (realOnly) {
+        res = (dp->dataClass == NLS_DOUBLE) && (!dp->sparse) && is2D();
+    } else {
+        res = (isDoubleClass() && (!dp->sparse) && is2D());
+    }
+    return res;
 }
 //=============================================================================
-const bool
-ArrayOf::isDoubleType() const
+bool
+ArrayOf::isNdArrayDoubleType(bool realOnly) const
 {
-    return (dp->dataClass == NLS_DOUBLE)
-        || (dp->dataClass == NLS_DCOMPLEX) && (!dp->sparse) && is2D();
-}
-//=============================================================================
-const bool
-ArrayOf::isNdArrayDoubleType() const
-{
-    return (dp->dataClass == NLS_DOUBLE)
-        || (dp->dataClass == NLS_DCOMPLEX) && (!dp->sparse) && !is2D();
+    bool res = false;
+    if (realOnly) {
+        res = (dp->dataClass == NLS_DOUBLE) && (!dp->sparse) && !is2D();
+    } else {
+        res = (isDoubleClass() && (!dp->sparse) && !is2D());
+    }
+    return res;
 }
 //=============================================================================
 ArrayOf
@@ -57,7 +70,7 @@ ArrayOf::doubleConstructor(double aval)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::doubleVectorConstructor(int len)
+ArrayOf::doubleVectorConstructor(indexType len)
 {
     Dimensions dim;
     dim.makeScalar();
@@ -86,10 +99,11 @@ ArrayOf::dcomplexConstructor(double aval, double bval)
 }
 //=============================================================================
 double
-ArrayOf::getContentAsDoubleScalar()
+ArrayOf::getContentAsDoubleScalar(bool arrayAsScalar)
 {
-    if (isComplex() || isReferenceType() || isString() || isSparse() || !isScalar()) {
-        throw Exception(_W("Expected a real value scalar."));
+    if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
+        Error(_W("Expected a real value scalar."));
     }
     promoteType(NLS_DOUBLE);
     double* qp = (double*)dp->getData();
@@ -97,10 +111,11 @@ ArrayOf::getContentAsDoubleScalar()
 }
 //=============================================================================
 doublecomplex
-ArrayOf::getContentAsDoubleComplexScalar()
+ArrayOf::getContentAsDoubleComplexScalar(bool arrayAsScalar)
 {
-    if (isReferenceType() || isString() || isSparse() || !isScalar()) {
-        throw Exception(_W("Expected a real valued scalar"));
+    if (isEmpty() || isReferenceType() || isCharacterArray() || isSparse()
+        || (!arrayAsScalar && !isScalar())) {
+        Error(_W("Expected a real valued scalar"));
     }
     promoteType(NLS_DCOMPLEX);
     double* qp = (double*)dp->getData();

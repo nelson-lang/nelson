@@ -35,7 +35,7 @@ DeleteLibPointerObject(ArrayOf A)
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
                     if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR) {
-                        throw Exception(_W("libpointer handle expected."));
+                        Error(_W("libpointer handle expected."));
                     }
                     LibPointerObject* obj = (LibPointerObject*)hlObj;
                     delete obj;
@@ -44,7 +44,7 @@ DeleteLibPointerObject(ArrayOf A)
                 }
             }
         } else {
-            throw Exception(_W("libpointer valid handle expected."));
+            Error(_W("libpointer valid handle expected."));
         }
     }
     return res;

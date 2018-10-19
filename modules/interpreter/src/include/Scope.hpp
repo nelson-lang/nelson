@@ -42,14 +42,14 @@
  * A Scope is a combination of a variable hashtable and a function hashtable.
  */
 //=============================================================================
+#include <string>
+#include <vector>
 #include "ArrayOf.hpp"
 #include "FunctionDef.hpp"
-#include "LocalFunctionsTable.hpp"
-#include "SymbolTable.hpp"
 #include "VariablesTable.hpp"
+#include "SymbolTable.hpp"
+#include "LocalFunctionsTable.hpp"
 #include "nlsInterpreter_exports.h"
-#include <boost/container/vector.hpp>
-#include <string>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -107,7 +107,7 @@ private:
      * The location ID stack - stores information on where in the source
      * file the current token resides.
      */
-    boost::container::vector<int> IDstack;
+    std::vector<int> IDstack;
 
     int nargin = 0;
     int nargout = 0;
@@ -263,5 +263,5 @@ public:
     isVariable(std::string varname);
 };
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

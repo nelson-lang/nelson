@@ -28,17 +28,17 @@ Nelson::OsFunctionsGateway::searchenvBuiltin(Evaluator* eval, int nLhs, const Ar
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring varEnvName = L"";
     std::wstring fileToSearch = L"";
-    if (argIn[0].isSingleString()) {
+    if (argIn[0].isRowVectorCharacterArray()) {
         fileToSearch = argIn[0].getContentAsWideString();
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     if (argIn.size() == 2) {
         varEnvName = argIn[1].getContentAsWideString();

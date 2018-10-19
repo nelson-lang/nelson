@@ -18,9 +18,9 @@
 //=============================================================================
 #include "logmBuiltin.hpp"
 #include "Error.hpp"
-#include "LogMatrix.hpp"
 #include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
+#include "LogMatrix.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,19 +29,24 @@ Nelson::LinearAlgebraGateway::logmBuiltin(Evaluator* eval, int nLhs, const Array
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "logm", bSuccess);
+    }
     if (!bSuccess) {
-        if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
-            || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
-            || argIn[0].isLogical() || argIn[0].isString() || argIn[0].isIntegerType()) {
-            OverloadRequired(eval, argIn, Nelson::FUNCTION);
+        if (argIn[0].isReferenceType() || argIn[0].isSparse() || argIn[0].isLogical()
+            || argIn[0].isCharacterArray() || argIn[0].isIntegerType()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "logm", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+            OverloadRequired(eval, argIn, Overload::OverloadClass::FUNCTION);
         }
         retval.push_back(LogMatrix(argIn[0]));
     }

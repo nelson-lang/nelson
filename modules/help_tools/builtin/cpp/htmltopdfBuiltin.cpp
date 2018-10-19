@@ -31,18 +31,18 @@ Nelson::HelpToolsGateway::htmltopdfBuiltin(Evaluator* eval, int nLhs, const Arra
 {
     ArrayOfVector retval;
     if (argIn.size() != 2) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf arg1 = argIn[0];
     ArrayOf arg2 = argIn[1];
-    if (arg1.isSingleString() && arg2.isSingleString()) {
+    if (arg1.isRowVectorCharacterArray() && arg2.isRowVectorCharacterArray()) {
         std::wstring param1 = arg1.getContentAsWideString();
         std::wstring param2 = arg2.getContentAsWideString();
         if (!IsFile(param1)) {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+            Error(ERROR_WRONG_ARGUMENT_1_VALUE);
         }
         NELSON_ENGINE_MODE _mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
         switch (_mode) {
@@ -60,19 +60,19 @@ Nelson::HelpToolsGateway::htmltopdfBuiltin(Evaluator* eval, int nLhs, const Arra
             pdffile.open(pdfname.generic_string());
 #endif
             if (!pdffile.is_open()) {
-                Error(eval, _W("Cannot not open destination file."));
+                Error(_W("Cannot not open destination file."));
             }
             pdffile.close();
             if (!HtmlFileToPdfFile(param1, param2)) {
-                Error(eval, _W("pdf file not generated."));
+                Error(_W("pdf file not generated."));
             }
         } break;
         default: {
-            Error(eval, _W("pdf cannot generated in this engine mode."));
+            Error(_W("pdf cannot generated in this engine mode."));
         } break;
         }
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENTS_TYPE);
+        Error(ERROR_WRONG_ARGUMENTS_TYPE);
     }
     return retval;
 }

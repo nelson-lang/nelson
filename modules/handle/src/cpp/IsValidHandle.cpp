@@ -51,7 +51,7 @@ IsValidHandle(Evaluator* eval, ArrayOf A)
             res = ArrayOf::emptyConstructor(dimsA);
         }
     } else {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
     }
     return res;
 }

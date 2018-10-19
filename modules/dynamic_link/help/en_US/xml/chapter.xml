@@ -4,7 +4,9 @@
 	<language>en_US</language>
 	<module_name>dynamic_link</module_name>
 	<chapter>dynamic link</chapter>
-	<chapter_description>dynamic link functions</chapter_description>
+	<chapter_description>
+By default, Nelson does not try to detect a C/C++ compiler on Windows. Do not forget to run 'configuremsvc' or 'configuremingw' once.
+  	</chapter_description>
 	
 </xmldoc>
 

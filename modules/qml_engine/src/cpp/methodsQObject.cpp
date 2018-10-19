@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "methodsQObject.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 #include "HandleManager.hpp"
 #include "QmlHandleObject.hpp"
 #include "ToCellString.hpp"
@@ -31,7 +31,7 @@ methodsQObject(QmlHandleObject* qmlhandleobj, stringVector& methods)
     void* ptr = qmlhandleobj->getPointer();
     methods.clear();
     if (ptr == nullptr) {
-        throw Exception(_W("QObject valid handle expected."));
+        Error(_W("QObject valid handle expected."));
     }
     QObject* qobj = (QObject*)ptr;
     const QMetaObject* metaObject = qobj->metaObject();
@@ -54,7 +54,7 @@ methodsQObject(ArrayOf A)
 {
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
-        throw Exception(_W("QObject handle expected."));
+        Error(_W("QObject handle expected."));
     }
     QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
     stringVector methodsName;

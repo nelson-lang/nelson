@@ -37,6 +37,7 @@ IsDirectory(std::wstring str)
         bRes = boost::filesystem::is_directory(data_dir);
     } catch (const boost::filesystem::filesystem_error& e) {
         if (e.code() == boost::system::errc::permission_denied) {
+            // ONLY FOR DEBUG
         }
         bRes = false;
     }
@@ -52,7 +53,7 @@ splitpath(std::wstring& prefix, std::wstring& path, std::wstring& fname)
     for (size_t k = 0; k < prefix.size(); ++k) {
 #ifdef _MSC_VER
         if ((prefix[k] == DIR_SEPARATOR_OTHERS) || (prefix[k] == DIR_SEPARATOR_WINDOWS)) {
-            lastslash_pos = k;
+            lastslash_pos = (int)k;
         }
 #else
         if (prefix[k] == DIR_SEPARATOR_OTHERS) {
@@ -96,8 +97,8 @@ FileCompleter(std::wstring prefix)
 #endif
         } else {
             wchar_t ch = *path.rbegin();
-            if (ch == DIR_SEPARATOR_WINDOWS || ch == DIR_SEPARATOR_OTHERS) {
-            } else {
+            bool isSeparator = (ch == DIR_SEPARATOR_WINDOWS || ch == DIR_SEPARATOR_OTHERS);
+            if (!isSeparator) {
 #ifdef _MSC_VER
                 path.push_back(DIR_SEPARATOR_WINDOWS);
 #else
@@ -180,7 +181,7 @@ FileCompleter(std::wstring prefix)
                                 }
                             }
                         }
-                    } catch (boost::filesystem::filesystem_error) {
+                    } catch (const boost::filesystem::filesystem_error&) {
                     }
                 }
             }

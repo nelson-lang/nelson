@@ -28,21 +28,33 @@ Nelson::SparseGateway::fullBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "full", bSuccess);
+    }
     if (!bSuccess) {
         if (argIn[0].isReferenceType()) {
-            Error(eval, _W("Undefined function 'full' for input arguments."));
+            retval = OverloadFunction(eval, nLhs, argIn, "full", bSuccess);
+            if (bSuccess)
+                return retval;
+            Error(_W("Undefined function 'full' for input arguments."));
         }
         ArrayOf R(argIn[0]);
-        R.makeDense();
-        retval.push_back(R);
+        try {
+            R.makeDense();
+            retval.push_back(R);
+        } catch (const Exception&) {
+            retval = OverloadFunction(eval, nLhs, argIn, "full", bSuccess);
+            if (bSuccess)
+                return retval;
+            Error(_W("Undefined function 'full' for input arguments."));
+        }
     }
     return retval;
 }

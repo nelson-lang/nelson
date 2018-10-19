@@ -27,14 +27,14 @@ Nelson::FilesFoldersGateway::pwdBuiltin(Evaluator* eval, int nLhs, const ArrayOf
 {
     ArrayOfVector retval;
     if (argIn.size() != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring pwd = GetCurrentDirectory();
     if (pwd == L"") {
-        Error(eval, _W("Impossible to get current directory."));
+        Error(_W("Impossible to get current directory."));
     }
     if (nLhs == 0) {
         Interface* io = eval->getInterface();
@@ -42,7 +42,7 @@ Nelson::FilesFoldersGateway::pwdBuiltin(Evaluator* eval, int nLhs, const ArrayOf
             io->outputMessage(pwd);
         }
     } else {
-        retval.push_back(ArrayOf::stringConstructor(pwd));
+        retval.push_back(ArrayOf::characterArrayConstructor(pwd));
     }
     return retval;
 }

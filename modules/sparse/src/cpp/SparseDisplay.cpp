@@ -26,16 +26,16 @@
 #include <cstdio>
 #include <iomanip>
 #include <iostream>
-
+#include "NelsonConfiguration.hpp"
 #include "IEEEFP.hpp"
 #include "Interface.hpp"
 #include "SparseType.hpp"
+//=============================================================================
 using boost::io::group;
 using std::hex;
 using std::setfill;
 using std::setw;
 using std::showbase;
-
 //=============================================================================
 #ifdef _MSC_VER
 #define snprintf _snprintf
@@ -143,30 +143,31 @@ SparseDoubleDisplay(Evaluator* eval, ArrayOf a)
         size_t cols = a.getDimensionLength(1);
         if ((rows == 0) || (cols == 0)) {
             std::string msg
-                = str(boost::format("\tAll zero sparse: %d-by-%d\n") % (int)rows % (int)cols);
+                = str(boost::format(_("\tAll zero sparse: %d-by-%d\n")) % (int)rows % (int)cols);
             io->outputMessage(msg);
         } else {
             if (a.getNonzeros() == 0) {
-                std::string msg
-                    = str(boost::format("\tAll zero sparse: %d-by-%d\n") % (int)rows % (int)cols);
+                std::string msg = str(boost::format(_("\tAll zero sparse: %lu-by-%lu\n"))
+                    % (long long)rows % (long long)cols);
                 io->outputMessage(msg);
             } else {
                 Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
                     = (Eigen::SparseMatrix<double, 0, signedIndexType>*)a.getSparseDataPointer();
                 for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-                    if (eval->GetInterruptPending()) {
+                    if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                         break;
                     }
                     for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(
                              *spMat, k);
                          it; ++it) {
-                        if (eval->GetInterruptPending()) {
+                        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                             break;
                         }
-                        std::string strNumber
-                            = printNumber(it.value(), eval->getCurrentOutputFormatDisplay());
-                        std::string msg = str(boost::format("\t(%d,%d)\t%s\n") % (it.row() + 1)
-                            % (it.col() + 1) % strNumber.c_str());
+                        std::string strNumber = printNumber(it.value(),
+                            NelsonConfiguration::getInstance()->getOutputFormatDisplay());
+                        std::string msg
+                            = str(boost::format("\t(%lu,%lu)\t%s\n") % (long long)(it.row() + 1)
+                                % (long long)(it.col() + 1) % strNumber.c_str());
                         io->outputMessage(msg);
                     }
                 }
@@ -186,31 +187,32 @@ SparseDoubleComplexDisplay(Evaluator* eval, ArrayOf a)
         size_t cols = a.getDimensionLength(1);
         if (rows == 0 || cols == 0) {
             std::string msg
-                = str(boost::format("\tAll zero sparse: %d-by-%d\n") % (int)rows % (int)cols);
+                = str(boost::format(_("\tAll zero sparse: %d-by-%d\n")) % (int)rows % (int)cols);
             io->outputMessage(msg);
         } else {
             if (a.getNonzeros() == 0) {
-                std::string msg
-                    = str(boost::format("\tAll zero sparse: %d-by-%d\n") % (int)rows % (int)cols);
+                std::string msg = str(boost::format(_("\tAll zero sparse: %lu-by-%lu\n"))
+                    % (long long)rows % (long long)cols);
                 io->outputMessage(msg);
             } else {
                 Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMat
                     = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)
                           a.getSparseDataPointer();
                 for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-                    if (eval->GetInterruptPending()) {
+                    if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                         break;
                     }
                     for (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator it(
                              *spMat, k);
                          it; ++it) {
-                        if (eval->GetInterruptPending()) {
+                        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                             break;
                         }
                         std::string strNumber = printNumber(it.value().real(), it.value().imag(),
-                            eval->getCurrentOutputFormatDisplay());
-                        std::string msg = str(boost::format("\t(%d,%d)\t%s\n") % (it.row() + 1)
-                            % (it.col() + 1) % strNumber.c_str());
+                            NelsonConfiguration::getInstance()->getOutputFormatDisplay());
+                        std::string msg
+                            = str(boost::format("\t(%lu,%lu)\t%s\n") % (long long)(it.row() + 1)
+                                % (long long)(it.col() + 1) % strNumber.c_str());
                         io->outputMessage(msg);
                     }
                 }
@@ -230,33 +232,33 @@ SparseLogicalDisplay(Evaluator* eval, ArrayOf a)
         size_t cols = a.getDimensionLength(1);
         if (rows == 0 || cols == 0) {
             std::string msg
-                = str(boost::format("\tAll zero sparse: %d-by-%d\n") % (int)rows % (int)cols);
+                = str(boost::format(_("\tAll zero sparse: %d-by-%d\n")) % (int)rows % (int)cols);
             io->outputMessage(msg);
         } else {
             if (a.getNonzeros() == 0) {
-                std::string msg
-                    = str(boost::format("\tAll zero sparse: %d-by-%d\n") % (int)rows % (int)cols);
+                std::string msg = str(boost::format(_("\tAll zero sparse: %lu-by-%lu\n"))
+                    % (long long)rows % (long long)cols);
                 io->outputMessage(msg);
             } else {
                 Eigen::SparseMatrix<logical, 0, signedIndexType>* spMat
                     = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)a.getSparseDataPointer();
                 for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-                    if (eval->GetInterruptPending()) {
+                    if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                         break;
                     }
                     for (Eigen::SparseMatrix<logical, 0, signedIndexType>::InnerIterator it(
                              *spMat, k);
                          it; ++it) {
-                        if (eval->GetInterruptPending()) {
+                        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
                             break;
                         }
                         std::string msg = "";
                         if (it.value()) {
-                            msg = str(boost::format("\t(%d,%d) true\n") % (it.row() + 1)
-                                % (it.col() + 1));
+                            msg = str(boost::format("\t(%lu,%lu) true\n")
+                                % (long long)(it.row() + 1) % (long long)(it.col() + 1));
                         } else {
-                            msg = str(boost::format("\t(%d,%d) false\n") % (it.row() + 1)
-                                % (it.col() + 1));
+                            msg = str(boost::format("\t(%lu,%lu) false\n")
+                                % (long long)(it.row() + 1) % (long long)(it.col() + 1));
                         }
                         io->outputMessage(msg);
                     }
@@ -287,5 +289,5 @@ SparseDisplay(Evaluator* eval, ArrayOf a)
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

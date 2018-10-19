@@ -136,7 +136,7 @@ ProgramOptions::~ProgramOptions()
 }
 //=============================================================================
 bool
-ProgramOptions::parseOptionWithValues(Option op, wstringVector& values)
+ProgramOptions::parseOptionWithValues(Option& op, wstringVector& values)
 {
     if (_args.size() > 2) {
         if (op.isSameFieldname(_args[1])) {
@@ -150,7 +150,7 @@ ProgramOptions::parseOptionWithValues(Option op, wstringVector& values)
 }
 //=============================================================================
 bool
-ProgramOptions::parseOptionWithValue(Option op, bool& bFind, std::wstring& value)
+ProgramOptions::parseOptionWithValue(Option& op, bool& bFind, std::wstring& value)
 {
     if (op.withFieldValue()) {
         size_t nbElements = 0;
@@ -185,7 +185,7 @@ ProgramOptions::parseOptionWithValue(Option op, bool& bFind, std::wstring& value
 }
 //=============================================================================
 bool
-ProgramOptions::parseOption(Option op, bool& bFind)
+ProgramOptions::parseOption(Option& op, bool& bFind)
 {
     size_t nbElements = 0;
     if (!op.withFieldValue()) {

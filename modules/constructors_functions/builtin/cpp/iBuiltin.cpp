@@ -25,10 +25,10 @@ ArrayOfVector
 Nelson::ConstructorsGateway::iBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOfVector retval;
     retval.push_back(ArrayOf::dcomplexConstructor(0, 1));

@@ -22,7 +22,7 @@
     <ProjectGuid>{C87973DD-F66C-4F35-B875-5E0A0A47B3E7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsElementary_functions</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -94,7 +94,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSELEMENTARY_FUNCTIONS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -103,6 +103,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/openblas/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -112,7 +113,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSELEMENTARY_FUNCTIONS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -121,6 +122,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/openblas/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -132,7 +134,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSELEMENTARY_FUNCTIONS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -143,6 +145,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/openblas/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -154,7 +157,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSELEMENTARY_FUNCTIONS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4290;4251</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -165,12 +168,17 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/openblas/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\AbsoluteValue.cpp" />
+    <ClCompile Include="..\cpp\Addition.cpp" />
+    <ClCompile Include="..\cpp\All.cpp" />
     <ClCompile Include="..\cpp\And.cpp" />
+    <ClCompile Include="..\cpp\Any.cpp" />
     <ClCompile Include="..\cpp\Cast.cpp" />
+    <ClCompile Include="..\cpp\Colon.cpp" />
     <ClCompile Include="..\cpp\ComplexConjugate.cpp" />
     <ClCompile Include="..\cpp\ComplexConstructor.cpp" />
     <ClCompile Include="..\cpp\ComplexTranspose.cpp" />
@@ -178,36 +186,58 @@
     <ClCompile Include="..\cpp\DotLeftDivide.cpp" />
     <ClCompile Include="..\cpp\DotPower.cpp" />
     <ClCompile Include="..\cpp\DotRightDivide.cpp" />
-    <ClCompile Include="..\cpp\DotTranspose.cpp" />
     <ClCompile Include="..\cpp\Equals.cpp" />
-    <ClCompile Include="..\cpp\Gamma.cpp" />
+    <ClCompile Include="..\cpp\Exponential.cpp" />
     <ClCompile Include="..\cpp\GreaterEquals.cpp" />
     <ClCompile Include="..\cpp\GreaterThan.cpp" />
+    <ClCompile Include="..\cpp\HorzCat.cpp" />
     <ClCompile Include="..\cpp\ImagPart.cpp" />
     <ClCompile Include="..\cpp\IsApprox.cpp" />
+    <ClCompile Include="..\cpp\IsEqual.cpp" />
     <ClCompile Include="..\cpp\IsFinite.cpp" />
     <ClCompile Include="..\cpp\IsInf.cpp" />
+    <ClCompile Include="..\cpp\IsMissing.cpp" />
     <ClCompile Include="..\cpp\IsNan.cpp" />
     <ClCompile Include="..\cpp\LeftDivide.cpp" />
     <ClCompile Include="..\cpp\LessEquals.cpp" />
     <ClCompile Include="..\cpp\LessThan.cpp" />
+    <ClCompile Include="..\cpp\MatrixMultiplication.cpp" />
     <ClCompile Include="..\cpp\Modulo.cpp" />
+    <ClCompile Include="..\cpp\NaturalLogarithm.cpp" />
     <ClCompile Include="..\cpp\Negate.cpp" />
+    <ClCompile Include="..\cpp\Norm.cpp">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
     <ClCompile Include="..\cpp\Not.cpp" />
     <ClCompile Include="..\cpp\NotEquals.cpp" />
     <ClCompile Include="..\cpp\Or.cpp" />
-    <ClCompile Include="..\cpp\Power.cpp" />
     <ClCompile Include="..\cpp\Prod.cpp" />
     <ClCompile Include="..\cpp\RealPart.cpp" />
+    <ClCompile Include="..\cpp\RelationalOperator.cpp" />
     <ClCompile Include="..\cpp\Remainder.cpp" />
     <ClCompile Include="..\cpp\RightDivide.cpp" />
+    <ClCompile Include="..\cpp\Sqrt.cpp" />
+    <ClCompile Include="..\cpp\StringArrayAddition.cpp" />
+    <ClCompile Include="..\cpp\Subtraction.cpp" />
+    <ClCompile Include="..\cpp\ElementWiseMultiplication.cpp" />
     <ClCompile Include="..\cpp\Transpose.cpp" />
     <ClCompile Include="..\cpp\TruncateFunctions.cpp" />
+    <ClCompile Include="..\cpp\UnaryMinus.cpp" />
+    <ClCompile Include="..\cpp\UnaryPlus.cpp" />
+    <ClCompile Include="..\cpp\VertCat.cpp" />
+    <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AbsoluteValue.hpp" />
+    <ClInclude Include="..\include\Addition.hpp" />
+    <ClInclude Include="..\include\All.hpp" />
     <ClInclude Include="..\include\And.hpp" />
+    <ClInclude Include="..\include\Any.hpp" />
     <ClInclude Include="..\include\Cast.hpp" />
+    <ClInclude Include="..\include\Colon.hpp" />
     <ClInclude Include="..\include\ComplexConjugate.hpp" />
     <ClInclude Include="..\include\ComplexConstructor.hpp" />
     <ClInclude Include="..\include\ComplexTranspose.hpp" />
@@ -215,32 +245,44 @@
     <ClInclude Include="..\include\DotLeftDivide.hpp" />
     <ClInclude Include="..\include\DotPower.hpp" />
     <ClInclude Include="..\include\DotRightDivide.hpp" />
-    <ClInclude Include="..\include\DotTranspose.hpp" />
     <ClInclude Include="..\include\Equals.hpp" />
-    <ClInclude Include="..\include\Gamma.hpp" />
+    <ClInclude Include="..\include\Exponential.hpp" />
     <ClInclude Include="..\include\GreaterEquals.hpp" />
     <ClInclude Include="..\include\GreaterThan.hpp" />
+    <ClInclude Include="..\include\HorzCat.hpp" />
     <ClInclude Include="..\include\ImagPart.hpp" />
     <ClInclude Include="..\include\IsApprox.hpp" />
+    <ClInclude Include="..\include\IsEqual.hpp" />
     <ClInclude Include="..\include\IsFinite.hpp" />
     <ClInclude Include="..\include\IsInf.hpp" />
+    <ClInclude Include="..\include\IsMissing.hpp" />
     <ClInclude Include="..\include\IsNaN.hpp" />
     <ClInclude Include="..\include\LeftDivide.hpp" />
     <ClInclude Include="..\include\LessEquals.hpp" />
     <ClInclude Include="..\include\LessThan.hpp" />
+    <ClInclude Include="..\include\MatrixMultiplication.hpp" />
     <ClInclude Include="..\include\Modulo.hpp" />
+    <ClInclude Include="..\include\NaturalLogarithm.hpp" />
     <ClInclude Include="..\include\Negate.hpp" />
     <ClInclude Include="..\include\nlsElementary_functions_exports.h" />
+    <ClInclude Include="..\include\Norm.hpp" />
     <ClInclude Include="..\include\Not.hpp" />
     <ClInclude Include="..\include\NotEquals.hpp" />
     <ClInclude Include="..\include\Or.hpp" />
-    <ClInclude Include="..\include\Power.hpp" />
     <ClInclude Include="..\include\Prod.hpp" />
     <ClInclude Include="..\include\RealPart.hpp" />
+    <ClInclude Include="..\include\RelationOperator.hpp" />
     <ClInclude Include="..\include\Remainder.hpp" />
     <ClInclude Include="..\include\RightDivide.hpp" />
+    <ClInclude Include="..\include\Sqrt.hpp" />
+    <ClInclude Include="..\include\StringArrayAddition.hpp" />
+    <ClInclude Include="..\include\Subtraction.hpp" />
+    <ClInclude Include="..\include\ElementWiseMultiplication.hpp" />
     <ClInclude Include="..\include\Transpose.hpp" />
     <ClInclude Include="..\include\TruncateFunctions.hpp" />
+    <ClInclude Include="..\include\UnaryMinus.hpp" />
+    <ClInclude Include="..\include\UnaryPlus.hpp" />
+    <ClInclude Include="..\include\VertCat.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">

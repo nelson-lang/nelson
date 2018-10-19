@@ -19,14 +19,15 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Exception.hpp"
 #include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 /**
  * Element-wise power.  A .^ B
  */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-DotPower(ArrayOf A, ArrayOf B);
+DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

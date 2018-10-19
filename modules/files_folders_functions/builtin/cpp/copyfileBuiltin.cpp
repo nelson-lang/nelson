@@ -34,7 +34,7 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(Evaluator* eval, int nLhs, const Ar
             if ((arg3 == L"f") || (arg3 == L"F")) {
                 bForce = true;
             } else {
-                Error(eval, "'f' expected.");
+                Error("'f' expected.");
             }
         }
         bool bRes = false;
@@ -42,7 +42,7 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(Evaluator* eval, int nLhs, const Ar
         ArrayOf arg2 = argIn[1];
         std::wstring dest = arg2.getContentAsWideString();
         ArrayOf arg1 = argIn[0];
-        if (arg1.isSingleString()) {
+        if (arg1.isRowVectorCharacterArray()) {
             std::wstring src = arg1.getContentAsWideString();
             if (IsFile(src)) {
                 bRes = CopyFile(src, dest, bForce, errorMessage);
@@ -53,23 +53,23 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(Evaluator* eval, int nLhs, const Ar
             wstringVector src = arg1.getContentAsWideStringVector(true);
             bRes = CopyFiles(src, dest, bForce, errorMessage);
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
         }
         if (nLhs == 0) {
             if (!bRes) {
-                Error(eval, errorMessage);
+                Error(errorMessage);
             }
         } else {
             retval.push_back(ArrayOf::logicalConstructor(bRes));
             if (nLhs > 1) {
-                retval.push_back(ArrayOf::stringConstructor(errorMessage));
+                retval.push_back(ArrayOf::characterArrayConstructor(errorMessage));
             }
             if (nLhs > 2) {
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         }
     } else {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

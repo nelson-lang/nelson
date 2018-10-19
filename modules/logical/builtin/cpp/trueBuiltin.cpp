@@ -29,7 +29,7 @@ Nelson::LogicalGateway::trueBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     bool bIsSparse = false;
     ArrayOfVector retval;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 0) {
         Dimensions dim(1, 1);
@@ -39,12 +39,12 @@ Nelson::LogicalGateway::trueBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         indexType idxMax = argIn.size();
         if (((double)(argIn.size()) - 2.) >= 0.) {
             indexType pos = argIn.size() - 2;
-            if (argIn[pos].isSingleString()) {
+            if (argIn[pos].isRowVectorCharacterArray()) {
                 std::wstring arg = argIn[pos].getContentAsWideString();
                 if (arg.compare(L"like") == 0) {
                     ArrayOf arg = argIn[pos + 1];
                     if (arg.getDataClass() != NLS_LOGICAL) {
-                        Error(eval, _W("Input following \'like\' is not a logical array."));
+                        Error(_W("Input following \'like\' is not a logical array."));
                     }
                     bIsSparse = arg.isSparse();
                     idxMax = argIn.size() - 2;
@@ -53,7 +53,7 @@ Nelson::LogicalGateway::trueBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                         dim[1] = 1;
                     }
                 } else {
-                    Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_VALUE.c_str(), pos + 1));
+                    Error(StringFormat(ERROR_WRONG_ARGUMENT_X_VALUE.c_str(), pos + 1));
                 }
             }
         }

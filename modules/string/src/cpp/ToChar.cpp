@@ -18,12 +18,14 @@
 //=============================================================================
 #include "ToChar.hpp"
 #include "IEEEFP.hpp"
-#include "VertCatString.hpp"
+#include "IsCellOfStrings.hpp"
+#include "VertCat.hpp"
 #include <boost/container/vector.hpp>
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 static ArrayOf
-ArrayOfDoubleToChar(ArrayOf A)
+ArrayOfDoubleToChar(const ArrayOf& A)
 {
     Dimensions dimsA = A.getDimensions();
     std::wstring res;
@@ -51,26 +53,28 @@ ArrayOfDoubleToChar(ArrayOf A)
                 if (v <= 0) {
                     res.push_back((charType)0);
                 } else if (IsInfinite(v)) {
-                    if (v < 0) {
-                        res.push_back((charType)0);
-                    } else {
-                        res.push_back((charType)65535);
-                    }
+                    res.push_back((charType)65535);
                 }
             }
         }
     }
-    ArrayOf result = ArrayOf::stringConstructor(res);
+    ArrayOf result = ArrayOf::characterArrayConstructor(res);
     result.reshape(dimsA);
     return result;
 }
 //=============================================================================
 ArrayOf
-ToChar(ArrayOf A, ArrayOf B)
+ToChar(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     ArrayOf res;
-    ArrayOf charA = ToChar(A);
-    ArrayOf charB = ToChar(B);
+    ArrayOf charA = ToChar(A, needToOverload);
+    if (needToOverload) {
+        return res;
+    }
+    ArrayOf charB = ToChar(B, needToOverload);
+    if (needToOverload) {
+        return res;
+    }
     Dimensions dimsA = charA.getDimensions();
     Dimensions dimsB = charB.getDimensions();
     wstringVector vA = charA.getContentAsWideStringVector();
@@ -108,77 +112,49 @@ ToChar(ArrayOf A, ArrayOf B)
             }
         }
     }
-    res = ArrayOf::stringConstructor(vA[0]);
+    res = ArrayOf::characterArrayConstructor(vA[0]);
+    bool bSuccess;
     for (size_t i = 1; i < vA.size(); i++) {
-        ArrayOf B = ArrayOf::stringConstructor(vA[i]);
-        res = VertCatString(res, B);
+        ArrayOf BA = ArrayOf::characterArrayConstructor(vA[i]);
+        res = VertCat(res, BA, true, bSuccess);
     }
     for (size_t i = 0; i < vB.size(); i++) {
-        ArrayOf B = ArrayOf::stringConstructor(vB[i]);
-        res = VertCatString(res, B);
+        ArrayOf BB = ArrayOf::characterArrayConstructor(vB[i]);
+        res = VertCat(res, BB, true, bSuccess);
     }
     return res;
 }
 //=============================================================================
 ArrayOf
-ToChar(ArrayOf A)
+ToChar(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
-    if (A.isSparse()) {
-        throw Exception(_W("Attempt to convert to unimplemented sparse type."));
-    }
+    needToOverload = false;
     switch (A.getDataClass()) {
-    case NLS_HANDLE: {
-        throw Exception(_W("Conversion to char from handle is not possible."));
-    } break;
+    case NLS_STRING_ARRAY:
     case NLS_CELL_ARRAY: {
-        bool isCellOfString = true;
+        ArrayOfVector V;
         ArrayOf* arg = (ArrayOf*)(A.getDataPointer());
         for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-            if (!arg[k].isString()) {
-                isCellOfString = false;
-                break;
+            ArrayOf val = ToChar(arg[k], needToOverload);
+            if (needToOverload) {
+                return res;
             }
+            V.push_back(val);
         }
-        if (isCellOfString) {
-            ArrayOfVector V;
-            ArrayOf* arg = (ArrayOf*)(A.getDataPointer());
-            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-                V.push_back(ToChar(arg[k]));
+        res = V[0];
+        for (indexType k = 1; k < V.size(); k++) {
+            ArrayOf val = ToChar(res, V[k], needToOverload);
+            if (needToOverload) {
+                return res;
             }
-            res = V[0];
-            for (indexType k = 1; k < V.size(); k++) {
-                res = ToChar(res, V[k]);
-            }
-        } else {
-            throw Exception(
-                _W("Conversion to char from cell is possible only with cell of strings."));
+            res = val;
         }
-    } break;
-    case NLS_STRUCT_ARRAY: {
-        if (A.getStructType() != "struct") {
-            throw Exception(_("Undefined function 'char' for input arguments of type") + " '"
-                + A.getStructType() + "'.");
-        } else {
-            throw Exception(_W("Conversion to char from struct is not possible."));
-        }
-    } break;
-    case NLS_LOGICAL: {
-        throw Exception(_W("Conversion to char from logical is not possible."));
-    } break;
-    case NLS_SCOMPLEX: {
-        throw Exception(_W("Conversion to char from complex is not possible."));
     } break;
     case NLS_CHAR: {
-        if (A.isSparse()) {
-            throw Exception(_W("Attempt to convert to unimplemented sparse type."));
-        } else {
-            ArrayOf result = A;
-            return result;
-        }
-    } break;
-    case NLS_DCOMPLEX: {
-        throw Exception(_W("Conversion to char from complex is not possible."));
+        ArrayOf R(A);
+        R.ensureSingleOwner();
+        return R;
     } break;
     case NLS_UINT8:
     case NLS_INT8:
@@ -190,17 +166,18 @@ ToChar(ArrayOf A)
     case NLS_INT64:
     case NLS_SINGLE:
     case NLS_DOUBLE: {
-        A.promoteType(NLS_DOUBLE);
-        res = ArrayOfDoubleToChar(A);
+        ArrayOf AA = A;
+        AA.promoteType(NLS_DOUBLE);
+        res = ArrayOfDoubleToChar(AA);
     } break;
+    case NLS_SCOMPLEX:
+    case NLS_DCOMPLEX:
     default: {
-        throw Exception(_W("Invalid conversion."));
+        needToOverload = true;
     } break;
     }
     return res;
 }
-//=============================================================================
-
 //=============================================================================
 static std::wstring
 ToChar(wstringVector V, boost::container::vector<Dimensions> dimsVector, Dimensions& dims)
@@ -216,24 +193,12 @@ ToChar(wstringVector V, boost::container::vector<Dimensions> dimsVector, Dimensi
         dims = dimsVector[0];
         return V[0];
     } else {
-        /*
-        for (size_t k = 0; k < V.size(); k++)
-        {
-            size_t newLen = lenMax - dimsVector[k].getColumns();
-            if (newLen > 0)
-            {
-                for (size_t q = 0; q < newLen; q++)
-                {
-                    V[k] = V[k] + std::wstring(L" ");
-                }
-            }
-        }
-        */
-        ArrayOf resAsArrayOf = ArrayOf::stringConstructor(V[0]);
+        ArrayOf resAsArrayOf = ArrayOf::characterArrayConstructor(V[0]);
         resAsArrayOf.reshape(dimsVector[0]);
+        bool bSuccess;
         for (size_t i = 1; i < V.size(); i++) {
-            ArrayOf B = ArrayOf::stringConstructor(V[i]);
-            B.reshape(dimsVector[i]), resAsArrayOf = VertCatString(resAsArrayOf, B);
+            ArrayOf B = ArrayOf::characterArrayConstructor(V[i]);
+            B.reshape(dimsVector[i]), resAsArrayOf = VertCat(resAsArrayOf, B, true, bSuccess);
         }
         res = resAsArrayOf.getContentAsArrayOfCharacters();
         dims[0] = resAsArrayOf.getDimensions().getRows();
@@ -242,5 +207,5 @@ ToChar(wstringVector V, boost::container::vector<Dimensions> dimsVector, Dimensi
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

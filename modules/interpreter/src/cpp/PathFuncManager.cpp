@@ -16,20 +16,24 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <errno.h>
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <boost/foreach.hpp>
+#include <algorithm>
 #include "PathFuncManager.hpp"
-#include "AstManager.hpp"
-#include "GetVariableEnvironment.hpp"
+#include "characters_encoding.hpp"
 #include "MacroFunctionDef.hpp"
 #include "ParserInterface.hpp"
-#include "characters_encoding.hpp"
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/path.hpp>
-#include <boost/foreach.hpp>
-#include <boost/property_tree/json_parser.hpp>
-#include <boost/property_tree/ptree.hpp>
-#include <errno.h>
+#include "AstManager.hpp"
+#include "GetVariableEnvironment.hpp"
+#include "OverloadCache.hpp"
+#include "Error.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -53,6 +57,14 @@ PathFuncManager::PathFuncManager()
 {
     _userPath = nullptr;
     userpathCompute();
+}
+//=============================================================================
+PathFuncManager::~PathFuncManager()
+{
+    if (_userPath) {
+        delete _userPath;
+        _userPath = nullptr;
+    }
 }
 //=============================================================================
 PathFuncManager*
@@ -252,7 +264,7 @@ PathFuncManager::addPath(const std::wstring path, bool begin)
     PathFunc* pf;
     try {
         pf = new PathFunc(path);
-    } catch (std::bad_alloc) {
+    } catch (const std::bad_alloc&) {
         pf = nullptr;
     }
     if (pf) {
@@ -319,7 +331,9 @@ bool
 PathFuncManager::setUserPath(const std::wstring path, bool saveToFile)
 {
     clearUserPath();
-    _userPath = new PathFunc(path);
+    if (_userPath == nullptr) {
+        _userPath = new PathFunc(path);
+    }
     if (saveToFile) {
         saveUserPathToFile();
     }
@@ -346,7 +360,7 @@ PathFuncManager::resetUserPath()
     try {
         boost::filesystem::path p = userPathFile;
         boost::filesystem::remove(p);
-    } catch (boost::filesystem::filesystem_error const&) {
+    } catch (const boost::filesystem::filesystem_error&) {
     }
     userpathCompute();
 }
@@ -449,12 +463,12 @@ PathFuncManager::processFile(std::wstring nlf_filename)
         std::string msg2;
         snprintf(buff, sizeof(buff), _("Error opening file: %s").c_str(), strerror(errnum));
         msg2 = buff;
-        throw Exception(_W("Cannot open:") + L" " + nlf_filename + L"\n" + utf8_to_wstring(msg1)
-            + L"\n" + utf8_to_wstring(msg2));
+        Error(_W("Cannot open:") + L" " + nlf_filename + L"\n" + utf8_to_wstring(msg1) + L"\n"
+            + utf8_to_wstring(msg2));
     }
     ParserState pstate = ParseError;
     resetAstBackupPosition();
-    boost::container::vector<ASTPtr> ptAst;
+    std::vector<ASTPtr> ptAst;
     try {
         pstate = parseFile(fr, wstring_to_utf8(nlf_filename).c_str());
         ptAst = getAstUsed();
@@ -468,18 +482,15 @@ PathFuncManager::processFile(std::wstring nlf_filename)
     if (pstate != FuncDef) {
         deleteAstVector(ptAst);
         resetAstBackupPosition();
-        throw Exception(
-            _W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
+        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
     }
     try {
         fptr = getParsedFunctionDef();
     } catch (const Exception&) {
-        throw Exception(
-            _W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
+        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
     }
     if (fptr == nullptr) {
-        throw Exception(
-            _W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
+        Error(_W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
     }
     fptr->ptAst = ptAst;
     resetAstBackupPosition();
@@ -489,7 +500,7 @@ PathFuncManager::processFile(std::wstring nlf_filename)
         std::string name = fptr->name;
         delete fptr;
         fptr = nullptr;
-        throw Exception(_("filename and function name are not same (") + name + _(" vs ")
+        Error(_("filename and function name are not same (") + name + _(" vs ")
             + functionNameFromFile + "). " + _("function not loaded."));
     }
     return fptr;
@@ -507,6 +518,7 @@ PathFuncManager::clearCache()
         }
     }
     cachedPathFunc.clear();
+    Overload::clearPreviousCachedFunctionDefinition();
 }
 //=============================================================================
 void
@@ -528,6 +540,7 @@ PathFuncManager::clearCache(stringVector exceptedFunctions)
         }
     }
     cachedPathFunc.clear();
+    Overload::clearPreviousCachedFunctionDefinition();
     cachedPathFunc = backup;
 }
 //=============================================================================
@@ -540,6 +553,7 @@ PathFuncManager::isDir(std::wstring pathname)
         bRes = boost::filesystem::exists(data_dir) && boost::filesystem::is_directory(data_dir);
     } catch (const boost::filesystem::filesystem_error& e) {
         if (e.code() == boost::system::errc::permission_denied) {
+            // ONLY FOR DEBUG
         }
         bRes = false;
     }
@@ -555,6 +569,7 @@ PathFuncManager::isFile(std::wstring filename)
         bRes = boost::filesystem::exists(data_dir) && !boost::filesystem::is_directory(data_dir);
     } catch (const boost::filesystem::filesystem_error& e) {
         if (e.code() == boost::system::errc::permission_denied) {
+            // ONLY FOR DEBUG
         }
         bRes = false;
     }
@@ -578,7 +593,7 @@ PathFuncManager::userpathCompute()
         std::wstring userPathFile;
         try {
             prefDir = getPreferencesPath();
-        } catch (Exception&) {
+        } catch (const Exception&) {
             prefDir = L"";
         }
         try {
@@ -666,7 +681,7 @@ PathFuncManager::loadUserPathFromFile()
             try {
                 boost::property_tree::read_json(is, pt);
                 preferedUserPath = utf8_to_wstring(pt.get<std::string>("userpath"));
-            } catch (boost::property_tree::json_parser::json_parser_error& je) {
+            } catch (const boost::property_tree::json_parser::json_parser_error& je) {
                 je.message();
             }
         }

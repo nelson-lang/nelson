@@ -28,12 +28,12 @@ Nelson::DynamicLinkGateway::isNullBuiltin(Evaluator* eval, int nLhs, const Array
 {
     ArrayOfVector retval;
     if (argIn.size() != 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "isNull", bSuccess);
     if (!bSuccess) {
-        OverloadRequired(eval, argIn, Nelson::UNARY);
+        OverloadRequired(eval, argIn, Overload::OverloadClass::UNARY);
     }
     return retval;
 }

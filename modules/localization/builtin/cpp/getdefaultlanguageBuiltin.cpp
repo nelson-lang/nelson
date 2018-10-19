@@ -29,12 +29,13 @@ Nelson::LocalizationGateway::getdefaultlanguageBuiltin(
     ArrayOfVector retval;
     wstringVector langs;
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 0) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(ArrayOf::stringConstructor(Localization::Instance()->getDefaultLanguage()));
+    retval.push_back(
+        ArrayOf::characterArrayConstructor(Localization::Instance()->getDefaultLanguage()));
     return retval;
 }
 //=============================================================================

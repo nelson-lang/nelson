@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>while</keyword>
+  <short_description>while loop.</short_description>
+
+  <syntax>
+    <syntax_item>while test_expression, statements, end</syntax_item>
+  </syntax>
+  
+
+  <description>
+  <p><b>while</b> loop executes a set of statements as long as a the test condition remains <b>true</b>.</p>
+</description>
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[
+i = 0;
+while lt(i, 10)
+  disp(i)
+  i = i + 1;
+end
+]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${interpreter}for">for</link>
+		</see_also_item>
+	</see_also>
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -29,13 +29,13 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     ArrayOfVector retval;
     int iExt = 0;
     if (argIn.size() > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (argIn.size() == 1) {
-        if (argIn[0].isSingleString()) {
+        if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring argstr = argIn[0].getContentAsWideString();
             if ((argstr.compare(L"fullpath") == 0) || (argstr.compare(L"fullpathext") == 0)) {
                 if (argstr.compare(L"fullpath") == 0) {
@@ -45,11 +45,11 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                     iExt = 2;
                 }
             } else {
-                Error(eval,
+                Error(
                     _W("Wrong value for #1 argument, \'fullpathext\' or  \'fullpath\' expected."));
             }
         } else {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
     }
     boost::filesystem::path path(GetCurrentNFilenameW(eval));
@@ -63,7 +63,7 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     case 2:
         break;
     }
-    retval.push_back(ArrayOf::stringConstructor(path.generic_wstring()));
+    retval.push_back(ArrayOf::characterArrayConstructor(path.generic_wstring()));
     return retval;
 }
 //=============================================================================

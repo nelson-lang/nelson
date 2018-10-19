@@ -50,7 +50,7 @@ function buttonname = questdlg(varargin)
       question = varargin{1};
       title = varargin{2};
       param3 = varargin{3};
-      if strcmp(param3, text1) | strcmp(param3, text2) | strcmp(param3, text3)
+      if strcmp(param3, text1) || strcmp(param3, text2) || strcmp(param3, text3)
         default = param3;
       else
         warning(_('default value is not an existing button name.')); 
@@ -77,7 +77,7 @@ function buttonname = questdlg(varargin)
       text1 = varargin{3};
       text2 = varargin{4};
       param5 = varargin{5};
-      if strcmp(param5, text1) | strcmp(param5, text2)
+      if strcmp(param5, text1) || strcmp(param5, text2)
         default = param5;
       else
         warning(_('default value is not an existing button name.')); 
