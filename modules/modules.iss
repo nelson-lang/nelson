@@ -52,6 +52,7 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\;
 #include "console/module.iss"
 #include "stream_manager/module.iss"
 #include "interpreter/module.iss"
+#include "debugger/module.iss"
 #include "time/module.iss"
 #include "random/module.iss"
 #include "history_manager/module.iss"

@@ -24,6 +24,7 @@ modules_list = [
 "localization";
 "i18n";
 "string";
+"debugger";
 "error_manager";
 "overload";
 "function_handle";
@@ -74,6 +75,7 @@ modules_help_list = [
 "interpreter";
 "core";
 "functions_manager";
+"debugger";
 "error_manager";
 "memory_manager";
 "modules_manager";

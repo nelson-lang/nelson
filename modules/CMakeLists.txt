@@ -30,6 +30,7 @@ stream_manager
 elementary_functions
 special_functions
 interpreter
+debugger
 double
 single
 sparse

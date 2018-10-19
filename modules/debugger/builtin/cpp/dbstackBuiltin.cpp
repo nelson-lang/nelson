@@ -147,7 +147,7 @@ dbstackPrint(Interface* io, stackTrace positions, bool withCompleteNames)
 }
 //=============================================================================
 ArrayOfVector
-Nelson::ErrorManagerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     int nbOmits = 1;
