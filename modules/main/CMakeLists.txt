@@ -118,8 +118,6 @@ add_custom_target(tests_minimal
 install(TARGETS nelson-adv-cli RUNTIME DESTINATION ${LIBRARY_OUTPUT})
 install(TARGETS nelson-cli RUNTIME DESTINATION ${LIBRARY_OUTPUT})
 install(TARGETS nelson-gui RUNTIME DESTINATION ${LIBRARY_OUTPUT})
-if (WITH_SIO_CLIENT)
 install(TARGETS nelson-sio-cli RUNTIME DESTINATION ${LIBRARY_OUTPUT})
-endif()
 #==============================================================================
 

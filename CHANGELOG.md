@@ -1,3 +1,6 @@
+## 0.2.10 (2018-10-20)
+
+
 Features:
 ---------
 
@@ -48,6 +51,8 @@ Features:
   * [#164](http://github.com/Nelson-numerical-software/nelson/issues/164): operators ==, ~=, <, >, >=, <= code factorized.
 
   * [#159](http://github.com/Nelson-numerical-software/nelson/issues/159): addpath must return an warning and not an error for an non existing path.
+
+  * [#157](http://github.com/Nelson-numerical-software/nelson/issues/157): fix warnings detected by LGTM.com.
 
   * [#156](http://github.com/Nelson-numerical-software/nelson/issues/156): Moves dbstack in 'debugger' module.
 
