@@ -608,7 +608,7 @@ refreshSingleLine(struct linenoiseState* l)
     /* Move cursor to original position. */
     snprintf(seq, 64, "\r\x1b[%dC", (int)(pos + plen));
     abAppend(&ab, seq, strlen(seq));
-    write(fd, ab.b, ab.len) == -1; /* Can't recover from write error. */
+    write(fd, ab.b, ab.len); /* Can't recover from write error. */
     abFree(&ab);
 }
 
@@ -687,7 +687,7 @@ refreshMultiLine(struct linenoiseState* l)
     abAppend(&ab, seq, strlen(seq));
     lndebug("\n");
     l->oldpos = l->pos;
-    write(fd, ab.b, ab.len) == -1; /* Can't recover from write error. */
+    write(fd, ab.b, ab.len); /* Can't recover from write error. */
     abFree(&ab);
 }
 

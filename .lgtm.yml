@@ -11,3 +11,4 @@ path_classifiers:
     - modules/qml_engine/examples
     - modules/slicot
     - modules/f2c
+    - modules/sio_client/src/socket_io

@@ -88,7 +88,7 @@ SioClientCommand::getInstance()
     if (m_pInstance == nullptr) {
         try {
             m_pInstance = new SioClientCommand();
-        } catch (std::bad_alloc) {
+        } catch (std::bad_alloc &) {
             m_pInstance = nullptr;
         }
     }

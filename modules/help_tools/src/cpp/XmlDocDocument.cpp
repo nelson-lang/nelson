@@ -787,14 +787,14 @@ XmlDocDocument::writeAsMarkdown(std::string& utf8stream)
     if (haveExample()) {
         XmlDocGenericItem* pItem = findfirst(EXAMPLES_TAG);
         XmlDocExamples* pExamples = (XmlDocExamples*)pItem;
-        pExamples->writeHeaderAsMarkdown(utf8stream);
+        pExamples->writeHeaderAsMarkdown(utf8stream); // lgtm [cpp/useless-expression]
     }
     // header
     if (isKeywordDocument()) {
         XmlDocGenericItem* pItem = findfirst(KEYWORD_TAG);
         if (pItem) {
             XmlDocKeywordItem* pItemKeyword = (XmlDocKeywordItem*)pItem;
-            pItemKeyword->writeHeaderAsMarkdown(utf8stream);
+            pItemKeyword->writeHeaderAsMarkdown(utf8stream); // lgtm [cpp/useless-expression]
         }
     }
     if (isChapterDocument()) {
