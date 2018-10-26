@@ -40,7 +40,9 @@ public:
     isInitialized();
     bool
     create(const std::string& ipAddress);
-    void clc();
+    void
+    clc();
+
 private:
     std::string _command;
     std::string _ipAddress;

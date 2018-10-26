@@ -80,10 +80,8 @@ SioClientCommand::createConnection(const std::string& ipAddress)
         _socket->on("clc",
             sio::socket::event_listener_aux(
                 [&](std::string const& name, sio::message::ptr const& data, bool isAck,
-                    sio::message::list& ack_resp) { 
-				_socket->emit("clc");
-		}));
-		_initialized = true;
+                    sio::message::list& ack_resp) { _socket->emit("clc"); }));
+        _initialized = true;
         return true;
     }
     return false;
@@ -95,7 +93,7 @@ SioClientCommand::getInstance()
     if (m_pInstance == nullptr) {
         try {
             m_pInstance = new SioClientCommand();
-        } catch (std::bad_alloc &) {
+        } catch (std::bad_alloc&) {
             m_pInstance = nullptr;
         }
     }

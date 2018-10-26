@@ -56,7 +56,7 @@ Exception::Exception(const std::wstring& msg_in, std::vector<PositionScript> pos
 Exception::Exception(
     const std::string& msg_in, const PositionScript& position, const std::string& identifier_in)
 {
-	this->backtrace.clear();
+    this->backtrace.clear();
     this->backtrace.push_back(position);
     this->msg = utf8_to_wstring(msg_in);
     this->identifier = utf8_to_wstring(identifier_in);
