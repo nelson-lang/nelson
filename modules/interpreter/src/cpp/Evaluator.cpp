@@ -1629,8 +1629,7 @@ Evaluator::statementType(ASTPtr t, bool printIt)
                 Error(_W("Redefining permanent variable."));
             }
             if (printIt) {
-                io->outputMessage(t->down->text);
-                io->outputMessage(L" =\n\n");
+                io->outputMessage(std::string(t->down->text) + " =\n\n");
                 OverloadDisplay(this, b);
             }
         } else {
@@ -1642,8 +1641,7 @@ Evaluator::statementType(ASTPtr t, bool printIt)
                     Error(_W("Redefining permanent variable."));
                 }
                 if (printIt) {
-                    io->outputMessage(t->down->text);
-                    io->outputMessage(L" =\n\n");
+                    io->outputMessage(std::string(t->down->text) + " =\n\n");
                     OverloadDisplay(this, c);
                 }
             }

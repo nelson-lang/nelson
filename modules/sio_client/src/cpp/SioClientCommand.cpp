@@ -76,7 +76,14 @@ SioClientCommand::createConnection(const std::string& ipAddress)
                     _sioClientListener.lock.unlock();
                     _socket->emit("command_received");
                 }));
-        _initialized = true;
+
+        _socket->on("clc",
+            sio::socket::event_listener_aux(
+                [&](std::string const& name, sio::message::ptr const& data, bool isAck,
+                    sio::message::list& ack_resp) { 
+				_socket->emit("clc");
+		}));
+		_initialized = true;
         return true;
     }
     return false;
@@ -104,6 +111,12 @@ SioClientCommand::reply(std::string stringToReply)
     std::map<std::string, sio::message::ptr>& map = send_data->get_map();
     map.insert(std::make_pair("output", sio::string_message::create(output.str())));
     _socket->emit("reply", send_data);
+}
+//=============================================================================
+void
+SioClientCommand::clc()
+{
+    _socket->emit("clc");
 }
 //=============================================================================
 std::string

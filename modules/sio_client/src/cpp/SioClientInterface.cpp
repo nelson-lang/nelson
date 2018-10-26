@@ -55,13 +55,18 @@ SioClientInterface::getTerminalWidth()
 void
 SioClientInterface::outputMessage(std::wstring msg)
 {
-    outputMessage(wstring_to_utf8(msg));
+    if (atPrompt) {
+        outputMessage(wstring_to_utf8(msg) + std::string("\n"));
+    } else {
+        outputMessage(wstring_to_utf8(msg));
+    }
 }
 //=============================================================================
 void
 SioClientInterface::outputMessage(std::string msg)
 {
     SioClientCommand::getInstance()->reply(msg);
+    this->diary.writeMessage(msg);
 }
 //=============================================================================
 void
@@ -73,7 +78,13 @@ SioClientInterface::errorMessage(std::wstring msg)
 void
 SioClientInterface::errorMessage(std::string msg)
 {
-    outputMessage(msg);
+    std::string _msg = msg + "\n";
+    if (atPrompt) {
+        _msg = "\n" + msg;
+        atPrompt = false;
+    }
+    SioClientCommand::getInstance()->reply(_msg);
+    diary.writeMessage(_msg);
 }
 //=============================================================================
 void
@@ -85,12 +96,20 @@ SioClientInterface::warningMessage(std::wstring msg)
 void
 SioClientInterface::warningMessage(std::string msg)
 {
-    outputMessage(msg);
+    std::string _msg = msg + "\n";
+    if (atPrompt) {
+        msg = "\n" + msg;
+        atPrompt = false;
+    }
+    SioClientCommand::getInstance()->reply(_msg);
+    diary.writeMessage(_msg);
 }
 //=============================================================================
 void
 SioClientInterface::clearTerminal()
-{}
+{
+    SioClientCommand::getInstance()->clc();
+}
 //=============================================================================
 bool
 SioClientInterface::isAtPrompt()
@@ -109,8 +128,10 @@ SioClientInterface::getTextLine(std::string prompt, bool bIsInput)
 {
     std::string command;
     atPrompt = true;
-    outputMessage(prompt);
-    this->diary.writeMessage(prompt);
+    SioClientCommand::getInstance()->reply("\n" + prompt);
+    if (!prompt.empty()) {
+        this->diary.writeMessage("\n" + prompt);
+    }
     do {
         boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
         command = SioClientCommand::getInstance()->getCommand();

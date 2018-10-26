@@ -514,82 +514,82 @@ ArrayOf::printMe(Interface* io) const
 {
     int nominalWidth;
     sizeType termWidth = io->getTerminalWidth();
-    // Print the class...
+    std::string typeAsText = "";
     switch (dp->dataClass) {
     case NLS_HANDLE:
-        io->outputMessage("  <handle>  ");
+        typeAsText = "  <handle>  ";
         nominalWidth = 5;
         break;
     case NLS_UINT8:
-        io->outputMessage("  <uint8>  ");
+        typeAsText = "  <uint8>  ";
         nominalWidth = 5;
         break;
     case NLS_INT8:
-        io->outputMessage("  <int8>  ");
+        typeAsText = "  <int8> ";
         nominalWidth = 6;
         break;
     case NLS_UINT16:
-        io->outputMessage("  <uint16>  ");
+        typeAsText = "  <uint16>  ";
         nominalWidth = 7;
         break;
     case NLS_INT16:
-        io->outputMessage("  <int16>  ");
+        typeAsText = "  <int16> ";
         nominalWidth = 8;
         break;
     case NLS_UINT32:
-        io->outputMessage("  <uint32>  ");
+        typeAsText = "  <uint32>  ";
         nominalWidth = 14;
         break;
     case NLS_INT32:
-        io->outputMessage("  <int32>  ");
+        typeAsText = "  <int32>  ";
         nominalWidth = 15;
         break;
     case NLS_UINT64:
-        io->outputMessage("  <uint64>  ");
+        typeAsText = "  <uint64>  ";
         nominalWidth = 14;
         break;
     case NLS_INT64:
-        io->outputMessage("  <int64>  ");
+        typeAsText = "  <int64>  ";
         nominalWidth = 15;
         break;
     case NLS_SINGLE:
-        io->outputMessage("  <single>  ");
+        typeAsText = "  <single>  ";
         nominalWidth = 20;
         break;
     case NLS_DOUBLE:
-        io->outputMessage("  <double>  ");
+        typeAsText = "  <double>  ";
         nominalWidth = 30;
         break;
     case NLS_LOGICAL:
-        io->outputMessage("  <logical>  ");
+        typeAsText = "  <logical>  ";
         nominalWidth = 2;
         break;
     case NLS_CHAR:
-        io->outputMessage("  <char>  ");
+        typeAsText = "  <char>  ";
         nominalWidth = 1;
         break;
     case NLS_SCOMPLEX:
-        io->outputMessage("  <single>  ");
+        typeAsText = "  <single>  ";
         nominalWidth = 36;
         break;
     case NLS_DCOMPLEX:
-        io->outputMessage("  <double>  ");
+        typeAsText = "  <double>  ";
         nominalWidth = 54;
         break;
     case NLS_CELL_ARRAY:
-        io->outputMessage("  <cell> ");
+        typeAsText = "  <cell> ";
         nominalWidth = 10;
         break;
     case NLS_STRUCT_ARRAY:
-        io->outputMessage("  <struct> ");
+        typeAsText = "  <struct> ";
         nominalWidth = 10;
         break;
     case NLS_STRING_ARRAY:
-        io->outputMessage("  <string> ");
+        typeAsText = "  <string> ";
         nominalWidth = 10;
         break;
     }
-    io->outputMessage("- size: ");
+    io->outputMessage(typeAsText + "- size: ");
     dp->dimensions.printMe(io);
     io->outputMessage("\n");
     if (isEmpty()) {
