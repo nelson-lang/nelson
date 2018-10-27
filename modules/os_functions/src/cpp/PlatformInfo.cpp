@@ -85,7 +85,7 @@ GetArchitecture()
         return std::wstring(L"maci32");
 #endif
     } else {
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
         return std::wstring(L"glnxa64");
 #else
         return std::wstring(L"glnxa32");

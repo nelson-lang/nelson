@@ -39,7 +39,7 @@ ConstructBinariesPath(const std::wstring& modulerootpath)
     binariespath = modulerootpath + std::wstring(L"/bin/macosx32");
 #endif
 #else
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     binariespath = modulerootpath + std::wstring(L"/bin/linux64");
 #else
     binariespath = modulerootpath + std::wstring(L"/bin/linux32");
