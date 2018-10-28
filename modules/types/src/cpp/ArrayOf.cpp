@@ -36,6 +36,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 //=============================================================================
+#include <Eigen/Dense>
+#include <algorithm>
+#include <boost/algorithm/string.hpp>
+#include <boost/numeric/conversion/cast.hpp>
+#include <inttypes.h>
+#include <math.h>
+#include <stdio.h>
+#include <limits>
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "IEEEFP.hpp"
@@ -45,13 +53,6 @@
 #include "Warning.hpp"
 #include "Error.hpp"
 #include "Exception.hpp"
-#include <Eigen/Dense>
-#include <algorithm>
-#include <boost/algorithm/string.hpp>
-#include <inttypes.h>
-#include <math.h>
-#include <stdio.h>
-#include <limits>
 //=============================================================================
 #ifdef _MSC_VER
 #define snprintf _snprintf
@@ -1273,9 +1274,7 @@ saturate(Class classIn, Class classOut, const void* pIn, void* pOut, indexType c
     const TIN* sp = (const TIN*)pIn;
     TOUT* qp = (TOUT*)pOut;
     if (classIn > classOut) {
-        for (indexType i = 0; i < count; i++) {
-            TIN min = (TIN)std::numeric_limits<TOUT>::min();
-            TIN max = (TIN)std::numeric_limits<TOUT>::max();
+		for (indexType i = 0; i < count; i++) {
             if (isDoubleOrSingleClass(classIn) && !isDoubleOrSingleClass(classOut)) {
                 bool isNaN = false;
                 if (isSingleClass(classIn)) {
@@ -1286,48 +1285,46 @@ saturate(Class classIn, Class classOut, const void* pIn, void* pOut, indexType c
                 if (isNaN) {
                     qp[i] = (TOUT)0;
                 } else {
-                    if (sp[i] >= max) {
-                        qp[i] = std::numeric_limits<TOUT>::max();
-                    } else if (sp[i] < min) {
+                    try {
+                        qp[i] = boost::numeric_cast<TOUT>(sp[i]);
+                    } catch (boost::numeric::negative_overflow) {
                         qp[i] = std::numeric_limits<TOUT>::min();
-                    } else {
-                        qp[i] = (TOUT)sp[i];
+                    } catch (boost::numeric::positive_overflow) {
+                        qp[i] = std::numeric_limits<TOUT>::max();
                     }
                 }
             } else {
-                if (sp[i] >= max) {
-                    qp[i] = std::numeric_limits<TOUT>::max();
-                } else if (sp[i] < min) {
+                try {
+                    qp[i] = boost::numeric_cast<TOUT>(sp[i]);
+                } catch (boost::numeric::negative_overflow) {
                     qp[i] = std::numeric_limits<TOUT>::min();
-                } else {
-                    qp[i] = (TOUT)sp[i];
+                } catch (boost::numeric::positive_overflow) {
+                    qp[i] = std::numeric_limits<TOUT>::max();
                 }
             }
         }
     } else {
-        for (indexType i = 0; i < count; i++) {
-            TOUT min = (TOUT)std::numeric_limits<TOUT>::min();
-            TOUT max = (TOUT)std::numeric_limits<TOUT>::max();
+		for (indexType i = 0; i < count; i++) {
             if (classIn == NLS_DOUBLE || classIn == NLS_DCOMPLEX || classIn == NLS_SINGLE
                 || classIn == NLS_SCOMPLEX) {
                 if (std::isnan((double)sp[i])) {
                     qp[i] = (TOUT)0;
                 } else {
-                    if (sp[i] >= max) {
-                        qp[i] = std::numeric_limits<TOUT>::max();
-                    } else if (sp[i] < min) {
+                    try {
+                        qp[i] = boost::numeric_cast<TOUT>(sp[i]);
+                    } catch (boost::numeric::negative_overflow) {
                         qp[i] = std::numeric_limits<TOUT>::min();
-                    } else {
-                        qp[i] = (TOUT)sp[i];
+                    } catch (boost::numeric::positive_overflow) {
+                        qp[i] = std::numeric_limits<TOUT>::max();
                     }
                 }
             } else {
-                if (sp[i] >= max) {
-                    qp[i] = std::numeric_limits<TOUT>::max();
-                } else if (sp[i] < min) {
+                try {
+                    qp[i] = boost::numeric_cast<TOUT>(sp[i]);
+                } catch (boost::numeric::negative_overflow) {
                     qp[i] = std::numeric_limits<TOUT>::min();
-                } else {
-                    qp[i] = (TOUT)sp[i];
+                } catch (boost::numeric::positive_overflow) {
+                    qp[i] = std::numeric_limits<TOUT>::max();
                 }
             }
         }
