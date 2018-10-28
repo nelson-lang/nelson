@@ -1,39 +1,42 @@
 //=============================================================================
-// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+// Copyright (c) 2016+2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+R = (uint64(2^53) + 1) + (uint64(2^53) + 1000);
+REF = 18014398509482985u;
+assert_isequal(R, REF);
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsElementary_functions_exports.h"
+R = (uint64(2^54) + 1) + (uint64(2^54) + 1000);
+REF = 36028797018964969u;
+assert_isequal(R, REF);
 //=============================================================================
-namespace Nelson {
+R = (uint64(2^57) + 1) + (uint64(2^57) + 1000);
+REF = 288230376151712745u;
+assert_isequal(R, REF);
 //=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-double_plus_double(const ArrayOf& a, const ArrayOf& b);
+R = (uint64(2^59) + 1) + (uint64(2^59) + 1000);
+REF = 1152921504606847977u;
+assert_isequal(R, REF);
 //=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-single_plus_single(const ArrayOf& a, const ArrayOf& b);
+R = (int64(2^53) + 1) + (int64(2^53) + 1000);
+REF = int64(18014398509482985u);
+assert_isequal(R, REF);
 //=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-stringArray_plus_stringArray(const ArrayOf& a, const ArrayOf& b);
-//=============================================================================
-NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-integer_plus_integer(const ArrayOf& a, const ArrayOf& b);
-//=============================================================================
-} // namespace Nelson
+R = (int64(2^54) + 1) + (int64(2^54) + 1000);
+REF = int64(36028797018964969u);
+assert_isequal(R, REF);
 //=============================================================================

@@ -63,29 +63,24 @@ Evaluator::subtractionOperator(ArrayOf A, ArrayOf B)
                 res = single_minus_single(A, B);
             }
         } else {
-            bool isIntegerA = A.isIntegerType() || A.isIntegerType();
-            bool isIntegerB = B.isIntegerType() || B.isIntegerType();
+            bool isIntegerA = A.isIntegerType() || A.isNdArrayIntegerType();
+            bool isIntegerB = B.isIntegerType() || B.isNdArrayIntegerType();
             if (isIntegerA && isIntegerB) {
                 if (A.getDataClass() == B.getDataClass()) {
                     Class classA = A.getDataClass();
-                    A.promoteType(NLS_SINGLE);
-                    B.promoteType(NLS_SINGLE);
-                    res = single_minus_single(A, B);
-                    res.promoteType(classA);
+                    res = integer_minus_integer(A, B);
                 } else {
                     Error(_W("Integers of the same class expected."));
                 }
             } else {
                 if (isIntegerA && isDoubleB && B.isScalar()) {
                     Class classA = A.getDataClass();
-                    A.promoteType(NLS_DOUBLE);
-                    res = double_minus_double(A, B);
-                    res.promoteType(classA);
+                    B.promoteType(classA);
+                    res = integer_minus_integer(A, B);
                 } else if (isIntegerB && isDoubleA && A.isScalar()) {
                     Class classB = B.getDataClass();
-                    B.promoteType(NLS_DOUBLE);
-                    res = double_minus_double(A, B);
-                    res.promoteType(classB);
+                    A.promoteType(classB);
+                    res = integer_minus_integer(A, B);
                 } else {
                     res = OverloadBinaryOperator(this, A, B, "minus");
                 }

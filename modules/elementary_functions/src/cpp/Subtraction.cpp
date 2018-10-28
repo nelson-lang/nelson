@@ -16,9 +16,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "lapack_eigen.hpp"
+#include <Eigen/Dense>
 #include "Subtraction.hpp"
 #include "MatrixCheck.hpp"
-#include <Eigen/Dense>
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
@@ -281,12 +282,11 @@ subtraction(Class classDestination, ArrayOf a, ArrayOf b)
     if (a.isScalar() && b.isScalar()) {
         T* ptrA = (T*)a.getDataPointer();
         T* ptrB = (T*)b.getDataPointer();
-        T res = ptrA[0] - ptrB[0];
-        if (classDestination == NLS_DOUBLE) {
-            return ArrayOf::doubleConstructor((double)res);
-        } else {
-            return ArrayOf::singleConstructor((single)res);
-        }
+        void* Cp = new_with_exception<T>(1, false);
+        T* C = (T*)Cp;
+        C[0] = ptrA[0] - ptrB[0];
+        Dimensions dimsC(1, 1);
+        return ArrayOf(classDestination, dimsC, Cp, false);
     }
     Dimensions dimsA = a.getDimensions();
     Dimensions dimsB = b.getDimensions();
@@ -481,6 +481,34 @@ single_minus_single(ArrayOf a, ArrayOf b)
         return res;
     }
     return subtraction<single>(NLS_SINGLE, a, b);
+}
+//=============================================================================
+ArrayOf
+integer_minus_integer(ArrayOf a, ArrayOf b)
+{
+    Class classA = a.getDataClass();
+    switch (classA) {
+    case NLS_INT8:
+        return subtraction<int8>(NLS_INT8, a, b);
+    case NLS_UINT8:
+        return subtraction<uint8>(NLS_UINT8, a, b);
+    case NLS_INT16:
+        return subtraction<int16>(NLS_INT16, a, b);
+    case NLS_UINT16:
+        return subtraction<uint16>(NLS_UINT16, a, b);
+    case NLS_INT32:
+        return subtraction<int32>(NLS_INT32, a, b);
+    case NLS_UINT32:
+        return subtraction<uint32>(NLS_UINT32, a, b);
+    case NLS_INT64:
+        return subtraction<int64>(NLS_INT64, a, b);
+    case NLS_UINT64:
+        return subtraction<uint64>(NLS_UINT64, a, b);
+    default:
+        Error(_W("Integer type not managed."));
+        break;
+    }
+    return ArrayOf();
 }
 //=============================================================================
 } // namespace Nelson

@@ -17,10 +17,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
+#include "lapack_eigen.hpp"
+#include <Eigen/Dense>
 #include "Addition.hpp"
 #include "MatrixCheck.hpp"
 #include "Exception.hpp"
-#include <Eigen/Dense>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -213,12 +214,11 @@ addition(Class classDestination, ArrayOf a, ArrayOf b)
     if (a.isScalar() && b.isScalar()) {
         T* ptrA = (T*)a.getDataPointer();
         T* ptrB = (T*)b.getDataPointer();
-        T res = ptrA[0] + ptrB[0];
-        if (classDestination == NLS_DOUBLE) {
-            return ArrayOf::doubleConstructor((double)res);
-        } else {
-            return ArrayOf::singleConstructor((single)res);
-        }
+        void* Cp = new_with_exception<T>(1, false);
+        T* C = (T*)Cp;
+        C[0] = ptrA[0] + ptrB[0];
+        Dimensions dimsC(1, 1);
+        return ArrayOf(classDestination, dimsC, Cp, false);
     }
     Dimensions dimsA = a.getDimensions();
     Dimensions dimsB = b.getDimensions();
@@ -409,6 +409,34 @@ single_plus_single(const ArrayOf& a, const ArrayOf& b)
         return res;
     }
     return addition<single>(NLS_SINGLE, a, b);
+}
+//=============================================================================
+ArrayOf
+integer_plus_integer(const ArrayOf& a, const ArrayOf& b)
+{
+    Class classA = a.getDataClass();
+	switch (classA) {
+    case NLS_INT8:
+        return addition<int8>(NLS_INT8, a, b);
+    case NLS_UINT8:
+        return addition<uint8>(NLS_UINT8, a, b);
+    case NLS_INT16:
+        return addition<int16>(NLS_INT16, a, b);
+    case NLS_UINT16:
+        return addition<uint16>(NLS_UINT16, a, b);
+    case NLS_INT32:
+        return addition<int32>(NLS_INT32, a, b);
+    case NLS_UINT32:
+        return addition<uint32>(NLS_UINT32, a, b);
+    case NLS_INT64:
+        return addition<int64>(NLS_INT64, a, b);
+    case NLS_UINT64:
+        return addition<uint64>(NLS_UINT64, a, b);
+    default:
+        Error(_W("Integer type not managed."));
+        break;
+	}
+    return ArrayOf();
 }
 //=============================================================================
 } // namespace Nelson
