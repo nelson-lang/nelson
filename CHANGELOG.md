@@ -1,3 +1,8 @@
+Features:
+---------
+
+  * addition, substration, mtimes, times with integers reworked.
+
 ## 0.2.10 (2018-10-20)
 
 

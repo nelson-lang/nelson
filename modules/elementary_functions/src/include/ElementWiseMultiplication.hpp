@@ -26,5 +26,25 @@ namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 elementWiseMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload);
 //=============================================================================
+template <class T> T scalarInteger_times_scalarInteger(T a, T b) {
+    T c;
+    if ((b > 0 && a > std::numeric_limits<T>::max() / b)
+        || (b < 0 && a < std::numeric_limits<T>::min() / b))
+        {
+        if (a < 0 && b < 0) {
+            c = std::numeric_limits<T>::max();
+        } else if (a > 0 && b < 0) {
+            c = std::numeric_limits<T>::min();
+        } else if (a < 0 && b > 0) {
+            c = std::numeric_limits<T>::min();
+        } else if (a > 0 && b > 0) {
+            c = std::numeric_limits<T>::max();
+        }
+    } else {
+		c = a * b;
+    }
+    return c;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

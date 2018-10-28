@@ -94,6 +94,67 @@ real_times(Class currentClass, ArrayOf& A, ArrayOf& B)
 //=============================================================================
 template <class T>
 static ArrayOf
+integer_times(ArrayOf& A, ArrayOf& B)
+{
+    T* ptrA = (T*)A.getDataPointer();
+    T* ptrB = (T*)B.getDataPointer();
+    if (A.isScalar() && B.isScalar()) {
+        // s .* s
+        void *Cp = new_with_exception<T>(1);
+        T* ptrC = (T*)Cp;
+        ptrC[0] = scalarInteger_times_scalarInteger(ptrA[0], ptrB[0]);
+        Dimensions dimsC(1, 1);
+        return ArrayOf(A.getDataClass(), dimsC, Cp, false);
+    } else {
+        if (A.isScalar() || B.isScalar()) {
+            // mxn .* s
+            // s .* mxn
+            Dimensions dimsC;
+            void* Cp = nullptr;
+            indexType Clen;
+            if (A.isScalar()) {
+                T* ptrA = (T*)A.getDataPointer();
+                dimsC = B.getDimensions();
+                Clen = dimsC.getElementCount();
+                Cp = new_with_exception<T>(Clen);
+                T* ptrC = (T*)Cp;
+                for (indexType k = 0; k < B.getDimensions().getElementCount(); k++) {
+                    ptrC[k] = scalarInteger_times_scalarInteger(ptrA[0], ptrB[k]);
+                }
+            } else {
+                T* ptrB = (T*)B.getDataPointer();
+                dimsC = A.getDimensions();
+                Clen = dimsC.getElementCount();
+                Cp = new_with_exception<T>(Clen);
+                T* ptrC = (T*)Cp;
+                for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+                    ptrC[k] = scalarInteger_times_scalarInteger(ptrA[k], ptrB[0]);
+                }
+            }
+            return ArrayOf(A.getDataClass(), dimsC, Cp, false);
+        } else {
+            // mxn .* mxn
+            Dimensions dimsC = A.getDimensions();
+            if (A.isEmpty(true)) {
+                ArrayOf res = ArrayOf::emptyConstructor(dimsC);
+                res.promoteType(A.getDataClass());
+                return res;
+            } else {
+                indexType Clen = dimsC.getElementCount();
+                void* Cp = new_with_exception<T>(Clen);
+                T* ptrC = (T*)Cp;
+                for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+                    ptrC[k] = scalarInteger_times_scalarInteger(ptrA[k], ptrB[k]);
+				}
+                return ArrayOf(A.getDataClass(), dimsC, Cp, false);
+            }
+        }
+    }
+    return ArrayOf();
+}
+//=============================================================================
+template <class T>
+static ArrayOf
 complex_times(Class currentClass, ArrayOf& A, ArrayOf& B)
 {
     ArrayOf res;
@@ -171,7 +232,7 @@ T_times_T(Class realClass, Class complexClass, ArrayOf& A, ArrayOf& B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
-        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
+        Error(_W("Size mismatch on arguments to arithmetic operator ") + L".*");
     }
     if (A.isComplex() || B.isComplex()) {
         ArrayOf res = complex_times<T>(complexClass, A, B);
@@ -183,6 +244,18 @@ T_times_T(Class realClass, Class complexClass, ArrayOf& A, ArrayOf& B)
     return real_times<T>(realClass, A, B);
 }
 //=============================================================================
+template <class T>
+ArrayOf
+integer_times_integer(ArrayOf& A, ArrayOf& B)
+{
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsB = B.getDimensions();
+    if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
+        Error(_W("Size mismatch on arguments to arithmetic operator ") + L".*");
+    }
+    return integer_times<T>(A, B);
+}
+//=============================================================================
 ArrayOf
 elementWiseMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload)
 {
@@ -192,10 +265,54 @@ elementWiseMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload)
         return T_times_T<double>(NLS_DOUBLE, NLS_DCOMPLEX, A, B);
     } else if (A.isSingleClass() && B.isSingleClass()) {
         return T_times_T<single>(NLS_SINGLE, NLS_SCOMPLEX, A, B);
-    } else if (A.getDataClass() == B.getDataClass()) {
-        needToOverload = true;
+    } else if (A.isSingleClass() && B.isDoubleClass()) {
+        return T_times_T<single>(NLS_SINGLE, NLS_SCOMPLEX, A, B);
+    } else if (A.isDoubleClass() && B.isSingleClass()) {
+        return T_times_T<single>(NLS_SINGLE, NLS_SCOMPLEX, A, B);
     } else {
-        needToOverload = true;
+        bool isIntegerA = A.isIntegerType() || A.isNdArrayIntegerType();
+        bool isIntegerB = B.isIntegerType() || B.isNdArrayIntegerType();
+        if (isIntegerA && (B.isDoubleType() && B.isScalar())) {
+            if (B.isComplex()) {
+                Error(_W("Complex integer not allowed for arithmetic operator ") + L".*");
+            }
+            B.promoteType(A.getDataClass());
+            return elementWiseMultiplication(A, B, needToOverload);
+        } else if (isIntegerB && (A.isDoubleType() && A.isScalar())) {
+            if (A.isComplex()) {
+                Error(_W("Complex integer not allowed for arithmetic operator ") + L".*");
+            }
+            A.promoteType(B.getDataClass());
+            return elementWiseMultiplication(A, B, needToOverload);
+        } else if (isIntegerA && isIntegerB) {
+            if (A.getDataClass() != B.getDataClass()) {
+                needToOverload = true;
+            } else {
+                switch (A.getDataClass()) {
+                case NLS_UINT8:
+                    return integer_times_integer<uint8>(A, B);
+                case NLS_INT8:
+                    return integer_times_integer<int8>(A, B);
+                case NLS_UINT16:
+                    return integer_times_integer<uint16>(A, B);
+                case NLS_INT16:
+                    return integer_times_integer<int16>(A, B);
+                case NLS_UINT32:
+                    return integer_times_integer<uint32>(A, B);
+                case NLS_INT32:
+                    return integer_times_integer<int32>(A, B);
+                case NLS_UINT64:
+                    return integer_times_integer<uint32>(A, B);
+                case NLS_INT64:
+                    return integer_times_integer<int32>(A, B);
+                default:
+                    needToOverload = true;
+                    break;
+                }
+            }
+        } else {
+            needToOverload = true;
+        }
     }
     return ArrayOf();
 }
