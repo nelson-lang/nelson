@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Eigen/Dense>
+#include <algorithm>
 #include "Atan2.hpp"
 #include "ArrayOf.hpp"
 #include "MatrixCheck.hpp"
