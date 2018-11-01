@@ -39,7 +39,6 @@
 #include <Eigen/Dense>
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
-#include <boost/numeric/conversion/cast.hpp>
 #include <inttypes.h>
 #include <math.h>
 #include <stdio.h>
@@ -1267,67 +1266,76 @@ isDoubleOrSingleClass(Class classIn)
     return (isSingleClass(classIn) || isDoubleClass(classIn));
 }
 //=============================================================================
+template <typename TIN, typename TOUT>
+inline TOUT
+numeric_cast(TIN value)
+{
+    const bool positive_overflow_possible
+        = std::numeric_limits<TOUT>::max() < std::numeric_limits<TIN>::max();
+    const bool negative_overflow_possible = std::numeric_limits<TIN>::is_signed
+        || (std::numeric_limits<TOUT>::lowest() > std::numeric_limits<TIN>::lowest());
+
+    // unsigned <-- unsigned
+    if ((! std::numeric_limits<TOUT>::is_signed) && (! std::numeric_limits<TIN>::is_signed)) {
+        if (positive_overflow_possible && (value > std::numeric_limits<TOUT>::max())) {
+            return std::numeric_limits<TOUT>::max();
+        }
+    }
+    // unsigned <-- signed
+    else if ((! std::numeric_limits<TOUT>::is_signed) && std::numeric_limits<TIN>::is_signed) {
+        if (positive_overflow_possible && (value > std::numeric_limits<TOUT>::max())) {
+            return std::numeric_limits<TOUT>::max();
+        } else if (negative_overflow_possible && (value < 0)) {
+            return std::numeric_limits<TOUT>::min();
+        }
+    }
+    // signed <-- unsigned
+    else if (std::numeric_limits<TOUT>::is_signed && (! std::numeric_limits<TIN>::is_signed)) {
+        if (positive_overflow_possible && (value > std::numeric_limits<TOUT>::max())) {
+            return std::numeric_limits<TOUT>::max();
+        }
+    }
+    // signed <-- signed
+    else if (std::numeric_limits<TOUT>::is_signed && std::numeric_limits<TIN>::is_signed) {
+        if (positive_overflow_possible && (value > std::numeric_limits<TOUT>::max())) {
+            return std::numeric_limits<TOUT>::max();
+        } else if (negative_overflow_possible && (value < std::numeric_limits<TOUT>::lowest())) {
+            return std::numeric_limits<TOUT>::min();
+        }
+    }
+    return static_cast<TOUT>(value);
+}
+//=============================================================================
 template <class TIN, class TOUT>
 void
 saturate(Class classIn, Class classOut, const void* pIn, void* pOut, indexType count)
 {
     const TIN* sp = (const TIN*)pIn;
     TOUT* qp = (TOUT*)pOut;
-    if (classIn > classOut) {
-		for (indexType i = 0; i < count; i++) {
-            if (isDoubleOrSingleClass(classIn) && !isDoubleOrSingleClass(classOut)) {
-                bool isNaN = false;
-                if (isSingleClass(classIn)) {
-                    isNaN = std::isnan((single)sp[i]);
-                } else {
-                    isNaN = std::isnan((double)sp[i]);
-                }
-                if (isNaN) {
-                    qp[i] = (TOUT)0;
-                } else {
-                    try {
-                        qp[i] = boost::numeric_cast<TOUT>(sp[i]);
-                    } catch (boost::numeric::negative_overflow) {
-                        qp[i] = std::numeric_limits<TOUT>::min();
-                    } catch (boost::numeric::positive_overflow) {
-                        qp[i] = std::numeric_limits<TOUT>::max();
-                    }
-                }
-            } else {
-                try {
-                    qp[i] = boost::numeric_cast<TOUT>(sp[i]);
-                } catch (boost::numeric::negative_overflow) {
-                    qp[i] = std::numeric_limits<TOUT>::min();
-                } catch (boost::numeric::positive_overflow) {
-                    qp[i] = std::numeric_limits<TOUT>::max();
-                }
-            }
+    if (classIn == classOut) {
+        for (indexType i = 0; i < count; i++) {
+            qp[i] = sp[i];
         }
     } else {
-		for (indexType i = 0; i < count; i++) {
-            if (classIn == NLS_DOUBLE || classIn == NLS_DCOMPLEX || classIn == NLS_SINGLE
-                || classIn == NLS_SCOMPLEX) {
+        bool checkNaN = false;
+        if (typeid(TOUT) != typeid(single) || typeid(TOUT) != typeid(double)) {
+            if (typeid(TIN) == typeid(single) || typeid(TIN) == typeid(double)) {
+                checkNaN = true;
+            }
+        }
+        if (checkNaN) {
+            for (indexType i = 0; i < count; i++) {
                 if (std::isnan((double)sp[i])) {
                     qp[i] = (TOUT)0;
                 } else {
-                    try {
-                        qp[i] = boost::numeric_cast<TOUT>(sp[i]);
-                    } catch (boost::numeric::negative_overflow) {
-                        qp[i] = std::numeric_limits<TOUT>::min();
-                    } catch (boost::numeric::positive_overflow) {
-                        qp[i] = std::numeric_limits<TOUT>::max();
-                    }
-                }
-            } else {
-                try {
-                    qp[i] = boost::numeric_cast<TOUT>(sp[i]);
-                } catch (boost::numeric::negative_overflow) {
-                    qp[i] = std::numeric_limits<TOUT>::min();
-                } catch (boost::numeric::positive_overflow) {
-                    qp[i] = std::numeric_limits<TOUT>::max();
+                    qp[i] = numeric_cast<TIN, TOUT>(sp[i]);
                 }
             }
-        }
+		} else {
+            for (indexType i = 0; i < count; i++) {
+				qp[i] = numeric_cast<TIN, TOUT>(sp[i]);
+            }
+		}
     }
 }
 //=============================================================================

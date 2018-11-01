@@ -18,11 +18,42 @@
 //=============================================================================
 #include <limits>
 #include <complex>
+#include "IntegerOperations.hpp"
 #include "DotPower.hpp"
 #include "MatrixCheck.hpp"
 #include "complex_abs.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+template <typename T>
+static inline T
+powi(T a, T b)
+{
+    unsigned long u;
+    T p = 1;
+    T x = a;
+    T n = b;
+
+    if (n != 0) {
+        if (n < 0) {
+            if (std::is_signed<T>()) {
+                n = -n;
+            }
+            x = 1 / x;
+        }
+        for (u = (unsigned long)n;;) {
+            if (u & 01) {
+                p = scalarInteger_times_scalarInteger<T>(p, x);
+            }
+            if (u >>= 1) {
+                x = scalarInteger_times_scalarInteger<T>(x, x);
+            } else {
+                break;
+            }
+        }
+    }
+    return (p);
+}
 //=============================================================================
 void
 power_zi(double* p, const double* a, int b)
@@ -364,13 +395,133 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
     if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
         Error(_W("Size mismatch on arguments to power (^) operator."));
     }
-    // If A is not at least a single type, promote it to double
     AClass = A.getDataClass();
     BClass = B.getDataClass();
-    if (AClass < NLS_SINGLE)
-        AClass = NLS_DOUBLE;
-    if (BClass < NLS_INT64)
-        BClass = NLS_INT64;
+    if ((A.isIntegerType() || A.isNdArrayIntegerType())
+        && (B.isIntegerType() || B.isNdArrayIntegerType())) {
+        if (!B.isPositive()) {
+            Error(_W("Only positive integers expected."));
+        }
+        void* Cp = nullptr;
+        indexType stride1 = 0;
+        indexType stride2 = 0;
+        indexType n = 0;
+        if (A.isScalar()) {
+            indexType Blen(B.getLength());
+            C = ArrayOf(AClass, B.getDimensions(), NULL);
+            Cp = ArrayOf::allocateArrayOf(AClass, Blen * C.getElementSize());
+            stride1 = 0;
+            stride2 = 1;
+            n = Blen;
+        } else if (B.isScalar()) {
+            indexType Alen(A.getLength());
+            C = ArrayOf(AClass, A.getDimensions(), NULL);
+            Cp = ArrayOf::allocateArrayOf(AClass, Alen * C.getElementSize());
+            stride1 = 1;
+            stride2 = 0;
+            n = Alen;
+        } else {
+            indexType Alen(A.getLength());
+            C = ArrayOf(AClass, A.getDimensions(), NULL);
+            Cp = ArrayOf::allocateArrayOf(AClass, Alen * C.getElementSize());
+            stride1 = 1;
+            stride2 = 1;
+            n = Alen;
+        }
+        indexType m = 0, p = 0;
+        switch (AClass) {
+        case NLS_INT8: {
+            int8* a = (int8*)A.getDataPointer();
+            int8* b = (int8*)B.getDataPointer();
+            int8* c = (int8*)Cp;
+            for (indexType i = 0; i < n; i++) {
+                c[i] = powi<int8>(a[m], b[p]);
+                m += stride1;
+                p += stride2;
+            }
+        } break;
+        case NLS_UINT8: {
+            uint8* a = (uint8*)A.getDataPointer();
+            uint8* b = (uint8*)B.getDataPointer();
+            uint8* c = (uint8*)Cp;
+            for (indexType i = 0; i < n; i++) {
+                c[i] = powi<uint8>(a[m], b[p]);
+                m += stride1;
+                p += stride2;
+            }
+        } break;
+        case NLS_INT16: {
+            int16* a = (int16*)A.getDataPointer();
+            int16* b = (int16*)B.getDataPointer();
+            int16* c = (int16*)Cp;
+            for (indexType i = 0; i < n; i++) {
+                c[i] = powi<int16>(a[m], b[p]);
+                m += stride1;
+                p += stride2;
+            }
+        } break;
+        case NLS_UINT16: {
+            uint16* a = (uint16*)A.getDataPointer();
+            uint16* b = (uint16*)B.getDataPointer();
+            uint16* c = (uint16*)Cp;
+            for (indexType i = 0; i < n; i++) {
+                c[i] = powi<uint16>(a[m], b[p]);
+                m += stride1;
+                p += stride2;
+            }
+        } break;
+        case NLS_INT32: {
+            int32* a = (int32*)A.getDataPointer();
+            int32* b = (int32*)B.getDataPointer();
+            int32* c = (int32*)Cp;
+            for (indexType i = 0; i < n; i++) {
+                c[i] = powi<int32>(a[m], b[p]);
+                m += stride1;
+                p += stride2;
+            }
+        } break;
+        case NLS_UINT32: {
+            uint32* a = (uint32*)A.getDataPointer();
+            uint32* b = (uint32*)B.getDataPointer();
+            uint32* c = (uint32*)Cp;
+            for (indexType i = 0; i < n; i++) {
+                c[i] = powi<uint32>(a[m], b[p]);
+                m += stride1;
+                p += stride2;
+            }
+        } break;
+        case NLS_INT64: {
+            int64* a = (int64*)A.getDataPointer();
+            int64* b = (int64*)B.getDataPointer();
+            int64* c = (int64*)Cp;
+            for (indexType i = 0; i < n; i++) {
+                c[i] = powi<int64>(a[m], b[p]);
+                m += stride1;
+                p += stride2;
+            }
+        } break;
+        case NLS_UINT64: {
+            uint64* a = (uint64*)A.getDataPointer();
+            uint64* b = (uint64*)B.getDataPointer();
+            uint64* c = (uint64*)Cp;
+            for (indexType i = 0; i < n; i++) {
+                c[i] = powi<uint64>(a[m], b[p]);
+                m += stride1;
+                p += stride2;
+            }
+        } break;
+        }
+        C.setDataPointer(Cp);
+        return C;
+
+    } else {
+        // If A is not at least a single type, promote it to double
+        if (AClass < NLS_SINGLE)
+            AClass = NLS_DOUBLE;
+        if (BClass < NLS_INT64)
+            BClass = NLS_INT64;
+    }
+
     // Get a read on if A is positive
     Anegative = !(A.isPositive());
     // Check through the different type cases...
@@ -464,7 +615,37 @@ DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
     }
     Class destinationClass;
     if (A.getDataClass() != B.getDataClass()) {
-        if ((A.isDoubleClass() || A.isSingleClass()) && (B.isDoubleClass() || B.isSingleClass())) {
+        bool isIntegerA = (A.isIntegerType() || A.isNdArrayIntegerType());
+        bool isIntegerB = (B.isIntegerType() || B.isNdArrayIntegerType());
+        if (isIntegerA || isIntegerB) {
+            if (isIntegerA) {
+                if (B.getDataClass() == NLS_DOUBLE) {
+                    bool allIntegerValue = true;
+                    double* ptrB = (double*)B.getDataPointer();
+                    for (indexType k = 0; k < B.getDimensions().getElementCount(); k++) {
+                        double v = std::trunc(ptrB[k]);
+                        if ((double)v != ptrB[k]) {
+                            allIntegerValue = false;
+                            break;
+                        }
+                    }
+                    if (!allIntegerValue) {
+                        Error(_W("Positive integral powers expected."));
+                    }
+                    B.promoteType(A.getDataClass());
+                } else {
+                    Error(_W("integers of the same class, or scalar doubles expected."));
+                }
+            }
+            if (isIntegerB) {
+                if (A.getDataClass() == NLS_DOUBLE) {
+                    A.promoteType(B.getDataClass());
+                } else {
+                    Error(_W("integers of the same class, or scalar doubles expected."));
+                }
+            }
+        } else if ((A.isDoubleClass() || A.isSingleClass())
+            && (B.isDoubleClass() || B.isSingleClass())) {
             if (A.isComplex() || B.isComplex()) {
                 destinationClass = NLS_DCOMPLEX;
                 A.promoteType(NLS_DCOMPLEX);
@@ -478,47 +659,48 @@ DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
             needToOverload = true;
             return ArrayOf();
         }
-    } else {
-        switch (A.getDataClass()) {
-        case NLS_UINT8:
-        case NLS_INT8:
-        case NLS_UINT16:
-        case NLS_INT16:
-        case NLS_UINT32:
-        case NLS_INT32:
-        case NLS_UINT64:
-        case NLS_INT64:
-        case NLS_SINGLE:
-        case NLS_DOUBLE:
-        case NLS_SCOMPLEX:
-        case NLS_DCOMPLEX:
-        case NLS_CHAR: {
-            destinationClass = A.getDataClass();
-        } break;
-        case NLS_LOGICAL:
-        case NLS_HANDLE:
-        case NLS_CELL_ARRAY:
-        case NLS_STRING_ARRAY:
-        case NLS_STRUCT_ARRAY:
-        default: {
-            needToOverload = true;
-            return ArrayOf();
-        } break;
-        }
     }
-    ArrayOf res = DoPowerTwoArgFunction(A, B);
-    if (res.getDataClass() == NLS_DCOMPLEX) {
-        if (res.allReal()) {
-            res.promoteType(NLS_DOUBLE);
+    switch (A.getDataClass()) {
+    case NLS_UINT8:
+    case NLS_INT8:
+    case NLS_UINT16:
+    case NLS_INT16:
+    case NLS_UINT32:
+    case NLS_INT32:
+    case NLS_UINT64:
+    case NLS_INT64: {
+        return DoPowerTwoArgFunction(A, B);
+    } break;
+    case NLS_SINGLE:
+    case NLS_DOUBLE:
+    case NLS_SCOMPLEX:
+    case NLS_DCOMPLEX:
+    case NLS_CHAR: {
+        destinationClass = A.getDataClass();
+        ArrayOf res = DoPowerTwoArgFunction(A, B);
+        if (res.getDataClass() == NLS_DCOMPLEX) {
+            if (res.allReal()) {
+                res.promoteType(NLS_DOUBLE);
+            }
+        } else if (res.getDataClass() == NLS_SCOMPLEX) {
+            if (res.allReal()) {
+                res.promoteType(NLS_DOUBLE);
+            }
+        } else {
+            res.promoteType(destinationClass);
         }
-    } else if (res.getDataClass() == NLS_SCOMPLEX) {
-        if (res.allReal()) {
-            res.promoteType(NLS_DOUBLE);
-        }
-    } else {
-        res.promoteType(destinationClass);
+        return res;
+    } break;
+    case NLS_LOGICAL:
+    case NLS_HANDLE:
+    case NLS_CELL_ARRAY:
+    case NLS_STRING_ARRAY:
+    case NLS_STRUCT_ARRAY:
+    default: {
+        needToOverload = true;
+    } break;
     }
-    return res;
+    return ArrayOf();
 }
 //=============================================================================
 }

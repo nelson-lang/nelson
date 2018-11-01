@@ -19,6 +19,7 @@
 #include "lapack_eigen.hpp"
 #include <Eigen/Dense>
 #include "ElementWiseMultiplication.hpp"
+#include "IntegerOperations.hpp"
 #include "MatrixCheck.hpp"
 #include "Error.hpp"
 #include "Exception.hpp"

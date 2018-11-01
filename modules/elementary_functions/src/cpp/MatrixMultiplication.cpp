@@ -18,9 +18,8 @@
 //=============================================================================
 #include "lapack_eigen.hpp"
 #include <Eigen/Dense>
-#include <limits>
 #include "MatrixMultiplication.hpp"
-#include "ElementWiseMultiplication.hpp"
+#include "IntegerOperations.hpp"
 #include "MatrixCheck.hpp"
 #include "Error.hpp"
 #include "Exception.hpp"
@@ -414,9 +413,9 @@ matrixMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload)
                 case NLS_INT32:
                     return integer_mtimes_integer<int32>(A, B);
                 case NLS_UINT64:
-                    return integer_mtimes_integer<uint32>(A, B);
+                    return integer_mtimes_integer<uint64>(A, B);
                 case NLS_INT64:
-                    return integer_mtimes_integer<int32>(A, B);
+                    return integer_mtimes_integer<int64>(A, B);
                 default:
                     needToOverload = true;
                     break;

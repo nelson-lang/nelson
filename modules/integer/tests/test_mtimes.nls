@@ -17,7 +17,12 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 R = intmax('int8') * 2;
+REF = intmax('int8');
+assert_isequal(R, REF);
+//=============================================================================
 R = intmax('int8') * -2;
+REF = intmin('int8');
+assert_isequal(R, REF);
 //=============================================================================
 R = intmax('int8') * intmax('int8');
 REF = intmax('int8');
@@ -47,4 +52,32 @@ assert_checkerror('R = int8([1 2]) * int8([1;2])', _('At least one input argumen
 //=============================================================================
 assert_checkerror('R = single(3) * int8([1 2]);', sprintf(_('function %s undefined.'), 'single_mtimes_int8'));
 assert_checkerror('R = int8([1 2]) * single(3);', sprintf(_('function %s undefined.'), 'int8_mtimes_single'));
+//=============================================================================
+R = intmax('uint8') * intmax('uint8');
+REF = intmax('uint8');
+assert_isequal(R, REF);
+//=============================================================================
+R = intmax('uint8') * intmin('uint8');
+REF = intmin('uint8');
+assert_isequal(R, REF);
+//=============================================================================
+R = intmin('uint8') * intmax('uint8');
+REF = intmin('uint8');
+assert_isequal(R, REF);
+//=============================================================================
+R = intmin('uint8') * intmin('uint8');
+REF = intmin('uint8');
+assert_isequal(R, REF);
+//=============================================================================
+R = intmax('uint8') * uint8(1);
+REF = intmax('uint8');
+assert_isequal(R, REF);
+//=============================================================================
+R = uint8(3) * uint8(4);
+REF = uint8(12);
+assert_isequal(R, REF);
+//=============================================================================
+R = uint8(128) * uint8(4)
+REF = intmax('uint8');
+assert_isequal(R, REF);
 //=============================================================================

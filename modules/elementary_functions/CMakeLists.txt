@@ -24,6 +24,7 @@ include_directories(
     ${EIGEN3_INCLUDE_DIR}
 	${CMAKE_CURRENT_SOURCE_DIR}/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+	${CMAKE_CURRENT_SOURCE_DIR}/../integer/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include

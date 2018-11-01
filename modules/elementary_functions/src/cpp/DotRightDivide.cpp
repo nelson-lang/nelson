@@ -19,7 +19,6 @@
 #include "DotRightDivide.hpp"
 #include "MatrixCheck.hpp"
 #include "Exception.hpp"
-
 //=============================================================================
 namespace Nelson {
 template <class T>
@@ -35,7 +34,7 @@ dividefullreal(indexType N, T* C, const T* A, int stride1, const T* B, int strid
         p += stride2;
     }
 }
-
+//=============================================================================
 template <class T>
 void
 complex_divide(T* c, const T* a, const T* b)
@@ -68,7 +67,7 @@ complex_divide(T* c, const T* a, const T* b)
     }
     c[0] = (T)(cr);
 }
-
+//=============================================================================
 template <class T>
 void
 dividefullcomplex(indexType N, T* C, const T* A, int stride1, const T* B, int stride2)
@@ -82,7 +81,7 @@ dividefullcomplex(indexType N, T* C, const T* A, int stride1, const T* B, int st
         p += stride2;
     }
 }
-
+//=============================================================================
 ArrayOf
 DotRightDivide(ArrayOf A, ArrayOf B)
 {
@@ -140,4 +139,6 @@ DotRightDivide(ArrayOf A, ArrayOf B)
     }
     return ArrayOf(B.getDataClass(), Cdim, Cp);
 }
+//=============================================================================
 }
+//=============================================================================
