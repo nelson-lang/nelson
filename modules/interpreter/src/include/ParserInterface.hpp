@@ -23,7 +23,7 @@
 #include "MacroFunctionDef.hpp"
 #include "ParserState.hpp"
 #include "nlsInterpreter_exports.h"
-#include <stdio.h>
+#include <cstdio>
 //=============================================================================
 namespace Nelson {
 /**
@@ -55,6 +55,6 @@ parseString(const std::string& txt);
  * Parse the given file (with the given filename).
  */
 NLSINTERPRETER_IMPEXP ParserState
-parseFile(FILE*, const std::string&);
+parseFile(FILE* /*fp*/, const std::string& /*fname*/);
 } // namespace Nelson
 //=============================================================================

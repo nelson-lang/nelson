@@ -34,12 +34,12 @@ Nelson::StreamGateway::frewindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (nLhs != 0) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    FilesManager* fm = (FilesManager*)(eval->FileManager);
+    auto* fm = static_cast<FilesManager*>(eval->FileManager);
     if (fm == nullptr) {
         Error(_W("Problem with file manager."));
     }
     ArrayOf param1 = argIn[0];
-    int32 iValue = (int32)param1.getContentAsDoubleScalar();
+    auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
     if (fm->isOpened(iValue)) {
         File* f = fm->getFile(iValue);
         if (f->isInterfaceMethod()) {

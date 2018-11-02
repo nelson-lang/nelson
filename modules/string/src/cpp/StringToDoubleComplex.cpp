@@ -21,7 +21,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <locale>
-#include <math.h>
+#include <cmath>
 #include "StringToDoubleComplex.hpp"
 #include "StringToDouble.hpp"
 //=============================================================================
@@ -234,5 +234,5 @@ stringToDoubleComplex(const std::wstring& str, bool& wasConverted)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

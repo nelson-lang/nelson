@@ -35,7 +35,7 @@ safegetline(std::ifstream& os, std::string& line)
 {
     std::string myline;
     if (getline(os, myline)) {
-        if (myline.size() && myline[myline.size() - 1] == '\r') {
+        if (!myline.empty() && myline[myline.size() - 1] == '\r') {
             line = myline.substr(0, myline.size() - 1);
         } else {
             line = myline;
@@ -55,7 +55,7 @@ Localization::Localization()
 Localization*
 Localization::Instance()
 {
-    if (m_pInstance == NULL) {
+    if (m_pInstance == nullptr) {
         m_pInstance = new Localization();
     }
     return m_pInstance;
@@ -71,7 +71,7 @@ Localization::destroy()
 }
 //=============================================================================
 void
-Localization::initCoreDynamicLibrary(void)
+Localization::initCoreDynamicLibrary()
 {
     if (bFirstDynamicLibraryCall) {
         std::string fullpathCoreSharedLibrary = "libnlsCore" + get_dynamic_library_extension();
@@ -102,7 +102,7 @@ Localization::initCoreDynamicLibrary(void)
 std::wstring
 Localization::getPreferencesPathDynamic()
 {
-    typedef std::wstring (*PROC_GetPreferencesPath)();
+    using PROC_GetPreferencesPath = std::wstring (*)();
     static PROC_GetPreferencesPath GetPreferencesPathPtr = nullptr;
     initCoreDynamicLibrary();
     if (!GetPreferencesPathPtr) {
@@ -118,7 +118,7 @@ Localization::getPreferencesPathDynamic()
 std::wstring
 Localization::getNelsonPathDynamic()
 {
-    typedef std::wstring (*PROC_GetNelsonPath)();
+    using PROC_GetNelsonPath = std::wstring (*)();
     static PROC_GetNelsonPath GetNelsonPathPtr = nullptr;
     initCoreDynamicLibrary();
     if (!GetNelsonPathPtr) {
@@ -150,11 +150,11 @@ Localization::setLanguageEnvironment(const std::wstring lang)
 }
 //=============================================================================
 void
-Localization::initLanguageSupported(void)
+Localization::initLanguageSupported()
 {
     if (LanguageSupported.empty()) {
         std::wstring langsconf = getNelsonPathDynamic() + L"/etc/languages.conf";
-        std::string jsonString = "";
+        std::string jsonString;
         std::string tmpline;
 #ifdef _MSC_VER
         std::ifstream jsonFile(langsconf);
@@ -206,7 +206,7 @@ Localization::setLanguage(std::wstring lang, bool save)
         }
         std::wstring prefDir = getPreferencesPathDynamic();
         std::wstring prefFile = prefDir + L"/nelson.conf";
-        std::string jsonString = "";
+        std::string jsonString;
         std::string tmpline;
 #ifdef _MSC_VER
         std::ifstream jsonFile(prefFile);
@@ -261,8 +261,8 @@ bool
 Localization::getManagedLanguages(wstringVector& langs)
 {
     langs.clear();
-    for (size_t k = 0; k < LanguageSupported.size(); k++) {
-        langs.push_back(LanguageSupported[k]);
+    for (const auto& k : LanguageSupported) {
+        langs.push_back(k);
     }
     return true;
 }
@@ -273,10 +273,10 @@ Localization::initializeLocalization(std::wstring lang)
     std::wstring effectiveLang = L"en_US";
     initLanguageSupported();
     if (lang.empty()) {
-        std::wstring language_saved = L"";
+        std::wstring language_saved;
         std::wstring prefDir = getPreferencesPathDynamic();
         std::wstring prefFile = prefDir + L"/nelson.conf";
-        std::string jsonString = "";
+        std::string jsonString;
         std::string tmpline;
 #ifdef _MSC_VER
         std::ifstream jsonFile(prefFile);
@@ -322,5 +322,5 @@ Localization::isSupportedLanguage(std::wstring lang)
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

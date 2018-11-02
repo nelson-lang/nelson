@@ -31,7 +31,7 @@ methodsComHandleObject(ArrayOf A, wstringVector& methods)
     if (A.getHandleCategory() != COM_CATEGORY_STR) {
         Error(_W("COM handle expected."));
     }
-    ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
+    auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     methodsComHandleObject(comhandleobj, methods);
 }
 //=============================================================================
@@ -82,5 +82,5 @@ methodsComHandleObject(ComHandleObject* comHandle, wstringVector& methods)
     std::sort(methods.begin(), methods.end());
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -32,7 +32,7 @@ class NLSAUDIO_IMPEXP AudioplayerObject : public HandleGenericObject
 {
 public:
     AudioplayerObject();
-    ~AudioplayerObject();
+    ~AudioplayerObject() override;
     bool
     isWriteableProperty(std::wstring propertyName);
 
@@ -54,9 +54,9 @@ public:
     wstringVector
     fieldnames();
     bool
-    isProperty(std::wstring propertyName);
+    isProperty(std::wstring propertyName) override;
     bool
-    isMethod(std::wstring methodName);
+    isMethod(std::wstring methodName) override;
 
     bool
     setSamples(ArrayOf data, int SampleRate, std::wstring& errorMessage);

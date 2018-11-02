@@ -26,14 +26,14 @@ ArrayOfVector
 Nelson::OsFunctionsGateway::setenvBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() > 2 || argIn.size() == 0) {
+    if (argIn.size() > 2 || argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs != 0) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    std::wstring varEnvName = L"";
-    std::wstring varEnvValue = L"";
+    std::wstring varEnvName;
+    std::wstring varEnvValue;
     if (argIn[0].isRowVectorCharacterArray()) {
         varEnvName = argIn[0].getContentAsWideString();
     } else {

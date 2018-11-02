@@ -62,5 +62,5 @@ Assert_IsApprox(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, d
     return bRes;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

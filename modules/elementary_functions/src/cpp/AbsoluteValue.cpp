@@ -116,10 +116,9 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
     } break;
     case NLS_DCOMPLEX: {
         Dimensions dimsArrayIn = arrayIn.getDimensions();
-        double* dp = (double*)ArrayOf::allocateArrayOf(
-            NLS_DOUBLE, dimsArrayIn.getElementCount(), stringVector(), false);
-        doublecomplex* matzArrayIn
-            = reinterpret_cast<doublecomplex*>((double*)arrayIn.getDataPointer());
+        double* dp = static_cast<double*>(ArrayOf::allocateArrayOf(
+            NLS_DOUBLE, dimsArrayIn.getElementCount(), stringVector(), false));
+        auto* matzArrayIn = reinterpret_cast<doublecomplex*>((double*)arrayIn.getDataPointer());
         for (indexType k = 0; k < dimsArrayIn.getElementCount(); ++k) {
             dp[k] = std::sqrt((matzArrayIn[k].real() * matzArrayIn[k].real())
                 + (matzArrayIn[k].imag() * matzArrayIn[k].imag()));
@@ -128,10 +127,9 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
     } break;
     case NLS_SCOMPLEX: {
         Dimensions dimsArrayIn = arrayIn.getDimensions();
-        single* dp = (single*)ArrayOf::allocateArrayOf(
-            NLS_SINGLE, dimsArrayIn.getElementCount(), stringVector(), false);
-        singlecomplex* matzArrayIn
-            = reinterpret_cast<singlecomplex*>((single*)arrayIn.getDataPointer());
+        single* dp = static_cast<single*>(ArrayOf::allocateArrayOf(
+            NLS_SINGLE, dimsArrayIn.getElementCount(), stringVector(), false));
+        auto* matzArrayIn = reinterpret_cast<singlecomplex*>((single*)arrayIn.getDataPointer());
         for (indexType k = 0; k < dimsArrayIn.getElementCount(); ++k) {
             dp[k] = std::sqrt((matzArrayIn[k].real() * matzArrayIn[k].real())
                 + (matzArrayIn[k].imag() * matzArrayIn[k].imag()));
@@ -142,5 +140,5 @@ AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

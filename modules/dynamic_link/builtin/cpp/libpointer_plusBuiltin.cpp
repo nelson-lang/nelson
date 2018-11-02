@@ -38,7 +38,7 @@ Nelson::DynamicLinkGateway::libpointer_plusBuiltin(
     if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
         Error(_W("libpointer handle expected."));
     }
-    LibPointerObject* objLibPointer = (LibPointerObject*)param1.getContentAsHandleScalar();
+    auto* objLibPointer = (LibPointerObject*)param1.getContentAsHandleScalar();
     ArrayOf param2 = argIn[1];
     indexType offset = param2.getContentAsScalarIndex(true);
     retval.push_back(ArrayOf::handleConstructor(objLibPointer->plus(offset)));

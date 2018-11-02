@@ -50,7 +50,7 @@ Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             Error(_W("Invalid origin."));
         }
     } else {
-        int iValue = (int)param3.getContentAsDoubleScalar();
+        int iValue = static_cast<int>(param3.getContentAsDoubleScalar());
         switch (iValue) {
         case -1:
         case 0:
@@ -62,12 +62,12 @@ Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         } break;
         }
     }
-    int64 iOffset = (int64)param2.getContentAsDoubleScalar();
-    FilesManager* fm = (FilesManager*)(eval->FileManager);
+    auto iOffset = static_cast<int64>(param2.getContentAsDoubleScalar());
+    auto* fm = static_cast<FilesManager*>(eval->FileManager);
     if (fm == nullptr) {
         Error(_W("Problem with file manager."));
     }
-    int32 iValue = (int32)param1.getContentAsDoubleScalar();
+    auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
     if (fm->isOpened(iValue)) {
         File* f = fm->getFile(iValue);
         if (!FileSeek(f, iOffset, ORIGIN)) {

@@ -33,13 +33,13 @@ Nelson::OsFunctionsGateway::createGUIDBuiltin(Evaluator* eval, int nLhs, const A
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         retval.push_back(ArrayOf::characterArrayConstructor(CreateGUID()));
     } else {
         ArrayOf arg1 = argIn[0];
         if (arg1.isNumeric()) {
             indexType idx = arg1.getContentAsScalarIndex();
-            wstringVector strs = CreateGUID((size_t)idx);
+            wstringVector strs = CreateGUID(static_cast<size_t>(idx));
             retval.push_back(ToCellStringAsColumn(strs));
         } else {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);

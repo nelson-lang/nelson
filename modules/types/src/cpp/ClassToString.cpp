@@ -24,7 +24,7 @@ namespace Nelson {
 std::wstring
 ClassToString(Class classType)
 {
-    std::wstring classString(L"");
+    std::wstring classString;
     switch (classType) {
     case NLS_HANDLE: {
         classString = utf8_to_wstring(NLS_HANDLE_STR);

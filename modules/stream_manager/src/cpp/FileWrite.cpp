@@ -49,15 +49,15 @@ FileWrite(Evaluator* eval, File* fp, ArrayOf src, Class destClass, size_t skip,
             toWrite.promoteType(destClass);
             void* dp = toWrite.getReadWriteDataPointer();
             if (fp->isInterfaceMethod()) {
-                Interface* io = (Interface*)fp->getFilePointer();
+                auto* io = static_cast<Interface*>(fp->getFilePointer());
                 if (skip != 0) {
                     fwrite_error = FWRITE_ENDIAN_CONVERSION_NOT_SUPPORTED;
                 } else if ((fp->getFileName() == L"stdout") || (fp->getFileName() == L"stderr")) {
                     toWrite.promoteType(NLS_CHAR);
                     std::string str = toWrite.getContentAsCString();
                     if (bIsLittleEndian != isLittleEndianFormat()) {
-                        for (size_t k = 0; k < str.size(); k++) {
-                            str[k] = bswap<char>(str[k]);
+                        for (char& k : str) {
+                            k = bswap<char>(k);
                         }
                     }
                     if (fp->getFileName() == L"stdout") {
@@ -65,13 +65,13 @@ FileWrite(Evaluator* eval, File* fp, ArrayOf src, Class destClass, size_t skip,
                     } else {
                         io->errorMessage(str);
                     }
-                    sizeWritten = (int)str.size();
+                    sizeWritten = static_cast<int>(str.size());
                     fwrite_error = FWRITE_NO_ERROR;
                 } else {
                     fwrite_error = FWRITE_FILE_DESTINATION_NOT_SUPPORTED;
                 }
             } else {
-                FILE* filepointer = (FILE*)fp->getFilePointer();
+                FILE* filepointer = static_cast<FILE*>(fp->getFilePointer());
                 if (filepointer) {
                     if (skip) {
                         char* skipdata;
@@ -93,8 +93,8 @@ FileWrite(Evaluator* eval, File* fp, ArrayOf src, Class destClass, size_t skip,
                     if ((destClass == src.getDataClass()) && destClass == NLS_CHAR) {
                         std::string str = toWrite.getContentAsCString();
                         if (bIsLittleEndian != isLittleEndianFormat()) {
-                            for (size_t k = 0; k < str.size(); k++) {
-                                str[k] = bswap<char>(str[k]);
+                            for (char& k : str) {
+                                k = bswap<char>(k);
                             }
                         }
                         written = fwrite(str.c_str(), sizeof(char), str.size(), filepointer);
@@ -106,7 +106,7 @@ FileWrite(Evaluator* eval, File* fp, ArrayOf src, Class destClass, size_t skip,
                         }
                         written = fwrite(dp, elsize, count, filepointer);
                     }
-                    sizeWritten = (int)written;
+                    sizeWritten = static_cast<int>(written);
                 }
                 fwrite_error = FWRITE_NO_ERROR;
             }
@@ -121,5 +121,5 @@ FileWrite(Evaluator* eval, File* fp, ArrayOf src, Class destClass, size_t skip,
     return fwrite_error;
 }
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

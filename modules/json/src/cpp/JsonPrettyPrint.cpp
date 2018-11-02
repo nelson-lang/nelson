@@ -103,7 +103,7 @@ namespace implementation {
         return { at, len };
     }
     //=============================================================================
-}
+} // namespace implementation
 //=============================================================================
 enum class Colons
 {
@@ -159,18 +159,18 @@ JSONPrettify(const std::wstring& json, const Nelson::Colons spacing = Nelson::Co
         case (Position::TAB): {
             std::wstring insert = generateSpaces(depth);
             pretty.insert(pos_tab.pos, insert);
-            it = (long)pos_tab.pos + (long)insert.size() + pos_tab.length;
+            it = static_cast<long>(pos_tab.pos) + static_cast<long>(insert.size()) + pos_tab.length;
             break;
         }
         case (Position::COMMA): {
             pretty.insert(pos_comma + 1, L"\n");
-            it = (long)pos_comma + 1;
+            it = static_cast<long>(pos_comma) + 1;
             break;
         }
         case (Position::OBJ_START): {
             std::wstring insert = L"\n";
             pretty.insert(pos_obj_start + 1, insert);
-            it = (long)pos_obj_start + (long)insert.size();
+            it = static_cast<long>(pos_obj_start) + static_cast<long>(insert.size());
             depth += 1;
             if (pos_obj_start - 1 > pretty.size()) {
                 continue;
@@ -178,28 +178,30 @@ JSONPrettify(const std::wstring& json, const Nelson::Colons spacing = Nelson::Co
             if (pretty.at(pos_obj_start - 1) != L':') {
                 std::wstring extra = generateSpaces(depth - 1);
                 pretty.insert(pos_obj_start, extra);
-                it += (long)extra.size();
+                it += static_cast<long>(extra.size());
             }
             break;
         }
         case (Position::OBJ_END): {
             std::wstring insert = L"\n" + generateSpaces(depth - 1);
             pretty.insert(pos_obj_end, insert);
-            it = (long)pos_obj_end + (long)insert.size() + (long)1;
+            it = static_cast<long>(pos_obj_end) + static_cast<long>(insert.size())
+                + static_cast<long>(1);
             depth -= 1;
             break;
         }
         case (Position::ARRAY_START): {
             std::wstring insert = L"\n";
             pretty.insert(pos_array_start + 1, insert);
-            it = (long)pos_array_start + (long)insert.size();
+            it = static_cast<long>(pos_array_start) + static_cast<long>(insert.size());
             depth += 1;
             break;
         }
         case (Position::ARRAY_END): {
             std::wstring insert = L"\n" + generateSpaces(depth - 1);
             pretty.insert(pos_array_end, insert);
-            it = (long)pos_array_end + (long)insert.size() + (long)1;
+            it = static_cast<long>(pos_array_end) + static_cast<long>(insert.size())
+                + static_cast<long>(1);
             depth -= 1;
             break;
         }
@@ -224,5 +226,5 @@ jsonPrettyPrint(const std::wstring& stringToPrettify)
     return ArrayOf::characterArrayConstructor(jsonPrettified);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

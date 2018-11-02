@@ -34,7 +34,7 @@ Nelson::ModulesManagerGateway::requiremoduleBuiltin(
     if (nLhs != 0) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    std::wstring moduleshortname = L"";
+    std::wstring moduleshortname;
     if (argIn[0].isRowVectorCharacterArray()) {
         moduleshortname = argIn[0].getContentAsWideString();
     } else {

@@ -19,7 +19,7 @@
 #pragma once
 //=============================================================================
 #include "nlsSparse_exports.h"
-#include <stdlib.h>
+#include <cstdlib>
 //=============================================================================
 namespace Nelson {
 NLSSPARSE_IMPEXP bool

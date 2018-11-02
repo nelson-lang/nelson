@@ -33,8 +33,8 @@ Nelson::OsFunctionsGateway::searchenvBuiltin(Evaluator* eval, int nLhs, const Ar
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    std::wstring varEnvName = L"";
-    std::wstring fileToSearch = L"";
+    std::wstring varEnvName;
+    std::wstring fileToSearch;
     if (argIn[0].isRowVectorCharacterArray()) {
         fileToSearch = argIn[0].getContentAsWideString();
     } else {

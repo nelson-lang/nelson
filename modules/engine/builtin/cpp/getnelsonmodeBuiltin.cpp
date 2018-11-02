@@ -26,13 +26,13 @@ ArrayOfVector
 Nelson::EngineGateway::getnelsonmodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 0) {
+    if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    NELSON_ENGINE_MODE _mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
+    auto _mode = static_cast<NELSON_ENGINE_MODE>(eval->getNelsonEngineMode());
     switch (_mode) {
     case BASIC_ENGINE: {
         retval.push_back(ArrayOf::characterArrayConstructor("BASIC_ENGINE"));

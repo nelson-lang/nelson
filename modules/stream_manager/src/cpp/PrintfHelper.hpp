@@ -31,7 +31,7 @@ private:
     bool hasMoreData;
     bool dataUsed;
     void
-    IncrementDataPointer(void);
+    IncrementDataPointer();
     static int
     flagCharacter(wchar_t c);
     static int
@@ -40,7 +40,7 @@ private:
     ConvertEscapeSequences(const std::wstring& src);
 
 public:
-    PrintfHelper(const ArrayOfVector& arg_);
+    PrintfHelper(ArrayOfVector arg_);
     bool
     GetNextVariableAsDouble(double& data, std::wstring& errorMessage, bool& isEmpty);
     bool
@@ -48,11 +48,11 @@ public:
     bool
     GetNextVariableAsString(std::wstring& str, std::wstring& errorMessage);
     bool
-    HasMoreData(void);
+    HasMoreData();
     bool
-    WasDataUsed(void);
+    WasDataUsed();
     static bool
-    isEscape(wchar_t* dp);
+    isEscape(const wchar_t* dp);
     static wchar_t*
     validateFormatSpec(wchar_t* cp);
 };

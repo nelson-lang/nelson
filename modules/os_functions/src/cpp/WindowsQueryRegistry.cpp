@@ -58,7 +58,7 @@ windowsQueryRegistryAllValuesNames(
         if (getRegistryKeyInfo(hroot, subkey, nbKeys, nbValues) == false) {
             errorMessage = _W("Cannot get KEY information.");
         } else {
-            HKEY desiredHkey = NULL;
+            HKEY desiredHkey = nullptr;
             bool isOpen = openRegistryKey(hroot, subkey, &desiredHkey);
             if (!isOpen) {
                 errorMessage = _W("Invalid SUBKEY value.");
@@ -68,8 +68,8 @@ windowsQueryRegistryAllValuesNames(
                 for (size_t i = 0; i < nbKeys; i++) {
                     TCHAR achKey[MAX_KEY_LENGTH];
                     DWORD cbName = MAX_KEY_LENGTH;
-                    DWORD retCode = RegEnumValue(
-                        desiredHkey, (DWORD)i, achKey, &cbName, NULL, NULL, NULL, NULL);
+                    DWORD retCode = RegEnumValue(desiredHkey, static_cast<DWORD>(i), achKey,
+                        &cbName, nullptr, nullptr, nullptr, nullptr);
                     if (retCode == ERROR_SUCCESS) {
                         names.push_back(achKey);
                     }
@@ -97,28 +97,28 @@ windowsQueryRegistryValueName(const std::wstring& rootkey, const std::wstring& s
         errorMessage = _W("Invalid ROOTKEY value.");
     } else {
         HKEY hroot = getHkeyFromString(rootkey);
-        HKEY desiredHkey = NULL;
+        HKEY desiredHkey = nullptr;
         bool isOpen = openRegistryKey(hroot, subkey, &desiredHkey);
         if (!isOpen) {
             errorMessage = _W("Invalid SUBKEY value.");
             return res;
         }
         DWORD ouputType = 0;
-        if (RegQueryValueEx(desiredHkey, valname.c_str(), NULL, &ouputType, NULL, NULL)
+        if (RegQueryValueEx(desiredHkey, valname.c_str(), nullptr, &ouputType, nullptr, nullptr)
             == ERROR_SUCCESS) {
             if ((ouputType == REG_EXPAND_SZ) || (ouputType == REG_SZ)) {
                 DWORD Length = MAX_VALUE_NAME;
                 wchar_t Line[MAX_VALUE_NAME];
-                if (RegQueryValueEx(
-                        desiredHkey, valname.c_str(), NULL, &ouputType, (LPBYTE)&Line, &Length)
+                if (RegQueryValueEx(desiredHkey, valname.c_str(), nullptr, &ouputType,
+                        reinterpret_cast<LPBYTE>(&Line), &Length)
                     == ERROR_SUCCESS) {
                     res = ArrayOf::characterArrayConstructor(Line);
                 }
             } else {
                 DWORD size = 4;
                 int Num = 0;
-                if (RegQueryValueEx(
-                        desiredHkey, valname.c_str(), NULL, &ouputType, (LPBYTE)&Num, &size)
+                if (RegQueryValueEx(desiredHkey, valname.c_str(), nullptr, &ouputType,
+                        reinterpret_cast<LPBYTE>(&Num), &size)
                     == ERROR_SUCCESS) {
                     res = ArrayOf::int32Constructor(Num);
                 }
@@ -213,13 +213,13 @@ getRegistryKeyInfo(HKEY rootKey, std::wstring subKey, size_t& keysNumber, size_t
         return false;
     }
     // https://msdn.microsoft.com/en-us/library/windows/desktop/ms724902(v=vs.85).aspx
-    DWORD retCode = RegQueryInfoKey(desiredKey, achClass, &cchClassName, NULL, &cSubKeys,
+    DWORD retCode = RegQueryInfoKey(desiredKey, achClass, &cchClassName, nullptr, &cSubKeys,
         &cbMaxSubKey, &cchMaxClass, &cValues, &cchMaxValue, &cbMaxValueData, &cbSecurityDescriptor,
         &ftLastWriteTime);
     RegCloseKey(desiredKey);
     if (retCode == ERROR_SUCCESS) {
-        keysNumber = (size_t)cValues;
-        valuesNumber = (size_t)cSubKeys;
+        keysNumber = static_cast<size_t>(cValues);
+        valuesNumber = static_cast<size_t>(cSubKeys);
         return true;
     }
     return false;
@@ -227,5 +227,5 @@ getRegistryKeyInfo(HKEY rootKey, std::wstring subKey, size_t& keysNumber, size_t
 //=============================================================================
 #endif
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -26,7 +26,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::TimeGateway::cputimeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 0) {
+    if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if ((nLhs > 1)) {

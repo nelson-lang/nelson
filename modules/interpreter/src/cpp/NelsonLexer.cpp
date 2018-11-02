@@ -18,8 +18,8 @@
 //=============================================================================
 #include "nlsInterpreter_exports.h"
 #include "characters_encoding.hpp"
-#include <ctype.h>
-#include <stdio.h>
+#include <cctype>
+#include <cstdio>
 #include <sys/stat.h>
 #include <sys/types.h>
 #define WS 999
@@ -35,7 +35,6 @@
 #include "NelSonParser.h"
 using namespace Nelson;
 
-extern YYSTYPE yylval;
 extern bool interactiveMode;
 extern int charcontext;
 char* textbuffer = nullptr;
@@ -83,9 +82,8 @@ ContextInt()
 {
     if (datap == linestart) {
         return (1 << 16 | lineNumber);
-    } else {
-        return ((datap - linestart + 1) << 16) | (lineNumber + 1);
     }
+    return ((datap - linestart + 1) << 16) | (lineNumber + 1);
 }
 //=============================================================================
 void
@@ -99,7 +97,7 @@ void
 LexerException(std::string msg)
 {
     char buffer[4906];
-    if (!interactiveMode && (getParserFilenameU().size() != 0) && !msg.empty()) {
+    if (!interactiveMode && (!getParserFilenameU().empty()) && !msg.empty()) {
         sprintf(buffer, _("Lexical error '%s'\n\tat line %d of file %s").c_str(), msg.c_str(),
             lineNumber + 1, getParserFilenameU().c_str());
     } else {
@@ -122,10 +120,10 @@ inline void
 popBracket(char t)
 {
     if (bracketStackSize <= 0) {
-        LexerException(_("mismatched parenthesis").c_str());
+        LexerException(_("mismatched parenthesis"));
     }
     if (bracketStack[--bracketStackSize] != t) {
-        LexerException(_("mismatched parenthesis").c_str());
+        LexerException(_("mismatched parenthesis"));
     }
 }
 //=============================================================================
@@ -182,8 +180,8 @@ testSpecialFuncs()
     }
     keyword[cp - datap] = 0;
     tSearch.word = keyword;
-    pSearch = (keywordStruct*)bsearch(
-        &tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword);
+    pSearch = static_cast<keywordStruct*>(
+        bsearch(&tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword));
     if (pSearch != nullptr) {
         return false;
     }
@@ -236,7 +234,7 @@ isNewline()
 inline int
 testAlphaChar()
 {
-    int c = (int)datap[0];
+    int c = static_cast<int>(datap[0]);
     if (c < 0) {
         return 0;
     }
@@ -246,7 +244,7 @@ testAlphaChar()
 inline int
 testAlphaNumChar()
 {
-    int c = (int)datap[0];
+    int c = static_cast<int>(datap[0]);
     if (c < 0) {
         return 0;
     }
@@ -262,7 +260,7 @@ _isDigit(char c)
 inline int
 testDigit()
 {
-    int c = (int)datap[0];
+    int c = static_cast<int>(datap[0]);
     return (_isDigit(c));
 }
 //=============================================================================
@@ -277,9 +275,8 @@ previousChar()
 {
     if (datap == textbuffer) {
         return 0;
-    } else {
-        return datap[-1];
     }
+    return datap[-1];
 }
 //=============================================================================
 inline int
@@ -307,8 +304,9 @@ lexUntermCharacterArray()
     char stringval[IDENTIFIER_LENGTH_MAX + 1];
     char* strptr;
     strptr = stringval;
-    while (isWhitespace())
+    while (isWhitespace()) {
         ;
+    }
     if (testNewline()) {
         lexState = Scanning;
         return;
@@ -320,8 +318,8 @@ lexUntermCharacterArray()
     *strptr++ = '\0';
     setTokenType(CHARACTER);
     tokenValue.isToken = false;
-    tokenValue.v.p
-        = allocateAbstractSyntaxTree(const_character_array_node, stringval, (int)ContextInt());
+    tokenValue.v.p = allocateAbstractSyntaxTree(
+        const_character_array_node, stringval, static_cast<int>(ContextInt()));
 #ifdef LEXDEBUG
     printf("Untermed string %s\r\n", stringval);
 #endif
@@ -353,14 +351,14 @@ lexString()
         }
     }
     if (testNewline()) {
-        LexerException(_("unterminated string").c_str());
+        LexerException(_("unterminated string"));
     }
     discardChar();
     *strptr++ = '\0';
     setTokenType(STRING);
     tokenValue.isToken = false;
-    tokenValue.v.p = allocateAbstractSyntaxTree(const_string_node, stringval, (int)ContextInt());
-    return;
+    tokenValue.v.p
+        = allocateAbstractSyntaxTree(const_string_node, stringval, static_cast<int>(ContextInt()));
 }
 //=============================================================================
 void
@@ -386,15 +384,14 @@ lexCharacterArray()
         }
     }
     if (testNewline()) {
-        LexerException(_("unterminated character array").c_str());
+        LexerException(_("unterminated character array"));
     }
     discardChar();
     *strptr++ = '\0';
     setTokenType(CHARACTER);
     tokenValue.isToken = false;
-    tokenValue.v.p
-        = allocateAbstractSyntaxTree(const_character_array_node, stringval, (int)ContextInt());
-    return;
+    tokenValue.v.p = allocateAbstractSyntaxTree(
+        const_character_array_node, stringval, static_cast<int>(ContextInt()));
 }
 
 void
@@ -414,8 +411,8 @@ lexIdentifier()
     }
     ident[i] = '\0';
     tSearch.word = ident;
-    pSearch = (keywordStruct*)bsearch(
-        &tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword);
+    pSearch = static_cast<keywordStruct*>(
+        bsearch(&tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword));
     if (pSearch != nullptr) {
         setTokenType(pSearch->token);
         if (strcmp(ident, "end") == 0) {
@@ -430,19 +427,18 @@ lexIdentifier()
         // to match them up.  But we need this information to determine
         // if more text is needed...
         tokenValue.isToken = false;
-        tokenValue.v.p
-            = allocateAbstractSyntaxTree(reserved_node, pSearch->ordinal, (int)ContextInt());
+        tokenValue.v.p = allocateAbstractSyntaxTree(
+            reserved_node, pSearch->ordinal, static_cast<int>(ContextInt()));
         if ((pSearch->token == FOR) || (pSearch->token == WHILE) || (pSearch->token == IF)
             || (pSearch->token == ELSEIF) || (pSearch->token == CASE)) {
             vcFlag = 1;
             inBlock++;
         }
         return;
-    } else {
-        setTokenType(IDENT);
-        tokenValue.isToken = false;
-        tokenValue.v.p = allocateAbstractSyntaxTree(id_node, ident, (int)ContextInt());
     }
+    setTokenType(IDENT);
+    tokenValue.isToken = false;
+    tokenValue.v.p = allocateAbstractSyntaxTree(id_node, ident, static_cast<int>(ContextInt()));
 }
 //=============================================================================
 int
@@ -573,44 +569,45 @@ lexNumber()
     case 1:
         tokenValue.isToken = false;
         if ((currentChar() == 'i') || (currentChar() == 'I')) {
-            tokenValue.v.p
-                = allocateAbstractSyntaxTree(const_complex_node, buffer, (int)ContextInt());
+            tokenValue.v.p = allocateAbstractSyntaxTree(
+                const_complex_node, buffer, static_cast<int>(ContextInt()));
             discardChar();
         } else {
-            tokenValue.v.p
-                = allocateAbstractSyntaxTree(const_float_node, buffer, (int)ContextInt());
+            tokenValue.v.p = allocateAbstractSyntaxTree(
+                const_float_node, buffer, static_cast<int>(ContextInt()));
         }
         break;
     case 2:
         tokenValue.isToken = false;
         if ((currentChar() == 'i') || (currentChar() == 'I')) {
-            tokenValue.v.p
-                = allocateAbstractSyntaxTree(const_dcomplex_node, buffer, (int)ContextInt());
+            tokenValue.v.p = allocateAbstractSyntaxTree(
+                const_dcomplex_node, buffer, static_cast<int>(ContextInt()));
             discardChar();
         } else {
-            tokenValue.v.p
-                = allocateAbstractSyntaxTree(const_double_node, buffer, (int)ContextInt());
+            tokenValue.v.p = allocateAbstractSyntaxTree(
+                const_double_node, buffer, static_cast<int>(ContextInt()));
         }
         break;
     case 3:
         tokenValue.isToken = false;
         if ((currentChar() == 'i') || (currentChar() == 'I')) {
-            tokenValue.v.p
-                = allocateAbstractSyntaxTree(const_dcomplex_node, buffer, (int)ContextInt());
+            tokenValue.v.p = allocateAbstractSyntaxTree(
+                const_dcomplex_node, buffer, static_cast<int>(ContextInt()));
             discardChar();
         } else {
-            tokenValue.v.p = allocateAbstractSyntaxTree(const_int_node, buffer, (int)ContextInt());
+            tokenValue.v.p = allocateAbstractSyntaxTree(
+                const_int_node, buffer, static_cast<int>(ContextInt()));
         }
         break;
     case 4:
         tokenValue.isToken = false;
         if ((currentChar() == 'i') || (currentChar() == 'I')) {
-            tokenValue.v.p
-                = allocateAbstractSyntaxTree(const_dcomplex_node, buffer, (int)ContextInt());
+            tokenValue.v.p = allocateAbstractSyntaxTree(
+                const_dcomplex_node, buffer, static_cast<int>(ContextInt()));
             discardChar();
         } else {
-            tokenValue.v.p
-                = allocateAbstractSyntaxTree(const_uint64_node, buffer, (int)ContextInt());
+            tokenValue.v.p = allocateAbstractSyntaxTree(
+                const_uint64_node, buffer, static_cast<int>(ContextInt()));
         }
         break;
     }
@@ -646,27 +643,29 @@ lexScanningState()
         lexString();
         return;
     }
-    if (currentChar() == '\'')
+    if (currentChar() == '\'') {
         if ((previousChar() == ')') || (previousChar() == ']') || (previousChar() == '}')
             || (isalnum(previousChar()))) {
             /* Not a string... */
-            setTokenType((int)'\'');
+            setTokenType(static_cast<int>('\''));
             discardChar();
             return;
         } else {
             lexCharacterArray();
             return;
         }
+    }
     if (isWhitespace()) {
-        while (isWhitespace())
+        while (isWhitespace()) {
             ;
+        }
         setTokenType(WS);
         return;
     }
     if (match(";\n") || match(";\r\n")) {
         setTokenType(ENDQSTMNT);
         tokenValue.isToken = true;
-        tokenValue.v.i = (int)ContextInt();
+        tokenValue.v.i = static_cast<int>(ContextInt());
         NextLine();
         lexState = Initial;
         if (bracketStackSize == 0) {
@@ -750,18 +749,20 @@ lexScanningState()
             return;
         }
         // No, so... munch the whitespace
-        while (isWhitespace())
+        while (isWhitespace()) {
             ;
+        }
         // How do you know ident /ident is not ident/ident and is ident('/ident')?
         if (testAlphaChar()) {
             lexState = SpecScan;
         }
         return;
     }
-    if (testDigit() || currentChar() == '.')
+    if (testDigit() || currentChar() == '.') {
         if (lexNumber()) {
             return;
         }
+    }
     if ((currentChar() == '[') || (currentChar() == '{')) {
         pushBracket(currentChar());
         pushVCState();
@@ -803,7 +804,7 @@ lexInitialState()
         NextLine();
     } else if (isWhitespace()) {
     } else if (match(";")) {
-		// nothing
+        // nothing
     } else if (match("%") || match("//") || match("#")) {
         while (!isNewline()) {
             discardChar();
@@ -892,7 +893,7 @@ yylex()
     }
     if (!yylval.v.i) {
         yylval.isToken = true;
-        yylval.v.i = (int)ContextInt();
+        yylval.v.i = static_cast<int>(ContextInt());
     }
     return retval;
 }
@@ -907,7 +908,7 @@ setLexBuffer(const std::string& buffer)
     lexState = Initial;
     vcStackSize = 0;
     clearTextBufferLexer();
-    textbuffer = (char*)calloc(strlen(buffer.c_str()) + 1, sizeof(char));
+    textbuffer = static_cast<char*>(calloc(strlen(buffer.c_str()) + 1, sizeof(char)));
     datap = textbuffer;
     if (textbuffer) {
         strcpy(textbuffer, buffer.c_str());
@@ -940,7 +941,7 @@ setLexFile(FILE* fp)
     long cpos = st.st_size;
     clearTextBufferLexer();
     // Allocate enough for the text, an extra newline, and null
-    textbuffer = (char*)calloc(cpos + 2, sizeof(char));
+    textbuffer = static_cast<char*>(calloc(cpos + 2, sizeof(char)));
     if (textbuffer) {
         datap = textbuffer;
         size_t n = fread(textbuffer, sizeof(char), cpos, fp);
@@ -954,8 +955,9 @@ bool
 lexCheckForMoreInput(int ccount)
 {
     try {
-        while (yylex() > 0)
+        while (yylex() > 0) {
             ;
+        }
         return ((continuationCount > ccount)
             || ((bracketStackSize > 0)
                    && ((bracketStack[bracketStackSize - 1] == '[')

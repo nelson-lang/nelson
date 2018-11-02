@@ -21,7 +21,7 @@
 #include "characters_encoding.hpp"
 #include <algorithm>
 #include <iostream>
-#include <string.h>
+#include <cstring>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -50,8 +50,8 @@ wstringVector
 GetKeywords(bool bSorted)
 {
     wstringVector strList;
-    for (size_t k = 0; k < KEYWORDCOUNT; k++) {
-        strList.push_back(utf8_to_wstring(keyWord[k].word));
+    for (auto& k : keyWord) {
+        strList.push_back(utf8_to_wstring(k.word));
     }
     if (bSorted) {
         std::sort(strList.begin(), strList.begin());
@@ -63,13 +63,13 @@ bool
 isKeyword(std::wstring key)
 {
     std::string _key = wstring_to_utf8(key);
-    for (size_t k = 0; k < KEYWORDCOUNT; k++) {
-        if (_key.compare(keyWord[k].word) == 0) {
+    for (auto& k : keyWord) {
+        if (_key.compare(k.word) == 0) {
             return true;
         }
     }
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

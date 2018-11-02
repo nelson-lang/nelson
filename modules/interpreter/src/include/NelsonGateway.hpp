@@ -49,8 +49,8 @@ typedef struct nlsGatewayStructType
 #define EXTERN_AS_C extern "C"
 #endif
 //=============================================================================
-typedef bool (*PROC_InitializeGateway)(Nelson::Evaluator* eval);
-typedef bool (*PROC_FinishGateway)(Nelson::Evaluator* eval);
+using PROC_InitializeGateway = bool (*)(Nelson::Evaluator*);
+using PROC_FinishGateway = bool (*)(Nelson::Evaluator*);
 //=============================================================================
 #define NLSGATEWAYFUNCEXTENDED(gateway, ptrInitializeFunction)                                     \
     EXTERN_AS_C EXPORTSYMBOL bool AddGateway(void* eval, const wchar_t* moduleFilename)            \

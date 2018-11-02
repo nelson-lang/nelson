@@ -39,9 +39,9 @@
 #include <Eigen/Dense>
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
-#include <inttypes.h>
-#include <math.h>
-#include <stdio.h>
+#include <cinttypes>
+#include <cmath>
+#include <cstdio>
 #include <limits>
 #include "ArrayOf.hpp"
 #include "Data.hpp"
@@ -1276,13 +1276,13 @@ numeric_cast(TIN value)
         || (std::numeric_limits<TOUT>::lowest() > std::numeric_limits<TIN>::lowest());
 
     // unsigned <-- unsigned
-    if ((! std::numeric_limits<TOUT>::is_signed) && (! std::numeric_limits<TIN>::is_signed)) {
+    if ((!std::numeric_limits<TOUT>::is_signed) && (!std::numeric_limits<TIN>::is_signed)) {
         if (positive_overflow_possible && (value > std::numeric_limits<TOUT>::max())) {
             return std::numeric_limits<TOUT>::max();
         }
     }
     // unsigned <-- signed
-    else if ((! std::numeric_limits<TOUT>::is_signed) && std::numeric_limits<TIN>::is_signed) {
+    else if ((!std::numeric_limits<TOUT>::is_signed) && std::numeric_limits<TIN>::is_signed) {
         if (positive_overflow_possible && (value > std::numeric_limits<TOUT>::max())) {
             return std::numeric_limits<TOUT>::max();
         } else if (negative_overflow_possible && (value < 0)) {
@@ -1290,7 +1290,7 @@ numeric_cast(TIN value)
         }
     }
     // signed <-- unsigned
-    else if (std::numeric_limits<TOUT>::is_signed && (! std::numeric_limits<TIN>::is_signed)) {
+    else if (std::numeric_limits<TOUT>::is_signed && (!std::numeric_limits<TIN>::is_signed)) {
         if (positive_overflow_possible && (value > std::numeric_limits<TOUT>::max())) {
             return std::numeric_limits<TOUT>::max();
         }
@@ -1331,11 +1331,11 @@ saturate(Class classIn, Class classOut, const void* pIn, void* pOut, indexType c
                     qp[i] = numeric_cast<TIN, TOUT>(sp[i]);
                 }
             }
-		} else {
+        } else {
             for (indexType i = 0; i < count; i++) {
-				qp[i] = numeric_cast<TIN, TOUT>(sp[i]);
+                qp[i] = numeric_cast<TIN, TOUT>(sp[i]);
             }
-		}
+        }
     }
 }
 //=============================================================================
@@ -1402,7 +1402,7 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
     // field structures, but have to be rearranged.
     if (dp->dataClass == NLS_STRUCT_ARRAY)
         if (dstClass == NLS_STRUCT_ARRAY) {
-            // TODO: Generalize this code to allow for one more field in destination
+            // TODO(mcallan): Generalize this code to allow for one more field in destination
             // than in source...
             if (dp->fieldNames.size() > fNames.size()) {
                 Error(_W("Cannot combine structures with different fields if the "

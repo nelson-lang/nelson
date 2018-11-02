@@ -68,7 +68,7 @@ namespace dtl {
     /**
      * type of edit for SES
      */
-    typedef int edit_t;
+    using edit_t = int;
     const   edit_t SES_DELETE = -1;
     const   edit_t SES_COMMON = 0;
     const   edit_t SES_ADD    = 1;
@@ -111,8 +111,8 @@ namespace dtl {
      */
     const unsigned long long MAX_CORDINATES_SIZE = 2000000;
 
-    typedef vector< long long > editPath;
-    typedef vector< P >         editPathCordinates;
+    using editPath = vector<long long>;
+    using editPathCordinates = vector<P>;
 
     /**
      * Structure of Unified Format Hunk
@@ -140,6 +140,6 @@ namespace dtl {
     typedef typename elemVec::iterator        elemVec_iter;
 
 
-}
+}  // namespace dtl
 
 #endif // DTL_VARIABLES_H

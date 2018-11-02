@@ -31,57 +31,57 @@ isMissing(const ArrayOf& A, bool& needToOverload)
 
     switch (A.getDataClass()) {
     case NLS_STRING_ARRAY: {
-        resultAslogical = (logical*)ArrayOf::allocateArrayOf(
-            NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false);
-        ArrayOf* elements = (ArrayOf*)A.getDataPointer();
+        resultAslogical = static_cast<logical*>(
+            ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
+        auto* elements = (ArrayOf*)A.getDataPointer();
         for (indexType k = 0; k < dimsA.getElementCount(); k++) {
             resultAslogical[k] = !elements[k].isCharacterArray();
         }
     } break;
     case NLS_CELL_ARRAY: {
-        resultAslogical = (logical*)ArrayOf::allocateArrayOf(
-            NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false);
-        ArrayOf* elements = (ArrayOf*)A.getDataPointer();
+        resultAslogical = static_cast<logical*>(
+            ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
+        auto* elements = (ArrayOf*)A.getDataPointer();
         for (indexType k = 0; k < dimsA.getElementCount(); k++) {
             resultAslogical[k] = elements[k].isCharacterArray() && elements[k].isEmpty();
         }
     } break;
     case NLS_DOUBLE: {
-        resultAslogical = (logical*)ArrayOf::allocateArrayOf(
-            NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false);
-        double* ptrA = (double*)A.getDataPointer();
+        resultAslogical = static_cast<logical*>(
+            ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
+        auto* ptrA = (double*)A.getDataPointer();
         for (indexType k = 0; k < dimsA.getElementCount(); k++) {
             resultAslogical[k] = std::isnan(ptrA[k]);
         }
     } break;
     case NLS_SINGLE: {
-        resultAslogical = (logical*)ArrayOf::allocateArrayOf(
-            NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false);
-        single* ptrA = (single*)A.getDataPointer();
+        resultAslogical = static_cast<logical*>(
+            ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
+        auto* ptrA = (single*)A.getDataPointer();
         for (indexType k = 0; k < dimsA.getElementCount(); k++) {
             resultAslogical[k] = std::isnan(ptrA[k]);
         }
     } break;
     case NLS_SCOMPLEX: {
-        resultAslogical = (logical*)ArrayOf::allocateArrayOf(
-            NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false);
-        single* ptrA = (single*)A.getDataPointer();
+        resultAslogical = static_cast<logical*>(
+            ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
+        auto* ptrA = (single*)A.getDataPointer();
         for (indexType k = 0; k < dimsA.getElementCount() * 2; k++) {
             resultAslogical[k] = std::isnan(ptrA[k]) || std::isnan(ptrA[k + 1]);
         }
     } break;
     case NLS_DCOMPLEX: {
-        resultAslogical = (logical*)ArrayOf::allocateArrayOf(
-            NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false);
-        double* ptrA = (double*)A.getDataPointer();
+        resultAslogical = static_cast<logical*>(
+            ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
+        auto* ptrA = (double*)A.getDataPointer();
         for (indexType k = 0; k < dimsA.getElementCount() * 2; k++) {
             resultAslogical[k] = std::isnan(ptrA[k]) || std::isnan(ptrA[k + 1]);
         }
     } break;
     case NLS_CHAR: {
-        resultAslogical = (logical*)ArrayOf::allocateArrayOf(
-            NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false);
-        charType* ptrA = (charType*)A.getDataPointer();
+        resultAslogical = static_cast<logical*>(
+            ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
+        auto* ptrA = (charType*)A.getDataPointer();
         for (indexType k = 0; k < dimsA.getElementCount(); k++) {
             resultAslogical[k] = (ptrA[k] == L' ');
         }
@@ -94,5 +94,5 @@ isMissing(const ArrayOf& A, bool& needToOverload)
     return ArrayOf(NLS_LOGICAL, dimsA, resultAslogical);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

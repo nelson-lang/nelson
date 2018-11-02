@@ -34,7 +34,7 @@ static bool
 initializeHistoryManagerModule(Nelson::Evaluator* eval)
 {
     if (eval->HistoryManager == nullptr) {
-        HistoryManager* ptrHistoryManager = new HistoryManager();
+        auto* ptrHistoryManager = new HistoryManager();
         eval->HistoryManager = (void*)ptrHistoryManager;
     }
     return true;
@@ -44,7 +44,7 @@ static bool
 finishHistoryManagerModule(Nelson::Evaluator* eval)
 {
     if (eval->HistoryManager) {
-        HistoryManager* ptrHistoryManager = (HistoryManager*)eval->HistoryManager;
+        auto* ptrHistoryManager = static_cast<HistoryManager*>(eval->HistoryManager);
         delete ptrHistoryManager;
     }
     eval->HistoryManager = nullptr;

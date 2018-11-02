@@ -35,7 +35,7 @@ SetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOf B)
     if (A.getHandleCategory() != COM_CATEGORY_STR) {
         Error(_W("COM handle expected."));
     }
-    ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
+    auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     void* ptr = comhandleobj->getPointer();
     if (ptr == nullptr) {
         Error(_W("COM valid handle expected."));
@@ -79,5 +79,5 @@ SetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOf B)
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

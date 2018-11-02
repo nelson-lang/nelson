@@ -29,12 +29,13 @@ StringLength(ArrayOf A)
     double* ptrLength = nullptr;
     if (A.isStringArray()) {
         outputDims = A.getDimensions();
-        ArrayOf* elements = (ArrayOf*)A.getDataPointer();
-        ptrLength = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outputDims.getElementCount());
+        auto* elements = (ArrayOf*)A.getDataPointer();
+        ptrLength = static_cast<double*>(
+            ArrayOf::allocateArrayOf(NLS_DOUBLE, outputDims.getElementCount()));
         for (size_t k = 0; k < outputDims.getElementCount(); k++) {
             if (elements[k].isCharacterArray()) {
                 std::wstring wstr = elements[k].getContentAsWideString();
-                ptrLength[k] = (double)wstr.length();
+                ptrLength[k] = static_cast<double>(wstr.length());
             } else {
                 ptrLength[k] = std::nan("NaN");
             }
@@ -49,13 +50,14 @@ StringLength(ArrayOf A)
         } else {
             outputDims = A.getDimensions();
         }
-        ptrLength = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outputDims.getElementCount());
+        ptrLength = static_cast<double*>(
+            ArrayOf::allocateArrayOf(NLS_DOUBLE, outputDims.getElementCount()));
         for (size_t k = 0; k < wstr.size(); k++) {
-            ptrLength[k] = (double)wstr[k].length();
+            ptrLength[k] = static_cast<double>(wstr[k].length());
         }
     }
     return ArrayOf(NLS_DOUBLE, outputDims, ptrLength);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

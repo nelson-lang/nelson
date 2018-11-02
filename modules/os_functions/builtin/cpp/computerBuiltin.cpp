@@ -26,7 +26,7 @@ ArrayOfVector
 Nelson::OsFunctionsGateway::computerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         if (nLhs > 3) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }

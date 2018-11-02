@@ -59,10 +59,10 @@ convertBitsPerSample(SF_INFO& sfinfo, int BitsPerSample)
         if ((sfinfo.format & SF_FORMAT_TYPEMASK) == SF_FORMAT_WAV) {
             sfinfo.format |= SF_FORMAT_PCM_U8;
             return true;
-        } else {
-            sfinfo.format |= SF_FORMAT_PCM_S8;
-            return true;
         }
+        sfinfo.format |= SF_FORMAT_PCM_S8;
+        return true;
+
     } else if (BitsPerSample == 16) {
         sfinfo.format |= SF_FORMAT_PCM_16;
         return true;
@@ -115,7 +115,7 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
     }
     rows = audioData.getDimensions().getRows();
     columns = audioData.getDimensions().getColumns();
-    int nbChannels = (int)columns;
+    int nbChannels = static_cast<int>(columns);
     boost::filesystem::path pathFilename = filename;
     std::wstring extension;
     if (pathFilename.has_extension()) {
@@ -152,14 +152,14 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
         int idx = 0;
         switch (audioData.getDataClass()) {
         case NLS_UINT8: {
-            uint8* ptrAudioData = (uint8*)audioData.getDataPointer();
+            auto* ptrAudioData = (uint8*)audioData.getDataPointer();
             single* buffer
                 = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, BUFFER * sfinfo.channels);
             int idx = 0;
             do {
                 writecount = BUFFER;
                 if (total + writecount > rows) {
-                    writecount = (int)(rows - total);
+                    writecount = static_cast<int>(rows - total);
                 }
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
@@ -184,12 +184,12 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
             delete[] buffer;
         } break;
         case NLS_INT16: {
-            int16* ptrAudioData = (int16*)audioData.getDataPointer();
+            auto* ptrAudioData = (int16*)audioData.getDataPointer();
             int16* buffer = (int16*)ArrayOf::allocateArrayOf(NLS_INT16, BUFFER * sfinfo.channels);
             do {
                 writecount = BUFFER;
                 if (total + writecount > rows) {
-                    writecount = (int)(rows - total);
+                    writecount = static_cast<int>(rows - total);
                 }
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
@@ -210,12 +210,12 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
             delete[] buffer;
         } break;
         case NLS_INT32: {
-            int32* ptrAudioData = (int32*)audioData.getDataPointer();
+            auto* ptrAudioData = (int32*)audioData.getDataPointer();
             int32* buffer = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, BUFFER * sfinfo.channels);
             do {
                 writecount = BUFFER;
                 if (total + writecount > rows) {
-                    writecount = (int)(rows - total);
+                    writecount = static_cast<int>(rows - total);
                 }
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
@@ -236,13 +236,13 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
             delete[] buffer;
         } break;
         case NLS_SINGLE: {
-            single* ptrAudioData = (single*)audioData.getDataPointer();
+            auto* ptrAudioData = (single*)audioData.getDataPointer();
             single* buffer
                 = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, BUFFER * sfinfo.channels);
             do {
                 writecount = BUFFER;
                 if (total + writecount > rows) {
-                    writecount = (int)(rows - total);
+                    writecount = static_cast<int>(rows - total);
                 }
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
@@ -263,13 +263,13 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
             delete[] buffer;
         } break;
         case NLS_DOUBLE: {
-            double* ptrAudioData = (double*)audioData.getDataPointer();
+            auto* ptrAudioData = (double*)audioData.getDataPointer();
             double* buffer
                 = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, BUFFER * sfinfo.channels);
             do {
                 writecount = BUFFER;
                 if (total + writecount > rows) {
-                    writecount = (int)(rows - total);
+                    writecount = static_cast<int>(rows - total);
                 }
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
@@ -299,10 +299,10 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
         sf_set_string(file, SF_STR_COMMENT, comment.c_str());
         sf_close(file);
         return true;
-    } else {
-        errorMessage = _W("Filename must have an extension.");
     }
+    errorMessage = _W("Filename must have an extension.");
+
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson

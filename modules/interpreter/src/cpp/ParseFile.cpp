@@ -46,7 +46,7 @@ ParseFile(Evaluator* eval, std::wstring filename, bool bIgnoreException)
     }
     Exception previousException(eval->getLastErrorException());
     try {
-        ps = parseFile(fr, wstring_to_utf8(filename).c_str());
+        ps = parseFile(fr, wstring_to_utf8(filename));
     } catch (const Exception&) {
         if (bIgnoreException) {
             eval->setLastErrorException(previousException);
@@ -72,5 +72,5 @@ ParseFile(Evaluator* eval, std::wstring filename, bool bIgnoreException)
     return ps;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

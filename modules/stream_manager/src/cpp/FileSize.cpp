@@ -30,10 +30,10 @@ FileSize(File* fp)
         if (fp->isInterfaceMethod()) {
             return sz;
         }
-        FILE* fileptr = (FILE*)fp->getFilePointer();
+        FILE* fileptr = static_cast<FILE*>(fp->getFilePointer());
         if (fileptr) {
             // save current file position
-            int64 curpos = static_cast<int64>(NLSFTELL(fileptr));
+            auto curpos = static_cast<int64>(NLSFTELL(fileptr));
             // move to end of file
             int res;
             int ORIGIN = SEEK_END;
@@ -59,5 +59,5 @@ FileSize(File* fp)
     return sz;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -33,7 +33,7 @@ ismethodComHandleObject(ComHandleObject* comhandleobj, const std::wstring& metho
     if (ptr == nullptr) {
         Error(_W("COM valid handle expected."));
     }
-    VARIANT* pVariant = (VARIANT*)ptr;
+    auto* pVariant = static_cast<VARIANT*>(ptr);
     return isMethodCom(pVariant->pdispVal, methodname);
 }
 //=============================================================================
@@ -43,10 +43,10 @@ ismethodComHandleObject(ArrayOf A, const std::wstring& methodname)
     if (A.getHandleCategory() != COM_CATEGORY_STR) {
         Error(_W("COM handle expected."));
     }
-    ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
+    auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     bool res = ismethodComHandleObject(comhandleobj, methodname);
     return ArrayOf::logicalConstructor(res);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

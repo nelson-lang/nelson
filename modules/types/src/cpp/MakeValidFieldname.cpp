@@ -33,7 +33,7 @@ MakeValidFieldname(std::string fieldname, std::string defaultPrefix)
 std::wstring
 MakeValidFieldname(std::wstring fieldname, std::wstring defaultPrefix)
 {
-    if (!fieldname.size()) {
+    if (fieldname.empty()) {
         return defaultPrefix;
     }
     std::wstring modifiedFieldname = fieldname;
@@ -51,5 +51,5 @@ MakeValidFieldname(std::wstring fieldname, std::wstring defaultPrefix)
     return modifiedFieldname;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

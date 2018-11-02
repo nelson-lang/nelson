@@ -43,7 +43,7 @@ static size_t sizeOfDouble = sizeof(double);
 static size_t sizeOfSingle = sizeof(single);
 //=============================================================================
 static int
-getFftFlags(FftPlannerMethod, int Narg)
+getFftFlags(FftPlannerMethod /*unused*/, int Narg)
 {
     int flags;
     switch (currentFftMethod) {
@@ -398,5 +398,5 @@ getPlannerInformation()
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

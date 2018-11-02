@@ -25,15 +25,14 @@ namespace Nelson {
 bool
 IsValidVariableName(std::string varname)
 {
-    if (!varname.size()) {
+    if (varname.empty()) {
         return false;
     }
     int c = varname[0];
     if ((c >= 48 && c <= 57) || (c == '_')) {
         return false;
     }
-    for (sizeType k = 0; k < (sizeType)varname.size(); k++) {
-        int c = varname[k];
+    for (int c : varname) {
         bool bSupportedChar
             = (c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c == '_') || (c >= 48 && c <= 57);
         if (!bSupportedChar) {
@@ -49,5 +48,5 @@ IsValidVariableName(std::wstring varname)
     return IsValidVariableName(wstring_to_utf8(varname));
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

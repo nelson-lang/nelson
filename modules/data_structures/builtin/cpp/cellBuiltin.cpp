@@ -31,19 +31,19 @@ Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const Arra
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0) {
-        indexType index = (indexType)0;
+    if (argIn.empty()) {
+        auto index = static_cast<indexType>(0);
         Dimensions dims(index, index);
-        ArrayOf* elements = new ArrayOf[index];
+        auto* elements = new ArrayOf[index];
         ArrayOf c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
         retval.push_back(c);
     }
     if (argIn.size() == 1) {
         if (argIn[0].getDataClass() == NLS_STRING_ARRAY) {
-            ArrayOf* elementsCell = (ArrayOf*)ArrayOf::allocateArrayOf(
-                NLS_CELL_ARRAY, argIn[0].getDimensions().getElementCount(), stringVector(), false);
+            ArrayOf* elementsCell = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
+                NLS_CELL_ARRAY, argIn[0].getDimensions().getElementCount(), stringVector(), false));
 
-            ArrayOf* elementsStringArray = (ArrayOf*)argIn[0].getDataPointer();
+            auto* elementsStringArray = (ArrayOf*)argIn[0].getDataPointer();
             for (indexType k = 0; k < argIn[0].getDimensions().getElementCount(); k++) {
                 if (elementsStringArray[k].isCharacterArray()) {
                     elementsCell[k] = elementsStringArray[k];
@@ -62,12 +62,12 @@ Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const Arra
                     if (dindex < 0) {
                         dindex = 0;
                     }
-                    indexType index = (indexType)dindex;
-                    if ((double)index != dindex) {
+                    auto index = static_cast<indexType>(dindex);
+                    if (static_cast<double>(index) != dindex) {
                         Error(ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
                     }
                     Dimensions dims(index, index);
-                    ArrayOf* elements = new ArrayOf[index * index];
+                    auto* elements = new ArrayOf[index * index];
                     for (indexType k = 0; k < index * index; k++) {
                         elements[k] = ArrayOf::emptyConstructor();
                     }
@@ -76,8 +76,8 @@ Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const Arra
                 } else {
                     ArrayOf arg = argIn[0];
                     Dimensions dims(arg.getLength());
-                    double* dindex = (double*)arg.getDataPointer();
-                    for (indexType k = 0; k < (indexType)arg.getLength(); k++) {
+                    auto* dindex = (double*)arg.getDataPointer();
+                    for (indexType k = 0; k < arg.getLength(); k++) {
                         double _dIndex = dindex[k];
                         if (!std::isfinite(_dIndex)) {
                             Error(ERROR_WRONG_ARGUMENT_1_FINITE_VECTOR_INTEGER_VALUE_EXPECTED);
@@ -85,15 +85,15 @@ Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const Arra
                         if (_dIndex < 0) {
                             _dIndex = 0;
                         }
-                        indexType index = (indexType)_dIndex;
-                        if ((double)index != _dIndex) {
+                        auto index = static_cast<indexType>(_dIndex);
+                        if (static_cast<double>(index) != _dIndex) {
                             Error(ERROR_WRONG_ARGUMENT_1_FINITE_VECTOR_INTEGER_VALUE_EXPECTED);
                         }
                         dims.setDimensionLength(k, index);
                     }
                     dims.simplify();
-                    ArrayOf* elements = new ArrayOf[dims.getElementCount()];
-                    for (indexType k = 0; k < (indexType)dims.getElementCount(); k++) {
+                    auto* elements = new ArrayOf[dims.getElementCount()];
+                    for (indexType k = 0; k < dims.getElementCount(); k++) {
                         elements[k] = ArrayOf::emptyConstructor();
                     }
                     ArrayOf c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
@@ -107,7 +107,7 @@ Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const Arra
         }
     } else {
         Dimensions dims(argIn.size());
-        for (sizeType k = 0; k < (sizeType)argIn.size(); k++) {
+        for (sizeType k = 0; k < static_cast<sizeType>(argIn.size()); k++) {
             if (argIn[k].getDataClass() == NLS_DOUBLE) {
                 if (argIn[k].isScalar()) {
                     ArrayOf arg = argIn[k];
@@ -120,8 +120,8 @@ Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const Arra
                     if (dindex < 0) {
                         dindex = 0;
                     }
-                    indexType index = (indexType)dindex;
-                    if ((double)index != dindex) {
+                    auto index = static_cast<indexType>(dindex);
+                    if (static_cast<double>(index) != dindex) {
                         Error(StringFormat(
                             ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED.c_str(),
                             k + 1));
@@ -135,8 +135,8 @@ Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nLhs, const Arra
             }
         }
         dims.simplify();
-        ArrayOf* elements = new ArrayOf[dims.getElementCount()];
-        for (indexType k = 0; k < (indexType)dims.getElementCount(); k++) {
+        auto* elements = new ArrayOf[dims.getElementCount()];
+        for (indexType k = 0; k < dims.getElementCount(); k++) {
             elements[k] = ArrayOf::emptyConstructor();
         }
         ArrayOf c = ArrayOf(NLS_CELL_ARRAY, dims, elements);

@@ -26,7 +26,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::ComEngineGateway::COM_usedBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 0) {
+    if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {

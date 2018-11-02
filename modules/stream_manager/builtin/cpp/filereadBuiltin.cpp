@@ -37,7 +37,7 @@ static std::wifstream&
 wsafegetline(std::wifstream& os, std::wstring& line)
 {
     if (getline(os, line)) {
-        if (line.size() && line[line.size() - 1] == L'\r') {
+        if (!line.empty() && line[line.size() - 1] == L'\r') {
             line.pop_back();
         }
     }

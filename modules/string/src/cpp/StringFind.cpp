@@ -29,7 +29,7 @@ StringFind(std::wstring A, std::wstring B)
     std::string::size_type found = std::string::npos;
     if (B != L"") {
         size_t start = 0;
-        while (1) {
+        while (true) {
             found = A.find(B, start);
             if (found != std::string::npos) {
                 vectorRes.push_back((double)(found + 1));
@@ -43,7 +43,7 @@ StringFind(std::wstring A, std::wstring B)
         res = ArrayOf::emptyConstructor();
     } else {
         size_t Clen = vectorRes.size();
-        double* Cp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, Clen);
+        double* Cp = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, Clen));
         Dimensions dimC(1, Clen);
         for (size_t k = 0; k < Clen; k++) {
             Cp[k] = vectorRes[k];
@@ -53,5 +53,5 @@ StringFind(std::wstring A, std::wstring B)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -64,13 +64,13 @@ getRecursionStacksize()
 #else
     HANDLE hProcess = GetCurrentProcess();
     wchar_t buffer[MAX_PATH];
-    HMODULE IB = GetModuleHandleW(NULL);
+    HMODULE IB = GetModuleHandleW(nullptr);
     GetModuleFileNameW(IB, buffer, MAX_PATH);
     DWORD old = 0;
     if (bFirstCall) {
         HMODULE hModule = LoadLibrary(L"ntdll.dll");
         RtlImageNtHeaderProcPointer
-            = (RtlImageNtHeaderProc)GetProcAddress(hModule, "RtlImageNtHeader");
+            = reinterpret_cast<RtlImageNtHeaderProc>(GetProcAddress(hModule, "RtlImageNtHeader"));
         if (RtlImageNtHeaderProcPointer == nullptr) {
             std::cout << _("Error: could not find the function NtOpenFile in library ntdll.dll.\n");
             exit(1);
@@ -80,10 +80,10 @@ getRecursionStacksize()
     VirtualProtectEx(hProcess, (void*)IB, 0x1000, PAGE_READONLY, &old);
     IMAGE_NT_HEADERS* pNt = RtlImageNtHeaderProcPointer(IB);
     if (pNt) {
-        returnedSize = (size_t)(pNt->OptionalHeader.SizeOfStackReserve);
+        returnedSize = static_cast<size_t>(pNt->OptionalHeader.SizeOfStackReserve);
     }
 #endif
     return returnedSize;
 }
 //=============================================================================
-}
+} // namespace Nelson

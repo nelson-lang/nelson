@@ -30,7 +30,7 @@ class QtMainWindow : public QMainWindow
 
 public:
     QtMainWindow();
-    ~QtMainWindow();
+    ~QtMainWindow() override;
 
     QtTerminal*
     getQtTerminal();
@@ -74,8 +74,8 @@ private:
     createMenus();
     void
     createToolbars();
-    virtual void
-    closeEvent(QCloseEvent* event);
+    void
+    closeEvent(QCloseEvent* event) override;
 
     QString nelsonPath;
 
@@ -110,8 +110,8 @@ private:
     bool bClosed;
 
     void
-    dragEnterEvent(QDragEnterEvent* event);
+    dragEnterEvent(QDragEnterEvent* event) override;
     void
-    dropEvent(QDropEvent* event);
+    dropEvent(QDropEvent* event) override;
 };
 //=============================================================================

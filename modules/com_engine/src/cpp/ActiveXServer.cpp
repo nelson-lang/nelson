@@ -56,17 +56,17 @@ ActiveXServer(std::wstring progId, std::wstring machine)
         ServerInfo.pAuthInfo = &athn;
         ServerInfo.dwReserved1 = 0;
         ServerInfo.dwReserved2 = 0;
-        MULTI_QI qi = { 0, 0, 0 };
+        MULTI_QI qi = { nullptr, nullptr, 0 };
         ZeroMemory(&qi, sizeof(MULTI_QI));
         qi.pIID = &IID_IDispatch;
         if (FAILED(CoCreateInstanceEx(
-                clsApplication, NULL, CLSCTX_REMOTE_SERVER, &ServerInfo, 1, &qi))) {
+                clsApplication, nullptr, CLSCTX_REMOTE_SERVER, &ServerInfo, 1, &qi))) {
             Error(_W("Error CoCreateInstanceEx."));
         }
         pdispApplication = (IDispatch*)qi.pItf;
     } else {
-        if (FAILED(CoCreateInstance(
-                clsApplication, NULL, CLSCTX_SERVER, IID_IDispatch, (void**)&pdispApplication))) {
+        if (FAILED(CoCreateInstance(clsApplication, nullptr, CLSCTX_SERVER, IID_IDispatch,
+                (void**)&pdispApplication))) {
             Error(_W("Error CoCreateInstanceEx."));
         }
     }
@@ -91,7 +91,7 @@ GetRunningActiveXServer(std::wstring progId)
     IDispatch* pdispApplication = nullptr;
     VARIANT* pVariantApplication = nullptr;
     HRESULT hRes = S_FALSE;
-    LPOLESTR idName = W2OLE((wchar_t*)progId.c_str());
+    LPOLESTR idName = W2OLE(const_cast<wchar_t*>(progId.c_str()));
     if (progId[0] == L'{') {
         if (FAILED(CLSIDFromString(idName, &clsApplication))) {
             Error(_W("Invalid PROGID."));
@@ -101,11 +101,11 @@ GetRunningActiveXServer(std::wstring progId)
             Error(_W("Invalid PROGID."));
         }
     }
-    hRes = GetActiveObject(clsApplication, NULL, &pUnknown);
+    hRes = GetActiveObject(clsApplication, nullptr, &pUnknown);
     if (FAILED(hRes)) {
         Error(_W("Server is not running on this system."));
     }
-    hRes = pUnknown->QueryInterface(IID_IDispatch, (void**)&pdispApplication);
+    hRes = pUnknown->QueryInterface(IID_IDispatch, reinterpret_cast<void**>(&pdispApplication));
     pUnknown->Release();
     if (FAILED(hRes)) {
         Error(_W("Fails to connect to server."));
@@ -118,7 +118,7 @@ GetRunningActiveXServer(std::wstring progId)
     VariantInit(pVariantApplication);
     pVariantApplication->vt = VT_DISPATCH;
     pVariantApplication->pdispVal = pdispApplication;
-    ComHandleObject* res = new ComHandleObject(pVariantApplication);
+    auto* res = new ComHandleObject(pVariantApplication);
     return res;
 }
 //=============================================================================
@@ -128,7 +128,7 @@ reg_enum_key(HKEY hkey, DWORD i)
     wchar_t buf[4096];
     DWORD size_buf = sizeof(buf);
     FILETIME ft;
-    LSTATUS err = RegEnumKeyExW(hkey, i, buf, &size_buf, NULL, NULL, NULL, &ft);
+    LSTATUS err = RegEnumKeyExW(hkey, i, buf, &size_buf, nullptr, nullptr, nullptr, &ft);
     if (err == ERROR_SUCCESS) {
         return std::wstring(buf);
     }
@@ -141,7 +141,8 @@ GetStringRegKey(HKEY hKey, const std::wstring& strValueName)
     WCHAR szBuffer[4096];
     DWORD dwBufferSize = sizeof(szBuffer);
     ULONG nError;
-    nError = RegQueryValueExW(hKey, strValueName.c_str(), 0, NULL, (LPBYTE)szBuffer, &dwBufferSize);
+    nError = RegQueryValueExW(hKey, strValueName.c_str(), nullptr, nullptr,
+        reinterpret_cast<LPBYTE>(szBuffer), &dwBufferSize);
     if (ERROR_SUCCESS == nError) {
         return std::wstring(szBuffer);
     }
@@ -215,7 +216,8 @@ ActiveXContolList()
     }
     RegCloseKey(hclsid);
     Dimensions dims(fieldsName.size(), 3);
-    ArrayOf* cell = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount());
+    ArrayOf* cell
+        = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount()));
     for (size_t k = 0; k < fieldsName.size(); k = k + 1) {
         cell[k] = ArrayOf::characterArrayConstructor(fieldsName[k]);
     }
@@ -297,7 +299,8 @@ ActiveXServerList()
     }
     RegCloseKey(hclsid);
     Dimensions dims(fieldsName.size(), 3);
-    ArrayOf* cell = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount());
+    ArrayOf* cell
+        = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount()));
     for (size_t k = 0; k < fieldsName.size(); k = k + 1) {
         cell[k] = ArrayOf::characterArrayConstructor(fieldsName[k]);
     }
@@ -312,5 +315,5 @@ ActiveXServerList()
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -121,5 +121,5 @@ public:
         = 0;
 };
 
-typedef FunctionDef* FuncPtr;
+using FuncPtr = FunctionDef*;
 } // namespace Nelson

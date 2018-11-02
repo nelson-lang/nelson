@@ -25,7 +25,7 @@ DisplayCharacters(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& n
 {
     if (A.isRowVectorCharacterArray()) {
         std::wstring msg = A.getContentAsWideString();
-        if (msg.size() == 0) {
+        if (msg.empty()) {
             if (fromDispBuiltin) {
                 io->outputMessage("");
             } else {

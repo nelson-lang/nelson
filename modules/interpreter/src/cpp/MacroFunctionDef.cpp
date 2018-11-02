@@ -50,8 +50,7 @@ MacroFunctionDef::~MacroFunctionDef()
         delete nextFunction;
         nextFunction = nullptr;
     }
-    for (size_t k = 0; k < ptAst.size(); k++) {
-        ASTPtr p = ptAst[k];
+    for (auto p : ptAst) {
         if (p) {
             deleteAst(p, ptAst);
             p = nullptr;
@@ -65,53 +64,49 @@ MacroFunctionDef::~MacroFunctionDef()
 int
 MacroFunctionDef::nargin()
 {
-    if (arguments.size() == 0) {
+    if (arguments.empty()) {
         return 0;
     }
     if (arguments[arguments.size() - 1] == "varargin") {
-        return -(int)arguments.size();
-    } else {
-        return (int)arguments.size();
+        return -static_cast<int>(arguments.size());
     }
+    return static_cast<int>(arguments.size());
 }
 //=============================================================================
 int
 MacroFunctionDef::inputArgCount()
 {
-    if (arguments.size() == 0) {
+    if (arguments.empty()) {
         return 0;
     }
     if (arguments[arguments.size() - 1] == "varargin") {
         return -1;
-    } else {
-        return (int)arguments.size();
     }
+    return static_cast<int>(arguments.size());
 }
 //=============================================================================
 int
 MacroFunctionDef::nargout()
 {
-    if (returnVals.size() == 0) {
+    if (returnVals.empty()) {
         return 0;
     }
     if (returnVals[returnVals.size() - 1] == "varargout") {
-        return -(int)returnVals.size();
-    } else {
-        return (int)returnVals.size();
+        return -static_cast<int>(returnVals.size());
     }
+    return static_cast<int>(returnVals.size());
 }
 //=============================================================================
 int
 MacroFunctionDef::outputArgCount()
 {
-    if (returnVals.size() == 0) {
+    if (returnVals.empty()) {
         return 0;
     }
     if (returnVals[returnVals.size() - 1] == "varargout") {
         return -1;
-    } else {
-        return (int)returnVals.size();
     }
+    return static_cast<int>(returnVals.size());
 }
 //=============================================================================
 void
@@ -176,18 +171,20 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
         }
         // context->insertVariableLocally("nargin",
         // ArrayOf::doubleConstructor((double)minCount));
-        context->getCurrentScope()->setNargIn((int)minCount);
+        context->getCurrentScope()->setNargIn(static_cast<int>(minCount));
     } else {
         // Count the number of supplied arguments
         size_t inputCount = inputs.size();
         // context->insertVariableLocally("nargin",
         // ArrayOf::doubleConstructor((double)inputCount));
-        context->getCurrentScope()->setNargIn((int)inputCount);
+        context->getCurrentScope()->setNargIn(static_cast<int>(inputCount));
         // Get the number of explicit arguments
-        int explicitCount = (int)arguments.size() - 1;
+        int explicitCount = static_cast<int>(arguments.size()) - 1;
         // For each explicit argument (that we have an input for),
         // insert it into the scope.
-        minCount = (explicitCount < (int)inputCount) ? (size_t)explicitCount : (size_t)inputCount;
+        minCount = (explicitCount < static_cast<int>(inputCount))
+            ? static_cast<size_t>(explicitCount)
+            : inputCount;
         size_t i;
         for (i = 0; i < minCount; i++) {
             std::string arg(arguments[i]);
@@ -200,7 +197,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
         // Put minCount...inputCount
         ArrayOf varg(NLS_CELL_ARRAY);
         varg.vectorResize(inputCount);
-        ArrayOf* dp = (ArrayOf*)varg.getReadWriteDataPointer();
+        auto* dp = static_cast<ArrayOf*>(varg.getReadWriteDataPointer());
         for (i = 0; i < inputCount; i++) {
             dp[i] = inputs[i + minCount];
         }
@@ -235,7 +232,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
             }
         } else {
             outputs = ArrayOfVector(nargout);
-            int explicitCount = (int)returnVals.size() - 1;
+            int explicitCount = static_cast<int>(returnVals.size()) - 1;
             // For each explicit argument (that we have), insert it
             // into the scope.
             for (int i = 0; i < explicitCount; i++) {
@@ -260,11 +257,11 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
                              "cell-array"));
                 }
                 // Get the data pointer
-                const ArrayOf* dp = ((const ArrayOf*)varargout.getDataPointer());
+                const ArrayOf* dp = (static_cast<const ArrayOf*>(varargout.getDataPointer()));
                 // Get the length
                 indexType varlen = varargout.getLength();
                 int toFill = nargout - explicitCount;
-                if ((double)toFill > (double)varlen) {
+                if (static_cast<double>(toFill) > static_cast<double>(varlen)) {
                     Error(_W("Not enough outputs in varargout to satisfy call"));
                 }
                 for (int i = 0; i < toFill; i++) {

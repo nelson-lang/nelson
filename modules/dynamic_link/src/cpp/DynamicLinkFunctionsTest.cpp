@@ -20,10 +20,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 #include "DynamicLinkFunctionsTest.h"
-#include <ctype.h> // toupper
-#include <string.h> // strlen
-#include <wchar.h> // wcslen
-#include <wctype.h> // towupper
+#include <cctype> // toupper
+#include <cstring> // strlen
+#include <cwchar> // wcslen
+#include <cwctype> // towupper
 //=============================================================================
 extern "C"
 {
@@ -65,7 +65,7 @@ extern "C"
     NLSDYNAMIC_LINK_IMPEXP int
     dynlibTestReturnTypeScalarInt32(void)
     {
-        return (int)(33);
+        return (33);
     }
     //=============================================================================
     NLSDYNAMIC_LINK_IMPEXP uint64_t
@@ -105,7 +105,7 @@ extern "C"
     dynlibTestReturnTypeWString(void)
     {
 #define UNICODE_STR_TO_SEND L"hello unicode"
-        wchar_t* str = new wchar_t[wcslen(UNICODE_STR_TO_SEND) + 1];
+        auto* str = new wchar_t[wcslen(UNICODE_STR_TO_SEND) + 1];
         wcscpy(str, L"hello unicode");
         return str;
     }
@@ -186,7 +186,7 @@ extern "C"
     dynlibTestInputWString(wchar_t* x)
     {
         size_t len = wcslen(x);
-        wchar_t* res = new wchar_t[len + 1];
+        auto* res = new wchar_t[len + 1];
         memset(res, 0, (len + 1) * sizeof(wchar_t));
         for (size_t k = 0; k < len; k++) {
             res[k] = towupper(x[k]);
@@ -284,7 +284,7 @@ extern "C"
     }
     //=============================================================================
     NLSDYNAMIC_LINK_IMPEXP double
-    sumDoubleRef(double x, double* y, double z)
+    sumDoubleRef(double x, const double* y, double z)
     {
         return (x + *y + z);
     }

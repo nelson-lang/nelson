@@ -29,7 +29,7 @@ OpenFilesAssociated(Evaluator* eval, wstringVector filesToOpen)
     bool res = false;
     if (eval->getNelsonEngineMode() == NELSON_ENGINE_MODE::ADVANCED_TERMINAL
         || eval->getNelsonEngineMode() == NELSON_ENGINE_MODE::GUI) {
-        if (filesToOpen.size() > 0) {
+        if (!filesToOpen.empty()) {
             try {
                 for (size_t k = 0; k < filesToOpen.size(); k++) {
                     boost::filesystem::path pathFileToOpen(filesToOpen[k]);
@@ -37,7 +37,7 @@ OpenFilesAssociated(Evaluator* eval, wstringVector filesToOpen)
                         && !boost::filesystem::is_directory(pathFileToOpen);
                     if (bIsFile) {
                         std::wstring editCommand = std::wstring(L"edit('" + filesToOpen[k] + L"')");
-                        EvaluateCommand(eval, editCommand.c_str(), false);
+                        EvaluateCommand(eval, editCommand, false);
                         res = true;
                     }
                 }
@@ -51,5 +51,5 @@ OpenFilesAssociated(Evaluator* eval, wstringVector filesToOpen)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

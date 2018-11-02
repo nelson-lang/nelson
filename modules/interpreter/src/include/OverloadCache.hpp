@@ -33,6 +33,6 @@ namespace Overload {
     getPreviousCachedFunctionDefinition(OverloadClass oclass);
     NLSINTERPRETER_IMPEXP void
     clearPreviousCachedFunctionDefinition();
-}
-}
+} // namespace Overload
+} // namespace Nelson
 //=============================================================================

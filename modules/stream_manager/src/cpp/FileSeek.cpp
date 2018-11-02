@@ -29,7 +29,7 @@ FileSeek(File* fp, int64 offset, int origin)
         if (fp->isInterfaceMethod()) {
             return false;
         }
-        FILE* fileptr = (FILE*)fp->getFilePointer();
+        FILE* fileptr = static_cast<FILE*>(fp->getFilePointer());
         if (fileptr) {
             int ORIGIN;
             switch (origin) {
@@ -49,8 +49,8 @@ FileSeek(File* fp, int64 offset, int origin)
             int64 curPos = FileTell(fp);
             int64 _offset = offset;
 #else
-            long curPos = (long)FileTell(fp);
-            long _offset = (long)offset;
+            long curPos = static_cast<long>(FileTell(fp));
+            long _offset = static_cast<long>(offset);
 #endif
             int res = NLSFSEEK(fileptr, _offset, ORIGIN);
             if (res == 0) {
@@ -59,14 +59,13 @@ FileSeek(File* fp, int64 offset, int origin)
                 if (desiredPos > eofPos || desiredPos < 0) {
                     FileSeek(fp, curPos, -1);
                     return false;
-                } else {
-                    return true;
                 }
+                return true;
             }
         }
     }
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

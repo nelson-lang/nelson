@@ -156,10 +156,9 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
     } catch (const Exception&) {
         if (mustRaiseError) {
             throw;
-        } else {
-            bSuccess = false;
-            return ArrayOf();
         }
+        bSuccess = false;
+        return ArrayOf();
     }
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
@@ -193,7 +192,7 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         indexType newSize = newColumnsSize * newRowsSize;
         Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
         void* ptrC = ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, newSize, fieldnamesA);
-        ArrayOf* elements = (ArrayOf*)ptrC;
+        auto* elements = static_cast<ArrayOf*>(ptrC);
         res = ArrayOf(NLS_STRUCT_ARRAY, dimsC, elements, false, fieldnamesA);
         for (size_t k = 0; k < fieldnamesA.size(); k++) {
             ArrayOfVector fieldsA = A.getFieldAsList(fieldnamesA[k]);
@@ -280,5 +279,5 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -39,8 +39,8 @@
 #include "Error.hpp"
 #include <cstring>
 #include <memory>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <string>
 //=============================================================================
 #ifdef _MSC_VER
@@ -130,9 +130,8 @@ Dimensions::getRows() const
 {
     if (length == 0) {
         return 0;
-    } else {
-        return data[0];
     }
+    return data[0];
 }
 //=============================================================================
 indexType
@@ -140,11 +139,11 @@ Dimensions::getColumns() const
 {
     if (length == 0) {
         return 0;
-    } else if (length == 1) {
-        return 1;
-    } else {
-        return data[1];
     }
+    if (length == 1) {
+        return 1;
+    }
+    return data[1];
 }
 //=============================================================================
 indexType
@@ -152,9 +151,8 @@ Dimensions::getDimensionLength(sizeType arg) const
 {
     if (length <= arg) {
         return 1;
-    } else {
-        return data[arg];
     }
+    return data[arg];
 }
 //=============================================================================
 void
@@ -234,11 +232,12 @@ Dimensions::incrementModulo(const Dimensions& limit, int ordinal)
 {
     sizeType n;
     data[ordinal]++;
-    for (n = ordinal; n < length - 1; n++)
+    for (n = ordinal; n < length - 1; n++) {
         if (data[n] >= limit.data[n]) {
             data[n] = 0;
             data[n + 1]++;
         }
+    }
 }
 //=============================================================================
 bool
@@ -274,21 +273,21 @@ Dimensions::equals(const Dimensions& alt)
 std::string
 Dimensions::toString() const
 {
-    std::string txt = "";
+    std::string txt;
     strcpy(msgBuffer, "");
     char buf[400];
     if (length > 0) {
         for (indexType i = 0; i < length - 1; i++) {
             if (length >= 1) {
-                sprintf(buf, "%lux", (unsigned long)data[i]);
+                sprintf(buf, "%lux", static_cast<unsigned long>(data[i]));
             } else {
-                sprintf(buf, "%lu", (unsigned long)data[i]);
+                sprintf(buf, "%lu", static_cast<unsigned long>(data[i]));
             }
             strcat(msgBuffer, buf);
         }
     }
     if (length >= 1) {
-        sprintf(buf, "%lu", (unsigned long)data[length - 1]);
+        sprintf(buf, "%lu", static_cast<unsigned long>(data[length - 1]));
         strcat(msgBuffer, buf);
     }
     txt = msgBuffer;

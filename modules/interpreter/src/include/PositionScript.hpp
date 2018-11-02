@@ -98,7 +98,7 @@ public:
     bool
     isEmpty() const
     {
-        return (this->functionname == L"" && this->filename == L"" && this->line == -1);
+        return (this->functionname.empty() && this->filename.empty() && this->line == -1);
     }
     //=============================================================================
 };

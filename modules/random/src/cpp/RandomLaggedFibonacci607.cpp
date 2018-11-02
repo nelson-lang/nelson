@@ -99,7 +99,7 @@ RandomLaggedFibonacci607::getValueAsSingle(RNG_DISTRIBUTION_TYPE _type)
     case RNG_DISTRIBUTION_NORMAL:
         return (single)(*normal_real_generator)();
     }
-    return (single)nan("");
+    return static_cast<single>(nan(""));
 }
 //=============================================================================
 void
@@ -131,7 +131,7 @@ RandomLaggedFibonacci607::getValuesAsDouble(
     default: {
         size_t k = 0;
         while (k < nbElements) {
-            ar[k] = (double)nan("");
+            ar[k] = nan("");
             k++;
         }
     } break;
@@ -167,7 +167,7 @@ RandomLaggedFibonacci607::getValuesAsSingle(
     default: {
         size_t k = 0;
         while (k < nbElements) {
-            ar[k] = (single)nan("");
+            ar[k] = static_cast<single>(nan(""));
             k++;
         }
     } break;
@@ -233,5 +233,5 @@ RandomLaggedFibonacci607::getMinMaxUniformIntDistribution(int& _min, int& _max)
     _min = uniform_int_generator->distribution().min();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

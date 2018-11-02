@@ -54,42 +54,42 @@ StringTrim(const ArrayOf& A, bool& needToOverload)
     if (A.isRowVectorCharacterArray()) {
         std::wstring str = A.getContentAsWideString();
         return ArrayOf::characterArrayConstructor(Trim(str));
-    } else if (A.getDataClass() == NLS_CELL_ARRAY) {
+    }
+    if (A.getDataClass() == NLS_CELL_ARRAY) {
         if (A.isEmpty()) {
             return ArrayOf(A);
-        } else {
-            res = ArrayOf(A);
-            res.ensureSingleOwner();
-            ArrayOf* element = (ArrayOf*)(res.getDataPointer());
-            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-                if (!element[k].isRowVectorCharacterArray()) {
-                    Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
-                }
+        }
+        res = ArrayOf(A);
+        res.ensureSingleOwner();
+        auto* element = (ArrayOf*)(res.getDataPointer());
+        for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+            if (!element[k].isRowVectorCharacterArray()) {
+                Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
+            }
+            std::wstring str = element[k].getContentAsWideString();
+            element[k] = ArrayOf::characterArrayConstructor(Trim(str));
+        }
+        return res;
+    }
+    if (A.getDataClass() == NLS_STRING_ARRAY) {
+        if (A.isEmpty()) {
+            return ArrayOf(A);
+        }
+        res = ArrayOf(A);
+        res.ensureSingleOwner();
+        auto* element = (ArrayOf*)(res.getDataPointer());
+        for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+            if (element[k].isRowVectorCharacterArray()) {
                 std::wstring str = element[k].getContentAsWideString();
                 element[k] = ArrayOf::characterArrayConstructor(Trim(str));
             }
-            return res;
         }
-    } else if (A.getDataClass() == NLS_STRING_ARRAY) {
-        if (A.isEmpty()) {
-            return ArrayOf(A);
-        } else {
-            res = ArrayOf(A);
-            res.ensureSingleOwner();
-            ArrayOf* element = (ArrayOf*)(res.getDataPointer());
-            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-                if (element[k].isRowVectorCharacterArray()) {
-                    std::wstring str = element[k].getContentAsWideString();
-                    element[k] = ArrayOf::characterArrayConstructor(Trim(str));
-                }
-            }
-            return res;
-        }
-    } else {
-        needToOverload = true;
+        return res;
     }
+    needToOverload = true;
+
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

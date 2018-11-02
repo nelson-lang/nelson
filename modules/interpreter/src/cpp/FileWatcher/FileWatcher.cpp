@@ -46,7 +46,7 @@ namespace FW {
     FileWatcher::~FileWatcher()
     {
         delete mImpl;
-        mImpl = 0;
+        mImpl = nullptr;
     }
 
     //--------

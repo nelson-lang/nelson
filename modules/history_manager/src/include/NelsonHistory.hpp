@@ -28,9 +28,9 @@ namespace History {
     NLSHISTORY_MANAGER_IMPEXP bool
     setToken(std::wstring line);
     NLSHISTORY_MANAGER_IMPEXP std::wstring
-    getNextLine(void);
+    getNextLine();
     NLSHISTORY_MANAGER_IMPEXP std::wstring
-    getPreviousLine(void);
+    getPreviousLine();
 } // namespace History
 } // namespace Nelson
 //=============================================================================

@@ -47,7 +47,7 @@ fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         Error(_W("Wrong value for machine format."));
     }
     ArrayOf param4 = argIn[3];
-    size_t skipSize = (size_t)param4.getContentAsScalarIndex();
+    auto skipSize = static_cast<size_t>(param4.getContentAsScalarIndex());
     ArrayOf param3 = argIn[2];
     Class classDest = NLS_UINT8;
     if (param3.isRowVectorCharacterArray()) {
@@ -69,8 +69,8 @@ fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         if (param2.isSparse()) {
             Error(_W("Cannot write sparse type."));
         }
-        FilesManager* fm = (FilesManager*)(eval->FileManager);
-        int32 iValue = (int32)param1.getContentAsDoubleScalar();
+        auto* fm = static_cast<FilesManager*>(eval->FileManager);
+        auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
         if (fm->isOpened(iValue)) {
             File* f = fm->getFile(iValue);
             int written = -1;

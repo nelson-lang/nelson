@@ -117,5 +117,5 @@ UnaryMinus(const ArrayOf& A, bool& needToOverload)
     }
     return res;
 }
-}
+} // namespace Nelson
 //=============================================================================

@@ -31,5 +31,5 @@ DotLeftDivide(ArrayOf A, ArrayOf B)
     B.promoteType(commonClass);
     return DotRightDivide(B, A);
 }
-}
+} // namespace Nelson
 //=============================================================================

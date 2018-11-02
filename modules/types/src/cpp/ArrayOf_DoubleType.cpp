@@ -64,7 +64,7 @@ ArrayOf::doubleConstructor(double aval)
 {
     Dimensions dim;
     dim.makeScalar();
-    double* data = (double*)allocateArrayOf(NLS_DOUBLE, 1);
+    double* data = static_cast<double*>(allocateArrayOf(NLS_DOUBLE, 1));
     *data = aval;
     return ArrayOf(NLS_DOUBLE, dim, data);
 }
@@ -75,7 +75,7 @@ ArrayOf::doubleVectorConstructor(indexType len)
     Dimensions dim;
     dim.makeScalar();
     dim[1] = len;
-    double* data = (double*)allocateArrayOf(NLS_DOUBLE, len);
+    double* data = static_cast<double*>(allocateArrayOf(NLS_DOUBLE, len));
     return ArrayOf(NLS_DOUBLE, dim, data);
 }
 //=============================================================================
@@ -83,7 +83,7 @@ ArrayOf
 ArrayOf::doubleMatrix2dConstructor(indexType m, indexType n)
 {
     Dimensions dim(m, n);
-    double* data = (double*)allocateArrayOf(NLS_DOUBLE, dim.getElementCount());
+    double* data = static_cast<double*>(allocateArrayOf(NLS_DOUBLE, dim.getElementCount()));
     return ArrayOf(NLS_DOUBLE, dim, data);
 }
 //=============================================================================
@@ -92,7 +92,7 @@ ArrayOf::dcomplexConstructor(double aval, double bval)
 {
     Dimensions dim;
     dim.makeScalar();
-    double* data = (double*)allocateArrayOf(NLS_DCOMPLEX, 1);
+    double* data = static_cast<double*>(allocateArrayOf(NLS_DCOMPLEX, 1));
     data[0] = aval;
     data[1] = bval;
     return ArrayOf(NLS_DCOMPLEX, dim, data);
@@ -106,7 +106,7 @@ ArrayOf::getContentAsDoubleScalar(bool arrayAsScalar)
         Error(_W("Expected a real value scalar."));
     }
     promoteType(NLS_DOUBLE);
-    double* qp = (double*)dp->getData();
+    auto* qp = (double*)dp->getData();
     return (*qp);
 }
 //=============================================================================
@@ -118,10 +118,10 @@ ArrayOf::getContentAsDoubleComplexScalar(bool arrayAsScalar)
         Error(_W("Expected a real valued scalar"));
     }
     promoteType(NLS_DCOMPLEX);
-    double* qp = (double*)dp->getData();
+    auto* qp = (double*)dp->getData();
     doublecomplex cx(qp[0], qp[1]);
     return cx;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

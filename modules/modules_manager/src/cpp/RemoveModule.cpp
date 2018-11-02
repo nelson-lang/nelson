@@ -42,12 +42,11 @@ RemoveModule(Evaluator* eval, std::wstring moduleshortname)
                 Error(_W("finish.nls does not exist."));
             }
             return UnregisterModule(moduleshortname);
-        } else {
-            Error(_W("An existing module root path expected."));
         }
+        Error(_W("An existing module root path expected."));
     }
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

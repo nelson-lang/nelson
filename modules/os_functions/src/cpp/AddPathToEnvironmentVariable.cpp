@@ -24,7 +24,7 @@
 #include "SetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
 #include <boost/container/vector.hpp>
-#include <stdlib.h>
+#include <cstdlib>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -121,5 +121,5 @@ AddPathToEnvironmentVariable(std::wstring envVar, std::wstring pathToAdd)
 }
 //=============================================================================
 
-}
+} // namespace Nelson
 //=============================================================================

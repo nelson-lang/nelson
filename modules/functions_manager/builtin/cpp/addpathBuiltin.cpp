@@ -73,8 +73,8 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
         }
     }
     std::wstring previousPaths = PathFuncManager::getInstance()->getPathNameAsString();
-    for (size_t k = 0; k < params.size(); k++) {
-        boost::filesystem::path data_dir(params[k]);
+    for (const auto& param : params) {
+        boost::filesystem::path data_dir(param);
         bool bRes = false;
         try {
             bRes = boost::filesystem::is_directory(data_dir);
@@ -85,12 +85,12 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
             bRes = false;
         }
         if (bRes) {
-            if (PathFuncManager::getInstance()->addPath(params[k], begin)) {
+            if (PathFuncManager::getInstance()->addPath(param, begin)) {
                 stringVector exceptedFunctionsName = eval->getCallers(true);
                 PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
             }
         } else {
-            Warning(_W("Warning: Not a directory:") + L" " + params[k] + L"\n");
+            Warning(_W("Warning: Not a directory:") + L" " + param + L"\n");
         }
     }
     if (nLhs == 1) {

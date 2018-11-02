@@ -50,7 +50,7 @@ AddGateway(Evaluator* eval, std::wstring dynlibname)
         nlsModuleHandleDynamicLibrary = load_dynamic_library(wstring_to_utf8(filename));
 #endif
         if (nlsModuleHandleDynamicLibrary) {
-            typedef bool (*PROC_AddGateway)(const void* eval, const wchar_t* moduleFilename);
+            using PROC_AddGateway = bool (*)(const void*, const wchar_t*);
             PROC_AddGateway AddGatewayPtr = reinterpret_cast<PROC_AddGateway>(
                 get_function(nlsModuleHandleDynamicLibrary, GATEWAY_ENTRY));
             boost::filesystem::current_path(currentdirbackup);
@@ -67,5 +67,5 @@ AddGateway(Evaluator* eval, std::wstring dynlibname)
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

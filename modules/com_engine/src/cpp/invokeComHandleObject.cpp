@@ -42,7 +42,7 @@ invokeComHandleObject(
     if (A.getHandleCategory() != COM_CATEGORY_STR) {
         Error(_W("COM handle expected."));
     }
-    ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
+    auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     void* ptr = comhandleobj->getPointer();
     if (ptr == nullptr) {
         Error(_W("COM valid handle expected."));
@@ -105,5 +105,5 @@ invokeComHandleObject(
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

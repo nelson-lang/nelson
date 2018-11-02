@@ -37,21 +37,21 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
     if (fp->isInterfaceMethod()) {
         return toRead;
     }
-    FILE* fileptr = (FILE*)fp->getFilePointer();
+    FILE* fileptr = static_cast<FILE*>(fp->getFilePointer());
     if (!fileptr) {
         return toRead;
     }
     if (sizeToRead == -1) {
 #if (defined(_LP64) || defined(_WIN64))
-        int64 curpos = (int64)NLSFTELL(fileptr);
+        auto curpos = static_cast<int64>(NLSFTELL(fileptr));
 #else
-        long curpos = (long)NLSFTELL(fileptr);
+        long curpos = NLSFTELL(fileptr);
 #endif
         NLSFSEEK(fileptr, 0, SEEK_END);
 #if (defined(_LP64) || defined(_WIN64))
-        int64 endpos = (int64)NLSFTELL(fileptr);
+        auto endpos = static_cast<int64>(NLSFTELL(fileptr));
 #else
-        long endpos = (long)NLSFTELL(fileptr);
+        long endpos = NLSFTELL(fileptr);
 #endif
         sizeToRead = endpos - curpos;
         NLSFSEEK(fileptr, curpos, SEEK_SET);
@@ -97,16 +97,16 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
     if (classPrecision == NLS_CHAR) {
         char* str = nullptr;
         try {
-            str = new char[(indexType)(sizeToRead + 1)];
+            str = new char[static_cast<indexType>(sizeToRead + 1)];
         } catch (const std::bad_alloc& e) {
             e.what();
             str = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);
         }
-        size_t count = (size_t)sizeToRead;
+        auto count = static_cast<size_t>(sizeToRead);
         size_t elsize = sizeof(char);
         if (str) {
-            sizeReallyRead = (int)fread(str, elsize, count, fileptr);
+            sizeReallyRead = static_cast<int>(fread(str, elsize, count, fileptr));
         }
         if (sizeReallyRead < 0) {
             delete[] str;
@@ -124,7 +124,7 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
             }
             memcpy(resizestr, str, sizeof(char) * sizeReallyRead);
             if (bIsLittleEndian != isLittleEndianFormat()) {
-                for (size_t k = 0; k < (size_t)sizeReallyRead; k++) {
+                for (size_t k = 0; k < static_cast<size_t>(sizeReallyRead); k++) {
                     resizestr[k] = bswap<char>(resizestr[k]);
                 }
             }
@@ -143,17 +143,18 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
             delete[] str;
         }
     } else {
-        void* ptr = ArrayOf::allocateArrayOf(classPrecision, (indexType)sizeToRead);
-        Dimensions dim((indexType)sizeToRead, 1);
+        void* ptr = ArrayOf::allocateArrayOf(classPrecision, static_cast<indexType>(sizeToRead));
+        Dimensions dim(static_cast<indexType>(sizeToRead), 1);
         toRead = ArrayOf(classPrecision, dim, ptr);
         size_t count(toRead.getLength());
         size_t elsize(toRead.getElementSize());
-        sizeReallyRead = (int)fread(ptr, elsize, count, fileptr);
+        sizeReallyRead = static_cast<int>(fread(ptr, elsize, count, fileptr));
         if (sizeReallyRead < 0) {
-            Dimensions dim((indexType)sizeToRead, 1);
+            Dimensions dim(static_cast<indexType>(sizeToRead), 1);
             toRead.vectorResize(0);
             return toRead;
-        } else if (sizeReallyRead < sizeToRead) {
+        }
+        if (sizeReallyRead < sizeToRead) {
             void* ptrResize = ArrayOf::allocateArrayOf(classPrecision, sizeReallyRead);
             Dimensions dim(sizeReallyRead, 1);
             memcpy(ptrResize, ptr, toRead.getElementSize() * sizeReallyRead);
@@ -171,5 +172,5 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
     return toRead;
 }
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

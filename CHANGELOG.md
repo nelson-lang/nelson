@@ -3,6 +3,7 @@ Features:
 
   * addition, substration, mtimes, times, power with integers reworked.
   * integer cast optimized.
+  * modernize/optimize C++ with LLVM tools.
 
 ## 0.2.10 (2018-10-20)
 

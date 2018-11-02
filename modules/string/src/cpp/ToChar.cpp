@@ -30,7 +30,7 @@ ArrayOfDoubleToChar(const ArrayOf& A)
     Dimensions dimsA = A.getDimensions();
     std::wstring res;
     res.reserve(A.getLength());
-    double* pDouble = (double*)A.getDataPointer();
+    auto* pDouble = (double*)A.getDataPointer();
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -38,22 +38,22 @@ ArrayOfDoubleToChar(const ArrayOf& A)
         double v = pDouble[k];
         if (IsFinite(v)) {
             if (v < 0) {
-                res.push_back((charType)0);
+                res.push_back(static_cast<charType>(0));
             } else {
                 if (v > 65535) {
-                    res.push_back((charType)65535);
+                    res.push_back(static_cast<charType>(65535));
                 } else {
-                    res.push_back((charType)(v));
+                    res.push_back(static_cast<charType>(v));
                 }
             }
         } else {
             if (IsNaN(v)) {
-                res.push_back((charType)0);
+                res.push_back(static_cast<charType>(0));
             } else {
                 if (v <= 0) {
-                    res.push_back((charType)0);
+                    res.push_back(static_cast<charType>(0));
                 } else if (IsInfinite(v)) {
-                    res.push_back((charType)65535);
+                    res.push_back(static_cast<charType>(65535));
                 }
             }
         }
@@ -134,7 +134,7 @@ ToChar(const ArrayOf& A, bool& needToOverload)
     case NLS_STRING_ARRAY:
     case NLS_CELL_ARRAY: {
         ArrayOfVector V;
-        ArrayOf* arg = (ArrayOf*)(A.getDataPointer());
+        auto* arg = (ArrayOf*)(A.getDataPointer());
         for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
             ArrayOf val = ToChar(arg[k], needToOverload);
             if (needToOverload) {

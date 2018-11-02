@@ -33,11 +33,11 @@ enum FftPlannerMethod
 };
 //=============================================================================
 indexType
-computeDim(const ArrayOf X);
+computeDim(ArrayOf X);
 ArrayOf
-scomplexFFTW(const ArrayOf X, indexType n, indexType dim, bool asInverse);
+scomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse);
 ArrayOf
-dcomplexFFTW(const ArrayOf X, indexType n, indexType dim, bool asInverse);
+dcomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse);
 //=============================================================================
 NLSFFTW_IMPEXP std::wstring
 getDoubleWisdomInformation();

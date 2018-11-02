@@ -28,21 +28,24 @@ namespace Nelson {
 //=============================================================================
 template <class T>
 void
-setNDimSubsetNoColonReal(T* sp, const T* destp, indexType outDims[maxDims],
-    indexType srcDims[maxDims], constIndexPtr* ndx, indexType numDims, indexType advance)
+setNDimSubsetNoColonReal(T* sp, const T* destp, const indexType outDims[maxDims],
+    const indexType srcDims[maxDims], constIndexPtr* ndx, indexType numDims, indexType advance)
 {
     // Calculate the number of output elements
     indexType outCount = 1;
-    for (indexType i = 0; i < numDims; i++)
+    for (indexType i = 0; i < numDims; i++) {
         outCount *= outDims[i];
+    }
     // Initialize the ndxpointer to zero
     indexType ndxptr[maxDims];
-    for (indexType j = 0; j < numDims; j++)
+    for (indexType j = 0; j < numDims; j++) {
         ndxptr[j] = 0;
+    }
     indexType srcfact[maxDims];
     srcfact[0] = 1;
-    for (indexType j = 1; j < numDims; j++)
+    for (indexType j = 1; j < numDims; j++) {
         srcfact[j] = srcfact[j - 1] * srcDims[j - 1];
+    }
     // For each output element
     for (indexType i = 0; i < outCount; i++) {
         indexType srcadd = 0;
@@ -68,22 +71,25 @@ setNDimSubsetNoColonReal(T* sp, const T* destp, indexType outDims[maxDims],
 //=============================================================================
 template <class T>
 void
-setNDimSubsetNoColonBurst(T* sp, const T* destp, indexType outDims[maxDims],
-    indexType srcDims[maxDims], constIndexPtr* ndx, indexType numDims, indexType burstLen,
+setNDimSubsetNoColonBurst(T* sp, const T* destp, const indexType outDims[maxDims],
+    const indexType srcDims[maxDims], constIndexPtr* ndx, indexType numDims, indexType burstLen,
     indexType advance)
 {
     // Calculate the number of output elements
     indexType outCount = 1;
-    for (indexType i = 0; i < numDims; i++)
+    for (indexType i = 0; i < numDims; i++) {
         outCount *= outDims[i];
+    }
     // Initialize the ndxpointer to zero
     indexType ndxptr[maxDims];
-    for (indexType j = 0; j < numDims; j++)
+    for (indexType j = 0; j < numDims; j++) {
         ndxptr[j] = 0;
+    }
     indexType srcfact[maxDims];
     srcfact[0] = 1;
-    for (indexType j = 1; j < numDims; j++)
+    for (indexType j = 1; j < numDims; j++) {
         srcfact[j] = srcfact[j - 1] * srcDims[j - 1];
+    }
     // For each output element
     for (indexType i = 0; i < outCount; i++) {
         indexType srcadd = 0;
@@ -94,8 +100,9 @@ setNDimSubsetNoColonBurst(T* sp, const T* destp, indexType outDims[maxDims],
             srcadd += ndxval * srcfact[j];
         }
         // Copy the value
-        for (indexType k = 0; k < burstLen; k++)
+        for (indexType k = 0; k < burstLen; k++) {
             sp[burstLen * srcadd + k] = destp[k];
+        }
         destp += burstLen * advance;
         // Update the ndxset
         ndxptr[0]++;
@@ -110,21 +117,24 @@ setNDimSubsetNoColonBurst(T* sp, const T* destp, indexType outDims[maxDims],
 //=============================================================================
 template <class T>
 void
-setNDimSubsetFirstColonReal(T* sp, const T* destp, indexType outDims[maxDims],
-    indexType srcDims[maxDims], constIndexPtr* ndx, indexType numDims, indexType advance)
+setNDimSubsetFirstColonReal(T* sp, const T* destp, const indexType outDims[maxDims],
+    const indexType srcDims[maxDims], constIndexPtr* ndx, indexType numDims, indexType advance)
 {
     // Calculate the number of output elements
     indexType outCount = 1;
-    for (indexType i = 0; i < numDims; i++)
+    for (indexType i = 0; i < numDims; i++) {
         outCount *= outDims[i];
+    }
     // Initialize the ndxpointer to zero
     indexType ndxptr[maxDims];
-    for (indexType j = 0; j < numDims; j++)
+    for (indexType j = 0; j < numDims; j++) {
         ndxptr[j] = 0;
+    }
     indexType srcfact[maxDims];
     srcfact[0] = 1;
-    for (indexType j = 1; j < numDims; j++)
+    for (indexType j = 1; j < numDims; j++) {
         srcfact[j] = srcfact[j - 1] * srcDims[j - 1];
+    }
     indexType numrows = outDims[0];
     // For each output element
     for (indexType i = 0; i < outCount; i += numrows) {
@@ -153,22 +163,25 @@ setNDimSubsetFirstColonReal(T* sp, const T* destp, indexType outDims[maxDims],
 //=============================================================================
 template <class T>
 void
-setNDimSubsetFirstColonBurst(T* sp, const T* destp, indexType outDims[maxDims],
-    indexType srcDims[maxDims], constIndexPtr* ndx, indexType numDims, indexType burstLen,
+setNDimSubsetFirstColonBurst(T* sp, const T* destp, const indexType outDims[maxDims],
+    const indexType srcDims[maxDims], constIndexPtr* ndx, indexType numDims, indexType burstLen,
     indexType advance)
 {
     // Calculate the number of output elements
     indexType outCount = 1;
-    for (indexType i = 0; i < numDims; i++)
+    for (indexType i = 0; i < numDims; i++) {
         outCount *= outDims[i];
+    }
     // Initialize the ndxpointer to zero
     indexType ndxptr[maxDims];
-    for (indexType j = 0; j < numDims; j++)
+    for (indexType j = 0; j < numDims; j++) {
         ndxptr[j] = 0;
+    }
     indexType srcfact[maxDims];
     srcfact[0] = 1;
-    for (indexType j = 1; j < numDims; j++)
+    for (indexType j = 1; j < numDims; j++) {
         srcfact[j] = srcfact[j - 1] * srcDims[j - 1];
+    }
     indexType numrows = outDims[0];
     // For each output element
     for (indexType i = 0; i < outCount; i += numrows) {
@@ -180,8 +193,9 @@ setNDimSubsetFirstColonBurst(T* sp, const T* destp, indexType outDims[maxDims],
             srcadd += ndxval * srcfact[j];
         }
         // Copy the value
-        for (indexType k = 0; k < burstLen; k++)
+        for (indexType k = 0; k < burstLen; k++) {
             sp[burstLen * srcadd + k] = destp[i * burstLen * advance + k];
+        }
         // Update the ndxset
         ndxptr[1]++;
         for (indexType j = 1; j < numDims - 1; j++) {
@@ -195,22 +209,25 @@ setNDimSubsetFirstColonBurst(T* sp, const T* destp, indexType outDims[maxDims],
 //=============================================================================
 template <class T>
 void
-setNDimSubsetAnyColonReal(T* sp, const T* destp, indexType outDims[maxDims],
-    indexType srcDims[maxDims], constIndexPtr* ndx, indexType numDims, indexType colonIndex,
+setNDimSubsetAnyColonReal(T* sp, const T* destp, const indexType outDims[maxDims],
+    const indexType srcDims[maxDims], constIndexPtr* ndx, indexType numDims, indexType colonIndex,
     indexType advance)
 {
     // Calculate the number of output elements
     indexType outCount = 1;
-    for (indexType i = 0; i < numDims; i++)
+    for (indexType i = 0; i < numDims; i++) {
         outCount *= outDims[i];
+    }
     // Initialize the ndxpointer to zero
     indexType ndxptr[maxDims];
-    for (indexType j = 0; j < numDims; j++)
+    for (indexType j = 0; j < numDims; j++) {
         ndxptr[j] = 0;
+    }
     indexType srcfact[maxDims];
     srcfact[0] = 1;
-    for (indexType j = 1; j < numDims; j++)
+    for (indexType j = 1; j < numDims; j++) {
         srcfact[j] = srcfact[j - 1] * srcDims[j - 1];
+    }
     // For each output element
     for (indexType i = 0; i < outCount; i++) {
         indexType srcadd = 0;
@@ -218,10 +235,11 @@ setNDimSubsetAnyColonReal(T* sp, const T* destp, indexType outDims[maxDims],
         // Use these to calculate the source address
         for (indexType j = 0; j < numDims; j++) {
             indexType ndxval;
-            if (j == colonIndex)
+            if (j == colonIndex) {
                 ndxval = ndxptr[j];
-            else
+            } else {
                 ndxval = ndx[j][ndxptr[j]] - 1;
+            }
             srcadd += ndxval * srcfact[j];
         }
         // Copy the value
@@ -240,22 +258,25 @@ setNDimSubsetAnyColonReal(T* sp, const T* destp, indexType outDims[maxDims],
 //=============================================================================
 template <class T>
 void
-setNDimSubsetAnyColonBurst(T* sp, const T* destp, indexType outDims[maxDims],
-    indexType srcDims[maxDims], constIndexPtr* ndx, indexType numDims, indexType colonIndex,
+setNDimSubsetAnyColonBurst(T* sp, const T* destp, const indexType outDims[maxDims],
+    const indexType srcDims[maxDims], constIndexPtr* ndx, indexType numDims, indexType colonIndex,
     indexType burstLen, indexType advance)
 {
     // Calculate the number of output elements
     indexType outCount = 1;
-    for (indexType i = 0; i < numDims; i++)
+    for (indexType i = 0; i < numDims; i++) {
         outCount *= outDims[i];
+    }
     // Initialize the ndxpointer to zero
     indexType ndxptr[maxDims];
-    for (indexType j = 0; j < numDims; j++)
+    for (indexType j = 0; j < numDims; j++) {
         ndxptr[j] = 0;
+    }
     indexType srcfact[maxDims];
     srcfact[0] = 1;
-    for (indexType j = 1; j < numDims; j++)
+    for (indexType j = 1; j < numDims; j++) {
         srcfact[j] = srcfact[j - 1] * srcDims[j - 1];
+    }
     // For each output element
     for (indexType i = 0; i < outCount; i++) {
         indexType srcadd = 0;
@@ -263,15 +284,17 @@ setNDimSubsetAnyColonBurst(T* sp, const T* destp, indexType outDims[maxDims],
         // Use these to calculate the source address
         for (indexType j = 0; j < numDims; j++) {
             indexType ndxval;
-            if (j == colonIndex)
+            if (j == colonIndex) {
                 ndxval = ndxptr[j];
-            else
+            } else {
                 ndxval = ndx[j][ndxptr[j]] - 1;
+            }
             srcadd += ndxval * srcfact[j];
         }
         // Copy the value
-        for (indexType k = 0; k < burstLen; k++)
+        for (indexType k = 0; k < burstLen; k++) {
             sp[burstLen * srcadd + k] = destp[i * advance + k];
+        }
         // Update the ndxset
         ndxptr[0]++;
         for (indexType j = 0; j < numDims - 1; j++) {
@@ -285,30 +308,34 @@ setNDimSubsetAnyColonBurst(T* sp, const T* destp, indexType outDims[maxDims],
 //=============================================================================
 template <class T>
 void
-setNDimSubsetSliceReal(T* sp, const T* destp, indexType outDims[maxDims],
-    indexType srcDims[maxDims], constIndexPtr* ndx, indexType numDims, indexType colonIndex,
+setNDimSubsetSliceReal(T* sp, const T* destp, const indexType outDims[maxDims],
+    const indexType srcDims[maxDims], constIndexPtr* ndx, indexType numDims, indexType colonIndex,
     indexType advance)
 {
     // Calculate the number of output elements
     indexType outCount = 1;
-    for (indexType i = 0; i < numDims; i++)
+    for (indexType i = 0; i < numDims; i++) {
         outCount *= outDims[i];
+    }
     // Initialize the ndxpointer to zero
     indexType ndxptr[maxDims];
-    for (indexType j = 0; j < numDims; j++)
+    for (indexType j = 0; j < numDims; j++) {
         ndxptr[j] = 0;
+    }
     indexType srcfact[maxDims];
     srcfact[0] = 1;
-    for (indexType j = 1; j < numDims; j++)
+    for (indexType j = 1; j < numDims; j++) {
         srcfact[j] = srcfact[j - 1] * srcDims[j - 1];
+    }
     // Calculate the start element
     indexType start = 0;
     for (indexType j = 0; j < numDims; j++) {
         indexType ndxval;
-        if (j == colonIndex)
+        if (j == colonIndex) {
             ndxval = 0;
-        else
+        } else {
             ndxval = ndx[j][0] - 1;
+        }
         start += ndxval * srcfact[j];
     }
     // Next, calculate the stride distance
@@ -316,10 +343,11 @@ setNDimSubsetSliceReal(T* sp, const T* destp, indexType outDims[maxDims],
     indexType stride = 0;
     for (indexType j = 0; j < numDims; j++) {
         indexType ndxval;
-        if (j == colonIndex)
+        if (j == colonIndex) {
             ndxval = 1;
-        else
+        } else {
             ndxval = ndx[j][0] - 1;
+        }
         stride += ndxval * srcfact[j];
     }
     stride -= start;
@@ -334,30 +362,34 @@ setNDimSubsetSliceReal(T* sp, const T* destp, indexType outDims[maxDims],
 //=============================================================================
 template <class T>
 void
-setNDimSubsetSliceBurst(T* sp, const T* destp, indexType outDims[maxDims],
-    indexType srcDims[maxDims], constIndexPtr* ndx, indexType numDims, indexType colonIndex,
+setNDimSubsetSliceBurst(T* sp, const T* destp, const indexType outDims[maxDims],
+    const indexType srcDims[maxDims], constIndexPtr* ndx, indexType numDims, indexType colonIndex,
     indexType burstLen, indexType advance)
 {
     // Calculate the number of output elements
     indexType outCount = 1;
-    for (indexType i = 0; i < numDims; i++)
+    for (indexType i = 0; i < numDims; i++) {
         outCount *= outDims[i];
+    }
     // Initialize the ndxpointer to zero
     indexType ndxptr[maxDims];
-    for (indexType j = 0; j < numDims; j++)
+    for (indexType j = 0; j < numDims; j++) {
         ndxptr[j] = 0;
+    }
     indexType srcfact[maxDims];
     srcfact[0] = 1;
-    for (indexType j = 1; j < numDims; j++)
+    for (indexType j = 1; j < numDims; j++) {
         srcfact[j] = srcfact[j - 1] * srcDims[j - 1];
+    }
     // Calculate the start element
     indexType start = 0;
     for (indexType j = 0; j < numDims; j++) {
         indexType ndxval;
-        if (j == colonIndex)
+        if (j == colonIndex) {
             ndxval = 0;
-        else
+        } else {
             ndxval = ndx[j][0] - 1;
+        }
         start += ndxval * srcfact[j];
     }
     // Next, calculate the stride distance
@@ -365,18 +397,20 @@ setNDimSubsetSliceBurst(T* sp, const T* destp, indexType outDims[maxDims],
     indexType stride = 0;
     for (indexType j = 0; j < numDims; j++) {
         indexType ndxval;
-        if (j == colonIndex)
+        if (j == colonIndex) {
             ndxval = 1;
-        else
+        } else {
             ndxval = ndx[j][0] - 1;
+        }
         stride += ndxval * srcfact[j];
     }
     stride -= start;
     indexType srcadd = start;
     // The output equation is easy now
     for (indexType i = 0; i < outCount; i++) {
-        for (indexType k = 0; k < burstLen; k++)
+        for (indexType k = 0; k < burstLen; k++) {
             sp[burstLen * srcadd + k] = destp[k];
+        }
         destp += advance * burstLen;
         srcadd += stride;
     }
@@ -389,20 +423,22 @@ setNDimSubsetDispatchBurst(int colonIndex, T* srcptr, const T* destptr,
     indexType burstLen, indexType advance)
 {
     indexType elCount = 1;
-    for (indexType i = 0; i < L; i++)
+    for (indexType i = 0; i < L; i++) {
         elCount *= outDimsInt[i];
-    if (colonIndex < 0)
+    }
+    if (colonIndex < 0) {
         setNDimSubsetNoColonBurst<T>(
             srcptr, destptr, outDimsInt, srcDimsInt, indx, L, burstLen, advance);
-    else if (colonIndex == 0)
+    } else if (colonIndex == 0) {
         setNDimSubsetFirstColonBurst<T>(
             srcptr, destptr, outDimsInt, srcDimsInt, indx, L, burstLen, advance);
-    else if (elCount > srcDimsInt[colonIndex])
+    } else if (elCount > srcDimsInt[colonIndex]) {
         setNDimSubsetAnyColonBurst<T>(
             srcptr, destptr, outDimsInt, srcDimsInt, indx, L, colonIndex, burstLen, advance);
-    else
+    } else {
         setNDimSubsetSliceBurst<T>(
             srcptr, destptr, outDimsInt, srcDimsInt, indx, L, colonIndex, burstLen, advance);
+    }
 }
 //=============================================================================
 template <class T>
@@ -412,18 +448,20 @@ setNDimSubsetDispatchReal(int colonIndex, T* srcptr, const T* destptr,
     indexType advance)
 {
     indexType elCount = 1;
-    for (indexType i = 0; i < L; i++)
+    for (indexType i = 0; i < L; i++) {
         elCount *= outDimsInt[i];
-    if (colonIndex < 0)
+    }
+    if (colonIndex < 0) {
         setNDimSubsetNoColonReal<T>(srcptr, destptr, outDimsInt, srcDimsInt, indx, L, advance);
-    else if (colonIndex == 0)
+    } else if (colonIndex == 0) {
         setNDimSubsetFirstColonReal<T>(srcptr, destptr, outDimsInt, srcDimsInt, indx, L, advance);
-    else if (elCount > srcDimsInt[colonIndex])
+    } else if (elCount > srcDimsInt[colonIndex]) {
         setNDimSubsetAnyColonReal<T>(
             srcptr, destptr, outDimsInt, srcDimsInt, indx, L, colonIndex, advance);
-    else
+    } else {
         setNDimSubsetSliceReal<T>(
             srcptr, destptr, outDimsInt, srcDimsInt, indx, L, colonIndex, advance);
+    }
 }
 //=============================================================================
 // Set functions
@@ -507,19 +545,20 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
 
         // Next, we compute the dimensions of the right hand side
         indexType advance;
-        if (rightData.isSparse())
+        if (rightData.isSparse()) {
             rightData.makeDense();
+        }
         if (rightData.isScalar()) {
             advance = 0;
         } else if (!isEmpty() && (rightData.getLength() == dataCount)) {
             advance = 1;
-        } else if (!isEmpty())
+        } else if (!isEmpty()) {
             if (isStringArray() && rightData.isCharacterArray() && rightData.isRowVector()) {
                 advance = 0;
             } else {
                 Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
             }
-        else {
+        } else {
             advance = 1;
         }
         if (isStringArray()) {
@@ -532,15 +571,17 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
 
         } else if (!isEmpty() && (rightData.getDataClass() == NLS_STRUCT_ARRAY)
             && (getDataClass() == NLS_STRUCT_ARRAY)) {
-            if (rightData.dp->fieldNames.size() > dp->fieldNames.size())
+            if (rightData.dp->fieldNames.size() > dp->fieldNames.size()) {
                 promoteType(NLS_STRUCT_ARRAY, rightData.dp->fieldNames);
-            else
+            } else {
                 rightData.promoteType(NLS_STRUCT_ARRAY, dp->fieldNames);
+            }
         } else {
-            if (isEmpty() || rightData.getDataClass() > getDataClass())
+            if (isEmpty() || rightData.getDataClass() > getDataClass()) {
                 promoteType(rightData.dp->dataClass, rightData.dp->fieldNames);
-            else if (rightData.dp->dataClass <= dp->dataClass)
+            } else if (rightData.dp->dataClass <= dp->dataClass) {
                 rightData.promoteType(dp->dataClass, dp->fieldNames);
+            }
         }
         if (isSparse()) {
             if (L > 2) {
@@ -550,8 +591,9 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
             indexType rows = getDimensionLength(0);
             indexType cols = getDimensionLength(1);
             void* qp = SetSparseNDimSubsetsDynamicFunction(dp->dataClass, rows, cols, dp->getData(),
-                (const indexType*)indx[0], outDims[0], (const indexType*)indx[1], outDims[1],
-                rightData.getDataPointer(), (int)advance);
+                static_cast<const indexType*>(indx[0]), outDims[0],
+                static_cast<const indexType*>(indx[1]), outDims[1], rightData.getDataPointer(),
+                static_cast<int>(advance));
             Dimensions newdim;
             newdim[0] = rows;
             newdim[1] = cols;
@@ -576,88 +618,94 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         outDims.simplify();
         switch (dp->dataClass) {
         case NLS_SCOMPLEX:
-            setNDimSubsetDispatchBurst<float>(colonIndex, (float*)qp,
-                (const float*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L, 2,
-                advance);
+            setNDimSubsetDispatchBurst<float>(colonIndex, static_cast<float*>(qp),
+                static_cast<const float*>(rightData.getDataPointer()), outDimsInt, srcDimsInt, indx,
+                L, 2, advance);
             break;
         case NLS_DCOMPLEX:
-            setNDimSubsetDispatchBurst<double>(colonIndex, (double*)qp,
-                (const double*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L, 2,
-                advance);
+            setNDimSubsetDispatchBurst<double>(colonIndex, static_cast<double*>(qp),
+                static_cast<const double*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
+                indx, L, 2, advance);
             break;
         case NLS_LOGICAL:
-            setNDimSubsetDispatchReal<logical>(colonIndex, (logical*)qp,
-                (const logical*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L,
-                advance);
+            setNDimSubsetDispatchReal<logical>(colonIndex, static_cast<logical*>(qp),
+                static_cast<const logical*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
+                indx, L, advance);
             break;
         case NLS_SINGLE:
-            setNDimSubsetDispatchReal<float>(colonIndex, (float*)qp,
-                (const float*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L, advance);
+            setNDimSubsetDispatchReal<float>(colonIndex, static_cast<float*>(qp),
+                static_cast<const float*>(rightData.getDataPointer()), outDimsInt, srcDimsInt, indx,
+                L, advance);
             break;
         case NLS_DOUBLE:
-            setNDimSubsetDispatchReal<double>(colonIndex, (double*)qp,
-                (const double*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L,
-                advance);
+            setNDimSubsetDispatchReal<double>(colonIndex, static_cast<double*>(qp),
+                static_cast<const double*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
+                indx, L, advance);
             break;
         case NLS_INT8:
-            setNDimSubsetDispatchReal<int8>(colonIndex, (int8*)qp,
-                (const int8*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L, advance);
+            setNDimSubsetDispatchReal<int8>(colonIndex, static_cast<int8*>(qp),
+                static_cast<const int8*>(rightData.getDataPointer()), outDimsInt, srcDimsInt, indx,
+                L, advance);
             break;
         case NLS_UINT8:
-            setNDimSubsetDispatchReal<uint8>(colonIndex, (uint8*)qp,
-                (const uint8*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L, advance);
+            setNDimSubsetDispatchReal<uint8>(colonIndex, static_cast<uint8*>(qp),
+                static_cast<const uint8*>(rightData.getDataPointer()), outDimsInt, srcDimsInt, indx,
+                L, advance);
             break;
         case NLS_INT16:
-            setNDimSubsetDispatchReal<int16>(colonIndex, (int16*)qp,
-                (const int16*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L, advance);
+            setNDimSubsetDispatchReal<int16>(colonIndex, static_cast<int16*>(qp),
+                static_cast<const int16*>(rightData.getDataPointer()), outDimsInt, srcDimsInt, indx,
+                L, advance);
             break;
         case NLS_UINT16:
-            setNDimSubsetDispatchReal<uint16>(colonIndex, (uint16*)qp,
-                (const uint16*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L,
-                advance);
+            setNDimSubsetDispatchReal<uint16>(colonIndex, static_cast<uint16*>(qp),
+                static_cast<const uint16*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
+                indx, L, advance);
             break;
         case NLS_INT32:
-            setNDimSubsetDispatchReal<int32>(colonIndex, (int32*)qp,
-                (const int32*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L, advance);
+            setNDimSubsetDispatchReal<int32>(colonIndex, static_cast<int32*>(qp),
+                static_cast<const int32*>(rightData.getDataPointer()), outDimsInt, srcDimsInt, indx,
+                L, advance);
             break;
         case NLS_UINT32:
-            setNDimSubsetDispatchReal<uint32>(colonIndex, (uint32*)qp,
-                (const uint32*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L,
-                advance);
+            setNDimSubsetDispatchReal<uint32>(colonIndex, static_cast<uint32*>(qp),
+                static_cast<const uint32*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
+                indx, L, advance);
             break;
         case NLS_INT64:
-            setNDimSubsetDispatchReal<int64>(colonIndex, (int64*)qp,
-                (const int64*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L, advance);
+            setNDimSubsetDispatchReal<int64>(colonIndex, static_cast<int64*>(qp),
+                static_cast<const int64*>(rightData.getDataPointer()), outDimsInt, srcDimsInt, indx,
+                L, advance);
             break;
         case NLS_UINT64:
-            setNDimSubsetDispatchReal<uint64>(colonIndex, (uint64*)qp,
-                (const uint64*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L,
-                advance);
+            setNDimSubsetDispatchReal<uint64>(colonIndex, static_cast<uint64*>(qp),
+                static_cast<const uint64*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
+                indx, L, advance);
             break;
         case NLS_HANDLE:
-            setNDimSubsetDispatchReal<nelson_handle>(colonIndex, (nelson_handle*)qp,
-                (const nelson_handle*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L,
-                advance);
+            setNDimSubsetDispatchReal<nelson_handle>(colonIndex, static_cast<nelson_handle*>(qp),
+                static_cast<const nelson_handle*>(rightData.getDataPointer()), outDimsInt,
+                srcDimsInt, indx, L, advance);
             break;
         case NLS_CHAR:
-            setNDimSubsetDispatchReal<charType>(colonIndex, (charType*)qp,
-                (const charType*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L,
-                advance);
+            setNDimSubsetDispatchReal<charType>(colonIndex, static_cast<charType*>(qp),
+                static_cast<const charType*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
+                indx, L, advance);
             break;
         case NLS_CELL_ARRAY:
-            setNDimSubsetDispatchReal<ArrayOf>(colonIndex, (ArrayOf*)qp,
-                (const ArrayOf*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L,
-                advance);
+            setNDimSubsetDispatchReal<ArrayOf>(colonIndex, static_cast<ArrayOf*>(qp),
+                static_cast<const ArrayOf*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
+                indx, L, advance);
             break;
         case NLS_STRING_ARRAY:
-            setNDimSubsetDispatchReal<ArrayOf>(colonIndex, (ArrayOf*)qp,
-                (const ArrayOf*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L,
-                advance);
+            setNDimSubsetDispatchReal<ArrayOf>(colonIndex, static_cast<ArrayOf*>(qp),
+                static_cast<const ArrayOf*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
+                indx, L, advance);
             break;
         case NLS_STRUCT_ARRAY:
-            setNDimSubsetDispatchBurst<ArrayOf>(colonIndex, (ArrayOf*)qp,
-                (const ArrayOf*)rightData.getDataPointer(), outDimsInt, srcDimsInt, indx, L,
-                dp->fieldNames.size(), advance);
+            setNDimSubsetDispatchBurst<ArrayOf>(colonIndex, static_cast<ArrayOf*>(qp),
+                static_cast<const ArrayOf*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
+                indx, L, dp->fieldNames.size(), advance);
             break;
         }
         delete[] indx;
@@ -678,8 +726,9 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
 void
 ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
 {
-    if (index.isEmpty())
+    if (index.isEmpty()) {
         return;
+    }
     // Check the right-hand-side - if it is empty, then
     // we have a delete command in disguise.
     if (rightData.isEmpty()) {
@@ -715,10 +764,11 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
     // Make sure the index is an ordinal type
     index.toOrdinalType();
     indexType index_length = index.getLength();
-    if (index_length == 0)
+    if (index_length == 0) {
         return;
+    }
     // Get a pointer to the index data set
-    constIndexPtr index_p = (constIndexPtr)index.dp->getData();
+    auto index_p = static_cast<constIndexPtr>(index.dp->getData());
     int advance = 0;
     // Set the right hand side advance pointer to
     //  - 0 if the rhs is a scalar
@@ -750,28 +800,31 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
         rightData = promute;
     } else if (!isEmpty() && (rightData.getDataClass() == NLS_STRUCT_ARRAY)
         && (getDataClass() == NLS_STRUCT_ARRAY)) {
-        if (rightData.dp->fieldNames.size() > dp->fieldNames.size())
+        if (rightData.dp->fieldNames.size() > dp->fieldNames.size()) {
             promoteType(NLS_STRUCT_ARRAY, rightData.dp->fieldNames);
-        else
+        } else {
             rightData.promoteType(NLS_STRUCT_ARRAY, dp->fieldNames);
+        }
     } else {
-        if (isEmpty() || rightData.getDataClass() > getDataClass())
+        if (isEmpty() || rightData.getDataClass() > getDataClass()) {
             promoteType(rightData.getDataClass(), rightData.dp->fieldNames);
-        // If our type is superior to the RHS, we convert
-        // the RHS to our type
-        else if (rightData.getDataClass() <= dp->dataClass)
+            // If our type is superior to the RHS, we convert
+            // the RHS to our type
+        } else if (rightData.getDataClass() <= dp->dataClass) {
             rightData.promoteType(dp->dataClass, dp->fieldNames);
+        }
     }
     // If the max index is larger than our current length, then
     // we have to resize ourselves - but this is only legal if we are
     // a vector.
     if (isSparse()) {
-        if (dp->dataClass == NLS_LOGICAL)
+        if (dp->dataClass == NLS_LOGICAL) {
             rightData.promoteType(NLS_UINT64);
+        }
         indexType rows = getDimensionLength(0);
         indexType cols = getDimensionLength(1);
         void* qp = SetSparseVectorSubsetsDynamicFunction(dp->dataClass, rows, cols, dp->getData(),
-            (const indexType*)index.dp->getData(), index.getDimensionLength(0),
+            static_cast<const indexType*>(index.dp->getData()), index.getDimensionLength(0),
             index.getDimensionLength(1), rightData.getDataPointer(), advance);
         Dimensions newdim;
         newdim[0] = rows;
@@ -799,7 +852,7 @@ ArrayOf::setValueAtIndex(uint64 index, ArrayOf scalarValue)
     if (!scalarValue.isScalar()) {
         Error(ERROR_SCALAR_EXPECTED);
     }
-    uint64 length = (uint64)this->getLength();
+    auto length = static_cast<uint64>(this->getLength());
     if (index >= length) {
         Error(_W("Index exceeds matrix dimensions."));
     }
@@ -807,7 +860,7 @@ ArrayOf::setValueAtIndex(uint64 index, ArrayOf scalarValue)
     if (isSparse()) {
         indexType rows = getDimensionLength(0);
         indexType cols = getDimensionLength(1);
-        indexType indx = (indexType)index;
+        auto indx = static_cast<indexType>(index);
         void* qp = SetSparseVectorSubsetsDynamicFunction(
             dp->dataClass, rows, cols, dp->getData(), &indx, 1, 1, scalarValue.getDataPointer(), 0);
         Dimensions newdim;
@@ -816,8 +869,8 @@ ArrayOf::setValueAtIndex(uint64 index, ArrayOf scalarValue)
         dp = dp->putData(dp->dataClass, newdim, qp, true);
     } else {
         indexType elSize(getElementSize());
-        char* ptr = (char*)getReadWriteDataPointer();
-        const char* val = (const char*)scalarValue.getDataPointer();
+        char* ptr = static_cast<char*>(getReadWriteDataPointer());
+        const char* val = static_cast<const char*>(scalarValue.getDataPointer());
         memcpy(ptr + index * elSize, val, scalarValue.getByteSize());
     }
 }

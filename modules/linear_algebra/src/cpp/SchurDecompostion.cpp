@@ -46,7 +46,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
     if (asComplex || A.isComplex()) {
         if (A.getDataClass() == NLS_SINGLE || A.getDataClass() == NLS_SCOMPLEX) {
             A.promoteType(NLS_SCOMPLEX);
-            singlecomplex* Az = reinterpret_cast<singlecomplex*>((double*)A.getDataPointer());
+            auto* Az = reinterpret_cast<singlecomplex*>((double*)A.getDataPointer());
             Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
                 (Eigen::Index)A.getDimensions().getColumns());
             if (!matA.allFinite()) {
@@ -54,7 +54,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             }
             ArrayOf T_temp(A);
             T_temp.ensureSingleOwner();
-            singlecomplex* Tz = reinterpret_cast<singlecomplex*>((double*)T_temp.getDataPointer());
+            auto* Tz = reinterpret_cast<singlecomplex*>((double*)T_temp.getDataPointer());
             Eigen::Map<Eigen::MatrixXcf> matT(Tz, (Eigen::Index)A.getDimensions().getRows(),
                 (Eigen::Index)A.getDimensions().getColumns());
             Eigen::ComplexSchur<Eigen::MatrixXcf> schur(matA);
@@ -62,7 +62,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             T = T_temp;
         } else {
             A.promoteType(NLS_DCOMPLEX);
-            doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+            auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
             Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
                 (Eigen::Index)A.getDimensions().getColumns());
             if (!matA.allFinite()) {
@@ -70,7 +70,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             }
             ArrayOf T_temp(A);
             T_temp.ensureSingleOwner();
-            doublecomplex* Tz = reinterpret_cast<doublecomplex*>((double*)T_temp.getDataPointer());
+            auto* Tz = reinterpret_cast<doublecomplex*>((double*)T_temp.getDataPointer());
             Eigen::Map<Eigen::MatrixXcd> matT(Tz, (Eigen::Index)A.getDimensions().getRows(),
                 (Eigen::Index)A.getDimensions().getColumns());
             Eigen::ComplexSchur<Eigen::MatrixXcd> schur(matA);
@@ -140,7 +140,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& U, ArrayOf& T)
     }
     if (asComplex || A.isComplex()) {
         A.promoteType(NLS_DCOMPLEX);
-        doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
             (Eigen::Index)A.getDimensions().getColumns());
         if (!matA.allFinite()) {
@@ -150,8 +150,8 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& U, ArrayOf& T)
         U_temp.ensureSingleOwner();
         ArrayOf T_temp(A);
         T_temp.ensureSingleOwner();
-        doublecomplex* Uz = reinterpret_cast<doublecomplex*>((double*)U_temp.getDataPointer());
-        doublecomplex* Tz = reinterpret_cast<doublecomplex*>((double*)T_temp.getDataPointer());
+        auto* Uz = reinterpret_cast<doublecomplex*>((double*)U_temp.getDataPointer());
+        auto* Tz = reinterpret_cast<doublecomplex*>((double*)T_temp.getDataPointer());
         Eigen::Map<Eigen::MatrixXcd> matU(Uz, (Eigen::Index)A.getDimensions().getRows(),
             (Eigen::Index)A.getDimensions().getColumns());
         Eigen::Map<Eigen::MatrixXcd> matT(Tz, (Eigen::Index)A.getDimensions().getRows(),
@@ -200,5 +200,5 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& U, ArrayOf& T)
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

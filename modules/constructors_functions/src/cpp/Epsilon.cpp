@@ -18,7 +18,7 @@
 //=============================================================================
 #include "Epsilon.hpp"
 #include "IEEEFP.hpp"
-#include <float.h>
+#include <cfloat>
 #include <limits>
 //=============================================================================
 namespace Nelson {
@@ -34,24 +34,22 @@ nextafter(T x, T y)
     } u;
     if (IsNaN(y) || IsNaN(x)) {
         return x + y;
-    } else {
-        if (x == y) {
-            return y;
-        } else {
-            u.f = x;
-            if (x == 0.0) {
-                u.i = 1;
-                return y > 0.0 ? u.f : -u.f;
-            } else {
-                if (((x > 0.0) ^ (y > x)) == 0) {
-                    u.i++;
-                } else {
-                    u.i--;
-                }
-                return u.f;
-            }
-        }
     }
+    if (x == y) {
+        return y;
+    }
+    u.f = x;
+    if (x == 0.0) {
+        u.i = 1;
+        return y > 0.0 ? u.f : -u.f;
+    }
+    if (((x > 0.0) ^ (y > x)) == 0) {
+        u.i++;
+    } else {
+        u.i--;
+    }
+    return u.f;
+
     return 0.0;
 }
 //=============================================================================
@@ -79,13 +77,13 @@ Epsilon(single X)
         machEps = std::numeric_limits<single>::epsilon();
     } else {
         if (X >= 0) {
-            machEps = nextafter<single>((single)X, (single)FLT_MAX) - X;
+            machEps = nextafter<single>(X, static_cast<single>(FLT_MAX)) - X;
         } else {
-            machEps = X - nextafter<single>((single)X, (single)(-FLT_MAX));
+            machEps = X - nextafter<single>(X, static_cast<single>(-FLT_MAX));
         }
     }
     return machEps;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

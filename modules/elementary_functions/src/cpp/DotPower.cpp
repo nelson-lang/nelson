@@ -67,7 +67,7 @@ power_zi(double* p, const double* a, int b)
 void
 power_zz(double* c, const double* a, const double* b)
 {
-    double mag = complex_abs<double>(a[0], a[1]);
+    auto mag = complex_abs<double>(a[0], a[1]);
     if (mag == 0) {
         c[0] = 0;
         c[1] = 0;
@@ -163,7 +163,7 @@ power_dd(double a, double b)
 }
 //=============================================================================
 void
-cicpower(int n, single* c, single* a, int stride1, int* b, int stride2)
+cicpower(int n, single* c, const single* a, int stride1, int* b, int stride2)
 {
     int m, p;
     double z1[2];
@@ -174,15 +174,15 @@ cicpower(int n, single* c, single* a, int stride1, int* b, int stride2)
         z1[0] = a[2 * m];
         z1[1] = a[2 * m + 1];
         power_zi(z3, z1, b[p]);
-        c[2 * i] = (single)z3[0];
-        c[2 * i + 1] = (single)z3[1];
+        c[2 * i] = static_cast<single>(z3[0]);
+        c[2 * i + 1] = static_cast<single>(z3[1]);
         m += stride1;
         p += stride2;
     }
 }
 //=============================================================================
 void
-cfcpower(int n, single* c, single* a, int stride1, single* b, int stride2)
+cfcpower(int n, single* c, const single* a, int stride1, const single* b, int stride2)
 {
     int m, p;
     double z1[2];
@@ -196,15 +196,15 @@ cfcpower(int n, single* c, single* a, int stride1, single* b, int stride2)
         z2[0] = b[p];
         z2[1] = 0;
         power_zz(z3, z1, z2);
-        c[2 * i] = (single)z3[0];
-        c[2 * i + 1] = (single)z3[1];
+        c[2 * i] = static_cast<single>(z3[0]);
+        c[2 * i + 1] = static_cast<single>(z3[1]);
         m += stride1;
         p += stride2;
     }
 }
 //=============================================================================
 void
-zdzpower(int n, double* c, double* a, int stride1, double* b, int stride2)
+zdzpower(int n, double* c, const double* a, int stride1, const double* b, int stride2)
 {
     int m, p;
     double z1[2];
@@ -226,7 +226,7 @@ zdzpower(int n, double* c, double* a, int stride1, double* b, int stride2)
 }
 //=============================================================================
 void
-cccpower(int n, single* c, single* a, int stride1, single* b, int stride2)
+cccpower(int n, single* c, const single* a, int stride1, const single* b, int stride2)
 {
     int m, p;
     double z1[2];
@@ -240,15 +240,15 @@ cccpower(int n, single* c, single* a, int stride1, single* b, int stride2)
         z2[0] = b[2 * p];
         z2[1] = b[2 * p + 1];
         power_zz(z3, z1, z2);
-        c[2 * i] = (single)z3[0];
-        c[2 * i + 1] = (single)z3[1];
+        c[2 * i] = static_cast<single>(z3[0]);
+        c[2 * i + 1] = static_cast<single>(z3[1]);
         m += stride1;
         p += stride2;
     }
 }
 //=============================================================================
 void
-zzzpower(int n, double* c, double* a, int stride1, double* b, int stride2)
+zzzpower(int n, double* c, const double* a, int stride1, const double* b, int stride2)
 {
     int m, p;
     double z1[2];
@@ -270,7 +270,7 @@ zzzpower(int n, double* c, double* a, int stride1, double* b, int stride2)
 }
 //=============================================================================
 void
-zizpower(int n, double* c, double* a, int stride1, int* b, int stride2)
+zizpower(int n, double* c, const double* a, int stride1, int* b, int stride2)
 {
     int m, p;
     double z1[2];
@@ -315,7 +315,7 @@ fifpower(int n, single* c, single* a, int stride1, int* b, int stride2)
 {
     int m = 0, p = 0;
     for (int i = 0; i < n; i++) {
-        c[i] = (single)power_di(a[m], b[p]);
+        c[i] = static_cast<single>(power_di(a[m], b[p]));
         m += stride1;
         p += stride2;
     }
@@ -326,14 +326,13 @@ fffpower(int n, single* c, single* a, int stride1, single* b, int stride2)
 {
     int m = 0, p = 0;
     for (int i = 0; i < n; i++) {
-        c[i] = (single)power_dd(a[m], b[p]);
+        c[i] = static_cast<single>(power_dd(a[m], b[p]));
         m += stride1;
         p += stride2;
     }
 }
 //=============================================================================
-typedef void (*vvfun)(indexType length, void* result, const void* arg1, const int stride1,
-    const void* arg2, const int stride2);
+using vvfun = void (*)(indexType, void*, const void*, const int, const void*, const int);
 //=============================================================================
 inline ArrayOf
 doPowerAssist(ArrayOf A, Class AClass, ArrayOf B, Class BClass, Class CClass, vvfun exec)
@@ -343,19 +342,19 @@ doPowerAssist(ArrayOf A, Class AClass, ArrayOf B, Class BClass, Class CClass, vv
     B.promoteType(BClass);
     if (A.isScalar()) {
         indexType Blen(B.getLength());
-        C = ArrayOf(CClass, B.getDimensions(), NULL);
+        C = ArrayOf(CClass, B.getDimensions(), nullptr);
         void* Cp = ArrayOf::allocateArrayOf(CClass, Blen * C.getElementSize());
         exec(Blen, Cp, A.getDataPointer(), 0, B.getDataPointer(), 1);
         C.setDataPointer(Cp);
     } else if (B.isScalar()) {
         indexType Alen(A.getLength());
-        C = ArrayOf(CClass, A.getDimensions(), NULL);
+        C = ArrayOf(CClass, A.getDimensions(), nullptr);
         void* Cp = ArrayOf::allocateArrayOf(CClass, Alen * C.getElementSize());
         exec(Alen, Cp, A.getDataPointer(), 1, B.getDataPointer(), 0);
         C.setDataPointer(Cp);
     } else {
         indexType Alen(A.getLength());
-        C = ArrayOf(CClass, A.getDimensions(), NULL);
+        C = ArrayOf(CClass, A.getDimensions(), nullptr);
         void* Cp = ArrayOf::allocateArrayOf(CClass, Alen * C.getElementSize());
         exec(Alen, Cp, A.getDataPointer(), 1, B.getDataPointer(), 1);
         C.setDataPointer(Cp);
@@ -408,21 +407,21 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
         indexType n = 0;
         if (A.isScalar()) {
             indexType Blen(B.getLength());
-            C = ArrayOf(AClass, B.getDimensions(), NULL);
+            C = ArrayOf(AClass, B.getDimensions(), nullptr);
             Cp = ArrayOf::allocateArrayOf(AClass, Blen * C.getElementSize());
             stride1 = 0;
             stride2 = 1;
             n = Blen;
         } else if (B.isScalar()) {
             indexType Alen(A.getLength());
-            C = ArrayOf(AClass, A.getDimensions(), NULL);
+            C = ArrayOf(AClass, A.getDimensions(), nullptr);
             Cp = ArrayOf::allocateArrayOf(AClass, Alen * C.getElementSize());
             stride1 = 1;
             stride2 = 0;
             n = Alen;
         } else {
             indexType Alen(A.getLength());
-            C = ArrayOf(AClass, A.getDimensions(), NULL);
+            C = ArrayOf(AClass, A.getDimensions(), nullptr);
             Cp = ArrayOf::allocateArrayOf(AClass, Alen * C.getElementSize());
             stride1 = 1;
             stride2 = 1;
@@ -433,7 +432,7 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
         case NLS_INT8: {
             int8* a = (int8*)A.getDataPointer();
             int8* b = (int8*)B.getDataPointer();
-            int8* c = (int8*)Cp;
+            int8* c = static_cast<int8*>(Cp);
             for (indexType i = 0; i < n; i++) {
                 c[i] = powi<int8>(a[m], b[p]);
                 m += stride1;
@@ -441,9 +440,9 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
             }
         } break;
         case NLS_UINT8: {
-            uint8* a = (uint8*)A.getDataPointer();
-            uint8* b = (uint8*)B.getDataPointer();
-            uint8* c = (uint8*)Cp;
+            auto* a = (uint8*)A.getDataPointer();
+            auto* b = (uint8*)B.getDataPointer();
+            auto* c = static_cast<uint8*>(Cp);
             for (indexType i = 0; i < n; i++) {
                 c[i] = powi<uint8>(a[m], b[p]);
                 m += stride1;
@@ -451,9 +450,9 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
             }
         } break;
         case NLS_INT16: {
-            int16* a = (int16*)A.getDataPointer();
-            int16* b = (int16*)B.getDataPointer();
-            int16* c = (int16*)Cp;
+            auto* a = (int16*)A.getDataPointer();
+            auto* b = (int16*)B.getDataPointer();
+            auto* c = static_cast<int16*>(Cp);
             for (indexType i = 0; i < n; i++) {
                 c[i] = powi<int16>(a[m], b[p]);
                 m += stride1;
@@ -461,9 +460,9 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
             }
         } break;
         case NLS_UINT16: {
-            uint16* a = (uint16*)A.getDataPointer();
-            uint16* b = (uint16*)B.getDataPointer();
-            uint16* c = (uint16*)Cp;
+            auto* a = (uint16*)A.getDataPointer();
+            auto* b = (uint16*)B.getDataPointer();
+            auto* c = static_cast<uint16*>(Cp);
             for (indexType i = 0; i < n; i++) {
                 c[i] = powi<uint16>(a[m], b[p]);
                 m += stride1;
@@ -471,9 +470,9 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
             }
         } break;
         case NLS_INT32: {
-            int32* a = (int32*)A.getDataPointer();
-            int32* b = (int32*)B.getDataPointer();
-            int32* c = (int32*)Cp;
+            auto* a = (int32*)A.getDataPointer();
+            auto* b = (int32*)B.getDataPointer();
+            auto* c = static_cast<int32*>(Cp);
             for (indexType i = 0; i < n; i++) {
                 c[i] = powi<int32>(a[m], b[p]);
                 m += stride1;
@@ -481,9 +480,9 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
             }
         } break;
         case NLS_UINT32: {
-            uint32* a = (uint32*)A.getDataPointer();
-            uint32* b = (uint32*)B.getDataPointer();
-            uint32* c = (uint32*)Cp;
+            auto* a = (uint32*)A.getDataPointer();
+            auto* b = (uint32*)B.getDataPointer();
+            auto* c = static_cast<uint32*>(Cp);
             for (indexType i = 0; i < n; i++) {
                 c[i] = powi<uint32>(a[m], b[p]);
                 m += stride1;
@@ -491,9 +490,9 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
             }
         } break;
         case NLS_INT64: {
-            int64* a = (int64*)A.getDataPointer();
-            int64* b = (int64*)B.getDataPointer();
-            int64* c = (int64*)Cp;
+            auto* a = (int64*)A.getDataPointer();
+            auto* b = (int64*)B.getDataPointer();
+            auto* c = static_cast<int64*>(Cp);
             for (indexType i = 0; i < n; i++) {
                 c[i] = powi<int64>(a[m], b[p]);
                 m += stride1;
@@ -501,9 +500,9 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
             }
         } break;
         case NLS_UINT64: {
-            uint64* a = (uint64*)A.getDataPointer();
-            uint64* b = (uint64*)B.getDataPointer();
-            uint64* c = (uint64*)Cp;
+            auto* a = (uint64*)A.getDataPointer();
+            auto* b = (uint64*)B.getDataPointer();
+            auto* c = static_cast<uint64*>(Cp);
             for (indexType i = 0; i < n; i++) {
                 c[i] = powi<uint64>(a[m], b[p]);
                 m += stride1;
@@ -513,13 +512,13 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
         }
         C.setDataPointer(Cp);
         return C;
-
-    } else {
-        // If A is not at least a single type, promote it to double
-        if (AClass < NLS_SINGLE)
-            AClass = NLS_DOUBLE;
-        if (BClass < NLS_INT64)
-            BClass = NLS_INT64;
+    }
+    // If A is not at least a single type, promote it to double
+    if (AClass < NLS_SINGLE) {
+        AClass = NLS_DOUBLE;
+    }
+    if (BClass < NLS_INT64) {
+        BClass = NLS_INT64;
     }
 
     // Get a read on if A is positive
@@ -621,10 +620,10 @@ DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
             if (isIntegerA) {
                 if (B.getDataClass() == NLS_DOUBLE) {
                     bool allIntegerValue = true;
-                    double* ptrB = (double*)B.getDataPointer();
+                    auto* ptrB = (double*)B.getDataPointer();
                     for (indexType k = 0; k < B.getDimensions().getElementCount(); k++) {
                         double v = std::trunc(ptrB[k]);
-                        if ((double)v != ptrB[k]) {
+                        if (v != ptrB[k]) {
                             allIntegerValue = false;
                             break;
                         }
@@ -703,5 +702,5 @@ DotPower(ArrayOf& A, ArrayOf& B, bool& needToOverload)
     return ArrayOf();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

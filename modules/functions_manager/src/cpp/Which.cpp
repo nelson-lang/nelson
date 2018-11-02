@@ -38,7 +38,7 @@ WhichAll(const std::wstring& functionname)
 std::wstring
 Which(const std::wstring& functionname)
 {
-    std::wstring origin = L"";
+    std::wstring origin;
     if (!PathFuncManager::getInstance()->find(functionname, origin)) {
         BuiltInFunctionDefManager::getInstance()->find(wstring_to_utf8(functionname), origin);
     }
@@ -50,15 +50,15 @@ WhichModule(const std::wstring& functionname)
 {
     wstringVector res;
     wstringVector paths = WhichAll(functionname);
-    if (paths.size() > 0) {
-        for (size_t k = 0; k < paths.size(); k++) {
-            std::wstring moduleName = ModulesManager::Instance().findModuleNameByPath(paths[k]);
+    if (!paths.empty()) {
+        for (const auto& path : paths) {
+            std::wstring moduleName = ModulesManager::Instance().findModuleNameByPath(path);
             if (moduleName != L"") {
                 res.push_back(moduleName);
             } else {
                 stringVector functionsList;
                 std::wstring errorMessage;
-                bool bRes = GatewayInfo(paths[k], moduleName, functionsList, errorMessage);
+                bool bRes = GatewayInfo(path, moduleName, functionsList, errorMessage);
                 if (bRes) {
                     res.push_back(moduleName);
                 } else {
@@ -70,5 +70,5 @@ WhichModule(const std::wstring& functionname)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -33,7 +33,7 @@ createDynamicLinkSymbolObject(
     if (hlObj->getCategory() != DLLIB_CATEGORY_STR) {
         Error(_W("Wrong type for argument #1: dllib scalar handle expected."));
     }
-    DynamicLinkLibraryObject* obj = (DynamicLinkLibraryObject*)hlObj;
+    auto* obj = (DynamicLinkLibraryObject*)hlObj;
     if (!obj->getPointer()) {
         Exception(_W("Valid handle expected."));
     }
@@ -66,5 +66,5 @@ checkParamType(std::wstring paramType)
     return (it != supportedType.end());
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

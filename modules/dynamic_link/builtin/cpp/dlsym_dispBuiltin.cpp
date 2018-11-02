@@ -47,8 +47,7 @@ Nelson::DynamicLinkGateway::dlsym_dispBuiltin(Evaluator* eval, int nLhs, const A
             if (param1.getHandleCategory() != DLSYM_CATEGORY_STR) {
                 Error(_W("dlsym handle expected."));
             }
-            DynamicLinkSymbolObject* dlsymObj
-                = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
+            auto* dlsymObj = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
             dlsymObj->disp(eval);
         }
     } else {

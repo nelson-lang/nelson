@@ -47,7 +47,7 @@ Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                     if (found) {
                         io->outputMessage(_W("built-in") + L" (" + path + L")");
                     } else {
-                        if (path == L"") {
+                        if (path.empty()) {
                             io->outputMessage(L"'" + wfunctionname + L"' " + _W("not found."));
                         } else {
                             io->outputMessage(path);
@@ -97,8 +97,8 @@ Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             if (nLhs == 0) {
                 Interface* io = eval->getInterface();
                 if (io) {
-                    for (size_t k = 0; k < res.size(); k++) {
-                        io->outputMessage(res[k] + L"\n");
+                    for (const auto& re : res) {
+                        io->outputMessage(re + L"\n");
                     }
                 } else {
                     retval.push_back(ToCellStringAsColumn(res));

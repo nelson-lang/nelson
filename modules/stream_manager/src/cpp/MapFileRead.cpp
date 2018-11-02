@@ -25,7 +25,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/iostreams/device/mapped_file.hpp>
-#include <stdio.h>
+#include <cstdio>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,30 +39,30 @@ _MapFileRead(LPCWSTR szFileName, size_t* lpcbSize, BOOL& isEmpty)
     MEMORY_BASIC_INFORMATION mbi;
     isEmpty = FALSE;
     *lpcbSize = 0;
-    hFile = CreateFileW(szFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING,
-        FILE_ATTRIBUTE_NORMAL, NULL);
+    hFile = CreateFileW(szFileName, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
+        FILE_ATTRIBUTE_NORMAL, nullptr);
     if (INVALID_HANDLE_VALUE == hFile) {
-        return NULL;
+        return nullptr;
     }
-    dwFileSize = GetFileSize(hFile, NULL);
+    dwFileSize = GetFileSize(hFile, nullptr);
     if (INVALID_FILE_SIZE == dwFileSize) {
         CloseHandle(hFile);
-        return NULL;
+        return nullptr;
     }
     if (dwFileSize == 0) {
         isEmpty = TRUE;
         CloseHandle(hFile);
-        return NULL;
+        return nullptr;
     }
-    hMapping = CreateFileMappingW(hFile, NULL, PAGE_READONLY, 0, 0, NULL);
-    if (NULL == hMapping) {
+    hMapping = CreateFileMappingW(hFile, nullptr, PAGE_READONLY, 0, 0, nullptr);
+    if (nullptr == hMapping) {
         CloseHandle(hFile);
-        return NULL;
+        return nullptr;
     }
     lpView = MapViewOfFile(hMapping, FILE_MAP_READ, 0, 0, 0);
     CloseHandle(hMapping);
     CloseHandle(hFile);
-    if (NULL != lpView) {
+    if (nullptr != lpView) {
         if (VirtualQuery(lpView, &mbi, sizeof(mbi)) >= sizeof(mbi)) {
             *lpcbSize = min(dwFileSize, mbi.RegionSize);
         } else {
@@ -84,7 +84,8 @@ MapFileRead(std::wstring filename, std::wstring eol, std::wstring& errorMessage)
     errorMessage = L"";
     size_t cbSize = 0;
     BOOL isEmpty = FALSE;
-    const char* fileView = (const char*)_MapFileRead(filename.c_str(), &cbSize, isEmpty);
+    const char* fileView
+        = static_cast<const char*>(_MapFileRead(filename.c_str(), &cbSize, isEmpty));
     ArrayOf res;
     if (isEmpty) {
         res = ArrayOf::characterArrayConstructor("");
@@ -145,5 +146,5 @@ MapFileRead(std::wstring filename, std::wstring eol, std::wstring& errorMessage)
 }
 #endif
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -45,8 +45,8 @@ ArrayOf::logicalConstructor(bool aval)
 {
     Dimensions dim;
     dim.makeScalar();
-    logical* data = (logical*)allocateArrayOf(NLS_LOGICAL, 1);
-    *data = (logical)aval;
+    logical* data = static_cast<logical*>(allocateArrayOf(NLS_LOGICAL, 1));
+    *data = static_cast<logical>(aval);
     return ArrayOf(NLS_LOGICAL, dim, data);
 }
 //=============================================================================
@@ -59,8 +59,8 @@ ArrayOf::getContentAsLogicalScalar(bool arrayAsScalar) const
     if (isEmpty() || (!arrayAsScalar && !isScalar())) {
         Error(ERROR_SIZE_SCALAR_EXPECTED);
     }
-    logical* qp = (logical*)dp->getData();
+    auto* qp = (logical*)dp->getData();
     return (*qp);
 }
-}
+} // namespace Nelson
 //=============================================================================

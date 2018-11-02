@@ -76,5 +76,5 @@ UiGetDirectory(std::wstring pathOrigin, std::wstring title, std::wstring& pathSe
     return bCancelled;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

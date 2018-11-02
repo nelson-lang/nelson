@@ -18,7 +18,7 @@
 //=============================================================================
 #include "DateVector.hpp"
 #include "IEEEFP.hpp"
-#include <math.h>
+#include <cmath>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -74,10 +74,10 @@ DateVector(
             dateSerial = ts;
         }
         Y = y;
-        int iy = (int)y;
+        int iy = static_cast<int>(y);
         int leap = ((iy % 4 == 0) && (iy % 100 != 0) || (iy % 400 == 0));
         double* cdm = (leap ? leap_year : common_year);
-        int mon = (int)(dateSerial / 29. - 1);
+        int mon = static_cast<int>(dateSerial / 29. - 1);
         if (dateSerial > cdm[mon + 1]) {
             mon++;
         }
@@ -86,5 +86,5 @@ DateVector(
         D = dateSerial;
     }
 }
-}
+} // namespace Nelson
 //=============================================================================

@@ -161,7 +161,7 @@ public:
      *    - if $$a_i$$ and $$b_i$$ are both defined, $$a_i \leftarrow \max(a_i,b_i)$$.
      */
     void
-    expandToCover(const Dimensions& resize);
+    expandToCover(const Dimensions& a);
     /**
      * Increment our current value in the given dimension (ordinal),
      * modulo the limit.  This is equivalent to first incrementing

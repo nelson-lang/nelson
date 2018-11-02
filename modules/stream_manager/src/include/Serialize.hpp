@@ -29,13 +29,13 @@ private:
     Stream* s;
 
 public:
-    Serialize(Stream*);
+    Serialize(Stream* /*sck*/);
     ~Serialize();
 
     // Send a stream of base objects
     // Check a signature
     void
-    sendSignature(const char sig, int count);
+    sendSignature(char sig, int count);
 
     void
     putByte(char b);
@@ -63,7 +63,7 @@ public:
 
     // Send a signature
     void
-    checkSignature(const char sig, int count);
+    checkSignature(char sig, int count);
 
     bool
     getBool();
@@ -78,7 +78,7 @@ public:
     int
     getInt();
     void
-    getInts(int* ptr, int count);
+    getInts(int* i, int count);
 
     std::string
     getString();

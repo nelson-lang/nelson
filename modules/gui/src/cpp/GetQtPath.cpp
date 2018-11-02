@@ -26,7 +26,7 @@ std::wstring
 GetQtPath(const std::wstring& libraryLocation)
 {
     QString path;
-    std::wstring wpath = L"";
+    std::wstring wpath;
     if (libraryLocation == L"PrefixPath") {
         path = QLibraryInfo::location(QLibraryInfo::PrefixPath);
     }
@@ -75,5 +75,5 @@ GetQtPath(const std::wstring& libraryLocation)
     return wpath;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

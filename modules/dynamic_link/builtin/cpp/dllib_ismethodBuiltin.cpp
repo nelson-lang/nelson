@@ -41,8 +41,7 @@ Nelson::DynamicLinkGateway::dllib_ismethodBuiltin(
     }
     ArrayOf param2 = argIn[1];
     std::wstring methodName = param2.getContentAsWideString();
-    DynamicLinkLibraryObject* objDllib
-        = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
+    auto* objDllib = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
     ArrayOf res = ArrayOf::logicalConstructor(objDllib->isMethod(methodName));
     retval.push_back(res);
     return retval;

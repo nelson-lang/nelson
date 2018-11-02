@@ -40,14 +40,14 @@ matrix_matrix_addition(Class classDestination, const ArrayOf& a, const ArrayOf& 
         for (indexType k = 0; k < Clen; k++) {
             C[k] = scalarInteger_plus_scalarInteger<T>(A[k], B[k]);
         }
-	} else {
+    } else {
         Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
         Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
             (T*)a.getDataPointer(), 1, Clen);
         Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
             (T*)b.getDataPointer(), 1, Clen);
         matC = matA + matB;
-	}
+    }
     return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
@@ -88,7 +88,7 @@ scalar_matrix_addition(Class classDestination, ArrayOf& a, ArrayOf& b)
             (T*)b.getDataPointer(), 1, Clen);
         T* ptrA = (T*)a.getDataPointer();
         matC = ptrA[0] + matB.array();
-	}
+    }
     return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
@@ -121,14 +121,14 @@ vector_addition(Class classDestination, T* C, const T* A, indexType NA, const T*
                 m++;
             }
         }
-	} else {
+    } else {
         for (indexType i = 0; i < NA; i++) {
             for (indexType j = 0; j < NB; j++) {
                 C[m] = A[i] + B[j];
                 m++;
             }
         }
-	}
+    }
 }
 //=============================================================================
 template <class T>
@@ -219,14 +219,14 @@ vector_column_addition(Class classDestination, const ArrayOf& a, const ArrayOf& 
                 C[m] = scalarInteger_plus_scalarInteger<T>(ptrA[j], ptrB[m]);
             }
         }
-	} else {
+    } else {
         for (indexType i = 0; i < dimsC.getRows(); i++) {
             for (indexType j = 0; j < dimsC.getColumns(); j++) {
                 indexType m = i + j * b.getDimensions().getRows();
                 C[m] = ptrB[m] + ptrA[j];
             }
         }
-	}
+    }
     return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
@@ -305,15 +305,15 @@ addition(Class classDestination, ArrayOf a, ArrayOf b)
                         std::max(dimsA.getMax(), dimsB.getMax()));
                     indexType Clen = dimsC.getElementCount();
                     Cp = new_with_exception<T>(Clen, false);
-                    vector_addition(classDestination, (T*) Cp, (const T*)a.getDataPointer(),
-                        dimsA.getElementCount(),
-                        (const T*)b.getDataPointer(), dimsB.getElementCount());
+                    vector_addition(classDestination, (T*)Cp, (const T*)a.getDataPointer(),
+                        dimsA.getElementCount(), (const T*)b.getDataPointer(),
+                        dimsB.getElementCount());
                 } else if (a.isColumnVector() && b.isRowVector()) {
                     dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
                         std::max(dimsA.getMax(), dimsB.getMax()));
                     indexType Clen = dimsC.getElementCount();
                     Cp = new_with_exception<T>(Clen, false);
-                    vector_addition<T>(classDestination, (T*) Cp, (const T*)b.getDataPointer(),
+                    vector_addition<T>(classDestination, (T*)Cp, (const T*)b.getDataPointer(),
                         dimsB.getElementCount(), (const T*)a.getDataPointer(),
                         dimsA.getElementCount());
                 } else if ((a.isRowVector() && b.isRowVector())
@@ -467,7 +467,7 @@ ArrayOf
 integer_plus_integer(const ArrayOf& a, const ArrayOf& b)
 {
     Class classA = a.getDataClass();
-	switch (classA) {
+    switch (classA) {
     case NLS_INT8:
         return addition<int8>(NLS_INT8, a, b);
     case NLS_UINT8:
@@ -487,7 +487,7 @@ integer_plus_integer(const ArrayOf& a, const ArrayOf& b)
     default:
         Error(_W("Integer type not managed."));
         break;
-	}
+    }
     return ArrayOf();
 }
 //=============================================================================

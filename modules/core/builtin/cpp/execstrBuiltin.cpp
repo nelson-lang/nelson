@@ -28,7 +28,7 @@ Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
 {
     ArrayOfVector retval;
     bool bErrorCatch = false;
-    if (argIn.size() == 0 || argIn.size() > 2) {
+    if (argIn.empty() || argIn.size() > 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {

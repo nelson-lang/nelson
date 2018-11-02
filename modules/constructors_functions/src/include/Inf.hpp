@@ -23,7 +23,7 @@
 //=============================================================================
 namespace Nelson {
 NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
-Inf(void);
+Inf();
 NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
 Inf(uint32 m, uint32 n = 1);
 } // namespace Nelson

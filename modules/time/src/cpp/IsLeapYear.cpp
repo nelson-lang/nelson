@@ -27,8 +27,8 @@ IsLeapYear(int year)
         return false;
     }
     /* Check if the year is divisible by 4 or is divisible by 400 */
-    return (bool)((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
+    return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -412,9 +412,8 @@ QtMainWindow::closeEvent(QCloseEvent* event)
                 QApplication::sendEvent(qwidgetConsole, new QCloseEvent());
                 bClosed = true;
                 return;
-            } else {
-                return;
             }
+            return;
         }
     }
     event->accept();

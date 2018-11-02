@@ -45,13 +45,13 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
             Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
     }
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs == 0) {
         bEcho = true;
     }
-    std::wstring cmd = L"";
+    std::wstring cmd;
     if (argIn[0].isRowVectorCharacterArray()) {
         cmd = argIn[0].getContentAsWideString();
     } else {
@@ -64,7 +64,7 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
         std::wstring msg = ret.getContentAsWideString();
         io->outputMessage(msg);
     }
-    ArrayOf err = ArrayOf::doubleConstructor((double)ierr);
+    ArrayOf err = ArrayOf::doubleConstructor(static_cast<double>(ierr));
     retval.push_back(err);
     if (nLhs > 1) {
         retval.push_back(ret);

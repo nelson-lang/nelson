@@ -51,10 +51,10 @@ namespace Nelson {
 
 class ArrayOf;
 
-typedef std::vector<ArrayOf> ArrayOfVector;
+using ArrayOfVector = std::vector<ArrayOf>;
 NLSTYPES_IMPEXP ArrayOfVector scalarArrayOfToArrayOfVector(ArrayOf);
 
-typedef std::vector<ArrayOfVector> ArrayOfMatrix;
+using ArrayOfMatrix = std::vector<ArrayOfVector>;
 
 class Data;
 
@@ -129,7 +129,7 @@ private:
      * Delete our contents.
      */
     void
-    deleteContents(void);
+    deleteContents();
 
     /* Check all fieldnames are valid */
     static bool
@@ -144,7 +144,7 @@ public:
      * Allocate an array.
      */
     static void*
-    allocateArrayOf(Class, indexType length, const stringVector& names = stringVector(),
+    allocateArrayOf(Class /*type*/, indexType length, const stringVector& names = stringVector(),
         bool initializeValues = true);
     /** Convert us to an index type
      * Convert the current object to an ordinal one.  This has different
@@ -602,14 +602,14 @@ public:
      * string as a value.
      */
     static ArrayOf
-    characterArrayConstructor(std::string aval);
+    characterArrayConstructor(std::string astr);
 
     /**
      * String constructor - Construct an NLS_CHAR object with the given
      * string as a value.
      */
     static ArrayOf
-    characterArrayConstructor(std::wstring aval);
+    characterArrayConstructor(std::wstring astr);
 
     /**
      * int64 vector constructor - Construct an NLS_INT64 object
@@ -878,7 +878,7 @@ public:
      * The result is then resized using the same rules as in vectorResize.
      */
     void
-    deleteVectorSubset(ArrayOf& ndx);
+    deleteVectorSubset(ArrayOf& arg);
     /**
      * Delete a subset of this array using the arguments for n-Dimensional
      * indexing.  This method is the "planar" delete, meaning that its
@@ -904,7 +904,7 @@ public:
      * Throws an exception for non-string types.
      */
     std::string
-    getContentAsCString(void) const;
+    getContentAsCString() const;
 
     /**
      * Get our contents as a wide string (UTF-16). Only works for STRING types.
@@ -944,18 +944,18 @@ public:
      * STRING types. Check if it is a cell with a row vector dimension
      */
     wstringVector
-    getContentAsWideStringRowVector(void) const;
+    getContentAsWideStringRowVector() const;
     stringVector
-    getContentAsCStringRowVector(void) const;
+    getContentAsCStringRowVector() const;
 
     /**
      * Get our contents as a vector wide string (UTF-16). Only works for CELL of
      * STRING types. Check if it is a cell with a column vector dimension
      */
     wstringVector
-    getContentAsWideStringColumnVector(void) const;
+    getContentAsWideStringColumnVector() const;
     stringVector
-    getContentAsCStringColumnVector(void) const;
+    getContentAsCStringColumnVector() const;
 
     /**
      * Get our contents as an logical scalar.
@@ -1184,10 +1184,10 @@ public:
     stringArrayConstructor(const std::wstring& value);
 
     static ArrayOf
-    stringArrayConstructor(const stringVector values, Dimensions& dims);
+    stringArrayConstructor(stringVector values, Dimensions& dims);
 
     static ArrayOf
-    stringArrayConstructor(const wstringVector values, Dimensions& dims);
+    stringArrayConstructor(wstringVector values, Dimensions& dims);
 
     /**
      * Summarize String array.

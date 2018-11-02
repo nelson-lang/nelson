@@ -50,8 +50,8 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(Evaluator* eval, int nLhs, const Ar
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_CELL_OF_STRINGS_EXPECTED);
     }
-    for (size_t k = 0; k < listOfDirectories.size(); k++) {
-        if (!IsDirectory(listOfDirectories[k])) {
+    for (const auto& listOfDirectorie : listOfDirectories) {
+        if (!IsDirectory(listOfDirectorie)) {
             Error(_W("Existing directory expected."));
         }
     }

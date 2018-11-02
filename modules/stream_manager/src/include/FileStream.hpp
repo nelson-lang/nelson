@@ -20,7 +20,7 @@
 //=============================================================================
 #include "Stream.hpp"
 #include "nlsStream_manager_exports.h"
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 //=============================================================================
 namespace Nelson {
@@ -32,16 +32,16 @@ private:
     FILE* fp;
 
 public:
-    FileStream(const std::wstring filename, const std::wstring accessmode);
+    FileStream(std::wstring filename, std::wstring accessmode);
     FileStream(FILE* afp);
     // Close the file
     ~FileStream();
     // Write a sequence of bytes to the file
-    virtual void
-    writeBytes(const void* data, int len);
+    void
+    writeBytes(const void* data, int len) override;
     // Read a sequence of bytes from the file
-    virtual void
-    readBytes(void* data, int len);
+    void
+    readBytes(void* data, int len) override;
 };
 //=============================================================================
 } // namespace Nelson

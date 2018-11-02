@@ -35,11 +35,11 @@ Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin(
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
-    std::wstring msg = L"";
+    std::wstring msg;
     bool res = false;
     std::wstring command = param1.getContentAsWideString();
     std::wstring expectedmsg = param2.getContentAsWideString();
-    if (expectedmsg == L"") {
+    if (expectedmsg.empty()) {
         Error(_W("empty string not allowed as expected message."));
     }
     res = Assert_CheckError(eval, command, expectedmsg, msg);

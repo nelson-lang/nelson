@@ -81,24 +81,25 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             if (dimval - 1 >= maxDims) {
-                retval.push_back(ArrayOf::doubleConstructor((double)(1.0)));
+                retval.push_back(ArrayOf::doubleConstructor((1.0)));
             } else {
-                retval.push_back(ArrayOf::doubleConstructor((double)(sze[dimval - 1])));
+                retval.push_back(ArrayOf::doubleConstructor(static_cast<double>(sze[dimval - 1])));
             }
         } else {
             if (nLhs > 1) {
                 for (int i = 0; i < nLhs; i++) {
-                    retval.push_back(ArrayOf::doubleConstructor((double)(sze[i])));
+                    retval.push_back(ArrayOf::doubleConstructor(static_cast<double>(sze[i])));
                 }
             } else {
-                double* dims = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, sze.getLength());
+                double* dims
+                    = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, sze.getLength()));
                 Dimensions retDim(2);
                 if (sze.getLength() == 0) {
                     retDim[0] = 0;
                     retDim[1] = 0;
                 } else {
                     for (indexType i = 0; i < sze.getLength(); i++) {
-                        dims[i] = (double)sze[i];
+                        dims[i] = static_cast<double>(sze[i]);
                     }
                     retDim[0] = 1;
                     retDim[1] = sze.getLength();

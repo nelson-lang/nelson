@@ -26,63 +26,63 @@ realComparatorNotEquals(Class commonClass, void* vptrA, void* vptrB, indexType i
 {
     switch (commonClass) {
     case NLS_LOGICAL: {
-        logical* ptrA = (logical*)vptrA;
-        logical* ptrB = (logical*)vptrB;
+        auto* ptrA = static_cast<logical*>(vptrA);
+        auto* ptrB = static_cast<logical*>(vptrB);
         return (ptrA[idxA] != ptrB[idxB]);
     } break;
     case NLS_UINT8: {
-        uint8* ptrA = (uint8*)vptrA;
-        uint8* ptrB = (uint8*)vptrB;
+        auto* ptrA = static_cast<uint8*>(vptrA);
+        auto* ptrB = static_cast<uint8*>(vptrB);
         return (ptrA[idxA] != ptrB[idxB]);
     } break;
     case NLS_INT8: {
-        int8* ptrA = (int8*)vptrA;
-        int8* ptrB = (int8*)vptrB;
+        int8* ptrA = static_cast<int8*>(vptrA);
+        int8* ptrB = static_cast<int8*>(vptrB);
         return (ptrA[idxA] != ptrB[idxB]);
     } break;
     case NLS_UINT16: {
-        uint16* ptrA = (uint16*)vptrA;
-        uint16* ptrB = (uint16*)vptrB;
+        auto* ptrA = static_cast<uint16*>(vptrA);
+        auto* ptrB = static_cast<uint16*>(vptrB);
         return (ptrA[idxA] != ptrB[idxB]);
     } break;
     case NLS_INT16: {
-        int16* ptrA = (int16*)vptrA;
-        int16* ptrB = (int16*)vptrB;
+        auto* ptrA = static_cast<int16*>(vptrA);
+        auto* ptrB = static_cast<int16*>(vptrB);
         return (ptrA[idxA] != ptrB[idxB]);
     } break;
     case NLS_UINT32: {
-        uint32* ptrA = (uint32*)vptrA;
-        uint32* ptrB = (uint32*)vptrB;
+        auto* ptrA = static_cast<uint32*>(vptrA);
+        auto* ptrB = static_cast<uint32*>(vptrB);
         return (ptrA[idxA] != ptrB[idxB]);
     } break;
     case NLS_INT32: {
-        int32* ptrA = (int32*)vptrA;
-        int32* ptrB = (int32*)vptrB;
+        auto* ptrA = static_cast<int32*>(vptrA);
+        auto* ptrB = static_cast<int32*>(vptrB);
         return (ptrA[idxA] != ptrB[idxB]);
     } break;
     case NLS_UINT64: {
-        uint64* ptrA = (uint64*)vptrA;
-        uint64* ptrB = (uint64*)vptrB;
+        auto* ptrA = static_cast<uint64*>(vptrA);
+        auto* ptrB = static_cast<uint64*>(vptrB);
         return (ptrA[idxA] != ptrB[idxB]);
     } break;
     case NLS_INT64: {
-        int64* ptrA = (int64*)vptrA;
-        int64* ptrB = (int64*)vptrB;
+        auto* ptrA = static_cast<int64*>(vptrA);
+        auto* ptrB = static_cast<int64*>(vptrB);
         return (ptrA[idxA] != ptrB[idxB]);
     } break;
     case NLS_SINGLE: {
-        single* ptrA = (single*)vptrA;
-        single* ptrB = (single*)vptrB;
+        auto* ptrA = static_cast<single*>(vptrA);
+        auto* ptrB = static_cast<single*>(vptrB);
         return (ptrA[idxA] != ptrB[idxB]);
     } break;
     case NLS_DOUBLE: {
-        double* ptrA = (double*)vptrA;
-        double* ptrB = (double*)vptrB;
+        auto* ptrA = static_cast<double*>(vptrA);
+        auto* ptrB = static_cast<double*>(vptrB);
         return (ptrA[idxA] != ptrB[idxB]);
     } break;
     case NLS_CHAR: {
-        charType* ptrA = (charType*)vptrA;
-        charType* ptrB = (charType*)vptrB;
+        auto* ptrA = static_cast<charType*>(vptrA);
+        auto* ptrB = static_cast<charType*>(vptrB);
         return (ptrA[idxA] != ptrB[idxB]);
     } break;
     }
@@ -95,13 +95,13 @@ complexComparatorNotEquals(
 {
     switch (commonClass) {
     case NLS_SCOMPLEX: {
-        single* ptrA = (single*)vptrA;
-        single* ptrB = (single*)vptrB;
+        auto* ptrA = static_cast<single*>(vptrA);
+        auto* ptrB = static_cast<single*>(vptrB);
         return (ptrA[2 * idxA] != ptrB[2 * idxB]) || (ptrA[2 * idxA + 1] != ptrB[2 * idxB + 1]);
     } break;
     case NLS_DCOMPLEX: {
-        double* ptrA = (double*)vptrA;
-        double* ptrB = (double*)vptrB;
+        auto* ptrA = static_cast<double*>(vptrA);
+        auto* ptrB = static_cast<double*>(vptrB);
         return (ptrA[2 * idxA] != ptrB[2 * idxB]) || (ptrA[2 * idxA + 1] != ptrB[2 * idxB + 1]);
     } break;
     }
@@ -113,8 +113,8 @@ stringArrayComparatorNotEquals(
     Class commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB)
 {
     if (commonClass == NLS_STRING_ARRAY) {
-        ArrayOf* ptrA = (ArrayOf*)vptrA;
-        ArrayOf* ptrB = (ArrayOf*)vptrB;
+        auto* ptrA = static_cast<ArrayOf*>(vptrA);
+        auto* ptrB = static_cast<ArrayOf*>(vptrB);
         if (ptrA[idxA].isCharacterArray() && ptrB[idxB].isCharacterArray()) {
             return ptrA[idxA].getContentAsWideString() != ptrB[idxB].getContentAsWideString();
         }
@@ -126,17 +126,17 @@ ArrayOf
 NotEquals(ArrayOf& A, ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
-    void* ptrA = (void*)A.getDataPointer();
-    void* ptrB = (void*)B.getDataPointer();
+    void* ptrA = const_cast<void*>(A.getDataPointer());
+    void* ptrB = const_cast<void*>(B.getDataPointer());
     if (ptrA == ptrB) {
         Dimensions dimsA = A.getDimensions();
-        logical* res = (logical*)ArrayOf::allocateArrayOf(
-            NLS_LOGICAL, dimsA.getElementCount(), stringVector(), true);
+        logical* res = static_cast<logical*>(
+            ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), true));
         return ArrayOf(NLS_LOGICAL, dimsA, res);
     }
     return relationOperator(A, B, L"~=", &realComparatorNotEquals, &complexComparatorNotEquals,
         &stringArrayComparatorNotEquals, needToOverload);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

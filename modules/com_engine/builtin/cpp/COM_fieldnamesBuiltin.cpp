@@ -27,7 +27,7 @@ ArrayOfVector
 Nelson::ComEngineGateway::COM_fieldnamesBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() == 0 || argIn.size() > 2) {
+    if (argIn.empty() || argIn.size() > 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {

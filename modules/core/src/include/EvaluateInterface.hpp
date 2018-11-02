@@ -29,31 +29,31 @@ class NLSCORE_IMPEXP EvaluateInterface : public Interface
 #define WIDTH 80
 public:
     EvaluateInterface();
-    ~EvaluateInterface();
+    ~EvaluateInterface() override;
     std::wstring
-    getLine(std::wstring prompt);
+    getLine(std::wstring prompt) override;
     std::string
-    getLine(std::string prompt);
+    getLine(std::string prompt) override;
     std::wstring
-    getInput(std::wstring prompt);
+    getInput(std::wstring prompt) override;
     size_t
-    getTerminalWidth();
+    getTerminalWidth() override;
     void
-    outputMessage(std::wstring msg);
+    outputMessage(std::wstring msg) override;
     void
-    outputMessage(std::string msg);
+    outputMessage(std::string msg) override;
     void
-    errorMessage(std::wstring msg);
+    errorMessage(std::wstring msg) override;
     void
-    errorMessage(std::string msg);
+    errorMessage(std::string msg) override;
     void
-    warningMessage(std::wstring msg);
+    warningMessage(std::wstring msg) override;
     void
-    warningMessage(std::string msg);
+    warningMessage(std::string msg) override;
     void
-    clearTerminal();
+    clearTerminal() override;
     bool
-    isAtPrompt();
+    isAtPrompt() override;
     std::wstring
     getOutputBuffer();
 

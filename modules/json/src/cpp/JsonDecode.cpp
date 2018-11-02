@@ -760,7 +760,7 @@ jsonDecodeInternal(std::wstring stringToDecode, std::wstring& errorMessage)
     } else if (nbTokensOrError > 0) {
         // init again the parser required.
         jsmn_init(&parserJson);
-        jsmntok_t* tokens = new jsmntok_t[nbTokensOrError + 1];
+        auto* tokens = new jsmntok_t[nbTokensOrError + 1];
         int nbTokensUsed = jsmn_parse(
             &parserJson, jsonString.c_str(), jsonString.size(), tokens, nbTokensOrError + 1);
         if (nbTokensUsed == 0) {
@@ -795,5 +795,5 @@ jsonDecode(std::wstring stringToDecode, std::wstring& errorMessage)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

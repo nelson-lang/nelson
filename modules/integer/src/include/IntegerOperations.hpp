@@ -85,27 +85,25 @@ scalarInteger_times_scalarInteger(T a, T b)
             return std::numeric_limits<T>::max();
         }
         return (T)(a * b);
-    } else {
-        if ((a == 0) || (b == 0)) {
-            return (T)(0);
-        }
-        if ((a == 1) || (b == 1)) {
-            if (a == 1) {
-                return (T)b;
-            }
-            return (T)a;
-        }
-        T aa = ((std::numeric_limits<T>::max() / b) * 2)
-            + ((((std::numeric_limits<T>::max() % b) * 2) + 1) / b);
-        if (a > aa) {
-            if (aa > 0) {
-                return std::numeric_limits<T>::max();
-            } else {
-                return std::numeric_limits<T>::min();
-            }
-        }
-        return (T)(a * b);
     }
+    if ((a == 0) || (b == 0)) {
+        return (T)(0);
+    }
+    if ((a == 1) || (b == 1)) {
+        if (a == 1) {
+            return (T)b;
+        }
+        return (T)a;
+    }
+    T aa = ((std::numeric_limits<T>::max() / b) * 2)
+        + ((((std::numeric_limits<T>::max() % b) * 2) + 1) / b);
+    if (a > aa) {
+        if (aa > 0) {
+            return std::numeric_limits<T>::max();
+        }
+        return std::numeric_limits<T>::min();
+    }
+    return (T)(a * b);
 }
 //=============================================================================
 template <class T>
@@ -128,5 +126,5 @@ scalarInteger_division_scalarInteger(T a, T b)
     return (T)(a / b);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

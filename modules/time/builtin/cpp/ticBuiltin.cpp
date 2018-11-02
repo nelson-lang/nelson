@@ -26,7 +26,7 @@ ArrayOfVector
 Nelson::TimeGateway::ticBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 0) {
+    if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if ((nLhs != 0) && (nLhs != 1)) {
@@ -35,7 +35,7 @@ Nelson::TimeGateway::ticBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
     Tic(eval);
     if (nLhs == 1) {
         retval.push_back(ArrayOf::uint64Constructor(eval->TimerValue));
-        eval->TimerValue = (uint64)0;
+        eval->TimerValue = static_cast<uint64>(0);
     }
     return retval;
 }

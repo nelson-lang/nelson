@@ -88,7 +88,7 @@ public:
     /**
      * Push the given scope onto the bottom of the scope stack.
      */
-    void pushScope(std::string);
+    void pushScope(std::string /*name*/);
     /**
      * Pop the bottom scope off of the scope stack.  The scope is
      * deleted.
@@ -102,13 +102,13 @@ public:
      * global list if it is persistent.
      */
     bool
-    insertVariable(const std::string& varName, const ArrayOf&);
+    insertVariable(const std::string& varName, const ArrayOf& /*var*/);
     /**
      * Insert a variable into the local scope - do not check the
      * global list.
      */
     void
-    insertVariableLocally(std::string varName, const ArrayOf&);
+    insertVariableLocally(std::string varName, const ArrayOf& /*var*/);
     /**
      * Return a pointer to the given variable.  The search
      * logic is:
@@ -134,7 +134,7 @@ public:
      * Insert a function definition into the local scope (bottom of
      * the scope stack).
      */
-    void insertMacroFunctionLocally(FuncPtr);
+    void insertMacroFunctionLocally(FuncPtr /*f*/);
     /**
      * Add a built in function to the global scope with the given name.
      */

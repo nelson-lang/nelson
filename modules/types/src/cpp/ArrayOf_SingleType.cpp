@@ -60,7 +60,7 @@ ArrayOf::singleConstructor(float aval)
 {
     Dimensions dim;
     dim.makeScalar();
-    float* data = (float*)allocateArrayOf(NLS_SINGLE, 1);
+    float* data = static_cast<float*>(allocateArrayOf(NLS_SINGLE, 1));
     *data = aval;
     return ArrayOf(NLS_SINGLE, dim, data);
 }
@@ -71,7 +71,7 @@ ArrayOf::singleVectorConstructor(indexType len)
     Dimensions dim;
     dim.makeScalar();
     dim[1] = len;
-    single* data = (single*)allocateArrayOf(NLS_SINGLE, len);
+    single* data = static_cast<single*>(allocateArrayOf(NLS_SINGLE, len));
     return ArrayOf(NLS_SINGLE, dim, data);
 }
 //=============================================================================
@@ -80,7 +80,7 @@ ArrayOf::complexConstructor(float aval, float bval)
 {
     Dimensions dim;
     dim.makeScalar();
-    float* data = (float*)allocateArrayOf(NLS_SCOMPLEX, 1);
+    float* data = static_cast<float*>(allocateArrayOf(NLS_SCOMPLEX, 1));
     data[0] = aval;
     data[1] = bval;
     return ArrayOf(NLS_SCOMPLEX, dim, data);
@@ -106,11 +106,11 @@ ArrayOf::getContentAsSingleComplexScalar(bool arrayAsScalar)
         Error(_W("Expected a real valued scalar"));
     }
     promoteType(NLS_SCOMPLEX);
-    single* qp = (single*)dp->getData();
+    auto* qp = (single*)dp->getData();
     std::complex<single> cx(qp[0], qp[1]);
     return cx;
 }
 //=============================================================================
 
-}
+} // namespace Nelson
 //=============================================================================

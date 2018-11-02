@@ -33,9 +33,9 @@ Nelson::FilesFoldersGateway::cdBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         std::wstring pwd = GetCurrentDirectory();
-        if (pwd == L"") {
+        if (pwd.empty()) {
             Error(_W("Impossible to get current directory."));
         } else {
             if (nLhs == 0) {

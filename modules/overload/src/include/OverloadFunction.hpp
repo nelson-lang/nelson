@@ -33,5 +33,5 @@ NLSOVERLOAD_IMPEXP ArrayOfVector
 OverloadFunction(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn, const std::string& functionName);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

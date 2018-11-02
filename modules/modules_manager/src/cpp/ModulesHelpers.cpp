@@ -110,5 +110,5 @@ ConstructDynamicLibraryFullname(
     return ConstructBinariesPath(modulerootpath) + L"/"
         + ConstructDynamicLibraryName(moduleshortname);
 }
-}
+} // namespace Nelson
 //=============================================================================

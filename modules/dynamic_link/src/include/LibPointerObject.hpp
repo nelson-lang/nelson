@@ -36,7 +36,7 @@ public:
     LibPointerObject(void* pointer);
     LibPointerObject(void* pointer, std::wstring DataType, Class currentType);
 
-    ~LibPointerObject();
+    ~LibPointerObject() override;
 
     void
     disp(Evaluator* eval);
@@ -49,9 +49,9 @@ public:
     wstringVector
     fieldnames();
     bool
-    isProperty(std::wstring propertyName);
+    isProperty(std::wstring propertyName) override;
     bool
-    isMethod(std::wstring methodName);
+    isMethod(std::wstring methodName) override;
 
     bool
     isWriteableProperty(std::wstring propertyName);

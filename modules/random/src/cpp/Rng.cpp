@@ -32,7 +32,7 @@ RngGetType(Evaluator* eval)
     if (eval->RandomEngine == nullptr) {
         Error(_W("random engine not initialized."));
     }
-    RandomInterface* randEngine = (RandomInterface*)eval->RandomEngine;
+    auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
     return randEngine->getGeneratorName();
 }
 //=============================================================================
@@ -42,7 +42,7 @@ RngSetSeed(Evaluator* eval, double seed)
     if (eval->RandomEngine == nullptr) {
         Error(_W("random engine not initialized."));
     }
-    RandomInterface* randEngine = (RandomInterface*)eval->RandomEngine;
+    auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
     switch (rngtype) {
     case RNG_TWISTER: {
@@ -69,7 +69,7 @@ RngGetSeed(Evaluator* eval)
     if (eval->RandomEngine == nullptr) {
         Error(_W("random engine not initialized."));
     }
-    RandomInterface* randEngine = (RandomInterface*)eval->RandomEngine;
+    auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
     ArrayOf res;
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
     switch (rngtype) {
@@ -96,7 +96,7 @@ RngGetState(Evaluator* eval)
         Error(_W("random engine not initialized."));
     }
     ArrayOf state;
-    RandomInterface* randEngine = (RandomInterface*)eval->RandomEngine;
+    auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
     switch (rngtype) {
     case RNG_TWISTER: {
@@ -162,7 +162,7 @@ RngShuffle(Evaluator* eval)
     if (eval->RandomEngine == nullptr) {
         Error(_W("random engine not initialized."));
     }
-    RandomInterface* randEngine = (RandomInterface*)eval->RandomEngine;
+    auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
     switch (rngtype) {
     case RNG_TWISTER: {
@@ -217,7 +217,7 @@ void
 RngDelete(Evaluator* eval)
 {
     if (eval->RandomEngine != nullptr) {
-        RandomInterface* randEngine = (RandomInterface*)eval->RandomEngine;
+        auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
         delete randEngine;
         randEngine = nullptr;
         eval->RandomEngine = nullptr;
@@ -227,7 +227,7 @@ RngDelete(Evaluator* eval)
 bool
 RngSetState(Evaluator* eval, ArrayOf st)
 {
-    RandomInterface* randEngine = (RandomInterface*)eval->RandomEngine;
+    auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
     Class stClass = st.getDataClass();
     switch (rngtype) {
@@ -302,5 +302,5 @@ RngSetState(Evaluator* eval, ArrayOf st)
     }
     return false;
 }
-};
+} // namespace Nelson;
 //=============================================================================

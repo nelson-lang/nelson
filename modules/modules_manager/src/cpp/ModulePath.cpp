@@ -28,7 +28,7 @@ namespace Nelson {
 std::wstring
 ModulePath(const std::wstring& moduleshortname)
 {
-    std::wstring rpath = L"";
+    std::wstring rpath;
     return rpath;
 }
 //=============================================================================
@@ -82,5 +82,5 @@ ModulePath(const std::wstring& modulerootpath, const std::wstring& moduleshortna
     return p.generic_wstring();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

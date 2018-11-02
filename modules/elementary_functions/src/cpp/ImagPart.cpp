@@ -33,8 +33,8 @@ ImagPart(ArrayOf arrayIn)
     case NLS_SCOMPLEX: {
         size_t len = arrayIn.getLength();
         void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len);
-        single* rp = (single*)ptr;
-        single* sp = (single*)arrayIn.getDataPointer();
+        auto* rp = static_cast<single*>(ptr);
+        auto* sp = (single*)arrayIn.getDataPointer();
         for (size_t i = 0; i < len; i++) {
             rp[i] = sp[2 * i + 1];
         }
@@ -43,8 +43,8 @@ ImagPart(ArrayOf arrayIn)
     case NLS_DCOMPLEX: {
         size_t len = arrayIn.getLength();
         void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len);
-        double* rp = (double*)ptr;
-        double* dp = (double*)arrayIn.getDataPointer();
+        auto* rp = static_cast<double*>(ptr);
+        auto* dp = (double*)arrayIn.getDataPointer();
         for (size_t i = 0; i < len; i++) {
             rp[i] = dp[2 * i + 1];
         }
@@ -81,5 +81,5 @@ ImagPart(ArrayOf arrayIn)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

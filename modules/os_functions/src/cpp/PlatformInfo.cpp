@@ -78,19 +78,20 @@ GetArchitecture()
 #else
         return std::wstring(L"win32");
 #endif
-    } else if (IsMacPlatform()) {
+    }
+    if (IsMacPlatform()) {
 #ifdef __x86_64__
         return std::wstring(L"maci64");
 #else
         return std::wstring(L"maci32");
 #endif
-    } else {
-#if defined(__x86_64__) || defined(__aarch64__)
-        return std::wstring(L"glnxa64");
-#else
-        return std::wstring(L"glnxa32");
-#endif
     }
+#if defined(__x86_64__) || defined(__aarch64__)
+    return std::wstring(L"glnxa64");
+#else
+    return std::wstring(L"glnxa32");
+#endif
+
     return std::wstring(L"?");
 }
 //=============================================================================
@@ -103,26 +104,27 @@ GetArchitectureType()
 #else
         return std::wstring(L"PCWIN");
 #endif
-    } else if (IsMacPlatform()) {
+    }
+    if (IsMacPlatform()) {
 #ifdef __x86_64__
         return std::wstring(L"MACI64");
 #else
         return std::wstring(L"MACI32");
 #endif
-    } else {
-#ifdef __x86_64__
-        return std::wstring(L"GLNXA64");
-#else
-        return std::wstring(L"GLNXA32");
-#endif
     }
+#ifdef __x86_64__
+    return std::wstring(L"GLNXA64");
+#else
+    return std::wstring(L"GLNXA32");
+#endif
+
     return std::wstring(L"?");
 }
 //=============================================================================
 double
 GetMaxArrayOfSizeSupported()
 {
-    return (double)SIZE_TYPE_MAX;
+    return static_cast<double>(SIZE_TYPE_MAX);
 }
 //=============================================================================
 NLSOS_FUNCTIONS_IMPEXP bool
@@ -133,8 +135,8 @@ IsBigEndian()
         uint32_t i;
         char c[4];
     } bint = { 0x01020304 };
-    return (bool)(bint.c[0] == 1);
+    return (bint.c[0] == 1);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

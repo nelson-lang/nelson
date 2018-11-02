@@ -22,7 +22,7 @@
 //=============================================================================
 #include "piBuiltin.hpp"
 #include "Error.hpp"
-#include <math.h>
+#include <cmath>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,7 +32,7 @@ Nelson::ConstructorsGateway::piBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 0) {
+    if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOfVector retval;

@@ -33,8 +33,8 @@ Nelson::ModulesManagerGateway::addmoduleBuiltin(
     if (nLhs != 0) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    std::wstring modulerootpath = L"";
-    std::wstring moduleshortname = L"";
+    std::wstring modulerootpath;
+    std::wstring moduleshortname;
     if (argIn[0].isRowVectorCharacterArray()) {
         modulerootpath = argIn[0].getContentAsWideString();
     } else {

@@ -58,10 +58,10 @@ IsErrorStruct(ArrayOf arg, Exception& e)
     if (stackFieldNames[2] != "line") {
         return false;
     }
-    std::wstring message = L"";
-    std::wstring identifier = L"";
-    std::wstring filename = L"";
-    std::wstring functionName = L"";
+    std::wstring message;
+    std::wstring identifier;
+    std::wstring filename;
+    std::wstring functionName;
     int line = -1;
     ArrayOf msgArray = arg.getField("message");
     ArrayOf idArray = arg.getField("identifier");
@@ -89,7 +89,7 @@ IsErrorStruct(ArrayOf arg, Exception& e)
         filename = fileArray.getContentAsWideString();
         functionName = nameArray.getContentAsWideString();
         if (!lineArray.isEmpty()) {
-            line = (int)lineArray.getContentAsDoubleScalar();
+            line = static_cast<int>(lineArray.getContentAsDoubleScalar());
         }
         PositionScript position(functionName, filename, line);
         Exception newException(message, position, identifier);
@@ -108,5 +108,5 @@ IsErrorStruct(const ArrayOf arg)
     return IsErrorStruct(arg, e);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

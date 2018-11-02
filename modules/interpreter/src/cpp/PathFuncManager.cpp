@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <errno.h>
+#include <cerrno>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem.hpp>
@@ -713,5 +713,5 @@ PathFuncManager::saveUserPathToFile()
     return true;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -35,7 +35,7 @@ Nelson::GuiGateway::uigetdirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     std::wstring pathSelected;
     std::wstring pathOrigin;
     std::wstring title;
-    if (argIn.size() > 0) {
+    if (!argIn.empty()) {
         if (argIn[0].isRowVectorCharacterArray()) {
             pathOrigin = argIn[0].getContentAsWideString();
         } else {

@@ -24,7 +24,7 @@ std::wstring
 GetCurrentNFilenameW(Evaluator* eval)
 {
     std::string callerName = eval->getCallerFunctionName();
-    std::wstring fileName = L"";
+    std::wstring fileName;
     if (callerName == "EvaluateScript") {
         fileName = eval->getCurrentEvaluateFilename();
     } else {
@@ -43,5 +43,5 @@ GetCurrentNFilenameU(Evaluator* eval)
     return wstring_to_utf8(GetCurrentNFilenameW(eval));
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

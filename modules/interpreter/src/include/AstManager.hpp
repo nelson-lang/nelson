@@ -25,7 +25,7 @@
 namespace Nelson {
 //=============================================================================
 ASTPtr
-allocateAbstractSyntaxTree(void);
+allocateAbstractSyntaxTree();
 //=============================================================================
 ASTPtr
 allocateAbstractSyntaxTree(NODE_TYPE ntype, const char* name, int context);
@@ -55,5 +55,5 @@ NLSINTERPRETER_IMPEXP void
 deleteAstVector(std::vector<ASTPtr> v);
 //=============================================================================
 
-}
+} // namespace Nelson
 //=============================================================================

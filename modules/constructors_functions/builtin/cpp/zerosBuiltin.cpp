@@ -30,12 +30,12 @@ Nelson::ConstructorsGateway::zerosBuiltin(Evaluator* eval, int nLhs, const Array
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     Class cl = NLS_DOUBLE;
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         retval.push_back(Zeros(cl));
     } else {
         sizeType nRhs = argIn.size();
         bool bCheckClassName = true;
-        if ((int)nRhs - 2 >= 0) {
+        if (static_cast<int>(nRhs) - 2 >= 0) {
             ArrayOf Arg = argIn[argIn.size() - 2];
             if (Arg.isRowVectorCharacterArray()) {
                 std::wstring paramstr = Arg.getContentAsWideString();
@@ -146,10 +146,10 @@ Nelson::ConstructorsGateway::zerosBuiltin(Evaluator* eval, int nLhs, const Array
                     if (argIn[0].getDimensions().getElementCount() < Nelson::maxDims) {
                         ArrayOf dimVector = argIn[0];
                         dimVector.promoteType(NLS_DOUBLE);
-                        double* ptrValues = (double*)dimVector.getDataPointer();
+                        auto* ptrValues = (double*)dimVector.getDataPointer();
                         for (sizeType k = 0; k < argIn[0].getDimensions().getElementCount(); k++) {
                             if (ptrValues[k] > 0) {
-                                dims[k] = (indexType)ptrValues[k];
+                                dims[k] = static_cast<indexType>(ptrValues[k]);
                             } else {
                                 dims[k] = 0;
                             }

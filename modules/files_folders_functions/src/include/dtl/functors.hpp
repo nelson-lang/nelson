@@ -126,6 +126,6 @@ namespace dtl {
             return e1 == e2;
         }
     };
-}
+}  // namespace dtl
 
 #endif // DTL_FUNCTORS_H

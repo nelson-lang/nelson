@@ -32,7 +32,7 @@ callClearHandle(Evaluator* eval, Scope* scope, std::string variable)
     if (scope->lookupVariable(variable, val)) {
         if (val.isHandle()) {
             Dimensions dimsVal = val.getDimensions();
-            nelson_handle* qp = (nelson_handle*)val.getDataPointer();
+            auto* qp = (nelson_handle*)val.getDataPointer();
             for (indexType k = 0; k < dimsVal.getElementCount(); k++) {
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
@@ -49,8 +49,8 @@ callClearHandle(Evaluator* eval, Scope* scope, std::string variable)
                                 || (funcDef->type() == NLS_MACRO_FUNCTION)) {
                                 int nLhs = 0;
                                 ArrayOfVector argIn;
-                                nelson_handle* ptrObject
-                                    = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
+                                nelson_handle* ptrObject = static_cast<nelson_handle*>(
+                                    ArrayOf::allocateArrayOf(NLS_HANDLE, 1));
                                 Dimensions dims(1, 1);
                                 ptrObject[0] = hl;
                                 argIn.push_back(ArrayOf(NLS_HANDLE, dims, (void*)ptrObject));
@@ -86,8 +86,8 @@ ClearAllGlobalVariables(Evaluator* eval)
 {
     bool bUnlocked = true;
     stringVector names = eval->getContext()->getGlobalScope()->getVariablesList(true);
-    for (size_t k = 0; k < names.size(); k++) {
-        if (!eval->getContext()->getGlobalScope()->deleteVariable(names[k])) {
+    for (const auto& name : names) {
+        if (!eval->getContext()->getGlobalScope()->deleteVariable(name)) {
             bUnlocked = false;
         }
     }
@@ -99,9 +99,9 @@ ClearAllPersistentVariables(Evaluator* eval)
 {
     bool bUnlocked = true;
     stringVector names = eval->getContext()->getGlobalScope()->getVariablesList(true);
-    for (size_t k = 0; k < names.size(); k++) {
-        if (!eval->getContext()->getGlobalScope()->isVariablePersistent(names[k])) {
-            if (!eval->getContext()->getGlobalScope()->deleteVariable(names[k])) {
+    for (const auto& name : names) {
+        if (!eval->getContext()->getGlobalScope()->isVariablePersistent(name)) {
+            if (!eval->getContext()->getGlobalScope()->deleteVariable(name)) {
                 bUnlocked = false;
             }
         }

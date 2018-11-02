@@ -26,12 +26,12 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <cstring>
 #include <iostream>
-#include <signal.h>
+#include <csignal>
 //=============================================================================
 static bool bCONTROLC = false;
 //=============================================================================
 static void
-ControlC_Command(void)
+ControlC_Command()
 {
     bCONTROLC = true;
     Nelson::sigInterrupt(1);
@@ -77,7 +77,7 @@ BasicTerminal::getTextLine(std::string prompt, bool bIsInput)
     fprintf(stdout, "%s", prompt.c_str());
     this->diary.writeMessage(prompt);
     char buffer[CMD_BUFFER_SIZE];
-    std::string retLine = "";
+    std::string retLine;
     if (fgets(buffer, CMD_BUFFER_SIZE, stdin) != nullptr) {
         retLine = buffer;
     }
@@ -176,7 +176,7 @@ BasicTerminal::clearTerminal()
 BasicTerminal::BasicTerminal()
 {
 #ifdef _MSC_VER
-    SetConsoleCtrlHandler((PHANDLER_ROUTINE)CtrlHandler, TRUE);
+    SetConsoleCtrlHandler(reinterpret_cast<PHANDLER_ROUTINE>(CtrlHandler), TRUE);
 #else
     signal(SIGINT, intHandler);
     signal(SIGTSTP, intHandler);
@@ -190,7 +190,7 @@ BasicTerminal::BasicTerminal()
     atPrompt = false;
 }
 //=============================================================================
-BasicTerminal::~BasicTerminal() {}
+BasicTerminal::~BasicTerminal() = default;
 //=============================================================================
 bool
 BasicTerminal::isAtPrompt()

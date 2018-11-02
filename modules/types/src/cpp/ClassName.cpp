@@ -32,7 +32,7 @@ ClassName(ArrayOf In)
         classString = NLS_HANDLE_STR;
         /* handle can be 'handle' or another type but not mixed */
         Dimensions dimsIn = In.getDimensions();
-        nelson_handle* qp = (nelson_handle*)In.getDataPointer();
+        auto* qp = (nelson_handle*)In.getDataPointer();
         if (qp) {
             for (size_t k = 0; k < dimsIn.getElementCount(); k++) {
                 nelson_handle hl = qp[k];
@@ -76,5 +76,5 @@ ClassName(ArrayOf In, std::string& returnedClassName)
     returnedClassName = ClassName(In);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

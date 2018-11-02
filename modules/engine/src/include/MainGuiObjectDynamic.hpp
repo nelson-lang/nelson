@@ -22,12 +22,12 @@
 //===================================================================================
 namespace Nelson {
 void
-InitGuiObjectsDynamic(void);
+InitGuiObjectsDynamic();
 void*
 CreateGuiEvaluatorDynamic(void* vcontext, NELSON_ENGINE_MODE _mode);
 void
 DestroyMainGuiObjectDynamic(void* term);
 void*
-GetMainGuiObjectDynamic(void);
+GetMainGuiObjectDynamic();
 } // namespace Nelson
 //===================================================================================

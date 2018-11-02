@@ -38,7 +38,7 @@ Nelson::DynamicLinkGateway::libpointer_setdatatypeBuiltin(
     if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
         Error(_W("libpointer handle expected."));
     }
-    LibPointerObject* objLibPointer = (LibPointerObject*)param1.getContentAsHandleScalar();
+    auto* objLibPointer = (LibPointerObject*)param1.getContentAsHandleScalar();
     ArrayOf param2 = argIn[1];
     std::wstring newDatatype = param2.getContentAsWideString();
     objLibPointer->setDataType(newDatatype);

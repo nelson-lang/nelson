@@ -74,7 +74,7 @@ extern keywordStruct keyWord[KEYWORDCOUNT];
  * on the keywordStruct list works properly.
  */
 int
-compareKeyword(const void*, const void*);
+compareKeyword(const void* /*a*/, const void* /*b*/);
 
 } // namespace Nelson
 //=============================================================================

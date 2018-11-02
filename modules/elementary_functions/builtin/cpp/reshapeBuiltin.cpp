@@ -57,7 +57,7 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(
         if (argIn.size() == 2 && (!argIn[1].isScalar())) {
             ArrayOf v = argIn[1];
             v.promoteType(NLS_DOUBLE);
-            double* dp = (double*)v.getDataPointer();
+            auto* dp = (double*)v.getDataPointer();
             for (indexType i = 0; i < v.getLength(); i++) {
                 if (!std::isfinite(dp[i])) {
                     Error(_W("finite value expected."));
@@ -65,14 +65,14 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(
                 if (dp[i] != dp[i]) {
                     Error(_W("finite value expected."));
                 }
-                int64 ivalue = (int64)dp[i];
-                if ((double)ivalue != dp[i]) {
+                auto ivalue = static_cast<int64>(dp[i]);
+                if (static_cast<double>(ivalue) != dp[i]) {
                     Error(_W("real integer expected."));
                 }
                 if (ivalue < 0) {
                     Error(_W("real positive integer expected."));
                 }
-                dims[i] = (indexType)ivalue;
+                dims[i] = static_cast<indexType>(ivalue);
             }
         } else {
             if (argIn.size() < 3) {
@@ -99,7 +99,7 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(
                     } else {
                         if (argIn[i].isEmpty()) {
                             bHaveAnEmptyMatrix = argIn[i].isEmpty();
-                            idxEmptyPosition = (indexType)i - 1;
+                            idxEmptyPosition = static_cast<indexType>(i) - 1;
                         }
                     }
                 }
@@ -115,21 +115,22 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(
                 if (bHaveAnEmptyMatrix) {
                     indexType nbElements = 0;
                     indexType nbElementsM = M.getDimensions().getElementCount();
-                    double rest = (double)nbElementsM / (double)dims.getElementCount();
+                    double rest = static_cast<double>(nbElementsM)
+                        / static_cast<double>(dims.getElementCount());
                     if (!std::isfinite(rest)) {
                         Error(_W("finite value expected."));
                     }
                     if (rest != rest) {
                         Error(_W("finite value expected."));
                     }
-                    int64 ivalue = (int64)rest;
-                    if ((double)ivalue != rest) {
+                    auto ivalue = static_cast<int64>(rest);
+                    if (static_cast<double>(ivalue) != rest) {
                         Error(_W("real integer expected."));
                     }
                     if (ivalue < 0) {
                         Error(_W("real positive integer expected."));
                     }
-                    dims[idxEmptyPosition] = (indexType)ivalue;
+                    dims[idxEmptyPosition] = static_cast<indexType>(ivalue);
                 }
             }
         }

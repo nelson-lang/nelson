@@ -25,7 +25,7 @@ MPI_CommHandleObject::MPI_CommHandleObject(void* _ptr)
     : HandleGenericObject(std::wstring(MPI_COMM_CATEGORY_STR), _ptr, false)
 {}
 //=============================================================================
-MPI_CommHandleObject::~MPI_CommHandleObject() {}
+MPI_CommHandleObject::~MPI_CommHandleObject() = default;
 //=============================================================================
 MPI_Comm
 HandleToMpiComm(ArrayOf A)
@@ -34,9 +34,9 @@ HandleToMpiComm(ArrayOf A)
     if (A.getHandleCategory() != MPI_COMM_CATEGORY_STR) {
         Error(_W("MPI_Comm handle expected."));
     }
-    MPI_CommHandleObject* mpicommhandleobj = (MPI_CommHandleObject*)A.getContentAsHandleScalar();
+    auto* mpicommhandleobj = (MPI_CommHandleObject*)A.getContentAsHandleScalar();
     if (mpicommhandleobj != nullptr) {
-        MPI_CommObject* obj = (MPI_CommObject*)mpicommhandleobj->getPointer();
+        auto* obj = static_cast<MPI_CommObject*>(mpicommhandleobj->getPointer());
         if (obj != nullptr) {
             commReturned = obj->getComm();
         } else {
@@ -61,7 +61,7 @@ MPICommHandleDelete(ArrayOf A)
     if (A.isHandle()) {
         if (!A.isEmpty()) {
             Dimensions dims = A.getDimensions();
-            nelson_handle* qp = (nelson_handle*)A.getDataPointer();
+            auto* qp = (nelson_handle*)A.getDataPointer();
             for (size_t k = 0; k < dims.getElementCount(); k++) {
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
@@ -69,12 +69,12 @@ MPICommHandleDelete(ArrayOf A)
                     if (hlObj->getCategory() != MPI_COMM_CATEGORY_STR) {
                         Error(_W("MPI_Comm handle expected."));
                     }
-                    MPI_CommHandleObject* mpicommhandleobj = (MPI_CommHandleObject*)hlObj;
+                    auto* mpicommhandleobj = (MPI_CommHandleObject*)hlObj;
                     if (mpicommhandleobj != nullptr) {
-                        MPI_CommObject* obj = (MPI_CommObject*)mpicommhandleobj->getPointer();
-                        if (obj != nullptr) {
-                            delete obj;
-                        }
+                        auto* obj = static_cast<MPI_CommObject*>(mpicommhandleobj->getPointer());
+
+                        delete obj;
+
                     } else {
                         Error(_W("MPI_Comm valid handle expected."));
                     }
@@ -90,5 +90,5 @@ MPICommHandleDelete(ArrayOf A)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

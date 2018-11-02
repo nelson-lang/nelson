@@ -49,7 +49,7 @@ nelson_handle
 HandleManager::addHandle(HandleGenericObject* ptr)
 {
     if (ptr == nullptr) {
-        return (nelson_handle)0;
+        return static_cast<nelson_handle>(0);
     }
     boost::unordered_map<nelson_handle, HandleGenericObject*>::iterator it = handleMap.begin();
     while (it != handleMap.end()) {
@@ -131,5 +131,5 @@ HandleManager::getAllHandlesOfCategory(std::wstring category)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

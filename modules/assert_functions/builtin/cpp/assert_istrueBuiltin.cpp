@@ -27,13 +27,13 @@ Nelson::AssertFunctionsGateway::assert_istrueBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 0 || argIn.size() > 2) {
+    if (argIn.empty() || argIn.size() > 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 2) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    std::wstring modifiedmsg = L"";
+    std::wstring modifiedmsg;
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
         modifiedmsg = param2.getContentAsWideString();
@@ -46,7 +46,7 @@ Nelson::AssertFunctionsGateway::assert_istrueBuiltin(
         Error(ERROR_SIZE_SCALAR_EXPECTED);
     }
     logical res = param1.getContentAsLogicalScalar();
-    std::wstring msg = L"";
+    std::wstring msg;
     res = Assert_IsTrue(res, modifiedmsg, msg);
     if (nLhs == 0) {
         if (res == 0) {

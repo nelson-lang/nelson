@@ -21,7 +21,7 @@
 #include <iomanip>
 #include <iostream>
 #include <memory> // For std::unique_ptr
-#include <stdarg.h> // For va_start, etc.
+#include <cstdarg> // For va_start, etc.
 #include "DisplaySingle.hpp"
 #include "Error.hpp"
 #include "StringFormat.hpp"
@@ -189,169 +189,168 @@ DisplaySingle(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needT
             io->outputMessage(msg);
         }
         return;
-    } else {
-        single maxDouble = 0;
-        single minDouble = 0;
-        bool asInteger = IsIntegerValues(A, minDouble, maxDouble);
-        indexType columns = dimsA.getColumns();
-        indexType rows = dimsA.getRows();
-        single* pValueA = (single*)A.getDataPointer();
-        if (A.isScalar()) {
-            io->outputMessage(L"  ");
-            std::wstring strNumber;
-            if (A.isComplex()) {
-                singlecomplex* cplx = reinterpret_cast<singlecomplex*>(pValueA);
-                strNumber = printNumber(cplx->real(), cplx->imag(),
-                    NelsonConfiguration::getInstance()->getOutputFormatDisplay(), false, true);
+    }
+    single maxDouble = 0;
+    single minDouble = 0;
+    bool asInteger = IsIntegerValues(A, minDouble, maxDouble);
+    indexType columns = dimsA.getColumns();
+    indexType rows = dimsA.getRows();
+    single* pValueA = (single*)A.getDataPointer();
+    if (A.isScalar()) {
+        io->outputMessage(L"  ");
+        std::wstring strNumber;
+        if (A.isComplex()) {
+            singlecomplex* cplx = reinterpret_cast<singlecomplex*>(pValueA);
+            strNumber = printNumber(cplx->real(), cplx->imag(),
+                NelsonConfiguration::getInstance()->getOutputFormatDisplay(), false, true);
+        } else {
+            strNumber = printNumber(pValueA[0],
+                NelsonConfiguration::getInstance()->getOutputFormatDisplay(), asInteger, true);
+        }
+        io->outputMessage(strNumber);
+        io->outputMessage(L"\n");
+    } else // matrix
+    {
+        indexType format_width = 8;
+        bool bIsComplex = A.isComplex();
+        switch (NelsonConfiguration::getInstance()->getOutputFormatDisplay()) {
+        case NLS_FORMAT_SHORT: {
+            if (asInteger && !bIsComplex) {
+                if (fabs(minDouble) > fabs(maxDouble)) {
+                    std::wstring str = std::to_wstring((int64)minDouble);
+                    format_width = str.size() + 1;
+                } else {
+                    std::wstring str = std::to_wstring((int64)maxDouble);
+                    format_width = str.size() + 3;
+                }
             } else {
-                strNumber = printNumber(pValueA[0],
-                    NelsonConfiguration::getInstance()->getOutputFormatDisplay(), asInteger, true);
+                if (bIsComplex) {
+                    format_width = 10 * 2 + wcslen(L" + ") + wcslen(L"i");
+                } else {
+                    format_width = 10;
+                }
             }
-            io->outputMessage(strNumber);
-            io->outputMessage(L"\n");
-        } else // matrix
-        {
-            indexType format_width = 8;
-            bool bIsComplex = A.isComplex();
-            switch (NelsonConfiguration::getInstance()->getOutputFormatDisplay()) {
-            case NLS_FORMAT_SHORT: {
-                if (asInteger && !bIsComplex) {
-                    if (fabs(minDouble) > fabs(maxDouble)) {
-                        std::wstring str = std::to_wstring((int64)minDouble);
-                        format_width = str.size() + 1;
-                    } else {
-                        std::wstring str = std::to_wstring((int64)maxDouble);
-                        format_width = str.size() + 3;
-                    }
+        } break;
+        case NLS_FORMAT_LONG:
+            if (asInteger && !bIsComplex) {
+                if (fabs(minDouble) > fabs(maxDouble)) {
+                    std::wstring str = std::to_wstring((int64)minDouble);
+                    format_width = str.size() + 1;
                 } else {
-                    if (bIsComplex) {
-                        format_width = 10 * 2 + wcslen(L" + ") + wcslen(L"i");
-                    } else {
-                        format_width = 10;
-                    }
+                    std::wstring str = std::to_wstring((int64)maxDouble);
+                    format_width = str.size() + 3;
                 }
-            } break;
-            case NLS_FORMAT_LONG:
-                if (asInteger && !bIsComplex) {
-                    if (fabs(minDouble) > fabs(maxDouble)) {
-                        std::wstring str = std::to_wstring((int64)minDouble);
-                        format_width = str.size() + 1;
-                    } else {
-                        std::wstring str = std::to_wstring((int64)maxDouble);
-                        format_width = str.size() + 3;
-                    }
+            } else {
+                if (bIsComplex) {
+                    format_width = 18 * 2 + wcslen(L" + ") + wcslen(L"i");
                 } else {
-                    if (bIsComplex) {
-                        format_width = 18 * 2 + wcslen(L" + ") + wcslen(L"i");
-                    } else {
-                        format_width = 18;
-                    }
+                    format_width = 18;
                 }
-                break;
-            case NLS_FORMAT_SHORTE:
-                if (asInteger && !bIsComplex) {
-                    if (fabs(minDouble) > fabs(maxDouble)) {
-                        std::wstring str = std::to_wstring((int64)minDouble);
-                        format_width = str.size() + 1;
-                    } else {
-                        std::wstring str = std::to_wstring((int64)maxDouble);
-                        format_width = str.size() + 3;
-                    }
+            }
+            break;
+        case NLS_FORMAT_SHORTE:
+            if (asInteger && !bIsComplex) {
+                if (fabs(minDouble) > fabs(maxDouble)) {
+                    std::wstring str = std::to_wstring((int64)minDouble);
+                    format_width = str.size() + 1;
                 } else {
-                    if (bIsComplex) {
-                        format_width = 10 * 2 + wcslen(L" + ") + wcslen(L"i");
-                    } else {
-                        format_width = 10;
-                    }
+                    std::wstring str = std::to_wstring((int64)maxDouble);
+                    format_width = str.size() + 3;
                 }
-                break;
-            case NLS_FORMAT_LONGE:
-                if (asInteger && !bIsComplex) {
-                    if (fabs(minDouble) > fabs(maxDouble)) {
-                        std::wstring str = std::to_wstring((int64)minDouble);
-                        format_width = str.size() + 1;
-                    } else {
-                        std::wstring str = std::to_wstring((int64)maxDouble);
-                        format_width = str.size() + 3;
-                    }
+            } else {
+                if (bIsComplex) {
+                    format_width = 10 * 2 + wcslen(L" + ") + wcslen(L"i");
                 } else {
-                    if (bIsComplex) {
-                        format_width = 23 * 2 + wcslen(L" + ") + wcslen(L"i");
-                    } else {
-                        format_width = 23;
-                    }
+                    format_width = 10;
                 }
-                break;
-            case NLS_FORMAT_HEX:
-                format_width = 16;
+            }
+            break;
+        case NLS_FORMAT_LONGE:
+            if (asInteger && !bIsComplex) {
+                if (fabs(minDouble) > fabs(maxDouble)) {
+                    std::wstring str = std::to_wstring((int64)minDouble);
+                    format_width = str.size() + 1;
+                } else {
+                    std::wstring str = std::to_wstring((int64)maxDouble);
+                    format_width = str.size() + 3;
+                }
+            } else {
+                if (bIsComplex) {
+                    format_width = 23 * 2 + wcslen(L" + ") + wcslen(L"i");
+                } else {
+                    format_width = 23;
+                }
+            }
+            break;
+        case NLS_FORMAT_HEX:
+            format_width = 16;
+            break;
+        }
+        indexType colsPerPage = (indexType)floor((termWidth - 1) / ((double)format_width + 2));
+        colsPerPage = (colsPerPage < 1) ? 1 : colsPerPage;
+        indexType pageCount = (indexType)ceil(columns / ((double)colsPerPage));
+        std::wstring buffer;
+        try {
+            buffer.reserve(20 * columns);
+        } catch (const std::bad_alloc&) {
+        }
+        indexType block_page = 0;
+        bool continueDisplay = true;
+        for (indexType k = 0; k < pageCount && continueDisplay; k++) {
+            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+                continueDisplay = false;
                 break;
             }
-            indexType colsPerPage = (indexType)floor((termWidth - 1) / ((double)format_width + 2));
-            colsPerPage = (colsPerPage < 1) ? 1 : colsPerPage;
-            indexType pageCount = (indexType)ceil(columns / ((double)colsPerPage));
-            std::wstring buffer;
-            try {
-                buffer.reserve(20 * columns);
-            } catch (const std::bad_alloc&) {
+            indexType colsInThisPage = columns - colsPerPage * k;
+            colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
+            if ((rows * columns > 1) && (pageCount > 1)) {
+                std::wstring msg = StringFormat(_W("\n  Columns %d to %d\n\n").c_str(),
+                    (k * colsPerPage + 1), (k * colsPerPage + colsInThisPage));
+                buffer.append(msg);
             }
-            indexType block_page = 0;
-            bool continueDisplay = true;
-            for (indexType k = 0; k < pageCount && continueDisplay; k++) {
-                if (NelsonConfiguration::getInstance()->getInterruptPending()) {
-                    continueDisplay = false;
-                    break;
-                }
-                indexType colsInThisPage = columns - colsPerPage * k;
-                colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-                if ((rows * columns > 1) && (pageCount > 1)) {
-                    std::wstring msg = StringFormat(_W("\n  Columns %d to %d\n\n").c_str(),
-                        (k * colsPerPage + 1), (k * colsPerPage + colsInThisPage));
-                    buffer.append(msg);
-                }
-                for (indexType i = 0; i < rows; i++) {
-                    buffer.append(L"  ");
-                    for (indexType j = 0; j < colsInThisPage; j++) {
-                        if (NelsonConfiguration::getInstance()->getInterruptPending()) {
-                            continueDisplay = false;
-                            break;
-                        }
-                        indexType idx = i + (k * colsPerPage + j) * rows;
-                        std::wstring numberAsStr;
-                        if (bIsComplex) {
-                            numberAsStr = printNumber(pValueA[2 * idx], pValueA[2 * idx + 1],
-                                NelsonConfiguration::getInstance()->getOutputFormatDisplay(), false,
-                                false);
-                        } else {
-                            numberAsStr = printNumber(pValueA[idx],
-                                NelsonConfiguration::getInstance()->getOutputFormatDisplay(),
-                                asInteger, false);
-                            size_t len = numberAsStr.size();
-                            if (len < format_width) {
-                                size_t nb = format_width - len;
-                                for (size_t q = 0; q < nb; q++) {
-                                    buffer.append(L" ");
-                                }
+            for (indexType i = 0; i < rows; i++) {
+                buffer.append(L"  ");
+                for (indexType j = 0; j < colsInThisPage; j++) {
+                    if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+                        continueDisplay = false;
+                        break;
+                    }
+                    indexType idx = i + (k * colsPerPage + j) * rows;
+                    std::wstring numberAsStr;
+                    if (bIsComplex) {
+                        numberAsStr = printNumber(pValueA[2 * idx], pValueA[2 * idx + 1],
+                            NelsonConfiguration::getInstance()->getOutputFormatDisplay(), false,
+                            false);
+                    } else {
+                        numberAsStr = printNumber(pValueA[idx],
+                            NelsonConfiguration::getInstance()->getOutputFormatDisplay(), asInteger,
+                            false);
+                        size_t len = numberAsStr.size();
+                        if (len < format_width) {
+                            size_t nb = format_width - len;
+                            for (size_t q = 0; q < nb; q++) {
+                                buffer.append(L" ");
                             }
                         }
-                        buffer.append(numberAsStr);
-                        if (j < colsInThisPage - 1) {
-                            buffer.append(L"  ");
-                        }
                     }
-                    buffer.append(L"\n");
-                    if (block_page > termWidth) {
-                        io->outputMessage(buffer);
-                        buffer = L"";
-                        block_page = 0;
-                    } else {
-                        block_page++;
+                    buffer.append(numberAsStr);
+                    if (j < colsInThisPage - 1) {
+                        buffer.append(L"  ");
                     }
                 }
-                if (!buffer.empty()) {
+                buffer.append(L"\n");
+                if (block_page > termWidth) {
                     io->outputMessage(buffer);
                     buffer = L"";
                     block_page = 0;
+                } else {
+                    block_page++;
                 }
+            }
+            if (!buffer.empty()) {
+                io->outputMessage(buffer);
+                buffer = L"";
+                block_page = 0;
             }
         }
     }

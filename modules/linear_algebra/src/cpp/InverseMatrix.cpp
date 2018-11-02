@@ -60,8 +60,8 @@ InverseDoubleComplex(ArrayOf A, double rcond)
 {
     ArrayOf res(A);
     res.ensureSingleOwner();
-    doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-    doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)res.getDataPointer());
+    auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+    auto* Rz = reinterpret_cast<doublecomplex*>((double*)res.getDataPointer());
     Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
         (Eigen::Index)A.getDimensions().getColumns());
     Eigen::Map<Eigen::MatrixXcd> matR(Rz, (Eigen::Index)res.getDimensions().getRows(),
@@ -135,8 +135,8 @@ InverseSingleComplex(ArrayOf A, single rcond)
 {
     ArrayOf res(A);
     res.ensureSingleOwner();
-    singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-    singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)res.getDataPointer());
+    auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+    auto* Rz = reinterpret_cast<singlecomplex*>((single*)res.getDataPointer());
     Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
         (Eigen::Index)A.getDimensions().getColumns());
     Eigen::Map<Eigen::MatrixXcf> matR(Rz, (Eigen::Index)res.getDimensions().getRows(),
@@ -208,13 +208,13 @@ InverseMatrix(ArrayOf& A, bool& needToOverload)
         }
     } else {
         if (A.getDataClass() == NLS_SINGLE) {
-            R = InverseSingle(A, (single)rcond);
+            R = InverseSingle(A, static_cast<single>(rcond));
         } else {
-            R = InverseSingleComplex(A, (single)rcond);
+            R = InverseSingleComplex(A, static_cast<single>(rcond));
         }
     }
     return R;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

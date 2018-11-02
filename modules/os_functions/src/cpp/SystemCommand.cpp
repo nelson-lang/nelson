@@ -70,7 +70,7 @@ DetectDetachProcess(std::wstring command)
 static int
 systemCall(const std::wstring& command)
 {
-    fflush(NULL);
+    fflush(nullptr);
 #ifdef _MSC_VER
     int ierr = _wsystem(command.c_str());
 #else
@@ -102,7 +102,7 @@ static std::wstring
 SystemCommandAttachedW_windows(const std::wstring& command, int& ierr)
 {
 #define BUFFER_POPEN 4096
-    std::wstring result = L"";
+    std::wstring result;
     std::wstring commandwithredirection = L"\"" + command + L"\" 2>&1";
     FILE* pPipe = _wpopen(commandwithredirection.c_str(), L"rt");
     if (pPipe == nullptr) {
@@ -252,7 +252,7 @@ SystemCommandAttachedW(const std::wstring& command, int& ierr)
 std::wstring
 SystemCommandW(const std::wstring& command, int& ierr)
 {
-    std::wstring result = L"";
+    std::wstring result;
     bool bDetach = DetectDetachProcess(command);
     if (bDetach) {
         result = SystemCommandDetachedW(command, ierr);
@@ -262,5 +262,5 @@ SystemCommandW(const std::wstring& command, int& ierr)
     return result;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

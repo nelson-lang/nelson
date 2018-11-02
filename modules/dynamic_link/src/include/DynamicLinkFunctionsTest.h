@@ -19,7 +19,7 @@
 #pragma once
 //=============================================================================
 #include "nlsDynamic_link_exports.h"
-#include <stdint.h>
+#include <cstdint>
 //=============================================================================
 extern "C"
 {
@@ -100,7 +100,7 @@ extern "C"
     NLSDYNAMIC_LINK_IMPEXP int
     dynlibTestMultiplyDoubleArrayWithReturn(double* x, int size);
     NLSDYNAMIC_LINK_IMPEXP double
-    sumDoubleRef(double x, double* y, double z);
+    sumDoubleRef(double x, const double* y, double z);
     //=============================================================================
     NLSDYNAMIC_LINK_IMPEXP double*
     multiplicationDoubleByReference(double* x);

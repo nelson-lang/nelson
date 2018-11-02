@@ -30,7 +30,7 @@ DeleteComHandleObject(ArrayOf A)
     if (A.isHandle()) {
         if (!A.isEmpty()) {
             Dimensions dims = A.getDimensions();
-            nelson_handle* qp = (nelson_handle*)A.getDataPointer();
+            auto* qp = (nelson_handle*)A.getDataPointer();
             for (size_t k = 0; k < dims.getElementCount(); k++) {
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
@@ -38,7 +38,7 @@ DeleteComHandleObject(ArrayOf A)
                     if (hlObj->getCategory() != COM_CATEGORY_STR) {
                         Error(_W("COM handle expected."));
                     }
-                    ComHandleObject* comhandleobj = (ComHandleObject*)hlObj;
+                    auto* comhandleobj = (ComHandleObject*)hlObj;
                     VARIANT* pVariant = (VARIANT*)comhandleobj->getPointer();
                     if (pVariant) {
                         VariantClear(pVariant);
@@ -57,5 +57,5 @@ DeleteComHandleObject(ArrayOf A)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

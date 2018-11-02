@@ -21,7 +21,7 @@
 #endif
 #include "SetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
-#include <stdlib.h>
+#include <cstdlib>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -44,11 +44,7 @@ SetVariableEnvironmentU(std::string envVarName, std::string Value)
 {
     bool bRes = false;
 #ifdef _MSC_VER
-    if (::SetEnvironmentVariableA(envVarName.c_str(), Value.c_str())) {
-        bRes = true;
-    } else {
-        bRes = false;
-    }
+    bRes = ::SetEnvironmentVariableA(envVarName.c_str(), Value.c_str()) != 0;
 #else
     if (setenv(envVarName.c_str(), Value.c_str(), 1)) {
         bRes = false;
@@ -59,5 +55,5 @@ SetVariableEnvironmentU(std::string envVarName, std::string Value)
     return bRes;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

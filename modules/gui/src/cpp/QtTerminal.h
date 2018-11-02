@@ -28,9 +28,9 @@ class NLSGUI_IMPEXP QtTerminal : public QTextBrowser
     Q_OBJECT
 public:
     explicit QtTerminal(QWidget* parent = nullptr);
-    ~QtTerminal();
-    virtual void
-    closeEvent(QCloseEvent* event);
+    ~QtTerminal() override;
+    void
+    closeEvent(QCloseEvent* event) override;
 
 public slots:
     std::wstring
@@ -71,12 +71,12 @@ private:
         STDIN_DISP,
     } DISP_MODE;
     QString nelsonPath;
-    virtual void
-    keyPressEvent(QKeyEvent* event);
-    virtual void
-    insertFromMimeData(const QMimeData* source);
     void
-    contextMenuEvent(QContextMenuEvent* event);
+    keyPressEvent(QKeyEvent* event) override;
+    void
+    insertFromMimeData(const QMimeData* source) override;
+    void
+    contextMenuEvent(QContextMenuEvent* event) override;
 
     QString
     getCurrentCommandLine();

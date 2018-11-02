@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Operators.hpp"
-#include <string.h>
+#include <cstring>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -33,13 +33,13 @@ GetOperators()
 bool
 isOperator(std::wstring key)
 {
-    for (size_t k = 0; k < operatorsList.size(); ++k) {
-        if (key.compare(operatorsList[k]) == 0) {
+    for (const auto& k : operatorsList) {
+        if (key.compare(k) == 0) {
             return true;
         }
     }
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

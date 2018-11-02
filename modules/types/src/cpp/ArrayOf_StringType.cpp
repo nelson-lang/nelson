@@ -16,8 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <wchar.h>
-#include <stdio.h>
+#include <cwchar>
+#include <cstdio>
 #include <limits>
 #include "ArrayOf.hpp"
 #include "Data.hpp"
@@ -102,7 +102,7 @@ static ArrayOf
 character2dArrayTotoStringArray(ArrayOf m)
 {
     ArrayOf res;
-    wchar_t* ptr = (wchar_t*)m.getDataPointer();
+    auto* ptr = (wchar_t*)m.getDataPointer();
     indexType rows = m.getDimensions().getRows();
     indexType columns = m.getDimensions().getColumns();
     wstringVector v;
@@ -125,7 +125,7 @@ characterNdArrayTotoStringArray(ArrayOf m)
     indexType rows(dimsM.getRows());
     indexType columns(dimsM.getColumns());
     indexType nbElements = dimsM.getElementCount() / (rows * columns);
-    wchar_t* ptr = (wchar_t*)m.getDataPointer();
+    auto* ptr = (wchar_t*)m.getDataPointer();
     indexType offset = 0;
     for (indexType k = 0; k < nbElements; k++) {
         for (indexType i = 0; i < rows; i++) {
@@ -160,7 +160,7 @@ logicalToStringArray(const ArrayOf& m)
         e.what();
         Error(ERROR_MEMORY_ALLOCATION);
     }
-    logical* ptr = (logical*)m.getDataPointer();
+    auto* ptr = (logical*)m.getDataPointer();
     for (size_t k = 0; k < nbElements; k++) {
         logical val = ptr[k];
         std::wstring str = L"false";
@@ -323,7 +323,7 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
     switch (m.getDataClass()) {
     case NLS_CELL_ARRAY: {
         ArrayOf* elementsOutput = nullptr;
-        ArrayOf* elementsCell = (ArrayOf*)m.getDataPointer();
+        auto* elementsCell = (ArrayOf*)m.getDataPointer();
         size_t nbElements = dimsM.getElementCount();
         try {
             elementsOutput = new ArrayOf[nbElements];
@@ -389,9 +389,11 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
     case NLS_CHAR: {
         if (m.isRowVectorCharacterArray()) {
             return ArrayOf::stringArrayConstructor(m.getContentAsWideString());
-        } else if (m.getDimensions().getLength() == 2) {
+        }
+        if (m.getDimensions().getLength() == 2) {
             return character2dArrayTotoStringArray(m);
-        } else if (m.getDimensions().getLength() > 2) {
+        }
+        if (m.getDimensions().getLength() > 2) {
             return characterNdArrayTotoStringArray(m);
         }
     } break;
@@ -402,5 +404,5 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
     return ArrayOf();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

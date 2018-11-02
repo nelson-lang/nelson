@@ -60,5 +60,5 @@ Assert_IsEqual(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, st
     return bRes;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

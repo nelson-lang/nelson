@@ -36,7 +36,7 @@ safegetline(std::ifstream& os, std::string& line)
 {
     std::string myline;
     if (getline(os, myline)) {
-        if (myline.size() && myline[myline.size() - 1] == '\r') {
+        if (!myline.empty() && myline[myline.size() - 1] == '\r') {
             line = myline.substr(0, myline.size() - 1);
         } else {
             line = myline;
@@ -48,8 +48,8 @@ safegetline(std::ifstream& os, std::string& line)
 bool
 FileDiff(std::wstring filename1, std::wstring filename2, logical eolcompare, std::wstring& res)
 {
-    typedef std::string elem;
-    typedef std::vector<elem> sequence;
+    using elem = std::string;
+    using sequence = std::vector<elem>;
     typedef std::pair<elem, elemInfo> sesElem;
 #ifdef _MSC_VER
     std::ifstream Aifs(filename1.c_str(), std::ios::in | std::ios::binary);
@@ -87,5 +87,5 @@ FileDiff(std::wstring filename1, std::wstring filename2, logical eolcompare, std
     return true;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

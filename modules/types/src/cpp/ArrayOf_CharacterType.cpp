@@ -58,7 +58,7 @@ ArrayOf::characterArrayConstructor(std::wstring astr)
     } else {
         dim[0] = 1;
     }
-    charType* cp = (charType*)allocateArrayOf(NLS_CHAR, length);
+    charType* cp = static_cast<charType*>(allocateArrayOf(NLS_CHAR, length));
     memcpy(cp, astr.c_str(), length * sizeof(charType));
     return ArrayOf(NLS_CHAR, dim, cp);
 }
@@ -71,7 +71,7 @@ ArrayOf::characterArrayConstructor(std::string astr)
 }
 //=============================================================================
 std::string
-ArrayOf::getContentAsCString(void) const
+ArrayOf::getContentAsCString() const
 {
     return wstring_to_utf8(getContentAsWideString());
 }
@@ -79,11 +79,11 @@ ArrayOf::getContentAsCString(void) const
 std::wstring
 ArrayOf::getContentAsArrayOfCharacters() const
 {
-    std::wstring str = L"";
+    std::wstring str;
     if (dp->dataClass == NLS_CHAR) {
         indexType M = getLength();
-        charType* buffer = new_with_exception<charType>(M + 1);
-        const charType* qp = (const charType*)dp->getData();
+        auto* buffer = new_with_exception<charType>(M + 1);
+        const auto* qp = static_cast<const charType*>(dp->getData());
         memcpy(buffer, qp, M * sizeof(charType));
         buffer[M] = 0;
         str = buffer;
@@ -111,7 +111,7 @@ ArrayOf::getContentAsWideCharactersPointer() const
     if (isRowVectorCharacterArray()) {
         indexType M = getLength();
         buffer = new_with_exception<charType>(M + 1, false);
-        const charType* qp = (const charType*)dp->getData();
+        const auto* qp = static_cast<const charType*>(dp->getData());
         memcpy(buffer, qp, M * sizeof(charType));
         buffer[M] = 0;
     } else {
@@ -126,14 +126,14 @@ ArrayOf::getContentAsWideCharactersPointer() const
 }
 //=============================================================================
 std::wstring
-ArrayOf::getContentAsWideString(void) const
+ArrayOf::getContentAsWideString() const
 {
-    std::wstring str = L"";
+    std::wstring str;
     if (isRowVectorCharacterArray()) {
         indexType M = getLength();
         str.reserve(M + 1);
-        charType* buffer = new_with_exception<charType>(M + 1);
-        const charType* qp = (const charType*)dp->getData();
+        auto* buffer = new_with_exception<charType>(M + 1);
+        const auto* qp = static_cast<const charType*>(dp->getData());
         memcpy(buffer, qp, M * sizeof(charType));
         buffer[M] = 0;
         str.assign(buffer);
@@ -141,9 +141,10 @@ ArrayOf::getContentAsWideString(void) const
     } else {
         if (isStringArray()) {
             if (isScalar()) {
-                ArrayOf* element = (ArrayOf*)getDataPointer();
+                auto* element = (ArrayOf*)getDataPointer();
                 return element[0].getContentAsWideString();
-            } else if (isEmpty()) {
+            }
+            if (isEmpty()) {
                 return std::wstring();
             }
         } else {
@@ -164,8 +165,8 @@ ArrayOf::getContentAsCStringVector(bool bCheckVector) const
     wstringVector wres = getContentAsWideStringVector(bCheckVector);
     stringVector res;
     res.reserve(wres.size());
-    for (size_t k = 0; k < wres.size(); k++) {
-        res.push_back(wstring_to_utf8(wres[k]));
+    for (const auto& wre : wres) {
+        res.push_back(wstring_to_utf8(wre));
     }
     return res;
 }
@@ -180,7 +181,7 @@ ArrayOf::getContentAsWideStringVector(bool bCheckVector) const
             indexType columns = getDimensions().getColumns();
             for (indexType i = 0; i < rows; i++) {
                 std::wstring str;
-                const charType* qp = (const charType*)dp->getData();
+                const auto* qp = static_cast<const charType*>(dp->getData());
                 for (indexType j = 0; j < columns; j++) {
                     size_t idx = i + j * rows;
                     str.push_back(qp[idx]);
@@ -197,7 +198,7 @@ ArrayOf::getContentAsWideStringVector(bool bCheckVector) const
         } else if (isEmpty()) {
             return res;
         } else if (isVector() || !bCheckVector) {
-            ArrayOf* arg = (ArrayOf*)(getDataPointer());
+            auto* arg = (ArrayOf*)(getDataPointer());
             indexType nbElements = getDimensions().getElementCount();
             res.reserve(nbElements);
             if (isCell()) {
@@ -226,26 +227,26 @@ ArrayOf::getContentAsWideStringVector(bool bCheckVector) const
 }
 //=============================================================================
 stringVector
-ArrayOf::getContentAsCStringRowVector(void) const
+ArrayOf::getContentAsCStringRowVector() const
 {
     wstringVector wres = getContentAsWideStringRowVector();
     stringVector res;
     res.reserve(wres.size());
-    for (size_t k = 0; k < wres.size(); k++) {
-        res.push_back(wstring_to_utf8(wres[k]));
+    for (const auto& wre : wres) {
+        res.push_back(wstring_to_utf8(wre));
     }
     return res;
 }
 //=============================================================================
 wstringVector
-ArrayOf::getContentAsWideStringRowVector(void) const
+ArrayOf::getContentAsWideStringRowVector() const
 {
     wstringVector res;
     if (!isCell() || !isStringArray()) {
         Error(_W("A cell or string array expected."));
     }
     if (isRowVector()) {
-        ArrayOf* arg = (ArrayOf*)(getDataPointer());
+        auto* arg = (ArrayOf*)(getDataPointer());
         indexType nbElements = getDimensions().getElementCount();
         res.reserve(nbElements);
         if (isCell()) {
@@ -273,26 +274,26 @@ ArrayOf::getContentAsWideStringRowVector(void) const
 }
 //=============================================================================
 stringVector
-ArrayOf::getContentAsCStringColumnVector(void) const
+ArrayOf::getContentAsCStringColumnVector() const
 {
     wstringVector wres = getContentAsWideStringColumnVector();
     stringVector res;
     res.reserve(wres.size());
-    for (size_t k = 0; k < wres.size(); k++) {
-        res.push_back(wstring_to_utf8(wres[k]));
+    for (const auto& wre : wres) {
+        res.push_back(wstring_to_utf8(wre));
     }
     return res;
 }
 //=============================================================================
 wstringVector
-ArrayOf::getContentAsWideStringColumnVector(void) const
+ArrayOf::getContentAsWideStringColumnVector() const
 {
     wstringVector res;
     if (!isCell() || !isStringArray()) {
         Error(_W("A cell expected."));
     }
     if (isColumnVector()) {
-        ArrayOf* arg = (ArrayOf*)(getDataPointer());
+        auto* arg = (ArrayOf*)(getDataPointer());
         indexType nbElements = getDimensions().getElementCount();
         res.reserve(nbElements);
         if (isCell()) {
@@ -319,5 +320,5 @@ ArrayOf::getContentAsWideStringColumnVector(void) const
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

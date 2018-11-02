@@ -33,7 +33,7 @@ Nelson::LocalizationGateway::getavailablelanguagesBuiltin(
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 0) {
+    if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     Localization::Instance()->getManagedLanguages(langs);

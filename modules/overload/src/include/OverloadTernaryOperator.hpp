@@ -55,258 +55,251 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
         return callOverloadedFunction(eval, a, b, c,
             Overload::getPreviousCachedFunctionName(Overload::TERNARY), bSuccess,
             Overload::getPreviousCachedFunctionDefinition(Overload::TERNARY), bRaiseError);
-    } else {
-        std::string OverloadNameDesired = OverloadName;
-        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-        if (bSuccess) {
-            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-            return callOverloadedFunction(
-                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-        }
-        if (c.isIntegerType()) {
-            OverloadName
-                = functionName + "_" + classNameA + "_" + classNameB + "_" + NLS_INTEGER_STR;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        OverloadName = functionName + "_" + classNameA + "_" + classNameB + "_" + NLS_GENERIC_STR;
-        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-        if (bSuccess) {
-            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-            return callOverloadedFunction(
-                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-        }
-        if (b.isIntegerType()) {
-            OverloadName
-                = functionName + "_" + classNameA + "_" + NLS_INTEGER_STR + "_" + classNameC;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        if (b.isIntegerType() && c.isIntegerType()) {
-            OverloadName
-                = functionName + "_" + classNameA + "_" + NLS_INTEGER_STR + "_" + NLS_INTEGER_STR;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        if (b.isIntegerType()) {
-            OverloadName
-                = functionName + "_" + classNameA + "_" + NLS_INTEGER_STR + "_" + NLS_GENERIC_STR;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        OverloadName = functionName + "_" + classNameA + "_" + NLS_GENERIC_STR + "_" + classNameC;
-        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-        if (bSuccess) {
-            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-            return callOverloadedFunction(
-                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-        }
-        if (c.isIntegerType()) {
-            OverloadName
-                = functionName + "_" + classNameA + "_" + NLS_GENERIC_STR + "_" + NLS_INTEGER_STR;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        OverloadName
-            = functionName + "_" + classNameA + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR;
-        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-        if (bSuccess) {
-            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-            return callOverloadedFunction(
-                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-        }
-        if (a.isIntegerType()) {
-            OverloadName
-                = functionName + "_" + NLS_INTEGER_STR + "_" + classNameB + "_" + classNameC;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        if (a.isIntegerType() && c.isIntegerType()) {
-            OverloadName
-                = functionName + "_" + NLS_INTEGER_STR + "_" + classNameB + "_" + NLS_INTEGER_STR;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        if (a.isIntegerType()) {
-            OverloadName
-                = functionName + "_" + NLS_INTEGER_STR + "_" + classNameB + "_" + NLS_GENERIC_STR;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        if (a.isIntegerType() && b.isIntegerType()) {
-            OverloadName
-                = functionName + "_" + NLS_INTEGER_STR + "_" + NLS_INTEGER_STR + "_" + classNameC;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        if (a.isIntegerType() && b.isIntegerType() && c.isIntegerType()) {
-            OverloadName = functionName + "_" + NLS_INTEGER_STR + "_" + NLS_INTEGER_STR + "_"
-                + NLS_INTEGER_STR;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        if (a.isIntegerType() && b.isIntegerType()) {
-            OverloadName = functionName + "_" + NLS_INTEGER_STR + "_" + NLS_INTEGER_STR + "_"
-                + NLS_GENERIC_STR;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        if (a.isIntegerType()) {
-            OverloadName
-                = functionName + "_" + NLS_INTEGER_STR + "_" + NLS_GENERIC_STR + "_" + classNameC;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        if (a.isIntegerType() && c.isIntegerType()) {
-            OverloadName = functionName + "_" + NLS_INTEGER_STR + "_" + NLS_GENERIC_STR + "_"
-                + NLS_INTEGER_STR;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        if (a.isIntegerType()) {
-            OverloadName = functionName + "_" + NLS_INTEGER_STR + "_" + NLS_GENERIC_STR + "_"
-                + NLS_GENERIC_STR;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        OverloadName = functionName + "_" + NLS_GENERIC_STR + "_" + classNameB + "_" + classNameC;
-        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-        if (bSuccess) {
-            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-            return callOverloadedFunction(
-                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-        }
-        if (c.isIntegerType()) {
-            OverloadName
-                = functionName + "_" + NLS_GENERIC_STR + "_" + classNameB + "_" + NLS_INTEGER_STR;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        OverloadName
-            = functionName + "_" + NLS_GENERIC_STR + "_" + classNameB + "_" + NLS_GENERIC_STR;
-        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-        if (bSuccess) {
-            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-            return callOverloadedFunction(
-                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-        }
-        if (b.isIntegerType()) {
-            OverloadName
-                = functionName + "_" + NLS_GENERIC_STR + "_" + NLS_INTEGER_STR + "_" + classNameC;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        if (b.isIntegerType() && c.isIntegerType()) {
-            OverloadName = functionName + "_" + NLS_GENERIC_STR + "_" + NLS_INTEGER_STR + "_"
-                + NLS_INTEGER_STR;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        if (b.isIntegerType()) {
-            OverloadName = functionName + "_" + NLS_GENERIC_STR + "_" + NLS_INTEGER_STR + "_"
-                + NLS_GENERIC_STR;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        OverloadName
-            = functionName + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR + "_" + classNameC;
-        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-        if (bSuccess) {
-            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-            return callOverloadedFunction(
-                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-        }
-        if (c.isIntegerType()) {
-            OverloadName = functionName + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR + "_"
-                + NLS_INTEGER_STR;
-            bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-            if (bSuccess) {
-                Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-                return callOverloadedFunction(
-                    eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
-            }
-        }
-        OverloadName
-            = functionName + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR;
-        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
-        if (bSuccess) {
-            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
-        }
+    }
+    std::string OverloadNameDesired = OverloadName;
+    bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+    if (bSuccess) {
+        Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
         return callOverloadedFunction(
             eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
     }
+    if (c.isIntegerType()) {
+        OverloadName = functionName + "_" + classNameA + "_" + classNameB + "_" + NLS_INTEGER_STR;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    OverloadName = functionName + "_" + classNameA + "_" + classNameB + "_" + NLS_GENERIC_STR;
+    bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+    if (bSuccess) {
+        Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+        return callOverloadedFunction(
+            eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+    }
+    if (b.isIntegerType()) {
+        OverloadName = functionName + "_" + classNameA + "_" + NLS_INTEGER_STR + "_" + classNameC;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    if (b.isIntegerType() && c.isIntegerType()) {
+        OverloadName
+            = functionName + "_" + classNameA + "_" + NLS_INTEGER_STR + "_" + NLS_INTEGER_STR;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    if (b.isIntegerType()) {
+        OverloadName
+            = functionName + "_" + classNameA + "_" + NLS_INTEGER_STR + "_" + NLS_GENERIC_STR;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    OverloadName = functionName + "_" + classNameA + "_" + NLS_GENERIC_STR + "_" + classNameC;
+    bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+    if (bSuccess) {
+        Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+        return callOverloadedFunction(
+            eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+    }
+    if (c.isIntegerType()) {
+        OverloadName
+            = functionName + "_" + classNameA + "_" + NLS_GENERIC_STR + "_" + NLS_INTEGER_STR;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    OverloadName = functionName + "_" + classNameA + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR;
+    bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+    if (bSuccess) {
+        Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+        return callOverloadedFunction(
+            eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+    }
+    if (a.isIntegerType()) {
+        OverloadName = functionName + "_" + NLS_INTEGER_STR + "_" + classNameB + "_" + classNameC;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    if (a.isIntegerType() && c.isIntegerType()) {
+        OverloadName
+            = functionName + "_" + NLS_INTEGER_STR + "_" + classNameB + "_" + NLS_INTEGER_STR;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    if (a.isIntegerType()) {
+        OverloadName
+            = functionName + "_" + NLS_INTEGER_STR + "_" + classNameB + "_" + NLS_GENERIC_STR;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    if (a.isIntegerType() && b.isIntegerType()) {
+        OverloadName
+            = functionName + "_" + NLS_INTEGER_STR + "_" + NLS_INTEGER_STR + "_" + classNameC;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    if (a.isIntegerType() && b.isIntegerType() && c.isIntegerType()) {
+        OverloadName
+            = functionName + "_" + NLS_INTEGER_STR + "_" + NLS_INTEGER_STR + "_" + NLS_INTEGER_STR;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    if (a.isIntegerType() && b.isIntegerType()) {
+        OverloadName
+            = functionName + "_" + NLS_INTEGER_STR + "_" + NLS_INTEGER_STR + "_" + NLS_GENERIC_STR;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    if (a.isIntegerType()) {
+        OverloadName
+            = functionName + "_" + NLS_INTEGER_STR + "_" + NLS_GENERIC_STR + "_" + classNameC;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    if (a.isIntegerType() && c.isIntegerType()) {
+        OverloadName
+            = functionName + "_" + NLS_INTEGER_STR + "_" + NLS_GENERIC_STR + "_" + NLS_INTEGER_STR;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    if (a.isIntegerType()) {
+        OverloadName
+            = functionName + "_" + NLS_INTEGER_STR + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    OverloadName = functionName + "_" + NLS_GENERIC_STR + "_" + classNameB + "_" + classNameC;
+    bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+    if (bSuccess) {
+        Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+        return callOverloadedFunction(
+            eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+    }
+    if (c.isIntegerType()) {
+        OverloadName
+            = functionName + "_" + NLS_GENERIC_STR + "_" + classNameB + "_" + NLS_INTEGER_STR;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    OverloadName = functionName + "_" + NLS_GENERIC_STR + "_" + classNameB + "_" + NLS_GENERIC_STR;
+    bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+    if (bSuccess) {
+        Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+        return callOverloadedFunction(
+            eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+    }
+    if (b.isIntegerType()) {
+        OverloadName
+            = functionName + "_" + NLS_GENERIC_STR + "_" + NLS_INTEGER_STR + "_" + classNameC;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    if (b.isIntegerType() && c.isIntegerType()) {
+        OverloadName
+            = functionName + "_" + NLS_GENERIC_STR + "_" + NLS_INTEGER_STR + "_" + NLS_INTEGER_STR;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    if (b.isIntegerType()) {
+        OverloadName
+            = functionName + "_" + NLS_GENERIC_STR + "_" + NLS_INTEGER_STR + "_" + NLS_GENERIC_STR;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    OverloadName = functionName + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR + "_" + classNameC;
+    bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+    if (bSuccess) {
+        Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+        return callOverloadedFunction(
+            eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+    }
+    if (c.isIntegerType()) {
+        OverloadName
+            = functionName + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR + "_" + NLS_INTEGER_STR;
+        bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+        if (bSuccess) {
+            Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+            return callOverloadedFunction(
+                eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+        }
+    }
+    OverloadName
+        = functionName + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR;
+    bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+    if (bSuccess) {
+        Overload::setCachedFunction(Overload::TERNARY, OverloadName, funcDef);
+    }
+    return callOverloadedFunction(
+        eval, a, b, c, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
 }
 //=============================================================================
 inline ArrayOf
@@ -332,5 +325,5 @@ OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
         eval, a, b, c, functionName, false, bSuccess, forcedFunctionName);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

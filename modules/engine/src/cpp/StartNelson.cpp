@@ -50,7 +50,7 @@
 #include "ErrorEmitter.h"
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
-#include <locale.h>
+#include <clocale>
 #include <sstream>
 //=============================================================================
 static void
@@ -75,7 +75,7 @@ ErrorCommandLineMessage_file_commmand(NELSON_ENGINE_MODE _mode)
 {
 #ifdef _MSC_BUILD
     if (_mode == GUI) {
-        MessageBox(NULL, _W("too many arguments -f and -e are exclusive.").c_str(),
+        MessageBox(nullptr, _W("too many arguments -f and -e are exclusive.").c_str(),
             _W("Error").c_str(), MB_ICONERROR);
     } else {
         std::cerr << _("ERROR: too many arguments -f and -e are exclusive.") << std::endl;
@@ -90,8 +90,8 @@ ErrorPathDetection(NELSON_ENGINE_MODE _mode)
 {
 #ifdef _MSC_BUILD
     if (_mode == GUI) {
-        MessageBox(
-            NULL, _W("Nelson paths not initialized.").c_str(), _W("Error").c_str(), MB_ICONERROR);
+        MessageBox(nullptr, _W("Nelson paths not initialized.").c_str(), _W("Error").c_str(),
+            MB_ICONERROR);
     } else {
         fwprintf(stderr, L"%ls", _W("Nelson paths not initialized.\n").c_str());
     }
@@ -105,7 +105,7 @@ ErrorInterpreter(NELSON_ENGINE_MODE _mode)
 {
 #ifdef _MSC_BUILD
     if (_mode == GUI) {
-        MessageBox(NULL, _W("Nelson interpreter not initialized.").c_str(), _W("Error").c_str(),
+        MessageBox(nullptr, _W("Nelson interpreter not initialized.").c_str(), _W("Error").c_str(),
             MB_ICONERROR);
     } else {
         fwprintf(stderr, L"%ls", _W("Nelson interpreter not initialized.\n").c_str());
@@ -138,7 +138,7 @@ displayHelp(std::wstring description, NELSON_ENGINE_MODE _mode)
 {
 #ifdef _MSC_VER
     if (_mode == GUI) {
-        MessageBox(NULL, description.c_str(), L"Nelson options:", MB_ICONINFORMATION);
+        MessageBox(nullptr, description.c_str(), L"Nelson options:", MB_ICONINFORMATION);
     } else {
         std::wcout << L"Nelson options:\n";
         std::wcout << description;
@@ -154,7 +154,7 @@ ErrorCommandLine(std::wstring str, NELSON_ENGINE_MODE _mode)
 {
 #ifdef _MSC_VER
     if (_mode == GUI) {
-        MessageBox(NULL, str.c_str(), L"Error:", MB_ICONINFORMATION);
+        MessageBox(nullptr, str.c_str(), L"Error:", MB_ICONINFORMATION);
     } else {
         std::wcout << L"Error:\n";
         std::wcout << str;
@@ -188,7 +188,7 @@ NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
     }
     try {
         if (!commandToExecute.empty()) {
-            EvaluateCommand(eval, commandToExecute.c_str(), false);
+            EvaluateCommand(eval, commandToExecute, false);
         }
         if (!fileToExecute.empty()) {
             EvaluateScriptFile(eval, fileToExecute.c_str());
@@ -250,7 +250,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         msg = msg + _("Current C stack is: ") + std::to_string(getRecursionStacksize());
 #ifdef _MSC_VER
         if (_mode == GUI) {
-            MessageBox(NULL, utf8_to_wstring(msg).c_str(), L"Nelson error:", MB_ICONERROR);
+            MessageBox(nullptr, utf8_to_wstring(msg).c_str(), L"Nelson error:", MB_ICONERROR);
         } else {
             std::cout << msg << std::endl;
         }
@@ -346,7 +346,7 @@ int
 StartNelson(int argc, wchar_t* argv[], NELSON_ENGINE_MODE _mode)
 {
     wstringVector args;
-    for (size_t l = 0; l < (size_t)argc; l++) {
+    for (size_t l = 0; l < static_cast<size_t>(argc); l++) {
         args.push_back(std::wstring(argv[l]));
     }
     return StartNelsonInternalWithMutex(args, _mode);
@@ -356,7 +356,7 @@ int
 StartNelson(int argc, char* argv[], NELSON_ENGINE_MODE _mode)
 {
     wstringVector args;
-    for (size_t l = 0; l < (size_t)argc; l++) {
+    for (size_t l = 0; l < static_cast<size_t>(argc); l++) {
         args.push_back(utf8_to_wstring(argv[l]));
     }
     return StartNelsonInternalWithMutex(args, _mode);

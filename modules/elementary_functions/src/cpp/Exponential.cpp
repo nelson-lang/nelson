@@ -61,7 +61,7 @@ Exponential(ArrayOf A, bool& needToOverload)
             } else {
                 double* ptrOut = (double*)ArrayOf::allocateArrayOf(
                     NLS_DCOMPLEX, dimsA.getElementCount(), stringVector(), false);
-                std::complex<double>* Cz = reinterpret_cast<std::complex<double>*>((double*)ptrOut);
+                auto* Cz = reinterpret_cast<std::complex<double>*>(ptrOut);
                 double* ptrIn = (double*)A.getDataPointer();
                 std::complex<double>* Az
                     = reinterpret_cast<std::complex<double>*>((double*)A.getDataPointer());
@@ -107,5 +107,5 @@ Exponential(ArrayOf A, bool& needToOverload)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

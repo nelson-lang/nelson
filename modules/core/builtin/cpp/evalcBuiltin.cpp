@@ -25,7 +25,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::CoreGateway::evalcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() < 1 || argIn.size() > 2) {
+    if (argIn.empty() || argIn.size() > 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring command;

@@ -25,18 +25,18 @@ logical
 Assert_IsFalse(logical value, std::wstring modifiedmsg, std::wstring& msg)
 {
     if (value != 0) {
-        value = (logical)0;
+        value = static_cast<logical>(0);
         if (!modifiedmsg.empty()) {
             msg = modifiedmsg;
         } else {
             msg = _W("Assertion failed: found false entry in condition = true.");
         }
     } else {
-        value = (logical)1;
+        value = static_cast<logical>(1);
         msg = L"";
     }
     return value;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

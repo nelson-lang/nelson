@@ -28,17 +28,17 @@ wstringVector
 BuiltinCompleter(std::wstring prefix)
 {
     wstringVector res;
-    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
     if (eval) {
         wstringVector builtin = WhatListOfBuiltin(eval, true, true);
-        for (size_t k = 0; k < builtin.size(); k++) {
-            if (boost::algorithm::starts_with(builtin[k], prefix)) {
-                res.push_back(builtin[k]);
+        for (const auto& k : builtin) {
+            if (boost::algorithm::starts_with(k, prefix)) {
+                res.push_back(k);
             }
         }
     }
     return res;
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

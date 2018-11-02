@@ -53,7 +53,7 @@ splitpath(std::wstring& prefix, std::wstring& path, std::wstring& fname)
     for (size_t k = 0; k < prefix.size(); ++k) {
 #ifdef _MSC_VER
         if ((prefix[k] == DIR_SEPARATOR_OTHERS) || (prefix[k] == DIR_SEPARATOR_WINDOWS)) {
-            lastslash_pos = (int)k;
+            lastslash_pos = static_cast<int>(k);
         }
 #else
         if (prefix[k] == DIR_SEPARATOR_OTHERS) {
@@ -190,5 +190,5 @@ FileCompleter(std::wstring prefix)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

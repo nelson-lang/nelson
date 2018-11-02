@@ -44,26 +44,26 @@ static bool bCONTROLC = false;
 static bool bInterruptGetChar = false;
 //=============================================================================
 static void
-ControlC_Command(void)
+ControlC_Command()
 {
     bCONTROLC = true;
     Nelson::sigInterrupt(1);
 }
 //=============================================================================
 static void
-AltF4_Command(void)
+AltF4_Command()
 {
     Nelson::doExit();
 }
 //=============================================================================
 static void
-Help_Command(void)
+Help_Command()
 {
     Nelson::doHelp();
 }
 //=============================================================================
 static void
-Pause_Command(void)
+Pause_Command()
 {
     Nelson::doPause();
 }

@@ -32,7 +32,7 @@ Nelson::StringGateway::stringBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     if (argIn.size() > 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         retval.push_back(ArrayOf::stringArrayConstructor(std::string("")));
     } else {
         bool bSuccess = false;

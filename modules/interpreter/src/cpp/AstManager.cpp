@@ -40,7 +40,7 @@ bool
 deleteAst(ASTPtr pt, std::vector<ASTPtr> v)
 {
     bool bFind = false;
-    std::vector<ASTPtr>::iterator it = std::find(v.begin(), v.end(), pt);
+    auto it = std::find(v.begin(), v.end(), pt);
     if (it != v.end()) {
         delete pt;
         v.erase(it);
@@ -52,17 +52,17 @@ deleteAst(ASTPtr pt, std::vector<ASTPtr> v)
 void
 deleteAstVector(std::vector<ASTPtr> v)
 {
-    for (size_t k = 0; k < v.size(); ++k) {
-        if (v[k]) {
-            delete v[k];
-            v[k] = nullptr;
+    for (auto& k : v) {
+        if (k) {
+            delete k;
+            k = nullptr;
         }
     }
     v.clear();
 }
 //=============================================================================
 ASTPtr
-allocateAbstractSyntaxTree(void)
+allocateAbstractSyntaxTree()
 {
     ASTPtr p;
     try {
@@ -139,5 +139,5 @@ allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr arg, int context)
     return p;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

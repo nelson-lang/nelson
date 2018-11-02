@@ -36,10 +36,10 @@ matrix_matrix_operator(ArrayOf& A, ArrayOf& B,
     ArrayOf res;
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
-    logical* Cp = new_with_exception<logical>(Clen, false);
+    auto* Cp = new_with_exception<logical>(Clen, false);
 
-    void* ptrA = (void*)A.getDataPointer();
-    void* ptrB = (void*)B.getDataPointer();
+    void* ptrA = const_cast<void*>(A.getDataPointer());
+    void* ptrB = const_cast<void*>(B.getDataPointer());
     Class classA = A.getDataClass();
     for (indexType i = 0; i < dimsC.getElementCount(); i++) {
         switch (classA) {
@@ -104,9 +104,9 @@ scalar_matrix_operator(ArrayOf& A, ArrayOf& B,
 {
     Dimensions dimsC = B.getDimensions();
     indexType Clen = dimsC.getElementCount();
-    logical* Cp = new_with_exception<logical>(Clen, false);
-    void* ptrA = (void*)A.getDataPointer();
-    void* ptrB = (void*)B.getDataPointer();
+    auto* Cp = new_with_exception<logical>(Clen, false);
+    void* ptrA = const_cast<void*>(A.getDataPointer());
+    void* ptrB = const_cast<void*>(B.getDataPointer());
     Class classA = A.getDataClass();
     for (indexType i = 0; i < Clen; i++) {
         switch (classA) {
@@ -171,9 +171,9 @@ matrix_scalar_operator(ArrayOf& A, ArrayOf& B,
 {
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
-    logical* Cp = new_with_exception<logical>(Clen, false);
-    void* ptrA = (void*)A.getDataPointer();
-    void* ptrB = (void*)B.getDataPointer();
+    auto* Cp = new_with_exception<logical>(Clen, false);
+    void* ptrA = const_cast<void*>(A.getDataPointer());
+    void* ptrB = const_cast<void*>(B.getDataPointer());
     Class classA = A.getDataClass();
     for (indexType i = 0; i < Clen; i++) {
         switch (classA) {
@@ -238,9 +238,9 @@ vector_row_column_operator(const Dimensions& outputDimensions, ArrayOf& A, Array
 {
     ArrayOf res;
     indexType Clen = outputDimensions.getElementCount();
-    logical* Cp = new_with_exception<logical>(Clen, false);
-    void* ptrA = (void*)A.getDataPointer();
-    void* ptrB = (void*)B.getDataPointer();
+    auto* Cp = new_with_exception<logical>(Clen, false);
+    void* ptrA = const_cast<void*>(A.getDataPointer());
+    void* ptrB = const_cast<void*>(B.getDataPointer());
     indexType nbElementsA = A.getDimensions().getElementCount();
     indexType nbElementsB = B.getDimensions().getElementCount();
     Class classA = A.getDataClass();
@@ -311,9 +311,9 @@ vector_column_row_operator(const Dimensions& outputDimensions, ArrayOf& A, Array
 {
     ArrayOf res;
     indexType Clen = outputDimensions.getElementCount();
-    logical* Cp = new_with_exception<logical>(Clen, false);
-    void* ptrA = (void*)A.getDataPointer();
-    void* ptrB = (void*)B.getDataPointer();
+    auto* Cp = new_with_exception<logical>(Clen, false);
+    void* ptrA = const_cast<void*>(A.getDataPointer());
+    void* ptrB = const_cast<void*>(B.getDataPointer());
     Class classA = A.getDataClass();
     indexType m = 0;
     for (indexType i = 0; i < B.getDimensions().getElementCount(); i++) {
@@ -383,9 +383,9 @@ vector_matrix_operator(ArrayOf& A, ArrayOf& B,
     indexType q = 0;
     Dimensions dimsC = B.getDimensions();
     indexType Clen = dimsC.getElementCount();
-    logical* Cp = new_with_exception<logical>(Clen, false);
-    void* ptrA = (void*)A.getDataPointer();
-    void* ptrB = (void*)B.getDataPointer();
+    auto* Cp = new_with_exception<logical>(Clen, false);
+    void* ptrA = const_cast<void*>(A.getDataPointer());
+    void* ptrB = const_cast<void*>(B.getDataPointer());
     Class classA = A.getDataClass();
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
@@ -455,9 +455,9 @@ matrix_vector_operator(ArrayOf& A, ArrayOf& B,
     indexType q = 0;
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
-    logical* Cp = new_with_exception<logical>(Clen, false);
-    void* ptrA = (void*)A.getDataPointer();
-    void* ptrB = (void*)B.getDataPointer();
+    auto* Cp = new_with_exception<logical>(Clen, false);
+    void* ptrA = const_cast<void*>(A.getDataPointer());
+    void* ptrB = const_cast<void*>(B.getDataPointer());
     Class classA = A.getDataClass();
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
@@ -527,9 +527,9 @@ vector_column_matrix_operator(ArrayOf& A, ArrayOf& B,
 
     Dimensions dimsC = B.getDimensions();
     indexType Clen = dimsC.getElementCount();
-    logical* Cp = new_with_exception<logical>(Clen, false);
-    void* ptrA = (void*)A.getDataPointer();
-    void* ptrB = (void*)B.getDataPointer();
+    auto* Cp = new_with_exception<logical>(Clen, false);
+    void* ptrA = const_cast<void*>(A.getDataPointer());
+    void* ptrB = const_cast<void*>(B.getDataPointer());
     Class classA = A.getDataClass();
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
@@ -597,9 +597,9 @@ matrix_vector_column_operator(ArrayOf& A, ArrayOf& B,
 {
     Dimensions dimsC = A.getDimensions();
     indexType Clen = dimsC.getElementCount();
-    logical* Cp = new_with_exception<logical>(Clen, false);
-    void* ptrA = (void*)A.getDataPointer();
-    void* ptrB = (void*)B.getDataPointer();
+    auto* Cp = new_with_exception<logical>(Clen, false);
+    void* ptrA = const_cast<void*>(A.getDataPointer());
+    void* ptrB = const_cast<void*>(B.getDataPointer());
     Class classA = A.getDataClass();
     for (indexType i = 0; i < dimsC.getRows(); i++) {
         for (indexType j = 0; j < dimsC.getColumns(); j++) {
@@ -700,77 +700,73 @@ relationOperator(ArrayOf& A, ArrayOf& B, const std::wstring& operatorName,
                 ArrayOf res = ArrayOf::emptyConstructor(dimsB);
                 res.promoteType(NLS_LOGICAL);
                 return res;
-            } else {
-                ArrayOf res = ArrayOf::emptyConstructor(dimsA);
-                res.promoteType(NLS_LOGICAL);
-                return res;
             }
-        } else {
-            if (!(SameSizeCheck(dimsA, dimsB))) {
-                Error(_W("Size mismatch on arguments to arithmetic operator ") + operatorName);
-            }
-            ArrayOf res = ArrayOf::emptyConstructor(dimsB);
+            ArrayOf res = ArrayOf::emptyConstructor(dimsA);
             res.promoteType(NLS_LOGICAL);
             return res;
         }
+        if (!(SameSizeCheck(dimsA, dimsB))) {
+            Error(_W("Size mismatch on arguments to arithmetic operator ") + operatorName);
+        }
+        ArrayOf res = ArrayOf::emptyConstructor(dimsB);
+        res.promoteType(NLS_LOGICAL);
+        return res;
     }
     if (SameSizeCheck(dimsA, dimsB)) {
         return matrix_matrix_operator(
             A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
-    } else {
-        if (A.isScalar() || B.isScalar()) {
-            if (A.isScalar()) {
-                return scalar_matrix_operator(
-                    A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
-            } else {
-                return matrix_scalar_operator(
+    }
+    if (A.isScalar() || B.isScalar()) {
+        if (A.isScalar()) {
+            return scalar_matrix_operator(
+                A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
+        }
+        return matrix_scalar_operator(
+            A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
+    }
+    if (A.isVector() || B.isVector()) {
+        if (A.isRowVector() && B.isColumnVector()) {
+            dimsC = Dimensions(
+                std::min(dimsA.getMax(), dimsB.getMax()), std::max(dimsA.getMax(), dimsB.getMax()));
+            return vector_row_column_operator(
+                dimsC, A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
+        }
+        if (A.isColumnVector() && B.isRowVector()) {
+            dimsC = Dimensions(
+                std::min(dimsA.getMax(), dimsB.getMax()), std::max(dimsA.getMax(), dimsB.getMax()));
+            return vector_column_row_operator(
+                dimsC, A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
+        }
+        if ((A.isRowVector() && B.isRowVector()) || (A.isColumnVector() && B.isColumnVector())) {
+            Error(_W("Size mismatch on arguments to arithmetic operator ") + operatorName);
+        } else {
+            if (dimsA[1] == dimsB[1]) {
+                if (A.isVector()) {
+                    return vector_column_matrix_operator(A, B, realRelationOperator,
+                        complexRelationOperator, stringRelationOperator);
+                }
+                return matrix_vector_column_operator(
                     A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
             }
-        } else {
-            if (A.isVector() || B.isVector()) {
-                if (A.isRowVector() && B.isColumnVector()) {
-                    dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
-                        std::max(dimsA.getMax(), dimsB.getMax()));
-                    return vector_row_column_operator(dimsC, A, B, realRelationOperator,
+            if ((dimsA[0] == dimsB[0]) && (dimsA[0] != 1)) {
+                if (A.isVector()) {
+                    return vector_matrix_operator(A, B, realRelationOperator,
                         complexRelationOperator, stringRelationOperator);
-                } else if (A.isColumnVector() && B.isRowVector()) {
-                    dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
-                        std::max(dimsA.getMax(), dimsB.getMax()));
-                    return vector_column_row_operator(dimsC, A, B, realRelationOperator,
-                        complexRelationOperator, stringRelationOperator);
-                } else if ((A.isRowVector() && B.isRowVector())
-                    || (A.isColumnVector() && B.isColumnVector())) {
-                    Error(_W("Size mismatch on arguments to arithmetic operator ") + operatorName);
-                } else {
-                    if (dimsA[1] == dimsB[1]) {
-                        if (A.isVector()) {
-                            return vector_column_matrix_operator(A, B, realRelationOperator,
-                                complexRelationOperator, stringRelationOperator);
-                        } else {
-                            return matrix_vector_column_operator(A, B, realRelationOperator,
-                                complexRelationOperator, stringRelationOperator);
-                        }
-                    } else if ((dimsA[0] == dimsB[0]) && (dimsA[0] != 1)) {
-                        if (A.isVector()) {
-                            return vector_matrix_operator(A, B, realRelationOperator,
-                                complexRelationOperator, stringRelationOperator);
-                        } else {
-                            return matrix_vector_operator(A, B, realRelationOperator,
-                                complexRelationOperator, stringRelationOperator);
-                        }
-                    } else {
-                        Error(_W("Size mismatch on arguments to arithmetic operator ")
-                            + operatorName);
-                    }
                 }
+                return matrix_vector_operator(
+                    A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
+
             } else {
                 Error(_W("Size mismatch on arguments to arithmetic operator ") + operatorName);
             }
         }
+    } else {
+        Error(_W("Size mismatch on arguments to arithmetic operator ") + operatorName);
     }
+
     needToOverload = true;
     return ArrayOf();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -23,7 +23,7 @@
 #include <string>
 #include <vector>
 #include <cstddef>
-#include <stdint.h>
+#include <cstdint>
 #include "nlsConfig.h"
 
 namespace Nelson {
@@ -33,18 +33,18 @@ namespace Nelson {
 #endif
 
 #ifdef NLS_INDEX_TYPE_64 // 64 bits
-typedef size_t sizeType;
-typedef size_t indexType;
-typedef ptrdiff_t signedIndexType;
+using sizeType = size_t;
+using indexType = size_t;
+using signedIndexType = ptrdiff_t;
 
 #define SIZE_TYPE_MAX 281474976710655UL
 #define INDEX_TYPE_MAX 281474976710655UL
 #define SIGNED_INDEX_TYPE_MAX 281474976710655UL
 #define SIGNED_INDEX_TYPE_MIN -281474976710655UL
 #else // 32 bits
-typedef int sizeType;
-typedef int signedIndexType;
-typedef int indexType;
+using sizeType = int;
+using signedIndexType = int;
+using indexType = int;
 
 #define SIZE_TYPE_MAX 2147483647UL
 #define INDEX_TYPE_MAX 2147483647UL
@@ -55,21 +55,21 @@ typedef int indexType;
 #define SIZE_TYPE_MIN 0UL
 #define UNSIGNED_INDEX_TYPE_MIN 0UL
 
-typedef uint8_t logical;
-typedef int8_t int8;
-typedef uint8_t uint8;
-typedef int16_t int16;
-typedef uint16_t uint16;
-typedef int32_t int32;
-typedef uint32_t uint32;
-typedef int64_t int64;
+using logical = uint8_t;
+using int8 = int8_t;
+using uint8 = uint8_t;
+using int16 = int16_t;
+using uint16 = uint16_t;
+using int32 = int32_t;
+using uint32 = uint32_t;
+using int64 = int64_t;
 
-typedef uint64_t uint64;
-typedef wchar_t charType;
-typedef float single;
-typedef const indexType* constIndexPtr;
-typedef size_t function_handle;
-typedef long nelson_handle;
+using uint64 = uint64_t;
+using charType = wchar_t;
+using single = float;
+using constIndexPtr = const indexType*;
+using function_handle = size_t;
+using nelson_handle = long;
 
 #define doublecomplex std::complex<double>
 #define singlecomplex std::complex<single>
@@ -103,8 +103,8 @@ typedef enum
     NLS_DCOMPLEX,
     NLS_CHAR,
 } Class;
-typedef std::vector<std::string> stringVector;
-typedef std::vector<std::wstring> wstringVector;
+using stringVector = std::vector<std::string>;
+using wstringVector = std::vector<std::wstring>;
 
 #define NLS_SPARSE_STR "sparse"
 #define NLS_CELL_ARRAY_STR "cell"
@@ -129,4 +129,4 @@ typedef std::vector<std::wstring> wstringVector;
 #define NLS_GENERIC_STR "generic"
 #define NLS_INTEGER_STR "integer"
 
-}
+} // namespace Nelson

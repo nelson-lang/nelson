@@ -40,7 +40,7 @@ Nelson::DynamicLinkGateway::dlsym_getBuiltin(Evaluator* eval, int nLhs, const Ar
     if (param1.getHandleCategory() != DLSYM_CATEGORY_STR) {
         Error(_W("dlsym handle expected."));
     }
-    DynamicLinkSymbolObject* objDlsym = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
+    auto* objDlsym = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
     ArrayOf res;
     if (!objDlsym->get(propertyName, res)) {
         Error(ERROR_WRONG_ARGUMENT_2_VALUE);

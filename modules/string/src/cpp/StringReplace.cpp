@@ -445,5 +445,5 @@ Replace(std::wstring originStr, std::wstring subStr, std::wstring replaceStr)
     return originStr;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

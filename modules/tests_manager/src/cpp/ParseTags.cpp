@@ -85,10 +85,9 @@ ParseTags(Evaluator* eval, std::wstring filename, TestTags& options, std::wstrin
         if (ext != L".nls") {
             msg = _W("wrong file extension .nls expected.");
             return false;
-        } else {
-            msg = _W("wrong file prefix 'test_' or 'bug_' expected.");
-            return false;
         }
+        msg = _W("wrong file prefix 'test_' or 'bug_' expected.");
+        return false;
     }
     std::ifstream istream;
 #ifdef _MSC_VER
@@ -358,5 +357,5 @@ ParseTags(Evaluator* eval, std::wstring filename, TestTags& options, std::wstrin
     return true;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

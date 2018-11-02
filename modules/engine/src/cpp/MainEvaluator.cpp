@@ -46,7 +46,7 @@ createMainEvaluator(Interface* io, NELSON_ENGINE_MODE _mode, std::wstring lang)
     if (io) {
         if (mainEvaluator == nullptr) {
             std::wstring effectiveLang = Localization::Instance()->initializeLocalization(lang);
-            Context* context = new Context;
+            auto* context = new Context;
             if (context) {
                 setDefaultMaxNumCompThreads();
                 mainEvaluator = new Evaluator(context, io, _mode);
@@ -62,7 +62,7 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, std::wstring lang)
 {
     setDefaultMaxNumCompThreads();
     if (mainEvaluator == nullptr) {
-        Context* context = new Context;
+        auto* context = new Context;
         std::wstring effectiveLang = Localization::Instance()->initializeLocalization(lang);
         if (context) {
             switch (_mode) {
@@ -76,7 +76,7 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, std::wstring lang)
                 exit(1);
             } break;
             case BASIC_TERMINAL: {
-                BasicTerminal* nlsTerm = new BasicTerminal();
+                auto* nlsTerm = new BasicTerminal();
                 if (nlsTerm) {
                     mainEvaluator = new Evaluator(context, nlsTerm, _mode);
                     mainEvaluator->mainGuiObject = nullptr;
@@ -85,7 +85,7 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, std::wstring lang)
             case ADVANCED_TERMINAL: {
                 InitGuiObjectsDynamic();
 #ifdef _MSC_VER
-                WindowsConsole* nlsTerm = new WindowsConsole();
+                auto* nlsTerm = new WindowsConsole();
 #else
                 BsdTerminal* nlsTerm = new BsdTerminal();
 #endif
@@ -140,13 +140,13 @@ destroyMainEvaluator()
                 DestroyMainGuiObjectDynamic((void*)io);
             } break;
             case BASIC_TERMINAL: {
-                BasicTerminal* nlsTerm = (BasicTerminal*)io;
+                auto* nlsTerm = (BasicTerminal*)io;
                 delete nlsTerm;
                 nlsTerm = nullptr;
             } break;
             case ADVANCED_TERMINAL: {
 #ifdef _MSC_VER
-                WindowsConsole* nlsTerm = (WindowsConsole*)io;
+                auto* nlsTerm = (WindowsConsole*)io;
 #else
                 BsdTerminal* nlsTerm = (BsdTerminal*)io;
 #endif
@@ -166,7 +166,7 @@ destroyMainEvaluator()
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================
 void*
 getNelsonMainEvaluator()

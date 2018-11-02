@@ -46,7 +46,7 @@ DispComHandleObject(Evaluator* eval, ArrayOf A)
         if (io) {
             if (A.isHandle()) {
                 if (A.isScalar()) {
-                    nelson_handle* qp = (nelson_handle*)A.getDataPointer();
+                    auto* qp = (nelson_handle*)A.getDataPointer();
                     nelson_handle hl = qp[0];
                     HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                     if (hlObj->getCategory() != COM_CATEGORY_STR) {
@@ -57,7 +57,7 @@ DispComHandleObject(Evaluator* eval, ArrayOf A)
                     dimsA.printMe(io);
                     io->outputMessage("\n");
                     io->outputMessage("\n");
-                    ComHandleObject* comhandleobj = (ComHandleObject*)hlObj;
+                    auto* comhandleobj = (ComHandleObject*)hlObj;
                     DispComHandleObject(io, comhandleobj);
                 } else {
                     Dimensions dimsA = A.getDimensions();
@@ -72,5 +72,5 @@ DispComHandleObject(Evaluator* eval, ArrayOf A)
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

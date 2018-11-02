@@ -123,7 +123,7 @@ enum yytokentype
 #define NOT 303
 //=============================================================================
 #if !defined(YYSTYPE) && !defined(YYSTYPE_IS_DECLARED)
-typedef int YYSTYPE;
+using YYSTYPE = int;
 #define yystype YYSTYPE /* obsolescent; will be withdrawn */
 #define YYSTYPE_IS_DECLARED 1
 #define YYSTYPE_IS_TRIVIAL 1

@@ -34,7 +34,7 @@ OverloadFunction(Evaluator* eval, int nLhs, const ArrayOfVector& argIn,
                 if ((funcDef->type() == NLS_BUILT_IN_FUNCTION)
                     || (funcDef->type() == NLS_MACRO_FUNCTION)) {
                     bSuccess = true;
-                    ArrayOfVector argInCopy = (ArrayOfVector&)argIn;
+                    ArrayOfVector argInCopy = const_cast<ArrayOfVector&>(argIn);
                     return funcDef->evaluateFunction(eval, argInCopy, nLhs);
                 }
             }
@@ -56,5 +56,5 @@ OverloadFunction(
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -36,7 +36,7 @@ File::~File()
 {
     if (this->bIsFilePointer) {
         if (this->stream) {
-            FILE* fp = (FILE*)this->stream;
+            FILE* fp = static_cast<FILE*>(this->stream);
             fclose(fp);
         }
     }
@@ -88,5 +88,5 @@ File::isInterfaceMethod()
     return !this->bIsFilePointer;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

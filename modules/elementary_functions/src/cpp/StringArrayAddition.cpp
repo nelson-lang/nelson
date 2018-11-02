@@ -26,10 +26,10 @@ namespace Nelson {
 static ArrayOf
 matrix_matrix_string_addition(const ArrayOf& a, const ArrayOf& b)
 {
-    ArrayOf* elementsA = (ArrayOf*)a.getDataPointer();
-    ArrayOf* elementsB = (ArrayOf*)b.getDataPointer();
-    ArrayOf* elementsC = (ArrayOf*)ArrayOf::allocateArrayOf(
-        NLS_STRING_ARRAY, a.getDimensions().getElementCount(), stringVector(), false);
+    auto* elementsA = (ArrayOf*)a.getDataPointer();
+    auto* elementsB = (ArrayOf*)b.getDataPointer();
+    ArrayOf* elementsC = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
+        NLS_STRING_ARRAY, a.getDimensions().getElementCount(), stringVector(), false));
     ArrayOf res = ArrayOf(NLS_STRING_ARRAY, a.getDimensions(), elementsC);
     for (indexType i = 0; i < a.getDimensions().getElementCount(); i++) {
         if (elementsA[i].isCharacterArray() && elementsB[i].isCharacterArray()) {
@@ -48,10 +48,10 @@ scalar_matrix_string_addition(const ArrayOf& a, const ArrayOf& b)
 {
     Dimensions dimsC = b.getDimensions();
     indexType Clen = dimsC.getElementCount();
-    ArrayOf* elementsA = (ArrayOf*)a.getDataPointer();
-    ArrayOf* elementsB = (ArrayOf*)b.getDataPointer();
-    ArrayOf* elementsC
-        = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, Clen, stringVector(), false);
+    auto* elementsA = (ArrayOf*)a.getDataPointer();
+    auto* elementsB = (ArrayOf*)b.getDataPointer();
+    ArrayOf* elementsC = static_cast<ArrayOf*>(
+        ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, Clen, stringVector(), false));
     ArrayOf res = ArrayOf(NLS_STRING_ARRAY, dimsC, elementsC);
     for (indexType i = 0; i < Clen; i++) {
         if (elementsA[0].isCharacterArray() && elementsB[i].isCharacterArray()) {
@@ -70,10 +70,10 @@ matrix_scalar_string_addition(const ArrayOf& a, const ArrayOf& b)
 {
     Dimensions dimsC = a.getDimensions();
     indexType Clen = dimsC.getElementCount();
-    ArrayOf* elementsA = (ArrayOf*)a.getDataPointer();
-    ArrayOf* elementsB = (ArrayOf*)b.getDataPointer();
-    ArrayOf* elementsC
-        = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, Clen, stringVector(), false);
+    auto* elementsA = (ArrayOf*)a.getDataPointer();
+    auto* elementsB = (ArrayOf*)b.getDataPointer();
+    ArrayOf* elementsC = static_cast<ArrayOf*>(
+        ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, Clen, stringVector(), false));
     ArrayOf res = ArrayOf(NLS_STRING_ARRAY, dimsC, elementsC);
     for (indexType i = 0; i < Clen; i++) {
         if (elementsA[i].isCharacterArray() && elementsB[0].isCharacterArray()) {
@@ -95,10 +95,10 @@ vector_string_addition(const ArrayOf& a, const ArrayOf& b)
     Dimensions dimsC = Dimensions(
         std::min(dimsA.getMax(), dimsB.getMax()), std::max(dimsA.getMax(), dimsB.getMax()));
     indexType Clen = dimsC.getElementCount();
-    ArrayOf* elementsA = (ArrayOf*)a.getDataPointer();
-    ArrayOf* elementsB = (ArrayOf*)b.getDataPointer();
-    ArrayOf* elementsC = (ArrayOf*)ArrayOf::allocateArrayOf(
-        NLS_STRING_ARRAY, dimsC.getElementCount(), stringVector(), false);
+    auto* elementsA = (ArrayOf*)a.getDataPointer();
+    auto* elementsB = (ArrayOf*)b.getDataPointer();
+    ArrayOf* elementsC = static_cast<ArrayOf*>(
+        ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, dimsC.getElementCount(), stringVector(), false));
     ArrayOf res = ArrayOf(NLS_STRING_ARRAY, dimsC, elementsC);
 
     indexType m = 0;
@@ -121,10 +121,10 @@ static ArrayOf
 vector_matrix_string_addition(const ArrayOf& a, const ArrayOf& b)
 {
     Dimensions dimsC = b.getDimensions();
-    ArrayOf* elementsA = (ArrayOf*)a.getDataPointer();
-    ArrayOf* elementsB = (ArrayOf*)b.getDataPointer();
-    ArrayOf* elementsC = (ArrayOf*)ArrayOf::allocateArrayOf(
-        NLS_STRING_ARRAY, dimsC.getElementCount(), stringVector(), false);
+    auto* elementsA = (ArrayOf*)a.getDataPointer();
+    auto* elementsB = (ArrayOf*)b.getDataPointer();
+    ArrayOf* elementsC = static_cast<ArrayOf*>(
+        ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, dimsC.getElementCount(), stringVector(), false));
     indexType q = 0;
     ArrayOf res = ArrayOf(NLS_STRING_ARRAY, dimsC, elementsC);
 
@@ -149,10 +149,10 @@ static ArrayOf
 matrix_vector_string_addition(const ArrayOf& a, const ArrayOf& b)
 {
     Dimensions dimsC = a.getDimensions();
-    ArrayOf* elementsA = (ArrayOf*)a.getDataPointer();
-    ArrayOf* elementsB = (ArrayOf*)b.getDataPointer();
-    ArrayOf* elementsC = (ArrayOf*)ArrayOf::allocateArrayOf(
-        NLS_STRING_ARRAY, dimsC.getElementCount(), stringVector(), false);
+    auto* elementsA = (ArrayOf*)a.getDataPointer();
+    auto* elementsB = (ArrayOf*)b.getDataPointer();
+    ArrayOf* elementsC = static_cast<ArrayOf*>(
+        ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, dimsC.getElementCount(), stringVector(), false));
     indexType q = 0;
     ArrayOf res = ArrayOf(NLS_STRING_ARRAY, dimsC, elementsC);
 
@@ -177,10 +177,10 @@ static ArrayOf
 vector_column_matrix_string_addition(const ArrayOf& a, const ArrayOf& b)
 {
     Dimensions dimsC = b.getDimensions();
-    ArrayOf* elementsA = (ArrayOf*)a.getDataPointer();
-    ArrayOf* elementsB = (ArrayOf*)b.getDataPointer();
-    ArrayOf* elementsC = (ArrayOf*)ArrayOf::allocateArrayOf(
-        NLS_STRING_ARRAY, dimsC.getElementCount(), stringVector(), false);
+    auto* elementsA = (ArrayOf*)a.getDataPointer();
+    auto* elementsB = (ArrayOf*)b.getDataPointer();
+    ArrayOf* elementsC = static_cast<ArrayOf*>(
+        ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, dimsC.getElementCount(), stringVector(), false));
     ArrayOf res = ArrayOf(NLS_STRING_ARRAY, dimsC, elementsC);
 
     for (indexType i = 0; i < dimsC.getRows(); i++) {
@@ -202,10 +202,10 @@ static ArrayOf
 matrix_vector_column_string_addition(const ArrayOf& a, const ArrayOf& b)
 {
     Dimensions dimsC = a.getDimensions();
-    ArrayOf* elementsA = (ArrayOf*)a.getDataPointer();
-    ArrayOf* elementsB = (ArrayOf*)b.getDataPointer();
-    ArrayOf* elementsC = (ArrayOf*)ArrayOf::allocateArrayOf(
-        NLS_STRING_ARRAY, dimsC.getElementCount(), stringVector(), false);
+    auto* elementsA = (ArrayOf*)a.getDataPointer();
+    auto* elementsB = (ArrayOf*)b.getDataPointer();
+    ArrayOf* elementsC = static_cast<ArrayOf*>(
+        ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, dimsC.getElementCount(), stringVector(), false));
     ArrayOf res = ArrayOf(NLS_STRING_ARRAY, dimsC, elementsC);
 
     for (indexType i = 0; i < dimsC.getRows(); i++) {
@@ -238,57 +238,54 @@ stringArray_plus_stringArray(const ArrayOf& a, const ArrayOf& b)
         if (a.isScalar() || b.isScalar()) {
             if (a.isScalar()) {
                 return ArrayOf(b);
-            } else {
-                return ArrayOf(a);
             }
-        } else {
-            if (!(SameSizeCheck(dimsA, dimsB))) {
-                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
-            }
-            return ArrayOf(b);
+            return ArrayOf(a);
         }
+        if (!(SameSizeCheck(dimsA, dimsB))) {
+            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+        }
+        return ArrayOf(b);
     }
     if (SameSizeCheck(dimsA, dimsB)) {
         return matrix_matrix_string_addition(a, b);
-    } else {
-        if (a.isScalar() || b.isScalar()) {
-            if (a.isScalar()) {
-                return scalar_matrix_string_addition(a, b);
-            } else {
-                // b.isScalar()
-                return matrix_scalar_string_addition(a, b);
-            }
+    }
+    if (a.isScalar() || b.isScalar()) {
+        if (a.isScalar()) {
+            return scalar_matrix_string_addition(a, b);
+        }
+        // b.isScalar()
+        return matrix_scalar_string_addition(a, b);
+    }
+    if (a.isVector() || b.isVector()) {
+        if (a.isRowVector() && b.isColumnVector()) {
+            return vector_string_addition(a, b);
+        }
+        if (a.isColumnVector() && b.isRowVector()) {
+            return vector_string_addition(a, b);
+        }
+        if ((a.isRowVector() && b.isRowVector()) || (a.isColumnVector() && b.isColumnVector())) {
+            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
         } else {
-            if (a.isVector() || b.isVector()) {
-                if (a.isRowVector() && b.isColumnVector()) {
-                    return vector_string_addition(a, b);
-                } else if (a.isColumnVector() && b.isRowVector()) {
-                    return vector_string_addition(a, b);
-                } else if ((a.isRowVector() && b.isRowVector())
-                    || (a.isColumnVector() && b.isColumnVector())) {
-                    Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
-                } else {
-                    if (dimsA[1] == dimsB[1]) {
-                        if (a.isVector()) {
-                            return vector_column_matrix_string_addition(a, b);
-                        } else {
-                            return matrix_vector_column_string_addition(a, b);
-                        }
-                    } else if ((dimsA[0] == dimsB[0]) && (dimsA[0] != 1)) {
-                        if (a.isVector()) {
-                            return vector_matrix_string_addition(a, b);
-                        } else {
-                            return matrix_vector_string_addition(a, b);
-                        }
-                    } else {
-                        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
-                    }
+            if (dimsA[1] == dimsB[1]) {
+                if (a.isVector()) {
+                    return vector_column_matrix_string_addition(a, b);
                 }
+                return matrix_vector_column_string_addition(a, b);
+            }
+            if ((dimsA[0] == dimsB[0]) && (dimsA[0] != 1)) {
+                if (a.isVector()) {
+                    return vector_matrix_string_addition(a, b);
+                }
+                return matrix_vector_string_addition(a, b);
+
             } else {
                 Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
             }
         }
+    } else {
+        Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
     }
+
     return ArrayOf::emptyConstructor();
 }
 //=============================================================================

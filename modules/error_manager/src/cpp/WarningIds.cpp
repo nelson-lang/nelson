@@ -28,7 +28,7 @@ warningCheckState(const std::wstring& id)
 {
     WARNING_STATE state = WARNING_STATE::NOT_FOUND;
     std::map<std::wstring, WARNING_STATE>::iterator iter;
-    if (id == L"") {
+    if (id.empty()) {
         iter = warningsMap.find(L"all");
         if (iter != warningsMap.end()) {
             state = iter->second;
@@ -74,10 +74,10 @@ setWarningId(const std::wstring& id, WARNING_STATE state, bool withClear)
     if (withClear) {
         clearWarningIdsList();
     }
-    if (id == L"" || id == L"all") {
+    if (id.empty() || id == L"all") {
         _id = L"all";
     }
-    std::map<std::wstring, WARNING_STATE>::iterator iter = warningsMap.find(_id);
+    auto iter = warningsMap.find(_id);
     if (iter != warningsMap.end()) {
         std::swap(warningsMap[_id], iter->second);
     } else {

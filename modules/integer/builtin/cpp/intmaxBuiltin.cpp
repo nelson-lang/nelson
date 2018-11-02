@@ -31,7 +31,7 @@ Nelson::IntegerGateway::intmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         retval.push_back(ArrayOf::int32Constructor(2147483647));
     } else {
         ArrayOf param1 = argIn[0];

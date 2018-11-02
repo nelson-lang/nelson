@@ -24,7 +24,7 @@
 #include "GetVariableEnvironment.hpp"
 #include "i18n.hpp"
 #include <boost/filesystem.hpp>
-#include <stdio.h>
+#include <cstdio>
 //=============================================================================
 using namespace boost::filesystem;
 //=============================================================================
@@ -72,5 +72,5 @@ GetNelsonBinariesPath()
     return std::wstring(L"");
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -116,8 +116,8 @@ warningStruct(WARNING_IDS_STATES list)
     if (list.IDs.empty()) {
         retval.push_back(ArrayOf::emptyStructConstructor(fieldnames, dims));
     } else {
-        ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(
-            NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames);
+        auto* elements = static_cast<ArrayOf*>(
+            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames));
         ArrayOf st = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
         ArrayOfVector identifiers;
         ArrayOfVector states;
@@ -176,8 +176,8 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         wstringVector states;
         if (IsWarningStruct(argIn[0], identifiers, states)) {
             clearWarningIdsList();
-            for (size_t k = 0; k < states.size(); k++) {
-                if (!isState(states[k])) {
+            for (const auto& state : states) {
+                if (!isState(state)) {
                     Error(_W("Wrong value for #1 argument: valid warning struct expected."));
                 }
             }
@@ -190,7 +190,7 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     } else {
         Exception lastWarning = eval->getLastWarningException();
         std::wstring msg = argIn[0].getContentAsWideString();
-        if (msg == L"") {
+        if (msg.empty()) {
             eval->resetLastWarningException();
             switch (nLhs) {
             case 0: {

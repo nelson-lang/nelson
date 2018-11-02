@@ -95,7 +95,7 @@ NaturalLogarithm(ArrayOf A, bool& needToOverload)
         } else {
             Dimensions dimsA = A.getDimensions();
             if (classA == NLS_DOUBLE) {
-                double* ptrIn = (double*)A.getDataPointer();
+                auto* ptrIn = (double*)A.getDataPointer();
                 if (haveNegativeValue<double>(ptrIn, dimsA.getElementCount())) {
                     A.promoteType(NLS_DCOMPLEX);
                     res = NaturalLogarithmComplex<double>(NLS_DCOMPLEX, A);
@@ -112,7 +112,7 @@ NaturalLogarithm(ArrayOf A, bool& needToOverload)
         } else {
             Dimensions dimsA = A.getDimensions();
             if (classA == NLS_SINGLE) {
-                single* ptrIn = (single*)A.getDataPointer();
+                auto* ptrIn = (single*)A.getDataPointer();
                 if (haveNegativeValue<single>(ptrIn, dimsA.getElementCount())) {
                     A.promoteType(NLS_SCOMPLEX);
                     res = NaturalLogarithmComplex<single>(NLS_SCOMPLEX, A);

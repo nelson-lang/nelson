@@ -22,12 +22,12 @@
 //=============================================================================
 namespace Nelson {
 NLSINTERPRETER_IMPEXP void
-doExit(void);
+doExit();
 NLSINTERPRETER_IMPEXP void
-doHelp(void);
+doHelp();
 NLSINTERPRETER_IMPEXP void
-doPause(void);
+doPause();
 NLSINTERPRETER_IMPEXP void
-doStop(void);
+doStop();
 }; // namespace Nelson
    //=============================================================================

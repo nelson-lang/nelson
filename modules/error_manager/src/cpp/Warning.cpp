@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <stdlib.h>
+#include <cstdlib>
 #include "Warning.hpp"
 #include "Error.hpp"
 #include "WarningIds.hpp"
@@ -29,7 +29,7 @@ static Nelson::library_handle nlsInterpreterHandleDynamicLibrary = nullptr;
 static bool bFirstDynamicLibraryCall = true;
 //=============================================================================
 static void
-initInterpreterDynamicLibrary(void)
+initInterpreterDynamicLibrary()
 {
     if (bFirstDynamicLibraryCall) {
         std::string fullpathInterpreterSharedLibrary
@@ -67,7 +67,7 @@ initInterpreterDynamicLibrary(void)
 static void
 NelsonWarningEmitterDynamicFunction(const std::wstring& msg, const std::wstring& id, bool asError)
 {
-    typedef void (*PROC_NelsonWarningEmitter)(const wchar_t*, const wchar_t*, bool);
+    using PROC_NelsonWarningEmitter = void (*)(const wchar_t*, const wchar_t*, bool);
     static PROC_NelsonWarningEmitter NelsonWarningEmitterPtr = nullptr;
     initInterpreterDynamicLibrary();
     if (!NelsonWarningEmitterPtr) {

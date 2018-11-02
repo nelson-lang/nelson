@@ -76,8 +76,8 @@ LibPointerObject::LibPointerObject(std::wstring DataType, ArrayOf Value)
         _currentType = DynamicLinkSymbolObject::GetNelsonType(DataType);
     }
     Dimensions dimsValue = Value.getDimensions();
-    _initialDimX = (long int)dimsValue.getRows();
-    _initialDimY = (long int)dimsValue.getElementCount() / _initialDimX;
+    _initialDimX = static_cast<long int>(dimsValue.getRows());
+    _initialDimY = static_cast<long int>(dimsValue.getElementCount()) / _initialDimX;
     _dimX = _initialDimX;
     _dimY = _initialDimY;
     if (!boost::algorithm::ends_with(DataType, L"Ptr")) {
@@ -318,8 +318,8 @@ LibPointerObject::reshape(indexType dimX, indexType dimY)
     if (!boost::algorithm::ends_with(_DataType, L"Ptr")) {
         Error(_W("Only numericPtr can be reshaped."));
     }
-    _dimX = (long int)dimX;
-    _dimY = (long int)dimY;
+    _dimX = static_cast<long int>(dimX);
+    _dimY = static_cast<long int>(dimY);
 }
 //=============================================================================
 void
@@ -369,5 +369,5 @@ LibPointerObject::get(std::wstring propertyName, ArrayOf& res)
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

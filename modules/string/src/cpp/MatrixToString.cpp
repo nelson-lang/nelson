@@ -21,9 +21,9 @@
 #define _CRT_NON_CONFORMING_SWPRINTFS
 #endif
 #include <boost/algorithm/string.hpp>
-#include <math.h>
-#include <stdio.h>
-#include <wchar.h>
+#include <cmath>
+#include <cstdio>
+#include <cwchar>
 #include "MatrixToString.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"

@@ -41,7 +41,7 @@ Nelson::FunctionsGateway::pathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             wstringVector list = PathFuncManager::getInstance()->getPathNameVector();
             Interface* io = eval->getInterface();
             if (io) {
-                if (list.size() == 0) {
+                if (list.empty()) {
                     io->outputMessage(_W("The path is empty. Please restore path.") + L"\n");
                 } else {
                     io->outputMessage(

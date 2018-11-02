@@ -31,13 +31,13 @@ Nelson::LogicalGateway::falseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         Dimensions dim(1, 1);
         retval.push_back(FalseConstructor(dim, bIsSparse));
     } else {
         Dimensions dim;
         indexType idxMax = argIn.size();
-        if (((double)(argIn.size()) - 2.) >= 0.) {
+        if ((static_cast<double>(argIn.size()) - 2.) >= 0.) {
             indexType pos = argIn.size() - 2;
             if (argIn[pos].isRowVectorCharacterArray()) {
                 std::wstring arg = argIn[pos].getContentAsWideString();

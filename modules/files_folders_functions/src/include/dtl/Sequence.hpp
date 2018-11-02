@@ -46,7 +46,7 @@ namespace dtl {
     template <typename elem>
     class Sequence {
     public :
-        typedef vector< elem > elemVec;
+        using elemVec = vector<elem>;
         Sequence () {}
         virtual ~Sequence () {}
 
@@ -59,6 +59,6 @@ namespace dtl {
     protected :
         elemVec sequence;
     };
-}
+}  // namespace dtl
 
 #endif // DTL_SEQUENCE_H

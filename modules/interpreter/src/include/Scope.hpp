@@ -127,7 +127,7 @@ public:
      * is replaced with the given one.
      */
     bool
-    insertVariable(const std::string& varName, const ArrayOf& val);
+    insertVariable(const std::string& varName, const ArrayOf& var);
     /**
      * Insert a function pointer into the current scope.  The name of
      * of the function is encoded in the FuncPtr.
@@ -139,7 +139,7 @@ public:
      * Delete a function from the current scope.
      */
     void
-    deleteFunction(const std::string funcName);
+    deleteFunction(std::string funcName);
     bool
     deleteBuiltin(void* fptr);
 
@@ -154,7 +154,7 @@ public:
      * assigns the value of the variable to the second argument.
      */
     bool
-    lookupVariable(const std::string& funcName, ArrayOf& val);
+    lookupVariable(const std::string& varName, ArrayOf& val);
     /**
      * Add a variable name to the global variables list.
      */
@@ -263,5 +263,5 @@ public:
     isVariable(std::string varname);
 };
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

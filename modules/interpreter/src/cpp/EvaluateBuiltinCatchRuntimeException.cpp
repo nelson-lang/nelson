@@ -38,7 +38,7 @@ namespace Nelson {
 class InfoFromSE
 {
 public:
-    typedef unsigned int exception_code_t;
+    using exception_code_t = unsigned int;
     //=============================================================================
     static const char*
     seDescription(const exception_code_t& code)
@@ -123,10 +123,10 @@ EvaluateBuiltinCatchRuntimeException(
     try {
         outputs = fptr(eval, nargout, inputs);
     } catch (const std::runtime_error& e) {
-        _set_se_translator(NULL);
+        _set_se_translator(nullptr);
         Error(e.what());
     }
-    _set_se_translator(NULL);
+    _set_se_translator(nullptr);
 #else
     error_code = 0;
     signal(SIGSEGV, signal_handler);
@@ -163,5 +163,5 @@ EvaluateBuiltinCatchRuntimeException(
     return outputs;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

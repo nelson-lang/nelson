@@ -79,32 +79,32 @@ public:
     /**
      * The destructor
      */
-    ~MacroFunctionDef();
+    ~MacroFunctionDef() override;
     /** The type of the function
      */
-    virtual const FunctionType
-    type()
+    const FunctionType
+    type() override
     {
         return NLS_MACRO_FUNCTION;
     }
     /** Print a description of the function
      */
-    virtual void
-    printMe(Interface* io);
+    void
+    printMe(Interface* io) override;
     /**
      * The number of inputs required by this function, which is the number of
      * elements in arguments unless the last element is the keyword "varargin"
      * in which case the answer is -1.
      */
-    virtual int
-    inputArgCount();
+    int
+    inputArgCount() override;
     /**
      * The number of outputs returned by this function, which is the number of
      * elements in returnVals unless the last element is the keyword "varargout"
      * in which case the answer is -1.
      */
-    virtual int
-    outputArgCount();
+    int
+    outputArgCount() override;
     /**
      * Evaluate the function and return the outputs.
      * Throws an Exception if
@@ -114,8 +114,8 @@ public:
      *     number of return values in the call
      *   - the variable 'varargout' is the wrong type.
      */
-    virtual ArrayOfVector
-    evaluateFunction(Evaluator*, ArrayOfVector&, int);
+    ArrayOfVector
+    evaluateFunction(Evaluator* /*eval*/, ArrayOfVector& /*inputs*/, int /*nargout*/) override;
 
     std::vector<ASTPtr> ptAst;
 

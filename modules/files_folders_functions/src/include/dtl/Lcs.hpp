@@ -49,6 +49,6 @@ namespace dtl {
         Lcs ()  {}
         ~Lcs () {}
     };
-}
+}  // namespace dtl
 
 #endif // DTL_LCS_H

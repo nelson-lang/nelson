@@ -49,11 +49,11 @@ namespace FW {
     public:
         ///
         ///
-        FileWatcherImpl() {}
+        FileWatcherImpl() = default;
 
         ///
         ///
-        virtual ~FileWatcherImpl() {}
+        virtual ~FileWatcherImpl() = default;
 
         /// Add a directory watch
         /// @exception FileNotFoundException Thrown when the requested directory does not exist

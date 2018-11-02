@@ -54,12 +54,12 @@ sparsedouble_uminus(ArrayOf a)
     case NLS_DOUBLE: {
         void* res = sparsedouble_uminus<double>(NLS_DOUBLE, a.getDimensions().getRows(),
             a.getDimensions().getColumns(), a.getSparseDataPointer());
-        return ArrayOf(NLS_DOUBLE, a.getDimensions(), (void*)res, true);
+        return ArrayOf(NLS_DOUBLE, a.getDimensions(), res, true);
     } break;
     case NLS_DCOMPLEX: {
         void* res = sparsedouble_uminus<doublecomplex>(NLS_DCOMPLEX, a.getDimensions().getRows(),
             a.getDimensions().getColumns(), a.getSparseDataPointer());
-        return ArrayOf(NLS_DCOMPLEX, a.getDimensions(), (void*)res, true);
+        return ArrayOf(NLS_DCOMPLEX, a.getDimensions(), res, true);
     } break;
     default: {
         Error(_("Cannot do uminus with current type") + " '" + ClassName(a) + "'.");
@@ -84,5 +84,5 @@ sparselogical_uminus(ArrayOf a)
     res->makeCompressed();
     return ArrayOf(NLS_DOUBLE, a.getDimensions(), (void*)res, true);
 }
-}
+} // namespace Nelson
 //=============================================================================

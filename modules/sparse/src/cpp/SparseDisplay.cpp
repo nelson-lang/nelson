@@ -47,7 +47,7 @@ std::string
 single2hexastr(single d)
 {
     char* buffer = new char[32];
-    sprintf(buffer, "%X", *(int*)&d);
+    sprintf(buffer, "%X", *reinterpret_cast<int*>(&d));
     return buffer;
 }
 //=============================================================================
@@ -55,14 +55,14 @@ std::string
 double2hexastr(double d)
 {
     char* buffer = new char[32];
-    sprintf(buffer, "%llx", *(unsigned long long*)&d);
+    sprintf(buffer, "%llx", *reinterpret_cast<unsigned long long*>(&d));
     return buffer;
 }
 //=============================================================================
 static std::string
 printNumber(double number, OutputFormatDisplay currentFormat)
 {
-    std::string strNumber = "";
+    std::string strNumber;
     boost::format fmtnbr;
     if (IsInfinite(number)) {
         if (number > 0) {
@@ -119,7 +119,7 @@ printNumber(double number, OutputFormatDisplay currentFormat)
 static std::string
 printNumber(double realpart, double imagpart, OutputFormatDisplay currentFormat)
 {
-    std::string strNumber = "";
+    std::string strNumber;
     if (imagpart != 0.0) {
         if (imagpart > 0.0) {
             strNumber = printNumber(realpart, currentFormat) + " + "

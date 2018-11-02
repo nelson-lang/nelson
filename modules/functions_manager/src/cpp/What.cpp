@@ -31,12 +31,12 @@ WhatListOfBuiltin(Evaluator* eval, bool bWithPrivateFunction, bool bSorted)
     wstringVector functionsList;
     stringVector funcs = eval->getContext()->getGlobalScope()->getBuiltinsList();
     BuiltInFunctionDefManager::getInstance()->getNameList();
-    for (size_t k = 0; k < funcs.size(); k++) {
+    for (auto& func : funcs) {
         if (bWithPrivateFunction) {
-            functionsList.push_back(utf8_to_wstring(funcs[k]));
+            functionsList.push_back(utf8_to_wstring(func));
         } else {
-            if (funcs[k][0] != '_') {
-                functionsList.push_back(utf8_to_wstring(funcs[k]));
+            if (func[0] != '_') {
+                functionsList.push_back(utf8_to_wstring(func));
             }
         }
     }
@@ -50,7 +50,7 @@ wstringVector
 WhatListOfBuiltin(bool bSorted)
 {
     wstringVector functionsList;
-    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
     if (eval) {
         functionsList = WhatListOfBuiltin(eval, bSorted);
     }
@@ -67,12 +67,12 @@ wstringVector
 WhatListOfMacro()
 {
     wstringVector macroList;
-    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
     if (eval) {
         macroList = WhatListOfMacro(eval);
     }
     return macroList;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -43,16 +43,16 @@ IsWarningStruct(ArrayOf arg, wstringVector& identifiers, wstringVector& states)
     ArrayOfVector idArray = arg.getFieldAsList("identifier");
     ArrayOfVector stateArray = arg.getFieldAsList("state");
 
-    for (size_t k = 0; k < idArray.size(); k++) {
+    for (auto& k : idArray) {
         try {
-            identifiers.push_back(idArray[k].getContentAsWideString());
+            identifiers.push_back(k.getContentAsWideString());
         } catch (const Exception&) {
             return false;
         }
     }
-    for (size_t k = 0; k < stateArray.size(); k++) {
+    for (auto& k : stateArray) {
         try {
-            states.push_back(stateArray[k].getContentAsWideString());
+            states.push_back(k.getContentAsWideString());
         } catch (const Exception&) {
             return false;
         }

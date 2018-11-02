@@ -42,10 +42,10 @@ private:
 
 public:
     RandomMersenneTwister();
-    ~RandomMersenneTwister();
+    ~RandomMersenneTwister() override;
 
     std::wstring
-    getGeneratorName();
+    getGeneratorName() override;
 
     void
     setSeed(uint32 _seed);
@@ -53,16 +53,16 @@ public:
     getSeed();
 
     double
-    getValueAsDouble(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+    getValueAsDouble(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL) override;
     single
-    getValueAsSingle(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+    getValueAsSingle(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL) override;
 
     void
     getValuesAsDouble(double* ar, indexType nbElements, indexType lastDim,
-        RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+        RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL) override;
     void
     getValuesAsSingle(single* ar, indexType nbElements, indexType lastDim,
-        RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+        RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL) override;
 
     boost::container::vector<uint32>
     getState();
@@ -71,12 +71,12 @@ public:
     void
     setState(uint32* _state, size_t len);
     size_t
-    getStateSize();
+    getStateSize() override;
 
     void
-    setMinMaxUniformIntDistribution(int _min, int _max);
+    setMinMaxUniformIntDistribution(int _min, int _max) override;
     void
-    getMinMaxUniformIntDistribution(int& _min, int& _max);
+    getMinMaxUniformIntDistribution(int& _min, int& _max) override;
 };
 } // namespace Nelson
 //=============================================================================

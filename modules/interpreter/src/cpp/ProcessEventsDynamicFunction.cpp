@@ -1,14 +1,14 @@
 //=============================================================================
 #include "ProcessEventsDynamicFunction.hpp"
 #include "dynamic_library.hpp"
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 //=============================================================================
 static Nelson::library_handle nlsGuiHandleDynamicLibrary = nullptr;
 static bool bFirstDynamicLibraryCall = true;
 //=============================================================================
 static void
-initGuiDynamicLibrary(void)
+initGuiDynamicLibrary()
 {
     if (bFirstDynamicLibraryCall) {
         std::string fullpathGuiSharedLibrary
@@ -45,7 +45,7 @@ initGuiDynamicLibrary(void)
 static void
 ProcessEventsDynamicFunction(bool bWait)
 {
-    typedef void (*PROC_ProcessEvents)(bool);
+    using PROC_ProcessEvents = void (*)(bool);
     static PROC_ProcessEvents ProcessEventsPtr = nullptr;
     initGuiDynamicLibrary();
     if (!ProcessEventsPtr) {

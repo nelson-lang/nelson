@@ -65,7 +65,7 @@ QtMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString
     } break;
     case QtCriticalMsg:
     case QtFatalMsg: {
-        Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
         if (eval) {
             Interface* io = eval->getInterface();
             if (io) {
@@ -104,9 +104,9 @@ CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode)
     CreateConsole();
     NelSonQtMainWindow = new QtMainWindow();
     if (NelSonQtMainWindow) {
-        GuiTerminal* nlsTerm = new GuiTerminal((void*)NelSonQtMainWindow);
+        auto* nlsTerm = new GuiTerminal((void*)NelSonQtMainWindow);
         if (nlsTerm) {
-            Evaluator* mainEvaluator = new Evaluator((Context*)vcontext, nlsTerm, _mode);
+            auto* mainEvaluator = new Evaluator(static_cast<Context*>(vcontext), nlsTerm, _mode);
             if (mainEvaluator) {
                 mainEvaluator->mainGuiObject = (void*)NelSonQtMainWindow;
             }
@@ -125,7 +125,7 @@ DestroyMainGuiObject(void* term)
             NelSonQtMainWindow = nullptr;
         }
         if (term) {
-            GuiTerminal* nlsTerm = (GuiTerminal*)term;
+            auto* nlsTerm = static_cast<GuiTerminal*>(term);
             delete nlsTerm;
             nlsTerm = nullptr;
         }

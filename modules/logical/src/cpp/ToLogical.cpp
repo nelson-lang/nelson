@@ -57,29 +57,31 @@ ToLogical(ArrayOf A)
                 = TypeConvertSparseDynamicFunction(NLS_LOGICAL, A.getDimensions().getRows(),
                     A.getDimensions().getColumns(), A.getSparseDataPointer(), NLS_DOUBLE);
             return ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, true);
-        } else {
-            logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
-            ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            double* pDouble = (double*)A.getDataPointer();
+        }
+        logical* pLogical
+            = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
+        ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
+        auto* pDouble = (double*)A.getDataPointer();
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
-            for (indexType k = 0; k < A.getLength(); k++) {
-                if (std::isnan(pDouble[k])) {
-                    Error(_W("Conversion to logical with NaN is not possible."));
-                }
-                pLogical[k] = (logical)(pDouble[k] != 0.0);
+        for (indexType k = 0; k < A.getLength(); k++) {
+            if (std::isnan(pDouble[k])) {
+                Error(_W("Conversion to logical with NaN is not possible."));
             }
-            return r;
+            pLogical[k] = static_cast<logical>(pDouble[k] != 0.0);
         }
+        return r;
+
     } break;
     case NLS_SINGLE: {
         if (A.isSparse()) {
             Error(_W("Conversion to logical from single is not possible."));
         } else {
-            logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
+            logical* pLogical
+                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            float* pSingle = (float*)A.getDataPointer();
+            auto* pSingle = (float*)A.getDataPointer();
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -87,7 +89,7 @@ ToLogical(ArrayOf A)
                 if (std::isnan(pSingle[k])) {
                     Error(_W("Conversion to logical with NaN is not possible."));
                 }
-                pLogical[k] = (logical)(pSingle[k] != 0.0);
+                pLogical[k] = static_cast<logical>(pSingle[k] != 0.0);
             }
             return r;
         }
@@ -96,14 +98,15 @@ ToLogical(ArrayOf A)
         if (A.isSparse()) {
             Error(_W("Conversion to logical from sparse uint8 is not possible."));
         } else {
-            logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
+            logical* pLogical
+                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            uint8* pUint8 = (uint8*)A.getDataPointer();
+            auto* pUint8 = (uint8*)A.getDataPointer();
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
             for (indexType k = 0; k < A.getLength(); k++) {
-                pLogical[k] = (logical)(pUint8[k] != 0);
+                pLogical[k] = static_cast<logical>(pUint8[k] != 0);
             }
             return r;
         }
@@ -112,14 +115,15 @@ ToLogical(ArrayOf A)
         if (A.isSparse()) {
             Error(_W("Conversion to logical from sparse int8 is not possible."));
         } else {
-            logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
+            logical* pLogical
+                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
             int8* pInt8 = (int8*)A.getDataPointer();
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
             for (indexType k = 0; k < A.getLength(); k++) {
-                pLogical[k] = (logical)(pInt8[k] != 0);
+                pLogical[k] = static_cast<logical>(pInt8[k] != 0);
             }
             return r;
         }
@@ -128,14 +132,15 @@ ToLogical(ArrayOf A)
         if (A.isSparse()) {
             Error(_W("Conversion to logical from sparse uint16 is not possible."));
         } else {
-            logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
+            logical* pLogical
+                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            uint16* pUint16 = (uint16*)A.getDataPointer();
+            auto* pUint16 = (uint16*)A.getDataPointer();
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
             for (indexType k = 0; k < A.getLength(); k++) {
-                pLogical[k] = (logical)(pUint16[k] != 0);
+                pLogical[k] = static_cast<logical>(pUint16[k] != 0);
             }
             return r;
         }
@@ -144,14 +149,15 @@ ToLogical(ArrayOf A)
         if (A.isSparse()) {
             Error(_W("Conversion to logical from sparse int16 is not possible."));
         } else {
-            logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
+            logical* pLogical
+                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            int16* pInt16 = (int16*)A.getDataPointer();
+            auto* pInt16 = (int16*)A.getDataPointer();
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
             for (indexType k = 0; k < A.getLength(); k++) {
-                pLogical[k] = (logical)(pInt16[k] != 0);
+                pLogical[k] = static_cast<logical>(pInt16[k] != 0);
             }
             return r;
         }
@@ -160,14 +166,15 @@ ToLogical(ArrayOf A)
         if (A.isSparse()) {
             Error(_W("Conversion to logical from sparse uint32 is not possible."));
         } else {
-            logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
+            logical* pLogical
+                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            uint32* pUint32 = (uint32*)A.getDataPointer();
+            auto* pUint32 = (uint32*)A.getDataPointer();
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
             for (indexType k = 0; k < A.getLength(); k++) {
-                pLogical[k] = (logical)(pUint32[k] != 0);
+                pLogical[k] = static_cast<logical>(pUint32[k] != 0);
             }
             return r;
         }
@@ -176,14 +183,15 @@ ToLogical(ArrayOf A)
         if (A.isSparse()) {
             Error(_W("Conversion to logical from sparse int32 is not possible."));
         } else {
-            logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
+            logical* pLogical
+                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            int32* pInt32 = (int32*)A.getDataPointer();
+            auto* pInt32 = (int32*)A.getDataPointer();
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
             for (indexType k = 0; k < A.getLength(); k++) {
-                pLogical[k] = (logical)(pInt32[k] != 0);
+                pLogical[k] = static_cast<logical>(pInt32[k] != 0);
             }
             return r;
         }
@@ -192,14 +200,15 @@ ToLogical(ArrayOf A)
         if (A.isSparse()) {
             Error(_W("Conversion to logical from sparse uint64 is not possible."));
         } else {
-            logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
+            logical* pLogical
+                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            uint64* pUint64 = (uint64*)A.getDataPointer();
+            auto* pUint64 = (uint64*)A.getDataPointer();
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
             for (indexType k = 0; k < A.getLength(); k++) {
-                pLogical[k] = (logical)(pUint64[k] != 0);
+                pLogical[k] = static_cast<logical>(pUint64[k] != 0);
             }
             return r;
         }
@@ -208,14 +217,15 @@ ToLogical(ArrayOf A)
         if (A.isSparse()) {
             Error(_W("Conversion to logical from sparse int64 is not possible."));
         } else {
-            logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
+            logical* pLogical
+                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
             ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            int64* pInt64 = (int64*)A.getDataPointer();
+            auto* pInt64 = (int64*)A.getDataPointer();
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
             for (indexType k = 0; k < A.getLength(); k++) {
-                pLogical[k] = (logical)(pInt64[k] != 0);
+                pLogical[k] = static_cast<logical>(pInt64[k] != 0);
             }
             return r;
         }
@@ -227,5 +237,5 @@ ToLogical(ArrayOf A)
     return ArrayOf();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -101,7 +101,7 @@ integer_times(ArrayOf& A, ArrayOf& B)
     T* ptrB = (T*)B.getDataPointer();
     if (A.isScalar() && B.isScalar()) {
         // s .* s
-        void *Cp = new_with_exception<T>(1);
+        void* Cp = new_with_exception<T>(1);
         T* ptrC = (T*)Cp;
         ptrC[0] = scalarInteger_times_scalarInteger(ptrA[0], ptrB[0]);
         Dimensions dimsC(1, 1);
@@ -146,7 +146,7 @@ integer_times(ArrayOf& A, ArrayOf& B)
                 T* ptrC = (T*)Cp;
                 for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
                     ptrC[k] = scalarInteger_times_scalarInteger(ptrA[k], ptrB[k]);
-				}
+                }
                 return ArrayOf(A.getDataClass(), dimsC, Cp, false);
             }
         }
@@ -318,5 +318,5 @@ elementWiseMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload)
     return ArrayOf();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

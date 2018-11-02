@@ -33,8 +33,8 @@ RealPart(ArrayOf arrayIn)
     case NLS_SCOMPLEX: {
         size_t len = arrayIn.getLength();
         void* ptr = ArrayOf::allocateArrayOf(NLS_SINGLE, len);
-        single* rp = (single*)ptr;
-        single* sp = (single*)arrayIn.getDataPointer();
+        auto* rp = static_cast<single*>(ptr);
+        auto* sp = (single*)arrayIn.getDataPointer();
         for (size_t i = 0; i < len; i++) {
             rp[i] = sp[2 * i];
         }
@@ -43,8 +43,8 @@ RealPart(ArrayOf arrayIn)
     case NLS_DCOMPLEX: {
         size_t len = arrayIn.getLength();
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
-        double* rp = (double*)ptr;
-        double* dp = (double*)arrayIn.getDataPointer();
+        auto* rp = static_cast<double*>(ptr);
+        auto* dp = (double*)arrayIn.getDataPointer();
         for (size_t i = 0; i < len; i++) {
             rp[i] = dp[2 * i];
         }
@@ -60,18 +60,18 @@ RealPart(ArrayOf arrayIn)
     case NLS_CHAR: {
         size_t len = arrayIn.getLength();
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
-        double* rp = (double*)ptr;
-        charType* dp = (charType*)arrayIn.getDataPointer();
+        auto* rp = static_cast<double*>(ptr);
+        auto* dp = (charType*)arrayIn.getDataPointer();
         for (size_t i = 0; i < len; i++) {
-            rp[i] = (double)dp[i];
+            rp[i] = static_cast<double>(dp[i]);
         }
         res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), rp);
     } break;
     case NLS_LOGICAL: {
         size_t len = arrayIn.getLength();
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
-        double* rp = (double*)ptr;
-        logical* dp = (logical*)arrayIn.getDataPointer();
+        auto* rp = static_cast<double*>(ptr);
+        auto* dp = (logical*)arrayIn.getDataPointer();
         for (size_t i = 0; i < len; i++) {
             rp[i] = (dp[i] == 0 ? 0 : 1);
         }
@@ -94,5 +94,5 @@ RealPart(ArrayOf arrayIn)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -43,8 +43,8 @@ Nelson::MemoryGateway::globalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
             Error(_W("variable is locked."));
         }
     }
-    for (size_t k = 0; k < argIn.size(); k++) {
-        std::string arg = argIn[k].getContentAsCString();
+    for (const auto& k : argIn) {
+        std::string arg = k.getContentAsCString();
         context->addGlobalVariable(arg);
     }
     return retval;

@@ -28,7 +28,7 @@ Nelson::CoreGateway::echoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         bool toggle = eval->getEchoMode();
         if (nLhs == 0) {
             eval->setEchoMode(!toggle);

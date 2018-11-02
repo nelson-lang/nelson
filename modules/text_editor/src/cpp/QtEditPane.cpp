@@ -38,14 +38,16 @@ QtEditPane::QtEditPane()
     ind->setDocument(textEditor);
 }
 //=============================================================================
-QtEditPane::~QtEditPane() {
-	if (highlight) {
+QtEditPane::~QtEditPane()
+{
+    if (highlight) {
         delete highlight;
         highlight = nullptr;
-	}
+    }
 }
 //=============================================================================
-QtTextEdit* QtEditPane::getEditor()
+QtTextEdit*
+QtEditPane::getEditor()
 {
     return textEditor;
 }

@@ -39,7 +39,7 @@
 namespace FW {
     /// Type for a string
 #ifdef _MSC_VER
-    typedef std::wstring String;
+    using String = std::wstring;
 #else
     typedef std::string String;
 #endif
@@ -99,8 +99,8 @@ namespace FW {
             /// Sent when a file is modified
             Modified = 4
         };
-    };
-    typedef Actions::Action Action;
+    }  // namespace Actions
+    using Action = Actions::Action;
 
     /// Listens to files and directories and dispatches events
     /// to notify the parent program of the changes.
@@ -144,8 +144,8 @@ namespace FW {
     /// @class FileWatchListener
     class FileWatchListener {
     public:
-        FileWatchListener() {}
-        virtual ~FileWatchListener() {}
+        FileWatchListener() = default;
+        virtual ~FileWatchListener() = default;
 
         /// Handles the action file action
         /// @param watchid The watch id for the directory

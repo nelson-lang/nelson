@@ -109,7 +109,7 @@ Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                         Error(ERROR_MEMORY_ALLOCATION);
                     }
                     for (size_t k = 0; k < nbElements; k++) {
-                        ArrayOf* cellA = (ArrayOf*)(A.getDataPointer());
+                        auto* cellA = (ArrayOf*)(A.getDataPointer());
                         if (cellA[k].isRowVectorCharacterArray()) {
                             if (B.isRowVectorCharacterArray()
                                 || (B.isStringArray() && B.isScalar())) {

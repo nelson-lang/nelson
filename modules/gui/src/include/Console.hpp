@@ -22,8 +22,8 @@
 //===================================================================================
 namespace Nelson {
 NLSGUI_IMPEXP bool
-CreateConsole(void);
+CreateConsole();
 NLSGUI_IMPEXP bool
-DestroyConsole(void);
+DestroyConsole();
 } // namespace Nelson
 //===================================================================================

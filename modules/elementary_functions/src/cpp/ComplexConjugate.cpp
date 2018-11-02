@@ -36,21 +36,21 @@ ComplexConjugate(ArrayOf A)
     switch (classA) {
     case NLS_SCOMPLEX: {
         if (!A.isEmpty()) {
-            single* psingleA = (single*)A.getDataPointer();
-            singlecomplex* Az = reinterpret_cast<singlecomplex*>(psingleA);
+            auto* psingleA = (single*)A.getDataPointer();
+            auto* Az = reinterpret_cast<singlecomplex*>(psingleA);
             Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, dimsA.getElementCount());
-            single* psingleC = (single*)C.getDataPointer();
-            singlecomplex* Cz = reinterpret_cast<singlecomplex*>(psingleC);
+            auto* psingleC = (single*)C.getDataPointer();
+            auto* Cz = reinterpret_cast<singlecomplex*>(psingleC);
             Eigen::Map<Eigen::MatrixXcf> matC(Cz, 1, dimsA.getElementCount());
             matC = matA.conjugate().eval();
         }
     } break;
     case NLS_DCOMPLEX: {
-        double* pdoubleA = (double*)A.getDataPointer();
-        doublecomplex* Az = reinterpret_cast<doublecomplex*>(pdoubleA);
+        auto* pdoubleA = (double*)A.getDataPointer();
+        auto* Az = reinterpret_cast<doublecomplex*>(pdoubleA);
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, dimsA.getElementCount());
-        double* pdoubleC = (double*)C.getDataPointer();
-        doublecomplex* Cz = reinterpret_cast<doublecomplex*>(pdoubleC);
+        auto* pdoubleC = (double*)C.getDataPointer();
+        auto* Cz = reinterpret_cast<doublecomplex*>(pdoubleC);
         Eigen::Map<Eigen::MatrixXcd> matC(Cz, 1, dimsA.getElementCount());
         matC = matA.conjugate().eval();
     } break;
@@ -76,5 +76,5 @@ ComplexConjugate(ArrayOf A)
     return C;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

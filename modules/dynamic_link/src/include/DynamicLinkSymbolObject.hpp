@@ -34,7 +34,7 @@ class NLSDYNAMIC_LINK_IMPEXP DynamicLinkSymbolObject : public HandleGenericObjec
 public:
     DynamicLinkSymbolObject(ArrayOf dllibObject, void* pointerFunction, std::wstring symbol,
         std::wstring returnType, wstringVector paramsType);
-    ~DynamicLinkSymbolObject();
+    ~DynamicLinkSymbolObject() override;
     ArrayOfVector
     call(Evaluator* eval, int Lhs, ArrayOfVector params);
     void
@@ -50,9 +50,9 @@ public:
     wstringVector
     fieldnames();
     bool
-    isProperty(std::wstring propertyName);
+    isProperty(std::wstring propertyName) override;
     bool
-    isMethod(std::wstring methodName);
+    isMethod(std::wstring methodName) override;
 
 private:
     ArrayOf _dllibObject;

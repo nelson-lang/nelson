@@ -31,8 +31,7 @@ NLSRANDOM_IMPEXP ArrayOf
 RngGetSeed(Evaluator* eval);
 NLSRANDOM_IMPEXP ArrayOf
 RngGetState(Evaluator* eval);
-NLSRANDOM_IMPEXP ArrayOf
-RngGetState(Evaluator* eval);
+
 NLSRANDOM_IMPEXP void
 RngSetDefault(Evaluator* eval);
 NLSRANDOM_IMPEXP void

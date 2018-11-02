@@ -49,7 +49,7 @@ StringContains(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
             std::wstring strA = A.getContentAsWideString();
             Dimensions dimPattern = Pattern.getDimensions();
             size_t nbPattern = dimPattern.getElementCount();
-            ArrayOf* cellPattern = (ArrayOf*)(Pattern.getDataPointer());
+            auto* cellPattern = (ArrayOf*)(Pattern.getDataPointer());
             bool val = false;
             for (size_t k = 0; k < nbPattern; k++) {
                 std::wstring pattern = cellPattern[k].getContentAsWideString();
@@ -64,8 +64,8 @@ StringContains(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
             std::wstring pattern = Pattern.getContentAsWideString();
             Dimensions dimA = A.getDimensions();
             size_t nbA = dimA.getElementCount();
-            logical* result = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, nbA);
-            ArrayOf* cellA = (ArrayOf*)(A.getDataPointer());
+            logical* result = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, nbA));
+            auto* cellA = (ArrayOf*)(A.getDataPointer());
             for (size_t k = 0; k < nbA; k++) {
                 result[k]
                     = containsString(cellA[k].getContentAsWideString(), pattern, bCaseSensitive);
@@ -77,9 +77,9 @@ StringContains(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
             size_t nbA = dimA.getElementCount();
             Dimensions dimPattern = Pattern.getDimensions();
             size_t nbPattern = dimPattern.getElementCount();
-            logical* result = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, nbA);
-            ArrayOf* cellA = (ArrayOf*)(A.getDataPointer());
-            ArrayOf* cellPattern = (ArrayOf*)(Pattern.getDataPointer());
+            logical* result = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, nbA));
+            auto* cellA = (ArrayOf*)(A.getDataPointer());
+            auto* cellPattern = (ArrayOf*)(Pattern.getDataPointer());
             for (size_t k = 0; k < nbA; k++) {
                 for (size_t l = 0; l < nbPattern; l++) {
                     bool val = containsString(cellA[k].getContentAsWideString(),
@@ -98,5 +98,5 @@ StringContains(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -28,7 +28,7 @@ FileTell(File* fp)
         if (fp->isInterfaceMethod()) {
             return pos;
         }
-        FILE* fileptr = (FILE*)fp->getFilePointer();
+        FILE* fileptr = static_cast<FILE*>(fp->getFilePointer());
         if (fileptr) {
             pos = static_cast<int64>(NLSFTELL(fileptr));
         }
@@ -36,5 +36,5 @@ FileTell(File* fp)
     return pos;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

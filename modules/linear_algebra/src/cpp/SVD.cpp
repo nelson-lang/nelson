@@ -35,8 +35,8 @@ SVD_double(ArrayOf A, ArrayOf& s)
     char JOBU = 'N';
     char JOBVT = 'N';
     Dimensions dimsA = A.getDimensions();
-    int m = (int)dimsA.getRows();
-    int n = (int)dimsA.getColumns();
+    int m = static_cast<int>(dimsA.getRows());
+    int n = static_cast<int>(dimsA.getColumns());
     int ldu = m;
     int ldvt = n;
     int lda = m;
@@ -65,14 +65,14 @@ SVD_doublecomplex(ArrayOf A, ArrayOf& s)
     char JOBU = 'N';
     char JOBVT = 'N';
     Dimensions dimsA = A.getDimensions();
-    int m = (int)dimsA.getRows();
-    int n = (int)dimsA.getColumns();
+    int m = static_cast<int>(dimsA.getRows());
+    int n = static_cast<int>(dimsA.getColumns());
     int ldu = m;
     int ldvt = n;
     int lda = m;
     double* superb = new_with_exception<double>((std::min(m, n) - 1));
     double* ds = new_with_exception<double>(std::min(m, n));
-    doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+    auto* Rz = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
     doublecomplex* uz = nullptr;
     doublecomplex* vtz = nullptr;
     Eigen::Map<Eigen::MatrixXcd> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
@@ -96,8 +96,8 @@ SVD_single(ArrayOf A, ArrayOf& s)
     char JOBU = 'N';
     char JOBVT = 'N';
     Dimensions dimsA = A.getDimensions();
-    int m = (int)dimsA.getRows();
-    int n = (int)dimsA.getColumns();
+    int m = static_cast<int>(dimsA.getRows());
+    int n = static_cast<int>(dimsA.getColumns());
     int ldu = m;
     int ldvt = n;
     int lda = m;
@@ -126,14 +126,14 @@ SVD_singlecomplex(ArrayOf A, ArrayOf& s)
     char JOBU = 'N';
     char JOBVT = 'N';
     Dimensions dimsA = A.getDimensions();
-    int m = (int)dimsA.getRows();
-    int n = (int)dimsA.getColumns();
+    int m = static_cast<int>(dimsA.getRows());
+    int n = static_cast<int>(dimsA.getColumns());
     int ldu = m;
     int ldvt = n;
     int lda = m;
     single* superb = new_with_exception<single>((std::min(m, n) - 1));
     single* ds = new_with_exception<single>(std::min(m, n));
-    singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+    auto* Rz = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
     singlecomplex* uz = nullptr;
     singlecomplex* vtz = nullptr;
     Eigen::Map<Eigen::MatrixXcf> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
@@ -155,9 +155,9 @@ static void
 SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
 {
     Dimensions dimsA = A.getDimensions();
-    int m = (int)dimsA.getRows();
-    int n = (int)dimsA.getColumns();
-    doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+    int m = static_cast<int>(dimsA.getRows());
+    int n = static_cast<int>(dimsA.getColumns());
+    auto* Rz = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
     Eigen::Map<Eigen::MatrixXcd> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
         Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
@@ -176,7 +176,7 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         double* superb = new_with_exception<double>(minMN - 1);
         double* dstemp = new_with_exception<double>(minMN);
         double* u = new_with_exception<double>(((size_t)ldu * (size_t)m * (size_t)2));
-        doublecomplex* uz = reinterpret_cast<doublecomplex*>(u);
+        auto* uz = reinterpret_cast<doublecomplex*>(u);
         double* vt = nullptr;
         doublecomplex* vtz = nullptr;
         if (withV) {
@@ -256,7 +256,7 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         double* superb = new_with_exception<double>(minMN - 1);
         double* dstemp = new_with_exception<double>(minMN);
         double* u = new_with_exception<double>((size_t)ldu * (size_t)m * (size_t)2);
-        doublecomplex* uz = reinterpret_cast<doublecomplex*>(u);
+        auto* uz = reinterpret_cast<doublecomplex*>(u);
         double* vt = nullptr;
         doublecomplex* vtz = nullptr;
         if (withV) {
@@ -292,7 +292,7 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         if (withV) {
             Eigen::Map<Eigen::MatrixXcd> matV(vtz, ldvt, n);
             double* vt2 = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2);
-            doublecomplex* vt2z = reinterpret_cast<doublecomplex*>(vt2);
+            auto* vt2z = reinterpret_cast<doublecomplex*>(vt2);
             Eigen::Map<Eigen::MatrixXcd> matV2(vt2z, n, ldvt);
             matV2 = matV.transpose().eval();
             delete[] vt;
@@ -306,8 +306,8 @@ static void
 SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
 {
     Dimensions dimsA = A.getDimensions();
-    int m = (int)dimsA.getRows();
-    int n = (int)dimsA.getColumns();
+    int m = static_cast<int>(dimsA.getRows());
+    int n = static_cast<int>(dimsA.getColumns());
     Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
         Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
@@ -446,8 +446,8 @@ static void
 SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
 {
     Dimensions dimsA = A.getDimensions();
-    int m = (int)dimsA.getRows();
-    int n = (int)dimsA.getColumns();
+    int m = static_cast<int>(dimsA.getRows());
+    int n = static_cast<int>(dimsA.getColumns());
     Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
         Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
@@ -589,9 +589,9 @@ static void
 SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
 {
     Dimensions dimsA = A.getDimensions();
-    int m = (int)dimsA.getRows();
-    int n = (int)dimsA.getColumns();
-    singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+    int m = static_cast<int>(dimsA.getRows());
+    int n = static_cast<int>(dimsA.getColumns());
+    auto* Rz = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
     Eigen::Map<Eigen::MatrixXcf> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
     if (!matA.allFinite()) {
         Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
@@ -616,7 +616,7 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
             vt = new_with_exception<single>((size_t)ldvt * (size_t)n * (size_t)2);
             vtz = reinterpret_cast<singlecomplex*>(vt);
         }
-        singlecomplex* uz = reinterpret_cast<singlecomplex*>(u);
+        auto* uz = reinterpret_cast<singlecomplex*>(u);
         int info = LAPACKE_cgesvd(
             LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
         if (info > 0) {
@@ -690,7 +690,7 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         single* superb = new_with_exception<single>(minMN - 1);
         single* dstemp = new_with_exception<single>(minMN);
         single* u = new_with_exception<single>((size_t)ldu * (size_t)m * (size_t)2);
-        singlecomplex* uz = reinterpret_cast<singlecomplex*>(u);
+        auto* uz = reinterpret_cast<singlecomplex*>(u);
         single* vt = nullptr;
         singlecomplex* vtz = nullptr;
         if (withV) {
@@ -726,7 +726,7 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         if (withV) {
             Eigen::Map<Eigen::MatrixXcf> matV(vtz, ldvt, n);
             single* vt2 = new_with_exception<single>((size_t)ldvt * (size_t)n * (size_t)2);
-            singlecomplex* vt2z = reinterpret_cast<singlecomplex*>(vt2);
+            auto* vt2z = reinterpret_cast<singlecomplex*>(vt2);
             Eigen::Map<Eigen::MatrixXcf> matV2(vt2z, n, ldvt);
             matV2 = matV.transpose().eval();
             delete[] vt;
@@ -756,7 +756,7 @@ SVD(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
             U = ArrayOf::emptyConstructor(m, m);
             if (withV) {
                 indexType n = DimsA.getColumns();
-                double* mat = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, n * n);
+                double* mat = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, n * n));
                 Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> matEye(mat, n, n);
                 matEye.setIdentity();
                 Dimensions dimsV(n, n);
@@ -764,7 +764,7 @@ SVD(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
             }
         } else {
             n = m;
-            double* mat = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, n * m);
+            double* mat = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, n * m));
             Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> matEye(mat, n, m);
             matEye.setIdentity();
             Dimensions dimsU(m, n);
@@ -867,5 +867,5 @@ SVD(ArrayOf A, ArrayOf& s)
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

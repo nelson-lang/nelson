@@ -62,20 +62,20 @@ public:
     clear();
 
     bool
-    find(const std::string name, FuncPtr& ptr);
+    find(std::string name, FuncPtr& ptr);
     bool
-    find(const std::wstring functionName, std::wstring& filename);
+    find(std::wstring functionName, std::wstring& filename);
     bool
-    find(const std::wstring functionName, wstringVector& filesname);
+    find(std::wstring functionName, wstringVector& filesname);
     bool
-    find(const std::wstring functionName, FileFunc** ff);
+    find(std::wstring functionName, FileFunc** ff);
     bool
     find(size_t hashid, std::wstring& functionname);
 
     bool
-    addPath(const std::wstring path, bool begin);
+    addPath(std::wstring path, bool begin);
     bool
-    removePath(const std::wstring path);
+    removePath(std::wstring path);
     wstringVector
     getPathNameVector();
     std::wstring
@@ -86,7 +86,7 @@ public:
     std::wstring
     getUserPath();
     bool
-    setUserPath(const std::wstring path, bool saveToFile = false);
+    setUserPath(std::wstring path, bool saveToFile = false);
     void
     clearUserPath(bool saveToFile = false);
     void
@@ -94,7 +94,7 @@ public:
     void
     rehash();
     void
-    rehash(const std::wstring path);
+    rehash(std::wstring path);
 
     void
     clearCache();
@@ -104,5 +104,5 @@ public:
     bool
     isPointerOnPathFunctionDef(FuncPtr ptr);
 };
-}
+} // namespace Nelson
 //=============================================================================

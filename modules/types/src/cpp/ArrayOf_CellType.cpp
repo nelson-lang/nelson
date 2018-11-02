@@ -35,7 +35,7 @@ ArrayOf::toCell(ArrayOf m)
     if (m.isCell()) {
         return m;
     }
-    ArrayOf* elements = (ArrayOf*)allocateArrayOf(NLS_CELL_ARRAY, 1);
+    ArrayOf* elements = static_cast<ArrayOf*>(allocateArrayOf(NLS_CELL_ARRAY, 1));
     elements[0] = m;
     return ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
 }
@@ -46,7 +46,7 @@ ArrayOf::cellConstructor(ArrayOfMatrix& m)
     indexType columnCount = 0, rowCount = 0;
     ArrayOf* qp = nullptr;
     try {
-        ArrayOfMatrix::iterator i = m.begin();
+        auto i = m.begin();
         while (i != m.end()) {
             ArrayOfVector ptr = *i;
             /**
@@ -77,7 +77,7 @@ ArrayOf::cellConstructor(ArrayOfMatrix& m)
         /**
          * Allocate storage space for the contents.
          */
-        qp = (ArrayOf*)allocateArrayOf(NLS_CELL_ARRAY, retDims.getElementCount());
+        qp = static_cast<ArrayOf*>(allocateArrayOf(NLS_CELL_ARRAY, retDims.getElementCount()));
         ArrayOf* sp;
         /**
          * Loop through the rows.
@@ -87,8 +87,8 @@ ArrayOf::cellConstructor(ArrayOfMatrix& m)
         while (i != m.end()) {
             ArrayOfVector ptr = *i;
             ArrayOf* cp = sp;
-            for (sizeType j = 0; j < (sizeType)ptr.size(); j++) {
-                *cp = ptr[j];
+            for (const auto& j : ptr) {
+                *cp = j;
                 cp += rowCount;
             }
             ++i;
@@ -96,7 +96,7 @@ ArrayOf::cellConstructor(ArrayOfMatrix& m)
         }
         return ArrayOf(NLS_CELL_ARRAY, retDims, qp);
     } catch (const Exception&) {
-        ArrayOf* rp = (ArrayOf*)qp;
+        auto* rp = qp;
         delete[] rp;
         rp = nullptr;
         qp = nullptr;
@@ -129,7 +129,7 @@ ArrayOf::getVectorContents(ArrayOf& indexing)
     if (indexing.getLength() != 1) {
         Error(_W("Content indexing must return a single value."));
     }
-    constIndexPtr index_p = (constIndexPtr)indexing.dp->getData();
+    auto index_p = static_cast<constIndexPtr>(indexing.dp->getData());
     if (*index_p == 0) {
         Error(_W("Index exceeds cell array dimensions"));
     } else {
@@ -138,7 +138,7 @@ ArrayOf::getVectorContents(ArrayOf& indexing)
         if (ndx >= bound) {
             Error(_W("Index exceeds cell array dimensions"));
         }
-        const ArrayOf* srcPart = (const ArrayOf*)dp->getData();
+        const auto* srcPart = static_cast<const ArrayOf*>(dp->getData());
         // Make a source of whatever is in that index, and return it.
         return srcPart[ndx];
     }
@@ -168,11 +168,11 @@ ArrayOf::getNDimContents(ArrayOfVector& indexing)
         if (indexing[i].getLength() != 1) {
             Error(_W("Content indexing must return a single value."));
         }
-        constIndexPtr sp = (constIndexPtr)indexing[i].dp->getData();
+        auto sp = static_cast<constIndexPtr>(indexing[i].dp->getData());
         outPos[i] = *sp - 1;
     }
     indexType j = dp->dimensions.mapPoint(outPos);
-    const ArrayOf* qp = (const ArrayOf*)dp->getData();
+    const auto* qp = static_cast<const ArrayOf*>(dp->getData());
     return qp[j];
 }
 //=============================================================================
@@ -210,9 +210,9 @@ ArrayOf::getVectorContentsAsList(ArrayOf& index)
     // Get the length of the index object
     indexType index_length = index.getLength();
     // Get a pointer to the index data set
-    constIndexPtr index_p = (constIndexPtr)index.dp->getData();
+    auto index_p = static_cast<constIndexPtr>(index.dp->getData());
     // Get a pointer to our data
-    const ArrayOf* qp = (const ArrayOf*)dp->getData();
+    const auto* qp = static_cast<const ArrayOf*>(dp->getData());
     // Now we copy data from dp to m
     for (indexType i = 0; i < index_length; i++) {
         m.push_back(qp[index_p[i] - 1]);
@@ -252,14 +252,14 @@ ArrayOf::getNDimContentsAsList(ArrayOfVector& index)
             index[i].toOrdinalType();
         }
     }
-    constIndexPtr* indx = new_with_exception<constIndexPtr>(L);
+    auto* indx = new_with_exception<constIndexPtr>(L);
     for (i = 0; i < L; i++) {
         outDims[i] = (index[i].getLength());
-        indx[i] = (constIndexPtr)index[i].dp->getData();
+        indx[i] = static_cast<constIndexPtr>(index[i].dp->getData());
     }
     Dimensions argPointer(L);
     Dimensions currentIndex(L);
-    const ArrayOf* qp = (const ArrayOf*)dp->getData();
+    const auto* qp = static_cast<const ArrayOf*>(dp->getData());
     indexType srcindex = 0;
     while (argPointer.inside(outDims)) {
         for (indexType i = 0; i < L; i++) {
@@ -301,13 +301,13 @@ ArrayOf::setVectorContents(ArrayOf& index, ArrayOf& data)
     if (index.getLength() != 1) {
         Error(_W("In expression A{I} = B, I must reference a single element of cell-array A."));
     }
-    constIndexPtr index_p = (constIndexPtr)index.dp->getData();
+    auto index_p = static_cast<constIndexPtr>(index.dp->getData());
     if (*index_p == 0) {
         Error(_W("Illegal negative index in expression A{I} = B."));
     }
     indexType ndx = *index_p - 1;
     vectorResize(ndx + 1);
-    ArrayOf* qp = (ArrayOf*)getReadWriteDataPointer();
+    auto* qp = static_cast<ArrayOf*>(getReadWriteDataPointer());
     qp[ndx] = data;
     dp->dimensions.simplify();
 }
@@ -332,7 +332,7 @@ ArrayOf::setNDimContents(ArrayOfVector& index, ArrayOf& data)
             Error(_W("In expression A{I1,I2,...,IN} = B, (I1,...,IN) must reference a "
                      "single element of cell-array A."));
         }
-        constIndexPtr sp = (constIndexPtr)index[i].dp->getData();
+        auto sp = static_cast<constIndexPtr>(index[i].dp->getData());
         outPos[i] = *sp;
     }
     resize(outPos);
@@ -340,7 +340,7 @@ ArrayOf::setNDimContents(ArrayOfVector& index, ArrayOf& data)
         outPos[i] = outPos[i] - 1;
     }
     indexType j = dp->dimensions.mapPoint(outPos);
-    ArrayOf* qp = (ArrayOf*)getReadWriteDataPointer();
+    auto* qp = static_cast<ArrayOf*>(getReadWriteDataPointer());
     qp[j] = data;
     dp->dimensions.simplify();
 }
@@ -366,7 +366,7 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
         promoteType(NLS_CELL_ARRAY);
     }
     index.toOrdinalType();
-    if ((indexType)data.size() < index.getLength()) {
+    if (static_cast<indexType>(data.size()) < index.getLength()) {
         Error(_W("Not enough right hand side values to satisy left hand side expression."));
     }
     // Get the maximum index
@@ -374,9 +374,9 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
     // Resize us as necessary.
     vectorResize(max_index);
     // Get a pointer to the dataset
-    ArrayOf* qp = (ArrayOf*)getReadWriteDataPointer();
+    auto* qp = static_cast<ArrayOf*>(getReadWriteDataPointer());
     // Get a pointer to the index data set
-    constIndexPtr index_p = (constIndexPtr)index.dp->getData();
+    auto index_p = static_cast<constIndexPtr>(index.dp->getData());
     // Get the length of the index object
     indexType index_length = index.getLength();
     // Copy in the data
@@ -424,14 +424,14 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
         index[i].toOrdinalType();
     }
     // Set up data pointers
-    constIndexPtr* indx = new_with_exception<constIndexPtr>(L);
+    auto* indx = new_with_exception<constIndexPtr>(L);
     try {
         Dimensions a(L);
         // First, we compute the maximum along each dimension.
         // We also get pointers to each of the index pointers.
         for (indexType i = 0; i < L; i++) {
             a[i] = index[i].getMaxAsIndex();
-            indx[i] = (constIndexPtr)index[i].dp->getData();
+            indx[i] = static_cast<constIndexPtr>(index[i].dp->getData());
         }
         // Next, we compute the number of entries in each component.
         Dimensions argLengths(L);
@@ -441,20 +441,20 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
             argLengths[i] = index[i].getLength();
             dataCount *= argLengths[i];
         }
-        if ((int)data.size() < dataCount) {
+        if (static_cast<int>(data.size()) < dataCount) {
             Error(_W("Not enough right hand side values to satisfy left hand side expression"));
         }
         // Resize us as necessary
         resize(a);
         // Get a writable data pointer
-        ArrayOf* qp = (ArrayOf*)getReadWriteDataPointer();
+        auto* qp = static_cast<ArrayOf*>(getReadWriteDataPointer());
         // Now, we copy data from dp to our real part,
         // computing indices along the way.
         Dimensions currentIndex(dp->dimensions.getLength());
         indexType j;
         while (argPointer.inside(argLengths)) {
             for (indexType i = 0; i < L; i++) {
-                currentIndex[i] = (indexType)indx[i][argPointer[i]] - 1;
+                currentIndex[i] = indx[i][argPointer[i]] - 1;
             }
             j = dp->dimensions.mapPoint(currentIndex);
             if (asStringArray) {
@@ -484,5 +484,5 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

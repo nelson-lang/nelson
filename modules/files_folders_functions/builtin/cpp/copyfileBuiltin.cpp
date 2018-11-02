@@ -38,7 +38,7 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(Evaluator* eval, int nLhs, const Ar
             }
         }
         bool bRes = false;
-        std::wstring errorMessage = L"";
+        std::wstring errorMessage;
         ArrayOf arg2 = argIn[1];
         std::wstring dest = arg2.getContentAsWideString();
         ArrayOf arg1 = argIn[0];

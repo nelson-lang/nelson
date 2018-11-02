@@ -29,12 +29,11 @@ RightDivide(ArrayOf A, ArrayOf B)
         return ArrayOf::emptyConstructor();
     }
     // Process our arguments
-    if (!MatrixCheck(A, B, "/"))
-    {
+    if (!MatrixCheck(A, B, "/")) {
         // Its really a vector product, pass...
         return DotRightDivide(A, B);
     }
     return LeftDivide(B, A);
 }
-}
+} // namespace Nelson
 //=============================================================================

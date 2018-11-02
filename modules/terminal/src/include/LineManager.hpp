@@ -33,7 +33,7 @@ private:
     bool bUsesColors;
 
     void
-    backSpace(void);
+    backSpace();
     void
     doBeep();
 
@@ -60,105 +60,105 @@ public:
      * @return current line
      */
     std::wstring
-    getCurrentLine(void);
+    getCurrentLine();
 
     /**
      * returns line before caret
      * return line
      */
     std::wstring
-    getLineBeforeCaret(void);
+    getLineBeforeCaret();
 
     /**
      * returns line after caret
      * return line
      */
     std::wstring
-    getLineAfterCaret(void);
+    getLineAfterCaret();
 
     /**
      * moves to the beginning of the line
      */
     void
-    moveBeginningLine(void);
+    moveBeginningLine();
 
     /**
      * moves to the end of the line
      */
     void
-    moveEndLine(void);
+    moveEndLine();
 
     /**
      * moves back a single character
      */
     void
-    moveBackSingleChar(void);
+    moveBackSingleChar();
 
     /**
      * moves forward a single character
      */
     void
-    moveForwardSingleChar(void);
+    moveForwardSingleChar();
 
     /**
      * moves back a single word
      */
     void
-    moveBackSingleWord(void);
+    moveBackSingleWord();
 
     /**
      * moves forward a single word
      */
     void
-    moveForwardSingleWord(void);
+    moveForwardSingleWord();
 
     /**
      * kills from current position to the end of line
      */
     void
-    killCurrentPositionToEndLine(void);
+    killCurrentPositionToEndLine();
 
     /**
      * delete the previous character
      */
     void
-    deletePreviousChar(void);
+    deletePreviousChar();
 
     /**
      * deletes the current character
      */
     void
-    deleteCurrentChar(void);
+    deleteCurrentChar();
 
     /**
      * moves back through history
      */
     void
-    moveBackHistory(void);
+    moveBackHistory();
 
     /**
      * moves forward through history
      */
     void
-    moveForwardHistory(void);
+    moveForwardHistory();
 
     /**
      * redraw line
      */
     void
-    redrawLine(void);
+    redrawLine();
 
     /**
      * kills last word
      */
     void
-    killLastWord(void);
+    killLastWord();
 
     /**
      * initialize new line
      */
     void
-    newLine(void);
+    newLine();
 
     /**
      * clear current line
@@ -182,13 +182,13 @@ public:
      * display prompt
      */
     void
-    displayPrompt(void);
+    displayPrompt();
 
     /**
      * refresh line
      */
     void
-    refreshLine(void);
+    refreshLine();
 
     /**
      * copy line on terminal
