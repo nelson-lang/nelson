@@ -118,7 +118,7 @@ QtTextEdit::keyPressEvent(QKeyEvent* e)
         } else {
             if ((e->key() == Qt::Key_Tab)
                 || (QApplication::keyboardModifiers()
-                       && Qt::ControlModifier & (e->key() == Qt::Key_Space))) {
+                       && Qt::ControlModifier && (e->key() == Qt::Key_Space))) {
                 QString completionPrefix = textUnderCursor();
                 complete(completionPrefix);
             } else {

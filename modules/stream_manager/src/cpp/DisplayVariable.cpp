@@ -19,8 +19,7 @@
 #include "DisplayVariable.hpp"
 #include "DisplayCharacters.hpp"
 #include "DisplayStringArray.hpp"
-#include "DisplayDouble.hpp"
-#include "DisplaySingle.hpp"
+#include "DisplayFloatingNumber.hpp"
 #include "DisplayLogical.hpp"
 #include "DisplayIntegers.hpp"
 #include "DisplayCell.hpp"
@@ -55,11 +54,11 @@ DisplayVariable(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& nee
     } break;
     case NLS_DCOMPLEX:
     case NLS_DOUBLE: {
-        DisplayDouble(io, A, fromDispBuiltin, needToOverload);
+        DisplayFloatingNumber(io, A, fromDispBuiltin, needToOverload);
     } break;
     case NLS_SCOMPLEX:
     case NLS_SINGLE: {
-        DisplaySingle(io, A, fromDispBuiltin, needToOverload);
+        DisplayFloatingNumber(io, A, fromDispBuiltin, needToOverload);
     } break;
     case NLS_LOGICAL: {
         DisplayLogical(io, A, fromDispBuiltin, needToOverload);

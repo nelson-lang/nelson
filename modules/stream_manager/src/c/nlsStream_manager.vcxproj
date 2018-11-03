@@ -179,11 +179,10 @@
     <ClInclude Include="..\..\src\include\Stream.hpp" />
     <ClInclude Include="..\cpp\DisplayCell.hpp" />
     <ClInclude Include="..\cpp\DisplayCharacters.hpp" />
-    <ClInclude Include="..\cpp\DisplayDouble.hpp" />
+    <ClInclude Include="..\cpp\DisplayFloatingNumber.hpp" />
     <ClInclude Include="..\cpp\DisplayHelpers.hpp" />
     <ClInclude Include="..\cpp\DisplayIntegers.hpp" />
     <ClInclude Include="..\cpp\DisplayLogical.hpp" />
-    <ClInclude Include="..\cpp\DisplaySingle.hpp" />
     <ClInclude Include="..\cpp\DisplayStringArray.hpp" />
     <ClInclude Include="..\cpp\DisplayStruct.hpp" />
     <ClInclude Include="..\cpp\PrintfHelper.hpp" />
@@ -210,11 +209,10 @@
     <ClCompile Include="..\cpp\Diary.cpp" />
     <ClCompile Include="..\cpp\DisplayCell.cpp" />
     <ClCompile Include="..\cpp\DisplayCharacters.cpp" />
-    <ClCompile Include="..\cpp\DisplayDouble.cpp" />
+    <ClCompile Include="..\cpp\DisplayFloatingNumber.cpp" />
     <ClCompile Include="..\cpp\DisplayHelpers.cpp" />
     <ClCompile Include="..\cpp\DisplayIntegers.cpp" />
     <ClCompile Include="..\cpp\DisplayLogical.cpp" />
-    <ClCompile Include="..\cpp\DisplaySingle.cpp" />
     <ClCompile Include="..\cpp\DisplayStringArray.cpp" />
     <ClCompile Include="..\cpp\DisplayStruct.cpp" />
     <ClCompile Include="..\cpp\DisplayVariable.cpp" />

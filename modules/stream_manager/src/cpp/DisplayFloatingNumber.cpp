@@ -22,7 +22,7 @@
 #include <iostream>
 #include <memory> // For std::unique_ptr
 #include <cstdarg> // For va_start, etc.
-#include "DisplayDouble.hpp"
+#include "DisplayFloatingNumber.hpp"
 #include "Error.hpp"
 #include "StringFormat.hpp"
 #include "characters_encoding.hpp"
@@ -31,8 +31,9 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+template <class T>
 bool
-isInteger(double val)
+isInteger(T val)
 {
     uint64_t valAsInt = *reinterpret_cast<uint64_t*>(&val);
     int exponent = ((valAsInt >> 52) & 0x7FF) - 1023;
@@ -42,12 +43,13 @@ isInteger(double val)
     return !(valAsInt & mask);
 }
 //=============================================================================
+template <class T>
 static bool
-IsIntegerValues(ArrayOf A, double& minVal, double& maxVal)
+IsIntegerValues(ArrayOf A, T& minVal, T& maxVal)
 {
     bool res = true;
-    if (A.getDataClass() == NLS_DOUBLE) {
-        double* pValueA = (double*)A.getDataPointer();
+    if (A.isComplex()) {
+        T* pValueA = (T*)A.getDataPointer();
         maxVal = pValueA[0];
         minVal = pValueA[0];
         for (indexType k = 0; k < A.getLength(); k++) {
@@ -64,7 +66,7 @@ IsIntegerValues(ArrayOf A, double& minVal, double& maxVal)
         }
     } else // NLS_DCOMPLEX
     {
-        double* pValueA = (double*)A.getDataPointer();
+        T* pValueA = (T*)A.getDataPointer();
         maxVal = pValueA[0];
         for (indexType k = 0; k < A.getLength() * 2; k++) {
             if (!isInteger(pValueA[k])) {
@@ -82,8 +84,9 @@ IsIntegerValues(ArrayOf A, double& minVal, double& maxVal)
     return res;
 }
 //=============================================================================
+template <class T>
 static std::wstring
-printNumber(double number, OutputFormatDisplay currentFormat, bool asInteger, bool asScalar)
+printNumber(T number, OutputFormatDisplay currentFormat, bool asInteger, bool asScalar)
 {
     std::wstring strNumber = L"";
     strNumber.reserve(64);
@@ -143,8 +146,9 @@ printNumber(double number, OutputFormatDisplay currentFormat, bool asInteger, bo
     return strNumber;
 }
 //=============================================================================
+template <class T>
 static std::wstring
-printNumber(double realpart, double imagpart, OutputFormatDisplay currentFormat, bool asInteger,
+printNumber(T realpart, T imagpart, OutputFormatDisplay currentFormat, bool asInteger,
     bool asScalar)
 {
     std::wstring strNumber = L"";
@@ -169,13 +173,10 @@ printNumber(double realpart, double imagpart, OutputFormatDisplay currentFormat,
     return strNumber;
 }
 //=============================================================================
-void
-DisplayDouble(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
+template <class T>
+void DisplayFloatingNumberInternal(
+    Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
 {
-    if (A.isNdArrayDoubleType()) {
-        A.printMe(io);
-        return;
-    }
     Dimensions dimsA = A.getDimensions();
     indexType termWidth = io->getTerminalWidth();
     if (A.isEmpty()) {
@@ -195,21 +196,21 @@ DisplayDouble(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needT
         }
         return;
     }
-    double maxDouble = 0;
-    double minDouble = 0;
-    bool asInteger = IsIntegerValues(A, minDouble, maxDouble);
+    T maxFloatingNumber = 0;
+    T minFloatingNumber = 0;
+    bool asInteger = IsIntegerValues(A, minFloatingNumber, maxFloatingNumber);
     indexType columns = dimsA.getColumns();
     indexType rows = dimsA.getRows();
-    double* pValueA = (double*)A.getDataPointer();
+    T* pValueA = (T*)A.getDataPointer();
     if (A.isScalar()) {
         io->outputMessage(L"  ");
         std::wstring strNumber;
         if (A.isComplex()) {
-            doublecomplex* cplx = reinterpret_cast<doublecomplex*>(pValueA);
-            strNumber = printNumber(cplx->real(), cplx->imag(),
+            std::complex<T>* cplx = reinterpret_cast<std::complex<T>*>(pValueA);
+            strNumber = printNumber<T>(cplx->real(), cplx->imag(),
                 NelsonConfiguration::getInstance()->getOutputFormatDisplay(), false, true);
         } else {
-            strNumber = printNumber(pValueA[0],
+            strNumber = printNumber<T>(pValueA[0],
                 NelsonConfiguration::getInstance()->getOutputFormatDisplay(), asInteger, true);
         }
         io->outputMessage(strNumber);
@@ -221,11 +222,11 @@ DisplayDouble(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needT
         switch (NelsonConfiguration::getInstance()->getOutputFormatDisplay()) {
         case NLS_FORMAT_SHORT: {
             if (asInteger && !bIsComplex) {
-                if (fabs(minDouble) > fabs(maxDouble)) {
-                    std::wstring str = std::to_wstring((int64)minDouble);
+                if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
+                    std::wstring str = std::to_wstring((int64)minFloatingNumber);
                     format_width = str.size() + 1;
                 } else {
-                    std::wstring str = std::to_wstring((int64)maxDouble);
+                    std::wstring str = std::to_wstring((int64)maxFloatingNumber);
                     format_width = str.size() + 3;
                 }
             } else {
@@ -238,11 +239,11 @@ DisplayDouble(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needT
         } break;
         case NLS_FORMAT_LONG:
             if (asInteger && !bIsComplex) {
-                if (fabs(minDouble) > fabs(maxDouble)) {
-                    std::wstring str = std::to_wstring((int64)minDouble);
+                if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
+                    std::wstring str = std::to_wstring((int64)minFloatingNumber);
                     format_width = str.size() + 1;
                 } else {
-                    std::wstring str = std::to_wstring((int64)maxDouble);
+                    std::wstring str = std::to_wstring((int64)maxFloatingNumber);
                     format_width = str.size() + 3;
                 }
             } else {
@@ -255,11 +256,11 @@ DisplayDouble(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needT
             break;
         case NLS_FORMAT_SHORTE:
             if (asInteger && !bIsComplex) {
-                if (fabs(minDouble) > fabs(maxDouble)) {
-                    std::wstring str = std::to_wstring((int64)minDouble);
+                if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
+                    std::wstring str = std::to_wstring((int64)minFloatingNumber);
                     format_width = str.size() + 1;
                 } else {
-                    std::wstring str = std::to_wstring((int64)maxDouble);
+                    std::wstring str = std::to_wstring((int64)maxFloatingNumber);
                     format_width = str.size() + 3;
                 }
             } else {
@@ -272,11 +273,11 @@ DisplayDouble(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needT
             break;
         case NLS_FORMAT_LONGE:
             if (asInteger && !bIsComplex) {
-                if (fabs(minDouble) > fabs(maxDouble)) {
-                    std::wstring str = std::to_wstring((int64)minDouble);
+                if (fabs(minFloatingNumber) > fabs(maxFloatingNumber)) {
+                    std::wstring str = std::to_wstring((int64)minFloatingNumber);
                     format_width = str.size() + 1;
                 } else {
-                    std::wstring str = std::to_wstring((int64)maxDouble);
+                    std::wstring str = std::to_wstring((int64)maxFloatingNumber);
                     format_width = str.size() + 3;
                 }
             } else {
@@ -358,6 +359,20 @@ DisplayDouble(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needT
                 block_page = 0;
             }
         }
+    }
+}
+//=============================================================================
+void
+DisplayFloatingNumber(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
+{
+    if (A.isNdArrayDoubleType() || A.isNdArraySingleType()) {
+        A.printMe(io);
+        return;
+    }
+    if (A.isSingleClass()) {
+        DisplayFloatingNumberInternal<single>(io, A, fromDispBuiltin, needToOverload);
+    } else {
+        DisplayFloatingNumberInternal<double>(io, A, fromDispBuiltin, needToOverload);
     }
 }
 //=============================================================================

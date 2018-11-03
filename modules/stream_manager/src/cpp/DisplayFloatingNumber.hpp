@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 void
-DisplayDouble(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload);
+DisplayFloatingNumber(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload);
 }
 //=============================================================================
