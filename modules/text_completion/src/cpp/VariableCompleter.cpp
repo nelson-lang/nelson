@@ -27,7 +27,7 @@ wstringVector
 VariableCompleter(std::wstring prefix)
 {
     wstringVector res;
-    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
     if (eval) {
         stringVector variables = eval->getContext()->getGlobalScope()->getVariablesList(true);
         stringVector variablesCurrentScope
@@ -40,12 +40,12 @@ VariableCompleter(std::wstring prefix)
         std::sort(variables.begin(), variables.end());
         variables.erase(std::unique(variables.begin(), variables.end()), variables.end());
         res.reserve(variables.size());
-        for (size_t k = 0; k < variables.size(); k++) {
-            res.push_back(utf8_to_wstring(variables[k]));
+        for (const auto& variable : variables) {
+            res.push_back(utf8_to_wstring(variable));
         }
     }
     return res;
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

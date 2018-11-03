@@ -56,10 +56,10 @@ EqHandle(ArrayOf A, ArrayOf B)
     }
     Clen = Cdim.getElementCount();
     Cp = new_with_exception<logical>(Clen);
-    logical* C = (logical*)Cp;
+    auto* C = static_cast<logical*>(Cp);
     if (A.isHandle() && B.isHandle()) {
-        nelson_handle* hA = (nelson_handle*)A.getDataPointer();
-        nelson_handle* hB = (nelson_handle*)B.getDataPointer();
+        auto* hA = (nelson_handle*)A.getDataPointer();
+        auto* hB = (nelson_handle*)B.getDataPointer();
         if ((Astride == 1) && (Bstride == 1)) {
             for (indexType i = 0; i < Clen; i++) {
                 C[i] = (hA[i] == hB[i]) ? 1 : 0;
@@ -79,5 +79,5 @@ EqHandle(ArrayOf A, ArrayOf B)
     return ArrayOf(NLS_LOGICAL, Cdim, Cp);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

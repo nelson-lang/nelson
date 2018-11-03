@@ -98,5 +98,5 @@ ToCellStringAsColumn(stringVector vectorStr)
     return ToCellStringAs(vectorStr, true);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

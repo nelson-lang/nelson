@@ -19,7 +19,6 @@
 #include "DotRightDivide.hpp"
 #include "MatrixCheck.hpp"
 #include "Exception.hpp"
-
 //=============================================================================
 namespace Nelson {
 template <class T>
@@ -35,7 +34,7 @@ dividefullreal(indexType N, T* C, const T* A, int stride1, const T* B, int strid
         p += stride2;
     }
 }
-
+//=============================================================================
 template <class T>
 void
 complex_divide(T* c, const T* a, const T* b)
@@ -53,7 +52,7 @@ complex_divide(T* c, const T* a, const T* b)
             if (a[1] != 0 || a[0] != 0) {
                 abi = 1.;
             }
-            c[1] = c[0] = (float)(abi / abr);
+            c[1] = c[0] = static_cast<float>(abi / abr);
             return;
         }
         ratio = b[0] / b[1];
@@ -68,7 +67,7 @@ complex_divide(T* c, const T* a, const T* b)
     }
     c[0] = (T)(cr);
 }
-
+//=============================================================================
 template <class T>
 void
 dividefullcomplex(indexType N, T* C, const T* A, int stride1, const T* B, int stride2)
@@ -82,7 +81,7 @@ dividefullcomplex(indexType N, T* C, const T* A, int stride1, const T* B, int st
         p += stride2;
     }
 }
-
+//=============================================================================
 ArrayOf
 DotRightDivide(ArrayOf A, ArrayOf B)
 {
@@ -114,30 +113,32 @@ DotRightDivide(ArrayOf A, ArrayOf B)
     switch (B.getDataClass()) {
     case NLS_INT32:
         Cp = new_with_exception<int32>(Clen);
-        dividefullreal<int32>(Clen, (int32*)Cp, (int32*)A.getDataPointer(), Astride,
+        dividefullreal<int32>(Clen, static_cast<int32*>(Cp), (int32*)A.getDataPointer(), Astride,
             (int32*)B.getDataPointer(), Bstride);
         break;
     case NLS_SINGLE:
         Cp = new_with_exception<float>(Clen);
-        dividefullreal<float>(Clen, (float*)Cp, (float*)A.getDataPointer(), Astride,
+        dividefullreal<float>(Clen, static_cast<float*>(Cp), (float*)A.getDataPointer(), Astride,
             (float*)B.getDataPointer(), Bstride);
         break;
     case NLS_DOUBLE:
         Cp = new_with_exception<double>(Clen);
-        dividefullreal<double>(Clen, (double*)Cp, (double*)A.getDataPointer(), Astride,
+        dividefullreal<double>(Clen, static_cast<double*>(Cp), (double*)A.getDataPointer(), Astride,
             (double*)B.getDataPointer(), Bstride);
         break;
     case NLS_SCOMPLEX:
         Cp = new_with_exception<float>(Clen * 2);
-        dividefullcomplex<float>(Clen, (float*)Cp, (float*)A.getDataPointer(), Astride,
+        dividefullcomplex<float>(Clen, static_cast<float*>(Cp), (float*)A.getDataPointer(), Astride,
             (float*)B.getDataPointer(), Bstride);
         break;
     case NLS_DCOMPLEX:
         Cp = new_with_exception<double>(Clen * 2);
-        dividefullcomplex<double>(Clen, (double*)Cp, (double*)A.getDataPointer(), Astride,
-            (double*)B.getDataPointer(), Bstride);
+        dividefullcomplex<double>(Clen, static_cast<double*>(Cp), (double*)A.getDataPointer(),
+            Astride, (double*)B.getDataPointer(), Bstride);
         break;
     }
     return ArrayOf(B.getDataClass(), Cdim, Cp);
 }
-}
+//=============================================================================
+} // namespace Nelson
+//=============================================================================

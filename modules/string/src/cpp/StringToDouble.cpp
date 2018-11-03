@@ -22,7 +22,7 @@
 #include "StringToDouble.hpp"
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
-#include <math.h>
+#include <cmath>
 #include <limits>
 //=============================================================================
 namespace Nelson {
@@ -87,7 +87,7 @@ stringToDouble(const std::wstring& str, bool& wasConverted)
             int err = swscanf(STR.c_str(), STR2DOUBLE_MAX_DIGIT_FORMAT, &v);
             if (err == 1) {
                 double v2;
-                wchar_t* pEnd = NULL;
+                wchar_t* pEnd = nullptr;
                 v2 = wcstod(STR.c_str(), &pEnd);
                 if (pEnd != nullptr) {
                     if (wcslen(pEnd) == 0) {
@@ -110,5 +110,5 @@ stringToDouble(const std::wstring& str, bool& wasConverted)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

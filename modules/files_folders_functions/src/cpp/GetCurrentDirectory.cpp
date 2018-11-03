@@ -24,7 +24,7 @@ namespace Nelson {
 std::wstring
 GetCurrentDirectory()
 {
-    std::wstring currentdir = L"";
+    std::wstring currentdir;
     try {
         boost::filesystem::path pwd = boost::filesystem::current_path();
         currentdir = pwd.generic_wstring();
@@ -32,5 +32,5 @@ GetCurrentDirectory()
     }
     return currentdir;
 }
-}
+} // namespace Nelson
 //=============================================================================

@@ -40,8 +40,7 @@ Nelson::DynamicLinkGateway::dllib_fieldnamesBuiltin(
     if (param1.getHandleCategory() != DLLIB_CATEGORY_STR) {
         Error(_W("dllib handle expected."));
     }
-    DynamicLinkLibraryObject* objDllib
-        = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
+    auto* objDllib = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
     wstringVector fieldnames = objDllib->fieldnames();
     retval.push_back(ToCellStringAsColumn(fieldnames));
     return retval;

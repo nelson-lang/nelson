@@ -48,7 +48,7 @@ Nelson::ConstructorsGateway::eyeBuiltin(Evaluator* eval, int nLhs, const ArrayOf
             destClass = StringToClass(strarg);
             nRhs--;
         } else {
-            double n = (double)nRhs - 2.;
+            double n = static_cast<double>(nRhs) - 2.;
             if (n >= 0) {
                 indexType pos = argIn.size() - 2;
                 if (argIn[pos].isRowVectorCharacterArray()) {

@@ -35,7 +35,7 @@ Nelson::DynamicLinkGateway::dlcallBuiltin(Evaluator* eval, int nLhs, const Array
     if (param1.getHandleCategory() != DLSYM_CATEGORY_STR) {
         Error(_W("dlsym handle expected."));
     }
-    DynamicLinkSymbolObject* dlsymObj = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
+    auto* dlsymObj = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
     ArrayOfVector params;
     for (size_t l = 1; l < argIn.size(); l++) {
         params.push_back(argIn[l]);

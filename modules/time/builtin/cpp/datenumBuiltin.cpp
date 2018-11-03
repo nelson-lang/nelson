@@ -54,14 +54,14 @@ Nelson::TimeGateway::datenumBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 indexType len = param1.getLength();
                 if (len == 3) {
                     param1.promoteType(NLS_DOUBLE);
-                    double* ptrDouble = (double*)param1.getDataPointer();
+                    auto* ptrDouble = (double*)param1.getDataPointer();
                     year = ptrDouble[0];
                     month = ptrDouble[1];
                     day = ptrDouble[2];
                     res = DateNumber(year, month, day, hour, min, sec);
                 } else if (len == 6) {
                     param1.promoteType(NLS_DOUBLE);
-                    double* ptrDouble = (double*)param1.getDataPointer();
+                    auto* ptrDouble = (double*)param1.getDataPointer();
                     year = ptrDouble[0];
                     month = ptrDouble[1];
                     day = ptrDouble[2];

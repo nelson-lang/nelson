@@ -70,10 +70,10 @@ ArrayOf
 ArrayOf::emptyConstructor(Dimensions& dim, bool bIsSparse)
 {
     if (dim.getElementCount() == 0) {
-        return ArrayOf(NLS_DOUBLE, dim, NULL, bIsSparse);
-    } else {
-        Error(_W("Invalid dimensions."));
+        return ArrayOf(NLS_DOUBLE, dim, nullptr, bIsSparse);
     }
+    Error(_W("Invalid dimensions."));
+
     return ArrayOf();
 }
 //=============================================================================
@@ -82,12 +82,12 @@ ArrayOf::emptyConstructor(indexType m, indexType n, bool bIsSparse)
 {
     if (((m == 0) && (n == 0)) || ((m == 0) && (n != 0)) || ((m != 0) && (n == 0))) {
         Dimensions dim(m, n);
-        return ArrayOf(NLS_DOUBLE, dim, NULL, bIsSparse);
-    } else {
-        Error(_W("Invalid dimensions."));
+        return ArrayOf(NLS_DOUBLE, dim, nullptr, bIsSparse);
     }
+    Error(_W("Invalid dimensions."));
+
     return ArrayOf();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

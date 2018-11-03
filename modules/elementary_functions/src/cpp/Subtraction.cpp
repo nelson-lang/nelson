@@ -16,9 +16,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "Subtraction.hpp"
-#include "MatrixCheck.hpp"
+#include "lapack_eigen.hpp"
 #include <Eigen/Dense>
+#include "Subtraction.hpp"
+#include "IntegerOperations.hpp"
+#include "MatrixCheck.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
@@ -30,12 +32,21 @@ matrix_matrix_subtraction(Class classDestination, const ArrayOf& a, const ArrayO
     Dimensions dimsC = a.getDimensions();
     indexType Clen = dimsC.getElementCount();
     void* Cp = new_with_exception<T>(Clen, false);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
-        (T*)a.getDataPointer(), 1, Clen);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
-        (T*)b.getDataPointer(), 1, Clen);
-    matC = matA - matB;
+    if (classDestination >= NLS_UINT8 && classDestination <= NLS_INT64) {
+        T* C = (T*)Cp;
+        T* A = (T*)a.getDataPointer();
+        T* B = (T*)b.getDataPointer();
+        for (indexType k = 0; k < Clen; k++) {
+            C[k] = scalarInteger_minus_scalarInteger<T>(A[k], B[k]);
+        }
+    } else {
+        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
+        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
+            (T*)a.getDataPointer(), 1, Clen);
+        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
+            (T*)b.getDataPointer(), 1, Clen);
+        matC = matA - matB;
+    }
     return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
@@ -63,14 +74,29 @@ scalar_matrix_subtraction(Class classDestination, ArrayOf& a, ArrayOf& b, bool r
     Dimensions dimsC = b.getDimensions();
     indexType Clen = dimsC.getElementCount();
     void* Cp = new_with_exception<T>(Clen, false);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
-        (T*)b.getDataPointer(), 1, Clen);
-    T* ptrA = (T*)a.getDataPointer();
-    if (reverse) {
-        matC = matB.array() - ptrA[0];
+    if (classDestination >= NLS_UINT8 && classDestination <= NLS_INT64) {
+        T* ptrA = (T*)a.getDataPointer();
+        T* ptrB = (T*)b.getDataPointer();
+        T* ptrC = (T*)Cp;
+        if (reverse) {
+            for (indexType k = 0; k < Clen; k++) {
+                ptrC[k] = scalarInteger_minus_scalarInteger(ptrB[k], ptrA[0]);
+            }
+        } else {
+            for (indexType k = 0; k < Clen; k++) {
+                ptrC[k] = scalarInteger_minus_scalarInteger(ptrA[0], ptrB[k]);
+            }
+        }
     } else {
-        matC = ptrA[0] - matB.array();
+        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
+        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
+            (T*)b.getDataPointer(), 1, Clen);
+        T* ptrA = (T*)a.getDataPointer();
+        if (reverse) {
+            matC = matB.array() - ptrA[0];
+        } else {
+            matC = ptrA[0] - matB.array();
+        }
     }
     return ArrayOf(classDestination, dimsC, Cp, false);
 }
@@ -99,21 +125,40 @@ complex_scalar_matrix_subtraction(
 //=============================================================================
 template <class T>
 static void
-vector_subtraction(T* C, const T* A, indexType NA, const T* B, indexType NB, bool reverse = false)
+vector_subtraction(Class classDestination, T* C, const T* A, indexType NA, const T* B, indexType NB,
+    bool reverse = false)
 {
     indexType m = 0;
     if (reverse) {
-        for (indexType i = 0; i < NA; i++) {
-            for (indexType j = 0; j < NB; j++) {
-                C[m] = B[j] - A[i];
-                m++;
+        if (classDestination >= NLS_UINT8 && classDestination <= NLS_INT64) {
+            for (indexType i = 0; i < NA; i++) {
+                for (indexType j = 0; j < NB; j++) {
+                    C[m] = scalarInteger_minus_scalarInteger<T>(B[j], A[i]);
+                    m++;
+                }
+            }
+        } else {
+            for (indexType i = 0; i < NA; i++) {
+                for (indexType j = 0; j < NB; j++) {
+                    C[m] = B[j] - A[i];
+                    m++;
+                }
             }
         }
     } else {
-        for (indexType i = 0; i < NA; i++) {
-            for (indexType j = 0; j < NB; j++) {
-                C[m] = A[i] - B[j];
-                m++;
+        if (classDestination >= NLS_UINT8 && classDestination <= NLS_INT64) {
+            for (indexType i = 0; i < NA; i++) {
+                for (indexType j = 0; j < NB; j++) {
+                    C[m] = scalarInteger_minus_scalarInteger<T>(A[i], B[j]);
+                    m++;
+                }
+            }
+        } else {
+            for (indexType i = 0; i < NA; i++) {
+                for (indexType j = 0; j < NB; j++) {
+                    C[m] = A[i] - B[j];
+                    m++;
+                }
             }
         }
     }
@@ -157,20 +202,40 @@ vector_matrix_subtraction(
     void* Cp = new_with_exception<T>(Clen, false);
     T* C = (T*)Cp;
     if (reverse) {
-        for (indexType i = 0; i < dimsC.getRows(); i++) {
-            for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * a.getDimensions().getRows();
-                C[m] = ptrB[m] - ptrA[q];
+        if (classDestination >= NLS_UINT8 && classDestination <= NLS_INT64) {
+            for (indexType i = 0; i < dimsC.getRows(); i++) {
+                for (indexType j = 0; j < dimsC.getColumns(); j++) {
+                    indexType m = i + j * a.getDimensions().getRows();
+                    C[m] = scalarInteger_minus_scalarInteger(ptrB[m], ptrA[q]);
+                }
+                q++;
             }
-            q++;
+        } else {
+            for (indexType i = 0; i < dimsC.getRows(); i++) {
+                for (indexType j = 0; j < dimsC.getColumns(); j++) {
+                    indexType m = i + j * a.getDimensions().getRows();
+                    C[m] = ptrB[m] - ptrA[q];
+                }
+                q++;
+            }
         }
     } else {
-        for (indexType i = 0; i < dimsC.getRows(); i++) {
-            for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * a.getDimensions().getRows();
-                C[m] = ptrA[q] - ptrB[m];
+        if (classDestination >= NLS_UINT8 && classDestination <= NLS_INT64) {
+            for (indexType i = 0; i < dimsC.getRows(); i++) {
+                for (indexType j = 0; j < dimsC.getColumns(); j++) {
+                    indexType m = i + j * a.getDimensions().getRows();
+                    C[m] = scalarInteger_minus_scalarInteger(ptrA[q], ptrB[m]);
+                }
+                q++;
             }
-            q++;
+        } else {
+            for (indexType i = 0; i < dimsC.getRows(); i++) {
+                for (indexType j = 0; j < dimsC.getColumns(); j++) {
+                    indexType m = i + j * a.getDimensions().getRows();
+                    C[m] = ptrA[q] - ptrB[m];
+                }
+                q++;
+            }
         }
     }
     return ArrayOf(classDestination, dimsC, Cp, false);
@@ -223,17 +288,35 @@ vector_column_subtraction(
     void* Cp = new_with_exception<T>(Clen, false);
     T* C = (T*)Cp;
     if (reverse) {
-        for (indexType i = 0; i < dimsC.getRows(); i++) {
-            for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * b.getDimensions().getRows();
-                C[m] = ptrB[m] - ptrA[j];
+        if (classDestination >= NLS_UINT8 && classDestination <= NLS_INT64) {
+            for (indexType i = 0; i < dimsC.getRows(); i++) {
+                for (indexType j = 0; j < dimsC.getColumns(); j++) {
+                    indexType m = i + j * b.getDimensions().getRows();
+                    C[m] = scalarInteger_minus_scalarInteger<T>(ptrB[m], ptrA[j]);
+                }
+            }
+        } else {
+            for (indexType i = 0; i < dimsC.getRows(); i++) {
+                for (indexType j = 0; j < dimsC.getColumns(); j++) {
+                    indexType m = i + j * b.getDimensions().getRows();
+                    C[m] = ptrB[m] - ptrA[j];
+                }
             }
         }
     } else {
-        for (indexType i = 0; i < dimsC.getRows(); i++) {
-            for (indexType j = 0; j < dimsC.getColumns(); j++) {
-                indexType m = i + j * b.getDimensions().getRows();
-                C[m] = ptrA[j] - ptrB[m];
+        if (classDestination >= NLS_UINT8 && classDestination <= NLS_INT64) {
+            for (indexType i = 0; i < dimsC.getRows(); i++) {
+                for (indexType j = 0; j < dimsC.getColumns(); j++) {
+                    indexType m = i + j * b.getDimensions().getRows();
+                    C[m] = scalarInteger_minus_scalarInteger<T>(ptrA[j], ptrB[m]);
+                }
+            }
+        } else {
+            for (indexType i = 0; i < dimsC.getRows(); i++) {
+                for (indexType j = 0; j < dimsC.getColumns(); j++) {
+                    indexType m = i + j * b.getDimensions().getRows();
+                    C[m] = ptrA[j] - ptrB[m];
+                }
             }
         }
     }
@@ -281,12 +364,15 @@ subtraction(Class classDestination, ArrayOf a, ArrayOf b)
     if (a.isScalar() && b.isScalar()) {
         T* ptrA = (T*)a.getDataPointer();
         T* ptrB = (T*)b.getDataPointer();
-        T res = ptrA[0] - ptrB[0];
-        if (classDestination == NLS_DOUBLE) {
-            return ArrayOf::doubleConstructor((double)res);
+        void* Cp = new_with_exception<T>(1, false);
+        T* C = (T*)Cp;
+        if (classDestination >= NLS_UINT8 && classDestination <= NLS_INT64) {
+            C[0] = scalarInteger_minus_scalarInteger<T>(ptrA[0], ptrB[0]);
         } else {
-            return ArrayOf::singleConstructor((single)res);
+            C[0] = ptrA[0] - ptrB[0];
         }
+        Dimensions dimsC(1, 1);
+        return ArrayOf(classDestination, dimsC, Cp, false);
     }
     Dimensions dimsA = a.getDimensions();
     Dimensions dimsB = b.getDimensions();
@@ -322,7 +408,7 @@ subtraction(Class classDestination, ArrayOf a, ArrayOf b)
                         std::max(dimsA.getMax(), dimsB.getMax()));
                     indexType Clen = dimsC.getElementCount();
                     Cp = new_with_exception<T>(Clen, false);
-                    vector_subtraction<T>((T*)Cp, (const T*)a.getDataPointer(),
+                    vector_subtraction<T>(classDestination, (T*)Cp, (const T*)a.getDataPointer(),
                         dimsA.getElementCount(), (const T*)b.getDataPointer(),
                         dimsB.getElementCount());
                 } else if (a.isColumnVector() && b.isRowVector()) {
@@ -330,7 +416,7 @@ subtraction(Class classDestination, ArrayOf a, ArrayOf b)
                         std::max(dimsA.getMax(), dimsB.getMax()));
                     indexType Clen = dimsC.getElementCount();
                     Cp = new_with_exception<T>(Clen, false);
-                    vector_subtraction((T*)Cp, (const T*)b.getDataPointer(),
+                    vector_subtraction(classDestination, (T*)Cp, (const T*)b.getDataPointer(),
                         dimsB.getElementCount(), (const T*)a.getDataPointer(),
                         dimsA.getElementCount(), true);
                 } else if ((a.isRowVector() && b.isRowVector())
@@ -481,6 +567,34 @@ single_minus_single(ArrayOf a, ArrayOf b)
         return res;
     }
     return subtraction<single>(NLS_SINGLE, a, b);
+}
+//=============================================================================
+ArrayOf
+integer_minus_integer(ArrayOf a, ArrayOf b)
+{
+    Class classA = a.getDataClass();
+    switch (classA) {
+    case NLS_INT8:
+        return subtraction<int8>(NLS_INT8, a, b);
+    case NLS_UINT8:
+        return subtraction<uint8>(NLS_UINT8, a, b);
+    case NLS_INT16:
+        return subtraction<int16>(NLS_INT16, a, b);
+    case NLS_UINT16:
+        return subtraction<uint16>(NLS_UINT16, a, b);
+    case NLS_INT32:
+        return subtraction<int32>(NLS_INT32, a, b);
+    case NLS_UINT32:
+        return subtraction<uint32>(NLS_UINT32, a, b);
+    case NLS_INT64:
+        return subtraction<int64>(NLS_INT64, a, b);
+    case NLS_UINT64:
+        return subtraction<uint64>(NLS_UINT64, a, b);
+    default:
+        Error(_W("Integer type not managed."));
+        break;
+    }
+    return ArrayOf();
 }
 //=============================================================================
 } // namespace Nelson

@@ -34,7 +34,7 @@ Nelson::ElementaryFunctionsGateway::numelBuiltin(
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    retval.push_back(ArrayOf::doubleConstructor((double)param1.numel()));
+    retval.push_back(ArrayOf::doubleConstructor(static_cast<double>(param1.numel())));
     return retval;
 }
 //=============================================================================

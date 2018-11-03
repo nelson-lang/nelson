@@ -29,11 +29,11 @@ invokeCom(int autoType, VARIANT* pvResult, std::wstring& errorMessage, IDispatch
         errorMessage = _W("IDispatch not defined.");
         return false;
     }
-    DISPPARAMS dp = { NULL, NULL, 0, 0 };
+    DISPPARAMS dp = { nullptr, nullptr, 0, 0 };
     DISPID dispidNamed = DISPID_PROPERTYPUT;
     DISPID dispID;
     HRESULT hr;
-    LPOLESTR name = W2OLE((wchar_t*)propertyName.c_str());
+    LPOLESTR name = W2OLE(const_cast<wchar_t*>(propertyName.c_str()));
     hr = pDisp->GetIDsOfNames(IID_NULL, &name, 1, LOCALE_USER_DEFAULT, &dispID);
     if (FAILED(hr)) {
         errorMessage = _W("method not found.");
@@ -47,8 +47,8 @@ invokeCom(int autoType, VARIANT* pvResult, std::wstring& errorMessage, IDispatch
     }
     bool invokeFails = false;
     try {
-        hr = pDisp->Invoke(dispID, IID_NULL, LOCALE_SYSTEM_DEFAULT, (WORD)autoType, &dp, pvResult,
-            &excepinfo, NULL);
+        hr = pDisp->Invoke(dispID, IID_NULL, LOCALE_SYSTEM_DEFAULT, static_cast<WORD>(autoType),
+            &dp, pvResult, &excepinfo, nullptr);
     } catch (const std::runtime_error) {
         invokeFails = true;
     }

@@ -69,8 +69,8 @@
 // clang-format off
 //bison -L C -k -o NelSonParser.cpp NelSonParser.yxx
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include "AST.hpp"
 #include "AstManager.hpp"
 #include "Evaluator.hpp"
@@ -87,7 +87,7 @@ static char msgBuffer[MSGBUFLEN];
 
 #include "LexerInterface.hpp"
 
-extern int yylex(void);
+extern int yylex();
 
 extern int yydebug;
 
@@ -123,16 +123,16 @@ namespace Nelson {
   }
 
   void yyerror(const char *s) {
-     return;
-  }
+      }
 
   std::string decodeline(ParseRHS val) {
     int tokenID;
     int linenumber;
-    if (val.isToken) 
+    if (val.isToken) { 
       tokenID = val.v.i;
-    else
+    } else {
       tokenID = val.v.p->context();
+}
     linenumber = tokenID & 0xFFFF;
     char buffer[IDENTIFIER_LENGTH_MAX + 1];
     sprintf(buffer,"%d",linenumber);
@@ -142,22 +142,24 @@ namespace Nelson {
   int yyxpt(std::string xStr, ParseRHS val) {
     int tokenID;
     int linenumber, colnumber;
-    if (val.isToken) 
+    if (val.isToken) { 
       tokenID = val.v.i;
-    else
+    } else {
       tokenID = val.v.p->context();
+}
     linenumber = tokenID & 0xFFFF;
     colnumber = tokenID >> 16;
-    if (!interactiveMode)
+    if (!interactiveMode) {
       snprintf(msgBuffer,MSGBUFLEN,
       _("Expecting %s\n\tat line %d, column %d of file %s").c_str(),
        xStr.c_str(),linenumber,colnumber,getParserFilenameU().c_str());
-    else
+    } else {
       snprintf(msgBuffer,MSGBUFLEN,_("Expecting %s").c_str(),xStr.c_str());
+}
     Error(msgBuffer);
     return 0;
   }
-}
+}  // namespace Nelson
 
 using namespace Nelson;
 
@@ -253,7 +255,7 @@ typedef int YYSTYPE;
 
 extern YYSTYPE yylval;
 
-int yyparse (void);
+int yyparse ();
 
 
 
@@ -268,25 +270,25 @@ int yyparse (void);
 #ifdef YYTYPE_UINT8
 typedef YYTYPE_UINT8 yytype_uint8;
 #else
-typedef unsigned char yytype_uint8;
+using yytype_uint8 = unsigned char;
 #endif
 
 #ifdef YYTYPE_INT8
 typedef YYTYPE_INT8 yytype_int8;
 #else
-typedef signed char yytype_int8;
+using yytype_int8 = signed char;
 #endif
 
 #ifdef YYTYPE_UINT16
 typedef YYTYPE_UINT16 yytype_uint16;
 #else
-typedef unsigned short int yytype_uint16;
+using yytype_uint16 = unsigned short;
 #endif
 
 #ifdef YYTYPE_INT16
 typedef YYTYPE_INT16 yytype_int16;
 #else
-typedef short int yytype_int16;
+using yytype_int16 = short;
 #endif
 
 #ifndef YYSIZE_T
@@ -1824,8 +1826,9 @@ static void
 yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep)
 {
   YYUSE (yyvaluep);
-  if (!yymsg)
+  if (!yymsg) {
     yymsg = "Deleting";
+}
   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
 
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
@@ -1850,7 +1853,7 @@ int yynerrs;
 `----------*/
 
 int
-yyparse (void)
+yyparse ()
 {
     int yystate;
     /* Number of tokens to shift before error messages enabled.  */
@@ -1976,14 +1979,16 @@ yyparse (void)
       YYDPRINTF ((stderr, "Stack size increased to %lu\n",
                   (unsigned long int) yystacksize));
 
-      if (yyss + yystacksize - 1 <= yyssp)
+      if (yyss + yystacksize - 1 <= yyssp) {
         YYABORT;
+}
     }
 
   YYDPRINTF ((stderr, "Entering state %d\n", yystate));
 
-  if (yystate == YYFINAL)
+  if (yystate == YYFINAL) {
     YYACCEPT;
+}
 
   goto yybackup;
 
@@ -1997,8 +2002,9 @@ yybackup:
 
   /* First try to decide what to do without reference to lookahead token.  */
   yyn = yypact[yystate];
-  if (yypact_value_is_default (yyn))
+  if (yypact_value_is_default (yyn)) {
     goto yydefault;
+}
 
   /* Not known => get a lookahead token if don't already have one.  */
 
@@ -2023,21 +2029,24 @@ yybackup:
   /* If the proper action on seeing token YYTOKEN is to reduce or to
      detect an error, take that action.  */
   yyn += yytoken;
-  if (yyn < 0 || YYLAST < yyn || yycheck[yyn] != yytoken)
+  if (yyn < 0 || YYLAST < yyn || yycheck[yyn] != yytoken) {
     goto yydefault;
+}
   yyn = yytable[yyn];
   if (yyn <= 0)
     {
-      if (yytable_value_is_error (yyn))
+      if (yytable_value_is_error (yyn)) {
         goto yyerrlab;
+}
       yyn = -yyn;
       goto yyreduce;
     }
 
   /* Count tokens shifted since error; after three, turn off error
      status.  */
-  if (yyerrstatus)
+  if (yyerrstatus) {
     yyerrstatus--;
+}
 
   /* Shift the lookahead token.  */
   YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
@@ -2058,8 +2067,9 @@ yybackup:
 `-----------------------------------------------------------*/
 yydefault:
   yyn = yydefact[yystate];
-  if (yyn == 0)
+  if (yyn == 0) {
     goto yyerrlab;
+}
   goto yyreduce;
 
 
@@ -2099,7 +2109,7 @@ yyreduce:
   case 6:
 #line 155 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
     {
-     MacroFunctionDef *r = new MacroFunctionDef();
+     auto *r = new MacroFunctionDef();
    if ((yyvsp[-6]).v.p)
    {
     r->returnVals = (yyvsp[-6]).v.p->toStringList();
@@ -2116,7 +2126,7 @@ yyreduce:
   case 7:
 #line 167 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
     {
-     MacroFunctionDef *r = new MacroFunctionDef();
+     auto *r = new MacroFunctionDef();
      r->name = (yyvsp[-5]).v.p->text;
      r->arguments = (yyvsp[-3]).v.p->toStringList();
      r->code = (yyvsp[0]).v.p;
@@ -2129,7 +2139,7 @@ yyreduce:
   case 8:
 #line 175 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
     {
-     MacroFunctionDef *r = new MacroFunctionDef();
+     auto *r = new MacroFunctionDef();
    if ((yyvsp[-3]).v.p)
    {
     r->returnVals = (yyvsp[-3]).v.p->toStringList();
@@ -2145,7 +2155,7 @@ yyreduce:
   case 9:
 #line 186 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
     {
-     MacroFunctionDef *r = new MacroFunctionDef();
+     auto *r = new MacroFunctionDef();
      r->name = (yyvsp[-2]).v.p->text;
      r->code = (yyvsp[0]).v.p;
      r->fileName = getParserFilenameW();
@@ -2157,7 +2167,7 @@ yyreduce:
   case 10:
 #line 193 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
     {
-     MacroFunctionDef *r = new MacroFunctionDef();
+     auto *r = new MacroFunctionDef();
    if ((yyvsp[-5]).v.p)
    {
     r->returnVals = (yyvsp[-5]).v.p->toStringList();
@@ -2173,7 +2183,7 @@ yyreduce:
   case 11:
 #line 204 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
     {
-     MacroFunctionDef *r = new MacroFunctionDef();
+     auto *r = new MacroFunctionDef();
      r->name = (yyvsp[-4]).v.p->text;
      r->code = (yyvsp[0]).v.p;
      r->fileName = getParserFilenameW();
@@ -2191,7 +2201,7 @@ yyreduce:
   case 13:
 #line 212 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
     {yyxpt(_("argument list or statement list after identifier '") + 
-  (yyvsp[-1]).v.p->text.c_str() + "'",(yyvsp[-1]));}
+  (yyvsp[-1]).v.p->text + "'",(yyvsp[-1]));}
 #line 2213 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp" /* yacc.c:1646  */
     break;
 
@@ -2216,7 +2226,7 @@ yyreduce:
   case 17:
 #line 217 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
     {yyxpt(_("argument list or statement list following function name :") + 
-  (yyvsp[-1]).v.p->text.c_str(), (yyvsp[-1]));}
+  (yyvsp[-1]).v.p->text, (yyvsp[-1]));}
 #line 2238 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp" /* yacc.c:1646  */
     break;
 
@@ -2296,7 +2306,7 @@ yyreduce:
 #line 245 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
     {
   (yyval).v.p = (yyvsp[0]).v.p;
-  char *b = (char*) malloc((yyvsp[0]).v.p->text.size() + 2);
+  char *b = static_cast<char*>(malloc((yyvsp[0]).v.p->text.size() + 2));
   b[0] = '&';
   strcpy(b+1, (yyvsp[0]).v.p->text.c_str());
   (yyval).v.p->text = b;
@@ -2320,7 +2330,7 @@ yyreduce:
   case 36:
 #line 262 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
     {
-        (yyval).v.p = allocateAbstractSyntaxTree(OP_QSTATEMENT,NULL,(yyvsp[0]).v.i);
+        (yyval).v.p = allocateAbstractSyntaxTree(OP_QSTATEMENT,nullptr,(yyvsp[0]).v.i);
       (yyval).v.p->down = (yyvsp[-1]).v.p;
    }
 #line 2344 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp" /* yacc.c:1646  */
@@ -2329,7 +2339,7 @@ yyreduce:
   case 37:
 #line 266 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
     {
-      (yyval).v.p = allocateAbstractSyntaxTree(OP_RSTATEMENT,NULL,(yyvsp[0]).v.i);
+      (yyval).v.p = allocateAbstractSyntaxTree(OP_RSTATEMENT,nullptr,(yyvsp[0]).v.i);
             (yyval).v.p->down = (yyvsp[-1]).v.p;
    }
 #line 2353 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp" /* yacc.c:1646  */
@@ -2338,7 +2348,7 @@ yyreduce:
   case 38:
 #line 270 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
     {
-      (yyval).v.p = allocateAbstractSyntaxTree(OP_RSTATEMENT,NULL,(yyvsp[0]).v.i);
+      (yyval).v.p = allocateAbstractSyntaxTree(OP_RSTATEMENT,nullptr,(yyvsp[0]).v.i);
       (yyval).v.p->down = (yyvsp[-1]).v.p;
    }
 #line 2362 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp" /* yacc.c:1646  */
@@ -2415,7 +2425,8 @@ yyreduce:
     { 
     (yyval).v.p = (yyvsp[-3]).v.p;
     (yyval).v.p->addChild((yyvsp[-2]).v.p);
-    if ((yyvsp[-1]).v.p != nullptr) (yyval).v.p->addChild((yyvsp[-1]).v.p);
+    if ((yyvsp[-1]).v.p != nullptr) { (yyval).v.p->addChild((yyvsp[-1]).v.p);
+}
   }
 #line 2438 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp" /* yacc.c:1646  */
     break;
@@ -2443,8 +2454,10 @@ yyreduce:
     {
     (yyval).v.p = (yyvsp[-5]).v.p;
     (yyval).v.p->addChild((yyvsp[-4]).v.p); 
-    if ((yyvsp[-2]).v.p != nullptr) (yyval).v.p->addChild((yyvsp[-2]).v.p); 
-    if ((yyvsp[-1]).v.p != nullptr) (yyval).v.p->addChild((yyvsp[-1]).v.p);
+    if ((yyvsp[-2]).v.p != nullptr) { (yyval).v.p->addChild((yyvsp[-2]).v.p); 
+}
+    if ((yyvsp[-1]).v.p != nullptr) { (yyval).v.p->addChild((yyvsp[-1]).v.p);
+}
   }
 #line 2467 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp" /* yacc.c:1646  */
     break;
@@ -2617,8 +2630,10 @@ yyreduce:
     {
     (yyval).v.p = (yyvsp[-4]).v.p;
     (yyval).v.p->addChild((yyvsp[-3]).v.p);
-    if ((yyvsp[-2]).v.p != nullptr) (yyval).v.p->addChild((yyvsp[-2]).v.p); 
-    if ((yyvsp[-1]).v.p != nullptr) (yyval).v.p->addChild((yyvsp[-1]).v.p);
+    if ((yyvsp[-2]).v.p != nullptr) { (yyval).v.p->addChild((yyvsp[-2]).v.p); 
+}
+    if ((yyvsp[-1]).v.p != nullptr) { (yyval).v.p->addChild((yyvsp[-1]).v.p);
+}
   }
 #line 2641 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp" /* yacc.c:1646  */
     break;
@@ -2746,7 +2761,7 @@ yyreduce:
   case 125:
 #line 494 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
     {
-    (yyvsp[0]).v.p->addChild(allocateAbstractSyntaxTree(OP_PARENS,NULL,-1));
+    (yyvsp[0]).v.p->addChild(allocateAbstractSyntaxTree(OP_PARENS,nullptr,-1));
     (yyval).v.p = allocateAbstractSyntaxTree(OP_MULTICALL,(yyvsp[-3]).v.p,(yyvsp[0]).v.p,(yyvsp[-4]).v.i);
   }
 #line 2770 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp" /* yacc.c:1646  */
@@ -3132,7 +3147,7 @@ yyreduce:
 
   case 194:
 #line 572 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
-    {(yyval).v.p = allocateAbstractSyntaxTree(OP_EMPTY,NULL,(yyvsp[-1]).v.i);}
+    {(yyval).v.p = allocateAbstractSyntaxTree(OP_EMPTY,nullptr,(yyvsp[-1]).v.i);}
 #line 3154 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp" /* yacc.c:1646  */
     break;
 
@@ -3162,7 +3177,7 @@ yyreduce:
 
   case 199:
 #line 577 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
-    {(yyval).v.p = allocateAbstractSyntaxTree(OP_EMPTY_CELL,NULL,(yyvsp[-1]).v.i);}
+    {(yyval).v.p = allocateAbstractSyntaxTree(OP_EMPTY_CELL,nullptr,(yyvsp[-1]).v.i);}
 #line 3184 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp" /* yacc.c:1646  */
     break;
 
@@ -3186,7 +3201,7 @@ yyreduce:
 
   case 204:
 #line 585 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
-    {(yyval).v.p = allocateAbstractSyntaxTree(OP_PARENS,NULL,(yyvsp[-1]).v.i); }
+    {(yyval).v.p = allocateAbstractSyntaxTree(OP_PARENS,nullptr,(yyvsp[-1]).v.i); }
 #line 3208 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp" /* yacc.c:1646  */
     break;
 
@@ -3222,7 +3237,7 @@ yyreduce:
 
   case 211:
 #line 594 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
-    {(yyval).v.p = allocateAbstractSyntaxTree(OP_ALL,NULL,(yyvsp[0]).v.i);}
+    {(yyval).v.p = allocateAbstractSyntaxTree(OP_ALL,nullptr,(yyvsp[0]).v.i);}
 #line 3244 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.cpp" /* yacc.c:1646  */
     break;
 
@@ -3322,10 +3337,11 @@ yyreduce:
   yyn = yyr1[yyn];
 
   yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;
-  if (0 <= yystate && yystate <= YYLAST && yycheck[yystate] == *yyssp)
+  if (0 <= yystate && yystate <= YYLAST && yycheck[yystate] == *yyssp) {
     yystate = yytable[yystate];
-  else
+  } else {
     yystate = yydefgoto[yyn - YYNTOKENS];
+}
 
   goto yynewstate;
 
@@ -3388,8 +3404,9 @@ yyerrlab:
       if (yychar <= YYEOF)
         {
           /* Return failure if at end of input.  */
-          if (yychar == YYEOF)
+          if (yychar == YYEOF) {
             YYABORT;
+}
         }
       else
         {
@@ -3412,8 +3429,9 @@ yyerrorlab:
   /* Pacify compilers like GCC when the user code never invokes
      YYERROR and the label yyerrorlab therefore never appears in user
      code.  */
-  if (/*CONSTCOND*/ 0)
+  if (/*CONSTCOND*/ false) {
      goto yyerrorlab;
+}
 
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYERROR.  */
@@ -3439,14 +3457,16 @@ yyerrlab1:
           if (0 <= yyn && yyn <= YYLAST && yycheck[yyn] == YYTERROR)
             {
               yyn = yytable[yyn];
-              if (0 < yyn)
+              if (0 < yyn) {
                 break;
+}
             }
         }
 
       /* Pop the current state because it cannot handle the error token.  */
-      if (yyssp == yyss)
+      if (yyssp == yyss) {
         YYABORT;
+}
 
 
       yydestruct ("Error: popping",
@@ -3512,8 +3532,9 @@ yyreturn:
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow
-  if (yyss != yyssa)
+  if (yyss != yyssa) {
     YYSTACK_FREE (yyss);
+}
 #endif
 #if YYERROR_VERBOSE
   if (yymsg != yymsgbuf)
@@ -3546,10 +3567,11 @@ namespace Nelson {
   }
   
   ParserState parseState() {
-    if (mainAST != nullptr) 
+    if (mainAST != nullptr) { 
       return ScriptBlock;
-    else
+    }  {
       return FuncDef;
+}
   }
   
   ParserState parseString(const std::string &txt) {
@@ -3570,5 +3592,5 @@ namespace Nelson {
     setParserFilename("");
     return pstate;
   }
-}
+}  // namespace Nelson
 // clang-format on

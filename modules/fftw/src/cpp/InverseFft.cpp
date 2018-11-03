@@ -59,9 +59,9 @@ ArrayOf
 InverseFft(ArrayOf X)
 {
     indexType dim = computeDim(X);
-    indexType n = X.getDimensionLength((int)dim);
+    indexType n = X.getDimensionLength(static_cast<int>(dim));
     return InverseFft(X, n, dim);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

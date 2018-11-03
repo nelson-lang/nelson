@@ -35,5 +35,5 @@ StringToFunctionHandle(Evaluator* eval, std::wstring functionName)
     return functionID;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

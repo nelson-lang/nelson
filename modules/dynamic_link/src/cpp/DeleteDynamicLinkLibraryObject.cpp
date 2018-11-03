@@ -29,15 +29,15 @@ DeleteDynamicLinkLibraryObject(ArrayOf A)
     if (A.isHandle()) {
         if (!A.isEmpty()) {
             Dimensions dims = A.getDimensions();
-            nelson_handle* qp = (nelson_handle*)A.getDataPointer();
-            for (size_t k = 0; k < (size_t)dims.getElementCount(); k++) {
+            auto* qp = (nelson_handle*)A.getDataPointer();
+            for (size_t k = 0; k < static_cast<size_t>(dims.getElementCount()); k++) {
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
                     if (hlObj->getCategory() != DLLIB_CATEGORY_STR) {
                         Error(_W("dllib handle expected."));
                     }
-                    DynamicLinkLibraryObject* obj = (DynamicLinkLibraryObject*)hlObj;
+                    auto* obj = (DynamicLinkLibraryObject*)hlObj;
                     delete obj;
                     HandleManager::getInstance()->removeHandle(hl);
                     res = true;
@@ -50,5 +50,5 @@ DeleteDynamicLinkLibraryObject(ArrayOf A)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

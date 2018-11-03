@@ -32,42 +32,42 @@ ToUpper(const ArrayOf& A, bool& needToOverload)
     needToOverload = false;
     if (A.isRowVectorCharacterArray()) {
         return ArrayOf::characterArrayConstructor(ToUpper(A.getContentAsWideString()));
-    } else if (A.getDataClass() == NLS_CELL_ARRAY) {
+    }
+    if (A.getDataClass() == NLS_CELL_ARRAY) {
         if (A.isEmpty()) {
             return ArrayOf(A);
-        } else {
-            res = ArrayOf(A);
-            res.ensureSingleOwner();
-            ArrayOf* element = (ArrayOf*)(res.getDataPointer());
-            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-                if (!element[k].isRowVectorCharacterArray()) {
-                    Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
-                }
+        }
+        res = ArrayOf(A);
+        res.ensureSingleOwner();
+        auto* element = (ArrayOf*)(res.getDataPointer());
+        for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+            if (!element[k].isRowVectorCharacterArray()) {
+                Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
+            }
+            element[k]
+                = ArrayOf::characterArrayConstructor(ToUpper(element[k].getContentAsWideString()));
+        }
+        return res;
+    }
+    if (A.getDataClass() == NLS_STRING_ARRAY) {
+        if (A.isEmpty()) {
+            return ArrayOf(A);
+        }
+        res = ArrayOf(A);
+        res.ensureSingleOwner();
+        auto* element = (ArrayOf*)(res.getDataPointer());
+        for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+            if (!element[k].isRowVectorCharacterArray()) {
+                element[k] = ArrayOf::emptyConstructor();
+            } else {
                 element[k] = ArrayOf::characterArrayConstructor(
                     ToUpper(element[k].getContentAsWideString()));
             }
-            return res;
         }
-    } else if (A.getDataClass() == NLS_STRING_ARRAY) {
-        if (A.isEmpty()) {
-            return ArrayOf(A);
-        } else {
-            res = ArrayOf(A);
-            res.ensureSingleOwner();
-            ArrayOf* element = (ArrayOf*)(res.getDataPointer());
-            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
-                if (!element[k].isRowVectorCharacterArray()) {
-                    element[k] = ArrayOf::emptyConstructor();
-                } else {
-                    element[k] = ArrayOf::characterArrayConstructor(
-                        ToUpper(element[k].getContentAsWideString()));
-                }
-            }
-            return res;
-        }
-    } else {
-        needToOverload = true;
+        return res;
     }
+    needToOverload = true;
+
     return res;
 }
 //=============================================================================
@@ -77,5 +77,5 @@ ToUpper(const std::wstring& A)
     return boost::to_upper_copy(A);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -20,9 +20,9 @@
 #include "characters_encoding.hpp"
 #include <boost/algorithm/string.hpp>
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 //=============================================================================
 #ifdef _MSC_VER
 #define strdup _strdup

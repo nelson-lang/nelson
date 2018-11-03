@@ -32,7 +32,7 @@ namespace Nelson {
 static std::wstring
 getCompressionMethodAsString(int format)
 {
-    std::wstring compressionMethod(L"");
+    std::wstring compressionMethod;
     switch (format & SF_FORMAT_TYPEMASK) {
     case SF_FORMAT_WAV:
         compressionMethod = L"wav";
@@ -278,5 +278,5 @@ AudioFileInfo(std::wstring filename, std::wstring& errorMessage)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

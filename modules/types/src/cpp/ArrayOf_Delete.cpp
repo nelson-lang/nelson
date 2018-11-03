@@ -42,7 +42,8 @@ ArrayOf::deleteVectorSubset(ArrayOf& arg)
             indexType rows = getDimensionLength(0);
             indexType cols = getDimensionLength(1);
             void* cp = DeleteSparseMatrixVectorSubsetDynamicFunction(dp->dataClass, rows, cols,
-                dp->getData(), (const indexType*)arg.getDataPointer(), arg.getLength());
+                dp->getData(), static_cast<const indexType*>(arg.getDataPointer()),
+                arg.getLength());
             Dimensions newdim;
             newdim[0] = rows;
             newdim[1] = cols;
@@ -128,7 +129,7 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
         // the index list matches our number of dimensions.  We extend
         // it using 1 references, and throw an exception if there are
         // more indices than our dimension set.
-        for (i = 0; i < (indexType)args.size(); i++) {
+        for (i = 0; i < static_cast<indexType>(args.size()); i++) {
             if (args[i].isRowVectorCharacterArray()) {
                 std::wstring str = args[i].getContentAsWideString();
                 if (str != L":") {
@@ -141,14 +142,15 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
         }
         // First, add enough "1" singleton references to pad the
         // index set out to the size of our variable.
-        if ((indexType)args.size() < dp->dimensions.getLength())
+        if (static_cast<indexType>(args.size()) < dp->dimensions.getLength()) {
             for (i = args.size(); i < dp->dimensions.getLength(); i++) {
                 args.push_back(ArrayOf::uint32Constructor(1));
             }
+        }
         // Now cycle through indices one at a time.  Count
         // the number of non-covering indices.  Also track the
         // location of the last-occurring non-covering index.
-        for (i = 0; i < (indexType)args.size(); i++) {
+        for (i = 0; i < static_cast<indexType>(args.size()); i++) {
             qp = args[i];
             // Get a binary representation of each index over the range
             // [0,dimensions[i]-1]
@@ -202,7 +204,7 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
             // singletonDimension by counting the number of "false" entries in
             // deletionMap.
             int newSize = 0;
-            for (size_t i = 0; i < (size_t)M; i++) {
+            for (size_t i = 0; i < static_cast<size_t>(M); i++) {
                 if (!deletionMap[i]) {
                     newSize++;
                 }
@@ -286,12 +288,11 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
             for (size_t k = 0; k < d.getLength(); ++k) {
                 if (m == d[k]) {
                     break;
-                } else {
-                    idxm++;
                 }
+                idxm++;
             }
             newDims[idxm] = m;
-            dp = dp->putData(dp->dataClass, newDims, NULL, dp->sparse, dp->fieldNames);
+            dp = dp->putData(dp->dataClass, newDims, nullptr, dp->sparse, dp->fieldNames);
         }
     } catch (const Exception&) {
         delete[] deletionMap;

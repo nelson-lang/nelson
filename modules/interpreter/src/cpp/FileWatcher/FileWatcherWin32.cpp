@@ -63,7 +63,7 @@ namespace FW {
     void CALLBACK WatchCallback(DWORD dwErrorCode, DWORD dwNumberOfBytesTransfered, LPOVERLAPPED lpOverlapped)
     {
         PFILE_NOTIFY_INFORMATION pNotify;
-        WatchStruct* pWatch = (WatchStruct*) lpOverlapped;
+        auto* pWatch = reinterpret_cast<WatchStruct*>(lpOverlapped);
         size_t offset = 0;
         if(dwNumberOfBytesTransfered == 0)
         {
@@ -73,7 +73,7 @@ namespace FW {
         {
             do
             {
-                pNotify = (PFILE_NOTIFY_INFORMATION) &pWatch->mBuffer[offset];
+                pNotify = reinterpret_cast<PFILE_NOTIFY_INFORMATION>(&pWatch->mBuffer[offset]);
                 offset += pNotify->NextEntryOffset;
                 //if defined(UNICODE)
                 //	{
@@ -103,7 +103,7 @@ namespace FW {
     {
         return ReadDirectoryChangesW(
                    pWatch->mDirHandle, pWatch->mBuffer, sizeof(pWatch->mBuffer), pWatch->mIsRecursive,
-                   pWatch->mNotifyFilter, NULL, &pWatch->mOverlapped, _clear ? 0 : WatchCallback) != 0;
+                   pWatch->mNotifyFilter, nullptr, &pWatch->mOverlapped, _clear ? nullptr : WatchCallback) != 0;
     }
 
     /// Stops monitoring a directory.
@@ -136,25 +136,25 @@ namespace FW {
         size_t ptrsize = sizeof(*pWatch);
         pWatch = static_cast<WatchStruct*>(HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, ptrsize));
         pWatch->mDirHandle = CreateFile(szDirectory, FILE_LIST_DIRECTORY,
-                                        FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL,
-                                        OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED, NULL);
+                                        FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr,
+                                        OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED, nullptr);
         if (pWatch->mDirHandle != INVALID_HANDLE_VALUE)
         {
-            pWatch->mOverlapped.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+            pWatch->mOverlapped.hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
             pWatch->mNotifyFilter = mNotifyFilter;
             pWatch->mIsRecursive = recursive;
             if (RefreshWatch(pWatch))
             {
                 return pWatch;
             }
-            else
-            {
+            
+            
                 CloseHandle(pWatch->mOverlapped.hEvent);
                 CloseHandle(pWatch->mDirHandle);
-            }
+            
         }
         HeapFree(GetProcessHeap(), 0, pWatch);
-        return NULL;
+        return nullptr;
     }
 
     #pragma endregion
@@ -168,8 +168,8 @@ namespace FW {
     //--------
     FileWatcherWin32::~FileWatcherWin32()
     {
-        WatchMap::iterator iter = mWatches.begin();
-        WatchMap::iterator end = mWatches.end();
+        auto iter = mWatches.begin();
+        auto end = mWatches.end();
         for(; iter != end; ++iter)
         {
             DestroyWatch(iter->second);
@@ -199,8 +199,8 @@ namespace FW {
     //--------
     void FileWatcherWin32::removeWatch(const String& directory)
     {
-        WatchMap::iterator iter = mWatches.begin();
-        WatchMap::iterator end = mWatches.end();
+        auto iter = mWatches.begin();
+        auto end = mWatches.end();
         for(; iter != end; ++iter)
         {
             if(directory == iter->second->mDirName)
@@ -214,7 +214,7 @@ namespace FW {
     //--------
     void FileWatcherWin32::removeWatch(WatchID watchid)
     {
-        WatchMap::iterator iter = mWatches.find(watchid);
+        auto iter = mWatches.find(watchid);
         if(iter == mWatches.end())
         {
             return;
@@ -227,7 +227,7 @@ namespace FW {
     //--------
     void FileWatcherWin32::update()
     {
-        MsgWaitForMultipleObjectsEx(0, NULL, 0, QS_ALLINPUT, MWMO_ALERTABLE);
+        MsgWaitForMultipleObjectsEx(0, nullptr, 0, QS_ALLINPUT, MWMO_ALERTABLE);
     }
 
     //--------

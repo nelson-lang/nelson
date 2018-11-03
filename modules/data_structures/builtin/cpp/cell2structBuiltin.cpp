@@ -56,7 +56,7 @@ Nelson::DataStructuresGateway::cell2structBuiltin(
             Error(_W("Number of field names must match number of fields in new structure."));
         }
     }
-    ArrayOf* arg = (ArrayOf*)(param1.getDataPointer());
+    auto* arg = (ArrayOf*)(param1.getDataPointer());
     if (dim == 0) {
         if (param1.isEmpty()) {
             indexType len = std::min(dims1.getLength(), dims2.getLength());
@@ -99,8 +99,8 @@ Nelson::DataStructuresGateway::cell2structBuiltin(
             Dimensions dims;
             dims[1] = 1;
             dims[0] = dims1.getElementCount() / dims1[dim];
-            ArrayOf* qp = (ArrayOf*)ArrayOf::allocateArrayOf(
-                NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames);
+            auto* qp = static_cast<ArrayOf*>(
+                ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames));
             ArrayOf c = ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, fieldnames);
             for (size_t k = 0; k < param1.getDimensions().getElementCount(); k++) {
                 qp[k] = arg[k];
@@ -112,8 +112,8 @@ Nelson::DataStructuresGateway::cell2structBuiltin(
         Dimensions dims;
         dims[0] = dims1.getElementCount() / dims1[dim];
         dims[1] = 1;
-        ArrayOf* qp = (ArrayOf*)ArrayOf::allocateArrayOf(
-            NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames);
+        auto* qp = static_cast<ArrayOf*>(
+            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames));
         size_t l = 0;
         indexType rowCount = param1.getDimensions()[0];
         indexType colCount = param1.getDimensions()[1];

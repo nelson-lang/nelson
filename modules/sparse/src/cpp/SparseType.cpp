@@ -157,7 +157,7 @@ Eigen_MakeDenseArrayOf(Class dclass, indexType rows, indexType cols, const void*
             doublecomplex* pzMat = nullptr;
             try {
                 pMat = new double[rows * cols * 2];
-                pzMat = reinterpret_cast<doublecomplex*>((double*)pMat);
+                pzMat = reinterpret_cast<doublecomplex*>(pMat);
             } catch (const std::bad_alloc& e) {
                 e.what();
                 spMat = nullptr;
@@ -204,7 +204,7 @@ Eigen_MakeSparseArrayOf(Class dclass, indexType rows, indexType cols, const void
         return Eigen_MakeSparseArrayOf<double>(rows, cols, cp);
     } break;
     case NLS_DCOMPLEX: {
-        doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)cp);
+        auto* Az = reinterpret_cast<doublecomplex*>((double*)cp);
         Eigen::Map<Eigen::Matrix<doublecomplex, Eigen::Dynamic, Eigen::Dynamic>> matA(
             Az, rows, cols);
         Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMat;
@@ -420,7 +420,7 @@ Eigen_GetSparseVectorSubsets(Class dclass, indexType rows, indexType cols, const
     void* spMat = nullptr;
     indexType bound = rows * cols;
     for (indexType i = 0; i < irows * icols; i++) {
-        double ndx = (double)indx[i] - 1;
+        double ndx = static_cast<double>(indx[i]) - 1;
         if ((ndx < 0) || ndx >= bound) {
             Error(_W("Index exceeds variable dimensions."));
         }
@@ -464,7 +464,7 @@ Eigen_GetSparseVectorSubsets(Class dclass, indexType rows, indexType cols, const
         spMat->setFromTriplets(tripletList.begin(), tripletList.end());
         spMat->finalize();
         spMat->makeCompressed();
-        return (void*)spMat;
+        return spMat;
     } break;
     default: {
         Error(_W("Unsupported type in CountNonzeros."));
@@ -538,9 +538,9 @@ Eigen_SetSparseVectorSubsets(Class dclass, indexType& rows, indexType& cols, con
     indexType* rowvect = new_with_exception<indexType>(irows * icols);
     indexType* colvect = new_with_exception<indexType>(irows * icols);
     for (size_t k = 0; k < irows * icols; k++) {
-        indexType idx = (indexType)(indx[k] - 1);
-        rowvect[k] = (indexType)(idx % rows) + 1;
-        colvect[k] = (indexType)(idx / rows) + 1;
+        auto idx = static_cast<indexType>(indx[k] - 1);
+        rowvect[k] = static_cast<indexType>(idx % rows) + 1;
+        colvect[k] = static_cast<indexType>(idx / rows) + 1;
     }
     spMat = Eigen_SetSparseNDimSubsets(
         dclass, rows, cols, src, rowvect, irows * icols, colvect, irows * icols, data, advance);
@@ -845,7 +845,7 @@ Eigen_makeSparseFromIJVLogical(indexType rows, indexType cols, indexType nnz, in
     typedef Eigen::Triplet<logical, signedIndexType> Triplet;
     std::vector<Triplet> tripletList;
     tripletList.reserve(nnz);
-    logical* pV = (logical*)cp;
+    auto* pV = (logical*)cp;
     for (indexType k = 0; k < nnz; k++) {
         Triplet tr;
         if (bScalarV) {
@@ -880,7 +880,7 @@ Eigen_makeSparseFromIJVComplex(indexType rows, indexType cols, indexType nnz, in
     typedef Eigen::Triplet<doublecomplex, signedIndexType> T;
     std::vector<T> tripletList;
     tripletList.reserve(nnz);
-    double* pV = (double*)cp;
+    auto* pV = (double*)cp;
     indexType q = 0;
     for (indexType k = 0; k < nnz; k++) {
         /* Currently , for compatibility, complex values are not cumulative */

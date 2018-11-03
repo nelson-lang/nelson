@@ -71,15 +71,15 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V)
     size_t olen = 0;
     CheckIJV(I.getLength(), J.getLength(), V.getLength(), istride, jstride, vstride, olen);
     // Calculate the number of rows in the matrix
-    indexType* ip = (indexType*)I.getDataPointer();
+    auto* ip = (indexType*)I.getDataPointer();
     indexType rows = 0;
     for (indexType i = 0; i < I.getLength(); i++) {
-        rows = ((double)ip[i] > (double)rows) ? ip[i] : rows;
+        rows = (static_cast<double>(ip[i]) > static_cast<double>(rows)) ? ip[i] : rows;
     }
-    indexType* jp = (indexType*)J.getDataPointer();
+    auto* jp = (indexType*)J.getDataPointer();
     indexType cols = 0;
     for (indexType j = 0; j < J.getLength(); j++) {
-        cols = ((double)jp[j] > (double)cols) ? jp[j] : cols;
+        cols = (static_cast<double>(jp[j]) > static_cast<double>(cols)) ? jp[j] : cols;
     }
     Dimensions dim(rows, cols);
     bool bScalarV = false;
@@ -150,5 +150,5 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n, ind
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

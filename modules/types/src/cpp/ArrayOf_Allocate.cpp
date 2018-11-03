@@ -31,14 +31,14 @@ ArrayOf::allocateArrayOf(
         return (void*)new_with_exception<nelson_handle>(length);
     } break;
     case NLS_STRING_ARRAY: {
-        ArrayOf* dp = new_with_exception<ArrayOf>(length);
+        auto* dp = new_with_exception<ArrayOf>(length);
         for (indexType i = 0; i < length; i++) {
             dp[i] = ArrayOf(NLS_DOUBLE);
         }
         return dp;
     } break;
     case NLS_CELL_ARRAY: {
-        ArrayOf* dp = new_with_exception<ArrayOf>(length);
+        auto* dp = new_with_exception<ArrayOf>(length);
         for (indexType i = 0; i < length; i++) {
             dp[i] = ArrayOf(NLS_DOUBLE);
         }
@@ -51,9 +51,9 @@ ArrayOf::allocateArrayOf(
         if (!haveUniqueFieldNames(names)) {
             Error(_W("Duplicated field detected."));
         }
-        indexType n = (indexType)(length * names.size());
-        ArrayOf* dp = new_with_exception<ArrayOf>(n);
-        for (indexType i = 0; i < (indexType)(n); i++) {
+        auto n = static_cast<indexType>(length * names.size());
+        auto* dp = new_with_exception<ArrayOf>(n);
+        for (indexType i = 0; i < (n); i++) {
             dp[i] = ArrayOf(NLS_DOUBLE);
         }
         return dp;
@@ -109,75 +109,75 @@ ArrayOf::deleteArrayOf(void* dp, Class dataclass)
 {
     switch (dataclass) {
     case NLS_HANDLE: {
-        nelson_handle* rp = (nelson_handle*)dp;
+        auto* rp = static_cast<nelson_handle*>(dp);
         delete[] rp;
     } break;
     case NLS_STRING_ARRAY: {
-        ArrayOf* rp = (ArrayOf*)dp;
+        auto* rp = static_cast<ArrayOf*>(dp);
         delete[] rp;
     } break;
     case NLS_CELL_ARRAY: {
-        ArrayOf* rp = (ArrayOf*)dp;
+        auto* rp = static_cast<ArrayOf*>(dp);
         delete[] rp;
     } break;
     case NLS_STRUCT_ARRAY: {
-        ArrayOf* rp = (ArrayOf*)dp;
+        auto* rp = static_cast<ArrayOf*>(dp);
         delete[] rp;
     } break;
     case NLS_LOGICAL: {
-        logical* rp = (logical*)dp;
+        auto* rp = static_cast<logical*>(dp);
         delete[] rp;
     } break;
     case NLS_UINT8: {
-        uint8* rp = (uint8*)dp;
+        auto* rp = static_cast<uint8*>(dp);
         delete[] rp;
     } break;
     case NLS_INT8: {
-        int8* rp = (int8*)dp;
+        int8* rp = static_cast<int8*>(dp);
         delete[] rp;
     } break;
     case NLS_UINT16: {
-        uint16* rp = (uint16*)dp;
+        auto* rp = static_cast<uint16*>(dp);
         delete[] rp;
     } break;
     case NLS_INT16: {
-        int16* rp = (int16*)dp;
+        auto* rp = static_cast<int16*>(dp);
         delete[] rp;
     } break;
     case NLS_UINT32: {
-        uint32* rp = (uint32*)dp;
+        auto* rp = static_cast<uint32*>(dp);
         delete[] rp;
     } break;
     case NLS_INT32: {
-        int32* rp = (int32*)dp;
+        auto* rp = static_cast<int32*>(dp);
         delete[] rp;
     } break;
     case NLS_UINT64: {
-        uint64* rp = (uint64*)dp;
+        auto* rp = static_cast<uint64*>(dp);
         delete[] rp;
     } break;
     case NLS_INT64: {
-        int64* rp = (int64*)dp;
+        auto* rp = static_cast<int64*>(dp);
         delete[] rp;
     } break;
     case NLS_SINGLE: {
-        single* rp = (single*)dp;
+        auto* rp = static_cast<single*>(dp);
         delete[] rp;
     } break;
     case NLS_DOUBLE: {
-        double* rp = (double*)dp;
+        auto* rp = static_cast<double*>(dp);
         delete[] rp;
     } break;
     case NLS_SCOMPLEX: {
-        single* rp = (single*)dp;
+        auto* rp = static_cast<single*>(dp);
         delete[] rp;
     } break;
     case NLS_DCOMPLEX: {
-        double* rp = (double*)dp;
+        auto* rp = static_cast<double*>(dp);
         delete[] rp;
     } break;
     case NLS_CHAR: {
-        charType* rp = (charType*)dp;
+        auto* rp = static_cast<charType*>(dp);
         delete[] rp;
     } break;
     }

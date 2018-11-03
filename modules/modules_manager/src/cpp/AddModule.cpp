@@ -59,5 +59,5 @@ AddModule(Evaluator* eval, std::wstring modulerootpath, std::wstring moduleshort
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

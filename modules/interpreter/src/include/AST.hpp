@@ -135,7 +135,7 @@ public:
      * Creates an empty AST node.  All pointers are initialized to NULL,
      * the type is set to non_terminal.
      */
-    AST(void);
+    AST();
     /** Text constructor
      * Creates a node of the specified type with the text field set to a copy
      * of the name argument.
@@ -227,8 +227,8 @@ public:
     isEmpty();
 };
 
-typedef AST* ASTPtr;
-typedef std::vector<ASTPtr> ASTPtrVector;
+using ASTPtr = AST*;
+using ASTPtrVector = std::vector<ASTPtr>;
 /** Print out the tree
  * Print out the tree using a tab-level scheme.  Peers are printed at the same
  * tab level, children are printed at a higher tab level.
@@ -263,4 +263,4 @@ typedef struct
     bool isToken;
     contextOrPointer v;
 } ParseRHS;
-}
+} // namespace Nelson

@@ -35,7 +35,7 @@ private:
 
 public:
     MPI_CommObject(MPI_Comm _comm) { comm = _comm; }
-    ~MPI_CommObject() {}
+    ~MPI_CommObject() = default;
     MPI_Comm
     getComm()
     {
@@ -46,8 +46,8 @@ public:
 class NLSMPI_IMPEXP MPI_CommHandleObject : public HandleGenericObject
 {
 public:
-    MPI_CommHandleObject(void* commPtr);
-    ~MPI_CommHandleObject();
+    MPI_CommHandleObject(void* _ptr);
+    ~MPI_CommHandleObject() override;
 };
 //=============================================================================
 NLSMPI_IMPEXP MPI_Comm

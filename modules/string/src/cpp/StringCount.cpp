@@ -60,7 +60,7 @@ StringCount(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
             std::wstring strA = A.getContentAsWideString();
             Dimensions dimPattern = Pattern.getDimensions();
             size_t nbPattern = dimPattern.getElementCount();
-            ArrayOf* cellPattern = (ArrayOf*)(Pattern.getDataPointer());
+            auto* cellPattern = (ArrayOf*)(Pattern.getDataPointer());
             int count = 0;
             for (size_t k = 0; k < nbPattern; k++) {
                 std::wstring pattern = cellPattern[k].getContentAsWideString();
@@ -72,8 +72,8 @@ StringCount(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
             std::wstring pattern = Pattern.getContentAsWideString();
             Dimensions dimA = A.getDimensions();
             size_t nbA = dimA.getElementCount();
-            double* result = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nbA);
-            ArrayOf* cellA = (ArrayOf*)(A.getDataPointer());
+            double* result = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, nbA));
+            auto* cellA = (ArrayOf*)(A.getDataPointer());
             for (size_t k = 0; k < nbA; k++) {
                 result[k] = countString(cellA[k].getContentAsWideString(), pattern, bCaseSensitive);
             }
@@ -84,9 +84,9 @@ StringCount(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
             size_t nbA = dimA.getElementCount();
             Dimensions dimPattern = Pattern.getDimensions();
             size_t nbPattern = dimPattern.getElementCount();
-            double* result = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nbA);
-            ArrayOf* cellA = (ArrayOf*)(A.getDataPointer());
-            ArrayOf* cellPattern = (ArrayOf*)(Pattern.getDataPointer());
+            double* result = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, nbA));
+            auto* cellA = (ArrayOf*)(A.getDataPointer());
+            auto* cellPattern = (ArrayOf*)(Pattern.getDataPointer());
             for (size_t k = 0; k < nbA; k++) {
                 for (size_t l = 0; l < nbPattern; l++) {
                     result[k] = result[k]
@@ -102,5 +102,5 @@ StringCount(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

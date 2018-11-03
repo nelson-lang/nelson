@@ -28,7 +28,7 @@ ArrayOfVector
 Nelson::LinearAlgebraGateway::schurBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() > 2 || argIn.size() < 1) {
+    if (argIn.size() > 2 || argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 2) {

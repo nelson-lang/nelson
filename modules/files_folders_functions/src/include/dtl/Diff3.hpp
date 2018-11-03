@@ -259,6 +259,6 @@ namespace dtl {
         }
 
     };
-}
+}  // namespace dtl
 
 #endif // DTL_DIFF3_H

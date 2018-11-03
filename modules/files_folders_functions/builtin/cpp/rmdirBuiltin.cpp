@@ -37,7 +37,7 @@ Nelson::FilesFoldersGateway::rmdirBuiltin(Evaluator* eval, int nLhs, const Array
                 Error("'s' expected.");
             }
         }
-        std::wstring errorMessage = L"";
+        std::wstring errorMessage;
         bool res = RemoveDirectory(arg1, bbSubfolder, errorMessage);
         if (nLhs == 0) {
             if (res == false) {

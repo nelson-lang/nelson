@@ -29,7 +29,7 @@ BuiltInFunctionDef::BuiltInFunctionDef()
     fptr = nullptr;
 }
 //=============================================================================
-BuiltInFunctionDef::~BuiltInFunctionDef() {}
+BuiltInFunctionDef::~BuiltInFunctionDef() = default;
 //=============================================================================
 ArrayOfVector
 BuiltInFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int nargout)
@@ -57,5 +57,5 @@ void
 BuiltInFunctionDef::printMe(Interface* io)
 {}
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

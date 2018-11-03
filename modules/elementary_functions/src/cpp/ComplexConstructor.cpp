@@ -94,14 +94,14 @@ ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB)
         size_t len = arrayA.getLength();
         ptrdst = ArrayOf::allocateArrayOf(DestinationClass, len);
         if (DestinationClass == NLS_SCOMPLEX) {
-            single* psA = (single*)arrayA.getDataPointer();
-            single* psB = (single*)arrayB.getDataPointer();
-            single* ps = (single*)ptrdst;
+            auto* psA = (single*)arrayA.getDataPointer();
+            auto* psB = (single*)arrayB.getDataPointer();
+            auto* ps = static_cast<single*>(ptrdst);
             ComplexArrayArray<single>(psA, psB, ps, len);
         } else {
-            double* pdA = (double*)arrayA.getDataPointer();
-            double* pdB = (double*)arrayB.getDataPointer();
-            double* pd = (double*)ptrdst;
+            auto* pdA = (double*)arrayA.getDataPointer();
+            auto* pdB = (double*)arrayB.getDataPointer();
+            auto* pd = static_cast<double*>(ptrdst);
             ComplexArrayArray<double>(pdA, pdB, pd, len);
         }
     } else if (arrayA.isScalar()) {
@@ -109,14 +109,14 @@ ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB)
         size_t len = arrayB.getLength();
         ptrdst = ArrayOf::allocateArrayOf(DestinationClass, len);
         if (DestinationClass == NLS_SCOMPLEX) {
-            single* ps = (single*)ptrdst;
+            auto* ps = static_cast<single*>(ptrdst);
             single A = arrayA.getContentAsSingleScalar();
-            single* psB = (single*)arrayB.getDataPointer();
+            auto* psB = (single*)arrayB.getDataPointer();
             ComplexScalarArray<single>(A, psB, ps, len);
         } else {
-            double* pd = (double*)ptrdst;
+            auto* pd = static_cast<double*>(ptrdst);
             double A = arrayA.getContentAsDoubleScalar();
-            double* pdB = (double*)arrayB.getDataPointer();
+            auto* pdB = (double*)arrayB.getDataPointer();
             ComplexScalarArray<double>(A, pdB, pd, len);
         }
     } else /* (arrayB.isScalar()) */
@@ -125,13 +125,13 @@ ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB)
         size_t len = arrayA.getLength();
         ptrdst = ArrayOf::allocateArrayOf(DestinationClass, len);
         if (DestinationClass == NLS_SCOMPLEX) {
-            single* ps = (single*)ptrdst;
-            single* psA = (single*)arrayA.getDataPointer();
+            auto* ps = static_cast<single*>(ptrdst);
+            auto* psA = (single*)arrayA.getDataPointer();
             single B = arrayB.getContentAsSingleScalar();
             ComplexArrayScalar<single>(psA, B, ps, len);
         } else {
-            double* pd = (double*)ptrdst;
-            double* pdA = (double*)arrayA.getDataPointer();
+            auto* pd = static_cast<double*>(ptrdst);
+            auto* pdA = (double*)arrayA.getDataPointer();
             double B = arrayB.getContentAsDoubleScalar();
             ComplexArrayScalar<double>(pdA, B, pd, len);
         }
@@ -181,5 +181,5 @@ ComplexConstructor(ArrayOf arrayA)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

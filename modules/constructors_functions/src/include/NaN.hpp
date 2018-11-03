@@ -23,7 +23,7 @@
 //=============================================================================
 namespace Nelson {
 NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
-NaN(void);
+NaN();
 NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
 NaN(indexType m, indexType n);
 } // namespace Nelson

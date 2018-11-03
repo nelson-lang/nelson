@@ -30,49 +30,49 @@ class NLSTERMINAL_IMPEXP BasicTerminal : public Interface
 #define WIDTH 80
 public:
     BasicTerminal();
-    ~BasicTerminal();
+    ~BasicTerminal() override;
     /**
      *  Get a line of input from the user with the
      *  given prompt.
      */
     std::wstring
-    getLine(std::wstring prompt);
+    getLine(std::wstring prompt) override;
     std::string
-    getLine(std::string prompt);
+    getLine(std::string prompt) override;
     std::wstring
-    getInput(std::wstring prompt);
+    getInput(std::wstring prompt) override;
     /**
      *  Return the width of the current "terminal" in
      *  characters.
      */
     size_t
-    getTerminalWidth();
+    getTerminalWidth() override;
     /**
      *  Output the following text message.
      */
     void
-    outputMessage(std::wstring msg);
+    outputMessage(std::wstring msg) override;
     void
-    outputMessage(std::string msg);
+    outputMessage(std::string msg) override;
     /**
      *  Output the following error message.
      */
     void
-    errorMessage(std::wstring msg);
+    errorMessage(std::wstring msg) override;
     void
-    errorMessage(std::string msg);
+    errorMessage(std::string msg) override;
     /**
      *  Output the following warning message.
      */
     void
-    warningMessage(std::wstring msg);
+    warningMessage(std::wstring msg) override;
     void
-    warningMessage(std::string msg);
+    warningMessage(std::string msg) override;
 
     void
-    clearTerminal();
+    clearTerminal() override;
     bool
-    isAtPrompt();
+    isAtPrompt() override;
 
 private:
     std::wstring

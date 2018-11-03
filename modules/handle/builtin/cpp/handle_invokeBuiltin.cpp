@@ -36,7 +36,7 @@ Nelson::HandleGateway::handle_invokeBuiltin(Evaluator* eval, int nLhs, const Arr
     }
     ArrayOf param1 = argIn[0];
     if (!param1.isEmpty()) {
-        nelson_handle* qp = (nelson_handle*)param1.getDataPointer();
+        auto* qp = (nelson_handle*)param1.getDataPointer();
         std::wstring handleTypeName = utf8_to_wstring(NLS_HANDLE_STR);
         if (qp) {
             Dimensions dimsParam1 = param1.getDimensions();

@@ -28,49 +28,49 @@ class NLSGUI_IMPEXP GuiTerminal : public Interface
 {
 public:
     GuiTerminal(void* qtMainW);
-    ~GuiTerminal();
+    ~GuiTerminal() override;
 
     /**
      *  Get a line of input from the user with the
      *  given prompt.
      */
     std::string
-    getLine(std::string prompt);
+    getLine(std::string prompt) override;
     std::wstring
-    getLine(std::wstring prompt);
+    getLine(std::wstring prompt) override;
     std::wstring
-    getInput(std::wstring prompt);
+    getInput(std::wstring prompt) override;
 
     /**
      *  Return the width of the current "terminal" in
      *  characters.
      */
     size_t
-    getTerminalWidth();
+    getTerminalWidth() override;
     /**
      *  Output the following text message.
      */
     void
-    outputMessage(std::string msg);
+    outputMessage(std::string msg) override;
     void
-    outputMessage(std::wstring msg);
+    outputMessage(std::wstring msg) override;
     /**
      *  Output the following error message.
      */
     void
-    errorMessage(std::string msg);
+    errorMessage(std::string msg) override;
     void
-    errorMessage(std::wstring msg);
+    errorMessage(std::wstring msg) override;
     /**
      *  Output the following warning message.
      */
     void
-    warningMessage(std::string msg);
+    warningMessage(std::string msg) override;
     void
-    warningMessage(std::wstring msg);
+    warningMessage(std::wstring msg) override;
 
     void
-    clearTerminal();
+    clearTerminal() override;
 
     void*
     getQtPointer();
@@ -83,7 +83,7 @@ public:
     void
     setBufferScreenLine(int newMax);
     bool
-    isAtPrompt();
+    isAtPrompt() override;
 
 private:
     std::wstring

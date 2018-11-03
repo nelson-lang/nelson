@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <stdlib.h>
+#include <cstdlib>
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "Exception.hpp"
@@ -28,7 +28,7 @@ static Nelson::library_handle nlsInterpreterHandleDynamicLibrary = nullptr;
 static bool bFirstDynamicLibraryCall = true;
 //============================================================================
 static void
-initInterpreterDynamicLibrary(void)
+initInterpreterDynamicLibrary()
 {
     if (bFirstDynamicLibraryCall) {
         std::string fullpathInterpreterSharedLibrary
@@ -66,7 +66,7 @@ initInterpreterDynamicLibrary(void)
 void
 Error(const std::wstring& msg, const std::wstring& id)
 {
-    typedef void (*PROC_NelsonErrorEmitter)(const wchar_t*, const wchar_t*);
+    using PROC_NelsonErrorEmitter = void (*)(const wchar_t*, const wchar_t*);
     static PROC_NelsonErrorEmitter NelsonErrorEmitterPtr = nullptr;
     initInterpreterDynamicLibrary();
     if (!NelsonErrorEmitterPtr) {
@@ -84,5 +84,5 @@ Error(const std::string& msg, const std::string& id)
     Error(utf8_to_wstring(msg), utf8_to_wstring(id));
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

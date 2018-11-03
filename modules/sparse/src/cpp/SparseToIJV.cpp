@@ -45,27 +45,27 @@ SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf
         int nz = 0;
         void* ptrV = Eigen_SparseToIJV(spA.getDataClass(), dims.getRows(), dims.getColumns(),
             spA.getSparseDataPointer(), ptrI, ptrJ, nz);
-        double* pdI = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nnz);
+        double* pdI = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, nnz));
         for (indexType k = 0; k < nnz; k++) {
-            pdI[k] = (double)ptrI[k];
+            pdI[k] = static_cast<double>(ptrI[k]);
         }
         I = ArrayOf(NLS_DOUBLE, Dimensions(nnz, 1), (void*)pdI);
         delete[] ptrI;
-        double* pdJ = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nnz);
+        double* pdJ = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, nnz));
         for (indexType k = 0; k < nnz; k++) {
-            pdJ[k] = (double)ptrJ[k];
+            pdJ[k] = static_cast<double>(ptrJ[k]);
         }
         J = ArrayOf(NLS_DOUBLE, Dimensions(nnz, 1), (void*)pdJ);
         delete[] ptrJ;
         V = ArrayOf(spA.getDataClass(), Dimensions(nnz, 1), ptrV);
-        M = ArrayOf::doubleConstructor((double)dims.getRows());
-        N = ArrayOf::doubleConstructor((double)dims.getColumns());
-        NNZ = ArrayOf::doubleConstructor((double)spA.nzmax());
+        M = ArrayOf::doubleConstructor(static_cast<double>(dims.getRows()));
+        N = ArrayOf::doubleConstructor(static_cast<double>(dims.getColumns()));
+        NNZ = ArrayOf::doubleConstructor(static_cast<double>(spA.nzmax()));
     } else {
         needToOverload = true;
     }
 }
 //=============================================================================
 
-}
+} // namespace Nelson
 //=============================================================================

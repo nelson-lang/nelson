@@ -29,7 +29,7 @@ Nelson::CoreGateway::exitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     int iValue = 0;
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         iValue = 0;
     } else {
         ArrayOf param1 = argIn[0];
@@ -41,8 +41,8 @@ Nelson::CoreGateway::exitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
                 Error(ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_EXPECTED);
             }
             double dValue = param1.getContentAsDoubleScalar();
-            iValue = (int)dValue;
-            if ((double)iValue != dValue) {
+            iValue = static_cast<int>(dValue);
+            if (static_cast<double>(iValue) != dValue) {
                 Error(ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
             }
         }

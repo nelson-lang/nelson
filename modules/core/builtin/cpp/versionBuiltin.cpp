@@ -28,7 +28,7 @@ ArrayOfVector
 Nelson::CoreGateway::versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         if (nLhs > 2) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
@@ -63,7 +63,7 @@ Nelson::CoreGateway::versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             retval.push_back(ArrayOf::characterArrayConstructor(NELSON_VERSION_COMMIT_HASH));
         } else if (option.compare(L"-number") == 0) {
             ArrayOf vectRes = ArrayOf::doubleVectorConstructor(4);
-            double* vectAsDouble = (double*)vectRes.getReadWriteDataPointer();
+            auto* vectAsDouble = static_cast<double*>(vectRes.getReadWriteDataPointer());
             if (vectAsDouble) {
                 vectAsDouble[0] = NELSON_VERSION_MAJOR;
                 vectAsDouble[1] = NELSON_VERSION_MINOR;

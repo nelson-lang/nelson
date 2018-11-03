@@ -29,7 +29,7 @@ FileStream::FileStream(const std::wstring filename, const std::wstring accessmod
 #else
     fp = fopen(wstring_to_utf8(filename).c_str(), wstring_to_utf8(accessmode).c_str());
 #endif
-    if (fp == NULL) {
+    if (fp == nullptr) {
         Error(_W("Unable to open file ") + filename);
     }
     autoclose = true;
@@ -64,5 +64,5 @@ FileStream::readBytes(void* data, int len)
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

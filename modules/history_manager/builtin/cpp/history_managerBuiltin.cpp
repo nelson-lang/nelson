@@ -30,7 +30,7 @@ Nelson::HistoryManagerGateway::history_managerBuiltin(
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         if (eval->HistoryManager) {
             retval.push_back(ArrayOf::characterArrayConstructor(L"on"));
         } else {
@@ -47,12 +47,12 @@ Nelson::HistoryManagerGateway::history_managerBuiltin(
             }
             if (arg.compare(L"on") == 0) {
                 if (eval->HistoryManager == nullptr) {
-                    HistoryManager* ptrHistoryManager = new HistoryManager();
+                    auto* ptrHistoryManager = new HistoryManager();
                     eval->HistoryManager = (void*)ptrHistoryManager;
                 }
             } else if (arg.compare(L"off") == 0) {
                 if (eval->HistoryManager) {
-                    HistoryManager* ptrHistoryManager = (HistoryManager*)eval->HistoryManager;
+                    auto* ptrHistoryManager = static_cast<HistoryManager*>(eval->HistoryManager);
                     delete ptrHistoryManager;
                 }
                 eval->HistoryManager = nullptr;

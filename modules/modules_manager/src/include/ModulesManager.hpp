@@ -55,7 +55,7 @@ public:
 
 private:
     ModulesManager();
-    ModulesManager(ModulesManager const&){};
+    ModulesManager(ModulesManager const& /*unused*/){};
     static ModulesManager m_pInstance;
     boost::container::vector<std::pair<std::wstring, std::wstring>> modulesMap;
 };

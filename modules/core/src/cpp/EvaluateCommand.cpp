@@ -192,7 +192,7 @@ EvaluateConsoleCommand(Evaluator* eval, int nLhs, std::wstring command, std::wst
         eval->setInterface(io);
         delete tempIO;
     } catch (const Exception&) {
-        if (catchCommand != L"") {
+        if (!catchCommand.empty()) {
             try {
                 retval = EvaluateCommand(eval, nbOutput, catchCommand, L"");
                 buffer = tempIO->getOutputBuffer();
@@ -213,5 +213,5 @@ EvaluateConsoleCommand(Evaluator* eval, int nLhs, std::wstring command, std::wst
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

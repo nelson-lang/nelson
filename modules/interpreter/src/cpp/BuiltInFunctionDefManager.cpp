@@ -86,10 +86,9 @@ BuiltInFunctionDefManager::add(std::string name, BuiltInFuncPtr fptr, int argc_i
 bool
 BuiltInFunctionDefManager::remove(std::string name)
 {
-    for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end();
-         ++it) {
+    for (auto it = builtinVector.begin(); it != builtinVector.end(); ++it) {
         if ((*it)->name == name) {
-            BuiltInFunctionDef* p = (BuiltInFunctionDef*)*it;
+            auto* p = (BuiltInFunctionDef*)*it;
             delete p;
             builtinVector.erase(it);
             clearCache();
@@ -102,10 +101,9 @@ BuiltInFunctionDefManager::remove(std::string name)
 bool
 BuiltInFunctionDefManager::remove(FuncPtr ptr)
 {
-    for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end();
-         ++it) {
+    for (auto it = builtinVector.begin(); it != builtinVector.end(); ++it) {
         if (*it == ptr) {
-            BuiltInFunctionDef* p = (BuiltInFunctionDef*)(*it);
+            auto* p = (BuiltInFunctionDef*)(*it);
             delete p;
             clearCache();
             builtinVector.erase(it);
@@ -117,10 +115,9 @@ BuiltInFunctionDefManager::remove(FuncPtr ptr)
 bool
 BuiltInFunctionDefManager::remove(BuiltInFunctionDef* ptr)
 {
-    for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end();
-         ++it) {
+    for (auto it = builtinVector.begin(); it != builtinVector.end(); ++it) {
         if (*it == ptr) {
-            BuiltInFunctionDef* p = (BuiltInFunctionDef*)(*it);
+            auto* p = (BuiltInFunctionDef*)(*it);
             delete p;
             clearCache();
             builtinVector.erase(it);
@@ -134,7 +131,7 @@ BuiltInFunctionDefManager::remove(BuiltInFuncPtr fptr)
 {
     bool res = false;
     for (size_t k = 0; k < builtinVector.size(); k++) {
-        BuiltInFunctionDef* asBuiltInPtr = (BuiltInFunctionDef*)builtinVector[k];
+        auto* asBuiltInPtr = (BuiltInFunctionDef*)builtinVector[k];
         if (asBuiltInPtr != nullptr) {
             if (asBuiltInPtr->fptr == fptr) {
                 delete asBuiltInPtr;
@@ -152,9 +149,8 @@ BuiltInFunctionDefManager::remove(BuiltInFuncPtr fptr)
 bool
 BuiltInFunctionDefManager::removeAll()
 {
-    for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end();
-         ++it) {
-        delete *it;
+    for (auto& it : builtinVector) {
+        delete it;
     }
     builtinVector.clear();
     clearCache();
@@ -165,9 +161,8 @@ std::vector<FuncPtr>
 BuiltInFunctionDefManager::getTable()
 {
     std::vector<FuncPtr> builtinTable;
-    for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end();
-         ++it) {
-        builtinTable.push_back(*it);
+    for (auto& it : builtinVector) {
+        builtinTable.push_back(it);
     }
     return builtinTable;
 }
@@ -176,9 +171,8 @@ stringVector
 BuiltInFunctionDefManager::getNameList()
 {
     stringVector nameList;
-    for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end();
-         ++it) {
-        nameList.push_back((*it)->name);
+    for (auto& it : builtinVector) {
+        nameList.push_back(it->name);
     }
     return nameList;
 }
@@ -186,9 +180,8 @@ BuiltInFunctionDefManager::getNameList()
 bool
 BuiltInFunctionDefManager::isPointerOnBuiltInFunctionDef(FuncPtr ptr)
 {
-    if (builtinVector.size() > 0) {
-        for (std::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin();
-             it != builtinVector.rend(); ++it) {
+    if (!builtinVector.empty()) {
+        for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
             if (*it == ptr) {
                 return true;
             }
@@ -201,9 +194,8 @@ bool
 BuiltInFunctionDefManager::find(const std::string name, std::wstring& path)
 {
     bool res = false;
-    if (builtinVector.size() > 0) {
-        for (std::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin();
-             it != builtinVector.rend(); ++it) {
+    if (!builtinVector.empty()) {
+        for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
             if ((*it)->name == name) {
                 path = ((BuiltInFunctionDef*)(*it))->fileName;
                 return true;
@@ -217,9 +209,8 @@ bool
 BuiltInFunctionDefManager::find(size_t hashid, std::wstring& functionname)
 {
     bool res = false;
-    if (builtinVector.size() > 0) {
-        for (std::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin();
-             it != builtinVector.rend(); ++it) {
+    if (!builtinVector.empty()) {
+        for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
             if ((*it)->hashid == hashid) {
                 functionname = utf8_to_wstring((*it)->name);
                 return true;
@@ -233,9 +224,8 @@ bool
 BuiltInFunctionDefManager::find(const std::string name, wstringVector& paths)
 {
     bool res = false;
-    if (builtinVector.size() > 0) {
-        for (std::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin();
-             it != builtinVector.rend(); ++it) {
+    if (!builtinVector.empty()) {
+        for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
             if ((*it)->name == name) {
                 paths.push_back(((BuiltInFunctionDef*)(*it))->fileName);
                 res = true;
@@ -248,19 +238,17 @@ BuiltInFunctionDefManager::find(const std::string name, wstringVector& paths)
 bool
 BuiltInFunctionDefManager::find(const std::string name, FuncPtr& ptr)
 {
-    if (builtinVector.size() > 0) {
+    if (!builtinVector.empty()) {
         std::unordered_map<std::string, FuncPtr>::const_iterator found = cachedBuiltin.find(name);
         if (found != cachedBuiltin.end()) {
             ptr = found->second;
             return true;
-        } else {
-            for (std::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin();
-                 it != builtinVector.rend(); ++it) {
-                if ((*it)->name == name) {
-                    ptr = (FuncPtr)(*it);
-                    cachedBuiltin.emplace(name, ptr);
-                    return true;
-                }
+        }
+        for (auto it = builtinVector.rbegin(); it != builtinVector.rend(); ++it) {
+            if ((*it)->name == name) {
+                ptr = static_cast<FuncPtr>(*it);
+                cachedBuiltin.emplace(name, ptr);
+                return true;
             }
         }
     }
@@ -273,5 +261,5 @@ BuiltInFunctionDefManager::clearCache()
     cachedBuiltin.clear();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

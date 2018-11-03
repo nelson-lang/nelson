@@ -41,8 +41,8 @@ Calendar::Calendar(double dateserial)
 {
     double y = 0., m = 0., d = 0., h = 0., mm = 0., s = 0.;
     DateVector(dateserial, y, m, d, h, mm, s);
-    this->m = (uint8)m;
-    this->y = (uint64)y;
+    this->m = static_cast<uint8>(m);
+    this->y = static_cast<uint64>(y);
 }
 //=============================================================================
 Calendar::Calendar(uint64 y, uint8 m)
@@ -113,8 +113,8 @@ Calendar::get()
         (boost::gregorian::gregorian_calendar::month_type)m, 1 };
     boost::gregorian::date d2{ d1.end_of_month() };
     boost::gregorian::date_period month_period(d1, d2);
-    double* Month = (double*)ArrayOf::allocateArrayOf(
-        NLS_DOUBLE, NBR_DAY_IN_A_WEEK * NBR_WEEK_IN_A_MONTH_MAX);
+    double* Month = static_cast<double*>(
+        ArrayOf::allocateArrayOf(NLS_DOUBLE, NBR_DAY_IN_A_WEEK * NBR_WEEK_IN_A_MONTH_MAX));
     double v = 1;
     uint8 firstdate = (uint8)(d1.day_of_week().as_number());
     uint8 lastdate = (uint8)(month_period.length().days() + firstdate);
@@ -173,5 +173,5 @@ Calendar::getMonth()
     return this->m;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

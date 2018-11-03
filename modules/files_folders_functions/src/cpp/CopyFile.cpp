@@ -124,5 +124,5 @@ CopyFiles(wstringVector srcFiles, std::wstring destDir, bool bForce, std::wstrin
     return bRes;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -46,7 +46,7 @@ public:
 
 private:
     Localization();
-    Localization(Localization const&){};
+    Localization(Localization const& /*unused*/){};
     static Localization* m_pInstance;
 
     std::wstring currentLanguage;
@@ -55,15 +55,15 @@ private:
     bool bFirstDynamicLibraryCall;
 
     void
-    initCoreDynamicLibrary(void);
+    initCoreDynamicLibrary();
     std::wstring
     getPreferencesPathDynamic();
     std::wstring
     getNelsonPathDynamic();
     void
-    setLanguageEnvironment(const std::wstring lang);
+    setLanguageEnvironment(std::wstring lang);
     void
-    initLanguageSupported(void);
+    initLanguageSupported();
 };
 } // namespace Nelson
 //=============================================================================

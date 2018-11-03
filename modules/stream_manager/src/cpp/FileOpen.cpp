@@ -73,7 +73,7 @@ FOPEN_ERROR_TYPE
 FileOpen(FilesManager* fm, std::wstring filename, std::wstring filemode, int& fileposition)
 {
     FOPEN_ERROR_TYPE fopenError = FOPEN_NO_ERROR;
-    if (filename.size() == 0) {
+    if (filename.empty()) {
         fileposition = -1;
         fopenError = FOPEN_INVALID_NAME;
         return fopenError;
@@ -112,28 +112,27 @@ FileOpen(FilesManager* fm, std::wstring filename, std::wstring filemode, int& fi
         fileposition = -1;
         fopenError = FOPEN_CANNOT_OPEN;
         return fopenError;
-    } else {
-        try {
-            canonicalPath
-                = boost::filesystem::canonical(filename, boost::filesystem::current_path());
-        } catch (const boost::filesystem::filesystem_error& e) {
-            e.what();
-            canonicalPath = filename;
-        }
-        file->setFileName(canonicalPath.wstring());
-        file->setFileMode(filemode);
-        file->setFilePointer((void*)fp);
-        int pos = fm->addFile(file);
-        if (pos == -1) {
-            delete file;
-            fileposition = -1;
-            fopenError = FOPEN_IMPOSSIBLE_TO_ADD_FILE;
-            return fopenError;
-        }
-        fileposition = pos;
     }
+    try {
+        canonicalPath = boost::filesystem::canonical(filename, boost::filesystem::current_path());
+    } catch (const boost::filesystem::filesystem_error& e) {
+        e.what();
+        canonicalPath = filename;
+    }
+    file->setFileName(canonicalPath.wstring());
+    file->setFileMode(filemode);
+    file->setFilePointer((void*)fp);
+    int pos = fm->addFile(file);
+    if (pos == -1) {
+        delete file;
+        fileposition = -1;
+        fopenError = FOPEN_IMPOSSIBLE_TO_ADD_FILE;
+        return fopenError;
+    }
+    fileposition = pos;
+
     return fopenError;
 }
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

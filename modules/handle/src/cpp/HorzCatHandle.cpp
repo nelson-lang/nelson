@@ -53,8 +53,8 @@ HorzCatHandle(ArrayOf A, ArrayOf B)
     indexType newSize = newColumnsSize * newRowsSize;
     Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
     void* pRes = nullptr;
-    nelson_handle* ptrA = (nelson_handle*)A.getDataPointer();
-    nelson_handle* ptrB = (nelson_handle*)B.getDataPointer();
+    auto* ptrA = (nelson_handle*)A.getDataPointer();
+    auto* ptrB = (nelson_handle*)B.getDataPointer();
     if (newSize != 0) {
         HandleGenericObject* hlObjA = HandleManager::getInstance()->getPointer(ptrA[0]);
         HandleGenericObject* hlObjB = HandleManager::getInstance()->getPointer(ptrB[0]);
@@ -65,7 +65,7 @@ HorzCatHandle(ArrayOf A, ArrayOf B)
     }
     pRes = ArrayOf::allocateArrayOf(NLS_HANDLE, newSize);
     if (newSize != 0) {
-        nelson_handle* ptrC = (nelson_handle*)pRes;
+        auto* ptrC = static_cast<nelson_handle*>(pRes);
         Eigen::Map<Eigen::Matrix<nelson_handle, Eigen::Dynamic, Eigen::Dynamic>> matA(
             ptrA, dimsA.getRows(), dimsA.getColumns());
         Eigen::Map<Eigen::Matrix<nelson_handle, Eigen::Dynamic, Eigen::Dynamic>> matB(
@@ -77,5 +77,5 @@ HorzCatHandle(ArrayOf A, ArrayOf B)
     return ArrayOf(NLS_HANDLE, dimsC, pRes);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

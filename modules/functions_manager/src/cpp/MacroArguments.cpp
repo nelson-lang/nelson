@@ -32,12 +32,12 @@ MacroArguments(
     bool isFun = ctx->lookupFunction(fun, funcDef);
     if (isFun) {
         if (funcDef->type() == NLS_MACRO_FUNCTION) {
-            MacroFunctionDef* valc = (MacroFunctionDef*)funcDef;
-            for (size_t k = 0; k < valc->returnVals.size(); k++) {
-                Inputs.push_back(utf8_to_wstring(valc->returnVals[k]));
+            auto* valc = (MacroFunctionDef*)funcDef;
+            for (const auto& returnVal : valc->returnVals) {
+                Inputs.push_back(utf8_to_wstring(returnVal));
             }
-            for (size_t k = 0; k < valc->arguments.size(); k++) {
-                Outputs.push_back(utf8_to_wstring(valc->arguments[k]));
+            for (const auto& argument : valc->arguments) {
+                Outputs.push_back(utf8_to_wstring(argument));
             }
             return true;
         }
@@ -45,5 +45,5 @@ MacroArguments(
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

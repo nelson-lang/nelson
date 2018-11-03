@@ -36,12 +36,12 @@ using namespace boost::filesystem;
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static std::wstring preferencesPath = L"";
+static std::wstring preferencesPath;
 //=============================================================================
 static std::wstring
 buildPreferencesPath()
 {
-    std::wstring prefPath = L"";
+    std::wstring prefPath;
 #define NELSON_PREFERENCES_PATH_ENV L"NELSON_PREFERENCES_PATH"
     std::wstring penv = GetVariableEnvironment(NELSON_PREFERENCES_PATH_ENV, L"");
     bool bSet = false;
@@ -58,8 +58,8 @@ buildPreferencesPath()
     if (!bSet) {
 #ifdef _MSC_VER
         std::wstring strPath;
-        LPWSTR wszPath = NULL;
-        HRESULT hr = SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &wszPath);
+        LPWSTR wszPath = nullptr;
+        HRESULT hr = SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &wszPath);
         bool bOK = SUCCEEDED(hr);
         if (bOK) {
             strPath = wszPath;
@@ -150,7 +150,7 @@ ComputePreferencesPath()
     return (preferencesPath != L"");
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================
 static bool bFirstCall = true;
 //=============================================================================

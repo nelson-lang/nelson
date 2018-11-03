@@ -27,7 +27,7 @@ ArrayOfVector
 Nelson::StreamGateway::fcloseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    FilesManager* fm = (FilesManager*)(eval->FileManager);
+    auto* fm = static_cast<FilesManager*>(eval->FileManager);
     if (fm == nullptr) {
         Error(_W("Problem with file manager."));
     }
@@ -39,7 +39,7 @@ Nelson::StreamGateway::fcloseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         if (nLhs > 1) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
-        int32 iValue = (int32)param1.getContentAsDoubleScalar();
+        auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
         if (fm->isOpened(iValue)) {
             if (FileClose(fm, iValue)) {
                 retval.push_back(ArrayOf::doubleConstructor(0.));

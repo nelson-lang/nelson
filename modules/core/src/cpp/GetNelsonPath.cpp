@@ -19,7 +19,7 @@
 #ifdef _MSC_VER
 #include <Windows.h>
 #endif
-#include <stdio.h>
+#include <cstdio>
 #ifdef __APPLE__
 #include <CoreFoundation/CoreFoundation.h>
 #include <MacTypes.h>
@@ -34,7 +34,7 @@ using namespace boost::filesystem;
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static std::wstring NelSonPath = L"";
+static std::wstring NelSonPath;
 //=============================================================================
 #ifdef _MSC_VER
 std::wstring
@@ -105,7 +105,7 @@ std::wstring
 GetRootPath()
 {
     if (NelSonPath == L"") {
-        std::wstring p = L"";
+        std::wstring p;
 #define NELSON_ROOT_PATH_ENV L"NELSON_ROOT_PATH"
         std::wstring penv = GetVariableEnvironment(NELSON_ROOT_PATH_ENV, L"");
         if (penv.compare(L"") != 0) {
@@ -137,7 +137,7 @@ GetRootPath()
     return NelSonPath;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================
 std::wstring
 GetNelsonPath()

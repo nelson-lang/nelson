@@ -30,8 +30,8 @@ Nelson::ComEngineGateway::actxserverBuiltin(Evaluator* eval, int nLhs, const Arr
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    std::wstring progid = L"";
-    std::wstring machine = L"";
+    std::wstring progid;
+    std::wstring machine;
     switch (argIn.size()) {
     case 1: {
         progid = argIn[0].getContentAsWideString();

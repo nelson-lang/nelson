@@ -27,14 +27,11 @@ bool
 WinOpen(const std::wstring& command)
 {
 #ifdef _MSC_VER
-    HINSTANCE error = ShellExecuteW(NULL, L"open", command.c_str(), NULL, NULL, SW_SHOWNORMAL);
-    if (error <= (HINSTANCE)32) {
-        return false;
-    } else {
-        return true;
-    }
+    HINSTANCE error
+        = ShellExecuteW(nullptr, L"open", command.c_str(), nullptr, nullptr, SW_SHOWNORMAL);
+    return error > (HINSTANCE)32;
 #endif
     return false;
 }
-}
+} // namespace Nelson
 //=============================================================================

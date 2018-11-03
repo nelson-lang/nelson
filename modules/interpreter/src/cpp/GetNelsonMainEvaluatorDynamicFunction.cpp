@@ -18,14 +18,14 @@
 //=============================================================================
 #include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "dynamic_library.hpp"
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 //=============================================================================
 static Nelson::library_handle nlsEngineHandleDynamicLibrary = nullptr;
 static bool bFirstDynamicLibraryCall = true;
 //=============================================================================
 static void
-initEngineDynamicLibrary(void)
+initEngineDynamicLibrary()
 {
     if (bFirstDynamicLibraryCall) {
         std::string fullpathEngineSharedLibrary
@@ -62,7 +62,7 @@ initEngineDynamicLibrary(void)
 void*
 GetNelsonMainEvaluatorDynamicFunction()
 {
-    typedef void* (*PROC_GetNelsonMainEvaluator)(void);
+    using PROC_GetNelsonMainEvaluator = void* (*)();
     static PROC_GetNelsonMainEvaluator GetNelsonMainEvaluatorPtr = nullptr;
     initEngineDynamicLibrary();
     if (!GetNelsonMainEvaluatorPtr) {

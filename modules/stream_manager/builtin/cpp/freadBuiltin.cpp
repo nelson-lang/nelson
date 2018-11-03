@@ -58,7 +58,7 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     } else {
         Error(_W("Wrong value for machine format."));
     }
-    skipSize = (size_t)param4.getContentAsScalarIndex();
+    skipSize = static_cast<size_t>(param4.getContentAsScalarIndex());
     if (param3.isRowVectorCharacterArray()) {
         std::wstring precisionStr = param3.getContentAsWideString();
         bool bOK = false;
@@ -81,13 +81,13 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             // [m, n]
             // [m, Inf]
             param2.promoteType(NLS_DOUBLE);
-            double* dValues = (double*)param2.getReadWriteDataPointer();
+            auto* dValues = static_cast<double*>(param2.getReadWriteDataPointer());
             double m = dValues[0];
             double n = dValues[1];
             if (std::isinf(m)) {
                 Error(ERROR_WRONG_ARGUMENT_2_INVALID_VECTOR_SIZE);
             }
-            im = (int64)m;
+            im = static_cast<int64>(m);
             if (std::isinf(n)) {
                 if (n > 0) {
                     isize = -1;
@@ -95,11 +95,11 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                     Error(ERROR_WRONG_ARGUMENT_2_INVALID_VECTOR_SIZE);
                 }
             } else {
-                in = (int64)n;
-                isize = (int64)(m * n);
+                in = static_cast<int64>(n);
+                isize = static_cast<int64>(m * n);
             }
         } else {
-            double dsize = (double)param2.getContentAsDoubleScalar();
+            auto dsize = param2.getContentAsDoubleScalar();
             if (std::isinf(dsize)) {
                 if (dsize > 0) {
                     isize = -1;
@@ -107,11 +107,11 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                     Error(ERROR_WRONG_ARGUMENT_2_INVALID_VECTOR_SIZE);
                 }
             } else {
-                isize = (int64)dsize;
+                isize = static_cast<int64>(dsize);
             }
         }
-        FilesManager* fm = (FilesManager*)(eval->FileManager);
-        int32 iValue = (int32)param1.getContentAsDoubleScalar();
+        auto* fm = static_cast<FilesManager*>(eval->FileManager);
+        auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
         if (fm == nullptr) {
             Error(_W("Problem with file manager."));
         }
@@ -129,18 +129,18 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                         if (sizeReallyRead % im) {
                             in++;
                         }
-                        Dimensions dimL((indexType)im, (indexType)in);
+                        Dimensions dimL(static_cast<indexType>(im), static_cast<indexType>(in));
                         dim = dimL;
                     } else {
-                        Dimensions dimL((indexType)im, (indexType)in);
+                        Dimensions dimL(static_cast<indexType>(im), static_cast<indexType>(in));
                         dim = dimL;
                     }
                     if (sizeReallyRead == im * in) {
                         toRead.reshape(dim);
                         retval.push_back(toRead);
                     } else {
-                        void* ptr
-                            = ArrayOf::allocateArrayOf(toRead.getDataClass(), (indexType)(im * in));
+                        void* ptr = ArrayOf::allocateArrayOf(
+                            toRead.getDataClass(), static_cast<indexType>(im * in));
                         memcpy(ptr, toRead.getReadWriteDataPointer(), toRead.getByteSize());
                         ArrayOf Resized = ArrayOf(toRead.getDataClass(), dim, ptr);
                         retval.push_back(Resized);

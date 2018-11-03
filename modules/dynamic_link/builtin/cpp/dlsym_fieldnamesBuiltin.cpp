@@ -40,7 +40,7 @@ Nelson::DynamicLinkGateway::dlsym_fieldnamesBuiltin(
     if (param1.getHandleCategory() != DLSYM_CATEGORY_STR) {
         Error(_W("dlsym handle expected."));
     }
-    DynamicLinkSymbolObject* objDlsym = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
+    auto* objDlsym = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
     wstringVector fieldnames = objDlsym->fieldnames();
     retval.push_back(ToCellStringAsColumn(fieldnames));
     return retval;

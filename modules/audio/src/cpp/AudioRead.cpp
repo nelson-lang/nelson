@@ -58,8 +58,8 @@ AudioRead(std::wstring filename, double dstart, double dend, std::wstring dataty
         errorMessage = _W("Invalid range.");
         return retval;
     }
-    indexType start = (indexType)dstart;
-    indexType end = (indexType)dend + 1;
+    auto start = static_cast<indexType>(dstart);
+    indexType end = static_cast<indexType>(dend) + 1;
     ArrayOfVector index;
     if (std::isinf(dend)) {
         end = (indexType)sfinfo.frames;
@@ -70,9 +70,9 @@ AudioRead(std::wstring filename, double dstart, double dend, std::wstring dataty
     } else {
         ArrayOf rangeIndex;
 #ifdef NLS_INDEX_TYPE_64
-        int64 n = (int64)(end - start);
+        auto n = static_cast<int64>(end - start);
         Dimensions dims(1, n);
-        int64* pV = (int64*)ArrayOf::allocateArrayOf(NLS_INT64, n);
+        int64* pV = static_cast<int64*>(ArrayOf::allocateArrayOf(NLS_INT64, n));
         Eigen::Map<Eigen::Matrix<int64, Eigen::Dynamic, 1>> Range(pV, n);
         Range = Eigen::Matrix<int64, Eigen::Dynamic, 1>::LinSpaced(n, start, end);
         rangeIndex = ArrayOf(NLS_INT64, dims, pV);
@@ -107,15 +107,17 @@ AudioRead(std::wstring filename, double dstart, double dend, std::wstring dataty
     switch (format) {
     case SF_FORMAT_PCM_S8: {
         single* dataAsSingle
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, dims.getElementCount());
+            = static_cast<single*>(ArrayOf::allocateArrayOf(NLS_SINGLE, dims.getElementCount()));
         readcount = sf_read_float(file, dataAsSingle, dims.getElementCount());
         sf_close(file);
         if (readcount == sfinfo.frames * sfinfo.channels) {
-            int8* dataAsInt8 = (int8*)ArrayOf::allocateArrayOf(NLS_INT8, dims.getElementCount());
+            int8* dataAsInt8
+                = static_cast<int8*>(ArrayOf::allocateArrayOf(NLS_INT8, dims.getElementCount()));
             for (indexType k = 0; k < dims.getElementCount(); k++) {
                 for (indexType i = 0; i < n_out; ++i) {
                     for (indexType j = 0; j < m_out; ++j) {
-                        dataAsInt8[i * m_out + j] = (uint8)(dataAsSingle[j * n_out + i] * 127);
+                        dataAsInt8[i * m_out + j]
+                            = static_cast<uint8>(dataAsSingle[j * n_out + i] * 127);
                     }
                 }
             }
@@ -128,17 +130,17 @@ AudioRead(std::wstring filename, double dstart, double dend, std::wstring dataty
     } break;
     case SF_FORMAT_PCM_U8: {
         single* dataAsSingle
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, dims.getElementCount());
+            = static_cast<single*>(ArrayOf::allocateArrayOf(NLS_SINGLE, dims.getElementCount()));
         readcount = sf_read_float(file, dataAsSingle, dims.getElementCount());
         sf_close(file);
         if (readcount == sfinfo.frames * sfinfo.channels) {
             uint8* dataAsUInt8
-                = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dims.getElementCount());
-            for (size_t k = 0; k < (size_t)dims.getElementCount(); k++) {
+                = static_cast<uint8*>(ArrayOf::allocateArrayOf(NLS_UINT8, dims.getElementCount()));
+            for (size_t k = 0; k < static_cast<size_t>(dims.getElementCount()); k++) {
                 for (indexType i = 0; i < n_out; ++i) {
                     for (indexType j = 0; j < m_out; ++j) {
                         dataAsUInt8[i * m_out + j]
-                            = (uint8)(dataAsSingle[j * n_out + i] * 127 + 127);
+                            = static_cast<uint8>(dataAsSingle[j * n_out + i] * 127 + 127);
                     }
                 }
             }
@@ -151,12 +153,12 @@ AudioRead(std::wstring filename, double dstart, double dend, std::wstring dataty
     } break;
     case SF_FORMAT_PCM_16: {
         int16* dataAsInt16RowMajor
-            = (int16*)ArrayOf::allocateArrayOf(NLS_INT16, dims.getElementCount());
+            = static_cast<int16*>(ArrayOf::allocateArrayOf(NLS_INT16, dims.getElementCount()));
         readcount = sf_read_short(file, dataAsInt16RowMajor, dims.getElementCount());
         sf_close(file);
         if (readcount == sfinfo.frames * sfinfo.channels) {
             int16* dataAsInt16ColumnMajor
-                = (int16*)ArrayOf::allocateArrayOf(NLS_INT16, dims.getElementCount());
+                = static_cast<int16*>(ArrayOf::allocateArrayOf(NLS_INT16, dims.getElementCount()));
             for (indexType i = 0; i < n_out; ++i) {
                 for (indexType j = 0; j < m_out; ++j) {
                     dataAsInt16ColumnMajor[i * m_out + j] = dataAsInt16RowMajor[j * n_out + i];
@@ -172,12 +174,12 @@ AudioRead(std::wstring filename, double dstart, double dend, std::wstring dataty
     case SF_FORMAT_PCM_24:
     case SF_FORMAT_PCM_32: {
         int32* dataAsInt32RowMajor
-            = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, dims.getElementCount());
+            = static_cast<int32*>(ArrayOf::allocateArrayOf(NLS_INT32, dims.getElementCount()));
         readcount = sf_readf_int(file, dataAsInt32RowMajor, BUFFER_FRAMES);
         sf_close(file);
         if (readcount == sfinfo.frames * sfinfo.channels) {
             int32* dataAsInt32ColumnMajor
-                = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, dims.getElementCount());
+                = static_cast<int32*>(ArrayOf::allocateArrayOf(NLS_INT32, dims.getElementCount()));
             for (indexType i = 0; i < n_out; ++i) {
                 for (indexType j = 0; j < m_out; ++j) {
                     dataAsInt32ColumnMajor[i * m_out + j] = dataAsInt32RowMajor[j * n_out + i];
@@ -192,12 +194,12 @@ AudioRead(std::wstring filename, double dstart, double dend, std::wstring dataty
     } break;
     case SF_FORMAT_FLOAT: {
         single* dataAsSingleRowMajor
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, dims.getElementCount());
+            = static_cast<single*>(ArrayOf::allocateArrayOf(NLS_SINGLE, dims.getElementCount()));
         readcount = sf_read_float(file, dataAsSingleRowMajor, dims.getElementCount());
         sf_close(file);
         if (readcount == sfinfo.frames * sfinfo.channels) {
-            single* dataAsSingleColumnMajor
-                = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, dims.getElementCount());
+            single* dataAsSingleColumnMajor = static_cast<single*>(
+                ArrayOf::allocateArrayOf(NLS_SINGLE, dims.getElementCount()));
             for (indexType i = 0; i < n_out; ++i) {
                 for (indexType j = 0; j < m_out; ++j) {
                     dataAsSingleColumnMajor[i * m_out + j] = dataAsSingleRowMajor[j * n_out + i];
@@ -213,12 +215,12 @@ AudioRead(std::wstring filename, double dstart, double dend, std::wstring dataty
     default: // double
     {
         double* dataAsDoubleRowMajor
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dims.getElementCount());
+            = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, dims.getElementCount()));
         readcount = sf_read_double(file, dataAsDoubleRowMajor, dims.getElementCount());
         sf_close(file);
         if (readcount == sfinfo.frames * sfinfo.channels) {
-            double* dataAsDoubleColumnMajor
-                = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dims.getElementCount());
+            double* dataAsDoubleColumnMajor = static_cast<double*>(
+                ArrayOf::allocateArrayOf(NLS_DOUBLE, dims.getElementCount()));
             for (indexType i = 0; i < n_out; ++i) {
                 for (indexType j = 0; j < m_out; ++j) {
                     dataAsDoubleColumnMajor[i * m_out + j] = dataAsDoubleRowMajor[j * n_out + i];
@@ -242,5 +244,5 @@ AudioRead(std::wstring filename, double dstart, double dend, std::wstring dataty
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

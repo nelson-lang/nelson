@@ -31,7 +31,7 @@ fftBuiltinPrivate(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf res;
-    if (argIn.size() < 1 || argIn.size() > 3) {
+    if (argIn.empty() || argIn.size() > 3) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf X = argIn[0];
@@ -62,7 +62,7 @@ fftBuiltinPrivate(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             if (X.isScalar()) {
                 n = 1;
             } else {
-                n = X.getDimensionLength((int)dim - 1);
+                n = X.getDimensionLength(static_cast<int>(dim) - 1);
             }
         } else {
             n = N.getContentAsScalarIndex(false);
@@ -81,7 +81,7 @@ ArrayOfVector
 Nelson::FftwGateway::fftBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() < 1) {
+    if (argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists

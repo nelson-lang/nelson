@@ -36,9 +36,9 @@ Nelson::DynamicLinkGateway::gatewayinfoBuiltin(
     }
     if (argIn[0].isRowVectorCharacterArray()) {
         std::wstring dynlibName = argIn[0].getContentAsWideString();
-        std::wstring moduleName = L"";
+        std::wstring moduleName;
         stringVector builtinList;
-        std::wstring errorMessage = L"";
+        std::wstring errorMessage;
         bool bRes = GatewayInfo(dynlibName, moduleName, builtinList, errorMessage);
         if (bRes) {
             retval.push_back(ArrayOf::characterArrayConstructor(moduleName));

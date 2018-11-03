@@ -27,11 +27,11 @@ QtTerminal* qtterm = nullptr;
 //=============================================================================
 GuiTerminal::GuiTerminal(void* qtMainW)
 {
-    QtMainWindow* mw = reinterpret_cast<QtMainWindow*>(qtMainW);
+    auto* mw = reinterpret_cast<QtMainWindow*>(qtMainW);
     qtterm = mw->getQtTerminal();
 }
 //=============================================================================
-GuiTerminal::~GuiTerminal() {}
+GuiTerminal::~GuiTerminal() = default;
 //=============================================================================
 std::wstring
 GuiTerminal::getTextLine(std::wstring prompt, bool bIsInput)

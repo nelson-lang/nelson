@@ -57,8 +57,8 @@ bool
 CommandQueue::get(std::wstring& cmd)
 {
     std::lock_guard<std::mutex> lock(m_mutex);
-    if (commands.size() > 0) {
-        cmd = (commands.end() - 1)->c_str();
+    if (!commands.empty()) {
+        cmd = *(commands.end() - 1);
         commands.pop_back();
         return true;
     }
@@ -66,5 +66,5 @@ CommandQueue::get(std::wstring& cmd)
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

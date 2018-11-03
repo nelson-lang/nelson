@@ -21,7 +21,7 @@
 #include <cstdarg>
 #include <string>
 #include <vector>
-#include <wchar.h>
+#include <cwchar>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -48,10 +48,9 @@ StringFormat(const wchar_t* format, ...)
 #endif
         if (ret != -1) {
             break;
-        } else {
-            size *= 2;
-            buff.resize(size);
         }
+        size *= 2;
+        buff.resize(size);
     }
     va_end(ap);
     return std::wstring(buff.data());
@@ -80,14 +79,13 @@ StringFormat(const char* format, ...)
 #endif
         if (ret != -1) {
             break;
-        } else {
-            size *= 2;
-            buff.resize(size);
         }
+        size *= 2;
+        buff.resize(size);
     }
     va_end(ap);
     return std::string(buff.data());
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

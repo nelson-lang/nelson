@@ -44,7 +44,7 @@ Nelson::HelpToolsGateway::htmltopdfBuiltin(Evaluator* eval, int nLhs, const Arra
         if (!IsFile(param1)) {
             Error(ERROR_WRONG_ARGUMENT_1_VALUE);
         }
-        NELSON_ENGINE_MODE _mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
+        auto _mode = static_cast<NELSON_ENGINE_MODE>(eval->getNelsonEngineMode());
         switch (_mode) {
         case ADVANCED_ENGINE:
         case ADVANCED_TERMINAL:

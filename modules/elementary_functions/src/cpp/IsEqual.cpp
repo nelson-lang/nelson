@@ -73,18 +73,17 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
     indexType nbElementsA = dimsA.getElementCount();
     if (A.isStringArray() || B.isStringArray()) {
         if (A.isStringArray() && B.isStringArray()) {
-            ArrayOf* elementA = (ArrayOf*)A.getDataPointer();
-            ArrayOf* elementB = (ArrayOf*)B.getDataPointer();
+            auto* elementA = (ArrayOf*)A.getDataPointer();
+            auto* elementB = (ArrayOf*)B.getDataPointer();
             for (indexType k = 0; k < nbElementsA; k++) {
                 ArrayOf el1 = elementA[k];
                 ArrayOf el2 = elementB[k];
                 bool res = IsEqual(el1, el2, sameTypes, withNaN, needToOverload);
                 if (needToOverload) {
                     return false;
-                } else {
-                    if (!res) {
-                        return false;
-                    }
+                }
+                if (!res) {
+                    return false;
                 }
             }
             return true;
@@ -101,8 +100,8 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
         if (isRealA && isRealB) {
             A.promoteType(NLS_DOUBLE);
             B.promoteType(NLS_DOUBLE);
-            double* ptrA = (double*)A.getDataPointer();
-            double* ptrB = (double*)B.getDataPointer();
+            auto* ptrA = (double*)A.getDataPointer();
+            auto* ptrB = (double*)B.getDataPointer();
             if (withNaN) {
                 for (indexType k = 0; k < nbElementsA; k++) {
                     if (!isequalornan(ptrA[k], ptrB[k])) {
@@ -117,58 +116,57 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
                 }
             }
             return true;
-        } else {
-            A.promoteType(NLS_DCOMPLEX);
-            B.promoteType(NLS_DCOMPLEX);
-            ArrayOf realPartA = RealPart(A);
-            ArrayOf realPartB = RealPart(B);
-            ArrayOf imagPartA = ImagPart(A);
-            ArrayOf imagPartB = ImagPart(B);
-            double* ptrRealA = (double*)realPartA.getDataPointer();
-            double* ptrRealB = (double*)realPartB.getDataPointer();
-            double* ptrImagA = (double*)imagPartA.getDataPointer();
-            double* ptrImagB = (double*)imagPartB.getDataPointer();
-            if (withNaN) {
-                for (indexType k = 0; k < nbElementsA; k++) {
-                    if (!isequalornan(ptrRealA[k], ptrRealB[k])
-                        || !isequalornan(ptrImagA[k], ptrImagB[k])) {
-                        return false;
-                    }
-                }
-            } else {
-                for (indexType k = 0; k < nbElementsA; k++) {
-                    if ((ptrRealA[k] != ptrRealB[k]) || (ptrImagA[k] != ptrImagB[k])) {
-                        return false;
-                    }
-                }
-            }
-            return true;
         }
-    } else {
-        try {
-            A.promoteType(NLS_DOUBLE);
-            B.promoteType(NLS_DOUBLE);
-        } catch (const Exception&) {
-            needToOverload = true;
-            return false;
-        }
-        double* ptrA = (double*)A.getDataPointer();
-        double* ptrB = (double*)B.getDataPointer();
+        A.promoteType(NLS_DCOMPLEX);
+        B.promoteType(NLS_DCOMPLEX);
+        ArrayOf realPartA = RealPart(A);
+        ArrayOf realPartB = RealPart(B);
+        ArrayOf imagPartA = ImagPart(A);
+        ArrayOf imagPartB = ImagPart(B);
+        auto* ptrRealA = (double*)realPartA.getDataPointer();
+        auto* ptrRealB = (double*)realPartB.getDataPointer();
+        auto* ptrImagA = (double*)imagPartA.getDataPointer();
+        auto* ptrImagB = (double*)imagPartB.getDataPointer();
         if (withNaN) {
             for (indexType k = 0; k < nbElementsA; k++) {
-                if (!isequalornan(ptrA[k], ptrB[k])) {
+                if (!isequalornan(ptrRealA[k], ptrRealB[k])
+                    || !isequalornan(ptrImagA[k], ptrImagB[k])) {
                     return false;
                 }
             }
         } else {
             for (indexType k = 0; k < nbElementsA; k++) {
-                if (ptrA[k] != ptrB[k]) {
+                if ((ptrRealA[k] != ptrRealB[k]) || (ptrImagA[k] != ptrImagB[k])) {
                     return false;
                 }
             }
         }
         return true;
     }
+    try {
+        A.promoteType(NLS_DOUBLE);
+        B.promoteType(NLS_DOUBLE);
+    } catch (const Exception&) {
+        needToOverload = true;
+        return false;
+    }
+    auto* ptrA = (double*)A.getDataPointer();
+    auto* ptrB = (double*)B.getDataPointer();
+    if (withNaN) {
+        for (indexType k = 0; k < nbElementsA; k++) {
+            if (!isequalornan(ptrA[k], ptrB[k])) {
+                return false;
+            }
+        }
+    } else {
+        for (indexType k = 0; k < nbElementsA; k++) {
+            if (ptrA[k] != ptrB[k]) {
+                return false;
+            }
+        }
+    }
+    return true;
+
     needToOverload = true;
     return false;
 }

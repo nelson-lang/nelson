@@ -29,7 +29,7 @@ executeCommand(std::wstring commandToExecute)
     void* veval = GetNelsonMainEvaluatorDynamicFunction();
     if (veval != nullptr) {
         std::wstring _cmd = commandToExecute + L";";
-        Evaluator* eval = (Evaluator*)veval;
+        auto* eval = static_cast<Evaluator*>(veval);
         Interface* io = eval->getInterface();
         if (io != nullptr) {
             if (io->isAtPrompt()) {
@@ -44,5 +44,5 @@ executeCommand(std::wstring commandToExecute)
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

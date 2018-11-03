@@ -61,36 +61,36 @@ ExpMatrix(ArrayOf A)
                 matR = matA.exp();
             }
             return R;
-        } else // NLS_DCOMPLEX
-        {
-            ArrayOf R(A);
-            R.ensureSingleOwner();
-            doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-            doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
-            Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
-                (Eigen::Index)A.getDimensions().getColumns());
-            Eigen::Map<Eigen::MatrixXcd> matR(Rz, (Eigen::Index)R.getDimensions().getRows(),
-                (Eigen::Index)R.getDimensions().getColumns());
-            if (!matA.allFinite()) {
-                doublecomplex cst(std::nan("NaN"), std::nan("NaN"));
-                matR.setConstant(cst);
-            } else {
-                // [V, D] = eig(A);
-                // expm = V * diag(exp(diag(D))) * inv(V);
-                Eigen::ComplexEigenSolver<Eigen::MatrixXcd> es(matA);
-                auto evects = es.eigenvectors();
-                auto evals = es.eigenvalues();
-                for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i) {
-                    evals(i) = std::exp(evals(i));
-                }
-                auto evalsdiag = evals.asDiagonal();
-                matR = evects * evalsdiag * evects.inverse();
+        } // NLS_DCOMPLEX
+
+        ArrayOf R(A);
+        R.ensureSingleOwner();
+        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+        auto* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+        Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
+            (Eigen::Index)A.getDimensions().getColumns());
+        Eigen::Map<Eigen::MatrixXcd> matR(Rz, (Eigen::Index)R.getDimensions().getRows(),
+            (Eigen::Index)R.getDimensions().getColumns());
+        if (!matA.allFinite()) {
+            doublecomplex cst(std::nan("NaN"), std::nan("NaN"));
+            matR.setConstant(cst);
+        } else {
+            // [V, D] = eig(A);
+            // expm = V * diag(exp(diag(D))) * inv(V);
+            Eigen::ComplexEigenSolver<Eigen::MatrixXcd> es(matA);
+            auto evects = es.eigenvectors();
+            auto evals = es.eigenvalues();
+            for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i) {
+                evals(i) = std::exp(evals(i));
             }
-            if (R.allReal()) {
-                R.promoteType(NLS_DOUBLE);
-            }
-            return R;
+            auto evalsdiag = evals.asDiagonal();
+            matR = evects * evalsdiag * evects.inverse();
         }
+        if (R.allReal()) {
+            R.promoteType(NLS_DOUBLE);
+        }
+        return R;
+
     } else {
         if (A.getDataClass() == NLS_SINGLE) {
             ArrayOf R(A);
@@ -107,38 +107,37 @@ ExpMatrix(ArrayOf A)
                 matR = matA.exp();
             }
             return R;
-        } else // NLS_SCOMPLEX
-        {
-            ArrayOf R(A);
-            R.ensureSingleOwner();
-            singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-            singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
-            Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
-                (Eigen::Index)A.getDimensions().getColumns());
-            Eigen::Map<Eigen::MatrixXcf> matR(Rz, (Eigen::Index)R.getDimensions().getRows(),
-                (Eigen::Index)R.getDimensions().getColumns());
-            if (!matA.allFinite()) {
-                singlecomplex cst(std::nanf("NaN"), std::nanf("NaN"));
-                matR.setConstant(cst);
-            } else {
-                // [V, D] = eig(A);
-                // expm = V * diag(exp(diag(D))) * inv(V);
-                Eigen::ComplexEigenSolver<Eigen::MatrixXcf> es(matA);
-                auto evects = es.eigenvectors();
-                auto evals = es.eigenvalues();
-                for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i) {
-                    evals(i) = std::exp(evals(i));
-                }
-                auto evalsdiag = evals.asDiagonal();
-                matR = evects * evalsdiag * evects.inverse();
+        } // NLS_SCOMPLEX
+
+        ArrayOf R(A);
+        R.ensureSingleOwner();
+        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+        auto* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
+        Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
+            (Eigen::Index)A.getDimensions().getColumns());
+        Eigen::Map<Eigen::MatrixXcf> matR(Rz, (Eigen::Index)R.getDimensions().getRows(),
+            (Eigen::Index)R.getDimensions().getColumns());
+        if (!matA.allFinite()) {
+            singlecomplex cst(std::nanf("NaN"), std::nanf("NaN"));
+            matR.setConstant(cst);
+        } else {
+            // [V, D] = eig(A);
+            // expm = V * diag(exp(diag(D))) * inv(V);
+            Eigen::ComplexEigenSolver<Eigen::MatrixXcf> es(matA);
+            auto evects = es.eigenvectors();
+            auto evals = es.eigenvalues();
+            for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i) {
+                evals(i) = std::exp(evals(i));
             }
-            if (R.allReal()) {
-                R.promoteType(NLS_SINGLE);
-            }
-            return R;
+            auto evalsdiag = evals.asDiagonal();
+            matR = evects * evalsdiag * evects.inverse();
         }
+        if (R.allReal()) {
+            R.promoteType(NLS_SINGLE);
+        }
+        return R;
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -25,7 +25,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static std::string jsonString = "";
+static std::string jsonString;
 //=============================================================================
 static void
 json_append_char(char c)
@@ -167,7 +167,7 @@ encode_single(single val, bool convertNanInf)
             json_append_string("null,");
         }
     } else {
-        encode_double((double)val, convertNanInf);
+        encode_double(static_cast<double>(val), convertNanInf);
     }
 }
 //=============================================================================
@@ -226,7 +226,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
         } break;
         case NLS_STRING_ARRAY:
         case NLS_CELL_ARRAY: {
-            ArrayOf* elements = (ArrayOf*)ValueToEncode.getDataPointer();
+            auto* elements = (ArrayOf*)ValueToEncode.getDataPointer();
             for (int i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
                 jsonEncodeInternal(elements[i], convertNanInf, errorMessage);
                 json_append_char(',');
@@ -236,8 +236,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
             stringVector fieldnames = ValueToEncode.getFieldNames();
             for (int i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
                 json_append_char('{');
-                for (int field = 0; field < fieldnames.size(); field++) {
-                    std::string fieldname = fieldnames[field];
+                for (auto fieldname : fieldnames) {
                     ArrayOfVector values = ValueToEncode.getFieldAsList(fieldname);
                     if (!values.empty()) {
                         json_append_string("\"" + fieldname + "\":");
@@ -253,7 +252,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
             }
         } break;
         case NLS_LOGICAL: {
-            logical* ptr = (logical*)ValueToEncode.getDataPointer();
+            auto* ptr = (logical*)ValueToEncode.getDataPointer();
             if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
                 for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
                     if (ptr[i] == 0) {
@@ -300,7 +299,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
             }
         } break;
         case NLS_UINT8: {
-            uint8* ptr = (uint8*)ValueToEncode.getDataPointer();
+            auto* ptr = (uint8*)ValueToEncode.getDataPointer();
             if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
                 for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
                     char buff[1024];
@@ -388,7 +387,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
             }
         } break;
         case NLS_UINT16: {
-            uint16* ptr = (uint16*)ValueToEncode.getDataPointer();
+            auto* ptr = (uint16*)ValueToEncode.getDataPointer();
             if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
                 for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
                     char buff[1024];
@@ -432,7 +431,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
             }
         } break;
         case NLS_INT16: {
-            int16* ptr = (int16*)ValueToEncode.getDataPointer();
+            auto* ptr = (int16*)ValueToEncode.getDataPointer();
             if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
                 for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
                     char buff[1024];
@@ -476,7 +475,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
             }
         } break;
         case NLS_UINT32: {
-            uint32* ptr = (uint32*)ValueToEncode.getDataPointer();
+            auto* ptr = (uint32*)ValueToEncode.getDataPointer();
             if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
                 for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
                     char buff[1024];
@@ -520,7 +519,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
             }
         } break;
         case NLS_INT32: {
-            int32* ptr = (int32*)ValueToEncode.getDataPointer();
+            auto* ptr = (int32*)ValueToEncode.getDataPointer();
             if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
                 for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
                     char buff[1024];
@@ -564,7 +563,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
             }
         } break;
         case NLS_UINT64: {
-            uint64* ptr = (uint64*)ValueToEncode.getDataPointer();
+            auto* ptr = (uint64*)ValueToEncode.getDataPointer();
             if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
                 for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
                     char buff[1024];
@@ -608,7 +607,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
             }
         } break;
         case NLS_INT64: {
-            int64* ptr = (int64*)ValueToEncode.getDataPointer();
+            auto* ptr = (int64*)ValueToEncode.getDataPointer();
             if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
                 for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
                     char buff[1024];
@@ -652,7 +651,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
             }
         } break;
         case NLS_SINGLE: {
-            single* ptr = (single*)ValueToEncode.getDataPointer();
+            auto* ptr = (single*)ValueToEncode.getDataPointer();
             if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
                 for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
                     encode_single(ptr[i], convertNanInf);
@@ -687,7 +686,7 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
             }
         } break;
         case NLS_DOUBLE: {
-            double* ptr = (double*)ValueToEncode.getDataPointer();
+            auto* ptr = (double*)ValueToEncode.getDataPointer();
             if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
                 for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
                     encode_double(ptr[i], convertNanInf);
@@ -726,8 +725,8 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
             if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
                 jsonString.reserve(jsonString.size() + strw.size() + 2);
                 json_append_char('"');
-                for (size_t i = 0; i < strw.size(); i++) {
-                    encode_character(strw[i]);
+                for (wchar_t i : strw) {
+                    encode_character(i);
                 }
                 json_append_char('"');
             } else if (ValueToEncode.is2D()) {
@@ -783,5 +782,5 @@ jsonEncode(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& errorMessage
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -57,5 +57,5 @@ ArrayOf::functionHandleConstructor(std::wstring functionName, function_handle fp
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

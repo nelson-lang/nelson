@@ -66,8 +66,8 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (!printfFunction(args, errorMessage, result)) {
         Error(errorMessage);
     }
-    FilesManager* fm = (FilesManager*)(eval->FileManager);
-    int32 iValue = (int32)dID;
+    auto* fm = static_cast<FilesManager*>(eval->FileManager);
+    auto iValue = static_cast<int32>(dID);
     if (fm == nullptr) {
         Error(_W("Problem with file manager."));
     }
@@ -87,7 +87,7 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                 Error(_W("ID not supported."));
             }
         } else {
-            FILE* filepointer = (FILE*)f->getFilePointer();
+            FILE* filepointer = static_cast<FILE*>(f->getFilePointer());
             if (filepointer) {
                 fwprintf(filepointer, L"%ls", result.c_str());
             } else {

@@ -102,7 +102,7 @@ Sqrt(ArrayOf A, bool& needToOverload)
         } else {
             Dimensions dimsA = A.getDimensions();
             if (classA == NLS_DOUBLE) {
-                double* ptrIn = (double*)A.getDataPointer();
+                auto* ptrIn = (double*)A.getDataPointer();
                 if (haveNegativeValue<double>(ptrIn, dimsA.getElementCount())) {
                     A.promoteType(NLS_DCOMPLEX);
                     res = SqrtComplex<double>(NLS_DCOMPLEX, A);
@@ -119,7 +119,7 @@ Sqrt(ArrayOf A, bool& needToOverload)
         } else {
             Dimensions dimsA = A.getDimensions();
             if (classA == NLS_SINGLE) {
-                single* ptrIn = (single*)A.getDataPointer();
+                auto* ptrIn = (single*)A.getDataPointer();
                 if (haveNegativeValue<single>(ptrIn, dimsA.getElementCount())) {
                     A.promoteType(NLS_SCOMPLEX);
                     res = SqrtComplex<single>(NLS_SCOMPLEX, A);

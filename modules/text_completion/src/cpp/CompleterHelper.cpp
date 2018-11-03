@@ -29,7 +29,7 @@ searchMatchingPrefixAndSuffix(std::wstring line, std::wstring toFind)
     // toFind: Program Files (x86)/
     std::wstring toFindCopy = std::wstring(toFind);
     boost::to_upper(toFindCopy);
-    wchar_t* pointerToFindCopy = (wchar_t*)toFindCopy.c_str();
+    auto* pointerToFindCopy = const_cast<wchar_t*>(toFindCopy.c_str());
     wchar_t lastChar = towupper(*line.rbegin());
     size_t lineLength = line.size();
     wchar_t* movingPointerToFindCopy = nullptr;
@@ -39,8 +39,8 @@ searchMatchingPrefixAndSuffix(std::wstring line, std::wstring toFind)
             break;
         }
         movingPointerToFindCopy[0] = '\0';
-        wchar_t* pointerOnLine
-            = (wchar_t*)(line.c_str() + lineLength - wcslen(pointerToFindCopy) - 1);
+        auto* pointerOnLine
+            = const_cast<wchar_t*>(line.c_str() + lineLength - wcslen(pointerToFindCopy) - 1);
         std::wstring toFindModified = std::wstring(pointerToFindCopy);
         std::wstring lineModified = std::wstring(pointerOnLine);
         if (boost::iequals(toFindModified, lineModified.substr(0, toFindModified.size()))) {
@@ -105,9 +105,8 @@ getPartialLineAsPath(std::wstring line)
         while (lineWithoutSpaceAtBeginning[index] == L' ') {
             if (index + 1 >= lengthLine) {
                 break;
-            } else {
-                index++;
             }
+            index++;
         }
         returnedLine = lineWithoutSpaceAtBeginning.substr(index);
     }
@@ -128,7 +127,7 @@ completerLine(std::wstring currentLine, std::wstring stringToAdd, std::wstring f
         lineModified = currentLine;
         return lineModified;
     }
-    if (stringToAddIsPath == true) {
+    if (stringToAddIsPath) {
         std::wstring filePatternBuf;
         bool bfilePatternBuf = false;
         if (!filePattern.empty()) {
@@ -166,4 +165,4 @@ completerLine(std::wstring currentLine, std::wstring stringToAdd, std::wstring f
     return lineModified;
 }
 //=============================================================================
-}
+} // namespace Nelson

@@ -119,7 +119,7 @@ ArrayOf::summarizeStringArray(Interface* io) const
         if (dp->dataClass == NLS_CHAR) {
             Dimensions dims = dp->dimensions;
             if (dims.isRowVector()) {
-                if (dims.getColumns() < (indexType)(io->getTerminalWidth() - 3)) {
+                if (dims.getColumns() < static_cast<indexType>(io->getTerminalWidth() - 3)) {
                     std::wstring str = getContentAsWideString();
                     str = L"\"" + str + L"\"";
                     io->outputMessage(str);
@@ -174,7 +174,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
         case NLS_CHAR: {
             Dimensions dims = dp->dimensions;
             if (dims.isRowVector()) {
-                if (dims.getColumns() < (indexType)(io->getTerminalWidth() - 3)) {
+                if (dims.getColumns() < static_cast<indexType>(io->getTerminalWidth() - 3)) {
                     std::wstring str = getContentAsWideString();
                     str = L"\'" + str + L"\'";
                     io->outputMessage(str);
@@ -196,7 +196,8 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             break;
         case NLS_LOGICAL:
             if (!isSparse() && dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const logical*)dp->getData()));
+                snprintf(
+                    msgBuffer, MSGBUFLEN, "[%d]", *(static_cast<const logical*>(dp->getData())));
                 io->outputMessage(msgBuffer);
             } else {
                 io->outputMessage("[");
@@ -209,7 +210,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             break;
         case NLS_UINT8:
             if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const uint8*)dp->getData()));
+                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *(static_cast<const uint8*>(dp->getData())));
                 io->outputMessage(msgBuffer);
             } else {
                 io->outputMessage("[");
@@ -219,7 +220,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             break;
         case NLS_INT8:
             if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const int8*)dp->getData()));
+                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *(static_cast<const int8*>(dp->getData())));
                 io->outputMessage(msgBuffer);
             } else {
                 io->outputMessage("[");
@@ -229,7 +230,8 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             break;
         case NLS_UINT16:
             if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const uint16*)dp->getData()));
+                snprintf(
+                    msgBuffer, MSGBUFLEN, "[%d]", *(static_cast<const uint16*>(dp->getData())));
                 io->outputMessage(msgBuffer);
             } else {
                 io->outputMessage("[");
@@ -239,7 +241,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             break;
         case NLS_INT16:
             if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const int16*)dp->getData()));
+                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *(static_cast<const int16*>(dp->getData())));
                 io->outputMessage(msgBuffer);
             } else {
                 io->outputMessage("[");
@@ -249,7 +251,8 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             break;
         case NLS_UINT32:
             if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const uint32*)dp->getData()));
+                snprintf(
+                    msgBuffer, MSGBUFLEN, "[%d]", *(static_cast<const uint32*>(dp->getData())));
                 io->outputMessage(msgBuffer);
             } else {
                 io->outputMessage("[");
@@ -259,7 +262,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             break;
         case NLS_INT32:
             if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const int32*)dp->getData()));
+                snprintf(msgBuffer, MSGBUFLEN, "[%d]", *(static_cast<const int32*>(dp->getData())));
                 io->outputMessage(msgBuffer);
             } else {
                 io->outputMessage("[");
@@ -269,11 +272,11 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             break;
         case NLS_UINT64: {
             if (dp->dimensions.isScalar()) {
-                uint64 val = *((const uint64*)dp->getData());
+                uint64 val = *(static_cast<const uint64*>(dp->getData()));
                 std::string msg = "[" + std::to_string(val) + "]";
                 // snprintf(msgBuffer, MSGBUFLEN, "[" PRIu64 "]", *((const
                 // uint64*)dp->getData())); io->outputMessage(msgBuffer);
-                io->outputMessage(msg.c_str());
+                io->outputMessage(msg);
             } else {
                 io->outputMessage("[");
                 dp->dimensions.printMe(io);
@@ -282,11 +285,11 @@ ArrayOf::summarizeCellEntry(Interface* io) const
         } break;
         case NLS_INT64: {
             if (dp->dimensions.isScalar()) {
-                int64 value = *((const int64*)dp->getData());
+                int64 value = *(static_cast<const int64*>(dp->getData()));
                 std::string msg = std::string("[") + std::to_string(value) + std::string("]");
                 // snprintf(msgBuffer, MSGBUFLEN, "[" PRId64 "]", *((const
                 // int64*)dp->getData()));
-                io->outputMessage(msg.c_str());
+                io->outputMessage(msg);
             } else {
                 io->outputMessage("[");
                 dp->dimensions.printMe(io);
@@ -295,7 +298,8 @@ ArrayOf::summarizeCellEntry(Interface* io) const
         } break;
         case NLS_DOUBLE:
             if (!isSparse() && dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%lf]", *((const double*)dp->getData()));
+                snprintf(
+                    msgBuffer, MSGBUFLEN, "[%lf]", *(static_cast<const double*>(dp->getData())));
                 io->outputMessage(msgBuffer);
             } else {
                 io->outputMessage("[");
@@ -308,7 +312,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             break;
         case NLS_DCOMPLEX:
             if (!isSparse() && dp->dimensions.isScalar()) {
-                const double* ap = (const double*)dp->getData();
+                const auto* ap = static_cast<const double*>(dp->getData());
                 snprintf(msgBuffer, MSGBUFLEN, "[%lf+%lfi]", ap[0], ap[1]);
                 io->outputMessage(msgBuffer);
             } else {
@@ -322,7 +326,8 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             break;
         case NLS_SINGLE:
             if (dp->dimensions.isScalar()) {
-                snprintf(msgBuffer, MSGBUFLEN, "[%f]", *((const single*)dp->getData()));
+                snprintf(
+                    msgBuffer, MSGBUFLEN, "[%f]", *(static_cast<const single*>(dp->getData())));
                 io->outputMessage(msgBuffer);
             } else {
                 io->outputMessage("[");
@@ -332,7 +337,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
             break;
         case NLS_SCOMPLEX:
             if (dp->dimensions.isScalar()) {
-                const single* ap = (const single*)dp->getData();
+                const auto* ap = static_cast<const single*>(dp->getData());
                 snprintf(msgBuffer, MSGBUFLEN, "[%f+%fi]", ap[0], ap[1]);
                 io->outputMessage(msgBuffer);
             } else {
@@ -354,7 +359,7 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
     case NLS_HANDLE: {
     } break;
     case NLS_INT8: {
-        const int8* ap = (const int8*)dp;
+        const int8* ap = static_cast<const int8*>(dp);
         snprintf(msgBuffer, MSGBUFLEN, "% 4d", ap[num]);
         io->outputMessage(msgBuffer);
         snprintf(msgBuffer, MSGBUFLEN, "  ");
@@ -362,7 +367,7 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
         break;
     }
     case NLS_UINT8: {
-        const uint8* ap = (const uint8*)dp;
+        const auto* ap = static_cast<const uint8*>(dp);
         snprintf(msgBuffer, MSGBUFLEN, "%3u", ap[num]);
         io->outputMessage(msgBuffer);
         snprintf(msgBuffer, MSGBUFLEN, "  ");
@@ -370,7 +375,7 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
         break;
     }
     case NLS_INT16: {
-        const int16* ap = (const int16*)dp;
+        const auto* ap = static_cast<const int16*>(dp);
         snprintf(msgBuffer, MSGBUFLEN, "% 6d", ap[num]);
         io->outputMessage(msgBuffer);
         snprintf(msgBuffer, MSGBUFLEN, "  ");
@@ -378,7 +383,7 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
         break;
     }
     case NLS_UINT16: {
-        const uint16* ap = (const uint16*)dp;
+        const auto* ap = static_cast<const uint16*>(dp);
         snprintf(msgBuffer, MSGBUFLEN, "%5u", ap[num]);
         io->outputMessage(msgBuffer);
         snprintf(msgBuffer, MSGBUFLEN, "  ");
@@ -386,7 +391,7 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
         break;
     }
     case NLS_INT32: {
-        const int32* ap = (const int32*)dp;
+        const auto* ap = static_cast<const int32*>(dp);
         snprintf(msgBuffer, MSGBUFLEN, "%13d", ap[num]);
         io->outputMessage(msgBuffer);
         snprintf(msgBuffer, MSGBUFLEN, "  ");
@@ -394,7 +399,7 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
         break;
     }
     case NLS_UINT32: {
-        const uint32* ap = (const uint32*)dp;
+        const auto* ap = static_cast<const uint32*>(dp);
         snprintf(msgBuffer, MSGBUFLEN, "%12u", ap[num]);
         io->outputMessage(msgBuffer);
         snprintf(msgBuffer, MSGBUFLEN, "  ");
@@ -402,28 +407,28 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
         break;
     }
     case NLS_INT64: {
-        const int64* ap = (const int64*)dp;
+        const auto* ap = static_cast<const int64*>(dp);
         std::string msg = std::to_string(ap[num]) + "  ";
         // snprintf(msgBuffer, MSGBUFLEN, "%13d", ap[num]);
         // io->outputMessage(msgBuffer);
         // snprintf(msgBuffer, MSGBUFLEN, "  ");
         // io->outputMessage(msgBuffer);
-        io->outputMessage(msg.c_str());
+        io->outputMessage(msg);
         break;
     }
     case NLS_UINT64: {
-        const uint64* ap = (const uint64*)dp;
-        std::string msg("");
+        const auto* ap = static_cast<const uint64*>(dp);
+        std::string msg;
         msg = std::to_string(ap[num]) + "  ";
         // snprintf(msgBuffer, MSGBUFLEN, "%12u", ap[num]);
         // io->outputMessage(msgBuffer);
         // snprintf(msgBuffer, MSGBUFLEN, "  ");
         // io->outputMessage(msgBuffer);
-        io->outputMessage(msg.c_str());
+        io->outputMessage(msg);
         break;
     }
     case NLS_LOGICAL: {
-        const logical* ap = (const logical*)dp;
+        const auto* ap = static_cast<const logical*>(dp);
         if (ap[num] == 0) {
             snprintf(msgBuffer, MSGBUFLEN, "false  ");
         } else {
@@ -433,14 +438,14 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
         break;
     }
     case NLS_CHAR: {
-        const charType* ap = (const charType*)dp;
+        const auto* ap = static_cast<const charType*>(dp);
         std::wstring wstr;
         wstr.push_back(ap[num]);
         io->outputMessage(wstr);
         break;
     }
     case NLS_SINGLE: {
-        const single* ap = (const single*)dp;
+        const auto* ap = static_cast<const single*>(dp);
         outputSinglePrecisionFloat(msgBuffer, ap[num]);
         io->outputMessage(msgBuffer);
         memset(msgBuffer, 0, MSGBUFLEN);
@@ -449,7 +454,7 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
         break;
     }
     case NLS_DOUBLE: {
-        const double* ap = (const double*)dp;
+        const auto* ap = static_cast<const double*>(dp);
         outputDoublePrecisionFloat(msgBuffer, ap[num]);
         io->outputMessage(msgBuffer);
         memset(msgBuffer, 0, MSGBUFLEN);
@@ -458,7 +463,7 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
         break;
     }
     case NLS_SCOMPLEX: {
-        const single* ap = (const single*)dp;
+        const auto* ap = static_cast<const single*>(dp);
         outputSinglePrecisionFloat(msgBuffer, ap[2 * num]);
         io->outputMessage(msgBuffer);
         memset(msgBuffer, 0, MSGBUFLEN);
@@ -472,7 +477,7 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
         break;
     }
     case NLS_DCOMPLEX: {
-        const double* ap = (const double*)dp;
+        const auto* ap = static_cast<const double*>(dp);
         outputDoublePrecisionFloat(msgBuffer, ap[2 * num]);
         io->outputMessage(msgBuffer);
         memset(msgBuffer, 0, MSGBUFLEN);
@@ -486,7 +491,7 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
         break;
     }
     case NLS_CELL_ARRAY: {
-        ArrayOf* ap = (ArrayOf*)dp;
+        auto* ap = (ArrayOf*)dp;
         if (ap == nullptr) {
             io->outputMessage("[]");
         } else {
@@ -495,7 +500,7 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
         break;
     }
     case NLS_STRING_ARRAY: {
-        ArrayOf* ap = (ArrayOf*)dp;
+        auto* ap = (ArrayOf*)dp;
         if (ap == nullptr) {
             io->outputMessage("[]");
         } else {
@@ -595,12 +600,12 @@ ArrayOf::printMe(Interface* io) const
     if (isEmpty()) {
         if (isStruct()) {
             stringVector fieldsName = getFieldNames();
-            if (fieldsName.size() == 0) {
+            if (fieldsName.empty()) {
                 io->outputMessage("  []\n");
             } else {
-                for (size_t k = 0; k < fieldsName.size(); k++) {
+                for (const auto& k : fieldsName) {
                     io->outputMessage("    ");
-                    io->outputMessage(fieldsName[k]);
+                    io->outputMessage(k);
                     io->outputMessage("\n");
                 }
             }
@@ -618,19 +623,19 @@ ArrayOf::printMe(Interface* io) const
         if (dp->dimensions.isScalar()) {
             ArrayOf* ap;
             ap = (ArrayOf*)dp->getData();
-            for (sizeType n = 0; n < (sizeType)dp->fieldNames.size(); n++) {
+            for (sizeType n = 0; n < static_cast<sizeType>(dp->fieldNames.size()); n++) {
                 io->outputMessage("    ");
-                io->outputMessage(dp->fieldNames[n].c_str());
+                io->outputMessage(dp->fieldNames[n]);
                 io->outputMessage(": ");
                 ap[n].summarizeCellEntry(io);
                 io->outputMessage("\n");
             }
         } else {
-            if (dp->fieldNames.size() > 0) {
+            if (!dp->fieldNames.empty()) {
                 io->outputMessage("  Fields\n");
-                for (sizeType n = 0; n < (sizeType)dp->fieldNames.size(); n++) {
+                for (const auto& fieldName : dp->fieldNames) {
                     io->outputMessage("    ");
-                    io->outputMessage(dp->fieldNames[n].c_str());
+                    io->outputMessage(fieldName);
                     io->outputMessage("\n");
                 }
             }
@@ -644,8 +649,10 @@ ArrayOf::printMe(Interface* io) const
             items_printed = 0;
             // Determine how many columns will fit across
             // the terminal width
-            indexType colsPerPage = (indexType)floor((termWidth - 1) / ((single)nominalWidth));
-            indexType pageCount = (indexType)ceil(columns / ((single)colsPerPage));
+            auto colsPerPage = static_cast<indexType>(
+                floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
+            auto pageCount
+                = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
             for (indexType k = 0; k < pageCount; k++) {
                 indexType colsInThisPage = columns - colsPerPage * k;
                 colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
@@ -697,16 +704,17 @@ ArrayOf::printMe(Interface* io) const
                 snprintf(msgBuffer, MSGBUFLEN, "(:,:");
                 io->outputMessage(msgBuffer);
                 for (sizeType m = 2; m < dp->dimensions.getLength(); m++) {
-                    snprintf(msgBuffer, MSGBUFLEN, ",%d", (int)wdims[m] + 1);
+                    snprintf(msgBuffer, MSGBUFLEN, ",%d", static_cast<int>(wdims[m]) + 1);
                     io->outputMessage(msgBuffer);
                 }
                 snprintf(msgBuffer, MSGBUFLEN, ") =\n\n");
                 io->outputMessage(msgBuffer);
                 // Determine how many columns will fit across
                 // the terminal width
-                indexType colsPerPage = (indexType)floor((termWidth - 1) / ((single)nominalWidth));
+                auto colsPerPage = static_cast<indexType>(
+                    floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
                 int pageCount;
-                pageCount = (int)ceil(columns / ((single)colsPerPage));
+                pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
                 for (int k = 0; k < pageCount; k++) {
                     indexType colsInThisPage = columns - colsPerPage * k;
                     colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;

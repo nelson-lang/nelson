@@ -564,5 +564,5 @@ AudioDevInfo(int io, int id, int rate, int bits, int chans, std::wstring& errorM
     return ArrayOf::emptyConstructor();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

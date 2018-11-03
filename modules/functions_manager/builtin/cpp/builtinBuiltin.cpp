@@ -33,7 +33,7 @@ Nelson::FunctionsGateway::builtinBuiltin(Evaluator* eval, int nLhs, const ArrayO
     Context* context = eval->getContext();
     FunctionDef* funcDef = nullptr;
     ArrayOf param1 = argIn[0];
-    std::string fname = "";
+    std::string fname;
     if (param1.isFunctionHandle()) {
         function_handle fh = param1.getContentAsFunctionHandle();
         std::wstring functionname;

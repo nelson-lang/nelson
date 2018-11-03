@@ -33,7 +33,7 @@ ArrayOf::isHandle() const
 ArrayOf
 ArrayOf::handleConstructor(nelson_handle hl)
 {
-    nelson_handle* ptrObject = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
+    nelson_handle* ptrObject = static_cast<nelson_handle*>(ArrayOf::allocateArrayOf(NLS_HANDLE, 1));
     Dimensions dims(1, 1);
     ptrObject[0] = hl;
     return ArrayOf(NLS_HANDLE, dims, (void*)ptrObject);
@@ -42,7 +42,7 @@ ArrayOf::handleConstructor(nelson_handle hl)
 ArrayOf
 ArrayOf::handleConstructor(HandleGenericObject* ptr)
 {
-    nelson_handle* ptrObject = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
+    nelson_handle* ptrObject = static_cast<nelson_handle*>(ArrayOf::allocateArrayOf(NLS_HANDLE, 1));
     Dimensions dims(1, 1);
     ptrObject[0] = HandleManager::getInstance()->addHandle(ptr);
     return ArrayOf(NLS_HANDLE, dims, (void*)ptrObject);
@@ -57,7 +57,7 @@ ArrayOf::getContentAsHandleScalar() const
     if (!isScalar()) {
         Error(_W("Expected a handle scalar."));
     }
-    nelson_handle* qp = (nelson_handle*)dp->getData();
+    auto* qp = (nelson_handle*)dp->getData();
     if (qp == nullptr) {
         Error(_W("Expected a valid handle."));
     }
@@ -86,5 +86,5 @@ ArrayOf::getHandleCategory() const
     return obj->getCategory();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

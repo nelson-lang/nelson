@@ -28,7 +28,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::GuiGateway::bannerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 0) {
+    if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs != 0) {
@@ -37,10 +37,10 @@ Nelson::GuiGateway::bannerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     if (eval) {
         Interface* io = eval->getInterface();
         if (io) {
-            NELSON_ENGINE_MODE _mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
+            auto _mode = static_cast<NELSON_ENGINE_MODE>(eval->getNelsonEngineMode());
             switch (_mode) {
             case GUI: {
-                GuiTerminal* gtio = (GuiTerminal*)io;
+                auto* gtio = (GuiTerminal*)io;
                 gtio->banner();
             } break;
             default: {

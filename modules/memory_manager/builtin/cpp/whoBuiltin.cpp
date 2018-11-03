@@ -31,7 +31,7 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         variablesName = Who(eval, LOCAL_SCOPE, false);
     } else if (argIn.size() == 1) {
         std::wstring param1;
@@ -59,20 +59,20 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         std::sort(variablesName.begin(), variablesName.end());
         size_t ncharmax = io->getTerminalWidth();
         size_t nbchar = 0;
-        for (size_t k = 0; k < variablesName.size(); k++) {
-            if (nbchar + variablesName[k].size() < ncharmax) {
-                io->outputMessage(variablesName[k]);
+        for (auto& k : variablesName) {
+            if (nbchar + k.size() < ncharmax) {
+                io->outputMessage(k);
                 io->outputMessage(" ");
-                nbchar = 1 + nbchar + variablesName[k].size();
+                nbchar = 1 + nbchar + k.size();
             } else {
                 nbchar = 0;
                 io->outputMessage("\n");
-                io->outputMessage(variablesName[k]);
+                io->outputMessage(k);
                 io->outputMessage(" ");
-                nbchar = 1 + nbchar + variablesName[k].size();
+                nbchar = 1 + nbchar + k.size();
             }
         }
-        if (variablesName.size() > 0) {
+        if (!variablesName.empty()) {
             io->outputMessage("\n");
         }
     } else {

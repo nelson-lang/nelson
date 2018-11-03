@@ -30,7 +30,7 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (nLhs > 2) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
@@ -50,8 +50,8 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         if (!param1.isVector()) {
             Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        std::wstring result = L"";
-        std::wstring error_message = L"";
+        std::wstring result;
+        std::wstring error_message;
         bool bRes = StringPrintf(result, error_message, eval, argIn);
         if (!bRes) {
             if (nLhs > 1) {
@@ -64,7 +64,7 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                 Error(error_message);
             }
         } else {
-            if (result == L"") {
+            if (result.empty()) {
                 if (param1.getDataClass() == NLS_CHAR) {
                     Dimensions dims(1, 0);
                     ArrayOf strArr = ArrayOf::emptyConstructor(dims);

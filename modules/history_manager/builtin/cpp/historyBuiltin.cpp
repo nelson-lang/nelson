@@ -31,10 +31,10 @@ historyBuiltin_size_one_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argI
     ArrayOf arg1 = argIn[0];
     if (arg1.isRowVectorCharacterArray()) {
         std::wstring str = arg1.getContentAsWideString();
-        HistoryManager* ptrHistoryManager = (HistoryManager*)eval->HistoryManager;
+        auto* ptrHistoryManager = static_cast<HistoryManager*>(eval->HistoryManager);
         if (str == L"size") {
-            retval.push_back(
-                ArrayOf::doubleConstructor((double)ptrHistoryManager->getLastNCommandsSize()));
+            retval.push_back(ArrayOf::doubleConstructor(
+                static_cast<double>(ptrHistoryManager->getLastNCommandsSize())));
         } else if (str == L"enable_save") {
             retval.push_back(ArrayOf::logicalConstructor(ptrHistoryManager->getSaveEnabled()));
         } else if (str == L"filename") {
@@ -45,7 +45,7 @@ historyBuiltin_size_one_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argI
         } else if (str == L"display") {
             if (nLhs == 0) {
                 wstringVector lines = ptrHistoryManager->get();
-                if (lines.size() > 0) {
+                if (!lines.empty()) {
                     Interface* io = eval->getInterface();
                     if (io) {
                         for (size_t k = 0; k < lines.size(); k++) {
@@ -78,8 +78,8 @@ historyBuiltin_size_one_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argI
             retval.push_back(
                 ArrayOf::logicalConstructor(ptrHistoryManager->getAllowDuplicatedLines()));
         } else if (str == L"saveafter") {
-            retval.push_back(
-                ArrayOf::doubleConstructor((double)ptrHistoryManager->getSaveAfterNCommands()));
+            retval.push_back(ArrayOf::doubleConstructor(
+                static_cast<double>(ptrHistoryManager->getSaveAfterNCommands())));
         } else if (str == L"removeexit") {
             retval.push_back(ArrayOf::logicalConstructor(ptrHistoryManager->getRemoveExit()));
         } else {
@@ -95,7 +95,7 @@ static ArrayOfVector
 historyBuiltin_no_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    HistoryManager* ptrHistoryManager = (HistoryManager*)eval->HistoryManager;
+    auto* ptrHistoryManager = static_cast<HistoryManager*>(eval->HistoryManager);
     wstringVector res = ptrHistoryManager->get();
     if (nLhs == 0) {
         Interface* io = eval->getInterface();
@@ -118,7 +118,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOf arg2 = argIn[1];
     if (arg1.isRowVectorCharacterArray()) {
         std::wstring str = arg1.getContentAsWideString();
-        HistoryManager* ptrHistoryManager = (HistoryManager*)eval->HistoryManager;
+        auto* ptrHistoryManager = static_cast<HistoryManager*>(eval->HistoryManager);
         if (str == L"size") {
             if (nLhs > 0) {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
@@ -132,8 +132,8 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                     if (dvalue < 0) {
                         Error(ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
                     }
-                    size_t ivalue = (size_t)dvalue;
-                    if ((double)ivalue != dvalue) {
+                    auto ivalue = static_cast<size_t>(dvalue);
+                    if (static_cast<double>(ivalue) != dvalue) {
                         Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                     }
                     ptrHistoryManager->setLastNCommandsSize(ivalue);
@@ -170,8 +170,8 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                     if (dvalue < 0) {
                         Error(ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
                     }
-                    size_t ivalue = (size_t)dvalue;
-                    if ((double)ivalue != dvalue) {
+                    auto ivalue = static_cast<size_t>(dvalue);
+                    if (static_cast<double>(ivalue) != dvalue) {
                         Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                     }
                     ptrHistoryManager->remove(ivalue);
@@ -179,7 +179,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                     Dimensions sze(arg2.getDimensions());
                     Dimensions supported(1, 2);
                     if (sze.equals(supported)) {
-                        double* dvalues = (double*)arg2.getDataPointer();
+                        auto* dvalues = (double*)arg2.getDataPointer();
                         double dvalue1 = dvalues[0];
                         double dvalue2 = dvalues[1] + 1;
                         if (!std::isfinite(dvalue1) || !std::isfinite(dvalue2)) {
@@ -188,9 +188,10 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                         if (dvalue1 < 0 || dvalue2 < 0) {
                             Error(ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
                         }
-                        size_t ivalue1 = (size_t)dvalue1;
-                        size_t ivalue2 = (size_t)dvalue2;
-                        if (((double)ivalue1 != dvalue1) || ((double)ivalue2 != dvalue2)) {
+                        auto ivalue1 = static_cast<size_t>(dvalue1);
+                        auto ivalue2 = static_cast<size_t>(dvalue2);
+                        if ((static_cast<double>(ivalue1) != dvalue1)
+                            || (static_cast<double>(ivalue2) != dvalue2)) {
                             Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                         }
                         if (ivalue2 <= ivalue1) {
@@ -215,11 +216,11 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             }
             if (arg2.isRowVectorCharacterArray()) {
                 std::wstring str = arg2.getContentAsWideString();
-                HistoryManager* ptrHistoryManager = (HistoryManager*)eval->HistoryManager;
+                auto* ptrHistoryManager = static_cast<HistoryManager*>(eval->HistoryManager);
                 ptrHistoryManager->appendLine(str);
             } else if (IsCellOfString(arg2)) {
                 ArrayOf cell(arg2);
-                ArrayOf* arg = (ArrayOf*)(cell.getDataPointer());
+                auto* arg = (ArrayOf*)(cell.getDataPointer());
                 for (indexType k = 0; k < arg2.getDimensions().getElementCount(); k++) {
                     ptrHistoryManager->appendLine(arg[k].getContentAsWideString());
                 }
@@ -297,8 +298,8 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                     if (dvalue < 0) {
                         Error(ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
                     }
-                    size_t ivalue = (size_t)dvalue;
-                    if ((double)ivalue != dvalue) {
+                    auto ivalue = static_cast<size_t>(dvalue);
+                    if (static_cast<double>(ivalue) != dvalue) {
                         Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                     }
                     std::wstring line = ptrHistoryManager->get(ivalue);
@@ -307,7 +308,7 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                     Dimensions sze(arg2.getDimensions());
                     Dimensions supported(1, 2);
                     if (sze.equals(supported)) {
-                        double* dvalues = (double*)arg2.getDataPointer();
+                        auto* dvalues = (double*)arg2.getDataPointer();
                         double dvalue1 = dvalues[0];
                         double dvalue2 = dvalues[1] + 1;
                         if (!std::isfinite(dvalue1) || !std::isfinite(dvalue2)) {
@@ -316,9 +317,10 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                         if (dvalue1 < 0 || dvalue2 < 0) {
                             Error(ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
                         }
-                        size_t ivalue1 = (size_t)dvalue1;
-                        size_t ivalue2 = (size_t)dvalue2;
-                        if (((double)ivalue1 != dvalue1) || ((double)ivalue2 != dvalue2)) {
+                        auto ivalue1 = static_cast<size_t>(dvalue1);
+                        auto ivalue2 = static_cast<size_t>(dvalue2);
+                        if ((static_cast<double>(ivalue1) != dvalue1)
+                            || (static_cast<double>(ivalue2) != dvalue2)) {
                             Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                         }
                         if (ivalue2 <= ivalue1) {
@@ -348,8 +350,8 @@ historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                         if (dvalue < 0) {
                             Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                         }
-                        size_t ivalue = (size_t)dvalue;
-                        if ((double)ivalue != dvalue) {
+                        auto ivalue = static_cast<size_t>(dvalue);
+                        if (static_cast<double>(ivalue) != dvalue) {
                             Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
                         }
                         ptrHistoryManager->setSaveAfterNCommands(ivalue);

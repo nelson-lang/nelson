@@ -33,7 +33,7 @@ ispropComHandleObject(ComHandleObject* comhandleobj, const std::wstring& propert
     if (ptr == nullptr) {
         Error(_W("COM valid handle expected."));
     }
-    VARIANT* pVariant = (VARIANT*)ptr;
+    auto* pVariant = static_cast<VARIANT*>(ptr);
     return isPropertyGetCom(pVariant->pdispVal, propertyName)
         || isPropertyPutCom(pVariant->pdispVal, propertyName);
 }
@@ -44,10 +44,10 @@ ispropComHandleObject(ArrayOf A, const std::wstring& propertyName)
     if (A.getHandleCategory() != COM_CATEGORY_STR) {
         Error(_W("COM handle expected."));
     }
-    ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
+    auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     bool res = ispropComHandleObject(comhandleobj, propertyName);
     return ArrayOf::logicalConstructor(res);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

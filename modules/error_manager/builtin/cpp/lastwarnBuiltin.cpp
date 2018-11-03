@@ -35,7 +35,7 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
         ArrayOf arg1 = argIn[0];
         if (arg1.isRowVectorCharacterArray()) {
             std::wstring message = arg1.getContentAsWideString();
-            if (message == L"") {
+            if (message.empty()) {
                 eval->resetLastWarningException();
                 wasReset = true;
             } else {

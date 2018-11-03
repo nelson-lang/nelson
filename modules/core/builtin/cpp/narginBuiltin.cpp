@@ -33,7 +33,7 @@ Nelson::CoreGateway::narginBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     if (argIn.size() > 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         Context* context = eval->getContext();
         if (context->getCurrentScope()->getName() == "base") {
             Error(_W("not allowed in base scope."));
@@ -49,7 +49,7 @@ Nelson::CoreGateway::narginBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             name = param1.getContentAsWideString();
         } else if (param1.isFunctionHandle()) {
             function_handle fh = param1.getContentAsFunctionHandle();
-            FunctionDef* funcDef = (FunctionDef*)fh;
+            auto* funcDef = (FunctionDef*)fh;
             if (eval->getContext()->getGlobalScope()->isPointerOnFunction(funcDef)) {
                 name = utf8_to_wstring(funcDef->name);
             } else {

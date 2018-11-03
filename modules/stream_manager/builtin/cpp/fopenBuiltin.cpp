@@ -36,10 +36,10 @@ static ArrayOfVector
 Fopen(Evaluator* eval, std::wstring filename, std::wstring mode)
 {
     ArrayOfVector retval;
-    FilesManager* fm = (FilesManager*)(eval->FileManager);
+    auto* fm = static_cast<FilesManager*>(eval->FileManager);
     int filepos = -1;
     FOPEN_ERROR_TYPE fopen_error = FileOpen(fm, filename, mode, filepos);
-    std::wstring msg = L"";
+    std::wstring msg;
     switch (fopen_error) {
     case FOPEN_NO_ERROR: {
         msg = L"";
@@ -67,7 +67,7 @@ static ArrayOfVector
 FopenAll(Evaluator* eval)
 {
     ArrayOfVector retval;
-    FilesManager* fm = (FilesManager*)(eval->FileManager);
+    auto* fm = static_cast<FilesManager*>(eval->FileManager);
     boost::container::vector<uint64> IDs = fm->getIDs();
     if (IDs.size()) {
         double* dIDs = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, IDs.size());

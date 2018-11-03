@@ -46,9 +46,8 @@ ArrayOf::getSparseDataPointer() const
 {
     if (dp) {
         return dp->getData();
-    } else {
-        return nullptr;
     }
+    return nullptr;
 }
 //=============================================================================
 void
@@ -88,7 +87,7 @@ ArrayOf::makeSparse()
         Error(_W("Cannot make n-dimensional arrays sparse."));
     }
     if (isEmpty()) {
-        dp = dp->putData(dp->dataClass, dp->dimensions, NULL, true, dp->fieldNames);
+        dp = dp->putData(dp->dataClass, dp->dimensions, nullptr, true, dp->fieldNames);
         return;
     }
     if (isReferenceType() || isCharacterArray()) {
@@ -110,5 +109,5 @@ ArrayOf::makeSparse()
 }
 //=============================================================================
 
-}
+} // namespace Nelson
 //=============================================================================

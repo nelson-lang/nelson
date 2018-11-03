@@ -24,12 +24,12 @@ void
 FileRewind(File* fp)
 {
     if (fp) {
-        FILE* fileptr = (FILE*)fp->getFilePointer();
+        FILE* fileptr = static_cast<FILE*>(fp->getFilePointer());
         if (fileptr) {
             rewind(fileptr);
         }
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

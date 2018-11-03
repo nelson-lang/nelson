@@ -29,7 +29,7 @@ isMethodCom(IDispatch* pDisp, std::wstring methodToSearch)
     unsigned int tiCount;
     HRESULT hr;
     DISPID dispID;
-    LPOLESTR name = W2OLE((wchar_t*)methodToSearch.c_str());
+    LPOLESTR name = W2OLE(const_cast<wchar_t*>(methodToSearch.c_str()));
     hr = pDisp->GetIDsOfNames(IID_NULL, &name, 1, LOCALE_USER_DEFAULT, &dispID);
     if (FAILED(hr)) {
         return false;
@@ -51,7 +51,7 @@ isMethodCom(IDispatch* pDisp, std::wstring methodToSearch)
             if (FAILED(hr)) {
                 return false;
             }
-            hr = ti->GetDocumentation(pFuncDesc->memid, &name, NULL, NULL, NULL);
+            hr = ti->GetDocumentation(pFuncDesc->memid, &name, nullptr, nullptr, nullptr);
             if (FAILED(hr)) {
                 return false;
             }
@@ -76,7 +76,7 @@ isPropertyGetCom(IDispatch* pDisp, std::wstring propertyToSearch)
     unsigned int tiCount;
     HRESULT hr;
     DISPID dispID;
-    LPOLESTR name = W2OLE((wchar_t*)propertyToSearch.c_str());
+    LPOLESTR name = W2OLE(const_cast<wchar_t*>(propertyToSearch.c_str()));
     hr = pDisp->GetIDsOfNames(IID_NULL, &name, 1, LOCALE_USER_DEFAULT, &dispID);
     if (FAILED(hr)) {
         return false;
@@ -98,7 +98,7 @@ isPropertyGetCom(IDispatch* pDisp, std::wstring propertyToSearch)
             if (FAILED(hr)) {
                 return false;
             }
-            hr = ti->GetDocumentation(pFuncDesc->memid, &name, NULL, NULL, NULL);
+            hr = ti->GetDocumentation(pFuncDesc->memid, &name, nullptr, nullptr, nullptr);
             if (FAILED(hr)) {
                 return false;
             }
@@ -123,7 +123,7 @@ isPropertyPutCom(IDispatch* pDisp, std::wstring propertyToSearch)
     unsigned int tiCount;
     HRESULT hr;
     DISPID dispID;
-    LPOLESTR name = W2OLE((wchar_t*)propertyToSearch.c_str());
+    LPOLESTR name = W2OLE(const_cast<wchar_t*>(propertyToSearch.c_str()));
     hr = pDisp->GetIDsOfNames(IID_NULL, &name, 1, LOCALE_USER_DEFAULT, &dispID);
     if (FAILED(hr)) {
         return false;
@@ -145,7 +145,7 @@ isPropertyPutCom(IDispatch* pDisp, std::wstring propertyToSearch)
             if (FAILED(hr)) {
                 return false;
             }
-            hr = ti->GetDocumentation(pFuncDesc->memid, &name, NULL, NULL, NULL);
+            hr = ti->GetDocumentation(pFuncDesc->memid, &name, nullptr, nullptr, nullptr);
             if (FAILED(hr)) {
                 return false;
             }
@@ -163,5 +163,5 @@ isPropertyPutCom(IDispatch* pDisp, std::wstring propertyToSearch)
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

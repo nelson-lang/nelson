@@ -42,4 +42,4 @@ ByteToCode(Serialize* s)
     return macro;
 }
 //=============================================================================
-}
+} // namespace Nelson

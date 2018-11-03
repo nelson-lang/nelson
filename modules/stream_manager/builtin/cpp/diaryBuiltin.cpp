@@ -28,7 +28,7 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
 {
     ArrayOfVector retval;
     // Call overload if it exists
-    if (argIn.size() >= 1) {
+    if (!argIn.empty()) {
         bool bSuccess = false;
         if (eval->mustOverloadBasicTypes()) {
             retval = OverloadFunction(eval, nLhs, argIn, "diary", bSuccess);
@@ -68,7 +68,7 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             }
             return retval;
         }
-    } else if (argIn.size() == 0) {
+    } else if (argIn.empty()) {
         if (nLhs != 0) {
             Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }

@@ -47,30 +47,30 @@ IsNaN(ArrayOf A)
     ArrayOf C;
     switch (A.getDataClass()) {
     case NLS_DOUBLE: {
-        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), NULL);
+        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
         void* Cp = C.allocateArrayOf(NLS_LOGICAL, A.getLength());
         boolean_isnan<double>(A.getLength(), (logical*)Cp, (const double*)A.getDataPointer());
         C.setDataPointer(Cp);
     } break;
     case NLS_SINGLE: {
-        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), NULL);
+        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
         void* Cp = C.allocateArrayOf(NLS_LOGICAL, A.getLength());
         boolean_isnan<single>(A.getLength(), (logical*)Cp, (const single*)A.getDataPointer());
         C.setDataPointer(Cp);
     } break;
     case NLS_SCOMPLEX: {
-        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), NULL);
+        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
         void* Cp = C.allocateArrayOf(NLS_LOGICAL, A.getLength());
-        single* pValueA = (single*)A.getDataPointer();
-        singlecomplex* cplx = reinterpret_cast<singlecomplex*>(pValueA);
+        auto* pValueA = (single*)A.getDataPointer();
+        auto* cplx = reinterpret_cast<singlecomplex*>(pValueA);
         boolean_isnan_cplx<singlecomplex>(A.getLength(), (logical*)Cp, cplx);
         C.setDataPointer(Cp);
     } break;
     case NLS_DCOMPLEX: {
-        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), NULL);
+        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
         void* Cp = C.allocateArrayOf(NLS_LOGICAL, A.getLength());
-        double* pValueA = (double*)A.getDataPointer();
-        doublecomplex* cplx = reinterpret_cast<doublecomplex*>(pValueA);
+        auto* pValueA = (double*)A.getDataPointer();
+        auto* cplx = reinterpret_cast<doublecomplex*>(pValueA);
         boolean_isnan_cplx<doublecomplex>(A.getLength(), (logical*)Cp, cplx);
         C.setDataPointer(Cp);
     } break;
@@ -84,11 +84,11 @@ IsNaN(ArrayOf A)
     case NLS_UINT32:
     case NLS_INT64:
     case NLS_UINT64: {
-        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), NULL);
+        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
         void* Cp = C.allocateArrayOf(NLS_LOGICAL, A.getLength());
-        logical* CpLogical = (logical*)Cp;
+        auto* CpLogical = static_cast<logical*>(Cp);
         for (indexType i = 0; i < A.getLength(); i++) {
-            CpLogical[i] = (logical)0;
+            CpLogical[i] = static_cast<logical>(0);
         }
         C.setDataPointer(Cp);
     } break;
@@ -100,5 +100,5 @@ IsNaN(ArrayOf A)
     return C;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

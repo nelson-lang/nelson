@@ -50,23 +50,23 @@ namespace FW {
 
         ///
         ///
-        virtual ~FileWatcherWin32();
+        ~FileWatcherWin32() override;
 
         /// Add a directory watch
         /// @exception FileNotFoundException Thrown when the requested directory does not exist
-        WatchID addWatch(const String& directory, FileWatchListener* watcher, bool recursive);
+        WatchID addWatch(const String& directory, FileWatchListener* watcher, bool recursive) override;
 
         /// Remove a directory watch. This is a brute force lazy search O(nlogn).
-        void removeWatch(const String& directory);
+        void removeWatch(const String& directory) override;
 
         /// Remove a directory watch. This is a map lookup O(logn).
-        void removeWatch(WatchID watchid);
+        void removeWatch(WatchID watchid) override;
 
         /// Updates the watcher. Must be called often.
-        void update();
+        void update() override;
 
         /// Handles the action
-        void handleAction(WatchStruct* watch, const String& filename, unsigned long action);
+        void handleAction(WatchStruct* watch, const String& filename, unsigned long action) override;
 
     private:
         /// Map of WatchID to WatchStruct pointers

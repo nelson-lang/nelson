@@ -24,7 +24,7 @@ using namespace boost::filesystem;
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static std::wstring tempDir = L"";
+static std::wstring tempDir;
 //=============================================================================
 ArrayOf
 TempDir()
@@ -45,5 +45,5 @@ GetSystemTemporaryDirectory()
     }
     return tempDir;
 }
-}
+} // namespace Nelson
 //=============================================================================

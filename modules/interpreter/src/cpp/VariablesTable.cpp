@@ -38,7 +38,7 @@ VariablesTable::~VariablesTable()
 bool
 VariablesTable::findVariable(const key_type& key, value_type& dest)
 {
-    std::unordered_map<key_type, value_type>::iterator it = variablesMap.find(key);
+    auto it = variablesMap.find(key);
     if (it != variablesMap.end()) {
         dest = it->second;
         return true;
@@ -73,13 +73,13 @@ VariablesTable::insertVariable(const key_type& key, const value_type& val)
     if (lockedVariables.empty()) {
         variablesMap[key] = val;
         return true;
-    } else {
-        // insert only in a not locked variable
-        if (!isLockedVariable(key)) {
-            variablesMap[key] = val;
-            return true;
-        }
     }
+    // insert only in a not locked variable
+    if (!isLockedVariable(key)) {
+        variablesMap[key] = val;
+        return true;
+    }
+
     return false;
 }
 //=============================================================================
@@ -87,13 +87,13 @@ stringVector
 VariablesTable::getVariablesList(bool withPersistent)
 {
     stringVector retlist;
-    for (auto it = variablesMap.begin(); it != variablesMap.end(); ++it) {
+    for (auto& it : variablesMap) {
         if (!withPersistent) {
-            if (it->first.at(0) != '_') {
-                retlist.push_back(it->first);
+            if (it.first.at(0) != '_') {
+                retlist.push_back(it.first);
             }
         } else {
-            retlist.push_back(it->first);
+            retlist.push_back(it.first);
         }
     }
     return retlist;
@@ -118,9 +118,9 @@ VariablesTable::lockVariable(std::string key)
             lockedVariables.push_back(key);
         }
         return true;
-    } else {
-        return true;
     }
+    return true;
+
     return false;
 }
 //=============================================================================
@@ -140,5 +140,5 @@ VariablesTable::getLockedVariables()
     return lockedVariables;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

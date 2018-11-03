@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOf
-ReciprocalConditionNumber(const ArrayOf A);
+ReciprocalConditionNumber(ArrayOf A);
 }
 //=============================================================================

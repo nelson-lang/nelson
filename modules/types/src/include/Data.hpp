@@ -91,7 +91,7 @@ private:
      * the owner count is initialized to 1.
      */
     Data(Class aClass, const Dimensions& dims, void* s, bool sparseflag = false,
-        const stringVector& fields = stringVector());
+        stringVector fields = stringVector());
     /**
      * The destructor.  Calls freeDataBlock member function.
      */
@@ -154,7 +154,7 @@ private:
      * Set the dimensions for the data block.
      */
     void
-    setDimensions(const Dimensions&);
+    setDimensions(const Dimensions& /*dim*/);
     /**
      * Set the field names for the data block.
      */

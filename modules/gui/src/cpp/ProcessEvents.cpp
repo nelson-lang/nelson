@@ -41,7 +41,7 @@ ProcessEvents(bool bWaitEvents)
         }
     }
 }
-}
+} // namespace Nelson
 //=============================================================================
 void
 NelSonProcessEvents(bool bTimed)

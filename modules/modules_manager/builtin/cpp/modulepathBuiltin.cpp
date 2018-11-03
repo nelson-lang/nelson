@@ -50,7 +50,7 @@ Nelson::ModulesManagerGateway::modulepathBuiltin(
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 1) {
-        std::wstring moduleshortname = L"";
+        std::wstring moduleshortname;
         if (argIn[0].isRowVectorCharacterArray()) {
             moduleshortname = argIn[0].getContentAsWideString();
         } else {
@@ -63,9 +63,9 @@ Nelson::ModulesManagerGateway::modulepathBuiltin(
         }
     } else // argIn.size() == 3
     {
-        std::wstring modulerootpath = L"";
-        std::wstring moduleshortname = L"";
-        std::wstring option = L"";
+        std::wstring modulerootpath;
+        std::wstring moduleshortname;
+        std::wstring option;
         if (argIn[0].isRowVectorCharacterArray()) {
             modulerootpath = argIn[0].getContentAsWideString();
         } else {

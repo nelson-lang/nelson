@@ -31,7 +31,7 @@ Nelson::IntegerGateway::intminBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         int32 v = std::numeric_limits<int32>::min();
         retval.push_back(ArrayOf::int32Constructor(v));
     } else {

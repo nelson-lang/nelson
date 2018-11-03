@@ -47,29 +47,29 @@ GetVariableEnvironment(std::wstring envVarName, std::wstring defaultValue)
             buf = nullptr;
         }
         return str;
-    } else {
-        if (dwRet > DEFAULT_SIZE_ENV) {
-            // we resize the buffer
-            delete[] buf;
-            try {
-                buf = new wchar_t[dwRet + 1];
-            } catch (const std::bad_alloc& e) {
-                e.what();
-                return str;
-            }
-            dwRet = ::GetEnvironmentVariableW(envVarName.c_str(), buf, dwRet);
-        }
-        if (dwRet == 0) {
-            // error
-            if (buf) {
-                delete[] buf;
-                buf = nullptr;
-            }
+    }
+    if (dwRet > DEFAULT_SIZE_ENV) {
+        // we resize the buffer
+        delete[] buf;
+        try {
+            buf = new wchar_t[dwRet + 1];
+        } catch (const std::bad_alloc& e) {
+            e.what();
             return str;
         }
-        str = buf;
-        delete[] buf;
+        dwRet = ::GetEnvironmentVariableW(envVarName.c_str(), buf, dwRet);
     }
+    if (dwRet == 0) {
+        // error
+        if (buf) {
+            delete[] buf;
+            buf = nullptr;
+        }
+        return str;
+    }
+    str = buf;
+    delete[] buf;
+
 #else
     std::string s1 = wstring_to_utf8(envVarName);
     str = defaultValue;
@@ -81,5 +81,5 @@ GetVariableEnvironment(std::wstring envVarName, std::wstring defaultValue)
     return str;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

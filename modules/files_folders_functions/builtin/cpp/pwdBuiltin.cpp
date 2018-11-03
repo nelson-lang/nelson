@@ -26,14 +26,14 @@ ArrayOfVector
 Nelson::FilesFoldersGateway::pwdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 0) {
+    if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring pwd = GetCurrentDirectory();
-    if (pwd == L"") {
+    if (pwd.empty()) {
         Error(_W("Impossible to get current directory."));
     }
     if (nLhs == 0) {

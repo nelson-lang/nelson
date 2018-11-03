@@ -32,10 +32,10 @@ Nelson::ConstructorsGateway::nanBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         m = 1;
         n = 1;
-    } else if (argIn.size() > 0) {
+    } else if (!argIn.empty()) {
         p = argIn[0];
         m = p.getContentAsInteger32Scalar();
         n = m;

@@ -55,11 +55,11 @@ FilesManager::getAvailableFileID()
 {
     for (size_t i = 0; i < getNumberOfFiles(); i++) {
         if (userFiles[i] == nullptr) {
-            return (int)i;
+            return static_cast<int>(i);
         }
     }
     userFiles.push_back(NULL);
-    return (int)getNumberOfFiles() - 1;
+    return static_cast<int>(getNumberOfFiles()) - 1;
 }
 //=============================================================================
 bool
@@ -68,7 +68,7 @@ FilesManager::isOpened(int fileID)
     if (fileID < 0) {
         return false;
     }
-    if ((size_t)fileID < getNumberOfFiles()) {
+    if (static_cast<size_t>(fileID) < getNumberOfFiles()) {
         if (userFiles[fileID]) {
             return true;
         }
@@ -130,7 +130,7 @@ FilesManager::removeFile(int no)
 {
     if (no > 2) // stdout, stdin, sterr cannot be removed
     {
-        if ((size_t)no < getNumberOfFiles()) {
+        if (static_cast<size_t>(no) < getNumberOfFiles()) {
             if (userFiles[no]) {
                 delete userFiles[no];
                 userFiles[no] = nullptr;
@@ -171,7 +171,7 @@ FilesManager::getFilePointer(int no)
     if (no < 0) {
         return nullptr;
     }
-    if ((size_t)no < getNumberOfFiles()) {
+    if (static_cast<size_t>(no) < getNumberOfFiles()) {
         if (userFiles[no]) {
             return userFiles[no]->getFilePointer();
         }
@@ -185,7 +185,7 @@ FilesManager::getFile(int no)
     if (no < 0) {
         return nullptr;
     }
-    if ((size_t)no < getNumberOfFiles()) {
+    if (static_cast<size_t>(no) < getNumberOfFiles()) {
         return userFiles[no];
     }
     return nullptr;
@@ -214,5 +214,5 @@ FilesManager::getIDs()
     }
     return IDs;
 }
-}
+} // namespace Nelson
 //=============================================================================

@@ -21,7 +21,7 @@
 #include "ProcessEventsDynamicFunction.hpp"
 #include <boost/chrono/chrono.hpp>
 #include <boost/thread/thread.hpp>
-#include <math.h>
+#include <cmath>
 //=============================================================================
 namespace Nelson {
 //=============================================================================

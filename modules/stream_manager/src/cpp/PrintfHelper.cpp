@@ -17,17 +17,20 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "PrintfHelper.hpp"
+
+#include <utility>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-PrintfHelper::PrintfHelper(const ArrayOfVector& arg_) : args(arg_), vectorIndex(1), elementIndex(0)
+PrintfHelper::PrintfHelper(ArrayOfVector arg_)
+    : args(std::move(arg_)), vectorIndex(1), elementIndex(0)
 {
     hasMoreData = (args.size() > 1);
     dataUsed = false;
 }
 //=============================================================================
 void
-PrintfHelper::IncrementDataPointer(void)
+PrintfHelper::IncrementDataPointer()
 {
     indexType len;
     if (args[vectorIndex].isCharacterArray()) {
@@ -59,10 +62,10 @@ PrintfHelper::GetNextVariableAsLongLong(long long& data, std::wstring& errorMess
     } else {
         ArrayOf value = args[vectorIndex];
         if (value.isScalar()) {
-            data = (long long)value.getContentAsInteger64Scalar();
+            data = static_cast<long long>(value.getContentAsInteger64Scalar());
         } else {
             value.promoteType(NLS_INT64);
-            long long* ptr = (long long*)value.getDataPointer();
+            auto* ptr = (long long*)value.getDataPointer();
             data = ptr[elementIndex];
         }
     }
@@ -86,7 +89,7 @@ PrintfHelper::GetNextVariableAsDouble(double& data, std::wstring& errorMessage, 
         if (value.isScalar()) {
             data = value.getContentAsDoubleScalar();
         } else {
-            double* ptr = (double*)value.getDataPointer();
+            auto* ptr = (double*)value.getDataPointer();
             data = ptr[elementIndex];
         }
     }
@@ -107,7 +110,7 @@ PrintfHelper::GetNextVariableAsString(std::wstring& str, std::wstring& errorMess
             str = value.getContentAsArrayOfCharacters();
         }
     } else if (value.isStringArray()) {
-        ArrayOf* ptr = (ArrayOf*)value.getDataPointer();
+        auto* ptr = (ArrayOf*)value.getDataPointer();
         ArrayOf data = ptr[elementIndex];
         if (!data.isEmpty()) {
             str = data.getContentAsWideString();
@@ -118,19 +121,19 @@ PrintfHelper::GetNextVariableAsString(std::wstring& str, std::wstring& errorMess
 }
 //=============================================================================
 bool
-PrintfHelper::HasMoreData(void)
+PrintfHelper::HasMoreData()
 {
     return hasMoreData;
 }
 //=============================================================================
 bool
-PrintfHelper::WasDataUsed(void)
+PrintfHelper::WasDataUsed()
 {
     return dataUsed;
 }
 //=============================================================================
 bool
-PrintfHelper::isEscape(wchar_t* dp)
+PrintfHelper::isEscape(const wchar_t* dp)
 {
     return ((dp[0] == L'\\')
         && ((dp[1] == L'n') || (dp[1] == L't') || (dp[1] == L'r') || (dp[1] == L'v')
@@ -172,7 +175,7 @@ PrintfHelper::validateFormatSpec(wchar_t* cp)
     if ((*cp) && convSpec(*cp)) {
         return cp + 1;
     }
-    return 0;
+    return nullptr;
 }
 //=============================================================================
 std::wstring

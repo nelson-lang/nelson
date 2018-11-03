@@ -57,7 +57,7 @@ getTotalVirtualMemory()
     memInfo.dwLength = sizeof(MEMORYSTATUSEX);
     GlobalMemoryStatusEx(&memInfo);
     DWORDLONG totalVirtualMem = memInfo.ullTotalPageFile;
-    res = (double)totalVirtualMem;
+    res = static_cast<double>(totalVirtualMem);
     return res;
 }
 //=============================================================================
@@ -69,7 +69,7 @@ getTotalVirtualMemoryUsed()
     memInfo.dwLength = sizeof(MEMORYSTATUSEX);
     GlobalMemoryStatusEx(&memInfo);
     DWORDLONG totalVirtualMemUsed = memInfo.ullTotalPageFile - memInfo.ullAvailPageFile;
-    res = (double)totalVirtualMemUsed;
+    res = static_cast<double>(totalVirtualMemUsed);
     return res;
 }
 //=============================================================================
@@ -78,9 +78,10 @@ getTotalVirtualMemoryByNelson()
 {
     double res;
     PROCESS_MEMORY_COUNTERS_EX pmc;
-    GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
+    GetProcessMemoryInfo(
+        GetCurrentProcess(), reinterpret_cast<PROCESS_MEMORY_COUNTERS*>(&pmc), sizeof(pmc));
     SIZE_T virtualMemUsedByMe = pmc.PrivateUsage;
-    res = (double)virtualMemUsedByMe;
+    res = static_cast<double>(virtualMemUsedByMe);
     return res;
 }
 //=============================================================================
@@ -92,7 +93,7 @@ getTotalPhysicalMemory()
     memInfo.dwLength = sizeof(MEMORYSTATUSEX);
     GlobalMemoryStatusEx(&memInfo);
     DWORDLONG totalPhysMem = memInfo.ullTotalPhys;
-    res = (double)totalPhysMem;
+    res = static_cast<double>(totalPhysMem);
     return res;
 }
 //=============================================================================
@@ -104,7 +105,7 @@ getTotalPhysicalMemoryUsed()
     memInfo.dwLength = sizeof(MEMORYSTATUSEX);
     GlobalMemoryStatusEx(&memInfo);
     DWORDLONG physMemUsed = memInfo.ullTotalPhys - memInfo.ullAvailPhys;
-    res = (double)physMemUsed;
+    res = static_cast<double>(physMemUsed);
     return res;
 }
 //=============================================================================
@@ -113,9 +114,10 @@ getTotalPhysicalMemoryByNelson()
 {
     double res;
     PROCESS_MEMORY_COUNTERS_EX pmc;
-    GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
+    GetProcessMemoryInfo(
+        GetCurrentProcess(), reinterpret_cast<PROCESS_MEMORY_COUNTERS*>(&pmc), sizeof(pmc));
     SIZE_T physMemUsedByMe = pmc.WorkingSetSize;
-    res = (double)physMemUsedByMe;
+    res = static_cast<double>(physMemUsedByMe);
     return res;
 }
 //=============================================================================
@@ -265,5 +267,5 @@ getTotalPhysicalMemoryByNelson()
 }
 //=============================================================================
 #endif
-}
+} // namespace Nelson
 //=============================================================================

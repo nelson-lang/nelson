@@ -52,7 +52,7 @@ RemoveGateway(Evaluator* eval, std::wstring dynlibname)
     nlsModuleHandleDynamicLibrary = load_dynamic_library(wstring_to_utf8(filename));
 #endif
     if (nlsModuleHandleDynamicLibrary) {
-        typedef bool (*PROC_RemoveGateway)(void* eval, const wchar_t* moduleFilename);
+        using PROC_RemoveGateway = bool (*)(void*, const wchar_t*);
         PROC_RemoveGateway RemoveGatewayPtr = reinterpret_cast<PROC_RemoveGateway>(
             get_function(nlsModuleHandleDynamicLibrary, REMOVEGATEWAY_ENTRY));
         boost::filesystem::current_path(currentdirbackup);
@@ -66,5 +66,5 @@ RemoveGateway(Evaluator* eval, std::wstring dynlibname)
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -22,8 +22,8 @@
 #include "GetNelsonPath.hpp"
 #include "SetVariableEnvironment.hpp"
 #include <boost/container/vector.hpp>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -34,11 +34,11 @@ SetNelSonEnvironmentVariables()
     if (!binPath.empty()) {
         AddPathToEnvironmentVariable(std::wstring(L"PATH"), binPath);
         std::wstring envVarName = std::wstring(L"NELSON_BINARY_PATH");
-        SetVariableEnvironmentW(envVarName.c_str(), binPath.c_str());
+        SetVariableEnvironmentW(envVarName, binPath);
         return true;
     }
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

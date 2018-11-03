@@ -17,10 +17,12 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
+#include "lapack_eigen.hpp"
+#include <Eigen/Dense>
 #include "Addition.hpp"
 #include "MatrixCheck.hpp"
 #include "Exception.hpp"
-#include <Eigen/Dense>
+#include "IntegerOperations.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -31,12 +33,21 @@ matrix_matrix_addition(Class classDestination, const ArrayOf& a, const ArrayOf& 
     Dimensions dimsC = a.getDimensions();
     indexType Clen = dimsC.getElementCount();
     void* Cp = new_with_exception<T>(Clen, false);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
-        (T*)a.getDataPointer(), 1, Clen);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
-        (T*)b.getDataPointer(), 1, Clen);
-    matC = matA + matB;
+    if (classDestination >= NLS_UINT8 && classDestination <= NLS_INT64) {
+        T* C = (T*)Cp;
+        T* A = (T*)a.getDataPointer();
+        T* B = (T*)b.getDataPointer();
+        for (indexType k = 0; k < Clen; k++) {
+            C[k] = scalarInteger_plus_scalarInteger<T>(A[k], B[k]);
+        }
+    } else {
+        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
+        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
+            (T*)a.getDataPointer(), 1, Clen);
+        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
+            (T*)b.getDataPointer(), 1, Clen);
+        matC = matA + matB;
+    }
     return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
@@ -64,11 +75,20 @@ scalar_matrix_addition(Class classDestination, ArrayOf& a, ArrayOf& b)
     Dimensions dimsC = b.getDimensions();
     indexType Clen = dimsC.getElementCount();
     void* Cp = new_with_exception<T>(Clen, false);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
-    Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
-        (T*)b.getDataPointer(), 1, Clen);
-    T* ptrA = (T*)a.getDataPointer();
-    matC = ptrA[0] + matB.array();
+    if (classDestination >= NLS_UINT8 && classDestination <= NLS_INT64) {
+        T* ptrA = (T*)a.getDataPointer();
+        T* ptrB = (T*)b.getDataPointer();
+        T* ptrC = (T*)Cp;
+        for (indexType k = 0; k < Clen; k++) {
+            ptrC[k] = scalarInteger_plus_scalarInteger(ptrA[0], ptrB[k]);
+        }
+    } else {
+        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC((T*)Cp, 1, Clen);
+        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
+            (T*)b.getDataPointer(), 1, Clen);
+        T* ptrA = (T*)a.getDataPointer();
+        matC = ptrA[0] + matB.array();
+    }
     return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
@@ -91,13 +111,22 @@ complex_scalar_matrix_addition(Class classDestination, ArrayOf& a, ArrayOf& b)
 //=============================================================================
 template <class T>
 static void
-vector_addition(T* C, const T* A, indexType NA, const T* B, indexType NB)
+vector_addition(Class classDestination, T* C, const T* A, indexType NA, const T* B, indexType NB)
 {
     indexType m = 0;
-    for (indexType i = 0; i < NA; i++) {
-        for (indexType j = 0; j < NB; j++) {
-            C[m] = A[i] + B[j];
-            m++;
+    if (classDestination >= NLS_UINT8 && classDestination <= NLS_INT64) {
+        for (indexType i = 0; i < NA; i++) {
+            for (indexType j = 0; j < NB; j++) {
+                C[m] = scalarInteger_plus_scalarInteger<T>(A[i], B[j]);
+                m++;
+            }
+        }
+    } else {
+        for (indexType i = 0; i < NA; i++) {
+            for (indexType j = 0; j < NB; j++) {
+                C[m] = A[i] + B[j];
+                m++;
+            }
         }
     }
 }
@@ -129,12 +158,22 @@ vector_matrix_addition(Class classDestination, const ArrayOf& a, const ArrayOf& 
     indexType Clen = dimsC.getElementCount();
     void* Cp = new_with_exception<T>(Clen, false);
     T* C = (T*)Cp;
-    for (indexType i = 0; i < dimsC.getRows(); i++) {
-        for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * a.getDimensions().getRows();
-            C[m] = ptrB[m] + ptrA[q];
+    if (classDestination >= NLS_UINT8 && classDestination <= NLS_INT64) {
+        for (indexType i = 0; i < dimsC.getRows(); i++) {
+            for (indexType j = 0; j < dimsC.getColumns(); j++) {
+                indexType m = i + j * a.getDimensions().getRows();
+                C[m] = scalarInteger_plus_scalarInteger(ptrA[q], ptrB[m]);
+            }
+            q++;
         }
-        q++;
+    } else {
+        for (indexType i = 0; i < dimsC.getRows(); i++) {
+            for (indexType j = 0; j < dimsC.getColumns(); j++) {
+                indexType m = i + j * a.getDimensions().getRows();
+                C[m] = ptrB[m] + ptrA[q];
+            }
+            q++;
+        }
     }
     return ArrayOf(classDestination, dimsC, Cp, false);
 }
@@ -173,10 +212,19 @@ vector_column_addition(Class classDestination, const ArrayOf& a, const ArrayOf& 
     indexType Clen = dimsC.getElementCount();
     void* Cp = new_with_exception<T>(Clen, false);
     T* C = (T*)Cp;
-    for (indexType i = 0; i < dimsC.getRows(); i++) {
-        for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * b.getDimensions().getRows();
-            C[m] = ptrB[m] + ptrA[j];
+    if (classDestination >= NLS_UINT8 && classDestination <= NLS_INT64) {
+        for (indexType i = 0; i < dimsC.getRows(); i++) {
+            for (indexType j = 0; j < dimsC.getColumns(); j++) {
+                indexType m = i + j * b.getDimensions().getRows();
+                C[m] = scalarInteger_plus_scalarInteger<T>(ptrA[j], ptrB[m]);
+            }
+        }
+    } else {
+        for (indexType i = 0; i < dimsC.getRows(); i++) {
+            for (indexType j = 0; j < dimsC.getColumns(); j++) {
+                indexType m = i + j * b.getDimensions().getRows();
+                C[m] = ptrB[m] + ptrA[j];
+            }
         }
     }
     return ArrayOf(classDestination, dimsC, Cp, false);
@@ -213,12 +261,15 @@ addition(Class classDestination, ArrayOf a, ArrayOf b)
     if (a.isScalar() && b.isScalar()) {
         T* ptrA = (T*)a.getDataPointer();
         T* ptrB = (T*)b.getDataPointer();
-        T res = ptrA[0] + ptrB[0];
-        if (classDestination == NLS_DOUBLE) {
-            return ArrayOf::doubleConstructor((double)res);
+        void* Cp = new_with_exception<T>(1, false);
+        T* C = (T*)Cp;
+        if (classDestination >= NLS_UINT8 && classDestination <= NLS_INT64) {
+            C[0] = scalarInteger_plus_scalarInteger<T>(ptrA[0], ptrB[0]);
         } else {
-            return ArrayOf::singleConstructor((single)res);
+            C[0] = ptrA[0] + ptrB[0];
         }
+        Dimensions dimsC(1, 1);
+        return ArrayOf(classDestination, dimsC, Cp, false);
     }
     Dimensions dimsA = a.getDimensions();
     Dimensions dimsB = b.getDimensions();
@@ -254,14 +305,15 @@ addition(Class classDestination, ArrayOf a, ArrayOf b)
                         std::max(dimsA.getMax(), dimsB.getMax()));
                     indexType Clen = dimsC.getElementCount();
                     Cp = new_with_exception<T>(Clen, false);
-                    vector_addition((T*)Cp, (const T*)a.getDataPointer(), dimsA.getElementCount(),
-                        (const T*)b.getDataPointer(), dimsB.getElementCount());
+                    vector_addition(classDestination, (T*)Cp, (const T*)a.getDataPointer(),
+                        dimsA.getElementCount(), (const T*)b.getDataPointer(),
+                        dimsB.getElementCount());
                 } else if (a.isColumnVector() && b.isRowVector()) {
                     dimsC = Dimensions(std::min(dimsA.getMax(), dimsB.getMax()),
                         std::max(dimsA.getMax(), dimsB.getMax()));
                     indexType Clen = dimsC.getElementCount();
                     Cp = new_with_exception<T>(Clen, false);
-                    vector_addition<T>((T*)Cp, (const T*)b.getDataPointer(),
+                    vector_addition<T>(classDestination, (T*)Cp, (const T*)b.getDataPointer(),
                         dimsB.getElementCount(), (const T*)a.getDataPointer(),
                         dimsA.getElementCount());
                 } else if ((a.isRowVector() && b.isRowVector())
@@ -409,6 +461,34 @@ single_plus_single(const ArrayOf& a, const ArrayOf& b)
         return res;
     }
     return addition<single>(NLS_SINGLE, a, b);
+}
+//=============================================================================
+ArrayOf
+integer_plus_integer(const ArrayOf& a, const ArrayOf& b)
+{
+    Class classA = a.getDataClass();
+    switch (classA) {
+    case NLS_INT8:
+        return addition<int8>(NLS_INT8, a, b);
+    case NLS_UINT8:
+        return addition<uint8>(NLS_UINT8, a, b);
+    case NLS_INT16:
+        return addition<int16>(NLS_INT16, a, b);
+    case NLS_UINT16:
+        return addition<uint16>(NLS_UINT16, a, b);
+    case NLS_INT32:
+        return addition<int32>(NLS_INT32, a, b);
+    case NLS_UINT32:
+        return addition<uint32>(NLS_UINT32, a, b);
+    case NLS_INT64:
+        return addition<int64>(NLS_INT64, a, b);
+    case NLS_UINT64:
+        return addition<uint64>(NLS_UINT64, a, b);
+    default:
+        Error(_W("Integer type not managed."));
+        break;
+    }
+    return ArrayOf();
 }
 //=============================================================================
 } // namespace Nelson

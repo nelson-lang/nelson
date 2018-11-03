@@ -35,19 +35,19 @@ RandNormal(Evaluator* eval, Dimensions& dims, Class cl)
     if (eval->RandomEngine == nullptr) {
         Error(_W("random engine not initialized."));
     }
-    RandomInterface* randEngine = (RandomInterface*)eval->RandomEngine;
+    auto* randEngine = static_cast<RandomInterface*>(eval->RandomEngine);
     switch (cl) {
     case NLS_SINGLE: {
         indexType nbElements = dims.getElementCount();
-        single* mat
-            = (single*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
+        single* mat = static_cast<single*>(
+            ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
         randEngine->getValuesAsSingle(mat, nbElements, dims.getColumns(), RNG_DISTRIBUTION_NORMAL);
         return ArrayOf(cl, dims, mat, false);
     } break;
     case NLS_DOUBLE: {
         indexType nbElements = dims.getElementCount();
-        double* mat
-            = (double*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
+        double* mat = static_cast<double*>(
+            ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
         randEngine->getValuesAsDouble(mat, nbElements, dims.getColumns(), RNG_DISTRIBUTION_NORMAL);
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -57,5 +57,5 @@ RandNormal(Evaluator* eval, Dimensions& dims, Class cl)
     return ArrayOf();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

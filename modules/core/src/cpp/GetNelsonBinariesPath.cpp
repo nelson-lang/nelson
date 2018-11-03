@@ -24,7 +24,7 @@
 #include "GetVariableEnvironment.hpp"
 #include "i18n.hpp"
 #include <boost/filesystem.hpp>
-#include <stdio.h>
+#include <cstdio>
 //=============================================================================
 using namespace boost::filesystem;
 //=============================================================================
@@ -58,7 +58,7 @@ GetNelsonBinariesPath()
     binpath += L"/bin/macosx32";
 #endif
 #else
-#ifdef __x86_64__
+#if defined(__x86_64__) || defined(__aarch64__)
     binpath += L"/bin/linux64";
 #else
     binpath += L"/bin/linux32";
@@ -72,5 +72,5 @@ GetNelsonBinariesPath()
     return std::wstring(L"");
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

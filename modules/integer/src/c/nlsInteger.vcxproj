@@ -181,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\nlsInteger_exports.h" />
+    <ClInclude Include="..\include\IntegerOperations.hpp" />
     <ClInclude Include="..\include\ToInteger.hpp" />
   </ItemGroup>
   <ItemGroup>

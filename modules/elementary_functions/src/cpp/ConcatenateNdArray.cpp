@@ -26,13 +26,12 @@ ConcatenateNdArray(ArrayOfMatrix& m, Class destClass)
     Dimensions mat_dims;
     Dimensions row_dims;
     Dimensions retDims;
-    ArrayOfMatrix::iterator i = m.begin();
+    auto i = m.begin();
     bool firstNonzeroColumn = true;
     bool firstNonzeroRow = true;
     while (i != m.end()) {
-        ArrayOfVector ptr = (ArrayOfVector)*i;
-        for (sizeType j = 0; j < (sizeType)ptr.size(); j++) {
-            const ArrayOf& d = ptr[j];
+        ArrayOfVector ptr = ArrayOfVector(*i);
+        for (const auto& d : ptr) {
             if (!d.isEmpty()) {
                 if (firstNonzeroColumn) {
                     row_dims = d.getDimensions();
@@ -65,8 +64,7 @@ ConcatenateNdArray(ArrayOfMatrix& m, Class destClass)
     while (i != m.end()) {
         ArrayOfVector ptr = *i;
         row_count = 0;
-        for (size_t j = 0; j < ptr.size(); j++) {
-            ArrayOf d(ptr[j]);
+        for (auto d : ptr) {
             if (!d.isEmpty()) {
                 aptr.zeroOut();
                 indexType dstIndex;
@@ -91,5 +89,5 @@ ConcatenateNdArray(ArrayOfMatrix& m, Class destClass)
     return ArrayOf(destClass, retDims, dstPtr, false);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

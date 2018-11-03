@@ -37,7 +37,7 @@ public:
     CType(ffi_type* baseType, Class baseClass);
 };
 //=============================================================================
-CType::CType() {}
+CType::CType() = default;
 //=============================================================================
 CType::CType(ffi_type* baseType, Class baseClass)
 {
@@ -287,7 +287,7 @@ DynamicLinkSymbolObject::isValidDataType(std::wstring DataType)
     return ffiTypesMap.count(DataType) != 0;
 }
 //=============================================================================
-typedef void (*GenericFuncPointer)();
+using GenericFuncPointer = void (*)();
 //=============================================================================
 ArrayOfVector
 DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
@@ -332,7 +332,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
         }
     }
     if (nbRefPointers > 0) {
-        refPointers = (void**)malloc(sizeof(void*) * nbRefPointers);
+        refPointers = static_cast<void**>(malloc(sizeof(void*) * nbRefPointers));
     }
     size_t refPtrIndex = 0;
     size_t nbStrings = 0;
@@ -343,7 +343,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
     }
     void** stringPointers = nullptr;
     if (nbStrings > 0) {
-        stringPointers = (void**)malloc(sizeof(void*) * nbStrings);
+        stringPointers = static_cast<void**>(malloc(sizeof(void*) * nbStrings));
     }
     int stringPtrIndex = 0;
     for (int i = 0; i < params.size(); i++) {
@@ -374,7 +374,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
             }
         }
     }
-    GenericFuncPointer addressFunction = (GenericFuncPointer)_pointerFunction;
+    GenericFuncPointer addressFunction = (GenericFuncPointer)(_pointerFunction);
     if (_returnType == L"libpointer") {
         void* returnedValue;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
@@ -544,5 +544,5 @@ DynamicLinkSymbolObject::isMethod(std::wstring methodName)
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

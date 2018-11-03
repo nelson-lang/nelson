@@ -78,14 +78,15 @@ ToSingle(const ArrayOf& A, bool& needToOverload)
         return r;
     } break;
     case NLS_DCOMPLEX: {
-        float* pSingle = (float*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength() * 2);
+        float* pSingle
+            = static_cast<float*>(ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength() * 2));
         ArrayOf r = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), pSingle, A.isSparse());
-        double* pDouble = (double*)A.getDataPointer();
+        auto* pDouble = (double*)A.getDataPointer();
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (indexType k = 0; k < A.getLength() * 2; k++) {
-            pSingle[k] = (float)(pDouble[k]);
+            pSingle[k] = static_cast<float>(pDouble[k]);
         }
         return r;
     } break;
@@ -102,5 +103,5 @@ ToSingle(const ArrayOf& A, bool& needToOverload)
     return ArrayOf();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

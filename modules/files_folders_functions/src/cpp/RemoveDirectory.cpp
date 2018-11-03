@@ -50,5 +50,5 @@ RemoveDirectory(std::wstring folderName, bool bSubfolder, std::wstring& message)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

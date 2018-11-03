@@ -26,9 +26,11 @@ precisionFromString(const std::wstring& str, bool& bOK)
     bOK = true;
     if (str == L"logical") {
         return NLS_LOGICAL;
-    } else if ((str == L"double") || (str == L"real*8") || (str == L"float64")) {
+    }
+    if ((str == L"double") || (str == L"real*8") || (str == L"float64")) {
         return NLS_DOUBLE;
-    } else if ((str == L"single") || (str == L"real*4") || (str == L"float32")) {
+    }
+    if ((str == L"single") || (str == L"real*4") || (str == L"float32")) {
         return NLS_SINGLE;
     } else if (str == L"int") {
         return NLS_INT32;
@@ -55,5 +57,5 @@ precisionFromString(const std::wstring& str, bool& bOK)
     return NLS_UINT8;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -28,7 +28,7 @@ namespace Nelson {
 class PathFunc
 {
 public:
-    PathFunc(const std::wstring path);
+    PathFunc(std::wstring path);
     ~PathFunc();
     wstringVector
     getFunctionsName(std::wstring prefix = L"");
@@ -39,9 +39,9 @@ public:
     void
     rehash();
     bool
-    findFuncName(const std::wstring functionName, std::wstring& filename);
+    findFuncName(std::wstring functionName, std::wstring& filename);
     bool
-    findFuncName(const std::wstring functionName, FileFunc** ff);
+    findFuncName(std::wstring functionName, FileFunc** ff);
     bool
     findFuncByHash(size_t hashid, std::wstring& functionName);
 

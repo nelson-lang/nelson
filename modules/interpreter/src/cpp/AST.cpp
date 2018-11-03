@@ -41,13 +41,13 @@
 #include "Keywords.hpp"
 #include "Serialize.hpp"
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 namespace Nelson {
 
-AST::AST(void)
+AST::AST()
 {
     m_context = 0;
     type = non_terminal;
@@ -134,13 +134,13 @@ stringVector
 AST::toStringList()
 {
     stringVector res;
-    if (text.size() > 0) {
+    if (!text.empty()) {
         res.push_back(text);
     }
     if (down != nullptr) {
         AST* cp = down;
         while (cp != nullptr) {
-            if (cp->text.size() > 0) {
+            if (!cp->text.empty()) {
                 res.push_back(cp->text);
             }
             cp = cp->right;
@@ -234,7 +234,7 @@ outTabs()
 void
 printAST(ASTPtr t)
 {
-    if (t == NULL) {
+    if (t == nullptr) {
         return;
     }
     if (t->isEmpty()) {
@@ -354,13 +354,13 @@ ThawAST(Serialize* s)
         t = nullptr;
     }
     if (t) {
-        t->type = (NODE_TYPE)s->getByte();
+        t->type = static_cast<NODE_TYPE>(s->getByte());
         t->tokenNumber = s->getInt();
-        t->opNum = (OP_TYPE)s->getByte();
+        t->opNum = static_cast<OP_TYPE>(s->getByte());
         t->text = s->getString();
         t->down = ThawAST(s);
         t->right = ThawAST(s);
     }
     return t;
 }
-}
+} // namespace Nelson

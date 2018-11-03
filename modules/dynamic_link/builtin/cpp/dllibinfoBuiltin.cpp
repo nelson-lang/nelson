@@ -37,7 +37,7 @@ Nelson::DynamicLinkGateway::dllibinfoBuiltin(Evaluator* eval, int nLhs, const Ar
     if (param1.getHandleCategory() != DLLIB_CATEGORY_STR) {
         Error(_W("dllib handle expected."));
     }
-    DynamicLinkLibraryObject* obj = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
+    auto* obj = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
     retval.push_back(ToCellStringAsColumn(obj->getAvailableSymbols()));
     return retval;
 }

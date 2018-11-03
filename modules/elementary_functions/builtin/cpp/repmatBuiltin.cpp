@@ -69,7 +69,7 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(
                     if (param2.getLength() > maxDims) {
                         Error(_W("Too many dimensions!"));
                     }
-                    uint64* dp = (uint64*)param2.getDataPointer();
+                    auto* dp = (uint64*)param2.getDataPointer();
                     for (indexType i = 0; i < param2.getLength(); i++) {
                         repcount[i] = dp[i];
                     }

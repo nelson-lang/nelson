@@ -59,8 +59,8 @@ GatewayInfo(const std::wstring& dynlibname, std::wstring& moduleName, stringVect
     nlsModuleHandleDynamicLibrary = load_dynamic_library(wstring_to_utf8(filename));
 #endif
     if (nlsModuleHandleDynamicLibrary) {
-        typedef stringVector (*PROC_InfoModule)();
-        typedef const wchar_t* (*PROC_InfoModuleName)();
+        using PROC_InfoModule = stringVector (*)();
+        using PROC_InfoModuleName = const wchar_t* (*)();
         PROC_InfoModule InfoModulePtr = reinterpret_cast<PROC_InfoModule>(
             get_function(nlsModuleHandleDynamicLibrary, GATEWAY_INFO));
         PROC_InfoModuleName InfoModuleNamePtr = reinterpret_cast<PROC_InfoModuleName>(
@@ -86,5 +86,5 @@ GatewayInfo(const std::wstring& dynlibname, std::wstring& moduleName, stringVect
     return bRes;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

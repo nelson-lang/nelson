@@ -102,10 +102,10 @@ Serialize::putString(std::string str)
     sendSignature('x', 0);
     if ((str.empty())) {
         len = 0;
-        putInts((int*)&len, 1);
+        putInts(reinterpret_cast<int*>(&len), 1);
     } else {
         len = str.length() + 1;
-        putInts((int*)&len, 1);
+        putInts(reinterpret_cast<int*>(&len), 1);
         putBytes(str.c_str(), len);
     }
 }
@@ -121,8 +121,8 @@ Serialize::putStringVector(stringVector vstr)
 {
     sendSignature('S', 1);
     putInt(vstr.size());
-    for (size_t i = 0; i < vstr.size(); i++) {
-        putString(vstr[i].c_str());
+    for (const auto& i : vstr) {
+        putString(i);
     }
 }
 //=============================================================================
@@ -131,8 +131,8 @@ Serialize::putWStringVector(wstringVector vwstr)
 {
     sendSignature('S', 1);
     putInt(vwstr.size());
-    for (size_t i = 0; i < vwstr.size(); i++) {
-        putWString(vwstr[i].c_str());
+    for (const auto& i : vwstr) {
+        putWString(i);
     }
 }
 //=============================================================================
@@ -183,7 +183,7 @@ Serialize::getString()
     std::string res;
     checkSignature('x', 0);
     unsigned int len = 0;
-    getInts((int*)&len, 1);
+    getInts(reinterpret_cast<int*>(&len), 1);
     if (len == 0) {
         return res;
     }
@@ -233,5 +233,5 @@ Serialize::getWStringVector()
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

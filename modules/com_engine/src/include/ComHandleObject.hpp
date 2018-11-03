@@ -30,7 +30,7 @@ class NLSCOM_ENGINE_IMPEXP ComHandleObject : public HandleGenericObject
 {
 public:
     ComHandleObject(void* _ptr);
-    ~ComHandleObject();
+    ~ComHandleObject() override;
 };
 //=============================================================================
 } // namespace Nelson

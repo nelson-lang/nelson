@@ -93,7 +93,7 @@ classnameComHandle(ArrayOf A, std::wstring& classname)
     if (hlObj->getCategory() != COM_CATEGORY_STR) {
         Error(_W("COM handle expected."));
     }
-    ComHandleObject* comhandleobj = (ComHandleObject*)hlObj;
+    auto* comhandleobj = (ComHandleObject*)hlObj;
     if (comhandleobj) {
         classnameComHandle(comhandleobj, classname);
     }
@@ -112,14 +112,14 @@ classnameComHandle(ArrayOf A, wstringVector& classname)
         Error(_W("COM handle expected."));
     }
     Dimensions dimsA = A.getDimensions();
-    nelson_handle* qp = (nelson_handle*)A.getDataPointer();
+    auto* qp = (nelson_handle*)A.getDataPointer();
     if (qp) {
         stringVector names;
         for (indexType k = 0; k < dimsA.getElementCount(); k++) {
             nelson_handle hl = qp[k];
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
             if (hlObj != nullptr) {
-                ComHandleObject* comhandleobj = (ComHandleObject*)hlObj;
+                auto* comhandleobj = (ComHandleObject*)hlObj;
                 std::wstring name;
                 classnameComHandle(comhandleobj, name);
                 classname.push_back(name);
@@ -128,5 +128,5 @@ classnameComHandle(ArrayOf A, wstringVector& classname)
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

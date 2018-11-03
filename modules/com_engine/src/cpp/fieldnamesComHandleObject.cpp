@@ -31,7 +31,7 @@ fieldnamesComHandleObject(ArrayOf A, bool fullList, wstringVector& fieldnames)
     if (A.getHandleCategory() != COM_CATEGORY_STR) {
         Error(_W("COM handle expected."));
     }
-    ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
+    auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     fieldnamesComHandleObject(comhandleobj, fullList, fieldnames);
 }
 //=============================================================================
@@ -83,5 +83,5 @@ fieldnamesComHandleObject(ComHandleObject* comHandle, bool fullList, wstringVect
     std::sort(fieldnames.begin(), fieldnames.end());
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

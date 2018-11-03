@@ -85,7 +85,7 @@ RandomMersenneTwister64::getValueAsSingle(RNG_DISTRIBUTION_TYPE _type)
     if (generator == &uniform_real_generator) {
         return (single)(*uniform_real_generator)();
     }
-    return (single)nan("");
+    return static_cast<single>(nan(""));
 }
 //=============================================================================
 double
@@ -239,5 +239,5 @@ RandomMersenneTwister64::getMinMaxUniformIntDistribution(int& _min, int& _max)
     _min = uniform_int_generator->distribution().min();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

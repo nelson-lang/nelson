@@ -67,5 +67,5 @@ SearchVariableEnvironmentW(const std::wstring& fileToSearch, const std::wstring&
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -73,16 +73,16 @@ AudioFileMetaData(std::wstring filename, wstringVector& fieldnames, wstringVecto
             fiedvalues.push_back(it->second);
         }
         return true;
-    } else {
-        if (f.isNull()) {
-            errorMessage = _W("Invalid filename.");
-            return false;
-        }
-        if (!f.tag()) {
-            errorMessage = _W("No tags available.");
-            return false;
-        }
     }
+    if (f.isNull()) {
+        errorMessage = _W("Invalid filename.");
+        return false;
+    }
+    if (!f.tag()) {
+        errorMessage = _W("No tags available.");
+        return false;
+    }
+
     return false;
 }
 //=============================================================================
@@ -117,16 +117,16 @@ setAudioFileMetaData(std::wstring filename, wstringVector fieldnames, wstringVec
         }
         errorMessage = _W("Cannot save file.");
         return false;
-    } else {
-        if (f.isNull()) {
-            errorMessage = _W("Invalid filename.");
-            return false;
-        }
-        if (!f.tag()) {
-            errorMessage = _W("No tags available.");
-            return false;
-        }
     }
+    if (f.isNull()) {
+        errorMessage = _W("Invalid filename.");
+        return false;
+    }
+    if (!f.tag()) {
+        errorMessage = _W("No tags available.");
+        return false;
+    }
+
     return false;
 }
 //=============================================================================
@@ -169,5 +169,5 @@ deleteAudioFileMetaData(std::wstring filename, std::wstring fieldname, std::wstr
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -37,8 +37,8 @@ ErrorToStruct(Exception& e)
         Dimensions dims(0, 1);
         stack = ArrayOf::emptyStructConstructor(fieldnames, dims);
     } else {
-        if ((e.getFilename() == L"") || (e.getFilename() == L"EvaluateScript")
-            || (e.getFunctionName() == L"") || (e.getLine() == -1)) {
+        if ((e.getFilename().empty()) || (e.getFilename() == L"EvaluateScript")
+            || (e.getFunctionName().empty()) || (e.getLine() == -1)) {
             Dimensions dim(0, 1);
             stack = ArrayOf::emptyStructConstructor(fieldnames, dim);
         } else {

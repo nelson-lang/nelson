@@ -708,6 +708,6 @@ ONP:
         }
 
     };
-}
+}  // namespace dtl
 
 #endif // DTL_DIFF_H

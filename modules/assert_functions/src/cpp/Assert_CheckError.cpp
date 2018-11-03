@@ -29,7 +29,7 @@ Assert_CheckError(Evaluator* eval, const std::wstring& command, const std::wstri
     std::wstring& msg)
 {
     bool bEval = false;
-    std::wstring computedmsg = L"";
+    std::wstring computedmsg;
     try {
         bEval = EvaluateCommand(eval, command, true);
     } catch (Exception& e) {
@@ -52,5 +52,5 @@ Assert_CheckError(Evaluator* eval, const std::wstring& command, const std::wstri
     return bRes;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

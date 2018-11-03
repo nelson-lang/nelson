@@ -28,8 +28,8 @@ class VariablesTable
 {
     //=============================================================================
 private:
-    typedef std::string key_type;
-    typedef ArrayOf value_type;
+    using key_type = std::string;
+    using value_type = ArrayOf;
     std::unordered_map<key_type, value_type> variablesMap;
     stringVector lockedVariables;
     //=============================================================================
@@ -56,5 +56,5 @@ public:
     getLockedVariables();
 };
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

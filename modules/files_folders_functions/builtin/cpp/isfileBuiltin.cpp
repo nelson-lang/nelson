@@ -44,11 +44,11 @@ Nelson::FilesFoldersGateway::isfileBuiltin(Evaluator* eval, int nLhs, const Arra
                 retval.push_back(ArrayOf::emptyConstructor(dim));
             } else {
                 ArrayOf cell(argIn[0]);
-                logical* bmat
-                    = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, argIn[0].getLength());
+                logical* bmat = static_cast<logical*>(
+                    ArrayOf::allocateArrayOf(NLS_LOGICAL, argIn[0].getLength()));
                 for (indexType k = 0; k < argIn[0].getDimensions().getElementCount(); k++) {
                     ArrayOf cell(argIn[0]);
-                    ArrayOf* arg = (ArrayOf*)(cell.getDataPointer());
+                    auto* arg = (ArrayOf*)(cell.getDataPointer());
                     if (arg[k].isRowVectorCharacterArray()) {
                         bmat[k] = IsFile(arg[k].getContentAsWideString());
                     } else {

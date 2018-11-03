@@ -172,14 +172,14 @@ ProgramOptions::parseOptionWithValue(Option& op, bool& bFind, std::wstring& valu
         if (nbElements == 0) {
             bFind = false;
             return true;
-        } else if (nbElements == 1) {
+        }
+        if (nbElements == 1) {
             bFind = true;
             return true;
-        } else {
-            bFind = false;
-            _error = _W("multiple option ") + op.getFullOption();
-            return false;
         }
+        bFind = false;
+        _error = _W("multiple option ") + op.getFullOption();
+        return false;
     }
     return false;
 }
@@ -199,14 +199,15 @@ ProgramOptions::parseOption(Option& op, bool& bFind)
     if (nbElements == 0) {
         bFind = false;
         return true;
-    } else if (nbElements == 1) {
+    }
+    if (nbElements == 1) {
         bFind = true;
         return true;
-    } else {
-        bFind = true;
-        _error = _W("multiple option ") + op.getFullOption();
-        return false;
     }
+    bFind = true;
+    _error = _W("multiple option ") + op.getFullOption();
+    return false;
+
     return false;
 }
 //=============================================================================
@@ -273,13 +274,13 @@ ProgramOptions::parse()
             return false;
         }
     }
-    std::wstring _timeout_str = L"";
+    std::wstring _timeout_str;
     bRes = bRes && parseOptionWithValue(timeoutOption, bFind, _timeout_str);
     if (bFind) {
         try {
             long long ll = boost::lexical_cast<long long>(_timeout_str);
             if (ll > 0) {
-                _timeout = (uint64)ll;
+                _timeout = static_cast<uint64>(ll);
             } else {
                 _error = _W("wrong value for timeout option.");
                 return false;
@@ -289,7 +290,7 @@ ProgramOptions::parse()
             return false;
         }
     } else {
-        _timeout = (uint64)0;
+        _timeout = static_cast<uint64>(0);
     }
     bRes = bRes && parseOption(quietOption, _quietmode);
     return bRes;
@@ -389,7 +390,7 @@ bool
 ProgramOptions::haveOpenFiles()
 {
     if (_isvalid) {
-        return (_filesToOpen.size() > 0);
+        return (!_filesToOpen.empty());
     }
     return false;
 }
@@ -448,5 +449,5 @@ ProgramOptions::getFilesToOpen()
     return _filesToOpen;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -49,7 +49,7 @@ LineManager::usesColors()
 }
 //=============================================================================
 std::wstring
-LineManager::getCurrentLine(void)
+LineManager::getCurrentLine()
 {
     boost::container::vector<wchar_t>::iterator itend = current_line_buffer.begin() + max_pos;
     std::wstring line(current_line_buffer.begin(), itend);
@@ -57,7 +57,7 @@ LineManager::getCurrentLine(void)
 }
 //=============================================================================
 std::wstring
-LineManager::getLineBeforeCaret(void)
+LineManager::getLineBeforeCaret()
 {
     boost::container::vector<wchar_t>::iterator itend = current_line_buffer.begin() + max_pos;
     std::wstring line(current_line_buffer.begin(), itend);
@@ -69,7 +69,7 @@ LineManager::getLineBeforeCaret(void)
 }
 //=============================================================================
 std::wstring
-LineManager::getLineAfterCaret(void)
+LineManager::getLineAfterCaret()
 {
     boost::container::vector<wchar_t>::iterator itfirst = current_line_buffer.begin() + cur_pos;
     boost::container::vector<wchar_t>::iterator itend = current_line_buffer.begin() + max_pos;
@@ -81,7 +81,7 @@ LineManager::getLineAfterCaret(void)
 }
 //=============================================================================
 void
-LineManager::moveBeginningLine(void)
+LineManager::moveBeginningLine()
 {
     while (cur_pos > 0) {
         cur_pos -= 1;
@@ -90,7 +90,7 @@ LineManager::moveBeginningLine(void)
 }
 //=============================================================================
 void
-LineManager::moveEndLine(void)
+LineManager::moveEndLine()
 {
     boost::container::vector<wchar_t>::iterator itbegin = current_line_buffer.begin() + cur_pos;
     boost::container::vector<wchar_t>::iterator itend = current_line_buffer.begin() + max_pos;
@@ -100,7 +100,7 @@ LineManager::moveEndLine(void)
 }
 //=============================================================================
 void
-LineManager::moveBackSingleChar(void)
+LineManager::moveBackSingleChar()
 {
     if (cur_pos > 0) {
         cur_pos -= 1;
@@ -109,7 +109,7 @@ LineManager::moveBackSingleChar(void)
 }
 //=============================================================================
 void
-LineManager::moveForwardSingleChar(void)
+LineManager::moveForwardSingleChar()
 {
     if (cur_pos < max_pos) {
         putCharacter(current_line_buffer[cur_pos], LineManager::STANDARD_INPUT);
@@ -118,7 +118,7 @@ LineManager::moveForwardSingleChar(void)
 }
 //=============================================================================
 void
-LineManager::moveBackSingleWord(void)
+LineManager::moveBackSingleWord()
 {
     while ((cur_pos > 0) && (isspace(current_line_buffer[cur_pos - 1]))) {
         cur_pos -= 1;
@@ -132,7 +132,7 @@ LineManager::moveBackSingleWord(void)
 }
 //=============================================================================
 void
-LineManager::moveForwardSingleWord(void)
+LineManager::moveForwardSingleWord()
 {
     while ((cur_pos < max_pos) && !isspace(current_line_buffer[cur_pos])) {
         putCharacter(current_line_buffer[cur_pos], LineManager::STANDARD_INPUT);
@@ -146,7 +146,7 @@ LineManager::moveForwardSingleWord(void)
 }
 //=============================================================================
 void
-LineManager::killCurrentPositionToEndLine(void)
+LineManager::killCurrentPositionToEndLine()
 {
     for (size_t i = cur_pos; i < max_pos; i++) {
         if (i >= current_line_buffer.size()) {
@@ -164,7 +164,7 @@ LineManager::killCurrentPositionToEndLine(void)
 }
 //=============================================================================
 void
-LineManager::deletePreviousChar(void)
+LineManager::deletePreviousChar()
 {
     if (cur_pos > 0) {
         cur_pos -= 1;
@@ -182,7 +182,7 @@ LineManager::deletePreviousChar(void)
 }
 //=============================================================================
 void
-LineManager::deleteCurrentChar(void)
+LineManager::deleteCurrentChar()
 {
     if (max_pos == 0) {
         doBeep();
@@ -200,7 +200,7 @@ LineManager::deleteCurrentChar(void)
 }
 //=============================================================================
 void
-LineManager::moveBackHistory(void)
+LineManager::moveBackHistory()
 {
     if (current_line_buffer.size() == 0) {
         current_line_buffer.push_back(L'\0');
@@ -211,7 +211,7 @@ LineManager::moveBackHistory(void)
 }
 //=============================================================================
 void
-LineManager::moveForwardHistory(void)
+LineManager::moveForwardHistory()
 {
     if (current_line_buffer.size() == 0) {
         current_line_buffer.push_back(L'\0');
@@ -222,7 +222,7 @@ LineManager::moveForwardHistory(void)
 }
 //=============================================================================
 void
-LineManager::redrawLine(void)
+LineManager::redrawLine()
 {
     std::wstring line = getCurrentLine();
     displayPrompt();
@@ -235,7 +235,7 @@ LineManager::redrawLine(void)
 }
 //=============================================================================
 void
-LineManager::killLastWord(void)
+LineManager::killLastWord()
 {
     while ((cur_pos > 0) && (current_line_buffer[cur_pos - 1] == VK_SPACE)) {
         cur_pos -= 1;
@@ -249,7 +249,7 @@ LineManager::killLastWord(void)
 }
 //=============================================================================
 void
-LineManager::newLine(void)
+LineManager::newLine()
 {
     if (current_line_buffer.size() == 0) {
         current_line_buffer.push_back(L'\0');
@@ -350,7 +350,7 @@ LineManager::printCharacters(std::wstring buffer, outputStyle eAsStyle)
 }
 //=============================================================================
 void
-LineManager::displayPrompt(void)
+LineManager::displayPrompt()
 {
     /* check position */
     CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -363,7 +363,7 @@ LineManager::displayPrompt(void)
 }
 //=============================================================================
 void
-LineManager::refreshLine(void)
+LineManager::refreshLine()
 {
     /* write tail of string */
     boost::container::vector<wchar_t>::iterator itbegin = current_line_buffer.begin() + cur_pos;
@@ -413,7 +413,7 @@ LineManager::addCharacterCurrentLine(wchar_t ch)
 }
 //=============================================================================
 void
-LineManager::backSpace(void)
+LineManager::backSpace()
 {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     ::GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);

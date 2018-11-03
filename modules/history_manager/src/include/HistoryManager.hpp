@@ -59,14 +59,14 @@ public:
     remove(size_t firstpos, size_t lastpos);
 
     std::wstring
-    getFirstLine(void);
+    getFirstLine();
     std::wstring
-    getLastLine(void);
+    getLastLine();
 
     std::wstring
-    getPreviousLine(void);
+    getPreviousLine();
     std::wstring
-    getNextLine(void);
+    getNextLine();
 
     bool
     loadFromFile(std::wstring filename);
@@ -90,7 +90,7 @@ public:
     setToken(std::wstring token);
 
     size_t
-    getNumberOfLines(void);
+    getNumberOfLines();
     std::wstring
     getNthLine(size_t N);
 
@@ -107,17 +107,17 @@ public:
     void
     setLastNCommandsSize(size_t newsize);
     size_t
-    getLastNCommandsSize(void);
+    getLastNCommandsSize();
 
     void
     setSaveAfterNCommands(size_t nLines);
     size_t
-    getSaveAfterNCommands(void);
+    getSaveAfterNCommands();
 
     void
     setAllowDuplicatedLines(bool bAllow = true);
     bool
-    getAllowDuplicatedLines(void);
+    getAllowDuplicatedLines();
 
     void
     setRemoveExit(bool bRemove);

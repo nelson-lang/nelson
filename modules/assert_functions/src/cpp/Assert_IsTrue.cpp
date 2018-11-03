@@ -36,5 +36,5 @@ Assert_IsTrue(logical value, std::wstring modifiedmsg, std::wstring& msg)
     return value;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

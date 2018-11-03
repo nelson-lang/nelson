@@ -42,10 +42,10 @@ IsEmptyScriptFile(std::wstring filename)
         }
         fclose(fr);
         return true;
-    } else {
-        return true;
     }
+    return true;
+
     return false;
 }
-}
+} // namespace Nelson
 //=============================================================================

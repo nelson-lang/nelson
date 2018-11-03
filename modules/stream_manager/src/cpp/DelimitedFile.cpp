@@ -78,14 +78,13 @@ delimitedWrite(ArrayOf mat, std::wstring filenameDestination, bool bAppend, std:
             ymax = dims.getElementCount() / dims.getRows();
         }
         if (mat.isComplex()) {
-            doublecomplex* matCplx
-                = reinterpret_cast<doublecomplex*>((double*)mat.getDataPointer());
-            for (int64 x = 0; x < (int64)dims.getRows(); x++) {
+            auto* matCplx = reinterpret_cast<doublecomplex*>((double*)mat.getDataPointer());
+            for (int64 x = 0; x < static_cast<int64>(dims.getRows()); x++) {
                 for (int64 x = 0; x < colsOffset; x++) {
                     outputStream << delimiter;
                 }
-                std::wstring realPartStr = L"";
-                std::wstring imagPartStr = L"";
+                std::wstring realPartStr;
+                std::wstring imagPartStr;
                 for (int64 y = 0; y < ymax; y++) {
                     doublecomplex val = matCplx[x + y * dims.getRows()];
                     if (std::isnan(val.real())) {
@@ -136,8 +135,8 @@ delimitedWrite(ArrayOf mat, std::wstring filenameDestination, bool bAppend, std:
                 }
             }
         } else {
-            double* pValue = (double*)mat.getDataPointer();
-            for (int64 x = 0; x < (int64)dims.getRows(); x++) {
+            auto* pValue = (double*)mat.getDataPointer();
+            for (int64 x = 0; x < static_cast<int64>(dims.getRows()); x++) {
                 for (int64 x = 0; x < colsOffset; x++) {
                     outputStream << delimiter;
                 }
@@ -182,5 +181,5 @@ delimitedWrite(ArrayOf mat, std::wstring filenameDestination, bool bAppend, std:
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

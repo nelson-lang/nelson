@@ -32,7 +32,7 @@ class NLSDYNAMIC_LINK_IMPEXP DynamicLinkLibraryObject : public HandleGenericObje
 {
 public:
     DynamicLinkLibraryObject(std::wstring libraryPath);
-    ~DynamicLinkLibraryObject();
+    ~DynamicLinkLibraryObject() override;
 
     bool
     disp(Evaluator* eval);
@@ -47,9 +47,9 @@ public:
     wstringVector
     fieldnames();
     bool
-    isProperty(std::wstring propertyName);
+    isProperty(std::wstring propertyName) override;
     bool
-    isMethod(std::wstring methodName);
+    isMethod(std::wstring methodName) override;
 
 private:
     wstringVector _propertiesNames;

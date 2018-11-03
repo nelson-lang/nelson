@@ -21,7 +21,7 @@
 #endif
 #include "Beep.hpp"
 #include <iostream>
-#include <stdio.h>
+#include <cstdio>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -54,7 +54,7 @@ beep()
 {
     if (beepOn) {
 #ifdef _MSC_VER
-        MessageBeep((UINT)-1);
+        MessageBeep(static_cast<UINT>(-1));
 #else
         std::cout << "\a" << std::flush;
 #endif
@@ -62,5 +62,5 @@ beep()
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

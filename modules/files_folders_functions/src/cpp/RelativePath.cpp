@@ -32,14 +32,9 @@ RelativePath(std::wstring path1, std::wstring path2, bool& bSuccess)
     pathTwo = pathTwo.lexically_normal();
     relativepath = pathTwo.lexically_relative(pathOne);
     std::wstring result = relativepath.generic_wstring();
-    if (result == L"") {
-        result = pathTwo.generic_wstring();
-        bSuccess = false;
-    } else {
-        bSuccess = true;
-    }
+    bSuccess = !result.empty();
     return result;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

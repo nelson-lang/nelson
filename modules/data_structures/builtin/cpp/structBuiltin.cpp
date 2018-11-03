@@ -26,10 +26,11 @@ ArrayOfVector
 Nelson::DataStructuresGateway::structBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         retval.push_back(ArrayOf::emptyStructWithoutFields());
         return retval;
-    } else if (argIn.size() == 1) {
+    }
+    if (argIn.size() == 1) {
         if (!argIn[0].isEmpty()) {
             Error(_W("struct([]) expected."));
         }

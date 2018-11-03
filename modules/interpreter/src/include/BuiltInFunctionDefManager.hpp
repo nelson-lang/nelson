@@ -53,11 +53,11 @@ public:
     stringVector
     getNameList();
     bool
-    find(const std::string name, FuncPtr& ptr);
+    find(std::string name, FuncPtr& ptr);
     bool
-    find(const std::string name, wstringVector& paths);
+    find(std::string name, wstringVector& paths);
     bool
-    find(const std::string name, std::wstring& path);
+    find(std::string name, std::wstring& path);
     bool
     find(size_t hashid, std::wstring& functionname);
 
@@ -78,5 +78,5 @@ private:
     // cache to speed up search
     std::unordered_map<std::string, FuncPtr> cachedBuiltin;
 };
-}
+} // namespace Nelson
 //=============================================================================

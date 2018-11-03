@@ -196,7 +196,7 @@ AudioplayerObject::disp(Evaluator* eval)
     if (eval != nullptr) {
         Interface* io = eval->getInterface();
         if (io) {
-            std::wstring valueToDisp = L"";
+            std::wstring valueToDisp;
             io->outputMessage(L"\n");
             valueToDisp = std::to_wstring(getSampleRate());
             io->outputMessage(L"\tSampleRate: \t" + valueToDisp + L"\n");
@@ -389,7 +389,7 @@ AudioplayerObject::setSamples(
         }
         rows = audioData.getDimensions().getRows();
         columns = audioData.getDimensions().getColumns();
-        _NumberOfChannels = (int)columns;
+        _NumberOfChannels = static_cast<int>(columns);
         if (_NumberOfChannels > pdi_output->maxOutputChannels) {
             errorMessage = _W("Too many output channels.");
             return false;
@@ -419,7 +419,8 @@ AudioplayerObject::setSamples(
         }
         _SampleRate = SampleRate;
         _BitsPerSample = BitsPerSample;
-        _TotalSamples = (int)(audioData.getDimensions().getElementCount() / _NumberOfChannels);
+        _TotalSamples
+            = static_cast<int>(audioData.getDimensions().getElementCount() / _NumberOfChannels);
         outputStreamParameters.suggestedLatency
             = Pa_GetDeviceInfo(outputStreamParameters.device)->defaultLowOutputLatency;
         outputStreamParameters.hostApiSpecificStreamInfo = NULL;
@@ -430,9 +431,9 @@ AudioplayerObject::setSamples(
             return false;
         }
         return true;
-    } else {
-        errorMessage = _W("Wrong device ID.");
     }
+    errorMessage = _W("Wrong device ID.");
+
     return false;
 }
 //=============================================================================
@@ -441,45 +442,45 @@ AudioplayerObject::paPlayCallback(const void* inputBuffer, void* outputBuffer,
     unsigned long framesPerBuffer, const PaStreamCallbackTimeInfo* timeInfo,
     PaStreamCallbackFlags statusFlags, void* userData)
 {
-    AudioplayerObject* data = (AudioplayerObject*)userData;
+    auto* data = static_cast<AudioplayerObject*>(userData);
     data->_Running = true;
-    single* outAsSingle = (single*)outputBuffer;
-    int8* outAsInt8 = (int8*)outputBuffer;
-    uint8* outAsUInt8 = (uint8*)outputBuffer;
-    int16* outAsInt16 = (int16*)outputBuffer;
+    auto* outAsSingle = static_cast<single*>(outputBuffer);
+    int8* outAsInt8 = static_cast<int8*>(outputBuffer);
+    auto* outAsUInt8 = static_cast<uint8*>(outputBuffer);
+    auto* outAsInt16 = static_cast<int16*>(outputBuffer);
     Class dataClass = data->audioData.getDataClass();
     for (unsigned int i = 0; i < framesPerBuffer; i++) {
         for (int c = 0; c < data->_NumberOfChannels; c++) {
-            if ((uint32)data->_CurrentSample < data->lastSample) {
+            if (static_cast<uint32>(data->_CurrentSample) < data->lastSample) {
                 switch (dataClass) {
                 case NLS_SINGLE: {
-                    single* ptrData = (single*)data->audioData.getDataPointer();
+                    auto* ptrData = (single*)data->audioData.getDataPointer();
                     single val = ptrData[data->_CurrentSample + (c * data->_TotalSamples)];
-                    *outAsSingle = (single)val;
+                    *outAsSingle = val;
                     outAsSingle++;
                 } break;
                 case NLS_DOUBLE: {
-                    double* ptrData = (double*)data->audioData.getDataPointer();
+                    auto* ptrData = (double*)data->audioData.getDataPointer();
                     double val = ptrData[data->_CurrentSample + (c * data->_TotalSamples)];
-                    *outAsSingle = (single)val;
+                    *outAsSingle = static_cast<single>(val);
                     outAsSingle++;
                 } break;
                 case NLS_INT8: {
                     int8* ptrData = (int8*)data->audioData.getDataPointer();
                     int8 val = ptrData[data->_CurrentSample + (c * data->_TotalSamples)];
-                    *outAsInt8 = (int8)val;
+                    *outAsInt8 = val;
                     outAsInt8++;
                 } break;
                 case NLS_UINT8: {
-                    uint8* ptrData = (uint8*)data->audioData.getDataPointer();
+                    auto* ptrData = (uint8*)data->audioData.getDataPointer();
                     uint8 val = ptrData[data->_CurrentSample + (c * data->_TotalSamples)];
-                    *outAsUInt8 = (uint8)val;
+                    *outAsUInt8 = val;
                     outAsUInt8++;
                 } break;
                 case NLS_INT16: {
-                    int16* ptrData = (int16*)data->audioData.getDataPointer();
+                    auto* ptrData = (int16*)data->audioData.getDataPointer();
                     int16 val = ptrData[data->_CurrentSample + (c * data->_TotalSamples)];
-                    *outAsInt16 = (int16)val;
+                    *outAsInt16 = val;
                     outAsInt16++;
                 } break;
                 default: {
@@ -506,7 +507,7 @@ AudioplayerObject::paPlayCallback(const void* inputBuffer, void* outputBuffer,
         }
         data->_CurrentSample++;
     }
-    if ((uint32)data->_CurrentSample >= data->lastSample) {
+    if (static_cast<uint32>(data->_CurrentSample) >= data->lastSample) {
         data->_CurrentSample = data->lastSample;
         data->_Running = false;
         data->paStream = nullptr;
@@ -596,5 +597,5 @@ AudioplayerObject::stop()
     return true;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

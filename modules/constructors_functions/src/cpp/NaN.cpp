@@ -22,7 +22,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-NaN(void)
+NaN()
 {
     return NaN(1, 1);
 }
@@ -30,8 +30,8 @@ NaN(void)
 ArrayOf
 NaN(indexType m, indexType n)
 {
-    double* mat = (double*)ArrayOf::allocateArrayOf(
-        NLS_DOUBLE, (indexType)(m * n), Nelson::stringVector(), false);
+    double* mat = static_cast<double*>(ArrayOf::allocateArrayOf(
+        NLS_DOUBLE, static_cast<indexType>(m * n), Nelson::stringVector(), false));
     Eigen::Map<Eigen::MatrixXd> matNaN(mat, m, n);
     matNaN.setConstant(std::nan("NaN"));
     Dimensions dimMat(m, n);
@@ -39,5 +39,5 @@ NaN(indexType m, indexType n)
     return res;
 }
 
-};
+} // namespace Nelson
 //=============================================================================

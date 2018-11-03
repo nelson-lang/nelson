@@ -73,5 +73,5 @@ FileParts(const std::wstring& fullpath, std::wstring& path, std::wstring& filena
     extension = FilePartsExtension(fullpath);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

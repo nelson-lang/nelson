@@ -82,17 +82,22 @@ And(ArrayOf A, ArrayOf B)
     void* Cp = ArrayOf::allocateArrayOf(NLS_LOGICAL, Clen);
     if (Astride == 0 && Bstride == 0) {
         if (A.isRowVector() && B.isColumnVector()) {
-            boolean_vector_and((logical*)Cp, (const logical*)A.getDataPointer(),
-                A.getDimensions().getElementCount(), (const logical*)B.getDataPointer(),
+            boolean_vector_and(static_cast<logical*>(Cp),
+                static_cast<const logical*>(A.getDataPointer()),
+                A.getDimensions().getElementCount(),
+                static_cast<const logical*>(B.getDataPointer()),
                 B.getDimensions().getElementCount());
         } else if (A.isColumnVector() && B.isRowVector()) {
-            boolean_vector_and((logical*)Cp, (const logical*)B.getDataPointer(),
-                B.getDimensions().getElementCount(), (const logical*)A.getDataPointer(),
+            boolean_vector_and(static_cast<logical*>(Cp),
+                static_cast<const logical*>(B.getDataPointer()),
+                B.getDimensions().getElementCount(),
+                static_cast<const logical*>(A.getDataPointer()),
                 A.getDimensions().getElementCount());
         }
     } else {
-        boolean_and(Clen, (logical*)Cp, (const logical*)A.getDataPointer(), Astride,
-            (const logical*)B.getDataPointer(), Bstride);
+        boolean_and(Clen, static_cast<logical*>(Cp),
+            static_cast<const logical*>(A.getDataPointer()), Astride,
+            static_cast<const logical*>(B.getDataPointer()), Bstride);
     }
     return ArrayOf(NLS_LOGICAL, Cdim, Cp);
 }

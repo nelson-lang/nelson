@@ -768,10 +768,9 @@ public:
     void
     resetLastWarningException();
 
-    typedef ArrayOf (*UnaryFunction)(const ArrayOf& A);
-    typedef ArrayOf (*BinaryFunction)(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess);
-    typedef ArrayOf (*TernaryFunction)(
-        ArrayOf& A, ArrayOf& B, ArrayOf& C, bool mustRaiseError, bool& bSuccess);
+    using UnaryFunction = ArrayOf (*)(const ArrayOf&);
+    using BinaryFunction = ArrayOf (*)(ArrayOf&, ArrayOf&, bool, bool&);
+    using TernaryFunction = ArrayOf (*)(ArrayOf&, ArrayOf&, ArrayOf&, bool, bool&);
 
     ArrayOf
     doBinaryOperatorOverload(

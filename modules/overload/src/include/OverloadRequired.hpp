@@ -34,7 +34,7 @@ OverloadRequired(Evaluator* eval, const ArrayOfVector& argIn, Overload::Overload
     if (!functionName.empty()) {
         _functionName = functionName;
     }
-    std::string OverloadName("");
+    std::string OverloadName;
     switch (otype) {
     case Overload::OverloadClass::BINARY:
         OverloadName = ClassName(argIn[0]) + "_" + _functionName + "_" + ClassName(argIn[1]);
@@ -54,5 +54,5 @@ OverloadRequired(Evaluator* eval, const ArrayOfVector& argIn, Overload::Overload
     Error(_("function") + " " + OverloadName + " " + _("undefined."));
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

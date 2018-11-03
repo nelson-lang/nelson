@@ -36,11 +36,11 @@ Nelson::StreamGateway::fgetlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     }
     ArrayOf param1 = argIn[0];
     if (param1.isDoubleType()) {
-        FilesManager* fm = (FilesManager*)(eval->FileManager);
+        auto* fm = static_cast<FilesManager*>(eval->FileManager);
         if (fm == nullptr) {
             Error(_W("Problem with file manager."));
         }
-        int32 iValue = (int32)param1.getContentAsDoubleScalar();
+        auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
         if (fm->isStdStream(iValue)) {
             Error(_W("Not implemented for requested file identifier."));
         }

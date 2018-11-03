@@ -29,7 +29,7 @@ Nelson::MemoryGateway::memoryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     if (nLhs > 2) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 0) {
+    if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs == 0) {
@@ -37,23 +37,25 @@ Nelson::MemoryGateway::memoryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         if (io) {
             std::wstring msg;
             unsigned int val;
-            val = (unsigned int)(getTotalPhysicalMemoryByNelson() * 9.54e-7);
+            val = static_cast<unsigned int>(getTotalPhysicalMemoryByNelson() * 9.54e-7);
             msg = _W("Physical Memory used by Nelson:") + L" " + std::to_wstring(val) + L" MB"
-                + L" (" + std::to_wstring((uint64)getTotalPhysicalMemoryByNelson()) + L" bytes)"
-                + L"\n";
+                + L" (" + std::to_wstring(static_cast<uint64>(getTotalPhysicalMemoryByNelson()))
+                + L" bytes)" + L"\n";
             io->outputMessage(msg);
-            val = (unsigned int)(getTotalVirtualMemoryByNelson() * 9.54e-7);
+            val = static_cast<unsigned int>(getTotalVirtualMemoryByNelson() * 9.54e-7);
             msg = _W("Virtual Memory used by Nelson:") + L" " + std::to_wstring(val) + L" MB"
-                + L" (" + std::to_wstring((uint64)getTotalVirtualMemoryByNelson()) + L" bytes)"
+                + L" (" + std::to_wstring(static_cast<uint64>(getTotalVirtualMemoryByNelson()))
+                + L" bytes)" + L"\n";
+            io->outputMessage(msg);
+            val = static_cast<unsigned int>(getTotalPhysicalMemory() * 9.54e-7);
+            msg = _W("Physical Memory:") + L" " + std::to_wstring(val) + L" MB" + L" ("
+                + std::to_wstring(static_cast<uint64>(getTotalPhysicalMemory())) + L" bytes)"
                 + L"\n";
             io->outputMessage(msg);
-            val = (unsigned int)(getTotalPhysicalMemory() * 9.54e-7);
-            msg = _W("Physical Memory:") + L" " + std::to_wstring(val) + L" MB" + L" ("
-                + std::to_wstring((uint64)getTotalPhysicalMemory()) + L" bytes)" + L"\n";
-            io->outputMessage(msg);
-            val = (unsigned int)(getTotalVirtualMemory() * 9.54e-7);
+            val = static_cast<unsigned int>(getTotalVirtualMemory() * 9.54e-7);
             msg = _W("Virtual Memory:") + L" " + std::to_wstring(val) + L" MB" + L" ("
-                + std::to_wstring((uint64)getTotalVirtualMemory()) + L" bytes)" + L"\n";
+                + std::to_wstring(static_cast<uint64>(getTotalVirtualMemory())) + L" bytes)"
+                + L"\n";
             io->outputMessage(msg);
         }
     }
@@ -62,11 +64,11 @@ Nelson::MemoryGateway::memoryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         ArrayOfVector fieldvalues;
         uint64 val;
         fieldnames.push_back(L"MaxPossibleArrayBytes");
-        val = (uint64)(getTotalPhysicalMemory() + getTotalVirtualMemory());
-        fieldvalues.push_back(ArrayOf::doubleConstructor((double)val));
+        val = static_cast<uint64>(getTotalPhysicalMemory() + getTotalVirtualMemory());
+        fieldvalues.push_back(ArrayOf::doubleConstructor(static_cast<double>(val)));
         fieldnames.push_back(L"MemAvailableAllArrays");
-        val = (uint64)(getTotalPhysicalMemory() + getTotalVirtualMemory());
-        fieldvalues.push_back(ArrayOf::doubleConstructor((double)val));
+        val = static_cast<uint64>(getTotalPhysicalMemory() + getTotalVirtualMemory());
+        fieldvalues.push_back(ArrayOf::doubleConstructor(static_cast<double>(val)));
         fieldnames.push_back(L"MemUsedNelson");
         fieldvalues.push_back(ArrayOf::doubleConstructor(getTotalPhysicalMemoryByNelson()));
         retval.push_back(ArrayOf::structConstructor(fieldnames, fieldvalues));
@@ -87,8 +89,8 @@ Nelson::MemoryGateway::memoryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         fieldvalues1.clear();
         fieldnames.push_back(L"SystemMemory");
         fieldnames1.push_back(L"Available");
-        uint64 val = (uint64)(getTotalPhysicalMemory() + getTotalVirtualMemory());
-        fieldvalues1.push_back(ArrayOf::doubleConstructor((double)val));
+        auto val = static_cast<uint64>(getTotalPhysicalMemory() + getTotalVirtualMemory());
+        fieldvalues1.push_back(ArrayOf::doubleConstructor(static_cast<double>(val)));
         fieldvalues.push_back(ArrayOf::structConstructor(fieldnames1, fieldvalues1));
         fieldnames1.clear();
         fieldvalues1.clear();

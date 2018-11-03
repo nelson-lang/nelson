@@ -33,7 +33,7 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
     result.clear();
     if (fp) {
         if (!fp->isInterfaceMethod()) {
-            FILE* fileptr = (FILE*)fp->getFilePointer();
+            FILE* fileptr = static_cast<FILE*>(fp->getFilePointer());
             if (fileptr) {
                 bool bEOF = true;
                 std::string readline;
@@ -66,7 +66,7 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
                             }
                         } else {
                             index += sizeRemove;
-                            FileSeek(fp, (int64)(index - readline.length()), 0);
+                            FileSeek(fp, static_cast<int64>(index - readline.length()), 0);
                             readline.erase(readline.begin() + index, readline.end());
                             bEOF = false;
                             break;
@@ -96,7 +96,7 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
                         bOK = true;
                     } else if (nchar > 0) {
                         result = utf8_to_wstring(readline);
-                        if (nchar < (indexType)result.length()) {
+                        if (nchar < static_cast<indexType>(result.length())) {
                             std::wstring w = result;
                             result.resize(nchar);
                             try {
@@ -104,7 +104,7 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
                             } catch (const std::out_of_range&) {
                             }
                             std::string u = wstring_to_utf8(w);
-                            int64 nseek = (int64)u.length();
+                            auto nseek = static_cast<int64>(u.length());
                             FileSeek(fp, -nseek, 0);
                         }
                         bOK = true;
@@ -121,5 +121,5 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
     return bOK;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

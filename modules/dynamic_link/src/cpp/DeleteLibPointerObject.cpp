@@ -29,8 +29,8 @@ DeleteLibPointerObject(ArrayOf A)
     if (A.isHandle()) {
         if (!A.isEmpty()) {
             Dimensions dims = A.getDimensions();
-            nelson_handle* qp = (nelson_handle*)A.getDataPointer();
-            for (size_t k = 0; k < (size_t)dims.getElementCount(); k++) {
+            auto* qp = (nelson_handle*)A.getDataPointer();
+            for (size_t k = 0; k < static_cast<size_t>(dims.getElementCount()); k++) {
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
@@ -50,5 +50,5 @@ DeleteLibPointerObject(ArrayOf A)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -37,8 +37,8 @@ Nelson::HelpToolsGateway::markdownBuiltin(Evaluator* eval, int nLhs, const Array
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() == 2) {
-        std::wstring filenameIn = L"";
-        std::wstring filenameOut = L"";
+        std::wstring filenameIn;
+        std::wstring filenameOut;
         if (argIn[0].isRowVectorCharacterArray()) {
             filenameIn = argIn[0].getContentAsWideString();
         } else {
@@ -105,7 +105,7 @@ Nelson::HelpToolsGateway::markdownBuiltin(Evaluator* eval, int nLhs, const Array
                 Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
             }
         }
-        std::wstring stringOutput = L"";
+        std::wstring stringOutput;
         if (MarkdownString(stringInput, stringOutput)) {
             retval.push_back(ArrayOf::characterArrayConstructor(stringOutput));
         } else {

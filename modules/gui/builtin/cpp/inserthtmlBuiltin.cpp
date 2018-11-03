@@ -40,7 +40,7 @@ Nelson::GuiGateway::inserthtmlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (eval) {
         Interface* io = eval->getInterface();
         if (io) {
-            GuiTerminal* gtio = (GuiTerminal*)io;
+            auto* gtio = (GuiTerminal*)io;
             gtio->insertHtml(msg);
         }
     }

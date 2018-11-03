@@ -21,8 +21,8 @@
 #include <fcntl.h>
 #include <io.h>
 #include <shlwapi.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #define dup _dup
@@ -35,7 +35,7 @@
 namespace Nelson {
 //===================================================================================
 bool
-CreateConsole(void)
+CreateConsole()
 {
     bool res = false;
 #if _MSC_VER
@@ -54,13 +54,13 @@ CreateConsole(void)
 }
 //===================================================================================
 bool
-DestroyConsole(void)
+DestroyConsole()
 {
 #if _MSC_VER
-    return FreeConsole() ? true : false;
+    return FreeConsole() != 0;
 #endif
     return false;
 }
 //===================================================================================
-}
+} // namespace Nelson
 //===================================================================================

@@ -49,7 +49,7 @@ Nelson::DataStructuresGateway::struct2cellBuiltin(
         Error(ERROR_MEMORY_ALLOCATION);
     }
     try {
-        ArrayOfVector* v = new ArrayOfVector[nbFields];
+        auto* v = new ArrayOfVector[nbFields];
         indexType S = 0;
         for (size_t k = 0; k < nbFields; k++) {
             v[k] = param1.getFieldAsList(fieldnames[k]);

@@ -29,10 +29,10 @@ IsValidHandle(Evaluator* eval, ArrayOf A)
     ArrayOf res;
     if (A.isHandle()) {
         Dimensions dimsA = A.getDimensions();
-        nelson_handle* qp = (nelson_handle*)A.getDataPointer();
+        auto* qp = (nelson_handle*)A.getDataPointer();
         if (qp) {
-            logical* resArray
-                = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount());
+            logical* resArray = static_cast<logical*>(
+                ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount()));
             for (size_t k = 0; k < dimsA.getElementCount(); k++) {
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
@@ -56,5 +56,5 @@ IsValidHandle(Evaluator* eval, ArrayOf A)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -30,8 +30,8 @@ IsEqualHandle(ArrayOf A, ArrayOf B)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsB = B.getDimensions();
         if (dimsA.equals(dimsB)) {
-            nelson_handle* ptrA = (nelson_handle*)A.getDataPointer();
-            nelson_handle* ptrB = (nelson_handle*)B.getDataPointer();
+            auto* ptrA = (nelson_handle*)A.getDataPointer();
+            auto* ptrB = (nelson_handle*)B.getDataPointer();
             for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
                 if (ptrA[k] != ptrB[k]) {
                     return false;
@@ -43,5 +43,5 @@ IsEqualHandle(ArrayOf A, ArrayOf B)
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

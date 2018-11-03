@@ -38,10 +38,10 @@
 //=============================================================================
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
-#include <stdio.h>
-#include <errno.h>
+#include <cstdio>
+#include <cerrno>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include "Evaluator.hpp"
 #include "Exception.hpp"
 #include "LessEquals.hpp"
@@ -120,7 +120,8 @@ public:
         index = ndx;
         count = cnt;
     }
-    ~endData(){};
+    ~endData() = default;
+    ;
 };
 std::vector<endData> endStack;
 
@@ -4208,5 +4209,5 @@ Evaluator::doBinaryOperatorOverload(
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -50,14 +50,14 @@ checkArgument(Evaluator* eval, ArrayOf arg, bool& withCompleteNames, int& nbOmit
             value = param1.getContentAsDoubleScalar();
         } break;
         case NLS_SINGLE: {
-            value = (double)param1.getContentAsSingleScalar();
+            value = static_cast<double>(param1.getContentAsSingleScalar());
         } break;
         default: {
         } break;
             Error(ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
         }
-        int intValue = (int)value;
-        if ((double)intValue != value) {
+        int intValue = static_cast<int>(value);
+        if (static_cast<double>(intValue) != value) {
             Error(ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
         }
         nbOmits = intValue + 1;
@@ -88,8 +88,8 @@ dbstackAsStruct(stackTrace positions, bool withCompleteNames)
     if (positions.empty()) {
         st = ArrayOf::emptyStructConstructor(fieldnames, dims);
     } else {
-        ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(
-            NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames);
+        auto* elements = static_cast<ArrayOf*>(
+            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames));
         st = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
         ArrayOfVector file;
         ArrayOfVector name;
@@ -97,18 +97,18 @@ dbstackAsStruct(stackTrace positions, bool withCompleteNames)
         file.reserve(positions.size());
         name.reserve(positions.size());
         line.reserve(positions.size());
-        for (size_t k = 0; k < positions.size(); ++k) {
-            std::wstring filename = positions[k].getFilename();
+        for (auto& position : positions) {
+            std::wstring filename = position.getFilename();
             if (!withCompleteNames) {
-                filename = shortName(positions[k].getFilename());
+                filename = shortName(position.getFilename());
             }
             file.push_back(ArrayOf::characterArrayConstructor(filename));
-            std::wstring functionName = positions[k].getFunctionName();
+            std::wstring functionName = position.getFunctionName();
             name.push_back(ArrayOf::characterArrayConstructor(functionName));
-            if (positions[k].getLine() == 0) {
+            if (position.getLine() == 0) {
                 line.push_back(ArrayOf::emptyConstructor(0, 1));
             } else {
-                line.push_back(ArrayOf::doubleConstructor((double)positions[k].getLine()));
+                line.push_back(ArrayOf::doubleConstructor((double)position.getLine()));
             }
         }
         st.setFieldAsList("file", file);
@@ -121,24 +121,24 @@ dbstackAsStruct(stackTrace positions, bool withCompleteNames)
 void
 dbstackPrint(Interface* io, stackTrace positions, bool withCompleteNames)
 {
-    for (size_t k = 0; k < positions.size(); k++) {
+    for (auto& position : positions) {
         std::wstring message;
-        std::wstring filename = positions[k].getFilename();
+        std::wstring filename = position.getFilename();
         if (!withCompleteNames) {
-            filename = shortName(positions[k].getFilename());
+            filename = shortName(position.getFilename());
         }
-        if (positions[k].getLine() == 0) {
+        if (position.getLine() == 0) {
             if (filename != L"") {
                 message = std::wstring(L"In ") + filename + L"\n";
             }
         } else {
-            if (positions[k].getFunctionName() != L"") {
+            if (position.getFunctionName() != L"") {
                 message = std::wstring(L"In ") + filename + L" function "
-                    + positions[k].getFunctionName() + L" (line "
-                    + std::to_wstring(positions[k].getLine()) + L")\n";
+                    + position.getFunctionName() + L" (line " + std::to_wstring(position.getLine())
+                    + L")\n";
             } else {
                 message = std::wstring(L"In ") + filename + L" (line "
-                    + std::to_wstring(positions[k].getLine()) + L")\n";
+                    + std::to_wstring(position.getLine()) + L")\n";
             }
         }
         io->outputMessage(message);
@@ -212,7 +212,7 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     } break;
     case 2: {
         retval.push_back(dbstackAsStruct(positions, withCompleteNames));
-        double indexWorkspace = (double)positions.size();
+        auto indexWorkspace = static_cast<double>(positions.size());
         if (indexWorkspace <= 0) {
             indexWorkspace = 1;
         }

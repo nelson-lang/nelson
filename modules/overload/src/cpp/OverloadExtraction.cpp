@@ -47,5 +47,5 @@ OverloadExtraction(Evaluator* eval, const std::string& ClassName, ArrayOfVector 
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -47,5 +47,5 @@ FunctionHandleDisplay(Evaluator* eval, ArrayOf Var)
         }
     }
 }
-}
+} // namespace Nelson
 //=============================================================================

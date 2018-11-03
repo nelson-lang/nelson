@@ -29,7 +29,7 @@ static library_handle nlsGuiHandleDynamicLibrary = nullptr;
 static bool bFirstDynamicLibraryCall = true;
 //===================================================================================
 static void
-initGuiDynamicLibrary(void)
+initGuiDynamicLibrary()
 {
     if (bFirstDynamicLibraryCall) {
         std::string fullpathGuiSharedLibrary = "libnlsGui" + get_dynamic_library_extension();
@@ -69,9 +69,9 @@ initGuiDynamicLibrary(void)
 }
 //===================================================================================
 void
-InitGuiObjectsDynamic(void)
+InitGuiObjectsDynamic()
 {
-    typedef void (*PROC_InitGuiObjects)(void);
+    using PROC_InitGuiObjects = void (*)();
     static PROC_InitGuiObjects InitGuiObjectsPtr = nullptr;
     initGuiDynamicLibrary();
     if (!InitGuiObjectsPtr) {
@@ -91,7 +91,7 @@ InitGuiObjectsDynamic(void)
 void*
 CreateGuiEvaluatorDynamic(void* vcontext, NELSON_ENGINE_MODE _mode)
 {
-    typedef void* (*PROC_CreateGuiEvaluator)(void* vcontext, NELSON_ENGINE_MODE _mode);
+    using PROC_CreateGuiEvaluator = void* (*)(void*, NELSON_ENGINE_MODE);
     static PROC_CreateGuiEvaluator CreateGuiEvaluatorPtr = nullptr;
     initGuiDynamicLibrary();
     if (!CreateGuiEvaluatorPtr) {
@@ -111,7 +111,7 @@ CreateGuiEvaluatorDynamic(void* vcontext, NELSON_ENGINE_MODE _mode)
 void
 DestroyMainGuiObjectDynamic(void* term)
 {
-    typedef void (*PROC_DestroyMainGuiObject)(void*);
+    using PROC_DestroyMainGuiObject = void (*)(void*);
     static PROC_DestroyMainGuiObject DestroyMainGuiObjectPtr = nullptr;
     initGuiDynamicLibrary();
     if (!DestroyMainGuiObjectPtr) {
@@ -129,9 +129,9 @@ DestroyMainGuiObjectDynamic(void* term)
 }
 //===================================================================================
 void*
-GetMainGuiObjectDynamic(void)
+GetMainGuiObjectDynamic()
 {
-    typedef void* (*PROC_GetMainGuiObject)(void);
+    using PROC_GetMainGuiObject = void* (*)();
     static PROC_GetMainGuiObject GetMainGuiObjectPtr = nullptr;
     initGuiDynamicLibrary();
     if (!GetMainGuiObjectPtr) {
@@ -148,5 +148,5 @@ GetMainGuiObjectDynamic(void)
     return GetMainGuiObjectPtr();
 }
 //===================================================================================
-}
+} // namespace Nelson
 //===================================================================================

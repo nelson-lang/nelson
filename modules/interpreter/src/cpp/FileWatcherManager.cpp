@@ -27,7 +27,7 @@ namespace Nelson {
 class UpdatePathListener : public FW::FileWatchListener
 {
 public:
-    UpdatePathListener() {}
+    UpdatePathListener() = default;
     void
     handleFileAction(
         WatchID watchid, const FW::String& dir, const FW::String& filename, FW::Action action)
@@ -106,7 +106,7 @@ FileWatcherManager::getInstance()
 void
 FileWatcherManager::addWacth(std::wstring directory)
 {
-    UpdatePathListener* watcher = new UpdatePathListener();
+    auto* watcher = new UpdatePathListener();
     WatchID id = -1;
     try {
 #ifdef _MSC_VER
@@ -140,5 +140,5 @@ FileWatcherManager::update()
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

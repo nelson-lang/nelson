@@ -28,7 +28,7 @@ ArrayOf::uint8Constructor(uint8 aval)
 {
     Dimensions dim;
     dim.makeScalar();
-    uint8* data = (uint8*)allocateArrayOf(NLS_UINT8, 1);
+    uint8* data = static_cast<uint8*>(allocateArrayOf(NLS_UINT8, 1));
     *data = aval;
     return ArrayOf(NLS_UINT8, dim, data);
 }
@@ -38,7 +38,7 @@ ArrayOf::int8Constructor(int8 aval)
 {
     Dimensions dim;
     dim.makeScalar();
-    int8* data = (int8*)allocateArrayOf(NLS_INT8, 1);
+    int8* data = static_cast<int8*>(allocateArrayOf(NLS_INT8, 1));
     *data = aval;
     return ArrayOf(NLS_INT8, dim, data);
 }
@@ -48,7 +48,7 @@ ArrayOf::uint16Constructor(uint16 aval)
 {
     Dimensions dim;
     dim.makeScalar();
-    uint16* data = (uint16*)allocateArrayOf(NLS_UINT16, 1);
+    uint16* data = static_cast<uint16*>(allocateArrayOf(NLS_UINT16, 1));
     *data = aval;
     return ArrayOf(NLS_UINT16, dim, data);
 }
@@ -58,7 +58,7 @@ ArrayOf::int16Constructor(int16 aval)
 {
     Dimensions dim;
     dim.makeScalar();
-    int16* data = (int16*)allocateArrayOf(NLS_INT16, 1);
+    int16* data = static_cast<int16*>(allocateArrayOf(NLS_INT16, 1));
     *data = aval;
     return ArrayOf(NLS_INT16, dim, data);
 }
@@ -68,7 +68,7 @@ ArrayOf::uint32Constructor(uint32 aval)
 {
     Dimensions dim;
     dim.makeScalar();
-    uint32* data = (uint32*)allocateArrayOf(NLS_UINT32, 1);
+    uint32* data = static_cast<uint32*>(allocateArrayOf(NLS_UINT32, 1));
     *data = aval;
     return ArrayOf(NLS_UINT32, dim, data);
 }
@@ -78,7 +78,7 @@ ArrayOf::int32Constructor(int32 aval)
 {
     Dimensions dim;
     dim.makeScalar();
-    int32* data = (int32*)allocateArrayOf(NLS_INT32, 1);
+    int32* data = static_cast<int32*>(allocateArrayOf(NLS_INT32, 1));
     *data = aval;
     return ArrayOf(NLS_INT32, dim, data);
 }
@@ -88,7 +88,7 @@ ArrayOf::uint64Constructor(uint64 aval)
 {
     Dimensions dim;
     dim.makeScalar();
-    uint64* data = (uint64*)allocateArrayOf(NLS_UINT64, 1);
+    uint64* data = static_cast<uint64*>(allocateArrayOf(NLS_UINT64, 1));
     *data = aval;
     return ArrayOf(NLS_UINT64, dim, data);
 }
@@ -98,7 +98,7 @@ ArrayOf::int64Constructor(int64 aval)
 {
     Dimensions dim;
     dim.makeScalar();
-    int64* data = (int64*)allocateArrayOf(NLS_INT64, 1);
+    int64* data = static_cast<int64*>(allocateArrayOf(NLS_INT64, 1));
     *data = aval;
     return ArrayOf(NLS_INT64, dim, data);
 }
@@ -109,7 +109,7 @@ ArrayOf::int64VectorConstructor(indexType len)
     Dimensions dim;
     dim.makeScalar();
     dim[1] = len;
-    int64* data = (int64*)allocateArrayOf(NLS_INT64, len);
+    int64* data = static_cast<int64*>(allocateArrayOf(NLS_INT64, len));
     return ArrayOf(NLS_INT64, dim, data);
 }
 //=============================================================================
@@ -119,7 +119,7 @@ ArrayOf::int32VectorConstructor(indexType len)
     Dimensions dim;
     dim.makeScalar();
     dim[1] = len;
-    int32* data = (int32*)allocateArrayOf(NLS_INT32, len);
+    int32* data = static_cast<int32*>(allocateArrayOf(NLS_INT32, len));
     return ArrayOf(NLS_INT32, dim, data);
 }
 //=============================================================================
@@ -127,7 +127,7 @@ ArrayOf
 ArrayOf::int32Matrix2dConstructor(indexType m, indexType n)
 {
     Dimensions dim(m, n);
-    int32* data = (int32*)allocateArrayOf(NLS_INT32, dim.getElementCount());
+    int32* data = static_cast<int32*>(allocateArrayOf(NLS_INT32, dim.getElementCount()));
     return ArrayOf(NLS_INT32, dim, data);
 }
 //=============================================================================
@@ -139,9 +139,9 @@ ArrayOf::integerRangeConstructor(indexType minval, indexType stepsize, indexType
         Cdim[0] = 1;
         Cdim[1] = 0;
 #ifdef NLS_INDEX_TYPE_64
-        return ArrayOf(NLS_INT32, Cdim, NULL, false);
+        return ArrayOf(NLS_INT32, Cdim, nullptr, false);
 #else
-        return ArrayOf(NLS_INT64, Cdim, NULL, false);
+        return ArrayOf(NLS_INT64, Cdim, nullptr, false);
 #endif
     }
     if (minval < maxval) {
@@ -149,7 +149,7 @@ ArrayOf::integerRangeConstructor(indexType minval, indexType stepsize, indexType
         if (stepsize < 0) {
             Cdim[0] = 1;
             Cdim[1] = 0;
-            return ArrayOf(NLS_INT32, Cdim, NULL, false);
+            return ArrayOf(NLS_INT32, Cdim, nullptr, false);
         }
 #endif
     }
@@ -158,17 +158,17 @@ ArrayOf::integerRangeConstructor(indexType minval, indexType stepsize, indexType
             Cdim[0] = 1;
             Cdim[1] = 0;
 #ifdef NLS_INDEX_TYPE_64
-            return ArrayOf(NLS_INT64, Cdim, NULL, false);
+            return ArrayOf(NLS_INT64, Cdim, nullptr, false);
 #else
-            return ArrayOf(NLS_INT32, Cdim, NULL, false);
+            return ArrayOf(NLS_INT32, Cdim, nullptr, false);
 #endif
         }
     }
-    double dn = (double)((((maxval - minval) / stepsize) + 1));
+    auto dn = static_cast<double>((((maxval - minval) / stepsize) + 1));
 #ifdef NLS_INDEX_TYPE_64
-    int64 n = (int64)floor((double)(dn));
+    auto n = static_cast<int64>(floor(static_cast<double>(dn)));
 #else
-    int32 n = (int32)floor((double)(dn));
+    auto n = static_cast<int32>(floor((dn)));
 #endif
     if (vert) {
         Cdim[0] = n;
@@ -178,9 +178,9 @@ ArrayOf::integerRangeConstructor(indexType minval, indexType stepsize, indexType
         Cdim[1] = n;
     }
 #ifdef NLS_INDEX_TYPE_64
-    int64* rp = (int64*)allocateArrayOf(NLS_INT64, n);
+    int64* rp = static_cast<int64*>(allocateArrayOf(NLS_INT64, n));
 #else
-    int32* rp = (int32*)allocateArrayOf(NLS_INT32, n);
+    int32* rp = static_cast<int32*>(allocateArrayOf(NLS_INT32, n));
 #endif
     if (dn == (double(n))) {
 #ifdef NLS_INDEX_TYPE_64
@@ -341,5 +341,5 @@ ArrayOf::isSignedIntegerType() const
         || getDataClass() == NLS_INT64;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

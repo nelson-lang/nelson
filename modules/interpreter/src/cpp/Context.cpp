@@ -281,7 +281,7 @@ void
 Context::bypassScope(int count)
 {
     if (count < 0) {
-        count = (int)scopestack.size();
+        count = static_cast<int>(scopestack.size());
     }
     while ((count > 0) && (scopestack.back()->getName() != "base")) {
         bypassstack.push_back(scopestack.back());
@@ -293,8 +293,8 @@ Context::bypassScope(int count)
 void
 Context::restoreBypassedScopes()
 {
-    for (size_t i = 0; i < bypassstack.size(); i++) {
-        scopestack.push_back(bypassstack[i]);
+    for (auto i : bypassstack) {
+        scopestack.push_back(i);
     }
     bypassstack.clear();
 }
@@ -365,5 +365,5 @@ Context::getMaximumRecursionDepth()
     return MAX_RECURSION_FUNCTION_CALL;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

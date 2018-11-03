@@ -44,12 +44,12 @@ Not(ArrayOf& A, bool& needToOverload)
         needToOverload = true;
         return ArrayOf();
     }
-    logical* Cp = (logical*)ArrayOf::allocateArrayOf(
-        NLS_LOGICAL, A.getDimensions().getElementCount(), stringVector(), false);
-    boolean_not(A.getLength(), (logical*)Cp, (const logical*)A.getDataPointer());
+    logical* Cp = static_cast<logical*>(ArrayOf::allocateArrayOf(
+        NLS_LOGICAL, A.getDimensions().getElementCount(), stringVector(), false));
+    boolean_not(A.getLength(), Cp, static_cast<const logical*>(A.getDataPointer()));
     C = ArrayOf(NLS_LOGICAL, A.getDimensions(), Cp);
     return C;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

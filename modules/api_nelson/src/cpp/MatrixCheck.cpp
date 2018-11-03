@@ -26,9 +26,10 @@ CheckNumeric(ArrayOf A, ArrayOf B, const std::string& opname)
     bool Anumeric, Bnumeric;
     Anumeric = !A.isReferenceType();
     Bnumeric = !B.isReferenceType();
-    if (!(Anumeric && Bnumeric))
+    if (!(Anumeric && Bnumeric)) {
         Error(std::string(_("Cannot apply numeric operation ")) + opname
             + std::string(_(" to reference types.")));
+    }
 }
 //=============================================================================
 void
@@ -54,9 +55,10 @@ MatrixCheck(ArrayOf A, ArrayOf B, const std::string& opname)
     // Test for A & B numeric
     CheckNumeric(A, B, opname);
     // Test for 2D
-    if (!A.is2D() || !B.is2D())
+    if (!A.is2D() || !B.is2D()) {
         Error(std::string(_("Cannot apply matrix operation ")) + opname
             + std::string(_(" to N-Dimensional arrays.")));
+    }
     return true;
 }
 //=============================================================================
@@ -136,5 +138,5 @@ BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
 }
 //=============================================================================
 
-}
+} // namespace Nelson
 //=============================================================================

@@ -38,7 +38,7 @@ void
 ComEngine::create()
 {
     if (!isInitialized) {
-        ::CoInitialize(NULL);
+        ::CoInitialize(nullptr);
         isInitialized = true;
     }
 }
@@ -50,5 +50,5 @@ ComEngine::finish()
     isInitialized = false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

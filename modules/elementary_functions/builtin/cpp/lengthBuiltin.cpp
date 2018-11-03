@@ -55,15 +55,15 @@ Nelson::ElementaryFunctionsGateway::lengthBuiltin(
         double len = 0;
         Dimensions sze(param1.getDimensions());
         for (indexType i = 0; i < sze.getLength(); i++) {
-            if ((double)sze[i] == 0) {
+            if (static_cast<double>(sze[i]) == 0) {
                 len = 0;
                 break;
             }
             if (i == 0) {
-                len = (double)sze[i];
+                len = static_cast<double>(sze[i]);
             } else {
-                if ((double)sze[i] > len) {
-                    len = (double)sze[i];
+                if (static_cast<double>(sze[i]) > len) {
+                    len = static_cast<double>(sze[i]);
                 }
             }
         }

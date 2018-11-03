@@ -24,40 +24,40 @@
 namespace Nelson {
 //=============================================================================
 void
-doExit(void)
+doExit()
 {
-    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
     if (eval) {
         eval->addCommandToQueue(L"quit;");
     }
 }
 //=============================================================================
 void
-doHelp(void)
+doHelp()
 {
-    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
     if (eval) {
         eval->addCommandToQueue(L"doc;");
     }
 }
 //=============================================================================
 void
-doPause(void)
+doPause()
 {
-    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
     if (eval) {
         eval->addCommandToQueue(L"keyboard;");
     }
 }
 //=============================================================================
 void
-doStop(void)
+doStop()
 {
-    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
     if (eval) {
         eval->addCommandToQueue(L"abort;");
     }
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

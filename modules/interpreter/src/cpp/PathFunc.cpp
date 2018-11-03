@@ -160,8 +160,7 @@ PathFunc::getPath()
 bool
 PathFunc::isSupportedFuncFilename(std::wstring name)
 {
-    for (sizeType k = 0; k < (sizeType)name.size(); k++) {
-        int c = name[k];
+    for (int c : name) {
         bool bSupportedChar
             = (c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c == '_') || (c >= 48 && c <= 57);
         if (!bSupportedChar) {
@@ -220,15 +219,14 @@ PathFunc::findFuncName(const std::wstring functionName, FileFunc** ff)
     if (foundit != mapRecentFiles.end()) {
         *ff = foundit->second;
         return true;
-    } else {
-        boost::unordered_map<std::wstring, FileFunc*>::iterator found
-            = mapAllFiles.find(functionName);
-        if (found != mapAllFiles.end()) {
-            *ff = found->second;
-            mapRecentFiles.emplace(functionName, *ff);
-            return true;
-        }
     }
+    boost::unordered_map<std::wstring, FileFunc*>::iterator found = mapAllFiles.find(functionName);
+    if (found != mapAllFiles.end()) {
+        *ff = found->second;
+        mapRecentFiles.emplace(functionName, *ff);
+        return true;
+    }
+
     return false;
 }
 //=============================================================================
@@ -246,5 +244,5 @@ PathFunc::findFuncByHash(size_t hashid, std::wstring& functionName)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

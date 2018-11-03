@@ -41,7 +41,7 @@
 #include "BuiltInFunctionDefManager.hpp"
 #include "PathFuncManager.hpp"
 #include <algorithm>
-#include <stdio.h>
+#include <cstdio>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -54,7 +54,7 @@ Scope::Scope(std::string scopeName)
     cachedFunc.clear();
 }
 //=============================================================================
-Scope::~Scope() {}
+Scope::~Scope() = default;
 //=============================================================================
 void
 Scope::insertMacroFunctionLocally(FuncPtr a)
@@ -91,23 +91,23 @@ Scope::lookupFunction(std::string funcName, FuncPtr& val, bool builtinOnly)
             cachedFunc.emplace(funcName, val);
         }
         return found;
-    } else {
-        found = currentLocalFunctions.find(funcName, val);
-        if (found) {
-            cachedFunc.emplace(funcName, val);
-            return true;
-        }
-        found = PathFuncManager::getInstance()->find(funcName, val);
-        if (found) {
-            cachedFunc.emplace(funcName, val);
-            return true;
-        }
-        found = BuiltInFunctionDefManager::getInstance()->find(funcName, val);
-        if (found) {
-            cachedFunc.emplace(funcName, val);
-            return true;
-        }
     }
+    found = currentLocalFunctions.find(funcName, val);
+    if (found) {
+        cachedFunc.emplace(funcName, val);
+        return true;
+    }
+    found = PathFuncManager::getInstance()->find(funcName, val);
+    if (found) {
+        cachedFunc.emplace(funcName, val);
+        return true;
+    }
+    found = BuiltInFunctionDefManager::getInstance()->find(funcName, val);
+    if (found) {
+        cachedFunc.emplace(funcName, val);
+        return true;
+    }
+
     return false;
 }
 //=============================================================================
@@ -313,5 +313,5 @@ Scope::isVariable(std::string varname)
     return variablesTab.isVariable(varname);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

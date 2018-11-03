@@ -36,10 +36,10 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    std::wstring filename = L"";
+    std::wstring filename;
     if (argIn.size() == 1) {
         ArrayOf arg1 = argIn[0];
-        std::wstring functionName = L"";
+        std::wstring functionName;
         if (arg1.isRowVectorCharacterArray()) {
             functionName = arg1.getContentAsWideString();
             if (IsFile(functionName)) {
@@ -49,7 +49,7 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
                 FunctionDef* funcDef = nullptr;
                 if (context->lookupFunction(wstring_to_utf8(functionName), funcDef)) {
                     if (funcDef->type() == NLS_MACRO_FUNCTION) {
-                        MacroFunctionDef* fm = (MacroFunctionDef*)funcDef;
+                        auto* fm = (MacroFunctionDef*)funcDef;
                         filename = fm->fileName;
                     } else {
                         Error(_W("built-in have no comments."));
@@ -60,10 +60,10 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
             }
         } else if (arg1.isFunctionHandle()) {
             function_handle fh = arg1.getContentAsFunctionHandle();
-            FunctionDef* fun = (FunctionDef*)fh;
+            auto* fun = (FunctionDef*)fh;
             if (eval->getContext()->getGlobalScope()->isPointerOnFunction(fun)) {
                 if (fun->type() == NLS_MACRO_FUNCTION) {
-                    MacroFunctionDef* fm = (MacroFunctionDef*)fun;
+                    auto* fm = (MacroFunctionDef*)fun;
                     filename = fm->fileName;
                 } else {
                     Error(_W("built-in have no comments."));
@@ -79,8 +79,8 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
             if (nLhs == 0) {
                 Interface* io = eval->getInterface();
                 if (io) {
-                    for (size_t i = 0; i < comments.size(); i++) {
-                        io->outputMessage(comments[i] + L"\n");
+                    for (const auto& comment : comments) {
+                        io->outputMessage(comment + L"\n");
                     }
                 }
             } else {

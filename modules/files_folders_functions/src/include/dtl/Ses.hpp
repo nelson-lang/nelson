@@ -47,7 +47,7 @@ namespace dtl {
     class Ses : public Sequence< elem > {
     private :
         typedef pair< elem, elemInfo > sesElem;
-        typedef vector< sesElem >      sesElemVec;
+        using sesElemVec = vector<sesElem>;
     public :
 
         Ses () : onlyAdd(true), onlyDelete(true), onlyCopy(true), deletesFirst(false) {
@@ -126,6 +126,6 @@ namespace dtl {
         bool       deletesFirst;
         size_t     nextDeleteIdx;
     };
-}
+}  // namespace dtl
 
 #endif // DTL_SES_H

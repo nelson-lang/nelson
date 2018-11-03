@@ -56,5 +56,5 @@ callOverloadedFunction(Evaluator* eval, ArrayOfVector argsIn,
     }
     return res;
 }
-}
+} // namespace Nelson
 //=============================================================================

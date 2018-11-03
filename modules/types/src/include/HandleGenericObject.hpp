@@ -32,7 +32,8 @@ private:
 
 public:
     HandleGenericObject(std::wstring _category, void* _ptr, bool isScoped);
-    virtual ~HandleGenericObject(){};
+    virtual ~HandleGenericObject() = default;
+    ;
     std::wstring
     getCategory();
     void

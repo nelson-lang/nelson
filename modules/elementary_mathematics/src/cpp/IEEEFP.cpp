@@ -18,7 +18,7 @@
 //=============================================================================
 #include "IEEEFP.hpp"
 #include <cmath>
-#include <stdint.h>
+#include <cstdint>
 //=============================================================================
 bool
 IsInfinite(float t)
@@ -71,15 +71,15 @@ IsFinite(double t)
 bool
 IsIntegerForm(double t)
 {
-    int64_t x = (int64_t)std::floor(t);
-    return (bool)(((double)x == t) || !IsFinite(t));
+    auto x = static_cast<int64_t>(std::floor(t));
+    return ((static_cast<double>(x) == t) || !IsFinite(t));
 }
 //=============================================================================
 bool
 IsIntegerForm(float t)
 {
-    int64_t x = (int64_t)std::floor(t);
-    return (bool)(((float)x == t) || !IsFinite(t));
+    auto x = static_cast<int64_t>(std::floor(t));
+    return ((static_cast<float>(x) == t) || !IsFinite(t));
 }
 //=============================================================================
 bool

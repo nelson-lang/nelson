@@ -63,5 +63,5 @@ GetLockedVariables(const std::string& variable, Scope* scope)
     return scope->getLockedVariables();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

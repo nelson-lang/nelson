@@ -32,7 +32,7 @@ DynamicLinkLibraryObject::DynamicLinkLibraryObject(std::wstring libraryPath)
     : HandleGenericObject(std::wstring(DLLIB_CATEGORY_STR), this, false)
 {
     _propertiesNames = { L"Path" };
-    std::wstring fullLibraryPath = L"";
+    std::wstring fullLibraryPath;
     if (searchLibrary(libraryPath, fullLibraryPath)) {
         boost::system::error_code errorCode;
         boost::dll::shared_library lib(fullLibraryPath, errorCode);
@@ -128,7 +128,7 @@ DynamicLinkLibraryObject::searchLibrary(std::wstring libraryPath, std::wstring& 
 {
     fullLibraryPath = L"";
     boost::filesystem::path pathToSplit = libraryPath;
-    std::wstring parentPath = L"";
+    std::wstring parentPath;
     wstringVector paths;
     if (pathToSplit.has_parent_path()) {
         parentPath = pathToSplit.parent_path().generic_wstring();
@@ -227,5 +227,5 @@ DynamicLinkLibraryObject::getEnvironmentPaths(const std::wstring& environPath)
     return result;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

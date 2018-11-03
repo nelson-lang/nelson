@@ -35,8 +35,8 @@ Nelson::StreamGateway::ftellBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    int32 iValue = (int32)param1.getContentAsDoubleScalar();
-    FilesManager* fm = (FilesManager*)(eval->FileManager);
+    auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
+    auto* fm = static_cast<FilesManager*>(eval->FileManager);
     if (fm == nullptr) {
         Error(_W("Problem with file manager."));
     }
@@ -45,7 +45,7 @@ Nelson::StreamGateway::ftellBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         if (f == nullptr) {
             Error(_W("Invalid file identifier."));
         }
-        double dpos = (double)FileTell(f);
+        auto dpos = static_cast<double>(FileTell(f));
         retval.push_back(ArrayOf::doubleConstructor(dpos));
     } else {
         Error(_W("Invalid file identifier."));
