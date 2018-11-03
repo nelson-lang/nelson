@@ -66,14 +66,15 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, std::wstring lang)
         auto* context = new Context;
         std::wstring effectiveLang = Localization::Instance()->initializeLocalization(lang);
         if (context) {
+            std::string msg = _("This mode is not yet implemented.\n");
             switch (_mode) {
             case BASIC_ENGINE: {
-                fprintf(stderr, _("This mode is not yet implemented.\n").c_str());
+                fprintf(stderr, "%s", msg.c_str());
                 exit(1);
             } break;
             case ADVANCED_ENGINE: {
                 InitGuiObjectsDynamic();
-                fprintf(stderr, "%s", _("This mode is not yet implemented.\n").c_str());
+                fprintf(stderr, "%s", msg.c_str());
                 exit(1);
             } break;
             case BASIC_SIO_CLIENT: {
@@ -91,7 +92,7 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, std::wstring lang)
                 }
             } break;
             case ADVANCED_SIO_CLIENT: {
-                fprintf(stderr, _("This mode is not yet implemented.\n").c_str());
+                fprintf(stderr, "%s", msg.c_str());
                 exit(1);
             } break;
             case ADVANCED_TERMINAL: {
@@ -110,7 +111,8 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, std::wstring lang)
                 mainEvaluator = (Evaluator*)CreateGuiEvaluatorDynamic((void*)context, _mode);
             } break;
             default: {
-                fprintf(stderr, "%s", _("unknow engine.\n").c_str());
+                std::string msg = _("unknow engine.\n");
+                fprintf(stderr, "%s", msg.c_str());
                 exit(1);
             } break;
             }
