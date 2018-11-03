@@ -202,6 +202,223 @@ encode_array(ArrayOf ValueToEncode, bool close)
     }
 }
 //=============================================================================
+template <class T>
+static void
+jsonEncodeInteger(const ArrayOf& ValueToEncode, std::string format)
+{
+    auto* ptr = (T*)ValueToEncode.getDataPointer();
+    if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
+        for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
+            char buff[1024];
+            snprintf(buff, sizeof(buff), format.c_str(), ptr[i]);
+            std::string buffAsStdStr = buff;
+            json_append_string(buffAsStdStr);
+        }
+    } else if (ValueToEncode.is2D()) {
+        indexType rows = ValueToEncode.getDimensions().getRows();
+        indexType cols = ValueToEncode.getDimensions().getColumns();
+        for (int i = 0; i < rows; ++i) {
+            json_append_char('[');
+            for (int j = 0; j < cols; ++j) {
+                char buff[1024];
+                snprintf(buff, sizeof(buff), format.c_str(), ptr[j * rows + i]);
+                std::string buffAsStdStr = buff;
+                json_append_string(buffAsStdStr);
+            }
+            if (boost::algorithm::ends_with(jsonString, L",")) {
+                jsonString.pop_back();
+            }
+            json_append_string("],");
+        }
+    } else {
+        Dimensions dims = ValueToEncode.getDimensions();
+        indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
+        indexType ymax = dims.getElementCount() / lastdimlen;
+        for (int i = 0; i < ymax; ++i) {
+            json_append_char('[');
+            for (int j = 0; j < lastdimlen; ++j) {
+                char buff[1024];
+                snprintf(buff, sizeof(buff), format.c_str(), ptr[j * ymax + i]);
+                std::string buffAsStdStr = buff;
+                json_append_string(buffAsStdStr);
+            }
+            if (boost::algorithm::ends_with(jsonString, L",")) {
+                jsonString.pop_back();
+            }
+            json_append_string("],");
+        }
+    }
+}
+//=============================================================================
+static void
+jsonEncodeDouble(const ArrayOf& ValueToEncode, bool convertNanInf)
+{
+    auto* ptr = (double*)ValueToEncode.getDataPointer();
+    if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
+        for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
+            encode_double(ptr[i], convertNanInf);
+        }
+    } else if (ValueToEncode.is2D()) {
+        indexType rows = ValueToEncode.getDimensions().getRows();
+        indexType cols = ValueToEncode.getDimensions().getColumns();
+        for (int i = 0; i < rows; ++i) {
+            json_append_char('[');
+            for (int j = 0; j < cols; ++j) {
+                encode_double(ptr[j * rows + i], convertNanInf);
+            }
+            if (boost::algorithm::ends_with(jsonString, L",")) {
+                jsonString.pop_back();
+            }
+            json_append_string("],");
+        }
+    } else {
+        Dimensions dims = ValueToEncode.getDimensions();
+        indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
+        indexType ymax = dims.getElementCount() / lastdimlen;
+        for (int i = 0; i < ymax; ++i) {
+            json_append_char('[');
+            for (int j = 0; j < lastdimlen; ++j) {
+                encode_double(ptr[j * ymax + i], convertNanInf);
+            }
+            if (boost::algorithm::ends_with(jsonString, L",")) {
+                jsonString.pop_back();
+            }
+            json_append_string("],");
+        }
+    }
+}
+//=============================================================================
+static void
+jsonEncodeSingle(const ArrayOf& ValueToEncode, bool convertNanInf)
+{
+    auto* ptr = (single*)ValueToEncode.getDataPointer();
+    if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
+        for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
+            encode_single(ptr[i], convertNanInf);
+        }
+    } else if (ValueToEncode.is2D()) {
+        indexType rows = ValueToEncode.getDimensions().getRows();
+        indexType cols = ValueToEncode.getDimensions().getColumns();
+        for (int i = 0; i < rows; ++i) {
+            json_append_char('[');
+            for (int j = 0; j < cols; ++j) {
+                encode_single(ptr[j * rows + i], convertNanInf);
+            }
+            if (boost::algorithm::ends_with(jsonString, L",")) {
+                jsonString.pop_back();
+            }
+            json_append_string("],");
+        }
+    } else {
+        Dimensions dims = ValueToEncode.getDimensions();
+        indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
+        indexType ymax = dims.getElementCount() / lastdimlen;
+        for (int i = 0; i < ymax; ++i) {
+            json_append_char('[');
+            for (int j = 0; j < lastdimlen; ++j) {
+                encode_single(ptr[j * ymax + i], convertNanInf);
+            }
+            if (boost::algorithm::ends_with(jsonString, L",")) {
+                jsonString.pop_back();
+            }
+            json_append_string("],");
+        }
+    }
+}
+//=============================================================================
+static void
+jsonEncodeCharacters(const ArrayOf& ValueToEncode)
+{
+    std::wstring strw = ValueToEncode.getContentAsArrayOfCharacters();
+    if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
+        jsonString.reserve(jsonString.size() + strw.size() + 2);
+        json_append_char('"');
+        for (wchar_t i : strw) {
+            encode_character(i);
+        }
+        json_append_char('"');
+    } else if (ValueToEncode.is2D()) {
+        indexType rows = ValueToEncode.getDimensions().getRows();
+        indexType cols = ValueToEncode.getDimensions().getColumns();
+        jsonString.reserve(jsonString.size() + strw.size() + 2);
+        for (int i = 0; i < rows; ++i) {
+            json_append_char('"');
+            for (int j = 0; j < cols; ++j) {
+                encode_character(strw[j * rows + i]);
+            }
+            if (boost::algorithm::ends_with(jsonString, L",")) {
+                jsonString.pop_back();
+            }
+            json_append_string("\",");
+        }
+    } else {
+        Dimensions dims = ValueToEncode.getDimensions();
+        indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
+        indexType ymax = dims.getElementCount() / lastdimlen;
+        for (int i = 0; i < ymax; ++i) {
+            json_append_char('\"');
+            for (int j = 0; j < lastdimlen; ++j) {
+                wchar_t ch = strw[i * ymax + j];
+                encode_character(ch);
+            }
+            if (boost::algorithm::ends_with(jsonString, L",")) {
+                jsonString.pop_back();
+            }
+            json_append_string("\",");
+        }
+    }
+}
+//=============================================================================
+static void
+jsonEncodeLogical(const ArrayOf& ValueToEncode)
+{
+    auto* ptr = (logical*)ValueToEncode.getDataPointer();
+    if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
+        for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
+            if (ptr[i] == 0) {
+                json_append_string("false,");
+            } else {
+                json_append_string("true,");
+            }
+        }
+    } else if (ValueToEncode.is2D()) {
+        indexType rows = ValueToEncode.getDimensions().getRows();
+        indexType cols = ValueToEncode.getDimensions().getColumns();
+        for (indexType i = 0; i < rows; ++i) {
+            json_append_char('[');
+            for (indexType j = 0; j < cols; ++j) {
+                if (ptr[i] == 0) {
+                    json_append_string("false,");
+                } else {
+                    json_append_string("true,");
+                }
+            }
+            if (boost::algorithm::ends_with(jsonString, L",")) {
+                jsonString.pop_back();
+            }
+            json_append_string("],");
+        }
+    } else {
+        Dimensions dims = ValueToEncode.getDimensions();
+        indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
+        indexType ymax = dims.getElementCount() / lastdimlen;
+        for (indexType i = 0; i < ymax; ++i) {
+            json_append_char('[');
+            for (indexType j = 0; j < lastdimlen; ++j) {
+                if (ptr[i] == 0) {
+                    json_append_string("false,");
+                } else {
+                    json_append_string("true,");
+                }
+            }
+            if (boost::algorithm::ends_with(jsonString, L",")) {
+                jsonString.pop_back();
+            }
+            json_append_string("],");
+        }
+    }
+}
+//=============================================================================
 static ArrayOf
 jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& errorMessage)
 {
@@ -252,513 +469,40 @@ jsonEncodeInternal(ArrayOf ValueToEncode, bool convertNanInf, std::wstring& erro
             }
         } break;
         case NLS_LOGICAL: {
-            auto* ptr = (logical*)ValueToEncode.getDataPointer();
-            if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-                for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
-                    if (ptr[i] == 0) {
-                        json_append_string("false,");
-                    } else {
-                        json_append_string("true,");
-                    }
-                }
-            } else if (ValueToEncode.is2D()) {
-                indexType rows = ValueToEncode.getDimensions().getRows();
-                indexType cols = ValueToEncode.getDimensions().getColumns();
-                for (indexType i = 0; i < rows; ++i) {
-                    json_append_char('[');
-                    for (indexType j = 0; j < cols; ++j) {
-                        if (ptr[i] == 0) {
-                            json_append_string("false,");
-                        } else {
-                            json_append_string("true,");
-                        }
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            } else {
-                Dimensions dims = ValueToEncode.getDimensions();
-                indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-                indexType ymax = dims.getElementCount() / lastdimlen;
-                for (indexType i = 0; i < ymax; ++i) {
-                    json_append_char('[');
-                    for (indexType j = 0; j < lastdimlen; ++j) {
-                        if (ptr[i] == 0) {
-                            json_append_string("false,");
-                        } else {
-                            json_append_string("true,");
-                        }
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            }
+            jsonEncodeLogical(ValueToEncode);
         } break;
         case NLS_UINT8: {
-            auto* ptr = (uint8*)ValueToEncode.getDataPointer();
-            if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-                for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
-                    char buff[1024];
-                    snprintf(buff, sizeof(buff), "%u,", ptr[i]);
-                    std::string buffAsStdStr = buff;
-                    json_append_string(buffAsStdStr);
-                }
-            } else if (ValueToEncode.is2D()) {
-                indexType rows = ValueToEncode.getDimensions().getRows();
-                indexType cols = ValueToEncode.getDimensions().getColumns();
-                for (int i = 0; i < rows; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < cols; ++j) {
-                        char buff[1024];
-                        snprintf(buff, sizeof(buff), "%u,", ptr[j * rows + i]);
-                        std::string buffAsStdStr = buff;
-                        json_append_string(buffAsStdStr);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            } else {
-                Dimensions dims = ValueToEncode.getDimensions();
-                indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-                indexType ymax = dims.getElementCount() / lastdimlen;
-                for (int i = 0; i < ymax; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < lastdimlen; ++j) {
-                        char buff[1024];
-                        snprintf(buff, sizeof(buff), "%u,", ptr[j * ymax + i]);
-                        std::string buffAsStdStr = buff;
-                        json_append_string(buffAsStdStr);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            }
+            jsonEncodeInteger<uint8>(ValueToEncode, "%u,");
         } break;
         case NLS_INT8: {
-            int8* ptr = (int8*)ValueToEncode.getDataPointer();
-            if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-                for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
-                    char buff[1024];
-                    snprintf(buff, sizeof(buff), "%i,", ptr[i]);
-                    std::string buffAsStdStr = buff;
-                    json_append_string(buffAsStdStr);
-                }
-            } else if (ValueToEncode.is2D()) {
-                indexType rows = ValueToEncode.getDimensions().getRows();
-                indexType cols = ValueToEncode.getDimensions().getColumns();
-                for (int i = 0; i < rows; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < cols; ++j) {
-                        char buff[1024];
-                        snprintf(buff, sizeof(buff), "%i,", ptr[j * rows + i]);
-                        std::string buffAsStdStr = buff;
-                        json_append_string(buffAsStdStr);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            } else {
-                Dimensions dims = ValueToEncode.getDimensions();
-                indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-                indexType ymax = dims.getElementCount() / lastdimlen;
-                for (int i = 0; i < ymax; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < lastdimlen; ++j) {
-                        char buff[1024];
-                        snprintf(buff, sizeof(buff), "%i,", ptr[j * ymax + i]);
-                        std::string buffAsStdStr = buff;
-                        json_append_string(buffAsStdStr);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            }
+            jsonEncodeInteger<int8>(ValueToEncode, "%i,");
         } break;
         case NLS_UINT16: {
-            auto* ptr = (uint16*)ValueToEncode.getDataPointer();
-            if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-                for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
-                    char buff[1024];
-                    snprintf(buff, sizeof(buff), "%u,", ptr[i]);
-                    std::string buffAsStdStr = buff;
-                    json_append_string(buffAsStdStr);
-                }
-            } else if (ValueToEncode.is2D()) {
-                indexType rows = ValueToEncode.getDimensions().getRows();
-                indexType cols = ValueToEncode.getDimensions().getColumns();
-                for (int i = 0; i < rows; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < cols; ++j) {
-                        char buff[1024];
-                        snprintf(buff, sizeof(buff), "%u,", ptr[j * rows + i]);
-                        std::string buffAsStdStr = buff;
-                        json_append_string(buffAsStdStr);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            } else {
-                Dimensions dims = ValueToEncode.getDimensions();
-                indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-                indexType ymax = dims.getElementCount() / lastdimlen;
-                for (int i = 0; i < ymax; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < lastdimlen; ++j) {
-                        char buff[1024];
-                        snprintf(buff, sizeof(buff), "%u,", ptr[j * ymax + i]);
-                        std::string buffAsStdStr = buff;
-                        json_append_string(buffAsStdStr);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            }
+            jsonEncodeInteger<uint16>(ValueToEncode, "%u,");
         } break;
         case NLS_INT16: {
-            auto* ptr = (int16*)ValueToEncode.getDataPointer();
-            if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-                for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
-                    char buff[1024];
-                    snprintf(buff, sizeof(buff), "%i,", ptr[i]);
-                    std::string buffAsStdStr = buff;
-                    json_append_string(buffAsStdStr);
-                }
-            } else if (ValueToEncode.is2D()) {
-                indexType rows = ValueToEncode.getDimensions().getRows();
-                indexType cols = ValueToEncode.getDimensions().getColumns();
-                for (int i = 0; i < rows; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < cols; ++j) {
-                        char buff[1024];
-                        snprintf(buff, sizeof(buff), "%i,", ptr[j * rows + i]);
-                        std::string buffAsStdStr = buff;
-                        json_append_string(buffAsStdStr);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            } else {
-                Dimensions dims = ValueToEncode.getDimensions();
-                indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-                indexType ymax = dims.getElementCount() / lastdimlen;
-                for (int i = 0; i < ymax; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < lastdimlen; ++j) {
-                        char buff[1024];
-                        snprintf(buff, sizeof(buff), "%i,", ptr[j * ymax + i]);
-                        std::string buffAsStdStr = buff;
-                        json_append_string(buffAsStdStr);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            }
+            jsonEncodeInteger<int16>(ValueToEncode, "%i,");
         } break;
         case NLS_UINT32: {
-            auto* ptr = (uint32*)ValueToEncode.getDataPointer();
-            if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-                for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
-                    char buff[1024];
-                    snprintf(buff, sizeof(buff), "%u,", ptr[i]);
-                    std::string buffAsStdStr = buff;
-                    json_append_string(buffAsStdStr);
-                }
-            } else if (ValueToEncode.is2D()) {
-                indexType rows = ValueToEncode.getDimensions().getRows();
-                indexType cols = ValueToEncode.getDimensions().getColumns();
-                for (int i = 0; i < rows; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < cols; ++j) {
-                        char buff[1024];
-                        snprintf(buff, sizeof(buff), "%u,", ptr[j * rows + i]);
-                        std::string buffAsStdStr = buff;
-                        json_append_string(buffAsStdStr);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            } else {
-                Dimensions dims = ValueToEncode.getDimensions();
-                indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-                indexType ymax = dims.getElementCount() / lastdimlen;
-                for (int i = 0; i < ymax; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < lastdimlen; ++j) {
-                        char buff[1024];
-                        snprintf(buff, sizeof(buff), "%u,", ptr[j * ymax + i]);
-                        std::string buffAsStdStr = buff;
-                        json_append_string(buffAsStdStr);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            }
+            jsonEncodeInteger<uint32>(ValueToEncode, "%u,");
         } break;
         case NLS_INT32: {
-            auto* ptr = (int32*)ValueToEncode.getDataPointer();
-            if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-                for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
-                    char buff[1024];
-                    snprintf(buff, sizeof(buff), "%i,", ptr[i]);
-                    std::string buffAsStdStr = buff;
-                    json_append_string(buffAsStdStr);
-                }
-            } else if (ValueToEncode.is2D()) {
-                indexType rows = ValueToEncode.getDimensions().getRows();
-                indexType cols = ValueToEncode.getDimensions().getColumns();
-                for (int i = 0; i < rows; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < cols; ++j) {
-                        char buff[1024];
-                        snprintf(buff, sizeof(buff), "%i,", ptr[j * rows + i]);
-                        std::string buffAsStdStr = buff;
-                        json_append_string(buffAsStdStr);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            } else {
-                Dimensions dims = ValueToEncode.getDimensions();
-                indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-                indexType ymax = dims.getElementCount() / lastdimlen;
-                for (int i = 0; i < ymax; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < lastdimlen; ++j) {
-                        char buff[1024];
-                        snprintf(buff, sizeof(buff), "%i,", ptr[j * ymax + i]);
-                        std::string buffAsStdStr = buff;
-                        json_append_string(buffAsStdStr);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            }
+            jsonEncodeInteger<int32>(ValueToEncode, "%i,");
         } break;
         case NLS_UINT64: {
-            auto* ptr = (uint64*)ValueToEncode.getDataPointer();
-            if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-                for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
-                    char buff[1024];
-                    snprintf(buff, sizeof(buff), "%llu,", ptr[i]);
-                    std::string buffAsStdStr = buff;
-                    json_append_string(buffAsStdStr);
-                }
-            } else if (ValueToEncode.is2D()) {
-                indexType rows = ValueToEncode.getDimensions().getRows();
-                indexType cols = ValueToEncode.getDimensions().getColumns();
-                for (int i = 0; i < rows; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < cols; ++j) {
-                        char buff[1024];
-                        snprintf(buff, sizeof(buff), "%llu,", ptr[j * rows + i]);
-                        std::string buffAsStdStr = buff;
-                        json_append_string(buffAsStdStr);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            } else {
-                Dimensions dims = ValueToEncode.getDimensions();
-                indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-                indexType ymax = dims.getElementCount() / lastdimlen;
-                for (int i = 0; i < ymax; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < lastdimlen; ++j) {
-                        char buff[1024];
-                        snprintf(buff, sizeof(buff), "%llu,", ptr[j * ymax + i]);
-                        std::string buffAsStdStr = buff;
-                        json_append_string(buffAsStdStr);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            }
+            jsonEncodeInteger<uint64>(ValueToEncode, "%llu,");
         } break;
         case NLS_INT64: {
-            auto* ptr = (int64*)ValueToEncode.getDataPointer();
-            if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-                for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
-                    char buff[1024];
-                    snprintf(buff, sizeof(buff), "%lli,", ptr[i]);
-                    std::string buffAsStdStr = buff;
-                    json_append_string(buffAsStdStr);
-                }
-            } else if (ValueToEncode.is2D()) {
-                indexType rows = ValueToEncode.getDimensions().getRows();
-                indexType cols = ValueToEncode.getDimensions().getColumns();
-                for (int i = 0; i < rows; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < cols; ++j) {
-                        char buff[1024];
-                        snprintf(buff, sizeof(buff), "%lli,", ptr[j * rows + i]);
-                        std::string buffAsStdStr = buff;
-                        json_append_string(buffAsStdStr);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            } else {
-                Dimensions dims = ValueToEncode.getDimensions();
-                indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-                indexType ymax = dims.getElementCount() / lastdimlen;
-                for (int i = 0; i < ymax; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < lastdimlen; ++j) {
-                        char buff[1024];
-                        snprintf(buff, sizeof(buff), "%lli,", ptr[j * ymax + i]);
-                        std::string buffAsStdStr = buff;
-                        json_append_string(buffAsStdStr);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            }
+            jsonEncodeInteger<uint64>(ValueToEncode, "%lli,");
         } break;
         case NLS_SINGLE: {
-            auto* ptr = (single*)ValueToEncode.getDataPointer();
-            if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-                for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
-                    encode_single(ptr[i], convertNanInf);
-                }
-            } else if (ValueToEncode.is2D()) {
-                indexType rows = ValueToEncode.getDimensions().getRows();
-                indexType cols = ValueToEncode.getDimensions().getColumns();
-                for (int i = 0; i < rows; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < cols; ++j) {
-                        encode_single(ptr[j * rows + i], convertNanInf);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            } else {
-                Dimensions dims = ValueToEncode.getDimensions();
-                indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-                indexType ymax = dims.getElementCount() / lastdimlen;
-                for (int i = 0; i < ymax; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < lastdimlen; ++j) {
-                        encode_single(ptr[j * ymax + i], convertNanInf);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            }
+            jsonEncodeSingle(ValueToEncode, convertNanInf);
         } break;
         case NLS_DOUBLE: {
-            auto* ptr = (double*)ValueToEncode.getDataPointer();
-            if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-                for (indexType i = 0; i < ValueToEncode.getDimensions().getElementCount(); i++) {
-                    encode_double(ptr[i], convertNanInf);
-                }
-            } else if (ValueToEncode.is2D()) {
-                indexType rows = ValueToEncode.getDimensions().getRows();
-                indexType cols = ValueToEncode.getDimensions().getColumns();
-                for (int i = 0; i < rows; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < cols; ++j) {
-                        encode_double(ptr[j * rows + i], convertNanInf);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            } else {
-                Dimensions dims = ValueToEncode.getDimensions();
-                indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-                indexType ymax = dims.getElementCount() / lastdimlen;
-                for (int i = 0; i < ymax; ++i) {
-                    json_append_char('[');
-                    for (int j = 0; j < lastdimlen; ++j) {
-                        encode_double(ptr[j * ymax + i], convertNanInf);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("],");
-                }
-            }
+            jsonEncodeDouble(ValueToEncode, convertNanInf);
         } break;
         case NLS_CHAR: {
-            std::wstring strw = ValueToEncode.getContentAsArrayOfCharacters();
-            if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
-                jsonString.reserve(jsonString.size() + strw.size() + 2);
-                json_append_char('"');
-                for (wchar_t i : strw) {
-                    encode_character(i);
-                }
-                json_append_char('"');
-            } else if (ValueToEncode.is2D()) {
-                indexType rows = ValueToEncode.getDimensions().getRows();
-                indexType cols = ValueToEncode.getDimensions().getColumns();
-                jsonString.reserve(jsonString.size() + strw.size() + 2);
-                for (int i = 0; i < rows; ++i) {
-                    json_append_char('"');
-                    for (int j = 0; j < cols; ++j) {
-                        encode_character(strw[j * rows + i]);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("\",");
-                }
-            } else {
-                Dimensions dims = ValueToEncode.getDimensions();
-                indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-                indexType ymax = dims.getElementCount() / lastdimlen;
-                for (int i = 0; i < ymax; ++i) {
-                    json_append_char('\"');
-                    for (int j = 0; j < lastdimlen; ++j) {
-                        wchar_t ch = strw[i * ymax + j];
-                        encode_character(ch);
-                    }
-                    if (boost::algorithm::ends_with(jsonString, L",")) {
-                        jsonString.pop_back();
-                    }
-                    json_append_string("\",");
-                }
-            }
+            jsonEncodeCharacters(ValueToEncode);
         } break;
         default: {
             errorMessage = _W("Unsupported type to convert as JSON.");
