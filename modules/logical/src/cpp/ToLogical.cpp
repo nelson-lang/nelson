@@ -21,6 +21,62 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static ArrayOf floatingNumberToLogical(const ArrayOf &A)
+{
+    if (A.isDoubleClass()) {
+        if (A.isSparse()) {
+            void* pLogical
+                = TypeConvertSparseDynamicFunction(NLS_LOGICAL, A.getDimensions().getRows(),
+                    A.getDimensions().getColumns(), A.getSparseDataPointer(), NLS_DOUBLE);
+            return ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, true);
+        }
+    } else {
+        Error(_W("Conversion to logical from single is not possible."));
+    }
+    logical* pLogical = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
+    ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
+    if (A.isDoubleClass()) {
+        auto* ptrReal = (double*)A.getDataPointer();
+        for (indexType k = 0; k < A.getLength(); k++) {
+            if (std::isnan(ptrReal[k])) {
+                Error(_W("Conversion to logical with NaN is not possible."));
+            }
+            pLogical[k] = static_cast<logical>(ptrReal[k] != 0.0);
+        }
+
+    } else {
+        auto *ptrReal = (single*)A.getDataPointer();
+        for (indexType k = 0; k < A.getLength(); k++) {
+            if (std::isnan(ptrReal[k])) {
+                Error(_W("Conversion to logical with NaN is not possible."));
+            }
+            pLogical[k] = static_cast<logical>(ptrReal[k] != 0.0);
+        }
+    }
+    return r;
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+integerToLogical(const ArrayOf &A) {
+    ArrayOf r;
+    if (A.isSparse()) {
+        Error(_W("Conversion to logical from sparse integer is not possible."));
+    } else {
+        logical* pLogical
+            = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
+        ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
+        auto* ptrInt = (T*)A.getDataPointer();
+#if defined(__NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (indexType k = 0; k < A.getLength(); k++) {
+            pLogical[k] = static_cast<logical>(ptrInt[k] != 0);
+        }
+    }
+    return r;
+}
+//=============================================================================
 ArrayOf
 ToLogical(ArrayOf A)
 {
@@ -51,184 +107,33 @@ ToLogical(ArrayOf A)
     case NLS_SCOMPLEX: {
         Error(_W("Conversion to logical from complex is not possible."));
     } break;
-    case NLS_DOUBLE: {
-        if (A.isSparse()) {
-            void* pLogical
-                = TypeConvertSparseDynamicFunction(NLS_LOGICAL, A.getDimensions().getRows(),
-                    A.getDimensions().getColumns(), A.getSparseDataPointer(), NLS_DOUBLE);
-            return ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, true);
-        }
-        logical* pLogical
-            = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
-        ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-        auto* pDouble = (double*)A.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (indexType k = 0; k < A.getLength(); k++) {
-            if (std::isnan(pDouble[k])) {
-                Error(_W("Conversion to logical with NaN is not possible."));
-            }
-            pLogical[k] = static_cast<logical>(pDouble[k] != 0.0);
-        }
-        return r;
-
-    } break;
+    case NLS_DOUBLE:
     case NLS_SINGLE: {
-        if (A.isSparse()) {
-            Error(_W("Conversion to logical from single is not possible."));
-        } else {
-            logical* pLogical
-                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
-            ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            auto* pSingle = (float*)A.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-            for (indexType k = 0; k < A.getLength(); k++) {
-                if (std::isnan(pSingle[k])) {
-                    Error(_W("Conversion to logical with NaN is not possible."));
-                }
-                pLogical[k] = static_cast<logical>(pSingle[k] != 0.0);
-            }
-            return r;
-        }
+        return floatingNumberToLogical(A);
     } break;
     case NLS_UINT8: {
-        if (A.isSparse()) {
-            Error(_W("Conversion to logical from sparse uint8 is not possible."));
-        } else {
-            logical* pLogical
-                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
-            ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            auto* pUint8 = (uint8*)A.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-            for (indexType k = 0; k < A.getLength(); k++) {
-                pLogical[k] = static_cast<logical>(pUint8[k] != 0);
-            }
-            return r;
-        }
+        return integerToLogical<uint8>(A);
     } break;
     case NLS_INT8: {
-        if (A.isSparse()) {
-            Error(_W("Conversion to logical from sparse int8 is not possible."));
-        } else {
-            logical* pLogical
-                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
-            ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            int8* pInt8 = (int8*)A.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-            for (indexType k = 0; k < A.getLength(); k++) {
-                pLogical[k] = static_cast<logical>(pInt8[k] != 0);
-            }
-            return r;
-        }
+        return integerToLogical<int8>(A);
     } break;
     case NLS_UINT16: {
-        if (A.isSparse()) {
-            Error(_W("Conversion to logical from sparse uint16 is not possible."));
-        } else {
-            logical* pLogical
-                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
-            ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            auto* pUint16 = (uint16*)A.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-            for (indexType k = 0; k < A.getLength(); k++) {
-                pLogical[k] = static_cast<logical>(pUint16[k] != 0);
-            }
-            return r;
-        }
+        return integerToLogical<uint16>(A);
     } break;
     case NLS_INT16: {
-        if (A.isSparse()) {
-            Error(_W("Conversion to logical from sparse int16 is not possible."));
-        } else {
-            logical* pLogical
-                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
-            ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            auto* pInt16 = (int16*)A.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-            for (indexType k = 0; k < A.getLength(); k++) {
-                pLogical[k] = static_cast<logical>(pInt16[k] != 0);
-            }
-            return r;
-        }
+        return integerToLogical<int16>(A);
     } break;
     case NLS_UINT32: {
-        if (A.isSparse()) {
-            Error(_W("Conversion to logical from sparse uint32 is not possible."));
-        } else {
-            logical* pLogical
-                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
-            ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            auto* pUint32 = (uint32*)A.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-            for (indexType k = 0; k < A.getLength(); k++) {
-                pLogical[k] = static_cast<logical>(pUint32[k] != 0);
-            }
-            return r;
-        }
+        return integerToLogical<uint32>(A);
     } break;
     case NLS_INT32: {
-        if (A.isSparse()) {
-            Error(_W("Conversion to logical from sparse int32 is not possible."));
-        } else {
-            logical* pLogical
-                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
-            ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            auto* pInt32 = (int32*)A.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-            for (indexType k = 0; k < A.getLength(); k++) {
-                pLogical[k] = static_cast<logical>(pInt32[k] != 0);
-            }
-            return r;
-        }
+        return integerToLogical<int32>(A);
     } break;
     case NLS_UINT64: {
-        if (A.isSparse()) {
-            Error(_W("Conversion to logical from sparse uint64 is not possible."));
-        } else {
-            logical* pLogical
-                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
-            ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            auto* pUint64 = (uint64*)A.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-            for (indexType k = 0; k < A.getLength(); k++) {
-                pLogical[k] = static_cast<logical>(pUint64[k] != 0);
-            }
-            return r;
-        }
+        return integerToLogical<uint64>(A);
     } break;
     case NLS_INT64: {
-        if (A.isSparse()) {
-            Error(_W("Conversion to logical from sparse int64 is not possible."));
-        } else {
-            logical* pLogical
-                = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
-            ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
-            auto* pInt64 = (int64*)A.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-            for (indexType k = 0; k < A.getLength(); k++) {
-                pLogical[k] = static_cast<logical>(pInt64[k] != 0);
-            }
-            return r;
-        }
+        return integerToLogical<int64>(A);
     } break;
     default: {
         Error(_W("Invalid conversion."));
