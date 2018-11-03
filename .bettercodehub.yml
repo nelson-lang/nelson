@@ -25,3 +25,4 @@ exclude:
 - /modules/types/src/include/.*
 - /modules/types/src/cpp/.*
 - /modules/random/src/include/.*
+- /modules/sio_client/src/socket_io/.*
