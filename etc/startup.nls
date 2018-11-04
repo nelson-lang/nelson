@@ -47,6 +47,11 @@ for k = modules_list'
       if (strcmp(getenv('AUDIODEV'), 'null') == false)
         addmodule([nelsonroot() '/modules/' k{1}], k{1});
       end 
+	case 'sio_client'
+	  if (strcmp(getnelsonmode(), 'BASIC_SIO_CLIENT') == true || ...
+        strcmp(getnelsonmode(), 'ADVANCED_SIO_CLIENT') == true)
+        addmodule([nelsonroot() '/modules/' k{1}], k{1});
+	  end
     otherwise
       addmodule([nelsonroot() '/modules/' k{1}], k{1});
     end
@@ -55,7 +60,7 @@ for k = modules_list'
   clear('all');
   if (isquietmode() == false)
     banner();
-    fprintf(stdout(), '%s\n', version());
+    fprintf(stdout(), '\n%s\n', version());
     fprintf(stdout(), '%s\n', version('-date'));
     fprintf(stdout(), '%s\n', ' ');
   end

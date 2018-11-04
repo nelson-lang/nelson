@@ -65,7 +65,8 @@ modules_list = [
 "slicot";
 "text_editor";
 "mpi";
-"audio"
+"audio";
+"sio_client";
 ];
 %==============================================================================
 % modules sorted for help
@@ -120,5 +121,6 @@ modules_help_list = [
 "text_editor";
 "mpi";
 "audio";
+"sio_client";
 ];
 %==============================================================================

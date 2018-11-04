@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{31EFFD09-DC10-4163-BC2F-4F285F96A7D6}</ProjectGuid>
+    <ProjectGuid>{22156B3C-3601-4CAA-B439-CA7B96147F15}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>nlsSocket_io</RootNamespace>
+    <RootNamespace>nlsSio_client_builtin</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -73,9 +73,9 @@
     <TargetName>lib$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>lib$(ProjectName)</TargetName>
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+    <TargetName>lib$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -83,9 +83,9 @@
     <TargetName>lib$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>lib$(ProjectName)</TargetName>
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+    <TargetName>lib$(ProjectName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -93,15 +93,15 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSSIO_CLIENT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSSIO_CLIENT_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/sio_client/src/socket_io/src;$(SolutionDir)modules/sio_client/src/socket_io/src/internal;$(SolutionDir)modules/sio_client/src/socket_io/lib/websocketpp;$(SolutionDir)modules/sio_client/src/socket_io/lib/rapidjson/include;$(SolutionDir)modules/sio_client/src/socket_io/lib;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/sioclient/include</AdditionalIncludeDirectories>
-      <OpenMPSupport>true</OpenMPSupport>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/sio_client/builtin/include;$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/sioclient/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -110,15 +110,15 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSSIO_CLIENT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSSIO_CLIENT_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/sio_client/src/socket_io/src;$(SolutionDir)modules/sio_client/src/socket_io/src/internal;$(SolutionDir)modules/sio_client/src/socket_io/lib/websocketpp;$(SolutionDir)modules/sio_client/src/socket_io/lib/rapidjson/include;$(SolutionDir)modules/sio_client/src/socket_io/lib;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/sioclient/include</AdditionalIncludeDirectories>
-      <OpenMPSupport>true</OpenMPSupport>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/sio_client/builtin/include;$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/sioclient/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -129,17 +129,17 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSSIO_CLIENT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSSIO_CLIENT_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/sio_client/src/socket_io/src;$(SolutionDir)modules/sio_client/src/socket_io/src/internal;$(SolutionDir)modules/sio_client/src/socket_io/lib/websocketpp;$(SolutionDir)modules/sio_client/src/socket_io/lib/rapidjson/include;$(SolutionDir)modules/sio_client/src/socket_io/lib;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/sioclient/include</AdditionalIncludeDirectories>
-      <OpenMPSupport>true</OpenMPSupport>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/sio_client/builtin/include;$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/sioclient/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -150,29 +150,27 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSSIO_CLIENT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSSIO_CLIENT_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/sio_client/src/socket_io/src;$(SolutionDir)modules/sio_client/src/socket_io/src/internal;$(SolutionDir)modules/sio_client/src/socket_io/lib/websocketpp;$(SolutionDir)modules/sio_client/src/socket_io/lib/rapidjson/include;$(SolutionDir)modules/sio_client/src/socket_io/lib;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/sioclient/include</AdditionalIncludeDirectories>
-      <OpenMPSupport>true</OpenMPSupport>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/sio_client/builtin/include;$(SolutionDir)modules/sio_client/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/sioclient/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\nlsSio_client_exports.h" />
-    <ClInclude Include="..\include\SioClientCommand.hpp" />
-    <ClInclude Include="..\include\SioClientInterface.hpp" />
-    <ClInclude Include="..\include\SioClientListener.hpp" />
-    <ClInclude Include="..\include\SioClientEmit.hpp" />
+    <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\sioemitBuiltin.cpp" />
+    <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
-      <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
+    <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">
+      <Project>{1c76cdc6-19d8-429a-9ec1-817ad139f80d}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
@@ -183,38 +181,28 @@
     <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
       <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
-      <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\os_functions\src\c\nlsOs_functions.vcxproj">
-      <Project>{fa50a5eb-b1b3-4035-87bb-8d3124cb7c80}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\stream_manager\src\c\nlsStream_manager.vcxproj">
-      <Project>{1b461db6-82ea-4436-a674-d2975f184b90}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\cpp\SioClientCommand.cpp" />
-    <ClCompile Include="..\cpp\SioClientInterface.cpp" />
-    <ClCompile Include="..\cpp\SioClientListener.cpp" />
-    <ClCompile Include="..\cpp\SioClientEmit.cpp" />
-    <ClCompile Include="..\socket_io\src\internal\sio_client_impl.cpp" />
-    <ClCompile Include="..\socket_io\src\internal\sio_packet.cpp" />
-    <ClCompile Include="..\socket_io\src\sio_client.cpp" />
-    <ClCompile Include="..\socket_io\src\sio_socket.cpp" />
-    <ClCompile Include="dllMain.c" />
+    <ProjectReference Include="..\..\src\c\nlsSio_client.vcxproj">
+      <Project>{31effd09-dc10-4163-bc2f-4f285f96a7d6}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\etc\finish.nls" />
+    <None Include="..\..\etc\startup.nls" />
+    <None Include="..\..\loader.nls" />
     <None Include="..\..\module.iss" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\nlsSio_client_builtin_exports.h" />
+    <ClInclude Include="..\include\sioemitBuiltin.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

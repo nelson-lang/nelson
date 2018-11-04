@@ -16,5 +16,29 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-removegateway(modulepath(nelsonroot(), 'sio_client', 'builtin'));
+function doc(varargin)
+  // replaces standard 'doc' function to open help in web browser
+  url_help = 'https://nelson-numerical-software.gitbooks.io/nelson/content/en/';
+  if nargin() > 1
+    error(_('Wrong number of input arguments.'));
+  end
+  if nargin() == 1
+    name = varargin{1};
+    if ~ischar(name)
+      error(_('Wrong type for argument #1: string expected.'));
+    end
+    module = which(name,'-module');
+    if isempty(module) 
+      siosend('help', [url_help , '?q=', name]);
+    else
+      if length(module) == 1
+        siosend('help', [url_help, module{1}, '/', name, '.html']);
+      else
+        siosend('help', [url_help , '?q=', name]);
+      end
+    end
+  else
+   siosend('help', url_help);
+  end
+endfunction
 //=============================================================================

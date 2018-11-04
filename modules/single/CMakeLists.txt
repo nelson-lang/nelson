@@ -22,7 +22,7 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 #==============================================================================
 include_directories(
     ${EIGEN3_INCLUDE_DIR}
-${Boost_INCLUDE_DIRS}
+    ${Boost_INCLUDE_DIRS}
 	${CMAKE_CURRENT_SOURCE_DIR}/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
@@ -107,6 +107,3 @@ install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.nls DESTINATION 
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nlf")
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.qch" PATTERN "xml" EXCLUDE PATTERN "md" EXCLUDE)
 #==============================================================================
-
-
-

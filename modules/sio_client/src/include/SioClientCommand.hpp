@@ -42,6 +42,10 @@ public:
     create(const std::string& ipAddress);
     void
     clc();
+    void
+    available();
+    void
+    sioemit(const std::string& name, const std::string& message);
 
 private:
     std::string _command;

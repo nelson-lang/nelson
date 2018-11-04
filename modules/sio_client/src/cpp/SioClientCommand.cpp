@@ -21,6 +21,7 @@
 #include "SioClientCommand.hpp"
 #include "characters_encoding.hpp"
 #include "SioClientListener.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -77,10 +78,12 @@ SioClientCommand::createConnection(const std::string& ipAddress)
                     _socket->emit("command_received");
                 }));
 
-        _socket->on("clc",
+        _socket->on("stop",
             sio::socket::event_listener_aux(
                 [&](std::string const& name, sio::message::ptr const& data, bool isAck,
-                    sio::message::list& ack_resp) { _socket->emit("clc"); }));
+                    sio::message::list& ack_resp) {
+                    NelsonConfiguration::getInstance()->setInterruptPending(true);
+		}));
         _initialized = true;
         return true;
     }
@@ -117,6 +120,12 @@ SioClientCommand::clc()
     _socket->emit("clc");
 }
 //=============================================================================
+void
+SioClientCommand::available()
+{
+    _socket->emit("available");
+}
+//=============================================================================
 std::string
 SioClientCommand::getCommand()
 {
@@ -129,6 +138,16 @@ void
 SioClientCommand::updateCommand(std::string newCommand)
 {
     _command = newCommand;
+}
+//=============================================================================
+void
+SioClientCommand::sioemit(const std::string& name, const std::string& message)
+{
+    sio::message::ptr send_data(sio::object_message::create());
+    std::map<std::string, sio::message::ptr>& map = send_data->get_map();
+    map.insert(std::make_pair("name", sio::string_message::create(name)));
+    map.insert(std::make_pair("message", sio::string_message::create(message)));
+    _socket->emit("siosend", send_data);
 }
 //=============================================================================
 }

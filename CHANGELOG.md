@@ -1,6 +1,10 @@
 Features:
 ---------
 
+  * Nelson in the cloud:
+    - add 'sioemit' builtin. Send data from Nelson to client.
+    - add nelson_sio_client executable used by Nelson in the Cloud framework.
+
   * addition, substration, mtimes, times, power with integers reworked.
   * integer cast optimized.
   * modernize/optimize C++ with LLVM tools.
