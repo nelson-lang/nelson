@@ -16,25 +16,54 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "sioemitBuiltin.hpp"
-#include "sioregisterBuiltin.hpp"
-#include "siounregisterBuiltin.hpp"
+#include <algorithm>
+#include "SioClientRegister.hpp"
+#include "SioClientCommand.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-const std::wstring gatewayName = L"sio_client";
+static stringVector nameList;
+static stringVector reservedList
+    = { "command", "stop", "command_received", "reply", "clc", "available", "sioemit" };
 //=============================================================================
-static const nlsGateway gateway[]
-    = { { "sioemit", Nelson::SioClientGateway::sioemitBuiltin, 0, -1 },
-        { "sioregister", Nelson::SioClientGateway::sioregisterBuiltin, 0, 2 },
-        { "siounregister", Nelson::SioClientGateway::siounregisterBuiltin, 0, 1 } };
+void
+sioregister(const std::string& name, const std::string& function_name)
+{
+    nameList.push_back(name);
+    SioClientCommand::getInstance()->sioregister(name, function_name);
+}
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+void
+siounregister(const std::string& name)
+{
+    stringVector::iterator itr = std::find(nameList.begin(), nameList.end(), name);
+    if (itr != nameList.end()) {
+        nameList.erase(itr);
+    }
+    SioClientCommand::getInstance()->siounregister(name);
+}
 //=============================================================================
-NLSGATEWAYINFO(gateway)
+stringVector
+sioregisterList()
+{
+    stringVector list;
+    list = nameList;
+    list.insert(list.end(), reservedList.begin(), reservedList.end());
+    return list;
+}
 //=============================================================================
-NLSGATEWAYREMOVE(gateway)
+bool
+issioregistered(const std::string& name)
+{
+    stringVector::iterator itr = std::find(nameList.begin(), nameList.end(), name);
+    return (itr != nameList.end());
+}
 //=============================================================================
-NLSGATEWAYNAME()
+bool issioreserved(const std::string& name)
+{
+    stringVector::iterator itr = std::find(reservedList.begin(), reservedList.end(), name);
+    return (itr != reservedList.end());
+}
+//=============================================================================
+}
 //=============================================================================

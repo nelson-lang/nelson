@@ -111,8 +111,8 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, std::wstring lang)
                 mainEvaluator = (Evaluator*)CreateGuiEvaluatorDynamic((void*)context, _mode);
             } break;
             default: {
-                std::string msg = _("unknow engine.\n");
-                fprintf(stderr, "%s", msg.c_str());
+                std::string _msg = _("unknow engine.\n");
+                fprintf(stderr, "%s", _msg.c_str());
                 exit(1);
             } break;
             }

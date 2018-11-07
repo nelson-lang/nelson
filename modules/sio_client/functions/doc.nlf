@@ -29,16 +29,16 @@ function doc(varargin)
     end
     module = which(name,'-module');
     if isempty(module) 
-      siosend('help', [url_help , '?q=', name]);
+      sioemit('help', [url_help , '?q=', name]);
     else
       if length(module) == 1
-        siosend('help', [url_help, module{1}, '/', name, '.html']);
+        sioemit('help', [url_help, module{1}, '/', name, '.html']);
       else
-        siosend('help', [url_help , '?q=', name]);
+        sioemit('help', [url_help , '?q=', name]);
       end
     end
   else
-   siosend('help', url_help);
+   sioemit('help', url_help);
   end
 endfunction
 //=============================================================================

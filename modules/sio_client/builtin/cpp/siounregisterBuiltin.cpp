@@ -16,53 +16,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "siounregisterBuiltin.hpp"
+#include "Error.hpp"
+#include "SioClientRegister.hpp"
 //=============================================================================
-#include <string>
-#include <sio_socket.h>
-#include <sio_client.h>
-#include "nlsSio_client_exports.h"
-#include "SioClientListener.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-class NLSSIO_CLIENT_IMPEXP SioClientCommand
+ArrayOfVector
+Nelson::SioClientGateway::siounregisterBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-public:
-    static SioClientCommand*
-    getInstance();
-    void
-    reply(std::string stringToReply);
-    std::string
-    getCommand();
-    void
-    updateCommand(std::string command);
-    bool
-    isInitialized();
-    bool
-    create(const std::string& ipAddress);
-    void
-    clc();
-    void
-    available();
-    void
-    sioemit(const std::string& name, const std::string& message);
-	void
-    sioregister(const std::string& name, const std::string& function_name);
-    void
-    siounregister(const std::string& name);
-
-private:
-    std::string _command;
-    std::string _ipAddress;
-    sio::client _sioClient;
-    SioClientListener _sioClientListener;
-    bool _initialized;
-
-    SioClientCommand();
-    bool
-    createConnection(const std::string& ipAddress);
-    static SioClientCommand* m_pInstance;
-    static sio::socket::ptr _socket;
-};
+    ArrayOfVector retval;
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs != 0) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    std::string name = param1.getContentAsCString();
+    if (issioreserved(name)) {
+        Error("Impossible to unregister an reserved event name.");
+	}
+    if (issioregistered(name)) {
+        siounregister(name);
+    }
+    return retval;
 }
 //=============================================================================

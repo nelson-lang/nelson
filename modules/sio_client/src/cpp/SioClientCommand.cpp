@@ -22,6 +22,8 @@
 #include "characters_encoding.hpp"
 #include "SioClientListener.hpp"
 #include "NelsonConfiguration.hpp"
+#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -147,7 +149,37 @@ SioClientCommand::sioemit(const std::string& name, const std::string& message)
     std::map<std::string, sio::message::ptr>& map = send_data->get_map();
     map.insert(std::make_pair("name", sio::string_message::create(name)));
     map.insert(std::make_pair("message", sio::string_message::create(message)));
-    _socket->emit("siosend", send_data);
+    _socket->emit("sioemit", send_data);
+}
+//=============================================================================
+void
+SioClientCommand::sioregister(const std::string& name, const std::string& function_name)
+{
+    _socket->on(name,
+        sio::socket::event_listener_aux([&](std::string const& name, sio::message::ptr const& data,
+                                            bool isAck, sio::message::list& ack_resp) {
+            std::string _data = data->get_map()["data"]->get_string();
+        void* veval = GetNelsonMainEvaluatorDynamicFunction();
+        if (veval != nullptr) {
+            Evaluator* eval = static_cast<Evaluator*>(veval);
+            ArrayOf dataAsArrayOf = ArrayOf::characterArrayConstructor(_data);
+            ArrayOfVector argIn;
+            argIn.push_back(dataAsArrayOf);
+            Context* context = eval->getContext();
+            if (context) {
+                FuncPtr funcDef;
+                if (context->lookupFunction(function_name, funcDef, true)) {
+                    ArrayOfVector retval = funcDef->evaluateFunction(eval, argIn, 0);
+                }
+            }
+		}
+        }));
+}
+//=============================================================================
+void
+SioClientCommand::siounregister(const std::string& name)
+{
+    _socket->off(name);
 }
 //=============================================================================
 }

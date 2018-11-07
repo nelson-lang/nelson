@@ -166,6 +166,8 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\sioemitBuiltin.cpp" />
+    <ClCompile Include="..\cpp\sioregisterBuiltin.cpp" />
+    <ClCompile Include="..\cpp\siounregisterBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +205,8 @@
   <ItemGroup>
     <ClInclude Include="..\include\nlsSio_client_builtin_exports.h" />
     <ClInclude Include="..\include\sioemitBuiltin.hpp" />
+    <ClInclude Include="..\include\sioregisterBuiltin.hpp" />
+    <ClInclude Include="..\include\siounregisterBuiltin.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
