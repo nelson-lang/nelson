@@ -45,6 +45,8 @@ public:
     void
     available();
     void
+    unavailable();
+	void
     sioemit(const std::string& name, const std::string& message);
 	void
     sioregister(const std::string& name, const std::string& function_name);

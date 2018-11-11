@@ -128,6 +128,12 @@ SioClientCommand::available()
     _socket->emit("available");
 }
 //=============================================================================
+void
+SioClientCommand::unavailable()
+{
+    _socket->emit("unavailable");
+}
+//=============================================================================
 std::string
 SioClientCommand::getCommand()
 {

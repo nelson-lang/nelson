@@ -137,6 +137,7 @@ SioClientInterface::getTextLine(std::string prompt, bool bIsInput)
         boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
         command = SioClientCommand::getInstance()->getCommand();
     } while (command.empty());
+    SioClientCommand::getInstance()->unavailable();
     this->diary.writeMessage(command);
     if (bIsInput) {
         if (boost::algorithm::ends_with(command, L"\n")) {
