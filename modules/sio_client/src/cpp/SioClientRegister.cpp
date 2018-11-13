@@ -59,7 +59,8 @@ issioregistered(const std::string& name)
     return (itr != nameList.end());
 }
 //=============================================================================
-bool issioreserved(const std::string& name)
+bool
+issioreserved(const std::string& name)
 {
     stringVector::iterator itr = std::find(reservedList.begin(), reservedList.end(), name);
     return (itr != reservedList.end());

@@ -169,6 +169,7 @@
     <ClInclude Include="..\include\SioClientInterface.hpp" />
     <ClInclude Include="..\include\SioClientListener.hpp" />
     <ClInclude Include="..\include\SioClientEmit.hpp" />
+    <ClInclude Include="..\include\SioClientQuit.hpp" />
     <ClInclude Include="..\include\SioClientRegister.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +203,7 @@
     <ClCompile Include="..\cpp\SioClientInterface.cpp" />
     <ClCompile Include="..\cpp\SioClientListener.cpp" />
     <ClCompile Include="..\cpp\SioClientEmit.cpp" />
+    <ClCompile Include="..\cpp\SioClientQuit.cpp" />
     <ClCompile Include="..\cpp\SioClientRegister.cpp" />
     <ClCompile Include="..\socket_io\src\internal\sio_client_impl.cpp" />
     <ClCompile Include="..\socket_io\src\internal\sio_packet.cpp" />

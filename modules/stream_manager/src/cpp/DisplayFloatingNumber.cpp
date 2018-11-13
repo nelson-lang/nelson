@@ -97,13 +97,16 @@ printNumber(T number, OutputFormatDisplay currentFormat, bool asInteger, bool as
                 if (fabs(number) < 1e9) {
                     strNumber = std::to_wstring((int64)number);
                 } else {
-                    strNumber = StringFormat(L"%*.*e", 9, 4, number); // lgtm [cpp/wrong-type-format-argument]
+                    strNumber = StringFormat(
+                        L"%*.*e", 9, 4, number); // lgtm [cpp/wrong-type-format-argument]
                 }
             } else {
                 if (fabs(number) > 1e-4 || number == 0. || !asScalar) {
-                    strNumber = StringFormat(L"%*.*f", 9, 4, number); // lgtm [cpp/wrong-type-format-argument]
+                    strNumber = StringFormat(
+                        L"%*.*f", 9, 4, number); // lgtm [cpp/wrong-type-format-argument]
                 } else {
-                    strNumber = StringFormat(L"%*.*e", 9, 4, number); // lgtm [cpp/wrong-type-format-argument]
+                    strNumber = StringFormat(
+                        L"%*.*e", 9, 4, number); // lgtm [cpp/wrong-type-format-argument]
                 }
             }
         } break;
@@ -112,21 +115,26 @@ printNumber(T number, OutputFormatDisplay currentFormat, bool asInteger, bool as
                 if (fabs(number) < 1e9) {
                     strNumber = std::to_wstring((int64)number);
                 } else {
-                    strNumber = StringFormat(L"%*.*e", 18, 15, number); // lgtm [cpp/wrong-type-format-argument]
+                    strNumber = StringFormat(
+                        L"%*.*e", 18, 15, number); // lgtm [cpp/wrong-type-format-argument]
                 }
             } else {
                 if (fabs(number) > 1e-9 || number == 0.) {
-                    strNumber = StringFormat(L"%*.*f", 18, 15, number); // lgtm [cpp/wrong-type-format-argument]
+                    strNumber = StringFormat(
+                        L"%*.*f", 18, 15, number); // lgtm [cpp/wrong-type-format-argument]
                 } else {
-                    strNumber = StringFormat(L"%*.*e", 18, 15, number); // lgtm [cpp/wrong-type-format-argument]
+                    strNumber = StringFormat(
+                        L"%*.*e", 18, 15, number); // lgtm [cpp/wrong-type-format-argument]
                 }
             }
         } break;
         case NLS_FORMAT_SHORTE: {
-            strNumber = StringFormat(L"%*.*e", 10, 4, number); // lgtm [cpp/wrong-type-format-argument]
+            strNumber
+                = StringFormat(L"%*.*e", 10, 4, number); // lgtm [cpp/wrong-type-format-argument]
         } break;
         case NLS_FORMAT_LONGE: {
-            strNumber = StringFormat(L"%*.*e", 23, 15, number); // lgtm [cpp/wrong-type-format-argument]
+            strNumber
+                = StringFormat(L"%*.*e", 23, 15, number); // lgtm [cpp/wrong-type-format-argument]
         } break;
         case NLS_FORMAT_HEX: {
             strNumber = double2hexastr(number);
@@ -148,8 +156,8 @@ printNumber(T number, OutputFormatDisplay currentFormat, bool asInteger, bool as
 //=============================================================================
 template <class T>
 static std::wstring
-printNumber(T realpart, T imagpart, OutputFormatDisplay currentFormat, bool asInteger,
-    bool asScalar)
+printNumber(
+    T realpart, T imagpart, OutputFormatDisplay currentFormat, bool asInteger, bool asScalar)
 {
     std::wstring strNumber = L"";
     strNumber.reserve(128);
@@ -174,7 +182,8 @@ printNumber(T realpart, T imagpart, OutputFormatDisplay currentFormat, bool asIn
 }
 //=============================================================================
 template <class T>
-void DisplayFloatingNumberInternal(
+void
+DisplayFloatingNumberInternal(
     Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
 {
     Dimensions dimsA = A.getDimensions();

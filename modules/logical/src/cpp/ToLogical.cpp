@@ -21,7 +21,8 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static ArrayOf floatingNumberToLogical(const ArrayOf &A)
+static ArrayOf
+floatingNumberToLogical(const ArrayOf& A)
 {
     if (A.isDoubleClass()) {
         if (A.isSparse()) {
@@ -45,7 +46,7 @@ static ArrayOf floatingNumberToLogical(const ArrayOf &A)
         }
 
     } else {
-        auto *ptrReal = (single*)A.getDataPointer();
+        auto* ptrReal = (single*)A.getDataPointer();
         for (indexType k = 0; k < A.getLength(); k++) {
             if (std::isnan(ptrReal[k])) {
                 Error(_W("Conversion to logical with NaN is not possible."));
@@ -58,7 +59,8 @@ static ArrayOf floatingNumberToLogical(const ArrayOf &A)
 //=============================================================================
 template <class T>
 static ArrayOf
-integerToLogical(const ArrayOf &A) {
+integerToLogical(const ArrayOf& A)
+{
     ArrayOf r;
     if (A.isSparse()) {
         Error(_W("Conversion to logical from sparse integer is not possible."));

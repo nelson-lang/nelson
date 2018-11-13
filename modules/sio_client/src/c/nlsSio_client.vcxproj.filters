@@ -33,6 +33,9 @@
     <ClInclude Include="..\include\SioClientRegister.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\SioClientQuit.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllMain.c">
@@ -63,6 +66,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\SioClientRegister.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\SioClientQuit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

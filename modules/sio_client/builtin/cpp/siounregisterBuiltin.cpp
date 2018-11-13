@@ -37,7 +37,7 @@ Nelson::SioClientGateway::siounregisterBuiltin(
     std::string name = param1.getContentAsCString();
     if (issioreserved(name)) {
         Error("Impossible to unregister an reserved event name.");
-	}
+    }
     if (issioregistered(name)) {
         siounregister(name);
     }

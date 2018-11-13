@@ -23,8 +23,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::SioClientGateway::sioemitBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::SioClientGateway::sioemitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() < 1 || argIn.size() > 2) {
@@ -39,7 +38,7 @@ Nelson::SioClientGateway::sioemitBuiltin(
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
         message = param2.getContentAsCString();
-	}
+    }
     sioemit(name, message);
     return retval;
 }
