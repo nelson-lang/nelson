@@ -21,7 +21,26 @@ function siogetvariable(variable_name)
     res.name = variable_name;
     res.exists = isvar('base', variable_name);
     if (res.exists)
-      res.value = acquirevar('base', variable_name);
+      value = acquirevar('base', variable_name);
+      res.type = class(value);
+      res.dims = size(value);
+      if issparse(value)
+        [I, J, V] = IJV(value);
+        res.I = I;
+        res.J = J;
+        res.V = V;
+      else
+        if isnumeric(value)
+          if isreal(value)
+            res.value = value;
+          else
+            res.real = real(value);
+            res.imag = imag(value);
+          end
+        else
+          res.value = value;
+        end
+      end
     else
         res.value = [];
     end
