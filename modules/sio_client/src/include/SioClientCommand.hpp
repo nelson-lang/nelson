@@ -46,12 +46,14 @@ public:
     available();
     void
     unavailable();
-	void
+    void
     sioemit(const std::string& name, const std::string& message);
-	void
+    void
     sioregister(const std::string& name, const std::string& function_name);
     void
     siounregister(const std::string& name);
+    void
+    quit();
 
 private:
     std::string _command;

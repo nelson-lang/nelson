@@ -16,33 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "sioemitBuiltin.hpp"
-#include "sioregisterBuiltin.hpp"
-#include "siounregisterBuiltin.hpp"
 #include "SioClientQuit.hpp"
+#include "SioClientCommand.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-const std::wstring gatewayName = L"sio_client";
-//=============================================================================
-static const nlsGateway gateway[]
-    = { { "sioemit", Nelson::SioClientGateway::sioemitBuiltin, 0, -1 },
-          { "sioregister", Nelson::SioClientGateway::sioregisterBuiltin, 0, 2 },
-          { "siounregister", Nelson::SioClientGateway::siounregisterBuiltin, 0, 1 } };
-//=============================================================================
-static bool
-finishSioClientModule(Nelson::Evaluator* eval)
+void
+sioquit()
 {
-    sioquit();
-    return true;
+    SioClientCommand::getInstance()->quit();
 }
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishSioClientModule)
-//=============================================================================
-NLSGATEWAYNAME()
+}
 //=============================================================================
