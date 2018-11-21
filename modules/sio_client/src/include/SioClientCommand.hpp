@@ -54,6 +54,8 @@ public:
     siounregister(const std::string& name);
     void
     quit();
+    void
+    promptUpdated(const std::string& prompt);
 
 private:
     std::string _command;

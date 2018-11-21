@@ -130,6 +130,7 @@ SioClientInterface::getTextLine(std::string prompt, bool bIsInput)
     atPrompt = true;
     SioClientCommand::getInstance()->reply("\n" + prompt);
     if (!prompt.empty()) {
+        SioClientCommand::getInstance()->promptUpdated(prompt);
         this->diary.writeMessage("\n" + prompt);
     }
     SioClientCommand::getInstance()->available();

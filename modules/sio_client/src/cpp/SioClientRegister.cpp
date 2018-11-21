@@ -24,7 +24,7 @@ namespace Nelson {
 //=============================================================================
 static stringVector nameList;
 static stringVector reservedList
-    = { "command", "stop", "command_received", "reply", "clc", "available", "sioemit" };
+    = { "command", "stop", "command_received", "reply", "clc", "available", "sioemit", "prompt" };
 //=============================================================================
 void
 sioregister(const std::string& name, const std::string& function_name)
