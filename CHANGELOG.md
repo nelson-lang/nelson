@@ -1,8 +1,13 @@
+## 0.2.11 
+
+
 Features:
 ---------
 
   * Nelson in the cloud:
+    - easy way to deploy ([npm package](https://www.npmjs.com/package/nelson-cloud) and [docker](https://hub.docker.com/r/nelsonsoftware/nelson-sio-cli/))
     - add 'sioemit' builtin. Send data from Nelson to client.
+    - add 'siogetvariable' function. Send variable value to cliend.
     - add nelson_sio_client executable used by Nelson in the Cloud framework.
 
   * addition, substration, mtimes, times, power with integers reworked.
