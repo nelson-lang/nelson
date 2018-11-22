@@ -53,8 +53,8 @@ checkArgument(Evaluator* eval, ArrayOf arg, bool& withCompleteNames, int& nbOmit
             value = static_cast<double>(param1.getContentAsSingleScalar());
         } break;
         default: {
-        } break;
             Error(ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
+        } break;
         }
         int intValue = static_cast<int>(value);
         if (static_cast<double>(intValue) != value) {

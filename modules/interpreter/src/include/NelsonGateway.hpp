@@ -97,8 +97,9 @@ using PROC_FinishGateway = bool (*)(Nelson::Evaluator*);
         Context* ctx = _eval->getContext();                                                        \
         if (ctx) {                                                                                 \
             size_t nbBuiltins = sizeof(gateway) / sizeof(nlsGateway);                              \
-            for (size_t k = nbBuiltins - 1; k < nbBuiltins; --k) {                                 \
-                Nelson::BuiltInFunctionDefManager::getInstance()->remove(gateway[k].fptr);         \
+            for (size_t k = 0; k < nbBuiltins; k++) {                                              \
+                Nelson::BuiltInFunctionDefManager::getInstance()->remove(                          \
+                    gateway[nbBuiltins - k].fptr);                                                 \
             }                                                                                      \
             if ((void*)ptrFinishFunction) {                                                        \
                 PROC_FinishGateway ptrFunc                                                         \
