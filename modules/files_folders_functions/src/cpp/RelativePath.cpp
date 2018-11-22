@@ -32,7 +32,12 @@ RelativePath(std::wstring path1, std::wstring path2, bool& bSuccess)
     pathTwo = pathTwo.lexically_normal();
     relativepath = pathTwo.lexically_relative(pathOne);
     std::wstring result = relativepath.generic_wstring();
-    bSuccess = !result.empty();
+    if (result.empty()) {
+        result = pathTwo.generic_wstring();
+        bSuccess = false;
+    } else {
+        bSuccess = true;
+    }
     return result;
 }
 //=============================================================================
