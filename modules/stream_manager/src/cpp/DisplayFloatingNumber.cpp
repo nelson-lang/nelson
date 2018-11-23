@@ -48,11 +48,12 @@ static bool
 IsIntegerValues(ArrayOf A, T& minVal, T& maxVal)
 {
     bool res = true;
+    Dimensions dimsA = A.getDimensions();
     if (A.isComplex()) {
         T* pValueA = (T*)A.getDataPointer();
         maxVal = pValueA[0];
         minVal = pValueA[0];
-        for (indexType k = 0; k < A.getLength(); k++) {
+        for (indexType k = 0; k < dimsA.getElementCount() * 2; k++) {
             if (!isInteger(pValueA[k])) {
                 return false;
             } else {
@@ -68,7 +69,7 @@ IsIntegerValues(ArrayOf A, T& minVal, T& maxVal)
     {
         T* pValueA = (T*)A.getDataPointer();
         maxVal = pValueA[0];
-        for (indexType k = 0; k < A.getLength() * 2; k++) {
+        for (indexType k = 0; k < dimsA.getElementCount(); k++) {
             if (!isInteger(pValueA[k])) {
                 return false;
             } else {

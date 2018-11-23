@@ -22,6 +22,9 @@ run([nelsonroot(), '/modules/modules.nls']);
 if ~ispc()
   modules_list(strcmp(modules_list,'com_engine')) = [];
 end
+if ~any(strcmp(getnelsonmode(), ["ADVANCED_SIO_CLIENT", "BASIC_SIO_CLIENT"]))
+  modules_list(strcmp(modules_list,'sio_client')) = [];
+end
 assert_isequal(modules_loaded, cellstr(modules_list));
 //=============================================================================
 
