@@ -1,7 +1,7 @@
 
 ans =
 
-  <int8>  - size: 4x9x2
+  <int8> - size: 4x9x2
 (:,:,1) =
 
 
@@ -21,7 +21,7 @@ Columns 1 to 9
 
 ans =
 
-  <int16>  - size: 4x9x2
+  <int16> - size: 4x9x2
 (:,:,1) =
 
 
@@ -209,7 +209,7 @@ Columns 6 to 9
 
 ans =
 
-  <int8>  - size: 3x3
+  <int8> - size: 3x3
 
 Columns 1 to 3
     1      0      0  
@@ -218,7 +218,7 @@ Columns 1 to 3
 
 ans =
 
-  <int16>  - size: 3x3
+  <int16> - size: 3x3
 
 Columns 1 to 3
       1        0        0  
