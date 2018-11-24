@@ -21,6 +21,7 @@
 Source: {#RootPath}bin\{#BinPath}\NelSon-adv-cli.exe; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\NelSon-cli.exe; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\NelSon-gui.exe; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\NelSon-sio-cli.exe; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs
 ;==============================================================================
