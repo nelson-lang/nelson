@@ -163,14 +163,6 @@
     <ClCompile Include="main-sio-cli.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\engine\src\c\nlsEngine.vcxproj">
-      <Project>{b6946bbd-72c9-4257-aa48-535ae9b4d776}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\sio_client\src\c\nlsSio_client.vcxproj">
-      <Project>{31effd09-dc10-4163-bc2f-4f285f96a7d6}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +173,11 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\engine\src\c\nlsEngine.vcxproj">
+      <Project>{b6946bbd-72c9-4257-aa48-535ae9b4d776}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
