@@ -1,4 +1,4 @@
-## 0.2.11 
+## 0.2.11 (2018-11-24)
 
 
 Features:
@@ -8,11 +8,12 @@ Features:
     - easy way to deploy ([npm package](https://www.npmjs.com/package/nelson-cloud) and [docker](https://hub.docker.com/r/nelsonsoftware/nelson-sio-cli/))
     - add 'sioemit' builtin. Send data from Nelson to client.
     - add 'siogetvariable' function. Send variable value to cliend.
-    - add nelson_sio_client executable used by Nelson in the Cloud framework.
+    - add nelson_sio_client executable used by Nelson in the cloud framework.
 
   * addition, substration, mtimes, times, power with integers reworked.
   * integer cast optimized.
   * modernize/optimize C++ with LLVM tools.
+
 
 ## 0.2.10 (2018-10-20)
 
