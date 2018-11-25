@@ -1,3 +1,10 @@
+
+Compilation:
+---------
+
+  * BOOST 1.68 on Windows
+
+
 ## 0.2.11 (2018-11-24)
 
 
