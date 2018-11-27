@@ -1,3 +1,7 @@
+Bug Fixes:
+---------
+
+  * [#168](http://github.com/Nelson-numerical-software/nelson/issues/168): integer display was not interruptable.
 
 Compilation:
 ---------

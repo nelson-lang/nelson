@@ -23,6 +23,7 @@
 #include "Data.hpp"
 #include "IEEEFP.hpp"
 #include "Interface.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -645,15 +646,14 @@ ArrayOf::printMe(Interface* io) const
         if (dp->dimensions.getLength() == 2) {
             indexType rows = dp->dimensions.getRows();
             indexType columns = dp->dimensions.getColumns();
-            int items_printed;
-            items_printed = 0;
             // Determine how many columns will fit across
             // the terminal width
             auto colsPerPage = static_cast<indexType>(
                 floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
             auto pageCount
                 = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
-            for (indexType k = 0; k < pageCount; k++) {
+            for (indexType k = 0;
+                 k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(); k++) {
                 indexType colsInThisPage = columns - colsPerPage * k;
                 colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
                 if (dp->dimensions.getElementCount() > 1 && dp->dataClass != NLS_CHAR) {
@@ -676,7 +676,6 @@ ArrayOf::printMe(Interface* io) const
                         if ((j < colsInThisPage - 1) && dp->dataClass != NLS_CHAR) {
                             io->outputMessage(" ");
                         }
-                        items_printed++;
                     }
                     if (dp->dataClass == NLS_CHAR) {
                         snprintf(msgBuffer, MSGBUFLEN, "'\n");
@@ -697,8 +696,6 @@ ArrayOf::printMe(Interface* io) const
             Dimensions wdims(dp->dimensions.getLength());
             indexType rows(dp->dimensions.getRows());
             indexType columns(dp->dimensions.getColumns());
-            int items_printed;
-            items_printed = 0;
             indexType offset = 0;
             while (wdims.inside(dp->dimensions)) {
                 snprintf(msgBuffer, MSGBUFLEN, "(:,:");
@@ -715,7 +712,7 @@ ArrayOf::printMe(Interface* io) const
                     floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
                 int pageCount;
                 pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
-                for (int k = 0; k < pageCount; k++) {
+                for (int k = 0; k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(); k++) {
                     indexType colsInThisPage = columns - colsPerPage * k;
                     colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
                     snprintf(msgBuffer, MSGBUFLEN, _("\nColumns %d to %d\n").c_str(),
@@ -732,7 +729,6 @@ ArrayOf::printMe(Interface* io) const
                         for (indexType j = 0; j < colsInThisPage; j++) {
                             emitElement(io, msgBuffer, ap,
                                 i + (k * colsPerPage + j) * rows + offset, dp->dataClass);
-                            items_printed++;
                         }
                         if (dp->dataClass == NLS_CHAR) {
                             io->outputMessage("'");
