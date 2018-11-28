@@ -16,30 +16,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "headcommentsBuiltin.hpp"
-#include "htmltopdfBuiltin.hpp"
-#include "markdownBuiltin.hpp"
-#include "xmldocbuildBuiltin.hpp"
-#include "xmldoccheckerBuiltin.hpp"
+#include "h5infoBuiltin.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"help_tools";
-//=============================================================================
-static const nlsGateway gateway[] = {
-    { "markdown", Nelson::HelpToolsGateway::markdownBuiltin, 1, 2 },
-    { "headcomments", Nelson::HelpToolsGateway::headcommentsBuiltin, 1, 1 },
-    { "xmldocchecker", Nelson::HelpToolsGateway::xmldoccheckerBuiltin, 2, 1 },
-    { "xmldocbuild", Nelson::HelpToolsGateway::xmldocbuildBuiltin, 1, 5 },
-    { "htmltopdf", Nelson::HelpToolsGateway::htmltopdfBuiltin, 0, 2 },
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+ArrayOfVector
+Nelson::Hdf5Gateway::h5infoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (nLhs > 0) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (argIn.size() < 2) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    return retval;
+}
 //=============================================================================

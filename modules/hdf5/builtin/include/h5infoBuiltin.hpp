@@ -16,30 +16,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "headcommentsBuiltin.hpp"
-#include "htmltopdfBuiltin.hpp"
-#include "markdownBuiltin.hpp"
-#include "xmldocbuildBuiltin.hpp"
-#include "xmldoccheckerBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-const std::wstring gatewayName = L"help_tools";
+namespace Nelson {
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "markdown", Nelson::HelpToolsGateway::markdownBuiltin, 1, 2 },
-    { "headcomments", Nelson::HelpToolsGateway::headcommentsBuiltin, 1, 1 },
-    { "xmldocchecker", Nelson::HelpToolsGateway::xmldoccheckerBuiltin, 2, 1 },
-    { "xmldocbuild", Nelson::HelpToolsGateway::xmldocbuildBuiltin, 1, 5 },
-    { "htmltopdf", Nelson::HelpToolsGateway::htmltopdfBuiltin, 0, 2 },
-};
+	namespace Hdf5Gateway {
+    //=============================================================================
+    ArrayOfVector
+    h5infoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
+    }
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+} // namespace Nelson
 //=============================================================================
