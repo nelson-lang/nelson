@@ -61,6 +61,13 @@ The Fastest and Most-UsedMath Library for Intel-Based Systems
 
 > https://software.intel.com/en-us/license/intel-simplified-software-license
 
+- HDF5
+
+High-performance data management and storage suite
+
+> https://www.hdfgroup.org/solutions/hdf5/
+
+> https://support.hdfgroup.org/ftp/HDF5/releases/COPYING
 
 - F2C
 
