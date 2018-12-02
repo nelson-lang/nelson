@@ -189,7 +189,7 @@ FIND_PACKAGE(FFTW REQUIRED)
 FIND_PACKAGE(Portaudio REQUIRED)
 FIND_PACKAGE(LibSndFile REQUIRED)
 FIND_PACKAGE(Taglib REQUIRED)
-FIND_PACKAGE(hdf5 REQUIRED)
+FIND_PACKAGE(HDF5 REQUIRED)
 #============================================================================== 
 find_package(LIBFFI REQUIRED)
 #==============================================================================

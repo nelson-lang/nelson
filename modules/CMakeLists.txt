@@ -75,7 +75,7 @@ tests_manager
 audio
 mpi
 json
-hf5
+hdf5
 )
 LIST(APPEND moduleslist main)
 #==============================================================================	
