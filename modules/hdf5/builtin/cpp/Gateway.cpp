@@ -33,7 +33,7 @@ static const nlsGateway gateway[] = {
 static bool
 initializeHdf5Module(Nelson::Evaluator* eval)
 {
-    //disableHdf5Warning();
+    disableHdf5Warning();
     return true;
 }
 //=============================================================================
