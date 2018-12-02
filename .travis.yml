@@ -72,6 +72,7 @@ before_install:
       sudo apt-get install libsndfile1-dev;
       sudo apt-get install libtag1-dev;
       sudo apt-get install alsa-utils;
+      sudo apt-get install libhdf5-dev;
       fi
     - if [ `uname` = "Linux" ];
       then sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa;
@@ -111,6 +112,7 @@ before_install:
       brew install portaudio;
       brew install libsndfile;
       brew install taglib;
+      brew install hdf5; 
       fi
 
 install:

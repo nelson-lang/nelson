@@ -30,6 +30,7 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 	${Boost_INCLUDE_DIRS}
+	${HDF5_INCLUDE_DIRS}
 )
 #==============================================================================	
 FILE(
@@ -51,6 +52,7 @@ nlsError_manager
 nlsNelson_manager
 nlsI18n
 ${BOOST_LIBRARY}
+${HDF5_LIBRARIES}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}
