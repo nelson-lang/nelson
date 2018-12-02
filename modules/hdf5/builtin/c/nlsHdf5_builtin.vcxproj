@@ -206,12 +206,14 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\h5infoBuiltin.hpp" />
+    <ClInclude Include="..\include\h5createBuiltin.hpp" />
+    <ClInclude Include="..\include\h5writeBuiltin.hpp" />
     <ClInclude Include="..\include\nlsHdf5_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Gateway.cpp" />
-    <ClCompile Include="..\cpp\h5infoBuiltin.cpp" />
+    <ClCompile Include="..\cpp\h5createBuiltin.cpp" />
+    <ClCompile Include="..\cpp\h5writeBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

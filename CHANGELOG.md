@@ -1,3 +1,10 @@
+
+Features:
+---------
+
+* h5create: Creates a dataset.
+
+
 Bug Fixes:
 ---------
 

@@ -1070,6 +1070,9 @@ ArrayOf::testForCaseMatch(ArrayOf x) const
 bool
 ArrayOf::isEmpty(bool allDimensionsIsZero) const
 {
+    if (dp == nullptr) {
+        return true;
+    }
     Dimensions dims = dp->getDimensions();
     return dims.isEmpty(allDimensionsIsZero);
 }

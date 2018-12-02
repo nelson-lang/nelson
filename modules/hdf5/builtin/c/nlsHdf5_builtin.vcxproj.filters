@@ -29,10 +29,13 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\h5infoBuiltin.hpp">
+    <ClInclude Include="..\include\nlsHdf5_builtin_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\nlsHdf5_builtin_exports.h">
+    <ClInclude Include="..\include\h5writeBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\h5createBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -43,7 +46,10 @@
     <ClCompile Include="..\cpp\Gateway.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\h5infoBuiltin.cpp">
+    <ClCompile Include="..\cpp\h5writeBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\h5createBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

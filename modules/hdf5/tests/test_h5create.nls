@@ -6,41 +6,35 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+assert_isequal(nargin('h5create'), -4);
+assert_isequal(nargout('h5create'), 0);
 //=============================================================================
-#include <string>
-#include <boost/container/vector.hpp>
-#include "nlsHdf5_exports.h"
-#include "ArrayOf.hpp"
+h5filename = [tempdir(), '/myfile.h5'];
+if isfile(h5filename) rmfile(h5filename) end
 //=============================================================================
-namespace Nelson {
+h5create(h5filename,'/myDataset1',[100 200]);
 //=============================================================================
-NLSHDF5_IMPEXP void
-disableHdf5Warning();
+h5create(h5filename,'/myDataset2',[100 200], 'FillValue', 3);
 //=============================================================================
-NLSHDF5_IMPEXP void
-enableHdf5Warning();
+h5create(h5filename, '/myDataset3',[1000 2000],'Datatype','single', 'ChunkSize',[50 80],'Deflate',9)
 //=============================================================================
-NLSHDF5_IMPEXP void
-hdf5Write(std::wstring filename, std::wstring dataSetName, ArrayOf data,
-    boost::container::vector<double> start, boost::container::vector<double> count,
-    boost::container::vector<double> stride);
+h5create(h5filename, '/myDataset4',[200 Inf], 'ChunkSize', [20 20])
 //=============================================================================
-NLSHDF5_IMPEXP void
-hdf5Create(std::wstring filename, std::wstring dataSetName,
-    boost::container::vector<double> sizeData,
-    Class dataType, boost::container::vector<double> chunksize, int deflate, ArrayOf fillvalue,
-    bool fletcher32 = false, bool shuffle = false, std::wstring textEncoding = L"system");
+cmd = 'h5create(h5filename, ''/myDataset4'',[200 Inf], ''ChunkSize'')';
+assert_checkerror(cmd, _('Wrong number of input arguments.'));
 //=============================================================================
-} // namespace Nelson
+cmd = 'h5create(h5filename,''/myDataset1'');';
+assert_checkerror(cmd, _('Wrong number of input arguments.'));
+//=============================================================================
+if isfile(h5filename) rmfile(h5filename) end
 //=============================================================================

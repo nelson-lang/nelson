@@ -26,7 +26,7 @@ namespace Nelson {
 	namespace Hdf5Gateway {
     //=============================================================================
     ArrayOfVector
-    h5infoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    h5createBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
     }
 //=============================================================================

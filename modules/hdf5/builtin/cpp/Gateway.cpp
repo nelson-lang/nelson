@@ -17,17 +17,27 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "h5infoBuiltin.hpp"
+#include "h5writeBuiltin.hpp"
+#include "h5createBuiltin.hpp"
+#include "HDF5_helpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"hdf5";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "h5info", Nelson::Hdf5Gateway::h5infoBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "h5write", Nelson::Hdf5Gateway::h5writeBuiltin, 0, -4, CPP_BUILTIN_WITH_EVALUATOR },
+    { "h5create", Nelson::Hdf5Gateway::h5createBuiltin, 0, -4, CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+static bool
+initializeHdf5Module(Nelson::Evaluator* eval)
+{
+    //disableHdf5Warning();
+    return true;
+}
+//=============================================================================
+NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeHdf5Module)
 //=============================================================================
 NLSGATEWAYINFO(gateway)
 //=============================================================================

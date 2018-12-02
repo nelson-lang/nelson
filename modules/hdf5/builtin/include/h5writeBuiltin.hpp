@@ -18,29 +18,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <boost/container/vector.hpp>
-#include "nlsHdf5_exports.h"
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSHDF5_IMPEXP void
-disableHdf5Warning();
-//=============================================================================
-NLSHDF5_IMPEXP void
-enableHdf5Warning();
-//=============================================================================
-NLSHDF5_IMPEXP void
-hdf5Write(std::wstring filename, std::wstring dataSetName, ArrayOf data,
-    boost::container::vector<double> start, boost::container::vector<double> count,
-    boost::container::vector<double> stride);
-//=============================================================================
-NLSHDF5_IMPEXP void
-hdf5Create(std::wstring filename, std::wstring dataSetName,
-    boost::container::vector<double> sizeData,
-    Class dataType, boost::container::vector<double> chunksize, int deflate, ArrayOf fillvalue,
-    bool fletcher32 = false, bool shuffle = false, std::wstring textEncoding = L"system");
+	namespace Hdf5Gateway {
+    //=============================================================================
+    ArrayOfVector
+    h5writeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
+    }
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
