@@ -32,12 +32,24 @@
     <ClInclude Include="..\include\nlsHdf5_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\h5create.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\h5writeatt.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\HDF5_helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dllMain.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\h5create.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\h5writeatt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

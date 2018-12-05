@@ -198,10 +198,14 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\h5create.hpp" />
+    <ClInclude Include="..\include\h5writeatt.hpp" />
     <ClInclude Include="..\include\HDF5_helpers.hpp" />
     <ClInclude Include="..\include\nlsHdf5_exports.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\h5create.cpp" />
+    <ClCompile Include="..\cpp\h5writeatt.cpp" />
     <ClCompile Include="..\cpp\HDF5_helpers.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>

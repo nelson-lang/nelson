@@ -18,17 +18,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "nlsHdf5_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-	namespace Hdf5Gateway {
-    //=============================================================================
-    ArrayOfVector
-    h5writeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-    }
+NLSHDF5_IMPEXP void
+hdf5WriteAttributes(const std::wstring& filename, const std::wstring& location,
+    const std::wstring& attributeName, ArrayOf& attributeValue,
+    const std::wstring& textEncoding = L"system");
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

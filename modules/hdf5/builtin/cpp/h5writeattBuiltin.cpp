@@ -16,32 +16,46 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
 #include "h5writeattBuiltin.hpp"
-#include "h5createBuiltin.hpp"
-#include "HDF5_helpers.hpp"
+#include "Error.hpp"
+#include "h5writeatt.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"hdf5";
+// h5writeatt(filename, location, attname, attvalue)
+// h5writeatt(filename, location, attname, attvalue, 'TextEncoding', encoding) 
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "h5writeatt", Nelson::Hdf5Gateway::h5writeattBuiltin, 0, -1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "h5create", Nelson::Hdf5Gateway::h5createBuiltin, 0, -4, CPP_BUILTIN_WITH_EVALUATOR },
-};
-//=============================================================================
-static bool
-initializeHdf5Module(Nelson::Evaluator* eval)
+ArrayOfVector
+Nelson::Hdf5Gateway::h5writeattBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    disableHdf5Warning();
-    return true;
+    ArrayOfVector retval;
+    if (nLhs != 0) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    indexType nbArgIn = argIn.size();
+    if (!(nbArgIn == 4 || nbArgIn == 6)) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    std::wstring filename = param1.getContentAsWideString();
+    ArrayOf param2 = argIn[1];
+    std::wstring location = param2.getContentAsWideString();
+    ArrayOf param3 = argIn[2];
+    std::wstring attributeName = param3.getContentAsWideString();
+
+    ArrayOf attributeValue = argIn[3];
+    std::wstring textEncoding = L"system"; 
+    if (nbArgIn == 6) {
+        ArrayOf param5 = argIn[4];
+        std::wstring textEncodingComputed = param2.getContentAsWideString();
+        if (textEncodingComputed != L"TextEncoding") {
+            Error(_W("'TextEncoding' expected."));
+        }
+        ArrayOf param6 = argIn[5];
+        textEncoding = param2.getContentAsWideString();
+    }
+    hdf5WriteAttributes(filename,  location, attributeName,
+        attributeValue, textEncoding);
+	return retval;
 }
-//=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeHdf5Module)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
 //=============================================================================
