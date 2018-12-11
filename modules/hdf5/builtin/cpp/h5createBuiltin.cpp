@@ -18,7 +18,7 @@
 //=============================================================================
 #include "h5createBuiltin.hpp"
 #include "Error.hpp"
-#include "h5create.hpp"
+#include "h5Create.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -145,7 +145,7 @@ Nelson::Hdf5Gateway::h5createBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
             Error(_W("Invalid parameter."));
         }
 	}
-    hdf5Create(filename, datasetname, sizeData, dataType, chunksize, deflate, fillvalue, fletcher32,
+    h5Create(filename, datasetname, sizeData, dataType, chunksize, deflate, fillvalue, fletcher32,
         shuffle, textEncoding);
 	return retval;
 }

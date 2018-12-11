@@ -16,34 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "h5writeattBuiltin.hpp"
-#include "h5readattBuiltin.hpp"
-#include "h5createBuiltin.hpp"
-#include "HDF5_helpers.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#define H5_BUILT_AS_DYNAMIC_LIB
+#include <hdf5.h>
+#include <string>
+#include "ArrayOf.hpp"
 //=============================================================================
-const std::wstring gatewayName = L"hdf5";
+namespace Nelson {
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "h5writeatt", Nelson::Hdf5Gateway::h5writeattBuiltin, 0, -1, CPP_BUILTIN },
-    { "h5readatt", Nelson::Hdf5Gateway::h5readattBuiltin, 1, 3, CPP_BUILTIN },
-    { "h5create", Nelson::Hdf5Gateway::h5createBuiltin, 0, -4, CPP_BUILTIN },
-};
+ArrayOf
+h5ReadIntegerAttribute(hid_t attr_id, std::wstring& error);
 //=============================================================================
-static bool
-initializeHdf5Module(Nelson::Evaluator* eval)
-{
-    disableHdf5Warning();
-    return true;
 }
-//=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeHdf5Module)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
 //=============================================================================

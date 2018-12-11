@@ -18,7 +18,7 @@
 //=============================================================================
 #include "h5writeattBuiltin.hpp"
 #include "Error.hpp"
-#include "h5writeatt.hpp"
+#include "h5WriteAttribute.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -54,7 +54,7 @@ Nelson::Hdf5Gateway::h5writeattBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         ArrayOf param6 = argIn[5];
         textEncoding = param2.getContentAsWideString();
     }
-    hdf5WriteAttributes(filename,  location, attributeName,
+    h5WriteAttribute(filename,  location, attributeName,
         attributeValue, textEncoding);
 	return retval;
 }

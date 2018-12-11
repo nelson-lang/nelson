@@ -25,7 +25,10 @@ namespace Nelson {
 bool
 ArrayOf::isSingleClass() const
 {
-    return (dp->dataClass == NLS_SINGLE || dp->dataClass == NLS_SCOMPLEX);
+    if (dp) {
+        return (dp->dataClass == NLS_SINGLE || dp->dataClass == NLS_SCOMPLEX);
+	}
+    return false;
 }
 //=============================================================================
 /**

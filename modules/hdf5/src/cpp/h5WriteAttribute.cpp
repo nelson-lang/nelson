@@ -21,7 +21,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
 #include "HDF5_helpers.hpp"
-#include "h5writeatt.hpp"
+#include "h5WriteAttribute.hpp"
 #include "Exception.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
@@ -45,7 +45,7 @@ createMatrix(const ArrayOf& attributeValue, hid_t& dspace_id)
 }
 //=============================================================================
 void
-hdf5WriteAttributes(const std::wstring& filename, const std::wstring& location,
+h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
     const std::wstring& attributeName, ArrayOf& attributeValue, const std::wstring& textEncoding)
 {
     if (filename.empty()) {

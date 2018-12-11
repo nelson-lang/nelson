@@ -198,14 +198,30 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\h5create.hpp" />
-    <ClInclude Include="..\include\h5writeatt.hpp" />
+    <ClInclude Include="..\cpp\h5ReadArrayAttribute.hpp" />
+    <ClInclude Include="..\cpp\h5ReadAttributeHelpers.hpp" />
+    <ClInclude Include="..\cpp\h5ReadEnumAttribute.hpp" />
+    <ClInclude Include="..\cpp\h5ReadFloatAttribute.hpp" />
+    <ClInclude Include="..\cpp\h5ReadIntegerAttribute.hpp" />
+    <ClInclude Include="..\cpp\h5ReadOpaqueAttribute.hpp" />
+    <ClInclude Include="..\cpp\h5ReadStringAttribute.hpp" />
+    <ClInclude Include="..\include\h5Create.hpp" />
+    <ClInclude Include="..\include\h5ReadAttribute.hpp" />
+    <ClInclude Include="..\include\h5WriteAttribute.hpp" />
     <ClInclude Include="..\include\HDF5_helpers.hpp" />
     <ClInclude Include="..\include\nlsHdf5_exports.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\h5create.cpp" />
-    <ClCompile Include="..\cpp\h5writeatt.cpp" />
+    <ClCompile Include="..\cpp\h5Create.cpp" />
+    <ClCompile Include="..\cpp\h5ReadArrayAttribute.cpp" />
+    <ClCompile Include="..\cpp\h5ReadAttribute.cpp" />
+    <ClCompile Include="..\cpp\h5ReadAttributeHelpers.cpp" />
+    <ClCompile Include="..\cpp\h5ReadEnumAttribute.cpp" />
+    <ClCompile Include="..\cpp\h5ReadFloatAttribute.cpp" />
+    <ClCompile Include="..\cpp\h5ReadIntegerAttribute.cpp" />
+    <ClCompile Include="..\cpp\h5ReadOpaqueAttribute.cpp" />
+    <ClCompile Include="..\cpp\h5ReadStringAttribute.cpp" />
+    <ClCompile Include="..\cpp\h5WriteAttribute.cpp" />
     <ClCompile Include="..\cpp\HDF5_helpers.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>

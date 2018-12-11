@@ -26,8 +26,10 @@ namespace Nelson {
 bool
 ArrayOf::isHandle() const
 {
-    bool ishandle = (dp->dataClass == NLS_HANDLE);
-    return ishandle;
+    if (dp) {
+        return (dp->dataClass == NLS_HANDLE);
+    }
+    return false;
 }
 //=============================================================================
 ArrayOf

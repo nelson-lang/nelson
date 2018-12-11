@@ -16,18 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include <string>
-#include "ArrayOf.hpp"
-#include "nlsHdf5_exports.h"
+#include "h5ReadIntegerAttribute.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSHDF5_IMPEXP void
-hdf5WriteAttributes(const std::wstring& filename, const std::wstring& location,
-    const std::wstring& attributeName, ArrayOf& attributeValue,
-    const std::wstring& textEncoding = L"system");
+ArrayOf
+h5ReadIntegerAttribute(hid_t attr_id, std::wstring& error)
+{
+    ArrayOf res;
+    return res;
+}
 //=============================================================================
 }
 //=============================================================================

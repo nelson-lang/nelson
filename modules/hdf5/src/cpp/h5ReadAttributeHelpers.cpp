@@ -16,19 +16,37 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include <boost/container/vector.hpp>
-#include "nlsHdf5_exports.h"
-#include "ArrayOf.hpp"
+#include "h5ReadAttributeHelpers.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSHDF5_IMPEXP void
-h5Create(const std::wstring& filename, const std::wstring& dataSetName,
-    boost::container::vector<double> sizeData, Class dataType,
-    boost::container::vector<double> chunksize, int deflate, ArrayOf fillvalue,
-    bool fletcher32 = false, bool shuffle = false, const std::wstring& textEncoding = L"system");
+Dimensions
+getDimensions(hid_t space_id) {
+    Dimensions dims;
+    indexType rank = H5Sget_simple_extent_ndims(space_id);
+    if (rank > 0) {
+        hsize_t* len = new_with_exception<hsize_t>(rank, false);
+        int ret = H5Sget_simple_extent_dims(space_id, len, NULL);
+        hsize_t i = rank - 1;
+        hsize_t j = 0;
+        while (i > j) {
+            hsize_t temp = len[i];
+            len[i] = len[j];
+            len[j] = temp;
+            i--;
+            j++;
+        }
+        for (indexType i = 0; i < rank; i++) {
+            dims[i] = len[i];
+        }
+        if (dims.getLength() == 1) {
+            dims[1] = 1;
+        }
+        delete[] len;
+    }
+    return dims;
+}
 //=============================================================================
-} // namespace Nelson
+}  // namespace Nelson
 //=============================================================================

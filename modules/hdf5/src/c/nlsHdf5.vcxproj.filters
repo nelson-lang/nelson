@@ -32,10 +32,34 @@
     <ClInclude Include="..\include\nlsHdf5_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\h5create.hpp">
+    <ClInclude Include="..\cpp\h5ReadArrayAttribute.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\h5writeatt.hpp">
+    <ClInclude Include="..\cpp\h5ReadEnumAttribute.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\h5ReadStringAttribute.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\h5ReadOpaqueAttribute.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\h5ReadIntegerAttribute.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\h5ReadFloatAttribute.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\h5ReadAttribute.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\h5ReadAttributeHelpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\h5WriteAttribute.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\h5Create.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -46,10 +70,34 @@
     <ClCompile Include="dllMain.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\h5create.cpp">
+    <ClCompile Include="..\cpp\h5ReadArrayAttribute.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\h5writeatt.cpp">
+    <ClCompile Include="..\cpp\h5ReadEnumAttribute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\h5ReadFloatAttribute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\h5ReadIntegerAttribute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\h5ReadOpaqueAttribute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\h5ReadStringAttribute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\h5ReadAttribute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\h5ReadAttributeHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\h5WriteAttribute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\h5Create.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

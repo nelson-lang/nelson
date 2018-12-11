@@ -23,7 +23,7 @@
 #include "HDF5_helpers.hpp"
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
-#include "h5create.hpp"
+#include "h5Create.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -132,7 +132,7 @@ setFillValue(ArrayOf fillvalue, Class dataType, hid_t dcpl)
 }
 //=============================================================================
 void
-hdf5Create(const std::wstring& filename, const std::wstring& dataSetName,
+h5Create(const std::wstring& filename, const std::wstring& dataSetName,
     boost::container::vector<double> sizeData, Class dataType,
     boost::container::vector<double> chunksize, int deflate, ArrayOf fillvalue, bool fletcher32,
     bool shuffle, const std::wstring& textEncoding)
