@@ -53,11 +53,11 @@ h5ReadFloatAttribute(hid_t attr_id, std::wstring& error)
     } else {
         void* ptr = ArrayOf::allocateArrayOf(outputClass, numVal, stringVector(), false);
         if (H5Aread(attr_id, type, ptr) < 0) {
-            res = ArrayOf::ArrayOf(outputClass, dims, ptr);
+            res = ArrayOf(outputClass, dims, ptr);
             res = ArrayOf();
             error = _W("Cannot read attribute.");
         } else {
-            res = ArrayOf::ArrayOf(outputClass, dims, ptr);
+            res = ArrayOf(outputClass, dims, ptr);
         }
     }
     H5Sclose(aspace);

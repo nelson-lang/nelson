@@ -182,7 +182,7 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
                     }
                 }
                 SafeArrayUnaccessData(arr);
-                res = ArrayOf::ArrayOf(NLS_CELL_ARRAY, dims, pCell);
+                res = ArrayOf(NLS_CELL_ARRAY, dims, pCell);
                 return true;
 
             } break;
@@ -222,7 +222,7 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
                         }
                     }
                 }
-                res = ArrayOf::ArrayOf(NLS_SINGLE, dims, pSingle);
+                res = ArrayOf(NLS_SINGLE, dims, pSingle);
                 SafeArrayUnaccessData(arr);
                 return true;
 
@@ -263,7 +263,7 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
                         }
                     }
                 }
-                res = ArrayOf::ArrayOf(NLS_DOUBLE, dims, pDouble);
+                res = ArrayOf(NLS_DOUBLE, dims, pDouble);
                 SafeArrayUnaccessData(arr);
                 return true;
 
@@ -304,7 +304,7 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
                         }
                     }
                 }
-                res = ArrayOf::ArrayOf(NLS_UINT8, dims, pUint8);
+                res = ArrayOf(NLS_UINT8, dims, pUint8);
                 SafeArrayUnaccessData(arr);
                 return true;
 
@@ -345,7 +345,7 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
                         }
                     }
                 }
-                res = ArrayOf::ArrayOf(NLS_INT16, dims, pInt16);
+                res = ArrayOf(NLS_INT16, dims, pInt16);
                 SafeArrayUnaccessData(arr);
                 return true;
 
