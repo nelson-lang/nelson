@@ -40,12 +40,16 @@ getDimensions(hid_t space_id) {
         for (indexType i = 0; i < rank; i++) {
             dims[i] = len[i];
         }
-        if (dims.getLength() == 1) {
-            dims[1] = 1;
-        }
         delete[] len;
     }
-    return dims;
+    if (dims.getLength() == 1) {
+        dims[1] = 1;
+    }
+    if (dims.getLength() == 0) {
+        dims[0] = 0;
+        dims[1] = 0;
+    }
+	return dims;
 }
 //=============================================================================
 }  // namespace Nelson

@@ -116,7 +116,7 @@ h5ReadAttribute(
     case H5T_VLEN: {
     } break;
     case H5T_ARRAY: {
-        res = readArrayAttribute(attr_id, errorMessage);
+        res = h5ReadArrayAttribute(attr_id, errorMessage);
     } break;
     case H5T_NCLASSES:
     default: {

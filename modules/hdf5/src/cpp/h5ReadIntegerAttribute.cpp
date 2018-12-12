@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "h5ReadIntegerAttribute.hpp"
+#include "h5ReadAttributeHelpers.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
@@ -25,6 +26,83 @@ ArrayOf
 h5ReadIntegerAttribute(hid_t attr_id, std::wstring& error)
 {
     ArrayOf res;
+    hid_t type = H5Aget_type(attr_id);
+    if (type < 0) {
+        H5Aclose(type);
+        error = _W("Attribute have an invalid type.");
+        return res;
+    }
+    hsize_t storageSize = H5Aget_storage_size(attr_id);
+    hsize_t sizeType = H5Tget_size(type);
+    size_t numVal = storageSize / sizeType;
+    hid_t aspace = H5Aget_space(attr_id);
+    Dimensions dims = getDimensions(aspace);
+    Class outputClass;
+    void* ptrVoid = nullptr;
+    hid_t dataType;
+	switch (sizeType) {
+    case 1: {
+        if (H5Tget_sign(type) == H5T_SGN_NONE) {
+            outputClass = NLS_UINT8;
+            dataType = H5Tcopy(H5T_NATIVE_UINT8);
+        } else {
+            outputClass = NLS_INT8;
+            dataType = H5Tcopy(H5T_NATIVE_INT8);
+        }
+    } break;
+    case 2: {
+        if (H5Tget_sign(type) == H5T_SGN_NONE) {
+            outputClass = NLS_UINT16;
+            dataType = H5Tcopy(H5T_NATIVE_UINT16);
+        } else {
+            outputClass = NLS_INT16;
+            dataType = H5Tcopy(H5T_NATIVE_INT16);
+        }
+    } break;
+    case 4: {
+        if (H5Tget_sign(type) == H5T_SGN_NONE) {
+            outputClass = NLS_UINT32;
+            dataType = H5Tcopy(H5T_NATIVE_UINT32);
+        } else {
+            outputClass = NLS_INT32;
+            dataType = H5Tcopy(H5T_NATIVE_INT32);
+        }
+    } break;
+    case 8: {
+        if (H5Tget_sign(type) == H5T_SGN_NONE) {
+            outputClass = NLS_UINT64;
+            dataType = H5Tcopy(H5T_NATIVE_UINT64);
+        } else {
+            outputClass = NLS_INT64;
+            dataType = H5Tcopy(H5T_NATIVE_INT64);
+        }
+    } break;
+    default: {
+        if (H5Tget_sign(type) == H5T_SGN_NONE) {
+            outputClass = NLS_UINT8;
+            dataType = H5Tcopy(H5T_NATIVE_UINT8);
+        } else {
+            outputClass = NLS_INT8;
+            dataType = H5Tcopy(H5T_NATIVE_INT8);
+        }
+    } break;
+    }
+    if (dims.isEmpty(false)) {
+        res = ArrayOf::emptyConstructor(dims);
+        res.promoteType(outputClass);
+    } else {
+        ptrVoid
+            = ArrayOf::allocateArrayOf(outputClass, dims.getElementCount(), stringVector(), false);
+    }
+    if (H5Aread(attr_id, dataType, ptrVoid) < 0) {
+        error = _W("Cannot read attribute.");
+        res = ArrayOf(outputClass, dims, ptrVoid);
+        res = ArrayOf();
+    } else {
+        res = ArrayOf(outputClass, dims, ptrVoid);
+    }
+    H5Sclose(aspace);
+    H5Aclose(type);
     return res;
 }
 //=============================================================================

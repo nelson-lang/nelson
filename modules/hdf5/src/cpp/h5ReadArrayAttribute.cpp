@@ -21,8 +21,52 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static ArrayOf
+h5ReadArrayIntegerAttribute(hid_t attr_id, hid_t type, Dimensions dimsOutput, std::wstring& error)
+{
+    ArrayOf res;
+    Class outputClass;
+    void* ptrVoid = nullptr;
+    hid_t nativeIntegerType = H5Tget_super(type);
+    if (H5Tequal(nativeIntegerType, H5T_NATIVE_INT64)) {
+        outputClass = NLS_INT64;
+    } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_INT32)) {
+        outputClass = NLS_INT32;
+    } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_INT16)) {
+        outputClass = NLS_INT16;
+    } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_INT8)) {
+        outputClass = NLS_INT8;
+    } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_UINT64)) {
+        outputClass = NLS_UINT64;
+    } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_UINT32)) {
+        outputClass = NLS_UINT32;
+    } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_UINT16)) {
+        outputClass = NLS_UINT16;
+    } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_UINT8)) {
+        outputClass = NLS_UINT8;
+    } else {
+        outputClass = NLS_INT8;
+    }
+    if (dimsOutput.isEmpty(false)) {
+        res = ArrayOf::emptyConstructor(dimsOutput);
+        res.promoteType(outputClass);
+    } else {
+        ptrVoid = ArrayOf::allocateArrayOf(
+            outputClass, dimsOutput.getElementCount(), stringVector(), false);
+    }
+    H5Tclose(nativeIntegerType);
+	if (H5Aread(attr_id, type, ptrVoid) < 0) {
+        error = _W("Cannot read attribute.");
+        res = ArrayOf(outputClass, dimsOutput, ptrVoid);
+        res = ArrayOf();
+    } else {
+        res = ArrayOf(outputClass, dimsOutput, ptrVoid);
+    }
+    return res;
+}
+//=============================================================================
 ArrayOf
-readArrayAttribute(hid_t attr_id, std::wstring& error)
+h5ReadArrayAttribute(hid_t attr_id, std::wstring& error)
 {
     ArrayOf res;
     hid_t type = H5Aget_type(attr_id);
@@ -61,126 +105,7 @@ readArrayAttribute(hid_t attr_id, std::wstring& error)
     delete[] dimsAsHsize;
     dimsOutput[ndims] = numVal;
     if (H5Tequal(type, H5T_INTEGER)) {
-        hid_t nativeIntegerType = H5Tget_super(type);
-        if (H5Tget_sign(type) == H5T_SGN_NONE) {
-            Class outputClass;
-            void* ptrVoid = nullptr;
-            if (H5Tequal(nativeIntegerType, H5T_NATIVE_UINT64)) {
-                uint64* ptr = nullptr;
-                try {
-                    ptr = new_with_exception<uint64>(dimsOutput.getElementCount(), false);
-                } catch (Exception& e) {
-                    H5Sclose(aspace);
-                    H5Aclose(type);
-                    error = e.getMessage();
-                    return res;
-                }
-                ptrVoid = ptr;
-                outputClass = NLS_UINT64;
-            } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_UINT32)) {
-                uint32* ptr = nullptr;
-                try {
-                    ptr = new_with_exception<uint32>(dimsOutput.getElementCount(), false);
-                } catch (Exception& e) {
-                    H5Sclose(aspace);
-                    H5Aclose(type);
-                    error = e.getMessage();
-                    return res;
-                }
-                ptrVoid = ptr;
-                outputClass = NLS_UINT32;
-            } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_UINT16)) {
-                uint16* ptr = nullptr;
-                try {
-                    ptr = new_with_exception<uint16>(dimsOutput.getElementCount(), false);
-                } catch (Exception& e) {
-                    H5Sclose(aspace);
-                    H5Aclose(type);
-                    error = e.getMessage();
-                    return res;
-                }
-                ptrVoid = ptr;
-                outputClass = NLS_UINT16;
-            } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_UINT8)) {
-                uint8* ptr = nullptr;
-                try {
-                    ptr = new_with_exception<uint8>(dimsOutput.getElementCount(), false);
-                } catch (Exception& e) {
-                    H5Sclose(aspace);
-                    H5Aclose(type);
-                    error = e.getMessage();
-                    return res;
-                }
-                ptrVoid = ptr;
-                outputClass = NLS_UINT8;
-            } else {
-                H5Sclose(aspace);
-                H5Aclose(type);
-                error = _W("Integer type not managed.");
-                return res;
-            }
-            H5Aread(attr_id, type, ptrVoid);
-            res = ArrayOf(outputClass, dimsOutput, ptrVoid);
-        } else {
-            Class outputClass;
-            void* ptrVoid = nullptr;
-            if (H5Tequal(nativeIntegerType, H5T_NATIVE_INT64)) {
-                int64* ptr = nullptr;
-                try {
-                    ptr = new_with_exception<int64>(dimsOutput.getElementCount(), false);
-                } catch (Exception& e) {
-                    H5Sclose(aspace);
-                    H5Aclose(type);
-                    error = e.getMessage();
-                    return res;
-                }
-                ptrVoid = ptr;
-                outputClass = NLS_INT64;
-            } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_INT32)) {
-                int32* ptr = nullptr;
-                try {
-                    ptr = new_with_exception<int32>(dimsOutput.getElementCount(), false);
-                } catch (Exception& e) {
-                    H5Sclose(aspace);
-                    H5Aclose(type);
-                    error = e.getMessage();
-                    return res;
-                }
-                ptrVoid = ptr;
-                outputClass = NLS_INT32;
-            } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_INT16)) {
-                int16* ptr = nullptr;
-                try {
-                    ptr = new_with_exception<int16>(dimsOutput.getElementCount(), false);
-                } catch (Exception& e) {
-                    H5Sclose(aspace);
-                    H5Aclose(type);
-                    error = e.getMessage();
-                    return res;
-                }
-                ptrVoid = ptr;
-                outputClass = NLS_INT16;
-            } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_INT8)) {
-                int8* ptr = nullptr;
-                try {
-                    ptr = new_with_exception<int8>(dimsOutput.getElementCount(), false);
-                } catch (Exception& e) {
-                    H5Sclose(aspace);
-                    H5Aclose(type);
-                    error = e.getMessage();
-                    return res;
-                }
-                ptrVoid = ptr;
-                outputClass = NLS_INT8;
-            } else {
-                H5Sclose(aspace);
-                H5Aclose(type);
-                error = _W("Integer type not managed.");
-                return res;
-            }
-            H5Aread(attr_id, type, ptrVoid);
-            res = ArrayOf(outputClass, dimsOutput, ptrVoid);
-        }
+        res = h5ReadArrayIntegerAttribute(attr_id, type, dimsOutput, error);
     } else if (H5Tequal(type, H5T_FLOAT)) {
 
     } else if (H5Tequal(type, H5T_STRING)) {
