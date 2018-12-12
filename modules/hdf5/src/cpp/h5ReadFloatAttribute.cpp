@@ -36,59 +36,28 @@ h5ReadFloatAttribute(hid_t attr_id, std::wstring& error)
     size_t numVal = storageSize / sizeType;
     hid_t aspace = H5Aget_space(attr_id);
     Dimensions dims = getDimensions(aspace);
+    Class outputClass;
+    if (sizeType == 4) {
+        outputClass = NLS_SINGLE;
+    } else if (sizeType == 8) {
+        outputClass = NLS_DOUBLE;
+    } else {
+        H5Sclose(aspace);
+        H5Aclose(type);
+        error = _W("Type not managed.");
+        return res;
+    }
     if (dims.isEmpty(false)) {
         res = ArrayOf::emptyConstructor(dims);
-        if (H5Tequal(type, H5T_NATIVE_FLOAT)) {
-            res.promoteType(NLS_SINGLE);
-        } else if (H5Tequal(type, H5T_NATIVE_DOUBLE)) {
-            res.promoteType(NLS_DOUBLE);
-        } else {
-            H5Sclose(aspace);
-            H5Aclose(type);
-            error = _W("Type not managed.");
-            return res;
-        }
+        res.promoteType(outputClass);
     } else {
-        if (H5Tequal(type, H5T_NATIVE_FLOAT)) {
-            single* values;
-            try {
-                values = new_with_exception<single>(numVal, false);
-            } catch (Exception& e) {
-                H5Sclose(aspace);
-                H5Aclose(type);
-                error = e.getMessage();
-                return res;
-            }
-            if (H5Aread(attr_id, H5T_NATIVE_FLOAT, values) < 0) {
-                delete[] values;
-                H5Sclose(aspace);
-                H5Aclose(type);
-                error = _W("Cannot read attribute.");
-                return res;
-            }
-            res = ArrayOf::ArrayOf(NLS_SINGLE, dims, values);
-        } else if (H5Tequal(type, H5T_NATIVE_DOUBLE)) {
-            double* values;
-            try {
-                values = new_with_exception<double>(numVal, false);
-            } catch (Exception& e) {
-                H5Sclose(aspace);
-                H5Aclose(type);
-                error = e.getMessage();
-                return res;
-            }
-            if (H5Aread(attr_id, H5T_NATIVE_DOUBLE, values) < 0) {
-                delete[] values;
-                H5Sclose(aspace);
-                H5Aclose(type);
-                error = _W("Cannot read attribute.");
-                return res;
-            }
-            res = ArrayOf::ArrayOf(NLS_DOUBLE, dims, values);
+        void* ptr = ArrayOf::allocateArrayOf(outputClass, numVal, stringVector(), false);
+        if (H5Aread(attr_id, type, ptr) < 0) {
+            res = ArrayOf::ArrayOf(outputClass, dims, ptr);
+            res = ArrayOf();
+            error = _W("Cannot read attribute.");
         } else {
-            H5Sclose(aspace);
-            H5Aclose(type);
-            error = _W("Type not managed.");
+            res = ArrayOf::ArrayOf(outputClass, dims, ptr);
         }
     }
     H5Sclose(aspace);
