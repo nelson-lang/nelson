@@ -24,6 +24,7 @@
 #include "h5ReadStringAttribute.hpp"
 #include "h5ReadIntegerAttribute.hpp"
 #include "h5ReadFloatAttribute.hpp"
+#include "h5ReadBitfieldAttribute.hpp"
 #include "h5ReadOpaqueAttribute.hpp"
 #include "h5ReadEnumAttribute.hpp"
 #include "h5ReadArrayAttribute.hpp"
@@ -102,6 +103,7 @@ h5ReadAttribute(
     case H5T_TIME: {
     } break;
     case H5T_BITFIELD: {
+        res = h5ReadBitfieldAttribute(attr_id, errorMessage);
     } break;
     case H5T_OPAQUE: {
         res = h5ReadOpaqueAttribute(attr_id, errorMessage);

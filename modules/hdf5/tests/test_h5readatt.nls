@@ -71,7 +71,6 @@ REF = {'SOLID', 'SOLID' , 'SOLID', 'SOLID' , 'SOLID', 'SOLID' , 'SOLID';
     'SOLID', 'PLASMA', 'GAS'  , 'LIQUID', 'SOLID', 'PLASMA', 'GAS'};
 assert_isequal(R, REF);
 //=============================================================================
-h5_directory = [modulepath('hdf5'), '/tests/h5'];
 array_data = [h5_directory, '/h5ex_t_arrayatt.h5'];
 R = h5readatt(array_data,'/DS1','A1');
 assert_isequal(size(R), [3 5 4]);
@@ -131,5 +130,14 @@ assert_isequal(R, REF);
 //=============================================================================
 R = h5readatt(integer_data,'/DS1','A7');
 REF = uint16(100);
+assert_isequal(R, REF);
+//=============================================================================
+h5_directory = [modulepath('hdf5'), '/tests/h5'];
+bitfield_data = [h5_directory, '/h5ex_t_bitatt.h5'];
+R = h5readatt(bitfield_data,'/DS1','A1');
+REF = uint8([     0    80   160   240     0    80   160;
+    68   148   228    52    68   148   228;
+   136   217    42   123   136   217    42;
+   204    30   108   190   204    30   108]);
 assert_isequal(R, REF);
 //=============================================================================
