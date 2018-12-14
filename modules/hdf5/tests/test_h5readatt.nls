@@ -132,12 +132,19 @@ R = h5readatt(integer_data,'/DS1','A7');
 REF = uint16(100);
 assert_isequal(R, REF);
 //=============================================================================
-h5_directory = [modulepath('hdf5'), '/tests/h5'];
 bitfield_data = [h5_directory, '/h5ex_t_bitatt.h5'];
 R = h5readatt(bitfield_data,'/DS1','A1');
 REF = uint8([     0    80   160   240     0    80   160;
     68   148   228    52    68   148   228;
    136   217    42   123   136   217    42;
    204    30   108   190   204    30   108]);
+assert_isequal(R, REF);
+//=============================================================================
+vlstring_data = [h5_directory, '/h5ex_t_vlstringatt.h5'];
+R = h5readatt(vlstring_data,'/DS1','A1');
+REF = {'Parting';
+    'is such';
+    'sweet  ';
+    'sorrow.'};
 assert_isequal(R, REF);
 //=============================================================================
