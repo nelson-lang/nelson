@@ -23,14 +23,9 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadStringAttribute(hid_t attr_id, std::wstring& error)
+h5ReadStringAttribute(hid_t attr_id, hid_t type, std::wstring& error)
 {
     ArrayOf res;
-    hid_t type = H5Aget_type(attr_id);
-    if (type < 0) {
-        error = _W("Attribute have an invalid type.");
-        return res;
-    }
     hsize_t storageSize = H5Aget_storage_size(attr_id);
     hsize_t sizeType = H5Tget_size(type);
     size_t numVal = storageSize / sizeType;
@@ -38,8 +33,6 @@ h5ReadStringAttribute(hid_t attr_id, std::wstring& error)
     Dimensions dims = getDimensions(aspace);
     bool isVlenString = H5Tis_variable_str(type);
 	ArrayOf* elements;
-
-
 	try {
         if (isVlenString) {
             elements = new_with_exception<ArrayOf>(dims.getElementCount(), false);
@@ -50,7 +43,6 @@ h5ReadStringAttribute(hid_t attr_id, std::wstring& error)
     } catch (Exception& e) {
         error = e.getMessage();
         H5Sclose(aspace);
-        H5Aclose(type);
         return res;
     }
 
@@ -60,7 +52,6 @@ h5ReadStringAttribute(hid_t attr_id, std::wstring& error)
             temp = new_with_exception<char*>(storageSize, true);
         } catch (Exception& e) {
             H5Sclose(aspace);
-            H5Aclose(type);
             error = e.getMessage();
             return res;
         }
@@ -72,7 +63,6 @@ h5ReadStringAttribute(hid_t attr_id, std::wstring& error)
             delete[] temp;
             H5Sclose(memtype);
             H5Sclose(aspace);
-            H5Aclose(type);
             error = _W("Cannot read attribute.");
             return res;
         }
@@ -91,7 +81,6 @@ h5ReadStringAttribute(hid_t attr_id, std::wstring& error)
             temp = new_with_exception<char>(storageSize, true);
         } catch (Exception& e) {
             H5Sclose(aspace);
-            H5Aclose(type);
             error = e.getMessage();
             return res;
         }
@@ -100,7 +89,6 @@ h5ReadStringAttribute(hid_t attr_id, std::wstring& error)
 			delete[] elements;
             delete[] temp;
             H5Sclose(aspace);
-            H5Aclose(type);
             error = _W("Cannot read attribute.");
             return res;
         }
@@ -118,7 +106,6 @@ h5ReadStringAttribute(hid_t attr_id, std::wstring& error)
 		}
     }
     H5Sclose(aspace);
-    H5Aclose(type);
     return ArrayOf(NLS_CELL_ARRAY, dims, elements);
 }
 //=============================================================================

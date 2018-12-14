@@ -23,14 +23,9 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadFloatAttribute(hid_t attr_id, std::wstring& error)
+h5ReadFloatAttribute(hid_t attr_id, hid_t type, std::wstring& error)
 {
     ArrayOf res;
-    hid_t type = H5Aget_type(attr_id);
-    if (type < 0) {
-        error = _W("Attribute have an invalid type.");
-        return res;
-    }
     hsize_t storageSize = H5Aget_storage_size(attr_id);
     hsize_t sizeType = H5Tget_size(type);
     size_t numVal = storageSize / sizeType;
@@ -43,7 +38,6 @@ h5ReadFloatAttribute(hid_t attr_id, std::wstring& error)
         outputClass = NLS_DOUBLE;
     } else {
         H5Sclose(aspace);
-        H5Aclose(type);
         error = _W("Type not managed.");
         return res;
     }
@@ -61,7 +55,6 @@ h5ReadFloatAttribute(hid_t attr_id, std::wstring& error)
         }
     }
     H5Sclose(aspace);
-    H5Aclose(type);
     return res;
 }
 //=============================================================================

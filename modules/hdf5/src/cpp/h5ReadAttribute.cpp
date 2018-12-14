@@ -92,33 +92,33 @@ h5ReadAttribute(
     std::wstring errorMessage;
     switch (H5Tget_class(type)) {
     case H5T_STRING: {
-        res = h5ReadStringAttribute(attr_id, errorMessage);
+        res = h5ReadStringAttribute(attr_id, type, errorMessage);
     } break;
     case H5T_INTEGER: {
-        res = h5ReadIntegerAttribute(attr_id, errorMessage);
+        res = h5ReadIntegerAttribute(attr_id, type, errorMessage);
     } break;
     case H5T_FLOAT: {
-        res = h5ReadFloatAttribute(attr_id, errorMessage);
+        res = h5ReadFloatAttribute(attr_id, type, errorMessage);
     } break;
     case H5T_TIME: {
     } break;
     case H5T_BITFIELD: {
-        res = h5ReadBitfieldAttribute(attr_id, errorMessage);
+        res = h5ReadBitfieldAttribute(attr_id, type, errorMessage);
     } break;
     case H5T_OPAQUE: {
-        res = h5ReadOpaqueAttribute(attr_id, errorMessage);
+        res = h5ReadOpaqueAttribute(attr_id, type, errorMessage);
     } break;
     case H5T_COMPOUND: {
     } break;
     case H5T_REFERENCE: {
     } break;
     case H5T_ENUM: {
-        res = h5ReadEnumAttribute(attr_id, errorMessage);
+        res = h5ReadEnumAttribute(attr_id, type, errorMessage);
     } break;
     case H5T_VLEN: {
     } break;
     case H5T_ARRAY: {
-        res = h5ReadArrayAttribute(attr_id, errorMessage);
+        res = h5ReadArrayAttribute(attr_id, type, errorMessage);
     } break;
     case H5T_NCLASSES:
     default: {

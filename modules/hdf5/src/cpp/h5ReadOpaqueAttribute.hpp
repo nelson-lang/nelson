@@ -26,7 +26,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadOpaqueAttribute(hid_t attr_id, std::wstring& error);
+h5ReadOpaqueAttribute(hid_t attr_id, hid_t type, std::wstring& error);
 //=============================================================================
 }
 //=============================================================================

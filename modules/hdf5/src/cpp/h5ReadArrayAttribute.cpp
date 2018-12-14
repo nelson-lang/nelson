@@ -66,14 +66,9 @@ h5ReadArrayIntegerAttribute(hid_t attr_id, hid_t type, Dimensions dimsOutput, st
 }
 //=============================================================================
 ArrayOf
-h5ReadArrayAttribute(hid_t attr_id, std::wstring& error)
+h5ReadArrayAttribute(hid_t attr_id, hid_t type, std::wstring& error)
 {
     ArrayOf res;
-    hid_t type = H5Aget_type(attr_id);
-    if (type < 0) {
-        error = _W("Attribute have an invalid type.");
-        return res;
-    }
     hsize_t storageSize = H5Aget_storage_size(attr_id);
     hsize_t sizeType = H5Tget_size(type);
     size_t numVal = storageSize / sizeType;
@@ -84,7 +79,6 @@ h5ReadArrayAttribute(hid_t attr_id, std::wstring& error)
         dimsAsHsize = new_with_exception<hsize_t>(ndims, false);
     } catch (Exception& e) {
         error = e.getMessage();
-        H5Aclose(type);
         H5Sclose(aspace);
         return res;
     }
@@ -126,7 +120,6 @@ h5ReadArrayAttribute(hid_t attr_id, std::wstring& error)
 
     } else if (H5Tequal(type, H5T_ARRAY)) {
     }
-    H5Aclose(type);
     H5Sclose(aspace);
     return res;
 }

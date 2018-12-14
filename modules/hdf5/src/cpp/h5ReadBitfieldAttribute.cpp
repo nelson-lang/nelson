@@ -23,15 +23,9 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadBitfieldAttribute(hid_t attr_id, std::wstring& error)
+h5ReadBitfieldAttribute(hid_t attr_id, hid_t type, std::wstring& error)
 {
     ArrayOf res;
-    hid_t type = H5Aget_type(attr_id);
-    if (type < 0) {
-        H5Aclose(type);
-        error = _W("Attribute have an invalid type.");
-        return res;
-    }
     hsize_t storageSize = H5Aget_storage_size(attr_id);
     hsize_t sizeType = H5Tget_size(type);
     size_t numVal = storageSize / sizeType;
@@ -77,7 +71,6 @@ h5ReadBitfieldAttribute(hid_t attr_id, std::wstring& error)
         res = ArrayOf(outputClass, dims, ptrVoid);
     }
     H5Sclose(aspace);
-    H5Aclose(type);
     return res;
 }
 //=============================================================================
