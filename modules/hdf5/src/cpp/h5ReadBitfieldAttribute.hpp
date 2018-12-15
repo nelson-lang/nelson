@@ -26,7 +26,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadBitfieldAttribute(hid_t attr_id, hid_t type, std::wstring& error);
+h5ReadBitfieldAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error);
 //=============================================================================
 }
 //=============================================================================

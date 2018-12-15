@@ -23,13 +23,12 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadIntegerAttribute(hid_t attr_id, hid_t type, std::wstring& error)
+h5ReadIntegerAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error)
 {
     ArrayOf res;
     hsize_t storageSize = H5Aget_storage_size(attr_id);
     hsize_t sizeType = H5Tget_size(type);
     size_t numVal = storageSize / sizeType;
-    hid_t aspace = H5Aget_space(attr_id);
     Dimensions dims = getDimensions(aspace);
     Class outputClass;
     void* ptrVoid = nullptr;
@@ -95,9 +94,8 @@ h5ReadIntegerAttribute(hid_t attr_id, hid_t type, std::wstring& error)
     } else {
         res = ArrayOf(outputClass, dims, ptrVoid);
     }
-    H5Sclose(aspace);
     return res;
 }
 //=============================================================================
-}
+}  // namespace Nelson
 //=============================================================================

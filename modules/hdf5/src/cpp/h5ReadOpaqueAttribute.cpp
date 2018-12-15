@@ -23,13 +23,12 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadOpaqueAttribute(hid_t attr_id, hid_t type, std::wstring& error)
+h5ReadOpaqueAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error)
 {
     ArrayOf res;
     hsize_t storageSize = H5Aget_storage_size(attr_id);
     hsize_t sizeType = H5Tget_size(type);
     size_t numVal = storageSize / sizeType;
-    hid_t aspace = H5Aget_space(attr_id);
     Dimensions dims = getDimensions(aspace);
     ArrayOf* elements;
     try {
@@ -43,14 +42,12 @@ h5ReadOpaqueAttribute(hid_t attr_id, hid_t type, std::wstring& error)
     try {
         temp = new_with_exception<uint8>(storageSize, false);
     } catch (Exception& e) {
-        H5Sclose(aspace);
         error = e.getMessage();
         return res;
     }
     if (H5Aread(attr_id, type, temp) < 0) {
         delete[] elements;
         delete[] temp;
-        H5Sclose(aspace);
         error = _W("Cannot read attribute.");
         return res;
     }
@@ -63,7 +60,6 @@ h5ReadOpaqueAttribute(hid_t attr_id, hid_t type, std::wstring& error)
         } catch (Exception& e) {
             delete[] elements;
             delete[] temp;
-            H5Sclose(aspace);
             error = e.getMessage();
             return res;
         }
@@ -73,7 +69,6 @@ h5ReadOpaqueAttribute(hid_t attr_id, hid_t type, std::wstring& error)
         }
         elements[k] = ArrayOf(NLS_UINT8, dimsElement, values);
     }
-    H5Sclose(aspace);
     delete[] temp;
     return ArrayOf(NLS_CELL_ARRAY, dims, elements);
 }

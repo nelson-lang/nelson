@@ -28,6 +28,7 @@
 #include "h5ReadOpaqueAttribute.hpp"
 #include "h5ReadEnumAttribute.hpp"
 #include "h5ReadArrayAttribute.hpp"
+#include "h5ReadCompoundAttribute.hpp"
 #include "Exception.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -88,43 +89,52 @@ h5ReadAttribute(
         H5Fclose(fid);
         Error(_W("Attribute have an invalid type."));
     }
+    hid_t aspace = H5Aget_space(attr_id);
     ArrayOf res;
     std::wstring errorMessage;
     switch (H5Tget_class(type)) {
     case H5T_STRING: {
-        res = h5ReadStringAttribute(attr_id, type, errorMessage);
+        res = h5ReadStringAttribute(attr_id, type, aspace, errorMessage);
     } break;
     case H5T_INTEGER: {
-        res = h5ReadIntegerAttribute(attr_id, type, errorMessage);
+        res = h5ReadIntegerAttribute(attr_id, type, aspace, errorMessage);
     } break;
     case H5T_FLOAT: {
-        res = h5ReadFloatAttribute(attr_id, type, errorMessage);
+        res = h5ReadFloatAttribute(attr_id, type, aspace, errorMessage);
     } break;
     case H5T_TIME: {
+        /* The time datatype, H5T_TIME,
+	    has not been fully implemented and is not supported.If H5T_TIME is used,
+		the resulting data will be readable
+		and modifiable only on the originating computing platform;
+		it will not be portable to other platforms. */
+        errorMessage = _W("Type not managed.");
     } break;
     case H5T_BITFIELD: {
-        res = h5ReadBitfieldAttribute(attr_id, type, errorMessage);
+        res = h5ReadBitfieldAttribute(attr_id, type, aspace, errorMessage);
     } break;
     case H5T_OPAQUE: {
-        res = h5ReadOpaqueAttribute(attr_id, type, errorMessage);
+        res = h5ReadOpaqueAttribute(attr_id, type, aspace, errorMessage);
     } break;
     case H5T_COMPOUND: {
+        res = h5ReadCompoundAttribute(attr_id, type, aspace, errorMessage);
     } break;
     case H5T_REFERENCE: {
     } break;
     case H5T_ENUM: {
-        res = h5ReadEnumAttribute(attr_id, type, errorMessage);
+        res = h5ReadEnumAttribute(attr_id, type, aspace, errorMessage);
     } break;
     case H5T_VLEN: {
     } break;
     case H5T_ARRAY: {
-        res = h5ReadArrayAttribute(attr_id, type, errorMessage);
+        res = h5ReadArrayAttribute(attr_id, type, aspace, errorMessage);
     } break;
     case H5T_NCLASSES:
     default: {
         errorMessage = _W("Type not managed.");
     } break;
     }
+    H5Sclose(aspace);
     H5Aclose(type);
     H5Aclose(attr_id);
     H5Oclose(obj_id);

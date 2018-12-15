@@ -23,13 +23,13 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadStringAttribute(hid_t attr_id, hid_t type, std::wstring& error)
+h5ReadStringAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error)
 {
     ArrayOf res;
     hsize_t storageSize = H5Aget_storage_size(attr_id);
     hsize_t sizeType = H5Tget_size(type);
     size_t numVal = storageSize / sizeType;
-    hid_t aspace = H5Aget_space(attr_id);
+
     Dimensions dims = getDimensions(aspace);
     bool isVlenString = H5Tis_variable_str(type);
 	ArrayOf* elements;
@@ -42,7 +42,6 @@ h5ReadStringAttribute(hid_t attr_id, hid_t type, std::wstring& error)
         elements = new_with_exception<ArrayOf>(dims.getElementCount(), false);
     } catch (Exception& e) {
         error = e.getMessage();
-        H5Sclose(aspace);
         return res;
     }
 
@@ -51,7 +50,6 @@ h5ReadStringAttribute(hid_t attr_id, hid_t type, std::wstring& error)
         try {
             temp = new_with_exception<char*>(storageSize, true);
         } catch (Exception& e) {
-            H5Sclose(aspace);
             error = e.getMessage();
             return res;
         }
@@ -62,7 +60,6 @@ h5ReadStringAttribute(hid_t attr_id, hid_t type, std::wstring& error)
             delete[] elements;
             delete[] temp;
             H5Sclose(memtype);
-            H5Sclose(aspace);
             error = _W("Cannot read attribute.");
             return res;
         }
@@ -80,7 +77,6 @@ h5ReadStringAttribute(hid_t attr_id, hid_t type, std::wstring& error)
         try {
             temp = new_with_exception<char>(storageSize, true);
         } catch (Exception& e) {
-            H5Sclose(aspace);
             error = e.getMessage();
             return res;
         }
@@ -88,7 +84,6 @@ h5ReadStringAttribute(hid_t attr_id, hid_t type, std::wstring& error)
         {
 			delete[] elements;
             delete[] temp;
-            H5Sclose(aspace);
             error = _W("Cannot read attribute.");
             return res;
         }
@@ -105,7 +100,6 @@ h5ReadStringAttribute(hid_t attr_id, hid_t type, std::wstring& error)
             elements[k] = ArrayOf::characterArrayConstructor(str);
 		}
     }
-    H5Sclose(aspace);
     return ArrayOf(NLS_CELL_ARRAY, dims, elements);
 }
 //=============================================================================

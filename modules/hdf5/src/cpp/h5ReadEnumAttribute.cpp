@@ -23,13 +23,12 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadEnumAttribute(hid_t attr_id, hid_t type, std::wstring& error)
+h5ReadEnumAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error)
 {
     ArrayOf res;
     hsize_t storageSize = H5Aget_storage_size(attr_id);
     hsize_t sizeType = H5Tget_size(type);
     size_t numVal = storageSize / sizeType;
-    hid_t aspace = H5Aget_space(attr_id);
     Dimensions dims = getDimensions(aspace);
     ArrayOf* elements;
     try {
@@ -80,7 +79,6 @@ h5ReadEnumAttribute(hid_t attr_id, hid_t type, std::wstring& error)
     void* buffer = ArrayOf::allocateArrayOf(outputClass, numVal, stringVector(), true);
     if (H5Aread(attr_id, type, buffer) < 0) {
         delete[] elements;
-        H5Sclose(aspace);
         error = _W("Cannot read attribute.");
         return res;
     }
@@ -169,7 +167,6 @@ h5ReadEnumAttribute(hid_t attr_id, hid_t type, std::wstring& error)
         delete[] ptrAsINT32;
     if (ptrAsINT64)
         delete[] ptrAsINT64;
-    H5Sclose(aspace);
     return ArrayOf(NLS_CELL_ARRAY, dims, elements);
 }
 //=============================================================================

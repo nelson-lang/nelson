@@ -26,7 +26,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadIntegerAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error);
+h5ReadCompoundAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error);
 //=============================================================================
 }
 //=============================================================================

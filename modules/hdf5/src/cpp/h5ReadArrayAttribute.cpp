@@ -66,13 +66,13 @@ h5ReadArrayIntegerAttribute(hid_t attr_id, hid_t type, Dimensions dimsOutput, st
 }
 //=============================================================================
 ArrayOf
-h5ReadArrayAttribute(hid_t attr_id, hid_t type, std::wstring& error)
+h5ReadArrayAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error)
 {
     ArrayOf res;
     hsize_t storageSize = H5Aget_storage_size(attr_id);
     hsize_t sizeType = H5Tget_size(type);
     size_t numVal = storageSize / sizeType;
-    hid_t aspace = H5Aget_space(attr_id);
+
     int ndims = H5Tget_array_ndims(type);
     hsize_t* dimsAsHsize;
     try {
@@ -105,7 +105,7 @@ h5ReadArrayAttribute(hid_t attr_id, hid_t type, std::wstring& error)
     } else if (H5Tequal(type, H5T_STRING)) {
 
     } else if (H5Tequal(type, H5T_TIME)) {
-
+        error = _W("Type not managed.");
     } else if (H5Tequal(type, H5T_BITFIELD)) {
 
     } else if (H5Tequal(type, H5T_OPAQUE)) {
@@ -119,8 +119,8 @@ h5ReadArrayAttribute(hid_t attr_id, hid_t type, std::wstring& error)
     } else if (H5Tequal(type, H5T_VLEN)) {
 
     } else if (H5Tequal(type, H5T_ARRAY)) {
+        error = _W("Type not managed.");
     }
-    H5Sclose(aspace);
     return res;
 }
 //=============================================================================
