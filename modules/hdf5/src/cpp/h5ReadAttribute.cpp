@@ -29,6 +29,7 @@
 #include "h5ReadEnumAttribute.hpp"
 #include "h5ReadArrayAttribute.hpp"
 #include "h5ReadCompoundAttribute.hpp"
+#include "h5ReadVlenAttribute.hpp"
 #include "Exception.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -102,14 +103,6 @@ h5ReadAttribute(
     case H5T_FLOAT: {
         res = h5ReadFloatAttribute(attr_id, type, aspace, errorMessage);
     } break;
-    case H5T_TIME: {
-        /* The time datatype, H5T_TIME,
-	    has not been fully implemented and is not supported.If H5T_TIME is used,
-		the resulting data will be readable
-		and modifiable only on the originating computing platform;
-		it will not be portable to other platforms. */
-        errorMessage = _W("Type not managed.");
-    } break;
     case H5T_BITFIELD: {
         res = h5ReadBitfieldAttribute(attr_id, type, aspace, errorMessage);
     } break;
@@ -125,11 +118,20 @@ h5ReadAttribute(
         res = h5ReadEnumAttribute(attr_id, type, aspace, errorMessage);
     } break;
     case H5T_VLEN: {
-    } break;
+        res = h5ReadVlenAttribute(attr_id, type, aspace, errorMessage);
+	} break;
     case H5T_ARRAY: {
         res = h5ReadArrayAttribute(attr_id, type, aspace, errorMessage);
     } break;
-    case H5T_NCLASSES:
+    case H5T_TIME: {
+        /* The time datatype, H5T_TIME,
+        has not been fully implemented and is not supported.If H5T_TIME is used,
+        the resulting data will be readable
+        and modifiable only on the originating computing platform;
+        it will not be portable to other platforms. */
+        errorMessage = _W("Type not managed.");
+    } break;
+	case H5T_NCLASSES:
     default: {
         errorMessage = _W("Type not managed.");
     } break;

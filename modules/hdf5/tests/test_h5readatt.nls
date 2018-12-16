@@ -170,3 +170,11 @@ REF_pressure = double([24.5700;
      84.1100]);
 assert_isequal(R.pressure, REF_pressure);
 //=============================================================================
+h5_directory = [modulepath('hdf5'), '/tests/h5'];
+vlen_data = [h5_directory, '/h5ex_t_vlenatt.h5'];
+R = h5readatt(vlen_data, '/DS1','A1');
+REF_1 = int32([3;2;1]);
+REF_2 = int32([ 1; 1;  2; 3;  5;  8;  13;  21;  34;  55;  89;  144]);
+REF = {REF_1; REF_2};
+assert_isequal(R, REF);
+//=============================================================================
