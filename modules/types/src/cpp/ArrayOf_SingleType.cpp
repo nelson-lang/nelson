@@ -27,7 +27,7 @@ ArrayOf::isSingleClass() const
 {
     if (dp) {
         return (dp->dataClass == NLS_SINGLE || dp->dataClass == NLS_SCOMPLEX);
-	}
+    }
     return false;
 }
 //=============================================================================

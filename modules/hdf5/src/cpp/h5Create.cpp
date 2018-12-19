@@ -305,5 +305,5 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
     status = H5Fclose(fid);
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================

@@ -52,23 +52,24 @@ h5ReadVlenOpaqueAttribute(
 }
 //=============================================================================
 static ArrayOf
-h5ReadVlenFloatAttribute(hid_t attr_id, hid_t stype, const hvl_t *rdata, const Dimensions &dims, std::wstring& error)
+h5ReadVlenFloatAttribute(
+    hid_t attr_id, hid_t stype, const hvl_t* rdata, const Dimensions& dims, std::wstring& error)
 {
     ArrayOf* elements = nullptr;
     hsize_t sizeSType = H5Tget_size(stype);
     Class outputClass;
-	switch (sizeSType) {
+    switch (sizeSType) {
     case 4: {
-        outputClass = NLS_SINGLE; 
+        outputClass = NLS_SINGLE;
     } break;
     case 8: {
         outputClass = NLS_DOUBLE;
     } break;
-    default: { 
+    default: {
         error = _W("Type not managed.");
         return ArrayOf();
-	} break;
-	}
+    } break;
+    }
     try {
         elements = (ArrayOf*)ArrayOf::allocateArrayOf(
             NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
@@ -89,7 +90,7 @@ h5ReadVlenFloatAttribute(hid_t attr_id, hid_t stype, const hvl_t *rdata, const D
         }
         memcpy(ptr, rdata[k].p, elements[k].getElementSize() * rdata[k].len);
     }
-	return res;
+    return res;
 }
 //=============================================================================
 static ArrayOf
@@ -184,10 +185,10 @@ h5ReadVlenAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error
     } break;
     case H5T_BITFIELD: {
         return h5ReadVlenBitfieldAttribute(attr_id, stype, rdata, dims, error);
-	} break;
+    } break;
     case H5T_OPAQUE: {
         return h5ReadVlenOpaqueAttribute(attr_id, stype, rdata, dims, error);
- 	} break;
+    } break;
     default: {
         error = _W("Type not managed.");
     } break;

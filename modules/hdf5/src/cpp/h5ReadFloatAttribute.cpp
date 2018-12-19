@@ -55,5 +55,5 @@ h5ReadFloatAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& erro
     return res;
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================

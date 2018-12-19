@@ -23,7 +23,8 @@
 using namespace Nelson;
 //=============================================================================
 // h5create(filename, datasetname, size)
-// h5create(filename, datasetname, size, propretyName1, propertyValue1 ..., propretyNameN, propertyValueN)
+// h5create(filename, datasetname, size, propretyName1, propertyValue1 ..., propretyNameN,
+// propertyValueN)
 //=============================================================================
 ArrayOfVector
 Nelson::Hdf5Gateway::h5createBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
@@ -50,7 +51,7 @@ Nelson::Hdf5Gateway::h5createBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     }
     if (param3.isEmpty()) {
         Error("row vector expected.");
-	}
+    }
     double* sizePtr = (double*)param3.getDataPointer();
     boost::container::vector<double> sizeData;
     indexType nbElements = param3.getDimensions().getElementCount();
@@ -71,7 +72,7 @@ Nelson::Hdf5Gateway::h5createBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
             Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
     }
-	for (indexType i = 3; i + 1 < argIn.size(); i += 2) {
+    for (indexType i = 3; i + 1 < argIn.size(); i += 2) {
         ArrayOf paramXname = argIn[i];
         ArrayOf paramXvalue = argIn[i + 1];
         if (paramXname.getContentAsWideString() == L"Datatype") {
@@ -135,18 +136,17 @@ Nelson::Hdf5Gateway::h5createBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
             shuffle = paramXvalue.getContentAsLogicalScalar();
         } else if (paramXname.getContentAsWideString() == L"TextEncoding") {
             std::wstring _textEncoding = paramXvalue.getContentAsWideString();
-			if (_textEncoding == L"system" || _textEncoding == L"UTF-8")
-			{
+            if (_textEncoding == L"system" || _textEncoding == L"UTF-8") {
                 textEncoding = _textEncoding;
-			} else {
+            } else {
                 Error(_W("Wrong text encoding parameter."));
             }
         } else {
             Error(_W("Invalid parameter."));
         }
-	}
+    }
     h5Create(filename, datasetname, sizeData, dataType, chunksize, deflate, fillvalue, fletcher32,
         shuffle, textEncoding);
-	return retval;
+    return retval;
 }
 //=============================================================================

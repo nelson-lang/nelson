@@ -33,7 +33,7 @@ h5ReadIntegerAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& er
     Class outputClass;
     void* ptrVoid = nullptr;
     hid_t dataType;
-	switch (sizeType) {
+    switch (sizeType) {
     case 1: {
         if (H5Tget_sign(type) == H5T_SGN_NONE) {
             outputClass = NLS_UINT8;
@@ -97,5 +97,5 @@ h5ReadIntegerAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& er
     return res;
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================

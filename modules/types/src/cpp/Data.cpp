@@ -173,7 +173,7 @@ Data::freeDataBlock()
                 delete[] rp;
             } break;
             case NLS_INT8: {
-                int8* rp = static_cast<int8*>(cp);
+                auto* rp = static_cast<int8*>(cp);
                 delete[] rp;
             } break;
             case NLS_UINT16: {

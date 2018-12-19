@@ -23,7 +23,7 @@
 using namespace Nelson;
 //=============================================================================
 // h5writeatt(filename, location, attname, attvalue)
-// h5writeatt(filename, location, attname, attvalue, 'TextEncoding', encoding) 
+// h5writeatt(filename, location, attname, attvalue, 'TextEncoding', encoding)
 //=============================================================================
 ArrayOfVector
 Nelson::Hdf5Gateway::h5writeattBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
@@ -44,7 +44,7 @@ Nelson::Hdf5Gateway::h5writeattBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     std::wstring attributeName = param3.getContentAsWideString();
 
     ArrayOf attributeValue = argIn[3];
-    std::wstring textEncoding = L"system"; 
+    std::wstring textEncoding = L"system";
     if (nbArgIn == 6) {
         ArrayOf param5 = argIn[4];
         std::wstring textEncodingComputed = param2.getContentAsWideString();
@@ -54,8 +54,7 @@ Nelson::Hdf5Gateway::h5writeattBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         ArrayOf param6 = argIn[5];
         textEncoding = param2.getContentAsWideString();
     }
-    h5WriteAttribute(filename,  location, attributeName,
-        attributeValue, textEncoding);
-	return retval;
+    h5WriteAttribute(filename, location, attributeName, attributeValue, textEncoding);
+    return retval;
 }
 //=============================================================================

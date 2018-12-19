@@ -25,8 +25,8 @@
 namespace Nelson {
 //=============================================================================
 NLSHDF5_IMPEXP ArrayOf
-h5ReadAttribute(const std::wstring& filename, const std::wstring& location,
-    const std::wstring& attributeName);
+h5ReadAttribute(
+    const std::wstring& filename, const std::wstring& location, const std::wstring& attributeName);
 //=============================================================================
 }
 //=============================================================================

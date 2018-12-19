@@ -206,6 +206,7 @@
     <ClInclude Include="..\cpp\h5ReadFloatAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadIntegerAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadOpaqueAttribute.hpp" />
+    <ClInclude Include="..\cpp\h5ReadReferenceAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadStringAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadVlenAttribute.hpp" />
     <ClInclude Include="..\include\h5Create.hpp" />
@@ -225,6 +226,7 @@
     <ClCompile Include="..\cpp\h5ReadFloatAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadIntegerAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadOpaqueAttribute.cpp" />
+    <ClCompile Include="..\cpp\h5ReadReferenceAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadStringAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadVlenAttribute.cpp" />
     <ClCompile Include="..\cpp\h5WriteAttribute.cpp" />

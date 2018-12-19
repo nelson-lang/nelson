@@ -26,8 +26,7 @@
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
-namespace Nelson
-{
+namespace Nelson {
 //=============================================================================
 void*
 createMatrix(const ArrayOf& attributeValue, hid_t& dspace_id)
@@ -303,16 +302,16 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
     }
     herr_t status = H5Awrite(att_id, mem_type_id, buffer);
 
-	H5Sclose(dspace_id);
-	H5Aclose(exists);
-	H5Aclose(att_id);
-	H5Oclose(obj_id);
+    H5Sclose(dspace_id);
+    H5Aclose(exists);
+    H5Aclose(att_id);
+    H5Oclose(obj_id);
     H5Fclose(fid);
 
-	if (status < 0) {
+    if (status < 0) {
         Error(_W("Cannot write attribute."));
     }
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================

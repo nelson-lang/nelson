@@ -72,5 +72,5 @@ h5ReadBitfieldAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& e
     return res;
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================

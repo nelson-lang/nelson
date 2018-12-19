@@ -712,7 +712,9 @@ ArrayOf::printMe(Interface* io) const
                     floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
                 int pageCount;
                 pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
-                for (int k = 0; k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(); k++) {
+                for (int k = 0;
+                     k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending();
+                     k++) {
                     indexType colsInThisPage = columns - colsPerPage * k;
                     colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
                     snprintf(msgBuffer, MSGBUFLEN, _("\nColumns %d to %d\n").c_str(),

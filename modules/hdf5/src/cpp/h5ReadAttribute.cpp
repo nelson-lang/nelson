@@ -30,6 +30,7 @@
 #include "h5ReadArrayAttribute.hpp"
 #include "h5ReadCompoundAttribute.hpp"
 #include "h5ReadVlenAttribute.hpp"
+#include "h5ReadReferenceAttribute.hpp"
 #include "Exception.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -113,13 +114,14 @@ h5ReadAttribute(
         res = h5ReadCompoundAttribute(attr_id, type, aspace, errorMessage);
     } break;
     case H5T_REFERENCE: {
+        res = h5ReadReferenceAttribute(attr_id, type, aspace, errorMessage);
     } break;
     case H5T_ENUM: {
         res = h5ReadEnumAttribute(attr_id, type, aspace, errorMessage);
     } break;
     case H5T_VLEN: {
         res = h5ReadVlenAttribute(attr_id, type, aspace, errorMessage);
-	} break;
+    } break;
     case H5T_ARRAY: {
         res = h5ReadArrayAttribute(attr_id, type, aspace, errorMessage);
     } break;
@@ -131,7 +133,7 @@ h5ReadAttribute(
         it will not be portable to other platforms. */
         errorMessage = _W("Type not managed.");
     } break;
-	case H5T_NCLASSES:
+    case H5T_NCLASSES:
     default: {
         errorMessage = _W("Type not managed.");
     } break;

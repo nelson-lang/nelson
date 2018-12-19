@@ -31,13 +31,13 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-h5ReadCompoundAttributeOpaqueMember(hsize_t sizeType, hid_t mType, const char* data,
-    size_t offset, const Dimensions& dims, std::wstring& error)
+h5ReadCompoundAttributeOpaqueMember(hsize_t sizeType, hid_t mType, const char* data, size_t offset,
+    const Dimensions& dims, std::wstring& error)
 {
     uint8* ptrUINT8 = nullptr;
     try {
-        ptrUINT8
-            = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dims.getElementCount(), stringVector(), false);
+        ptrUINT8 = (uint8*)ArrayOf::allocateArrayOf(
+            NLS_UINT8, dims.getElementCount(), stringVector(), false);
     } catch (Exception& e) {
         error = e.getMessage();
         return ArrayOf();
@@ -313,7 +313,9 @@ h5ReadCompoundAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& e
 
     std::unique_ptr<char[]> data(new char[storageSize]);
     if (!data.get()) {
-    }
+        error = _W("Cannot read attribute.");
+        return ArrayOf();
+	}
     if (H5Aread(attr_id, type, data.get()) < 0) {
         error = _W("Cannot read attribute.");
         return ArrayOf();
@@ -351,12 +353,12 @@ h5ReadCompoundAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& e
             fieldvalue = h5ReadCompoundAttributeOpaqueMember(
                 sizeType, mType, data.get(), offset, dims, error);
         } break;
-        case H5T_TIME: 
-			/* The time datatype, H5T_TIME,
-				has not been fully implemented and is not supported.If H5T_TIME is used,
+        case H5T_TIME:
+            /* The time datatype, H5T_TIME,
+                has not been fully implemented and is not supported.If H5T_TIME is used,
                 the resulting data will be readable
                 and modifiable only on the originating computing platform;
-				it will not be portable to other platforms. */
+                it will not be portable to other platforms. */
         case H5T_REFERENCE:
         case H5T_ENUM:
         case H5T_VLEN:

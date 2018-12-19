@@ -170,5 +170,5 @@ h5ReadEnumAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error
     return ArrayOf(NLS_CELL_ARRAY, dims, elements);
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================

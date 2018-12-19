@@ -24,7 +24,8 @@ using namespace Nelson;
 //=============================================================================
 // attval = h5readatt(filename, location, attr)
 //=============================================================================
-ArrayOfVector Nelson::Hdf5Gateway::h5readattBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::Hdf5Gateway::h5readattBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs > 1) {
@@ -32,7 +33,7 @@ ArrayOfVector Nelson::Hdf5Gateway::h5readattBuiltin(Evaluator* eval, int nLhs, c
     }
     if (argIn.size() != 3) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
+    }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     ArrayOf param3 = argIn[2];
@@ -40,6 +41,6 @@ ArrayOfVector Nelson::Hdf5Gateway::h5readattBuiltin(Evaluator* eval, int nLhs, c
     std::wstring location = param2.getContentAsWideString();
     std::wstring attribute = param3.getContentAsWideString();
     retval.push_back(h5ReadAttribute(filename, location, attribute));
-	return retval;
+    return retval;
 }
 //=============================================================================

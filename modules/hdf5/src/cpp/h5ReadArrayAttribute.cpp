@@ -22,6 +22,39 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
+h5ReadArrayFloatAttribute(hid_t attr_id, hid_t type, Dimensions dimsOutput, std::wstring& error)
+{
+    ArrayOf res;
+    Class outputClass;
+    void* ptrVoid = nullptr;
+    hid_t nativeFloatType = H5Tget_super(type);
+    if (H5Tequal(nativeFloatType, H5T_NATIVE_FLOAT)) {
+        outputClass = NLS_SINGLE;
+    } else if (H5Tequal(nativeFloatType, H5T_NATIVE_DOUBLE)) {
+        outputClass = NLS_DOUBLE;
+    } else {
+        error = _W("Type not managed.");
+        return ArrayOf();
+    }
+    if (dimsOutput.isEmpty(false)) {
+        res = ArrayOf::emptyConstructor(dimsOutput);
+        res.promoteType(outputClass);
+    } else {
+        ptrVoid = ArrayOf::allocateArrayOf(
+            outputClass, dimsOutput.getElementCount(), stringVector(), false);
+    }
+    H5Tclose(nativeFloatType);
+    if (H5Aread(attr_id, type, ptrVoid) < 0) {
+        error = _W("Cannot read attribute.");
+        res = ArrayOf(outputClass, dimsOutput, ptrVoid);
+        res = ArrayOf();
+    } else {
+        res = ArrayOf(outputClass, dimsOutput, ptrVoid);
+    }
+	return res;
+}
+//=============================================================================
+static ArrayOf
 h5ReadArrayIntegerAttribute(hid_t attr_id, hid_t type, Dimensions dimsOutput, std::wstring& error)
 {
     ArrayOf res;
@@ -55,7 +88,7 @@ h5ReadArrayIntegerAttribute(hid_t attr_id, hid_t type, Dimensions dimsOutput, st
             outputClass, dimsOutput.getElementCount(), stringVector(), false);
     }
     H5Tclose(nativeIntegerType);
-	if (H5Aread(attr_id, type, ptrVoid) < 0) {
+    if (H5Aread(attr_id, type, ptrVoid) < 0) {
         error = _W("Cannot read attribute.");
         res = ArrayOf(outputClass, dimsOutput, ptrVoid);
         res = ArrayOf();
@@ -101,28 +134,14 @@ h5ReadArrayAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& erro
     if (H5Tequal(type, H5T_INTEGER)) {
         res = h5ReadArrayIntegerAttribute(attr_id, type, dimsOutput, error);
     } else if (H5Tequal(type, H5T_FLOAT)) {
-
-    } else if (H5Tequal(type, H5T_STRING)) {
-
+        res = h5ReadArrayFloatAttribute(attr_id, type, dimsOutput, error);
     } else if (H5Tequal(type, H5T_TIME)) {
         error = _W("Type not managed.");
-    } else if (H5Tequal(type, H5T_BITFIELD)) {
-
-    } else if (H5Tequal(type, H5T_OPAQUE)) {
-
-    } else if (H5Tequal(type, H5T_COMPOUND)) {
-
-    } else if (H5Tequal(type, H5T_REFERENCE)) {
-
-    } else if (H5Tequal(type, H5T_ENUM)) {
-
-    } else if (H5Tequal(type, H5T_VLEN)) {
-
     } else if (H5Tequal(type, H5T_ARRAY)) {
         error = _W("Type not managed.");
     }
     return res;
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================
