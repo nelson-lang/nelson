@@ -16,6 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#define H5Rdereference_vers 2
+//=============================================================================
 #include "h5ReadReferenceAttribute.hpp"
 #include "h5ReadAttributeHelpers.hpp"
 #include "Exception.hpp"
