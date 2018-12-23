@@ -16,25 +16,54 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('h5create'), -4);
-assert_isequal(nargout('h5create'), 0);
+assert_isequal(nargin('h5writeatt'), -1);
+assert_isequal(nargout('h5writeatt'), 0);
 //=============================================================================
-h5filename = [tempdir(), '/test_h5create.h5'];
+h5filename = [tempdir(), '/test_h5writeatt.h5'];
 if isfile(h5filename) rmfile(h5filename) end
+h5create(h5filename, '/value',[100 200]);
 //=============================================================================
-h5create(h5filename,'/myDataset1',[100 200]);
+REF = '20-Dec-2018 19:46:41';
+h5writeatt(h5filename,'/','creation_date', REF);
+R = h5readatt(h5filename,'/','creation_date');
+assert_isequal(R, REF);
 //=============================================================================
-h5create(h5filename,'/myDataset2',[100 200], 'FillValue', 3);
+REF = '';
+h5writeatt(h5filename,'/','empty_str', REF);
+R = h5readatt(h5filename,'/','empty_str');
+assert_isequal(R, REF);
 //=============================================================================
-h5create(h5filename, '/myDataset3',[1000 2000],'Datatype','single', 'ChunkSize',[50 80],'Deflate',9)
+REF = eye(3, 4);
+h5writeatt(h5filename,'/','eye_double_1', REF);
+R = h5readatt(h5filename, '/', 'eye_double_1');
+assert_isequal(R, REF);
 //=============================================================================
-h5create(h5filename, '/myDataset4',[200 Inf], 'ChunkSize', [20 20])
+S = zeros(3, 0);
+h5writeatt(h5filename,'/','empty_double_1', S);
+R = h5readatt(h5filename, '/', 'empty_double_1');
+REF = [];
+assert_isequal(R, REF);
 //=============================================================================
-cmd = 'h5create(h5filename, ''/myDataset4'',[200 Inf], ''ChunkSize'')';
-assert_checkerror(cmd, _('Wrong number of input arguments.'));
+S = [];
+h5writeatt(h5filename,'/','empty_double_2', S);
+R = h5readatt(h5filename, '/', 'empty_double_2');
+REF = [];
+assert_isequal(R, REF);
 //=============================================================================
-cmd = 'h5create(h5filename,''/myDataset1'');';
-assert_checkerror(cmd, _('Wrong number of input arguments.'));
+REF = 0;
+h5writeatt(h5filename,'/','double_zero', REF);
+R = h5readatt(h5filename, '/', 'double_zero');
+assert_isequal(R, REF);
+//=============================================================================
+REF = 3;
+h5writeatt(h5filename,'/','double_three', REF);
+R = h5readatt(h5filename, '/', 'double_three');
+assert_isequal(R, REF);
+//=============================================================================
+REF = rand(3, 2, 4);
+h5writeatt(h5filename,'/','double_3d', REF);
+R = h5readatt(h5filename, '/', 'double_3d');
+assert_isapprox(R, REF, 1e-8);
 //=============================================================================
 if isfile(h5filename) rmfile(h5filename) end
 //=============================================================================

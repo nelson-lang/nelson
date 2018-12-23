@@ -30,74 +30,126 @@ h5ReadStringAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& err
     hsize_t sizeType = H5Tget_size(type);
     size_t numVal = storageSize / sizeType;
 
-    Dimensions dims = getDimensions(aspace);
-    bool isVlenString = H5Tis_variable_str(type);
-    ArrayOf* elements;
-    try {
+	if (numVal == 0) {
+        res = ArrayOf::characterArrayConstructor("");
+    } else if (numVal == 1) {
+        bool isVlenString = H5Tis_variable_str(type);
         if (isVlenString) {
-            elements = new_with_exception<ArrayOf>(dims.getElementCount(), false);
-        } else {
-            elements = new_with_exception<ArrayOf>(numVal, false);
-        }
-        elements = new_with_exception<ArrayOf>(dims.getElementCount(), false);
-    } catch (Exception& e) {
-        error = e.getMessage();
-        return res;
-    }
+            char** temp;
+            try {
+                temp = new_with_exception<char*>(storageSize, true);
+            } catch (Exception& e) {
+                error = e.getMessage();
+                return res;
+            }
+            hid_t memtype = H5Tcopy(H5T_C_S1);
+            H5Tset_size(memtype, H5T_VARIABLE);
 
-    if (isVlenString) {
-        char** temp;
-        try {
-            temp = new_with_exception<char*>(storageSize, true);
-        } catch (Exception& e) {
-            error = e.getMessage();
-            return res;
-        }
-        hid_t memtype = H5Tcopy(H5T_C_S1);
-        H5Tset_size(memtype, H5T_VARIABLE);
-
-        if (H5Aread(attr_id, memtype, temp) < 0) {
-            delete[] elements;
+            if (H5Aread(attr_id, memtype, temp) < 0) {
+                delete[] temp;
+                H5Sclose(memtype);
+                error = _W("Cannot read attribute.");
+                return res;
+            }
+            std::string str;
+            str = temp[0];
+            res = ArrayOf::characterArrayConstructor(str);
+            herr_t err = H5Dvlen_reclaim(type, aspace, H5P_DEFAULT, temp);
             delete[] temp;
             H5Sclose(memtype);
-            error = _W("Cannot read attribute.");
-            return res;
-        }
-        indexType pos = 0;
-        for (indexType k = 0; k < dims.getElementCount(); k++) {
-            std::string str;
-            str = temp[k];
-            elements[k] = ArrayOf::characterArrayConstructor(str);
-        }
-        herr_t err = H5Dvlen_reclaim(type, aspace, H5P_DEFAULT, temp);
-        delete[] temp;
-        H5Sclose(memtype);
-    } else {
-        char* temp;
-        try {
-            temp = new_with_exception<char>(storageSize, true);
-        } catch (Exception& e) {
-            error = e.getMessage();
-            return res;
-        }
-        if (H5Aread(attr_id, type, temp) < 0) {
-            delete[] elements;
-            delete[] temp;
-            error = _W("Cannot read attribute.");
-            return res;
-        }
-        indexType pos = 0;
-        for (indexType k = 0; k < numVal; k++) {
+        } else {
+            char* temp;
+            try {
+                temp = new_with_exception<char>(storageSize, true);
+            } catch (Exception& e) {
+                error = e.getMessage();
+                return res;
+            }
+            if (H5Aread(attr_id, type, temp) < 0) {
+                delete[] temp;
+                error = _W("Cannot read attribute.");
+                return res;
+            }
+            indexType pos = 0;
             std::string str;
             str.reserve(sizeType);
             for (indexType l = 0; l < sizeType; l++) {
                 str.push_back(temp[pos]);
                 pos++;
             }
-            elements[k] = ArrayOf::characterArrayConstructor(str);
+            res = ArrayOf::characterArrayConstructor(str);
         }
+    } else {
+        Dimensions dims = getDimensions(aspace);
+        bool isVlenString = H5Tis_variable_str(type);
+        ArrayOf* elements;
+        try {
+            if (isVlenString) {
+                elements = new_with_exception<ArrayOf>(dims.getElementCount(), false);
+            } else {
+                elements = new_with_exception<ArrayOf>(numVal, false);
+            }
+            elements = new_with_exception<ArrayOf>(dims.getElementCount(), false);
+        } catch (Exception& e) {
+            error = e.getMessage();
+            return res;
+        }
+
+        if (isVlenString) {
+            char** temp;
+            try {
+                temp = new_with_exception<char*>(storageSize, true);
+            } catch (Exception& e) {
+                error = e.getMessage();
+                return res;
+            }
+            hid_t memtype = H5Tcopy(H5T_C_S1);
+            H5Tset_size(memtype, H5T_VARIABLE);
+
+            if (H5Aread(attr_id, memtype, temp) < 0) {
+                delete[] elements;
+                delete[] temp;
+                H5Sclose(memtype);
+                error = _W("Cannot read attribute.");
+                return res;
+            }
+            indexType pos = 0;
+            for (indexType k = 0; k < dims.getElementCount(); k++) {
+                std::string str;
+                str = temp[k];
+                elements[k] = ArrayOf::characterArrayConstructor(str);
+            }
+            herr_t err = H5Dvlen_reclaim(type, aspace, H5P_DEFAULT, temp);
+            delete[] temp;
+            H5Sclose(memtype);
+        } else {
+            char* temp;
+            try {
+                temp = new_with_exception<char>(storageSize, true);
+            } catch (Exception& e) {
+                error = e.getMessage();
+                return res;
+            }
+            if (H5Aread(attr_id, type, temp) < 0) {
+                delete[] elements;
+                delete[] temp;
+                error = _W("Cannot read attribute.");
+                return res;
+            }
+            indexType pos = 0;
+            for (indexType k = 0; k < numVal; k++) {
+                std::string str;
+                str.reserve(sizeType);
+                for (indexType l = 0; l < sizeType; l++) {
+                    str.push_back(temp[pos]);
+                    pos++;
+                }
+                elements[k] = ArrayOf::characterArrayConstructor(str);
+            }
+        }
+        res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
     }
-    return ArrayOf(NLS_CELL_ARRAY, dims, elements);
+    return res;
 }
 //=============================================================================
 } // namespace Nelson

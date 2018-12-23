@@ -315,7 +315,7 @@ h5ReadCompoundAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& e
     if (!data.get()) {
         error = _W("Cannot read attribute.");
         return ArrayOf();
-	}
+    }
     if (H5Aread(attr_id, type, data.get()) < 0) {
         error = _W("Cannot read attribute.");
         return ArrayOf();
@@ -329,7 +329,11 @@ h5ReadCompoundAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& e
         hid_t mType = H5Tget_member_type(type, mIndex);
         char* fieldname = H5Tget_member_name(type, mIndex);
         fieldnames.push_back(std::string(fieldname));
+#if H5_VERS_MAJOR > 1 && H5_VERS_MINOR < 9
+        free(fieldname);
+#else
         H5free_memory(fieldname);
+#endif
         size_t offset = H5Tget_member_offset(type, (unsigned int)mIndex);
         ArrayOf fieldvalue;
         switch (H5Tget_member_class(type, mIndex)) {
