@@ -48,7 +48,7 @@ matrix:
     - os: osx
       env: ARCH="x86_64"
       compiler: clang
-      osx_image: xcode9.3
+      osx_image: xcode8.3
 
   allow_failures:
     - os: osx
@@ -92,15 +92,19 @@ before_install:
       
     - if [ `uname` = "Darwin" ]; 
       then brew update;
+      brew unlink libffi;
+      brew install libffi;
+      brew unlink libffi;
+      brew link --force libffi;
+      brew uninstall icu4c;
+      brew install icu4c;
+      brew unlink icu4c;
+      brew link icu4c --force;
       brew info open-mpi;
       brew install openmpi;
       brew install python3;
       brew upgrade python;
-      brew install libffi;
-      brew install icu4c;
-      brew link --force icu4c;
       brew install pkg-config;
-      brew link --force libffi;
       brew install pkgconfig;
       brew install gettext;
       brew link --force gettext;
