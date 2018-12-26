@@ -16,8 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#define H5Rdereference_vers 2
-//=============================================================================
 #include "h5ReadReferenceAttribute.hpp"
 #include "h5ReadAttributeHelpers.hpp"
 #include "Exception.hpp"
@@ -144,7 +142,11 @@ h5ReadReferenceAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& 
 
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
     for (indexType k = 0; k < dims.getElementCount(); k++) {
-        hid_t dset2 = H5Rdereference(attr_id, H5P_DEFAULT, H5R_DATASET_REGION, &rdata[k]);
+#if H5_VERS_MAJOR <= 1 && H5_VERS_MINOR < 9
+        hid_t dset2 = H5Rdereference(attr_id, H5R_DATASET_REGION, &rdata[k]);
+#else
+        hid_t dset2 = H5Rdereference2(attr_id, H5P_DEFAULT, H5R_DATASET_REGION, &rdata[k]);
+#endif
         hid_t space2 = H5Rget_region(attr_id, H5R_DATASET_REGION, &rdata[k]);
         hid_t mtype = H5Dget_type(dset2);
         switch (H5Tget_class(mtype)) {
