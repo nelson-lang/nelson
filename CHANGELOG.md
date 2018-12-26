@@ -3,10 +3,14 @@ Features:
 ---------
 
 * h5create: Creates a dataset.
+* h5writeatt: Writes HDF5 attribute.
+* h5readatt: Read HDF5 attribute.
 
 
 Bug Fixes:
 ---------
+
+  * [#170](http://github.com/Nelson-numerical-software/nelson/issues/170): Travis CI Macos X (mojave) build failed.
 
   * [#168](http://github.com/Nelson-numerical-software/nelson/issues/168): integer display was not interruptable.
 
