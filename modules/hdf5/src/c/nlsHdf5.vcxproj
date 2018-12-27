@@ -200,6 +200,7 @@
   <ItemGroup>
     <ClInclude Include="..\cpp\h5ReadArrayAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadBitfieldDataset.hpp" />
+    <ClInclude Include="..\cpp\h5ReadEnumDataset.hpp" />
     <ClInclude Include="..\cpp\h5ReadFloatDataset.hpp" />
     <ClInclude Include="..\cpp\h5ReadHelpers.hpp" />
     <ClInclude Include="..\cpp\h5ReadBitfieldAttribute.hpp" />
@@ -227,6 +228,7 @@
     <ClCompile Include="..\cpp\h5ReadDataset.cpp" />
     <ClCompile Include="..\cpp\h5ReadArrayAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadAttribute.cpp" />
+    <ClCompile Include="..\cpp\h5ReadEnumDataset.cpp" />
     <ClCompile Include="..\cpp\h5ReadFloatDataset.cpp" />
     <ClCompile Include="..\cpp\h5ReadHelpers.cpp" />
     <ClCompile Include="..\cpp\h5ReadBitfieldAttribute.cpp" />

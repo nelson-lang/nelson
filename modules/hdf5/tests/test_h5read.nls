@@ -68,3 +68,11 @@ R = h5read(vlstring_data, '/DS1');
 REF = {'Parting'; 'is such'; 'sweet  '; 'sorrow.'};
 assert_isequal(R, REF);
 //=============================================================================
+enum_data = [h5_directory, '/h5ex_t_enum.h5'];
+R = h5read(enum_data, '/DS1');
+REF = {'SOLID', 'SOLID' , 'SOLID', 'SOLID' , 'SOLID', 'SOLID' , 'SOLID';
+    'SOLID', 'LIQUID', 'GAS'  , 'PLASMA', 'SOLID', 'LIQUID', 'GAS';
+    'SOLID', 'GAS'   , 'SOLID', 'GAS'   , 'SOLID', 'GAS'   , 'SOLID';
+    'SOLID', 'PLASMA', 'GAS'  , 'LIQUID', 'SOLID', 'PLASMA', 'GAS'};
+assert_isequal(R, REF);
+//=============================================================================

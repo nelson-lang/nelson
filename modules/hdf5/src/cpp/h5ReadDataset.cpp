@@ -28,6 +28,7 @@
 #include "h5ReadOpaqueDataset.hpp"
 #include "h5ReadBitfieldDataset.hpp"
 #include "h5ReadStringDataset.hpp"
+#include "h5ReadEnumDataset.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -104,7 +105,7 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
 
     } break;
     case H5T_ENUM: {
-
+        res = h5ReadEnumDataset(dset_id, type_id, dspace_id, errorMessage);
     } break;
     case H5T_VLEN: {
 
@@ -125,7 +126,6 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
         errorMessage = _W("Type not managed.");
     } break;
     }
-
     if (!errorMessage.empty()) {
         Error(errorMessage);
     }

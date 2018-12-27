@@ -16,35 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "h5readBuiltin.hpp"
-#include "Error.hpp"
-#include "h5ReadDataset.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#define H5_BUILT_AS_DYNAMIC_LIB
+#include <hdf5.h>
+#include <string>
+#include "ArrayOf.hpp"
 //=============================================================================
-// data = h5read(filename, datasetname)
+namespace Nelson {
 //=============================================================================
-ArrayOfVector
-Nelson::Hdf5Gateway::h5readBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    std::wstring filename;
-    std::wstring datasetname;
-    switch (argIn.size()) {
-    case 2: {
-        ArrayOf param1 = argIn[0];
-        ArrayOf param2 = argIn[1];
-        filename = param1.getContentAsWideString();
-        datasetname = param2.getContentAsWideString();
-    } break;
-    default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    } break;
-    }
-    retval.push_back(h5ReadDataset(filename, datasetname));
-    return retval;
+ArrayOf
+h5ReadEnumDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring& error);
+//=============================================================================
 }
 //=============================================================================

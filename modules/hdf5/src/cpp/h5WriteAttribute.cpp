@@ -125,7 +125,7 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
     void* buffer = nullptr;
     std::string value_utf8;
     single single_scalar = (single)0;
-    double double_scalar = (double)0;
+    auto double_scalar = static_cast<double>(0);
     int8 int8_scalar = (int8)0;
     int16 int16_scalar = (int16)0;
     int32 int32_scalar = (int32)0;
