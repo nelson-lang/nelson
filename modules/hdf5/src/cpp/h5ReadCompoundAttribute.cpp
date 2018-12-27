@@ -18,7 +18,7 @@
 //=============================================================================
 #include <memory>
 #include "h5ReadCompoundAttribute.hpp"
-#include "h5ReadAttributeHelpers.hpp"
+#include "h5ReadHelpers.hpp"
 #include "h5ReadStringAttribute.hpp"
 #include "h5ReadIntegerAttribute.hpp"
 #include "h5ReadFloatAttribute.hpp"
@@ -309,7 +309,8 @@ h5ReadCompoundAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& e
     ArrayOf res;
     hsize_t storageSize = H5Aget_storage_size(attr_id);
     hsize_t sizeType = H5Tget_size(type);
-    Dimensions dims = getDimensions(aspace);
+    int rank;
+    Dimensions dims = getDimensions(aspace, rank);
 
     std::unique_ptr<char[]> data(new char[storageSize]);
     if (!data.get()) {

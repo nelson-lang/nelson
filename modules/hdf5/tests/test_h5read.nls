@@ -6,45 +6,36 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "h5readBuiltin.hpp"
-#include "Error.hpp"
-#include "h5Read.hpp"
+assert_isequal(nargin('h5read'), 2);
+assert_isequal(nargout('h5read'), 1);
 //=============================================================================
-using namespace Nelson;
+h5_directory = [modulepath('hdf5'), '/tests/h5'];
 //=============================================================================
-// data = h5read(filename, datasetname)
+double_data = [h5_directory, '/h5ex_t_float.h5'];
+R = h5read(double_data,'/DS1');
+assert_isequal(class(R), 'double');
+assert_isequal(size(R), [4 7]);
+REF = [ 0    1.0000    2.0000    3.0000    4.0000    5.0000    6.0000;
+    2.0000    1.6667    2.4000    3.2857    4.2222    5.1818    6.1538;
+    4.0000    2.3333    2.8000    3.5714    4.4444    5.3636    6.3077;
+    6.0000    3.0000    3.2000    3.8571    4.6667    5.5455    6.4615];
+assert_isapprox(R, REF, 1e-4);
 //=============================================================================
-ArrayOfVector
-Nelson::Hdf5Gateway::h5readBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    std::wstring filename;
-    std::wstring datasetname;
-	switch (argIn.size()) {
-    case 2: {
-        ArrayOf param1 = argIn[0];
-        ArrayOf param2 = argIn[1];
-        filename = param1.getContentAsWideString();
-        datasetname = param2.getContentAsWideString();
-    } break;
-    default: { 
-		Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	} break;
-	}
-    retval.push_back(h5Read(filename, datasetname));
-    return retval;
-}
+integer_data = [h5_directory, '/h5ex_t_int.h5'];
+R = h5read(integer_data,'/DS1');
+REF = int64([0    -1    -2    -3    -4    -5    -6;
+     0     0     0     0     0     0     0;
+     0     1     2     3     4     5     6;
+     0     2     4     6     8    10    12]);
+assert_isequal(R, REF);
 //=============================================================================

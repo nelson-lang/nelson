@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "h5ReadBitfieldAttribute.hpp"
-#include "h5ReadAttributeHelpers.hpp"
+#include "h5ReadHelpers.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
@@ -28,8 +28,8 @@ h5ReadBitfieldAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& e
     ArrayOf res;
     hsize_t storageSize = H5Aget_storage_size(attr_id);
     hsize_t sizeType = H5Tget_size(type);
-    size_t numVal = storageSize / sizeType;
-    Dimensions dims = getDimensions(aspace);
+    int rank;
+    Dimensions dims = getDimensions(aspace, rank);
     Class outputClass;
     void* ptrVoid = nullptr;
     hid_t dataType;

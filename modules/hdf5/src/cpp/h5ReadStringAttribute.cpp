@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "h5ReadStringAttribute.hpp"
-#include "h5ReadAttributeHelpers.hpp"
+#include "h5ReadHelpers.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
@@ -80,7 +80,8 @@ h5ReadStringAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& err
             res = ArrayOf::characterArrayConstructor(str);
         }
     } else {
-        Dimensions dims = getDimensions(aspace);
+        int rank;
+        Dimensions dims = getDimensions(aspace, rank);
         bool isVlenString = H5Tis_variable_str(type);
         ArrayOf* elements;
         try {

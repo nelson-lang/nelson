@@ -51,35 +51,44 @@ IsIntegerValues(ArrayOf A, T& minVal, T& maxVal)
     Dimensions dimsA = A.getDimensions();
     if (A.isComplex()) {
         T* pValueA = (T*)A.getDataPointer();
-        maxVal = pValueA[0];
-        minVal = pValueA[0];
-        for (indexType k = 0; k < dimsA.getElementCount() * 2; k++) {
-            if (!isInteger(pValueA[k])) {
-                return false;
-            } else {
-                if (maxVal < pValueA[k]) {
-                    maxVal = pValueA[k];
-                }
-                if (minVal > pValueA[k]) {
-                    minVal = pValueA[k];
+        if (pValueA) {
+            maxVal = pValueA[0];
+            minVal = pValueA[0];
+            for (indexType k = 0; k < dimsA.getElementCount() * 2; k++) {
+                if (!isInteger(pValueA[k])) {
+                    return false;
+                } else {
+                    if (maxVal < pValueA[k]) {
+                        maxVal = pValueA[k];
+                    }
+                    if (minVal > pValueA[k]) {
+                        minVal = pValueA[k];
+                    }
                 }
             }
+        } else {
+            return false;
         }
+        
     } else // NLS_DCOMPLEX
     {
         T* pValueA = (T*)A.getDataPointer();
-        maxVal = pValueA[0];
-        for (indexType k = 0; k < dimsA.getElementCount(); k++) {
-            if (!isInteger(pValueA[k])) {
-                return false;
-            } else {
-                if (maxVal < pValueA[k]) {
-                    maxVal = pValueA[k];
-                }
-                if (minVal > pValueA[k]) {
-                    minVal = pValueA[k];
+        if (pValueA) {
+            maxVal = pValueA[0];
+            for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+                if (!isInteger(pValueA[k])) {
+                    return false;
+                } else {
+                    if (maxVal < pValueA[k]) {
+                        maxVal = pValueA[k];
+                    }
+                    if (minVal > pValueA[k]) {
+                        minVal = pValueA[k];
+                    }
                 }
             }
+        } else {
+            return false;
         }
     }
     return res;

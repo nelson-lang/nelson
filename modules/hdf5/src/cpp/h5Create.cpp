@@ -212,7 +212,14 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
     }
 
     /* Create the data space for the dataset. */
-    hsize_t* sizeDataAsHsize_t = new_with_exception<hsize_t>(sizeData.size(), true);
+    hsize_t* sizeDataAsHsize_t = nullptr;
+    try {
+        sizeDataAsHsize_t = new_with_exception<hsize_t>(sizeData.size(), true);
+    } catch (Exception&) {
+        H5Dclose(dset);
+        H5Fclose(fid);
+        throw;
+    }
     indexType nbElementsSizeData = sizeData.size();
     for (indexType k = 1; k <= nbElementsSizeData; k++) {
         if (std::isinf(sizeData[nbElementsSizeData - k]) || sizeData[nbElementsSizeData - k] == 0) {
@@ -221,7 +228,14 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
             sizeDataAsHsize_t[k - 1] = (hsize_t)sizeData[nbElementsSizeData - k];
         }
     }
-    hsize_t* maxdimsAsHsize_t = new_with_exception<hsize_t>(sizeData.size(), true);
+    hsize_t* maxdimsAsHsize_t = nullptr;
+    try {
+        maxdimsAsHsize_t = new_with_exception<hsize_t>(sizeData.size(), true);
+    } catch (Exception&) {
+	    H5Dclose(dset);
+	    H5Fclose(fid);
+		throw;
+	}
     for (indexType k = 1; k <= nbElementsSizeData; k++) {
         if (std::isinf(sizeData[nbElementsSizeData - k]) || sizeData[nbElementsSizeData - k] == 0) {
             maxdimsAsHsize_t[k - 1] = H5S_UNLIMITED;
@@ -247,7 +261,14 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
         status = H5Pset_shuffle(dcpl);
     }
     if (!chunksize.empty()) {
-        hsize_t* dimsChunk = new_with_exception<hsize_t>(chunksize.size(), true);
+        hsize_t* dimsChunk = nullptr; 
+		try {
+            dimsChunk = new_with_exception<hsize_t>(chunksize.size(), true);
+        } catch (Exception&) {
+            H5Pclose(dcpl);
+            H5Fclose(fid);
+            throw;
+		}
         for (indexType k = 0; k < chunksize.size(); k++) {
             dimsChunk[k] = (hsize_t)chunksize[k];
         }

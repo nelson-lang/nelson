@@ -25,9 +25,7 @@
 namespace Nelson {
 //=============================================================================
 NLSHDF5_IMPEXP ArrayOf
-h5Read(const std::wstring& filename, const std::wstring& dataSetName,
-    const boost::container::vector<double> &start, const boost::container::vector<double> &count,
-    const boost::container::vector<double> &stride);
+h5Read(const std::wstring& filename, const std::wstring& dataSetName);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

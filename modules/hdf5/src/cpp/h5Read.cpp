@@ -23,20 +23,14 @@
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
 #include "h5Read.hpp"
+#include "h5ReadFloatDataset.hpp"
+#include "h5ReadIntegerDataset.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5Read(const std::wstring& filename, const std::wstring& dataSetName,
-    const boost::container::vector<double> &start, const boost::container::vector<double> &count,
-    const boost::container::vector<double> &stride) {
+h5Read(const std::wstring& filename, const std::wstring& dataSetName) {
     ArrayOf res;
-    if (start.size() != count.size()) {
-        Error(_W("start and count parameters must have same rank."));
-	}
-    if (stride.size() != 0 && start.size() != stride.size()) {
-        Error(_W("start, count, stride parameters must have same rank."));
-	}
     if (filename.empty()) {
         Error(_W("Valid filename expected."));
     }
@@ -81,96 +75,59 @@ h5Read(const std::wstring& filename, const std::wstring& dataSetName,
         Error("Impossible to read data set");
     }
 
-    int rank = H5Sget_simple_extent_ndims(dspace_id);
-    if (rank < 0) {
-        H5Dclose(dset_id);
-        H5Dclose(dspace_id);
-        H5Fclose(fid);
-        Error("Impossible to read data set");
-    }
-
-	if (start.size() != 0) {
-        if (start.size() != rank) {
-            H5Dclose(dset_id);
-            H5Dclose(dspace_id);
-            H5Fclose(fid);
-            Error("start, count, stride must have same rank than data set.");
-        }
-    }
-
-    hsize_t* h5_dims = nullptr;
-    hsize_t* h5_maxdims = nullptr;
-    try {
-        h5_dims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
-    } catch (Exception &e)
-    {
-        H5Dclose(dset_id);
-        H5Dclose(dspace_id);
-        H5Fclose(fid);
-        throw;
-	}
-    try {
-        h5_maxdims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
-    } catch (Exception& e) {
-        H5Dclose(dset_id);
-        H5Dclose(dspace_id);
-        H5Fclose(fid);
-        throw;
-	} 
-
-	if (H5Sget_simple_extent_dims(dspace_id, h5_dims, h5_maxdims) < 0) {
-        delete[] h5_dims;
-        delete[] h5_maxdims;
-        H5Dclose(dset_id);
-        H5Dclose(dspace_id);
-        H5Fclose(fid);
-		Error("Impossible to read dimensions and maximum size of dataset.");
-    }
     hid_t type_id = H5Dget_type(dset_id);
-	if (start.empty() && count.empty() && stride.empty()) {
-       // herr_t status = H5Dread(dset_id, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, rdata[0])
-    } else {
-        boost::container::vector<double> _stride;
-        if (stride.empty()) {
-            _stride.reserve((size_t)rank);
-            for (indexType k = 0; k < rank; k++) {
-                _stride.push_back(1);
-            }
-        } else {
-            _stride = stride;
-        }
+    std::wstring errorMessage;
+	switch (H5Tget_class(type_id)) {
+    case H5T_STRING: {
 
-		/*
-        hsize_t* hstart;
-        hsize_t* hcount;
-        hsize_t* hstride;
-        hsize_t* hblock;
+    } break;
+    case H5T_INTEGER: {
+        res = h5ReadIntegerDataset(dset_id, type_id, dspace_id, errorMessage);
+    } break;
+    case H5T_FLOAT: {
+        res = h5ReadFloatDataset(dset_id, type_id, dspace_id, errorMessage);
+    } break;
+    case H5T_BITFIELD: {
 
-        herr_t selection_result
-            = H5Sselect_hyperslab(dspace_id, H5S_SELECT_SET, hstart, hstride, hcount, hblock);
-        if (selection_result < 0) {
-            H5Dclose(dset_id);
-            H5Dclose(dspace_id);
-            H5Fclose(fid);
-            Error("Impossible to read data.");
-        }
+    } break;
+    case H5T_OPAQUE: {
 
-        hsize_t* hmem = alloc_hsize(mat_dims, ALLOC_HSIZE_DEFAULT, false);
-        hid_t memspace_id = H5Screate_simple(rank, hmem, hmem);
-        free(hmem);
-        if (memspace_id < 0) {
-        }
+    } break;
+    case H5T_COMPOUND: {
 
-        if (H5Sselect_valid(dspace_id) <= 0) {
-            H5Sclose(memspace_id);
-            H5Dclose(dset_id);
-            H5Dclose(dspace_id);
-            H5Fclose(fid);
-            Error(_W("Selected dataspace is not valid."));
-        }
-		*/
-	}
+    } break;
+    case H5T_REFERENCE: {
 
+    } break;
+    case H5T_ENUM: {
+
+    } break;
+    case H5T_VLEN: {
+
+    } break;
+    case H5T_ARRAY: {
+
+    } break;
+    case H5T_TIME: {
+        /* The time datatype, H5T_TIME,
+        has not been fully implemented and is not supported.If H5T_TIME is used,
+        the resulting data will be readable
+        and modifiable only on the originating computing platform;
+        it will not be portable to other platforms. */
+        errorMessage = _W("Type not managed.");
+    } break;
+    case H5T_NCLASSES:
+    default: {
+        errorMessage = _W("Type not managed.");
+    } break;
+    }
+
+	 if (!errorMessage.empty()) {
+        Error(errorMessage);
+    }
+    H5Dclose(dset_id);
+    H5Dclose(dspace_id);
+    H5Fclose(fid);
     return res;
 }
 //=============================================================================

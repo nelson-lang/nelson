@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "h5ReadReferenceAttribute.hpp"
-#include "h5ReadAttributeHelpers.hpp"
+#include "h5ReadHelpers.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
@@ -127,7 +127,8 @@ h5ReadReferenceAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& 
 {
     hsize_t storageSize = H5Aget_storage_size(attr_id);
     hsize_t sizeType = H5Tget_size(type);
-    Dimensions dims = getDimensions(aspace);
+    int rank;
+    Dimensions dims = getDimensions(aspace, rank);
     ArrayOf* elements = nullptr;
     try {
         elements = (ArrayOf*)ArrayOf::allocateArrayOf(
@@ -137,7 +138,13 @@ h5ReadReferenceAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& 
         return ArrayOf();
     }
 
-    hdset_reg_ref_t* rdata = new_with_exception<hdset_reg_ref_t>(dims.getElementCount(), false);
+	hdset_reg_ref_t* rdata = nullptr; 
+	try {
+        rdata = new_with_exception<hdset_reg_ref_t>(dims.getElementCount(), false);
+    } catch (Exception& e) {
+        error = e.getMessage();
+        return ArrayOf();
+	}
     herr_t status = H5Aread(attr_id, H5T_STD_REF_DSETREG, rdata);
 
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);

@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "h5ReadOpaqueAttribute.hpp"
-#include "h5ReadAttributeHelpers.hpp"
+#include "h5ReadHelpers.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
@@ -29,7 +29,8 @@ h5ReadOpaqueAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& err
     hsize_t storageSize = H5Aget_storage_size(attr_id);
     hsize_t sizeType = H5Tget_size(type);
     size_t numVal = storageSize / sizeType;
-    Dimensions dims = getDimensions(aspace);
+    int rank;
+    Dimensions dims = getDimensions(aspace, rank);
     ArrayOf* elements;
     try {
         elements = new_with_exception<ArrayOf>(numVal, false);

@@ -199,12 +199,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp\h5ReadArrayAttribute.hpp" />
-    <ClInclude Include="..\cpp\h5ReadAttributeHelpers.hpp" />
+    <ClInclude Include="..\cpp\h5ReadFloatDataset.hpp" />
+    <ClInclude Include="..\cpp\h5ReadHelpers.hpp" />
     <ClInclude Include="..\cpp\h5ReadBitfieldAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadCompoundAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadEnumAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadFloatAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadIntegerAttribute.hpp" />
+    <ClInclude Include="..\cpp\h5ReadIntegerDataset.hpp" />
     <ClInclude Include="..\cpp\h5ReadOpaqueAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadReferenceAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadStringAttribute.hpp" />
@@ -221,12 +223,14 @@
     <ClCompile Include="..\cpp\h5Read.cpp" />
     <ClCompile Include="..\cpp\h5ReadArrayAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadAttribute.cpp" />
-    <ClCompile Include="..\cpp\h5ReadAttributeHelpers.cpp" />
+    <ClCompile Include="..\cpp\h5ReadFloatDataset.cpp" />
+    <ClCompile Include="..\cpp\h5ReadHelpers.cpp" />
     <ClCompile Include="..\cpp\h5ReadBitfieldAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadCompoundAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadEnumAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadFloatAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadIntegerAttribute.cpp" />
+    <ClCompile Include="..\cpp\h5ReadIntegerDataset.cpp" />
     <ClCompile Include="..\cpp\h5ReadOpaqueAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadReferenceAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadStringAttribute.cpp" />

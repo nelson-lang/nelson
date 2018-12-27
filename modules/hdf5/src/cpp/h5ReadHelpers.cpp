@@ -16,17 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "h5ReadAttributeHelpers.hpp"
+#include "h5ReadHelpers.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 Dimensions
-getDimensions(hid_t space_id)
+getDimensions(hid_t space_id, int &rank)
 {
     Dimensions dims;
     if (space_id > 0) {
-        indexType rank = H5Sget_simple_extent_ndims(space_id);
+        rank = H5Sget_simple_extent_ndims(space_id);
         if (rank > 0) {
             hsize_t* len = new_with_exception<hsize_t>(rank, false);
             int ret = H5Sget_simple_extent_dims(space_id, len, NULL);
@@ -44,7 +44,9 @@ getDimensions(hid_t space_id)
             }
             delete[] len;
         }
-    }
+    } else {
+        rank = -1;
+	}
     if (dims.getLength() == 1) {
         dims[1] = 1;
     }
