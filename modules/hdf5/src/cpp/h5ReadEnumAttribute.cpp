@@ -76,7 +76,8 @@ h5ReadEnumAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error
         }
     } break;
     }
-    void* buffer = ArrayOf::allocateArrayOf(outputClass, dims.getElementCount(), stringVector(), true);
+    void* buffer
+        = ArrayOf::allocateArrayOf(outputClass, dims.getElementCount(), stringVector(), true);
     if (H5Aread(attr_id, type, buffer) < 0) {
         delete[] elements;
         error = _W("Cannot read attribute.");

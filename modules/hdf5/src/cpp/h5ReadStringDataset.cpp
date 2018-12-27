@@ -54,7 +54,7 @@ h5ReadStringDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring&
             herr_t err = H5Dvlen_reclaim(type_id, dspace_id, H5P_DEFAULT, temp);
             delete[] temp;
             H5Sclose(memtype);
-		} else {
+        } else {
             hsize_t lenMax = sizeType + 1;
             char* temp;
             try {
@@ -123,7 +123,7 @@ h5ReadStringDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring&
                 error = e.getMessage();
                 return res;
             }
-			hid_t memtype = H5Tcopy(H5T_C_S1);
+            hid_t memtype = H5Tcopy(H5T_C_S1);
             hid_t hstatus = H5Tset_size(memtype, lenMax);
             if (H5Dread(dset_id, memtype, H5S_ALL, H5S_ALL, H5P_DEFAULT, temp) < 0) {
                 H5Tclose(memtype);
@@ -145,7 +145,7 @@ h5ReadStringDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring&
                 int nbSpaceToAdd = (int)(sizeType - str.length());
                 for (int l = 0; l < nbSpaceToAdd; l++) {
                     str.push_back(' ');
-				}
+                }
                 elements[k] = ArrayOf::characterArrayConstructor(str);
             }
             H5Tclose(memtype);

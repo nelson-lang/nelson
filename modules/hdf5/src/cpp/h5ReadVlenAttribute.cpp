@@ -171,13 +171,13 @@ h5ReadVlenAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error
     hsize_t sizeType = H5Tget_size(type);
     int rank;
     Dimensions dims = getDimensions(aspace, rank);
-    hvl_t* rdata = nullptr; 
-	try {
+    hvl_t* rdata = nullptr;
+    try {
         rdata = (hvl_t*)new_with_exception<hvl_t>(dims.getElementCount(), false);
     } catch (Exception& e) {
         error = e.getMessage();
         return ArrayOf();
-	}
+    }
     if (H5Aread(attr_id, type, rdata) < 0) {
         error = _W("Cannot read attribute.");
         return ArrayOf();

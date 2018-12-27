@@ -32,7 +32,8 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName) {
+h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
+{
     ArrayOf res;
     if (filename.empty()) {
         Error(_W("Valid filename expected."));
@@ -65,7 +66,7 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName) {
         Error(_W("Impossible to open hdf5 file."));
     }
 
-	hid_t dset_id = H5Dopen(fid, wstring_to_utf8(dataSetName).c_str(), H5P_DEFAULT);
+    hid_t dset_id = H5Dopen(fid, wstring_to_utf8(dataSetName).c_str(), H5P_DEFAULT);
     if (dset_id < 0) {
         H5Fclose(fid);
         Error("Impossible to read data set");
@@ -80,7 +81,7 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName) {
 
     hid_t type_id = H5Dget_type(dset_id);
     std::wstring errorMessage;
-	switch (H5Tget_class(type_id)) {
+    switch (H5Tget_class(type_id)) {
     case H5T_STRING: {
         res = h5ReadStringDataset(dset_id, type_id, dspace_id, errorMessage);
     } break;
@@ -125,7 +126,7 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName) {
     } break;
     }
 
-	 if (!errorMessage.empty()) {
+    if (!errorMessage.empty()) {
         Error(errorMessage);
     }
     H5Dclose(dset_id);

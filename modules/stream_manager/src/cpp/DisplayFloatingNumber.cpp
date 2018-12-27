@@ -69,7 +69,7 @@ IsIntegerValues(ArrayOf A, T& minVal, T& maxVal)
         } else {
             return false;
         }
-        
+
     } else // NLS_DCOMPLEX
     {
         T* pValueA = (T*)A.getDataPointer();

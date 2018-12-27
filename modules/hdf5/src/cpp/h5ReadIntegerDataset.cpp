@@ -90,13 +90,13 @@ h5ReadIntegerDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring
         hsize_t* h5_maxdims = nullptr;
         try {
             h5_dims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
-        } catch (Exception&e) {
+        } catch (Exception& e) {
             error = e.getMessage();
             return ArrayOf();
         }
         try {
             h5_maxdims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
-        } catch (Exception&e) {
+        } catch (Exception& e) {
             delete[] h5_dims;
             error = e.getMessage();
             return ArrayOf();
@@ -114,7 +114,7 @@ h5ReadIntegerDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring
             res = ArrayOf(outputClass, dims, ptr);
             H5Sclose(memspace);
             error = _W("Cannot read data set.");
-			res = ArrayOf();
+            res = ArrayOf();
         } else {
             res = ArrayOf(outputClass, dims, ptr);
             H5Sclose(memspace);

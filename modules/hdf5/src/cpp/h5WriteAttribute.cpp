@@ -33,13 +33,13 @@ createMatrix(const ArrayOf& attributeValue, hid_t& dspace_id)
 {
     Dimensions dimsValue = attributeValue.getDimensions();
     hsize_t* dimsAsHsize_t = nullptr;
-    indexType nbElementsSizeData; 
+    indexType nbElementsSizeData;
     if (dimsValue.isScalar()) {
         dimsAsHsize_t = new_with_exception<hsize_t>(1, true);
         nbElementsSizeData = 1;
         dimsAsHsize_t[0] = 1;
         dspace_id = H5Screate_simple((int)1, dimsAsHsize_t, dimsAsHsize_t);
- 	} else {
+    } else {
         dimsAsHsize_t = new_with_exception<hsize_t>(dimsValue.getLength(), true);
         nbElementsSizeData = dimsValue.getLength();
         for (indexType k = 1; k <= nbElementsSizeData; k++) {
@@ -135,7 +135,7 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
     uint32 uint32_scalar = (uint32)0;
     uint64 uint64_scalar = (uint64)0;
 
-	hid_t type_id;
+    hid_t type_id;
     hid_t mem_type_id;
 
     switch (attributeValue.getDataClass()) {
@@ -151,10 +151,10 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
         } else if (attributeValue.isRowVector()) {
             std::wstring value = attributeValue.getContentAsWideString();
             value_utf8 = wstring_to_utf8(value);
-			dspace_id = H5Screate(H5S_SCALAR);
+            dspace_id = H5Screate(H5S_SCALAR);
             type_id = H5Tcopy(H5T_C_S1);
             mem_type_id = type_id;
-			H5Tset_size(type_id, value_utf8.length());
+            H5Tset_size(type_id, value_utf8.length());
             H5Tset_strpad(type_id, H5T_STR_NULLTERM);
             buffer = (void*)value_utf8.c_str();
         } else {
@@ -168,7 +168,7 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
         mem_type_id = type_id;
         if (attributeValue.isEmpty()) {
             dspace_id = H5Screate(H5S_SCALAR);
-			H5Tset_size(type_id, 0);
+            H5Tset_size(type_id, 0);
             double_scalar = 0;
             buffer = &double_scalar;
         } else {
@@ -178,19 +178,19 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
     case NLS_SINGLE: {
         type_id = H5Tcopy(H5T_NATIVE_FLOAT);
         mem_type_id = type_id;
-		if (attributeValue.isEmpty()) {
+        if (attributeValue.isEmpty()) {
             dspace_id = H5Screate(H5S_NULL);
             H5Tset_size(type_id, 0);
             single_scalar = 0;
             buffer = &single_scalar;
-		} else {
+        } else {
             buffer = createMatrix(attributeValue, dspace_id);
         }
     } break;
     case NLS_SCOMPLEX: {
         type_id = H5Tcopy(H5T_NATIVE_FLOAT);
         mem_type_id = type_id;
-		if (attributeValue.isEmpty()) {
+        if (attributeValue.isEmpty()) {
             dspace_id = H5Screate(H5S_NULL);
             H5Tset_size(type_id, 0);
             single_scalar = 0;
@@ -226,7 +226,7 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
     case NLS_INT8: {
         type_id = H5Tcopy(H5T_NATIVE_SCHAR);
         mem_type_id = type_id;
-		if (attributeValue.isEmpty()) {
+        if (attributeValue.isEmpty()) {
             dspace_id = H5Screate(H5S_NULL);
             H5Tset_size(type_id, 0);
             int8_scalar = 0;
@@ -250,7 +250,7 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
     case NLS_INT16: {
         type_id = H5Tcopy(H5T_NATIVE_SHORT);
         mem_type_id = type_id;
-		if (attributeValue.isEmpty()) {
+        if (attributeValue.isEmpty()) {
             dspace_id = H5Screate(H5S_NULL);
             H5Tset_size(type_id, 0);
             int16_scalar = 0;
@@ -262,7 +262,7 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
     case NLS_UINT16: {
         type_id = H5Tcopy(H5T_NATIVE_USHORT);
         mem_type_id = type_id;
-		if (attributeValue.isEmpty()) {
+        if (attributeValue.isEmpty()) {
             dspace_id = H5Screate(H5S_NULL);
             H5Tset_size(type_id, 0);
             uint16_scalar = 0;

@@ -51,7 +51,7 @@ h5ReadArrayFloatAttribute(hid_t attr_id, hid_t type, Dimensions dimsOutput, std:
     } else {
         res = ArrayOf(outputClass, dimsOutput, ptrVoid);
     }
-	return res;
+    return res;
 }
 //=============================================================================
 static ArrayOf

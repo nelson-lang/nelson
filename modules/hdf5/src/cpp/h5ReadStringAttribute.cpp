@@ -30,7 +30,7 @@ h5ReadStringAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& err
     hsize_t sizeType = H5Tget_size(type);
     size_t numVal = storageSize / sizeType;
 
-	if (numVal == 0) {
+    if (numVal == 0) {
         res = ArrayOf::characterArrayConstructor("");
     } else if (numVal == 1) {
         bool isVlenString = H5Tis_variable_str(type);
@@ -116,8 +116,7 @@ h5ReadStringAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& err
             }
             indexType pos = 0;
             for (indexType k = 0; k < dims.getElementCount(); k++) {
-                std::string str;
-                str = temp[k];
+                std::string str = temp[k];
                 elements[k] = ArrayOf::characterArrayConstructor(str);
             }
             herr_t err = H5Dvlen_reclaim(type, aspace, H5P_DEFAULT, temp);

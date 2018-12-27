@@ -22,7 +22,7 @@
 namespace Nelson {
 //=============================================================================
 Dimensions
-getDimensions(hid_t space_id, int &rank)
+getDimensions(hid_t space_id, int& rank)
 {
     Dimensions dims;
     if (space_id > 0) {
@@ -46,7 +46,7 @@ getDimensions(hid_t space_id, int &rank)
         }
     } else {
         rank = -1;
-	}
+    }
     if (dims.getLength() == 1) {
         dims[1] = 1;
     }

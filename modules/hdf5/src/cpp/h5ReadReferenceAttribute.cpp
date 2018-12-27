@@ -138,13 +138,13 @@ h5ReadReferenceAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& 
         return ArrayOf();
     }
 
-	hdset_reg_ref_t* rdata = nullptr; 
-	try {
+    hdset_reg_ref_t* rdata = nullptr;
+    try {
         rdata = new_with_exception<hdset_reg_ref_t>(dims.getElementCount(), false);
     } catch (Exception& e) {
         error = e.getMessage();
         return ArrayOf();
-	}
+    }
     herr_t status = H5Aread(attr_id, H5T_STD_REF_DSETREG, rdata);
 
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);

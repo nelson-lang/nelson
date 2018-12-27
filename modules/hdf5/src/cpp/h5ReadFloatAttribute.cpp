@@ -43,14 +43,14 @@ h5ReadFloatAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& erro
         res = ArrayOf::emptyConstructor(dims);
         res.promoteType(outputClass);
     } else {
-        void* ptr = nullptr; 
+        void* ptr = nullptr;
         try {
             ptr = ArrayOf::allocateArrayOf(
                 outputClass, dims.getElementCount(), stringVector(), false);
         } catch (Exception& e) {
             error = e.getMessage();
             return ArrayOf();
-		}
+        }
         if (H5Aread(attr_id, type, ptr) < 0) {
             res = ArrayOf(outputClass, dims, ptr);
             res = ArrayOf();

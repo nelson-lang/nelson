@@ -45,7 +45,7 @@ h5ReadOpaqueDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring&
         return res;
     }
 
-	if (H5Dread(dset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, temp) < 0) {
+    if (H5Dread(dset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, temp) < 0) {
         delete[] elements;
         delete[] temp;
         error = _W("Cannot read dataset.");

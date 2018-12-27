@@ -146,7 +146,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
     if (isEmpty()) {
         if (dp == nullptr) {
             io->outputMessage("[]");
-		} else {
+        } else {
             if (dp->dataClass == NLS_CHAR) {
                 io->outputMessage("''");
             } else {
