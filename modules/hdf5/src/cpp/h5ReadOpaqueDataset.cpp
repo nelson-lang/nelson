@@ -16,43 +16,43 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "h5ReadOpaqueAttribute.hpp"
+#include "h5ReadOpaqueDataset.hpp"
 #include "h5ReadHelpers.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadOpaqueAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error)
+h5ReadOpaqueDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring& error)
 {
     ArrayOf res;
-    hsize_t storageSize = H5Aget_storage_size(attr_id);
-    hsize_t sizeType = H5Tget_size(type);
-    size_t numVal = storageSize / sizeType;
+    hsize_t storageSize = H5Aget_storage_size(dset_id);
+    hsize_t sizeType = H5Tget_size(type_id);
     int rank;
-    Dimensions dims = getDimensions(aspace, rank);
+    Dimensions dims = getDimensions(dspace_id, rank);
     ArrayOf* elements;
     try {
-        elements = new_with_exception<ArrayOf>(numVal, false);
+        elements = new_with_exception<ArrayOf>(dims.getElementCount(), false);
     } catch (Exception& e) {
         error = e.getMessage();
         return res;
     }
     uint8* temp;
     try {
-        temp = new_with_exception<uint8>(storageSize, false);
+        temp = new_with_exception<uint8>(sizeType * dims.getElementCount(), false);
     } catch (Exception& e) {
         error = e.getMessage();
         return res;
     }
-    if (H5Aread(attr_id, type, temp) < 0) {
+
+	if (H5Dread(dset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, temp) < 0) {
         delete[] elements;
         delete[] temp;
-        error = _W("Cannot read attribute.");
+        error = _W("Cannot read dataset.");
         return res;
     }
     indexType pos = 0;
-    for (indexType k = 0; k < numVal; k++) {
+    for (indexType k = 0; k < dims.getElementCount(); k++) {
         Dimensions dimsElement(sizeType, 1);
         uint8* values;
         try {

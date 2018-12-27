@@ -6,47 +6,26 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('h5read'), 2);
-assert_isequal(nargout('h5read'), 1);
+#pragma once
 //=============================================================================
-h5_directory = [modulepath('hdf5'), '/tests/h5'];
+#include <boost/container/vector.hpp>
+#include "nlsHdf5_exports.h"
+#include "ArrayOf.hpp"
 //=============================================================================
-double_data = [h5_directory, '/h5ex_t_float.h5'];
-R = h5read(double_data,'/DS1');
-assert_isequal(class(R), 'double');
-assert_isequal(size(R), [4 7]);
-REF = [ 0    1.0000    2.0000    3.0000    4.0000    5.0000    6.0000;
-    2.0000    1.6667    2.4000    3.2857    4.2222    5.1818    6.1538;
-    4.0000    2.3333    2.8000    3.5714    4.4444    5.3636    6.3077;
-    6.0000    3.0000    3.2000    3.8571    4.6667    5.5455    6.4615];
-assert_isapprox(R, REF, 1e-4);
+namespace Nelson {
 //=============================================================================
-integer_data = [h5_directory, '/h5ex_t_int.h5'];
-R = h5read(integer_data,'/DS1');
-REF = int64([0    -1    -2    -3    -4    -5    -6;
-     0     0     0     0     0     0     0;
-     0     1     2     3     4     5     6;
-     0     2     4     6     8    10    12]);
-assert_isequal(R, REF);
+NLSHDF5_IMPEXP ArrayOf
+h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName);
 //=============================================================================
-opaque_data = [h5_directory, '/h5ex_t_opaque.h5'];
-R = h5read(opaque_data, '/DS1');
-assert_isequal(class(R), 'cell');
-assert_isequal(size(R), [4 1]);
-REF_1 = uint8([79 ; 80 ; 65 ; 81 ; 85 ; 69 ; 49 ]);
-REF_2 = uint8([79 ; 80 ; 65 ; 81 ; 85 ; 69 ; 50 ]);
-REF_3 = uint8([79 ; 80 ; 65 ; 81 ; 85 ; 69 ; 51 ]);
-REF_4 = uint8([79 ; 80 ; 65 ; 81 ; 85 ; 69 ; 52 ]);
-REF = {REF_1 ; REF_2 ; REF_3 ; REF_4};
-assert_isequal(R, REF);
+} // namespace Nelson
 //=============================================================================

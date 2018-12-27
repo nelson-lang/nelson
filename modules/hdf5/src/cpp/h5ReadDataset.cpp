@@ -22,14 +22,15 @@
 #include <boost/filesystem/path.hpp>
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
-#include "h5Read.hpp"
+#include "h5ReadDataset.hpp"
 #include "h5ReadFloatDataset.hpp"
 #include "h5ReadIntegerDataset.hpp"
+#include "h5ReadOpaqueDataset.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5Read(const std::wstring& filename, const std::wstring& dataSetName) {
+h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName) {
     ArrayOf res;
     if (filename.empty()) {
         Error(_W("Valid filename expected."));
@@ -91,7 +92,7 @@ h5Read(const std::wstring& filename, const std::wstring& dataSetName) {
 
     } break;
     case H5T_OPAQUE: {
-
+        res = h5ReadOpaqueDataset(dset_id, type_id, dspace_id, errorMessage);
     } break;
     case H5T_COMPOUND: {
 

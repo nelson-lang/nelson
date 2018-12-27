@@ -18,14 +18,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/container/vector.hpp>
-#include "nlsHdf5_exports.h"
+#define H5_BUILT_AS_DYNAMIC_LIB
+#include <hdf5.h>
+#include <string>
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSHDF5_IMPEXP ArrayOf
-h5Read(const std::wstring& filename, const std::wstring& dataSetName);
+ArrayOf
+h5ReadOpaqueDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring& error);
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

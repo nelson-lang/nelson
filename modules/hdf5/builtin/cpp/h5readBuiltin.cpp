@@ -18,7 +18,7 @@
 //=============================================================================
 #include "h5readBuiltin.hpp"
 #include "Error.hpp"
-#include "h5Read.hpp"
+#include "h5ReadDataset.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -44,7 +44,7 @@ Nelson::Hdf5Gateway::h5readBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
 		Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
 	} break;
 	}
-    retval.push_back(h5Read(filename, datasetname));
+    retval.push_back(h5ReadDataset(filename, datasetname));
     return retval;
 }
 //=============================================================================

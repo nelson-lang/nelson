@@ -208,11 +208,12 @@
     <ClInclude Include="..\cpp\h5ReadIntegerAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadIntegerDataset.hpp" />
     <ClInclude Include="..\cpp\h5ReadOpaqueAttribute.hpp" />
+    <ClInclude Include="..\cpp\h5ReadOpaqueDataset.hpp" />
     <ClInclude Include="..\cpp\h5ReadReferenceAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadStringAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadVlenAttribute.hpp" />
     <ClInclude Include="..\include\h5Create.hpp" />
-    <ClInclude Include="..\include\h5Read.hpp" />
+    <ClInclude Include="..\include\h5ReadDataset.hpp" />
     <ClInclude Include="..\include\h5ReadAttribute.hpp" />
     <ClInclude Include="..\include\h5WriteAttribute.hpp" />
     <ClInclude Include="..\include\HDF5_helpers.hpp" />
@@ -220,7 +221,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\h5Create.cpp" />
-    <ClCompile Include="..\cpp\h5Read.cpp" />
+    <ClCompile Include="..\cpp\h5ReadDataset.cpp" />
     <ClCompile Include="..\cpp\h5ReadArrayAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadFloatDataset.cpp" />
@@ -232,6 +233,7 @@
     <ClCompile Include="..\cpp\h5ReadIntegerAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadIntegerDataset.cpp" />
     <ClCompile Include="..\cpp\h5ReadOpaqueAttribute.cpp" />
+    <ClCompile Include="..\cpp\h5ReadOpaqueDataset.cpp" />
     <ClCompile Include="..\cpp\h5ReadReferenceAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadStringAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadVlenAttribute.cpp" />
