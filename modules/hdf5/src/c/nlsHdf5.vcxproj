@@ -212,6 +212,7 @@
     <ClInclude Include="..\cpp\h5ReadOpaqueDataset.hpp" />
     <ClInclude Include="..\cpp\h5ReadReferenceAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadStringAttribute.hpp" />
+    <ClInclude Include="..\cpp\h5ReadStringDataset.hpp" />
     <ClInclude Include="..\cpp\h5ReadVlenAttribute.hpp" />
     <ClInclude Include="..\include\h5Create.hpp" />
     <ClInclude Include="..\include\h5ReadDataset.hpp" />
@@ -238,6 +239,7 @@
     <ClCompile Include="..\cpp\h5ReadOpaqueDataset.cpp" />
     <ClCompile Include="..\cpp\h5ReadReferenceAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadStringAttribute.cpp" />
+    <ClCompile Include="..\cpp\h5ReadStringDataset.cpp" />
     <ClCompile Include="..\cpp\h5ReadVlenAttribute.cpp" />
     <ClCompile Include="..\cpp\h5WriteAttribute.cpp" />
     <ClCompile Include="..\cpp\HDF5_helpers.cpp" />

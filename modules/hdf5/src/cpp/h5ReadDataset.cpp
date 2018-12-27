@@ -27,6 +27,7 @@
 #include "h5ReadIntegerDataset.hpp"
 #include "h5ReadOpaqueDataset.hpp"
 #include "h5ReadBitfieldDataset.hpp"
+#include "h5ReadStringDataset.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -81,7 +82,7 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName) {
     std::wstring errorMessage;
 	switch (H5Tget_class(type_id)) {
     case H5T_STRING: {
-
+        res = h5ReadStringDataset(dset_id, type_id, dspace_id, errorMessage);
     } break;
     case H5T_INTEGER: {
         res = h5ReadIntegerDataset(dset_id, type_id, dspace_id, errorMessage);
