@@ -58,9 +58,13 @@ REF = uint8([     0    80   160   240     0    80   160;
    204    30   108   190   204    30   108]);
 assert_isequal(R, REF);
 //=============================================================================
-h5_directory = [modulepath('hdf5'), '/tests/h5'];
 string_data = [h5_directory, '/h5ex_t_string.h5'];
 R = h5read(string_data, '/DS1');
+REF = {'Parting'; 'is such'; 'sweet  '; 'sorrow.'};
+assert_isequal(R, REF);
+//=============================================================================
+vlstring_data = [h5_directory, '/h5ex_t_vlstring.h5'];
+R = h5read(vlstring_data, '/DS1');
 REF = {'Parting'; 'is such'; 'sweet  '; 'sorrow.'};
 assert_isequal(R, REF);
 //=============================================================================

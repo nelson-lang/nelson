@@ -90,19 +90,22 @@ h5ReadIntegerDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring
         hsize_t* h5_maxdims = nullptr;
         try {
             h5_dims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
-        } catch (Exception& e) {
-            throw;
+        } catch (Exception&e) {
+            error = e.getMessage();
+            return ArrayOf();
         }
         try {
             h5_maxdims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
-        } catch (Exception& e) {
-            throw;
+        } catch (Exception&e) {
+            delete[] h5_dims;
+            error = e.getMessage();
+            return ArrayOf();
         }
-
         if (H5Sget_simple_extent_dims(dspace_id, h5_dims, h5_maxdims) < 0) {
             delete[] h5_dims;
             delete[] h5_maxdims;
-            Error("Impossible to read dimensions and maximum size of dataset.");
+            error = _W("Impossible to read dimensions and maximum size of dataset.");
+            return ArrayOf();
         }
         hid_t memspace = H5Screate_simple(rank, h5_dims, NULL);
         delete[] h5_dims;
@@ -110,8 +113,8 @@ h5ReadIntegerDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring
         if (H5Dread(dset_id, dataType, memspace, dspace_id, H5P_DEFAULT, ptr) < 0) {
             res = ArrayOf(outputClass, dims, ptr);
             H5Sclose(memspace);
-            res = ArrayOf();
             error = _W("Cannot read data set.");
+			res = ArrayOf();
         } else {
             res = ArrayOf(outputClass, dims, ptr);
             H5Sclose(memspace);

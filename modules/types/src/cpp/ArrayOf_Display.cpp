@@ -144,10 +144,14 @@ void
 ArrayOf::summarizeCellEntry(Interface* io) const
 {
     if (isEmpty()) {
-        if (dp->dataClass == NLS_CHAR) {
-            io->outputMessage("''");
-        } else {
+        if (dp == nullptr) {
             io->outputMessage("[]");
+		} else {
+            if (dp->dataClass == NLS_CHAR) {
+                io->outputMessage("''");
+            } else {
+                io->outputMessage("[]");
+            }
         }
     } else {
         switch (dp->dataClass) {

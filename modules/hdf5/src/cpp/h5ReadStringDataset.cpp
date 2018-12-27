@@ -34,23 +34,42 @@ h5ReadStringDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring&
         res = ArrayOf::characterArrayConstructor("");
     } else if (dims.isScalar()) {
         if (isVlenString) {
-        } else {
+            char** temp;
+            try {
+                temp = new_with_exception<char*>(1, true);
+            } catch (Exception& e) {
+                error = e.getMessage();
+                return res;
+            }
+            hid_t memtype = H5Tcopy(H5T_C_S1);
+            H5Tset_size(memtype, H5T_VARIABLE);
+            if (H5Dread(dset_id, memtype, H5S_ALL, H5S_ALL, H5P_DEFAULT, temp) < 0) {
+                H5Tclose(memtype);
+                delete[] temp;
+                error = _W("Cannot read attribute.");
+                return res;
+            }
+            std::string str = temp[0];
+            res = ArrayOf::characterArrayConstructor(str);
+            herr_t err = H5Dvlen_reclaim(type_id, dspace_id, H5P_DEFAULT, temp);
+            delete[] temp;
+            H5Sclose(memtype);
+		} else {
             hsize_t lenMax = sizeType + 1;
             char* temp;
             try {
                 temp = new_with_exception<char>(lenMax, true);
             } catch (Exception& e) {
                 error = e.getMessage();
-                return res;
+                return ArrayOf();
             }
-
             hid_t memtype = H5Tcopy(H5T_C_S1);
             hid_t hstatus = H5Tset_size(memtype, lenMax);
             if (H5Dread(dset_id, memtype, H5S_ALL, H5S_ALL, H5P_DEFAULT, temp) < 0) {
                 H5Tclose(memtype);
                 delete[] temp;
                 error = _W("Cannot read attribute.");
-                return res;
+                return ArrayOf();
             }
             indexType pos = 0;
             std::string str;
@@ -70,8 +89,31 @@ h5ReadStringDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring&
             error = e.getMessage();
             return res;
         }
-
         if (isVlenString) {
+            char** temp;
+            try {
+                temp = new_with_exception<char*>(dims.getElementCount(), true);
+            } catch (Exception& e) {
+                error = e.getMessage();
+                return res;
+            }
+            hid_t memtype = H5Tcopy(H5T_C_S1);
+            H5Tset_size(memtype, H5T_VARIABLE);
+            if (H5Dread(dset_id, memtype, H5S_ALL, H5S_ALL, H5P_DEFAULT, temp) < 0) {
+                H5Tclose(memtype);
+                delete[] elements;
+                delete[] temp;
+                error = _W("Cannot read attribute.");
+                return res;
+            }
+            for (indexType k = 0; k < dims.getElementCount(); k++) {
+                std::string str;
+                str = temp[k];
+                elements[k] = ArrayOf::characterArrayConstructor(str);
+            }
+            herr_t err = H5Dvlen_reclaim(type_id, dspace_id, H5P_DEFAULT, temp);
+            delete[] temp;
+            H5Sclose(memtype);
         } else {
             hsize_t lenMax = sizeType + 1;
             char* temp;
@@ -81,7 +123,6 @@ h5ReadStringDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring&
                 error = e.getMessage();
                 return res;
             }
-
 			hid_t memtype = H5Tcopy(H5T_C_S1);
             hid_t hstatus = H5Tset_size(memtype, lenMax);
             if (H5Dread(dset_id, memtype, H5S_ALL, H5S_ALL, H5P_DEFAULT, temp) < 0) {
