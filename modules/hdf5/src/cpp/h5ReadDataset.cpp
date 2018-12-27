@@ -26,6 +26,7 @@
 #include "h5ReadFloatDataset.hpp"
 #include "h5ReadIntegerDataset.hpp"
 #include "h5ReadOpaqueDataset.hpp"
+#include "h5ReadBitfieldDataset.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -89,7 +90,7 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName) {
         res = h5ReadFloatDataset(dset_id, type_id, dspace_id, errorMessage);
     } break;
     case H5T_BITFIELD: {
-
+        res = h5ReadBitfieldDataset(dset_id, type_id, dspace_id, errorMessage);
     } break;
     case H5T_OPAQUE: {
         res = h5ReadOpaqueDataset(dset_id, type_id, dspace_id, errorMessage);

@@ -16,22 +16,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "h5ReadBitfieldAttribute.hpp"
+#include "h5ReadOpaqueDataset.hpp"
 #include "h5ReadHelpers.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadBitfieldAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error)
+h5ReadBitfieldDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring& error)
 {
     ArrayOf res;
-    hsize_t storageSize = H5Aget_storage_size(attr_id);
-    hsize_t sizeType = H5Tget_size(type);
+    hsize_t storageSize = H5Aget_storage_size(dset_id);
+    hsize_t sizeType = H5Tget_size(type_id);
     int rank;
-    Dimensions dims = getDimensions(aspace, rank);
+    Dimensions dims = getDimensions(dspace_id, rank);
     Class outputClass;
-    void* ptrVoid = nullptr;
     hid_t dataType;
     switch (sizeType) {
     case 1: {
@@ -59,15 +58,44 @@ h5ReadBitfieldAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& e
         res = ArrayOf::emptyConstructor(dims);
         res.promoteType(outputClass);
     } else {
-        ptrVoid
-            = ArrayOf::allocateArrayOf(outputClass, dims.getElementCount(), stringVector(), false);
-    }
-    if (H5Aread(attr_id, dataType, ptrVoid) < 0) {
-        error = _W("Cannot read attribute.");
-        res = ArrayOf(outputClass, dims, ptrVoid);
-        res = ArrayOf();
-    } else {
-        res = ArrayOf(outputClass, dims, ptrVoid);
+        void* ptr = nullptr;
+        try {
+            ptr = ArrayOf::allocateArrayOf(
+                outputClass, dims.getElementCount(), stringVector(), false);
+        } catch (Exception& e) {
+            error = e.getMessage();
+            return ArrayOf();
+        }
+        hsize_t* h5_dims = nullptr;
+        hsize_t* h5_maxdims = nullptr;
+        try {
+            h5_dims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
+        } catch (Exception&) {
+            throw;
+        }
+        try {
+            h5_maxdims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
+        } catch (Exception&) {
+            throw;
+        }
+
+        if (H5Sget_simple_extent_dims(dspace_id, h5_dims, h5_maxdims) < 0) {
+            delete[] h5_dims;
+            delete[] h5_maxdims;
+            Error("Impossible to read dimensions and maximum size of dataset.");
+        }
+        hid_t memspace = H5Screate_simple(rank, h5_dims, NULL);
+        delete[] h5_dims;
+        delete[] h5_maxdims;
+        if (H5Dread(dset_id, dataType, memspace, dspace_id, H5P_DEFAULT, ptr) < 0) {
+            res = ArrayOf(outputClass, dims, ptr);
+            H5Sclose(memspace);
+            res = ArrayOf();
+            error = _W("Cannot read data set.");
+        } else {
+            res = ArrayOf(outputClass, dims, ptr);
+            H5Sclose(memspace);
+        }
     }
     return res;
 }
