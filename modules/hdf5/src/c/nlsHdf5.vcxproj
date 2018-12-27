@@ -210,6 +210,7 @@
     <ClInclude Include="..\cpp\h5ReadStringAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadVlenAttribute.hpp" />
     <ClInclude Include="..\include\h5Create.hpp" />
+    <ClInclude Include="..\include\h5Read.hpp" />
     <ClInclude Include="..\include\h5ReadAttribute.hpp" />
     <ClInclude Include="..\include\h5WriteAttribute.hpp" />
     <ClInclude Include="..\include\HDF5_helpers.hpp" />
@@ -217,6 +218,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\h5Create.cpp" />
+    <ClCompile Include="..\cpp\h5Read.cpp" />
     <ClCompile Include="..\cpp\h5ReadArrayAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadAttributeHelpers.cpp" />

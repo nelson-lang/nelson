@@ -208,6 +208,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\h5createBuiltin.hpp" />
     <ClInclude Include="..\include\h5readattBuiltin.hpp" />
+    <ClInclude Include="..\include\h5readBuiltin.hpp" />
     <ClInclude Include="..\include\h5writeattBuiltin.hpp" />
     <ClInclude Include="..\include\nlsHdf5_builtin_exports.h" />
   </ItemGroup>
@@ -215,6 +216,7 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\h5createBuiltin.cpp" />
     <ClCompile Include="..\cpp\h5readattBuiltin.cpp" />
+    <ClCompile Include="..\cpp\h5readBuiltin.cpp" />
     <ClCompile Include="..\cpp\h5writeattBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
