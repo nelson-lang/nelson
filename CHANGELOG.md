@@ -18,7 +18,7 @@ Compilation:
 ---------
 
   * BOOST 1.68 on Windows
-
+  * Eigen 3.3.7
 
 ## 0.2.11 (2018-11-24)
 
