@@ -6,6 +6,7 @@ Features:
 * h5writeatt: Writes HDF5 attribute.
 * h5readatt: Read HDF5 attribute.
 * h5dump: Dump the content of an hdf5 on the standard output stream.
+* h5ls: List the content of an hdf5.
 
 Bug Fixes:
 ---------
