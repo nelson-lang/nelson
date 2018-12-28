@@ -139,6 +139,8 @@ h5ReadArrayAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& erro
         error = _W("Type not managed.");
     } else if (H5Tequal(type, H5T_ARRAY)) {
         error = _W("Type not managed.");
+    } else {
+        error = _W("Type not managed.");
     }
     return res;
 }

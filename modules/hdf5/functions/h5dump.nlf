@@ -16,5 +16,34 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addgateway(modulepath(nelsonroot(), 'hdf5', 'builtin'))
-addpath(modulepath(nelsonroot(), 'hdf5', 'functions'))
+function varargout = h5dump(varargin)
+  if (nargin > 2 || nargin == 0)
+    error(_W('Wrong number of input arguments.'));
+  end
+  if nargout > 1
+    error(_W('Wrong number of output arguments.'));
+  end
+  h5filename = string(varargin{1});
+  if nargin == 2
+   h5path = string(varargin{2});
+  else
+    h5path = "";
+  end
+  exe = "h5dump";
+  if h5path == ""
+    cmd = [exe + " " + h5filename];
+  else 
+    cmd = [exe + " -d " + h5path + " " + h5filename];
+  end
+  cmd = cmd{1};
+  [status, msg] = unix(cmd);
+  if status ~= 0
+    error(msg);
+  else
+    if (nargout == 0)
+      disp(msg)
+    else
+      varargout{1} = msg;
+    end
+  end
+endfunction

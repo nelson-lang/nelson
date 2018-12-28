@@ -19,37 +19,39 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
 * On debian/ubuntu distribution:
     - Prerequirements:
         ```bash
-      sudo apt-get install libopenmpi-dev
-      sudo apt-get install openmpi-bin
-      sudo apt-get install gettext
-      sudo apt-get install pkg-config
-      sudo apt-get install cmake
-      sudo apt-get install libffi-dev
-      sudo apt-get install libicu-dev
-      sudo apt-get install libxml2-dev
-      sudo apt-get install liblapack-dev
-      sudo apt-get install liblapacke-dev
-      sudo apt-get install fftw3
-      sudo apt-get install fftw3-dev
-      sudo apt-get install libasound-dev
-      sudo apt-get install portaudio19-dev
-      sudo apt-get install libsndfile1-dev
-      sudo apt-get install libtag1-dev
-      sudo apt-get install alsa-utils
-      sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
-      sudo apt-get update
-      sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev
-      sudo apt-get install qt5-default qttools5-dev-tools
-      sudo apt-get install libqt5qml-graphicaleffects
-      sudo apt-get install libqt5opengl5-dev
-      sudo apt-get install qtbase5-private-dev
-      sudo apt-get install qtdeclarative5-dev
-      sudo apt-get install qtdeclarative5-controls-plugin
-      sudo apt-get install qtdeclarative5-quicklayouts-plugin
-      sudo apt-get install qtdeclarative5-qtquick2-plugin
-      sudo apt-get install qtdeclarative5-dialogs-plugin
-      sudo apt-get install qtdeclarative5-window-plugin      
-        ```
+      sudo apt-get install libopenmpi-dev;
+      sudo apt-get install openmpi-bin;
+      sudo apt-get install gettext;
+      sudo apt-get install pkg-config;
+      sudo apt-get install cmake;
+      sudo apt-get install libffi-dev;
+      sudo apt-get install libicu-dev;
+      sudo apt-get install libxml2-dev;
+      sudo apt-get install liblapack-dev;
+      sudo apt-get install liblapacke-dev;
+      sudo apt-get install fftw3;
+      sudo apt-get install fftw3-dev;
+      sudo apt-get install libasound-dev;
+      sudo apt-get install portaudio19-dev;
+      sudo apt-get install libsndfile1-dev;
+      sudo apt-get install libtag1-dev;
+      sudo apt-get install alsa-utils;
+      sudo apt-get install libhdf5-dev;
+      sudo apt-get install hdf5-tools;
+      sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa;
+      sudo apt-get update;
+      sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev;
+      sudo apt-get install qt5-default qttools5-dev-tools;
+      sudo apt-get install libqt5qml-graphicaleffects;
+      sudo apt-get install libqt5opengl5-dev;
+      sudo apt-get install qtbase5-private-dev;
+      sudo apt-get install qtdeclarative5-dev;
+      sudo apt-get install qtdeclarative5-controls-plugin;
+      sudo apt-get install qtdeclarative5-quicklayouts-plugin;
+      sudo apt-get install qtdeclarative5-qtquick2-plugin;
+      sudo apt-get install qtdeclarative5-dialogs-plugin;
+      sudo apt-get install qtdeclarative5-window-plugin;      
+    ```
 
     - Get and install Eigen library (minimal 3.3.4)
         ```bash
@@ -181,15 +183,19 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
     - install some brew packages
         ```bash
       brew update;
+      brew unlink libffi;
+      brew install libffi;
+      brew unlink libffi;
+      brew link --force libffi;
+      brew uninstall icu4c;
+      brew install icu4c;
+      brew unlink icu4c;
+      brew link icu4c --force;
       brew info open-mpi;
       brew install openmpi;
       brew install python3;
       brew upgrade python;
-      brew install libffi;
-      brew install icu4c;
-      brew link --force icu4c;
       brew install pkg-config;
-      brew link --force libffi;
       brew install pkgconfig;
       brew install gettext;
       brew link --force gettext;
@@ -201,6 +207,7 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
       brew install portaudio;
       brew install libsndfile;
       brew install taglib;
+      brew install hdf5; 
          ```
     - Install LAPACKE
     By default easier way is to build and install reference LAPACK library (https://github.com/Reference-LAPACK/lapack-release).
