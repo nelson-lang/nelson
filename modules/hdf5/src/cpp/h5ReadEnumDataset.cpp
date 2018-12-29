@@ -83,8 +83,7 @@ h5ReadEnumDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring& e
         error = e.getMessage();
         return ArrayOf();
     }
-	if (H5Dread(dset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer) < 0)
-    {
+    if (H5Dread(dset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer) < 0) {
         delete[] elements;
         error = _W("Cannot read dataset.");
         return ArrayOf();

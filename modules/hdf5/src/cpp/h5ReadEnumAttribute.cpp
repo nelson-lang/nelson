@@ -79,9 +79,9 @@ h5ReadEnumAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error
     try {
         buffer
             = ArrayOf::allocateArrayOf(outputClass, dims.getElementCount(), stringVector(), true);
-	} catch (Exception& e) {
+    } catch (Exception& e) {
         delete[] elements;
-		error = e.getMessage();
+        error = e.getMessage();
         return ArrayOf();
     }
     if (H5Aread(attr_id, type, buffer) < 0) {
@@ -130,7 +130,8 @@ h5ReadEnumAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error
         delete[] elements;
         error = _W("Type not managed.");
         return ArrayOf();
-	} break; }
+    } break;
+    }
     indexType k = 0;
     herr_t status;
     for (indexType i = 0; i < dims.getElementCount(); i++) {

@@ -30,7 +30,7 @@ const std::wstring gatewayName = L"hdf5";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "h5write", Nelson::Hdf5Gateway::h5writeBuiltin, 0, 3, CPP_BUILTIN },
-	{ "h5writeatt", Nelson::Hdf5Gateway::h5writeattBuiltin, 0, -1, CPP_BUILTIN },
+    { "h5writeatt", Nelson::Hdf5Gateway::h5writeattBuiltin, 0, -1, CPP_BUILTIN },
     { "h5readatt", Nelson::Hdf5Gateway::h5readattBuiltin, 1, 3, CPP_BUILTIN },
     { "h5read", Nelson::Hdf5Gateway::h5readBuiltin, 1, 2, CPP_BUILTIN },
     { "h5create", Nelson::Hdf5Gateway::h5createBuiltin, 0, -4, CPP_BUILTIN },

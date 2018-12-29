@@ -102,14 +102,14 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
     hid_t type_id = H5I_INVALID_HID;
     hid_t dspace_id = H5I_INVALID_HID;
     std::wstring error;
-	buffer = h5WriteNelsonToHdf5(attributeValue, type_id, dspace_id, error);
+    buffer = h5WriteNelsonToHdf5(attributeValue, type_id, dspace_id, error);
     if (!error.empty()) {
         H5Aclose(exists);
-		H5Oclose(obj_id);
+        H5Oclose(obj_id);
         H5Fclose(fid);
-		Error(error);
+        Error(error);
     }
-	hid_t att_id = H5I_INVALID_HID;
+    hid_t att_id = H5I_INVALID_HID;
     if (H5Aexists(obj_id, wstring_to_utf8(attributeName).c_str()))
         att_id = H5Aopen(obj_id, wstring_to_utf8(attributeName).c_str(), H5P_DEFAULT);
     else {
