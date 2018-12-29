@@ -25,32 +25,9 @@
 #include "Exception.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
+#include "h5WriteHelpers.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-void*
-createMatrix(const ArrayOf& attributeValue, hid_t& dspace_id)
-{
-    Dimensions dimsValue = attributeValue.getDimensions();
-    hsize_t* dimsAsHsize_t = nullptr;
-    indexType nbElementsSizeData;
-    if (dimsValue.isScalar()) {
-        dimsAsHsize_t = new_with_exception<hsize_t>(1, true);
-        nbElementsSizeData = 1;
-        dimsAsHsize_t[0] = 1;
-        dspace_id = H5Screate_simple((int)1, dimsAsHsize_t, dimsAsHsize_t);
-    } else {
-        dimsAsHsize_t = new_with_exception<hsize_t>(dimsValue.getLength(), true);
-        nbElementsSizeData = dimsValue.getLength();
-        for (indexType k = 1; k <= nbElementsSizeData; k++) {
-            dimsAsHsize_t[k - 1] = (hsize_t)dimsValue[nbElementsSizeData - k];
-        }
-        dspace_id = H5Screate_simple((int)dimsValue.getLength(), dimsAsHsize_t, dimsAsHsize_t);
-    }
-    delete[] dimsAsHsize_t;
-    void* buffer = (void*)attributeValue.getDataPointer();
-    return buffer;
-}
 //=============================================================================
 void
 h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
@@ -93,7 +70,6 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
     if (fid == H5I_INVALID_HID) {
         Error(_W("Open file failed."));
     }
-    hid_t dspace_id;
     if (location != L"/" && !H5Lexists(fid, wstring_to_utf8(location).c_str(), H5P_DEFAULT)) {
         H5Fclose(fid);
         Error(_W("Specified HDF5 object location does not exist."));
@@ -123,211 +99,17 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
         attributeValue.makeDense();
     }
     void* buffer = nullptr;
-    std::string value_utf8;
-    single single_scalar = (single)0;
-    auto double_scalar = static_cast<double>(0);
-    int8 int8_scalar = (int8)0;
-    int16 int16_scalar = (int16)0;
-    int32 int32_scalar = (int32)0;
-    int64 int64_scalar = (int64)0;
-    uint8 uint8_scalar = (uint8)0;
-    uint16 uint16_scalar = (uint16)0;
-    uint32 uint32_scalar = (uint32)0;
-    uint64 uint64_scalar = (uint64)0;
-
-    hid_t type_id;
-    hid_t mem_type_id;
-
-    switch (attributeValue.getDataClass()) {
-    case NLS_CHAR: {
-        if (attributeValue.isEmpty()) {
-            value_utf8 = "";
-            dspace_id = H5Screate(H5S_NULL);
-            type_id = H5Tcopy(H5T_C_S1);
-            mem_type_id = type_id;
-            H5Tset_size(type_id, 0);
-            H5Tset_strpad(type_id, H5T_STR_NULLTERM);
-            buffer = (void*)value_utf8.c_str();
-        } else if (attributeValue.isRowVector()) {
-            std::wstring value = attributeValue.getContentAsWideString();
-            value_utf8 = wstring_to_utf8(value);
-            dspace_id = H5Screate(H5S_SCALAR);
-            type_id = H5Tcopy(H5T_C_S1);
-            mem_type_id = type_id;
-            H5Tset_size(type_id, value_utf8.length());
-            H5Tset_strpad(type_id, H5T_STR_NULLTERM);
-            buffer = (void*)value_utf8.c_str();
-        } else {
-            H5Oclose(obj_id);
-            H5Fclose(fid);
-            Error(_W("row vector characters expected."));
-        }
-    } break;
-    case NLS_DOUBLE: {
-        type_id = H5Tcopy(H5T_NATIVE_DOUBLE);
-        mem_type_id = type_id;
-        if (attributeValue.isEmpty()) {
-            dspace_id = H5Screate(H5S_SCALAR);
-            H5Tset_size(type_id, 0);
-            double_scalar = 0;
-            buffer = &double_scalar;
-        } else {
-            buffer = createMatrix(attributeValue, dspace_id);
-        }
-    } break;
-    case NLS_SINGLE: {
-        type_id = H5Tcopy(H5T_NATIVE_FLOAT);
-        mem_type_id = type_id;
-        if (attributeValue.isEmpty()) {
-            dspace_id = H5Screate(H5S_NULL);
-            H5Tset_size(type_id, 0);
-            single_scalar = 0;
-            buffer = &single_scalar;
-        } else {
-            buffer = createMatrix(attributeValue, dspace_id);
-        }
-    } break;
-    case NLS_SCOMPLEX: {
-        type_id = H5Tcopy(H5T_NATIVE_FLOAT);
-        mem_type_id = type_id;
-        if (attributeValue.isEmpty()) {
-            dspace_id = H5Screate(H5S_NULL);
-            H5Tset_size(type_id, 0);
-            single_scalar = 0;
-            buffer = &single_scalar;
-        } else {
-            H5Aclose(exists);
-            H5Oclose(obj_id);
-            H5Fclose(fid);
-            Error(_W("Complex number not supported."));
-        }
-    } break;
-    case NLS_DCOMPLEX: {
-        type_id = H5Tcopy(H5T_NATIVE_DOUBLE);
-        mem_type_id = type_id;
-        if (attributeValue.isEmpty()) {
-            dspace_id = H5Screate(H5S_SCALAR);
-            H5Tset_size(type_id, 0);
-            double_scalar = 0;
-            buffer = &double_scalar;
-        } else {
-            H5Aclose(exists);
-            H5Oclose(obj_id);
-            H5Fclose(fid);
-            Error(_W("Complex number not supported."));
-        }
-    } break;
-    case NLS_STRING_ARRAY: {
+    hid_t type_id = H5I_INVALID_HID;
+    hid_t dspace_id = H5I_INVALID_HID;
+    std::wstring error;
+	buffer = h5WriteNelsonToHdf5(attributeValue, type_id, dspace_id, error);
+    if (!error.empty()) {
         H5Aclose(exists);
-        H5Oclose(obj_id);
+		H5Oclose(obj_id);
         H5Fclose(fid);
-        Error(_W("String class not supported."));
-    } break;
-    case NLS_INT8: {
-        type_id = H5Tcopy(H5T_NATIVE_SCHAR);
-        mem_type_id = type_id;
-        if (attributeValue.isEmpty()) {
-            dspace_id = H5Screate(H5S_NULL);
-            H5Tset_size(type_id, 0);
-            int8_scalar = 0;
-            buffer = &int8_scalar;
-        } else {
-            buffer = createMatrix(attributeValue, dspace_id);
-        }
-    } break;
-    case NLS_UINT8: {
-        type_id = H5Tcopy(H5T_NATIVE_UCHAR);
-        mem_type_id = type_id;
-        if (attributeValue.isEmpty()) {
-            dspace_id = H5Screate(H5S_NULL);
-            H5Tset_size(type_id, 0);
-            uint8_scalar = 0;
-            buffer = &uint8_scalar;
-        } else {
-            buffer = createMatrix(attributeValue, dspace_id);
-        }
-    } break;
-    case NLS_INT16: {
-        type_id = H5Tcopy(H5T_NATIVE_SHORT);
-        mem_type_id = type_id;
-        if (attributeValue.isEmpty()) {
-            dspace_id = H5Screate(H5S_NULL);
-            H5Tset_size(type_id, 0);
-            int16_scalar = 0;
-            buffer = &int16_scalar;
-        } else {
-            buffer = createMatrix(attributeValue, dspace_id);
-        }
-    } break;
-    case NLS_UINT16: {
-        type_id = H5Tcopy(H5T_NATIVE_USHORT);
-        mem_type_id = type_id;
-        if (attributeValue.isEmpty()) {
-            dspace_id = H5Screate(H5S_NULL);
-            H5Tset_size(type_id, 0);
-            uint16_scalar = 0;
-            buffer = &uint16_scalar;
-        } else {
-            buffer = createMatrix(attributeValue, dspace_id);
-        }
-    } break;
-    case NLS_INT32: {
-        type_id = H5Tcopy(H5T_NATIVE_INT);
-        mem_type_id = type_id;
-        if (attributeValue.isEmpty()) {
-            dspace_id = H5Screate(H5S_NULL);
-            H5Tset_size(type_id, 0);
-            int32_scalar = 0;
-            buffer = &int32_scalar;
-        } else {
-            buffer = createMatrix(attributeValue, dspace_id);
-        }
-    } break;
-    case NLS_UINT32: {
-        type_id = H5Tcopy(H5T_NATIVE_UINT);
-        mem_type_id = type_id;
-        if (attributeValue.isEmpty()) {
-            dspace_id = H5Screate(H5S_NULL);
-            H5Tset_size(type_id, 0);
-            uint32_scalar = 0;
-            buffer = &uint32_scalar;
-        } else {
-            buffer = createMatrix(attributeValue, dspace_id);
-        }
-    } break;
-    case NLS_INT64: {
-        type_id = H5Tcopy(H5T_NATIVE_LLONG);
-        mem_type_id = type_id;
-        if (attributeValue.isEmpty()) {
-            dspace_id = H5Screate(H5S_NULL);
-            H5Tset_size(type_id, 0);
-            int64_scalar = 0;
-            buffer = &int64_scalar;
-        } else {
-            buffer = createMatrix(attributeValue, dspace_id);
-        }
-    } break;
-    case NLS_UINT64: {
-        type_id = H5Tcopy(H5T_NATIVE_ULLONG);
-        mem_type_id = type_id;
-        if (attributeValue.isEmpty()) {
-            dspace_id = H5Screate(H5S_NULL);
-            H5Tset_size(type_id, 0);
-            uint64_scalar = 0;
-            buffer = &uint64_scalar;
-        } else {
-            buffer = createMatrix(attributeValue, dspace_id);
-        }
-    } break;
-    default: {
-        H5Sclose(dspace_id);
-        H5Aclose(exists);
-        H5Oclose(obj_id);
-        H5Fclose(fid);
-        Error(_W("Type not managed."));
-    } break;
+		Error(error);
     }
-    hid_t att_id;
+	hid_t att_id = H5I_INVALID_HID;
     if (H5Aexists(obj_id, wstring_to_utf8(attributeName).c_str()))
         att_id = H5Aopen(obj_id, wstring_to_utf8(attributeName).c_str(), H5P_DEFAULT);
     else {
@@ -336,14 +118,13 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
     }
     herr_t status;
     if (att_id > 0) {
-        status = H5Awrite(att_id, mem_type_id, buffer);
+        status = H5Awrite(att_id, type_id, buffer);
     }
     H5Sclose(dspace_id);
     H5Aclose(exists);
     H5Aclose(att_id);
     H5Oclose(obj_id);
     H5Fclose(fid);
-
     if (status < 0) {
         Error(_W("Cannot write attribute."));
     }

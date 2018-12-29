@@ -215,10 +215,12 @@
     <ClInclude Include="..\cpp\h5ReadStringAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadStringDataset.hpp" />
     <ClInclude Include="..\cpp\h5ReadVlenAttribute.hpp" />
+    <ClInclude Include="..\cpp\h5WriteHelpers.hpp" />
     <ClInclude Include="..\include\h5Create.hpp" />
     <ClInclude Include="..\include\h5ReadDataset.hpp" />
     <ClInclude Include="..\include\h5ReadAttribute.hpp" />
     <ClInclude Include="..\include\h5WriteAttribute.hpp" />
+    <ClInclude Include="..\include\h5WriteDataset.hpp" />
     <ClInclude Include="..\include\HDF5_helpers.hpp" />
     <ClInclude Include="..\include\nlsHdf5_exports.h" />
   </ItemGroup>
@@ -244,6 +246,8 @@
     <ClCompile Include="..\cpp\h5ReadStringDataset.cpp" />
     <ClCompile Include="..\cpp\h5ReadVlenAttribute.cpp" />
     <ClCompile Include="..\cpp\h5WriteAttribute.cpp" />
+    <ClCompile Include="..\cpp\h5WriteDataset.cpp" />
+    <ClCompile Include="..\cpp\h5WriteHelpers.cpp" />
     <ClCompile Include="..\cpp\HDF5_helpers.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>

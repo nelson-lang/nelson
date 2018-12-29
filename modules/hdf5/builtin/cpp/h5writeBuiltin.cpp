@@ -16,38 +16,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
 #include "h5writeBuiltin.hpp"
-#include "h5writeattBuiltin.hpp"
-#include "h5readattBuiltin.hpp"
-#include "h5createBuiltin.hpp"
-#include "h5readBuiltin.hpp"
-#include "HDF5_helpers.hpp"
+#include "Error.hpp"
+#include "h5WriteDataset.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"hdf5";
+// h5write(filename, location, data)
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "h5write", Nelson::Hdf5Gateway::h5writeBuiltin, 0, 3, CPP_BUILTIN },
-	{ "h5writeatt", Nelson::Hdf5Gateway::h5writeattBuiltin, 0, -1, CPP_BUILTIN },
-    { "h5readatt", Nelson::Hdf5Gateway::h5readattBuiltin, 1, 3, CPP_BUILTIN },
-    { "h5read", Nelson::Hdf5Gateway::h5readBuiltin, 1, 2, CPP_BUILTIN },
-    { "h5create", Nelson::Hdf5Gateway::h5createBuiltin, 0, -4, CPP_BUILTIN },
-};
-//=============================================================================
-static bool
-initializeHdf5Module(Nelson::Evaluator* eval)
+ArrayOfVector
+Nelson::Hdf5Gateway::h5writeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    disableHdf5Warning();
-    return true;
+    ArrayOfVector retval;
+    if (nLhs != 0) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    indexType nbArgIn = argIn.size();
+    if (nbArgIn != 3) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    std::wstring filename = param1.getContentAsWideString();
+    ArrayOf param2 = argIn[1];
+    std::wstring location = param2.getContentAsWideString();
+    ArrayOf data = argIn[2];
+    h5WriteDataset(filename, location, data);
+    return retval;
 }
-//=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeHdf5Module)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
 //=============================================================================
