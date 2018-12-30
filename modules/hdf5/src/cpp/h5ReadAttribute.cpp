@@ -22,7 +22,7 @@
 #include <boost/filesystem/path.hpp>
 #include "h5ReadAttribute.hpp"
 #include "h5ReadString.hpp"
-#include "h5ReadIntegerAttribute.hpp"
+#include "h5ReadInteger.hpp"
 #include "h5ReadFloatAttribute.hpp"
 #include "h5ReadBitfieldAttribute.hpp"
 #include "h5ReadOpaqueAttribute.hpp"
@@ -99,7 +99,7 @@ h5ReadAttribute(
         res = h5ReadString(attr_id, type, aspace, true, errorMessage);
     } break;
     case H5T_INTEGER: {
-        res = h5ReadIntegerAttribute(attr_id, type, aspace, errorMessage);
+        res = h5ReadInteger(attr_id, type, aspace, true, errorMessage);
     } break;
     case H5T_FLOAT: {
         res = h5ReadFloatAttribute(attr_id, type, aspace, errorMessage);

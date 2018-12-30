@@ -207,8 +207,7 @@
     <ClInclude Include="..\cpp\h5ReadCompoundAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadEnumAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadFloatAttribute.hpp" />
-    <ClInclude Include="..\cpp\h5ReadIntegerAttribute.hpp" />
-    <ClInclude Include="..\cpp\h5ReadIntegerDataset.hpp" />
+    <ClInclude Include="..\cpp\h5ReadInteger.hpp" />
     <ClInclude Include="..\cpp\h5ReadOpaqueAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadOpaqueDataset.hpp" />
     <ClInclude Include="..\cpp\h5ReadReferenceAttribute.hpp" />
@@ -236,8 +235,7 @@
     <ClCompile Include="..\cpp\h5ReadCompoundAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadEnumAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadFloatAttribute.cpp" />
-    <ClCompile Include="..\cpp\h5ReadIntegerAttribute.cpp" />
-    <ClCompile Include="..\cpp\h5ReadIntegerDataset.cpp" />
+    <ClCompile Include="..\cpp\h5ReadInteger.cpp" />
     <ClCompile Include="..\cpp\h5ReadOpaqueAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadOpaqueDataset.cpp" />
     <ClCompile Include="..\cpp\h5ReadReferenceAttribute.cpp" />
