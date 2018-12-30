@@ -28,7 +28,7 @@
 #include "h5ReadOpaqueDataset.hpp"
 #include "h5ReadBitfieldDataset.hpp"
 #include "h5ReadString.hpp"
-#include "h5ReadEnumDataset.hpp"
+#include "h5ReadEnum.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -105,7 +105,7 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
 
     } break;
     case H5T_ENUM: {
-        res = h5ReadEnumDataset(dset_id, type_id, dspace_id, errorMessage);
+        res = h5ReadEnum(dset_id, type_id, dspace_id, false, errorMessage);
     } break;
     case H5T_VLEN: {
 

@@ -26,7 +26,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadEnumDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring& error);
+h5ReadEnum(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std::wstring& error);
 //=============================================================================
 }
 //=============================================================================

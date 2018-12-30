@@ -16,59 +16,59 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "h5ReadEnumAttribute.hpp"
+#include "h5ReadEnum.hpp"
 #include "h5ReadHelpers.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadEnumAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error)
+h5ReadEnum(
+    hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std::wstring& error)
 {
-    ArrayOf res;
-    hsize_t storageSize = H5Aget_storage_size(attr_id);
-    hsize_t sizeType = H5Tget_size(type);
+    hsize_t storageSize = H5Aget_storage_size(dset_id);
+    hsize_t sizeType = H5Tget_size(type_id);
     int rank;
-    Dimensions dims = getDimensions(aspace, rank);
+    Dimensions dims = getDimensions(dspace_id, rank);
     ArrayOf* elements;
     try {
         elements = new_with_exception<ArrayOf>(dims.getElementCount(), false);
     } catch (Exception& e) {
         error = e.getMessage();
-        return res;
+        return ArrayOf();
     }
     Class outputClass;
     switch (sizeType) {
     case 1: {
-        if (H5Tget_sign(type) == H5T_SGN_NONE) {
+        if (H5Tget_sign(type_id) == H5T_SGN_NONE) {
             outputClass = NLS_UINT8;
         } else {
             outputClass = NLS_INT8;
         }
     } break;
     case 2: {
-        if (H5Tget_sign(type) == H5T_SGN_NONE) {
+        if (H5Tget_sign(type_id) == H5T_SGN_NONE) {
             outputClass = NLS_UINT16;
         } else {
             outputClass = NLS_INT16;
         }
     } break;
     case 4: {
-        if (H5Tget_sign(type) == H5T_SGN_NONE) {
+        if (H5Tget_sign(type_id) == H5T_SGN_NONE) {
             outputClass = NLS_UINT32;
         } else {
             outputClass = NLS_INT32;
         }
     } break;
     case 8: {
-        if (H5Tget_sign(type) == H5T_SGN_NONE) {
+        if (H5Tget_sign(type_id) == H5T_SGN_NONE) {
             outputClass = NLS_UINT64;
         } else {
             outputClass = NLS_INT64;
         }
     } break;
     default: {
-        if (H5Tget_sign(type) == H5T_SGN_NONE) {
+        if (H5Tget_sign(type_id) == H5T_SGN_NONE) {
             outputClass = NLS_UINT8;
         } else {
             outputClass = NLS_INT8;
@@ -84,9 +84,19 @@ h5ReadEnumAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error
         error = e.getMessage();
         return ArrayOf();
     }
-    if (H5Aread(attr_id, type, buffer) < 0) {
+    herr_t status = H5I_INVALID_HID;
+    if (asAttribute) {
+        status = H5Aread(dset_id, type_id, buffer);
+    } else {
+        status = H5Dread(dset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
+    }
+    if (status < 0) {
         delete[] elements;
-        error = _W("Cannot read attribute.");
+        if (asAttribute) {
+            error = _W("Cannot read attribute.");
+        } else {
+            error = _W("Cannot read dataset.");
+        }
         return ArrayOf();
     }
     indexType pos = 0;
@@ -133,32 +143,31 @@ h5ReadEnumAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error
     } break;
     }
     indexType k = 0;
-    herr_t status;
     for (indexType i = 0; i < dims.getElementCount(); i++) {
         switch (outputClass) {
         case NLS_UINT8: {
-            status = H5Tenum_nameof(type, &ptrAsUINT8[i], name, LENGTH_NAME_MAX);
+            status = H5Tenum_nameof(type_id, &ptrAsUINT8[i], name, LENGTH_NAME_MAX);
         } break;
         case NLS_UINT16: {
-            status = H5Tenum_nameof(type, &ptrAsUINT16[i], name, LENGTH_NAME_MAX);
+            status = H5Tenum_nameof(type_id, &ptrAsUINT16[i], name, LENGTH_NAME_MAX);
         } break;
         case NLS_UINT32: {
-            status = H5Tenum_nameof(type, &ptrAsUINT32[i], name, LENGTH_NAME_MAX);
+            status = H5Tenum_nameof(type_id, &ptrAsUINT32[i], name, LENGTH_NAME_MAX);
         } break;
         case NLS_UINT64: {
-            status = H5Tenum_nameof(type, &ptrAsUINT64[i], name, LENGTH_NAME_MAX);
+            status = H5Tenum_nameof(type_id, &ptrAsUINT64[i], name, LENGTH_NAME_MAX);
         } break;
         case NLS_INT8: {
-            status = H5Tenum_nameof(type, &ptrAsINT8[i], name, LENGTH_NAME_MAX);
+            status = H5Tenum_nameof(type_id, &ptrAsINT8[i], name, LENGTH_NAME_MAX);
         } break;
         case NLS_INT16: {
-            status = H5Tenum_nameof(type, &ptrAsINT16[i], name, LENGTH_NAME_MAX);
+            status = H5Tenum_nameof(type_id, &ptrAsINT16[i], name, LENGTH_NAME_MAX);
         } break;
         case NLS_INT32: {
-            status = H5Tenum_nameof(type, &ptrAsINT32[i], name, LENGTH_NAME_MAX);
+            status = H5Tenum_nameof(type_id, &ptrAsINT32[i], name, LENGTH_NAME_MAX);
         } break;
         case NLS_INT64: {
-            status = H5Tenum_nameof(type, &ptrAsINT64[i], name, LENGTH_NAME_MAX);
+            status = H5Tenum_nameof(type_id, &ptrAsINT64[i], name, LENGTH_NAME_MAX);
         } break;
         default: { } break; }
         elements[i] = ArrayOf::characterArrayConstructor(name);

@@ -26,7 +26,7 @@
 #include "h5ReadFloat.hpp"
 #include "h5ReadBitfieldAttribute.hpp"
 #include "h5ReadOpaqueAttribute.hpp"
-#include "h5ReadEnumAttribute.hpp"
+#include "h5ReadEnum.hpp"
 #include "h5ReadArrayAttribute.hpp"
 #include "h5ReadCompoundAttribute.hpp"
 #include "h5ReadVlenAttribute.hpp"
@@ -117,7 +117,7 @@ h5ReadAttribute(
         res = h5ReadReferenceAttribute(attr_id, type, aspace, errorMessage);
     } break;
     case H5T_ENUM: {
-        res = h5ReadEnumAttribute(attr_id, type, aspace, errorMessage);
+        res = h5ReadEnum(attr_id, type, aspace, true, errorMessage);
     } break;
     case H5T_VLEN: {
         res = h5ReadVlenAttribute(attr_id, type, aspace, errorMessage);
