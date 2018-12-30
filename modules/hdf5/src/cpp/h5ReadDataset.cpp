@@ -25,7 +25,7 @@
 #include "h5ReadDataset.hpp"
 #include "h5ReadFloat.hpp"
 #include "h5ReadInteger.hpp"
-#include "h5ReadOpaqueDataset.hpp"
+#include "h5ReadOpaque.hpp"
 #include "h5ReadBitfieldDataset.hpp"
 #include "h5ReadString.hpp"
 #include "h5ReadEnum.hpp"
@@ -96,7 +96,7 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
         res = h5ReadBitfieldDataset(dset_id, type_id, dspace_id, errorMessage);
     } break;
     case H5T_OPAQUE: {
-        res = h5ReadOpaqueDataset(dset_id, type_id, dspace_id, errorMessage);
+        res = h5ReadOpaque(dset_id, type_id, dspace_id, false, errorMessage);
     } break;
     case H5T_COMPOUND: {
 

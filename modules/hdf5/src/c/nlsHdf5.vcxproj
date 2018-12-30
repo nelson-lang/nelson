@@ -206,8 +206,7 @@
     <ClInclude Include="..\cpp\h5ReadBitfieldAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadCompoundAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadInteger.hpp" />
-    <ClInclude Include="..\cpp\h5ReadOpaqueAttribute.hpp" />
-    <ClInclude Include="..\cpp\h5ReadOpaqueDataset.hpp" />
+    <ClInclude Include="..\cpp\h5ReadOpaque.hpp" />
     <ClInclude Include="..\cpp\h5ReadReferenceAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadString.hpp" />
     <ClInclude Include="..\cpp\h5ReadVlenAttribute.hpp" />
@@ -232,8 +231,7 @@
     <ClCompile Include="..\cpp\h5ReadBitfieldAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadCompoundAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadInteger.cpp" />
-    <ClCompile Include="..\cpp\h5ReadOpaqueAttribute.cpp" />
-    <ClCompile Include="..\cpp\h5ReadOpaqueDataset.cpp" />
+    <ClCompile Include="..\cpp\h5ReadOpaque.cpp" />
     <ClCompile Include="..\cpp\h5ReadReferenceAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadString.cpp" />
     <ClCompile Include="..\cpp\h5ReadVlenAttribute.cpp" />

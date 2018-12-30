@@ -22,7 +22,7 @@
 #include "h5ReadString.hpp"
 #include "h5ReadFloat.hpp"
 #include "h5ReadBitfieldAttribute.hpp"
-#include "h5ReadOpaqueAttribute.hpp"
+#include "h5ReadOpaque.hpp"
 #include "h5ReadEnum.hpp"
 #include "h5ReadArrayAttribute.hpp"
 #include "Exception.hpp"

@@ -16,17 +16,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "h5ReadOpaqueDataset.hpp"
+#include "h5ReadOpaque.hpp"
 #include "h5ReadHelpers.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadOpaqueDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring& error)
+h5ReadOpaque(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
-    hsize_t storageSize = H5Aget_storage_size(dset_id);
+    hsize_t storageSize = H5I_INVALID_HID;
+    if (asAttribute) {
+        storageSize = H5Aget_storage_size(dset_id);
+    } else {
+        storageSize = H5Dget_storage_size(dset_id);
+    }
     hsize_t sizeType = H5Tget_size(type_id);
     int rank;
     Dimensions dims = getDimensions(dspace_id, rank);
@@ -37,18 +42,27 @@ h5ReadOpaqueDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring&
         error = e.getMessage();
         return res;
     }
-    uint8* temp;
+    uint8* temp = nullptr;
     try {
         temp = new_with_exception<uint8>(sizeType * dims.getElementCount(), false);
     } catch (Exception& e) {
         error = e.getMessage();
         return res;
     }
-
-    if (H5Dread(dset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, temp) < 0) {
+	herr_t status = H5I_INVALID_HID;
+    if (asAttribute) {
+        status = H5Aread(dset_id, type_id, temp);
+    } else {
+        status = H5Dread(dset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, temp);
+    }
+    if (status < 0) {
         delete[] elements;
         delete[] temp;
-        error = _W("Cannot read dataset.");
+        if (asAttribute) {
+            error = _W("Cannot read attribute.");
+        } else {
+			error = _W("Cannot read dataset.");
+		}
         return res;
     }
     indexType pos = 0;
