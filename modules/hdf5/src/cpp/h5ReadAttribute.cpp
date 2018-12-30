@@ -28,7 +28,7 @@
 #include "h5ReadOpaque.hpp"
 #include "h5ReadEnum.hpp"
 #include "h5ReadArrayAttribute.hpp"
-#include "h5ReadCompoundAttribute.hpp"
+#include "h5ReadCompound.hpp"
 #include "h5ReadVlenAttribute.hpp"
 #include "h5ReadReferenceAttribute.hpp"
 #include "Exception.hpp"
@@ -111,7 +111,7 @@ h5ReadAttribute(
         res = h5ReadOpaque(attr_id, type, aspace, true, errorMessage);
     } break;
     case H5T_COMPOUND: {
-        res = h5ReadCompoundAttribute(attr_id, type, aspace, errorMessage);
+        res = h5ReadCompound(attr_id, type, aspace, true, errorMessage);
     } break;
     case H5T_REFERENCE: {
         res = h5ReadReferenceAttribute(attr_id, type, aspace, errorMessage);

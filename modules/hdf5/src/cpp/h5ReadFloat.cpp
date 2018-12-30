@@ -54,8 +54,7 @@ h5ReadFloat(
         }
 
 		hid_t memspace = H5I_INVALID_HID;
-        if (asAttribute) {
-        } else {
+        if (!asAttribute) {
             hsize_t* h5_dims = nullptr;
             hsize_t* h5_maxdims = nullptr;
             try {

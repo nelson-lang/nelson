@@ -76,3 +76,25 @@ REF = {'SOLID', 'SOLID' , 'SOLID', 'SOLID' , 'SOLID', 'SOLID' , 'SOLID';
     'SOLID', 'PLASMA', 'GAS'  , 'LIQUID', 'SOLID', 'PLASMA', 'GAS'};
 assert_isequal(R, REF);
 //=============================================================================
+compound_data = [h5_directory, '/h5ex_t_cmpd.h5'];
+R = h5read(compound_data, '/DS1');
+assert_istrue(isstruct(R));
+assert_isequal(fieldnames(R), {'serial_no'; 'location'; 'temperature'; 'pressure'});
+REF_serial_no = int32([ 1153;   1184;   1027;   1313]);
+assert_isequal(R.serial_no, REF_serial_no);
+REF_location = {'Exterior (static)';
+    'Intake';
+    'Intake manifold';
+    'Exhaust manifold' };
+assert_isequal(R.location, REF_location);
+REF_temperature = double([53.2300;
+     55.1200;
+    130.5500;
+   1252.8900]);
+assert_isequal(R.temperature, REF_temperature);
+REF_pressure = double([24.5700;
+     22.9500;
+     31.2300;
+     84.1100]);
+assert_isequal(R.pressure, REF_pressure);
+//=============================================================================

@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <memory>
-#include "h5ReadCompoundAttribute.hpp"
+#include "h5ReadCompound.hpp"
 #include "h5ReadHelpers.hpp"
 #include "h5ReadString.hpp"
 #include "h5ReadFloat.hpp"
@@ -303,24 +303,75 @@ h5ReadCompoundAttributeFloatMember(hsize_t sizeType, hid_t mType, const char* da
 }
 //=============================================================================
 ArrayOf
-h5ReadCompoundAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error)
+h5ReadCompound(
+    hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
-    hsize_t storageSize = H5Aget_storage_size(attr_id);
+    hsize_t storageSize = H5I_INVALID_HID;
+    if (asAttribute) {
+        storageSize = H5Aget_storage_size(attr_id);
+    } else {
+        storageSize = H5Dget_storage_size(attr_id);
+    }
     hsize_t sizeType = H5Tget_size(type);
     int rank;
     Dimensions dims = getDimensions(aspace, rank);
 
     std::unique_ptr<char[]> data(new char[storageSize]);
     if (!data.get()) {
-        error = _W("Cannot read attribute.");
+        if (asAttribute) {
+            error = _W("Cannot read attribute.");
+        } else {
+            error = _W("Cannot read dataset.");
+        }
         return ArrayOf();
     }
-    if (H5Aread(attr_id, type, data.get()) < 0) {
-        error = _W("Cannot read attribute.");
+    hid_t memspace = H5I_INVALID_HID;
+    if (!asAttribute) {
+        hsize_t* h5_dims = nullptr;
+        hsize_t* h5_maxdims = nullptr;
+        try {
+            h5_dims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
+        } catch (Exception& e) {
+            error = e.getMessage();
+            return ArrayOf();
+        }
+        try {
+            h5_maxdims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
+        } catch (Exception& e) {
+            error = e.getMessage();
+            return ArrayOf();
+        }
+        if (H5Sget_simple_extent_dims(aspace, h5_dims, h5_maxdims) < 0) {
+            delete[] h5_dims;
+            delete[] h5_maxdims;
+            Error("Impossible to read dimensions and maximum size of dataset.");
+        }
+        memspace = H5Screate_simple(rank, h5_dims, NULL);
+        delete[] h5_dims;
+        delete[] h5_maxdims;
+    }
+
+    herr_t h5readStatus = H5I_INVALID_HID;
+    if (asAttribute) {
+        h5readStatus = H5Aread(attr_id, type, data.get());
+    } else {
+        h5readStatus = H5Dread(attr_id, type, memspace, aspace, H5P_DEFAULT, data.get());
+    }
+
+    if (h5readStatus < 0) {
+        if (asAttribute) {
+            error = _W("Cannot read attribute.");
+        } else {
+            H5Sclose(memspace);
+            error = _W("Cannot read dataset.");
+        }
         return ArrayOf();
     }
 
+	if (!asAttribute) {
+        H5Sclose(memspace);
+    }
     stringVector fieldnames;
     ArrayOfVector fieldvalues;
 

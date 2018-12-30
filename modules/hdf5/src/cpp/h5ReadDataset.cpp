@@ -29,6 +29,7 @@
 #include "h5ReadBitfield.hpp"
 #include "h5ReadString.hpp"
 #include "h5ReadEnum.hpp"
+#include "h5ReadCompound.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -99,7 +100,7 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
         res = h5ReadOpaque(dset_id, type_id, dspace_id, false, errorMessage);
     } break;
     case H5T_COMPOUND: {
-
+        res = h5ReadCompound(dset_id, type_id, dspace_id, false, errorMessage);
     } break;
     case H5T_REFERENCE: {
 

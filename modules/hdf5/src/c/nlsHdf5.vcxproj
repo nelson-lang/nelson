@@ -203,7 +203,7 @@
     <ClInclude Include="..\cpp\h5ReadEnum.hpp" />
     <ClInclude Include="..\cpp\h5ReadFloat.hpp" />
     <ClInclude Include="..\cpp\h5ReadHelpers.hpp" />
-    <ClInclude Include="..\cpp\h5ReadCompoundAttribute.hpp" />
+    <ClInclude Include="..\cpp\h5ReadCompound.hpp" />
     <ClInclude Include="..\cpp\h5ReadInteger.hpp" />
     <ClInclude Include="..\cpp\h5ReadOpaque.hpp" />
     <ClInclude Include="..\cpp\h5ReadReferenceAttribute.hpp" />
@@ -227,7 +227,7 @@
     <ClCompile Include="..\cpp\h5ReadEnum.cpp" />
     <ClCompile Include="..\cpp\h5ReadFloat.cpp" />
     <ClCompile Include="..\cpp\h5ReadHelpers.cpp" />
-    <ClCompile Include="..\cpp\h5ReadCompoundAttribute.cpp" />
+    <ClCompile Include="..\cpp\h5ReadCompound.cpp" />
     <ClCompile Include="..\cpp\h5ReadInteger.cpp" />
     <ClCompile Include="..\cpp\h5ReadOpaque.cpp" />
     <ClCompile Include="..\cpp\h5ReadReferenceAttribute.cpp" />
