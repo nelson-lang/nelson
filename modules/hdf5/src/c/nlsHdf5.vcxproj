@@ -208,7 +208,7 @@
     <ClInclude Include="..\cpp\h5ReadOpaque.hpp" />
     <ClInclude Include="..\cpp\h5ReadReferenceAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadString.hpp" />
-    <ClInclude Include="..\cpp\h5ReadVlenAttribute.hpp" />
+    <ClInclude Include="..\cpp\h5ReadVlen.hpp" />
     <ClInclude Include="..\cpp\h5WriteHelpers.hpp" />
     <ClInclude Include="..\include\h5Create.hpp" />
     <ClInclude Include="..\include\h5ReadDataset.hpp" />
@@ -232,7 +232,7 @@
     <ClCompile Include="..\cpp\h5ReadOpaque.cpp" />
     <ClCompile Include="..\cpp\h5ReadReferenceAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadString.cpp" />
-    <ClCompile Include="..\cpp\h5ReadVlenAttribute.cpp" />
+    <ClCompile Include="..\cpp\h5ReadVlen.cpp" />
     <ClCompile Include="..\cpp\h5WriteAttribute.cpp" />
     <ClCompile Include="..\cpp\h5WriteDataset.cpp" />
     <ClCompile Include="..\cpp\h5WriteHelpers.cpp" />

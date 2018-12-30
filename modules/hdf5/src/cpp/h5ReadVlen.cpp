@@ -16,14 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "h5ReadVlenAttribute.hpp"
+#include "h5ReadVlen.hpp"
 #include "h5ReadHelpers.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-h5ReadVlenOpaqueAttribute(
+h5ReadVlenOpaque(
     hid_t attr_id, hid_t stype, const hvl_t* rdata, const Dimensions& dims, std::wstring& error)
 {
     ArrayOf* elements = nullptr;
@@ -52,7 +52,7 @@ h5ReadVlenOpaqueAttribute(
 }
 //=============================================================================
 static ArrayOf
-h5ReadVlenFloatAttribute(
+h5ReadVlenFloat(
     hid_t attr_id, hid_t stype, const hvl_t* rdata, const Dimensions& dims, std::wstring& error)
 {
     ArrayOf* elements = nullptr;
@@ -94,7 +94,7 @@ h5ReadVlenFloatAttribute(
 }
 //=============================================================================
 static ArrayOf
-h5ReadVlenIntegerAttribute(
+h5ReadVlenInteger(
     hid_t attr_id, hid_t stype, const hvl_t* rdata, const Dimensions& dims, std::wstring& error)
 {
     ArrayOf* elements = nullptr;
@@ -158,16 +158,21 @@ h5ReadVlenIntegerAttribute(
 }
 //=============================================================================
 static ArrayOf
-h5ReadVlenBitfieldAttribute(
+h5ReadVlenBitfield(
     hid_t attr_id, hid_t stype, const hvl_t* rdata, const Dimensions& dims, std::wstring& error)
 {
-    return h5ReadVlenIntegerAttribute(attr_id, stype, rdata, dims, error);
+    return h5ReadVlenInteger(attr_id, stype, rdata, dims, error);
 }
 //=============================================================================
 ArrayOf
-h5ReadVlenAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error)
+h5ReadVlen(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstring& error)
 {
-    hsize_t storageSize = H5Aget_storage_size(attr_id);
+    hsize_t storageSize = H5I_INVALID_HID;
+    if (asAttribute) {
+        storageSize = H5Aget_storage_size(attr_id);
+    } else {
+        storageSize = H5Dget_storage_size(attr_id);
+    }
     hsize_t sizeType = H5Tget_size(type);
     int rank;
     Dimensions dims = getDimensions(aspace, rank);
@@ -178,27 +183,69 @@ h5ReadVlenAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error
         error = e.getMessage();
         return ArrayOf();
     }
-    if (H5Aread(attr_id, type, rdata) < 0) {
-        error = _W("Cannot read attribute.");
+    hid_t memspace = H5I_INVALID_HID;
+    if (!asAttribute) {
+        hsize_t* h5_dims = nullptr;
+        hsize_t* h5_maxdims = nullptr;
+        try {
+            h5_dims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
+        } catch (Exception& e) {
+            error = e.getMessage();
+            return ArrayOf();
+        }
+        try {
+            h5_maxdims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
+        } catch (Exception& e) {
+            error = e.getMessage();
+            return ArrayOf();
+        }
+        if (H5Sget_simple_extent_dims(aspace, h5_dims, h5_maxdims) < 0) {
+            delete[] h5_dims;
+            delete[] h5_maxdims;
+            Error("Impossible to read dimensions and maximum size of dataset.");
+        }
+        memspace = H5Screate_simple(rank, h5_dims, NULL);
+        delete[] h5_dims;
+        delete[] h5_maxdims;
+    }
+
+    herr_t status = H5I_INVALID_HID;
+    if (asAttribute) {
+        status = H5Aread(attr_id, type, rdata);
+    } else {
+        status = H5Dread(attr_id, type, memspace, aspace, H5P_DEFAULT, rdata);
+    }
+
+    if (status < 0) {
+        if (asAttribute) {
+            error = _W("Cannot read attribute.");
+        } else {
+            H5Sclose(memspace);
+            error = _W("Cannot read dataset.");
+        }
         return ArrayOf();
     }
+
     hid_t stype = H5Tget_super(type);
     switch (H5Tget_class(stype)) {
     case H5T_INTEGER: {
-        return h5ReadVlenIntegerAttribute(attr_id, stype, rdata, dims, error);
+        return h5ReadVlenInteger(attr_id, stype, rdata, dims, error);
     } break;
     case H5T_FLOAT: {
-        return h5ReadVlenFloatAttribute(attr_id, stype, rdata, dims, error);
+        return h5ReadVlenFloat(attr_id, stype, rdata, dims, error);
     } break;
     case H5T_BITFIELD: {
-        return h5ReadVlenBitfieldAttribute(attr_id, stype, rdata, dims, error);
+        return h5ReadVlenBitfield(attr_id, stype, rdata, dims, error);
     } break;
     case H5T_OPAQUE: {
-        return h5ReadVlenOpaqueAttribute(attr_id, stype, rdata, dims, error);
+        return h5ReadVlenOpaque(attr_id, stype, rdata, dims, error);
     } break;
     default: {
         error = _W("Type not managed.");
     } break;
+    }
+    if (!asAttribute) {
+        H5Sclose(memspace);
     }
     H5Tclose(stype);
     return ArrayOf();

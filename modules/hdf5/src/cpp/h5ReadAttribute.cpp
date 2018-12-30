@@ -29,7 +29,7 @@
 #include "h5ReadEnum.hpp"
 #include "h5ReadArrayAttribute.hpp"
 #include "h5ReadCompound.hpp"
-#include "h5ReadVlenAttribute.hpp"
+#include "h5ReadVlen.hpp"
 #include "h5ReadReferenceAttribute.hpp"
 #include "Exception.hpp"
 #include "Error.hpp"
@@ -120,7 +120,7 @@ h5ReadAttribute(
         res = h5ReadEnum(attr_id, type, aspace, true, errorMessage);
     } break;
     case H5T_VLEN: {
-        res = h5ReadVlenAttribute(attr_id, type, aspace, errorMessage);
+        res = h5ReadVlen(attr_id, type, aspace, true, errorMessage);
     } break;
     case H5T_ARRAY: {
         res = h5ReadArrayAttribute(attr_id, type, aspace, errorMessage);

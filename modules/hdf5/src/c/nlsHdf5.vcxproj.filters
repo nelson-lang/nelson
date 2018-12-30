@@ -44,9 +44,6 @@
     <ClInclude Include="..\include\h5Create.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\cpp\h5ReadVlenAttribute.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\cpp\h5ReadReferenceAttribute.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -83,6 +80,9 @@
     <ClInclude Include="..\cpp\h5ReadCompound.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\cpp\h5ReadVlen.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\HDF5_helpers.cpp">
@@ -101,9 +101,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\h5Create.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\h5ReadVlenAttribute.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\h5ReadReferenceAttribute.cpp">
@@ -140,6 +137,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\h5ReadCompound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\h5ReadVlen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

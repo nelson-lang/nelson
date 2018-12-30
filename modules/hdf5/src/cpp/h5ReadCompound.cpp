@@ -30,7 +30,7 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-h5ReadCompoundAttributeOpaqueMember(hsize_t sizeType, hid_t mType, const char* data, size_t offset,
+h5ReadCompoundOpaqueMember(hsize_t sizeType, hid_t mType, const char* data, size_t offset,
     const Dimensions& dims, std::wstring& error)
 {
     uint8* ptrUINT8 = nullptr;
@@ -49,7 +49,7 @@ h5ReadCompoundAttributeOpaqueMember(hsize_t sizeType, hid_t mType, const char* d
 }
 //=============================================================================
 static ArrayOf
-h5ReadCompoundAttributeBitfieldMember(hsize_t sizeType, hid_t mType, const char* data,
+h5ReadCompoundBitfieldMember(hsize_t sizeType, hid_t mType, const char* data,
     size_t offset, const Dimensions& dims, std::wstring& error)
 {
     Class outputClass;
@@ -140,7 +140,7 @@ h5ReadCompoundAttributeBitfieldMember(hsize_t sizeType, hid_t mType, const char*
 }
 //=============================================================================
 static ArrayOf
-h5ReadCompoundAttributeIntegerMember(hsize_t sizeType, hid_t mType, const char* data, size_t offset,
+h5ReadCompoundIntegerMember(hsize_t sizeType, hid_t mType, const char* data, size_t offset,
     const Dimensions& dims, std::wstring& error)
 {
     Class outputClass;
@@ -231,7 +231,7 @@ h5ReadCompoundAttributeIntegerMember(hsize_t sizeType, hid_t mType, const char* 
 }
 //=============================================================================
 static ArrayOf
-h5ReadCompoundAttributeStringMember(hsize_t sizeType, hid_t mType, const char* data, size_t offset,
+h5ReadCompoundStringMember(hsize_t sizeType, hid_t mType, const char* data, size_t offset,
     const Dimensions& dims, std::wstring& error)
 {
     ArrayOf* ptrArrayOf = nullptr;
@@ -264,7 +264,7 @@ h5ReadCompoundAttributeStringMember(hsize_t sizeType, hid_t mType, const char* d
 }
 //=============================================================================
 static ArrayOf
-h5ReadCompoundAttributeFloatMember(hsize_t sizeType, hid_t mType, const char* data, size_t offset,
+h5ReadCompoundFloatMember(hsize_t sizeType, hid_t mType, const char* data, size_t offset,
     const Dimensions& dims, std::wstring& error)
 {
     ArrayOf fieldvalue;
@@ -389,23 +389,23 @@ h5ReadCompound(
         ArrayOf fieldvalue;
         switch (H5Tget_member_class(type, mIndex)) {
         case H5T_INTEGER: {
-            fieldvalue = h5ReadCompoundAttributeIntegerMember(
+            fieldvalue = h5ReadCompoundIntegerMember(
                 sizeType, mType, data.get(), offset, dims, error);
         } break;
         case H5T_STRING: {
-            fieldvalue = h5ReadCompoundAttributeStringMember(
+            fieldvalue = h5ReadCompoundStringMember(
                 sizeType, mType, data.get(), offset, dims, error);
         } break;
         case H5T_FLOAT: {
-            fieldvalue = h5ReadCompoundAttributeFloatMember(
+            fieldvalue = h5ReadCompoundFloatMember(
                 sizeType, mType, data.get(), offset, dims, error);
         } break;
         case H5T_BITFIELD: {
-            fieldvalue = h5ReadCompoundAttributeBitfieldMember(
+            fieldvalue = h5ReadCompoundBitfieldMember(
                 sizeType, mType, data.get(), offset, dims, error);
         } break;
         case H5T_OPAQUE: {
-            fieldvalue = h5ReadCompoundAttributeOpaqueMember(
+            fieldvalue = h5ReadCompoundOpaqueMember(
                 sizeType, mType, data.get(), offset, dims, error);
         } break;
         case H5T_TIME:
