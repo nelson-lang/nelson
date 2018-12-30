@@ -23,7 +23,7 @@
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
 #include "h5ReadDataset.hpp"
-#include "h5ReadFloatDataset.hpp"
+#include "h5ReadFloat.hpp"
 #include "h5ReadInteger.hpp"
 #include "h5ReadOpaqueDataset.hpp"
 #include "h5ReadBitfieldDataset.hpp"
@@ -90,7 +90,7 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
         res = h5ReadInteger(dset_id, type_id, dspace_id, false, errorMessage);
     } break;
     case H5T_FLOAT: {
-        res = h5ReadFloatDataset(dset_id, type_id, dspace_id, errorMessage);
+        res = h5ReadFloat(dset_id, type_id, dspace_id, false, errorMessage);
     } break;
     case H5T_BITFIELD: {
         res = h5ReadBitfieldDataset(dset_id, type_id, dspace_id, errorMessage);

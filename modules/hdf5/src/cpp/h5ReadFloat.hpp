@@ -26,7 +26,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadFloatAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error);
+h5ReadFloat(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std::wstring& error);
 //=============================================================================
 }
 //=============================================================================

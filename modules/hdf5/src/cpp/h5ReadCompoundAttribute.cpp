@@ -20,7 +20,7 @@
 #include "h5ReadCompoundAttribute.hpp"
 #include "h5ReadHelpers.hpp"
 #include "h5ReadString.hpp"
-#include "h5ReadFloatAttribute.hpp"
+#include "h5ReadFloat.hpp"
 #include "h5ReadBitfieldAttribute.hpp"
 #include "h5ReadOpaqueAttribute.hpp"
 #include "h5ReadEnumAttribute.hpp"

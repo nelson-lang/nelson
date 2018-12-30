@@ -16,17 +16,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "h5ReadFloatDataset.hpp"
+#include "h5ReadFloat.hpp"
 #include "h5ReadHelpers.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadFloatDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring& error)
+h5ReadFloat(
+    hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
-    hsize_t storageSize = H5Aget_storage_size(dset_id);
+    hsize_t storageSize = H5Dget_storage_size(dset_id);
     hsize_t sizeType = H5Tget_size(type_id);
     int rank;
     Dimensions dims = getDimensions(dspace_id, rank);
@@ -51,36 +52,54 @@ h5ReadFloatDataset(hid_t dset_id, hid_t type_id, hid_t dspace_id, std::wstring& 
             error = e.getMessage();
             return ArrayOf();
         }
-        hsize_t* h5_dims = nullptr;
-        hsize_t* h5_maxdims = nullptr;
-        try {
-            h5_dims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
-        } catch (Exception& e) {
-            error = e.getMessage();
-            return ArrayOf();
-        }
-        try {
-            h5_maxdims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
-        } catch (Exception& e) {
-            error = e.getMessage();
-            return ArrayOf();
-        }
-        if (H5Sget_simple_extent_dims(dspace_id, h5_dims, h5_maxdims) < 0) {
+
+		hid_t memspace = H5I_INVALID_HID;
+        if (asAttribute) {
+        } else {
+            hsize_t* h5_dims = nullptr;
+            hsize_t* h5_maxdims = nullptr;
+            try {
+                h5_dims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
+            } catch (Exception& e) {
+                error = e.getMessage();
+                return ArrayOf();
+            }
+            try {
+                h5_maxdims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
+            } catch (Exception& e) {
+                error = e.getMessage();
+                return ArrayOf();
+            }
+            if (H5Sget_simple_extent_dims(dspace_id, h5_dims, h5_maxdims) < 0) {
+                delete[] h5_dims;
+                delete[] h5_maxdims;
+                Error("Impossible to read dimensions and maximum size of dataset.");
+            }
+            memspace = H5Screate_simple(rank, h5_dims, NULL);
             delete[] h5_dims;
             delete[] h5_maxdims;
-            Error("Impossible to read dimensions and maximum size of dataset.");
         }
-        hid_t memspace = H5Screate_simple(rank, h5_dims, NULL);
-        delete[] h5_dims;
-        delete[] h5_maxdims;
-        if (H5Dread(dset_id, type_id, memspace, dspace_id, H5P_DEFAULT, ptr) < 0) {
+
+		herr_t status = H5I_INVALID_HID;
+		if (asAttribute) {
+            status = H5Aread(dset_id, type_id, ptr);
+        } else {
+            status = H5Dread(dset_id, type_id, memspace, dspace_id, H5P_DEFAULT, ptr);
+        }
+        if (status < 0) {
             res = ArrayOf(outputClass, dims, ptr);
-            H5Sclose(memspace);
             res = ArrayOf();
-            error = _W("Cannot read data set.");
+            if (asAttribute) {
+                error = _W("Cannot read attribute.");
+			} else {
+                H5Sclose(memspace);
+                error = _W("Cannot read dataset.");
+            }
         } else {
             res = ArrayOf(outputClass, dims, ptr);
+            if (!asAttribute) {
             H5Sclose(memspace);
+			}
         }
     }
     return res;
