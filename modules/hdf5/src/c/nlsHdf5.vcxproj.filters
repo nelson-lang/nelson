@@ -38,9 +38,6 @@
     <ClInclude Include="..\cpp\h5ReadEnumAttribute.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\cpp\h5ReadStringAttribute.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\cpp\h5ReadOpaqueAttribute.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -89,9 +86,6 @@
     <ClInclude Include="..\cpp\h5ReadBitfieldDataset.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\cpp\h5ReadStringDataset.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\cpp\h5ReadEnumDataset.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -99,6 +93,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\cpp\h5WriteHelpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\h5ReadString.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -122,9 +119,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\h5ReadOpaqueAttribute.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\h5ReadStringAttribute.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\h5ReadAttribute.cpp">
@@ -166,9 +160,6 @@
     <ClCompile Include="..\cpp\h5ReadBitfieldDataset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\h5ReadStringDataset.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\h5ReadEnumDataset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -176,6 +167,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\h5WriteHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\h5ReadString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

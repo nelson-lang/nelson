@@ -21,7 +21,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
 #include "h5ReadAttribute.hpp"
-#include "h5ReadStringAttribute.hpp"
+#include "h5ReadString.hpp"
 #include "h5ReadIntegerAttribute.hpp"
 #include "h5ReadFloatAttribute.hpp"
 #include "h5ReadBitfieldAttribute.hpp"
@@ -96,7 +96,7 @@ h5ReadAttribute(
     std::wstring errorMessage;
     switch (H5Tget_class(type)) {
     case H5T_STRING: {
-        res = h5ReadStringAttribute(attr_id, type, aspace, errorMessage);
+        res = h5ReadString(attr_id, type, aspace, true, errorMessage);
     } break;
     case H5T_INTEGER: {
         res = h5ReadIntegerAttribute(attr_id, type, aspace, errorMessage);
