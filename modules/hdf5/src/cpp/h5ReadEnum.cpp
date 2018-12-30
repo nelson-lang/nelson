@@ -26,7 +26,12 @@ ArrayOf
 h5ReadEnum(
     hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std::wstring& error)
 {
-    hsize_t storageSize = H5Aget_storage_size(dset_id);
+    hsize_t storageSize = H5I_INVALID_HID; 
+    if (asAttribute) {
+        storageSize = H5Aget_storage_size(dset_id);
+    } else {
+        storageSize = H5Dget_storage_size(dset_id);
+    }
     hsize_t sizeType = H5Tget_size(type_id);
     int rank;
     Dimensions dims = getDimensions(dspace_id, rank);

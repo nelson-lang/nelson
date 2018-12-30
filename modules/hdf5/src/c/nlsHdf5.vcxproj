@@ -199,11 +199,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp\h5ReadArrayAttribute.hpp" />
-    <ClInclude Include="..\cpp\h5ReadBitfieldDataset.hpp" />
+    <ClInclude Include="..\cpp\h5ReadBitfield.hpp" />
     <ClInclude Include="..\cpp\h5ReadEnum.hpp" />
     <ClInclude Include="..\cpp\h5ReadFloat.hpp" />
     <ClInclude Include="..\cpp\h5ReadHelpers.hpp" />
-    <ClInclude Include="..\cpp\h5ReadBitfieldAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadCompoundAttribute.hpp" />
     <ClInclude Include="..\cpp\h5ReadInteger.hpp" />
     <ClInclude Include="..\cpp\h5ReadOpaque.hpp" />
@@ -221,14 +220,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\h5Create.cpp" />
-    <ClCompile Include="..\cpp\h5ReadBitfieldDataset.cpp" />
+    <ClCompile Include="..\cpp\h5ReadBitfield.cpp" />
     <ClCompile Include="..\cpp\h5ReadDataset.cpp" />
     <ClCompile Include="..\cpp\h5ReadArrayAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadEnum.cpp" />
     <ClCompile Include="..\cpp\h5ReadFloat.cpp" />
     <ClCompile Include="..\cpp\h5ReadHelpers.cpp" />
-    <ClCompile Include="..\cpp\h5ReadBitfieldAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadCompoundAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadInteger.cpp" />
     <ClCompile Include="..\cpp\h5ReadOpaque.cpp" />

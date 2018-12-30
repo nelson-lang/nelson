@@ -27,7 +27,12 @@ h5ReadStringVlen(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, int 
     bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
-    hsize_t storageSize = H5Aget_storage_size(attr_id);
+    hsize_t storageSize = H5I_INVALID_HID; 
+    if (asAttribute) {
+        storageSize = H5Aget_storage_size(attr_id);
+    } else {
+        storageSize = H5Dget_storage_size(attr_id);
+    }
     hsize_t sizeType = H5Tget_size(type);
     ArrayOf* elements = nullptr;
     try {
@@ -90,7 +95,12 @@ static ArrayOf
 h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions &dims, int rank, bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
-    hsize_t storageSize = H5Aget_storage_size(attr_id);
+    hsize_t storageSize = H5I_INVALID_HID; 
+    if (asAttribute) {
+        storageSize = H5Aget_storage_size(attr_id);
+    } else {
+        storageSize = H5Dget_storage_size(attr_id);
+    }
     hsize_t sizeType = H5Tget_size(type);
     ArrayOf* elements = nullptr;
     indexType nbElements;
