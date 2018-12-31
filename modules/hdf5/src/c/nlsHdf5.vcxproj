@@ -198,7 +198,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\cpp\h5ReadArrayAttribute.hpp" />
+    <ClInclude Include="..\cpp\h5ReadArray.hpp" />
     <ClInclude Include="..\cpp\h5ReadBitfield.hpp" />
     <ClInclude Include="..\cpp\h5ReadEnum.hpp" />
     <ClInclude Include="..\cpp\h5ReadFloat.hpp" />
@@ -220,9 +220,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\h5Create.cpp" />
+    <ClCompile Include="..\cpp\h5ReadArray.cpp" />
     <ClCompile Include="..\cpp\h5ReadBitfield.cpp" />
     <ClCompile Include="..\cpp\h5ReadDataset.cpp" />
-    <ClCompile Include="..\cpp\h5ReadArrayAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadAttribute.cpp" />
     <ClCompile Include="..\cpp\h5ReadEnum.cpp" />
     <ClCompile Include="..\cpp\h5ReadFloat.cpp" />

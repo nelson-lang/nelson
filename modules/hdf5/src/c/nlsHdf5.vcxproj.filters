@@ -32,9 +32,6 @@
     <ClInclude Include="..\include\nlsHdf5_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\cpp\h5ReadArrayAttribute.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\h5ReadAttribute.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -83,15 +80,15 @@
     <ClInclude Include="..\cpp\h5ReadVlen.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\cpp\h5ReadArray.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\HDF5_helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dllMain.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\h5ReadArrayAttribute.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\h5ReadAttribute.cpp">
@@ -140,6 +137,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\h5ReadVlen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\h5ReadArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -27,7 +27,7 @@
 #include "h5ReadBitfield.hpp"
 #include "h5ReadOpaque.hpp"
 #include "h5ReadEnum.hpp"
-#include "h5ReadArrayAttribute.hpp"
+#include "h5ReadArray.hpp"
 #include "h5ReadCompound.hpp"
 #include "h5ReadVlen.hpp"
 #include "h5ReadReferenceAttribute.hpp"
@@ -123,7 +123,7 @@ h5ReadAttribute(
         res = h5ReadVlen(attr_id, type, aspace, true, errorMessage);
     } break;
     case H5T_ARRAY: {
-        res = h5ReadArrayAttribute(attr_id, type, aspace, errorMessage);
+        res = h5ReadArray(attr_id, type, aspace, true, errorMessage);
     } break;
     case H5T_TIME: {
         /* The time datatype, H5T_TIME,

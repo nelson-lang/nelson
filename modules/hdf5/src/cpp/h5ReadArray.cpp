@@ -16,13 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "h5ReadArrayAttribute.hpp"
+#include "h5ReadArray.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-h5ReadArrayFloatAttribute(hid_t attr_id, hid_t type, Dimensions dimsOutput, std::wstring& error)
+h5ReadArrayFloat(hid_t attr_id, hid_t type, Dimensions dimsOutput, bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
     Class outputClass;
@@ -44,8 +44,18 @@ h5ReadArrayFloatAttribute(hid_t attr_id, hid_t type, Dimensions dimsOutput, std:
             outputClass, dimsOutput.getElementCount(), stringVector(), false);
     }
     H5Tclose(nativeFloatType);
-    if (H5Aread(attr_id, type, ptrVoid) < 0) {
-        error = _W("Cannot read attribute.");
+    herr_t status = H5I_INVALID_HID;
+	if (asAttribute) {
+        status = H5Aread(attr_id, type, ptrVoid);
+    } else {
+        status = H5Dread(attr_id, type, H5S_ALL, H5S_ALL, H5P_DEFAULT, ptrVoid);
+    }
+    if (status < 0) {
+        if (asAttribute) {
+            error = _W("Cannot read attribute.");
+        } else {
+            error = _W("Cannot read dataset.");
+        }
         res = ArrayOf(outputClass, dimsOutput, ptrVoid);
         res = ArrayOf();
     } else {
@@ -55,7 +65,8 @@ h5ReadArrayFloatAttribute(hid_t attr_id, hid_t type, Dimensions dimsOutput, std:
 }
 //=============================================================================
 static ArrayOf
-h5ReadArrayIntegerAttribute(hid_t attr_id, hid_t type, Dimensions dimsOutput, std::wstring& error)
+h5ReadArrayInteger(
+    hid_t attr_id, hid_t type, Dimensions dimsOutput, bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
     Class outputClass;
@@ -88,8 +99,20 @@ h5ReadArrayIntegerAttribute(hid_t attr_id, hid_t type, Dimensions dimsOutput, st
             outputClass, dimsOutput.getElementCount(), stringVector(), false);
     }
     H5Tclose(nativeIntegerType);
-    if (H5Aread(attr_id, type, ptrVoid) < 0) {
-        error = _W("Cannot read attribute.");
+    herr_t status = H5I_INVALID_HID;
+
+	if (asAttribute) {
+        status = H5Aread(attr_id, type, ptrVoid);
+	} else {
+        status = H5Dread(attr_id, type, H5S_ALL, H5S_ALL, H5P_DEFAULT, ptrVoid);
+	}
+
+    if (status < 0) {
+        if (asAttribute) {
+            error = _W("Cannot read attribute.");
+        } else {
+            error = _W("Cannot read dataset.");
+		}
         res = ArrayOf(outputClass, dimsOutput, ptrVoid);
         res = ArrayOf();
     } else {
@@ -99,10 +122,15 @@ h5ReadArrayIntegerAttribute(hid_t attr_id, hid_t type, Dimensions dimsOutput, st
 }
 //=============================================================================
 ArrayOf
-h5ReadArrayAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error)
+h5ReadArray(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
-    hsize_t storageSize = H5Aget_storage_size(attr_id);
+    hsize_t storageSize = H5I_INVALID_HID;
+    if (asAttribute) {
+        storageSize = H5Aget_storage_size(attr_id);
+    } else {
+        storageSize = H5Dget_storage_size(attr_id);
+    }
     hsize_t sizeType = H5Tget_size(type);
     size_t numVal = storageSize / sizeType;
 
@@ -131,10 +159,11 @@ h5ReadArrayAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& erro
     }
     delete[] dimsAsHsize;
     dimsOutput[ndims] = numVal;
+
     if (H5Tequal(type, H5T_INTEGER)) {
-        res = h5ReadArrayIntegerAttribute(attr_id, type, dimsOutput, error);
+        res = h5ReadArrayInteger(attr_id, type, dimsOutput, asAttribute, error);
     } else if (H5Tequal(type, H5T_FLOAT)) {
-        res = h5ReadArrayFloatAttribute(attr_id, type, dimsOutput, error);
+        res = h5ReadArrayFloat(attr_id, type, dimsOutput, asAttribute, error);
     } else if (H5Tequal(type, H5T_TIME)) {
         error = _W("Type not managed.");
     } else if (H5Tequal(type, H5T_ARRAY)) {

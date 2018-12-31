@@ -24,7 +24,7 @@
 #include "h5ReadBitfield.hpp"
 #include "h5ReadOpaque.hpp"
 #include "h5ReadEnum.hpp"
-#include "h5ReadArrayAttribute.hpp"
+#include "h5ReadArray.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
