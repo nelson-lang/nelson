@@ -37,7 +37,11 @@ function varargout = h5dump(varargin)
       cmd = [exe + " " + h5filename];
     end
   else 
-    cmd = [exe + " -d " + h5path + " " + """" + h5filename + """"];
+    if ispc()
+      cmd = [exe + " -d " + h5path + " " + """" + h5filename + """"];
+    else
+      cmd = [exe + " -d " + h5path + " " + h5filename];
+    end
   end
   cmd = cmd{1};
   [status, msg] = unix(cmd);
