@@ -20,12 +20,15 @@ Please feel free to file issues on this repository if you have questions, concer
 - COM objects (DONE v0.1.7),
 - linear algebra module,
 - Computer Aided Control Systems Design module,
+- HDF5 high-level functions I/O (DONE v0.2.12),
 - MAT File I/O module,
+- HDF5 used as default data file format,
 - Mex module,
 - completion,
 - graphics output,
 - some basic openCV functions,
-- dynamic link functions (Nelson external modules) (DONE v0.2.6)
+- dynamic link functions (Nelson external modules) (DONE v0.2.6),
+- Nelson on cloud (DONE v0.2.11)
 
 ### How can I help?
 

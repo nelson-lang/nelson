@@ -53,6 +53,8 @@ these own data types and operations on these data types by using overload.
 
 - JSON decode/encode data support.
 
+- HDF5 high-level functions I/O,
+
 - Foreign Function Interface C/Fortran.
 
 - Interfacing C/C++ or Fortran with Nelson (build and load external code on the fly).

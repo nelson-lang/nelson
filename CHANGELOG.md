@@ -4,6 +4,8 @@
 Features:
 ---------
 
+HDF5 high-level functions:
+
 * h5create: Creates a dataset.
 * h5writeatt: Writes HDF5 attribute.
 * h5readatt: Read HDF5 attribute.
