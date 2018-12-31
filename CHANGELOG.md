@@ -1,3 +1,5 @@
+## 0.2.12 (2018-12-31)
+
 
 Features:
 ---------
@@ -5,6 +7,8 @@ Features:
 * h5create: Creates a dataset.
 * h5writeatt: Writes HDF5 attribute.
 * h5readatt: Read HDF5 attribute.
+* h5write: Writes HDF5 dataset.
+* h5readatt: Read HDF5 dataset.
 * h5dump: Dump the content of an hdf5 on the standard output stream.
 * h5ls: List the content of an hdf5.
 
@@ -20,6 +24,7 @@ Compilation:
 
   * BOOST 1.68 on Windows
   * Eigen 3.3.7
+
 
 ## 0.2.11 (2018-11-24)
 
