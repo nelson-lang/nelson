@@ -3,14 +3,14 @@
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
-	<keyword>h5dump</keyword>
-	<short_description>dump the content of hdf5 file as text.</short_description>
+	<keyword>h5ls</keyword>
+	<short_description>List the content of an HDF5 file.</short_description>
 
 	<syntax>
-		<syntax_item>h5dump(filename)</syntax_item>
-		<syntax_item>R = h5dump(filename)</syntax_item>
-		<syntax_item>h5dump(filename, location)</syntax_item>
-		<syntax_item>R = h5dump(filename, location)</syntax_item>
+		<syntax_item>h5ls(filename)</syntax_item>
+		<syntax_item>R = h5ls(filename)</syntax_item>
+		<syntax_item>h5ls(filename, location)</syntax_item>
+		<syntax_item>R = h5ls(filename, location)</syntax_item>
 	</syntax>
 	
 	<param_input>
@@ -20,19 +20,19 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>location</param_name>
-			<param_description>a string: name of the path to dump.</param_description>
+			<param_description>a string: name of the path to list.</param_description>
 		</param_input_item>
 	</param_input>
 	<param_output>
 		<param_output_item>
 			<param_name>R</param_name>
-			<param_description>a string: dump of hdf5 file as text.</param_description>
+			<param_description>a cell of strings with two columns (first column gives the names and the second one the type of the listed element).</param_description>
 		</param_output_item>
 	</param_output>
 
 
 	<description>
-		<p><b>h5dump</b> dump the content of hdf5 file as text.</p>
+		<p><b>h5dump</b> list the content of hdf5 file.</p>
 	</description>
 
 
@@ -45,8 +45,8 @@
 		<example_item_type>nelson</example_item_type>
 		<example_item_description></example_item_description>
 		<example_item_data><![CDATA[h5create([tempdir(), '/myfile.h5'],'/myDataset2',[10 20]);
-h5dump([tempdir(), '/myfile.h5'])
-R = h5dump([tempdir(), '/myfile.h5'])]]>
+h5ls([tempdir(), '/myfile.h5'])
+R = h5ls([tempdir(), '/myfile.h5'])]]>
 		</example_item_data>
 	</example_item>
 
@@ -54,7 +54,7 @@ R = h5dump([tempdir(), '/myfile.h5'])]]>
 
 	<see_also>
 		<see_also_item>
-			<link linkend="${hdf5}h5write">h5write</link>
+			<link linkend="${hdf5}h5dump">h5dump</link>
 		</see_also_item>
 	</see_also>
 
