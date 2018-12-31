@@ -75,4 +75,5 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\;
 #include "json/module.iss"
 #include "audio/module.iss"
 #include "sio_client/module.iss"
+#include "hdf5/module.iss"
 ;==============================================================================
