@@ -24,6 +24,7 @@ jobs:
       - run: apt-get install -y fftw3;
       - run: apt-get install -y fftw3-dev;
       - run: apt-get install -y libhdf5-dev;
+      - run: apt-get install -y hdf5-tools;
       - run: apt-get install -y libasound-dev;
       - run: apt-get install -y portaudio19-dev;
       - run: apt-get install -y libsndfile1-dev;
