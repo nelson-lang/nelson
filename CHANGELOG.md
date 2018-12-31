@@ -6,13 +6,13 @@ Features:
 
 HDF5 high-level functions:
 
-* h5create: Creates a dataset.
+* h5dump: Dump the content of hdf5 file as text.
+* h5ls: List the content of an hdf5.
 * h5writeatt: Writes HDF5 attribute.
 * h5readatt: Read HDF5 attribute.
-* h5write: Writes HDF5 dataset.
-* h5readatt: Read HDF5 dataset.
-* h5dump: Dump the content of an hdf5 on the standard output stream.
-* h5ls: List the content of an hdf5.
+* h5write: Writes HDF5 data set.
+* h5readatt: Read HDF5 data set.
+* h5create: Creates a data set.
 
 Bug Fixes:
 ---------

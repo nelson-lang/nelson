@@ -37,7 +37,7 @@ single, int64, int32, int16, or int8.</param_description>
 	</param_input>
 
 	<description>
-		<p><b>h5write</b> writes attribute named <b>attname</b> with the value <b>attvalue</b> to the HDF5 file.</p>
+		<p><b>h5writeatt</b> writes attribute named <b>attname</b> with the value <b>attvalue</b> to the HDF5 file.</p>
 	</description>
 
 
