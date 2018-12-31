@@ -17,7 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 h5_directory = [modulepath('hdf5'), '/tests/h5'];
-h5_filename = [h5_directory, '/', 'example.h5'];
+h5_filename = 'example.h5';
+cd(h5_directory);
 R = h5dump(h5_filename);
 REF = fileread([modulepath('hdf5'), '/tests/h5dump.ref']);
 assert_isequal(R, REF);
