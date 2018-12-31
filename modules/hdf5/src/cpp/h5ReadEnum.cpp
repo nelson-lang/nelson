@@ -100,7 +100,7 @@ h5ReadEnum(
         if (asAttribute) {
             error = _W("Cannot read attribute.");
         } else {
-            error = _W("Cannot read dataset.");
+            error = _W("Cannot read data set.");
         }
         return ArrayOf();
     }

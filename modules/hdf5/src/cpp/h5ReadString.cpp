@@ -68,7 +68,7 @@ h5ReadStringVlen(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, int 
             error = _W("Cannot read attribute.");
             H5Sclose(memtype);
         } else {
-            error = _W("Cannot read dataset.");
+            error = _W("Cannot read data set.");
             H5Tclose(memtype);
         }
         return res;
@@ -147,7 +147,7 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions &dims, 
             error = _W("Cannot read attribute.");
         } else {
             H5Tclose(memtype);
-            error = _W("Cannot read dataset.");
+            error = _W("Cannot read data set.");
         }
         return ArrayOf();
     }

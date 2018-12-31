@@ -54,7 +54,7 @@ h5ReadArrayFloat(hid_t attr_id, hid_t type, Dimensions dimsOutput, bool asAttrib
         if (asAttribute) {
             error = _W("Cannot read attribute.");
         } else {
-            error = _W("Cannot read dataset.");
+            error = _W("Cannot read data set.");
         }
         res = ArrayOf(outputClass, dimsOutput, ptrVoid);
         res = ArrayOf();
@@ -111,7 +111,7 @@ h5ReadArrayInteger(
         if (asAttribute) {
             error = _W("Cannot read attribute.");
         } else {
-            error = _W("Cannot read dataset.");
+            error = _W("Cannot read data set.");
 		}
         res = ArrayOf(outputClass, dimsOutput, ptrVoid);
         res = ArrayOf();

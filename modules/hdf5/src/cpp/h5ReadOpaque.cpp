@@ -61,7 +61,7 @@ h5ReadOpaque(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, st
         if (asAttribute) {
             error = _W("Cannot read attribute.");
         } else {
-			error = _W("Cannot read dataset.");
+			error = _W("Cannot read data set.");
 		}
         return res;
     }

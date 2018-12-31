@@ -373,7 +373,7 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
     indexType max_index = index.getMaxAsIndex();
     // Resize us as necessary.
     vectorResize(max_index);
-    // Get a pointer to the dataset
+    // Get a pointer to the data set
     auto* qp = static_cast<ArrayOf*>(getReadWriteDataPointer());
     // Get a pointer to the index data set
     auto index_p = static_cast<constIndexPtr>(index.dp->getData());

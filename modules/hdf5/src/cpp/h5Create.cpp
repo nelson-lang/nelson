@@ -151,7 +151,7 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
     }
     if (!fillvalue.isEmpty()) {
         if (fillvalue.getDataClass() != dataType) {
-            Error(_W("FillValue and dataset class must be same."));
+            Error(_W("FillValue and data set class must be same."));
         }
     }
     if (!chunksize.empty()) {
@@ -208,10 +208,10 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
     if (dset > 0) {
         H5Dclose(dset);
         H5Fclose(fid);
-        Error(_W("dataset already exists."));
+        Error(_W("data set already exists."));
     }
 
-    /* Create the data space for the dataset. */
+    /* Create the data space for the data set. */
     hsize_t* sizeDataAsHsize_t = nullptr;
     try {
         sizeDataAsHsize_t = new_with_exception<hsize_t>(sizeData.size(), true);

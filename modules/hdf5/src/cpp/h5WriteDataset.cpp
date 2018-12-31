@@ -76,14 +76,14 @@ h5WriteDataset(const std::wstring& filename, const std::wstring& location, Array
     if (dataset_id < 0) {
         H5Sclose(dspace_id);
         H5Fclose(h5obj);
-        Error(_W("Cannot create dataset."));
+        Error(_W("Cannot create data set."));
     }
     status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
     H5Dclose(dataset_id);
     H5Sclose(dspace_id);
     H5Fclose(h5obj);
     if (status < 0) {
-        Error(_W("Cannot write dataset."));
+        Error(_W("Cannot write data set."));
     }
 }
 //=============================================================================

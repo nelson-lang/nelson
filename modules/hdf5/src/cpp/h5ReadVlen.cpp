@@ -202,7 +202,7 @@ h5ReadVlen(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstri
         if (H5Sget_simple_extent_dims(aspace, h5_dims, h5_maxdims) < 0) {
             delete[] h5_dims;
             delete[] h5_maxdims;
-            Error("Impossible to read dimensions and maximum size of dataset.");
+            Error("Impossible to read dimensions and maximum size of data set.");
         }
         memspace = H5Screate_simple(rank, h5_dims, NULL);
         delete[] h5_dims;
@@ -221,7 +221,7 @@ h5ReadVlen(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstri
             error = _W("Cannot read attribute.");
         } else {
             H5Sclose(memspace);
-            error = _W("Cannot read dataset.");
+            error = _W("Cannot read data set.");
         }
         return ArrayOf();
     }

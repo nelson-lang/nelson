@@ -72,7 +72,7 @@ h5ReadFloat(
             if (H5Sget_simple_extent_dims(dspace_id, h5_dims, h5_maxdims) < 0) {
                 delete[] h5_dims;
                 delete[] h5_maxdims;
-                Error("Impossible to read dimensions and maximum size of dataset.");
+                Error("Impossible to read dimensions and maximum size of data set.");
             }
             memspace = H5Screate_simple(rank, h5_dims, NULL);
             delete[] h5_dims;
@@ -92,7 +92,7 @@ h5ReadFloat(
                 error = _W("Cannot read attribute.");
 			} else {
                 H5Sclose(memspace);
-                error = _W("Cannot read dataset.");
+                error = _W("Cannot read data set.");
             }
         } else {
             res = ArrayOf(outputClass, dims, ptr);
