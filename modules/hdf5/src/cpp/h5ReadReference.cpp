@@ -16,14 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "h5ReadReferenceAttribute.hpp"
+#include "h5ReadReference.hpp"
 #include "h5ReadHelpers.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-h5ReadReferenceFloatAttribute(hid_t dset2, hid_t space2, hid_t mtype, std::wstring& error)
+h5ReadReferenceFloat(hid_t dset2, hid_t space2, hid_t mtype, bool asAttribute, std::wstring& error)
 {
     ArrayOf element;
     hsize_t sizeSType = H5Tget_size(mtype);
@@ -59,7 +59,7 @@ h5ReadReferenceFloatAttribute(hid_t dset2, hid_t space2, hid_t mtype, std::wstri
 }
 //=============================================================================
 static ArrayOf
-h5ReadReferenceIntegerAttribute(hid_t dset2, hid_t space2, hid_t mtype, std::wstring& error)
+h5ReadReferenceInteger(hid_t dset2, hid_t space2, hid_t mtype, bool asAttribute, std::wstring& error)
 {
     ArrayOf element;
     hsize_t sizeType = H5Tget_size(mtype);
@@ -123,9 +123,14 @@ h5ReadReferenceIntegerAttribute(hid_t dset2, hid_t space2, hid_t mtype, std::wst
 }
 //=============================================================================
 ArrayOf
-h5ReadReferenceAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& error)
+h5ReadReference(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstring& error)
 {
-    hsize_t storageSize = H5Aget_storage_size(attr_id);
+    hsize_t storageSize = H5I_INVALID_HID;
+    if (asAttribute) {
+        storageSize = H5Aget_storage_size(attr_id);
+    } else {
+        storageSize = H5Dget_storage_size(attr_id);
+	}
     hsize_t sizeType = H5Tget_size(type);
     int rank;
     Dimensions dims = getDimensions(aspace, rank);
@@ -145,8 +150,12 @@ h5ReadReferenceAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& 
         error = e.getMessage();
         return ArrayOf();
     }
-    herr_t status = H5Aread(attr_id, H5T_STD_REF_DSETREG, rdata);
-
+    herr_t status = H5I_INVALID_HID;
+    if (asAttribute) {
+        status = H5Aread(attr_id, H5T_STD_REF_DSETREG, rdata);
+    } else {
+        status = H5Dread(attr_id, H5T_STD_REF_DSETREG, H5S_ALL, H5S_ALL, H5P_DEFAULT, rdata);
+	}
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
     for (indexType k = 0; k < dims.getElementCount(); k++) {
 #if H5_VERS_MAJOR <= 1 && H5_VERS_MINOR < 9
@@ -158,10 +167,10 @@ h5ReadReferenceAttribute(hid_t attr_id, hid_t type, hid_t aspace, std::wstring& 
         hid_t mtype = H5Dget_type(dset2);
         switch (H5Tget_class(mtype)) {
         case H5T_INTEGER: {
-            elements[k] = h5ReadReferenceIntegerAttribute(dset2, space2, mtype, error);
+            elements[k] = h5ReadReferenceInteger(dset2, space2, mtype, asAttribute, error);
         } break;
         case H5T_FLOAT: {
-            elements[k] = h5ReadReferenceFloatAttribute(dset2, space2, mtype, error);
+            elements[k] = h5ReadReferenceFloat(dset2, space2, mtype, asAttribute, error);
         } break;
         default: {
             error = _W("Type not managed.");

@@ -41,9 +41,6 @@
     <ClInclude Include="..\include\h5Create.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\cpp\h5ReadReferenceAttribute.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\cpp\h5ReadHelpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -83,6 +80,9 @@
     <ClInclude Include="..\cpp\h5ReadArray.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\cpp\h5ReadReference.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\HDF5_helpers.cpp">
@@ -98,9 +98,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\h5Create.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\h5ReadReferenceAttribute.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\h5ReadHelpers.cpp">
@@ -140,6 +137,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\h5ReadArray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\h5ReadReference.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

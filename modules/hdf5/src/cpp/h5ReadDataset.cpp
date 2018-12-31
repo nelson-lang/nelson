@@ -32,6 +32,7 @@
 #include "h5ReadCompound.hpp"
 #include "h5ReadVlen.hpp"
 #include "h5ReadArray.hpp"
+#include "h5ReadReference.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -105,7 +106,7 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
         res = h5ReadCompound(dset_id, type_id, dspace_id, false, errorMessage);
     } break;
     case H5T_REFERENCE: {
-
+        res = h5ReadReference(dset_id, type_id, dspace_id, false, errorMessage);
     } break;
     case H5T_ENUM: {
         res = h5ReadEnum(dset_id, type_id, dspace_id, false, errorMessage);
