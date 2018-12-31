@@ -34,9 +34,17 @@ function varargout = h5ls(varargin)
   end
   exe = "h5ls";
   if (h5path == "")
-    cmd = [exe + " -r -f -v " + h5filename];
-  else 
-    cmd = [exe + " -r -f -v " + h5filename + h5path];
+    if ispc()
+      cmd = [exe + " -r -f -v " + """" + h5filename + """"];
+    else
+      cmd = [exe + " -r -f -v " + h5filename];
+    end
+  else
+    if ispc()
+      cmd = [exe + " -r -f -v " + """" + h5filename + h5path + """"];
+    else
+      cmd = [exe + " -r -f -v " + h5filename + h5path];
+    end
   end
   cmd = cmd{1};
   [status, msg] = unix(cmd);
