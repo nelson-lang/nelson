@@ -4,7 +4,7 @@
 
 	<language>en_US</language>
 	<keyword>h5create</keyword>
-	<short_description>Creates a dataset.</short_description>
+	<short_description>Creates a data set.</short_description>
 
 	<syntax>
 		<syntax_item>h5create(filename, datasetname, size, Name1, Value1, ..., NameN, ValueN)</syntax_item>
@@ -21,7 +21,7 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>size</param_name>
-			<param_description>a row vector specifying the extents of the dataset.</param_description>
+			<param_description>a row vector specifying the extents of the data set.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>Name1, Value1, ..., NameN, ValueN</param_name>
@@ -31,7 +31,7 @@
 	</param_input>
 
 	<description>
-		<p><b>h5create</b> creates a dataset and specify its extent dimensions, datatype and chunk size.</p>
+		<p><b>h5create</b> creates a data set and specify its extent dimensions, datatype and chunk size.</p>
 		<p>Name-Values pair supported:</p>
 		<p>Name: Datatype (Nelson® datatypes).</p>
 		<p>Value: 'double' (default), 'uint64', 'uint32', 'uint16', 'uint8', 'single', 'int64', 'int32', 'int16', or	'int8'.</p>
