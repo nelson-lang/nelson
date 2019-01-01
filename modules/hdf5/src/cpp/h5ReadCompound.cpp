@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -49,8 +49,8 @@ h5ReadCompoundOpaqueMember(hsize_t sizeType, hid_t mType, const char* data, size
 }
 //=============================================================================
 static ArrayOf
-h5ReadCompoundBitfieldMember(hsize_t sizeType, hid_t mType, const char* data,
-    size_t offset, const Dimensions& dims, std::wstring& error)
+h5ReadCompoundBitfieldMember(hsize_t sizeType, hid_t mType, const char* data, size_t offset,
+    const Dimensions& dims, std::wstring& error)
 {
     Class outputClass;
     hsize_t msizeType = H5Tget_size(mType);
@@ -303,8 +303,7 @@ h5ReadCompoundFloatMember(hsize_t sizeType, hid_t mType, const char* data, size_
 }
 //=============================================================================
 ArrayOf
-h5ReadCompound(
-    hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstring& error)
+h5ReadCompound(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
     hsize_t storageSize = H5I_INVALID_HID;
@@ -369,7 +368,7 @@ h5ReadCompound(
         return ArrayOf();
     }
 
-	if (!asAttribute) {
+    if (!asAttribute) {
         H5Sclose(memspace);
     }
     stringVector fieldnames;
@@ -389,24 +388,24 @@ h5ReadCompound(
         ArrayOf fieldvalue;
         switch (H5Tget_member_class(type, mIndex)) {
         case H5T_INTEGER: {
-            fieldvalue = h5ReadCompoundIntegerMember(
-                sizeType, mType, data.get(), offset, dims, error);
+            fieldvalue
+                = h5ReadCompoundIntegerMember(sizeType, mType, data.get(), offset, dims, error);
         } break;
         case H5T_STRING: {
-            fieldvalue = h5ReadCompoundStringMember(
-                sizeType, mType, data.get(), offset, dims, error);
+            fieldvalue
+                = h5ReadCompoundStringMember(sizeType, mType, data.get(), offset, dims, error);
         } break;
         case H5T_FLOAT: {
-            fieldvalue = h5ReadCompoundFloatMember(
-                sizeType, mType, data.get(), offset, dims, error);
+            fieldvalue
+                = h5ReadCompoundFloatMember(sizeType, mType, data.get(), offset, dims, error);
         } break;
         case H5T_BITFIELD: {
-            fieldvalue = h5ReadCompoundBitfieldMember(
-                sizeType, mType, data.get(), offset, dims, error);
+            fieldvalue
+                = h5ReadCompoundBitfieldMember(sizeType, mType, data.get(), offset, dims, error);
         } break;
         case H5T_OPAQUE: {
-            fieldvalue = h5ReadCompoundOpaqueMember(
-                sizeType, mType, data.get(), offset, dims, error);
+            fieldvalue
+                = h5ReadCompoundOpaqueMember(sizeType, mType, data.get(), offset, dims, error);
         } break;
         case H5T_TIME:
             /* The time datatype, H5T_TIME,

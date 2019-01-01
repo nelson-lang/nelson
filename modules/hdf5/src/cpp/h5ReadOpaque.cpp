@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -49,7 +49,7 @@ h5ReadOpaque(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, st
         error = e.getMessage();
         return res;
     }
-	herr_t status = H5I_INVALID_HID;
+    herr_t status = H5I_INVALID_HID;
     if (asAttribute) {
         status = H5Aread(dset_id, type_id, temp);
     } else {
@@ -61,8 +61,8 @@ h5ReadOpaque(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, st
         if (asAttribute) {
             error = _W("Cannot read attribute.");
         } else {
-			error = _W("Cannot read data set.");
-		}
+            error = _W("Cannot read data set.");
+        }
         return res;
     }
     indexType pos = 0;

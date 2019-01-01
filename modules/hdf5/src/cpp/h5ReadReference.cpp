@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -59,7 +59,8 @@ h5ReadReferenceFloat(hid_t dset2, hid_t space2, hid_t mtype, bool asAttribute, s
 }
 //=============================================================================
 static ArrayOf
-h5ReadReferenceInteger(hid_t dset2, hid_t space2, hid_t mtype, bool asAttribute, std::wstring& error)
+h5ReadReferenceInteger(
+    hid_t dset2, hid_t space2, hid_t mtype, bool asAttribute, std::wstring& error)
 {
     ArrayOf element;
     hsize_t sizeType = H5Tget_size(mtype);
@@ -130,7 +131,7 @@ h5ReadReference(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::
         storageSize = H5Aget_storage_size(attr_id);
     } else {
         storageSize = H5Dget_storage_size(attr_id);
-	}
+    }
     hsize_t sizeType = H5Tget_size(type);
     int rank;
     Dimensions dims = getDimensions(aspace, rank);
@@ -155,7 +156,7 @@ h5ReadReference(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::
         status = H5Aread(attr_id, H5T_STD_REF_DSETREG, rdata);
     } else {
         status = H5Dread(attr_id, H5T_STD_REF_DSETREG, H5S_ALL, H5S_ALL, H5P_DEFAULT, rdata);
-	}
+    }
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
     for (indexType k = 0; k < dims.getElementCount(); k++) {
 #if H5_VERS_MAJOR <= 1 && H5_VERS_MINOR < 9

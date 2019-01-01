@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@ ArrayOf
 h5ReadInteger(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
-    hsize_t storageSize = H5I_INVALID_HID; 
+    hsize_t storageSize = H5I_INVALID_HID;
     if (asAttribute) {
         storageSize = H5Aget_storage_size(dset_id);
     } else {
@@ -91,7 +91,7 @@ h5ReadInteger(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, s
             error = e.getMessage();
             return ArrayOf();
         }
-		herr_t status = H5I_INVALID_HID;
+        herr_t status = H5I_INVALID_HID;
         hid_t memspace = H5I_INVALID_HID;
         if (asAttribute) {
             status = H5Aread(dset_id, dataType, ptr);
@@ -117,11 +117,11 @@ h5ReadInteger(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, s
                 error = _W("Impossible to read dimensions and maximum size of data set.");
                 return ArrayOf();
             }
-			memspace = H5Screate_simple(rank, h5_dims, NULL);
+            memspace = H5Screate_simple(rank, h5_dims, NULL);
             delete[] h5_dims;
             delete[] h5_maxdims;
 
-			status = H5Dread(dset_id, dataType, memspace, dspace_id, H5P_DEFAULT, ptr);
+            status = H5Dread(dset_id, dataType, memspace, dspace_id, H5P_DEFAULT, ptr);
         }
         if (status < 0) {
             res = ArrayOf(outputClass, dims, ptr);
@@ -135,8 +135,8 @@ h5ReadInteger(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, s
         } else {
             res = ArrayOf(outputClass, dims, ptr);
             if (!asAttribute) {
-				H5Sclose(memspace);
-			}
+                H5Sclose(memspace);
+            }
         }
     }
     return res;

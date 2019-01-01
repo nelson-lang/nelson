@@ -1,5 +1,5 @@
 #==============================================================================
-# Copyright (c) 2016-2018 Allan CORNET (Nelson)
+# Copyright (c) 2016-2019 Allan CORNET (Nelson)
 #==============================================================================
 # LICENCE_BLOCK_BEGIN
 # This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,7 @@ tests_*.json
 /bin/*/nelson_f2c
 /modules/main/help/*/html/CHANGELOG.html
 /modules/main/help/*/html/CHANGELOG-0.1.x.html
+/modules/main/help/*/html/CHANGELOG-0.2.x.html
 /modules/main/help/*/html/license.html
 /modules/main/help/*/html/GPL2.html
 /modules/*/nls*_autogen

@@ -1,5 +1,5 @@
 ;==============================================================================
-; Copyright (c) 2016-2018 Allan CORNET (Nelson)
+; Copyright (c) 2016-2019 Allan CORNET (Nelson)
 ;==============================================================================
 ; LICENCE_BLOCK_BEGIN
 ; This program is free software: you can redistribute it and/or modify
@@ -21,6 +21,7 @@ Source: {#RootPath}CONTRIBUTORS.md; DestDir: {app}\
 Source: {#RootPath}README.md; DestDir: {app}\
 Source: {#RootPath}THIRDPARTY.md; DestDir: {app}\
 Source: {#RootPath}CHANGELOG.md; DestDir: {app}\
+Source: {#RootPath}CHANGELOG-0.2.x.md; DestDir: {app}\
 Source: {#RootPath}CHANGELOG-0.1.x.md; DestDir: {app}\
 Source: {#RootPath}CLA.md; DestDir: {app}\
 ;==============================================================================

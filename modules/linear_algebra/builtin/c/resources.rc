@@ -48,8 +48,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,2,12,0
- PRODUCTVERSION 0,2,12,0
+ FILEVERSION 0,3,0,0
+ PRODUCTVERSION 0,3,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -68,9 +68,9 @@ BEGIN
             VALUE "InternalName", "linear_algebra_builtin"
             VALUE "OriginalFilename", "libnlslinear_algebra_builtin.dll"
             VALUE "ProductName", "Nelson (linear_algebra_builtin)"
-            VALUE "ProductVersion", "0,2,12,0"
-            VALUE "FileVersion", "0,2,12,0"
-            VALUE "LegalCopyright", "Nelson Copyright (C) 2016-2018"
+            VALUE "ProductVersion", "0,3,0,0"
+            VALUE "FileVersion", "0,3,0,0"
+            VALUE "LegalCopyright", "Nelson Copyright (C) 2016-2019"
             VALUE "Comments", "All rights reserved."
             VALUE "CompanyName", "Allan CORNET"
         END

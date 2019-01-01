@@ -1,5 +1,5 @@
 ;==============================================================================
-; Copyright (c) 2016-2018 Allan CORNET (Nelson)
+; Copyright (c) 2016-2019 Allan CORNET (Nelson)
 ;==============================================================================
 ; LICENCE_BLOCK_BEGIN
 ; This program is free software: you can redistribute it and/or modify
@@ -16,11 +16,11 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ; LICENCE_BLOCK_END
 ;==============================================================================
-french.LANGUAGE = Français
+french.LANGUAGE = Franï¿½ais
 ;
 french.CPU_OPTIMIZATION_FOR_NELSON = Optimisation CPU pour Nelson
-french.DEFAULT_LIBRARIES = Bibliothèques de reference BLAS, LAPACK, FFTW pour Nelson
-french.MKL_LIBRARIES = Bibliothèque MKL (BLAS, LAPACK, FFTW wrappers) pour Nelson
+french.DEFAULT_LIBRARIES = Bibliothï¿½ques de reference BLAS, LAPACK, FFTW pour Nelson
+french.MKL_LIBRARIES = Bibliothï¿½que MKL (BLAS, LAPACK, FFTW wrappers) pour Nelson
 ;==============================================================================
 french.ASSOCIATE_NLS_FILE = Associer les fichiers .nls avec Nelson
 french.ASSOCIATE_NLF_FILE = Associer les fichiers .nlf avec Nelson

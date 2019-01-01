@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -22,12 +22,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static ArrayOf 
+static ArrayOf
 h5ReadStringVlen(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, int rank,
     bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
-    hsize_t storageSize = H5I_INVALID_HID; 
+    hsize_t storageSize = H5I_INVALID_HID;
     if (asAttribute) {
         storageSize = H5Aget_storage_size(attr_id);
     } else {
@@ -51,12 +51,12 @@ h5ReadStringVlen(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, int 
     hid_t memtype = H5Tcopy(H5T_C_S1);
     H5Tset_size(memtype, H5T_VARIABLE);
 
-	herr_t status = H5I_INVALID_HID;
+    herr_t status = H5I_INVALID_HID;
     if (asAttribute) {
         status = H5Aread(attr_id, memtype, temp);
     } else {
         status = H5Dread(attr_id, memtype, H5S_ALL, H5S_ALL, H5P_DEFAULT, temp);
-	}
+    }
     if (status < 0) {
         if (elements) {
             delete[] elements;
@@ -88,14 +88,15 @@ h5ReadStringVlen(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, int 
         H5Tclose(memtype);
     }
     res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-	return res;
+    return res;
 }
 //=============================================================================
 static ArrayOf
-h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions &dims, int rank, bool asAttribute, std::wstring& error)
+h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, int rank,
+    bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
-    hsize_t storageSize = H5I_INVALID_HID; 
+    hsize_t storageSize = H5I_INVALID_HID;
     if (asAttribute) {
         storageSize = H5Aget_storage_size(attr_id);
     } else {
@@ -109,14 +110,14 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions &dims, 
     } else {
         nbElements = dims.getElementCount();
     }
-	if (nbElements > 1) {
+    if (nbElements > 1) {
         try {
             elements = new_with_exception<ArrayOf>(nbElements, false);
         } catch (Exception& e) {
             error = e.getMessage();
             return ArrayOf();
         }
-    } 
+    }
     char* temp = nullptr;
     try {
         temp = new_with_exception<char>((sizeType + 1) * nbElements, true);
@@ -175,13 +176,10 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions &dims, 
         }
     } else {
         indexType pos = 0;
-        for (indexType k = 0; k < nbElements; k++)
-        {
+        for (indexType k = 0; k < nbElements; k++) {
             str.clear();
-            for (indexType l = 0; l < sizeType + 1; l++)
-            {
-                if (temp[pos] != 0)
-                {
+            for (indexType l = 0; l < sizeType + 1; l++) {
+                if (temp[pos] != 0) {
                     str.push_back(temp[pos]);
                 } else {
                     if (l < sizeType && pos > 0) {
@@ -189,7 +187,7 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions &dims, 
                     }
                 }
                 pos++;
-			}
+            }
             if (nbElements > 1) {
                 elements[k] = ArrayOf::characterArrayConstructor(str);
             }
@@ -197,7 +195,7 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions &dims, 
     }
     if (!asAttribute) {
         H5Tclose(memtype);
-	}
+    }
     if (nbElements == 1) {
         res = ArrayOf::characterArrayConstructor(str);
     } else {

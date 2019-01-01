@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,8 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf h5ReadString(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstring& error);
+ArrayOf
+h5ReadString(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstring& error);
 //=============================================================================
 }
 //=============================================================================

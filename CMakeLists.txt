@@ -1,5 +1,5 @@
 #==============================================================================
-# Copyright (c) 2016-2018 Allan CORNET (Nelson)
+# Copyright (c) 2016-2019 Allan CORNET (Nelson)
 #==============================================================================
 # LICENCE_BLOCK_BEGIN
 # This program is free software: you can redistribute it and/or modify
@@ -21,8 +21,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 set(CMAKE_INSTALL_PREFIX "$ENV{HOME}")
 #============================================================================== 
 set (Nelson_VERSION_MAJOR_DEFAULT 0)
-set (Nelson_VERSION_MINOR_DEFAULT 2)
-set (Nelson_VERSION_MAINTENANCE_DEFAULT 12)
+set (Nelson_VERSION_MINOR_DEFAULT 3)
+set (Nelson_VERSION_MAINTENANCE_DEFAULT 0)
 set (Nelson_VERSION_BUILD_DEFAULT 0)
 #============================================================================== 
 if(DEFINED ENV{NELSON_VERSION_MAJOR})

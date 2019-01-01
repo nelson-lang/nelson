@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,8 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-h5ReadArrayFloat(hid_t attr_id, hid_t type, Dimensions dimsOutput, bool asAttribute, std::wstring& error)
+h5ReadArrayFloat(
+    hid_t attr_id, hid_t type, Dimensions dimsOutput, bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
     Class outputClass;
@@ -45,7 +46,7 @@ h5ReadArrayFloat(hid_t attr_id, hid_t type, Dimensions dimsOutput, bool asAttrib
     }
     H5Tclose(nativeFloatType);
     herr_t status = H5I_INVALID_HID;
-	if (asAttribute) {
+    if (asAttribute) {
         status = H5Aread(attr_id, type, ptrVoid);
     } else {
         status = H5Dread(attr_id, type, H5S_ALL, H5S_ALL, H5P_DEFAULT, ptrVoid);
@@ -101,18 +102,18 @@ h5ReadArrayInteger(
     H5Tclose(nativeIntegerType);
     herr_t status = H5I_INVALID_HID;
 
-	if (asAttribute) {
+    if (asAttribute) {
         status = H5Aread(attr_id, type, ptrVoid);
-	} else {
+    } else {
         status = H5Dread(attr_id, type, H5S_ALL, H5S_ALL, H5P_DEFAULT, ptrVoid);
-	}
+    }
 
     if (status < 0) {
         if (asAttribute) {
             error = _W("Cannot read attribute.");
         } else {
             error = _W("Cannot read data set.");
-		}
+        }
         res = ArrayOf(outputClass, dimsOutput, ptrVoid);
         res = ArrayOf();
     } else {

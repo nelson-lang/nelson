@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -92,24 +92,23 @@ function r = reindexhelp(pref_help)
     fprintf(stdout, [char(10), _('Indexing help files'), ' ']);
     fprintf(stdout, '.');
     if isfile(homepage)
-      forceaddmodule('Nelson', homepage)
+      forceaddmodule('Nelson', homepage);
     end
     helpbrowser('-identifier', 'Nelson::homepage');
-    //run([nelsonroot() '/modules/' 'modules.nls']);
-    modules_help_list = getmodules();
+    run([nelsonroot() '/modules/' 'modules.nls']);
     len = length(modules_help_list);
     modules_help_available = {'Nelson'};
     for idx = [1:len]
       module_name = modules_help_list{idx};
-      if ismodule(module_name)
-        module_path = modulepath(module_name);
+      module_path = [nelsonroot() , '/modules/', module_name];
+      if isdir(module_path)
         help_file = [module_path, '/help/', getlanguage(), '/', 'org.nelson.modules.', module_name, '.help.qch'];
         if ~isfile(help_file)
           help_file = [module_path, '/help/', getdefaultlanguage(), '/', 'org.nelson.modules.', module_name, '.help.qch'];
         end
         if isfile(help_file)
           modules_help_available{end+1, 1} = module_name;
-          forceaddmodule(module_name, help_file)
+          forceaddmodule(module_name, help_file);
         end
         fprintf(stdout,'.');
       end

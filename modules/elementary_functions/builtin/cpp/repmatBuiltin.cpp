@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -28,9 +28,9 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(
 {
     // R = repmat(A, m)
     // R = repmat(A, m, n)
-    // R = repmat(A, m, n, p …)
+    // R = repmat(A, m, n, p ï¿½)
     // R = repmat(A, [m n])
-    // R = repmat(A, [m n p …])
+    // R = repmat(A, [m n p ï¿½])
     ArrayOfVector retval;
     if (argIn.size() < 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

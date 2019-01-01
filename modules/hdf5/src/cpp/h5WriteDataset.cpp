@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -71,8 +71,8 @@ h5WriteDataset(const std::wstring& filename, const std::wstring& location, Array
         status = H5Fclose(h5obj);
         Error(error);
     }
-    hid_t dataset_id = H5Dcreate(h5obj, wstring_to_utf8(location).c_str(), type_id,
-        dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+    hid_t dataset_id = H5Dcreate(h5obj, wstring_to_utf8(location).c_str(), type_id, dspace_id,
+        H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
     if (dataset_id < 0) {
         H5Sclose(dspace_id);
         H5Fclose(h5obj);

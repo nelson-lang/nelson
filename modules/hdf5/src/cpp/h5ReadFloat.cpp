@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadFloat(
-    hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std::wstring& error)
+h5ReadFloat(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
     hsize_t storageSize = H5Dget_storage_size(dset_id);
@@ -53,7 +52,7 @@ h5ReadFloat(
             return ArrayOf();
         }
 
-		hid_t memspace = H5I_INVALID_HID;
+        hid_t memspace = H5I_INVALID_HID;
         if (!asAttribute) {
             hsize_t* h5_dims = nullptr;
             hsize_t* h5_maxdims = nullptr;
@@ -79,8 +78,8 @@ h5ReadFloat(
             delete[] h5_maxdims;
         }
 
-		herr_t status = H5I_INVALID_HID;
-		if (asAttribute) {
+        herr_t status = H5I_INVALID_HID;
+        if (asAttribute) {
             status = H5Aread(dset_id, type_id, ptr);
         } else {
             status = H5Dread(dset_id, type_id, memspace, dspace_id, H5P_DEFAULT, ptr);
@@ -90,15 +89,15 @@ h5ReadFloat(
             res = ArrayOf();
             if (asAttribute) {
                 error = _W("Cannot read attribute.");
-			} else {
+            } else {
                 H5Sclose(memspace);
                 error = _W("Cannot read data set.");
             }
         } else {
             res = ArrayOf(outputClass, dims, ptr);
             if (!asAttribute) {
-            H5Sclose(memspace);
-			}
+                H5Sclose(memspace);
+            }
         }
     }
     return res;

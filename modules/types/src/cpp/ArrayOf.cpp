@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -1317,7 +1317,7 @@ saturate(Class classIn, Class classOut, const void* pIn, void* pOut, indexType c
     TOUT* qp = (TOUT*)pOut;
     if (classIn == classOut) {
         for (indexType i = 0; i < count; i++) {
-            qp[i] = sp[i];
+            qp[i] = (TOUT)sp[i];
         }
     } else {
         bool checkNaN = false;
@@ -1331,7 +1331,7 @@ saturate(Class classIn, Class classOut, const void* pIn, void* pOut, indexType c
                 if (std::isnan((double)sp[i])) {
                     qp[i] = (TOUT)0;
                 } else {
-                    qp[i] = numeric_cast<TIN, TOUT>(sp[i]);
+                    qp[i] = (TOUT)numeric_cast<TIN, TOUT>(sp[i]);
                 }
             }
         } else {

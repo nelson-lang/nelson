@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,8 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5ReadBitfield(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std::wstring& error);
+h5ReadBitfield(
+    hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std::wstring& error);
 //=============================================================================
 }
 //=============================================================================

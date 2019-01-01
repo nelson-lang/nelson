@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -82,7 +82,9 @@ function buildhelp_from_path(module, module_path)
 endfunction
 //=============================================================================
 function helpForNelsonOnly()
-  changes_md = {[nelsonroot(), '/CHANGELOG.md']; [nelsonroot(), '/CHANGELOG-0.1.x.md']};
+  changes_md = {[nelsonroot(), '/CHANGELOG.md'];
+                [nelsonroot(), '/CHANGELOG-0.2.x.md'];
+                [nelsonroot(), '/CHANGELOG-0.1.x.md']};
   for k = getavailablelanguages()(:)'
     dir_src = [nelsonroot(), '/modules/main/help/', k{1}, '/md'];
     dir_dst = [nelsonroot(), '/modules/main/help/', k{1}, '/html/'];
@@ -96,6 +98,7 @@ function helpForNelsonOnly()
           if strcmp(md_filename{1}, 'homepage.md') || strcmp(md_filename{1}, 'license.md')
             content = fileread([dir_src, '/', md_filename{1}]);
             content = strrep(content, '(CHANGELOG.md)', '(CHANGELOG.html)');
+            content = strrep(content, '(CHANGELOG-0.2.x.md)', '(CHANGELOG-0.2.x.html)');
             content = strrep(content, '(CHANGELOG-0.1.x.md)', '(CHANGELOG-0.1.x.html)');
             content = strrep(content, '(license.md)', '(license.html)');
             content = strrep(content, '(GPL2.md)', '(GPL2.html)');
@@ -113,8 +116,16 @@ function helpForNelsonOnly()
         basename_src = fileparts(md{1}, 'filename');
         destination = [dir_dst, basename_src, '.html'];
         if needTobeGenerated(md{1}, destination)
-          r = markdown(md{1}, destination);
-          if (r == false)
+          txt = fileread(md{1});
+          txt = strrep(txt, '(CHANGELOG.md)', '(CHANGELOG.html)');
+          txt = strrep(txt, '(CHANGELOG-0.2.x.md)', '(CHANGELOG-0.2.x.html)');
+          txt = strrep(txt, '(CHANGELOG-0.1.x.md)', '(CHANGELOG-0.1.x.html)');
+          try
+            html = markdown(txt);
+            filewrite(destination, html);
+          catch
+          end
+          if ~isfile(destination)
             error([_('file not generated:'), newline, destination]);
           end
         end

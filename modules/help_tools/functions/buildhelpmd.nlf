@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -97,21 +97,34 @@ endfunction
 //=============================================================================
 function helpForNelsonOnly(destinationdir)
   src_files = {'homepage.md', 'banner_homepage.png'};
-    dst_files = {'README.md', 'banner_homepage.png'};
-    for k = getavailablelanguages()(:)'
-      locale = k{1}(1:2);
-      dir_dst = [destinationdir, '/', locale];
-      dir_src = [nelsonroot(), '/modules/main/help/', k{1}, '/md'];
-      mkdir(dir_dst);
-      for k = 1:length(src_files)
-        copyfile([dir_src, '/', src_files{k}], [dir_dst, '/', dst_files{k}]);
-      end
-      readme_path = [dir_dst, '/', 'README.md'];
-      readme_content = fileread(readme_path, 'cell');
-      readme_content{contains(readme_content, '(CHANGELOG.md)')} = '';
-      readme_content{contains(readme_content, '(CHANGELOG-0.1.x.md)')} = '';
-      readme_content{contains(readme_content, '(license.md)')} = '';
-      filewrite(readme_path, readme_content);
+  dst_files = {'README.md', 'banner_homepage.png'};
+  for k = getavailablelanguages()(:)'
+    locale = k{1}(1:2);
+    dir_dst = [destinationdir, '/', locale];
+    dir_src = [nelsonroot(), '/modules/main/help/', k{1}, '/md'];
+    mkdir(dir_dst);
+    for k = 1:length(src_files)
+      copyfile([dir_src, '/', src_files{k}], [dir_dst, '/', dst_files{k}]);
     end
+    changelogs = {'CHANGELOG.md', 'CHANGELOG-0.1.x.md', 'CHANGELOG-0.2.x.md'};
+    changelogs_dir = [dir_dst, '/changelogs'];
+    mkdir(changelogs_dir);
+    for k = 1:length(changelogs)
+      copyfile([nelsonroot(), '/', changelogs{k}], [changelogs_dir, '/', changelogs{k}]);
+    end
+
+    licenses = {'GPL2.md', 'license.md'};
+    licenses_dir = [dir_dst, '/license'];
+    mkdir(licenses_dir);
+    for k = 1:length(licenses)
+      copyfile([dir_src, '/', licenses{k}], [licenses_dir, '/', licenses{k}]);
+    end
+    content = fileread([dir_dst, '/', 'README.md']);
+    content = strrep(content, '(CHANGELOG.md)', '(./changelogs/CHANGELOG.md)');
+    content = strrep(content, '(CHANGELOG-0.2.x.md)', '(./changelogs/CHANGELOG-0.2.x.md)');
+    content = strrep(content, '(CHANGELOG-0.1.x.md)', '(./changelogs/CHANGELOG-0.1.x.md)');
+    content = strrep(content, '(license.md)', '(./license/license.md)');
+    filewrite([dir_dst, '/', 'README.md'], content);
+  end
 endfunction
 //=============================================================================
