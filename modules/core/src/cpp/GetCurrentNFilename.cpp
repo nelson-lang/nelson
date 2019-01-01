@@ -16,10 +16,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem.hpp>
 #include "GetCurrentNFilename.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static bool
+isFile(std::wstring filename)
+{
+    boost::filesystem::path data_dir(filename);
+    bool bRes = false;
+    try {
+        bRes = boost::filesystem::exists(data_dir) && !boost::filesystem::is_directory(data_dir);
+    } catch (const boost::filesystem::filesystem_error& e) {
+        if (e.code() == boost::system::errc::permission_denied) {
+            // ONLY FOR DEBUG
+        }
+        bRes = false;
+    }
+    return bRes;
+}
+//=============================================================================
 std::wstring
 GetCurrentNFilenameW(Evaluator* eval)
 {
@@ -34,6 +54,18 @@ GetCurrentNFilenameW(Evaluator* eval)
             fileName = utf8_to_wstring(callerName);
         }
     }
+	if (fileName != L"")
+	{
+        if (isFile(fileName)) {
+            boost::filesystem::path canonicalPath;
+            try {
+                canonicalPath
+                    = boost::filesystem::canonical(fileName, boost::filesystem::current_path());
+                fileName = canonicalPath.generic_wstring();
+            } catch (const boost::filesystem::filesystem_error&) {
+            }
+        }
+	}
     return fileName;
 }
 //=============================================================================

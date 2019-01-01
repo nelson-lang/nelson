@@ -5,8 +5,13 @@ Features:
 ---------
 
 
+
 Bug Fixes:
 ---------
+
+  * [#176](http://github.com/Nelson-numerical-software/nelson/issues/176): nfilename did not return canonical path name in some cases.
+
+
 
 Compilation:
 ---------
