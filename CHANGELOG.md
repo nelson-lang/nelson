@@ -14,6 +14,7 @@ Bug Fixes:
 
   * [#176](http://github.com/Nelson-numerical-software/nelson/issues/176): nfilename did not return canonical path name in some cases.
 
+  * [#9](http://github.com/Nelson-numerical-software/nelson/issues/9): tests were not embedded in linux & macos binaries (make package).
 
 
 Compilation:

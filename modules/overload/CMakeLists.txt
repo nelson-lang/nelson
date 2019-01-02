@@ -90,6 +90,8 @@ install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.nls DESTINATION 
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nlf")
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nlf" PATTERN "*.nls")
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.qch" PATTERN "xml" EXCLUDE PATTERN "md" EXCLUDE)
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nls")
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nlf")
 #==============================================================================
 
 

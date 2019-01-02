@@ -110,6 +110,8 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions DESTINATI
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.qch" PATTERN "xml" EXCLUDE PATTERN "md" EXCLUDE)
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/src/include DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.h")
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/src/include DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.hpp")
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nls")
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nlf")
 #==============================================================================
 
 
