@@ -57,15 +57,15 @@ stringToDouble(const std::wstring& str, bool& wasConverted)
         wasConverted = true;
     } else {
         std::wstring STR = ToUpper(str);
-        if (STR.compare(ToUpper(NanString)) == 0 || STR.compare(ToUpper(NegNanString)) == 0
-            || STR.compare(ToUpper(PosNanString)) == 0) {
+        if (STR == ToUpper(NanString) || STR == ToUpper(NegNanString)
+            || STR == ToUpper(PosNanString)) {
             res = nan("");
             wasConverted = true;
-        } else if (STR.compare(ToUpper(NegInfString)) == 0) {
+        } else if (STR == ToUpper(NegInfString)) {
             res = returnInfinity(false);
             wasConverted = true;
-        } else if (STR.compare(ToUpper(InfString)) == 0
-            || STR.compare(ToUpper(PosInfString)) == 0) {
+        } else if (STR == ToUpper(InfString)
+            || STR == ToUpper(PosInfString)) {
             res = returnInfinity(true);
             wasConverted = true;
         } else {

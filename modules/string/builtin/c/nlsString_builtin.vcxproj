@@ -170,6 +170,8 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\charBuiltin.cpp" />
     <ClCompile Include="..\cpp\containsBuiltin.cpp" />
+    <ClCompile Include="..\cpp\convertCharsToStringsBuiltin.cpp" />
+    <ClCompile Include="..\cpp\convertStringsToCharsBuiltin.cpp" />
     <ClCompile Include="..\cpp\countBuiltin.cpp" />
     <ClCompile Include="..\cpp\deblankBuiltin.cpp" />
     <ClCompile Include="..\cpp\endsWithBuiltin.cpp" />
@@ -224,6 +226,8 @@
   <ItemGroup>
     <ClInclude Include="..\include\charBuiltin.hpp" />
     <ClInclude Include="..\include\containsBuiltin.hpp" />
+    <ClInclude Include="..\include\convertCharsToStringsBuiltin.hpp" />
+    <ClInclude Include="..\include\convertStringsToCharsBuiltin.hpp" />
     <ClInclude Include="..\include\countBuiltin.hpp" />
     <ClInclude Include="..\include\deblankBuiltin.hpp" />
     <ClInclude Include="..\include\endsWithBuiltin.hpp" />

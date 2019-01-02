@@ -4,6 +4,7 @@
 Features:
 ---------
 
+  * [#173](http://github.com/Nelson-numerical-software/nelson/issues/173): convertStringsToChars and convertCharsToStrings builtin.
 
 
 Bug Fixes:

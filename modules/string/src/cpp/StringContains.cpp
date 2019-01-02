@@ -68,7 +68,7 @@ StringContains(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
             auto* cellA = (ArrayOf*)(A.getDataPointer());
             for (size_t k = 0; k < nbA; k++) {
                 result[k]
-                    = containsString(cellA[k].getContentAsWideString(), pattern, bCaseSensitive);
+                    = static_cast<Nelson::logical>(containsString(cellA[k].getContentAsWideString(), pattern, bCaseSensitive));
             }
             res = ArrayOf(NLS_LOGICAL, dimA, result);
         } else if ((A.isStringArray() || IsCellOfString(A))
@@ -85,7 +85,7 @@ StringContains(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
                     bool val = containsString(cellA[k].getContentAsWideString(),
                         cellPattern[l].getContentAsWideString(), bCaseSensitive);
                     if (val) {
-                        result[k] = val;
+                        result[k] = static_cast<Nelson::logical>(val);
                         break;
                     }
                 }

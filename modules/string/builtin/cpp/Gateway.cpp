@@ -38,6 +38,8 @@
 #include "stringBuiltin.hpp"
 #include "stringsBuiltin.hpp"
 #include "deblankBuiltin.hpp"
+#include "convertStringsToCharsBuiltin.hpp"
+#include "convertCharsToStringsBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -68,7 +70,13 @@ static const nlsGateway gateway[] = { { "char", Nelson::StringGateway::charBuilt
     { "deblank", Nelson::StringGateway::deblankBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "strlength", Nelson::StringGateway::strlengthBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "string", Nelson::StringGateway::stringBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "strings", Nelson::StringGateway::stringsBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR } };
+    { "strings", Nelson::StringGateway::stringsBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "convertStringsToChars", Nelson::StringGateway::convertStringsToCharsBuiltin, -1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "convertCharsToStrings", Nelson::StringGateway::convertCharsToStringsBuiltin, -1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+
+};
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

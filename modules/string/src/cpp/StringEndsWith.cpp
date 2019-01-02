@@ -69,7 +69,7 @@ StringEndsWith(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
             auto* cellA = (ArrayOf*)(A.getDataPointer());
             for (size_t k = 0; k < nbA; k++) {
                 result[k]
-                    = endsWithString(cellA[k].getContentAsWideString(), pattern, bCaseSensitive);
+                    = static_cast<Nelson::logical>(endsWithString(cellA[k].getContentAsWideString(), pattern, bCaseSensitive));
             }
             res = ArrayOf(NLS_LOGICAL, dimA, result);
         } else if ((A.isStringArray() || IsCellOfString(A))
@@ -86,7 +86,7 @@ StringEndsWith(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
                     bool val = endsWithString(cellA[k].getContentAsWideString(),
                         cellPattern[l].getContentAsWideString(), bCaseSensitive);
                     if (val) {
-                        result[k] = val;
+                        result[k] = static_cast<Nelson::logical>(val);
                         break;
                     }
                 }
