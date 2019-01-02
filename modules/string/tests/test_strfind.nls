@@ -106,7 +106,8 @@ assert_checkerror('idx = strfind('''', {''''});', _('Second argument a single st
 assert_checkerror('idx = strfind(''aaaa'',[''a'';''a'']);', _('Second argument a single string expected.'));
 assert_checkerror('strfind([''aaaa'';''bbbb''],{''aba'',''aa''})', _('Wrong type for argument #1: string or cell expected.'))
 assert_checkerror('strfind()', _('Wrong number of input arguments.'));
-assert_checkerror('strfind(''aaaa'', ''aa'', ''overlaps'', -1)', _('''ForceCellOutput'' expected as third input argument.'));
+expected_msg = _("'ForceCellOutput' expected as third input argument.");
+assert_checkerror('strfind(''aaaa'', ''aa'', ''overlaps'', -1)', expected_msg);
 //=============================================================================
 str = 'No pain no gain.';
 k = strfind(str,'in','ForceCellOutput',true);

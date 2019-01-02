@@ -40,19 +40,15 @@ EXTENSIONS_MACROS_NELSON = {'*.nls', '*.nlf'};
 EXTENSIONS = [EXTENSIONS_SRC_NELSON, EXTENSIONS_MACROS_NELSON];
 DOMAIN ='nelson';
 TARGETDIR = [tempdir(), '/', DOMAIN, '_pot'];
-mkdir(TARGETDIR);
-
+if isdir(TARGETDIR)
+  rmdir(TARGETDIR, 's');
+end  
+[status, msg] = mkdir(TARGETDIR);
 
 FILESINFO_SRC = [];
 for k = EXTENSIONS_SRC_NELSON
   f = dir([nelsonroot(),'/', k{1}], '-s');
   FILESINFO_SRC = [FILESINFO_SRC; f];
-end
-
-FILESINFO_MACROS = [];
-for k = EXTENSIONS_MACROS_NELSON
-  f = dir([nelsonroot(),'/', k{1}], '-s');
-  FILESINFO_MACROS = [FILESINFO_MACROS; f];
 end
 
 SRCLISTFILE = [TARGETDIR, '/', DOMAIN, '_src_lst_pot'];
@@ -63,6 +59,12 @@ for k = 1:length(FILESINFO_SRC)
 end
 fclose(fw);
 
+FILESINFO_MACROS = [];
+for k = EXTENSIONS_MACROS_NELSON
+  f = dir([nelsonroot(),'/', k{1}], '-s');
+  FILESINFO_MACROS = [FILESINFO_MACROS; f];
+end
+
 MACROSLISTFILE = [TARGETDIR, '/', DOMAIN, '_macros_lst_pot'];
 fw = fopen(MACROSLISTFILE, 'wt');
 for k = 1:length(FILESINFO_MACROS)
@@ -70,6 +72,7 @@ for k = 1:length(FILESINFO_MACROS)
   fwrite(fw, [srcfilename, char(10)])
 end
 fclose(fw);
+
 
 SRC_POT = [TARGETDIR, '/', DOMAIN, '_src.pot'];
 MACROS_POT = [TARGETDIR, '/', DOMAIN, '_macros.pot'];
@@ -90,27 +93,22 @@ if r != 0
   error(errmsg);
 end
 
-txt = fileread(SRC_POT);
-fw = fopen(SRC_POT, 'wt');
-for h = 1:length(header_pot)
-  fwrite(fw, [header_pot{h}, char(10)]);
-end
-fwrite(fw, txt);
-fclose(fw);
+txt = fileread(SRC_POT, 'string');
+txt = [header_pot; txt];
+filewrite(SRC_POT, txt);
 
-txt = fileread(MACROS_POT);
-fw = fopen(MACROS_POT, 'wt');
-for h = 1:length(header_pot)
-  fwrite(fw, [header_pot{h}, char(10)]);
-end
-fwrite(fw, txt);
-fclose(fw);
+txt = fileread(MACROS_POT, 'string');
+txt = [header_pot; txt];
+filewrite(MACROS_POT, txt);
 
 cat_cmd = [MSGCAT, ' ', MSGCAT_OPTIONS, ' ', SRC_POT, ' ', MACROS_POT, ' -o ', ALL_POT];
 [r, errmsg] = unix(cat_cmd);
 if r != 0
   error(errmsg);
 end
+
+potfile = [nelsonroot(), '/locale/nelson.pot'];
+copyfile(ALL_POT, potfile, 'f');
 
 langs = getavailablelanguages();
 
@@ -121,16 +119,16 @@ for l = langs(:)'
     mkdir(dirdest)
   end
   pofiledest = [dirdest, DOMAIN, '.po'];
-  if ~isfile(pofiledest)
+
+  if isfile(pofiledest)
+    MSGCAT_OPTIONS = ' --force-po --no-location --unique --use-first';
+    CMD = [MSGCAT, ' ', MSGCAT_OPTIONS, ' ', pofiledest, ' ', potfile, ' -o ', pofiledest];
+  else 
     header_po = poheader(DOMAIN, l{1});
-    fw = fopen(pofiledest, 'wt');
-    for h = 1:length(header_pot)
-      fwrite(fw, [header_pot{h}, char(10)]);
-    end
-    fclose(fw);
+    filewrite(pofiledest, header_pot)
+    CMD = [MSGMERGE, ' --update ', pofiledest, ' ', potfile];
   end
-  MSGMERGE_CMD = [MSGMERGE, ' --update ', pofiledest, ' ', ALL_POT];
-  [r, errmsg] = unix(MSGMERGE_CMD);
+  [r, errmsg] = unix(CMD);
   if r != 0
     error(errmsg);
   end

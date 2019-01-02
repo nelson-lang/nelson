@@ -16,6 +16,8 @@ Bug Fixes:
 
   * [#9](http://github.com/Nelson-numerical-software/nelson/issues/9): tests were not embedded in linux & macos binaries (make package).
 
+  * [#4](http://github.com/Nelson-numerical-software/nelson/issues/4): nelson.pot generated from sources.
+
 
 Compilation:
 ---------
