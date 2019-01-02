@@ -44,6 +44,7 @@ static const nlsGateway gateway[] = {
     { "userdir", Nelson::FilesFoldersGateway::userdirBuiltin, 1, 0 },
     { "cd", Nelson::FilesFoldersGateway::cdBuiltin, 1, 1 },
     { "isdir", Nelson::FilesFoldersGateway::isdirBuiltin, 1, 1 },
+    { "isfolder", Nelson::FilesFoldersGateway::isdirBuiltin, 1, 1 },
     { "isfile", Nelson::FilesFoldersGateway::isfileBuiltin, 1, 1 },
     { "dir", Nelson::FilesFoldersGateway::dirBuiltin, 1, 1 },
     { "fileparts", Nelson::FilesFoldersGateway::filepartsBuiltin, 3, 2 },

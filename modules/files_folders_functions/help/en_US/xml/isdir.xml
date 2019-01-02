@@ -28,6 +28,7 @@
 
 	<description>
 <p><b>isdir(dirname)</b> returns <b>true</b> if <b>dirname</b> is a directory.</p>
+<p><b>isdir</b> and <b>isfolder</b> are same.</p>
 </description>
 
 
@@ -53,6 +54,9 @@ isdir([nelsonroot(), '/not_exist_dir'])]]>
 		</see_also_item>
 		<see_also_item>
 			<link linkend="${files_folders_functions}isfile">isfile</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${files_folders_functions}isfolder">isfolder</link>
 		</see_also_item>
 
 	</see_also>
