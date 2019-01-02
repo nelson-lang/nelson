@@ -9,6 +9,9 @@ Features:
 Bug Fixes:
 ---------
 
+
+  * [#177](http://github.com/Nelson-numerical-software/nelson/issues/177): some tests failed when it executed from a binary version on windows.
+
   * [#176](http://github.com/Nelson-numerical-software/nelson/issues/176): nfilename did not return canonical path name in some cases.
 
 

@@ -41,12 +41,14 @@ assert_isequal(C, B);
 D = eval('B;');
 assert_isequal(D, B);
 //=============================================================================
-assert_checkerror('R = eval(''AA = 33'');', _('Expecting statement list or function definition'));
+expected_msg = sprintf(_('Expecting %s'), _('statement list or function definition'));
+assert_checkerror('R = eval(''AA = 33'');', expected_msg);
 //=============================================================================
 eval('AA = 33');
 assert_isequal(AA, 33);
 //=============================================================================
-assert_checkerror('R = eval(''cos = 33;'');', _('Expecting statement list or function definition'));
+expected_msg = sprintf(_('Expecting %s'), _('statement list or function definition'));
+assert_checkerror('R = eval(''cos = 33;'');', expected_msg);
 eval('cos = 33;');
 assert_isequal(cos, 33);
 //=============================================================================

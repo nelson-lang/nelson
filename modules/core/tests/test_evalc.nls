@@ -55,5 +55,6 @@ R = evalc('warning(''this a warning'')');
 REF = 'this a warning';
 assert_isequal(R, REF);
 //=============================================================================
-assert_checkerror('evalc(''A++'')', _('Expecting an expression after ''+'''));
+expected_msg = sprintf(_('Expecting %s'), _('an expression after ''+'''));
+assert_checkerror('evalc(''A++'')', expected_msg);
 //=============================================================================
