@@ -29,6 +29,9 @@ Compilation:
 
   * MKL 2019.1 updated for blas, lapack, lapacke, fftw wrappers on Windows.
 
+  * Nelson deployed/installed on appveyor.
+
+  * Nelson available as portable zip file for Windows.
 
 Previous changelog:
 ---------
