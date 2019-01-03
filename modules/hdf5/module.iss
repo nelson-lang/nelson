@@ -20,6 +20,7 @@
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsHdf5.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsHdf5_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\hdf5.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\h5dump.exe; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\h5ls.exe; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================

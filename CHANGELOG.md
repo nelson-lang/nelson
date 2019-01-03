@@ -10,6 +10,9 @@ Features:
 Bug Fixes:
 ---------
 
+
+  * [#182](http://github.com/Nelson-numerical-software/nelson/issues/182): Nelson did not start without hdf5 dependency.
+
   * [#179](http://github.com/Nelson-numerical-software/nelson/issues/179): isfolder alias on isdir.
 
   * [#177](http://github.com/Nelson-numerical-software/nelson/issues/177): some tests failed when it executed from a binary version on windows.
