@@ -63,20 +63,5 @@ Source: {#RootPath}bin\{#BinPath}\openblas\libnlsblaslapack.dll; DestDir: {app}\
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\mkl\libiomp5md.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
 Source: {#RootPath}bin\{#BinPath}\mkl\libnlsblaslapack.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
-Source: {#RootPath}bin\{#BinPath}\mkl\mkl_avx.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
-Source: {#RootPath}bin\{#BinPath}\mkl\mkl_avx2.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
-Source: {#RootPath}bin\{#BinPath}\mkl\mkl_avx512.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
-Source: {#RootPath}bin\{#BinPath}\mkl\mkl_core.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
-Source: {#RootPath}bin\{#BinPath}\mkl\mkl_intel_thread.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
 Source: {#RootPath}bin\{#BinPath}\mkl\mkl_license.txt; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
-Source: {#RootPath}bin\{#BinPath}\mkl\mkl_rt.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
-#ifdef NELSON_X64
-Source: {#RootPath}bin\{#BinPath}\mkl\mkl_avx512_mic.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
-Source: {#RootPath}bin\{#BinPath}\mkl\mkl_mc.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
-Source: {#RootPath}bin\{#BinPath}\mkl\mkl_mc3.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
-#else
-Source: {#RootPath}bin\{#BinPath}\mkl\mkl_p4.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
-Source: {#RootPath}bin\{#BinPath}\mkl\mkl_p4m.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
-Source: {#RootPath}bin\{#BinPath}\mkl\mkl_p4m3.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
-#endif
 ;==============================================================================

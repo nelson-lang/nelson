@@ -24,6 +24,7 @@ Bug Fixes:
 Compilation:
 ---------
 
+  * MKL 2019.1 updated for blas, lapack, lapacke, fftw wrappers on Windows.
 
 
 Previous changelog:
