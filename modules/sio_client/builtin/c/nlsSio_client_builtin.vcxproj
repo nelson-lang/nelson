@@ -22,7 +22,7 @@
     <ProjectGuid>{22156B3C-3601-4CAA-B439-CA7B96147F15}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsSio_client_builtin</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

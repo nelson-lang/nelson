@@ -33,6 +33,9 @@ Compilation:
 
   * Nelson available as portable zip file for Windows.
 
+  * Update Visual studio solution to SDK 10.17763
+  
+
 Previous changelog:
 ---------
 

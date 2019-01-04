@@ -22,7 +22,7 @@
     <ProjectGuid>{E02A3EB6-771A-47FD-8E64-3468D98B4EEE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsText_editor_builtin</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

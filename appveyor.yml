@@ -41,8 +41,8 @@ build_script:
 after_build:
 - if %platform%==x64 (set GENERATED_EXE=Nelson-%APPVEYOR_BUILD_VERSION%-x86-64.exe) else (set GENERATED_EXE=Nelson-%APPVEYOR_BUILD_VERSION%-x86-32.exe)
 - if %platform%==x64 (set GENERATED_ZIP=Nelson-%APPVEYOR_BUILD_VERSION%-x86-64.zip) else (set GENERATED_ZIP=Nelson-%APPVEYOR_BUILD_VERSION%-x86-32.zip)
-- if %platform%==x64 (set RESULT_XML=Nelson-%APPVEYOR_BUILD_VERSION%-win-x86-64.xml) else (set RESULT_XML=Nelson-%APPVEYOR_BUILD_VERSION%-win-x86-32.xml)
-- if %platform%==x64 (set RESULT_JSON=Nelson-%APPVEYOR_BUILD_VERSION%-win-x86-64.json) else (set RESULT_JSON=Nelson-%APPVEYOR_BUILD_VERSION%-win-x86-32.json)
+- if %platform%==x64 (set RESULT_XML=tests_all-%APPVEYOR_BUILD_VERSION%-win-x86-64.xml) else (set RESULT_XML=tests_all-%APPVEYOR_BUILD_VERSION%-win-x86-32.xml)
+- if %platform%==x64 (set RESULT_JSON=tests_all-%APPVEYOR_BUILD_VERSION%-win-x86-64.json) else (set RESULT_JSON=tests_all-%APPVEYOR_BUILD_VERSION%-win-x86-32.json)
 
 - c:\build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:\build_chain/nelson/tools/buildhelp/buildhelp.nls
 - c:\build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:\build_chain/nelson/tools/tests_minimal/runtests_minimal.nls
@@ -54,16 +54,14 @@ after_build:
 - mv c:/build_chain/app c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%
 - 7z a -tzip c:/build_chain/%GENERATED_ZIP% c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%
 
-- c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-adv-cli --quiet -f c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%/tools/tests_all/runtests_all.nls
-- c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%/tools/tests_result/tests_result.nls
+# tested in an long path name with space on windows
+- mv "c:\build_chain\Nelson-%APPVEYOR_BUILD_VERSION%" "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%"
+- "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-adv-cli" --quiet -f "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%\tools\tests_all\runtests_all.nls"
+- "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-cli" --quiet -f "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%\tools\tests_result\tests_result.nls"
 
-- echo "c:/build_chain/%GENERATED_ZIP%" "c:/build_chain/nelson/%GENERATED_ZIP%"
-- echo "c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%/%RESULT_XML%" "c:/build_chain/nelson/%RESULT_XML%"
-- echo "c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%/%RESULT_JSON%" "c:/build_chain/nelson/%RESULT_JSON%"
-
-- copy "c:/build_chain/%GENERATED_ZIP%" "c:/build_chain/nelson/%GENERATED_ZIP%"
-- copy "c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%/%RESULT_XML%" "c:/build_chain/nelson/%RESULT_XML%"
-- copy "c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%/%RESULT_JSON%" "c:/build_chain/nelson/%RESULT_JSON%"
+- copy "c:\build_chain\%GENERATED_ZIP%" "c:\build_chain\nelson\%GENERATED_ZIP%"
+- copy "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%\%RESULT_XML%" "c:\build_chain\nelson\%RESULT_XML%"
+- copy "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%\%RESULT_JSON%" "c:\build_chain\nelson\%RESULT_JSON%"
 
 artifacts:
   - path: ./%GENERATED_EXE%
