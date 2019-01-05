@@ -3,9 +3,9 @@ image: Visual Studio 2017
 
 environment:
   VS_VERSION: vs2017
-  QTDIR64: C:/Qt/5.11.2/msvc2017_64
-  QTDIR32: C:/Qt/5.11.2/msvc2015
-  BUILD_CHAIN_DIR: c:/build_chain/nelson
+  QTDIR64: C:\Qt\5.11.2\msvc2017_64
+  QTDIR32: C:\Qt\5.11.2\msvc2015
+  BUILD_CHAIN_DIR: c:\build_chain\nelson
 
 branches:
   only:
@@ -35,7 +35,7 @@ before_build:
 - install.bat
 
 build_script:
-- cd "%BUILD_CHAIN_DIR%"
+- cd "c:\build_chain\nelson"
 - msbuild nelson.sln /p:Configuration=Release /p:Platform=%NELSON_PLATFORM% /target:"NelSon-gui"  /m:4 
 
 after_build:
@@ -44,24 +44,24 @@ after_build:
 - if %platform%==x64 (set RESULT_XML=tests_all-%APPVEYOR_BUILD_VERSION%-win-x86-64.xml) else (set RESULT_XML=tests_all-%APPVEYOR_BUILD_VERSION%-win-x86-32.xml)
 - if %platform%==x64 (set RESULT_JSON=tests_all-%APPVEYOR_BUILD_VERSION%-win-x86-64.json) else (set RESULT_JSON=tests_all-%APPVEYOR_BUILD_VERSION%-win-x86-32.json)
 
-- "%BUILD_CHAIN_DIR%/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f %BUILD_CHAIN_DIR%/tools/buildhelp/buildhelp.nls"
-- "%BUILD_CHAIN_DIR%/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f %BUILD_CHAIN_DIR%/tools/tests_minimal/runtests_minimal.nls"
+- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:/build_chain/nelson/tools/buildhelp/buildhelp.nls"
+- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:/build_chain/nelson/tools/tests_minimal/runtests_minimal.nls"
 
-- "%BUILD_CHAIN_DIR%/bin/%NELSON_PLATFORM%/nelson-cli --quiet -e run('%BUILD_CHAIN_DIR%/tools/innosetup/innosetup.nls');exit"
-- iscc "%BUILD_CHAIN_DIR%/tools/innosetup/Nelson.iss"
+- "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -e run('c:/build_chain/nelson/tools/innosetup/innosetup.nls');exit"
+- iscc "c:/build_chain/nelson/tools/innosetup/Nelson.iss"
 
-- c:/build_chain/nelson-thirdparty-%NELSON_PLATFORM%/innoextract/innoextract.exe -e %BUILD_CHAIN_DIR%/%GENERATED_EXE% -d c:/build_chain/
+- c:/build_chain/nelson-thirdparty-%NELSON_PLATFORM%/innoextract/innoextract.exe -e c:/build_chain/nelson/%GENERATED_EXE% -d c:/build_chain/
 - mv c:/build_chain/app c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%
 - 7z a -tzip c:/build_chain/%GENERATED_ZIP% c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%
 
 # tested in an long path name with space on windows
 - mv "c:\build_chain\Nelson-%APPVEYOR_BUILD_VERSION%" "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%"
-- "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-adv-cli --quiet -f c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/tests_all/runtests_all.nls"
-- "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/tests_result/tests_result.nls"
+- '"c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-adv-cli" --quiet -f "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/tests_all/runtests_all.nls"'
+- '"c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/bin/%NELSON_PLATFORM%/nelson-cli" --quiet -f "c:/build_chain/Nelson %APPVEYOR_BUILD_VERSION%/tools/tests_result/tests_result.nls"'
 
-- copy "c:\build_chain\%GENERATED_ZIP%" "%BUILD_CHAIN_DIR%\%GENERATED_ZIP%"
-- copy "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%\%RESULT_XML%" "%BUILD_CHAIN_DIR%\%RESULT_XML%"
-- copy "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%\%RESULT_JSON%" "%BUILD_CHAIN_DIR%\%RESULT_JSON%"
+- copy "c:\build_chain\%GENERATED_ZIP%" "c:\build_chain\nelson\%GENERATED_ZIP%"
+- copy "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%\%RESULT_XML%" "c:\build_chain\nelson\%RESULT_XML%"
+- copy "c:\build_chain\Nelson %APPVEYOR_BUILD_VERSION%\%RESULT_JSON%" "c:\build_chain\nelson\%RESULT_JSON%"
 
 artifacts:
   - path: ./%GENERATED_EXE%
@@ -76,4 +76,4 @@ notifications:
   - nelson.numerical.computation@gmail.com
 
 # clone directory
-clone_folder: "%BUILD_CHAIN_DIR%"
+clone_folder: c:\build_chain\nelson
