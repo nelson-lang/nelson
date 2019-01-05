@@ -50,8 +50,7 @@ after_build:
 - "c:/build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -e run('c:/build_chain/nelson/tools/innosetup/innosetup.nls');exit"
 - iscc "c:/build_chain/nelson/tools/innosetup/Nelson.iss"
 
-- c:/build_chain/nelson-thirdparty-%NELSON_PLATFORM%/innoextract/innoextract.exe -e c:/build_chain/nelson/%GENERATED_EXE% -d c:/build_chain/
-- mv c:/build_chain/app c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%
+- 'c:/build_chain/nelson/%GENERATED_EXE% /SP- /SILENT /DIR="c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%"'
 - 7z a -tzip c:/build_chain/%GENERATED_ZIP% c:/build_chain/Nelson-%APPVEYOR_BUILD_VERSION%
 
 # tested in an long path name with space on windows
