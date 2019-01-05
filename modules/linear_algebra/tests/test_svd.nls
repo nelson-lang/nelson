@@ -272,9 +272,9 @@ V_REF = [-0.5774   -0.8165;
 V_REF_MKL = [-0.5774, -0.5774;
 -0.5774, 0.7887;
 -0.5774, -0.2113];
-assert_isapprox(U, U_REF, 1e-4);
+assert_isapprox(abs(U), abs(U_REF), 1e-4);
 assert_isapprox(S, S_REF, 1e-4);
-assert_istrue(isapprox(V, V_REF, 1e-4) || isapprox(V, V_REF_MKL, 1e-4));
+assert_istrue(isapprox(abs(V), abs(V_REF), 1e-4) || isapprox(V, V_REF_MKL, 1e-4));
 //=============================================================================
 A = ones(3, 3);
 [U1, S1, V1] = svd(A, 'econ');
@@ -301,11 +301,10 @@ S2_REF = [2.4495      0.0000;
 0.0000      0.0000];
 V2_REF = [-0.7071      0.7071;
 -0.7071     -0.7071];
-
-if isapprox(U, U2_REF, 1e-4)
-  assert_isapprox(U, U2_REF, 1e-4);
+if isapprox(abs(U), abs(U2_REF), 1e-4)
+  assert_isapprox(abs(U), abs(U2_REF), 1e-4);
   assert_isapprox(S, S2_REF, 1e-4);
-  assert_isapprox(V, V2_REF, 1e-4);
+  assert_isapprox(abs(V), abs(V2_REF), 1e-4);
 else
   assert_isapprox(abs(U), abs(U1_REF), 1e-4);
   assert_isapprox(S, S1_REF, 1e-4);
@@ -332,6 +331,13 @@ U3_REF = [-0.5774     -0.5774      0.0000;
 U2_REF = [ -0.5774      0.8165     -0.0000;
 -0.5774     -0.4082     -0.7071;
 -0.5774     -0.4082      0.7071];
+
+U3_REF = [0.5774      0.8165      0.0000;
+      0.5774     -0.4082     -0.7071;
+      0.5774     -0.4082      0.7071];
+U4_REF = [  0.5774      0.5774      0.0000;
+      0.5774     -0.7887     -0.2113;
+      0.5774      0.2113      0.7887];
 S2_REF = [2.4495      0.0000;
 0.0000      0.0000;
 0.0000      0.0000];
@@ -340,26 +346,22 @@ V2_REF = [-0.7071      0.7071;
 if U(1,3) < eps
   U(1,3) = 0;
 end
+if isapprox(U, U1_REF, 1e-4)
+  assert_isapprox(U, U1_REF, 1e-4);
+  assert_isapprox(S, S1_REF, 1e-4);
+  assert_isapprox(V, V1_REF, 1e-4);
+end
 if isapprox(U, U2_REF, 1e-4)
   assert_isapprox(U, U2_REF, 1e-4);
-  assert_isapprox(S, S2_REF, 1e-4);
-  assert_isapprox(V, V2_REF, 1e-4);
-else
-  if isapprox(U, U3_REF, 1e-4)
-    assert_isapprox(U, U3_REF, 1e-4);
-  else
-    if isapprox(U(1, 3),  0, 1e-4)
-      U_REF = [  0.5774      0.5774      0.0000;
-      0.5774     -0.7887     -0.2113;
-      0.5774      0.2113      0.7887];
-      assert_isapprox(U, U_REF, 1e-4);
-    else
-      assert_isapprox(U, U1_REF, 1e-4);
-    end
-  end
-  assert_isapprox(S, S1_REF, 1e-4);
-  assert_isapprox(abs(V), abs(V1_REF), 1e-4);
 end
+if isapprox(U, U3_REF, 1e-4)
+  assert_isapprox(U, U3_REF, 1e-4);
+end
+if isapprox(U, U4_REF, 1e-4)
+  assert_isapprox(U, U4_REF, 1e-4);
+end
+assert_isapprox(S, S1_REF, 1e-4);
+assert_isapprox(abs(V), abs(V1_REF), 1e-4);
 //=============================================================================
 A = ones(3, 2);
 [U, S, V] = svd(A, 0);
@@ -383,7 +385,7 @@ if isapprox(U, U2_REF, 1e-4)
   assert_isapprox(S, S2_REF, 1e-4);
   assert_isapprox(V, V2_REF, 1e-4);
 else
-  assert_isapprox(abs(U), abs(U1_REF), 1e-4);
+  assert_isapprox(abs(U(:, 1)), abs(U1_REF(:, 1)), 1e-4);
   assert_isapprox(S, S1_REF, 1e-4);
   assert_isapprox(abs(V), abs(V1_REF), 1e-4);
 end
@@ -418,7 +420,7 @@ if isapprox(U, U2_REF, 1e-4)
   assert_isapprox(U, U2_REF, 1e-4);
   assert_isapprox(S, S2_REF, 1e-4);
 else
-  assert_isapprox(abs(U), abs(U1_REF), 1e-4);
+  assert_isapprox(abs(U(:,1)), abs(U1_REF(:,1)), 1e-4);
   assert_isapprox(S, S1_REF, 1e-4);
 end
 //=============================================================================
