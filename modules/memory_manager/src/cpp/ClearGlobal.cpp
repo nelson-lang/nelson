@@ -85,7 +85,8 @@ bool
 ClearAllGlobalVariables(Evaluator* eval)
 {
     bool bUnlocked = true;
-    stringVector names = eval->getContext()->getGlobalScope()->getVariablesList(true);
+    stringVector names;
+	eval->getContext()->getGlobalScope()->getVariablesList(true, names);
     for (const auto& name : names) {
         if (!eval->getContext()->getGlobalScope()->deleteVariable(name)) {
             bUnlocked = false;
@@ -98,7 +99,8 @@ bool
 ClearAllPersistentVariables(Evaluator* eval)
 {
     bool bUnlocked = true;
-    stringVector names = eval->getContext()->getGlobalScope()->getVariablesList(true);
+    stringVector names;
+    eval->getContext()->getGlobalScope()->getVariablesList(true, names);
     for (const auto& name : names) {
         if (!eval->getContext()->getGlobalScope()->isVariablePersistent(name)) {
             if (!eval->getContext()->getGlobalScope()->deleteVariable(name)) {
@@ -122,8 +124,8 @@ ClearPersistentVariable(Evaluator* eval, std::string variable)
     FuncPtr func;
     bool isFun = eval->lookupFunction(variable, func);
     if (isFun && func->type() == NLS_MACRO_FUNCTION) {
-        stringVector allVariableNames
-            = eval->getContext()->getGlobalScope()->getVariablesList(true);
+        stringVector allVariableNames;
+        eval->getContext()->getGlobalScope()->getVariablesList(true, allVariableNames);
         for (std::string name : allVariableNames) {
             if (boost::algorithm::starts_with(name, "_" + variable + "_")) {
                 res = res || eval->getContext()->getGlobalScope()->deleteVariable(name);

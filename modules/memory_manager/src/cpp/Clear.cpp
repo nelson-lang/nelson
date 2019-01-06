@@ -87,7 +87,8 @@ bool
 ClearAllVariables(Evaluator* eval)
 {
     bool bUnlocked = true;
-    stringVector names = eval->getContext()->getCurrentScope()->getVariablesList(true);
+    stringVector names;
+    eval->getContext()->getCurrentScope()->getVariablesList(true, names);
     for (const auto& name : names) {
         if (ClearVariable(eval, name)) {
             bUnlocked = false;

@@ -236,6 +236,8 @@ public:
 
     bool
     isVariable(std::string varname);
+    bool
+    isVariable(std::wstring varname);
 
     size_t
     getRecursionDepth();

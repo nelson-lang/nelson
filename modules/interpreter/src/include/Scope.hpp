@@ -224,8 +224,12 @@ public:
     inLoop();
 
     /* Get symbols list*/
-    stringVector
-    getVariablesList(bool withPersistent);
+	void
+    getVariablesList(bool withPersistent, stringVector &list);
+
+	void
+    getVariablesList(bool withPersistent, wstringVector& list);
+
     stringVector
     getBuiltinsList();
 

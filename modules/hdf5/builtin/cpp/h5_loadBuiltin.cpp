@@ -16,37 +16,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "VariableCompleter.hpp"
-#include "Evaluator.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
-#include "characters_encoding.hpp"
+#include "h5_loadBuiltin.hpp"
+#include "h5Load.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-wstringVector
-VariableCompleter(std::wstring prefix)
+ArrayOfVector
+Nelson::Hdf5Gateway::h5_loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    wstringVector res;
-    auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
-    if (eval) {
-        stringVector variables;
-        eval->getContext()->getGlobalScope()->getVariablesList(true, variables);
-        stringVector variablesCurrentScope;
-        eval->getContext()->getCurrentScope()->getVariablesList(true, variablesCurrentScope);
-        variables.insert(
-            variables.end(), variablesCurrentScope.begin(), variablesCurrentScope.end());
-        stringVector variablesBaseScope;
-        eval->getContext()->getBaseScope()->getVariablesList(true, variablesBaseScope);
-        variables.insert(variables.end(), variablesBaseScope.begin(), variablesBaseScope.end());
-        std::sort(variables.begin(), variables.end());
-        variables.erase(std::unique(variables.begin(), variables.end()), variables.end());
-        res.reserve(variables.size());
-        for (const auto& variable : variables) {
-            res.push_back(utf8_to_wstring(variable));
-        }
+    ArrayOfVector retval;
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    return res;
+    if (argIn.size() < 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    std::wstring filename = argIn[0].getContentAsWideString();
+    wstringVector names;
+    for (indexType k = 1; k < argIn.size(); k++) {
+        names.push_back(argIn[k].getContentAsWideString());
+    }
+    ArrayOf st = h5Load(eval, filename, names, nLhs == 1);
+    if (nLhs == 1) {
+        retval.push_back(st);
+    }
+    return retval;
 }
 //=============================================================================
-} // namespace Nelson;
+}
 //=============================================================================

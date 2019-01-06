@@ -142,6 +142,12 @@ Context::lookupVariable(const std::string& varName, ArrayOf& var)
 }
 //=============================================================================
 bool
+Context::isVariable(std::wstring varname)
+{
+    return isVariable(wstring_to_utf8(varname));
+}
+//=============================================================================
+bool
 Context::isVariable(std::string varname)
 {
     Scope* active;

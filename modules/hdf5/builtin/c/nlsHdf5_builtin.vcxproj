@@ -211,6 +211,8 @@
     <ClInclude Include="..\include\h5readBuiltin.hpp" />
     <ClInclude Include="..\include\h5writeattBuiltin.hpp" />
     <ClInclude Include="..\include\h5writeBuiltin.hpp" />
+    <ClInclude Include="..\include\h5_loadBuiltin.hpp" />
+    <ClInclude Include="..\include\h5_saveBuiltin.hpp" />
     <ClInclude Include="..\include\nlsHdf5_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +222,8 @@
     <ClCompile Include="..\cpp\h5readBuiltin.cpp" />
     <ClCompile Include="..\cpp\h5writeattBuiltin.cpp" />
     <ClCompile Include="..\cpp\h5writeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\h5_loadBuiltin.cpp" />
+    <ClCompile Include="..\cpp\h5_saveBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

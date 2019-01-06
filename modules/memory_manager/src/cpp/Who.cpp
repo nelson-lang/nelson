@@ -27,16 +27,16 @@ Who(Evaluator* eval, SCOPE_LEVEL scopeLevel, bool withPersistent)
     stringVector names;
     switch (scopeLevel) {
     case GLOBAL_SCOPE: {
-        names = eval->getContext()->getGlobalScope()->getVariablesList(withPersistent);
+        eval->getContext()->getGlobalScope()->getVariablesList(withPersistent, names);
     } break;
     case BASE_SCOPE: {
-        names = eval->getContext()->getBaseScope()->getVariablesList(withPersistent);
+        eval->getContext()->getBaseScope()->getVariablesList(withPersistent, names);
     } break;
     case CALLER_SCOPE: {
-        names = eval->getContext()->getCallerScope()->getVariablesList(withPersistent);
+        eval->getContext()->getCallerScope()->getVariablesList(withPersistent, names);
     } break;
     case LOCAL_SCOPE: {
-        names = eval->getContext()->getCurrentScope()->getVariablesList(withPersistent);
+        eval->getContext()->getCurrentScope()->getVariablesList(withPersistent, names);
     } break;
     default: {
         Error(_W("Wrong scope."));

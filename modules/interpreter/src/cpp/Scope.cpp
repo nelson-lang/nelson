@@ -36,12 +36,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 //=============================================================================
+#include <algorithm>
+#include <cstdio>
 #include "Scope.hpp"
 #include "ArrayOf.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "PathFuncManager.hpp"
-#include <algorithm>
-#include <cstdio>
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -271,10 +272,21 @@ Scope::unlockVariable(std::string varname)
     return variablesTab.unlockVariable(varname);
 }
 //=============================================================================
-stringVector
-Scope::getVariablesList(bool withPersistent)
+void
+Scope::getVariablesList(bool withPersistent, stringVector& list)
 {
-    return variablesTab.getVariablesList(withPersistent);
+    list.clear();
+    list = variablesTab.getVariablesList(withPersistent);
+}
+//=============================================================================
+void
+Scope::getVariablesList(bool withPersistent, wstringVector& list)
+{
+    stringVector ulist = variablesTab.getVariablesList(withPersistent);
+    list.clear();
+    for (indexType k = 0; k < ulist.size(); k++) {
+        list.push_back(utf8_to_wstring(ulist[k]));
+    }
 }
 //=============================================================================
 stringVector

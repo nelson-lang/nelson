@@ -181,6 +181,9 @@
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
+      <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
       <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
     </ProjectReference>
@@ -211,8 +214,10 @@
     <ClInclude Include="..\cpp\h5ReadVlen.hpp" />
     <ClInclude Include="..\cpp\h5WriteHelpers.hpp" />
     <ClInclude Include="..\include\h5Create.hpp" />
+    <ClInclude Include="..\include\h5Load.hpp" />
     <ClInclude Include="..\include\h5ReadDataset.hpp" />
     <ClInclude Include="..\include\h5ReadAttribute.hpp" />
+    <ClInclude Include="..\include\h5Save.hpp" />
     <ClInclude Include="..\include\h5WriteAttribute.hpp" />
     <ClInclude Include="..\include\h5WriteDataset.hpp" />
     <ClInclude Include="..\include\HDF5_helpers.hpp" />
@@ -220,6 +225,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\h5Create.cpp" />
+    <ClCompile Include="..\cpp\h5Load.cpp" />
     <ClCompile Include="..\cpp\h5ReadArray.cpp" />
     <ClCompile Include="..\cpp\h5ReadBitfield.cpp" />
     <ClCompile Include="..\cpp\h5ReadDataset.cpp" />
@@ -233,6 +239,7 @@
     <ClCompile Include="..\cpp\h5ReadReference.cpp" />
     <ClCompile Include="..\cpp\h5ReadString.cpp" />
     <ClCompile Include="..\cpp\h5ReadVlen.cpp" />
+    <ClCompile Include="..\cpp\h5Save.cpp" />
     <ClCompile Include="..\cpp\h5WriteAttribute.cpp" />
     <ClCompile Include="..\cpp\h5WriteDataset.cpp" />
     <ClCompile Include="..\cpp\h5WriteHelpers.cpp" />

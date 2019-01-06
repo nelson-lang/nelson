@@ -16,37 +16,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "VariableCompleter.hpp"
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
 #include "Evaluator.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
-#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-wstringVector
-VariableCompleter(std::wstring prefix)
-{
-    wstringVector res;
-    auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
-    if (eval) {
-        stringVector variables;
-        eval->getContext()->getGlobalScope()->getVariablesList(true, variables);
-        stringVector variablesCurrentScope;
-        eval->getContext()->getCurrentScope()->getVariablesList(true, variablesCurrentScope);
-        variables.insert(
-            variables.end(), variablesCurrentScope.begin(), variablesCurrentScope.end());
-        stringVector variablesBaseScope;
-        eval->getContext()->getBaseScope()->getVariablesList(true, variablesBaseScope);
-        variables.insert(variables.end(), variablesBaseScope.begin(), variablesBaseScope.end());
-        std::sort(variables.begin(), variables.end());
-        variables.erase(std::unique(variables.begin(), variables.end()), variables.end());
-        res.reserve(variables.size());
-        for (const auto& variable : variables) {
-            res.push_back(utf8_to_wstring(variable));
-        }
-    }
-    return res;
+namespace Hdf5Gateway {
+    //=============================================================================
+    ArrayOfVector
+    h5_saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
 }
 //=============================================================================
-} // namespace Nelson;
+} // namespace Nelson
 //=============================================================================

@@ -22,6 +22,8 @@
 #include "h5readattBuiltin.hpp"
 #include "h5createBuiltin.hpp"
 #include "h5readBuiltin.hpp"
+#include "h5_saveBuiltin.hpp"
+#include "h5_loadBuiltin.hpp"
 #include "HDF5_helpers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -34,6 +36,8 @@ static const nlsGateway gateway[] = {
     { "h5readatt", Nelson::Hdf5Gateway::h5readattBuiltin, 1, 3, CPP_BUILTIN },
     { "h5read", Nelson::Hdf5Gateway::h5readBuiltin, 1, 2, CPP_BUILTIN },
     { "h5create", Nelson::Hdf5Gateway::h5createBuiltin, 0, -4, CPP_BUILTIN },
+    { "h5_load", Nelson::Hdf5Gateway::h5_loadBuiltin, 0, 1, CPP_BUILTIN },
+    { "h5_save", Nelson::Hdf5Gateway::h5_saveBuiltin, 0, 1, CPP_BUILTIN },
 };
 //=============================================================================
 static bool
