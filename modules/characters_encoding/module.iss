@@ -18,8 +18,8 @@
 ;==============================================================================
 #define MODULE_NAME "characters_encoding"
 ;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\icudt59.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\icuuc59.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\icudt63.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\icuuc63.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsCharacters_encoding.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
 ;Source: {#RootPath}modules\{#MODULE_NAME}\loader.nls; DestDir: {app}\modules\{#MODULE_NAME}\;

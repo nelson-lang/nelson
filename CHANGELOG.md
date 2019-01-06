@@ -35,6 +35,8 @@ Compilation:
 
   * Update Visual studio solution to SDK 10.17763
   
+  * Update International Components for Unicode 63.1 (Windows and MacOs)
+
 
 Previous changelog:
 ---------
