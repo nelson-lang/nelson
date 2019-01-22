@@ -55,7 +55,11 @@ Scope::Scope(std::string scopeName)
     cachedFunc.clear();
 }
 //=============================================================================
-Scope::~Scope() = default;
+Scope::~Scope(){
+    name.clear();
+    loopLevel = 0;
+    cachedFunc.clear();
+}
 //=============================================================================
 void
 Scope::insertMacroFunctionLocally(FuncPtr a)
