@@ -2045,7 +2045,7 @@ ArrayOf::nzmax()
 {
     if (isSparse()) {
         if (isEmpty()) {
-            return 0;
+            return 1;
         }
         return CountNonzerosMaxDynamicFunction(
             dp->dataClass, getDimensionLength(0), getDimensionLength(1), dp->getData());
