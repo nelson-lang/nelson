@@ -590,9 +590,14 @@ ArrayOf::printMe(Interface* io) const
         typeAsText = "  <cell> ";
         nominalWidth = 10;
         break;
-    case NLS_STRUCT_ARRAY:
-        typeAsText = "  <struct> ";
+    case NLS_STRUCT_ARRAY: {
+        if (isClassStruct()) {
+            typeAsText = "  <" + getStructType() + "> ";
+        } else {
+            typeAsText = "  <struct> ";
+        }
         nominalWidth = 10;
+    }
         break;
     case NLS_STRING_ARRAY:
         typeAsText = "  <string> ";
