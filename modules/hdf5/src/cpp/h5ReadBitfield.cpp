@@ -35,6 +35,9 @@ h5ReadBitfield(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, 
     hsize_t sizeType = H5Tget_size(type_id);
     int rank;
     Dimensions dims = getDimensions(dspace_id, rank);
+    if ((rank == 0) && (storageSize == 0)) {
+        dims = Dimensions(0, 0);
+    }
     Class outputClass;
     hid_t dataType;
     switch (sizeType) {

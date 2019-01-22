@@ -18,15 +18,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsHdf5_exports.h"
+#define H5_BUILT_AS_DYNAMIC_LIB
+#include <hdf5.h>
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSHDF5_IMPEXP void
-h5Save(Evaluator* eval, const std::wstring& filename, wstringVector names,
-	bool append, bool nocompression);
+bool
+h5SaveSingle(
+    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue);
 //=============================================================================
-} // namespace Nelson
+};
 //=============================================================================

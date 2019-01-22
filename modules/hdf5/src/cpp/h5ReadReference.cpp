@@ -135,6 +135,9 @@ h5ReadReference(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::
     hsize_t sizeType = H5Tget_size(type);
     int rank;
     Dimensions dims = getDimensions(aspace, rank);
+    if ((rank == 0) && (storageSize == 0)) {
+        dims = Dimensions(0, 0);
+    }
     ArrayOf* elements = nullptr;
     try {
         elements = (ArrayOf*)ArrayOf::allocateArrayOf(

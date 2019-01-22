@@ -105,7 +105,10 @@ extern "C"
     ReshapeSparseMatrixDynamicFunction(Class dclass, indexType rows, indexType cols,
         indexType newrows, indexType newcols, const void* cp);
     //=============================================================================
-
+    NLSTYPES_IMPEXP void*
+    SparseToIJVDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp,
+        indexType*& I, indexType*& J, int& nnz);
+    //=============================================================================
 #ifdef __cplusplus
 }
 #endif

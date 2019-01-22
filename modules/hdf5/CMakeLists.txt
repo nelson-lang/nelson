@@ -30,8 +30,10 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+	${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
 	${Boost_INCLUDE_DIRS}
 	${HDF5_INCLUDE_DIRS}
+	${EIGEN3_INCLUDE_DIR}
 )
 #==============================================================================	
 FILE(

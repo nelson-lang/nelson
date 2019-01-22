@@ -176,6 +176,9 @@ h5ReadVlen(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstri
     hsize_t sizeType = H5Tget_size(type);
     int rank;
     Dimensions dims = getDimensions(aspace, rank);
+    if ((rank == 0) && (storageSize == 0)) {
+        dims = Dimensions(0, 0);
+    }
     hvl_t* rdata = nullptr;
     try {
         rdata = (hvl_t*)new_with_exception<hvl_t>(dims.getElementCount(), false);

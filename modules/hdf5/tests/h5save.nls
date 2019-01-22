@@ -1,0 +1,255 @@
+//=============================================================================
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+// creates ref h5 file with all types supported by Nelson
+//=============================================================================
+path = fileparts(nfilename('fullpathext'), 'path');
+H5_FILE = [path, '/h5save.h5']
+if isfile(H5_FILE)
+  rmfile(H5_FILE);
+end
+//=============================================================================
+// logical
+A = logical(eye(5, 4));
+h5_save(H5_FILE, 'A', '-append');
+//=============================================================================
+// double
+B = eye(5, 4);
+h5_save(H5_FILE, 'B', '-append');
+//=============================================================================
+// double complex
+C = eye(5,4) + 2i;
+h5_save(H5_FILE, 'C', '-append');
+//=============================================================================
+// double empty
+D = ones(0,3);
+h5_save(H5_FILE, 'D', '-append');
+//=============================================================================
+// single
+E = single(eye(5,4));
+h5_save(H5_FILE, 'E', '-append');
+//=============================================================================
+// complex single
+F = single(eye(5,4) + 2i);
+h5_save(H5_FILE, 'F', '-append');
+//=============================================================================
+// single empty
+G = single(ones(0,3));
+h5_save(H5_FILE, 'G', '-append');
+//=============================================================================
+// unicode characters
+H = 'NelSon 象形字';
+h5_save(H5_FILE, 'H', '-append');
+//=============================================================================
+// unicode
+I = ['NelSon';
+'is    ';
+'not   ';
+'LensOn'];
+h5_save(H5_FILE, 'I', '-append');
+//=============================================================================
+// function_handle
+J = str2func('sin');
+h5_save(H5_FILE, 'J', '-append');
+//=============================================================================
+// sparse double
+K = sparse(eye(3,3));
+h5_save(H5_FILE, 'K', '-append');
+//=============================================================================
+// sparse double complex
+L = sparse(eye(3,3) + 2i );
+h5_save(H5_FILE, 'L', '-append');
+//=============================================================================
+// sparse logical
+M = sparse(logical(eye(3,3)));
+h5_save(H5_FILE, 'M', '-append');
+//=============================================================================
+// nd array double
+N = ones(3,4,2);
+h5_save(H5_FILE, 'N', '-append');
+//=============================================================================
+// nd array double complex
+O = complex(ones(3,4,2), 2);
+h5_save(H5_FILE, 'O', '-append');
+//=============================================================================
+// empty 2D cell
+P = cell(3,4);
+h5_save(H5_FILE, 'P', '-append');
+//=============================================================================
+// cell
+Q = {'jim', 89, [5 2 1] ; 'george', pi, 3i}; 
+h5_save(H5_FILE, 'Q', '-append');
+//=============================================================================
+// nd array cell
+R = cell(3, 4, 2);
+R{1, 1} = 3;
+R{3, 4, 2} = 6; 
+h5_save(H5_FILE, 'R', '-append');
+//=============================================================================
+// nd array logical
+S = ones(3, 4, 6);
+S = logical(S);
+h5_save(H5_FILE, 'S', '-append');
+//=============================================================================
+// nd array int8
+T = ones(3, 4, 6);
+T = int8(T);
+h5_save(H5_FILE, 'T', '-append');
+//=============================================================================
+// nd array uint8
+U = ones(3, 4, 6);
+U = uint8(U);
+h5_save(H5_FILE, 'U', '-append');
+//=============================================================================
+// nd array int16
+V = ones(3, 4, 6);
+V = int16(V);
+h5_save(H5_FILE, 'V', '-append');
+//=============================================================================
+// nd array uint16
+W = ones(3, 4, 6);
+W = uint16(W);
+h5_save(H5_FILE, 'W', '-append');
+//=============================================================================
+// nd array int32
+X = ones(3,4,6);
+X = int32(X);
+h5_save(H5_FILE, 'X', '-append');
+//=============================================================================
+// nd array uint32
+Y = ones(3, 4, 6);
+Y = uint32(Y);
+h5_save(H5_FILE, 'Y', '-append');
+//=============================================================================
+// nd array int64
+Z = ones(3, 4, 6);
+Z = int64(Z);
+h5_save(H5_FILE, 'Z', '-append');
+//=============================================================================
+// nd array uint64
+AA = ones(3, 4, 6);
+AA = uint64(AA);
+h5_save(H5_FILE, 'AA', '-append');
+//=============================================================================
+// nd array single
+AB = ones(3, 4, 6);
+AB = single(AB);
+h5_save(H5_FILE, 'AB', '-append');
+//=============================================================================
+// nd array double
+AC = ones(3, 4, 6);
+AC = double(AC);
+h5_save(H5_FILE, 'AC', '-append');
+//=============================================================================
+// nd array char
+AD = ones(3, 4, 6);
+AD = char(AD);
+h5_save(H5_FILE, 'AD', '-append');
+//=============================================================================
+// uint8
+AE = ones(3, 4);
+AE = uint8(AE);
+h5_save(H5_FILE, 'AE', '-append');
+//=============================================================================
+// int8
+AF = ones(3, 4);
+AF = int8(AF);
+h5_save(H5_FILE, 'AF', '-append');
+//=============================================================================
+// uint16
+AI = ones(3, 4);
+AI = uint16(AI);
+h5_save(H5_FILE, 'AI', '-append');
+//=============================================================================
+// int16
+AJ = ones(3, 4);
+AJ = int16(AJ);
+h5_save(H5_FILE, 'AJ', '-append');
+//=============================================================================
+// uint32
+AK = ones(3, 4);
+AK = uint32(AK);
+h5_save(H5_FILE, 'AK', '-append');
+//=============================================================================
+// int32
+AL = ones(3, 4);
+AL = int32(AL);
+h5_save(H5_FILE, 'AL', '-append');
+//=============================================================================
+// uint64
+AM = ones(3, 4);
+AM = uint64(AM);
+h5_save(H5_FILE, 'AM', '-append');
+//=============================================================================
+// int64
+AN = ones(3, 4);
+AN = int64(AN);
+h5_save(H5_FILE, 'AN', '-append');
+//=============================================================================
+AO = struct('name', {'Pierre', 'Anna', 'Roberta'}, 'age', {43, 21, 31});
+h5_save(H5_FILE, 'AO', '-append');
+//=============================================================================
+AP = struct();
+h5_save(H5_FILE, 'AP', '-append');
+//=============================================================================
+AQ = struct([]);
+h5_save(H5_FILE, 'AQ', '-append');
+//=============================================================================
+AR = struct(ones(1,0));
+h5_save(H5_FILE, 'AR', '-append');
+//=============================================================================
+AS = struct(ones(0,1));
+h5_save(H5_FILE, 'AS', '-append');
+//=============================================================================
+AT = struct(ones(3, 0, 2));
+h5_save(H5_FILE, 'AT', '-append');
+//=============================================================================
+c = {'tree', 37.4, 'birch'};
+f = {'category','height','name'};
+AU = cell2struct(c, f, 2);
+h5_save(H5_FILE, 'AU', '-append');
+//=============================================================================
+c = {'birch','betula',65;  'maple','acer',50};
+f = {'name', 'genus', 'height'};
+AV = cell2struct(c, f, 2);
+h5_save(H5_FILE, 'AV', '-append');
+//=============================================================================
+my_cell_array = {'Jimmy', 'Timothy', 'Charles'};
+AW = cell2struct(cell(size(my_cell_array)), my_cell_array, 2);
+h5_save(H5_FILE, 'AW', '-append');
+//=============================================================================
+clear C;
+C{1}='tim';
+C{2}='love';
+C{3}=1.73;
+AX=cell2struct(C,{'firstname','familyname','height'},2);
+h5_save(H5_FILE, 'AX', '-append');
+//=============================================================================
+clear C;
+C{1}='tim';
+C{2}='love';
+C{3}=1.73;
+AY=cell2struct(C,{'firstname'});
+h5_save(H5_FILE, 'AY', '-append');
+//=============================================================================
+AZ = ["NelSon";
+"is";
+"not";
+"LensOn"];
+h5_save(H5_FILE, 'AZ', '-append');
+//=============================================================================

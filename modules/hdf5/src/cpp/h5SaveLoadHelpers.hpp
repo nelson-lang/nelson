@@ -18,15 +18,35 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsHdf5_exports.h"
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#define H5_BUILT_AS_DYNAMIC_LIB
+//=============================================================================
+#include <hdf5.h>
+#include "Types.hpp"
+//=============================================================================
+#define NELSON_SCHEMA 1
+#define NELSON_SCHEMA_STR "NELSON_schema"
+#define NELSON_CLASS_STR "NELSON_class"
+#define NELSON_EMPTY_STR "NELSON_empty"
+#define NELSON_COMPLEX_STR "NELSON_complex"
+#define NELSON_SPARSE_STR "NELSON_sparse"
+#define NELSON_SPARSE_NZMAX_STR "NELSON_nzmax"
+#define NELSON_DIMENSIONS_STR "NELSON_dimensions"
+#define NELSON_OBJECT_STR "NELSON_object"
+#define NELSON_FIELDS_STR "NELSON_fields"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSHDF5_IMPEXP void
-h5Save(Evaluator* eval, const std::wstring& filename, wstringVector names,
-	bool append, bool nocompression);
+bool
+isNelsonH5File(hid_t fid);
 //=============================================================================
-} // namespace Nelson
+int32
+getNelsonH5Schema(hid_t fid);
+//=============================================================================
+bool
+addSchemaFormat(hid_t obj_id);
+//=============================================================================
+bool
+updateNelsonH5Header(hid_t fid);
+//=============================================================================
+}
 //=============================================================================

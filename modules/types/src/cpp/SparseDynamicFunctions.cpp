@@ -387,3 +387,20 @@ ReshapeSparseMatrixDynamicFunction(Class dclass, indexType rows, indexType cols,
     return Eigen_ReshapeSparseMatrixPtr(dclass, rows, cols, newrows, newcols, cp);
 }
 //=============================================================================
+void *SparseToIJVDynamicFunction(Class dclass, indexType rows, indexType cols, const void* cp, indexType*& I, indexType*& J, int& nnz)
+{
+    using PROC_Eigen_SparseToIJV
+        = void* (*)(Class, indexType, indexType,
+        const void*, indexType*&, indexType*&, int&);
+    static PROC_Eigen_SparseToIJV Eigen_SparseToIJVPtr = nullptr;
+    initSparseDynamicLibrary();
+    if (!Eigen_SparseToIJVPtr) {
+        Eigen_SparseToIJVPtr = reinterpret_cast<PROC_Eigen_SparseToIJV>(
+            get_function(nlsSparseHandleDynamicLibrary, "Eigen_SparseToIJV"));
+        if (!Eigen_SparseToIJVPtr) {
+            Error(_W("Sparse Function not loaded."));
+        }
+    }
+    return Eigen_SparseToIJVPtr(dclass, rows, cols, cp, I, J, nnz);
+}
+//=============================================================================

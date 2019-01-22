@@ -16,17 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "nlsHdf5_exports.h"
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "h5SaveLogical.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSHDF5_IMPEXP void
-h5Save(Evaluator* eval, const std::wstring& filename, wstringVector names,
-	bool append, bool nocompression);
+bool
+h5SaveLogical(
+    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+{
+    bool bSuccess = false;
+    return bSuccess;
+}
 //=============================================================================
-} // namespace Nelson
+};
 //=============================================================================

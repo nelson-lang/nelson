@@ -34,6 +34,9 @@ h5ReadEnum(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std:
     hsize_t sizeType = H5Tget_size(type_id);
     int rank;
     Dimensions dims = getDimensions(dspace_id, rank);
+    if ((rank == 0) && (storageSize == 0)) {
+        dims = Dimensions(0, 0);
+    }
     ArrayOf* elements;
     try {
         elements = new_with_exception<ArrayOf>(dims.getElementCount(), false);
