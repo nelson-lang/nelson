@@ -26,14 +26,14 @@ namespace Nelson {
 bool
 h5SaveClassAttribute(hid_t fid, const std::string& location, ArrayOf variableValue)
 {
-	std::string value = ClassName(variableValue);
+    std::string value = ClassName(variableValue);
     if (value == "sparsedouble") {
         value = "double";
     }
     if (value == "sparselogical") {
         value = "logical";
     }
-	return h5SaveStringAttribute(fid, location, NELSON_CLASS_STR, value);
+    return h5SaveStringAttribute(fid, location, NELSON_CLASS_STR, value);
 }
 //=============================================================================
 bool
@@ -46,11 +46,11 @@ h5SaveDimensionsAttribute(hid_t fid, const std::string& location, Dimensions dim
     }
     void* ptr = ArrayOf::allocateArrayOf(NLS_UINT64, dims.getLength());
     ArrayOf dimsAsArray;
-	if (dims.isScalar()) {
+    if (dims.isScalar()) {
         dimsAsArray = ArrayOf(NLS_UINT64, Dimensions(1, 2), ptr);
     } else {
         dimsAsArray = ArrayOf(NLS_UINT64, Dimensions(1, dims.getLength()), ptr);
-	}
+    }
     uint64* ptrAsUint64 = (uint64*)dimsAsArray.getDataPointer();
     if (dims.isScalar()) {
         ptrAsUint64[0] = 1;
@@ -62,7 +62,7 @@ h5SaveDimensionsAttribute(hid_t fid, const std::string& location, Dimensions dim
         }
     }
 
-	hid_t type_id = H5Tcopy(H5T_NATIVE_UINT64);
+    hid_t type_id = H5Tcopy(H5T_NATIVE_UINT64);
     void* buffer = nullptr;
     hid_t dspace_id = H5I_INVALID_HID;
 
@@ -77,7 +77,7 @@ h5SaveDimensionsAttribute(hid_t fid, const std::string& location, Dimensions dim
     dspace_id = H5Screate_simple((int)2, dimsAsHsize_t, dimsAsHsize_t);
     delete[] dimsAsHsize_t;
 
-	hid_t att_id
+    hid_t att_id
         = H5Acreate(obj_id, NELSON_DIMENSIONS_STR, type_id, dspace_id, H5P_DEFAULT, H5P_DEFAULT);
     if (att_id > 0) {
         buffer = (void*)dimsAsArray.getDataPointer();

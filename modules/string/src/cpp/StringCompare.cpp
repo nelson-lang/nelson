@@ -99,8 +99,9 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
                 ArrayOf elementA = cellA[k];
                 ArrayOf elementB = cellB[k];
                 if (elementA.isRowVectorCharacterArray() && elementB.isRowVectorCharacterArray()) {
-                    Cp[k] = static_cast<Nelson::logical>(compareString(elementA.getContentAsWideString(),
-                        elementB.getContentAsWideString(), bCaseSensitive, len));
+                    Cp[k] = static_cast<Nelson::logical>(
+                        compareString(elementA.getContentAsWideString(),
+                            elementB.getContentAsWideString(), bCaseSensitive, len));
                 } else if (elementA.isCharacterArray() && elementB.isCharacterArray()) {
                     wstringVector s1 = elementA.getContentAsWideStringVector();
                     wstringVector s2 = elementB.getContentAsWideStringVector();
@@ -201,8 +202,9 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
             } else {
                 ArrayOf elementA = cellA[k];
                 if (elementA.isCharacterArray() && scalar2.isCharacterArray()) {
-                    Cp[k] = static_cast<Nelson::logical>(compareString(elementA.getContentAsWideString(),
-                        scalar2.getContentAsWideString(), bCaseSensitive, len));
+                    Cp[k] = static_cast<Nelson::logical>(
+                        compareString(elementA.getContentAsWideString(),
+                            scalar2.getContentAsWideString(), bCaseSensitive, len));
                 } else {
                     Cp[k] = false;
                 }

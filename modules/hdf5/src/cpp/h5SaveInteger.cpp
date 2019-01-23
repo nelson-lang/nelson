@@ -118,7 +118,7 @@ h5SaveIntegerEmptyMatrix(
     std::string h5path = location + variableName;
     herr_t status = H5Ldelete(fid, h5path.c_str(), H5P_DEFAULT);
 
-	int8 i8value = (int8)0;
+    int8 i8value = (int8)0;
     uint8 ui8value = (uint8)0;
     int16 i16value = (int16)0;
     uint16 ui16value = (uint16)0;
@@ -128,7 +128,7 @@ h5SaveIntegerEmptyMatrix(
     uint64 ui64value = (uint64)0;
     void* ptr;
     hid_t type_id;
-	switch (VariableValue.getDataClass()) {
+    switch (VariableValue.getDataClass()) {
     case NLS_INT8: {
         ptr = &i8value;
         type_id = H5Tcopy(H5T_NATIVE_INT8);
@@ -158,11 +158,11 @@ h5SaveIntegerEmptyMatrix(
         type_id = H5Tcopy(H5T_NATIVE_UINT32);
     } break;
     default:
-	case NLS_UINT64: {
+    case NLS_UINT64: {
         ptr = &ui64value;
         type_id = H5Tcopy(H5T_NATIVE_UINT64);
     } break;
-	}
+    }
     hsize_t dimsAsHsize_t[1];
     dimsAsHsize_t[0] = 1;
     hid_t dspace_id = H5Screate_simple((int)1, dimsAsHsize_t, dimsAsHsize_t);

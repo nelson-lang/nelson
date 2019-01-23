@@ -25,8 +25,8 @@
 namespace Nelson {
 //=============================================================================
 NLSHDF5_IMPEXP void
-h5Save(Evaluator* eval, const std::wstring& filename, wstringVector names,
-	bool append, bool nocompression);
+h5Save(Evaluator* eval, const std::wstring& filename, wstringVector names, bool append,
+    bool nocompression);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

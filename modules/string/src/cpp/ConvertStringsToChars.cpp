@@ -55,9 +55,9 @@ ConvertStringsToChars(const ArrayOfVector& A)
         } else {
             res.push_back(value);
         }
-	}
+    }
     return res;
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================

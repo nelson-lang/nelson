@@ -1264,7 +1264,7 @@ Evaluator::forStatement(ASTPtr t)
             indexType tmp = indexSet.getDimensions().getRows();
             ArrayOfVector m;
             m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, false));
-            m.push_back(ArrayOf::doubleConstructor(elementNumber + 1));
+            m.push_back(ArrayOf::doubleConstructor((double)(elementNumber + 1)));
             indexVar = indexSet.getNDimSubset(m);
         }
         bool bInserted = context->insertVariable(indexVarName, indexVar);

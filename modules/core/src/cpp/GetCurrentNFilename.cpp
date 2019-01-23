@@ -54,8 +54,7 @@ GetCurrentNFilenameW(Evaluator* eval)
             fileName = utf8_to_wstring(callerName);
         }
     }
-	if (fileName != L"")
-	{
+    if (fileName != L"") {
         if (isFile(fileName)) {
             boost::filesystem::path canonicalPath;
             try {
@@ -65,7 +64,7 @@ GetCurrentNFilenameW(Evaluator* eval)
             } catch (const boost::filesystem::filesystem_error&) {
             }
         }
-	}
+    }
     return fileName;
 }
 //=============================================================================

@@ -597,8 +597,7 @@ ArrayOf::printMe(Interface* io) const
             typeAsText = "  <struct> ";
         }
         nominalWidth = 10;
-    }
-        break;
+    } break;
     case NLS_STRING_ARRAY:
         typeAsText = "  <string> ";
         nominalWidth = 10;

@@ -30,9 +30,9 @@ ConvertCharsToStrings(const ArrayOfVector& A)
         if (value.isCharacterArray()) {
             if (value.isEmpty(false)) {
                 res.push_back(ArrayOf::stringArrayConstructor(""));
-			} else if (value.isColumnVector()) {
+            } else if (value.isColumnVector()) {
                 res.push_back(ArrayOf::stringArrayConstructor(value.getContentAsWideString()));
-			} else {
+            } else {
                 indexType len = dims.getElementCount() / dims.getRows();
                 charType* ptrChar = (charType*)value.getDataPointer();
                 std::wstring str;
@@ -44,21 +44,21 @@ ConvertCharsToStrings(const ArrayOfVector& A)
                             str.push_back(ptrChar[idx]);
                         }
                     }
-				}
+                }
                 res.push_back(ArrayOf::stringArrayConstructor(str));
-			}
+            }
         } else if (IsCellOfString(value)) {
             auto* elementsString = new_with_exception<ArrayOf>(dims.getElementCount(), false);
             ArrayOf valueAsString = ArrayOf(NLS_STRING_ARRAY, dims, elementsString);
             auto* elementsCell = (ArrayOf*)value.getDataPointer();
             for (indexType q = 0; q < dims.getElementCount(); q++) {
                 elementsString[q] = elementsCell[q];
-			}
+            }
             res.push_back(valueAsString);
-		} else {
-			res.push_back(value);
-		}
-	}
+        } else {
+            res.push_back(value);
+        }
+    }
 
     /*
     for (auto value : A) {
@@ -92,10 +92,10 @@ ConvertCharsToStrings(const ArrayOfVector& A)
         } else {
             res.push_back(value);
         }
-	}
-	*/
+    }
+    */
     return res;
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================

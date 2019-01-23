@@ -63,31 +63,32 @@ h5SaveDoubleEmptyMatrix(
     std::string h5path = location + variableName;
     herr_t status = H5Ldelete(fid, h5path.c_str(), H5P_DEFAULT);
 
-	double value = 0;
+    double value = 0;
     hid_t type_id = H5Tcopy(H5T_NATIVE_DOUBLE);
     hsize_t dimsAsHsize_t[1];
-	dimsAsHsize_t[0] = 1;
+    dimsAsHsize_t[0] = 1;
     hid_t dspace_id = H5Screate_simple((int)1, dimsAsHsize_t, dimsAsHsize_t);
     if (dspace_id < 0) {
         return false;
     }
 
-    hid_t dataset_id = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+    hid_t dataset_id
+        = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
     if (dataset_id < 0) {
         return false;
     }
     status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, &value);
 
-	H5Dclose(dataset_id);
+    H5Dclose(dataset_id);
     H5Sclose(dspace_id);
     if (status < 0) {
         return false;
-	}
-	bSuccess = h5SaveEmptyAttribute(fid, h5path);
+    }
+    bSuccess = h5SaveEmptyAttribute(fid, h5path);
     if (!bSuccess) {
         return false;
     }
-	bSuccess = h5SaveClassAttribute(fid, h5path, VariableValue);
+    bSuccess = h5SaveClassAttribute(fid, h5path, VariableValue);
     if (bSuccess) {
         if (VariableValue.isComplex()) {
             bSuccess = h5SaveComplexAttribute(fid, h5path);
@@ -96,11 +97,10 @@ h5SaveDoubleEmptyMatrix(
             bSuccess = h5SaveDimensionsAttribute(fid, h5path, VariableValue.getDimensions());
             if (bSuccess && VariableValue.isSparse()) {
                 h5SaveSparseAttribute(fid, h5path);
-                bSuccess = h5SaveUint64Attribute(
-                    fid, h5path, NELSON_SPARSE_NZMAX_STR, (uint64)1);
+                bSuccess = h5SaveUint64Attribute(fid, h5path, NELSON_SPARSE_NZMAX_STR, (uint64)1);
             }
-		}
-	}
+        }
+    }
     return bSuccess;
 }
 //=============================================================================
@@ -110,14 +110,14 @@ h5SaveDoubleMatrix(
 {
     bool bSuccess = false;
 
-	std::string h5path = location + variableName;
+    std::string h5path = location + variableName;
     herr_t status = H5Ldelete(fid, h5path.c_str(), H5P_DEFAULT);
 
     hid_t dspace_id = H5I_INVALID_HID;
     hid_t type_id = H5Tcopy(H5T_NATIVE_DOUBLE);
     Dimensions dimsValue = VariableValue.getDimensions();
 
-	hsize_t* dimsAsHsize_t = nullptr;
+    hsize_t* dimsAsHsize_t = nullptr;
     indexType nbElementsSizeData;
     if (dimsValue.isScalar()) {
         try {
@@ -143,13 +143,13 @@ h5SaveDoubleMatrix(
     delete[] dimsAsHsize_t;
 
     void* buffer = (void*)VariableValue.getDataPointer();
-	if (VariableValue.isComplex()) {
+    if (VariableValue.isComplex()) {
         typedef struct complex_type
         {
             double r;
             double i;
         } complex_type;
-		hid_t compoundId = H5Tcreate(H5T_COMPOUND, sizeof(doublecomplex));
+        hid_t compoundId = H5Tcreate(H5T_COMPOUND, sizeof(doublecomplex));
         H5Tinsert(compoundId, "real", HOFFSET(complex_type, r), H5T_NATIVE_DOUBLE);
         H5Tinsert(compoundId, "imag", HOFFSET(complex_type, i), H5T_NATIVE_DOUBLE);
 
@@ -175,16 +175,16 @@ h5SaveDoubleMatrix(
         } else {
             bSuccess = true;
         }
-	}
+    }
 
-	if (bSuccess) {
+    if (bSuccess) {
         bSuccess = h5SaveClassAttribute(fid, h5path, VariableValue);
         if (!bSuccess) {
             return false;
-		}
+        }
         bSuccess = h5SaveDimensionsAttribute(fid, h5path, dimsValue);
-	}
-	return bSuccess;
+    }
+    return bSuccess;
 }
 //=============================================================================
 bool
@@ -193,7 +193,7 @@ h5SaveSparseDoubleMatrix(
 {
     bool bSuccess = false;
 
-	std::string h5path = location + variableName;
+    std::string h5path = location + variableName;
     herr_t status = H5Ldelete(fid, h5path.c_str(), H5P_DEFAULT);
 
     Dimensions dims = VariableValue.getDimensions();
@@ -264,29 +264,29 @@ h5SaveSparseDoubleMatrix(
         return false;
     }
 
-	bSuccess = h5SaveUint64Attribute(
+    bSuccess = h5SaveUint64Attribute(
         fid, rootPath, NELSON_SPARSE_NZMAX_STR, (uint64)spmat->data().allocatedSize());
     if (!bSuccess) {
         return false;
     }
 
-	bSuccess = h5SaveClassAttribute(fid, h5path, VariableValue);
+    bSuccess = h5SaveClassAttribute(fid, h5path, VariableValue);
     if (!bSuccess) {
         return false;
     }
     bSuccess = h5SaveDimensionsAttribute(fid, h5path, dims);
-	if (!bSuccess) {
+    if (!bSuccess) {
         return false;
     }
 
-	if (VariableValue.isComplex()) {
+    if (VariableValue.isComplex()) {
         bSuccess = h5SaveComplexAttribute(fid, h5path);
     }
 
-	if (bSuccess) {
+    if (bSuccess) {
         bSuccess = h5SaveSparseAttribute(fid, h5path);
-	}
-	return bSuccess;
+    }
+    return bSuccess;
 }
 //=============================================================================
 };

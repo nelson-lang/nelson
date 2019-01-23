@@ -23,10 +23,10 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-	namespace StringGateway {
+namespace StringGateway {
     ArrayOfVector
-        convertStringsToCharsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+    convertStringsToCharsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

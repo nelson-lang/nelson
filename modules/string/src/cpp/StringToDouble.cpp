@@ -64,8 +64,7 @@ stringToDouble(const std::wstring& str, bool& wasConverted)
         } else if (STR == ToUpper(NegInfString)) {
             res = returnInfinity(false);
             wasConverted = true;
-        } else if (STR == ToUpper(InfString)
-            || STR == ToUpper(PosInfString)) {
+        } else if (STR == ToUpper(InfString) || STR == ToUpper(PosInfString)) {
             res = returnInfinity(true);
             wasConverted = true;
         } else {

@@ -67,8 +67,8 @@ StringContains(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
             logical* result = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, nbA));
             auto* cellA = (ArrayOf*)(A.getDataPointer());
             for (size_t k = 0; k < nbA; k++) {
-                result[k]
-                    = static_cast<Nelson::logical>(containsString(cellA[k].getContentAsWideString(), pattern, bCaseSensitive));
+                result[k] = static_cast<Nelson::logical>(
+                    containsString(cellA[k].getContentAsWideString(), pattern, bCaseSensitive));
             }
             res = ArrayOf(NLS_LOGICAL, dimA, result);
         } else if ((A.isStringArray() || IsCellOfString(A))

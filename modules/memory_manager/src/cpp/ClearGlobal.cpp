@@ -86,7 +86,7 @@ ClearAllGlobalVariables(Evaluator* eval)
 {
     bool bUnlocked = true;
     stringVector names;
-	eval->getContext()->getGlobalScope()->getVariablesList(true, names);
+    eval->getContext()->getGlobalScope()->getVariablesList(true, names);
     for (const auto& name : names) {
         if (!eval->getContext()->getGlobalScope()->deleteVariable(name)) {
             bUnlocked = false;

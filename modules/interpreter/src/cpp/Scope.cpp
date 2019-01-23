@@ -55,7 +55,8 @@ Scope::Scope(std::string scopeName)
     cachedFunc.clear();
 }
 //=============================================================================
-Scope::~Scope(){
+Scope::~Scope()
+{
     name.clear();
     loopLevel = 0;
     cachedFunc.clear();
