@@ -361,44 +361,296 @@ REF.real = single(reshape(1:18, 3, 2, 3));
 REF.imag = single(ones(3, 2, 3) .* 2);
 assert_isequal(R, REF);
 //=============================================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// integers
+//=============================================================================
+A = int8(eye(3, 4));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, A);
+//=============================================================================
+A = int8(ones(3, 0, 0, 0));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, int8(0));
+//=============================================================================
+A = uint8(eye(3, 4));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, A);
+//=============================================================================
+A = uint8(ones(3, 0, 0, 0));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, uint8(0));
+//=============================================================================
+A = int16(eye(3, 4));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, A);
+//=============================================================================
+A = int16(ones(3, 0, 0, 0));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, int16(0));
+//=============================================================================
+A = uint16(eye(3, 4));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, A);
+//=============================================================================
+A = uint16(ones(3, 0, 0, 0));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, uint16(0));
+//=============================================================================
+A = int32(eye(3, 4));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, A);
+//=============================================================================
+A = int32(ones(3, 0, 0, 0));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, int32(0));
+//=============================================================================
+A = uint32(eye(3, 4));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, A);
+//=============================================================================
+A = uint32(ones(3, 0, 0, 0));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, uint32(0));
+//=============================================================================
+A = int64(eye(3, 4));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, A);
+//=============================================================================
+A = int64(ones(3, 0, 0, 0));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, int64(0));
+//=============================================================================
+A = uint64(eye(3, 4));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, A);
+//=============================================================================
+A = uint64(ones(3, 0, 0, 0));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, uint64(0));
+//=============================================================================
+// logical
+//=============================================================================
+A = logical(eye(3, 4));
+h5_save(test_h5_save_file, 'A');
+schema_version = h5readatt(test_h5_save_file, '/', 'NELSON_schema');
+assert_isequal(schema_version, int32(1));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, uint8(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+//=============================================================================
+A = logical(1);
+h5_save(test_h5_save_file, 'A');
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, uint8(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, class(A));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+//=============================================================================
+A = logical(ones(3, 0));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'logical');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, uint8(0));
+//=============================================================================
+A = logical(ones(0, 4));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'logical');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, uint8(0));
+//=============================================================================
+A = logical(ones(3, 0, 2, 4));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'logical');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, uint8(0));
+//=============================================================================
+A = logical(ones(3, 0, 0, 0));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'logical');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, uint8(0));
+//=============================================================================
+A = logical(reshape(1:18,3,2,3));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'logical');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5read(test_h5_save_file, '/A');
+assert_isequal(R, uint8(A));
+//=============================================================================
+A = sparse(4, 5, true, 6, 7, 19);
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'logical');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_sparse');
+assert_isequal(R, uint8(1));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_nzmax');
+assert_isequal(R, uint64(20));
+R = h5read(test_h5_save_file, '/A/data');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5_save_file, '/A/ir');
+assert_isequal(R, uint64(4));
+R = h5read(test_h5_save_file, '/A/jc');
+assert_isequal(R, uint64(5));
+//=============================================================================
+A = logical(sparse(eye(0, 4)));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_nzmax');
+assert_isequal(R, uint64(1));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_sparse');
+assert_isequal(R, uint8(1));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'logical');
+//=============================================================================
+A = logical(sparse(eye(5, 0)));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_nzmax');
+assert_isequal(R, uint64(1));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_sparse');
+assert_isequal(R, uint8(1));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'logical');
+//=============================================================================
+A = logical(sparse(eye(5, 4)));
+h5_save(test_h5_save_file, 'A');
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_nzmax');
+assert_isequal(R, uint64(4));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_sparse');
+assert_isequal(R, uint8(1));
+R = h5readatt(test_h5_save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'logical');
+R = h5read(test_h5_save_file, '/A/data');
+assert_isequal(R, uint8([1 1 1 1]));
+R = h5read(test_h5_save_file, '/A/ir');
+assert_isequal(R, uint64([1 2 3 4]));
+R = h5read(test_h5_save_file, '/A/jc');
+assert_isequal(R, uint64([1 2 3 4]));
+//=============================================================================

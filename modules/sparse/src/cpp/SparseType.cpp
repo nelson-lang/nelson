@@ -1010,11 +1010,14 @@ Eigen_TypeConvertSparse(Class dclass, indexType rows, indexType cols, const void
                 e.what();
                 Error(ERROR_MEMORY_ALLOCATION);
             }
-            for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-                for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k);
-                     it; ++it) {
-                    logical bVal = (it.value() == 0) ? (logical)0 : (logical)1;
-                    spMatdest->coeffRef(it.row(), it.col()) = bVal;
+            if (rows * cols) {
+                for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
+                    for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(
+                             *spMat, k);
+                         it; ++it) {
+                        logical bVal = (it.value() == 0) ? (logical)0 : (logical)1;
+                        spMatdest->coeffRef(it.row(), it.col()) = bVal;
+                    }
                 }
             }
             spMatdest->finalize();
@@ -1032,13 +1035,15 @@ Eigen_TypeConvertSparse(Class dclass, indexType rows, indexType cols, const void
                 e.what();
                 Error(ERROR_MEMORY_ALLOCATION);
             }
-            for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
+            if (rows * cols) {
+			for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
                 for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k);
                      it; ++it) {
                     doublecomplex dVal(it.value(), 0.0);
                     spMatdest->coeffRef(it.row(), it.col()) = dVal;
                 }
             }
+			}
             spMatdest->finalize();
             spMatdest->makeCompressed();
             return (void*)spMatdest;
