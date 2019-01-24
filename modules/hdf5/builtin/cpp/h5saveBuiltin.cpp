@@ -16,19 +16,39 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "h5saveBuiltin.hpp"
+#include "h5Save.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-namespace Hdf5Gateway {
-    //=============================================================================
-    ArrayOfVector
-    h5_saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
+ArrayOfVector
+Nelson::Hdf5Gateway::h5saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (nLhs > 0) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (argIn.size() < 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    std::wstring filename = argIn[0].getContentAsWideString();
+    wstringVector names;
+    bool bAppend = false;
+    bool bNoCompression = false;
+    for (indexType k = 1; k < argIn.size(); k++) {
+        ArrayOf paramK = argIn[k];
+        std::wstring param = paramK.getContentAsWideString();
+        if (param == L"-append") {
+            bAppend = true;
+        } else if (param == L"-nocompression") {
+            bNoCompression = true;
+        } else {
+            names.push_back(param);
+        }
+    }
+    h5Save(eval, filename, names, bAppend, bNoCompression);
+    return retval;
 }
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

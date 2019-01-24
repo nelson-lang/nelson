@@ -47,10 +47,10 @@
     <ClInclude Include="..\include\h5writeBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\h5_loadBuiltin.hpp">
+    <ClInclude Include="..\include\h5saveBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\h5_saveBuiltin.hpp">
+    <ClInclude Include="..\include\h5loadBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -76,10 +76,10 @@
     <ClCompile Include="..\cpp\h5writeBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\h5_loadBuiltin.cpp">
+    <ClCompile Include="..\cpp\h5saveBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\h5_saveBuiltin.cpp">
+    <ClCompile Include="..\cpp\h5loadBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

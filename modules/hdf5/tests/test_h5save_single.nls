@@ -1,0 +1,153 @@
+//=============================================================================
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+test_h5save_file = [tempdir(), '/test_h5save.nh5'];
+if isfile(test_h5save_file)
+  rmfile(test_h5save_file);
+end
+//=============================================================================
+// single
+//=============================================================================
+A = single(eye(3, 4));
+h5save(test_h5save_file, 'A');
+schema_version = h5readatt(test_h5save_file, '/', 'NELSON_schema');
+assert_isequal(schema_version, int32(1));
+R = h5read(test_h5save_file, '/A');
+assert_isequal(R, A);
+R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'single');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+//=============================================================================
+A = single(1);
+h5save(test_h5save_file, 'A');
+schema_version = h5readatt(test_h5save_file, '/', 'NELSON_schema');
+assert_isequal(schema_version, int32(1));
+R = h5read(test_h5save_file, '/A');
+assert_isequal(R, A);
+R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'single');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+//=============================================================================
+A = single(eye(3, 4) + i);
+h5save(test_h5save_file, 'A');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'single');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_complex');
+assert_isequal(R, uint8(1));
+R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5read(test_h5save_file, '/A');
+REF = struct();
+REF.real = single(eye(3, 4));
+REF.imag = single(ones(3, 4));
+assert_isequal(R, REF);
+//=============================================================================
+A = single(1 + 2i);
+h5save(test_h5save_file, 'A');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'single');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_complex');
+assert_isequal(R, uint8(1));
+R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5read(test_h5save_file, '/A');
+REF = struct();
+REF.real = single(1);
+REF.imag = single(2);
+assert_isequal(R, REF);
+//=============================================================================
+A = single(ones(3, 0));
+h5save(test_h5save_file, 'A');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'single');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5save_file, '/A');
+assert_isequal(R, single(0));
+//=============================================================================
+A = single(ones(0, 4));
+h5save(test_h5save_file, 'A');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'single');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5save_file, '/A');
+assert_isequal(R, single(0));
+//=============================================================================
+A = single(ones(3, 0, 2, 4));
+h5save(test_h5save_file, 'A');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'single');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5save_file, '/A');
+assert_isequal(R, single(0));
+//=============================================================================
+A = single(ones(3, 0, 0, 0));
+h5save(test_h5save_file, 'A');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'single');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5save_file, '/A');
+assert_isequal(R, single(0));
+//=============================================================================
+A = single(ones(3, 0, 2, 4) + 4i);
+h5save(test_h5save_file, 'A');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'single');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5save_file, '/A');
+assert_isequal(R, single(0));
+//=============================================================================
+A = single(reshape(1:18,3,2,3));
+h5save(test_h5save_file, 'A');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'single');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5read(test_h5save_file, '/A');
+assert_isequal(R, A);
+//=============================================================================
+A = single(reshape(1:18, 3, 2, 3) + 2i);
+h5save(test_h5save_file, 'A');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'single');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5save_file, '/A', 'NELSON_complex');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5save_file, '/A');
+REF = struct();
+REF.real = single(reshape(1:18, 3, 2, 3));
+REF.imag = single(ones(3, 2, 3) .* 2);
+assert_isequal(R, REF);
+//=============================================================================

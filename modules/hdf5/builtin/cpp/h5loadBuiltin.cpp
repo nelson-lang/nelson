@@ -16,19 +16,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "h5loadBuiltin.hpp"
+#include "h5Load.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-namespace Hdf5Gateway {
-    //=============================================================================
-    ArrayOfVector
-    h5_loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
+ArrayOfVector
+Nelson::Hdf5Gateway::h5loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (argIn.size() < 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    std::wstring filename = argIn[0].getContentAsWideString();
+    wstringVector names;
+    for (indexType k = 1; k < argIn.size(); k++) {
+        names.push_back(argIn[k].getContentAsWideString());
+    }
+    ArrayOf st = h5Load(eval, filename, names, nLhs == 1);
+    if (nLhs == 1) {
+        retval.push_back(st);
+    }
+    return retval;
 }
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================
