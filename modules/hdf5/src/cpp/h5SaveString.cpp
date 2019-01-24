@@ -129,8 +129,15 @@ h5SaveCharacterMatrix(
         dspace_id = H5Screate_simple((int)dimsValue.getLength(), dimsAsHsize_t, dimsAsHsize_t);
     }
     delete[] dimsAsHsize_t;
-
-    void* buffer = (void*)VariableValue.getDataPointer();
+    void* buffer = nullptr; 
+	ArrayOf asUint16;
+    if (sizeof(charType) == sizeof(uint16)) {
+		buffer = (void*)VariableValue.getDataPointer();
+    } else {
+		asUint16 = VariableValue;
+		asUint16.promoteType(NLS_UINT16);
+		buffer = (void*)asUint16.getDataPointer();
+    }
 	hid_t dataset_id = H5Dcreate(
             fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
 	status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
