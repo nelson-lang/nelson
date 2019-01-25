@@ -71,7 +71,7 @@ h5SaveVariable(
         bSuccess = h5SaveCharacterArray(fid, location, variableName, VariableValue);
     } break;
     default: {
-        Error(_W("Type not managed."));
+        bSuccess = false;
     } break;
     }
     return bSuccess;

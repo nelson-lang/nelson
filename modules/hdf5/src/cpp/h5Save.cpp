@@ -112,6 +112,10 @@ h5Save(Evaluator* eval, const std::wstring& filename, wstringVector names, bool 
         std::string variableName = wstring_to_utf8(variablesName[k]);
         eval->getContext()->getCurrentScope()->lookupVariable(variableName, variableValue);
         bool bSuccess = h5SaveVariable(fid, location, variableName, variableValue);
+        if (!bSuccess) {
+            H5Fclose(fid);
+            Error(_("Cannot save variable:") + variableName);
+        }
     }
     H5Fclose(fid);
 }

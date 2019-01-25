@@ -42,16 +42,22 @@ h5SaveCell(
     for (indexType k = 0; k < dims.getElementCount(); k++) {
         ArrayOf element = elements[k];
         std::string name = std::to_string(k);
-        h5SaveVariable(fid, h5path + std::string("/"), name, element);
-    }
-
-    bSuccess = h5SaveClassAttribute(fid, h5path, VariableValue);
-    if (bSuccess) {
-        bSuccess = h5SaveDimensionsAttribute(fid, h5path, dims);
-        if (bSuccess && dims.isEmpty(false)) {
-            bSuccess = h5SaveEmptyAttribute(fid, h5path);
+        bSuccess = h5SaveVariable(fid, h5path + std::string("/"), name, element);
+        if (!bSuccess) {
+            return false;
         }
-	}
+    }
+    bSuccess = h5SaveClassAttribute(fid, h5path, VariableValue);
+    if (!bSuccess) {
+        return false;
+    }
+    bSuccess = h5SaveDimensionsAttribute(fid, h5path, dims);
+    if (!bSuccess) {
+        return false;
+    }
+    if (dims.isEmpty(false)) {
+        bSuccess = h5SaveEmptyAttribute(fid, h5path);
+    }
     return bSuccess;
 }
 //=============================================================================

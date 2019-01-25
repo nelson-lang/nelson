@@ -21,41 +21,34 @@ if isfile(test_h5save_file)
   rmfile(test_h5save_file);
 end
 //=============================================================================
-// strings array
+// characters array
 //=============================================================================
-A = "Nelson";
+A = 'Nelson is free';
 h5save(test_h5save_file, 'A');
-R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
-assert_isequal(R, 'string');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
 assert_isequal(R, uint64(size(A)'));
-R = h5readatt(test_h5save_file, '/A/0', 'NELSON_class');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
 assert_isequal(R, 'char');
-R = h5readatt(test_h5save_file, '/A/0', 'NELSON_dimensions');
-assert_isequal(R, uint64([1; 6]));
-R = h5read(test_h5save_file, '/A/0');
-REF = uint16([78     101     108     115     111     110]);
-assert_isequal(R, REF);
+R = h5read(test_h5save_file, '/A');
+assert_isequal(R, uint16(A));
 //=============================================================================
-A = ["Nelson" , string(NaN)];
+A = ['Nelson'; '  is  '; ' open '; 'source'];
 h5save(test_h5save_file, 'A');
-R = h5readatt(test_h5save_file, '/A/1', 'NELSON_class');
-assert_isequal(R, 'double');
-R = h5readatt(test_h5save_file, '/A/1', 'NELSON_dimensions');
-assert_isequal(R, uint64([1; 1]));
-R = h5read(test_h5save_file, '/A/1');
-assert_isequal(R, NaN);
+R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
+assert_isequal(R, 'char');
+R = h5read(test_h5save_file, '/A');
+assert_isequal(R, uint16(A));
 //=============================================================================
-A = string();
+A = char(ones(3, 0));
 h5save(test_h5save_file, 'A');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
-assert_isequal(R, 'string');
-R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
-assert_isequal(R, uint64([1; 1]));
-R = h5readatt(test_h5save_file, '/A/0', 'NELSON_class');
 assert_isequal(R, 'char');
-R = h5readatt(test_h5save_file, '/A/0', 'NELSON_dimensions');
-assert_isequal(R, uint64([0; 0]));
-R = h5read(test_h5save_file, '/A/0');
+R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
+assert_isequal(R, uint64(size(A)'));
+R = h5readatt(test_h5save_file, '/A', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5save_file, '/A');
 assert_isequal(R, uint16(0));
 //=============================================================================

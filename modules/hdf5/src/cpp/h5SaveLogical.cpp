@@ -140,16 +140,16 @@ h5SaveLogicalMatrix(
     delete[] dimsAsHsize_t;
 
     void* buffer = (void*)VariableValue.getDataPointer();
-	hid_t dataset_id = H5Dcreate(
-            fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
-        status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
+    hid_t dataset_id
+        = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+    status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
     H5Dclose(dataset_id);
     H5Sclose(dspace_id);
     if (status < 0) {
-		bSuccess = false;
-	} else {
-		bSuccess = true;
-	}
+        bSuccess = false;
+    } else {
+        bSuccess = true;
+    }
 
     if (bSuccess) {
         bSuccess = h5SaveClassAttribute(fid, h5path, VariableValue);
