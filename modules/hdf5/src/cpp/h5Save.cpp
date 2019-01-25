@@ -27,22 +27,11 @@
 #include "Error.hpp"
 #include "ClassName.hpp"
 #include "SparseDynamicFunctions.hpp"
-#include "h5SaveCell.hpp"
-#include "h5SaveDouble.hpp"
-#include "h5SaveHandle.hpp"
-#include "h5SaveInteger.hpp"
-#include "h5SaveLogical.hpp"
-#include "h5SaveSingle.hpp"
-#include "h5SaveString.hpp"
-#include "h5SaveStruct.hpp"
 #include "h5SaveLoadHelpers.hpp"
 #include "h5SaveHelpers.hpp"
+#include "h5SaveVariable.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static bool
-saveVariable(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue);
 //=============================================================================
 void
 h5Save(Evaluator* eval, const std::wstring& filename, wstringVector names, bool append,
@@ -122,58 +111,9 @@ h5Save(Evaluator* eval, const std::wstring& filename, wstringVector names, bool 
         ArrayOf variableValue;
         std::string variableName = wstring_to_utf8(variablesName[k]);
         eval->getContext()->getCurrentScope()->lookupVariable(variableName, variableValue);
-        bool bSuccess = saveVariable(fid, location, variableName, variableValue);
+        bool bSuccess = h5SaveVariable(fid, location, variableName, variableValue);
     }
     H5Fclose(fid);
-}
-//=============================================================================
-bool
-saveVariable(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
-{
-    bool bSuccess = false;
-    switch (VariableValue.getDataClass()) {
-    case NLS_HANDLE: {
-        bSuccess = h5SaveHandle(fid, location, variableName, VariableValue);
-    } break;
-    case NLS_CELL_ARRAY: {
-        bSuccess = h5SaveCell(fid, location, variableName, VariableValue);
-    } break;
-    case NLS_STRUCT_ARRAY: {
-        bSuccess = h5SaveStruct(fid, location, variableName, VariableValue);
-    } break;
-    case NLS_STRING_ARRAY: {
-        bSuccess = h5SaveStringArray(fid, location, variableName, VariableValue);
-    } break;
-    case NLS_LOGICAL: {
-        bSuccess = h5SaveLogical(fid, location, variableName, VariableValue);
-    } break;
-    case NLS_UINT8:
-    case NLS_INT8:
-    case NLS_UINT16:
-    case NLS_INT16:
-    case NLS_UINT32:
-    case NLS_INT32:
-    case NLS_UINT64:
-    case NLS_INT64: {
-        bSuccess = h5SaveInteger(fid, location, variableName, VariableValue);
-    } break;
-    case NLS_SCOMPLEX:
-    case NLS_SINGLE: {
-        bSuccess = h5SaveSingle(fid, location, variableName, VariableValue);
-    } break;
-    case NLS_DCOMPLEX:
-    case NLS_DOUBLE: {
-        bSuccess = h5SaveDouble(fid, location, variableName, VariableValue);
-    } break;
-    case NLS_CHAR: {
-        bSuccess = h5SaveCharacterArray(fid, location, variableName, VariableValue);
-    } break;
-    default: {
-        Error(_W("Type not managed."));
-    } break;
-    }
-    return bSuccess;
 }
 //=============================================================================
 } // namespace Nelson

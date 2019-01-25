@@ -225,6 +225,7 @@
     <ClInclude Include="..\cpp\h5SaveSingle.hpp" />
     <ClInclude Include="..\cpp\h5SaveString.hpp" />
     <ClInclude Include="..\cpp\h5SaveStruct.hpp" />
+    <ClInclude Include="..\cpp\h5SaveVariable.hpp" />
     <ClInclude Include="..\cpp\h5WriteHelpers.hpp" />
     <ClInclude Include="..\include\h5Create.hpp" />
     <ClInclude Include="..\include\h5Load.hpp" />
@@ -263,6 +264,7 @@
     <ClCompile Include="..\cpp\h5SaveSingle.cpp" />
     <ClCompile Include="..\cpp\h5SaveString.cpp" />
     <ClCompile Include="..\cpp\h5SaveStruct.cpp" />
+    <ClCompile Include="..\cpp\h5SaveVariable.cpp" />
     <ClCompile Include="..\cpp\h5WriteAttribute.cpp" />
     <ClCompile Include="..\cpp\h5WriteDataset.cpp" />
     <ClCompile Include="..\cpp\h5WriteHelpers.cpp" />
