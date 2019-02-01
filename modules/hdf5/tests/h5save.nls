@@ -19,7 +19,7 @@
 // creates ref h5 file with all types supported by Nelson
 //=============================================================================
 path = fileparts(nfilename('fullpathext'), 'path');
-H5_FILE = [path, '/h5save.nh5']
+H5_FILE = [path, '/h5save.nh5'];
 if isfile(H5_FILE)
   rmfile(H5_FILE);
 end
@@ -252,4 +252,8 @@ AZ = ["NelSon";
 "not";
 "LensOn"];
 h5save(H5_FILE, 'AZ', '-append');
+//=============================================================================
+addpath([nelsonroot(), '/modules/overload/examples/complex']);
+cplx = complexObj(3, 4);
+h5save(H5_FILE, 'cplx', '-append');
 //=============================================================================
