@@ -1,0 +1,92 @@
+//=============================================================================
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+test_h5save_file = [tempdir(), '/test_h5save.nh5'];
+if isfile(test_h5save_file)
+  rmfile(test_h5save_file);
+end
+//=============================================================================
+// struct
+//=============================================================================
+st(1).a = [1, 1];
+st(2).a = [2, 2];
+st(1).b = [3; 3];
+st(2).b = [4; 4];
+h5save(test_h5save_file, 'st');
+R = h5readatt(test_h5save_file, '/st', 'NELSON_class');
+assert_isequal(R, 'struct');
+R = h5readatt(test_h5save_file, '/st', 'NELSON_dimensions');
+assert_isequal(R, uint64([1; 2]));
+R = h5read(test_h5save_file, '/st/0');
+assert_isequal(R, [1, 1]);
+R = h5read(test_h5save_file, '/st/1');
+assert_isequal(R, [3; 3]);
+R = h5read(test_h5save_file, '/st/2');
+assert_isequal(R, [2, 2]);
+R = h5read(test_h5save_file, '/st/3');
+assert_isequal(R, [4; 4]);
+R = h5read(test_h5save_file, '/st/fieldnames/0');
+assert_isequal(R, uint16('a'));
+R = h5read(test_h5save_file, '/st/fieldnames/1');
+assert_isequal(R, uint16('b'));
+//=============================================================================
+st = struct();
+st.a = [1, 1];
+st.b = [3; 3];
+h5save(test_h5save_file, 'st');
+R = h5readatt(test_h5save_file, '/st', 'NELSON_class');
+assert_isequal(R, 'struct');
+R = h5readatt(test_h5save_file, '/st', 'NELSON_dimensions');
+assert_isequal(R, uint64([1; 1]));
+R = h5read(test_h5save_file, '/st/0');
+assert_isequal(R, [1, 1]);
+R = h5read(test_h5save_file, '/st/1');
+assert_isequal(R, [3; 3]);
+R = h5read(test_h5save_file, '/st/fieldnames/0');
+assert_isequal(R, uint16('a'));
+R = h5read(test_h5save_file, '/st/fieldnames/1');
+assert_isequal(R, uint16('b'));
+//=============================================================================
+st = struct();
+h5save(test_h5save_file, 'st');
+R = h5readatt(test_h5save_file, '/st', 'NELSON_class');
+assert_isequal(R, 'struct');
+R = h5readatt(test_h5save_file, '/st', 'NELSON_dimensions');
+assert_isequal(R, uint64([1; 1]));
+R = h5readatt(test_h5save_file, '/st/fieldnames', 'NELSON_class');
+assert_isequal(R, 'string');
+R = h5readatt(test_h5save_file, '/st/fieldnames', 'NELSON_dimensions');
+assert_isequal(R,uint64([1; 0]));
+R = h5readatt(test_h5save_file, '/st/fieldnames', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+//=============================================================================
+st = struct([]);
+h5save(test_h5save_file, 'st');
+R = h5readatt(test_h5save_file, '/st', 'NELSON_class');
+assert_isequal(R, 'struct');
+R = h5readatt(test_h5save_file, '/st', 'NELSON_dimensions');
+assert_isequal(R, uint64([0; 0]));
+R = h5readatt(test_h5save_file, '/st', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+R = h5readatt(test_h5save_file, '/st/fieldnames', 'NELSON_class');
+assert_isequal(R, 'string');
+R = h5readatt(test_h5save_file, '/st/fieldnames', 'NELSON_dimensions');
+assert_isequal(R,uint64([1; 0]));
+R = h5readatt(test_h5save_file, '/st/fieldnames', 'NELSON_empty');
+assert_isequal(R, uint8(1));
+//=============================================================================

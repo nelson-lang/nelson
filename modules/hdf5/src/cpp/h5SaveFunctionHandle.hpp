@@ -16,19 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "DisplayStruct.hpp"
+#pragma once
+//=============================================================================
+#define H5_BUILT_AS_DYNAMIC_LIB
+#include <hdf5.h>
+#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void
-DisplayStruct(Interface* io, const ArrayOf& A, bool fromDispBuiltin, bool& needToOverload)
-{
-    if (A.isClassStruct()) {
-        needToOverload = true;
-    } else {
-        A.printMe(io);
-    }
-}
+bool
+h5SaveFunctionHandle(
+    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue);
 //=============================================================================
-} // namespace Nelson
+};
 //=============================================================================

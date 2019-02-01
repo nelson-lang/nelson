@@ -16,19 +16,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "h5SaveStruct.hpp"
+#include "h5SaveFunctionHandle.hpp"
 #include "h5SaveHelpers.hpp"
 #include "h5SaveLoadHelpers.hpp"
-#include "h5SaveVariable.hpp"
+#include "PathFuncManager.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 #include "h5SaveString.hpp"
+#include "h5SaveVariable.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
-h5SaveStruct(
+h5SaveFunctionHandle(
     hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
 {
     bool bSuccess = false;
+    function_handle fh = VariableValue.getContentAsFunctionHandle();
+    std::wstring functionname;
+    bool found = PathFuncManager::getInstance()->find(fh, functionname);
+    if (!found) {
+        found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
+    }
+    if (!found) {
+        return false;
+    }
     std::string h5path = location + variableName;
     herr_t status = H5Ldelete(fid, h5path.c_str(), H5P_DEFAULT);
 
@@ -38,27 +49,21 @@ h5SaveStruct(
     if (status < 0) {
         return false;
     }
-    stringVector fNames = VariableValue.getFieldNames();
+    stringVector fNames;
+    fNames.push_back("function");
     Dimensions dimsNames(1, fNames.size());
     ArrayOf fieldnames = ArrayOf::stringArrayConstructor(fNames, dimsNames);
     bSuccess = h5SaveStringArray(fid, h5path + std::string("/"), FIELDNAMES_STR, fieldnames);
     if (!bSuccess) {
         return false;
     }
-    Dimensions dims = VariableValue.getDimensions();
-    indexType length = dims.getElementCount();
-    ArrayOf* elements = (ArrayOf*)VariableValue.getDataPointer();
-    indexType offset = 0;
-    for (indexType j = 0; j < length; j++)
-        for (indexType i = 0; i < (sizeType)fNames.size(); i++) {
-            ArrayOf element = elements[offset];
-            std::string name = std::to_string(offset);
-            bSuccess = h5SaveVariable(fid, h5path + std::string("/"), name, element);
-            offset++;
-            if (!bSuccess) {
-                return false;
-            }
-        }
+    ArrayOf element = ArrayOf::characterArrayConstructor(functionname);
+    Dimensions dims(1, 1);
+    std::string name = std::to_string(0);
+    bSuccess = h5SaveVariable(fid, h5path + std::string("/"), name, element);
+    if (!bSuccess) {
+        return false;
+    }
     bSuccess = h5SaveClassAttribute(fid, h5path, VariableValue);
     if (!bSuccess) {
         return false;
@@ -67,13 +72,7 @@ h5SaveStruct(
     if (!bSuccess) {
         return false;
     }
-    if (dims.isEmpty(false)) {
-        bSuccess = h5SaveEmptyAttribute(fid, h5path);
-    }
-    if (VariableValue.isClassStruct()) {
-        bSuccess = h5SaveUint8Attribute(fid, h5path, NELSON_OBJECT_STR, uint8(1));
-    }
-    return bSuccess;
+    return h5SaveUint8Attribute(fid, h5path, NELSON_OBJECT_STR, uint8(1));
 }
 //=============================================================================
 };

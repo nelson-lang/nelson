@@ -32,7 +32,7 @@
 #define NELSON_SPARSE_NZMAX_STR "NELSON_nzmax"
 #define NELSON_DIMENSIONS_STR "NELSON_dimensions"
 #define NELSON_OBJECT_STR "NELSON_object"
-#define NELSON_FIELDS_STR "NELSON_fields"
+#define FIELDNAMES_STR "fieldnames"
 //=============================================================================
 namespace Nelson {
 //=============================================================================

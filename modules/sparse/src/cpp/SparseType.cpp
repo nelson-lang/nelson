@@ -1036,14 +1036,15 @@ Eigen_TypeConvertSparse(Class dclass, indexType rows, indexType cols, const void
                 Error(ERROR_MEMORY_ALLOCATION);
             }
             if (rows * cols) {
-			for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-                for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k);
-                     it; ++it) {
-                    doublecomplex dVal(it.value(), 0.0);
-                    spMatdest->coeffRef(it.row(), it.col()) = dVal;
+                for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
+                    for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(
+                             *spMat, k);
+                         it; ++it) {
+                        doublecomplex dVal(it.value(), 0.0);
+                        spMatdest->coeffRef(it.row(), it.col()) = dVal;
+                    }
                 }
             }
-			}
             spMatdest->finalize();
             spMatdest->makeCompressed();
             return (void*)spMatdest;

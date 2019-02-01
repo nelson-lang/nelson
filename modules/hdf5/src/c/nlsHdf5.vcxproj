@@ -217,6 +217,7 @@
     <ClInclude Include="..\cpp\h5ReadVlen.hpp" />
     <ClInclude Include="..\cpp\h5SaveCell.hpp" />
     <ClInclude Include="..\cpp\h5SaveDouble.hpp" />
+    <ClInclude Include="..\cpp\h5SaveFunctionHandle.hpp" />
     <ClInclude Include="..\cpp\h5SaveHandle.hpp" />
     <ClInclude Include="..\cpp\h5SaveHelpers.hpp" />
     <ClInclude Include="..\cpp\h5SaveInteger.hpp" />
@@ -256,6 +257,7 @@
     <ClCompile Include="..\cpp\h5Save.cpp" />
     <ClCompile Include="..\cpp\h5SaveCell.cpp" />
     <ClCompile Include="..\cpp\h5SaveDouble.cpp" />
+    <ClCompile Include="..\cpp\h5SaveFunctionHandle.cpp" />
     <ClCompile Include="..\cpp\h5SaveHandle.cpp" />
     <ClCompile Include="..\cpp\h5SaveHelpers.cpp" />
     <ClCompile Include="..\cpp\h5SaveInteger.cpp" />

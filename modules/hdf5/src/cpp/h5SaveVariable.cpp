@@ -25,6 +25,7 @@
 #include "h5SaveCell.hpp"
 #include "h5SaveLogical.hpp"
 #include "h5SaveHandle.hpp"
+#include "h5SaveFunctionHandle.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -41,7 +42,11 @@ h5SaveVariable(
         bSuccess = h5SaveCell(fid, location, variableName, VariableValue);
     } break;
     case NLS_STRUCT_ARRAY: {
-        bSuccess = h5SaveStruct(fid, location, variableName, VariableValue);
+        if (VariableValue.isFunctionHandle()) {
+            bSuccess = h5SaveFunctionHandle(fid, location, variableName, VariableValue);
+        } else {
+            bSuccess = h5SaveStruct(fid, location, variableName, VariableValue);
+        }
     } break;
     case NLS_STRING_ARRAY: {
         bSuccess = h5SaveStringArray(fid, location, variableName, VariableValue);
