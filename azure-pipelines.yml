@@ -163,9 +163,9 @@ jobs:
   - job: Windows_VS2017_Win32
     pool:
       vmImage: 'vs2017-win2016'
-    variables:
-      QTDIR: '%AGENT_BUILDDIRECTORY%\Qt\msvc2017'
     steps:
+    - powershell: |
+        Write-Host '##vso[task.setvariable variable=QTDIR;issecret=false]%AGENT_BUILDDIRECTORY%\Qt\msvc2017' 
     - script: |
         git clone https://github.com/Nelson-numerical-software/qt-5-win32.git %AGENT_BUILDDIRECTORY%\Qt
         git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-win32.git %AGENT_BUILDDIRECTORY%\nelson-thirdparty-win32
@@ -193,9 +193,9 @@ jobs:
   - job: Windows_VS2017_Win64
     pool:
       vmImage: 'vs2017-win2016'
-    variables:
-      QTDIR: '%AGENT_BUILDDIRECTORY%\Qt\msvc2017_64'
     steps:
+    - powershell: |
+        Write-Host '##vso[task.setvariable variable=QTDIR;issecret=false]%AGENT_BUILDDIRECTORY%\Qt\msvc2017_64' 
     - script: |
         git clone https://github.com/Nelson-numerical-software/qt-5-x64.git %AGENT_BUILDDIRECTORY%\Qt
         git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-x64.git %AGENT_BUILDDIRECTORY%\nelson-thirdparty-x64
