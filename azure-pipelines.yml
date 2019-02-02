@@ -82,9 +82,6 @@ jobs:
         make buildhelp
       displayName: Build help
     - script: |
-        make missing_help
-      displayName: Search missing help
-    - script: |
         make tests_minimal
       displayName: Executes minimal tests
     - script: |
@@ -93,6 +90,9 @@ jobs:
     - script: |
         make tests_all
       displayName: Executes all tests
+    - script: |
+        make missing_help
+      displayName: Search missing help
 
 
   - job: MacOS
@@ -165,11 +165,8 @@ jobs:
       vmImage: 'vs2017-win2016'
     steps:
     - script: |
-        echo %PATH%
-        set
-        dir "C:\"
-        dir "C:\Program Files"
-        dir "C:\Program Files (x86)"
+        cd
+        dir
       displayName: Installing dependencies
 
   - job: Windows_VS2017_Win64
@@ -177,9 +174,6 @@ jobs:
       vmImage: 'vs2017-win2016'
     steps:
     - script: |
-        echo %PATH%
-        set
-        dir "C:\"
-        dir "C:\Program Files"
-        dir "C:\Program Files (x86)"
+        cd
+        dir
       displayName: Installing dependencies
