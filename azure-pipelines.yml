@@ -55,7 +55,7 @@ jobs:
         sudo apt-get install qtdeclarative5-qtquick2-plugin;
         sudo apt-get install qtdeclarative5-dialogs-plugin;
         sudo apt-get install qtdeclarative5-window-plugin;
-        git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.5 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && sudo make install && cd -;
+        git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.7 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && sudo make install && cd -;
         export CC=$USE_CC; export CXX=$USE_CXX;
         export BUILD_ROOT=$(pwd);
         cd $HOME;
@@ -68,6 +68,10 @@ jobs:
         sudo ./b2 -q -d0 --user-config=user-config.jam cxxflags="-std=c++11 -fPIC" threading=multi link=shared install;
         popd;
       displayName: Installing dependencies
+    - script: |
+        export DISPLAY=:99.0;
+        sh -e /etc/init.d/xvfb start;
+      displayName: Configure Display
     - script: |
         cmake -G "Unix Makefiles" -DBOOST_ROOT=/usr/local/boost;
       displayName: Configure CMake
@@ -122,7 +126,7 @@ jobs:
         brew install libsndfile;
         brew install taglib;
         brew install hdf5;
-        git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.5 && cd - && cd /tmp/eigen-build && FC="nofortran" cmake . /tmp/eigen && make -j4 && sudo make install && cd -;
+        git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.7 && cd - && cd /tmp/eigen-build && FC="nofortran" cmake . /tmp/eigen && make -j4 && sudo make install && cd -;
         export BUILD_ROOT=$(pwd);
         cd $HOME;
         curl -O http://coudert.name/software/gfortran-6.3-Sierra.dmg;
@@ -160,24 +164,16 @@ jobs:
     pool:
       vmImage: 'vs2017-win2016'
     steps:
-    - script: git clone https://github.com/microsoft/vcpkg
-      displayName: Bootstraping Vcpkg
-    - script: .\vcpkg\bootstrap-vcpkg.bat
-      displayName: Bootstraping Vcpkg
     - script: |
-        .\vcpkg\vcpkg.exe install qt5 qt5-base qt5-tools
         echo %PATH%
+        set
       displayName: Installing dependencies
 
   - job: Windows_VS2017_Win64
     pool:
       vmImage: 'vs2017-win2016'
     steps:
-    - script: git clone https://github.com/microsoft/vcpkg
-      displayName: Bootstraping Vcpkg
-    - script: .\vcpkg\bootstrap-vcpkg.bat
-      displayName: Bootstraping Vcpkg
     - script: |
-        .\vcpkg\vcpkg.exe install qt5:x64-windows qt5-base:x64-windows qt5-tools:x64-windows
         echo %PATH%
+        set
       displayName: Installing dependencies
