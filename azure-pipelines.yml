@@ -68,6 +68,27 @@ jobs:
         sudo ./b2 -q -d0 --user-config=user-config.jam cxxflags="-std=c++11 -fPIC" threading=multi link=shared install;
         popd;
       displayName: Installing dependencies
+    - script: |
+        cmake -G "Unix Makefiles" -DBOOST_ROOT=/usr/local/boost;
+      displayName: Configure CMake
+    - script: |
+        make -j4
+      displayName: Build Nelson
+    - script: |
+        make buildhelp
+      displayName: Build help
+    - script: |
+        make missing_help
+      displayName: Search missing help
+    - script: |
+        make tests_minimal
+      displayName: Executes minimal tests
+    - script: |
+        make package
+      displayName: Package
+    - script: |
+        make tests_all
+      displayName: Executes all tests
 
 
   - job: MacOS
@@ -119,9 +140,9 @@ jobs:
     - script: |
         make -j4
       displayName: Build Nelson
-    - script: |
-        make buildhelp
-      displayName: Build help
+#    - script: |
+#        make buildhelp
+#      displayName: Build help
     - script: |
         make missing_help
       displayName: Search missing help
