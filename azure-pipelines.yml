@@ -1,19 +1,104 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+#=============================================================================
+# Copyright (c) 2016-2019 Allan CORNET (Nelson)
+#=============================================================================
+# LICENCE_BLOCK_BEGIN
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# LICENCE_BLOCK_END
+#=============================================================================
+jobs:
+  - job: Ubuntu
+    pool:
+      vmImage: 'Ubuntu-16.04'
+    steps:
+    - script: |
+        sudo apt-get install libopenmpi-dev;
+        sudo apt-get install openmpi-bin;
+        sudo apt-get install openmpi-bin;
+        sudo apt-get install gettext;
+        sudo apt-get install pkg-config;
+        sudo apt-get install cmake;
+        sudo apt-get install libffi-dev;
+        sudo apt-get install libicu-dev;
+        sudo apt-get install libxml2-dev;
+        sudo apt-get install liblapack-dev;
+        sudo apt-get install liblapacke-dev;
+        sudo apt-get install fftw3;
+        sudo apt-get install fftw3-dev;
+        sudo apt-get install libasound-dev;
+        sudo apt-get install portaudio19-dev;
+        sudo apt-get install libsndfile1-dev;
+        sudo apt-get install libtag1-dev;
+        sudo apt-get install alsa-utils;
+        sudo apt-get install libhdf5-dev;
+        sudo apt-get install hdf5-tools;
+        sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa;
+        sudo apt-get update;
+        sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev;
+        sudo apt-get install qt5-default qttools5-dev-tools;
+        sudo apt-get install libqt5qml-graphicaleffects;
+        sudo apt-get install libqt5opengl5-dev;
+        sudo apt-get install qtbase5-private-dev;
+        sudo apt-get install qtdeclarative5-dev;
+        sudo apt-get install qtdeclarative5-controls-plugin;
+        sudo apt-get install qtdeclarative5-quicklayouts-plugin;
+        sudo apt-get install qtdeclarative5-qtquick2-plugin;
+        sudo apt-get install qtdeclarative5-dialogs-plugin;
+        sudo apt-get install qtdeclarative5-window-plugin;
+        git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.5 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && sudo make install && cd -; fi
+        export CC=$USE_CC; export CXX=$USE_CXX;
+        export BUILD_ROOT=$(pwd);
+        cd $HOME;
+        curl https://netcologne.dl.sourceforge.net/project/boost/boost/1.62.0/boost_1_62_0.tar.bz2 | tar xj;
+        pushd "boost_1_62_0";
+        export GCC=$(which $CXX);
+        echo -e "using gcc \x3a \x3a $GCC ;" > user-config.jam; cat user-config.jam;
+        ./bootstrap.sh --prefix=/usr/local/boost --with-libraries=thread,date_time,filesystem,system,program_options,chrono,regex,locale,iostreams,random;
+        ./b2 -q -d0 --user-config=user-config.jam headers;
+        sudo ./b2 -q -d0 --user-config=user-config.jam cxxflags="-std=c++11 -fPIC" threading=multi link=shared install;
+        popd;
+      displayName: Installing dependencies
 
-trigger:
-- master
 
-pool:
-  vmImage: 'Ubuntu-16.04'
-
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - job: MacOS
+    pool:
+      vmImage: 'macOS-10.13'
+    steps:
+    - script: |
+        brew update;
+        brew unlink libffi;
+        brew install libffi;
+        brew unlink libffi;
+        brew link --force libffi;
+        brew uninstall icu4c;
+        brew install icu4c;
+        brew unlink icu4c;
+        brew link icu4c --force;
+        brew info open-mpi;
+        brew install openmpi;
+        brew install python3;
+        brew upgrade python;
+        brew install pkg-config;
+        brew install pkgconfig;
+        brew install gettext;
+        brew link --force gettext;
+        brew install boost;
+        brew install libxml2;
+        brew install cmake;
+        brew install qt5;
+        brew install fftw;
+        brew install portaudio;
+        brew install libsndfile;
+        brew install taglib;
+        brew install hdf5;
+      displayName: Installing dependencies
