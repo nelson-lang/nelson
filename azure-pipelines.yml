@@ -172,6 +172,7 @@ jobs:
         install.bat
       displayName: Installing dependencies
     - script: |
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86
         cd %BUILD_SOURCESDIRECTORY%
         msbuild nelson.sln /p:Configuration=Release /p:Platform=win32 /target:"NelSon-gui"  /m:4 
       displayName: Build Nelson
@@ -201,6 +202,7 @@ jobs:
         install.bat
       displayName: Installing dependencies
     - script: |
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
         cd %BUILD_SOURCESDIRECTORY%
         msbuild nelson.sln /p:Configuration=Release /p:Platform=x64 /target:"NelSon-gui"  /m:4 
       displayName: Build Nelson
