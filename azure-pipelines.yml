@@ -165,8 +165,11 @@ jobs:
       vmImage: 'vs2017-win2016'
     steps:
     - script: |
+        choco install innosetup
         echo %PATH%
         set
+        dir "C:\Program Files"
+        dir "C:\Program Files (x86)"
       displayName: Installing dependencies
 
   - job: Windows_VS2017_Win64
@@ -174,6 +177,9 @@ jobs:
       vmImage: 'vs2017-win2016'
     steps:
     - script: |
+        choco install innosetup
         echo %PATH%
         set
+        dir "C:\Program Files"
+        dir "C:\Program Files (x86)"
       displayName: Installing dependencies
