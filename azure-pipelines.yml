@@ -55,7 +55,7 @@ jobs:
         sudo apt-get install qtdeclarative5-qtquick2-plugin;
         sudo apt-get install qtdeclarative5-dialogs-plugin;
         sudo apt-get install qtdeclarative5-window-plugin;
-        git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.5 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && sudo make install && cd -; fi
+        git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.5 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && sudo make install && cd -;
         export CC=$USE_CC; export CXX=$USE_CXX;
         export BUILD_ROOT=$(pwd);
         cd $HOME;
@@ -101,4 +101,36 @@ jobs:
         brew install libsndfile;
         brew install taglib;
         brew install hdf5;
+        git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.5 && cd - && cd /tmp/eigen-build && FC="nofortran" cmake . /tmp/eigen && make -j4 && sudo make install && cd -;
+        export BUILD_ROOT=$(pwd);
+        cd $HOME;
+        curl -O http://coudert.name/software/gfortran-6.3-Sierra.dmg;
+        sudo hdiutil attach gfortran-6.3-Sierra.dmg;
+        sudo installer -package /Volumes/gfortran-6.3-Sierra/gfortran.pkg -target /;
+        sudo hdiutil detach /Volumes/gfortran-6.3-Sierra;
+        cd $BUILD_ROOT;
+        cd ..;
+        git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-macosx.git;
       displayName: Installing dependencies
+    - script: |
+        export PATH=/usr/local/opt/qt5/bin:$PATH;
+        cmake -G "Unix Makefiles";
+      displayName: Configure CMake
+    - script: |
+        make -j4
+      displayName: Build Nelson
+    - script: |
+        make buildhelp
+      displayName: Build help
+    - script: |
+        make missing_help
+      displayName: Search missing help
+    - script: |
+        make tests_minimal
+      displayName: Executes minimal tests
+    - script: |
+        make package
+      displayName: Package
+    - script: |
+        make tests_all
+      displayName: Executes all tests
