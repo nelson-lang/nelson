@@ -155,3 +155,29 @@ jobs:
     - script: |
         make tests_all
       displayName: Executes all tests
+
+  - job: Windows_VS2017_Win32
+    pool:
+      vmImage: 'vs2017-win2016'
+    steps:
+    - script: git clone https://github.com/microsoft/vcpkg
+      displayName: Bootstraping Vcpkg
+    - script: .\vcpkg\bootstrap-vcpkg.bat
+      displayName: Bootstraping Vcpkg
+    - script: |
+        .\vcpkg\vcpkg.exe install qt5 qt5-base qt5-tools
+        echo %PATH%
+      displayName: Installing dependencies
+
+  - job: Windows_VS2017_Win64
+    pool:
+      vmImage: 'vs2017-win2016'
+    steps:
+    - script: git clone https://github.com/microsoft/vcpkg
+      displayName: Bootstraping Vcpkg
+    - script: .\vcpkg\bootstrap-vcpkg.bat
+      displayName: Bootstraping Vcpkg
+    - script: |
+        .\vcpkg\vcpkg.exe install qt5:x64-windows qt5-base:x64-windows qt5-tools:x64-windows
+        echo %PATH%
+      displayName: Installing dependencies
