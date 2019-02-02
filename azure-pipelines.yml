@@ -163,16 +163,16 @@ jobs:
   - job: Windows_VS2017_Win32
     pool:
       vmImage: 'vs2017-win2016'
+    variables:
+      QTDIR: '%AGENT_BUILDDIRECTORY%\Qt\msvc2017'
     steps:
     - script: |
         git clone https://github.com/Nelson-numerical-software/qt-5-win32.git %AGENT_BUILDDIRECTORY%\Qt
-        set QTDIR: %AGENT_BUILDDIRECTORY%\Qt\msvc2017
         git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-win32.git %AGENT_BUILDDIRECTORY%\nelson-thirdparty-win32
         cd %AGENT_BUILDDIRECTORY%\nelson-thirdparty-win32
         install.bat
       displayName: Installing dependencies
     - script: |
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86
         cd %BUILD_SOURCESDIRECTORY%
         msbuild nelson.sln /p:Configuration=Release /p:Platform=win32 /target:"NelSon-gui"  /m:4 
       displayName: Build Nelson
@@ -193,16 +193,16 @@ jobs:
   - job: Windows_VS2017_Win64
     pool:
       vmImage: 'vs2017-win2016'
+    variables:
+      QTDIR: '%AGENT_BUILDDIRECTORY%\Qt\msvc2017_64'
     steps:
     - script: |
         git clone https://github.com/Nelson-numerical-software/qt-5-x64.git %AGENT_BUILDDIRECTORY%\Qt
-        set QTDIR: %AGENT_BUILDDIRECTORY%\Qt\msvc2017_64
         git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-x64.git %AGENT_BUILDDIRECTORY%\nelson-thirdparty-x64
         cd %AGENT_BUILDDIRECTORY%\nelson-thirdparty-x64
         install.bat
       displayName: Installing dependencies
     - script: |
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
         cd %BUILD_SOURCESDIRECTORY%
         msbuild nelson.sln /p:Configuration=Release /p:Platform=x64 /target:"NelSon-gui"  /m:4 
       displayName: Build Nelson
