@@ -69,8 +69,8 @@ jobs:
         popd;
       displayName: Installing dependencies
     - script: |
-        export DISPLAY=:99.0;
-        sh -e /etc/init.d/xvfb start;
+        Xvfb :99 -ac 2>/dev/null &
+        export DISPLAY=:99
       displayName: Configure Display
     - script: |
         cmake -G "Unix Makefiles" -DBOOST_ROOT=/usr/local/boost;
@@ -165,9 +165,9 @@ jobs:
       vmImage: 'vs2017-win2016'
     steps:
     - script: |
-        choco install innosetup
         echo %PATH%
         set
+        dir "C:\"
         dir "C:\Program Files"
         dir "C:\Program Files (x86)"
       displayName: Installing dependencies
@@ -177,9 +177,9 @@ jobs:
       vmImage: 'vs2017-win2016'
     steps:
     - script: |
-        choco install innosetup
         echo %PATH%
         set
+        dir "C:\"
         dir "C:\Program Files"
         dir "C:\Program Files (x86)"
       displayName: Installing dependencies
