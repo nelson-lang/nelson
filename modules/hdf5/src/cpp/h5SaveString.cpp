@@ -37,7 +37,12 @@ h5SaveStringArray(
     hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
 {
     bool bSuccess = false;
-    std::string h5path = location + variableName;
+    std::string h5path;
+    if (location == "/") {
+        h5path = location + variableName;
+    } else {
+        h5path = location + "/" + variableName;
+    }
     herr_t status = H5Ldelete(fid, h5path.c_str(), H5P_DEFAULT);
 
     hid_t gcpl = H5Pcreate(H5P_GROUP_CREATE);
@@ -93,7 +98,12 @@ h5SaveCharacterEmptyMatrix(
     hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
 {
     bool bSuccess = false;
-    std::string h5path = location + variableName;
+    std::string h5path;
+    if (location == "/") {
+        h5path = location + variableName;
+    } else {
+        h5path = location + "/" + variableName;
+    }
     herr_t status = H5Ldelete(fid, h5path.c_str(), H5P_DEFAULT);
 
     uint16 value = 0;
@@ -133,8 +143,12 @@ h5SaveCharacterMatrix(
     hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
 {
     bool bSuccess = false;
-
-    std::string h5path = location + variableName;
+    std::string h5path;
+    if (location == "/") {
+        h5path = location + variableName;
+    } else {
+        h5path = location + "/" + variableName;
+    }
     herr_t status = H5Ldelete(fid, h5path.c_str(), H5P_DEFAULT);
 
     hid_t dspace_id = H5I_INVALID_HID;

@@ -21,7 +21,7 @@
 #define H5_BUILT_AS_DYNAMIC_LIB
 //=============================================================================
 #include <hdf5.h>
-#include "Types.hpp"
+#include "ArrayOf.hpp"
 //=============================================================================
 #define NELSON_SCHEMA 1
 #define NELSON_SCHEMA_STR "NELSON_schema"
@@ -47,6 +47,30 @@ addSchemaFormat(hid_t obj_id);
 //=============================================================================
 bool
 updateNelsonH5Header(hid_t fid);
+//=============================================================================
+stringVector
+getVariableNames(hid_t fid);
+//=============================================================================
+std::string
+getNelsonClass(hid_t fid, const std::string& location, const std::string& variableName);
+//=============================================================================
+Dimensions
+getNelsonDimensions(hid_t fid, const std::string& location, const std::string& variableName);
+//=============================================================================
+bool
+isNelsonEmpty(hid_t fid, const std::string& location, const std::string& variableName);
+//=============================================================================
+bool
+isNelsonSparse(hid_t fid, const std::string& location, const std::string& variableName);
+//=============================================================================
+bool
+isNelsonObject(hid_t fid, const std::string& location, const std::string& variableName);
+//=============================================================================
+bool
+isNelsonComplex(hid_t fid, const std::string& location, const std::string& variableName);
+//=============================================================================
+uint64
+getNelsonNzmax(hid_t fid, const std::string& location, const std::string& variableName);
 //=============================================================================
 }
 //=============================================================================

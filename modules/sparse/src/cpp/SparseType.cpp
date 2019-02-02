@@ -280,9 +280,12 @@ template <class T>
 indexType
 Eigen_CountNonzerosMax(const void* cp)
 {
-    Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
-        = (Eigen::SparseMatrix<T, 0, signedIndexType>*)cp;
-    return spMat->data().allocatedSize();
+    if (cp) {
+        Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
+            = (Eigen::SparseMatrix<T, 0, signedIndexType>*)cp;
+        return spMat->data().allocatedSize();
+    }
+    return 1;
 }
 //=============================================================================
 indexType

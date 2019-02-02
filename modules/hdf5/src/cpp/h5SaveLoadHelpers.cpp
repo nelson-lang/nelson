@@ -103,5 +103,201 @@ updateNelsonH5Header(hid_t fid)
     return bSuccess;
 }
 //=============================================================================
+stringVector
+getVariableNames(hid_t fid)
+{
+    stringVector variableNames;
+    hsize_t nbVariables = 0;
+    if (H5Gget_num_objs(fid, &nbVariables) != 0) {
+        return variableNames;
+    }
+    for (hsize_t i = 0; i < nbVariables; i++) {
+        if (H5Gget_objtype_by_idx(fid, i) == H5G_DATASET
+            || H5Gget_objtype_by_idx(fid, i) == H5G_GROUP) {
+            char* varName = nullptr;
+            size_t sLen = 0;
+            sLen = (size_t)H5Gget_objname_by_idx(fid, i, NULL, sLen);
+            try {
+                varName = new char[sLen + 1];
+                H5Gget_objname_by_idx(fid, i, varName, sLen + 1);
+                variableNames.push_back(varName);
+                delete[] varName;
+            } catch (const std::bad_alloc&) {
+            }
+        }
+    }
+    return variableNames;
+}
+//=============================================================================
+static bool
+getAttributeAsBool(hid_t fid, const std::string& location, const std::string& variableName,
+    const std::string& attributeName)
+{
+    std::string h5path;
+    if (location == "/") {
+        h5path = location + variableName;
+    } else {
+        h5path = location + "/" + variableName;
+    }
+    hid_t obj_id = H5Oopen(fid, h5path.c_str(), H5P_DEFAULT);
+    if (obj_id < 0) {
+        return false;
+    }
+    hid_t attr_id = H5Aopen_name(obj_id, attributeName.c_str());
+    if (attr_id < 0) {
+        H5Oclose(obj_id);
+        return false;
+    }
+    uint8 value = 0;
+    herr_t status = H5Aread(attr_id, H5T_NATIVE_UINT8, &value);
+    if (status < 0) {
+        return false;
+    }
+    H5Aclose(attr_id);
+    H5Oclose(obj_id);
+    return value == 0 ? false : true;
+}
+//=============================================================================
+std::string
+getNelsonClass(hid_t fid, const std::string& location, const std::string& variableName)
+{
+    std::string h5path;
+    if (location == "/") {
+        h5path = location + variableName;
+    } else {
+        h5path = location + "/" + variableName;
+    }
+    hid_t obj_id = H5Oopen(fid, h5path.c_str(), H5P_DEFAULT);
+    if (obj_id < 0) {
+        return "";
+    }
+    hsize_t dims[1];
+    hid_t attr_id = H5Aopen_name(obj_id, NELSON_CLASS_STR);
+    hid_t aspace = H5Aget_space(attr_id);
+    herr_t status = H5Sget_simple_extent_dims(aspace, dims, NULL);
+    if (status < 0) {
+        return "";
+    }
+    hid_t type = H5Aget_type(attr_id);
+    hsize_t sDim = H5Tget_size(type);
+
+    char* pClassname = new char[sDim + 1];
+
+    hid_t memtype = H5Tcopy(H5T_C_S1);
+    status = H5Tset_size(memtype, sDim);
+    if (status < 0) {
+        return "";
+    }
+
+    status = H5Aread(attr_id, memtype, pClassname);
+    if (status < 0) {
+        delete[] pClassname;
+        return "";
+    }
+    pClassname[sDim] = 0;
+    std::string className = std::string(pClassname);
+    delete[] pClassname;
+    H5Tclose(memtype);
+    H5Sclose(aspace);
+    H5Aclose(type);
+    H5Aclose(aspace);
+    return className;
+}
+//=============================================================================
+Dimensions
+getNelsonDimensions(hid_t fid, const std::string& location, const std::string& variableName)
+{
+    Dimensions res;
+    std::string h5path;
+    if (location == "/") {
+        h5path = location + variableName;
+    } else {
+        h5path = location + "/" + variableName;
+    }
+    hid_t obj_id = H5Oopen(fid, h5path.c_str(), H5P_DEFAULT);
+    if (obj_id < 0) {
+        return res;
+    }
+    hsize_t dims[2];
+    hid_t attr_id = H5Aopen_name(obj_id, NELSON_DIMENSIONS_STR);
+    if (attr_id < 0) {
+        return res;
+    }
+    hid_t aspace = H5Aget_space(attr_id);
+    herr_t status = H5Sget_simple_extent_dims(aspace, dims, NULL);
+    if (status < 0) {
+        return res;
+    }
+    hid_t type = H5Aget_type(attr_id);
+    hsize_t sDim = H5Tget_size(type);
+    uint64* ptrUint64 = nullptr;
+    try {
+        ptrUint64 = new uint64[dims[1]];
+    } catch (const std::bad_alloc&) {
+        return res;
+    }
+    status = H5Aread(attr_id, type, ptrUint64);
+    if (status < 0) {
+        return res;
+    }
+    for (indexType k = 0; k < (indexType)dims[1]; k++) {
+        res[k] = ptrUint64[k];
+    }
+    delete[] ptrUint64;
+    return res;
+}
+//=============================================================================
+bool
+isNelsonEmpty(hid_t fid, const std::string& location, const std::string& variableName)
+{
+    return getAttributeAsBool(fid, location, variableName, NELSON_EMPTY_STR);
+}
+//=============================================================================
+bool
+isNelsonSparse(hid_t fid, const std::string& location, const std::string& variableName)
+{
+    return getAttributeAsBool(fid, location, variableName, NELSON_SPARSE_STR);
+}
+//=============================================================================
+bool
+isNelsonObject(hid_t fid, const std::string& location, const std::string& variableName)
+{
+    return getAttributeAsBool(fid, location, variableName, NELSON_OBJECT_STR);
+}
+//=============================================================================
+uint64
+getNelsonNzmax(hid_t fid, const std::string& location, const std::string& variableName)
+{
+    std::string h5path;
+    if (location == "/") {
+        h5path = location + variableName;
+    } else {
+        h5path = location + "/" + variableName;
+    }
+    hid_t obj_id = H5Oopen(fid, h5path.c_str(), H5P_DEFAULT);
+    if (obj_id < 0) {
+        return 0;
+    }
+    hid_t attr_id = H5Aopen_name(obj_id, NELSON_SPARSE_NZMAX_STR);
+    if (attr_id < 0) {
+        H5Oclose(obj_id);
+        return false;
+    }
+    uint64 value = 0;
+    herr_t status = H5Aread(attr_id, H5T_NATIVE_UINT64, &value);
+    if (status < 0) {
+        return false;
+    }
+    H5Aclose(attr_id);
+    H5Oclose(obj_id);
+    return value;
+}
+//=============================================================================
+bool
+isNelsonComplex(hid_t fid, const std::string& location, const std::string& variableName)
+{
+    return getAttributeAsBool(fid, location, variableName, NELSON_COMPLEX_STR);
+}
+//=============================================================================
 };
 //=============================================================================

@@ -18,22 +18,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "Types.hpp"
-#include "nlsTypes_exports.h"
+#define H5_BUILT_AS_DYNAMIC_LIB
+#include <hdf5.h>
+#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSTYPES_IMPEXP Class
-StringToClass(std::wstring classname);
+bool
+h5LoadVariable(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf& VariableValue);
 //=============================================================================
-NLSTYPES_IMPEXP Class
-StringToClass(std::wstring classname, bool& haveError);
-//=============================================================================
-NLSTYPES_IMPEXP Class
-StringToClass(std::string classname);
-//=============================================================================
-NLSTYPES_IMPEXP Class
-StringToClass(std::string classname, bool& haveError);
-//=============================================================================
-}
+};
 //=============================================================================

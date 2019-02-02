@@ -94,7 +94,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSHDF5_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/hdf5/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/hdf5/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/hdf5/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/hdf5/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251;4290</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -113,7 +113,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSHDF5_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/hdf5/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/hdf5/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/hdf5/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/hdf5/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251;4290</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -134,7 +134,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSHDF5_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/hdf5/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/hdf5/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/hdf5/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/hdf5/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251;4290</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -157,7 +157,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSHDF5_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/hdf5/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/hdf5/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/hdf5/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/hdf5/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251;4290</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -190,6 +190,9 @@
     <ProjectReference Include="..\..\..\overload\src\c\nlsOverload.vcxproj">
       <Project>{937bee8b-e934-45f1-98ef-33aaf951e5e9}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\sparse\src\c\nlsSparse.vcxproj">
+      <Project>{74cc7c51-0768-41e6-a973-6159633dcfbc}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
     </ProjectReference>
@@ -204,6 +207,16 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\h5LoadCell.hpp" />
+    <ClInclude Include="..\cpp\h5LoadDouble.hpp" />
+    <ClInclude Include="..\cpp\h5LoadFunctionHandle.hpp" />
+    <ClInclude Include="..\cpp\h5LoadHandle.hpp" />
+    <ClInclude Include="..\cpp\h5LoadInteger.hpp" />
+    <ClInclude Include="..\cpp\h5LoadLogical.hpp" />
+    <ClInclude Include="..\cpp\h5LoadSingle.hpp" />
+    <ClInclude Include="..\cpp\h5LoadString.hpp" />
+    <ClInclude Include="..\cpp\h5LoadStruct.hpp" />
+    <ClInclude Include="..\cpp\h5LoadVariable.hpp" />
     <ClInclude Include="..\cpp\h5ReadArray.hpp" />
     <ClInclude Include="..\cpp\h5ReadBitfield.hpp" />
     <ClInclude Include="..\cpp\h5ReadEnum.hpp" />
@@ -241,6 +254,16 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\h5Create.cpp" />
     <ClCompile Include="..\cpp\h5Load.cpp" />
+    <ClCompile Include="..\cpp\h5LoadCell.cpp" />
+    <ClCompile Include="..\cpp\h5LoadDouble.cpp" />
+    <ClCompile Include="..\cpp\h5LoadFunctionHandle.cpp" />
+    <ClCompile Include="..\cpp\h5LoadHandle.cpp" />
+    <ClCompile Include="..\cpp\h5LoadInteger.cpp" />
+    <ClCompile Include="..\cpp\h5LoadLogical.cpp" />
+    <ClCompile Include="..\cpp\h5LoadSingle.cpp" />
+    <ClCompile Include="..\cpp\h5LoadString.cpp" />
+    <ClCompile Include="..\cpp\h5LoadStruct.cpp" />
+    <ClCompile Include="..\cpp\h5LoadVariable.cpp" />
     <ClCompile Include="..\cpp\h5ReadArray.cpp" />
     <ClCompile Include="..\cpp\h5ReadBitfield.cpp" />
     <ClCompile Include="..\cpp\h5ReadDataset.cpp" />

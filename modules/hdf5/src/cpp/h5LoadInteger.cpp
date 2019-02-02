@@ -16,52 +16,48 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "h5SaveCell.hpp"
-#include "h5SaveHelpers.hpp"
-#include "h5SaveLoadHelpers.hpp"
-#include "h5SaveVariable.hpp"
+#include "h5LoadInteger.hpp"
+#include "h5ReadInteger.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
-h5SaveCell(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5LoadInteger(hid_t fid, const std::string& location, const std::string& variableName,
+    Class destClass, bool isEmpty, Dimensions dims, ArrayOf& VariableValue)
 {
     bool bSuccess = false;
-    std::string h5path;
-    if (location == "/") {
-        h5path = location + variableName;
+    if (isEmpty) {
+        VariableValue = ArrayOf::emptyConstructor(dims);
+        VariableValue.promoteType(destClass);
     } else {
-        h5path = location + "/" + variableName;
-    }
-    herr_t status = H5Ldelete(fid, h5path.c_str(), H5P_DEFAULT);
-
-    hid_t gcpl = H5Pcreate(H5P_GROUP_CREATE);
-    hid_t group = H5Gcreate(fid, h5path.c_str(), H5P_DEFAULT, gcpl, H5P_DEFAULT);
-    status = H5Gclose(group);
-    if (status < 0) {
-        return false;
-    }
-    Dimensions dims = VariableValue.getDimensions();
-    ArrayOf* elements = (ArrayOf*)VariableValue.getDataPointer();
-    for (indexType k = 0; k < dims.getElementCount(); k++) {
-        ArrayOf element = elements[k];
-        std::string name = std::to_string(k);
-        bSuccess = h5SaveVariable(fid, h5path + std::string("/"), name, element);
-        if (!bSuccess) {
+        std::string h5path;
+        if (location == "/") {
+            h5path = location + variableName;
+        } else {
+            h5path = location + "/" + variableName;
+        }
+        std::wstring error;
+        hid_t dset_id = H5Dopen(fid, h5path.c_str(), H5P_DEFAULT);
+        if (dset_id < 0) {
             return false;
         }
-    }
-    bSuccess = h5SaveClassAttribute(fid, h5path, VariableValue);
-    if (!bSuccess) {
-        return false;
-    }
-    bSuccess = h5SaveDimensionsAttribute(fid, h5path, dims);
-    if (!bSuccess) {
-        return false;
-    }
-    if (dims.isEmpty(false)) {
-        bSuccess = h5SaveEmptyAttribute(fid, h5path);
+        hid_t dspace_id = H5Dget_space(dset_id);
+        if (dspace_id < 0) {
+            H5Dclose(dset_id);
+            return false;
+        }
+        hid_t type_id = H5Dget_type(dset_id);
+        VariableValue = h5ReadInteger(dset_id, type_id, dspace_id, false, error);
+        H5Dclose(dset_id);
+        H5Dclose(dspace_id);
+        if (!error.empty()) {
+            return false;
+        }
+        if (!VariableValue.getDimensions().equals(dims)) {
+            return false;
+        }
+        VariableValue.promoteType(destClass);
+        bSuccess = true;
     }
     return bSuccess;
 }

@@ -16,24 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "Types.hpp"
-#include "nlsTypes_exports.h"
+#include "h5LoadHandle.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSTYPES_IMPEXP Class
-StringToClass(std::wstring classname);
-//=============================================================================
-NLSTYPES_IMPEXP Class
-StringToClass(std::wstring classname, bool& haveError);
-//=============================================================================
-NLSTYPES_IMPEXP Class
-StringToClass(std::string classname);
-//=============================================================================
-NLSTYPES_IMPEXP Class
-StringToClass(std::string classname, bool& haveError);
-//=============================================================================
+bool
+h5LoadHandle(
+    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf& VariableValue)
+{
+    bool bSuccess = false;
+    return bSuccess;
 }
+//=============================================================================
+};
 //=============================================================================

@@ -18,13 +18,15 @@
 //=============================================================================
 #include "StringToClass.hpp"
 #include "Error.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 Class
-StringToClass(std::wstring classname)
+StringToClass(std::wstring classname, bool& haveError)
 {
-    Class destClass;
+    Class destClass = NLS_NOT_TYPED;
+    haveError = false;
     if (classname.compare(L"handle") == 0) {
         destClass = NLS_HANDLE;
     } else if (classname.compare(L"int8") == 0) {
@@ -58,9 +60,32 @@ StringToClass(std::wstring classname)
     } else if (classname.compare(L"struct") == 0) {
         destClass = NLS_STRUCT_ARRAY;
     } else {
+        haveError = true;
+    }
+    return destClass;
+}
+//=============================================================================
+Class
+StringToClass(std::wstring classname)
+{
+    bool haveError;
+    Class destClass = StringToClass(classname, haveError);
+    if (haveError) {
         Error(_W("input must be a valid class name."));
     }
     return destClass;
+}
+//=============================================================================
+Class
+StringToClass(std::string classname)
+{
+    return StringToClass(utf8_to_wstring(classname));
+}
+//=============================================================================
+Class
+StringToClass(std::string classname, bool& haveError)
+{
+    return StringToClass(utf8_to_wstring(classname), haveError);
 }
 //=============================================================================
 } // namespace Nelson

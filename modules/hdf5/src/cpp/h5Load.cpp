@@ -18,7 +18,12 @@
 //=============================================================================
 #define H5_BUILT_AS_DYNAMIC_LIB
 #include <hdf5.h>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
 #include "h5Load.hpp"
+#include "h5SaveLoadHelpers.hpp"
+#include "characters_encoding.hpp"
+#include "h5LoadVariable.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -26,6 +31,65 @@ ArrayOf
 h5Load(Evaluator* eval, const std::wstring& filename, wstringVector names, bool asStruct)
 {
     ArrayOf res;
+    boost::filesystem::path hdf5_filename(filename);
+    bool fileExistPreviously = false;
+    try {
+        fileExistPreviously = boost::filesystem::exists(hdf5_filename)
+            && !boost::filesystem::is_directory(hdf5_filename);
+    } catch (const boost::filesystem::filesystem_error& e) {
+        if (e.code() == boost::system::errc::permission_denied) {
+            Error(_W("Permission denied."));
+        }
+        fileExistPreviously = false;
+    }
+    if (!fileExistPreviously) {
+        Error(_W("File does not exist."));
+    }
+
+    hid_t fid
+        = H5Fopen(wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
+    if (fid == H5I_INVALID_HID) {
+        Error(_W("Open file failed."));
+    }
+    if (!isNelsonH5File(fid)) {
+        H5Fclose(fid);
+        Error(_W("Invalid file format."));
+    }
+    stringVector variableNamesInFile = getVariableNames(fid);
+    stringVector variableNames;
+    if (names.empty()) {
+        variableNames = variableNamesInFile;
+    } else {
+        for (std::wstring uname : names) {
+            std::string name = wstring_to_utf8(uname);
+            if (std::find(variableNamesInFile.begin(), variableNamesInFile.end(), name)
+                != variableNamesInFile.end()) {
+                variableNames.push_back(name);
+            } else {
+                std::string msg = _("Variable not found:") + std::string(" ") + name;
+                Warning(msg);
+            }
+        }
+    }
+    ArrayOfVector values;
+    for (std::string name : variableNames) {
+        ArrayOf value;
+        if (h5LoadVariable(fid, "/", name, value)) {
+            values.push_back(value);
+        } else {
+            H5Fclose(fid);
+            std::string msg = _("Cannot read variable:") + std::string(" ") + name;
+            Error(msg);
+        }
+    }
+    if (asStruct) {
+        res = ArrayOf::structScalarConstructor(variableNames, values);
+    } else {
+        for (indexType i = 0; i < variableNames.size(); i++) {
+            eval->getContext()->getCurrentScope()->insertVariable(variableNames[i], values[i]);
+        }
+    }
+    H5Fclose(fid);
     return res;
 }
 //=============================================================================

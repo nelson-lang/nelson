@@ -29,7 +29,12 @@ h5SaveStruct(
     hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
 {
     bool bSuccess = false;
-    std::string h5path = location + variableName;
+    std::string h5path;
+    if (location == "/") {
+        h5path = location + variableName;
+    } else {
+        h5path = location + "/" + variableName;
+    }
     herr_t status = H5Ldelete(fid, h5path.c_str(), H5P_DEFAULT);
 
     hid_t gcpl = H5Pcreate(H5P_GROUP_CREATE);
