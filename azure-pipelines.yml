@@ -165,17 +165,20 @@ jobs:
       vmImage: 'vs2017-win2016'
     steps:
     - powershell: |
-        Write-Host '##vso[task.setvariable variable=QTDIR32;issecret=false]$(AGENT_BUILDDIRECTORY)\Qt\msvc2017' 
+        Write-Host '##vso[task.setvariable variable=QTDIR32;issecret=false]%AGENT_BUILDDIRECTORY%\Qt\msvc2017' 
     - script: |
         git clone https://github.com/Nelson-numerical-software/qt-5-win32.git %AGENT_BUILDDIRECTORY%\Qt
         git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-win32.git %AGENT_BUILDDIRECTORY%\nelson-thirdparty-win32
         cd %AGENT_BUILDDIRECTORY%\nelson-thirdparty-win32
         dir %AGENT_BUILDDIRECTORY%\Qt
-        echo %QTDIR32%
+        set QTDIR32=%AGENT_BUILDDIRECTORY%\Qt\msvc2017
 
         install.bat
       displayName: Installing dependencies
     - script: |
+        set QTDIR32=%AGENT_BUILDDIRECTORY%\Qt\msvc2017
+        set QTDIR=%AGENT_BUILDDIRECTORY%\Qt\msvc2017
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86
         cd %BUILD_SOURCESDIRECTORY%
         msbuild nelson.sln /p:Configuration=Release /p:Platform=win32 /target:"NelSon-gui"  /m:4 
       displayName: Build Nelson
@@ -198,16 +201,20 @@ jobs:
       vmImage: 'vs2017-win2016'
     steps:
     - powershell: |
-        Write-Host '##vso[task.setvariable variable=QTDIR64;issecret=false]$(AGENT_BUILDDIRECTORY)\Qt\msvc2017_64' 
+        Write-Host '##vso[task.setvariable variable=QTDIR64;issecret=false]%AGENT_BUILDDIRECTORY%\Qt\msvc2017_64' 
     - script: |
         git clone https://github.com/Nelson-numerical-software/qt-5-x64.git %AGENT_BUILDDIRECTORY%\Qt
         dir %AGENT_BUILDDIRECTORY%\Qt
         echo %QTDIR64%
         git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-x64.git %AGENT_BUILDDIRECTORY%\nelson-thirdparty-x64
         cd %AGENT_BUILDDIRECTORY%\nelson-thirdparty-x64
+        set QTDIR64=%AGENT_BUILDDIRECTORY%\Qt\msvc2017_64
         install.bat
       displayName: Installing dependencies
     - script: |
+        set QTDIR64=%AGENT_BUILDDIRECTORY%\Qt\msvc2017_64
+        set QTDIR=%AGENT_BUILDDIRECTORY%\Qt\msvc2017_64
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
         cd %BUILD_SOURCESDIRECTORY%
         msbuild nelson.sln /p:Configuration=Release /p:Platform=x64 /target:"NelSon-gui"  /m:4 
       displayName: Build Nelson
