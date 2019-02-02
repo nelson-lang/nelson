@@ -165,12 +165,14 @@ jobs:
       vmImage: 'vs2017-win2016'
     steps:
     - powershell: |
-        Write-Host '##vso[task.setvariable variable=QTDIR32;issecret=false]%AGENT_BUILDDIRECTORY%\Qt\msvc2017' 
+        Write-Host '##vso[task.setvariable variable=QTDIR32;issecret=false]$(AGENT_BUILDDIRECTORY)\Qt\msvc2017' 
     - script: |
-        set
         git clone https://github.com/Nelson-numerical-software/qt-5-win32.git %AGENT_BUILDDIRECTORY%\Qt
         git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-win32.git %AGENT_BUILDDIRECTORY%\nelson-thirdparty-win32
         cd %AGENT_BUILDDIRECTORY%\nelson-thirdparty-win32
+        dir %AGENT_BUILDDIRECTORY%\Qt
+        echo %QTDIR32%
+
         install.bat
       displayName: Installing dependencies
     - script: |
@@ -196,10 +198,11 @@ jobs:
       vmImage: 'vs2017-win2016'
     steps:
     - powershell: |
-        Write-Host '##vso[task.setvariable variable=QTDIR64;issecret=false]%AGENT_BUILDDIRECTORY%\Qt\msvc2017_64' 
+        Write-Host '##vso[task.setvariable variable=QTDIR64;issecret=false]$(AGENT_BUILDDIRECTORY)\Qt\msvc2017_64' 
     - script: |
-        set
         git clone https://github.com/Nelson-numerical-software/qt-5-x64.git %AGENT_BUILDDIRECTORY%\Qt
+        dir %AGENT_BUILDDIRECTORY%\Qt
+        echo %QTDIR64%
         git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-x64.git %AGENT_BUILDDIRECTORY%\nelson-thirdparty-x64
         cd %AGENT_BUILDDIRECTORY%\nelson-thirdparty-x64
         install.bat
