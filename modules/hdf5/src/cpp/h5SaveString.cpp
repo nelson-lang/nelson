@@ -29,12 +29,12 @@ h5SaveCharacterEmptyMatrix(
     hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue);
 //=============================================================================
 static bool
-h5SaveCharacterMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue);
+h5SaveCharacterMatrix(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression);
 //=============================================================================
 bool
-h5SaveStringArray(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5SaveStringArray(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     std::string h5path;
@@ -57,10 +57,11 @@ h5SaveStringArray(
         ArrayOf element = elements[k];
         std::string name = std::to_string(k);
         if (element.isCharacterArray()) {
-            bSuccess = h5SaveCharacterArray(fid, h5path + std::string("/"), name, element);
+            bSuccess = h5SaveCharacterArray(
+                fid, h5path + std::string("/"), name, element, useCompression);
         } else {
             ArrayOf v = ArrayOf::doubleConstructor(std::nan("NaN"));
-            bSuccess = h5SaveVariable(fid, h5path + std::string("/"), name, v);
+            bSuccess = h5SaveVariable(fid, h5path + std::string("/"), name, v, useCompression);
         }
         if (!bSuccess) {
             return false;
@@ -81,14 +82,15 @@ h5SaveStringArray(
 }
 //=============================================================================
 bool
-h5SaveCharacterArray(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5SaveCharacterArray(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     if (VariableValue.isEmpty(false)) {
         bSuccess = h5SaveCharacterEmptyMatrix(fid, location, variableName, VariableValue);
     } else {
-        bSuccess = h5SaveCharacterMatrix(fid, location, variableName, VariableValue);
+        bSuccess
+            = h5SaveCharacterMatrix(fid, location, variableName, VariableValue, useCompression);
     }
     return bSuccess;
 }
@@ -139,8 +141,8 @@ h5SaveCharacterEmptyMatrix(
 }
 //=============================================================================
 bool
-h5SaveCharacterMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5SaveCharacterMatrix(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     std::string h5path;
@@ -188,9 +190,11 @@ h5SaveCharacterMatrix(
         asUint16.promoteType(NLS_UINT16);
         buffer = (void*)asUint16.getDataPointer();
     }
+    hid_t plist = setCompression(dimsValue, useCompression);
     hid_t dataset_id
-        = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+        = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
     status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
+    H5Pclose(plist);
     H5Dclose(dataset_id);
     H5Sclose(dspace_id);
     if (status < 0) {

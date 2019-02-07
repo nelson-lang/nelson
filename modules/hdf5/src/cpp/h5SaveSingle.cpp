@@ -28,18 +28,18 @@ h5SaveSingleEmptyMatrix(
     hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue);
 //=============================================================================
 static bool
-h5SaveSingleMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue);
+h5SaveSingleMatrix(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression);
 //=============================================================================
 bool
-h5SaveSingle(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5SaveSingle(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     if (VariableValue.isEmpty(false)) {
         bSuccess = h5SaveSingleEmptyMatrix(fid, location, variableName, VariableValue);
     } else {
-        bSuccess = h5SaveSingleMatrix(fid, location, variableName, VariableValue);
+        bSuccess = h5SaveSingleMatrix(fid, location, variableName, VariableValue, useCompression);
     }
     return bSuccess;
 }
@@ -95,8 +95,8 @@ h5SaveSingleEmptyMatrix(
 }
 //=============================================================================
 bool
-h5SaveSingleMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5SaveSingleMatrix(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression)
 {
     bool bSuccess = false;
 
@@ -136,7 +136,7 @@ h5SaveSingleMatrix(
         dspace_id = H5Screate_simple((int)dimsValue.getLength(), dimsAsHsize_t, dimsAsHsize_t);
     }
     delete[] dimsAsHsize_t;
-
+    hid_t plist = setCompression(dimsValue, useCompression);
     void* buffer = (void*)VariableValue.getDataPointer();
     if (VariableValue.isComplex()) {
         typedef struct complex_type
@@ -149,9 +149,9 @@ h5SaveSingleMatrix(
         H5Tinsert(compoundId, "imag", HOFFSET(complex_type, i), H5T_NATIVE_FLOAT);
 
         hid_t dataset_id = H5Dcreate(
-            fid, h5path.c_str(), compoundId, dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+            fid, h5path.c_str(), compoundId, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
         status = H5Dwrite(dataset_id, compoundId, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
-
+        H5Pclose(plist);
         H5Dclose(dataset_id);
         H5Sclose(dspace_id);
         if (status < 0) {
@@ -160,9 +160,10 @@ h5SaveSingleMatrix(
             bSuccess = h5SaveComplexAttribute(fid, h5path);
         }
     } else {
-        hid_t dataset_id = H5Dcreate(
-            fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+        hid_t dataset_id
+            = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
         status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
+        H5Pclose(plist);
         H5Dclose(dataset_id);
         H5Sclose(dspace_id);
         if (status < 0) {

@@ -27,8 +27,8 @@
 namespace Nelson {
 //=============================================================================
 bool
-h5SaveFunctionHandle(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5SaveFunctionHandle(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     function_handle fh = VariableValue.getContentAsFunctionHandle();
@@ -58,14 +58,15 @@ h5SaveFunctionHandle(
     fNames.push_back("function");
     Dimensions dimsNames(1, fNames.size());
     ArrayOf fieldnames = ArrayOf::stringArrayConstructor(fNames, dimsNames);
-    bSuccess = h5SaveStringArray(fid, h5path + std::string("/"), FIELDNAMES_STR, fieldnames);
+    bSuccess = h5SaveStringArray(
+        fid, h5path + std::string("/"), FIELDNAMES_STR, fieldnames, useCompression);
     if (!bSuccess) {
         return false;
     }
     ArrayOf element = ArrayOf::characterArrayConstructor(functionname);
     Dimensions dims(1, 1);
     std::string name = std::to_string(0);
-    bSuccess = h5SaveVariable(fid, h5path + std::string("/"), name, element);
+    bSuccess = h5SaveVariable(fid, h5path + std::string("/"), name, element, useCompression);
     if (!bSuccess) {
         return false;
     }

@@ -33,6 +33,7 @@
 #define NELSON_DIMENSIONS_STR "NELSON_dimensions"
 #define NELSON_OBJECT_STR "NELSON_object"
 #define FIELDNAMES_STR "fieldnames"
+#define NELSON_COMPRESSION_LEVEL 3
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -71,6 +72,9 @@ isNelsonComplex(hid_t fid, const std::string& location, const std::string& varia
 //=============================================================================
 uint64
 getNelsonNzmax(hid_t fid, const std::string& location, const std::string& variableName);
+//=============================================================================
+hid_t
+setCompression(Dimensions dims, bool useCompression);
 //=============================================================================
 }
 //=============================================================================

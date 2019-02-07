@@ -18,6 +18,7 @@
 //=============================================================================
 #include "h5SaveLoadHelpers.hpp"
 #include "Error.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -297,6 +298,40 @@ bool
 isNelsonComplex(hid_t fid, const std::string& location, const std::string& variableName)
 {
     return getAttributeAsBool(fid, location, variableName, NELSON_COMPLEX_STR);
+}
+//=============================================================================
+hid_t
+setCompression(Dimensions dims, bool useCompression)
+{
+    hid_t plist = H5I_INVALID_HID;
+    if (dims.isEmpty(false) || dims.isScalar() || !useCompression) {
+        return H5Pcopy(H5P_DEFAULT);
+    }
+    plist = H5Pcreate(H5P_DATASET_CREATE);
+    if (H5Pset_layout(plist, H5D_COMPACT) < 0) {
+        H5Pclose(plist);
+        return H5Pcopy(H5P_DEFAULT);
+    }
+    hsize_t* dimsAsHsize_t = nullptr;
+    indexType nbElementsSizeData = dims.getLength();
+    try {
+        dimsAsHsize_t = new_with_exception<hsize_t>(dims.getLength(), true);
+    } catch (Exception&) {
+        H5Pclose(plist);
+        return H5Pcopy(H5P_DEFAULT);
+    }
+    for (indexType k = 1; k <= nbElementsSizeData; k++) {
+        dimsAsHsize_t[k - 1] = (hsize_t)dims[nbElementsSizeData - k];
+    }
+    herr_t status = H5Pset_chunk(plist, (int)dims.getLength(), dimsAsHsize_t);
+    delete[] dimsAsHsize_t;
+    if (status < 0) {
+        H5Pclose(plist);
+        plist = H5Pcopy(H5P_DEFAULT);
+    } else {
+        H5Pset_deflate(plist, NELSON_COMPRESSION_LEVEL);
+    }
+    return plist;
 }
 //=============================================================================
 };

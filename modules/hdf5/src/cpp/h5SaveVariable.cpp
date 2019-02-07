@@ -30,29 +30,30 @@
 namespace Nelson {
 //=============================================================================
 bool
-h5SaveVariable(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5SaveVariable(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     switch (VariableValue.getDataClass()) {
     case NLS_HANDLE: {
-        bSuccess = h5SaveHandle(fid, location, variableName, VariableValue);
+        bSuccess = h5SaveHandle(fid, location, variableName, VariableValue, useCompression);
     } break;
     case NLS_CELL_ARRAY: {
-        bSuccess = h5SaveCell(fid, location, variableName, VariableValue);
+        bSuccess = h5SaveCell(fid, location, variableName, VariableValue, useCompression);
     } break;
     case NLS_STRUCT_ARRAY: {
         if (VariableValue.isFunctionHandle()) {
-            bSuccess = h5SaveFunctionHandle(fid, location, variableName, VariableValue);
+            bSuccess
+                = h5SaveFunctionHandle(fid, location, variableName, VariableValue, useCompression);
         } else {
-            bSuccess = h5SaveStruct(fid, location, variableName, VariableValue);
+            bSuccess = h5SaveStruct(fid, location, variableName, VariableValue, useCompression);
         }
     } break;
     case NLS_STRING_ARRAY: {
-        bSuccess = h5SaveStringArray(fid, location, variableName, VariableValue);
+        bSuccess = h5SaveStringArray(fid, location, variableName, VariableValue, useCompression);
     } break;
     case NLS_LOGICAL: {
-        bSuccess = h5SaveLogical(fid, location, variableName, VariableValue);
+        bSuccess = h5SaveLogical(fid, location, variableName, VariableValue, useCompression);
     } break;
     case NLS_UINT8:
     case NLS_INT8:
@@ -62,18 +63,18 @@ h5SaveVariable(
     case NLS_INT32:
     case NLS_UINT64:
     case NLS_INT64: {
-        bSuccess = h5SaveInteger(fid, location, variableName, VariableValue);
+        bSuccess = h5SaveInteger(fid, location, variableName, VariableValue, useCompression);
     } break;
     case NLS_SCOMPLEX:
     case NLS_SINGLE: {
-        bSuccess = h5SaveSingle(fid, location, variableName, VariableValue);
+        bSuccess = h5SaveSingle(fid, location, variableName, VariableValue, useCompression);
     } break;
     case NLS_DCOMPLEX:
     case NLS_DOUBLE: {
-        bSuccess = h5SaveDouble(fid, location, variableName, VariableValue);
+        bSuccess = h5SaveDouble(fid, location, variableName, VariableValue, useCompression);
     } break;
     case NLS_CHAR: {
-        bSuccess = h5SaveCharacterArray(fid, location, variableName, VariableValue);
+        bSuccess = h5SaveCharacterArray(fid, location, variableName, VariableValue, useCompression);
     } break;
     default: {
         bSuccess = false;

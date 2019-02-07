@@ -24,8 +24,8 @@
 namespace Nelson {
 //=============================================================================
 bool
-h5SaveCell(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5SaveCell(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     std::string h5path;
@@ -47,7 +47,7 @@ h5SaveCell(
     for (indexType k = 0; k < dims.getElementCount(); k++) {
         ArrayOf element = elements[k];
         std::string name = std::to_string(k);
-        bSuccess = h5SaveVariable(fid, h5path + std::string("/"), name, element);
+        bSuccess = h5SaveVariable(fid, h5path + std::string("/"), name, element, useCompression);
         if (!bSuccess) {
             return false;
         }

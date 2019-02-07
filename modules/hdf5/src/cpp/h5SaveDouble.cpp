@@ -31,25 +31,27 @@ h5SaveDoubleEmptyMatrix(
     hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue);
 //=============================================================================
 static bool
-h5SaveDoubleMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue);
+h5SaveDoubleMatrix(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression);
 //=============================================================================
 static bool
-h5SaveSparseDoubleMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue);
+h5SaveSparseDoubleMatrix(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression);
 //=============================================================================
 bool
-h5SaveDouble(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5SaveDouble(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     if (VariableValue.isEmpty(false)) {
         bSuccess = h5SaveDoubleEmptyMatrix(fid, location, variableName, VariableValue);
     } else {
         if (VariableValue.isSparse()) {
-            bSuccess = h5SaveSparseDoubleMatrix(fid, location, variableName, VariableValue);
+            bSuccess = h5SaveSparseDoubleMatrix(
+                fid, location, variableName, VariableValue, useCompression);
         } else {
-            bSuccess = h5SaveDoubleMatrix(fid, location, variableName, VariableValue);
+            bSuccess
+                = h5SaveDoubleMatrix(fid, location, variableName, VariableValue, useCompression);
         }
     }
     return bSuccess;
@@ -110,8 +112,8 @@ h5SaveDoubleEmptyMatrix(
 }
 //=============================================================================
 bool
-h5SaveDoubleMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5SaveDoubleMatrix(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     std::string h5path;
@@ -161,11 +163,11 @@ h5SaveDoubleMatrix(
         hid_t compoundId = H5Tcreate(H5T_COMPOUND, sizeof(doublecomplex));
         H5Tinsert(compoundId, "real", HOFFSET(complex_type, r), H5T_NATIVE_DOUBLE);
         H5Tinsert(compoundId, "imag", HOFFSET(complex_type, i), H5T_NATIVE_DOUBLE);
-
+        hid_t plist = setCompression(dimsValue, useCompression);
         hid_t dataset_id = H5Dcreate(
-            fid, h5path.c_str(), compoundId, dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+            fid, h5path.c_str(), compoundId, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
         status = H5Dwrite(dataset_id, compoundId, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
-
+        H5Pclose(plist);
         H5Dclose(dataset_id);
         H5Sclose(dspace_id);
         if (status < 0) {
@@ -174,9 +176,11 @@ h5SaveDoubleMatrix(
             bSuccess = h5SaveComplexAttribute(fid, h5path);
         }
     } else {
-        hid_t dataset_id = H5Dcreate(
-            fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+        hid_t plist = setCompression(dimsValue, useCompression);
+        hid_t dataset_id
+            = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
         status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
+        H5Pclose(plist);
         H5Dclose(dataset_id);
         H5Sclose(dspace_id);
         if (status < 0) {
@@ -197,8 +201,8 @@ h5SaveDoubleMatrix(
 }
 //=============================================================================
 bool
-h5SaveSparseDoubleMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5SaveSparseDoubleMatrix(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     std::string h5path;
@@ -260,19 +264,19 @@ h5SaveSparseDoubleMatrix(
     } else {
         V = ArrayOf(VariableValue.getDataClass(), Dimensions(1, nnz), ptrV);
     }
-    bSuccess = h5SaveDouble(fid, rootPath, dataName, V);
+    bSuccess = h5SaveDouble(fid, rootPath, dataName, V, useCompression);
     if (!bSuccess) {
         return false;
     }
 
     std::string irName = std::string("ir");
-    bSuccess = h5SaveInteger(fid, rootPath, irName, I);
+    bSuccess = h5SaveInteger(fid, rootPath, irName, I, useCompression);
     if (!bSuccess) {
         return false;
     }
 
     std::string jcName = std::string("jc");
-    bSuccess = h5SaveInteger(fid, rootPath, jcName, J);
+    bSuccess = h5SaveInteger(fid, rootPath, jcName, J, useCompression);
     if (!bSuccess) {
         return false;
     }

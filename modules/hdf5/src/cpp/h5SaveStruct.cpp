@@ -25,8 +25,8 @@
 namespace Nelson {
 //=============================================================================
 bool
-h5SaveStruct(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5SaveStruct(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     std::string h5path;
@@ -46,7 +46,8 @@ h5SaveStruct(
     stringVector fNames = VariableValue.getFieldNames();
     Dimensions dimsNames(1, fNames.size());
     ArrayOf fieldnames = ArrayOf::stringArrayConstructor(fNames, dimsNames);
-    bSuccess = h5SaveStringArray(fid, h5path + std::string("/"), FIELDNAMES_STR, fieldnames);
+    bSuccess = h5SaveStringArray(
+        fid, h5path + std::string("/"), FIELDNAMES_STR, fieldnames, useCompression);
     if (!bSuccess) {
         return false;
     }
@@ -58,7 +59,8 @@ h5SaveStruct(
         for (indexType i = 0; i < (sizeType)fNames.size(); i++) {
             ArrayOf element = elements[offset];
             std::string name = std::to_string(offset);
-            bSuccess = h5SaveVariable(fid, h5path + std::string("/"), name, element);
+            bSuccess
+                = h5SaveVariable(fid, h5path + std::string("/"), name, element, useCompression);
             offset++;
             if (!bSuccess) {
                 return false;

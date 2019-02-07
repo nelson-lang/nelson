@@ -28,8 +28,8 @@ h5SaveIntegerEmptyMatrix(
     hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue);
 //=============================================================================
 bool
-h5SaveInteger(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5SaveInteger(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression)
 {
     if (VariableValue.isEmpty(false)) {
         return h5SaveIntegerEmptyMatrix(fid, location, variableName, VariableValue);
@@ -98,10 +98,12 @@ h5SaveInteger(
         dspace_id = H5Screate_simple((int)dimsValue.getLength(), dimsAsHsize_t, dimsAsHsize_t);
     }
     delete[] dimsAsHsize_t;
+    hid_t plist = setCompression(dimsValue, useCompression);
     buffer = (void*)VariableValue.getDataPointer();
     hid_t dataset_id
-        = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+        = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
     status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
+    H5Pclose(plist);
     H5Dclose(dataset_id);
     H5Sclose(dspace_id);
     if (status < 0) {

@@ -31,25 +31,27 @@ h5SaveLogicalEmptyMatrix(
     hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue);
 //=============================================================================
 static bool
-h5SaveLogicalMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue);
+h5SaveLogicalMatrix(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression);
 //=============================================================================
 static bool
-h5SaveSparseLogicalMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue);
+h5SaveSparseLogicalMatrix(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression);
 //=============================================================================
 bool
-h5SaveLogical(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5SaveLogical(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     if (VariableValue.isEmpty(false)) {
         bSuccess = h5SaveLogicalEmptyMatrix(fid, location, variableName, VariableValue);
     } else {
         if (VariableValue.isSparse()) {
-            bSuccess = h5SaveSparseLogicalMatrix(fid, location, variableName, VariableValue);
+            bSuccess = h5SaveSparseLogicalMatrix(
+                fid, location, variableName, VariableValue, useCompression);
         } else {
-            bSuccess = h5SaveLogicalMatrix(fid, location, variableName, VariableValue);
+            bSuccess
+                = h5SaveLogicalMatrix(fid, location, variableName, VariableValue, useCompression);
         }
     }
     return bSuccess;
@@ -107,8 +109,8 @@ h5SaveLogicalEmptyMatrix(
 }
 //=============================================================================
 bool
-h5SaveLogicalMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5SaveLogicalMatrix(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     std::string h5path;
@@ -148,10 +150,12 @@ h5SaveLogicalMatrix(
     }
     delete[] dimsAsHsize_t;
 
+    hid_t plist = setCompression(dimsValue, useCompression);
     void* buffer = (void*)VariableValue.getDataPointer();
     hid_t dataset_id
-        = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+        = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
     status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
+    H5Pclose(plist);
     H5Dclose(dataset_id);
     H5Sclose(dspace_id);
     if (status < 0) {
@@ -171,8 +175,8 @@ h5SaveLogicalMatrix(
 }
 //=============================================================================
 bool
-h5SaveSparseLogicalMatrix(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf VariableValue)
+h5SaveSparseLogicalMatrix(hid_t fid, const std::string& location, const std::string& variableName,
+    ArrayOf VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     std::string h5path;
@@ -229,19 +233,19 @@ h5SaveSparseLogicalMatrix(
 
     std::string dataName = std::string("data");
     ArrayOf V = ArrayOf(NLS_UINT8, Dimensions(1, nnz), ptrV);
-    bSuccess = h5SaveInteger(fid, rootPath, dataName, V);
+    bSuccess = h5SaveInteger(fid, rootPath, dataName, V, useCompression);
     if (!bSuccess) {
         return false;
     }
 
     std::string irName = std::string("ir");
-    bSuccess = h5SaveInteger(fid, rootPath, irName, I);
+    bSuccess = h5SaveInteger(fid, rootPath, irName, I, useCompression);
     if (!bSuccess) {
         return false;
     }
 
     std::string jcName = std::string("jc");
-    bSuccess = h5SaveInteger(fid, rootPath, jcName, J);
+    bSuccess = h5SaveInteger(fid, rootPath, jcName, J, useCompression);
     if (!bSuccess) {
         return false;
     }
