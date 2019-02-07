@@ -128,11 +128,13 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
     case H5T_NCLASSES:
     default: {
         errorMessage = _W("Type not managed.");
-    } break;
+	}
+    break;
     }
     if (!errorMessage.empty()) {
         Error(errorMessage);
     }
+    H5Tclose(type_id);
     H5Dclose(dset_id);
     H5Dclose(dspace_id);
     H5Fclose(fid);

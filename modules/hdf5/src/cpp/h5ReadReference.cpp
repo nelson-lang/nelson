@@ -180,6 +180,7 @@ h5ReadReference(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::
             error = _W("Type not managed.");
         } break;
         }
+        H5Tclose(mtype);
         H5Sclose(space2);
         H5Dclose(dset2);
         if (!error.empty()) {

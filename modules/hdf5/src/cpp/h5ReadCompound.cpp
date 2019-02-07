@@ -289,7 +289,7 @@ h5ReadCompoundFloatMember(hsize_t sizeType, hid_t mType, const char* data, size_
     }
     fieldvalue = ArrayOf(outputClass, dims, ptrVoid);
     auto* ptrDouble = static_cast<double*>(ptrVoid);
-    single* ptrSingle = (single*)ptrVoid;
+    auto* ptrSingle = static_cast<single*>(ptrVoid);
     for (indexType k = 0; k < dims.getElementCount(); k++) {
         if (outputClass == NLS_SINGLE) {
             single value = ((single*)(data + offset + (sizeType * k)))[0];
@@ -316,7 +316,7 @@ h5ReadCompound(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::w
     int rank;
     Dimensions dims = getDimensions(aspace, rank);
 
-    std::unique_ptr<char[]> data(new char[storageSize]);
+    std::unique_ptr<char[]> data(new char[storageSize * sizeType]);
     if (!data.get()) {
         if (asAttribute) {
             error = _W("Cannot read attribute.");
@@ -386,26 +386,23 @@ h5ReadCompound(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::w
 #endif
         size_t offset = H5Tget_member_offset(type, (unsigned int)mIndex);
         ArrayOf fieldvalue;
+        const char* pAsChar = data.get();
         switch (H5Tget_member_class(type, mIndex)) {
         case H5T_INTEGER: {
-            fieldvalue
-                = h5ReadCompoundIntegerMember(sizeType, mType, data.get(), offset, dims, error);
+            fieldvalue = h5ReadCompoundIntegerMember(sizeType, mType, pAsChar, offset, dims, error);
         } break;
         case H5T_STRING: {
-            fieldvalue
-                = h5ReadCompoundStringMember(sizeType, mType, data.get(), offset, dims, error);
+            fieldvalue = h5ReadCompoundStringMember(sizeType, mType, pAsChar, offset, dims, error);
         } break;
         case H5T_FLOAT: {
-            fieldvalue
-                = h5ReadCompoundFloatMember(sizeType, mType, data.get(), offset, dims, error);
+            fieldvalue = h5ReadCompoundFloatMember(sizeType, mType, pAsChar, offset, dims, error);
         } break;
         case H5T_BITFIELD: {
             fieldvalue
-                = h5ReadCompoundBitfieldMember(sizeType, mType, data.get(), offset, dims, error);
+                = h5ReadCompoundBitfieldMember(sizeType, mType, pAsChar, offset, dims, error);
         } break;
         case H5T_OPAQUE: {
-            fieldvalue
-                = h5ReadCompoundOpaqueMember(sizeType, mType, data.get(), offset, dims, error);
+            fieldvalue = h5ReadCompoundOpaqueMember(sizeType, mType, pAsChar, offset, dims, error);
         } break;
         case H5T_TIME:
             /* The time datatype, H5T_TIME,
@@ -422,7 +419,7 @@ h5ReadCompound(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::w
             error = _W("Type not managed.");
         } break;
         }
-
+        H5Tclose(mType);
         if (error.empty()) {
             fieldvalues.push_back(fieldvalue);
         } else {

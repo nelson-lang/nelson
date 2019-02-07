@@ -48,6 +48,7 @@ h5LoadInteger(hid_t fid, const std::string& location, const std::string& variabl
         }
         hid_t type_id = H5Dget_type(dset_id);
         VariableValue = h5ReadInteger(dset_id, type_id, dspace_id, false, error);
+        H5Tclose(type_id);
         H5Dclose(dset_id);
         H5Dclose(dspace_id);
         if (!error.empty()) {
