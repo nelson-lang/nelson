@@ -20,4 +20,5 @@ Name: "desktopicon"; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:
 ;==============================================================================
 Name: AssociateNlsFiles; Description:{cm:ASSOCIATE_NLS_FILE}; GroupDescription: {cm:FILE_ASSOCIATION};
 Name: AssociateNlfFiles; Description:{cm:ASSOCIATE_NLF_FILE}; GroupDescription: {cm:FILE_ASSOCIATION};
+Name: AssociateNh5Files; Description:{cm:ASSOCIATE_NH5_FILE}; GroupDescription: {cm:FILE_ASSOCIATION};
 ;==============================================================================

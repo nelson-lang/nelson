@@ -1,3 +1,15 @@
+Features:
+---------
+
+* h5save, h5load: load and save all Nelson's serializable type.
+
+* save, load alias on h5save and h5load.
+
+* .nh5 file extension support added: data formatted (Nelson workspace).
+
+* .nh5 file association on Windows. load data formatted for Nelson.
+
+
 ## 0.3.1 (2019-01-26)
 
 

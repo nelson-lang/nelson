@@ -16,38 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ExecuteCommand.hpp"
+#pragma once
+//=============================================================================
 #include "Evaluator.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
-#include "characters_encoding.hpp"
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
 bool
-executeCommand(std::wstring commandToExecute, bool forceEvaluateString)
-{
-    void* veval = GetNelsonMainEvaluatorDynamicFunction();
-    if (veval != nullptr) {
-        std::wstring _cmd = commandToExecute + L";";
-        auto* eval = static_cast<Evaluator*>(veval);
-        Interface* io = eval->getInterface();
-        if (io != nullptr) {
-            if (forceEvaluateString) {
-                std::string ustr = wstring_to_utf8(_cmd);
-                eval->evaluateString(ustr + "\n");
-            } else {
-                if (io->isAtPrompt()) {
-                    eval->addCommandToQueue(_cmd, true);
-                } else {
-                    std::string ustr = wstring_to_utf8(_cmd);
-                    eval->evaluateString(ustr + "\n");
-                }
-            }
-            return true;
-        }
-    }
-    return false;
+LoadFilesAssociated(Evaluator* eval, wstringVector filesToLoad);
 }
-//=============================================================================
-} // namespace Nelson
 //=============================================================================

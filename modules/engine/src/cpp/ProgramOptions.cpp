@@ -16,9 +16,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ProgramOptions.hpp"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
+#include "ProgramOptions.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -244,6 +244,7 @@ ProgramOptions::parse()
         L"quiet", L"q", _W("does not print banner and version at startup"), false, false);
     Option timeoutOption(L"timeout", L"", _W("kill nelson process after n seconds"), false, true);
     Option openFilesOption(L"open", L"o", _W("opens files in text editor"), false, true);
+    Option loadFilesOption(L"mat", L"m", _W("load .nh5, .mat files in Nelson"), false, true);
     _options = L"\nUsage:\n";
     _options = _options + helpOption.getFullDescription() + L"\n";
     _options = _options + versionOption.getFullDescription() + L"\n";
@@ -258,11 +259,13 @@ ProgramOptions::parse()
     _options = _options + quietOption.getFullDescription() + L"\n";
     _options = _options + timeoutOption.getFullDescription() + L"\n";
     _options = _options + openFilesOption.getFullDescription() + L"\n";
+    _options = _options + loadFilesOption.getFullDescription() + L"\n";
     bRes = parseOption(helpOption, _ishelp);
     bRes = bRes && parseOption(versionOption, _isversion);
     bRes = bRes && parseOption(nostartupOption, _startup);
     bRes = bRes && parseOption(nouserstartupOption, _userstartup);
     bRes = bRes && parseOptionWithValues(openFilesOption, _filesToOpen);
+    bRes = bRes && parseOptionWithValues(loadFilesOption, _filesToLoad);
     bool bFind = false;
     bRes = bRes && parseOptionWithValue(commandtoexecuteOption, bFind, _command);
     bRes = bRes && parseOptionWithValue(filetoexecuteOption, bFind, _file);
@@ -396,6 +399,15 @@ ProgramOptions::haveOpenFiles()
 }
 //=============================================================================
 bool
+ProgramOptions::haveLoadFiles()
+{
+    if (_isvalid) {
+        return (!_filesToLoad.empty());
+    }
+    return false;
+}
+//=============================================================================
+bool
 ProgramOptions::isValid()
 {
     return _isvalid;
@@ -447,6 +459,12 @@ wstringVector
 ProgramOptions::getFilesToOpen()
 {
     return _filesToOpen;
+}
+//=============================================================================
+wstringVector
+ProgramOptions::getFilesToLoad()
+{
+    return _filesToLoad;
 }
 //=============================================================================
 } // namespace Nelson

@@ -83,13 +83,11 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
     htri_t exists = H5Aexists(obj_id, wstring_to_utf8(attributeName).c_str());
     if (exists > 0) {
         if (H5Adelete(obj_id, wstring_to_utf8(attributeName).c_str()) < 0) {
-            H5Aclose(exists);
             H5Oclose(obj_id);
             H5Fclose(fid);
             Error(_W("Could not delete existing attribute."));
         }
     } else if (exists < 0) {
-        H5Aclose(exists);
         H5Oclose(obj_id);
         H5Fclose(fid);
         Error(_W("Could not check if attribute exists."));
@@ -121,7 +119,6 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
         status = H5Awrite(att_id, type_id, buffer);
     }
     H5Sclose(dspace_id);
-    H5Aclose(exists);
     H5Aclose(att_id);
     H5Oclose(obj_id);
     H5Fclose(fid);

@@ -76,6 +76,8 @@ public:
     getTimeout();
     wstringVector
     getFilesToOpen();
+    wstringVector
+    getFilesToLoad();
     bool
     haveOptionsHelp();
     bool
@@ -96,6 +98,8 @@ public:
     haveTimeout();
     bool
     haveOpenFiles();
+    bool
+    haveLoadFiles();
     bool
     haveSocketIoUri();
 
@@ -123,6 +127,7 @@ private:
     uint64 _timeout;
     wstringVector _args;
     wstringVector _filesToOpen;
+    wstringVector _filesToLoad;
     NELSON_ENGINE_MODE _mode;
 };
 //=============================================================================

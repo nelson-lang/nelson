@@ -62,7 +62,11 @@ h5WriteDataset(const std::wstring& filename, const std::wstring& location, Array
     if (h5obj < 0) {
         Error(_W("Cannot open HDF5 file expected."));
     }
-    herr_t status = H5Ldelete(h5obj, wstring_to_utf8(location).c_str(), H5P_DEFAULT);
+    htri_t exists = H5Lexists(h5obj, wstring_to_utf8(location).c_str(), H5P_DEFAULT);
+    herr_t status;
+    if (exists) {
+        status = H5Ldelete(h5obj, wstring_to_utf8(location).c_str(), H5P_DEFAULT);
+    }
     hid_t dspace_id = H5I_INVALID_HID;
     hid_t type_id = H5I_INVALID_HID;
     std::wstring error;

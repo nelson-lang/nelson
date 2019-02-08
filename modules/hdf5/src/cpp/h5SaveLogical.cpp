@@ -68,7 +68,7 @@ h5SaveLogicalEmptyMatrix(
     } else {
         h5path = location + "/" + variableName;
     }
-    herr_t status = H5Ldelete(fid, h5path.c_str(), H5P_DEFAULT);
+    h5LDeleteIfExists(fid, h5path.c_str());
 
     uint8 value = 0;
     hid_t type_id = H5Tcopy(H5T_NATIVE_UINT8);
@@ -84,7 +84,7 @@ h5SaveLogicalEmptyMatrix(
     if (dataset_id < 0) {
         return false;
     }
-    status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, &value);
+    herr_t status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, &value);
 
     H5Dclose(dataset_id);
     H5Sclose(dspace_id);
@@ -119,7 +119,7 @@ h5SaveLogicalMatrix(hid_t fid, const std::string& location, const std::string& v
     } else {
         h5path = location + "/" + variableName;
     }
-    herr_t status = H5Ldelete(fid, h5path.c_str(), H5P_DEFAULT);
+    h5LDeleteIfExists(fid, h5path.c_str());
 
     hid_t dspace_id = H5I_INVALID_HID;
     hid_t type_id = H5Tcopy(H5T_NATIVE_UINT8);
@@ -154,7 +154,7 @@ h5SaveLogicalMatrix(hid_t fid, const std::string& location, const std::string& v
     void* buffer = (void*)VariableValue.getDataPointer();
     hid_t dataset_id
         = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
-    status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
+    herr_t status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
     H5Pclose(plist);
     H5Dclose(dataset_id);
     H5Sclose(dspace_id);
@@ -185,7 +185,7 @@ h5SaveSparseLogicalMatrix(hid_t fid, const std::string& location, const std::str
     } else {
         h5path = location + "/" + variableName;
     }
-    herr_t status = H5Ldelete(fid, h5path.c_str(), H5P_DEFAULT);
+    h5LDeleteIfExists(fid, h5path.c_str());
 
     Dimensions dims = VariableValue.getDimensions();
     Eigen::SparseMatrix<uint8, 0, signedIndexType>* spmat
@@ -224,7 +224,7 @@ h5SaveSparseLogicalMatrix(hid_t fid, const std::string& location, const std::str
 
     hid_t gcpl = H5Pcreate(H5P_GROUP_CREATE);
     hid_t group = H5Gcreate(fid, variableName.c_str(), H5P_DEFAULT, gcpl, H5P_DEFAULT);
-    status = H5Gclose(group);
+    herr_t status = H5Gclose(group);
     if (status < 0) {
         return false;
     }

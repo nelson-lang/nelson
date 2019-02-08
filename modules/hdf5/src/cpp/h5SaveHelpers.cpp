@@ -132,7 +132,6 @@ h5SaveStringAttribute(hid_t fid, const std::string& location, const std::string&
     if (att_id > 0) {
         status = H5Awrite(att_id, type_id, buffer);
         H5Aclose(att_id);
-        H5Oclose(obj_id);
         bSuccess = true;
     }
     H5Oclose(obj_id);
@@ -196,6 +195,17 @@ h5SaveUint64Attribute(
     H5Oclose(obj_id);
     H5Sclose(dspace_id);
     return bSuccess;
+}
+//=============================================================================
+bool
+h5LDeleteIfExists(hid_t fid, const std::string& location)
+{
+    htri_t exists = H5Lexists(fid, location.c_str(), H5P_DEFAULT);
+    if (exists) {
+        herr_t status = H5Ldelete(fid, location.c_str(), H5P_DEFAULT);
+        return status >= 0 ? true : false;
+    }
+    return false;
 }
 //=============================================================================
 }

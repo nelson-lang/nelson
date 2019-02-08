@@ -116,7 +116,6 @@ h5WriteNelsonToHdf5(ArrayOf& data, hid_t& type_id, hid_t& dspace_id, std::wstrin
     }
     if (data.isEmpty()) {
         dspace_id = H5Screate(H5S_NULL);
-        H5Tset_size(type_id, 0);
         switch (data.getDataClass()) {
         case NLS_CHAR: {
             H5Tset_strpad(type_id, H5T_STR_NULLTERM);

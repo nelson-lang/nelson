@@ -24,6 +24,9 @@ english.MKL_LIBRARIES = MKL Library (BLAS, LAPACK, FFTW wrappers) for Nelson
 ;==============================================================================
 english.ASSOCIATE_NLS_FILE = Associate .nls files with Nelson
 english.ASSOCIATE_NLF_FILE = Associate .nlf files with Nelson
+english.ASSOCIATE_NH5_FILE = Associate .nh5 files with Nelson
+;==============================================================================
+english.RegKeyLoadWith = Load with
 ;==============================================================================
 english.FILE_ASSOCIATION = Files associations:
 ;==============================================================================

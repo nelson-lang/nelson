@@ -16,16 +16,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addpath([fileparts(nfilename('fullpathext'), 'path'), '/loadsavebin']);
-F = [nelsonroot(), '/modules/stream_manager/tests/test_loadbin.bin'];
-REF_A = ones(5, 6);
-REF_B = 'A string saved.';
-REF_C = single(REF_A);
-REF_D = int8(REF_A);
-clear('A', 'B', 'C', 'D');
-loadbin(F, 'A', 'B', 'C', 'D');
-assert_isequal(A, REF_A);
-assert_isequal(B, REF_B);
-assert_isequal(C, REF_C);
-assert_isequal(D, REF_D);
+test_nh5_file = [tempdir(), '/test_nh5saveload.nh5'];
+if isfile(test_nh5_file)
+  rmfile(test_nh5_file);
+end
+//=============================================================================
+for i = [1:10]
+    h5save(test_nh5_file);
+    h5load(test_nh5_file);
+end
+AA = 3;
+h5save(test_nh5_file,'-append','AA');
+clear AA
+h5load(test_nh5_file);
+assert_isequal(AA, 3);
 //=============================================================================

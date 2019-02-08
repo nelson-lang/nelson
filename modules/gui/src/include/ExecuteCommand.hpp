@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSGUI_IMPEXP bool
-executeCommand(std::wstring commandToExecute);
+executeCommand(std::wstring commandToExecute, bool forceEvaluateString = false);
 }
 //=============================================================================

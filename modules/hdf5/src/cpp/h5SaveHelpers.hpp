@@ -51,5 +51,8 @@ bool
 h5SaveUint64Attribute(
     hid_t fid, const std::string& location, const std::string& attributeName, uint64 content);
 //=============================================================================
+bool
+h5LDeleteIfExists(hid_t fid, const std::string& location);
+//=============================================================================
 };
 //=============================================================================

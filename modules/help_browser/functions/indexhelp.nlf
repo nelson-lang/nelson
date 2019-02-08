@@ -32,12 +32,12 @@ function r = indexhelp(varargin)
       error(_('Wrong size for argument #1: scalar expected.'));
     end
   end
-  pref_help = [prefdir(), '/help_index.bin'];
+  pref_help = [prefdir(), '/help_index.nh5'];
   attributes = helpbrowser('-attributes');
   if ~isfile(pref_help) || force || isempty(attributes)
     r = reindexhelp(pref_help);
   else
-    loadbin(pref_help);
+    load(pref_help);
     if ~isvar('modules_help_available')
       modules_help_available = {};
     end
@@ -115,7 +115,7 @@ function r = reindexhelp(pref_help)
     end
     fprintf(stdout, char(13))
     version_help = version('-number');
-    savebin(pref_help, 'modules_help_available', 'version_help');
+    save(pref_help, 'modules_help_available', 'version_help');
     r = true;
 endfunction
 //=============================================================================

@@ -23,6 +23,7 @@
 ;http://msdn2.microsoft.com/en-us/library/bb776820.aspx
 ;==============================================================================
 #define ARGUMENT_ACTION_OPEN "-o"
+#define ARGUMENT_ACTION_LOAD "-m"
 ;==============================================================================
 ;*.nls
 ;==============================================================================
@@ -47,4 +48,16 @@ Root: HKCR; Subkey: {#NLF_ENTRY}\ShellNew; ValueName : NullFile ;ValueType: stri
 Root: HKCR; Subkey: {#APPLICATION_EXTENSION_NLF}; ValueType: string; ValueData: "{#APPLICATION_NAME} Application ({#APPLICATION_EXTENSION_NLF})"; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlfFiles;
 Root: HKCR; Subkey: {#APPLICATION_EXTENSION_NLF}\DefaultIcon; ValueType: string; ValueData: {app}\bin\{#BinPath}\Nelson-gui.exe,{#ICON_NLF_POS}; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlfFiles;
 Root: HKCR; Subkey: {#APPLICATION_EXTENSION_NLf}\shell\open\command; ValueType: string; ValueData: """{app}\bin\{#BinPath}\Nelson-gui.exe"" {#ARGUMENT_ACTION_OPEN} ""%1"""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlfFiles;
+;==============================================================================
+;*.nh5
+;==============================================================================
+#define APPLICATION_EXTENSION_NH5 "Nelson.nh5"
+#define NH5_ENTRY ".nh5"
+#define ICON_NH5_POS 3
+;==============================================================================
+Root: HKCR; Subkey: {#NH5_ENTRY}; ValueType: string; ValueData: {#APPLICATION_EXTENSION_NH5}; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNh5Files;
+Root: HKCR; Subkey: {#NH5_ENTRY}\ShellNew; ValueName : NullFile ;ValueType: string; ValueData: ""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNh5Files;
+Root: HKCR; Subkey: {#APPLICATION_EXTENSION_NH5}; ValueType: string; ValueData: "{#APPLICATION_NAME} Application ({#APPLICATION_EXTENSION_NH5})"; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlfFiles;
+Root: HKCR; Subkey: {#APPLICATION_EXTENSION_NH5}\DefaultIcon; ValueType: string; ValueData: {app}\bin\{#BinPath}\Nelson-gui.exe,{#ICON_NH5_POS}; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlfFiles;
+Root: HKCR; Subkey: {#APPLICATION_EXTENSION_NH5}\shell\{cm:RegKeyLoadWith} Nelson\command; ValueType: string; ValueData: """{app}\bin\{#BinPath}\Nelson-gui.exe"" {#ARGUMENT_ACTION_LOAD} ""%1"""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNh5Files;
 ;==============================================================================

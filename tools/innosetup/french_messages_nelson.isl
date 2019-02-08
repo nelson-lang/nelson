@@ -24,6 +24,9 @@ french.MKL_LIBRARIES = Biblioth�que MKL (BLAS, LAPACK, FFTW wrappers) pour Nel
 ;==============================================================================
 french.ASSOCIATE_NLS_FILE = Associer les fichiers .nls avec Nelson
 french.ASSOCIATE_NLF_FILE = Associer les fichiers .nlf avec Nelson
+french.ASSOCIATE_NH5_FILE = Associer les fichiers .nh5 avec Nelson
+;==============================================================================
+french.RegKeyLoadWith = Charger avec
 ;==============================================================================
 french.FILE_ASSOCIATION = Association des fichiers:
 ;==============================================================================

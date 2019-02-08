@@ -79,7 +79,7 @@ h5LoadLogical(hid_t fid, const std::string& location, const std::string& variabl
             VariableValue = h5ReadInteger(dset_id, type_id, dspace_id, false, error);
             H5Tclose(type_id);
             H5Dclose(dset_id);
-            H5Dclose(dspace_id);
+            H5Sclose(dspace_id);
             if (error.empty()) {
                 VariableValue.promoteType(NLS_LOGICAL);
                 bSuccess = true;

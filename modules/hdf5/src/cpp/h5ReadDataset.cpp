@@ -135,7 +135,7 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
     }
     H5Tclose(type_id);
     H5Dclose(dset_id);
-    H5Dclose(dspace_id);
+    H5Sclose(dspace_id);
     H5Fclose(fid);
     return res;
 }

@@ -204,9 +204,8 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
     if (fid == H5I_INVALID_HID) {
         Error(_W("Open file failed."));
     }
-    hid_t dset = H5Dopen1(fid, wstring_to_utf8(dataSetName).c_str());
-    if (dset > 0) {
-        H5Dclose(dset);
+    htri_t exists = H5Lexists(fid, wstring_to_utf8(dataSetName).c_str(), H5P_DEFAULT);
+    if (exists) {
         H5Fclose(fid);
         Error(_W("data set already exists."));
     }
@@ -216,7 +215,6 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
     try {
         sizeDataAsHsize_t = new_with_exception<hsize_t>(sizeData.size(), true);
     } catch (Exception&) {
-        H5Dclose(dset);
         H5Fclose(fid);
         throw;
     }
@@ -232,7 +230,6 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
     try {
         maxdimsAsHsize_t = new_with_exception<hsize_t>(sizeData.size(), true);
     } catch (Exception&) {
-        H5Dclose(dset);
         H5Fclose(fid);
         throw;
     }

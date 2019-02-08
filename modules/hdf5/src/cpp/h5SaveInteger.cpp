@@ -41,7 +41,7 @@ h5SaveInteger(hid_t fid, const std::string& location, const std::string& variabl
     } else {
         h5path = location + "/" + variableName;
     }
-    herr_t status = H5Ldelete(fid, h5path.c_str(), H5P_DEFAULT);
+    h5LDeleteIfExists(fid, h5path.c_str());
 
     hid_t dspace_id = H5I_INVALID_HID;
     hid_t type_id = H5I_INVALID_HID;
@@ -102,7 +102,7 @@ h5SaveInteger(hid_t fid, const std::string& location, const std::string& variabl
     buffer = (void*)VariableValue.getDataPointer();
     hid_t dataset_id
         = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
-    status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
+    herr_t status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
     H5Pclose(plist);
     H5Dclose(dataset_id);
     H5Sclose(dspace_id);
@@ -128,7 +128,7 @@ h5SaveIntegerEmptyMatrix(
     } else {
         h5path = location + "/" + variableName;
     }
-    herr_t status = H5Ldelete(fid, h5path.c_str(), H5P_DEFAULT);
+    h5LDeleteIfExists(fid, h5path.c_str());
 
     int8 i8value = (int8)0;
     uint8 ui8value = (uint8)0;
@@ -187,7 +187,7 @@ h5SaveIntegerEmptyMatrix(
     if (dataset_id < 0) {
         return false;
     }
-    status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, ptr);
+    herr_t status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, ptr);
 
     H5Dclose(dataset_id);
     H5Sclose(dspace_id);

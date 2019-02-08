@@ -37,6 +37,7 @@
 #include "NelsonNamedMutex.hpp"
 #include "Nelson_VERSION.h"
 #include "OpenFilesAssociated.hpp"
+#include "LoadFilesAssociated.hpp"
 #include "ProgramOptions.hpp"
 #include "RecursionStack.hpp"
 #include "SetNelSonEnvironmentVariables.hpp"
@@ -168,7 +169,8 @@ ErrorCommandLine(std::wstring str, NELSON_ENGINE_MODE _mode)
 //=============================================================================
 static int
 NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
-    std::wstring commandToExecute, std::wstring fileToExecute, wstringVector filesToOpen)
+    std::wstring commandToExecute, std::wstring fileToExecute, wstringVector filesToOpen,
+    wstringVector filesToLoad)
 {
     eval->resetState();
     if (!haveNoStartup) {
@@ -199,6 +201,7 @@ NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
         io->errorMessage(e.getMessage());
     }
     OpenFilesAssociated(eval, filesToOpen);
+    LoadFilesAssociated(eval, filesToLoad);
     while (eval->getState() != NLS_STATE_QUIT) {
         if (eval->getState() == NLS_STATE_ABORT) {
             eval->clearStacks();
@@ -263,6 +266,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     std::wstring fileToExecute;
     std::wstring commandToExecute;
     wstringVector filesToOpen;
+    wstringVector filesToLoad;
     std::wstring lang;
     bool bQuietMode = false;
     ProgramOptions po(args, _mode);
@@ -282,6 +286,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         TimeoutThread(po.getTimeout());
     }
     filesToOpen = po.getFilesToOpen();
+    filesToLoad = po.getFilesToLoad();
     commandToExecute = po.getCommandToExecute();
     fileToExecute = po.getFileToExecute();
     lang = po.getLanguage();
@@ -334,7 +339,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
             SioClientCommand::getInstance()->create(wstring_to_utf8(socketIoURI));
         }
         exitCode = NelsonMainStates(eval, po.haveNoStartup(), po.haveNoUserStartup(),
-            commandToExecute, fileToExecute, filesToOpen);
+            commandToExecute, fileToExecute, filesToOpen, filesToLoad);
         ::destroyMainEvaluator();
         clearWarningIdsList();
     } else {

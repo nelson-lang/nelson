@@ -40,6 +40,11 @@
     </param_input_item>
 
     <param_input_item>
+      <param_name>--mat</param_name>
+      <param_description>load files arg2 ... argN must be valid/existing .nh5 or .mat filenames.</param_description>
+    </param_input_item>
+
+    <param_input_item>
       <param_name>--nostartup</param_name>
       <param_description>disable the main Nelson script file executed at startup.</param_description>
     </param_input_item>

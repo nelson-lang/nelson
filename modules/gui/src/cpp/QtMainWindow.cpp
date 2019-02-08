@@ -46,6 +46,14 @@ QtMainWindow::~QtMainWindow()
         delete runAction;
         runAction = nullptr;
     }
+    if (loadWorkspaceAction) {
+        delete loadWorkspaceAction;
+        loadWorkspaceAction = nullptr;
+    }
+    if (saveWorkspaceAction) {
+        delete saveWorkspaceAction;
+        saveWorkspaceAction = nullptr;
+    }
     if (pwdAction) {
         delete pwdAction;
         pwdAction = nullptr;
@@ -160,6 +168,38 @@ QtMainWindow::runFile()
                 std::wstring cmd = L"run('" + filename + L"')";
                 executeCommand(cmd);
             }
+        }
+    }
+}
+//=============================================================================
+void
+QtMainWindow::loadWorkspace()
+{
+    if (qtTerminal) {
+        QString qfileName = QFileDialog::getOpenFileName(
+            this, TR("Load workspace..."), QDir::currentPath(), TR("Nelson (*.nh5)"));
+        if (!qfileName.isEmpty()) {
+            std::wstring filename = Nelson::QStringTowstring(qfileName);
+            qtTerminal->outputMessage(L"\n");
+            qtTerminal->sendReturnKey();
+            std::wstring cmd = L"load('" + filename + L"')";
+            executeCommand(cmd, true);
+        }
+    }
+}
+//=============================================================================
+void
+QtMainWindow::saveWorkspace()
+{
+    if (qtTerminal) {
+        QString qfileName = QFileDialog::getSaveFileName(
+            this, TR("Save workspace..."), QDir::currentPath(), TR("Nelson (*.nh5)"));
+        if (!qfileName.isEmpty()) {
+            std::wstring filename = Nelson::QStringTowstring(qfileName);
+            qtTerminal->outputMessage(L"\n");
+            qtTerminal->sendReturnKey();
+            std::wstring cmd = L"save('" + filename + L"')";
+            executeCommand(cmd, true);
         }
     }
 }
@@ -292,6 +332,22 @@ QtMainWindow::createMenus()
     runAction->setStatusTip(TR("Execute a .nls file"));
     connect(runAction, SIGNAL(triggered()), this, SLOT(runFile()));
     fileMenu->addAction(runAction);
+    // separator
+    fileMenu->addSeparator();
+    // load workspace
+    fileNameIcon = nelsonPath + QString("/resources/load-workspace.svg");
+    loadWorkspaceAction = new QAction(QIcon(fileNameIcon), TR("&Load Workspace..."), this);
+    loadWorkspaceAction->setShortcut(QKeySequence("Ctrl+L"));
+    loadWorkspaceAction->setStatusTip(TR("Load a .nh5 file"));
+    connect(loadWorkspaceAction, SIGNAL(triggered()), this, SLOT(loadWorkspace()));
+    fileMenu->addAction(loadWorkspaceAction);
+    // save workspace
+    fileNameIcon = nelsonPath + QString("/resources/save-workspace.svg");
+    saveWorkspaceAction = new QAction(QIcon(fileNameIcon), TR("&Save Workspace..."), this);
+    saveWorkspaceAction->setShortcut(QKeySequence("Ctrl+S"));
+    saveWorkspaceAction->setStatusTip(TR("Save a .nh5 file"));
+    connect(saveWorkspaceAction, SIGNAL(triggered()), this, SLOT(saveWorkspace()));
+    fileMenu->addAction(saveWorkspaceAction);
     // separator
     fileMenu->addSeparator();
     // chdir

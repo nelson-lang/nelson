@@ -82,6 +82,7 @@ h5Load(Evaluator* eval, const std::wstring& filename, wstringVector names, bool 
             Error(msg);
         }
     }
+    herr_t status = H5Fclose(fid);
     if (asStruct) {
         res = ArrayOf::structScalarConstructor(variableNames, values);
     } else {
@@ -89,7 +90,6 @@ h5Load(Evaluator* eval, const std::wstring& filename, wstringVector names, bool 
             eval->getContext()->getCurrentScope()->insertVariable(variableNames[i], values[i]);
         }
     }
-    H5Fclose(fid);
     return res;
 }
 //=============================================================================

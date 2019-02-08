@@ -55,7 +55,7 @@ h5SaveSingleEmptyMatrix(
     } else {
         h5path = location + "/" + variableName;
     }
-    herr_t status = H5Ldelete(fid, h5path.c_str(), H5P_DEFAULT);
+    h5LDeleteIfExists(fid, h5path.c_str());
 
     single value = 0;
     hid_t type_id = H5Tcopy(H5T_NATIVE_FLOAT);
@@ -71,7 +71,7 @@ h5SaveSingleEmptyMatrix(
     if (dataset_id < 0) {
         return false;
     }
-    status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, &value);
+    herr_t status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, &value);
 
     H5Dclose(dataset_id);
     H5Sclose(dspace_id);
@@ -106,7 +106,7 @@ h5SaveSingleMatrix(hid_t fid, const std::string& location, const std::string& va
     } else {
         h5path = location + "/" + variableName;
     }
-    herr_t status = H5Ldelete(fid, h5path.c_str(), H5P_DEFAULT);
+    h5LDeleteIfExists(fid, h5path.c_str());
 
     hid_t dspace_id = H5I_INVALID_HID;
     hid_t type_id = H5Tcopy(H5T_NATIVE_FLOAT);
@@ -150,7 +150,7 @@ h5SaveSingleMatrix(hid_t fid, const std::string& location, const std::string& va
 
         hid_t dataset_id = H5Dcreate(
             fid, h5path.c_str(), compoundId, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
-        status = H5Dwrite(dataset_id, compoundId, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
+        herr_t status = H5Dwrite(dataset_id, compoundId, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
         H5Pclose(plist);
         H5Dclose(dataset_id);
         H5Sclose(dspace_id);
@@ -162,7 +162,7 @@ h5SaveSingleMatrix(hid_t fid, const std::string& location, const std::string& va
     } else {
         hid_t dataset_id
             = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
-        status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
+        herr_t status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
         H5Pclose(plist);
         H5Dclose(dataset_id);
         H5Sclose(dspace_id);

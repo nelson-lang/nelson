@@ -16,37 +16,39 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ExecuteCommand.hpp"
-#include "Evaluator.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
-#include "characters_encoding.hpp"
+#include "LoadFilesAssociated.hpp"
+#include "EvaluateCommand.hpp"
+#include "NelSon_engine_mode.h"
+#include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
-executeCommand(std::wstring commandToExecute, bool forceEvaluateString)
+LoadFilesAssociated(Evaluator* eval, wstringVector filesToLoad)
 {
-    void* veval = GetNelsonMainEvaluatorDynamicFunction();
-    if (veval != nullptr) {
-        std::wstring _cmd = commandToExecute + L";";
-        auto* eval = static_cast<Evaluator*>(veval);
-        Interface* io = eval->getInterface();
-        if (io != nullptr) {
-            if (forceEvaluateString) {
-                std::string ustr = wstring_to_utf8(_cmd);
-                eval->evaluateString(ustr + "\n");
-            } else {
-                if (io->isAtPrompt()) {
-                    eval->addCommandToQueue(_cmd, true);
-                } else {
-                    std::string ustr = wstring_to_utf8(_cmd);
-                    eval->evaluateString(ustr + "\n");
+    bool res = false;
+    if (eval->getNelsonEngineMode() == NELSON_ENGINE_MODE::ADVANCED_TERMINAL
+        || eval->getNelsonEngineMode() == NELSON_ENGINE_MODE::GUI) {
+        if (!filesToLoad.empty()) {
+            try {
+                for (size_t k = 0; k < filesToLoad.size(); k++) {
+                    boost::filesystem::path pathFileToLoad(filesToLoad[k]);
+                    bool bIsFile = boost::filesystem::exists(pathFileToLoad)
+                        && !boost::filesystem::is_directory(pathFileToLoad);
+                    if (bIsFile) {
+                        std::wstring loadCommand = std::wstring(L"load('" + filesToLoad[k] + L"')");
+                        EvaluateCommand(eval, loadCommand, false);
+                        res = true;
+                    }
                 }
+            } catch (Exception& e) {
+                Interface* io = eval->getInterface();
+                io->errorMessage(e.getMessage());
+                res = false;
             }
-            return true;
         }
     }
-    return false;
+    return res;
 }
 //=============================================================================
 } // namespace Nelson

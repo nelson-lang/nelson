@@ -27,7 +27,7 @@ function buildhelp(varargin)
   if ismodule('help_browser')
     helpbrowser('-clearcache');
   end
-  pref_help = [prefdir(), '/help_index.bin'];
+  pref_help = [prefdir(), '/help_index.nh5'];
   if isfile(pref_help)
     rmfile(pref_help);
   end

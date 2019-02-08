@@ -169,6 +169,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\CloseAllFiles.cpp" />
+    <ClCompile Include="..\cpp\LoadFilesAssociated.cpp" />
     <ClCompile Include="..\cpp\MainGuiObjectDynamic.cpp" />
     <ClCompile Include="..\cpp\FinishNelsonMainScript.cpp" />
     <ClCompile Include="..\cpp\FinishNelsonUserScript.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="..\..\src\include\SetNelSonEnvironmentVariables.hpp" />
     <ClInclude Include="..\..\src\include\StartNelson.h" />
     <ClInclude Include="..\include\CloseAllFiles.hpp" />
+    <ClInclude Include="..\include\LoadFilesAssociated.hpp" />
     <ClInclude Include="..\include\MainGuiObjectDynamic.hpp" />
     <ClInclude Include="..\include\FinishNelsonMainScript.hpp" />
     <ClInclude Include="..\include\FinishNelsonUserScript.hpp" />

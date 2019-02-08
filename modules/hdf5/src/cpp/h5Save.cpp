@@ -80,6 +80,7 @@ h5Save(Evaluator* eval, const std::wstring& filename, wstringVector names, bool 
                     boost::filesystem::path p = hdf5_filename;
                     boost::filesystem::remove(p);
                 } catch (const boost::filesystem::filesystem_error& e) {
+                    Error(_W("Cannot replace file"));
                     boost::system::error_code error_code = e.code();
                 }
                 fid = H5Fcreate(wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_TRUNC,
@@ -99,13 +100,16 @@ h5Save(Evaluator* eval, const std::wstring& filename, wstringVector names, bool 
         }
         if (append) {
             int32 schema = getNelsonH5Schema(fid);
-            if ((schema != NELSON_SCHEMA) || (schema == -1)) {
+            if ((schema != NELSON_SCHEMA) || (schema == (int32)-1)) {
                 Error(_W("Invalid file version."));
                 H5Fclose(fid);
             }
         }
     }
-    updateNelsonH5Header(fid);
+    if (!fileExistPreviously) {
+        updateNelsonH5Header(fid);
+    }
+
     std::string location = "/";
     for (indexType k = 0; k < variablesName.size(); k++) {
         ArrayOf variableValue;

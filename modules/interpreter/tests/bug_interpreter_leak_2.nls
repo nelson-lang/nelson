@@ -34,8 +34,6 @@ filtered = { 'buildhelp';
  'questdlg';
  'removecompilerconf';
  'test_run';
- 'typebin';
- 'typeofbin';
  'vswhere';
  'warndlg';
  'qcollectiongenerator'};

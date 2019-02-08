@@ -26,7 +26,12 @@ ArrayOf
 h5ReadFloat(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
-    hsize_t storageSize = H5Dget_storage_size(dset_id);
+    hsize_t storageSize;
+    if (asAttribute) {
+        storageSize = H5Aget_storage_size(dset_id);
+    } else {
+        storageSize = H5Dget_storage_size(dset_id);
+    }
     hsize_t sizeType = H5Tget_size(type_id);
     int rank;
     Dimensions dims = getDimensions(dspace_id, rank);

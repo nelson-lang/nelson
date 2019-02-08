@@ -19,6 +19,7 @@
 clear('functions')
 [u1, s1] = memory();
 //=============================================================================
+addpath([modulepath('stream_manager'), '/tests/loadsavebin']);
 typeofbin(201)
 typeofbin(201)
 typeofbin(201)

@@ -62,6 +62,10 @@ private slots:
     void
     runFile();
     void
+    loadWorkspace();
+    void
+    saveWorkspace();
+    void
     pwdDisplay();
     void
     changeDir();
@@ -82,6 +86,8 @@ private:
     QMenuBar* mainMenuBar;
     QMenu* fileMenu;
     QAction* runAction;
+    QAction* loadWorkspaceAction;
+    QAction* saveWorkspaceAction;
     QAction* pwdAction;
     QAction* chdirAction;
     QAction* exitAction;

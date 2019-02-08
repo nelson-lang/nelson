@@ -66,11 +66,10 @@ h5ReadStringVlen(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, int 
         }
         if (asAttribute) {
             error = _W("Cannot read attribute.");
-            H5Sclose(memtype);
         } else {
             error = _W("Cannot read data set.");
-            H5Tclose(memtype);
         }
+        H5Tclose(memtype);
         return res;
     }
     indexType pos = 0;
@@ -82,11 +81,7 @@ h5ReadStringVlen(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, int 
     if (temp) {
         delete[] temp;
     }
-    if (asAttribute) {
-        H5Sclose(memtype);
-    } else {
-        H5Tclose(memtype);
-    }
+    H5Tclose(memtype);
     res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
     return res;
 }

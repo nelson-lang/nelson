@@ -22,16 +22,15 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-h5ReadArrayFloat(
-    hid_t attr_id, hid_t type, Dimensions dimsOutput, bool asAttribute, std::wstring& error)
+h5ReadArrayFloat(hid_t attr_id, hid_t type, hid_t stype, Dimensions dimsOutput, bool asAttribute,
+    std::wstring& error)
 {
     ArrayOf res;
     Class outputClass;
     void* ptrVoid = nullptr;
-    hid_t nativeFloatType = H5Tget_super(type);
-    if (H5Tequal(nativeFloatType, H5T_NATIVE_FLOAT)) {
+    if (H5Tequal(type, H5T_NATIVE_FLOAT) == 0) {
         outputClass = NLS_SINGLE;
-    } else if (H5Tequal(nativeFloatType, H5T_NATIVE_DOUBLE)) {
+    } else if (H5Tequal(type, H5T_NATIVE_DOUBLE) == 0) {
         outputClass = NLS_DOUBLE;
     } else {
         error = _W("Type not managed.");
@@ -44,7 +43,6 @@ h5ReadArrayFloat(
         ptrVoid = ArrayOf::allocateArrayOf(
             outputClass, dimsOutput.getElementCount(), stringVector(), false);
     }
-    H5Tclose(nativeFloatType);
     herr_t status = H5I_INVALID_HID;
     if (asAttribute) {
         status = H5Aread(attr_id, type, ptrVoid);
@@ -66,28 +64,27 @@ h5ReadArrayFloat(
 }
 //=============================================================================
 static ArrayOf
-h5ReadArrayInteger(
-    hid_t attr_id, hid_t type, Dimensions dimsOutput, bool asAttribute, std::wstring& error)
+h5ReadArrayInteger(hid_t attr_id, hid_t type, hid_t stype, Dimensions dimsOutput, bool asAttribute,
+    std::wstring& error)
 {
     ArrayOf res;
     Class outputClass;
     void* ptrVoid = nullptr;
-    hid_t nativeIntegerType = H5Tget_super(type);
-    if (H5Tequal(nativeIntegerType, H5T_NATIVE_INT64)) {
+    if (H5Tequal(type, H5T_NATIVE_INT64) == 0) {
         outputClass = NLS_INT64;
-    } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_INT32)) {
+    } else if (H5Tequal(type, H5T_NATIVE_INT32) == 0) {
         outputClass = NLS_INT32;
-    } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_INT16)) {
+    } else if (H5Tequal(type, H5T_NATIVE_INT16) == 0) {
         outputClass = NLS_INT16;
-    } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_INT8)) {
+    } else if (H5Tequal(type, H5T_NATIVE_INT8) == 0) {
         outputClass = NLS_INT8;
-    } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_UINT64)) {
+    } else if (H5Tequal(type, H5T_NATIVE_UINT64) == 0) {
         outputClass = NLS_UINT64;
-    } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_UINT32)) {
+    } else if (H5Tequal(type, H5T_NATIVE_UINT32) == 0) {
         outputClass = NLS_UINT32;
-    } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_UINT16)) {
+    } else if (H5Tequal(type, H5T_NATIVE_UINT16) == 0) {
         outputClass = NLS_UINT16;
-    } else if (H5Tequal(nativeIntegerType, H5T_NATIVE_UINT8)) {
+    } else if (H5Tequal(type, H5T_NATIVE_UINT8) == 0) {
         outputClass = NLS_UINT8;
     } else {
         outputClass = NLS_INT8;
@@ -99,7 +96,6 @@ h5ReadArrayInteger(
         ptrVoid = ArrayOf::allocateArrayOf(
             outputClass, dimsOutput.getElementCount(), stringVector(), false);
     }
-    H5Tclose(nativeIntegerType);
     herr_t status = H5I_INVALID_HID;
 
     if (asAttribute) {
@@ -161,17 +157,19 @@ h5ReadArray(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstr
     delete[] dimsAsHsize;
     dimsOutput[ndims] = numVal;
 
-    if (H5Tequal(type, H5T_INTEGER)) {
-        res = h5ReadArrayInteger(attr_id, type, dimsOutput, asAttribute, error);
-    } else if (H5Tequal(type, H5T_FLOAT)) {
-        res = h5ReadArrayFloat(attr_id, type, dimsOutput, asAttribute, error);
-    } else if (H5Tequal(type, H5T_TIME)) {
-        error = _W("Type not managed.");
-    } else if (H5Tequal(type, H5T_ARRAY)) {
-        error = _W("Type not managed.");
-    } else {
-        error = _W("Type not managed.");
+    hid_t stype = H5Tget_super(type);
+    switch (H5Tget_class(stype)) {
+    case H5T_INTEGER: {
+        res = h5ReadArrayInteger(attr_id, type, stype, dimsOutput, asAttribute, error);
+    } break;
+    case H5T_FLOAT: {
+        res = h5ReadArrayFloat(attr_id, type, stype, dimsOutput, asAttribute, error);
     }
+    default: {
+        error = _W("Type not managed.");
+    } break;
+    }
+    H5Tclose(stype);
     return res;
 }
 //=============================================================================

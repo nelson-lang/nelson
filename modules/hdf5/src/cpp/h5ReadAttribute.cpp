@@ -139,7 +139,7 @@ h5ReadAttribute(
     } break;
     }
     H5Sclose(aspace);
-    H5Aclose(type);
+    H5Tclose(type);
     H5Aclose(attr_id);
     H5Oclose(obj_id);
     H5Fclose(fid);
