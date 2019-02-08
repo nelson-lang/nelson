@@ -38,6 +38,9 @@ static const nlsGateway gateway[] = {
     { "h5create", Nelson::Hdf5Gateway::h5createBuiltin, 0, -4, CPP_BUILTIN },
     { "h5load", Nelson::Hdf5Gateway::h5loadBuiltin, 1, 1, CPP_BUILTIN },
     { "h5save", Nelson::Hdf5Gateway::h5saveBuiltin, 0, 1, CPP_BUILTIN },
+    { "load", Nelson::Hdf5Gateway::h5loadBuiltin, 1, 1, CPP_BUILTIN },
+    { "save", Nelson::Hdf5Gateway::h5saveBuiltin, 0, 1, CPP_BUILTIN },
+
 };
 //=============================================================================
 static bool
