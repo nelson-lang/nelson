@@ -47,7 +47,6 @@ initializeDefaultWarningIdsList()
 {
     setWarningId(L"all", WARNING_STATE::ENABLED, false);
     setWarningId(L"Nelson:colon:array-as-scalar", WARNING_STATE::ENABLED, false);
-    setWarningId(L"Nelson:save:handle", WARNING_STATE::ENABLED, false);
 }
 //=============================================================================
 void

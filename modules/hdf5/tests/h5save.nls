@@ -18,8 +18,16 @@
 //=============================================================================
 // creates ref h5 file with all types supported by Nelson
 //=============================================================================
+current_schema_file = [tempdir(), '/schema.nh5'];
+if isfile(current_schema_file)
+  rmfile(current_schema_file);
+end
+A = [];
+h5save(current_schema_file, 'A');
+schema_version = h5readatt(current_schema_file, '/', 'NELSON_schema');
+//=============================================================================
 path = fileparts(nfilename('fullpathext'), 'path');
-H5_FILE = [path, '/h5save.nh5'];
+H5_FILE = [path, '/h5save_schema_', mat2str(schema_version), '.nh5'];
 if isfile(H5_FILE)
   rmfile(H5_FILE);
 end

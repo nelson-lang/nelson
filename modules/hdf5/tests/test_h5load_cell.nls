@@ -16,16 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <--GUI MODE-->
-//=============================================================================
 test_h5save_file = [tempdir(), '/test_h5save.nh5'];
 if isfile(test_h5save_file)
   rmfile(test_h5save_file);
 end
 //=============================================================================
-// handle
-//=============================================================================
-h = errordlg();
-assert_checkerror('h5save(test_h5save_file, ''h'');', [_('Cannot save variable:'), 'h']);
-delete(h);
+A = {1, 2; 3, 4};
+B = {1, A; A, 2};
+C = {A, 4; 5, B};
+h5save(test_h5save_file, 'C');
+C_REF = C;
+clear('A', 'B', 'C');
+st = h5load(test_h5save_file);
+assert_isequal(C_REF, st.C);
 //=============================================================================

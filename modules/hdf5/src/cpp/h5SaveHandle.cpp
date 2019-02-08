@@ -17,7 +17,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "h5SaveHandle.hpp"
-#include "Warning.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -25,8 +24,7 @@ bool
 h5SaveHandle(hid_t fid, const std::string& location, const std::string& variableName,
     ArrayOf VariableValue, bool useCompression)
 {
-    Warning(L"Nelson:save:handle", _W("Handle (pointer) cannot be saved (data discarded)."));
-    return true;
+    return false;
 }
 //=============================================================================
 };

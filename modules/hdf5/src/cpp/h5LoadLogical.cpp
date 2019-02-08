@@ -61,6 +61,7 @@ h5LoadLogical(hid_t fid, const std::string& location, const std::string& variabl
             if (!h5LoadVariable(fid, h5path, "data", V)) {
                 return false;
             }
+            V.promoteType(NLS_LOGICAL);
             VariableValue = SparseConstructor(I, J, V, dims[0], dims[1], nzmax);
             bSuccess = true;
         } else {
