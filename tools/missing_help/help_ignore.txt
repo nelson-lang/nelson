@@ -128,10 +128,6 @@ sparselogical_mat2str
 sparselogical_minus_sparselogical
 sparselogical_plus_sparselogical
 sparselogical_prod
-loadbin
-savebin
-typebin
-typeofbin
 dllib_eq_dllib
 dllib_horzcat_dllib
 dllib_isequal

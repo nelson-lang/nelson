@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+addpath([fileparts(nfilename('fullpathext'), 'path'), '/loadsavebin']);
 F = [nelsonroot(), '/modules/stream_manager/tests/test_load.bin'];
 REF_A = ones(5, 6);
 REF_B = 'A string saved.';

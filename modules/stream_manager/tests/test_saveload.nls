@@ -16,6 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+addpath([fileparts(nfilename('fullpathext'), 'path'), '/loadsavebin']);
+//=============================================================================
 // logical
 A = logical(eye(5, 4));
 savebin([tempdir(), '/test_saveload.bin'], 'A');
