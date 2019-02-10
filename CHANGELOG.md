@@ -1,7 +1,9 @@
 Features:
 ---------
 
-* h5save, h5load: load and save all Nelson's serializable type.
+* h5save: save Nelson's workspace to .nh5 file.
+
+* h5load: load data form .nh5 file into Nelson's workspace.
 
 * save, load alias on h5save and h5load.
 
