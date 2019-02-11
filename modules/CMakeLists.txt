@@ -76,6 +76,7 @@ audio
 mpi
 json
 hdf5
+matio
 )
 LIST(APPEND moduleslist main)
 #==============================================================================	

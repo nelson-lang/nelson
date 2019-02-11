@@ -50,7 +50,8 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
       sudo apt-get install qtdeclarative5-quicklayouts-plugin;
       sudo apt-get install qtdeclarative5-qtquick2-plugin;
       sudo apt-get install qtdeclarative5-dialogs-plugin;
-      sudo apt-get install qtdeclarative5-window-plugin;      
+      sudo apt-get install qtdeclarative5-window-plugin;   
+      sudo apt-get install libmatio-dev;
     ```
 
     - Get and install Eigen library (minimal 3.3.4)
@@ -137,6 +138,7 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
         pacman -S lapacke
         pacman -S fftw
         pacman -S openmpi
+        pacman -S libmatio
         exit
         ```
     - Creates Nelson main directory
@@ -208,6 +210,7 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
       brew install libsndfile;
       brew install taglib;
       brew install hdf5; 
+      brew install libmatio; 
          ```
     - Install LAPACKE
     By default easier way is to build and install reference LAPACK library (https://github.com/Reference-LAPACK/lapack-release).

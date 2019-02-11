@@ -293,6 +293,11 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   FIND_PACKAGE(LAPACKE REQUIRED)
 ENDIF()
 #==============================================================================
+find_package(MATIO REQUIRED)
+if(MATIO_FOUND)
+    message(STATUS "Found Matio lib: ${MATIO_LIBRARIES}")
+endif()
+#==============================================================================
 add_definitions(-DBOOST_ALL_NO_LIB)
 add_definitions(-DBOOST_ALL_DYN_LINK)
 add_definitions(-DOMPI_SKIP_MPICXX)

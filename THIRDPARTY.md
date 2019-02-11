@@ -69,6 +69,14 @@ High-performance data management and storage suite
 
 > https://support.hdfgroup.org/ftp/HDF5/releases/COPYING
 
+- MATIO
+
+MAT file I/O library
+
+> https://github.com/tbeu/matio
+
+> https://github.com/tbeu/matio/blob/master/COPYING (BSD)
+
 - F2C
 
 f2c is a program to convert Fortran 77 to C code, developed at Bell Laboratories.
