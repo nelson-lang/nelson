@@ -22,7 +22,7 @@ Please feel free to file issues on this repository if you have questions, concer
 - Computer Aided Control Systems Design module,
 - HDF5 high-level functions I/O (DONE v0.2.12),
 - MAT File I/O module,
-- HDF5 used as default data file format,
+- HDF5 used as default data file format (.nh5) (DONE v0.3.2),
 - Mex module,
 - completion,
 - graphics output,
