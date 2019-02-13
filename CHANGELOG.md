@@ -12,6 +12,12 @@ Features:
 * .nh5 file association on Windows. load data formatted for Nelson.
 
 
+Compilation:
+---------
+
+  * Qt 5.12.1 on Windows
+
+
 ## 0.3.1 (2019-01-26)
 
 
