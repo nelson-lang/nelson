@@ -51,6 +51,13 @@ find_path(MATIO_INCLUDE_DIR NAMES matio.h PATHS ENV C_INCLUDE_PATH)
 find_library(MATIO_LIBRARY NAMES matio HINTS ${MATIO_HOME}/lib)
 find_library(MATIO_LIBRARY NAMES matio PATHS ENV LD_LIBRARY_PATH)
 
+# force path
+if(EXISTS /usr/local/include/matio_pubconf.h)
+  set(MATIO_INCLUDE_DIR /usr/local/include)
+  if(EXISTS/usr/local/lib/libmatio.so)
+    set(MATIO_LIBRARY /usr/local/lib/libmatio.so)
+  endif()
+endif()
 
 if(MATIO_INCLUDE_DIR)
   # ---------------------------------------------------

@@ -16,16 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "LoadMatrixFile.hpp"
+#pragma once
+//=============================================================================
+#include "nlsMatio_exports.h"
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf
-LoadMatrixFile(Evaluator* eval, const std::wstring& filename, wstringVector names, bool asStruct)
-{
-    ArrayOf res;
-    return res;
-}
+NLSMATIO_IMPEXP ArrayOf
+LoadMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names, bool asStruct);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

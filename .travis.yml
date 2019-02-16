@@ -56,6 +56,9 @@ matrix:
 before_install:
     - if [ `uname` = "Linux" ];
       then sudo apt-get install libopenmpi-dev;
+      sudo apt-get install autotools-dev;
+      sudo apt-get install libtool;
+      sudo apt-get install automake;
       sudo apt-get install openmpi-bin;
       sudo apt-get install gettext;
       sudo apt-get install pkg-config;
@@ -74,7 +77,6 @@ before_install:
       sudo apt-get install alsa-utils;
       sudo apt-get install libhdf5-dev;
       sudo apt-get install hdf5-tools;
-      sudo apt-get install libmatio-dev;
       fi
     - if [ `uname` = "Linux" ];
       then sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa;
@@ -124,6 +126,7 @@ before_install:
 
 install:
   - if [ `uname` = "Linux" ]; then git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.5 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && sudo make install && cd -; fi
+  - if [ `uname` = "Linux" ]; then git clone https://github.com/tbeu/matio /tmp/matio && cd /tmp/matio && git checkout v1.5.13 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic && make && make install; fi
   - if [ $TRAVIS_OS_NAME == osx ]; then git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.5 && cd - && cd /tmp/eigen-build && FC="nofortran" cmake . /tmp/eigen && make -j4 && sudo make install && cd -; fi
 
 before_script:

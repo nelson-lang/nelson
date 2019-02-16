@@ -18,14 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsMatio_exports.h"
+#include <matio.h>
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSMATIO_IMPEXP ArrayOf
-LoadMatrixFile(Evaluator* eval, const std::wstring& filename, wstringVector names, bool asStruct);
+bool
+LoadMatioVariable(matvar_t* matVariable, ArrayOf& VariableValue);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

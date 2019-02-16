@@ -16,32 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "loadmatBuiltin.hpp"
-#include "LoadMatioFile.hpp"
+#pragma once
+//=============================================================================
+#include <matio.h>
+#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOfVector
-Nelson::MatioGateway::loadmatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (nLhs > 1) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() < 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    std::wstring filename = argIn[0].getContentAsWideString();
-    wstringVector names;
-    for (indexType k = 1; k < argIn.size(); k++) {
-        names.push_back(argIn[k].getContentAsWideString());
-    }
-    ArrayOf st = LoadMatioFile(eval, filename, names, nLhs == 1);
-    if (nLhs == 1) {
-        retval.push_back(st);
-    }
-    return retval;
-}
+bool
+LoadMatioCharacters(matvar_t* matVariable, ArrayOf& VariableValue);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

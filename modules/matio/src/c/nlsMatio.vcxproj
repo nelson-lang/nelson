@@ -207,11 +207,19 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\LoadMatrixFile.cpp" />
+    <ClCompile Include="..\cpp\LoadMatioCharacters.cpp" />
+    <ClCompile Include="..\cpp\LoadMatioDouble.cpp" />
+    <ClCompile Include="..\cpp\LoadMatioFile.cpp" />
+    <ClCompile Include="..\cpp\LoadMatioSingle.cpp" />
+    <ClCompile Include="..\cpp\LoadMatioVariable.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\LoadMatrixFile.hpp" />
+    <ClInclude Include="..\cpp\LoadMatioCharacters.hpp" />
+    <ClInclude Include="..\cpp\LoadMatioDouble.hpp" />
+    <ClInclude Include="..\cpp\LoadMatioSingle.hpp" />
+    <ClInclude Include="..\include\LoadMatioFile.hpp" />
+    <ClInclude Include="..\include\LoadMatioVariable.hpp" />
     <ClInclude Include="..\include\nlsMatio_exports.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
