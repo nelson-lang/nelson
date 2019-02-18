@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cstring>
-#include "LoadMatioLogical.hpp"
+#include "LoadMatioSparseDouble.hpp"
 #include "Exception.hpp"
 #include "matioHelpers.hpp"
 #include "SparseConstructors.hpp"
