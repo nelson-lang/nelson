@@ -21,6 +21,10 @@
 #include "LoadMatioCharacters.hpp"
 #include "LoadMatioDouble.hpp"
 #include "LoadMatioSingle.hpp"
+#include "LoadMatioInteger.hpp"
+#include "LoadMatioLogical.hpp"
+#include "LoadMatioSparseDouble.hpp"
+#include "LoadMatioSparseLogical.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -31,18 +35,67 @@ LoadMatioVariable(matvar_t* matVariable, ArrayOf& VariableValue)
     if (matVariable == nullptr) {
         return false;
     }
-    switch (matVariable->class_type)
-    {
+    switch (matVariable->class_type) {
+    case MAT_C_EMPTY: {
+    } break;
+    case MAT_C_OBJECT: {
+        // NOT MANAGED by MATIO 1.5.13 :(
+    } break;
+    case MAT_C_FUNCTION: {
+        // NOT MANAGED by MATIO 1.5.13 :(
+    } break;
+    case MAT_C_OPAQUE: {
+        // NOT MANAGED by MATIO 1.5.13 :(
+    } break;
+    case MAT_C_SPARSE: {
+        if (matVariable->isLogical) {
+            bSuccess = LoadMatioSparseLogical(matVariable, VariableValue);
+        } else {
+            bSuccess = LoadMatioSparseDouble(matVariable, VariableValue);
+        }
+    } break;
+    case MAT_C_CELL: {
+    } break;
+    case MAT_C_STRUCT: {
+    } break;
     case MAT_C_CHAR: {
         bSuccess = LoadMatioCharacters(matVariable, VariableValue);
-	} break;
+    } break;
     case MAT_C_DOUBLE: {
         bSuccess = LoadMatioDouble(matVariable, VariableValue);
     } break;
     case MAT_C_SINGLE: {
         bSuccess = LoadMatioSingle(matVariable, VariableValue);
     } break;
-	default: {
+    case MAT_C_INT8: {
+        bSuccess = LoadMatioInteger(matVariable, NLS_INT8, VariableValue);
+    } break;
+    case MAT_C_INT16: {
+        bSuccess = LoadMatioInteger(matVariable, NLS_INT16, VariableValue);
+    } break;
+    case MAT_C_INT32: {
+        bSuccess = LoadMatioInteger(matVariable, NLS_INT32, VariableValue);
+    } break;
+    case MAT_C_INT64: {
+        bSuccess = LoadMatioInteger(matVariable, NLS_INT64, VariableValue);
+    } break;
+    case MAT_C_UINT8: {
+        if (matVariable->isLogical) {
+            bSuccess = LoadMatioLogical(matVariable, VariableValue);
+        } else {
+            bSuccess = LoadMatioInteger(matVariable, NLS_UINT8, VariableValue);
+        }
+    } break;
+    case MAT_C_UINT16: {
+        bSuccess = LoadMatioInteger(matVariable, NLS_UINT16, VariableValue);
+    } break;
+    case MAT_C_UINT32: {
+        bSuccess = LoadMatioInteger(matVariable, NLS_UINT32, VariableValue);
+    } break;
+    case MAT_C_UINT64: {
+        bSuccess = LoadMatioInteger(matVariable, NLS_UINT64, VariableValue);
+    } break;
+    default: {
         bSuccess = false;
     } break;
     }

@@ -19,6 +19,9 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
 * On debian/ubuntu distribution:
     - Prerequirements:
         ```bash
+      sudo apt-get install autotools-dev;
+      sudo apt-get install libtool;
+      sudo apt-get install automake;
       sudo apt-get install libopenmpi-dev;
       sudo apt-get install openmpi-bin;
       sudo apt-get install gettext;

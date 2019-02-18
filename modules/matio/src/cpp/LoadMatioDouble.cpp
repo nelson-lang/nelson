@@ -19,6 +19,7 @@
 #include <cstring>
 #include "LoadMatioDouble.hpp"
 #include "Exception.hpp"
+#include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -28,12 +29,9 @@ LoadMatioDouble(matvar_t* matVariable, ArrayOf& VariableValue)
     bool bSuccess = false;
     if (matVariable == nullptr) {
         return bSuccess;
-	}
-    Class destinationClass = matVariable->isComplex ? NLS_DCOMPLEX : NLS_DOUBLE;
-	Dimensions dims;
-    for (int d = 0; d < matVariable->rank; d++) {
-        dims[d] = matVariable->dims[d];
     }
+    Class destinationClass = matVariable->isComplex ? NLS_DCOMPLEX : NLS_DOUBLE;
+    Dimensions dims = getMatVarDimensions(matVariable);
     if (dims.isEmpty(false)) {
         VariableValue = ArrayOf::emptyConstructor(dims);
         VariableValue.promoteType(destinationClass);
@@ -60,15 +58,9 @@ LoadMatioDouble(matvar_t* matVariable, ArrayOf& VariableValue)
             VariableValue = ArrayOf(destinationClass, dims, ptr);
             bSuccess = true;
         } else {
-            try {
-                ptr = ArrayOf::allocateArrayOf(
-                    destinationClass, dims.getElementCount(), stringVector(), false);
-                memcpy(ptr, matVariable->data, matVariable->nbytes);
-                VariableValue = ArrayOf(destinationClass, dims, ptr);
-                bSuccess = true;
-            } catch (Exception&) {
-                bSuccess = false;
-            }
+            memcpy(ptr, matVariable->data, matVariable->nbytes);
+            VariableValue = ArrayOf(destinationClass, dims, ptr);
+            bSuccess = true;
         }
     }
     return bSuccess;

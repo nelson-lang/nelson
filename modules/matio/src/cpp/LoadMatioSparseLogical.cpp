@@ -17,51 +17,18 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cstring>
-#include "LoadMatioSingle.hpp"
+#include "LoadMatioSparseLogical.hpp"
 #include "Exception.hpp"
 #include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
-LoadMatioSingle(matvar_t* matVariable, ArrayOf& VariableValue)
+LoadMatioSparseLogical(matvar_t* matVariable, ArrayOf& VariableValue)
 {
     bool bSuccess = false;
     if (matVariable == nullptr) {
         return bSuccess;
-    }
-    Class destinationClass = matVariable->isComplex ? NLS_SCOMPLEX : NLS_SINGLE;
-    Dimensions dims = getMatVarDimensions(matVariable);
-    if (dims.isEmpty(false)) {
-        VariableValue = ArrayOf::emptyConstructor(dims);
-        VariableValue.promoteType(destinationClass);
-        bSuccess = true;
-    } else {
-        void* ptr = nullptr;
-        try {
-            ptr = ArrayOf::allocateArrayOf(
-                destinationClass, dims.getElementCount(), stringVector(), false);
-        } catch (Exception&) {
-            return false;
-        }
-        if (matVariable->isComplex) {
-            mat_complex_split_t* cplx = (mat_complex_split_t*)matVariable->data;
-            single* ptrDouble = (single*)ptr;
-            single* ptrR = (single*)(cplx->Re);
-            single* ptrI = (single*)(cplx->Im);
-            indexType i = 0;
-            for (indexType k = 0; k < dims.getElementCount(); k++) {
-                ptrDouble[i] = ptrR[k];
-                ptrDouble[i + 1] = ptrI[k];
-                i = i + 2;
-            }
-            VariableValue = ArrayOf(destinationClass, dims, ptr);
-            bSuccess = true;
-        } else {
-            memcpy(ptr, matVariable->data, matVariable->nbytes);
-            VariableValue = ArrayOf(destinationClass, dims, ptr);
-            bSuccess = true;
-        }
     }
     return bSuccess;
 }

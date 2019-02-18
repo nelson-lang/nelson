@@ -17,20 +17,33 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cstring>
-#include "LoadMatioSingle.hpp"
+#include "LoadMatioInteger.hpp"
 #include "Exception.hpp"
 #include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+template <class T>
+void
+complexIntegerTocomplexDouble(mat_complex_split_t* cplx, indexType nbElements, double* ptrDouble)
+{
+    T* ptrR = (T*)(cplx->Re);
+    T* ptrI = (T*)(cplx->Im);
+    indexType i = 0;
+    for (indexType k = 0; k < nbElements; k++) {
+        ptrDouble[i] = (double)ptrR[k];
+        ptrDouble[i + 1] = (double)ptrI[k];
+        i = i + 2;
+    }
+}
+//=============================================================================
 bool
-LoadMatioSingle(matvar_t* matVariable, ArrayOf& VariableValue)
+LoadMatioInteger(matvar_t* matVariable, Class destinationClass, ArrayOf& VariableValue)
 {
     bool bSuccess = false;
     if (matVariable == nullptr) {
         return bSuccess;
     }
-    Class destinationClass = matVariable->isComplex ? NLS_SCOMPLEX : NLS_SINGLE;
     Dimensions dims = getMatVarDimensions(matVariable);
     if (dims.isEmpty(false)) {
         VariableValue = ArrayOf::emptyConstructor(dims);
@@ -39,23 +52,46 @@ LoadMatioSingle(matvar_t* matVariable, ArrayOf& VariableValue)
     } else {
         void* ptr = nullptr;
         try {
-            ptr = ArrayOf::allocateArrayOf(
-                destinationClass, dims.getElementCount(), stringVector(), false);
+            if (matVariable->isComplex) {
+                ptr = ArrayOf::allocateArrayOf(
+                    NLS_DCOMPLEX, dims.getElementCount(), stringVector(), false);
+            } else {
+                ptr = ArrayOf::allocateArrayOf(
+                    destinationClass, dims.getElementCount(), stringVector(), false);
+            }
         } catch (Exception&) {
             return false;
         }
         if (matVariable->isComplex) {
+            double* ptrDouble = (double*)ptr;
             mat_complex_split_t* cplx = (mat_complex_split_t*)matVariable->data;
-            single* ptrDouble = (single*)ptr;
-            single* ptrR = (single*)(cplx->Re);
-            single* ptrI = (single*)(cplx->Im);
-            indexType i = 0;
-            for (indexType k = 0; k < dims.getElementCount(); k++) {
-                ptrDouble[i] = ptrR[k];
-                ptrDouble[i + 1] = ptrI[k];
-                i = i + 2;
+            switch (destinationClass) {
+            case NLS_INT8: {
+                complexIntegerTocomplexDouble<int8>(cplx, dims.getElementCount(), ptrDouble);
+            } break;
+            case NLS_INT16: {
+                complexIntegerTocomplexDouble<int16>(cplx, dims.getElementCount(), ptrDouble);
+            } break;
+            case NLS_INT32: {
+                complexIntegerTocomplexDouble<int32>(cplx, dims.getElementCount(), ptrDouble);
+            } break;
+            case NLS_INT64: {
+                complexIntegerTocomplexDouble<int64>(cplx, dims.getElementCount(), ptrDouble);
+            } break;
+            case NLS_UINT8: {
+                complexIntegerTocomplexDouble<uint8>(cplx, dims.getElementCount(), ptrDouble);
+            } break;
+            case NLS_UINT16: {
+                complexIntegerTocomplexDouble<uint16>(cplx, dims.getElementCount(), ptrDouble);
+            } break;
+            case NLS_UINT32: {
+                complexIntegerTocomplexDouble<uint32>(cplx, dims.getElementCount(), ptrDouble);
+            } break;
+            case NLS_UINT64: {
+                complexIntegerTocomplexDouble<uint64>(cplx, dims.getElementCount(), ptrDouble);
+            } break;
             }
-            VariableValue = ArrayOf(destinationClass, dims, ptr);
+            VariableValue = ArrayOf(NLS_DCOMPLEX, dims, ptr);
             bSuccess = true;
         } else {
             memcpy(ptr, matVariable->data, matVariable->nbytes);

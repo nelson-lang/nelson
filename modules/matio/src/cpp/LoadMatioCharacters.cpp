@@ -17,13 +17,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cstring>
-#include <iostream>
-#include <string>
-#include <locale>
-#include <codecvt>
 #include "LoadMatioCharacters.hpp"
 #include "characters_encoding.hpp"
 #include "Exception.hpp"
+#include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -37,10 +34,7 @@ LoadMatioCharacters(matvar_t* matVariable, ArrayOf& VariableValue)
     if (matVariable == nullptr) {
         return bSuccess;
     }
-    Dimensions dims;
-    for (int d = 0; d < matVariable->rank; d++) {
-        dims[d] = matVariable->dims[d];
-    }
+    Dimensions dims = getMatVarDimensions(matVariable);
     if (dims.isEmpty(false)) {
         VariableValue = ArrayOf::emptyConstructor(dims);
         VariableValue.promoteType(NLS_CHAR);
@@ -91,17 +85,15 @@ LoadMatioCharacters(matvar_t* matVariable, ArrayOf& VariableValue)
 bool
 integerToCharType(ArrayOf& AasInteger, bool asUtf, ArrayOf& AasCharType)
 {
-	switch (AasInteger.getDataClass()) {
+    switch (AasInteger.getDataClass()) {
     case NLS_UINT8:
-	case NLS_UINT16:
-    case NLS_UINT32:{
+    case NLS_UINT16:
+    case NLS_UINT32: {
         AasCharType = AasInteger;
         AasCharType.promoteType(NLS_CHAR);
         return true;
     } break;
-	default: {
-	} break;
-	}
+    default: { } break; }
     return false;
 }
 //=============================================================================

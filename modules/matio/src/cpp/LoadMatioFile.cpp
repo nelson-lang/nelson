@@ -44,16 +44,16 @@ LoadMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names
         Error(_W("File does not exist."));
     }
 
-	std::string utf8filename = wstring_to_utf8(filename);
+    std::string utf8filename = wstring_to_utf8(filename);
     mat_t* matfile = Mat_Open(utf8filename.c_str(), MAT_ACC_RDONLY);
 
-	stringVector variableNamesInFile;
+    stringVector variableNamesInFile;
     size_t nVars = 0;
     char** variableNames = Mat_GetDir(matfile, &nVars);
     for (size_t k = 0; k < nVars; k++) {
         variableNamesInFile.push_back(variableNames[k]);
-	}
-	stringVector variablesNamesToRead; 
+    }
+    stringVector variablesNamesToRead;
     if (names.empty()) {
         variablesNamesToRead = variableNamesInFile;
     } else {
@@ -68,7 +68,7 @@ LoadMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names
             }
         }
     }
-	ArrayOfVector values;
+    ArrayOfVector values;
     for (std::string name : variablesNamesToRead) {
         ArrayOf value;
         matvar_t* matVariable = Mat_VarRead(matfile, name.c_str());

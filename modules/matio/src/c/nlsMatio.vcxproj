@@ -210,14 +210,24 @@
     <ClCompile Include="..\cpp\LoadMatioCharacters.cpp" />
     <ClCompile Include="..\cpp\LoadMatioDouble.cpp" />
     <ClCompile Include="..\cpp\LoadMatioFile.cpp" />
+    <ClCompile Include="..\cpp\LoadMatioInteger.cpp" />
+    <ClCompile Include="..\cpp\LoadMatioLogical.cpp" />
     <ClCompile Include="..\cpp\LoadMatioSingle.cpp" />
+    <ClCompile Include="..\cpp\LoadMatioSparseDouble.cpp" />
+    <ClCompile Include="..\cpp\LoadMatioSparseLogical.cpp" />
     <ClCompile Include="..\cpp\LoadMatioVariable.cpp" />
+    <ClCompile Include="..\cpp\matioHelpers.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp\LoadMatioCharacters.hpp" />
     <ClInclude Include="..\cpp\LoadMatioDouble.hpp" />
+    <ClInclude Include="..\cpp\LoadMatioInteger.hpp" />
+    <ClInclude Include="..\cpp\LoadMatioLogical.hpp" />
     <ClInclude Include="..\cpp\LoadMatioSingle.hpp" />
+    <ClInclude Include="..\cpp\LoadMatioSparseDouble.hpp" />
+    <ClInclude Include="..\cpp\LoadMatioSparseLogical.hpp" />
+    <ClInclude Include="..\cpp\matioHelpers.hpp" />
     <ClInclude Include="..\include\LoadMatioFile.hpp" />
     <ClInclude Include="..\include\LoadMatioVariable.hpp" />
     <ClInclude Include="..\include\nlsMatio_exports.h" />
