@@ -44,7 +44,7 @@ LoadMatioCell(matvar_t* matVariable, ArrayOf& VariableValue)
             ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, dims, elements);
             for (indexType k = 0; k < nbElements; k++) {
                 matvar_t* elementMatVar = Mat_VarGetCell(matVariable, (int)k);
-                if (!LoadMatioVariable(elementMatVar, elements[k])) {
+                if (!LoadMatioVariable(elementMatVar, true, elements[k])) {
                     return false;
                 }
             }

@@ -30,7 +30,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-LoadMatioVariable(matvar_t* matVariable, ArrayOf& VariableValue)
+LoadMatioVariable(matvar_t* matVariable, bool fromCellOrStruct, ArrayOf& VariableValue)
 {
     bool bSuccess = false;
     if (matVariable == nullptr) {
@@ -38,6 +38,10 @@ LoadMatioVariable(matvar_t* matVariable, ArrayOf& VariableValue)
     }
     switch (matVariable->class_type) {
     case MAT_C_EMPTY: {
+        if (fromCellOrStruct) {
+            VariableValue = ArrayOf::emptyConstructor();
+            bSuccess = true;
+        }
     } break;
     case MAT_C_OBJECT: {
         // NOT MANAGED by MATIO 1.5.13 :(

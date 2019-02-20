@@ -77,7 +77,9 @@ LoadMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names
             std::string msg = _("Cannot read variable:") + std::string(" ") + name;
             Error(msg);
         }
-        if (LoadMatioVariable(matVariable, value)) {
+        bool bSuccess = LoadMatioVariable(matVariable, false, value);
+        Mat_VarFree(matVariable);
+        if (bSuccess) {
             values.push_back(value);
         } else {
             Mat_Close(matfile);
