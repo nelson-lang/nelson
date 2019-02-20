@@ -59,6 +59,9 @@
     <ClCompile Include="..\cpp\LoadMatioSparseLogical.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\LoadMatioCell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsMatio_exports.h">
@@ -92,6 +95,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\cpp\LoadMatioSparseLogical.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\LoadMatioCell.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

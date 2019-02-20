@@ -207,6 +207,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\LoadMatioCell.cpp" />
     <ClCompile Include="..\cpp\LoadMatioCharacters.cpp" />
     <ClCompile Include="..\cpp\LoadMatioDouble.cpp" />
     <ClCompile Include="..\cpp\LoadMatioFile.cpp" />
@@ -220,6 +221,7 @@
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\LoadMatioCell.hpp" />
     <ClInclude Include="..\cpp\LoadMatioCharacters.hpp" />
     <ClInclude Include="..\cpp\LoadMatioDouble.hpp" />
     <ClInclude Include="..\cpp\LoadMatioInteger.hpp" />

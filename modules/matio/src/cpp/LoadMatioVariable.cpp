@@ -25,6 +25,7 @@
 #include "LoadMatioLogical.hpp"
 #include "LoadMatioSparseDouble.hpp"
 #include "LoadMatioSparseLogical.hpp"
+#include "LoadMatioCell.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -55,6 +56,7 @@ LoadMatioVariable(matvar_t* matVariable, ArrayOf& VariableValue)
         }
     } break;
     case MAT_C_CELL: {
+        bSuccess = LoadMatioCell(matVariable, VariableValue);
     } break;
     case MAT_C_STRUCT: {
     } break;
