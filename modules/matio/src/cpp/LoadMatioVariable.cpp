@@ -26,6 +26,11 @@
 #include "LoadMatioSparseDouble.hpp"
 #include "LoadMatioSparseLogical.hpp"
 #include "LoadMatioCell.hpp"
+#include "LoadMatioEmpty.hpp"
+#include "LoadMatioFunction.hpp"
+#include "LoadMatioObject.hpp"
+#include "LoadMatioOpaque.hpp"
+#include "LoadMatioStruct.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -38,19 +43,19 @@ LoadMatioVariable(matvar_t* matVariable, bool fromCellOrStruct, ArrayOf& Variabl
     }
     switch (matVariable->class_type) {
     case MAT_C_EMPTY: {
-        if (fromCellOrStruct) {
-            VariableValue = ArrayOf::emptyConstructor();
-            bSuccess = true;
-        }
+        bSuccess = LoadMatioEmpty(matVariable, fromCellOrStruct, VariableValue);
     } break;
     case MAT_C_OBJECT: {
         // NOT MANAGED by MATIO 1.5.13 :(
+        bSuccess = LoadMatioObject(matVariable, VariableValue);
     } break;
     case MAT_C_FUNCTION: {
         // NOT MANAGED by MATIO 1.5.13 :(
+        bSuccess = LoadMatioFunction(matVariable, VariableValue);
     } break;
     case MAT_C_OPAQUE: {
         // NOT MANAGED by MATIO 1.5.13 :(
+        bSuccess = LoadMatioOpaque(matVariable, VariableValue);
     } break;
     case MAT_C_SPARSE: {
         if (matVariable->isLogical) {
@@ -63,6 +68,7 @@ LoadMatioVariable(matvar_t* matVariable, bool fromCellOrStruct, ArrayOf& Variabl
         bSuccess = LoadMatioCell(matVariable, VariableValue);
     } break;
     case MAT_C_STRUCT: {
+        bSuccess = LoadMatioStruct(matVariable, VariableValue);
     } break;
     case MAT_C_CHAR: {
         bSuccess = LoadMatioCharacters(matVariable, VariableValue);

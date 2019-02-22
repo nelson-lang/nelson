@@ -112,4 +112,3 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions DESTINATI
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nls")
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/tests/mat DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.mat")
 #==============================================================================
-

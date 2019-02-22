@@ -47,6 +47,7 @@ initializeDefaultWarningIdsList()
 {
     setWarningId(L"all", WARNING_STATE::ENABLED, false);
     setWarningId(L"Nelson:colon:array-as-scalar", WARNING_STATE::ENABLED, false);
+    setWarningId(L"Nelson:matio:type-not-supported", WARNING_STATE::ENABLED, false);
 }
 //=============================================================================
 void

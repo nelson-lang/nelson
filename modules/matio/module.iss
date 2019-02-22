@@ -31,5 +31,5 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.nls; DestDir: {app}\modules
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nls; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
-;Source: {#RootPath}modules\{#MODULE_NAME}\tests\mat\*.mat; DestDir: {app}\modules\{#MODULE_NAME}\tests\mat\;
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\mat\*.mat; DestDir: {app}\modules\{#MODULE_NAME}\tests\mat\;
 ;==============================================================================
