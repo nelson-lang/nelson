@@ -86,7 +86,7 @@ h5Load(Evaluator* eval, const std::wstring& filename, wstringVector names, bool 
     if (asStruct) {
         res = ArrayOf::structScalarConstructor(variableNames, values);
     } else {
-        for (indexType i = 0; i < variableNames.size(); i++) {
+        for (size_t i = 0; i < variableNames.size(); i++) {
             eval->getContext()->getCurrentScope()->insertVariable(variableNames[i], values[i]);
         }
     }

@@ -540,7 +540,7 @@ Eigen_SetSparseVectorSubsets(Class dclass, indexType& rows, indexType& cols, con
     }
     indexType* rowvect = new_with_exception<indexType>(irows * icols);
     indexType* colvect = new_with_exception<indexType>(irows * icols);
-    for (size_t k = 0; k < irows * icols; k++) {
+    for (indexType k = 0; k < irows * icols; k++) {
         auto idx = static_cast<indexType>(indx[k] - 1);
         rowvect[k] = static_cast<indexType>(idx % rows) + 1;
         colvect[k] = static_cast<indexType>(idx / rows) + 1;

@@ -42,7 +42,7 @@ iswindowtypeQObject(ArrayOf A)
     if (qp) {
         logical* resArray
             = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount());
-        for (size_t k = 0; k < dimsA.getElementCount(); k++) {
+        for (indexType k = 0; k < dimsA.getElementCount(); k++) {
             nelson_handle hl = qp[k];
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
             if (hlObj != nullptr) {

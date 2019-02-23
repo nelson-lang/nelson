@@ -108,28 +108,28 @@ RandomLaggedFibonacci607::getValuesAsDouble(
 {
     switch (_type) {
     case RNG_DISTRIBUTION_UNIFORM_REAL: {
-        size_t k = 0;
+        indexType k = 0;
         while (k < nbElements) {
             ar[k] = (*uniform_real_generator)();
             k++;
         }
     } break;
     case RNG_DISTRIBUTION_UNIFORM_INT: {
-        size_t k = 0;
+        indexType k = 0;
         while (k < nbElements) {
             ar[k] = (double)(*uniform_int_generator)();
             k++;
         }
     } break;
     case RNG_DISTRIBUTION_NORMAL: {
-        size_t k = 0;
+        indexType k = 0;
         while (k < nbElements) {
             ar[k] = (*normal_real_generator)();
             k++;
         }
     } break;
     default: {
-        size_t k = 0;
+        indexType k = 0;
         while (k < nbElements) {
             ar[k] = nan("");
             k++;
@@ -144,28 +144,28 @@ RandomLaggedFibonacci607::getValuesAsSingle(
 {
     switch (_type) {
     case RNG_DISTRIBUTION_UNIFORM_REAL: {
-        size_t k = 0;
+        indexType k = 0;
         while (k < nbElements) {
             ar[k] = (single)(*uniform_real_generator)();
             k++;
         }
     } break;
     case RNG_DISTRIBUTION_UNIFORM_INT: {
-        size_t k = 0;
+        indexType k = 0;
         while (k < nbElements) {
             ar[k] = (single)(*uniform_int_generator)();
             k++;
         }
     } break;
     case RNG_DISTRIBUTION_NORMAL: {
-        size_t k = 0;
+        indexType k = 0;
         while (k < nbElements) {
             ar[k] = (single)(*normal_real_generator)();
             k++;
         }
     } break;
     default: {
-        size_t k = 0;
+        indexType k = 0;
         while (k < nbElements) {
             ar[k] = static_cast<single>(nan(""));
             k++;

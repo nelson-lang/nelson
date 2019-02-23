@@ -33,7 +33,7 @@ Nelson::Hdf5Gateway::h5loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
     std::wstring filename = argIn[0].getContentAsWideString();
     wstringVector names;
-    for (indexType k = 1; k < argIn.size(); k++) {
+    for (size_t k = 1; k < argIn.size(); k++) {
         names.push_back(argIn[k].getContentAsWideString());
     }
     ArrayOf st = h5Load(eval, filename, names, nLhs == 1);

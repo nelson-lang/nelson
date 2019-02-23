@@ -129,7 +129,7 @@ h5ReadArray(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstr
         storageSize = H5Dget_storage_size(attr_id);
     }
     hsize_t sizeType = H5Tget_size(type);
-    size_t numVal = storageSize / sizeType;
+    size_t numVal = (size_t)(storageSize / sizeType);
 
     int ndims = H5Tget_array_ndims(type);
     hsize_t* dimsAsHsize;

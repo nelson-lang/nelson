@@ -63,8 +63,8 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
         case NLS_SCOMPLEX: {
             single* pValue = (single*)A.getDataPointer();
             singlecomplex* pComplexValue = reinterpret_cast<singlecomplex*>(pValue);
-            for (size_t x = 0; x < dims.getRows(); x++) {
-                for (size_t y = 0; y < dims.getColumns(); y++) {
+            for (indexType x = 0; x < dims.getRows(); x++) {
+                for (indexType y = 0; y < dims.getColumns(); y++) {
                     singlecomplex complexVal = pComplexValue[x + y * dims.getRows()];
                     std::wstring realPartStr;
                     std::wstring imagPartStr;
@@ -120,8 +120,8 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
         case NLS_DCOMPLEX: {
             double* pValue = (double*)A.getDataPointer();
             doublecomplex* pComplexValue = reinterpret_cast<doublecomplex*>(pValue);
-            for (size_t x = 0; x < dims.getRows(); x++) {
-                for (size_t y = 0; y < dims.getColumns(); y++) {
+            for (indexType x = 0; x < dims.getRows(); x++) {
+                for (indexType y = 0; y < dims.getColumns(); y++) {
                     doublecomplex complexVal = pComplexValue[x + y * dims.getRows()];
                     std::wstring realPartStr;
                     std::wstring imagPartStr;
@@ -176,8 +176,8 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
         } break;
         case NLS_DOUBLE: {
             double* pValue = (double*)A.getDataPointer();
-            for (size_t x = 0; x < dims.getRows(); x++) {
-                for (size_t y = 0; y < dims.getColumns(); y++) {
+            for (indexType x = 0; x < dims.getRows(); x++) {
+                for (indexType y = 0; y < dims.getColumns(); y++) {
                     double val = pValue[x + y * dims.getRows()];
                     if (std::isnan(val)) {
                         res = res + L"NaN" + L" ";
@@ -202,8 +202,8 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
         } break;
         case NLS_SINGLE: {
             single* pValue = (single*)A.getDataPointer();
-            for (size_t x = 0; x < dims.getRows(); x++) {
-                for (size_t y = 0; y < dims.getColumns(); y++) {
+            for (indexType x = 0; x < dims.getRows(); x++) {
+                for (indexType y = 0; y < dims.getColumns(); y++) {
                     single val = pValue[x + y * dims.getRows()];
                     if (std::isnan(val)) {
                         res = res + L"NaN" + L" ";
@@ -228,8 +228,8 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
         } break;
         case NLS_LOGICAL: {
             logical* pValue = (logical*)A.getDataPointer();
-            for (size_t x = 0; x < dims.getRows(); x++) {
-                for (size_t y = 0; y < dims.getColumns(); y++) {
+            for (indexType x = 0; x < dims.getRows(); x++) {
+                for (indexType y = 0; y < dims.getColumns(); y++) {
                     if (pValue[x + y * dims.getRows()] == 1) {
                         res = res + L"true" + L" ";
                     } else {
@@ -248,8 +248,8 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
         case NLS_INT64: {
             A.promoteType(NLS_INT64);
             int64* pValue = (int64*)A.getDataPointer();
-            for (size_t x = 0; x < dims.getRows(); x++) {
-                for (size_t y = 0; y < dims.getColumns(); y++) {
+            for (indexType x = 0; x < dims.getRows(); x++) {
+                for (indexType y = 0; y < dims.getColumns(); y++) {
                     res = res + std::to_wstring(pValue[x + y * dims.getRows()]) + L" ";
                 }
                 if (boost::algorithm::ends_with(res, L" ")) {
@@ -264,8 +264,8 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
         case NLS_UINT64: {
             A.promoteType(NLS_UINT64);
             uint64* pValue = (uint64*)A.getDataPointer();
-            for (size_t x = 0; x < dims.getRows(); x++) {
-                for (size_t y = 0; y < dims.getColumns(); y++) {
+            for (indexType x = 0; x < dims.getRows(); x++) {
+                for (indexType y = 0; y < dims.getColumns(); y++) {
                     res = res + std::to_wstring(pValue[x + y * dims.getRows()]) + L" ";
                 }
                 if (boost::algorithm::ends_with(res, L" ")) {

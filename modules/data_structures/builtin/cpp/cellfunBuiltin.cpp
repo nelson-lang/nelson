@@ -69,12 +69,12 @@ cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* ev
                 }
                 ret = fptrHandleError->evaluateFunction(eval, in2, nargout);
             }
-            if (ret.size() < nargout) {
+            if ((int)ret.size() < nargout) {
                 Error(_W("function returned fewer outputs than expected"));
             }
         } else {
             ret = fptr->evaluateFunction(eval, input, nargout);
-            if (ret.size() < nargout) {
+            if ((int)ret.size() < nargout) {
                 Error(_W("function returned fewer outputs than expected"));
             }
         }
@@ -109,12 +109,12 @@ cellfun_uniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval,
                 }
                 ret = fptrHandleError->evaluateFunction(eval, in2, nargout);
             }
-            if (ret.size() < nargout) {
+            if ((int)ret.size() < nargout) {
                 Error(_W("function returned fewer outputs than expected"));
             }
         } else {
             ret = fptr->evaluateFunction(eval, input, nargout);
-            if (ret.size() < nargout) {
+            if ((int)ret.size() < nargout) {
                 Error(_W("function returned fewer outputs than expected"));
             }
         }
@@ -495,7 +495,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
         }
     }
     Dimensions dimsCells;
-    for (size_t k = 1; k < nbElementsInput; k++) {
+    for (int k = 1; k < nbElementsInput; k++) {
         ArrayOf param = argIn[k];
         if (param.isCell()) {
             if (k == 1) {

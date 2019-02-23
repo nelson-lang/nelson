@@ -38,7 +38,7 @@ h5Save(Evaluator* eval, const std::wstring& filename, wstringVector names, bool 
     bool nocompression)
 {
     wstringVector variablesName;
-    for (indexType k = 0; k < names.size(); k++) {
+    for (size_t k = 0; k < names.size(); k++) {
 
         if (!IsValidVariableName(names[k])) {
             Error(_W("Invalid variable name:") + names[k]);
@@ -111,7 +111,7 @@ h5Save(Evaluator* eval, const std::wstring& filename, wstringVector names, bool 
     }
 
     std::string location = "/";
-    for (indexType k = 0; k < variablesName.size(); k++) {
+    for (size_t k = 0; k < variablesName.size(); k++) {
         ArrayOf variableValue;
         std::string variableName = wstring_to_utf8(variablesName[k]);
         eval->getContext()->getCurrentScope()->lookupVariable(variableName, variableValue);

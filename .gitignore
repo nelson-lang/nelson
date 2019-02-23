@@ -136,6 +136,9 @@ bin/macosx64/nelson-gui
 /tools/gettext/bin
 .DS_Store
 *.mo
+/tools/gettext/generatepo/Release
+/tools/gettext/generatepo/Debug
+/tools/gettext/generatepo/x64
 /tools/gettext/generatemo/*/*/*.log
 /tools/gettext/generatepo/*/*/*.log
 /tools/gettext/gettext-license.txt

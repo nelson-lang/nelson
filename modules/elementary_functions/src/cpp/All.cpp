@@ -106,7 +106,7 @@ All(ArrayOf& A, indexType dim, bool& needToOverload)
     } else if (A.isVector()) {
         logical* pLogical = (logical*)A.getDataPointer();
         bool bRes = true;
-        for (size_t k = 0; k < A.getDimensions().getElementCount(); k++) {
+        for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
             if (!(pLogical[k] != 0)) {
                 bRes = false;
                 break;

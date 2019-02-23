@@ -253,7 +253,7 @@ h5ReadCompoundStringMember(hsize_t sizeType, hid_t mType, const char* data, size
         for (indexType k = 0; k < dims.getElementCount(); k++) {
             char* value = (char*)(data + offset + (sizeType * k));
             std::string str;
-            str.reserve(lengthString);
+            str.reserve((size_t)lengthString);
             for (indexType l = 0; l < lengthString; l++) {
                 str.push_back(value[l]);
             }
@@ -316,7 +316,7 @@ h5ReadCompound(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::w
     int rank;
     Dimensions dims = getDimensions(aspace, rank);
 
-    std::unique_ptr<char[]> data(new char[storageSize * sizeType]);
+    std::unique_ptr<char[]> data(new char[size_t(storageSize * sizeType)]);
     if (!data.get()) {
         if (asAttribute) {
             error = _W("Cannot read attribute.");

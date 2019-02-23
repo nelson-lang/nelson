@@ -279,13 +279,13 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
             Dimensions newDims(0, 0);
             Dimensions d = getDimensions();
             indexType m = d[0];
-            for (size_t k = 1; k < d.getLength(); ++k) {
+            for (indexType k = 1; k < d.getLength(); ++k) {
                 if (m < d[k]) {
                     m = d[k];
                 }
             }
             indexType idxm = 0;
-            for (size_t k = 0; k < d.getLength(); ++k) {
+            for (indexType k = 0; k < d.getLength(); ++k) {
                 if (m == d[k]) {
                     break;
                 }

@@ -141,8 +141,8 @@ convertToJsonVariable(const jsmntok_t& token, JsonVariable& jsVar)
             jsVar.jsonVariableType = JSON_TO_NELSON_DOUBLE;
             jsVar.scalarDouble = val;
             return true;
-        } catch (const std::invalid_argument& e) {
-        } catch (const std::out_of_range& e) {
+        } catch (const std::invalid_argument&) {
+        } catch (const std::out_of_range&) {
         }
         jsVar.jsonVariableType = JSON_TO_NELSON_STRING;
         jsVar.scalarString = decodeCharacters(strValue);
@@ -276,7 +276,7 @@ jsonVariableToNelsonStructType(JsonVariable& jsVar, Dimensions& dims)
     ArrayOf* ptrStruct
         = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames);
     size_t offset = 0;
-    for (size_t j = 0; j < dims.getElementCount(); j++) {
+    for (indexType j = 0; j < dims.getElementCount(); j++) {
         for (size_t i = 0; i < jsVar.fieldnames.size(); i++) {
             ArrayOf rval = jsonVariableToNelson(jsVar.map.at(jsVar.fieldnames[i])[j]);
             const ArrayOf* rptr = (const ArrayOf*)rval.getDataPointer();
@@ -336,7 +336,7 @@ jsonVariableToNelsonCellType(JsonVariable& jsVar)
     Dimensions dims(jsVar.vectorJsonVariable.size(), 1);
     ArrayOf* dptr = (ArrayOf*)ArrayOf::allocateArrayOf(
         NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
-    for (size_t k = 0; k < dims.getElementCount(); k++) {
+    for (indexType k = 0; k < dims.getElementCount(); k++) {
         dptr[k] = jsonVariableToNelson(jsVar.vectorJsonVariable[k]);
     }
     return ArrayOf(NLS_CELL_ARRAY, dims, dptr);
@@ -536,7 +536,7 @@ transformStructArray(JsonVariable& jsVar, size_t totaldims)
     for (auto elements : jsVar.vectorJsonVariable[0].fieldnames) {
         fieldnamesRef.push_back(elements);
     }
-    for (int i = 1; i < jsVar.vectorJsonVariable.size(); ++i) {
+    for (size_t i = 1; i < jsVar.vectorJsonVariable.size(); ++i) {
         if (jsVar.vectorJsonVariable[i].fieldnames.size() != fieldnamesRef.size()) {
             jsVar.reduced = true;
             jsVar.jsonVariableType = JSON_TO_NELSON_CELL;
@@ -562,8 +562,8 @@ transformStructArray(JsonVariable& jsVar, size_t totaldims)
     } break;
     case 2: {
         for (auto name : fieldnamesRef) {
-            for (int j = 0; j < jsVar.dims[1]; ++j) {
-                for (int i = 0; i < jsVar.dims[0]; ++i) {
+            for (size_t j = 0; j < jsVar.dims[1]; ++j) {
+                for (size_t i = 0; i < jsVar.dims[0]; ++i) {
                     auto var = jsVar.vectorJsonVariable[i];
                     if (var.dims.size() != 0) {
                         jsVar.map[name].push_back(var.map[name][j]);

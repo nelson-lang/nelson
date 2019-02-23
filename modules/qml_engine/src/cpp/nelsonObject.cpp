@@ -152,7 +152,7 @@ nelsonObject::call(const QString& functionName, const QVariantList& args)
                     res = ArrayOfToQVariant(resVector[0]);
                 } else {
                     QVariantList qlistVariant;
-                    for (int j = 0; j < resVector.size(); j++) {
+                    for (size_t j = 0; j < resVector.size(); j++) {
                         qlistVariant.push_back(ArrayOfToQVariant(resVector[j]));
                     }
                     res = qlistVariant;

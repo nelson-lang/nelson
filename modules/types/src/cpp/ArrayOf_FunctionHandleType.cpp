@@ -38,7 +38,7 @@ ArrayOf::getContentAsFunctionHandle()
     std::string classString = this->getStructType();
     if (classString == NLS_FUNCTION_HANDLE_STR) {
         ArrayOf value1 = this->getField(NLS_FUNCTION_HANDLE_STR);
-        fh = value1.getContentAsUnsignedInt64Scalar();
+        fh = (function_handle)value1.getContentAsUnsignedInt64Scalar();
     } else {
         Error(_W("Expected a function_handle."));
     }

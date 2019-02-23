@@ -38,7 +38,8 @@ h5LoadDouble(hid_t fid, const std::string& location, const std::string& variable
             } else {
                 V.promoteType(NLS_DOUBLE);
             }
-            VariableValue = SparseConstructor(I, J, V, dims[0], dims[1], nzmax);
+            VariableValue
+                = SparseConstructor(I, J, V, (indexType)dims[0], (indexType)dims[1], (indexType)nzmax);
             bSuccess = true;
         } else {
             VariableValue = ArrayOf::emptyConstructor(dims);
@@ -70,7 +71,8 @@ h5LoadDouble(hid_t fid, const std::string& location, const std::string& variable
             if (!h5LoadVariable(fid, h5path, "data", V)) {
                 return false;
             }
-            VariableValue = SparseConstructor(I, J, V, dims[0], dims[1], nzmax);
+            VariableValue
+                = SparseConstructor(I, J, V, (indexType)dims[0], (indexType)dims[1], (indexType)nzmax);
             bSuccess = true;
         } else {
             if (isComplex) {

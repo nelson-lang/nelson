@@ -899,7 +899,7 @@ NelsonTypeToQVariant(ArrayOf A)
         QVariantList qlistVariant;
         Dimensions dimsA = A.getDimensions();
         T* nlsArray = (T*)A.getDataPointer();
-        for (size_t k = 0; k < dimsA.getElementCount(); k++) {
+        for (indexType k = 0; k < dimsA.getElementCount(); k++) {
             QVariant element = QVariant(nlsArray[k]);
             qlistVariant.push_back(element);
         }

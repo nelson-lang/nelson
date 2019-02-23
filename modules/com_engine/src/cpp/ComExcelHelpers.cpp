@@ -28,7 +28,7 @@ xlsIndexToRange(indexType m, indexType n)
 {
     std::wstring range;
     size_t alpha_size = 'Z' - 'A' + 1;
-    if (n > alpha_size * alpha_size) {
+    if (n > (indexType(alpha_size * alpha_size))) {
         std::wstring c_col1;
         c_col1.push_back(static_cast<wchar_t>(L'A' + (n - 1) / (alpha_size * alpha_size) - 1));
         std::wstring c_col3;
@@ -39,7 +39,7 @@ xlsIndexToRange(indexType m, indexType n)
         std::wstring c_col2;
         c_col2.push_back(static_cast<wchar_t>(L'A' + value_col2 - 1));
         range = c_col1 + c_col2 + c_col3 + std::to_wstring(m);
-    } else if (n > alpha_size) {
+    } else if (n > (indexType)alpha_size) {
         std::wstring c_col1;
         c_col1.push_back(static_cast<wchar_t>(L'A' + (n - 1) / alpha_size - 1));
         std::wstring c_col2;

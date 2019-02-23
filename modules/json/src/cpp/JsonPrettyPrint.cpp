@@ -137,7 +137,7 @@ JSONPrettify(const std::wstring& json, const Nelson::Colons spacing = Nelson::Co
         LR"(-Inf|Inf|NaN|(\".+?\"[^\,]*?((\".*?\")|(\d*?))(?=\n*?\s*?(\,|\{|\}|\[|\])))|(\d+?)|(\".*?\"))");
     long it = 0;
     int depth = 0;
-    while (it < pretty.size()) {
+    while (it < (long)pretty.size()) {
         RegexPos pos_tab = findRegexFirstPosition(pretty, it, var);
         auto pos_comma = pretty.find(L",", it);
         auto pos_obj_start = pretty.find(L"{", it);

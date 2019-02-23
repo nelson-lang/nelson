@@ -289,7 +289,7 @@ Scope::getVariablesList(bool withPersistent, wstringVector& list)
 {
     stringVector ulist = variablesTab.getVariablesList(withPersistent);
     list.clear();
-    for (indexType k = 0; k < ulist.size(); k++) {
+    for (size_t k = 0; k < ulist.size(); k++) {
         list.push_back(utf8_to_wstring(ulist[k]));
     }
 }

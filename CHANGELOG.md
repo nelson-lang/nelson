@@ -1,3 +1,6 @@
+## 0.3.2 (2019-02-24)
+
+
 Features:
 ---------
 
@@ -16,6 +19,8 @@ Compilation:
 ---------
 
   * Qt 5.12.1 on Windows
+
+  * fix some 32 bit Warnings.
 
 
 ## 0.3.1 (2019-01-26)

@@ -56,7 +56,7 @@ Nelson::DataStructuresGateway::struct2cellBuiltin(
             S = v[k].size();
         }
         size_t l = 0;
-        for (size_t q = 0; q < S; q++) {
+        for (indexType q = 0; q < S; q++) {
             for (size_t k = 0; k < nbFields; k++) {
                 elements[l] = v[k][q];
                 l++;
@@ -70,7 +70,7 @@ Nelson::DataStructuresGateway::struct2cellBuiltin(
     }
     Dimensions dims;
     dims[0] = nbFields;
-    for (size_t k = 0; k < dimsStruct.getLength(); k++) {
+    for (indexType k = 0; k < dimsStruct.getLength(); k++) {
         dims[k + 1] = dimsStruct[k];
     }
     dims.simplify();

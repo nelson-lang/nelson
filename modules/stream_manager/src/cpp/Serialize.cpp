@@ -212,9 +212,9 @@ Serialize::getStringVector()
 {
     stringVector res;
     checkSignature('S', 1);
-    int L = getInt();
+    indexType L = (indexType)getInt();
     res.reserve(L);
-    for (size_t i = 0; i < L; i++) {
+    for (indexType i = 0; i < L; i++) {
         res.push_back(getString());
     }
     return res;
@@ -225,9 +225,9 @@ Serialize::getWStringVector()
 {
     wstringVector res;
     checkSignature('S', 1);
-    int L = getInt();
+    indexType L = (indexType)getInt();
     res.reserve(L);
-    for (size_t i = 0; i < L; i++) {
+    for (indexType i = 0; i < L; i++) {
         res.push_back(getWString());
     }
     return res;

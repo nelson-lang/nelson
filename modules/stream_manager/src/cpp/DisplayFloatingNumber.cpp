@@ -351,7 +351,7 @@ DisplayFloatingNumberInternal(
                             NelsonConfiguration::getInstance()->getOutputFormatDisplay(), asInteger,
                             false);
                         size_t len = numberAsStr.size();
-                        if (len < format_width) {
+                        if (len < (size_t)format_width) {
                             size_t nb = format_width - len;
                             for (size_t q = 0; q < nb; q++) {
                                 buffer.append(L" ");

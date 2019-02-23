@@ -31,7 +31,7 @@ DeleteComHandleObject(ArrayOf A)
         if (!A.isEmpty()) {
             Dimensions dims = A.getDimensions();
             auto* qp = (nelson_handle*)A.getDataPointer();
-            for (size_t k = 0; k < dims.getElementCount(); k++) {
+            for (indexType k = 0; k < dims.getElementCount(); k++) {
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
