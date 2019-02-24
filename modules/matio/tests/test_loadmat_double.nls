@@ -60,3 +60,43 @@ clear testcomplex
 loadmat([mat_dir, 'test_complex_7.4_GLNX86.mat']);    
 assert_isapprox(testcomplex, testcomplex_ref, 1e-4)
 //=============================================================================
+testmatrix_ref = [1     2     3     4     5;
+     2     0     0     0     0;
+     3     0     0     0     0];
+clear testmatrix
+loadmat([mat_dir, 'test_matrix_4.2c_SOL2.mat']);
+assert_isequal(testmatrix, testmatrix_ref)
+//=============================================================================
+clear testmatrix
+loadmat([mat_dir, 'test_matrix_6.1_SOL2.mat']);    
+assert_isequal(testmatrix, testmatrix_ref)
+//=============================================================================
+clear testmatrix
+loadmat([mat_dir, 'test_matrix_6.5.1_GLNX86.mat']);    
+assert_isequal(testmatrix, testmatrix_ref)
+//=============================================================================
+clear testmatrix
+loadmat([mat_dir, 'test_matrix_7.1_GLNX86.mat']);    
+assert_isequal(testmatrix, testmatrix_ref)
+//=============================================================================
+clear testmatrix
+loadmat([mat_dir, 'test_matrix_7.4_GLNX86.mat']);    
+assert_isequal(testmatrix, testmatrix_ref)
+//=============================================================================
+test3dmatrix_ref = reshape(1:24,2,3,4);
+clear test3dmatrix
+loadmat([mat_dir, 'test_3dmatrix_6.1_SOL2.mat']);    
+assert_isequal(test3dmatrix, test3dmatrix_ref)
+//=============================================================================
+clear test3dmatrix
+loadmat([mat_dir, 'test_3dmatrix_6.5.1_GLNX86.mat']);    
+assert_isequal(test3dmatrix, test3dmatrix_ref)
+//=============================================================================
+clear test3dmatrix
+loadmat([mat_dir, 'test_3dmatrix_7.1_GLNX86.mat']);        
+assert_isequal(test3dmatrix, test3dmatrix_ref)
+//=============================================================================
+clear test3dmatrix
+loadmat([mat_dir, 'test_3dmatrix_7.4_GLNX86.mat']);       
+assert_isequal(test3dmatrix, test3dmatrix_ref)
+//=============================================================================
