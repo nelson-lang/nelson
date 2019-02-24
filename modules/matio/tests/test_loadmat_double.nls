@@ -1,0 +1,62 @@
+//=============================================================================
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+mat_dir = [fileparts(nfilename('fullpathext'),'path'), '/mat/'];
+//=============================================================================
+testdouble_ref = [0.0000      0.7854      1.5708      2.3562      3.1416      3.9270      4.7124      5.4978      6.2832];
+clear testdouble
+loadmat([mat_dir, 'test_double_4.2c_SOL2.mat']);
+assert_isapprox(testdouble, testdouble_ref, 1e-4)
+//=============================================================================
+clear testdouble
+loadmat([mat_dir, 'test_double_6.1_SOL2.mat']);
+assert_isapprox(testdouble, testdouble_ref, 1e-4)
+//=============================================================================
+clear testdouble
+loadmat([mat_dir, 'test_double_6.5.1_GLNX86.mat']);
+assert_isapprox(testdouble, testdouble_ref, 1e-4)
+//=============================================================================
+clear testdouble
+loadmat([mat_dir, 'test_double_7.1_GLNX86.mat']);
+assert_isapprox(testdouble, testdouble_ref, 1e-4)
+//=============================================================================
+clear testdouble
+loadmat([mat_dir, 'test_double_7.4_GLNX86.mat']);
+assert_isapprox(testdouble, testdouble_ref, 1e-4)
+//=============================================================================
+testcomplex_ref = [1.0000 + 0.0000i     0.7071 + 0.7071i     0.0000 + 1.0000i    -0.7071 + 0.7071i    -1.0000 + 0.0000i    -0.7071 - 0.7071i    -0.0000 - 1.0000i     0.7071 - 0.7071i     1.0000 - 0.0000i];
+clear testcomplex
+loadmat([mat_dir, 'test_complex_4.2c_SOL2.mat']);
+assert_isapprox(testcomplex, testcomplex_ref, 1e-4)
+//=============================================================================
+clear testcomplex
+loadmat([mat_dir, 'test_complex_6.1_SOL2.mat']);
+assert_isapprox(testcomplex, testcomplex_ref, 1e-4)
+//=============================================================================
+clear testcomplex
+loadmat([mat_dir, 'test_complex_6.5.1_GLNX86.mat']);
+assert_isapprox(testcomplex, testcomplex_ref, 1e-4)
+//=============================================================================
+clear testcomplex
+loadmat([mat_dir, 'test_complex_7.1_GLNX86.mat']);
+assert_isapprox(testcomplex, testcomplex_ref, 1e-4)
+//=============================================================================
+clear testcomplex
+loadmat([mat_dir, 'test_complex_7.4_GLNX86.mat']);    
+assert_isapprox(testcomplex, testcomplex_ref, 1e-4)
+//=============================================================================
