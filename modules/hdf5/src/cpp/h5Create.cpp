@@ -158,14 +158,14 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
         if (chunksize.size() != sizeData.size()) {
             Error(_W("Length ChunkSize and Size must be equal."));
         }
-        for (indexType k = 0; k < chunksize.size(); k++) {
+        for (size_t k = 0; k < chunksize.size(); k++) {
             if (chunksize[k] - sizeData[k] > 0) {
                 Error(_W("ChunkSize larger than Size."));
             }
         }
     } else {
         bool haveZeros = false;
-        for (indexType k = 0; k < sizeData.size(); k++) {
+        for (size_t k = 0; k < sizeData.size(); k++) {
             if (sizeData[k] < 0.5) {
                 haveZeros = true;
                 break;
@@ -266,7 +266,7 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
             H5Fclose(fid);
             throw;
         }
-        for (indexType k = 0; k < chunksize.size(); k++) {
+        for (size_t k = 0; k < chunksize.size(); k++) {
             dimsChunk[k] = (hsize_t)chunksize[k];
         }
         if (H5Pset_layout(dcpl, H5D_CHUNKED) == H5I_INVALID_HID) {

@@ -109,11 +109,11 @@ Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         size_t planecount;
         size_t planesize = 1;
         size_t linesize = dimsA[workDim];
-        for (size_t l = 0; l < workDim; l++) {
+        for (indexType l = 0; l < workDim; l++) {
             planesize *= dimsA[l];
         }
         planecount = 1;
-        for (size_t l = workDim + 1; l < dimsA.getLength(); l++) {
+        for (indexType l = workDim + 1; l < dimsA.getLength(); l++) {
             planecount *= dimsA[l];
         }
         switch (classA) {

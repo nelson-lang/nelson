@@ -39,7 +39,7 @@ PrintfHelper::IncrementDataPointer()
         len = args[vectorIndex].getDimensions().getElementCount();
     }
     if (++elementIndex >= len) {
-        if (++vectorIndex < args.size()) {
+        if (++vectorIndex < (indexType)args.size()) {
             elementIndex = 0;
         } else {
             hasMoreData = false;
@@ -182,7 +182,7 @@ std::wstring
 PrintfHelper::ConvertEscapeSequences(const std::wstring& src)
 {
     std::wstring dest;
-    int i = 0;
+    size_t i = 0;
     while (i < src.size()) {
         if ((src[i] != L'\\') || (i == (src.size() - 1))) {
             dest += src[i];

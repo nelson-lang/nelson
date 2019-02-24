@@ -30,12 +30,12 @@ compareString(std::wstring A, std::wstring B, bool bCaseSensitive, indexType len
         std::wstring strB;
         size_t lenghtA = A.size();
         size_t lenghtB = B.size();
-        if (lenghtA > len) {
+        if (lenghtA > (size_t)len) {
             strA = std::wstring(A.c_str(), len);
         } else {
             strA = A;
         }
-        if (lenghtB > len) {
+        if (lenghtB > (size_t)len) {
             strB = std::wstring(B.c_str(), len);
         } else {
             strB = B;

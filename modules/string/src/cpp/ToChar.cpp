@@ -86,17 +86,17 @@ ToChar(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         vB.push_back(L"");
     }
     size_t lenMax = 0;
-    for (indexType i = 0; i < vA.size(); ++i) {
+    for (size_t i = 0; i < vA.size(); ++i) {
         if (lenMax < vA[i].size()) {
             lenMax = vA[i].size();
         }
     }
-    for (indexType i = 0; i < vB.size(); ++i) {
+    for (size_t i = 0; i < vB.size(); ++i) {
         if (lenMax < vB[i].size()) {
             lenMax = vB[i].size();
         }
     }
-    for (indexType i = 0; i < vA.size(); ++i) {
+    for (size_t i = 0; i < vA.size(); ++i) {
         size_t newLen = lenMax - vA[i].size();
         if (newLen > 0) {
             for (size_t q = 0; q < newLen; q++) {
@@ -104,7 +104,7 @@ ToChar(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
             }
         }
     }
-    for (indexType i = 0; i < vB.size(); ++i) {
+    for (size_t i = 0; i < vB.size(); ++i) {
         size_t newLen = lenMax - vB[i].size();
         if (newLen > 0) {
             for (size_t q = 0; q < newLen; q++) {
@@ -143,7 +143,7 @@ ToChar(const ArrayOf& A, bool& needToOverload)
             V.push_back(val);
         }
         res = V[0];
-        for (indexType k = 1; k < V.size(); k++) {
+        for (size_t k = 1; k < V.size(); k++) {
             ArrayOf val = ToChar(res, V[k], needToOverload);
             if (needToOverload) {
                 return res;

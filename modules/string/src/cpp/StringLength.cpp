@@ -32,7 +32,7 @@ StringLength(ArrayOf A)
         auto* elements = (ArrayOf*)A.getDataPointer();
         ptrLength = static_cast<double*>(
             ArrayOf::allocateArrayOf(NLS_DOUBLE, outputDims.getElementCount()));
-        for (size_t k = 0; k < outputDims.getElementCount(); k++) {
+        for (indexType k = 0; k < outputDims.getElementCount(); k++) {
             if (elements[k].isCharacterArray()) {
                 std::wstring wstr = elements[k].getContentAsWideString();
                 ptrLength[k] = static_cast<double>(wstr.length());

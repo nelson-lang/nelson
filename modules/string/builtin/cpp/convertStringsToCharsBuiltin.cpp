@@ -26,7 +26,7 @@ ArrayOfVector
 Nelson::StringGateway::convertStringsToCharsBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (nLhs > argIn.size()) {
+    if (nLhs > (int)argIn.size()) {
         Error(_W("Number of Input arguments must the same as output."));
     }
     return ConvertStringsToChars(argIn);

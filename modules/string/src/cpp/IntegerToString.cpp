@@ -27,7 +27,7 @@ toString(ArrayOf A)
 {
     wstringVector result;
     auto* ptrValue = (double*)A.getDataPointer();
-    for (size_t k = 0; k < A.getDimensions().getElementCount(); k++) {
+    for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
         std::wstring str;
         double dvalue = ptrValue[k];
         if (std::isnan(dvalue)) {
@@ -59,7 +59,7 @@ uint64ToString(ArrayOf A)
 {
     wstringVector result;
     auto* ptrValue = (uint64*)A.getDataPointer();
-    for (size_t k = 0; k < A.getDimensions().getElementCount(); k++) {
+    for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
         std::wstring str;
         uint64 ivalue = ptrValue[k];
         str = std::to_wstring(ivalue);

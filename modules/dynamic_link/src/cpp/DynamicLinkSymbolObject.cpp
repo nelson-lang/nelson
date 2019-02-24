@@ -326,7 +326,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
     }
     void** refPointers = nullptr;
     size_t nbRefPointers = 0;
-    for (int i = 0; i < params.size(); i++) {
+    for (size_t i = 0; i < params.size(); i++) {
         if (boost::algorithm::ends_with(_paramsTypes[i], L"Ptr")) {
             nbRefPointers++;
         }
@@ -336,7 +336,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
     }
     size_t refPtrIndex = 0;
     size_t nbStrings = 0;
-    for (int i = 0; i < params.size(); i++) {
+    for (size_t i = 0; i < params.size(); i++) {
         if ((_paramsTypes[i] == L"cstring") || (_paramsTypes[i] == L"wstring")) {
             nbStrings++;
         }
@@ -346,7 +346,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
         stringPointers = static_cast<void**>(malloc(sizeof(void*) * nbStrings));
     }
     int stringPtrIndex = 0;
-    for (int i = 0; i < params.size(); i++) {
+    for (size_t i = 0; i < params.size(); i++) {
         if (params[i].getDataClass() == NLS_HANDLE) {
             if (params[i].getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
                 Error(_W("libpointer handle expected."));
@@ -378,7 +378,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
     if (_returnType == L"libpointer") {
         void* returnedValue;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
-        if (nLhs > retval.size()) {
+        if (nLhs > (int)retval.size()) {
             LibPointerObject* obj = nullptr;
             try {
                 obj = new LibPointerObject(returnedValue);
@@ -390,79 +390,79 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
     } else if (_returnType == L"logical") {
         logical returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
-        if (nLhs > retval.size()) {
+        if (nLhs > (int)retval.size()) {
             retval.push_back(ArrayOf::logicalConstructor(returnedValue));
         }
     } else if (_returnType == L"uint8") {
         static uint8_t returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
-        if (nLhs > retval.size()) {
+        if (nLhs > (int)retval.size()) {
             retval.push_back(ArrayOf::uint8Constructor(returnedValue));
         }
     } else if (_returnType == L"int8") {
         static int8_t returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
-        if (nLhs > retval.size()) {
+        if (nLhs > (int)retval.size()) {
             retval.push_back(ArrayOf::int8Constructor(returnedValue));
         }
     } else if (_returnType == L"uint16") {
         static uint16 returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
-        if (nLhs > retval.size()) {
+        if (nLhs > (int)retval.size()) {
             retval.push_back(ArrayOf::uint16Constructor(returnedValue));
         }
     } else if (_returnType == L"int16") {
         static int16 returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
-        if (nLhs > retval.size()) {
+        if (nLhs > (int)retval.size()) {
             retval.push_back(ArrayOf::int16Constructor(returnedValue));
         }
     } else if (_returnType == L"uint32") {
         static uint32 returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
-        if (nLhs > retval.size()) {
+        if (nLhs > (int)retval.size()) {
             retval.push_back(ArrayOf::uint32Constructor(returnedValue));
         }
     } else if (_returnType == L"int32") {
         static int32 returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
-        if (nLhs > retval.size()) {
+        if (nLhs > (int)retval.size()) {
             retval.push_back(ArrayOf::int32Constructor(returnedValue));
         }
     } else if (_returnType == L"uint64") {
         static uint64 returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
-        if (nLhs > retval.size()) {
+        if (nLhs > (int)retval.size()) {
             retval.push_back(ArrayOf::uint64Constructor(returnedValue));
         }
     } else if (_returnType == L"int64") {
         static int64 returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
-        if (nLhs > retval.size()) {
+        if (nLhs > (int)retval.size()) {
             retval.push_back(ArrayOf::int64Constructor(returnedValue));
         }
     } else if ((_returnType == L"float") || (_returnType == L"single")) {
         static single returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
-        if (nLhs > retval.size()) {
+        if (nLhs > (int)retval.size()) {
             retval.push_back(ArrayOf::singleConstructor(returnedValue));
         }
     } else if (_returnType == L"double") {
         static double returnedValue = 0;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
-        if (nLhs > retval.size()) {
+        if (nLhs > (int)retval.size()) {
             retval.push_back(ArrayOf::doubleConstructor(returnedValue));
         }
     } else if (_returnType == L"cstring") {
         char* returnedValue;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
-        if (nLhs > retval.size()) {
+        if (nLhs > (int)retval.size()) {
             retval.push_back(ArrayOf::characterArrayConstructor(returnedValue));
         }
     } else if (_returnType == L"wstring") {
         wchar_t* returnedValue;
         ffi_call(&_cif, addressFunction, &returnedValue, values);
-        if (nLhs > retval.size()) {
+        if (nLhs > (int)retval.size()) {
             retval.push_back(ArrayOf::characterArrayConstructor(returnedValue));
         }
     } else {
@@ -470,7 +470,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
         ffi_call(&_cif, addressFunction, &dummy, values);
     }
     int k = 0;
-    for (int i = 0; i < _paramsTypes.size(); i++) {
+    for (size_t i = 0; i < _paramsTypes.size(); i++) {
         if (boost::algorithm::ends_with(_paramsTypes[i], L"Ptr")) {
             if (params[i].getDataClass() == NLS_HANDLE) {
                 if (params[i].getHandleCategory() != LIBPOINTER_CATEGORY_STR) {

@@ -282,7 +282,7 @@ Evaluator::matrixDefinition(ASTPtr t)
         s = s->right;
     }
     ArrayOfVector v;
-    for (indexType k = 0; k < m.size(); k++) {
+    for (size_t k = 0; k < m.size(); k++) {
         ArrayOf h = HorzCatOperator(this, m[k]);
         v.push_back(h);
     }

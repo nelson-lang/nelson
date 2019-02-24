@@ -196,7 +196,7 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         Dimensions dimsS(m, n);
         Eigen::Map<Eigen::VectorXd> matStmp(dstemp, minMN);
         Eigen::Map<Eigen::MatrixXd> matS(ds, maxMN, minMN);
-        for (size_t k = 0; k < minMN; k++) {
+        for (size_t k = 0; k < (size_t)minMN; k++) {
             matS(k, k) = matStmp(k);
         }
         delete[] dstemp;
@@ -275,14 +275,14 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         if (m > n) {
             double* ds = new_with_exception<double>((size_t)n * (size_t)n);
             Eigen::Map<Eigen::MatrixXd> matS(ds, n, n);
-            for (size_t k = 0; k < minMN; k++) {
+            for (size_t k = 0; k < (size_t)minMN; k++) {
                 matS(k, k) = matStmp(k);
             }
             S = ArrayOf(NLS_DOUBLE, dimsS, ds);
         } else {
             double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN);
             Eigen::Map<Eigen::MatrixXd> matS(ds, m, m);
-            for (size_t k = 0; k < minMN; k++) {
+            for (size_t k = 0; k < (size_t)minMN; k++) {
                 matS(k, k) = matStmp(k);
             }
             S = ArrayOf(NLS_DOUBLE, dimsS, ds);
@@ -343,7 +343,7 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         Dimensions dimsS(m, n);
         Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
         Eigen::Map<Eigen::MatrixXf> matS(ds, maxMN, minMN);
-        for (size_t k = 0; k < minMN; k++) {
+        for (size_t k = 0; k < (size_t)minMN; k++) {
             matS(k, k) = matStmp(k);
         }
         delete[] dstemp;
@@ -416,14 +416,14 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         if (m > n) {
             single* ds = new_with_exception<single>((size_t)n * (size_t)n);
             Eigen::Map<Eigen::MatrixXf> matS(ds, n, n);
-            for (size_t k = 0; k < minMN; k++) {
+            for (size_t k = 0; k < (size_t)minMN; k++) {
                 matS(k, k) = matStmp(k);
             }
             S = ArrayOf(NLS_SINGLE, dimsS, ds);
         } else {
             single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN);
             Eigen::Map<Eigen::MatrixXf> matS(ds, m, m);
-            for (size_t k = 0; k < minMN; k++) {
+            for (size_t k = 0; k < (size_t)minMN; k++) {
                 matS(k, k) = matStmp(k);
             }
             S = ArrayOf(NLS_SINGLE, dimsS, ds);
@@ -483,7 +483,7 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         Dimensions dimsS(m, n);
         Eigen::Map<Eigen::VectorXd> matStmp(dstemp, minMN);
         Eigen::Map<Eigen::MatrixXd> matS(ds, maxMN, minMN);
-        for (size_t k = 0; k < minMN; k++) {
+        for (size_t k = 0; k < (size_t)minMN; k++) {
             matS(k, k) = matStmp(k);
         }
         delete[] dstemp;
@@ -559,14 +559,14 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         if (m > n) {
             double* ds = new_with_exception<double>((size_t)n * (size_t)n);
             Eigen::Map<Eigen::MatrixXd> matS(ds, n, n);
-            for (size_t k = 0; k < minMN; k++) {
+            for (size_t k = 0; k < (size_t)minMN; k++) {
                 matS(k, k) = matStmp(k);
             }
             S = ArrayOf(NLS_DOUBLE, dimsS, ds);
         } else {
             double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN);
             Eigen::Map<Eigen::MatrixXd> matS(ds, m, m);
-            for (size_t k = 0; k < minMN; k++) {
+            for (size_t k = 0; k < (size_t)minMN; k++) {
                 matS(k, k) = matStmp(k);
             }
             S = ArrayOf(NLS_DOUBLE, dimsS, ds);
@@ -630,7 +630,7 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         Dimensions dimsS(m, n);
         Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
         Eigen::Map<Eigen::MatrixXf> matS(ds, maxMN, minMN);
-        for (size_t k = 0; k < minMN; k++) {
+        for (size_t k = 0; k < (size_t)minMN; k++) {
             matS(k, k) = matStmp(k);
         }
         delete[] dstemp;
@@ -709,14 +709,14 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         if (m > n) {
             single* ds = new_with_exception<single>((size_t)n * (size_t)n);
             Eigen::Map<Eigen::MatrixXf> matS(ds, n, n);
-            for (size_t k = 0; k < minMN; k++) {
+            for (size_t k = 0; k < (size_t)minMN; k++) {
                 matS(k, k) = matStmp(k);
             }
             S = ArrayOf(NLS_SINGLE, dimsS, ds);
         } else {
             single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN);
             Eigen::Map<Eigen::MatrixXf> matS(ds, m, m);
-            for (size_t k = 0; k < minMN; k++) {
+            for (size_t k = 0; k < (size_t)minMN; k++) {
                 matS(k, k) = matStmp(k);
             }
             S = ArrayOf(NLS_SINGLE, dimsS, ds);

@@ -106,7 +106,7 @@ RandomMersenneTwister64::getValuesAsDouble(
         // rows to columns order
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
-            for (size_t l = 0; l < lastDim; l++) {
+            for (indexType l = 0; l < lastDim; l++) {
                 ar[k * lastDim + l] = (*uniform_real_generator)();
                 // We reject voluntary the next random value for simulate complex number array
                 (*uniform_real_generator)();
@@ -117,7 +117,7 @@ RandomMersenneTwister64::getValuesAsDouble(
         // rows to columns order
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
-            for (size_t l = 0; l < lastDim; l++) {
+            for (indexType l = 0; l < lastDim; l++) {
                 ar[k * lastDim + l] = (double)(*uniform_int_generator)();
                 // We reject voluntary the next random value for simulate complex number array
                 (*uniform_int_generator)();
@@ -128,7 +128,7 @@ RandomMersenneTwister64::getValuesAsDouble(
         // rows to columns order
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
-            for (size_t l = 0; l < lastDim; l++) {
+            for (indexType l = 0; l < lastDim; l++) {
                 ar[k * lastDim + l] = (double)(*normal_real_generator)();
                 // We reject voluntary the next random value for simulate complex number array
                 (*normal_real_generator)();
@@ -147,7 +147,7 @@ RandomMersenneTwister64::getValuesAsSingle(
         // rows to columns order
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
-            for (size_t l = 0; l < lastDim; l++) {
+            for (indexType l = 0; l < lastDim; l++) {
                 ar[k * lastDim + l] = (single)(*uniform_real_generator)();
                 // We reject voluntary the next random value for simulate complex number array
                 (*uniform_real_generator)();
@@ -158,7 +158,7 @@ RandomMersenneTwister64::getValuesAsSingle(
         // rows to columns order
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
-            for (size_t l = 0; l < lastDim; l++) {
+            for (indexType l = 0; l < lastDim; l++) {
                 ar[k * lastDim + l] = (single)(*uniform_int_generator)();
                 // We reject voluntary the next random value for simulate complex number array
                 (*uniform_int_generator)();
@@ -169,7 +169,7 @@ RandomMersenneTwister64::getValuesAsSingle(
         // rows to columns order
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
-            for (size_t l = 0; l < lastDim; l++) {
+            for (indexType l = 0; l < lastDim; l++) {
                 ar[k * lastDim + l] = (single)(*normal_real_generator)();
                 // We reject voluntary the next random value for simulate complex number array
                 (*normal_real_generator)();

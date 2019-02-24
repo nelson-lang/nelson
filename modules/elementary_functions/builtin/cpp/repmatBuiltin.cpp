@@ -61,8 +61,8 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(
         case 2: {
             ArrayOf param2 = argIn[1];
             if (param2.isScalar()) {
-                repcount[0] = param2.getContentAsUnsignedInt64Scalar();
-                repcount[1] = param2.getContentAsUnsignedInt64Scalar();
+                repcount[0] = (indexType)param2.getContentAsUnsignedInt64Scalar();
+                repcount[1] = (indexType)param2.getContentAsUnsignedInt64Scalar();
             } else {
                 if (param2.isRowVector()) {
                     param2.promoteType(NLS_UINT64);
@@ -71,7 +71,7 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(
                     }
                     auto* dp = (uint64*)param2.getDataPointer();
                     for (indexType i = 0; i < param2.getLength(); i++) {
-                        repcount[i] = dp[i];
+                        repcount[i] = (indexType)dp[i];
                     }
                 } else {
                     Error(_W("An row vector expected."));
@@ -81,7 +81,7 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(
         default: {
             for (size_t k = 1; k < argIn.size(); ++k) {
                 ArrayOf paramK = argIn[k];
-                repcount[k - 1] = paramK.getContentAsUnsignedInt64Scalar();
+                repcount[k - 1] = (indexType)paramK.getContentAsUnsignedInt64Scalar();
             }
         } break;
         }

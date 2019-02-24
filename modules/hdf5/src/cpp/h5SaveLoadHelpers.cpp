@@ -195,10 +195,10 @@ getNelsonClass(hid_t fid, const std::string& location, const std::string& variab
     hid_t type = H5Aget_type(attr_id);
     hsize_t sDim = H5Tget_size(type);
     H5Tclose(type);
-    char* pClassname = new char[sDim + 1];
+    char* pClassname = new char[(size_t(sDim + 1))];
 
     hid_t memtype = H5Tcopy(H5T_C_S1);
-    status = H5Tset_size(memtype, sDim);
+    status = H5Tset_size(memtype, (size_t)sDim);
     if (status < 0) {
         H5Aclose(attr_id);
         H5Tclose(memtype);
@@ -258,7 +258,7 @@ getNelsonDimensions(hid_t fid, const std::string& location, const std::string& v
     hsize_t sDim = H5Tget_size(type);
     uint64* ptrUint64 = nullptr;
     try {
-        ptrUint64 = new uint64[dims[1]];
+        ptrUint64 = new uint64[(size_t)dims[1]];
     } catch (const std::bad_alloc&) {
         H5Tclose(type);
         H5Sclose(aspace);
@@ -275,7 +275,7 @@ getNelsonDimensions(hid_t fid, const std::string& location, const std::string& v
         return res;
     }
     for (indexType k = 0; k < (indexType)dims[1]; k++) {
-        res[k] = ptrUint64[k];
+        res[k] = (indexType)ptrUint64[k];
     }
     delete[] ptrUint64;
     return res;

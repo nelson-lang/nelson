@@ -72,7 +72,7 @@ Nelson::Hdf5Gateway::h5createBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
             Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
     }
-    for (indexType i = 3; i + 1 < argIn.size(); i += 2) {
+    for (size_t i = 3; i + 1 < argIn.size(); i += 2) {
         ArrayOf paramXname = argIn[i];
         ArrayOf paramXvalue = argIn[i + 1];
         if (paramXname.getContentAsWideString() == L"Datatype") {

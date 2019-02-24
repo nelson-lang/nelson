@@ -176,18 +176,18 @@ stringReplace(std::wstring originStr, std::wstring subStr, std::wstring replaceS
                 offset += offsetIncr;
             } else {
                 size_t endLastIndex = indexSubStr.back() + replaceStr.length();
-                size_t startIndex = start + offset;
+                size_t startIndex = start + (size_t)offset;
                 if (startIndex < endLastIndex) {
                     lengthSubStr.back() -= endLastIndex - startIndex;
                     offset += endLastIndex - startIndex;
                 }
-                indexSubStr.push_back(start + offset);
+                indexSubStr.push_back(start + (size_t)offset);
                 lengthSubStr.push_back(subStr.length());
                 offset += offsetIncr;
             }
         }
         if (indexSubStr.size()) {
-            for (int i = 0; i < indexSubStr.size(); i++) {
+            for (size_t i = 0; i < indexSubStr.size(); i++) {
                 modifiedString.replace(indexSubStr[i], lengthSubStr[i], replaceStr);
             }
             return modifiedString;
@@ -215,7 +215,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
     if ((wstr.size() == 1) && (OLD.isCell() || OLD.isStringArray())
         && (NEW.isCell() || NEW.isStringArray())
         && OLD.getDimensions().equals(NEW.getDimensions())) {
-        for (size_t k = 0; k < OLD.getDimensions().getElementCount(); k++) {
+        for (indexType k = 0; k < OLD.getDimensions().getElementCount(); k++) {
             wstr[0] = Replace(wstr[0], wold[k], wnew[k]);
         }
         if (STR.isCell() || STR.isStringArray()) {
@@ -239,7 +239,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
     }
     if ((wstr.size() == 1) && (OLD.isCell() || OLD.isStringArray())
         && (NEW.isCharacterArray() || NEW.isStringArray())) {
-        for (size_t k = 0; k < OLD.getDimensions().getElementCount(); k++) {
+        for (indexType k = 0; k < OLD.getDimensions().getElementCount(); k++) {
             wstr[0] = Replace(wstr[0], wold[k], wnew[0]);
         }
         if (STR.isCell() || STR.isStringArray()) {

@@ -73,7 +73,7 @@ IsApprox(T* ptrA, T* ptrB, const Dimensions& dims, double precision)
     if (infA.size() != infB.size()) {
         return false;
     }
-    for (indexType k = 0; k < infA.size(); k++) {
+    for (indexType k = 0; k < (indexType)infA.size(); k++) {
         if (infA[k] != infB[k]) {
             return false;
         } else {
@@ -88,7 +88,7 @@ IsApprox(T* ptrA, T* ptrB, const Dimensions& dims, double precision)
     if (ninfA.size() != ninfB.size()) {
         return false;
     }
-    for (indexType k = 0; k < ninfA.size(); k++) {
+    for (size_t k = 0; k < ninfA.size(); k++) {
         if (ninfA[k] != ninfB[k]) {
             return false;
         } else {
@@ -103,7 +103,7 @@ IsApprox(T* ptrA, T* ptrB, const Dimensions& dims, double precision)
     if (nanA.size() != nanB.size()) {
         return false;
     }
-    for (indexType k = 0; k < nanA.size(); k++) {
+    for (size_t k = 0; k < nanA.size(); k++) {
         if (nanA[k] != nanB[k]) {
             return false;
         } else {

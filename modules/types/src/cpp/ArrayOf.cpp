@@ -2159,7 +2159,7 @@ ProcessNDimIndexes(bool preserveColons, Dimensions& dims, ArrayOfVector& index, 
     bool colonFound = false;
     anyEmpty = false;
     colonIndex = -1;
-    for (int i = 0; i < index.size(); i++) {
+    for (size_t i = 0; i < index.size(); i++) {
         bool isColon = isColonOperator(index[i]);
         if (!colonFound && isColon && preserveColons) {
             colonFound = true;

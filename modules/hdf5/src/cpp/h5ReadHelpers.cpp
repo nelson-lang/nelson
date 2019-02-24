@@ -39,8 +39,8 @@ getDimensions(hid_t space_id, int& rank)
                 i--;
                 j++;
             }
-            for (indexType i = 0; i < rank; i++) {
-                dims[i] = len[i];
+            for (indexType i = 0; i < (indexType)rank; i++) {
+                dims[i] = (indexType)len[i];
             }
             delete[] len;
         } else if (rank == 0) {

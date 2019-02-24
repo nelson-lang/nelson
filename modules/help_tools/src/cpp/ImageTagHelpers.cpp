@@ -137,7 +137,7 @@ crcFile(std::wstring filename)
         do {
             char buffer[PRIVATE_BUFFER_SIZE];
             ifs.read(buffer, PRIVATE_BUFFER_SIZE);
-            result.process_bytes(buffer, ifs.gcount());
+            result.process_bytes(buffer, (size_t)ifs.gcount());
         } while (ifs);
         ifs.close();
         std::stringstream ss;

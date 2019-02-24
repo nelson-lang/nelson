@@ -35,7 +35,7 @@ Nelson::Hdf5Gateway::h5saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     wstringVector names;
     bool bAppend = false;
     bool bNoCompression = false;
-    for (indexType k = 1; k < argIn.size(); k++) {
+    for (size_t k = 1; k < argIn.size(); k++) {
         ArrayOf paramK = argIn[k];
         std::wstring param = paramK.getContentAsWideString();
         if (param == L"-append") {

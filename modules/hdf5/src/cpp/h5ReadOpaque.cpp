@@ -47,7 +47,8 @@ h5ReadOpaque(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, st
     }
     uint8* temp = nullptr;
     try {
-        temp = new_with_exception<uint8>(sizeType * dims.getElementCount(), false);
+        temp
+            = new_with_exception<uint8>(((size_t)sizeType * (size_t)dims.getElementCount()), false);
     } catch (Exception& e) {
         error = e.getMessage();
         return res;
@@ -70,10 +71,10 @@ h5ReadOpaque(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, st
     }
     indexType pos = 0;
     for (indexType k = 0; k < dims.getElementCount(); k++) {
-        Dimensions dimsElement(sizeType, 1);
+        Dimensions dimsElement((indexType)sizeType, 1);
         uint8* values;
         try {
-            values = new_with_exception<uint8>(sizeType, false);
+            values = new_with_exception<uint8>((size_t)sizeType, false);
         } catch (Exception& e) {
             delete[] elements;
             delete[] temp;

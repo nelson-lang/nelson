@@ -102,7 +102,7 @@ Nelson::DataStructuresGateway::cell2structBuiltin(
             auto* qp = static_cast<ArrayOf*>(
                 ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames));
             ArrayOf c = ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, fieldnames);
-            for (size_t k = 0; k < param1.getDimensions().getElementCount(); k++) {
+            for (indexType k = 0; k < param1.getDimensions().getElementCount(); k++) {
                 qp[k] = arg[k];
             }
             ret.push_back(c);
@@ -117,8 +117,8 @@ Nelson::DataStructuresGateway::cell2structBuiltin(
         size_t l = 0;
         indexType rowCount = param1.getDimensions()[0];
         indexType colCount = param1.getDimensions()[1];
-        for (size_t i = 0; i < rowCount; i++) {
-            for (size_t j = 0; j < colCount; j++) {
+        for (indexType i = 0; i < rowCount; i++) {
+            for (indexType j = 0; j < colCount; j++) {
                 qp[l] = arg[i + j * rowCount];
                 l++;
             }

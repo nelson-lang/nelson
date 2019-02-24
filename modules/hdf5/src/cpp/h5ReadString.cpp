@@ -43,7 +43,7 @@ h5ReadStringVlen(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, int 
     }
     char** temp = nullptr;
     try {
-        temp = new_with_exception<char*>(sizeType, true);
+        temp = new_with_exception<char*>((size_t)sizeType, true);
     } catch (Exception& e) {
         error = e.getMessage();
         return res;
@@ -115,7 +115,7 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, 
     }
     char* temp = nullptr;
     try {
-        temp = new_with_exception<char>((sizeType + 1) * nbElements, true);
+        temp = new_with_exception<char>((size_t((sizeType + 1) * nbElements)), true);
     } catch (Exception& e) {
         if (elements) {
             delete[] elements;
@@ -129,7 +129,7 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, 
         status = H5Aread(attr_id, type, temp);
     } else {
         memtype = H5Tcopy(H5T_C_S1);
-        H5Tset_size(memtype, sizeType + 1);
+        H5Tset_size(memtype, (size_t)(sizeType + 1));
         status = H5Dread(attr_id, memtype, H5S_ALL, H5S_ALL, H5P_DEFAULT, temp);
     }
     if (status < 0) {
@@ -148,7 +148,7 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, 
         return ArrayOf();
     }
     std::string str;
-    str.reserve(sizeType);
+    str.reserve((size_t)sizeType);
     if (asAttribute) {
         if (nbElements > 1) {
             indexType pos = 0;

@@ -60,7 +60,7 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     } else {
         Error(_W("valid format expected."));
     }
-    for (indexType i = firstArgumentPosition; i < argIn.size(); i++) {
+    for (size_t i = firstArgumentPosition; i < argIn.size(); i++) {
         args.push_back(argIn[i]);
     }
     if (!printfFunction(args, errorMessage, result)) {
