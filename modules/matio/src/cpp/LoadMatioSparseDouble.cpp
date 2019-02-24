@@ -24,6 +24,20 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+template <class T>
+void
+convertToDoubleComplex(mat_complex_split_t* cplx, indexType nbV, double* ptrDouble)
+{
+    T* ptrRe = (T*)(cplx->Re);
+    T* ptrIm = (T*)(cplx->Im);
+    indexType i = 0;
+    for (indexType k = 0; k < nbV; k++) {
+        ptrDouble[i] = (double)ptrRe[k];
+        ptrDouble[i + 1] = (double)ptrIm[k];
+        i = i + 2;
+    }
+}
+//=============================================================================
 bool
 LoadMatioSparseDouble(matvar_t* matVariable, ArrayOf& VariableValue)
 {
@@ -95,17 +109,88 @@ LoadMatioSparseDouble(matvar_t* matVariable, ArrayOf& VariableValue)
             V = ArrayOf(NLS_DCOMPLEX, dimsV, ptrV);
             mat_complex_split_t* cplx = (mat_complex_split_t*)sparseData->data;
             double* ptrDouble = (double*)ptrV;
-            double* ptrRe = (double*)(cplx->Re);
-            double* ptrIm = (double*)(cplx->Im);
-            indexType i = 0;
-            for (indexType k = 0; k < nbV; k++) {
-                ptrDouble[i] = ptrRe[k];
-                ptrDouble[i + 1] = ptrIm[k];
-                i = i + 2;
+			switch (matVariable->data_type) {
+            case MAT_T_INT8: {
+                convertToDoubleComplex<int8>(cplx, nbV, ptrDouble);
+            } break;
+            case MAT_T_UINT8: {
+                convertToDoubleComplex<uint8>(cplx, nbV, ptrDouble);
+            } break;
+            case MAT_T_INT16: {
+                convertToDoubleComplex<int16>(cplx, nbV, ptrDouble);
+            } break;
+            case MAT_T_UINT16: {
+                convertToDoubleComplex<uint16>(cplx, nbV, ptrDouble);
+            } break;
+            case MAT_T_INT32: {
+                convertToDoubleComplex<int32>(cplx, nbV, ptrDouble);
+            } break;
+            case MAT_T_UINT32: {
+                convertToDoubleComplex<uint32>(cplx, nbV, ptrDouble);
+            } break;
+            case MAT_T_INT64: {
+                convertToDoubleComplex<int64>(cplx, nbV, ptrDouble);
+            } break;
+            case MAT_T_UINT64: {
+                convertToDoubleComplex<uint64>(cplx, nbV, ptrDouble);
+            } break;
+            case MAT_T_SINGLE: {
+                convertToDoubleComplex<single>(cplx, nbV, ptrDouble);
+            } break;
+            case MAT_T_DOUBLE: {
+                convertToDoubleComplex<double>(cplx, nbV, ptrDouble);
+            } break;
+			default: {
+                return false;
+			} break;
             }
         } else {
-            V = ArrayOf(NLS_DOUBLE, dimsV, ptrV);
-            memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(double));
+			switch (matVariable->data_type) {
+            case MAT_T_INT8: {
+                V = ArrayOf(NLS_INT8, dimsV, ptrV);
+                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(int8));
+            } break;
+            case MAT_T_UINT8: {
+                V = ArrayOf(NLS_UINT8, dimsV, ptrV);
+                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(uint8));
+            } break;
+            case MAT_T_INT16: {
+                V = ArrayOf(NLS_INT16, dimsV, ptrV);
+                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(int16));
+            } break;
+            case MAT_T_UINT16: {
+                V = ArrayOf(NLS_UINT16, dimsV, ptrV);
+                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(uint16));
+            } break;
+            case MAT_T_INT32: {
+                V = ArrayOf(NLS_INT32, dimsV, ptrV);
+                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(int32));
+            } break;
+            case MAT_T_UINT32: {
+                V = ArrayOf(NLS_UINT32, dimsV, ptrV);
+                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(uint32));
+            } break;
+            case MAT_T_INT64: {
+                V = ArrayOf(NLS_INT64, dimsV, ptrV);
+                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(int64));
+            } break;
+            case MAT_T_UINT64: {
+                V = ArrayOf(NLS_UINT64, dimsV, ptrV);
+                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(uint64));
+            } break;
+            case MAT_T_SINGLE: {
+                V = ArrayOf(NLS_SINGLE, dimsV, ptrV);
+                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(single));
+            } break;
+            case MAT_T_DOUBLE: {
+                V = ArrayOf(NLS_DOUBLE, dimsV, ptrV);
+                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(double));
+            } break;
+            default: {
+                return false;
+            } break;
+			}
+            V.promoteType(NLS_DOUBLE);
         }
     }
     VariableValue = SparseConstructor(I, J, V, dims[0], dims[1], nzmax);
