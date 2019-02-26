@@ -20,13 +20,11 @@
 #include <hdf5.h>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
-#include <Eigen/Sparse>
 #include "h5Save.hpp"
 #include "IsValidVariableName.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "ClassName.hpp"
-#include "SparseDynamicFunctions.hpp"
 #include "h5SaveLoadHelpers.hpp"
 #include "h5SaveHelpers.hpp"
 #include "h5SaveVariable.hpp"

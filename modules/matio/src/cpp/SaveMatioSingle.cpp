@@ -16,30 +16,33 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "loadmatBuiltin.hpp"
-#include "savematBuiltin.hpp"
+#include "SaveMatioDouble.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-const std::wstring gatewayName = L"matio";
-//=============================================================================
-static const nlsGateway gateway[] = {
-    { "loadmat", Nelson::MatioGateway::loadmatBuiltin, 1, 1, CPP_BUILTIN },
-    { "savemat", Nelson::MatioGateway::savematBuiltin, 0, 1, CPP_BUILTIN },
-};
-//=============================================================================
-static bool
-initializeMatioModule(Nelson::Evaluator* eval)
+matvar_t*
+SaveMatioSingle(std::string variableName, ArrayOf variableValue, mat_ft matVersion)
 {
-    return true;
+    Dimensions variableDims = variableValue.getDimensions();
+    indexType rank = variableDims.getLength();
+    size_t* dims;
+    try {
+        dims = new size_t[rank];
+    } catch (const std::bad_alloc&) {
+        return nullptr;
+    }
+    for (indexType k = 0; k < rank; k++) {
+        dims[k] = variableDims[k];
+    }
+    void* ptrValue = nullptr;
+    if (!variableDims.isEmpty(false)) {
+        ptrValue = (void*)variableValue.getDataPointer();
+    }
+    matvar_t* matVariable = Mat_VarCreate(
+        variableName.c_str(), MAT_C_SINGLE, MAT_T_SINGLE, (int)rank, dims, ptrValue, 0);
+    delete[] dims;
+    return matVariable;
 }
 //=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeMatioModule)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+}
 //=============================================================================

@@ -16,30 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "loadmatBuiltin.hpp"
-#include "savematBuiltin.hpp"
+#include "SaveMatioSparseDouble.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson {
 //=============================================================================
-const std::wstring gatewayName = L"matio";
-//=============================================================================
-static const nlsGateway gateway[] = {
-    { "loadmat", Nelson::MatioGateway::loadmatBuiltin, 1, 1, CPP_BUILTIN },
-    { "savemat", Nelson::MatioGateway::savematBuiltin, 0, 1, CPP_BUILTIN },
-};
-//=============================================================================
-static bool
-initializeMatioModule(Nelson::Evaluator* eval)
+matvar_t*
+SaveMatioSparseDouble(std::string variableName, ArrayOf variableValue, mat_ft matVersion)
 {
-    return true;
+    matvar_t* matVariable = nullptr;
+    return matVariable;
 }
 //=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeMatioModule)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+}
 //=============================================================================
