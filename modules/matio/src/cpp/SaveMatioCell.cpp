@@ -22,7 +22,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioCell(std::string variableName, ArrayOf variableValue, mat_ft matVersion)
+SaveMatioCell(std::string variableName, ArrayOf variableValue)
 {
     Dimensions variableDims = variableValue.getDimensions();
     indexType rank = variableDims.getLength();
@@ -50,7 +50,7 @@ SaveMatioCell(std::string variableName, ArrayOf variableValue, mat_ft matVersion
 	}
     ArrayOf* elements = (ArrayOf*)variableValue.getDataPointer();
 	for (indexType i = 0; i < nbElements; ++i) {
-        cellElements[i] = SaveMatioVariable(variableName, elements[i], matVersion);
+        cellElements[i] = SaveMatioVariable(variableName, elements[i]);
 		if (cellElements[i] == nullptr) {
             delete[] cellElements;
             delete[] dims;

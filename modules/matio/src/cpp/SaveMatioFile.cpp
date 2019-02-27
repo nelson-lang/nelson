@@ -66,7 +66,23 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names
 
 	mat_ft matVersion = versionToEnum(matFileVersion);
     matio_compression matCompression = nocompression ? MAT_COMPRESSION_NONE : MAT_COMPRESSION_ZLIB;
-	mat_t* matFile = Mat_CreateVer(wstring_to_utf8(filename).c_str(), NULL, matVersion);
+
+	mat_t* matFile = nullptr; 
+	if (append) {
+        matFile = Mat_Open(wstring_to_utf8(filename).c_str(), MAT_ACC_RDWR);
+        if (matFile != nullptr) {
+            matVersion = Mat_GetVersion(matFile);
+            if (matVersion != MAT_FT_MAT73) {
+                Error(_("Cannot append variable (-v7.3 required)."));
+                Mat_Close(matFile);
+            }
+        } else {
+            matFile = Mat_CreateVer(wstring_to_utf8(filename).c_str(), NULL, matVersion);
+        }
+    } else {
+        matFile = Mat_CreateVer(wstring_to_utf8(filename).c_str(), NULL, matVersion);
+    }
+
     if (matFile == nullptr) {
         Error(_W("Cannot save file."));
     }
@@ -75,13 +91,13 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names
         ArrayOf variableValue;
         std::string variableName = wstring_to_utf8(variablesName[k]);
         eval->getContext()->getCurrentScope()->lookupVariable(variableName, variableValue);
-        matvar_t* matioVariable = SaveMatioVariable(variableName, variableValue, matVersion);
+        matvar_t* matioVariable = SaveMatioVariable(variableName, variableValue);
         if (matioVariable == nullptr) {
             Mat_Close(matFile);
             Error(_("Cannot save variable:") + variableName);
         }
         if (append) {
-            Mat_VarWriteAppend(matFile, matioVariable, matCompression);
+            Mat_VarWriteAppend(matFile, matioVariable, matCompression, 1);
         } else {
             Mat_VarWrite(matFile, matioVariable, matCompression);
         }

@@ -16,15 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include <matio.h>
-#include "ArrayOf.hpp"
+#include "SaveMatioSparseDoubleComplex.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioDouble(std::string variableName, ArrayOf variableValue);
+SaveMatioSparseDoubleComplex(std::string variableName, ArrayOf variableValue)
+{
+    matvar_t* matVariable = nullptr;
+    return matVariable;
+}
 //=============================================================================
 }
 //=============================================================================

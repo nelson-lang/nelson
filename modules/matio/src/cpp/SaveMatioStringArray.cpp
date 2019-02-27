@@ -23,7 +23,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioStringArray(std::string variableName, ArrayOf variableValue, mat_ft matVersion)
+SaveMatioStringArray(std::string variableName, ArrayOf variableValue)
 {
     Dimensions variableDims = variableValue.getDimensions();
     indexType rank = variableDims.getLength();
@@ -52,10 +52,10 @@ SaveMatioStringArray(std::string variableName, ArrayOf variableValue, mat_ft mat
     ArrayOf* elements = (ArrayOf*)variableValue.getDataPointer();
 	for (indexType i = 0; i < nbElements; ++i) {
         if (elements[i].getDataClass() == NLS_CHAR) {
-            cellElements[i] = SaveMatioCharacterArray(variableName, elements[i], matVersion);
+            cellElements[i] = SaveMatioCharacterArray(variableName, elements[i]);
         } else {
             ArrayOf NanAsArrayOf = ArrayOf::doubleConstructor(std::nan("NaN"));
-            cellElements[i] = SaveMatioDouble(variableName, NanAsArrayOf, matVersion);
+            cellElements[i] = SaveMatioDouble(variableName, NanAsArrayOf);
         }
 		if (cellElements[i] == nullptr) {
             delete[] cellElements;

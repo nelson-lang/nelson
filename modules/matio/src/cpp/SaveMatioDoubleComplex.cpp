@@ -16,15 +16,57 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include <matio.h>
-#include "ArrayOf.hpp"
+#include "SaveMatioDoubleComplex.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioDouble(std::string variableName, ArrayOf variableValue);
+SaveMatioDoubleComplex(std::string variableName, ArrayOf variableValue)
+{
+    Dimensions variableDims = variableValue.getDimensions();
+    indexType rank = variableDims.getLength();
+    size_t* dims;
+    try {
+        dims = new size_t[rank];
+    } catch (const std::bad_alloc&) {
+        return nullptr;
+    }
+    for (indexType k = 0; k < rank; k++) {
+        dims[k] = variableDims[k];
+    }
+    void* ptrValue = nullptr;
+    struct mat_complex_split_t z;
+    double* re = nullptr;
+    double* im = nullptr;
+	if (!variableDims.isEmpty(false)) {
+		indexType nbElements = variableDims.getElementCount();
+		try {
+            re = new double[nbElements];
+		} catch (const std::bad_alloc&) {
+			return nullptr;
+		}
+		try {
+			im = new double[nbElements];
+		} catch (const std::bad_alloc&) {
+			delete[] re;
+			return nullptr;
+		}
+		indexType p = 0;
+        double* ptrDouble = (double*)variableValue.getDataPointer();
+		for (indexType k = 0; k < nbElements * 2; ++k) {
+			re[p] = ptrDouble[k];
+			im[p] = ptrDouble[k + 1];
+			p++;
+		}
+		z.Re = re;
+		z.Im = im;
+		ptrValue = &z;
+	}
+    matvar_t* matVariable = Mat_VarCreate(
+        variableName.c_str(), MAT_C_DOUBLE, MAT_T_DOUBLE, (int)rank, dims, ptrValue, MAT_F_COMPLEX);
+	delete[] dims;
+    return matVariable;
+}
 //=============================================================================
 }
 //=============================================================================

@@ -16,12 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "SaveMatioDouble.hpp"
+#include "SaveMatioSingleComplex.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioDouble(std::string variableName, ArrayOf variableValue)
+SaveMatioSingleComplex(std::string variableName, ArrayOf variableValue)
 {
     Dimensions variableDims = variableValue.getDimensions();
     indexType rank = variableDims.getLength();
@@ -35,11 +35,35 @@ SaveMatioDouble(std::string variableName, ArrayOf variableValue)
         dims[k] = variableDims[k];
     }
     void* ptrValue = nullptr;
+    struct mat_complex_split_t z;
+    single* re = nullptr;
+    single* im = nullptr;
     if (!variableDims.isEmpty(false)) {
-        ptrValue = (void*)variableValue.getDataPointer();
+        indexType nbElements = variableDims.getElementCount();
+        try {
+            re = new single[nbElements];
+        } catch (const std::bad_alloc&) {
+            return nullptr;
+        }
+        try {
+            im = new single[nbElements];
+        } catch (const std::bad_alloc&) {
+            delete[] re;
+            return nullptr;
+        }
+        indexType p = 0;
+        single* ptrSingle = (single*)variableValue.getDataPointer();
+		for (indexType k = 0; k < nbElements * 2; ++k) {
+            re[p] = ptrSingle[k];
+            im[p] = ptrSingle[k + 1];
+            p++;
+        }
+        z.Re = re;
+        z.Im = im;
+        ptrValue = &z;
     }
     matvar_t* matVariable = Mat_VarCreate(
-        variableName.c_str(), MAT_C_DOUBLE, MAT_T_DOUBLE, (int)rank, dims, ptrValue, 0);
+        variableName.c_str(), MAT_C_SINGLE, MAT_T_SINGLE, (int)rank, dims, ptrValue, MAT_F_COMPLEX);
     delete[] dims;
     return matVariable;
 }

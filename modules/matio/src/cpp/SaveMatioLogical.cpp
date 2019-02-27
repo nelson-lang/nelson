@@ -21,7 +21,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioLogical(std::string variableName, ArrayOf variableValue, mat_ft matVersion)
+SaveMatioLogical(std::string variableName, ArrayOf variableValue)
 {
     Dimensions variableDims = variableValue.getDimensions();
     indexType rank = variableDims.getLength();

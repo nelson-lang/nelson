@@ -21,7 +21,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioCharacterArray(std::string variableName, ArrayOf variableValue, mat_ft matVersion)
+SaveMatioCharacterArray(std::string variableName, ArrayOf variableValue)
 {
     Dimensions variableDims = variableValue.getDimensions();
     indexType rank = variableDims.getLength();
@@ -35,8 +35,15 @@ SaveMatioCharacterArray(std::string variableName, ArrayOf variableValue, mat_ft 
         dims[k] = variableDims[k];
     }
     void* ptrValue = nullptr;
-    if (!variableDims.isEmpty(false)) {
-        ptrValue = (void*)variableValue.getDataPointer();
+    ArrayOf asUint16;
+	if (!variableDims.isEmpty(false)) {
+        if (sizeof(charType) == sizeof(uint16)) {
+            ptrValue = (void*)variableValue.getDataPointer();
+        } else {
+            asUint16 = variableValue;
+            asUint16.promoteType(NLS_UINT16);
+            ptrValue = (void*)asUint16.getDataPointer();
+        }
     }
     matvar_t* matVariable = Mat_VarCreate(variableName.c_str(), MAT_C_CHAR, MAT_T_UTF16, (int)rank, dims, ptrValue, 0);
     delete[] dims;

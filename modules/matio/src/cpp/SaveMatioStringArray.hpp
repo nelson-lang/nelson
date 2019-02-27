@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioStringArray(std::string variableName, ArrayOf variableValue, mat_ft matVersion);
+SaveMatioStringArray(std::string variableName, ArrayOf variableValue);
 //=============================================================================
 }
 //=============================================================================

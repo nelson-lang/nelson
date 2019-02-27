@@ -21,7 +21,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioSparseDouble(std::string variableName, ArrayOf variableValue, mat_ft matVersion)
+SaveMatioSparseDouble(std::string variableName, ArrayOf variableValue)
 {
     matvar_t* matVariable = nullptr;
     return matVariable;
