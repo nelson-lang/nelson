@@ -16,13 +16,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Eigen/Sparse>
 #include "SaveMatioSparseLogical.hpp"
+#include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 matvar_t*
 SaveMatioSparseLogical(std::string variableName, ArrayOf variableValue)
 {
+    Dimensions variableDims = variableValue.getDimensions();
+    indexType rank;
+    size_t* dims = convertDimensionsForMatVar(variableDims, rank);
+    if (dims == nullptr) {
+        return nullptr;
+    }
+
     return nullptr;
 }
 //=============================================================================

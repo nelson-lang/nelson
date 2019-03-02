@@ -109,7 +109,7 @@ LoadMatioSparseDouble(matvar_t* matVariable, ArrayOf& VariableValue)
             V = ArrayOf(NLS_DCOMPLEX, dimsV, ptrV);
             mat_complex_split_t* cplx = (mat_complex_split_t*)sparseData->data;
             double* ptrDouble = (double*)ptrV;
-			switch (matVariable->data_type) {
+            switch (matVariable->data_type) {
             case MAT_T_INT8: {
                 convertToDoubleComplex<int8>(cplx, nbV, ptrDouble);
             } break;
@@ -140,12 +140,12 @@ LoadMatioSparseDouble(matvar_t* matVariable, ArrayOf& VariableValue)
             case MAT_T_DOUBLE: {
                 convertToDoubleComplex<double>(cplx, nbV, ptrDouble);
             } break;
-			default: {
+            default: {
                 return false;
-			} break;
+            } break;
             }
         } else {
-			switch (matVariable->data_type) {
+            switch (matVariable->data_type) {
             case MAT_T_INT8: {
                 V = ArrayOf(NLS_INT8, dimsV, ptrV);
                 memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(int8));
@@ -189,7 +189,7 @@ LoadMatioSparseDouble(matvar_t* matVariable, ArrayOf& VariableValue)
             default: {
                 return false;
             } break;
-			}
+            }
             V.promoteType(NLS_DOUBLE);
         }
     }

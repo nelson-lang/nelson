@@ -39,7 +39,8 @@ LoadMatioEmpty(matvar_t* matVariable, bool fromCellOrStruct, ArrayOf& VariableVa
         VariableValue = ArrayOf::emptyConstructor();
         bSuccess = true;
     }
-    Warning(L"Nelson:matio:type-not-supported",_W("Cannot read matio variable of type: function."));
+    Warning(
+        L"Nelson:matio:type-not-supported", _W("Cannot read matio variable of type: function."));
     VariableValue = ArrayOf::emptyStructWithoutFields();
     return true;
 }

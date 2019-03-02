@@ -24,7 +24,7 @@ namespace Nelson {
 bool
 LoadMatioOpaque(matvar_t* matVariable, ArrayOf& VariableValue)
 {
-	// Not managed by matio 1.5.13
+    // Not managed by matio 1.5.13
     Warning(L"Nelson:matio:type-not-supported", _W("Cannot read matio variable of type: object."));
     VariableValue = ArrayOf::emptyStructWithoutFields();
     return true;

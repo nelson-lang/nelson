@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "SaveMatioCharacterArray.hpp"
+#include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,19 +25,14 @@ matvar_t*
 SaveMatioCharacterArray(std::string variableName, ArrayOf variableValue)
 {
     Dimensions variableDims = variableValue.getDimensions();
-    indexType rank = variableDims.getLength();
-    size_t* dims;
-    try {
-        dims = new size_t[rank];
-    } catch (const std::bad_alloc&) {
+    indexType rank;
+    size_t* dims = convertDimensionsForMatVar(variableDims, rank);
+    if (dims == nullptr) {
         return nullptr;
-    }
-    for (indexType k = 0; k < rank; k++) {
-        dims[k] = variableDims[k];
     }
     void* ptrValue = nullptr;
     ArrayOf asUint16;
-	if (!variableDims.isEmpty(false)) {
+    if (!variableDims.isEmpty(false)) {
         if (sizeof(charType) == sizeof(uint16)) {
             ptrValue = (void*)variableValue.getDataPointer();
         } else {
@@ -45,7 +41,8 @@ SaveMatioCharacterArray(std::string variableName, ArrayOf variableValue)
             ptrValue = (void*)asUint16.getDataPointer();
         }
     }
-    matvar_t* matVariable = Mat_VarCreate(variableName.c_str(), MAT_C_CHAR, MAT_T_UTF16, (int)rank, dims, ptrValue, 0);
+    matvar_t* matVariable = Mat_VarCreate(
+        variableName.c_str(), MAT_C_CHAR, MAT_T_UTF16, (int)rank, dims, ptrValue, 0);
     delete[] dims;
     return matVariable;
 }

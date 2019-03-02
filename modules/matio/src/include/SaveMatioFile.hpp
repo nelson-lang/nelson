@@ -26,9 +26,8 @@
 namespace Nelson {
 //=============================================================================
 NLSMATIO_IMPEXP void
-SaveMatioFile(
-    Evaluator* eval, const std::wstring& filename, wstringVector names, 
-	std::wstring matFileVersion, bool append, bool nocompression);
+SaveMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names,
+    std::wstring matFileVersion, bool append, bool nocompression);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

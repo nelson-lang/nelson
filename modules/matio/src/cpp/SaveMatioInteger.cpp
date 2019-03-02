@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "SaveMatioDouble.hpp"
+#include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,15 +25,10 @@ matvar_t*
 SaveMatioInteger(std::string variableName, ArrayOf variableValue)
 {
     Dimensions variableDims = variableValue.getDimensions();
-    indexType rank = variableDims.getLength();
-    size_t* dims;
-    try {
-        dims = new size_t[rank];
-    } catch (const std::bad_alloc&) {
+    indexType rank;
+    size_t* dims = convertDimensionsForMatVar(variableDims, rank);
+    if (dims == nullptr) {
         return nullptr;
-    }
-    for (indexType k = 0; k < rank; k++) {
-        dims[k] = variableDims[k];
     }
     void* ptrValue = nullptr;
     if (!variableDims.isEmpty(false)) {
@@ -44,11 +40,11 @@ SaveMatioInteger(std::string variableName, ArrayOf variableValue)
     case NLS_UINT8: {
         matClass = MAT_C_UINT8;
         matType = MAT_T_UINT8;
-	} break;
+    } break;
     case NLS_UINT16: {
         matClass = MAT_C_UINT16;
         matType = MAT_T_UINT16;
-	} break;
+    } break;
     case NLS_UINT32: {
         matClass = MAT_C_UINT32;
         matType = MAT_T_UINT32;
@@ -60,23 +56,23 @@ SaveMatioInteger(std::string variableName, ArrayOf variableValue)
     case NLS_INT8: {
         matClass = MAT_C_INT8;
         matType = MAT_T_INT8;
-	} break;
+    } break;
     case NLS_INT16: {
         matClass = MAT_C_INT16;
         matType = MAT_T_INT16;
-	} break;
+    } break;
     case NLS_INT32: {
         matClass = MAT_C_INT32;
         matType = MAT_T_INT32;
-	} break;
+    } break;
     case NLS_INT64: {
         matClass = MAT_C_INT64;
         matType = MAT_T_INT64;
     } break;
-	default: {
+    default: {
         delete[] dims;
         return nullptr;
-	} break;
+    } break;
     }
     matvar_t* matVariable
         = Mat_VarCreate(variableName.c_str(), matClass, matType, (int)rank, dims, ptrValue, 0);

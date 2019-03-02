@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "SaveMatioDouble.hpp"
+#include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,15 +25,10 @@ matvar_t*
 SaveMatioDouble(std::string variableName, ArrayOf variableValue)
 {
     Dimensions variableDims = variableValue.getDimensions();
-    indexType rank = variableDims.getLength();
-    size_t* dims;
-    try {
-        dims = new size_t[rank];
-    } catch (const std::bad_alloc&) {
+    indexType rank;
+    size_t* dims = convertDimensionsForMatVar(variableDims, rank);
+    if (dims == nullptr) {
         return nullptr;
-    }
-    for (indexType k = 0; k < rank; k++) {
-        dims[k] = variableDims[k];
     }
     void* ptrValue = nullptr;
     if (!variableDims.isEmpty(false)) {

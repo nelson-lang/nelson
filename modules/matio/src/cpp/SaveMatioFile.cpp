@@ -41,7 +41,7 @@ versionToEnum(std::wstring matFileVersion)
     if (matFileVersion == L"-v4") {
         return MAT_FT_MAT4;
     }
-	return MAT_FT_UNDEFINED;
+    return MAT_FT_UNDEFINED;
 }
 //=============================================================================
 void
@@ -64,11 +64,11 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names
         eval->getContext()->getCurrentScope()->getVariablesList(false, variablesName);
     }
 
-	mat_ft matVersion = versionToEnum(matFileVersion);
+    mat_ft matVersion = versionToEnum(matFileVersion);
     matio_compression matCompression = nocompression ? MAT_COMPRESSION_NONE : MAT_COMPRESSION_ZLIB;
 
-	mat_t* matFile = nullptr; 
-	if (append) {
+    mat_t* matFile = nullptr;
+    if (append) {
         matFile = Mat_Open(wstring_to_utf8(filename).c_str(), MAT_ACC_RDWR);
         if (matFile != nullptr) {
             matVersion = Mat_GetVersion(matFile);
@@ -97,9 +97,18 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names
             Error(_("Cannot save variable:") + variableName);
         }
         if (append) {
-            Mat_VarWriteAppend(matFile, matioVariable, matCompression, 1);
+            if (!Mat_VarWriteAppend(matFile, matioVariable, matCompression, 1)) {
+                Mat_VarFree(matioVariable);
+                Mat_Close(matFile);
+                Error(_("Cannot save variable:") + variableName);
+            }
         } else {
-            Mat_VarWrite(matFile, matioVariable, matCompression);
+            int res = Mat_VarWrite(matFile, matioVariable, matCompression);
+            if (res != 0) {
+                Mat_VarFree(matioVariable);
+                Mat_Close(matFile);
+                Error(_("Cannot save variable:") + variableName);
+            }
         }
         Mat_VarFree(matioVariable);
     }

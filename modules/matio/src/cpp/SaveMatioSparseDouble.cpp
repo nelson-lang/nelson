@@ -16,14 +16,89 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Eigen/Sparse>
+#include <algorithm>
+#include <set>
 #include "SaveMatioSparseDouble.hpp"
+#include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 matvar_t*
 SaveMatioSparseDouble(std::string variableName, ArrayOf variableValue)
 {
-    matvar_t* matVariable = nullptr;
+    Dimensions variableDims = variableValue.getDimensions();
+    indexType rank;
+    size_t* dims = convertDimensionsForMatVar(variableDims, rank);
+    if (dims == nullptr) {
+        return nullptr;
+    }
+    Eigen::SparseMatrix<double, 0, signedIndexType>* spmat
+        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)variableValue.getSparseDataPointer();
+    indexType nnz = 0;
+    if (spmat) {
+        nnz = spmat->nonZeros();
+    }
+
+    int32 nzmax = (int32)variableValue.nzmax();
+    int njc = (int)spmat->outerSize();
+    int nir = (int)nnz;
+
+    int32* pI = nullptr;
+    try {
+        pI = new int32[nir];
+    } catch (const std::bad_alloc&) {
+        return nullptr;
+    }
+    int32* pJ = nullptr;
+    try {
+        pJ = new int32[njc + 1];
+    } catch (const std::bad_alloc&) {
+        delete[] pI;
+        return nullptr;
+    }
+    signedIndexType* pInner = spmat->innerIndexPtr();
+    signedIndexType* pOuter = spmat->outerIndexPtr();
+    for (signedIndexType k = 0; k < nir; ++k) {
+        pI[k] = (int32)pInner[k];
+    }
+    for (signedIndexType k = 0; k < njc; ++k) {
+        pJ[k] = (int32)pOuter[k];
+    }
+    pJ[njc] = (int32)nnz;
+    mat_sparse_t* sparse = nullptr;
+    try {
+        sparse = new mat_sparse_t[1];
+    } catch (const std::bad_alloc&) {
+        delete[] pI;
+        delete[] pJ;
+        return nullptr;
+    }
+
+    sparse->nzmax = nzmax;
+    sparse->nir = nir;
+    sparse->ir = pI;
+    sparse->njc = njc + 1;
+    sparse->jc = pJ;
+    sparse->ndata = (int)nnz;
+    sparse->data = spmat->valuePtr();
+
+    matvar_t* matVariableNoCopy = Mat_VarCreate(variableName.c_str(), MAT_C_SPARSE, MAT_T_DOUBLE,
+        (int)rank, dims, sparse, MAT_F_DONT_COPY_DATA);
+    if (matVariableNoCopy == nullptr) {
+        delete[] dims;
+        delete[] pI;
+        delete[] pJ;
+        delete[] sparse;
+        return matVariableNoCopy;
+    }
+    matvar_t* matVariable = Mat_VarCreate(variableName.c_str(), MAT_C_SPARSE, MAT_T_DOUBLE,
+        (int)rank, dims, matVariableNoCopy->data, 0);
+    Mat_VarFree(matVariableNoCopy);
+    delete[] dims;
+    delete[] pI;
+    delete[] pJ;
+    delete[] sparse;
     return matVariable;
 }
 //=============================================================================

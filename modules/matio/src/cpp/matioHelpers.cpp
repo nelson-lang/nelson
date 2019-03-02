@@ -32,5 +32,22 @@ getMatVarDimensions(matvar_t* matVariable)
     return dims;
 }
 //=============================================================================
+size_t*
+convertDimensionsForMatVar(Dimensions variableDims, indexType& rank)
+{
+    rank = variableDims.getLength();
+    size_t* dims = nullptr;
+    try {
+        dims = new size_t[rank];
+    } catch (const std::bad_alloc&) {
+        rank = 0;
+        return nullptr;
+    }
+    for (indexType k = 0; k < rank; k++) {
+        dims[k] = variableDims[k];
+    }
+    return dims;
+}
+//=============================================================================
 }
 //=============================================================================

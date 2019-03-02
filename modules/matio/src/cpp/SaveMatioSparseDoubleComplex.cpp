@@ -17,12 +17,19 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "SaveMatioSparseDoubleComplex.hpp"
+#include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 matvar_t*
 SaveMatioSparseDoubleComplex(std::string variableName, ArrayOf variableValue)
 {
+    Dimensions variableDims = variableValue.getDimensions();
+    indexType rank;
+    size_t* dims = convertDimensionsForMatVar(variableDims, rank);
+    if (dims == nullptr) {
+        return nullptr;
+    }
     matvar_t* matVariable = nullptr;
     return matVariable;
 }

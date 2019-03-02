@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "SaveMatioSingleComplex.hpp"
+#include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,15 +25,10 @@ matvar_t*
 SaveMatioSingleComplex(std::string variableName, ArrayOf variableValue)
 {
     Dimensions variableDims = variableValue.getDimensions();
-    indexType rank = variableDims.getLength();
-    size_t* dims;
-    try {
-        dims = new size_t[rank];
-    } catch (const std::bad_alloc&) {
+    indexType rank;
+    size_t* dims = convertDimensionsForMatVar(variableDims, rank);
+    if (dims == nullptr) {
         return nullptr;
-    }
-    for (indexType k = 0; k < rank; k++) {
-        dims[k] = variableDims[k];
     }
     void* ptrValue = nullptr;
     struct mat_complex_split_t z;
@@ -53,7 +49,7 @@ SaveMatioSingleComplex(std::string variableName, ArrayOf variableValue)
         }
         indexType p = 0;
         single* ptrSingle = (single*)variableValue.getDataPointer();
-		for (indexType k = 0; k < nbElements * 2; ++k) {
+        for (indexType k = 0; k < nbElements * 2; ++k) {
             re[p] = ptrSingle[k];
             im[p] = ptrSingle[k + 1];
             p++;

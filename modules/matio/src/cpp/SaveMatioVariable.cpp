@@ -49,8 +49,8 @@ SaveMatioVariable(std::string variableName, ArrayOf variableValue)
         matVariable = SaveMatioStruct(variableName, variableValue);
     } break;
     case NLS_STRING_ARRAY: {
-		// MATIO 1.5.13 does not know string array type
-		// Workaround: String array converted to Cell array
+        // MATIO 1.5.13 does not know string array type
+        // Workaround: String array converted to Cell array
         matVariable = SaveMatioStringArray(variableName, variableValue);
     } break;
     case NLS_LOGICAL: {
@@ -69,7 +69,7 @@ SaveMatioVariable(std::string variableName, ArrayOf variableValue)
     case NLS_UINT64:
     case NLS_INT64: {
         matVariable = SaveMatioInteger(variableName, variableValue);
-	} break;
+    } break;
     case NLS_SINGLE: {
         matVariable = SaveMatioSingle(variableName, variableValue);
     } break;
@@ -83,18 +83,17 @@ SaveMatioVariable(std::string variableName, ArrayOf variableValue)
     case NLS_SCOMPLEX: {
         matVariable = SaveMatioSingleComplex(variableName, variableValue);
     } break;
-    case NLS_DCOMPLEX : {
+    case NLS_DCOMPLEX: {
         if (variableValue.isSparse()) {
             matVariable = SaveMatioSparseDoubleComplex(variableName, variableValue);
         } else {
             matVariable = SaveMatioDoubleComplex(variableName, variableValue);
         }
-	} break;
+    } break;
     case NLS_CHAR: {
         matVariable = SaveMatioCharacterArray(variableName, variableValue);
     } break;
-    default: { } break;
-    }
+    default: { } break; }
     return matVariable;
 }
 //=============================================================================

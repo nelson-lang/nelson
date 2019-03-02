@@ -65,8 +65,8 @@ LoadMatioStruct(matvar_t* matVariable, ArrayOf& VariableValue)
                     return false;
                 }
                 offset++;
-			}
-		}
+            }
+        }
         bSuccess = true;
     }
     return bSuccess;
