@@ -72,6 +72,8 @@ Nelson::MatioGateway::savematBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
                 if (param == L"-v7.3") {
                     matFileVersion = param;
                 }
+            } else {
+                Error(_W("Invalid option:") + param);
             }
         } else {
             names.push_back(param);

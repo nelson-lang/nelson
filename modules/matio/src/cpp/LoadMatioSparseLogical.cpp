@@ -84,7 +84,7 @@ LoadMatioSparseLogical(matvar_t* matVariable, ArrayOf& VariableValue)
             return false;
         }
         V = ArrayOf(NLS_LOGICAL, dimsV, ptrV);
-        memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(logical));
+        memset(ptrV, logical(1), sparseData->ndata * sizeof(logical));
     }
     VariableValue = SparseConstructor(I, J, V, dims[0], dims[1], nzmax);
     bSuccess = true;

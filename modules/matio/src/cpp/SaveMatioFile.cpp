@@ -103,7 +103,7 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names
             resWrite = Mat_VarWrite(matFile, matioVariable, matCompression);
         }
         Mat_VarFree(matioVariable);
-        if (!resWrite) {
+        if (resWrite) {
             Mat_Close(matFile);
             Error(_("Cannot save variable:") + variableName);
         }
