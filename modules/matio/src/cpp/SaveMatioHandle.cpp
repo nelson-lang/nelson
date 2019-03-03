@@ -17,13 +17,15 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "SaveMatioDouble.hpp"
+#include "SaveMatioStruct.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 matvar_t*
 SaveMatioHandle(std::string variableName, ArrayOf variableValue)
 {
-    return nullptr;
+    /* handle have no equivalent in others softwares */
+    return SaveMatioStruct(variableName, ArrayOf::emptyStructWithoutFields());
 }
 //=============================================================================
 }

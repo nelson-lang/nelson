@@ -16,8 +16,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Eigen/Sparse>
 #include "SaveMatioSparseDoubleComplex.hpp"
 #include "matioHelpers.hpp"
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -30,7 +32,105 @@ SaveMatioSparseDoubleComplex(std::string variableName, ArrayOf variableValue)
     if (dims == nullptr) {
         return nullptr;
     }
-    matvar_t* matVariable = nullptr;
+    Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spmat
+        = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)
+              variableValue.getSparseDataPointer();
+    indexType nnz = 0;
+    if (spmat) {
+        nnz = spmat->nonZeros();
+    }
+
+    int32 nzmax = (int32)variableValue.nzmax();
+    int njc = (int)spmat->outerSize();
+    int nir = (int)nnz;
+
+    int32* pI = nullptr;
+    try {
+        pI = new int32[nir];
+    } catch (const std::bad_alloc&) {
+        return nullptr;
+    }
+    int32* pJ = nullptr;
+    try {
+        pJ = new int32[njc + 1];
+    } catch (const std::bad_alloc&) {
+        delete[] pI;
+        return nullptr;
+    }
+    signedIndexType* pInner = spmat->innerIndexPtr();
+    signedIndexType* pOuter = spmat->outerIndexPtr();
+    for (signedIndexType k = 0; k < nir; ++k) {
+        pI[k] = (int32)pInner[k];
+    }
+    for (signedIndexType k = 0; k < njc; ++k) {
+        pJ[k] = (int32)pOuter[k];
+    }
+    pJ[njc] = (int32)nnz;
+
+    double* realptr = nullptr;
+    try {
+        realptr = new double[nnz];
+    } catch (const std::bad_alloc&) {
+        delete[] pI;
+        delete[] pJ;
+        return nullptr;
+    }
+    double* imagptr = nullptr;
+    try {
+        imagptr = new double[nnz];
+    } catch (const std::bad_alloc&) {
+        delete[] pI;
+        delete[] pJ;
+        delete[] realptr;
+        return nullptr;
+    }
+    mat_complex_split_t z = { NULL, NULL };
+    doublecomplex* cplx = spmat->valuePtr();
+    for (indexType k = 0; k < nnz; ++k) {
+        imagptr[k] = cplx[k].imag();
+        realptr[k] = cplx[k].real();
+    }
+    z.Im = imagptr;
+    z.Re = realptr;
+    mat_sparse_t* sparse = nullptr;
+    try {
+        sparse = new mat_sparse_t[1];
+    } catch (const std::bad_alloc&) {
+        delete[] pI;
+        delete[] pJ;
+        delete[] realptr;
+        delete[] imagptr;
+        return nullptr;
+    }
+
+    sparse->nzmax = nzmax;
+    sparse->nir = nir;
+    sparse->ir = pI;
+    sparse->njc = njc + 1;
+    sparse->jc = pJ;
+    sparse->ndata = (int)nnz;
+    sparse->data = &z;
+
+    matvar_t* matVariableNoCopy = Mat_VarCreate(variableName.c_str(), MAT_C_SPARSE, MAT_T_DOUBLE,
+        (int)rank, dims, sparse, MAT_F_COMPLEX | MAT_F_DONT_COPY_DATA);
+    if (matVariableNoCopy == nullptr) {
+        delete[] dims;
+        delete[] pI;
+        delete[] pJ;
+        delete[] realptr;
+        delete[] imagptr;
+        delete[] sparse;
+        return matVariableNoCopy;
+    }
+    matvar_t* matVariable = Mat_VarCreate(variableName.c_str(), MAT_C_SPARSE, MAT_T_DOUBLE,
+        (int)rank, dims, matVariableNoCopy->data, 0 | MAT_F_COMPLEX);
+    Mat_VarFree(matVariableNoCopy);
+    delete[] dims;
+    delete[] pI;
+    delete[] pJ;
+    delete[] realptr;
+    delete[] imagptr;
+    delete[] sparse;
     return matVariable;
 }
 //=============================================================================
