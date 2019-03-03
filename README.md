@@ -57,6 +57,8 @@ these own data types and operations on these data types by using overload.
 
 - HDF5 used as default data file format (.nh5) load/save workspace,
 
+- MAT-file compatible load/save workspace,
+
 - Foreign Function Interface C/Fortran.
 
 - Interfacing C/C++ or Fortran with Nelson (build and load external code on the fly).
