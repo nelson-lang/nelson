@@ -48,8 +48,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,3,2,0
- PRODUCTVERSION 0,3,2,0
+ FILEVERSION 0,3,3,0
+ PRODUCTVERSION 0,3,3,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -68,8 +68,8 @@ BEGIN
             VALUE "InternalName", "console_builtin"
             VALUE "OriginalFilename", "libnlsconsole_builtin.dll"
             VALUE "ProductName", "Nelson (console_builtin)"
-            VALUE "ProductVersion", "0,3,2,0"
-            VALUE "FileVersion", "0,3,2,0"
+            VALUE "ProductVersion", "0,3,3,0"
+            VALUE "FileVersion", "0,3,3,0"
             VALUE "LegalCopyright", "Nelson Copyright (C) 2016-2019"
             VALUE "Comments", "All rights reserved."
             VALUE "CompanyName", "Allan CORNET"
