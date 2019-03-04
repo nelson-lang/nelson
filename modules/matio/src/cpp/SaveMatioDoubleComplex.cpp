@@ -47,12 +47,11 @@ SaveMatioDoubleComplex(std::string variableName, ArrayOf variableValue)
             delete[] re;
             return nullptr;
         }
-        indexType p = 0;
-        double* ptrDouble = (double*)variableValue.getDataPointer();
-        for (indexType k = 0; k < nbElements * 2; ++k) {
-            re[p] = ptrDouble[k];
-            im[p] = ptrDouble[k + 1];
-            p++;
+        doublecomplex* ptrZ
+            = reinterpret_cast<doublecomplex*>((double*)variableValue.getDataPointer());
+        for (indexType k = 0; k < nbElements; ++k) {
+            re[k] = ptrZ[k].real();
+            im[k] = ptrZ[k].imag();
         }
         z.Re = re;
         z.Im = im;

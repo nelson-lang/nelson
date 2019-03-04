@@ -6,29 +6,51 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "SaveMatioHandle.hpp"
-#include "SaveMatioStruct.hpp"
-#include "Warning.hpp"
+matver = {'-v7', '-v7.3'};
 //=============================================================================
-namespace Nelson {
+R = struct();
+R_REF = R;
 //=============================================================================
-matvar_t*
-SaveMatioHandle(std::string variableName, ArrayOf variableValue)
-{
-    /* handle have no equivalent in others softwares */
-    Warning(_W("handle not saved."));
-    return SaveMatioStruct(variableName, ArrayOf::emptyStructWithoutFields());
-}
+for v = matver
+  test_file_mat = [tempdir(), '/test_save_struct_empty_1', v{1}, '.mat'];
+  savemat(test_file_mat, 'R', v{1});
+  clear R;
+  loadmat(test_file_mat);
+  assert_isequal(R, R_REF);
+end
 //=============================================================================
-}
+R = struct([]);
+R_REF = R;
+//=============================================================================
+for v = matver
+  test_file_mat = [tempdir(), '/test_save_struct_empty_2', v{1}, '.mat'];
+  savemat(test_file_mat, 'R', v{1});
+  clear R;
+  loadmat(test_file_mat);
+  assert_isequal(R, R_REF);
+end
+//=============================================================================
+R = struct();
+R.a = 1;
+R.b = 'f';
+R.c = R;
+R_REF = R;
+//=============================================================================
+for v = matver
+  test_file_mat = [tempdir(), '/test_save_struct', v{1}, '.mat'];
+  savemat(test_file_mat, 'R', v{1});
+  clear R;
+  loadmat(test_file_mat);
+  assert_isequal(R, R_REF);
+end
 //=============================================================================

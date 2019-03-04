@@ -47,12 +47,11 @@ SaveMatioSingleComplex(std::string variableName, ArrayOf variableValue)
             delete[] re;
             return nullptr;
         }
-        indexType p = 0;
-        single* ptrSingle = (single*)variableValue.getDataPointer();
-        for (indexType k = 0; k < nbElements * 2; ++k) {
-            re[p] = ptrSingle[k];
-            im[p] = ptrSingle[k + 1];
-            p++;
+        singlecomplex* ptrZ
+            = reinterpret_cast<singlecomplex*>((single*)variableValue.getDataPointer());
+        for (indexType k = 0; k < nbElements; ++k) {
+            re[k] = ptrZ[k].real();
+            im[k] = ptrZ[k].imag();
         }
         z.Re = re;
         z.Im = im;
