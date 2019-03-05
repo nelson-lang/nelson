@@ -3,21 +3,20 @@
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
-	<keyword>h5load</keyword>
-	<keyword>load</keyword>
-	<short_description>load data from .nh5 file into Nelson's workspace.</short_description>
+	<keyword>loadmat</keyword>
+	<short_description>load data from .mat file into Nelson's workspace.</short_description>
 
 	<syntax>
-		<syntax_item>h5load(filename)</syntax_item>
-		<syntax_item>st = h5load(filename)</syntax_item>
-		<syntax_item>h5load(filename, var1, ..., varN)</syntax_item>
-		<syntax_item>st = h5load(filename, var1, ..., varN)</syntax_item>
+		<syntax_item>loadmat(filename)</syntax_item>
+		<syntax_item>st = loadmat(filename)</syntax_item>
+		<syntax_item>loadmat(filename, var1, ..., varN)</syntax_item>
+		<syntax_item>st = loadmat(filename, var1, ..., varN)</syntax_item>
 	</syntax>
 	
 	<param_input>
 		<param_input_item>
 			<param_name>filename</param_name>
-			<param_description>a string: .nh5 filename.</param_description>
+			<param_description>a string: .mat filename.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>var1, ..., varN</param_name>
@@ -33,13 +32,12 @@
 	</param_output>
 
 	<description>
-		<p><b>h5load</b> loads data from .nh5 file to Nelson's workspace.</p>
-		<p>.nh5 file uses hdf5 file as container.</p>
+		<p><b>loadmat</b> loads data from .mat file to Nelson's workspace.</p>
 	</description>
 
 
 	<used_function></used_function>
-	<bibliography></bibliography>
+	<bibliography>Thanks to MATIO library (http://sourceforge.net/projects/matio/).</bibliography>
 
 <examples>
 
@@ -48,15 +46,15 @@
 		<example_item_description></example_item_description>
 		<example_item_data><![CDATA[A = ones(3, 4);
 B = 'hello for open mat users';
-h5save([tempdir(), '/example_h5load.nh5'], 'A', 'B')
+savemat([tempdir(), '/example_loadmat.mat'], 'A', 'B')
 clear;
-st = h5load([tempdir(), '/example_h5load.nh5']);
+st = loadmat([tempdir(), '/example_loadmat.mat']);
 who
 st.A
 st.B
 clear
 who
-h5load([tempdir(), '/example_h5load.nh5']);
+loadmat([tempdir(), '/example_loadmat.mat']);
 who
 A
 B
@@ -68,10 +66,7 @@ B
 
 	<see_also>
 		<see_also_item>
-			<link linkend="${hdf5}h5save">h5save</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${hdf5}h5read">h5read</link>
+			<link linkend="${matio}savemat">savemat</link>
 		</see_also_item>
 	</see_also>
 

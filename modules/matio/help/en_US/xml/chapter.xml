@@ -4,6 +4,6 @@
 	<language>en_US</language>
 	<module_name>matio</module_name>
 	<chapter>MATIO</chapter>
-	<chapter_description>MAT-File I/O</chapter_description>
+	<chapter_description>MAT-File Read/Write I/O Functions</chapter_description>
 </xmldoc>
 

@@ -1,3 +1,15 @@
+## 0.3.3
+
+
+Features:
+---------
+
+* loadmat: load mat-file into Nelson's workspace
+
+* savemat: save Nelson's workspace to .mat file.
+
+Thanks to MAT file I/O library (MATIO) to provide an easy support for MAT-file.
+
 ## 0.3.2 (2019-02-24)
 
 
