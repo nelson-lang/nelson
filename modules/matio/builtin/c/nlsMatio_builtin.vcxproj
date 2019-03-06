@@ -206,12 +206,14 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\ismatfileBuiltin.hpp" />
     <ClInclude Include="..\include\loadmatBuiltin.hpp" />
     <ClInclude Include="..\include\nlsMatio_builtin_exports.h" />
     <ClInclude Include="..\include\savematBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\ismatfileBuiltin.cpp" />
     <ClCompile Include="..\cpp\loadmatBuiltin.cpp" />
     <ClCompile Include="..\cpp\savematBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />

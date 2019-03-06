@@ -207,6 +207,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\IsMatioFile.cpp" />
     <ClCompile Include="..\cpp\LoadMatioCell.cpp" />
     <ClCompile Include="..\cpp\LoadMatioCharacters.cpp" />
     <ClCompile Include="..\cpp\LoadMatioDouble.cpp" />
@@ -270,6 +271,7 @@
     <ClInclude Include="..\cpp\SaveMatioSparseLogical.hpp" />
     <ClInclude Include="..\cpp\SaveMatioStringArray.hpp" />
     <ClInclude Include="..\cpp\SaveMatioStruct.hpp" />
+    <ClInclude Include="..\include\IsMatioFile.hpp" />
     <ClInclude Include="..\include\LoadMatioFile.hpp" />
     <ClInclude Include="..\include\LoadMatioVariable.hpp" />
     <ClInclude Include="..\include\nlsMatio_exports.h" />

@@ -6,36 +6,34 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "loadmatBuiltin.hpp"
-#include "savematBuiltin.hpp"
-#include "ismatfileBuiltin.hpp"
+assert_isequal(nargin('ismatfile'), 1);
+assert_isequal(nargout('ismatfile'), 1);
 //=============================================================================
-using namespace Nelson;
+mat_dir = [fileparts(nfilename('fullpathext'),'path'), '/mat/'];
 //=============================================================================
-const std::wstring gatewayName = L"matio";
+[tf, ver] = ismatfile({[mat_dir, 'test_cell_nest_7.4_GLNX86.mat']});
+assert_istrue(tf);
+assert_isequal(ver, "-v7");
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "loadmat", Nelson::MatioGateway::loadmatBuiltin, 1, 1, CPP_BUILTIN },
-    { "savemat", Nelson::MatioGateway::savematBuiltin, 0, 1, CPP_BUILTIN },
-    { "ismatfile", Nelson::MatioGateway::ismatfileBuiltin, 1, 1, CPP_BUILTIN },
-};
+[tf, ver] = ismatfile(string([mat_dir, 'test_cell_nest_7.4_GLNX86.mat']));
+assert_istrue(tf);
+assert_isequal(ver, "-v7");
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+[tf, ver] = ismatfile([mat_dir, 'test_cell_nest_7.4_GLNX86.mat']);
+assert_istrue(tf);
+assert_isequal(ver, "-v7");
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+[tf, ver] = ismatfile([mat_dir, 'test_not_exist.mat']);
+assert_isfalse(tf);
+assert_isequal(ver, "");
 //=============================================================================

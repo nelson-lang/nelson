@@ -8,6 +8,9 @@ Features:
 
 * savemat: save Nelson's workspace to .mat file.
 
+* ismatfile: check if a file is a valid .mat file.
+
+
 Thanks to MAT file I/O library (MATIO) to provide an easy support for MAT-file.
 
 ## 0.3.2 (2019-02-24)
