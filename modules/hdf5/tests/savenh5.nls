@@ -16,257 +16,252 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('h5load'), 1);
-assert_isequal(nargout('h5load'), 1);
+// creates ref h5 file with all types supported by Nelson
 //=============================================================================
-H5_FILE = [fileparts(nfilename('fullpathext'), 'path'), '/h5save_schema_1.nh5'];
-assert_istrue(isfile(H5_FILE));
+current_schema_file = [tempdir(), '/schema.nh5'];
+if isfile(current_schema_file)
+  rmfile(current_schema_file);
+end
+A = [];
+savenh5(current_schema_file, 'A');
+schema_version = h5readatt(current_schema_file, '/', 'NELSON_schema');
 //=============================================================================
-h5load(H5_FILE, 'A');
-REF = logical(eye(5, 4));
-assert_isequal(A, REF);
-//=============================================================================
-R = h5load(H5_FILE, 'A');
-REF = struct();
-REF.A = logical(eye(5, 4));
-assert_isequal(R, REF);
-//=============================================================================
-clear('A', 'R');
-//=============================================================================
-h5load(H5_FILE);
+path = fileparts(nfilename('fullpathext'), 'path');
+H5_FILE = [path, '/h5save_schema_', mat2str(schema_version), '.nh5'];
+if isfile(H5_FILE)
+  rmfile(H5_FILE);
+end
 //=============================================================================
 // logical
-A_REF = logical(eye(5, 4));
-assert_isequal(A, A_REF);
+A = logical(eye(5, 4));
+savenh5(H5_FILE, 'A', '-append');
 //=============================================================================
 // double
-B_REF = eye(5, 4);
-assert_isequal(B, B_REF);
+B = eye(5, 4);
+savenh5(H5_FILE, 'B', '-append');
 //=============================================================================
 // double complex
-C_REF = eye(5,4) + 2i;
-assert_isequal(C, C_REF);
+C = eye(5,4) + 2i;
+savenh5(H5_FILE, 'C', '-append');
 //=============================================================================
 // double empty
-D_REF = ones(0,3);
-assert_isequal(D, D_REF);
+D = ones(0,3);
+savenh5(H5_FILE, 'D', '-append');
 //=============================================================================
 // single
-E_REF = single(eye(5,4));
-assert_isequal(E, E_REF);
+E = single(eye(5,4));
+savenh5(H5_FILE, 'E', '-append');
 //=============================================================================
 // complex single
-F_REF = single(eye(5,4) + 2i);
-assert_isequal(F, F_REF);
+F = single(eye(5,4) + 2i);
+savenh5(H5_FILE, 'F', '-append');
 //=============================================================================
 // single empty
-G_REF = single(ones(0,3));
-assert_isequal(G, G_REF);
+G = single(ones(0,3));
+savenh5(H5_FILE, 'G', '-append');
 //=============================================================================
 // unicode characters
-H_REF = 'NelSon 象形字';
-assert_isequal(H, H_REF);
+H = 'NelSon 象形字';
+savenh5(H5_FILE, 'H', '-append');
 //=============================================================================
 // unicode
-I_REF = ['NelSon';
+I = ['NelSon';
 'is    ';
 'not   ';
 'LensOn'];
-assert_isequal(I, I_REF);
+savenh5(H5_FILE, 'I', '-append');
 //=============================================================================
 // function_handle
-J_REF = str2func('sin');
-assert_isequal(J, J_REF);
+J = str2func('sin');
+savenh5(H5_FILE, 'J', '-append');
 //=============================================================================
 // sparse double
-K_REF = sparse(eye(3,3));
-assert_isequal(K, K_REF);
+K = sparse(eye(3,3));
+savenh5(H5_FILE, 'K', '-append');
 //=============================================================================
 // sparse double complex
-L_REF = sparse(eye(3,3) + 2i );
-assert_isequal(L, L_REF);
+L = sparse(eye(3,3) + 2i );
+savenh5(H5_FILE, 'L', '-append');
 //=============================================================================
 // sparse logical
-M_REF = sparse(logical(eye(3,3)));
-assert_isequal(M, M_REF);
+M = sparse(logical(eye(3,3)));
+savenh5(H5_FILE, 'M', '-append');
 //=============================================================================
 // nd array double
-N_REF = ones(3,4,2);
-assert_isequal(N, N_REF);
+N = ones(3,4,2);
+savenh5(H5_FILE, 'N', '-append');
 //=============================================================================
 // nd array double complex
-O_REF = complex(ones(3,4,2), 2);
-assert_isequal(O, O_REF);
+O = complex(ones(3,4,2), 2);
+savenh5(H5_FILE, 'O', '-append');
 //=============================================================================
 // empty 2D cell
-P_REF = cell(3,4);
-assert_isequal(P, P_REF);
+P = cell(3,4);
+savenh5(H5_FILE, 'P', '-append');
 //=============================================================================
 // cell
-Q_REF = {'jim', 89, [5 2 1] ; 'george', pi, 3i}; 
-assert_isequal(Q, Q_REF);
+Q = {'jim', 89, [5 2 1] ; 'george', pi, 3i}; 
+savenh5(H5_FILE, 'Q', '-append');
 //=============================================================================
 // nd array cell
-R_REF = cell(3, 4, 2);
-R_REF{1, 1} = 3;
-R_REF{3, 4, 2} = 6;
-assert_isequal(R, R_REF);
+R = cell(3, 4, 2);
+R{1, 1} = 3;
+R{3, 4, 2} = 6; 
+savenh5(H5_FILE, 'R', '-append');
 //=============================================================================
 // nd array logical
-S_REF = ones(3, 4, 6);
-S_REF = logical(S_REF);
-assert_isequal(S, S_REF);
+S = ones(3, 4, 6);
+S = logical(S);
+savenh5(H5_FILE, 'S', '-append');
 //=============================================================================
 // nd array int8
-T_REF = ones(3, 4, 6);
-T_REF = int8(T_REF);
-assert_isequal(T, T_REF);
+T = ones(3, 4, 6);
+T = int8(T);
+savenh5(H5_FILE, 'T', '-append');
 //=============================================================================
 // nd array uint8
-U_REF = ones(3, 4, 6);
-U_REF = uint8(U_REF);
-assert_isequal(U, U_REF);
+U = ones(3, 4, 6);
+U = uint8(U);
+savenh5(H5_FILE, 'U', '-append');
 //=============================================================================
 // nd array int16
-V_REF = ones(3, 4, 6);
-V_REF = int16(V_REF);
-assert_isequal(V, V_REF);
+V = ones(3, 4, 6);
+V = int16(V);
+savenh5(H5_FILE, 'V', '-append');
 //=============================================================================
 // nd array uint16
-W_REF = ones(3, 4, 6);
-W_REF = uint16(W);
-assert_isequal(W, W_REF);
+W = ones(3, 4, 6);
+W = uint16(W);
+savenh5(H5_FILE, 'W', '-append');
 //=============================================================================
 // nd array int32
-X_REF = ones(3,4,6);
-X_REF = int32(X_REF);
-assert_isequal(X, X_REF);
+X = ones(3,4,6);
+X = int32(X);
+savenh5(H5_FILE, 'X', '-append');
 //=============================================================================
 // nd array uint32
-Y_REF = ones(3, 4, 6);
-Y_REF = uint32(Y_REF);
-assert_isequal(Y, Y_REF);
+Y = ones(3, 4, 6);
+Y = uint32(Y);
+savenh5(H5_FILE, 'Y', '-append');
 //=============================================================================
 // nd array int64
-Z_REF = ones(3, 4, 6);
-Z_REF = int64(Z_REF);
-assert_isequal(Z, Z_REF);
+Z = ones(3, 4, 6);
+Z = int64(Z);
+savenh5(H5_FILE, 'Z', '-append');
 //=============================================================================
 // nd array uint64
-AA_REF = ones(3, 4, 6);
-AA_REF = uint64(AA_REF);
-assert_isequal(AA, AA_REF);
+AA = ones(3, 4, 6);
+AA = uint64(AA);
+savenh5(H5_FILE, 'AA', '-append');
 //=============================================================================
 // nd array single
-AB_REF = ones(3, 4, 6);
-AB_REF = single(AB_REF);
-assert_isequal(AB, AB_REF);
+AB = ones(3, 4, 6);
+AB = single(AB);
+savenh5(H5_FILE, 'AB', '-append');
 //=============================================================================
 // nd array double
-AC_REF = ones(3, 4, 6);
-AC_REF = double(AC_REF);
-assert_isequal(AC, AC_REF);
+AC = ones(3, 4, 6);
+AC = double(AC);
+savenh5(H5_FILE, 'AC', '-append');
 //=============================================================================
 // nd array char
-AD_REF = ones(3, 4, 6);
-AD_REF = char(AD_REF);
-assert_isequal(AD, AD_REF);
+AD = ones(3, 4, 6);
+AD = char(AD);
+savenh5(H5_FILE, 'AD', '-append');
 //=============================================================================
 // uint8
-AE_REF = ones(3, 4);
-AE_REF = uint8(AE_REF);
-assert_isequal(AE, AE_REF);
+AE = ones(3, 4);
+AE = uint8(AE);
+savenh5(H5_FILE, 'AE', '-append');
 //=============================================================================
 // int8
-AF_REF = ones(3, 4);
-AF_REF = int8(AF_REF);
-assert_isequal(AF, AF_REF);
+AF = ones(3, 4);
+AF = int8(AF);
+savenh5(H5_FILE, 'AF', '-append');
 //=============================================================================
 // uint16
-AI_REF = ones(3, 4);
-AI_REF = uint16(AI_REF);
-assert_isequal(AI, AI_REF);
+AI = ones(3, 4);
+AI = uint16(AI);
+savenh5(H5_FILE, 'AI', '-append');
 //=============================================================================
 // int16
-AJ_REF = ones(3, 4);
-AJ_REF = int16(AJ_REF);
-assert_isequal(AJ, AJ_REF);
+AJ = ones(3, 4);
+AJ = int16(AJ);
+savenh5(H5_FILE, 'AJ', '-append');
 //=============================================================================
 // uint32
-AK_REF = ones(3, 4);
-AK_REF = uint32(AK_REF);
-assert_isequal(AK, AK_REF);
+AK = ones(3, 4);
+AK = uint32(AK);
+savenh5(H5_FILE, 'AK', '-append');
 //=============================================================================
 // int32
-AL_REF = ones(3, 4);
-AL_REF = int32(AL_REF);
-assert_isequal(AL, AL_REF);
+AL = ones(3, 4);
+AL = int32(AL);
+savenh5(H5_FILE, 'AL', '-append');
 //=============================================================================
 // uint64
-AM_REF = ones(3, 4);
-AM_REF = uint64(AM_REF);
-assert_isequal(AM, AM_REF);
+AM = ones(3, 4);
+AM = uint64(AM);
+savenh5(H5_FILE, 'AM', '-append');
 //=============================================================================
 // int64
-AN_REF = ones(3, 4);
-AN_REF = int64(AN_REF);
-assert_isequal(AN, AN_REF);
+AN = ones(3, 4);
+AN = int64(AN);
+savenh5(H5_FILE, 'AN', '-append');
 //=============================================================================
-AO_REF = struct('name', {'Pierre', 'Anna', 'Roberta'}, 'age', {43, 21, 31});
-assert_isequal(AO, AO_REF);
+AO = struct('name', {'Pierre', 'Anna', 'Roberta'}, 'age', {43, 21, 31});
+savenh5(H5_FILE, 'AO', '-append');
 //=============================================================================
-AP_REF = struct();
-assert_isequal(AP, AP_REF);
+AP = struct();
+savenh5(H5_FILE, 'AP', '-append');
 //=============================================================================
-AQ_REF = struct([]);
-assert_isequal(AQ, AQ_REF);
+AQ = struct([]);
+savenh5(H5_FILE, 'AQ', '-append');
 //=============================================================================
-AR_REF = struct(ones(1,0));
-assert_isequal(AR, AR_REF);
+AR = struct(ones(1,0));
+savenh5(H5_FILE, 'AR', '-append');
 //=============================================================================
-AS_REF = struct(ones(0,1));
-assert_isequal(AS, AS_REF);
+AS = struct(ones(0,1));
+savenh5(H5_FILE, 'AS', '-append');
 //=============================================================================
-AT_REF = struct(ones(3, 0, 2));
-assert_isequal(AT, AT_REF);
+AT = struct(ones(3, 0, 2));
+savenh5(H5_FILE, 'AT', '-append');
 //=============================================================================
 c = {'tree', 37.4, 'birch'};
 f = {'category','height','name'};
-AU_REF = cell2struct(c, f, 2);
-assert_isequal(AU, AU_REF);
+AU = cell2struct(c, f, 2);
+savenh5(H5_FILE, 'AU', '-append');
 //=============================================================================
 c = {'birch','betula',65;  'maple','acer',50};
 f = {'name', 'genus', 'height'};
-AV_REF = cell2struct(c, f, 2);
-assert_isequal(AV, AV_REF);
+AV = cell2struct(c, f, 2);
+savenh5(H5_FILE, 'AV', '-append');
 //=============================================================================
 my_cell_array = {'Jimmy', 'Timothy', 'Charles'};
-AW_REF = cell2struct(cell(size(my_cell_array)), my_cell_array, 2);
-assert_isequal(AW, AW_REF);
+AW = cell2struct(cell(size(my_cell_array)), my_cell_array, 2);
+savenh5(H5_FILE, 'AW', '-append');
 //=============================================================================
 clear C;
 C{1}='tim';
 C{2}='love';
 C{3}=1.73;
-AX_REF = cell2struct(C,{'firstname','familyname','height'},2);
-assert_isequal(AX, AX_REF);
+AX=cell2struct(C,{'firstname','familyname','height'},2);
+savenh5(H5_FILE, 'AX', '-append');
 //=============================================================================
 clear C;
 C{1}='tim';
 C{2}='love';
 C{3}=1.73;
-AY_REF = cell2struct(C,{'firstname'});
-assert_isequal(AY, AY_REF);
+AY=cell2struct(C,{'firstname'});
+savenh5(H5_FILE, 'AY', '-append');
 //=============================================================================
-AZ_REF = ["NelSon";
+AZ = ["NelSon";
 "is";
 "not";
 "LensOn"];
-assert_isequal(AZ, AZ_REF);
+savenh5(H5_FILE, 'AZ', '-append');
 //=============================================================================
 addpath([nelsonroot(), '/modules/overload/examples/complex']);
-cplx_REF = complexObj(3, 4);
-assert_isequal(class(cplx), class(cplx_REF));
-assert_isequal(cplx.r, cplx_REF.r);
-assert_isequal(cplx.i, cplx_REF.i);
+cplx = complexObj(3, 4);
+savenh5(H5_FILE, 'cplx', '-append');
 //=============================================================================

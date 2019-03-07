@@ -24,9 +24,9 @@ end
 A = {1, 2; 3, 4};
 B = {1, A; A, 2};
 C = {A, 4; 5, B};
-h5save(test_h5save_file, 'C');
+savenh5(test_h5save_file, 'C');
 C_REF = C;
 clear('A', 'B', 'C');
-st = h5load(test_h5save_file);
+st = loadnh5(test_h5save_file);
 assert_isequal(C_REF, st.C);
 //=============================================================================

@@ -24,7 +24,7 @@ end
 // cell
 //=============================================================================
 A = {int8(1), uint16(2); int32(3), uint64(4)};
-h5save(test_h5save_file, 'A');
+savenh5(test_h5save_file, 'A');
 assert_istrue(isfile(test_h5save_file));
 schema_version = h5readatt(test_h5save_file, '/', 'NELSON_schema');
 assert_isequal(schema_version, int32(1));
@@ -42,7 +42,7 @@ R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
 assert_isequal(R, uint64(size(A)'));
 //=============================================================================
 B = {A, 3, single(9); 1, i, true};
-h5save(test_h5save_file, 'B');
+savenh5(test_h5save_file, 'B');
 R = h5readatt(test_h5save_file, '/B', 'NELSON_class');
 assert_isequal(R, 'cell');
 R = h5readatt(test_h5save_file, '/B', 'NELSON_dimensions');
@@ -72,7 +72,7 @@ R = h5read(test_h5save_file, '/B/5');
 assert_isequal(R, uint8(1));
 //=============================================================================
 C = {B, A; A, {B, A}};
-h5save(test_h5save_file, 'C');
+savenh5(test_h5save_file, 'C');
 R = h5readatt(test_h5save_file, '/C', 'NELSON_class');
 assert_isequal(R, 'cell');
 R = h5readatt(test_h5save_file, '/C/0', 'NELSON_class');
@@ -81,7 +81,7 @@ R = h5readatt(test_h5save_file, '/C/0/0', 'NELSON_class');
 assert_isequal(R, 'cell');
 //=============================================================================
 D = {};
-h5save(test_h5save_file, 'D');
+savenh5(test_h5save_file, 'D');
 R = h5readatt(test_h5save_file, '/D', 'NELSON_class');
 assert_isequal(R, 'cell');
 R = h5readatt(test_h5save_file, '/D', 'NELSON_dimensions');
@@ -90,7 +90,7 @@ R = h5readatt(test_h5save_file, '/D', 'NELSON_empty');
 assert_isequal(R, uint8(1));
 //=============================================================================
 E = cell(3, 4, 5);
-h5save(test_h5save_file, 'E');
+savenh5(test_h5save_file, 'E');
 R = h5readatt(test_h5save_file, '/E', 'NELSON_class');
 assert_isequal(R, 'cell');
 R = h5read(test_h5save_file, '/E/59');

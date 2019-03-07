@@ -24,7 +24,7 @@ end
 // logical
 //=============================================================================
 A = logical(eye(3, 4));
-h5save(test_h5save_file, 'A');
+savenh5(test_h5save_file, 'A');
 schema_version = h5readatt(test_h5save_file, '/', 'NELSON_schema');
 assert_isequal(schema_version, int32(1));
 R = h5read(test_h5save_file, '/A');
@@ -35,7 +35,7 @@ R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
 assert_isequal(R, uint64(size(A)'));
 //=============================================================================
 A = logical(1);
-h5save(test_h5save_file, 'A');
+savenh5(test_h5save_file, 'A');
 R = h5read(test_h5save_file, '/A');
 assert_isequal(R, uint8(A));
 R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
@@ -44,7 +44,7 @@ R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
 assert_isequal(R, uint64(size(A)'));
 //=============================================================================
 A = logical(ones(3, 0));
-h5save(test_h5save_file, 'A');
+savenh5(test_h5save_file, 'A');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
 assert_isequal(R, 'logical');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
@@ -55,7 +55,7 @@ R = h5read(test_h5save_file, '/A');
 assert_isequal(R, uint8(0));
 //=============================================================================
 A = logical(ones(0, 4));
-h5save(test_h5save_file, 'A');
+savenh5(test_h5save_file, 'A');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
 assert_isequal(R, 'logical');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
@@ -66,7 +66,7 @@ R = h5read(test_h5save_file, '/A');
 assert_isequal(R, uint8(0));
 //=============================================================================
 A = logical(ones(3, 0, 2, 4));
-h5save(test_h5save_file, 'A');
+savenh5(test_h5save_file, 'A');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
 assert_isequal(R, 'logical');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
@@ -77,7 +77,7 @@ R = h5read(test_h5save_file, '/A');
 assert_isequal(R, uint8(0));
 //=============================================================================
 A = logical(ones(3, 0, 0, 0));
-h5save(test_h5save_file, 'A');
+savenh5(test_h5save_file, 'A');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
 assert_isequal(R, 'logical');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
@@ -88,7 +88,7 @@ R = h5read(test_h5save_file, '/A');
 assert_isequal(R, uint8(0));
 //=============================================================================
 A = logical(reshape(1:18,3,2,3));
-h5save(test_h5save_file, 'A');
+savenh5(test_h5save_file, 'A');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
 assert_isequal(R, 'logical');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
@@ -97,7 +97,7 @@ R = h5read(test_h5save_file, '/A');
 assert_isequal(R, uint8(A));
 //=============================================================================
 A = sparse(4, 5, true, 6, 7, 19);
-h5save(test_h5save_file, 'A');
+savenh5(test_h5save_file, 'A');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
 assert_isequal(R, 'logical');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
@@ -114,7 +114,7 @@ R = h5read(test_h5save_file, '/A/jc');
 assert_isequal(R, uint64(5));
 //=============================================================================
 A = logical(sparse(eye(0, 4)));
-h5save(test_h5save_file, 'A');
+savenh5(test_h5save_file, 'A');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_nzmax');
 assert_isequal(R, uint64(1));
 R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
@@ -125,7 +125,7 @@ R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
 assert_isequal(R, 'logical');
 //=============================================================================
 A = logical(sparse(eye(5, 0)));
-h5save(test_h5save_file, 'A');
+savenh5(test_h5save_file, 'A');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_nzmax');
 assert_isequal(R, uint64(1));
 R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
@@ -136,7 +136,7 @@ R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
 assert_isequal(R, 'logical');
 //=============================================================================
 A = logical(sparse(eye(5, 4)));
-h5save(test_h5save_file, 'A');
+savenh5(test_h5save_file, 'A');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_nzmax');
 assert_isequal(R, uint64(4));
 R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');

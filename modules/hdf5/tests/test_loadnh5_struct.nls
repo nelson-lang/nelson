@@ -21,23 +21,15 @@ if isfile(test_h5save_file)
   rmfile(test_h5save_file);
 end
 //=============================================================================
-addpath([nelsonroot(), '/modules/overload/examples/complex']);
-cplx = complexObj(3, 4);
-h5save(test_h5save_file, 'cplx');
+A.a = 1;
+A.b = uint8(2);
+B.c = 4;
+B.d = 5;
+B.e = A;
+A.f = B;
+savenh5(test_h5save_file, 'A');
+A_REF = A;
+clear A;
+st = loadnh5(test_h5save_file);
+assert_isequal(A_REF, st.A);
 //=============================================================================
-R = h5readatt(test_h5save_file, '/cplx', 'NELSON_class');
-assert_isequal(R, class(cplx));
-R = h5readatt(test_h5save_file, '/cplx', 'NELSON_dimensions');
-assert_isequal(R, uint64([1; 1]));
-R = h5readatt(test_h5save_file, '/cplx', 'NELSON_object');
-assert_isequal(R, uint8(1));
-R = h5read(test_h5save_file, '/cplx/0');
-assert_isequal(R, 3);
-R = h5read(test_h5save_file, '/cplx/1');
-assert_isequal(R, 4);
-R = h5read(test_h5save_file, '/cplx/fieldnames/0');
-assert_isequal(R, uint16('r'));
-R = h5read(test_h5save_file, '/cplx/fieldnames/1');
-assert_isequal(R, uint16('i'));
-//=============================================================================
-

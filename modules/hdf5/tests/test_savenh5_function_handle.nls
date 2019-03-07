@@ -1,0 +1,36 @@
+//=============================================================================
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+test_h5save_file = [tempdir(), '/test_h5save.nh5'];
+if isfile(test_h5save_file)
+  rmfile(test_h5save_file);
+end
+//=============================================================================
+fn = str2func('cos');
+savenh5(test_h5save_file, 'fn');
+R = h5readatt(test_h5save_file, '/fn', 'NELSON_class');
+assert_isequal(R, 'function_handle');
+R = h5readatt(test_h5save_file, '/fn', 'NELSON_dimensions');
+assert_isequal(R, uint64([1; 1]));
+R = h5readatt(test_h5save_file, '/fn', 'NELSON_object');
+assert_isequal(R, uint8(1));
+R = h5read(test_h5save_file, '/fn/0');
+assert_isequal(R, uint16('cos'));
+R = h5read(test_h5save_file, '/fn/fieldnames/0');
+assert_isequal(R, uint16('function'));
+//=============================================================================
