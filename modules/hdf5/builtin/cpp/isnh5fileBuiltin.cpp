@@ -16,31 +16,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ismatfileBuiltin.hpp"
-#include "IsMatioFile.hpp"
+#include "isnh5fileBuiltin.hpp"
+#include "isNh5File.hpp"
 //=============================================================================
-namespace Nelson {
+using namespace Nelson;
+//=============================================================================
+// isnh5file(filename)
 //=============================================================================
 ArrayOfVector
-Nelson::MatioGateway::ismatfileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::Hdf5Gateway::isnh5fileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 2) {
+    if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1) {
+    indexType nbArgIn = argIn.size();
+    if (nbArgIn != 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     wstringVector filenames = argIn[0].getContentAsWideStringVector(true);
-    ArrayOf result;
-    ArrayOf versions;
-    IsMatioFile(filenames, result, versions);
-    retval.push_back(result);
-    if (nLhs > 1) {
-        retval.push_back(versions);
-    }
+    retval.push_back(isNh5File(filenames));
     return retval;
-}
-//=============================================================================
 }
 //=============================================================================

@@ -16,28 +16,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <matio.h>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
-#include "IsMatioFile.hpp"
+#include "isNh5File.hpp"
 #include "characters_encoding.hpp"
+#include "h5SaveLoadHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void
-IsMatioFile(wstringVector filenames, ArrayOf& results, ArrayOf& versions)
+ArrayOf
+isNh5File(wstringVector filenames)
 {
     Dimensions dims(filenames.size(), 1);
     logical* res = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, filenames.size());
-    results = ArrayOf(NLS_LOGICAL, dims, res);
-
+    ArrayOf results = ArrayOf(NLS_LOGICAL, dims, res);
     if (filenames.size() == 0) {
-        versions = ArrayOf::stringArrayConstructor(filenames, dims);
-        return;
+        return results;
     }
-    ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, filenames.size());
-    versions = ArrayOf(NLS_STRING_ARRAY, dims, elements);
-
     for (size_t k = 0; k < filenames.size(); ++k) {
         std::wstring filename = filenames[k];
         boost::filesystem::path mat_filename(filename);
@@ -52,37 +47,18 @@ IsMatioFile(wstringVector filenames, ArrayOf& results, ArrayOf& versions)
         }
         if (!fileExistPreviously) {
             res[k] = false;
-            elements[k] = ArrayOf::characterArrayConstructor("");
         } else {
             std::string utf8filename = wstring_to_utf8(filename);
-            mat_t* matfile = Mat_Open(utf8filename.c_str(), MAT_ACC_RDONLY);
-            if (matfile) {
-                mat_ft matVer = Mat_GetVersion(matfile);
-                switch (matVer) {
-                case MAT_FT_MAT73: {
-                    res[k] = true;
-                    elements[k] = ArrayOf::characterArrayConstructor("-v7.3");
-                } break;
-                case MAT_FT_MAT5: {
-                    res[k] = true;
-                    elements[k] = ArrayOf::characterArrayConstructor("-v7");
-                } break;
-                case MAT_FT_MAT4: {
-                    res[k] = true;
-                    elements[k] = ArrayOf::characterArrayConstructor("-v6");
-                } break;
-                default: {
-                    res[k] = false;
-                    elements[k] = ArrayOf::characterArrayConstructor("");
-                } break;
-                }
-                Mat_Close(matfile);
-            } else {
+            hid_t fid = H5Fopen(utf8filename.c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
+            if (fid == H5I_INVALID_HID) {
                 res[k] = false;
-                elements[k] = ArrayOf::characterArrayConstructor("");
+            } else {
+                res[k] = isNelsonH5File(fid);
+                H5Fclose(fid);
             }
         }
     }
+    return results;
 }
 //=============================================================================
 } // namespace Nelson

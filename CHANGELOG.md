@@ -10,8 +10,10 @@ Features:
 
 * ismatfile: check if a file is a valid .mat file.
 
+* isnh5file: check if a file is a valid .nh5 file.
 
 Thanks to MAT file I/O library (MATIO) to provide an easy support for MAT-file.
+
 
 ## 0.3.2 (2019-02-24)
 

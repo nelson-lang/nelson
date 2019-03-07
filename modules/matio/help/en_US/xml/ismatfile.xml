@@ -58,6 +58,9 @@ savemat([tempdir(), '/example_loadmat-v6.mat'], 'A', '-v6')
 
 	<see_also>
 		<see_also_item>
+			<link linkend="${hdf5}isnh5file">isnh5file</link>
+		</see_also_item>
+		<see_also_item>
 			<link linkend="${matio}loadmat">loadmat</link>
 		</see_also_item>
 	</see_also>
