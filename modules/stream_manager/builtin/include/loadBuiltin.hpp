@@ -16,35 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <cstring>
-#include "LoadMatioEmpty.hpp"
-#include "matioHelpers.hpp"
-#include "Warning.hpp"
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-bool
-LoadMatioEmpty(matvar_t* matVariable, bool fromCellOrStruct, ArrayOf& VariableValue)
-{
-    bool bSuccess = false;
-    if (matVariable == nullptr) {
-        return bSuccess;
-    }
-    Dimensions dims = getMatVarDimensions(matVariable);
-    if (dims.isEmpty(false)) {
-        VariableValue = ArrayOf::emptyConstructor(dims);
-        bSuccess = true;
-    }
-    if (fromCellOrStruct && !bSuccess) {
-        VariableValue = ArrayOf::emptyConstructor();
-        bSuccess = true;
-    } else {
-        Warning(L"Nelson:matio:type-not-supported",
-            _W("Cannot read matio variable of type: function."));
-    }
-    VariableValue = ArrayOf::emptyStructWithoutFields();
-    return true;
+namespace StreamGateway {
+    ArrayOfVector
+    loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
-//=============================================================================
 } // namespace Nelson
 //=============================================================================

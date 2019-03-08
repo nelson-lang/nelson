@@ -39,8 +39,6 @@ static const nlsGateway gateway[] = {
     { "h5create", Nelson::Hdf5Gateway::h5createBuiltin, 0, -4, CPP_BUILTIN },
     { "loadnh5", Nelson::Hdf5Gateway::h5loadBuiltin, 1, 1, CPP_BUILTIN },
     { "savenh5", Nelson::Hdf5Gateway::h5saveBuiltin, 0, 1, CPP_BUILTIN },
-    { "load", Nelson::Hdf5Gateway::h5loadBuiltin, 1, 1, CPP_BUILTIN },
-    { "save", Nelson::Hdf5Gateway::h5saveBuiltin, 0, 1, CPP_BUILTIN },
     { "isnh5file", Nelson::Hdf5Gateway::isnh5fileBuiltin, 1, 1, CPP_BUILTIN },
 };
 //=============================================================================

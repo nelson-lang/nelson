@@ -185,6 +185,8 @@
     <ClCompile Include="..\cpp\fwriteBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\helpers.cpp" />
+    <ClCompile Include="..\cpp\loadBuiltin.cpp" />
+    <ClCompile Include="..\cpp\saveBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -233,7 +235,9 @@
     <ClInclude Include="..\include\ftellBuiltin.hpp" />
     <ClInclude Include="..\include\fwriteBuiltin.hpp" />
     <ClInclude Include="..\include\helpers.hpp" />
+    <ClInclude Include="..\include\loadBuiltin.hpp" />
     <ClInclude Include="..\include\nlsStream_manager_builtin_exports.h" />
+    <ClInclude Include="..\include\saveBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.nls" />

@@ -34,6 +34,8 @@
 #include "fsizeBuiltin.hpp"
 #include "ftellBuiltin.hpp"
 #include "fwriteBuiltin.hpp"
+#include "loadBuiltin.hpp"
+#include "saveBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -55,6 +57,8 @@ static const nlsGateway gateway[] = {
     { "dlmwrite", Nelson::StreamGateway::dlmwriteBuiltin, 0, -3, CPP_BUILTIN_WITH_EVALUATOR },
     { "fileread", Nelson::StreamGateway::filereadBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "filewrite", Nelson::StreamGateway::filewriteBuiltin, 0, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "load", Nelson::StreamGateway::loadBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "save", Nelson::StreamGateway::saveBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR }
 };
 //=============================================================================
 static bool
