@@ -16,7 +16,7 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ; LICENCE_BLOCK_END
 ;==============================================================================
-french.LANGUAGE = Fran�ais
+french.LANGUAGE = Français
 ;
 french.CPU_OPTIMIZATION_FOR_NELSON = Optimisation CPU pour Nelson
 french.DEFAULT_LIBRARIES = Biblioth�ques de reference BLAS, LAPACK, FFTW pour Nelson
@@ -25,6 +25,7 @@ french.MKL_LIBRARIES = Biblioth�que MKL (BLAS, LAPACK, FFTW wrappers) pour Nel
 french.ASSOCIATE_NLS_FILE = Associer les fichiers .nls avec Nelson
 french.ASSOCIATE_NLF_FILE = Associer les fichiers .nlf avec Nelson
 french.ASSOCIATE_NH5_FILE = Associer les fichiers .nh5 avec Nelson
+french.ASSOCIATE_MAT_FILE = Associer les fichiers .mat avec Nelson
 ;==============================================================================
 french.RegKeyLoadWith = Charger avec
 ;==============================================================================

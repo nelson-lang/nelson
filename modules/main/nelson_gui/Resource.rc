@@ -28,6 +28,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
 IDI_ICON_NLF           ICON                    "..\\..\\..\\resources\\nlf.ico"
 IDI_ICON_NLS           ICON                    "..\\..\\..\\resources\\nls.ico"
 IDI_ICON_NH5           ICON                    "..\\..\\..\\resources\\nh5.ico"
+IDI_ICON_MAT           ICON                    "..\\..\\..\\resources\\mat.ico"
 IDI_ICON_LOGO          ICON                    "..\\..\\..\\resources\\fibonacci.ico"
 
 #endif    // Neutral (Default) resources

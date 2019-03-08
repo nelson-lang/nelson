@@ -61,3 +61,15 @@ Root: HKCR; Subkey: {#APPLICATION_EXTENSION_NH5}; ValueType: string; ValueData: 
 Root: HKCR; Subkey: {#APPLICATION_EXTENSION_NH5}\DefaultIcon; ValueType: string; ValueData: {app}\bin\{#BinPath}\Nelson-gui.exe,{#ICON_NH5_POS}; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlfFiles;
 Root: HKCR; Subkey: {#APPLICATION_EXTENSION_NH5}\shell\{cm:RegKeyLoadWith} Nelson\command; ValueType: string; ValueData: """{app}\bin\{#BinPath}\Nelson-gui.exe"" {#ARGUMENT_ACTION_LOAD} ""%1"""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNh5Files;
 ;==============================================================================
+;*.mat
+;==============================================================================
+#define APPLICATION_EXTENSION_MAT "Nelson.mat"
+#define MAT_ENTRY ".mat"
+#define ICON_MAT_POS 4
+;==============================================================================
+Root: HKCR; Subkey: {#MAT_ENTRY}; ValueType: string; ValueData: {#APPLICATION_EXTENSION_MAT}; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateMatFiles;
+Root: HKCR; Subkey: {#MAT_ENTRY}\ShellNew; ValueName : NullFile ;ValueType: string; ValueData: ""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateMatFiles;
+Root: HKCR; Subkey: {#APPLICATION_EXTENSION_MAT}; ValueType: string; ValueData: "{#APPLICATION_NAME} Application ({#APPLICATION_EXTENSION_MAT})"; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlfFiles;
+Root: HKCR; Subkey: {#APPLICATION_EXTENSION_MAT}\DefaultIcon; ValueType: string; ValueData: {app}\bin\{#BinPath}\Nelson-gui.exe,{#ICON_MAT_POS}; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlfFiles;
+Root: HKCR; Subkey: {#APPLICATION_EXTENSION_MAT}\shell\{cm:RegKeyLoadWith} Nelson\command; ValueType: string; ValueData: """{app}\bin\{#BinPath}\Nelson-gui.exe"" {#ARGUMENT_ACTION_LOAD} ""%1"""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateMatFiles;
+;==============================================================================

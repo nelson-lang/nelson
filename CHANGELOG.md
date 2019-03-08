@@ -8,6 +8,10 @@ Features:
 
 * save overloads savenh5, savemat functions.
 
+* .mat file extension support added: data formatted (Nelson workspace).
+
+* .mat file association on Windows. load MAT file as data formatted for Nelson.
+
 * loadmat: load mat-file into Nelson's workspace
 
 * savemat: save Nelson's workspace to .mat file.

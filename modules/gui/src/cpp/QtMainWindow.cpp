@@ -177,7 +177,7 @@ QtMainWindow::loadWorkspace()
 {
     if (qtTerminal) {
         QString qfileName = QFileDialog::getOpenFileName(
-            this, TR("Load workspace..."), QDir::currentPath(), TR("Nelson (*.nh5)"));
+            this, TR("Load workspace..."), QDir::currentPath(), TR("Nelson (*.nh5 *.mat)"));
         if (!qfileName.isEmpty()) {
             std::wstring filename = Nelson::QStringTowstring(qfileName);
             qtTerminal->outputMessage(L"\n");
@@ -193,7 +193,7 @@ QtMainWindow::saveWorkspace()
 {
     if (qtTerminal) {
         QString qfileName = QFileDialog::getSaveFileName(
-            this, TR("Save workspace..."), QDir::currentPath(), TR("Nelson (*.nh5)"));
+            this, TR("Save workspace..."), QDir::currentPath(), TR("Nelson (*.nh5);;MAT files (*.mat)"));
         if (!qfileName.isEmpty()) {
             std::wstring filename = Nelson::QStringTowstring(qfileName);
             qtTerminal->outputMessage(L"\n");
