@@ -22,12 +22,6 @@
     <ClCompile Include="..\cpp\BuiltInFunctionDefManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\ByteCode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\ByteCodeFunctionDef.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\CheckIfWhileCondition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -212,12 +206,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\BuiltInFunctionDefManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\ByteCode.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\ByteCodeFunctionDef.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\CheckIfWhileCondition.hpp">

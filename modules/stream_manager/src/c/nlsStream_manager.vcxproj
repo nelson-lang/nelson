@@ -175,8 +175,6 @@
     <ClInclude Include="..\..\src\include\Diary.hpp" />
     <ClInclude Include="..\..\src\include\Interface.hpp" />
     <ClInclude Include="..\..\src\include\nlsStream_manager_exports.h" />
-    <ClInclude Include="..\..\src\include\Serialize.hpp" />
-    <ClInclude Include="..\..\src\include\Stream.hpp" />
     <ClInclude Include="..\cpp\DisplayCell.hpp" />
     <ClInclude Include="..\cpp\DisplayCharacters.hpp" />
     <ClInclude Include="..\cpp\DisplayFloatingNumber.hpp" />
@@ -203,6 +201,7 @@
     <ClInclude Include="..\include\FileWrite.hpp" />
     <ClInclude Include="..\include\MapFileRead.hpp" />
     <ClInclude Include="..\include\PrintfFunction.hpp" />
+    <ClInclude Include="..\include\Stream.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\DelimitedFile.cpp" />
@@ -233,7 +232,6 @@
     <ClCompile Include="..\cpp\MapFileRead.cpp" />
     <ClCompile Include="..\cpp\PrintfHelper.cpp" />
     <ClCompile Include="..\cpp\PrintfFunction.cpp" />
-    <ClCompile Include="..\cpp\Serialize.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>

@@ -40,7 +40,6 @@
 #include <string>
 #include "nlsInterpreter_exports.h"
 #include "Types.hpp"
-#include "Serialize.hpp"
 #include "Keywords.hpp"
 
 namespace Nelson {
@@ -240,14 +239,6 @@ printAST(ASTPtr t);
  * be portable across reasonable systems (i.e., little-vs-big endian can be handled
  * but that's about it).
  */
-NLSINTERPRETER_IMPEXP void
-FreezeAST(ASTPtr t, Serialize* s);
-/** Thaw an AST tree
- * Given a serialization object pointing to the beginning of a frozen AST, reads the AST
- * from the serialized stream and returns a pointer to the resulting AST.
- */
-NLSINTERPRETER_IMPEXP ASTPtr
-ThawAST(Serialize* s);
 
 /**
  * The Parser value stack contains either a raw token's context or an AST pointer

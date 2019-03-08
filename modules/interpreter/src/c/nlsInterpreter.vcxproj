@@ -215,8 +215,6 @@
     <ClCompile Include="..\cpp\AstManager.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDef.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDefManager.cpp" />
-    <ClCompile Include="..\cpp\ByteCode.cpp" />
-    <ClCompile Include="..\cpp\ByteCodeFunctionDef.cpp" />
     <ClCompile Include="..\cpp\CheckIfWhileCondition.cpp" />
     <ClCompile Include="..\cpp\CommandQueue.cpp" />
     <ClCompile Include="..\cpp\Comments.cpp" />
@@ -313,8 +311,6 @@
     <ClInclude Include="..\include\AstManager.hpp" />
     <ClInclude Include="..\include\BuiltInFunctionDef.hpp" />
     <ClInclude Include="..\include\BuiltInFunctionDefManager.hpp" />
-    <ClInclude Include="..\include\ByteCode.hpp" />
-    <ClInclude Include="..\include\ByteCodeFunctionDef.hpp" />
     <ClInclude Include="..\include\CheckIfWhileCondition.hpp" />
     <ClInclude Include="..\include\CommandQueue.hpp" />
     <ClInclude Include="..\include\Comments.hpp" />

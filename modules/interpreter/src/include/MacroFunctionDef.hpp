@@ -20,7 +20,6 @@
 //=============================================================================
 #include "AST.hpp"
 #include "FunctionDef.hpp"
-#include "Serialize.hpp"
 #include "nlsInterpreter_exports.h"
 #include <sys/stat.h>
 //=============================================================================

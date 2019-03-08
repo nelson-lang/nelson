@@ -35,18 +35,17 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-
+//=============================================================================
 #include "AST.hpp"
 #include "AstManager.hpp"
 #include "Keywords.hpp"
-#include "Serialize.hpp"
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-
+//=============================================================================
 namespace Nelson {
-
+//=============================================================================
 AST::AST()
 {
     m_context = 0;
@@ -57,7 +56,7 @@ AST::AST()
     right = nullptr;
     opNum = OP_NULL;
 }
-
+//=============================================================================
 AST::AST(NODE_TYPE ntype, const char* name, int context)
 {
     type = ntype;
@@ -68,7 +67,7 @@ AST::AST(NODE_TYPE ntype, const char* name, int context)
     opNum = OP_NULL;
     m_context = context;
 }
-
+//=============================================================================
 AST::AST(NODE_TYPE ntype, int token, int context)
 {
     type = ntype;
@@ -79,7 +78,7 @@ AST::AST(NODE_TYPE ntype, int token, int context)
     opNum = OP_NULL;
     m_context = context;
 }
-
+//=============================================================================
 AST::AST(OP_TYPE op, AST* arg, int context)
 {
     type = non_terminal;
@@ -90,7 +89,7 @@ AST::AST(OP_TYPE op, AST* arg, int context)
     opNum = op;
     m_context = context;
 }
-
+//=============================================================================
 AST::AST(OP_TYPE op, AST* lt, AST* rt, int context)
 {
     type = non_terminal;
@@ -102,7 +101,7 @@ AST::AST(OP_TYPE op, AST* lt, AST* rt, int context)
     right = nullptr;
     m_context = context;
 }
-
+//=============================================================================
 AST::AST(OP_TYPE op, AST* lt, AST* md, AST* rt, int context)
 {
     type = non_terminal;
@@ -115,21 +114,21 @@ AST::AST(OP_TYPE op, AST* lt, AST* md, AST* rt, int context)
     right = nullptr;
     m_context = context;
 }
-
+//=============================================================================
 AST::~AST() { text.clear(); }
-
+//=============================================================================
 int
 AST::context()
 {
     return m_context;
 }
-
+//=============================================================================
 bool
 AST::match(OP_TYPE test)
 {
     return (test == opNum);
 }
-
+//=============================================================================
 stringVector
 AST::toStringList()
 {
@@ -148,7 +147,7 @@ AST::toStringList()
     }
     return res;
 }
-
+//=============================================================================
 void
 AST::addChild(AST* arg)
 {
@@ -165,7 +164,7 @@ AST::addChild(AST* arg)
         arg->right = nullptr;
     }
 }
-
+//=============================================================================
 void
 AST::addPeer(AST* arg)
 {
@@ -182,7 +181,7 @@ AST::addPeer(AST* arg)
         arg->right = nullptr;
     }
 }
-
+//=============================================================================
 int
 AST::peerCount()
 {
@@ -196,7 +195,7 @@ AST::peerCount()
     }
     return count;
 }
-
+//=============================================================================
 int
 AST::childCount()
 {
@@ -210,15 +209,15 @@ AST::childCount()
     }
     return count;
 }
-
+//=============================================================================
 bool
 AST::isEmpty()
 {
     return ((type == null_node) || (type == non_terminal && opNum == OP_NULL));
 }
-
+//=============================================================================
 int tabLevel = 0;
-
+//=============================================================================
 void
 outTabs()
 {
@@ -226,11 +225,12 @@ outTabs()
         printf("   ");
     }
 }
-
+//=============================================================================
 #define cnum(op, msg)                                                                              \
     case op:                                                                                       \
         printf(msg);                                                                               \
         break;
+//=============================================================================
 void
 printAST(ASTPtr t)
 {
@@ -322,45 +322,6 @@ printAST(ASTPtr t)
     tabLevel--;
     printAST(t->right);
 }
-
-void
-FreezeAST(ASTPtr t, Serialize* s)
-{
-    if (t == nullptr) {
-        s->putByte(0);
-        return;
-    }
-    s->putByte(1);
-    s->putByte(t->type);
-    s->putInt(t->tokenNumber);
-    s->putByte(t->opNum);
-    s->putString(t->text);
-    FreezeAST(t->down, s);
-    FreezeAST(t->right, s);
-}
-
-ASTPtr
-ThawAST(Serialize* s)
-{
-    char flag;
-    flag = s->getByte();
-    if (!flag) {
-        return nullptr;
-    }
-    ASTPtr t;
-    try {
-        t = new AST();
-    } catch (const std::bad_alloc&) {
-        t = nullptr;
-    }
-    if (t) {
-        t->type = static_cast<NODE_TYPE>(s->getByte());
-        t->tokenNumber = s->getInt();
-        t->opNum = static_cast<OP_TYPE>(s->getByte());
-        t->text = s->getString();
-        t->down = ThawAST(s);
-        t->right = ThawAST(s);
-    }
-    return t;
-}
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

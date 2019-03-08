@@ -61,7 +61,6 @@
 #include "ParserInterface.hpp"
 #include "LexerInterface.hpp"
 #include "Interface.hpp"
-#include "Serialize.hpp"
 #include "MacroFunctionDef.hpp"
 #include "ClassName.hpp"
 #include "OverloadDisplay.hpp"
@@ -3775,7 +3774,6 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
     }
     popDebug();
     return true;
-
 }
 //=============================================================================
 bool
