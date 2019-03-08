@@ -121,7 +121,8 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         pstate = parseFile(fr, absolutePath.generic_string().c_str());
         pt = getAstUsed();
     } catch (const Exception&) {
-        deleteAstVector(getAstUsed());
+        std::vector<ASTPtr> used = getAstUsed();
+        deleteAstVector(used);
         resetAstBackupPosition();
         fclose(fr);
         if (bNeedToRestoreDirectory) {
@@ -268,7 +269,8 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         }
         return true;
     } catch (const Exception&) {
-        deleteAstVector(getAstUsed());
+        std::vector<ASTPtr> used = getAstUsed();
+        deleteAstVector(used);
         resetAstBackupPosition();
         // removes stack
         while (eval->cstack.size() > stackdepth) {

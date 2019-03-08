@@ -3718,7 +3718,8 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
         parserState = parseString(command);
         pt = getAstUsed();
     } catch (Exception& e) {
-        deleteAstVector(getAstUsed());
+        std::vector<ASTPtr> used = getAstUsed();
+        deleteAstVector(used);
         resetAstBackupPosition();
         resetParser();
         setLastErrorException(e);
@@ -3993,7 +3994,8 @@ Evaluator::evalCLI()
         try {
             int lastCount = 0;
             bool bContinueLine = lexCheckForMoreInput(0);
-            deleteAstVector(getAstUsed());
+            std::vector<ASTPtr> used = getAstUsed();
+            deleteAstVector(used);
             resetAstBackupPosition();
             if (bContinueLine) {
                 lastCount = getContinuationCount();
@@ -4012,7 +4014,8 @@ Evaluator::evalCLI()
                         resetAstBackupPosition();
                         setLexBuffer(lines);
                         enoughInput = !lexCheckForMoreInput(lastCount);
-                        deleteAstVector(getAstUsed());
+                        std::vector<ASTPtr> used = getAstUsed();
+                        deleteAstVector(used);
                         resetAstBackupPosition();
                         lastCount = getContinuationCount();
                         if (enoughInput) {
