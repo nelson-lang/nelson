@@ -33,14 +33,12 @@ executeCommand(std::wstring commandToExecute, bool forceEvaluateString)
         Interface* io = eval->getInterface();
         if (io != nullptr) {
             if (forceEvaluateString) {
-                std::string ustr = wstring_to_utf8(_cmd);
-                eval->evaluateString(ustr + "\n");
+                eval->evaluateString(_cmd + L"\n", io->isAtPrompt());
             } else {
                 if (io->isAtPrompt()) {
                     eval->addCommandToQueue(_cmd, true);
                 } else {
-                    std::string ustr = wstring_to_utf8(_cmd);
-                    eval->evaluateString(ustr + "\n");
+                    eval->evaluateString(_cmd + L"\n");
                 }
             }
             return true;

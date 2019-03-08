@@ -52,7 +52,7 @@ NLSINTERPRETER_IMPEXP bool
 deleteAst(ASTPtr pt, std::vector<ASTPtr> v);
 //=============================================================================
 NLSINTERPRETER_IMPEXP void
-deleteAstVector(std::vector<ASTPtr> v);
+deleteAstVector(std::vector<ASTPtr>& v);
 //=============================================================================
 
 } // namespace Nelson

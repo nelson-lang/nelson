@@ -50,7 +50,7 @@ deleteAst(ASTPtr pt, std::vector<ASTPtr> v)
 }
 //=============================================================================
 void
-deleteAstVector(std::vector<ASTPtr> v)
+deleteAstVector(std::vector<ASTPtr> &v)
 {
     for (auto& k : v) {
         if (k) {

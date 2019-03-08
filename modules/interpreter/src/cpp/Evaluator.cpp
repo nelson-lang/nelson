@@ -3748,36 +3748,34 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
         popDebug();
         return false;
     }
+
     try {
         block(tree);
-        deleteAstVector(pt);
-        resetAstBackupPosition();
-        tree = nullptr;
-        if (state == NLS_STATE_RETURN) {
-            if (depth > 0) {
-                popDebug();
-                depth--;
-                return true;
-            }
-        }
-        if (state == NLS_STATE_QUIT || state == NLS_STATE_ABORT) {
-            popDebug();
-            return true;
-        }
-    } catch (Exception& e) {
+    } catch (Exception e) {
         deleteAstVector(pt);
         resetAstBackupPosition();
         tree = nullptr;
         setLastErrorException(e);
         if (propogateException) {
-            throw;
+            throw e;
+        } else {
+            e.printMe(io);
+            popDebug();
+            return false;
         }
-        e.printMe(io);
-        popDebug();
-        return false;
+    }
+
+    deleteAstVector(pt);
+    resetAstBackupPosition();
+    tree = nullptr;
+    if (state == NLS_STATE_RETURN) {
+        if (depth > 0) {
+            depth--;
+        }
     }
     popDebug();
     return true;
+
 }
 //=============================================================================
 bool
