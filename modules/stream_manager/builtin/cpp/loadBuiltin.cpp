@@ -117,8 +117,7 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             // try detect if it is a .nh5
             FunctionDef* funcDef = nullptr;
             if (!PathFuncManager::getInstance()->find("isnh5file", funcDef)) {
-                if (!BuiltInFunctionDefManager::getInstance()->find("isnh5file", funcDef)) {
-                }
+                BuiltInFunctionDefManager::getInstance()->find("isnh5file", funcDef);
             }
             if (funcDef) {
                 ArrayOfVector inputArguments;
@@ -133,8 +132,7 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                 // try detect if it is a .mat
                 FunctionDef* funcDef = nullptr;
                 if (!PathFuncManager::getInstance()->find("ismatfile", funcDef)) {
-                    if (!BuiltInFunctionDefManager::getInstance()->find("ismatfile", funcDef)) {
-                    }
+                    BuiltInFunctionDefManager::getInstance()->find("ismatfile", funcDef);
                 }
                 if (funcDef) {
                     ArrayOfVector inputArguments;
