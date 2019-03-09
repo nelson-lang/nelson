@@ -46,8 +46,6 @@ IsMatioFile(wstringVector filenames, ArrayOf& results, ArrayOf& versions)
             fileExistPreviously = boost::filesystem::exists(mat_filename)
                 && !boost::filesystem::is_directory(mat_filename);
         } catch (const boost::filesystem::filesystem_error& e) {
-            if (e.code() == boost::system::errc::permission_denied) {
-            }
             fileExistPreviously = false;
         }
         if (!fileExistPreviously) {
