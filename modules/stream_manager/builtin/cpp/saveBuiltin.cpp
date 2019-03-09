@@ -50,6 +50,9 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring paramFilename = argIn[0].getContentAsWideString();
+    if (paramFilename.empty()) {
+        paramFilename = L"nelson.nh5";
+    }
     wstringVector names;
     bool forceAsMat = false;
     bool forceAsNh5 = false;
@@ -89,9 +92,9 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
 
 	if (!forceAsMat && !forceAsNh5) {
         std::string extension = boost::filesystem::extension(paramFilename);
-        if (extension == "nh5") {
+        if (extension == ".nh5") {
             forceAsNh5 = true;
-        } else if (extension == "mat") {
+        } else if (extension == ".mat") {
             forceAsMat = true;
         } else if (extension == "") {
             forceAsNh5 = true;

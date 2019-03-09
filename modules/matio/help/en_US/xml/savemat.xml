@@ -119,7 +119,10 @@ no_compression = dir([tempdir(), '/example_savemat_no_compression.mat'])]]>
 			<link linkend="${matio}loadmat">loadmat</link>
 		</see_also_item>
 		<see_also_item>
-			<link linkend="${hdf5}h5save">h5save</link>
+			<link linkend="${stream_manager}save">save</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${hdf5}savenh5">savenh5</link>
 		</see_also_item>
 	</see_also>
 

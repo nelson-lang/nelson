@@ -3,20 +3,26 @@
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
-	<keyword>loadmat</keyword>
-	<short_description>load data from .mat file into Nelson's workspace.</short_description>
+	<keyword>load</keyword>
+	<short_description>load data from .nh5 or .mat file into Nelson's workspace.</short_description>
 
 	<syntax>
-		<syntax_item>loadmat(filename)</syntax_item>
-		<syntax_item>st = loadmat(filename)</syntax_item>
-		<syntax_item>loadmat(filename, var1, ..., varN)</syntax_item>
-		<syntax_item>st = loadmat(filename, var1, ..., varN)</syntax_item>
+		<syntax_item>load(filename)</syntax_item>
+		<syntax_item>st = load(filename)</syntax_item>
+		<syntax_item>load(filename, var1, ..., varN)</syntax_item>
+		<syntax_item>st = load(filename, var1, ..., varN)</syntax_item>
+		<syntax_item>load(filename, '-mat')</syntax_item>
+		<syntax_item>load(filename, '-nh5')</syntax_item>
 	</syntax>
 	
 	<param_input>
 		<param_input_item>
 			<param_name>filename</param_name>
-			<param_description>a string: .mat filename.</param_description>
+			<param_description>a string: .nh5 or .mat filename.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>'-mat' or '-nh5'</param_name>
+			<param_description>forces to read file as nh5 or mat.</param_description>
 		</param_input_item>
 		<param_input_item>
 			<param_name>var1, ..., varN</param_name>
@@ -32,12 +38,12 @@
 	</param_output>
 
 	<description>
-		<p><b>loadmat</b> loads data from .mat file to Nelson's workspace.</p>
+		<p><b>load</b> loads data from .nh5 or .mat file to Nelson's workspace.</p>
 	</description>
 
 
 	<used_function></used_function>
-	<bibliography>Thanks to MATIO library (http://sourceforge.net/projects/matio/).</bibliography>
+	<bibliography></bibliography>
 
 <examples>
 
@@ -46,15 +52,15 @@
 		<example_item_description></example_item_description>
 		<example_item_data><![CDATA[A = ones(3, 4);
 B = 'hello for open mat users';
-savemat([tempdir(), '/example_loadmat.mat'], 'A', 'B')
+save([tempdir(), '/example_load.mat'], 'A', 'B')
 clear;
-st = loadmat([tempdir(), '/example_loadmat.mat']);
+st = load([tempdir(), '/example_load.mat']);
 who
 st.A
 st.B
 clear
 who
-loadmat([tempdir(), '/example_loadmat.mat']);
+load([tempdir(), '/example_load.mat']);
 who
 A
 B
@@ -66,13 +72,13 @@ B
 
 	<see_also>
 		<see_also_item>
-			<link linkend="${stream_manager}load">load</link>
-		</see_also_item>
-		<see_also_item>
 			<link linkend="${stream_manager}save">save</link>
 		</see_also_item>
 		<see_also_item>
 			<link linkend="${matio}savemat">savemat</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${hdf5}savenh5">savenh5</link>
 		</see_also_item>
 	</see_also>
 

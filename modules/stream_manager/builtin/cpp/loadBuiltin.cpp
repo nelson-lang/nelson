@@ -64,6 +64,9 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring paramFilename = argIn[0].getContentAsWideString();
+    if (paramFilename.empty()) {
+        Error(_W("Filename is empty"));
+    }
     wstringVector names;
     bool forceAsMat = false;
     bool forceAsNh5 = false;
@@ -107,51 +110,43 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         }
     } else {
         std::string extension = boost::filesystem::extension(paramFilename);
-        if (extension == "nh5") {
-            loadFunctionName = "loadnh5";
-        } else if (extension == "mat") {
-            loadFunctionName = "loadmat";
-        } else {
-            bool isNh5 = false;
-            bool isMat = false;
-            // try detect if it is a .nh5
+        bool isNh5 = false;
+        bool isMat = false;
+        // try detect if it is a .nh5
+        FunctionDef* funcDef = nullptr;
+        if (!PathFuncManager::getInstance()->find("isnh5file", funcDef)) {
+            BuiltInFunctionDefManager::getInstance()->find("isnh5file", funcDef);
+        }
+        if (funcDef) {
+            ArrayOfVector inputArguments;
+            inputArguments.push_back(ArrayOf::characterArrayConstructor(paramFilename));
+            ArrayOfVector res = funcDef->evaluateFunction(eval, inputArguments, 1);
+            if (res.size() == 1) {
+                isNh5 = res[0].getContentAsLogicalScalar();
+            }
+        }
+
+        if (!isNh5) {
+            // try detect if it is a .mat
             FunctionDef* funcDef = nullptr;
-            if (!PathFuncManager::getInstance()->find("isnh5file", funcDef)) {
-                BuiltInFunctionDefManager::getInstance()->find("isnh5file", funcDef);
+            if (!PathFuncManager::getInstance()->find("ismatfile", funcDef)) {
+                BuiltInFunctionDefManager::getInstance()->find("ismatfile", funcDef);
             }
             if (funcDef) {
                 ArrayOfVector inputArguments;
                 inputArguments.push_back(ArrayOf::characterArrayConstructor(paramFilename));
                 ArrayOfVector res = funcDef->evaluateFunction(eval, inputArguments, 1);
                 if (res.size() == 1) {
-                    isNh5 = res[0].getContentAsLogicalScalar();
+                    isMat = res[0].getContentAsLogicalScalar();
                 }
             }
-
-            if (!isNh5) {
-                // try detect if it is a .mat
-                FunctionDef* funcDef = nullptr;
-                if (!PathFuncManager::getInstance()->find("ismatfile", funcDef)) {
-                    BuiltInFunctionDefManager::getInstance()->find("ismatfile", funcDef);
-                }
-                if (funcDef) {
-                    ArrayOfVector inputArguments;
-                    inputArguments.push_back(ArrayOf::characterArrayConstructor(paramFilename));
-                    ArrayOfVector res = funcDef->evaluateFunction(eval, inputArguments, 1);
-                    if (res.size() == 1) {
-                        isMat = res[0].getContentAsLogicalScalar();
-                    }
-                }
-            }
-            if (isNh5 || isMat) {
-                if (isNh5) {
-                    loadFunctionName = "loadnh5";
-                } else {
-                    loadFunctionName = "loadmat";
-                }
-            } else {
-                Error(_W("File type not managed."));
-            }
+        }
+        if (isNh5) {
+            loadFunctionName = "loadnh5";
+        } else if (isMat) {
+            loadFunctionName = "loadmat";
+        } else {
+            loadFunctionName = "loadnh5";
         }
     }
 
