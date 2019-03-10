@@ -289,6 +289,10 @@ FIND_PACKAGE(Taglib REQUIRED)
 FIND_PACKAGE(LAPACK REQUIRED)
 FIND_PACKAGE(HDF5 REQUIRED)
 #==============================================================================
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  FIND_PACKAGE(LAPACKE REQUIRED)
+ENDIF()
+#==============================================================================
 find_package(MATIO REQUIRED)
 if(MATIO_FOUND)
     message(STATUS "Found Matio lib: ${MATIO_LIBRARIES}")
