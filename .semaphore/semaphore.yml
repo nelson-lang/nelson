@@ -11,6 +11,7 @@ blocks:
       jobs:
       - name: apt tasks
         commands:
+          - sudo apt-get update;
           - sudo apt-get -y install libopenmpi-dev;
           - sudo apt-get -y install autotools-dev;
           - sudo apt-get -y install libtool;
@@ -35,16 +36,8 @@ blocks:
           - sudo apt-get -y install hdf5-tools;
           - sudo apt-get -y install libboost-all-dev;
           - sudo apt-get -y install libmatio-dev;
-          - add-apt-repository --yes ppa:ubuntu-sdk-team/ppa;
-          - sudo apt-get update;
           - sudo apt-get -y install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev;
           - sudo apt-get -y install qt5-default qttools5-dev-tools;
-          - sudo apt-get -y install libqt5qml-graphicaleffects;
           - sudo apt-get -y install libqt5opengl5-dev;
           - sudo apt-get -y install qtbase5-private-dev;
-          - sudo apt-get -y install qtdeclarative5-dev;
-          - sudo apt-get -y install qtdeclarative5-controls-plugin;
-          - sudo apt-get -y install qtdeclarative5-quicklayouts-plugin;
-          - sudo apt-get -y install qtdeclarative5-qtquick2-plugin;
-          - sudo apt-get -y install qtdeclarative5-dialogs-plugin;
-          - sudo apt-get -y install qtdeclarative5-window-plugin;
+          - git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.5 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && sudo make install

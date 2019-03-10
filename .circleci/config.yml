@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: debian:stretch
+      - image: debian:buster
     environment:
       DISPLAY: ""      
     steps:
@@ -26,8 +26,6 @@ jobs:
       - run: apt-get install -y liblapacke-dev;
       - run: apt-get install -y fftw3;
       - run: apt-get install -y fftw3-dev;
-      - run: apt-get install -y libhdf5-dev;
-      - run: apt-get install -y hdf5-tools;
       - run: apt-get install -y libasound-dev;
       - run: apt-get install -y portaudio19-dev;
       - run: apt-get install -y libsndfile1-dev;
@@ -41,9 +39,11 @@ jobs:
       - run: apt-get install -y libqt5opengl5-dev;
       - run: apt-get install -y qtbase5-private-dev;
       - run: apt-get install -y qtdeclarative5-dev;
+      - run: apt-get install -y libhdf5-dev;
+      - run: apt-get install -y hdf5-tools;
+      - run: apt-get install -y libmatio-dev;
       - run: git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen
       - run: mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.5 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && make install;
-      - run: git clone https://github.com/tbeu/matio /tmp/matio && cd /tmp/matio && git checkout v1.5.13 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic && make && make install;
       - checkout
       - run: cmake -G "Unix Makefiles"
       - run: make -j4
