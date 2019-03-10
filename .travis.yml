@@ -156,14 +156,14 @@ before_script:
 
   - if [ $TRAVIS_OS_NAME == osx ];
     then export BUILD_ROOT=$(pwd);
-    cd $HOME;
-    curl -O https://github.com/fxcoudert/gfortran-for-macOS/releases/download/6.3/gfortran-6.3-Sierra.dmg;
-    sudo hdiutil attach gfortran-6.3-Sierra.dmg;
-    sudo installer -package /Volumes/gfortran-6.3-Sierra/gfortran.pkg -target /;
-    sudo hdiutil detach /Volumes/gfortran-6.3-Sierra;
     cd $BUILD_ROOT;
     cd ..;
     git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-macosx.git;
+    cd nelson-thirdparty-macosx
+    cd gfortran
+    sudo hdiutil attach gfortran-6.3-Sierra.dmg;
+    sudo installer -package /Volumes/gfortran-6.3-Sierra/gfortran.pkg -target /;
+    sudo hdiutil detach /Volumes/gfortran-6.3-Sierra;
     fi
 
 script:
