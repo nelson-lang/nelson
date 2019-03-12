@@ -16,13 +16,19 @@ Features:
 
 * savemat: save Nelson's workspace to .mat file.
 
-Thanks to MAT file I/O library (MATIO) to provide an easy support for MAT-file.
-
 * ismatfile: check if a file is a valid .mat file.
 
 * isnh5file: check if a file is a valid .nh5 file.
 
 * rename h5save to savenh5, h5load to loadnh5
+
+Compilation:
+---------
+
+* MATIO 1.5.14
+
+  Thanks to MAT file I/O library (MATIO) to provide an easy support for MAT-file.
+
 
 
 ## 0.3.2 (2019-02-24)

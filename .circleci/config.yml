@@ -51,3 +51,4 @@ jobs:
       - run: make tests_minimal
       - run: make package
       - run: make tests_all_no_display
+      
