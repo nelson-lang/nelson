@@ -25,7 +25,7 @@ Features:
 Compilation:
 ---------
 
-* MATIO 1.5.14
+* MATIO 1.5.13
 
   Thanks to MAT file I/O library (MATIO) to provide an easy support for MAT-file.
 
