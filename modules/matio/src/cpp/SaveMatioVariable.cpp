@@ -35,23 +35,23 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioVariable(std::string variableName, ArrayOf variableValue)
+SaveMatioVariable(std::string variableName, ArrayOf variableValue, mat_ft matVersion)
 {
     matvar_t* matVariable = nullptr;
     switch (variableValue.getDataClass()) {
     case NLS_HANDLE: {
-        matVariable = SaveMatioHandle(variableName, variableValue);
+        matVariable = SaveMatioHandle(variableName, variableValue, matVersion);
     } break;
     case NLS_CELL_ARRAY: {
-        matVariable = SaveMatioCell(variableName, variableValue);
+        matVariable = SaveMatioCell(variableName, variableValue, matVersion);
     } break;
     case NLS_STRUCT_ARRAY: {
-        matVariable = SaveMatioStruct(variableName, variableValue);
+        matVariable = SaveMatioStruct(variableName, variableValue, matVersion);
     } break;
     case NLS_STRING_ARRAY: {
         // MATIO 1.5.13 does not know string array type
         // Workaround: String array converted to Cell array
-        matVariable = SaveMatioStringArray(variableName, variableValue);
+        matVariable = SaveMatioStringArray(variableName, variableValue, matVersion);
     } break;
     case NLS_LOGICAL: {
         if (variableValue.isSparse()) {
@@ -91,7 +91,7 @@ SaveMatioVariable(std::string variableName, ArrayOf variableValue)
         }
     } break;
     case NLS_CHAR: {
-        matVariable = SaveMatioCharacterArray(variableName, variableValue);
+        matVariable = SaveMatioCharacterArray(variableName, variableValue, matVersion);
     } break;
     default: { } break; }
     return matVariable;

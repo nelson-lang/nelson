@@ -23,11 +23,11 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioHandle(std::string variableName, ArrayOf variableValue)
+SaveMatioHandle(std::string variableName, ArrayOf variableValue, mat_ft matVersion)
 {
     /* handle have no equivalent in others softwares */
     Warning(_W("handle not saved."));
-    return SaveMatioStruct(variableName, ArrayOf::emptyStructWithoutFields());
+    return SaveMatioStruct(variableName, ArrayOf::emptyStructWithoutFields(), matVersion);
 }
 //=============================================================================
 }

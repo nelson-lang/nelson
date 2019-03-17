@@ -23,7 +23,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioStruct(std::string variableName, ArrayOf variableValue)
+SaveMatioStruct(std::string variableName, ArrayOf variableValue, mat_ft matVersion)
 {
     Dimensions variableDims = variableValue.getDimensions();
     indexType rank;
@@ -48,7 +48,8 @@ SaveMatioStruct(std::string variableName, ArrayOf variableValue)
     for (indexType i = 0; i < variableDims.getElementCount(); ++i) {
         for (indexType j = 0; j < (indexType)nbFielnames; ++j) {
             ArrayOf element = elements[i * nbFielnames + j];
-            structElements[i * nbFielnames + j] = SaveMatioVariable(fieldnames[j], element);
+            structElements[i * nbFielnames + j]
+                = SaveMatioVariable(fieldnames[j], element, matVersion);
         }
     }
     matvar_t* matVariable = Mat_VarCreate(

@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-matver = {'-v7', '-v7.3'};
+matver = {'-v6', '-v7', '-v7.3'};
 //=============================================================================
 R = 'Nelson supports character array';
 R_REF = R;

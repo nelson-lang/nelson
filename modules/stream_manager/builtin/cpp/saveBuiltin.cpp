@@ -71,11 +71,8 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                 append = true;
             } else if (param == L"-nocompression") {
                 nocompression = true;
-            } else if ((param == L"-v7.3") ||
-				(param == L"-v7") ||
-				(param == L"-v6") ||
-				(param == L"-v4"))
-			{
+            } else if ((param == L"-v7.3") || (param == L"-v7") || (param == L"-v6")
+                || (param == L"-v4")) {
                 version = param;
                 forceAsMat = true;
             } else {
@@ -90,7 +87,7 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         }
     }
 
-	if (!forceAsMat && !forceAsNh5) {
+    if (!forceAsMat && !forceAsNh5) {
         std::string extension = boost::filesystem::extension(paramFilename);
         if (extension == ".nh5") {
             forceAsNh5 = true;
@@ -99,12 +96,12 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         } else if (extension == "") {
             forceAsNh5 = true;
             paramFilename = paramFilename + L".nh5";
-		} else {
+        } else {
             forceAsNh5 = true;
         }
     }
 
-	std::string saveFunctionName;
+    std::string saveFunctionName;
     if (forceAsNh5) {
         saveFunctionName = "savenh5";
     } else if (forceAsMat) {
@@ -114,14 +111,14 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         Error(_W("save function expected."));
     }
 
-	FunctionDef* funcDef = nullptr;
+    FunctionDef* funcDef = nullptr;
     if (!PathFuncManager::getInstance()->find(saveFunctionName, funcDef)) {
-		if (!BuiltInFunctionDefManager::getInstance()->find(saveFunctionName, funcDef)) {
+        if (!BuiltInFunctionDefManager::getInstance()->find(saveFunctionName, funcDef)) {
             Error(_W("load function expected."));
         }
     }
 
-	ArrayOfVector inputArguments;
+    ArrayOfVector inputArguments;
     inputArguments.push_back(ArrayOf::characterArrayConstructor(paramFilename));
     for (std::wstring name : names) {
         inputArguments.push_back(ArrayOf::characterArrayConstructor(name));

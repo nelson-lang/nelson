@@ -27,15 +27,22 @@
 namespace Nelson {
 //=============================================================================
 static mat_ft
-versionToEnum(std::wstring matFileVersion)
+versionToEnum(std::wstring matFileVersion, matio_compression& compressionLevel)
 {
     if (matFileVersion == L"-v7.3") {
+        compressionLevel = MAT_COMPRESSION_ZLIB;
         return MAT_FT_MAT73;
     }
     if (matFileVersion == L"-v7") {
+        compressionLevel = MAT_COMPRESSION_ZLIB;
         return MAT_FT_MAT5;
     }
-    if (matFileVersion == L"-v6" || matFileVersion == L"-v4") {
+    if (matFileVersion == L"-v6") {
+        compressionLevel = MAT_COMPRESSION_NONE;
+        return MAT_FT_MAT5;
+    }
+    if (matFileVersion == L"-v4") {
+        compressionLevel = MAT_COMPRESSION_NONE;
         return MAT_FT_MAT4;
     }
     return MAT_FT_UNDEFINED;
@@ -61,11 +68,12 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names
         eval->getContext()->getCurrentScope()->getVariablesList(false, variablesName);
     }
 
-    mat_ft matVersion = versionToEnum(matFileVersion);
+    matio_compression matCompression;
+    mat_ft matVersion = versionToEnum(matFileVersion, matCompression);
     if (matVersion == MAT_FT_UNDEFINED) {
         Error(_("Unknown save format."));
     }
-    matio_compression matCompression = nocompression ? MAT_COMPRESSION_NONE : MAT_COMPRESSION_ZLIB;
+    matCompression = nocompression ? MAT_COMPRESSION_NONE : matCompression;
 
     mat_t* matFile = nullptr;
     if (append) {
@@ -91,7 +99,7 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names
         ArrayOf variableValue;
         std::string variableName = wstring_to_utf8(variablesName[k]);
         eval->getContext()->getCurrentScope()->lookupVariable(variableName, variableValue);
-        matvar_t* matioVariable = SaveMatioVariable(variableName, variableValue);
+        matvar_t* matioVariable = SaveMatioVariable(variableName, variableValue, matVersion);
         if (matioVariable == nullptr) {
             Mat_Close(matFile);
             Error(_("Cannot save variable:") + variableName);

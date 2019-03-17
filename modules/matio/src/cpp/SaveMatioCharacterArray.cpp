@@ -22,7 +22,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioCharacterArray(std::string variableName, ArrayOf variableValue)
+SaveMatioCharacterArray(std::string variableName, ArrayOf variableValue, mat_ft matVersion)
 {
     Dimensions variableDims = variableValue.getDimensions();
     indexType rank;
@@ -31,18 +31,27 @@ SaveMatioCharacterArray(std::string variableName, ArrayOf variableValue)
         return nullptr;
     }
     void* ptrValue = nullptr;
-    ArrayOf asUint16;
+    matio_types matType = MAT_T_UTF8;
+    ArrayOf asUint;
     if (!variableDims.isEmpty(false)) {
-        if (sizeof(charType) == sizeof(uint16)) {
-            ptrValue = (void*)variableValue.getDataPointer();
+        if (matVersion == MAT_FT_MAT5 || matVersion == MAT_FT_MAT4) {
+            asUint = variableValue;
+            asUint.promoteType(NLS_UINT8);
+            ptrValue = (void*)asUint.getDataPointer();
+            matType = MAT_T_UTF8;
         } else {
-            asUint16 = variableValue;
-            asUint16.promoteType(NLS_UINT16);
-            ptrValue = (void*)asUint16.getDataPointer();
+            if (sizeof(charType) == sizeof(uint16)) {
+                ptrValue = (void*)variableValue.getDataPointer();
+            } else {
+                asUint = variableValue;
+                asUint.promoteType(NLS_UINT16);
+                ptrValue = (void*)asUint.getDataPointer();
+            }
+            matType = MAT_T_UTF16;
         }
     }
-    matvar_t* matVariable = Mat_VarCreate(
-        variableName.c_str(), MAT_C_CHAR, MAT_T_UTF16, (int)rank, dims, ptrValue, 0);
+    matvar_t* matVariable
+        = Mat_VarCreate(variableName.c_str(), MAT_C_CHAR, matType, (int)rank, dims, ptrValue, 0);
     delete[] dims;
     return matVariable;
 }

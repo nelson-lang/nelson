@@ -3751,7 +3751,7 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
 
     try {
         block(tree);
-    } catch (Exception &e) {
+    } catch (Exception& e) {
         deleteAstVector(pt);
         resetAstBackupPosition();
         tree = nullptr;

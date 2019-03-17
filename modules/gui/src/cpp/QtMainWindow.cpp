@@ -192,8 +192,8 @@ void
 QtMainWindow::saveWorkspace()
 {
     if (qtTerminal) {
-        QString qfileName = QFileDialog::getSaveFileName(
-            this, TR("Save workspace..."), QDir::currentPath(), TR("Nelson (*.nh5);;MAT files (*.mat)"));
+        QString qfileName = QFileDialog::getSaveFileName(this, TR("Save workspace..."),
+            QDir::currentPath(), TR("Nelson (*.nh5);;MAT files (*.mat)"));
         if (!qfileName.isEmpty()) {
             std::wstring filename = Nelson::QStringTowstring(qfileName);
             qtTerminal->outputMessage(L"\n");

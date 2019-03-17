@@ -23,7 +23,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-	namespace StreamGateway {
+namespace StreamGateway {
     ArrayOfVector
     saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }

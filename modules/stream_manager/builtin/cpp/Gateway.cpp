@@ -41,8 +41,8 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"stream_manager";
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "diary", Nelson::StreamGateway::diaryBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+static const nlsGateway gateway[] = { { "diary", Nelson::StreamGateway::diaryBuiltin, 1, 1,
+                                          CPP_BUILTIN_WITH_EVALUATOR },
     { "fopen", Nelson::StreamGateway::fopenBuiltin, 2, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "fclose", Nelson::StreamGateway::fcloseBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "fwrite", Nelson::StreamGateway::fwriteBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
@@ -58,8 +58,7 @@ static const nlsGateway gateway[] = {
     { "fileread", Nelson::StreamGateway::filereadBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "filewrite", Nelson::StreamGateway::filewriteBuiltin, 0, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "load", Nelson::StreamGateway::loadBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "save", Nelson::StreamGateway::saveBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR }
-};
+    { "save", Nelson::StreamGateway::saveBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR } };
 //=============================================================================
 static bool
 initializeModule(Nelson::Evaluator* eval)
