@@ -30,6 +30,8 @@ Compilation:
 
 * BOOST 1.69 (Windows)
 
+* CMake 3.14 (Windows)
+
 
 ## 0.3.2 (2019-02-24)
 
