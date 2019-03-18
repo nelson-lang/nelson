@@ -55,7 +55,7 @@ LoadMatioSparseDouble(matvar_t* matVariable, ArrayOf& VariableValue)
         I = ArrayOf::emptyConstructor();
         J = ArrayOf::emptyConstructor();
         V = ArrayOf::emptyConstructor(dims);
-        if (matVariable->isComplex) {
+        if (matVariable->isComplex != 0) {
             V.promoteType(NLS_DCOMPLEX);
         } else {
             V.promoteType(NLS_DOUBLE);
@@ -97,7 +97,7 @@ LoadMatioSparseDouble(matvar_t* matVariable, ArrayOf& VariableValue)
         Dimensions dimsV = Dimensions(1, nbV);
         void* ptrV = nullptr;
         try {
-            if (matVariable->isComplex) {
+            if (matVariable->isComplex != 0) {
                 ptrV = ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbV, stringVector(), false);
             } else {
                 ptrV = ArrayOf::allocateArrayOf(NLS_DOUBLE, nbV, stringVector(), false);
@@ -105,7 +105,7 @@ LoadMatioSparseDouble(matvar_t* matVariable, ArrayOf& VariableValue)
         } catch (Exception&) {
             return false;
         }
-        if (matVariable->isComplex) {
+        if (matVariable->isComplex != 0) {
             V = ArrayOf(NLS_DCOMPLEX, dimsV, ptrV);
             mat_complex_split_t* cplx = (mat_complex_split_t*)sparseData->data;
             double* ptrDouble = (double*)ptrV;

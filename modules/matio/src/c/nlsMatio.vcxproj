@@ -240,6 +240,7 @@
     <ClCompile Include="..\cpp\SaveMatioStringArray.cpp" />
     <ClCompile Include="..\cpp\SaveMatioStruct.cpp" />
     <ClCompile Include="..\cpp\SaveMatioVariable.cpp" />
+    <ClCompile Include="..\cpp\WhosMatioFile.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +278,7 @@
     <ClInclude Include="..\include\nlsMatio_exports.h" />
     <ClInclude Include="..\include\SaveMatioFile.hpp" />
     <ClInclude Include="..\include\SaveMatioVariable.hpp" />
+    <ClInclude Include="..\include\WhosMatioFile.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

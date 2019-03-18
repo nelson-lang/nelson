@@ -30,7 +30,7 @@ LoadMatioSingle(matvar_t* matVariable, ArrayOf& VariableValue)
     if (matVariable == nullptr) {
         return bSuccess;
     }
-    Class destinationClass = matVariable->isComplex ? NLS_SCOMPLEX : NLS_SINGLE;
+    Class destinationClass = matVariable->isComplex != 0 ? NLS_SCOMPLEX : NLS_SINGLE;
     Dimensions dims = getMatVarDimensions(matVariable);
     if (dims.isEmpty(false)) {
         VariableValue = ArrayOf::emptyConstructor(dims);
@@ -44,7 +44,7 @@ LoadMatioSingle(matvar_t* matVariable, ArrayOf& VariableValue)
         } catch (Exception&) {
             return false;
         }
-        if (matVariable->isComplex) {
+        if (matVariable->isComplex != 0) {
             mat_complex_split_t* cplx = (mat_complex_split_t*)matVariable->data;
             single* ptrDouble = (single*)ptr;
             single* ptrR = (single*)(cplx->Re);

@@ -210,12 +210,14 @@
     <ClInclude Include="..\include\loadmatBuiltin.hpp" />
     <ClInclude Include="..\include\nlsMatio_builtin_exports.h" />
     <ClInclude Include="..\include\savematBuiltin.hpp" />
+    <ClInclude Include="..\include\whosmatBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\ismatfileBuiltin.cpp" />
     <ClCompile Include="..\cpp\loadmatBuiltin.cpp" />
     <ClCompile Include="..\cpp\savematBuiltin.cpp" />
+    <ClCompile Include="..\cpp\whosmatBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

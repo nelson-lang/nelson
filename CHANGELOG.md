@@ -15,6 +15,8 @@ Features:
 
 * savemat: save Nelson's workspace to .mat file.
 
+* whosmat: list variables in an valid .mat file.
+
 * ismatfile: check if a file is a valid .mat file.
 
 * isnh5file: check if a file is a valid .nh5 file.

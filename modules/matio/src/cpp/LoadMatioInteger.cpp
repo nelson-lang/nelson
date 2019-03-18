@@ -52,7 +52,7 @@ LoadMatioInteger(matvar_t* matVariable, Class destinationClass, ArrayOf& Variabl
     } else {
         void* ptr = nullptr;
         try {
-            if (matVariable->isComplex) {
+            if (matVariable->isComplex != 0) {
                 ptr = ArrayOf::allocateArrayOf(
                     NLS_DCOMPLEX, dims.getElementCount(), stringVector(), false);
             } else {
@@ -62,7 +62,7 @@ LoadMatioInteger(matvar_t* matVariable, Class destinationClass, ArrayOf& Variabl
         } catch (Exception&) {
             return false;
         }
-        if (matVariable->isComplex) {
+        if (matVariable->isComplex != 0) {
             double* ptrDouble = (double*)ptr;
             mat_complex_split_t* cplx = (mat_complex_split_t*)matVariable->data;
             switch (destinationClass) {

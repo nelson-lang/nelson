@@ -1,0 +1,43 @@
+//=============================================================================
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_isequal(nargin('whosmat'), 1);
+assert_isequal(nargout('whosmat'), 1);
+//=============================================================================
+mat_dir = [fileparts(nfilename('fullpathext'),'path'), '/mat/'];
+//=============================================================================
+s = whosmat([mat_dir, 'test_cell_nest_7.4_GLNX86.mat']);
+REF = struct();
+REF.name = 'testcellnest';
+REF.size = [1 2];
+REF.bytes = 824;
+REF.class = 'cell';
+REF.global = false;
+REF.sparse = false;
+REF.complex = false;
+REF.nesting = struct('function', '', 'level', 0);
+REF.persistent = false;
+assert_isequal(s, REF);
+//=============================================================================
+A = ones(3, 4);
+B = 'Nelson';
+C = sparse(true);
+D = sparse(3i);		
+savemat([tempdir(), '/test_whosmat-v7.3.mat'], 'A', 'B', 'C', 'D', '-v7.3')
+whosmat([tempdir(), '/test_whosmat-v7.3.mat'])
+//=============================================================================
