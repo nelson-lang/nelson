@@ -20,13 +20,12 @@
 //=============================================================================
 #include "nlsMatio_exports.h"
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 #include "Interface.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 NLSMATIO_IMPEXP ArrayOf
-WhosMatioFile(Interface *io, const std::wstring& filename, wstringVector names, bool asStruct);
+WhosMatioFile(Interface* io, const std::wstring& filename, wstringVector names, bool asStruct);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

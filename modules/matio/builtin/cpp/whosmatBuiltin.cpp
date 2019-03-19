@@ -31,7 +31,7 @@ Nelson::MatioGateway::whosmatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     if (argIn.size() < 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-	std::wstring filename = argIn[0].getContentAsWideString();
+    std::wstring filename = argIn[0].getContentAsWideString();
     wstringVector names;
     for (indexType k = 1; k < argIn.size(); k++) {
         names.push_back(argIn[k].getContentAsWideString());

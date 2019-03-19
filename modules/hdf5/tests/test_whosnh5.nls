@@ -16,25 +16,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('whosmat'), 1);
-assert_isequal(nargout('whosmat'), 1);
+assert_isequal(nargin('whosnh5'), 1);
+assert_isequal(nargout('whosnh5'), 1);
 //=============================================================================
-mat_dir = [fileparts(nfilename('fullpathext'),'path'), '/mat/'];
+D = sparse(3i);		
 //=============================================================================
-s = whosmat([mat_dir, 'test_cell_nest_7.4_GLNX86.mat']);
-assert_isequal(s.name, 'testcellnest');
-assert_isequal(s.size, [1 2]);
-assert_isequal(s.class, 'cell');
-assert_isequal(s.global, false);
-assert_isequal(s.sparse, false);
-assert_isequal(s.complex, false);
-assert_isequal(s.nesting, struct('function', '', 'level', 0));
-assert_isequal(s.persistent, false);
+S = whosnh5([tempdir(), '/test_whosnh5_1.nh5']);
+assert_isequal(S.name, 'D');
+assert_isequal(S.size, [1 1]);
+assert_isequal(S.bytes, NaN);
+assert_isequal(S.class, 'sparsedouble');
+assert_isequal(S.global, false);
+assert_isequal(S.sparse, true);
+assert_isequal(S.complex, true);
+assert_isequal(S.nesting, struct('function', '', 'level', 0));
+assert_isequal(S.persistent, false);
 //=============================================================================
 A = ones(3, 4);
 B = 'Nelson';
 C = sparse(true);
 D = sparse(3i);		
-savemat([tempdir(), '/test_whosmat-v7.3.mat'], 'A', 'B', 'C', 'D', '-v7.3')
-whosmat([tempdir(), '/test_whosmat-v7.3.mat'])
+savenh5([tempdir(), '/test_whosnh5.nh5'], 'A', 'B', 'C', 'D');
+whosnh5([tempdir(), '/test_whosnh5.nh5'])
 //=============================================================================

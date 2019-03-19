@@ -17,6 +17,8 @@ Features:
 
 * whosmat: list variables in an valid .mat file.
 
+* whosnh5: list variables in an valid .nh5 file.
+
 * ismatfile: check if a file is a valid .mat file.
 
 * isnh5file: check if a file is a valid .nh5 file.

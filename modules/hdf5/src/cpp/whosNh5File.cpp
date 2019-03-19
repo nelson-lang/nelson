@@ -16,82 +16,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <matio.h>
+#define H5_BUILT_AS_DYNAMIC_LIB
+#include <hdf5.h>
 #include <iomanip>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/container/vector.hpp>
-#include "WhosMatioFile.hpp"
-#include "matioHelpers.hpp"
+#include "whosNh5File.hpp"
+#include "h5SaveLoadHelpers.hpp"
+#include "h5LoadVariable.hpp"
 #include "characters_encoding.hpp"
+#include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static std::string
-matClassToString(matvar_t* matVariable)
-{
-    std::string res = "?";
-    switch (matVariable->class_type) {
-    case MAT_C_SPARSE: {
-        if (matVariable->isLogical) {
-            res = "logical";
-        } else {
-            res = "double";
-        }
-    } break;
-    case MAT_C_CELL: {
-        res = "cell";
-    } break;
-    case MAT_C_STRUCT: {
-        res = "struct";
-    } break;
-    case MAT_C_CHAR: {
-        res = "char";
-    } break;
-    case MAT_C_DOUBLE: {
-        res = "double";
-    } break;
-    case MAT_C_SINGLE: {
-        res = "single";
-    } break;
-    case MAT_C_INT8: {
-        res = "int8";
-    } break;
-    case MAT_C_INT16: {
-        res = "int16";
-    } break;
-    case MAT_C_INT32: {
-        res = "int32";
-    } break;
-    case MAT_C_INT64: {
-        res = "int64";
-    } break;
-    case MAT_C_UINT8: {
-        if (matVariable->isLogical) {
-            res = "logical";
-        } else {
-            res = "uint8";
-        }
-    } break;
-    case MAT_C_UINT16: {
-        res = "uint16";
-    } break;
-    case MAT_C_UINT32: {
-        res = "uint32";
-    } break;
-    case MAT_C_UINT64: {
-        res = "uint64";
-    } break;
-    case MAT_C_EMPTY:
-    case MAT_C_OBJECT:
-    case MAT_C_FUNCTION:
-    case MAT_C_OPAQUE:
-    default: {
-        res = "?";
-    } break;
-    }
-    return res;
-}
 //=============================================================================
 static ArrayOf
 getNestingEmptyStruct()
@@ -106,14 +43,14 @@ getNestingEmptyStruct()
 }
 //=============================================================================
 ArrayOf
-WhosMatioFile(Interface* io, const std::wstring& filename, wstringVector names, bool asStruct)
+whosNh5File(Interface* io, const std::wstring& filename, wstringVector names, bool asStruct)
 {
     ArrayOf res;
-    boost::filesystem::path mat_filename(filename);
+    boost::filesystem::path nh5_filename(filename);
     bool fileExistPreviously = false;
     try {
-        fileExistPreviously = boost::filesystem::exists(mat_filename)
-            && !boost::filesystem::is_directory(mat_filename);
+        fileExistPreviously = boost::filesystem::exists(nh5_filename)
+            && !boost::filesystem::is_directory(nh5_filename);
     } catch (const boost::filesystem::filesystem_error& e) {
         if (e.code() == boost::system::errc::permission_denied) {
             Error(_W("Permission denied."));
@@ -124,17 +61,16 @@ WhosMatioFile(Interface* io, const std::wstring& filename, wstringVector names, 
         Error(_W("File does not exist."));
     }
 
-    std::string utf8filename = wstring_to_utf8(filename);
-    mat_t* matfile = Mat_Open(utf8filename.c_str(), MAT_ACC_RDONLY);
-    if (!matfile) {
-        Error(_W("Valid .mat file expected."));
+    hid_t fid
+        = H5Fopen(wstring_to_utf8(nh5_filename.wstring()).c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
+    if (fid == H5I_INVALID_HID) {
+        Error(_W("Open file failed."));
     }
-    stringVector variableNamesInFile;
-    size_t nVars = 0;
-    char** variableNames = Mat_GetDir(matfile, &nVars);
-    for (size_t k = 0; k < nVars; k++) {
-        variableNamesInFile.push_back(variableNames[k]);
+    if (!isNelsonH5File(fid)) {
+        H5Fclose(fid);
+        Error(_W("Invalid file format."));
     }
+    stringVector variableNamesInFile = getVariableNames(fid);
     stringVector variablesNamesToRead;
     if (names.empty()) {
         variablesNamesToRead = variableNamesInFile;
@@ -148,7 +84,6 @@ WhosMatioFile(Interface* io, const std::wstring& filename, wstringVector names, 
         }
     }
     ArrayOfVector values;
-
     stringVector _names;
     boost::container::vector<Dimensions> _size;
     boost::container::vector<double> _bytes;
@@ -173,40 +108,38 @@ WhosMatioFile(Interface* io, const std::wstring& filename, wstringVector names, 
 
     for (std::string name : variablesNamesToRead) {
         ArrayOf value;
-        matvar_t* matVariable = Mat_VarRead(matfile, name.c_str());
-        if (matVariable == nullptr) {
-            Mat_Close(matfile);
+        if (h5LoadVariable(fid, "/", name, value)) {
+            _names.push_back(name);
+            nbSpaceName = std::max(nbSpaceName, name.size());
+
+            std::string className = ClassName(value);
+            double sizeAsByte;
+            if (value.isSparse()) {
+                sizeAsByte = std::nan("NaN");
+            } else {
+                sizeAsByte = (double)value.getByteSize();
+            }
+            _bytes.push_back(sizeAsByte);
+            nbSpaceBytes = std::max(nbSpaceBytes, std::to_string((int)sizeAsByte).size());
+
+            _class.push_back(className);
+            nbSpaceClass = std::max(nbSpaceClass, className.size());
+
+            Dimensions dims = value.getDimensions();
+            _size.push_back(dims);
+            nbSpaceSize = std::max(nbSpaceSize, dims.toString().size());
+
+            _global.push_back(0);
+            _sparse.push_back(value.isSparse());
+            _complex.push_back(value.isComplex());
+            _persistent.push_back(false);
+        } else {
+            H5Fclose(fid);
             std::string msg = _("Cannot read variable:") + std::string(" ") + name;
             Error(msg);
         }
-        _names.push_back(name);
-        nbSpaceName = std::max(nbSpaceName, name.size());
-
-        std::string className = matClassToString(matVariable);
-        double sizeAsByte = (double)Mat_VarGetSize(matVariable);
-        if (sizeAsByte == 0 || className == "?") {
-            std::string NaN = "NaN";
-            _bytes.push_back(std::nan(NaN.c_str()));
-            nbSpaceBytes = std::max(nbSpaceBytes, NaN.size());
-        } else {
-            _bytes.push_back(sizeAsByte);
-            nbSpaceBytes = std::max(nbSpaceBytes, std::to_string((int)sizeAsByte).size());
-        }
-
-        _class.push_back(className);
-        nbSpaceClass = std::max(nbSpaceClass, className.size());
-
-        Dimensions dims = getMatVarDimensions(matVariable);
-        _size.push_back(dims);
-        nbSpaceSize = std::max(nbSpaceSize, dims.toString().size());
-
-        _global.push_back(matVariable->isGlobal);
-        _sparse.push_back(matVariable->class_type == MAT_C_SPARSE);
-        _complex.push_back(matVariable->isComplex != 0);
-        _persistent.push_back(false);
-        Mat_VarFree(matVariable);
     }
-    Mat_Close(matfile);
+    herr_t status = H5Fclose(fid);
 
     if (asStruct) {
         stringVector fieldnames;

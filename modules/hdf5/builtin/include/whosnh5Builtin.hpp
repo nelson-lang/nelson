@@ -6,35 +6,29 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('whosmat'), 1);
-assert_isequal(nargout('whosmat'), 1);
+#pragma once
 //=============================================================================
-mat_dir = [fileparts(nfilename('fullpathext'),'path'), '/mat/'];
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-s = whosmat([mat_dir, 'test_cell_nest_7.4_GLNX86.mat']);
-assert_isequal(s.name, 'testcellnest');
-assert_isequal(s.size, [1 2]);
-assert_isequal(s.class, 'cell');
-assert_isequal(s.global, false);
-assert_isequal(s.sparse, false);
-assert_isequal(s.complex, false);
-assert_isequal(s.nesting, struct('function', '', 'level', 0));
-assert_isequal(s.persistent, false);
+namespace Nelson {
 //=============================================================================
-A = ones(3, 4);
-B = 'Nelson';
-C = sparse(true);
-D = sparse(3i);		
-savemat([tempdir(), '/test_whosmat-v7.3.mat'], 'A', 'B', 'C', 'D', '-v7.3')
-whosmat([tempdir(), '/test_whosmat-v7.3.mat'])
+namespace Hdf5Gateway {
+    //=============================================================================
+    ArrayOfVector
+    whosnh5Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================
