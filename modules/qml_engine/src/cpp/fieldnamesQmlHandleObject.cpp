@@ -82,7 +82,9 @@ fieldnamesQmlHandleObject(QmlHandleObject* qmlHandle, bool fullList, wstringVect
         == allFields.end()) {
         allFields.push_back(std::string(QOBJECT_PROPERTY_CLASSNAME_STR));
     }
-    std::sort(allFields.begin(), allFields.end());
+    if (!allFields.empty()) {
+        std::sort(allFields.begin(), allFields.end());
+    }
     if (fullList) {
         for (size_t k = 0; k < allFields.size(); k++) {
             fieldnames.push_back(utf8_to_wstring(allFields[k]));

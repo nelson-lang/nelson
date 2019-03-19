@@ -38,8 +38,10 @@ VariableCompleter(std::wstring prefix)
         stringVector variablesBaseScope;
         eval->getContext()->getBaseScope()->getVariablesList(true, variablesBaseScope);
         variables.insert(variables.end(), variablesBaseScope.begin(), variablesBaseScope.end());
-        std::sort(variables.begin(), variables.end());
-        variables.erase(std::unique(variables.begin(), variables.end()), variables.end());
+        if (!variables.empty()) {
+            std::sort(variables.begin(), variables.end());
+            variables.erase(std::unique(variables.begin(), variables.end()), variables.end());
+        }
         res.reserve(variables.size());
         for (const auto& variable : variables) {
             res.push_back(utf8_to_wstring(variable));

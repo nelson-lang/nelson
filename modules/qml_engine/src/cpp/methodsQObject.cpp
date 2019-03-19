@@ -46,7 +46,9 @@ methodsQObject(QmlHandleObject* qmlhandleobj, stringVector& methods)
             }
         }
     }
-    std::sort(methods.begin(), methods.end());
+    if (!methods.empty()) {
+        std::sort(methods.begin(), methods.end());
+    }
 }
 //=============================================================================
 ArrayOf

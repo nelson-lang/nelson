@@ -202,7 +202,9 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                 return a.getName() < b.getName();
             }
         } customFilenameLess;
-        std::sort(res.begin(), res.end(), customFilenameLess);
+        if (!res.empty()) {
+            std::sort(res.begin(), res.end(), customFilenameLess);
+        }
         struct
         {
             bool
@@ -211,7 +213,9 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                 return a.isDir() > b.isDir();
             }
         } customIsDirLess;
-        std::sort(res.begin(), res.end(), customIsDirLess);
+        if (!res.empty()) {
+            std::sort(res.begin(), res.end(), customIsDirLess);
+        }
     }
     return res;
 }

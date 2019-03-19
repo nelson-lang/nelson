@@ -16,22 +16,33 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include <string>
-#include "Evaluator.hpp"
-#include "nlsMemory_manager_exports.h"
+#include "whonh5Builtin.hpp"
+#include "whoNh5File.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSMEMORY_MANAGER_IMPEXP stringVector
-Who(Evaluator* eval, SCOPE_LEVEL scopeLevel, bool withPersistent);
-//=============================================================================
-NLSMEMORY_MANAGER_IMPEXP stringVector
-Who(Evaluator* eval, Scope* scope, bool withPersistent);
-//=============================================================================
-NLSMEMORY_MANAGER_IMPEXP stringVector
-Who(Evaluator* eval, bool withPersistent);
+ArrayOfVector
+Nelson::Hdf5Gateway::whonh5Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (argIn.size() < 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    std::wstring filename = argIn[0].getContentAsWideString();
+    wstringVector names;
+    for (indexType k = 1; k < argIn.size(); k++) {
+        names.push_back(argIn[k].getContentAsWideString());
+    }
+    Interface* io = eval->getInterface();
+    ArrayOf ce = whoNh5File(io, filename, names, nLhs == 1);
+    if (nLhs == 1) {
+        retval.push_back(ce);
+    }
+    return retval;
+}
 //=============================================================================
 }
 //=============================================================================

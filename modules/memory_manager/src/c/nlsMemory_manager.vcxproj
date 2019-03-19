@@ -170,6 +170,7 @@
     <ClCompile Include="..\cpp\LockVariable.cpp" />
     <ClCompile Include="..\cpp\MemoryInformation.cpp" />
     <ClCompile Include="..\cpp\Who.cpp" />
+    <ClCompile Include="..\cpp\Whos.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +181,7 @@
     <ClInclude Include="..\include\LockVariable.hpp" />
     <ClInclude Include="..\include\MemoryInformation.hpp" />
     <ClInclude Include="..\include\Who.hpp" />
+    <ClInclude Include="..\include\Whos.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">

@@ -181,6 +181,7 @@
     <ClCompile Include="..\cpp\varlockBuiltin.cpp" />
     <ClCompile Include="..\cpp\varunlockBuiltin.cpp" />
     <ClCompile Include="..\cpp\whoBuiltin.cpp" />
+    <ClCompile Include="..\cpp\whosBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +230,7 @@
     <ClInclude Include="..\include\varlockBuiltin.hpp" />
     <ClInclude Include="..\include\varunlockBuiltin.hpp" />
     <ClInclude Include="..\include\whoBuiltin.hpp" />
+    <ClInclude Include="..\include\whosBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.nls" />

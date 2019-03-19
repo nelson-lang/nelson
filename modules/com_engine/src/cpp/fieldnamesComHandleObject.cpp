@@ -80,7 +80,9 @@ fieldnamesComHandleObject(ComHandleObject* comHandle, bool fullList, wstringVect
         }
         ti->ReleaseTypeAttr(pAttr);
     }
-    std::sort(fieldnames.begin(), fieldnames.end());
+    if (!fieldnames.empty()) {
+        std::sort(fieldnames.begin(), fieldnames.end());
+    }
 }
 //=============================================================================
 } // namespace Nelson

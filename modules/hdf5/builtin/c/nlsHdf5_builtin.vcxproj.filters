@@ -59,6 +59,9 @@
     <ClInclude Include="..\include\whosnh5Builtin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\whonh5Builtin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllMain.c">
@@ -92,6 +95,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\whosnh5Builtin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\whonh5Builtin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

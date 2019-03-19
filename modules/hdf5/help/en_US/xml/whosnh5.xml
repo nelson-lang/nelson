@@ -4,7 +4,7 @@
 
 	<language>en_US</language>
 	<keyword>whosnh5</keyword>
-	<short_description>List variables in an valid .nh5 file</short_description>
+	<short_description>List variables in an valid .nh5 file with sizes and types.</short_description>
 
 	<syntax>
 		<syntax_item>whosnh5(filename)</syntax_item>

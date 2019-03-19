@@ -29,6 +29,7 @@
 #include "varlockBuiltin.hpp"
 #include "varunlockBuiltin.hpp"
 #include "whoBuiltin.hpp"
+#include "whosBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -37,6 +38,7 @@ const std::wstring gatewayName = L"memory_manager";
 static const nlsGateway gateway[] = {
     { "clear", Nelson::MemoryGateway::clearBuiltin, 0, 1 },
     { "who", Nelson::MemoryGateway::whoBuiltin, 1, 1 },
+    { "whos", Nelson::MemoryGateway::whosBuiltin, 1, 1 },
     { "global", Nelson::MemoryGateway::globalBuiltin, 0, -1 },
     { "isglobal", Nelson::MemoryGateway::isglobalBuiltin, 1, 1 },
     { "persistent", Nelson::MemoryGateway::persistentBuiltin, 0, -1 },

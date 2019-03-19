@@ -3,14 +3,14 @@
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 
 	<language>en_US</language>
-	<keyword>whosmat</keyword>
-	<short_description>List variables in an valid .mat file with sizes and types.</short_description>
+	<keyword>whomat</keyword>
+	<short_description>List variables in an valid .mat file.</short_description>
 
 	<syntax>
-		<syntax_item>whosmat(filename)</syntax_item>
-		<syntax_item>st = whosmat(filename)</syntax_item>
-		<syntax_item>whosmat(filename, var1, ..., varN)</syntax_item>
-		<syntax_item>st = whosmat(filename, var1, ..., varN)</syntax_item>
+		<syntax_item>whomat(filename)</syntax_item>
+		<syntax_item>ce = whomat(filename)</syntax_item>
+		<syntax_item>whomat(filename, var1, ..., varN)</syntax_item>
+		<syntax_item>ce = whomat(filename, var1, ..., varN)</syntax_item>
 
 	</syntax>
 	
@@ -28,14 +28,14 @@
 
 	<param_output>
 		<param_output_item>
-			<param_name>st</param_name>
-			<param_description>stores information about the variables in the structure array st.</param_description>
+			<param_name>ce</param_name>
+			<param_description>cell of strings with variables names.</param_description>
 		</param_output_item>
 	</param_output>
 
 
 	<description>
-		<p><b>whosmat</b> lists variables in an valid .mat file.</p>
+		<p><b>whomat</b> lists variables in an valid .mat file.</p>
 	</description>
 
 
@@ -51,9 +51,9 @@
 B = 'Nelson';
 C = sparse(true);
 D = sparse(3i);		
-savemat([tempdir(), '/example_whosmat-v7.3.mat'], 'A', 'B', 'C', 'D', '-v7.3')
-whosmat([tempdir(), '/example_whosmat-v7.3.mat'])
-st = whosmat([tempdir(), '/example_whosmat-v7.3.mat'])]]>
+savemat([tempdir(), '/example_whomat-v7.3.mat'], 'A', 'B', 'C', 'D', '-v7.3')
+whomat([tempdir(), '/example_whomat-v7.3.mat'])
+ce = whomat([tempdir(), '/example_whomat-v7.3.mat'])]]>
 		</example_item_data>
 	</example_item>
 
@@ -61,10 +61,10 @@ st = whosmat([tempdir(), '/example_whosmat-v7.3.mat'])]]>
 
 	<see_also>
 		<see_also_item>
-			<link linkend="${hdf5}whosnh5">whosnh5</link>
+			<link linkend="${hdf5}whonh5">whonh5</link>
 		</see_also_item>
 		<see_also_item>
-			<link linkend="${memory_manager}whos">whos</link>
+			<link linkend="${memory_manager}who">who</link>
 		</see_also_item>
 	</see_also>
 

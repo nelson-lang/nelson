@@ -54,7 +54,9 @@ GetKeywords(bool bSorted)
         strList.push_back(utf8_to_wstring(k.word));
     }
     if (bSorted) {
-        std::sort(strList.begin(), strList.begin());
+        if (!strList.empty()) {
+            std::sort(strList.begin(), strList.begin());
+        }
     }
     return strList;
 }

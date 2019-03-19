@@ -19,14 +19,15 @@
 #include <matio.h>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
-#include "LoadMatioFile.hpp"
-#include "LoadMatioVariable.hpp"
+#include <boost/container/vector.hpp>
+#include "WhoMatioFile.hpp"
+#include "matioHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-LoadMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names, bool asStruct)
+WhoMatioFile(Interface* io, const std::wstring& filename, wstringVector names, bool asCell)
 {
     ArrayOf res;
     boost::filesystem::path mat_filename(filename);
@@ -47,15 +48,15 @@ LoadMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names
     std::string utf8filename = wstring_to_utf8(filename);
     mat_t* matfile = Mat_Open(utf8filename.c_str(), MAT_ACC_RDONLY);
     if (!matfile) {
-        Error(_W("Cannot open .mat file."));
+        Error(_W("Valid .mat file expected."));
     }
-
     stringVector variableNamesInFile;
     size_t nVars = 0;
     char** variableNames = Mat_GetDir(matfile, &nVars);
     for (size_t k = 0; k < nVars; k++) {
         variableNamesInFile.push_back(variableNames[k]);
     }
+    Mat_Close(matfile);
     stringVector variablesNamesToRead;
     if (names.empty()) {
         variablesNamesToRead = variableNamesInFile;
@@ -65,38 +66,42 @@ LoadMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names
             if (std::find(variableNamesInFile.begin(), variableNamesInFile.end(), name)
                 != variableNamesInFile.end()) {
                 variablesNamesToRead.push_back(name);
-            } else {
-                std::string msg = _("Variable not found:") + std::string(" ") + name;
-                Warning(msg);
             }
         }
     }
-    ArrayOfVector values;
-    for (std::string name : variablesNamesToRead) {
-        ArrayOf value;
-        matvar_t* matVariable = Mat_VarRead(matfile, name.c_str());
-        if (matVariable == nullptr) {
-            Mat_Close(matfile);
-            std::string msg = _("Cannot read variable:") + std::string(" ") + name;
-            Error(msg);
+    if (asCell) {
+        Dimensions dims(variablesNamesToRead.size(), 1);
+        ArrayOf* elements
+            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount());
+        indexType k = 0;
+        for (std::string name : variablesNamesToRead) {
+            elements[k] = ArrayOf::characterArrayConstructor(name);
+            k++;
         }
-        bool bSuccess = LoadMatioVariable(matVariable, false, value);
-        Mat_VarFree(matVariable);
-        if (bSuccess) {
-            values.push_back(value);
-        } else {
-            Mat_Close(matfile);
-            std::string msg = _("Cannot read variable:") + std::string(" ") + name;
-            Error(msg);
-        }
-    }
-    Mat_Close(matfile);
-    if (asStruct) {
-        res = ArrayOf::structScalarConstructor(variablesNamesToRead, values);
+        res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
     } else {
-        for (indexType i = 0; i < variablesNamesToRead.size(); i++) {
-            eval->getContext()->getCurrentScope()->insertVariable(
-                variablesNamesToRead[i], values[i]);
+        if (variablesNamesToRead.size()) {
+            size_t ncharmax = io->getTerminalWidth();
+            size_t nbchar = 0;
+            if (!variablesNamesToRead.empty()) {
+                io->outputMessage(_W("Your variables are:") + L"\n\n");
+            }
+            for (auto& k : variablesNamesToRead) {
+                if (nbchar + k.size() < ncharmax) {
+                    io->outputMessage(k);
+                    io->outputMessage(" ");
+                    nbchar = 1 + nbchar + k.size();
+                } else {
+                    nbchar = 0;
+                    io->outputMessage("\n");
+                    io->outputMessage(k);
+                    io->outputMessage(" ");
+                    nbchar = 1 + nbchar + k.size();
+                }
+            }
+            if (!variablesNamesToRead.empty()) {
+                io->outputMessage("\n");
+            }
         }
     }
     return res;

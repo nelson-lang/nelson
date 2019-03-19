@@ -15,15 +15,24 @@ Features:
 
 * savemat: save Nelson's workspace to .mat file.
 
-* whosmat: list variables in an valid .mat file.
+* whos: list variables with sizes and types.
 
-* whosnh5: list variables in an valid .nh5 file.
+* whosmat: list variables in an valid .mat file with sizes and types.
+
+* whosnh5: list variables in an valid .nh5 file with sizes and types.
+
+* extends who to manage '-file' option.
+
+* whomat: list variables in an valid .mat file.
+
+* whonh5: list variables in an valid .nh5 file.
 
 * ismatfile: check if a file is a valid .mat file.
 
 * isnh5file: check if a file is a valid .nh5 file.
 
 * rename h5save to savenh5, h5load to loadnh5
+
 
 Compilation:
 ------------

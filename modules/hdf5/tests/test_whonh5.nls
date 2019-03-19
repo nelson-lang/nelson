@@ -6,32 +6,35 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+assert_isequal(nargin('whonh5'), 1);
+assert_isequal(nargout('whonh5'), 1);
 //=============================================================================
-#include <string>
-#include "Evaluator.hpp"
-#include "nlsMemory_manager_exports.h"
+if (isfile([tempdir(), '/test_whonh5.nh5']))
+  rmfile([tempdir(), '/test_whonh5.nh5'])
+end  
+A = ones(3, 4);
+B = 'Nelson';
+C = sparse(true);
+D = sparse(3i);		
+savenh5([tempdir(), '/test_whonh5.nh5'], 'A', 'B', 'C', 'D')
+c = whonh5([tempdir(), '/test_whonh5.nh5']);
+REF = {'A'; 'B'; 'C'; 'D'}
+assert_isequal(c, REF);
 //=============================================================================
-namespace Nelson {
+c = whonh5([tempdir(), '/test_whonh5.nh5'], 'A', 'C');
+REF = {'A'; 'C'}
+assert_isequal(c, REF);
 //=============================================================================
-NLSMEMORY_MANAGER_IMPEXP stringVector
-Who(Evaluator* eval, SCOPE_LEVEL scopeLevel, bool withPersistent);
-//=============================================================================
-NLSMEMORY_MANAGER_IMPEXP stringVector
-Who(Evaluator* eval, Scope* scope, bool withPersistent);
-//=============================================================================
-NLSMEMORY_MANAGER_IMPEXP stringVector
-Who(Evaluator* eval, bool withPersistent);
-//=============================================================================
-}
+whonh5([tempdir(), '/test_whonh5.nh5'], 'A', 'C');
+whonh5([tempdir(), '/test_whonh5.nh5']);
 //=============================================================================

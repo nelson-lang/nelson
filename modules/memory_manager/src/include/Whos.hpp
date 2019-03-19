@@ -24,14 +24,8 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSMEMORY_MANAGER_IMPEXP stringVector
-Who(Evaluator* eval, SCOPE_LEVEL scopeLevel, bool withPersistent);
-//=============================================================================
-NLSMEMORY_MANAGER_IMPEXP stringVector
-Who(Evaluator* eval, Scope* scope, bool withPersistent);
-//=============================================================================
-NLSMEMORY_MANAGER_IMPEXP stringVector
-Who(Evaluator* eval, bool withPersistent);
+NLSMEMORY_MANAGER_IMPEXP ArrayOf
+Whos(Evaluator* eval, std::wstring filename, bool onlyGlobal, stringVector names, bool asStruct);
 //=============================================================================
 }
 //=============================================================================

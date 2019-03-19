@@ -18,20 +18,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "Evaluator.hpp"
-#include "nlsMemory_manager_exports.h"
+#include "nlsHdf5_exports.h"
+#include "ArrayOf.hpp"
+#include "Interface.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSMEMORY_MANAGER_IMPEXP stringVector
-Who(Evaluator* eval, SCOPE_LEVEL scopeLevel, bool withPersistent);
+NLSHDF5_IMPEXP ArrayOf
+whoNh5File(Interface* io, const std::wstring& filename, wstringVector names, bool asCell);
 //=============================================================================
-NLSMEMORY_MANAGER_IMPEXP stringVector
-Who(Evaluator* eval, Scope* scope, bool withPersistent);
-//=============================================================================
-NLSMEMORY_MANAGER_IMPEXP stringVector
-Who(Evaluator* eval, bool withPersistent);
-//=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

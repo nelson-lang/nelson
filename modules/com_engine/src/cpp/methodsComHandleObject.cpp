@@ -79,7 +79,9 @@ methodsComHandleObject(ComHandleObject* comHandle, wstringVector& methods)
         }
         ti->ReleaseTypeAttr(pAttr);
     }
-    std::sort(methods.begin(), methods.end());
+    if (!methods.empty()) {
+        std::sort(methods.begin(), methods.end());
+    }
 }
 //=============================================================================
 } // namespace Nelson

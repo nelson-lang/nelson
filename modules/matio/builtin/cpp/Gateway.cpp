@@ -21,6 +21,7 @@
 #include "savematBuiltin.hpp"
 #include "ismatfileBuiltin.hpp"
 #include "whosmatBuiltin.hpp"
+#include "whomatBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -31,6 +32,7 @@ static const nlsGateway gateway[] = {
     { "savemat", Nelson::MatioGateway::savematBuiltin, 0, 1, CPP_BUILTIN },
     { "ismatfile", Nelson::MatioGateway::ismatfileBuiltin, 1, 1, CPP_BUILTIN },
     { "whosmat", Nelson::MatioGateway::whosmatBuiltin, 1, 1, CPP_BUILTIN },
+    { "whomat", Nelson::MatioGateway::whomatBuiltin, 1, 1, CPP_BUILTIN },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

@@ -131,6 +131,9 @@
     <ClCompile Include="..\cpp\WhosMatioFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\WhoMatioFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsMatio_exports.h">
@@ -236,6 +239,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\WhosMatioFile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\WhoMatioFile.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

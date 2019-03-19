@@ -41,7 +41,9 @@ WhatListOfBuiltin(Evaluator* eval, bool bWithPrivateFunction, bool bSorted)
         }
     }
     if (bSorted) {
-        std::sort(functionsList.begin(), functionsList.end());
+        if (!functionsList.empty()) {
+            std::sort(functionsList.begin(), functionsList.end());
+        }
     }
     return functionsList;
 }

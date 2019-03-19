@@ -210,6 +210,7 @@
     <ClInclude Include="..\include\loadmatBuiltin.hpp" />
     <ClInclude Include="..\include\nlsMatio_builtin_exports.h" />
     <ClInclude Include="..\include\savematBuiltin.hpp" />
+    <ClInclude Include="..\include\whomatBuiltin.hpp" />
     <ClInclude Include="..\include\whosmatBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +218,7 @@
     <ClCompile Include="..\cpp\ismatfileBuiltin.cpp" />
     <ClCompile Include="..\cpp\loadmatBuiltin.cpp" />
     <ClCompile Include="..\cpp\savematBuiltin.cpp" />
+    <ClCompile Include="..\cpp\whomatBuiltin.cpp" />
     <ClCompile Include="..\cpp\whosmatBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>

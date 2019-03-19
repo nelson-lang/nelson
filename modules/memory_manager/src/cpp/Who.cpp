@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include "Who.hpp"
 #include "Error.hpp"
 //=============================================================================
@@ -24,23 +25,56 @@ namespace Nelson {
 stringVector
 Who(Evaluator* eval, SCOPE_LEVEL scopeLevel, bool withPersistent)
 {
-    stringVector names;
+    Scope* scope = nullptr;
     switch (scopeLevel) {
     case GLOBAL_SCOPE: {
-        eval->getContext()->getGlobalScope()->getVariablesList(withPersistent, names);
+        scope = eval->getContext()->getGlobalScope();
     } break;
     case BASE_SCOPE: {
-        eval->getContext()->getBaseScope()->getVariablesList(withPersistent, names);
+        scope = eval->getContext()->getBaseScope();
     } break;
     case CALLER_SCOPE: {
-        eval->getContext()->getCallerScope()->getVariablesList(withPersistent, names);
+        scope = eval->getContext()->getCallerScope();
     } break;
     case LOCAL_SCOPE: {
-        eval->getContext()->getCurrentScope()->getVariablesList(withPersistent, names);
+        scope = eval->getContext()->getCurrentScope();
     } break;
     default: {
         Error(_W("Wrong scope."));
     } break;
+    }
+    return Who(eval, scope, withPersistent);
+}
+//=============================================================================
+stringVector
+Who(Evaluator* eval, Scope* scope, bool withPersistent)
+{
+    stringVector names;
+    if (scope) {
+        scope->getVariablesList(withPersistent, names);
+    }
+    if (!names.empty()) {
+        std::sort(names.begin(), names.end());
+    }
+    return names;
+}
+//=============================================================================
+stringVector
+Who(Evaluator* eval, bool withPersistent)
+{
+    stringVector names;
+    if (eval->getContext()->getCurrentScope()->getName() == "base") {
+        stringVector baseVariables = Who(eval, eval->getContext()->getBaseScope(), withPersistent);
+        stringVector globalVariables
+            = Who(eval, eval->getContext()->getGlobalScope(), withPersistent);
+        names = baseVariables;
+        names.insert(names.end(), globalVariables.begin(), globalVariables.end());
+        if (!names.empty()) {
+            std::sort(names.begin(), names.end());
+            names.erase(std::unique(names.begin(), names.end()), names.end());
+        }
+    } else {
+        names = Who(eval, eval->getContext()->getCurrentScope(), withPersistent);
     }
     return names;
 }

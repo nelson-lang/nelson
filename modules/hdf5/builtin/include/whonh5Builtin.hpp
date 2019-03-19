@@ -18,20 +18,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
+#include "ArrayOf.hpp"
 #include "Evaluator.hpp"
-#include "nlsMemory_manager_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSMEMORY_MANAGER_IMPEXP stringVector
-Who(Evaluator* eval, SCOPE_LEVEL scopeLevel, bool withPersistent);
-//=============================================================================
-NLSMEMORY_MANAGER_IMPEXP stringVector
-Who(Evaluator* eval, Scope* scope, bool withPersistent);
-//=============================================================================
-NLSMEMORY_MANAGER_IMPEXP stringVector
-Who(Evaluator* eval, bool withPersistent);
-//=============================================================================
+namespace Hdf5Gateway {
+    //=============================================================================
+    ArrayOfVector
+    whonh5Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================
