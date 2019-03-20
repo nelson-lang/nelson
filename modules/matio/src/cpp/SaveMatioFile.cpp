@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <matio.h>
+#include <time.h>
 #include "SaveMatioFile.hpp"
 #include "SaveMatioVariable.hpp"
 #include "IsValidVariableName.hpp"
@@ -48,6 +49,17 @@ versionToEnum(std::wstring matFileVersion, matio_compression& compressionLevel)
     return MAT_FT_UNDEFINED;
 }
 //=============================================================================
+static std::string
+createHeaderMatioFile()
+{
+    std::string header = std::string("Nelson 1.0 MAT-file");
+    header = header + std::string(" Created by libmatio ") + std::string(MATIO_VERSION_STR);
+    time_t _tm = time(NULL);
+    struct tm* curtime = localtime(&_tm);
+    header = header + std::string(" on ") + asctime(curtime);
+    return header;
+}
+//=============================================================================
 void
 SaveMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names,
     std::wstring matFileVersion, bool append, bool nocompression)
@@ -74,7 +86,7 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names
         Error(_("Unknown save format."));
     }
     matCompression = nocompression ? MAT_COMPRESSION_NONE : matCompression;
-
+    std::string headerFile = createHeaderMatioFile();
     mat_t* matFile = nullptr;
     if (append) {
         matFile = Mat_Open(wstring_to_utf8(filename).c_str(), MAT_ACC_RDWR);
@@ -85,10 +97,10 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names
                 Mat_Close(matFile);
             }
         } else {
-            matFile = Mat_CreateVer(wstring_to_utf8(filename).c_str(), NULL, matVersion);
+            matFile = Mat_CreateVer(wstring_to_utf8(filename).c_str(), headerFile.c_str(), matVersion);
         }
     } else {
-        matFile = Mat_CreateVer(wstring_to_utf8(filename).c_str(), NULL, matVersion);
+        matFile = Mat_CreateVer(wstring_to_utf8(filename).c_str(), headerFile.c_str(), matVersion);
     }
 
     if (matFile == nullptr) {
