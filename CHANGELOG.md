@@ -3,35 +3,29 @@
 Features:
 ---------
 
-* load overloads loadnh5, loadmat functions.
+* load, save MAT-files:
 
-* save overloads savenh5, savemat functions.
-
-* .mat file extension support added: data formatted (Nelson workspace).
-
-* .mat file association on Windows. load MAT file as data formatted for Nelson.
-
-* loadmat: load mat-file into Nelson's workspace
-
-* savemat: save Nelson's workspace to .mat file.
+  - load overloads loadnh5, loadmat functions.
+  - save overloads savenh5, savemat functions.
+  - .mat file extension support added: data formatted (Nelson workspace).
+  - .mat file association on Windows. load MAT file as data formatted for Nelson.
+  - loadmat: load mat-file into Nelson's workspace
+  - savemat: save Nelson's workspace to .mat file.
+  - rename h5save to savenh5, h5load to loadnh5
 
 * whos: list variables with sizes and types.
 
-* whosmat: list variables in an valid .mat file with sizes and types.
-
-* whosnh5: list variables in an valid .nh5 file with sizes and types.
+  - whosmat: list variables in an valid .mat file with sizes and types.
+  - whosnh5: list variables in an valid .nh5 file with sizes and types.
 
 * extends who to manage '-file' option.
 
-* whomat: list variables in an valid .mat file.
-
-* whonh5: list variables in an valid .nh5 file.
+  - whomat: list variables in an valid .mat file.
+  - whonh5: list variables in an valid .nh5 file.
 
 * ismatfile: check if a file is a valid .mat file.
 
 * isnh5file: check if a file is a valid .nh5 file.
-
-* rename h5save to savenh5, h5load to loadnh5
 
 
 Compilation:
