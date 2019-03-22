@@ -39,7 +39,7 @@ public:
     std::wstring
     getFileMode();
     void
-    setFileMode(std::wstring _mode);
+    setFileMode(const std::wstring& _mode);
     void*
     getFilePointer();
     void
@@ -47,7 +47,7 @@ public:
     std::wstring
     getFileName();
     void
-    setFileName(std::wstring _filename);
+    setFileName(const std::wstring& _filename);
     bool
     isInterfaceMethod();
 };

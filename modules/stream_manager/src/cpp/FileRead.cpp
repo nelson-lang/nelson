@@ -122,7 +122,9 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
             if (str == nullptr) {
                 Error(ERROR_MEMORY_ALLOCATION);
             }
-            memcpy(resizestr, str, sizeof(char) * sizeReallyRead);
+            if (str) {
+                memcpy(resizestr, str, sizeof(char) * sizeReallyRead);
+            }
             if (bIsLittleEndian != isLittleEndianFormat()) {
                 for (size_t k = 0; k < static_cast<size_t>(sizeReallyRead); k++) {
                     resizestr[k] = bswap<char>(resizestr[k]);

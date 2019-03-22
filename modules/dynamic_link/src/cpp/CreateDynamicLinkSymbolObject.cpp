@@ -25,8 +25,8 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-createDynamicLinkSymbolObject(
-    ArrayOf dllibObject, std::wstring symbol, std::wstring returnType, wstringVector argumentsType)
+createDynamicLinkSymbolObject(ArrayOf dllibObject, const std::wstring& symbol,
+    const std::wstring& returnType, const wstringVector& argumentsType)
 {
     ArrayOf handle;
     HandleGenericObject* hlObj = dllibObject.getContentAsHandleScalar();
@@ -54,8 +54,8 @@ createDynamicLinkSymbolObject(
     return ArrayOf::handleConstructor(dlSymbolObject);
 }
 //=============================================================================
-bool
-checkParamType(std::wstring paramType)
+static bool
+checkParamType(const std::wstring& paramType)
 {
     wstringVector supportedType = { L"void", L"logical", L"uint8", L"int8", L"uint16", L"int16",
         L"uint32", L"int32", L"uint64", L"int64", L"single", L"double", L"single", L"double",

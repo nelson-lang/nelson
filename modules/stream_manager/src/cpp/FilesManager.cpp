@@ -101,7 +101,7 @@ FilesManager::isStdStream(int fileID)
 }
 //=============================================================================
 bool
-FilesManager::isOpened(std::wstring filenameToSearch)
+FilesManager::isOpened(const std::wstring& filenameToSearch)
 {
     for (size_t i = 0; i < getNumberOfFiles(); i++) {
         if (userFiles[i] != nullptr) {

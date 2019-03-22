@@ -302,7 +302,7 @@ namespace sio
         size_t json_pos = nsp_json_pos;
         if(payload_ptr[nsp_json_pos] == '/')//nsp_json_pos is start of nsp
         {
-            size_t comma_pos = payload_ptr.find_first_of(",");//end of nsp
+            size_t comma_pos = payload_ptr.find_first_of(',');//end of nsp
             if(comma_pos == string::npos)//packet end with nsp
             {
                 _nsp = payload_ptr.substr(nsp_json_pos);

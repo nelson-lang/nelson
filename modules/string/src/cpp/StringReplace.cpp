@@ -378,7 +378,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
         } else {
             if (nbOutput == 0) {
                 if (OLD.isCharacterArray() && wold.empty()) {
-                    std::wstring result = Replace(wstr[0], wold[0], wnew[0]);
+                    std::wstring result = Replace(wstr[0], L"", wnew[0]);
                     res = ArrayOf::characterArrayConstructor(result);
                 } else {
                     if (outputClass == NLS_CELL_ARRAY || outputClass == NLS_STRING_ARRAY) {

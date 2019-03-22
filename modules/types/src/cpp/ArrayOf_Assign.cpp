@@ -544,7 +544,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         }
 
         // Next, we compute the dimensions of the right hand side
-        indexType advance;
+        indexType advance = 0;
         if (rightData.isSparse()) {
             rightData.makeDense();
         }
@@ -707,7 +707,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 static_cast<const ArrayOf*>(rightData.getDataPointer()), outDimsInt, srcDimsInt,
                 indx, L, dp->fieldNames.size(), advance);
             break;
-        }
+        default: { } break; }
         delete[] indx;
         dp->dimensions.simplify();
     } catch (const Exception& e) {

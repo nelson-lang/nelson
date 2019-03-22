@@ -35,11 +35,11 @@ public:
      *  given prompt.
      */
     std::wstring
-    getLine(std::wstring prompt);
+    getLine(const std::wstring& prompt);
     std::string
-    getLine(std::string prompt);
+    getLine(const std::string& prompt);
     std::wstring
-    getInput(std::wstring prompt);
+    getInput(const std::wstring& prompt);
     /**
      *  Return the width of the current "terminal" in
      *  characters.
@@ -50,23 +50,23 @@ public:
      *  Output the following text message.
      */
     void
-    outputMessage(std::wstring msg);
+    outputMessage(const std::wstring& msg);
     void
-    outputMessage(std::string msg);
+    outputMessage(const std::string& msg);
     /**
      *  Output the following error message.
      */
     void
-    errorMessage(std::wstring msg);
+    errorMessage(const std::wstring& msg);
     void
-    errorMessage(std::string msg);
+    errorMessage(const std::string& msg);
     /**
      *  Output the following warning message.
      */
     void
-    warningMessage(std::wstring msg);
+    warningMessage(const std::wstring& msg);
     void
-    warningMessage(std::string msg);
+    warningMessage(const std::string& msg);
 
     void
     clearTerminal();
@@ -75,7 +75,7 @@ public:
 
 private:
     std::wstring
-    getTextLine(std::wstring prompt, bool bIsInput);
+    getTextLine(const std::wstring& prompt, bool bIsInput);
     bool atPrompt;
 };
 //=============================================================================

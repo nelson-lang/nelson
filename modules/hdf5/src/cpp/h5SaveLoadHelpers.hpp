@@ -76,5 +76,5 @@ getNelsonNzmax(hid_t fid, const std::string& location, const std::string& variab
 hid_t
 setCompression(Dimensions dims, bool useCompression);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

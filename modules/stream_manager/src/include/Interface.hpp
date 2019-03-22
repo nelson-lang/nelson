@@ -35,14 +35,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
-
+//=============================================================================
 #pragma once
-
+//=============================================================================
 #include "Diary.hpp"
 #include "nlsStream_manager_exports.h"
 #include <string>
-
+//=============================================================================
 namespace Nelson {
+//=============================================================================
 class NLSSTREAM_MANAGER_IMPEXP Interface
 {
 public:
@@ -54,13 +55,13 @@ public:
      *  given prompt.
      */
     virtual std::string
-    getLine(std::string prompt)
+    getLine(const std::string& prompt)
         = 0;
     virtual std::wstring
-    getLine(std::wstring prompt)
+    getLine(const std::wstring& prompt)
         = 0;
     virtual std::wstring
-    getInput(std::wstring prompt)
+    getInput(const std::wstring& prompt)
         = 0;
 
     /**
@@ -74,28 +75,28 @@ public:
      *  Output the following text message.
      */
     virtual void
-    outputMessage(std::string msg)
+    outputMessage(const std::string& msg)
         = 0;
     virtual void
-    outputMessage(std::wstring msg)
+    outputMessage(const std::wstring& msg)
         = 0;
     /**
      *  Output the following error message.
      */
     virtual void
-    errorMessage(std::string msg)
+    errorMessage(const std::string& msg)
         = 0;
     virtual void
-    errorMessage(std::wstring msg)
+    errorMessage(const std::wstring& msg)
         = 0;
     /**
      *  Output the following warning message.
      */
     virtual void
-    warningMessage(std::string msg)
+    warningMessage(const std::string& msg)
         = 0;
     virtual void
-    warningMessage(std::wstring msg)
+    warningMessage(const std::wstring& msg)
         = 0;
 
     virtual void
@@ -105,4 +106,6 @@ public:
     isAtPrompt()
         = 0;
 };
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

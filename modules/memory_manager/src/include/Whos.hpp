@@ -25,7 +25,8 @@
 namespace Nelson {
 //=============================================================================
 NLSMEMORY_MANAGER_IMPEXP ArrayOf
-Whos(Evaluator* eval, std::wstring filename, bool onlyGlobal, stringVector names, bool asStruct);
+Whos(Evaluator* eval, const std::wstring& filename, bool onlyGlobal, const stringVector& names,
+    bool asStruct);
 //=============================================================================
 }
 //=============================================================================

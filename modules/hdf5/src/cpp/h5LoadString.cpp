@@ -92,5 +92,5 @@ h5LoadCharacterArray(hid_t fid, const std::string& location, const std::string& 
     return bSuccess;
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

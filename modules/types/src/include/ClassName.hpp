@@ -25,7 +25,7 @@ namespace Nelson {
 NLSTYPES_IMPEXP std::string
 ClassName(ArrayOf In);
 NLSTYPES_IMPEXP stringVector
-ClassName(ArrayOfVector In);
+ClassName(const ArrayOfVector& In);
 NLSTYPES_IMPEXP void
 ClassName(ArrayOf In, std::wstring& returnedClassName);
 NLSTYPES_IMPEXP void

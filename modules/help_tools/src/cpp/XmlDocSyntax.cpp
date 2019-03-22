@@ -36,7 +36,7 @@ XmlDocSyntax::~XmlDocSyntax()
 }
 //=============================================================================
 void
-XmlDocSyntax::append(std::wstring value)
+XmlDocSyntax::append(const std::wstring &value)
 {
     XmlDocSyntaxItem* item = nullptr;
     try {

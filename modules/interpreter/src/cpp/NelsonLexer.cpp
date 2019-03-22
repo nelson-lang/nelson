@@ -37,12 +37,12 @@ using namespace Nelson;
 
 extern bool interactiveMode;
 extern int charcontext;
-char* textbuffer = nullptr;
-char* datap = nullptr;
-char* linestart = nullptr;
-int lineNumber;
-int continuationCount;
-int inBlock;
+static char* textbuffer = nullptr;
+static char* datap = nullptr;
+static char* linestart = nullptr;
+static int lineNumber;
+static int continuationCount;
+static int inBlock;
 typedef enum
 {
     Initial,
@@ -93,8 +93,8 @@ NextLine()
     linestart = datap;
 }
 //=============================================================================
-void
-LexerException(std::string msg)
+static void
+LexerException(const std::string& msg)
 {
     char buffer[4906];
     if (!interactiveMode && (!getParserFilenameU().empty()) && !msg.empty()) {
@@ -444,16 +444,13 @@ lexIdentifier()
 int
 lexNumber()
 {
-    int state;
-    int cp;
-    int i;
+    int state = 0;
+    indexType cp = 0;
     char buffer[DEFAULT_BUFFER_SIZE_LEXER];
-    int intonly;
+    int intonly = 1;
     int vtype;
     // Initialize the state...
     state = 0;
-    cp = 0;
-    intonly = 1;
     while (state != 7) {
         switch (state) {
         case 0:
@@ -557,10 +554,10 @@ lexNumber()
     } else {
         vtype = 3;
     }
-    for (i = 0; i < cp; i++) {
+    for (indexType i = 0; i < cp; i++) {
         buffer[i] = datap[i];
     }
-    for (i = 0; i < cp; i++) {
+    for (indexType i = 0; i < cp; i++) {
         discardChar();
     }
     buffer[cp] = '\0';
@@ -908,7 +905,7 @@ setLexBuffer(const std::string& buffer)
     lexState = Initial;
     vcStackSize = 0;
     clearTextBufferLexer();
-    textbuffer = static_cast<char*>(calloc(strlen(buffer.c_str()) + 1, sizeof(char)));
+    textbuffer = static_cast<char*>(calloc(buffer.length() + 1, sizeof(char)));
     datap = textbuffer;
     if (textbuffer) {
         strcpy(textbuffer, buffer.c_str());

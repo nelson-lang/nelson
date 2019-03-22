@@ -118,7 +118,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
     resetAstBackupPosition();
     std::vector<ASTPtr> pt;
     try {
-        pstate = parseFile(fr, absolutePath.generic_string().c_str());
+        pstate = parseFile(fr, absolutePath.generic_string());
         pt = getAstUsed();
     } catch (const Exception&) {
         std::vector<ASTPtr> used = getAstUsed();

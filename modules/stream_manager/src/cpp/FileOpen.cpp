@@ -28,9 +28,9 @@
 namespace Nelson {
 //=============================================================================
 static std::wstring
-getModeOsDependant(std::wstring mode)
+getModeOsDependant(const std::wstring& mode)
 {
-    std::wstring newmode(mode);
+    std::wstring newmode = std::move(mode);
 #ifndef _MSC_VER
     boost::replace_all(newmode, L"t", L"");
 #endif

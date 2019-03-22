@@ -116,7 +116,7 @@ HandleManager::isValid(nelson_handle hl)
 }
 //=============================================================================
 std::vector<nelson_handle>
-HandleManager::getAllHandlesOfCategory(std::wstring category)
+HandleManager::getAllHandlesOfCategory(const std::wstring& category)
 {
     std::vector<nelson_handle> res;
     boost::unordered_map<nelson_handle, HandleGenericObject*>::iterator it = handleMap.begin();

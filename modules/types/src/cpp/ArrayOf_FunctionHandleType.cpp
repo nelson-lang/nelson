@@ -46,7 +46,7 @@ ArrayOf::getContentAsFunctionHandle()
 }
 //=============================================================================
 ArrayOf
-ArrayOf::functionHandleConstructor(std::wstring functionName, function_handle fptr)
+ArrayOf::functionHandleConstructor(const std::wstring& functionName, function_handle fptr)
 {
     stringVector fieldnames;
     ArrayOfVector fieldvalues;

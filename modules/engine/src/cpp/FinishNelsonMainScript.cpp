@@ -27,7 +27,7 @@ bool
 FinishNelsonMainScript(Evaluator* eval)
 {
     Context* ctx = eval->getContext();
-    if (ctx) {
+    if (ctx != nullptr) {
         std::wstring rootPath = Nelson::GetRootPath();
         boost::filesystem::path path(rootPath);
         path += L"/etc/finish.nls";
@@ -41,7 +41,7 @@ FinishNelsonMainScript(Evaluator* eval)
                 Interface* io = eval->getInterface();
                 eval->setLastErrorException(e);
                 std::wstring errmsg = _W("Main finish.nls failed to run.");
-                if (io) {
+                if (io != nullptr) {
                     io->errorMessage(errmsg);
                 } else {
                     errmsg = errmsg + L"\n";

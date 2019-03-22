@@ -42,30 +42,33 @@ namespace Nelson {
 static Evaluator* mainEvaluator = nullptr;
 //=============================================================================
 Evaluator*
-createMainEvaluator(Interface* io, NELSON_ENGINE_MODE _mode, std::wstring lang)
+createMainEvaluator(Interface* io, NELSON_ENGINE_MODE _mode, const std::wstring& lang)
 {
-    if (io) {
+    if (io != nullptr) {
         if (mainEvaluator == nullptr) {
             std::wstring effectiveLang = Localization::Instance()->initializeLocalization(lang);
             auto* context = new Context;
-            if (context) {
-                setDefaultMaxNumCompThreads();
-                mainEvaluator = new Evaluator(context, io, _mode);
-                Localization::Instance()->setLanguage(effectiveLang, false);
-            }
+            setDefaultMaxNumCompThreads();
+            mainEvaluator = new Evaluator(context, io, _mode);
+            Localization::Instance()->setLanguage(effectiveLang, false);
         }
     }
     return mainEvaluator;
 }
 //=============================================================================
 Evaluator*
-createMainEvaluator(NELSON_ENGINE_MODE _mode, std::wstring lang)
+createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang)
 {
     setDefaultMaxNumCompThreads();
     if (mainEvaluator == nullptr) {
-        auto* context = new Context;
+        Context* context = nullptr;
+        try {
+            context = new Context;
+        } catch (std::bad_alloc&) {
+            context = nullptr;
+        }
         std::wstring effectiveLang = Localization::Instance()->initializeLocalization(lang);
-        if (context) {
+        if (context != nullptr) {
             std::string msg = _("This mode is not yet implemented.\n");
             switch (_mode) {
             case BASIC_ENGINE: {
@@ -78,15 +81,25 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, std::wstring lang)
                 exit(1);
             } break;
             case BASIC_SIO_CLIENT: {
-                SioClientInterface* nlsTerm = new SioClientInterface();
-                if (nlsTerm) {
+                SioClientInterface* nlsTerm = nullptr;
+                try {
+                    nlsTerm = new SioClientInterface();
+                } catch (std::bad_alloc&) {
+                    nlsTerm = nullptr;
+                }
+                if (nlsTerm != nullptr) {
                     mainEvaluator = new Evaluator(context, nlsTerm, _mode);
                     mainEvaluator->mainGuiObject = nullptr;
                 }
             } break;
             case BASIC_TERMINAL: {
-                auto* nlsTerm = new BasicTerminal();
-                if (nlsTerm) {
+                BasicTerminal* nlsTerm = nullptr;
+                try {
+                    nlsTerm = new BasicTerminal();
+                } catch (std::bad_alloc&) {
+                    nlsTerm = nullptr;
+                }
+                if (nlsTerm != nullptr) {
                     mainEvaluator = new Evaluator(context, nlsTerm, _mode);
                     mainEvaluator->mainGuiObject = nullptr;
                 }
@@ -98,17 +111,28 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, std::wstring lang)
             case ADVANCED_TERMINAL: {
                 InitGuiObjectsDynamic();
 #ifdef _MSC_VER
-                auto* nlsTerm = new WindowsConsole();
+                WindowsConsole* nlsTerm = nullptr;
+                try {
+                    nlsTerm = new WindowsConsole();
+                } catch (std::bad_alloc&) {
+                    nlsTerm = nullptr;
+                }
 #else
-                BsdTerminal* nlsTerm = new BsdTerminal();
+                BsdTerminal* nlsTerm = nullptr;
+                try {
+                    nlsTerm = new BsdTerminal();
+                } catch (std::bad_alloc&) {
+                    nlsTerm = nullptr;
+                }
 #endif
-                if (nlsTerm) {
+                if (nlsTerm != nullptr) {
                     mainEvaluator = new Evaluator(context, nlsTerm, _mode);
                 }
             } break;
             case GUI: {
                 InitGuiObjectsDynamic();
-                mainEvaluator = (Evaluator*)CreateGuiEvaluatorDynamic((void*)context, _mode);
+                mainEvaluator
+                    = static_cast<Evaluator*>(CreateGuiEvaluatorDynamic((void*)context, _mode));
             } break;
             default: {
                 std::string _msg = _("unknow engine.\n");
@@ -131,9 +155,9 @@ getMainEvaluator()
 bool
 destroyMainEvaluator()
 {
-    if (mainEvaluator) {
+    if (mainEvaluator != nullptr) {
         Context* ctxt = mainEvaluator->getContext();
-        if (ctxt) {
+        if (ctxt != nullptr) {
             // delete all functions (builtin, macros, variables)
             ClearAllVariables(mainEvaluator);
             ClearAllGlobalVariables(mainEvaluator);
@@ -142,7 +166,7 @@ destroyMainEvaluator()
             ctxt = nullptr;
         }
         Interface* io = mainEvaluator->getInterface();
-        if (io) {
+        if (io != nullptr) {
             int engineMode = mainEvaluator->getNelsonEngineMode();
             switch (engineMode) {
             case ADVANCED_SIO_CLIENT:

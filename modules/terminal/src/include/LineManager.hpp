@@ -49,7 +49,8 @@ public:
     int
     putCharacter(wchar_t wch, outputStyle eAsStyle = outputStyle::STANDARD_OUTPUT);
     int
-    printCharacters(std::wstring buffer, outputStyle eAsStyle = outputStyle::STANDARD_OUTPUT);
+    printCharacters(
+        const std::wstring& buffer, outputStyle eAsStyle = outputStyle::STANDARD_OUTPUT);
 
     LineManager();
     ~LineManager();

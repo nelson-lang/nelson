@@ -36,13 +36,13 @@ public:
     Diary();
     ~Diary();
     bool
-    SetFilename(std::wstring wFilename);
+    SetFilename(const std::wstring& wFilename);
     std::wstring
     getFilename();
     void
-    writeMessage(std::string msg);
+    writeMessage(const std::string& msg);
     void
-    writeMessage(std::wstring msg);
+    writeMessage(const std::wstring& msg);
     bool
     getState();
     bool

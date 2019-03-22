@@ -33,7 +33,7 @@ BsdTerminal::BsdTerminal()
 BsdTerminal::~BsdTerminal() {}
 //=============================================================================
 std::wstring
-BsdTerminal::getTextLine(std::wstring prompt, bool bIsInput)
+BsdTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
 {
     atPrompt = true;
     if (!prompt.empty()) {
@@ -69,19 +69,19 @@ BsdTerminal::getTextLine(std::wstring prompt, bool bIsInput)
 }
 //=============================================================================
 std::wstring
-BsdTerminal::getInput(std::wstring prompt)
+BsdTerminal::getInput(const std::wstring& prompt)
 {
     return getTextLine(prompt, true);
 }
 //=============================================================================
 std::wstring
-BsdTerminal::getLine(std::wstring prompt)
+BsdTerminal::getLine(const std::wstring& prompt)
 {
     return getTextLine(prompt, false);
 }
 //=============================================================================
 std::string
-BsdTerminal::getLine(std::string prompt)
+BsdTerminal::getLine(const std::string& prompt)
 {
     std::wstring wline = getLine(utf8_to_wstring(prompt));
     return wstring_to_utf8(wline);
@@ -94,7 +94,7 @@ BsdTerminal::getTerminalWidth()
 }
 //=============================================================================
 void
-BsdTerminal::outputMessage(std::wstring msg)
+BsdTerminal::outputMessage(const std::wstring& msg)
 {
     std::string _msg = wstring_to_utf8(msg);
     if (atPrompt) {
@@ -106,33 +106,33 @@ BsdTerminal::outputMessage(std::wstring msg)
 }
 //=============================================================================
 void
-BsdTerminal::outputMessage(std::string msg)
+BsdTerminal::outputMessage(const std::string& msg)
 {
     fprintf(stdout, "%s", msg.c_str());
     this->diary.writeMessage(msg);
 }
 //=============================================================================
 void
-BsdTerminal::errorMessage(std::wstring msg)
+BsdTerminal::errorMessage(const std::wstring& msg)
 {
     errorMessage(wstring_to_utf8(msg));
 }
 //=============================================================================
 void
-BsdTerminal::errorMessage(std::string msg)
+BsdTerminal::errorMessage(const std::string& msg)
 {
     fprintf(stderr, "%s\n", msg.c_str());
     this->diary.writeMessage(msg);
 }
 //=============================================================================
 void
-BsdTerminal::warningMessage(std::wstring msg)
+BsdTerminal::warningMessage(const std::wstring& msg)
 {
     warningMessage(wstring_to_utf8(msg));
 }
 //=============================================================================
 void
-BsdTerminal::warningMessage(std::string msg)
+BsdTerminal::warningMessage(const std::string& msg)
 {
     fprintf(stdout, "%s", msg.c_str());
     this->diary.writeMessage(msg);

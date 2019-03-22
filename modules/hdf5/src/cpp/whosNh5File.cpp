@@ -83,7 +83,6 @@ whosNh5File(Interface* io, const std::wstring& filename, wstringVector names, bo
             }
         }
     }
-    ArrayOfVector values;
     stringVector _names;
     boost::container::vector<Dimensions> _size;
     boost::container::vector<double> _bytes;

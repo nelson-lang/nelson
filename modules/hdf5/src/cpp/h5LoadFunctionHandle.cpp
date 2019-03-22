@@ -38,7 +38,7 @@ h5LoadFunctionHandle(hid_t fid, const std::string& location, const std::string& 
         if (!found) {
             found = BuiltInFunctionDefManager::getInstance()->find(function_name, fptr);
         }
-        if (found && fptr) {
+        if (found && (fptr != nullptr)) {
             VariableValue
                 = ArrayOf::functionHandleConstructor(utf8_to_wstring(function_name), fptr->hashid);
             bSuccess = true;
@@ -47,5 +47,5 @@ h5LoadFunctionHandle(hid_t fid, const std::string& location, const std::string& 
     return bSuccess;
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

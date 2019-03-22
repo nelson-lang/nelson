@@ -31,11 +31,11 @@ public:
     static BuiltInFunctionDefManager*
     getInstance();
     bool
-    add(std::string name, BuiltInFuncPtr fptr, int argc_in, int argc_out, std::wstring dynlibname,
-        std::wstring modulename);
+    add(const std::string& name, BuiltInFuncPtr fptr, int argc_in, int argc_out,
+        const std::wstring& dynlibname, const std::wstring& modulename);
 
     bool
-    remove(std::string name);
+    remove(const std::string& name);
     bool
     remove(FuncPtr ptr);
     bool
@@ -53,11 +53,11 @@ public:
     stringVector
     getNameList();
     bool
-    find(std::string name, FuncPtr& ptr);
+    find(const std::string& name, FuncPtr& ptr);
     bool
-    find(std::string name, wstringVector& paths);
+    find(const std::string& name, wstringVector& paths);
     bool
-    find(std::string name, std::wstring& path);
+    find(const std::string& name, std::wstring& path);
     bool
     find(size_t hashid, std::wstring& functionname);
 

@@ -24,16 +24,16 @@
 namespace Nelson {
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP void
-Warning(std::wstring id, std::wstring message);
+Warning(const std::wstring& id, const std::wstring& message);
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP void
-Warning(std::wstring message);
+Warning(const std::wstring& message);
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP void
-Warning(std::string id, std::string message);
+Warning(const std::string& id, const std::string& message);
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP void
-Warning(std::string message);
+Warning(const std::string& message);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

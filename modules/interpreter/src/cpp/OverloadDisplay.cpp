@@ -40,7 +40,7 @@ OverloadDisplay(Evaluator* eval, ArrayOf a, bool fromBuiltin)
                 ArrayOfVector argsIn;
                 argsIn.push_back(a);
                 int nargout = 0;
-                ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
+                funcDef->evaluateFunction(eval, argsIn, nargout);
             }
         }
     }
@@ -57,7 +57,7 @@ OverloadDisplay(Evaluator* eval, ArrayOf a, bool fromBuiltin)
                     ArrayOfVector argsIn;
                     argsIn.push_back(a);
                     int nargout = 0;
-                    ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
+                    funcDef->evaluateFunction(eval, argsIn, nargout);
                 } else {
                     Error(utf8_to_wstring(
                         _("function") + " " + OverloadName + " " + _("undefined.")));

@@ -196,7 +196,11 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     } break;
     }
 
-    DebugStack(eval->cstack, nbOmits, positions);
+    std::vector<StackEntry> cstack;
+    if (eval) {
+        cstack = eval->cstack;
+    }
+    DebugStack(cstack, nbOmits, positions);
 
     switch (nLhs) {
     case 0: {

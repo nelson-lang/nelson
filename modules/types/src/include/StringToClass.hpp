@@ -24,16 +24,16 @@
 namespace Nelson {
 //=============================================================================
 NLSTYPES_IMPEXP Class
-StringToClass(std::wstring classname);
+StringToClass(const std::wstring& classname);
 //=============================================================================
 NLSTYPES_IMPEXP Class
-StringToClass(std::wstring classname, bool& haveError);
+StringToClass(const std::wstring& classname, bool& haveError);
 //=============================================================================
 NLSTYPES_IMPEXP Class
-StringToClass(std::string classname);
+StringToClass(const std::string& classname);
 //=============================================================================
 NLSTYPES_IMPEXP Class
-StringToClass(std::string classname, bool& haveError);
+StringToClass(const std::string& classname, bool& haveError);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

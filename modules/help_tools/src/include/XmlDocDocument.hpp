@@ -60,10 +60,10 @@ private:
     DOCUMENT_OUTPUT outputTarget;
 
 public:
-    XmlDocDocument(std::wstring srcfilename, std::wstring sectionname, std::wstring destfilename,
+    XmlDocDocument(const std::wstring &srcfilename, const std::wstring &sectionname, const std::wstring &destfilename,
         bool bOverwriteExistingFile = false, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
-    XmlDocDocument(boost::container::vector<XmlDocGenericItem*> items, std::wstring srcfilename,
-        std::wstring destfilename, bool bOverwriteExistingFile = false,
+    XmlDocDocument(boost::container::vector<XmlDocGenericItem*> items, const std::wstring &srcfilename,
+        const std::wstring &destfilename, bool bOverwriteExistingFile = false,
         DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
     ~XmlDocDocument();
 
@@ -98,11 +98,11 @@ public:
     needToUpdate();
 
     void
-    setPreviousPageLink(std::wstring linkname, std::wstring linkurl);
+    setPreviousPageLink(const std::wstring &linkname, const std::wstring &linkurl);
     void
-    setNextPageLink(std::wstring linkname, std::wstring linkurl);
+    setNextPageLink(const std::wstring &linkname, const std::wstring &linkurl);
     void
-    setIndexPageLink(std::wstring linkname, std::wstring linkurl);
+    setIndexPageLink(const std::wstring &linkname, const std::wstring &linkurl);
 
     std::wstring
     getPageTitle();
@@ -121,11 +121,11 @@ public:
 
 private:
     enum XMLDOC_ITEMS_ID
-    stringTagToId(std::string tag);
+    stringTagToId(const std::string &tag);
     XmlDocGenericItem*
-    findfirst(std::string tag);
+    findfirst(const std::string &tag);
     size_t
-    count(std::string tag);
+    count(const std::string &tag);
     std::wstring
     getLanguage();
     std::wstring
@@ -185,7 +185,7 @@ private:
     bool
     copyHtmlDependencies();
     void
-    setDestinationFile(std::wstring filenameDestination);
+    setDestinationFile(const std::wstring &filenameDestination);
 
     void
     writeNavigatorBarAsHtml(std::string& utf8stream);

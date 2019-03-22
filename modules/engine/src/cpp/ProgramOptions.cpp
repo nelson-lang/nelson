@@ -26,8 +26,8 @@ namespace Nelson {
 #define PREFIX_SHORTOPTION_STR L"-"
 #define PREFIX_SHORTOPTION_WINDOWS_STR L"/"
 //=============================================================================
-Option::Option(std::wstring fullOption, std::wstring shortOption, std::wstring description,
-    bool bMultiple, bool bWithFieldValue)
+Option::Option(const std::wstring& fullOption, const std::wstring& shortOption,
+    const std::wstring& description, bool bMultiple, bool bWithFieldValue)
 {
     _fullOption = fullOption;
     _shortOption = shortOption;
@@ -114,7 +114,7 @@ ProgramOptions::ProgramOptions(wstringVector args, NELSON_ENGINE_MODE mode)
     _options = L"";
     _lang = L"";
     _socketioUri = L"";
-    _args = args;
+    _args = std::move(args);
     _mode = mode;
     _isvalid = parse();
 }

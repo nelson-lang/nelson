@@ -570,12 +570,9 @@ getMpiLibraryVersion()
 }
 //=============================================================================
 MPI_Op
-stringToMpiOp(std::wstring op_str)
+stringToMpiOp(const std::wstring& op_str)
 {
     MPI_Op mpi_op = MPI_OP_NULL;
-    if (op_str == L"MPI_SUM") {
-        return MPI_SUM;
-    }
     if (op_str == L"MPI_MAX") {
         return MPI_MAX;
     }

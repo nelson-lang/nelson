@@ -25,19 +25,19 @@ EvaluateInterface::EvaluateInterface() { outputBuffer.clear(); }
 EvaluateInterface::~EvaluateInterface() { outputBuffer.clear(); }
 //=============================================================================
 std::wstring
-EvaluateInterface::getLine(std::wstring prompt)
+EvaluateInterface::getLine(const std::wstring& prompt)
 {
     return L"";
 }
 //=============================================================================
 std::string
-EvaluateInterface::getLine(std::string prompt)
+EvaluateInterface::getLine(const std::string& prompt)
 {
     return "";
 }
 //=============================================================================
 std::wstring
-EvaluateInterface::getInput(std::wstring prompt)
+EvaluateInterface::getInput(const std::wstring& prompt)
 {
     Error(_W("input function not allowed from evalc."));
     return L"";
@@ -50,37 +50,37 @@ EvaluateInterface::getTerminalWidth()
 }
 //=============================================================================
 void
-EvaluateInterface::outputMessage(std::wstring msg)
+EvaluateInterface::outputMessage(const std::wstring& msg)
 {
     outputBuffer.append(msg);
 }
 //=============================================================================
 void
-EvaluateInterface::outputMessage(std::string msg)
+EvaluateInterface::outputMessage(const std::string& msg)
 {
     outputMessage(utf8_to_wstring(msg));
 }
 //=============================================================================
 void
-EvaluateInterface::errorMessage(std::wstring msg)
+EvaluateInterface::errorMessage(const std::wstring& msg)
 {
     outputMessage(msg);
 }
 //=============================================================================
 void
-EvaluateInterface::errorMessage(std::string msg)
+EvaluateInterface::errorMessage(const std::string& msg)
 {
     errorMessage(utf8_to_wstring(msg));
 }
 //=============================================================================
 void
-EvaluateInterface::warningMessage(std::wstring msg)
+EvaluateInterface::warningMessage(const std::wstring& msg)
 {
     outputMessage(msg);
 }
 //=============================================================================
 void
-EvaluateInterface::warningMessage(std::string msg)
+EvaluateInterface::warningMessage(const std::string& msg)
 {
     warningMessage(utf8_to_wstring(msg));
 }

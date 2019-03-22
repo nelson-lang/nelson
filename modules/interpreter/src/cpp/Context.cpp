@@ -72,7 +72,7 @@ Context::getGlobalScope()
 }
 //=============================================================================
 void
-Context::pushScope(std::string name)
+Context::pushScope(const std::string& name)
 {
     Scope* sc = nullptr;
     if (scopestack.size() > getRecursionDepth()) {
@@ -102,7 +102,7 @@ Context::popScope()
 }
 //=============================================================================
 void
-Context::insertVariableLocally(std::string varName, const ArrayOf& var)
+Context::insertVariableLocally(const std::string& varName, const ArrayOf& var)
 {
     scopestack.back()->insertVariable(varName, var);
 }
@@ -110,16 +110,18 @@ Context::insertVariableLocally(std::string varName, const ArrayOf& var)
 bool
 Context::insertVariable(const std::string& varName, const ArrayOf& var)
 {
-    Scope* active;
+    Scope* active = nullptr;
     std::string mapName;
-    if (scopestack.back()->isVariablePersistent(varName)) {
-        mapName = scopestack.back()->getMangledName(varName);
-        active = scopestack.front();
-    } else if (scopestack.back()->isVariableGlobal(varName)) {
+    Scope* backScope = scopestack.back();
+    Scope* frontScope = scopestack.front();
+    if (backScope->isVariablePersistent(varName)) {
+        mapName = backScope->getMangledName(varName);
+        active = frontScope;
+    } else if (backScope->isVariableGlobal(varName)) {
         mapName = varName;
-        active = scopestack.front();
+        active = frontScope;
     } else {
-        return scopestack.back()->insertVariable(varName, var);
+        return backScope->insertVariable(varName, var);
     }
     return active->insertVariable(mapName, var);
 }
@@ -142,13 +144,13 @@ Context::lookupVariable(const std::string& varName, ArrayOf& var)
 }
 //=============================================================================
 bool
-Context::isVariable(std::wstring varname)
+Context::isVariable(const std::wstring& varname)
 {
     return isVariable(wstring_to_utf8(varname));
 }
 //=============================================================================
 bool
-Context::isVariable(std::string varname)
+Context::isVariable(const std::string& varname)
 {
     Scope* active;
     if (scopestack.back()->isVariablePersistent(varname)) {
@@ -175,7 +177,7 @@ Context::isVariablePersistent(const std::string& varName)
 }
 //=============================================================================
 bool
-Context::lookupVariableLocally(std::string varName, ArrayOf& var)
+Context::lookupVariableLocally(const std::string& varName, ArrayOf& var)
 {
     return scopestack.back()->lookupVariable(varName, var);
 }
@@ -237,22 +239,23 @@ Context::inLoop()
 }
 //=============================================================================
 void
-Context::addPersistentVariable(std::string var)
+Context::addPersistentVariable(const std::string& var)
 {
+    Scope* back = scopestack.back();
+    Scope* front = scopestack.front();
     // Delete local variables with this name
-    scopestack.back()->deleteVariable(var);
+    back->deleteVariable(var);
     // Delete global variables with this name
-    scopestack.front()->deleteVariable(var);
-    scopestack.back()->addPersistentVariablePointer(var);
+    front->deleteVariable(var);
+    back->addPersistentVariablePointer(var);
     ArrayOf v;
-    if (!scopestack.front()->lookupVariable(scopestack.back()->getMangledName(var), v)) {
-        scopestack.front()->insertVariable(
-            scopestack.back()->getMangledName(var), ArrayOf::emptyConstructor());
+    if (!front->lookupVariable(back->getMangledName(var), v)) {
+        front->insertVariable(back->getMangledName(var), ArrayOf::emptyConstructor());
     }
 }
 //=============================================================================
 void
-Context::addGlobalVariable(std::string var)
+Context::addGlobalVariable(const std::string& var)
 {
     // Delete local variables with this name
     scopestack.back()->deleteVariable(var);
@@ -268,7 +271,7 @@ Context::addGlobalVariable(std::string var)
 }
 //=============================================================================
 void
-Context::deleteVariable(std::string var)
+Context::deleteVariable(const std::string& var)
 {
     if (isVariableGlobal(var)) {
         scopestack.front()->deleteVariable(var);
@@ -332,19 +335,19 @@ Context::getLockedVariables()
 }
 //=============================================================================
 bool
-Context::isLockedVariable(std::string varname)
+Context::isLockedVariable(const std::string& varname)
 {
     return scopestack.back()->isLockedVariable(varname);
 }
 //=============================================================================
 bool
-Context::lockVariable(std::string varname)
+Context::lockVariable(const std::string& varname)
 {
     return scopestack.back()->lockVariable(varname);
 }
 //=============================================================================
 bool
-Context::unlockVariable(std::string varname)
+Context::unlockVariable(const std::string& varname)
 {
     return scopestack.back()->unlockVariable(varname);
 }

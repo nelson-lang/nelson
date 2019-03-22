@@ -34,7 +34,7 @@ GuiTerminal::GuiTerminal(void* qtMainW)
 GuiTerminal::~GuiTerminal() = default;
 //=============================================================================
 std::wstring
-GuiTerminal::getTextLine(std::wstring prompt, bool bIsInput)
+GuiTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
 {
     std::wstring line;
     if (qtterm) {
@@ -61,13 +61,13 @@ GuiTerminal::getTextLine(std::wstring prompt, bool bIsInput)
 }
 //=============================================================================
 std::wstring
-GuiTerminal::getInput(std::wstring prompt)
+GuiTerminal::getInput(const std::wstring& prompt)
 {
     return getTextLine(prompt, true);
 }
 //=============================================================================
 std::string
-GuiTerminal::getLine(std::string prompt)
+GuiTerminal::getLine(const std::string& prompt)
 {
     std::wstring wline = getLine(utf8_to_wstring(prompt));
     std::string line = wstring_to_utf8(wline);
@@ -75,7 +75,7 @@ GuiTerminal::getLine(std::string prompt)
 }
 //=============================================================================
 std::wstring
-GuiTerminal::getLine(std::wstring prompt)
+GuiTerminal::getLine(const std::wstring& prompt)
 {
     return getTextLine(prompt, false);
 }
@@ -91,7 +91,7 @@ GuiTerminal::getTerminalWidth()
 }
 //=============================================================================
 void
-GuiTerminal::outputMessage(std::string msg)
+GuiTerminal::outputMessage(const std::string& msg)
 {
     if (qtterm) {
         std::wstring wmsg = utf8_to_wstring(msg);
@@ -100,7 +100,7 @@ GuiTerminal::outputMessage(std::string msg)
 }
 //=============================================================================
 void
-GuiTerminal::outputMessage(std::wstring msg)
+GuiTerminal::outputMessage(const std::wstring& msg)
 {
     if (qtterm) {
         std::wstring _msg = msg;
@@ -114,7 +114,7 @@ GuiTerminal::outputMessage(std::wstring msg)
 }
 //=============================================================================
 void
-GuiTerminal::errorMessage(std::string msg)
+GuiTerminal::errorMessage(const std::string& msg)
 {
     if (qtterm) {
         std::wstring wmsg = utf8_to_wstring(msg);
@@ -123,7 +123,7 @@ GuiTerminal::errorMessage(std::string msg)
 }
 //=============================================================================
 void
-GuiTerminal::errorMessage(std::wstring msg)
+GuiTerminal::errorMessage(const std::wstring& msg)
 {
     if (qtterm) {
         std::wstring _msg = msg + L"\n";
@@ -137,7 +137,7 @@ GuiTerminal::errorMessage(std::wstring msg)
 }
 //=============================================================================
 void
-GuiTerminal::warningMessage(std::string msg)
+GuiTerminal::warningMessage(const std::string& msg)
 {
     if (qtterm) {
         std::wstring wmsg = utf8_to_wstring(msg);
@@ -146,7 +146,7 @@ GuiTerminal::warningMessage(std::string msg)
 }
 //=============================================================================
 void
-GuiTerminal::warningMessage(std::wstring msg)
+GuiTerminal::warningMessage(const std::wstring& msg)
 {
     if (qtterm) {
         std::wstring _msg = msg + L"\n";
@@ -176,7 +176,7 @@ GuiTerminal::banner()
 }
 //=============================================================================
 void
-GuiTerminal::insertHtml(std::wstring msg)
+GuiTerminal::insertHtml(const std::wstring& msg)
 {
     if (qtterm) {
         qtterm->insertHtml(msg);
@@ -205,3 +205,4 @@ GuiTerminal::isAtPrompt()
     }
     return false;
 }
+//=============================================================================

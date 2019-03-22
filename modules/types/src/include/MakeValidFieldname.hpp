@@ -23,8 +23,8 @@
 //=============================================================================
 namespace Nelson {
 NLSTYPES_IMPEXP std::string
-MakeValidFieldname(std::string fieldname, std::string defaultPrefix = "x");
+MakeValidFieldname(const std::string& fieldname, const std::string& defaultPrefix = "x");
 NLSTYPES_IMPEXP std::wstring
-MakeValidFieldname(std::wstring fieldname, std::wstring defaultPrefix = L"x");
+MakeValidFieldname(const std::wstring& fieldname, const std::wstring& defaultPrefix = L"x");
 } // namespace Nelson
 //=============================================================================

@@ -312,7 +312,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         fileToExecute = full_p.generic_wstring();
     }
     Evaluator* eval = createMainEvaluator(_mode, lang);
-    if (eval) {
+    if (eval != nullptr) {
         setWarningEvaluator(eval);
         setErrorEvaluator(eval);
         eval->setQuietMode(bQuietMode);
@@ -349,7 +349,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
 }
 //=============================================================================
 static int
-StartNelsonInternalWithMutex(wstringVector args, NELSON_ENGINE_MODE _mode)
+StartNelsonInternalWithMutex(const wstringVector& args, NELSON_ENGINE_MODE _mode)
 {
     openNelsonMutex();
     int exitCode = StartNelsonInternal(args, _mode);

@@ -147,8 +147,6 @@ WhosMatioFile(Interface* io, const std::wstring& filename, wstringVector names, 
             }
         }
     }
-    ArrayOfVector values;
-
     stringVector _names;
     boost::container::vector<Dimensions> _size;
     boost::container::vector<double> _bytes;
@@ -178,13 +176,14 @@ WhosMatioFile(Interface* io, const std::wstring& filename, wstringVector names, 
             Mat_Close(matfile);
             std::string msg = _("Cannot read variable:") + std::string(" ") + name;
             Error(msg);
+            return ArrayOf();
         }
         _names.push_back(name);
         nbSpaceName = std::max(nbSpaceName, name.size());
 
         std::string className = matClassToString(matVariable);
         double sizeAsByte = (double)Mat_VarGetSize(matVariable);
-        if (sizeAsByte == 0 || className == "?") {
+        if ((int)sizeAsByte == (int)0 || className == "?") {
             std::string NaN = "NaN";
             _bytes.push_back(std::nan(NaN.c_str()));
             nbSpaceBytes = std::max(nbSpaceBytes, NaN.size());

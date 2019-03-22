@@ -25,11 +25,11 @@
 namespace Nelson {
 //=============================================================================
 XmlDocBibliographyItem::XmlDocBibliographyItem(std::wstring bibliography)
+    : _bibliography(bibliography)
 {
-    this->_bibliography = bibliography;
 }
 //=============================================================================
-XmlDocBibliographyItem::~XmlDocBibliographyItem() { this->_bibliography = L""; }
+XmlDocBibliographyItem::~XmlDocBibliographyItem() { this->_bibliography = std::move(L""); }
 //=============================================================================
 std::wstring
 XmlDocBibliographyItem::getItemType()

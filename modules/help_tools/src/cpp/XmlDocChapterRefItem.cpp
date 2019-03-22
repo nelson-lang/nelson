@@ -24,18 +24,15 @@
 namespace Nelson {
 //=============================================================================
 XmlDocChapterRefItem::XmlDocChapterRefItem(
-    std::wstring linkname, std::wstring linkurl, std::wstring description)
-{
-    this->_description = description;
-    this->_linkname = linkname;
-    this->_linkurl = linkurl;
-}
+    const std::wstring& linkname, const std::wstring& linkurl, const std::wstring& description)
+    : _description(description), _linkname(linkname), _linkurl(linkurl)
+{}
 //=============================================================================
 XmlDocChapterRefItem::~XmlDocChapterRefItem()
 {
-    this->_description = L"";
-    this->_linkname = L"";
-    this->_linkurl = L"";
+    this->_description.clear();
+    this->_linkname.clear();
+    this->_linkurl.clear();
 }
 //=============================================================================
 std::wstring

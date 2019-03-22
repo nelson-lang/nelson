@@ -171,7 +171,7 @@ public:
     void
     debugCLI();
     void
-    pushDebug(std::string fname, std::string detail);
+    pushDebug(const std::string& fname, const std::string& detail);
     void
     popDebug();
 
@@ -390,7 +390,7 @@ public:
      * Look up an identifier as a potential function name
      */
     bool
-    lookupFunction(std::string funcName, FuncPtr& val);
+    lookupFunction(const std::string& funcName, FuncPtr& val);
     /**
      * Special case the single assignment statement 'A = B' for speed.
      */
@@ -419,7 +419,7 @@ public:
     ArrayOf
     simpleSubindexExpression(ArrayOf& r, ASTPtr t);
     ArrayOfVector
-    subsindex(ArrayOfVector m);
+    subsindex(const ArrayOfVector& m);
 
     indexType
     countLeftHandSides(ASTPtr t);
@@ -774,7 +774,7 @@ public:
 
     ArrayOf
     doBinaryOperatorOverload(
-        ArrayOf& A, ArrayOf& B, BinaryFunction functionOperator, std::string functionName);
+        ArrayOf& A, ArrayOf& B, BinaryFunction functionOperator, const std::string& functionName);
 
     ArrayOf
     additionOperator(ArrayOf A, ArrayOf B);
@@ -811,20 +811,23 @@ public:
 
 private:
     void
-    setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue);
+    setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& fieldvalue);
     ArrayOfVector
-    getHandle(ArrayOf r, std::string fieldname, ArrayOfVector params);
+    getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& params);
     ArrayOf
     EndReference(ArrayOf v, indexType index, size_t count);
     size_t
     countSubExpressions(ASTPtr t);
 
     ArrayOf
-    doUnaryOperatorOverload(ASTPtr t, UnaryFunction functionOperator, std::string functionName);
+    doUnaryOperatorOverload(
+        ASTPtr t, UnaryFunction functionOperator, const std::string& functionName);
     ArrayOf
-    doBinaryOperatorOverload(ASTPtr t, BinaryFunction functionOperator, std::string functionName);
+    doBinaryOperatorOverload(
+        ASTPtr t, BinaryFunction functionOperator, const std::string& functionName);
     ArrayOf
-    doTernaryOperatorOverload(ASTPtr t, TernaryFunction functionOperator, std::string functionName);
+    doTernaryOperatorOverload(
+        ASTPtr t, TernaryFunction functionOperator, const std::string& functionName);
 
     /**
      * Handles the logistics of shortcut evaluation

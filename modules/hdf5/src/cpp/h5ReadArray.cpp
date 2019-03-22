@@ -55,7 +55,7 @@ h5ReadArrayFloat(hid_t attr_id, hid_t type, hid_t stype, Dimensions dimsOutput, 
         } else {
             error = _W("Cannot read data set.");
         }
-        res = ArrayOf(outputClass, dimsOutput, ptrVoid);
+        ArrayOf(outputClass, dimsOutput, ptrVoid);
         res = ArrayOf();
     } else {
         res = ArrayOf(outputClass, dimsOutput, ptrVoid);
@@ -110,7 +110,7 @@ h5ReadArrayInteger(hid_t attr_id, hid_t type, hid_t stype, Dimensions dimsOutput
         } else {
             error = _W("Cannot read data set.");
         }
-        res = ArrayOf(outputClass, dimsOutput, ptrVoid);
+        ArrayOf(outputClass, dimsOutput, ptrVoid);
         res = ArrayOf();
     } else {
         res = ArrayOf(outputClass, dimsOutput, ptrVoid);
@@ -164,7 +164,7 @@ h5ReadArray(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstr
     } break;
     case H5T_FLOAT: {
         res = h5ReadArrayFloat(attr_id, type, stype, dimsOutput, asAttribute, error);
-    }
+    } break;
     default: {
         error = _W("Type not managed.");
     } break;

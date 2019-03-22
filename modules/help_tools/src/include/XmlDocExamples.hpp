@@ -37,7 +37,7 @@ public:
     XmlDocExamples(DOCUMENT_OUTPUT outputTarget);
     ~XmlDocExamples();
     void
-    append(std::wstring type, std::wstring description, std::wstring data, std::wstring imageTag);
+    append(const std::wstring &type, const std::wstring &description, const std::wstring &data, const std::wstring &imageTag);
     std::wstring
     getItemType();
     bool

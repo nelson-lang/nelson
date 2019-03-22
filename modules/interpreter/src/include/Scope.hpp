@@ -139,7 +139,7 @@ public:
      * Delete a function from the current scope.
      */
     void
-    deleteFunction(std::string funcName);
+    deleteFunction(const std::string& funcName);
     bool
     deleteBuiltin(void* fptr);
 
@@ -159,12 +159,12 @@ public:
      * Add a variable name to the global variables list.
      */
     void
-    addGlobalVariablePointer(std::string varName);
+    addGlobalVariablePointer(const std::string& varName);
     /**
      * Delete a variable name from the global variables list.
      */
     void
-    deleteGlobalVariablePointer(std::string varName);
+    deleteGlobalVariablePointer(const std::string& varName);
     /**
      * Check to see if a variable is globally defined.
      */
@@ -174,12 +174,12 @@ public:
      * Add a variable name to the persistent variables list.
      */
     void
-    addPersistentVariablePointer(std::string varName);
+    addPersistentVariablePointer(const std::string& varName);
     /**
      * Delete a variable name from the persistent variables list.
      */
     void
-    deletePersistentVariablePointer(std::string varName);
+    deletePersistentVariablePointer(const std::string& varName);
     /**
      * Check to see if a variable is defined in the persistent
      * list.
@@ -191,7 +191,7 @@ public:
      * a "_scopename_" to the name of the variable.
      */
     std::string
-    getMangledName(std::string varName);
+    getMangledName(const std::string& varName);
     /**
      * Dump the scope.
      */
@@ -239,7 +239,7 @@ public:
      * the variable from the symbol table completely.
      */
     bool
-    deleteVariable(std::string var);
+    deleteVariable(const std::string& var);
 
     bool
     isPointerOnFunction(FuncPtr val);
@@ -257,14 +257,14 @@ public:
     stringVector
     getLockedVariables();
     bool
-    isLockedVariable(std::string varname);
+    isLockedVariable(const std::string& varname);
     bool
-    lockVariable(std::string varname);
+    lockVariable(const std::string& varname);
     bool
-    unlockVariable(std::string varname);
+    unlockVariable(const std::string& varname);
 
     bool
-    isVariable(std::string varname);
+    isVariable(const std::string& varname);
 };
 //=============================================================================
 } // namespace Nelson

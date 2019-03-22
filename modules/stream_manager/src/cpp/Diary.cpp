@@ -38,7 +38,7 @@ Diary::~Diary()
 }
 //=============================================================================
 bool
-Diary::SetFilename(std::wstring wFilename)
+Diary::SetFilename(const std::wstring& wFilename)
 {
     bool bRes = false;
     boost::filesystem::path p = wFilename;
@@ -77,13 +77,13 @@ Diary::getFilename()
 }
 //=============================================================================
 void
-Diary::writeMessage(std::string msg)
+Diary::writeMessage(const std::string& msg)
 {
     writeMessage(utf8_to_wstring(msg));
 }
 //=============================================================================
 void
-Diary::writeMessage(std::wstring msg)
+Diary::writeMessage(const std::wstring& msg)
 {
     if (bState) {
         std::ios::openmode wofstream_mode = std::ios::app | std::ios::binary;
@@ -126,3 +126,4 @@ Diary::toggle()
 }
 //=============================================================================
 } // namespace Nelson
+//=============================================================================

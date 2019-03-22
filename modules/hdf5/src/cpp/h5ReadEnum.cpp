@@ -153,48 +153,72 @@ h5ReadEnum(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std:
     for (indexType i = 0; i < dims.getElementCount(); i++) {
         switch (outputClass) {
         case NLS_UINT8: {
-            status = H5Tenum_nameof(type_id, &ptrAsUINT8[i], name, LENGTH_NAME_MAX);
+            if (ptrAsUINT8) {
+                status = H5Tenum_nameof(type_id, &ptrAsUINT8[i], name, LENGTH_NAME_MAX);
+            }
         } break;
         case NLS_UINT16: {
-            status = H5Tenum_nameof(type_id, &ptrAsUINT16[i], name, LENGTH_NAME_MAX);
+            if (ptrAsUINT16) {
+                status = H5Tenum_nameof(type_id, &ptrAsUINT16[i], name, LENGTH_NAME_MAX);
+            }
         } break;
         case NLS_UINT32: {
-            status = H5Tenum_nameof(type_id, &ptrAsUINT32[i], name, LENGTH_NAME_MAX);
+            if (ptrAsUINT32) {
+                status = H5Tenum_nameof(type_id, &ptrAsUINT32[i], name, LENGTH_NAME_MAX);
+            }
         } break;
         case NLS_UINT64: {
-            status = H5Tenum_nameof(type_id, &ptrAsUINT64[i], name, LENGTH_NAME_MAX);
+            if (ptrAsUINT64) {
+                status = H5Tenum_nameof(type_id, &ptrAsUINT64[i], name, LENGTH_NAME_MAX);
+            }
         } break;
         case NLS_INT8: {
-            status = H5Tenum_nameof(type_id, &ptrAsINT8[i], name, LENGTH_NAME_MAX);
+            if (ptrAsINT8) {
+                status = H5Tenum_nameof(type_id, &ptrAsINT8[i], name, LENGTH_NAME_MAX);
+            }
         } break;
         case NLS_INT16: {
-            status = H5Tenum_nameof(type_id, &ptrAsINT16[i], name, LENGTH_NAME_MAX);
+            if (ptrAsINT16) {
+                status = H5Tenum_nameof(type_id, &ptrAsINT16[i], name, LENGTH_NAME_MAX);
+            }
         } break;
         case NLS_INT32: {
-            status = H5Tenum_nameof(type_id, &ptrAsINT32[i], name, LENGTH_NAME_MAX);
+            if (ptrAsINT32) {
+                status = H5Tenum_nameof(type_id, &ptrAsINT32[i], name, LENGTH_NAME_MAX);
+            }
         } break;
         case NLS_INT64: {
-            status = H5Tenum_nameof(type_id, &ptrAsINT64[i], name, LENGTH_NAME_MAX);
+            if (ptrAsINT64) {
+                status = H5Tenum_nameof(type_id, &ptrAsINT64[i], name, LENGTH_NAME_MAX);
+            }
         } break;
         default: { } break; }
         elements[i] = ArrayOf::characterArrayConstructor(name);
     }
-    if (ptrAsUINT8)
+    if (ptrAsUINT8) {
         delete[] ptrAsUINT8;
-    if (ptrAsUINT16)
+    }
+    if (ptrAsUINT16) {
         delete[] ptrAsUINT16;
-    if (ptrAsUINT32)
+    }
+    if (ptrAsUINT32) {
         delete[] ptrAsUINT32;
-    if (ptrAsUINT64)
+    }
+    if (ptrAsUINT64) {
         delete[] ptrAsUINT64;
-    if (ptrAsINT8)
+    }
+    if (ptrAsINT8) {
         delete[] ptrAsINT8;
-    if (ptrAsINT16)
+    }
+    if (ptrAsINT16) {
         delete[] ptrAsINT16;
-    if (ptrAsINT32)
+    }
+    if (ptrAsINT32) {
         delete[] ptrAsINT32;
-    if (ptrAsINT64)
+    }
+    if (ptrAsINT64) {
         delete[] ptrAsINT64;
+    }
     return ArrayOf(NLS_CELL_ARRAY, dims, elements);
 }
 //=============================================================================

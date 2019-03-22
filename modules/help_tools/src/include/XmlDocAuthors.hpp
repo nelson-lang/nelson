@@ -35,7 +35,7 @@ public:
     XmlDocAuthors();
     ~XmlDocAuthors();
     void
-    append(std::wstring value);
+    append(const std::wstring &value);
     std::wstring
     getItemType();
     bool

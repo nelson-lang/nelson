@@ -88,7 +88,8 @@ public:
     /**
      * Push the given scope onto the bottom of the scope stack.
      */
-    void pushScope(std::string /*name*/);
+    void
+    pushScope(const std::string& name);
     /**
      * Pop the bottom scope off of the scope stack.  The scope is
      * deleted.
@@ -108,7 +109,7 @@ public:
      * global list.
      */
     void
-    insertVariableLocally(std::string varName, const ArrayOf& /*var*/);
+    insertVariableLocally(const std::string& varName, const ArrayOf& /*var*/);
     /**
      * Return a pointer to the given variable.  The search
      * logic is:
@@ -129,7 +130,7 @@ public:
      * Look for a variable, but only locally.
      */
     bool
-    lookupVariableLocally(std::string varName, ArrayOf& var);
+    lookupVariableLocally(const std::string& varName, ArrayOf& var);
     /**
      * Insert a function definition into the local scope (bottom of
      * the scope stack).
@@ -158,20 +159,20 @@ public:
      *     global scope, then an empty variable is inserted.
      */
     void
-    addPersistentVariable(std::string var);
+    addPersistentVariable(const std::string& var);
     /**
      * Add a variable name into the global variable list of the current
      * scope.  If the variable does not exist in the global scope, an
      * empty variable is added.
      */
     void
-    addGlobalVariable(std::string var);
+    addGlobalVariable(const std::string& var);
     /**
      * Delete a variable if its defined.  Handles global and persistent
      * variables also.
      */
     void
-    deleteVariable(std::string var);
+    deleteVariable(const std::string& var);
     /**
      * Get the global scope off the top of the scope stack.
      */
@@ -228,16 +229,16 @@ public:
     stringVector
     getLockedVariables();
     bool
-    isLockedVariable(std::string varname);
+    isLockedVariable(const std::string& varname);
     bool
-    lockVariable(std::string varname);
+    lockVariable(const std::string& varname);
     bool
-    unlockVariable(std::string varname);
+    unlockVariable(const std::string& varname);
 
     bool
-    isVariable(std::string varname);
+    isVariable(const std::string& varname);
     bool
-    isVariable(std::wstring varname);
+    isVariable(const std::wstring& varname);
 
     size_t
     getRecursionDepth();

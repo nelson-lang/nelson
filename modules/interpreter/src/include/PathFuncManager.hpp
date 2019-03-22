@@ -38,7 +38,7 @@ private:
     static PathFuncManager* m_pInstance;
     PathFunc* _userPath;
     MacroFunctionDef*
-    processFile(std::wstring nlf_filename);
+    processFile(const std::wstring& nlf_filename);
 
     void
     userpathCompute();
@@ -49,9 +49,9 @@ private:
     bool
     saveUserPathToFile();
     bool
-    isFile(std::wstring filename);
+    isFile(const std::wstring& filename);
     bool
-    isDir(std::wstring pathname);
+    isDir(const std::wstring& pathname);
 
 public:
     static PathFuncManager*
@@ -62,31 +62,31 @@ public:
     clear();
 
     bool
-    find(std::string name, FuncPtr& ptr);
+    find(const std::string& name, FuncPtr& ptr);
     bool
-    find(std::wstring functionName, std::wstring& filename);
+    find(const std::wstring& functionName, std::wstring& filename);
     bool
-    find(std::wstring functionName, wstringVector& filesname);
+    find(const std::wstring& functionName, wstringVector& filesname);
     bool
-    find(std::wstring functionName, FileFunc** ff);
+    find(const std::wstring& functionName, FileFunc** ff);
     bool
     find(size_t hashid, std::wstring& functionname);
 
     bool
-    addPath(std::wstring path, bool begin);
+    addPath(const std::wstring& path, bool begin);
     bool
-    removePath(std::wstring path);
+    removePath(const std::wstring& path);
     wstringVector
     getPathNameVector();
     std::wstring
     getPathNameAsString();
     wstringVector
-    getMacrosList(std::wstring prefix = L"");
+    getMacrosList(const std::wstring& prefix = L"");
 
     std::wstring
     getUserPath();
     bool
-    setUserPath(std::wstring path, bool saveToFile = false);
+    setUserPath(const std::wstring& path, bool saveToFile = false);
     void
     clearUserPath(bool saveToFile = false);
     void
@@ -94,7 +94,7 @@ public:
     void
     rehash();
     void
-    rehash(std::wstring path);
+    rehash(const std::wstring& path);
 
     void
     clearCache();

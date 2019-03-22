@@ -158,11 +158,9 @@ delimitedWrite(ArrayOf mat, std::wstring filenameDestination, bool bAppend, std:
                                 outputStream << delimiter;
                             }
                         } else {
-                            std::wstring fmt;
+                            std::wstring fmt(formatPrecision);
                             if (y < ymax - 1) {
                                 fmt = fmt_with_delimiter;
-                            } else {
-                                fmt = formatPrecision;
                             }
                             wchar_t buffer[1024];
                             swprintf(buffer, 1024, fmt.c_str(), val);

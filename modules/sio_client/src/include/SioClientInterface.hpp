@@ -19,66 +19,68 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include "nlsSio_client_exports.h"
 #include "Interface.hpp"
+#include "nlsSio_client_exports.h"
 //=============================================================================
 namespace Nelson {
 class NLSSIO_CLIENT_IMPEXP SioClientInterface : public Interface
 {
-#define CMD_BUFFER_SIZE 4096 * 2
+#define CMD_BUFFER_SIZE (4096 * 2)
 #define WIDTH 80
 public:
     SioClientInterface();
-    ~SioClientInterface();
+    ~SioClientInterface() override;
     /**
      *  Get a line of input from the user with the
      *  given prompt.
      */
-    std::wstring
-    getLine(std::wstring prompt);
     std::string
-    getLine(std::string prompt);
+    getLine(const std::string& prompt) override;
     std::wstring
-    getInput(std::wstring prompt);
+    getLine(const std::wstring& prompt) override;
+    std::wstring
+    getInput(const std::wstring& prompt) override;
+
     /**
      *  Return the width of the current "terminal" in
      *  characters.
      */
     size_t
-    getTerminalWidth();
+    getTerminalWidth() override;
     /**
      *  Output the following text message.
      */
     void
-    outputMessage(std::wstring msg);
+    outputMessage(const std::string& msg) override;
     void
-    outputMessage(std::string msg);
+    outputMessage(const std::wstring& msg) override;
     /**
      *  Output the following error message.
      */
     void
-    errorMessage(std::wstring msg);
+    errorMessage(const std::string& msg) override;
     void
-    errorMessage(std::string msg);
+    errorMessage(const std::wstring& msg) override;
     /**
      *  Output the following warning message.
      */
     void
-    warningMessage(std::wstring msg);
+    warningMessage(const std::string& msg) override;
     void
-    warningMessage(std::string msg);
+    warningMessage(const std::wstring& msg) override;
 
     void
-    clearTerminal();
+    clearTerminal() override;
     bool
-    isAtPrompt();
+    isAtPrompt() override;
 
 private:
     std::wstring
-    getTextLine(std::wstring prompt, bool bIsInput);
+    getTextLine(const std::wstring& prompt, bool bIsInput);
     std::string
-    getTextLine(std::string prompt, bool bIsInput);
+    getTextLine(const std::string& prompt, bool bIsInput);
     bool atPrompt;
 };
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

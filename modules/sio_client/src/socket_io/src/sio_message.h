@@ -549,15 +549,17 @@ namespace sio
         message::ptr to_array_message(std::string const& event_name) const
         {
             message::ptr arr = array_message::create();
-            arr->get_vector().push_back(string_message::create(event_name));
-            arr->get_vector().insert(arr->get_vector().end(),m_vector.begin(),m_vector.end());
+            std::vector<ptr> getVector = arr->get_vector();
+            getVector.push_back(string_message::create(event_name));
+            getVector.insert(getVector.end(), m_vector.begin(), m_vector.end());
             return arr;
         }
 
         message::ptr to_array_message() const
         {
             message::ptr arr = array_message::create();
-            arr->get_vector().insert(arr->get_vector().end(),m_vector.begin(),m_vector.end());
+            std::vector<ptr> getVector = arr->get_vector();
+            getVector.insert(getVector.end(), m_vector.begin(), m_vector.end());
             return arr;
         }
 

@@ -23,7 +23,7 @@
 //=============================================================================
 namespace Nelson {
 NLSFUNCTIONS_MANAGER_IMPEXP bool
-ClearBuiltin(std::wstring builtinName);
+ClearBuiltin(const std::wstring& builtinName);
 NLSFUNCTIONS_MANAGER_IMPEXP bool
 ClearAllBuiltin();
 NLSFUNCTIONS_MANAGER_IMPEXP bool

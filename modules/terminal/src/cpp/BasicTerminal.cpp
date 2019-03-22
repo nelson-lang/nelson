@@ -65,13 +65,13 @@ intHandler(int dummy = 0)
 }
 //=============================================================================
 std::wstring
-BasicTerminal::getTextLine(std::wstring prompt, bool bIsInput)
+BasicTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
 {
     return utf8_to_wstring(getTextLine(wstring_to_utf8(prompt), bIsInput));
 }
 //=============================================================================
 std::string
-BasicTerminal::getTextLine(std::string prompt, bool bIsInput)
+BasicTerminal::getTextLine(const std::string& prompt, bool bIsInput)
 {
     atPrompt = true;
     fprintf(stdout, "%s", prompt.c_str());
@@ -92,19 +92,19 @@ BasicTerminal::getTextLine(std::string prompt, bool bIsInput)
 }
 //=============================================================================
 std::wstring
-BasicTerminal::getInput(std::wstring prompt)
+BasicTerminal::getInput(const std::wstring& prompt)
 {
     return getTextLine(prompt, true);
 }
 //=============================================================================
 std::wstring
-BasicTerminal::getLine(std::wstring prompt)
+BasicTerminal::getLine(const std::wstring& prompt)
 {
     return getTextLine(prompt, false);
 }
 //=============================================================================
 std::string
-BasicTerminal::getLine(std::string prompt)
+BasicTerminal::getLine(const std::string& prompt)
 {
     return getTextLine(prompt, false);
 }
@@ -116,7 +116,7 @@ BasicTerminal::getTerminalWidth()
 }
 //=============================================================================
 void
-BasicTerminal::outputMessage(std::wstring msg)
+BasicTerminal::outputMessage(const std::wstring& msg)
 {
     if (atPrompt) {
         outputMessage(L"\n");
@@ -125,20 +125,20 @@ BasicTerminal::outputMessage(std::wstring msg)
 }
 //=============================================================================
 void
-BasicTerminal::outputMessage(std::string msg)
+BasicTerminal::outputMessage(const std::string& msg)
 {
     fprintf(stdout, "%s", msg.c_str());
     this->diary.writeMessage(msg);
 }
 //=============================================================================
 void
-BasicTerminal::errorMessage(std::wstring msg)
+BasicTerminal::errorMessage(const std::wstring& msg)
 {
     errorMessage(wstring_to_utf8(msg));
 }
 //=============================================================================
 void
-BasicTerminal::errorMessage(std::string msg)
+BasicTerminal::errorMessage(const std::string& msg)
 {
     std::string _msg = msg + "\n";
     if (atPrompt) {
@@ -150,17 +150,17 @@ BasicTerminal::errorMessage(std::string msg)
 }
 //=============================================================================
 void
-BasicTerminal::warningMessage(std::wstring msg)
+BasicTerminal::warningMessage(const std::wstring& msg)
 {
     warningMessage(wstring_to_utf8(msg));
 }
 //=============================================================================
 void
-BasicTerminal::warningMessage(std::string msg)
+BasicTerminal::warningMessage(const std::string& msg)
 {
     std::string _msg = msg + "\n";
     if (atPrompt) {
-        msg = "\n" + msg;
+        _msg = "\n" + _msg;
         atPrompt = false;
     }
     fprintf(stdout, "%s", _msg.c_str());

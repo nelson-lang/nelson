@@ -27,7 +27,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-PathFunc::isdir(std::wstring path)
+PathFunc::isdir(const std::wstring& path)
 {
     boost::filesystem::path data_dir(path);
     bool bRes = false;
@@ -42,7 +42,7 @@ PathFunc::isdir(std::wstring path)
     return bRes;
 }
 //=============================================================================
-PathFunc::PathFunc(std::wstring path)
+PathFunc::PathFunc(const std::wstring& path)
 {
     if (isdir(path)) {
         _path = uniformizePathName(path);
@@ -54,9 +54,9 @@ PathFunc::PathFunc(std::wstring path)
 }
 //=============================================================================
 std::wstring
-PathFunc::uniformizePathName(std::wstring pathname)
+PathFunc::uniformizePathName(const std::wstring& pathname)
 {
-    std::wstring pathModified = pathname;
+    std::wstring pathModified = std::move(pathname);
 #ifdef _MSC_VER
     if (boost::algorithm::ends_with(pathModified, L":")) {
         pathModified.push_back(L'/');
@@ -74,13 +74,11 @@ PathFunc::uniformizePathName(std::wstring pathname)
             pathModified.push_back(L'/');
         }
 #endif
-        std::wstring cpstr = pathModified;
         try {
             boost::filesystem::path p(pathModified);
             p = boost::filesystem::absolute(p);
             pathModified = p.generic_wstring();
         } catch (const boost::filesystem::filesystem_error&) {
-            pathModified = cpstr;
         }
     }
     boost::replace_all(pathModified, L"\\", L"/");
@@ -88,7 +86,7 @@ PathFunc::uniformizePathName(std::wstring pathname)
 }
 //=============================================================================
 bool
-PathFunc::comparePathname(std::wstring path1, std::wstring path2)
+PathFunc::comparePathname(const std::wstring& path1, const std::wstring& path2)
 {
     std::wstring pstr1 = uniformizePathName(path1);
     std::wstring pstr2 = uniformizePathName(path2);
@@ -119,7 +117,7 @@ PathFunc::~PathFunc()
 }
 //=============================================================================
 wstringVector
-PathFunc::getFunctionsName(std::wstring prefix)
+PathFunc::getFunctionsName(const std::wstring& prefix)
 {
     wstringVector functionsName;
     for (boost::unordered_map<std::wstring, FileFunc*>::iterator it = mapAllFiles.begin();
@@ -158,7 +156,7 @@ PathFunc::getPath()
 }
 //=============================================================================
 bool
-PathFunc::isSupportedFuncFilename(std::wstring name)
+PathFunc::isSupportedFuncFilename(const std::wstring& name)
 {
     for (int c : name) {
         bool bSupportedChar
@@ -201,7 +199,7 @@ PathFunc::rehash()
 }
 //=============================================================================
 bool
-PathFunc::findFuncName(const std::wstring functionName, std::wstring& filename)
+PathFunc::findFuncName(const std::wstring& functionName, std::wstring& filename)
 {
     boost::unordered_map<std::wstring, FileFunc*>::iterator found = mapAllFiles.find(functionName);
     if (found != mapAllFiles.end()) {
@@ -212,7 +210,7 @@ PathFunc::findFuncName(const std::wstring functionName, std::wstring& filename)
 }
 //=============================================================================
 bool
-PathFunc::findFuncName(const std::wstring functionName, FileFunc** ff)
+PathFunc::findFuncName(const std::wstring& functionName, FileFunc** ff)
 {
     boost::unordered_map<std::wstring, FileFunc*>::const_iterator foundit
         = mapRecentFiles.find(functionName);

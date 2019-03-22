@@ -140,14 +140,14 @@ WindowsConsole::~WindowsConsole()
 }
 //=============================================================================
 std::wstring
-WindowsConsole::getTextLine(std::wstring prompt, bool bIsInput)
+WindowsConsole::getTextLine(const std::wstring& prompt, bool bIsInput)
 {
     atPrompt = true;
     std::wstring cmdline = L"";
     lineObj.newLine();
     lineObj.setCurrentPrompt(prompt);
     lineObj.displayPrompt();
-    if (prompt != L"") {
+    if (!prompt.empty()) {
         diary.writeMessage(prompt);
     }
     for (;;) {
@@ -188,8 +188,8 @@ WindowsConsole::getTextLine(std::wstring prompt, bool bIsInput)
         } else {
             lineObj.putCharacter(cur_char, LineManager::STANDARD_INPUT);
             lineObj.addCharacterCurrentLine(cur_char);
-            std::wstring curline = lineObj.getCurrentLine();
             if (!bIsInput) {
+                std::wstring curline = lineObj.getCurrentLine();
                 Nelson::History::setToken(curline);
             }
         }
@@ -199,19 +199,19 @@ WindowsConsole::getTextLine(std::wstring prompt, bool bIsInput)
 }
 //=============================================================================
 std::wstring
-WindowsConsole::getInput(std::wstring prompt)
+WindowsConsole::getInput(const std::wstring& prompt)
 {
     return getTextLine(prompt, true);
 }
 //=============================================================================
 std::wstring
-WindowsConsole::getLine(std::wstring prompt)
+WindowsConsole::getLine(const std::wstring& prompt)
 {
     return getTextLine(prompt, false);
 }
 //=============================================================================
 std::string
-WindowsConsole::getLine(std::string prompt)
+WindowsConsole::getLine(const std::string& prompt)
 {
     return wstring_to_utf8(getLine(utf8_to_wstring(prompt)));
 }
@@ -233,15 +233,15 @@ WindowsConsole::getTerminalHeight()
 }
 //=============================================================================
 void
-WindowsConsole::outputMessage(std::string msg)
+WindowsConsole::outputMessage(const std::string& msg)
 {
     outputMessage(utf8_to_wstring(msg));
 }
 //=============================================================================
 void
-WindowsConsole::outputMessage(std::wstring msg)
+WindowsConsole::outputMessage(const std::wstring& msg)
 {
-    std::wstring _msg = msg;
+    std::wstring _msg = std::move(msg);
     if (atPrompt) {
         lineObj.clearCurrentLine(false);
         atPrompt = false;
@@ -252,13 +252,13 @@ WindowsConsole::outputMessage(std::wstring msg)
 }
 //=============================================================================
 void
-WindowsConsole::errorMessage(std::string msg)
+WindowsConsole::errorMessage(const std::string& msg)
 {
     errorMessage(utf8_to_wstring(msg));
 }
 //=============================================================================
 void
-WindowsConsole::errorMessage(std::wstring msg)
+WindowsConsole::errorMessage(const std::wstring& msg)
 {
     std::wstring _msg = msg + L"\n";
     if (atPrompt) {
@@ -271,13 +271,13 @@ WindowsConsole::errorMessage(std::wstring msg)
 }
 //=============================================================================
 void
-WindowsConsole::warningMessage(std::string msg)
+WindowsConsole::warningMessage(const std::string& msg)
 {
     warningMessage(utf8_to_wstring(msg));
 }
 //=============================================================================
 void
-WindowsConsole::warningMessage(std::wstring msg)
+WindowsConsole::warningMessage(const std::wstring& msg)
 {
     std::wstring _msg = msg + L"\n";
     if (atPrompt) {
@@ -290,14 +290,14 @@ WindowsConsole::warningMessage(std::wstring msg)
 }
 //=============================================================================
 bool
-WindowsConsole::isCTRLPressed(INPUT_RECORD irBuffer)
+WindowsConsole::isCTRLPressed(const INPUT_RECORD& irBuffer)
 {
     return ((irBuffer.Event.KeyEvent.dwControlKeyState & (RIGHT_CTRL_PRESSED | LEFT_CTRL_PRESSED))
         != 0);
 }
 //=============================================================================
 bool
-WindowsConsole::isALTPressed(INPUT_RECORD irBuffer)
+WindowsConsole::isALTPressed(const INPUT_RECORD& irBuffer)
 {
     return (
         (irBuffer.Event.KeyEvent.dwControlKeyState & (RIGHT_ALT_PRESSED | LEFT_ALT_PRESSED)) != 0);
@@ -489,12 +489,10 @@ WindowsConsole::getCharacter(bool& bIsAction)
             ::ReadConsoleInputW(Win32InputStream, &irBuffer, 1, &n);
             break;
         }
-    } while (TRUE && !bCONTROLC);
-    if (bCONTROLC) {
-        bCONTROLC = false;
-        bIsAction = true;
-        wch = 0;
-    }
+    } while (!bCONTROLC);
+    bCONTROLC = false;
+    bIsAction = true;
+    wch = 0;
     return wch;
 }
 //=============================================================================
@@ -607,7 +605,7 @@ WindowsConsole::pasteClipBoard(void)
             hGMem = ::GetClipboardData(typeClipboard);
             if (hGMem) {
                 std::wstring currentLine = lineObj.getCurrentLine();
-                std::wstring newLine = currentLine;
+                std::wstring newLine = std::move(currentLine);
                 if (typeClipboard == CF_UNICODETEXT) {
                     LPWSTR lpMem = (LPWSTR)::GlobalLock(hGMem);
                     if (lpMem) {
@@ -637,7 +635,7 @@ WindowsConsole::clearClipBoard(void)
 }
 //=============================================================================
 bool
-WindowsConsole::copyToClipBoard(std::wstring txt)
+WindowsConsole::copyToClipBoard(const std::wstring& txt)
 {
     bool bRes = false;
     size_t lentxt = txt.size();
@@ -667,7 +665,7 @@ WindowsConsole::hasHisOwnWindow()
 }
 //=============================================================================
 bool
-WindowsConsole::setConsoleTitle(std::wstring title)
+WindowsConsole::setConsoleTitle(const std::wstring& title)
 {
     return ::SetConsoleTitleW(title.c_str()) == FALSE ? false : true;
 }

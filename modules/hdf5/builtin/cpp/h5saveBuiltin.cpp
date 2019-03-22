@@ -28,7 +28,7 @@ Nelson::Hdf5Gateway::h5saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     if (nLhs > 0) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() < 1) {
+    if (argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring filename = argIn[0].getContentAsWideString();
@@ -50,5 +50,5 @@ Nelson::Hdf5Gateway::h5saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

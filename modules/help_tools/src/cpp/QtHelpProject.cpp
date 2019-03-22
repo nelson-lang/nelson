@@ -27,15 +27,15 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-QtHelpProject::QtHelpProject(std::wstring destdirectory, std::wstring mainTitle,
-    std::wstring name_space, std::wstring virtualfolder)
+QtHelpProject::QtHelpProject(const std::wstring &destdirectory, const std::wstring &mainTitle,
+    const std::wstring &name_space, const std::wstring &virtualfolder)
+    : destdirectory(destdirectory)
+    , mainTitle(mainTitle)
+    , name_space(name_space)
+    , virtualfolder(virtualfolder)
 {
-    this->destdirectory = destdirectory;
     this->filenameDestination = destdirectory + L"/helpproject.qhp";
     this->utf8stream = "";
-    this->mainTitle = mainTitle;
-    this->name_space = name_space;
-    this->virtualfolder = virtualfolder;
     this->sectionsName.clear();
     this->sectionsUrl.clear();
     this->keywordsName.clear();
@@ -44,12 +44,12 @@ QtHelpProject::QtHelpProject(std::wstring destdirectory, std::wstring mainTitle,
 //=============================================================================
 QtHelpProject::~QtHelpProject()
 {
-    this->destdirectory = L"";
-    this->filenameDestination = L"";
-    this->utf8stream = "";
-    this->mainTitle = L"";
-    this->name_space = L"";
-    this->virtualfolder = L"";
+    this->destdirectory.clear();
+    this->filenameDestination.clear();
+    this->utf8stream.clear();
+    this->mainTitle.clear();
+    this->name_space.clear();
+    this->virtualfolder.clear();
     this->sectionsName.clear();
     this->sectionsUrl.clear();
     this->keywordsName.clear();
@@ -164,7 +164,7 @@ QtHelpProject::write()
 //=============================================================================
 void
 QtHelpProject::appendSection(
-    std::wstring sectionName, std::wstring sectionUrl, wstringVector names, wstringVector urls)
+    const std::wstring &sectionName, const std::wstring &sectionUrl, const wstringVector &names, const wstringVector &urls)
 {
     this->sectionsName.push_back(sectionName);
     this->sectionsUrl.push_back(sectionUrl);

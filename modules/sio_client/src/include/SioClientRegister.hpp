@@ -39,5 +39,5 @@ issioregistered(const std::string& name);
 NLSSIO_CLIENT_IMPEXP void
 siounregister(const std::string& name);
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

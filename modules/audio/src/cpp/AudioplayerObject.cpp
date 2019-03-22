@@ -41,7 +41,7 @@ AudioplayerObject::AudioplayerObject()
         _CurrentSample = 0;
         _TotalSamples = 0;
         _Running = false;
-        _Tag = L"";
+        _Tag.clear();
         _UserData = ArrayOf::emptyConstructor();
         _Type = AUDIOPLAYER_CATEGORY_STR;
     }
@@ -59,14 +59,14 @@ AudioplayerObject::~AudioplayerObject()
     _CurrentSample = 0;
     _TotalSamples = 0;
     _Running = false;
-    _Tag = L"";
+    _Tag.clear();
     _UserData = ArrayOf::emptyConstructor();
     _Type = AUDIOPLAYER_CATEGORY_STR;
     paStream = nullptr;
 }
 //=============================================================================
 bool
-AudioplayerObject::isWriteableProperty(std::wstring propertyName)
+AudioplayerObject::isWriteableProperty(const std::wstring& propertyName)
 {
     if (propertyName == L"SampleRate") {
         return true;
@@ -176,7 +176,7 @@ AudioplayerObject::setRunning(bool on)
 }
 //=============================================================================
 bool
-AudioplayerObject::setTag(std::wstring tag)
+AudioplayerObject::setTag(const std::wstring& tag)
 {
     _Tag = tag;
     return true;
@@ -244,20 +244,20 @@ AudioplayerObject::fieldnames()
 }
 //=============================================================================
 bool
-AudioplayerObject::isProperty(std::wstring propertyName)
+AudioplayerObject::isProperty(const std::wstring& propertyName)
 {
     auto it = std::find(propertiesNames.begin(), propertiesNames.end(), propertyName);
     return (it != propertiesNames.end());
 }
 //=============================================================================
 bool
-AudioplayerObject::isMethod(std::wstring propertyName)
+AudioplayerObject::isMethod(const std::wstring& propertyName)
 {
     return false;
 }
 //=============================================================================
 bool
-AudioplayerObject::get(std::wstring propertyName, ArrayOf& res)
+AudioplayerObject::get(const std::wstring& propertyName, ArrayOf& res)
 {
     if (propertyName == L"SampleRate") {
         res = ArrayOf::doubleConstructor(getSampleRate());
@@ -307,7 +307,8 @@ AudioplayerObject::get(std::wstring propertyName, ArrayOf& res)
 }
 //=============================================================================
 bool
-AudioplayerObject::set(std::wstring propertyName, ArrayOf propertyValue, std::wstring& errorMessage)
+AudioplayerObject::set(
+    const std::wstring& propertyName, ArrayOf propertyValue, std::wstring& errorMessage)
 {
     if (propertyName == L"SampleRate") {
         return true;
@@ -359,7 +360,7 @@ bool
 AudioplayerObject::setSamples(
     ArrayOf data, int SampleRate, int BitsPerSample, int deviceID, std::wstring& errorMessage)
 {
-    errorMessage = L"";
+    errorMessage.clear();
     PaDeviceIndex outputIndex = getOutputDeviceIndex(deviceID);
     if (outputIndex == paNoDevice) {
         errorMessage = _W("Wrong device ID.");

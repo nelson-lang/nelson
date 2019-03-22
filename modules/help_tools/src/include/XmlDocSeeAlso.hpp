@@ -35,7 +35,7 @@ public:
     XmlDocSeeAlso();
     ~XmlDocSeeAlso();
     void
-    append(std::wstring name, std::wstring link);
+    append(const std::wstring &name, const std::wstring &link);
     std::wstring
     getItemType();
     bool

@@ -375,7 +375,6 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;
     bool Anegative;
-    stringVector dummySV;
     Class AClass, BClass;
     int opType;
 

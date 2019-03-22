@@ -96,11 +96,10 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
     if (attributeValue.isSparse()) {
         attributeValue.makeDense();
     }
-    void* buffer = nullptr;
     hid_t type_id = H5I_INVALID_HID;
     hid_t dspace_id = H5I_INVALID_HID;
     std::wstring error;
-    buffer = h5WriteNelsonToHdf5(attributeValue, type_id, dspace_id, error);
+    void* buffer = h5WriteNelsonToHdf5(attributeValue, type_id, dspace_id, error);
     if (!error.empty()) {
         H5Aclose(exists);
         H5Oclose(obj_id);
@@ -114,7 +113,7 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
         att_id = H5Acreate(obj_id, wstring_to_utf8(attributeName).c_str(), type_id, dspace_id,
             H5P_DEFAULT, H5P_DEFAULT);
     }
-    herr_t status;
+    herr_t status = H5I_INVALID_HID;
     if (att_id > 0) {
         status = H5Awrite(att_id, type_id, buffer);
     }

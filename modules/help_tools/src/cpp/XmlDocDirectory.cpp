@@ -28,11 +28,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocDirectory::XmlDocDirectory(std::wstring srcDirectory, std::wstring dstDirectory,
+XmlDocDirectory::XmlDocDirectory(const std::wstring &srcDirectory, const std::wstring &dstDirectory,
     bool bOverwriteExistingFiles, DOCUMENT_OUTPUT outputTarget)
 {
-    this->sectionUpName = L"";
-    this->sectionUpUrl = L"";
+    this->sectionUpName.clear();
+    this->sectionUpUrl.clear();
     this->srcDirectory = srcDirectory;
     this->dstDirectory = dstDirectory;
     this->outputTarget = outputTarget;
@@ -63,10 +63,10 @@ XmlDocDirectory::read()
 //=============================================================================
 XmlDocDirectory::~XmlDocDirectory()
 {
-    this->sectionUpName = L"";
-    this->sectionUpUrl = L"";
-    this->srcDirectory = L"";
-    this->dstDirectory = L"";
+    this->sectionUpName.clear();
+    this->sectionUpUrl.clear();
+    this->srcDirectory.clear();
+    this->dstDirectory.clear();
     if (this->xmlDocFiles) {
         delete this->xmlDocFiles;
         this->xmlDocFiles = nullptr;
@@ -129,7 +129,7 @@ XmlDocDirectory::getIndex(wstringVector& names, wstringVector& urls, wstringVect
 }
 //=============================================================================
 void
-XmlDocDirectory::setUpSection(std::wstring sectionName, std::wstring sectionUrl)
+XmlDocDirectory::setUpSection(const std::wstring &sectionName, const std::wstring &sectionUrl)
 {
     this->sectionUpName = sectionName;
     this->sectionUpUrl = sectionUrl;

@@ -47,8 +47,8 @@ private:
     uuid_module();
 
 public:
-    QtHelpProject(std::wstring destdirectory, std::wstring mainTitle, std::wstring name_space,
-        std::wstring virtualfolder = L"help");
+    QtHelpProject(const std::wstring &destdirectory, const std::wstring &mainTitle, const std::wstring &name_space,
+        const std::wstring &virtualfolder = L"help");
     ~QtHelpProject();
     std::wstring
     getFilename();
@@ -56,7 +56,7 @@ public:
     write();
     void
     appendSection(
-        std::wstring sectionName, std::wstring sectionUrl, wstringVector names, wstringVector urls);
+        const std::wstring &sectionName, const std::wstring &sectionUrl, const wstringVector &names, const wstringVector &urls);
 };
 //=============================================================================
 } // namespace Nelson

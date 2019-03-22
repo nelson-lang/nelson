@@ -31,25 +31,25 @@ public:
     EvaluateInterface();
     ~EvaluateInterface() override;
     std::wstring
-    getLine(std::wstring prompt) override;
+    getLine(const std::wstring& prompt) override;
     std::string
-    getLine(std::string prompt) override;
+    getLine(const std::string& prompt) override;
     std::wstring
-    getInput(std::wstring prompt) override;
+    getInput(const std::wstring& prompt) override;
     size_t
     getTerminalWidth() override;
     void
-    outputMessage(std::wstring msg) override;
+    outputMessage(const std::wstring& msg) override;
     void
-    outputMessage(std::string msg) override;
+    outputMessage(const std::string& msg) override;
     void
-    errorMessage(std::wstring msg) override;
+    errorMessage(const std::wstring& msg) override;
     void
-    errorMessage(std::string msg) override;
+    errorMessage(const std::string& msg) override;
     void
-    warningMessage(std::wstring msg) override;
+    warningMessage(const std::wstring& msg) override;
     void
-    warningMessage(std::string msg) override;
+    warningMessage(const std::string& msg) override;
     void
     clearTerminal() override;
     bool

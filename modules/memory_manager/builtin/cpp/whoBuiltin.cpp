@@ -31,7 +31,7 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-Who(Evaluator* eval, std::wstring filename, stringVector names, bool asCell);
+Who(Evaluator* eval, const std::wstring& filename, const stringVector& names, bool asCell);
 //=============================================================================
 ArrayOfVector
 Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
@@ -130,9 +130,8 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
 }
 //=============================================================================
 ArrayOf
-Who(Evaluator* eval, std::wstring filename, stringVector names, bool asCell)
+Who(Evaluator* eval, const std::wstring& filename, const stringVector& names, bool asCell)
 {
-    std::string extension = boost::filesystem::extension(filename);
     bool isNh5 = false;
     bool isMat = false;
     // try detect if it is a .nh5
@@ -171,10 +170,6 @@ Who(Evaluator* eval, std::wstring filename, stringVector names, bool asCell)
         whoFileFunctionName = "whomat";
     } else {
         whoFileFunctionName = "whonh5";
-    }
-
-    if (whoFileFunctionName.empty()) {
-        Error(_W("who file function expected."));
     }
 
     funcDef = nullptr;

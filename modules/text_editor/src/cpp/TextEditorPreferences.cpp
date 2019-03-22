@@ -135,7 +135,6 @@ TextEditorLoadPreferences(
                 }
                 recentFiles.clear();
                 if (pt.count("RECENT_FILES") != 0) {
-                    std::vector<std::string> fruits;
                     for (boost::property_tree::ptree::value_type& names :
                         pt.get_child("RECENT_FILES")) {
                         recentFiles.push_back(utf8_to_wstring(names.second.data()));

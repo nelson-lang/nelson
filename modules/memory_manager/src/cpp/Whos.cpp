@@ -60,9 +60,8 @@ isFile(std::wstring _filename)
 }
 //=============================================================================
 static ArrayOf
-Whos(Evaluator* eval, std::wstring filename, stringVector names, bool asStruct)
+Whos(Evaluator* eval, const std::wstring& filename, const stringVector& names, bool asStruct)
 {
-    std::string extension = boost::filesystem::extension(filename);
     bool isNh5 = false;
     bool isMat = false;
     // try detect if it is a .nh5
@@ -103,10 +102,6 @@ Whos(Evaluator* eval, std::wstring filename, stringVector names, bool asStruct)
         whosFileFunctionName = "whosnh5";
     }
 
-    if (whosFileFunctionName.empty()) {
-        Error(_W("whos file function expected."));
-    }
-
     funcDef = nullptr;
     if (!PathFuncManager::getInstance()->find(whosFileFunctionName, funcDef)) {
         if (!BuiltInFunctionDefManager::getInstance()->find(whosFileFunctionName, funcDef)) {
@@ -126,7 +121,8 @@ Whos(Evaluator* eval, std::wstring filename, stringVector names, bool asStruct)
 }
 //=============================================================================
 ArrayOf
-Whos(Evaluator* eval, std::wstring filename, bool onlyGlobal, stringVector names, bool asStruct)
+Whos(Evaluator* eval, const std::wstring& filename, bool onlyGlobal, const stringVector& names,
+    bool asStruct)
 {
     ArrayOf res;
     if (!filename.empty()) {
@@ -147,7 +143,7 @@ Whos(Evaluator* eval, std::wstring filename, bool onlyGlobal, stringVector names
             variablesNamesToRead = variablesNameInMemory;
         } else {
             for (std::string uname : names) {
-                std::string name = uname;
+                std::string name = std::move(uname);
                 if (std::find(variablesNameInMemory.begin(), variablesNameInMemory.end(), name)
                     != variablesNameInMemory.end()) {
                     variablesNamesToRead.push_back(name);
@@ -177,26 +173,27 @@ Whos(Evaluator* eval, std::wstring filename, bool onlyGlobal, stringVector names
         size_t nbSpaceSize = _("Size").size();
         size_t nbSpaceBytes = _("Bytes").size();
         size_t nbSpaceClass = _("Class").size();
-
+        Context* context = eval->getContext();
+        Scope* globalScope = context->getGlobalScope();
+        Scope* currentScope = context->getCurrentScope();
         for (std::string name : variablesNamesToRead) {
             ArrayOf value;
             bool found = false;
-
             if (onlyGlobal) {
-                found = eval->getContext()->getGlobalScope()->lookupVariable(name, value);
+                found = globalScope->lookupVariable(name, value);
             } else {
-                found = eval->getContext()->getCurrentScope()->lookupVariable(name, value);
+                found = currentScope->lookupVariable(name, value);
             }
 
-            bool isGlobal = eval->getContext()->isVariableGlobal(name);
-            bool isPersistent = eval->getContext()->isVariablePersistent(name);
+            bool isGlobal = context->isVariableGlobal(name);
+            bool isPersistent = context->isVariablePersistent(name);
 
             if (!found) {
                 if (isPersistent) {
-                    eval->getContext()->getGlobalScope()->lookupVariable(name, value);
+                    globalScope->lookupVariable(name, value);
                 }
                 if (isGlobal) {
-                    eval->getContext()->getGlobalScope()->lookupVariable(name, value);
+                    globalScope->lookupVariable(name, value);
                 }
             }
 

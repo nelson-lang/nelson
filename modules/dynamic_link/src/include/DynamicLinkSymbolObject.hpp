@@ -32,27 +32,27 @@ namespace Nelson {
 class NLSDYNAMIC_LINK_IMPEXP DynamicLinkSymbolObject : public HandleGenericObject
 {
 public:
-    DynamicLinkSymbolObject(ArrayOf dllibObject, void* pointerFunction, std::wstring symbol,
-        std::wstring returnType, wstringVector paramsType);
+    DynamicLinkSymbolObject(ArrayOf dllibObject, void* pointerFunction, const std::wstring& symbol,
+        const std::wstring& returnType, wstringVector paramsType);
     ~DynamicLinkSymbolObject() override;
     ArrayOfVector
     call(Evaluator* eval, int Lhs, ArrayOfVector params);
     void
     disp(Evaluator* eval);
     static Class
-    GetNelsonType(std::wstring type);
+    GetNelsonType(const std::wstring& type);
     static bool
-    isValidDataType(std::wstring DataType);
+    isValidDataType(const std::wstring& DataType);
     bool
-    get(std::wstring propertyName, ArrayOf& res);
+    get(const std::wstring& propertyName, ArrayOf& res);
     bool
-    isWriteableProperty(std::wstring propertyName);
+    isWriteableProperty(const std::wstring& propertyName);
     wstringVector
     fieldnames();
     bool
-    isProperty(std::wstring propertyName) override;
+    isProperty(const std::wstring& propertyName) override;
     bool
-    isMethod(std::wstring methodName) override;
+    isMethod(const std::wstring& methodName) override;
 
 private:
     ArrayOf _dllibObject;
@@ -67,7 +67,7 @@ private:
     size_t _nArgOut;
     std::wstring _prototype;
     size_t
-    lengthTextToDisplay(wstringVector params);
+    lengthTextToDisplay(const wstringVector& params);
     wstringVector _propertiesNames;
     void
     buildPrototype();

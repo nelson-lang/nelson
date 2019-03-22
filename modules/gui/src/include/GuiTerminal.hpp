@@ -35,11 +35,11 @@ public:
      *  given prompt.
      */
     std::string
-    getLine(std::string prompt) override;
+    getLine(const std::string& prompt) override;
     std::wstring
-    getLine(std::wstring prompt) override;
+    getLine(const std::wstring& prompt) override;
     std::wstring
-    getInput(std::wstring prompt) override;
+    getInput(const std::wstring& prompt) override;
 
     /**
      *  Return the width of the current "terminal" in
@@ -51,23 +51,23 @@ public:
      *  Output the following text message.
      */
     void
-    outputMessage(std::string msg) override;
+    outputMessage(const std::string& msg) override;
     void
-    outputMessage(std::wstring msg) override;
+    outputMessage(const std::wstring& msg) override;
     /**
      *  Output the following error message.
      */
     void
-    errorMessage(std::string msg) override;
+    errorMessage(const std::string& msg) override;
     void
-    errorMessage(std::wstring msg) override;
+    errorMessage(const std::wstring& msg) override;
     /**
      *  Output the following warning message.
      */
     void
-    warningMessage(std::string msg) override;
+    warningMessage(const std::string& msg) override;
     void
-    warningMessage(std::wstring msg) override;
+    warningMessage(const std::wstring& msg) override;
 
     void
     clearTerminal() override;
@@ -77,7 +77,7 @@ public:
     void
     banner();
     void
-    insertHtml(std::wstring msg);
+    insertHtml(const std::wstring& msg);
     int
     getBufferScreenLine();
     void
@@ -87,6 +87,6 @@ public:
 
 private:
     std::wstring
-    getTextLine(std::wstring prompt, bool bIsInput = false);
+    getTextLine(const std::wstring& prompt, bool bIsInput = false);
 };
 //=============================================================================

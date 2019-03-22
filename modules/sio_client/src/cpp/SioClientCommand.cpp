@@ -167,12 +167,12 @@ SioClientCommand::sioregister(const std::string& name, const std::string& functi
             std::string _data = data->get_map()["data"]->get_string();
             void* veval = GetNelsonMainEvaluatorDynamicFunction();
             if (veval != nullptr) {
-                Evaluator* eval = static_cast<Evaluator*>(veval);
+                auto* eval = static_cast<Evaluator*>(veval);
                 ArrayOf dataAsArrayOf = ArrayOf::characterArrayConstructor(_data);
                 ArrayOfVector argIn;
                 argIn.push_back(dataAsArrayOf);
                 Context* context = eval->getContext();
-                if (context) {
+                if (context != nullptr) {
                     FuncPtr funcDef;
                     if (context->lookupFunction(function_name, funcDef, true)) {
                         ArrayOfVector retval = funcDef->evaluateFunction(eval, argIn, 0);
@@ -200,5 +200,5 @@ SioClientCommand::promptUpdated(const std::string& prompt)
     _socket->emit("prompt", prompt);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

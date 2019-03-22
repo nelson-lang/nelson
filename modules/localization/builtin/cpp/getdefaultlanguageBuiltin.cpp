@@ -27,7 +27,6 @@ Nelson::LocalizationGateway::getdefaultlanguageBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    wstringVector langs;
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }

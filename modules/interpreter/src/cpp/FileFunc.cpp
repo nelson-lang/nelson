@@ -44,8 +44,8 @@ FileFunc::FileFunc(const std::wstring& directory, const std::wstring& name)
 //=============================================================================
 FileFunc::~FileFunc()
 {
-    _nlf_fullfilename = L"";
-    _name = L"";
+    _nlf_fullfilename.clear();
+    _name.clear();
     _hashid = 0;
 }
 //=============================================================================

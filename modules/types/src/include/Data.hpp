@@ -143,7 +143,7 @@ private:
      */
 
     void
-    setStructTypeName(std::string typeName);
+    setStructTypeName(const std::string& typeName);
     /**
      * set struct type name (by default: struct)
      */

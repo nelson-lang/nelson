@@ -33,10 +33,11 @@ private:
     //=============================================================================
 public:
     //=============================================================================
-    PositionScript(std::wstring functionname = L"", std::wstring filename = L"", int line = -1)
+    PositionScript(
+        const std::wstring& functionname = L"", const std::wstring& filename = L"", int line = -1)
     {
-        this->filename = filename;
-        this->functionname = functionname;
+        this->filename = std::move(filename);
+        this->functionname = std::move(functionname);
         this->line = line;
     }
     //=============================================================================
@@ -60,8 +61,8 @@ public:
     //=============================================================================
     ~PositionScript()
     {
-        this->filename = L"";
-        this->functionname = L"";
+        this->filename.clear();
+        this->functionname.clear();
         this->line = -1;
     }
     //=============================================================================
@@ -72,7 +73,7 @@ public:
     }
     //=============================================================================
     void
-    setFilename(std::wstring filename)
+    setFilename(const std::wstring& filename)
     {
         this->filename = filename;
     }
@@ -84,9 +85,9 @@ public:
     }
     //=============================================================================
     void
-    setFunctionName(std::wstring functionname)
+    setFunctionName(const std::wstring& functionname)
     {
-        this->functionname = functionname;
+        this->functionname = std::move(functionname);
     }
     //=============================================================================
     std::wstring

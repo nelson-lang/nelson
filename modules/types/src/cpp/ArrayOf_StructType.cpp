@@ -60,13 +60,13 @@ ArrayOf::getStructType() const
 }
 //=============================================================================
 void
-ArrayOf::setStructType(std::wstring structname)
+ArrayOf::setStructType(const std::wstring& structname)
 {
     ArrayOf::setStructType(wstring_to_utf8(structname));
 }
 //=============================================================================
 void
-ArrayOf::setStructType(std::string structname)
+ArrayOf::setStructType(const std::string& structname)
 {
     if (this->getDataClass() != NLS_STRUCT_ARRAY) {
         Error(ERROR_TYPE_STRUCT_EXPECTED);
@@ -75,7 +75,7 @@ ArrayOf::setStructType(std::string structname)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::structScalarConstructor(stringVector fNames, ArrayOfVector& values)
+ArrayOf::structScalarConstructor(const stringVector& fNames, ArrayOfVector& values)
 {
     const ArrayOf* rptr;
     Dimensions dims;
@@ -111,7 +111,7 @@ ArrayOf::structScalarConstructor(stringVector fNames, ArrayOfVector& values)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::structConstructor(stringVector fNames, ArrayOfVector& values)
+ArrayOf::structConstructor(const stringVector& fNames, ArrayOfVector& values)
 {
     const ArrayOf* rptr;
     Dimensions dims;
@@ -196,7 +196,7 @@ ArrayOf::structConstructor(stringVector fNames, ArrayOfVector& values)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::structConstructor(wstringVector fNames, ArrayOfVector& values)
+ArrayOf::structConstructor(const wstringVector& fNames, ArrayOfVector& values)
 {
     stringVector fNamesUtf8;
     for (size_t k = 0; k < fNames.size(); k++) {
@@ -206,7 +206,7 @@ ArrayOf::structConstructor(wstringVector fNames, ArrayOfVector& values)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::getField(std::string fieldName)
+ArrayOf::getField(const std::string& fieldName)
 {
     // First make sure that we are a scalar value.
     if (!isScalar()) {
@@ -226,7 +226,7 @@ ArrayOf::getField(std::string fieldName)
 }
 //=============================================================================
 ArrayOfVector
-ArrayOf::getFieldAsList(std::string fieldName)
+ArrayOf::getFieldAsList(const std::string& fieldName)
 {
     if (!isStruct()) {
         Error(_W("Attempt to apply field-indexing to non structure-array object."));
@@ -253,7 +253,7 @@ ArrayOf::getFieldAsList(std::string fieldName)
  * Set the contents of a field in a structure.
  */
 void
-ArrayOf::setField(std::string fieldName, ArrayOf& data)
+ArrayOf::setField(const std::string& fieldName, ArrayOf& data)
 {
     if (isEmpty()) {
         stringVector newNames(dp->fieldNames);
@@ -286,7 +286,7 @@ ArrayOf::setField(std::string fieldName, ArrayOf& data)
  * Set the contents of a field in a structure.
  */
 void
-ArrayOf::setFieldAsList(std::string fieldName, ArrayOfVector& data)
+ArrayOf::setFieldAsList(const std::string& fieldName, ArrayOfVector& data)
 {
     if (isSparse()) {
         Error(_W("setFieldAsList not supported for sparse arrays."));
@@ -336,7 +336,7 @@ ArrayOf::setFieldAsList(std::string fieldName, ArrayOfVector& data)
  * Add another fieldname to our structure array.
  */
 indexType
-ArrayOf::insertFieldName(std::string fieldName)
+ArrayOf::insertFieldName(const std::string& fieldName)
 {
     if (isSparse()) {
         Error(_W("insertFieldName not supported for sparse arrays."));
@@ -360,7 +360,7 @@ ArrayOf::insertFieldName(std::string fieldName)
  * structure when the list of field names is given.
  */
 int64
-ArrayOf::getFieldIndexFromList(std::string fName, const stringVector& fieldNames)
+ArrayOf::getFieldIndexFromList(const std::string& fName, const stringVector& fieldNames)
 {
     bool foundName = false;
     uint64 i = 0;
@@ -386,7 +386,7 @@ ArrayOf::getFieldIndexFromList(std::string fName, const stringVector& fieldNames
  * structure using the current set of field names.
  */
 int64
-ArrayOf::getFieldIndex(std::string fName)
+ArrayOf::getFieldIndex(const std::string& fName)
 {
     return getFieldIndexFromList(fName, dp->fieldNames);
 }
@@ -402,7 +402,7 @@ ArrayOf::emptyStructWithoutFields()
 }
 //=============================================================================
 ArrayOf
-ArrayOf::emptyStructConstructor(stringVector fNames, Dimensions& dim)
+ArrayOf::emptyStructConstructor(const stringVector& fNames, Dimensions& dim)
 {
     if (dim.getElementCount() != 0) {
         Error(_W("Invalid dimensions."));
@@ -412,7 +412,7 @@ ArrayOf::emptyStructConstructor(stringVector fNames, Dimensions& dim)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::emptyStructConstructor(wstringVector fNames, Dimensions& dim)
+ArrayOf::emptyStructConstructor(const wstringVector& fNames, Dimensions& dim)
 {
     stringVector fs;
     fs.reserve(fNames.size());
@@ -423,7 +423,7 @@ ArrayOf::emptyStructConstructor(wstringVector fNames, Dimensions& dim)
 }
 //=============================================================================
 bool
-ArrayOf::haveValidFieldNames(stringVector fieldnames)
+ArrayOf::haveValidFieldNames(const stringVector& fieldnames)
 {
     if (fieldnames.empty()) {
         return true;
@@ -440,7 +440,7 @@ ArrayOf::haveValidFieldNames(stringVector fieldnames)
 }
 //=============================================================================
 bool
-ArrayOf::haveUniqueFieldNames(stringVector fieldnames)
+ArrayOf::haveUniqueFieldNames(const stringVector& fieldnames)
 {
     stringVector copyVector(fieldnames);
     if (fieldnames.size() > 1) {

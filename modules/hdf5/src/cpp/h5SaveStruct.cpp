@@ -35,7 +35,7 @@ h5SaveStruct(hid_t fid, const std::string& location, const std::string& variable
     } else {
         h5path = location + "/" + variableName;
     }
-    h5LDeleteIfExists(fid, h5path.c_str());
+    h5LDeleteIfExists(fid, h5path);
 
     hid_t gcpl = H5Pcreate(H5P_GROUP_CREATE);
     hid_t group = H5Gcreate(fid, h5path.c_str(), H5P_DEFAULT, gcpl, H5P_DEFAULT);
@@ -53,7 +53,7 @@ h5SaveStruct(hid_t fid, const std::string& location, const std::string& variable
     }
     Dimensions dims = VariableValue.getDimensions();
     indexType length = dims.getElementCount();
-    ArrayOf* elements = (ArrayOf*)VariableValue.getDataPointer();
+    auto* elements = (ArrayOf*)VariableValue.getDataPointer();
     indexType offset = 0;
     for (indexType j = 0; j < length; j++)
         for (indexType i = 0; i < (sizeType)fNames.size(); i++) {
@@ -83,5 +83,5 @@ h5SaveStruct(hid_t fid, const std::string& location, const std::string& variable
     return bSuccess;
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

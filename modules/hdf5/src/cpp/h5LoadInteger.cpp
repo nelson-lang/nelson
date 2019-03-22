@@ -63,5 +63,5 @@ h5LoadInteger(hid_t fid, const std::string& location, const std::string& variabl
     return bSuccess;
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

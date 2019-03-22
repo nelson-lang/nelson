@@ -25,7 +25,7 @@
 #include <algorithm>
 #include "Types.hpp"
 //=============================================================================
-#define SYMTAB 4096 * 2
+#define SYMTAB (4096 * 2)
 //=============================================================================
 namespace Nelson {
 template <class T> class SymbolTable
@@ -52,7 +52,7 @@ public:
     ~SymbolTable() { symbolMap.clear(); }
     //=============================================================================
     bool
-    findSymbol(const key_type key, value_type& dest)
+    findSymbol(const key_type& key, value_type& dest)
     {
         auto it = std::find_if(symbolMap.begin(), symbolMap.end(),
             [&key](std::pair<key_type, value_type> const& elem) { return elem.first == key; });

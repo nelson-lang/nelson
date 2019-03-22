@@ -39,7 +39,7 @@ getDimensions(hid_t space_id, int& rank)
                 i--;
                 j++;
             }
-            for (indexType i = 0; i < (indexType)rank; i++) {
+            for (indexType i = 0; i < static_cast<indexType>(rank); i++) {
                 dims[i] = (indexType)len[i];
             }
             delete[] len;

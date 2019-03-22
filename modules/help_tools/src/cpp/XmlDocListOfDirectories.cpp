@@ -24,19 +24,18 @@
 namespace Nelson {
 //=============================================================================
 XmlDocListOfDirectories::XmlDocListOfDirectories(wstringVector srcDirectories,
-    std::wstring dstDirectory, std::wstring mainTitle, bool bOverwriteExistingFiles,
+    const std::wstring &dstDirectory, const std::wstring &mainTitle, bool bOverwriteExistingFiles,
     DOCUMENT_OUTPUT outputTarget)
+    : srcDirectories(srcDirectories), dstDirectory(dstDirectory)
 {
-    this->mainTitle = mainTitle;
+    this->mainTitle = std::move(mainTitle);
     this->outputTarget = outputTarget;
-    this->srcDirectories = srcDirectories;
-    this->dstDirectory = dstDirectory;
     if (boost::algorithm::ends_with(dstDirectory, L"/")
         || boost::algorithm::ends_with(dstDirectory, L"\\")) {
         this->dstDirectory.pop_back();
     }
     this->bOverwriteExistingFiles = bOverwriteExistingFiles;
-    this->lastError = L"";
+    this->lastError.clear();
     for (size_t k = 0; k < srcDirectories.size(); k++) {
         XmlDocDirectory* xmlDirectory;
         try {
@@ -58,8 +57,8 @@ XmlDocListOfDirectories::XmlDocListOfDirectories(wstringVector srcDirectories,
 XmlDocListOfDirectories::~XmlDocListOfDirectories()
 {
     this->srcDirectories.clear();
-    this->dstDirectory = L"";
-    this->lastError = L"";
+    this->dstDirectory.clear();
+    this->lastError.clear();
     this->bOverwriteExistingFiles = false;
     this->clearItems();
     this->outputTarget = DOCUMENT_OUTPUT::HMTL;

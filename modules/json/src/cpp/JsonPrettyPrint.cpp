@@ -139,11 +139,11 @@ JSONPrettify(const std::wstring& json, const Nelson::Colons spacing = Nelson::Co
     int depth = 0;
     while (it < (long)pretty.size()) {
         RegexPos pos_tab = findRegexFirstPosition(pretty, it, var);
-        auto pos_comma = pretty.find(L",", it);
-        auto pos_obj_start = pretty.find(L"{", it);
-        auto pos_obj_end = pretty.find(L"}", it);
-        auto pos_array_start = pretty.find(L"[", it);
-        auto pos_array_end = pretty.find(L"]", it);
+        auto pos_comma = pretty.find(L',', it);
+        auto pos_obj_start = pretty.find(L'{', it);
+        auto pos_obj_end = pretty.find(L'}', it);
+        auto pos_array_start = pretty.find(L'[', it);
+        auto pos_array_end = pretty.find(L']', it);
         long old_it = it;
         Position work_with;
         {

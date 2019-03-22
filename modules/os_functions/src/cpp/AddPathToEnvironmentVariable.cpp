@@ -34,9 +34,9 @@ splitEnvironmentPath(std::wstring envPaths)
     boost::container::vector<std::wstring> result;
     size_t previous = 0;
 #ifdef _MSC_VER
-    const wchar_t delimiter[2] = L";";
+    const wchar_t delimiter = L';';
 #else
-    const wchar_t delimiter[2] = L":";
+    const wchar_t delimiter = L':';
 #endif
     size_t index = envPaths.find(delimiter);
     while (index != std::string::npos) {

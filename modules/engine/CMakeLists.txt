@@ -38,16 +38,9 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../localization/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../time/src/include
-)
-if (WITH_SIO_CLIENT)
-include_directories(
 ${CMAKE_CURRENT_SOURCE_DIR}/../sio_client/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../sio_client/src/socket_io/src
 )
-else()
-include_directories(
-${CMAKE_CURRENT_SOURCE_DIR}/../sio_client/no-src/include
-)
-endif()
 #==============================================================================	
 FILE(
 GLOB
@@ -122,7 +115,3 @@ install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.nls DESTINATION 
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nlf")
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.qch" PATTERN "xml" EXCLUDE PATTERN "md" EXCLUDE)
 #==============================================================================
-
-
-
-

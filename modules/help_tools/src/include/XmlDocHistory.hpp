@@ -35,7 +35,7 @@ public:
     XmlDocHistory();
     ~XmlDocHistory();
     void
-    append(std::wstring version, std::wstring description);
+    append(const std::wstring &version, const std::wstring &description);
     std::wstring
     getItemType();
 

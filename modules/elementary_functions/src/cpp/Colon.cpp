@@ -74,19 +74,15 @@ char_colon(charType low, charType high, charType step)
         res.promoteType(NLS_CHAR);
         return res;
     }
-    if (low < high) {
-        if (step < 0) {
-            ArrayOf res = ArrayOf::emptyConstructor(1, 0);
-            res.promoteType(NLS_CHAR);
-            return res;
-        }
+    if ((low < high) && (step < 0)) {
+        ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+        res.promoteType(NLS_CHAR);
+        return res;
     }
-    if (low > high) {
-        if (step > 0) {
-            ArrayOf res = ArrayOf::emptyConstructor(1, 0);
-            res.promoteType(NLS_CHAR);
-            return res;
-        }
+    if ((low > high) && (step > 0)) {
+        ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+        res.promoteType(NLS_CHAR);
+        return res;
     }
     double dn = (double)((((high - low) / step) + 1));
     indexType n = (indexType)std::trunc(dn);
@@ -277,7 +273,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
                 low = (uint8)1;
                 high = (uint8)0;
-                uint8 step = (uint8)1;
+                step = (uint8)1;
             } else {
                 step = I.getContentAsUnsignedInteger8Scalar(true);
                 if (!I.isScalar()) {

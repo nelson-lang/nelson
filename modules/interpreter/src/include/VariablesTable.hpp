@@ -47,11 +47,11 @@ public:
     stringVector
     getVariablesList(bool withPersistent);
     bool
-    isLockedVariable(std::string key);
+    isLockedVariable(const std::string& key);
     bool
-    lockVariable(std::string key);
+    lockVariable(const std::string& key);
     bool
-    unlockVariable(std::string key);
+    unlockVariable(const std::string& key);
     stringVector
     getLockedVariables();
 };

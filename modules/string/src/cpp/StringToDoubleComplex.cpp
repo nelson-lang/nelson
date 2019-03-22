@@ -202,32 +202,30 @@ stringToDoubleComplex(const std::wstring& str, bool& wasConverted)
             if (boost::algorithm::starts_with(STR, L".")) {
                 STR = L"0" + STR;
             }
-            if (STR.length() > 0) {
-                if (((STR[0] == PlusChar) || (STR[0] == LessChar)) && (STR[1] == L'.')) {
-                    /* case +.9 replaced by +0.9 */
-                    boost::replace_all(STR, L"+.", L"+0.");
-                    /* case -.9 replaced by -0.9 */
-                    boost::replace_all(STR, L"-.", L"-0.");
-                }
-                /* Case: 'i', '+i', '-i', and with 'j' */
-                double imag = nan("");
-                if (is_unit_imaginary(STR, imag)) {
-                    wasConverted = true;
-                    res = doublecomplex(0, imag);
+            if (((STR[0] == PlusChar) || (STR[0] == LessChar)) && (STR[1] == L'.')) {
+                /* case +.9 replaced by +0.9 */
+                boost::replace_all(STR, L"+.", L"+0.");
+                /* case -.9 replaced by -0.9 */
+                boost::replace_all(STR, L"-.", L"-0.");
+            }
+            /* Case: 'i', '+i', '-i', and with 'j' */
+            double imag = nan("");
+            if (is_unit_imaginary(STR, imag)) {
+                wasConverted = true;
+                res = doublecomplex(0, imag);
+            } else {
+                double realPart;
+                double imagPart;
+                if (boost::algorithm::contains(STR, L"i")
+                    || boost::algorithm::contains(STR, L"j")) {
+                    boost::replace_all(STR, L" ", L"");
+                    ParseComplexValue(STR, realPart, imagPart);
                 } else {
-                    double realPart;
-                    double imagPart;
-                    if (boost::algorithm::contains(STR, L"i")
-                        || boost::algorithm::contains(STR, L"j")) {
-                        boost::replace_all(STR, L" ", L"");
-                        ParseComplexValue(STR, realPart, imagPart);
-                    } else {
-                        realPart = stringToDouble(str, wasConverted);
-                        imagPart = 0;
-                    }
-                    res = doublecomplex(realPart, imagPart);
-                    wasConverted = true;
+                    realPart = stringToDouble(str, wasConverted);
+                    imagPart = 0;
                 }
+                res = doublecomplex(realPart, imagPart);
+                wasConverted = true;
             }
         }
     }

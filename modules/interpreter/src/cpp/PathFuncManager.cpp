@@ -110,7 +110,7 @@ PathFuncManager::isPointerOnPathFunctionDef(FuncPtr ptr)
 }
 //=============================================================================
 wstringVector
-PathFuncManager::getMacrosList(std::wstring prefix)
+PathFuncManager::getMacrosList(const std::wstring& prefix)
 {
     wstringVector macros;
     if (_userPath != nullptr) {
@@ -131,7 +131,7 @@ PathFuncManager::getMacrosList(std::wstring prefix)
 }
 //=============================================================================
 bool
-PathFuncManager::find(const std::string name, FuncPtr& ptr)
+PathFuncManager::find(const std::string& name, FuncPtr& ptr)
 {
     bool res = false;
     boost::unordered_map<std::string, FuncPtr>::const_iterator found = cachedPathFunc.find(name);
@@ -156,7 +156,7 @@ PathFuncManager::find(const std::string name, FuncPtr& ptr)
 }
 //=============================================================================
 bool
-PathFuncManager::find(const std::wstring functionName, FileFunc** ff)
+PathFuncManager::find(const std::wstring& functionName, FileFunc** ff)
 {
     bool res = false;
     if (_userPath) {
@@ -178,7 +178,7 @@ PathFuncManager::find(const std::wstring functionName, FileFunc** ff)
 }
 //=============================================================================
 bool
-PathFuncManager::find(const std::wstring functionName, std::wstring& filename)
+PathFuncManager::find(const std::wstring& functionName, std::wstring& filename)
 {
     bool res = false;
     if (_userPath) {
@@ -200,7 +200,7 @@ PathFuncManager::find(const std::wstring functionName, std::wstring& filename)
 }
 //=============================================================================
 bool
-PathFuncManager::find(const std::wstring functionName, wstringVector& filesname)
+PathFuncManager::find(const std::wstring& functionName, wstringVector& filesname)
 {
     bool res = false;
     filesname.clear();
@@ -248,7 +248,7 @@ PathFuncManager::find(size_t hashid, std::wstring& functionname)
 }
 //=============================================================================
 bool
-PathFuncManager::addPath(const std::wstring path, bool begin)
+PathFuncManager::addPath(const std::wstring& path, bool begin)
 {
     bool res = false;
     for (boost::container::vector<PathFunc*>::iterator it = _pathFuncVector.begin();
@@ -279,7 +279,7 @@ PathFuncManager::addPath(const std::wstring path, bool begin)
 }
 //=============================================================================
 bool
-PathFuncManager::removePath(const std::wstring path)
+PathFuncManager::removePath(const std::wstring& path)
 {
     bool res = false;
     for (boost::container::vector<PathFunc*>::iterator it = _pathFuncVector.begin();
@@ -328,7 +328,7 @@ PathFuncManager::getUserPath()
 }
 //=============================================================================
 bool
-PathFuncManager::setUserPath(const std::wstring path, bool saveToFile)
+PathFuncManager::setUserPath(const std::wstring& path, bool saveToFile)
 {
     clearUserPath();
     if (_userPath == nullptr) {
@@ -381,7 +381,7 @@ PathFuncManager::rehash()
 }
 //=============================================================================
 void
-PathFuncManager::rehash(const std::wstring path)
+PathFuncManager::rehash(const std::wstring& path)
 {
     if (_userPath != nullptr) {
         try {
@@ -445,7 +445,7 @@ PathFuncManager::getPathNameAsString()
 }
 //=============================================================================
 MacroFunctionDef*
-PathFuncManager::processFile(std::wstring nlf_filename)
+PathFuncManager::processFile(const std::wstring& nlf_filename)
 {
     MacroFunctionDef* fptr = nullptr;
     FILE* fr;
@@ -470,15 +470,19 @@ PathFuncManager::processFile(std::wstring nlf_filename)
     resetAstBackupPosition();
     std::vector<ASTPtr> ptAst;
     try {
-        pstate = parseFile(fr, wstring_to_utf8(nlf_filename).c_str());
+        pstate = parseFile(fr, wstring_to_utf8(nlf_filename));
         ptAst = getAstUsed();
     } catch (const Exception&) {
         deleteAstVector(ptAst);
         resetAstBackupPosition();
-        fclose(fr);
+        if (fr) {
+            fclose(fr);
+        }
         throw;
     }
-    fclose(fr);
+    if (fr) {
+        fclose(fr);
+    }
     if (pstate != FuncDef) {
         deleteAstVector(ptAst);
         resetAstBackupPosition();
@@ -491,17 +495,18 @@ PathFuncManager::processFile(std::wstring nlf_filename)
     }
     if (fptr == nullptr) {
         Error(_W("a valid function definition expected.") + std::wstring(L"\n") + nlf_filename);
-    }
-    fptr->ptAst = ptAst;
-    resetAstBackupPosition();
-    boost::filesystem::path pathFunction(nlf_filename);
-    const std::string functionNameFromFile = pathFunction.stem().generic_string();
-    if (!boost::iequals(functionNameFromFile, fptr->name)) {
-        std::string name = fptr->name;
-        delete fptr;
-        fptr = nullptr;
-        Error(_("filename and function name are not same (") + name + _(" vs ")
-            + functionNameFromFile + "). " + _("function not loaded."));
+    } else {
+        fptr->ptAst = std::move(ptAst);
+        resetAstBackupPosition();
+        boost::filesystem::path pathFunction(nlf_filename);
+        const std::string functionNameFromFile = pathFunction.stem().generic_string();
+        if (!boost::iequals(functionNameFromFile, fptr->name)) {
+            std::string name = fptr->name;
+            delete fptr;
+            fptr = nullptr;
+            Error(_("filename and function name are not same (") + name + _(" vs ")
+                + functionNameFromFile + "). " + _("function not loaded."));
+        }
     }
     return fptr;
 }
@@ -545,7 +550,7 @@ PathFuncManager::clearCache(stringVector exceptedFunctions)
 }
 //=============================================================================
 bool
-PathFuncManager::isDir(std::wstring pathname)
+PathFuncManager::isDir(const std::wstring& pathname)
 {
     boost::filesystem::path data_dir(pathname);
     bool bRes = false;
@@ -561,7 +566,7 @@ PathFuncManager::isDir(std::wstring pathname)
 }
 //=============================================================================
 bool
-PathFuncManager::isFile(std::wstring filename)
+PathFuncManager::isFile(const std::wstring& filename)
 {
     boost::filesystem::path data_dir(filename);
     bool bRes = false;

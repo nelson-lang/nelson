@@ -33,7 +33,7 @@ typedef enum
 } HEADCOMMENTS_ERROR;
 //=============================================================================
 NLSHELP_TOOLS_IMPEXP wstringVector
-HeadComments(Evaluator* eval, std::wstring filename, HEADCOMMENTS_ERROR& headError);
+HeadComments(Evaluator* eval, const std::wstring &filename, HEADCOMMENTS_ERROR& headError);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

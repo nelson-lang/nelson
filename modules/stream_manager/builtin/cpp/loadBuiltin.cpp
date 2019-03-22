@@ -56,7 +56,6 @@ isFile(std::wstring _filename)
 ArrayOfVector
 Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
@@ -109,7 +108,6 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             loadFunctionName = "loadmat";
         }
     } else {
-        std::string extension = boost::filesystem::extension(paramFilename);
         bool isNh5 = false;
         bool isMat = false;
         // try detect if it is a .nh5

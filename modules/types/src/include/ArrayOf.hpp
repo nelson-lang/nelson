@@ -100,7 +100,7 @@ private:
      * Add another fieldname to our structure array.
      */
     indexType
-    insertFieldName(std::string fieldName);
+    insertFieldName(const std::string& fieldName);
     /** Get a binary map from an array over the given range.
      * This member function converts an array into a boolean vector,
      * mathematically $$b(a(i)-1) = \mathrm{true}, 0 \leq i < \mathrm{maxD}$$,
@@ -117,9 +117,9 @@ private:
      * argument is not found, a value of -1 is returned.
      */
     int64
-    getFieldIndex(std::string fieldName);
+    getFieldIndex(const std::string& fieldName);
     int64
-    getFieldIndexFromList(std::string fName, const stringVector& fieldNames);
+    getFieldIndexFromList(const std::string& fName, const stringVector& fieldNames);
     /**
      * Copy us from the source object.
      */
@@ -133,11 +133,11 @@ private:
 
     /* Check all fieldnames are valid */
     static bool
-    haveValidFieldNames(stringVector fieldnames);
+    haveValidFieldNames(const stringVector& fieldnames);
 
     /* Check all fieldnames are unique */
     static bool
-    haveUniqueFieldNames(stringVector fieldnames);
+    haveUniqueFieldNames(const stringVector& fieldnames);
 
 public:
     /**
@@ -602,14 +602,14 @@ public:
      * string as a value.
      */
     static ArrayOf
-    characterArrayConstructor(std::string astr);
+    characterArrayConstructor(const std::string& astr);
 
     /**
      * String constructor - Construct an NLS_CHAR object with the given
      * string as a value.
      */
     static ArrayOf
-    characterArrayConstructor(std::wstring astr);
+    characterArrayConstructor(const std::wstring& astr);
 
     /**
      * int64 vector constructor - Construct an NLS_INT64 object
@@ -694,19 +694,19 @@ public:
      *  - the non-scalar values do not agree in dimension
      */
     static ArrayOf
-    structConstructor(stringVector fNames, ArrayOfVector& values);
+    structConstructor(const stringVector& fNames, ArrayOfVector& values);
     static ArrayOf
-    structConstructor(wstringVector fNames, ArrayOfVector& values);
+    structConstructor(const wstringVector& fNames, ArrayOfVector& values);
 
     static ArrayOf
     emptyStructWithoutFields();
     static ArrayOf
-    emptyStructConstructor(stringVector fNames, Dimensions& dim);
+    emptyStructConstructor(const stringVector& fNames, Dimensions& dim);
     static ArrayOf
-    emptyStructConstructor(wstringVector fNames, Dimensions& dim);
+    emptyStructConstructor(const wstringVector& fNames, Dimensions& dim);
 
     static ArrayOf
-    structScalarConstructor(stringVector fNames, ArrayOfVector& values);
+    structScalarConstructor(const stringVector& fNames, ArrayOfVector& values);
 
     /**
      * returns value as an array =A(index)
@@ -767,7 +767,7 @@ public:
      * exection if we are a vector, or if the supplied field do not exist.
      */
     ArrayOf
-    getField(std::string fieldName);
+    getField(const std::string& fieldName);
 
     /**
      * Get the contents of a field as an array from its field name.  This is used
@@ -777,7 +777,7 @@ public:
      *   - the field does not exist
      */
     ArrayOfVector
-    getFieldAsList(std::string fieldName);
+    getFieldAsList(const std::string& fieldName);
     /**
      * Get a subset of a (cell) ArrayOf using contents-addressing.  This is used
      * when a cell array is used to supply a list of expressions. Throws an
@@ -835,7 +835,7 @@ public:
      * multi-element structure-array.
      */
     void
-    setField(std::string fieldName, ArrayOf& data);
+    setField(const std::string& fieldName, ArrayOf& data);
     /**
      * Set a subset of an ArrayOf using contents-indexing, meaning that the
      * argument is assumed to refer to the elements in their order as a vector.
@@ -867,7 +867,7 @@ public:
      * in our array.
      */
     void
-    setFieldAsList(std::string fieldName, ArrayOfVector& data);
+    setFieldAsList(const std::string& fieldName, ArrayOfVector& data);
     /**
      * Delete a subset of this array using the argument for vector indexing.
      * This is _much_ simpler than the planar case.  Here, we simply:
@@ -1094,16 +1094,16 @@ public:
     bool
     isStruct() const;
     void
-    setStructType(std::string structname);
+    setStructType(const std::string& structname);
     void
-    setStructType(std::wstring structname);
+    setStructType(const std::wstring& structname);
     std::string
     getStructType() const;
     bool
     isClassStruct() const;
 
     static ArrayOf
-    functionHandleConstructor(std::wstring functionName, function_handle fptr);
+    functionHandleConstructor(const std::wstring& functionName, function_handle fptr);
     function_handle
     getContentAsFunctionHandle();
     bool
@@ -1141,12 +1141,12 @@ public:
      * check that scalar handle have an property name
      */
     bool
-    isHandleProperty(std::wstring propertyName) const;
+    isHandleProperty(const std::wstring& propertyName) const;
     /*
      * check that scalar handle have an method name
      */
     bool
-    isHandleMethod(std::wstring methodName) const;
+    isHandleMethod(const std::wstring& methodName) const;
     /*
      * get handle category
      */
@@ -1184,10 +1184,10 @@ public:
     stringArrayConstructor(const std::wstring& value);
 
     static ArrayOf
-    stringArrayConstructor(stringVector values, Dimensions& dims);
+    stringArrayConstructor(const stringVector& values, Dimensions& dims);
 
     static ArrayOf
-    stringArrayConstructor(wstringVector values, Dimensions& dims);
+    stringArrayConstructor(const wstringVector& values, Dimensions& dims);
 
     /**
      * Summarize String array.

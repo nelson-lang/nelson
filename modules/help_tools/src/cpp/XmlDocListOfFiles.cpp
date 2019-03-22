@@ -28,17 +28,17 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocListOfFiles::XmlDocListOfFiles(wstringVector srcFiles, std::wstring dstDirectory,
+XmlDocListOfFiles::XmlDocListOfFiles(wstringVector srcFiles, const std::wstring &dstDirectory,
     bool bOverwriteExistingFiles, DOCUMENT_OUTPUT outputTarget)
 {
     this->outputTarget = outputTarget;
-    this->chapterTitle = L"";
-    this->chapterDescription = L"";
-    this->moduleName = L"";
-    this->lastError = L"";
-    this->srcFiles = srcFiles;
-    this->sectionUpName = L"";
-    this->sectionUpUrl = L"";
+    this->chapterTitle.clear();
+    this->chapterDescription.clear();
+    this->moduleName.clear();
+    this->lastError.clear();
+    this->srcFiles = std::move(srcFiles);
+    this->sectionUpName.clear();
+    this->sectionUpUrl.clear();
     if (boost::algorithm::ends_with(dstDirectory, L"\\")
         || boost::algorithm::ends_with(dstDirectory, L"/")) {
         std::wstring modifiedPath = dstDirectory;
@@ -54,17 +54,17 @@ XmlDocListOfFiles::XmlDocListOfFiles(wstringVector srcFiles, std::wstring dstDir
 //=============================================================================
 XmlDocListOfFiles::~XmlDocListOfFiles()
 {
-    this->chapterTitle = L"";
-    this->chapterDescription = L"";
-    this->moduleName = L"";
-    this->lastError = L"";
+    this->chapterTitle.clear();
+    this->chapterDescription.clear();
+    this->moduleName.clear();
+    this->lastError.clear();
     this->srcFiles.clear();
-    this->dstDirectory = L"";
+    this->dstDirectory.clear();
     this->bOverwriteExistingFiles = false;
-    this->chapterResultFilename = L"";
+    this->chapterResultFilename.clear();
     this->clearItems();
-    this->sectionUpName = L"";
-    this->sectionUpUrl = L"";
+    this->sectionUpName.clear();
+    this->sectionUpUrl.clear();
 }
 //=============================================================================
 void
@@ -88,7 +88,7 @@ XmlDocListOfFiles::read()
     for (size_t k = 0; k < this->srcFiles.size(); k++) {
         bool b = boost::algorithm::ends_with(this->srcFiles[k], L"chapter.xml");
         if (b) {
-            if (chapterFilename != L"") {
+            if (!chapterFilename.empty()) {
                 this->lastError = _W("multiple chapter.xml definition.");
                 return false;
             }
@@ -99,78 +99,20 @@ XmlDocListOfFiles::read()
     for (size_t k = 0; k < this->srcFiles.size(); k++) {
         bool b = boost::algorithm::ends_with(this->srcFiles[k], L"chapter.xml");
         if (!b) {
-            XmlDocDocument* xmlDoc = new XmlDocDocument(this->srcFiles[k], this->sectionUpName,
-                this->dstDirectory, this->bOverwriteExistingFiles, this->outputTarget);
-            if (xmlDoc) {
-                if (xmlDoc->readFile()) {
-                    xmlItems.push_back(xmlDoc);
-                } else {
-                    wstringVector errors = xmlDoc->getError();
-                    this->lastError = _W("Error in file:") + L"\n" + this->srcFiles[k];
-                    delete xmlDoc;
-                    xmlDoc = nullptr;
-                    if (!errors.empty()) {
-                        this->lastError = this->lastError + L"\n" + errors[0];
-                    }
-                    this->clearItems();
-                    return false;
-                }
-            } else {
+            XmlDocDocument* xmlDoc = nullptr;
+            try {
+                xmlDoc = new XmlDocDocument(this->srcFiles[k], this->sectionUpName,
+                    this->dstDirectory, this->bOverwriteExistingFiles, this->outputTarget);
+			} catch (std::bad_alloc&) {
                 this->lastError = ERROR_MEMORY_ALLOCATION;
                 this->clearItems();
                 return false;
             }
-        }
-    }
-    if (!haveChapterFile) {
-        this->lastError = _W("chapter.xml file is missing.");
-        this->clearItems();
-        return false;
-    }
-    if (haveChapterFile) {
-        XmlDocDocument* xmlDoc = new XmlDocDocument(chapterFilename, this->sectionUpName,
-            this->dstDirectory, this->bOverwriteExistingFiles, this->outputTarget);
-        if (xmlDoc) {
             if (xmlDoc->readFile()) {
-                if (xmlDoc->isChapterDocument()) {
-                    this->moduleName = xmlDoc->getModuleName();
-                    boost::container::vector<XmlDocGenericItem*> items
-                        = xmlDoc->getXmlDocGenericItems();
-                    XmlDocChapterIndexItem* indexItem = new XmlDocChapterIndexItem();
-                    for (size_t k = 0; k < xmlItems.size(); k++) {
-                        bool bSuccess;
-                        indexItem->append(xmlItems[k]->getPageTitle(),
-                            RelativePath(dstDirectory, xmlItems[k]->getDestinationFile(), bSuccess),
-                            xmlItems[k]->getPageDescription());
-                    }
-                    items.push_back(indexItem);
-                    std::wstring htmlFilenameDestination = L"";
-                    if (this->moduleName != L"") {
-                        if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
-                            htmlFilenameDestination = dstDirectory + L"/README.md";
-                        } else {
-                            htmlFilenameDestination
-                                = dstDirectory + L"/chapter_" + this->moduleName + L".html";
-                        }
-                        this->chapterResultFilename = htmlFilenameDestination;
-                    } else {
-                        htmlFilenameDestination = this->chapterResultFilename;
-                    }
-                    XmlDocDocument* xmlChapterDoc = new XmlDocDocument(items, chapterFilename,
-                        htmlFilenameDestination, this->bOverwriteExistingFiles, this->outputTarget);
-                    xmlItems.push_back(xmlChapterDoc);
-                    this->chapterTitle = xmlDoc->getChapter();
-                } else {
-                    wstringVector errors = xmlDoc->getError();
-                    this->lastError = _W("chapter.xml is missing.");
-                    delete xmlDoc;
-                    xmlDoc = nullptr;
-                    this->clearItems();
-                    return false;
-                }
+                xmlItems.push_back(xmlDoc);
             } else {
                 wstringVector errors = xmlDoc->getError();
-                this->lastError = _W("Error in file:") + L"\n" + chapterFilename + L"\n";
+                this->lastError = _W("Error in file:") + L"\n" + this->srcFiles[k];
                 delete xmlDoc;
                 xmlDoc = nullptr;
                 if (!errors.empty()) {
@@ -179,8 +121,66 @@ XmlDocListOfFiles::read()
                 this->clearItems();
                 return false;
             }
-        } else {
+		}
+    }
+    if (!haveChapterFile) {
+        this->lastError = _W("chapter.xml file is missing.");
+        this->clearItems();
+        return false;
+    } else {
+        XmlDocDocument* xmlDoc = nullptr;
+        try {
+            xmlDoc = new XmlDocDocument(chapterFilename, this->sectionUpName, this->dstDirectory,
+                this->bOverwriteExistingFiles, this->outputTarget);
+        } catch (std::bad_alloc&) {
             this->lastError = ERROR_MEMORY_ALLOCATION;
+            this->clearItems();
+            return false;
+        }
+        if (xmlDoc->readFile()) {
+            if (xmlDoc->isChapterDocument()) {
+                this->moduleName = xmlDoc->getModuleName();
+                boost::container::vector<XmlDocGenericItem*> items
+                    = xmlDoc->getXmlDocGenericItems();
+                XmlDocChapterIndexItem* indexItem = new XmlDocChapterIndexItem();
+                for (size_t k = 0; k < xmlItems.size(); k++) {
+                    bool bSuccess;
+                    indexItem->append(xmlItems[k]->getPageTitle(),
+                        RelativePath(dstDirectory, xmlItems[k]->getDestinationFile(), bSuccess),
+                        xmlItems[k]->getPageDescription());
+                }
+                items.push_back(indexItem);
+                std::wstring htmlFilenameDestination = L"";
+                if (!this->moduleName.empty()) {
+                    if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
+                        htmlFilenameDestination = dstDirectory + L"/README.md";
+                    } else {
+                        htmlFilenameDestination
+                            = dstDirectory + L"/chapter_" + this->moduleName + L".html";
+                    }
+                    this->chapterResultFilename = htmlFilenameDestination;
+                } else {
+                    htmlFilenameDestination = this->chapterResultFilename;
+                }
+                XmlDocDocument* xmlChapterDoc = new XmlDocDocument(items, chapterFilename,
+                    htmlFilenameDestination, this->bOverwriteExistingFiles, this->outputTarget);
+                xmlItems.push_back(xmlChapterDoc);
+                this->chapterTitle = xmlDoc->getChapter();
+            } else {
+                this->lastError = _W("chapter.xml is missing.");
+                delete xmlDoc;
+                xmlDoc = nullptr;
+                this->clearItems();
+                return false;
+            }
+        } else {
+            wstringVector errors = xmlDoc->getError();
+            this->lastError = _W("Error in file:") + L"\n" + chapterFilename + L"\n";
+            delete xmlDoc;
+            xmlDoc = nullptr;
+            if (!errors.empty()) {
+                this->lastError = this->lastError + L"\n" + errors[0];
+            }
             this->clearItems();
             return false;
         }
@@ -198,13 +198,13 @@ XmlDocListOfFiles::read()
             std::wstring linkUrl = L"";
             boost::filesystem::path destPath(this->dstDirectory);
             if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
-                if (this->moduleName != L"") {
+                if (!this->moduleName.empty()) {
                     destPath = destPath / (L"README.md");
                 } else {
                     destPath = destPath / L"chapter.md";
                 }
             } else {
-                if (this->moduleName != L"") {
+                if (!this->moduleName.empty()) {
                     destPath = destPath / (L"chapter_" + this->moduleName + L".html");
                 } else {
                     destPath = destPath / L"chapter.html";
@@ -292,7 +292,7 @@ XmlDocListOfFiles::getIndex(wstringVector& names, wstringVector& urls, wstringVe
 }
 //=============================================================================
 void
-XmlDocListOfFiles::setUpSection(std::wstring sectionName, std::wstring sectionUrl)
+XmlDocListOfFiles::setUpSection(const std::wstring &sectionName, const std::wstring &sectionUrl)
 {
     this->sectionUpName = sectionName;
     this->sectionUpUrl = sectionUrl;

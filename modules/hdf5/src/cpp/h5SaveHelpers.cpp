@@ -51,14 +51,14 @@ h5SaveDimensionsAttribute(hid_t fid, const std::string& location, Dimensions dim
     } else {
         dimsAsArray = ArrayOf(NLS_UINT64, Dimensions(1, dims.getLength()), ptr);
     }
-    uint64* ptrAsUint64 = (uint64*)dimsAsArray.getDataPointer();
+    auto* ptrAsUint64 = (uint64*)dimsAsArray.getDataPointer();
     if (dims.isScalar()) {
         ptrAsUint64[0] = 1;
         ptrAsUint64[1] = 1;
     } else {
-        uint64* ptrAsUint64 = (uint64*)dimsAsArray.getDataPointer();
+        auto* ptrAsUint64 = (uint64*)dimsAsArray.getDataPointer();
         for (indexType k = 0; k < dims.getLength(); k++) {
-            ptrAsUint64[k] = (uint64)dims[k];
+            ptrAsUint64[k] = static_cast<uint64>(dims[k]);
         }
     }
 
@@ -80,7 +80,7 @@ h5SaveDimensionsAttribute(hid_t fid, const std::string& location, Dimensions dim
     hid_t att_id
         = H5Acreate(obj_id, NELSON_DIMENSIONS_STR, type_id, dspace_id, H5P_DEFAULT, H5P_DEFAULT);
     if (att_id > 0) {
-        buffer = (void*)dimsAsArray.getDataPointer();
+        buffer = const_cast<void*>(dimsAsArray.getDataPointer());
         herr_t status = H5Awrite(att_id, type_id, buffer);
         if (status < 0) {
             bSuccess = false;
@@ -208,5 +208,5 @@ h5LDeleteIfExists(hid_t fid, const std::string& location)
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

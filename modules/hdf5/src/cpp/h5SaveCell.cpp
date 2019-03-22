@@ -35,7 +35,7 @@ h5SaveCell(hid_t fid, const std::string& location, const std::string& variableNa
         h5path = location + "/" + variableName;
     }
 
-    h5LDeleteIfExists(fid, h5path.c_str());
+    h5LDeleteIfExists(fid, h5path);
 
     hid_t gcpl = H5Pcreate(H5P_GROUP_CREATE);
     hid_t group = H5Gcreate(fid, h5path.c_str(), H5P_DEFAULT, gcpl, H5P_DEFAULT);
@@ -44,7 +44,7 @@ h5SaveCell(hid_t fid, const std::string& location, const std::string& variableNa
         return false;
     }
     Dimensions dims = VariableValue.getDimensions();
-    ArrayOf* elements = (ArrayOf*)VariableValue.getDataPointer();
+    auto* elements = (ArrayOf*)VariableValue.getDataPointer();
     for (indexType k = 0; k < dims.getElementCount(); k++) {
         ArrayOf element = elements[k];
         std::string name = std::to_string(k);
@@ -67,5 +67,5 @@ h5SaveCell(hid_t fid, const std::string& location, const std::string& variableNa
     return bSuccess;
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

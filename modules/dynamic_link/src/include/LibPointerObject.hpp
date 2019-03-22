@@ -31,10 +31,10 @@ class NLSDYNAMIC_LINK_IMPEXP LibPointerObject : public HandleGenericObject
 {
 public:
     LibPointerObject();
-    LibPointerObject(std::wstring DataType);
-    LibPointerObject(std::wstring DataType, ArrayOf Value);
+    LibPointerObject(const std::wstring& DataType);
+    LibPointerObject(const std::wstring& DataType, ArrayOf Value);
     LibPointerObject(void* pointer);
-    LibPointerObject(void* pointer, std::wstring DataType, Class currentType);
+    LibPointerObject(void* pointer, const std::wstring& DataType, Class currentType);
 
     ~LibPointerObject() override;
 
@@ -43,18 +43,18 @@ public:
     void*
     getPointer();
     bool
-    get(std::wstring propertyName, ArrayOf& res);
+    get(const std::wstring& propertyName, ArrayOf& res);
     void
     get(ArrayOf& res);
     wstringVector
     fieldnames();
     bool
-    isProperty(std::wstring propertyName) override;
+    isProperty(const std::wstring& propertyName) override;
     bool
-    isMethod(std::wstring methodName) override;
+    isMethod(const std::wstring& methodName) override;
 
     bool
-    isWriteableProperty(std::wstring propertyName);
+    isWriteableProperty(const std::wstring& propertyName);
     bool
     isNull();
     LibPointerObject*
@@ -64,7 +64,7 @@ public:
     std::wstring
     getDataType();
     void
-    setDataType(std::wstring dataType);
+    setDataType(const std::wstring& dataType);
 
 private:
     wstringVector _propertiesNames;

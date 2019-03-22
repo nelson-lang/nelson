@@ -32,7 +32,7 @@ using library_handle = HMODULE;
 using generic_function_ptr = FARPROC;
 //=============================================================================
 inline library_handle
-load_dynamic_library(std::string library_name)
+load_dynamic_library(const std::string& library_name)
 {
     library_handle hl;
     try {
@@ -44,7 +44,7 @@ load_dynamic_library(std::string library_name)
 }
 //=============================================================================
 inline library_handle
-load_dynamic_libraryW(std::wstring library_name)
+load_dynamic_libraryW(const std::wstring& library_name)
 {
     library_handle hl;
     try {
@@ -56,7 +56,7 @@ load_dynamic_libraryW(std::wstring library_name)
 }
 //=============================================================================
 inline generic_function_ptr
-get_function(library_handle handle, std::string function_name)
+get_function(library_handle handle, const std::string& function_name)
 {
     return GetProcAddress(handle, function_name.c_str());
 }
@@ -101,7 +101,7 @@ typedef void* library_handle;
 typedef void* generic_function_ptr;
 //=============================================================================
 inline library_handle
-load_dynamic_library(std::string library_name)
+load_dynamic_library(const std::string& library_name)
 {
     library_handle hl;
     try {
@@ -113,7 +113,7 @@ load_dynamic_library(std::string library_name)
 }
 //=============================================================================
 inline generic_function_ptr
-get_function(library_handle handle, std::string function_name)
+get_function(library_handle handle, const std::string& function_name)
 {
     return dlsym(handle, function_name.c_str());
 }

@@ -41,7 +41,10 @@ SaveMatioSparseDouble(std::string variableName, ArrayOf variableValue)
     }
 
     int32 nzmax = (int32)variableValue.nzmax();
-    int njc = (int)spmat->outerSize();
+    int njc = 0;
+    if (spmat) {
+        njc = (int)spmat->outerSize();
+    }
     int nir = (int)nnz;
 
     int32* pI = nullptr;
@@ -57,13 +60,19 @@ SaveMatioSparseDouble(std::string variableName, ArrayOf variableValue)
         delete[] pI;
         return nullptr;
     }
-    signedIndexType* pInner = spmat->innerIndexPtr();
-    signedIndexType* pOuter = spmat->outerIndexPtr();
-    for (signedIndexType k = 0; k < nir; ++k) {
-        pI[k] = (int32)pInner[k];
+    signedIndexType* pInner = nullptr;
+    if (spmat) {
+        pInner = spmat->innerIndexPtr();
+        for (signedIndexType k = 0; k < nir; ++k) {
+            pI[k] = (int32)pInner[k];
+        }
     }
-    for (signedIndexType k = 0; k < njc; ++k) {
-        pJ[k] = (int32)pOuter[k];
+    signedIndexType* pOuter = nullptr;
+    if (spmat) {
+        pOuter = spmat->outerIndexPtr();
+        for (signedIndexType k = 0; k < njc; ++k) {
+            pJ[k] = (int32)pOuter[k];
+        }
     }
     pJ[njc] = (int32)nnz;
     mat_sparse_t* sparse = nullptr;

@@ -30,7 +30,7 @@ namespace Nelson {
 static hid_t
 nelsonClassToHdf5DataType(Class dataType)
 {
-    hid_t datatype;
+    hid_t datatype = H5I_INVALID_HID;
     switch (dataType) {
     case NLS_DOUBLE: {
         datatype = H5Tcopy(H5T_NATIVE_DOUBLE);
@@ -274,12 +274,14 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
             H5Pclose(dcpl);
             H5Fclose(fid);
             Error(_W("H5Pset_layout fails."));
+            return;
         }
         if (H5Pset_chunk(dcpl, (int)sizeData.size(), dimsChunk) == H5I_INVALID_HID) {
             delete[] dimsChunk;
             H5Pclose(dcpl);
             H5Fclose(fid);
             Error(_W("H5Pset_chunk fails."));
+            return;
         }
         delete[] dimsChunk;
     } else {

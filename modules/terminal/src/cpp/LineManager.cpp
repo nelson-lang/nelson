@@ -26,7 +26,7 @@
 LineManager::LineManager()
 {
     current_line_buffer.reserve(10);
-    currentPrompt = L"";
+    currentPrompt.clear();
     /* current position of the cursor */
     cur_pos = 0;
     max_pos = 0;
@@ -36,7 +36,7 @@ LineManager::LineManager()
 LineManager::~LineManager()
 {
     current_line_buffer.clear();
-    currentPrompt = L"";
+    currentPrompt.clear();
     cur_pos = 0;
     max_pos = 0;
     bUsesColors = false;
@@ -283,7 +283,7 @@ LineManager::getCurrentPrompt()
 void
 LineManager::setCurrentPrompt(std::wstring prompt)
 {
-    currentPrompt = prompt;
+    currentPrompt = std::move(prompt);
 }
 //=============================================================================
 void
@@ -301,7 +301,7 @@ LineManager::putCharacter(wchar_t wch, outputStyle eAsStyle)
 }
 //=============================================================================
 int
-LineManager::printCharacters(std::wstring buffer, outputStyle eAsStyle)
+LineManager::printCharacters(const std::wstring& buffer, outputStyle eAsStyle)
 {
     DWORD n = 0;
     int background = 0;
@@ -384,7 +384,7 @@ LineManager::copyLine(std::wstring line)
     if (line.size() > 0) {
         printCharacters(line, LineManager::STANDARD_INPUT);
         current_line_buffer = boost::container::vector<wchar_t>(line.begin(), line.end());
-        cur_pos = max_pos = (int)line.size();
+        cur_pos = max_pos = line.size();
     }
 }
 //=============================================================================

@@ -23,8 +23,8 @@
 //=============================================================================
 namespace Nelson {
 NLSHELP_TOOLS_IMPEXP bool
-HtmlFileToPdfFile(std::wstring htmlsrcfilename, std::wstring pdfdestfilename);
+HtmlFileToPdfFile(const std::wstring &htmlsrcfilename, const std::wstring &pdfdestfilename);
 NLSHELP_TOOLS_IMPEXP bool
-HtmlStreamToPdfFile(std::wstring htmlstream, std::wstring pdfdestfilename);
+HtmlStreamToPdfFile(const std::wstring &htmlstream, const std::wstring &pdfdestfilename);
 } // namespace Nelson
 //=============================================================================

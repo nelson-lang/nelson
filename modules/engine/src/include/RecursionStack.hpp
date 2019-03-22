@@ -22,7 +22,7 @@
 #include "nlsEngine_exports.h"
 //=============================================================================
 namespace Nelson {
-#define SIZE_MAX_RECURSION_CALL 60 * 1024 * 1024
+#define SIZE_MAX_RECURSION_CALL (60 * 1024 * 1024)
 // SIZE_MAX_RECURSION_CALL OS dependant current value works on linux, mac, windows
 // On Windows, you need to set /STACK:reserce
 #define MAX_RECURSION_FUNCTION_CALL 1936

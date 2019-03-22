@@ -39,7 +39,7 @@ LibPointerObject::LibPointerObject(void* pointer)
     _voidPointer = pointer;
 }
 //=============================================================================
-LibPointerObject::LibPointerObject(std::wstring DataType)
+LibPointerObject::LibPointerObject(const std::wstring& DataType)
     : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false)
 {
     initializeCommon();
@@ -62,7 +62,7 @@ LibPointerObject::LibPointerObject(std::wstring DataType)
     }
 }
 //=============================================================================
-LibPointerObject::LibPointerObject(std::wstring DataType, ArrayOf Value)
+LibPointerObject::LibPointerObject(const std::wstring& DataType, ArrayOf Value)
     : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false)
 {
     initializeCommon();
@@ -94,7 +94,7 @@ LibPointerObject::LibPointerObject(std::wstring DataType, ArrayOf Value)
         Value.getElementSize() * dimsValue.getElementCount());
 }
 //=============================================================================
-LibPointerObject::LibPointerObject(void* pointer, std::wstring DataType, Class currentType)
+LibPointerObject::LibPointerObject(void* pointer, const std::wstring& DataType, Class currentType)
     : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false)
 {
     initializeCommon();
@@ -153,21 +153,21 @@ LibPointerObject::fieldnames()
 }
 //=============================================================================
 bool
-LibPointerObject::isMethod(std::wstring methodName)
+LibPointerObject::isMethod(const std::wstring& methodName)
 {
     auto it = std::find(_methodsNames.begin(), _methodsNames.end(), methodName);
     return (it != _methodsNames.end());
 }
 //=============================================================================
 bool
-LibPointerObject::isProperty(std::wstring propertyName)
+LibPointerObject::isProperty(const std::wstring& propertyName)
 {
     auto it = std::find(_propertiesNames.begin(), _propertiesNames.end(), propertyName);
     return (it != _propertiesNames.end());
 }
 //=============================================================================
 bool
-LibPointerObject::isWriteableProperty(std::wstring propertyName)
+LibPointerObject::isWriteableProperty(const std::wstring& propertyName)
 {
     return false;
 }
@@ -299,7 +299,7 @@ LibPointerObject::getDataType()
 }
 //=============================================================================
 void
-LibPointerObject::setDataType(std::wstring dataType)
+LibPointerObject::setDataType(const std::wstring& dataType)
 {
     if (!DynamicLinkSymbolObject::isValidDataType(dataType)) {
         Error(_W("Invalid type."));
@@ -339,7 +339,7 @@ LibPointerObject::get(ArrayOf& res)
 }
 //=============================================================================
 bool
-LibPointerObject::get(std::wstring propertyName, ArrayOf& res)
+LibPointerObject::get(const std::wstring& propertyName, ArrayOf& res)
 {
     if (propertyName == L"DataType") {
         res = ArrayOf::characterArrayConstructor(_DataType);

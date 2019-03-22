@@ -126,9 +126,9 @@ Data::getStructTypeName()
 }
 
 void
-Data::setStructTypeName(std::string typeName)
+Data::setStructTypeName(const std::string& typeName)
 {
-    structTypeName = typeName;
+    structTypeName = std::move(typeName);
 }
 
 int
@@ -220,7 +220,7 @@ Data::freeDataBlock()
                 auto* rp = static_cast<charType*>(cp);
                 delete[] rp;
             } break;
-            }
+            default: { } break; }
             cp = nullptr;
         }
     }

@@ -40,7 +40,7 @@ ClassName(ArrayOf In)
                 if (hlObj != nullptr) {
                     std::string current = wstring_to_utf8(hlObj->getCategory());
                     if (classString != current && current != NLS_HANDLE_STR) {
-                        classString = current;
+                        classString = std::move(current);
                     }
                 }
             }
@@ -55,7 +55,7 @@ ClassName(ArrayOf In)
 }
 //=============================================================================
 stringVector
-ClassName(ArrayOfVector In)
+ClassName(const ArrayOfVector& In)
 {
     stringVector strs;
     for (sizeType k = 0; k < (sizeType)In.size(); k++) {

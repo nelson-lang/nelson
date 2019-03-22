@@ -62,7 +62,7 @@ CommandQueue::get(std::wstring& cmd)
         commands.pop_back();
         return true;
     }
-    cmd = L"";
+    cmd.clear();
     return false;
 }
 //=============================================================================

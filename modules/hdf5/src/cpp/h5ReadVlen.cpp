@@ -206,6 +206,7 @@ h5ReadVlen(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstri
             delete[] h5_dims;
             delete[] h5_maxdims;
             Error("Impossible to read dimensions and maximum size of data set.");
+            return ArrayOf();
         }
         memspace = H5Screate_simple(rank, h5_dims, NULL);
         delete[] h5_dims;

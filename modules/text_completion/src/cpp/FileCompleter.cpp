@@ -91,9 +91,9 @@ FileCompleter(std::wstring prefix)
         }
         if (path.empty()) {
 #ifdef _MSC_VER
-            path = L"" + DIR_SEPARATOR_WINDOWS;
+            path = std::wstring(L"") + DIR_SEPARATOR_WINDOWS;
 #else
-            path = L"" + DIR_SEPARATOR_OTHERS;
+            path = std::wstring(L"") + DIR_SEPARATOR_OTHERS;
 #endif
         } else {
             wchar_t ch = *path.rbegin();

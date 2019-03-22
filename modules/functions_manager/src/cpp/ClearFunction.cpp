@@ -25,7 +25,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-ClearBuiltin(std::wstring builtinName)
+ClearBuiltin(const std::wstring& builtinName)
 {
     std::string funcName = wstring_to_utf8(builtinName);
     return BuiltInFunctionDefManager::getInstance()->remove(funcName);

@@ -67,7 +67,7 @@ integerToLogical(const ArrayOf& A)
     } else {
         logical* pLogical
             = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
-        ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
+        r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
         auto* ptrInt = (T*)A.getDataPointer();
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for

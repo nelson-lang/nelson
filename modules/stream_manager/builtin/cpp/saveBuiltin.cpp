@@ -34,7 +34,7 @@ using namespace Nelson;
 // save(filename, '-mat', '-append', '-nocompression', version, variables)
 //=============================================================================
 static bool
-isOption(std::wstring param)
+isOption(const std::wstring& param)
 {
     return param.size() > 2 && param[0] == L'-';
 }
@@ -42,7 +42,6 @@ isOption(std::wstring param)
 ArrayOfVector
 Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     if (nLhs > 0) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }

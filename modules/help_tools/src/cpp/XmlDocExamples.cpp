@@ -42,7 +42,7 @@ XmlDocExamples::~XmlDocExamples()
 //=============================================================================
 void
 XmlDocExamples::append(
-    std::wstring type, std::wstring description, std::wstring data, std::wstring imageTag)
+    const std::wstring &type, const std::wstring &description, const std::wstring &data, const std::wstring &imageTag)
 {
     XmlDocExampleItem* item = nullptr;
     try {

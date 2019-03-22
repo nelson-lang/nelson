@@ -32,7 +32,7 @@ private:
     FILE* fp;
 
 public:
-    FileStream(std::wstring filename, std::wstring accessmode);
+    FileStream(const std::wstring& filename, const std::wstring& accessmode);
     FileStream(FILE* afp);
     // Close the file
     ~FileStream();

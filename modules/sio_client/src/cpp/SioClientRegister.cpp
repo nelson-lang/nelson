@@ -36,7 +36,7 @@ sioregister(const std::string& name, const std::string& function_name)
 void
 siounregister(const std::string& name)
 {
-    stringVector::iterator itr = std::find(nameList.begin(), nameList.end(), name);
+    auto itr = std::find(nameList.begin(), nameList.end(), name);
     if (itr != nameList.end()) {
         nameList.erase(itr);
     }
@@ -55,16 +55,16 @@ sioregisterList()
 bool
 issioregistered(const std::string& name)
 {
-    stringVector::iterator itr = std::find(nameList.begin(), nameList.end(), name);
+    auto itr = std::find(nameList.begin(), nameList.end(), name);
     return (itr != nameList.end());
 }
 //=============================================================================
 bool
 issioreserved(const std::string& name)
 {
-    stringVector::iterator itr = std::find(reservedList.begin(), reservedList.end(), name);
+    auto itr = std::find(reservedList.begin(), reservedList.end(), name);
     return (itr != reservedList.end());
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

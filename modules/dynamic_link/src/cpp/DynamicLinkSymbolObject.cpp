@@ -92,7 +92,7 @@ initializeFfiTypesMap()
 }
 //=============================================================================
 static ffi_type*
-GetFFIType(std::wstring type)
+GetFFIType(const std::wstring& type)
 {
     CType ret;
     if (ffiTypesMap.count(type) != 0) {
@@ -105,7 +105,7 @@ GetFFIType(std::wstring type)
 }
 //=============================================================================
 Class
-DynamicLinkSymbolObject::GetNelsonType(std::wstring type)
+DynamicLinkSymbolObject::GetNelsonType(const std::wstring& type)
 {
     CType ret;
     if (ffiTypesMap.count(type) != 0) {
@@ -118,7 +118,7 @@ DynamicLinkSymbolObject::GetNelsonType(std::wstring type)
 }
 //=============================================================================
 DynamicLinkSymbolObject::DynamicLinkSymbolObject(ArrayOf dllibObject, void* pointerFunction,
-    std::wstring symbol, std::wstring returnType, wstringVector paramsTypes)
+    const std::wstring& symbol, const std::wstring& returnType, wstringVector paramsTypes)
     : HandleGenericObject(std::wstring(DLSYM_CATEGORY_STR), this, false)
 {
     _propertiesNames = { L"Prototype", L"Input", L"Output" };
@@ -209,11 +209,12 @@ DynamicLinkSymbolObject::buildPrototype()
 }
 //=============================================================================
 size_t
-DynamicLinkSymbolObject::lengthTextToDisplay(wstringVector params)
+DynamicLinkSymbolObject::lengthTextToDisplay(const wstringVector& params)
 {
     size_t len = 0;
+    size_t postLen = wcslen(L", ");
     for (std::wstring str : params) {
-        len = len + str.length() + wcslen(L", ");
+        len = len + str.length() + postLen;
     }
     return len;
 }
@@ -279,7 +280,7 @@ DynamicLinkSymbolObject::disp(Evaluator* eval)
 }
 //=============================================================================
 bool
-DynamicLinkSymbolObject::isValidDataType(std::wstring DataType)
+DynamicLinkSymbolObject::isValidDataType(const std::wstring& DataType)
 {
     if (!ffiTypesMapInitialized) {
         initializeFfiTypesMap();
@@ -484,8 +485,10 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
             } else {
                 void* arrayPtr = ArrayOf::allocateArrayOf(
                     params[i].getDataClass(), params[i].getDimensions().getElementCount());
-                memcpy(arrayPtr, refPointers[k],
-                    params[i].getDimensions().getElementCount() * params[i].getElementSize());
+                if (refPointers) {
+                    memcpy(arrayPtr, refPointers[k],
+                        params[i].getDimensions().getElementCount() * params[i].getElementSize());
+                }
                 retval.push_back(
                     ArrayOf(params[i].getDataClass(), params[i].getDimensions(), arrayPtr));
             }
@@ -502,7 +505,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
 }
 //=============================================================================
 bool
-DynamicLinkSymbolObject::get(std::wstring propertyName, ArrayOf& res)
+DynamicLinkSymbolObject::get(const std::wstring& propertyName, ArrayOf& res)
 {
     if (propertyName == L"Prototype") {
         res = ArrayOf::characterArrayConstructor(_prototype);
@@ -520,7 +523,7 @@ DynamicLinkSymbolObject::get(std::wstring propertyName, ArrayOf& res)
 }
 //=============================================================================
 bool
-DynamicLinkSymbolObject::isWriteableProperty(std::wstring propertyName)
+DynamicLinkSymbolObject::isWriteableProperty(const std::wstring& propertyName)
 {
     return false;
 }
@@ -532,14 +535,14 @@ DynamicLinkSymbolObject::fieldnames()
 }
 //=============================================================================
 bool
-DynamicLinkSymbolObject::isProperty(std::wstring propertyName)
+DynamicLinkSymbolObject::isProperty(const std::wstring& propertyName)
 {
     auto it = std::find(_propertiesNames.begin(), _propertiesNames.end(), propertyName);
     return (it != _propertiesNames.end());
 }
 //=============================================================================
 bool
-DynamicLinkSymbolObject::isMethod(std::wstring methodName)
+DynamicLinkSymbolObject::isMethod(const std::wstring& methodName)
 {
     return false;
 }

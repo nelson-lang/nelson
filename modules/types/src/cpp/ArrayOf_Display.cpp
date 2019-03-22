@@ -351,7 +351,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
                 io->outputMessage(" complex]");
             }
             break;
-        }
+        default: { } break; }
     }
 }
 //=============================================================================
@@ -373,7 +373,8 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
     }
     case NLS_UINT8: {
         const auto* ap = static_cast<const uint8*>(dp);
-        snprintf(msgBuffer, MSGBUFLEN, "%3u", ap[num]);
+        uint8 value = ap[num];
+        snprintf(msgBuffer, MSGBUFLEN, "%3u", value);
         io->outputMessage(msgBuffer);
         snprintf(msgBuffer, MSGBUFLEN, "  ");
         io->outputMessage(msgBuffer);
@@ -381,7 +382,8 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
     }
     case NLS_INT16: {
         const auto* ap = static_cast<const int16*>(dp);
-        snprintf(msgBuffer, MSGBUFLEN, "% 6d", ap[num]);
+        int16 value = ap[num];
+        snprintf(msgBuffer, MSGBUFLEN, "% 6d", value);
         io->outputMessage(msgBuffer);
         snprintf(msgBuffer, MSGBUFLEN, "  ");
         io->outputMessage(msgBuffer);
@@ -389,7 +391,8 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
     }
     case NLS_UINT16: {
         const auto* ap = static_cast<const uint16*>(dp);
-        snprintf(msgBuffer, MSGBUFLEN, "%5u", ap[num]);
+        uint16 value = ap[num];
+        snprintf(msgBuffer, MSGBUFLEN, "%5u", value);
         io->outputMessage(msgBuffer);
         snprintf(msgBuffer, MSGBUFLEN, "  ");
         io->outputMessage(msgBuffer);
@@ -397,7 +400,8 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
     }
     case NLS_INT32: {
         const auto* ap = static_cast<const int32*>(dp);
-        snprintf(msgBuffer, MSGBUFLEN, "%13d", ap[num]);
+        int32 value = ap[num];
+        snprintf(msgBuffer, MSGBUFLEN, "%13d", value);
         io->outputMessage(msgBuffer);
         snprintf(msgBuffer, MSGBUFLEN, "  ");
         io->outputMessage(msgBuffer);
@@ -405,7 +409,8 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
     }
     case NLS_UINT32: {
         const auto* ap = static_cast<const uint32*>(dp);
-        snprintf(msgBuffer, MSGBUFLEN, "%12u", ap[num]);
+        uint32 value = ap[num];
+        snprintf(msgBuffer, MSGBUFLEN, "%12u", value);
         io->outputMessage(msgBuffer);
         snprintf(msgBuffer, MSGBUFLEN, "  ");
         io->outputMessage(msgBuffer);
@@ -513,7 +518,7 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
         }
         break;
     }
-    }
+    default: { } break; }
 }
 //=============================================================================
 /**
@@ -602,7 +607,7 @@ ArrayOf::printMe(Interface* io) const
         typeAsText = "  <string> ";
         nominalWidth = 10;
         break;
-    }
+    default: { } break; }
     io->outputMessage(typeAsText + "- size: ");
     dp->dimensions.printMe(io);
     io->outputMessage("\n");

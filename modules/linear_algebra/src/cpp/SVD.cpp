@@ -325,7 +325,7 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         int maxMN = std::max(m, n);
         single* superb = new_with_exception<single>(minMN - 1);
         single* dstemp = new_with_exception<single>(minMN);
-        single* u = new_with_exception<single>((size_t)(ldu * m));
+        single* u = new_with_exception<single>((size_t)(ldu) * (size_t)(m));
         single* vt = nullptr;
         if (withV) {
             vt = new_with_exception<single>((size_t)ldvt * (size_t)n);

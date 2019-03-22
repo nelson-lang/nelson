@@ -40,9 +40,9 @@ private:
     bool
     mouseEventsFilter(INPUT_RECORD irBuffer);
     bool
-    isCTRLPressed(INPUT_RECORD irBuffer);
+    isCTRLPressed(const INPUT_RECORD& irBuffer);
     bool
-    isALTPressed(INPUT_RECORD irBuffer);
+    isALTPressed(const INPUT_RECORD& irBuffer);
     wchar_t
     actionControlKey();
     bool
@@ -52,11 +52,11 @@ private:
     void
     clearClipBoard();
     bool
-    copyToClipBoard(std::wstring txt);
+    copyToClipBoard(const std::wstring& txt);
     bool bHaveHisOwnWindow;
     bool bWithColors;
     std::wstring
-    getTextLine(std::wstring prompt, bool bIsInput);
+    getTextLine(const std::wstring& prompt, bool bIsInput);
     bool atPrompt;
 
 public:
@@ -64,11 +64,11 @@ public:
     ~WindowsConsole() override;
 
     std::wstring
-    getInput(std::wstring prompt) override;
+    getInput(const std::wstring& prompt) override;
     std::wstring
-    getLine(std::wstring prompt) override;
+    getLine(const std::wstring& prompt) override;
     std::string
-    getLine(std::string prompt) override;
+    getLine(const std::string& prompt) override;
 
     /**
      *  Return the width of the current "terminal" in
@@ -82,25 +82,25 @@ public:
      *  Output the following text message.
      */
     void
-    outputMessage(std::string msg) override;
+    outputMessage(const std::string& msg) override;
     void
-    outputMessage(std::wstring msg) override;
+    outputMessage(const std::wstring& msg) override;
 
     /**
      *  Output the following error message.
      */
     void
-    errorMessage(std::string msg) override;
+    errorMessage(const std::string& msg) override;
     void
-    errorMessage(std::wstring msg) override;
+    errorMessage(const std::wstring& msg) override;
 
     /**
      *  Output the following warning message.
      */
     void
-    warningMessage(std::string msg) override;
+    warningMessage(const std::string& msg) override;
     void
-    warningMessage(std::wstring msg) override;
+    warningMessage(const std::wstring& msg) override;
 
     void
     clearTerminal() override;
@@ -109,7 +109,7 @@ public:
     hasHisOwnWindow();
 
     bool
-    setConsoleTitle(std::wstring title);
+    setConsoleTitle(const std::wstring& title);
     std::wstring
     getConsoleTitle();
 

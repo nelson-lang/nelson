@@ -38,7 +38,6 @@ StringVectorToString(wstringVector V, Dimensions& DimsV)
         if (V.size() == 1) {
             strArr = ArrayOf::characterArrayConstructor(V[0]);
         } else {
-            wstringVector L;
             size_t lenMax = 0;
             for (size_t k = 0; k < V.size(); k++) {
                 lenMax = std::max(lenMax, V[k].size());

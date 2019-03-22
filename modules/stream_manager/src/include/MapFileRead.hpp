@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSSTREAM_MANAGER_IMPEXP ArrayOf
-MapFileRead(std::wstring filename, std::wstring eol, std::wstring& errorMessage);
+MapFileRead(const std::wstring& filename, const std::wstring& eol, std::wstring& errorMessage);
 };
 //=============================================================================

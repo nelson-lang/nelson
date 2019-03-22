@@ -50,7 +50,7 @@ static boost::unordered_map<std::string, FuncPtr> cachedFunc;
 //=============================================================================
 Scope::Scope(std::string scopeName)
 {
-    name = scopeName;
+    name = std::move(scopeName);
     loopLevel = 0;
     cachedFunc.clear();
 }
@@ -76,7 +76,7 @@ Scope::deleteBuiltin(void* fptr)
 }
 //=============================================================================
 void
-Scope::deleteFunction(const std::string funcName)
+Scope::deleteFunction(const std::string& funcName)
 {
     cachedFunc.clear();
     BuiltInFunctionDefManager::getInstance()->remove(funcName);
@@ -174,7 +174,7 @@ Scope::inLoop()
 }
 //=============================================================================
 void
-Scope::addGlobalVariablePointer(std::string varName)
+Scope::addGlobalVariablePointer(const std::string& varName)
 {
     if (!isVariableGlobal(varName)) {
         globalVars.push_back(varName);
@@ -182,7 +182,7 @@ Scope::addGlobalVariablePointer(std::string varName)
 }
 //=============================================================================
 void
-Scope::deleteGlobalVariablePointer(std::string varName)
+Scope::deleteGlobalVariablePointer(const std::string& varName)
 {
     stringVector::iterator i = std::find(globalVars.begin(), globalVars.end(), varName);
     if (*i == varName) {
@@ -208,7 +208,7 @@ Scope::isVariableGlobal(const std::string& varName)
 }
 //=============================================================================
 void
-Scope::addPersistentVariablePointer(std::string varName)
+Scope::addPersistentVariablePointer(const std::string& varName)
 {
     if (!isVariablePersistent(varName)) {
         persistentVars.push_back(varName);
@@ -216,7 +216,7 @@ Scope::addPersistentVariablePointer(std::string varName)
 }
 //=============================================================================
 void
-Scope::deletePersistentVariablePointer(std::string varName)
+Scope::deletePersistentVariablePointer(const std::string& varName)
 {
     stringVector::iterator i = std::find(persistentVars.begin(), persistentVars.end(), varName);
     if (i != persistentVars.end()) {
@@ -242,13 +242,13 @@ Scope::isVariablePersistent(const std::string& varName)
 }
 //=============================================================================
 std::string
-Scope::getMangledName(std::string varName)
+Scope::getMangledName(const std::string& varName)
 {
     return (std::string("_") + name + std::string("_") + varName);
 }
 //=============================================================================
 bool
-Scope::deleteVariable(std::string var)
+Scope::deleteVariable(const std::string& var)
 {
     return variablesTab.deleteVariable(var);
 }
@@ -260,19 +260,19 @@ Scope::getLockedVariables()
 }
 //=============================================================================
 bool
-Scope::isLockedVariable(std::string varname)
+Scope::isLockedVariable(const std::string& varname)
 {
     return variablesTab.isLockedVariable(varname);
 }
 //=============================================================================
 bool
-Scope::lockVariable(std::string varname)
+Scope::lockVariable(const std::string& varname)
 {
     return variablesTab.lockVariable(varname);
 }
 //=============================================================================
 bool
-Scope::unlockVariable(std::string varname)
+Scope::unlockVariable(const std::string& varname)
 {
     return variablesTab.unlockVariable(varname);
 }
@@ -325,7 +325,7 @@ Scope::getNargOut()
 }
 //=============================================================================
 bool
-Scope::isVariable(std::string varname)
+Scope::isVariable(const std::string& varname)
 {
     return variablesTab.isVariable(varname);
 }

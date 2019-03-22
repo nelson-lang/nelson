@@ -34,11 +34,11 @@ public:
     AudioplayerObject();
     ~AudioplayerObject() override;
     bool
-    isWriteableProperty(std::wstring propertyName);
+    isWriteableProperty(const std::wstring& propertyName);
 
     // getter
     bool
-    get(std::wstring propertyName, ArrayOf& res);
+    get(const std::wstring& propertyName, ArrayOf& res);
     int
     getTotalSamples();
     bool
@@ -46,7 +46,7 @@ public:
 
     // setter
     bool
-    set(std::wstring propertyName, ArrayOf propertyValue, std::wstring& errorMessage);
+    set(const std::wstring& propertyName, ArrayOf propertyValue, std::wstring& errorMessage);
 
     // disp
     bool
@@ -54,9 +54,9 @@ public:
     wstringVector
     fieldnames();
     bool
-    isProperty(std::wstring propertyName) override;
+    isProperty(const std::wstring& propertyName) override;
     bool
-    isMethod(std::wstring methodName) override;
+    isMethod(const std::wstring& methodName) override;
 
     bool
     setSamples(ArrayOf data, int SampleRate, std::wstring& errorMessage);
@@ -98,7 +98,7 @@ private:
     bool
     setRunning(bool on);
     bool
-    setTag(std::wstring tag);
+    setTag(const std::wstring& tag);
     bool
     setUserData(Nelson::ArrayOf userData);
 

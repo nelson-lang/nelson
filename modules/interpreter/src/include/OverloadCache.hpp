@@ -28,7 +28,7 @@ namespace Overload {
     NLSINTERPRETER_IMPEXP std::string
     getPreviousCachedFunctionName(OverloadClass oclass);
     NLSINTERPRETER_IMPEXP void
-    setCachedFunction(OverloadClass oclass, std::string functionName, FunctionDef* funcptr);
+    setCachedFunction(OverloadClass oclass, const std::string& functionName, FunctionDef* funcptr);
     NLSINTERPRETER_IMPEXP FunctionDef*
     getPreviousCachedFunctionDefinition(OverloadClass oclass);
     NLSINTERPRETER_IMPEXP void

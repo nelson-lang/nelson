@@ -208,7 +208,7 @@ hoedown_autolink__www(
     }
     hoedown_buffer_put(link, data, link_end);
     *rewind_p = 0;
-    return (int)link_end;
+    return link_end;
 }
 
 size_t

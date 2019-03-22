@@ -70,5 +70,5 @@ private:
     static SioClientCommand* m_pInstance;
     static sio::socket::ptr _socket;
 };
-}
+} // namespace Nelson
 //=============================================================================

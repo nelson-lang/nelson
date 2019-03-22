@@ -38,7 +38,7 @@ public:
     FilesManager(Interface* io = nullptr);
     ~FilesManager();
     bool
-    isOpened(std::wstring filenameToSearch);
+    isOpened(const std::wstring& filenameToSearch);
     bool
     isOpened(int fileID);
     bool

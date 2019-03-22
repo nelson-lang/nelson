@@ -20,28 +20,28 @@
 #include <boost/thread/thread.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include "SioClientInterface.hpp"
-#include "characters_encoding.hpp"
 #include "SioClientCommand.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 SioClientInterface::SioClientInterface() { atPrompt = false; }
 //=============================================================================
-SioClientInterface::~SioClientInterface() {}
+SioClientInterface::~SioClientInterface() = default;
 //=============================================================================
 std::wstring
-SioClientInterface::getLine(std::wstring prompt)
+SioClientInterface::getLine(const std::wstring& prompt)
 {
     return getTextLine(prompt, false);
 }
 //=============================================================================
 std::string
-SioClientInterface::getLine(std::string prompt)
+SioClientInterface::getLine(const std::string& prompt)
 {
     return getTextLine(prompt, false);
 }
 //=============================================================================
 std::wstring
-SioClientInterface::getInput(std::wstring prompt)
+SioClientInterface::getInput(const std::wstring& prompt)
 {
     return getTextLine(prompt, true);
 }
@@ -53,7 +53,7 @@ SioClientInterface::getTerminalWidth()
 }
 //=============================================================================
 void
-SioClientInterface::outputMessage(std::wstring msg)
+SioClientInterface::outputMessage(const std::wstring& msg)
 {
     if (atPrompt) {
         outputMessage(wstring_to_utf8(msg) + std::string("\n"));
@@ -63,20 +63,20 @@ SioClientInterface::outputMessage(std::wstring msg)
 }
 //=============================================================================
 void
-SioClientInterface::outputMessage(std::string msg)
+SioClientInterface::outputMessage(const std::string& msg)
 {
     SioClientCommand::getInstance()->reply(msg);
     this->diary.writeMessage(msg);
 }
 //=============================================================================
 void
-SioClientInterface::errorMessage(std::wstring msg)
+SioClientInterface::errorMessage(const std::wstring& msg)
 {
     errorMessage(wstring_to_utf8(msg));
 }
 //=============================================================================
 void
-SioClientInterface::errorMessage(std::string msg)
+SioClientInterface::errorMessage(const std::string& msg)
 {
     std::string _msg = msg + "\n";
     if (atPrompt) {
@@ -88,17 +88,17 @@ SioClientInterface::errorMessage(std::string msg)
 }
 //=============================================================================
 void
-SioClientInterface::warningMessage(std::wstring msg)
+SioClientInterface::warningMessage(const std::wstring& msg)
 {
     warningMessage(wstring_to_utf8(msg));
 }
 //=============================================================================
 void
-SioClientInterface::warningMessage(std::string msg)
+SioClientInterface::warningMessage(const std::string& msg)
 {
     std::string _msg = msg + "\n";
     if (atPrompt) {
-        msg = "\n" + msg;
+        _msg = "\n" + _msg;
         atPrompt = false;
     }
     SioClientCommand::getInstance()->reply(_msg);
@@ -118,13 +118,13 @@ SioClientInterface::isAtPrompt()
 }
 //=============================================================================
 std::wstring
-SioClientInterface::getTextLine(std::wstring prompt, bool bIsInput)
+SioClientInterface::getTextLine(const std::wstring& prompt, bool bIsInput)
 {
     return utf8_to_wstring(getTextLine(wstring_to_utf8(prompt), bIsInput));
 }
 //=============================================================================
 std::string
-SioClientInterface::getTextLine(std::string prompt, bool bIsInput)
+SioClientInterface::getTextLine(const std::string& prompt, bool bIsInput)
 {
     std::string command;
     atPrompt = true;
@@ -149,5 +149,5 @@ SioClientInterface::getTextLine(std::string prompt, bool bIsInput)
     return command;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

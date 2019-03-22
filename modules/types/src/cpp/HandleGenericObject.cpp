@@ -21,7 +21,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-HandleGenericObject::HandleGenericObject(std::wstring _category, void* _ptr, bool isScoped)
+HandleGenericObject::HandleGenericObject(const std::wstring& _category, void* _ptr, bool isScoped)
 {
     if (_category.empty()) {
         Error(_W("handle must have a type."));

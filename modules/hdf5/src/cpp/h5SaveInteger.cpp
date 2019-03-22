@@ -41,7 +41,7 @@ h5SaveInteger(hid_t fid, const std::string& location, const std::string& variabl
     } else {
         h5path = location + "/" + variableName;
     }
-    h5LDeleteIfExists(fid, h5path.c_str());
+    h5LDeleteIfExists(fid, h5path);
 
     hid_t dspace_id = H5I_INVALID_HID;
     hid_t type_id = H5I_INVALID_HID;
@@ -99,7 +99,7 @@ h5SaveInteger(hid_t fid, const std::string& location, const std::string& variabl
     }
     delete[] dimsAsHsize_t;
     hid_t plist = setCompression(dimsValue, useCompression);
-    buffer = (void*)VariableValue.getDataPointer();
+    buffer = const_cast<void*>(VariableValue.getDataPointer());
     hid_t dataset_id
         = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
     herr_t status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
@@ -128,16 +128,16 @@ h5SaveIntegerEmptyMatrix(
     } else {
         h5path = location + "/" + variableName;
     }
-    h5LDeleteIfExists(fid, h5path.c_str());
+    h5LDeleteIfExists(fid, h5path);
 
-    int8 i8value = (int8)0;
-    uint8 ui8value = (uint8)0;
-    int16 i16value = (int16)0;
-    uint16 ui16value = (uint16)0;
-    int32 i32value = (int32)0;
-    uint32 ui32value = (uint32)0;
-    int64 i64value = (int64)0;
-    uint64 ui64value = (uint64)0;
+    int8 i8value = static_cast<int8>(0);
+    auto ui8value = static_cast<uint8>(0);
+    auto i16value = static_cast<int16>(0);
+    auto ui16value = static_cast<uint16>(0);
+    auto i32value = static_cast<int32>(0);
+    auto ui32value = static_cast<uint32>(0);
+    auto i64value = static_cast<int64>(0);
+    auto ui64value = static_cast<uint64>(0);
     void* ptr;
     hid_t type_id;
     switch (VariableValue.getDataClass()) {
@@ -213,5 +213,5 @@ h5SaveIntegerEmptyMatrix(
     return bSuccess;
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

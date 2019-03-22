@@ -154,15 +154,13 @@ ArrayOf::integerRangeConstructor(indexType minval, indexType stepsize, indexType
 #endif
     }
     if (minval > maxval) {
-        if (stepsize > 0) {
-            Cdim[0] = 1;
-            Cdim[1] = 0;
+        Cdim[0] = 1;
+        Cdim[1] = 0;
 #ifdef NLS_INDEX_TYPE_64
-            return ArrayOf(NLS_INT64, Cdim, nullptr, false);
+        return ArrayOf(NLS_INT64, Cdim, nullptr, false);
 #else
-            return ArrayOf(NLS_INT32, Cdim, nullptr, false);
+        return ArrayOf(NLS_INT32, Cdim, nullptr, false);
 #endif
-        }
     }
     auto dn = static_cast<double>((((maxval - minval) / stepsize) + 1));
 #ifdef NLS_INDEX_TYPE_64

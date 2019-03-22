@@ -216,7 +216,7 @@ QtTextEdit::insertCompletion(const QString& completion)
     QTextCursor tc = textCursor();
     QString completionPrefix = qCompleter->completionPrefix();
     std::wstring currentLineW = QStringTowstring(textUnderCursor());
-    std::wstring completionPrefixW = QStringTowstring(completionPrefix);
+    // std::wstring completionPrefixW = QStringTowstring(completionPrefix);
     std::wstring cleanedCompletionW = QStringTowstring(cleanedCompletion);
     std::wstring fileSearchedPattern = getPartialLineAsPath(currentLineW);
     std::wstring searchedPattern = getPartialLine(currentLineW);

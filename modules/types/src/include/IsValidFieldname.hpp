@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSTYPES_IMPEXP bool
-IsValidFieldname(std::string fieldname);
+IsValidFieldname(const std::string& fieldname);
 }
 //=============================================================================

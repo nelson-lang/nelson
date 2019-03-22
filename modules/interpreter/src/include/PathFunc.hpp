@@ -28,10 +28,10 @@ namespace Nelson {
 class PathFunc
 {
 public:
-    PathFunc(std::wstring path);
+    PathFunc(const std::wstring& path);
     ~PathFunc();
     wstringVector
-    getFunctionsName(std::wstring prefix = L"");
+    getFunctionsName(const std::wstring& prefix = L"");
     wstringVector
     getFunctionsFilename();
     std::wstring
@@ -39,9 +39,9 @@ public:
     void
     rehash();
     bool
-    findFuncName(std::wstring functionName, std::wstring& filename);
+    findFuncName(const std::wstring& functionName, std::wstring& filename);
     bool
-    findFuncName(std::wstring functionName, FileFunc** ff);
+    findFuncName(const std::wstring& functionName, FileFunc** ff);
     bool
     findFuncByHash(size_t hashid, std::wstring& functionName);
 
@@ -50,13 +50,13 @@ private:
     boost::unordered_map<std::wstring, FileFunc*> mapRecentFiles;
     std::wstring _path;
     bool
-    isSupportedFuncFilename(std::wstring name);
+    isSupportedFuncFilename(const std::wstring& name);
     std::wstring
-    uniformizePathName(std::wstring pathname);
+    uniformizePathName(const std::wstring& pathname);
     bool
-    comparePathname(std::wstring path1, std::wstring path2);
+    comparePathname(const std::wstring& path1, const std::wstring& path2);
     bool
-    isdir(std::wstring path);
+    isdir(const std::wstring& path);
 };
 } // namespace Nelson
 //=============================================================================

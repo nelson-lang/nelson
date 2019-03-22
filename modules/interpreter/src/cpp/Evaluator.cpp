@@ -369,6 +369,12 @@ Evaluator::EndReference(ArrayOf v, indexType index, size_t count)
     return res;
 }
 
+static bool
+approximatelyEqual(double a, double b, double epsilon)
+{
+    return fabs(a - b) <= ((fabs(a) < fabs(b) ? fabs(b) : fabs(a)) * epsilon);
+}
+
 ArrayOf
 Evaluator::expression(ASTPtr t)
 {
@@ -398,7 +404,7 @@ Evaluator::expression(ASTPtr t)
         boost::replace_all(t->text, "D", "e");
         boost::replace_all(t->text, "d", "e");
         double val = atof(t->text.c_str());
-        if (val == 0.) {
+        if (approximatelyEqual(val, 0, std::numeric_limits<double>::epsilon())) {
             retval = ArrayOf::doubleConstructor(0.);
         } else {
             retval = ArrayOf::dcomplexConstructor(0, val);
@@ -815,7 +821,7 @@ Evaluator::expressionList(ASTPtr t, ArrayOf subRoot)
 }
 
 ArrayOfVector
-Evaluator::subsindex(ArrayOfVector m)
+Evaluator::subsindex(const ArrayOfVector& m)
 {
     ArrayOfVector n;
     for (size_t k = 0; k < m.size(); k++) {
@@ -1792,8 +1798,6 @@ Evaluator::statement(ASTPtr t)
             statementType(t->down, false);
         } else if (t->opNum == (OP_RSTATEMENT)) {
             statementType(t->down, true && bEchoMode);
-        } else {
-            statementType(t->down, true && bEchoMode);
         }
         popID();
     } catch (const Exception&) {
@@ -2316,12 +2320,11 @@ Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
 }
 
 int
-getArgumentIndex(stringVector list, const std::string& t)
+getArgumentIndex(const stringVector& list, const std::string& t)
 {
     bool foundArg = false;
     std::string q;
-    uint32 i;
-    i = 0;
+    size_t i = 0;
     while (i < list.size() && !foundArg) {
         q = list[i];
         if (q[0] == '&') {
@@ -2333,7 +2336,7 @@ getArgumentIndex(stringVector list, const std::string& t)
         }
     }
     if (foundArg) {
-        return i;
+        return (int)i;
     } else {
         return -1;
     }
@@ -2769,7 +2772,7 @@ ArrayOfVector
 Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool outputOptional)
 {
     ArrayOfVector m, n;
-    ASTPtr s, q, p;
+    ASTPtr s = nullptr, q = nullptr, p = nullptr;
     stringVector keywords;
     ArrayOfVector keyvals;
     ASTPtrVector keyexpr;
@@ -2841,10 +2844,14 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                         int maxndx;
                         maxndx = 0;
                         // Map each keyword to an argument number
-                        for (size_t i = 0; i < (int)keywords.size(); ++i) {
+                        for (size_t i = 0; i < keywords.size(); ++i) {
                             int ndx;
                             ndx = getArgumentIndex(arguments, keywords[i]);
                             if (ndx == -1) {
+                                if (keywordNdx) {
+                                    delete[] keywordNdx;
+                                    keywordNdx = nullptr;
+                                }
                                 Error(utf8_to_wstring(_("out-of-order argument /") + keywords[i]
                                     + _(" is not defined in the called function!")));
                             }
@@ -2911,11 +2918,9 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                     if (isVar) {
                         if (r.isClassStruct()) {
                             s = t->down;
-                            if (s) {
-                                if (s->opNum == (OP_DOT)) {
-                                    s = s->down;
-                                    return scalarArrayOfToArrayOfVector(r.getField(s->text));
-                                }
+                            if (s->opNum == (OP_DOT)) {
+                                s = s->down;
+                                return scalarArrayOfToArrayOfVector(r.getField(s->text));
                             }
                         }
                     }
@@ -2957,6 +2962,14 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                             // C others ? C{}, C. ?
                             // we do currently nothing
                         } else {
+                            if (keywordNdx) {
+                                delete[] keywordNdx;
+                                keywordNdx = nullptr;
+                            }
+                            if (argTypeMap) {
+                                delete[] argTypeMap;
+                                argTypeMap = nullptr;
+                            }
                             // C
                             return scalarArrayOfToArrayOfVector(r);
                             /*
@@ -2975,6 +2988,14 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
             }
             InCLI = CLIFlagsave;
             if (state == NLS_STATE_ABORT) {
+                if (keywordNdx) {
+                    delete[] keywordNdx;
+                    keywordNdx = nullptr;
+                }
+                if (argTypeMap) {
+                    delete[] argTypeMap;
+                    argTypeMap = nullptr;
+                }
                 return n;
             }
             // Check for any pass by reference
@@ -3009,19 +3030,42 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                     if (args[0] == '&') {
                         args.erase(0, 1);
                         // This argument was passed by reference
-                        if (p == nullptr || !(p->type == non_terminal && p->opNum == OP_RHS)) {
+                        if (p == nullptr) {
+                            if (argTypeMap) {
+                                delete[] argTypeMap;
+                                argTypeMap = nullptr;
+                            }
                             Error(ERROR_MUST_HAVE_LVALUE);
+                            return ArrayOfVector();
+                        }
+                        if (!(p->type == non_terminal && p->opNum == OP_RHS)) {
+                            if (argTypeMap) {
+                                delete[] argTypeMap;
+                                argTypeMap = nullptr;
+                            }
+                            Error(ERROR_MUST_HAVE_LVALUE);
+                            return ArrayOfVector();
                         }
                         if (p->down->down == nullptr && p->down->type == id_node) {
                             bool bInserted = context->insertVariable(p->down->text, m[i]);
                             if (!bInserted) {
+                                if (argTypeMap) {
+                                    delete[] argTypeMap;
+                                    argTypeMap = nullptr;
+                                }
                                 Error(_W("Redefining permanent variable."));
+                                return ArrayOfVector();
                             }
                         } else {
                             ArrayOf c(assignExpression(p->down, m[i]));
                             bool bInserted = context->insertVariable(p->down->text, c);
                             if (!bInserted) {
+                                if (argTypeMap) {
+                                    delete[] argTypeMap;
+                                    argTypeMap = nullptr;
+                                }
                                 Error(_W("Redefining permanent variable."));
+                                return ArrayOfVector();
                             }
                         }
                     }
@@ -3034,16 +3078,19 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
         //	  narg_out = (int)n.size();
         /*
         while ((int)n.size() > narg_out)	n.pop_back();
-        */
         popID();
         return n;
+        */
     } catch (const Exception&) {
         InCLI = CLIFlagsave;
         throw;
     }
     popID();
-    delete[] keywordNdx;
-    delete[] argTypeMap;
+    if (keywordNdx)
+        delete[] keywordNdx;
+    if (argTypeMap)
+        delete[] argTypeMap;
+    return n;
 }
 
 int
@@ -3166,7 +3213,7 @@ Evaluator::getCallers(bool includeCurrent)
                 && (this->cstack[j].tokid != 0)) {
                 j++;
             }
-            std::string functionname = this->cstack[j - 1].detail.c_str();
+            std::string functionname = this->cstack[j - 1].detail;
             if (boost::algorithm::starts_with(functionname, "built-in ")) {
                 boost::algorithm::replace_all(functionname, "built-in ", "");
             } else {
@@ -3194,7 +3241,7 @@ Evaluator::getCallers(bool includeCurrent)
 }
 
 void
-Evaluator::pushDebug(std::string fname, std::string detail)
+Evaluator::pushDebug(const std::string& fname, const std::string& detail)
 {
     cstack.push_back(StackEntry(fname, detail, 0));
 }
@@ -3222,7 +3269,7 @@ Evaluator::getInterface()
 }
 
 bool
-Evaluator::lookupFunction(std::string funcName, FuncPtr& val)
+Evaluator::lookupFunction(const std::string& funcName, FuncPtr& val)
 {
     return context->lookupFunction(funcName, val);
 }
@@ -3664,6 +3711,7 @@ Evaluator::Evaluator(Context* aContext, Interface* aInterface, int _engineMode)
     clearStacks();
     cstack.reserve(4096);
     commandLineArguments.clear();
+    lineNumber = 0;
 }
 //=============================================================================
 Evaluator::~Evaluator()
@@ -4005,7 +4053,7 @@ Evaluator::evalCLI()
                     commandLine = io->getLine(L"");
                     if (commandLine == L"\n" || commandLine.empty()) {
                         if (NelsonConfiguration::getInstance()->getInterruptPending()) {
-                            commandLine = L"";
+                            commandLine.clear();
                             return;
                         }
                         enoughInput = true;
@@ -4023,7 +4071,7 @@ Evaluator::evalCLI()
                         }
                     }
                 }
-                commandLine = lines;
+                commandLine = std::move(lines);
             }
         } catch (Exception& e) {
             e.printMe(io);
@@ -4060,7 +4108,7 @@ Evaluator::getNelsonEngineMode()
 void
 Evaluator::setCommandLineArguments(wstringVector args)
 {
-    this->commandLineArguments = args;
+    this->commandLineArguments = std::move(args);
 }
 //=============================================================================
 wstringVector
@@ -4094,7 +4142,7 @@ Evaluator::setQuietMode(bool _quiet)
 }
 //=============================================================================
 void
-Evaluator::setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue)
+Evaluator::setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& fieldvalue)
 {
     if (fieldvalue.size() != 1) {
         Error(_W("Right hand values must satisfy left hand side expression."));
@@ -4119,7 +4167,7 @@ Evaluator::setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue)
 }
 //=============================================================================
 ArrayOfVector
-Evaluator::getHandle(ArrayOf r, std::string fieldname, ArrayOfVector params)
+Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& params)
 {
     ArrayOfVector argIn;
     std::wstring currentType = r.getHandleCategory();
@@ -4175,7 +4223,7 @@ Evaluator::countSubExpressions(ASTPtr t)
 //=============================================================================
 ArrayOf
 Evaluator::doBinaryOperatorOverload(
-    ASTPtr t, BinaryFunction functionOperator, std::string functionName)
+    ASTPtr t, BinaryFunction functionOperator, const std::string& functionName)
 {
     ArrayOf A(expression(t->down));
     ArrayOf B(expression(t->down->right));
@@ -4184,7 +4232,7 @@ Evaluator::doBinaryOperatorOverload(
 //=============================================================================
 ArrayOf
 Evaluator::doBinaryOperatorOverload(
-    ArrayOf& A, ArrayOf& B, BinaryFunction functionOperator, std::string functionName)
+    ArrayOf& A, ArrayOf& B, BinaryFunction functionOperator, const std::string& functionName)
 {
     ArrayOf res;
     bool bSuccess = false;

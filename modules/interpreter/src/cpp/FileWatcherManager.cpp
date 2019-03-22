@@ -82,7 +82,11 @@ public:
 //=============================================================================
 FileWatcherManager* FileWatcherManager::m_pInstance = nullptr;
 //=============================================================================
-FileWatcherManager::FileWatcherManager() { fileWatcher = (void*)new FW::FileWatcher(); }
+FileWatcherManager::FileWatcherManager()
+{
+    FW::FileWatcher* tmp = new FW::FileWatcher();
+    fileWatcher = (void*)tmp;
+}
 //=============================================================================
 void
 FileWatcherManager::release()

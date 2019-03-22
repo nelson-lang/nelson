@@ -1283,7 +1283,7 @@ static size_t char_link(hoedown_buffer *ob, hoedown_document *doc,
   }
   /* cleanup */
 cleanup:
-  doc->work_bufs[BUFFER_SPAN].size = (int)org_work_size;
+  doc->work_bufs[BUFFER_SPAN].size = org_work_size;
   return ret ? i : 0;
 }
 

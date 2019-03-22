@@ -32,5 +32,5 @@ bool
 h5SaveCharacterArray(hid_t fid, const std::string& location, const std::string& variableName,
     ArrayOf VariableValue, bool useCompression);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

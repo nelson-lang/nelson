@@ -68,7 +68,7 @@ h5SaveDoubleEmptyMatrix(
     } else {
         h5path = location + "/" + variableName;
     }
-    h5LDeleteIfExists(fid, h5path.c_str());
+    h5LDeleteIfExists(fid, h5path);
 
     double value = 0;
     hid_t type_id = H5Tcopy(H5T_NATIVE_DOUBLE);
@@ -153,7 +153,7 @@ h5SaveDoubleMatrix(hid_t fid, const std::string& location, const std::string& va
     }
     delete[] dimsAsHsize_t;
 
-    void* buffer = (void*)VariableValue.getDataPointer();
+    void* buffer = const_cast<void*>(VariableValue.getDataPointer());
     if (VariableValue.isComplex()) {
         typedef struct complex_type
         {
@@ -211,7 +211,7 @@ h5SaveSparseDoubleMatrix(hid_t fid, const std::string& location, const std::stri
     } else {
         h5path = location + "/" + variableName;
     }
-    h5LDeleteIfExists(fid, h5path.c_str());
+    h5LDeleteIfExists(fid, h5path);
 
     Dimensions dims = VariableValue.getDimensions();
     Eigen::SparseMatrix<double, 0, signedIndexType>* spmat
@@ -306,5 +306,5 @@ h5SaveSparseDoubleMatrix(hid_t fid, const std::string& location, const std::stri
     return bSuccess;
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

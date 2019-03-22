@@ -23,7 +23,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-IsValidVariableName(std::string varname)
+IsValidVariableName(const std::string& varname)
 {
     if (varname.empty()) {
         return false;
@@ -43,7 +43,7 @@ IsValidVariableName(std::string varname)
 }
 //=============================================================================
 bool
-IsValidVariableName(std::wstring varname)
+IsValidVariableName(const std::wstring& varname)
 {
     return IsValidVariableName(wstring_to_utf8(varname));
 }

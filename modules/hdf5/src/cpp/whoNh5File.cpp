@@ -85,9 +85,7 @@ whoNh5File(Interface* io, const std::wstring& filename, wstringVector names, boo
         if (variablesNamesToRead.size()) {
             size_t ncharmax = io->getTerminalWidth();
             size_t nbchar = 0;
-            if (!variablesNamesToRead.empty()) {
-                io->outputMessage(_W("Your variables are:") + L"\n\n");
-            }
+            io->outputMessage(_W("Your variables are:") + L"\n\n");
             for (auto& k : variablesNamesToRead) {
                 if (nbchar + k.size() < ncharmax) {
                     io->outputMessage(k);
@@ -101,9 +99,7 @@ whoNh5File(Interface* io, const std::wstring& filename, wstringVector names, boo
                     nbchar = 1 + nbchar + k.size();
                 }
             }
-            if (!variablesNamesToRead.empty()) {
-                io->outputMessage("\n");
-            }
+            io->outputMessage("\n");
         }
     }
     return res;

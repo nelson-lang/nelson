@@ -40,7 +40,7 @@ getSupportedCommentSymbols(wstringVector& comments)
 }
 //=============================================================================
 bool
-isCommentedLine(std::string line)
+isCommentedLine(const std::string& line)
 {
     stringVector comments;
     getSupportedCommentSymbols(comments);
@@ -54,7 +54,7 @@ isCommentedLine(std::string line)
 }
 //=============================================================================
 bool
-isCommentedLine(std::wstring line)
+isCommentedLine(const std::wstring& line)
 {
     wstringVector comments;
     getSupportedCommentSymbols(comments);

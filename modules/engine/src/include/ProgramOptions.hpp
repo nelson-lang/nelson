@@ -26,8 +26,8 @@ namespace Nelson {
 class Option
 {
 public:
-    Option(std::wstring fullOption, std::wstring shortOption, std::wstring description,
-        bool bMultiple, bool bWithFieldValue);
+    Option(const std::wstring& fullOption, const std::wstring& shortOption,
+        const std::wstring& description, bool bMultiple, bool bWithFieldValue);
     ~Option();
     std::wstring
     getFullOption();

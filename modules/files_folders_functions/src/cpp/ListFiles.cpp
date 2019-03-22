@@ -116,8 +116,8 @@ boost::container::vector<FileInfo>
 ListFiles(const std::wstring& directory, bool bSubdirectories)
 {
     boost::container::vector<FileInfo> res;
-    std::size_t foundstar = directory.find_first_of(L"*");
-    std::size_t foundInterrogationMark = directory.find_first_of(L"?");
+    std::size_t foundstar = directory.find_first_of(L'*');
+    std::size_t foundInterrogationMark = directory.find_first_of(L'?');
     bool bWithWildCard
         = (foundstar != std::string::npos) || (foundInterrogationMark != std::string::npos);
     if (bWithWildCard || directory == L".") {

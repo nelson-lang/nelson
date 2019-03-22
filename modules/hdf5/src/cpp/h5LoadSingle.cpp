@@ -105,5 +105,5 @@ h5LoadSingle(hid_t fid, const std::string& location, const std::string& variable
     return bSuccess;
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

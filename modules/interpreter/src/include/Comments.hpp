@@ -28,8 +28,8 @@ getSupportedCommentSymbols(stringVector& comments);
 NLSINTERPRETER_IMPEXP void
 getSupportedCommentSymbols(wstringVector& comments);
 NLSINTERPRETER_IMPEXP bool
-isCommentedLine(std::string line);
+isCommentedLine(const std::string& line);
 NLSINTERPRETER_IMPEXP bool
-isCommentedLine(std::wstring line);
+isCommentedLine(const std::wstring& line);
 } // namespace Nelson
 //=============================================================================

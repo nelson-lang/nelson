@@ -138,7 +138,7 @@ Localization::setLanguageEnvironment(const std::wstring lang)
         std::wstring localesPath = getNelsonPathDynamic() + L"/locale/";
         boost::locale::generator gen;
         try {
-            gen.add_messages_path(wstring_to_utf8(localesPath).c_str());
+            gen.add_messages_path(wstring_to_utf8(localesPath));
             gen.add_messages_domain("nelson");
             std::string effectiveLang = wstring_to_utf8(lang);
             const std::string langDesired = effectiveLang + std::string(".UTF-8");

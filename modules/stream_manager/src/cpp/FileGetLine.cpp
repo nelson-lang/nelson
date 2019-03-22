@@ -44,18 +44,18 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
                     readline += buffer;
                     if (readline.length() > 0) {
                         int sizeRemove = 1;
-                        size_t index = readline.find("\r");
+                        size_t index = readline.find('\r');
                         if (index != std::string::npos) {
                             if (readline.length() > index + 1 && readline[index + 1] == '\n') {
                                 sizeRemove = 2;
                             } else {
-                                size_t temp = readline.find("\n");
+                                size_t temp = readline.find('\n');
                                 if (temp != std::string::npos && temp < index) {
                                     index = temp;
                                 }
                             }
                         } else {
-                            index = readline.find("\n");
+                            index = readline.find('\n');
                         }
                         if (index == std::string::npos) {
                             if (!feof(fileptr)) {

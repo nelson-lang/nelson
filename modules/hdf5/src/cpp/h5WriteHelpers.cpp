@@ -22,17 +22,17 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static single single_scalar = (single)0;
-static double double_scalar = (double)0;
-static int8 int8_scalar = (int8)0;
-static int16 int16_scalar = (int16)0;
-static int32 int32_scalar = (int32)0;
-static int64 int64_scalar = (int64)0;
-static uint8 uint8_scalar = (uint8)0;
-static uint16 uint16_scalar = (uint16)0;
-static uint32 uint32_scalar = (uint32)0;
-static uint64 uint64_scalar = (uint64)0;
-static std::string string_utf8 = "";
+static single single_scalar = static_cast<single>(0);
+static double double_scalar = static_cast<double>(0);
+static int8 int8_scalar = static_cast<int8>(0);
+static int16 int16_scalar = static_cast<int16>(0);
+static int32 int32_scalar = static_cast<int32>(0);
+static int64 int64_scalar = static_cast<int64>(0);
+static uint8 uint8_scalar = static_cast<uint8>(0);
+static uint16 uint16_scalar = static_cast<uint16>(0);
+static uint32 uint32_scalar = static_cast<uint32>(0);
+static uint64 uint64_scalar = static_cast<uint64>(0);
+static std::string string_utf8;
 //=============================================================================
 void*
 h5WriteNelsonToHdf5(ArrayOf& data, hid_t& type_id, hid_t& dspace_id, std::wstring& error)
@@ -197,11 +197,11 @@ h5WriteNelsonToHdf5(ArrayOf& data, hid_t& type_id, hid_t& dspace_id, std::wstrin
                     = H5Screate_simple((int)dimsValue.getLength(), dimsAsHsize_t, dimsAsHsize_t);
             }
             delete[] dimsAsHsize_t;
-            buffer = (void*)data.getDataPointer();
+            buffer = const_cast<void*>(data.getDataPointer());
         }
     }
     return buffer;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

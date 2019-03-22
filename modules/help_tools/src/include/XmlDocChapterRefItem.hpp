@@ -32,7 +32,7 @@ private:
     std::wstring _linkurl;
 
 public:
-    XmlDocChapterRefItem(std::wstring linkname, std::wstring linkurl, std::wstring description);
+    XmlDocChapterRefItem(const std::wstring &linkname, const std::wstring &linkurl, const std::wstring &description);
     ~XmlDocChapterRefItem();
     std::wstring
     getItemType();

@@ -30,22 +30,22 @@ namespace Overload {
     static FunctionDef* cachedFunctionPointerTernary;
     //=============================================================================
     void
-    setCachedFunction(OverloadClass oclass, std::string functionName, FunctionDef* funcptr)
+    setCachedFunction(OverloadClass oclass, const std::string& functionName, FunctionDef* funcptr)
     {
         switch (oclass) {
         case UNARY:
-            cachedFunctionNameUnary = functionName;
+            cachedFunctionNameUnary = std::move(functionName);
             cachedFunctionPointerUnary = funcptr;
             break;
         case BINARY:
-            cachedFunctionNameBinary = functionName;
+            cachedFunctionNameBinary = std::move(functionName);
             cachedFunctionPointerBinary = funcptr;
             break;
         case TERNARY:
-            cachedFunctionNameTernary = functionName;
+            cachedFunctionNameTernary = std::move(functionName);
             cachedFunctionPointerTernary = funcptr;
             break;
-        }
+        default: { } break; }
     }
     //=============================================================================
     std::string
@@ -58,7 +58,7 @@ namespace Overload {
             return cachedFunctionNameBinary;
         case TERNARY:
             return cachedFunctionNameTernary;
-        }
+        default: { } break; }
         return "";
     }
     //=============================================================================
@@ -72,7 +72,7 @@ namespace Overload {
             return cachedFunctionPointerBinary;
         case TERNARY:
             return cachedFunctionPointerTernary;
-        }
+        default: { } break; }
         return nullptr;
     }
     //=============================================================================

@@ -79,7 +79,7 @@ safegetline(std::ifstream& os, std::string& line)
 }
 //=============================================================================
 static bool
-isDir(std::wstring dirname)
+isDir(const std::wstring &dirname)
 {
     boost::filesystem::path pathIn(dirname);
     bool IsDirIn = false;
@@ -94,8 +94,8 @@ isDir(std::wstring dirname)
     return IsDirIn;
 }
 //=============================================================================
-XmlDocDocument::XmlDocDocument(std::wstring srcfilename, std::wstring sectionname,
-    std::wstring destfilename, bool bOverwriteExistingFile, DOCUMENT_OUTPUT outputTarget)
+XmlDocDocument::XmlDocDocument(const std::wstring &srcfilename, const std::wstring &sectionname,
+    const std::wstring &destfilename, bool bOverwriteExistingFile, DOCUMENT_OUTPUT outputTarget)
 {
     this->outputTarget = outputTarget;
     this->xmlfilename = srcfilename;
@@ -136,7 +136,7 @@ XmlDocDocument::XmlDocDocument(std::wstring srcfilename, std::wstring sectionnam
 }
 //=============================================================================
 XmlDocDocument::XmlDocDocument(boost::container::vector<XmlDocGenericItem*> items,
-    std::wstring srcfilename, std::wstring destfilename, bool bOverwriteExistingFile,
+    const std::wstring &srcfilename, const std::wstring &destfilename, bool bOverwriteExistingFile,
     DOCUMENT_OUTPUT outputTarget)
 {
     this->outputTarget = outputTarget;
@@ -369,7 +369,7 @@ XmlDocDocument::getFilename()
 }
 //=============================================================================
 size_t
-XmlDocDocument::count(std::string tag)
+XmlDocDocument::count(const std::string &tag)
 {
     size_t nbref = 0;
     for (size_t k = 0; k < this->items.size(); k++) {
@@ -436,17 +436,21 @@ XmlDocDocument::readFile()
         currentNode = currentNode->next;
     }
     if (nbXmlDocTag == 0) {
-        xmlFreeDoc(doc);
-        this->errorMessage.push_back(_W("line ") + std::to_wstring(currentNode->line) + _W(": ")
-            + utf8_to_wstring(XMLDOC_TAG) + L" " + _W("missing."));
+        if (currentNode) {
+            this->errorMessage.push_back(utf8_to_wstring(XMLDOC_TAG) + L" " + _W("missing."));
+        } else {
+            this->errorMessage.push_back(_W("line ") + std::to_wstring(currentNode->line) + _W(": ")
+                + utf8_to_wstring(XMLDOC_TAG) + L" " + _W("missing."));
+		}
         this->bReadOk = false;
+        xmlFreeDoc(doc);
         return false;
     }
     if (nbXmlDocTag > 1) {
-        xmlFreeDoc(doc);
         this->errorMessage.push_back(_W("line ") + std::to_wstring(currentNode->line) + _W(": ")
             + utf8_to_wstring(XMLDOC_TAG) + L" " + _W("duplicated."));
         this->bReadOk = false;
+        xmlFreeDoc(doc);
         return false;
     }
     currentNode = xmlDocNode;
@@ -567,7 +571,7 @@ XmlDocDocument::isTitleDocument()
 }
 //=============================================================================
 XmlDocGenericItem*
-XmlDocDocument::findfirst(std::string tag)
+XmlDocDocument::findfirst(const std::string &tag)
 {
     if (count(tag) > 0) {
         for (size_t k = 0; k < this->items.size(); k++) {
@@ -670,7 +674,7 @@ XmlDocDocument::haveExample()
 }
 //=============================================================================
 enum XMLDOC_ITEMS_ID
-XmlDocDocument::stringTagToId(std::string tag)
+XmlDocDocument::stringTagToId(const std::string &tag)
 {
     if (tag == XML_COMMENT_TAG) {
         return XMLDOC_ITEMS_ID::XML_COMMENT_TAG_ID;
@@ -1464,9 +1468,13 @@ XmlDocDocument::readFileCaseHistory(xmlDocPtr doc, xmlNodePtr node)
                     historyItems = nullptr;
                 }
                 xmlFreeDoc(doc);
-                this->errorMessage.push_back(_W("line ") + std::to_wstring(currentItemNode->line)
-                    + _W(": ") + utf8_to_wstring(HISTORY_ITEM_DESCRIPTION_TAG) + L" "
-                    + _W("missing."));
+                if (currentItemNode) {
+                    this->errorMessage.push_back(_W("line ")
+                        + std::to_wstring(currentItemNode->line) + _W(": ")
+                        + utf8_to_wstring(HISTORY_ITEM_DESCRIPTION_TAG) + L" " + _W("missing."));
+                } else {
+                    this->errorMessage.push_back(utf8_to_wstring(HISTORY_ITEM_DESCRIPTION_TAG) + L" " + _W("missing."));
+                }
                 this->bReadOk = false;
                 return false;
             }
@@ -2057,10 +2065,16 @@ XmlDocDocument::readFileCaseExamples(xmlDocPtr doc, xmlNodePtr node)
                     delete examplesItems;
                     examplesItems = nullptr;
                 }
-                xmlFreeDoc(doc);
-                this->errorMessage.push_back(_W("line ") + std::to_wstring(currentItemNode->line)
-                    + _W(": ") + utf8_to_wstring(EXAMPLE_ITEM_TYPE_TAG) + L" " + _W("missing."));
+                if (currentItemNode) {
+                    this->errorMessage.push_back(_W("line ")
+                        + std::to_wstring(currentItemNode->line) + _W(": ")
+                        + utf8_to_wstring(EXAMPLE_ITEM_TYPE_TAG) + L" " + _W("missing."));
+				}else {
+                    this->errorMessage.push_back(utf8_to_wstring(EXAMPLE_ITEM_TYPE_TAG) + L" " + _W("missing."));
+				}
+                
                 this->bReadOk = false;
+                xmlFreeDoc(doc);
                 return false;
             }
             if (nbdescriptiontag == 0) {
@@ -2383,6 +2397,9 @@ XmlDocDocument::readFileCaseLink(
 {
     name = L"";
     url = L"";
+    if (node == nullptr){
+		return false;
+	}
     xmlNodePtr linkItemNode = node->children;
     if (node->properties) {
         std::string strlinkend;
@@ -2390,8 +2407,12 @@ XmlDocDocument::readFileCaseLink(
             strlinkend = std::string((char*)node->properties->name);
         } else {
             xmlFreeDoc(doc);
-            this->errorMessage.push_back(_W("line ") + std::to_wstring(node->line) + _W(": ")
-                + utf8_to_wstring(XML_LINK_TAG) + L" " + _W("has no property."));
+            if (node) {
+                this->errorMessage.push_back(_W("line ") + std::to_wstring(node->line) + _W(": ")
+                    + utf8_to_wstring(XML_LINK_TAG) + L" " + _W("has no property."));
+            } else {
+                this->errorMessage.push_back(utf8_to_wstring(XML_LINK_TAG) + L" " + _W("has no property."));
+			}
             this->bReadOk = false;
             return false;
         }
@@ -2411,8 +2432,13 @@ XmlDocDocument::readFileCaseLink(
                 }
                 url = utf8_to_wstring(val);
             } else {
-                this->errorMessage.push_back(_W("line ") + std::to_wstring(linkendItemNode->line)
-                    + _W(": ") + utf8_to_wstring(XML_LINKEND_TAG) + L" " + _W("has no property."));
+                if (linkendItemNode){
+                    this->errorMessage.push_back(_W("line ")
+                        + std::to_wstring(linkendItemNode->line) + _W(": ")
+                        + utf8_to_wstring(XML_LINKEND_TAG) + L" " + _W("has no property."));
+				} else {
+                    this->errorMessage.push_back(utf8_to_wstring(XML_LINKEND_TAG) + L" " + _W("has no property."));
+				}
                 xmlFreeDoc(doc);
                 this->bReadOk = false;
                 return false;
@@ -2507,7 +2533,7 @@ XmlDocDocument::readFileCaseModuleName(xmlDocPtr doc, xmlNodePtr node)
 }
 //=============================================================================
 void
-XmlDocDocument::setDestinationFile(std::wstring _filenameDestination)
+XmlDocDocument::setDestinationFile(const std::wstring &_filenameDestination)
 {
     this->filenameDestination = _filenameDestination;
     this->directoryDestination = L"./";
@@ -2515,7 +2541,7 @@ XmlDocDocument::setDestinationFile(std::wstring _filenameDestination)
     if (pathToSplit.has_parent_path()) {
         this->directoryDestination = pathToSplit.parent_path().generic_wstring();
         if (this->directoryDestination[this->directoryDestination.size() - 1] != '/'
-            || this->directoryDestination[this->directoryDestination.size() - 1] != '\\') {
+            && this->directoryDestination[this->directoryDestination.size() - 1] != '\\') {
             this->directoryDestination.push_back('/');
         }
     }
@@ -2632,21 +2658,21 @@ XmlDocDocument::writeAsHtml()
 }
 //=============================================================================
 void
-XmlDocDocument::setPreviousPageLink(std::wstring linkname, std::wstring linkurl)
+XmlDocDocument::setPreviousPageLink(const std::wstring &linkname, const std::wstring &linkurl)
 {
     this->previousLinkName = linkname;
     this->previousLinkUrl = linkurl;
 }
 //=============================================================================
 void
-XmlDocDocument::setNextPageLink(std::wstring linkname, std::wstring linkurl)
+XmlDocDocument::setNextPageLink(const std::wstring &linkname, const std::wstring &linkurl)
 {
     this->nextLinkName = linkname;
     this->nextLinkUrl = linkurl;
 }
 //=============================================================================
 void
-XmlDocDocument::setIndexPageLink(std::wstring linkname, std::wstring linkurl)
+XmlDocDocument::setIndexPageLink(const std::wstring &linkname, const std::wstring &linkurl)
 {
     this->indexLinkName = linkname;
     this->indexLinkUrl = linkurl;

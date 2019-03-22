@@ -36,7 +36,7 @@ XmlDocSeeAlso::~XmlDocSeeAlso()
 }
 //=============================================================================
 void
-XmlDocSeeAlso::append(std::wstring name, std::wstring link)
+XmlDocSeeAlso::append(const std::wstring &name, const std::wstring &link)
 {
     XmlDocSeeAlsoItem* item = nullptr;
     try {

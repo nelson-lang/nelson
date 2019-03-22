@@ -52,7 +52,7 @@ Nelson::Hdf5Gateway::h5createBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     if (param3.isEmpty()) {
         Error("row vector expected.");
     }
-    double* sizePtr = (double*)param3.getDataPointer();
+    auto* sizePtr = (double*)param3.getDataPointer();
     boost::container::vector<double> sizeData;
     indexType nbElements = param3.getDimensions().getElementCount();
     sizeData.reserve(nbElements);

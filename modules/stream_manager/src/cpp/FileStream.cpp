@@ -22,7 +22,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-FileStream::FileStream(const std::wstring filename, const std::wstring accessmode)
+FileStream::FileStream(const std::wstring& filename, const std::wstring& accessmode)
 {
 #ifdef _MSC_VER
     fp = _wfopen(filename.c_str(), accessmode.c_str());

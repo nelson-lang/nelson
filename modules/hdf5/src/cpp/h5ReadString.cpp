@@ -58,12 +58,11 @@ h5ReadStringVlen(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, int 
         status = H5Dread(attr_id, memtype, H5S_ALL, H5S_ALL, H5P_DEFAULT, temp);
     }
     if (status < 0) {
-        if (elements) {
-            delete[] elements;
-        }
-        if (temp) {
-            delete[] temp;
-        }
+
+        delete[] elements;
+
+        delete[] temp;
+
         if (asAttribute) {
             error = _W("Cannot read attribute.");
         } else {
@@ -74,13 +73,16 @@ h5ReadStringVlen(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, int 
     }
     indexType pos = 0;
     for (indexType k = 0; k < dims.getElementCount(); k++) {
-        std::string str = temp[k];
+        std::string str;
+        if (temp != nullptr) {
+            str = temp[k];
+        }
         elements[k] = ArrayOf::characterArrayConstructor(str);
     }
     herr_t err = H5Dvlen_reclaim(type, aspace, H5P_DEFAULT, temp);
-    if (temp) {
-        delete[] temp;
-    }
+
+    delete[] temp;
+
     H5Tclose(memtype);
     res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
     return res;
@@ -117,9 +119,9 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, 
     try {
         temp = new_with_exception<char>((size_t((sizeType + 1) * nbElements)), true);
     } catch (Exception& e) {
-        if (elements) {
-            delete[] elements;
-        }
+
+        delete[] elements;
+
         error = e.getMessage();
         return res;
     }
@@ -133,12 +135,11 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, 
         status = H5Dread(attr_id, memtype, H5S_ALL, H5S_ALL, H5P_DEFAULT, temp);
     }
     if (status < 0) {
-        if (elements) {
-            delete[] elements;
-        }
-        if (temp) {
-            delete[] temp;
-        }
+
+        delete[] elements;
+
+        delete[] temp;
+
         if (asAttribute) {
             error = _W("Cannot read attribute.");
         } else {

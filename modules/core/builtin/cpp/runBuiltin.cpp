@@ -98,7 +98,6 @@ runBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         bSuccess = EvaluateScriptFile(eval, wpath.c_str(), bChangeDir);
     } catch (Exception& e) {
         eval->setLastErrorException(e);
-        std::string fname = wstring_to_utf8(wpath);
         if (bErrorCatch) {
             bSuccess = false;
         } else {
@@ -153,7 +152,6 @@ runBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         bSuccess = EvaluateScriptFile(eval, wpath.c_str(), bChangeDir);
     } catch (Exception& e) {
         eval->setLastErrorException(e);
-        std::string fname = wstring_to_utf8(wpath);
         if (bErrorCatch) {
             bSuccess = false;
         } else {

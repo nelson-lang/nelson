@@ -24,14 +24,14 @@
 namespace Nelson {
 //=============================================================================
 std::string
-MakeValidFieldname(std::string fieldname, std::string defaultPrefix)
+MakeValidFieldname(const std::string& fieldname, const std::string& defaultPrefix)
 {
     return wstring_to_utf8(
         MakeValidFieldname(utf8_to_wstring(fieldname), utf8_to_wstring(defaultPrefix)));
 }
 //=============================================================================
 std::wstring
-MakeValidFieldname(std::wstring fieldname, std::wstring defaultPrefix)
+MakeValidFieldname(const std::wstring& fieldname, const std::wstring& defaultPrefix)
 {
     if (fieldname.empty()) {
         return defaultPrefix;

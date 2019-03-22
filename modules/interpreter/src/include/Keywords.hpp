@@ -26,7 +26,7 @@ namespace Nelson {
 NLSINTERPRETER_IMPEXP wstringVector
 GetKeywords(bool bSorted = false);
 NLSINTERPRETER_IMPEXP bool
-isKeyword(std::wstring key);
+isKeyword(const std::wstring& key);
 
 const unsigned int IDENTIFIER_LENGTH_MAX = 4096;
 

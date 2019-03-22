@@ -62,7 +62,7 @@ GetKeywords(bool bSorted)
 }
 //=============================================================================
 bool
-isKeyword(std::wstring key)
+isKeyword(const std::wstring& key)
 {
     std::string _key = wstring_to_utf8(key);
     for (auto& k : keyWord) {

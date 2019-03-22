@@ -29,7 +29,7 @@ bool
 StartNelsonUserScript(Evaluator* eval)
 {
     Context* ctx = eval->getContext();
-    if (ctx) {
+    if (ctx != nullptr) {
         std::wstring prefPath = GetPreferencesPath();
         boost::filesystem::path path(prefPath);
         path += L"/startup.nls";
@@ -44,11 +44,11 @@ StartNelsonUserScript(Evaluator* eval)
                 Interface* io = eval->getInterface();
                 eval->setLastErrorException(e);
                 std::wstring errmsg = _W("User startup.nls failed to run.");
-                if (io) {
+                if (io != nullptr) {
                     io->errorMessage(errmsg);
                 } else {
                     errmsg = errmsg + L"\n";
-                    fwprintf(stderr, errmsg.c_str());
+                    fwprintf(stderr, L"%s", errmsg.c_str());
                 }
             }
             return true;

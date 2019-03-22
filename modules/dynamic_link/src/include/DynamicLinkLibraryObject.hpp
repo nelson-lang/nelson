@@ -31,7 +31,7 @@ namespace Nelson {
 class NLSDYNAMIC_LINK_IMPEXP DynamicLinkLibraryObject : public HandleGenericObject
 {
 public:
-    DynamicLinkLibraryObject(std::wstring libraryPath);
+    DynamicLinkLibraryObject(const std::wstring& libraryPath);
     ~DynamicLinkLibraryObject() override;
 
     bool
@@ -39,24 +39,24 @@ public:
     stringVector
     getAvailableSymbols();
     void*
-    getFunctionPointer(std::string symbolName);
+    getFunctionPointer(const std::string& symbolName);
     bool
-    get(std::wstring propertyName, ArrayOf& res);
+    get(const std::wstring& propertyName, ArrayOf& res);
     bool
-    isWriteableProperty(std::wstring propertyName);
+    isWriteableProperty(const std::wstring& propertyName);
     wstringVector
     fieldnames();
     bool
-    isProperty(std::wstring propertyName) override;
+    isProperty(const std::wstring& propertyName) override;
     bool
-    isMethod(std::wstring methodName) override;
+    isMethod(const std::wstring& methodName) override;
 
 private:
     wstringVector _propertiesNames;
     boost::dll::shared_library _shared_library;
     std::wstring _libraryPath;
     bool
-    searchLibrary(std::wstring libraryPath, std::wstring& fullLibraryPath);
+    searchLibrary(const std::wstring& libraryPath, std::wstring& fullLibraryPath);
     wstringVector
     getEnvironmentPaths(const std::wstring& environPath);
     bool

@@ -39,7 +39,7 @@ private:
     std::wstring sectionUpUrl;
 
 public:
-    XmlDocDirectory(std::wstring srcDirectory, std::wstring dstDirectory,
+    XmlDocDirectory(const std::wstring &srcDirectory, const std::wstring &dstDirectory,
         bool bOverwriteExistingFiles = false, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
     ~XmlDocDirectory();
     bool
@@ -57,7 +57,7 @@ public:
     std::wstring
     getModuleName();
     void
-    setUpSection(std::wstring sectionName, std::wstring sectionUrl);
+    setUpSection(const std::wstring &sectionName, const std::wstring &sectionUrl);
     void
     getIndex(wstringVector& names, wstringVector& urls, wstringVector& descriptions);
 };

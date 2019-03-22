@@ -34,8 +34,8 @@ h5LoadLogical(hid_t fid, const std::string& location, const std::string& variabl
             ArrayOf J = ArrayOf::emptyConstructor();
             ArrayOf V = ArrayOf::emptyConstructor(dims);
             V.promoteType(NLS_LOGICAL);
-            VariableValue = SparseConstructor(
-                I, J, V, (indexType)dims[0], (indexType)dims[1], (indexType)nzmax);
+            VariableValue
+                = SparseConstructor(I, J, V, dims[0], dims[1], static_cast<indexType>(nzmax));
             bSuccess = true;
         } else {
             VariableValue = ArrayOf::emptyConstructor(dims);
@@ -63,8 +63,8 @@ h5LoadLogical(hid_t fid, const std::string& location, const std::string& variabl
                 return false;
             }
             V.promoteType(NLS_LOGICAL);
-            VariableValue = SparseConstructor(
-                I, J, V, (indexType)dims[0], (indexType)dims[1], (indexType)nzmax);
+            VariableValue
+                = SparseConstructor(I, J, V, dims[0], dims[1], static_cast<indexType>(nzmax));
             bSuccess = true;
         } else {
             std::wstring error;
@@ -93,5 +93,5 @@ h5LoadLogical(hid_t fid, const std::string& location, const std::string& variabl
     return bSuccess;
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

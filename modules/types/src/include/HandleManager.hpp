@@ -44,7 +44,7 @@ public:
     bool
     isValid(nelson_handle hl);
     std::vector<nelson_handle>
-    getAllHandlesOfCategory(std::wstring category);
+    getAllHandlesOfCategory(const std::wstring& category);
     nelson_handle
     findByPointerValue(void* ptr);
     //=============================================================================

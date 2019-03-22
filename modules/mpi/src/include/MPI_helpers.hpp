@@ -36,7 +36,7 @@ getCanonicalSize(int count, MPI_Datatype atype, MPI_Comm comm);
 NLSMPI_IMPEXP std::string
 getMpiLibraryVersion();
 NLSMPI_IMPEXP MPI_Op
-stringToMpiOp(std::wstring op_str);
+stringToMpiOp(const std::wstring& op_str);
 NLSMPI_IMPEXP std::string
 getMpiCommName(MPI_Comm comm);
 } // namespace Nelson

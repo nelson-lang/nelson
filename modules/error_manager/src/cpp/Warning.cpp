@@ -80,7 +80,7 @@ NelsonWarningEmitterDynamicFunction(const std::wstring& msg, const std::wstring&
 }
 //=============================================================================
 void
-Warning(std::wstring id, std::wstring message)
+Warning(const std::wstring& id, const std::wstring& message)
 {
     if (message.compare(L"") != 0) {
         WARNING_STATE state = warningCheckState(id);
@@ -100,19 +100,19 @@ Warning(std::wstring id, std::wstring message)
 }
 //=============================================================================
 void
-Warning(std::wstring message)
+Warning(const std::wstring& message)
 {
     Warning(L"", message);
 }
 //=============================================================================
 void
-Warning(std::string message)
+Warning(const std::string& message)
 {
     Warning(L"", utf8_to_wstring(message));
 }
 //=============================================================================
 void
-Warning(std::string id, std::string message)
+Warning(const std::string& id, const std::string& message)
 {
     Warning(utf8_to_wstring(id), utf8_to_wstring(message));
 }

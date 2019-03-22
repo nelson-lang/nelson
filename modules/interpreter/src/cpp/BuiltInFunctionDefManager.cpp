@@ -60,8 +60,8 @@ BuiltInFunctionDefManager::add(FuncPtr ptr)
 }
 //=============================================================================
 bool
-BuiltInFunctionDefManager::add(std::string name, BuiltInFuncPtr fptr, int argc_in, int argc_out,
-    std::wstring dynlibname, std::wstring modulename)
+BuiltInFunctionDefManager::add(const std::string& name, BuiltInFuncPtr fptr, int argc_in,
+    int argc_out, const std::wstring& dynlibname, const std::wstring& modulename)
 {
     BuiltInFunctionDef* f2def;
     try {
@@ -72,19 +72,19 @@ BuiltInFunctionDefManager::add(std::string name, BuiltInFuncPtr fptr, int argc_i
     if (f2def) {
         stringVector args;
         f2def->hashid = std::hash<std::wstring>()(utf8_to_wstring(name) + L"_" + modulename);
-        f2def->fileName = dynlibname;
+        f2def->fileName = std::move(dynlibname);
         f2def->retCount = argc_out;
         f2def->argCount = argc_in;
         f2def->name = name;
         f2def->fptr = fptr;
-        f2def->arguments = args;
+        f2def->arguments = std::move(args);
         return add(f2def);
     }
     return false;
 }
 //=============================================================================
 bool
-BuiltInFunctionDefManager::remove(std::string name)
+BuiltInFunctionDefManager::remove(const std::string& name)
 {
     for (auto it = builtinVector.begin(); it != builtinVector.end(); ++it) {
         if ((*it)->name == name) {
@@ -191,7 +191,7 @@ BuiltInFunctionDefManager::isPointerOnBuiltInFunctionDef(FuncPtr ptr)
 }
 //=============================================================================
 bool
-BuiltInFunctionDefManager::find(const std::string name, std::wstring& path)
+BuiltInFunctionDefManager::find(const std::string& name, std::wstring& path)
 {
     bool res = false;
     if (!builtinVector.empty()) {
@@ -221,7 +221,7 @@ BuiltInFunctionDefManager::find(size_t hashid, std::wstring& functionname)
 }
 //=============================================================================
 bool
-BuiltInFunctionDefManager::find(const std::string name, wstringVector& paths)
+BuiltInFunctionDefManager::find(const std::string& name, wstringVector& paths)
 {
     bool res = false;
     if (!builtinVector.empty()) {
@@ -236,7 +236,7 @@ BuiltInFunctionDefManager::find(const std::string name, wstringVector& paths)
 }
 //=============================================================================
 bool
-BuiltInFunctionDefManager::find(const std::string name, FuncPtr& ptr)
+BuiltInFunctionDefManager::find(const std::string& name, FuncPtr& ptr)
 {
     if (!builtinVector.empty()) {
         std::unordered_map<std::string, FuncPtr>::const_iterator found = cachedBuiltin.find(name);

@@ -28,7 +28,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-DynamicLinkLibraryObject::DynamicLinkLibraryObject(std::wstring libraryPath)
+DynamicLinkLibraryObject::DynamicLinkLibraryObject(const std::wstring& libraryPath)
     : HandleGenericObject(std::wstring(DLLIB_CATEGORY_STR), this, false)
 {
     _propertiesNames = { L"Path" };
@@ -83,13 +83,13 @@ DynamicLinkLibraryObject::getAvailableSymbols()
 }
 //=============================================================================
 void*
-DynamicLinkLibraryObject::getFunctionPointer(std::string symbolName)
+DynamicLinkLibraryObject::getFunctionPointer(const std::string& symbolName)
 {
     return get_function(_shared_library.native(), symbolName);
 }
 //=============================================================================
 bool
-DynamicLinkLibraryObject::get(std::wstring propertyName, ArrayOf& res)
+DynamicLinkLibraryObject::get(const std::wstring& propertyName, ArrayOf& res)
 {
     if (propertyName == L"Path") {
         res = ArrayOf::characterArrayConstructor(_libraryPath);
@@ -99,7 +99,7 @@ DynamicLinkLibraryObject::get(std::wstring propertyName, ArrayOf& res)
 }
 //=========================================================================
 bool
-DynamicLinkLibraryObject::isWriteableProperty(std::wstring propertyName)
+DynamicLinkLibraryObject::isWriteableProperty(const std::wstring& propertyName)
 {
     return false;
 }
@@ -111,20 +111,21 @@ DynamicLinkLibraryObject::fieldnames()
 }
 //=============================================================================
 bool
-DynamicLinkLibraryObject::isProperty(std::wstring propertyName)
+DynamicLinkLibraryObject::isProperty(const std::wstring& propertyName)
 {
     auto it = std::find(_propertiesNames.begin(), _propertiesNames.end(), propertyName);
     return (it != _propertiesNames.end());
 }
 //=============================================================================
 bool
-DynamicLinkLibraryObject::isMethod(std::wstring propertyName)
+DynamicLinkLibraryObject::isMethod(const std::wstring& propertyName)
 {
     return false;
 }
 //=============================================================================
 bool
-DynamicLinkLibraryObject::searchLibrary(std::wstring libraryPath, std::wstring& fullLibraryPath)
+DynamicLinkLibraryObject::searchLibrary(
+    const std::wstring& libraryPath, std::wstring& fullLibraryPath)
 {
     fullLibraryPath = L"";
     boost::filesystem::path pathToSplit = libraryPath;

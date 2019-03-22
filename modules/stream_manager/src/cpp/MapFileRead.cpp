@@ -79,7 +79,7 @@ _MapFileClose(LPCVOID lpView)
 }
 //=============================================================================
 ArrayOf
-MapFileRead(std::wstring filename, std::wstring eol, std::wstring& errorMessage)
+MapFileRead(const std::wstring& filename, const std::wstring& eol, std::wstring& errorMessage)
 {
     errorMessage = L"";
     size_t cbSize = 0;
@@ -93,9 +93,9 @@ MapFileRead(std::wstring filename, std::wstring eol, std::wstring& errorMessage)
         if (fileView) {
             try {
                 std::string content(fileView, cbSize);
-                boost::replace_all(content, L"\r\n", L"\n");
+                boost::replace_all(content, "\r\n", "\n");
                 if (eol != L"\n") {
-                    boost::replace_all(content, L"\n", eol);
+                    boost::replace_all(content, "\n", wstring_to_utf8(eol));
                 }
                 res = ArrayOf::characterArrayConstructor(content);
             } catch (...) {
@@ -119,10 +119,10 @@ isEmptyFile(std::wstring filename)
 }
 //=============================================================================
 ArrayOf
-MapFileRead(std::wstring filename, std::wstring eol, std::wstring& errorMessage)
+MapFileRead(const std::wstring& filename, const std::wstring& eol, std::wstring& errorMessage)
 {
     ArrayOf res;
-    errorMessage = L"";
+    errorMessage.clear();
     if (isEmptyFile(filename)) {
         res = ArrayOf::characterArrayConstructor("");
     } else {

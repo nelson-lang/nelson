@@ -461,6 +461,9 @@ ArrayOf::toOrdinalType()
     case NLS_STRUCT_ARRAY: {
         Error(_W("Cannot convert structure arrays to indices."));
     } break;
+    default: {
+        Error(_W("Cannot convert unknown type to indices."));
+    } break;
     }
 }
 //=============================================================================
@@ -902,7 +905,7 @@ ArrayOf::getElementSize() const
         return sizeof(double) * 2;
     case NLS_CHAR:
         return sizeof(charType);
-    }
+    default: { } break; }
     return 0;
 }
 //=============================================================================
@@ -1006,6 +1009,8 @@ ArrayOf::testCaseMatchScalar(ArrayOf x) const
     const void* y_dp = y.dp->getData();
     bool retval = false;
     switch (x.dp->dataClass) {
+    default: {
+    } break;
     case NLS_CELL_ARRAY:
     case NLS_STRING_ARRAY:
     case NLS_CHAR:

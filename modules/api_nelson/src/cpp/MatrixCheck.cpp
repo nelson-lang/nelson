@@ -107,7 +107,6 @@ SameSizeCheck(Dimensions& Adim, Dimensions& Bdim)
 void
 VectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
 {
-    stringVector dummySV;
     // Check for numeric types
     CheckNumeric(A, B, opname);
     Dimensions dimsA = A.getDimensions();

@@ -106,7 +106,7 @@ h5SaveSingleMatrix(hid_t fid, const std::string& location, const std::string& va
     } else {
         h5path = location + "/" + variableName;
     }
-    h5LDeleteIfExists(fid, h5path.c_str());
+    h5LDeleteIfExists(fid, h5path);
 
     hid_t dspace_id = H5I_INVALID_HID;
     hid_t type_id = H5Tcopy(H5T_NATIVE_FLOAT);
@@ -137,7 +137,7 @@ h5SaveSingleMatrix(hid_t fid, const std::string& location, const std::string& va
     }
     delete[] dimsAsHsize_t;
     hid_t plist = setCompression(dimsValue, useCompression);
-    void* buffer = (void*)VariableValue.getDataPointer();
+    void* buffer = const_cast<void*>(VariableValue.getDataPointer());
     if (VariableValue.isComplex()) {
         typedef struct complex_type
         {
@@ -183,5 +183,5 @@ h5SaveSingleMatrix(hid_t fid, const std::string& location, const std::string& va
     return bSuccess;
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

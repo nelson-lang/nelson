@@ -31,7 +31,7 @@ private:
     bool _isScoped;
 
 public:
-    HandleGenericObject(std::wstring _category, void* _ptr, bool isScoped);
+    HandleGenericObject(const std::wstring& _category, void* _ptr, bool isScoped);
     virtual ~HandleGenericObject() = default;
     ;
     std::wstring
@@ -43,12 +43,12 @@ public:
     bool
     isScoped();
     virtual bool
-    isProperty(std::wstring propertyName)
+    isProperty(const std::wstring& propertyName)
     {
         return false;
     };
     virtual bool
-    isMethod(std::wstring methodName)
+    isMethod(const std::wstring& methodName)
     {
         return false;
     };

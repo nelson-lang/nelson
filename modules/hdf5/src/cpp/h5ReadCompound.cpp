@@ -103,35 +103,35 @@ h5ReadCompoundBitfieldMember(hsize_t sizeType, hid_t mType, const char* data, si
     for (indexType k = 0; k < dims.getElementCount(); k++) {
         switch (outputClass) {
         case NLS_UINT8: {
-            uint8* ptrUINT8 = (uint8*)ptrVoid;
+            auto* ptrUINT8 = static_cast<uint8*>(ptrVoid);
             ptrUINT8[k] = ((uint8*)(data + offset + (sizeType * k)))[0];
         } break;
         case NLS_UINT16: {
-            uint16* ptrUINT16 = (uint16*)ptrVoid;
+            auto* ptrUINT16 = static_cast<uint16*>(ptrVoid);
             ptrUINT16[k] = ((uint16*)(data + offset + (sizeType * k)))[0];
         } break;
         case NLS_UINT32: {
-            uint32* ptrUINT32 = (uint32*)ptrVoid;
+            auto* ptrUINT32 = static_cast<uint32*>(ptrVoid);
             ptrUINT32[k] = ((uint32*)(data + offset + (sizeType * k)))[0];
         } break;
         case NLS_UINT64: {
-            uint64* ptrUINT64 = (uint64*)ptrVoid;
+            auto* ptrUINT64 = static_cast<uint64*>(ptrVoid);
             ptrUINT64[k] = ((uint64*)(data + offset + (sizeType * k)))[0];
         } break;
         case NLS_INT8: {
-            int8* ptrINT8 = (int8*)ptrVoid;
+            int8* ptrINT8 = static_cast<int8*>(ptrVoid);
             ptrINT8[k] = ((int8*)(data + offset + (sizeType * k)))[0];
         } break;
         case NLS_INT16: {
-            int16* ptrINT16 = (int16*)ptrVoid;
+            auto* ptrINT16 = static_cast<int16*>(ptrVoid);
             ptrINT16[k] = ((int16*)(data + offset + (sizeType * k)))[0];
         } break;
         case NLS_INT32: {
-            int32* ptrINT32 = (int32*)ptrVoid;
+            auto* ptrINT32 = static_cast<int32*>(ptrVoid);
             ptrINT32[k] = ((int32*)(data + offset + (sizeType * k)))[0];
         } break;
         case NLS_INT64: {
-            int64* ptrINT64 = (int64*)ptrVoid;
+            auto* ptrINT64 = static_cast<int64*>(ptrVoid);
             ptrINT64[k] = ((int64*)(data + offset + (sizeType * k)))[0];
         } break;
         }
@@ -194,35 +194,35 @@ h5ReadCompoundIntegerMember(hsize_t sizeType, hid_t mType, const char* data, siz
     for (indexType k = 0; k < dims.getElementCount(); k++) {
         switch (outputClass) {
         case NLS_UINT8: {
-            uint8* ptrUINT8 = (uint8*)ptrVoid;
+            auto* ptrUINT8 = static_cast<uint8*>(ptrVoid);
             ptrUINT8[k] = ((uint8*)(data + offset + (sizeType * k)))[0];
         } break;
         case NLS_UINT16: {
-            uint16* ptrUINT16 = (uint16*)ptrVoid;
+            auto* ptrUINT16 = static_cast<uint16*>(ptrVoid);
             ptrUINT16[k] = ((uint16*)(data + offset + (sizeType * k)))[0];
         } break;
         case NLS_UINT32: {
-            uint32* ptrUINT32 = (uint32*)ptrVoid;
+            auto* ptrUINT32 = static_cast<uint32*>(ptrVoid);
             ptrUINT32[k] = ((uint32*)(data + offset + (sizeType * k)))[0];
         } break;
         case NLS_UINT64: {
-            uint64* ptrUINT64 = (uint64*)ptrVoid;
+            auto* ptrUINT64 = static_cast<uint64*>(ptrVoid);
             ptrUINT64[k] = ((uint64*)(data + offset + (sizeType * k)))[0];
         } break;
         case NLS_INT8: {
-            int8* ptrINT8 = (int8*)ptrVoid;
+            int8* ptrINT8 = static_cast<int8*>(ptrVoid);
             ptrINT8[k] = ((int8*)(data + offset + (sizeType * k)))[0];
         } break;
         case NLS_INT16: {
-            int16* ptrINT16 = (int16*)ptrVoid;
+            auto* ptrINT16 = static_cast<int16*>(ptrVoid);
             ptrINT16[k] = ((int16*)(data + offset + (sizeType * k)))[0];
         } break;
         case NLS_INT32: {
-            int32* ptrINT32 = (int32*)ptrVoid;
+            auto* ptrINT32 = static_cast<int32*>(ptrVoid);
             ptrINT32[k] = ((int32*)(data + offset + (sizeType * k)))[0];
         } break;
         case NLS_INT64: {
-            int64* ptrINT64 = (int64*)ptrVoid;
+            auto* ptrINT64 = static_cast<int64*>(ptrVoid);
             ptrINT64[k] = ((int64*)(data + offset + (sizeType * k)))[0];
         } break;
         }
@@ -345,6 +345,7 @@ h5ReadCompound(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::w
             delete[] h5_dims;
             delete[] h5_maxdims;
             Error("Impossible to read dimensions and maximum size of data set.");
+            return ArrayOf();
         }
         memspace = H5Screate_simple(rank, h5_dims, NULL);
         delete[] h5_dims;

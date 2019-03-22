@@ -53,7 +53,7 @@ public:
     getChapterTitle();
     std::wstring
     getModuleName();
-    XmlDocListOfFiles(wstringVector srcFiles, std::wstring dstDirectory,
+    XmlDocListOfFiles(wstringVector srcFiles, const std::wstring &dstDirectory,
         bool bOverwriteExistingFiles = false, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
     ~XmlDocListOfFiles();
     bool
@@ -67,7 +67,7 @@ public:
     void
     getIndex(wstringVector& names, wstringVector& urls, wstringVector& descriptions);
     void
-    setUpSection(std::wstring sectionName, std::wstring sectionUrl);
+    setUpSection(const std::wstring &sectionName, const std::wstring &sectionUrl);
 };
 //=============================================================================
 } // namespace Nelson

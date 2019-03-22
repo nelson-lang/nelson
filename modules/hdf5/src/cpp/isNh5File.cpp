@@ -25,7 +25,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-isNh5File(wstringVector filenames)
+isNh5File(const wstringVector& filenames)
 {
     Dimensions dims(filenames.size(), 1);
     logical* res = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, filenames.size());
@@ -40,7 +40,7 @@ isNh5File(wstringVector filenames)
         try {
             fileExistPreviously = boost::filesystem::exists(mat_filename)
                 && !boost::filesystem::is_directory(mat_filename);
-        } catch (const boost::filesystem::filesystem_error& e) {
+        } catch (const boost::filesystem::filesystem_error&) {
             fileExistPreviously = false;
         }
         if (!fileExistPreviously) {

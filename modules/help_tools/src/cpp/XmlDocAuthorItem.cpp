@@ -23,10 +23,10 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocAuthorItem::XmlDocAuthorItem(std::wstring author) { this->_author = author; }
+XmlDocAuthorItem::XmlDocAuthorItem(const std::wstring& author) : _author(author){};
 //=============================================================================
 XmlDocAuthorItem::~XmlDocAuthorItem() { this->_author = L""; }
-//=============================================================================
+    //=============================================================================
 std::wstring
 XmlDocAuthorItem::getItemType()
 {

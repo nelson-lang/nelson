@@ -49,7 +49,7 @@ ArrayOf::isNdArrayCharacterType() const
 }
 //=============================================================================
 ArrayOf
-ArrayOf::characterArrayConstructor(std::wstring astr)
+ArrayOf::characterArrayConstructor(const std::wstring& astr)
 {
     indexType length = astr.length();
     Dimensions dim(0, length);
@@ -64,7 +64,7 @@ ArrayOf::characterArrayConstructor(std::wstring astr)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::characterArrayConstructor(std::string astr)
+ArrayOf::characterArrayConstructor(const std::string& astr)
 {
     std::wstring str = utf8_to_wstring(astr);
     return characterArrayConstructor(str);

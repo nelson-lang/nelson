@@ -38,7 +38,7 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
 #define BUFFER_SIZE_MAX 65534
     wchar_t nbuff[BUFFER_SIZE_MAX + 1];
     errorMessage = L"";
-    memset(nbuff, 0, BUFFER_SIZE_MAX + 1);
+    memset(nbuff, 0, BUFFER_SIZE_MAX * sizeof(wchar_t));
     PrintfHelper ps(args);
     while ((*dp) || ps.HasMoreData()) {
         if (!(*dp) && ps.HasMoreData()) {

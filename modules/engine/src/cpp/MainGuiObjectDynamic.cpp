@@ -40,9 +40,9 @@ initGuiDynamicLibrary()
         } catch (const std::bad_alloc&) {
             buf = nullptr;
         }
-        if (buf) {
+        if (buf != nullptr) {
             DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
-            if (dwRet) {
+            if (dwRet != 0u) {
                 fullpathGuiSharedLibrary
                     = std::string(buf) + std::string("/") + fullpathGuiSharedLibrary;
             }
@@ -56,7 +56,7 @@ initGuiDynamicLibrary()
         }
 #endif
         nlsGuiHandleDynamicLibrary = load_dynamic_library(fullpathGuiSharedLibrary);
-        if (nlsGuiHandleDynamicLibrary) {
+        if (nlsGuiHandleDynamicLibrary != nullptr) {
             bFirstDynamicLibraryCall = false;
         } else {
             std::string msg = _("Gui module not loaded.") + std::string("\n");
@@ -74,10 +74,10 @@ InitGuiObjectsDynamic()
     using PROC_InitGuiObjects = void (*)();
     static PROC_InitGuiObjects InitGuiObjectsPtr = nullptr;
     initGuiDynamicLibrary();
-    if (!InitGuiObjectsPtr) {
+    if (InitGuiObjectsPtr == nullptr) {
         InitGuiObjectsPtr = reinterpret_cast<PROC_InitGuiObjects>(
             get_function(nlsGuiHandleDynamicLibrary, "InitGuiObjects"));
-        if (!InitGuiObjectsPtr) {
+        if (InitGuiObjectsPtr == nullptr) {
             std::string msg = _("Gui Function not loaded.") + std::string("\n");
             fprintf(stderr, "%s", msg.c_str());
             std::string error_msg = get_dynamic_library_error();
@@ -94,10 +94,10 @@ CreateGuiEvaluatorDynamic(void* vcontext, NELSON_ENGINE_MODE _mode)
     using PROC_CreateGuiEvaluator = void* (*)(void*, NELSON_ENGINE_MODE);
     static PROC_CreateGuiEvaluator CreateGuiEvaluatorPtr = nullptr;
     initGuiDynamicLibrary();
-    if (!CreateGuiEvaluatorPtr) {
+    if (CreateGuiEvaluatorPtr == nullptr) {
         CreateGuiEvaluatorPtr = reinterpret_cast<PROC_CreateGuiEvaluator>(
             get_function(nlsGuiHandleDynamicLibrary, "CreateGuiEvaluator"));
-        if (!CreateGuiEvaluatorPtr) {
+        if (CreateGuiEvaluatorPtr == nullptr) {
             std::string msg = _("Gui Function not loaded.") + std::string("\n");
             fprintf(stderr, "%s", msg.c_str());
             std::string error_msg = get_dynamic_library_error();
@@ -114,10 +114,10 @@ DestroyMainGuiObjectDynamic(void* term)
     using PROC_DestroyMainGuiObject = void (*)(void*);
     static PROC_DestroyMainGuiObject DestroyMainGuiObjectPtr = nullptr;
     initGuiDynamicLibrary();
-    if (!DestroyMainGuiObjectPtr) {
+    if (DestroyMainGuiObjectPtr == nullptr) {
         DestroyMainGuiObjectPtr = reinterpret_cast<PROC_DestroyMainGuiObject>(
             get_function(nlsGuiHandleDynamicLibrary, "DestroyMainGuiObject"));
-        if (!DestroyMainGuiObjectPtr) {
+        if (DestroyMainGuiObjectPtr == nullptr) {
             std::string msg = _("Gui Function not loaded.") + std::string("\n");
             fprintf(stderr, "%s", msg.c_str());
             std::string error_msg = get_dynamic_library_error();
@@ -134,10 +134,10 @@ GetMainGuiObjectDynamic()
     using PROC_GetMainGuiObject = void* (*)();
     static PROC_GetMainGuiObject GetMainGuiObjectPtr = nullptr;
     initGuiDynamicLibrary();
-    if (!GetMainGuiObjectPtr) {
+    if (GetMainGuiObjectPtr == nullptr) {
         GetMainGuiObjectPtr = reinterpret_cast<PROC_GetMainGuiObject>(
             get_function(nlsGuiHandleDynamicLibrary, "GetMainGuiObject"));
-        if (!GetMainGuiObjectPtr) {
+        if (GetMainGuiObjectPtr == nullptr) {
             std::string msg = _("Gui Function not loaded.") + std::string("\n");
             fprintf(stderr, "%s", msg.c_str());
             std::string error_msg = get_dynamic_library_error();

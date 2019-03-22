@@ -68,7 +68,7 @@ h5SaveLogicalEmptyMatrix(
     } else {
         h5path = location + "/" + variableName;
     }
-    h5LDeleteIfExists(fid, h5path.c_str());
+    h5LDeleteIfExists(fid, h5path);
 
     uint8 value = 0;
     hid_t type_id = H5Tcopy(H5T_NATIVE_UINT8);
@@ -97,12 +97,10 @@ h5SaveLogicalEmptyMatrix(
     }
     bSuccess = h5SaveClassAttribute(fid, h5path, VariableValue);
     if (bSuccess) {
-        if (bSuccess) {
-            bSuccess = h5SaveDimensionsAttribute(fid, h5path, VariableValue.getDimensions());
-            if (bSuccess && VariableValue.isSparse()) {
-                h5SaveSparseAttribute(fid, h5path);
-                bSuccess = h5SaveUint64Attribute(fid, h5path, NELSON_SPARSE_NZMAX_STR, (uint64)1);
-            }
+        bSuccess = h5SaveDimensionsAttribute(fid, h5path, VariableValue.getDimensions());
+        if (bSuccess && VariableValue.isSparse()) {
+            h5SaveSparseAttribute(fid, h5path);
+            bSuccess = h5SaveUint64Attribute(fid, h5path, NELSON_SPARSE_NZMAX_STR, (uint64)1);
         }
     }
     return bSuccess;
@@ -119,7 +117,7 @@ h5SaveLogicalMatrix(hid_t fid, const std::string& location, const std::string& v
     } else {
         h5path = location + "/" + variableName;
     }
-    h5LDeleteIfExists(fid, h5path.c_str());
+    h5LDeleteIfExists(fid, h5path);
 
     hid_t dspace_id = H5I_INVALID_HID;
     hid_t type_id = H5Tcopy(H5T_NATIVE_UINT8);
@@ -151,7 +149,7 @@ h5SaveLogicalMatrix(hid_t fid, const std::string& location, const std::string& v
     delete[] dimsAsHsize_t;
 
     hid_t plist = setCompression(dimsValue, useCompression);
-    void* buffer = (void*)VariableValue.getDataPointer();
+    void* buffer = const_cast<void*>(VariableValue.getDataPointer());
     hid_t dataset_id
         = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
     herr_t status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
@@ -185,7 +183,7 @@ h5SaveSparseLogicalMatrix(hid_t fid, const std::string& location, const std::str
     } else {
         h5path = location + "/" + variableName;
     }
-    h5LDeleteIfExists(fid, h5path.c_str());
+    h5LDeleteIfExists(fid, h5path);
 
     Dimensions dims = VariableValue.getDimensions();
     Eigen::SparseMatrix<uint8, 0, signedIndexType>* spmat
@@ -271,5 +269,5 @@ h5SaveSparseLogicalMatrix(hid_t fid, const std::string& location, const std::str
     return bSuccess;
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

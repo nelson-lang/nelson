@@ -366,7 +366,7 @@ DisplayFloatingNumberInternal(
                 buffer.append(L"\n");
                 if (block_page > termWidth) {
                     io->outputMessage(buffer);
-                    buffer = L"";
+                    buffer.clear();
                     block_page = 0;
                 } else {
                     block_page++;
@@ -374,7 +374,7 @@ DisplayFloatingNumberInternal(
             }
             if (!buffer.empty()) {
                 io->outputMessage(buffer);
-                buffer = L"";
+                buffer.clear();
                 block_page = 0;
             }
         }

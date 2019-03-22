@@ -161,7 +161,7 @@ getAttributeAsBool(hid_t fid, const std::string& location, const std::string& va
     }
     H5Aclose(attr_id);
     H5Oclose(obj_id);
-    return value == 0 ? false : true;
+    return value == 0 ? false : true != 0;
 }
 //=============================================================================
 std::string
@@ -200,6 +200,7 @@ getNelsonClass(hid_t fid, const std::string& location, const std::string& variab
     hid_t memtype = H5Tcopy(H5T_C_S1);
     status = H5Tset_size(memtype, (size_t)sDim);
     if (status < 0) {
+        delete[] pClassname;
         H5Aclose(attr_id);
         H5Tclose(memtype);
         H5Sclose(aspace);
@@ -374,5 +375,5 @@ setCompression(Dimensions dims, bool useCompression)
     return plist;
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

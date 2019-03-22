@@ -100,7 +100,7 @@ VariablesTable::getVariablesList(bool withPersistent)
 }
 //=============================================================================
 bool
-VariablesTable::isLockedVariable(std::string key)
+VariablesTable::isLockedVariable(const std::string& key)
 {
     if (!lockedVariables.empty()) {
         return (std::find(lockedVariables.begin(), lockedVariables.end(), key)
@@ -110,7 +110,7 @@ VariablesTable::isLockedVariable(std::string key)
 }
 //=============================================================================
 bool
-VariablesTable::lockVariable(std::string key)
+VariablesTable::lockVariable(const std::string& key)
 {
     if (!isLockedVariable(key)) {
         // ans cannot be locked
@@ -125,7 +125,7 @@ VariablesTable::lockVariable(std::string key)
 }
 //=============================================================================
 bool
-VariablesTable::unlockVariable(std::string key)
+VariablesTable::unlockVariable(const std::string& key)
 {
     if (isLockedVariable(key)) {
         lockedVariables.erase(std::find(lockedVariables.begin(), lockedVariables.end(), key));

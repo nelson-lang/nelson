@@ -957,7 +957,7 @@ public:
             if (IsDouble() || rhs.IsDouble()) {
                 double a = GetDouble();     // May convert from integer to double.
                 double b = rhs.GetDouble(); // Ditto
-                return a >= b && a <= b;    // Prevent -Wfloat-equal
+                return (a >= b) && (a <= b);    // Prevent -Wfloat-equal
             }
             else
                 return data_.n.u64 == rhs.data_.n.u64;
@@ -1060,7 +1060,7 @@ public:
                 || a > static_cast<double>((std::numeric_limits<float>::max)()))
             return false;
         double b = static_cast<double>(static_cast<float>(a));
-        return a >= b && a <= b;    // Prevent -Wfloat-equal
+        return (a >= b) && (a <= b);    // Prevent -Wfloat-equal
     }
 
     //@}

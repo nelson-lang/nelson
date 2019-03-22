@@ -36,7 +36,7 @@ XmlDocHistory::~XmlDocHistory()
 }
 //=============================================================================
 void
-XmlDocHistory::append(std::wstring version, std::wstring description)
+XmlDocHistory::append(const std::wstring &version, const std::wstring &description)
 {
     XmlDocHistoryItem* item = nullptr;
     try {

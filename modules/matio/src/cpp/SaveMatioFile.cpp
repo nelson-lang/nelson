@@ -97,7 +97,8 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names
                 Mat_Close(matFile);
             }
         } else {
-            matFile = Mat_CreateVer(wstring_to_utf8(filename).c_str(), headerFile.c_str(), matVersion);
+            matFile
+                = Mat_CreateVer(wstring_to_utf8(filename).c_str(), headerFile.c_str(), matVersion);
         }
     } else {
         matFile = Mat_CreateVer(wstring_to_utf8(filename).c_str(), headerFile.c_str(), matVersion);

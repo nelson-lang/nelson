@@ -30,7 +30,6 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(Evaluator* eval, int nLhs, const A
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     LibPointerObject* libPointerObject = nullptr;
-    std::wstring DataType;
     ArrayOf Value;
     switch (argIn.size()) {
     case 0: {

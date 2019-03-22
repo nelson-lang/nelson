@@ -51,5 +51,5 @@ h5LoadCell(hid_t fid, const std::string& location, const std::string& variableNa
     return true;
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

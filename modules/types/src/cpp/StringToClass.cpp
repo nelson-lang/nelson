@@ -23,7 +23,7 @@
 namespace Nelson {
 //=============================================================================
 Class
-StringToClass(std::wstring classname, bool& haveError)
+StringToClass(const std::wstring& classname, bool& haveError)
 {
     Class destClass = NLS_NOT_TYPED;
     haveError = false;
@@ -66,7 +66,7 @@ StringToClass(std::wstring classname, bool& haveError)
 }
 //=============================================================================
 Class
-StringToClass(std::wstring classname)
+StringToClass(const std::wstring& classname)
 {
     bool haveError;
     Class destClass = StringToClass(classname, haveError);
@@ -77,13 +77,13 @@ StringToClass(std::wstring classname)
 }
 //=============================================================================
 Class
-StringToClass(std::string classname)
+StringToClass(const std::string& classname)
 {
     return StringToClass(utf8_to_wstring(classname));
 }
 //=============================================================================
 Class
-StringToClass(std::string classname, bool& haveError)
+StringToClass(const std::string& classname, bool& haveError)
 {
     return StringToClass(utf8_to_wstring(classname), haveError);
 }

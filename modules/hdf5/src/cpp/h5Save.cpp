@@ -98,7 +98,8 @@ h5Save(Evaluator* eval, const std::wstring& filename, wstringVector names, bool 
         }
         if (append) {
             int32 schema = getNelsonH5Schema(fid);
-            if ((schema != NELSON_SCHEMA) || (schema == (int32)-1)) {
+            bool isUnmanaged = (schema != NELSON_SCHEMA);
+            if (isUnmanaged) {
                 Error(_W("Invalid file version."));
                 H5Fclose(fid);
             }

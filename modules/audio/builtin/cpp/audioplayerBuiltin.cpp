@@ -43,9 +43,7 @@ Nelson::AudioGateway::audioplayerBuiltin(Evaluator* eval, int nLhs, const ArrayO
         ArrayOf param2 = argIn[1];
         int sampleRate = param2.getContentAsInteger32Scalar();
         objPlayer = new AudioplayerObject();
-        if (objPlayer) {
-            res = objPlayer->setSamples(argIn[0], sampleRate, errorMessage);
-        }
+        res = objPlayer->setSamples(argIn[0], sampleRate, errorMessage);
     } break;
     case 3: {
         ArrayOf param2 = argIn[1];
@@ -53,9 +51,7 @@ Nelson::AudioGateway::audioplayerBuiltin(Evaluator* eval, int nLhs, const ArrayO
         ArrayOf param3 = argIn[2];
         int bitsPerSample = param3.getContentAsInteger32Scalar();
         objPlayer = new AudioplayerObject();
-        if (objPlayer) {
-            res = objPlayer->setSamples(argIn[0], sampleRate, bitsPerSample, errorMessage);
-        }
+        res = objPlayer->setSamples(argIn[0], sampleRate, bitsPerSample, errorMessage);
     } break;
     case 4: {
         ArrayOf param2 = argIn[1];
@@ -65,10 +61,7 @@ Nelson::AudioGateway::audioplayerBuiltin(Evaluator* eval, int nLhs, const ArrayO
         ArrayOf param4 = argIn[3];
         int deviceID = param4.getContentAsInteger32Scalar();
         objPlayer = new AudioplayerObject();
-        if (objPlayer) {
-            res = objPlayer->setSamples(
-                argIn[0], sampleRate, bitsPerSample, deviceID, errorMessage);
-        }
+        res = objPlayer->setSamples(argIn[0], sampleRate, bitsPerSample, deviceID, errorMessage);
     } break;
     default: {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

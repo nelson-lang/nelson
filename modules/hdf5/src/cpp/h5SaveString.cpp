@@ -51,7 +51,7 @@ h5SaveStringArray(hid_t fid, const std::string& location, const std::string& var
         return false;
     }
     Dimensions dims = VariableValue.getDimensions();
-    ArrayOf* elements = (ArrayOf*)VariableValue.getDataPointer();
+    auto* elements = (ArrayOf*)VariableValue.getDataPointer();
     for (indexType k = 0; k < dims.getElementCount(); k++) {
         ArrayOf element = elements[k];
         std::string name = std::to_string(k);
@@ -105,7 +105,7 @@ h5SaveCharacterEmptyMatrix(
     } else {
         h5path = location + "/" + variableName;
     }
-    h5LDeleteIfExists(fid, h5path.c_str());
+    h5LDeleteIfExists(fid, h5path);
 
     uint16 value = 0;
     hid_t type_id = H5Tcopy(H5T_NATIVE_UINT16);
@@ -150,7 +150,7 @@ h5SaveCharacterMatrix(hid_t fid, const std::string& location, const std::string&
     } else {
         h5path = location + "/" + variableName;
     }
-    h5LDeleteIfExists(fid, h5path.c_str());
+    h5LDeleteIfExists(fid, h5path);
 
     hid_t dspace_id = H5I_INVALID_HID;
     hid_t type_id = H5Tcopy(H5T_NATIVE_UINT16);
@@ -183,11 +183,11 @@ h5SaveCharacterMatrix(hid_t fid, const std::string& location, const std::string&
     void* buffer = nullptr;
     ArrayOf asUint16;
     if (sizeof(charType) == sizeof(uint16)) {
-        buffer = (void*)VariableValue.getDataPointer();
+        buffer = const_cast<void*>(VariableValue.getDataPointer());
     } else {
         asUint16 = VariableValue;
         asUint16.promoteType(NLS_UINT16);
-        buffer = (void*)asUint16.getDataPointer();
+        buffer = const_cast<void*>(asUint16.getDataPointer());
     }
     hid_t plist = setCompression(dimsValue, useCompression);
     hid_t dataset_id
@@ -211,5 +211,5 @@ h5SaveCharacterMatrix(hid_t fid, const std::string& location, const std::string&
     return bSuccess;
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

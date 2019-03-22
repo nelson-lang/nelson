@@ -63,19 +63,22 @@ ArrayOf::getContentAsHandleScalar() const
     if (qp == nullptr) {
         Error(_W("Expected a valid handle."));
     }
-    nelson_handle hl = (*qp);
+    nelson_handle hl = 0L;
+    if (*qp) {
+        hl = (*qp);
+    }
     return HandleManager::getInstance()->getPointer(hl);
 }
 //=============================================================================
 bool
-ArrayOf::isHandleProperty(std::wstring propertyName) const
+ArrayOf::isHandleProperty(const std::wstring& propertyName) const
 {
     HandleGenericObject* obj = getContentAsHandleScalar();
     return obj->isProperty(propertyName);
 }
 //=============================================================================
 bool
-ArrayOf::isHandleMethod(std::wstring methodName) const
+ArrayOf::isHandleMethod(const std::wstring& methodName) const
 {
     HandleGenericObject* obj = getContentAsHandleScalar();
     return obj->isMethod(methodName);

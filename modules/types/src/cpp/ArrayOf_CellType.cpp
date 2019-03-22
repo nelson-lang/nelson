@@ -380,21 +380,24 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
     // Get the length of the index object
     indexType index_length = index.getLength();
     // Copy in the data
+    ArrayOf front = data.front();
+    bool isCharRowVector = front.isCharacterArray() && front.isRowVector();
+    bool isDoubleEmpty = front.isDoubleType(true) && front.isEmpty(true);
     for (indexType i = 0; i < index_length; i++) {
         indexType ndx = index_p[i] - 1;
 
         if (asStringArray) {
-            if (data.front().isCharacterArray() && data.front().isRowVector()) {
-                qp[ndx] = data.front();
+            if (isCharRowVector) {
+                qp[ndx] = front;
             } else {
-                if (data.front().isDoubleType(true) && data.front().isEmpty(true)) {
-                    qp[ndx] = data.front();
+                if (isDoubleEmpty) {
+                    qp[ndx] = front;
                 } else {
                     Error(_W("{} assignment expects a character vector."));
                 }
             }
         } else {
-            qp[ndx] = data.front();
+            qp[ndx] = front;
         }
 
         data.erase(data.begin());
@@ -453,22 +456,23 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
         Dimensions currentIndex(dp->dimensions.getLength());
         indexType j;
         while (argPointer.inside(argLengths)) {
+            ArrayOf front = data.front();
             for (indexType i = 0; i < L; i++) {
                 currentIndex[i] = indx[i][argPointer[i]] - 1;
             }
             j = dp->dimensions.mapPoint(currentIndex);
             if (asStringArray) {
-                if (data.front().isCharacterArray() && data.front().isRowVector()) {
-                    qp[j] = data.front();
+                if (front.isCharacterArray() && front.isRowVector()) {
+                    qp[j] = front;
                 } else {
-                    if (data.front().isDoubleType(true) && data.front().isEmpty(true)) {
-                        qp[j] = data.front();
+                    if (front.isDoubleType(true) && front.isEmpty(true)) {
+                        qp[j] = front;
                     } else {
                         Error(_W("{} assignment expects a character vector."));
                     }
                 }
             } else {
-                qp[j] = data.front();
+                qp[j] = front;
             }
 
             data.erase(data.begin());

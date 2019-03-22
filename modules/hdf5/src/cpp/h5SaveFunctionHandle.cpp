@@ -81,5 +81,5 @@ h5SaveFunctionHandle(hid_t fid, const std::string& location, const std::string& 
     return h5SaveUint8Attribute(fid, h5path, NELSON_OBJECT_STR, uint8(1));
 }
 //=============================================================================
-};
+} // namespace Nelson;
 //=============================================================================

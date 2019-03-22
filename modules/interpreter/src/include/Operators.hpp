@@ -25,6 +25,6 @@ namespace Nelson {
 NLSINTERPRETER_IMPEXP wstringVector
 GetOperators();
 NLSINTERPRETER_IMPEXP bool
-isOperator(std::wstring key);
+isOperator(const std::wstring& key);
 } // namespace Nelson
 //=============================================================================

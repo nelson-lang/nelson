@@ -127,7 +127,7 @@ h5ReadInteger(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, s
             status = H5Dread(dset_id, dataType, memspace, dspace_id, H5P_DEFAULT, ptr);
         }
         if (status < 0) {
-            res = ArrayOf(outputClass, dims, ptr);
+            ArrayOf(outputClass, dims, ptr);
             if (asAttribute) {
                 error = _W("Cannot read attribute.");
             } else {
