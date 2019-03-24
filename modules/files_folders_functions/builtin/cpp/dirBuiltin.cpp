@@ -39,7 +39,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     switch (argIn.size()) {
     case 0: {
         wpath = GetCurrentDirectory();
-        if (wpath == L"") {
+        if (wpath.empty()) {
             Error(_W("Impossible to get current directory."));
         }
     } break;

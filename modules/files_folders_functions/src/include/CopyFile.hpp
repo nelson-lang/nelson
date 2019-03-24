@@ -25,10 +25,10 @@
 namespace Nelson {
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
 CopyFile(
-    std::wstring srcFile, std::wstring destFileOrDirectory, bool bForce, std::wstring& message);
+    const std::wstring &srcFile, const std::wstring &destFileOrDirectory, bool bForce, std::wstring& message);
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
-CopyDirectory(std::wstring srcDir, std::wstring destDir, bool bForce, std::wstring& message);
+CopyDirectory(const std::wstring &srcDir, const std::wstring &destDir, bool bForce, std::wstring& message);
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
-CopyFiles(wstringVector srcFiles, std::wstring destDir, bool bForce, std::wstring& message);
+CopyFiles(const wstringVector &srcFiles, const std::wstring &destDir, bool bForce, std::wstring& message);
 } // namespace Nelson
 //=============================================================================

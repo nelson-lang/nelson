@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
-RemoveDirectory(std::wstring folderName, bool bSubfolder, std::wstring& message);
+RemoveDirectory(const std::wstring &folderName, bool bSubfolder, std::wstring& message);
 }
 //=============================================================================

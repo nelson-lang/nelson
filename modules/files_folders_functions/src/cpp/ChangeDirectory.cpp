@@ -25,7 +25,7 @@ using namespace boost::filesystem;
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Cd(std::wstring newpath)
+Cd(const std::wstring &newpath)
 {
     path previous_pwd = current_path();
     try {
@@ -38,7 +38,7 @@ Cd(std::wstring newpath)
 }
 //=============================================================================
 ArrayOf
-Cd(std::string newpath)
+Cd(const std::string &newpath)
 {
     path previous_pwd = current_path();
     try {
@@ -51,7 +51,7 @@ Cd(std::string newpath)
 }
 //=============================================================================
 bool
-ChangeDirectory(std::wstring newpath)
+ChangeDirectory(const std::wstring &newpath)
 {
     try {
         current_path(newpath);

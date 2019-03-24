@@ -46,7 +46,7 @@ Nelson::FilesFoldersGateway::isfileBuiltin(Evaluator* eval, int nLhs, const Arra
                 ArrayOf cell(argIn[0]);
                 logical* bmat = static_cast<logical*>(
                     ArrayOf::allocateArrayOf(NLS_LOGICAL, argIn[0].getLength()));
-                for (indexType k = 0; k < argIn[0].getDimensions().getElementCount(); k++) {
+                for (indexType k = 0; k < dim.getElementCount(); k++) {
                     ArrayOf cell(argIn[0]);
                     auto* arg = (ArrayOf*)(cell.getDataPointer());
                     if (arg[k].isRowVectorCharacterArray()) {
@@ -56,7 +56,7 @@ Nelson::FilesFoldersGateway::isfileBuiltin(Evaluator* eval, int nLhs, const Arra
                         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
                     }
                 }
-                ArrayOf res = ArrayOf(NLS_LOGICAL, argIn[0].getDimensions(), bmat, false);
+                ArrayOf res = ArrayOf(NLS_LOGICAL, dim, bmat, false);
                 retval.push_back(res);
             }
         } else {

@@ -25,7 +25,7 @@
 //=============================================================================
 namespace Nelson {
 bool
-CopyFile(std::wstring srcFile, std::wstring destFileOrDirectory, bool bForce, std::wstring& message)
+CopyFile(const std::wstring &srcFile, const std::wstring &destFileOrDirectory, bool bForce, std::wstring& message)
 {
     bool bRes = false;
     message = L"";
@@ -56,7 +56,7 @@ CopyFile(std::wstring srcFile, std::wstring destFileOrDirectory, bool bForce, st
 }
 //=============================================================================
 bool
-CopyDirectory(std::wstring srcDir, std::wstring destDir, bool bForce, std::wstring& message)
+CopyDirectory(const std::wstring &srcDir, const std::wstring &destDir, bool bForce, std::wstring& message)
 {
     bool bRes = false;
     message = L"";
@@ -86,7 +86,7 @@ CopyDirectory(std::wstring srcDir, std::wstring destDir, bool bForce, std::wstri
 }
 //=============================================================================
 bool
-CopyFiles(wstringVector srcFiles, std::wstring destDir, bool bForce, std::wstring& message)
+CopyFiles(const wstringVector &srcFiles, const std::wstring &destDir, bool bForce, std::wstring& message)
 {
     bool bRes = false;
     message = L"";
@@ -113,7 +113,7 @@ CopyFiles(wstringVector srcFiles, std::wstring destDir, bool bForce, std::wstrin
         if (bForce) {
             if (!bRes) {
                 bRes = true;
-                message = L"";
+                message.clear();
             }
         } else {
             if (!bRes) {
