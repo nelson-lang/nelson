@@ -50,7 +50,7 @@ ToDouble(ArrayOf A, bool& needToOverload)
         Dimensions dimsA = A.getDimensions();
         indexType nbElements = dimsA.getElementCount();
         double* ptrComplex = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbElements);
-        ArrayOf* strElements = (ArrayOf*)A.getDataPointer();
+        auto* strElements = (ArrayOf*)A.getDataPointer();
         indexType q = 0;
         for (indexType k = 0; k < nbElements; k = k + 1) {
             ArrayOf element = strElements[k];
@@ -131,12 +131,12 @@ ToDouble(ArrayOf A, bool& needToOverload)
         }
         double* pDouble = (double*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength() * 2);
         ArrayOf r = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), pDouble, A.isSparse());
-        float* pSingle = (float*)A.getDataPointer();
+        auto* pSingle = (float*)A.getDataPointer();
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
         for (indexType k = 0; k < A.getLength() * 2; k++) {
-            pDouble[k] = (double)(pSingle[k]);
+            pDouble[k] = static_cast<double>(pSingle[k]);
         }
         return r;
     } break;
