@@ -32,7 +32,7 @@ namespace Nelson {
 //=============================================================================
 ArrayOf
 invokeComHandleObject(
-    ArrayOf A, const std::wstring& wmethodname, ArrayOfVector params, bool& haveReturnValue)
+    ArrayOf A, const std::wstring& wmethodname, const ArrayOfVector &params, bool& haveReturnValue)
 {
     ArrayOf res;
     haveReturnValue = false;

@@ -26,7 +26,7 @@
 namespace Nelson {
 //=============================================================================
 ComHandleObject*
-ActiveXServer(std::wstring progId, std::wstring machine)
+ActiveXServer(const std::wstring &progId, const std::wstring &machine)
 {
     IDispatch* pdispApplication = nullptr;
     CLSID clsApplication;
@@ -40,7 +40,7 @@ ActiveXServer(std::wstring progId, std::wstring machine)
             Error(_W("Error CLSIDFromProgID."));
         }
     }
-    if (machine != L"") {
+    if (!machine.empty()) {
         COSERVERINFO ServerInfo;
         ZeroMemory(&ServerInfo, sizeof(COSERVERINFO));
         COAUTHINFO athn;
@@ -52,7 +52,7 @@ ActiveXServer(std::wstring progId, std::wstring machine)
         athn.dwImpersonationLevel = RPC_C_IMP_LEVEL_IMPERSONATE;
         athn.pAuthIdentityData = nullptr;
         athn.pwszServerPrincName = nullptr;
-        ServerInfo.pwszName = &machine[0];
+        ServerInfo.pwszName = &std::wstring(machine)[0];
         ServerInfo.pAuthInfo = &athn;
         ServerInfo.dwReserved1 = 0;
         ServerInfo.dwReserved2 = 0;
@@ -79,18 +79,21 @@ ActiveXServer(std::wstring progId, std::wstring machine)
     VariantInit(pVariantApplication);
     pVariantApplication->vt = VT_DISPATCH;
     pVariantApplication->pdispVal = pdispApplication;
-    res = new ComHandleObject(pVariantApplication);
+    try {
+        res = new ComHandleObject(pVariantApplication);
+    } catch (std::bad_alloc&) {
+        res = nullptr;
+    }
     return res;
 }
 //=============================================================================
 ComHandleObject*
-GetRunningActiveXServer(std::wstring progId)
+GetRunningActiveXServer(const std::wstring &progId)
 {
     IUnknown* pUnknown;
     CLSID clsApplication;
     IDispatch* pdispApplication = nullptr;
     VARIANT* pVariantApplication = nullptr;
-    HRESULT hRes = S_FALSE;
     LPOLESTR idName = W2OLE(const_cast<wchar_t*>(progId.c_str()));
     if (progId[0] == L'{') {
         if (FAILED(CLSIDFromString(idName, &clsApplication))) {
@@ -101,7 +104,7 @@ GetRunningActiveXServer(std::wstring progId)
             Error(_W("Invalid PROGID."));
         }
     }
-    hRes = GetActiveObject(clsApplication, nullptr, &pUnknown);
+    HRESULT hRes = GetActiveObject(clsApplication, nullptr, &pUnknown);
     if (FAILED(hRes)) {
         Error(_W("Server is not running on this system."));
     }

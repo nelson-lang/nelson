@@ -28,7 +28,7 @@ namespace Nelson {
 static bool
 ComVariantToScalarDouble(VARIANT variant, double& value, std::wstring& errorMessage)
 {
-    errorMessage = L"";
+    errorMessage.clear();
     VARIANT variantConverted;
     VariantInit(&variantConverted);
     if (SUCCEEDED(VariantChangeType(&variantConverted, &variant, VARIANT_NOUSEROVERRIDE, VT_R8))) {
@@ -42,7 +42,7 @@ ComVariantToScalarDouble(VARIANT variant, double& value, std::wstring& errorMess
 bool
 ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
 {
-    errorMessage = L"";
+    errorMessage.clear();
     switch (variant->vt) {
     case VT_DISPATCH:
     case VT_UNKNOWN: {
@@ -172,7 +172,7 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
                     errorMessage = L"Failed accessing array data.";
                     return false;
                 }
-                for (int k = 0; k < dims.getElementCount(); k++) {
+                for (indexType k = 0; k < dims.getElementCount(); k++) {
                     ArrayOf element;
                     if (ComVariantToNelson(&pvar[k], element, errorMessage)) {
                         pCell[k] = element;
@@ -207,8 +207,8 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
                 long arrDims[2] = { 0, 0 };
                 for (int dimNum = 0; dimNum < dimCount; dimNum++) {
                     arrDims[0] = dimNum;
-                    for (int k = 0; k < dims.getColumns(); k++) {
-                        arrDims[dimCount - 1] = k;
+                    for (indexType k = 0; k < dims.getColumns(); k++) {
+                        arrDims[dimCount - 1] = (long)k;
                         if (SafeArrayGetElement(arr, arrDims, &cellVal) == S_OK) {
                             if (dimCount == 2) {
                                 pSingle[dims.getRows() * k + dimNum] = cellVal;
@@ -248,8 +248,8 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
                 long arrDims[2] = { 0, 0 };
                 for (int dimNum = 0; dimNum < dimCount; dimNum++) {
                     arrDims[0] = dimNum;
-                    for (int k = 0; k < dims.getColumns(); k++) {
-                        arrDims[dimCount - 1] = k;
+                    for (indexType k = 0; k < dims.getColumns(); k++) {
+                        arrDims[dimCount - 1] = (long)k;
                         if (SafeArrayGetElement(arr, arrDims, &cellVal) == S_OK) {
                             if (dimCount == 2) {
                                 pDouble[dims.getRows() * k + dimNum] = cellVal;
@@ -289,8 +289,8 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
                 long arrDims[2] = { 0, 0 };
                 for (int dimNum = 0; dimNum < dimCount; dimNum++) {
                     arrDims[0] = dimNum;
-                    for (int k = 0; k < dims.getColumns(); k++) {
-                        arrDims[dimCount - 1] = k;
+                    for (indexType k = 0; k < dims.getColumns(); k++) {
+                        arrDims[dimCount - 1] = (long)k;
                         if (SafeArrayGetElement(arr, arrDims, &cellVal) == S_OK) {
                             if (dimCount == 2) {
                                 pUint8[dims.getRows() * k + dimNum] = cellVal;
@@ -330,8 +330,8 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
                 long arrDims[2] = { 0, 0 };
                 for (int dimNum = 0; dimNum < dimCount; dimNum++) {
                     arrDims[0] = dimNum;
-                    for (int k = 0; k < dims.getColumns(); k++) {
-                        arrDims[dimCount - 1] = k;
+                    for (indexType k = 0; k < dims.getColumns(); k++) {
+                        arrDims[dimCount - 1] = (long)k;
                         if (SafeArrayGetElement(arr, arrDims, &cellVal) == S_OK) {
                             if (dimCount == 2) {
                                 pInt16[dims.getRows() * k + dimNum] = cellVal;
@@ -365,15 +365,18 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
 }
 //=============================================================================
 static SAFEARRAY*
-makeSafeArrayFromDimensions(Dimensions dims, VARTYPE vt)
+makeSafeArrayFromDimensions(const Dimensions &dims, VARTYPE vt)
 {
     auto* bounds = static_cast<SAFEARRAYBOUND*>(
         LocalAlloc(LMEM_FIXED | LMEM_ZEROINIT, sizeof(SAFEARRAYBOUND) * dims.getLength()));
     if (bounds) {
-        for (int k = 0; k < dims.getLength(); k++) {
-            bounds[k].cElements = static_cast<ULONG>(dims[k]);
+        indexType len = dims.getLength();
+        Dimensions tmp(dims);
+        for (indexType k = 0; k < len; k++) {
+            indexType v = tmp[k];
+            bounds[k].cElements = static_cast<ULONG>(v);
         }
-        SAFEARRAY* arr = SafeArrayCreate(vt, static_cast<UINT>(dims.getLength()), bounds);
+        SAFEARRAY* arr = SafeArrayCreate(vt, static_cast<UINT>(len), bounds);
         LocalFree(bounds);
         return arr;
     }
@@ -383,7 +386,7 @@ makeSafeArrayFromDimensions(Dimensions dims, VARTYPE vt)
 bool
 NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
 {
-    errorMessage = L"";
+    errorMessage.clear();
     Class type = A.getDataClass();
     if (A.isSparse()) {
         errorMessage = _W("Sparse not supported.");
@@ -427,7 +430,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 VARIANT* data;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (int k = 0; k < dims.getElementCount(); k++) {
+                for (indexType k = 0; k < dims.getElementCount(); k++) {
                     if (!NelsonToComVariant(cell[k], &data[k], errorMessage)) {
                         return false;
                     }
@@ -541,7 +544,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 VARIANT* data;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (int k = 0; k < dims.getElementCount(); k++) {
+                for (indexType k = 0; k < dims.getElementCount(); k++) {
                     if (!NelsonToComVariant(cell[k], &data[k], errorMessage)) {
                         return false;
                     }
@@ -551,7 +554,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
                 variant->parray = arr;
                 return true;
             }
-        }
+        } break;
         case NLS_DOUBLE: {
             auto* pDouble = (double*)A.getDataPointer();
             Dimensions dims = A.getDimensions();
@@ -559,7 +562,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 double* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (int k = 0; k < dims.getElementCount(); k++) {
+                for (indexType k = 0; k < dims.getElementCount(); k++) {
                     data[k] = pDouble[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -575,7 +578,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 single* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (int k = 0; k < dims.getElementCount(); k++) {
+                for (indexType k = 0; k < dims.getElementCount(); k++) {
                     data[k] = pSingle[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -591,7 +594,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 logical* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (int k = 0; k < dims.getElementCount(); k++) {
+                for (indexType k = 0; k < dims.getElementCount(); k++) {
                     data[k] = pLogical[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -607,7 +610,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 uint8* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (int k = 0; k < dims.getElementCount(); k++) {
+                for (indexType k = 0; k < dims.getElementCount(); k++) {
                     data[k] = pUint8[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -623,7 +626,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 int8* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (int k = 0; k < dims.getElementCount(); k++) {
+                for (indexType k = 0; k < dims.getElementCount(); k++) {
                     data[k] = pInt8[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -639,7 +642,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 uint16* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (int k = 0; k < dims.getElementCount(); k++) {
+                for (indexType k = 0; k < dims.getElementCount(); k++) {
                     data[k] = pUint16[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -655,7 +658,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 int16* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (int k = 0; k < dims.getElementCount(); k++) {
+                for (indexType k = 0; k < dims.getElementCount(); k++) {
                     data[k] = pInt16[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -671,7 +674,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 uint32* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (int k = 0; k < dims.getElementCount(); k++) {
+                for (indexType k = 0; k < dims.getElementCount(); k++) {
                     data[k] = pUint32[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -687,7 +690,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 int32* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (int k = 0; k < dims.getElementCount(); k++) {
+                for (indexType k = 0; k < dims.getElementCount(); k++) {
                     data[k] = pInt32[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -703,7 +706,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 uint64* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (int k = 0; k < dims.getElementCount(); k++) {
+                for (indexType k = 0; k < dims.getElementCount(); k++) {
                     data[k] = pUint64[k];
                 }
                 SafeArrayUnaccessData(arr);
@@ -719,7 +722,7 @@ NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring& errorMessage)
             if (arr) {
                 int64* data = nullptr;
                 SafeArrayAccessData(arr, reinterpret_cast<void**>(&data));
-                for (int k = 0; k < dims.getElementCount(); k++) {
+                for (indexType k = 0; k < dims.getElementCount(); k++) {
                     data[k] = pInt64[k];
                 }
                 SafeArrayUnaccessData(arr);

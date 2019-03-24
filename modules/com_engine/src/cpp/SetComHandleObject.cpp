@@ -62,7 +62,7 @@ SetComHandleObject(ArrayOf A, const std::wstring& propertyName, ArrayOf B)
     if (!bSuccess) {
         Error(errorMessage);
     }
-    errorMessage = L"";
+    errorMessage.clear();
     bSuccess = invokeCom(
         DISPATCH_PROPERTYPUT, pVarResult, errorMessage, pVariant->pdispVal, propertyName, 1, param);
     if (bSuccess) {
