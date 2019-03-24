@@ -51,8 +51,8 @@ Nelson::FilesFoldersGateway::cdBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     {
         if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring wpath = argIn[0].getContentAsWideString();
+            ArrayOf res = Cd(wpath);
             if (nLhs == 1) {
-                ArrayOf res = Cd(wpath);
                 retval.push_back(res);
             }
         } else {

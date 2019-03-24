@@ -68,14 +68,14 @@ HelpBrowser::destroy()
 }
 //=============================================================================
 void
-HelpBrowser::showDocByName(std::wstring name)
+HelpBrowser::showDocByName(const std::wstring &name)
 {
     std::wstring command = std::wstring(L"activateKeyword") + std::wstring(L" ") + name;
     sendCommand(command);
 }
 //=============================================================================
 void
-HelpBrowser::showDocByIdentifier(std::wstring identifier)
+HelpBrowser::showDocByIdentifier(const std::wstring &identifier)
 {
     std::wstring command = std::wstring(L"activateIdentifier") + std::wstring(L" ") + identifier;
     sendCommand(command);
@@ -195,7 +195,7 @@ HelpBrowser::closeBrowser()
 HelpBrowser::HelpBrowser() { qprocess = new QProcess(); }
 //=============================================================================
 void
-HelpBrowser::registerHelpFile(std::wstring filename)
+HelpBrowser::registerHelpFile(const std::wstring &filename)
 {
     std::wstring command = std::wstring(L"register ") + filename;
     if (boost::algorithm::ends_with(filename, L"org.nelson.help.qch")) {
@@ -208,7 +208,7 @@ HelpBrowser::registerHelpFile(std::wstring filename)
 }
 //=============================================================================
 void
-HelpBrowser::unregisterHelpFile(std::wstring filename)
+HelpBrowser::unregisterHelpFile(const std::wstring &filename)
 {
     std::wstring command = std::wstring(L"unregister ") + filename;
     sendCommand(command);

@@ -29,13 +29,13 @@ public:
     static HelpBrowser*
     getInstance();
     void
-    registerHelpFile(std::wstring filename);
+    registerHelpFile(const std::wstring &filename);
     void
-    unregisterHelpFile(std::wstring filename);
+    unregisterHelpFile(const std::wstring &filename);
     void
-    showDocByName(std::wstring name);
+    showDocByName(const std::wstring &name);
     void
-    showDocByIdentifier(std::wstring identifier);
+    showDocByIdentifier(const std::wstring &identifier);
     bool
     startBrowser(std::wstring& msg);
     void
