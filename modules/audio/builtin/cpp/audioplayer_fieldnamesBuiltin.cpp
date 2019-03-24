@@ -40,7 +40,7 @@ Nelson::AudioGateway::audioplayer_fieldnamesBuiltin(
     if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
         Error(_W("audioplayer handle expected."));
     }
-    AudioplayerObject* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
+    auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     wstringVector fieldnames = objPlayer->fieldnames();
     retval.push_back(ToCellStringAsColumn(fieldnames));
     return retval;

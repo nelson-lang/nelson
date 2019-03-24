@@ -40,13 +40,13 @@ Nelson::AudioGateway::audioplayer_propertiesBuiltin(
     if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
         Error(_W("audioplayer handle expected."));
     }
-    AudioplayerObject* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
+    auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     wstringVector fieldnames = objPlayer->fieldnames();
     if (nLhs == 0) {
         Interface* io = eval->getInterface();
-        if (io) {
+        if (io != nullptr) {
             std::wstring msg;
-            if (fieldnames.size() == 0) {
+            if (fieldnames.empty()) {
                 msg = _W("No property for class: audioplayer.") + L"\n";
             } else {
                 msg = _W("Properties for class: audioplayer:") + L"\n\n";

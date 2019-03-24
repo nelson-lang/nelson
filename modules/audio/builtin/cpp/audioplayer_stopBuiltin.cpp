@@ -38,7 +38,7 @@ Nelson::AudioGateway::audioplayer_stopBuiltin(Evaluator* eval, int nLhs, const A
     if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
         Error(_W("audioplayer handle expected."));
     }
-    AudioplayerObject* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
+    auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     objPlayer->stop();
     return retval;
 }

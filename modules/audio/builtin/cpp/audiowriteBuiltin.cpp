@@ -42,9 +42,9 @@ Nelson::AudioGateway::audiowriteBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     int fs = param3.getContentAsInteger32Scalar();
     int BitsPerSample = 16;
     int BitRate = -1;
-    std::wstring Title = L"";
-    std::wstring Artist = L"";
-    std::wstring Comment = L"";
+    std::wstring Title;
+    std::wstring Artist;
+    std::wstring Comment;
     for (size_t i = 3; i < argIn.size(); i += 2) {
         if (i >= argIn.size() - 1) {
             Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
@@ -75,7 +75,7 @@ Nelson::AudioGateway::audiowriteBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         }
         if (!validFieldname) {
             wchar_t buffer[4096];
-            swprintf(buffer, 4096, std::wstring(ERROR_WRONG_ARGUMENT_X_VALUE).c_str(), (int)i);
+            swprintf(buffer, 4096, std::wstring(ERROR_WRONG_ARGUMENT_X_VALUE).c_str(), static_cast<int>(i));
             Error(std::wstring(buffer));
         }
     }

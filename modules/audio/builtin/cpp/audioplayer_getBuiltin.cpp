@@ -40,7 +40,7 @@ Nelson::AudioGateway::audioplayer_getBuiltin(Evaluator* eval, int nLhs, const Ar
     if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
         Error(_W("audioplayer handle expected."));
     }
-    AudioplayerObject* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
+    auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     ArrayOf res;
     if (!objPlayer->get(propertyName, res)) {
         Error(ERROR_WRONG_ARGUMENT_2_VALUE);

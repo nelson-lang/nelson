@@ -41,7 +41,7 @@ Nelson::AudioGateway::audioplayer_setBuiltin(Evaluator* eval, int nLhs, const Ar
     if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
         Error(_W("audioplayer handle expected."));
     }
-    AudioplayerObject* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
+    auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     if (!objPlayer->isWriteableProperty(propertyName)) {
         Error(_W("Cannot set a read only property."));
     }

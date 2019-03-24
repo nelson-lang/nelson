@@ -29,7 +29,7 @@ Nelson::AudioGateway::audioreadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     if (nLhs > 2) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0 || argIn.size() > 3) {
+    if (argIn.empty() || argIn.size() > 3) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring errorMessage;
@@ -52,7 +52,7 @@ Nelson::AudioGateway::audioreadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             Dimensions dimsParam2 = param2.getDimensions();
             if (param2.isVector() && param2.isNumeric() && (dimsParam2.getElementCount() == 2)) {
                 param2.promoteType(NLS_DOUBLE);
-                double* ptr = (double*)param2.getDataPointer();
+                auto* ptr = (double*)param2.getDataPointer();
                 start = ptr[0];
                 end = ptr[1];
                 if (start < 1 || end < 1) {
@@ -70,7 +70,7 @@ Nelson::AudioGateway::audioreadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         Dimensions dimsParam2 = param2.getDimensions();
         if (param2.isVector() && param2.isNumeric() && (dimsParam2.getElementCount() == 2)) {
             param2.promoteType(NLS_DOUBLE);
-            double* ptr = (double*)param2.getDataPointer();
+            auto* ptr = (double*)param2.getDataPointer();
             start = ptr[0];
             end = ptr[1];
             if (start < 1 || end < 1) {

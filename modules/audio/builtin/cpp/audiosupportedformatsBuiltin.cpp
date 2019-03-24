@@ -32,7 +32,7 @@ Nelson::AudioGateway::audiosupportedformatsBuiltin(
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 0) {
+    if (!argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     retval.push_back(AudioSupportedFormats());

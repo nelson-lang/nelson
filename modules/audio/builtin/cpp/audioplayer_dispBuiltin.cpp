@@ -37,7 +37,7 @@ Nelson::AudioGateway::audioplayer_dispBuiltin(Evaluator* eval, int nLhs, const A
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
         Interface* io = eval->getInterface();
-        if (io) {
+        if (io != nullptr) {
             Dimensions dimsParam1 = param1.getDimensions();
             io->outputMessage(L"[audioplayer] - size: ");
             dimsParam1.printMe(io);
@@ -47,7 +47,7 @@ Nelson::AudioGateway::audioplayer_dispBuiltin(Evaluator* eval, int nLhs, const A
             if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
                 Error(_W("audioplayer handle expected."));
             }
-            AudioplayerObject* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
+            auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
             objPlayer->disp(eval);
         }
     } else {

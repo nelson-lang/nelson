@@ -50,7 +50,7 @@ Nelson::AudioGateway::audioplayer_playBuiltin(Evaluator* eval, int nLhs, const A
             start = start - 1;
         } else if (param2.isVector() && param2.isNumeric() && (dimsParam2.getElementCount() == 2)) {
             param2.promoteType(NLS_DOUBLE);
-            double* ptr = (double*)param2.getDataPointer();
+            auto* ptr = (double*)param2.getDataPointer();
             start = ptr[0];
             end = ptr[1];
             if (start < 1 || end < 1) {
@@ -65,7 +65,7 @@ Nelson::AudioGateway::audioplayer_playBuiltin(Evaluator* eval, int nLhs, const A
     if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
         Error(_W("audioplayer handle expected."));
     }
-    AudioplayerObject* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
+    auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     if (argIn.size() == 1) {
         objPlayer->play();
     } else {
@@ -73,13 +73,13 @@ Nelson::AudioGateway::audioplayer_playBuiltin(Evaluator* eval, int nLhs, const A
             if (start > objPlayer->getTotalSamples()) {
                 Error(_W("Invalid range."));
             }
-            objPlayer->play((int)start);
+            objPlayer->play(static_cast<int>(start));
         } else {
             if (start > objPlayer->getTotalSamples() || start > end
                 || end > objPlayer->getTotalSamples()) {
                 Error(_W("Invalid range."));
             }
-            objPlayer->play((int)start, (int)end);
+            objPlayer->play(static_cast<int>(start), static_cast<int>(end));
         }
     }
     return retval;

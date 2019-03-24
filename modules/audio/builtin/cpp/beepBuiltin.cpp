@@ -32,7 +32,7 @@ Nelson::AudioGateway::beepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     if (argIn.size() > 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (argIn.size() == 0) {
+    if (argIn.empty()) {
         if (nLhs == 0) {
             beep();
         }
