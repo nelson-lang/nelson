@@ -165,32 +165,30 @@ power_dd(double a, double b)
 void
 cicpower(int n, single* c, const single* a, int stride1, int* b, int stride2)
 {
-    int m, p;
     double z1[2];
     double z3[2];
-    m = 0;
-    p = 0;
-    for (int i = 0; i < n; i++) {
+    size_t m = 0;
+    size_t p = 0;
+    for (size_t i = 0; i < (size_t)n; i++) {
         z1[0] = a[2 * m];
         z1[1] = a[2 * m + 1];
         power_zi(z3, z1, b[p]);
         c[2 * i] = static_cast<single>(z3[0]);
         c[2 * i + 1] = static_cast<single>(z3[1]);
-        m += stride1;
-        p += stride2;
+        m += (size_t)stride1;
+        p += (size_t)stride2;
     }
 }
 //=============================================================================
 void
 cfcpower(int n, single* c, const single* a, int stride1, const single* b, int stride2)
 {
-    int m, p;
     double z1[2];
     double z2[2];
     double z3[2];
-    m = 0;
-    p = 0;
-    for (int i = 0; i < n; i++) {
+    size_t m = 0;
+    size_t p = 0;
+    for (size_t i = 0; i < (size_t)n; i++) {
         z1[0] = a[2 * m];
         z1[1] = a[2 * m + 1];
         z2[0] = b[p];
@@ -198,21 +196,20 @@ cfcpower(int n, single* c, const single* a, int stride1, const single* b, int st
         power_zz(z3, z1, z2);
         c[2 * i] = static_cast<single>(z3[0]);
         c[2 * i + 1] = static_cast<single>(z3[1]);
-        m += stride1;
-        p += stride2;
+        m += (size_t)stride1;
+        p += (size_t)stride2;
     }
 }
 //=============================================================================
 void
 zdzpower(int n, double* c, const double* a, int stride1, const double* b, int stride2)
 {
-    int m, p;
     double z1[2];
     double z2[2];
     double z3[2];
-    m = 0;
-    p = 0;
-    for (int i = 0; i < n; i++) {
+    size_t m = 0;
+    size_t p = 0;
+    for (size_t i = 0; i < (size_t)n; i++) {
         z1[0] = a[2 * m];
         z1[1] = a[2 * m + 1];
         z2[0] = b[p];
@@ -220,21 +217,20 @@ zdzpower(int n, double* c, const double* a, int stride1, const double* b, int st
         power_zz(z3, z1, z2);
         c[2 * i] = z3[0];
         c[2 * i + 1] = z3[1];
-        m += stride1;
-        p += stride2;
+        m += (size_t)stride1;
+        p += (size_t)stride2;
     }
 }
 //=============================================================================
 void
 cccpower(int n, single* c, const single* a, int stride1, const single* b, int stride2)
 {
-    int m, p;
     double z1[2];
     double z2[2];
     double z3[2];
-    m = 0;
-    p = 0;
-    for (int i = 0; i < n; i++) {
+    size_t m = 0;
+    size_t p = 0;
+    for (size_t i = 0; i < (size_t)n; i++) {
         z1[0] = a[2 * m];
         z1[1] = a[2 * m + 1];
         z2[0] = b[2 * p];
@@ -242,21 +238,20 @@ cccpower(int n, single* c, const single* a, int stride1, const single* b, int st
         power_zz(z3, z1, z2);
         c[2 * i] = static_cast<single>(z3[0]);
         c[2 * i + 1] = static_cast<single>(z3[1]);
-        m += stride1;
-        p += stride2;
+        m += (size_t)stride1;
+        p += (size_t)stride2;
     }
 }
 //=============================================================================
 void
 zzzpower(int n, double* c, const double* a, int stride1, const double* b, int stride2)
 {
-    int m, p;
     double z1[2];
     double z2[2];
     double z3[2];
-    m = 0;
-    p = 0;
-    for (int i = 0; i < n; i++) {
+    size_t m = 0;
+    size_t p = 0;
+    for (size_t i = 0; i < (size_t)n; i++) {
         z1[0] = a[2 * m];
         z1[1] = a[2 * m + 1];
         z2[0] = b[2 * p];
@@ -264,71 +259,70 @@ zzzpower(int n, double* c, const double* a, int stride1, const double* b, int st
         power_zz(z3, z1, z2);
         c[2 * i] = z3[0];
         c[2 * i + 1] = z3[1];
-        m += stride1;
-        p += stride2;
+        m += (size_t)stride1;
+        p += (size_t)stride2;
     }
 }
 //=============================================================================
 void
 zizpower(int n, double* c, const double* a, int stride1, int* b, int stride2)
 {
-    int m, p;
     double z1[2];
     double z3[2];
-    m = 0;
-    p = 0;
-    for (int i = 0; i < n; i++) {
+    size_t m = 0;
+    size_t p = 0;
+    for (size_t i = 0; i < (size_t)n; i++) {
         z1[0] = a[2 * m];
         z1[1] = a[2 * m + 1];
         power_zi(z3, z1, b[p]);
         c[2 * i] = z3[0];
         c[2 * i + 1] = z3[1];
-        m += stride1;
-        p += stride2;
+        m += (size_t)stride1;
+        p += (size_t)stride2;
     }
 }
 //=============================================================================
 void
 didpower(int n, double* c, double* a, int stride1, int* b, int stride2)
 {
-    int m = 0, p = 0;
-    for (int i = 0; i < n; i++) {
+    size_t m = 0, p = 0;
+    for (size_t i = 0; i < (size_t)n; i++) {
         c[i] = power_di(a[m], b[p]);
-        m += stride1;
-        p += stride2;
+        m += (size_t)stride1;
+        p += (size_t)stride2;
     }
 }
 //=============================================================================
 void
 dddpower(int n, double* c, double* a, int stride1, double* b, int stride2)
 {
-    int m = 0, p = 0;
-    for (int i = 0; i < n; i++) {
+    size_t m = 0, p = 0;
+    for (size_t i = 0; i < (size_t)n; i++) {
         c[i] = power_dd(a[m], b[p]);
-        m += stride1;
-        p += stride2;
+        m += (size_t)stride1;
+        p += (size_t)stride2;
     }
 }
 //=============================================================================
 void
 fifpower(int n, single* c, single* a, int stride1, int* b, int stride2)
 {
-    int m = 0, p = 0;
-    for (int i = 0; i < n; i++) {
+    size_t m = 0, p = 0;
+    for (size_t i = 0; i < (size_t)n; i++) {
         c[i] = static_cast<single>(power_di(a[m], b[p]));
-        m += stride1;
-        p += stride2;
+        m += (size_t)stride1;
+        p += (size_t)stride2;
     }
 }
 //=============================================================================
 void
 fffpower(int n, single* c, single* a, int stride1, single* b, int stride2)
 {
-    int m = 0, p = 0;
-    for (int i = 0; i < n; i++) {
+    size_t m = 0, p = 0;
+    for (size_t i = 0; i < (size_t)n; i++) {
         c[i] = static_cast<single>(power_dd(a[m], b[p]));
-        m += stride1;
-        p += stride2;
+        m += (size_t)stride1;
+        p += (size_t)stride2;
     }
 }
 //=============================================================================
@@ -526,8 +520,9 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
     opType = 0;
     if (AClass == NLS_SCOMPLEX) {
         switch (BClass) {
-        default:
+        default: {
             Error(_W("Unhandled type for second argument to A^B"));
+        } break;
             OPCASE(NLS_INT64, 1);
             OPCASE(NLS_SINGLE, 2);
             OPCASE(NLS_DOUBLE, 3);
@@ -536,8 +531,9 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
         }
     } else if (AClass == NLS_DCOMPLEX) {
         switch (BClass) {
-        default:
+        default: {
             Error(_W("Unhandled type for second argument to A^B"));
+        } break;
             OPCASE(NLS_INT64, 6);
             OPCASE(NLS_SINGLE, 3);
             OPCASE(NLS_DOUBLE, 3);
@@ -546,8 +542,9 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
         }
     } else if (AClass == NLS_DOUBLE && Anegative) {
         switch (BClass) {
-        default:
+        default: {
             Error(_W("Unhandled type for second argument to A^B"));
+        } break;
             OPCASE(NLS_INT64, 7);
             OPCASE(NLS_SINGLE, 5);
             OPCASE(NLS_DOUBLE, 5);
@@ -556,8 +553,9 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
         }
     } else if (AClass == NLS_DOUBLE && (!Anegative)) {
         switch (BClass) {
-        default:
+        default: {
             Error(_("Unhandled type for second argument to A^B"));
+        } break;
             OPCASE(NLS_INT64, 7);
             OPCASE(NLS_SINGLE, 8);
             OPCASE(NLS_DOUBLE, 8);
@@ -566,8 +564,9 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
         }
     } else if (AClass == NLS_SINGLE && Anegative) {
         switch (BClass) {
-        default:
+        default: {
             Error(_("Unhandled type for second argument to A^B"));
+        } break;
             OPCASE(NLS_INT64, 9);
             OPCASE(NLS_SINGLE, 4);
             OPCASE(NLS_DOUBLE, 5);
@@ -576,8 +575,9 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
         }
     } else if (AClass == NLS_SINGLE && (!Anegative)) {
         switch (BClass) {
-        default:
+        default: {
             Error(_("Unhandled type for second argument to A^B"));
+        } break;
             OPCASE(NLS_INT64, 9);
             OPCASE(NLS_SINGLE, 10);
             OPCASE(NLS_DOUBLE, 8);

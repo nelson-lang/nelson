@@ -43,9 +43,6 @@ Nelson::ElementaryFunctionsGateway::uminusBuiltin(
         res = UnaryMinus(a, needToOverload);
         if (needToOverload) {
             res = OverloadUnaryOperator(eval, a, "uminus");
-            if (bSuccess) {
-                retval.push_back(res);
-            }
         } else {
             retval.push_back(res);
         }

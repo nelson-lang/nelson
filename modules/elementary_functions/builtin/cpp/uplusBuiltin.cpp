@@ -43,9 +43,6 @@ Nelson::ElementaryFunctionsGateway::uplusBuiltin(
         res = UnaryPlus(a, needToOverload);
         if (needToOverload) {
             res = OverloadUnaryOperator(eval, a, "uplus");
-            if (bSuccess) {
-                retval.push_back(res);
-            }
         } else {
             retval.push_back(res);
         }

@@ -166,9 +166,6 @@ IsEqual(ArrayOf& A, ArrayOf& B, bool sameTypes, bool withNaN, bool& needToOverlo
         }
     }
     return true;
-
-    needToOverload = true;
-    return false;
 }
 //=============================================================================
 } // namespace Nelson

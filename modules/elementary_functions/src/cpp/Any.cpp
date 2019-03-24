@@ -37,17 +37,17 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
     if (A.isEmpty()) {
         if (dim == 0) {
             Dimensions dims2Dzeros(0, 0);
-            if (A.getDimensions().equals(dims2Dzeros)) {
+            Dimensions dimsA = A.getDimensions();
+            if (dimsA.equals(dims2Dzeros)) {
                 res = ArrayOf::logicalConstructor(false);
             } else {
-                if (A.getDimensions().getRows() > A.getDimensions().getColumns()) {
+                if (dimsA.getRows() > dimsA.getColumns()) {
                     Dimensions dims(1, 0);
                     res = ArrayOf::emptyConstructor(dims);
                     res.promoteType(NLS_LOGICAL);
                 } else {
-                    logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
-                        NLS_LOGICAL, A.getDimensions().getColumns());
-                    Dimensions dims(1, A.getDimensions().getColumns());
+                    logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getColumns());
+                    Dimensions dims(1, dimsA.getColumns());
                     res = ArrayOf(NLS_LOGICAL, dims, logicalarray);
                 }
             }

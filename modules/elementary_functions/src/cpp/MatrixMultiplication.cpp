@@ -180,7 +180,6 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
     } else if (A.isScalar()) {
         std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
         std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
-        Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matB(Bz, mB, nB);
         if ((Az[0].real() == 0.) && (Az[0].imag() == 0.)) {
             T* pd = (T*)Cp;
             delete[] pd;
@@ -188,7 +187,8 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
             Cp = ArrayOf::allocateArrayOf(NLS_DOUBLE, Cdim.getElementCount());
             return ArrayOf(NLS_DOUBLE, Cdim, Cp);
         } else {
-            matC = Az[0] * matB.array();
+            Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matB(Bz, mB, nB);
+			matC = Az[0] * matB.array();
         }
     } else if (B.isScalar()) {
         std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
