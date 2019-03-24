@@ -85,7 +85,7 @@ IsIntegerForm(float t)
 bool
 IsIntegerForm(const float* t, size_t nbElements)
 {
-    if (t) {
+    if (t != nullptr) {
         for (size_t k = 0; k < nbElements; k++) {
             if (!IsIntegerForm(t[k])) {
                 return false;
@@ -99,7 +99,7 @@ IsIntegerForm(const float* t, size_t nbElements)
 bool
 IsIntegerForm(const double* t, size_t nbElements)
 {
-    if (t) {
+    if (t != nullptr) {
         for (size_t k = 0; k < nbElements; k++) {
             if (!IsIntegerForm(t[k])) {
                 return false;

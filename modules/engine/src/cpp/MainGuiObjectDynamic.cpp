@@ -42,7 +42,7 @@ initGuiDynamicLibrary()
         }
         if (buf != nullptr) {
             DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
-            if (dwRet != 0u) {
+            if (dwRet != 0U) {
                 fullpathGuiSharedLibrary
                     = std::string(buf) + std::string("/") + fullpathGuiSharedLibrary;
             }

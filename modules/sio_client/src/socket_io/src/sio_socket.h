@@ -46,13 +46,13 @@ namespace sio
     class socket
     {
     public:
-        typedef std::function<void(const std::string& name,message::ptr const& message,bool need_ack, message::list& ack_message)> event_listener_aux;
+        using event_listener_aux = std::function<void (const std::string &, const message::ptr &, bool, message::list &)>;
         
-        typedef std::function<void(event& event)> event_listener;
+        using event_listener = std::function<void (event &)>;
         
-        typedef std::function<void(message::ptr const& message)> error_listener;
+        using error_listener = std::function<void (const message::ptr &)>;
         
-        typedef std::shared_ptr<socket> ptr;
+        using ptr = std::shared_ptr<socket>;
         
         ~socket();
         
@@ -91,11 +91,11 @@ namespace sio
         
     private:
         //disable copy constructor and assign operator.
-        socket(socket const&){}
-        void operator=(socket const&){}
+        socket(socket const& /*unused*/){}
+        void operator=(socket const& /*unused*/){}
 
         class impl;
         impl *m_impl;
     };
-}
+}  // namespace sio
 #endif // SIO_SOCKET_H

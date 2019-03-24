@@ -38,9 +38,9 @@ Option::Option(const std::wstring& fullOption, const std::wstring& shortOption,
 //=============================================================================
 Option::~Option()
 {
-    _fullOption = L"";
-    _shortOption = L"";
-    _description = L"";
+    _fullOption.clear();
+    _shortOption.clear();
+    _description.clear();
     _bMultiple = false;
     _bWithFieldValue = false;
 }
@@ -108,12 +108,12 @@ ProgramOptions::ProgramOptions(wstringVector args, NELSON_ENGINE_MODE mode)
     _startup = false;
     _userstartup = false;
     _quietmode = false;
-    _error = L"";
-    _file = L"";
-    _command = L"";
-    _options = L"";
-    _lang = L"";
-    _socketioUri = L"";
+    _error.clear();
+    _file.clear();
+    _command.clear();
+    _options.clear();
+    _lang.clear();
+    _socketioUri.clear();
     _args = std::move(args);
     _mode = mode;
     _isvalid = parse();
@@ -127,12 +127,12 @@ ProgramOptions::~ProgramOptions()
     _startup = false;
     _userstartup = false;
     _quietmode = false;
-    _error = L"";
-    _file = L"";
-    _command = L"";
-    _options = L"";
-    _socketioUri = L"";
-    _lang = L"";
+    _error.clear();
+    _file.clear();
+    _command.clear();
+    _options.clear();
+    _socketioUri.clear();
+    _lang.clear();
 }
 //=============================================================================
 bool
