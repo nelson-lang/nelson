@@ -51,7 +51,7 @@ DynamicLinkLibraryObject::~DynamicLinkLibraryObject()
 {
     _propertiesNames.clear();
     _shared_library.unload();
-    _libraryPath = L"";
+    _libraryPath.clear();
 }
 //=============================================================================
 bool
@@ -127,15 +127,16 @@ bool
 DynamicLinkLibraryObject::searchLibrary(
     const std::wstring& libraryPath, std::wstring& fullLibraryPath)
 {
-    fullLibraryPath = L"";
+    fullLibraryPath.clear();
     boost::filesystem::path pathToSplit = libraryPath;
     std::wstring parentPath;
-    wstringVector paths;
     if (pathToSplit.has_parent_path()) {
         parentPath = pathToSplit.parent_path().generic_wstring();
     }
-    if (parentPath != L"") {
-        paths.push_back(parentPath);
+    wstringVector paths;
+
+	if (!parentPath.empty()) {
+		paths.push_back(parentPath);
         std::wstring filename = pathToSplit.filename().generic_wstring();
         if (findLibrary(paths, filename, fullLibraryPath)) {
             return true;
@@ -177,9 +178,9 @@ DynamicLinkLibraryObject::searchLibrary(
 //=============================================================================
 bool
 DynamicLinkLibraryObject::findLibrary(
-    wstringVector paths, const std::wstring& libraryName, std::wstring& fullLibraryPath)
+    const wstringVector &paths, const std::wstring& libraryName, std::wstring& fullLibraryPath)
 {
-    fullLibraryPath = L"";
+    fullLibraryPath.clear();
     if (!paths.empty()) {
         for (std::wstring path : paths) {
             boost::system::error_code errorCode;

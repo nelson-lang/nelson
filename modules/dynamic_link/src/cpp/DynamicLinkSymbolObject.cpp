@@ -148,15 +148,16 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(ArrayOf dllibObject, void* poin
     ffi_type** args = (ffi_type**)malloc(sizeof(ffi_type*) * _paramsTypes.size());
     if (!args) {
         Error(_W("error memory allocation."));
-    }
-    int i = 0;
-    for (std::wstring param : _paramsTypes) {
-        args[i++] = GetFFIType(param);
-    }
-    if (ffi_prep_cif(
-            &_cif, FFI_DEFAULT_ABI, (unsigned int)paramsTypes.size(), GetFFIType(_returnType), args)
-        != FFI_OK) {
-        Error(_W("Unable to import function through FFI."));
+    } else {
+        int i = 0;
+        for (std::wstring param : _paramsTypes) {
+            args[i++] = GetFFIType(param);
+        }
+        if (ffi_prep_cif(&_cif, FFI_DEFAULT_ABI, (unsigned int)paramsTypes.size(),
+                GetFFIType(_returnType), args)
+            != FFI_OK) {
+            Error(_W("Unable to import function through FFI."));
+        }
     }
 }
 //=============================================================================
@@ -165,12 +166,12 @@ DynamicLinkSymbolObject::~DynamicLinkSymbolObject()
     Dimensions dims(0, 0);
     _dllibObject = ArrayOf::emptyConstructor(dims);
     _pointerFunction = nullptr;
-    _symbol = L"";
-    _returnType = L"";
+    _symbol.clear();
+    _returnType.clear();
     _paramsTypes.clear();
     _nArgIn = 0;
     _nArgOut = 0;
-    _prototype = L"";
+    _prototype.clear();
     _propertiesNames.clear();
     _paramsInTypes.clear();
     _paramsOutTypes.clear();
@@ -316,8 +317,9 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
                         _paramsTypes[k].c_str()));
                 }
             } else {
-                Error(StringFormat(_W("Invalid type for #%zu input argument: %ls expected.").c_str(),
-                    k + 1, _paramsTypes[k].c_str()));
+                Error(
+                    StringFormat(_W("Invalid type for #%zu input argument: %ls expected.").c_str(),
+                        k + 1, _paramsTypes[k].c_str()));
             }
         }
     }
@@ -494,12 +496,8 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
             }
         }
     }
-    if (stringPointers != nullptr) {
-        free(stringPointers);
-    }
-    if (refPointers != nullptr) {
-        free(refPointers);
-    }
+    free(stringPointers);
+    free(refPointers);
     free(values);
     return retval;
 }

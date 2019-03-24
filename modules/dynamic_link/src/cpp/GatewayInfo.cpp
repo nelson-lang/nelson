@@ -30,8 +30,8 @@ GatewayInfo(const std::wstring& dynlibname, std::wstring& moduleName, stringVect
     std::wstring& errorMessage)
 {
     bool bRes = true;
-    errorMessage = L"";
-    moduleName = L"";
+    errorMessage.clear();
+    moduleName.clear();
     functionsList.clear();
     /* to simplify some dependencies resolution, we move in the directory and restore it after */
     boost::filesystem::path p;

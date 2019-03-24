@@ -304,7 +304,7 @@ LibPointerObject::setDataType(const std::wstring& dataType)
     if (!DynamicLinkSymbolObject::isValidDataType(dataType)) {
         Error(_W("Invalid type."));
     }
-    if (_DataType == L"voidPtr" || _DataType == L"") {
+    if (_DataType == L"voidPtr" || _DataType.empty()) {
         _currentType = DynamicLinkSymbolObject::GetNelsonType(dataType);
     } else {
         Error(_W("Incompatible types") + L" " + _DataType + L" --> " + dataType);
