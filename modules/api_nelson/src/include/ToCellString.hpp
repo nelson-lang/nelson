@@ -25,12 +25,13 @@
 //=============================================================================
 namespace Nelson {
 NLSAPI_NELSON_IMPEXP ArrayOf
-ToCellStringAsRow(wstringVector vectorStr);
+ToCellStringAsRow(const wstringVector &vectorStr);
 NLSAPI_NELSON_IMPEXP ArrayOf
-ToCellStringAsColumn(wstringVector vectorStr);
+ToCellStringAsColumn(const wstringVector &vectorStr);
 NLSAPI_NELSON_IMPEXP ArrayOf
-ToCellStringAsRow(stringVector vectorStr);
+ToCellStringAsRow(const stringVector &vectorStr);
 NLSAPI_NELSON_IMPEXP ArrayOf
-ToCellStringAsColumn(stringVector vectorStr);
+ToCellStringAsColumn(const stringVector &vectorStr);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

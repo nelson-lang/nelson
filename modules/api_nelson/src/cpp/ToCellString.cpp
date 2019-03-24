@@ -21,7 +21,7 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-ToCellStringAs(stringVector vectorStr, bool bAsColumn)
+ToCellStringAs(const stringVector &vectorStr, bool bAsColumn)
 {
     ArrayOf* elements = nullptr;
     size_t nbElements = vectorStr.size();
@@ -48,7 +48,7 @@ ToCellStringAs(stringVector vectorStr, bool bAsColumn)
 }
 //=============================================================================
 static ArrayOf
-ToCellStringAs(wstringVector vectorStr, bool bAsColumn)
+ToCellStringAs(const wstringVector &vectorStr, bool bAsColumn)
 {
     ArrayOf* elements = nullptr;
     size_t nbElements = vectorStr.size();
@@ -75,25 +75,25 @@ ToCellStringAs(wstringVector vectorStr, bool bAsColumn)
 }
 //=============================================================================
 ArrayOf
-ToCellStringAsRow(wstringVector vectorStr)
+ToCellStringAsRow(const wstringVector &vectorStr)
 {
     return ToCellStringAs(vectorStr, false);
 }
 //=============================================================================
 ArrayOf
-ToCellStringAsColumn(wstringVector vectorStr)
+ToCellStringAsColumn(const wstringVector &vectorStr)
 {
     return ToCellStringAs(vectorStr, true);
 }
 //=============================================================================
 ArrayOf
-ToCellStringAsRow(stringVector vectorStr)
+ToCellStringAsRow(const stringVector &vectorStr)
 {
     return ToCellStringAs(vectorStr, false);
 }
 //=============================================================================
 ArrayOf
-ToCellStringAsColumn(stringVector vectorStr)
+ToCellStringAsColumn(const stringVector &vectorStr)
 {
     return ToCellStringAs(vectorStr, true);
 }
