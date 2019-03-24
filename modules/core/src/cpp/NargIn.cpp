@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 int
-NargIn(Evaluator* eval, std::wstring functionName)
+NargIn(Evaluator* eval, const std::wstring &functionName)
 {
     int nargin = 0;
     FuncPtr fptr = nullptr;

@@ -27,13 +27,13 @@
 namespace Nelson {
 //=============================================================================
 bool
-EvaluateCommand(Evaluator* eval, std::wstring command, bool bCatch)
+EvaluateCommand(Evaluator* eval, const std::wstring &command, bool bCatch)
 {
     return EvaluateCommand(eval, wstring_to_utf8(command), bCatch);
 }
 //=============================================================================
 bool
-EvaluateCommand(Evaluator* eval, std::string command, bool bCatch)
+EvaluateCommand(Evaluator* eval, const std::string &command, bool bCatch)
 {
     return eval->evaluateString(command, bCatch);
 }
@@ -41,7 +41,7 @@ EvaluateCommand(Evaluator* eval, std::string command, bool bCatch)
 #define TEMP_VAR_NAME L"__eval_tmp_"
 //=============================================================================
 static std::wstring
-prepareVariablesReturned(int nLhs, std::wstring command)
+prepareVariablesReturned(int nLhs, const std::wstring &command)
 {
     std::wstring variables;
     if (nLhs > 1) {
@@ -95,7 +95,7 @@ getScopeValue(SCOPE_LEVEL scope)
 //=============================================================================
 static ArrayOfVector
 EvaluateCommand(
-    Evaluator* eval, int nLhs, std::wstring command, std::wstring catchCommand, SCOPE_LEVEL scope)
+    Evaluator* eval, int nLhs, const std::wstring &command, const std::wstring &catchCommand, SCOPE_LEVEL scope)
 {
     int scopeValue = getScopeValue(scope);
     ArrayOfVector retval;
@@ -110,7 +110,7 @@ EvaluateCommand(
             eval->evaluateString(preparedCommand);
             retval = retrieveVariablesReturned(eval, nLhs);
             eval->getContext()->restoreBypassedScopes();
-            if (retval.size() != nLhs) {
+            if (retval.size() != (size_t)nLhs) {
                 Error(_W("Invalid use of statement list."));
             }
         }
@@ -118,12 +118,13 @@ EvaluateCommand(
         if (nLhs == 0) {
             bool autostop = eval->AutoStop();
             eval->AutoStop(false);
+            Context* context = eval->getContext();
             try {
-                eval->getContext()->bypassScope(scopeValue);
+                context->bypassScope(scopeValue);
                 eval->evaluateString(command, true);
-                eval->getContext()->restoreBypassedScopes();
+                context->restoreBypassedScopes();
             } catch (const Exception&) {
-                eval->getContext()->restoreBypassedScopes();
+                context->restoreBypassedScopes();
                 eval->evaluateString(catchCommand, false);
             }
             eval->AutoStop(true);
@@ -132,18 +133,19 @@ EvaluateCommand(
             std::wstring preparedCatchCommand = prepareVariablesReturned(nLhs, catchCommand);
             bool autostop = eval->AutoStop();
             eval->AutoStop(false);
+            Context* context = eval->getContext();
             try {
-                eval->getContext()->bypassScope(scopeValue);
+                context->bypassScope(scopeValue);
                 eval->evaluateString(preparedCommand, true);
                 retval = retrieveVariablesReturned(eval, nLhs);
-                eval->getContext()->restoreBypassedScopes();
+                context->restoreBypassedScopes();
             } catch (const Exception&) {
-                eval->getContext()->restoreBypassedScopes();
+                context->restoreBypassedScopes();
                 eval->evaluateString(preparedCatchCommand, false);
                 retval = retrieveVariablesReturned(eval, nLhs);
             }
             eval->AutoStop(true);
-            if (retval.size() != nLhs) {
+            if (retval.size() != (size_t)nLhs) {
                 Error(_W("Invalid use of statement list."));
             }
         }
@@ -152,13 +154,13 @@ EvaluateCommand(
 }
 //=============================================================================
 ArrayOfVector
-EvaluateCommand(Evaluator* eval, int nLhs, std::wstring command, std::wstring catchCommand)
+EvaluateCommand(Evaluator* eval, int nLhs, const std::wstring &command, const std::wstring &catchCommand)
 {
     return EvaluateCommand(eval, nLhs, command, catchCommand, SCOPE_LEVEL::LOCAL_SCOPE);
 }
 //=============================================================================
 ArrayOfVector
-EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, std::wstring command)
+EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, const std::wstring &command)
 {
     if (scope == GLOBAL_SCOPE) {
         Error(_W("'local', 'caller', 'base' scope expected."));
@@ -167,7 +169,7 @@ EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, std::wstring com
 }
 //=============================================================================
 ArrayOfVector
-EvaluateConsoleCommand(Evaluator* eval, int nLhs, std::wstring command, std::wstring catchCommand)
+EvaluateConsoleCommand(Evaluator* eval, int nLhs, const std::wstring &command, const std::wstring &catchCommand)
 {
     ArrayOfVector retval;
     Interface* io = eval->getInterface();

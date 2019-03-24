@@ -169,8 +169,8 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         return true;
     }
     try {
-        buffer = new char[cpos + 2];
-        memset(buffer, 0, cpos + 2);
+        buffer = new char[size_t(cpos) + size_t(2)];
+        memset(buffer, 0, size_t(cpos) + size_t(2));
     } catch (const std::bad_alloc& ba) {
         deleteAstVector(pt);
         resetAstBackupPosition();
@@ -186,7 +186,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
     }
     indexType n = 0;
     if (buffer) {
-        n = fread(buffer, sizeof(char), cpos, fr);
+        n = fread(buffer, sizeof(char), size_t(cpos), fr);
         buffer[n] = '\n';
         buffer[n + 1] = 0;
     }
@@ -211,9 +211,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         }
         eval->pushDebug(wstring_to_utf8(filename), buffer);
         try {
-            if (tree) {
-                eval->block(tree);
-            }
+            eval->block(tree);
         } catch (const Exception&) {
             deleteAstVector(pt);
             resetAstBackupPosition();

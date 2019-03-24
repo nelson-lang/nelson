@@ -27,14 +27,14 @@
 namespace Nelson {
 //=============================================================================
 NLSCORE_IMPEXP bool
-EvaluateCommand(Evaluator* eval, std::wstring command, bool bCatch);
+EvaluateCommand(Evaluator* eval, const std::wstring &command, bool bCatch);
 NLSCORE_IMPEXP bool
-EvaluateCommand(Evaluator* eval, std::string command, bool bCatch);
+EvaluateCommand(Evaluator* eval, const std::string &command, bool bCatch);
 NLSCORE_IMPEXP ArrayOfVector
-EvaluateCommand(Evaluator* eval, int nLhs, std::wstring command, std::wstring catchCommand);
+EvaluateCommand(Evaluator* eval, int nLhs, const std::wstring &command, const std::wstring &catchCommand);
 NLSCORE_IMPEXP ArrayOfVector
-EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, std::wstring command);
+EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, const std::wstring &command);
 NLSCORE_IMPEXP ArrayOfVector
-EvaluateConsoleCommand(Evaluator* eval, int nLhs, std::wstring command, std::wstring catchCommand);
+EvaluateConsoleCommand(Evaluator* eval, int nLhs, const std::wstring &command, const std::wstring &catchCommand);
 } // namespace Nelson
 //=============================================================================

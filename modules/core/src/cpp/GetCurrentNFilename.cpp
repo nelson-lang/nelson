@@ -49,12 +49,12 @@ GetCurrentNFilenameW(Evaluator* eval)
         fileName = eval->getCurrentEvaluateFilename();
     } else {
         if (callerName == "EvaluateString") {
-            fileName = L"";
+            fileName.clear();
         } else {
             fileName = utf8_to_wstring(callerName);
         }
     }
-    if (fileName != L"") {
+    if (!fileName.empty()) {
         if (isFile(fileName)) {
             boost::filesystem::path canonicalPath;
             try {

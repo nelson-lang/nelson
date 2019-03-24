@@ -69,7 +69,7 @@ GetNelsonBinariesPath()
         return binpath.generic_wstring();
     }
     fprintf(stderr, "%s\n", _("Error: we cannot find Nelson binaries path.").c_str());
-    return std::wstring(L"");
+    return std::wstring();
 }
 //=============================================================================
 } // namespace Nelson

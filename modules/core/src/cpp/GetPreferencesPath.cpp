@@ -53,6 +53,7 @@ buildPreferencesPath()
                 bSet = true;
             }
         } catch (const boost::filesystem::filesystem_error&) {
+            bSet = false;
         }
     }
     if (!bSet) {
@@ -79,17 +80,17 @@ buildPreferencesPath()
                         if (!boost::filesystem::create_directories(path)) {
                             fprintf(stderr, "%s\n",
                                 _("Error: we cannot create preferences path.").c_str());
-                            prefPath = L"";
+                            prefPath.clear();
                         }
                     } catch (const boost::filesystem::filesystem_error& e) {
                         if (e.code() == boost::system::errc::permission_denied) {
-                            prefPath = L"";
+                            prefPath.clear();
                         }
-                        prefPath = L"";
+                        prefPath.clear();
                     }
                 }
             } catch (const boost::filesystem::filesystem_error&) {
-                prefPath = L"";
+                prefPath.clear();
             }
         }
 #else
@@ -147,7 +148,7 @@ bool
 ComputePreferencesPath()
 {
     preferencesPath = buildPreferencesPath();
-    return (preferencesPath != L"");
+    return (!preferencesPath.empty());
 }
 //=============================================================================
 } // namespace Nelson

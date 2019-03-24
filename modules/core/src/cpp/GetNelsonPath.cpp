@@ -104,7 +104,7 @@ GetRootFolder()
 std::wstring
 GetRootPath()
 {
-    if (NelSonPath == L"") {
+    if (NelSonPath.empty()) {
         std::wstring p;
 #define NELSON_ROOT_PATH_ENV L"NELSON_ROOT_PATH"
         std::wstring penv = GetVariableEnvironment(NELSON_ROOT_PATH_ENV, L"");
@@ -132,7 +132,7 @@ GetRootPath()
             return NelSonPath;
         }
         fprintf(stderr, "%s\n", _("Error: we cannot find Nelson root path.").c_str());
-        NelSonPath = std::wstring(L"");
+        NelSonPath.clear();
     }
     return NelSonPath;
 }

@@ -28,9 +28,8 @@ Nelson::CoreGateway::evalinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     if (argIn.size() != 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    SCOPE_LEVEL scope;
+    SCOPE_LEVEL scope = SCOPE_LEVEL::LOCAL_SCOPE;
     std::wstring command;
-    std::wstring catchCommand;
     if (argIn[0].isRowVectorCharacterArray()) {
         std::wstring scopeName = argIn[0].getContentAsWideString();
         if (scopeName == L"caller" || scopeName == L"base" || scopeName == L"local") {
