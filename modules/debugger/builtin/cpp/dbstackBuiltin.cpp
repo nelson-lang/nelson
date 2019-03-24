@@ -128,11 +128,11 @@ dbstackPrint(Interface* io, stackTrace positions, bool withCompleteNames)
             filename = shortName(position.getFilename());
         }
         if (position.getLine() == 0) {
-            if (filename != L"") {
+            if (!filename.empty()) {
                 message = std::wstring(L"In ") + filename + L"\n";
             }
         } else {
-            if (position.getFunctionName() != L"") {
+            if (!position.getFunctionName().empty()) {
                 message = std::wstring(L"In ") + filename + L" function "
                     + position.getFunctionName() + L" (line " + std::to_wstring(position.getLine())
                     + L")\n";
@@ -163,7 +163,7 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         int _nbOmits = 1;
         checkArgument(eval, argIn[0], _withCompleteNames, _nbOmits, isCompleteNames, isNbOmits);
         if (isCompleteNames) {
-            withCompleteNames = isCompleteNames;
+            withCompleteNames = true;
         }
         if (isNbOmits) {
             nbOmits = _nbOmits;
@@ -178,14 +178,14 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         bool _wasNbOmits = false;
         checkArgument(eval, argIn[0], _withCompleteNames, _nbOmits, isCompleteNames, isNbOmits);
         if (isCompleteNames) {
-            withCompleteNames = isCompleteNames;
+            withCompleteNames = true;
         }
         if (isNbOmits) {
             nbOmits = _nbOmits;
         }
         checkArgument(eval, argIn[1], _withCompleteNames, _nbOmits, isCompleteNames, isNbOmits);
         if (isCompleteNames) {
-            withCompleteNames = isCompleteNames;
+            withCompleteNames = true;
         }
         if (isNbOmits) {
             nbOmits = _nbOmits;
@@ -197,16 +197,16 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
 
     std::vector<StackEntry> cstack;
-    if (eval) {
+    if (eval != nullptr) {
         cstack = eval->cstack;
     }
     DebugStack(cstack, nbOmits, positions);
 
     switch (nLhs) {
     case 0: {
-        if (eval) {
+        if (eval != nullptr) {
             Interface* io = eval->getInterface();
-            if (io) {
+            if (io != nullptr) {
                 dbstackPrint(io, positions, withCompleteNames);
             }
         }
