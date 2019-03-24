@@ -71,7 +71,7 @@ utf8_to_wstring(const std::string& str)
     if (U_FAILURE(status)) {
         return std::wstring(L"!!!ERROR ICU!!!");
     }
-    result.resize(len);
+    result.resize((size_t)len);
     wcacheSrc = str;
     wcacheRes = result;
     return result;
@@ -107,7 +107,7 @@ wstring_to_utf8(const std::wstring& str)
     if (U_FAILURE(status)) {
         return std::string("!!!ERROR ICU!!!");
     }
-    result.resize(len);
+    result.resize(static_cast<size_t>(len));
     ucacheSrc = str;
     ucacheRes = result;
     return result;
@@ -117,7 +117,7 @@ std::wstring
 utf8_to_wstring(const char* str)
 {
     if (str == nullptr) {
-        return std::wstring(L"");
+        return std::wstring();
     }
     return utf8_to_wstring(std::string(str));
 }
@@ -126,7 +126,7 @@ std::string
 wstring_to_utf8(const wchar_t* str)
 {
     if (str == nullptr) {
-        return std::string("");
+        return std::string();
     }
     return wstring_to_utf8(std::wstring(str));
 }
