@@ -68,12 +68,11 @@ Nelson::AudioGateway::audioplayerBuiltin(Evaluator* eval, int nLhs, const ArrayO
     } break;
     }
     if (!res) {
-        if (objPlayer) {
-            delete objPlayer;
-        }
+        delete objPlayer;
         Error(errorMessage);
+    } else {
+        retval.push_back(ArrayOf::handleConstructor(objPlayer));
     }
-    retval.push_back(ArrayOf::handleConstructor(objPlayer));
     return retval;
 }
 //=============================================================================

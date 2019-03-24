@@ -53,9 +53,9 @@ AudioSupportedFormats()
     ArrayOfVector formats;
     ArrayOfVector extensions;
     ArrayOfVector subformats;
-    formats.reserve(countFormat);
-    extensions.reserve(countFormat);
-    subformats.reserve(countFormat);
+    formats.reserve((size_t)countFormat);
+    extensions.reserve((size_t)countFormat);
+    subformats.reserve((size_t)countFormat);
     Dimensions dims;
     dims[0] = countFormat;
     dims[1] = 1;

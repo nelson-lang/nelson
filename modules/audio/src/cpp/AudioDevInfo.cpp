@@ -122,7 +122,7 @@ retrieveAudioDevicesInfo()
 //=============================================================================
 static ArrayOf
 getDevicesInfo(
-    boost::container::vector<AudioDeviceInfo> infos, bool input, size_t nbInputs, size_t nbOutputs)
+    const boost::container::vector<AudioDeviceInfo> &infos, bool input, size_t nbInputs, size_t nbOutputs)
 {
     Dimensions dimsInOrOutputs;
     if (input) {
@@ -214,7 +214,7 @@ getDevicesInfo(
 ArrayOf
 AudioDevInfo(std::wstring& errorMessage)
 {
-    errorMessage = L"";
+    errorMessage.clear();
     size_t nbInputs = 0;
     size_t nbOutputs = 0;
     for (AudioDeviceInfo info : audioDevices) {
@@ -239,7 +239,7 @@ AudioDevInfo(std::wstring& errorMessage)
 ArrayOf
 AudioDevInfoDefault(std::wstring& errorMessage)
 {
-    errorMessage = L"";
+    errorMessage.clear();
     PaDeviceIndex defaultOutput = Pa_GetDefaultOutputDevice();
     boost::container::vector<AudioDeviceInfo> infoOutput;
     if (defaultOutput != paNoDevice) {
@@ -286,7 +286,7 @@ AudioDevInfoDefault(std::wstring& errorMessage)
 ArrayOf
 AudioDevInfo(int io, std::wstring& errorMessage)
 {
-    errorMessage = L"";
+    errorMessage.clear();
     if (io == 0 || io == 1) {
         int res = 0;
         for (AudioDeviceInfo info : audioDevices) {
@@ -310,7 +310,7 @@ AudioDevInfo(int io, std::wstring& errorMessage)
 }
 //=============================================================================
 static bool
-getDeviceInfoById(boost::container::vector<AudioDeviceInfo> infos, int ID, AudioDeviceInfo& info)
+getDeviceInfoById(const boost::container::vector<AudioDeviceInfo> &infos, int ID, AudioDeviceInfo& info)
 {
     for (AudioDeviceInfo element : infos) {
         if (element.Id == ID) {
@@ -324,7 +324,7 @@ getDeviceInfoById(boost::container::vector<AudioDeviceInfo> infos, int ID, Audio
 ArrayOf
 AudioDevInfo(int io, int id, std::wstring& errorMessage)
 {
-    errorMessage = L"";
+    errorMessage.clear();
     if (io == 0 || io == 1) {
         AudioDeviceInfo infoFound;
         if (getDeviceInfoById(audioDevices, id, infoFound)) {
@@ -349,7 +349,7 @@ AudioDevInfo(int io, int id, std::wstring& errorMessage)
 }
 //=============================================================================
 static bool
-getDeviceInfoByName(boost::container::vector<AudioDeviceInfo> infos, int IO, std::wstring name,
+getDeviceInfoByName(const boost::container::vector<AudioDeviceInfo> &infos, int IO, const std::wstring &name,
     AudioDeviceInfo& info)
 {
     for (AudioDeviceInfo element : infos) {
@@ -375,9 +375,9 @@ getDeviceInfoByName(boost::container::vector<AudioDeviceInfo> infos, int IO, std
 }
 //=============================================================================
 ArrayOf
-AudioDevInfo(int io, std::wstring name, std::wstring& errorMessage)
+AudioDevInfo(int io, const std::wstring &name, std::wstring& errorMessage)
 {
-    errorMessage = L"";
+    errorMessage.clear();
     if (io == 0 || io == 1) {
         AudioDeviceInfo infoFound;
         if (!getDeviceInfoByName(audioDevices, io, name, infoFound)) {
@@ -394,7 +394,7 @@ AudioDevInfo(int io, std::wstring name, std::wstring& errorMessage)
 ArrayOf
 AudioDevInfoDriverVersion(int io, int id, std::wstring& errorMessage)
 {
-    errorMessage = L"";
+    errorMessage.clear();
     if (io == 0 || io == 1) {
         AudioDeviceInfo infoFound;
         if (getDeviceInfoById(audioDevices, id, infoFound)) {
@@ -444,7 +444,7 @@ bitsToFormat(int bits)
 }
 //=============================================================================
 static bool
-searchAudioDevice(boost::container::vector<AudioDeviceInfo> infos, int io, int rate, int bits,
+searchAudioDevice(const boost::container::vector<AudioDeviceInfo> &infos, int io, int rate, int bits,
     int chans, AudioDeviceInfo& info)
 {
     if (io == 0 || io == 1) {
@@ -487,7 +487,7 @@ searchAudioDevice(boost::container::vector<AudioDeviceInfo> infos, int io, int r
 ArrayOf
 AudioDevInfo(int io, int rate, int bits, int chans, std::wstring& errorMessage)
 {
-    errorMessage = L"";
+    errorMessage.clear();
     if (io == 0 || io == 1) {
         AudioDeviceInfo deviceFound;
         if (searchAudioDevice(audioDevices, io, rate, bits, chans, deviceFound)) {
@@ -535,7 +535,7 @@ supportAudioDevice(
 ArrayOf
 AudioDevInfo(int io, int id, int rate, int bits, int chans, std::wstring& errorMessage)
 {
-    errorMessage = L"";
+    errorMessage.clear();
     if (io == 0 || io == 1) {
         PaSampleFormat format = bitsToFormat(bits);
         const PaDeviceInfo* padeviceInfo = nullptr;

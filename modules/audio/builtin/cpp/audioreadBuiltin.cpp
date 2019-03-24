@@ -89,7 +89,7 @@ Nelson::AudioGateway::audioreadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     } break;
     }
     retval = AudioRead(filename, start, end, datatype, errorMessage);
-    if (errorMessage != L"") {
+    if (!errorMessage.empty()) {
         Error(errorMessage);
     }
     return retval;

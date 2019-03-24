@@ -388,8 +388,9 @@ AudioplayerObject::setSamples(
         } else {
             audioData = data;
         }
-        rows = audioData.getDimensions().getRows();
-        columns = audioData.getDimensions().getColumns();
+        Dimensions dimsAudioData = audioData.getDimensions();
+        rows = dimsAudioData.getRows();
+        columns = dimsAudioData.getColumns();
         _NumberOfChannels = static_cast<int>(columns);
         if (_NumberOfChannels > pdi_output->maxOutputChannels) {
             errorMessage = _W("Too many output channels.");
@@ -456,31 +457,36 @@ AudioplayerObject::paPlayCallback(const void* inputBuffer, void* outputBuffer,
                 switch (dataClass) {
                 case NLS_SINGLE: {
                     auto* ptrData = (single*)data->audioData.getDataPointer();
-                    single val = ptrData[data->_CurrentSample + (c * data->_TotalSamples)];
+                    size_t pos = (size_t)(data->_CurrentSample) + (size_t)(c) * (size_t)(data->_TotalSamples);
+                    single val = ptrData[pos];
                     *outAsSingle = val;
                     outAsSingle++;
                 } break;
                 case NLS_DOUBLE: {
                     auto* ptrData = (double*)data->audioData.getDataPointer();
-                    double val = ptrData[data->_CurrentSample + (c * data->_TotalSamples)];
+                    size_t pos = (size_t)(data->_CurrentSample) + (size_t)(c) * (size_t)(data->_TotalSamples);
+                    double val = ptrData[pos];
                     *outAsSingle = static_cast<single>(val);
                     outAsSingle++;
                 } break;
                 case NLS_INT8: {
                     int8* ptrData = (int8*)data->audioData.getDataPointer();
-                    int8 val = ptrData[data->_CurrentSample + (c * data->_TotalSamples)];
+                    size_t pos = (size_t)(data->_CurrentSample) + (size_t)(c) * (size_t)(data->_TotalSamples);
+                    int8 val = ptrData[pos];
                     *outAsInt8 = val;
                     outAsInt8++;
                 } break;
                 case NLS_UINT8: {
                     auto* ptrData = (uint8*)data->audioData.getDataPointer();
-                    uint8 val = ptrData[data->_CurrentSample + (c * data->_TotalSamples)];
+                    size_t pos = (size_t)(data->_CurrentSample) + (size_t)(c) * (size_t)(data->_TotalSamples);
+                    uint8 val = ptrData[pos];
                     *outAsUInt8 = val;
                     outAsUInt8++;
                 } break;
                 case NLS_INT16: {
                     auto* ptrData = (int16*)data->audioData.getDataPointer();
-                    int16 val = ptrData[data->_CurrentSample + (c * data->_TotalSamples)];
+                    size_t pos = (size_t)(data->_CurrentSample) + (size_t)(c) * (size_t)(data->_TotalSamples);
+                    int16 val = ptrData[pos];
                     *outAsInt16 = val;
                     outAsInt16++;
                 } break;
@@ -591,7 +597,7 @@ AudioplayerObject::stop()
                 paStream = nullptr;
                 return (err == paNoError);
             }
-            return (err == paNoError);
+            return false;
         }
         paStream = nullptr;
     }

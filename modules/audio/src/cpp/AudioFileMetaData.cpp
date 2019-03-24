@@ -27,7 +27,7 @@
 namespace Nelson {
 //=============================================================================
 static std::wstring
-revertFieldname(std::wstring fieldname, std::wstring defaultPrefix = L"x")
+revertFieldname(const std::wstring &fieldname, const std::wstring &defaultPrefix = L"x")
 {
     std::wstring modifiedFieldname = fieldname;
     if (boost::algorithm::starts_with(fieldname, defaultPrefix)) {
@@ -41,10 +41,10 @@ revertFieldname(std::wstring fieldname, std::wstring defaultPrefix = L"x")
 }
 //=============================================================================
 bool
-AudioFileMetaData(std::wstring filename, wstringVector& fieldnames, wstringVector& fiedvalues,
+AudioFileMetaData(const std::wstring &filename, wstringVector& fieldnames, wstringVector& fiedvalues,
     std::wstring& errorMessage)
 {
-    errorMessage = L"";
+    errorMessage.clear();
 #ifdef _MSC_VER
     TagLib::FileRef f(filename.c_str());
 #else
@@ -87,10 +87,10 @@ AudioFileMetaData(std::wstring filename, wstringVector& fieldnames, wstringVecto
 }
 //=============================================================================
 bool
-setAudioFileMetaData(std::wstring filename, wstringVector fieldnames, wstringVector fieldvalues,
+setAudioFileMetaData(const std::wstring &filename, wstringVector fieldnames, wstringVector fieldvalues,
     std::wstring& errorMessage)
 {
-    errorMessage = L"";
+    errorMessage.clear();
 #ifdef _MSC_VER
     TagLib::FileRef f(filename.c_str());
 #else
@@ -131,9 +131,9 @@ setAudioFileMetaData(std::wstring filename, wstringVector fieldnames, wstringVec
 }
 //=============================================================================
 bool
-deleteAudioFileMetaData(std::wstring filename, std::wstring fieldname, std::wstring& errorMessage)
+deleteAudioFileMetaData(const std::wstring &filename, const std::wstring &fieldname, std::wstring& errorMessage)
 {
-    errorMessage = L"";
+    errorMessage.clear();
 #ifdef _MSC_VER
     TagLib::FileRef f(filename.c_str());
 #else

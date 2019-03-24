@@ -203,7 +203,7 @@ AudioFileInfo(std::wstring filename, std::wstring& errorMessage)
 {
     Dimensions dims(0, 0);
     ArrayOf res = ArrayOf::emptyConstructor(dims);
-    errorMessage = L"";
+    errorMessage.clear();
     SNDFILE* file = nullptr;
     SF_INFO sfinfo;
     memset(&sfinfo, 0, sizeof(sfinfo));
@@ -255,19 +255,19 @@ AudioFileInfo(std::wstring filename, std::wstring& errorMessage)
     fieldnames.push_back("Duration");
     fieldvalues.push_back(ArrayOf::doubleConstructor(Duration));
     fieldnames.push_back("Title");
-    if (Title == L"") {
+    if (Title.empty()) {
         fieldvalues.push_back(ArrayOf::emptyConstructor());
     } else {
         fieldvalues.push_back(ArrayOf::characterArrayConstructor(Title));
     }
     fieldnames.push_back("Comment");
-    if (Comment == L"") {
+    if (Comment.empty()) {
         fieldvalues.push_back(ArrayOf::emptyConstructor());
     } else {
         fieldvalues.push_back(ArrayOf::characterArrayConstructor(Comment));
     }
     fieldnames.push_back("Artist");
-    if (Artist == L"") {
+    if (Artist.empty()) {
         fieldvalues.push_back(ArrayOf::emptyConstructor());
     } else {
         fieldvalues.push_back(ArrayOf::characterArrayConstructor(Artist));

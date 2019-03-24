@@ -42,7 +42,7 @@ Nelson::AudioGateway::audiometadataBuiltin(Evaluator* eval, int nLhs, const Arra
     wstringVector names;
     wstringVector values;
     AudioFileMetaData(filename, names, values, errorMessage);
-    if (errorMessage != L"") {
+    if (!errorMessage.empty()) {
         Error(errorMessage);
     }
     if (argIn.size() == 2) {
@@ -65,7 +65,7 @@ Nelson::AudioGateway::audiometadataBuiltin(Evaluator* eval, int nLhs, const Arra
                     currentValues.push_back(value.getContentAsWideString());
                 } else {
                     deleteAudioFileMetaData(filename, utf8_to_wstring(fieldname), errorMessage);
-                    if (errorMessage != L"") {
+                    if (!errorMessage.empty()) {
                         Error(errorMessage);
                     }
                 }
@@ -76,7 +76,7 @@ Nelson::AudioGateway::audiometadataBuiltin(Evaluator* eval, int nLhs, const Arra
         currentFieldnames.clear();
         setAudioFileMetaData(filename, wcurrentFieldname, currentValues, errorMessage);
     }
-    if (errorMessage != L"") {
+    if (!errorMessage.empty()) {
         Error(errorMessage);
     }
     ArrayOfVector fieldvalues;

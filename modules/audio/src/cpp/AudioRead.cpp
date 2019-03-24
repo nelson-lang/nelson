@@ -234,7 +234,7 @@ AudioRead(std::wstring filename, double dstart, double dend, std::wstring dataty
         }
     } break;
     }
-    if (errorMessage == L"") {
+    if (errorMessage.empty()) {
         if (!allFrames) {
             y = y.getNDimSubset(index);
         }

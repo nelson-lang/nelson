@@ -38,7 +38,7 @@ Nelson::AudioGateway::audioinfoBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     ArrayOf param1 = argIn[0];
     std::wstring filename = param1.getContentAsWideString();
     ArrayOf res = AudioFileInfo(filename, errorMessage);
-    if (errorMessage != L"") {
+    if (!errorMessage.empty()) {
         Error(errorMessage);
     }
     retval.push_back(res);
