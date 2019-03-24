@@ -36,14 +36,12 @@ Nelson::ConstructorsGateway::infBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         m = 1;
         n = 1;
     } else {
-        if (!argIn.empty()) {
-            if (argIn[0].isNumeric()) {
-                p = argIn[0];
-                m = p.getContentAsInteger32Scalar();
-                n = m;
-            } else {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED);
-            }
+        if (argIn[0].isNumeric()) {
+            p = argIn[0];
+            m = p.getContentAsInteger32Scalar();
+            n = m;
+        } else {
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED);
         }
         if (argIn.size() > 1) {
             if (argIn[0].isNumeric()) {

@@ -53,7 +53,7 @@ Nelson::ConstructorsGateway::eyeBuiltin(Evaluator* eval, int nLhs, const ArrayOf
                 indexType pos = argIn.size() - 2;
                 if (argIn[pos].isRowVectorCharacterArray()) {
                     std::wstring arg = argIn[pos].getContentAsWideString();
-                    if (arg.compare(L"like") == 0) {
+                    if (arg == L"like") {
                         ArrayOf arg = argIn[pos + 1];
                         bIsSparse = arg.isSparse();
                         destClass = arg.getDataClass();

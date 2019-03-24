@@ -73,7 +73,7 @@ single
 Epsilon(single X)
 {
     single machEps = 0.0;
-    if (X == 1.0) {
+    if (fabs(X - 1.0) == 0.0) {
         machEps = std::numeric_limits<single>::epsilon();
     } else {
         if (X >= 0) {

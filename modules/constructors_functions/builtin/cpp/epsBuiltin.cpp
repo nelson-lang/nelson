@@ -52,9 +52,9 @@ Nelson::ConstructorsGateway::epsBuiltin(Evaluator* eval, int nLhs, const ArrayOf
             retval.push_back(ArrayOf::singleConstructor(Epsilon(dV)));
         } else if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring arg = argIn[0].getContentAsWideString();
-            if (arg.compare(L"single") == 0) {
+            if (arg == L"single") {
                 retval.push_back(ArrayOf::singleConstructor(Epsilon(static_cast<single>(1.0))));
-            } else if (arg.compare(L"double") == 0) {
+            } else if (arg == L"double") {
                 retval.push_back(ArrayOf::doubleConstructor(Epsilon(1.0)));
             } else {
                 Error(_W("Type \'double\' or \'single\' expected."));

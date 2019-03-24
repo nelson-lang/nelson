@@ -35,7 +35,7 @@ Nelson::ConstructorsGateway::nanBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     if (argIn.empty()) {
         m = 1;
         n = 1;
-    } else if (!argIn.empty()) {
+    } else {
         p = argIn[0];
         m = p.getContentAsInteger32Scalar();
         n = m;

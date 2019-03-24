@@ -27,7 +27,7 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
 {
     Dimensions dimMat(n, m);
     void* vmat = nullptr;
-    if (m * n) {
+    if (m * n != 0) {
         switch (classDest) {
         case NLS_DCOMPLEX: {
             if (bIsSparse) {
