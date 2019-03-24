@@ -40,9 +40,9 @@ initInterpreterDynamicLibrary()
         } catch (const std::bad_alloc&) {
             buf = nullptr;
         }
-        if (buf) {
+        if (buf != nullptr) {
             DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
-            if (dwRet) {
+            if (dwRet != 0u) {
                 fullpathInterpreterSharedLibrary
                     = std::string(buf) + std::string("/") + fullpathInterpreterSharedLibrary;
             }
@@ -57,7 +57,7 @@ initInterpreterDynamicLibrary()
 #endif
         nlsInterpreterHandleDynamicLibrary
             = Nelson::load_dynamic_library(fullpathInterpreterSharedLibrary);
-        if (nlsInterpreterHandleDynamicLibrary) {
+        if (nlsInterpreterHandleDynamicLibrary != nullptr) {
             bFirstDynamicLibraryCall = false;
         }
     }
@@ -69,11 +69,11 @@ Error(const std::wstring& msg, const std::wstring& id)
     using PROC_NelsonErrorEmitter = void (*)(const wchar_t*, const wchar_t*);
     static PROC_NelsonErrorEmitter NelsonErrorEmitterPtr = nullptr;
     initInterpreterDynamicLibrary();
-    if (!NelsonErrorEmitterPtr) {
+    if (NelsonErrorEmitterPtr == nullptr) {
         NelsonErrorEmitterPtr = reinterpret_cast<PROC_NelsonErrorEmitter>(
             Nelson::get_function(nlsInterpreterHandleDynamicLibrary, "NelsonErrorEmitter"));
     }
-    if (NelsonErrorEmitterPtr) {
+    if (NelsonErrorEmitterPtr != nullptr) {
         NelsonErrorEmitterPtr(msg.c_str(), id.c_str());
     }
 }

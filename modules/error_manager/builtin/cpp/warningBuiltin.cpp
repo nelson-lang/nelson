@@ -78,7 +78,7 @@ stateToString(WARNING_STATE state)
 }
 //=============================================================================
 static std::wstring
-formatWarningIDStateLine(std::wstring ID, WARNING_STATE state)
+formatWarningIDStateLine(const std::wstring &ID, WARNING_STATE state)
 {
     std::wstring line;
     line = L"   ";
@@ -91,7 +91,7 @@ static void
 displayWarningStates(Evaluator* eval)
 {
     Interface* io = eval->getInterface();
-    if (io) {
+    if (io != nullptr) {
         io->outputMessage(_W("By default, warnings are enabled ('on'):") + L"\n\n");
         WARNING_IDS_STATES list = getAllWarningState();
         for (size_t k = 0; k < list.IDs.size(); k++) {
@@ -104,7 +104,7 @@ displayWarningStates(Evaluator* eval)
 }
 //=============================================================================
 static ArrayOfVector
-warningStruct(WARNING_IDS_STATES list)
+warningStruct(const WARNING_IDS_STATES &list)
 {
     ArrayOfVector retval;
     stringVector fieldnames;
@@ -201,7 +201,7 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             case 2: {
                 retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getMessage()));
                 retval.push_back(ArrayOf::characterArrayConstructor(lastWarning.getIdentifier()));
-            }
+            } break;
             default: {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             } break;

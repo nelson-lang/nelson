@@ -23,7 +23,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-IsErrorStruct(ArrayOf arg, Exception& e)
+IsErrorStruct(const ArrayOf &arg, Exception& e)
 {
     if (!arg.isStruct()) {
         return false;
@@ -41,7 +41,8 @@ IsErrorStruct(ArrayOf arg, Exception& e)
     if (fs[2] != "stack") {
         return false;
     }
-    ArrayOf stack = arg.getField("stack");
+    ArrayOf copyArg = arg;
+    ArrayOf stack = copyArg.getField("stack");
     if (!stack.isStruct()) {
         return false;
     }
@@ -63,8 +64,8 @@ IsErrorStruct(ArrayOf arg, Exception& e)
     std::wstring filename;
     std::wstring functionName;
     int line = -1;
-    ArrayOf msgArray = arg.getField("message");
-    ArrayOf idArray = arg.getField("identifier");
+    ArrayOf msgArray = copyArg.getField("message");
+    ArrayOf idArray = copyArg.getField("identifier");
     if (!msgArray.isRowVectorCharacterArray()) {
         return false;
     }
@@ -102,7 +103,7 @@ IsErrorStruct(ArrayOf arg, Exception& e)
 }
 //=============================================================================
 bool
-IsErrorStruct(const ArrayOf arg)
+IsErrorStruct(const ArrayOf &arg)
 {
     Exception e;
     return IsErrorStruct(arg, e);

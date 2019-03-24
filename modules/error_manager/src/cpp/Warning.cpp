@@ -41,9 +41,9 @@ initInterpreterDynamicLibrary()
         } catch (const std::bad_alloc&) {
             buf = nullptr;
         }
-        if (buf) {
+        if (buf != nullptr) {
             DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
-            if (dwRet) {
+            if (dwRet != 0u) {
                 fullpathInterpreterSharedLibrary
                     = std::string(buf) + std::string("/") + fullpathInterpreterSharedLibrary;
             }
@@ -58,7 +58,7 @@ initInterpreterDynamicLibrary()
 #endif
         nlsInterpreterHandleDynamicLibrary
             = Nelson::load_dynamic_library(fullpathInterpreterSharedLibrary);
-        if (nlsInterpreterHandleDynamicLibrary) {
+        if (nlsInterpreterHandleDynamicLibrary != nullptr) {
             bFirstDynamicLibraryCall = false;
         }
     }
@@ -70,11 +70,11 @@ NelsonWarningEmitterDynamicFunction(const std::wstring& msg, const std::wstring&
     using PROC_NelsonWarningEmitter = void (*)(const wchar_t*, const wchar_t*, bool);
     static PROC_NelsonWarningEmitter NelsonWarningEmitterPtr = nullptr;
     initInterpreterDynamicLibrary();
-    if (!NelsonWarningEmitterPtr) {
+    if (NelsonWarningEmitterPtr == nullptr) {
         NelsonWarningEmitterPtr = reinterpret_cast<PROC_NelsonWarningEmitter>(
             Nelson::get_function(nlsInterpreterHandleDynamicLibrary, "NelsonWarningEmitter"));
     }
-    if (NelsonWarningEmitterPtr) {
+    if (NelsonWarningEmitterPtr != nullptr) {
         NelsonWarningEmitterPtr(msg.c_str(), id.c_str(), asError);
     }
 }
@@ -82,7 +82,7 @@ NelsonWarningEmitterDynamicFunction(const std::wstring& msg, const std::wstring&
 void
 Warning(const std::wstring& id, const std::wstring& message)
 {
-    if (message.compare(L"") != 0) {
+    if (message != L"") {
         WARNING_STATE state = warningCheckState(id);
         switch (state) {
         case WARNING_STATE::AS_ERROR: {

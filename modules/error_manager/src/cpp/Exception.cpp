@@ -88,8 +88,8 @@ Exception::Exception(const std::wstring& msg_in, const std::wstring& identifier_
 Exception::~Exception()
 {
     this->backtrace.clear();
-    this->msg = L"";
-    this->identifier = L"";
+    this->msg.clear();
+    this->identifier.clear();
 }
 //=============================================================================
 Exception::Exception(const Exception& copy)
@@ -113,7 +113,7 @@ Exception::operator=(const Exception& copy)
 void
 Exception::printMe(Interface* io)
 {
-    if (msg != L"") {
+    if (!msg.empty()) {
         io->errorMessage(getFormattedErrorMessage());
     }
 }
@@ -121,13 +121,13 @@ Exception::printMe(Interface* io)
 bool
 Exception::matches(const std::wstring& tst_msg)
 {
-    return (msg.compare(tst_msg) == 0);
+    return (msg == tst_msg);
 }
 //=============================================================================
 bool
 Exception::matches(const std::string& tst_msg)
 {
-    return (msg.compare(utf8_to_wstring(tst_msg)) == 0);
+    return (msg == utf8_to_wstring(tst_msg));
 }
 //=============================================================================
 std::wstring
@@ -176,11 +176,11 @@ Exception::getFormattedErrorMessage()
         int line = backtrace[0].getLine();
         formattedMessage.append(L"\n");
         if (line == 0) {
-            if (filename != L"") {
+            if (!filename.empty()) {
                 formattedMessage = formattedMessage + std::wstring(L"In ") + filename + L"\n";
             }
         } else {
-            if (functionName != L"") {
+            if (!functionName.empty()) {
                 formattedMessage = formattedMessage + std::wstring(L"In ") + filename
                     + L" function " + functionName + L" (line " + std::to_wstring(line) + L")\n";
             } else {
@@ -195,7 +195,7 @@ Exception::getFormattedErrorMessage()
 bool
 Exception::isEmpty()
 {
-    return backtrace.empty() && (this->msg == L"");
+    return backtrace.empty() && (this->msg.empty());
 }
 //=============================================================================
 std::vector<PositionScript>

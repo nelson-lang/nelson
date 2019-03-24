@@ -47,7 +47,7 @@ Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLhs, const Array
         }
         if (argIn[0].isRowVectorCharacterArray()) {
             std::wstring msg = argIn[0].getContentAsWideString();
-            if (msg.compare(L"") != 0) {
+            if (msg != L"") {
                 Error(msg);
             }
         } else {
