@@ -22,7 +22,7 @@
 namespace Nelson {
 //=============================================================================
 logical
-Assert_IsTrue(logical value, std::wstring modifiedmsg, std::wstring& msg)
+Assert_IsTrue(logical value, const std::wstring &modifiedmsg, std::wstring& msg)
 {
     if (value == 0) {
         if (!modifiedmsg.empty()) {
@@ -31,7 +31,7 @@ Assert_IsTrue(logical value, std::wstring modifiedmsg, std::wstring& msg)
             msg = _W("Assertion failed: found false entry in condition = false.");
         }
     } else {
-        msg = L"";
+        msg.clear();
     }
     return value;
 }

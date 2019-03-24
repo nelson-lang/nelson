@@ -55,7 +55,7 @@ Assert_IsEqual(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, st
     if (!bRes) {
         msg = _W("Assertion failed: expected and computed values are different.");
     } else {
-        msg = L"";
+        msg.clear();
     }
     return bRes;
 }

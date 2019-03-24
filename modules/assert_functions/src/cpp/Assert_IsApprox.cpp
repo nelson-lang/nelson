@@ -57,7 +57,7 @@ Assert_IsApprox(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, d
     if (!bRes) {
         msg = _W("Assertion failed: expected and computed values are too different.");
     } else {
-        msg = L"";
+        msg.clear();
     }
     return bRes;
 }

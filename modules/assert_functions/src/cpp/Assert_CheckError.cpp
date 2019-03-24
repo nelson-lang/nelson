@@ -40,7 +40,7 @@ Assert_CheckError(Evaluator* eval, const std::wstring& command, const std::wstri
     if (bEval == false) {
         if (computedmsg == expectedmsg) {
             bRes = true;
-            msg = L"";
+            msg.clear();
         } else {
             bRes = false;
             msg = _W("Assertion failed : expected error message =") + L" \"" + expectedmsg + +L"\" "
