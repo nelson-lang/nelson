@@ -33,7 +33,7 @@ enum FftPlannerMethod
 };
 //=============================================================================
 indexType
-computeDim(ArrayOf X);
+computeDim(const ArrayOf &X);
 ArrayOf
 scomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse);
 ArrayOf
@@ -47,9 +47,9 @@ NLSFFTW_IMPEXP std::wstring
 getPlannerInformation();
 //=============================================================================
 NLSFFTW_IMPEXP bool
-setDoubleWisdomInformation(std::wstring info);
+setDoubleWisdomInformation(const std::wstring &info);
 NLSFFTW_IMPEXP bool
-setSingleWisdomInformation(std::wstring info);
+setSingleWisdomInformation(const std::wstring &info);
 NLSFFTW_IMPEXP bool
 setPlannerInformation(FftPlannerMethod newMethod);
 //=============================================================================

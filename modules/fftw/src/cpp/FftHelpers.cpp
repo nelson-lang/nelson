@@ -72,14 +72,14 @@ getFftFlags(FftPlannerMethod /*unused*/, int Narg)
 }
 //=============================================================================
 bool
-setDoubleWisdomInformation(std::wstring info)
+setDoubleWisdomInformation(const std::wstring &info)
 {
     std::string uinfo = wstring_to_utf8(info);
     return (fftw_import_wisdom_from_string(uinfo.c_str()) == 1);
 }
 //=============================================================================
 bool
-setSingleWisdomInformation(std::wstring info)
+setSingleWisdomInformation(const std::wstring &info)
 {
     std::string uinfo = wstring_to_utf8(info);
     return (fftwf_import_wisdom_from_string(uinfo.c_str()) == 1);
@@ -144,8 +144,8 @@ scomplex_fft_init(int Narg)
         fftwf_free(inf);
         fftwf_free(outf);
     }
-    inf = (fftwf_complex*)fftwf_malloc(sizeof(fftwf_complex) * Narg);
-    outf = (fftwf_complex*)fftwf_malloc(sizeof(fftwf_complex) * Narg);
+    inf = (fftwf_complex*)fftwf_malloc(sizeof(fftwf_complex) * (size_t)Narg);
+    outf = (fftwf_complex*)fftwf_malloc(sizeof(fftwf_complex) * (size_t)Narg);
     int flags = getFftFlags(currentFftMethod, Narg);
     pf_forward = fftwf_plan_dft_1d(Narg, inf, outf, FFTW_FORWARD, flags);
     pf_backward = fftwf_plan_dft_1d(Narg, inf, outf, FFTW_BACKWARD, flags);
@@ -158,9 +158,9 @@ scomplex_fft_forward(int Narg, float* dp)
     if (cN != Narg) {
         scomplex_fft_init(Narg);
     }
-    memcpy(inf, dp, sizeOfSingle * Narg * 2);
+    memcpy(inf, dp, sizeOfSingle * (size_t)Narg * (size_t)2);
     fftwf_execute(pf_forward);
-    memcpy(dp, outf, sizeOfSingle * Narg * 2);
+    memcpy(dp, outf, sizeOfSingle * (size_t)Narg * (size_t)2);
 }
 //=============================================================================
 static void
@@ -169,10 +169,10 @@ scomplex_fft_backward(int Narg, single* dp)
     if (cN != Narg) {
         scomplex_fft_init(Narg);
     }
-    memcpy(inf, dp, sizeOfSingle * Narg * 2);
+    memcpy(inf, dp, sizeOfSingle * (size_t)Narg * (size_t)2);
     fftwf_execute(pf_backward);
-    memcpy(dp, outf, sizeOfSingle * Narg * 2);
-    for (int i = 0; i < (2 * cN); i++) {
+    memcpy(dp, outf, sizeOfSingle * (size_t)Narg * (size_t)2);
+    for (size_t i = 0; i < ((size_t)2 * (size_t)cN); i++) {
         dp[i] /= ((single)Narg);
     }
 }
@@ -189,8 +189,8 @@ dcomplex_fft_init(int Narg)
         fftw_free(in);
         fftw_free(out);
     }
-    in = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * Narg);
-    out = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * Narg);
+    in = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * (size_t)Narg);
+    out = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * (size_t)Narg);
     int flags = getFftFlags(currentFftMethod, Narg);
     p_forward = fftw_plan_dft_1d(Narg, in, out, FFTW_FORWARD, flags);
     p_backward = fftw_plan_dft_1d(Narg, in, out, FFTW_BACKWARD, flags);
@@ -203,9 +203,9 @@ dcomplex_fft_forward(int Narg, double* dp)
     if (zN != Narg) {
         dcomplex_fft_init(Narg);
     }
-    memcpy(in, dp, sizeOfDouble * Narg * 2);
+    memcpy(in, dp, sizeOfDouble * (size_t)Narg * (size_t)2);
     fftw_execute(p_forward);
-    memcpy(dp, out, sizeOfDouble * Narg * 2);
+    memcpy(dp, out, sizeOfDouble * (size_t)Narg * (size_t)2);
 }
 //=============================================================================
 static void
@@ -214,10 +214,10 @@ dcomplex_fft_backward(int Narg, double* dp)
     if (zN != Narg) {
         dcomplex_fft_init(Narg);
     }
-    memcpy(in, dp, sizeOfDouble * Narg * 2);
+    memcpy(in, dp, sizeOfDouble * (size_t)Narg * (size_t)2);
     fftw_execute(p_backward);
-    memcpy(dp, out, sizeOfDouble * Narg * 2);
-    for (int i = 0; i < (2 * zN); i++) {
+    memcpy(dp, out, sizeOfDouble * (size_t)Narg * (size_t)2);
+    for (size_t i = 0; i < size_t(2) * size_t(zN); i++) {
         dp[i] /= ((double)Narg);
     }
 }
@@ -330,7 +330,7 @@ dcomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse)
 }
 //=============================================================================
 indexType
-computeDim(const ArrayOf X)
+computeDim(const ArrayOf &X)
 {
     indexType d = 0;
     if (X.isScalar()) {
