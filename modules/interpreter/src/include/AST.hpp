@@ -246,7 +246,7 @@ printAST(ASTPtr t);
 typedef union
 {
     int i;
-    ASTPtr p;
+    ASTPtr p; //-V117
 } contextOrPointer;
 
 typedef struct

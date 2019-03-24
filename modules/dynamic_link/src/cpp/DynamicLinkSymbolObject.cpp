@@ -312,11 +312,11 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
                     = (LibPointerObject*)params[k].getContentAsHandleScalar();
                 if (objLibPointer->getDataType() != _paramsTypes[k]) {
                     Error(StringFormat(
-                        _W("Invalid type for #%d input argument: %ls expected.").c_str(), k + 1,
+                        _W("Invalid type for #%zu input argument: %ls expected.").c_str(), k + 1,
                         _paramsTypes[k].c_str()));
                 }
             } else {
-                Error(StringFormat(_W("Invalid type for #%d input argument: %ls expected.").c_str(),
+                Error(StringFormat(_W("Invalid type for #%zu input argument: %ls expected.").c_str(),
                     k + 1, _paramsTypes[k].c_str()));
             }
         }
@@ -346,7 +346,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
     if (nbStrings > 0) {
         stringPointers = static_cast<void**>(malloc(sizeof(void*) * nbStrings));
     }
-    int stringPtrIndex = 0;
+    size_t stringPtrIndex = 0;
     for (size_t i = 0; i < params.size(); i++) {
         if (params[i].getDataClass() == NLS_HANDLE) {
             if (params[i].getHandleCategory() != LIBPOINTER_CATEGORY_STR) {

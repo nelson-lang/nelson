@@ -40,13 +40,12 @@ LibPointerObject::LibPointerObject(void* pointer)
 }
 //=============================================================================
 LibPointerObject::LibPointerObject(const std::wstring& DataType)
-    : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false)
+    : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false), _DataType(DataType)
 {
     initializeCommon();
     if (!DynamicLinkSymbolObject::isValidDataType(DataType)) {
         Error(_W("Invalid argument type:") + DataType);
     }
-    _DataType = DataType;
     _currentType = DynamicLinkSymbolObject::GetNelsonType(DataType);
     if (boost::algorithm::ends_with(DataType, L"Ptr")) {
         _initialDimX = -1;
@@ -63,13 +62,12 @@ LibPointerObject::LibPointerObject(const std::wstring& DataType)
 }
 //=============================================================================
 LibPointerObject::LibPointerObject(const std::wstring& DataType, ArrayOf Value)
-    : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false)
+    : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false), _DataType(DataType)
 {
     initializeCommon();
     if (!DynamicLinkSymbolObject::isValidDataType(DataType)) {
         Error(_W("Invalid argument type:") + DataType);
     }
-    _DataType = DataType;
     if (DataType == L"voidPtr") {
         _currentType = Value.getDataClass();
     } else {
@@ -95,11 +93,10 @@ LibPointerObject::LibPointerObject(const std::wstring& DataType, ArrayOf Value)
 }
 //=============================================================================
 LibPointerObject::LibPointerObject(void* pointer, const std::wstring& DataType, Class currentType)
-    : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false)
+    : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false), _DataType(DataType)
 {
     initializeCommon();
     _voidPointer = pointer;
-    _DataType = DataType;
     _currentType = currentType;
 }
 //=============================================================================
