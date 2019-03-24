@@ -51,9 +51,9 @@ cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* ev
         ArrayOf c = ArrayOf(NLS_CELL_ARRAY, argdims, elements);
         outputs.push_back(c);
     }
-    for (int i = 0; i < argdims.getElementCount(); i++) {
+    for (indexType i = 0; i < argdims.getElementCount(); i++) {
         ArrayOfVector input;
-        for (int j = 1; j < argcount; j++) {
+        for (indexType j = 1; j < argcount; j++) {
             auto* arg = (ArrayOf*)(argIn[j].getDataPointer());
             input.push_back(arg[i]);
         }
@@ -78,7 +78,7 @@ cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* ev
                 Error(_W("function returned fewer outputs than expected"));
             }
         }
-        for (int j = 0; j < nargout; j++) {
+        for (indexType j = 0; j < (indexType)nargout; j++) {
             auto* arg = (ArrayOf*)(outputs[j].getDataPointer());
             arg[i] = ret[j];
         }
@@ -91,9 +91,9 @@ cellfun_uniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval,
     Dimensions& argdims, indexType argcount, FuncPtr fptr, FuncPtr fptrHandleError)
 {
     ArrayOfVector outputs;
-    for (int i = 0; i < argdims.getElementCount(); i++) {
+    for (indexType i = 0; i < argdims.getElementCount(); i++) {
         ArrayOfVector input;
-        for (int j = 1; j < argcount; j++) {
+        for (indexType j = 1; j < argcount; j++) {
             auto* arg = (ArrayOf*)(argIn[j].getDataPointer());
             input.push_back(arg[i]);
         }
@@ -119,7 +119,7 @@ cellfun_uniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval,
             }
         }
         if (i == 0) {
-            for (int j = 0; j < nargout; j++) {
+            for (indexType j = 0; j < (indexType)nargout; j++) {
                 if (!ret[j].isScalar()) {
                     Error(_W("function returned non-scalar result"));
                 }
@@ -127,7 +127,7 @@ cellfun_uniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval,
                 outputs[j].resize(argdims);
             }
         } else {
-            for (int j = 0; j < nargout; j++) {
+            for (indexType j = 0; j < (indexType)nargout; j++) {
                 outputs[j].setValueAtIndex(i, ret[j]);
             }
         }
@@ -317,11 +317,11 @@ size_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     if (nbElements > 0) {
         auto* arg = (ArrayOf*)(Cell.getDataPointer());
         for (indexType k = 0; k < nbElements; k++) {
-            Dimensions sze(arg[k].getDimensions());
             if (idx - 1 >= maxDims) {
                 matDouble[k] = (1.0);
             } else {
-                matDouble[k] = static_cast<double>(sze[idx - 1]);
+                Dimensions sze(arg[k].getDimensions());
+   			matDouble[k] = static_cast<double>(sze[idx - 1]);
             }
         }
     }
@@ -378,20 +378,23 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
     bool isUniformOutput = true;
     function_handle errorFunc = 0;
     if (nbElementsInput - 2 > 0) {
-        if (argIn[nbElementsInput - 2].isRowVectorCharacterArray()) {
-            std::wstring argName = argIn[nbElementsInput - 2].getContentAsWideString();
+        if (argIn[(indexType)nbElementsInput - (indexType)2].isRowVectorCharacterArray()) {
+            std::wstring argName
+                = argIn[(indexType)nbElementsInput - (indexType)2].getContentAsWideString();
             if (argName == L"UniformOutput") {
-                if (argIn[nbElementsInput - 1].isLogical()) {
-                    if (argIn[nbElementsInput - 1].isScalar()) {
+                if (argIn[(indexType)nbElementsInput - (indexType)1].isLogical()) {
+                    if (argIn[(indexType)nbElementsInput - (indexType)1].isScalar()) {
                         bHaveUniformOutputArgs = true;
-                        isUniformOutput
-                            = (argIn[nbElementsInput - 1].getContentAsLogicalScalar() ? 1 : 0);
+                        isUniformOutput = (argIn[(indexType)nbElementsInput - (indexType)1]
+                                               .getContentAsLogicalScalar()
+                                    ? 1
+                                    : 0);
                     }
                 } else {
                     Error(_W("Error wrong type expected."));
                 }
             } else if (argName == L"ErrorHandler") {
-                ArrayOf param = argIn[nbElementsInput - 1];
+                ArrayOf param = argIn[(indexType)nbElementsInput - (indexType)1];
                 if (param.isFunctionHandle()) {
                     errorFunc = param.getContentAsFunctionHandle();
                     bHaveErrorHandlerArgs = true;
@@ -403,24 +406,27 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
         }
     }
     if (nbElementsInput - 4 > 0) {
-        if (argIn[nbElementsInput - 4].isRowVectorCharacterArray()) {
-            std::wstring argName = argIn[nbElementsInput - 4].getContentAsWideString();
+        if (argIn[(indexType)nbElementsInput - (indexType)4].isRowVectorCharacterArray()) {
+            std::wstring argName
+                = argIn[(indexType)nbElementsInput - (indexType)4].getContentAsWideString();
             if (argName == L"UniformOutput") {
-                if (argIn[nbElementsInput - 5].isLogical()) {
-                    if (argIn[nbElementsInput - 5].isScalar()) {
+                if (argIn[(indexType)nbElementsInput - (indexType)5].isLogical()) {
+                    if (argIn[(indexType)nbElementsInput - (indexType)5].isScalar()) {
                         if (bHaveUniformOutputArgs) {
                             Error(_W("Error already defined."));
                         } else {
                             bHaveUniformOutputArgs = true;
-                            isUniformOutput
-                                = (argIn[nbElementsInput - 5].getContentAsLogicalScalar() ? 1 : 0);
+                            isUniformOutput = (argIn[(indexType)nbElementsInput - (indexType)5]
+                                                   .getContentAsLogicalScalar()
+                                        ? 1
+                                        : 0);
                         }
                     }
                 } else {
                     Error(_W("Error wrong type expected."));
                 }
             } else if (argName == L"ErrorHandler") {
-                ArrayOf param = argIn[nbElementsInput - 3];
+                ArrayOf param = argIn[(indexType)nbElementsInput - (indexType)3];
                 if (param.isFunctionHandle()) {
                     if (bHaveErrorHandlerArgs) {
                         Error(_W("Error already defined."));
@@ -496,7 +502,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
     }
     Dimensions dimsCells;
     for (int k = 1; k < nbElementsInput; k++) {
-        ArrayOf param = argIn[k];
+        ArrayOf param = argIn[(indexType)k];
         if (param.isCell()) {
             if (k == 1) {
                 dimsCells = param.getDimensions();

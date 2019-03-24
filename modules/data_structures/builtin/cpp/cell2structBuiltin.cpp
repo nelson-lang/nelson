@@ -49,7 +49,6 @@ Nelson::DataStructuresGateway::cell2structBuiltin(
         Error(_W("Not yet implemented with dim > 2"));
     }
     Dimensions dims1 = param1.getDimensions();
-    Dimensions dims2 = param2.getDimensions();
     //    if (fieldnames.size() != 1)
     if (!param1.isEmpty()) {
         if (dims1[dim] != fieldnames.size()) {
@@ -59,7 +58,8 @@ Nelson::DataStructuresGateway::cell2structBuiltin(
     auto* arg = (ArrayOf*)(param1.getDataPointer());
     if (dim == 0) {
         if (param1.isEmpty()) {
-            indexType len = std::min(dims1.getLength(), dims2.getLength());
+            Dimensions dims2 = param2.getDimensions();
+ 			indexType len = std::min(dims1.getLength(), dims2.getLength());
             Dimensions dims;
             if (dims1.equals(dims2)) {
                 indexType l = 0;
