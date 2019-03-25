@@ -28,7 +28,7 @@ namespace Nelson {
 inline std::wstring
 StringFormat(const wchar_t* format, ...)
 {
-    if (!format) {
+    if (format == nullptr) {
         return L"";
     }
     std::vector<wchar_t> buff;
@@ -59,7 +59,7 @@ StringFormat(const wchar_t* format, ...)
 inline std::string
 StringFormat(const char* format, ...)
 {
-    if (!format) {
+    if (format == nullptr) {
         return "";
     }
     std::vector<char> buff;
