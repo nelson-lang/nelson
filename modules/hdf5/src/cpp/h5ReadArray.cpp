@@ -134,7 +134,7 @@ h5ReadArray(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstr
     int ndims = H5Tget_array_ndims(type);
     hsize_t* dimsAsHsize;
     try {
-        dimsAsHsize = new_with_exception<hsize_t>(ndims, false);
+        dimsAsHsize = new_with_exception<hsize_t>((size_t)ndims, false);
     } catch (Exception& e) {
         error = e.getMessage();
         H5Sclose(aspace);
@@ -142,7 +142,7 @@ h5ReadArray(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstr
     }
     H5Tget_array_dims(type, dimsAsHsize);
     Dimensions dimsOutput;
-    size_t i = ndims - 1;
+    size_t i = (size_t)ndims - 1;
     hsize_t j = 0;
     while (i > j) {
         hsize_t temp = dimsAsHsize[i];

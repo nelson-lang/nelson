@@ -55,7 +55,7 @@ h5SaveSingleEmptyMatrix(
     } else {
         h5path = location + "/" + variableName;
     }
-    h5LDeleteIfExists(fid, h5path.c_str());
+    h5LDeleteIfExists(fid, h5path);
 
     single value = 0;
     hid_t type_id = H5Tcopy(H5T_NATIVE_FLOAT);

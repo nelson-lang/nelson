@@ -262,11 +262,7 @@ h5SaveSparseLogicalMatrix(hid_t fid, const std::string& location, const std::str
     if (!bSuccess) {
         return false;
     }
-
-    if (bSuccess) {
-        bSuccess = h5SaveSparseAttribute(fid, h5path);
-    }
-    return bSuccess;
+    return h5SaveSparseAttribute(fid, h5path);
 }
 //=============================================================================
 } // namespace Nelson;

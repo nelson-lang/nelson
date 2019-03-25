@@ -25,7 +25,7 @@
 namespace Nelson {
 //=============================================================================
 NLSHDF5_IMPEXP ArrayOf
-h5Load(Evaluator* eval, const std::wstring& filename, wstringVector names, bool asStruct);
+h5Load(Evaluator* eval, const std::wstring& filename, const wstringVector &names, bool asStruct);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

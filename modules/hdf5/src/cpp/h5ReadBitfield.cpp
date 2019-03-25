@@ -82,12 +82,13 @@ h5ReadBitfield(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, 
             hsize_t* h5_dims = nullptr;
             hsize_t* h5_maxdims = nullptr;
             try {
-                h5_dims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
+                h5_dims
+                    = (hsize_t*)new_with_exception<hsize_t>((size_t)rank * sizeof(hsize_t), false);
             } catch (Exception&) {
                 throw;
             }
             try {
-                h5_maxdims = (hsize_t*)new_with_exception<hsize_t>(rank * sizeof(hsize_t), false);
+                h5_maxdims = (hsize_t*)new_with_exception<hsize_t>((size_t)rank * sizeof(hsize_t), false);
             } catch (Exception&) {
                 throw;
             }

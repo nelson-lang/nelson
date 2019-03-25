@@ -133,8 +133,8 @@ setFillValue(ArrayOf fillvalue, Class dataType, hid_t dcpl)
 //=============================================================================
 void
 h5Create(const std::wstring& filename, const std::wstring& dataSetName,
-    boost::container::vector<double> sizeData, Class dataType,
-    boost::container::vector<double> chunksize, int deflate, ArrayOf fillvalue, bool fletcher32,
+    const boost::container::vector<double> &sizeData, Class dataType,
+    const boost::container::vector<double> &chunksize, int deflate, ArrayOf fillvalue, bool fletcher32,
     bool shuffle, const std::wstring& textEncoding)
 {
     if (deflate < 0 || deflate > 9) {

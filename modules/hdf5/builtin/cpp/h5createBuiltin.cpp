@@ -137,7 +137,7 @@ Nelson::Hdf5Gateway::h5createBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         } else if (paramXname.getContentAsWideString() == L"TextEncoding") {
             std::wstring _textEncoding = paramXvalue.getContentAsWideString();
             if (_textEncoding == L"system" || _textEncoding == L"UTF-8") {
-                textEncoding = _textEncoding;
+                textEncoding.assign(_textEncoding);
             } else {
                 Error(_W("Wrong text encoding parameter."));
             }

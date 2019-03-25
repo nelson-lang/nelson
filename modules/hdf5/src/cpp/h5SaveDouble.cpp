@@ -122,7 +122,7 @@ h5SaveDoubleMatrix(hid_t fid, const std::string& location, const std::string& va
     } else {
         h5path = location + "/" + variableName;
     }
-    h5LDeleteIfExists(fid, h5path.c_str());
+    h5LDeleteIfExists(fid, h5path);
 
     hid_t dspace_id = H5I_INVALID_HID;
     hid_t type_id = H5Tcopy(H5T_NATIVE_DOUBLE);

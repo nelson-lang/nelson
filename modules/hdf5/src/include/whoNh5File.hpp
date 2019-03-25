@@ -25,7 +25,7 @@
 namespace Nelson {
 //=============================================================================
 NLSHDF5_IMPEXP ArrayOf
-whoNh5File(Interface* io, const std::wstring& filename, wstringVector names, bool asCell);
+whoNh5File(Interface* io, const std::wstring& filename, const wstringVector &names, bool asCell);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

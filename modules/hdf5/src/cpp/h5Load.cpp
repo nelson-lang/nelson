@@ -28,7 +28,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-h5Load(Evaluator* eval, const std::wstring& filename, wstringVector names, bool asStruct)
+h5Load(Evaluator* eval, const std::wstring& filename, const wstringVector &names, bool asStruct)
 {
     ArrayOf res;
     boost::filesystem::path hdf5_filename(filename);

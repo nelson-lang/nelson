@@ -26,8 +26,8 @@ namespace Nelson {
 //=============================================================================
 NLSHDF5_IMPEXP void
 h5Create(const std::wstring& filename, const std::wstring& dataSetName,
-    boost::container::vector<double> sizeData, Class dataType,
-    boost::container::vector<double> chunksize, int deflate, ArrayOf fillvalue,
+    const boost::container::vector<double> &sizeData, Class dataType,
+    const boost::container::vector<double> &chunksize, int deflate, ArrayOf fillvalue,
     bool fletcher32 = false, bool shuffle = false, const std::wstring& textEncoding = L"system");
 //=============================================================================
 } // namespace Nelson
