@@ -37,7 +37,7 @@ Nelson::FunctionsGateway::isbuiltinBuiltin(Evaluator* eval, int nLhs, const Arra
     std::string uname = wstring_to_utf8(name);
     FuncPtr pfun;
     bool res = false;
-    if (eval->lookupFunction(uname, pfun) == true) {
+    if (static_cast<int>(eval->lookupFunction(uname, pfun)) == true) {
         res = (pfun->type() == NLS_BUILT_IN_FUNCTION);
     }
     retval.push_back(ArrayOf::logicalConstructor(res));

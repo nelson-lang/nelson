@@ -53,7 +53,7 @@ WhatListOfBuiltin(bool bSorted)
 {
     wstringVector functionsList;
     auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
-    if (eval) {
+    if (eval != nullptr) {
         functionsList = WhatListOfBuiltin(eval, bSorted);
     }
     return functionsList;
@@ -70,7 +70,7 @@ WhatListOfMacro()
 {
     wstringVector macroList;
     auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
-    if (eval) {
+    if (eval != nullptr) {
         macroList = WhatListOfMacro(eval);
     }
     return macroList;

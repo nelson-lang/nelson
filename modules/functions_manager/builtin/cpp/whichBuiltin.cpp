@@ -39,7 +39,7 @@ Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             std::wstring wfunctionname = argIn[0].getContentAsWideString();
             if (nLhs == 0) {
                 Interface* io = eval->getInterface();
-                if (io) {
+                if (io != nullptr) {
                     FuncPtr fptr = nullptr;
                     bool found = BuiltInFunctionDefManager::getInstance()->find(
                         wstring_to_utf8(wfunctionname), fptr);
@@ -74,11 +74,11 @@ Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         } else {
             Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
-        if (wparam2.compare(L"-all") == 0) {
+        if (wparam2 == L"-all") {
             wstringVector res = WhichAll(wfunctionname);
             if (nLhs == 0) {
                 Interface* io = eval->getInterface();
-                if (io) {
+                if (io != nullptr) {
                     for (size_t k = 0; k < res.size(); k++) {
                         if (k == 0) {
                             io->outputMessage(res[k] + L"\n");
@@ -92,11 +92,11 @@ Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             } else {
                 retval.push_back(ToCellStringAsColumn(res));
             }
-        } else if (wparam2.compare(L"-module") == 0) {
+        } else if (wparam2 == L"-module") {
             wstringVector res = WhichModule(wfunctionname);
             if (nLhs == 0) {
                 Interface* io = eval->getInterface();
-                if (io) {
+                if (io != nullptr) {
                     for (const auto& re : res) {
                         io->outputMessage(re + L"\n");
                     }

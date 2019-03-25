@@ -40,9 +40,9 @@ Nelson::FunctionsGateway::restoredefaultpathBuiltin(
     PathFuncManager::getInstance()->resetUserPath();
     PathFuncManager::getInstance()->clear();
     wstringVector paths = ModulesManager::Instance().getModulesPathList(false);
-    for (size_t k = 0; k < paths.size(); ++k) {
-        paths[k] = paths[k] + L"/functions/";
-        boost::filesystem::path data_dir(paths[k]);
+    for (const auto & path : paths) {
+        std::wstring _path = path + L"/functions/";
+        boost::filesystem::path data_dir(_path);
         bool bRes = false;
         try {
             bRes = boost::filesystem::is_directory(data_dir);
@@ -53,7 +53,7 @@ Nelson::FunctionsGateway::restoredefaultpathBuiltin(
             bRes = false;
         }
         if (bRes) {
-            PathFuncManager::getInstance()->addPath(paths[k], true);
+            PathFuncManager::getInstance()->addPath(_path, true);
         }
     }
     return retval;

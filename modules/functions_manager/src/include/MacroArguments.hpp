@@ -25,6 +25,6 @@
 namespace Nelson {
 NLSFUNCTIONS_MANAGER_IMPEXP bool
 MacroArguments(
-    Evaluator* eval, std::wstring functionname, wstringVector& Inputs, wstringVector& Outputs);
+    Evaluator* eval, const std::wstring &functionname, wstringVector& Inputs, wstringVector& Outputs);
 }
 //=============================================================================

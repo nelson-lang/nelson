@@ -24,7 +24,7 @@ namespace Nelson {
 //=============================================================================
 bool
 MacroArguments(
-    Evaluator* eval, std::wstring functionname, wstringVector& Inputs, wstringVector& Outputs)
+    Evaluator* eval, const std::wstring &functionname, wstringVector& Inputs, wstringVector& Outputs)
 {
     std::string fun = wstring_to_utf8(functionname);
     Context* ctx = eval->getContext();

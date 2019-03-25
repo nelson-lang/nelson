@@ -53,7 +53,7 @@ WhichModule(const std::wstring& functionname)
     if (!paths.empty()) {
         for (const auto& path : paths) {
             std::wstring moduleName = ModulesManager::Instance().findModuleNameByPath(path);
-            if (moduleName != L"") {
+            if (!moduleName.empty()) {
                 res.push_back(moduleName);
             } else {
                 stringVector functionsList;
