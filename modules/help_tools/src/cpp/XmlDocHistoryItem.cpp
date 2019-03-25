@@ -24,14 +24,14 @@
 namespace Nelson {
 XmlDocHistoryItem::XmlDocHistoryItem(std::wstring version, std::wstring description)
 {
-    this->_version = version;
-    this->_description = description;
+    this->_version.assign(version);
+    this->_description.assign(description);
 }
 //=============================================================================
 XmlDocHistoryItem::~XmlDocHistoryItem()
 {
-    this->_version = L"";
-    this->_description = L"";
+    this->_version.clear();
+    this->_description.clear();
 }
 //=============================================================================
 std::wstring

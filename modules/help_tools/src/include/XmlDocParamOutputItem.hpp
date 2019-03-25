@@ -31,7 +31,7 @@ private:
     std::wstring _description;
 
 public:
-    XmlDocParamOutputItem(std::wstring name, std::wstring description);
+    XmlDocParamOutputItem(const std::wstring &name, const std::wstring &description);
     ~XmlDocParamOutputItem();
     std::wstring
     getName();

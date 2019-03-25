@@ -23,18 +23,18 @@
 #include <fstream>
 //=============================================================================
 namespace Nelson {
-XmlDocMainIndex::XmlDocMainIndex(std::wstring destdir, std::wstring mainTitle,
-    std::wstring mainModuleShortName, DOCUMENT_OUTPUT outputTarget)
+XmlDocMainIndex::XmlDocMainIndex(const std::wstring &destdir, const std::wstring &_mainTitle,
+    const std::wstring &mainModuleShortName, DOCUMENT_OUTPUT outputTarget)
 {
-    this->directoryDestination = destdir;
+    this->directoryDestination.append(destdir);
     if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
         this->filenameDestination = destdir + L"/SUMMARY.md";
     } else {
         this->filenameDestination = destdir + L"/index.html";
     }
-    this->utf8stream = "";
-    this->mainTitle = mainTitle;
-    this->mainModuleShortName = mainModuleShortName;
+    this->utf8stream.clear();
+    this->mainTitle.assign(_mainTitle);
+    this->mainModuleShortName.assign(mainModuleShortName);
     this->outputTarget = outputTarget;
     if (outputTarget != DOCUMENT_OUTPUT::MARKDOWN) {
         this->htmlHeader();
@@ -52,11 +52,11 @@ XmlDocMainIndex::XmlDocMainIndex(std::wstring destdir, std::wstring mainTitle,
 //=============================================================================
 XmlDocMainIndex::~XmlDocMainIndex()
 {
-    this->directoryDestination = L"";
-    this->filenameDestination = L"";
-    this->utf8stream = "";
-    this->mainTitle = L"";
-    this->mainModuleShortName = L"";
+    this->directoryDestination.clear();
+    this->filenameDestination.clear();
+    this->utf8stream.clear();
+    this->mainTitle.clear();
+    this->mainModuleShortName.clear();
     this->outputTarget = DOCUMENT_OUTPUT::HMTL;
     if (this->qtproject) {
         delete this->qtproject;
@@ -163,8 +163,8 @@ XmlDocMainIndex::writeAsMarkdown()
 }
 //=============================================================================
 void
-XmlDocMainIndex::appendSection(std::wstring sectionName, std::wstring sectionUrl,
-    wstringVector names, wstringVector urls, wstringVector descriptions)
+XmlDocMainIndex::appendSection(const std::wstring &sectionName, const std::wstring &sectionUrl,
+    const wstringVector &names, const wstringVector &urls, const wstringVector &descriptions)
 {
     if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
         bool bSuccess;

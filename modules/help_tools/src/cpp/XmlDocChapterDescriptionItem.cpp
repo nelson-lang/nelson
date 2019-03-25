@@ -28,7 +28,7 @@ XmlDocChapterDescriptionItem::XmlDocChapterDescriptionItem(const std::wstring& d
 {
 }
 //=============================================================================
-XmlDocChapterDescriptionItem::~XmlDocChapterDescriptionItem() { this->_description = L""; }
+XmlDocChapterDescriptionItem::~XmlDocChapterDescriptionItem() { this->_description.clear(); }
 //=============================================================================
 void
 XmlDocChapterDescriptionItem::setValue(const std::wstring &value)

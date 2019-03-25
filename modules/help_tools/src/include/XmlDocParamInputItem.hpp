@@ -31,7 +31,7 @@ private:
     std::wstring _description;
 
 public:
-    XmlDocParamInputItem(std::wstring name, std::wstring description);
+    XmlDocParamInputItem(const std::wstring &name, const std::wstring &description);
     ~XmlDocParamInputItem();
     std::wstring
     getName();

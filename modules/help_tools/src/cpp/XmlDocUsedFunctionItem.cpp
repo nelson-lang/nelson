@@ -24,12 +24,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocUsedFunctionItem::XmlDocUsedFunctionItem(std::wstring usedfunction)
+XmlDocUsedFunctionItem::XmlDocUsedFunctionItem(const std::wstring &usedfunction)
 {
-    this->_usedfunction = usedfunction;
+    this->_usedfunction.assign(usedfunction);
 }
 //=============================================================================
-XmlDocUsedFunctionItem::~XmlDocUsedFunctionItem() { this->_usedfunction = L""; }
+XmlDocUsedFunctionItem::~XmlDocUsedFunctionItem() { this->_usedfunction.clear(); }
 //=============================================================================
 std::wstring
 XmlDocUsedFunctionItem::getItemType()

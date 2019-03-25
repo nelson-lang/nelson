@@ -44,7 +44,7 @@ XmlDocChapterRefItem::getItemType()
 bool
 XmlDocChapterRefItem::writeAsHtml(std::string& utf8stream)
 {
-    if (this->_description != L"") {
+    if (!this->_description.empty()) {
         utf8stream = utf8stream + HTML_LI_IN_TAG + "<a href = \"" + wstring_to_utf8(this->_linkurl)
             + "\" class=\"refentry\">" + wstring_to_utf8(this->_linkname)
             + "</a> &#8212; <span class = \"refentry-description\">"
@@ -59,7 +59,7 @@ XmlDocChapterRefItem::writeAsHtml(std::string& utf8stream)
 bool
 XmlDocChapterRefItem::writeAsMarkdown(std::string& utf8stream)
 {
-    if (this->_description != L"") {
+    if (!this->_description.empty()) {
         utf8stream = utf8stream + "* " + "[" + wstring_to_utf8(this->_linkname) + "]" + "("
             + wstring_to_utf8(this->_linkurl) + ")" + " - " + wstring_to_utf8(this->_description)
             + "\n";

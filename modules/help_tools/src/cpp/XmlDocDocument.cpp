@@ -98,8 +98,8 @@ XmlDocDocument::XmlDocDocument(const std::wstring &srcfilename, const std::wstri
     const std::wstring &destfilename, bool bOverwriteExistingFile, DOCUMENT_OUTPUT outputTarget)
 {
     this->outputTarget = outputTarget;
-    this->xmlfilename = srcfilename;
-    this->sectionName = sectionname;
+    this->xmlfilename.assign(srcfilename);
+    this->sectionName.assign(sectionname);
     this->errorMessage.clear();
     this->warningMessage.clear();
     this->items.clear();
@@ -109,7 +109,7 @@ XmlDocDocument::XmlDocDocument(const std::wstring &srcfilename, const std::wstri
     if (pathToSplit.has_parent_path()) {
         this->xmlDirectory = pathToSplit.parent_path().generic_wstring();
     }
-    this->filenameDestination = L"";
+    this->filenameDestination.clear();
     if (isDir(destfilename)) {
         this->directoryDestination = destfilename;
         boost::filesystem::path pathname(srcfilename);
@@ -123,16 +123,16 @@ XmlDocDocument::XmlDocDocument(const std::wstring &srcfilename, const std::wstri
         pathdest = pathdest / nfilename;
         this->filenameDestination = pathdest.generic_wstring();
     } else {
-        this->directoryDestination = L"";
+        this->directoryDestination.clear();
         this->setDestinationFile(destfilename);
     }
     this->bOverwriteExistingFile = bOverwriteExistingFile;
-    this->previousLinkName = L"";
-    this->previousLinkUrl = L"";
-    this->nextLinkName = L"";
-    this->nextLinkUrl = L"";
-    this->indexLinkName = L"";
-    this->indexLinkUrl = L"";
+    this->previousLinkName.clear();
+    this->previousLinkUrl.clear();
+    this->nextLinkName.clear();
+    this->nextLinkUrl.clear();
+    this->indexLinkName.clear();
+    this->indexLinkUrl.clear();
 }
 //=============================================================================
 XmlDocDocument::XmlDocDocument(boost::container::vector<XmlDocGenericItem*> items,
@@ -140,7 +140,7 @@ XmlDocDocument::XmlDocDocument(boost::container::vector<XmlDocGenericItem*> item
     DOCUMENT_OUTPUT outputTarget)
 {
     this->outputTarget = outputTarget;
-    this->xmlfilename = srcfilename;
+    this->xmlfilename.assign(srcfilename);
     this->errorMessage.clear();
     this->warningMessage.clear();
     this->items = items;
@@ -150,7 +150,7 @@ XmlDocDocument::XmlDocDocument(boost::container::vector<XmlDocGenericItem*> item
     if (pathToSplit.has_parent_path()) {
         this->xmlDirectory = pathToSplit.parent_path().generic_wstring();
     }
-    this->filenameDestination = L"";
+    this->filenameDestination.clear();
     if (isDir(destfilename)) {
         this->directoryDestination = destfilename;
         boost::filesystem::path pathname(srcfilename);
@@ -165,38 +165,38 @@ XmlDocDocument::XmlDocDocument(boost::container::vector<XmlDocGenericItem*> item
         pathdest = pathdest / nfilename;
         this->filenameDestination = pathdest.generic_wstring();
     } else {
-        this->directoryDestination = L"";
+        this->directoryDestination.clear();
         boost::filesystem::path pathdest(destfilename);
         pathdest = pathdest.normalize();
         this->setDestinationFile(pathdest.generic_wstring());
     }
     this->bOverwriteExistingFile = bOverwriteExistingFile;
-    this->previousLinkName = L"";
-    this->previousLinkUrl = L"";
-    this->nextLinkName = L"";
-    this->nextLinkUrl = L"";
-    this->indexLinkName = L"";
-    this->indexLinkUrl = L"";
+    this->previousLinkName.clear();
+    this->previousLinkUrl.clear();
+    this->nextLinkName.clear();
+    this->nextLinkUrl.clear();
+    this->indexLinkName.clear();
+    this->indexLinkUrl.clear();
 }
 //=============================================================================
 XmlDocDocument::~XmlDocDocument()
 {
     this->outputTarget = DOCUMENT_OUTPUT::HMTL;
     clearItems();
-    this->xmlfilename = L"";
+    this->xmlfilename.clear();
     this->xmlDirectory = L"./";
     this->errorMessage.clear();
     this->warningMessage.clear();
-    this->filenameDestination = L"";
-    this->directoryDestination = L"";
+    this->filenameDestination.clear();
+    this->directoryDestination.clear();
     this->bOverwriteExistingFile = false;
     this->bReadOk = false;
-    this->previousLinkName = L"";
-    this->previousLinkUrl = L"";
-    this->nextLinkName = L"";
-    this->nextLinkUrl = L"";
-    this->indexLinkName = L"";
-    this->indexLinkUrl = L"";
+    this->previousLinkName.clear();
+    this->previousLinkUrl.clear();
+    this->nextLinkName.clear();
+    this->nextLinkUrl.clear();
+    this->indexLinkName.clear();
+    this->indexLinkUrl.clear();
 }
 //=============================================================================
 void
@@ -831,7 +831,7 @@ XmlDocDocument::writeAsHtml(std::string& utf8stream)
     utf8stream = utf8stream + HTML_DOCTYPE_HTML_TAG + "\n";
     utf8stream = utf8stream + "\n";
     utf8stream = utf8stream + HTML_HTML_IN_TAG + "\n";
-    if (getCopyright() != L"") {
+    if (!getCopyright().empty()) {
         XmlDocGenericItem* pItem = findfirst(COPYRIGHT_TAG);
         XmlDocCopyrightItem* pCopyrightItem = (XmlDocCopyrightItem*)pItem;
         pCopyrightItem->writeAsHtml(utf8stream);
@@ -1943,7 +1943,7 @@ XmlDocDocument::readFileCaseExamples(xmlDocPtr doc, xmlNodePtr node)
                             + std::to_wstring(currentItemNode->line) + _W(": ")
                             + utf8_to_wstring(EXAMPLE_ITEM_DESCRIPTION_TAG) + L" "
                             + _W("is empty."));
-                        description = L"";
+                        description.clear();
                         if (nbdescriptiontag == 0) {
                             nbdescriptiontag++;
                         } else {
@@ -2395,8 +2395,8 @@ bool
 XmlDocDocument::readFileCaseLink(
     xmlDocPtr doc, xmlNodePtr node, std::wstring& name, std::wstring& url)
 {
-    name = L"";
-    url = L"";
+    name.clear();
+    url.clear();
     if (node == nullptr){
 		return false;
 	}

@@ -62,7 +62,7 @@ public:
     writeHeaderAsMarkdown(std::string& utf8stream);
 
     void
-    setDirectories(std::wstring srcDirectory, std::wstring destDirectory);
+    setDirectories(const std::wstring &srcDirectory, const std::wstring &destDirectory);
     void
     searchImageTag();
 };

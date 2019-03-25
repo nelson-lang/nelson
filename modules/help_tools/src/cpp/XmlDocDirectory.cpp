@@ -28,13 +28,13 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocDirectory::XmlDocDirectory(const std::wstring &srcDirectory, const std::wstring &dstDirectory,
+XmlDocDirectory::XmlDocDirectory(const std::wstring &_srcDirectory, const std::wstring &dstDirectory,
     bool bOverwriteExistingFiles, DOCUMENT_OUTPUT outputTarget)
 {
     this->sectionUpName.clear();
     this->sectionUpUrl.clear();
-    this->srcDirectory = srcDirectory;
-    this->dstDirectory = dstDirectory;
+    this->srcDirectory.assign(_srcDirectory);
+    this->dstDirectory.assign(dstDirectory);
     this->outputTarget = outputTarget;
     boost::filesystem::directory_iterator end_iter;
     wstringVector listXmlFiles;

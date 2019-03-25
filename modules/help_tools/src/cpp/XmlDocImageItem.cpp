@@ -29,9 +29,9 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-XmlDocImageItem::XmlDocImageItem(const std::wstring& tag) { this->tag = tag; }
+XmlDocImageItem::XmlDocImageItem(const std::wstring& tag) { this->tag.assign(tag); }
 //=============================================================================
-XmlDocImageItem::~XmlDocImageItem() { tag = L""; }
+XmlDocImageItem::~XmlDocImageItem() { tag.clear(); }
 //=============================================================================
 std::wstring
 XmlDocImageItem::getItemType()
@@ -42,11 +42,7 @@ XmlDocImageItem::getItemType()
 bool
 XmlDocImageItem::writeAsHtml(std::string& utf8stream)
 {
-    Nelson::copyImage(this->imageSource, this->imageDestination);
-    utf8stream = utf8stream + "\n";
-    utf8stream = utf8stream + wstring_to_utf8(tag) + "\n";
-    utf8stream = utf8stream + "\n";
-    return true;
+    return writeAsMarkdown(utf8stream);
 }
 //=============================================================================
 bool
@@ -79,13 +75,13 @@ XmlDocImageItem::findImage()
         }
         std::wstring crc = crcFile(newPath);
         std::wstring newfilename;
-        if (crc == L"") {
+        if (crc.empty()) {
             newfilename = filename + extension;
         } else {
             newfilename = filename + L"_" + crc + extension;
         }
         boost::replace_all(tag, oldPath, newfilename);
-        imageSource = newPath;
+        imageSource.assign(newPath);
         imageDestination = this->destDirectory + L"/" + newfilename;
     } else {
         Error(_W("File does not exist:") + L" " + oldPath);

@@ -33,7 +33,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-isValidImageTag(std::wstring tag)
+isValidImageTag(const std::wstring &tag)
 {
     boost::xpressive::wsregex token = boost::xpressive::wsregex::compile(
         L"<img[^>]*?src\\s*=\\s*[\"\"']?([^'\"\" >]+?)[ '\"\"][^>]*?>");
@@ -44,7 +44,7 @@ isValidImageTag(std::wstring tag)
 //=============================================================================
 bool
 parseImageTag(
-    std::wstring tag, std::wstring srcDirectory, std::wstring& oldPath, std::wstring& newPath)
+    const std::wstring &tag, const std::wstring &srcDirectory, std::wstring& oldPath, std::wstring& newPath)
 {
     boost::xpressive::wsregex tokenUrl = boost::xpressive::wsregex::compile(
         L"((http(|s):\\/\\/)?[^\"'=\n\r]+\\.(jpg|png|jpeg|gif|svg))");
@@ -64,7 +64,7 @@ parseImageTag(
             bool bIsFile
                 = boost::filesystem::exists(newPath) && !boost::filesystem::is_directory(newPath);
             if (!bIsFile) {
-                newPath = L"";
+                newPath.clear();
             }
             return bIsFile;
         }
@@ -73,7 +73,7 @@ parseImageTag(
 }
 //=============================================================================
 bool
-findImageTag(std::wstring text, wstringVector& imagesTag)
+findImageTag(const std::wstring &text, wstringVector& imagesTag)
 {
     bool bRes = false;
     boost::xpressive::wsregex token = boost::xpressive::wsregex::compile(
@@ -90,7 +90,7 @@ findImageTag(std::wstring text, wstringVector& imagesTag)
 }
 //=============================================================================
 bool
-copyImages(wstringVector srcImages, wstringVector dstImages)
+copyImages(const wstringVector &srcImages, const wstringVector &dstImages)
 {
     bool bRes = true;
     for (size_t k = 0; k < srcImages.size(); k++) {
@@ -111,7 +111,7 @@ copyImages(wstringVector srcImages, wstringVector dstImages)
 }
 //=============================================================================
 bool
-copyImage(std::wstring srcImage, std::wstring dstImage)
+copyImage(const std::wstring &srcImage, const std::wstring &dstImage)
 {
     wstringVector srcImages;
     wstringVector dstImages;
@@ -124,7 +124,7 @@ copyImage(std::wstring srcImage, std::wstring dstImage)
 #define PRIVATE_BUFFER_SIZE 1024
 #endif
 std::wstring
-crcFile(std::wstring filename)
+crcFile(const std::wstring &filename)
 {
     std::wstring res = L"";
 #ifdef _MSC_VER

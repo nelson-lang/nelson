@@ -22,14 +22,14 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocLanguageItem::XmlDocLanguageItem(std::wstring language) { this->_language = language; }
+XmlDocLanguageItem::XmlDocLanguageItem(const std::wstring &language) { this->_language.assign(language); }
 //=============================================================================
-XmlDocLanguageItem::~XmlDocLanguageItem() { this->_language = L""; }
+XmlDocLanguageItem::~XmlDocLanguageItem() { this->_language.clear(); }
 //=============================================================================
 void
-XmlDocLanguageItem::setValue(std::wstring value)
+XmlDocLanguageItem::setValue(const std::wstring &value)
 {
-    this->_language = value;
+    this->_language.assign(value);
 }
 //=============================================================================
 std::wstring

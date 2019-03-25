@@ -35,7 +35,7 @@ QtHelpProject::QtHelpProject(const std::wstring &destdirectory, const std::wstri
     , virtualfolder(virtualfolder)
 {
     this->filenameDestination = destdirectory + L"/helpproject.qhp";
-    this->utf8stream = "";
+    this->utf8stream.clear();
     this->sectionsName.clear();
     this->sectionsUrl.clear();
     this->keywordsName.clear();

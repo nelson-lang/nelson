@@ -22,16 +22,16 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-XmlDocParamInputItem::XmlDocParamInputItem(std::wstring name, std::wstring description)
+XmlDocParamInputItem::XmlDocParamInputItem(const std::wstring &name, const std::wstring &description)
 {
-    this->_name = name;
-    this->_description = description;
+    this->_name.assign(name);
+    this->_description.assign(description);
 }
 //=============================================================================
 XmlDocParamInputItem::~XmlDocParamInputItem()
 {
-    this->_name = L"";
-    this->_description = L"";
+    this->_name.clear();
+    this->_description.clear();
 }
 //=============================================================================
 std::wstring

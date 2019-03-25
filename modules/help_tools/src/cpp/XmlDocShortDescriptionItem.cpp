@@ -23,17 +23,17 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocShortDescriptionItem::XmlDocShortDescriptionItem(std::wstring description)
+XmlDocShortDescriptionItem::XmlDocShortDescriptionItem(const std::wstring &description)
 {
-    this->_description = description;
+    this->_description.assign(description);
 }
 //=============================================================================
-XmlDocShortDescriptionItem::~XmlDocShortDescriptionItem() { this->_description = L""; }
+XmlDocShortDescriptionItem::~XmlDocShortDescriptionItem() { this->_description.clear(); }
 //=============================================================================
 void
-XmlDocShortDescriptionItem::setValue(std::wstring value)
+XmlDocShortDescriptionItem::setValue(const std::wstring &value)
 {
-    this->_description = value;
+    this->_description.assign(value);
 }
 //=============================================================================
 std::wstring

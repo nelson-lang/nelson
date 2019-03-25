@@ -30,10 +30,10 @@ private:
     std::wstring _description;
 
 public:
-    XmlDocShortDescriptionItem(std::wstring description);
+    XmlDocShortDescriptionItem(const std::wstring &description);
     ~XmlDocShortDescriptionItem();
     void
-    setValue(std::wstring value);
+    setValue(const std::wstring &value);
     std::wstring
     getValue();
     std::wstring

@@ -30,10 +30,10 @@ private:
     std::wstring _language;
 
 public:
-    XmlDocLanguageItem(std::wstring language = L"");
+    XmlDocLanguageItem(const std::wstring &language = L"");
     ~XmlDocLanguageItem();
     void
-    setValue(std::wstring value);
+    setValue(const std::wstring &value);
     std::wstring
     getValue();
     std::wstring

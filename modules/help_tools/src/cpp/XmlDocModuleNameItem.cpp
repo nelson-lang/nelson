@@ -23,17 +23,17 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocModuleNameItem::XmlDocModuleNameItem(std::wstring module_name)
+XmlDocModuleNameItem::XmlDocModuleNameItem(const std::wstring &module_name)
 {
-    this->_module_name = module_name;
+    this->_module_name.assign(module_name);
 }
 //=============================================================================
-XmlDocModuleNameItem::~XmlDocModuleNameItem() { this->_module_name = L""; }
+XmlDocModuleNameItem::~XmlDocModuleNameItem() { this->_module_name.clear(); }
 //=============================================================================
 void
-XmlDocModuleNameItem::setValue(std::wstring value)
+XmlDocModuleNameItem::setValue(const std::wstring &value)
 {
-    this->_module_name = value;
+    this->_module_name.assign(value);
 }
 //=============================================================================
 std::wstring

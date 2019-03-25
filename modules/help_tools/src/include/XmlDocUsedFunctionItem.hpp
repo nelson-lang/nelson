@@ -30,7 +30,7 @@ private:
     std::wstring _usedfunction;
 
 public:
-    XmlDocUsedFunctionItem(std::wstring usedfunction);
+    XmlDocUsedFunctionItem(const std::wstring &usedfunction);
     ~XmlDocUsedFunctionItem();
     std::wstring
     getItemType();

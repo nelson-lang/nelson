@@ -34,25 +34,25 @@ namespace Nelson {
 XmlDocExampleItem::XmlDocExampleItem(const std::wstring& type, const std::wstring& description,
     const std::wstring& data, const std::wstring& imageTag, DOCUMENT_OUTPUT outputTarget)
 {
-    this->_type = type;
-    this->_description = description;
-    this->_data = data;
-    this->_imageTag = imageTag;
+    this->_type.assign(type);
+    this->_description.assign(description);
+    this->_data.assign(data);
+    this->_imageTag.assign(imageTag);
     this->_outputTarget = outputTarget;
-    this->_srcDirectory = L"";
-    this->_dstDirectory = L"";
-    this->_imageSource = L"";
+    this->_srcDirectory.clear();
+    this->_dstDirectory.clear();
+    this->_imageSource.clear();
 }
 //=============================================================================
 XmlDocExampleItem::~XmlDocExampleItem()
 {
-    this->_type = L"";
-    this->_description = L"";
-    this->_data = L"";
-    this->_imageTag = L"";
+    this->_type.clear();
+    this->_description.clear();
+    this->_data.clear();
+    this->_imageTag.clear();
     this->_outputTarget = DOCUMENT_OUTPUT::HMTL;
-    this->_srcDirectory = L"";
-    this->_dstDirectory = L"";
+    this->_srcDirectory.clear();
+    this->_dstDirectory.clear();
 }
 //=============================================================================
 std::wstring
@@ -121,13 +121,13 @@ XmlDocExampleItem::writeAsMarkdown(std::string& utf8stream)
             }
             std::wstring crc = crcFile(newPath);
             std::wstring newfilename;
-            if (crc == L"") {
+            if (crc.empty()) {
                 newfilename = filename + extension;
             } else {
                 newfilename = filename + L"_" + crc + extension;
             }
             boost::replace_all(this->_imageTag, oldPath, newfilename);
-            _imageSource = newPath;
+            _imageSource.assign(newPath);
             _imageDestination = this->_dstDirectory + L"/" + newfilename;
             Nelson::copyImage(_imageSource, _imageDestination);
         }
@@ -163,13 +163,13 @@ XmlDocExampleItem::writeAsHtml(std::string& utf8stream)
             }
             std::wstring crc = crcFile(newPath);
             std::wstring newfilename;
-            if (crc == L"") {
+            if (crc.empty()) {
                 newfilename = filename + extension;
             } else {
                 newfilename = filename + L"_" + crc + extension;
             }
             boost::replace_all(this->_imageTag, oldPath, newfilename);
-            _imageSource = newPath;
+            _imageSource.assign(newPath);
             _imageDestination = this->_dstDirectory + L"/" + newfilename;
             Nelson::copyImage(_imageSource, _imageDestination);
         }

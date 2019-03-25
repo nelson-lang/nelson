@@ -30,10 +30,10 @@ private:
     std::wstring _title;
 
 public:
-    XmlDocTitleItem(std::wstring title = L"");
+    XmlDocTitleItem(const std::wstring &title = L"");
     ~XmlDocTitleItem();
     void
-    setValue(std::wstring value);
+    setValue(const std::wstring &value);
     std::wstring
     getValue();
     std::wstring

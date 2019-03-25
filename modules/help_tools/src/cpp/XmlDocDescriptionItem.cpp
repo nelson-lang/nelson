@@ -36,26 +36,26 @@ XmlDocDescriptionItem::XmlDocDescriptionItem(std::wstring description)
     this->imagesTag.clear();
     this->imagesSource.clear();
     this->imagesDestination.clear();
-    this->srcDirectory = L"";
-    this->destDirectory = L"";
+    this->srcDirectory.clear();
+    this->destDirectory.clear();
     this->haveImages = this->checkImageTag();
 }
 //=============================================================================
 XmlDocDescriptionItem::~XmlDocDescriptionItem()
 {
-    this->_description = L"";
+    this->_description.clear();
     this->imagesTag.clear();
     this->imagesSource.clear();
     this->imagesDestination.clear();
     this->haveImages = false;
-    this->srcDirectory = L"";
-    this->destDirectory = L"";
+    this->srcDirectory.clear();
+    this->destDirectory.clear();
 }
 //=============================================================================
 void
 XmlDocDescriptionItem::setValue(std::wstring value)
 {
-    this->_description = value;
+    this->_description.assign(value);
 }
 //=============================================================================
 std::wstring
@@ -129,7 +129,7 @@ XmlDocDescriptionItem::replaceImageTag()
             }
             std::wstring crc = crcFile(newPath);
             std::wstring newfilename;
-            if (crc == L"") {
+            if (crc.empty()) {
                 newfilename = filename + extension;
             } else {
                 newfilename = filename + L"_" + crc + extension;
@@ -157,7 +157,7 @@ XmlDocDescriptionItem::searchImageTag()
 }
 //=============================================================================
 void
-XmlDocDescriptionItem::setDirectories(std::wstring srcDirectory, std::wstring destDirectory)
+XmlDocDescriptionItem::setDirectories(const std::wstring &srcDirectory, const std::wstring &destDirectory)
 {
     if (boost::algorithm::ends_with(srcDirectory, L"/")
         || boost::algorithm::ends_with(srcDirectory, L"\\")) {

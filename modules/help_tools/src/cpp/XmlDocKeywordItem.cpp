@@ -23,14 +23,14 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocKeywordItem::XmlDocKeywordItem(std::wstring keyword) { this->_keyword = keyword; }
+XmlDocKeywordItem::XmlDocKeywordItem(const std::wstring &keyword) { this->_keyword.assign(keyword); }
 //=============================================================================
-XmlDocKeywordItem::~XmlDocKeywordItem() { this->_keyword = L""; }
+XmlDocKeywordItem::~XmlDocKeywordItem() { this->_keyword.clear(); }
 //=============================================================================
 void
-XmlDocKeywordItem::setValue(std::wstring value)
+XmlDocKeywordItem::setValue(const std::wstring &value)
 {
-    this->_keyword = value;
+    this->_keyword.assign(value);
 }
 //=============================================================================
 std::wstring
