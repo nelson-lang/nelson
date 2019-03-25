@@ -37,16 +37,16 @@ Nelson::HandleGateway::setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     ArrayOf param1 = argIn[0];
     if (!param1.isEmpty()) {
         auto* qp = (nelson_handle*)param1.getDataPointer();
-        std::wstring handleTypeName = utf8_to_wstring(NLS_HANDLE_STR);
         if (qp) {
+            std::wstring handleTypeName = utf8_to_wstring(NLS_HANDLE_STR);
             Dimensions dimsParam1 = param1.getDimensions();
             for (indexType k = 0; k < dimsParam1.getElementCount(); k++) {
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj) {
                     std::wstring currentType = hlObj->getCategory();
-                    if (currentType != L"" || currentType != utf8_to_wstring(NLS_HANDLE_STR)) {
-                        handleTypeName = currentType;
+                    if (!currentType.empty() || currentType != utf8_to_wstring(NLS_HANDLE_STR)) {
+                        handleTypeName.assign(currentType);
                         break;
                     }
                 }
