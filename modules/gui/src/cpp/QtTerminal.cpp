@@ -132,8 +132,8 @@ void
 QtTerminal::banner()
 {
     mCommandLineReady = false;
-    QString nelsonPath = Nelson::wstringToQString(Nelson::GetRootPath());
-    QString fileName = nelsonPath + "/resources/banner_nelson.png";
+    QString _nelsonPath = Nelson::wstringToQString(Nelson::GetRootPath());
+    QString fileName = _nelsonPath + "/resources/banner_nelson.png";
     textCursor().insertBlock();
     QFile qfile(fileName);
     if (qfile.exists()) {
@@ -185,7 +185,7 @@ QtTerminal::sendReturnKey()
 }
 //=============================================================================
 std::wstring
-QtTerminal::getLine(std::wstring prompt)
+QtTerminal::getLine(const std::wstring &prompt)
 {
     printPrompt(Nelson::wstringToQString(prompt));
     promptBlock = document()->lastBlock();
@@ -236,21 +236,21 @@ QtTerminal::getTerminalWidth()
 }
 //=============================================================================
 void
-QtTerminal::outputMessage(std::wstring msg)
+QtTerminal::outputMessage(const std::wstring &msg)
 {
     printMessage(Nelson::wstringToQString(msg), STDOUT_DISP);
     Nelson::ProcessEvents();
 }
 //=============================================================================
 void
-QtTerminal::errorMessage(std::wstring msg)
+QtTerminal::errorMessage(const std::wstring &msg)
 {
     printMessage(Nelson::wstringToQString(msg), STDERR_DISP);
     Nelson::ProcessEvents();
 }
 //=============================================================================
 void
-QtTerminal::warningMessage(std::wstring msg)
+QtTerminal::warningMessage(const std::wstring &msg)
 {
     printMessage(Nelson::wstringToQString(msg), WARNING_DISP);
     Nelson::ProcessEvents();
@@ -284,12 +284,7 @@ QtTerminal::handlePreviousCharKeyPress()
 bool
 QtTerminal::handleBackspaceKeyPress()
 {
-    QTextCursor cur = textCursor();
-    const int col = cur.columnNumber();
-    if ((promptBlock == cur.block()) && (col == mPrompt.size())) {
-        return true;
-    }
-    return false;
+    return handlePreviousCharKeyPress();
 }
 //=============================================================================
 bool
@@ -417,7 +412,7 @@ QtTerminal::getCurrentCommandLine()
 }
 //=============================================================================
 bool
-QtTerminal::replaceCurrentCommandLine(std::wstring newline)
+QtTerminal::replaceCurrentCommandLine(const std::wstring &newline)
 {
     QTextCursor cursor = textCursor();
     cursor.movePosition(QTextCursor::StartOfLine);
@@ -488,7 +483,7 @@ QtTerminal::insertFromMimeData(const QMimeData* source)
 }
 //=============================================================================
 void
-QtTerminal::insertHtml(std::wstring msg)
+QtTerminal::insertHtml(const std::wstring &msg)
 {
     textCursor().insertHtml(Nelson::wstringToQString(msg));
     textCursor().insertBlock();

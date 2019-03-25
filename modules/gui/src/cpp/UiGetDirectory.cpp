@@ -26,7 +26,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-UiGetDirectory(std::wstring pathOrigin, std::wstring title, std::wstring& pathSelected)
+UiGetDirectory(const std::wstring &pathOrigin, const std::wstring &title, std::wstring& pathSelected)
 {
     bool bCancelled = false;
     QFileDialog* fd = nullptr;
@@ -55,11 +55,12 @@ UiGetDirectory(std::wstring pathOrigin, std::wstring title, std::wstring& pathSe
                 }
                 bRes = false;
             }
+            std::wstring _pathOrigin = pathOrigin;
             if (!bRes) {
                 boost::filesystem::path pwd = boost::filesystem::current_path();
-                pathOrigin = pwd.generic_wstring();
+                _pathOrigin = pwd.generic_wstring();
             }
-            fd->setDirectory(QDir(wstringToQString(pathOrigin)));
+            fd->setDirectory(QDir(wstringToQString(_pathOrigin)));
         }
         fd->setFileMode(QFileDialog::Directory);
         fd->setOption(QFileDialog::ShowDirsOnly);

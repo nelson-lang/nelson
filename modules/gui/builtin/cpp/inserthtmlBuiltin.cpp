@@ -36,11 +36,11 @@ Nelson::GuiGateway::inserthtmlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (!param1.isRowVectorCharacterArray()) {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-    std::wstring msg = param1.getContentAsWideString();
     if (eval) {
         Interface* io = eval->getInterface();
         if (io) {
-            auto* gtio = (GuiTerminal*)io;
+            std::wstring msg = param1.getContentAsWideString();
+			auto* gtio = (GuiTerminal*)io;
             gtio->insertHtml(msg);
         }
     }

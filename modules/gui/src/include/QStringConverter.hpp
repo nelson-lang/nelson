@@ -26,6 +26,6 @@ namespace Nelson {
 NLSGUI_IMPEXP std::wstring
 QStringTowstring(QString qstr);
 NLSGUI_IMPEXP QString
-wstringToQString(std::wstring wstr);
+wstringToQString(const std::wstring &wstr);
 } // namespace Nelson
 //=============================================================================

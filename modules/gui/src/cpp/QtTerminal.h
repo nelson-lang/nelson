@@ -34,15 +34,15 @@ public:
 
 public slots:
     std::wstring
-    getLine(std::wstring prompt);
+    getLine(const std::wstring &prompt);
     size_t
     getTerminalWidth();
     void
-    outputMessage(std::wstring msg);
+    outputMessage(const std::wstring &msg);
     void
-    errorMessage(std::wstring msg);
+    errorMessage(const std::wstring &msg);
     void
-    warningMessage(std::wstring msg);
+    warningMessage(const std::wstring &msg);
     void
     clearTerminal();
     void
@@ -50,7 +50,7 @@ public slots:
     void
     banner();
     void
-    insertHtml(std::wstring msg);
+    insertHtml(const std::wstring &msg);
 
     bool
     isAtPrompt();
@@ -109,7 +109,7 @@ private:
     handleHomePress();
 
     bool
-    replaceCurrentCommandLine(std::wstring newline);
+    replaceCurrentCommandLine(const std::wstring &newline);
     bool
     updateHistoryToken();
 

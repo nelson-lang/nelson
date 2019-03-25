@@ -22,6 +22,9 @@
 #include <string>
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 NLSGUI_IMPEXP bool
-UiGetDirectory(std::wstring pathOrigin, std::wstring title, std::wstring& pathSelected);
+UiGetDirectory(const std::wstring &pathOrigin, const std::wstring &title, std::wstring& pathSelected);
+//=============================================================================
 }
+//=============================================================================

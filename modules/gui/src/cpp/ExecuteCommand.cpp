@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-executeCommand(std::wstring commandToExecute, bool forceEvaluateString)
+executeCommand(const std::wstring &commandToExecute, bool forceEvaluateString)
 {
     void* veval = GetNelsonMainEvaluatorDynamicFunction();
     if (veval != nullptr) {

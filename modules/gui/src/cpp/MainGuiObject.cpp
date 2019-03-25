@@ -102,11 +102,26 @@ void*
 CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode)
 {
     CreateConsole();
-    NelSonQtMainWindow = new QtMainWindow();
+    try {
+        NelSonQtMainWindow = new QtMainWindow();
+    } catch (std::bad_alloc&) {
+        NelSonQtMainWindow = nullptr;
+    }
+    
     if (NelSonQtMainWindow) {
-        auto* nlsTerm = new GuiTerminal((void*)NelSonQtMainWindow);
+        GuiTerminal* nlsTerm = nullptr;
+        try {
+            nlsTerm = new GuiTerminal((void*)NelSonQtMainWindow);
+        } catch (std::bad_alloc&) {
+            nlsTerm = nullptr;
+        }
         if (nlsTerm) {
-            auto* mainEvaluator = new Evaluator(static_cast<Context*>(vcontext), nlsTerm, _mode);
+            Evaluator* mainEvaluator = nullptr;
+            try {
+                mainEvaluator = new Evaluator(static_cast<Context*>(vcontext), nlsTerm, _mode);
+            } catch (std::bad_alloc&) {
+                mainEvaluator = nullptr;
+            }
             if (mainEvaluator) {
                 mainEvaluator->mainGuiObject = (void*)NelSonQtMainWindow;
             }

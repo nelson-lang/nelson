@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 QString
-TR(std::string str)
+TR(const std::string &str)
 {
     return wstringToQString(gettextw(str));
 }
