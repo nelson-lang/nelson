@@ -31,7 +31,7 @@ FunctionHandleDisplay(Evaluator* eval, ArrayOf Var)
         Error(_W("FunctionHandleDisplay method: function_handle expected."));
     }
     Interface* io = eval->getInterface();
-    if (io) {
+    if (io != nullptr) {
         function_handle fh = Var.getContentAsFunctionHandle();
         std::wstring functionname;
         bool found = PathFuncManager::getInstance()->find(fh, functionname);
