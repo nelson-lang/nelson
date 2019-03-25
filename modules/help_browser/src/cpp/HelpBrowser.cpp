@@ -104,7 +104,7 @@ HelpBrowser::getAttributes()
 {
     wstringVector attributes;
     std::wstring database_path = getCacheFile();
-    if (database_path != L"") {
+    if (!database_path.empty()) {
         QSqlDatabase m_db;
         m_db = QSqlDatabase::addDatabase("QSQLITE");
         m_db.setDatabaseName(wstringToQString(database_path));
@@ -129,7 +129,7 @@ HelpBrowser::startBrowser(std::wstring& msg)
 {
     if (qprocess->state() == QProcess::Running) {
         QProcess::ProcessError err = qprocess->error();
-        msg = L"";
+        msg.clear();
         return true;
     }
     std::wstring wapp;
@@ -169,7 +169,7 @@ HelpBrowser::startBrowser(std::wstring& msg)
     args << QLatin1String("-collectionFile");
     args << wstringToQString(getQhcPath());
     qprocess->start(wstringToQString(wapp), args);
-    msg = L"";
+    msg.clear();
     if (!qprocess->waitForStarted()) {
         return false;
     }
