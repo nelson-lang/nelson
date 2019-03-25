@@ -32,7 +32,7 @@ HandleDelete(Evaluator* eval, ArrayOf A)
         for (indexType k = 0; k < dimsA.getElementCount(); k++) {
             nelson_handle hl = qp[k];
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
-            if (hlObj) {
+            if (hlObj != nullptr) {
                 bool doOverload = false;
                 std::wstring handleTypeName = hlObj->getCategory();
                 if (!handleTypeName.empty()) {

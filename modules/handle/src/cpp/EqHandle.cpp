@@ -37,8 +37,8 @@ EqHandle(ArrayOf A, ArrayOf B)
     if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
         Error(std::string(_("Size mismatch on arguments to arithmetic operator ")) + "eq");
     }
-    int Astride = 0, Bstride = 0;
-    void* Cp = nullptr;
+    int Astride = 0;
+    int Bstride = 0;
     indexType Clen = 0;
     Dimensions Cdim;
     if (A.isScalar()) {
@@ -55,7 +55,7 @@ EqHandle(ArrayOf A, ArrayOf B)
         Cdim = dimsA;
     }
     Clen = Cdim.getElementCount();
-    Cp = new_with_exception<logical>(Clen);
+    void* Cp = new_with_exception<logical>(Clen);
     auto* C = static_cast<logical*>(Cp);
     if (A.isHandle() && B.isHandle()) {
         auto* hA = (nelson_handle*)A.getDataPointer();
@@ -65,7 +65,7 @@ EqHandle(ArrayOf A, ArrayOf B)
                 C[i] = (hA[i] == hB[i]) ? 1 : 0;
             }
         } else {
-            if (Astride) {
+            if (Astride != 0) {
                 for (indexType i = 0; i < Clen; i++) {
                     C[i] = (hA[i] == hB[0]) ? 1 : 0;
                 }

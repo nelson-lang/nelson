@@ -30,14 +30,14 @@ IsValidHandle(Evaluator* eval, ArrayOf A)
     if (A.isHandle()) {
         Dimensions dimsA = A.getDimensions();
         auto* qp = (nelson_handle*)A.getDataPointer();
-        if (qp) {
+        if (qp != nullptr) {
             logical* resArray = static_cast<logical*>(
                 ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount()));
             for (indexType k = 0; k < dimsA.getElementCount(); k++) {
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj != nullptr) {
-                    if (hlObj->getPointer()) {
+                    if (hlObj->getPointer() != nullptr) {
                         resArray[k] = true;
                     } else {
                         resArray[k] = false;

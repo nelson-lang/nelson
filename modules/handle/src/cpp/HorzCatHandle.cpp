@@ -52,7 +52,6 @@ HorzCatHandle(ArrayOf A, ArrayOf B)
     indexType newRowsSize = dimsA.getRows();
     indexType newSize = newColumnsSize * newRowsSize;
     Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-    void* pRes = nullptr;
     auto* ptrA = (nelson_handle*)A.getDataPointer();
     auto* ptrB = (nelson_handle*)B.getDataPointer();
     if (newSize != 0) {
@@ -63,7 +62,7 @@ HorzCatHandle(ArrayOf A, ArrayOf B)
             Error(_W("Handles being catenated have incompatible classes."));
         }
     }
-    pRes = ArrayOf::allocateArrayOf(NLS_HANDLE, newSize);
+    void* pRes = ArrayOf::allocateArrayOf(NLS_HANDLE, newSize);
     if (newSize != 0) {
         auto* ptrC = static_cast<nelson_handle*>(pRes);
         Eigen::Map<Eigen::Matrix<nelson_handle, Eigen::Dynamic, Eigen::Dynamic>> matA(
