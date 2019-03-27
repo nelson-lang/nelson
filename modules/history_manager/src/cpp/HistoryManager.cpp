@@ -65,7 +65,7 @@ HistoryManager::HistoryManager()
     nbCommands = 0;
     // commands.reserve(4096);
     setFilename(GetPreferencesPath() + std::wstring(L"/Nelson.history"));
-    token = L"";
+    token.clear();
     token_position = 0;
     tokens_found.clear();
     bEmptyLineAtNextState = false;
@@ -78,8 +78,8 @@ HistoryManager::~HistoryManager()
 {
     commands.clear();
     tokens_found.clear();
-    token = L"";
-    filename = L"";
+    token.clear();
+    filename.clear();
     token_position = 0;
     bEmptyLineAtNextState = false;
 }
@@ -115,7 +115,7 @@ HistoryManager::setAllowDuplicatedLines(bool bAllow)
 }
 //=============================================================================
 bool
-HistoryManager::getAllowDuplicatedLines(void)
+HistoryManager::getAllowDuplicatedLines()
 {
     return bAllowDuplicatedLines;
 }
@@ -127,7 +127,7 @@ HistoryManager::setSaveAfterNCommands(size_t nLines)
 }
 //=============================================================================
 size_t
-HistoryManager::getSaveAfterNCommands(void)
+HistoryManager::getSaveAfterNCommands()
 {
     return saveAfterNCommands;
 }
@@ -143,7 +143,7 @@ HistoryManager::setLastNCommandsSize(size_t newsize)
 }
 //=============================================================================
 size_t
-HistoryManager::getLastNCommandsSize(void)
+HistoryManager::getLastNCommandsSize()
 {
     return saveLastNCommands;
 }
@@ -203,13 +203,13 @@ HistoryManager::appendHeader()
 }
 //=============================================================================
 bool
-HistoryManager::appendLine(std::wstring line)
+HistoryManager::appendLine(const std::wstring &line)
 {
     wstringVector strs;
     boost::split(strs, line, boost::is_any_of(L"\n"));
     wstringVector lines;
     for (size_t k = 0; k < strs.size(); k++) {
-        if ((strs[k] != L"\n") && (strs[k] != L"")) {
+        if ((strs[k] != L"\n") && (!strs[k].empty())) {
             lines.push_back(strs[k]);
         }
     }
@@ -245,10 +245,10 @@ HistoryManager::appendLine(std::wstring line)
 }
 //=============================================================================
 bool
-HistoryManager::appendLines(wstringVector lines)
+HistoryManager::appendLines(const wstringVector &lines)
 {
     for (size_t k = 0; k < lines.size(); k++) {
-        if ((lines[k] != L"\n") && (lines[k] != L"")) {
+        if ((lines[k] != L"\n") && (!lines[k].empty())) {
             commands.push_back(lines[k]);
         }
     }
@@ -292,7 +292,7 @@ HistoryManager::getCurrentSize()
 }
 //=============================================================================
 std::wstring
-HistoryManager::getFirstLine(void)
+HistoryManager::getFirstLine()
 {
     std::wstring line = L"";
     if (!commands.empty()) {
@@ -302,7 +302,7 @@ HistoryManager::getFirstLine(void)
 }
 //=============================================================================
 std::wstring
-HistoryManager::getLastLine(void)
+HistoryManager::getLastLine()
 {
     std::wstring line = L"";
     if (!commands.empty()) {
@@ -343,7 +343,7 @@ HistoryManager::get(size_t firstpos, size_t lastpos)
 }
 //=============================================================================
 std::wstring
-HistoryManager::getPreviousLine(void)
+HistoryManager::getPreviousLine()
 {
     std::wstring line = L"";
     if (bEmptyLineAtNextState) {
@@ -354,7 +354,7 @@ HistoryManager::getPreviousLine(void)
     } else {
         token_position--;
     }
-    if (token == L"") {
+    if (token.empty()) {
         if ((token_position >= 0) && (token_position < (int64)commands.size())) {
             line = commands[(size_t)token_position];
         }
@@ -368,10 +368,10 @@ HistoryManager::getPreviousLine(void)
 }
 //=============================================================================
 std::wstring
-HistoryManager::getNextLine(void)
+HistoryManager::getNextLine()
 {
     std::wstring line = L"";
-    if (token == L"") {
+    if (token.empty()) {
         if (token_position < (int64)commands.size()) {
             token_position++;
         }
@@ -404,14 +404,14 @@ HistoryManager::loadFromFile()
 }
 //=============================================================================
 bool
-HistoryManager::loadFromFile(std::wstring filename)
+HistoryManager::loadFromFile(const std::wstring &_filename)
 {
     commands.clear();
     std::ifstream istream;
 #ifdef _MSC_VER
-    istream.open(filename);
+    istream.open(_filename);
 #else
-    istream.open(wstring_to_utf8(filename));
+    istream.open(wstring_to_utf8(_filename));
 #endif
     if (istream.is_open()) {
         while (!istream.eof()) {
@@ -427,9 +427,9 @@ HistoryManager::loadFromFile(std::wstring filename)
 }
 //=============================================================================
 bool
-HistoryManager::setFilename(std::wstring filename)
+HistoryManager::setFilename(const std::wstring &filename)
 {
-    this->filename = filename;
+    this->filename.assign(filename);
     return true;
 }
 //=============================================================================
@@ -443,7 +443,7 @@ bool
 HistoryManager::clear(bool bWithHeader)
 {
     commands.clear();
-    token = L"";
+    token.clear();
     token_position = 0;
     tokens_found.clear();
     if (bWithHeader) {
@@ -453,7 +453,7 @@ HistoryManager::clear(bool bWithHeader)
 }
 //=============================================================================
 size_t
-HistoryManager::getNumberOfLines(void)
+HistoryManager::getNumberOfLines()
 {
     return commands.size();
 }
@@ -469,11 +469,11 @@ HistoryManager::getNthLine(size_t N)
 }
 //=============================================================================
 bool
-HistoryManager::setToken(std::wstring token)
+HistoryManager::setToken(const std::wstring &_token)
 {
-    this->token = token;
+    token.assign(_token);
     tokens_found.clear();
-    if (token != L"") {
+    if (!token.empty()) {
         for (size_t k = 0; k < commands.size(); k++) {
             tokens_found.reserve(commands.size());
             if (boost::algorithm::starts_with(commands[k], token)) {
@@ -489,10 +489,10 @@ HistoryManager::setToken(std::wstring token)
 }
 //=============================================================================
 bool
-HistoryManager::copyPreviousFile(std::wstring filename)
+HistoryManager::copyPreviousFile(const std::wstring &_filename)
 {
-    boost::filesystem::path src(filename);
-    boost::filesystem::path dst(filename + L".bak");
+    boost::filesystem::path src(_filename);
+    boost::filesystem::path dst(_filename + L".bak");
     bool bRes = false;
     try {
         bRes = boost::filesystem::exists(src) && !boost::filesystem::is_directory(src);
@@ -518,7 +518,7 @@ HistoryManager::copyPreviousFile(std::wstring filename)
 }
 //=============================================================================
 bool
-HistoryManager::detectExit(std::wstring line)
+HistoryManager::detectExit(const std::wstring &line)
 {
     if ((line == L"exit") || (line == L"quit")) {
         return true;
@@ -527,17 +527,17 @@ HistoryManager::detectExit(std::wstring line)
 }
 //=============================================================================
 bool
-HistoryManager::saveToFile(std::wstring filename)
+HistoryManager::saveToFile(const std::wstring &_filename)
 {
     if (bSaveEnabled) {
-        copyPreviousFile(filename);
+        copyPreviousFile(_filename);
         FILE* fw;
 #ifdef _MSC_VER
-        fw = _wfopen(filename.c_str(), L"wt");
+        fw = _wfopen(_filename.c_str(), L"wt");
 #else
-        fw = fopen(wstring_to_utf8(filename).c_str(), "wt");
+        fw = fopen(wstring_to_utf8(_filename).c_str(), "wt");
 #endif
-        if (fw) {
+        if (fw != nullptr) {
             size_t firstIndex = 0;
             if (commands.size() > saveLastNCommands) {
                 firstIndex = commands.size() - saveLastNCommands;
@@ -572,6 +572,5 @@ HistoryManager::saveToFile()
     return saveToFile(filename);
 }
 //=============================================================================
-
-};
+}  // namespace Nelson;
 //=============================================================================

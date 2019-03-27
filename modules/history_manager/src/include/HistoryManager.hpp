@@ -34,14 +34,14 @@ private:
     wstringVector tokens_found;
     bool bEmptyLineAtNextState;
     bool
-    copyPreviousFile(std::wstring filename);
+    copyPreviousFile(const std::wstring &filename);
     size_t saveLastNCommands;
     size_t saveAfterNCommands;
     size_t nbCommands;
     bool bAllowDuplicatedLines;
     bool bRemoveExit;
     bool
-    detectExit(std::wstring line);
+    detectExit(const std::wstring &line);
     bool bSaveEnabled;
     //=============================================================================
 public:
@@ -49,9 +49,9 @@ public:
     ~HistoryManager();
 
     bool
-    appendLine(std::wstring line);
+    appendLine(const std::wstring &line);
     bool
-    appendLines(wstringVector lines);
+    appendLines(const wstringVector &lines);
 
     bool
     remove(size_t pos);
@@ -69,17 +69,17 @@ public:
     getNextLine();
 
     bool
-    loadFromFile(std::wstring filename);
+    loadFromFile(const std::wstring &filename);
     bool
     loadFromFile();
 
     bool
-    saveToFile(std::wstring filename);
+    saveToFile(const std::wstring &filename);
     bool
     saveToFile();
 
     bool
-    setFilename(std::wstring filename);
+    setFilename(const std::wstring &filename);
     std::wstring
     getFilename();
 
@@ -87,7 +87,7 @@ public:
     clear(bool bWithHeader);
 
     bool
-    setToken(std::wstring token);
+    setToken(const std::wstring &token);
 
     size_t
     getNumberOfLines();

@@ -22,15 +22,18 @@
 #include <string>
 //=============================================================================
 namespace Nelson {
-namespace History {
+//=============================================================================
+	namespace History {
     NLSHISTORY_MANAGER_IMPEXP bool
-    addLine(std::wstring line);
+    addLine(const std::wstring &line);
     NLSHISTORY_MANAGER_IMPEXP bool
-    setToken(std::wstring line);
+    setToken(const std::wstring &line);
     NLSHISTORY_MANAGER_IMPEXP std::wstring
     getNextLine();
     NLSHISTORY_MANAGER_IMPEXP std::wstring
     getPreviousLine();
+    //=============================================================================
 } // namespace History
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
