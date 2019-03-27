@@ -72,7 +72,7 @@ bool
 Scope::deleteBuiltin(void* fptr)
 {
     cachedFunc.clear();
-    return BuiltInFunctionDefManager::getInstance()->remove(static_cast<BuiltInFuncPtr>(fptr));
+    return BuiltInFunctionDefManager::getInstance()->remove((BuiltInFuncPtr)(fptr));
 }
 //=============================================================================
 void

@@ -27,11 +27,12 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-ReciprocalConditionNumber_Double(const ArrayOf A)
+ReciprocalConditionNumber_Double(const ArrayOf &A)
 {
     ArrayOf rcond;
-    Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(),
-        (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+    Dimensions dimsA = A.getDimensions();
+    Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)dimsA.getRows(),
+        (Eigen::Index)dimsA.getColumns());
     if (matA.hasNaN()) {
         rcond = ArrayOf::doubleConstructor(std::nan(""));
     } else {
@@ -51,8 +52,8 @@ ReciprocalConditionNumber_Double(const ArrayOf A)
             R.ensureSingleOwner();
             double normA = 0;
             char norm = '1';
-            int m = static_cast<int>(A.getDimensions().getRows());
-            int n = static_cast<int>(A.getDimensions().getColumns());
+            int m = static_cast<int>(dimsA.getRows());
+            int n = static_cast<int>(dimsA.getColumns());
             int lda = m;
             normA = LAPACKE_dlange(
                 LAPACK_COL_MAJOR, norm, m, n, (const double*)R.getDataPointer(), lda);
@@ -141,11 +142,12 @@ ReciprocalConditionNumber_DoubleComplex(ArrayOf A)
 }
 //=============================================================================
 static ArrayOf
-ReciprocalConditionNumber_Single(ArrayOf A)
+ReciprocalConditionNumber_Single(const ArrayOf &A)
 {
     ArrayOf rcond;
-    Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(),
-        (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+    Dimensions dimsA = A.getDimensions();
+    Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)dimsA.getRows(),
+        (Eigen::Index)dimsA.getColumns());
     if (matA.hasNaN()) {
         rcond = ArrayOf::singleConstructor(std::nanf(""));
     } else {
@@ -164,8 +166,8 @@ ReciprocalConditionNumber_Single(ArrayOf A)
             R.ensureSingleOwner();
             single normA = 0;
             char norm = '1';
-            int m = static_cast<int>(A.getDimensions().getRows());
-            int n = static_cast<int>(A.getDimensions().getColumns());
+            int m = static_cast<int>(dimsA.getRows());
+            int n = static_cast<int>(dimsA.getColumns());
             int lda = m;
             normA = LAPACKE_slange(
                 LAPACK_COL_MAJOR, norm, m, n, (const single*)R.getDataPointer(), lda);
@@ -197,12 +199,13 @@ ReciprocalConditionNumber_Single(ArrayOf A)
 }
 //=============================================================================
 static ArrayOf
-ReciprocalConditionNumber_SingleComplex(ArrayOf A)
+ReciprocalConditionNumber_SingleComplex(const ArrayOf &A)
 {
     ArrayOf rcond;
+    Dimensions dimsA = A.getDimensions();
     auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-    Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getDimensions().getRows(),
-        (Eigen::Index)A.getDimensions().getColumns());
+    Eigen::Map<Eigen::MatrixXcf> matA(
+        Az, (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
     if (matA.hasNaN()) {
         rcond = ArrayOf::singleConstructor(std::nanf(""));
     } else {
@@ -223,8 +226,8 @@ ReciprocalConditionNumber_SingleComplex(ArrayOf A)
             auto* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
             single normA = 0;
             char norm = '1';
-            int m = static_cast<int>(R.getDimensions().getRows());
-            int n = static_cast<int>(R.getDimensions().getColumns());
+            int m = static_cast<int>(dimsA.getRows());
+            int n = static_cast<int>(dimsA.getColumns());
             int lda = m;
             normA = LAPACKE_clange(LAPACK_COL_MAJOR, norm, m, n, Rz, lda);
             int info = 0;
@@ -254,7 +257,7 @@ ReciprocalConditionNumber_SingleComplex(ArrayOf A)
 }
 //=============================================================================
 ArrayOf
-ReciprocalConditionNumber(ArrayOf A)
+ReciprocalConditionNumber(const ArrayOf &A)
 {
     ArrayOf rcond;
     bool isSupportedTypes
