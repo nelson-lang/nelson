@@ -59,7 +59,7 @@ Nelson::DataStructuresGateway::cell2structBuiltin(
     if (dim == 0) {
         if (param1.isEmpty()) {
             Dimensions dims2 = param2.getDimensions();
- 			indexType len = std::min(dims1.getLength(), dims2.getLength());
+            indexType len = std::min(dims1.getLength(), dims2.getLength());
             Dimensions dims;
             if (dims1.equals(dims2)) {
                 indexType l = 0;

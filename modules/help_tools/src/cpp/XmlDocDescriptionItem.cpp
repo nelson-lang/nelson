@@ -157,7 +157,8 @@ XmlDocDescriptionItem::searchImageTag()
 }
 //=============================================================================
 void
-XmlDocDescriptionItem::setDirectories(const std::wstring &srcDirectory, const std::wstring &destDirectory)
+XmlDocDescriptionItem::setDirectories(
+    const std::wstring& srcDirectory, const std::wstring& destDirectory)
 {
     if (boost::algorithm::ends_with(srcDirectory, L"/")
         || boost::algorithm::ends_with(srcDirectory, L"\\")) {

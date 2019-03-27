@@ -30,7 +30,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-whoNh5File(Interface* io, const std::wstring& filename, const wstringVector &names, bool asCell)
+whoNh5File(Interface* io, const std::wstring& filename, const wstringVector& names, bool asCell)
 {
     ArrayOf res;
     boost::filesystem::path nh5_filename(filename);

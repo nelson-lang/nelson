@@ -25,7 +25,8 @@
 //=============================================================================
 namespace Nelson {
 bool
-CopyFile(const std::wstring &srcFile, const std::wstring &destFileOrDirectory, bool bForce, std::wstring& message)
+CopyFile(const std::wstring& srcFile, const std::wstring& destFileOrDirectory, bool bForce,
+    std::wstring& message)
 {
     bool bRes = false;
     message = L"";
@@ -56,7 +57,8 @@ CopyFile(const std::wstring &srcFile, const std::wstring &destFileOrDirectory, b
 }
 //=============================================================================
 bool
-CopyDirectory(const std::wstring &srcDir, const std::wstring &destDir, bool bForce, std::wstring& message)
+CopyDirectory(
+    const std::wstring& srcDir, const std::wstring& destDir, bool bForce, std::wstring& message)
 {
     bool bRes = false;
     message = L"";
@@ -86,7 +88,8 @@ CopyDirectory(const std::wstring &srcDir, const std::wstring &destDir, bool bFor
 }
 //=============================================================================
 bool
-CopyFiles(const wstringVector &srcFiles, const std::wstring &destDir, bool bForce, std::wstring& message)
+CopyFiles(
+    const wstringVector& srcFiles, const std::wstring& destDir, bool bForce, std::wstring& message)
 {
     bool bRes = false;
     message = L"";

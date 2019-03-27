@@ -32,7 +32,7 @@
 namespace Nelson {
 //=============================================================================
 static bool
-extensionToFormat(const std::wstring &extension, int& format)
+extensionToFormat(const std::wstring& extension, int& format)
 {
     int countFormat = 0;
     std::wstring EXT = boost::to_upper_copy(extension);
@@ -193,7 +193,8 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
                 }
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
-                        buffer[(size_t)(k) * ((size_t)sfinfo.channels + (size_t)ch)] = ptrAudioData[idx++];
+                        buffer[(size_t)(k) * ((size_t)sfinfo.channels + (size_t)ch)]
+                            = ptrAudioData[idx++];
                     }
                 }
                 if (writecount > 0) {
@@ -219,7 +220,8 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
                 }
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
-                        buffer[(size_t)(k) * (size_t)sfinfo.channels + (size_t)(ch)] = ptrAudioData[idx++];
+                        buffer[(size_t)(k) * (size_t)sfinfo.channels + (size_t)(ch)]
+                            = ptrAudioData[idx++];
                     }
                 }
                 if (writecount > 0) {
@@ -246,7 +248,8 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
                 }
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
-                        buffer[(size_t)(k) * (size_t)(sfinfo.channels) + (size_t)(ch)] = ptrAudioData[idx++];
+                        buffer[(size_t)(k) * (size_t)(sfinfo.channels) + (size_t)(ch)]
+                            = ptrAudioData[idx++];
                     }
                 }
                 if (writecount > 0) {
@@ -273,7 +276,8 @@ AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, 
                 }
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
-                        buffer[(size_t)(k) * (size_t)sfinfo.channels + (size_t)(ch)] = ptrAudioData[idx++];
+                        buffer[(size_t)(k) * (size_t)sfinfo.channels + (size_t)(ch)]
+                            = ptrAudioData[idx++];
                     }
                 }
                 if (writecount > 0) {

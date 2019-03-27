@@ -36,7 +36,7 @@ XmlDocAuthors::~XmlDocAuthors()
 }
 //=============================================================================
 void
-XmlDocAuthors::append(const std::wstring &value)
+XmlDocAuthors::append(const std::wstring& value)
 {
     XmlDocAuthorItem* item = nullptr;
     try {

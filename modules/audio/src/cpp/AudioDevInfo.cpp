@@ -121,8 +121,8 @@ retrieveAudioDevicesInfo()
 }
 //=============================================================================
 static ArrayOf
-getDevicesInfo(
-    const boost::container::vector<AudioDeviceInfo> &infos, bool input, size_t nbInputs, size_t nbOutputs)
+getDevicesInfo(const boost::container::vector<AudioDeviceInfo>& infos, bool input, size_t nbInputs,
+    size_t nbOutputs)
 {
     Dimensions dimsInOrOutputs;
     if (input) {
@@ -310,7 +310,8 @@ AudioDevInfo(int io, std::wstring& errorMessage)
 }
 //=============================================================================
 static bool
-getDeviceInfoById(const boost::container::vector<AudioDeviceInfo> &infos, int ID, AudioDeviceInfo& info)
+getDeviceInfoById(
+    const boost::container::vector<AudioDeviceInfo>& infos, int ID, AudioDeviceInfo& info)
 {
     for (AudioDeviceInfo element : infos) {
         if (element.Id == ID) {
@@ -349,8 +350,8 @@ AudioDevInfo(int io, int id, std::wstring& errorMessage)
 }
 //=============================================================================
 static bool
-getDeviceInfoByName(const boost::container::vector<AudioDeviceInfo> &infos, int IO, const std::wstring &name,
-    AudioDeviceInfo& info)
+getDeviceInfoByName(const boost::container::vector<AudioDeviceInfo>& infos, int IO,
+    const std::wstring& name, AudioDeviceInfo& info)
 {
     for (AudioDeviceInfo element : infos) {
         if (IO == 1) {
@@ -375,7 +376,7 @@ getDeviceInfoByName(const boost::container::vector<AudioDeviceInfo> &infos, int 
 }
 //=============================================================================
 ArrayOf
-AudioDevInfo(int io, const std::wstring &name, std::wstring& errorMessage)
+AudioDevInfo(int io, const std::wstring& name, std::wstring& errorMessage)
 {
     errorMessage.clear();
     if (io == 0 || io == 1) {
@@ -444,8 +445,8 @@ bitsToFormat(int bits)
 }
 //=============================================================================
 static bool
-searchAudioDevice(const boost::container::vector<AudioDeviceInfo> &infos, int io, int rate, int bits,
-    int chans, AudioDeviceInfo& info)
+searchAudioDevice(const boost::container::vector<AudioDeviceInfo>& infos, int io, int rate,
+    int bits, int chans, AudioDeviceInfo& info)
 {
     if (io == 0 || io == 1) {
         for (size_t k = 0; k < infos.size(); k++) {

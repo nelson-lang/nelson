@@ -26,7 +26,7 @@ Nelson::QStringTowstring(QString qstr)
 }
 //=============================================================================
 QString
-Nelson::wstringToQString(const std::wstring &wstr)
+Nelson::wstringToQString(const std::wstring& wstr)
 {
     return QString::fromUtf8(Nelson::wstring_to_utf8(wstr).c_str());
 }

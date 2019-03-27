@@ -185,7 +185,7 @@ QtTerminal::sendReturnKey()
 }
 //=============================================================================
 std::wstring
-QtTerminal::getLine(const std::wstring &prompt)
+QtTerminal::getLine(const std::wstring& prompt)
 {
     printPrompt(Nelson::wstringToQString(prompt));
     promptBlock = document()->lastBlock();
@@ -236,21 +236,21 @@ QtTerminal::getTerminalWidth()
 }
 //=============================================================================
 void
-QtTerminal::outputMessage(const std::wstring &msg)
+QtTerminal::outputMessage(const std::wstring& msg)
 {
     printMessage(Nelson::wstringToQString(msg), STDOUT_DISP);
     Nelson::ProcessEvents();
 }
 //=============================================================================
 void
-QtTerminal::errorMessage(const std::wstring &msg)
+QtTerminal::errorMessage(const std::wstring& msg)
 {
     printMessage(Nelson::wstringToQString(msg), STDERR_DISP);
     Nelson::ProcessEvents();
 }
 //=============================================================================
 void
-QtTerminal::warningMessage(const std::wstring &msg)
+QtTerminal::warningMessage(const std::wstring& msg)
 {
     printMessage(Nelson::wstringToQString(msg), WARNING_DISP);
     Nelson::ProcessEvents();
@@ -412,7 +412,7 @@ QtTerminal::getCurrentCommandLine()
 }
 //=============================================================================
 bool
-QtTerminal::replaceCurrentCommandLine(const std::wstring &newline)
+QtTerminal::replaceCurrentCommandLine(const std::wstring& newline)
 {
     QTextCursor cursor = textCursor();
     cursor.movePosition(QTextCursor::StartOfLine);
@@ -483,7 +483,7 @@ QtTerminal::insertFromMimeData(const QMimeData* source)
 }
 //=============================================================================
 void
-QtTerminal::insertHtml(const std::wstring &msg)
+QtTerminal::insertHtml(const std::wstring& msg)
 {
     textCursor().insertHtml(Nelson::wstringToQString(msg));
     textCursor().insertBlock();

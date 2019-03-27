@@ -28,7 +28,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocListOfFiles::XmlDocListOfFiles(wstringVector srcFiles, const std::wstring &dstDirectory,
+XmlDocListOfFiles::XmlDocListOfFiles(wstringVector srcFiles, const std::wstring& dstDirectory,
     bool bOverwriteExistingFiles, DOCUMENT_OUTPUT outputTarget)
 {
     this->outputTarget = outputTarget;
@@ -103,7 +103,7 @@ XmlDocListOfFiles::read()
             try {
                 xmlDoc = new XmlDocDocument(this->srcFiles[k], this->sectionUpName,
                     this->dstDirectory, this->bOverwriteExistingFiles, this->outputTarget);
-			} catch (std::bad_alloc&) {
+            } catch (std::bad_alloc&) {
                 this->lastError = ERROR_MEMORY_ALLOCATION;
                 this->clearItems();
                 return false;
@@ -121,7 +121,7 @@ XmlDocListOfFiles::read()
                 this->clearItems();
                 return false;
             }
-		}
+        }
     }
     if (!haveChapterFile) {
         this->lastError = _W("chapter.xml file is missing.");
@@ -292,7 +292,7 @@ XmlDocListOfFiles::getIndex(wstringVector& names, wstringVector& urls, wstringVe
 }
 //=============================================================================
 void
-XmlDocListOfFiles::setUpSection(const std::wstring &sectionName, const std::wstring &sectionUrl)
+XmlDocListOfFiles::setUpSection(const std::wstring& sectionName, const std::wstring& sectionUrl)
 {
     this->sectionUpName = sectionName;
     this->sectionUpUrl = sectionUrl;

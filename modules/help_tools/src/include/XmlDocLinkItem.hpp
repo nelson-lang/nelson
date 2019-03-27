@@ -31,7 +31,7 @@ private:
     std::wstring _link;
 
 public:
-    XmlDocLinkItem(const std::wstring &name, const std::wstring &link);
+    XmlDocLinkItem(const std::wstring& name, const std::wstring& link);
     ~XmlDocLinkItem();
     std::wstring
     getName();

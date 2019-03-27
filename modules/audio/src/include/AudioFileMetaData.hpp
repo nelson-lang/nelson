@@ -23,13 +23,14 @@
 //=============================================================================
 namespace Nelson {
 NLSAUDIO_IMPEXP bool
-AudioFileMetaData(const std::wstring &filename, wstringVector& fieldnames, wstringVector& fieldvalues,
-    std::wstring& errorMessage);
+AudioFileMetaData(const std::wstring& filename, wstringVector& fieldnames,
+    wstringVector& fieldvalues, std::wstring& errorMessage);
 NLSAUDIO_IMPEXP bool
-setAudioFileMetaData(const std::wstring &filename, wstringVector fieldnames, wstringVector fieldvalues,
-    std::wstring& errorMessage);
+setAudioFileMetaData(const std::wstring& filename, wstringVector fieldnames,
+    wstringVector fieldvalues, std::wstring& errorMessage);
 NLSAUDIO_IMPEXP bool
-deleteAudioFileMetaData(const std::wstring &filename, const std::wstring &fieldname, std::wstring& errorMessage);
+deleteAudioFileMetaData(
+    const std::wstring& filename, const std::wstring& fieldname, std::wstring& errorMessage);
 
 } // namespace Nelson
 //=============================================================================

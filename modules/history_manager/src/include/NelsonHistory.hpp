@@ -23,11 +23,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-	namespace History {
+namespace History {
     NLSHISTORY_MANAGER_IMPEXP bool
-    addLine(const std::wstring &line);
+    addLine(const std::wstring& line);
     NLSHISTORY_MANAGER_IMPEXP bool
-    setToken(const std::wstring &line);
+    setToken(const std::wstring& line);
     NLSHISTORY_MANAGER_IMPEXP std::wstring
     getNextLine();
     NLSHISTORY_MANAGER_IMPEXP std::wstring

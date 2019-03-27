@@ -22,7 +22,7 @@
 namespace Nelson {
 //=============================================================================
 logical
-Assert_IsTrue(logical value, const std::wstring &modifiedmsg, std::wstring& msg)
+Assert_IsTrue(logical value, const std::wstring& modifiedmsg, std::wstring& msg)
 {
     if (value == 0) {
         if (!modifiedmsg.empty()) {

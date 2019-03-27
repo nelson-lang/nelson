@@ -48,7 +48,7 @@ AudioDevInfo(int io, std::wstring& errorMessage);
 NLSAUDIO_IMPEXP ArrayOf
 AudioDevInfo(int io, int id, std::wstring& errorMessage);
 NLSAUDIO_IMPEXP ArrayOf
-AudioDevInfo(int io, const std::wstring &name, std::wstring& errorMessage);
+AudioDevInfo(int io, const std::wstring& name, std::wstring& errorMessage);
 NLSAUDIO_IMPEXP ArrayOf
 AudioDevInfoDriverVersion(int io, int id, std::wstring& errorMessage);
 NLSAUDIO_IMPEXP ArrayOf

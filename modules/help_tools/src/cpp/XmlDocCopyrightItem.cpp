@@ -23,12 +23,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocCopyrightItem::XmlDocCopyrightItem(const std::wstring &copyright) : _copyright(copyright) {}
+XmlDocCopyrightItem::XmlDocCopyrightItem(const std::wstring& copyright) : _copyright(copyright) {}
 //=============================================================================
 XmlDocCopyrightItem::~XmlDocCopyrightItem() { this->_copyright.clear(); }
 //=============================================================================
 void
-XmlDocCopyrightItem::setValue(const std::wstring &value)
+XmlDocCopyrightItem::setValue(const std::wstring& value)
 {
     this->_copyright = value;
 }

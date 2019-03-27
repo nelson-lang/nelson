@@ -29,8 +29,8 @@ class UpdatePathListener : public FW::FileWatchListener
 public:
     UpdatePathListener() = default;
     void
-    handleFileAction(
-        WatchID watchid, const FW::String& dir, const FW::String& filename, FW::Action action) override
+    handleFileAction(WatchID watchid, const FW::String& dir, const FW::String& filename,
+        FW::Action action) override
     {
         switch (action) {
         case FW::Action::Add: {

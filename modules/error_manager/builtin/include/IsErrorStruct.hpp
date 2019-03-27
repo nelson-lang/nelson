@@ -25,9 +25,9 @@
 namespace Nelson {
 //=============================================================================
 bool
-IsErrorStruct(const ArrayOf &arg);
+IsErrorStruct(const ArrayOf& arg);
 bool
-IsErrorStruct(const ArrayOf &arg, Exception& e);
+IsErrorStruct(const ArrayOf& arg, Exception& e);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -41,8 +41,8 @@ XmlDocExamples::~XmlDocExamples()
 }
 //=============================================================================
 void
-XmlDocExamples::append(
-    const std::wstring &type, const std::wstring &description, const std::wstring &data, const std::wstring &imageTag)
+XmlDocExamples::append(const std::wstring& type, const std::wstring& description,
+    const std::wstring& data, const std::wstring& imageTag)
 {
     XmlDocExampleItem* item = nullptr;
     try {

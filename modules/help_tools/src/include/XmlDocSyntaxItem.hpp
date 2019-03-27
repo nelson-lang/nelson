@@ -30,7 +30,7 @@ private:
     std::wstring _syntax;
 
 public:
-    XmlDocSyntaxItem(const std::wstring &syntax);
+    XmlDocSyntaxItem(const std::wstring& syntax);
     ~XmlDocSyntaxItem();
     std::wstring
     getValue();

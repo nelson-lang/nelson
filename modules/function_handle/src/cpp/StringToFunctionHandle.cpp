@@ -22,7 +22,7 @@
 namespace Nelson {
 //=============================================================================
 function_handle
-StringToFunctionHandle(Evaluator* eval, const std::wstring &functionName)
+StringToFunctionHandle(Evaluator* eval, const std::wstring& functionName)
 {
     std::string fun = wstring_to_utf8(functionName);
     Context* ctx = eval->getContext();

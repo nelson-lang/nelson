@@ -40,7 +40,7 @@ Nelson::FunctionsGateway::restoredefaultpathBuiltin(
     PathFuncManager::getInstance()->resetUserPath();
     PathFuncManager::getInstance()->clear();
     wstringVector paths = ModulesManager::Instance().getModulesPathList(false);
-    for (const auto & path : paths) {
+    for (const auto& path : paths) {
         std::wstring _path = path + L"/functions/";
         boost::filesystem::path data_dir(_path);
         bool bRes = false;

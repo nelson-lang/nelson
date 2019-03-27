@@ -30,10 +30,10 @@ private:
     std::wstring _module_name;
 
 public:
-    XmlDocModuleNameItem(const std::wstring &module_name = L"");
+    XmlDocModuleNameItem(const std::wstring& module_name = L"");
     ~XmlDocModuleNameItem();
     void
-    setValue(const std::wstring &value);
+    setValue(const std::wstring& value);
     std::wstring
     getValue();
     std::wstring

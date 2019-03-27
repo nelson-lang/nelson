@@ -267,7 +267,8 @@ testDigit()
 inline int
 testNewline()
 {
-    return static_cast<int>((datap[0] == 0) || (datap[0] == '\n') || ((datap[0] == '\r') && (datap[1] == '\n')));
+    return static_cast<int>(
+        (datap[0] == 0) || (datap[0] == '\n') || ((datap[0] == '\r') && (datap[1] == '\n')));
 }
 //=============================================================================
 inline int
@@ -294,8 +295,8 @@ discardChar()
 inline int
 testCharacterArrayTerm()
 {
-    return static_cast<int>((datap[0] == '\n') || (datap[0] == '\r') || (datap[0] == ';') || (datap[0] == ',')
-        || (datap[0] == ' '));
+    return static_cast<int>((datap[0] == '\n') || (datap[0] == '\r') || (datap[0] == ';')
+        || (datap[0] == ',') || (datap[0] == ' '));
 }
 //=============================================================================
 void
@@ -647,10 +648,9 @@ lexScanningState()
             setTokenType(static_cast<int>('\''));
             discardChar();
             return;
-        } 
-            lexCharacterArray();
-            return;
-        
+        }
+        lexCharacterArray();
+        return;
     }
     if (isWhitespace() != 0) {
         while (isWhitespace() != 0) {

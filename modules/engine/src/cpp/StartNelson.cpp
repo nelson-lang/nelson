@@ -169,8 +169,8 @@ ErrorCommandLine(std::wstring str, NELSON_ENGINE_MODE _mode)
 //=============================================================================
 static int
 NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
-    const std::wstring &commandToExecute, const std::wstring &fileToExecute, const wstringVector &filesToOpen,
-    const wstringVector &filesToLoad)
+    const std::wstring& commandToExecute, const std::wstring& fileToExecute,
+    const wstringVector& filesToOpen, const wstringVector& filesToLoad)
 {
     eval->resetState();
     if (!haveNoStartup) {

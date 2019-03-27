@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSJSON_IMPEXP ArrayOf
-jsonDecode(std::wstring stringToDecode, std::wstring& errorMessage);
+jsonDecode(const std::wstring &stringToDecode, std::wstring& errorMessage);
 };
 //=============================================================================

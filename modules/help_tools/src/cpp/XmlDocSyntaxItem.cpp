@@ -24,7 +24,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocSyntaxItem::XmlDocSyntaxItem(const std::wstring &syntax) { this->_syntax.assign(syntax); }
+XmlDocSyntaxItem::XmlDocSyntaxItem(const std::wstring& syntax) { this->_syntax.assign(syntax); }
 //=============================================================================
 XmlDocSyntaxItem::~XmlDocSyntaxItem() { this->_syntax.clear(); }
 //=============================================================================

@@ -29,24 +29,24 @@ Nelson::InterpreterGateway::max_recursion_depthBuiltin(
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
+    Context* context = eval->getContext();
     if (argIn.size() == 0) {
-        size_t recursiondepth = eval->getContext()->getRecursionDepth();
+        size_t recursiondepth = context->getRecursionDepth();
         retval.push_back(ArrayOf::doubleConstructor((double)recursiondepth));
     } else if (argIn.size() == 1) {
-        size_t previousrecursiondepth = eval->getContext()->getRecursionDepth();
+        size_t previousrecursiondepth = context->getRecursionDepth();
         ArrayOf param1 = argIn[0];
         if (param1.isRowVectorCharacterArray()) {
             std::wstring param = param1.getContentAsWideString();
             if (param == L"max") {
-                eval->getContext()->setRecursionDepth(
-                    eval->getContext()->getMaximumRecursionDepth());
+                context->setRecursionDepth(context->getMaximumRecursionDepth());
             } else {
                 Error(_W("Argument #1: 'max' expected."));
             }
         } else {
             indexType value = param1.getContentAsScalarIndex();
-            if (value <= (indexType)eval->getContext()->getMaximumRecursionDepth()) {
-                eval->getContext()->setRecursionDepth((size_t)value);
+            if (value <= (indexType)context->getMaximumRecursionDepth()) {
+                context->setRecursionDepth((size_t)value);
             } else {
                 Error(_W("Argument #1: valid value expected."));
             }

@@ -42,7 +42,7 @@ returnInfinity(bool bPositive)
 }
 //=============================================================================
 static std::string
-decodeCharacters(std::string str)
+decodeCharacters(const std::string &str)
 {
     std::string res;
     res.reserve(str.size());
@@ -668,6 +668,7 @@ importTokens(const jsmntok_t* tokens, JsonVariable& jsVar)
             case JSON_TO_NELSON_STRUCT: {
                 return transformStructArray(jsVar, totaldims);
             } break;
+            default: { } break;
             }
         } else {
             jsVar.jsonVariableType = JSON_TO_NELSON_CELL;
@@ -785,13 +786,13 @@ jsonDecodeInternal(std::wstring stringToDecode, std::wstring& errorMessage)
 }
 //=============================================================================
 ArrayOf
-jsonDecode(std::wstring stringToDecode, std::wstring& errorMessage)
+jsonDecode(const std::wstring &stringToDecode, std::wstring& errorMessage)
 {
     tokens_offset = 0;
-    jsonString = "";
+    jsonString.clear();
     ArrayOf res = jsonDecodeInternal(stringToDecode, errorMessage);
     tokens_offset = 0;
-    jsonString = "";
+    jsonString.clear();
     return res;
 }
 //=============================================================================

@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 XmlDocListOfDirectories::XmlDocListOfDirectories(wstringVector srcDirectories,
-    const std::wstring &dstDirectory, const std::wstring &mainTitle, bool bOverwriteExistingFiles,
+    const std::wstring& dstDirectory, const std::wstring& mainTitle, bool bOverwriteExistingFiles,
     DOCUMENT_OUTPUT outputTarget)
     : srcDirectories(srcDirectories), dstDirectory(dstDirectory)
 {

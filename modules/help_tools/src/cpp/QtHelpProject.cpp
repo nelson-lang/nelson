@@ -27,8 +27,8 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-QtHelpProject::QtHelpProject(const std::wstring &destdirectory, const std::wstring &mainTitle,
-    const std::wstring &name_space, const std::wstring &virtualfolder)
+QtHelpProject::QtHelpProject(const std::wstring& destdirectory, const std::wstring& mainTitle,
+    const std::wstring& name_space, const std::wstring& virtualfolder)
     : destdirectory(destdirectory)
     , mainTitle(mainTitle)
     , name_space(name_space)
@@ -163,8 +163,8 @@ QtHelpProject::write()
 }
 //=============================================================================
 void
-QtHelpProject::appendSection(
-    const std::wstring &sectionName, const std::wstring &sectionUrl, const wstringVector &names, const wstringVector &urls)
+QtHelpProject::appendSection(const std::wstring& sectionName, const std::wstring& sectionUrl,
+    const wstringVector& names, const wstringVector& urls)
 {
     this->sectionsName.push_back(sectionName);
     this->sectionsUrl.push_back(sectionUrl);

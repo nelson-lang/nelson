@@ -27,13 +27,13 @@
 namespace Nelson {
 //=============================================================================
 bool
-EvaluateCommand(Evaluator* eval, const std::wstring &command, bool bCatch)
+EvaluateCommand(Evaluator* eval, const std::wstring& command, bool bCatch)
 {
     return EvaluateCommand(eval, wstring_to_utf8(command), bCatch);
 }
 //=============================================================================
 bool
-EvaluateCommand(Evaluator* eval, const std::string &command, bool bCatch)
+EvaluateCommand(Evaluator* eval, const std::string& command, bool bCatch)
 {
     return eval->evaluateString(command, bCatch);
 }
@@ -41,7 +41,7 @@ EvaluateCommand(Evaluator* eval, const std::string &command, bool bCatch)
 #define TEMP_VAR_NAME L"__eval_tmp_"
 //=============================================================================
 static std::wstring
-prepareVariablesReturned(int nLhs, const std::wstring &command)
+prepareVariablesReturned(int nLhs, const std::wstring& command)
 {
     std::wstring variables;
     if (nLhs > 1) {
@@ -94,8 +94,8 @@ getScopeValue(SCOPE_LEVEL scope)
 }
 //=============================================================================
 static ArrayOfVector
-EvaluateCommand(
-    Evaluator* eval, int nLhs, const std::wstring &command, const std::wstring &catchCommand, SCOPE_LEVEL scope)
+EvaluateCommand(Evaluator* eval, int nLhs, const std::wstring& command,
+    const std::wstring& catchCommand, SCOPE_LEVEL scope)
 {
     int scopeValue = getScopeValue(scope);
     ArrayOfVector retval;
@@ -154,13 +154,14 @@ EvaluateCommand(
 }
 //=============================================================================
 ArrayOfVector
-EvaluateCommand(Evaluator* eval, int nLhs, const std::wstring &command, const std::wstring &catchCommand)
+EvaluateCommand(
+    Evaluator* eval, int nLhs, const std::wstring& command, const std::wstring& catchCommand)
 {
     return EvaluateCommand(eval, nLhs, command, catchCommand, SCOPE_LEVEL::LOCAL_SCOPE);
 }
 //=============================================================================
 ArrayOfVector
-EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, const std::wstring &command)
+EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, const std::wstring& command)
 {
     if (scope == GLOBAL_SCOPE) {
         Error(_W("'local', 'caller', 'base' scope expected."));
@@ -169,7 +170,8 @@ EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, const std::wstri
 }
 //=============================================================================
 ArrayOfVector
-EvaluateConsoleCommand(Evaluator* eval, int nLhs, const std::wstring &command, const std::wstring &catchCommand)
+EvaluateConsoleCommand(
+    Evaluator* eval, int nLhs, const std::wstring& command, const std::wstring& catchCommand)
 {
     ArrayOfVector retval;
     Interface* io = eval->getInterface();

@@ -25,7 +25,7 @@ namespace Nelson {
 //=============================================================================
 NLSCOM_ENGINE_IMPEXP ArrayOf
 invokeComHandleObject(
-    ArrayOf A, const std::wstring& wmethodname, const ArrayOfVector &params, bool& haveReturnValue);
+    ArrayOf A, const std::wstring& wmethodname, const ArrayOfVector& params, bool& haveReturnValue);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

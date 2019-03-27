@@ -457,35 +457,40 @@ AudioplayerObject::paPlayCallback(const void* inputBuffer, void* outputBuffer,
                 switch (dataClass) {
                 case NLS_SINGLE: {
                     auto* ptrData = (single*)data->audioData.getDataPointer();
-                    size_t pos = (size_t)(data->_CurrentSample) + (size_t)(c) * (size_t)(data->_TotalSamples);
+                    size_t pos = (size_t)(data->_CurrentSample)
+                        + (size_t)(c) * (size_t)(data->_TotalSamples);
                     single val = ptrData[pos];
                     *outAsSingle = val;
                     outAsSingle++;
                 } break;
                 case NLS_DOUBLE: {
                     auto* ptrData = (double*)data->audioData.getDataPointer();
-                    size_t pos = (size_t)(data->_CurrentSample) + (size_t)(c) * (size_t)(data->_TotalSamples);
+                    size_t pos = (size_t)(data->_CurrentSample)
+                        + (size_t)(c) * (size_t)(data->_TotalSamples);
                     double val = ptrData[pos];
                     *outAsSingle = static_cast<single>(val);
                     outAsSingle++;
                 } break;
                 case NLS_INT8: {
                     int8* ptrData = (int8*)data->audioData.getDataPointer();
-                    size_t pos = (size_t)(data->_CurrentSample) + (size_t)(c) * (size_t)(data->_TotalSamples);
+                    size_t pos = (size_t)(data->_CurrentSample)
+                        + (size_t)(c) * (size_t)(data->_TotalSamples);
                     int8 val = ptrData[pos];
                     *outAsInt8 = val;
                     outAsInt8++;
                 } break;
                 case NLS_UINT8: {
                     auto* ptrData = (uint8*)data->audioData.getDataPointer();
-                    size_t pos = (size_t)(data->_CurrentSample) + (size_t)(c) * (size_t)(data->_TotalSamples);
+                    size_t pos = (size_t)(data->_CurrentSample)
+                        + (size_t)(c) * (size_t)(data->_TotalSamples);
                     uint8 val = ptrData[pos];
                     *outAsUInt8 = val;
                     outAsUInt8++;
                 } break;
                 case NLS_INT16: {
                     auto* ptrData = (int16*)data->audioData.getDataPointer();
-                    size_t pos = (size_t)(data->_CurrentSample) + (size_t)(c) * (size_t)(data->_TotalSamples);
+                    size_t pos = (size_t)(data->_CurrentSample)
+                        + (size_t)(c) * (size_t)(data->_TotalSamples);
                     int16 val = ptrData[pos];
                     *outAsInt16 = val;
                     outAsInt16++;

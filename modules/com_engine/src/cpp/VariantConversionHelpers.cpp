@@ -365,7 +365,7 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
 }
 //=============================================================================
 static SAFEARRAY*
-makeSafeArrayFromDimensions(const Dimensions &dims, VARTYPE vt)
+makeSafeArrayFromDimensions(const Dimensions& dims, VARTYPE vt)
 {
     auto* bounds = static_cast<SAFEARRAYBOUND*>(
         LocalAlloc(LMEM_FIXED | LMEM_ZEROINIT, sizeof(SAFEARRAYBOUND) * dims.getLength()));

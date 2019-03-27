@@ -321,7 +321,7 @@ size_cellfunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 matDouble[k] = (1.0);
             } else {
                 Dimensions sze(arg[k].getDimensions());
-   			matDouble[k] = static_cast<double>(sze[idx - 1]);
+                matDouble[k] = static_cast<double>(sze[idx - 1]);
             }
         }
     }
@@ -387,8 +387,8 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                         bHaveUniformOutputArgs = true;
                         isUniformOutput = (argIn[(indexType)nbElementsInput - (indexType)1]
                                                .getContentAsLogicalScalar()
-                                    ? 1
-                                    : 0);
+                                ? 1
+                                : 0);
                     }
                 } else {
                     Error(_W("Error wrong type expected."));
@@ -418,8 +418,8 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                             bHaveUniformOutputArgs = true;
                             isUniformOutput = (argIn[(indexType)nbElementsInput - (indexType)5]
                                                    .getContentAsLogicalScalar()
-                                        ? 1
-                                        : 0);
+                                    ? 1
+                                    : 0);
                         }
                     }
                 } else {

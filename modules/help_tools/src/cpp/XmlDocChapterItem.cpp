@@ -23,12 +23,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocChapterItem::XmlDocChapterItem(const std::wstring &chapter): _chapter(chapter) {}
+XmlDocChapterItem::XmlDocChapterItem(const std::wstring& chapter) : _chapter(chapter) {}
 //=============================================================================
 XmlDocChapterItem::~XmlDocChapterItem() { this->_chapter.clear(); }
 //=============================================================================
 void
-XmlDocChapterItem::setValue(const std::wstring &value)
+XmlDocChapterItem::setValue(const std::wstring& value)
 {
     this->_chapter = value;
 }

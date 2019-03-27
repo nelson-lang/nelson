@@ -43,7 +43,7 @@ getNestingEmptyStruct()
 }
 //=============================================================================
 ArrayOf
-whosNh5File(Interface* io, const std::wstring& filename, const wstringVector &names, bool asStruct)
+whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& names, bool asStruct)
 {
     ArrayOf res;
     boost::filesystem::path nh5_filename(filename);

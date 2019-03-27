@@ -135,8 +135,8 @@ DynamicLinkLibraryObject::searchLibrary(
     }
     wstringVector paths;
 
-	if (!parentPath.empty()) {
-		paths.push_back(parentPath);
+    if (!parentPath.empty()) {
+        paths.push_back(parentPath);
         std::wstring filename = pathToSplit.filename().generic_wstring();
         if (findLibrary(paths, filename, fullLibraryPath)) {
             return true;
@@ -178,7 +178,7 @@ DynamicLinkLibraryObject::searchLibrary(
 //=============================================================================
 bool
 DynamicLinkLibraryObject::findLibrary(
-    const wstringVector &paths, const std::wstring& libraryName, std::wstring& fullLibraryPath)
+    const wstringVector& paths, const std::wstring& libraryName, std::wstring& fullLibraryPath)
 {
     fullLibraryPath.clear();
     if (!paths.empty()) {

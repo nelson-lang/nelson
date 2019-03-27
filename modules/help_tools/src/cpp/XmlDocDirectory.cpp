@@ -28,8 +28,8 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocDirectory::XmlDocDirectory(const std::wstring &_srcDirectory, const std::wstring &dstDirectory,
-    bool bOverwriteExistingFiles, DOCUMENT_OUTPUT outputTarget)
+XmlDocDirectory::XmlDocDirectory(const std::wstring& _srcDirectory,
+    const std::wstring& dstDirectory, bool bOverwriteExistingFiles, DOCUMENT_OUTPUT outputTarget)
 {
     this->sectionUpName.clear();
     this->sectionUpUrl.clear();
@@ -129,7 +129,7 @@ XmlDocDirectory::getIndex(wstringVector& names, wstringVector& urls, wstringVect
 }
 //=============================================================================
 void
-XmlDocDirectory::setUpSection(const std::wstring &sectionName, const std::wstring &sectionUrl)
+XmlDocDirectory::setUpSection(const std::wstring& sectionName, const std::wstring& sectionUrl)
 {
     this->sectionUpName = sectionName;
     this->sectionUpUrl = sectionUrl;

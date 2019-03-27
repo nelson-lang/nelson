@@ -188,7 +188,7 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
             return ArrayOf(NLS_DOUBLE, Cdim, Cp);
         } else {
             Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matB(Bz, mB, nB);
-			matC = Az[0] * matB.array();
+            matC = Az[0] * matB.array();
         }
     } else if (B.isScalar()) {
         std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());

@@ -61,7 +61,7 @@ private:
     getEnvironmentPaths(const std::wstring& environPath);
     bool
     findLibrary(
-        const wstringVector &paths, const std::wstring& libraryName, std::wstring& fullLibraryPath);
+        const wstringVector& paths, const std::wstring& libraryName, std::wstring& fullLibraryPath);
 };
 //=============================================================================
 } // namespace Nelson

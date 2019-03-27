@@ -23,12 +23,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocTitleItem::XmlDocTitleItem(const std::wstring &title) { this->_title.assign(title); }
+XmlDocTitleItem::XmlDocTitleItem(const std::wstring& title) { this->_title.assign(title); }
 //=============================================================================
 XmlDocTitleItem::~XmlDocTitleItem() { this->_title.clear(); }
 //=============================================================================
 void
-XmlDocTitleItem::setValue(const std::wstring &value)
+XmlDocTitleItem::setValue(const std::wstring& value)
 {
     this->_title.assign(value);
 }

@@ -72,14 +72,14 @@ getFftFlags(FftPlannerMethod /*unused*/, int Narg)
 }
 //=============================================================================
 bool
-setDoubleWisdomInformation(const std::wstring &info)
+setDoubleWisdomInformation(const std::wstring& info)
 {
     std::string uinfo = wstring_to_utf8(info);
     return (fftw_import_wisdom_from_string(uinfo.c_str()) == 1);
 }
 //=============================================================================
 bool
-setSingleWisdomInformation(const std::wstring &info)
+setSingleWisdomInformation(const std::wstring& info)
 {
     std::string uinfo = wstring_to_utf8(info);
     return (fftwf_import_wisdom_from_string(uinfo.c_str()) == 1);
@@ -330,7 +330,7 @@ dcomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse)
 }
 //=============================================================================
 indexType
-computeDim(const ArrayOf &X)
+computeDim(const ArrayOf& X)
 {
     indexType d = 0;
     if (X.isScalar()) {

@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 int
-NargOut(Evaluator* eval, const std::wstring &functionName)
+NargOut(Evaluator* eval, const std::wstring& functionName)
 {
     int nargout = 0;
     FuncPtr fptr = nullptr;

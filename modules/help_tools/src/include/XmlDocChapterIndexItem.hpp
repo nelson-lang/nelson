@@ -37,7 +37,8 @@ public:
     std::wstring
     getItemType();
     bool
-    append(const std::wstring &linkname, const std::wstring &linkurl, const std::wstring &description);
+    append(
+        const std::wstring& linkname, const std::wstring& linkurl, const std::wstring& description);
     bool
     writeAsHtml(std::string& utf8stream);
     bool

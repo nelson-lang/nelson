@@ -26,7 +26,8 @@
 namespace Nelson {
 //=============================================================================
 bool
-UiGetDirectory(const std::wstring &pathOrigin, const std::wstring &title, std::wstring& pathSelected)
+UiGetDirectory(
+    const std::wstring& pathOrigin, const std::wstring& title, std::wstring& pathSelected)
 {
     bool bCancelled = false;
     QFileDialog* fd = nullptr;

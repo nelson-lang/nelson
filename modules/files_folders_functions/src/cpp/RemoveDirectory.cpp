@@ -25,7 +25,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-RemoveDirectory(const std::wstring &folderName, bool bSubfolder, std::wstring& message)
+RemoveDirectory(const std::wstring& folderName, bool bSubfolder, std::wstring& message)
 {
     bool res = false;
     message = L"";

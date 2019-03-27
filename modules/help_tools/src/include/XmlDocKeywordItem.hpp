@@ -30,10 +30,10 @@ private:
     std::wstring _keyword;
 
 public:
-    XmlDocKeywordItem(const std::wstring &keyword = L"");
+    XmlDocKeywordItem(const std::wstring& keyword = L"");
     ~XmlDocKeywordItem();
     void
-    setValue(const std::wstring &value);
+    setValue(const std::wstring& value);
     std::wstring
     getValue();
     std::wstring

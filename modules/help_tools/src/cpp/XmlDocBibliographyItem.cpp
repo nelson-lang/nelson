@@ -26,8 +26,7 @@ namespace Nelson {
 //=============================================================================
 XmlDocBibliographyItem::XmlDocBibliographyItem(std::wstring bibliography)
     : _bibliography(bibliography)
-{
-}
+{}
 //=============================================================================
 XmlDocBibliographyItem::~XmlDocBibliographyItem() { this->_bibliography = std::move(L""); }
 //=============================================================================

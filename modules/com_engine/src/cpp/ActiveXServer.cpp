@@ -26,7 +26,7 @@
 namespace Nelson {
 //=============================================================================
 ComHandleObject*
-ActiveXServer(const std::wstring &progId, const std::wstring &machine)
+ActiveXServer(const std::wstring& progId, const std::wstring& machine)
 {
     IDispatch* pdispApplication = nullptr;
     CLSID clsApplication;
@@ -88,7 +88,7 @@ ActiveXServer(const std::wstring &progId, const std::wstring &machine)
 }
 //=============================================================================
 ComHandleObject*
-GetRunningActiveXServer(const std::wstring &progId)
+GetRunningActiveXServer(const std::wstring& progId)
 {
     IUnknown* pUnknown;
     CLSID clsApplication;

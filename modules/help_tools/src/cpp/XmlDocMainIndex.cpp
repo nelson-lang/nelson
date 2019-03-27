@@ -23,8 +23,8 @@
 #include <fstream>
 //=============================================================================
 namespace Nelson {
-XmlDocMainIndex::XmlDocMainIndex(const std::wstring &destdir, const std::wstring &_mainTitle,
-    const std::wstring &mainModuleShortName, DOCUMENT_OUTPUT outputTarget)
+XmlDocMainIndex::XmlDocMainIndex(const std::wstring& destdir, const std::wstring& _mainTitle,
+    const std::wstring& mainModuleShortName, DOCUMENT_OUTPUT outputTarget)
 {
     this->directoryDestination.append(destdir);
     if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
@@ -163,8 +163,8 @@ XmlDocMainIndex::writeAsMarkdown()
 }
 //=============================================================================
 void
-XmlDocMainIndex::appendSection(const std::wstring &sectionName, const std::wstring &sectionUrl,
-    const wstringVector &names, const wstringVector &urls, const wstringVector &descriptions)
+XmlDocMainIndex::appendSection(const std::wstring& sectionName, const std::wstring& sectionUrl,
+    const wstringVector& names, const wstringVector& urls, const wstringVector& descriptions)
 {
     if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
         bool bSuccess;

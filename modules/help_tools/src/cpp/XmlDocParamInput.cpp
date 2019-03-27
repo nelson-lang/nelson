@@ -36,7 +36,7 @@ XmlDocParamInput::~XmlDocParamInput()
 }
 //=============================================================================
 void
-XmlDocParamInput::append(const std::wstring &name, const std::wstring &description)
+XmlDocParamInput::append(const std::wstring& name, const std::wstring& description)
 {
     XmlDocParamInputItem* item = nullptr;
     try {

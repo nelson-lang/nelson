@@ -203,7 +203,7 @@ HistoryManager::appendHeader()
 }
 //=============================================================================
 bool
-HistoryManager::appendLine(const std::wstring &line)
+HistoryManager::appendLine(const std::wstring& line)
 {
     wstringVector strs;
     boost::split(strs, line, boost::is_any_of(L"\n"));
@@ -245,7 +245,7 @@ HistoryManager::appendLine(const std::wstring &line)
 }
 //=============================================================================
 bool
-HistoryManager::appendLines(const wstringVector &lines)
+HistoryManager::appendLines(const wstringVector& lines)
 {
     for (size_t k = 0; k < lines.size(); k++) {
         if ((lines[k] != L"\n") && (!lines[k].empty())) {
@@ -404,7 +404,7 @@ HistoryManager::loadFromFile()
 }
 //=============================================================================
 bool
-HistoryManager::loadFromFile(const std::wstring &_filename)
+HistoryManager::loadFromFile(const std::wstring& _filename)
 {
     commands.clear();
     std::ifstream istream;
@@ -427,7 +427,7 @@ HistoryManager::loadFromFile(const std::wstring &_filename)
 }
 //=============================================================================
 bool
-HistoryManager::setFilename(const std::wstring &filename)
+HistoryManager::setFilename(const std::wstring& filename)
 {
     this->filename.assign(filename);
     return true;
@@ -469,7 +469,7 @@ HistoryManager::getNthLine(size_t N)
 }
 //=============================================================================
 bool
-HistoryManager::setToken(const std::wstring &_token)
+HistoryManager::setToken(const std::wstring& _token)
 {
     token.assign(_token);
     tokens_found.clear();
@@ -489,7 +489,7 @@ HistoryManager::setToken(const std::wstring &_token)
 }
 //=============================================================================
 bool
-HistoryManager::copyPreviousFile(const std::wstring &_filename)
+HistoryManager::copyPreviousFile(const std::wstring& _filename)
 {
     boost::filesystem::path src(_filename);
     boost::filesystem::path dst(_filename + L".bak");
@@ -518,7 +518,7 @@ HistoryManager::copyPreviousFile(const std::wstring &_filename)
 }
 //=============================================================================
 bool
-HistoryManager::detectExit(const std::wstring &line)
+HistoryManager::detectExit(const std::wstring& line)
 {
     if ((line == L"exit") || (line == L"quit")) {
         return true;
@@ -527,7 +527,7 @@ HistoryManager::detectExit(const std::wstring &line)
 }
 //=============================================================================
 bool
-HistoryManager::saveToFile(const std::wstring &_filename)
+HistoryManager::saveToFile(const std::wstring& _filename)
 {
     if (bSaveEnabled) {
         copyPreviousFile(_filename);
@@ -572,5 +572,5 @@ HistoryManager::saveToFile()
     return saveToFile(filename);
 }
 //=============================================================================
-}  // namespace Nelson;
+} // namespace Nelson;
 //=============================================================================

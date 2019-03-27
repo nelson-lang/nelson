@@ -60,11 +60,12 @@ private:
     DOCUMENT_OUTPUT outputTarget;
 
 public:
-    XmlDocDocument(const std::wstring &srcfilename, const std::wstring &sectionname, const std::wstring &destfilename,
-        bool bOverwriteExistingFile = false, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
-    XmlDocDocument(boost::container::vector<XmlDocGenericItem*> items, const std::wstring &srcfilename,
-        const std::wstring &destfilename, bool bOverwriteExistingFile = false,
+    XmlDocDocument(const std::wstring& srcfilename, const std::wstring& sectionname,
+        const std::wstring& destfilename, bool bOverwriteExistingFile = false,
         DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
+    XmlDocDocument(boost::container::vector<XmlDocGenericItem*> items,
+        const std::wstring& srcfilename, const std::wstring& destfilename,
+        bool bOverwriteExistingFile = false, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
     ~XmlDocDocument();
 
     wstringVector
@@ -98,11 +99,11 @@ public:
     needToUpdate();
 
     void
-    setPreviousPageLink(const std::wstring &linkname, const std::wstring &linkurl);
+    setPreviousPageLink(const std::wstring& linkname, const std::wstring& linkurl);
     void
-    setNextPageLink(const std::wstring &linkname, const std::wstring &linkurl);
+    setNextPageLink(const std::wstring& linkname, const std::wstring& linkurl);
     void
-    setIndexPageLink(const std::wstring &linkname, const std::wstring &linkurl);
+    setIndexPageLink(const std::wstring& linkname, const std::wstring& linkurl);
 
     std::wstring
     getPageTitle();
@@ -121,11 +122,11 @@ public:
 
 private:
     enum XMLDOC_ITEMS_ID
-    stringTagToId(const std::string &tag);
+    stringTagToId(const std::string& tag);
     XmlDocGenericItem*
-    findfirst(const std::string &tag);
+    findfirst(const std::string& tag);
     size_t
-    count(const std::string &tag);
+    count(const std::string& tag);
     std::wstring
     getLanguage();
     std::wstring
@@ -185,7 +186,7 @@ private:
     bool
     copyHtmlDependencies();
     void
-    setDestinationFile(const std::wstring &filenameDestination);
+    setDestinationFile(const std::wstring& filenameDestination);
 
     void
     writeNavigatorBarAsHtml(std::string& utf8stream);

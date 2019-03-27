@@ -23,7 +23,7 @@
 namespace Nelson {
 //=============================================================================
 std::wstring
-gettextw(const std::wstring &S)
+gettextw(const std::wstring& S)
 {
     if (S.empty()) {
         return std::wstring();
@@ -32,7 +32,7 @@ gettextw(const std::wstring &S)
 }
 //=============================================================================
 std::wstring
-gettextw(const std::string &S)
+gettextw(const std::string& S)
 {
     if (S.empty()) {
         return std::wstring();
@@ -41,7 +41,7 @@ gettextw(const std::string &S)
 }
 //=============================================================================
 std::string
-gettext(const std::string &S)
+gettext(const std::string& S)
 {
     if (S.empty()) {
         return std::string();

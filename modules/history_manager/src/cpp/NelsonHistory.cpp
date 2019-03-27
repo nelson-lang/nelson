@@ -30,7 +30,7 @@ Nelson::Evaluator* mainEvaluator = nullptr;
 static char* _line = nullptr;
 //=============================================================================
 bool
-Nelson::History::addLine(const std::wstring &line)
+Nelson::History::addLine(const std::wstring& line)
 {
     if (mainEvaluator == nullptr) {
         mainEvaluator = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
@@ -41,16 +41,15 @@ Nelson::History::addLine(const std::wstring &line)
     auto* hist = static_cast<HistoryManager*>(mainEvaluator->HistoryManager);
     if (hist != nullptr) {
         std::wstring mline;
-		mline.assign(line);
+        mline.assign(line);
         boost::replace_last(mline, L"\n", L"");
         return hist->appendLine(mline);
-    } 
-        return false;
-    
+    }
+    return false;
 }
 //=============================================================================
 bool
-Nelson::History::setToken(const std::wstring &line)
+Nelson::History::setToken(const std::wstring& line)
 {
     if (mainEvaluator == nullptr) {
         mainEvaluator = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
@@ -61,9 +60,8 @@ Nelson::History::setToken(const std::wstring &line)
     auto* hist = static_cast<HistoryManager*>(mainEvaluator->HistoryManager);
     if (hist != nullptr) {
         return hist->setToken(line);
-    } 
-        return false;
-    
+    }
+    return false;
 }
 //=============================================================================
 std::wstring
@@ -78,9 +76,8 @@ Nelson::History::getNextLine()
     auto* hist = static_cast<HistoryManager*>(mainEvaluator->HistoryManager);
     if (hist != nullptr) {
         return hist->getNextLine();
-    } 
-        return L"";
-    
+    }
+    return L"";
 }
 //=============================================================================
 std::wstring
@@ -95,9 +92,8 @@ Nelson::History::getPreviousLine()
     auto* hist = static_cast<HistoryManager*>(mainEvaluator->HistoryManager);
     if (hist != nullptr) {
         return hist->getPreviousLine();
-    } 
-        return L"";
-    
+    }
+    return L"";
 }
 //=============================================================================
 void
@@ -138,7 +134,7 @@ NelsonHistoryGetPreviousLine(void)
     try {
         _line = new char[line.size() + 1];
         strcpy(_line, line.c_str());
-	} catch (std::bad_alloc&) {
+    } catch (std::bad_alloc&) {
         _line = nullptr;
     }
     return _line;

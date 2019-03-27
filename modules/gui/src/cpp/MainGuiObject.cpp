@@ -107,7 +107,7 @@ CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode)
     } catch (std::bad_alloc&) {
         NelSonQtMainWindow = nullptr;
     }
-    
+
     if (NelSonQtMainWindow) {
         GuiTerminal* nlsTerm = nullptr;
         try {

@@ -75,7 +75,8 @@ Nelson::AudioGateway::audiowriteBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         }
         if (!validFieldname) {
             wchar_t buffer[4096];
-            swprintf(buffer, 4096, std::wstring(ERROR_WRONG_ARGUMENT_X_VALUE).c_str(), static_cast<int>(i));
+            swprintf(buffer, 4096, std::wstring(ERROR_WRONG_ARGUMENT_X_VALUE).c_str(),
+                static_cast<int>(i));
             Error(std::wstring(buffer));
         }
     }

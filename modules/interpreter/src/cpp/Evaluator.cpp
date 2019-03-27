@@ -739,9 +739,8 @@ Evaluator::expressionList(ASTPtr t)
             } catch (Exception& e) {
                 if (!e.matches(ERROR_EMPTY_EXPRESSION)) {
                     throw;
-                } 
-                    n = ArrayOfVector();
-                
+                }
+                n = ArrayOfVector();
             }
             for (size_t i = 0; i < n.size(); i++) {
                 m.push_back(n[i]);
@@ -785,9 +784,8 @@ Evaluator::expressionList(ASTPtr t, ArrayOf subRoot)
             } catch (Exception& e) {
                 if (!e.matches(ERROR_EMPTY_EXPRESSION)) {
                     throw;
-                } 
-                    n = ArrayOfVector();
-                
+                }
+                n = ArrayOfVector();
             }
             for (size_t i = 0; i < n.size(); i++) {
                 m.push_back(n[i]);
@@ -1244,9 +1242,9 @@ Evaluator::forStatement(ASTPtr t)
         resetState();
         context->exitLoop();
         return;
-    } 
-        pushID(t->context());
-    
+    }
+    pushID(t->context());
+
     /* Get the name of the indexing variable */
     indexVarName = t->text;
     /* Evaluate the index set */
@@ -1843,15 +1841,13 @@ Evaluator::block(ASTPtr t)
                 state = NLS_STATE_ABORT;
                 NelsonConfiguration::getInstance()->setInterruptPending(false);
                 return;
-            } 
-                statement(s);
-                if (state == NLS_STATE_BREAK || state == NLS_STATE_CONTINUE
-                    || state == NLS_STATE_RETURN || state == NLS_STATE_ABORT
-                    || state == NLS_STATE_QUIT) {
-                    break;
-                }
-                s = s->right;
-            
+            }
+            statement(s);
+            if (state == NLS_STATE_BREAK || state == NLS_STATE_CONTINUE || state == NLS_STATE_RETURN
+                || state == NLS_STATE_ABORT || state == NLS_STATE_QUIT) {
+                break;
+            }
+            s = s->right;
         }
     } catch (Exception& e) {
         if (!e.isEmpty()) {
@@ -2345,9 +2341,8 @@ getArgumentIndex(const stringVector& list, const std::string& t)
     }
     if (foundArg) {
         return static_cast<int>(i);
-    } 
-        return -1;
-    
+    }
+    return -1;
 }
 
 //!
@@ -2916,7 +2911,7 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                             if (!filled[i]) {
                                 toFill[i] = ArrayOf::emptyConstructor();
                             }
-}
+                        }
                         // Clean up
                         delete[] filled;
                         // delete[] keywordNdx;
@@ -3097,14 +3092,14 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
         throw;
     }
     popID();
-    if (keywordNdx!= nullptr) {
+    if (keywordNdx != nullptr) {
         delete[] keywordNdx;
         keywordNdx = nullptr;
-	}
-    if (argTypeMap!= nullptr) {
+    }
+    if (argTypeMap != nullptr) {
         delete[] argTypeMap;
         argTypeMap = nullptr;
-	}
+    }
     return n;
 }
 
@@ -3188,7 +3183,8 @@ Evaluator::adjustBreakpoint(StackEntry& bp, bool dbstep)
             }
             Warning(std::string(buffer));
             return false;
-        } if (clinenum != 0) {
+        }
+        if (clinenum != 0) {
             bp.tokid = (bp.tokid & 0xffff) + clinenum;
         }
     } else {
@@ -3313,10 +3309,9 @@ Evaluator::rhsExpressionSimple(ASTPtr t)
         if (m.empty()) {
             popID();
             return ArrayOf::emptyConstructor();
-        } 
-            popID();
-            return m[0];
-        
+        }
+        popID();
+        return m[0];
     }
     if (!isVar) {
         Error(utf8_to_wstring(_("Undefined variable:") + " " + t->text));
@@ -3823,11 +3818,10 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
         setLastErrorException(e);
         if (propogateException) {
             throw e;
-        } 
-            e.printMe(io);
-            popDebug();
-            return false;
-        
+        }
+        e.printMe(io);
+        popDebug();
+        return false;
     }
 
     deleteAstVector(pt);
@@ -4045,12 +4039,11 @@ Evaluator::evalCLI()
                 InCLI = false;
                 this->setState(NLS_STATE_QUIT);
                 return;
-            } 
-                wchar_t ch = *commandLine.rbegin();
-                if (ch != L'\n') {
-                    commandLine.push_back(L'\n');
-                }
-            
+            }
+            wchar_t ch = *commandLine.rbegin();
+            if (ch != L'\n') {
+                commandLine.push_back(L'\n');
+            }
         }
         // scan the line and tokenize it
         resetAstBackupPosition();

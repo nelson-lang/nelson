@@ -54,7 +54,8 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
                 withOption = false;
             }
         } else {
-            Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), static_cast<int>(lastpos) + 1));
+            Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(),
+                static_cast<int>(lastpos) + 1));
         }
     }
     wstringVector params;
@@ -69,7 +70,8 @@ Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs, const ArrayO
         if (param.isRowVectorCharacterArray()) {
             params.push_back(param.getContentAsWideString());
         } else {
-            Error(StringFormat(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(),static_cast<int>(k) + 1));
+            Error(StringFormat(
+                ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED.c_str(), static_cast<int>(k) + 1));
         }
     }
     std::wstring previousPaths = PathFuncManager::getInstance()->getPathNameAsString();

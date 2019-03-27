@@ -46,7 +46,8 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
                     res = ArrayOf::emptyConstructor(dims);
                     res.promoteType(NLS_LOGICAL);
                 } else {
-                    logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getColumns());
+                    logical* logicalarray
+                        = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getColumns());
                     Dimensions dims(1, dimsA.getColumns());
                     res = ArrayOf(NLS_LOGICAL, dims, logicalarray);
                 }

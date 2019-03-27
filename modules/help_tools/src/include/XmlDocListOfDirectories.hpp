@@ -45,8 +45,8 @@ private:
     XmlDocMainIndex* mainIndex;
 
 public:
-    XmlDocListOfDirectories(wstringVector srcDirectories, const std::wstring &dstDirectory,
-        const std::wstring &mainTitle, bool bOverwriteExistingFiles = false,
+    XmlDocListOfDirectories(wstringVector srcDirectories, const std::wstring& dstDirectory,
+        const std::wstring& mainTitle, bool bOverwriteExistingFiles = false,
         DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
     ~XmlDocListOfDirectories();
     bool

@@ -78,7 +78,7 @@ stateToString(WARNING_STATE state)
 }
 //=============================================================================
 static std::wstring
-formatWarningIDStateLine(const std::wstring &ID, WARNING_STATE state)
+formatWarningIDStateLine(const std::wstring& ID, WARNING_STATE state)
 {
     std::wstring line;
     line = L"   ";
@@ -104,7 +104,7 @@ displayWarningStates(Evaluator* eval)
 }
 //=============================================================================
 static ArrayOfVector
-warningStruct(const WARNING_IDS_STATES &list)
+warningStruct(const WARNING_IDS_STATES& list)
 {
     ArrayOfVector retval;
     stringVector fieldnames;

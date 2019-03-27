@@ -35,7 +35,7 @@ public:
     XmlDocParamOutput();
     ~XmlDocParamOutput();
     void
-    append(const std::wstring &name, const std::wstring &description);
+    append(const std::wstring& name, const std::wstring& description);
     std::wstring
     getItemType();
     bool

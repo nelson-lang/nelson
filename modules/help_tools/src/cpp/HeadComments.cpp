@@ -44,14 +44,14 @@ safegetline(std::ifstream& os, std::string& line)
 }
 //=============================================================================
 static bool
-isEmptyLine(const std::string &line)
+isEmptyLine(const std::string& line)
 {
     std::string str = boost::algorithm::trim_left_copy(line);
     return str.empty();
 }
 //=============================================================================
 static bool
-isFunctionDefinitionLine(const std::string &line)
+isFunctionDefinitionLine(const std::string& line)
 {
     if (!isCommentedLine(line)) {
         if (boost::algorithm::contains(line, "function")) {
@@ -62,7 +62,7 @@ isFunctionDefinitionLine(const std::string &line)
 }
 //=============================================================================
 static std::string
-removeCommentCharacters(const std::string &line)
+removeCommentCharacters(const std::string& line)
 {
     std::string res;
     stringVector comments;
@@ -79,7 +79,7 @@ removeCommentCharacters(const std::string &line)
 }
 //=============================================================================
 wstringVector
-HeadComments(Evaluator* eval, const std::wstring &filename, HEADCOMMENTS_ERROR& headError)
+HeadComments(Evaluator* eval, const std::wstring& filename, HEADCOMMENTS_ERROR& headError)
 {
     wstringVector comments;
     headError = HEADCOMMENTS_ERROR::MACRO_OK;

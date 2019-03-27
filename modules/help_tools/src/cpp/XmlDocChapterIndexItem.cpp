@@ -41,7 +41,7 @@ XmlDocChapterIndexItem::getItemType()
 //=============================================================================
 bool
 XmlDocChapterIndexItem::append(
-    const std::wstring &linkname, const std::wstring &linkurl, const std::wstring &description)
+    const std::wstring& linkname, const std::wstring& linkurl, const std::wstring& description)
 {
     XmlDocChapterRefItem* item = nullptr;
     try {

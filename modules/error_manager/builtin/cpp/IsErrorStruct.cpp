@@ -23,7 +23,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-IsErrorStruct(const ArrayOf &arg, Exception& e)
+IsErrorStruct(const ArrayOf& arg, Exception& e)
 {
     if (!arg.isStruct()) {
         return false;
@@ -103,7 +103,7 @@ IsErrorStruct(const ArrayOf &arg, Exception& e)
 }
 //=============================================================================
 bool
-IsErrorStruct(const ArrayOf &arg)
+IsErrorStruct(const ArrayOf& arg)
 {
     Exception e;
     return IsErrorStruct(arg, e);

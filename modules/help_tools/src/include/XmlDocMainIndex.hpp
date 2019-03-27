@@ -45,7 +45,8 @@ private:
     QtHelpProject* qtproject;
 
 public:
-    XmlDocMainIndex(const std::wstring &destdir, const std::wstring &mainTitle, const std::wstring &mainModuleShortName,
+    XmlDocMainIndex(const std::wstring& destdir, const std::wstring& mainTitle,
+        const std::wstring& mainModuleShortName,
         DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
     ~XmlDocMainIndex();
     std::wstring
@@ -55,8 +56,8 @@ public:
     bool
     writeAsMarkdown();
     void
-    appendSection(const std::wstring &sectionName, const std::wstring &sectionUrl, const wstringVector &names,
-        const wstringVector &urls, const wstringVector &descriptions);
+    appendSection(const std::wstring& sectionName, const std::wstring& sectionUrl,
+        const wstringVector& names, const wstringVector& urls, const wstringVector& descriptions);
 };
 //=============================================================================
 } // namespace Nelson

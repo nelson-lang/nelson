@@ -30,10 +30,10 @@ private:
     std::wstring _copyright;
 
 public:
-    XmlDocCopyrightItem(const std::wstring &copyright = L"");
+    XmlDocCopyrightItem(const std::wstring& copyright = L"");
     ~XmlDocCopyrightItem();
     void
-    setValue(const std::wstring &value);
+    setValue(const std::wstring& value);
     std::wstring
     getValue();
     std::wstring

@@ -60,7 +60,7 @@ initGuiDynamicLibrary(void)
 }
 //=============================================================================
 bool
-HtmlFileToPdfFile(const std::wstring &htmlsrcfilename, const std::wstring &pdfdestfilename)
+HtmlFileToPdfFile(const std::wstring& htmlsrcfilename, const std::wstring& pdfdestfilename)
 {
     typedef bool (*PROC_HtmlFileToPdfFile)(
         std::wstring htmlsrcfilename, std::wstring pdfdestfilename);
@@ -77,7 +77,7 @@ HtmlFileToPdfFile(const std::wstring &htmlsrcfilename, const std::wstring &pdfde
 }
 //=============================================================================
 bool
-HtmlStreamToPdfFile(const std::wstring &htmlstream, const std::wstring &pdfdestfilename)
+HtmlStreamToPdfFile(const std::wstring& htmlstream, const std::wstring& pdfdestfilename)
 {
     typedef bool (*PROC_HtmlStreamToPdfFile)(std::wstring htmlstream, std::wstring pdfdestfilename);
     static PROC_HtmlStreamToPdfFile HtmlStreamToPdfFilePtr = nullptr;

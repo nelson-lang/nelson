@@ -23,7 +23,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocLinkItem::XmlDocLinkItem(const std::wstring &name, const std::wstring &link)
+XmlDocLinkItem::XmlDocLinkItem(const std::wstring& name, const std::wstring& link)
 {
     this->_name.assign(name);
     this->_link.assign(link);

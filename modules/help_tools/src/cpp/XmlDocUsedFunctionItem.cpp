@@ -24,7 +24,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocUsedFunctionItem::XmlDocUsedFunctionItem(const std::wstring &usedfunction)
+XmlDocUsedFunctionItem::XmlDocUsedFunctionItem(const std::wstring& usedfunction)
 {
     this->_usedfunction.assign(usedfunction);
 }
