@@ -22,12 +22,14 @@
 #include <string>
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 NLSI18N_IMPEXP std::wstring
-gettextw(std::wstring S);
+gettextw(const std::wstring &S);
 NLSI18N_IMPEXP std::wstring
-gettextw(std::string S);
+gettextw(const std::string &S);
 NLSI18N_IMPEXP std::string
-gettext(std::string S);
+gettext(const std::string &S);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
 #define _(S) Nelson::gettext(S)
