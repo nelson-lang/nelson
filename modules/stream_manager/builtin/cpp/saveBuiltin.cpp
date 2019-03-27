@@ -19,6 +19,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
 #include "saveBuiltin.hpp"
+#include "i18n.hpp"
 #include "Error.hpp"
 #include "IsValidVariableName.hpp"
 #include "BuiltInFunctionDefManager.hpp"

@@ -25,13 +25,15 @@ namespace Nelson {
 //=============================================================================
 NLSI18N_IMPEXP std::wstring
 gettextw(const std::wstring &S);
+
 NLSI18N_IMPEXP std::wstring
 gettextw(const std::string &S);
+
 NLSI18N_IMPEXP std::string
 gettext(const std::string &S);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
-#define _(S) Nelson::gettext(S)
-#define _W(S) Nelson::gettextw(S)
+#define _W(T) Nelson::gettextw(T)
+#define _(T) Nelson::gettext(T)
 //=============================================================================
