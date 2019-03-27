@@ -205,7 +205,7 @@ public:
      * Push the given location ID onto the stack
      */
     void
-    pushID(int);
+    pushID(int /*a*/);
     /**
      * Pop a location ID off the stack
      */
@@ -582,7 +582,7 @@ public:
      * malformed.
      */
     bool
-    testCaseStatement(ASTPtr t, ArrayOf x);
+    testCaseStatement(ASTPtr t, ArrayOf s);
     /**
      * Execute the statement described by the AST - the printIt flag
      * determines if the result of the statement should be printed to
@@ -683,9 +683,9 @@ public:
      * and execute it.
      */
     bool
-    evaluateString(const std::string& cmdToEvaluate, bool propogateException = true);
+    evaluateString(const std::string& line, bool propogateException = true);
     bool
-    evaluateString(const std::wstring& cmdToEvaluate, bool propogateException = true);
+    evaluateString(const std::wstring& line, bool propogateException = true);
 
     std::wstring
     getCurrentEvaluateFilename();

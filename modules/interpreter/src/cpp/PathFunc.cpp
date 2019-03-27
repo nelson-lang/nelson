@@ -48,7 +48,7 @@ PathFunc::PathFunc(const std::wstring& path)
         _path = uniformizePathName(path);
         FileWatcherManager::getInstance()->addWacth(_path);
     } else {
-        _path = L"";
+        _path.clear();
     }
     rehash();
 }
@@ -113,7 +113,7 @@ PathFunc::~PathFunc()
     }
     mapRecentFiles.clear();
     mapAllFiles.clear();
-    _path = L"";
+    _path.clear();
 }
 //=============================================================================
 wstringVector
@@ -171,7 +171,7 @@ PathFunc::isSupportedFuncFilename(const std::wstring& name)
 void
 PathFunc::rehash()
 {
-    if (_path != L"") {
+    if (!_path.empty()) {
         mapRecentFiles.clear();
         try {
             boost::filesystem::directory_iterator end_iter;

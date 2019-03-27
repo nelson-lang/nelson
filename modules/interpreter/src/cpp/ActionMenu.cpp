@@ -27,7 +27,7 @@ void
 doExit()
 {
     auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
-    if (eval) {
+    if (eval != nullptr) {
         eval->addCommandToQueue(L"quit;");
     }
 }
@@ -36,7 +36,7 @@ void
 doHelp()
 {
     auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
-    if (eval) {
+    if (eval != nullptr) {
         eval->addCommandToQueue(L"doc;");
     }
 }
@@ -45,7 +45,7 @@ void
 doPause()
 {
     auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
-    if (eval) {
+    if (eval != nullptr) {
         eval->addCommandToQueue(L"keyboard;");
     }
 }
@@ -54,10 +54,10 @@ void
 doStop()
 {
     auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
-    if (eval) {
+    if (eval != nullptr) {
         eval->addCommandToQueue(L"abort;");
     }
 }
 //=============================================================================
-} // namespace Nelson;
+}  // namespace Nelson
 //=============================================================================

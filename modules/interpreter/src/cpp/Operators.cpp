@@ -34,7 +34,7 @@ bool
 isOperator(const std::wstring& key)
 {
     for (const auto& k : operatorsList) {
-        if (key.compare(k) == 0) {
+        if (key == k) {
             return true;
         }
     }

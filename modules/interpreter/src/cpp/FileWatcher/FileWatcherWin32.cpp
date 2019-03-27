@@ -102,14 +102,14 @@ namespace FW {
     bool RefreshWatch(WatchStruct* pWatch, bool _clear)
     {
         return ReadDirectoryChangesW(
-                   pWatch->mDirHandle, pWatch->mBuffer, sizeof(pWatch->mBuffer), pWatch->mIsRecursive,
+                   pWatch->mDirHandle, pWatch->mBuffer, sizeof(pWatch->mBuffer), static_cast<BOOL>(pWatch->mIsRecursive),
                    pWatch->mNotifyFilter, nullptr, &pWatch->mOverlapped, _clear ? nullptr : WatchCallback) != 0;
     }
 
     /// Stops monitoring a directory.
     void DestroyWatch(WatchStruct* pWatch)
     {
-        if (pWatch)
+        if (pWatch != nullptr)
         {
             pWatch->mStopNow = TRUE;
             CancelIo(pWatch->mDirHandle);
@@ -120,7 +120,7 @@ namespace FW {
             }
             CloseHandle(pWatch->mOverlapped.hEvent);
             CloseHandle(pWatch->mDirHandle);
-            if (pWatch->mDirName)
+            if (pWatch->mDirName != nullptr)
             {
                 delete pWatch->mDirName;
                 pWatch->mDirName = nullptr;
@@ -183,7 +183,7 @@ namespace FW {
         WatchID watchid = ++mLastWatchID;
         WatchStruct* watch = CreateWatch(directory.c_str(), recursive,
                                          FILE_NOTIFY_CHANGE_CREATION | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_FILE_NAME);
-        if(!watch)
+        if(watch == nullptr)
         {
             throw FileNotFoundException(directory);
         }
@@ -248,9 +248,9 @@ namespace FW {
                 fwAction = Actions::Modified;
                 break;
         };
-        if (watch)
+        if (watch != nullptr)
         {
-            if (watch->mDirName)
+            if (watch->mDirName != nullptr)
             {
                 watch->mFileWatchListener->handleFileAction(watch->mWatchid, watch->mDirName, filename, fwAction);
             }

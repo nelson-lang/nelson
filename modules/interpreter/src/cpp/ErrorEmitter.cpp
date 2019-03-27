@@ -43,7 +43,7 @@ NelsonErrorEmitter(const wchar_t* msg, const wchar_t* id)
 {
     std::wstring message(msg);
     if (!message.empty()) {
-        if (evaluatorError) {
+        if (evaluatorError != nullptr) {
             std::wstring identifier(id);
             Nelson::stackTrace trace;
             DebugStack(evaluatorError->cstack, 0, trace);

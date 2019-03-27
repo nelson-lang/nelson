@@ -113,7 +113,7 @@ namespace Nelson {
    {
     r->localFunction = true;
         r->nextFunction = mainMDef->nextFunction;
-    if (r->nextFunction)
+    if (r->nextFunction != nullptr)
     {
       r->nextFunction->prevFunction = r;
     }
@@ -141,7 +141,8 @@ namespace Nelson {
   
   int yyxpt(std::string xStr, ParseRHS val) {
     int tokenID;
-    int linenumber, colnumber;
+    int linenumber;
+    int colnumber;
     if (val.isToken) { 
       tokenID = val.v.i;
     } else {
@@ -1826,7 +1827,7 @@ static void
 yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep)
 {
   YYUSE (yyvaluep);
-  if (!yymsg) {
+  if (yymsg == nullptr) {
     yymsg = "Deleting";
 }
   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
@@ -2044,7 +2045,7 @@ yybackup:
 
   /* Count tokens shifted since error; after three, turn off error
      status.  */
-  if (yyerrstatus) {
+  if (yyerrstatus != 0) {
     yyerrstatus--;
 }
 
@@ -2110,7 +2111,7 @@ yyreduce:
 #line 155 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
     {
      auto *r = new MacroFunctionDef();
-   if ((yyvsp[-6]).v.p)
+   if ((yyvsp[-6]).v.p != nullptr)
    {
     r->returnVals = (yyvsp[-6]).v.p->toStringList();
    }
@@ -2140,7 +2141,7 @@ yyreduce:
 #line 175 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
     {
      auto *r = new MacroFunctionDef();
-   if ((yyvsp[-3]).v.p)
+   if ((yyvsp[-3]).v.p != nullptr)
    {
     r->returnVals = (yyvsp[-3]).v.p->toStringList();
    }
@@ -2168,7 +2169,7 @@ yyreduce:
 #line 193 "..\\..\\NelSon\\modules\\interpreter\\src\\grammar\\NelSonParser.yxx" /* yacc.c:1646  */
     {
      auto *r = new MacroFunctionDef();
-   if ((yyvsp[-5]).v.p)
+   if ((yyvsp[-5]).v.p != nullptr)
    {
     r->returnVals = (yyvsp[-5]).v.p->toStringList();
    }
@@ -3355,7 +3356,7 @@ yyerrlab:
   yytoken = yychar == YYEMPTY ? YYEMPTY : YYTRANSLATE (yychar);
 
   /* If not already recovering from an error, report this error.  */
-  if (!yyerrstatus)
+  if (yyerrstatus == 0)
     {
       ++yynerrs;
 #if ! YYERROR_VERBOSE
@@ -3548,11 +3549,11 @@ yyreturn:
 namespace Nelson {
   
   void resetParser() {
-    if (mainAST)
+    if (mainAST != nullptr)
   {
     mainAST = nullptr;
   }
-  if (mainMDef)
+  if (mainMDef != nullptr)
   {
       mainMDef = nullptr;
   }

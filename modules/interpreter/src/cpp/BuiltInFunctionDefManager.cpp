@@ -30,7 +30,7 @@ BuiltInFunctionDefManager::destroy()
 {
     clearCache();
     removeAll();
-    if (m_pInstance) {
+    if (m_pInstance != nullptr) {
         delete m_pInstance;
         m_pInstance = nullptr;
     }
@@ -52,7 +52,7 @@ BuiltInFunctionDefManager::getInstance()
 bool
 BuiltInFunctionDefManager::add(FuncPtr ptr)
 {
-    if (ptr) {
+    if (ptr != nullptr) {
         builtinVector.push_back(ptr);
         return true;
     }
@@ -69,7 +69,7 @@ BuiltInFunctionDefManager::add(const std::string& name, BuiltInFuncPtr fptr, int
     } catch (const std::bad_alloc&) {
         f2def = nullptr;
     }
-    if (f2def) {
+    if (f2def != nullptr) {
         stringVector args;
         f2def->hashid = std::hash<std::wstring>()(utf8_to_wstring(name) + L"_" + modulename);
         f2def->fileName = std::move(dynlibname);

@@ -30,7 +30,7 @@ public:
     UpdatePathListener() = default;
     void
     handleFileAction(
-        WatchID watchid, const FW::String& dir, const FW::String& filename, FW::Action action)
+        WatchID watchid, const FW::String& dir, const FW::String& filename, FW::Action action) override
     {
         switch (action) {
         case FW::Action::Add: {
@@ -84,15 +84,15 @@ FileWatcherManager* FileWatcherManager::m_pInstance = nullptr;
 //=============================================================================
 FileWatcherManager::FileWatcherManager()
 {
-    FW::FileWatcher* tmp = new FW::FileWatcher();
+    auto* tmp = new FW::FileWatcher();
     fileWatcher = (void*)tmp;
 }
 //=============================================================================
 void
 FileWatcherManager::release()
 {
-    FW::FileWatcher* ptr = (FW::FileWatcher*)fileWatcher;
-    if (ptr) {
+    auto* ptr = static_cast<FW::FileWatcher*>(fileWatcher);
+    if (ptr != nullptr) {
         delete ptr;
         fileWatcher = nullptr;
     }
@@ -114,7 +114,7 @@ FileWatcherManager::addWacth(std::wstring directory)
     WatchID id = -1;
     try {
 #ifdef _MSC_VER
-        id = ((FW::FileWatcher*)fileWatcher)->addWatch(directory, watcher);
+        id = (static_cast<FW::FileWatcher*>(fileWatcher))->addWatch(directory, watcher);
 #else
         id = ((FW::FileWatcher*)fileWatcher)->addWatch(wstring_to_utf8(directory), watcher);
 #endif
@@ -127,7 +127,7 @@ FileWatcherManager::removeWatch(std::wstring directory)
 {
     try {
 #ifdef _MSC_VER
-        ((FW::FileWatcher*)fileWatcher)->removeWatch(directory);
+        (static_cast<FW::FileWatcher*>(fileWatcher))->removeWatch(directory);
 #else
         ((FW::FileWatcher*)fileWatcher)->removeWatch(wstring_to_utf8(directory));
 #endif
@@ -139,7 +139,7 @@ void
 FileWatcherManager::update()
 {
     try {
-        ((FW::FileWatcher*)fileWatcher)->update();
+        (static_cast<FW::FileWatcher*>(fileWatcher))->update();
     } catch (const FW::FWException&) {
     }
 }

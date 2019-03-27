@@ -41,7 +41,7 @@ ParseFile(Evaluator* eval, std::wstring filename, bool bIgnoreException)
 #else
     fr = fopen(wstring_to_utf8(filename).c_str(), "rt");
 #endif
-    if (!fr) {
+    if (fr == nullptr) {
         return ParserState::ParseError;
     }
     Exception previousException(eval->getLastErrorException());
@@ -56,7 +56,7 @@ ParseFile(Evaluator* eval, std::wstring filename, bool bIgnoreException)
     fclose(fr);
     if (ps == ParserState::FuncDef) {
         MacroFunctionDef* cp = getParsedFunctionDef();
-        if (cp) {
+        if (cp != nullptr) {
             std::string functionNameFromFile = pathFunction.stem().generic_string();
             if (boost::iequals(functionNameFromFile, cp->name)) {
                 ps = ParserState::FuncDef;

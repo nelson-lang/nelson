@@ -37,9 +37,9 @@ initEngineDynamicLibrary()
         } catch (const std::bad_alloc&) {
             buf = nullptr;
         }
-        if (buf) {
+        if (buf != nullptr) {
             DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
-            if (dwRet) {
+            if (dwRet != 0U) {
                 fullpathEngineSharedLibrary
                     = std::string(buf) + std::string("/") + fullpathEngineSharedLibrary;
             }
@@ -53,7 +53,7 @@ initEngineDynamicLibrary()
         }
 #endif
         nlsEngineHandleDynamicLibrary = Nelson::load_dynamic_library(fullpathEngineSharedLibrary);
-        if (nlsEngineHandleDynamicLibrary) {
+        if (nlsEngineHandleDynamicLibrary != nullptr) {
             bFirstDynamicLibraryCall = false;
         }
     }
@@ -65,10 +65,10 @@ GetNelsonMainEvaluatorDynamicFunction()
     using PROC_GetNelsonMainEvaluator = void* (*)();
     static PROC_GetNelsonMainEvaluator GetNelsonMainEvaluatorPtr = nullptr;
     initEngineDynamicLibrary();
-    if (!GetNelsonMainEvaluatorPtr) {
+    if (GetNelsonMainEvaluatorPtr == nullptr) {
         GetNelsonMainEvaluatorPtr = reinterpret_cast<PROC_GetNelsonMainEvaluator>(
             Nelson::get_function(nlsEngineHandleDynamicLibrary, "getNelsonMainEvaluator"));
-        if (!GetNelsonMainEvaluatorPtr) {
+        if (GetNelsonMainEvaluatorPtr == nullptr) {
             return nullptr;
         }
     }

@@ -61,7 +61,7 @@ PathFuncManager::PathFuncManager()
 //=============================================================================
 PathFuncManager::~PathFuncManager()
 {
-    if (_userPath) {
+    if (_userPath != nullptr) {
         delete _userPath;
         _userPath = nullptr;
     }
@@ -82,7 +82,7 @@ PathFuncManager::destroy()
     clearUserPath();
     clear();
     cachedPathFunc.clear();
-    if (m_pInstance) {
+    if (m_pInstance != nullptr) {
         delete m_pInstance;
         m_pInstance = nullptr;
     }
@@ -142,9 +142,9 @@ PathFuncManager::find(const std::string& name, FuncPtr& ptr)
         FileFunc* ff = nullptr;
         std::wstring wstr = utf8_to_wstring(name);
         if (find(wstr, &ff)) {
-            if (ff) {
+            if (ff != nullptr) {
                 ptr = processFile(ff->getFilename());
-                if (ptr) {
+                if (ptr != nullptr) {
                     ptr->hashid = ff->getHashID();
                     cachedPathFunc.emplace(name, ptr);
                     res = true;
@@ -159,7 +159,7 @@ bool
 PathFuncManager::find(const std::wstring& functionName, FileFunc** ff)
 {
     bool res = false;
-    if (_userPath) {
+    if (_userPath != nullptr) {
         res = _userPath->findFuncName(functionName, ff);
     }
     if (!res) {
@@ -181,7 +181,7 @@ bool
 PathFuncManager::find(const std::wstring& functionName, std::wstring& filename)
 {
     bool res = false;
-    if (_userPath) {
+    if (_userPath != nullptr) {
         res = _userPath->findFuncName(functionName, filename);
     }
     if (!res) {
@@ -205,7 +205,7 @@ PathFuncManager::find(const std::wstring& functionName, wstringVector& filesname
     bool res = false;
     filesname.clear();
     std::wstring filename;
-    if (_userPath) {
+    if (_userPath != nullptr) {
         res = _userPath->findFuncName(functionName, filename);
         if (res) {
             filesname.push_back(filename);
@@ -228,7 +228,7 @@ bool
 PathFuncManager::find(size_t hashid, std::wstring& functionname)
 {
     bool res = false;
-    if (_userPath) {
+    if (_userPath != nullptr) {
         res = _userPath->findFuncByHash(hashid, functionname);
         if (res) {
             return res;
@@ -267,7 +267,7 @@ PathFuncManager::addPath(const std::wstring& path, bool begin)
     } catch (const std::bad_alloc&) {
         pf = nullptr;
     }
-    if (pf) {
+    if (pf != nullptr) {
         if (begin) {
             _pathFuncVector.insert(_pathFuncVector.begin(), pf);
         } else {
@@ -414,7 +414,7 @@ PathFuncManager::getPathNameAsString()
 {
     std::wstring p = L"";
     if (_userPath != nullptr) {
-        if (_userPath->getPath() != L"") {
+        if (!_userPath->getPath().empty()) {
 #ifdef _MSC_VER
             p = _userPath->getPath() + L";";
 #else
@@ -454,7 +454,7 @@ PathFuncManager::processFile(const std::wstring& nlf_filename)
 #else
     fr = fopen(wstring_to_utf8(nlf_filename).c_str(), "r");
 #endif
-    if (!fr) {
+    if (fr == nullptr) {
         std::string msg1;
         int errnum = errno;
         char buff[4096];
@@ -475,12 +475,12 @@ PathFuncManager::processFile(const std::wstring& nlf_filename)
     } catch (const Exception&) {
         deleteAstVector(ptAst);
         resetAstBackupPosition();
-        if (fr) {
+        if (fr != nullptr) {
             fclose(fr);
         }
         throw;
     }
-    if (fr) {
+    if (fr != nullptr) {
         fclose(fr);
     }
     if (pstate != FuncDef) {
@@ -587,7 +587,7 @@ PathFuncManager::userpathCompute()
     clearUserPath();
     std::wstring userpathEnv = GetVariableEnvironment(L"NELSON_USERPATH", L"");
     bool bSet = false;
-    if (userpathEnv != L"") {
+    if (!userpathEnv.empty()) {
         if (isDir(userpathEnv)) {
             setUserPath(userpathEnv);
             bSet = true;
@@ -599,7 +599,7 @@ PathFuncManager::userpathCompute()
         try {
             prefDir = getPreferencesPath();
         } catch (const Exception&) {
-            prefDir = L"";
+            prefDir.clear();
         }
         try {
             userPathFile = prefDir + L"/userpath.conf";
@@ -607,7 +607,7 @@ PathFuncManager::userpathCompute()
                 && !boost::filesystem::is_directory(userPathFile);
             if (bIsFile) {
                 std::wstring preferedUserPath = loadUserPathFromFile();
-                if (preferedUserPath != L"") {
+                if (!preferedUserPath.empty()) {
                     if (isDir(preferedUserPath)) {
                         setUserPath(preferedUserPath);
                         bSet = true;
@@ -622,7 +622,7 @@ PathFuncManager::userpathCompute()
     if (!bSet) {
 #ifdef _MSC_VER
         std::wstring userprofileEnv = GetVariableEnvironment(L"USERPROFILE", L"");
-        if (userprofileEnv != L"") {
+        if (!userprofileEnv.empty()) {
             std::wstring userpathDir = userprofileEnv + std::wstring(L"/Documents/Nelson");
             if (!isDir(userpathDir)) {
                 try {
@@ -669,7 +669,6 @@ PathFuncManager::loadUserPathFromFile()
     bool bIsFile
         = boost::filesystem::exists(userPathFile) && !boost::filesystem::is_directory(userPathFile);
     if (bIsFile) {
-        std::string jsonString = "";
         std::string tmpline;
 #ifdef _MSC_VER
         std::ifstream jsonFile(userPathFile);
@@ -677,7 +676,8 @@ PathFuncManager::loadUserPathFromFile()
         std::ifstream jsonFile(wstring_to_utf8(userPathFile));
 #endif
         if (jsonFile.is_open()) {
-            while (safegetline(jsonFile, tmpline)) {
+            std::string jsonString;
+			while (safegetline(jsonFile, tmpline)) {
                 jsonString += tmpline + '\n';
             }
             jsonFile.close();

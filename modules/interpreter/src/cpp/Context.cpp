@@ -84,7 +84,7 @@ Context::pushScope(const std::string& name)
         e.what();
         Error(ERROR_STACK_DEPTH_EXCEEDED);
     }
-    if (sc) {
+    if (sc != nullptr) {
         scopestack.push_back(sc);
     } else {
         Error(ERROR_STACK_DEPTH_EXCEEDED);
@@ -131,14 +131,15 @@ Context::lookupVariable(const std::string& varName, ArrayOf& var)
 {
     Scope* active;
     std::string mapName;
-    if (scopestack.back()->isVariablePersistent(varName)) {
-        mapName = scopestack.back()->getMangledName(varName);
+    Scope* back = scopestack.back();
+    if (back->isVariablePersistent(varName)) {
+        mapName = back->getMangledName(varName);
         active = scopestack.front();
-    } else if (scopestack.back()->isVariableGlobal(varName)) {
+    } else if (back->isVariableGlobal(varName)) {
         mapName = varName;
         active = scopestack.front();
     } else {
-        return scopestack.back()->lookupVariable(varName, var);
+        return back->lookupVariable(varName, var);
     }
     return active->lookupVariable(mapName, var);
 }
@@ -153,13 +154,14 @@ bool
 Context::isVariable(const std::string& varname)
 {
     Scope* active;
-    if (scopestack.back()->isVariablePersistent(varname)) {
-        /*std::string mapName = */ scopestack.back()->getMangledName(varname);
+    Scope* back = scopestack.back();
+    if (back->isVariablePersistent(varname)) {
+        /*std::string mapName = */ back->getMangledName(varname);
         active = scopestack.front();
-    } else if (scopestack.back()->isVariableGlobal(varname)) {
+    } else if (back->isVariableGlobal(varname)) {
         active = scopestack.front();
     } else {
-        return scopestack.back()->isVariable(varname);
+        return back->isVariable(varname);
     }
     return active->isVariable(varname);
 }
@@ -257,16 +259,18 @@ Context::addPersistentVariable(const std::string& var)
 void
 Context::addGlobalVariable(const std::string& var)
 {
+    Scope* back = scopestack.back();
+    Scope* front = scopestack.front();
     // Delete local variables with this name
-    scopestack.back()->deleteVariable(var);
+    back->deleteVariable(var);
     // Delete global persistent variables with this name
-    scopestack.front()->deleteVariable(scopestack.back()->getMangledName(var));
+    front->deleteVariable(back->getMangledName(var));
     // Add a point in the local scope to the global variable
-    scopestack.back()->addGlobalVariablePointer(var);
+    back->addGlobalVariablePointer(var);
     // Make sure the variable exists
     ArrayOf v;
-    if (!scopestack.front()->lookupVariable(var, v)) {
-        scopestack.front()->insertVariable(var, ArrayOf::emptyConstructor());
+    if (!front->lookupVariable(var, v)) {
+        front->insertVariable(var, ArrayOf::emptyConstructor());
     }
 }
 //=============================================================================

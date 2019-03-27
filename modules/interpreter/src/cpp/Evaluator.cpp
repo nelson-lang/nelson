@@ -362,9 +362,9 @@ Evaluator::EndReference(ArrayOf v, indexType index, size_t count)
     Dimensions dim(v.getDimensions());
     ArrayOf res;
     if (count == 1) {
-        res = ArrayOf::doubleConstructor((double)dim.getElementCount());
+        res = ArrayOf::doubleConstructor(static_cast<double>(dim.getElementCount()));
     } else {
-        res = ArrayOf::doubleConstructor((double)dim.getDimensionLength(index));
+        res = ArrayOf::doubleConstructor(static_cast<double>(dim.getDimensionLength(index)));
     }
     return res;
 }
@@ -386,7 +386,7 @@ Evaluator::expression(ASTPtr t)
     } else if (t->type == const_uint64_node) {
         char* endptr = nullptr;
         unsigned long long int v = strtoull(t->text.c_str(), &endptr, 10);
-        uint64 r = (uint64)v;
+        auto r = static_cast<uint64>(v);
         retval = ArrayOf::uint64Constructor(r);
     } else if (t->type == const_float_node) {
         boost::replace_all(t->text, "D", "e");
@@ -662,7 +662,8 @@ Evaluator::expression(ASTPtr t)
 ArrayOf
 Evaluator::unitColon(ASTPtr t)
 {
-    ArrayOf a, b;
+    ArrayOf a;
+    ArrayOf b;
     pushID(t->context());
     a = expression(t->down);
     b = expression(t->down->right);
@@ -685,7 +686,9 @@ Evaluator::unitColon(ASTPtr t)
 ArrayOf
 Evaluator::doubleColon(ASTPtr t)
 {
-    ArrayOf a, b, c;
+    ArrayOf a;
+    ArrayOf b;
+    ArrayOf c;
     pushID(t->context());
     a = expression(t->down->down);
     b = expression(t->down->down->right);
@@ -736,9 +739,9 @@ Evaluator::expressionList(ASTPtr t)
             } catch (Exception& e) {
                 if (!e.matches(ERROR_EMPTY_EXPRESSION)) {
                     throw;
-                } else {
+                } 
                     n = ArrayOfVector();
-                }
+                
             }
             for (size_t i = 0; i < n.size(); i++) {
                 m.push_back(n[i]);
@@ -761,7 +764,8 @@ Evaluator::expressionList(ASTPtr t, ArrayOf subRoot)
     ArrayOfVector m;
     ArrayOfVector n;
     ASTPtr root;
-    indexType index = 0, tmp = 0;
+    indexType index = 0;
+    indexType tmp = 0;
     indexType endVal = 0;
     if (t == nullptr) {
         return m;
@@ -781,9 +785,9 @@ Evaluator::expressionList(ASTPtr t, ArrayOf subRoot)
             } catch (Exception& e) {
                 if (!e.matches(ERROR_EMPTY_EXPRESSION)) {
                     throw;
-                } else {
+                } 
                     n = ArrayOfVector();
-                }
+                
             }
             for (size_t i = 0; i < n.size(); i++) {
                 m.push_back(n[i]);
@@ -1240,9 +1244,9 @@ Evaluator::forStatement(ASTPtr t)
         resetState();
         context->exitLoop();
         return;
-    } else {
+    } 
         pushID(t->context());
-    }
+    
     /* Get the name of the indexing variable */
     indexVarName = t->text;
     /* Evaluate the index set */
@@ -1696,7 +1700,7 @@ Evaluator::statementType(ASTPtr t, bool printIt)
             break;
         case NLS_KEYWORD_ABORT:
             state = NLS_STATE_ABORT;
-            if (depth) {
+            if (depth != 0) {
                 depth = 0;
             }
             break;
@@ -1748,7 +1752,8 @@ Evaluator::statementType(ASTPtr t, bool printIt)
                     for (size_t j = 0; j < m.size(); j++) {
                         if (m.size() > 1) {
                             char buffer[1000];
-                            sprintf(buffer, _("\n%d of %d:\n").c_str(), j + 1, m.size());
+                            sprintf(
+                                buffer, _("\n%d of %d:\n").c_str(), (int)j + (int)1, (int)m.size());
                             io->outputMessage(buffer);
                         }
                         OverloadDisplay(this, m[j]);
@@ -1838,7 +1843,7 @@ Evaluator::block(ASTPtr t)
                 state = NLS_STATE_ABORT;
                 NelsonConfiguration::getInstance()->setInterruptPending(false);
                 return;
-            } else {
+            } 
                 statement(s);
                 if (state == NLS_STATE_BREAK || state == NLS_STATE_CONTINUE
                     || state == NLS_STATE_RETURN || state == NLS_STATE_ABORT
@@ -1846,7 +1851,7 @@ Evaluator::block(ASTPtr t)
                     break;
                 }
                 s = s->right;
-            }
+            
         }
     } catch (Exception& e) {
         if (!e.isEmpty()) {
@@ -2098,7 +2103,7 @@ Evaluator::countLeftHandSides(ASTPtr t)
         return lhs.getLength();
     }
     popID();
-    return (indexType)1;
+    return static_cast<indexType>(1);
 }
 
 ArrayOf
@@ -2176,7 +2181,7 @@ Evaluator::specialFunctionCall(ASTPtr t, bool printIt)
     stringVector args;
     args.push_back(t->text);
     ASTPtr s = t->right;
-    while (s) {
+    while (s != nullptr) {
         args.push_back(s->text);
         s = s->right;
     }
@@ -2218,7 +2223,10 @@ void
 Evaluator::multiFunctionCall(ASTPtr t, bool printIt)
 {
     ArrayOfVector m;
-    ASTPtr s, fAST, saveLHS, cAST;
+    ASTPtr s;
+    ASTPtr fAST;
+    ASTPtr saveLHS;
+    ASTPtr cAST;
     ArrayOf c;
     // int lhsSize;
     FunctionDef* fptr;
@@ -2336,10 +2344,10 @@ getArgumentIndex(const stringVector& list, const std::string& t)
         }
     }
     if (foundArg) {
-        return (int)i;
-    } else {
+        return static_cast<int>(i);
+    } 
         return -1;
-    }
+    
 }
 
 //!
@@ -2772,7 +2780,9 @@ ArrayOfVector
 Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool outputOptional)
 {
     ArrayOfVector m, n;
-    ASTPtr s = nullptr, q = nullptr, p = nullptr;
+    ASTPtr s = nullptr;
+    ASTPtr q = nullptr;
+    ASTPtr p = nullptr;
     stringVector keywords;
     ArrayOfVector keyvals;
     ASTPtrVector keyexpr;
@@ -2869,9 +2879,9 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                         // maxndx+1+(m.size() - holes)
                         size_t totalCount;
                         if (holes > m.size()) {
-                            totalCount = maxndx + 1;
+                            totalCount = static_cast<size_t>(maxndx + 1);
                         } else {
-                            totalCount = maxndx + 1 + (m.size() - holes);
+                            totalCount = (size_t)(maxndx + 1 + (m.size() - holes));
                         }
                         // Next, we allocate a vector to hold the values
                         ArrayOfVector toFill(totalCount);
@@ -2902,10 +2912,11 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                         }
                         // Finally, fill in empty matrices for the
                         // remaining arguments
-                        for (size_t i = 0; i < totalCount; i++)
+                        for (size_t i = 0; i < totalCount; i++) {
                             if (!filled[i]) {
                                 toFill[i] = ArrayOf::emptyConstructor();
                             }
+}
                         // Clean up
                         delete[] filled;
                         // delete[] keywordNdx;
@@ -2962,11 +2973,11 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                             // C others ? C{}, C. ?
                             // we do currently nothing
                         } else {
-                            if (keywordNdx) {
+                            if (keywordNdx != nullptr) {
                                 delete[] keywordNdx;
                                 keywordNdx = nullptr;
                             }
-                            if (argTypeMap) {
+                            if (argTypeMap != nullptr) {
                                 delete[] argTypeMap;
                                 argTypeMap = nullptr;
                             }
@@ -2988,11 +2999,11 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
             }
             InCLI = CLIFlagsave;
             if (state == NLS_STATE_ABORT) {
-                if (keywordNdx) {
+                if (keywordNdx != nullptr) {
                     delete[] keywordNdx;
                     keywordNdx = nullptr;
                 }
-                if (argTypeMap) {
+                if (argTypeMap != nullptr) {
                     delete[] argTypeMap;
                     argTypeMap = nullptr;
                 }
@@ -3013,7 +3024,7 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                 }
                 for (size_t i = 0; i < maxsearch; i++) {
                     // Was this argument passed out of order?
-                    if (argTypeMap) {
+                    if (argTypeMap != nullptr) {
                         if ((keywords.size() > 0) && (argTypeMap[i] == -1)) {
                             continue;
                         }
@@ -3031,7 +3042,7 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                         args.erase(0, 1);
                         // This argument was passed by reference
                         if (p == nullptr) {
-                            if (argTypeMap) {
+                            if (argTypeMap != nullptr) {
                                 delete[] argTypeMap;
                                 argTypeMap = nullptr;
                             }
@@ -3039,7 +3050,7 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                             return ArrayOfVector();
                         }
                         if (!(p->type == non_terminal && p->opNum == OP_RHS)) {
-                            if (argTypeMap) {
+                            if (argTypeMap != nullptr) {
                                 delete[] argTypeMap;
                                 argTypeMap = nullptr;
                             }
@@ -3049,7 +3060,7 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                         if (p->down->down == nullptr && p->down->type == id_node) {
                             bool bInserted = context->insertVariable(p->down->text, m[i]);
                             if (!bInserted) {
-                                if (argTypeMap) {
+                                if (argTypeMap != nullptr) {
                                     delete[] argTypeMap;
                                     argTypeMap = nullptr;
                                 }
@@ -3060,7 +3071,7 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                             ArrayOf c(assignExpression(p->down, m[i]));
                             bool bInserted = context->insertVariable(p->down->text, c);
                             if (!bInserted) {
-                                if (argTypeMap) {
+                                if (argTypeMap != nullptr) {
                                     delete[] argTypeMap;
                                     argTypeMap = nullptr;
                                 }
@@ -3086,10 +3097,14 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
         throw;
     }
     popID();
-    if (keywordNdx)
+    if (keywordNdx!= nullptr) {
         delete[] keywordNdx;
-    if (argTypeMap)
+        keywordNdx = nullptr;
+	}
+    if (argTypeMap!= nullptr) {
         delete[] argTypeMap;
+        argTypeMap = nullptr;
+	}
     return n;
 }
 
@@ -3152,7 +3167,7 @@ Evaluator::adjustBreakpoint(StackEntry& bp, bool dbstep)
         MacroFunctionDef* mptr;
         mptr = (MacroFunctionDef*)val;
         int clinenum = 10000;
-        while (mptr) {
+        while (mptr != nullptr) {
             ASTPtr code = mptr->code;
             int nxt = GetClosestLineNumber(code, bp.tokid & 0xffff);
             clinenum = MIN(clinenum, nxt);
@@ -3173,7 +3188,7 @@ Evaluator::adjustBreakpoint(StackEntry& bp, bool dbstep)
             }
             Warning(std::string(buffer));
             return false;
-        } else if (clinenum != 0) {
+        } if (clinenum != 0) {
             bp.tokid = (bp.tokid & 0xffff) + clinenum;
         }
     } else {
@@ -3298,10 +3313,10 @@ Evaluator::rhsExpressionSimple(ASTPtr t)
         if (m.empty()) {
             popID();
             return ArrayOf::emptyConstructor();
-        } else {
+        } 
             popID();
             return m[0];
-        }
+        
     }
     if (!isVar) {
         Error(utf8_to_wstring(_("Undefined variable:") + " " + t->text));
@@ -3496,8 +3511,10 @@ Evaluator::rhsExpressionSimple(ASTPtr t)
 ArrayOfVector
 Evaluator::rhsExpression(ASTPtr t)
 {
-    ArrayOf r, q;
-    ArrayOf n, p;
+    ArrayOf r;
+    ArrayOf q;
+    ArrayOf n;
+    ArrayOf p;
     ArrayOfVector m;
     ArrayOfVector rv;
     bool isVar;
@@ -3531,7 +3548,7 @@ Evaluator::rhsExpression(ASTPtr t)
                 tt = t->down;
                 if (tt->opNum == OP_PARENS) {
                     if (tt->down == nullptr) {
-                        if (tt->right) {
+                        if (tt->right != nullptr) {
                             tt = tt->right;
                             if (tt->opNum == OP_DOT) {
                                 ArrayOfVector rv;
@@ -3646,8 +3663,8 @@ Evaluator::rhsExpression(ASTPtr t)
                     }
                     isValidMethod = false;
                 }
-                if (isValidMethod) {
-                    if (t->right) {
+                if (isValidMethod != 0U) {
+                    if (t->right != nullptr) {
                         params = expressionList(t->right->down, r);
                         t = t->right;
                     }
@@ -3806,11 +3823,11 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
         setLastErrorException(e);
         if (propogateException) {
             throw e;
-        } else {
+        } 
             e.printMe(io);
             popDebug();
             return false;
-        }
+        
     }
 
     deleteAstVector(pt);
@@ -3881,7 +3898,7 @@ Evaluator::getCallerFunctionName()
     if (ipos >= 0) {
         return cstack[ipos].cname;
     }
-    return std::string("");
+    return std::string();
 }
 //=============================================================================
 std::wstring
@@ -3908,7 +3925,7 @@ Evaluator::getCurrentFunctionName()
         }
         return fullname;
     }
-    return std::string("");
+    return std::string();
 }
 //=============================================================================
 int
@@ -4020,21 +4037,20 @@ Evaluator::evalCLI()
             FileWatcherManager::getInstance()->update();
             clearStacks();
         }
-        std::wstring prompt = buildPrompt();
         std::wstring commandLine;
         commandQueue.get(commandLine);
         if (commandLine.empty()) {
-            commandLine = io->getLine(prompt);
+            commandLine = io->getLine(buildPrompt());
             if (commandLine.empty()) {
                 InCLI = false;
                 this->setState(NLS_STATE_QUIT);
                 return;
-            } else {
+            } 
                 wchar_t ch = *commandLine.rbegin();
                 if (ch != L'\n') {
                     commandLine.push_back(L'\n');
                 }
-            }
+            
         }
         // scan the line and tokenize it
         resetAstBackupPosition();
@@ -4150,9 +4166,9 @@ Evaluator::setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     std::wstring currentType = r.getHandleCategory();
     std::wstring ufunctionNameSetHandle = currentType + L"_set";
     std::string functionNameSetHandle = wstring_to_utf8(ufunctionNameSetHandle);
-    Context* context = this->getContext();
+    Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
-    if (!context->lookupFunction(functionNameSetHandle, funcDef)) {
+    if (!_context->lookupFunction(functionNameSetHandle, funcDef)) {
         Error(_W("Function not found."));
     }
     if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
@@ -4171,10 +4187,10 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
 {
     ArrayOfVector argIn;
     std::wstring currentType = r.getHandleCategory();
-    Context* context = this->getContext();
+    Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
     std::string functionNameCurrentType = wstring_to_utf8(currentType) + "_" + fieldname;
-    if (context->lookupFunction(functionNameCurrentType, funcDef)) {
+    if (_context->lookupFunction(functionNameCurrentType, funcDef)) {
         if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
                 || (funcDef->type() == NLS_MACRO_FUNCTION))) {
             Error(_W("Type function not valid."));
@@ -4214,7 +4230,7 @@ size_t
 Evaluator::countSubExpressions(ASTPtr t)
 {
     size_t count = 0;
-    while (t != NULL) {
+    while (t != nullptr) {
         t = t->right;
         count++;
     }

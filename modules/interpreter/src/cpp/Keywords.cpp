@@ -66,7 +66,7 @@ isKeyword(const std::wstring& key)
 {
     std::string _key = wstring_to_utf8(key);
     for (auto& k : keyWord) {
-        if (_key.compare(k.word) == 0) {
+        if (_key == k.word) {
             return true;
         }
     }

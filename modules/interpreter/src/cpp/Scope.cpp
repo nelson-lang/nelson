@@ -72,7 +72,7 @@ bool
 Scope::deleteBuiltin(void* fptr)
 {
     cachedFunc.clear();
-    return BuiltInFunctionDefManager::getInstance()->remove((BuiltInFuncPtr)fptr);
+    return BuiltInFunctionDefManager::getInstance()->remove(static_cast<BuiltInFuncPtr>(fptr));
 }
 //=============================================================================
 void
@@ -289,8 +289,8 @@ Scope::getVariablesList(bool withPersistent, wstringVector& list)
 {
     stringVector ulist = variablesTab.getVariablesList(withPersistent);
     list.clear();
-    for (size_t k = 0; k < ulist.size(); k++) {
-        list.push_back(utf8_to_wstring(ulist[k]));
+    for (const auto & k : ulist) {
+        list.push_back(utf8_to_wstring(k));
     }
 }
 //=============================================================================

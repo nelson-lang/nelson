@@ -53,7 +53,7 @@ void
 deleteAstVector(std::vector<ASTPtr>& v)
 {
     for (auto& k : v) {
-        if (k) {
+        if (k != nullptr) {
             delete k;
             k = nullptr;
         }

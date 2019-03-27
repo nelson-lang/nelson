@@ -20,9 +20,9 @@ initGuiDynamicLibrary()
         } catch (const std::bad_alloc&) {
             buf = nullptr;
         }
-        if (buf) {
+        if (buf != nullptr) {
             DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
-            if (dwRet) {
+            if (dwRet != 0U) {
                 fullpathGuiSharedLibrary
                     = std::string(buf) + std::string("/") + fullpathGuiSharedLibrary;
             }
@@ -36,7 +36,7 @@ initGuiDynamicLibrary()
         }
 #endif
         nlsGuiHandleDynamicLibrary = Nelson::load_dynamic_library(fullpathGuiSharedLibrary);
-        if (nlsGuiHandleDynamicLibrary) {
+        if (nlsGuiHandleDynamicLibrary != nullptr) {
             bFirstDynamicLibraryCall = false;
         }
     }
@@ -48,11 +48,11 @@ ProcessEventsDynamicFunction(bool bWait)
     using PROC_ProcessEvents = void (*)(bool);
     static PROC_ProcessEvents ProcessEventsPtr = nullptr;
     initGuiDynamicLibrary();
-    if (!ProcessEventsPtr) {
+    if (ProcessEventsPtr == nullptr) {
         ProcessEventsPtr = reinterpret_cast<PROC_ProcessEvents>(
             Nelson::get_function(nlsGuiHandleDynamicLibrary, "NelSonProcessEvents"));
     }
-    if (ProcessEventsPtr) {
+    if (ProcessEventsPtr != nullptr) {
         ProcessEventsPtr(bWait);
     }
 }

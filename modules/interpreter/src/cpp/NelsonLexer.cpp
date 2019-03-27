@@ -71,7 +71,7 @@ keywordStruct tSearch, *pSearch;
 void
 clearTextBufferLexer()
 {
-    if (textbuffer) {
+    if (textbuffer != nullptr) {
         free(textbuffer);
         textbuffer = nullptr;
     }
@@ -142,7 +142,7 @@ popVCState()
 inline bool
 testSpecialFuncs()
 {
-    if (!isalpha(datap[0])) {
+    if (isalpha(datap[0]) == 0) {
         return false;
     }
     // cd ..
@@ -170,7 +170,7 @@ testSpecialFuncs()
     // Check for non-keyword identifier followed by whitespace followed by alphanum
     char keyword[IDENTIFIER_LENGTH_MAX + 1];
     char* cp = datap;
-    while (isalnum(*cp)) {
+    while (isalnum(*cp) != 0) {
         keyword[cp - datap] = *cp;
         cp++;
     }
@@ -188,7 +188,7 @@ testSpecialFuncs()
     while ((*cp == ' ') || (*cp == '\t')) {
         cp++;
     }
-    if (isalnum(*cp)) {
+    if (isalnum(*cp) != 0) {
         return true;
     }
     return false;
@@ -216,19 +216,19 @@ match(char* str)
 inline int
 isE(char p)
 {
-    return ((p == 'e') || (p == 'E') || (p == 'd') || (p == 'D'));
+    return static_cast<int>((p == 'e') || (p == 'E') || (p == 'd') || (p == 'D'));
 }
 //=============================================================================
 inline int
 isWhitespace()
 {
-    return (match(" ") || match("\t"));
+    return static_cast<int>((match(" ") != 0) || (match("\t") != 0));
 }
 //=============================================================================
 inline int
 isNewline()
 {
-    return (match("\n") || match("\r\n"));
+    return static_cast<int>((match("\n") != 0) || (match("\r\n") != 0));
 }
 //=============================================================================
 inline int
@@ -248,13 +248,13 @@ testAlphaNumChar()
     if (c < 0) {
         return 0;
     }
-    return (isalnum(c) || (c == '_'));
+    return static_cast<int>((isalnum(c) != 0) || (c == '_'));
 }
 //=============================================================================
 inline int
 _isDigit(char c)
 {
-    return (c >= 48 && c <= 57);
+    return static_cast<int>(c >= 48 && c <= 57);
 }
 //=============================================================================
 inline int
@@ -267,7 +267,7 @@ testDigit()
 inline int
 testNewline()
 {
-    return ((datap[0] == 0) || (datap[0] == '\n') || ((datap[0] == '\r') && (datap[1] == '\n')));
+    return static_cast<int>((datap[0] == 0) || (datap[0] == '\n') || ((datap[0] == '\r') && (datap[1] == '\n')));
 }
 //=============================================================================
 inline int
@@ -294,7 +294,7 @@ discardChar()
 inline int
 testCharacterArrayTerm()
 {
-    return ((datap[0] == '\n') || (datap[0] == '\r') || (datap[0] == ';') || (datap[0] == ',')
+    return static_cast<int>((datap[0] == '\n') || (datap[0] == '\r') || (datap[0] == ';') || (datap[0] == ',')
         || (datap[0] == ' '));
 }
 //=============================================================================
@@ -304,14 +304,14 @@ lexUntermCharacterArray()
     char stringval[IDENTIFIER_LENGTH_MAX + 1];
     char* strptr;
     strptr = stringval;
-    while (isWhitespace()) {
+    while (isWhitespace() != 0) {
         ;
     }
-    if (testNewline()) {
+    if (testNewline() != 0) {
         lexState = Scanning;
         return;
     }
-    while (!testCharacterArrayTerm()) {
+    while (testCharacterArrayTerm() == 0) {
         *strptr++ = currentChar();
         discardChar();
     }
@@ -337,7 +337,7 @@ lexString()
     discardChar();
     int curchar = currentChar();
     char ch = datap[1];
-    while ((curchar != '"') || ((curchar == '"') && (ch == '"')) && !testNewline()) {
+    while ((curchar != '"') || ((curchar == '"') && (ch == '"')) && (testNewline() == 0)) {
         if ((currentChar() == '"') && (ch == '"')) {
             discardChar();
         }
@@ -350,7 +350,7 @@ lexString()
             break;
         }
     }
-    if (testNewline()) {
+    if (testNewline() != 0) {
         LexerException(_("unterminated string"));
     }
     discardChar();
@@ -370,7 +370,7 @@ lexCharacterArray()
     discardChar();
     int curchar = currentChar();
     char ch = datap[1];
-    while ((curchar != '\'') || ((curchar == '\'') && (ch == '\'')) && !testNewline()) {
+    while ((curchar != '\'') || ((curchar == '\'') && (ch == '\'')) && (testNewline() == 0)) {
         if ((currentChar() == '\'') && (ch == '\'')) {
             discardChar();
         }
@@ -383,7 +383,7 @@ lexCharacterArray()
             break;
         }
     }
-    if (testNewline()) {
+    if (testNewline() != 0) {
         LexerException(_("unterminated character array"));
     }
     discardChar();
@@ -399,7 +399,7 @@ lexIdentifier()
 {
     int i = 0;
     char ident[IDENTIFIER_LENGTH_MAX + 1];
-    while (testAlphaNumChar()) {
+    while (testAlphaNumChar() != 0) {
         ident[i++] = currentChar();
         if (i > IDENTIFIER_LENGTH_MAX) {
             char msg[DEFAULT_BUFFER_SIZE_LEXER];
@@ -458,8 +458,8 @@ lexNumber()
                 cp++;
                 state = 3;
                 intonly = 0;
-            } else if (_isDigit(datap[cp])) {
-                while (_isDigit(datap[cp])) {
+            } else if (_isDigit(datap[cp]) != 0) {
+                while (_isDigit(datap[cp]) != 0) {
                     cp++;
                 }
                 state = 1;
@@ -474,7 +474,7 @@ lexNumber()
                 cp++;
                 state = 5;
                 break;
-            } else if (isE(datap[cp])) {
+            } else if (isE(datap[cp]) != 0) {
                 intonly = 0;
                 cp++;
                 state = 2;
@@ -487,15 +487,15 @@ lexNumber()
             if ((datap[cp] == '+') || (datap[cp] == '-')) {
                 cp++;
                 state = 6;
-            } else if (_isDigit(datap[cp])) {
+            } else if (_isDigit(datap[cp]) != 0) {
                 state = 6;
             } else {
                 LexerException(_("malformed floating point constant"));
             }
             break;
         case 3:
-            if (_isDigit(datap[cp])) {
-                while (_isDigit(datap[cp])) {
+            if (_isDigit(datap[cp]) != 0) {
+                while (_isDigit(datap[cp]) != 0) {
                     cp++;
                 }
             } else {
@@ -504,7 +504,7 @@ lexNumber()
             state = 4;
             break;
         case 4:
-            if (isE(datap[cp])) {
+            if (isE(datap[cp]) != 0) {
                 intonly = 0;
                 cp++;
                 state = 2;
@@ -514,13 +514,13 @@ lexNumber()
             }
             break;
         case 5:
-            if (isE(datap[cp])) {
+            if (isE(datap[cp]) != 0) {
                 intonly = 0;
                 cp++;
                 state = 2;
                 break;
-            } else if (_isDigit(datap[cp])) {
-                while (_isDigit(datap[cp])) {
+            } else if (_isDigit(datap[cp]) != 0) {
+                while (_isDigit(datap[cp]) != 0) {
                     cp++;
                 }
                 state = 4;
@@ -530,8 +530,8 @@ lexNumber()
             }
             break;
         case 6:
-            if (_isDigit(datap[cp])) {
-                while (_isDigit(datap[cp])) {
+            if (_isDigit(datap[cp]) != 0) {
+                while (_isDigit(datap[cp]) != 0) {
                     cp++;
                 }
                 state = 7;
@@ -549,7 +549,7 @@ lexNumber()
     } else if ((datap[cp] == 'd') || (datap[cp] == 'D')) {
         cp++;
         vtype = 2;
-    } else if (!intonly) {
+    } else if (intonly == 0) {
         vtype = 2;
     } else {
         vtype = 3;
@@ -620,16 +620,16 @@ lexNumber()
 void
 lexScanningState()
 {
-    if (match("...")) {
-        while (!isNewline()) {
+    if (match("...") != 0) {
+        while (isNewline() == 0) {
             discardChar();
         }
         NextLine();
         continuationCount++;
     }
     // comments suppported
-    if (match("//") || match("%") || match("#")) {
-        while (!isNewline()) {
+    if ((match("//") != 0) || (match("%") != 0) || (match("#") != 0)) {
+        while (isNewline() == 0) {
             discardChar();
         }
         setTokenType(ENDSTMNT);
@@ -642,24 +642,24 @@ lexScanningState()
     }
     if (currentChar() == '\'') {
         if ((previousChar() == ')') || (previousChar() == ']') || (previousChar() == '}')
-            || (isalnum(previousChar()))) {
+            || ((isalnum(previousChar())) != 0)) {
             /* Not a string... */
             setTokenType(static_cast<int>('\''));
             discardChar();
             return;
-        } else {
+        } 
             lexCharacterArray();
             return;
-        }
+        
     }
-    if (isWhitespace()) {
-        while (isWhitespace()) {
+    if (isWhitespace() != 0) {
+        while (isWhitespace() != 0) {
             ;
         }
         setTokenType(WS);
         return;
     }
-    if (match(";\n") || match(";\r\n")) {
+    if ((match(";\n") != 0) || (match(";\r\n") != 0)) {
         setTokenType(ENDQSTMNT);
         tokenValue.isToken = true;
         tokenValue.v.i = static_cast<int>(ContextInt());
@@ -670,7 +670,7 @@ lexScanningState()
         }
         return;
     }
-    if (match(";")) {
+    if (match(";") != 0) {
         setTokenType(ENDQSTMNT);
         if (bracketStackSize == 0) {
             vcFlag = 0;
@@ -678,7 +678,7 @@ lexScanningState()
         lexState = Initial;
         return;
     }
-    if (match("\r\n") || match("\n")) {
+    if ((match("\r\n") != 0) || (match("\n") != 0)) {
         NextLine();
         setTokenType(ENDSTMNT);
         lexState = Initial;
@@ -687,76 +687,76 @@ lexScanningState()
         }
         return;
     }
-    if (match(".*")) {
+    if (match(".*") != 0) {
         setTokenType(DOTTIMES);
         return;
     }
-    if (match("./")) {
+    if (match("./") != 0) {
         setTokenType(DOTRDIV);
         return;
     }
-    if (match(".\\")) {
+    if (match(".\\") != 0) {
         setTokenType(DOTLDIV);
         return;
     }
-    if (match(".^")) {
+    if (match(".^") != 0) {
         setTokenType(DOTPOWER);
         return;
     }
-    if (match(".'")) {
+    if (match(".'") != 0) {
         setTokenType(DOTTRANSPOSE);
         return;
     }
-    if (match("!=")) {
+    if (match("!=") != 0) {
         setTokenType(NE);
         return;
     }
-    if (match("<>")) {
+    if (match("<>") != 0) {
         setTokenType(NE);
         return;
     }
-    if (match("~=")) {
+    if (match("~=") != 0) {
         setTokenType(NE);
         return;
     }
-    if (match("<=")) {
+    if (match("<=") != 0) {
         setTokenType(LE);
         return;
     }
-    if (match(">=")) {
+    if (match(">=") != 0) {
         setTokenType(GE);
         return;
     }
-    if (match("==")) {
+    if (match("==") != 0) {
         setTokenType(EQ);
         return;
     }
-    if (match("||")) {
+    if (match("||") != 0) {
         setTokenType(SOR);
         return;
     }
-    if (match("&&")) {
+    if (match("&&") != 0) {
         setTokenType(SAND);
         return;
     }
-    if (testAlphaChar() || currentChar() == '_') {
+    if ((testAlphaChar() != 0) || currentChar() == '_') {
         lexIdentifier();
         // Are we inside a bracket? If so, leave well enough alone
-        if ((tokenType != IDENT) || bracketStackSize) {
+        if ((tokenType != IDENT) || (bracketStackSize != 0)) {
             return;
         }
         // No, so... munch the whitespace
-        while (isWhitespace()) {
+        while (isWhitespace() != 0) {
             ;
         }
         // How do you know ident /ident is not ident/ident and is ident('/ident')?
-        if (testAlphaChar()) {
+        if (testAlphaChar() != 0) {
             lexState = SpecScan;
         }
         return;
     }
-    if (testDigit() || currentChar() == '.') {
-        if (lexNumber()) {
+    if ((testDigit() != 0) || currentChar() == '.') {
+        if (lexNumber() != 0) {
             return;
         }
     }
@@ -797,13 +797,13 @@ lexScanningState()
 void
 lexInitialState()
 {
-    if (isNewline()) {
+    if (isNewline() != 0) {
         NextLine();
-    } else if (isWhitespace()) {
-    } else if (match(";")) {
+    } else if (isWhitespace() != 0) {
+    } else if (match(";") != 0) {
         // nothing
-    } else if (match("%") || match("//") || match("#")) {
-        while (!isNewline()) {
+    } else if ((match("%") != 0) || (match("//") != 0) || (match("#") != 0)) {
+        while (isNewline() == 0) {
             discardChar();
         }
         NextLine();
@@ -836,10 +836,10 @@ yylexScreen()
 {
     static int previousToken = 0;
     tokenActive = 0;
-    while (!tokenActive) {
+    while (tokenActive == 0) {
         yylexDoLex();
     }
-    if ((tokenType == WS) && vcFlag) {
+    if ((tokenType == WS) && (vcFlag != 0)) {
         /* Check for virtual commas... */
         if ((previousToken == ')') || (previousToken == '\'') || (previousToken == NUMERIC)
             || (previousToken == CHARACTER) || (previousToken == STRING) || (previousToken == ']')
@@ -847,8 +847,8 @@ yylexScreen()
             /* Test if next character indicates the start of an expression */
             if ((currentChar() == '(') || (currentChar() == '+') || (currentChar() == '-')
                 || (currentChar() == '~') || (currentChar() == '[') || (currentChar() == '{')
-                || (currentChar() == '\'') || (isalnum(currentChar()))
-                || ((currentChar() == '.') && (_isDigit(datap[1])))
+                || (currentChar() == '\'') || ((isalnum(currentChar())) != 0)
+                || ((currentChar() == '.') && ((_isDigit(datap[1])) != 0))
                 || (strncmp(datap, "...", 3) == 0)) {
                 /*
                    OK - now we have to decide if the "+/-" are infix or prefix operators...
@@ -888,7 +888,7 @@ yylex()
     while (retval == WS) {
         retval = yylexScreen();
     }
-    if (!yylval.v.i) {
+    if (yylval.v.i == 0) {
         yylval.isToken = true;
         yylval.v.i = static_cast<int>(ContextInt());
     }
@@ -907,7 +907,7 @@ setLexBuffer(const std::string& buffer)
     clearTextBufferLexer();
     textbuffer = static_cast<char*>(calloc(buffer.length() + 1, sizeof(char)));
     datap = textbuffer;
-    if (textbuffer) {
+    if (textbuffer != nullptr) {
         strcpy(textbuffer, buffer.c_str());
     }
     linestart = datap;
@@ -939,7 +939,7 @@ setLexFile(FILE* fp)
     clearTextBufferLexer();
     // Allocate enough for the text, an extra newline, and null
     textbuffer = static_cast<char*>(calloc(cpos + 2, sizeof(char)));
-    if (textbuffer) {
+    if (textbuffer != nullptr) {
         datap = textbuffer;
         size_t n = fread(textbuffer, sizeof(char), cpos, fp);
         textbuffer[n] = '\n';
@@ -959,7 +959,7 @@ lexCheckForMoreInput(int ccount)
             || ((bracketStackSize > 0)
                    && ((bracketStack[bracketStackSize - 1] == '[')
                           || (bracketStack[bracketStackSize - 1] == '{')))
-            || inBlock);
+            || (inBlock != 0));
     } catch (Exception& e) {
         e.what();
         continuationCount = 0;

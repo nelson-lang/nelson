@@ -32,7 +32,7 @@ OverloadDisplay(Evaluator* eval, ArrayOf a, bool fromBuiltin)
     bool bSuccess = false;
     if (eval->mustOverloadBasicTypes()) {
         Context* context = eval->getContext();
-        if (context) {
+        if (context != nullptr) {
             FunctionDef* funcDef = nullptr;
             std::string OverloadName = ClassName(a) + "_disp";
             if (context->lookupFunction(OverloadName, funcDef)) {
@@ -49,7 +49,7 @@ OverloadDisplay(Evaluator* eval, ArrayOf a, bool fromBuiltin)
         DisplayVariable(eval->getInterface(), a, fromBuiltin, needToOverload);
         if (needToOverload) {
             Context* context = eval->getContext();
-            if (context) {
+            if (context != nullptr) {
                 FunctionDef* funcDef = nullptr;
                 std::string OverloadName = ClassName(a) + "_disp";
                 if (context->lookupFunction(OverloadName, funcDef)) {

@@ -30,11 +30,11 @@ Evaluator::shortCutAndOperator(ArrayOf A, ArrayOf B)
         retval = OverloadBinaryOperator(this, A, B, "shortcutand");
     } else {
         if (A.isScalar() && B.isScalar()) {
-            bool a = A.getContentAsLogicalScalar();
+            bool a = A.getContentAsLogicalScalar() != 0U;
             if (!a) {
                 retval = A;
             } else {
-                bool b = B.getContentAsLogicalScalar();
+                bool b = B.getContentAsLogicalScalar() != 0U;
                 return ArrayOf::logicalConstructor(a && b);
             }
         } else {
