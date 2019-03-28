@@ -33,12 +33,12 @@ static void
 boolXor(
     size_t n, logical* c, const logical* a, const int stride1, const logical* b, const int stride2)
 {
-    int m = 0;
-    int p = 0;
+    size_t m = 0;
+    size_t p = 0;
     for (size_t i = 0; i < n; i++) {
         c[i] = NLSXOR(a[m], b[p]);
-        m += stride1;
-        p += stride2;
+        m += (size_t)stride1;
+        p += (size_t)stride2;
     }
 }
 //=============================================================================
