@@ -37,8 +37,8 @@ Nelson::MemoryGateway::varislockBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     std::string scopename = argIn[0].getContentAsCString();
-    if (!((scopename.compare("global") == 0) || (scopename.compare("base") == 0)
-            || (scopename.compare("caller") == 0) || (scopename.compare("local") == 0))) {
+    if (!((scopename == "global") || (scopename == "base")
+            || (scopename == "caller") || (scopename == "local"))) {
         Error(_W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' "
                  "expected."));
     }
@@ -51,19 +51,19 @@ Nelson::MemoryGateway::varislockBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
     Context* context = eval->getContext();
     Scope* scope = nullptr;
-    if (scopename.compare("global") == 0) {
+    if (scopename == "global") {
         scope = context->getGlobalScope();
     }
-    if (scopename.compare("base") == 0) {
+    if (scopename == "base") {
         scope = context->getBaseScope();
     }
-    if (scopename.compare("caller") == 0) {
+    if (scopename == "caller") {
         scope = context->getCallerScope();
     }
-    if (scopename.compare("local") == 0) {
+    if (scopename == "local") {
         scope = context->getCurrentScope();
     }
-    if (scope && !scope->isVariable(varname)) {
+    if ((scope != nullptr) && !scope->isVariable(varname)) {
         Error(_W("#2 Argument must be an existing variable name."));
     }
     bool bIsLocked = IsLockedVariable(varname, scope);

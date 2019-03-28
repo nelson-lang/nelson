@@ -29,7 +29,7 @@ Nelson::MemoryGateway::whosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    std::wstring filename = L"";
+    std::wstring filename;
     Nelson::SCOPE_LEVEL scope = Nelson::SCOPE_LEVEL::LOCAL_SCOPE;
     stringVector names;
     bool onlyGlobal = false;
@@ -40,9 +40,9 @@ Nelson::MemoryGateway::whosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     } break;
     case 1: {
         std::string param = argIn[0].getContentAsCString();
-        if (param.compare("global") == 0) {
+        if (param == "global") {
             onlyGlobal = true;
-        } else if (param.compare("-file") == 0) {
+        } else if (param == "-file") {
             Error(_W("filename expected after '-file'."));
         } else {
             names.push_back(param);
@@ -51,9 +51,9 @@ Nelson::MemoryGateway::whosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     default: {
         std::string param1 = argIn[0].getContentAsCString();
         indexType start = 1;
-        if (param1.compare("global") == 0) {
+        if (param1 == "global") {
             onlyGlobal = true;
-        } else if (param1.compare("-file") == 0) {
+        } else if (param1 == "-file") {
             filename = argIn[1].getContentAsWideString();
             start++;
         } else {
@@ -61,7 +61,7 @@ Nelson::MemoryGateway::whosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         }
         for (indexType k = start; k < argIn.size(); ++k) {
             std::string param = argIn[k].getContentAsCString();
-            if (param.compare("-file") == 0) {
+            if (param == "-file") {
                 Error(_W("-file must be the first argument."));
             }
             names.push_back(param);

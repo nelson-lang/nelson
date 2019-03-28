@@ -37,23 +37,23 @@ Nelson::MemoryGateway::varlockBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     std::string scopename = argIn[0].getContentAsCString();
-    if (!((scopename.compare("global") == 0) || (scopename.compare("base") == 0)
-            || (scopename.compare("caller") == 0) || (scopename.compare("local") == 0))) {
+    if (!((scopename == "global") || (scopename == "base")
+            || (scopename == "caller") || (scopename == "local"))) {
         Error(_W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' "
                  "expected."));
     }
     Context* context = eval->getContext();
     Scope* scope = nullptr;
-    if (scopename.compare("global") == 0) {
+    if (scopename == "global") {
         scope = context->getGlobalScope();
     }
-    if (scopename.compare("base") == 0) {
+    if (scopename == "base") {
         scope = context->getBaseScope();
     }
-    if (scopename.compare("caller") == 0) {
+    if (scopename == "caller") {
         scope = context->getCallerScope();
     }
-    if (scopename.compare("local") == 0) {
+    if (scopename == "local") {
         scope = context->getCurrentScope();
     }
     if (!argIn[1].isRowVectorCharacterArray()) {
@@ -63,7 +63,7 @@ Nelson::MemoryGateway::varlockBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (!IsValidVariableName(varname)) {
         Error(_W("#2 Argument must contain a valid variable name."));
     }
-    if (scope && !scope->isVariable(varname)) {
+    if ((scope != nullptr) && !scope->isVariable(varname)) {
         Error(_W("#2 Argument must be an existing variable name."));
     }
     LockVariable(varname, scope);

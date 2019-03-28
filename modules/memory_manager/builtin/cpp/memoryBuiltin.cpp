@@ -34,7 +34,7 @@ Nelson::MemoryGateway::memoryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     }
     if (nLhs == 0) {
         Interface* io = eval->getInterface();
-        if (io) {
+        if (io != nullptr) {
             std::wstring msg;
             unsigned int val;
             val = static_cast<unsigned int>(getTotalPhysicalMemoryByNelson() * 9.54e-7);

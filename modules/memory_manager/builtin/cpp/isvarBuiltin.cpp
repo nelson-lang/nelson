@@ -43,13 +43,13 @@ Nelson::MemoryGateway::isvarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         std::wstring scopeName = param1.getContentAsWideString();
         std::wstring varName = param2.getContentAsWideString();
         bool res = false;
-        if (scopeName.compare(L"global") == 0) {
+        if (scopeName == L"global") {
             res = IsVariable(eval, SCOPE_LEVEL::GLOBAL_SCOPE, varName);
-        } else if (scopeName.compare(L"base") == 0) {
+        } else if (scopeName == L"base") {
             res = IsVariable(eval, SCOPE_LEVEL::BASE_SCOPE, varName);
-        } else if (scopeName.compare(L"local") == 0) {
+        } else if (scopeName == L"local") {
             res = IsVariable(eval, SCOPE_LEVEL::LOCAL_SCOPE, varName);
-        } else if (scopeName.compare(L"caller") == 0) {
+        } else if (scopeName == L"caller") {
             res = IsVariable(eval, SCOPE_LEVEL::CALLER_SCOPE, varName);
         } else {
             Error(_W("Argument #1 : 'global', 'base', 'local' or 'caller' expected."));

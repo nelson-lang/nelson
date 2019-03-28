@@ -36,8 +36,8 @@ Nelson::MemoryGateway::assigninBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     std::string scopename = argIn[0].getContentAsCString();
-    if (!((scopename.compare("global") == 0) || (scopename.compare("base") == 0)
-            || (scopename.compare("caller") == 0) || (scopename.compare("local") == 0))) {
+    if (!((scopename == "global") || (scopename == "base")
+            || (scopename == "caller") || (scopename == "local"))) {
         Error(_W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' "
                  "expected."));
     }
@@ -48,26 +48,26 @@ Nelson::MemoryGateway::assigninBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     if (!IsValidVariableName(varname)) {
         Error(_W("#2 Argument must contain a valid variable name."));
     }
-    ArrayOf varValue = argIn[2];
     Context* context = eval->getContext();
     Scope* scope = nullptr;
-    if (scopename.compare("global") == 0) {
+    if (scopename == "global") {
         scope = context->getGlobalScope();
     }
-    if (scopename.compare("base") == 0) {
+    if (scopename == "base") {
         scope = context->getBaseScope();
     }
-    if (scopename.compare("caller") == 0) {
+    if (scopename == "caller") {
         scope = context->getCallerScope();
     }
-    if (scopename.compare("local") == 0) {
+    if (scopename == "local") {
         scope = context->getCurrentScope();
     }
-    if (scope && scope->isLockedVariable(varname)) {
+    if ((scope != nullptr) && scope->isLockedVariable(varname)) {
         Error(_W("Redefining permanent variable."));
     }
-    if (scope) {
-        scope->insertVariable(varname, varValue);
+    if (scope != nullptr) {
+        ArrayOf varValue = argIn[2];
+		scope->insertVariable(varname, varValue);
     }
     return retval;
 }

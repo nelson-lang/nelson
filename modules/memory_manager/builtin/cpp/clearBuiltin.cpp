@@ -50,15 +50,15 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         }
         if (argIn.size() == 1) {
             std::wstring arg1 = argIn[0].getContentAsWideString();
-            if (arg1.compare(L"global") == 0) {
+            if (arg1 == L"global") {
                 ClearAllGlobalVariables(eval);
-            } else if (arg1.compare(L"all") == 0) {
+            } else if (arg1 == L"all") {
                 ClearAllVariables(eval);
                 ClearAllGlobalVariables(eval);
                 ClearMacroCache(eval);
-            } else if (arg1.compare(L"variables") == 0) {
+            } else if (arg1 == L"variables") {
                 ClearAllVariables(eval);
-            } else if (arg1.compare(L"functions") == 0) {
+            } else if (arg1 == L"functions") {
                 ClearMacroCache(eval);
                 ClearAllPersistentVariables(eval);
             } else {
