@@ -28,7 +28,7 @@ Nelson::MatioGateway::loadmatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() < 1) {
+    if (argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring filename = argIn[0].getContentAsWideString();
@@ -43,5 +43,5 @@ Nelson::MatioGateway::loadmatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     return retval;
 }
 //=============================================================================
-}
+}  // namespace Nelson
 //=============================================================================

@@ -22,13 +22,13 @@
 namespace Nelson {
 //=============================================================================
 static bool
-isOption(std::wstring param)
+isOption(const std::wstring &param)
 {
     return param.size() > 2 && param[0] == L'-';
 }
 //=============================================================================
 static bool
-isValidOption(std::wstring option)
+isValidOption(const std::wstring &option)
 {
     return option == L"-append" || option == L"-nocompression" || option == L"-v4"
         || option == L"-v6" || option == L"-v7" || option == L"-v7.3";
@@ -41,7 +41,7 @@ Nelson::MatioGateway::savematBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     if (nLhs > 0) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() < 1) {
+    if (argIn.empty()) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring filename = argIn[0].getContentAsWideString();
@@ -83,5 +83,5 @@ Nelson::MatioGateway::savematBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     return retval;
 }
 //=============================================================================
-}
+}  // namespace Nelson
 //=============================================================================

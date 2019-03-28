@@ -42,5 +42,5 @@ Nelson::MatioGateway::ismatfileBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     return retval;
 }
 //=============================================================================
-}
+}  // namespace Nelson
 //=============================================================================
