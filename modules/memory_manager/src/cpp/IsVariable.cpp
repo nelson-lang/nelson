@@ -22,7 +22,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-IsVariable(Evaluator* eval, SCOPE_LEVEL scopeLevel, std::wstring name)
+IsVariable(Evaluator* eval, SCOPE_LEVEL scopeLevel, const std::wstring &name)
 {
     bool res = false;
     std::string uname = wstring_to_utf8(name);

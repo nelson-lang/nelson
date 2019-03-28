@@ -24,16 +24,16 @@
 //=============================================================================
 namespace Nelson {
 NLSMEMORY_MANAGER_IMPEXP bool
-ClearGlobalVariable(Evaluator* eval, std::wstring variable);
+ClearGlobalVariable(Evaluator* eval, const std::wstring &variable);
 NLSMEMORY_MANAGER_IMPEXP bool
-ClearGlobalVariable(Evaluator* eval, std::string variable);
+ClearGlobalVariable(Evaluator* eval, const std::string &variable);
 NLSMEMORY_MANAGER_IMPEXP bool
 ClearAllGlobalVariables(Evaluator* eval);
 NLSMEMORY_MANAGER_IMPEXP bool
 ClearAllPersistentVariables(Evaluator* eval);
 NLSMEMORY_MANAGER_IMPEXP bool
-ClearPersistentVariable(Evaluator* eval, std::wstring variable);
+ClearPersistentVariable(Evaluator* eval, const std::wstring &variable);
 NLSMEMORY_MANAGER_IMPEXP bool
-ClearPersistentVariable(Evaluator* eval, std::string variable);
+ClearPersistentVariable(Evaluator* eval, const std::string &variable);
 } // namespace Nelson
 //=============================================================================

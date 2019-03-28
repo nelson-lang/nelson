@@ -25,7 +25,7 @@
 namespace Nelson {
 //=============================================================================
 static bool
-callClearHandle(Evaluator* eval, Scope* scope, std::string variable)
+callClearHandle(Evaluator* eval, Scope* scope, const std::string &variable)
 {
     bool res = false;
     ArrayOf val;
@@ -36,7 +36,7 @@ callClearHandle(Evaluator* eval, Scope* scope, std::string variable)
             for (indexType k = 0; k < dimsVal.getElementCount(); k++) {
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
-                if (hlObj) {
+                if (hlObj != nullptr) {
                     std::wstring handleTypeName = hlObj->getCategory();
                     if (!handleTypeName.empty()) {
                         std::wstring ufunctionNameClearHandle = handleTypeName + L"_clear";
@@ -67,13 +67,13 @@ callClearHandle(Evaluator* eval, Scope* scope, std::string variable)
 }
 //=============================================================================
 bool
-ClearGlobalVariable(Evaluator* eval, std::wstring variable)
+ClearGlobalVariable(Evaluator* eval, const std::wstring &variable)
 {
     return ClearGlobalVariable(eval, wstring_to_utf8(variable));
 }
 //=============================================================================
 bool
-ClearGlobalVariable(Evaluator* eval, std::string variable)
+ClearGlobalVariable(Evaluator* eval, const std::string &variable)
 {
     Scope* globalScope = eval->getContext()->getGlobalScope();
     callClearHandle(eval, globalScope, variable);
@@ -100,10 +100,11 @@ ClearAllPersistentVariables(Evaluator* eval)
 {
     bool bUnlocked = true;
     stringVector names;
-    eval->getContext()->getGlobalScope()->getVariablesList(true, names);
+    Scope* globalScope = eval->getContext()->getGlobalScope();
+    globalScope->getVariablesList(true, names);
     for (const auto& name : names) {
-        if (!eval->getContext()->getGlobalScope()->isVariablePersistent(name)) {
-            if (!eval->getContext()->getGlobalScope()->deleteVariable(name)) {
+        if (!globalScope->isVariablePersistent(name)) {
+            if (!globalScope->deleteVariable(name)) {
                 bUnlocked = false;
             }
         }
@@ -112,13 +113,13 @@ ClearAllPersistentVariables(Evaluator* eval)
 }
 //=============================================================================
 bool
-ClearPersistentVariable(Evaluator* eval, std::wstring variable)
+ClearPersistentVariable(Evaluator* eval, const std::wstring &variable)
 {
     return ClearPersistentVariable(eval, wstring_to_utf8(variable));
 }
 //=============================================================================
 bool
-ClearPersistentVariable(Evaluator* eval, std::string variable)
+ClearPersistentVariable(Evaluator* eval, const std::string &variable)
 {
     bool res = false;
     FuncPtr func;

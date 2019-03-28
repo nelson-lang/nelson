@@ -50,7 +50,7 @@ stringVector
 Who(Evaluator* eval, Scope* scope, bool withPersistent)
 {
     stringVector names;
-    if (scope) {
+    if (scope != nullptr) {
         scope->getVariablesList(withPersistent, names);
     }
     if (!names.empty()) {
@@ -63,10 +63,10 @@ stringVector
 Who(Evaluator* eval, bool withPersistent)
 {
     stringVector names;
-    if (eval->getContext()->getCurrentScope()->getName() == "base") {
-        stringVector baseVariables = Who(eval, eval->getContext()->getBaseScope(), withPersistent);
-        stringVector globalVariables
-            = Who(eval, eval->getContext()->getGlobalScope(), withPersistent);
+    Context* context = eval->getContext();
+    if (context->getCurrentScope()->getName() == "base") {
+        stringVector baseVariables = Who(eval, context->getBaseScope(), withPersistent);
+        stringVector globalVariables = Who(eval, context->getGlobalScope(), withPersistent);
         names = baseVariables;
         names.insert(names.end(), globalVariables.begin(), globalVariables.end());
         if (!names.empty()) {
@@ -74,7 +74,7 @@ Who(Evaluator* eval, bool withPersistent)
             names.erase(std::unique(names.begin(), names.end()), names.end());
         }
     } else {
-        names = Who(eval, eval->getContext()->getCurrentScope(), withPersistent);
+        names = Who(eval, context->getCurrentScope(), withPersistent);
     }
     return names;
 }

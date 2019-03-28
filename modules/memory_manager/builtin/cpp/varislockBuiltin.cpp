@@ -63,7 +63,7 @@ Nelson::MemoryGateway::varislockBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     if (scopename.compare("local") == 0) {
         scope = context->getCurrentScope();
     }
-    if (!scope->isVariable(varname)) {
+    if (scope && !scope->isVariable(varname)) {
         Error(_W("#2 Argument must be an existing variable name."));
     }
     bool bIsLocked = IsLockedVariable(varname, scope);

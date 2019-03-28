@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSMEMORY_MANAGER_IMPEXP bool
-IsVariable(Evaluator* eval, SCOPE_LEVEL scopeLevel, std::wstring name);
+IsVariable(Evaluator* eval, SCOPE_LEVEL scopeLevel, const std::wstring &name);
 }
 //=============================================================================

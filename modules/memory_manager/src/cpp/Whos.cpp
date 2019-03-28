@@ -69,7 +69,7 @@ Whos(Evaluator* eval, const std::wstring& filename, const stringVector& names, b
     if (!PathFuncManager::getInstance()->find("isnh5file", funcDef)) {
         BuiltInFunctionDefManager::getInstance()->find("isnh5file", funcDef);
     }
-    if (funcDef) {
+    if (funcDef != nullptr) {
         ArrayOfVector inputArguments;
         inputArguments.push_back(ArrayOf::characterArrayConstructor(filename));
         ArrayOfVector res = funcDef->evaluateFunction(eval, inputArguments, 1);
@@ -84,7 +84,7 @@ Whos(Evaluator* eval, const std::wstring& filename, const stringVector& names, b
         if (!PathFuncManager::getInstance()->find("ismatfile", funcDef)) {
             BuiltInFunctionDefManager::getInstance()->find("ismatfile", funcDef);
         }
-        if (funcDef) {
+        if (funcDef != nullptr) {
             ArrayOfVector inputArguments;
             inputArguments.push_back(ArrayOf::characterArrayConstructor(filename));
             ArrayOfVector res = funcDef->evaluateFunction(eval, inputArguments, 1);

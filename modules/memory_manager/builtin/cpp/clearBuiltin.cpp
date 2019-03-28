@@ -77,9 +77,9 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             // clear global varname
             // clear varname1 varname2
             std::wstring arg1 = argIn[0].getContentAsWideString();
-            std::wstring arg2 = argIn[1].getContentAsWideString();
             Context* ctxt = eval->getContext();
             if (arg1 == L"global") {
+                std::wstring arg2 = argIn[1].getContentAsWideString();
                 if (ctxt->getGlobalScope()->isLockedVariable(wstring_to_utf8(arg2))) {
                     Error(_W("variable is locked:") + arg2);
                 }

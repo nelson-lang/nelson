@@ -63,7 +63,10 @@ Nelson::MemoryGateway::acquirevarBuiltin(Evaluator* eval, int nLhs, const ArrayO
         scope = context->getCurrentScope();
     }
     ArrayOf value;
-    bool bFind = scope->lookupVariable(varname, value);
+    bool bFind = false;
+    if (scope) {
+        bFind = scope->lookupVariable(varname, value);
+    }
     if (argIn.size() == 2) {
         if (bFind) {
             retval.push_back(value);

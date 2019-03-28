@@ -63,10 +63,12 @@ Nelson::MemoryGateway::assigninBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     if (scopename.compare("local") == 0) {
         scope = context->getCurrentScope();
     }
-    if (scope->isLockedVariable(varname)) {
+    if (scope && scope->isLockedVariable(varname)) {
         Error(_W("Redefining permanent variable."));
     }
-    scope->insertVariable(varname, varValue);
+    if (scope) {
+        scope->insertVariable(varname, varValue);
+    }
     return retval;
 }
 //=============================================================================

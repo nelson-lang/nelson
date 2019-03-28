@@ -81,23 +81,22 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         }
         if (filename.empty()) {
             variablesName = Who(eval, scope, false);
-        } else {
+            if (!names.empty()) {
+                stringVector result;
+                for (std::string n : names) {
+                    if (std::find(variablesName.begin(), variablesName.end(), n)
+                        != variablesName.end()) {
+                        result.push_back(n);
+                    }
+                }
+                variablesName = result;
+            }
+		} else {
             ArrayOf v = Who(eval, filename, names, nLhs == 1);
             if (nLhs == 1) {
                 retval.push_back(v);
             }
             return retval;
-        }
-        variablesName = Who(eval, scope, false);
-        if (!names.empty()) {
-            stringVector result;
-            for (std::string n : names) {
-                if (std::find(variablesName.begin(), variablesName.end(), n)
-                    != variablesName.end()) {
-                    result.push_back(n);
-                }
-            }
-            variablesName = result;
         }
     }
     if (nLhs == 0) {

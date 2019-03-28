@@ -63,7 +63,7 @@ Nelson::MemoryGateway::varlockBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (!IsValidVariableName(varname)) {
         Error(_W("#2 Argument must contain a valid variable name."));
     }
-    if (!scope->isVariable(varname)) {
+    if (scope && !scope->isVariable(varname)) {
         Error(_W("#2 Argument must be an existing variable name."));
     }
     LockVariable(varname, scope);

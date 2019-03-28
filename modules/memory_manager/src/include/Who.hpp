@@ -33,5 +33,5 @@ Who(Evaluator* eval, Scope* scope, bool withPersistent);
 NLSMEMORY_MANAGER_IMPEXP stringVector
 Who(Evaluator* eval, bool withPersistent);
 //=============================================================================
-}
+}  // namespace Nelson
 //=============================================================================

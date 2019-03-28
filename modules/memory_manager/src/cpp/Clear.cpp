@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 static bool
-callClearHandle(Evaluator* eval, Scope* scope, std::string variable)
+callClearHandle(Evaluator* eval, Scope* scope, const std::string &variable)
 {
     bool res = false;
     ArrayOf val;
@@ -35,7 +35,7 @@ callClearHandle(Evaluator* eval, Scope* scope, std::string variable)
             for (indexType k = 0; k < dimsVal.getElementCount(); k++) {
                 nelson_handle hl = qp[k];
                 HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
-                if (hlObj) {
+                if (hlObj != nullptr) {
                     std::wstring handleTypeName = hlObj->getCategory();
                     if (!handleTypeName.empty()) {
                         std::wstring ufunctionNameClearHandle = handleTypeName + L"_clear";
@@ -66,13 +66,13 @@ callClearHandle(Evaluator* eval, Scope* scope, std::string variable)
 }
 //=============================================================================
 bool
-ClearVariable(Evaluator* eval, std::wstring variable)
+ClearVariable(Evaluator* eval, const std::wstring &variable)
 {
     return ClearVariable(eval, wstring_to_utf8(variable));
 }
 //=============================================================================
 bool
-ClearVariable(Evaluator* eval, std::string variable)
+ClearVariable(Evaluator* eval, const std::string &variable)
 {
     Scope* currentScope = eval->getContext()->getCurrentScope();
     if (currentScope->getName() == "base") {
