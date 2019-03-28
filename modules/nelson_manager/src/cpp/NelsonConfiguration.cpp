@@ -45,7 +45,7 @@ NelsonConfiguration::getInstance()
 void
 NelsonConfiguration::destroy()
 {
-    if (m_pInstance) {
+    if (m_pInstance != nullptr) {
         delete m_pInstance;
         m_pInstance = nullptr;
     }
