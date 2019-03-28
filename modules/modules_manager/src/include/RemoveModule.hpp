@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSMODULES_MANAGER_IMPEXP bool
-RemoveModule(Evaluator* eval, std::wstring moduleshortname);
+RemoveModule(Evaluator* eval, const std::wstring &moduleshortname);
 }
 //=============================================================================

@@ -28,7 +28,7 @@
 namespace Nelson {
 //=============================================================================
 void
-AddModule(Evaluator* eval, std::wstring modulerootpath, std::wstring moduleshortname)
+AddModule(Evaluator* eval, const std::wstring &modulerootpath, const std::wstring &moduleshortname)
 {
     if (boost::filesystem::is_directory(modulerootpath)) {
         boost::filesystem::path pathmainloader(modulerootpath);
