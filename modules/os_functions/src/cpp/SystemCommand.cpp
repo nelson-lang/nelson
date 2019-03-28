@@ -109,7 +109,7 @@ SystemCommandAttachedW_windows(const std::wstring& command, int& ierr)
         Error(_W("Cannot call unix command."));
     } else {
         char psBuffer[BUFFER_POPEN];
-        if (feof(pPipe)) {
+        if (feof(pPipe) != 0) {
             ierr = _pclose(pPipe);
             pPipe = nullptr;
         } else {
@@ -117,11 +117,11 @@ SystemCommandAttachedW_windows(const std::wstring& command, int& ierr)
                 ierr = _pclose(pPipe);
                 pPipe = nullptr;
             } else {
-                while (fgets(psBuffer, BUFFER_POPEN, pPipe)) {
+                while (fgets(psBuffer, BUFFER_POPEN, pPipe) != nullptr) {
                     OemToAnsi(psBuffer, psBuffer);
                     result.append(utf8_to_wstring(psBuffer));
                 }
-                if (feof(pPipe)) {
+                if (feof(pPipe) != 0) {
                     ierr = _pclose(pPipe);
                     pPipe = nullptr;
                 } else {

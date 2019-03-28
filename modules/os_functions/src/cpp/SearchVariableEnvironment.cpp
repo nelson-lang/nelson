@@ -31,21 +31,21 @@ splitEnvironmentPath(const std::wstring& envPaths)
     wstringVector result;
     size_t previous = 0;
 #ifdef _MSC_VER
-    const wchar_t delimiter[2] = L";";
+    const wchar_t delimiter = L';';
 #else
-    const wchar_t delimiter[2] = L":";
+    const wchar_t delimiter = L':';
 #endif
     size_t index = envPaths.find(delimiter);
     while (index != std::string::npos) {
         std::wstring s = envPaths.substr(previous, index - previous);
-        if (s.compare(L"") != 0) {
+        if (s != L"") {
             result.push_back(s);
         }
         previous = index + 1;
         index = envPaths.find(delimiter, previous);
     }
     std::wstring s = envPaths.substr(previous);
-    if (s.compare(L"") != 0) {
+    if (s != L"") {
         result.push_back(s);
     }
     return result;

@@ -27,7 +27,7 @@
 namespace Nelson {
 //=============================================================================
 std::wstring
-GetVariableEnvironment(std::wstring envVarName, std::wstring defaultValue)
+GetVariableEnvironment(const std::wstring& envVarName, const std::wstring &defaultValue)
 {
     std::wstring str(defaultValue);
 #ifdef _MSC_VER
@@ -42,7 +42,7 @@ GetVariableEnvironment(std::wstring envVarName, std::wstring defaultValue)
     DWORD dwRet = ::GetEnvironmentVariableW(envVarName.c_str(), buf, DEFAULT_SIZE_ENV);
     if (dwRet == 0) {
         // error
-        if (buf) {
+        if (buf != nullptr) {
             delete[] buf;
             buf = nullptr;
         }
@@ -61,7 +61,7 @@ GetVariableEnvironment(std::wstring envVarName, std::wstring defaultValue)
     }
     if (dwRet == 0) {
         // error
-        if (buf) {
+        if (buf != nullptr) {
             delete[] buf;
             buf = nullptr;
         }

@@ -41,14 +41,14 @@ splitEnvironmentPath(std::wstring envPaths)
     size_t index = envPaths.find(delimiter);
     while (index != std::string::npos) {
         std::wstring s = envPaths.substr(previous, index - previous);
-        if (s.compare(L"") != 0) {
+        if (s != L"") {
             result.push_back(s);
         }
         previous = index + 1;
         index = envPaths.find(delimiter, previous);
     }
     std::wstring s = envPaths.substr(previous);
-    if (s.compare(L"") != 0) {
+    if (s != L"") {
         result.push_back(s);
     }
     return result;
@@ -90,7 +90,7 @@ AddPathToEnvironmentVariable(std::wstring envVar, std::wstring pathToAdd)
 {
     std::wstring env;
 #ifdef _MSC_VER
-    env = GetVariableEnvironment(envVar, std::wstring(L""));
+    env = GetVariableEnvironment(envVar, std::wstring());
 #else
     char const* tmp = std::getenv(wstring_to_utf8(envVar).c_str());
     if (tmp) {

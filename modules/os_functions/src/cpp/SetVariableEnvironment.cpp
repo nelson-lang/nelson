@@ -29,7 +29,7 @@ NLSOS_FUNCTIONS_IMPEXP bool
 SetVariableEnvironmentW(std::wstring envVarName, std::wstring Value)
 {
 #ifdef _MSC_VER
-    if (::SetEnvironmentVariableW(envVarName.c_str(), Value.c_str())) {
+    if (::SetEnvironmentVariableW(envVarName.c_str(), Value.c_str()) != 0) {
         return true;
     }
 #else

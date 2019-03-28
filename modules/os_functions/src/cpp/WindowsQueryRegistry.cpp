@@ -36,9 +36,9 @@ isValidHkeyFromString(const std::wstring& hkeystring);
 static HKEY
 getHkeyFromString(const std::wstring& hkeystring);
 static bool
-openRegistryKey(HKEY rootKey, std::wstring subKey, HKEY* ouputHkey);
+openRegistryKey(HKEY rootKey, const std::wstring &subKey, HKEY* ouputHkey);
 static bool
-getRegistryKeyInfo(HKEY rootKey, std::wstring subKey, size_t& keysNumber, size_t& valuesNumber);
+getRegistryKeyInfo(HKEY rootKey, const std::wstring &subKey, size_t& keysNumber, size_t& valuesNumber);
 #endif
 //=============================================================================
 ArrayOf
@@ -47,7 +47,7 @@ windowsQueryRegistryAllValuesNames(
 {
     ArrayOf res;
 #ifdef _MSC_VER
-    errorMessage = L"";
+    errorMessage.clear();
     initializeHkeyMap();
     if (!isValidHkeyFromString(rootkey)) {
         errorMessage = _W("Invalid ROOTKEY value.");
@@ -55,7 +55,7 @@ windowsQueryRegistryAllValuesNames(
         HKEY hroot = getHkeyFromString(rootkey);
         size_t nbKeys = 0;
         size_t nbValues = 0;
-        if (getRegistryKeyInfo(hroot, subkey, nbKeys, nbValues) == false) {
+        if (static_cast<int>(getRegistryKeyInfo(hroot, subkey, nbKeys, nbValues)) == false) {
             errorMessage = _W("Cannot get KEY information.");
         } else {
             HKEY desiredHkey = nullptr;
@@ -91,7 +91,7 @@ windowsQueryRegistryValueName(const std::wstring& rootkey, const std::wstring& s
 {
     ArrayOf res;
 #ifdef _MSC_VER
-    errorMessage = L"";
+    errorMessage.clear();
     initializeHkeyMap();
     if (!isValidHkeyFromString(rootkey)) {
         errorMessage = _W("Invalid ROOTKEY value.");
@@ -176,7 +176,7 @@ getHkeyFromString(const std::wstring& hkeystring)
 }
 //=============================================================================
 bool
-openRegistryKey(HKEY rootKey, std::wstring subKey, HKEY* ouputHkey)
+openRegistryKey(HKEY rootKey, const std::wstring &subKey, HKEY* ouputHkey)
 {
     DWORD OpensKeyOptions = KEY_ENUMERATE_SUB_KEYS | KEY_QUERY_VALUE | KEY_WOW64_32KEY;
     if (RegOpenKeyEx(rootKey, subKey.c_str(), 0, OpensKeyOptions, ouputHkey) == ERROR_SUCCESS) {
@@ -194,7 +194,7 @@ openRegistryKey(HKEY rootKey, std::wstring subKey, HKEY* ouputHkey)
 }
 //=============================================================================
 bool
-getRegistryKeyInfo(HKEY rootKey, std::wstring subKey, size_t& keysNumber, size_t& valuesNumber)
+getRegistryKeyInfo(HKEY rootKey, const std::wstring &subKey, size_t& keysNumber, size_t& valuesNumber)
 {
     keysNumber = 0;
     valuesNumber = 0;
@@ -209,7 +209,7 @@ getRegistryKeyInfo(HKEY rootKey, std::wstring subKey, size_t& keysNumber, size_t
     DWORD cbMaxValueData = 0;
     DWORD cbSecurityDescriptor = 0;
     FILETIME ftLastWriteTime;
-    if (openRegistryKey(rootKey, subKey, &desiredKey) == false) {
+    if (static_cast<int>(openRegistryKey(rootKey, subKey, &desiredKey)) == false) {
         return false;
     }
     // https://msdn.microsoft.com/en-us/library/windows/desktop/ms724902(v=vs.85).aspx
