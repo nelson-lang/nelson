@@ -293,9 +293,9 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         if (classname == NLS_FUNCTION_HANDLE_STR) {
             ArrayOf functionNameAsArray = unpackMPI(buffer, bufsize, packpos, comm);
             if (functionNameAsArray.isRowVectorCharacterArray()) {
-                std::wstring functionName = functionNameAsArray.getContentAsWideString();
                 Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
                 if (eval) {
+                    std::wstring functionName = functionNameAsArray.getContentAsWideString();
                     function_handle fptr = StringToFunctionHandle(eval, functionName);
                     if (fptr == 0) {
                         Error(_W("A valid function name expected."));
@@ -313,7 +313,7 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
             }
             ArrayOf returnedArray = ArrayOf(NLS_STRUCT_ARRAY, outDim, dp, false, fieldnames);
-            if (classname != "") {
+            if (!classname.empty()) {
                 returnedArray.setStructType(classname);
             }
             return returnedArray;
