@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 NLSQML_ENGINE_IMPEXP ArrayOf
-findchildrenQObject(ArrayOf H, std::wstring fieldname, bool bRecursively = false);
+findchildrenQObject(ArrayOf H, const std::wstring &fieldname, bool bRecursively = false);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

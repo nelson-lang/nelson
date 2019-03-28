@@ -212,7 +212,7 @@ QVariantToArrayOf(QVariant Q)
         int count = qbytearray.count();
         const char* data = qbytearray.data();
         int8* arrayInt8 = (int8*)ArrayOf::allocateArrayOf(NLS_INT8, count);
-        for (int k = 0; k < count; k++) {
+        for (size_t k = 0; k < (size_t)count; k++) {
             arrayInt8[k] = (int8)data[k];
         }
         Dimensions dims(1, count);

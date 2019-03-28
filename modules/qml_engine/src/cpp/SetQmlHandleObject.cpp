@@ -37,7 +37,7 @@
 namespace Nelson {
 //=============================================================================
 void
-SetQmlHandleObject(ArrayOf A, std::wstring propertyName, ArrayOf B)
+SetQmlHandleObject(ArrayOf A, const std::wstring &propertyName, ArrayOf B)
 {
     ArrayOf res;
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
@@ -55,9 +55,11 @@ SetQmlHandleObject(ArrayOf A, std::wstring propertyName, ArrayOf B)
         if (hlObjParent == nullptr) {
             Error(_W("QObject valid handle expected."));
         }
-        if (hlObjParent->getCategory() != QOBJECT_CATEGORY_STR) {
-            Error(_W("QObject handle expected."));
-        }
+        else {
+            if (hlObjParent->getCategory() != QOBJECT_CATEGORY_STR) {
+                Error(_W("QObject handle expected."));
+            }
+		}
         QmlHandleObject* qmlhandleobjparent = (QmlHandleObject*)hlObjParent;
         void* ptr = qmlhandleobjparent->getPointer();
         if (ptr == nullptr) {

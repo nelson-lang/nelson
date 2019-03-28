@@ -29,7 +29,7 @@ namespace Nelson {
 #define NB_PARAMS_MAX 10
 //=============================================================================
 ArrayOf
-invokeQObject(ArrayOf A, std::wstring wmethodname, ArrayOfVector params, bool& haveReturnValue)
+invokeQObject(ArrayOf A, const std::wstring &wmethodname, const ArrayOfVector &params, bool& haveReturnValue)
 {
     ArrayOf res;
     haveReturnValue = false;

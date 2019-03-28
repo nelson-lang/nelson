@@ -66,7 +66,7 @@ dispChildren(QObject* qobj, std::wstring& msg)
 }
 //=============================================================================
 static void
-dispQRect(QRect qrect, const std::wstring& fieldname, std::wstring& msg)
+dispQRect(const QRect &qrect, const std::wstring& fieldname, std::wstring& msg)
 {
     int x = qrect.x();
     int y = qrect.y();
@@ -78,7 +78,7 @@ dispQRect(QRect qrect, const std::wstring& fieldname, std::wstring& msg)
 }
 //=============================================================================
 static void
-dispQRectF(QRectF qrectf, const std::wstring& fieldname, std::wstring& msg)
+dispQRectF(const QRectF &qrectf, const std::wstring& fieldname, std::wstring& msg)
 {
     double x = qrectf.x();
     double y = qrectf.y();
@@ -124,7 +124,7 @@ dispQPoint(QPoint qpoint, const std::wstring& fieldname, std::wstring& msg)
 }
 //=============================================================================
 static void
-dispQPointF(QPointF qpointf, const std::wstring& fieldname, std::wstring& msg)
+dispQPointF(const QPointF &qpointf, const std::wstring& fieldname, std::wstring& msg)
 {
     double x = qpointf.x();
     double y = qpointf.y();
@@ -139,7 +139,7 @@ dispQPointF(QPointF qpointf, const std::wstring& fieldname, std::wstring& msg)
 }
 //=============================================================================
 static void
-dispQColor(QColor qcolor, const std::wstring& fieldname, std::wstring& msg)
+dispQColor(const QColor &qcolor, const std::wstring& fieldname, std::wstring& msg)
 {
     int r = qcolor.red();
     int g = qcolor.green();

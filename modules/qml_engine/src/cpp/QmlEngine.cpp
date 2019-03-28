@@ -62,7 +62,7 @@ allocateQmlHandle(QObject* qobj)
 }
 //=============================================================================
 QmlHandleObject*
-QmlEngine::setData(std::wstring data)
+QmlEngine::setData(const std::wstring &data)
 {
     QPointer<QQmlComponent> component = new QQmlComponent(qmlengine);
     if (component) {
@@ -74,11 +74,12 @@ QmlEngine::setData(std::wstring data)
         if (!topLevel && component->isError()) {
             component->deleteLater();
             Error(QStringTowstring(component->errorString()));
-        }
-        std::string classname = std::string(topLevel->metaObject()->className());
-        if (topLevel->isWindowType() || (classname == "QQuickAbstractMessageDialog")) {
-            QQuickWindow* QMainWindowParent = (QQuickWindow*)GetMainGuiObject();
-            topLevel->setParent(QMainWindowParent);
+        } else {
+            std::string classname = std::string(topLevel->metaObject()->className());
+            if (topLevel->isWindowType() || (classname == "QQuickAbstractMessageDialog")) {
+                QQuickWindow* QMainWindowParent = (QQuickWindow*)GetMainGuiObject();
+                topLevel->setParent(QMainWindowParent);
+            }
         }
         return allocateQmlHandle(topLevel);
     }
@@ -86,7 +87,7 @@ QmlEngine::setData(std::wstring data)
 }
 //=============================================================================
 QmlHandleObject*
-QmlEngine::loadQmlFile(std::wstring filename)
+QmlEngine::loadQmlFile(const std::wstring &filename)
 {
     QPointer<QQmlComponent> component = new QQmlComponent(qmlengine);
     if (component) {
@@ -109,7 +110,7 @@ QmlEngine::loadQmlFile(std::wstring filename)
 }
 //=============================================================================
 QmlHandleObject*
-QmlEngine::createQQuickView(std::wstring filename)
+QmlEngine::createQQuickView(const std::wstring &filename)
 {
     QObject* topLevel = nullptr;
     QFile qf(wstringToQString(filename));
@@ -184,7 +185,7 @@ QmlEngine::pluginPathList()
 }
 //=============================================================================
 void
-QmlEngine::addImportPath(std::wstring path)
+QmlEngine::addImportPath(const std::wstring &path)
 {
     if (qmlengine == nullptr) {
         Error(_W("QML engine not initialized."));
@@ -193,7 +194,7 @@ QmlEngine::addImportPath(std::wstring path)
 }
 //=============================================================================
 void
-QmlEngine::addPluginPath(std::wstring path)
+QmlEngine::addPluginPath(const std::wstring &path)
 {
     if (qmlengine == nullptr) {
         Error(_W("QML engine not initialized."));
@@ -211,7 +212,7 @@ QmlEngine::offlineStoragePath()
 }
 //=============================================================================
 void
-QmlEngine::setOfflineStoragePath(std::wstring dir)
+QmlEngine::setOfflineStoragePath(const std::wstring &dir)
 {
     if (qmlengine == nullptr) {
         Error(_W("QML engine not initialized."));
@@ -234,7 +235,7 @@ errorMessage(QJSValue evaluationResult)
     if (evaluationResult.isError()) {
         std::wstring filename = QStringTowstring(evaluationResult.property("fileName").toString());
         std::wstring msg;
-        if (filename == L"") {
+        if (filename.empty()) {
             msg = _W("Uncaught exception at line") + L" "
                 + QStringTowstring(evaluationResult.property("lineNumber").toString()) + L"\n"
                 + QStringTowstring(evaluationResult.toString());
@@ -263,7 +264,7 @@ QJsValueToQVariant(QJSValue value)
 }
 //=============================================================================
 ArrayOf
-QmlEngine::evaluateString(std::wstring program, bool& withOuput)
+QmlEngine::evaluateString(const std::wstring &program, bool& withOuput)
 {
     if (qmlengine == nullptr) {
         Error(_W("QML engine not initialized."));
@@ -278,7 +279,7 @@ QmlEngine::evaluateString(std::wstring program, bool& withOuput)
 }
 //=============================================================================
 ArrayOf
-QmlEngine::evaluateFile(std::wstring filename, bool& withOuput)
+QmlEngine::evaluateFile(const std::wstring &filename, bool& withOuput)
 {
     QFile qf(wstringToQString(filename));
     if (!qf.exists()) {

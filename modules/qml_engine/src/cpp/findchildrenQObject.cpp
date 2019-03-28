@@ -25,7 +25,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-findchildrenQObject(ArrayOf H, std::wstring fieldname, bool bRecursively)
+findchildrenQObject(ArrayOf H, const std::wstring &fieldname, bool bRecursively)
 {
     ArrayOf res = ArrayOf::emptyConstructor(0, 0);
     res.promoteType(NLS_HANDLE);
