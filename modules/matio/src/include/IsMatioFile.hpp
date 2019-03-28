@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 NLSMATIO_IMPEXP void
-IsMatioFile(const wstringVector &filenames, ArrayOf& results, ArrayOf& versions);
+IsMatioFile(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -24,7 +24,8 @@
 namespace Nelson {
 //=============================================================================
 NLSQML_ENGINE_IMPEXP ArrayOf
-invokeQObject(ArrayOf A, const std::wstring &wmethodname, const ArrayOfVector &params, bool& haveReturnValue);
+invokeQObject(
+    ArrayOf A, const std::wstring& wmethodname, const ArrayOfVector& params, bool& haveReturnValue);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

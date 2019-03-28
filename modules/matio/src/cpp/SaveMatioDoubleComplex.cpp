@@ -22,7 +22,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioDoubleComplex(const std::string &variableName, ArrayOf variableValue)
+SaveMatioDoubleComplex(const std::string& variableName, ArrayOf variableValue)
 {
     Dimensions variableDims = variableValue.getDimensions();
     indexType rank;
@@ -47,8 +47,7 @@ SaveMatioDoubleComplex(const std::string &variableName, ArrayOf variableValue)
             delete[] re;
             return nullptr;
         }
-        auto* ptrZ
-            = reinterpret_cast<doublecomplex*>((double*)variableValue.getDataPointer());
+        auto* ptrZ = reinterpret_cast<doublecomplex*>((double*)variableValue.getDataPointer());
         for (indexType k = 0; k < nbElements; ++k) {
             re[k] = ptrZ[k].real();
             im[k] = ptrZ[k].imag();
@@ -63,5 +62,5 @@ SaveMatioDoubleComplex(const std::string &variableName, ArrayOf variableValue)
     return matVariable;
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================

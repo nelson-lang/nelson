@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 NLSQML_ENGINE_IMPEXP void
-UndefineDynamicProperty(ArrayOf A, const std::wstring &propertyName);
+UndefineDynamicProperty(ArrayOf A, const std::wstring& propertyName);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -22,7 +22,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioSingleComplex(const std::string &variableName, ArrayOf variableValue)
+SaveMatioSingleComplex(const std::string& variableName, ArrayOf variableValue)
 {
     Dimensions variableDims = variableValue.getDimensions();
     indexType rank;
@@ -47,8 +47,7 @@ SaveMatioSingleComplex(const std::string &variableName, ArrayOf variableValue)
             delete[] re;
             return nullptr;
         }
-        auto* ptrZ
-            = reinterpret_cast<singlecomplex*>((single*)variableValue.getDataPointer());
+        auto* ptrZ = reinterpret_cast<singlecomplex*>((single*)variableValue.getDataPointer());
         for (indexType k = 0; k < nbElements; ++k) {
             re[k] = ptrZ[k].real();
             im[k] = ptrZ[k].imag();
@@ -63,5 +62,5 @@ SaveMatioSingleComplex(const std::string &variableName, ArrayOf variableValue)
     return matVariable;
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================

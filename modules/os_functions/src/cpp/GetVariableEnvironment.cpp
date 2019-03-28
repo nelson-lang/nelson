@@ -27,7 +27,7 @@
 namespace Nelson {
 //=============================================================================
 std::wstring
-GetVariableEnvironment(const std::wstring& envVarName, const std::wstring &defaultValue)
+GetVariableEnvironment(const std::wstring& envVarName, const std::wstring& defaultValue)
 {
     std::wstring str(defaultValue);
 #ifdef _MSC_VER

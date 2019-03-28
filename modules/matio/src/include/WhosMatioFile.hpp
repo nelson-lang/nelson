@@ -25,7 +25,8 @@
 namespace Nelson {
 //=============================================================================
 NLSMATIO_IMPEXP ArrayOf
-WhosMatioFile(Interface* io, const std::wstring& filename, const wstringVector &names, bool asStruct);
+WhosMatioFile(
+    Interface* io, const std::wstring& filename, const wstringVector& names, bool asStruct);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

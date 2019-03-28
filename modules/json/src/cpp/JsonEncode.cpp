@@ -34,7 +34,7 @@ json_append_char(char c)
 }
 //=============================================================================
 static void
-json_append_string(const std::string &str)
+json_append_string(const std::string& str)
 {
     jsonString.append(str);
 }

@@ -60,8 +60,7 @@ RngSetSeed(Evaluator* eval, double seed)
         auto s = static_cast<uint32>(seed);
         randEngine->setSeed(s);
     } break;
-    default: { } break;
-    }
+    default: { } break; }
 }
 //=============================================================================
 ArrayOf
@@ -86,8 +85,7 @@ RngGetSeed(Evaluator* eval)
         auto* randEngine = static_cast<RandomLaggedFibonacci607*>(eval->RandomEngine);
         res = ArrayOf::uint32Constructor(randEngine->getSeed());
     } break;
-    default: { } break;
-    }
+    default: { } break; }
     return res;
 }
 //=============================================================================
@@ -140,8 +138,7 @@ RngGetState(Evaluator* eval)
         dims[1] = 1;
         state = ArrayOf(NLS_UINT32, dims, mat, false);
     } break;
-    default: { } break;
-    }
+    default: { } break; }
     return state;
 }
 //=============================================================================
@@ -187,8 +184,7 @@ RngShuffle(Evaluator* eval)
         auto* randEngine = static_cast<RandomLaggedFibonacci607*>(eval->RandomEngine);
         randEngine->setSeed(newseed);
     } break;
-    default: {} break;
-    }
+    default: { } break; }
 }
 //=============================================================================
 bool
@@ -210,8 +206,7 @@ RngSetEngine(Evaluator* eval, double seed, const std::wstring& engineName)
         case RNG_LAGGED_FIBONACCI_607: {
             eval->RandomEngine = (void*)new RandomLaggedFibonacci607();
         } break;
-        default: { } break;
-        }
+        default: { } break; }
         if (eval->RandomEngine == nullptr) {
             Error(_W("random engine not initialized."));
         }
@@ -248,11 +243,11 @@ RngSetState(Evaluator* eval, ArrayOf st)
                     auto* randEngine = static_cast<RandomMersenneTwister*>(eval->RandomEngine);
                     randEngine->setState(vec, st.getDimensions().getElementCount());
                     return true;
-                } 
-                    std::wstring msg = _W("dimensions of state must be") + L" "
-                        + std::to_wstring(randEngine->getStateSize()) + std::wstring(L"x1.");
-                    Error(msg);
-                
+                }
+                std::wstring msg = _W("dimensions of state must be") + L" "
+                    + std::to_wstring(randEngine->getStateSize()) + std::wstring(L"x1.");
+                Error(msg);
+
             } else {
                 std::wstring msg = _W("dimensions of state must be") + L" "
                     + std::to_wstring(randEngine->getStateSize()) + std::wstring(L"x1.");
@@ -267,15 +262,14 @@ RngSetState(Evaluator* eval, ArrayOf st)
             if (st.isVector()) {
                 if (st.getDimensions().getElementCount() == randEngine->getStateSize()) {
                     auto* vec = (uint64*)st.getDataPointer();
-                    auto* randEngine
-                        = static_cast<RandomMersenneTwister64*>(eval->RandomEngine);
+                    auto* randEngine = static_cast<RandomMersenneTwister64*>(eval->RandomEngine);
                     randEngine->setState(vec, st.getDimensions().getElementCount());
                     return true;
-                } 
-                    std::wstring msg = _W("dimensions of state must be") + L" "
-                        + std::to_wstring(randEngine->getStateSize()) + std::wstring(L"x1.");
-                    Error(msg);
-                
+                }
+                std::wstring msg = _W("dimensions of state must be") + L" "
+                    + std::to_wstring(randEngine->getStateSize()) + std::wstring(L"x1.");
+                Error(msg);
+
             } else {
                 std::wstring msg = _W("dimensions of state must be") + L" "
                     + std::to_wstring(randEngine->getStateSize()) + std::wstring(L"x1.");
@@ -290,15 +284,14 @@ RngSetState(Evaluator* eval, ArrayOf st)
             if (st.isVector()) {
                 if (st.getDimensions().getElementCount() == randEngine->getStateSize()) {
                     auto* vec = (uint32*)st.getDataPointer();
-                    auto* randEngine
-                        = static_cast<RandomLaggedFibonacci607*>(eval->RandomEngine);
+                    auto* randEngine = static_cast<RandomLaggedFibonacci607*>(eval->RandomEngine);
                     randEngine->setState(vec, st.getDimensions().getElementCount());
                     return true;
-                } 
-                    std::wstring msg = _W("dimensions of state must be") + L" "
-                        + std::to_wstring(randEngine->getStateSize()) + std::wstring(L"x1.");
-                    Error(msg);
-                
+                }
+                std::wstring msg = _W("dimensions of state must be") + L" "
+                    + std::to_wstring(randEngine->getStateSize()) + std::wstring(L"x1.");
+                Error(msg);
+
             } else {
                 std::wstring msg = _W("dimensions of state must be") + L" "
                     + std::to_wstring(randEngine->getStateSize()) + std::wstring(L"x1.");
@@ -308,9 +301,8 @@ RngSetState(Evaluator* eval, ArrayOf st)
             Error(_W("type of state must be uint32."));
         }
     } break;
-    default: { } break;
-    }
+    default: { } break; }
     return false;
 }
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================

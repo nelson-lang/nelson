@@ -27,7 +27,7 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-ReciprocalConditionNumber_Double(const ArrayOf &A)
+ReciprocalConditionNumber_Double(const ArrayOf& A)
 {
     ArrayOf rcond;
     Dimensions dimsA = A.getDimensions();
@@ -142,7 +142,7 @@ ReciprocalConditionNumber_DoubleComplex(ArrayOf A)
 }
 //=============================================================================
 static ArrayOf
-ReciprocalConditionNumber_Single(const ArrayOf &A)
+ReciprocalConditionNumber_Single(const ArrayOf& A)
 {
     ArrayOf rcond;
     Dimensions dimsA = A.getDimensions();
@@ -199,7 +199,7 @@ ReciprocalConditionNumber_Single(const ArrayOf &A)
 }
 //=============================================================================
 static ArrayOf
-ReciprocalConditionNumber_SingleComplex(const ArrayOf &A)
+ReciprocalConditionNumber_SingleComplex(const ArrayOf& A)
 {
     ArrayOf rcond;
     Dimensions dimsA = A.getDimensions();
@@ -257,7 +257,7 @@ ReciprocalConditionNumber_SingleComplex(const ArrayOf &A)
 }
 //=============================================================================
 ArrayOf
-ReciprocalConditionNumber(const ArrayOf &A)
+ReciprocalConditionNumber(const ArrayOf& A)
 {
     ArrayOf rcond;
     bool isSupportedTypes

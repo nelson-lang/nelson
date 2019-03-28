@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioLogical(const std::string &variableName, ArrayOf variableValue);
+SaveMatioLogical(const std::string& variableName, ArrayOf variableValue);
 //=============================================================================
 }
 //=============================================================================

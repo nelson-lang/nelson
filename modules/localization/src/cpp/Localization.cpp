@@ -79,9 +79,9 @@ Localization::initCoreDynamicLibrary()
         char* buf = nullptr;
         try {
             buf = new char[MAX_PATH];
-        } catch (std::bad_alloc &){
-			buf = nullptr;
-		}
+        } catch (std::bad_alloc&) {
+            buf = nullptr;
+        }
         if (buf) {
             DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
             if (dwRet) {
@@ -137,7 +137,7 @@ Localization::getNelsonPathDynamic()
 }
 //=============================================================================
 void
-Localization::setLanguageEnvironment(const std::wstring &lang)
+Localization::setLanguageEnvironment(const std::wstring& lang)
 {
     if (isSupportedLanguage(lang)) {
         std::wstring localesPath = getNelsonPathDynamic() + L"/locale/";
@@ -201,7 +201,7 @@ Localization::getDefaultLanguage()
 }
 //=============================================================================
 bool
-Localization::setLanguage(const std::wstring &lang, bool save)
+Localization::setLanguage(const std::wstring& lang, bool save)
 {
     if (isSupportedLanguage(lang)) {
         setLanguageEnvironment(lang);
@@ -273,11 +273,11 @@ Localization::getManagedLanguages(wstringVector& langs)
 }
 //=============================================================================
 std::wstring
-Localization::initializeLocalization(const std::wstring &lang)
+Localization::initializeLocalization(const std::wstring& lang)
 {
     std::wstring effectiveLang = L"en_US";
     std::wstring _lang(lang);
-	initLanguageSupported();
+    initLanguageSupported();
     if (lang.empty()) {
         std::wstring language_saved;
         std::wstring prefDir = getPreferencesPathDynamic();
@@ -289,7 +289,7 @@ Localization::initializeLocalization(const std::wstring &lang)
 #else
         std::ifstream jsonFile(wstring_to_utf8(prefFile));
 #endif
-		if (jsonFile.is_open()) {
+        if (jsonFile.is_open()) {
             while (safegetline(jsonFile, tmpline)) {
                 jsonString += tmpline + '\n';
             }
@@ -318,7 +318,7 @@ Localization::initializeLocalization(const std::wstring &lang)
 }
 //=============================================================================
 bool
-Localization::isSupportedLanguage(const std::wstring &lang)
+Localization::isSupportedLanguage(const std::wstring& lang)
 {
     for (size_t k = 0; k < LanguageSupported.size(); k++) {
         if (lang == LanguageSupported[k]) {

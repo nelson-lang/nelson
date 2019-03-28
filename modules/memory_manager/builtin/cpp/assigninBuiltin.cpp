@@ -36,8 +36,8 @@ Nelson::MemoryGateway::assigninBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     std::string scopename = argIn[0].getContentAsCString();
-    if (!((scopename == "global") || (scopename == "base")
-            || (scopename == "caller") || (scopename == "local"))) {
+    if (!((scopename == "global") || (scopename == "base") || (scopename == "caller")
+            || (scopename == "local"))) {
         Error(_W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' "
                  "expected."));
     }
@@ -67,7 +67,7 @@ Nelson::MemoryGateway::assigninBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     }
     if (scope != nullptr) {
         ArrayOf varValue = argIn[2];
-		scope->insertVariable(varname, varValue);
+        scope->insertVariable(varname, varValue);
     }
     return retval;
 }

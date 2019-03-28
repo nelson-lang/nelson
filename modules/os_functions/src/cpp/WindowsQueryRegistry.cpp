@@ -36,9 +36,10 @@ isValidHkeyFromString(const std::wstring& hkeystring);
 static HKEY
 getHkeyFromString(const std::wstring& hkeystring);
 static bool
-openRegistryKey(HKEY rootKey, const std::wstring &subKey, HKEY* ouputHkey);
+openRegistryKey(HKEY rootKey, const std::wstring& subKey, HKEY* ouputHkey);
 static bool
-getRegistryKeyInfo(HKEY rootKey, const std::wstring &subKey, size_t& keysNumber, size_t& valuesNumber);
+getRegistryKeyInfo(
+    HKEY rootKey, const std::wstring& subKey, size_t& keysNumber, size_t& valuesNumber);
 #endif
 //=============================================================================
 ArrayOf
@@ -176,7 +177,7 @@ getHkeyFromString(const std::wstring& hkeystring)
 }
 //=============================================================================
 bool
-openRegistryKey(HKEY rootKey, const std::wstring &subKey, HKEY* ouputHkey)
+openRegistryKey(HKEY rootKey, const std::wstring& subKey, HKEY* ouputHkey)
 {
     DWORD OpensKeyOptions = KEY_ENUMERATE_SUB_KEYS | KEY_QUERY_VALUE | KEY_WOW64_32KEY;
     if (RegOpenKeyEx(rootKey, subKey.c_str(), 0, OpensKeyOptions, ouputHkey) == ERROR_SUCCESS) {
@@ -194,7 +195,8 @@ openRegistryKey(HKEY rootKey, const std::wstring &subKey, HKEY* ouputHkey)
 }
 //=============================================================================
 bool
-getRegistryKeyInfo(HKEY rootKey, const std::wstring &subKey, size_t& keysNumber, size_t& valuesNumber)
+getRegistryKeyInfo(
+    HKEY rootKey, const std::wstring& subKey, size_t& keysNumber, size_t& valuesNumber)
 {
     keysNumber = 0;
     valuesNumber = 0;

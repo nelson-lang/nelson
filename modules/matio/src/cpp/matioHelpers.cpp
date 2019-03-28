@@ -49,5 +49,5 @@ convertDimensionsForMatVar(Dimensions variableDims, indexType& rank)
     return dims;
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================

@@ -30,16 +30,16 @@ public:
     static QmlEngine*
     getInstance();
     QmlHandleObject*
-    loadQmlFile(const std::wstring &filename);
+    loadQmlFile(const std::wstring& filename);
     QmlHandleObject*
-    setData(const std::wstring &data);
+    setData(const std::wstring& data);
     QmlHandleObject*
-    createQQuickView(const std::wstring &filename);
+    createQQuickView(const std::wstring& filename);
 
     ArrayOf
-    evaluateString(const std::wstring &program, bool& withOuput);
+    evaluateString(const std::wstring& program, bool& withOuput);
     ArrayOf
-    evaluateFile(const std::wstring &filename, bool& withOuput);
+    evaluateFile(const std::wstring& filename, bool& withOuput);
     void
     collectGarbage();
     void
@@ -52,11 +52,11 @@ public:
     offlineStoragePath();
 
     void
-    addImportPath(const std::wstring &path);
+    addImportPath(const std::wstring& path);
     void
-    addPluginPath(const std::wstring &path);
+    addPluginPath(const std::wstring& path);
     void
-    setOfflineStoragePath(const std::wstring &dir);
+    setOfflineStoragePath(const std::wstring& dir);
 
 private:
     QmlEngine();

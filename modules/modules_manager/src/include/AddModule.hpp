@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSMODULES_MANAGER_IMPEXP void
-AddModule(Evaluator* eval, const std::wstring &modulerootpath, const std::wstring &moduleshortname);
+AddModule(Evaluator* eval, const std::wstring& modulerootpath, const std::wstring& moduleshortname);
 }
 //=============================================================================

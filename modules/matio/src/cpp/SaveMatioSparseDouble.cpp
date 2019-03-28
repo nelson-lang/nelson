@@ -25,7 +25,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioSparseDouble(const std::string &variableName, ArrayOf variableValue)
+SaveMatioSparseDouble(const std::string& variableName, ArrayOf variableValue)
 {
     Dimensions variableDims = variableValue.getDimensions();
     indexType rank;
@@ -111,5 +111,5 @@ SaveMatioSparseDouble(const std::string &variableName, ArrayOf variableValue)
     return matVariable;
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================

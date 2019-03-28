@@ -23,7 +23,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioSparseLogical(const std::string &variableName, ArrayOf variableValue)
+SaveMatioSparseLogical(const std::string& variableName, ArrayOf variableValue)
 {
     Dimensions variableDims = variableValue.getDimensions();
     indexType rank;
@@ -110,5 +110,5 @@ SaveMatioSparseLogical(const std::string &variableName, ArrayOf variableValue)
     return matVariable;
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================

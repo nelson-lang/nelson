@@ -25,7 +25,8 @@
 namespace Nelson {
 //=============================================================================
 NLSMATIO_IMPEXP ArrayOf
-LoadMatioFile(Evaluator* eval, const std::wstring& filename, const wstringVector &names, bool asStruct);
+LoadMatioFile(
+    Evaluator* eval, const std::wstring& filename, const wstringVector& names, bool asStruct);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

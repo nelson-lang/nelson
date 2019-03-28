@@ -29,7 +29,7 @@
 namespace Nelson {
 //=============================================================================
 void
-UndefineDynamicProperty(ArrayOf A, const std::wstring &propertyName)
+UndefineDynamicProperty(ArrayOf A, const std::wstring& propertyName)
 {
     ArrayOf res;
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();

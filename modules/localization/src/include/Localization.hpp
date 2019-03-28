@@ -34,13 +34,13 @@ public:
     std::wstring
     getDefaultLanguage();
     bool
-    setLanguage(const std::wstring &lang, bool save = true);
+    setLanguage(const std::wstring& lang, bool save = true);
     bool
     getManagedLanguages(wstringVector& langs);
     std::wstring
-    initializeLocalization(const std::wstring &lang);
+    initializeLocalization(const std::wstring& lang);
     bool
-    isSupportedLanguage(const std::wstring &lang);
+    isSupportedLanguage(const std::wstring& lang);
     void
     destroy();
 
@@ -61,7 +61,7 @@ private:
     std::wstring
     getNelsonPathDynamic();
     void
-    setLanguageEnvironment(const std::wstring &lang);
+    setLanguageEnvironment(const std::wstring& lang);
     void
     initLanguageSupported();
 };

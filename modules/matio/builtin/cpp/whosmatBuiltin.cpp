@@ -44,5 +44,5 @@ Nelson::MatioGateway::whosmatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     return retval;
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================

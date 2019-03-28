@@ -106,7 +106,8 @@ getNestingEmptyStruct()
 }
 //=============================================================================
 ArrayOf
-WhosMatioFile(Interface* io, const std::wstring& filename, const wstringVector &names, bool asStruct)
+WhosMatioFile(
+    Interface* io, const std::wstring& filename, const wstringVector& names, bool asStruct)
 {
     ArrayOf res;
     boost::filesystem::path mat_filename(filename);

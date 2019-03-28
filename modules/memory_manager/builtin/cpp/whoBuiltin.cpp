@@ -91,7 +91,7 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                 }
                 variablesName = result;
             }
-		} else {
+        } else {
             ArrayOf v = Who(eval, filename, names, nLhs == 1);
             if (nLhs == 1) {
                 retval.push_back(v);
@@ -189,5 +189,5 @@ Who(Evaluator* eval, const std::wstring& filename, const stringVector& names, bo
     return ArrayOf();
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================

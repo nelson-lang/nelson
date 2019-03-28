@@ -23,7 +23,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioCell(const std::string &variableName, ArrayOf variableValue, mat_ft matVersion)
+SaveMatioCell(const std::string& variableName, ArrayOf variableValue, mat_ft matVersion)
 {
     Dimensions variableDims = variableValue.getDimensions();
     indexType rank;
@@ -58,5 +58,5 @@ SaveMatioCell(const std::string &variableName, ArrayOf variableValue, mat_ft mat
     return matVariable;
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================

@@ -62,7 +62,7 @@ allocateQmlHandle(QObject* qobj)
 }
 //=============================================================================
 QmlHandleObject*
-QmlEngine::setData(const std::wstring &data)
+QmlEngine::setData(const std::wstring& data)
 {
     QPointer<QQmlComponent> component = new QQmlComponent(qmlengine);
     if (component) {
@@ -87,7 +87,7 @@ QmlEngine::setData(const std::wstring &data)
 }
 //=============================================================================
 QmlHandleObject*
-QmlEngine::loadQmlFile(const std::wstring &filename)
+QmlEngine::loadQmlFile(const std::wstring& filename)
 {
     QPointer<QQmlComponent> component = new QQmlComponent(qmlengine);
     if (component) {
@@ -110,7 +110,7 @@ QmlEngine::loadQmlFile(const std::wstring &filename)
 }
 //=============================================================================
 QmlHandleObject*
-QmlEngine::createQQuickView(const std::wstring &filename)
+QmlEngine::createQQuickView(const std::wstring& filename)
 {
     QObject* topLevel = nullptr;
     QFile qf(wstringToQString(filename));
@@ -185,7 +185,7 @@ QmlEngine::pluginPathList()
 }
 //=============================================================================
 void
-QmlEngine::addImportPath(const std::wstring &path)
+QmlEngine::addImportPath(const std::wstring& path)
 {
     if (qmlengine == nullptr) {
         Error(_W("QML engine not initialized."));
@@ -194,7 +194,7 @@ QmlEngine::addImportPath(const std::wstring &path)
 }
 //=============================================================================
 void
-QmlEngine::addPluginPath(const std::wstring &path)
+QmlEngine::addPluginPath(const std::wstring& path)
 {
     if (qmlengine == nullptr) {
         Error(_W("QML engine not initialized."));
@@ -212,7 +212,7 @@ QmlEngine::offlineStoragePath()
 }
 //=============================================================================
 void
-QmlEngine::setOfflineStoragePath(const std::wstring &dir)
+QmlEngine::setOfflineStoragePath(const std::wstring& dir)
 {
     if (qmlengine == nullptr) {
         Error(_W("QML engine not initialized."));
@@ -264,7 +264,7 @@ QJsValueToQVariant(QJSValue value)
 }
 //=============================================================================
 ArrayOf
-QmlEngine::evaluateString(const std::wstring &program, bool& withOuput)
+QmlEngine::evaluateString(const std::wstring& program, bool& withOuput)
 {
     if (qmlengine == nullptr) {
         Error(_W("QML engine not initialized."));
@@ -279,7 +279,7 @@ QmlEngine::evaluateString(const std::wstring &program, bool& withOuput)
 }
 //=============================================================================
 ArrayOf
-QmlEngine::evaluateFile(const std::wstring &filename, bool& withOuput)
+QmlEngine::evaluateFile(const std::wstring& filename, bool& withOuput)
 {
     QFile qf(wstringToQString(filename));
     if (!qf.exists()) {

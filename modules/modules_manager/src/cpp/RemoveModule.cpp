@@ -25,7 +25,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-RemoveModule(Evaluator* eval, const std::wstring &moduleshortname)
+RemoveModule(Evaluator* eval, const std::wstring& moduleshortname)
 {
     if (IsExistingModuleName(moduleshortname)) {
         std::wstring rootpathmodule = GetModulePath(moduleshortname);

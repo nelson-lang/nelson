@@ -27,7 +27,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-WhoMatioFile(Interface* io, const std::wstring& filename, const wstringVector &names, bool asCell)
+WhoMatioFile(Interface* io, const std::wstring& filename, const wstringVector& names, bool asCell)
 {
     ArrayOf res;
     boost::filesystem::path mat_filename(filename);

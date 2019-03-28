@@ -25,7 +25,7 @@
 namespace Nelson {
 //=============================================================================
 static bool
-callClearHandle(Evaluator* eval, Scope* scope, const std::string &variable)
+callClearHandle(Evaluator* eval, Scope* scope, const std::string& variable)
 {
     bool res = false;
     ArrayOf val;
@@ -67,13 +67,13 @@ callClearHandle(Evaluator* eval, Scope* scope, const std::string &variable)
 }
 //=============================================================================
 bool
-ClearGlobalVariable(Evaluator* eval, const std::wstring &variable)
+ClearGlobalVariable(Evaluator* eval, const std::wstring& variable)
 {
     return ClearGlobalVariable(eval, wstring_to_utf8(variable));
 }
 //=============================================================================
 bool
-ClearGlobalVariable(Evaluator* eval, const std::string &variable)
+ClearGlobalVariable(Evaluator* eval, const std::string& variable)
 {
     Scope* globalScope = eval->getContext()->getGlobalScope();
     callClearHandle(eval, globalScope, variable);
@@ -113,13 +113,13 @@ ClearAllPersistentVariables(Evaluator* eval)
 }
 //=============================================================================
 bool
-ClearPersistentVariable(Evaluator* eval, const std::wstring &variable)
+ClearPersistentVariable(Evaluator* eval, const std::wstring& variable)
 {
     return ClearPersistentVariable(eval, wstring_to_utf8(variable));
 }
 //=============================================================================
 bool
-ClearPersistentVariable(Evaluator* eval, const std::string &variable)
+ClearPersistentVariable(Evaluator* eval, const std::string& variable)
 {
     bool res = false;
     FuncPtr func;

@@ -61,8 +61,8 @@ createHeaderMatioFile()
 }
 //=============================================================================
 void
-SaveMatioFile(Evaluator* eval, const std::wstring& filename, const wstringVector &names,
-    const std::wstring &matFileVersion, bool append, bool nocompression)
+SaveMatioFile(Evaluator* eval, const std::wstring& filename, const wstringVector& names,
+    const std::wstring& matFileVersion, bool append, bool nocompression)
 {
     wstringVector variablesName;
     for (size_t k = 0; k < names.size(); k++) {
@@ -132,5 +132,5 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, const wstringVector
     Mat_Close(matFile);
 }
 //=============================================================================
-}  // namespace Nelson
+} // namespace Nelson
 //=============================================================================
