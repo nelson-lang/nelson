@@ -86,6 +86,7 @@ RandomMersenneTwister::getValueAsSingle(RNG_DISTRIBUTION_TYPE _type)
         return (single)(*uniform_int_generator)();
     case RNG_DISTRIBUTION_NORMAL:
         return (single)(*normal_real_generator)();
+    default: { } break;
     }
     return static_cast<single>(nan(""));
 }
@@ -100,6 +101,7 @@ RandomMersenneTwister::getValueAsDouble(RNG_DISTRIBUTION_TYPE _type)
         return (double)(*uniform_int_generator)();
     case RNG_DISTRIBUTION_NORMAL:
         return (*normal_real_generator)();
+    default: { } break;
     }
     return nan("");
 }
@@ -142,6 +144,7 @@ RandomMersenneTwister::getValuesAsDouble(
             }
         }
     } break;
+    default: { } break;
     }
 }
 //=============================================================================
@@ -183,6 +186,7 @@ RandomMersenneTwister::getValuesAsSingle(
             }
         }
     } break;
+    default: { } break;
     }
 }
 //=============================================================================
@@ -201,7 +205,7 @@ RandomMersenneTwister::getState()
 }
 //=============================================================================
 void
-RandomMersenneTwister::setState(boost::container::vector<uint32> _state)
+RandomMersenneTwister::setState(const boost::container::vector<uint32> &_state)
 {
     // http://www.bnikolic.co.uk/nqm/random/mersenne-boost.html
     std::stringstream line;

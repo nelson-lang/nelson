@@ -68,7 +68,7 @@ public:
     boost::container::vector<uint64>
     getState();
     void
-    setState(boost::container::vector<uint64> _state);
+    setState(const boost::container::vector<uint64> &_state);
     void
     setState(uint64* _state, size_t len);
     size_t

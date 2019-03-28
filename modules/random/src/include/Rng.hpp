@@ -37,7 +37,7 @@ RngSetDefault(Evaluator* eval);
 NLSRANDOM_IMPEXP void
 RngShuffle(Evaluator* eval);
 NLSRANDOM_IMPEXP bool
-RngSetEngine(Evaluator* eval, double seed, std::wstring engineName);
+RngSetEngine(Evaluator* eval, double seed, const std::wstring &engineName);
 NLSRANDOM_IMPEXP void
 RngDelete(Evaluator* eval);
 NLSRANDOM_IMPEXP bool
