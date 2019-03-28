@@ -76,7 +76,12 @@ Localization::initCoreDynamicLibrary()
     if (bFirstDynamicLibraryCall) {
         std::string fullpathCoreSharedLibrary = "libnlsCore" + get_dynamic_library_extension();
 #ifdef _MSC_VER
-        char* buf = new char[MAX_PATH];
+        char* buf = nullptr;
+        try {
+            buf = new char[MAX_PATH];
+        } catch (std::bad_alloc &){
+			buf = nullptr;
+		}
         if (buf) {
             DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
             if (dwRet) {
@@ -132,7 +137,7 @@ Localization::getNelsonPathDynamic()
 }
 //=============================================================================
 void
-Localization::setLanguageEnvironment(const std::wstring lang)
+Localization::setLanguageEnvironment(const std::wstring &lang)
 {
     if (isSupportedLanguage(lang)) {
         std::wstring localesPath = getNelsonPathDynamic() + L"/locale/";
@@ -196,7 +201,7 @@ Localization::getDefaultLanguage()
 }
 //=============================================================================
 bool
-Localization::setLanguage(std::wstring lang, bool save)
+Localization::setLanguage(const std::wstring &lang, bool save)
 {
     if (isSupportedLanguage(lang)) {
         setLanguageEnvironment(lang);
@@ -268,10 +273,11 @@ Localization::getManagedLanguages(wstringVector& langs)
 }
 //=============================================================================
 std::wstring
-Localization::initializeLocalization(std::wstring lang)
+Localization::initializeLocalization(const std::wstring &lang)
 {
     std::wstring effectiveLang = L"en_US";
-    initLanguageSupported();
+    std::wstring _lang(lang);
+	initLanguageSupported();
     if (lang.empty()) {
         std::wstring language_saved;
         std::wstring prefDir = getPreferencesPathDynamic();
@@ -283,7 +289,7 @@ Localization::initializeLocalization(std::wstring lang)
 #else
         std::ifstream jsonFile(wstring_to_utf8(prefFile));
 #endif
-        if (jsonFile.is_open()) {
+		if (jsonFile.is_open()) {
             while (safegetline(jsonFile, tmpline)) {
                 jsonString += tmpline + '\n';
             }
@@ -295,24 +301,24 @@ Localization::initializeLocalization(std::wstring lang)
                 language_saved = utf8_to_wstring(pt.get<std::string>("language"));
             } catch (const boost::property_tree::json_parser::json_parser_error& je) {
                 je.message();
-                language_saved = L"";
+                language_saved.clear();
             }
         } else {
-            language_saved = L"";
+            language_saved.clear();
         }
-        lang = language_saved;
+        _lang = language_saved;
     }
-    if (isSupportedLanguage(lang)) {
-        effectiveLang = lang;
+    if (isSupportedLanguage(_lang)) {
+        effectiveLang.assign(_lang);
     } else {
-        effectiveLang = L"en_US";
+        effectiveLang.assign(L"en_US");
     }
     setLanguageEnvironment(effectiveLang);
     return effectiveLang;
 }
 //=============================================================================
 bool
-Localization::isSupportedLanguage(std::wstring lang)
+Localization::isSupportedLanguage(const std::wstring &lang)
 {
     for (size_t k = 0; k < LanguageSupported.size(); k++) {
         if (lang == LanguageSupported[k]) {
