@@ -26,7 +26,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-LoadMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names, bool asStruct)
+LoadMatioFile(Evaluator* eval, const std::wstring& filename, const wstringVector &names, bool asStruct)
 {
     ArrayOf res;
     boost::filesystem::path mat_filename(filename);

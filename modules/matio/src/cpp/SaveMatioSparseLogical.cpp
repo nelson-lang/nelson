@@ -23,7 +23,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioSparseLogical(std::string variableName, ArrayOf variableValue)
+SaveMatioSparseLogical(const std::string &variableName, ArrayOf variableValue)
 {
     Dimensions variableDims = variableValue.getDimensions();
     indexType rank;
@@ -34,13 +34,13 @@ SaveMatioSparseLogical(std::string variableName, ArrayOf variableValue)
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spmat
         = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)variableValue.getSparseDataPointer();
     indexType nnz = 0;
-    int32 nzmax = (int32)variableValue.nzmax();
+    auto nzmax = static_cast<int32>(variableValue.nzmax());
     int njc = 0;
     if (spmat) {
         nnz = spmat->nonZeros();
         njc = (int)spmat->outerSize();
     }
-    int nir = (int)nnz;
+    int nir = static_cast<int>(nnz);
 
     int32* pI = nullptr;
     try {
@@ -50,7 +50,7 @@ SaveMatioSparseLogical(std::string variableName, ArrayOf variableValue)
     }
     int32* pJ = nullptr;
     try {
-        pJ = new int32[njc + 1];
+        pJ = new int32[static_cast<size_t>(njc + 1)];
     } catch (const std::bad_alloc&) {
         delete[] pI;
         return nullptr;
@@ -59,17 +59,17 @@ SaveMatioSparseLogical(std::string variableName, ArrayOf variableValue)
     if (spmat) {
         pInner = spmat->innerIndexPtr();
         for (signedIndexType k = 0; k < nir; ++k) {
-            pI[k] = (int32)pInner[k];
+            pI[k] = static_cast<int32>(pInner[k]);
         }
     }
     signedIndexType* pOuter = nullptr;
     if (spmat) {
         pOuter = spmat->outerIndexPtr();
         for (signedIndexType k = 0; k < njc; ++k) {
-            pJ[k] = (int32)pOuter[k];
+            pJ[k] = static_cast<int32>(pOuter[k]);
         }
     }
-    pJ[njc] = (int32)nnz;
+    pJ[njc] = static_cast<int32>(nnz);
     mat_sparse_t* sparse = nullptr;
     try {
         sparse = new mat_sparse_t[1];
@@ -110,5 +110,5 @@ SaveMatioSparseLogical(std::string variableName, ArrayOf variableValue)
     return matVariable;
 }
 //=============================================================================
-}
+}  // namespace Nelson
 //=============================================================================

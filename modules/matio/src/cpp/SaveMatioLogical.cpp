@@ -22,7 +22,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioLogical(std::string variableName, ArrayOf variableValue)
+SaveMatioLogical(const std::string &variableName, ArrayOf variableValue)
 {
     Dimensions variableDims = variableValue.getDimensions();
     indexType rank;
@@ -32,7 +32,7 @@ SaveMatioLogical(std::string variableName, ArrayOf variableValue)
     }
     void* ptrValue = nullptr;
     if (!variableDims.isEmpty(false)) {
-        ptrValue = (void*)variableValue.getDataPointer();
+        ptrValue = const_cast<void*>(variableValue.getDataPointer());
     }
     matvar_t* matVariable = Mat_VarCreate(
         variableName.c_str(), MAT_C_UINT8, MAT_T_UINT8, (int)rank, dims, ptrValue, MAT_F_LOGICAL);
@@ -40,5 +40,5 @@ SaveMatioLogical(std::string variableName, ArrayOf variableValue)
     return matVariable;
 }
 //=============================================================================
-}
+}  // namespace Nelson
 //=============================================================================

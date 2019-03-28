@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioSparseDoubleComplex(std::string variableName, ArrayOf variableValue)
+SaveMatioSparseDoubleComplex(const std::string &variableName, ArrayOf variableValue)
 {
     Dimensions variableDims = variableValue.getDimensions();
     indexType rank;
@@ -36,7 +36,7 @@ SaveMatioSparseDoubleComplex(std::string variableName, ArrayOf variableValue)
         = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)
               variableValue.getSparseDataPointer();
     indexType nnz = 0;
-    int32 nzmax = (int32)variableValue.nzmax();
+    auto nzmax = static_cast<int32>(variableValue.nzmax());
     int njc = 0;
     if (spmat) {
         nnz = spmat->nonZeros();
@@ -45,17 +45,17 @@ SaveMatioSparseDoubleComplex(std::string variableName, ArrayOf variableValue)
         nnz = 0;
     }
 
-    int nir = (int)nnz;
+    int nir = static_cast<int>(nnz);
 
     int32* pI = nullptr;
     try {
-        pI = new int32[nir];
+        pI = new int32[static_cast<size_t>(nir)];
     } catch (const std::bad_alloc&) {
         return nullptr;
     }
     int32* pJ = nullptr;
     try {
-        pJ = new int32[njc + 1];
+        pJ = new int32[static_cast<size_t>(njc + 1)];
     } catch (const std::bad_alloc&) {
         delete[] pI;
         return nullptr;
@@ -64,16 +64,16 @@ SaveMatioSparseDoubleComplex(std::string variableName, ArrayOf variableValue)
     if (spmat) {
         pInner = spmat->innerIndexPtr();
         for (signedIndexType k = 0; k < nir; ++k) {
-            pI[k] = (int32)pInner[k];
+            pI[k] = static_cast<int32>(pInner[k]);
         }
     }
     signedIndexType* pOuter = nullptr;
     if (spmat) {
         pOuter = spmat->outerIndexPtr();
         for (signedIndexType k = 0; k < njc; ++k) {
-            pJ[k] = (int32)pOuter[k];
+            pJ[k] = static_cast<int32>(pOuter[k]);
         }
-        pJ[njc] = (int32)nnz;
+        pJ[njc] = static_cast<int32>(nnz);
     }
 
     double* realptr = nullptr;
@@ -145,5 +145,5 @@ SaveMatioSparseDoubleComplex(std::string variableName, ArrayOf variableValue)
     return matVariable;
 }
 //=============================================================================
-}
+}  // namespace Nelson
 //=============================================================================

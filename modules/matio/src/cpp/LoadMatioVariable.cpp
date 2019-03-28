@@ -114,5 +114,5 @@ LoadMatioVariable(matvar_t* matVariable, bool fromCellOrStruct, ArrayOf& Variabl
     return bSuccess;
 }
 //=============================================================================
-}
+}  // namespace Nelson
 //=============================================================================

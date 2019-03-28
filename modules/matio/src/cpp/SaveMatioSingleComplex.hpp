@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioSingleComplex(std::string variableName, ArrayOf variableValue);
+SaveMatioSingleComplex(const std::string &variableName, ArrayOf variableValue);
 //=============================================================================
 }
 //=============================================================================

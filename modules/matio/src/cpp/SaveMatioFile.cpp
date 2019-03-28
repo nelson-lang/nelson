@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <matio.h>
-#include <time.h>
+#include <ctime>
 #include "SaveMatioFile.hpp"
 #include "SaveMatioVariable.hpp"
 #include "IsValidVariableName.hpp"
@@ -28,7 +28,7 @@
 namespace Nelson {
 //=============================================================================
 static mat_ft
-versionToEnum(std::wstring matFileVersion, matio_compression& compressionLevel)
+versionToEnum(const std::wstring& matFileVersion, matio_compression& compressionLevel)
 {
     if (matFileVersion == L"-v7.3") {
         compressionLevel = MAT_COMPRESSION_ZLIB;
@@ -54,15 +54,15 @@ createHeaderMatioFile()
 {
     std::string header = std::string("Nelson 1.0 MAT-file");
     header = header + std::string(" Created by libmatio ") + std::string(MATIO_VERSION_STR);
-    time_t _tm = time(NULL);
+    time_t _tm = time(nullptr);
     struct tm* curtime = localtime(&_tm);
     header = header + std::string(" on ") + asctime(curtime);
     return header;
 }
 //=============================================================================
 void
-SaveMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names,
-    std::wstring matFileVersion, bool append, bool nocompression)
+SaveMatioFile(Evaluator* eval, const std::wstring& filename, const wstringVector &names,
+    const std::wstring &matFileVersion, bool append, bool nocompression)
 {
     wstringVector variablesName;
     for (size_t k = 0; k < names.size(); k++) {
@@ -132,5 +132,5 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, wstringVector names
     Mat_Close(matFile);
 }
 //=============================================================================
-}
+}  // namespace Nelson
 //=============================================================================

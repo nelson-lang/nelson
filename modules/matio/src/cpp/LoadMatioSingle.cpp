@@ -46,7 +46,7 @@ LoadMatioSingle(matvar_t* matVariable, ArrayOf& VariableValue)
         }
         if (matVariable->isComplex != 0) {
             mat_complex_split_t* cplx = (mat_complex_split_t*)matVariable->data;
-            single* ptrDouble = (single*)ptr;
+            auto* ptrDouble = static_cast<single*>(ptr);
             single* ptrR = (single*)(cplx->Re);
             single* ptrI = (single*)(cplx->Im);
             indexType i = 0;

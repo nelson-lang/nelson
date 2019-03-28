@@ -25,7 +25,7 @@
 namespace Nelson {
 //=============================================================================
 void
-IsMatioFile(wstringVector filenames, ArrayOf& results, ArrayOf& versions)
+IsMatioFile(const wstringVector &filenames, ArrayOf& results, ArrayOf& versions)
 {
     Dimensions dims(filenames.size(), 1);
     logical* res = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, filenames.size());

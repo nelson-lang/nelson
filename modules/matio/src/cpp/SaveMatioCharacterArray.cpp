@@ -22,7 +22,7 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioCharacterArray(std::string variableName, ArrayOf variableValue, mat_ft matVersion)
+SaveMatioCharacterArray(const std::string &variableName, ArrayOf variableValue, mat_ft matVersion)
 {
     Dimensions variableDims = variableValue.getDimensions();
     indexType rank;
@@ -37,15 +37,15 @@ SaveMatioCharacterArray(std::string variableName, ArrayOf variableValue, mat_ft 
         if (matVersion == MAT_FT_MAT5 || matVersion == MAT_FT_MAT4) {
             asUint = variableValue;
             asUint.promoteType(NLS_UINT8);
-            ptrValue = (void*)asUint.getDataPointer();
+            ptrValue = const_cast<void*>(asUint.getDataPointer());
             matType = MAT_T_UTF8;
         } else {
             if (sizeof(charType) == sizeof(uint16)) {
-                ptrValue = (void*)variableValue.getDataPointer();
+                ptrValue = const_cast<void*>(variableValue.getDataPointer());
             } else {
                 asUint = variableValue;
                 asUint.promoteType(NLS_UINT16);
-                ptrValue = (void*)asUint.getDataPointer();
+                ptrValue = const_cast<void*>(asUint.getDataPointer());
             }
             matType = MAT_T_UTF16;
         }
@@ -56,5 +56,5 @@ SaveMatioCharacterArray(std::string variableName, ArrayOf variableValue, mat_ft 
     return matVariable;
 }
 //=============================================================================
-}
+}  // namespace Nelson
 //=============================================================================

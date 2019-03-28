@@ -52,7 +52,7 @@ LoadMatioSparseLogical(matvar_t* matVariable, ArrayOf& VariableValue)
             return false;
         }
         memcpy(ptrR, sparseData->ir, nbR * sizeof(int32));
-        int32* iptR = (int32*)ptrR;
+        auto* iptR = static_cast<int32*>(ptrR);
         for (int k = 0; k < nbR; k++) {
             iptR[k] = iptR[k] + 1;
         }
@@ -65,7 +65,7 @@ LoadMatioSparseLogical(matvar_t* matVariable, ArrayOf& VariableValue)
         } catch (Exception&) {
             return false;
         }
-        int32* iptC = (int32*)ptrC;
+        auto* iptC = static_cast<int32*>(ptrC);
         int ii = 0;
         for (int p = 1; p < sparseData->njc; p++) {
             for (unsigned n = 0; n < unsigned(sparseData->jc[p] - sparseData->jc[p - 1]); n++) {

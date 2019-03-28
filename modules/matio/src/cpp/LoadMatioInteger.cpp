@@ -63,7 +63,7 @@ LoadMatioInteger(matvar_t* matVariable, Class destinationClass, ArrayOf& Variabl
             return false;
         }
         if (matVariable->isComplex != 0) {
-            double* ptrDouble = (double*)ptr;
+            auto* ptrDouble = static_cast<double*>(ptr);
             mat_complex_split_t* cplx = (mat_complex_split_t*)matVariable->data;
             switch (destinationClass) {
             case NLS_INT8: {

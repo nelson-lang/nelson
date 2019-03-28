@@ -35,7 +35,7 @@ LoadMatioStruct(matvar_t* matVariable, ArrayOf& VariableValue)
     unsigned int nbFields = Mat_VarGetNumberOfFields(matVariable);
     char* const* names = Mat_VarGetStructFieldnames(matVariable);
     stringVector fieldnames;
-    fieldnames.reserve(nbFields);
+    fieldnames.reserve((size_t)nbFields);
     for (unsigned int k = 0; k < nbFields; k++) {
         fieldnames.push_back(names[k]);
     }

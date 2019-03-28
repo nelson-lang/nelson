@@ -70,7 +70,7 @@ LoadMatioSparseDouble(matvar_t* matVariable, ArrayOf& VariableValue)
             return false;
         }
         memcpy(ptrR, sparseData->ir, nbR * sizeof(int32));
-        int32* iptR = (int32*)ptrR;
+        auto* iptR = static_cast<int32*>(ptrR);
         for (int k = 0; k < nbR; k++) {
             iptR[k] = iptR[k] + 1;
         }
@@ -83,7 +83,7 @@ LoadMatioSparseDouble(matvar_t* matVariable, ArrayOf& VariableValue)
         } catch (Exception&) {
             return false;
         }
-        int32* iptC = (int32*)ptrC;
+        auto* iptC = static_cast<int32*>(ptrC);
         int ii = 0;
         for (int p = 1; p < sparseData->njc; p++) {
             for (unsigned n = 0; n < unsigned(sparseData->jc[p] - sparseData->jc[p - 1]); n++) {
@@ -108,7 +108,7 @@ LoadMatioSparseDouble(matvar_t* matVariable, ArrayOf& VariableValue)
         if (matVariable->isComplex != 0) {
             V = ArrayOf(NLS_DCOMPLEX, dimsV, ptrV);
             mat_complex_split_t* cplx = (mat_complex_split_t*)sparseData->data;
-            double* ptrDouble = (double*)ptrV;
+            auto* ptrDouble = static_cast<double*>(ptrV);
             switch (matVariable->data_type) {
             case MAT_T_INT8: {
                 convertToDoubleComplex<int8>(cplx, nbV, ptrDouble);
@@ -148,43 +148,43 @@ LoadMatioSparseDouble(matvar_t* matVariable, ArrayOf& VariableValue)
             switch (matVariable->data_type) {
             case MAT_T_INT8: {
                 V = ArrayOf(NLS_INT8, dimsV, ptrV);
-                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(int8));
+                memcpy(ptrV, sparseData->data, (size_t)sparseData->ndata * sizeof(int8));
             } break;
             case MAT_T_UINT8: {
                 V = ArrayOf(NLS_UINT8, dimsV, ptrV);
-                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(uint8));
+                memcpy(ptrV, sparseData->data, (size_t)sparseData->ndata * sizeof(uint8));
             } break;
             case MAT_T_INT16: {
                 V = ArrayOf(NLS_INT16, dimsV, ptrV);
-                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(int16));
+                memcpy(ptrV, sparseData->data, (size_t)sparseData->ndata * sizeof(int16));
             } break;
             case MAT_T_UINT16: {
                 V = ArrayOf(NLS_UINT16, dimsV, ptrV);
-                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(uint16));
+                memcpy(ptrV, sparseData->data, (size_t)sparseData->ndata * sizeof(uint16));
             } break;
             case MAT_T_INT32: {
                 V = ArrayOf(NLS_INT32, dimsV, ptrV);
-                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(int32));
+                memcpy(ptrV, sparseData->data, (size_t)sparseData->ndata * sizeof(int32));
             } break;
             case MAT_T_UINT32: {
                 V = ArrayOf(NLS_UINT32, dimsV, ptrV);
-                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(uint32));
+                memcpy(ptrV, sparseData->data, (size_t)sparseData->ndata * sizeof(uint32));
             } break;
             case MAT_T_INT64: {
                 V = ArrayOf(NLS_INT64, dimsV, ptrV);
-                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(int64));
+                memcpy(ptrV, sparseData->data, (size_t)sparseData->ndata * sizeof(int64));
             } break;
             case MAT_T_UINT64: {
                 V = ArrayOf(NLS_UINT64, dimsV, ptrV);
-                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(uint64));
+                memcpy(ptrV, sparseData->data, (size_t)sparseData->ndata * sizeof(uint64));
             } break;
             case MAT_T_SINGLE: {
                 V = ArrayOf(NLS_SINGLE, dimsV, ptrV);
-                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(single));
+                memcpy(ptrV, sparseData->data, (size_t)sparseData->ndata * sizeof(single));
             } break;
             case MAT_T_DOUBLE: {
                 V = ArrayOf(NLS_DOUBLE, dimsV, ptrV);
-                memcpy(ptrV, sparseData->data, sparseData->ndata * sizeof(double));
+                memcpy(ptrV, sparseData->data, (size_t)sparseData->ndata * sizeof(double));
             } break;
             default: {
                 return false;
