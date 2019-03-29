@@ -106,7 +106,7 @@ SioClientCommand::getInstance()
 }
 //=============================================================================
 void
-SioClientCommand::reply(std::string stringToReply)
+SioClientCommand::reply(const std::string &stringToReply)
 {
     std::stringstream output;
     output << stringToReply;
@@ -143,7 +143,7 @@ SioClientCommand::getCommand()
 }
 //=============================================================================
 void
-SioClientCommand::updateCommand(std::string newCommand)
+SioClientCommand::updateCommand(const std::string &newCommand)
 {
     _command = newCommand;
 }

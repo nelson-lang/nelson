@@ -46,7 +46,7 @@ safegetline(std::ifstream& os, std::string& line)
 }
 //=============================================================================
 bool
-FileDiff(std::wstring filename1, std::wstring filename2, logical eolcompare, std::wstring& res)
+FileDiff(const std::wstring& filename1, const std::wstring &filename2, logical eolcompare, std::wstring& res)
 {
     using elem = std::string;
     using sequence = std::vector<elem>;

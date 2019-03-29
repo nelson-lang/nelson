@@ -29,7 +29,7 @@
 namespace Nelson {
 //=============================================================================
 boost::container::vector<FileInfo>
-ListFilesWithWildcard(std::wstring mask, bool bSubdirectories)
+ListFilesWithWildcard(const std::wstring &mask, bool bSubdirectories)
 {
     boost::container::vector<FileInfo> res;
     boost::filesystem::path path(mask);
@@ -41,7 +41,7 @@ ListFilesWithWildcard(std::wstring mask, bool bSubdirectories)
             branch = boost::filesystem::current_path();
         }
         if (boost::filesystem::is_directory(branch)) {
-            mask = path.leaf().wstring();
+            std::wstring _mask = path.leaf().wstring();
             static const std::pair<boost::wregex, const wchar_t*> repl[] = {
                 std::pair<boost::wregex, const wchar_t*>(boost::wregex(L"\\."), L"\\\\."),
                 std::pair<boost::wregex, const wchar_t*>(boost::wregex(L"\\?"), L"."),
@@ -49,9 +49,9 @@ ListFilesWithWildcard(std::wstring mask, bool bSubdirectories)
             };
             for (const std::pair<boost::wregex, const wchar_t*>* r = repl;
                  r < repl + sizeof(repl) / sizeof(*repl); ++r) {
-                mask = boost::regex_replace(mask, r->first, r->second);
+                _mask = boost::regex_replace(_mask, r->first, r->second);
             }
-            boost::wregex rmask(mask, boost::wregex::icase);
+            boost::wregex rmask(_mask, boost::wregex::icase);
             if (bSubdirectories) {
                 if (IsDirectory(branch.wstring())) {
                     try {

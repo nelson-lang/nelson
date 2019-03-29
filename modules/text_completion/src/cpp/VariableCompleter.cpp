@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 wstringVector
-VariableCompleter(std::wstring prefix)
+VariableCompleter(const std::wstring &prefix)
 {
     wstringVector res;
     auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());

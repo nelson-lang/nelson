@@ -22,7 +22,7 @@
 namespace Nelson {
 //=============================================================================
 static bool
-compareString(std::wstring A, std::wstring B, bool bCaseSensitive, indexType len = 0)
+compareString(const std::wstring &A, const std::wstring &B, bool bCaseSensitive, indexType len = 0)
 {
     bool bEq = false;
     if (len > 0) {

@@ -26,8 +26,8 @@ NLSTIME_IMPEXP double
 DateNumber(double year, double month, double day, double hour = 0, double minutes = 0,
     double secondes = 0);
 NLSTIME_IMPEXP double
-DateNumber(std::wstring datestring, std::wstring formatIn, bool& bParsed);
+DateNumber(const std::wstring &datestring, const std::wstring &formatIn, bool& bParsed);
 NLSTIME_IMPEXP double
-DateNumber(std::wstring datestring, bool& bParsed);
+DateNumber(const std::wstring &datestring, bool& bParsed);
 } // namespace Nelson
 //=============================================================================

@@ -22,7 +22,7 @@
 namespace Nelson {
 //=============================================================================
 std::wstring
-RelativePath(std::wstring path1, std::wstring path2, bool& bSuccess)
+RelativePath(const std::wstring &path1, const std::wstring &path2, bool& bSuccess)
 {
     bSuccess = false;
     boost::filesystem::path pathOne(path1);

@@ -28,9 +28,9 @@ public:
     static FileWatcherManager*
     getInstance();
     void
-    addWacth(std::wstring directory);
+    addWacth(const std::wstring &directory);
     void
-    removeWatch(std::wstring directory);
+    removeWatch(const std::wstring &directory);
     void
     update();
     void

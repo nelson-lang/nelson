@@ -51,17 +51,18 @@ SystemCommand(const std::wstring& command, int& ierr)
 }
 //=============================================================================
 static bool
-DetectDetachProcess(std::wstring command)
+DetectDetachProcess(const std::wstring& command)
 {
-    bool bRes = false;
-    for (std::wstring::reverse_iterator rit = command.rbegin(); rit != command.rend(); ++rit) {
+    std::wstring _command(command);
+	bool bRes = false;
+    for (std::wstring::reverse_iterator rit = _command.rbegin(); rit != _command.rend(); ++rit) {
         if (*rit == L' ') {
-            command.pop_back();
+            _command.pop_back();
         } else {
             break;
         }
     }
-    if (*command.rbegin() == L'&') {
+    if (*_command.rbegin() == L'&') {
         bRes = true;
     }
     return bRes;

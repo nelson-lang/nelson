@@ -85,7 +85,7 @@ isSupportedDataType(ArrayOf data)
 }
 //=============================================================================
 bool
-AudioWrite(std::wstring filename, ArrayOf data, int fs, wstringVector metadata, int BitsPerSample,
+AudioWrite(const std::wstring &filename, ArrayOf data, int fs, wstringVector metadata, int BitsPerSample,
     int BitRate, std::wstring& errorMessage)
 {
     if (!data.isNumeric() || data.isComplex() || data.isSparse()) {

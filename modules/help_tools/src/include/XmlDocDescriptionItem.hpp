@@ -43,10 +43,10 @@ private:
     replaceImageTag();
 
 public:
-    XmlDocDescriptionItem(std::wstring description);
+    XmlDocDescriptionItem(const std::wstring &description);
     ~XmlDocDescriptionItem();
     void
-    setValue(std::wstring value);
+    setValue(const std::wstring &value);
     std::wstring
     getValue();
     std::wstring

@@ -139,7 +139,7 @@ namespace Nelson {
     return(std::string(buffer));
   }
   
-  int yyxpt(std::string xStr, ParseRHS val) {
+  int yyxpt(const std::string &xStr, ParseRHS val) {
     int tokenID;
     int linenumber;
     int colnumber;

@@ -64,7 +64,7 @@ public:
     File*
     getFile(int no);
     File*
-    getFile(std::wstring filename);
+    getFile(const std::wstring &filename);
     void*
     getFilePointer(int no);
     size_t

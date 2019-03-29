@@ -31,7 +31,7 @@ private:
     XmlDocLinkItem* link;
 
 public:
-    XmlDocSeeAlsoItem(std::wstring name, std::wstring link);
+    XmlDocSeeAlsoItem(const std::wstring &name, const std::wstring &link);
     ~XmlDocSeeAlsoItem();
     std::wstring
     getName();

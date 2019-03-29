@@ -146,7 +146,7 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
 }
 //=============================================================================
 std::wstring
-stringReplace(std::wstring originStr, std::wstring subStr, std::wstring replaceStr, bool doOverlaps)
+stringReplace(const std::wstring &originStr, const std::wstring &subStr, const std::wstring &replaceStr, bool doOverlaps)
 {
     std::wstring modifiedString = originStr;
     size_t start = 0;
@@ -430,19 +430,19 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
 }
 //=============================================================================
 std::wstring
-Replace(std::wstring originStr, std::wstring subStr, std::wstring replaceStr)
+Replace(const std::wstring& originStr, const std::wstring &subStr, const std::wstring &replaceStr)
 {
-    if (subStr.empty()) {
-        std::wstring result;
+    std::wstring result;
+	if (subStr.empty()) {
         for (wchar_t c : originStr) {
             result = result + replaceStr + c;
         }
         result = result + replaceStr;
         return result;
-    } else {
-        boost::replace_all(originStr, subStr, replaceStr);
     }
-    return originStr;
+    result = originStr;
+    boost::replace_all(result, subStr, replaceStr);
+    return result;
 }
 //=============================================================================
 } // namespace Nelson

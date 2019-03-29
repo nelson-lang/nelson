@@ -65,20 +65,21 @@ DateNumber(double year, double month, double day, double hour, double minutes, d
 }
 //=============================================================================
 double
-DateNumber(std::wstring datestring, std::wstring formatIn, bool& bParsed)
+DateNumber(const std::wstring &datestring, const std::wstring &formatIn, bool& bParsed)
 {
-    boost::algorithm::replace_all(formatIn, L"yyyy", L"%Y");
-    boost::algorithm::replace_all(formatIn, L"yy", L"%y");
-    boost::algorithm::replace_all(formatIn, L"mmm", L"%b");
-    boost::algorithm::replace_all(formatIn, L"dd", L"%d");
-    boost::algorithm::replace_all(formatIn, L"HH", L"%H");
-    boost::algorithm::replace_all(formatIn, L"MM", L"%M");
-    boost::algorithm::replace_all(formatIn, L"SS", L"%ls");
+    std::wstring _formatIn(formatIn);
+    boost::algorithm::replace_all(_formatIn, L"yyyy", L"%Y");
+    boost::algorithm::replace_all(_formatIn, L"yy", L"%y");
+    boost::algorithm::replace_all(_formatIn, L"mmm", L"%b");
+    boost::algorithm::replace_all(_formatIn, L"dd", L"%d");
+    boost::algorithm::replace_all(_formatIn, L"HH", L"%H");
+    boost::algorithm::replace_all(_formatIn, L"MM", L"%M");
+    boost::algorithm::replace_all(_formatIn, L"SS", L"%ls");
     double res = nan("");
     bParsed = false;
     boost::posix_time::ptime pt(boost::posix_time::not_a_date_time);
     boost::posix_time::wtime_input_facet* ptrFacet
-        = new boost::posix_time::wtime_input_facet(formatIn);
+        = new boost::posix_time::wtime_input_facet(_formatIn);
     std::locale format = std::locale(std::locale::classic(), ptrFacet);
     std::wistringstream is(datestring);
     is.imbue(format);
@@ -105,7 +106,7 @@ DateNumber(std::wstring datestring, std::wstring formatIn, bool& bParsed)
 }
 //=============================================================================
 double
-DateNumber(std::wstring datestring, bool& bParsed)
+DateNumber(const std::wstring &datestring, bool& bParsed)
 {
     const std::locale formats_without_date[] = {
         std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%H:%M:%S")),
@@ -130,11 +131,12 @@ DateNumber(std::wstring datestring, bool& bParsed)
     // boost::algorithm::contains(datestring, L" PM");
     bool haveAM = boost::algorithm::contains(datestring, L" AM");
     bool havePM = boost::algorithm::contains(datestring, L" PM");
+    std::wstring _datestring(datestring);
     if (haveAM) {
-        boost::replace_all(datestring, L" AM", "");
+        boost::replace_all(_datestring, L" AM", "");
     }
     if (havePM) {
-        boost::replace_all(datestring, L" PM", "");
+        boost::replace_all(_datestring, L" PM", "");
     }
     size_t count_time_separator = std::count(datestring.begin(), datestring.end(), L':');
     size_t count_date_separator_0 = std::count(datestring.begin(), datestring.end(), L',');

@@ -22,7 +22,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-StringFind(std::wstring A, std::wstring B)
+StringFind(const std::wstring &A, const std::wstring &B)
 {
     ArrayOf res;
     boost::container::vector<double> vectorRes;

@@ -48,7 +48,7 @@ namespace Nelson {
 //=============================================================================
 static boost::unordered_map<std::string, FuncPtr> cachedFunc;
 //=============================================================================
-Scope::Scope(std::string scopeName)
+Scope::Scope(const std::string &scopeName)
 {
     name = std::move(scopeName);
     loopLevel = 0;
@@ -83,7 +83,7 @@ Scope::deleteFunction(const std::string& funcName)
 }
 //=============================================================================
 bool
-Scope::lookupFunction(std::string funcName, FuncPtr& val, bool builtinOnly)
+Scope::lookupFunction(const std::string &funcName, FuncPtr& val, bool builtinOnly)
 {
     boost::unordered_map<std::string, FuncPtr>::const_iterator foundit = cachedFunc.find(funcName);
     if (foundit != cachedFunc.end()) {

@@ -57,7 +57,7 @@ QtTextEdit::setCompleter(QCompleter* completer)
 }
 //=============================================================================
 void
-QtTextEdit::updateModel(std::wstring prefix, wstringVector filesList, wstringVector builtinList,
+QtTextEdit::updateModel(const std::wstring &prefix, wstringVector filesList, wstringVector builtinList,
     wstringVector macroList, wstringVector variableList)
 {
     if (qCompleter != nullptr) {

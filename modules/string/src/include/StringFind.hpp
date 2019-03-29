@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSSTRING_IMPEXP ArrayOf
-StringFind(std::wstring A, std::wstring B);
+StringFind(const std::wstring &A, const std::wstring &B);
 }
 //=============================================================================

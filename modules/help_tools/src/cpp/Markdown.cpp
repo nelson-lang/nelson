@@ -59,7 +59,7 @@ struct option_data
 };
 //=============================================================================
 bool
-Nelson::MarkdownFile(std::wstring inputMarkdownFilename, std::wstring outputHtmlFilename)
+Nelson::MarkdownFile(const std::wstring &inputMarkdownFilename, const std::wstring &outputHtmlFilename)
 {
     hoedown_buffer *ib, *ob;
     hoedown_renderer* renderer = nullptr;
@@ -122,7 +122,7 @@ Nelson::MarkdownFile(std::wstring inputMarkdownFilename, std::wstring outputHtml
 }
 //=============================================================================
 bool
-Nelson::MarkdownString(std::string inputMarkdownString, std::string& outputHtmlString)
+Nelson::MarkdownString(const std::string &inputMarkdownString, std::string& outputHtmlString)
 {
     hoedown_buffer *ib, *ob;
     hoedown_renderer* renderer = nullptr;
@@ -169,7 +169,7 @@ Nelson::MarkdownString(std::string inputMarkdownString, std::string& outputHtmlS
 }
 //=============================================================================
 bool
-Nelson::MarkdownString(std::wstring inputMarkdownString, std::wstring& outputHtmlString)
+Nelson::MarkdownString(const std::wstring &inputMarkdownString, std::wstring& outputHtmlString)
 {
     std::string UTF8 = wstring_to_utf8(inputMarkdownString);
     std::string strOut = "";

@@ -43,7 +43,7 @@ public:
     bool
     withFieldValue();
     bool
-    isSameFieldname(std::wstring name);
+    isSameFieldname(const std::wstring &name);
 
 private:
     std::wstring _fullOption;

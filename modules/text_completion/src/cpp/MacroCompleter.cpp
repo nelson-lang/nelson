@@ -23,7 +23,7 @@
 namespace Nelson {
 //=============================================================================
 wstringVector
-MacroCompleter(std::wstring prefix)
+MacroCompleter(const std::wstring &prefix)
 {
     wstringVector res;
     wstringVector macros = PathFuncManager::getInstance()->getMacrosList();

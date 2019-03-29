@@ -27,6 +27,6 @@ namespace Nelson {
 NLSCOM_ENGINE_IMPEXP std::wstring
 xlsIndexToRange(indexType m, indexType n);
 NLSCOM_ENGINE_IMPEXP bool
-isValidRange(std::wstring range);
+isValidRange(const std::wstring &range);
 } // namespace Nelson
 //=============================================================================

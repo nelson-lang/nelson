@@ -29,7 +29,7 @@
 namespace Nelson {
 //=============================================================================
 static boost::container::vector<std::wstring>
-splitEnvironmentPath(std::wstring envPaths)
+splitEnvironmentPath(const std::wstring &envPaths)
 {
     boost::container::vector<std::wstring> result;
     size_t previous = 0;
@@ -86,7 +86,7 @@ localfind(InputIterator first, InputIterator last, const T& val)
 }
 //=============================================================================
 bool
-AddPathToEnvironmentVariable(std::wstring envVar, std::wstring pathToAdd)
+AddPathToEnvironmentVariable(const std::wstring &envVar, const std::wstring &pathToAdd)
 {
     std::wstring env;
 #ifdef _MSC_VER

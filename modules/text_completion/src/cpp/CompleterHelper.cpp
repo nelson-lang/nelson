@@ -23,7 +23,7 @@
 namespace Nelson {
 //=============================================================================
 static size_t
-searchMatchingPrefixAndSuffix(std::wstring line, std::wstring toFind)
+searchMatchingPrefixAndSuffix(const std::wstring &line, const std::wstring &toFind)
 {
     // line: cd c:/Program Fi
     // toFind: Program Files (x86)/
@@ -51,7 +51,7 @@ searchMatchingPrefixAndSuffix(std::wstring line, std::wstring toFind)
 }
 //=============================================================================
 std::wstring
-getPartialLine(std::wstring line)
+getPartialLine(const std::wstring &line)
 {
     std::wstring symbols = L"+-*/\\([ ^,;={.&|\'])}:\'><~@\t";
     size_t index = -1;
@@ -67,7 +67,7 @@ getPartialLine(std::wstring line)
 }
 //=============================================================================
 std::wstring
-getPartialLineAsPath(std::wstring line)
+getPartialLineAsPath(const std::wstring &line)
 {
     if (line.empty()) {
         return std::wstring();
@@ -114,8 +114,8 @@ getPartialLineAsPath(std::wstring line)
 }
 //=============================================================================
 std::wstring
-completerLine(std::wstring currentLine, std::wstring stringToAdd, std::wstring filePattern,
-    std::wstring defaultPattern, bool stringToAddIsPath)
+completerLine(const std::wstring &currentLine, const std::wstring &stringToAdd, const std::wstring &filePattern,
+    const std::wstring &defaultPattern, bool stringToAddIsPath)
 {
     std::wstring lineModified;
     if (currentLine.empty()) {

@@ -31,13 +31,13 @@ using namespace Nelson;
 // load(filename, variables)
 //=============================================================================
 static bool
-isOption(std::wstring param)
+isOption(const std::wstring &param)
 {
     return param.size() > 2 && param[0] == L'-';
 }
 //=============================================================================
 static bool
-isFile(std::wstring _filename)
+isFile(const std::wstring &_filename)
 {
     boost::filesystem::path filename(_filename);
     bool fileExistPreviously = false;

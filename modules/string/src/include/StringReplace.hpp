@@ -26,7 +26,7 @@ namespace Nelson {
 // historic algo.
 NLSSTRING_IMPEXP std::wstring
 stringReplace(
-    std::wstring searchStr, std::wstring pattern, std::wstring replacement, bool doOverlaps);
+    const std::wstring &searchStr, const std::wstring &pattern, const std::wstring &replacement, bool doOverlaps);
 //=============================================================================
 NLSSTRING_IMPEXP ArrayOf
 StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool doOverlaps,
@@ -34,7 +34,7 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
 //=============================================================================
 // modern algo.
 NLSSTRING_IMPEXP std::wstring
-Replace(std::wstring searchStr, std::wstring pattern, std::wstring replacement);
+Replace(const std::wstring &searchStr, const std::wstring &pattern, const std::wstring &replacement);
 //=============================================================================
 NLSSTRING_IMPEXP ArrayOf
 Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needToOverload);

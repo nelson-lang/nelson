@@ -108,7 +108,7 @@ FileWatcherManager::getInstance()
 }
 //=============================================================================
 void
-FileWatcherManager::addWacth(std::wstring directory)
+FileWatcherManager::addWacth(const std::wstring &directory)
 {
     auto* watcher = new UpdatePathListener();
     WatchID id = -1;
@@ -123,7 +123,7 @@ FileWatcherManager::addWacth(std::wstring directory)
 }
 //=============================================================================
 void
-FileWatcherManager::removeWatch(std::wstring directory)
+FileWatcherManager::removeWatch(const std::wstring &directory)
 {
     try {
 #ifdef _MSC_VER

@@ -26,7 +26,7 @@ using namespace boost::filesystem;
 namespace Nelson {
 //=============================================================================
 bool
-IsFile(std::wstring str)
+IsFile(const std::wstring &str)
 {
     boost::filesystem::path data_dir(str);
     bool bRes = false;

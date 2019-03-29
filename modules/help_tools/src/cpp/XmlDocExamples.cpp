@@ -114,7 +114,7 @@ XmlDocExamples::writeAsMarkdown(std::string& utf8stream)
 }
 //=============================================================================
 void
-XmlDocExamples::setDirectories(std::wstring srcDirectory, std::wstring dstDirectory)
+XmlDocExamples::setDirectories(const std::wstring &srcDirectory, const std::wstring &dstDirectory)
 {
     for (size_t k = 0; k < examplesVector.size(); k++) {
         examplesVector[k]->setDirectories(srcDirectory, dstDirectory);

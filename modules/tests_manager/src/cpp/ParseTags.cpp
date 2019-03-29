@@ -31,14 +31,14 @@
 namespace Nelson {
 //=============================================================================
 static bool
-isEmptyLine(std::string line)
+isEmptyLine(const std::string &line)
 {
     std::string str = boost::algorithm::trim_left_copy(line);
     return str == "";
 }
 //=============================================================================
 static bool
-compareTag(std::string line, std::string tag)
+compareTag(const std::string &line, const std::string &tag)
 {
     std::string modifiedLine = boost::algorithm::trim_left_copy(line);
     bool wasComment = false;
@@ -69,7 +69,7 @@ compareTag(std::string line, std::string tag)
 }
 //=============================================================================
 bool
-ParseTags(Evaluator* eval, std::wstring filename, TestTags& options, std::wstring& msg)
+ParseTags(Evaluator* eval, const std::wstring &filename, TestTags& options, std::wstring& msg)
 {
     if (!IsFile(filename)) {
         msg = _W("an existing file expected.");

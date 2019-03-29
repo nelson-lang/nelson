@@ -30,7 +30,7 @@ private:
     std::wstring _bibliography;
 
 public:
-    XmlDocBibliographyItem(std::wstring bibliography);
+    XmlDocBibliographyItem(const std::wstring &bibliography);
     ~XmlDocBibliographyItem();
     std::wstring
     getItemType();

@@ -23,7 +23,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocSeeAlsoItem::XmlDocSeeAlsoItem(std::wstring name, std::wstring link)
+XmlDocSeeAlsoItem::XmlDocSeeAlsoItem(const std::wstring &name, const std::wstring &link)
 {
     this->link = new XmlDocLinkItem(name, link);
 }

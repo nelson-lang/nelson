@@ -742,11 +742,12 @@ getErrorMessage(int errorCode)
 }
 //=============================================================================
 static ArrayOf
-jsonDecodeInternal(std::wstring stringToDecode, std::wstring& errorMessage)
+jsonDecodeInternal(const std::wstring &stringToDecode, std::wstring& errorMessage)
 {
-    boost::algorithm::trim_left(stringToDecode);
-    boost::algorithm::trim_right(stringToDecode);
-    jsonString = wstring_to_utf8(stringToDecode);
+    std::wstring _stringToDecode(stringToDecode);
+    boost::algorithm::trim_left(_stringToDecode);
+    boost::algorithm::trim_right(_stringToDecode);
+    jsonString = wstring_to_utf8(_stringToDecode);
     jsmn_parser parserJson;
     jsmn_init(&parserJson);
     int nbTokensOrError = jsmn_parse(&parserJson, jsonString.c_str(), jsonString.size(), NULL, 0);

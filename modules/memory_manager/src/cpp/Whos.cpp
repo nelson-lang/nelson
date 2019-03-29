@@ -43,7 +43,7 @@ getNestingEmptyStruct()
 }
 //=============================================================================
 static bool
-isFile(std::wstring _filename)
+isFile(const std::wstring &_filename)
 {
     boost::filesystem::path filename(_filename);
     bool fileExistPreviously = false;

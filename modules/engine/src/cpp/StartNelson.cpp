@@ -152,7 +152,7 @@ displayHelp(std::wstring description, NELSON_ENGINE_MODE _mode)
 }
 //=============================================================================
 static void
-ErrorCommandLine(std::wstring str, NELSON_ENGINE_MODE _mode)
+ErrorCommandLine(const std::wstring &str, NELSON_ENGINE_MODE _mode)
 {
 #ifdef _MSC_VER
     if (_mode == GUI) {
