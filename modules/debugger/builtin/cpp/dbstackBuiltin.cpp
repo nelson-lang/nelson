@@ -68,7 +68,7 @@ checkArgument(Evaluator* eval, ArrayOf arg, bool& withCompleteNames, int& nbOmit
 }
 //=============================================================================
 static std::wstring
-shortName(const std::wstring &filename)
+shortName(const std::wstring& filename)
 {
     boost::filesystem::path p(filename);
     return p.filename().generic_wstring();

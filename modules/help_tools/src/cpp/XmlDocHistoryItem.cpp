@@ -22,7 +22,7 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-XmlDocHistoryItem::XmlDocHistoryItem(const std::wstring &version, const std::wstring &description)
+XmlDocHistoryItem::XmlDocHistoryItem(const std::wstring& version, const std::wstring& description)
 {
     this->_version.assign(version);
     this->_description.assign(description);

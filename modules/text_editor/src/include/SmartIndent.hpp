@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSTEXT_EDITOR_IMPEXP void
-smartIndent(const std::wstring &filename, int tabsize = 2, bool doBackup = false);
+smartIndent(const std::wstring& filename, int tabsize = 2, bool doBackup = false);
 }
 //=============================================================================

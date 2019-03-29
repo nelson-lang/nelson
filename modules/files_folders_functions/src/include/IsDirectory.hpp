@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
-IsDirectory(const std::wstring &str);
+IsDirectory(const std::wstring& str);
 }
 //=============================================================================

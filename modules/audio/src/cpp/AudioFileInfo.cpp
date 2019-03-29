@@ -199,7 +199,7 @@ getBitsPerSample(int format)
 }
 //=============================================================================
 ArrayOf
-AudioFileInfo(const std::wstring &filename, std::wstring& errorMessage)
+AudioFileInfo(const std::wstring& filename, std::wstring& errorMessage)
 {
     Dimensions dims(0, 0);
     ArrayOf res = ArrayOf::emptyConstructor(dims);

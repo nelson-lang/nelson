@@ -57,8 +57,8 @@ QtTextEdit::setCompleter(QCompleter* completer)
 }
 //=============================================================================
 void
-QtTextEdit::updateModel(const std::wstring &prefix, wstringVector filesList, wstringVector builtinList,
-    wstringVector macroList, wstringVector variableList)
+QtTextEdit::updateModel(const std::wstring& prefix, wstringVector filesList,
+    wstringVector builtinList, wstringVector macroList, wstringVector variableList)
 {
     if (qCompleter != nullptr) {
         qCompleter->setModel(modelFromNelson(filesList, builtinList, macroList, variableList));

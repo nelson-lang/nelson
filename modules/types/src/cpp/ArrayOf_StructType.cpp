@@ -444,7 +444,7 @@ ArrayOf::haveUniqueFieldNames(const stringVector& fieldnames)
 {
     if (fieldnames.size() > 1) {
         stringVector copyVector(fieldnames);
-		std::sort(copyVector.begin(), copyVector.end());
+        std::sort(copyVector.begin(), copyVector.end());
         copyVector.erase(std::unique(copyVector.begin(), copyVector.end()), copyVector.end());
         return fieldnames.size() == copyVector.size();
     }

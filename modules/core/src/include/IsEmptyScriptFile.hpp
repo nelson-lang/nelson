@@ -24,6 +24,6 @@
 //=============================================================================
 namespace Nelson {
 NLSCORE_IMPEXP bool
-IsEmptyScriptFile(const std::wstring &filename);
+IsEmptyScriptFile(const std::wstring& filename);
 }
 //=============================================================================

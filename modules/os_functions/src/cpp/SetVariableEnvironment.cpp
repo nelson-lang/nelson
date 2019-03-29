@@ -26,7 +26,7 @@
 namespace Nelson {
 //=============================================================================
 NLSOS_FUNCTIONS_IMPEXP bool
-SetVariableEnvironmentW(const std::wstring &envVarName, const std::wstring &Value)
+SetVariableEnvironmentW(const std::wstring& envVarName, const std::wstring& Value)
 {
 #ifdef _MSC_VER
     if (::SetEnvironmentVariableW(envVarName.c_str(), Value.c_str()) != 0) {
@@ -40,7 +40,7 @@ SetVariableEnvironmentW(const std::wstring &envVarName, const std::wstring &Valu
 }
 //=============================================================================
 NLSOS_FUNCTIONS_IMPEXP bool
-SetVariableEnvironmentU(const std::string &envVarName, const std::string &Value)
+SetVariableEnvironmentU(const std::string& envVarName, const std::string& Value)
 {
     bool bRes = false;
 #ifdef _MSC_VER

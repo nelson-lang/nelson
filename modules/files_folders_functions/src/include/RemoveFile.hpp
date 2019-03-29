@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
-RemoveFile(const std::wstring &filename, std::wstring& message);
+RemoveFile(const std::wstring& filename, std::wstring& message);
 }
 //=============================================================================

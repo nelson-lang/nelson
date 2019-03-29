@@ -23,7 +23,7 @@
 //=============================================================================
 namespace Nelson {
 bool
-IsEmptyScriptFile(const std::wstring &filename)
+IsEmptyScriptFile(const std::wstring& filename)
 {
     FILE* fr;
 #ifdef _MSC_VER

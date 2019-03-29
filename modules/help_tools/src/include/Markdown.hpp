@@ -23,11 +23,11 @@
 //=============================================================================
 namespace Nelson {
 NLSHELP_TOOLS_IMPEXP bool
-MarkdownFile(const std::wstring &inputMarkdownString, const std::wstring &outputHtmlString);
+MarkdownFile(const std::wstring& inputMarkdownString, const std::wstring& outputHtmlString);
 NLSHELP_TOOLS_IMPEXP bool
-MarkdownString(const std::wstring &inputMarkdownString, std::wstring& outputHtmlString);
+MarkdownString(const std::wstring& inputMarkdownString, std::wstring& outputHtmlString);
 NLSHELP_TOOLS_IMPEXP bool
-MarkdownString(const std::string &inputMarkdownString, std::string& outputHtmlString);
+MarkdownString(const std::string& inputMarkdownString, std::string& outputHtmlString);
 
 } // namespace Nelson
 //=============================================================================

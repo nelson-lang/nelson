@@ -54,7 +54,7 @@ static bool
 DetectDetachProcess(const std::wstring& command)
 {
     std::wstring _command(command);
-	bool bRes = false;
+    bool bRes = false;
     for (std::wstring::reverse_iterator rit = _command.rbegin(); rit != _command.rend(); ++rit) {
         if (*rit == L' ') {
             _command.pop_back();

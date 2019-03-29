@@ -38,7 +38,7 @@ safegetline(std::ifstream& os, std::string& line)
 }
 //=============================================================================
 std::wstring
-getXmlFileEncoding(const std::wstring &filename)
+getXmlFileEncoding(const std::wstring& filename)
 {
     std::wstring encoding = L"UTF-8";
 #ifdef _MSC_VER

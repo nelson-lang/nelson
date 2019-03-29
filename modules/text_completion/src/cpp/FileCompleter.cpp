@@ -29,7 +29,7 @@ namespace Nelson {
 #define DIR_SEPARATOR_OTHERS L'/'
 //=============================================================================
 static bool
-IsDirectory(const std::wstring &str)
+IsDirectory(const std::wstring& str)
 {
     boost::filesystem::path data_dir(str);
     bool bRes = false;
@@ -71,7 +71,7 @@ splitpath(const std::wstring& prefix, std::wstring& path, std::wstring& fname)
 }
 //=============================================================================
 wstringVector
-FileCompleter(const std::wstring &prefix)
+FileCompleter(const std::wstring& prefix)
 {
     wstringVector res;
     if (!prefix.empty()) {

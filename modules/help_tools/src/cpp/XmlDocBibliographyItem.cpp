@@ -24,7 +24,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocBibliographyItem::XmlDocBibliographyItem(const std::wstring &bibliography)
+XmlDocBibliographyItem::XmlDocBibliographyItem(const std::wstring& bibliography)
     : _bibliography(bibliography)
 {}
 //=============================================================================

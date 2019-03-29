@@ -190,7 +190,7 @@ smartIndent(QTextEdit* textEdit, int tabSize)
 namespace Nelson {
 //=============================================================================
 void
-smartIndent(const std::wstring &filename, int tabsize, bool doBackup)
+smartIndent(const std::wstring& filename, int tabsize, bool doBackup)
 {
     QFile file(wstringToQString(filename));
     if (file.open(QFile::ReadOnly | QFile::Text)) {

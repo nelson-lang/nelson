@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring
-RelativePath(const std::wstring &path1, const std::wstring &path2, bool& bSuccess);
+RelativePath(const std::wstring& path1, const std::wstring& path2, bool& bSuccess);
 }
 //=============================================================================

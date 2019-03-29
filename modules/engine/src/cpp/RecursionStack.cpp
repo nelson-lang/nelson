@@ -48,8 +48,6 @@ setRecursionStacksize(size_t sizerstack)
 //=============================================================================
 #ifdef _MSC_VER
 typedef IMAGE_NT_HEADERS*(__stdcall* RtlImageNtHeaderProc)(void* ImageBase);
-static RtlImageNtHeaderProc RtlImageNtHeaderProcPointer;
-static bool bFirstCall = true;
 #endif
 size_t
 getRecursionStacksize()
@@ -67,21 +65,19 @@ getRecursionStacksize()
     HMODULE IB = GetModuleHandleW(nullptr);
     GetModuleFileNameW(IB, buffer, MAX_PATH);
     DWORD old = 0;
-    if (bFirstCall) {
-        HMODULE hModule = LoadLibrary(L"ntdll.dll");
-        RtlImageNtHeaderProcPointer
-            = reinterpret_cast<RtlImageNtHeaderProc>(GetProcAddress(hModule, "RtlImageNtHeader"));
-        if (RtlImageNtHeaderProcPointer == nullptr) {
-            std::cout << _("Error: could not find the function NtOpenFile in library ntdll.dll.\n");
-            exit(1);
-        }
-        bFirstCall = false;
+    HMODULE hModule = LoadLibrary(L"ntdll.dll");
+    RtlImageNtHeaderProc RtlImageNtHeaderProcPointer
+        = reinterpret_cast<RtlImageNtHeaderProc>(GetProcAddress(hModule, "RtlImageNtHeader"));
+    if (RtlImageNtHeaderProcPointer == nullptr) {
+        std::cout << _("Error: could not find the function NtOpenFile in library ntdll.dll.\n");
+        exit(1);
     }
     VirtualProtectEx(hProcess, (void*)IB, 0x1000, PAGE_READONLY, &old);
     IMAGE_NT_HEADERS* pNt = RtlImageNtHeaderProcPointer(IB);
     if (pNt) {
         returnedSize = static_cast<size_t>(pNt->OptionalHeader.SizeOfStackReserve);
     }
+    FreeLibrary(hModule);
 #endif
     return returnedSize;
 }

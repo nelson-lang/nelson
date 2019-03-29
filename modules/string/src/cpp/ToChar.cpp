@@ -180,7 +180,7 @@ ToChar(const ArrayOf& A, bool& needToOverload)
 }
 //=============================================================================
 static std::wstring
-ToChar(const wstringVector &V, boost::container::vector<Dimensions> dimsVector, Dimensions& dims)
+ToChar(const wstringVector& V, boost::container::vector<Dimensions> dimsVector, Dimensions& dims)
 {
     std::wstring res;
     size_t lenMax = 0;

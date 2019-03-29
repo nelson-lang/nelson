@@ -25,7 +25,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-RemoveFile(const std::wstring &filename, std::wstring& message)
+RemoveFile(const std::wstring& filename, std::wstring& message)
 {
     bool res = false;
     message = L"";

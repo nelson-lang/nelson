@@ -30,14 +30,14 @@
 namespace Nelson {
 //=============================================================================
 NLSTEXT_COMPLETION_IMPEXP std::wstring
-completerLine(const std::wstring &currentLine, const std::wstring &stringToAdd, const std::wstring &filePattern,
-    const std::wstring &defaultPattern, bool stringToAddIsPath);
+completerLine(const std::wstring& currentLine, const std::wstring& stringToAdd,
+    const std::wstring& filePattern, const std::wstring& defaultPattern, bool stringToAddIsPath);
 //=============================================================================
 NLSTEXT_COMPLETION_IMPEXP std::wstring
-getPartialLineAsPath(const std::wstring &line);
+getPartialLineAsPath(const std::wstring& line);
 //=============================================================================
 NLSTEXT_COMPLETION_IMPEXP std::wstring
-getPartialLine(const std::wstring &line);
+getPartialLine(const std::wstring& line);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

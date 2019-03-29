@@ -31,11 +31,11 @@ public:
     static SioClientCommand*
     getInstance();
     void
-    reply(const std::string &stringToReply);
+    reply(const std::string& stringToReply);
     std::string
     getCommand();
     void
-    updateCommand(const std::string &command);
+    updateCommand(const std::string& command);
     bool
     isInitialized();
     bool

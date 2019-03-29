@@ -89,7 +89,7 @@ Option::withFieldValue()
 }
 //=============================================================================
 bool
-Option::isSameFieldname(const std::wstring &name)
+Option::isSameFieldname(const std::wstring& name)
 {
     std::wstring fopt = PREFIX_FULLOPTION_STR + _fullOption;
     std::wstring sopt = PREFIX_SHORTOPTION_STR + _shortOption;

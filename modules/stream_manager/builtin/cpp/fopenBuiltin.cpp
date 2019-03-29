@@ -33,7 +33,7 @@ using namespace Nelson;
 // fIDs = fopen('all')
 //=============================================================================
 static ArrayOfVector
-Fopen(Evaluator* eval, const std::wstring &filename, const std::wstring &mode)
+Fopen(Evaluator* eval, const std::wstring& filename, const std::wstring& mode)
 {
     ArrayOfVector retval;
     auto* fm = static_cast<FilesManager*>(eval->FileManager);

@@ -54,7 +54,7 @@ xlsIndexToRange(indexType m, indexType n)
 }
 //=============================================================================
 bool
-isValidRange(const std::wstring &range)
+isValidRange(const std::wstring& range)
 {
     wstringVector splittedStrings;
     boost::split(splittedStrings, range, boost::is_any_of(L":"));

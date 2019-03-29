@@ -65,7 +65,7 @@ DateNumber(double year, double month, double day, double hour, double minutes, d
 }
 //=============================================================================
 double
-DateNumber(const std::wstring &datestring, const std::wstring &formatIn, bool& bParsed)
+DateNumber(const std::wstring& datestring, const std::wstring& formatIn, bool& bParsed)
 {
     std::wstring _formatIn(formatIn);
     boost::algorithm::replace_all(_formatIn, L"yyyy", L"%Y");
@@ -106,7 +106,7 @@ DateNumber(const std::wstring &datestring, const std::wstring &formatIn, bool& b
 }
 //=============================================================================
 double
-DateNumber(const std::wstring &datestring, bool& bParsed)
+DateNumber(const std::wstring& datestring, bool& bParsed)
 {
     const std::locale formats_without_date[] = {
         std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%H:%M:%S")),

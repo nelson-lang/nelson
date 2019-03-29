@@ -192,7 +192,7 @@ FilesManager::getFile(int no)
 }
 //=============================================================================
 File*
-FilesManager::getFile(const std::wstring &filename)
+FilesManager::getFile(const std::wstring& filename)
 {
     return nullptr;
 }

@@ -116,7 +116,7 @@ public:
     /**
      * Construct a scope with the given name.
      */
-    Scope(const std::string &scopeName);
+    Scope(const std::string& scopeName);
     /**
      * Default destructor.
      */
@@ -148,7 +148,7 @@ public:
      * assigns the value of the function pointer to the second argument.
      */
     bool
-    lookupFunction(const std::string &funcName, FuncPtr& val, bool builtinOnly = false);
+    lookupFunction(const std::string& funcName, FuncPtr& val, bool builtinOnly = false);
     /**
      * Lookup a variable.  Return true if the variable is defined, and
      * assigns the value of the variable to the second argument.

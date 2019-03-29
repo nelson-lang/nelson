@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
-IsFile(const std::wstring &str);
+IsFile(const std::wstring& str);
 }
 //=============================================================================

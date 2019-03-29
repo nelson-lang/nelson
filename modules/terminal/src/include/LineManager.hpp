@@ -171,7 +171,7 @@ public:
      * set prompt used by terminal
      */
     void
-    setCurrentPrompt(const std::wstring &prompt);
+    setCurrentPrompt(const std::wstring& prompt);
 
     /**
      * get prompt used by terminal
@@ -195,7 +195,7 @@ public:
      * copy line on terminal
      */
     void
-    copyLine(const std::wstring &line);
+    copyLine(const std::wstring& line);
 
     /**
      * add character to current line

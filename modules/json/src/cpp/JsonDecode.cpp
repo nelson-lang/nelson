@@ -742,7 +742,7 @@ getErrorMessage(int errorCode)
 }
 //=============================================================================
 static ArrayOf
-jsonDecodeInternal(const std::wstring &stringToDecode, std::wstring& errorMessage)
+jsonDecodeInternal(const std::wstring& stringToDecode, std::wstring& errorMessage)
 {
     std::wstring _stringToDecode(stringToDecode);
     boost::algorithm::trim_left(_stringToDecode);

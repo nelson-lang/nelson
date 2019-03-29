@@ -29,7 +29,7 @@
 namespace Nelson {
 //=============================================================================
 boost::container::vector<FileInfo>
-ListFilesWithWildcard(const std::wstring &mask, bool bSubdirectories)
+ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
 {
     boost::container::vector<FileInfo> res;
     boost::filesystem::path path(mask);

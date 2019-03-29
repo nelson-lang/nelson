@@ -31,7 +31,7 @@ private:
     std::wstring _description;
 
 public:
-    XmlDocHistoryItem(const std::wstring &version, const std::wstring &description);
+    XmlDocHistoryItem(const std::wstring& version, const std::wstring& description);
     ~XmlDocHistoryItem();
     std::wstring
     getVersion();

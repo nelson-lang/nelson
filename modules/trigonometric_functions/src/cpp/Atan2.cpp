@@ -210,10 +210,8 @@ Atan2(Class classDestination, const ArrayOf& A, const ArrayOf& B)
                     return vector_column_atan2<T>(classDestination, A, B);
                 }
                 return vector_column_atan2<T>(classDestination, B, A);
-
-            } 
-                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
-            
+            }
+            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"atan2");
         }
     } else {
         Error(_W("Size mismatch on arguments to arithmetic operator ") + L"atan2");

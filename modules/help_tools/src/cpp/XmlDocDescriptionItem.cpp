@@ -30,7 +30,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-XmlDocDescriptionItem::XmlDocDescriptionItem(const std::wstring &description)
+XmlDocDescriptionItem::XmlDocDescriptionItem(const std::wstring& description)
 {
     this->_description = description;
     this->imagesTag.clear();
@@ -53,7 +53,7 @@ XmlDocDescriptionItem::~XmlDocDescriptionItem()
 }
 //=============================================================================
 void
-XmlDocDescriptionItem::setValue(const std::wstring &value)
+XmlDocDescriptionItem::setValue(const std::wstring& value)
 {
     this->_description.assign(value);
 }

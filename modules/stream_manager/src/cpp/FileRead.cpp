@@ -113,7 +113,7 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
         } else if (sizeReallyRead < sizeToRead) {
             char* resizestr = nullptr;
             try {
-                resizestr = new char[(size_t)(sizeReallyRead + 1)];
+                resizestr = new char[(size_t)sizeReallyRead + (size_t)1];
             } catch (const std::bad_alloc& e) {
                 e.what();
                 delete[] str;

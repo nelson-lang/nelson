@@ -146,7 +146,8 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
 }
 //=============================================================================
 std::wstring
-stringReplace(const std::wstring &originStr, const std::wstring &subStr, const std::wstring &replaceStr, bool doOverlaps)
+stringReplace(const std::wstring& originStr, const std::wstring& subStr,
+    const std::wstring& replaceStr, bool doOverlaps)
 {
     std::wstring modifiedString = originStr;
     size_t start = 0;
@@ -430,10 +431,10 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
 }
 //=============================================================================
 std::wstring
-Replace(const std::wstring& originStr, const std::wstring &subStr, const std::wstring &replaceStr)
+Replace(const std::wstring& originStr, const std::wstring& subStr, const std::wstring& replaceStr)
 {
     std::wstring result;
-	if (subStr.empty()) {
+    if (subStr.empty()) {
         for (wchar_t c : originStr) {
             result = result + replaceStr + c;
         }

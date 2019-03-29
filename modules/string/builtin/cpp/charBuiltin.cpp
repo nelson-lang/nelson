@@ -117,7 +117,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                         + ClassName(argIn[0]) + "'.");
                 }
             }
-        } break;
+        }
         case NLS_UINT8:
         case NLS_INT8:
         case NLS_UINT16:

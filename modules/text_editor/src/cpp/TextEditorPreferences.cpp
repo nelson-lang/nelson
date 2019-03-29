@@ -116,7 +116,7 @@ TextEditorLoadPreferences(
 #endif
         if (jsonFile.is_open()) {
             std::string jsonString = "";
-			while (safegetline(jsonFile, tmpline)) {
+            while (safegetline(jsonFile, tmpline)) {
                 jsonString += tmpline + '\n';
             }
             jsonFile.close();

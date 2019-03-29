@@ -23,7 +23,7 @@
 //=============================================================================
 namespace Nelson {
 std::wstring
-getXmlFileEncoding(const std::wstring &filename);
+getXmlFileEncoding(const std::wstring& filename);
 xmlDoc*
 readDocument(const std::string& xmlCode, bool validate, std::wstring& error);
 } // namespace Nelson

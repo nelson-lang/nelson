@@ -38,7 +38,7 @@ getModeOsDependant(const std::wstring& mode)
 }
 //=============================================================================
 static bool
-isValidMode(const std::wstring &mode)
+isValidMode(const std::wstring& mode)
 {
     wstringVector supportedMode;
     supportedMode.push_back(L"r");

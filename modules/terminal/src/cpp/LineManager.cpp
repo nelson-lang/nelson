@@ -281,7 +281,7 @@ LineManager::getCurrentPrompt()
 }
 //=============================================================================
 void
-LineManager::setCurrentPrompt(const std::wstring &prompt)
+LineManager::setCurrentPrompt(const std::wstring& prompt)
 {
     currentPrompt = std::move(prompt);
 }
@@ -379,7 +379,7 @@ LineManager::refreshLine()
 }
 //=============================================================================
 void
-LineManager::copyLine(const std::wstring &line)
+LineManager::copyLine(const std::wstring& line)
 {
     if (line.size() > 0) {
         printCharacters(line, LineManager::STANDARD_INPUT);

@@ -50,7 +50,7 @@ public:
     bool
     writeHeaderAsMarkdown(std::string& utf8stream);
     void
-    setDirectories(const std::wstring &srcDirectory, const std::wstring &dstDirectory);
+    setDirectories(const std::wstring& srcDirectory, const std::wstring& dstDirectory);
 };
 //=============================================================================
 } // namespace Nelson

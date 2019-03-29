@@ -32,7 +32,7 @@ namespace Nelson {
 #define BUFFER_FRAMES 8192
 //=============================================================================
 ArrayOfVector
-AudioRead(const std::wstring &filename, double dstart, double dend, std::wstring datatype,
+AudioRead(const std::wstring& filename, double dstart, double dend, std::wstring datatype,
     std::wstring& errorMessage)
 {
     ArrayOfVector retval;

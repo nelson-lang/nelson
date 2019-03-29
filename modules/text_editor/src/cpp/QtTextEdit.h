@@ -58,7 +58,7 @@ private:
     modelFromNelson(wstringVector filesList, wstringVector builtinList, wstringVector macroList,
         wstringVector variableList);
     void
-    updateModel(const std::wstring &prefix, wstringVector filesList, wstringVector builtinList,
+    updateModel(const std::wstring& prefix, wstringVector filesList, wstringVector builtinList,
         wstringVector macroList, wstringVector variableList);
     void
     complete(QString prefix);
