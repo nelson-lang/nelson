@@ -59,7 +59,7 @@ Gamma(const ArrayOf& arrayIn)
         if (arrayIn.getDataClass() == NLS_DOUBLE) {
             double* ptrOut = (double*)ArrayOf::allocateArrayOf(
                 NLS_DOUBLE, dimsIn.getElementCount(), stringVector(), false);
-            double* ptrIn = (double*)arrayIn.getDataPointer();
+            auto* ptrIn = (double*)arrayIn.getDataPointer();
             Eigen::Map<Eigen::ArrayXd> matOut(ptrOut, dimsIn.getElementCount());
             Eigen::Map<Eigen::ArrayXd> matIn(ptrIn, dimsIn.getElementCount());
             matOut = matIn.unaryExpr(std::ref(gammad));
@@ -67,7 +67,7 @@ Gamma(const ArrayOf& arrayIn)
         } else {
             single* ptrOut = (single*)ArrayOf::allocateArrayOf(
                 NLS_SINGLE, dimsIn.getElementCount(), stringVector(), false);
-            single* ptrIn = (single*)arrayIn.getDataPointer();
+            auto* ptrIn = (single*)arrayIn.getDataPointer();
             Eigen::Map<Eigen::ArrayXf> matOut(ptrOut, dimsIn.getElementCount());
             Eigen::Map<Eigen::ArrayXf> matIn(ptrIn, dimsIn.getElementCount());
             matOut = matIn.unaryExpr(std::ref(gammas));

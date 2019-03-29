@@ -108,7 +108,6 @@ TextEditorLoadPreferences(
     bool bIsFile = boost::filesystem::exists(editorConfFile)
         && !boost::filesystem::is_directory(editorConfFile);
     if (bIsFile) {
-        std::string jsonString = "";
         std::string tmpline;
 #ifdef _MSC_VER
         std::ifstream jsonFile(editorConfFile);
@@ -116,7 +115,8 @@ TextEditorLoadPreferences(
         std::ifstream jsonFile(wstring_to_utf8(editorConfFile));
 #endif
         if (jsonFile.is_open()) {
-            while (safegetline(jsonFile, tmpline)) {
+            std::string jsonString = "";
+			while (safegetline(jsonFile, tmpline)) {
                 jsonString += tmpline + '\n';
             }
             jsonFile.close();

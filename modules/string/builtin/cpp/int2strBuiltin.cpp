@@ -64,7 +64,7 @@ StringVectorToString(wstringVector V, Dimensions& DimsV)
                             ArrayOf B = ArrayOf::characterArrayConstructor(line);
                             strArr = VertCat(strArr, B, true, bSuccess);
                         }
-                        line = L"";
+                        line.clear();
                         q = 0;
                     } else {
                         q++;

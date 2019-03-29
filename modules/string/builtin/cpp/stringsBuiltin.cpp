@@ -30,7 +30,7 @@ Nelson::StringGateway::stringsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.empty()) {
-        retval.push_back(ArrayOf::stringArrayConstructor(std::string("")));
+        retval.push_back(ArrayOf::stringArrayConstructor(std::string()));
     }
     if (argIn.size() == 1) {
         if (argIn[0].getDataClass() == NLS_DOUBLE) {

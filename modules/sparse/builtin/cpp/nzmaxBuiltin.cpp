@@ -75,6 +75,7 @@ Nelson::SparseGateway::nzmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 Error(_W("Undefined function 'nzmax' for input arguments of type "
                          "'struct'."));
             }
+            return retval;
         default:
             retval = OverloadFunction(eval, nLhs, argIn, "nzmax", bSuccess);
             if (!bSuccess) {

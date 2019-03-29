@@ -72,7 +72,7 @@ bool
 IntegerToString(ArrayOf A, wstringVector& result, std::wstring& error_message)
 {
     result.clear();
-    error_message = L"";
+    error_message.clear();
     if (A.isEmpty()) {
         result.push_back(L"");
         return true;

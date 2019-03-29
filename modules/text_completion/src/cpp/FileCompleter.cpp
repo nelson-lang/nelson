@@ -65,7 +65,7 @@ splitpath(const std::wstring& prefix, std::wstring& path, std::wstring& fname)
         path = prefix.substr(0, 1 + lastslash_pos);
         fname = prefix.substr(1 + lastslash_pos, prefix.size() - lastslash_pos);
     } else {
-        path = L"";
+        path.clear();
         fname = prefix;
     }
 }
@@ -91,9 +91,9 @@ FileCompleter(const std::wstring &prefix)
         }
         if (path.empty()) {
 #ifdef _MSC_VER
-            path = std::wstring(L"") + DIR_SEPARATOR_WINDOWS;
+            path = std::wstring() + DIR_SEPARATOR_WINDOWS;
 #else
-            path = std::wstring(L"") + DIR_SEPARATOR_OTHERS;
+            path = std::wstring() + DIR_SEPARATOR_OTHERS;
 #endif
         } else {
             wchar_t ch = *path.rbegin();

@@ -150,7 +150,8 @@ RngSetDefault(Evaluator* eval)
     }
     if (eval->RandomEngine == nullptr) {
         try {
-            eval->RandomEngine = (void*)new RandomMersenneTwister();
+            RandomMersenneTwister* tmp = new RandomMersenneTwister();
+            eval->RandomEngine = (void*)tmp;
         } catch (std::bad_alloc&) {
             eval->RandomEngine = nullptr;
         }
@@ -198,13 +199,16 @@ RngSetEngine(Evaluator* eval, double seed, const std::wstring& engineName)
         RNG_TYPE newrngtype = getRngType(engineName);
         switch (newrngtype) {
         case RNG_TWISTER: {
-            eval->RandomEngine = (void*)new RandomMersenneTwister();
+            RandomMersenneTwister* tmp = new RandomMersenneTwister();
+            eval->RandomEngine = (void*)tmp;
         } break;
         case RNG_TWISTER64: {
-            eval->RandomEngine = (void*)new RandomMersenneTwister64();
+            RandomMersenneTwister64* tmp = new RandomMersenneTwister64();
+            eval->RandomEngine = (void*)tmp;
         } break;
         case RNG_LAGGED_FIBONACCI_607: {
-            eval->RandomEngine = (void*)new RandomLaggedFibonacci607();
+            RandomLaggedFibonacci607* tmp = new RandomLaggedFibonacci607();
+            eval->RandomEngine = (void*)tmp;
         } break;
         default: { } break; }
         if (eval->RandomEngine == nullptr) {

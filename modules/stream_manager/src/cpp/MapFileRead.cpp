@@ -81,7 +81,7 @@ _MapFileClose(LPCVOID lpView)
 ArrayOf
 MapFileRead(const std::wstring& filename, const std::wstring& eol, std::wstring& errorMessage)
 {
-    errorMessage = L"";
+    errorMessage.clear();
     size_t cbSize = 0;
     BOOL isEmpty = FALSE;
     const char* fileView

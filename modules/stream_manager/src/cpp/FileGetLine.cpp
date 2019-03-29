@@ -92,7 +92,7 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
                     bOK = false;
                 } else {
                     if (nchar == 0) {
-                        result = L"";
+                        result.clear();
                         bOK = true;
                     } else if (nchar > 0) {
                         result = utf8_to_wstring(readline);

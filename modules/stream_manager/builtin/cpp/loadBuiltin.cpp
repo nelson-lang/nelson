@@ -148,10 +148,6 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         }
     }
 
-    if (loadFunctionName.empty()) {
-        Error(_W("load function expected."));
-    }
-
     FunctionDef* funcDef = nullptr;
     if (!PathFuncManager::getInstance()->find(loadFunctionName, funcDef)) {
         if (!BuiltInFunctionDefManager::getInstance()->find(loadFunctionName, funcDef)) {

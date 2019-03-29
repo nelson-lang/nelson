@@ -47,8 +47,8 @@ Cos(const ArrayOf& A, bool& needToOverload)
     case NLS_SCOMPLEX: {
         single* ptrR
             = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
-        singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        singlecomplex* Rz = reinterpret_cast<singlecomplex*>(ptrR);
+        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+        auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().cos();
@@ -68,8 +68,8 @@ Cos(const ArrayOf& A, bool& needToOverload)
     case NLS_DCOMPLEX: {
         double* ptrR
             = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
-        doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)ptrR);
+        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+        auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
         matR = matA.array().cos();
@@ -111,8 +111,8 @@ Sin(const ArrayOf& A, bool& needToOverload)
     case NLS_SCOMPLEX: {
         single* ptrR
             = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
-        singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)ptrR);
+        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+        auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().sin();
@@ -132,8 +132,8 @@ Sin(const ArrayOf& A, bool& needToOverload)
     case NLS_DCOMPLEX: {
         double* ptrR
             = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
-        doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)ptrR);
+        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+        auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
         matR = matA.array().sin();
@@ -175,8 +175,8 @@ Tan(const ArrayOf& A, bool& needToOverload)
     case NLS_SCOMPLEX: {
         single* ptrR
             = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
-        singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)ptrR);
+        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+        auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().tan();
@@ -196,8 +196,8 @@ Tan(const ArrayOf& A, bool& needToOverload)
     case NLS_DCOMPLEX: {
         double* ptrR
             = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
-        doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)ptrR);
+        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+        auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
         matR = matA.array().tan();
@@ -239,8 +239,8 @@ Cosh(const ArrayOf& A, bool& needToOverload)
     case NLS_SCOMPLEX: {
         single* ptrR
             = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
-        singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)ptrR);
+        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+        auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().cosh();
@@ -252,7 +252,7 @@ Cosh(const ArrayOf& A, bool& needToOverload)
     case NLS_SINGLE: {
         single* ptrR
             = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
-        single* pA = (single*)A.getDataPointer();
+        auto* pA = (single*)A.getDataPointer();
         Eigen::Map<Eigen::MatrixXf> matA(pA, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXf> matR(ptrR, 1, A.getLength());
         matR = matA.array().cosh();
@@ -261,8 +261,8 @@ Cosh(const ArrayOf& A, bool& needToOverload)
     case NLS_DCOMPLEX: {
         double* ptrR
             = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
-        doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)ptrR);
+        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+        auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
         matR = matA.array().cosh();
@@ -274,7 +274,7 @@ Cosh(const ArrayOf& A, bool& needToOverload)
     case NLS_DOUBLE: {
         double* ptrR
             = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
-        double* pA = (double*)A.getDataPointer();
+        auto* pA = (double*)A.getDataPointer();
         Eigen::Map<Eigen::MatrixXd> matA(pA, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXd> matR(ptrR, 1, A.getLength());
         matR = matA.array().cosh();
@@ -305,8 +305,8 @@ Sinh(const ArrayOf& A, bool& needToOverload)
     case NLS_SCOMPLEX: {
         single* ptrR
             = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
-        singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)ptrR);
+        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+        auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().sinh();
@@ -318,7 +318,7 @@ Sinh(const ArrayOf& A, bool& needToOverload)
     case NLS_SINGLE: {
         single* ptrR
             = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
-        single* pA = (single*)A.getDataPointer();
+        auto* pA = (single*)A.getDataPointer();
         Eigen::Map<Eigen::MatrixXf> matA(pA, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXf> matR(ptrR, 1, A.getLength());
         matR = matA.array().sinh();
@@ -327,8 +327,8 @@ Sinh(const ArrayOf& A, bool& needToOverload)
     case NLS_DCOMPLEX: {
         double* ptrR
             = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
-        doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)ptrR);
+        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+        auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
         matR = matA.array().sinh();
@@ -340,7 +340,7 @@ Sinh(const ArrayOf& A, bool& needToOverload)
     case NLS_DOUBLE: {
         double* ptrR
             = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
-        double* pA = (double*)A.getDataPointer();
+        auto* pA = (double*)A.getDataPointer();
         Eigen::Map<Eigen::MatrixXd> matA(pA, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXd> matR(ptrR, 1, A.getLength());
         matR = matA.array().sinh();
@@ -371,8 +371,8 @@ Tanh(const ArrayOf& A, bool& needToOverload)
     case NLS_SCOMPLEX: {
         single* ptrR
             = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
-        singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        singlecomplex* Rz = reinterpret_cast<singlecomplex*>(ptrR);
+        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+        auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().tanh();
@@ -384,7 +384,7 @@ Tanh(const ArrayOf& A, bool& needToOverload)
     case NLS_SINGLE: {
         single* ptrR
             = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
-        single* pA = (single*)A.getDataPointer();
+        auto* pA = (single*)A.getDataPointer();
         Eigen::Map<Eigen::MatrixXf> matA(pA, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXf> matR(ptrR, 1, A.getLength());
         matR = matA.array().tanh();
@@ -393,8 +393,8 @@ Tanh(const ArrayOf& A, bool& needToOverload)
     case NLS_DCOMPLEX: {
         double* ptrR
             = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
-        doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)ptrR);
+        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+        auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
         matR = matA.array().tanh();
@@ -406,7 +406,7 @@ Tanh(const ArrayOf& A, bool& needToOverload)
     case NLS_DOUBLE: {
         double* ptrR
             = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
-        double* pA = (double*)A.getDataPointer();
+        auto* pA = (double*)A.getDataPointer();
         Eigen::Map<Eigen::MatrixXd> matA(pA, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXd> matR(ptrR, 1, A.getLength());
         matR = matA.array().tanh();
@@ -436,7 +436,7 @@ Acos(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SINGLE: {
         R = A;
-        single* ptrA = (single*)A.getDataPointer();
+        auto* ptrA = (single*)A.getDataPointer();
         bool needToConvertAsComplex = false;
         for (indexType i = 0; i < A.getDimensions().getElementCount(); i++) {
             if (std::abs(ptrA[i]) > 1) {
@@ -447,8 +447,8 @@ Acos(const ArrayOf& A, bool& needToOverload)
         if (needToConvertAsComplex) {
             R.ensureSingleOwner();
             R.promoteType(NLS_SCOMPLEX);
-            singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
-            singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
+            auto* Az = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
+            auto* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
             Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
             Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, R.getLength());
             matR = matA.array().acos();
@@ -465,8 +465,8 @@ Acos(const ArrayOf& A, bool& needToOverload)
     case NLS_SCOMPLEX: {
         R = A;
         R.ensureSingleOwner();
-        singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
-        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
+        auto* Az = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
+        auto* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, R.getLength());
         matR = matA.array().acos();
@@ -475,7 +475,7 @@ Acos(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DOUBLE: {
-        double* ptrA = (double*)A.getDataPointer();
+        auto* ptrA = (double*)A.getDataPointer();
         bool needToConvertAsComplex = false;
         for (indexType i = 0; i < A.getDimensions().getElementCount(); i++) {
             if (std::abs(ptrA[i]) > 1) {
@@ -487,8 +487,8 @@ Acos(const ArrayOf& A, bool& needToOverload)
             R = A;
             R.ensureSingleOwner();
             R.promoteType(NLS_DCOMPLEX);
-            doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
-            doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+            auto* Az = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+            auto* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
             Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
             Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
             matR = matA.array().acos();
@@ -507,8 +507,8 @@ Acos(const ArrayOf& A, bool& needToOverload)
     case NLS_DCOMPLEX: {
         R = A;
         R.ensureSingleOwner();
-        doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
-        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+        auto* Az = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+        auto* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
         matR = matA.array().acos();
@@ -540,7 +540,7 @@ Asin(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SINGLE: {
         R = A;
-        single* ptrA = (single*)A.getDataPointer();
+        auto* ptrA = (single*)A.getDataPointer();
         bool needToConvertAsComplex = false;
         for (indexType i = 0; i < A.getDimensions().getElementCount(); i++) {
             if (std::abs(ptrA[i]) > 1) {
@@ -551,8 +551,8 @@ Asin(const ArrayOf& A, bool& needToOverload)
         if (needToConvertAsComplex) {
             R.ensureSingleOwner();
             R.promoteType(NLS_SCOMPLEX);
-            singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
-            singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
+            auto* Az = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
+            auto* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
             Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
             Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, R.getLength());
             matR = matA.array().asin();
@@ -569,8 +569,8 @@ Asin(const ArrayOf& A, bool& needToOverload)
     case NLS_SCOMPLEX: {
         single* ptrR
             = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
-        singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)ptrR);
+        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+        auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().asin();
@@ -580,7 +580,7 @@ Asin(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DOUBLE: {
-        double* ptrA = (double*)A.getDataPointer();
+        auto* ptrA = (double*)A.getDataPointer();
         bool needToConvertAsComplex = false;
         for (indexType i = 0; i < A.getDimensions().getElementCount(); i++) {
             if (std::fabs(ptrA[i]) > 1) {
@@ -592,8 +592,8 @@ Asin(const ArrayOf& A, bool& needToOverload)
             R = A;
             R.ensureSingleOwner();
             R.promoteType(NLS_DCOMPLEX);
-            doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
-            doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+            auto* Az = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+            auto* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
             Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
             Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
             matR = matA.array().asin();
@@ -612,8 +612,8 @@ Asin(const ArrayOf& A, bool& needToOverload)
     case NLS_DCOMPLEX: {
         double* ptrR
             = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
-        doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)ptrR);
+        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+        auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
         matR = matA.array().asin();
@@ -647,7 +647,7 @@ Atan(const ArrayOf& A, bool& needToOverload)
     case NLS_SINGLE: {
         single* ptrR
             = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
-        single* pA = (single*)A.getDataPointer();
+        auto* pA = (single*)A.getDataPointer();
         Eigen::Map<Eigen::MatrixXf> matA(pA, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXf> matR(ptrR, 1, A.getLength());
         matR = matA.array().atan();
@@ -656,8 +656,8 @@ Atan(const ArrayOf& A, bool& needToOverload)
     case NLS_SCOMPLEX: {
         single* ptrR
             = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
-        singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)ptrR);
+        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+        auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().atan();
@@ -669,7 +669,7 @@ Atan(const ArrayOf& A, bool& needToOverload)
     case NLS_DOUBLE: {
         double* ptrR
             = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
-        double* pA = (double*)A.getDataPointer();
+        auto* pA = (double*)A.getDataPointer();
         Eigen::Map<Eigen::MatrixXd> matA(pA, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXd> matR(ptrR, 1, A.getLength());
         matR = matA.array().atan();
@@ -678,8 +678,8 @@ Atan(const ArrayOf& A, bool& needToOverload)
     case NLS_DCOMPLEX: {
         double* ptrR
             = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
-        doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
-        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)ptrR);
+        auto* Az = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+        auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
         matR = matA.array().atan();

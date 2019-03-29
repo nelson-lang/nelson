@@ -34,7 +34,7 @@ ConvertCharsToStrings(const ArrayOfVector& A)
                 res.push_back(ArrayOf::stringArrayConstructor(value.getContentAsWideString()));
             } else {
                 indexType len = dims.getElementCount() / dims.getRows();
-                charType* ptrChar = (charType*)value.getDataPointer();
+                auto* ptrChar = (charType*)value.getDataPointer();
                 std::wstring str;
                 str.reserve(dims.getElementCount());
                 for (indexType i = 0; i < dims.getRows(); i++) {

@@ -534,7 +534,6 @@ void*
 Eigen_SetSparseVectorSubsets(Class dclass, indexType& rows, indexType& cols, const void* src,
     const indexType* indx, indexType irows, indexType icols, const void* data, int advance)
 {
-    void* spMat = nullptr;
     if (advance) {
         Error(_W("Eigen_DeleteSparseMatrixVectorSubset advanced not yet implemented."));
     }
@@ -545,7 +544,7 @@ Eigen_SetSparseVectorSubsets(Class dclass, indexType& rows, indexType& cols, con
         rowvect[k] = static_cast<indexType>(idx % rows) + 1;
         colvect[k] = static_cast<indexType>(idx / rows) + 1;
     }
-    spMat = Eigen_SetSparseNDimSubsets(
+    void* spMat = Eigen_SetSparseNDimSubsets(
         dclass, rows, cols, src, rowvect, irows * icols, colvect, irows * icols, data, advance);
     delete[] rowvect;
     delete[] colvect;

@@ -53,7 +53,7 @@ bool
 SioClientCommand::createConnection(const std::string& ipAddress)
 {
     if (!ipAddress.empty()) {
-        _command = "";
+        _command.clear();
         _sioClient.set_open_listener(
             std::bind(&SioClientListener::on_connected, &_sioClientListener));
         _sioClient.set_close_listener(

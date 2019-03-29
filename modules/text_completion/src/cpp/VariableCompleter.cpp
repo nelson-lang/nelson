@@ -29,14 +29,15 @@ VariableCompleter(const std::wstring &prefix)
     wstringVector res;
     auto* eval = static_cast<Evaluator*>(GetNelsonMainEvaluatorDynamicFunction());
     if (eval) {
+        Context* context = eval->getContext();
         stringVector variables;
-        eval->getContext()->getGlobalScope()->getVariablesList(true, variables);
+        context->getGlobalScope()->getVariablesList(true, variables);
         stringVector variablesCurrentScope;
-        eval->getContext()->getCurrentScope()->getVariablesList(true, variablesCurrentScope);
+        context->getCurrentScope()->getVariablesList(true, variablesCurrentScope);
         variables.insert(
             variables.end(), variablesCurrentScope.begin(), variablesCurrentScope.end());
         stringVector variablesBaseScope;
-        eval->getContext()->getBaseScope()->getVariablesList(true, variablesBaseScope);
+        context->getBaseScope()->getVariablesList(true, variablesBaseScope);
         variables.insert(variables.end(), variablesBaseScope.begin(), variablesBaseScope.end());
         if (!variables.empty()) {
             std::sort(variables.begin(), variables.end());

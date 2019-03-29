@@ -34,7 +34,7 @@ static bool
 isEmptyLine(const std::string &line)
 {
     std::string str = boost::algorithm::trim_left_copy(line);
-    return str == "";
+    return str.empty();
 }
 //=============================================================================
 static bool

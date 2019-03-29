@@ -29,10 +29,11 @@ cosmComplex(const ArrayOf& A)
     T* ptrR = (T*)ArrayOf::allocateArrayOf(A.getDataClass(), A.getLength(), stringVector(), false);
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
     std::complex<T>* Rz = reinterpret_cast<std::complex<T>*>((T*)ptrR);
-    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az,
-        (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(Rz,
-        (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+    Dimensions dimsA = A.getDimensions();
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(
+        Az, (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(
+        Rz, (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
     // [V, D] = eig(A);
     // cosm = V * diag(cos(diag(D))) * inv(V);
     Eigen::ComplexEigenSolver<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>>

@@ -27,7 +27,7 @@ StringFind(const std::wstring &A, const std::wstring &B)
     ArrayOf res;
     boost::container::vector<double> vectorRes;
     std::string::size_type found = std::string::npos;
-    if (B != L"") {
+    if (!B.empty()) {
         size_t start = 0;
         while (true) {
             found = A.find(B, start);

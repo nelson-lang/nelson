@@ -93,7 +93,7 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             forceAsNh5 = true;
         } else if (extension == ".mat") {
             forceAsMat = true;
-        } else if (extension == "") {
+        } else if (extension.empty()) {
             forceAsNh5 = true;
             paramFilename = paramFilename + L".nh5";
         } else {

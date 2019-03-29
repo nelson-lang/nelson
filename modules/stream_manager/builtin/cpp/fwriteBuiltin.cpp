@@ -61,8 +61,8 @@ fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         Error(ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
     }
     ArrayOf param1 = argIn[0];
-    ArrayOf param2 = argIn[1];
     if (param1.isDoubleType()) {
+        ArrayOf param2 = argIn[1];
         if (param2.isReferenceType()) {
             Error(_W("Cannot write references type."));
         }

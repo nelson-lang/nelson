@@ -28,8 +28,8 @@ File::File(bool bIsFilePointer)
 {
     this->bIsFilePointer = bIsFilePointer;
     this->stream = nullptr;
-    this->filename = L"";
-    this->mode = L"";
+    this->filename.clear();
+    this->mode.clear();
 }
 //=============================================================================
 File::~File()
@@ -41,8 +41,8 @@ File::~File()
         }
     }
     this->stream = nullptr;
-    this->filename = L"";
-    this->mode = L"";
+    this->filename.clear();
+    this->mode.clear();
     this->bIsFilePointer = false;
 }
 //=============================================================================

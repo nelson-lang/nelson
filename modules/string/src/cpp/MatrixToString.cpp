@@ -61,8 +61,8 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
             Error(ERROR_TYPE_NOT_SUPPORTED);
         } break;
         case NLS_SCOMPLEX: {
-            single* pValue = (single*)A.getDataPointer();
-            singlecomplex* pComplexValue = reinterpret_cast<singlecomplex*>(pValue);
+            auto* pValue = (single*)A.getDataPointer();
+            auto* pComplexValue = reinterpret_cast<singlecomplex*>(pValue);
             for (indexType x = 0; x < dims.getRows(); x++) {
                 for (indexType y = 0; y < dims.getColumns(); y++) {
                     singlecomplex complexVal = pComplexValue[x + y * dims.getRows()];
@@ -118,8 +118,8 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
             }
         } break;
         case NLS_DCOMPLEX: {
-            double* pValue = (double*)A.getDataPointer();
-            doublecomplex* pComplexValue = reinterpret_cast<doublecomplex*>(pValue);
+            auto* pValue = (double*)A.getDataPointer();
+            auto* pComplexValue = reinterpret_cast<doublecomplex*>(pValue);
             for (indexType x = 0; x < dims.getRows(); x++) {
                 for (indexType y = 0; y < dims.getColumns(); y++) {
                     doublecomplex complexVal = pComplexValue[x + y * dims.getRows()];
@@ -175,7 +175,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
             }
         } break;
         case NLS_DOUBLE: {
-            double* pValue = (double*)A.getDataPointer();
+            auto* pValue = (double*)A.getDataPointer();
             for (indexType x = 0; x < dims.getRows(); x++) {
                 for (indexType y = 0; y < dims.getColumns(); y++) {
                     double val = pValue[x + y * dims.getRows()];
@@ -201,7 +201,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
             }
         } break;
         case NLS_SINGLE: {
-            single* pValue = (single*)A.getDataPointer();
+            auto* pValue = (single*)A.getDataPointer();
             for (indexType x = 0; x < dims.getRows(); x++) {
                 for (indexType y = 0; y < dims.getColumns(); y++) {
                     single val = pValue[x + y * dims.getRows()];
@@ -227,7 +227,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
             }
         } break;
         case NLS_LOGICAL: {
-            logical* pValue = (logical*)A.getDataPointer();
+            auto* pValue = (logical*)A.getDataPointer();
             for (indexType x = 0; x < dims.getRows(); x++) {
                 for (indexType y = 0; y < dims.getColumns(); y++) {
                     if (pValue[x + y * dims.getRows()] == 1) {
@@ -247,7 +247,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
         case NLS_INT32:
         case NLS_INT64: {
             A.promoteType(NLS_INT64);
-            int64* pValue = (int64*)A.getDataPointer();
+            auto* pValue = (int64*)A.getDataPointer();
             for (indexType x = 0; x < dims.getRows(); x++) {
                 for (indexType y = 0; y < dims.getColumns(); y++) {
                     res = res + std::to_wstring(pValue[x + y * dims.getRows()]) + L" ";
@@ -263,7 +263,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
         case NLS_UINT32:
         case NLS_UINT64: {
             A.promoteType(NLS_UINT64);
-            uint64* pValue = (uint64*)A.getDataPointer();
+            auto* pValue = (uint64*)A.getDataPointer();
             for (indexType x = 0; x < dims.getRows(); x++) {
                 for (indexType y = 0; y < dims.getColumns(); y++) {
                     res = res + std::to_wstring(pValue[x + y * dims.getRows()]) + L" ";
