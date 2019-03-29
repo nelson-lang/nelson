@@ -63,10 +63,10 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
         git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.4 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && sudo make install && cd -;
         ```
 
-    - Get and install matio library (minimal 1.5.13)
+    - Get and install matio library (minimal 1.5.15)
     
         ```bash        
-        git clone https://github.com/tbeu/matio /tmp/matio && cd /tmp/matio && git checkout v1.5.13 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic && make && make install
+        git clone https://github.com/tbeu/matio /tmp/matio && cd /tmp/matio && git checkout v1.5.15 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic && make && make install
         ```
 
     - Get and install Boost library (minimal 1.62)

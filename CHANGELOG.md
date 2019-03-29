@@ -1,3 +1,13 @@
+# 0.3.4  
+
+Compilation:
+------------
+
+* MATIO 1.5.15
+
+  Thanks to MAT file I/O library (MATIO) to provide an easy support for MAT-file.
+
+
 # 0.3.3  (2019-03-21)
 
 Features:
