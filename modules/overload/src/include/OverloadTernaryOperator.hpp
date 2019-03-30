@@ -41,7 +41,7 @@ callOverloadedFunction(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
 static ArrayOf
 OverloadTernaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, ArrayOf c,
     const std::string& functionName, bool bRaiseError, bool& bSuccess,
-    std::string forcedFunctionName)
+    const std::string& forcedFunctionName)
 {
     FunctionDef* funcDef = nullptr;
     std::string classNameA = ClassName(a);

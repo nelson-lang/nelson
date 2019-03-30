@@ -39,7 +39,7 @@ callOverloadedFunction(Evaluator* eval, ArrayOf a, ArrayOf b,
 //=============================================================================
 static ArrayOf
 OverloadBinaryOperator(Evaluator* eval, ArrayOf a, ArrayOf b, const std::string& functionName,
-    bool bRaiseError, bool& bSuccess, std::string forcedFunctionName)
+    bool bRaiseError, bool& bSuccess, const std::string& forcedFunctionName)
 {
     FunctionDef* funcDef = nullptr;
     std::string classNameA = ClassName(a);

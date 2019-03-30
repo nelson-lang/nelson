@@ -296,7 +296,7 @@ Context::bypassScope(int count)
     if (count < 0) {
         count = static_cast<int>(scopestack.size());
     }
-    bypassstack.reserve(count);
+    bypassstack.reserve(scopestack.size());
     while ((count > 0) && (scopestack.back()->getName() != "base")) {
         bypassstack.push_back(scopestack.back());
         scopestack.pop_back();

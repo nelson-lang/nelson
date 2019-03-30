@@ -28,7 +28,8 @@ Blanks(indexType nbBlanks)
 {
     ArrayOf res;
     Dimensions dimsRes(1, nbBlanks);
-    charType *ptrChar = (charType*)ArrayOf::allocateArrayOf(NLS_CHAR, nbBlanks, stringVector(), false);
+    charType* ptrChar
+        = (charType*)ArrayOf::allocateArrayOf(NLS_CHAR, nbBlanks, stringVector(), false);
     res = ArrayOf(NLS_CHAR, dimsRes, ptrChar);
     wmemset(ptrChar, L' ', nbBlanks);
     return res;

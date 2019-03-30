@@ -84,7 +84,7 @@ using PROC_FinishGateway = bool (*)(Nelson::Evaluator*);
     {                                                                                              \
         stringVector res;                                                                          \
         size_t nbBuiltins = sizeof(gateway) / sizeof(nlsGateway);                                  \
-		res.reserve(nbBuiltins);                                                                   \
+        res.reserve(nbBuiltins);                                                                   \
         for (size_t k = 0; k < nbBuiltins; k++) {                                                  \
             res.push_back(gateway[k].functionName);                                                \
         }                                                                                          \

@@ -51,7 +51,7 @@ private:
 
     std::wstring currentLanguage;
     wstringVector LanguageSupported;
-    library_handle nlsCoreDynamicLibrary;
+    library_handle nlsCoreDynamicLibrary = nullptr;
     bool bFirstDynamicLibraryCall;
 
     void
@@ -65,5 +65,6 @@ private:
     void
     initLanguageSupported();
 };
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

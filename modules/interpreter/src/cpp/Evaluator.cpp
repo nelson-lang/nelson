@@ -2878,7 +2878,7 @@ Evaluator::functionExpression(FunctionDef* funcDef, ASTPtr t, int narg_out, bool
                         // maxndx+1+(m.size() - holes)
                         size_t totalCount;
                         if (holes > m.size()) {
-                            totalCount = static_cast<size_t>(maxndx + 1);
+                            totalCount = ((size_t)maxndx + (size_t)1);
                         } else {
                             totalCount = (size_t)(maxndx + 1 + (m.size() - holes));
                         }
@@ -4194,7 +4194,7 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
         }
         int nLhs = 1;
         argIn.reserve(params.size() + 1);
-		argIn.push_back(r);
+        argIn.push_back(r);
         for (ArrayOf a : params) {
             argIn.push_back(a);
         }

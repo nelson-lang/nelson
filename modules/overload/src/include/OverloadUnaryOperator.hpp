@@ -38,7 +38,7 @@ callOverloadedFunction(Evaluator* eval, ArrayOf a, const std::string& OverloadNa
 //=============================================================================
 static ArrayOf
 OverloadUnaryOperator(Evaluator* eval, ArrayOf a, const std::string& functionName, bool bRaiseError,
-    bool& bSuccess, std::string forcedFunctionName)
+    bool& bSuccess, const std::string& forcedFunctionName)
 {
     FunctionDef* funcDef = nullptr;
     std::string classNameA = ClassName(a);
