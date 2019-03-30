@@ -40,6 +40,7 @@
 #include "deblankBuiltin.hpp"
 #include "convertStringsToCharsBuiltin.hpp"
 #include "convertCharsToStringsBuiltin.hpp"
+#include "blanksBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -75,6 +76,7 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "convertCharsToStrings", Nelson::StringGateway::convertCharsToStringsBuiltin, -1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "blanks", Nelson::StringGateway::blanksBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
 
 };
 //=============================================================================

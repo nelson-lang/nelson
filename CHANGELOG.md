@@ -1,11 +1,19 @@
 # 0.3.4  
 
+Features:
+---------
+
+* blanks builtin: creates an string of blank characters.
+
+
 Compilation:
 ------------
 
 * MATIO 1.5.15
 
   Thanks to MAT file I/O library (MATIO) to provide an easy support for MAT-file.
+
+* more 100 warnings fixed (Thanks to PVS-Studio analyzer and also Cppcheck).
 
 
 # 0.3.3  (2019-03-21)

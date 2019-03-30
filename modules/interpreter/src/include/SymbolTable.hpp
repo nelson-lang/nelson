@@ -90,6 +90,7 @@ public:
     getMacrosList()
     {
         stringVector retlist;
+        retlist.reserve(symbolMap.size());
         for (auto it = symbolMap.begin(); it != symbolMap.end(); ++it) {
             retlist.push_back(it->first);
         }

@@ -1,0 +1,35 @@
+//=============================================================================
+// Copyright (c) 2016-2019 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_isequal(nargin('blanks'), 1);
+assert_isequal(nargout('blanks'), 1);
+//=============================================================================
+r = blanks(3);
+REF = '   ';
+assert_isequal(r, REF);
+//=============================================================================
+r = blanks(-3);
+REF = char(zeros(1,0));
+assert_isequal(r, REF);
+//=============================================================================
+assert_checkerror('r = blanks([1 3]);', _('Expected a real value scalar.'));
+//=============================================================================
+assert_checkerror('r = blanks(NaN);', _('NaN and Inf not allowed.'));
+//=============================================================================
+assert_checkerror('r = blanks(2.3);', _('Expected a integer value.'));
+//=============================================================================

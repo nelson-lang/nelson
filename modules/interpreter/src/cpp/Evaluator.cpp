@@ -270,7 +270,6 @@ ArrayOf
 Evaluator::matrixDefinition(ASTPtr t)
 {
     ArrayOfMatrix m;
-    // m.reserve(4096);
     if (t->opNum != OP_BRACKETS) {
         Error(ERROR_AST_SYNTAX_ERROR);
     }
@@ -281,6 +280,7 @@ Evaluator::matrixDefinition(ASTPtr t)
         s = s->right;
     }
     ArrayOfVector v;
+    v.reserve(m.size());
     for (size_t k = 0; k < m.size(); k++) {
         ArrayOf h = HorzCatOperator(this, m[k]);
         v.push_back(h);
@@ -742,6 +742,7 @@ Evaluator::expressionList(ASTPtr t)
                 }
                 n = ArrayOfVector();
             }
+            m.reserve(n.size());
             for (size_t i = 0; i < n.size(); i++) {
                 m.push_back(n[i]);
             }
@@ -787,6 +788,7 @@ Evaluator::expressionList(ASTPtr t, ArrayOf subRoot)
                 }
                 n = ArrayOfVector();
             }
+            m.reserve(n.size());
             for (size_t i = 0; i < n.size(); i++) {
                 m.push_back(n[i]);
             }
@@ -826,6 +828,7 @@ ArrayOfVector
 Evaluator::subsindex(const ArrayOfVector& m)
 {
     ArrayOfVector n;
+    n.reserve(m.size());
     for (size_t k = 0; k < m.size(); k++) {
         ArrayOf t = OverloadUnaryOperator(this, m[k], "subsindex");
         t.promoteType(NLS_UINT32);
@@ -2185,6 +2188,7 @@ Evaluator::specialFunctionCall(ASTPtr t, bool printIt)
         return m;
     }
     ArrayOfVector n;
+    n.reserve(args.size());
     for (size_t i = 1; i < args.size(); i++) {
         n.push_back(ArrayOf::characterArrayConstructor(args[i].c_str()));
     }
@@ -4189,7 +4193,8 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
             Error(_W("Type function not valid."));
         }
         int nLhs = 1;
-        argIn.push_back(r);
+        argIn.reserve(params.size() + 1);
+		argIn.push_back(r);
         for (ArrayOf a : params) {
             argIn.push_back(a);
         }

@@ -669,7 +669,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
   end
   nbCharsStart = length(startChars);
   nb_spaces = 80 - nbCharsStart - length(test_case_res.status);
-  fprintf(stdout, [char(ones(1, nb_spaces) * double(' ')), test_case_res.status, newline]);
+  fprintf(stdout, [blanks(nb_spaces), test_case_res.status, newline]);
   
   if strcmp(test_case_res.status, 'Fail') == true
     disp(['    run(''', test.filename, ''')']);

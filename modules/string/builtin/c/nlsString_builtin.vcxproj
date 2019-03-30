@@ -168,6 +168,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\blanksBuiltin.cpp" />
     <ClCompile Include="..\cpp\charBuiltin.cpp" />
     <ClCompile Include="..\cpp\containsBuiltin.cpp" />
     <ClCompile Include="..\cpp\convertCharsToStringsBuiltin.cpp" />
@@ -224,6 +225,7 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\blanksBuiltin.hpp" />
     <ClInclude Include="..\include\charBuiltin.hpp" />
     <ClInclude Include="..\include\containsBuiltin.hpp" />
     <ClInclude Include="..\include\convertCharsToStringsBuiltin.hpp" />

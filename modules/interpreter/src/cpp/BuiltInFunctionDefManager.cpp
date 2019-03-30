@@ -161,6 +161,7 @@ std::vector<FuncPtr>
 BuiltInFunctionDefManager::getTable()
 {
     std::vector<FuncPtr> builtinTable;
+    builtinTable.reserve(builtinVector.size());
     for (auto& it : builtinVector) {
         builtinTable.push_back(it);
     }
@@ -171,6 +172,7 @@ stringVector
 BuiltInFunctionDefManager::getNameList()
 {
     stringVector nameList;
+    nameList.reserve(builtinVector.size());
     for (auto& it : builtinVector) {
         nameList.push_back(it->name);
     }

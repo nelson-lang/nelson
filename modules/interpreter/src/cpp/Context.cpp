@@ -296,6 +296,7 @@ Context::bypassScope(int count)
     if (count < 0) {
         count = static_cast<int>(scopestack.size());
     }
+    bypassstack.reserve(count);
     while ((count > 0) && (scopestack.back()->getName() != "base")) {
         bypassstack.push_back(scopestack.back());
         scopestack.pop_back();
@@ -306,6 +307,7 @@ Context::bypassScope(int count)
 void
 Context::restoreBypassedScopes()
 {
+    scopestack.reserve(bypassstack.size());
     for (auto i : bypassstack) {
         scopestack.push_back(i);
     }
