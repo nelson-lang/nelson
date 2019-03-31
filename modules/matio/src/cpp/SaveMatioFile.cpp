@@ -18,6 +18,7 @@
 //=============================================================================
 #include <matio.h>
 #include <ctime>
+#include <boost/algorithm/string.hpp>
 #include "SaveMatioFile.hpp"
 #include "SaveMatioVariable.hpp"
 #include "IsValidVariableName.hpp"
@@ -56,7 +57,9 @@ createHeaderMatioFile()
     header = header + std::string(" Created by libmatio ") + std::string(MATIO_VERSION_STR);
     time_t _tm = time(nullptr);
     struct tm* curtime = localtime(&_tm);
-    header = header + std::string(" on ") + asctime(curtime);
+    std::string timestr = asctime(curtime);
+    boost::algorithm::replace_last(timestr, "\n", "");
+    header = header + std::string(" on ") + timestr;
     return header;
 }
 //=============================================================================

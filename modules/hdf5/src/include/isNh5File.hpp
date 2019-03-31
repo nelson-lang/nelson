@@ -23,8 +23,8 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSHDF5_IMPEXP ArrayOf
-isNh5File(const wstringVector& filenames);
+NLSHDF5_IMPEXP void
+isNh5File(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions, ArrayOf& headers);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

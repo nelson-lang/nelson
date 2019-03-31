@@ -5,6 +5,10 @@ Features:
 
 * blanks builtin: creates an string of blank characters.
 
+* .nh5 files have an header to identify it easily.
+
+* isnh5file, ismatfile extended to return header string.
+
 
 Compilation:
 ------------

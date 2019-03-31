@@ -19,13 +19,14 @@
 #include <matio.h>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
+#include <boost/algorithm/string.hpp>
 #include "IsMatioFile.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 void
-IsMatioFile(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions)
+IsMatioFile(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions, ArrayOf& headers)
 {
     Dimensions dims(filenames.size(), 1);
     logical* res = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, filenames.size());
@@ -33,10 +34,14 @@ IsMatioFile(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions)
 
     if (filenames.size() == 0) {
         versions = ArrayOf::stringArrayConstructor(filenames, dims);
+        headers = ArrayOf::stringArrayConstructor(filenames, dims);
         return;
     }
-    ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, filenames.size());
-    versions = ArrayOf(NLS_STRING_ARRAY, dims, elements);
+    ArrayOf* elementVersions = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, filenames.size());
+    versions = ArrayOf(NLS_STRING_ARRAY, dims, elementVersions);
+
+    ArrayOf* elementHeaders = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, filenames.size());
+    headers = ArrayOf(NLS_STRING_ARRAY, dims, elementHeaders);
 
     for (size_t k = 0; k < filenames.size(); ++k) {
         std::wstring filename = filenames[k];
@@ -45,39 +50,51 @@ IsMatioFile(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions)
         try {
             fileExistPreviously = boost::filesystem::exists(mat_filename)
                 && !boost::filesystem::is_directory(mat_filename);
-        } catch (const boost::filesystem::filesystem_error& e) {
+        } catch (const boost::filesystem::filesystem_error&) {
             fileExistPreviously = false;
         }
         if (!fileExistPreviously) {
             res[k] = false;
-            elements[k] = ArrayOf::characterArrayConstructor("");
+            ArrayOf empty = ArrayOf::emptyConstructor(0, 1);
+            empty.promoteType(NLS_CHAR);
+            elementVersions[k] = ArrayOf::characterArrayConstructor("");
+            elementHeaders[k] = ArrayOf::characterArrayConstructor("");
         } else {
             std::string utf8filename = wstring_to_utf8(filename);
             mat_t* matfile = Mat_Open(utf8filename.c_str(), MAT_ACC_RDONLY);
             if (matfile) {
-                mat_ft matVer = Mat_GetVersion(matfile);
+                const char* headermat = Mat_GetHeader(matfile);
+                if (headermat) {
+                    std::string headertrimleft = std::string(headermat);
+                    boost::algorithm::trim_right(headertrimleft);
+                    elementHeaders[k] = ArrayOf::characterArrayConstructor(headertrimleft);
+                } else {
+                    elementHeaders[k] = ArrayOf::characterArrayConstructor("");
+                }
+				mat_ft matVer = Mat_GetVersion(matfile);
                 switch (matVer) {
                 case MAT_FT_MAT73: {
                     res[k] = true;
-                    elements[k] = ArrayOf::characterArrayConstructor("-v7.3");
+                    elementVersions[k] = ArrayOf::characterArrayConstructor("-v7.3");
                 } break;
                 case MAT_FT_MAT5: {
                     res[k] = true;
-                    elements[k] = ArrayOf::characterArrayConstructor("-v7");
+                    elementVersions[k] = ArrayOf::characterArrayConstructor("-v7");
                 } break;
                 case MAT_FT_MAT4: {
                     res[k] = true;
-                    elements[k] = ArrayOf::characterArrayConstructor("-v6");
+                    elementVersions[k] = ArrayOf::characterArrayConstructor("-v6");
                 } break;
                 default: {
                     res[k] = false;
-                    elements[k] = ArrayOf::characterArrayConstructor("");
+                    elementVersions[k] = ArrayOf::characterArrayConstructor("");
                 } break;
                 }
                 Mat_Close(matfile);
             } else {
                 res[k] = false;
-                elements[k] = ArrayOf::characterArrayConstructor("");
+                elementVersions[k] = ArrayOf::characterArrayConstructor("");
+                elementHeaders[k] = ArrayOf::characterArrayConstructor("");
             }
         }
     }

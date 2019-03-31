@@ -20,10 +20,12 @@
 #include <hdf5.h>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
+#include <boost/algorithm/string.hpp>
 #include "h5Load.hpp"
 #include "h5SaveLoadHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "h5LoadVariable.hpp"
+#include "haveNh5Header.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -46,14 +48,25 @@ h5Load(Evaluator* eval, const std::wstring& filename, const wstringVector& names
         Error(_W("File does not exist."));
     }
 
+    int16 nh5Version;
+    int16 nh5Endian;
+    std::wstring header;
+    bool haveHeader = haveNh5Header(hdf5_filename.wstring(), header, nh5Version, nh5Endian);
+    if (haveHeader) {
+        if (nh5Version != NELSON_HEADER_VERSION) {
+            Error(_W("Invalid file format."));
+        }
+    }
     hid_t fid
         = H5Fopen(wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
     if (fid == H5I_INVALID_HID) {
         Error(_W("Open file failed."));
     }
-    if (!isNelsonH5File(fid)) {
-        H5Fclose(fid);
-        Error(_W("Invalid file format."));
+    if (!haveHeader) {
+        if (!isNelsonH5File(fid)) {
+            H5Fclose(fid);
+            Error(_W("Invalid file format."));
+        }
     }
     stringVector variableNamesInFile = getVariableNames(fid);
     stringVector variableNames;

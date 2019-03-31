@@ -241,6 +241,7 @@
     <ClInclude Include="..\cpp\h5SaveStruct.hpp" />
     <ClInclude Include="..\cpp\h5SaveVariable.hpp" />
     <ClInclude Include="..\cpp\h5WriteHelpers.hpp" />
+    <ClInclude Include="..\cpp\haveNh5Header.hpp" />
     <ClInclude Include="..\include\h5Create.hpp" />
     <ClInclude Include="..\include\h5Load.hpp" />
     <ClInclude Include="..\include\h5ReadDataset.hpp" />
@@ -296,6 +297,7 @@
     <ClCompile Include="..\cpp\h5WriteAttribute.cpp" />
     <ClCompile Include="..\cpp\h5WriteDataset.cpp" />
     <ClCompile Include="..\cpp\h5WriteHelpers.cpp" />
+    <ClCompile Include="..\cpp\haveNh5Header.cpp" />
     <ClCompile Include="..\cpp\HDF5_helpers.cpp" />
     <ClCompile Include="..\cpp\isNh5File.cpp" />
     <ClCompile Include="..\cpp\whoNh5File.cpp" />

@@ -16,36 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "isnh5fileBuiltin.hpp"
-#include "isNh5File.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include <string>
+#include "Types.hpp"
 //=============================================================================
-// isnh5file(filename)
+namespace Nelson {
 //=============================================================================
-ArrayOfVector
-Nelson::Hdf5Gateway::isnh5fileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (nLhs > 3) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    indexType nbArgIn = argIn.size();
-    if (nbArgIn != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    wstringVector filenames = argIn[0].getContentAsWideStringVector(true);
-    ArrayOf isNh5;
-    ArrayOf nh5Versions;
-    ArrayOf nh5Headers;
-    isNh5File(filenames, isNh5, nh5Versions, nh5Headers);
-    retval.push_back(isNh5);
-    if (nLhs > 1) {
-        retval.push_back(nh5Versions);
-    }
-    if (nLhs > 2) {
-        retval.push_back(nh5Headers);
-    }
-	return retval;
-}
+bool
+haveNh5Header(const std::wstring& filename, std::wstring& header, int16& version, int16& endian);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -25,21 +25,25 @@ ArrayOfVector
 Nelson::MatioGateway::ismatfileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 2) {
+    if (nLhs > 3) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (argIn.size() != 1) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     wstringVector filenames = argIn[0].getContentAsWideStringVector(true);
-    ArrayOf result;
-    ArrayOf versions;
-    IsMatioFile(filenames, result, versions);
-    retval.push_back(result);
+    ArrayOf isMat;
+    ArrayOf matVersions;
+    ArrayOf matHeaders;
+    IsMatioFile(filenames, isMat, matVersions, matHeaders);
+    retval.push_back(isMat);
     if (nLhs > 1) {
-        retval.push_back(versions);
+        retval.push_back(matVersions);
     }
-    return retval;
+    if (nLhs > 2) {
+        retval.push_back(matHeaders);
+    }
+	return retval;
 }
 //=============================================================================
 } // namespace Nelson

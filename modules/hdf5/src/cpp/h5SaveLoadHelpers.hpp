@@ -24,6 +24,9 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 #define NELSON_SCHEMA 1
+#define NELSON_HEADER L"Nelson 1.0 NH5-file"
+#define NELSON_HEADER_VERSION 0x0001
+#define NELSON_HEADER_ENDIAN 0x4d49
 #define NELSON_SCHEMA_STR "NELSON_schema"
 #define NELSON_CLASS_STR "NELSON_class"
 #define NELSON_EMPTY_STR "NELSON_empty"
