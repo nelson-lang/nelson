@@ -77,6 +77,7 @@ mpi
 json
 hdf5
 matio
+profiler
 )
 LIST(APPEND moduleslist main)
 #==============================================================================	

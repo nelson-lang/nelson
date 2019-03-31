@@ -69,6 +69,7 @@ modules_list = [
 "sio_client";
 "hdf5";
 "matio";
+"profiler"
 ];
 %==============================================================================
 % modules sorted for help
@@ -79,6 +80,7 @@ modules_help_list = [
 "core";
 "functions_manager";
 "debugger";
+"profiler";
 "error_manager";
 "memory_manager";
 "modules_manager";

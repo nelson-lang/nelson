@@ -2248,24 +2248,30 @@ XmlDocDocument::readFileCaseChapterDescription(xmlDocPtr doc, xmlNodePtr node)
         return false;
     }
     xmlNodePtr chapterDescriptionNode = node->children;
-    if (chapterDescriptionNode->children) {
-        xmlFreeDoc(doc);
-        errorMessage.push_back(_W("line ") + std::to_wstring(chapterDescriptionNode->line)
-            + _W(": ") + utf8_to_wstring(CHAPTER_DESCRIPTION_TAG) + L" " + _W("has child."));
-        this->bReadOk = false;
-        return false;
-    }
-    std::string str;
-    if (chapterDescriptionNode->content) {
-        str = std::string((char*)chapterDescriptionNode->content);
-    }
-    boost::trim(str);
-    if (str.empty()) {
-        warningMessage.push_back(_W("line ") + std::to_wstring(chapterDescriptionNode->line)
-            + _W(": ") + utf8_to_wstring(CHAPTER_DESCRIPTION_TAG) + L" " + _W("is empty."));
+    if (chapterDescriptionNode) {
+        if (chapterDescriptionNode->children) {
+            xmlFreeDoc(doc);
+            errorMessage.push_back(_W("line ") + std::to_wstring(chapterDescriptionNode->line)
+                + _W(": ") + utf8_to_wstring(CHAPTER_DESCRIPTION_TAG) + L" " + _W("has child."));
+            this->bReadOk = false;
+            return false;
+        }
+        std::string str;
+        if (chapterDescriptionNode->content) {
+            str = std::string((char*)chapterDescriptionNode->content);
+        }
+        boost::trim(str);
+        if (str.empty()) {
+            warningMessage.push_back(_W("line ") + std::to_wstring(chapterDescriptionNode->line)
+                + _W(": ") + utf8_to_wstring(CHAPTER_DESCRIPTION_TAG) + L" " + _W("is empty."));
+        } else {
+            items.push_back(new XmlDocChapterDescriptionItem(utf8_to_wstring(str)));
+        }
     } else {
-        items.push_back(new XmlDocChapterDescriptionItem(utf8_to_wstring(str)));
+        warningMessage.push_back(_W("line ") + std::to_wstring(node->line)
+            + _W(": ") + utf8_to_wstring(CHAPTER_DESCRIPTION_TAG) + L" " + _W("is empty."));
     }
+
     return true;
 }
 //=============================================================================

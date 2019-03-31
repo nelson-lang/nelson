@@ -64,10 +64,10 @@ BEGIN
     BEGIN
         BLOCK "040c04b0"
         BEGIN
-            VALUE "FileDescription", "special_functions"
-            VALUE "InternalName", "special_functions"
-            VALUE "OriginalFilename", "libnlsspecial_functions.dll"
-            VALUE "ProductName", "Nelson (special_functions)"
+            VALUE "FileDescription", "profiler_builtin"
+            VALUE "InternalName", "profiler_builtin"
+            VALUE "OriginalFilename", "libnlsprofiler_builtin.dll"
+            VALUE "ProductName", "Nelson (profiler_builtin)"
             VALUE "ProductVersion", "0,3,4,0"
             VALUE "FileVersion", "0,3,4,0"
             VALUE "LegalCopyright", "Nelson Copyright (C) 2016-2019"
