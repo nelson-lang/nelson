@@ -19,6 +19,8 @@ Compilation:
 
 * more 100 warnings fixed (Thanks to PVS-Studio analyzer and also Cppcheck).
 
+* .editorconfig file added.
+
 
 # 0.3.3  (2019-03-21)
 
