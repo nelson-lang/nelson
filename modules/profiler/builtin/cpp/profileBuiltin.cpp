@@ -26,6 +26,35 @@ ArrayOfVector
 Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (argIn.size() < 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    std::string arg1AsString = param1.getContentAsCString();
+    bool validOption = false;
+    if (arg1AsString == "on") {
+        Profiler::getInstance()->on();
+        validOption = true;
+    }
+    if (arg1AsString == "off") {
+        Profiler::getInstance()->off();
+        validOption = true;
+    }
+    if (arg1AsString == "resume") {
+        Profiler::getInstance()->resume();
+        validOption = true;
+    }
+    if (arg1AsString == "info") {
+        std::unordered_map<std::string, std::vector<uint64>> info
+            = Profiler::getInstance()->info();
+        validOption = true;
+    }
+    if (!validOption) {
+        Error(_W("option not managed."));
+    }
     return retval;
 }
 //=============================================================================

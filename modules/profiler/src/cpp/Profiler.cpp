@@ -16,15 +16,87 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/chrono/chrono.hpp>
 #include "Profiler.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf
-Profiler(const ArrayOf& arrayIn)
+Profiler* Profiler::m_pInstance = nullptr;
+//=============================================================================
+Profiler::Profiler() { profiling.clear(); }
+//=============================================================================
+Profiler*
+Profiler::getInstance()
 {
-    ArrayOf res;
-    return res;
+    if (m_pInstance == nullptr) {
+        try {
+            m_pInstance = new Profiler();
+        } catch (const std::bad_alloc&) {
+            m_pInstance = nullptr;
+        }
+    }
+    return m_pInstance;
+}
+//=============================================================================
+void
+Profiler::on()
+{
+    clear();
+    resume();
+}
+//=============================================================================
+void
+Profiler::off()
+{
+    profileOn = false;
+}
+//=============================================================================
+void
+Profiler::resume()
+{
+    profileOn = true;
+}
+//=============================================================================
+void
+Profiler::clear()
+{
+    profiling.clear();
+}
+//=============================================================================
+void
+Profiler::tic(const std::string& functionName, const std::wstring& filename)
+{
+    if (!profileOn) {
+        return;
+    }
+    if (functionName == "profile") {
+        return;
+    }
+}
+//=============================================================================
+void
+Profiler::toc(const std::string& functionName, const std::wstring& filename)
+{
+    if (!profileOn) {
+        return;
+    }
+    if (functionName == "profile") {
+        return;
+    }
+}
+//=============================================================================
+std::unordered_map<std::string, std::vector<uint64>>
+Profiler::info()
+{
+    return profiling;
+}
+//=============================================================================
+uint64
+Profiler::now()
+{
+  boost::chrono::nanoseconds ns
+    = boost::chrono::high_resolution_clock::now().time_since_epoch();
+  return uint64(static_cast<boost::uint64_t>(ns.count()));
 }
 //=============================================================================
 } // namespace Nelson

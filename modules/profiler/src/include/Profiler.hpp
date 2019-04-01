@@ -18,11 +18,49 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
+#include <vector>
+#include <unordered_map>
+#include <string>
 #include "nlsProfiler_exports.h"
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
-NLSPROFILER_IMPEXP ArrayOf
-Profiler(const ArrayOf& arrayIn);
+//=============================================================================
+class NLSPROFILER_IMPEXP Profiler
+{
+public:
+    static Profiler*
+    getInstance();
+
+    void
+    on();
+
+    void
+    off();
+
+    void
+    resume();
+
+    void
+    clear();
+
+    void
+    tic(const std::string &functionName, const std::wstring &filename);
+
+    void
+    toc(const std::string& functionName, const std::wstring& filename);
+
+    std::unordered_map<std::string, std::vector<uint64>>
+    info();
+
+private:
+    bool profileOn = false;
+    Profiler();
+    static Profiler* m_pInstance;
+    std::unordered_map<std::string, std::vector<uint64>> profiling;
+    uint64
+    now();
+};
+//=============================================================================
 }
 //=============================================================================

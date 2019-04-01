@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/filesystem.hpp>
 #include "MacroFunctionDef.hpp"
 #include "AstManager.hpp"
 #include "Context.hpp"
@@ -24,7 +25,7 @@
 #include "Warning.hpp"
 #include "Evaluator.hpp"
 #include "characters_encoding.hpp"
-#include <boost/filesystem.hpp>
+#include "Profiler.hpp"
 //=============================================================================
 #ifdef WIN32
 #define snprintf _snprintf
@@ -207,7 +208,9 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
     // ArrayOf::doubleConstructor(nargout));
     context->getCurrentScope()->setNargOut(nargout);
     try {
+        Profiler::getInstance()->tic(this->name, this->fileName);
         eval->block(code);
+        Profiler::getInstance()->toc(this->name, this->fileName);
         State state(eval->getState());
         if (state < NLS_STATE_QUIT) {
             eval->resetState();
@@ -230,7 +233,8 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
                 }
                 outputs[i] = a;
             }
-        } else {
+        } 
+        else {
             outputs = ArrayOfVector(nargout);
             int explicitCount = static_cast<int>(returnVals.size()) - 1;
             // For each explicit argument (that we have), insert it
@@ -282,6 +286,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
         eval->popDebug();
         return outputs;
     } catch (const Exception&) {
+        Profiler::getInstance()->toc(this->name, this->fileName);
         context->popScope();
         eval->popDebug();
         throw;

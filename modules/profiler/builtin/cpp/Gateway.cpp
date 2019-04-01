@@ -24,7 +24,7 @@ using namespace Nelson;
 const std::wstring gatewayName = L"profiler";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "profile", Nelson::ProfilerGateway::profileBuiltin, 1, 1 },
+    { "profile", Nelson::ProfilerGateway::profileBuiltin, 1, -1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
