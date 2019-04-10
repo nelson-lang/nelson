@@ -19,6 +19,8 @@
 #include "BuiltInFunctionDef.hpp"
 #include "EvaluateBuiltinCatchRuntimeException.hpp"
 #include "Profiler.hpp"
+#include "ProfilerHelpers.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -38,17 +40,25 @@ BuiltInFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int
     ArrayOfVector outputs;
     eval->pushDebug(name, std::string("built-in ") + this->name);
     size_t stackDepth = eval->cstack.size();
+
+    uint64 tic = 0;
     try {
-        Profiler::getInstance()->tic(this->name, this->fileName);
+        tic = Profiler::getInstance()->tic();
         outputs = EvaluateBuiltinCatchRuntimeException(eval, fptr, inputs, nargout);
-        Profiler::getInstance()->toc(this->name, this->fileName);
+        if (tic != 0) {
+            internalProfileFunction stack = computeProfileStack(eval, this->name, this->fileName);
+            Profiler::getInstance()->toc(tic, stack);
+        }
         while (eval->cstack.size() > stackDepth) {
             eval->cstack.pop_back();
         }
         eval->popDebug();
         return outputs;
     } catch (const Exception&) {
-        Profiler::getInstance()->toc(this->name, this->fileName);
+        if (tic != 0) {
+            internalProfileFunction stack = computeProfileStack(eval, this->name, this->fileName);
+            Profiler::getInstance()->toc(tic, stack);
+        }
         while (eval->cstack.size() > stackDepth) {
             eval->cstack.pop_back();
         }

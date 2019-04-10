@@ -21,14 +21,28 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
+#include <tuple>
+#include <set>
 #include "nlsProfiler_exports.h"
 #include "Types.hpp"
+#include "Evaluator.hpp"
+#include "ProfilerHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 class NLSPROFILER_IMPEXP Profiler
 {
 public:
+    enum Profile_Sort_Type
+    {
+        SORT_BY_NAME,
+        SORT_BY_FILENAME,
+        SORT_BY_NBCALLS,
+        SORT_BY_TOTALTIME,
+        SORT_BY_PERCALL,
+        SORT_BY_LINE,
+        SORT_BY_NAMEFILELINE
+    };
     static Profiler*
     getInstance();
 
@@ -38,28 +52,41 @@ public:
     void
     off();
 
+    bool
+    isOn();
+
     void
     resume();
 
     void
     clear();
 
-    void
-    tic(const std::string &functionName, const std::wstring &filename);
+    uint64
+    tic();
 
     void
-    toc(const std::string& functionName, const std::wstring& filename);
+    toc(uint64 tic, internalProfileFunction stack);
 
-    std::unordered_map<std::string, std::vector<uint64>>
-    info();
+    std::vector<std::tuple<uint64, std::string, uint64, std::string, uint64, uint64, uint64>>
+    info(Profiler::Profile_Sort_Type sortOption);
+
+    void
+    show(Interface* io, Profiler::Profile_Sort_Type sortOption);
 
 private:
     bool profileOn = false;
+
+    std::unordered_map<size_t, profileFunction> profileMap;
+    uint64 index = 0;
+
     Profiler();
     static Profiler* m_pInstance;
-    std::unordered_map<std::string, std::vector<uint64>> profiling;
+
     uint64
     now();
+
+    size_t
+    hash(internalProfileFunction stack);
 };
 //=============================================================================
 }

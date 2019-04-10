@@ -122,6 +122,10 @@ public:
     nargin();
     int
     nargout();
+
+private:
+    std::string
+    getCompleteName();
 };
 //=============================================================================
 } // namespace Nelson

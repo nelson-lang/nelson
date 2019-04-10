@@ -26,6 +26,7 @@
 #include "Evaluator.hpp"
 #include "characters_encoding.hpp"
 #include "Profiler.hpp"
+#include "ProfilerHelpers.hpp"
 //=============================================================================
 #ifdef WIN32
 #define snprintf _snprintf
@@ -207,10 +208,16 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
     // context->insertVariableLocally("nargout",
     // ArrayOf::doubleConstructor(nargout));
     context->getCurrentScope()->setNargOut(nargout);
+    std::string parents;
+    uint64 tic = 0;
     try {
-        Profiler::getInstance()->tic(this->name, this->fileName);
+        uint64 tic = Profiler::getInstance()->tic();
         eval->block(code);
-        Profiler::getInstance()->toc(this->name, this->fileName);
+        if (tic != 0) {
+            internalProfileFunction stack
+                = computeProfileStack(eval, getCompleteName(), this->fileName, false);
+            Profiler::getInstance()->toc(tic, stack);
+        }
         State state(eval->getState());
         if (state < NLS_STATE_QUIT) {
             eval->resetState();
@@ -233,8 +240,7 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
                 }
                 outputs[i] = a;
             }
-        } 
-        else {
+        } else {
             outputs = ArrayOfVector(nargout);
             int explicitCount = static_cast<int>(returnVals.size()) - 1;
             // For each explicit argument (that we have), insert it
@@ -286,11 +292,30 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
         eval->popDebug();
         return outputs;
     } catch (const Exception&) {
-        Profiler::getInstance()->toc(this->name, this->fileName);
+        if (tic != 0) {
+            internalProfileFunction stack
+                = computeProfileStack(eval, getCompleteName(), this->fileName, false);
+            Profiler::getInstance()->toc(tic, stack);
+        }
         context->popScope();
         eval->popDebug();
         throw;
     }
+}
+//=============================================================================
+std::string
+MacroFunctionDef::getCompleteName()
+{
+    if (this->localFunction) {
+        MacroFunctionDef* pF = this->prevFunction;
+        while (pF != nullptr) {
+            if (!pF->localFunction) {
+                return pF->name + ">" + this->name;
+            }
+            pF = pF->prevFunction;
+        }
+    }
+    return this->name;
 }
 //=============================================================================
 } // namespace Nelson

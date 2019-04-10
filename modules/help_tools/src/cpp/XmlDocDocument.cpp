@@ -2268,8 +2268,8 @@ XmlDocDocument::readFileCaseChapterDescription(xmlDocPtr doc, xmlNodePtr node)
             items.push_back(new XmlDocChapterDescriptionItem(utf8_to_wstring(str)));
         }
     } else {
-        warningMessage.push_back(_W("line ") + std::to_wstring(node->line)
-            + _W(": ") + utf8_to_wstring(CHAPTER_DESCRIPTION_TAG) + L" " + _W("is empty."));
+        warningMessage.push_back(_W("line ") + std::to_wstring(node->line) + _W(": ")
+            + utf8_to_wstring(CHAPTER_DESCRIPTION_TAG) + L" " + _W("is empty."));
     }
 
     return true;

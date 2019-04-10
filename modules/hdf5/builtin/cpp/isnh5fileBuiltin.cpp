@@ -46,6 +46,6 @@ Nelson::Hdf5Gateway::isnh5fileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (nLhs > 2) {
         retval.push_back(nh5Headers);
     }
-	return retval;
+    return retval;
 }
 //=============================================================================

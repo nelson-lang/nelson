@@ -16,35 +16,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ismatfileBuiltin.hpp"
-#include "IsMatioFile.hpp"
+#pragma once
+//=============================================================================
+#include <tuple>
+#include <vector>
+#include <string>
+#include <Types.hpp>
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOfVector
-Nelson::MatioGateway::ismatfileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (nLhs > 3) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    wstringVector filenames = argIn[0].getContentAsWideStringVector(true);
-    ArrayOf isMat;
-    ArrayOf matVersions;
-    ArrayOf matHeaders;
-    IsMatioFile(filenames, isMat, matVersions, matHeaders);
-    retval.push_back(isMat);
-    if (nLhs > 1) {
-        retval.push_back(matVersions);
-    }
-    if (nLhs > 2) {
-        retval.push_back(matHeaders);
-    }
-    return retval;
-}
+typedef std::tuple<std::string, uint64> profileParent;
 //=============================================================================
-} // namespace Nelson
+typedef std::vector<profileParent> profileParentStack;
+//=============================================================================
+typedef std::tuple<profileParentStack, std::string, std::wstring, bool> internalProfileFunction;
+//=============================================================================
+typedef std::tuple<internalProfileFunction, uint64, uint64, uint64> profileFunction;
+//=============================================================================
+internalProfileFunction
+computeProfileStack(Evaluator* eval, const std::string& currentFunctionName,
+    const std::wstring& currentFilename, bool isBuiltin = true);
+//=============================================================================
+}
 //=============================================================================

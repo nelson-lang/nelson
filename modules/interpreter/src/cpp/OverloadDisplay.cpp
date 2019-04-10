@@ -23,6 +23,8 @@
 #include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
 #include "characters_encoding.hpp"
+#include "Profiler.hpp"
+#include "ProfilerHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -46,7 +48,12 @@ OverloadDisplay(Evaluator* eval, ArrayOf a, bool fromBuiltin)
     }
     if (!bSuccess) {
         bool needToOverload;
+        uint64 ticProfile = Profiler::getInstance()->tic();
         DisplayVariable(eval->getInterface(), a, fromBuiltin, needToOverload);
+        if (ticProfile) {
+            internalProfileFunction stack = computeProfileStack(eval, "disp", L"evaluator");
+            Profiler::getInstance()->toc(ticProfile, stack);
+        }
         if (needToOverload) {
             Context* context = eval->getContext();
             if (context != nullptr) {

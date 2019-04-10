@@ -256,6 +256,7 @@
     <ClCompile Include="..\cpp\PathFunc.cpp" />
     <ClCompile Include="..\cpp\PathFuncManager.cpp" />
     <ClCompile Include="..\cpp\ProcessEventsDynamicFunction.cpp" />
+    <ClCompile Include="..\cpp\ProfilerHelpers.cpp" />
     <ClCompile Include="..\cpp\Scope.cpp" />
     <ClCompile Include="..\cpp\ShortCutAndOperator.cpp" />
     <ClCompile Include="..\cpp\ShortCutOrOperator.cpp" />
@@ -344,6 +345,7 @@
     <ClInclude Include="..\include\PathFuncManager.hpp" />
     <ClInclude Include="..\include\PositionScript.hpp" />
     <ClInclude Include="..\include\ProcessEventsDynamicFunction.hpp" />
+    <ClInclude Include="..\include\ProfilerHelpers.hpp" />
     <ClInclude Include="..\include\Scope.hpp" />
     <ClInclude Include="..\include\StackEntry.hpp" />
     <ClInclude Include="..\include\SymbolTable.hpp" />

@@ -98,6 +98,8 @@
 #include "UnaryPlus.hpp"
 #include "NelsonConfiguration.hpp"
 #include "Colon.hpp"
+#include "Profiler.hpp"
+#include "ProfilerHelpers.hpp"
 //=============================================================================
 #ifdef _MSC_VER
 #define strdup _strdup
@@ -420,8 +422,13 @@ Evaluator::expression(ASTPtr t)
             Error(ERROR_UNRECOGNIZED_NODE);
         }
     } else {
+        uint64 ticProfiling = Profiler::getInstance()->tic();
+        std::string operatorName;
         switch (t->opNum) {
         case OP_COLON:
+            if (ticProfiling) {
+                operatorName = "colon";
+            }
             if ((t->down != nullptr) && (t->down->opNum == (OP_COLON))) {
                 retval = doubleColon(t);
             } else {
@@ -443,49 +450,94 @@ Evaluator::expression(ASTPtr t)
             retval = cellDefinition(t);
         } break;
         case OP_PLUS: {
+            if (ticProfiling) {
+                operatorName = "plus";
+            }
             retval = additionOperator(t);
         } break;
         case OP_SUBTRACT: {
+            if (ticProfiling) {
+                operatorName = "minus";
+            }
             retval = subtractionOperator(t);
         } break;
         case OP_TIMES: {
+            if (ticProfiling) {
+                operatorName = "mtimes";
+            }
             retval = mtimesOperator(t);
         } break;
         case OP_SOR: {
+            if (ticProfiling) {
+                operatorName = "shorcutor";
+            }
             retval = shortCutOrOperator(t);
         } break;
         case OP_OR: {
+            if (ticProfiling) {
+                operatorName = "or";
+            }
             retval = orOperator(t);
         } break;
         case OP_SAND: {
+            if (ticProfiling) {
+                operatorName = "shorcutand";
+            }
             retval = shortCutAndOperator(t);
         } break;
         case OP_AND: {
+            if (ticProfiling) {
+                operatorName = "and";
+            }
             retval = andOperator(t);
         } break;
         case OP_LT: {
+            if (ticProfiling) {
+                operatorName = "lt";
+            }
             retval = ltOperator(t);
         } break;
         case OP_LEQ: {
+            if (ticProfiling) {
+                operatorName = "le";
+            }
             retval = leOperator(t);
         } break;
         case OP_GT: {
+            if (ticProfiling) {
+                operatorName = "gt";
+            }
             retval = gtOperator(t);
         } break;
         case OP_GEQ: {
+            if (ticProfiling) {
+                operatorName = "ge";
+            }
             retval = geOperator(t);
         } break;
         case OP_EQ: {
+            if (ticProfiling) {
+                operatorName = "eq";
+            }
             retval = eqOperator(t);
         } break;
         case OP_NEQ: {
+            if (ticProfiling) {
+                operatorName = "ne";
+            }
             retval = neOperator(t);
         } break;
         case OP_DOT_TIMES: {
+            if (ticProfiling) {
+                operatorName = "time";
+            }
             retval = timesOperator(t);
         } break;
         case OP_POS: {
             bool bSuccess = false;
+            if (ticProfiling) {
+                operatorName = "uplus";
+            }
             ArrayOf a = expression(t->down);
             if (overloadOnBasicTypes) {
                 retval = OverloadUnaryOperator(this, a, "uplus", bSuccess);
@@ -499,6 +551,9 @@ Evaluator::expression(ASTPtr t)
             }
         } break;
         case OP_NEG: {
+            if (ticProfiling) {
+                operatorName = "uminus";
+            }
             bool bSuccess = false;
             ArrayOf a = expression(t->down);
             if (overloadOnBasicTypes) {
@@ -513,9 +568,15 @@ Evaluator::expression(ASTPtr t)
             }
         } break;
         case OP_NOT: {
+            if (ticProfiling) {
+                operatorName = "not";
+            }
             retval = notOperator(t);
         } break;
         case OP_TRANSPOSE: {
+            if (ticProfiling) {
+                operatorName = "ctranspose";
+            }
             bool bSuccess = false;
             ArrayOf a = expression(t->down);
             if (overloadOnBasicTypes) {
@@ -530,6 +591,9 @@ Evaluator::expression(ASTPtr t)
             }
         } break;
         case OP_DOT_TRANSPOSE: {
+            if (ticProfiling) {
+                operatorName = "transpose";
+            }
             bool bSuccess = false;
             ArrayOf a = expression(t->down);
             if (overloadOnBasicTypes) {
@@ -557,22 +621,37 @@ Evaluator::expression(ASTPtr t)
             }
         } break;
         case OP_RDIV: {
+            if (ticProfiling) {
+                operatorName = "mrdivide";
+            }
             retval = OverloadBinaryOperator(
                 this, expression(t->down), expression(t->down->right), "mrdivide");
         } break;
         case OP_LDIV: {
+            if (ticProfiling) {
+                operatorName = "mldivide";
+            }
             retval = OverloadBinaryOperator(
                 this, expression(t->down), expression(t->down->right), "mldivide");
         } break;
         case OP_DOT_RDIV: {
+            if (ticProfiling) {
+                operatorName = "rdivide";
+            }
             retval = OverloadBinaryOperator(
                 this, expression(t->down), expression(t->down->right), "rdivide");
         } break;
         case OP_DOT_LDIV: {
+            if (ticProfiling) {
+                operatorName = "ldivide";
+            }
             retval = OverloadBinaryOperator(
                 this, expression(t->down), expression(t->down->right), "ldivide");
         } break;
         case OP_POWER: {
+            if (ticProfiling) {
+                operatorName = "mpower";
+            }
             FunctionDef* mpowerFuncDef = nullptr;
             if (!context->lookupFunction("mpower", mpowerFuncDef)) {
                 Error(_W("mpower function not found."));
@@ -592,6 +671,9 @@ Evaluator::expression(ASTPtr t)
             retval = res[0];
         } break;
         case OP_DOT_POWER: {
+            if (ticProfiling) {
+                operatorName = "power";
+            }
             ArrayOf A = expression(t->down);
             ArrayOf B = expression(t->down->right);
             bool bSuccess = false;
@@ -612,6 +694,10 @@ Evaluator::expression(ASTPtr t)
         } break;
         default:
             Error(ERROR_UNRECOGNIZED_EXPRESSION);
+        }
+        if (ticProfiling != 0 && !operatorName.empty()) {
+            internalProfileFunction stack = computeProfileStack(this, operatorName, L"evaluator");
+            Profiler::getInstance()->toc(ticProfiling, stack);
         }
     }
     popID();

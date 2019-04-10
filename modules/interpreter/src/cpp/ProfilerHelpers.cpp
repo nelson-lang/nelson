@@ -16,35 +16,37 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ismatfileBuiltin.hpp"
-#include "IsMatioFile.hpp"
+#include <algorithm>
+#include "ProfilerHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOfVector
-Nelson::MatioGateway::ismatfileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+internalProfileFunction
+computeProfileStack(Evaluator* eval, const std::string& currentFunctionName,
+    const std::wstring& currentFilename, bool isBuiltin)
 {
-    ArrayOfVector retval;
-    if (nLhs > 3) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    profileParentStack profilerStack;
+
+    std::vector<StackEntry> cstack;
+    if (eval != nullptr) {
+        cstack = eval->cstack;
+        size_t stackDepth = cstack.size();
+        std::tuple<std::string, uint64> previousProfilerStackElement;
+        std::tuple<std::string, uint64> profilerStackElement;
+        while (stackDepth > 1) {
+            std::string filename = cstack[stackDepth - 1].cname.c_str();
+            int line = cstack[stackDepth - 1].tokid & 0x0000FFFF;
+            profilerStackElement = std::make_tuple(filename, line);
+            if (profilerStackElement != previousProfilerStackElement) {
+                profilerStack.push_back(profilerStackElement);
+                previousProfilerStackElement = profilerStackElement;
+            }
+            stackDepth--;
+        }
     }
-    if (argIn.size() != 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    wstringVector filenames = argIn[0].getContentAsWideStringVector(true);
-    ArrayOf isMat;
-    ArrayOf matVersions;
-    ArrayOf matHeaders;
-    IsMatioFile(filenames, isMat, matVersions, matHeaders);
-    retval.push_back(isMat);
-    if (nLhs > 1) {
-        retval.push_back(matVersions);
-    }
-    if (nLhs > 2) {
-        retval.push_back(matHeaders);
-    }
-    return retval;
+    std::reverse(profilerStack.begin(), profilerStack.end());
+    return std::make_tuple(profilerStack, currentFunctionName, currentFilename, isBuiltin);
 }
 //=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

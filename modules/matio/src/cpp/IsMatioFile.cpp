@@ -37,10 +37,12 @@ IsMatioFile(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions,
         headers = ArrayOf::stringArrayConstructor(filenames, dims);
         return;
     }
-    ArrayOf* elementVersions = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, filenames.size());
+    ArrayOf* elementVersions
+        = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, filenames.size());
     versions = ArrayOf(NLS_STRING_ARRAY, dims, elementVersions);
 
-    ArrayOf* elementHeaders = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, filenames.size());
+    ArrayOf* elementHeaders
+        = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, filenames.size());
     headers = ArrayOf(NLS_STRING_ARRAY, dims, elementHeaders);
 
     for (size_t k = 0; k < filenames.size(); ++k) {
@@ -71,7 +73,7 @@ IsMatioFile(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions,
                 } else {
                     elementHeaders[k] = ArrayOf::characterArrayConstructor("");
                 }
-				mat_ft matVer = Mat_GetVersion(matfile);
+                mat_ft matVer = Mat_GetVersion(matfile);
                 switch (matVer) {
                 case MAT_FT_MAT73: {
                     res[k] = true;

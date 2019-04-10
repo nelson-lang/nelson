@@ -87,8 +87,8 @@ DebugStack(const std::vector<StackEntry>& cstack, int nbOmitLines, stackTrace& s
                 && (cstack[j].detail == cstack[i].detail) && (cstack[j].tokid != 0)) {
                 j++;
             }
-            std::wstring filename = utf8_to_wstring(cstack[j - 1].cname.c_str());
-            std::wstring functionname = utf8_to_wstring(cstack[j - 1].detail.c_str());
+            std::wstring filename = utf8_to_wstring(cstack[j - 1].cname);
+            std::wstring functionname = utf8_to_wstring(cstack[j - 1].detail);
             int lineposition = cstack[j - 1].tokid & 0x0000FFFF;
             stackPositions.push_back(PositionScript(functionname, filename, lineposition));
             i = j;
