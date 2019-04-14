@@ -27,24 +27,25 @@ computeProfileStack(Evaluator* eval, const std::string& currentFunctionName,
 {
     profileParentStack profilerStack;
 
-    std::vector<StackEntry> cstack;
     if (eval != nullptr) {
-        cstack = eval->cstack;
-        size_t stackDepth = cstack.size();
+        std::vector<StackEntry> cstack = eval->cstack;
         std::tuple<std::string, uint64> previousProfilerStackElement;
         std::tuple<std::string, uint64> profilerStackElement;
-        while (stackDepth > 1) {
-            std::string filename = cstack[stackDepth - 1].cname.c_str();
-            int line = cstack[stackDepth - 1].tokid & 0x0000FFFF;
-            profilerStackElement = std::make_tuple(filename, line);
-            if (profilerStackElement != previousProfilerStackElement) {
-                profilerStack.push_back(profilerStackElement);
-                previousProfilerStackElement = profilerStackElement;
+
+        for (StackEntry entry : cstack) {
+            std::string filename = entry.cname;
+            if (filename != "evaluator") {
+                int line = entry.tokid & 0xffff;
+                if (line > 0) {
+                    profilerStackElement = std::make_tuple(filename, line);
+                    if (profilerStackElement != previousProfilerStackElement) {
+                        profilerStack.push_back(profilerStackElement);
+                        previousProfilerStackElement = profilerStackElement;
+                    }
+                }
             }
-            stackDepth--;
         }
     }
-    std::reverse(profilerStack.begin(), profilerStack.end());
     return std::make_tuple(profilerStack, currentFunctionName, currentFilename, isBuiltin);
 }
 //=============================================================================

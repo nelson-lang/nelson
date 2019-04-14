@@ -48,7 +48,7 @@ GetCurrentNFilenameW(Evaluator* eval)
     if (callerName == "EvaluateScript") {
         fileName = eval->getCurrentEvaluateFilename();
     } else {
-        if (callerName == "EvaluateString") {
+        if (callerName == "evaluator") {
             fileName.clear();
         } else {
             fileName = utf8_to_wstring(callerName);

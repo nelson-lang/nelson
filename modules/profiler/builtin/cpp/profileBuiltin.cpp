@@ -26,7 +26,7 @@ using namespace Nelson;
 static Profiler::Profile_Sort_Type
 getSortArgument(const ArrayOfVector& argIn, bool& validOption)
 {
-    Profiler::Profile_Sort_Type sortOption = Profiler::Profile_Sort_Type::SORT_BY_FILENAME;
+    Profiler::Profile_Sort_Type sortOption = Profiler::Profile_Sort_Type::SORT_BY_NAMEFILELINE;
     if (argIn.size() > 1) {
         ArrayOf param2 = argIn[1];
         std::wstring str = param2.getContentAsWideString();
@@ -73,7 +73,7 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() < 1) {
+    if (argIn.size() < 1 || argIn.size() > 2) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
@@ -98,7 +98,7 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
 
     if (arg1AsString == "info") {
         Profiler::Profile_Sort_Type sortOption = getSortArgument(argIn, validOption);
-        std::vector<std::tuple<uint64, std::string, uint64, std::string, uint64, uint64, uint64>>
+        std::vector<std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>>
             profileLines = Profiler::getInstance()->info(sortOption);
 
         size_t nbElements = profileLines.size();
@@ -115,16 +115,16 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         NumCalls.reserve(nbElements);
         TotalTime.reserve(nbElements);
         PerCall.reserve(nbElements);
-        // index, filename, line, name, nbcalls, tottime, percall
-        for (std::tuple<uint64, std::string, uint64, std::string, uint64, uint64, uint64> element :
+        // filename, line, name, nbcalls, tottime, percall
+        for (std::tuple<std::string, uint64, std::string, uint64, uint64, uint64> element :
             profileLines) {
-            FunctionName.push_back(ArrayOf::characterArrayConstructor(std::get<3>(element)));
-            Filename.push_back(ArrayOf::characterArrayConstructor(std::get<1>(element)));
-            LinePosition.push_back(ArrayOf::doubleConstructor((double)std::get<2>(element)));
-            NumCalls.push_back(ArrayOf::doubleConstructor((double)std::get<4>(element)));
-            double totalTimeAsSeconds = (double)std::get<5>(element) * 1e-9;
+            FunctionName.push_back(ArrayOf::characterArrayConstructor(std::get<2>(element)));
+            Filename.push_back(ArrayOf::characterArrayConstructor(std::get<0>(element)));
+            LinePosition.push_back(ArrayOf::doubleConstructor((double)std::get<1>(element)));
+            NumCalls.push_back(ArrayOf::doubleConstructor((double)std::get<3>(element)));
+            double totalTimeAsSeconds = (double)std::get<4>(element) * 1e-9;
             TotalTime.push_back(ArrayOf::doubleConstructor(totalTimeAsSeconds));
-            double perCallAsSeconds = (double)std::get<6>(element) * 1e-9;
+            double perCallAsSeconds = (double)std::get<5>(element) * 1e-9;
             PerCall.push_back(ArrayOf::doubleConstructor(perCallAsSeconds));
         }
         stringVector fieldnames;
@@ -155,6 +155,29 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         Profiler::getInstance()->show(eval->getInterface(), sortOption);
         validOption = true;
     }
+
+    if (arg1AsString == "save") {
+        std::wstring destinationDirectory;
+        switch (argIn.size()) {
+        case 1: {
+            destinationDirectory = L".";
+            validOption = true;
+        } break;
+        case 2: {
+            destinationDirectory = argIn[1].getContentAsWideString();
+            validOption = true;
+        } break;
+        default: {
+            validOption = false;
+        } break;
+        }
+        std::wstring errorMessage;
+        Profiler::getInstance()->save(destinationDirectory, errorMessage);
+        if (!errorMessage.empty()) {
+            Error(errorMessage);
+        }
+    }
+
     if (!validOption) {
         Error(_W("option not managed."));
     }

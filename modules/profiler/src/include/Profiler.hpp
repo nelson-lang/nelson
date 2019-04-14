@@ -67,11 +67,14 @@ public:
     void
     toc(uint64 tic, internalProfileFunction stack);
 
-    std::vector<std::tuple<uint64, std::string, uint64, std::string, uint64, uint64, uint64>>
+    std::vector<std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>>
     info(Profiler::Profile_Sort_Type sortOption);
 
     void
     show(Interface* io, Profiler::Profile_Sort_Type sortOption);
+
+    void
+    save(const std::wstring &destinationDirectory, std::wstring& errorMessage);
 
 private:
     bool profileOn = false;

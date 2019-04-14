@@ -696,7 +696,8 @@ Evaluator::expression(ASTPtr t)
             Error(ERROR_UNRECOGNIZED_EXPRESSION);
         }
         if (ticProfiling != 0 && !operatorName.empty()) {
-            internalProfileFunction stack = computeProfileStack(this, operatorName, L"evaluator");
+            internalProfileFunction stack
+                = computeProfileStack(this, operatorName, utf8_to_wstring(cstack.back().cname));
             Profiler::getInstance()->toc(ticProfiling, stack);
         }
     }
@@ -1719,6 +1720,8 @@ Evaluator::statementType(ASTPtr t, bool printIt)
     if (t->isEmpty()) {
         /* Empty statement */
     } else if (t->opNum == (OP_ASSIGN)) {
+        uint64 ticProfiling = Profiler::getInstance()->tic();
+
         if (t->down->down == nullptr) {
             ArrayOf b(expression(t->down->right));
             bool bInserted = context->insertVariable(t->down->text, b);
@@ -1743,8 +1746,16 @@ Evaluator::statementType(ASTPtr t, bool printIt)
                 }
             }
         }
+        if (ticProfiling != 0) {
+            internalProfileFunction stack
+                = computeProfileStack(this, "assign", utf8_to_wstring(cstack.back().cname));
+            Profiler::getInstance()->toc(ticProfiling, stack);
+        }
+
     } else if (t->opNum == (OP_MULTICALL)) {
+
         multiFunctionCall(t->down, printIt);
+
     } else if (t->opNum == (OP_SCALL)) {
         ArrayOfVector m = specialFunctionCall(t->down, printIt);
         if (m.size() > 0) {
@@ -3891,7 +3902,7 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
         return false;
     }
     tree = getParsedScriptBlock();
-    pushDebug("EvaluateString", command);
+    pushDebug("evaluator", command);
     if (tree == nullptr) {
         deleteAstVector(pt);
         resetAstBackupPosition();

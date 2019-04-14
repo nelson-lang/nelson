@@ -38,7 +38,7 @@ isNls(PositionScript& pos)
 static bool
 isEvaluateString(PositionScript& pos)
 {
-    return boost::algorithm::starts_with(pos.getFunctionName(), L"EvaluateString");
+    return boost::algorithm::starts_with(pos.getFunctionName(), L"evaluator");
 }
 //=============================================================================
 static bool
