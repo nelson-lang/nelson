@@ -805,6 +805,15 @@ function pc = prefixCommand(withMPI)
   end
 endfunction
 //=============================================================================
+function res = uniformizeNumbers(value, len)
+  res = int2str(value);
+  if length(res) < len
+    for k = 1:(len - length(res))
+      res = ['0', res];
+    end
+  end
+endfunction
+//=============================================================================
 function [res, msg] = call_nelson_cli(command, withMPI)
   nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
   nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-cli', '"'];
@@ -824,14 +833,5 @@ function [res, msg] = call_nelson_gui(command, withMPI)
   nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-gui', '"'];
   cmd = [prefixCommand(withMPI), nelson_exe_path, ' ' , command];
   [res, msg] = unix(cmd);
-endfunction
-//=============================================================================
-function res = uniformizeNumbers(value, len)
-  res = int2str(value);
-  for k = 1:(len - length(res))
-    if length(res) < len
-      res = ['0', res];
-    end
-  end
 endfunction
 //=============================================================================
