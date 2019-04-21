@@ -74,7 +74,10 @@ public:
     show(Interface* io, Profiler::Profile_Sort_Type sortOption);
 
     void
-    save(const std::wstring &destinationDirectory, std::wstring& errorMessage);
+    save(std::vector<std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>>
+             profileInfo,
+        const std::wstring& destinationDirectory, const std::wstring& moduleProfilerPath,
+        std::wstring& errorMessage);
 
 private:
     bool profileOn = false;
@@ -90,7 +93,39 @@ private:
 
     size_t
     hash(internalProfileFunction stack);
+
+    std::vector<std::tuple<int, double>>
+    getInfoForContent(
+        const std::vector<std::tuple<std::string, uint64, uint64, uint64>>& flatProfile,
+        const std::wstring& filename, size_t contentSize);
+
+    bool
+    getInfoForLine(const std::vector<std::tuple<std::string, uint64, uint64, uint64>>& flatProfile,
+        const std::wstring& filename, size_t line, int& numcalls, double& time);
+
+    stringVector
+    readFunction(const std::wstring& filename);
+
+    std::tuple<int, double>
+    computeBasicFileStats(
+        const std::vector<std::tuple<std::string, uint64, uint64, uint64>>& flatProfile,
+        const stringVector& functionContent, const std::wstring& srcFilename);
+
+    std::vector<std::tuple<int, std::string, int, double>>
+    getFiveLinesConsumingMostTime(
+        const std::vector<std::tuple<std::string, uint64, uint64, uint64>>& flatProfile,
+        const std::wstring& srcFilename, const stringVector& functionContent);
+
+    std::vector<std::tuple<uint64, uint64, uint64>>
+    getProfileForFile(
+        const std::vector<std::tuple<std::string, uint64, uint64, uint64>>& flatProfile,
+        const std::wstring& srcFilename);
+
+    std::tuple<int, int, int, int, int, double>
+    coverageAnalyzer(
+        const std::vector<std::tuple<std::string, uint64, uint64, uint64>>& flatProfile,
+        const std::wstring& srcFilename, const stringVector& functionContent);
 };
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

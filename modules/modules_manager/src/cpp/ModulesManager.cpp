@@ -84,7 +84,6 @@ void
 ModulesManager::deleteAllModules()
 {
     modulesMap.clear();
-    // modulesMap.reserve(MODULETAB);
 }
 //=============================================================================
 bool

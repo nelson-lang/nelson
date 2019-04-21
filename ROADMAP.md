@@ -23,6 +23,7 @@ Please feel free to file issues on this repository if you have questions, concer
 - HDF5 high-level functions I/O (DONE v0.2.12),
 - MAT File I/O module (DONE v0.3.3),
 - HDF5 used as default data file format (.nh5) (DONE v0.3.2),
+- Profiling and Coverage Tools for Nelson's language (DONE v0.3.4),
 - Mex module,
 - completion,
 - graphics output,

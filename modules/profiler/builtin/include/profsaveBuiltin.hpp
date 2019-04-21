@@ -16,39 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <algorithm>
-#include "ProfilerHelpers.hpp"
-#include "characters_encoding.hpp"
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-internalProfileFunction
-computeProfileStack(Evaluator* eval, const std::string& currentFunctionName,
-    const std::wstring& currentFilename, bool isBuiltin)
-{
-    profileParentStack profilerStack;
-
-    if (eval != nullptr) {
-        std::vector<StackEntry> cstack = eval->cstack;
-        std::tuple<std::string, uint64> previousProfilerStackElement;
-        std::tuple<std::string, uint64> profilerStackElement;
-
-        for (StackEntry entry : cstack) {
-            std::string filename = entry.cname;
-            if (filename != "evaluator" && filename != "EvaluateScript") {
-                int line = entry.tokid & 0xffff;
-                if (line > 0) {
-                    profilerStackElement = std::make_tuple(filename, line);
-                    if (profilerStackElement != previousProfilerStackElement) {
-                        profilerStack.push_back(profilerStackElement);
-                        previousProfilerStackElement = profilerStackElement;
-                    }
-                }
-            }
-        }
-    }
-    return std::make_tuple(profilerStack, currentFunctionName, currentFilename, isBuiltin);
+namespace ProfilerGateway {
+    ArrayOfVector
+    profsaveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

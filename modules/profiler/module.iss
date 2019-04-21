@@ -31,3 +31,8 @@ Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#M
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nls; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
 ;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\highlight.pack.js; DestDir: {app}\modules\{#MODULE_NAME}\resources\;
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\mono-blue.css; DestDir: {app}\modules\{#MODULE_NAME}\resources\;
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\sort.js; DestDir: {app}\modules\{#MODULE_NAME}\resources\;
+;==============================================================================
+

@@ -16,39 +16,34 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <algorithm>
+#pragma once
+//=============================================================================
+#include <vector>
+#include <unordered_map>
+#include <string>
+#include <tuple>
+#include <set>
+#include "nlsProfiler_exports.h"
+#include "Types.hpp"
+#include "Evaluator.hpp"
 #include "ProfilerHelpers.hpp"
-#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-internalProfileFunction
-computeProfileStack(Evaluator* eval, const std::string& currentFunctionName,
-    const std::wstring& currentFilename, bool isBuiltin)
-{
-    profileParentStack profilerStack;
-
-    if (eval != nullptr) {
-        std::vector<StackEntry> cstack = eval->cstack;
-        std::tuple<std::string, uint64> previousProfilerStackElement;
-        std::tuple<std::string, uint64> profilerStackElement;
-
-        for (StackEntry entry : cstack) {
-            std::string filename = entry.cname;
-            if (filename != "evaluator" && filename != "EvaluateScript") {
-                int line = entry.tokid & 0xffff;
-                if (line > 0) {
-                    profilerStackElement = std::make_tuple(filename, line);
-                    if (profilerStackElement != previousProfilerStackElement) {
-                        profilerStack.push_back(profilerStackElement);
-                        previousProfilerStackElement = profilerStackElement;
-                    }
-                }
-            }
-        }
-    }
-    return std::make_tuple(profilerStack, currentFunctionName, currentFilename, isBuiltin);
-}
+bool
+copyHtmlDependencies(
+    const std::wstring& moduleProfilerPath, const std::wstring& directoryDestination);
 //=============================================================================
-}
+void
+generateProfileFileHtml(const std::wstring& srcFilename, const stringVector& functionContent,
+    std::vector<std::tuple<int, std::string, int, double>> fiveSlowerLines,
+    std::tuple<int, int, int, int, int, double> coverage,
+    std::vector<std::tuple<int, double>> lineInfo, int nbCalls, double totalTime,
+    const std::wstring& htmlFilename);
+//=============================================================================
+void
+generateProfileIndexHtml(const std::wstring& htmlFilename,
+    std::vector<std::tuple<std::wstring, std::wstring, int, double, double>> indexData);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

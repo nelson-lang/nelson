@@ -18,6 +18,7 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "profileBuiltin.hpp"
+#include "profsaveBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -25,6 +26,7 @@ const std::wstring gatewayName = L"profiler";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "profile", Nelson::ProfilerGateway::profileBuiltin, 1, -1 },
+    { "profsave", Nelson::ProfilerGateway::profsaveBuiltin, 0, 2 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

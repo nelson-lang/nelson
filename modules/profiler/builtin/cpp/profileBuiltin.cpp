@@ -20,6 +20,7 @@
 #include "profileBuiltin.hpp"
 #include "Error.hpp"
 #include "Profiler.hpp"
+#include "ModulesManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -154,28 +155,6 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         Profiler::Profile_Sort_Type sortOption = getSortArgument(argIn, validOption);
         Profiler::getInstance()->show(eval->getInterface(), sortOption);
         validOption = true;
-    }
-
-    if (arg1AsString == "save") {
-        std::wstring destinationDirectory;
-        switch (argIn.size()) {
-        case 1: {
-            destinationDirectory = L".";
-            validOption = true;
-        } break;
-        case 2: {
-            destinationDirectory = argIn[1].getContentAsWideString();
-            validOption = true;
-        } break;
-        default: {
-            validOption = false;
-        } break;
-        }
-        std::wstring errorMessage;
-        Profiler::getInstance()->save(destinationDirectory, errorMessage);
-        if (!errorMessage.empty()) {
-            Error(errorMessage);
-        }
     }
 
     if (!validOption) {

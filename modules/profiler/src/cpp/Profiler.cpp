@@ -21,6 +21,7 @@
 #include <boost/date_time/gregorian/greg_date.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/algorithm/string.hpp>
 #include <iomanip>
 #include <tuple>
 #include <iostream>
@@ -28,6 +29,7 @@
 #include "Profiler.hpp"
 #include "Evaluator.hpp"
 #include "characters_encoding.hpp"
+#include "HtmlExporter.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -114,7 +116,7 @@ Profiler::toc(uint64 tic, internalProfileFunction stack)
 //=============================================================================
 static bool
 sortByPerCall(const std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& a,
-    std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& b)
+    const std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& b)
 {
     uint64 percallA = std::get<5>(a);
     uint64 percallB = std::get<5>(b);
@@ -124,7 +126,7 @@ sortByPerCall(const std::tuple<std::string, uint64, std::string, uint64, uint64,
 //=============================================================================
 static bool
 sortByNbCalls(const std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& a,
-    std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& b)
+    const std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& b)
 {
     uint64 nbcallsA = std::get<3>(a);
     uint64 nbcallsB = std::get<3>(b);
@@ -133,7 +135,7 @@ sortByNbCalls(const std::tuple<std::string, uint64, std::string, uint64, uint64,
 //=============================================================================
 static bool
 sortByFilename(const std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& a,
-    std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& b)
+    const std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& b)
 {
     std::string filenameA = std::get<0>(a);
     std::string filenameB = std::get<0>(b);
@@ -143,7 +145,7 @@ sortByFilename(const std::tuple<std::string, uint64, std::string, uint64, uint64
 //=============================================================================
 static bool
 sortByLine(const std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& a,
-    std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& b)
+    const std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& b)
 {
     uint64 lineposA = std::get<1>(a);
     uint64 lineposB = std::get<1>(b);
@@ -153,7 +155,7 @@ sortByLine(const std::tuple<std::string, uint64, std::string, uint64, uint64, ui
 //=============================================================================
 static bool
 sortByName(const std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& a,
-    std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& b)
+    const std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& b)
 {
     std::string nameA = std::get<2>(a);
     std::string nameB = std::get<2>(b);
@@ -162,7 +164,7 @@ sortByName(const std::tuple<std::string, uint64, std::string, uint64, uint64, ui
 //=============================================================================
 static bool
 sortByTotalTime(const std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& a,
-    std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& b)
+    const std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& b)
 {
     uint64 tottimeA = std::get<4>(a);
     uint64 tottimeB = std::get<4>(b);
@@ -172,7 +174,7 @@ sortByTotalTime(const std::tuple<std::string, uint64, std::string, uint64, uint6
 static bool
 sortByNameFilenameLine(
     const std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& a,
-    std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& b)
+    const std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>& b)
 {
     std::string nameA = std::get<2>(a);
     std::string nameB = std::get<2>(b);
@@ -353,12 +355,32 @@ isFile(const std::string& filename)
     return bRes;
 }
 //=============================================================================
-static bool
-getInfoByLine(const std::vector<std::tuple<std::string, uint64, uint64, uint64>>& flatProfile,
-    const std::string& filename, size_t line, int& numcalls, double& time)
+std::vector<std::tuple<int, double>>
+Profiler::getInfoForContent(
+    const std::vector<std::tuple<std::string, uint64, uint64, uint64>>& flatProfile,
+    const std::wstring& filename, size_t contentSize)
+{
+    std::vector<std::tuple<int, double>> lines;
+    for (size_t i = 0; i < contentSize; i++) {
+        int numcalls;
+        double time;
+        if (!getInfoForLine(flatProfile, filename, i + 1, numcalls, time)) {
+            numcalls = -1;
+            time = -1;
+        }
+        lines.push_back(std::make_tuple(numcalls, time));
+    }
+    return lines;
+}
+//=============================================================================
+bool
+Profiler::getInfoForLine(
+    const std::vector<std::tuple<std::string, uint64, uint64, uint64>>& flatProfile,
+    const std::wstring& filename, size_t line, int& numcalls, double& time)
 {
     for (size_t k = 0; k < flatProfile.size(); ++k) {
-        if (std::get<0>(flatProfile[k]) == filename && std::get<1>(flatProfile[k]) == line) {
+        if (utf8_to_wstring(std::get<0>(flatProfile[k])) == filename
+            && std::get<1>(flatProfile[k]) == line) {
             numcalls = (int)std::get<2>(flatProfile[k]);
             time = std::get<3>(flatProfile[k]) * 1e-9;
             return true;
@@ -367,10 +389,29 @@ getInfoByLine(const std::vector<std::tuple<std::string, uint64, uint64, uint64>>
     return false;
 }
 //=============================================================================
-void
-Profiler::save(const std::wstring& destinationDirectory, std::wstring& errorMessage)
+stringVector
+Profiler::readFunction(const std::wstring& filename)
 {
-    std::wstring profileDirectory = destinationDirectory + L"/profile_results";
+    stringVector functionContent;
+#ifdef _MSC_VER
+    std::ifstream in(filename);
+#else
+    std::ifstream in(wstring_to_utf8(filename));
+#endif
+    std::string str;
+    while (std::getline(in, str)) {
+        functionContent.push_back(str);
+    }
+    return functionContent;
+}
+//=============================================================================
+void
+Profiler::save(
+    std::vector<std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>> profileInfo,
+    const std::wstring& destinationDirectory, const std::wstring& moduleProfilerPath,
+    std::wstring& errorMessage)
+{
+    std::wstring profileDirectory = destinationDirectory;
     try {
         if (!boost::filesystem::exists(profileDirectory)) {
             boost::filesystem::create_directory(profileDirectory);
@@ -381,16 +422,11 @@ Profiler::save(const std::wstring& destinationDirectory, std::wstring& errorMess
         return;
     }
 
-    Profiler::Profile_Sort_Type sortOption = Profiler::Profile_Sort_Type::SORT_BY_NAMEFILELINE;
-
-    std::vector<std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>> profilerLines
-        = Profiler::info(sortOption);
-
     // filename, line, time, calls
     std::vector<std::tuple<std::string, uint64, uint64, uint64>> flatProfile;
     // filename, line, name, nbcalls, tottime, percall
     for (std::tuple<std::string, uint64, std::string, uint64, uint64, uint64> element :
-        profilerLines) {
+        profileInfo) {
         std::tuple<std::string, uint64, uint64, uint64> value = std::make_tuple(
             std::get<0>(element), std::get<1>(element), std::get<3>(element), std::get<4>(element));
         bool found = false;
@@ -406,11 +442,11 @@ Profiler::save(const std::wstring& destinationDirectory, std::wstring& errorMess
         }
     }
 
-    std::unordered_map<std::string, std::wstring> filenameIndex;
+    std::unordered_map<std::wstring, std::wstring> filenameIndex;
 
     int idx = 0;
     for (size_t k = 0; k < flatProfile.size(); ++k) {
-        std::string filename = std::get<0>(flatProfile[k]);
+        std::wstring filename = utf8_to_wstring(std::get<0>(flatProfile[k]));
         auto it = filenameIndex.find(filename);
         if (it == filenameIndex.end()) {
             std::wstring destination
@@ -420,100 +456,194 @@ Profiler::save(const std::wstring& destinationDirectory, std::wstring& errorMess
         }
     }
 
-    for (std::pair<std::string, std::wstring> element : filenameIndex) {
-        stringVector functionContent;
-#ifdef _MSC_VER
-        std::ifstream in(utf8_to_wstring(element.first));
-#else
-        std::ifstream in(element.first);
-#endif
-        std::string str;
-        while (std::getline(in, str)) {
-            functionContent.push_back(str);
-        }
+    std::vector<std::tuple<std::wstring, std::wstring, int, double, double>> indexData;
 
-#ifdef _MSC_VER
-        std::ofstream file(element.second);
-#else
-        std::ofstream file(wstring_to_utf8(element.second));
-#endif
+    for (std::pair<std::wstring, std::wstring> element : filenameIndex) {
+        stringVector functionContent = readFunction(element.first);
+        std::tuple<int, double> res
+            = computeBasicFileStats(flatProfile, functionContent, element.first);
+
+        std::vector<std::tuple<int, std::string, int, double>> fiveSlowerLines
+            = getFiveLinesConsumingMostTime(flatProfile, element.first, functionContent);
+
+        std::tuple<int, int, int, int, int, double> coverage
+            = coverageAnalyzer(flatProfile, element.first, functionContent);
+
+        indexData.push_back(std::make_tuple(element.first, element.second, std::get<0>(res),
+            std::get<1>(res), std::get<5>(coverage)));
+
+        std::vector<std::tuple<int, double>> lineInfo
+            = getInfoForContent(flatProfile, element.first, functionContent.size());
+
+        generateProfileFileHtml(element.first, functionContent, fiveSlowerLines, coverage, lineInfo,
+            std::get<0>(res), std::get<1>(res), element.second);
+    }
+    generateProfileIndexHtml(profileDirectory + L"/index.html", indexData);
+    copyHtmlDependencies(moduleProfilerPath, profileDirectory);
+}
+//=============================================================================
+static int
+findFunctionDefinitonLine(const stringVector& functionContent)
+{
+    for (size_t k = 0; k < functionContent.size(); ++k) {
+        std::string line = boost::algorithm::trim_copy(functionContent[k]);
+        if (boost::algorithm::starts_with(line, "function ")) {
+            return (int)k;
+        }
+    }
+    return -1;
+}
+//=============================================================================
+static int
+findEndfunctionDefinitonLine(const stringVector& functionContent, int start)
+{
+    for (size_t k = start + 1; k < functionContent.size(); ++k) {
+        std::string line = boost::algorithm::trim_copy(functionContent[k]);
+        if (boost::algorithm::starts_with(line, "endfunction")
+            || boost::algorithm::starts_with(line, "function")) {
+            return (int)k;
+        }
+    }
+    return -1;
+}
+//=============================================================================
+std::tuple<int, double>
+Profiler::computeBasicFileStats(
+    const std::vector<std::tuple<std::string, uint64, uint64, uint64>>& flatProfile,
+    const stringVector& functionContent, const std::wstring& srcFilename)
+{
+    double totalTime = 0;
+    int nbCalls = 0;
+    std::tuple<int, double> res;
+    if (boost::algorithm::ends_with(srcFilename, L".nls")) {
         size_t nbLines = functionContent.size();
-        size_t lenNbLines = std::max(std::to_string(nbLines).size(), _("lines").size() + 1);
-
-        file << "<html lang=\"en\">" << std::endl;
-        file << "<head>" << std::endl;
-        file << "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
-             << std::endl;
-        file << "    <title>Profile and Coverage d:/profile_tests/test_2.nlf</title>" << std::endl;
-        file << "</head>" << std::endl;
-        file << "<body>" << std::endl;
-        file << "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">" << std::endl;
-        file << "<tbody><tr>" << std::endl;
-        file << "<td><br></td>" << std::endl;
-        file << "</tr>" << std::endl;
-        file << "<tr>" << std::endl;
-        file << "<td>" << std::endl;
-        file << "<pre class=\"sourceHeading\">"
-             << " Line :   NumCalls :      Time : Source code"
-             << "</pre>" << std::endl;
-        file << "<pre class=\"source\">" << std::endl;
-
-        for (size_t i = 0; i < nbLines; i++) {
-            int numcalls = 0;
-            double time = 0.;
-            std::string numAsStr;
-            std::string timeAsStr;
-            std::string lineAsStr = std::to_string(i + 1);
-
-            if (getInfoByLine(flatProfile, element.first, i + 1, numcalls, time)) {
-                numAsStr = std::to_string(numcalls);
-                timeAsStr = std::to_string(time);
-            } else {
-                numAsStr = "";
-                timeAsStr = "";
+        for (size_t k = 1; k < nbLines + 1; ++k) {
+            double t;
+            int n;
+            if (getInfoForLine(flatProfile, srcFilename, k, n, t)) {
+                nbCalls = n;
+                totalTime = totalTime + t;
             }
-            file << "<a name = \"" << lineAsStr << "\"><span class = \"lineNum\">"
-                 << std::string(lenNbLines - lineAsStr.size(), ' ') << lineAsStr << "</span>"
-                 << " : " << std::string(10 - numAsStr.size(), ' ') << numAsStr << " : "
-                 << std::string(10 - timeAsStr.size(), ' ') << timeAsStr << " : "
-                 << functionContent[i] << "</a>" << std::endl;
         }
-        file << "</pre>" << std::endl;
-        file << "</td>" << std::endl;
-        file << "</tr>" << std::endl;
-        file << "</tbody></table>" << std::endl;
-        file << "<br>" << std::endl;
-        file << "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
-             << std::endl;
-        boost::posix_time::ptime currentDateTime = boost::posix_time::second_clock::local_time();
-
-        file << "<tr><td class=\"versionInfo\">Generated by: Nelson " << currentDateTime
-             << "</td></tr>" << std::endl;
-        file << "</tbody></table>" << std::endl;
-        file << "<br>" << std::endl;
-        file << "</body></html>" << std::endl;
-
-        file.close();
+    } else {
+        int start = findFunctionDefinitonLine(functionContent);
+        int stop = findEndfunctionDefinitonLine(functionContent, start);
+        bool first = true;
+        for (size_t k = start + 1; k < stop; ++k) {
+            double t;
+            int n;
+            if (getInfoForLine(flatProfile, srcFilename, k + 1, n, t)) {
+                if (first) {
+                    nbCalls = n;
+                    first = false;
+                }
+                totalTime = totalTime + t;
+            }
+        }
     }
+    return std::make_tuple(nbCalls, totalTime);
+}
+//=============================================================================
+std::vector<std::tuple<int, std::string, int, double>>
+Profiler::getFiveLinesConsumingMostTime(
+    const std::vector<std::tuple<std::string, uint64, uint64, uint64>>& flatProfile,
+    const std::wstring& srcFilename, const stringVector& functionContent)
+{
+    std::vector<std::tuple<int, std::string, int, double>> lines;
 
-    std::wstring index_html = profileDirectory + L"/index.html";
-#ifdef _MSC_VER
-    std::ofstream file(index_html);
-#else
-    std::ofstream file(wstring_to_utf8(index_html));
-#endif
-    for (std::pair<std::string, std::wstring> element : filenameIndex) {
-        boost::filesystem::path p1(element.second);
-        std::string file_x_html = p1.filename().string();
-        boost::filesystem::path p2(element.first);
-        std::string filename = p2.filename().string();
+    for (size_t k = 0; k < flatProfile.size(); ++k) {
+        if (utf8_to_wstring(std::get<0>(flatProfile[k])) == srcFilename) {
+            int linePos = (int)std::get<1>(flatProfile[k]);
+            double time = std::get<3>(flatProfile[k]) * 1e-9;
 
-        file << "<div>" << std::endl;
-        file << "<a href=\""
-             << "./" << file_x_html << "\">" << filename << "</a>" << std::endl;
-        file << "</div>" << std::endl;
+            std::tuple<int, std::string, int, double> line = std::make_tuple(
+                linePos, functionContent[linePos - 1], (int)std::get<2>(flatProfile[k]), time);
+            lines.push_back(line);
+        }
     }
-    file.close();
+    int nth = std::min(5, (int)lines.size());
+    std::nth_element(lines.begin(), lines.begin() + nth, lines.end(),
+        [](const std::tuple<int, std::string, int, double>& lhs,
+            const std::tuple<int, std::string, int, double>& rhs) {
+            return std::get<3>(lhs) > std::get<3>(rhs);
+        });
+    lines.resize(nth);
+    return lines;
+}
+//=============================================================================
+static bool
+isKeyWordWithMaybeComments(std::string key)
+{
+    size_t index1 = key.find("%", 0);
+    size_t index2 = key.find("//", 0);
+    if (index1 == std::string::npos) {
+        index1 = key.length();
+    }
+    if (index2 == std::string::npos) {
+        index2 = key.length();
+    }
+    size_t index = std::min(index1, index2);
+    std::string cleanKey;
+    if (index > 0) {
+        cleanKey = key.substr(0, index);
+    } else {
+        cleanKey = key;
+    }
+    return cleanKey == "endfunction" || cleanKey == "try" || cleanKey == "catch"
+        || cleanKey == "else" || cleanKey == "end"
+        || boost::algorithm::starts_with(cleanKey, "function ")
+        || boost::algorithm::starts_with(cleanKey, "case ")
+        || boost::algorithm::starts_with(cleanKey, "otherwise ")
+        || boost::algorithm::starts_with(cleanKey, "break");
+}
+//=============================================================================
+std::tuple<int, int, int, int, int, double>
+Profiler::coverageAnalyzer(
+    const std::vector<std::tuple<std::string, uint64, uint64, uint64>>& flatProfile,
+    const std::wstring& srcFilename, const stringVector& functionContent)
+{
+    int totalLines = (int)functionContent.size();
+    int nonCodeLines = 0;
+    int linesCanRun = 0;
+    int linesDidRun = 0;
+    int linesDidNotRun = 0;
+    double coverage = 0.;
+
+    int keywords = 0;
+
+    size_t res = 0;
+    for (std::string line : functionContent) {
+        std::string temp = boost::algorithm::trim_copy(line);
+        if (temp.empty() || boost::algorithm::starts_with(temp, "//")
+            || boost::algorithm::starts_with(temp, "%")) {
+            nonCodeLines++;
+        } else if (isKeyWordWithMaybeComments(temp)) {
+            keywords++;
+        }
+    }
+    linesCanRun = totalLines - nonCodeLines - keywords;
+    std::vector<std::tuple<uint64, uint64, uint64>> linesInfo
+        = getProfileForFile(flatProfile, srcFilename);
+    linesDidRun = (int)linesInfo.size();
+    linesDidNotRun = linesCanRun - linesDidRun;
+    coverage = (double(linesDidRun) / double(linesCanRun)) * 100.;
+    return std::make_tuple(
+        totalLines, nonCodeLines, linesCanRun, linesDidRun, linesDidNotRun, coverage);
+}
+//=============================================================================
+std::vector<std::tuple<uint64, uint64, uint64>>
+Profiler::getProfileForFile(
+    const std::vector<std::tuple<std::string, uint64, uint64, uint64>>& flatProfile,
+    const std::wstring& srcFilename)
+{
+    std::vector<std::tuple<uint64, uint64, uint64>> profileByLine;
+    for (size_t k = 0; k < flatProfile.size(); ++k) {
+        if (utf8_to_wstring(std::get<0>(flatProfile[k])) == srcFilename) {
+            profileByLine.push_back(std::make_tuple(std::get<1>(flatProfile[k]),
+                std::get<2>(flatProfile[k]), std::get<3>(flatProfile[k])));
+        }
+    }
+    return profileByLine;
 }
 //=============================================================================
 } // namespace Nelson

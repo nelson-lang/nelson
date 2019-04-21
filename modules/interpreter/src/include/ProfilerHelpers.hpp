@@ -38,5 +38,5 @@ internalProfileFunction
 computeProfileStack(Evaluator* eval, const std::string& currentFunctionName,
     const std::wstring& currentFilename, bool isBuiltin = true);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

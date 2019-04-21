@@ -3,6 +3,11 @@
 Features:
 ---------
 
+* Coverage and Profiling Tools for Nelson's language:
+
+  - profile function: Profile execution time for functions
+  - profsave function: Save profile report in HTML format
+
 * blanks builtin: creates an string of blank characters.
 
 * .nh5 files have an header to identify it easily.
@@ -20,6 +25,11 @@ Compilation:
 * more 100 warnings fixed (Thanks to PVS-Studio analyzer and also Cppcheck).
 
 * .editorconfig file added.
+
+* Visual studio 15.9.11
+
+* Qt 5.12.1 on Windows
+
 
 
 # 0.3.3  (2019-03-21)
