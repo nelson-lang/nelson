@@ -81,18 +81,30 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     std::string arg1AsString = param1.getContentAsCString();
     bool validOption = false;
     if (arg1AsString == "on") {
+        if (argIn.size() > 1) {
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
         Profiler::getInstance()->on();
         validOption = true;
     }
     if (arg1AsString == "off") {
+        if (argIn.size() > 1) {
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
         Profiler::getInstance()->off();
         validOption = true;
     }
     if (arg1AsString == "resume") {
+        if (argIn.size() > 1) {
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
         Profiler::getInstance()->resume();
         validOption = true;
     }
     if (arg1AsString == "clear") {
+        if (argIn.size() > 1) {
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
         Profiler::getInstance()->clear();
         validOption = true;
     }
@@ -154,6 +166,26 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     if (arg1AsString == "show") {
         Profiler::Profile_Sort_Type sortOption = getSortArgument(argIn, validOption);
         Profiler::getInstance()->show(eval->getInterface(), sortOption);
+        validOption = true;
+    }
+
+    if (arg1AsString == "status") {
+        if (argIn.size() > 1) {
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
+        stringVector fieldnames;
+        fieldnames.push_back("ProfilerStatus");
+        fieldnames.push_back("HistoryTracking");
+        fieldnames.push_back("HistorySize");
+        ArrayOfVector values;
+        if (Profiler::getInstance()->isOn()) {
+            values.push_back(ArrayOf::characterArrayConstructor("on"));
+        } else {
+            values.push_back(ArrayOf::characterArrayConstructor("off"));
+        }
+        values.push_back(ArrayOf::characterArrayConstructor("off"));
+        values.push_back(ArrayOf::doubleConstructor(1));
+        retval.push_back(ArrayOf::structScalarConstructor(fieldnames, values));
         validOption = true;
     }
 
