@@ -71,7 +71,7 @@ public:
     info(Profiler::Profile_Sort_Type sortOption);
 
     void
-    show(Interface* io, Profiler::Profile_Sort_Type sortOption);
+    show(Interface* io, Profiler::Profile_Sort_Type sortOption, int nbLinesToDisplay = -1);
 
     void
     save(std::vector<std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>>

@@ -74,7 +74,7 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     if (nLhs > 1) {
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() < 1 || argIn.size() > 2) {
+    if (argIn.size() < 1 || argIn.size() > 3) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
@@ -110,6 +110,9 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
 
     if (arg1AsString == "info") {
+        if (argIn.size() > 2) {
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
         Profiler::Profile_Sort_Type sortOption = getSortArgument(argIn, validOption);
         std::vector<std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>>
             profileLines = Profiler::getInstance()->info(sortOption);
@@ -164,8 +167,17 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
 
     if (arg1AsString == "show") {
+        int nbLinesToDisplay = -1;
+        if (argIn.size() > 2) {
+            ArrayOf param3 = argIn[2];
+            nbLinesToDisplay = param3.getContentAsInteger32Scalar(true);
+            if (nbLinesToDisplay < 1) {
+                Error(_W("Invalid value."));
+            }
+        }
+
         Profiler::Profile_Sort_Type sortOption = getSortArgument(argIn, validOption);
-        Profiler::getInstance()->show(eval->getInterface(), sortOption);
+        Profiler::getInstance()->show(eval->getInterface(), sortOption, nbLinesToDisplay);
         validOption = true;
     }
 

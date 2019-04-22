@@ -114,8 +114,6 @@ QtHelpProject::assembleContent()
     this->utf8stream = this->utf8stream + "<files>" + std::string("\n");
     this->utf8stream = this->utf8stream + "<file>*.css</file>" + std::string("\n");
     this->utf8stream = this->utf8stream + "<file>*.js</file>" + std::string("\n");
-    this->utf8stream = this->utf8stream + "<file>*.css</file>" + std::string("\n");
-    this->utf8stream = this->utf8stream + "<file>*.js</file>" + std::string("\n");
     this->utf8stream = this->utf8stream + "<file>*.html</file>" + std::string("\n");
     this->utf8stream = this->utf8stream + "<file>*.png</file>" + std::string("\n");
     this->utf8stream = this->utf8stream + "<file>*.svg</file>" + std::string("\n");

@@ -298,7 +298,7 @@ Profiler::hash(internalProfileFunction stack)
 }
 //=============================================================================
 void
-Profiler::show(Interface* io, Profiler::Profile_Sort_Type sortOption)
+Profiler::show(Interface* io, Profiler::Profile_Sort_Type sortOption, int nbLinesToDisplay)
 {
     // index, filename, line, name, nbcalls, tottime, percall
     std::vector<std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>> profilerLines
@@ -315,27 +315,32 @@ Profiler::show(Interface* io, Profiler::Profile_Sort_Type sortOption)
     ssLine << std::endl;
     io->outputMessage(ssLine.str());
 
+    int nbLinesDisplayed = 0;
     for (std::tuple<std::string, uint64, std::string, uint64, uint64, uint64> line :
         profilerLines) {
-        // filename, line, name, nbcalls, tottime, percall
-        boost::filesystem::path p(std::get<0>(line));
-        std::string filename = p.filename().string();
-        uint64 linepos = std::get<1>(line);
-        std::string name = std::get<2>(line);
-        uint64 nbcalls = std::get<3>(line);
-        uint64 tottime = std::get<4>(line);
-        uint64 percall = std::get<5>(line);
-        std::stringstream ssLine;
-        std::string flf = filename + ":" + std::to_string((int)linepos) + "(" + name + ")";
+        if (nbLinesDisplayed < nbLinesToDisplay || nbLinesToDisplay == -1) {
+            // filename, line, name, nbcalls, tottime, percall
+            boost::filesystem::path p(std::get<0>(line));
+            std::string filename = p.filename().string();
+            uint64 linepos = std::get<1>(line);
+            std::string name = std::get<2>(line);
+            uint64 nbcalls = std::get<3>(line);
+            uint64 tottime = std::get<4>(line);
+            uint64 percall = std::get<5>(line);
+            std::stringstream ssLine;
+            std::string flf = filename + ":" + std::to_string((int)linepos) + "(" + name + ")";
 
-        ssLine << std::right << std::setfill(' ') << std::setw(10) << std::to_string((int)nbcalls);
-        ssLine << std::right << std::setfill(' ') << std::setw(16)
-               << std::to_string(tottime * 1e-9);
-        ssLine << std::right << std::setfill(' ') << std::setw(16)
-               << std::to_string(percall * 1e-9);
-        ssLine << "    " << std::left << std::setfill(' ') << std::setw(24) << flf;
-        ssLine << std::endl;
-        io->outputMessage(ssLine.str());
+            ssLine << std::right << std::setfill(' ') << std::setw(10)
+                   << std::to_string((int)nbcalls);
+            ssLine << std::right << std::setfill(' ') << std::setw(16)
+                   << std::to_string(tottime * 1e-9);
+            ssLine << std::right << std::setfill(' ') << std::setw(16)
+                   << std::to_string(percall * 1e-9);
+            ssLine << "    " << std::left << std::setfill(' ') << std::setw(24) << flf;
+            ssLine << std::endl;
+            io->outputMessage(ssLine.str());
+            nbLinesDisplayed++;
+        }
     }
 }
 //=============================================================================
