@@ -588,9 +588,9 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
         cmd = [' --language', ' ', 'en_US'];
       end
       if test_case_res.options.mpi_mode
-        cmd_to_execute = ['"res_struct = test_runfile(''',  testfile, ''',', int2str(test_case_res.options.mpi_mode), ');filewrite(''', outputfile, ''', jsonencode(res_struct)); exit();"'];
+        cmd_to_execute = ['"res_struct = test_runfile(''',  testfile, ''',', int2str(test_case_res.options.mpi_mode), ');savenh5(''', outputfile, ''', ''res_struct''); exit();"'];
       else
-        cmd_to_execute = ['"res_struct = test_runfile(''',  testfile, ''',', int2str(test_case_res.options.mpi_mode), ');filewrite(''', outputfile, ''', jsonencode(res_struct)); exit(double(res_struct.r));"'];
+        cmd_to_execute = ['"res_struct = test_runfile(''',  testfile, ''',', int2str(test_case_res.options.mpi_mode), ');savenh5(''', outputfile, ''', ''res_struct''); exit(double(res_struct.r));"'];
       end
       redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
       cmd = [cmd, ' --quiet', ' ', '--timeout', ' ', timeout, ' ', '--execute', ' ', cmd_to_execute, ' ', redirect_to_file];
@@ -610,7 +610,8 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
       test_case_res.msg = msg;
       if test_case_res.options.mpi_mode
         if isfile(outputfile)
-          s = jsondecode(fileread(outputfile));
+          s = loadnh5(outputfile);
+          s = s.res_struct; 
           res = s.r;
           test_case_res.msg = s.msg;
           if res == 1
@@ -629,12 +630,14 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
           test_case_res.status = 'Fail';
           test_timing = 0;
           if isfile(outputfile)
-            s = jsondecode(fileread(outputfile));
+            s = loadnh5(outputfile);
+            s = s.res_struct; 
             test_case_res.msg = s.msg;
           end
         else
           if isfile(outputfile)
-            s = jsondecode(fileread(outputfile));
+            s = loadnh5(outputfile);
+            s = s.res_struct; 
             r = rmfile(outputfile);
             if (s.r)
               if is_bench
