@@ -84,12 +84,18 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         if (argIn.size() > 1) {
             Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
+        if (nLhs != 0) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
         Profiler::getInstance()->on();
         validOption = true;
     }
     if (arg1AsString == "off") {
         if (argIn.size() > 1) {
             Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
+        if (nLhs != 0) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         Profiler::getInstance()->off();
         validOption = true;
@@ -98,12 +104,18 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         if (argIn.size() > 1) {
             Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
+        if (nLhs != 0) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
         Profiler::getInstance()->resume();
         validOption = true;
     }
     if (arg1AsString == "clear") {
         if (argIn.size() > 1) {
             Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
+        if (nLhs != 0) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         Profiler::getInstance()->clear();
         validOption = true;
@@ -167,6 +179,9 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
 
     if (arg1AsString == "show") {
+        if (nLhs != 0) {
+            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
         int nbLinesToDisplay = -1;
         if (argIn.size() > 2) {
             ArrayOf param3 = argIn[2];
