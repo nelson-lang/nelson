@@ -14,6 +14,11 @@ Features:
 
 * isnh5file, ismatfile extended to return header string.
 
+Bug Fixes:
+---------
+
+  * [#193](http://github.com/Nelson-numerical-software/nelson/issues/193): func2str help was wrong.
+
 
 Compilation:
 ------------
@@ -28,7 +33,7 @@ Compilation:
 
 * Visual studio 15.9.11
 
-* Qt 5.12.1 on Windows
+* Qt 5.12.2 on Windows
 
 
 
