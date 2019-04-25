@@ -16,7 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
 #include "MacroFunctionDef.hpp"
 #include "AstManager.hpp"
 #include "Context.hpp"

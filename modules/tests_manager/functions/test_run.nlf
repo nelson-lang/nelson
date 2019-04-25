@@ -186,8 +186,9 @@ function status = test_run(varargin)
       nelson_version_str = ['Nelson', '-', int2str(nelson_version(1)), '.', int2str(nelson_version(2)), '.', int2str(nelson_version(3)), '.', int2str(nelson_version(4))];
       nbTestCasesMax = 0;
 
+      empty_test_suite = create_test_suite(); 
       for m = modules_list(:)'
-        test_suite = create_test_suite();
+        test_suite = empty_test_suite;
         test_suite.name = m{1};
         tests_list = [];
         tests_dir = [modulepath(m{1}), '/tests/'];
@@ -248,15 +249,16 @@ function status = test_run(varargin)
     nbTestSuites = length(test_suites.tests_list);
     
     lenCharsTestCasesMax = length(int2str(nbTestCasesMax));
-    lenCharsTestSuitesMax = length(int2str(nbTestSuites));
+    lenCharsTestSuitesMaxAsString = int2str(length(int2str(nbTestSuites)));
     tic();
     k = 1;
     for ts = test_suites.tests_list(:)'
-      fprintf(stdout, [' ', uniformizeNumbers(k, lenCharsTestSuitesMax), '/', int2str(nbTestSuites), ' - ', '[', ts.name, '] :', newline]);
+      fmt = [' %', '0', lenCharsTestSuitesMaxAsString , 'd/%d - [%s]:', newline];
+      fprintf(stdout, fmt, k, nbTestSuites, ts.name);
       l = 1;
       nbTestCases = length(ts.test_cases_list);
       for tc = ts.test_cases_list(:)'
-        tc = run_test_case(tc, ts.name, l, nbTestCases, lenCharsTestCasesMax);
+        tc = run_test_case(tc, ts.name, l, nbTestCases);
         test_suites.tests_list(k).time = test_suites.tests_list(k).time + tc.time;
         if tc.isbench
           test_suites.tests_list(k).bench = test_suites.tests_list(k).bench + 1;
@@ -295,7 +297,7 @@ function status = test_run(varargin)
       end
       test_suites.time = test_suites.time + test_suites.tests_list(k).time;
       k = k + 1;
-      disp(' ');
+      fprintf(stdout, newline);
     end
     test_suites.total_time = toc();
     disp_summary(test_suites);
@@ -326,11 +328,7 @@ endfunction
 //=============================================================================
 function res = save_as_xml(test_suites, xmlFileDestination)
   res = false;
-  if ispc()
-    eol = char([13, 10]);
-  else
-    eol = newline;
-  end
+  eol = newline;
   fp = fopen(xmlFileDestination, 'wt');
   if fp ~= -1
     fprintf(fp, ['<?xml version="1.0"?>', eol]);
@@ -449,16 +447,15 @@ endfunction
 //=============================================================================
 function r = isbench(filename)
   [p, fwext] = fileparts(filename);
-  r = strncmp(fwext, 'bench_', 5);
+  r = startsWith(fwext, 'bench_');
 endfunction
 //=============================================================================
 function r = is_release()
   ver_comp = version('-compiler');
-  r = strcmp(ver_comp{2}, 'release');
+  r = startsWith(ver_comp{2}, 'release');
 endfunction
 //=============================================================================
 function r = have_audio_input()
-  r = false;
   if ismodule('audio')
     if strcmp(getenv('AUDIODEV'), 'null') == true
       r = false;
@@ -466,11 +463,12 @@ function r = have_audio_input()
       devices = audiodevinfo('default');
       r = ~isempty(devices.input);
     end
+  else
+    r = false;
   end
 endfunction
 //=============================================================================
 function r = have_audio_output()
-  r = false;
   if ismodule('audio')
     if strcmp(getenv('AUDIODEV'), 'null') == true
       r = false;
@@ -478,6 +476,8 @@ function r = have_audio_output()
       devices = audiodevinfo('default');
       r = ~isempty(devices.output);
     end
+  else
+    r = false;
   end
 endfunction
 //=============================================================================
@@ -514,13 +514,12 @@ function r = have_64_bit_index_supported()
   r = strcmp(compiler_info{3}, '64');
 endfunction
 //=============================================================================
-function test_case_res = run_test_case(test, module_name, index, indexMax, nbTestCasesMax)
+function test_case_res = run_test_case(test, module_name, index, indexMax)
   test_case_res = test;
   is_bench = test.isbench;
-  
-  startChars = [' ', uniformizeNumbers(index, nbTestCasesMax), '/', uniformizeNumbers(indexMax, nbTestCasesMax),' - [', module_name, '] ', test_case_res.name];
-  fprintf(stdout, startChars);
-  
+  fmtStart = [' ', '%0', int2str(length(int2str(indexMax))), 'd/', '%d - [%s] %s'];
+  startChars = sprintf(fmtStart, index, indexMax, module_name, test_case_res.name);
+  fprintf(stdout, '%s', startChars);
   skip = false;
   if (test_case_res.options.audio_input_required && ~have_audio_input())
     test_case_res.status = 'Skip';
@@ -588,9 +587,9 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
         cmd = [' --language', ' ', 'en_US'];
       end
       if test_case_res.options.mpi_mode
-        cmd_to_execute = ['"res_struct = test_runfile(''',  testfile, ''',', int2str(test_case_res.options.mpi_mode), ');savenh5(''', outputfile, ''', ''res_struct''); exit();"'];
+        cmd_to_execute = ['"res_struct = test_runfile(''',  testfile, ''',', int2str(test_case_res.options.mpi_mode), ');filewrite(''', outputfile, ''', jsonencode(res_struct)); exit();"'];
       else
-        cmd_to_execute = ['"res_struct = test_runfile(''',  testfile, ''',', int2str(test_case_res.options.mpi_mode), ');savenh5(''', outputfile, ''', ''res_struct''); exit(double(res_struct.r));"'];
+        cmd_to_execute = ['"res_struct = test_runfile(''',  testfile, ''',', int2str(test_case_res.options.mpi_mode), ');filewrite(''', outputfile, ''', jsonencode(res_struct)); exit(double(res_struct.r));"'];
       end
       redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
       cmd = [cmd, ' --quiet', ' ', '--timeout', ' ', timeout, ' ', '--execute', ' ', cmd_to_execute, ' ', redirect_to_file];
@@ -610,8 +609,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
       test_case_res.msg = msg;
       if test_case_res.options.mpi_mode
         if isfile(outputfile)
-          s = loadnh5(outputfile);
-          s = s.res_struct; 
+          s = jsondecode(fileread(outputfile));
           res = s.r;
           test_case_res.msg = s.msg;
           if res == 1
@@ -630,14 +628,12 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
           test_case_res.status = 'Fail';
           test_timing = 0;
           if isfile(outputfile)
-            s = loadnh5(outputfile);
-            s = s.res_struct; 
+            s = jsondecode(fileread(outputfile));
             test_case_res.msg = s.msg;
           end
         else
           if isfile(outputfile)
-            s = loadnh5(outputfile);
-            s = s.res_struct; 
+            s = jsondecode(fileread(outputfile));
             r = rmfile(outputfile);
             if (s.r)
               if is_bench
@@ -772,49 +768,13 @@ endfunction
 function t = timestamp()
   n = now();
   v = datevec(n);
-  year_str = int2str(v(1));
-  
-  month_str = int2str(v(2));
-  if length(month_str) == 1
-    month_str = ['0', month_str];
-  end
-  
-  day_str = int2str(v(3));
-  if length(day_str) == 1
-    day_str = ['0', day_str];
-  end
-  
-  hour_str = int2str(v(4));
-  if length(hour_str) == 1
-    hour_str = ['0', hour_str];
-  end
-  
-  min_str = int2str(v(5));
-  if length(min_str) == 1
-    min_str = ['0', min_str];
-  end
-  
-  sec_str = int2str(v(6));
-  if length(sec_str) == 1
-    sec_str = ['0', sec_str];
-  end
-  
-  t = [year_str, '-', month_str, '-', day_str, 'T', hour_str, ':', min_str, ':', sec_str];
+  t = sprintf('%d-%02d-%02dT%02d:%02d:%02d', v(1), v(2), v(3), v(4), v(5), v(6));
 endfunction
 //=============================================================================
 function pc = prefixCommand(withMPI)
   pc = '';
   if withMPI
     pc = ['mpiexec -n 2 '];
-  end
-endfunction
-//=============================================================================
-function res = uniformizeNumbers(value, len)
-  res = int2str(value);
-  if length(res) < len
-    for k = 1:(len - length(res))
-      res = ['0', res];
-    end
   end
 endfunction
 //=============================================================================

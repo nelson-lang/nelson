@@ -20,7 +20,6 @@
 #include "EvaluateBuiltinCatchRuntimeException.hpp"
 #include "Profiler.hpp"
 #include "ProfilerHelpers.hpp"
-#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
