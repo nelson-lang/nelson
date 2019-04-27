@@ -26,7 +26,7 @@ namespace Nelson {
 //=============================================================================
 bool
 h5LoadCell(hid_t fid, const std::string& location, const std::string& variableName, bool isEmpty,
-    Dimensions dims, ArrayOf& VariableValue);
+    const Dimensions &dims, ArrayOf& VariableValue);
 //=============================================================================
 };
 //=============================================================================

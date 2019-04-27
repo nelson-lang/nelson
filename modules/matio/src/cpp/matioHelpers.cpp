@@ -33,7 +33,7 @@ getMatVarDimensions(matvar_t* matVariable)
 }
 //=============================================================================
 size_t*
-convertDimensionsForMatVar(Dimensions variableDims, indexType& rank)
+convertDimensionsForMatVar(const Dimensions &variableDims, indexType& rank)
 {
     rank = variableDims.getLength();
     size_t* dims = nullptr;
@@ -43,8 +43,9 @@ convertDimensionsForMatVar(Dimensions variableDims, indexType& rank)
         rank = 0;
         return nullptr;
     }
+    Dimensions _dims(variableDims);
     for (indexType k = 0; k < rank; k++) {
-        dims[k] = variableDims[k];
+        dims[k] = _dims[k];
     }
     return dims;
 }

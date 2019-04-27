@@ -37,7 +37,7 @@ h5SaveClassAttribute(hid_t fid, const std::string& location, ArrayOf variableVal
 }
 //=============================================================================
 bool
-h5SaveDimensionsAttribute(hid_t fid, const std::string& location, Dimensions dims)
+h5SaveDimensionsAttribute(hid_t fid, const std::string& location, const Dimensions &dims)
 {
     bool bSuccess = false;
     hid_t obj_id = H5Oopen(fid, location.c_str(), H5P_DEFAULT);
@@ -56,9 +56,10 @@ h5SaveDimensionsAttribute(hid_t fid, const std::string& location, Dimensions dim
         ptrAsUint64[0] = 1;
         ptrAsUint64[1] = 1;
     } else {
+        Dimensions _dims(dims);
         auto* ptrAsUint64 = (uint64*)dimsAsArray.getDataPointer();
-        for (indexType k = 0; k < dims.getLength(); k++) {
-            ptrAsUint64[k] = static_cast<uint64>(dims[k]);
+        for (indexType k = 0; k < _dims.getLength(); k++) {
+            ptrAsUint64[k] = static_cast<uint64>(_dims[k]);
         }
     }
 

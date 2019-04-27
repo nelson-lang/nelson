@@ -23,7 +23,7 @@ namespace Nelson {
 //=============================================================================
 bool
 h5LoadInteger(hid_t fid, const std::string& location, const std::string& variableName,
-    Class destClass, bool isEmpty, Dimensions dims, ArrayOf& VariableValue)
+    Class destClass, bool isEmpty, const Dimensions &dims, ArrayOf& VariableValue)
 {
     bool bSuccess = false;
     if (isEmpty) {

@@ -207,7 +207,6 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, ArrayOfVector& inputs, int n
     // context->insertVariableLocally("nargout",
     // ArrayOf::doubleConstructor(nargout));
     context->getCurrentScope()->setNargOut(nargout);
-    std::string parents;
     uint64 tic = 0;
     try {
         uint64 tic = Profiler::getInstance()->tic();

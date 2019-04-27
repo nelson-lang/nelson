@@ -24,7 +24,7 @@ namespace Nelson {
 //=============================================================================
 bool
 h5LoadStringArray(hid_t fid, const std::string& location, const std::string& variableName,
-    bool isEmpty, Dimensions dims, ArrayOf& VariableValue)
+    bool isEmpty, const Dimensions &dims, ArrayOf& VariableValue)
 {
     indexType nbElements = dims.getElementCount();
     ArrayOf* elements = nullptr;
@@ -54,7 +54,7 @@ h5LoadStringArray(hid_t fid, const std::string& location, const std::string& var
 //=============================================================================
 bool
 h5LoadCharacterArray(hid_t fid, const std::string& location, const std::string& variableName,
-    bool isEmpty, Dimensions dims, ArrayOf& VariableValue)
+    bool isEmpty, const Dimensions &dims, ArrayOf& VariableValue)
 {
     bool bSuccess = false;
     if (isEmpty) {

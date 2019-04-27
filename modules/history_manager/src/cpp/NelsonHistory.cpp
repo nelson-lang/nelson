@@ -110,7 +110,7 @@ NelsonHistoryGetNextLine(void)
     std::wstring wline = Nelson::History::getNextLine();
     std::string line = Nelson::wstring_to_utf8(wline);
     if (_line != nullptr) {
-        delete _line;
+        delete[] _line;
         _line = nullptr;
     }
     try {
@@ -128,7 +128,7 @@ NelsonHistoryGetPreviousLine(void)
     std::wstring wline = Nelson::History::getPreviousLine();
     std::string line = Nelson::wstring_to_utf8(wline);
     if (_line != nullptr) {
-        delete _line;
+        delete[] _line;
         _line = nullptr;
     }
     try {

@@ -2157,13 +2157,13 @@ isColonOperator(const ArrayOf& A)
  */
 constIndexPtr*
 ProcessNDimIndexes(bool preserveColons, Dimensions& dims, ArrayOfVector& index, bool& anyEmpty,
-    int& colonIndex, Dimensions& outDims, bool argCheck)
+    indexType& colonIndex, Dimensions& outDims, bool argCheck)
 {
     indexType L = index.size();
     constIndexPtr* outndx = new_with_exception<constIndexPtr>(L);
     bool colonFound = false;
     anyEmpty = false;
-    colonIndex = -1;
+    colonIndex = ((indexType)-1);
     for (size_t i = 0; i < index.size(); i++) {
         bool isColon = isColonOperator(index[i]);
         if (!colonFound && isColon && preserveColons) {

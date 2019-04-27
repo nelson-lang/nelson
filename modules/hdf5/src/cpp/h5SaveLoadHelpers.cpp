@@ -342,7 +342,7 @@ isNelsonComplex(hid_t fid, const std::string& location, const std::string& varia
 }
 //=============================================================================
 hid_t
-setCompression(Dimensions dims, bool useCompression)
+setCompression(const Dimensions &dims, bool useCompression)
 {
     hid_t plist = H5I_INVALID_HID;
     if (dims.isEmpty(false) || dims.isScalar() || !useCompression) {
@@ -361,8 +361,9 @@ setCompression(Dimensions dims, bool useCompression)
         H5Pclose(plist);
         return H5Pcopy(H5P_DEFAULT);
     }
+    Dimensions _dims = dims;
     for (indexType k = 1; k <= nbElementsSizeData; k++) {
-        dimsAsHsize_t[k - 1] = (hsize_t)dims[nbElementsSizeData - k];
+        dimsAsHsize_t[k - 1] = (hsize_t)_dims[nbElementsSizeData - k];
     }
     herr_t status = H5Pset_chunk(plist, (int)dims.getLength(), dimsAsHsize_t);
     delete[] dimsAsHsize_t;

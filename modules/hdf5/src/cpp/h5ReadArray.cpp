@@ -22,7 +22,7 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-h5ReadArrayFloat(hid_t attr_id, hid_t type, hid_t stype, Dimensions dimsOutput, bool asAttribute,
+h5ReadArrayFloat(hid_t attr_id, hid_t type, hid_t stype, const Dimensions &dimsOutput, bool asAttribute,
     std::wstring& error)
 {
     ArrayOf res;
@@ -64,7 +64,7 @@ h5ReadArrayFloat(hid_t attr_id, hid_t type, hid_t stype, Dimensions dimsOutput, 
 }
 //=============================================================================
 static ArrayOf
-h5ReadArrayInteger(hid_t attr_id, hid_t type, hid_t stype, Dimensions dimsOutput, bool asAttribute,
+h5ReadArrayInteger(hid_t attr_id, hid_t type, hid_t stype, const Dimensions &dimsOutput, bool asAttribute,
     std::wstring& error)
 {
     ArrayOf res;

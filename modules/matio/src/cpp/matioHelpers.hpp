@@ -27,7 +27,7 @@ Dimensions
 getMatVarDimensions(matvar_t* matVariable);
 //=============================================================================
 size_t*
-convertDimensionsForMatVar(Dimensions dims, indexType& rank);
+convertDimensionsForMatVar(const Dimensions &dims, indexType& rank);
 //=============================================================================
 }
 //=============================================================================

@@ -25,7 +25,7 @@ namespace Nelson {
 //=============================================================================
 bool
 h5LoadLogical(hid_t fid, const std::string& location, const std::string& variableName, bool isEmpty,
-    Dimensions dims, bool isSparse, uint64 nzmax, ArrayOf& VariableValue)
+    const Dimensions &dims, bool isSparse, uint64 nzmax, ArrayOf& VariableValue)
 {
     bool bSuccess = false;
     if (isEmpty) {
@@ -34,8 +34,9 @@ h5LoadLogical(hid_t fid, const std::string& location, const std::string& variabl
             ArrayOf J = ArrayOf::emptyConstructor();
             ArrayOf V = ArrayOf::emptyConstructor(dims);
             V.promoteType(NLS_LOGICAL);
+            Dimensions _dims(dims);
             VariableValue
-                = SparseConstructor(I, J, V, dims[0], dims[1], static_cast<indexType>(nzmax));
+                = SparseConstructor(I, J, V, _dims[0], _dims[1], static_cast<indexType>(nzmax));
             bSuccess = true;
         } else {
             VariableValue = ArrayOf::emptyConstructor(dims);
@@ -63,8 +64,9 @@ h5LoadLogical(hid_t fid, const std::string& location, const std::string& variabl
                 return false;
             }
             V.promoteType(NLS_LOGICAL);
+            Dimensions _dims(dims);
             VariableValue
-                = SparseConstructor(I, J, V, dims[0], dims[1], static_cast<indexType>(nzmax));
+                = SparseConstructor(I, J, V, _dims[0], _dims[1], static_cast<indexType>(nzmax));
             bSuccess = true;
         } else {
             std::wstring error;

@@ -50,9 +50,9 @@ DateNumber(double year, double month, double day, double hour, double minutes, d
     // convert of month and day
     int integer_part = static_cast<int>(day + floor((month * 3057 - 3007) / 100));
     // we remove 1 if mont is more than february
-    integer_part = integer_part + ((month < 3) - 1);
+    integer_part = integer_part + (static_cast<int>(month < 3) - 1);
     // we remove again 1 if month is more februar and it is not a leap year
-    integer_part = (integer_part + (((month < 3) | (IsLeapYear(static_cast<int>(year)))) - 1));
+    integer_part = (integer_part + ((static_cast<int>(month < 3) | static_cast<int>(IsLeapYear(static_cast<int>(year)))) - 1));
     if (IsLeapYear(static_cast<int>(year))) {
         double leap_year_case = year * 365 + (year / 4) - floor(year / 100) + floor(year / 400);
         integer_part = static_cast<int>(integer_part + leap_year_case);
@@ -158,8 +158,7 @@ DateNumber(const std::wstring& datestring, bool& bParsed)
         boost::posix_time::ptime t(boost::posix_time::second_clock::local_time());
         boost::gregorian::date currentdate = t.date();
         const size_t formats_n = sizeof(formats_without_date) / sizeof(formats_without_date[0]);
-        size_t i = 0;
-        for (i; i < formats_n; ++i) {
+        for (size_t i = 0; i < formats_n; ++i) {
             std::wistringstream is(datestring);
             is.imbue(formats_without_date[i]);
             is >> pt;
@@ -208,8 +207,7 @@ DateNumber(const std::wstring& datestring, bool& bParsed)
             }
         } else {
             const size_t formats_n = sizeof(formats_without_time) / sizeof(formats_without_time[0]);
-            size_t i = 0;
-            for (i; i < formats_n; ++i) {
+            for (size_t i = 0; i < formats_n; ++i) {
                 std::wistringstream is(datestring);
                 is.imbue(formats_without_time[i]);
                 is >> pt;
@@ -233,8 +231,7 @@ DateNumber(const std::wstring& datestring, bool& bParsed)
     }
     if (is_with_date_time) {
         const size_t formats_n = sizeof(formats_date_time) / sizeof(formats_date_time[0]);
-        size_t i = 0;
-        for (i; i < formats_n; ++i) {
+        for (size_t i = 0; i < formats_n; ++i) {
             std::wistringstream is(datestring);
             is.imbue(formats_date_time[i]);
             is >> pt;

@@ -26,7 +26,7 @@ namespace Nelson {
 //=============================================================================
 bool
 h5LoadFunctionHandle(hid_t fid, const std::string& location, const std::string& variableName,
-    bool isEmpty, Dimensions dims, ArrayOf& VariableValue)
+    bool isEmpty, const Dimensions &dims, ArrayOf& VariableValue)
 {
     bool bSuccess = false;
     ArrayOf value;

@@ -55,9 +55,18 @@ createHeaderMatioFile()
 {
     std::string header = std::string("Nelson 1.0 MAT-file");
     header = header + std::string(" Created by libmatio ") + std::string(MATIO_VERSION_STR);
+#ifdef _MSC_VER
     time_t _tm = time(nullptr);
     struct tm* curtime = localtime(&_tm);
     std::string timestr = asctime(curtime);
+#else
+    struct tm newtime;
+    time_t ltime;
+    char buf[128];
+    ltime = time(&ltime);
+    localtime_r(&ltime, &newtime);
+    std::string timestr = asctime_r(&newtime, buf);
+#endif
     boost::algorithm::replace_last(timestr, "\n", "");
     header = header + std::string(" on ") + timestr;
     return header;

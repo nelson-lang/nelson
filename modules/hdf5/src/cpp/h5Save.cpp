@@ -31,15 +31,46 @@
 #include "h5SaveHelpers.hpp"
 #include "h5SaveVariable.hpp"
 //=============================================================================
+#if _MSC_VER
+#if defined(_WIN64)
+#define NLSFSEEK _fseeki64
+#else
+#define NLSFSEEK fseek
+#endif
+#else
+#if defined(__APPLE__) || defined(__MACH__)
+#define NLSFSEEK fseek
+#else
+#if defined(_LP64)
+#if defined(HAVE_FSEEK64)
+#define NLSFSEEK fseek64
+#else
+#define NLSFSEEK fseek
+#endif
+#else
+#define NLSFSEEK fseek
+#endif
+#endif
+#endif
+//=============================================================================
 namespace Nelson {
 //=============================================================================
 static std::wstring
 createHeader()
 {
     std::wstring header = std::wstring(NELSON_HEADER);
+#ifdef _MSC_VER
     time_t _tm = time(nullptr);
     struct tm* curtime = localtime(&_tm);
     std::wstring timestr = utf8_to_wstring(asctime(curtime));
+#else
+    struct tm newtime;
+    time_t ltime;
+    char buf[128];
+    ltime = time(&ltime);
+    localtime_r(&ltime, &newtime);
+    std::wstring timestr = utf8_to_wstring(asctime_r(&newtime, buf));
+#endif
     boost::algorithm::replace_last(timestr, L"\n", L"");
     return header + std::wstring(L" on ") + timestr;
 }
@@ -84,7 +115,7 @@ createNh5FileWithHeader(const std::wstring& filename, const std::wstring& header
         delete[] header_saturated;
         return H5I_INVALID_HID;
     }
-    (void)fseek(fp, 0, SEEK_SET);
+    (void)NLSFSEEK(fp, 0, SEEK_SET);
     size_t len = snprintf(header_saturated, 116, "%s", wstring_to_utf8(header).c_str());
     if (len >= 116) {
         header_saturated[115] = '\0';

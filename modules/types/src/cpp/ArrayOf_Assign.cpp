@@ -418,7 +418,7 @@ setNDimSubsetSliceBurst(T* sp, const T* destp, const indexType outDims[maxDims],
 //=============================================================================
 template <class T>
 void
-setNDimSubsetDispatchBurst(int colonIndex, T* srcptr, const T* destptr,
+setNDimSubsetDispatchBurst(indexType colonIndex, T* srcptr, const T* destptr,
     indexType outDimsInt[maxDims], indexType srcDimsInt[maxDims], constIndexPtr* indx, indexType L,
     indexType burstLen, indexType advance)
 {
@@ -426,7 +426,7 @@ setNDimSubsetDispatchBurst(int colonIndex, T* srcptr, const T* destptr,
     for (indexType i = 0; i < L; i++) {
         elCount *= outDimsInt[i];
     }
-    if (colonIndex < 0) {
+    if (colonIndex == ((indexType)-1)) {
         setNDimSubsetNoColonBurst<T>(
             srcptr, destptr, outDimsInt, srcDimsInt, indx, L, burstLen, advance);
     } else if (colonIndex == 0) {
@@ -443,7 +443,7 @@ setNDimSubsetDispatchBurst(int colonIndex, T* srcptr, const T* destptr,
 //=============================================================================
 template <class T>
 void
-setNDimSubsetDispatchReal(int colonIndex, T* srcptr, const T* destptr,
+setNDimSubsetDispatchReal(indexType colonIndex, T* srcptr, const T* destptr,
     indexType outDimsInt[maxDims], indexType srcDimsInt[maxDims], constIndexPtr* indx, indexType L,
     indexType advance)
 {
@@ -451,7 +451,7 @@ setNDimSubsetDispatchReal(int colonIndex, T* srcptr, const T* destptr,
     for (indexType i = 0; i < L; i++) {
         elCount *= outDimsInt[i];
     }
-    if (colonIndex < 0) {
+    if (colonIndex == ((indexType)-1)) {
         setNDimSubsetNoColonReal<T>(srcptr, destptr, outDimsInt, srcDimsInt, indx, L, advance);
     } else if (colonIndex == 0) {
         setNDimSubsetFirstColonReal<T>(srcptr, destptr, outDimsInt, srcDimsInt, indx, L, advance);
@@ -518,7 +518,7 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         Dimensions myDims(dp->dimensions);
         Dimensions outDims;
         bool anyEmpty;
-        int colonIndex;
+        indexType colonIndex;
         indx = ProcessNDimIndexes(true, myDims, index, anyEmpty, colonIndex, outDims, false);
         if (anyEmpty) {
             delete[] indx;

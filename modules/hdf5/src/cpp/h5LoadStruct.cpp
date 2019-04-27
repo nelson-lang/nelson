@@ -26,7 +26,7 @@ namespace Nelson {
 //=============================================================================
 bool
 h5LoadStruct(hid_t fid, const std::string& location, const std::string& variableName, bool isEmpty,
-    Dimensions dims, bool isObject, const std::string& objectClassname, ArrayOf& VariableValue)
+    const Dimensions &dims, bool isObject, const std::string& objectClassname, ArrayOf& VariableValue)
 {
     bool bSuccess = false;
     if (objectClassname == NLS_FUNCTION_HANDLE_STR && isObject) {
