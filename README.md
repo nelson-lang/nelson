@@ -81,6 +81,10 @@ these own data types and operations on these data types by using overload.
   Validate your algorithm using Nelson dedicated functions.
  Export the test results under the xUnit reports format.
 
+- Profiling and Code coverage tools for Nelson's language:
+   
+   Nelson has a built-in profiler that is very useful to profile your code and find out what script or function is taking the most time.
+
  - [Nelson cloud](https://www.npmjs.com/package/nelson-cloud):
    Instant access to Nelson anywhere from an web browser. 
 
