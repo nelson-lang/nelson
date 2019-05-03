@@ -23,11 +23,7 @@ function [status, message] = cmake(varargin)
   if status == false
     error(_('cmake not found.'));
   end
-  if ispc()
-    cmd = ['"', pathcmake, '"'];
-  else
-    cmd = pathcmake;
-  end
+  cmd = ['"', pathcmake, '"'];
   for k = [1:length(varargin)]
     if ~ischar(varargin{k})
       error(_('only string expected as input argument.'));

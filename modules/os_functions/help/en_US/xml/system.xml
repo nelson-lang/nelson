@@ -41,8 +41,12 @@
   </param_output>
 
 
-  <description><p><b>system</b> sends a string to the operating system for execution. Standard output and standard errors of the shell command are written in the calling shell.</p>
-<p><b>[status, output] = system(command, '-echo')</b> forces the output to the Command Window, even though it is also being assigned into a variable.</p>
+  <description>
+    <p><b>system</b> sends a string to the operating system for execution. Standard output and standard errors of the shell command are written in the calling shell.</p>
+    <p><b>[status, output] = system(command, '-echo')</b> forces the output to the Command Window, even though it is also being assigned into a variable.</p>
+    <p>Callback functions cannot be called until <b>system</b> command is not finished.</p>
+    <p>Nelson will convert characters to the encoding that your operating system shell accepts (ANSI on Windows by default, UTF-8 on others systems).</p>
+
   </description>
 
   <used_function></used_function>
@@ -56,6 +60,14 @@
 [s,w] = system('dir','-echo');]]>
     </example_item_data>
   </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description>To detach an system command, include the trailing character, &amp;, in the command argument.</example_item_description>
+    <example_item_data><![CDATA[[s,w] = system('notepad &');]]>
+    </example_item_data>
+  </example_item>
+
 
 </examples>
 

@@ -69,19 +69,19 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
         git clone https://github.com/tbeu/matio /tmp/matio && cd /tmp/matio && git checkout v1.5.15 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic && make && make install
         ```
 
-    - Get and install Boost library (minimal 1.62)
+    - Get and install Boost library (minimal 1.64)
     
-        Boost 1.62 is available on Ubuntu 17.01 & 18.04 LTS [https://packages.ubuntu.com/search?keywords=libboost1.62-all-dev]
+        Boost 1.65 is available on 18.04 LTS [https://packages.ubuntu.com/search?keywords=libboost1.65-all-dev]
         ```bash
-        sudo apt-get install libboost1.62-all-dev
+        sudo apt-get install libboost1.65-all-dev
         ```
         or you need to build it:
         ```bash
         export CC=$USE_CC; export CXX=$USE_CXX;
         export BUILD_ROOT=$(pwd);
         cd $HOME;
-        curl https://netcologne.dl.sourceforge.net/project/boost/boost/1.62.0/boost_1_62_0.tar.bz2 | tar xj;
-        pushd "boost_1_62_0";
+        curl https://netcologne.dl.sourceforge.net/project/boost/boost/1.65.0/boost_1_65_0.tar.bz2 | tar xj;
+        pushd "boost_1_65_0";
         export GCC=$(which $CXX);
         echo -e "using gcc \x3a \x3a $GCC ;" > user-config.jam; cat user-config.jam;
         ./bootstrap.sh --prefix=/usr/local/boost --with-libraries=thread,date_time,filesystem,system,program_options,chrono,regex,locale,iostreams;

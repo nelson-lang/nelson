@@ -42,7 +42,7 @@ function [status, message] = dlmake(destinationdir)
       make_name = 'make';
     end
   else
-    options = '"Unix Makefiles"';
+    options = '''Unix Makefiles''';
     make_name = 'make';
   end
   [status, msg] = cmake ('-G', options);

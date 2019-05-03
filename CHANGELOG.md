@@ -1,3 +1,22 @@
+# 0.3.X
+
+Features:
+---------
+
+  * unix, dos, system builtin reworked (asynchronious, better pipe redirection, detached process)
+
+Bug Fixes:
+---------
+
+  * [#196](http://github.com/Nelson-numerical-software/nelson/issues/196): call cmake 3.11 from Nelson fails on linux.
+
+
+Compilation:
+------------
+
+* BOOST 1.64 or more required
+
+
 # 0.3.4  (2019-04-27)
 
 Features:
