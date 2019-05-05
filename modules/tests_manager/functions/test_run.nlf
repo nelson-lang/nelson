@@ -598,7 +598,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
       end
       redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
 
-      cmd = [cmd, ' --quiet', ' ', '--timeout', ' ', timeout, ' ', '--file', ' "', command_filename, '" ', redirect_to_file];
+      cmd = [cmd, ' --quiet', ' ', '--nouserstartup', ' ', '--timeout', ' ', timeout, ' ', '--file', ' "', command_filename, '" ', redirect_to_file];
       if test_case_res.options.cli_mode
         [res, msg] = call_nelson_cli(cmd, test_case_res.options.mpi_mode);
       else

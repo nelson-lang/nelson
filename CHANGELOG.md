@@ -3,10 +3,12 @@
 Features:
 ---------
 
-  * unix, dos, system builtin reworked (asynchronious, better pipe redirection, detached process)
+  * unix, dos, system builtin reworked (asynchronious, better pipes redirection, detached process)
 
 Bug Fixes:
 ---------
+
+  * [#198](http://github.com/Nelson-numerical-software/nelson/issues/198): diary load and save will be disable if nelson is started with '--nouserstartup'.
 
   * [#196](http://github.com/Nelson-numerical-software/nelson/issues/196): call cmake 3.11 from Nelson fails on linux.
 

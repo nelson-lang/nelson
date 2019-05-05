@@ -125,6 +125,7 @@
     <p><b>history('get', lines)</b>returns the current Nelson history in a cell of strings by index: a scalar value or a vector 1x2.</p>
     <p><b>history('saveafter', nb_commands)</b> saves the history file after <b>nb_commands</b> statements are added to the file.</p>
     <p><b>Tips</b>: You can easily share your history file in the cloud by adding few lines code in your user startup file.</p>
+    <p>If nelson launched with '--nouserstartup' option, history file will be not loaded at startup and not saved at exit.</p>
   </description>
   <used_function></used_function>
   <bibliography></bibliography>

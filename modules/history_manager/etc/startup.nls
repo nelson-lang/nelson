@@ -18,5 +18,7 @@
 //=============================================================================
 if ( (strcmp(getnelsonmode(), 'GUI') == true) || (strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true) )
   addgateway(modulepath(nelsonroot(), 'history_manager', 'builtin'));
-  history('load');
+  if ~any(strcmp(argv(),'--nouserstartup'))
+    history('load');
+  end
 end

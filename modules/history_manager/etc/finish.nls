@@ -17,6 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if ( (strcmp(getnelsonmode(), 'GUI') == 1) || (strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == 1) )
-  history('save');
+  if ~any(strcmp(argv(),'--nouserstartup'))
+    history('save');
+  end
   removegateway(modulepath(nelsonroot(), 'history_manager', 'builtin'));
 end
