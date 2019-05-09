@@ -56,13 +56,20 @@ for k = modules_list'
       addmodule([nelsonroot() '/modules/' k{1}], k{1});
     end
   end
-  %==============================================================================
-  clear('all');
-  if (isquietmode() == false)
-    banner();
-    fprintf(stdout(), '\n%s\n', version());
-    fprintf(stdout(), '%s\n', version('-date'));
+%==============================================================================
+if (isquietmode() == false)
+  banner();
+  fprintf(stdout(), '\n%s\n', version());
+  fprintf(stdout(), '%s\n', version('-date'));
+  fprintf(stdout(), '%s\n', ' ');
+  if ~ismodule('fftw')
+    msg = [_('You chose to install Nelson with the fftw module.'), ...
+          newline, ...
+          _('This module requires: fftw library.')];
+    warning('fftw:missing', msg);
     fprintf(stdout(), '%s\n', ' ');
   end
-  cd(nelsonroot());
-  %==============================================================================
+end
+clear('all');
+cd(nelsonroot());
+%==============================================================================

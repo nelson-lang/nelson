@@ -18,55 +18,57 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsFftw_exports.h"
+#include <fftw3.h>
 //=============================================================================
 namespace Nelson {
-enum FftPlannerMethod
-{
-    UNKNOWN = -1,
-    ESTIMATE,
-    MEASURE,
-    PATIENT,
-    EXHAUSTIVE,
-    HYBRID
-};
 //=============================================================================
-indexType
-computeDim(const ArrayOf& X);
+void
+dyn_fftw_execute(const fftw_plan plan);
 //=============================================================================
-ArrayOf
-scomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse);
+fftw_plan
+dyn_fftw_plan_dft_1d(int n, fftw_complex* in, fftw_complex* out, int sign, unsigned flags);
 //=============================================================================
-ArrayOf
-dcomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse);
+void
+dyn_fftw_destroy_plan(fftw_plan plan);
 //=============================================================================
-NLSFFTW_IMPEXP std::wstring
-getDoubleWisdomInformation();
+void
+dyn_fftw_forget_wisdom(void);
 //=============================================================================
-NLSFFTW_IMPEXP std::wstring
-getSingleWisdomInformation();
+char*
+dyn_fftw_export_wisdom_to_string(void);
 //=============================================================================
-NLSFFTW_IMPEXP std::wstring
-getPlannerInformation();
+int
+dyn_fftw_import_wisdom_from_string(const char* input_string);
 //=============================================================================
-NLSFFTW_IMPEXP bool
-setDoubleWisdomInformation(const std::wstring& info);
+void*
+dyn_fftw_malloc(size_t n);
 //=============================================================================
-NLSFFTW_IMPEXP bool
-setSingleWisdomInformation(const std::wstring& info);
+void
+dyn_fftw_free(void* p);
 //=============================================================================
-NLSFFTW_IMPEXP bool
-setPlannerInformation(FftPlannerMethod newMethod);
+void
+dyn_fftwf_execute(const fftwf_plan plan);
 //=============================================================================
-NLSFFTW_IMPEXP void
-resetDoubleWisdom();
+void
+dyn_fftwf_destroy_plan(fftwf_plan plan);
 //=============================================================================
-NLSFFTW_IMPEXP void
-resetSingleWisdom();
+void
+dyn_fftwf_free(void* p);
 //=============================================================================
-NLSFFTW_IMPEXP void
-resetPlanner();
+void*
+dyn_fftwf_malloc(size_t n);
 //=============================================================================
-} // namespace Nelson
+int
+dyn_fftwf_import_wisdom_from_string(const char* input_string);
+//=============================================================================
+char*
+dyn_fftwf_export_wisdom_to_string(void);
+//=============================================================================
+void
+dyn_fftwf_forget_wisdom(void);
+//=============================================================================
+fftwf_plan
+dyn_fftwf_plan_dft_1d(int n, fftwf_complex* in, fftwf_complex* out, int sign, unsigned flags);
+//=============================================================================
+}
 //=============================================================================

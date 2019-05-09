@@ -5,6 +5,9 @@ Features:
 
   * unix, dos, system builtin reworked (asynchronious, better pipes redirection, detached process)
 
+  * FFTW Wrapper allows to load dynamically FFTW library.
+
+
 Bug Fixes:
 ---------
 

@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSFFTW_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/fftw/builtin/include;$(SolutionDir)modules/fftw/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/fftw/builtin/include;$(SolutionDir)modules/fftw/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
@@ -113,7 +113,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSFFTW_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/fftw/builtin/include;$(SolutionDir)modules/fftw/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/fftw/builtin/include;$(SolutionDir)modules/fftw/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
@@ -133,7 +133,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSFFTW_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/fftw/builtin/include;$(SolutionDir)modules/fftw/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/fftw/builtin/include;$(SolutionDir)modules/fftw/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
@@ -155,7 +155,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSFFTW_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/fftw/builtin/include;$(SolutionDir)modules/fftw/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/fftw/builtin/include;$(SolutionDir)modules/fftw/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
@@ -171,6 +171,9 @@
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">
       <Project>{1c76cdc6-19d8-429a-9ec1-817ad139f80d}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\core\src\c\nlsCore.vcxproj">
+      <Project>{2e6aabb4-2551-4478-814d-648150952186}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
     </ProjectReference>
@@ -179,6 +182,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
       <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\modules_manager\src\c\nlsModules_manager.vcxproj">
+      <Project>{f666ac18-eeda-4a00-acd2-4cafe3865c15}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\overload\src\c\nlsOverload.vcxproj">
       <Project>{937bee8b-e934-45f1-98ef-33aaf951e5e9}</Project>
@@ -195,6 +201,7 @@
     <ClCompile Include="..\cpp\fftwBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\ifftBuiltin.cpp" />
+    <ClCompile Include="..\cpp\FFTWwrapperBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +211,7 @@
     <ClInclude Include="..\include\fftBuiltin.hpp" />
     <ClInclude Include="..\include\fftwBuiltin.hpp" />
     <ClInclude Include="..\include\ifftBuiltin.hpp" />
+    <ClInclude Include="..\include\FFTWwrapperBuiltin.hpp" />
     <ClInclude Include="..\include\nlsFftw_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>
