@@ -17,4 +17,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 addgateway(modulepath(nelsonroot(), 'fftw', 'builtin'));
-addpath(modulepath(nelsonroot(), 'fftw', 'functions'))
+if FFTWwrapper('load')
+  addpath(modulepath(nelsonroot(), 'fftw', 'functions'))
+else
+  removegateway(modulepath(nelsonroot(), 'fftw', 'builtin'));
+  removemodule('fftw');
+end
+//=============================================================================

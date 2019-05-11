@@ -27,6 +27,7 @@ ${FFTW_INCLUDES}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -59,7 +60,6 @@ nlsI18n
 nlsString
 nlsApi_nelson
 nlsCharacters_encoding
-${FFTW_LIBRARIES}
 )
 #============================================================================== 
 set_target_properties(${module_library_name}
@@ -77,6 +77,8 @@ ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 )
@@ -90,7 +92,9 @@ ADD_LIBRARY(
 target_link_libraries(${module_library_builtin_name}
 ${module_library_name}
 nlsApi_nelson
+nlsCore
 nlsError_manager
+nlsModules_manager
 nlsInterpreter
 nlsOverload
 nlsTypes

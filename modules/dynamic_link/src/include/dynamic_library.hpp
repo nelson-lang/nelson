@@ -119,7 +119,7 @@ get_function(library_handle handle, const std::string& function_name)
 }
 //=============================================================================
 inline bool
-close_shared_library(library_handle handle)
+close_dynamic_library(library_handle handle)
 {
     return dlclose(handle) == 0;
 }

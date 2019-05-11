@@ -20,6 +20,7 @@
 #include "fftBuiltin.hpp"
 #include "fftwBuiltin.hpp"
 #include "ifftBuiltin.hpp"
+#include "FFTWwrapperBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,6 +30,7 @@ static const nlsGateway gateway[] = {
     { "fft", Nelson::FftwGateway::fftBuiltin, 1, 3 },
     { "ifft", Nelson::FftwGateway::ifftBuiltin, 1, 3 },
     { "fftw", Nelson::FftwGateway::fftwBuiltin, 1, 2 },
+    { "FFTWwrapper", Nelson::FftwGateway::FFTWwrapperBuiltin, 1, 3 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

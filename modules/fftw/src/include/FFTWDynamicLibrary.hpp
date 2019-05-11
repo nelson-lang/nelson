@@ -18,55 +18,19 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
+#include "Types.hpp"
 #include "nlsFftw_exports.h"
 //=============================================================================
 namespace Nelson {
-enum FftPlannerMethod
-{
-    UNKNOWN = -1,
-    ESTIMATE,
-    MEASURE,
-    PATIENT,
-    EXHAUSTIVE,
-    HYBRID
-};
-//=============================================================================
-indexType
-computeDim(const ArrayOf& X);
-//=============================================================================
-ArrayOf
-scomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse);
-//=============================================================================
-ArrayOf
-dcomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse);
-//=============================================================================
-NLSFFTW_IMPEXP std::wstring
-getDoubleWisdomInformation();
-//=============================================================================
-NLSFFTW_IMPEXP std::wstring
-getSingleWisdomInformation();
-//=============================================================================
-NLSFFTW_IMPEXP std::wstring
-getPlannerInformation();
 //=============================================================================
 NLSFFTW_IMPEXP bool
-setDoubleWisdomInformation(const std::wstring& info);
+loadFFTWLibrary(const std::wstring &binaryPath);
 //=============================================================================
 NLSFFTW_IMPEXP bool
-setSingleWisdomInformation(const std::wstring& info);
+loadFFTWLibrary(const std::wstring &fftwLibraryName, const std::wstring &fftwfLibraryName);
 //=============================================================================
 NLSFFTW_IMPEXP bool
-setPlannerInformation(FftPlannerMethod newMethod);
+freeFFTWLibrary();
 //=============================================================================
-NLSFFTW_IMPEXP void
-resetDoubleWisdom();
-//=============================================================================
-NLSFFTW_IMPEXP void
-resetSingleWisdom();
-//=============================================================================
-NLSFFTW_IMPEXP void
-resetPlanner();
-//=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

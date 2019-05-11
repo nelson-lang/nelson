@@ -16,13 +16,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
+#include <winsock2.h>
+#include <Windows.h>
+#else
+#include <fcntl.h>
+#endif
 #include <string>
 #include <vector>
+#include <boost/asio.hpp>
 #include <boost/process.hpp>
 #include <boost/process/shell.hpp>
-#include <boost/asio.hpp>
 #include <boost/thread.hpp>
-#include <fcntl.h>
 #include "SystemCommand.hpp"
 #include "characters_encoding.hpp"
 #include "dynamic_library.hpp"

@@ -19,6 +19,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <cstring>
 #include <fftw3.h>
+#include "FFTWWrapper.hpp"
 #include "FftHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -75,14 +76,14 @@ bool
 setDoubleWisdomInformation(const std::wstring& info)
 {
     std::string uinfo = wstring_to_utf8(info);
-    return (fftw_import_wisdom_from_string(uinfo.c_str()) == 1);
+    return (dyn_fftw_import_wisdom_from_string(uinfo.c_str()) == 1);
 }
 //=============================================================================
 bool
 setSingleWisdomInformation(const std::wstring& info)
 {
     std::string uinfo = wstring_to_utf8(info);
-    return (fftwf_import_wisdom_from_string(uinfo.c_str()) == 1);
+    return (dyn_fftwf_import_wisdom_from_string(uinfo.c_str()) == 1);
 }
 //=============================================================================
 bool
@@ -117,13 +118,13 @@ setPlannerInformation(FftPlannerMethod newMethod)
 void
 resetDoubleWisdom()
 {
-    fftw_forget_wisdom();
+    dyn_fftw_forget_wisdom();
 }
 //=============================================================================
 void
 resetSingleWisdom()
 {
-    fftwf_forget_wisdom();
+    dyn_fftwf_forget_wisdom();
 }
 //=============================================================================
 void
@@ -139,16 +140,16 @@ scomplex_fft_init(int Narg)
         return;
     }
     if (cN != 0) {
-        fftwf_destroy_plan(pf_forward);
-        fftwf_destroy_plan(pf_backward);
-        fftwf_free(inf);
-        fftwf_free(outf);
+        dyn_fftwf_destroy_plan(pf_forward);
+        dyn_fftwf_destroy_plan(pf_backward);
+        dyn_fftwf_free(inf);
+        dyn_fftwf_free(outf);
     }
-    inf = (fftwf_complex*)fftwf_malloc(sizeof(fftwf_complex) * (size_t)Narg);
-    outf = (fftwf_complex*)fftwf_malloc(sizeof(fftwf_complex) * (size_t)Narg);
+    inf = (fftwf_complex*)dyn_fftwf_malloc(sizeof(fftwf_complex) * (size_t)Narg);
+    outf = (fftwf_complex*)dyn_fftwf_malloc(sizeof(fftwf_complex) * (size_t)Narg);
     int flags = getFftFlags(currentFftMethod, Narg);
-    pf_forward = fftwf_plan_dft_1d(Narg, inf, outf, FFTW_FORWARD, flags);
-    pf_backward = fftwf_plan_dft_1d(Narg, inf, outf, FFTW_BACKWARD, flags);
+    pf_forward = dyn_fftwf_plan_dft_1d(Narg, inf, outf, FFTW_FORWARD, flags);
+    pf_backward = dyn_fftwf_plan_dft_1d(Narg, inf, outf, FFTW_BACKWARD, flags);
     cN = Narg;
 }
 //=============================================================================
@@ -159,7 +160,7 @@ scomplex_fft_forward(int Narg, float* dp)
         scomplex_fft_init(Narg);
     }
     memcpy(inf, dp, sizeOfSingle * (size_t)Narg * (size_t)2);
-    fftwf_execute(pf_forward);
+    dyn_fftwf_execute(pf_forward);
     memcpy(dp, outf, sizeOfSingle * (size_t)Narg * (size_t)2);
 }
 //=============================================================================
@@ -170,7 +171,7 @@ scomplex_fft_backward(int Narg, single* dp)
         scomplex_fft_init(Narg);
     }
     memcpy(inf, dp, sizeOfSingle * (size_t)Narg * (size_t)2);
-    fftwf_execute(pf_backward);
+    dyn_fftwf_execute(pf_backward);
     memcpy(dp, outf, sizeOfSingle * (size_t)Narg * (size_t)2);
     for (size_t i = 0; i < ((size_t)2 * (size_t)cN); i++) {
         dp[i] /= ((single)Narg);
@@ -184,16 +185,16 @@ dcomplex_fft_init(int Narg)
         return;
     }
     if (zN != 0) {
-        fftw_destroy_plan(p_forward);
-        fftw_destroy_plan(p_backward);
-        fftw_free(in);
-        fftw_free(out);
+        dyn_fftw_destroy_plan(p_forward);
+        dyn_fftw_destroy_plan(p_backward);
+        dyn_fftw_free(in);
+        dyn_fftw_free(out);
     }
-    in = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * (size_t)Narg);
-    out = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * (size_t)Narg);
+    in = (fftw_complex*)dyn_fftw_malloc(sizeof(fftw_complex) * (size_t)Narg);
+    out = (fftw_complex*)dyn_fftw_malloc(sizeof(fftw_complex) * (size_t)Narg);
     int flags = getFftFlags(currentFftMethod, Narg);
-    p_forward = fftw_plan_dft_1d(Narg, in, out, FFTW_FORWARD, flags);
-    p_backward = fftw_plan_dft_1d(Narg, in, out, FFTW_BACKWARD, flags);
+    p_forward = dyn_fftw_plan_dft_1d(Narg, in, out, FFTW_FORWARD, flags);
+    p_backward = dyn_fftw_plan_dft_1d(Narg, in, out, FFTW_BACKWARD, flags);
     zN = Narg;
 }
 //=============================================================================
@@ -204,7 +205,7 @@ dcomplex_fft_forward(int Narg, double* dp)
         dcomplex_fft_init(Narg);
     }
     memcpy(in, dp, sizeOfDouble * (size_t)Narg * (size_t)2);
-    fftw_execute(p_forward);
+    dyn_fftw_execute(p_forward);
     memcpy(dp, out, sizeOfDouble * (size_t)Narg * (size_t)2);
 }
 //=============================================================================
@@ -215,7 +216,7 @@ dcomplex_fft_backward(int Narg, double* dp)
         dcomplex_fft_init(Narg);
     }
     memcpy(in, dp, sizeOfDouble * (size_t)Narg * (size_t)2);
-    fftw_execute(p_backward);
+    dyn_fftw_execute(p_backward);
     memcpy(dp, out, sizeOfDouble * (size_t)Narg * (size_t)2);
     for (size_t i = 0; i < size_t(2) * size_t(zN); i++) {
         dp[i] /= ((double)Narg);
@@ -349,7 +350,7 @@ computeDim(const ArrayOf& X)
 std::wstring
 getDoubleWisdomInformation()
 {
-    char* buffer = fftw_export_wisdom_to_string();
+    char* buffer = dyn_fftw_export_wisdom_to_string();
     std::wstring res;
     if (buffer) {
         res = utf8_to_wstring(buffer);
@@ -364,7 +365,7 @@ getDoubleWisdomInformation()
 std::wstring
 getSingleWisdomInformation()
 {
-    char* buffer = fftwf_export_wisdom_to_string();
+    char* buffer = dyn_fftwf_export_wisdom_to_string();
     std::wstring res;
     if (buffer) {
         res = utf8_to_wstring(buffer);
