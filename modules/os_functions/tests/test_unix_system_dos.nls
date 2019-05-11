@@ -50,15 +50,12 @@ assert_isequal(b, REF);
 //=============================================================================
 if ispc()
   cmd = 'time';
-  [a, b] = unix(cmd);
-  assert_isequal(a, 1);
-  assert_isequal(b, '');
 else
   cmd = 'read v';
-  [a, b] = unix(cmd);
-  assert_isequal(a, 0);
-  assert_isequal(b, '');
 end
+[a, b] = unix(cmd);
+assert_isequal(a, 1);
+assert_isequal(b, '');
 //=============================================================================
 [a, b] = unix('');
 assert_isequal(a, 0);
