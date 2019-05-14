@@ -21,6 +21,8 @@ Compilation:
 
 * BOOST 1.64 or more required
 
+* Build on MacOs X 10.13.6 and 10.14.5 (SD notary currently not supporterd.)
+
 
 # 0.3.4  (2019-04-27)
 
