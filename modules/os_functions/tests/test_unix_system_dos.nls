@@ -55,7 +55,6 @@ else
 end
 [a, b] = unix(cmd);
 assert_isequal(a, 1);
-assert_isequal(b, '');
 //=============================================================================
 [a, b] = unix('');
 assert_isequal(a, 0);

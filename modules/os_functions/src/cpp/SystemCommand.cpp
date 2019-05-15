@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
 #include <winsock2.h>
 #include <Windows.h>
 #else
@@ -28,17 +29,25 @@
 #include <boost/process.hpp>
 #include <boost/process/shell.hpp>
 #include <boost/thread.hpp>
+#include <boost/filesystem.hpp>
 #include "SystemCommand.hpp"
 #include "characters_encoding.hpp"
-#include "dynamic_library.hpp"
-//=============================================================================
-static Nelson::library_handle nlsGuiHandleDynamicLibrary = nullptr;
-static bool bFirstDynamicLibraryCall = true;
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static void
-ProcessEventsDynamicFunction();
+deleteFile(boost::filesystem::path p)
+{
+    if (boost::filesystem::exists(p)) {
+        try {
+            boost::filesystem::remove(p);
+        } catch (const boost::filesystem::filesystem_error& e) {
+            if (e.code() == boost::system::errc::permission_denied) {
+                // ONLY FOR DEBUG
+            }
+        }
+    }
+}
 //=============================================================================
 static std::wstring
 CleanCommand(const std::wstring& command);
@@ -51,11 +60,6 @@ SystemCommand(const std::wstring& command, int& ierr, bool withEventsLoop)
 {
     bool mustDetach = false;
     std::wstring _command = DetectDetachProcess(command, mustDetach);
-
-    std::string output;
-    std::string error;
-    std::wstring cmd;
-
     std::wstring argsShell;
 #ifdef _MSC_VER
     argsShell = L" /a /c ";
@@ -63,129 +67,83 @@ SystemCommand(const std::wstring& command, int& ierr, bool withEventsLoop)
     argsShell = L" -c ";
 #endif
 
-    cmd = L"\"" + boost::process::shell().wstring() + L"\" " + argsShell + L"\"" + _command + L"\"";
-
+    std::wstring cmd = L"\"" + boost::process::shell().wstring() + L"\" " + argsShell + L"\"" + _command + L"\"";
+    std::string result;
     if (mustDetach) {
         boost::process::child childProcess(cmd);
         childProcess.detach();
         ierr = 0;
     } else {
-        boost::asio::io_service ios;
-        std::vector<char> vOut(128 << 10);
-        auto outBuffer{ boost::asio::buffer(vOut) };
-        boost::process::async_pipe pipeOut(ios);
-
-        std::function<void(const boost::system::error_code& ec, std::size_t n)> onStdOut;
-        onStdOut = [&](const boost::system::error_code& ec, size_t n) {
-            if (withEventsLoop) {
-                ProcessEventsDynamicFunction();
-            }
-            output.reserve(output.size() + n);
-            output.insert(output.end(), vOut.begin(), vOut.begin() + n);
-            output.erase(std::remove(output.begin(), output.end(), '\0'), output.end());
-#ifdef _MSC_VER
-            boost::replace_all(output, "\r\n", "\n");
-            OemToCharA(output.c_str(), const_cast<char*>(output.c_str()));
-#endif
-            if (!ec) {
-                boost::asio::async_read(pipeOut, outBuffer, onStdOut);
-            }
-        };
-
-        std::vector<char> vErr(128 << 10);
-        auto errBuffer{ boost::asio::buffer(vErr) };
-        boost::process::async_pipe pipeErr(ios);
-        std::function<void(const boost::system::error_code& ec, std::size_t n)> onStdErr;
-        onStdErr = [&](const boost::system::error_code& ec, size_t n) {
-            if (withEventsLoop) {
-                ProcessEventsDynamicFunction();
-            }
-            error.reserve(error.size() + n);
-            error.insert(error.end(), vErr.begin(), vErr.begin() + n);
-            error.erase(std::remove(error.begin(), error.end(), '\0'), error.end());
-#ifdef _MSC_VER
-            boost::replace_all(error, "\r\n", "\n");
-            OemToCharA(error.c_str(), const_cast<char*>(error.c_str()));
-#endif
-            if (!ec) {
-                boost::asio::async_read(pipeErr, errBuffer, onStdErr);
-            }
-        };
-
+        boost::filesystem::path pwd = boost::filesystem::temp_directory_path();
+        boost::filesystem::path tempOutputFile = pwd;
+        boost::filesystem::path tempErrorFile = pwd;
+        tempOutputFile /= boost::filesystem::unique_path();
+        tempErrorFile /= boost::filesystem::unique_path();
+  
         cmd = L"\"" + boost::process::shell().wstring() + L"\" " + argsShell + L"\"" + _command
             + L"\"";
 
-        boost::process::child childProcess(cmd, boost::process::std_out > pipeOut,
-            boost::process::std_err > pipeErr, boost::process::std_in < boost::process::null);
-        boost::asio::async_read(pipeOut, outBuffer, onStdOut);
-        boost::asio::async_read(pipeErr, errBuffer, onStdErr);
-        ios.run();
+        boost::process::child childProcess(cmd,
+            boost::process::std_out > tempOutputFile.generic_string().c_str(),
+            boost::process::std_err > tempErrorFile.generic_string().c_str(),
+            boost::process::std_in < boost::process::null);
         childProcess.wait();
         ierr = childProcess.exit_code();
-    }
-    ArrayOf res;
-    if (ierr == 0) {
-        res = ArrayOf::characterArrayConstructor(output);
-    } else {
-        res = ArrayOf::characterArrayConstructor(error);
-    }
-    return res;
-}
-//=============================================================================
-static void
-initGuiDynamicLibrary()
-{
-    if (bFirstDynamicLibraryCall) {
-        std::string fullpathGuiSharedLibrary
-            = "libnlsGui" + Nelson::get_dynamic_library_extension();
-#ifdef _MSC_VER
-        char* buf;
-        try {
-            buf = new char[MAX_PATH];
-        } catch (const std::bad_alloc&) {
-            buf = nullptr;
-        }
-        if (buf != nullptr) {
-            DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
-            if (dwRet != 0U) {
-                fullpathGuiSharedLibrary
-                    = std::string(buf) + std::string("/") + fullpathGuiSharedLibrary;
+        FILE* pFile = nullptr;
+        if (ierr) {
+            int fsize = 0;
+            try {
+                fsize = (int)boost::filesystem::file_size(tempErrorFile);
+            } catch (const boost::filesystem::filesystem_error& e) {
+                if (e.code() == boost::system::errc::permission_denied) {
+                    // ONLY FOR DEBUG
+                }
+                fsize = 0;
             }
-            delete[] buf;
+            if (fsize == 0) {
+              #ifdef _MSC_VER
+                pFile = _wfopen(tempOutputFile.wstring().c_str(), L"r");
+              #else
+                pFile = fopen(tempOutputFile.string().c_str(), "r");
+              #endif
+            } else {
+              #ifdef _MSC_VER
+                pFile = _wfopen(tempErrorFile.wstring().c_str(), L"r");
+              #else
+                pFile = fopen(tempErrorFile.string().c_str(), "r");
+              #endif
+            }
+        } else {
+          #ifdef _MSC_VER
+            pFile = _wfopen(tempOutputFile.wstring().c_str(), L"r");
+          #else
+            pFile = fopen(tempOutputFile.string().c_str(), "r");
+          #endif
         }
+        if (pFile != nullptr) {
+            char buffer[4096];
+            result.reserve(4096 * 2);
+            while (fgets(buffer, sizeof(buffer), pFile)) {
+                result.append(buffer);
+            }
+            if (result.size() > 0) {
+                if (*result.rbegin() != '\n') {
+                    result.append("\n");
+                }
+            }
+            fclose(pFile);
+        }
+        deleteFile(tempOutputFile);
+        deleteFile(tempErrorFile);
+
+    }
+#ifdef _MSC_VER
+    boost::replace_all(result, L"\r\n", L"\n");
+    OemToCharA(result.c_str(), const_cast<char*>(result.c_str()));
+    return ArrayOf::characterArrayConstructor(utf8_to_wstring(result));
 #else
-        char const* tmp = getenv("NELSON_BINARY_PATH");
-        if (tmp != nullptr) {
-            fullpathGuiSharedLibrary
-                = std::string(tmp) + std::string("/") + fullpathGuiSharedLibrary;
-        }
+    return ArrayOf::characterArrayConstructor(result);
 #endif
-        nlsGuiHandleDynamicLibrary = Nelson::load_dynamic_library(fullpathGuiSharedLibrary);
-        if (nlsGuiHandleDynamicLibrary != nullptr) {
-            bFirstDynamicLibraryCall = false;
-        }
-    }
-}
-//=============================================================================
-static void
-ProcessEventsDynamicFunction(bool bWait)
-{
-    using PROC_ProcessEvents = void (*)(bool);
-    static PROC_ProcessEvents ProcessEventsPtr = nullptr;
-    initGuiDynamicLibrary();
-    if (ProcessEventsPtr == nullptr) {
-        ProcessEventsPtr = reinterpret_cast<PROC_ProcessEvents>(
-            Nelson::get_function(nlsGuiHandleDynamicLibrary, "NelSonProcessEvents"));
-    }
-    if (ProcessEventsPtr != nullptr) {
-        ProcessEventsPtr(bWait);
-    }
-}
-//=============================================================================
-void
-ProcessEventsDynamicFunction()
-{
-    ProcessEventsDynamicFunction(false);
 }
 //=============================================================================
 std::wstring
