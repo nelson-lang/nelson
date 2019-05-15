@@ -67,7 +67,8 @@ SystemCommand(const std::wstring& command, int& ierr, bool withEventsLoop)
     argsShell = L" -c ";
 #endif
 
-    std::wstring cmd = L"\"" + boost::process::shell().wstring() + L"\" " + argsShell + L"\"" + _command + L"\"";
+    std::wstring cmd
+        = L"\"" + boost::process::shell().wstring() + L"\" " + argsShell + L"\"" + _command + L"\"";
     std::string result;
     if (mustDetach) {
         boost::process::child childProcess(cmd);
@@ -79,7 +80,7 @@ SystemCommand(const std::wstring& command, int& ierr, bool withEventsLoop)
         boost::filesystem::path tempErrorFile = pwd;
         tempOutputFile /= boost::filesystem::unique_path();
         tempErrorFile /= boost::filesystem::unique_path();
-  
+
         cmd = L"\"" + boost::process::shell().wstring() + L"\" " + argsShell + L"\"" + _command
             + L"\"";
 
@@ -101,30 +102,37 @@ SystemCommand(const std::wstring& command, int& ierr, bool withEventsLoop)
                 fsize = 0;
             }
             if (fsize == 0) {
-              #ifdef _MSC_VER
+#ifdef _MSC_VER
                 pFile = _wfopen(tempOutputFile.wstring().c_str(), L"r");
-              #else
+#else
                 pFile = fopen(tempOutputFile.string().c_str(), "r");
-              #endif
+#endif
             } else {
-              #ifdef _MSC_VER
+#ifdef _MSC_VER
                 pFile = _wfopen(tempErrorFile.wstring().c_str(), L"r");
-              #else
+#else
                 pFile = fopen(tempErrorFile.string().c_str(), "r");
-              #endif
+#endif
             }
         } else {
-          #ifdef _MSC_VER
+#ifdef _MSC_VER
             pFile = _wfopen(tempOutputFile.wstring().c_str(), L"r");
-          #else
+#else
             pFile = fopen(tempOutputFile.string().c_str(), "r");
-          #endif
+#endif
         }
         if (pFile != nullptr) {
             char buffer[4096];
             result.reserve(4096 * 2);
             while (fgets(buffer, sizeof(buffer), pFile)) {
+#ifdef _MSC_VER
+                std::string str = std::string(buffer);
+                boost::replace_all(str, "\r\n", "\n");
+                OemToCharA(str.c_str(), const_cast<char*>(str.c_str()));
+                result.append(str);
+#else
                 result.append(buffer);
+#endif
             }
             if (result.size() > 0) {
                 if (*result.rbegin() != '\n') {
@@ -135,15 +143,8 @@ SystemCommand(const std::wstring& command, int& ierr, bool withEventsLoop)
         }
         deleteFile(tempOutputFile);
         deleteFile(tempErrorFile);
-
     }
-#ifdef _MSC_VER
-    boost::replace_all(result, L"\r\n", L"\n");
-    OemToCharA(result.c_str(), const_cast<char*>(result.c_str()));
-    return ArrayOf::characterArrayConstructor(utf8_to_wstring(result));
-#else
     return ArrayOf::characterArrayConstructor(result);
-#endif
 }
 //=============================================================================
 std::wstring

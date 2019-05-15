@@ -7,6 +7,7 @@ Features:
 
   * FFTW Wrapper allows to load dynamically FFTW library.
 
+  * MSVC 2019 support added to build C/C++ code easily "on fly" on Windows.  
 
 Bug Fixes:
 ---------
