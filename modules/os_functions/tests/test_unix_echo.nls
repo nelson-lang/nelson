@@ -16,21 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('unix'), 1);
-assert_isequal(nargout('unix'), 2);
-assert_isequal(nargin('system'), 1);
-assert_isequal(nargout('system'), 2);
-assert_isequal(nargin('dos'), 1);
-assert_isequal(nargout('dos'), 2);
-//=============================================================================
-binpath = modulepath(nelsonroot,'core','bin');
-nelson_exe = [binpath, '/nelson-cli'];
-//=============================================================================
-cmd = [nelson_exe, ' --execute ''exit(33);'''];
+cmd = 'echo hello && echo world';
 [a, b] = unix(cmd);
-assert_isequal(a, 33);
-//=============================================================================
-cmd = [nelson_exe, ' --execute "a=35;exit(a);"'];
-[a, b] = unix(cmd);
-assert_isequal(a, 35);
+assert_isequal(a, 0);
+if ispc()
+  REF = sprintf('%s\n%s\n', 'hello ', 'world');
+else
+  REF = sprintf('%s\n%s\n', 'hello', 'world');
+end
+assert_isequal(b, REF);
 //=============================================================================

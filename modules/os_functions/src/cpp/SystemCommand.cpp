@@ -32,8 +32,16 @@
 #include <boost/filesystem.hpp>
 #include "SystemCommand.hpp"
 #include "characters_encoding.hpp"
+#include "dynamic_library.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static library_handle nlsGuiHandleDynamicLibrary = nullptr;
+static bool bFirstDynamicLibraryCall = true;
+//=============================================================================
+static void
+ProcessEventsDynamicFunction();
 //=============================================================================
 static void
 deleteFile(boost::filesystem::path p)
@@ -88,8 +96,24 @@ SystemCommand(const std::wstring& command, int& ierr, bool withEventsLoop)
             boost::process::std_out > tempOutputFile.generic_string().c_str(),
             boost::process::std_err > tempErrorFile.generic_string().c_str(),
             boost::process::std_in < boost::process::null);
+        bool wasTerminated = false;
+        while (
+            childProcess.running() && !NelsonConfiguration::getInstance()->getInterruptPending()) {
+            if (withEventsLoop) {
+                ProcessEventsDynamicFunction();
+            }
+            if (NelsonConfiguration::getInstance()->getInterruptPending()) {
+                childProcess.terminate();
+                wasTerminated = true;
+            }
+            boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
+        }
         childProcess.wait();
-        ierr = childProcess.exit_code();
+        if (wasTerminated) {
+            ierr = SIGINT + 128;
+        } else {
+            ierr = childProcess.exit_code();
+        }
         FILE* pFile = nullptr;
         if (ierr) {
             int fsize = 0;
@@ -177,6 +201,62 @@ CleanCommand(const std::wstring& command)
 {
     std::wstring res = boost::algorithm::trim_left_copy(command);
     return boost::algorithm::trim_right_copy(command);
+}
+//=============================================================================
+static void
+initGuiDynamicLibrary()
+{
+    if (bFirstDynamicLibraryCall) {
+        std::string fullpathGuiSharedLibrary
+            = "libnlsGui" + Nelson::get_dynamic_library_extension();
+#ifdef _MSC_VER
+        char* buf;
+        try {
+            buf = new char[MAX_PATH];
+        } catch (const std::bad_alloc&) {
+            buf = nullptr;
+        }
+        if (buf != nullptr) {
+            DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);
+            if (dwRet != 0U) {
+                fullpathGuiSharedLibrary
+                    = std::string(buf) + std::string("/") + fullpathGuiSharedLibrary;
+            }
+            delete[] buf;
+        }
+#else
+        char const* tmp = getenv("NELSON_BINARY_PATH");
+        if (tmp != nullptr) {
+            fullpathGuiSharedLibrary
+                = std::string(tmp) + std::string("/") + fullpathGuiSharedLibrary;
+        }
+#endif
+        nlsGuiHandleDynamicLibrary = Nelson::load_dynamic_library(fullpathGuiSharedLibrary);
+        if (nlsGuiHandleDynamicLibrary != nullptr) {
+            bFirstDynamicLibraryCall = false;
+        }
+    }
+}
+//=============================================================================
+static void
+ProcessEventsDynamicFunction(bool bWait)
+{
+    using PROC_ProcessEvents = void (*)(bool);
+    static PROC_ProcessEvents ProcessEventsPtr = nullptr;
+    initGuiDynamicLibrary();
+    if (ProcessEventsPtr == nullptr) {
+        ProcessEventsPtr = reinterpret_cast<PROC_ProcessEvents>(
+            Nelson::get_function(nlsGuiHandleDynamicLibrary, "NelSonProcessEvents"));
+    }
+    if (ProcessEventsPtr != nullptr) {
+        ProcessEventsPtr(bWait);
+    }
+}
+//=============================================================================
+void
+ProcessEventsDynamicFunction()
+{
+    ProcessEventsDynamicFunction(false);
 }
 //=============================================================================
 } // namespace Nelson

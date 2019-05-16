@@ -3,7 +3,7 @@
 Features:
 ---------
 
-  * unix, dos, system builtin reworked (asynchronious, better pipes redirection, detached process)
+  * unix, dos, system builtin reworked (asynchronious, better pipes redirection, detached process). This function can be interrupted with CTRL-C key.
 
   * FFTW Wrapper allows to load dynamically FFTW library.
 
