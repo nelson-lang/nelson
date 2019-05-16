@@ -76,14 +76,9 @@ QtMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString
     }
 }
 //===================================================================================
-#if defined _MSC_VER || defined __APPLE__
-static char* argv[] = { "Nelson", Q_NULLPTR };
-static int argc = sizeof(argv) / sizeof(char*) - 1;
-#else
-// These variables must be global for linux ...
-static char* argv[] = { "Nelson", NULL };
+static char nelsonName[] = "Nelson";
+static char* argv[] = { nelsonName, nullptr };
 static int argc = 1;
-#endif
 //===================================================================================
 void
 InitGuiObjects(void)
