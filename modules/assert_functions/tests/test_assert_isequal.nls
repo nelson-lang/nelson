@@ -39,5 +39,6 @@ assert_isequal(msg, '');
 //=============================================================================
 [f, msg] = assert_isequal(1, 2);
 assert_isfalse(f);
-assert_isequal(msg, _('Assertion failed: expected and computed values are different.'));
+msg_expected = sprintf(_('Assertion failed: expected (%g) and computed (%g) values are different.'), 2, 1);
+assert_isequal(msg, msg_expected);
 //=============================================================================
