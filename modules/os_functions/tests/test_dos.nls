@@ -20,9 +20,10 @@ assert_isequal(nargin('dos'), 1);
 assert_isequal(nargout('dos'), 2);
 //=============================================================================
 binpath = modulepath(nelsonroot,'core','bin');
-nelson_exe = [binpath, '/nelson-cli'];
+nelson_exe = ['"', binpath, '/nelson-cli', '"'];
 //=============================================================================
-cmd = [nelson_exe, ' --execute \"exit(33)\"'];
+nelson_cmd = 'exit(33);';
+cmd = [nelson_exe, ' --execute "', nelson_cmd, '"'];
 [a, b] = dos(cmd);
 assert_isequal(a, 33);
 //=============================================================================

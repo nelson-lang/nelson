@@ -20,6 +20,8 @@ Bug Fixes:
 Compilation:
 ------------
 
+* remove hardcoded path between dynamic libraries on linux and macos. It will allow to package nelson easily.
+
 * BOOST 1.64 or more required
 
 * Build on MacOs X 10.13.6 and 10.14.5 (SD notary currently not supporterd.)

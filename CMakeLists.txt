@@ -86,6 +86,7 @@ include(CheckSymbolExists)
 check_symbol_exists("fseek64" "stdio.h" HAVE_FSEEK64)
 check_symbol_exists("ftell64" "stdio.h" HAVE_FTELL64) 
 #==============================================================================
+SET(CMAKE_SKIP_BUILD_RPATH TRUE)
 SET(CMAKE_INSTALL_RPATH ".")
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set (CMAKE_MACOSX_RPATH 1)

@@ -27,11 +27,11 @@ MAINCLI_SRC
 )
 #==============================================================================	
 ADD_EXECUTABLE(
-	nelson-cli
+	nelson-cli-exec
 	${MAINCLI_SRC}
 )
 #==============================================================================	
-target_link_libraries(nelson-cli
+target_link_libraries(nelson-cli-exec
 nlsEngine
 )
 #==============================================================================
@@ -42,11 +42,11 @@ MAINADVCLI_SRC
 )
 #==============================================================================	
 ADD_EXECUTABLE(
-	nelson-adv-cli
+	nelson-adv-cli-exec
 	${MAINADVCLI_SRC}
 )
 #==============================================================================	
-target_link_libraries(nelson-adv-cli
+target_link_libraries(nelson-adv-cli-exec
 nlsEngine
 )
 #==============================================================================
@@ -57,11 +57,11 @@ MAINGUI_SRC
 )
 #==============================================================================	
 ADD_EXECUTABLE(
-	nelson-gui
+	nelson-gui-exec
 	${MAINGUI_SRC}
 )
 #==============================================================================	
-target_link_libraries(nelson-gui
+target_link_libraries(nelson-gui-exec
 nlsEngine
 )
 #==============================================================================
@@ -72,52 +72,57 @@ MAINSIOCLI_SRC
 )
 #==============================================================================	
 ADD_EXECUTABLE(
-	nelson-sio-cli
+	nelson-sio-cli-exec
 	${MAINSIOCLI_SRC}
 )
 #==============================================================================	
-target_link_libraries(nelson-sio-cli
+target_link_libraries(nelson-sio-cli-exec
 nlsEngine
 )
 #==============================================================================
 add_custom_target(Name ALL
-    COMMAND nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatemo.nls"
-    DEPENDS nelson-cli
+    COMMAND ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatemo.nls"
+    DEPENDS nelson-cli-exec
 )
 #==============================================================================
 add_custom_target(updatelocalization
-    COMMAND nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatepo.nls"
-    DEPENDS nelson-cli
+    COMMAND ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatepo.nls"
+    DEPENDS nelson-cli-exec
 )
 #==============================================================================
 add_custom_target(buildhelp
     COMMAND ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}' ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli  --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/buildhelp/buildhelp.nls"
-    DEPENDS nelson-cli
+    DEPENDS nelson-cli-exec
 )
 #==============================================================================
 add_custom_target(missing_help
     COMMAND ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}' ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-adv-cli  --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/missing_help/missing_help.nls"
-    DEPENDS nelson-cli
+    DEPENDS nelson-cli-exec
 )
 #==============================================================================
 add_custom_target(tests_all
-    COMMAND nelson-adv-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_all/runtests_all.nls"
-    DEPENDS nelson-cli
+    COMMAND ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-adv-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_all/runtests_all.nls"
+    DEPENDS nelson-cli-exec
 )
 #==============================================================================
 add_custom_target(tests_all_no_display
-    COMMAND nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_all/runtests_all.nls"
-    DEPENDS nelson-cli
+    COMMAND ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_all/runtests_all.nls"
+    DEPENDS nelson-cli-exec
 )
 #==============================================================================
 add_custom_target(tests_minimal
-    COMMAND nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_minimal/runtests_minimal.nls"
-    DEPENDS nelson-cli
+    COMMAND ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_minimal/runtests_minimal.nls"
+    DEPENDS nelson-cli-exec
 )
 #==============================================================================
-install(TARGETS nelson-adv-cli RUNTIME DESTINATION ${LIBRARY_OUTPUT})
-install(TARGETS nelson-cli RUNTIME DESTINATION ${LIBRARY_OUTPUT})
-install(TARGETS nelson-gui RUNTIME DESTINATION ${LIBRARY_OUTPUT})
-install(TARGETS nelson-sio-cli RUNTIME DESTINATION ${LIBRARY_OUTPUT})
+install(FILES ${BIN_DIRECTORY}/nelson-adv-cli DESTINATION ${LIBRARY_OUTPUT})
+install(FILES ${BIN_DIRECTORY}/nelson-cli DESTINATION ${LIBRARY_OUTPUT})
+install(FILES ${BIN_DIRECTORY}/nelson-gui DESTINATION ${LIBRARY_OUTPUT})
+install(FILES ${BIN_DIRECTORY}/nelson-sio-cli DESTINATION ${LIBRARY_OUTPUT})
+#==============================================================================
+install(TARGETS nelson-adv-cli-exec RUNTIME DESTINATION ${LIBRARY_OUTPUT})
+install(TARGETS nelson-cli-exec RUNTIME DESTINATION ${LIBRARY_OUTPUT})
+install(TARGETS nelson-gui-exec RUNTIME DESTINATION ${LIBRARY_OUTPUT})
+install(TARGETS nelson-sio-cli-exec RUNTIME DESTINATION ${LIBRARY_OUTPUT})
 #==============================================================================
 
