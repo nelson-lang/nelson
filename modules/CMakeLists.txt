@@ -34,6 +34,7 @@ debugger
 double
 single
 sparse
+functions_manager
 constructors_functions
 linear_algebra
 console
@@ -46,7 +47,6 @@ random
 files_folders_functions
 os_functions
 core
-functions_manager
 function_handle
 memory_manager
 overload

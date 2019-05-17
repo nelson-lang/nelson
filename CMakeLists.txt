@@ -18,6 +18,10 @@
 #==============================================================================
 CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 #============================================================================== 
+if(POLICY CMP0068)
+  cmake_policy(SET CMP0068 NEW)
+endif()
+#============================================================================== 
 set(CMAKE_INSTALL_PREFIX "$ENV{HOME}")
 #============================================================================== 
 set (Nelson_VERSION_MAJOR_DEFAULT 0)
@@ -86,6 +90,7 @@ include(CheckSymbolExists)
 check_symbol_exists("fseek64" "stdio.h" HAVE_FSEEK64)
 check_symbol_exists("ftell64" "stdio.h" HAVE_FTELL64) 
 #==============================================================================
+SET(CMAKE_SKIP_BUILD_RPATH TRUE)
 SET(CMAKE_INSTALL_RPATH ".")
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set (CMAKE_MACOSX_RPATH 1)
