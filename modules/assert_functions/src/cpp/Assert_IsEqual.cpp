@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Assert_IsEqual.hpp"
+#include "StringFormat.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -53,7 +54,14 @@ Assert_IsEqual(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, st
         Error("isequalto function not found.");
     }
     if (!bRes) {
-        msg = _W("Assertion failed: expected and computed values are different.");
+        if ((computedArray.isDoubleType(true) && expectedArray.isDoubleType(true)) &&
+        (computedArray.isScalar() && expectedArray.isScalar())){
+            double computed = computedArray.getContentAsDoubleScalar();
+            double expected = expectedArray.getContentAsDoubleScalar();
+            msg = StringFormat(_W("Assertion failed: expected (%lg) and computed (%lg) values are different.").c_str(), expected, computed);
+        } else {
+            msg = _W("Assertion failed: expected and computed values are different.");
+        }
     } else {
         msg.clear();
     }
