@@ -43,7 +43,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-6
-      env: COMPILER=g++-6 TEST_CXX14=true BOOST_VERSION=1.65.0
+      env: COMPILER=g++-6 TEST_CXX14=true BOOST_VERSION=1.68.0
 
     - os: osx
       env: ARCH="x86_64"
@@ -93,7 +93,11 @@ before_install:
       sudo apt-get install qtdeclarative5-dialogs-plugin;
       sudo apt-get install qtdeclarative5-window-plugin;
       fi
- 
+    - if [ `uname` = "Linux" ];
+      then sudo add-apt-repository --yes ppa:mhier/libboost-latest;
+      sudo apt-get update;
+      sudo apt-get install libboost1.68-dev;
+      fi
     - if [ $TRAVIS_OS_NAME == osx ];
       then export BUILD_ROOT=$(pwd);
       cd $BUILD_ROOT;
@@ -154,19 +158,6 @@ before_script:
     then export DISPLAY=:99.0;
     sh -e /etc/init.d/xvfb start;
     fi
-  - if [ `uname` = "Linux" ];
-    then export CC=$USE_CC; export CXX=$USE_CXX;
-    export BUILD_ROOT=$(pwd);
-    cd $HOME;
-    curl https://netcologne.dl.sourceforge.net/project/boost/boost/1.65.0/boost_1_65_0.tar.bz2 | tar xj;
-    pushd "boost_1_65_0";
-    export GCC=$(which $CXX);
-    echo -e "using gcc \x3a \x3a $GCC ;" > user-config.jam; cat user-config.jam;
-    ./bootstrap.sh --prefix=/usr/local/boost --with-libraries=thread,date_time,filesystem,system,program_options,chrono,regex,locale,iostreams,random;
-    ./b2 -q -d0 --user-config=user-config.jam headers;
-    sudo ./b2 -q -d0 --user-config=user-config.jam cxxflags="-std=c++11 -fPIC" threading=multi link=shared install;
-    popd;
-    fi
 
 
 script:
@@ -174,11 +165,11 @@ script:
   - cd ${TRAVIS_BUILD_DIR} 
   - python3 ./tools/update_version/update_version.py
   - if [ $TRAVIS_OS_NAME == linux ];
-    then cmake -G "Unix Makefiles" -DBOOST_ROOT=/usr/local/boost;
+    then cmake -G "Unix Makefiles" . ;
     fi
   - if [ $TRAVIS_OS_NAME == osx ];
     then export PATH=/usr/local/opt/qt5/bin:$PATH;
-    cmake -G "Unix Makefiles";
+    cmake -G "Unix Makefiles" . ;
     fi
 
   - make -j4

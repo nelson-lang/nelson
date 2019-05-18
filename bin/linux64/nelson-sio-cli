@@ -21,6 +21,6 @@
 #
 #==============================================================================
 SCRIPT_DIRECTORY=$(cd "$(dirname "$0")"; pwd)
-export LD_LIBRARY_PATH="$SCRIPT_DIRECTORY":$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH="$SCRIPT_DIRECTORY":/usr/local/lib:$LD_LIBRARY_PATH
 $SCRIPT_DIRECTORY/nelson-sio-cli-exec "$@" 
 #==============================================================================
