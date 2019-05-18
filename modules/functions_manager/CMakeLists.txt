@@ -58,7 +58,6 @@ nlsModules_manager
 nlsDynamic_link
 nlsI18n
 nlsFiles_folders_functions
-nlsModules_manager
 nlsString
 )
 #==============================================================================	

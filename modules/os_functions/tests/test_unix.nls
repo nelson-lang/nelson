@@ -19,6 +19,10 @@
 assert_isequal(nargin('unix'), 1);
 assert_isequal(nargout('unix'), 2);
 //=============================================================================
-[a, b] = unix('dir');
+if ismac()
+  [a, b] = unix('ls');
+else
+  [a, b] = unix('dir');
+end
 assert_isequal(a, 0);
 //=============================================================================
