@@ -46,9 +46,11 @@ function qhelpgenerator(varargin)
       qhelpgenerator_filename = new_qhelpgenerator_filename;
     end
   end
-  [status, msg] = unix('which qhelpgenerator-qt5');
-  if status == 0
-    qhelpgenerator_filename = [replace(msg, char(10), ''), '/', 'qhelpgenerator-qt5'];
+  if ~ispc() && ~ismac()
+    [status, msg] = unix('which qhelpgenerator-qt5');
+    if status == 0
+      qhelpgenerator_filename = [replace(msg, char(10), '')];
+    end
   end
   if isfile(file_generated)
     [res, msg] = rmfile(file_generated);
@@ -56,7 +58,6 @@ function qhelpgenerator(varargin)
       error(msg)
     end
   end
-  
   cmd = [qhelpgenerator_filename, ' "', src_in, '/helpproject.qhp"', ' -o "', file_generated, '"'];
   [res, msg] = unix(cmd);
   if res
