@@ -47,7 +47,7 @@ getNelsonH5Schema(hid_t fid)
     if (obj_id < 0) {
         return schema;
     }
-    hid_t attr_id = H5Aopen_name(obj_id, NELSON_SCHEMA_STR);
+    hid_t attr_id = H5Aopen_by_name(obj_id, "/", NELSON_SCHEMA_STR, H5P_DEFAULT, H5P_DEFAULT);
     if (attr_id < 0) {
         H5Oclose(obj_id);
         return schema;
@@ -149,7 +149,7 @@ getAttributeAsBool(hid_t fid, const std::string& location, const std::string& va
         H5Oclose(obj_id);
         return false;
     }
-    hid_t attr_id = H5Aopen_name(obj_id, attributeName.c_str());
+    hid_t attr_id = H5Aopen_by_name(obj_id, h5path.c_str(), attributeName.c_str(), H5P_DEFAULT, H5P_DEFAULT);
     if (attr_id < 0) {
         H5Oclose(obj_id);
         return false;
@@ -183,7 +183,7 @@ getNelsonClass(hid_t fid, const std::string& location, const std::string& variab
         return "";
     }
     hsize_t dims[1];
-    hid_t attr_id = H5Aopen_name(obj_id, NELSON_CLASS_STR);
+    hid_t attr_id = H5Aopen_by_name(obj_id, h5path.c_str(), NELSON_CLASS_STR, H5P_DEFAULT, H5P_DEFAULT);
     hid_t aspace = H5Aget_space(attr_id);
     herr_t status = H5Sget_simple_extent_dims(aspace, dims, NULL);
     if (status < 0) {
@@ -242,7 +242,7 @@ getNelsonDimensions(hid_t fid, const std::string& location, const std::string& v
         return res;
     }
     hsize_t dims[2];
-    hid_t attr_id = H5Aopen_name(obj_id, NELSON_DIMENSIONS_STR);
+    hid_t attr_id = H5Aopen_by_name(obj_id, h5path.c_str(), NELSON_DIMENSIONS_STR, H5P_DEFAULT, H5P_DEFAULT);
     if (attr_id < 0) {
         H5Oclose(obj_id);
         return res;
@@ -318,7 +318,7 @@ getNelsonNzmax(hid_t fid, const std::string& location, const std::string& variab
         H5Oclose(obj_id);
         return 0;
     }
-    hid_t attr_id = H5Aopen_name(obj_id, NELSON_SPARSE_NZMAX_STR);
+    hid_t attr_id = H5Aopen_by_name(obj_id, h5path.c_str(), NELSON_SPARSE_NZMAX_STR, H5P_DEFAULT, H5P_DEFAULT);
     if (attr_id < 0) {
         H5Oclose(obj_id);
         return 0;
