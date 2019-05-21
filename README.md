@@ -85,8 +85,8 @@ these own data types and operations on these data types by using overload.
    
    Nelson has a built-in profiler that is very useful to profile your code and find out what script or function is taking the most time.
 
- - [Nelson cloud](https://www.npmjs.com/package/nelson-cloud):
-   Instant access to Nelson anywhere from an web browser. 
+- [Nelson cloud](https://www.npmjs.com/package/nelson-cloud):
+  Instant access to Nelson anywhere from an web browser. 
 
 
 ## Resources
@@ -104,13 +104,27 @@ these own data types and operations on these data types by using overload.
 
 
 ## Tested and supported platforms:
-- Windows 8, 10 32 bit & 64 bit (intel x86)
-- Linux Debian 32 bit & 64 bit (intel x86)
-- Mac Os X Sierra and more (intel x86)
-- Linux Ubuntu 14.04 and more (Travis CI, CircleCI, Semaphore)
-- Arch Linux (ARM v7 i.MX 6)
-- Raspberry Pi 3 Model B ( Raspbian)
-- Rock64 (Ubuntu aarch64)
+
+Systems with ✓ downloads are available on  [downloads](https://github.com/Nelson-numerical-software/nelson/releases) page.
+
+Systems with ✓ for CI are tested with continuous integration for every commit.
+
+The systems listed here without CI or binaries are known to build and operate, but the continued support of these platforms is user-dependent.
+
+| Operating System | Architecture     | CI | Binaries |
+|:----------------:|:----------------:|:--:|:--------:|
+| Windows 7+       | x86-64 (64-bit)  | ✓  | ✓        |
+|                  | i686 (32-bit)    | ✓  | ✓        |
+| MacOS 10.10+     | x86-64 (64-bit)  | ✓  |          |
+| Ubuntu 12.04     | x86-64 (64-bit)  | ✓  |          |
+| Debian           | x86-64 (64-bit)  | ✓  |          |
+| Fedora 30        | x86-64 (64-bit)  | ✓  |          |
+| ArchLinux        | x86-64 (64-bit)  | ✓  |          |
+|                  | ARM v7 (32-bit)  |    |          |
+|                  | ARM v8 (64-bit)  |    |          |
+| Ubuntu (aarch64) | ARM v8 (64-bit)  |    |          |
+| Raspbian         | ARM v7 (32-bit)  |    |          |
+
 
 
 Allan CORNET (nelson.numerical.computation@gmail.com)

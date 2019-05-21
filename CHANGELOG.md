@@ -26,6 +26,8 @@ Compilation:
 
 * Build on MacOs X 10.13.6 and 10.14.5 (SD notary currently not supporterd.)
 
+* add Dockerfile for Arch, Debian, Fedora images used for CI.
+
 
 # 0.3.4  (2019-04-27)
 
