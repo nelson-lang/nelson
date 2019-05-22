@@ -107,19 +107,28 @@ stringVector
 getVariableNames(hid_t fid)
 {
     stringVector variableNames;
-    hsize_t nbVariables = 0;
-    if (H5Gget_num_objs(fid, &nbVariables) != 0) {
+    H5G_info_t group_info;
+    if (H5Gget_info(fid, &group_info) != 0) {
         return variableNames;
     }
-    for (hsize_t i = 0; i < nbVariables; i++) {
-        if (H5Gget_objtype_by_idx(fid, i) == H5G_DATASET
-            || H5Gget_objtype_by_idx(fid, i) == H5G_GROUP) {
+    for (hsize_t i = 0; i < group_info.nlinks; i++) {
+        H5O_info_t object_info;
+        H5Oget_info_by_idx(fid, ".", H5_INDEX_NAME, H5_ITER_INC, i,
+				   &object_info, H5P_DEFAULT);
+        if (object_info.type == H5O_TYPE_DATASET
+            || object_info.type == H5O_TYPE_GROUP) {
             char* varName = nullptr;
             size_t sLen = 0;
-            sLen = (size_t)H5Gget_objname_by_idx(fid, i, NULL, sLen);
+		sLen = (size_t)H5Lget_name_by_idx(fid, ".", H5_INDEX_NAME,
+					 H5_ITER_INC, i, NULL, sLen,
+					 H5P_DEFAULT);
+
+
             try {
                 varName = new char[sLen + 1];
-                H5Gget_objname_by_idx(fid, i, varName, sLen + 1);
+               H5Lget_name_by_idx(fid, ".", H5_INDEX_NAME,
+					 H5_ITER_INC, i, varName, sLen + 1,
+					 H5P_DEFAULT);
                 variableNames.push_back(varName);
                 delete[] varName;
             } catch (const std::bad_alloc&) {
