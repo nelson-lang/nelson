@@ -18,7 +18,6 @@ blocks:
           - sudo apt-get install -y automake;
           - sudo apt-get install -y xvfb;
           - sudo apt-get install -y git;
-          - sudo apt-get install -y libboost-all-dev;
           - sudo apt-get install -y libopenmpi-dev;
           - sudo apt-get install -y openmpi-bin;
           - sudo apt-get install -y gettext;
@@ -47,6 +46,9 @@ blocks:
           - sudo apt-get install -y libhdf5-dev;
           - sudo apt-get install -y hdf5-tools;
           - sudo apt-get install -y libmatio-dev;
+          - sudo add-apt-repository --yes ppa:mhier/libboost-latest;
+          - sudo apt-get update;
+          - sudo apt-get install -y libboost1.68-dev;
           - git clone https://github.com/live-clones/hdf5.git /tmp/hdf5_1_10_5 
           - cd /tmp/hdf5_1_10_5 && git checkout hdf5-1_10_5 && ./configure --quiet --enable-shared --disable-deprecated-symbols --disable-hl --disable-strict-format-checks --disable-memory-alloc-sanity-check --disable-instrument --disable-parallel --disable-trace --disable-asserts --with-pic --with-default-api-version=v110 CFLAGS="-w" && sudo make install -C src
           - git clone https://github.com/tbeu/matio /tmp/matio 
