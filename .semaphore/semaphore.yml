@@ -1,9 +1,9 @@
 version: v1.0
-name: Nelson (Semaphore 2.0)
+name: Apple/Mojave Based Pipeline
 agent:
   machine:
-    type: e1-standard-2
-    os_image: ubuntu1804
+    type: a1-standard-4
+    os_image: macos-mojave
 
 blocks:
   - name: Nelson's build
@@ -11,55 +11,45 @@ blocks:
       jobs:
       - name: build & tests (no gui)
         commands:
-          - sudo apt-get update
-          - sudo apt-get install -y build-essential;
-          - sudo apt-get install -y autotools-dev;
-          - sudo apt-get install -y libtool;
-          - sudo apt-get install -y automake;
-          - sudo apt-get install -y xvfb;
-          - sudo apt-get install -y git;
-          - sudo apt-get install -y libopenmpi-dev;
-          - sudo apt-get install -y openmpi-bin;
-          - sudo apt-get install -y gettext;
-          - sudo apt-get install -y pkg-config;
-          - sudo apt-get install -y cmake;
-          - sudo apt-get install -y libffi-dev;
-          - sudo apt-get install -y libicu-dev;
-          - sudo apt-get install -y libxml2-dev;
-          - sudo apt-get install -y liblapack-dev;
-          - sudo apt-get install -y liblapacke-dev;
-          - sudo apt-get install -y fftw3;
-          - sudo apt-get install -y fftw3-dev;
-          - sudo apt-get install -y libasound-dev;
-          - sudo apt-get install -y portaudio19-dev;
-          - sudo apt-get install -y libsndfile1-dev;
-          - sudo apt-get install -y libtag1-dev;
-          - sudo apt-get install -y alsa-utils;
-          - sudo apt-get install -y qtbase5-dev;
-          - sudo apt-get install -y qtdeclarative5-dev;
-          - sudo apt-get install -y libqt5webkit5-dev;
-          - sudo apt-get install -y libsqlite3-dev;
-          - sudo apt-get install -y qt5-default qttools5-dev-tools;
-          - sudo apt-get install -y libqt5opengl5-dev;
-          - sudo apt-get install -y qtbase5-private-dev;
-          - sudo apt-get install -y qtdeclarative5-dev;
-          - sudo apt-get install -y libhdf5-dev;
-          - sudo apt-get install -y hdf5-tools;
-          - sudo apt-get install -y libmatio-dev;
-          - sudo add-apt-repository --yes ppa:mhier/libboost-latest;
-          - sudo apt-get update;
-          - sudo apt-get install -y libboost1.68-dev;
-          - git clone https://github.com/live-clones/hdf5.git /tmp/hdf5_1_10_5 
-          - cd /tmp/hdf5_1_10_5 && git checkout hdf5-1_10_5 && ./configure --quiet --enable-shared --disable-deprecated-symbols --disable-hl --disable-strict-format-checks --disable-memory-alloc-sanity-check --disable-instrument --disable-parallel --disable-trace --disable-asserts --with-pic --with-default-api-version=v110 CFLAGS="-w" && sudo make install -C src
-          - git clone https://github.com/tbeu/matio /tmp/matio 
-          - cd /tmp/matio && git checkout v1.5.15 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic --with-hdf5=/tmp/hdf5_1_10_5/hdf5 && make && sudo make install;
-          - git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen
-          - mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.7 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && sudo make install;
+          - brew update;
+          - brew install zlib;
+          - brew install libtool;
+          - brew install automake;
+          - brew unlink libffi;
+          - brew install libffi;
+          - brew unlink libffi;
+          - brew link --force libffi;
+          - brew uninstall icu4c;
+          - brew install icu4c;
+          - brew unlink icu4c;
+          - brew link icu4c --force;
+          - brew info open-mpi;
+          - brew install openmpi;
+          - brew install python3;
+          - brew upgrade python;
+          - brew install pkg-config;
+          - brew install pkgconfig;
+          - brew install gettext;
+          - brew link --force gettext;
+          - brew install boost;
+          - brew install libxml2;
+          - brew install cmake;
+          - brew install qt5;
+          - brew install fftw;
+          - brew install portaudio;
+          - brew install libsndfile;
+          - brew install taglib;
+          - git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.7 && cd - && cd /tmp/eigen-build && FC="nofortran" cmake . /tmp/eigen && make -j4 && sudo make install && cd -;
+          - git clone https://github.com/live-clones/hdf5.git /tmp/hdf5_1_10_5 && cd /tmp/hdf5_1_10_5 && git checkout hdf5-1_10_5 && ./configure --quiet --enable-shared --disable-deprecated-symbols --disable-hl --disable-strict-format-checks --disable-memory-alloc-sanity-check --disable-instrument --disable-parallel --disable-trace --disable-asserts --with-pic --with-default-api-version=v110 CFLAGS="-w" && make install -C src;
+          - git clone https://github.com/tbeu/matio /tmp/matio && cd /tmp/matio && git checkout v1.5.15 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic --with-hdf5=/tmp/hdf5_1_10_5/hdf5 && make && sudo make install;
+          - brew install hdf5; 
           - git clone https://github.com/Nelson-numerical-software/nelson.git
           - cd nelson
+          - export PATH=/usr/local/opt/qt5/bin:$PATH;
           - cmake -G "Unix Makefiles" .
           - make -j4
           - make buildhelp
+          - make missing_help
           - make tests_minimal
           - make package
-          - make tests_all_no_display
+          - make tests_all
