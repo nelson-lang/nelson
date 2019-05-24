@@ -22,8 +22,8 @@
 namespace Nelson {
 //=============================================================================
 static ArrayOf
-h5ReadArrayFloat(hid_t attr_id, hid_t type, hid_t stype, const Dimensions &dimsOutput, bool asAttribute,
-    std::wstring& error)
+h5ReadArrayFloat(hid_t attr_id, hid_t type, hid_t stype, const Dimensions& dimsOutput,
+    bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
     Class outputClass;
@@ -64,8 +64,8 @@ h5ReadArrayFloat(hid_t attr_id, hid_t type, hid_t stype, const Dimensions &dimsO
 }
 //=============================================================================
 static ArrayOf
-h5ReadArrayInteger(hid_t attr_id, hid_t type, hid_t stype, const Dimensions &dimsOutput, bool asAttribute,
-    std::wstring& error)
+h5ReadArrayInteger(hid_t attr_id, hid_t type, hid_t stype, const Dimensions& dimsOutput,
+    bool asAttribute, std::wstring& error)
 {
     ArrayOf res;
     Class outputClass;

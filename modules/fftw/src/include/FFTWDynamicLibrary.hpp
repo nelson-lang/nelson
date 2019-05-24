@@ -27,7 +27,7 @@ NLSFFTW_IMPEXP bool
 loadFFTWLibrary(void);
 //=============================================================================
 NLSFFTW_IMPEXP bool
-loadFFTWLibrary(const std::wstring &fftwLibraryName, const std::wstring &fftwfLibraryName);
+loadFFTWLibrary(const std::wstring& fftwLibraryName, const std::wstring& fftwfLibraryName);
 //=============================================================================
 NLSFFTW_IMPEXP bool
 freeFFTWLibrary();

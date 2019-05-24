@@ -26,7 +26,7 @@ namespace Nelson {
 //=============================================================================
 bool
 h5LoadDouble(hid_t fid, const std::string& location, const std::string& variableName, bool isEmpty,
-    bool isComplex, const Dimensions &dims, bool isSparse, uint64 nzmax, ArrayOf& VariableValue);
+    bool isComplex, const Dimensions& dims, bool isSparse, uint64 nzmax, ArrayOf& VariableValue);
 //=============================================================================
 };
 //=============================================================================

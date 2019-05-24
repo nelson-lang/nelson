@@ -203,7 +203,7 @@ loadFFTWLibrary(void)
 }
 //=============================================================================
 bool
-loadFFTWLibrary(const std::wstring &fftwLibraryName, const std::wstring &fftwfLibraryName)
+loadFFTWLibrary(const std::wstring& fftwLibraryName, const std::wstring& fftwfLibraryName)
 {
 #ifdef _MSC_VER
     fftw_handle = load_dynamic_libraryW(fftwLibraryName);

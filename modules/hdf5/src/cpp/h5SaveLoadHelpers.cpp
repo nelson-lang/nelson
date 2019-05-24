@@ -113,22 +113,17 @@ getVariableNames(hid_t fid)
     }
     for (hsize_t i = 0; i < group_info.nlinks; i++) {
         H5O_info_t object_info;
-        H5Oget_info_by_idx(fid, ".", H5_INDEX_NAME, H5_ITER_INC, i,
-				   &object_info, H5P_DEFAULT);
-        if (object_info.type == H5O_TYPE_DATASET
-            || object_info.type == H5O_TYPE_GROUP) {
+        H5Oget_info_by_idx(fid, ".", H5_INDEX_NAME, H5_ITER_INC, i, &object_info, H5P_DEFAULT);
+        if (object_info.type == H5O_TYPE_DATASET || object_info.type == H5O_TYPE_GROUP) {
             char* varName = nullptr;
             size_t sLen = 0;
-		sLen = (size_t)H5Lget_name_by_idx(fid, ".", H5_INDEX_NAME,
-					 H5_ITER_INC, i, NULL, sLen,
-					 H5P_DEFAULT);
-
+            sLen = (size_t)H5Lget_name_by_idx(
+                fid, ".", H5_INDEX_NAME, H5_ITER_INC, i, NULL, sLen, H5P_DEFAULT);
 
             try {
                 varName = new char[sLen + 1];
-               H5Lget_name_by_idx(fid, ".", H5_INDEX_NAME,
-					 H5_ITER_INC, i, varName, sLen + 1,
-					 H5P_DEFAULT);
+                H5Lget_name_by_idx(
+                    fid, ".", H5_INDEX_NAME, H5_ITER_INC, i, varName, sLen + 1, H5P_DEFAULT);
                 variableNames.push_back(varName);
                 delete[] varName;
             } catch (const std::bad_alloc&) {
@@ -158,7 +153,8 @@ getAttributeAsBool(hid_t fid, const std::string& location, const std::string& va
         H5Oclose(obj_id);
         return false;
     }
-    hid_t attr_id = H5Aopen_by_name(obj_id, h5path.c_str(), attributeName.c_str(), H5P_DEFAULT, H5P_DEFAULT);
+    hid_t attr_id
+        = H5Aopen_by_name(obj_id, h5path.c_str(), attributeName.c_str(), H5P_DEFAULT, H5P_DEFAULT);
     if (attr_id < 0) {
         H5Oclose(obj_id);
         return false;
@@ -192,7 +188,8 @@ getNelsonClass(hid_t fid, const std::string& location, const std::string& variab
         return "";
     }
     hsize_t dims[1];
-    hid_t attr_id = H5Aopen_by_name(obj_id, h5path.c_str(), NELSON_CLASS_STR, H5P_DEFAULT, H5P_DEFAULT);
+    hid_t attr_id
+        = H5Aopen_by_name(obj_id, h5path.c_str(), NELSON_CLASS_STR, H5P_DEFAULT, H5P_DEFAULT);
     hid_t aspace = H5Aget_space(attr_id);
     herr_t status = H5Sget_simple_extent_dims(aspace, dims, NULL);
     if (status < 0) {
@@ -251,7 +248,8 @@ getNelsonDimensions(hid_t fid, const std::string& location, const std::string& v
         return res;
     }
     hsize_t dims[2];
-    hid_t attr_id = H5Aopen_by_name(obj_id, h5path.c_str(), NELSON_DIMENSIONS_STR, H5P_DEFAULT, H5P_DEFAULT);
+    hid_t attr_id
+        = H5Aopen_by_name(obj_id, h5path.c_str(), NELSON_DIMENSIONS_STR, H5P_DEFAULT, H5P_DEFAULT);
     if (attr_id < 0) {
         H5Oclose(obj_id);
         return res;
@@ -327,7 +325,8 @@ getNelsonNzmax(hid_t fid, const std::string& location, const std::string& variab
         H5Oclose(obj_id);
         return 0;
     }
-    hid_t attr_id = H5Aopen_by_name(obj_id, h5path.c_str(), NELSON_SPARSE_NZMAX_STR, H5P_DEFAULT, H5P_DEFAULT);
+    hid_t attr_id = H5Aopen_by_name(
+        obj_id, h5path.c_str(), NELSON_SPARSE_NZMAX_STR, H5P_DEFAULT, H5P_DEFAULT);
     if (attr_id < 0) {
         H5Oclose(obj_id);
         return 0;
@@ -351,7 +350,7 @@ isNelsonComplex(hid_t fid, const std::string& location, const std::string& varia
 }
 //=============================================================================
 hid_t
-setCompression(const Dimensions &dims, bool useCompression)
+setCompression(const Dimensions& dims, bool useCompression)
 {
     hid_t plist = H5I_INVALID_HID;
     if (dims.isEmpty(false) || dims.isScalar() || !useCompression) {

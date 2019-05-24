@@ -37,7 +37,7 @@ h5SaveClassAttribute(hid_t fid, const std::string& location, ArrayOf variableVal
 }
 //=============================================================================
 bool
-h5SaveDimensionsAttribute(hid_t fid, const std::string& location, const Dimensions &dims)
+h5SaveDimensionsAttribute(hid_t fid, const std::string& location, const Dimensions& dims)
 {
     bool bSuccess = false;
     hid_t obj_id = H5Oopen(fid, location.c_str(), H5P_DEFAULT);

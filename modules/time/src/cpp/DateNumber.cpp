@@ -52,7 +52,9 @@ DateNumber(double year, double month, double day, double hour, double minutes, d
     // we remove 1 if mont is more than february
     integer_part = integer_part + (static_cast<int>(month < 3) - 1);
     // we remove again 1 if month is more februar and it is not a leap year
-    integer_part = (integer_part + ((static_cast<int>(month < 3) | static_cast<int>(IsLeapYear(static_cast<int>(year)))) - 1));
+    integer_part = (integer_part
+        + ((static_cast<int>(month < 3) | static_cast<int>(IsLeapYear(static_cast<int>(year))))
+              - 1));
     if (IsLeapYear(static_cast<int>(year))) {
         double leap_year_case = year * 365 + (year / 4) - floor(year / 100) + floor(year / 400);
         integer_part = static_cast<int>(integer_part + leap_year_case);

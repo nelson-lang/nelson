@@ -26,7 +26,7 @@ namespace Nelson {
 //=============================================================================
 bool
 h5LoadSingle(hid_t fid, const std::string& location, const std::string& variableName, bool isEmpty,
-    bool isComplex, const Dimensions &dims, ArrayOf& VariableValue);
+    bool isComplex, const Dimensions& dims, ArrayOf& VariableValue);
 //=============================================================================
 };
 //=============================================================================

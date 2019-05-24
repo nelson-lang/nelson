@@ -54,11 +54,14 @@ Assert_IsEqual(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, st
         Error("isequalto function not found.");
     }
     if (!bRes) {
-        if ((computedArray.isDoubleType(true) && expectedArray.isDoubleType(true)) &&
-        (computedArray.isScalar() && expectedArray.isScalar())){
+        if ((computedArray.isDoubleType(true) && expectedArray.isDoubleType(true))
+            && (computedArray.isScalar() && expectedArray.isScalar())) {
             double computed = computedArray.getContentAsDoubleScalar();
             double expected = expectedArray.getContentAsDoubleScalar();
-            msg = StringFormat(_W("Assertion failed: expected (%lg) and computed (%lg) values are different.").c_str(), expected, computed);
+            msg = StringFormat(
+                _W("Assertion failed: expected (%lg) and computed (%lg) values are different.")
+                    .c_str(),
+                expected, computed);
         } else {
             msg = _W("Assertion failed: expected and computed values are different.");
         }

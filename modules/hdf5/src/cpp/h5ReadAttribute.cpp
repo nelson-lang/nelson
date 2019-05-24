@@ -77,8 +77,9 @@ h5ReadAttribute(
         H5Fclose(fid);
         Error(_W("Specified HDF5 object location could not be opened."));
     }
-    
-    hid_t attr_id = H5Aopen_by_name(obj_id, wstring_to_utf8(location).c_str(), wstring_to_utf8(attributeName).c_str(), H5P_DEFAULT, H5P_DEFAULT);
+
+    hid_t attr_id = H5Aopen_by_name(obj_id, wstring_to_utf8(location).c_str(),
+        wstring_to_utf8(attributeName).c_str(), H5P_DEFAULT, H5P_DEFAULT);
     if (attr_id < 0) {
         H5Oclose(obj_id);
         H5Fclose(fid);

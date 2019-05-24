@@ -43,9 +43,9 @@ Nelson::FftwGateway::FFTWwrapperBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     case 3: {
         std::wstring param1 = argIn[0].getContentAsWideString();
         if (param1 == L"load") {
-          std::wstring fftwName = argIn[0].getContentAsWideString();
-          std::wstring fftwfName = argIn[1].getContentAsWideString();
-          retval.push_back(ArrayOf::logicalConstructor(loadFFTWLibrary(fftwName, fftwfName)));
+            std::wstring fftwName = argIn[0].getContentAsWideString();
+            std::wstring fftwfName = argIn[1].getContentAsWideString();
+            retval.push_back(ArrayOf::logicalConstructor(loadFFTWLibrary(fftwName, fftwfName)));
         } else {
             Error(_W("Wrong value for #1: 'load' expected."));
         }
