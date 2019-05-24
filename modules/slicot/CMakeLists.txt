@@ -26,7 +26,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-${CMAKE_CURRENT_SOURCE_DIR}/../f2c/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
 
 )
 #==============================================================================	
@@ -46,13 +46,7 @@ target_link_libraries(${module_library_name}
 nlsError_manager
 nlsTypes
 nlsInterpreter
-nlsI18n
-nlsF2C
-${BLAS_LIBRARIES}
-${LAPACK_LIBRARIES}
-${LAPACKE_LIBRARIES}
-${MAC_LAPACKE_LIBRARY}
-)
+nlsI18n)
 #==============================================================================	
 set_target_properties(${module_library_name}
                       PROPERTIES 

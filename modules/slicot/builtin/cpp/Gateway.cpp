@@ -40,12 +40,14 @@
 #include "slicot_sg02adBuiltin.hpp"
 #include "slicot_tb01idBuiltin.hpp"
 #include "slicot_tg01adBuiltin.hpp"
+#include "SLICOTWrapperBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"slicot";
 //=============================================================================
 static const nlsGateway gateway[] = {
+    { "SLICOTWrapper", Nelson::SlicotGateway::SLICOTWrapperBuiltin, 1, 2 },
     { "slicot_sb10jd", Nelson::SlicotGateway::slicot_sb10jdBuiltin, 7, 5 },
     { "slicot_mb02md", Nelson::SlicotGateway::slicot_mb02mdBuiltin, 6, 7 },
     { "slicot_sg02ad", Nelson::SlicotGateway::slicot_sg02adBuiltin, 10, 16 },

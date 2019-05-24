@@ -1,13 +1,16 @@
-# 0.3.X
+# 0.3.5
 
 Features:
 ---------
 
   * unix, dos, system builtin reworked (asynchronious, better pipes redirection, detached process). This function can be interrupted with CTRL-C key.
 
-  * FFTW Wrapper allows to load dynamically FFTW library.
+  * FFTW Wrapper allows to load dynamically FFTW library available on platform.
+
+  * SLICOT Wrapper allows to load dynamically SLICOT library available on platform.
 
   * MSVC 2019 support added to build C/C++ code easily "on fly" on Windows.  
+
 
 Bug Fixes:
 ---------

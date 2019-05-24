@@ -132,7 +132,7 @@ Nelson::SlicotGateway::slicot_sb03odBuiltin(Evaluator* eval, int nLhs, const Arr
     }
     Dimensions dimsB_expected(TRANS.getContentAsCString().compare("N") == 0
             ? std::max(
-                  1, std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getRows()))
+                1, std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getRows()))
             : std::max(1, (int)A.getDimensions().getRows()),
         (int)A.getDimensions().getRows());
     if (!dimsB.equals(dimsB_expected)) {
