@@ -44,14 +44,13 @@ OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
 
 > http://www.openblas.net/
 
-- FFTW
+- fftw3.h 
 
-FFTW is a C subroutine library for computing the discrete Fourier transform (DFT) in one or more dimensions
+FFTW header
 
-> http://www.fftw.org/index.html
+> https://raw.githubusercontent.com/FFTW/fftw3/master/api/fftw3.h
 
-> Free software, released under the GNU General Public License (GPL).
-Non-free licenses may also be purchased.
+> MIT license
 
 - MKL
 
@@ -84,15 +83,6 @@ f2c is a program to convert Fortran 77 to C code, developed at Bell Laboratories
 > http://www.netlib.org/f2c/
 
 > NetLib license (free software)
-
-- SLICOT 5.0
-
-The subroutine library SLICOT provides numerical algorithms for computations in systems and control theory.
-
-> http://slicot.org/
-
-> Free software, released under the GNU General Public License (GPL v2 SLICOT 5.0).
-Non-free licenses may also be purchased.
 
 - MS-MPI
 
