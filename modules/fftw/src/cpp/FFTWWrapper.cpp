@@ -183,11 +183,11 @@ freeFFTWLibrary()
 }
 //=============================================================================
 bool
-loadFFTWLibrary(const std::wstring &binaryPath)
+loadFFTWLibrary(void)
 {
 #ifdef _MSC_VER
-    std::wstring fftwLibraryName = binaryPath + L"/libfftw3-3.dll";
-    std::wstring fftwfLibraryName = binaryPath + L"/libfftw3f-3.dll";
+    std::wstring fftwLibraryName = L"libfftw3-3.dll";
+    std::wstring fftwfLibraryName = L"libfftw3f-3.dll";
     return loadFFTWLibrary(fftwLibraryName, fftwfLibraryName);
 #else
     std::string fftwLibraryName = "libfftw3" + get_dynamic_library_extension();

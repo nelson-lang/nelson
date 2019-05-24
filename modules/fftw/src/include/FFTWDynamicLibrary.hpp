@@ -24,7 +24,7 @@
 namespace Nelson {
 //=============================================================================
 NLSFFTW_IMPEXP bool
-loadFFTWLibrary(const std::wstring &binaryPath);
+loadFFTWLibrary(void);
 //=============================================================================
 NLSFFTW_IMPEXP bool
 loadFFTWLibrary(const std::wstring &fftwLibraryName, const std::wstring &fftwfLibraryName);

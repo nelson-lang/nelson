@@ -62,13 +62,6 @@ if (isquietmode() == false)
   fprintf(stdout(), '\n%s\n', version());
   fprintf(stdout(), '%s\n', version('-date'));
   fprintf(stdout(), '%s\n', ' ');
-  if ~ismodule('fftw')
-    msg = [_('You chose to install Nelson with the fftw module.'), ...
-          newline, ...
-          _('This module requires: fftw library.')];
-    warning('fftw:missing', msg);
-    fprintf(stdout(), '%s\n', ' ');
-  end
 end
 clear('all');
 cd(nelsonroot());

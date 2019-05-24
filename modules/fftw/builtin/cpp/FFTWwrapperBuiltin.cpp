@@ -19,8 +19,6 @@
 #include "FFTWwrapperBuiltin.hpp"
 #include "FFTWDynamicLibrary.hpp"
 #include "Error.hpp"
-#include "ModulePath.hpp"
-#include "GetNelsonPath.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -35,9 +33,7 @@ Nelson::FftwGateway::FFTWwrapperBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     case 1: {
         std::wstring param1 = argIn[0].getContentAsWideString();
         if (param1 == L"load") {
-            std::wstring binaryPath
-                = ModulePath(GetNelsonPath(), L"fftw", Nelson::MODULEPATH_OPTION::GET_BINARY_PATH);
-            retval.push_back(ArrayOf::logicalConstructor(loadFFTWLibrary(binaryPath)));
+            retval.push_back(ArrayOf::logicalConstructor(loadFFTWLibrary()));
         } else if (param1 == L"free") {
             retval.push_back(ArrayOf::logicalConstructor(freeFFTWLibrary()));
         } else {
