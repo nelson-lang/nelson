@@ -57,11 +57,36 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
   message( SEND_ERROR "On Windows, please uses Visual studio solution." )
 ENDIF()
 #============================================================================== 
+option(WITHOUT_FFTW "Build Nelson without FFTW module" OFF)
+option(WITHOUT_SLICOT "Build Nelson without SLICOT module" OFF)
+#============================================================================== 
+IF(POLICY CMP0068)
+  cmake_policy(SET CMP0068 NEW)
+ENDIF()
+#============================================================================== 
 IF (EXISTS ${CMAKE_SOURCE_DIR}/modules/core/src/include/Nelson_VERSION.h)
 ELSE()
 configure_file (
   "${CMAKE_SOURCE_DIR}/modules/core/src/include/Nelson_VERSION.h.in"
   "${CMAKE_SOURCE_DIR}/modules/core/src/include/Nelson_VERSION.h"
+  )
+ENDIF()
+#============================================================================== 
+IF (EXISTS ${CMAKE_SOURCE_DIR}/modules/modules.nls)
+ELSE()
+  IF(WITHOUT_FFTW)
+   set(WITH_FFTW_MODULE "// modules_list = [modules_list; \"fftw\"];")
+  ELSE()
+    set(WITH_FFTW_MODULE "modules_list = [modules_list; \"fftw\"];")
+  ENDIF()
+  IF(WITHOUT_SLICOT)
+   set(WITH_SLICOT_MODULE "// modules_list = [modules_list; \"slicot\"];")
+  ELSE()
+    set(WITH_SLICOT_MODULE "modules_list = [modules_list; \"slicot\"];")
+  ENDIF()   
+configure_file (
+  "${CMAKE_SOURCE_DIR}/modules/modules.nls.in"
+  "${CMAKE_SOURCE_DIR}/modules/modules.nls"
   )
 ENDIF()
 #============================================================================== 

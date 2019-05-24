@@ -247,6 +247,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		etc\finish.nls = etc\finish.nls
 		modules\modules.iss = modules\modules.iss
 		modules\modules.nls = modules\modules.nls
+		modules\modules.nls.in = modules\modules.nls.in
+		modules\modules.nls.vc = modules\modules.nls.vc
 		tools\innosetup\Nelson.iss = tools\innosetup\Nelson.iss
 		etc\startup.nls = etc\startup.nls
 	EndProjectSection

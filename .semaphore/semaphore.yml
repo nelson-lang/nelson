@@ -52,6 +52,12 @@ blocks:
           - export PATH=/usr/local/opt/qt5/bin:$PATH;
           - cmake -G "Unix Makefiles" .
           - make -j4
+          - cd ~
+          - git clone https://github.com/Nelson-numerical-software/slicot_f2c.git
+          - cd slicot_f2c
+          - ../nelson/bin/macosx64/nelson-cli --quiet -f build_slicot.nls
+          - cd ..
+          - cd nelson
           - make buildhelp
           - make missing_help
           - make tests_minimal

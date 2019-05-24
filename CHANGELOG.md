@@ -31,6 +31,9 @@ Compilation:
 
 * add Dockerfile for Arch, Debian, Fedora images used for CI.
 
+* SLICOT library removed from Nelson's source and moved [here](http://github.com/Nelson-numerical-software/slicot_f2c).
+   
+
 
 # 0.3.4  (2019-04-27)
 

@@ -77,6 +77,7 @@ before_install:
       sudo apt-get install alsa-utils;
       sudo apt-get install libhdf5-dev;
       sudo apt-get install hdf5-tools;
+      sudo apt-get install libslicot-dev;
       fi
     - if [ `uname` = "Linux" ];
       then sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa;
@@ -151,7 +152,8 @@ install:
   - if [ `uname` = "Darwin" ]; then git clone https://github.com/live-clones/hdf5.git /tmp/hdf5_1_10_5 && cd /tmp/hdf5_1_10_5 && git checkout hdf5-1_10_5 && ./configure --quiet --enable-shared --disable-deprecated-symbols --disable-hl --disable-strict-format-checks --disable-memory-alloc-sanity-check --disable-instrument --disable-parallel --disable-trace --disable-asserts --with-pic --with-default-api-version=v110 CFLAGS="-w" && make install -C src; fi
   - if [ `uname` = "Darwin" ]; then git clone https://github.com/tbeu/matio /tmp/matio && cd /tmp/matio && git checkout v1.5.15 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic --with-hdf5=/tmp/hdf5_1_10_5/hdf5 && make && sudo make install; fi
   - if [ `uname` = "Darwin" ]; then brew install hdf5; fi 
-
+  - if [ `uname` = "Darwin" ]; then cd ~; git clone https://github.com/Nelson-numerical-software/slicot_f2c.git; fi 
+ 
 before_script:
   - rvm get head || true
   - if [ `uname` = "Linux" ];
@@ -171,8 +173,12 @@ script:
     then export PATH=/usr/local/opt/qt5/bin:$PATH;
     cmake -G "Unix Makefiles" . ;
     fi
-
   - make -j4
+  - if [ $TRAVIS_OS_NAME == osx ];
+    then cd ~/slicot_f2c;
+    ${TRAVIS_BUILD_DIR}/bin/macosx64/nelson-cli --quiet -f build_slicot.nls;
+    fi
+  - cd ${TRAVIS_BUILD_DIR} 
   - make buildhelp
   - make missing_help
   - make tests_minimal

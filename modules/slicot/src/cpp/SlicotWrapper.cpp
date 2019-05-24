@@ -427,7 +427,7 @@ loadSlicotLibrary()
     std::string slicotLibraryName = "libslicot" + get_dynamic_library_extension();
     bool res = loadSlicotLibrary(utf8_to_wstring(slicotLibraryName));
     if (!res) {
-        std::string slicotLibraryName = "libslicot" + get_dynamic_library_extension() + ".3";
+        std::string slicotLibraryName = "libslicot" + get_dynamic_library_extension() + ".0";
         res = loadSlicotLibrary(utf8_to_wstring(slicotLibraryName));
     }
     return res;

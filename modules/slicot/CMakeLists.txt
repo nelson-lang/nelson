@@ -34,6 +34,7 @@ FILE(
 GLOB
 SLICOT_SRC
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/*.c"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
 )
 #==============================================================================	
 ADD_LIBRARY(
@@ -46,7 +47,9 @@ target_link_libraries(${module_library_name}
 nlsError_manager
 nlsTypes
 nlsInterpreter
-nlsI18n)
+nlsI18n
+nlsCharacters_encoding
+)
 #==============================================================================	
 set_target_properties(${module_library_name}
                       PROPERTIES 
@@ -65,6 +68,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 )
 #==============================================================================	

@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />
+    <None Include="..\..\..\modules.nls.vc" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc">

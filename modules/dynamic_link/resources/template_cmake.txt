@@ -9,6 +9,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 SET(CMAKE_SKIP_BUILD_RPATH TRUE)
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
 #==============================================================================
+IF(POLICY CMP0068)
+  cmake_policy(SET CMP0068 NEW)
+ENDIF()
+#==============================================================================
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "__OUTPUT_DIRECTORY__")
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 __CMAKE_BUILD_TYPE__

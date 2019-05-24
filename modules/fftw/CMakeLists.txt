@@ -24,6 +24,7 @@ include_directories(
 ${EIGEN3_INCLUDE_DIR}
 ${Boost_INCLUDE_DIRS}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include

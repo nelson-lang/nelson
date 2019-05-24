@@ -60,9 +60,7 @@ handle
 qml_engine
 com_engine
 nig
-fftw
 f2c
-slicot
 help_browser
 dynamic_link
 help_tools
@@ -80,6 +78,14 @@ matio
 profiler
 )
 LIST(APPEND moduleslist main)
+#==============================================================================
+IF (NOT WITHOUT_FFTW)
+  LIST(APPEND moduleslist fftw)
+ENDIF()
+#==============================================================================
+IF (NOT WITHOUT_SLICOT)
+  LIST(APPEND moduleslist slicot)
+ENDIF()
 #==============================================================================	
 FOREACH(mod ${moduleslist})
   INCLUDE_DIRECTORIES("../build/modules/${mod}/includes")
@@ -90,4 +96,3 @@ ENDFOREACH(mod)
 #==============================================================================	
 install(FILES ${CMAKE_SOURCE_DIR}/modules/modules.nls DESTINATION ${ROOT_OUTPUT}/modules) 
 #==============================================================================	
-

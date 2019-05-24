@@ -18,10 +18,10 @@
 //=============================================================================
 function varargout = h5dump(varargin)
   if (nargin > 2 || nargin == 0)
-    error(_W('Wrong number of input arguments.'));
+    error(_('Wrong number of input arguments.'));
   end
   if nargout > 1
-    error(_W('Wrong number of output arguments.'));
+    error(_('Wrong number of output arguments.'));
   end
   h5filename = string(varargin{1});
   if nargin == 2
