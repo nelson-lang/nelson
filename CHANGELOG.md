@@ -15,7 +15,7 @@ Features:
 Bug Fixes:
 ---------
 
-  * [#198](http://github.com/Nelson-numerical-software/nelson/issues/198): diary load and save will be disable if nelson is started with '--nouserstartup'.
+  * [#198](http://github.com/Nelson-numerical-software/nelson/issues/198): history load and save will be disable if nelson is started with '--nouserstartup'.
 
   * [#196](http://github.com/Nelson-numerical-software/nelson/issues/196): call cmake 3.11 from Nelson fails on linux.
 
