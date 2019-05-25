@@ -1,19 +1,26 @@
 #==============================================================================
 # Copyright (c) 2016-present Allan CORNET (Nelson)
 #==============================================================================
+# This file is part of the Nelson.
+#=============================================================================
 # LICENCE_BLOCK_BEGIN
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 2 of the License, or
-# (at your option) any later version.
-# 
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# Alternatively, you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation; either version 2 of
+# the License, or (at your option) any later version.
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this program. If not, see <http://www.gnu.org/licenses/>.
 # LICENCE_BLOCK_END
 #==============================================================================
 CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
@@ -59,6 +66,7 @@ ENDIF()
 #============================================================================== 
 option(WITHOUT_FFTW "Build Nelson without FFTW module" OFF)
 option(WITHOUT_SLICOT "Build Nelson without SLICOT module" OFF)
+option(LGPL21_ONLY "Build Nelson under LGPL v2.1 only" OFF)
 #============================================================================== 
 IF(POLICY CMP0068)
   cmake_policy(SET CMP0068 NEW)
@@ -74,12 +82,12 @@ ENDIF()
 #============================================================================== 
 IF (EXISTS ${CMAKE_SOURCE_DIR}/modules/modules.nls)
 ELSE()
-  IF(WITHOUT_FFTW)
+  IF(WITHOUT_FFTW OR LGPL21_ONLY)
    set(WITH_FFTW_MODULE "// modules_list = [modules_list; \"fftw\"];")
   ELSE()
     set(WITH_FFTW_MODULE "modules_list = [modules_list; \"fftw\"];")
   ENDIF()
-  IF(WITHOUT_SLICOT)
+  IF(WITHOUT_SLICOT OR LGPL21_ONLY)
    set(WITH_SLICOT_MODULE "// modules_list = [modules_list; \"slicot\"];")
   ELSE()
     set(WITH_SLICOT_MODULE "modules_list = [modules_list; \"slicot\"];")
@@ -397,7 +405,8 @@ add_subdirectory(locale)
 add_subdirectory(module_skeleton)
 add_subdirectory(resources)
 #==============================================================================
-install(FILES ${CMAKE_SOURCE_DIR}/COPYING.md DESTINATION ${ROOT_OUTPUT})
+install(FILES ${CMAKE_SOURCE_DIR}/COPYING DESTINATION ${ROOT_OUTPUT})
+install(FILES ${CMAKE_SOURCE_DIR}/COPYING.LGPLv2.1 DESTINATION ${ROOT_OUTPUT})
 install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG.md DESTINATION ${ROOT_OUTPUT})
 install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.1.x.md DESTINATION ${ROOT_OUTPUT})
 install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG-0.2.x.md DESTINATION ${ROOT_OUTPUT})

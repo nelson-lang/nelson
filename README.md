@@ -14,7 +14,7 @@
 [![CircleCI](https://circleci.com/gh/Nelson-numerical-software/nelson/tree/master.svg?style=svg)](https://circleci.com/gh/Nelson-numerical-software/nelson/tree/master)
 [![Build Status](https://semaphoreci.com/api/v1/nelson-numerical-software/nelson/branches/master/badge.svg)](https://semaphoreci.com/nelson-numerical-software/nelson)
 
-[![GitHub license](https://img.shields.io/badge/license-GPL2-blue.svg)](https://github.com/Nelson-numerical-software/nelson/blob/master/COPYING.md)
+[![GitHub license](https://img.shields.io/badge/license-LGPL2.1-blue.svg)](https://github.com/Nelson-numerical-software/nelson/blob/master/COPYING.LGPLv2.1)
 [![CLA assistant](https://cla-assistant.io/readme/badge/Nelson-numerical-software/nelson)](https://cla-assistant.io/Nelson-numerical-software/nelson)
 [![Open Hub](https://img.shields.io/badge/Open-Hub-blue.svg)](https://www.openhub.net/p/nelson-interpreter)
 [![Weblate](https://img.shields.io/badge/Weblate--green.svg)](https://hosted.weblate.org/projects/nelson/)
@@ -45,9 +45,9 @@ these own data types and operations on these data types by using overload.
   * integers 8, 16, 32, 64 signed and unsigned: scalar, vector, matrix 2D, N dimensions array.
   * handle objects.
 
-- Fast Fourrier Transformation functions based on FFTW. 
+- Fast Fourrier Transformation functions based on FFTW and MKL wrapper. 
 
-- SLICOT (Subroutine Library in Systems and Control Theory) interfaces.
+- SLICOT (Subroutine Library in Systems and Control Theory) interfaces (optional).
 
 - Message Passing Interface (MPI): functions for parallel computing.
 
@@ -87,6 +87,17 @@ these own data types and operations on these data types by using overload.
 
 - [Nelson cloud](https://www.npmjs.com/package/nelson-cloud):
   Instant access to Nelson anywhere from an web browser. 
+
+
+## Licenses
+
+Nelson is delivered under dual-license : 
+
+- [![License (GNU Lesser General Public License (LGPL) v2.1)](https://img.shields.io/badge/License-GNU%20Lesser%20General%20Public%20License%20(LGPL)%20v2.1-blue.svg?style=flat-square)](https://opensource.org/licenses/LGPL-2.1)
+
+   or
+
+- [![License (GNU General Public License (GPL) v2.0)](https://img.shields.io/badge/license-GNU%20General%20Public%20License%20(GPL)%20v2-blue.svg?style=flat-square)](https://opensource.org/licenses/GPL-2.0)
 
 
 ## Resources

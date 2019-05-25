@@ -3,11 +3,21 @@
 Features:
 ---------
 
-  * unix, dos, system builtin reworked (asynchronious, better pipes redirection, detached process). This function can be interrupted with CTRL-C key.
+  * Licensing change: Nelson is now released under the terms of the GNU Lesser General Public License (LGPL) v2.1.
+   It is still also available under the terms of the GNU General Public License (GPL) v2.0.
 
+    You can build Nelson under LGPL v2.1 license on Unix/MacosX with
+    ```bash
+    cd nelson
+    cmake -DLGPL21_ONLY=ON -G "Unix Makefiles" .
+    ```
+    On Windows, it is also easy, if you do not select SLICOT library during setup.
+ 
   * FFTW Wrapper allows to load dynamically FFTW library available on platform.
 
   * SLICOT Wrapper allows to load dynamically SLICOT library available on platform.
+
+  * unix, dos, system builtin reworked (asynchronious, better pipes redirection, detached process). This function can be interrupted with CTRL-C key.
 
   * MSVC 2019 support added to build C/C++ code easily "on fly" on Windows.  
 
