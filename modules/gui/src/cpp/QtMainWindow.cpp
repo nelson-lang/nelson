@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2019 Allan CORNET (Nelson)
+// Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -209,7 +209,7 @@ QtMainWindow::about()
 {
     std::string version
         = std::string(NELSON_PRODUCT_NAME) + " " + std::string(NELSON_VERSION_STRING);
-    std::string aboutText = version + "\n" + "Copyright 2016-2019 Allan CORNET";
+    std::string aboutText = version + "\n" + "Copyright 2016-present Allan CORNET";
     QMessageBox::about(this, _("About Nelson...").c_str(), aboutText.c_str());
 }
 //=============================================================================

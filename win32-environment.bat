@@ -1,5 +1,5 @@
 rem =============================================================================
-rem Copyright (c) 2016-2019 Allan CORNET (Nelson)
+rem Copyright (c) 2016-present Allan CORNET (Nelson)
 rem =============================================================================
 rem LICENCE_BLOCK_BEGIN
 rem This program is free software: you can redistribute it and/or modify
