@@ -8,6 +8,60 @@ Nelson is an extendable and modern numerical computing environment.
 
 Try it !
 
+## Features:
+
+- Types managed by Nelson:
+  * double and double complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
+  * single and single complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix. 
+  * logical: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
+  * character array (UNICODE supported).
+  * string array (UNICODE supported).
+  * integers 8, 16, 32, 64 signed and unsigned: scalar, vector, matrix 2D, N dimensions array.
+  * handle objects.
+
+- Fast Fourrier Transformation functions based on FFTW and MKL wrapper. 
+
+- SLICOT (Subroutine Library in Systems and Control Theory) interfaces (optional).
+
+- Message Passing Interface (MPI): functions for parallel computing.
+
+- JSON decode/encode data support.
+
+- HDF5 high-level functions I/O,
+
+- HDF5 used as default data file format (.nh5) load/save workspace,
+
+- MAT-file compatible load/save workspace,
+
+- Foreign Function Interface C/Fortran.
+
+- Interfacing C/C++ or Fortran with Nelson (build and load external code on the fly).
+
+- The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
+
+- Component Object Model (COM) client interface: binary-interface standard for software components on Windows.
+
+- Write/Read xlsx files on Windows using COM.
+
+- Embedded Nelson code editor.
+
+- Help engine: 
+
+  Generate help files using Nelson dedicated functions.
+ View your generated help files as html, markdown, pdf, gitbook or directly in Nelson help viewer.
+
+- Tests engine:
+  
+  Validate your algorithm using Nelson dedicated functions.
+ Export the test results under the xUnit reports format.
+
+- Profiling and Code coverage tools for Nelson's language:
+   
+   Nelson has a built-in profiler that is very useful to profile your code and find out what script or function is taking the most time.
+
+- Nelson cloud:
+  Instant access to Nelson anywhere from an web browser. 
+
 
 * * *
 

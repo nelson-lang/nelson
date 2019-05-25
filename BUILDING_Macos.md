@@ -70,6 +70,12 @@
     cd  nelson
     cmake -G "Unix Makefiles" 
     ```
+
+    You can build Nelson under LGPL v2.1 license only with
+    ```bash
+    cd nelson
+    cmake -DLGPL21_ONLY=ON -G "Unix Makefiles" .
+    ```    
 * Start the build:
     ```bash
     make
