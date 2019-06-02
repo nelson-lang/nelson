@@ -43,7 +43,7 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             retval = OverloadFunction(eval, nLhs, argIn, "class", bSuccess);
         }
         if (!bSuccess) {
-            if (argIn[0].isClassStruct() || argIn[0].isHandle()) {
+            if (argIn[0].isClassStruct() || argIn[0].isHandle() || argIn[0].isGraphicObject()) {
                 retval = OverloadFunction(eval, nLhs, argIn, "class", bSuccess);
                 if (bSuccess) {
                     return retval;
@@ -73,7 +73,8 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                 //	(newType == NLS_SINGLE_STR) ||
                 (newType == NLS_SCOMPLEX_STR) || (newType == NLS_DCOMPLEX_STR)
                 || (newType == NLS_CHAR_STR) || (newType == NLS_FUNCTION_HANDLE_STR)
-                || (newType == NLS_HANDLE_STR) || (newType == NLS_GENERIC_STR)) {
+                || (newType == NLS_GO_HANDLE_STR) || (newType == NLS_HANDLE_STR)
+                || (newType == NLS_GENERIC_STR)) {
                 Error(ERROR_TYPE_ALREADY_RESERVED);
             }
             arg1.setStructType(newType);

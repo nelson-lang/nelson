@@ -71,6 +71,7 @@ class Data;
  * dimensions.  The ArrayOf class uses a seperate data class to store the
  * data.  It can contain an N-dimensional array of any of the following
  * data types:
+ *   - NLS_GO_HANDLE
  *   - NLS_HANDLE
  *   - NLS_CELL_ARRAY - a heterogenous array - essentially an array of ArrayOfs
  *   - NLS_STRUCT_ARRAY - a structure array
@@ -1228,6 +1229,22 @@ public:
     static ArrayOf
     toStringArray(ArrayOf m, bool& needToOverload);
     //=========================================================================
+    // graphic object handle
+    //=========================================================================
+    /*
+     * check is graphic object handle type
+     */
+    bool
+    isGraphicObject() const;
+
+    static ArrayOf
+    graphicObjectConstructor(void* ptrObject);
+
+    /*
+     * return nelson_handle as void *
+     */
+    void*
+    getContentAsGraphicObjectScalar() const;
 };
 //=========================================================================
 bool

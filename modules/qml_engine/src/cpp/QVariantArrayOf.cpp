@@ -1099,6 +1099,7 @@ ArrayOfToQVariant(ArrayOf A)
         }
         res = qvariantMap;
     } break;
+    case NLS_GO_HANDLE:
     case NLS_HANDLE:
     case NLS_SCOMPLEX:
     case NLS_DCOMPLEX:

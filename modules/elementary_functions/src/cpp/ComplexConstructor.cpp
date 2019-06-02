@@ -160,6 +160,7 @@ ComplexConstructor(ArrayOf arrayA)
         res = arrayA;
     } break;
     case NLS_HANDLE:
+    case NLS_GO_HANDLE:
     case NLS_CELL_ARRAY:
     case NLS_STRING_ARRAY:
     case NLS_STRUCT_ARRAY:

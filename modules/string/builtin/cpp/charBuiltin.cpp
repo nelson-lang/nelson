@@ -115,6 +115,7 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         default:
         case NLS_STRUCT_ARRAY:
         case NLS_LOGICAL:
+        case NLS_GO_HANDLE:
         case NLS_HANDLE: {
             retval = OverloadFunction(eval, nLhs, argIn, "char", bSuccess);
             if (!bSuccess) {

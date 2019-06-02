@@ -42,6 +42,10 @@ h5SaveVariable(hid_t fid, const std::string& location, const std::string& variab
 {
     bool bSuccess = false;
     switch (VariableValue.getDataClass()) {
+    case NLS_GO_HANDLE: {
+        bSuccess = false;
+    } break;
+
     case NLS_HANDLE: {
         bSuccess = h5SaveHandle(fid, location, variableName, VariableValue, useCompression);
     } break;

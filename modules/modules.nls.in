@@ -77,7 +77,8 @@ modules_list = [
 "matio";
 "profiler";
 "characters_encoding";
-"webtools"
+"webtools";
+"graphics"
 ];
 // ============================================================================
 // optional modules

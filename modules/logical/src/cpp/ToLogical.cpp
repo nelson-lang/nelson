@@ -96,6 +96,9 @@ ToLogical(ArrayOf A)
         r.ensureSingleOwner();
         return r;
     } break;
+    case NLS_GO_HANDLE: {
+        Error(_W("Conversion to logical from graphic_object is not possible."));
+    } break;
     case NLS_HANDLE: {
         Error(_W("Conversion to logical from handle is not possible."));
     } break;

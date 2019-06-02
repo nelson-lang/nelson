@@ -64,6 +64,9 @@ h5LoadVariable(
         }
     }
     switch (clDest) {
+    case NLS_GO_HANDLE: {
+        return false;
+    } break;
     case NLS_HANDLE: {
         bSuccess = h5LoadHandle(fid, location, variableName, VariableValue);
     } break;

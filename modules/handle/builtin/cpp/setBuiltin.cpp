@@ -28,6 +28,7 @@
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "characters_encoding.hpp"
+#include "ClassToString.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -42,50 +43,71 @@ Nelson::HandleGateway::setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    if (!param1.isEmpty()) {
-        auto* qp = (nelson_handle*)param1.getDataPointer();
-        if (qp) {
-            std::wstring handleTypeName = utf8_to_wstring(NLS_HANDLE_STR);
-            Dimensions dimsParam1 = param1.getDimensions();
-            for (indexType k = 0; k < dimsParam1.getElementCount(); k++) {
-                nelson_handle hl = qp[k];
-                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
-                if (hlObj) {
-                    std::wstring currentType = hlObj->getCategory();
-                    if (!currentType.empty() || currentType != utf8_to_wstring(NLS_HANDLE_STR)) {
-                        handleTypeName.assign(currentType);
-                        break;
-                    }
-                }
+    if (param1.isGraphicObject()) {
+        bool doOverload = false;
+        std::wstring ufunctionNameGetHandle = ClassToString(param1.getDataClass()) + L"_set";
+        std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
+        Context* context = eval->getContext();
+        FunctionDef* funcDef = nullptr;
+        if (context->lookupFunction(functionNameGetHandle, funcDef)) {
+            if ((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                || (funcDef->type() == NLS_MACRO_FUNCTION)) {
+                ArrayOfVector argInCopy(argIn);
+                funcDef->evaluateFunction(eval, argInCopy, nLhs);
+                doOverload = true;
             }
-            if (handleTypeName != utf8_to_wstring(NLS_HANDLE_STR)) {
-                bool doOverload = false;
-                std::wstring ufunctionNameGetHandle = handleTypeName + L"_set";
-                std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
-                Context* context = eval->getContext();
-                FunctionDef* funcDef = nullptr;
-                if (context->lookupFunction(functionNameGetHandle, funcDef)) {
-                    if ((funcDef->type() == NLS_BUILT_IN_FUNCTION)
-                        || (funcDef->type() == NLS_MACRO_FUNCTION)) {
-                        ArrayOfVector argInCopy(argIn);
-                        funcDef->evaluateFunction(eval, argInCopy, nLhs);
-                        doOverload = true;
+        }
+        if (!doOverload) {
+            std::wstring msg = ufunctionNameGetHandle + L" " + _W("not defined.");
+            Error(msg);
+        }
+    } else {
+        if (!param1.isEmpty()) {
+            auto* qp = (nelson_handle*)param1.getDataPointer();
+            if (qp) {
+                std::wstring handleTypeName = utf8_to_wstring(NLS_HANDLE_STR);
+                Dimensions dimsParam1 = param1.getDimensions();
+                for (indexType k = 0; k < dimsParam1.getElementCount(); k++) {
+                    nelson_handle hl = qp[k];
+                    HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
+                    if (hlObj) {
+                        std::wstring currentType = hlObj->getCategory();
+                        if (!currentType.empty()
+                            || currentType != utf8_to_wstring(NLS_HANDLE_STR)) {
+                            handleTypeName.assign(currentType);
+                            break;
+                        }
                     }
                 }
-                if (!doOverload) {
-                    std::wstring msg = ufunctionNameGetHandle + L" " + _W("not defined.");
-                    Error(msg);
+                if (handleTypeName != utf8_to_wstring(NLS_HANDLE_STR)) {
+                    bool doOverload = false;
+                    std::wstring ufunctionNameGetHandle = handleTypeName + L"_set";
+                    std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
+                    Context* context = eval->getContext();
+                    FunctionDef* funcDef = nullptr;
+                    if (context->lookupFunction(functionNameGetHandle, funcDef)) {
+                        if ((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                            || (funcDef->type() == NLS_MACRO_FUNCTION)) {
+                            ArrayOfVector argInCopy(argIn);
+                            funcDef->evaluateFunction(eval, argInCopy, nLhs);
+                            doOverload = true;
+                        }
+                    }
+                    if (!doOverload) {
+                        std::wstring msg = ufunctionNameGetHandle + L" " + _W("not defined.");
+                        Error(msg);
+                    }
+                } else {
+                    Error(_W("Invalid handle."));
                 }
             } else {
                 Error(_W("Invalid handle."));
             }
         } else {
-            Error(_W("Invalid handle."));
-        }
-    } else {
-        if (nLhs > 0) {
-            Dimensions dims(0, 0);
-            retval.push_back(ArrayOf::emptyConstructor(dims));
+            if (nLhs > 0) {
+                Dimensions dims(0, 0);
+                retval.push_back(ArrayOf::emptyConstructor(dims));
+            }
         }
     }
     return retval;

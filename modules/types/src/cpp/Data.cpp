@@ -163,6 +163,10 @@ Data::freeDataBlock()
                 auto* rp = static_cast<ArrayOf*>(cp);
                 delete[] rp;
             } break;
+            case NLS_GO_HANDLE: {
+                auto* rp = static_cast<nelson_handle*>(cp);
+                delete[] rp;
+            } break;
             case NLS_HANDLE: {
                 auto* rp = static_cast<nelson_handle*>(cp);
                 delete[] rp;

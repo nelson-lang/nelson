@@ -34,6 +34,9 @@ ArrayOf::allocateArrayOf(
     Class type, indexType length, const stringVector& names, bool initializeValues)
 {
     switch (type) {
+    case NLS_GO_HANDLE: {
+        return (void*)new_with_exception<nelson_handle>(length);
+    } break;
     case NLS_HANDLE: {
         return (void*)new_with_exception<nelson_handle>(length, false);
     } break;
@@ -115,6 +118,10 @@ void
 ArrayOf::deleteArrayOf(void* dp, Class dataclass)
 {
     switch (dataclass) {
+    case NLS_GO_HANDLE: {
+        auto* rp = static_cast<nelson_handle*>(dp);
+        delete[] rp;
+    } break;
     case NLS_HANDLE: {
         auto* rp = static_cast<nelson_handle*>(dp);
         delete[] rp;

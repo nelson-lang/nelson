@@ -46,6 +46,8 @@ SaveMatioVariable(const std::string& variableName, ArrayOf variableValue, mat_ft
 {
     matvar_t* matVariable = nullptr;
     switch (variableValue.getDataClass()) {
+    case NLS_GO_HANDLE: {
+    } break;
     case NLS_HANDLE: {
         matVariable = SaveMatioHandle(variableName, variableValue, matVersion);
     } break;
