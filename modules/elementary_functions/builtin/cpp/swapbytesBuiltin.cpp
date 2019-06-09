@@ -23,20 +23,38 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "swapbytesBuiltin.hpp"
+#include "Error.hpp"
+#include "SwapBytes.hpp"
+#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace ElementaryFunctionsGateway {
-    //=============================================================================
-    ArrayOfVector
-    timesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::swapbytesBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (argIn.size() != 1) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    bool bSuccess = false;
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "swapbytes", bSuccess);
+    }
+    if (!bSuccess) {
+        bool needToOverload;
+        ArrayOf res = SwapBytes(argIn[0], needToOverload);
+        if (needToOverload) {
+            retval = OverloadFunction(eval, nLhs, argIn, "swapbytes");
+        } else {
+            retval.push_back(res);
+        }
+    }
+    return retval;
 }
 //=============================================================================
-} // namespace Nelson
-//=============================================================================
-

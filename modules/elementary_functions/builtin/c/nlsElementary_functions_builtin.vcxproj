@@ -172,6 +172,7 @@
     <ClCompile Include="..\cpp\allBuiltin.cpp" />
     <ClCompile Include="..\cpp\andBuiltin.cpp" />
     <ClCompile Include="..\cpp\anyBuiltin.cpp" />
+    <ClCompile Include="..\cpp\bin2numBuiltin.cpp" />
     <ClCompile Include="..\cpp\castBuiltin.cpp" />
     <ClCompile Include="..\cpp\ceilBuiltin.cpp" />
     <ClCompile Include="..\cpp\colonBuiltin.cpp" />
@@ -211,6 +212,7 @@
     <ClCompile Include="..\cpp\neBuiltin.cpp" />
     <ClCompile Include="..\cpp\normBuiltin.cpp" />
     <ClCompile Include="..\cpp\notBuiltin.cpp" />
+    <ClCompile Include="..\cpp\num2binBuiltin.cpp" />
     <ClCompile Include="..\cpp\numelBuiltin.cpp" />
     <ClCompile Include="..\cpp\orBuiltin.cpp" />
     <ClCompile Include="..\cpp\plusBuiltin.cpp" />
@@ -227,6 +229,7 @@
     <ClCompile Include="..\cpp\sizeBuiltin.cpp" />
     <ClCompile Include="..\cpp\sqrtBuiltin.cpp" />
     <ClCompile Include="..\cpp\subsindexBuiltin.cpp" />
+    <ClCompile Include="..\cpp\swapbytesBuiltin.cpp" />
     <ClCompile Include="..\cpp\timesBuiltin.cpp" />
     <ClCompile Include="..\cpp\transposeBuiltin.cpp" />
     <ClCompile Include="..\cpp\uminusBuiltin.cpp" />
@@ -265,6 +268,7 @@
     <ClInclude Include="..\include\allBuiltin.hpp" />
     <ClInclude Include="..\include\andBuiltin.hpp" />
     <ClInclude Include="..\include\anyBuiltin.hpp" />
+    <ClInclude Include="..\include\bin2numBuiltin.hpp" />
     <ClInclude Include="..\include\castBuiltin.hpp" />
     <ClInclude Include="..\include\ceilBuiltin.hpp" />
     <ClInclude Include="..\include\colonBuiltin.hpp" />
@@ -304,6 +308,7 @@
     <ClInclude Include="..\include\nlsElementary_functions_builtin_exports.h" />
     <ClInclude Include="..\include\normBuiltin.hpp" />
     <ClInclude Include="..\include\notBuiltin.hpp" />
+    <ClInclude Include="..\include\num2binBuiltin.hpp" />
     <ClInclude Include="..\include\numelBuiltin.hpp" />
     <ClInclude Include="..\include\orBuiltin.hpp" />
     <ClInclude Include="..\include\plusBuiltin.hpp" />
@@ -320,6 +325,7 @@
     <ClInclude Include="..\include\sizeBuiltin.hpp" />
     <ClInclude Include="..\include\sqrtBuiltin.hpp" />
     <ClInclude Include="..\include\subsindexBuiltin.hpp" />
+    <ClInclude Include="..\include\swapbytesBuiltin.hpp" />
     <ClInclude Include="..\include\timesBuiltin.hpp" />
     <ClInclude Include="..\include\transposeBuiltin.hpp" />
     <ClInclude Include="..\include\uminusBuiltin.hpp" />

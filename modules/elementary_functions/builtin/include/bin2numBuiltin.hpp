@@ -33,10 +33,9 @@ namespace Nelson {
 namespace ElementaryFunctionsGateway {
     //=============================================================================
     ArrayOfVector
-    timesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    bin2numBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
 }
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
-

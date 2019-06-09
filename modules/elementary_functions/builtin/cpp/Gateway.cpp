@@ -87,6 +87,9 @@
 #include "logBuiltin.hpp"
 #include "sqrtBuiltin.hpp"
 #include "ismissingBuiltin.hpp"
+#include "num2binBuiltin.hpp"
+#include "bin2numBuiltin.hpp"
+#include "swapbytesBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -158,6 +161,10 @@ static const nlsGateway gateway[] = {
     { "log", Nelson::ElementaryFunctionsGateway::logBuiltin, 1, 1 },
     { "sqrt", Nelson::ElementaryFunctionsGateway::sqrtBuiltin, 1, 1 },
     { "ismissing", Nelson::ElementaryFunctionsGateway::ismissingBuiltin, 1, 1 },
+    { "num2bin", Nelson::ElementaryFunctionsGateway::num2binBuiltin, 1, 1 },
+    { "bin2num", Nelson::ElementaryFunctionsGateway::bin2numBuiltin, 1, 1 },
+    { "swapbytes", Nelson::ElementaryFunctionsGateway::swapbytesBuiltin, 1, 1 },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

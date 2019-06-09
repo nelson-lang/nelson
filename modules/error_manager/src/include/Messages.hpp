@@ -185,7 +185,7 @@
 #define ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED                                               \
     _W("Wrong type for #1 argument: numeric value expected.")
 #define ERROR_WRONG_ARGUMENT_2_TYPE_NUMERIC_EXPECTED                                               \
-    _W("Wrong type for #1 argument: numeric value expected.")
+    _W("Wrong type for #2 argument: numeric value expected.")
 
 #define ERROR_WRONG_ARGUMENT_1_TYPE_CELL_EXPECTED _W("Wrong type for argument #1. cell expected.")
 #define ERROR_WRONG_ARGUMENT_2_TYPE_CELL_EXPECTED _W("Wrong type for argument #2. cell expected.")

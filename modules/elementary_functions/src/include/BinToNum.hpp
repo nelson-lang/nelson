@@ -26,17 +26,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-namespace ElementaryFunctionsGateway {
-    //=============================================================================
-    ArrayOfVector
-    timesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+BinToNum(ArrayOf A, bool& needToOverload);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
-

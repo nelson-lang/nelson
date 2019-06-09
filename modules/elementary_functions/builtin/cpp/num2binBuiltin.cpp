@@ -23,20 +23,49 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "num2binBuiltin.hpp"
+#include "NumToBin.hpp"
+#include "Error.hpp"
+#include "OverloadFunction.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace ElementaryFunctionsGateway {
-    //=============================================================================
-    ArrayOfVector
-    timesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::num2binBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (argIn.size() < 1 || argIn.size() > 2) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1) {
+        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    bool bSuccess = false;
+    if (eval->mustOverloadBasicTypes()) {
+        retval = OverloadFunction(eval, nLhs, argIn, "num2bin", bSuccess);
+    }
+    if (!bSuccess) {
+        if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
+            || argIn[0].isClassStruct()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "num2bin", bSuccess);
+            if (bSuccess) {
+                return retval;
+            }
+        }
+        if (argIn.size() != 1) {
+            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
+        if (!bSuccess) {
+            bool needToOverload;
+            ArrayOf res = NumToBin(argIn[0], needToOverload);
+            if (needToOverload) {
+                retval = OverloadFunction(eval, nLhs, argIn, "num2bin");
+            } else {
+                retval.push_back(res);
+            }
+        }
+    }
+    return retval;
 }
 //=============================================================================
-} // namespace Nelson
-//=============================================================================
-

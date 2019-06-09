@@ -1,3 +1,15 @@
+# 0.3.6 (2019-06-XX)
+
+Features:
+---------
+
+  * num2bin builtin: Convert number to binary representation.
+
+  * bin2num builtin: Convert two's complement binary string to number.
+
+  * swapbytes builtin: endian converter.
+
+
 # 0.3.5 (2019-05-26)
 
 Features:

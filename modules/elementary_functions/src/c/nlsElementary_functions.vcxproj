@@ -177,6 +177,7 @@
     <ClCompile Include="..\cpp\All.cpp" />
     <ClCompile Include="..\cpp\And.cpp" />
     <ClCompile Include="..\cpp\Any.cpp" />
+    <ClCompile Include="..\cpp\BinToNum.cpp" />
     <ClCompile Include="..\cpp\Cast.cpp" />
     <ClCompile Include="..\cpp\Colon.cpp" />
     <ClCompile Include="..\cpp\ComplexConjugate.cpp" />
@@ -186,6 +187,7 @@
     <ClCompile Include="..\cpp\DotLeftDivide.cpp" />
     <ClCompile Include="..\cpp\DotPower.cpp" />
     <ClCompile Include="..\cpp\DotRightDivide.cpp" />
+    <ClCompile Include="..\cpp\SwapBytes.cpp" />
     <ClCompile Include="..\cpp\Equals.cpp" />
     <ClCompile Include="..\cpp\Exponential.cpp" />
     <ClCompile Include="..\cpp\GreaterEquals.cpp" />
@@ -213,6 +215,7 @@
     </ClCompile>
     <ClCompile Include="..\cpp\Not.cpp" />
     <ClCompile Include="..\cpp\NotEquals.cpp" />
+    <ClCompile Include="..\cpp\NumToBin.cpp" />
     <ClCompile Include="..\cpp\Or.cpp" />
     <ClCompile Include="..\cpp\Prod.cpp" />
     <ClCompile Include="..\cpp\RealPart.cpp" />
@@ -236,6 +239,7 @@
     <ClInclude Include="..\include\All.hpp" />
     <ClInclude Include="..\include\And.hpp" />
     <ClInclude Include="..\include\Any.hpp" />
+    <ClInclude Include="..\include\BinToNum.hpp" />
     <ClInclude Include="..\include\Cast.hpp" />
     <ClInclude Include="..\include\Colon.hpp" />
     <ClInclude Include="..\include\ComplexConjugate.hpp" />
@@ -268,6 +272,7 @@
     <ClInclude Include="..\include\Norm.hpp" />
     <ClInclude Include="..\include\Not.hpp" />
     <ClInclude Include="..\include\NotEquals.hpp" />
+    <ClInclude Include="..\include\NumToBin.hpp" />
     <ClInclude Include="..\include\Or.hpp" />
     <ClInclude Include="..\include\Prod.hpp" />
     <ClInclude Include="..\include\RealPart.hpp" />
@@ -278,6 +283,7 @@
     <ClInclude Include="..\include\StringArrayAddition.hpp" />
     <ClInclude Include="..\include\Subtraction.hpp" />
     <ClInclude Include="..\include\ElementWiseMultiplication.hpp" />
+    <ClInclude Include="..\include\SwapBytes.hpp" />
     <ClInclude Include="..\include\Transpose.hpp" />
     <ClInclude Include="..\include\TruncateFunctions.hpp" />
     <ClInclude Include="..\include\UnaryMinus.hpp" />

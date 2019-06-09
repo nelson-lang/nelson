@@ -37,7 +37,7 @@ uminusReal(const ArrayOf& A)
         = (T*)ArrayOf::allocateArrayOf(A.getDataClass(), nbElements, Nelson::stringVector(), false);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matRes(pRes, nbElements, 1);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matA((T*)A.getDataPointer(), nbElements, 1);
-    matRes = 0.0 - matA.array();
+    matRes = - matA.array();
     return ArrayOf(A.getDataClass(), A.getDimensions(), pRes);
 }
 //=============================================================================
@@ -52,7 +52,7 @@ uminusComplex(const ArrayOf& A)
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matRes(pResz, nbElements, 1);
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matA(Az, nbElements, 1);
-    matRes = 0.0 - matA.array();
+    matRes = - matA.array();
     return ArrayOf(A.getDataClass(), A.getDimensions(), pRes);
 }
 //=============================================================================
@@ -65,7 +65,7 @@ uminusInteger(const ArrayOf& A)
         = (T*)ArrayOf::allocateArrayOf(A.getDataClass(), nbElements, Nelson::stringVector(), false);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matRes(pRes, nbElements, 1);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matA((T*)A.getDataPointer(), nbElements, 1);
-    matRes = T(0) - matA.array();
+    matRes = - matA.array();
     return ArrayOf(A.getDataClass(), A.getDimensions(), pRes);
 }
 //=============================================================================
@@ -124,5 +124,6 @@ UnaryMinus(const ArrayOf& A, bool& needToOverload)
     }
     return res;
 }
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
