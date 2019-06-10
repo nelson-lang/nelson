@@ -59,10 +59,10 @@ AddModule(Evaluator* eval, const std::wstring& modulerootpath, const std::wstrin
                 }
             }
         } else {
-            Error(_W("startup.nls does not exist."));
+            Error(_W("startup.nls does not exist") + L" (" + moduleshortname + L").");
         }
     } else {
-        Error(_W("An existing module root path expected."));
+        Error(_W("An existing module root path expected") + L" (" + moduleshortname + L")");
     }
 }
 //=============================================================================

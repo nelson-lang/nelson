@@ -39,6 +39,10 @@ RemoveFile(const std::wstring& filename, std::wstring& message)
     if (IsFile(filename)) {
         try {
             boost::filesystem::path p = filename;
+            boost::filesystem::permissions(p,
+                boost::filesystem::add_perms | boost::filesystem::owner_write
+                    | boost::filesystem::group_write | boost::filesystem::others_write);
+
             boost::filesystem::remove(p);
             res = !IsFile(filename);
         } catch (const boost::filesystem::filesystem_error& e) {

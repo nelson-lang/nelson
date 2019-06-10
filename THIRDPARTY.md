@@ -128,6 +128,14 @@ A Massively Spiffy Yet Delicately Unobtrusive Compression Library
 
 > http://www.zlib.net/zlib_license.html
 
+- minizip2
+
+Fork of the popular zip manipulation library found in the zlib distribution.
+
+> https://github.com/nmoinvaz/minizip
+
+> https://github.com/nmoinvaz/minizip/blob/master/LICENSE
+
 - Hoedown
 
 Standards compliant, fast, secure markdown processing library in C

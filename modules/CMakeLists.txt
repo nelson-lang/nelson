@@ -83,6 +83,7 @@ json
 hdf5
 matio
 profiler
+file_archiver
 )
 LIST(APPEND moduleslist main)
 #==============================================================================

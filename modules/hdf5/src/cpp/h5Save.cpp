@@ -188,6 +188,10 @@ h5Save(Evaluator* eval, const std::wstring& filename, wstringVector names, bool 
             } else {
                 try {
                     boost::filesystem::path p = hdf5_filename;
+                    boost::filesystem::permissions(p,
+                        boost::filesystem::add_perms | boost::filesystem::owner_write
+                            | boost::filesystem::group_write | boost::filesystem::others_write);
+
                     boost::filesystem::remove(p);
                 } catch (const boost::filesystem::filesystem_error& e) {
                     Error(_W("Cannot replace file"));

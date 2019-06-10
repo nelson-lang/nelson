@@ -85,4 +85,5 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\; AfterInstall: A
 #include "hdf5/module.iss"
 #include "matio/module.iss"
 #include "profiler/module.iss"
+#include "file_archiver/module.iss"
 ;==============================================================================

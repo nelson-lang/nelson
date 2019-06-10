@@ -50,6 +50,7 @@ modules_list = [
 "os_functions";
 "json";
 "stream_manager";
+"file_archiver";
 "dynamic_link";
 "memory_manager";
 "console";
@@ -138,5 +139,6 @@ modules_help_list = [
 "mpi";
 "audio";
 "sio_client";
+"file_archiver"
 ];
 // ============================================================================

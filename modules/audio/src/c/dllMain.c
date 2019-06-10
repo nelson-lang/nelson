@@ -38,7 +38,7 @@
 #else
 #pragma comment(lib, "tag_release.lib")
 #endif
-#pragma comment(lib, "zlib1.lib")
+#pragma comment(lib, "zlib.lib")
 //=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)

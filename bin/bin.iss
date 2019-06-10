@@ -39,7 +39,7 @@ Source: {#RootPath}bin\{#BinPath}\boost_thread-{#BOOST_TARGET}.dll; DestDir: {ap
 Source: {#RootPath}bin\{#BinPath}\boost_random-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
 ; xml libraries
-Source: {#RootPath}bin\{#BinPath}\zlib1.dll; DestDir: {app}\bin\{#BinPath}\ 
+Source: {#RootPath}bin\{#BinPath}\zlib.dll; DestDir: {app}\bin\{#BinPath}\ 
 #ifdef NELSON_X64
 Source: {#RootPath}bin\{#BinPath}\libiconv-2.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\libxml2-2.dll; DestDir: {app}\bin\{#BinPath}\

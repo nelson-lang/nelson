@@ -9,6 +9,8 @@ Features:
 
   * swapbytes builtin: endian converter.
 
+  * zip/unzip builtin: Compress/Uncompress files natively into zip file (with Unicode support).
+
 
 # 0.3.5 (2019-05-26)
 

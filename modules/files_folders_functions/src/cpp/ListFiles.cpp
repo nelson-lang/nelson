@@ -49,15 +49,9 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
         }
         if (boost::filesystem::is_directory(branch)) {
             std::wstring _mask = path.leaf().wstring();
-            static const std::pair<boost::wregex, const wchar_t*> repl[] = {
-                std::pair<boost::wregex, const wchar_t*>(boost::wregex(L"\\."), L"\\\\."),
-                std::pair<boost::wregex, const wchar_t*>(boost::wregex(L"\\?"), L"."),
-                std::pair<boost::wregex, const wchar_t*>(boost::wregex(L"\\*"), L".*"),
-            };
-            for (const std::pair<boost::wregex, const wchar_t*>* r = repl;
-                 r < repl + sizeof(repl) / sizeof(*repl); ++r) {
-                _mask = boost::regex_replace(_mask, r->first, r->second);
-            }
+            _mask = boost::regex_replace(_mask, boost::wregex(L"\\."), L"\\\\.");
+            _mask = boost::regex_replace(_mask, boost::wregex(L"\\?"), L".");
+            _mask = boost::regex_replace(_mask, boost::wregex(L"\\*"), L".*");
             boost::wregex rmask(_mask, boost::wregex::icase);
             if (bSubdirectories) {
                 if (IsDirectory(branch.wstring())) {

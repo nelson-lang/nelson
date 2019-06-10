@@ -48,13 +48,13 @@ isValidLength(size_t len)
 }
 //=============================================================================
 static logical
-bin2logical(const std::string &s)
+bin2logical(const std::string& s)
 {
     unsigned long b;
     try {
         std::bitset<1> bits(s);
         b = bits.to_ulong();
-    } catch (std::exception &) {
+    } catch (std::exception&) {
         Error(_W("Binary character vector may consist only of characters 0 and 1."));
     }
     return *reinterpret_cast<logical*>(&b);
@@ -67,7 +67,7 @@ bin2single(const std::string& s)
     try {
         std::bitset<32> bits(s);
         b = bits.to_ulong();
-    } catch (std::exception &) {
+    } catch (std::exception&) {
         Error(_W("Binary character vector may consist only of characters 0 and 1."));
     }
     return *reinterpret_cast<single*>(&b);
@@ -103,7 +103,7 @@ BinToNum(ArrayOf A, bool& needToOverload)
             commonLength = s.size();
             if (!isValidLength(commonLength)) {
                 Error(_W("Invalid string length: 1, 32, 64 expected."));
-            } 
+            }
             strs.push_back(s);
         } else {
             if (A.isNdArrayCharacterType()) {

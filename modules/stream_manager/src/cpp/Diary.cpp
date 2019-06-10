@@ -67,6 +67,10 @@ Diary::SetFilename(const std::wstring& wFilename)
         // or if diary did not exist before
         boost::filesystem::path p = wFilename;
         try {
+            boost::filesystem::permissions(p,
+                boost::filesystem::add_perms | boost::filesystem::owner_write
+                    | boost::filesystem::group_write | boost::filesystem::others_write);
+
             boost::filesystem::remove(p);
         } catch (const boost::filesystem::filesystem_error& e) {
             if (e.code() == boost::system::errc::permission_denied) {
