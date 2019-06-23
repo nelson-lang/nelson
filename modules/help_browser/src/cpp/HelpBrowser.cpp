@@ -30,6 +30,7 @@
 #include "IsFile.hpp"
 #include "QStringConverter.hpp"
 #include "RemoveDirectory.hpp"
+#include <QtCore/QtGlobal>
 #include <QtCore/QByteArray>
 #include <QtCore/QProcess>
 #include <QtCore/QString>
@@ -110,6 +111,7 @@ wstringVector
 HelpBrowser::getAttributes()
 {
     wstringVector attributes;
+#if QT_VERSION > QT_VERSION_CHECK(5, 5, 0)
     std::wstring database_path = getCacheFile();
     if (!database_path.empty()) {
         QSqlDatabase m_db;
@@ -128,6 +130,7 @@ HelpBrowser::getAttributes()
             m_db.close();
         }
     }
+#endif
     return attributes;
 }
 //=============================================================================

@@ -11,6 +11,11 @@ Features:
 
   * zip/unzip builtin: Compress/Uncompress files natively into zip file (with Unicode support).
 
+Compilation:
+------------
+
+  * update travis-CI script to support Ubuntu 16.04.
+
 
 # 0.3.5 (2019-05-26)
 

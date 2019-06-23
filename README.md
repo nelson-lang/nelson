@@ -124,11 +124,11 @@ The systems listed here without CI or binaries are known to build and operate, b
 
 | Operating System | Architecture     | CI | Binaries |
 |:----------------:|:----------------:|:--:|:--------:|
-| Windows 7+       | x86-64 (64-bit)  | ✓  | ✓        |
+| Windows 7+       | x86-64 (64-bit)  | ✓  | ✓       |
 |                  | i686 (32-bit)    | ✓  | ✓        |
 | MacOS 10.10+     | x86-64 (64-bit)  | ✓  |          |
-| Ubuntu 12.04     | x86-64 (64-bit)  | ✓  |          |
-| Debian           | x86-64 (64-bit)  | ✓  |          |
+| Ubuntu 16.04     | x86-64 (64-bit)  | ✓  |          |
+| Debian 10        | x86-64 (64-bit)  | ✓  |          |
 | Fedora 30        | x86-64 (64-bit)  | ✓  |          |
 | ArchLinux        | x86-64 (64-bit)  | ✓  |          |
 |                  | ARM v7 (32-bit)  |    |          |

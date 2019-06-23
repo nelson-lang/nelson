@@ -85,21 +85,14 @@ before_install:
       sudo apt -y install libtag1-dev;
       sudo apt -y install alsa-utils;
       sudo apt -y install libslicot-dev;
+      sudo apt -y install libsqlite3-dev;
+      sudo apt -y install libgl-dev;
+      sudo apt -y install hdf5-tools;
       fi
     - if [ `uname` = "Linux" ];
-      then sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa;
+      then sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.3-xenial;
       sudo apt update;
-      sudo apt -y install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev;
-      sudo apt -y install qt5-default qttools5-dev-tools;
-      sudo apt -y install libqt5qml-graphicaleffects;
-      sudo apt -y install libqt5opengl5-dev;
-      sudo apt -y install qtbase5-private-dev;
-      sudo apt -y install qtdeclarative5-dev;
-      sudo apt -y install qtdeclarative5-controls-plugin;
-      sudo apt -y install qtdeclarative5-quicklayouts-plugin;
-      sudo apt -y install qtdeclarative5-qtquick2-plugin;
-      sudo apt -y install qtdeclarative5-dialogs-plugin;
-      sudo apt -y install qtdeclarative5-window-plugin;
+      sudo apt -y install qt512-meta-full;
       fi
     - if [ `uname` = "Linux" ];
       then sudo add-apt-repository --yes ppa:mhier/libboost-latest;
@@ -170,7 +163,7 @@ script:
   - cd ${TRAVIS_BUILD_DIR} 
   - python3 ./tools/update_version/update_version.py
   - if [ $TRAVIS_OS_NAME == linux ];
-    then cmake -G "Unix Makefiles" . ;
+    then source /opt/qt512/bin/qt512-env.sh && cmake -G "Unix Makefiles" . ;
     fi
   - if [ $TRAVIS_OS_NAME == osx ];
     then export PATH=/usr/local/opt/qt5/bin:$PATH;
