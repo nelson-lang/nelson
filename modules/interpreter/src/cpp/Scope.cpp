@@ -55,18 +55,24 @@ namespace Nelson {
 //=============================================================================
 static boost::unordered_map<std::string, FuncPtr> cachedFunc;
 //=============================================================================
+void
+Scope::clearCache()
+{
+    cachedFunc.clear();
+}
+//=============================================================================
 Scope::Scope(const std::string& scopeName)
 {
     name = std::move(scopeName);
     loopLevel = 0;
-    cachedFunc.clear();
+    clearCache();
 }
 //=============================================================================
 Scope::~Scope()
 {
     name.clear();
     loopLevel = 0;
-    cachedFunc.clear();
+    clearCache();
 }
 //=============================================================================
 void
@@ -78,14 +84,14 @@ Scope::insertMacroFunctionLocally(FuncPtr a)
 bool
 Scope::deleteBuiltin(void* fptr)
 {
-    cachedFunc.clear();
+    clearCache();
     return BuiltInFunctionDefManager::getInstance()->remove((BuiltInFuncPtr)(fptr));
 }
 //=============================================================================
 void
 Scope::deleteFunction(const std::string& funcName)
 {
-    cachedFunc.clear();
+    clearCache();
     BuiltInFunctionDefManager::getInstance()->remove(funcName);
 }
 //=============================================================================

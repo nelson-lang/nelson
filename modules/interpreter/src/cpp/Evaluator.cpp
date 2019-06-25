@@ -4136,6 +4136,7 @@ Evaluator::evalCLI()
             // clear macros cache at the prompt
             stringVector exceptedFunctionsName = this->getCallers(true);
             PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
+            getContext()->getCurrentScope()->clearCache();
             FileWatcherManager::getInstance()->update();
             clearStacks();
         }

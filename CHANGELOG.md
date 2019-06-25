@@ -11,6 +11,9 @@ Features:
 
   * zip/unzip builtin: Compress/Uncompress files natively into zip file (with Unicode support).
 
+  * license function: Gget license information for Nelson.
+
+
 Compilation:
 ------------
 

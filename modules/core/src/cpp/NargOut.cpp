@@ -33,19 +33,20 @@ namespace Nelson {
 int
 NargOut(Evaluator* eval, const std::wstring& functionName)
 {
-    int nargout = 0;
     FuncPtr fptr = nullptr;
-    bool bIsFun = eval->lookupFunction(wstring_to_utf8(functionName), fptr);
-    if (bIsFun) {
-        if (fptr->type() == NLS_MACRO_FUNCTION) {
-            nargout = ((MacroFunctionDef*)(fptr))->nargout();
-        } else {
-            nargout = fptr->outputArgCount();
+    std::string utfName = wstring_to_utf8(functionName);
+    bool bIsFun = eval->lookupFunction(utfName, fptr);
+    if (bIsFun && (fptr != nullptr)) {
+        if (fptr->name == utfName) {
+            if (fptr->type() == NLS_MACRO_FUNCTION) {
+                return ((MacroFunctionDef*)(fptr))->nargout();
+            } else {
+                return fptr->outputArgCount();
+            }
         }
-    } else {
-        Error(_W("function not found."));
     }
-    return nargout;
+    Error(_W("function not found."));
+    return -1;
 }
 //=============================================================================
 } // namespace Nelson
