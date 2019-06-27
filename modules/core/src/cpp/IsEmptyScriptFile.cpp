@@ -38,7 +38,7 @@ IsEmptyScriptFile(const std::wstring& filename)
 #else
     fr = fopen(wstring_to_utf8(filename).c_str(), "rt");
 #endif
-    if (fr) {
+    if (fr != nullptr) {
         int ch;
         while (EOF != (ch = getc(fr))) {
             bool isCharManaged = (ch == ' ') || (ch == '\r') || (ch == '\n');

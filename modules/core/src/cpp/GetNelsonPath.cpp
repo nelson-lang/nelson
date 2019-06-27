@@ -115,7 +115,7 @@ GetRootPath()
         std::wstring p;
 #define NELSON_ROOT_PATH_ENV L"NELSON_ROOT_PATH"
         std::wstring penv = GetVariableEnvironment(NELSON_ROOT_PATH_ENV, L"");
-        if (penv.compare(L"") != 0) {
+        if (penv != L"") {
             boost::filesystem::path path(penv);
             if (boost::filesystem::is_directory(path)) {
                 NelSonPath = path.generic_wstring();

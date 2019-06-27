@@ -40,6 +40,7 @@ jobs:
       - run: apt-get install -y qtbase5-private-dev;
       - run: apt-get install -y qtdeclarative5-dev;
       - run: apt-get install -y libslicot0;
+      - run: apt-get install -y zlib1g-dev;
       - run: git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen
       - run: mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.7 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && make install;
       - run: git clone https://github.com/live-clones/hdf5.git /tmp/hdf5_1_10_5

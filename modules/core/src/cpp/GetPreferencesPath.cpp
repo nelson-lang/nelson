@@ -52,7 +52,7 @@ buildPreferencesPath()
 #define NELSON_PREFERENCES_PATH_ENV L"NELSON_PREFERENCES_PATH"
     std::wstring penv = GetVariableEnvironment(NELSON_PREFERENCES_PATH_ENV, L"");
     bool bSet = false;
-    if (penv.compare(L"") != 0) {
+    if (penv != L"") {
         boost::filesystem::path path(penv);
         try {
             if (boost::filesystem::is_directory(path)) {

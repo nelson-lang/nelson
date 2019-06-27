@@ -82,7 +82,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
 #else
     fr = fopen(absolutePath.generic_string().c_str(), "rt");
 #endif
-    if (!fr) {
+    if (fr == nullptr) {
         if (bNeedToRestoreDirectory) {
             changeDir(initialDir.generic_wstring().c_str(), false);
         }
@@ -192,7 +192,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         fsetpos(fr, &pos);
     }
     indexType n = 0;
-    if (buffer) {
+    if (buffer != nullptr) {
         n = fread(buffer, sizeof(char), size_t(cpos), fr);
         buffer[n] = '\n';
         buffer[n + 1] = 0;
@@ -207,7 +207,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
             deleteAstVector(pt);
             resetAstBackupPosition();
             eval->popEvaluateFilenameList();
-            if (buffer) {
+            if (buffer != nullptr) {
                 delete[] buffer;
                 buffer = nullptr;
             }
@@ -225,7 +225,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
             tree = nullptr;
             eval->popDebug();
             eval->popEvaluateFilenameList();
-            if (buffer) {
+            if (buffer != nullptr) {
                 delete[] buffer;
                 buffer = nullptr;
             }
@@ -241,7 +241,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
                 eval->popDebug();
                 eval->increaseDebugDepth();
                 eval->popEvaluateFilenameList();
-                if (buffer) {
+                if (buffer != nullptr) {
                     delete[] buffer;
                     buffer = nullptr;
                 }
@@ -254,7 +254,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
         if (eval->getState() == NLS_STATE_QUIT || eval->getState() == NLS_STATE_ABORT) {
             eval->popDebug();
             eval->popEvaluateFilenameList();
-            if (buffer) {
+            if (buffer != nullptr) {
                 delete[] buffer;
                 buffer = nullptr;
             }
@@ -264,7 +264,7 @@ EvaluateScriptFile(Evaluator* eval, const wchar_t* filename, bool bChangeDirecto
             return true;
         }
         eval->popDebug();
-        if (buffer) {
+        if (buffer != nullptr) {
             delete[] buffer;
             buffer = nullptr;
         }

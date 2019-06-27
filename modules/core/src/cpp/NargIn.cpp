@@ -34,16 +34,13 @@ int
 NargIn(Evaluator* eval, const std::wstring& functionName)
 {
     FuncPtr fptr = nullptr;
-    std::string utfName = wstring_to_utf8(functionName);
-    bool bIsFun = eval->lookupFunction(utfName, fptr);
-    if (bIsFun && (fptr != nullptr)) {
-        if (fptr->name == utfName) {
-            if (fptr->type() == NLS_MACRO_FUNCTION) {
-                return ((MacroFunctionDef*)(fptr))->nargin();
-            } else {
-                return fptr->inputArgCount();
-            }
-        }
+    bool bIsFun = eval->lookupFunction(wstring_to_utf8(functionName), fptr);
+    if (bIsFun) {
+        if (fptr->type() == NLS_MACRO_FUNCTION) {
+            return ((MacroFunctionDef*)(fptr))->nargin();
+        } 
+            return fptr->inputArgCount();
+        
     }
     Error(_W("function not found."));
     return -1;

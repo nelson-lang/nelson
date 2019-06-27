@@ -1,3 +1,14 @@
+# 0.3.X (2019-07-XX)
+
+Bug Fixes:
+---------
+
+  * [#214](http://github.com/Nelson-numerical-software/nelson/issues/214): nargin, nargin were slower than 0.3.5.
+
+  * [#213](http://github.com/Nelson-numerical-software/nelson/issues/213): fix typo in banner help.
+
+
+
 # 0.3.6 (2019-06-26)
 
 Features:

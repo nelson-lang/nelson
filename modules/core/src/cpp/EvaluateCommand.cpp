@@ -117,7 +117,7 @@ EvaluateCommand(Evaluator* eval, int nLhs, const std::wstring& command,
             eval->evaluateString(preparedCommand);
             retval = retrieveVariablesReturned(eval, nLhs);
             eval->getContext()->restoreBypassedScopes();
-            if (retval.size() != (size_t)nLhs) {
+            if (retval.size() != static_cast<size_t>(nLhs)) {
                 Error(_W("Invalid use of statement list."));
             }
         }
@@ -152,7 +152,7 @@ EvaluateCommand(Evaluator* eval, int nLhs, const std::wstring& command,
                 retval = retrieveVariablesReturned(eval, nLhs);
             }
             eval->AutoStop(true);
-            if (retval.size() != (size_t)nLhs) {
+            if (retval.size() != static_cast<size_t>(nLhs)) {
                 Error(_W("Invalid use of statement list."));
             }
         }

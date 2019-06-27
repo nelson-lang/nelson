@@ -43,7 +43,7 @@ GetNelsonBinariesPath()
 {
 #define NELSON_BINARIES_PATH_ENV L"NELSON_BINARIES_PATH"
     std::wstring penv = GetVariableEnvironment(NELSON_BINARIES_PATH_ENV, L"");
-    if (penv.compare(L"") != 0) {
+    if (penv != L"") {
         boost::filesystem::path path(penv);
         if (boost::filesystem::is_directory(path)) {
             return path.generic_wstring();
