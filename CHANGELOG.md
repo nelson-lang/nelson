@@ -10,7 +10,9 @@ Bug Fixes:
 Compilation:
 ------------
 
-  * MATIO 1.5.16 used all platforms.
+  * [#212](http://github.com/Nelson-numerical-software/nelson/issues/212): MATIO 1.5.16 used all platforms.
+
+  * [#211](http://github.com/Nelson-numerical-software/nelson/issues/211): BOOST 1.70 on Windows platforms.
 
 
 # 0.3.6 (2019-06-26)
