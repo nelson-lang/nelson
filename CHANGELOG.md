@@ -7,6 +7,10 @@ Bug Fixes:
 
   * [#213](http://github.com/Nelson-numerical-software/nelson/issues/213): fix typo in banner help.
 
+Compilation:
+------------
+
+  * MATIO 1.5.16 used all platforms.
 
 
 # 0.3.6 (2019-06-26)

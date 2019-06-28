@@ -35,6 +35,7 @@
     sudo apt-get install alsa-utils;
     sudo apt-get install libhdf5-dev;
     sudo apt-get install hdf5-tools;
+    sudo apt-get install zlib1g-dev;
     sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa;
     sudo apt-get update;
     sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev;
@@ -60,7 +61,7 @@
     - Get and install matio library (minimal 1.5.15)
     
     ```bash        
-    git clone https://github.com/tbeu/matio /tmp/matio && cd /tmp/matio && git checkout v1.5.15 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic && make && make install
+    git clone https://github.com/tbeu/matio /tmp/matio && cd /tmp/matio && git checkout v1.5.16 && cd /tmp/matio && ./autogen.sh && ./configure --enable-shared --enable-mat73=yes --enable-extended-sparse=no --with-pic && make && make install
     ```
 
     - Get and install Boost library (minimal 1.64)
