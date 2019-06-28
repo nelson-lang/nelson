@@ -38,9 +38,8 @@ NargIn(Evaluator* eval, const std::wstring& functionName)
     if (bIsFun) {
         if (fptr->type() == NLS_MACRO_FUNCTION) {
             return ((MacroFunctionDef*)(fptr))->nargin();
-        } 
-            return fptr->inputArgCount();
-        
+        }
+        return fptr->inputArgCount();
     }
     Error(_W("function not found."));
     return -1;

@@ -38,9 +38,8 @@ NargOut(Evaluator* eval, const std::wstring& functionName)
     if (bIsFun) {
         if (fptr->type() == NLS_MACRO_FUNCTION) {
             return ((MacroFunctionDef*)(fptr))->nargout();
-        } 
-            return fptr->outputArgCount();
-        
+        }
+        return fptr->outputArgCount();
     }
     Error(_W("function not found."));
     return -1;

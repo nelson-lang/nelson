@@ -96,6 +96,7 @@ public:
     // to call private/protected utility methods that we don't want to expose
     // to the public api.
     friend class endpoint<config>;
+    template<typename T> friend class local_endpoint;
 
     // generate and manage our own io_service
     explicit connection(bool is_server, const lib::shared_ptr<alog_type> & alog, const lib::shared_ptr<elog_type> & elog)
@@ -311,10 +312,10 @@ public:
      * needed.
      */
     timer_ptr set_timer(long duration, timer_handler callback) {
-        timer_ptr new_timer = lib::make_shared<lib::asio::steady_timer>(
-            lib::ref(*m_io_service),
-            lib::asio::milliseconds(duration)
-        );
+        timer_ptr new_timer(
+            new lib::asio::steady_timer(
+                *m_io_service,
+                lib::asio::milliseconds(duration)));
 
         if (config::enable_multithreading) {
             new_timer->async_wait(m_strand->wrap(lib::bind(
@@ -461,8 +462,7 @@ protected:
         m_io_service = io_service;
 
         if (config::enable_multithreading) {
-            m_strand = lib::make_shared<lib::asio::io_service::strand>(
-                lib::ref(*io_service));
+            m_strand.reset(new lib::asio::io_service::strand(*io_service));
         }
 
         lib::error_code ec = socket_con_type::init_asio(io_service, m_strand,
