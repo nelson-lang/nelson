@@ -150,7 +150,8 @@ ArrayOf
 Modulo(ArrayOf A, ArrayOf B)
 {
     ArrayOf M;
-    int Astride = 0, Bstride = 0;
+    int Astride = 0;
+    int Bstride = 0;
     indexType Clen = 0;
     Dimensions Cdim;
     if (!A.isNumeric() || !B.isNumeric()) {

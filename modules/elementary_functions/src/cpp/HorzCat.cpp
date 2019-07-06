@@ -94,9 +94,9 @@ HorzCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
             if (B.isCell()) {
                 ArrayOf C(B);
                 return C;
-            } else {
-                return ArrayOf::toCell(B);
             }
+            return ArrayOf::toCell(B);
+
         } else {
             ArrayOf C(B);
             return C;
@@ -108,9 +108,9 @@ HorzCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
             if (A.isCell()) {
                 ArrayOf C(A);
                 return C;
-            } else {
-                return ArrayOf::toCell(A);
             }
+            return ArrayOf::toCell(A);
+
         } else {
             ArrayOf C(A);
             return C;

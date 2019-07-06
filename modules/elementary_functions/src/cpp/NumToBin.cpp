@@ -58,17 +58,15 @@ NumToBin(ArrayOf A, bool& needToOverload)
         res = ArrayOf::characterArrayConstructor("");
     } else {
         Dimensions dims = A.getDimensions();
-        std::string result;
+        stringVector vs;
+        vs.reserve(dims.getElementCount());
         size_t len = 0;
         switch (A.getDataClass()) {
         case NLS_LOGICAL: {
             auto* values = (logical*)A.getDataPointer();
             for (size_t k = 0; k < dims.getElementCount(); ++k) {
                 std::string cstr = std::bitset<1>(values[k]).to_string();
-                if (k == 0) {
-                    len = cstr.size();
-                }
-                result = result + cstr;
+                vs.push_back(cstr);
             }
         } break;
         case NLS_DOUBLE: {
@@ -76,10 +74,7 @@ NumToBin(ArrayOf A, bool& needToOverload)
             for (size_t k = 0; k < dims.getElementCount(); ++k) {
                 unsigned long long bits = *reinterpret_cast<unsigned long long*>(&values[k]);
                 std::string cstr = std::bitset<64>(bits).to_string();
-                if (k == 0) {
-                    len = cstr.size();
-                }
-                result = result + cstr;
+                vs.push_back(cstr);
             }
         } break;
         case NLS_SINGLE: {
@@ -87,10 +82,7 @@ NumToBin(ArrayOf A, bool& needToOverload)
             for (size_t k = 0; k < dims.getElementCount(); ++k) {
                 unsigned long bits = *reinterpret_cast<unsigned long*>(&values[k]);
                 std::string cstr = std::bitset<32>(bits).to_string();
-                if (k == 0) {
-                    len = cstr.size();
-                }
-                result = result + cstr;
+                vs.push_back(cstr);
             }
         } break;
         default: {
@@ -98,18 +90,7 @@ NumToBin(ArrayOf A, bool& needToOverload)
             return res;
         } break;
         }
-        res = ArrayOf::characterArrayConstructor(result);
-        if (!dims.isScalar()) {
-            Dimensions dimsReshape(len, dims.getElementCount());
-            res.reshape(dimsReshape);
-            Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-                (charType*)res.getDataPointer(), dimsReshape.getRows(), dimsReshape.getColumns());
-            Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
-                (charType*)res.getDataPointer(), dimsReshape.getColumns(), dimsReshape.getRows());
-            matTransposed = matOrigin.transpose().eval();
-            Dimensions dimsOutput(dims.getElementCount(), len);
-            res.reshape(dimsOutput);
-        }
+        res = ArrayOf::characterVectorToCharacterArray(vs);
     }
     return res;
 }

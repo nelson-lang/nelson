@@ -172,6 +172,7 @@
     <ClCompile Include="..\cpp\allBuiltin.cpp" />
     <ClCompile Include="..\cpp\andBuiltin.cpp" />
     <ClCompile Include="..\cpp\anyBuiltin.cpp" />
+    <ClCompile Include="..\cpp\base2decBuiltin.cpp" />
     <ClCompile Include="..\cpp\bin2numBuiltin.cpp" />
     <ClCompile Include="..\cpp\castBuiltin.cpp" />
     <ClCompile Include="..\cpp\ceilBuiltin.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="..\cpp\complexBuiltin.cpp" />
     <ClCompile Include="..\cpp\conjBuiltin.cpp" />
     <ClCompile Include="..\cpp\ctransposeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dec2baseBuiltin.cpp" />
     <ClCompile Include="..\cpp\dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\eqBuiltin.cpp" />
     <ClCompile Include="..\cpp\expBuiltin.cpp" />
@@ -268,6 +270,7 @@
     <ClInclude Include="..\include\allBuiltin.hpp" />
     <ClInclude Include="..\include\andBuiltin.hpp" />
     <ClInclude Include="..\include\anyBuiltin.hpp" />
+    <ClInclude Include="..\include\base2decBuiltin.hpp" />
     <ClInclude Include="..\include\bin2numBuiltin.hpp" />
     <ClInclude Include="..\include\castBuiltin.hpp" />
     <ClInclude Include="..\include\ceilBuiltin.hpp" />
@@ -275,6 +278,7 @@
     <ClInclude Include="..\include\complexBuiltin.hpp" />
     <ClInclude Include="..\include\conjBuiltin.hpp" />
     <ClInclude Include="..\include\ctransposeBuiltin.hpp" />
+    <ClInclude Include="..\include\dec2baseBuiltin.hpp" />
     <ClInclude Include="..\include\dispBuiltin.hpp" />
     <ClInclude Include="..\include\eqBuiltin.hpp" />
     <ClInclude Include="..\include\expBuiltin.hpp" />

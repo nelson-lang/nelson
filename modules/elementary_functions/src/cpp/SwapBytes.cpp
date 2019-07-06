@@ -39,7 +39,7 @@ namespace Nelson {
 static double
 swapDouble(double a)
 {
-    uint8* raw = (uint8*)&a;
+    auto* raw = reinterpret_cast<uint8*>(&a);
     num_swap(raw[0], raw[7]);
     num_swap(raw[1], raw[6]);
     num_swap(raw[2], raw[5]);
@@ -50,7 +50,7 @@ swapDouble(double a)
 static single
 swapSingle(single a)
 {
-    uint8* raw = (uint8*)&a;
+    auto* raw = reinterpret_cast<uint8*>(&a);
     num_swap(raw[0], raw[3]);
     num_swap(raw[1], raw[2]);
     return a;
@@ -66,7 +66,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
     case NLS_UINT8: {
         res = A;
         res.ensureSingleOwner();
-        uint8* ptr = (uint8*)res.getDataPointer();
+        auto* ptr = (uint8*)res.getDataPointer();
         for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
@@ -82,7 +82,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
     case NLS_UINT16: {
         res = A;
         res.ensureSingleOwner();
-        uint16* ptr = (uint16*)res.getDataPointer();
+        auto* ptr = (uint16*)res.getDataPointer();
         for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
@@ -90,7 +90,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
     case NLS_INT16: {
         res = A;
         res.ensureSingleOwner();
-        int16* ptr = (int16*)res.getDataPointer();
+        auto* ptr = (int16*)res.getDataPointer();
         for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
@@ -98,7 +98,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
     case NLS_UINT32: {
         res = A;
         res.ensureSingleOwner();
-        uint32* ptr = (uint32*)res.getDataPointer();
+        auto* ptr = (uint32*)res.getDataPointer();
         for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
@@ -106,7 +106,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
     case NLS_INT32: {
         res = A;
         res.ensureSingleOwner();
-        int32* ptr = (int32*)res.getDataPointer();
+        auto* ptr = (int32*)res.getDataPointer();
         for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
@@ -114,7 +114,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
     case NLS_UINT64: {
         res = A;
         res.ensureSingleOwner();
-        uint64* ptr = (uint64*)res.getDataPointer();
+        auto* ptr = (uint64*)res.getDataPointer();
         for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
@@ -122,7 +122,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
     case NLS_INT64: {
         res = A;
         res.ensureSingleOwner();
-        int64* ptr = (int64*)res.getDataPointer();
+        auto* ptr = (int64*)res.getDataPointer();
         for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
             boost::endian::endian_reverse_inplace(ptr[k]);
         }
@@ -130,7 +130,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
     case NLS_SINGLE: {
         res = A;
         res.ensureSingleOwner();
-        single* ptr = (single*)res.getDataPointer();
+        auto* ptr = (single*)res.getDataPointer();
         for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
             ptr[k] = swapSingle(ptr[k]);
         }
@@ -141,7 +141,7 @@ SwapBytes(ArrayOf A, bool& needToOverload)
         } else {
             res = A;
             res.ensureSingleOwner();
-            double* ptr = (double*)res.getDataPointer();
+            auto* ptr = (double*)res.getDataPointer();
             for (size_t k = 0; k < dimsA.getElementCount(); ++k) {
                 ptr[k] = swapDouble(ptr[k]);
             }

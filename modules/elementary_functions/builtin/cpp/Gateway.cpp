@@ -90,6 +90,8 @@
 #include "num2binBuiltin.hpp"
 #include "bin2numBuiltin.hpp"
 #include "swapbytesBuiltin.hpp"
+#include "base2decBuiltin.hpp"
+#include "dec2baseBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -164,7 +166,12 @@ static const nlsGateway gateway[] = {
     { "num2bin", Nelson::ElementaryFunctionsGateway::num2binBuiltin, 1, 1 },
     { "bin2num", Nelson::ElementaryFunctionsGateway::bin2numBuiltin, 1, 1 },
     { "swapbytes", Nelson::ElementaryFunctionsGateway::swapbytesBuiltin, 1, 1 },
-
+    { "base2dec", Nelson::ElementaryFunctionsGateway::base2decBuiltin, 1, 2 },
+    { "bin2dec", Nelson::ElementaryFunctionsGateway::bin2decBuiltin, 1, 1 },
+    { "hex2dec", Nelson::ElementaryFunctionsGateway::hex2decBuiltin, 1, 1 },
+    { "dec2base", Nelson::ElementaryFunctionsGateway::dec2baseBuiltin, 1, 3 },
+    { "dec2bin", Nelson::ElementaryFunctionsGateway::dec2binBuiltin, 1, 2 },
+    { "dec2hex", Nelson::ElementaryFunctionsGateway::dec2hexBuiltin, 1, 2 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

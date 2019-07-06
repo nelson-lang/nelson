@@ -109,7 +109,7 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
             }
         }
     } else if (A.isVector()) {
-        logical* pLogical = (logical*)A.getDataPointer();
+        auto* pLogical = (logical*)A.getDataPointer();
         bool bRes = false;
         for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
             if (pLogical[k] != 0) {
@@ -117,7 +117,7 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
                 break;
             }
         }
-        res = ArrayOf::logicalConstructor((bool)bRes);
+        res = ArrayOf::logicalConstructor(bRes);
     } else if (!A.isEmpty() && !A.isVector()) {
         Dimensions dims = A.getDimensions();
         indexType mA = dims.getRows();

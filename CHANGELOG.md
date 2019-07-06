@@ -1,5 +1,25 @@
 # 0.3.X (2019-07-XX)
 
+Features:
+---------
+
+  * dec2base builtin: Convert decimal number to another base.
+
+  * dec2bin builtin: Convert decimal number to base 2.
+
+  * dec2hex builtin: Convert decimal number to base 16.
+
+  * base2dec builtin: Convert number in a base to decimal.
+
+  * bin2dec builtin: Convert number in base 2 to decimal.
+
+  * hex2dec builtin: Convert number in base 16 to decimal.
+
+  * flintmax builtin: Largest consecutive integer in floating-point format.
+
+  * realmax builtin: Largest positive floating-point number.
+
+
 Bug Fixes:
 ---------
 
@@ -28,7 +48,7 @@ Features:
 
   * zip/unzip builtin: Compress/Uncompress files natively into zip file (with Unicode support).
 
-  * license function: Gget license information for Nelson.
+  * license function: Get license information for Nelson.
 
 
 Compilation:

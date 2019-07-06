@@ -130,8 +130,8 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
         matTransposed = matOrigin.conjugate().transpose().eval();
     } break;
     case NLS_SCOMPLEX: {
-        singlecomplex* matCplxA = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        singlecomplex* matCplxRes = reinterpret_cast<singlecomplex*>((single*)Res.getDataPointer());
+        auto* matCplxA = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+        auto* matCplxRes = reinterpret_cast<singlecomplex*>((single*)Res.getDataPointer());
         Eigen::Map<Eigen::Matrix<singlecomplex, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
             matCplxA, dimsA.getRows(), dimsA.getColumns());
         Eigen::Map<Eigen::Matrix<singlecomplex, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
@@ -139,8 +139,8 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
         matTransposed = matOrigin.conjugate().transpose().eval();
     } break;
     case NLS_DCOMPLEX: {
-        doublecomplex* matCplxA = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-        doublecomplex* matCplxRes = reinterpret_cast<doublecomplex*>((double*)Res.getDataPointer());
+        auto* matCplxA = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+        auto* matCplxRes = reinterpret_cast<doublecomplex*>((double*)Res.getDataPointer());
         Eigen::Map<Eigen::Matrix<doublecomplex, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
             matCplxA, dimsA.getRows(), dimsA.getColumns());
         Eigen::Map<Eigen::Matrix<doublecomplex, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
@@ -164,11 +164,12 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
         ArrayOf res(A);
         void* dstPtr = res.getReadWriteDataPointer();
         int ptr = 0;
-        for (indexType i = 0; i < rowCount; i++)
+        for (indexType i = 0; i < rowCount; i++) {
             for (indexType j = 0; j < colCount; j++) {
                 res.copyElements(i + j * rowCount, dstPtr, ptr, 1);
                 ptr++;
             }
+        }
         res.reshape(dimsRes);
         return res;
     } break;

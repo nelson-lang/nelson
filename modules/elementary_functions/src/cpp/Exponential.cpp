@@ -60,7 +60,7 @@ Exponential(ArrayOf A, bool& needToOverload)
             if (classA == NLS_DOUBLE) {
                 double* ptrOut = (double*)ArrayOf::allocateArrayOf(
                     NLS_DOUBLE, dimsA.getElementCount(), stringVector(), false);
-                double* ptrIn = (double*)A.getDataPointer();
+                auto* ptrIn = (double*)A.getDataPointer();
                 Eigen::Map<Eigen::ArrayXd> matOut(ptrOut, dimsA.getElementCount());
                 Eigen::Map<Eigen::ArrayXd> matIn(ptrIn, dimsA.getElementCount());
                 matOut = matIn.unaryExpr(std::ref(ExponentialRealScalar<double>));
@@ -69,9 +69,8 @@ Exponential(ArrayOf A, bool& needToOverload)
                 double* ptrOut = (double*)ArrayOf::allocateArrayOf(
                     NLS_DCOMPLEX, dimsA.getElementCount(), stringVector(), false);
                 auto* Cz = reinterpret_cast<std::complex<double>*>(ptrOut);
-                double* ptrIn = (double*)A.getDataPointer();
-                std::complex<double>* Az
-                    = reinterpret_cast<std::complex<double>*>((double*)A.getDataPointer());
+                auto* ptrIn = (double*)A.getDataPointer();
+                auto* Az = reinterpret_cast<std::complex<double>*>((double*)A.getDataPointer());
                 Eigen::Map<Eigen::ArrayXcd> matOut(Cz, 1, dimsA.getElementCount());
                 Eigen::Map<Eigen::ArrayXcd> matIn(Az, 1, dimsA.getElementCount());
                 for (indexType k = 0; k < dimsA.getElementCount(); k++) {
@@ -88,7 +87,7 @@ Exponential(ArrayOf A, bool& needToOverload)
             if (classA == NLS_SINGLE) {
                 single* ptrOut = (single*)ArrayOf::allocateArrayOf(
                     NLS_SINGLE, dimsA.getElementCount(), stringVector(), false);
-                single* ptrIn = (single*)A.getDataPointer();
+                auto* ptrIn = (single*)A.getDataPointer();
                 Eigen::Map<Eigen::ArrayXf> matOut(ptrOut, dimsA.getElementCount());
                 Eigen::Map<Eigen::ArrayXf> matIn(ptrIn, dimsA.getElementCount());
                 matOut = matIn.unaryExpr(std::ref(ExponentialRealScalar<single>));
@@ -96,10 +95,9 @@ Exponential(ArrayOf A, bool& needToOverload)
             } else {
                 single* ptrOut = (single*)ArrayOf::allocateArrayOf(
                     NLS_SCOMPLEX, dimsA.getElementCount(), stringVector(), false);
-                std::complex<single>* Cz = reinterpret_cast<std::complex<single>*>((single*)ptrOut);
-                single* ptrIn = (single*)A.getDataPointer();
-                std::complex<single>* Az
-                    = reinterpret_cast<std::complex<single>*>((single*)A.getDataPointer());
+                auto* Cz = reinterpret_cast<std::complex<single>*>(ptrOut);
+                auto* ptrIn = (single*)A.getDataPointer();
+                auto* Az = reinterpret_cast<std::complex<single>*>((single*)A.getDataPointer());
                 Eigen::Map<Eigen::ArrayXcf> matOut(Cz, 1, dimsA.getElementCount());
                 Eigen::Map<Eigen::ArrayXcf> matIn(Az, 1, dimsA.getElementCount());
                 for (indexType k = 0; k < dimsA.getElementCount(); k++) {

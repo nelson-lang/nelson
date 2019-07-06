@@ -91,8 +91,8 @@ char_colon(charType low, charType high, charType step)
         res.promoteType(NLS_CHAR);
         return res;
     }
-    double dn = (double)((((high - low) / step) + 1));
-    indexType n = (indexType)std::trunc(dn);
+    auto dn = static_cast<double>((((high - low) / step) + 1));
+    auto n = static_cast<indexType>(std::trunc(dn));
     charType* pV = (charType*)ArrayOf::allocateArrayOf(NLS_CHAR, n, stringVector(), false);
     for (indexType k = 0; k < n; k++) {
         pV[k] = (k == 0) ? low : pV[k - 1] + step;
@@ -220,7 +220,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
                         }
                         if (d < 0 && K.isUnsignedIntegerType()) {
                             try {
-                                K.promoteType((Class)(K.getDataClass() + 1));
+                                K.promoteType(static_cast<Class>(K.getDataClass() + 1));
                             } catch (const Exception&) {
                                 needToOverload = true;
                                 return ArrayOf();
@@ -241,7 +241,7 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
                         }
                         if (d < 0 && K.isUnsignedIntegerType()) {
                             try {
-                                K.promoteType((Class)(K.getDataClass() + 1));
+                                K.promoteType(static_cast<Class>(K.getDataClass() + 1));
                             } catch (const Exception&) {
                                 needToOverload = true;
                                 return ArrayOf();
@@ -278,9 +278,9 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             uint8 low;
             uint8 high;
             if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-                low = (uint8)1;
-                high = (uint8)0;
-                step = (uint8)1;
+                low = static_cast<uint8>(1);
+                high = static_cast<uint8>(0);
+                step = static_cast<uint8>(1);
             } else {
                 step = I.getContentAsUnsignedInteger8Scalar(true);
                 if (!I.isScalar()) {
@@ -305,9 +305,9 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             int8 low;
             int8 high;
             if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-                low = (int8)1;
-                high = (int8)0;
-                step = (int8)1;
+                low = static_cast<int8>(1);
+                high = static_cast<int8>(0);
+                step = static_cast<int8>(1);
             } else {
                 step = I.getContentAsInteger8Scalar(true);
                 if (!I.isScalar()) {
@@ -332,9 +332,9 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             uint16 low;
             uint16 high;
             if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-                step = (uint16)1;
-                low = (uint16)1;
-                high = (uint16)0;
+                step = static_cast<uint16>(1);
+                low = static_cast<uint16>(1);
+                high = static_cast<uint16>(0);
             } else {
                 step = I.getContentAsUnsignedInteger16Scalar(true);
                 if (!I.isScalar()) {
@@ -359,9 +359,9 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             int16 low;
             int16 high;
             if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-                step = (int16)1;
-                low = (int16)1;
-                high = (int16)0;
+                step = static_cast<int16>(1);
+                low = static_cast<int16>(1);
+                high = static_cast<int16>(0);
             } else {
                 step = I.getContentAsInteger16Scalar(true);
                 if (!I.isScalar()) {
@@ -386,9 +386,9 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             uint32 low;
             uint32 high;
             if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-                step = (uint32)1;
-                low = (uint32)1;
-                high = (uint32)0;
+                step = static_cast<uint32>(1);
+                low = static_cast<uint32>(1);
+                high = static_cast<uint32>(0);
             } else {
                 step = I.getContentAsUnsignedInteger32Scalar(true);
                 if (!I.isScalar()) {
@@ -409,13 +409,13 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             return integer_colon<uint32>(NLS_UINT32, low, high, step);
         } break;
         case NLS_INT32: {
-            int32 step = (int32)1;
+            auto step = static_cast<int32>(1);
             int32 low;
             int32 high;
             if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-                step = (int32)1;
-                low = (int32)1;
-                high = (int32)0;
+                step = static_cast<int32>(1);
+                low = static_cast<int32>(1);
+                high = static_cast<int32>(0);
             } else {
                 step = I.getContentAsInteger32Scalar(true);
                 if (!I.isScalar()) {
@@ -436,13 +436,13 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             return integer_colon<int32>(NLS_INT32, low, high, step);
         } break;
         case NLS_UINT64: {
-            uint64 step = (uint64)1;
+            auto step = static_cast<uint64>(1);
             uint64 low;
             uint64 high;
             if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-                step = (uint64)1;
-                low = (uint64)1;
-                high = (uint64)0;
+                step = static_cast<uint64>(1);
+                low = static_cast<uint64>(1);
+                high = static_cast<uint64>(0);
             } else {
                 step = I.getContentAsUnsignedInt64Scalar(true);
                 if (!I.isScalar()) {
@@ -467,9 +467,9 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             int64 low;
             int64 high;
             if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-                step = (int64)1;
-                low = (int64)1;
-                high = (int64)0;
+                step = static_cast<int64>(1);
+                low = static_cast<int64>(1);
+                high = static_cast<int64>(0);
             } else {
                 step = I.getContentAsInteger32Scalar(true);
                 if (!I.isScalar()) {
@@ -494,9 +494,9 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             single low;
             single high;
             if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-                step = (single)1;
-                low = (single)1;
-                high = (single)0;
+                step = static_cast<single>(1);
+                low = static_cast<single>(1);
+                high = static_cast<single>(0);
             } else {
                 step = I.getContentAsSingleScalar(true);
                 if (!I.isScalar()) {
@@ -521,9 +521,9 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             double low;
             double high;
             if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-                step = (double)1;
-                low = (double)1;
-                high = (double)0;
+                step = static_cast<double>(1);
+                low = static_cast<double>(1);
+                high = static_cast<double>(0);
             } else {
                 step = I.getContentAsDoubleScalar(true);
                 if (!I.isScalar()) {
@@ -548,9 +548,9 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             single low;
             single high;
             if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-                step = (single)1;
-                low = (single)1;
-                high = (single)0;
+                step = static_cast<single>(1);
+                low = static_cast<single>(1);
+                high = static_cast<single>(0);
             } else {
                 ArrayOf JJ(J);
                 ArrayOf KK(K);
@@ -581,9 +581,9 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             double low;
             double high;
             if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-                step = (double)1;
-                low = (double)1;
-                high = (double)0;
+                step = static_cast<double>(1);
+                low = static_cast<double>(1);
+                high = static_cast<double>(0);
             } else {
                 ArrayOf II(I);
                 ArrayOf JJ(J);
@@ -614,9 +614,9 @@ Colon(ArrayOf& J, ArrayOf& I, ArrayOf& K, bool& needToOverload)
             charType low;
             charType high;
             if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-                step = (charType)1;
-                low = (charType)1;
-                high = (charType)0;
+                step = static_cast<charType>(1);
+                low = static_cast<charType>(1);
+                high = static_cast<charType>(0);
             } else {
                 std::wstring content = I.getContentAsWideString();
                 step = content[0];

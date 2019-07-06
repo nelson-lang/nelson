@@ -762,10 +762,8 @@ relationOperator(ArrayOf& A, ArrayOf& B, const std::wstring& operatorName,
                 }
                 return matrix_vector_operator(
                     A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
-
-            } else {
-                Error(_W("Size mismatch on arguments to arithmetic operator ") + operatorName);
             }
+            Error(_W("Size mismatch on arguments to arithmetic operator ") + operatorName);
         }
     } else {
         Error(_W("Size mismatch on arguments to arithmetic operator ") + operatorName);

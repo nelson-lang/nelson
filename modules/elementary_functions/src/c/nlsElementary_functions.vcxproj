@@ -177,6 +177,7 @@
     <ClCompile Include="..\cpp\All.cpp" />
     <ClCompile Include="..\cpp\And.cpp" />
     <ClCompile Include="..\cpp\Any.cpp" />
+    <ClCompile Include="..\cpp\BaseToDecimal.cpp" />
     <ClCompile Include="..\cpp\BinToNum.cpp" />
     <ClCompile Include="..\cpp\Cast.cpp" />
     <ClCompile Include="..\cpp\Colon.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="..\cpp\ComplexConstructor.cpp" />
     <ClCompile Include="..\cpp\ComplexTranspose.cpp" />
     <ClCompile Include="..\cpp\ConcatenateNdArray.cpp" />
+    <ClCompile Include="..\cpp\DecimalToBase.cpp" />
     <ClCompile Include="..\cpp\DotLeftDivide.cpp" />
     <ClCompile Include="..\cpp\DotPower.cpp" />
     <ClCompile Include="..\cpp\DotRightDivide.cpp" />
@@ -239,6 +241,7 @@
     <ClInclude Include="..\include\All.hpp" />
     <ClInclude Include="..\include\And.hpp" />
     <ClInclude Include="..\include\Any.hpp" />
+    <ClInclude Include="..\include\BaseToDecimal.hpp" />
     <ClInclude Include="..\include\BinToNum.hpp" />
     <ClInclude Include="..\include\Cast.hpp" />
     <ClInclude Include="..\include\Colon.hpp" />
@@ -246,6 +249,7 @@
     <ClInclude Include="..\include\ComplexConstructor.hpp" />
     <ClInclude Include="..\include\ComplexTranspose.hpp" />
     <ClInclude Include="..\include\ConcatenateNdArray.hpp" />
+    <ClInclude Include="..\include\DecimalToBase.hpp" />
     <ClInclude Include="..\include\DotLeftDivide.hpp" />
     <ClInclude Include="..\include\DotPower.hpp" />
     <ClInclude Include="..\include\DotRightDivide.hpp" />

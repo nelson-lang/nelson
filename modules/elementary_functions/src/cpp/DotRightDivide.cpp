@@ -32,7 +32,8 @@ template <class T>
 void
 dividefullreal(indexType N, T* C, const T* A, int stride1, const T* B, int stride2)
 {
-    indexType m, p;
+    indexType m;
+    indexType p;
     m = 0;
     p = 0;
     for (indexType i = 0; i < N; i++) {
@@ -46,8 +47,11 @@ template <class T>
 void
 complex_divide(T* c, const T* a, const T* b)
 {
-    double ratio, den;
-    double abr, abi, cr;
+    double ratio;
+    double den;
+    double abr;
+    double abi;
+    double cr;
     if ((abr = b[0]) < 0.) {
         abr = -abr;
     }
@@ -79,7 +83,8 @@ template <class T>
 void
 dividefullcomplex(indexType N, T* C, const T* A, int stride1, const T* B, int stride2)
 {
-    indexType m, p;
+    indexType m;
+    indexType p;
     m = 0;
     p = 0;
     for (indexType i = 0; i < N; i++) {
@@ -98,7 +103,8 @@ DotRightDivide(ArrayOf A, ArrayOf B)
     A.promoteType(commonClass);
     B.promoteType(commonClass);
     // Get a pointer to the function we ultimately need to execute
-    int Astride, Bstride;
+    int Astride;
+    int Bstride;
     void* Cp = nullptr;
     indexType Clen = 0;
     Dimensions Cdim;

@@ -44,7 +44,8 @@ boolean_vector_or(logical* C, const logical* A, indexType NA, const logical* B, 
 static void
 boolean_or(indexType N, logical* C, const logical* A, int Astride, const logical* B, int Bstride)
 {
-    indexType m = 0, p = 0;
+    indexType m = 0;
+    indexType p = 0;
     for (indexType i = 0; i < N; i++) {
         C[i] = A[m] | B[p];
         m += Astride;
@@ -55,7 +56,8 @@ boolean_or(indexType N, logical* C, const logical* A, int Astride, const logical
 ArrayOf
 Or(ArrayOf A, ArrayOf B)
 {
-    int Astride, Bstride;
+    int Astride;
+    int Bstride;
     indexType Clen = 0;
     Dimensions Cdim;
     BoolVectorCheck(A, B, "|");

@@ -23,4 +23,10 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+// clear cache before to exit
+//=============================================================================
+base2dec('', 2);
+dec2base([], 2);
+//=============================================================================
 removegateway(modulepath(nelsonroot(), 'elementary_functions', 'builtin'))
+//=============================================================================

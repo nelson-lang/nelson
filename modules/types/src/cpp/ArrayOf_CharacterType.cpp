@@ -23,6 +23,7 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Eigen/Dense>
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "characters_encoding.hpp"
@@ -56,6 +57,136 @@ ArrayOf::isNdArrayCharacterType() const
 }
 //=============================================================================
 ArrayOf
+ArrayOf::stringArrayToCharacterArray(const ArrayOf& stringArray, bool missingAsEmpty)
+{
+    if (!stringArray.isStringArray()) {
+        Error(_W("String array expected."));
+    }
+    ArrayOf* ptr = (ArrayOf*)stringArray.getDataPointer();
+    Dimensions dims = stringArray.getDimensions();
+    wstringVector strs;
+    strs.reserve(dims.getElementCount());
+    for (size_t k = 0; k < dims.getElementCount(); ++k) {
+        if (ptr[k].isCharacterArray()) {
+            strs.push_back(ptr[k].getContentAsWideString());
+        } else {
+            if (missingAsEmpty) {
+                strs.push_back(L"");
+            } else {
+                Error(_W("Conversion <missing> to character vector is not supported."));
+            }
+        }
+    }
+    return characterVectorToCharacterArray(strs, false);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::characterVectorToCharacterArray(const stringVector& strs, bool leftAlign)
+{
+    ArrayOf res;
+    if (strs.empty()) {
+        res = ArrayOf::emptyConstructor();
+        res.promoteType(NLS_CHAR);
+    } else if (strs.size() == 1) {
+        res = ArrayOf::characterArrayConstructor(strs[0]);
+    } else {
+        size_t m = 0;
+        wstringVector sw;
+        sw.reserve(strs.size());
+        for (const std::string& s : strs) {
+            std::wstring u = utf8_to_wstring(s);
+            sw.push_back(u);
+            if (m < u.size()) {
+                m = u.size();
+            }
+        }
+        Dimensions dims(m, sw.size());
+        charType* ptr = (charType*)ArrayOf::allocateArrayOf(
+            NLS_CHAR, dims.getElementCount(), stringVector(), false);
+        res = ArrayOf(NLS_CHAR, dims, ptr);
+        std::wstring blanks;
+        blanks.reserve(m);
+        size_t k = 0;
+        for (const auto& s : sw) {
+            size_t nbBlanks = m - s.size();
+            if (leftAlign) {
+                if (nbBlanks > 0) {
+                    blanks = std::wstring(nbBlanks, L' ');
+                    memcpy(&ptr[k], blanks.c_str(), sizeof(charType) * nbBlanks);
+                }
+                memcpy(&ptr[k + nbBlanks], s.c_str(), sizeof(charType) * s.size());
+            } else {
+                memcpy(&ptr[k], s.c_str(), sizeof(charType) * s.size());
+                if (nbBlanks > 0) {
+                    blanks = std::wstring(nbBlanks, L' ');
+                    memcpy(&ptr[k + s.size()], blanks.c_str(), sizeof(charType) * nbBlanks);
+                }
+            }
+            k = k + m;
+        }
+        Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
+            (charType*)ptr, dims.getRows(), dims.getColumns());
+        Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
+            (charType*)res.getDataPointer(), dims.getColumns(), dims.getRows());
+        matTransposed = matOrigin.transpose().eval();
+        Dimensions dimsOut(dims.getColumns(), dims.getRows());
+        res.reshape(dimsOut);
+    }
+    return res;
+}
+//=============================================================================
+ArrayOf
+ArrayOf::characterVectorToCharacterArray(const wstringVector& strs, bool leftAlign)
+{
+    ArrayOf res;
+    if (strs.empty()) {
+        res = ArrayOf::emptyConstructor();
+        res.promoteType(NLS_CHAR);
+    } else if (strs.size() == 1) {
+        res = ArrayOf::characterArrayConstructor(strs[0]);
+    } else {
+        size_t m = 0;
+        for (const auto& s : strs) {
+            if (m < s.size()) {
+                m = s.size();
+            }
+        }
+        Dimensions dims(m, strs.size());
+        charType* ptr = (charType*)ArrayOf::allocateArrayOf(
+            NLS_CHAR, dims.getElementCount(), stringVector(), false);
+        res = ArrayOf(NLS_CHAR, dims, ptr);
+        std::wstring blanks;
+        blanks.reserve(m);
+        size_t k = 0;
+        for (const auto& s : strs) {
+            size_t nbBlanks = m - s.size();
+            if (leftAlign) {
+                if (nbBlanks > 0) {
+                    blanks = std::wstring(nbBlanks, L' ');
+                    memcpy(&ptr[k], blanks.c_str(), sizeof(charType) * nbBlanks);
+                }
+                memcpy(&ptr[k + nbBlanks], s.c_str(), sizeof(charType) * s.size());
+            } else {
+                memcpy(&ptr[k], s.c_str(), sizeof(charType) * s.size());
+                if (nbBlanks > 0) {
+                    blanks = std::wstring(nbBlanks, L' ');
+                    memcpy(&ptr[k + s.size()], blanks.c_str(), sizeof(charType) * nbBlanks);
+                }
+            }
+            k = k + m;
+        }
+        Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
+            (charType*)ptr, dims.getRows(), dims.getColumns());
+        Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
+            (charType*)res.getDataPointer(), dims.getColumns(), dims.getRows());
+        matTransposed = matOrigin.transpose().eval();
+        Dimensions dimsOut(dims.getColumns(), dims.getRows());
+        res.reshape(dimsOut);
+    }
+    return res;
+}
+//=============================================================================
+ArrayOf
 ArrayOf::characterArrayConstructor(const std::wstring& astr)
 {
     indexType length = astr.length();
@@ -65,7 +196,7 @@ ArrayOf::characterArrayConstructor(const std::wstring& astr)
     } else {
         dim[0] = 1;
     }
-    charType* cp = static_cast<charType*>(allocateArrayOf(NLS_CHAR, length));
+    charType* cp = static_cast<charType*>(allocateArrayOf(NLS_CHAR, length, stringVector(), false));
     memcpy(cp, astr.c_str(), length * sizeof(charType));
     return ArrayOf(NLS_CHAR, dim, cp);
 }
@@ -89,7 +220,7 @@ ArrayOf::getContentAsArrayOfCharacters() const
     std::wstring str;
     if (dp->dataClass == NLS_CHAR) {
         indexType M = getLength();
-        auto* buffer = new_with_exception<charType>(M + 1);
+        auto* buffer = new_with_exception<charType>(M + 1, false);
         const auto* qp = static_cast<const charType*>(dp->getData());
         memcpy(buffer, qp, M * sizeof(charType));
         buffer[M] = 0;
@@ -186,8 +317,10 @@ ArrayOf::getContentAsWideStringVector(bool bCheckVector) const
         if (is2D()) {
             indexType rows = getDimensions().getRows();
             indexType columns = getDimensions().getColumns();
+            res.reserve(rows);
             for (indexType i = 0; i < rows; i++) {
                 std::wstring str;
+                str.reserve(columns);
                 const auto* qp = static_cast<const charType*>(dp->getData());
                 for (indexType j = 0; j < columns; j++) {
                     size_t idx = i + j * rows;

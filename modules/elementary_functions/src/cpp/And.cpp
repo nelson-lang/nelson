@@ -44,9 +44,10 @@ boolean_vector_and(logical* C, const logical* A, indexType NA, const logical* B,
 static void
 boolean_and(indexType N, logical* C, const logical* A, int Astride, const logical* B, int Bstride)
 {
-    indexType m = 0, p = 0;
+    indexType m = 0;
+    indexType p = 0;
     for (indexType i = 0; i < N; i++) {
-        C[i] = A[m] && B[p];
+        C[i] = (static_cast<Nelson::logical>(A[m] != 0u) && (B[p]) != 0u);
         m += Astride;
         p += Bstride;
     }
@@ -55,7 +56,8 @@ boolean_and(indexType N, logical* C, const logical* A, int Astride, const logica
 ArrayOf
 And(ArrayOf A, ArrayOf B)
 {
-    int Astride, Bstride;
+    int Astride;
+    int Bstride;
     indexType Clen = 0;
     Dimensions Cdim;
     BoolVectorCheck(A, B, "&");

@@ -284,10 +284,8 @@ stringArray_plus_stringArray(const ArrayOf& a, const ArrayOf& b)
                     return vector_matrix_string_addition(a, b);
                 }
                 return matrix_vector_string_addition(a, b);
-
-            } else {
-                Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
             }
+            Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
         }
     } else {
         Error(_W("Size mismatch on arguments to arithmetic operator ") + L"+");

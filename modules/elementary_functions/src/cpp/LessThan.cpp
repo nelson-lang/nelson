@@ -37,62 +37,62 @@ realComparatorLessThan(Class commonClass, void* vptrA, void* vptrB, indexType id
     case NLS_LOGICAL: {
         auto* ptrA = static_cast<logical*>(vptrA);
         auto* ptrB = static_cast<logical*>(vptrB);
-        return (ptrA[idxA] < ptrB[idxB]);
+        return static_cast<Nelson::logical>(ptrA[idxA] < ptrB[idxB]);
     } break;
     case NLS_UINT8: {
         auto* ptrA = static_cast<uint8*>(vptrA);
         auto* ptrB = static_cast<uint8*>(vptrB);
-        return (ptrA[idxA] < ptrB[idxB]);
+        return static_cast<Nelson::logical>(ptrA[idxA] < ptrB[idxB]);
     } break;
     case NLS_INT8: {
         int8* ptrA = static_cast<int8*>(vptrA);
         int8* ptrB = static_cast<int8*>(vptrB);
-        return (ptrA[idxA] < ptrB[idxB]);
+        return static_cast<Nelson::logical>(ptrA[idxA] < ptrB[idxB]);
     } break;
     case NLS_UINT16: {
         auto* ptrA = static_cast<uint16*>(vptrA);
         auto* ptrB = static_cast<uint16*>(vptrB);
-        return (ptrA[idxA] < ptrB[idxB]);
+        return static_cast<Nelson::logical>(ptrA[idxA] < ptrB[idxB]);
     } break;
     case NLS_INT16: {
         auto* ptrA = static_cast<int16*>(vptrA);
         auto* ptrB = static_cast<int16*>(vptrB);
-        return (ptrA[idxA] < ptrB[idxB]);
+        return static_cast<Nelson::logical>(ptrA[idxA] < ptrB[idxB]);
     } break;
     case NLS_UINT32: {
         auto* ptrA = static_cast<uint32*>(vptrA);
         auto* ptrB = static_cast<uint32*>(vptrB);
-        return (ptrA[idxA] < ptrB[idxB]);
+        return static_cast<Nelson::logical>(ptrA[idxA] < ptrB[idxB]);
     } break;
     case NLS_INT32: {
         auto* ptrA = static_cast<int32*>(vptrA);
         auto* ptrB = static_cast<int32*>(vptrB);
-        return (ptrA[idxA] < ptrB[idxB]);
+        return static_cast<Nelson::logical>(ptrA[idxA] < ptrB[idxB]);
     } break;
     case NLS_UINT64: {
         auto* ptrA = static_cast<uint64*>(vptrA);
         auto* ptrB = static_cast<uint64*>(vptrB);
-        return (ptrA[idxA] < ptrB[idxB]);
+        return static_cast<Nelson::logical>(ptrA[idxA] < ptrB[idxB]);
     } break;
     case NLS_INT64: {
         auto* ptrA = static_cast<int64*>(vptrA);
         auto* ptrB = static_cast<int64*>(vptrB);
-        return (ptrA[idxA] < ptrB[idxB]);
+        return static_cast<Nelson::logical>(ptrA[idxA] < ptrB[idxB]);
     } break;
     case NLS_SINGLE: {
         auto* ptrA = static_cast<single*>(vptrA);
         auto* ptrB = static_cast<single*>(vptrB);
-        return (ptrA[idxA] < ptrB[idxB]);
+        return static_cast<Nelson::logical>(ptrA[idxA] < ptrB[idxB]);
     } break;
     case NLS_DOUBLE: {
         auto* ptrA = static_cast<double*>(vptrA);
         auto* ptrB = static_cast<double*>(vptrB);
-        return (ptrA[idxA] < ptrB[idxB]);
+        return static_cast<Nelson::logical>(ptrA[idxA] < ptrB[idxB]);
     } break;
     case NLS_CHAR: {
         auto* ptrA = static_cast<charType*>(vptrA);
         auto* ptrB = static_cast<charType*>(vptrB);
-        return (ptrA[idxA] < ptrB[idxB]);
+        return static_cast<Nelson::logical>(ptrA[idxA] < ptrB[idxB]);
     } break;
     }
     return false;
@@ -106,14 +106,14 @@ complexComparatorLessThan(
     case NLS_SCOMPLEX: {
         auto* ptrA = static_cast<single*>(vptrA);
         auto* ptrB = static_cast<single*>(vptrB);
-        return complex_abs<single>(ptrA[2 * idxA], ptrA[2 * idxA + 1])
-            < complex_abs<single>(ptrB[2 * idxB], ptrB[2 * idxB + 1]);
+        return static_cast<Nelson::logical>(complex_abs<single>(ptrA[2 * idxA], ptrA[2 * idxA + 1])
+            < complex_abs<single>(ptrB[2 * idxB], ptrB[2 * idxB + 1]));
     } break;
     case NLS_DCOMPLEX: {
         auto* ptrA = static_cast<double*>(vptrA);
         auto* ptrB = static_cast<double*>(vptrB);
-        return complex_abs<double>(ptrA[2 * idxA], ptrA[2 * idxA + 1])
-            < complex_abs<double>(ptrB[2 * idxB], ptrB[2 * idxB + 1]);
+        return static_cast<Nelson::logical>(complex_abs<double>(ptrA[2 * idxA], ptrA[2 * idxA + 1])
+            < complex_abs<double>(ptrB[2 * idxB], ptrB[2 * idxB + 1]));
     } break;
     }
     return false;
@@ -127,7 +127,8 @@ stringArrayComparatorLessThan(
         auto* ptrA = static_cast<ArrayOf*>(vptrA);
         auto* ptrB = static_cast<ArrayOf*>(vptrB);
         if (ptrA[idxA].isCharacterArray() && ptrB[idxB].isCharacterArray()) {
-            return ptrA[idxA].getContentAsWideString() < ptrB[idxB].getContentAsWideString();
+            return static_cast<Nelson::logical>(
+                ptrA[idxA].getContentAsWideString() < ptrB[idxB].getContentAsWideString());
         }
     }
     return false;

@@ -56,6 +56,12 @@ Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             return retval;
         }
         switch (argIn[0].getDataClass()) {
+        case NLS_STRING_ARRAY: {
+            if (argIn.size() != 1) {
+                Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            }
+            retval.push_back(ArrayOf::stringArrayToCharacterArray(argIn[0], false));
+        } break;
         case NLS_CHAR: {
             if (argIn.size() == 2) {
                 bool needToOverload;

@@ -396,7 +396,8 @@ matrixMultiplication(ArrayOf& A, ArrayOf& B, bool& needToOverload)
             }
             B.promoteType(A.getDataClass());
             return matrixMultiplication(A, B, needToOverload);
-        } else if (isIntegerB && (A.isDoubleType() && A.isScalar())) {
+        }
+        if (isIntegerB && (A.isDoubleType() && A.isScalar())) {
             if (A.isComplex()) {
                 Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
             }

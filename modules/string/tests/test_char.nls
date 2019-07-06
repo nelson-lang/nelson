@@ -151,6 +151,13 @@ REF = ['Hello  ';
 'No     '];
 assert_isequal(R, REF);
 //=============================================================================
+R = char(["A";"V  E"]);
+REF = ['A   '; 'V  E'];
+assert_isequal(R, REF);
+//=============================================================================
+cmd = 'R = char(["A", string(NaN)]);';
+assert_checkerror(cmd, _('Conversion <missing> to character vector is not supported.'));
+//=============================================================================
 assert_checkerror('char()', _('Wrong number of input arguments.'));
 assert_checkerror('char(true)', [_('Undefined function ''char'' for input arguments of type'), ' ''', class(true), '''.']);
 assert_checkerror('char([65i, 65])', _('Conversion to char from complex is not possible.'));

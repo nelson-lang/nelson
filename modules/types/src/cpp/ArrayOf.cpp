@@ -827,7 +827,7 @@ ArrayOf::vectorResize(indexType max_index)
  * elements remains the same after reshaping.
  */
 void
-ArrayOf::reshape(Dimensions& a)
+ArrayOf::reshape(Dimensions& a, bool checkValidDimension)
 {
     if (isClassStruct()) {
         Error(_W("Reshape operation not allowed for overloaded type."));
@@ -835,8 +835,10 @@ ArrayOf::reshape(Dimensions& a)
     if (isFunctionHandle()) {
         Error(_W("Reshape operation not allowed for 'function_handle' type."));
     }
-    if (a.getElementCount() != getLength()) {
-        Error(_W("Reshape operation cannot change the number of elements in array."));
+    if (checkValidDimension) {
+        if (a.getElementCount() != getLength()) {
+            Error(_W("Reshape operation cannot change the number of elements in array."));
+        }
     }
     if (isSparse()) {
         if (a.is2D() || a.isVector() || a.isScalar()) {

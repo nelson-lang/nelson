@@ -150,12 +150,12 @@ IsApprox(ArrayOf A, ArrayOf B, double precision)
             return false;
         }
         if (A.getDataClass() == NLS_SINGLE) {
-            single* ptrA = (single*)A.getReadWriteDataPointer();
-            single* ptrB = (single*)B.getReadWriteDataPointer();
+            auto* ptrA = static_cast<single*>(A.getReadWriteDataPointer());
+            auto* ptrB = static_cast<single*>(B.getReadWriteDataPointer());
             bRes = IsApprox<single>(ptrA, ptrB, dimsA, precision);
         } else if (A.getDataClass() == NLS_DOUBLE) {
-            double* ptrA = (double*)A.getReadWriteDataPointer();
-            double* ptrB = (double*)B.getReadWriteDataPointer();
+            auto* ptrA = static_cast<double*>(A.getReadWriteDataPointer());
+            auto* ptrB = static_cast<double*>(B.getReadWriteDataPointer());
             bRes = IsApprox<double>(ptrA, ptrB, dimsA, precision);
         } else if ((A.getDataClass() == NLS_DCOMPLEX) || (A.getDataClass() == NLS_SCOMPLEX)) {
             ArrayOf realpartA = RealPart(A);

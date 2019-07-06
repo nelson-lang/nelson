@@ -200,18 +200,18 @@ Truncate(ArrayOf arrayIn, TRUNCATE_LEVEL level)
     case NLS_CHAR: {
         size_t len = arrayIn.getLength();
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
-        double* rp = (double*)ptr;
-        charType* dp = (charType*)arrayIn.getDataPointer();
+        auto* rp = static_cast<double*>(ptr);
+        auto* dp = (charType*)arrayIn.getDataPointer();
         for (size_t i = 0; i < len; i++) {
-            rp[i] = (double)dp[i];
+            rp[i] = static_cast<double>(dp[i]);
         }
         res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), rp);
     } break;
     case NLS_LOGICAL: {
         size_t len = arrayIn.getLength();
         void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
-        double* rp = (double*)ptr;
-        logical* dp = (logical*)arrayIn.getDataPointer();
+        auto* rp = static_cast<double*>(ptr);
+        auto* dp = (logical*)arrayIn.getDataPointer();
         for (size_t i = 0; i < len; i++) {
             rp[i] = (dp[i] == 0 ? 0 : 1);
         }

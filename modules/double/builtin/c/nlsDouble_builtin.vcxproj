@@ -195,7 +195,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\doubleBuiltin.cpp" />
+    <ClCompile Include="..\cpp\flintmaxBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\realmaxBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -203,7 +205,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\doubleBuiltin.hpp" />
+    <ClInclude Include="..\include\flintmaxBuiltin.hpp" />
     <ClInclude Include="..\include\nlsDouble_builtin_exports.h" />
+    <ClInclude Include="..\include\realmaxBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.nls" />

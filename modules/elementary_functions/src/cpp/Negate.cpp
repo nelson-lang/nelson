@@ -51,7 +51,7 @@ Negate(ArrayOf A)
     }
     A.promoteType(Aclass);
     C = ArrayOf(Aclass, A.getDimensions(), nullptr);
-    void* Cp = C.allocateArrayOf(Aclass, A.getLength());
+    void* Cp = Nelson::ArrayOf::allocateArrayOf(Aclass, A.getLength());
     switch (Aclass) {
     case NLS_INT32:
         negate<int32>(A.getLength(), static_cast<int32*>(Cp), (int32*)A.getDataPointer());

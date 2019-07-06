@@ -295,7 +295,7 @@ public:
      * than we currently have.
      */
     void
-    reshape(Dimensions& a);
+    reshape(Dimensions& a, bool checkValidDimension = true);
 
     /**
      * Get our data class (of type Class).
@@ -604,6 +604,25 @@ public:
      */
     static ArrayOf
     dcomplexConstructor(double aval, double bval);
+
+    /**
+     * Converts an string array to char array
+     * raises an error if not string array
+     * if missing value converted to '' or raises an error
+     */
+    static ArrayOf
+    stringArrayToCharacterArray(const ArrayOf& stringArray, bool missingAsEmpty = true);
+
+    /**
+     * char array constructor - Construct an NLS_CHAR object with the given
+     * vector strings as a value (char array).
+     */
+    static ArrayOf
+    characterVectorToCharacterArray(const wstringVector& strs, bool leftAlign = true);
+
+    static ArrayOf
+    characterVectorToCharacterArray(const stringVector& strs, bool leftAlign = true);
+
     /**
      * String constructor - Construct an NLS_CHAR object with the given
      * string as a value.
