@@ -77,7 +77,8 @@ FopenAll(Evaluator* eval)
     auto* fm = static_cast<FilesManager*>(eval->FileManager);
     boost::container::vector<uint64> IDs = fm->getIDs();
     if (IDs.size()) {
-        double* dIDs = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, IDs.size());
+        double* dIDs
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, IDs.size(), stringVector(), false);
         for (size_t k = 0; k < IDs.size(); k++) {
             dIDs[k] = (double)IDs[k];
         }

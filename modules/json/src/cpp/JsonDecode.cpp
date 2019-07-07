@@ -281,7 +281,7 @@ jsonVariableToNelsonStructType(JsonVariable& jsVar, Dimensions& dims)
 {
     stringVector fieldnames = jsVar.fieldnames;
     ArrayOf* ptrStruct
-        = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames);
+        = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false);
     size_t offset = 0;
     for (indexType j = 0; j < dims.getElementCount(); j++) {
         for (size_t i = 0; i < jsVar.fieldnames.size(); i++) {

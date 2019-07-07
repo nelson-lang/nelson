@@ -151,7 +151,7 @@ getDevicesInfo(const boost::container::vector<AudioDeviceInfo>& infos, bool inpu
         structnames.push_back("ID");
         dimsInOrOutputs[1] = 1;
         ArrayOf* InOrOutputs = (ArrayOf*)ArrayOf::allocateArrayOf(
-            NLS_STRUCT_ARRAY, dimsInOrOutputs.getElementCount(), structnames);
+            NLS_STRUCT_ARRAY, dimsInOrOutputs.getElementCount(), structnames, false);
         structInOrOuputs
             = ArrayOf(NLS_STRUCT_ARRAY, dimsInOrOutputs, InOrOutputs, false, structnames);
         ArrayOfVector name;

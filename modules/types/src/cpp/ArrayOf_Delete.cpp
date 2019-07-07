@@ -69,7 +69,7 @@ ArrayOf::deleteVectorSubset(ArrayOf& arg)
             }
         }
         // Allocate a new space to hold the data.
-        qp = allocateArrayOf(dp->dataClass, newSize, dp->fieldNames);
+        qp = allocateArrayOf(dp->dataClass, newSize, dp->fieldNames, true);
         // Loop through the indices - copy elements in that
         // have not been deleted.
         indexType dstIndex = 0;
@@ -248,7 +248,7 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
                 return;
             }
             // Allocate space for the return objects data
-            cp = allocateArrayOf(dp->dataClass, retDims.getElementCount(), dp->fieldNames);
+            cp = allocateArrayOf(dp->dataClass, retDims.getElementCount(), dp->fieldNames, true);
             // Track our offset into the original data & our offset into
             // the truncated data.
             indexType srcIndex = 0;

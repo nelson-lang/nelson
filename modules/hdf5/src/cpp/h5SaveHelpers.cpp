@@ -51,7 +51,7 @@ h5SaveDimensionsAttribute(hid_t fid, const std::string& location, const Dimensio
     if (obj_id < 0) {
         return false;
     }
-    void* ptr = ArrayOf::allocateArrayOf(NLS_UINT64, dims.getLength());
+    void* ptr = ArrayOf::allocateArrayOf(NLS_UINT64, dims.getLength(), stringVector(), false);
     ArrayOf dimsAsArray;
     if (dims.isScalar()) {
         dimsAsArray = ArrayOf(NLS_UINT64, Dimensions(1, 2), ptr);

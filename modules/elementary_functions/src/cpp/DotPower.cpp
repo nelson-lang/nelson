@@ -348,19 +348,22 @@ doPowerAssist(ArrayOf A, Class AClass, ArrayOf B, Class BClass, Class CClass, vv
     if (A.isScalar()) {
         indexType Blen(B.getLength());
         C = ArrayOf(CClass, B.getDimensions(), nullptr);
-        void* Cp = ArrayOf::allocateArrayOf(CClass, Blen * C.getElementSize());
+        void* Cp
+            = ArrayOf::allocateArrayOf(CClass, Blen * C.getElementSize(), stringVector(), true);
         exec(Blen, Cp, A.getDataPointer(), 0, B.getDataPointer(), 1);
         C.setDataPointer(Cp);
     } else if (B.isScalar()) {
         indexType Alen(A.getLength());
         C = ArrayOf(CClass, A.getDimensions(), nullptr);
-        void* Cp = ArrayOf::allocateArrayOf(CClass, Alen * C.getElementSize());
+        void* Cp
+            = ArrayOf::allocateArrayOf(CClass, Alen * C.getElementSize(), stringVector(), true);
         exec(Alen, Cp, A.getDataPointer(), 1, B.getDataPointer(), 0);
         C.setDataPointer(Cp);
     } else {
         indexType Alen(A.getLength());
         C = ArrayOf(CClass, A.getDimensions(), nullptr);
-        void* Cp = ArrayOf::allocateArrayOf(CClass, Alen * C.getElementSize());
+        void* Cp
+            = ArrayOf::allocateArrayOf(CClass, Alen * C.getElementSize(), stringVector(), true);
         exec(Alen, Cp, A.getDataPointer(), 1, B.getDataPointer(), 1);
         C.setDataPointer(Cp);
     }
@@ -413,21 +416,21 @@ DoPowerTwoArgFunction(ArrayOf A, ArrayOf B)
         if (A.isScalar()) {
             indexType Blen(B.getLength());
             C = ArrayOf(AClass, B.getDimensions(), nullptr);
-            Cp = ArrayOf::allocateArrayOf(AClass, Blen * C.getElementSize());
+            Cp = ArrayOf::allocateArrayOf(AClass, Blen * C.getElementSize(), stringVector(), false);
             stride1 = 0;
             stride2 = 1;
             n = Blen;
         } else if (B.isScalar()) {
             indexType Alen(A.getLength());
             C = ArrayOf(AClass, A.getDimensions(), nullptr);
-            Cp = ArrayOf::allocateArrayOf(AClass, Alen * C.getElementSize());
+            Cp = ArrayOf::allocateArrayOf(AClass, Alen * C.getElementSize(), stringVector(), false);
             stride1 = 1;
             stride2 = 0;
             n = Alen;
         } else {
             indexType Alen(A.getLength());
             C = ArrayOf(AClass, A.getDimensions(), nullptr);
-            Cp = ArrayOf::allocateArrayOf(AClass, Alen * C.getElementSize());
+            Cp = ArrayOf::allocateArrayOf(AClass, Alen * C.getElementSize(), stringVector(), false);
             stride1 = 1;
             stride2 = 1;
             n = Alen;

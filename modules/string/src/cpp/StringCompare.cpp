@@ -99,7 +99,8 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
         Dimensions dimB = B.getDimensions();
         if (dimA.equals(dimB)) {
             size_t Clen = dimA.getElementCount();
-            logical* Cp = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, Clen));
+            logical* Cp = static_cast<logical*>(
+                ArrayOf::allocateArrayOf(NLS_LOGICAL, Clen, stringVector(), true));
             auto* cellA = (ArrayOf*)(A.getDataPointer());
             auto* cellB = (ArrayOf*)(B.getDataPointer());
             for (size_t k = 0; k < Clen; k++) {
@@ -137,7 +138,8 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
                     Clen = dimA.getElementCount();
                     dimC = dimA;
                 }
-                logical* Cp = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, Clen));
+                logical* Cp = static_cast<logical*>(
+                    ArrayOf::allocateArrayOf(NLS_LOGICAL, Clen, stringVector(), true));
                 auto* cellA = (ArrayOf*)A.getDataPointer();
                 auto* cellB = (ArrayOf*)B.getDataPointer();
                 for (size_t k = 0; k < Clen; ++k) {
@@ -201,7 +203,8 @@ StringCompare(ArrayOf A, ArrayOf B, bool bCaseSensitive, indexType len)
             Clen = dimC.getElementCount();
         }
 
-        logical* Cp = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, Clen));
+        logical* Cp = static_cast<logical*>(
+            ArrayOf::allocateArrayOf(NLS_LOGICAL, Clen, stringVector(), true));
         auto* cellA = (ArrayOf*)(cell1.getDataPointer());
         for (size_t k = 0; k < Clen; k++) {
             if (!scalar2.isCharacterArray()) {

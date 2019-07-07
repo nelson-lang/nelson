@@ -50,7 +50,7 @@ ArrayOf::diagonalConstructor(ArrayOf src, int diagonalOrder)
     dims[0] = M;
     dims[1] = M;
     // Allocate space for the output
-    void* rp = allocateArrayOf(src.dp->dataClass, dims.getElementCount(), src.dp->fieldNames);
+    void* rp = allocateArrayOf(src.dp->dataClass, dims.getElementCount(), src.dp->fieldNames, true);
     indexType i = 0;
     indexType dstIndex = 0;
     if (diagonalOrder < 0) {

@@ -39,7 +39,7 @@ ImagPart(ArrayOf arrayIn)
     switch (arrayIn.getDataClass()) {
     case NLS_SCOMPLEX: {
         size_t len = arrayIn.getLength();
-        void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len);
+        void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
         auto* rp = static_cast<single*>(ptr);
         auto* sp = (single*)arrayIn.getDataPointer();
         for (size_t i = 0; i < len; i++) {
@@ -49,7 +49,7 @@ ImagPart(ArrayOf arrayIn)
     } break;
     case NLS_DCOMPLEX: {
         size_t len = arrayIn.getLength();
-        void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len);
+        void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (double*)arrayIn.getDataPointer();
         for (size_t i = 0; i < len; i++) {
@@ -68,7 +68,7 @@ ImagPart(ArrayOf arrayIn)
     case NLS_DOUBLE:
     case NLS_LOGICAL: {
         size_t len = arrayIn.getLength();
-        void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len);
+        void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
         res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), ptr);
     } break;
     case NLS_UINT8:
@@ -81,7 +81,7 @@ ImagPart(ArrayOf arrayIn)
     case NLS_INT64:
     case NLS_SINGLE: {
         size_t len = arrayIn.getLength();
-        void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len);
+        void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
         res = ArrayOf(arrayIn.getDataClass(), arrayIn.getDimensions(), ptr);
     } break;
     }

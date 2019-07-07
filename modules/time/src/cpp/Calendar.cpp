@@ -120,8 +120,8 @@ Calendar::get()
         (boost::gregorian::gregorian_calendar::month_type)m, 1 };
     boost::gregorian::date d2{ d1.end_of_month() };
     boost::gregorian::date_period month_period(d1, d2);
-    double* Month = static_cast<double*>(
-        ArrayOf::allocateArrayOf(NLS_DOUBLE, NBR_DAY_IN_A_WEEK * NBR_WEEK_IN_A_MONTH_MAX));
+    double* Month = static_cast<double*>(ArrayOf::allocateArrayOf(
+        NLS_DOUBLE, NBR_DAY_IN_A_WEEK * NBR_WEEK_IN_A_MONTH_MAX, stringVector(), true));
     double v = 1;
     uint8 firstdate = (uint8)(d1.day_of_week().as_number());
     uint8 lastdate = (uint8)(month_period.length().days() + firstdate);

@@ -56,7 +56,7 @@ real_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
         }
     }
     indexType Clen = Cdim.getElementCount();
-    void* Cp = new_with_exception<T>(Clen);
+    void* Cp = new_with_exception<T>(Clen, false);
     size_t mC = Cdim.getRows();
     size_t nC = Cdim.getColumns();
     Eigen::Map<Eigen::Matrix<T, -1, -1>> matC((T*)Cp, mC, nC);
@@ -105,7 +105,7 @@ integer_mtimes(ArrayOf& A, ArrayOf& B)
         }
     }
     indexType Clen = Cdim.getElementCount();
-    void* Cp = new_with_exception<T>(Clen);
+    void* Cp = new_with_exception<T>(Clen, false);
     size_t mC = Cdim.getRows();
     size_t nC = Cdim.getColumns();
     Dimensions dimA = A.getDimensions();
@@ -156,7 +156,7 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
         }
     }
     indexType Clen = Cdim.getElementCount();
-    void* Cp = new_with_exception<T>(Clen * 2);
+    void* Cp = new_with_exception<T>(Clen * 2, false);
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
     size_t mC = Cdim.getRows();
     size_t nC = Cdim.getColumns();
@@ -191,7 +191,8 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
             T* pd = (T*)Cp;
             delete[] pd;
             pd = nullptr;
-            Cp = ArrayOf::allocateArrayOf(NLS_DOUBLE, Cdim.getElementCount());
+            Cp = ArrayOf::allocateArrayOf(
+                NLS_DOUBLE, Cdim.getElementCount(), stringVector(), true);
             return ArrayOf(NLS_DOUBLE, Cdim, Cp);
         } else {
             Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matB(Bz, mB, nB);
@@ -206,7 +207,8 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
             T* pd = (T*)Cp;
             delete[] pd;
             pd = nullptr;
-            Cp = ArrayOf::allocateArrayOf(A.getDataClass(), Cdim.getElementCount());
+            Cp = ArrayOf::allocateArrayOf(
+                A.getDataClass(), Cdim.getElementCount(), stringVector(), true);
             return ArrayOf(A.getDataClass(), Cdim, Cp);
         } else {
             matC = matA.array() * Bz[0];
@@ -251,7 +253,8 @@ T_mtimes_T(Class realClass, Class complexClass, ArrayOf& A, ArrayOf& B)
         // [](mx0) * [](0xn) = 0(mxn)
         if ((dimsA[1] == 0) && (dimsB[0] == 0) && (dimsB.getLength() < 3)) {
             Dimensions dimsC(dimsA[0], dimsB[1]);
-            T* pT = (T*)ArrayOf::allocateArrayOf(realClass, dimsC.getElementCount());
+            T* pT = (T*)ArrayOf::allocateArrayOf(
+                realClass, dimsC.getElementCount(), stringVector(), true);
             return ArrayOf(realClass, dimsC, pT, false);
         }
         // [](0xm) * M(mxn) = [](0xn)
@@ -331,7 +334,8 @@ integer_mtimes_integer(ArrayOf& A, ArrayOf& B)
         // [](mx0) * [](0xn) = 0(mxn)
         if ((dimsA[1] == 0) && (dimsB[0] == 0) && (dimsB.getLength() < 3)) {
             Dimensions dimsC(dimsA[0], dimsB[1]);
-            T* pT = (T*)ArrayOf::allocateArrayOf(A.getDataClass(), dimsC.getElementCount());
+            T* pT = (T*)ArrayOf::allocateArrayOf(
+                A.getDataClass(), dimsC.getElementCount(), stringVector(), true);
             return ArrayOf(A.getDataClass(), dimsC, pT, false);
         }
         // [](0xm) * M(mxn) = [](0xn)

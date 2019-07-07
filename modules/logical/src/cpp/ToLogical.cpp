@@ -41,7 +41,8 @@ floatingNumberToLogical(const ArrayOf& A)
     } else {
         Error(_W("Conversion to logical from single is not possible."));
     }
-    logical* pLogical = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
+    logical* pLogical = static_cast<logical*>(
+        ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength(), stringVector(), false));
     ArrayOf r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
     if (A.isDoubleClass()) {
         auto* ptrReal = (double*)A.getDataPointer();
@@ -72,8 +73,8 @@ integerToLogical(const ArrayOf& A)
     if (A.isSparse()) {
         Error(_W("Conversion to logical from sparse integer is not possible."));
     } else {
-        logical* pLogical
-            = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength()));
+        logical* pLogical = static_cast<logical*>(
+            ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength(), stringVector(), false));
         r = ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, false);
         auto* ptrInt = (T*)A.getDataPointer();
 #if defined(__NLS_WITH_OPENMP)

@@ -152,7 +152,7 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
             delete[] str;
         }
     } else {
-        void* ptr = ArrayOf::allocateArrayOf(classPrecision, static_cast<indexType>(sizeToRead));
+        void* ptr = ArrayOf::allocateArrayOf(classPrecision, static_cast<indexType>(sizeToRead), stringVector(), false);
         Dimensions dim(static_cast<indexType>(sizeToRead), 1);
         toRead = ArrayOf(classPrecision, dim, ptr);
         size_t count(toRead.getLength());
@@ -164,7 +164,8 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
             return toRead;
         }
         if (sizeReallyRead < sizeToRead) {
-            void* ptrResize = ArrayOf::allocateArrayOf(classPrecision, sizeReallyRead);
+            void* ptrResize
+                = ArrayOf::allocateArrayOf(classPrecision, sizeReallyRead, stringVector(), false);
             Dimensions dim(sizeReallyRead, 1);
             memcpy(ptrResize, ptr, toRead.getElementSize() * sizeReallyRead);
             toRead = ArrayOf(classPrecision, dim, ptrResize);

@@ -51,8 +51,8 @@ Nelson::FilesFoldersGateway::isdirBuiltin(Evaluator* eval, int nLhs, const Array
                 retval.push_back(ArrayOf::emptyConstructor(dim));
             } else {
                 ArrayOf cell(argIn[0]);
-                logical* bmat = static_cast<logical*>(
-                    ArrayOf::allocateArrayOf(NLS_LOGICAL, argIn[0].getLength()));
+                logical* bmat = static_cast<logical*>(ArrayOf::allocateArrayOf(
+                    NLS_LOGICAL, argIn[0].getLength(), stringVector(), false));
                 for (indexType k = 0; k < dim.getElementCount(); k++) {
                     ArrayOf cell(argIn[0]);
                     auto* arg = (ArrayOf*)(cell.getDataPointer());

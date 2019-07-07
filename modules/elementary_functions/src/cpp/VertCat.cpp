@@ -39,8 +39,8 @@ VertCatTemplate(ArrayOf A, ArrayOf B, Dimensions& dimsRes)
 {
     T* ptrA = (T*)A.getDataPointer();
     T* ptrB = (T*)B.getDataPointer();
-    void* pRes
-        = ArrayOf::allocateArrayOf(A.getDataClass(), dimsRes.getRows() * dimsRes.getColumns());
+    void* pRes = ArrayOf::allocateArrayOf(
+        A.getDataClass(), dimsRes.getRows() * dimsRes.getColumns(), stringVector(), false);
     T* ptrC = (T*)pRes;
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
@@ -58,7 +58,8 @@ template <class T>
 ArrayOf
 VertCatComplexTemplate(ArrayOf A, ArrayOf B, Dimensions& dimsRes)
 {
-    void* pRes = ArrayOf::allocateArrayOf(A.getDataClass(), dimsRes.getElementCount() * 2);
+    void* pRes = ArrayOf::allocateArrayOf(
+        A.getDataClass(), dimsRes.getElementCount() * 2, stringVector(), false);
     T* ptrC = (T*)pRes;
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(
@@ -198,7 +199,7 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         indexType newRowsSize = dimsA.getRows() + dimsB.getRows();
         indexType newSize = newColumnsSize * newRowsSize;
         Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-        void* ptrC = ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, newSize, fieldnamesA);
+        void* ptrC = ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, newSize, fieldnamesA, false);
         auto* elements = static_cast<ArrayOf*>(ptrC);
         res = ArrayOf(NLS_STRUCT_ARRAY, dimsC, elements, false, fieldnamesA);
         for (size_t k = 0; k < fieldnamesA.size(); k++) {

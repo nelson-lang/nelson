@@ -37,8 +37,8 @@ StringLength(ArrayOf A)
     if (A.isStringArray()) {
         outputDims = A.getDimensions();
         auto* elements = (ArrayOf*)A.getDataPointer();
-        ptrLength = static_cast<double*>(
-            ArrayOf::allocateArrayOf(NLS_DOUBLE, outputDims.getElementCount()));
+        ptrLength = static_cast<double*>(ArrayOf::allocateArrayOf(
+            NLS_DOUBLE, outputDims.getElementCount(), stringVector(), false));
         for (indexType k = 0; k < outputDims.getElementCount(); k++) {
             if (elements[k].isCharacterArray()) {
                 std::wstring wstr = elements[k].getContentAsWideString();
@@ -57,8 +57,8 @@ StringLength(ArrayOf A)
         } else {
             outputDims = A.getDimensions();
         }
-        ptrLength = static_cast<double*>(
-            ArrayOf::allocateArrayOf(NLS_DOUBLE, outputDims.getElementCount()));
+        ptrLength = static_cast<double*>(ArrayOf::allocateArrayOf(
+            NLS_DOUBLE, outputDims.getElementCount(), stringVector(), false));
         for (size_t k = 0; k < wstr.size(); k++) {
             ptrLength[k] = static_cast<double>(wstr[k].length());
         }

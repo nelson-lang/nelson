@@ -42,7 +42,8 @@ ArrayOf::isHandle() const
 ArrayOf
 ArrayOf::handleConstructor(nelson_handle hl)
 {
-    nelson_handle* ptrObject = static_cast<nelson_handle*>(ArrayOf::allocateArrayOf(NLS_HANDLE, 1));
+    nelson_handle* ptrObject = static_cast<nelson_handle*>(
+        ArrayOf::allocateArrayOf(NLS_HANDLE, 1, stringVector(), false));
     Dimensions dims(1, 1);
     ptrObject[0] = hl;
     return ArrayOf(NLS_HANDLE, dims, (void*)ptrObject);
@@ -51,7 +52,8 @@ ArrayOf::handleConstructor(nelson_handle hl)
 ArrayOf
 ArrayOf::handleConstructor(HandleGenericObject* ptr)
 {
-    nelson_handle* ptrObject = static_cast<nelson_handle*>(ArrayOf::allocateArrayOf(NLS_HANDLE, 1));
+    nelson_handle* ptrObject = static_cast<nelson_handle*>(
+        ArrayOf::allocateArrayOf(NLS_HANDLE, 1, stringVector(), false));
     Dimensions dims(1, 1);
     ptrObject[0] = HandleManager::getInstance()->addHandle(ptr);
     return ArrayOf(NLS_HANDLE, dims, (void*)ptrObject);

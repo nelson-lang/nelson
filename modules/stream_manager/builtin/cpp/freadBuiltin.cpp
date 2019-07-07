@@ -146,8 +146,8 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                         toRead.reshape(dim);
                         retval.push_back(toRead);
                     } else {
-                        void* ptr = ArrayOf::allocateArrayOf(
-                            toRead.getDataClass(), static_cast<indexType>(im * in));
+                        void* ptr = ArrayOf::allocateArrayOf(toRead.getDataClass(),
+                            static_cast<indexType>(im * in), stringVector(), false);
                         memcpy(ptr, toRead.getReadWriteDataPointer(), toRead.getByteSize());
                         ArrayOf Resized = ArrayOf(toRead.getDataClass(), dim, ptr);
                         retval.push_back(Resized);

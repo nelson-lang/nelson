@@ -226,8 +226,8 @@ ActiveXContolList()
     }
     RegCloseKey(hclsid);
     Dimensions dims(fieldsName.size(), 3);
-    ArrayOf* cell
-        = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount()));
+    ArrayOf* cell = static_cast<ArrayOf*>(
+        ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false));
     for (size_t k = 0; k < fieldsName.size(); k = k + 1) {
         cell[k] = ArrayOf::characterArrayConstructor(fieldsName[k]);
     }
@@ -309,8 +309,8 @@ ActiveXServerList()
     }
     RegCloseKey(hclsid);
     Dimensions dims(fieldsName.size(), 3);
-    ArrayOf* cell
-        = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount()));
+    ArrayOf* cell = static_cast<ArrayOf*>(
+        ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false));
     for (size_t k = 0; k < fieldsName.size(); k = k + 1) {
         cell[k] = ArrayOf::characterArrayConstructor(fieldsName[k]);
     }

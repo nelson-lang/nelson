@@ -61,17 +61,17 @@ XorLogical(ArrayOf A, ArrayOf B)
         }
         if (A.isScalar()) {
             size_t Blen(B.getLength());
-            auto* Cp = new_with_exception<logical>(Blen);
+            auto* Cp = new_with_exception<logical>(Blen, false);
             boolXor(Blen, Cp, (logical*)A.getDataPointer(), 0, (logical*)B.getDataPointer(), 1);
             C = ArrayOf(NLS_LOGICAL, B.getDimensions(), Cp);
         } else if (B.isScalar()) {
             size_t Alen(A.getLength());
-            auto* Cp = new_with_exception<logical>(Alen);
+            auto* Cp = new_with_exception<logical>(Alen, false);
             boolXor(Alen, Cp, (logical*)A.getDataPointer(), 1, (logical*)B.getDataPointer(), 0);
             C = ArrayOf(NLS_LOGICAL, A.getDimensions(), Cp);
         } else {
             size_t Alen(A.getLength());
-            auto* Cp = new_with_exception<logical>(Alen);
+            auto* Cp = new_with_exception<logical>(Alen, false);
             boolXor(Alen, Cp, (logical*)A.getDataPointer(), 1, (logical*)B.getDataPointer(), 1);
             C = ArrayOf(NLS_LOGICAL, A.getDimensions(), Cp);
         }

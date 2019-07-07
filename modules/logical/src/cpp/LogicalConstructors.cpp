@@ -42,8 +42,8 @@ TrueConstructor(Dimensions& dim, bool bIsSparse)
             res = ArrayOf(NLS_LOGICAL, dim, pLogicalSparse, true);
         }
     } else {
-        logical* pLogical
-            = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, dim.getElementCount()));
+        logical* pLogical = static_cast<logical*>(
+            ArrayOf::allocateArrayOf(NLS_LOGICAL, dim.getElementCount(), stringVector(), true));
         memset(pLogical, 1, sizeof(logical) * dim.getElementCount());
         res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogical, false);
     }
@@ -63,8 +63,8 @@ FalseConstructor(Dimensions& dim, bool bIsSparse)
             res = ArrayOf(NLS_LOGICAL, dim, pLogicalSparse, true);
         }
     } else {
-        logical* pLogical
-            = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, dim.getElementCount()));
+        logical* pLogical = static_cast<logical*>(
+            ArrayOf::allocateArrayOf(NLS_LOGICAL, dim.getElementCount(), stringVector(), true));
         res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogical, false);
     }
     return res;

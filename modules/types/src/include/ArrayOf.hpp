@@ -152,7 +152,7 @@ public:
      */
     static void*
     allocateArrayOf(Class /*type*/, indexType length, const stringVector& names = stringVector(),
-        bool initializeValues = true);
+        bool initializeValues = false);
     /** Convert us to an index type
      * Convert the current object to an ordinal one.  This has different
      * meanings for different data types.

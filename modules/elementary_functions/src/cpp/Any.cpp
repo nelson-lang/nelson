@@ -53,8 +53,8 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
                     res = ArrayOf::emptyConstructor(dims);
                     res.promoteType(NLS_LOGICAL);
                 } else {
-                    logical* logicalarray
-                        = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getColumns());
+                    logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
+                        NLS_LOGICAL, dimsA.getColumns(), stringVector(), true);
                     Dimensions dims(1, dimsA.getColumns());
                     res = ArrayOf(NLS_LOGICAL, dims, logicalarray);
                 }
@@ -82,7 +82,7 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
                         res.promoteType(NLS_LOGICAL);
                     } else if (dim - 1 == 1) {
                         logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
-                            NLS_LOGICAL, A.getDimensions().getRows());
+                            NLS_LOGICAL, A.getDimensions().getRows(), stringVector(), true);
                         Dimensions dims(A.getDimensions().getRows(), 1);
                         res = ArrayOf(NLS_LOGICAL, dims, logicalarray);
                     } else {
@@ -93,7 +93,7 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
                 } else {
                     if (dim - 1 == 0) {
                         logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(
-                            NLS_LOGICAL, A.getDimensions().getColumns());
+                            NLS_LOGICAL, A.getDimensions().getColumns(), stringVector(), true);
                         Dimensions dims(1, A.getDimensions().getColumns());
                         res = ArrayOf(NLS_LOGICAL, dims, logicalarray);
                     } else if (dim - 1 == 1) {
@@ -125,13 +125,15 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload)
         Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matA(
             (logical*)A.getDataPointer(), mA, nA);
         if ((dim == 0) || (dim == 1)) {
-            logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, nA);
+            logical* logicalarray
+                = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, nA, stringVector(), false);
             Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matC(
                 logicalarray, 1, nA);
             matC = matA.colwise().any();
             res = ArrayOf(NLS_LOGICAL, Dimensions(1, nA), logicalarray);
         } else if (dim == 2) {
-            logical* logicalarray = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, mA);
+            logical* logicalarray
+                = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, mA, stringVector(), false);
             Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matC(
                 logicalarray, mA, 1);
             matC = matA.rowwise().any();

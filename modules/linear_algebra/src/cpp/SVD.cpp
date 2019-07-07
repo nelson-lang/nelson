@@ -47,8 +47,8 @@ SVD_double(ArrayOf A, ArrayOf& s)
     int ldu = m;
     int ldvt = n;
     int lda = m;
-    double* superb = new_with_exception<double>(std::min(m, n) - 1);
-    double* ds = new_with_exception<double>(std::min(m, n));
+    double* superb = new_with_exception<double>(std::min(m, n) - 1, true);
+    double* ds = new_with_exception<double>(std::min(m, n), true);
     double* u = nullptr;
     double* vt = nullptr;
     Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
@@ -77,8 +77,8 @@ SVD_doublecomplex(ArrayOf A, ArrayOf& s)
     int ldu = m;
     int ldvt = n;
     int lda = m;
-    double* superb = new_with_exception<double>((std::min(m, n) - 1));
-    double* ds = new_with_exception<double>(std::min(m, n));
+    double* superb = new_with_exception<double>((std::min(m, n) - 1), true);
+    double* ds = new_with_exception<double>(std::min(m, n), true);
     auto* Rz = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
     doublecomplex* uz = nullptr;
     doublecomplex* vtz = nullptr;
@@ -108,8 +108,8 @@ SVD_single(ArrayOf A, ArrayOf& s)
     int ldu = m;
     int ldvt = n;
     int lda = m;
-    single* superb = new_with_exception<single>(std::min(m, n) - 1);
-    single* ds = new_with_exception<single>(std::min(m, n));
+    single* superb = new_with_exception<single>(std::min(m, n) - 1, true);
+    single* ds = new_with_exception<single>(std::min(m, n), true);
     single* u = nullptr;
     single* vt = nullptr;
     Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
@@ -138,8 +138,8 @@ SVD_singlecomplex(ArrayOf A, ArrayOf& s)
     int ldu = m;
     int ldvt = n;
     int lda = m;
-    single* superb = new_with_exception<single>((std::min(m, n) - 1));
-    single* ds = new_with_exception<single>(std::min(m, n));
+    single* superb = new_with_exception<single>((std::min(m, n) - 1), true);
+    single* ds = new_with_exception<single>(std::min(m, n), true);
     auto* Rz = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
     singlecomplex* uz = nullptr;
     singlecomplex* vtz = nullptr;
@@ -180,14 +180,14 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        double* superb = new_with_exception<double>(minMN - 1);
-        double* dstemp = new_with_exception<double>(minMN);
-        double* u = new_with_exception<double>(((size_t)ldu * (size_t)m * (size_t)2));
+        double* superb = new_with_exception<double>(minMN - 1, true);
+        double* dstemp = new_with_exception<double>(minMN, true);
+        double* u = new_with_exception<double>(((size_t)ldu * (size_t)m * (size_t)2), true);
         auto* uz = reinterpret_cast<doublecomplex*>(u);
         double* vt = nullptr;
         doublecomplex* vtz = nullptr;
         if (withV) {
-            vt = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2);
+            vt = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2, true);
             vtz = reinterpret_cast<doublecomplex*>(vt);
         }
         int info = LAPACKE_zgesvd(
@@ -199,7 +199,7 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         superb = nullptr;
         Dimensions dimsU(maxMN, maxMN);
         U = ArrayOf(NLS_DCOMPLEX, dimsU, u);
-        double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN);
+        double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN, true);
         Dimensions dimsS(m, n);
         Eigen::Map<Eigen::VectorXd> matStmp(dstemp, minMN);
         Eigen::Map<Eigen::MatrixXd> matS(ds, maxMN, minMN);
@@ -260,14 +260,14 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        double* superb = new_with_exception<double>(minMN - 1);
-        double* dstemp = new_with_exception<double>(minMN);
-        double* u = new_with_exception<double>((size_t)ldu * (size_t)m * (size_t)2);
+        double* superb = new_with_exception<double>(minMN - 1, true);
+        double* dstemp = new_with_exception<double>(minMN, true);
+        double* u = new_with_exception<double>((size_t)ldu * (size_t)m * (size_t)2, true);
         auto* uz = reinterpret_cast<doublecomplex*>(u);
         double* vt = nullptr;
         doublecomplex* vtz = nullptr;
         if (withV) {
-            vt = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2);
+            vt = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2, true);
             vtz = reinterpret_cast<doublecomplex*>(vt);
         }
         int info = LAPACKE_zgesvd(
@@ -280,14 +280,14 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         U = ArrayOf(NLS_DCOMPLEX, dimsU, u);
         Eigen::Map<Eigen::VectorXd> matStmp(dstemp, minMN);
         if (m > n) {
-            double* ds = new_with_exception<double>((size_t)n * (size_t)n);
+            double* ds = new_with_exception<double>((size_t)n * (size_t)n, true);
             Eigen::Map<Eigen::MatrixXd> matS(ds, n, n);
             for (size_t k = 0; k < (size_t)minMN; k++) {
                 matS(k, k) = matStmp(k);
             }
             S = ArrayOf(NLS_DOUBLE, dimsS, ds);
         } else {
-            double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN);
+            double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN, true);
             Eigen::Map<Eigen::MatrixXd> matS(ds, m, m);
             for (size_t k = 0; k < (size_t)minMN; k++) {
                 matS(k, k) = matStmp(k);
@@ -298,7 +298,7 @@ SVD_doublecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         dstemp = nullptr;
         if (withV) {
             Eigen::Map<Eigen::MatrixXcd> matV(vtz, ldvt, n);
-            double* vt2 = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2);
+            double* vt2 = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2, true);
             auto* vt2z = reinterpret_cast<doublecomplex*>(vt2);
             Eigen::Map<Eigen::MatrixXcd> matV2(vt2z, n, ldvt);
             matV2 = matV.transpose().eval();
@@ -330,12 +330,12 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        single* superb = new_with_exception<single>(minMN - 1);
-        single* dstemp = new_with_exception<single>(minMN);
-        single* u = new_with_exception<single>((size_t)(ldu) * (size_t)(m));
+        single* superb = new_with_exception<single>(minMN - 1, true);
+        single* dstemp = new_with_exception<single>(minMN, true);
+        single* u = new_with_exception<single>((size_t)(ldu) * (size_t)(m), true);
         single* vt = nullptr;
         if (withV) {
-            vt = new_with_exception<single>((size_t)ldvt * (size_t)n);
+            vt = new_with_exception<single>((size_t)ldvt * (size_t)n, true);
         }
         int info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(),
             lda, dstemp, u, ldu, vt, ldvt, superb);
@@ -346,7 +346,7 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         superb = nullptr;
         Dimensions dimsU(maxMN, maxMN);
         U = ArrayOf(NLS_SINGLE, dimsU, u);
-        single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN);
+        single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN, true);
         Dimensions dimsS(m, n);
         Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
         Eigen::Map<Eigen::MatrixXf> matS(ds, maxMN, minMN);
@@ -404,12 +404,12 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        single* superb = new_with_exception<single>(minMN - 1);
-        single* dstemp = new_with_exception<single>(minMN);
-        single* u = new_with_exception<single>((size_t)ldu * (size_t)m);
+        single* superb = new_with_exception<single>(minMN - 1, true);
+        single* dstemp = new_with_exception<single>(minMN, true);
+        single* u = new_with_exception<single>((size_t)ldu * (size_t)m, true);
         single* vt = nullptr;
         if (withV) {
-            vt = new_with_exception<single>((size_t)ldvt * (size_t)n);
+            vt = new_with_exception<single>((size_t)ldvt * (size_t)n, true);
         }
         int info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(),
             lda, dstemp, u, ldu, vt, ldvt, superb);
@@ -421,14 +421,14 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         U = ArrayOf(NLS_SINGLE, dimsU, u);
         Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
         if (m > n) {
-            single* ds = new_with_exception<single>((size_t)n * (size_t)n);
+            single* ds = new_with_exception<single>((size_t)n * (size_t)n, true);
             Eigen::Map<Eigen::MatrixXf> matS(ds, n, n);
             for (size_t k = 0; k < (size_t)minMN; k++) {
                 matS(k, k) = matStmp(k);
             }
             S = ArrayOf(NLS_SINGLE, dimsS, ds);
         } else {
-            single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN);
+            single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN, true);
             Eigen::Map<Eigen::MatrixXf> matS(ds, m, m);
             for (size_t k = 0; k < (size_t)minMN; k++) {
                 matS(k, k) = matStmp(k);
@@ -439,7 +439,7 @@ SVD_single(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         dstemp = nullptr;
         if (withV) {
             Eigen::Map<Eigen::MatrixXf> matV(vt, ldvt, n);
-            single* vt2 = new_with_exception<single>((size_t)ldvt * (size_t)n);
+            single* vt2 = new_with_exception<single>((size_t)ldvt * (size_t)n, true);
             Eigen::Map<Eigen::MatrixXf> matV2(vt2, n, ldvt);
             matV2 = matV.transpose().eval();
             delete[] vt;
@@ -470,12 +470,12 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        double* superb = new_with_exception<double>(minMN - 1);
-        double* dstemp = new_with_exception<double>(minMN);
-        double* u = new_with_exception<double>((size_t)ldu * (size_t)m);
+        double* superb = new_with_exception<double>(minMN - 1, true);
+        double* dstemp = new_with_exception<double>(minMN, true);
+        double* u = new_with_exception<double>((size_t)ldu * (size_t)m, true);
         double* vt = nullptr;
         if (withV) {
-            vt = new_with_exception<double>((size_t)ldvt * (size_t)n);
+            vt = new_with_exception<double>((size_t)ldvt * (size_t)n, true);
         }
         int info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(),
             lda, dstemp, u, ldu, vt, ldvt, superb);
@@ -486,7 +486,7 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         superb = nullptr;
         Dimensions dimsU(maxMN, maxMN);
         U = ArrayOf(NLS_DOUBLE, dimsU, u);
-        double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN);
+        double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN, true);
         Dimensions dimsS(m, n);
         Eigen::Map<Eigen::VectorXd> matStmp(dstemp, minMN);
         Eigen::Map<Eigen::MatrixXd> matS(ds, maxMN, minMN);
@@ -547,12 +547,12 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        double* superb = new_with_exception<double>(minMN - 1);
-        double* dstemp = new_with_exception<double>(minMN);
-        double* u = new_with_exception<double>((size_t)ldu * (size_t)m);
+        double* superb = new_with_exception<double>(minMN - 1, true);
+        double* dstemp = new_with_exception<double>(minMN, true);
+        double* u = new_with_exception<double>((size_t)ldu * (size_t)m, true);
         double* vt = nullptr;
         if (withV) {
-            vt = new_with_exception<double>((size_t)ldvt * (size_t)n);
+            vt = new_with_exception<double>((size_t)ldvt * (size_t)n, true);
         }
         int info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(),
             lda, dstemp, u, ldu, vt, ldvt, superb);
@@ -564,14 +564,14 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         U = ArrayOf(NLS_DOUBLE, dimsU, u);
         Eigen::Map<Eigen::VectorXd> matStmp(dstemp, minMN);
         if (m > n) {
-            double* ds = new_with_exception<double>((size_t)n * (size_t)n);
+            double* ds = new_with_exception<double>((size_t)n * (size_t)n, true);
             Eigen::Map<Eigen::MatrixXd> matS(ds, n, n);
             for (size_t k = 0; k < (size_t)minMN; k++) {
                 matS(k, k) = matStmp(k);
             }
             S = ArrayOf(NLS_DOUBLE, dimsS, ds);
         } else {
-            double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN);
+            double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN, true);
             Eigen::Map<Eigen::MatrixXd> matS(ds, m, m);
             for (size_t k = 0; k < (size_t)minMN; k++) {
                 matS(k, k) = matStmp(k);
@@ -582,7 +582,7 @@ SVD_double(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool wi
         dstemp = nullptr;
         if (withV) {
             Eigen::Map<Eigen::MatrixXd> matV(vt, ldvt, n);
-            double* vt2 = new_with_exception<double>((size_t)ldvt * (size_t)n);
+            double* vt2 = new_with_exception<double>((size_t)ldvt * (size_t)n, true);
             Eigen::Map<Eigen::MatrixXd> matV2(vt2, n, ldvt);
             matV2 = matV.transpose().eval();
             delete[] vt;
@@ -614,13 +614,13 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        single* superb = new_with_exception<single>(minMN - 1);
-        single* dstemp = new_with_exception<single>(minMN);
-        single* u = new_with_exception<single>((size_t)ldu * (size_t)m * (size_t)2);
+        single* superb = new_with_exception<single>(minMN - 1, true);
+        single* dstemp = new_with_exception<single>(minMN, true);
+        single* u = new_with_exception<single>((size_t)ldu * (size_t)m * (size_t)2, true);
         single* vt = nullptr;
         singlecomplex* vtz = nullptr;
         if (withV) {
-            vt = new_with_exception<single>((size_t)ldvt * (size_t)n * (size_t)2);
+            vt = new_with_exception<single>((size_t)ldvt * (size_t)n * (size_t)2, true);
             vtz = reinterpret_cast<singlecomplex*>(vt);
         }
         auto* uz = reinterpret_cast<singlecomplex*>(u);
@@ -633,7 +633,7 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         superb = nullptr;
         Dimensions dimsU(maxMN, maxMN);
         U = ArrayOf(NLS_SCOMPLEX, dimsU, u);
-        single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN);
+        single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN, true);
         Dimensions dimsS(m, n);
         Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
         Eigen::Map<Eigen::MatrixXf> matS(ds, maxMN, minMN);
@@ -694,14 +694,14 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        single* superb = new_with_exception<single>(minMN - 1);
-        single* dstemp = new_with_exception<single>(minMN);
-        single* u = new_with_exception<single>((size_t)ldu * (size_t)m * (size_t)2);
+        single* superb = new_with_exception<single>(minMN - 1, true);
+        single* dstemp = new_with_exception<single>(minMN, true);
+        single* u = new_with_exception<single>((size_t)ldu * (size_t)m * (size_t)2, true);
         auto* uz = reinterpret_cast<singlecomplex*>(u);
         single* vt = nullptr;
         singlecomplex* vtz = nullptr;
         if (withV) {
-            vt = new_with_exception<single>((size_t)ldvt * (size_t)n * (size_t)2);
+            vt = new_with_exception<single>((size_t)ldvt * (size_t)n * (size_t)2, true);
             vtz = reinterpret_cast<singlecomplex*>(vt);
         }
         int info = LAPACKE_cgesvd(
@@ -714,14 +714,14 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         U = ArrayOf(NLS_SCOMPLEX, dimsU, u);
         Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
         if (m > n) {
-            single* ds = new_with_exception<single>((size_t)n * (size_t)n);
+            single* ds = new_with_exception<single>((size_t)n * (size_t)n, true);
             Eigen::Map<Eigen::MatrixXf> matS(ds, n, n);
             for (size_t k = 0; k < (size_t)minMN; k++) {
                 matS(k, k) = matStmp(k);
             }
             S = ArrayOf(NLS_SINGLE, dimsS, ds);
         } else {
-            single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN);
+            single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN, true);
             Eigen::Map<Eigen::MatrixXf> matS(ds, m, m);
             for (size_t k = 0; k < (size_t)minMN; k++) {
                 matS(k, k) = matStmp(k);
@@ -732,7 +732,7 @@ SVD_singlecomplex(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         dstemp = nullptr;
         if (withV) {
             Eigen::Map<Eigen::MatrixXcf> matV(vtz, ldvt, n);
-            single* vt2 = new_with_exception<single>((size_t)ldvt * (size_t)n * (size_t)2);
+            single* vt2 = new_with_exception<single>((size_t)ldvt * (size_t)n * (size_t)2, true);
             auto* vt2z = reinterpret_cast<singlecomplex*>(vt2);
             Eigen::Map<Eigen::MatrixXcf> matV2(vt2z, n, ldvt);
             matV2 = matV.transpose().eval();
@@ -763,7 +763,8 @@ SVD(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
             U = ArrayOf::emptyConstructor(m, m);
             if (withV) {
                 indexType n = DimsA.getColumns();
-                double* mat = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, n * n));
+                double* mat = static_cast<double*>(
+                    ArrayOf::allocateArrayOf(NLS_DOUBLE, n * n, stringVector(), false));
                 Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> matEye(mat, n, n);
                 matEye.setIdentity();
                 Dimensions dimsV(n, n);
@@ -771,7 +772,8 @@ SVD(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, bool withV)
             }
         } else {
             n = m;
-            double* mat = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, n * m));
+            double* mat = static_cast<double*>(
+                ArrayOf::allocateArrayOf(NLS_DOUBLE, n * m, stringVector(), false));
             Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> matEye(mat, n, m);
             matEye.setIdentity();
             Dimensions dimsU(m, n);

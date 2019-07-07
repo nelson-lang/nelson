@@ -125,27 +125,27 @@ DotRightDivide(ArrayOf A, ArrayOf B)
     // Cp = Malloc(Clen*B.getElementSize());
     switch (B.getDataClass()) {
     case NLS_INT32:
-        Cp = new_with_exception<int32>(Clen);
+        Cp = new_with_exception<int32>(Clen, false);
         dividefullreal<int32>(Clen, static_cast<int32*>(Cp), (int32*)A.getDataPointer(), Astride,
             (int32*)B.getDataPointer(), Bstride);
         break;
     case NLS_SINGLE:
-        Cp = new_with_exception<float>(Clen);
+        Cp = new_with_exception<float>(Clen, false);
         dividefullreal<float>(Clen, static_cast<float*>(Cp), (float*)A.getDataPointer(), Astride,
             (float*)B.getDataPointer(), Bstride);
         break;
     case NLS_DOUBLE:
-        Cp = new_with_exception<double>(Clen);
+        Cp = new_with_exception<double>(Clen, false);
         dividefullreal<double>(Clen, static_cast<double*>(Cp), (double*)A.getDataPointer(), Astride,
             (double*)B.getDataPointer(), Bstride);
         break;
     case NLS_SCOMPLEX:
-        Cp = new_with_exception<float>(Clen * 2);
+        Cp = new_with_exception<float>(Clen * 2, false);
         dividefullcomplex<float>(Clen, static_cast<float*>(Cp), (float*)A.getDataPointer(), Astride,
             (float*)B.getDataPointer(), Bstride);
         break;
     case NLS_DCOMPLEX:
-        Cp = new_with_exception<double>(Clen * 2);
+        Cp = new_with_exception<double>(Clen * 2, false);
         dividefullcomplex<double>(Clen, static_cast<double*>(Cp), (double*)A.getDataPointer(),
             Astride, (double*)B.getDataPointer(), Bstride);
         break;

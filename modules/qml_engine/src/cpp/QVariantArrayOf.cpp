@@ -218,7 +218,7 @@ QVariantToArrayOf(QVariant Q)
         QByteArray qbytearray = Q.toByteArray();
         int count = qbytearray.count();
         const char* data = qbytearray.data();
-        int8* arrayInt8 = (int8*)ArrayOf::allocateArrayOf(NLS_INT8, count);
+        int8* arrayInt8 = (int8*)ArrayOf::allocateArrayOf(NLS_INT8, count, stringVector(), false);
         for (size_t k = 0; k < (size_t)count; k++) {
             arrayInt8[k] = (int8)data[k];
         }
@@ -228,7 +228,8 @@ QVariantToArrayOf(QVariant Q)
     case QVariant::Type::BitArray: {
         QBitArray qbitarray = Q.toBitArray();
         int count = qbitarray.count();
-        logical* arrayLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, count);
+        logical* arrayLogical
+            = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, count, stringVector(), false);
         for (int k = 0; k < count; k++) {
             arrayLogical[k] = (logical)qbitarray[k];
         }
@@ -237,7 +238,7 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Date: {
         QDate qdate = qvariant_cast<QDate>(Q);
-        int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 3);
+        int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 3, stringVector(), false);
         arrayInt32[0] = qdate.year();
         arrayInt32[1] = qdate.month();
         arrayInt32[2] = qdate.day();
@@ -246,7 +247,7 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Time: {
         QTime qtime = qvariant_cast<QTime>(Q);
-        int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 4);
+        int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 4, stringVector(), false);
         arrayInt32[0] = qtime.hour();
         arrayInt32[1] = qtime.minute();
         arrayInt32[2] = qtime.second();
@@ -259,7 +260,7 @@ QVariantToArrayOf(QVariant Q)
         qdatetime.setTimeSpec(Qt::UTC); // FORCE UTC
         QDate qdate = qdatetime.date();
         QTime qtime = qdatetime.time();
-        int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 7);
+        int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 7, stringVector(), false);
         arrayInt32[0] = qdate.year();
         arrayInt32[1] = qdate.month();
         arrayInt32[2] = qdate.day();
@@ -276,7 +277,7 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Rect: {
         QRect qrect = Q.toRect();
-        int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 4);
+        int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 4, stringVector(), false);
         arrayInt32[0] = qrect.x();
         arrayInt32[1] = qrect.y();
         arrayInt32[2] = qrect.width();
@@ -286,7 +287,8 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::RectF: {
         QRectF qrectf = Q.toRectF();
-        double* arrayDouble = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 4);
+        double* arrayDouble
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 4, stringVector(), false);
         arrayDouble[0] = (double)qrectf.x();
         arrayDouble[1] = (double)qrectf.y();
         arrayDouble[2] = (double)qrectf.width();
@@ -296,7 +298,7 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Size: {
         QSize qsize = Q.toSize();
-        int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 2);
+        int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 2, stringVector(), false);
         arrayInt32[0] = qsize.width();
         arrayInt32[1] = qsize.height();
         Dimensions dims(1, 2);
@@ -304,7 +306,8 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::SizeF: {
         QSizeF qsizef = Q.toSizeF();
-        double* arrayDouble = (double*)ArrayOf::allocateArrayOf(NLS_INT32, 2);
+        double* arrayDouble
+            = (double*)ArrayOf::allocateArrayOf(NLS_INT32, 2, stringVector(), false);
         arrayDouble[0] = qsizef.width();
         arrayDouble[1] = qsizef.height();
         Dimensions dims(1, 2);
@@ -312,7 +315,7 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Line: {
         QLine qline = Q.toLine();
-        int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 4);
+        int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 4, stringVector(), false);
         arrayInt32[0] = qline.x1();
         arrayInt32[1] = qline.y1();
         arrayInt32[2] = qline.x2();
@@ -322,7 +325,8 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::LineF: {
         QLineF qlinef = Q.toLineF();
-        double* arrayDouble = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 4);
+        double* arrayDouble
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 4, stringVector(), false);
         arrayDouble[0] = (double)qlinef.x1();
         arrayDouble[1] = (double)qlinef.y1();
         arrayDouble[2] = (double)qlinef.x2();
@@ -332,7 +336,7 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Point: {
         QPoint qpoint = Q.toPoint();
-        int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 2);
+        int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 2, stringVector(), false);
         arrayInt32[0] = qpoint.x();
         arrayInt32[1] = qpoint.y();
         Dimensions dims(1, 2);
@@ -340,7 +344,8 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::PointF: {
         QPointF qpointf = Q.toPointF();
-        double* arrayDouble = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 2);
+        double* arrayDouble
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 2, stringVector(), false);
         arrayDouble[0] = (double)qpointf.x();
         arrayDouble[1] = (double)qpointf.y();
         Dimensions dims(1, 2);
@@ -352,7 +357,7 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Color: {
         QColor qcolor = qvariant_cast<QColor>(Q);
-        int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 4);
+        int32* arrayInt32 = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, 4, stringVector(), false);
         arrayInt32[0] = qcolor.red();
         arrayInt32[1] = qcolor.green();
         arrayInt32[2] = qcolor.blue();
@@ -362,7 +367,8 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Matrix: {
         QMatrix qmatrix = qvariant_cast<QMatrix>(Q);
-        double* arrayDouble = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 6);
+        double* arrayDouble
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 6, stringVector(), false);
         arrayDouble[0] = (double)qmatrix.m11();
         arrayDouble[1] = (double)qmatrix.m12();
         arrayDouble[2] = (double)qmatrix.m21();
@@ -374,7 +380,8 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Transform: {
         QTransform qtransform = qvariant_cast<QTransform>(Q);
-        double* arrayDouble = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 9);
+        double* arrayDouble
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 9, stringVector(), false);
         arrayDouble[0] = (double)qtransform.m11();
         arrayDouble[1] = (double)qtransform.m12();
         arrayDouble[2] = (double)qtransform.m13();
@@ -389,7 +396,8 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Matrix4x4: {
         QMatrix4x4 qmatrix4x4 = qvariant_cast<QMatrix4x4>(Q);
-        single* arraySingle = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, 16);
+        single* arraySingle
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, 16, stringVector(), false);
         const single* data = qmatrix4x4.data();
         for (int k = 0; k < 16; k++) {
             arraySingle[k] = (single)data[k];
@@ -399,7 +407,8 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Vector2D: {
         QVector2D qvector2d = qvariant_cast<QVector2D>(Q);
-        single* arraySingle = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, 2);
+        single* arraySingle
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, 2, stringVector(), false);
         arraySingle[0] = qvector2d.x();
         arraySingle[1] = qvector2d.y();
         Dimensions dims(1, 2);
@@ -407,7 +416,8 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Vector3D: {
         QVector3D qvector3d = qvariant_cast<QVector3D>(Q);
-        single* arraySingle = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, 3);
+        single* arraySingle
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, 3, stringVector(), false);
         arraySingle[0] = qvector3d.x();
         arraySingle[1] = qvector3d.y();
         arraySingle[2] = qvector3d.z();
@@ -416,7 +426,8 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Vector4D: {
         QVector4D qvector4d = qvariant_cast<QVector4D>(Q);
-        single* arraySingle = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, 4);
+        single* arraySingle
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, 4, stringVector(), false);
         arraySingle[0] = qvector4d.x();
         arraySingle[1] = qvector4d.y();
         arraySingle[2] = qvector4d.z();
@@ -426,7 +437,8 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QVariant::Type::Quaternion: {
         QQuaternion qq = qvariant_cast<QQuaternion>(Q);
-        single* arraySingle = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, 4);
+        single* arraySingle
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, 4, stringVector(), false);
         arraySingle[0] = qq.scalar();
         arraySingle[1] = qq.x();
         arraySingle[2] = qq.y();
@@ -437,8 +449,8 @@ QVariantToArrayOf(QVariant Q)
     case QVariant::Type::List: {
         QVariantList qlistVariant = qvariant_cast<QVariantList>(Q);
         Dimensions dimsCellArray(1, qlistVariant.size());
-        ArrayOf* cellArray
-            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dimsCellArray.getElementCount());
+        ArrayOf* cellArray = (ArrayOf*)ArrayOf::allocateArrayOf(
+            NLS_CELL_ARRAY, dimsCellArray.getElementCount(), stringVector(), false);
         for (int k = 0; k < qlistVariant.size(); k++) {
             cellArray[k] = QVariantToArrayOf(qlistVariant[k]);
         }
@@ -464,7 +476,8 @@ QVariantToArrayOf(QVariant Q)
             QObject* qobject = Q.value<QObject*>();
             if (qobject) {
                 Dimensions dims(1, 1);
-                nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
+                nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(
+                    NLS_HANDLE, 1, stringVector(), false);
                 nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobject);
                 if (nh_found != -1) {
                     nh[0] = nh_found;
@@ -492,7 +505,8 @@ QVariantToArrayOf(QVariant Q)
                 return res;
             } else {
                 Dimensions dims(1, nbChilds);
-                nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbChilds);
+                nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(
+                    NLS_HANDLE, nbChilds, stringVector(), false);
                 for (int k = 0; k < nbChilds; k++) {
                     QObject* qobj = ref.at(k);
                     nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobj);
@@ -528,7 +542,8 @@ QVariantToArrayOf(QVariant Q)
                 return res;
             } else {
                 Dimensions dims(1, nbChilds);
-                nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbChilds);
+                nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(
+                    NLS_HANDLE, nbChilds, stringVector(), false);
                 for (int k = 0; k < nbChilds; k++) {
                     QObject* qobj = list->at(list, k);
                     nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobj);

@@ -96,7 +96,7 @@ dbstackAsStruct(stackTrace positions, bool withCompleteNames)
         st = ArrayOf::emptyStructConstructor(fieldnames, dims);
     } else {
         auto* elements = static_cast<ArrayOf*>(
-            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames));
+            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
         st = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
         ArrayOfVector file;
         ArrayOfVector name;

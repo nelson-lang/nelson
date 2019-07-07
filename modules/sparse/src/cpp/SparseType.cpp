@@ -544,8 +544,8 @@ Eigen_SetSparseVectorSubsets(Class dclass, indexType& rows, indexType& cols, con
     if (advance) {
         Error(_W("Eigen_DeleteSparseMatrixVectorSubset advanced not yet implemented."));
     }
-    indexType* rowvect = new_with_exception<indexType>(irows * icols);
-    indexType* colvect = new_with_exception<indexType>(irows * icols);
+    indexType* rowvect = new_with_exception<indexType>(irows * icols, false);
+    indexType* colvect = new_with_exception<indexType>(irows * icols, false);
     for (indexType k = 0; k < irows * icols; k++) {
         auto idx = static_cast<indexType>(indx[k] - 1);
         rowvect[k] = static_cast<indexType>(idx % rows) + 1;
@@ -729,7 +729,7 @@ Eigen_SparseToIJV(const void* cp, indexType*& I, indexType*& J, int& nnz)
     T* pV = nullptr;
     if (spMat) {
         indexType q = 0;
-        pV = new_with_exception<T>(spMat->nonZeros());
+        pV = new_with_exception<T>(spMat->nonZeros(), false);
         for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
             for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(*spMat, k);
                  it; ++it) {
@@ -765,7 +765,7 @@ Eigen_SparseToIJV(Class dclass, indexType rows, indexType cols, const void* cp, 
             indexType q = 0;
             indexType k = 0;
             indexType l = 0;
-            pV = new_with_exception<double>(spMat->nonZeros() * 2);
+            pV = new_with_exception<double>(spMat->nonZeros() * 2, false);
             for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
                 for (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator it(
                          *spMat, k);
@@ -1099,9 +1099,9 @@ Eigen_ReshapeSparseMatrix(
                 = (Eigen::SparseMatrix<T, 0, signedIndexType>*)cp;
             indexType nnz = spMat->nonZeros();
             indexType q = 0;
-            T* pV = new_with_exception<T>(spMat->nonZeros());
-            indexType* pI = new_with_exception<indexType>(spMat->nonZeros());
-            indexType* pJ = new_with_exception<indexType>(spMat->nonZeros());
+            T* pV = new_with_exception<T>(spMat->nonZeros(), false);
+            indexType* pI = new_with_exception<indexType>(spMat->nonZeros(), false);
+            indexType* pJ = new_with_exception<indexType>(spMat->nonZeros(), false);
             for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
                 for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(
                          *spMat, k);

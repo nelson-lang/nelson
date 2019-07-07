@@ -36,19 +36,20 @@ void
 isNh5File(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions, ArrayOf& headers)
 {
     Dimensions dims(filenames.size(), 1);
-    logical* res = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, filenames.size());
+    logical* res
+        = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, filenames.size(), stringVector(), false);
     results = ArrayOf(NLS_LOGICAL, dims, res);
     if (filenames.size() == 0) {
         versions = ArrayOf::stringArrayConstructor(filenames, dims);
         headers = ArrayOf::stringArrayConstructor(filenames, dims);
         return;
     }
-    ArrayOf* elementVersions
-        = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, filenames.size());
+    ArrayOf* elementVersions = (ArrayOf*)ArrayOf::allocateArrayOf(
+        NLS_STRING_ARRAY, filenames.size(), stringVector(), false);
     versions = ArrayOf(NLS_STRING_ARRAY, dims, elementVersions);
 
-    ArrayOf* elementHeaders
-        = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, filenames.size());
+    ArrayOf* elementHeaders = (ArrayOf*)ArrayOf::allocateArrayOf(
+        NLS_STRING_ARRAY, filenames.size(), stringVector(), false);
     headers = ArrayOf(NLS_STRING_ARRAY, dims, elementHeaders);
 
     for (size_t k = 0; k < filenames.size(); ++k) {

@@ -63,8 +63,8 @@ Nelson::StringGateway::str2doubleBuiltin(Evaluator* eval, int nLhs, const ArrayO
                 Dimensions dimParam1 = param1.getDimensions();
                 Dimensions dimOutput(dimParam1);
                 size_t nbElements = dimParam1.getElementCount();
-                double* pComplex
-                    = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbElements));
+                double* pComplex = static_cast<double*>(
+                    ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbElements, stringVector(), false));
                 auto* outPutAsComplex = reinterpret_cast<doublecomplex*>(pComplex);
                 auto* cellParam1 = (ArrayOf*)(param1.getDataPointer());
                 for (size_t k = 0; k < nbElements; k++) {

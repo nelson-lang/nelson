@@ -92,7 +92,7 @@ ArrayOf
 truncateArray(ArrayOf arrayIn, T (*ptrFunc)(T))
 {
     size_t len = arrayIn.getLength();
-    void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len);
+    void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
     T* rp = (T*)ptr;
     T* dp = (T*)arrayIn.getDataPointer();
     for (size_t i = 0; i < len * 2; i++) {
@@ -199,7 +199,7 @@ Truncate(ArrayOf arrayIn, TRUNCATE_LEVEL level)
     } break;
     case NLS_CHAR: {
         size_t len = arrayIn.getLength();
-        void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
+        void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (charType*)arrayIn.getDataPointer();
         for (size_t i = 0; i < len; i++) {
@@ -209,7 +209,7 @@ Truncate(ArrayOf arrayIn, TRUNCATE_LEVEL level)
     } break;
     case NLS_LOGICAL: {
         size_t len = arrayIn.getLength();
-        void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
+        void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (logical*)arrayIn.getDataPointer();
         for (size_t i = 0; i < len; i++) {

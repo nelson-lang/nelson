@@ -102,7 +102,7 @@ ArrayOf::deleteContents(void)
 bool*
 ArrayOf::getBinaryMap(indexType maxD)
 {
-    bool* map = new_with_exception<bool>(maxD);
+    bool* map = new_with_exception<bool>(maxD, true);
     indexType N = getLength();
     constIndexPtr rp = (constIndexPtr)dp->getData();
     for (indexType i = 0; i < N; i++) {
@@ -164,8 +164,7 @@ ArrayOf::toOrdinalType()
                 indexCount++;
             }
         // Allocate space to hold the new type.
-        // indexType *lp = (indexType *) Malloc(indexCount*sizeof(indexType));
-        indexType* lp = new_with_exception<indexType>(indexCount);
+        indexType* lp = new_with_exception<indexType>(indexCount, false);
         indexType* qp = lp;
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
@@ -195,7 +194,7 @@ ArrayOf::toOrdinalType()
         indexType len = getLength();
         indexType ndx = 0;
         // Allocate space to hold the new type
-        indexType* lp = new_with_exception<indexType>(len);
+        indexType* lp = new_with_exception<indexType>(len, false);
         for (indexType i = 0; i < len; i++) {
             ndx = (indexType)rp[i << 1];
             if ((double)ndx != rp[i << 1]) {
@@ -219,7 +218,7 @@ ArrayOf::toOrdinalType()
         indexType len = getLength();
         indexType ndx;
         // Allocate space to hold the new type
-        indexType* lp = new_with_exception<indexType>(len);
+        indexType* lp = new_with_exception<indexType>(len, false);
         for (indexType i = 0; i < len; i++) {
             ndx = (indexType)rp[i << 1];
             if ((double)ndx != rp[i << 1]) {
@@ -241,7 +240,7 @@ ArrayOf::toOrdinalType()
         indexType len = getLength();
         indexType ndx;
         // Allocate space to hold the new type
-        indexType* lp = new_with_exception<indexType>(len);
+        indexType* lp = new_with_exception<indexType>(len, false);
         for (indexType i = 0; i < len; i++) {
             ndx = (indexType)rp[i];
             if ((double)ndx != rp[i]) {
@@ -263,7 +262,7 @@ ArrayOf::toOrdinalType()
         indexType len = getLength();
         indexType ndx;
         // Allocate space to hold the new type
-        indexType* lp = new_with_exception<indexType>(len);
+        indexType* lp = new_with_exception<indexType>(len, false);
         for (indexType i = 0; i < len; i++) {
             ndx = (indexType)rp[i];
             if ((double)ndx != rp[i]) {
@@ -285,7 +284,7 @@ ArrayOf::toOrdinalType()
         indexType len = getLength();
         indexType ndx;
         // Allocate space to hold the new type
-        indexType* lp = new_with_exception<indexType>(len);
+        indexType* lp = new_with_exception<indexType>(len, false);
         for (indexType i = 0; i < len; i++) {
             if (rp[i] <= 0) {
                 Error(_W("Zero or negative index encountered."));
@@ -304,7 +303,7 @@ ArrayOf::toOrdinalType()
         indexType len = getLength();
         indexType ndx;
         // Allocate space to hold the new type
-        indexType* lp = new_with_exception<indexType>(len);
+        indexType* lp = new_with_exception<indexType>(len, false);
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -329,7 +328,7 @@ ArrayOf::toOrdinalType()
         indexType len = getLength();
         indexType ndx;
         // Allocate space to hold the new type
-        indexType* lp = new_with_exception<indexType>(len);
+        indexType* lp = new_with_exception<indexType>(len, false);
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -351,7 +350,7 @@ ArrayOf::toOrdinalType()
         indexType len = getLength();
         indexType ndx;
         // Allocate space to hold the new type
-        indexType* lp = new_with_exception<indexType>(len);
+        indexType* lp = new_with_exception<indexType>(len, false);
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -373,7 +372,7 @@ ArrayOf::toOrdinalType()
         indexType len = getLength();
         indexType ndx;
         // Allocate space to hold the new type
-        indexType* lp = new_with_exception<indexType>(len);
+        indexType* lp = new_with_exception<indexType>(len, false);
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -395,7 +394,7 @@ ArrayOf::toOrdinalType()
         indexType len = getLength();
         indexType ndx;
         // Allocate space to hold the new type
-        indexType* lp = new_with_exception<indexType>(len);
+        indexType* lp = new_with_exception<indexType>(len, false);
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -417,7 +416,7 @@ ArrayOf::toOrdinalType()
         indexType len = getLength();
         indexType ndx;
         // Allocate space to hold the new type
-        indexType* lp = new_with_exception<indexType>(len);
+        indexType* lp = new_with_exception<indexType>(len, false);
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -439,7 +438,7 @@ ArrayOf::toOrdinalType()
         indexType len = getLength();
         indexType ndx;
         // Allocate space to hold the new type
-        indexType* lp = new_with_exception<indexType>(len);
+        indexType* lp = new_with_exception<indexType>(len, false);
 #if defined(__NLS_WITH_OPENMP)
 #pragma omp parallel for
 #endif
@@ -587,7 +586,7 @@ ArrayOf::ensureSingleOwner()
 {
     if (dp->numberOfOwners() > 1) {
         if (!dp->sparse) {
-            void* np = allocateArrayOf(dp->dataClass, getLength(), dp->fieldNames);
+            void* np = allocateArrayOf(dp->dataClass, getLength(), dp->fieldNames, false);
             if (isEmpty()) {
                 Dimensions dim = dp->getDimensions();
                 dp = dp->putData(dp->dataClass, dim, np, dp->sparse, dp->fieldNames);
@@ -765,7 +764,7 @@ ArrayOf::resize(Dimensions& a)
         Error(_W("Cannot resize sparse arrays."));
     }
     // Allocate space for our new size.
-    void* dst_data = allocateArrayOf(dp->dataClass, newSize.getElementCount(), dp->fieldNames);
+    void* dst_data = allocateArrayOf(dp->dataClass, newSize.getElementCount(), dp->fieldNames, true);
     if (!isEmpty()) {
         // Initialize a pointer to zero.
         Dimensions curPos(dp->dimensions.getLength());
@@ -1450,7 +1449,7 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
                          "combination "
                          "requires fields to be deleted from one of the structures."));
             }
-            void* dstPtr = allocateArrayOf(dp->dataClass, getLength(), fNames);
+            void* dstPtr = allocateArrayOf(dp->dataClass, getLength(), fNames, false);
             const ArrayOf* src_rp = (const ArrayOf*)dp->getData();
             ArrayOf* dst_rp = (ArrayOf*)dstPtr;
             indexType elCount(getLength());
@@ -1490,7 +1489,7 @@ ArrayOf::promoteType(Class dstClass, stringVector fNames)
     }
     elCount = getLength();
     // We have to promote...
-    dstPtr = allocateArrayOf(dstClass, elCount);
+    dstPtr = allocateArrayOf(dstClass, elCount, stringVector(), true);
     indexType count = elCount;
     switch (dp->dataClass) {
 #define caseMacro(caseLabel, dpType, convCode)                                                     \
@@ -1965,7 +1964,7 @@ ArrayOf::getContentAsIndexPointer()
     promoteType(NLS_DOUBLE);
     double* qp = (double*)dp->getData();
     size_t nbElements = dp->getDimensions().getElementCount();
-    indexType* pIndex = new_with_exception<indexType>(nbElements);
+    indexType* pIndex = new_with_exception<indexType>(nbElements, false);
     double maxIndexType = (double)std::numeric_limits<indexType>::max();
     for (size_t k = 0; k < nbElements; k++) {
         if ((floor(qp[k]) == qp[k]) && IsFinite((qp[k]))) {
@@ -2169,7 +2168,7 @@ ProcessNDimIndexes(bool preserveColons, Dimensions& dims, ArrayOfVector& index, 
     indexType& colonIndex, Dimensions& outDims, bool argCheck)
 {
     indexType L = index.size();
-    constIndexPtr* outndx = new_with_exception<constIndexPtr>(L);
+    constIndexPtr* outndx = new_with_exception<constIndexPtr>(L, false);
     bool colonFound = false;
     anyEmpty = false;
     colonIndex = ((indexType)-1);
@@ -2181,7 +2180,7 @@ ProcessNDimIndexes(bool preserveColons, Dimensions& dims, ArrayOfVector& index, 
             outndx[i] = NULL;
             outDims[i] = dims[i];
         } else if (isColon) {
-            indexType* buildcolon = new_with_exception<indexType>(dims[i]);
+            indexType* buildcolon = new_with_exception<indexType>(dims[i], false);
             for (int j = 1; j <= dims[i]; j++)
                 buildcolon[j - 1] = (indexType)j;
             outndx[i] = buildcolon;

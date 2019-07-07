@@ -48,7 +48,8 @@ Zeros(Dimensions& dims, Class cl)
         indexType nbElements = dims.getElementCount();
         logical* mat = nullptr;
         if (nbElements != 0) {
-            mat = static_cast<logical*>(ArrayOf::allocateArrayOf(cl, nbElements));
+            mat = static_cast<logical*>(
+                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -56,7 +57,8 @@ Zeros(Dimensions& dims, Class cl)
         indexType nbElements = dims.getElementCount();
         int8* mat = nullptr;
         if (nbElements != 0) {
-            mat = static_cast<int8*>(ArrayOf::allocateArrayOf(cl, nbElements));
+            mat = static_cast<int8*>(
+                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -64,7 +66,8 @@ Zeros(Dimensions& dims, Class cl)
         indexType nbElements = dims.getElementCount();
         uint8* mat = nullptr;
         if (nbElements != 0) {
-            mat = static_cast<uint8*>(ArrayOf::allocateArrayOf(cl, nbElements));
+            mat = static_cast<uint8*>(
+                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -72,7 +75,8 @@ Zeros(Dimensions& dims, Class cl)
         indexType nbElements = dims.getElementCount();
         int16* mat = nullptr;
         if (nbElements != 0) {
-            mat = static_cast<int16*>(ArrayOf::allocateArrayOf(cl, nbElements));
+            mat = static_cast<int16*>(
+                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -80,7 +84,8 @@ Zeros(Dimensions& dims, Class cl)
         indexType nbElements = dims.getElementCount();
         uint16* mat = nullptr;
         if (nbElements != 0) {
-            mat = static_cast<uint16*>(ArrayOf::allocateArrayOf(cl, nbElements));
+            mat = static_cast<uint16*>(
+                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -88,7 +93,8 @@ Zeros(Dimensions& dims, Class cl)
         indexType nbElements = dims.getElementCount();
         int32* mat = nullptr;
         if (nbElements != 0) {
-            mat = static_cast<int32*>(ArrayOf::allocateArrayOf(cl, nbElements));
+            mat = static_cast<int32*>(
+                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -96,7 +102,8 @@ Zeros(Dimensions& dims, Class cl)
         indexType nbElements = dims.getElementCount();
         uint32* mat = nullptr;
         if (nbElements != 0) {
-            mat = static_cast<uint32*>(ArrayOf::allocateArrayOf(cl, nbElements));
+            mat = static_cast<uint32*>(
+                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -104,7 +111,8 @@ Zeros(Dimensions& dims, Class cl)
         indexType nbElements = dims.getElementCount();
         int64* mat = nullptr;
         if (nbElements != 0) {
-            mat = static_cast<int64*>(ArrayOf::allocateArrayOf(cl, nbElements));
+            mat = static_cast<int64*>(
+                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -112,7 +120,8 @@ Zeros(Dimensions& dims, Class cl)
         indexType nbElements = dims.getElementCount();
         uint64* mat = nullptr;
         if (nbElements != 0) {
-            mat = static_cast<uint64*>(ArrayOf::allocateArrayOf(cl, nbElements));
+            mat = static_cast<uint64*>(
+                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -120,7 +129,8 @@ Zeros(Dimensions& dims, Class cl)
         indexType nbElements = dims.getElementCount();
         single* mat = nullptr;
         if (nbElements != 0) {
-            mat = static_cast<single*>(ArrayOf::allocateArrayOf(cl, nbElements));
+            mat = static_cast<single*>(
+                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -128,7 +138,8 @@ Zeros(Dimensions& dims, Class cl)
         indexType nbElements = dims.getElementCount();
         double* mat = nullptr;
         if (nbElements != 0) {
-            mat = static_cast<double*>(ArrayOf::allocateArrayOf(cl, nbElements));
+            mat = static_cast<double*>(
+                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -136,7 +147,8 @@ Zeros(Dimensions& dims, Class cl)
         indexType nbElements = dims.getElementCount();
         single* mat = nullptr;
         if (nbElements != 0) {
-            mat = static_cast<single*>(ArrayOf::allocateArrayOf(cl, nbElements * 2));
+            mat = static_cast<single*>(
+                ArrayOf::allocateArrayOf(cl, nbElements * 2, stringVector(), true));
         }
         return ArrayOf(cl, dims, mat, false);
     } break;
@@ -144,7 +156,8 @@ Zeros(Dimensions& dims, Class cl)
         indexType nbElements = dims.getElementCount();
         double* mat = nullptr;
         if (nbElements != 0) {
-            mat = static_cast<double*>(ArrayOf::allocateArrayOf(cl, nbElements * 2));
+            mat = static_cast<double*>(
+                ArrayOf::allocateArrayOf(cl, nbElements * 2, stringVector(), true));
         }
         return ArrayOf(cl, dims, mat, false);
     } break;

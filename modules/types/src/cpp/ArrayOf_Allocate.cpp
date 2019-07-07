@@ -35,17 +35,17 @@ ArrayOf::allocateArrayOf(
 {
     switch (type) {
     case NLS_HANDLE: {
-        return (void*)new_with_exception<nelson_handle>(length);
+        return (void*)new_with_exception<nelson_handle>(length, false);
     } break;
     case NLS_STRING_ARRAY: {
-        auto* dp = new_with_exception<ArrayOf>(length);
+        auto* dp = new_with_exception<ArrayOf>(length, false);
         for (indexType i = 0; i < length; i++) {
             dp[i] = ArrayOf(NLS_DOUBLE);
         }
         return dp;
     } break;
     case NLS_CELL_ARRAY: {
-        auto* dp = new_with_exception<ArrayOf>(length);
+        auto* dp = new_with_exception<ArrayOf>(length, false);
         for (indexType i = 0; i < length; i++) {
             dp[i] = ArrayOf(NLS_DOUBLE);
         }
@@ -59,7 +59,7 @@ ArrayOf::allocateArrayOf(
             Error(_W("Duplicated field detected."));
         }
         auto n = static_cast<indexType>(length * names.size());
-        auto* dp = new_with_exception<ArrayOf>(n);
+        auto* dp = new_with_exception<ArrayOf>(n, false);
         for (indexType i = 0; i < (n); i++) {
             dp[i] = ArrayOf(NLS_DOUBLE);
         }

@@ -70,8 +70,8 @@ Nelson::DataStructuresGateway::isfieldBuiltin(Evaluator* eval, int nLhs, const A
                     retval.push_back(ArrayOf::logicalConstructor(false));
                 } else {
                     auto* elements = (ArrayOf*)(param2.getDataPointer());
-                    logical* res = static_cast<logical*>(
-                        ArrayOf::allocateArrayOf(NLS_LOGICAL, dims2.getElementCount()));
+                    logical* res = static_cast<logical*>(ArrayOf::allocateArrayOf(
+                        NLS_LOGICAL, dims2.getElementCount(), stringVector(), false));
                     for (indexType k = 0; k < dims2.getElementCount(); ++k) {
                         res[k] = false;
                         if (elements[k].isRowVectorCharacterArray()) {

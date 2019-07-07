@@ -79,7 +79,8 @@ StringCount(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
             std::wstring pattern = Pattern.getContentAsWideString();
             Dimensions dimA = A.getDimensions();
             size_t nbA = dimA.getElementCount();
-            double* result = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, nbA));
+            double* result = static_cast<double*>(
+                ArrayOf::allocateArrayOf(NLS_DOUBLE, nbA, stringVector(), false));
             auto* cellA = (ArrayOf*)(A.getDataPointer());
             for (size_t k = 0; k < nbA; k++) {
                 result[k] = countString(cellA[k].getContentAsWideString(), pattern, bCaseSensitive);
@@ -91,7 +92,8 @@ StringCount(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
             size_t nbA = dimA.getElementCount();
             Dimensions dimPattern = Pattern.getDimensions();
             size_t nbPattern = dimPattern.getElementCount();
-            double* result = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, nbA));
+            double* result = static_cast<double*>(
+                ArrayOf::allocateArrayOf(NLS_DOUBLE, nbA, stringVector(), true));
             auto* cellA = (ArrayOf*)(A.getDataPointer());
             auto* cellPattern = (ArrayOf*)(Pattern.getDataPointer());
             for (size_t k = 0; k < nbA; k++) {

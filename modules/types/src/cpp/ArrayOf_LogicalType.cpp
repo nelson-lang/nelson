@@ -52,7 +52,7 @@ ArrayOf::logicalConstructor(bool aval)
 {
     Dimensions dim;
     dim.makeScalar();
-    logical* data = static_cast<logical*>(allocateArrayOf(NLS_LOGICAL, 1));
+    logical* data = static_cast<logical*>(allocateArrayOf(NLS_LOGICAL, 1, stringVector(), false));
     *data = static_cast<logical>(aval);
     return ArrayOf(NLS_LOGICAL, dim, data);
 }

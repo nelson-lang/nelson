@@ -65,7 +65,7 @@ LibPointerObject::LibPointerObject(const std::wstring& DataType)
         _initialDimY = 1;
         _dimX = _initialDimX;
         _dimY = _initialDimY;
-        _voidPointer = ArrayOf::allocateArrayOf(_currentType, 1);
+        _voidPointer = ArrayOf::allocateArrayOf(_currentType, 1, stringVector(), true);
     }
 }
 //=============================================================================
@@ -96,7 +96,8 @@ LibPointerObject::LibPointerObject(const std::wstring& DataType, ArrayOf Value)
         && (dimsValue.getElementCount() > 1 || dimsValue.getElementCount() == 0)) {
         Error(_W("Invalid #2 argument scalar expected."));
     }
-    _voidPointer = ArrayOf::allocateArrayOf(Value.getDataClass(), dimsValue.getElementCount());
+    _voidPointer = ArrayOf::allocateArrayOf(
+        Value.getDataClass(), dimsValue.getElementCount(), stringVector(), true);
     memcpy(_voidPointer, Value.getReadWriteDataPointer(),
         Value.getElementSize() * dimsValue.getElementCount());
 }
@@ -357,7 +358,8 @@ LibPointerObject::get(const std::wstring& propertyName, ArrayOf& res)
             || _voidPointer == nullptr) {
             Error(_W("The datatype and size of the value must be defined."));
         }
-        void* copyPointer = ArrayOf::allocateArrayOf(_currentType, _dimX * _dimY);
+        void* copyPointer
+            = ArrayOf::allocateArrayOf(_currentType, _dimX * _dimY, stringVector(), true);
         if (_initialDimX != -1 && _initialDimY != -1) {
             res = ArrayOf(_currentType);
             if (_initialDimX * _initialDimY > _dimX * _dimY) {

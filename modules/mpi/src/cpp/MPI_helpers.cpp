@@ -339,46 +339,47 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             return SparseConstructor(I, J, V, M.getContentAsScalarIndex(),
                 N.getContentAsScalarIndex(), NNZ.getContentAsScalarIndex());
         } else {
-            cp = ArrayOf::allocateArrayOf(NLS_LOGICAL, outDim.getElementCount());
+            cp = ArrayOf::allocateArrayOf(
+                NLS_LOGICAL, outDim.getElementCount(), stringVector(), false);
             MPI_Unpack(
                 buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_UINT8_T, comm);
         }
         break;
     case NLS_UINT8:
-        cp = ArrayOf::allocateArrayOf(NLS_UINT8, outDim.getElementCount());
+        cp = ArrayOf::allocateArrayOf(NLS_UINT8, outDim.getElementCount(), stringVector(), false);
         MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_UINT8_T, comm);
         break;
     case NLS_INT8:
-        cp = ArrayOf::allocateArrayOf(NLS_INT8, outDim.getElementCount());
+        cp = ArrayOf::allocateArrayOf(NLS_INT8, outDim.getElementCount(), stringVector(), false);
         MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_INT8_T, comm);
         break;
     case NLS_UINT16:
-        cp = ArrayOf::allocateArrayOf(NLS_UINT16, outDim.getElementCount());
+        cp = ArrayOf::allocateArrayOf(NLS_UINT16, outDim.getElementCount(), stringVector(), false);
         MPI_Unpack(
             buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_UNSIGNED_SHORT, comm);
         break;
     case NLS_INT16:
-        cp = ArrayOf::allocateArrayOf(NLS_INT16, outDim.getElementCount());
+        cp = ArrayOf::allocateArrayOf(NLS_INT16, outDim.getElementCount(), stringVector(), false);
         MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_SHORT, comm);
         break;
     case NLS_UINT32:
-        cp = ArrayOf::allocateArrayOf(NLS_UINT32, outDim.getElementCount());
+        cp = ArrayOf::allocateArrayOf(NLS_UINT32, outDim.getElementCount(), stringVector(), false);
         MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_UINT32_T, comm);
         break;
     case NLS_INT32:
-        cp = ArrayOf::allocateArrayOf(NLS_INT32, outDim.getElementCount());
+        cp = ArrayOf::allocateArrayOf(NLS_INT32, outDim.getElementCount(), stringVector(), false);
         MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_INT32_T, comm);
         break;
     case NLS_UINT64:
-        cp = ArrayOf::allocateArrayOf(NLS_UINT64, outDim.getElementCount());
+        cp = ArrayOf::allocateArrayOf(NLS_UINT64, outDim.getElementCount(), stringVector(), false);
         MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_UINT64_T, comm);
         break;
     case NLS_INT64:
-        cp = ArrayOf::allocateArrayOf(NLS_INT64, outDim.getElementCount());
+        cp = ArrayOf::allocateArrayOf(NLS_INT64, outDim.getElementCount(), stringVector(), false);
         MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_INT64_T, comm);
         break;
     case NLS_SINGLE:
-        cp = ArrayOf::allocateArrayOf(NLS_SINGLE, outDim.getElementCount());
+        cp = ArrayOf::allocateArrayOf(NLS_SINGLE, outDim.getElementCount(), stringVector(), false);
         MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_FLOAT, comm);
         break;
     case NLS_DOUBLE:
@@ -392,13 +393,14 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             return SparseConstructor(I, J, V, M.getContentAsScalarIndex(),
                 N.getContentAsScalarIndex(), NNZ.getContentAsScalarIndex());
         } else {
-            cp = ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.getElementCount());
+            cp = ArrayOf::allocateArrayOf(
+                NLS_DOUBLE, outDim.getElementCount(), stringVector(), false);
             MPI_Unpack(
                 buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_DOUBLE, comm);
         }
         break;
     case NLS_SCOMPLEX:
-        cp = ArrayOf::allocateArrayOf(NLS_SCOMPLEX, outDim.getElementCount());
+        cp = ArrayOf::allocateArrayOf(NLS_SCOMPLEX, outDim.getElementCount(), stringVector(), false);
         MPI_Unpack(
             buffer, bufsize, packpos, cp, (int)outDim.getElementCount() * 2, MPI_FLOAT, comm);
         break;
@@ -413,13 +415,14 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             return SparseConstructor(I, J, V, M.getContentAsScalarIndex(),
                 N.getContentAsScalarIndex(), NNZ.getContentAsScalarIndex());
         } else {
-            cp = ArrayOf::allocateArrayOf(NLS_DCOMPLEX, outDim.getElementCount());
+            cp = ArrayOf::allocateArrayOf(
+                NLS_DCOMPLEX, outDim.getElementCount(), stringVector(), true);
             MPI_Unpack(
                 buffer, bufsize, packpos, cp, (int)outDim.getElementCount() * 2, MPI_DOUBLE, comm);
         }
         break;
     case NLS_CHAR:
-        cp = ArrayOf::allocateArrayOf(NLS_CHAR, outDim.getElementCount());
+        cp = ArrayOf::allocateArrayOf(NLS_CHAR, outDim.getElementCount(), stringVector(), false);
         MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_WCHAR, comm);
         break;
     default: {

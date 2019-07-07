@@ -172,8 +172,8 @@ ComVariantToNelson(VARIANT* variant, ArrayOf& res, std::wstring& errorMessage)
             case VT_VARIANT: {
                 VARIANT* pvar;
                 HRESULT hr;
-                ArrayOf* pCell = static_cast<ArrayOf*>(
-                    ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount()));
+                ArrayOf* pCell = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
+                    NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false));
                 hr = SafeArrayAccessData(arr, reinterpret_cast<void**>(&pvar));
                 if (FAILED(hr)) {
                     errorMessage = L"Failed accessing array data.";

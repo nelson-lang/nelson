@@ -42,7 +42,7 @@ ArrayOf::toCell(ArrayOf m)
     if (m.isCell()) {
         return m;
     }
-    ArrayOf* elements = static_cast<ArrayOf*>(allocateArrayOf(NLS_CELL_ARRAY, 1));
+    ArrayOf* elements = static_cast<ArrayOf*>(allocateArrayOf(NLS_CELL_ARRAY, 1, stringVector(), false));
     elements[0] = m;
     return ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
 }
@@ -84,7 +84,8 @@ ArrayOf::cellConstructor(ArrayOfMatrix& m)
         /**
          * Allocate storage space for the contents.
          */
-        qp = static_cast<ArrayOf*>(allocateArrayOf(NLS_CELL_ARRAY, retDims.getElementCount()));
+        qp = static_cast<ArrayOf*>(
+            allocateArrayOf(NLS_CELL_ARRAY, retDims.getElementCount(), stringVector(), false));
         ArrayOf* sp;
         /**
          * Loop through the rows.
@@ -259,7 +260,7 @@ ArrayOf::getNDimContentsAsList(ArrayOfVector& index)
             index[i].toOrdinalType();
         }
     }
-    auto* indx = new_with_exception<constIndexPtr>(L);
+    auto* indx = new_with_exception<constIndexPtr>(L, false);
     for (i = 0; i < L; i++) {
         outDims[i] = (index[i].getLength());
         indx[i] = static_cast<constIndexPtr>(index[i].dp->getData());
@@ -434,7 +435,7 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
         index[i].toOrdinalType();
     }
     // Set up data pointers
-    auto* indx = new_with_exception<constIndexPtr>(L);
+    auto* indx = new_with_exception<constIndexPtr>(L, false);
     try {
         Dimensions a(L);
         // First, we compute the maximum along each dimension.

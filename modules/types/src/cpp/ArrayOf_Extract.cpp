@@ -57,7 +57,7 @@ ArrayOf::getValueAtIndex(uint64 index)
             true);
     }
     int ndx = static_cast<int>(index);
-    void* qp = allocateArrayOf(dp->dataClass, 1, dp->fieldNames);
+    void* qp = allocateArrayOf(dp->dataClass, 1, dp->fieldNames, false);
     copyElements(ndx, qp, 0, 1);
     return ArrayOf(dp->dataClass, retdims, qp, dp->sparse, dp->fieldNames);
 
@@ -135,7 +135,7 @@ ArrayOf::getVectorSubset(ArrayOf& index)
         // source variable (neat, huh?).  But it inherits the
         // type of the source variable.
         indexType length = index.getLength();
-        qp = allocateArrayOf(dp->dataClass, index.getLength(), dp->fieldNames);
+        qp = allocateArrayOf(dp->dataClass, index.getLength(), dp->fieldNames, true);
         // Get a pointer to the index data set
         const auto* index_p = static_cast<const indexType*>(index.dp->getData());
         indexType bound = getLength();
@@ -202,7 +202,7 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
             return ArrayOf::emptyConstructor(dimsDest, isSparse());
         }
         // Set up data pointers
-        indx = new_with_exception<constIndexPtr>(L);
+        indx = new_with_exception<constIndexPtr>(L, false);
         // Calculate the size of the output.
         Dimensions outDims(L);
         for (i = 0; i < L; i++) {
@@ -231,7 +231,7 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
                     outDims[0], static_cast<const indexType*>(indx[1]), outDims[1]),
                 true);
         }
-        qp = allocateArrayOf(dp->dataClass, outDims.getElementCount(), dp->fieldNames);
+        qp = allocateArrayOf(dp->dataClass, outDims.getElementCount(), dp->fieldNames, true);
         Dimensions argPointer(L);
         Dimensions currentIndex(L);
         indexType srcindex = 0;

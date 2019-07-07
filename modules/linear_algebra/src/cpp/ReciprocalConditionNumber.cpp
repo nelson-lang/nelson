@@ -65,7 +65,7 @@ ReciprocalConditionNumber_Double(const ArrayOf& A)
             normA = LAPACKE_dlange(
                 LAPACK_COL_MAJOR, norm, m, n, (const double*)R.getDataPointer(), lda);
             int info = 0;
-            int* ipiv = new_with_exception<int>(std::min(m, n));
+            int* ipiv = new_with_exception<int>(std::min(m, n), false);
             LAPACK_dgetrf(&m, &n, (double*)R.getDataPointer(), &lda, ipiv, &info);
             delete[] ipiv;
             ipiv = nullptr;
@@ -73,8 +73,8 @@ ReciprocalConditionNumber_Double(const ArrayOf& A)
                 Error(_("LAPACK_dgetrf error."));
             }
             info = 0;
-            double* work = new_with_exception<double>(4 * n);
-            int* iwork = new_with_exception<int>(n);
+            double* work = new_with_exception<double>(4 * n, false);
+            int* iwork = new_with_exception<int>(n, false);
             double res = 0.;
             LAPACK_dgecon(&norm, &n, (const double*)R.getDataPointer(), &lda, &normA, &res, work,
                 iwork, &info);
@@ -123,7 +123,7 @@ ReciprocalConditionNumber_DoubleComplex(ArrayOf A)
             auto* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
             normA = LAPACKE_zlange(LAPACK_COL_MAJOR, norm, m, n, Rz, lda);
             int info = 0;
-            int* ipiv = new_with_exception<int>(std::min(m, n));
+            int* ipiv = new_with_exception<int>(std::min(m, n), false);
             LAPACK_zgetrf(&m, &n, Rz, &lda, ipiv, &info);
             delete[] ipiv;
             ipiv = nullptr;
@@ -131,8 +131,8 @@ ReciprocalConditionNumber_DoubleComplex(ArrayOf A)
                 Error(_("LAPACK_zgetrf error."));
             }
             info = 0;
-            doublecomplex* work = new_with_exception<doublecomplex>(4 * n);
-            double* rwork = new_with_exception<double>(2 * n);
+            doublecomplex* work = new_with_exception<doublecomplex>(4 * n, false);
+            double* rwork = new_with_exception<double>(2 * n, false);
             double res = 0.;
             LAPACK_zgecon(&norm, &n, Rz, &lda, &normA, &res, work, rwork, &info);
             delete[] rwork;
@@ -179,7 +179,7 @@ ReciprocalConditionNumber_Single(const ArrayOf& A)
             normA = LAPACKE_slange(
                 LAPACK_COL_MAJOR, norm, m, n, (const single*)R.getDataPointer(), lda);
             int info = 0;
-            int* ipiv = new_with_exception<int>(std::min(m, n));
+            int* ipiv = new_with_exception<int>(std::min(m, n), false);
             LAPACK_sgetrf(&m, &n, (single*)R.getDataPointer(), &lda, ipiv, &info);
             delete[] ipiv;
             ipiv = nullptr;
@@ -187,8 +187,8 @@ ReciprocalConditionNumber_Single(const ArrayOf& A)
                 Error(_("LAPACK_sgetrf error."));
             }
             info = 0;
-            single* work = new_with_exception<single>(4 * n);
-            int* iwork = new_with_exception<int>(n);
+            single* work = new_with_exception<single>(4 * n, false);
+            int* iwork = new_with_exception<int>(n, false);
             single res = 0.;
             LAPACK_sgecon(
                 &norm, &n, (single*)R.getDataPointer(), &lda, &normA, &res, work, iwork, &info);
@@ -238,7 +238,7 @@ ReciprocalConditionNumber_SingleComplex(const ArrayOf& A)
             int lda = m;
             normA = LAPACKE_clange(LAPACK_COL_MAJOR, norm, m, n, Rz, lda);
             int info = 0;
-            int* ipiv = new_with_exception<int>(std::min(m, n));
+            int* ipiv = new_with_exception<int>(std::min(m, n), false);
             LAPACK_cgetrf(&m, &n, Rz, &lda, ipiv, &info);
             delete[] ipiv;
             ipiv = nullptr;
@@ -246,8 +246,8 @@ ReciprocalConditionNumber_SingleComplex(const ArrayOf& A)
                 Error(_("LAPACK_cgetrf error."));
             }
             info = 0;
-            singlecomplex* work = new_with_exception<singlecomplex>(4 * n);
-            single* rwork = new_with_exception<single>(2 * n);
+            singlecomplex* work = new_with_exception<singlecomplex>(4 * n, false);
+            single* rwork = new_with_exception<single>(2 * n, false);
             single res = 0.;
             LAPACK_cgecon(&norm, &n, Rz, &lda, &normA, &res, work, rwork, &info);
             delete[] rwork;

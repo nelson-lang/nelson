@@ -53,7 +53,8 @@ findchildrenQObject(ArrayOf H, const std::wstring& fieldname, bool bRecursively)
     QList<QObject*> qobjfound = qobj->findChildren<QObject*>(wstringToQString(fieldname), option);
     if (qobjfound.size() > 0) {
         Dimensions dims(1, qobjfound.size());
-        nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, qobjfound.size());
+        nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(
+            NLS_HANDLE, qobjfound.size(), stringVector(), false);
         for (int k = 0; k < qobjfound.size(); k++) {
             nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobjfound[k]);
             if (nh_found != -1) {

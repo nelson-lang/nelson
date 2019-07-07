@@ -241,14 +241,16 @@ h5SaveSparseDoubleMatrix(hid_t fid, const std::string& location, const std::stri
     void* ptrV = SparseToIJVDynamicFunction(VariableValue.getDataClass(), dims.getRows(),
         dims.getColumns(), VariableValue.getSparseDataPointer(), ptrI, ptrJ, nz);
 
-    uint64* pI = static_cast<uint64*>(ArrayOf::allocateArrayOf(NLS_UINT64, nnz));
+    uint64* pI
+        = static_cast<uint64*>(ArrayOf::allocateArrayOf(NLS_UINT64, nnz, stringVector(), false));
     for (indexType k = 0; k < nnz; k++) {
         pI[k] = static_cast<uint64>(ptrI[k]);
     }
     ArrayOf I = ArrayOf(NLS_UINT64, Dimensions(1, nnz), (void*)pI);
     delete[] ptrI;
 
-    uint64* pJ = static_cast<uint64*>(ArrayOf::allocateArrayOf(NLS_UINT64, nnz));
+    uint64* pJ
+        = static_cast<uint64*>(ArrayOf::allocateArrayOf(NLS_UINT64, nnz, stringVector(), false));
     for (indexType k = 0; k < nnz; k++) {
         pJ[k] = static_cast<uint64>(ptrJ[k]);
     }

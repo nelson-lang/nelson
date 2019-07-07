@@ -60,7 +60,8 @@ ConcatenateNdArray(ArrayOfMatrix& m, Class destClass)
         ++i;
     }
     retDims = mat_dims;
-    void* dstPtr = ArrayOf::allocateArrayOf(destClass, retDims.getElementCount());
+    void* dstPtr
+        = ArrayOf::allocateArrayOf(destClass, retDims.getElementCount(), stringVector(), true);
     indexType row_corner = 0;
     indexType column_corner = 0;
     indexType dim_count(mat_dims.getLength());

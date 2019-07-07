@@ -34,6 +34,8 @@ Compilation:
 
   * [#211](http://github.com/Nelson-numerical-software/nelson/issues/211): BOOST 1.70 on Windows platforms.
 
+  * allocateArrayOf and new_with_exception no more set memory to zero by default. This speed up array constructors.
+
 
 # 0.3.6 (2019-06-26)
 

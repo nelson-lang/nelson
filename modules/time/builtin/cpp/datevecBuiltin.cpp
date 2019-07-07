@@ -58,7 +58,8 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             indexType len = param1.getLength();
             auto* ptd = (double*)param1.getDataPointer();
             if (nLhs < 2) {
-                double* res = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, 6 * len));
+                double* res = static_cast<double*>(
+                    ArrayOf::allocateArrayOf(NLS_DOUBLE, 6 * len, stringVector(), false));
                 for (indexType k = 0; k < len; k++) {
                     double DT, Y, M, D, H, MN, S;
                     DT = ptd[k];
@@ -80,19 +81,25 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 double* MN = nullptr;
                 double* S = nullptr;
 
-                Y = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, len));
-                M = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, len));
+                Y = static_cast<double*>(
+                    ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false));
+                M = static_cast<double*>(
+                    ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false));
                 if (nLhs > 2) {
-                    D = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, len));
+                    D = static_cast<double*>(
+                        ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false));
                 }
                 if (nLhs > 3) {
-                    H = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, len));
+                    H = static_cast<double*>(
+                        ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false));
                 }
                 if (nLhs > 4) {
-                    MN = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, len));
+                    MN = static_cast<double*>(
+                        ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false));
                 }
                 if (nLhs > 5) {
-                    S = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, len));
+                    S = static_cast<double*>(
+                        ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false));
                 }
                 for (indexType k = 0; k < len; k++) {
                     double DT = ptd[k];

@@ -53,7 +53,7 @@ HandleDelete(Evaluator* eval, ArrayOf A)
                             int nLhs = 0;
                             ArrayOfVector argIn;
                             nelson_handle* ptrObject = static_cast<nelson_handle*>(
-                                ArrayOf::allocateArrayOf(NLS_HANDLE, 1));
+                                ArrayOf::allocateArrayOf(NLS_HANDLE, 1, stringVector(), false));
                             Dimensions dims(1, 1);
                             ptrObject[0] = hl;
                             argIn.push_back(ArrayOf(NLS_HANDLE, dims, (void*)ptrObject));

@@ -54,19 +54,22 @@ IsFinite(ArrayOf A)
     switch (A.getDataClass()) {
     case NLS_DOUBLE: {
         C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
-        void* Cp = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
+        void* Cp
+            = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength(), stringVector(), false);
         boolean_isfinite<double>(A.getLength(), (logical*)Cp, (const double*)A.getDataPointer());
         C.setDataPointer(Cp);
     } break;
     case NLS_SINGLE: {
         C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
-        void* Cp = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
+        void* Cp
+            = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength(), stringVector(), false);
         boolean_isfinite<single>(A.getLength(), (logical*)Cp, (const single*)A.getDataPointer());
         C.setDataPointer(Cp);
     } break;
     case NLS_SCOMPLEX: {
         C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
-        void* Cp = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
+        void* Cp
+            = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength(), stringVector(), false);
         auto* pValueA = (single*)A.getDataPointer();
         auto* cplx = reinterpret_cast<singlecomplex*>(pValueA);
         boolean_isfinite_cplx<singlecomplex>(A.getLength(), (logical*)Cp, cplx);
@@ -74,7 +77,8 @@ IsFinite(ArrayOf A)
     } break;
     case NLS_DCOMPLEX: {
         C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
-        void* Cp = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
+        void* Cp
+            = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength(), stringVector(), false);
         auto* pValueA = (double*)A.getDataPointer();
         auto* cplx = reinterpret_cast<doublecomplex*>(pValueA);
         boolean_isfinite_cplx<doublecomplex>(A.getLength(), (logical*)Cp, cplx);
@@ -91,7 +95,8 @@ IsFinite(ArrayOf A)
     case NLS_INT64:
     case NLS_UINT64: {
         C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
-        void* Cp = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength());
+        void* Cp
+            = Nelson::ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getLength(), stringVector(), false);
         auto* CpLogical = static_cast<logical*>(Cp);
         for (indexType i = 0; i < A.getLength(); i++) {
             CpLogical[i] = static_cast<logical>(0);

@@ -33,7 +33,8 @@ Clock()
 {
     boost::posix_time::ptime pt = boost::posix_time::microsec_clock::local_time();
     tm pt_tm = to_tm(pt);
-    double* vect = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, 6));
+    double* vect
+        = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, 6, stringVector(), false));
     vect[0] = 1900 + pt_tm.tm_year;
     vect[1] = pt_tm.tm_mon + 1;
     vect[2] = pt_tm.tm_mday;

@@ -247,7 +247,7 @@ Whos(Evaluator* eval, const std::wstring& filename, bool onlyGlobal, const strin
                 res = ArrayOf::emptyStructConstructor(fieldnames, dims);
             } else {
                 auto* elements = static_cast<ArrayOf*>(
-                    ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames));
+                    ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
                 ArrayOf st = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
                 ArrayOfVector nameArray;
                 ArrayOfVector sizeArray;

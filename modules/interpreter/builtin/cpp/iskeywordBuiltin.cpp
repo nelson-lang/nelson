@@ -38,7 +38,7 @@ Nelson::InterpreterGateway::iskeywordBuiltin(Evaluator* eval, int nLhs, const Ar
     }
     if (argIn.size() == 0) {
         wstringVector keys = GetKeywords(true);
-        ArrayOf* elements = new_with_exception<ArrayOf>(keys.size());
+        ArrayOf* elements = new_with_exception<ArrayOf>(keys.size(), false);
         for (size_t k = 0; k < keys.size(); k++) {
             elements[k] = ArrayOf::characterArrayConstructor(keys[k]);
         }

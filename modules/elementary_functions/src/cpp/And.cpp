@@ -88,7 +88,7 @@ And(ArrayOf A, ArrayOf B)
         Cdim = A.getDimensions();
     }
     Clen = Cdim.getElementCount();
-    void* Cp = ArrayOf::allocateArrayOf(NLS_LOGICAL, Clen);
+    void* Cp = ArrayOf::allocateArrayOf(NLS_LOGICAL, Clen, stringVector(), true);
     if (Astride == 0 && Bstride == 0) {
         if (A.isRowVector() && B.isColumnVector()) {
             boolean_vector_and(static_cast<logical*>(Cp),

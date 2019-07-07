@@ -80,8 +80,8 @@ whoNh5File(Interface* io, const std::wstring& filename, const wstringVector& nam
     }
     if (asCell) {
         Dimensions dims(variablesNamesToRead.size(), 1);
-        ArrayOf* elements
-            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount());
+        ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(
+            NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
         indexType k = 0;
         for (std::string name : variablesNamesToRead) {
             elements[k] = ArrayOf::characterArrayConstructor(name);

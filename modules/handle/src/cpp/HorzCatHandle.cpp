@@ -69,7 +69,7 @@ HorzCatHandle(ArrayOf A, ArrayOf B)
             Error(_W("Handles being catenated have incompatible classes."));
         }
     }
-    void* pRes = ArrayOf::allocateArrayOf(NLS_HANDLE, newSize);
+    void* pRes = ArrayOf::allocateArrayOf(NLS_HANDLE, newSize, stringVector(), false);
     if (newSize != 0) {
         auto* ptrC = static_cast<nelson_handle*>(pRes);
         Eigen::Map<Eigen::Matrix<nelson_handle, Eigen::Dynamic, Eigen::Dynamic>> matA(

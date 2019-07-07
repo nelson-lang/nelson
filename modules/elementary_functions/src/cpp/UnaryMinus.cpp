@@ -90,7 +90,8 @@ UnaryMinus(const ArrayOf& A, bool& needToOverload)
     case NLS_UINT16:
     case NLS_UINT32:
     case NLS_UINT64: {
-        void* Cp = ArrayOf::allocateArrayOf(A.getDataClass(), A.getDimensions().getElementCount());
+        void* Cp = ArrayOf::allocateArrayOf(
+            A.getDataClass(), A.getDimensions().getElementCount(), stringVector(), true);
         res = ArrayOf(A.getDataClass(), A.getDimensions(), Cp);
     } break;
     case NLS_INT8: {

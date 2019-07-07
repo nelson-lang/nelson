@@ -93,7 +93,7 @@ ArrayOf::structScalarConstructor(const stringVector& fNames, ArrayOfVector& valu
                 _W("Number of field names must match number of values in structure constructor."));
         }
         Dimensions dims(1, 1);
-        qp = (ArrayOf*)allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fNames);
+        qp = (ArrayOf*)allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fNames, false);
         /**
          * Work through the values, and copy the values back one at a time.
          */
@@ -170,7 +170,7 @@ ArrayOf::structConstructor(const stringVector& fNames, ArrayOfVector& values)
          * dimensions of the object and the field names.  Then allocate
          * the space.
          */
-        qp = (ArrayOf*)allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fNames);
+        qp = (ArrayOf*)allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fNames, false);
         /**
          * Work through the values, and copy the values back one at a time.
          */
@@ -351,7 +351,7 @@ ArrayOf::insertFieldName(const std::string& fieldName)
     stringVector names(dp->fieldNames);
     names.push_back(fieldName);
     const ArrayOf* qp = (const ArrayOf*)dp->getData();
-    ArrayOf* rp = (ArrayOf*)allocateArrayOf(dp->dataClass, getLength(), names);
+    ArrayOf* rp = (ArrayOf*)allocateArrayOf(dp->dataClass, getLength(), names, false);
     std::string classtype = dp->getStructTypeName();
     indexType fN = names.size();
     for (indexType i = 0; i < fN - 1; i++) {
@@ -414,7 +414,7 @@ ArrayOf::emptyStructConstructor(const stringVector& fNames, Dimensions& dim)
     if (dim.getElementCount() != 0) {
         Error(_W("Invalid dimensions."));
     }
-    ArrayOf* qp = (ArrayOf*)allocateArrayOf(NLS_STRUCT_ARRAY, dim.getElementCount(), fNames);
+    ArrayOf* qp = (ArrayOf*)allocateArrayOf(NLS_STRUCT_ARRAY, dim.getElementCount(), fNames, false);
     return ArrayOf(NLS_STRUCT_ARRAY, dim, qp, false, fNames);
 }
 //=============================================================================

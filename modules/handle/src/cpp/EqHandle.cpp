@@ -62,7 +62,7 @@ EqHandle(ArrayOf A, ArrayOf B)
         Cdim = dimsA;
     }
     Clen = Cdim.getElementCount();
-    void* Cp = new_with_exception<logical>(Clen);
+    void* Cp = new_with_exception<logical>(Clen, false);
     auto* C = static_cast<logical*>(Cp);
     if (A.isHandle() && B.isHandle()) {
         auto* hA = (nelson_handle*)A.getDataPointer();

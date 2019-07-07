@@ -32,7 +32,8 @@ template <class T>
 ArrayOf
 ToSingle(const ArrayOf& A)
 {
-    single* pSingle = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength());
+    single* pSingle
+        = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
         (T*)A.getDataPointer(), A.getLength(), 1);
     Eigen::Map<Eigen::Matrix<single, Eigen::Dynamic, Eigen::Dynamic>> matC(
@@ -85,8 +86,8 @@ ToSingle(const ArrayOf& A, bool& needToOverload)
         return r;
     } break;
     case NLS_DCOMPLEX: {
-        float* pSingle
-            = static_cast<float*>(ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength() * 2));
+        float* pSingle = static_cast<float*>(
+            ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength() * 2, stringVector(), false));
         ArrayOf r = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), pSingle, A.isSparse());
         auto* pDouble = (double*)A.getDataPointer();
 #if defined(__NLS_WITH_OPENMP)

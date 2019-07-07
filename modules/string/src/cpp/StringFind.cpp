@@ -50,7 +50,8 @@ StringFind(const std::wstring& A, const std::wstring& B)
         res = ArrayOf::emptyConstructor();
     } else {
         size_t Clen = vectorRes.size();
-        double* Cp = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, Clen));
+        double* Cp = static_cast<double*>(
+            ArrayOf::allocateArrayOf(NLS_DOUBLE, Clen, stringVector(), false));
         Dimensions dimC(1, Clen);
         for (size_t k = 0; k < Clen; k++) {
             Cp[k] = vectorRes[k];

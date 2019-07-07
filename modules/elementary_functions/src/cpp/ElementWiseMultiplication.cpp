@@ -62,7 +62,7 @@ real_times(Class currentClass, ArrayOf& A, ArrayOf& B)
                 }
                 dimsC = B.getDimensions();
                 Clen = dimsC.getElementCount();
-                Cp = new_with_exception<T>(Clen);
+                Cp = new_with_exception<T>(Clen, false);
                 Eigen::Map<Eigen::Matrix<T, -1, -1>> matC((T*)Cp, 1, Clen);
                 Eigen::Map<Eigen::Matrix<T, -1, -1>> matB((T*)B.getDataPointer(), 1, Clen);
                 matC = da * matB.array();
@@ -75,7 +75,7 @@ real_times(Class currentClass, ArrayOf& A, ArrayOf& B)
                 }
                 dimsC = A.getDimensions();
                 Clen = dimsC.getElementCount();
-                Cp = new_with_exception<T>(Clen);
+                Cp = new_with_exception<T>(Clen, false);
                 Eigen::Map<Eigen::Matrix<T, -1, -1>> matC((T*)Cp, 1, Clen);
                 Eigen::Map<Eigen::Matrix<T, -1, -1>> matA((T*)A.getDataPointer(), 1, Clen);
                 matC = matA.array() * db;
@@ -88,7 +88,7 @@ real_times(Class currentClass, ArrayOf& A, ArrayOf& B)
                 return ArrayOf::emptyConstructor(dimsC);
             } else {
                 indexType Clen = dimsC.getElementCount();
-                void* Cp = new_with_exception<T>(Clen);
+                void* Cp = new_with_exception<T>(Clen, false);
                 Eigen::Map<Eigen::Matrix<T, -1, -1>> matC((T*)Cp, 1, Clen);
                 Eigen::Map<Eigen::Matrix<T, -1, -1>> matA((T*)A.getDataPointer(), 1, Clen);
                 Eigen::Map<Eigen::Matrix<T, -1, -1>> matB((T*)B.getDataPointer(), 1, Clen);
@@ -108,7 +108,7 @@ integer_times(ArrayOf& A, ArrayOf& B)
     T* ptrB = (T*)B.getDataPointer();
     if (A.isScalar() && B.isScalar()) {
         // s .* s
-        void* Cp = new_with_exception<T>(1);
+        void* Cp = new_with_exception<T>(1, false);
         T* ptrC = (T*)Cp;
         ptrC[0] = scalarInteger_times_scalarInteger(ptrA[0], ptrB[0]);
         Dimensions dimsC(1, 1);
@@ -124,7 +124,7 @@ integer_times(ArrayOf& A, ArrayOf& B)
                 T* ptrA = (T*)A.getDataPointer();
                 dimsC = B.getDimensions();
                 Clen = dimsC.getElementCount();
-                Cp = new_with_exception<T>(Clen);
+                Cp = new_with_exception<T>(Clen, false);
                 T* ptrC = (T*)Cp;
                 for (indexType k = 0; k < B.getDimensions().getElementCount(); k++) {
                     ptrC[k] = scalarInteger_times_scalarInteger(ptrA[0], ptrB[k]);
@@ -133,7 +133,7 @@ integer_times(ArrayOf& A, ArrayOf& B)
                 T* ptrB = (T*)B.getDataPointer();
                 dimsC = A.getDimensions();
                 Clen = dimsC.getElementCount();
-                Cp = new_with_exception<T>(Clen);
+                Cp = new_with_exception<T>(Clen, false);
                 T* ptrC = (T*)Cp;
                 for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
                     ptrC[k] = scalarInteger_times_scalarInteger(ptrA[k], ptrB[0]);
@@ -149,7 +149,7 @@ integer_times(ArrayOf& A, ArrayOf& B)
                 return res;
             } else {
                 indexType Clen = dimsC.getElementCount();
-                void* Cp = new_with_exception<T>(Clen);
+                void* Cp = new_with_exception<T>(Clen, false);
                 T* ptrC = (T*)Cp;
                 for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
                     ptrC[k] = scalarInteger_times_scalarInteger(ptrA[k], ptrB[k]);
@@ -170,7 +170,7 @@ complex_times(Class currentClass, ArrayOf& A, ArrayOf& B)
     B.promoteType(currentClass);
     if (A.isScalar() && B.isScalar()) {
         // s .* s
-        void* Cp = new_with_exception<T>(2);
+        void* Cp = new_with_exception<T>(2, false);
         std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
         std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
         std::complex<T> cxa = Az[0];
@@ -187,7 +187,7 @@ complex_times(Class currentClass, ArrayOf& A, ArrayOf& B)
             void* Cp = nullptr;
             if (A.isScalar()) {
                 dimsC = B.getDimensions();
-                Cp = new_with_exception<T>(2 * dimsC.getElementCount());
+                Cp = new_with_exception<T>(2 * dimsC.getElementCount(), false);
                 std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
                 Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matC(
                     Cz, 1, dimsC.getElementCount());
@@ -198,7 +198,7 @@ complex_times(Class currentClass, ArrayOf& A, ArrayOf& B)
                 matC = Az[0] * matB.array();
             } else {
                 dimsC = A.getDimensions();
-                Cp = new_with_exception<T>(2 * dimsC.getElementCount());
+                Cp = new_with_exception<T>(2 * dimsC.getElementCount(), false);
                 std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
                 Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matC(
                     Cz, 1, dimsC.getElementCount());
@@ -215,7 +215,7 @@ complex_times(Class currentClass, ArrayOf& A, ArrayOf& B)
             if (A.isEmpty(true)) {
                 return ArrayOf::emptyConstructor(dimsC);
             } else {
-                void* Cp = new_with_exception<T>(2 * dimsC.getElementCount());
+                void* Cp = new_with_exception<T>(2 * dimsC.getElementCount(), false);
                 std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
                 std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
                 Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matA(

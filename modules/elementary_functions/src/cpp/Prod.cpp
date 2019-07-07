@@ -135,36 +135,36 @@ Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         case NLS_INT64: {
             A.promoteType(NLS_DOUBLE);
             double* ptr = static_cast<double*>(
-                ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount()));
+                ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount(), stringVector(), true));
             RealProdT<double>(static_cast<const double*>(A.getDataPointer()), ptr, planecount,
                 planesize, linesize, false);
             res = ArrayOf(NLS_DOUBLE, dimsRes, ptr);
             res.promoteType(classA);
         } break;
         case NLS_SINGLE: {
-            single* ptr
-                = static_cast<single*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()));
+            single* ptr = static_cast<single*>(
+                ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount(), stringVector(), true));
             RealProdT<single>(static_cast<const single*>(A.getDataPointer()), ptr, planecount,
                 planesize, linesize, withnan);
             res = ArrayOf(classA, dimsRes, ptr);
         } break;
         case NLS_DOUBLE: {
-            double* ptr
-                = static_cast<double*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()));
+            double* ptr = static_cast<double*>(
+                ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount(), stringVector(), true));
             RealProdT<double>(static_cast<const double*>(A.getDataPointer()), ptr, planecount,
                 planesize, linesize, withnan);
             res = ArrayOf(classA, dimsRes, ptr);
         } break;
         case NLS_SCOMPLEX: {
-            single* ptr
-                = static_cast<single*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()));
+            single* ptr = static_cast<single*>(
+                ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount(), stringVector(), true));
             ComplexProdT<single>(static_cast<const single*>(A.getDataPointer()), ptr, planecount,
                 planesize, linesize, withnan);
             res = ArrayOf(classA, dimsRes, ptr);
         } break;
         case NLS_DCOMPLEX: {
-            double* ptr
-                = static_cast<double*>(ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount()));
+            double* ptr = static_cast<double*>(
+                ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount(), stringVector(), true));
             ComplexProdT<double>(static_cast<const double*>(A.getDataPointer()), ptr, planecount,
                 planesize, linesize, withnan);
             res = ArrayOf(classA, dimsRes, ptr);

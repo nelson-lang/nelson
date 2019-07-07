@@ -98,8 +98,8 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(
                     retval.push_back(ArrayOf::doubleConstructor(static_cast<double>(sze[i])));
                 }
             } else {
-                double* dims
-                    = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, sze.getLength()));
+                double* dims = static_cast<double*>(
+                    ArrayOf::allocateArrayOf(NLS_DOUBLE, sze.getLength(), stringVector(), true));
                 Dimensions retDim(2);
                 if (sze.getLength() == 0) {
                     retDim[0] = 0;

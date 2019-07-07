@@ -492,8 +492,8 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
                 objLibPointer->get(L"Value", retValue);
                 retval.push_back(retValue);
             } else {
-                void* arrayPtr = ArrayOf::allocateArrayOf(
-                    params[i].getDataClass(), params[i].getDimensions().getElementCount());
+                void* arrayPtr = ArrayOf::allocateArrayOf(params[i].getDataClass(),
+                    params[i].getDimensions().getElementCount(), stringVector(), false);
                 if (refPointers) {
                     memcpy(arrayPtr, refPointers[k],
                         params[i].getDimensions().getElementCount() * params[i].getElementSize());

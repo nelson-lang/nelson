@@ -172,7 +172,7 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
 
         Dimensions dims(nbElements, 1);
         ArrayOf* elements = static_cast<ArrayOf*>(
-            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, nbElements, fieldnames));
+            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, nbElements, fieldnames, false));
         ArrayOf st = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
 
         st.setFieldAsList("FunctionName", FunctionName);

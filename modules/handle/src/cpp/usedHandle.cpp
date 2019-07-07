@@ -38,8 +38,8 @@ usedHandle(const std::wstring& category)
     size_t nbHandles = used.size();
     if (nbHandles > 0) {
         Dimensions dims(1, nbHandles);
-        nelson_handle* nh
-            = static_cast<nelson_handle*>(ArrayOf::allocateArrayOf(NLS_HANDLE, nbHandles));
+        nelson_handle* nh = static_cast<nelson_handle*>(
+            ArrayOf::allocateArrayOf(NLS_HANDLE, nbHandles, stringVector(), false));
         for (size_t k = 0; k < nbHandles; k++) {
             nh[k] = used[k];
         }

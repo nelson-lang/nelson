@@ -34,7 +34,8 @@ template <class T>
 ArrayOf
 ToDouble(ArrayOf A)
 {
-    double* pDouble = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength());
+    double* pDouble
+        = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
         (T*)A.getDataPointer(), A.getLength(), 1);
     Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> matC(
@@ -56,7 +57,8 @@ ToDouble(ArrayOf A, bool& needToOverload)
     case NLS_STRING_ARRAY: {
         Dimensions dimsA = A.getDimensions();
         indexType nbElements = dimsA.getElementCount();
-        double* ptrComplex = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbElements);
+        double* ptrComplex
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbElements, stringVector(), false);
         auto* strElements = (ArrayOf*)A.getDataPointer();
         indexType q = 0;
         for (indexType k = 0; k < nbElements; k = k + 1) {
@@ -136,7 +138,8 @@ ToDouble(ArrayOf A, bool& needToOverload)
             needToOverload = true;
             return ArrayOf();
         }
-        double* pDouble = (double*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength() * 2);
+        double* pDouble = (double*)ArrayOf::allocateArrayOf(
+            NLS_SCOMPLEX, A.getLength() * 2, stringVector(), false);
         ArrayOf r = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), pDouble, A.isSparse());
         auto* pSingle = (float*)A.getDataPointer();
 #if defined(__NLS_WITH_OPENMP)

@@ -40,7 +40,8 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             if (bIsSparse) {
                 vmat = EyeSparseMatrixConstructorDynamicFunction(NLS_DCOMPLEX, n, m);
             } else {
-                double* mat = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DCOMPLEX, m * n));
+                double* mat = static_cast<double*>(
+                    ArrayOf::allocateArrayOf(NLS_DCOMPLEX, m * n, stringVector(), true));
                 auto* pzMat = reinterpret_cast<doublecomplex*>(mat);
                 Eigen::Map<Eigen::Matrix<doublecomplex, Eigen::Dynamic, Eigen::Dynamic>> matEye(
                     pzMat, n, m);
@@ -52,7 +53,8 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             if (bIsSparse) {
                 vmat = EyeSparseMatrixConstructorDynamicFunction(NLS_DOUBLE, n, m);
             } else {
-                double* mat = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, m * n));
+                double* mat = static_cast<double*>(
+                    ArrayOf::allocateArrayOf(NLS_DOUBLE, m * n, stringVector(), true));
                 for (indexType i = 0; i < std::min(m, n); i++) {
                     mat[i * n + i] = 1;
                 }
@@ -63,7 +65,8 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             if (bIsSparse) {
                 Error(_W("sparse not supported."));
             }
-            single* mat = static_cast<single*>(ArrayOf::allocateArrayOf(NLS_SCOMPLEX, m * n));
+            single* mat = static_cast<single*>(
+                ArrayOf::allocateArrayOf(NLS_SCOMPLEX, m * n, stringVector(), true));
             auto* pzMat = reinterpret_cast<singlecomplex*>(mat);
             Eigen::Map<Eigen::Matrix<singlecomplex, Eigen::Dynamic, Eigen::Dynamic>> matEye(
                 pzMat, n, m);
@@ -74,7 +77,8 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             if (bIsSparse) {
                 Error(_W("sparse not supported."));
             }
-            single* mat = static_cast<single*>(ArrayOf::allocateArrayOf(NLS_SINGLE, m * n));
+            single* mat = static_cast<single*>(
+                ArrayOf::allocateArrayOf(NLS_SINGLE, m * n, stringVector(), true));
             for (indexType i = 0; i < std::min(m, n); i++) {
                 mat[i * n + i] = (single)1;
             }
@@ -84,7 +88,8 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             if (bIsSparse) {
                 vmat = EyeSparseMatrixConstructorDynamicFunction(NLS_LOGICAL, n, m);
             } else {
-                logical* mat = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, m * n));
+                logical* mat = static_cast<logical*>(
+                    ArrayOf::allocateArrayOf(NLS_LOGICAL, m * n, stringVector(), true));
                 for (indexType i = 0; i < std::min(m, n); i++) {
                     mat[i * n + i] = (logical)1;
                 }
@@ -95,7 +100,8 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             if (bIsSparse) {
                 Error(_W("sparse not supported."));
             }
-            int8* mat = static_cast<int8*>(ArrayOf::allocateArrayOf(NLS_INT8, m * n));
+            int8* mat = static_cast<int8*>(
+                ArrayOf::allocateArrayOf(NLS_INT8, m * n, stringVector(), true));
             for (indexType i = 0; i < std::min(m, n); i++) {
                 mat[i * n + i] = (int8)1;
             }
@@ -105,7 +111,8 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             if (bIsSparse) {
                 Error(_W("sparse not supported."));
             }
-            int16* mat = static_cast<int16*>(ArrayOf::allocateArrayOf(NLS_INT16, m * n));
+            int16* mat = static_cast<int16*>(
+                ArrayOf::allocateArrayOf(NLS_INT16, m * n, stringVector(), true));
             for (indexType i = 0; i < std::min(m, n); i++) {
                 mat[i * n + i] = (int16)1;
             }
@@ -115,7 +122,8 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             if (bIsSparse) {
                 Error(_W("sparse not supported."));
             }
-            int32* mat = static_cast<int32*>(ArrayOf::allocateArrayOf(NLS_INT32, m * n));
+            int32* mat = static_cast<int32*>(
+                ArrayOf::allocateArrayOf(NLS_INT32, m * n, stringVector(), true));
             for (indexType i = 0; i < std::min(m, n); i++) {
                 mat[i * n + i] = (int32)1;
             }
@@ -125,7 +133,8 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             if (bIsSparse) {
                 Error(_W("sparse not supported."));
             }
-            int64* mat = static_cast<int64*>(ArrayOf::allocateArrayOf(NLS_INT64, m * n));
+            int64* mat = static_cast<int64*>(
+                ArrayOf::allocateArrayOf(NLS_INT64, m * n, stringVector(), true));
             for (indexType i = 0; i < std::min(m, n); i++) {
                 mat[i * n + i] = (int64)1;
             }
@@ -135,7 +144,8 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             if (bIsSparse) {
                 Error(_W("sparse not supported."));
             }
-            uint8* mat = static_cast<uint8*>(ArrayOf::allocateArrayOf(NLS_UINT8, m * n));
+            uint8* mat = static_cast<uint8*>(
+                ArrayOf::allocateArrayOf(NLS_UINT8, m * n, stringVector(), true));
             for (indexType i = 0; i < std::min(m, n); i++) {
                 mat[i * n + i] = (uint8)1;
             }
@@ -145,7 +155,8 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             if (bIsSparse) {
                 Error(_W("sparse not supported."));
             }
-            uint16* mat = static_cast<uint16*>(ArrayOf::allocateArrayOf(NLS_UINT16, m * n));
+            uint16* mat = static_cast<uint16*>(
+                ArrayOf::allocateArrayOf(NLS_UINT16, m * n, stringVector(), true));
             for (indexType i = 0; i < std::min(m, n); i++) {
                 mat[i * n + i] = (uint16)1;
             }
@@ -155,7 +166,8 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             if (bIsSparse) {
                 Error(_W("sparse not supported."));
             }
-            uint32* mat = static_cast<uint32*>(ArrayOf::allocateArrayOf(NLS_UINT32, m * n));
+            uint32* mat = static_cast<uint32*>(
+                ArrayOf::allocateArrayOf(NLS_UINT32, m * n, stringVector(), true));
             for (indexType i = 0; i < std::min(m, n); i++) {
                 mat[i * n + i] = (uint32)1;
             }
@@ -165,7 +177,8 @@ Eye(indexType n, indexType m, Class classDest, bool bIsSparse)
             if (bIsSparse) {
                 Error(_W("sparse not supported."));
             }
-            uint64* mat = static_cast<uint64*>(ArrayOf::allocateArrayOf(NLS_UINT64, m * n));
+            uint64* mat = static_cast<uint64*>(
+                ArrayOf::allocateArrayOf(NLS_UINT64, m * n, stringVector(), true));
             for (indexType i = 0; i < std::min(m, n); i++) {
                 mat[i * n + i] = (int8)1;
             }

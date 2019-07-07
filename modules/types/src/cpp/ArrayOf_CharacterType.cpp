@@ -270,7 +270,7 @@ ArrayOf::getContentAsWideString() const
     if (isRowVectorCharacterArray()) {
         indexType M = getLength();
         str.reserve(M + 1);
-        auto* buffer = new_with_exception<charType>(M + 1);
+        auto* buffer = new_with_exception<charType>(M + 1, false);
         const auto* qp = static_cast<const charType*>(dp->getData());
         memcpy(buffer, qp, M * sizeof(charType));
         buffer[M] = 0;

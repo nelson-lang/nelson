@@ -39,7 +39,7 @@ RealPart(ArrayOf arrayIn)
     switch (arrayIn.getDataClass()) {
     case NLS_SCOMPLEX: {
         size_t len = arrayIn.getLength();
-        void* ptr = ArrayOf::allocateArrayOf(NLS_SINGLE, len);
+        void* ptr = ArrayOf::allocateArrayOf(NLS_SINGLE, len, stringVector(), true);
         auto* rp = static_cast<single*>(ptr);
         auto* sp = (single*)arrayIn.getDataPointer();
         for (size_t i = 0; i < len; i++) {
@@ -49,7 +49,7 @@ RealPart(ArrayOf arrayIn)
     } break;
     case NLS_DCOMPLEX: {
         size_t len = arrayIn.getLength();
-        void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
+        void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), true);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (double*)arrayIn.getDataPointer();
         for (size_t i = 0; i < len; i++) {
@@ -66,7 +66,7 @@ RealPart(ArrayOf arrayIn)
     } break;
     case NLS_CHAR: {
         size_t len = arrayIn.getLength();
-        void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
+        void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (charType*)arrayIn.getDataPointer();
         for (size_t i = 0; i < len; i++) {
@@ -76,7 +76,7 @@ RealPart(ArrayOf arrayIn)
     } break;
     case NLS_LOGICAL: {
         size_t len = arrayIn.getLength();
-        void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
+        void* ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len, stringVector(), false);
         auto* rp = static_cast<double*>(ptr);
         auto* dp = (logical*)arrayIn.getDataPointer();
         for (size_t i = 0; i < len; i++) {

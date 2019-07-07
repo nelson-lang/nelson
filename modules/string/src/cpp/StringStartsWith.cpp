@@ -72,7 +72,8 @@ StringStartsWith(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
             std::wstring pattern = Pattern.getContentAsWideString();
             Dimensions dimA = A.getDimensions();
             size_t nbA = dimA.getElementCount();
-            logical* result = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, nbA));
+            logical* result = static_cast<logical*>(
+                ArrayOf::allocateArrayOf(NLS_LOGICAL, nbA, stringVector(), true));
             auto* cellA = (ArrayOf*)(A.getDataPointer());
             for (size_t k = 0; k < nbA; k++) {
                 result[k] = static_cast<Nelson::logical>(
@@ -85,7 +86,8 @@ StringStartsWith(ArrayOf A, ArrayOf Pattern, bool bCaseSensitive)
             size_t nbA = dimA.getElementCount();
             Dimensions dimPattern = Pattern.getDimensions();
             size_t nbPattern = dimPattern.getElementCount();
-            logical* result = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, nbA));
+            logical* result = static_cast<logical*>(
+                ArrayOf::allocateArrayOf(NLS_LOGICAL, nbA, stringVector(), true));
             auto* cellA = (ArrayOf*)(A.getDataPointer());
             auto* cellPattern = (ArrayOf*)(Pattern.getDataPointer());
             for (size_t k = 0; k < nbA; k++) {

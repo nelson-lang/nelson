@@ -52,13 +52,15 @@ SparseToIJV(ArrayOf spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf
         int nz = 0;
         void* ptrV = Eigen_SparseToIJV(spA.getDataClass(), dims.getRows(), dims.getColumns(),
             spA.getSparseDataPointer(), ptrI, ptrJ, nz);
-        double* pdI = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, nnz));
+        double* pdI = static_cast<double*>(
+            ArrayOf::allocateArrayOf(NLS_DOUBLE, nnz, stringVector(), false));
         for (indexType k = 0; k < nnz; k++) {
             pdI[k] = static_cast<double>(ptrI[k]);
         }
         I = ArrayOf(NLS_DOUBLE, Dimensions(nnz, 1), (void*)pdI);
         delete[] ptrI;
-        double* pdJ = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, nnz));
+        double* pdJ = static_cast<double*>(
+            ArrayOf::allocateArrayOf(NLS_DOUBLE, nnz, stringVector(), false));
         for (indexType k = 0; k < nnz; k++) {
             pdJ[k] = static_cast<double>(ptrJ[k]);
         }

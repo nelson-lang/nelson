@@ -80,7 +80,8 @@ GetQmlHandleObject(ArrayOf A, const std::wstring& propertyName)
             res.promoteType(NLS_HANDLE);
         } else {
             Dimensions dims(1, nbChilds);
-            nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbChilds);
+            nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(
+                NLS_HANDLE, nbChilds, stringVector(), false);
             for (int k = 0; k < nbChilds; k++) {
                 nelson_handle nh_found
                     = HandleManager::getInstance()->findByPointerValue(childs[k]);

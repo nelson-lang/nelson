@@ -178,42 +178,42 @@ Modulo(ArrayOf A, ArrayOf B)
             void* Cp;
             switch (classA) {
             case NLS_INT8: {
-                Cp = new_with_exception<int8>(Clen);
+                Cp = new_with_exception<int8>(Clen, false);
                 modfunc_integer<int8>(Clen, (int8*)Cp, (int8*)A.getDataPointer(), Astride,
                     (int8*)B.getDataPointer(), Bstride);
             } break;
             case NLS_UINT8: {
-                Cp = new_with_exception<uint8>(Clen);
+                Cp = new_with_exception<uint8>(Clen, false);
                 modfunc_integer<uint8>(Clen, (uint8*)Cp, (uint8*)A.getDataPointer(), Astride,
                     (uint8*)B.getDataPointer(), Bstride);
             } break;
             case NLS_INT16: {
-                Cp = new_with_exception<int16>(Clen);
+                Cp = new_with_exception<int16>(Clen, false);
                 modfunc_integer<int16>(Clen, (int16*)Cp, (int16*)A.getDataPointer(), Astride,
                     (int16*)B.getDataPointer(), Bstride);
             } break;
             case NLS_UINT16: {
-                Cp = new_with_exception<uint16>(Clen);
+                Cp = new_with_exception<uint16>(Clen, false);
                 modfunc_integer<uint16>(Clen, (uint16*)Cp, (uint16*)A.getDataPointer(), Astride,
                     (uint16*)B.getDataPointer(), Bstride);
             } break;
             case NLS_INT32: {
-                Cp = new_with_exception<int32>(Clen);
+                Cp = new_with_exception<int32>(Clen, false);
                 modfunc_integer<int32>(Clen, (int32*)Cp, (int32*)A.getDataPointer(), Astride,
                     (int32*)B.getDataPointer(), Bstride);
             } break;
             case NLS_UINT32: {
-                Cp = new_with_exception<uint32>(Clen);
+                Cp = new_with_exception<uint32>(Clen, false);
                 modfunc_integer<uint32>(Clen, (uint32*)Cp, (uint32*)A.getDataPointer(), Astride,
                     (uint32*)B.getDataPointer(), Bstride);
             } break;
             case NLS_INT64: {
-                Cp = new_with_exception<int64>(Clen);
+                Cp = new_with_exception<int64>(Clen, false);
                 modfunc_integer<int64>(Clen, (int64*)Cp, (int64*)A.getDataPointer(), Astride,
                     (int64*)B.getDataPointer(), Bstride);
             } break;
             case NLS_UINT64: {
-                Cp = new_with_exception<uint64>(Clen);
+                Cp = new_with_exception<uint64>(Clen, false);
                 modfunc_integer<uint64>(Clen, (uint64*)Cp, (uint64*)A.getDataPointer(), Astride,
                     (uint64*)B.getDataPointer(), Bstride);
             } break;
@@ -233,7 +233,7 @@ Modulo(ArrayOf A, ArrayOf B)
         computeEntries(A, B, Astride, Bstride, Clen, Cdim);
         void* Cp;
         if (A.isSingleType() || B.isSingleType()) {
-            Cp = new_with_exception<double>(Clen);
+            Cp = new_with_exception<double>(Clen, false);
             A.promoteType(NLS_DOUBLE);
             B.promoteType(NLS_DOUBLE);
             modfunc<double>(Clen, (double*)Cp, (double*)A.getDataPointer(), Astride,
@@ -241,7 +241,7 @@ Modulo(ArrayOf A, ArrayOf B)
             M = ArrayOf(NLS_DOUBLE, Cdim, Cp);
             M.promoteType(NLS_SINGLE);
         } else {
-            Cp = new_with_exception<double>(Clen);
+            Cp = new_with_exception<double>(Clen, false);
             modfunc<double>(Clen, (double*)Cp, (double*)A.getDataPointer(), Astride,
                 (double*)B.getDataPointer(), Bstride);
             M = ArrayOf(NLS_DOUBLE, Cdim, Cp);
