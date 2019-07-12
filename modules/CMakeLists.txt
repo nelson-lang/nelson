@@ -84,6 +84,7 @@ hdf5
 matio
 profiler
 file_archiver
+webtools
 )
 LIST(APPEND moduleslist main)
 #==============================================================================
