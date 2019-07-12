@@ -86,4 +86,5 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\; AfterInstall: A
 #include "matio/module.iss"
 #include "profiler/module.iss"
 #include "file_archiver/module.iss"
+#include "webtools/module.iss"
 ;==============================================================================
