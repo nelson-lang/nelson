@@ -23,6 +23,8 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addpath(modulepath(nelsonroot(), 'webtools', 'functions'));
-addgateway(modulepath(nelsonroot(), 'webtools', 'builtin'));
+function r = weboptions_extraction(obj, fieldname)
+  s = struct(obj);
+  r = s.getfield(s, fieldname);
+endfunction
 //=============================================================================

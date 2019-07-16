@@ -23,6 +23,19 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addpath(modulepath(nelsonroot(), 'webtools', 'functions'));
-addgateway(modulepath(nelsonroot(), 'webtools', 'builtin'));
-//=============================================================================
+function names = weboptions_fieldnames(options)
+  names = {'CharacterEncoding';
+    'UserAgent';
+    'Timeout';
+    'Username';
+    'Password';
+    'KeyName';
+    'KeyValue';
+    'HeaderFields';
+    'ContentType';
+    'ContentReader';   
+    'MediaType';
+    'RequestMethod';
+    'Arrayformat';
+    'CertificateFilename'};
+endfunction

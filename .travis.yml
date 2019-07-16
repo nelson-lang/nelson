@@ -89,6 +89,7 @@ before_install:
       sudo apt -y install libgl-dev;
       sudo apt -y install hdf5-tools;
       sudo apt -y install zlib1g-dev;
+      sudo apt -y install libcurl4-openssl-dev;
       fi
     - if [ `uname` = "Linux" ];
       then sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.3-xenial;
