@@ -29,6 +29,7 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 #==============================================================================
 include_directories(
 ${Boost_INCLUDE_DIRS}
+${CURL_INCLUDE_DIRS}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/src/c
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
@@ -62,6 +63,8 @@ nlsElementary_functions
 nlsTypes
 nlsI18n
 nlsCharacters_encoding
+${CURL_LIBRARIES}
+
 )
 #==============================================================================	
 set_target_properties(${module_library_name}

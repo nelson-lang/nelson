@@ -2095,8 +2095,15 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
     }
     if (t->opNum == (OP_DOT)) {
         if (r.isClassStruct()) {
+            std::string fieldname = t->down->text;
+            ArrayOfVector res;
+            res = simpleAssignClass(r, fieldname, value);
+            if (res.size() != 1) {
+                Error(_("Invalid LHS."));
+            }
+            r = res[0];
             // TO DO
-            Error(ERROR_NEED_TO_IMPLEMENT_ASSIGN);
+            // add default behavior;
         } else {
             std::string fieldname = t->down->text;
             if (r.isHandle()) {
@@ -2118,7 +2125,14 @@ Evaluator::simpleAssign(ArrayOf& r, ASTPtr t, ArrayOfVector& value)
         } catch (const Exception&) {
             Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
         }
-        if (r.isHandle()) {
+        if (r.isClassStruct()) {
+            ArrayOfVector res;
+            res = simpleAssignClass(r, field, value);
+            if (res.size() != 1) {
+                Error(_("Invalid LHS."));
+            }
+            r = res[0];
+        } else if (r.isHandle()) {
             setHandle(r, field, value);
         } else {
             r.setFieldAsList(field, value);
@@ -3755,7 +3769,14 @@ Evaluator::rhsExpression(ASTPtr t)
         }
         if (t->opNum == (OP_DOT)) {
             std::string fieldname = t->down->text;
-            if (r.isHandle()) {
+            if (r.isClassStruct()){
+                ArrayOfVector params;
+                if (t->right != nullptr) {
+                        params = expressionList(t->right->down, r);
+                        t = t->right;
+                }
+                rv = extractClass(r, fieldname, params);
+            } else if (r.isHandle()) {
                 ArrayOfVector params;
                 logical isValidMethod = false;
                 try {
@@ -3792,7 +3813,10 @@ Evaluator::rhsExpression(ASTPtr t)
             } catch (const Exception&) {
                 Error(_W("dynamic field reference to structure requires a string argument"));
             }
-            if (r.isHandle()) {
+            if (r.isClassStruct()){
+                ArrayOfVector v;
+                rv = extractClass(r, field, v);
+            } else if (r.isHandle()) {
                 ArrayOfVector v;
                 rv = getHandle(r, field, v);
             } else {
@@ -4257,6 +4281,54 @@ void
 Evaluator::setQuietMode(bool _quiet)
 {
     bQuietMode = _quiet;
+}
+//=============================================================================
+ArrayOfVector Evaluator::simpleAssignClass(const ArrayOf &r, const std::string& fieldname, const ArrayOfVector& fieldvalue)
+{
+    if (fieldvalue.size() != 1) {
+        Error(_W("Right hand values must satisfy left hand side expression."));
+    }
+    std::string currentClass;
+    ClassName(r, currentClass);
+    std::string functionNamesimpleAssignClass = currentClass + "_assign";
+    Context* _context = this->getContext();
+    FunctionDef* funcDef = nullptr;
+    if (!_context->lookupFunction(functionNamesimpleAssignClass, funcDef)) {
+        Error(_W("Function not found."));
+    }
+    if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+        Error(_W("Type function not valid."));
+    }
+    int nLhs = 0;
+    ArrayOfVector argIn;
+    argIn.push_back(r);
+    argIn.push_back(ArrayOf::characterArrayConstructor(fieldname));
+    argIn.push_back(fieldvalue[0]);
+    ArrayOfVector res = funcDef->evaluateFunction(this, argIn, nLhs);
+    return res;
+}
+//=============================================================================
+ArrayOfVector Evaluator::extractClass(const ArrayOf &r, const std::string& fieldname, const ArrayOfVector& params)
+{
+    ArrayOfVector argIn;
+    std::string currentClass;
+    ClassName(r, currentClass);
+    Context* _context = this->getContext();
+    FunctionDef* funcDef = nullptr;
+    std::string functionNamesimpleExtractClass = currentClass + "_extraction";
+    if (_context->lookupFunction(functionNamesimpleExtractClass, funcDef)) {
+        if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+            Error(_W("Type function not valid."));
+        }
+        int nLhs = 1;
+        argIn.reserve(params.size() + 1);
+        argIn.push_back(r);
+        for (ArrayOf a : params) {
+            argIn.push_back(a);
+        }
+        return funcDef->evaluateFunction(this, argIn, nLhs);
+    }
 }
 //=============================================================================
 void

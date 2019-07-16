@@ -60,6 +60,8 @@ Features:
 
   * realmax builtin: Largest positive floating-point number.
 
+  * struct builtin extended to convert object created by 'class' to structure.
+
 
 Bug Fixes:
 ---------

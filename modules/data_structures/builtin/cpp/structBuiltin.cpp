@@ -38,7 +38,13 @@ Nelson::DataStructuresGateway::structBuiltin(Evaluator* eval, int nLhs, const Ar
         return retval;
     }
     if (argIn.size() == 1) {
-        if (!argIn[0].isEmpty()) {
+        if (argIn[0].isClassStruct()){
+          ArrayOf asStruct = argIn[0];
+          asStruct.ensureSingleOwner();
+          asStruct.setStructType(NLS_STRUCT_ARRAY_STR);
+          retval.push_back(asStruct);
+          return retval;        
+        } else if (!argIn[0].isEmpty()) {
             Error(_W("struct([]) expected."));
         }
         Dimensions dim = argIn[0].getDimensions();

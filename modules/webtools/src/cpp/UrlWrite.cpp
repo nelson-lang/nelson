@@ -23,13 +23,21 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <curl/curl.h>
 #include "UrlWrite.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
 UrlWrite(const std::wstring& url, const std::wstring& filename){
+    CURL *curlObject = curl_easy_init();
+    if (curlObject == nullptr){
+
+    }
+    CURLcode curlCode;
     ArrayOf res;
+
     return res;
 }
 //=============================================================================
