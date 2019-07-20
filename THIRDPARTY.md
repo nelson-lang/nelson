@@ -252,3 +252,12 @@ C++ websocket client/server library
 > http://www.zaphoyd.com/websocketpp
 
 > https://github.com/zaphoyd/websocketpp/blob/master/COPYING
+
+- libcurl
+
+libcurl - the multiprotocol file transfer library
+
+> https://curl.haxx.se/libcurl/
+
+> https://curl.haxx.se/docs/copyright.html
+

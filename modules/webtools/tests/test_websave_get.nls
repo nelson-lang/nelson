@@ -23,13 +23,18 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+url = 'http://heritage.stsci.edu/2007/14/images/p0714aa.jpg';
+filename = [tempdir(), 'p0714aa.jpg'];
+outfilename = websave(filename, url);
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "nlsWebtools_exports.h"
+o = weboptions('RequestMethod', 'get');
+filename = [tempdir(), 'test_websave_get.json'];
+fullname = websave(filename, 'http://httpbin.org/get', o);
+R = jsondecode(fileread(fullname));
+assert_isequal(R.url, 'https://httpbin.org/get');
 //=============================================================================
-namespace Nelson {
-NLSWEBTOOLS_IMPEXP ArrayOf
-UrlWrite(const std::wstring& url, const std::wstring& filename);
-};
+filename = [tempdir(), 'test_websave_get.json'];
+fullname = websave(filename, 'http://httpbin.org/get');
+R = jsondecode(fileread(fullname));
+assert_isequal(R.url, 'https://httpbin.org/get');
 //=============================================================================

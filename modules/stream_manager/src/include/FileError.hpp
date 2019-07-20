@@ -31,6 +31,6 @@
 //=============================================================================
 namespace Nelson {
 NLSSTREAM_MANAGER_IMPEXP bool
-FileError(FilesManager* fm, int no, bool withClear, int &errorCode, std::string & errorMessage);
+FileError(FilesManager* fm, int no, bool withClear, int& errorCode, std::string& errorMessage);
 };
 //=============================================================================

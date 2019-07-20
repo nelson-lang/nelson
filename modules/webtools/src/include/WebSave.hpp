@@ -23,22 +23,17 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "websaveBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "nlsWebtools_exports.h"
+#include "WebOptions.hpp"
 //=============================================================================
-const std::wstring gatewayName = L"webtools";
+namespace Nelson {
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "websave", Nelson::WebtoolsGateway::websaveBuiltin, 1, -3 },
+NLSWEBTOOLS_IMPEXP ArrayOf
+WebSave(const std::wstring& url, const std::wstring& filename, const ArrayOfVector& names,
+    const ArrayOfVector& values, WebOptions& options, bool haveEventsLoop);
+//=============================================================================
 };
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
 //=============================================================================

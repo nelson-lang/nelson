@@ -398,13 +398,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsFile_archiver", "modules
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsFile_archiver_builtin", "modules\file_archiver\builtin\c\nlsFile_archiver_builtin.vcxproj", "{8103DB39-AAC6-4F51-9529-A013AA01F03B}"
 EndProject
-<<<<<<< HEAD
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsCharacters_encoding_builtin", "modules\characters_encoding\builtin\c\nlsCharacters_encoding_builtin.vcxproj", "{D582EAE0-0646-4330-BFFA-0CD36E34849C}"
-=======
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsWebtools", "modules\webtools\src\c\nlsWebtools.vcxproj", "{F6495DD9-6FF5-485B-9393-767327A4DD79}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsWebtools_builtin", "modules\webtools\builtin\c\nlsWebtools_builtin.vcxproj", "{9CAC9DB7-E5FF-40F6-BB14-1A64A7A059B6}"
->>>>>>> webtools module template
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

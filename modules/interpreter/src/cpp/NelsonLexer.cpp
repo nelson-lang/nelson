@@ -24,7 +24,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/algorithm/string.hpp>
-#include <boost/unordered_map.hpp>
 #include <cctype>
 #include <cstdio>
 #include <sys/stat.h>
@@ -159,8 +158,7 @@ testSpecialFuncs()
     }
     bool isHardcodedShorcut = boost::algorithm::starts_with(line, "ls ")
         || boost::algorithm::starts_with(line, "cd ..")
-        || boost::algorithm::starts_with(line, "cd .")
-        || boost::algorithm::starts_with(line, "cd ")
+        || boost::algorithm::starts_with(line, "cd .") || boost::algorithm::starts_with(line, "cd ")
         || boost::algorithm::starts_with(line, "dir ?")
         || boost::algorithm::starts_with(line, "dir *");
 
