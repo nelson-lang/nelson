@@ -63,6 +63,8 @@ these own data types and operations on these data types by using overload.
 
 - Interfacing C/C++ or Fortran with Nelson (build and load external code on the fly).
 
+- RESTful API web service.
+
 - The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
 
 - Component Object Model (COM) client interface: binary-interface standard for software components on Windows.

@@ -23,51 +23,45 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include <boost/algorithm/string/predicate.hpp>
-#include <string>
-#include "GetUserDirectory.hpp"
+assert_isequal(nargin('weboptions'), -1);
+assert_isequal(nargout('weboptions'), 1);
 //=============================================================================
-using namespace boost::filesystem;
+certificateFilename = [modulepath('webtools'), '/resources/cacert.pem'];
+if ~isfile(certificateFilename)
+  certificateFilename = [];
+end
+options = weboptions();
+assert_isequal(class(options), 'weboptions');
 //=============================================================================
-namespace Nelson {
+st = struct(options);
+assert_isequal(st.CharacterEncoding, 'auto');
+assert_isequal(st.Timeout, 5);
+assert_isequal(st.Username, '');
+assert_isequal(st.Password, '');
+assert_isequal(st.KeyName, '');
+assert_isequal(st.KeyValue, '');
+assert_isequal(st.ContentType, 'auto');
+assert_isequal(st.ContentReader, []);
+assert_isequal(st.MediaType, 'auto');
+assert_isequal(st.RequestMethod, 'auto');
+assert_isequal(st.ArrayFormat, 'csv');
+assert_isequal(st.HeaderFields, []);
+assert_isequal(st.CertificateFilename, certificateFilename);
 //=============================================================================
-static std::wstring userDir;
+options = weboptions('Password', 'Nelson');
+st = struct(options);
+assert_isequal(st.CharacterEncoding, 'auto');
+assert_isequal(st.Timeout, 5);
+assert_isequal(st.Username, '');
+assert_isequal(st.Password, 'Nelson');
+assert_isequal(st.KeyName, '');
+assert_isequal(st.KeyValue, '');
+assert_isequal(st.ContentType, 'auto');
+assert_isequal(st.ContentReader, []);
+assert_isequal(st.MediaType, 'auto');
+assert_isequal(st.RequestMethod, 'auto');
+assert_isequal(st.ArrayFormat, 'csv');
+assert_isequal(st.HeaderFields, []);
+assert_isequal(st.CertificateFilename, certificateFilename);
 //=============================================================================
-ArrayOf
-UserDir()
-{
-    return ArrayOf::characterArrayConstructor(GetUserDirectory());
-}
-//=============================================================================
-std::wstring
-GetUserDirectory()
-{
-    if (userDir == L"") {
-#ifdef _MSC_VER
-        std::wstring str;
-        wchar_t* buf = nullptr;
-        size_t sz = 0;
-        if (_wdupenv_s(&buf, &sz, L"USERPROFILE") == 0) {
-            if (sz > 0) {
-                str = buf;
-            }
-            free(buf);
-            buf = nullptr;
-        }
-        path pwd = path(str.c_str());
-#else
-        char* home = getenv("HOME");
-        path pwd = path(home);
-#endif
-        userDir = pwd.generic_wstring();
-        if (!boost::algorithm::ends_with(userDir, L"\\")
-            && (!boost::algorithm::ends_with(userDir, L"/"))) {
-            userDir.append(L"/");
-        }
-    }
-    return userDir;
-}
-//=============================================================================
-} // namespace Nelson
-//=============================================================================
+assert_checkerror('weboptions(''Password1'', ''Nelson'');',sprintf(_('%s is not a recognized parameter.'), 'Password1'))

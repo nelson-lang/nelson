@@ -818,9 +818,10 @@ public:
 
 private:
     ArrayOfVector
-    simpleAssignClass(const ArrayOf &r, const std::string& fieldname, const ArrayOfVector& fieldvalue);
+    simpleAssignClass(
+        const ArrayOf& r, const std::string& fieldname, const ArrayOfVector& fieldvalue);
     ArrayOfVector
-    extractClass(const ArrayOf &r, const std::string& fieldname, const ArrayOfVector& params);
+    extractClass(const ArrayOf& r, const std::string& fieldname, const ArrayOfVector& params);
 
     void
     setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& fieldvalue);

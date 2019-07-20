@@ -31,6 +31,7 @@
 #pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
 #pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
 #pragma comment(lib, CAT_3_STRINGS("boost_regex-", BOOST_TARGET, ".lib"))
+#pragma comment(lib, "libcurl.lib")
 //=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)

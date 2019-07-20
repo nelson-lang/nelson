@@ -23,16 +23,19 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "urlwriteBuiltin.hpp"
-#include "Error.hpp"
-#include "UrlWrite.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector
-Nelson::WebtoolsGateway::urlwriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    return retval;
+namespace Nelson {
+//=============================================================================
+namespace WebtoolsGateway {
+    //=============================================================================
+    ArrayOfVector
+    websaveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

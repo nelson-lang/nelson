@@ -586,6 +586,7 @@ ArrayOf::ensureSingleOwner()
 {
     if (dp->numberOfOwners() > 1) {
         if (!dp->sparse) {
+            std::string currentStructType = dp->getStructTypeName();
             void* np = allocateArrayOf(dp->dataClass, getLength(), dp->fieldNames, false);
             if (isEmpty()) {
                 Dimensions dim = dp->getDimensions();
@@ -594,6 +595,7 @@ ArrayOf::ensureSingleOwner()
                 copyElements(0, np, 0, getLength());
                 dp = dp->putData(dp->dataClass, dp->dimensions, np, dp->sparse, dp->fieldNames);
             }
+            dp->setStructTypeName(currentStructType);
         } else {
             dp = dp->putData(dp->dataClass, dp->dimensions,
                 CopySparseMatrixDynamicFunction(

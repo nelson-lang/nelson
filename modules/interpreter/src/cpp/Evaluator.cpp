@@ -3769,11 +3769,11 @@ Evaluator::rhsExpression(ASTPtr t)
         }
         if (t->opNum == (OP_DOT)) {
             std::string fieldname = t->down->text;
-            if (r.isClassStruct()){
+            if (r.isClassStruct()) {
                 ArrayOfVector params;
                 if (t->right != nullptr) {
-                        params = expressionList(t->right->down, r);
-                        t = t->right;
+                    params = expressionList(t->right->down, r);
+                    t = t->right;
                 }
                 rv = extractClass(r, fieldname, params);
             } else if (r.isHandle()) {
@@ -3813,7 +3813,7 @@ Evaluator::rhsExpression(ASTPtr t)
             } catch (const Exception&) {
                 Error(_W("dynamic field reference to structure requires a string argument"));
             }
-            if (r.isClassStruct()){
+            if (r.isClassStruct()) {
                 ArrayOfVector v;
                 rv = extractClass(r, field, v);
             } else if (r.isHandle()) {
@@ -4283,7 +4283,9 @@ Evaluator::setQuietMode(bool _quiet)
     bQuietMode = _quiet;
 }
 //=============================================================================
-ArrayOfVector Evaluator::simpleAssignClass(const ArrayOf &r, const std::string& fieldname, const ArrayOfVector& fieldvalue)
+ArrayOfVector
+Evaluator::simpleAssignClass(
+    const ArrayOf& r, const std::string& fieldname, const ArrayOfVector& fieldvalue)
 {
     if (fieldvalue.size() != 1) {
         Error(_W("Right hand values must satisfy left hand side expression."));
@@ -4308,7 +4310,8 @@ ArrayOfVector Evaluator::simpleAssignClass(const ArrayOf &r, const std::string& 
     return res;
 }
 //=============================================================================
-ArrayOfVector Evaluator::extractClass(const ArrayOf &r, const std::string& fieldname, const ArrayOfVector& params)
+ArrayOfVector
+Evaluator::extractClass(const ArrayOf& r, const std::string& fieldname, const ArrayOfVector& params)
 {
     ArrayOfVector argIn;
     std::string currentClass;

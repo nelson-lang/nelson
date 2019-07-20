@@ -24,10 +24,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function options = weboptions(varargin)
-  persistent webtools_options;
-  if isempty(webtools_options)
-     webtools_options = buildDefaults();
-  end
+  webtools_options = buildDefaults();
   if (mod(nargin, 2) ~= 0)
     error(_('Wrong number of input arguments.'));
   end
@@ -39,7 +36,7 @@ function options = weboptions(varargin)
     end
     [r, fieldname, fieldvalue] = checkArgument(key, value);
     if ~r
-      error(sprintf(_('invalid value for ''%s'' field'), fieldname));
+      error(sprintf(_('invalid value for ''%s'' field.'), fieldname));
     end
     eval(sprintf('webtools_options.%s = fieldvalue;', fieldname));
   end
@@ -61,7 +58,12 @@ function options = buildDefaults()
   options.RequestMethod = 'auto';
   options.ArrayFormat = 'csv';
   options.HeaderFields = [];
-  options.CertificateFilename = [];
+  certificateFilename = [modulepath('webtools'), '/resources/cacert.pem'];
+  if isfile(certificateFilename)
+    options.CertificateFilename = certificateFilename;
+  else
+    options.CertificateFilename = [];
+  end
 endfunction
 //=============================================================================
 function res = isSupportedFieldNames(argName)
@@ -147,7 +149,7 @@ function [res, nameNormalized, valueNormalized] = checkUserAgent(argValue)
 endfunction
 //=============================================================================
 function [res, nameNormalized, valueNormalized] = checkTimeOut(argValue)
-  res = isnumeric(argValue) && isscalar(argValue) && (argValue >= 0);
+  res = isnumeric(argValue) && isscalar(argValue) && (argValue > 0);
   valueNormalized = double(argValue);
   nameNormalized = 'Timeout';
 endfunction
@@ -196,7 +198,7 @@ function [res, nameNormalized, valueNormalized] = checkContentType(argValue)
   idx = contains(upper(supportedContentType), upper(valueNormalized));
   res = any(idx);
   if res
-    valueNormalized = supportedOptions(idx){1};
+    valueNormalized = supportedContentType(idx){1};
   else
    valueNormalized = [];
   end
@@ -233,7 +235,6 @@ function [res, nameNormalized, valueNormalized] = checkRequestMethod(argValue)
 endfunction
 //=============================================================================
 function [res, nameNormalized, valueNormalized] = checkArrayFormat(argValue)
-  nameNormalized = 'Arrayformat';
   value = convertStringsToChars(argValue);
   supportedArrayFormat = {'csv';
     'json';
@@ -242,10 +243,11 @@ function [res, nameNormalized, valueNormalized] = checkArrayFormat(argValue)
   idx = contains(upper(supportedArrayFormat), upper(value));
   res = any(idx);
   if res
-    valueNormalized = supportedOptions(idx){1};
+    valueNormalized = supportedArrayFormat(idx){1};
   else
    valueNormalized = [];
   end
+   nameNormalized = 'ArrayFormat';
 endfunction
 //=============================================================================
 function [res, nameNormalized, valueNormalized] = checkHeaderFields(argValue)
@@ -259,7 +261,12 @@ function [res, nameNormalized, valueNormalized] = checkCertificateFilename(argVa
   valueNormalized = convertStringsToChars(argValue);
   res = ischar(valueNormalized);
   if res
-    res = isempty(valueNormalized) || isfile(valueNormalized);
+    if strcmp(valueNormalized, 'default') == 1
+      res = true;
+      valueNormalized = [];
+    else
+      res = isempty(valueNormalized) || isfile(valueNormalized);
+    end
   end
  endfunction
 //=============================================================================

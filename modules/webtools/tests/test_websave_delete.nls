@@ -23,23 +23,20 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <curl/curl.h>
-#include "UrlWrite.hpp"
-#include "characters_encoding.hpp"
+o = weboptions('RequestMethod', 'delete');
+filename = [tempdir(), 'test_websave_delete.json'];
+fullname = websave(filename, 'http://httpbin.org/delete', o);
+R = jsondecode(fileread(fullname));
+assert_isequal(R.url, 'https://httpbin.org/delete');
 //=============================================================================
-namespace Nelson {
+o = weboptions('RequestMethod', 'delete');
+filename = [tempdir(), 'test_websave_delete.json'];
+fullname = websave(filename, 'http://jsonplaceholder.typicode.com/posts/1', o);
+R = jsondecode(fileread(fullname));
+REF = struct();
+assert_isequal(R, REF);
 //=============================================================================
-ArrayOf
-UrlWrite(const std::wstring& url, const std::wstring& filename){
-    CURL *curlObject = curl_easy_init();
-    if (curlObject == nullptr){
-
-    }
-    CURLcode curlCode;
-    ArrayOf res;
-
-    return res;
-}
-//=============================================================================
-} // namespace Nelson
+filename = [tempdir(), 'test_websave_delete.json'];
+cmd = 'fullname = websave(filename, ''http://httpbin.org/delete'');';
+assert_checkerror(cmd, _('METHOD NOT ALLOWED (405)'));
 //=============================================================================

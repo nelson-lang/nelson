@@ -38,9 +38,9 @@ function struct_res = test_runfile(varargin)
   r = false;
   msg = '';
   timing = 0;
-  options = test_parsetags(filename);
+  test_run_options = test_parsetags(filename);
 
-  if (options.check_ref)
+  if (test_run_options.check_ref)
     [p, f, e] = fileparts(filename);
     dia_ref = [p, '/', f, '.ref'];
     if ~isfile(dia_ref)
@@ -60,15 +60,15 @@ function struct_res = test_runfile(varargin)
   end
   
   current_path_test_runfile = path();
-  // 'options' variable protected of clear('all') in test files
-  varlock('local', 'options')
+  // 'test_run_options' variable protected of clear('all') in test files
+  varlock('local', 'test_run_options')
   varlock('local', 'current_path_test_runfile')
 
   tic();
   r = run(filename, 'errcatch');
   timing = toc();
   
-  varunlock('local','options');
+  varunlock('local','test_run_options');
   varunlock('local', 'current_path_test_runfile')
   path(current_path_test_runfile);
   
@@ -78,7 +78,7 @@ function struct_res = test_runfile(varargin)
     msg = '';
   end
   
-  if (options.check_ref)
+  if (test_run_options.check_ref)
     // restore previous diary
     try 
       diary(previousDiaryMode);

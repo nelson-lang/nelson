@@ -35,15 +35,15 @@
     <ClCompile Include="..\cpp\Gateway.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\urlwriteBuiltin.cpp">
+    <ClCompile Include="..\cpp\websaveBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\urlwriteBuiltin.hpp">
+    <ClInclude Include="..\include\nlsWebtools_builtin_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\nlsWebtools_builtin_exports.h">
+    <ClInclude Include="..\include\websaveBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

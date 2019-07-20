@@ -33,6 +33,8 @@ Try it !
 
 - MAT-file compatible load/save workspace,
 
+- RESTful API web service.
+
 - Foreign Function Interface C/Fortran.
 
 - Interfacing C/C++ or Fortran with Nelson (build and load external code on the fly).

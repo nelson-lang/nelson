@@ -23,22 +23,63 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "websaveBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "nlsWebtools_exports.h"
 //=============================================================================
-const std::wstring gatewayName = L"webtools";
+namespace Nelson {
 //=============================================================================
-static const nlsGateway gateway[] = {
-    { "websave", Nelson::WebtoolsGateway::websaveBuiltin, 1, -3 },
+class NLSWEBTOOLS_IMPEXP WebOptions
+{
+private:
+    std::wstring _characterEncoding;
+    std::wstring _userAgent;
+    double _timeout;
+    std::wstring _username;
+    std::wstring _password;
+    std::wstring _keyName;
+    ArrayOf _keyValue;
+    wstringVector _headerFields;
+    std::wstring _contentType;
+    function_handle _contentReader;
+    std::wstring _mediaType;
+    std::wstring _requestMethod;
+    std::wstring _arrayformat;
+    std::wstring _certificateFilename;
+
+public:
+    WebOptions(ArrayOf& webOptionsArrayOf);
+    ~WebOptions();
+    std::wstring
+    getCharacterEncoding();
+    std::wstring
+    getUserAgent();
+    double
+    getTimeout();
+    std::wstring
+    getUsername();
+    std::wstring
+    getPassword();
+    std::wstring
+    getKeyName();
+    ArrayOf
+    getKeyValue();
+    wstringVector
+    getHeaderFields();
+    std::wstring
+    getContentType();
+    function_handle
+    getContentReader();
+    std::wstring
+    getMediaType();
+    std::wstring
+    getRequestMethod();
+    std::wstring
+    getArrayformat();
+    std::wstring
+    getCertificateFilename();
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+}
 //=============================================================================

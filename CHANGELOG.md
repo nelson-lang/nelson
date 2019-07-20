@@ -1,3 +1,11 @@
+Features:
+---------
+
+  * weboptions function: Set parameters for RESTful API web service.
+
+  * websave builtin: Save content from RESTful API web service to file.
+
+
 # 0.3.8 (2019-08-XX)
 
 Features:

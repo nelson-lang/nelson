@@ -23,3 +23,13 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+o = weboptions('RequestMethod', 'put');
+filename = [tempdir(), 'test_websave_put.json'];
+fullname = websave(filename, 'http://httpbin.org/put', o);
+R = jsondecode(fileread(fullname));
+assert_isequal(R.url, 'https://httpbin.org/put');
+//=============================================================================
+filename = [tempdir(), 'test_websave_put.json'];
+cmd = 'fullname = websave(filename, ''http://httpbin.org/put'');';
+assert_checkerror(cmd, _('METHOD NOT ALLOWED (405)'));
+//=============================================================================

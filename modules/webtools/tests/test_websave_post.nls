@@ -23,19 +23,13 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+o = weboptions('RequestMethod', 'post');
+filename = [tempdir(), 'test_websave_post.json'];
+fullname = websave(filename, 'http://httpbin.org/post', o);
+R = jsondecode(fileread(fullname));
+assert_isequal(R.url, 'https://httpbin.org/post');
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace WebtoolsGateway {
-    //=============================================================================
-    ArrayOfVector
-    urlwriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-}
-//=============================================================================
-} // namespace Nelson
+filename = [tempdir(), 'test_websave_post.json'];
+cmd = 'fullname = websave(filename, ''http://httpbin.org/post'');';
+assert_checkerror(cmd, _('METHOD NOT ALLOWED (405)'));
 //=============================================================================
