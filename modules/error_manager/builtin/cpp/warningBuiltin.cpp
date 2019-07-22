@@ -123,8 +123,8 @@ warningStruct(const WARNING_IDS_STATES& list)
     if (list.IDs.empty()) {
         retval.push_back(ArrayOf::emptyStructConstructor(fieldnames, dims));
     } else {
-        auto* elements = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-            NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
+        auto* elements = static_cast<ArrayOf*>(
+            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
         ArrayOf st = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
         ArrayOfVector identifiers;
         ArrayOfVector states;

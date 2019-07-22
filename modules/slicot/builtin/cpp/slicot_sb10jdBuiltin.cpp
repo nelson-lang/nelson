@@ -114,8 +114,8 @@ Nelson::SlicotGateway::slicot_sb10jdBuiltin(Evaluator* eval, int nLhs, const Arr
                 + 2 * (int)A.getDimensions().getColumns()
                 + (int)A.getDimensions().getColumns()
                     * std::max(5,
-                          (int)A.getDimensions().getColumns() + (int)B.getDimensions().getRows()
-                              + (int)C.getDimensions().getColumns())),
+                        (int)A.getDimensions().getColumns() + (int)B.getDimensions().getRows()
+                            + (int)C.getDimensions().getColumns())),
         1);
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
@@ -125,8 +125,8 @@ Nelson::SlicotGateway::slicot_sb10jdBuiltin(Evaluator* eval, int nLhs, const Arr
             + 2 * (int)A.getDimensions().getColumns()
             + (int)A.getDimensions().getColumns()
                 * std::max(5,
-                      (int)A.getDimensions().getColumns() + (int)B.getDimensions().getRows()
-                          + (int)C.getDimensions().getColumns()));
+                    (int)A.getDimensions().getColumns() + (int)B.getDimensions().getRows()
+                        + (int)C.getDimensions().getColumns()));
     // OUTPUT VARIABLES
     ArrayOf NSYS_output = ArrayOf::int32VectorConstructor(1);
     int* NSYS_output_ptr = (int*)NSYS_output.getDataPointer();

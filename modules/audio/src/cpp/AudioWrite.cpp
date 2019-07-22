@@ -160,8 +160,8 @@ AudioWrite(const std::wstring& filename, ArrayOf data, int fs, wstringVector met
         switch (audioData.getDataClass()) {
         case NLS_UINT8: {
             auto* ptrAudioData = (uint8*)audioData.getDataPointer();
-            single* buffer
-                = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, BUFFER * sfinfo.channels, stringVector(), true);
+            single* buffer = (single*)ArrayOf::allocateArrayOf(
+                NLS_SINGLE, BUFFER * sfinfo.channels, stringVector(), true);
             size_t idx = 0;
             do {
                 writecount = BUFFER;
@@ -192,7 +192,8 @@ AudioWrite(const std::wstring& filename, ArrayOf data, int fs, wstringVector met
         } break;
         case NLS_INT16: {
             auto* ptrAudioData = (int16*)audioData.getDataPointer();
-            int16* buffer = (int16*)ArrayOf::allocateArrayOf(NLS_INT16, BUFFER * sfinfo.channels, stringVector(), true);
+            int16* buffer = (int16*)ArrayOf::allocateArrayOf(
+                NLS_INT16, BUFFER * sfinfo.channels, stringVector(), true);
             do {
                 writecount = BUFFER;
                 if (total + writecount > rows) {
@@ -219,7 +220,8 @@ AudioWrite(const std::wstring& filename, ArrayOf data, int fs, wstringVector met
         } break;
         case NLS_INT32: {
             auto* ptrAudioData = (int32*)audioData.getDataPointer();
-            int32* buffer = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, BUFFER * sfinfo.channels, stringVector(), true);
+            int32* buffer = (int32*)ArrayOf::allocateArrayOf(
+                NLS_INT32, BUFFER * sfinfo.channels, stringVector(), true);
             do {
                 writecount = BUFFER;
                 if (total + writecount > rows) {
@@ -246,8 +248,8 @@ AudioWrite(const std::wstring& filename, ArrayOf data, int fs, wstringVector met
         } break;
         case NLS_SINGLE: {
             auto* ptrAudioData = (single*)audioData.getDataPointer();
-            single* buffer
-                = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, BUFFER * sfinfo.channels, stringVector(), true);
+            single* buffer = (single*)ArrayOf::allocateArrayOf(
+                NLS_SINGLE, BUFFER * sfinfo.channels, stringVector(), true);
             do {
                 writecount = BUFFER;
                 if (total + writecount > rows) {
@@ -274,8 +276,8 @@ AudioWrite(const std::wstring& filename, ArrayOf data, int fs, wstringVector met
         } break;
         case NLS_DOUBLE: {
             auto* ptrAudioData = (double*)audioData.getDataPointer();
-            double* buffer
-                = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, BUFFER * sfinfo.channels, stringVector(), true);
+            double* buffer = (double*)ArrayOf::allocateArrayOf(
+                NLS_DOUBLE, BUFFER * sfinfo.channels, stringVector(), true);
             do {
                 writecount = BUFFER;
                 if (total + writecount > rows) {

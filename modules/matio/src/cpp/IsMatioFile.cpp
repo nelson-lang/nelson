@@ -49,8 +49,8 @@ IsMatioFile(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions,
         NLS_STRING_ARRAY, filenames.size(), stringVector(), false);
     versions = ArrayOf(NLS_STRING_ARRAY, dims, elementVersions);
 
-    ArrayOf* elementHeaders
-        = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, filenames.size(), stringVector(), false);
+    ArrayOf* elementHeaders = (ArrayOf*)ArrayOf::allocateArrayOf(
+        NLS_STRING_ARRAY, filenames.size(), stringVector(), false);
     headers = ArrayOf(NLS_STRING_ARRAY, dims, elementHeaders);
 
     for (size_t k = 0; k < filenames.size(); ++k) {

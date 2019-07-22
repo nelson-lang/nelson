@@ -301,7 +301,7 @@ Profiler::hash(internalProfileFunction stack)
     }
 
     res = res + "[" + wstring_to_utf8(std::get<2>(stack)) + "|" + std::get<1>(stack) + "]";
-    return std::hash<std::string>{}(res);
+    return std::hash<std::string> {}(res);
 }
 //=============================================================================
 void

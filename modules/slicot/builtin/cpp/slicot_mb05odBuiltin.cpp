@@ -83,14 +83,14 @@ Nelson::SlicotGateway::slicot_mb05odBuiltin(Evaluator* eval, int nLhs, const Arr
     ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1,
         (int)N.getContentAsInteger32Scalar()
                 * (2 * (int)N.getContentAsInteger32Scalar()
-                      + (int)NDIAG.getContentAsInteger32Scalar() + 1)
+                    + (int)NDIAG.getContentAsInteger32Scalar() + 1)
             + (int)NDIAG.getContentAsInteger32Scalar());
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
     LDWORK_ptr[0] = (int)N.getContentAsInteger32Scalar()
             * (2 * (int)N.getContentAsInteger32Scalar() + (int)NDIAG.getContentAsInteger32Scalar()
-                  + 1)
+                + 1)
         + (int)NDIAG.getContentAsInteger32Scalar();
     // OUTPUT VARIABLES
     ArrayOf MDIG_output = ArrayOf::int32VectorConstructor(1);

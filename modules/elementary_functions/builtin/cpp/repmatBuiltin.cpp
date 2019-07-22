@@ -101,7 +101,8 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(
             outdims[i] = originalSize[i] * repcount[i];
         }
         outdims.simplify();
-        void* dp = ArrayOf::allocateArrayOf(classx, outdims.getElementCount(), x.getFieldNames(), true);
+        void* dp
+            = ArrayOf::allocateArrayOf(classx, outdims.getElementCount(), x.getFieldNames(), true);
         indexType colsize = originalSize[0];
         indexType outcolsize = outdims[0];
         indexType colcount = originalSize.getElementCount() / colsize;

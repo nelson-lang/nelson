@@ -57,11 +57,11 @@ getBackTraceMessage(Exception& e)
             if (trace.getFilename().size() > 50) {
                 message = message + L"\n"
                     + StringFormat(_W("at line %5d\nof \'%ls\'\n").c_str(), trace.getLine(),
-                          trace.getFilename().c_str());
+                        trace.getFilename().c_str());
             } else {
                 message = message + L"\n"
                     + StringFormat(_W("at line %5d of \'%ls\'\n").c_str(), trace.getLine(),
-                          trace.getFilename().c_str());
+                        trace.getFilename().c_str());
             }
         }
     }

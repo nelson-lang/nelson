@@ -88,7 +88,7 @@ scalarInteger_times_scalarInteger(T a, T b)
         }
         if (a < 0 && b < 0
             && (a <= std::numeric_limits<T>::min() || b <= std::numeric_limits<T>::min()
-                   || -a > std::numeric_limits<T>::max() / -b)) {
+                || -a > std::numeric_limits<T>::max() / -b)) {
             return std::numeric_limits<T>::max();
         }
         return (T)(a * b);

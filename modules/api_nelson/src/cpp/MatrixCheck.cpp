@@ -77,10 +77,10 @@ FindCommonType(const ArrayOf& A, const ArrayOf& B, bool isDivOrMatrix)
     Class Bclass = B.getDataClass();
     if ((Aclass == Bclass)
         && ((Aclass == NLS_LOGICAL) || (Aclass == NLS_UINT8) || (Aclass == NLS_INT8)
-               || (Aclass == NLS_UINT16) || (Aclass == NLS_INT16) || (Aclass == NLS_UINT32)
-               || (Aclass == NLS_INT32) || (Aclass == NLS_UINT64) || (Aclass == NLS_INT64)
-               || (Aclass == NLS_SINGLE) || (Aclass == NLS_DOUBLE) || (Aclass == NLS_SCOMPLEX)
-               || (Aclass == NLS_DCOMPLEX) || (Aclass == NLS_CHAR))) {
+            || (Aclass == NLS_UINT16) || (Aclass == NLS_INT16) || (Aclass == NLS_UINT32)
+            || (Aclass == NLS_INT32) || (Aclass == NLS_UINT64) || (Aclass == NLS_INT64)
+            || (Aclass == NLS_SINGLE) || (Aclass == NLS_DOUBLE) || (Aclass == NLS_SCOMPLEX)
+            || (Aclass == NLS_DCOMPLEX) || (Aclass == NLS_CHAR))) {
         return Aclass;
     }
     // Division or matrix operations do no allow integer

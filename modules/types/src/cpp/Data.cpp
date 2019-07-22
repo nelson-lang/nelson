@@ -227,7 +227,9 @@ Data::freeDataBlock()
                 auto* rp = static_cast<charType*>(cp);
                 delete[] rp;
             } break;
-            default: { } break; }
+            default: {
+            } break;
+            }
             cp = nullptr;
         }
     }

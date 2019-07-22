@@ -400,7 +400,8 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         }
         break;
     case NLS_SCOMPLEX:
-        cp = ArrayOf::allocateArrayOf(NLS_SCOMPLEX, outDim.getElementCount(), stringVector(), false);
+        cp = ArrayOf::allocateArrayOf(
+            NLS_SCOMPLEX, outDim.getElementCount(), stringVector(), false);
         MPI_Unpack(
             buffer, bufsize, packpos, cp, (int)outDim.getElementCount() * 2, MPI_FLOAT, comm);
         break;

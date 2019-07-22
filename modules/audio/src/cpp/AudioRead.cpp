@@ -201,8 +201,8 @@ AudioRead(const std::wstring& filename, double dstart, double dend, std::wstring
         }
     } break;
     case SF_FORMAT_FLOAT: {
-        single* dataAsSingleRowMajor
-            = static_cast<single*>(ArrayOf::allocateArrayOf(NLS_SINGLE, dims.getElementCount(), stringVector(), true));
+        single* dataAsSingleRowMajor = static_cast<single*>(
+            ArrayOf::allocateArrayOf(NLS_SINGLE, dims.getElementCount(), stringVector(), true));
         readcount = sf_read_float(file, dataAsSingleRowMajor, dims.getElementCount());
         sf_close(file);
         if (readcount == sfinfo.frames * sfinfo.channels) {
@@ -222,8 +222,8 @@ AudioRead(const std::wstring& filename, double dstart, double dend, std::wstring
     } break;
     default: // double
     {
-        double* dataAsDoubleRowMajor
-            = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, dims.getElementCount(), stringVector(), true));
+        double* dataAsDoubleRowMajor = static_cast<double*>(
+            ArrayOf::allocateArrayOf(NLS_DOUBLE, dims.getElementCount(), stringVector(), true));
         readcount = sf_read_double(file, dataAsDoubleRowMajor, dims.getElementCount());
         sf_close(file);
         if (readcount == sfinfo.frames * sfinfo.channels) {

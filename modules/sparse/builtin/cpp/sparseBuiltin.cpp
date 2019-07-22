@@ -46,8 +46,8 @@ sparseBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         ArrayOf A(argIn[0]);
         if (A.isSparse()
             || (A.is2D()
-                   && ((A.getDataClass() == NLS_DOUBLE) || (A.getDataClass() == NLS_DCOMPLEX)
-                          || (A.getDataClass() == NLS_LOGICAL)))) {
+                && ((A.getDataClass() == NLS_DOUBLE) || (A.getDataClass() == NLS_DCOMPLEX)
+                    || (A.getDataClass() == NLS_LOGICAL)))) {
             retval.push_back(SparseConstructor(A));
         } else {
             retval.push_back(OverloadUnaryOperator(eval, A, "sparse"));

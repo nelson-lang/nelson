@@ -142,7 +142,9 @@ RandomMersenneTwister64::getValuesAsDouble(
             }
         }
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
 }
 //=============================================================================
 void
@@ -183,7 +185,9 @@ RandomMersenneTwister64::getValuesAsSingle(
             }
         }
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
 }
 //=============================================================================
 boost::container::vector<uint64>

@@ -107,7 +107,9 @@ ArrayOf::allocateArrayOf(
     case NLS_CHAR: {
         return (void*)new_with_exception<charType>(length, initializeValues);
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
     return nullptr;
 }
 //=============================================================================
@@ -187,7 +189,9 @@ ArrayOf::deleteArrayOf(void* dp, Class dataclass)
         auto* rp = static_cast<charType*>(dp);
         delete[] rp;
     } break;
-    default: { } break; }
+    default: {
+    } break;
+    }
 }
 //=============================================================================
 } // namespace Nelson

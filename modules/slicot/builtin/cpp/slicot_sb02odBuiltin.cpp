@@ -155,7 +155,7 @@ Nelson::SlicotGateway::slicot_sb02odBuiltin(Evaluator* eval, int nLhs, const Arr
     ArrayOf IWORK = ArrayOf::int32Matrix2dConstructor(1,
         JOBB.getContentAsCString().compare("B") == 0
             ? std::max(std::max(1, (int)B.getDimensions().getColumns()),
-                  2 * (int)A.getDimensions().getRows())
+                2 * (int)A.getDimensions().getRows())
             : std::max(1, 2 * (int)A.getDimensions().getRows()));
     int* IWORK_ptr = (int*)IWORK.getDataPointer();
     ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1,
@@ -192,17 +192,17 @@ Nelson::SlicotGateway::slicot_sb02odBuiltin(Evaluator* eval, int nLhs, const Arr
     ArrayOf S_output = ArrayOf::doubleMatrix2dConstructor(
         (indexType)(JOBB.getContentAsCString().compare("B") == 0)
             ? std::max(
-                  1, 2 * (int)A.getDimensions().getRows() + (int)B.getDimensions().getColumns())
+                1, 2 * (int)A.getDimensions().getRows() + (int)B.getDimensions().getColumns())
             : std::max(1, 2 * (int)A.getDimensions().getRows()),
         (indexType)(JOBB.getContentAsCString().compare("B") == 0)
             ? std::max(
-                  1, 2 * (int)A.getDimensions().getRows() + (int)B.getDimensions().getColumns())
+                1, 2 * (int)A.getDimensions().getRows() + (int)B.getDimensions().getColumns())
             : std::max(1, 2 * (int)A.getDimensions().getRows()));
     double* S_output_ptr = (double*)S_output.getDataPointer();
     ArrayOf T_output = ArrayOf::doubleMatrix2dConstructor(
         (indexType)(JOBB.getContentAsCString().compare("B") == 0)
             ? std::max(
-                  1, 2 * (int)A.getDimensions().getRows() + (int)B.getDimensions().getColumns())
+                1, 2 * (int)A.getDimensions().getRows() + (int)B.getDimensions().getColumns())
             : (DICO.getContentAsCString().compare("D") == 0)
                 ? std::max(1, 2 * (int)A.getDimensions().getRows())
                 : 1,

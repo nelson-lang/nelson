@@ -280,8 +280,8 @@ static ArrayOf
 jsonVariableToNelsonStructType(JsonVariable& jsVar, Dimensions& dims)
 {
     stringVector fieldnames = jsVar.fieldnames;
-    ArrayOf* ptrStruct
-        = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false);
+    ArrayOf* ptrStruct = (ArrayOf*)ArrayOf::allocateArrayOf(
+        NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false);
     size_t offset = 0;
     for (indexType j = 0; j < dims.getElementCount(); j++) {
         for (size_t i = 0; i < jsVar.fieldnames.size(); i++) {
@@ -675,7 +675,9 @@ importTokens(const jsmntok_t* tokens, JsonVariable& jsVar)
             case JSON_TO_NELSON_STRUCT: {
                 return transformStructArray(jsVar, totaldims);
             } break;
-            default: { } break; }
+            default: {
+            } break;
+            }
         } else {
             jsVar.jsonVariableType = JSON_TO_NELSON_CELL;
             return true;

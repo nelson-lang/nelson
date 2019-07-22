@@ -134,8 +134,8 @@ Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         case NLS_UINT64:
         case NLS_INT64: {
             A.promoteType(NLS_DOUBLE);
-            double* ptr = static_cast<double*>(
-                ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount(), stringVector(), true));
+            double* ptr = static_cast<double*>(ArrayOf::allocateArrayOf(
+                NLS_DOUBLE, dimsRes.getElementCount(), stringVector(), true));
             RealProdT<double>(static_cast<const double*>(A.getDataPointer()), ptr, planecount,
                 planesize, linesize, false);
             res = ArrayOf(NLS_DOUBLE, dimsRes, ptr);

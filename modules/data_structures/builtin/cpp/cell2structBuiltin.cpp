@@ -106,8 +106,8 @@ Nelson::DataStructuresGateway::cell2structBuiltin(
             Dimensions dims;
             dims[1] = 1;
             dims[0] = dims1.getElementCount() / dims1[dim];
-            auto* qp = static_cast<ArrayOf*>(
-                ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
+            auto* qp = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
+                NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
             ArrayOf c = ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, fieldnames);
             for (indexType k = 0; k < param1.getDimensions().getElementCount(); k++) {
                 qp[k] = arg[k];

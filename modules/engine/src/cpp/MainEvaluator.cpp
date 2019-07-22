@@ -201,7 +201,9 @@ destroyMainEvaluator()
                 nlsTerm = nullptr;
                 DestroyMainGuiObjectDynamic(nullptr);
             } break;
-            default: { } break; }
+            default: {
+            } break;
+            }
         }
         PathFuncManager::getInstance()->destroy();
         BuiltInFunctionDefManager::getInstance()->destroy();

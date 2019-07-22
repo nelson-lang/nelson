@@ -62,7 +62,7 @@ public:
 
 private:
     HelpBrowser();
-    HelpBrowser(HelpBrowser const&){};
+    HelpBrowser(HelpBrowser const&) {};
     std::wstring
     getQhcFilename();
     std::wstring

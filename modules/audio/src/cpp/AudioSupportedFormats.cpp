@@ -73,8 +73,8 @@ AudioSupportedFormats()
     if (countFormat == 0) {
         return ArrayOf::emptyStructConstructor(fieldnames, dims);
     }
-    ArrayOf* elements
-        = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false);
+    ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(
+        NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false);
     ArrayOf st = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
     for (int i = 0; i < countFormat; i++) {
         SF_FORMAT_INFO info;

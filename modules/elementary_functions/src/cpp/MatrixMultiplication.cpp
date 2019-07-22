@@ -191,8 +191,7 @@ complex_mtimes(Class currentClass, ArrayOf& A, ArrayOf& B)
             T* pd = (T*)Cp;
             delete[] pd;
             pd = nullptr;
-            Cp = ArrayOf::allocateArrayOf(
-                NLS_DOUBLE, Cdim.getElementCount(), stringVector(), true);
+            Cp = ArrayOf::allocateArrayOf(NLS_DOUBLE, Cdim.getElementCount(), stringVector(), true);
             return ArrayOf(NLS_DOUBLE, Cdim, Cp);
         } else {
             Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matB(Bz, mB, nB);

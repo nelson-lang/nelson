@@ -135,19 +135,18 @@ Nelson::SlicotGateway::slicot_ab01odBuiltin(Evaluator* eval, int nLhs, const Arr
         std::max(1,
             std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns())
                 + std::max(
-                      (int)A.getDimensions().getRows(), 3 * (int)B.getDimensions().getColumns())));
+                    (int)A.getDimensions().getRows(), 3 * (int)B.getDimensions().getColumns())));
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
     LDWORK_ptr[0] = STAGES.getContentAsCString().compare("B") != 0
         ? std::max(1,
-              std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns())
-                  + std::max(
-                        (int)A.getDimensions().getRows(), 3 * (int)B.getDimensions().getColumns()))
+            std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns())
+                + std::max(
+                    (int)A.getDimensions().getRows(), 3 * (int)B.getDimensions().getColumns()))
         : std::max(1,
-              std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns())
-                  + std::max(
-                        (int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns()));
+            std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns())
+                + std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns()));
     // OUTPUT VARIABLES
     ArrayOf V_output = ArrayOf::doubleMatrix2dConstructor(
         (indexType)std::max(1, (int)B.getDimensions().getColumns()),

@@ -42,7 +42,8 @@ ArrayOf::toCell(ArrayOf m)
     if (m.isCell()) {
         return m;
     }
-    ArrayOf* elements = static_cast<ArrayOf*>(allocateArrayOf(NLS_CELL_ARRAY, 1, stringVector(), false));
+    ArrayOf* elements
+        = static_cast<ArrayOf*>(allocateArrayOf(NLS_CELL_ARRAY, 1, stringVector(), false));
     elements[0] = m;
     return ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
 }

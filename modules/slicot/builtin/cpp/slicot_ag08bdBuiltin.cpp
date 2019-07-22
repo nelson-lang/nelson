@@ -127,16 +127,15 @@ Nelson::SlicotGateway::slicot_ag08bdBuiltin(Evaluator* eval, int nLhs, const Arr
             4 * ((int)L.getContentAsInteger32Scalar() + (int)N.getContentAsInteger32Scalar()),
             std::max((int)P.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar(),
                 (int)M.getContentAsInteger32Scalar() + (int)N.getContentAsInteger32Scalar())
-                    * std::max((int)P.getContentAsInteger32Scalar()
-                              + (int)L.getContentAsInteger32Scalar(),
-                          (int)M.getContentAsInteger32Scalar()
-                              + (int)N.getContentAsInteger32Scalar())
+                    * std::max(
+                        (int)P.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar(),
+                        (int)M.getContentAsInteger32Scalar() + (int)N.getContentAsInteger32Scalar())
                 + std::max(1,
-                      5
-                          * std::max((int)P.getContentAsInteger32Scalar()
-                                    + (int)L.getContentAsInteger32Scalar(),
-                                (int)M.getContentAsInteger32Scalar()
-                                    + (int)N.getContentAsInteger32Scalar())))));
+                    5
+                        * std::max((int)P.getContentAsInteger32Scalar()
+                                + (int)L.getContentAsInteger32Scalar(),
+                            (int)M.getContentAsInteger32Scalar()
+                                + (int)N.getContentAsInteger32Scalar())))));
     double* DWORK_ptr = (double*)DWORK.getDataPointer();
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
@@ -145,14 +144,14 @@ Nelson::SlicotGateway::slicot_ag08bdBuiltin(Evaluator* eval, int nLhs, const Arr
         std::max((int)P.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar(),
             (int)M.getContentAsInteger32Scalar() + (int)N.getContentAsInteger32Scalar())
                 * std::max(
-                      (int)P.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar(),
-                      (int)M.getContentAsInteger32Scalar() + (int)N.getContentAsInteger32Scalar())
+                    (int)P.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar(),
+                    (int)M.getContentAsInteger32Scalar() + (int)N.getContentAsInteger32Scalar())
             + std::max(1,
-                  5
-                      * std::max((int)P.getContentAsInteger32Scalar()
-                                + (int)L.getContentAsInteger32Scalar(),
-                            (int)M.getContentAsInteger32Scalar()
-                                + (int)N.getContentAsInteger32Scalar()))));
+                5
+                    * std::max(
+                        (int)P.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar(),
+                        (int)M.getContentAsInteger32Scalar()
+                            + (int)N.getContentAsInteger32Scalar()))));
     // OUTPUT VARIABLES
     ArrayOf NFZ_output = ArrayOf::int32VectorConstructor(1);
     int* NFZ_output_ptr = (int*)NFZ_output.getDataPointer();
@@ -177,7 +176,7 @@ Nelson::SlicotGateway::slicot_ag08bdBuiltin(Evaluator* eval, int nLhs, const Arr
     ArrayOf INFE_output = ArrayOf::int32Matrix2dConstructor((indexType)1,
         (indexType)1
             + std::min((int)L.getContentAsInteger32Scalar() + (int)P.getContentAsInteger32Scalar(),
-                  (int)N.getContentAsInteger32Scalar() + (int)M.getContentAsInteger32Scalar()));
+                (int)N.getContentAsInteger32Scalar() + (int)M.getContentAsInteger32Scalar()));
     int* INFE_output_ptr = (int*)INFE_output.getDataPointer();
     ArrayOf KRONL_output = ArrayOf::int32Matrix2dConstructor((indexType)1,
         (indexType)(int)L.getContentAsInteger32Scalar() + (int)P.getContentAsInteger32Scalar() + 1);
