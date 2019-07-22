@@ -24,7 +24,7 @@ import subprocess;
 import sys;
 
 def is_dirty_git():
-	status = subprocess.check_output('git status -uno --porcelain');
+	status = subprocess.check_output(['git', 'status', '-uno', '--porcelain']);
 	status = status.decode('utf-8');
 	status =status.rstrip(os.linesep);
 	return len(status) > 0;
