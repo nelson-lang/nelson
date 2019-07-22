@@ -43,17 +43,19 @@ XmlDocMainIndex::XmlDocMainIndex(const std::wstring& destdir, const std::wstring
     this->mainTitle.assign(_mainTitle);
     this->mainModuleShortName.assign(mainModuleShortName);
     this->outputTarget = outputTarget;
-    if (outputTarget != DOCUMENT_OUTPUT::MARKDOWN) {
-        this->htmlHeader();
-        this->htmlOpenTags();
-    } else {
+    if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
         this->utf8stream
             = this->utf8stream + "* [" + wstring_to_utf8(this->mainTitle) + "](README.md)\n";
+    } else {
+        this->htmlHeader();
+        this->htmlOpenTags();
     }
+    if (outputTarget == DOCUMENT_OUTPUT::QT_HELP) {
     std::wstring name_space
         = std::wstring(L"org.nelson.modules.") + mainModuleShortName + std::wstring(L".help");
-    if (outputTarget == DOCUMENT_OUTPUT::QT_HELP) {
         this->qtproject = new QtHelpProject(this->directoryDestination, mainTitle, name_space);
+    } else {
+        this->qtproject = nullptr;
     }
 }
 //=============================================================================
@@ -69,6 +71,7 @@ XmlDocMainIndex::~XmlDocMainIndex()
         delete this->qtproject;
     }
     this->qtproject = nullptr;
+    
 }
 //=============================================================================
 void
