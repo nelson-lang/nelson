@@ -23,12 +23,14 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-destination = [tempdir(), '/test_buildhelpmd'];
-if isdir(destination)
-  rmdir(destination, 's');
+if isfile([modulepath('help_tools'), '/help/en_US/xml/chapter.xml'])
+    destination = [tempdir(), '/test_buildhelpmd'];
+    if isdir(destination)
+        rmdir(destination, 's');
+    end
+    mkdir(destination);
+    buildhelpmd(destination);
+    r = dir([destination, '/*.md'], '-s');
+    assert_istrue(length(r) > 600);
 end
-mkdir(destination);
-buildhelpmd(destination);
-r = dir([destination, '/*.md'], '-s');
-assert_istrue(length(r) > 600);
 //=============================================================================
