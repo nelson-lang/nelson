@@ -580,7 +580,9 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
       testfile = test.filename;
       [p, f, e] = fileparts(testfile);
       outputfile = [tempdir(), '/' , f, '.output'];
-      r = rmfile(outputfile);
+      if isfile(outputfile)
+        r = rmfile(outputfile);
+      end
       redirect_err = [tempdir(), '/' , f, '.err'];
       r = rmfile(redirect_err);
       if is_bench
@@ -592,7 +594,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
       
       command_filename = [tempdir(), '/test_', createGUID(), '.nls'];
       content = {['res_struct = test_runfile(''', testfile, ''',', int2str(test_case_res.options.mpi_mode),');'];
-                 ['filewrite(''', outputfile, ''', jsonencode(res_struct));']};
+                 ['savenh5(''', outputfile, ''', ''res_struct'');']};
       if test_case_res.options.mpi_mode
         content = [content; 'exit();'];
       else
@@ -623,7 +625,8 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
       test_case_res.msg = msg;
       if test_case_res.options.mpi_mode
         if isfile(outputfile)
-          s = jsondecode(fileread(outputfile));
+          asnh5 = loadnh5(outputfile);
+          s = asnh5.res_struct;
           res = s.r;
           test_case_res.msg = s.msg;
           if res == 1
@@ -642,12 +645,14 @@ function test_case_res = run_test_case(test, module_name, index, indexMax)
           test_case_res.status = 'Fail';
           test_timing = 0;
           if isfile(outputfile)
-            s = jsondecode(fileread(outputfile));
+            asnh5 = loadnh5(outputfile);
+            s = asnh5.res_struct;
             test_case_res.msg = s.msg;
           end
         else
           if isfile(outputfile)
-            s = jsondecode(fileread(outputfile));
+            asnh5 = loadnh5(outputfile);
+            s = asnh5.res_struct;
             r = rmfile(outputfile);
             if (s.r)
               if is_bench

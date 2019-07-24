@@ -1,3 +1,12 @@
+# 0.3.8 (2019-08-XX)
+
+Features:
+---------
+
+  * test_run uses nh5 files as result file (previously json)
+
+
+
 # 0.3.7 (2019-07-23)
 
 Features:
