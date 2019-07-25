@@ -29,6 +29,15 @@
 #include <string>
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+typedef enum
+{
+    NLS_CHARSET_UTF8 = 0,
+    NLS_CHARSET_UNICODE = 1,
+    NLS_CHARSET_LATIN1 = 2,
+    NLS_CHARSET_SHIFT_JIS = 3
+} CHARSETENCODING;
+//=============================================================================
 // convert UTF-8 string to wstring
 NLSCHARACTERS_ENCODING_IMPEXP std::wstring
 utf8_to_wstring(const std::string& str);
