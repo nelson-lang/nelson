@@ -39,15 +39,52 @@ typedef enum
 } CHARSETENCODING;
 //=============================================================================
 // convert UTF-8 string to wstring
+NLSCHARACTERS_ENCODING_IMPEXP bool
+utf8_to_wstring(const std::string& str, std::wstring& wstr);
 NLSCHARACTERS_ENCODING_IMPEXP std::wstring
 utf8_to_wstring(const std::string& str);
 NLSCHARACTERS_ENCODING_IMPEXP std::wstring
 utf8_to_wstring(const char* str);
-
+//=============================================================================
 // convert wstring to UTF-8 string
+NLSCHARACTERS_ENCODING_IMPEXP bool
+wstring_to_utf8(const std::wstring& wstr, std::string& asUft8);
 NLSCHARACTERS_ENCODING_IMPEXP std::string
 wstring_to_utf8(const std::wstring& str);
 NLSCHARACTERS_ENCODING_IMPEXP std::string
 wstring_to_utf8(const wchar_t* str);
+//=============================================================================
+// convert wstring to latin1 (ISO-8859-1) string
+NLSCHARACTERS_ENCODING_IMPEXP bool
+wstring_to_latin1(const std::wstring& wString, std::string &asLatin1);
+//=============================================================================
+// convert UTF-8 string to latin1 (ISO-8859-1) string
+NLSCHARACTERS_ENCODING_IMPEXP bool
+utf8_to_latin1(const std::string& utfString, std::string &asLatin1);
+//=============================================================================
+// convert latin1 (ISO-8859-1) string to UTF-8 string
+NLSCHARACTERS_ENCODING_IMPEXP bool
+latin1_to_utf8(const std::string& latin1String, std::string &asUtf8);
+//=============================================================================
+// convert latin1 (ISO-8859-1) string to wstring
+NLSCHARACTERS_ENCODING_IMPEXP bool
+latin1_to_wstring(const std::string& latin1String, std::wstring &asWstring);
+//=============================================================================
+// convert Shift JIS string to UTF-8 string
+NLSCHARACTERS_ENCODING_IMPEXP bool
+shiftJIS_to_utf8(const std::string& jisString, std::string &asUtf8);
+//=============================================================================
+// convert Shift JIS string to wstring
+NLSCHARACTERS_ENCODING_IMPEXP bool
+shiftJIS_to_wstring(const std::string& jisString, std::wstring &asWstring);
+//=============================================================================
+// convert UTF-8 string to Shift JIS string
+NLSCHARACTERS_ENCODING_IMPEXP bool
+utf8_to_shiftJIS(const std::string& utfString, std::string &asShiftJIS);
+//=============================================================================
+// convert wstring to Shift JIS string
+NLSCHARACTERS_ENCODING_IMPEXP bool
+wstring_to_shiftJIS(const std::wstring& wString, std::string& asShiftJIS);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
