@@ -61,7 +61,7 @@ nlsElementary_functions
 nlsElementary_mathematics
 nlsCharacters_encoding
 nlsI18n
-${BOOST_LIBRARY}
+${BOOST_LIBRARIES}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}
@@ -98,7 +98,7 @@ nlsTypes
 nlsApi_nelson
 nlsI18n
 nlsString
-${BOOST_LIBRARY}
+${BOOST_LIBRARIES}
 )
 #==============================================================================
 set_target_properties(${module_library_builtin_name}

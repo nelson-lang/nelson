@@ -59,7 +59,7 @@ nlsError_manager
 nlsI18n
 nlsApi_nelson
 nlsNelson_manager
-${BOOST_LIBRARY}
+${BOOST_LIBRARIES}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}

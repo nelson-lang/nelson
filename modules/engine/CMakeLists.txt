@@ -73,7 +73,7 @@ nlsLocalization
 nlsI18n
 nlsTime
 nlsSio_client
-${BOOST_LIBRARY}
+${BOOST_LIBRARIES}
 )
 #==============================================================================
 set_target_properties(${module_library_name}

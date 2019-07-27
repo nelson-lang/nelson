@@ -46,8 +46,7 @@ ADD_LIBRARY(
 )
 #==============================================================================
 target_link_libraries(${module_library_name}
- 	${ICU_LIBRARIES}
-  ${BOOST_LIBRARY})
+ 	${ICU_LIBRARIES})
 #==============================================================================
 set_target_properties(${module_library_name}
                       PROPERTIES 

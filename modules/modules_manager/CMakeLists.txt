@@ -59,7 +59,7 @@ nlsCore
 nlsDynamic_link
 nlsInterpreter
 nlsI18n
-${BOOST_LIBRARY}
+${BOOST_LIBRARIES}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}

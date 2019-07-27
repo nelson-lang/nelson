@@ -56,7 +56,7 @@ nlsError_manager
 nlsTypes
 nlsI18n
 nlsCore
-${BOOST_LIBRARY})
+${BOOST_LIBRARIES})
 #==============================================================================	
 set_target_properties(${module_library_name}
                       PROPERTIES 

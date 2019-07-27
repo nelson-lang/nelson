@@ -195,7 +195,9 @@ testSpecialFuncs()
     while ((*cp == ' ') || (*cp == '\t')) {
         cp++;
     }
-    if (isalnum(*cp) != 0) {
+    std::wstring w = utf8_to_wstring(&*cp);
+    const wchar_t* wcp = w.c_str();
+    if (iswalnum(*wcp) != 0) {
         return true;
     }
     return false;

@@ -70,7 +70,7 @@ nlsTypes
 nlsI18n
 nlsOs_functions
 nlsProfiler
-${BOOST_LIBRARY}
+${BOOST_LIBRARIES}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}

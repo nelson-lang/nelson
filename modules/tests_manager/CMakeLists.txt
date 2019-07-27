@@ -58,7 +58,7 @@ nlsTypes
 nlsI18n
 nlsCore
 nlsFiles_folders_functions
-${BOOST_LIBRARY})
+${BOOST_LIBRARIES})
 #==============================================================================	
 set_target_properties(${module_library_name}
                       PROPERTIES 

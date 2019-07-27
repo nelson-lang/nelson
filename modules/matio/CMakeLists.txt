@@ -64,7 +64,7 @@ nlsNelson_manager
 nlsInterpreter
 nlsI18n
 nlsSparse
-${BOOST_LIBRARY}
+${BOOST_LIBRARIES}
 ${MATIO_LIBRARIES}
 )
 #==============================================================================	
@@ -103,7 +103,7 @@ nlsTypes
 nlsI18n
 nlsCharacters_encoding
 nlsApi_nelson
-${BOOST_LIBRARY})
+${BOOST_LIBRARIES})
 #==============================================================================
 set_target_properties(${module_library_builtin_name}
                       PROPERTIES 

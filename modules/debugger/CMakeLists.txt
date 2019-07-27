@@ -53,7 +53,7 @@ include_directories(
 #target_link_libraries(${module_library_name}
 #nlsCharacters_encoding
 #nlsInterpreter
-#${BOOST_LIBRARY}
+#${BOOST_LIBRARIES}
 #)
 #==============================================================================	
 #set_target_properties(${module_library_name}

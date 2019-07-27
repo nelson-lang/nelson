@@ -56,7 +56,7 @@ nlsCharacters_encoding
 nlsError_manager
 nlsNelson_manager
 nlsI18n
-${BOOST_LIBRARY}
+${BOOST_LIBRARIES}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}
@@ -94,7 +94,7 @@ nlsTypes
 nlsI18n
 nlsCharacters_encoding
 nlsApi_nelson
-${BOOST_LIBRARY})
+${BOOST_LIBRARIES})
 #==============================================================================
 set_target_properties(${module_library_builtin_name}
                       PROPERTIES 
