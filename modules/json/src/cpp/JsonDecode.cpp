@@ -675,9 +675,7 @@ importTokens(const jsmntok_t* tokens, JsonVariable& jsVar)
             case JSON_TO_NELSON_STRUCT: {
                 return transformStructArray(jsVar, totaldims);
             } break;
-            default: {
-            } break;
-            }
+            default: { } break; }
         } else {
             jsVar.jsonVariableType = JSON_TO_NELSON_CELL;
             return true;

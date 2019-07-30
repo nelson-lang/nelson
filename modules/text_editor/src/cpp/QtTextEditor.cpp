@@ -42,6 +42,9 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <algorithm>
+#include <iostream>
+#include <fstream>
+#include <string>
 #include <boost/algorithm/string.hpp>
 #include "QtTextEditor.h"
 #include "ExecuteCommand.hpp"
@@ -342,27 +345,92 @@ QtTextEditor::openRecentFile()
 }
 //=============================================================================
 bool
+QtTextEditor::saveFileWithEncoding(
+    const QString& filename, const QString& data, const QString& sourceEncoding)
+{
+    if (sourceEncoding == "UTF-8") {
+        QFile file(filename);
+        if (file.open(QFile::WriteOnly | QFile::Text)) {
+            QTextStream out(&file);
+            out.setCodec("UTF-8");
+            out << data;
+            file.close();
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        std::wstring unicodeData = QStringTowstring(data);
+        std::string encoding = wstring_to_utf8(QStringTowstring(sourceEncoding));
+        std::string utf8Data = wstring_to_utf8(unicodeData);
+        std::string outData;
+        if (utf8ToCharsetConverter(utf8Data, outData, encoding)) {
+            std::ofstream datFile;
+#ifdef _MSC_VER
+            std::wstring unicodeFilename = QStringTowstring(filename);
+            datFile.open(unicodeFilename, std::ofstream::binary);
+#else
+            std::string utf8Filename = wstring_to_utf8(QStringTowstring(filename));
+            datFile.open(utf8Filename, std::ofstream::binary);
+#endif
+            if (datFile.is_open()) {
+                datFile.write(outData.c_str(), outData.length());
+                datFile.close();
+                return true;
+            }
+        }
+    }
+    return false;
+}
+//=============================================================================
+bool
 QtTextEditor::saveFile(const QString& filename)
 {
-    bool res = false;
-    QFile file(filename);
-    if (file.open(QFile::WriteOnly | QFile::Text)) {
-        QTextStream out(&file);
-        out.setCodec("UTF-8");
-        QApplication::setOverrideCursor(Qt::WaitCursor);
-        out << currentEditor()->toPlainText();
-        QApplication::restoreOverrideCursor();
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    bool res = saveFileWithEncoding(filename, currentEditor()->toPlainText(), currentEncoding());
+    QApplication::restoreOverrideCursor();
+    if (res){
         setCurrentFile(filename);
         statusBar()->showMessage(TR("File saved"), DEFAULT_DELAY_MSG);
-        res = true;
-        file.close();
     } else {
         QMessageBox::warning(this, TR("Nelson"),
-            TR("Cannot write file %1:\n%2.").arg(filename).arg(file.errorString()));
+            TR("Cannot write file:\n%1.").arg(filename));
         statusBar()->showMessage(TR("File not saved"), DEFAULT_DELAY_MSG);
-        res = false;
     }
     return res;
+}
+//=============================================================================
+bool
+QtTextEditor::loadFileAsUtf8(const QString& filename, QString& data, QString& sourceEncoding)
+{
+    std::wstring wfilename = QStringTowstring(filename);
+#ifdef _MSC_VER
+    std::ifstream streamAsbin(wfilename, std::ios::binary);
+#else
+    std::ifstream streamAsbin(wstring_to_utf8(wfilename), std::ios::binary);
+#endif
+    if (!streamAsbin.is_open()) {
+        return false;
+    }
+    std::ostringstream ss;
+    ss << streamAsbin.rdbuf();
+    streamAsbin.close();
+    std::string lines = ss.str();
+    ss.clear();
+    stringVector encodings = detectEncodings(lines);
+    if (encodings.size() > 0) {
+        std::string encoding = encodings[0];
+        sourceEncoding = wstringToQString(utf8_to_wstring(encoding));
+        if (encoding != "UTF-8") {
+            std::string asUtf8;
+            if (charsetToUtf8Converter(lines, encoding, asUtf8)) {
+                lines = asUtf8;
+            }
+        }
+    }
+    std::wstring wdata = utf8_to_wstring(lines);
+    data = wstringToQString(wdata);
+    return true;
 }
 //=============================================================================
 void
@@ -391,13 +459,17 @@ QtTextEditor::loadFile(const QString& filename)
             SLOT(reloadFile(const QString)));
     }
     fileWatcher.addPath(filename);
-    QTextStream in(&file);
-    in.setCodec("UTF-8");
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    currentEditor()->setPlainText(in.readAll());
-    file.close();
+
+    QString content;
+    QString encoding;
+    loadFileAsUtf8(filename, content, encoding);
+    currentEditor()->setPlainText(content);
+
     QApplication::restoreOverrideCursor();
     setCurrentFile(filename);
+    setCurrentEncoding(encoding);
+    updateTitles();
     statusBar()->showMessage(TR("File loaded"), DEFAULT_DELAY_MSG);
     if (filename.endsWith(".nls")) {
         runFileAction->setEnabled(true);
@@ -450,7 +522,7 @@ QtTextEditor::currentEditor()
 }
 //=============================================================================
 void
-QtTextEditor::setCurrentFilename(QString filename)
+QtTextEditor::setCurrentFilename(const QString& filename)
 {
     QWidget* widget = tab->currentWidget();
     QtEditPane* editPane = qobject_cast<QtEditPane*>(widget);
@@ -473,6 +545,32 @@ QtTextEditor::currentFilename()
         editPane = qobject_cast<QtEditPane*>(widget);
     }
     return editPane->getFileName();
+}
+//=============================================================================
+void
+QtTextEditor::setCurrentEncoding(const QString& encoding)
+{
+    QWidget* widget = tab->currentWidget();
+    QtEditPane* editPane = qobject_cast<QtEditPane*>(widget);
+    if (!editPane) {
+        addTab();
+        widget = tab->currentWidget();
+        editPane = qobject_cast<QtEditPane*>(widget);
+    }
+    editPane->setEncoding(encoding);
+}
+//=============================================================================
+QString
+QtTextEditor::currentEncoding()
+{
+    QWidget* widget = tab->currentWidget();
+    QtEditPane* editPane = qobject_cast<QtEditPane*>(widget);
+    if (!editPane) {
+        addTab();
+        widget = tab->currentWidget();
+        editPane = qobject_cast<QtEditPane*>(widget);
+    }
+    return editPane->getEncoding();
 }
 //=============================================================================
 QString
@@ -708,7 +806,7 @@ QtTextEditor::documentWasModified()
         QString fileNameIcon = Nelson::wstringToQString(
             textEditorRootPath + std::wstring(L"/resources/document-modified.svg"));
         tab->setTabIcon(tab->currentIndex(), QIcon(fileNameIcon));
-        tab->setTabText(tab->currentIndex(), shownName() + "*");
+        tab->setTabText(tab->currentIndex(), shownName() + "*" + " (" + currentEncoding() + ")");
     } else {
         QString fileNameIcon = Nelson::wstringToQString(
             textEditorRootPath + std::wstring(L"/resources/document-new.svg"));

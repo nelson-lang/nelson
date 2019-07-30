@@ -26,17 +26,97 @@
 #ifdef _MSC_VER
 #include <Windows.h>
 #endif
-#include "unicode/ucnv.h"
+#include <unicode/unistr.h>
+#include <unicode/ucsdet.h>
+#include <unicode/ucnv.h>
 #include <boost/container/vector.hpp>
 #include <boost/locale.hpp>
 #include <unicode/ustring.h>
+#include <algorithm>
 #include "characters_encoding.hpp"
 //=============================================================================
 #ifdef _MSC_VER
 #pragma comment(lib, "icuuc.lib")
+#pragma comment(lib, "icuin.lib")
 #endif
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+bool
+isSupportedEncoding(const std::string& encoding)
+{
+    UErrorCode status = U_ZERO_ERROR;
+    UConverter* conv = ucnv_open(encoding.c_str(), &status);
+    if (!U_SUCCESS(status)) {
+        return false;
+    }
+    if (conv) {
+        ucnv_close(conv);
+    }
+    return true;
+}
+//=============================================================================
+std::vector<std::string>
+detectEncodings(const std::string& data)
+{
+    // Collect all candidates, most confident comes first
+    std::vector<std::string> encodings;
+    if (!data.empty()) {
+        UErrorCode status = U_ZERO_ERROR;
+        UCharsetDetector* detector = ucsdet_open(&status);
+        std::string s = data;
+        ucsdet_setText(detector, s.c_str(), (int32_t)s.length(), &status);
+        int32_t matches_count;
+        const UCharsetMatch** matches = ucsdet_detectAll(detector, &matches_count, &status);
+        if (matches != NULL) {
+            for (int i = 0; i < matches_count; ++i) {
+                std::string encoding = ucsdet_getName(matches[i], &status);
+                encodings.push_back(encoding);
+            }
+        }
+        ucsdet_close(detector);
+    }
+    return encodings;
+}
+//=============================================================================
+bool
+utf8ToCharsetConverter(
+    const std::string& utf8str, std::string& outputStr, const std::string& codeOut)
+{
+    icu::UnicodeString uStr = icu::UnicodeString::fromUTF8(utf8str.c_str());
+    if (uStr.isBogus()) {
+        outputStr.clear();
+        return false;
+    }
+    int32_t l = uStr.extract(0, uStr.length(), NULL, 0, codeOut.c_str());
+    std::vector<char> tmp(l + 1);
+    char* target = &tmp[0];
+    int32_t s = uStr.extract(0, uStr.length(), target, l, codeOut.c_str());
+    if (l != s) {
+        outputStr.clear();
+        return false;
+    }
+    outputStr = std::string(target);
+    return true;
+}
+//=============================================================================
+bool
+charsetToUtf8Converter(const std::string& data, const std::string& codeIn, std::string& asUtf8)
+{
+    icu::UnicodeString uStr = icu::UnicodeString(data.c_str(), codeIn.c_str());
+    if (uStr.isBogus()) {
+        asUtf8.clear();
+        return false;
+    }
+    uStr.toUTF8String(asUtf8);
+    const uint8_t* src = reinterpret_cast<const uint8_t*>(asUtf8.data());
+
+    if (uStr.isBogus()) {
+        asUtf8.clear();
+        return false;
+    }
+    return true;
+}
 //=============================================================================
 static std::wstring wcacheRes;
 static std::string wcacheSrc;
@@ -140,53 +220,6 @@ wstring_to_utf8(const std::wstring& wstr, std::string& asUft8)
     return true;
 }
 //=============================================================================
-static bool toUtf8(const std::string &str, const std::string &codeIn, std::string &asUtf8, const std::string &codeOut)   {
-    bool bOK = false;
-    UConverter *codeInConv = NULL, *codeOutConv = NULL;
-
-    UErrorCode status = U_ZERO_ERROR;
-
-    if (str.size() == 0) {
-        asUtf8.clear();
-        return true;
-    }
-
-    codeOutConv = ucnv_open(codeIn.c_str(), &status);
-    if (!U_SUCCESS(status)) {
-        asUtf8.clear();
-        return false;
-    }
-    codeInConv = ucnv_open(codeOut.c_str(), &status);
-    if (!U_SUCCESS(status)) {
-        if (codeOutConv) ucnv_close(codeOutConv);
-        asUtf8.clear();
-        return false;
-    }
-    int32_t sourcelen = str.size();
-    const char* source = str.c_str();
-    const char* sourcelimit = source + sourcelen;
-
-    int32_t targetlen = UCNV_GET_MAX_BYTES_FOR_STRING(str.length() , ucnv_getMaxCharSize(codeOutConv) );
-    std::vector<char> tmp(targetlen + 1);
-    char* target = &tmp[0];
-    char* targetlimit = target + targetlen;
-      
-    ucnv_convertEx(codeOutConv,codeInConv,&target,targetlimit,&source,sourcelimit,
-                    NULL,NULL,NULL,NULL,true,true,&status);
-      
-    if ( U_SUCCESS(status) )  {
-        asUtf8 = std::string(tmp.begin(),tmp.end());
-        bOK = true;
-    } else {
-        asUtf8.clear();
-        bOK = false;
-    }
-    if (codeOutConv) ucnv_close(codeOutConv);
-    if (codeInConv) ucnv_close(codeInConv);
-    return bOK;
-}
-
-
 // convert wstring to UTF-8 string
 std::string
 wstring_to_utf8(const std::wstring& str)
@@ -216,68 +249,11 @@ wstring_to_utf8(const wchar_t* str)
     return wstring_to_utf8(std::wstring(str));
 }
 //=============================================================================
-bool
-wstring_to_latin1(const std::wstring& wString, std::string& asLatin1)
+std::string
+getSystemEncoding()
 {
-    std::string asUtf8;
-    if (!wstring_to_utf8(wString, asUtf8)) {
-        return false;
-    }
-    return toUtf8(asUtf8, "UTF-8", asLatin1, "Latin");
-}
-//=============================================================================
-bool
-utf8_to_latin1(const std::string& utfString, std::string& asLatin1)
-{
-    return toUtf8(utfString, "UTF-8", asLatin1, "Latin1");
-}
-//=============================================================================
-bool
-latin1_to_utf8(const std::string& latin1String, std::string& asUtf8)
-{
-    return toUtf8(latin1String, "Latin1", asUtf8, "UTF-8");
-}
-//=============================================================================
-bool
-latin1_to_wstring(const std::string& latin1String, std::wstring& asWstring)
-{
-    std::string asUtf8;
-    if (!toUtf8(latin1String, "Latin1", asUtf8, "UTF-8")) {
-        return false;
-    }
-    return utf8_to_wstring(asUtf8, asWstring);
-}
-//=============================================================================
-bool
-shiftJIS_to_utf8(const std::string& jisString, std::string& asUtf8)
-{
-    return toUtf8(jisString, "Shift-JIS", asUtf8, "UTF-8");
-}
-//=============================================================================
-bool
-shiftJIS_to_wstring(const std::string& jisString, std::wstring& asWstring)
-{
-    std::string tmpUtf8;
-    if (!shiftJIS_to_utf8(jisString, tmpUtf8)) {
-        return false;
-    }
-    return utf8_to_wstring(tmpUtf8, asWstring);
-}
-//=============================================================================
-bool
-utf8_to_shiftJIS(const std::string& utfString, std::string& asShiftJIS)
-{
-    return toUtf8(utfString, "UTF-8", asShiftJIS, "Shift-JIS");
-}
-//=============================================================================
-bool
-wstring_to_shiftJIS(const std::wstring& wString, std::string& asShiftJIS)
-{
-    std::string asUtf8;
-    if (!wstring_to_utf8(wString, asUtf8)) {
-        return false;
-    }
-    return toUtf8(asUtf8, "UTF-8", asShiftJIS, "Shift-JIS");
+    std::string res = ucnv_getDefaultName();
+    return res;
 }
 //=============================================================================
 } // namespace Nelson

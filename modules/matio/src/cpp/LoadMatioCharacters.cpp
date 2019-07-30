@@ -100,9 +100,7 @@ integerToCharType(ArrayOf& AasInteger, bool asUtf, ArrayOf& AasCharType)
         AasCharType.promoteType(NLS_CHAR);
         return true;
     } break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     return false;
 }
 //=============================================================================

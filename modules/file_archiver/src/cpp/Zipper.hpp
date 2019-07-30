@@ -37,8 +37,8 @@ namespace Nelson {
 class Zipper
 {
 private:
-    zipFile m_zipFile { nullptr };
-    bool m_entryOpen { false };
+    zipFile m_zipFile{ nullptr };
+    bool m_entryOpen{ false };
 
     void
     getTime(tm_zip& tmZip);

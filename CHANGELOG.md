@@ -3,8 +3,17 @@
 Features:
 ---------
 
-  * test_run uses nh5 files as result file (previously json)
+  * unicode2native builtin: Converts unicode characters representation to bytes representation.
 
+  * native2unicode builtin: Converts bytes representation representation to unicode string representation.
+
+  * nativecharset builtin: Find all charset matches that appear to be consistent with the input.
+ 
+  * text editor detects files charset and open files with it.
+
+  * fileread / filewrite builtin extended to use an characters encoding.
+
+  * test_run uses nh5 files as result file (previously json)
 
 
 # 0.3.7 (2019-07-23)

@@ -52,9 +52,7 @@ namespace Overload {
             cachedFunctionNameTernary = std::move(functionName);
             cachedFunctionPointerTernary = funcptr;
             break;
-        default: {
-        } break;
-        }
+        default: { } break; }
     }
     //=============================================================================
     std::string
@@ -67,9 +65,7 @@ namespace Overload {
             return cachedFunctionNameBinary;
         case TERNARY:
             return cachedFunctionNameTernary;
-        default: {
-        } break;
-        }
+        default: { } break; }
         return "";
     }
     //=============================================================================
@@ -83,9 +79,7 @@ namespace Overload {
             return cachedFunctionPointerBinary;
         case TERNARY:
             return cachedFunctionPointerTernary;
-        default: {
-        } break;
-        }
+        default: { } break; }
         return nullptr;
     }
     //=============================================================================

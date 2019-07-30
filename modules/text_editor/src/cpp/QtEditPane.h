@@ -37,6 +37,7 @@ class QtEditPane : public QWidget
     Q_OBJECT
     QtTextEdit* textEditor;
     QString currentFilename;
+    QString currentEncoding;
 
 public:
     QtEditPane();
@@ -44,9 +45,13 @@ public:
     QtTextEdit*
     getEditor();
     void
-    setFileName(QString filename);
+    setFileName(const QString &filename);
     QString
     getFileName();
+    QString
+    getEncoding();
+    void
+    setEncoding(const QString &encoding);
 
 private:
     Highlighter* highlight;

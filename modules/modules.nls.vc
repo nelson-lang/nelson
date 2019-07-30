@@ -75,7 +75,8 @@ modules_list = [
 "sio_client";
 "hdf5";
 "matio";
-"profiler"
+"profiler";
+"characters_encoding";
 ];
 // ============================================================================
 // optional modules
@@ -130,6 +131,7 @@ modules_help_list = [
 "history_manager";
 "help_browser";
 "help_tools";
+"characters_encoding";
 "localization";
 "i18n";
 "qml_engine";

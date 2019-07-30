@@ -332,9 +332,7 @@ LineManager::printCharacters(const std::wstring& buffer, outputStyle eAsStyle)
         case outputStyle::STANDARD_OUTPUT: {
             foreground = 0; // BLACK
         } break;
-        default: {
-        } break;
-        }
+        default: { } break; }
     }
     if (eAsStyle == outputStyle::ERROR_OUTPUT) {
         if (bUsesColors) {

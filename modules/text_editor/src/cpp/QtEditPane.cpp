@@ -31,6 +31,7 @@
 //=============================================================================
 QtEditPane::QtEditPane()
 {
+    currentEncoding = "UTF-8";
     textEditor = new QtTextEdit();
     completer = new QCompleter(this);
     textEditor->setCompleter(completer);
@@ -60,7 +61,7 @@ QtEditPane::getEditor()
 }
 //=============================================================================
 void
-QtEditPane::setFileName(QString filename)
+QtEditPane::setFileName(const QString &filename)
 {
     currentFilename = filename;
     if (filename.endsWith(".nls") || filename.endsWith(".nlf")) {
@@ -74,5 +75,17 @@ QString
 QtEditPane::getFileName()
 {
     return currentFilename;
+}
+//=============================================================================
+void
+QtEditPane::setEncoding(const QString& encoding)
+{
+    currentEncoding = encoding;
+}
+//=============================================================================
+QString
+QtEditPane::getEncoding()
+{
+    return currentEncoding;
 }
 //=============================================================================

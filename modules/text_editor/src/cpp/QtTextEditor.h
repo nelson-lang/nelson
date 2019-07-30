@@ -107,9 +107,13 @@ private:
     void
     setCurrentFile(const QString& filename);
     void
-    setCurrentFilename(QString filename);
+    setCurrentFilename(const QString& filename);
     QString
     currentFilename();
+    void
+    setCurrentEncoding(const QString &encoding);
+    QString
+    currentEncoding();
     QString
     shownName();
     void
@@ -198,6 +202,12 @@ private Q_SLOTS:
 
     void
     reloadFile(const QString);
+
+    bool
+    loadFileAsUtf8(const QString& filename, QString &data, QString &sourceEncoding);
+
+    bool
+    saveFileWithEncoding(const QString& filename, const QString& data, const QString& sourceEncoding);
 
 public:
     void

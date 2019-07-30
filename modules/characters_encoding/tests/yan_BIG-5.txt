@@ -1,0 +1,546 @@
+The Project Gutenberg EBook of Yan shi jia xun, by Yan Zhitui
+#4 in our series by Yan Zhitui
+
+Copyright laws are changing all over the world. Be sure to check the
+copyright laws for your country before downloading or redistributing
+this or any other Project Gutenberg eBook.
+
+This header should be the first thing seen when viewing this Project
+Gutenberg file.  Please do not remove it.  Do not change or edit the
+header without written permission.
+
+Please read the "legal small print," and other information about the
+eBook and Project Gutenberg at the bottom of this file.  Included is
+important information about your specific rights and restrictions in
+how the file may be used.  You can also find out about how to make a
+donation to Project Gutenberg, and how to get involved.
+
+
+**Welcome To The World of Free Plain Vanilla Electronic Texts**
+
+**eBooks Readable By Both Humans and By Computers, Since 1971**
+
+*****These eBooks Were Prepared By Thousands of Volunteers!*****
+
+
+Title: Yan shi jia xun
+       Volume 7
+
+Author: Yan Zhitui
+
+Release Date: February, 2005 [EBook #7457]
+[Yes, we are more than one year ahead of schedule]
+[This file was first posted on May 3, 2003]
+
+Edition: 10
+
+Language: Chinese
+
+Character set encoding: BIG-5
+
+*** START OF THE PROJECT GUTENBERG EBOOK YAN SHI JIA XUN ***
+
+
+
+
+Produced by Chingyi Chen
+
+
+
+
+顏是家訓  北齊  顏之推
+
+卷第七　音辭　雜藝　終制
+
+音辭第十八
+
+    夫九州之人，言語不同，生民已來，固常然矣。自《春秋》標齊言之
+傳，〈離騷〉目楚詞之經，此蓋其較明之初也。後有揚雄著《方言》，其
+言大備。然皆考名物之同異，不顯聲讀之是非也。逮鄭玄注六經，高誘解
+《呂覽》、《淮南》，許慎造《說文》，劉熹製《釋名》，始有譬況假藉
+以證音字耳。而古語與今殊別，其間輕重清濁，猶未可曉；加以內言外言
+、急言徐言、讀若之類，益使人疑。孫叔言創《爾雅音義》，是漢末人獨
+知反語。至於魏世，此事大行。高貴鄉公不解反語，以為  怪異。自茲厥
+後，音韻鋒出，各有土風，遞相非笑，指馬之諭，未知孰是。共以帝王都
+邑，參校方俗，考覈古今，為之折衷。搉而量之，獨金陵與洛下耳。
+    南方水土和柔，其音清舉而切詣，失在浮淺，其辭多鄙俗。北方山川
+深厚，其音沈濁而  鈍，得其質直，其辭多古語。然冠冕君子，南方為優
+；閭裡小人，北方為愈。易服而與之談，南方士庶，數言可辯；隔垣而聽
+其語，北方朝野，終日難分。而南染吳、越，北雜夷虜，皆有深弊，不可
+具論。其謬失輕微者，則南人以錢為涎，以石為射，以賤為羨，以是為舐
+；北人以庶為戍，以如為儒，以紫為姊，以洽為狎。如此之例，兩失甚多
+。至鄴已來，唯見崔子約、崔瞻叔侄，李祖仁、李蔚兄弟，頗事言詞，少
+為切正。李季節著《音韻決疑》，時有錯失；陽休之造《切韻》，殊為疏
+野。吾家兒女，雖在孩稚，便漸督正之；一言訛替，以為己罪矣。云為品
+物，未考書記者，不敢輒名，汝曹所知也。
+    古今言語，時俗不同；著述之人，楚、夏各異。《蒼頡訓詁》，反稗
+為甫賣，反娃為於乖；《戰國策》音刎為免，《穆天子傳》音諫為間；《
+說文》音戛為棘，讀皿為猛；《字林》音看為口甘反，音伸為辛；《韻集
+》以成、仍、宏、登合成兩韻，為、奇、益、石分作四章；李登《聲類》
+以系音羿，劉昌宗《周官音》讀乘若承；此例甚廣，必須考校。前世反語
+，又多不切，徐仙民《毛詩音》反驟為在遘，《左傳音》切椽為徒緣，不
+可依信，亦為眾矣。今之學士，語亦不正；古獨何人，必應隨其偽僻乎？
+《通俗文》曰：「入室求曰搜。」反為兄侯。然則兄當音所榮反。今北俗
+通行此音，亦古語之不可用者。璵璠，魯人寶玉，當音余煩，江南皆音藩
+屏之藩。岐山當音為奇，江南皆呼為神祇之只。江陵陷沒，此音被於關中
+，不知二者何所承案。以吾淺學，未之前聞也。
+    北人之音，多以舉、莒為矩；唯李季節云：「齊桓公與管仲於台上謀
+伐莒，東郭牙望見桓公口開而不閉，故知所言者莒也。然則莒、矩必不同
+呼。」此為知音矣。
+    夫物體自有精麤，精麤謂之好惡；人心有所去取，去取謂之好惡。此
+音見於葛洪、徐邈。而河北學士讀《尚書》雲好生惡殺。是為一論物體，
+一就人情，殊不通矣。
+    甫者，男子之美稱，古書多假借為父子；北人遂無一人呼為甫者，亦
+所未喻。唯管仲、范增之號，須依字讀耳。
+    案：諸字書，焉者鳥名，或云語詞，皆音於愆反。自葛洪《要用字苑
+》分焉字音訓：若訓何訓安，當音於愆反，「於焉逍遙」，「於焉嘉客」
+，「焉用佞」，「焉得仁」之類是也；若送句及助詞，當音矣愆反，「故
+稱龍焉」，「故稱血焉」，「有民人焉」，「有社稷焉」，「托始焉爾」
+，「晉、鄭焉依」之類是也。江南至今行此分別，昭然易曉；而河北混同
+一音，雖依古讀，不可行於今也。
+    邪者，未定之詞。《左傳》曰：「不知天之棄魯邪？抑魯君有罪於鬼
+神邪？」《莊子》云：「天邪？地邪？」《漢書》云：「是邪？非邪？」
+之類是也。而北人即呼為也，亦為誤矣。難者曰：「〈繫辭〉云：『乾坤
+，《易》之門戶邪？』此又為未定辭乎？」答曰：「何為不爾！上先標問
+，下方列德以折之耳。」
+    江南學士讀《左傳》，口相傳述，自為凡例，軍自敗曰敗，打破人軍
+曰敗。諸記傳未見補敗反，徐仙民讀《左傳》，唯一處有此音，又不言自
+敗、敗人之別，此為穿鑿耳。
+    古人云：「膏粱難整。」以其為驕奢自足，不能克勵也。吾見王侯外
+戚，語多不正，亦由內染賤保傅，外無良師友故耳。梁世有一侯，嘗對元
+帝飲謔，自陳「癡鈍」，乃成「颸段」，元帝答之云：「颸異涼風，段非
+干木。」謂「郢州」為「永州」，元帝啟報簡文，簡文云：『庚辰吳入，
+遂成司隸。」如此之類，舉口皆然。元帝手教諸子侍讀，以此為誡。
+    河北切攻字為古琮，與工、公、功三字不同，殊為僻也。比世有人名
+邏，自稱為纖；名琨，自稱為袞；名洸，自稱為汪；名  ，自稱為獡。非
+唯音韻舛錯，亦使其兒孫避諱紛紜矣。
+
+雜藝第十九
+
+    真草書跡，微鬚留意。江南諺云：「尺牘書疏，千里面目也。」承晉
+、宋餘俗，相與事之，故無頓狼狽者。吾幼承門業，加性愛重，所見法書
+亦多，而翫習功夫頗至，遂不能佳者，良由無分故也。然而此藝不須過精
+。夫巧者勞而智者憂，常為人所役使，更覺為累；韋仲將遺戒，深有以也
+。
+    王逸少風流才士，蕭散名人，舉世惟知其書，翻以能自蔽也。蕭子雲
+每歎曰：「吾著《齊書》，勒成一典，文章弘義，自謂可觀；唯以筆跡得
+名，亦異事也。」王褒地冑清華，才學優敏，後雖入關，亦被禮遇。猶以
+書工，崎嶇碑碣之間，辛苦筆硯之役，嘗悔恨曰：「假使吾不知書，可不
+至今日邪？」以此觀之，慎勿以書自命。雖然，廝猥之人，以能書拔擢者
+多矣。故道不同，不相為謀也。
+    梁氏秘閣散逸以來，吾見二王真草多矣，家中嘗得十卷；方知陶隱居
+、阮交州、蕭祭酒諸書，莫不得羲之之體，故是書之淵源。蕭晚節所變，
+乃右軍年少時法也。
+    晉、宋以來，多能書者。故其時俗，遞相染尚，所有部帙，楷正可觀
+，不無俗字，非為大損。至梁天監之間，斯風未變；大同之末，訛替滋生
+。蕭子雲改易字體，邵陵王頗行偽字；朝野翕然，以為楷式，畫虎不成，
+多所傷敗。至為一字，唯見數點，或妄斟酌，逐便轉移。爾後墳籍，略不
+可看。北朝喪亂之餘，書跡鄙陋，加以專輒造字，猥拙甚於江南。乃以百
+念為憂，言反為變，不用為罷，追來為歸，更生為蘇，先人為老，如此非
+一，遍滿經傳。唯有姚元標工於楷隸，留心小學，後生師之者眾。洎於齊
+末，秘書繕寫，賢於往日多矣。
+    江南閭裡間有〈畫書賦〉，乃陶隱居弟子杜道士所為；其人未甚識字
+，輕為軌則，托名貴師，世俗傳信，後生頗為所誤也。
+    畫繪之工，亦為妙矣；自古名士，多或能之。吾家嘗有梁元帝手畫蟬
+雀白團扇及馬圖，亦難及也。武烈太子偏能寫真，坐上賓客，隨宜點染，
+即成數人，以問童孺，皆知姓名矣。蕭賁、劉孝先、劉靈，並文學已外，
+復佳此法。翫閱古今，特可寶愛。若官未通顯，每被公私使令，亦為猥役
+。吳縣顧士端出身湘東王國侍郎，後為鎮南府刑獄參軍，有子曰庭，西朝
+中書捨人，父子並有琴書之藝，尤妙丹青，常被元帝所使，每懷羞恨。彭
+城劉岳，橐之子也，仕為驃騎府管記、平氏縣令，才學快士，而畫絕倫。
+後隨武陵王入蜀，下牢之敗，遂為陸護軍畫支江寺壁，與諸工巧雜處。向
+使三賢都不曉畫，直運素業，豈見此恥乎？
+    弧矢之利，以威天下，先王所以觀德擇賢，亦濟身之急務也。江南謂
+世之常射，以為兵射，冠冕儒生，多不習此；別有博射，弱弓長箭，施於
+准的，揖讓升降，以行禮焉。防禦寇難，了無所益。亂離之後，此術遂亡
+。河北文士，率曉兵射，非直葛洪一箭，已解追兵，三九讌集，常縻榮賜
+。雖然要輕禽，截狡獸，不願汝輩為之。
+    卜筮者，聖人之業也；但近世無復佳師，多不能中。古者，卜以決疑
+，今人生疑於卜；何者？守道信謀，欲行一事，卜得惡卦，反令
+，此之謂乎！且十中六七，以為上手，粗知大意，又不委曲。凡射奇偶，
+自然半收，何足賴也。世傳云：「解陰陽者，為鬼所嫉，坎壈貧窮，多不
+稱泰。」吾觀近古以來，尤精妙者，唯京房、管輅、郭璞耳，皆無官位，
+多或罹災，此言令人益信。儻值世網嚴密，強負此名，便有詿誤，亦禍源
+也。及星文風氣，率不勞為之。吾嘗學《六壬式》，亦值世閒好匠，聚得
+《龍首》、《金匱》、《玉軨變》、《玉歷》十許種書，討求無驗，尋亦
+悔罷。凡陰陽之術，與天地俱生，亦吉兇德刑，不可不信；但去聖既遠，
+世傳術書，皆出流俗，言辭鄙淺，驗少妄多。至如反支不行，竟以遇害；
+歸忌寄宿，不免兇終：拘而多忌，亦無益也。
+    算術亦是六藝要事；自古儒士論天道，定律歷者，皆學通之。然可以
+兼明，不可以專業。江南此學殊少，唯范陽祖晅精之，位至南康太守。河
+北多曉此術。
+    醫方之事，取妙極難，不勸汝曹以自命也。微解藥性，小小和合，居
+家得以救急，亦為勝事，皇甫謐、殷仲堪則其人也。
+    《禮》曰：「君子無故不徹琴瑟。」古來名士，多所愛好。洎於梁初
+，衣冠子孫，不知琴者，號有所闕；大同以末，斯風頓盡。然而此樂愔愔
+雅緻，有深味哉！今世曲解，雖變於古，猶足以暢神情也。唯不可令有稱
+譽，見役勳貴，處之下坐，以取殘杯冷炙之辱。戴安道猶遭之，況爾曹乎
+！
+    《家語》曰：「君子不博，為其兼行惡道故也。」《論語》云：「不
+有博弈者乎？為之，猶賢乎已。」然則聖人不用博弈為教；但以學者不可
+常精，有時疲倦，則儻為之，猶勝飽食昏睡，兀然端坐耳。至如吳太子以
+為無益，命韋昭論之；王肅、葛洪、陶侃之徒，不許目觀手執，此並勤篤
+之志也。能爾為佳。古為大博則六箸，小博則二  ，今無曉者。比世所行
+，一  十二  （棋），數術淺短，不足可翫。圍  （棋）有手談、坐隱之
+目，頗為雅戲；但令人耽憒，廢喪實多，不可常也。
+    投壺之禮，近世愈精。古者，實以小豆，為其矢之躍也。今則唯欲其
+驍，益多益喜，乃有倚竿、帶劍、狼壺、豹尾、龍首之名。其尤妙者，有
+蓮花驍。汝南周  ，弘正之子，會稽賀徽，賀革之子，並能一箭四十餘驍
+。賀又嘗為小障，置壺其外，隔障投之，無所失也。至鄴以來，亦見廣寧
+、蘭陵諸王，有此校具，舉國遂無投得一驍者。彈棋亦近世雅戲，消愁釋
+憒，時可為之。
+
+終制第二十
+
+    死者，人之常分，不可免也。吾年十九，值梁家喪亂，其間與白刃為
+伍者，亦常數輩；幸承餘福，得至於今。古人云：「五十不為夭。」吾已
+六十餘，故心坦然，不以殘年為念。先有風氣之疾，常疑奄然，聊書素懷
+，以為汝誡。
+    先君先夫人皆未還建鄴舊山，旅葬江陵東郭。承聖末，已啟求揚都，
+欲營遷厝。蒙詔賜銀百兩，已於揚州小郊北地燒  （磚），便值本朝淪沒
+，流離如此，數十年間，絕於還望。今雖混一，家道罄窮，何由辦此奉營
+資費？且揚都污毀，無復孑遺，還被下濕，未為得計。自咎自責，貫心刻
+髓。計吾兄弟，不當仕進；但以門衰，骨肉單弱，五服之內，傍無一人，
+播越他鄉，無復資蔭；使汝等沈淪廝役，以為先世之恥；故靦冒人間，不
+敢墜失。兼以北方政教嚴切，全無隱退者故也。
+    今年老疾侵，儻然奄忽，豈求備禮乎？一日放臂，沐浴而已，不勞復
+魄，殮以常衣。先夫人棄背之時，屬世荒饉，家塗空迫，兄弟幼弱，棺器
+率薄，藏內無  （磚）。吾當松棺二寸，衣帽已外，一不得自隨，床上唯
+施七星板；至如蠟弩牙、玉豚、錫人之屬，並須停省，糧甖明器，故不得
+營，碑誌旒旐，彌在言外。載以鱉甲車，襯土而下，平地無墳；若懼拜掃
+不知兆域，當築一堵低牆於左右前後，隨為私記耳。靈筵勿設枕几，朔望
+祥禫，唯下白粥清水乾棗，不得有酒肉餅果之祭。親友來餟酹者，一皆拒
+之。汝曹若違吾心，有加先妣，則陷父不孝，在汝安乎？其內典功德，隨
+力所至，勿刳竭生資，使凍餒也。四時祭祀，周、孔所教，欲人勿死其親
+，不忘孝道也。求諸內典，則無益焉。殺生為之，翻增罪累。若報罔極之
+德，霜露之悲，有時齋供，及七月半盂蘭盆，望於汝也。
+    孔子之葬親也，云：「古者，墓而不墳。丘東西南北之人也，不可以
+弗識也。」於是封之崇四尺。然則君子應世行道，亦有不守墳墓之時，況
+為事際所逼也！吾今羈旅，身若浮雲，竟未知何鄉是吾葬地；唯當氣絕便
+埋之耳。汝曹宜以傳業揚名為務，不可顧戀朽壤，以取堙沒也。
+
+
+
+
+
+End of the Project Gutenberg EBook of Yan shi jia xun, by Yan Zhitui
+
+*** END OF THE PROJECT GUTENBERG EBOOK YAN SHI JIA XUN ***
+
+This file should be named 8yan710.txt or 8yan710.zip
+Corrected EDITIONS of our eBooks get a new NUMBER, 8yan711.txt
+VERSIONS based on separate sources get new LETTER, 8yan710a.txt
+
+Produced by Chingyi Chen
+
+Project Gutenberg eBooks are often created from several printed
+editions, all of which are confirmed as Public Domain in the US
+unless a copyright notice is included.  Thus, we usually do not
+keep eBooks in compliance with any particular paper edition.
+
+We are now trying to release all our eBooks one year in advance
+of the official release dates, leaving time for better editing.
+Please be encouraged to tell us about any error or corrections,
+even years after the official publication date.
+
+Please note neither this listing nor its contents are final til
+midnight of the last day of the month of any such announcement.
+The official release date of all Project Gutenberg eBooks is at
+Midnight, Central Time, of the last day of the stated month.  A
+preliminary version may often be posted for suggestion, comment
+and editing by those who wish to do so.
+
+Most people start at our Web sites at:
+http://gutenberg.net or
+http://promo.net/pg
+
+These Web sites include award-winning information about Project
+Gutenberg, including how to donate, how to help produce our new
+eBooks, and how to subscribe to our email newsletter (free!).
+
+
+Those of you who want to download any eBook before announcement
+can get to them as follows, and just download by date.  This is
+also a good way to get them instantly upon announcement, as the
+indexes our cataloguers produce obviously take a while after an
+announcement goes out in the Project Gutenberg Newsletter.
+
+http://www.ibiblio.org/gutenberg/etext03 or
+ftp://ftp.ibiblio.org/pub/docs/books/gutenberg/etext03
+
+Or /etext02, 01, 00, 99, 98, 97, 96, 95, 94, 93, 92, 92, 91 or 90
+
+Just search by the first five letters of the filename you want,
+as it appears in our Newsletters.
+
+
+Information about Project Gutenberg (one page)
+
+We produce about two million dollars for each hour we work.  The
+time it takes us, a rather conservative estimate, is fifty hours
+to get any eBook selected, entered, proofread, edited, copyright
+searched and analyzed, the copyright letters written, etc.   Our
+projected audience is one hundred million readers.  If the value
+per text is nominally estimated at one dollar then we produce $2
+million dollars per hour in 2002 as we release over 100 new text
+files per month:  1240 more eBooks in 2001 for a total of 4000+
+We are already on our way to trying for 2000 more eBooks in 2002
+If they reach just 1-2% of the world's population then the total
+will reach over half a trillion eBooks given away by year's end.
+
+The Goal of Project Gutenberg is to Give Away 1 Trillion eBooks!
+This is ten thousand titles each to one hundred million readers,
+which is only about 4% of the present number of computer users.
+
+Here is the briefest record of our progress (* means estimated):
+
+eBooks Year Month
+
+    1  1971 July
+   10  1991 January
+  100  1994 January
+ 1000  1997 August
+ 1500  1998 October
+ 2000  1999 December
+ 2500  2000 December
+ 3000  2001 November
+ 4000  2001 October/November
+ 6000  2002 December*
+ 9000  2003 November*
+10000  2004 January*
+
+
+The Project Gutenberg Literary Archive Foundation has been created
+to secure a future for Project Gutenberg into the next millennium.
+
+We need your donations more than ever!
+
+As of February, 2002, contributions are being solicited from people
+and organizations in: Alabama, Alaska, Arkansas, Connecticut,
+Delaware, District of Columbia, Florida, Georgia, Hawaii, Illinois,
+Indiana, Iowa, Kansas, Kentucky, Louisiana, Maine, Massachusetts,
+Michigan, Mississippi, Missouri, Montana, Nebraska, Nevada, New
+Hampshire, New Jersey, New Mexico, New York, North Carolina, Ohio,
+Oklahoma, Oregon, Pennsylvania, Rhode Island, South Carolina, South
+Dakota, Tennessee, Texas, Utah, Vermont, Virginia, Washington, West
+Virginia, Wisconsin, and Wyoming.
+
+We have filed in all 50 states now, but these are the only ones
+that have responded.
+
+As the requirements for other states are met, additions to this list
+will be made and fund raising will begin in the additional states.
+Please feel free to ask to check the status of your state.
+
+In answer to various questions we have received on this:
+
+We are constantly working on finishing the paperwork to legally
+request donations in all 50 states.  If your state is not listed and
+you would like to know if we have added it since the list you have,
+just ask.
+
+While we cannot solicit donations from people in states where we are
+not yet registered, we know of no prohibition against accepting
+donations from donors in these states who approach us with an offer to
+donate.
+
+International donations are accepted, but we don't know ANYTHING about
+how to make them tax-deductible, or even if they CAN be made
+deductible, and don't have the staff to handle it even if there are
+ways.
+
+Donations by check or money order may be sent to:
+
+Project Gutenberg Literary Archive Foundation
+PMB 113
+1739 University Ave.
+Oxford, MS 38655-4109
+
+Contact us if you want to arrange for a wire transfer or payment
+method other than by check or money order.
+
+The Project Gutenberg Literary Archive Foundation has been approved by
+the US Internal Revenue Service as a 501(c)(3) organization with EIN
+[Employee Identification Number] 64-622154.  Donations are
+tax-deductible to the maximum extent permitted by law.  As fund-raising
+requirements for other states are met, additions to this list will be
+made and fund-raising will begin in the additional states.
+
+We need your donations more than ever!
+
+You can get up to date donation information online at:
+
+http://www.gutenberg.net/donation.html
+
+
+***
+
+If you can't reach Project Gutenberg,
+you can always email directly to:
+
+Michael S. Hart <hart@pobox.com>
+
+Prof. Hart will answer or forward your message.
+
+We would prefer to send you information by email.
+
+
+**The Legal Small Print**
+
+
+(Three Pages)
+
+***START**THE SMALL PRINT!**FOR PUBLIC DOMAIN EBOOKS**START***
+Why is this "Small Print!" statement here? You know: lawyers.
+They tell us you might sue us if there is something wrong with
+your copy of this eBook, even if you got it for free from
+someone other than us, and even if what's wrong is not our
+fault. So, among other things, this "Small Print!" statement
+disclaims most of our liability to you. It also tells you how
+you may distribute copies of this eBook if you want to.
+
+*BEFORE!* YOU USE OR READ THIS EBOOK
+By using or reading any part of this PROJECT GUTENBERG-tm
+eBook, you indicate that you understand, agree to and accept
+this "Small Print!" statement. If you do not, you can receive
+a refund of the money (if any) you paid for this eBook by
+sending a request within 30 days of receiving it to the person
+you got it from. If you received this eBook on a physical
+medium (such as a disk), you must return it with your request.
+
+ABOUT PROJECT GUTENBERG-TM EBOOKS
+This PROJECT GUTENBERG-tm eBook, like most PROJECT GUTENBERG-tm eBooks,
+is a "public domain" work distributed by Professor Michael S. Hart
+through the Project Gutenberg Association (the "Project").
+Among other things, this means that no one owns a United States copyright
+on or for this work, so the Project (and you!) can copy and
+distribute it in the United States without permission and
+without paying copyright royalties. Special rules, set forth
+below, apply if you wish to copy and distribute this eBook
+under the "PROJECT GUTENBERG" trademark.
+
+Please do not use the "PROJECT GUTENBERG" trademark to market
+any commercial products without permission.
+
+To create these eBooks, the Project expends considerable
+efforts to identify, transcribe and proofread public domain
+works. Despite these efforts, the Project's eBooks and any
+medium they may be on may contain "Defects". Among other
+things, Defects may take the form of incomplete, inaccurate or
+corrupt data, transcription errors, a copyright or other
+intellectual property infringement, a defective or damaged
+disk or other eBook medium, a computer virus, or computer
+codes that damage or cannot be read by your equipment.
+
+LIMITED WARRANTY; DISCLAIMER OF DAMAGES
+But for the "Right of Replacement or Refund" described below,
+[1] Michael Hart and the Foundation (and any other party you may
+receive this eBook from as a PROJECT GUTENBERG-tm eBook) disclaims
+all liability to you for damages, costs and expenses, including
+legal fees, and [2] YOU HAVE NO REMEDIES FOR NEGLIGENCE OR
+UNDER STRICT LIABILITY, OR FOR BREACH OF WARRANTY OR CONTRACT,
+INCLUDING BUT NOT LIMITED TO INDIRECT, CONSEQUENTIAL, PUNITIVE
+OR INCIDENTAL DAMAGES, EVEN IF YOU GIVE NOTICE OF THE
+POSSIBILITY OF SUCH DAMAGES.
+
+If you discover a Defect in this eBook within 90 days of
+receiving it, you can receive a refund of the money (if any)
+you paid for it by sending an explanatory note within that
+time to the person you received it from. If you received it
+on a physical medium, you must return it with your note, and
+such person may choose to alternatively give you a replacement
+copy. If you received it electronically, such person may
+choose to alternatively give you a second opportunity to
+receive it electronically.
+
+THIS EBOOK IS OTHERWISE PROVIDED TO YOU "AS-IS". NO OTHER
+WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, ARE MADE TO YOU AS
+TO THE EBOOK OR ANY MEDIUM IT MAY BE ON, INCLUDING BUT NOT
+LIMITED TO WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A
+PARTICULAR PURPOSE.
+
+Some states do not allow disclaimers of implied warranties or
+the exclusion or limitation of consequential damages, so the
+above disclaimers and exclusions may not apply to you, and you
+may have other legal rights.
+
+INDEMNITY
+You will indemnify and hold Michael Hart, the Foundation,
+and its trustees and agents, and any volunteers associated
+with the production and distribution of Project Gutenberg-tm
+texts harmless, from all liability, cost and expense, including
+legal fees, that arise directly or indirectly from any of the
+following that you do or cause:  [1] distribution of this eBook,
+[2] alteration, modification, or addition to the eBook,
+or [3] any Defect.
+
+DISTRIBUTION UNDER "PROJECT GUTENBERG-tm"
+You may distribute copies of this eBook electronically, or by
+disk, book or any other medium if you either delete this
+"Small Print!" and all other references to Project Gutenberg,
+or:
+
+[1]  Only give exact copies of it.  Among other things, this
+     requires that you do not remove, alter or modify the
+     eBook or this "small print!" statement.  You may however,
+     if you wish, distribute this eBook in machine readable
+     binary, compressed, mark-up, or proprietary form,
+     including any form resulting from conversion by word
+     processing or hypertext software, but only so long as
+     *EITHER*:
+
+     [*]  The eBook, when displayed, is clearly readable, and
+          does *not* contain characters other than those
+          intended by the author of the work, although tilde
+          (~), asterisk (*) and underline (_) characters may
+          be used to convey punctuation intended by the
+          author, and additional characters may be used to
+          indicate hypertext links; OR
+
+     [*]  The eBook may be readily converted by the reader at
+          no expense into plain ASCII, EBCDIC or equivalent
+          form by the program that displays the eBook (as is
+          the case, for instance, with most word processors);
+          OR
+
+     [*]  You provide, or agree to also provide on request at
+          no additional cost, fee or expense, a copy of the
+          eBook in its original plain ASCII form (or in EBCDIC
+          or other equivalent proprietary form).
+
+[2]  Honor the eBook refund and replacement provisions of this
+     "Small Print!" statement.
+
+[3]  Pay a trademark license fee to the Foundation of 20% of the
+     gross profits you derive calculated using the method you
+     already use to calculate your applicable taxes.  If you
+     don't derive profits, no royalty is due.  Royalties are
+     payable to "Project Gutenberg Literary Archive Foundation"
+     the 60 days following each date you prepare (or were
+     legally required to prepare) your annual (or equivalent
+     periodic) tax return.  Please contact us beforehand to
+     let us know your plans and to work out the details.
+
+WHAT IF YOU *WANT* TO SEND MONEY EVEN IF YOU DON'T HAVE TO?
+Project Gutenberg is dedicated to increasing the number of
+public domain and licensed works that can be freely distributed
+in machine readable form.
+
+The Project gratefully accepts contributions of money, time,
+public domain materials, or royalty free copyright licenses.
+Money should be paid to the:
+"Project Gutenberg Literary Archive Foundation."
+
+If you are interested in contributing scanning equipment or
+software or other items, please contact Michael Hart at:
+hart@pobox.com
+
+[Portions of this eBook's header and trailer may be reprinted only
+when distributed free of all fees.  Copyright (C) 2001, 2002 by
+Michael S. Hart.  Project Gutenberg is a TradeMark and may not be
+used in any sales of Project Gutenberg eBooks or other materials be
+they hardware or software or any other related product without
+express permission.]
+
+*END THE SMALL PRINT! FOR PUBLIC DOMAIN EBOOKS*Ver.02/11/02*END*
+

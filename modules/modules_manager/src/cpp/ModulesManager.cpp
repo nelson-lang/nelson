@@ -40,7 +40,7 @@ ModulesManager::Instance()
     return m_pInstance;
 }
 //=============================================================================
-ModulesManager::ModulesManager() {
+ModulesManager::ModulesManager(){
 #define MODULETAB 4096
     // modulesMap.reserve(MODULETAB);
 } //=============================================================================

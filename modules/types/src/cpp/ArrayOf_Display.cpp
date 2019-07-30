@@ -358,9 +358,7 @@ ArrayOf::summarizeCellEntry(Interface* io) const
                 io->outputMessage(" complex]");
             }
             break;
-        default: {
-        } break;
-        }
+        default: { } break; }
     }
 }
 //=============================================================================
@@ -527,9 +525,7 @@ emitElement(Interface* io, char* msgBuffer, const void* dp, indexType num, Class
         }
         break;
     }
-    default: {
-    } break;
-    }
+    default: { } break; }
 }
 //=============================================================================
 /**
@@ -618,9 +614,7 @@ ArrayOf::printMe(Interface* io) const
         typeAsText = "  <string> ";
         nominalWidth = 10;
         break;
-    default: {
-    } break;
-    }
+    default: { } break; }
     io->outputMessage(typeAsText + "- size: ");
     dp->dimensions.printMe(io);
     io->outputMessage("\n");

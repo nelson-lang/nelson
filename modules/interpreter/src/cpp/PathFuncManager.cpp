@@ -262,7 +262,7 @@ PathFuncManager::addPath(const std::wstring& path, bool begin)
          it != _pathFuncVector.end(); ++it) {
         PathFunc* pfl = *it;
         if (pfl) {
-            boost::filesystem::path p1 { pfl->getPath() }, p2 { path };
+            boost::filesystem::path p1{ pfl->getPath() }, p2{ path };
             if (boost::filesystem::equivalent(p1, p2)) {
                 return false;
             }
@@ -293,7 +293,7 @@ PathFuncManager::removePath(const std::wstring& path)
          it != _pathFuncVector.end(); ++it) {
         PathFunc* pf = *it;
         if (pf) {
-            boost::filesystem::path p1 { pf->getPath() }, p2 { path };
+            boost::filesystem::path p1{ pf->getPath() }, p2{ path };
             if (boost::filesystem::equivalent(p1, p2)) {
                 _pathFuncVector.erase(it);
                 return true;
@@ -396,7 +396,7 @@ PathFuncManager::rehash(const std::wstring& path)
 {
     if (_userPath != nullptr) {
         try {
-            boost::filesystem::path p1 { _userPath->getPath() }, p2 { path };
+            boost::filesystem::path p1{ _userPath->getPath() }, p2{ path };
             if (boost::filesystem::equivalent(p1, p2)) {
                 _userPath->rehash();
                 return;
@@ -409,7 +409,7 @@ PathFuncManager::rehash(const std::wstring& path)
         PathFunc* pf = *it;
         if (pf) {
             try {
-                boost::filesystem::path p1 { pf->getPath() }, p2 { path };
+                boost::filesystem::path p1{ pf->getPath() }, p2{ path };
                 if (boost::filesystem::equivalent(p1, p2)) {
                     pf->rehash();
                     return;
