@@ -30,6 +30,7 @@
 #include <cstdio>
 #include "MapFileRead.hpp"
 #include "characters_encoding.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -45,26 +46,56 @@ isEmptyFile(const std::wstring& filename)
     return !(wif.tellg() > 0);
 }
 //=============================================================================
-ArrayOf
-MapFileRead(const std::wstring& filename, const std::wstring& eol, std::wstring& errorMessage)
+bool
+MapFileRead(const std::wstring& filename, const std::wstring& eol, const std::wstring& encoding,
+    std::wstring& content, std::wstring& errorMessage)
 {
-    ArrayOf res;
+    bool res = false;
+    content.clear();
     errorMessage.clear();
     if (isEmptyFile(filename)) {
-        res = ArrayOf::characterArrayConstructor("");
+        res = true;
+        content = L"";
     } else {
         boost::filesystem::path fileAsPath(filename);
         boost::iostreams::basic_mapped_file_params<boost::filesystem::path> param;
         param.path = fileAsPath.native();
         boost::iostreams::mapped_file_source mappedFile(param);
         if (mappedFile.is_open()) {
-            std::string content(mappedFile.data(), mappedFile.size());
+            std::string data(mappedFile.data(), mappedFile.size());
             mappedFile.close();
-            boost::replace_all(content, L"\r\n", L"\n");
-            if (eol != L"\n") {
-                boost::replace_all(content, L"\n", eol);
+            if (encoding == L"auto") {
+                std::string asUtf8;
+                std::string encodingDetected = detectBestEncoding(data);
+                if (!charsetToUtf8Converter(data, encodingDetected, asUtf8)) {
+                    errorMessage = _W("Cannot convert to unicode.");
+                }
+                boost::replace_all(asUtf8, L"\r\n", L"\n");
+                if (eol != L"\n") {
+                    boost::replace_all(asUtf8, L"\n", eol);
+                }
+                res = true;
+                content = utf8_to_wstring(asUtf8);
             }
-            res = ArrayOf::characterArrayConstructor(content);
+            else if (encoding == L"UTF-8") {
+                boost::replace_all(data, L"\r\n", L"\n");
+                if (eol != L"\n") {
+                    boost::replace_all(data, L"\n", eol);
+                }
+                res = true;
+                content = utf8_to_wstring(data);
+            } else {
+                std::string asUtf8;
+                if (!charsetToUtf8Converter(data, wstring_to_utf8(encoding), asUtf8)) {
+                    errorMessage = _W("Cannot convert to unicode.");
+                }
+                boost::replace_all(asUtf8, L"\r\n", L"\n");
+                if (eol != L"\n") {
+                    boost::replace_all(asUtf8, L"\n", eol);
+                }
+                res = true;
+                content = utf8_to_wstring(asUtf8);
+            }
         } else {
             errorMessage = _W("Cannot open file.");
         }

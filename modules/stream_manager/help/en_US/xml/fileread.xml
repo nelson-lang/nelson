@@ -10,7 +10,7 @@
     <syntax_item>str = fileread(filename)</syntax_item>
     <syntax_item>str = fileread(filename, type)</syntax_item>
     <syntax_item>str = fileread(filename, 'char', eol)</syntax_item>
-
+    <syntax_item>str = fileread(filename, 'char', eol, encoding)</syntax_item>
   </syntax>
   
   <param_input>
@@ -29,7 +29,12 @@
       <param_name>eol</param_name>
       <param_description>a string: 'native', 'pc' or 'unix'. Set end of line. 'unix' by default.</param_description>
     </param_input_item>
-    
+
+    <param_input_item>
+      <param_name>encoding</param_name>
+      <param_description>a string: 'UTF-8' (default), 'auto', 'ISO-8859-1', 'windows-1251', 'windows-1252', ...</param_description>
+    </param_input_item>
+
   </param_input>
   
   <param_output>
@@ -42,6 +47,7 @@
 
   <description>
     <p><b>fileread</b> read contents of file as text.</p>
+    <p>if encoding is 'auto', nelson will try to detect best encoding to read contents of file as text.</p>
 
 </description>
 
@@ -59,8 +65,19 @@ str = fileread([nelsonroot(),'/CHANGELOG.md'], 'cell')
 str = fileread([nelsonroot(),'/CHANGELOG.md'], 'string')
 ]]>
     </example_item_data>
-  
   </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[str = 'живете зело, земля, и иже и како люди';
+filewrite([tempdir(), '/example_fileread.txt'], str, 'native', 'windows-1251')
+T1 = fileread([tempdir(), '/example_fileread.txt'], 'char', 'native', 'windows-1251')
+T2 = fileread([tempdir(), '/example_fileread.txt'], 'string', 'native', 'auto')
+]]>
+    </example_item_data>
+  </example_item>
+
 
 </examples>
 
@@ -85,5 +102,3 @@ str = fileread([nelsonroot(),'/CHANGELOG.md'], 'string')
     <author_item>Allan CORNET</author_item>
   </authors>
 </xmldoc>
-
-

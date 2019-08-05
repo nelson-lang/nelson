@@ -26,7 +26,7 @@
       brew install pkgconfig;
       brew install gettext;
       brew link --force gettext;
-      brew install boost --with-icu4c;
+      brew install boost;
       brew install libxml2;
       brew install cmake;
       brew install qt5;

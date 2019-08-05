@@ -23,7 +23,9 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
+#endif
 #include "FileRead.hpp"
 #include "Error.hpp"
 #include "FileSeek.hpp"
@@ -33,7 +35,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size_t skip,
+FileRead(File* fp, int64 sizeToRead, Class classPrecision, size_t skip,
     bool bIsLittleEndian, int& sizeReallyRead)
 {
     ArrayOf toRead;
@@ -102,6 +104,7 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
         }
     }
     if (classPrecision == NLS_CHAR) {
+        std::string encoding = wstring_to_utf8(fp->getEncoding());
         char* str = nullptr;
         try {
             str = new char[static_cast<indexType>(sizeToRead + 1)];
@@ -139,8 +142,24 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
             }
             resizestr[sizeReallyRead] = 0;
             delete[] str;
+            if (encoding != "UTF-8") {
+                sizeReallyRead;
+            } else {
+            }
             toRead = ArrayOf::characterArrayConstructor(resizestr);
-            delete[] resizestr;
+            if (encoding != "UTF-8") {
+                std::string asUtf8;
+                bool res = charsetToUtf8Converter(resizestr, encoding, asUtf8);
+                delete[] resizestr;
+                if (res) {
+                    toRead = ArrayOf::characterArrayConstructor(asUtf8);
+                } else {
+                    Error(_("Cannot to use encoding:") + encoding);
+                }
+            } else {
+                toRead = ArrayOf::characterArrayConstructor(resizestr);
+                delete[] resizestr;
+            }
             if (!feof(fileptr)) {
                 if (skip) {
                     NLSFSEEK(fileptr, skip, SEEK_CUR);
@@ -148,8 +167,19 @@ FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size
             }
         } else {
             str[sizeReallyRead] = 0;
-            toRead = ArrayOf::characterArrayConstructor(str);
-            delete[] str;
+            if (encoding != "UTF-8") {
+                std::string asUtf8;
+                bool res = charsetToUtf8Converter(str, encoding, asUtf8);
+                delete[] str;
+                if (res) {
+                    toRead = ArrayOf::characterArrayConstructor(asUtf8);
+                } else {
+                    Error(_("Cannot to use encoding:") + encoding);
+                }
+            } else {
+                toRead = ArrayOf::characterArrayConstructor(str);
+                delete[] str;
+            }
         }
     } else {
         void* ptr = ArrayOf::allocateArrayOf(

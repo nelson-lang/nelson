@@ -25,11 +25,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
+#include <string>
 #include "nlsStream_manager_exports.h"
 //=============================================================================
 namespace Nelson {
-NLSSTREAM_MANAGER_IMPEXP ArrayOf
-MapFileRead(const std::wstring& filename, const std::wstring& eol, std::wstring& errorMessage);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP bool
+MapFileRead(const std::wstring& filename, const std::wstring& eol, const std::wstring& encoding,
+    std::wstring& content, std::wstring& errorMessage);
+//=============================================================================
 };
 //=============================================================================

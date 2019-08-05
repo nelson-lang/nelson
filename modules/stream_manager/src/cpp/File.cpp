@@ -95,5 +95,29 @@ File::isInterfaceMethod()
     return !this->bIsFilePointer;
 }
 //=============================================================================
+std::wstring
+File::getMachineFormat()
+{
+    return this->machineFormat;
+}
+//=============================================================================
+void
+File::setMachineFormat(const std::wstring& _machineFormat)
+{
+    this->machineFormat = _machineFormat;
+}
+//=============================================================================
+std::wstring
+File::getEncoding()
+{
+    return this->encoding;
+}
+//=============================================================================
+void
+File::setEncoding(const std::wstring& _encoding)
+{
+    this->encoding = _encoding;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -23,14 +23,14 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "FileOpen.hpp"
-#include "File.hpp"
-#include "characters_encoding.hpp"
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include <boost/container/vector.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
+#include "FileOpen.hpp"
+#include "File.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -42,6 +42,24 @@ getModeOsDependant(const std::wstring& mode)
     boost::replace_all(newmode, L"t", L"");
 #endif
     return newmode;
+}
+//=============================================================================
+static bool
+isValidMachineFormat(const std::wstring& machineFormat)
+{
+    wstringVector supportedMode;
+    supportedMode.push_back(L"n");
+    supportedMode.push_back(L"native");
+    supportedMode.push_back(L"b");
+    supportedMode.push_back(L"ieee-be");
+    supportedMode.push_back(L"l");
+    supportedMode.push_back(L"ieee-le");
+    supportedMode.push_back(L"s");
+    supportedMode.push_back(L"ieee-be.l64");
+    supportedMode.push_back(L"a");
+    supportedMode.push_back(L"ieee-le.l64");
+    wstringVector::iterator it = find(supportedMode.begin(), supportedMode.end(), machineFormat);
+    return (bool)(it != supportedMode.end());
 }
 //=============================================================================
 static bool
@@ -77,7 +95,8 @@ isValidMode(const std::wstring& mode)
 }
 //=============================================================================
 FOPEN_ERROR_TYPE
-FileOpen(FilesManager* fm, std::wstring filename, std::wstring filemode, int& fileposition)
+FileOpen(FilesManager* fm, const std::wstring& filename, const std::wstring& filemode,
+    const std::wstring& machineFormat, const std::wstring& encoding, int& fileposition)
 {
     FOPEN_ERROR_TYPE fopenError = FOPEN_NO_ERROR;
     if (filename.empty()) {
@@ -88,6 +107,26 @@ FileOpen(FilesManager* fm, std::wstring filename, std::wstring filemode, int& fi
     if (!isValidMode(filemode)) {
         fileposition = -1;
         fopenError = FOPEN_INVALID_MODE;
+        return fopenError;
+    }
+    std::wstring _mode = filemode;
+    if (_mode == L"w") {
+        _mode = L"wb"; 
+    }
+    if (_mode == L"r") {
+        _mode = L"rb";
+    }
+    if (_mode == L"a") {
+        _mode = L"ab";
+    }
+    if (!isValidMachineFormat(machineFormat)) {
+        fileposition = -1;
+        fopenError = FOPEN_INVALID_MACHINE_FORMAT;
+        return fopenError;
+    }
+    if (!isSupportedEncoding(wstring_to_utf8(encoding))) {
+        fileposition = -1;
+        fopenError = FOPEN_INVALID_ENCODING;
         return fopenError;
     }
     File* file;
@@ -109,7 +148,7 @@ FileOpen(FilesManager* fm, std::wstring filename, std::wstring filemode, int& fi
         canonicalPath = filename;
     }
 #ifdef _MSC_VER
-    FILE* fp = _wfopen(canonicalPath.wstring().c_str(), getModeOsDependant(filemode).c_str());
+    FILE* fp = _wfopen(canonicalPath.wstring().c_str(), getModeOsDependant(_mode).c_str());
 #else
     FILE* fp = fopen(wstring_to_utf8(canonicalPath.wstring()).c_str(),
         wstring_to_utf8(getModeOsDependant(filemode)).c_str());
@@ -126,9 +165,11 @@ FileOpen(FilesManager* fm, std::wstring filename, std::wstring filemode, int& fi
         e.what();
         canonicalPath = filename;
     }
-    file->setFileName(canonicalPath.wstring());
-    file->setFileMode(filemode);
+    file->setFileName(canonicalPath.generic_path().generic_wstring());
+    file->setFileMode(_mode);
     file->setFilePointer((void*)fp);
+    file->setEncoding(encoding);
+    file->setMachineFormat(machineFormat);
     int pos = fm->addFile(file);
     if (pos == -1) {
         delete file;

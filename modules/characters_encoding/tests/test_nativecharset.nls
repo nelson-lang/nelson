@@ -53,7 +53,6 @@ assert_istrue(iscell(ce));
 assert_istrue(iscellstr(ce));
 assert_istrue(strcmp(ce{1}, 'ISO-8859-1'));
 //=============================================================================
-
 windows_1251 = [modulepath('characters_encoding'), '/tests/olaf_Windows-1251.txt'];
 F = fopen(windows_1251, 'rt');
 R = fread(F,'uint8');

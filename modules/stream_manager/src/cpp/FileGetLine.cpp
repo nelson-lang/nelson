@@ -38,90 +38,101 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
 {
     bool bOK = false;
     result.clear();
-    if (fp) {
-        if (!fp->isInterfaceMethod()) {
-            FILE* fileptr = static_cast<FILE*>(fp->getFilePointer());
-            if (fileptr) {
-                bool bEOF = true;
-                std::string readline;
-                char buffer[BUFFER_LINE_SIZE];
-                strcpy(buffer, "");
-                char* read = fgets(buffer, BUFFER_LINE_SIZE, fileptr);
-                while (read != nullptr) {
-                    readline += buffer;
-                    if (readline.length() > 0) {
-                        int sizeRemove = 1;
-                        size_t index = readline.find('\r');
-                        if (index != std::string::npos) {
-                            if (readline.length() > index + 1 && readline[index + 1] == '\n') {
-                                sizeRemove = 2;
-                            } else {
-                                size_t temp = readline.find('\n');
-                                if (temp != std::string::npos && temp < index) {
-                                    index = temp;
-                                }
-                            }
-                        } else {
-                            index = readline.find('\n');
-                        }
-                        if (index == std::string::npos) {
-                            if (!feof(fileptr)) {
-                                read = fgets(buffer, BUFFER_LINE_SIZE, fileptr);
-                            } else {
-                                bEOF = false;
-                                break;
-                            }
-                        } else {
-                            index += sizeRemove;
-                            FileSeek(fp, static_cast<int64>(index - readline.length()), 0);
-                            readline.erase(readline.begin() + index, readline.end());
-                            bEOF = false;
-                            break;
-                        }
-                    } else {
-                        bEOF = true;
-                        break;
-                    }
-                }
-                if (!bWithNewLine) {
-                    if (readline.length() > 0) {
-                        if (readline[readline.length() - 1] == '\n') {
-                            readline.pop_back();
-                            if (readline.length() > 0) {
-                                if (readline[readline.length() - 1] == '\r') {
-                                    readline.pop_back();
-                                }
-                            }
-                        }
-                    }
-                }
-                if (bEOF) {
-                    bOK = false;
+    if (!fp) {
+        return false;
+    }
+    if (fp->isInterfaceMethod()) {
+        return false;
+    }
+    FILE* fileptr = static_cast<FILE*>(fp->getFilePointer());
+    if (!fileptr) {
+        return false;
+    }
+    bool bEOF = true;
+    std::string readline;
+    char buffer[BUFFER_LINE_SIZE];
+    strcpy(buffer, "");
+    char* read = fgets(buffer, BUFFER_LINE_SIZE, fileptr);
+    while (read != nullptr) {
+        readline += buffer;
+        if (readline.length() > 0) {
+            int sizeRemove = 1;
+            size_t index = readline.find('\r');
+            if (index != std::string::npos) {
+                if (readline.length() > index + 1 && readline[index + 1] == '\n') {
+                    sizeRemove = 2;
                 } else {
-                    if (nchar == 0) {
-                        result.clear();
-                        bOK = true;
-                    } else if (nchar > 0) {
-                        result = utf8_to_wstring(readline);
-                        if (nchar < static_cast<indexType>(result.length())) {
-                            std::wstring w = result;
-                            result.resize(nchar);
-                            try {
-                                w = w.substr(nchar);
-                            } catch (const std::out_of_range&) {
-                            }
-                            std::string u = wstring_to_utf8(w);
-                            auto nseek = static_cast<int64>(u.length());
-                            FileSeek(fp, -nseek, 0);
-                        }
-                        bOK = true;
-                    } else if (nchar == -1) {
-                        result = utf8_to_wstring(readline);
-                        bOK = true;
-                    } else {
-                        bOK = false;
+                    size_t temp = readline.find('\n');
+                    if (temp != std::string::npos && temp < index) {
+                        index = temp;
                     }
                 }
+            } else {
+                index = readline.find('\n');
+            }
+            if (index == std::string::npos) {
+                if (!feof(fileptr)) {
+                    read = fgets(buffer, BUFFER_LINE_SIZE, fileptr);
+                } else {
+                    bEOF = false;
+                    break;
+                }
+            } else {
+                index += sizeRemove;
+                FileSeek(fp, static_cast<int64>(index - readline.length()), 0);
+                readline.erase(readline.begin() + index, readline.end());
+                bEOF = false;
+                break;
+            }
+        } else {
+            bEOF = true;
+            break;
+        }
+    }
+    if (!bWithNewLine) {
+        if (readline.length() > 0) {
+            if (readline[readline.length() - 1] == '\n') {
+                readline.pop_back();
+                if (readline.length() > 0) {
+                    if (readline[readline.length() - 1] == '\r') {
+                        readline.pop_back();
+                    }
+                }
+            }
+        }
+    }
+    if (bEOF) {
+        bOK = false;
+    } else {
+        if (nchar == 0) {
+            result.clear();
+            return true;
+        } else {
+            std::string encoding = wstring_to_utf8(fp->getEncoding());
+            if (encoding == "UTF-8") {
+                result = utf8_to_wstring(readline);
+            } else {
+                std::string asUtf8;
+                bOK = charsetToUtf8Converter(readline, encoding, asUtf8);
+                result = utf8_to_wstring(asUtf8);
+            }
+            if (nchar > 0) {
+                if (nchar < static_cast<indexType>(result.length())) {
+                    std::wstring w = result;
+                    result.resize(nchar);
+                    try {
+                        w = w.substr(nchar);
+                    } catch (const std::out_of_range&) {
+                    }
+                    std::string u = wstring_to_utf8(w);
+                    auto nseek = static_cast<int64>(u.length());
+                    FileSeek(fp, -nseek, 0);
+                }
+                bOK = true;
+            } else if (nchar == -1) {
+                bOK = true;
+            } else {
+                bOK = false;
             }
         }
     }

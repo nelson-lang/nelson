@@ -30,16 +30,21 @@
 #include "nlsStream_manager_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 typedef enum
 {
     FOPEN_NO_ERROR,
     FOPEN_INVALID_NAME,
     FOPEN_INVALID_MODE,
+    FOPEN_INVALID_MACHINE_FORMAT,
+    FOPEN_INVALID_ENCODING,
     FOPEN_IMPOSSIBLE_TO_ADD_FILE,
     FOPEN_CANNOT_OPEN
 } FOPEN_ERROR_TYPE;
-
+//=============================================================================
 NLSSTREAM_MANAGER_IMPEXP FOPEN_ERROR_TYPE
-FileOpen(FilesManager* fm, std::wstring filename, std::wstring filemode, int& fileposition);
+FileOpen(FilesManager* fm, const std::wstring& filename, const std::wstring& filemode,
+    const std::wstring& machineFormat, const std::wstring& encoding, int& fileposition);
+//=============================================================================
 }; // namespace Nelson
 //=============================================================================

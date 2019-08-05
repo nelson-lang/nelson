@@ -26,8 +26,8 @@
 minimal_tests = {
 { 'assert_functions' };
 { 'tests_manager', {'test_adv_cli_mode', 'test_cli_mode', 'test_interactive_mode', 'test_mac_only', 'test_not_fixed'} };
+{ 'characters_encoding' }; 
 { 'random' }; 
-{ 'sparse' };
 { 'integer' };
 { 'elementary_functions' };
 { 'string' };

@@ -32,6 +32,7 @@
 #include "File.hpp"
 #include "FileOpen.hpp"
 #include "FilesManager.hpp"
+#include "Endian.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -40,12 +41,13 @@ using namespace Nelson;
 // fIDs = fopen('all')
 //=============================================================================
 static ArrayOfVector
-Fopen(Evaluator* eval, const std::wstring& filename, const std::wstring& mode)
+Fopen(Evaluator* eval, const std::wstring& filename, const std::wstring& mode,
+    const std::wstring& machineFormat, const std::wstring& encoding)
 {
     ArrayOfVector retval;
     auto* fm = static_cast<FilesManager*>(eval->FileManager);
     int filepos = -1;
-    FOPEN_ERROR_TYPE fopen_error = FileOpen(fm, filename, mode, filepos);
+    FOPEN_ERROR_TYPE fopen_error = FileOpen(fm, filename, mode, machineFormat, encoding, filepos);
     std::wstring msg;
     switch (fopen_error) {
     case FOPEN_NO_ERROR: {
@@ -59,6 +61,12 @@ Fopen(Evaluator* eval, const std::wstring& filename, const std::wstring& mode)
     } break;
     case FOPEN_IMPOSSIBLE_TO_ADD_FILE: {
         msg = _W("Impossible to add file.");
+    } break;
+    case FOPEN_INVALID_MACHINE_FORMAT: {
+        msg = _W("Invalid machine format.");
+    } break;
+    case FOPEN_INVALID_ENCODING: {
+        msg = _W("Invalid encoding.");
     } break;
     case FOPEN_CANNOT_OPEN:
     default: {
@@ -97,57 +105,59 @@ Nelson::StreamGateway::fopenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     ArrayOfVector retval;
     std::wstring mode = L"rb";
     std::wstring filename;
-    switch (argIn.size()) {
-    case 1: {
-        ArrayOf param1 = argIn[0];
+    std::wstring machineFormat = isLittleEndianFormat() ? L"ieee-le" : L"ieee-be";
+    std::wstring encoding = L"UTF-8";
+
+    if (argIn.size() < 0 || argIn.size() > 4) {
+        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    if (argIn.size() == 1) {
         if (param1.isDoubleType()) {
             int32 iValue = (int32)param1.getContentAsDoubleScalar();
             FilesManager* fm = (FilesManager*)(eval->FileManager);
             File* _file = fm->getFile(iValue);
-            if (nLhs > 2) {
+            if (nLhs > 4) {
                 Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             if (_file) {
                 if (nLhs >= 0) {
                     retval.push_back(ArrayOf::characterArrayConstructor(_file->getFileName()));
                 }
-                if (nLhs > 0) {
+                if (nLhs > 1) {
                     retval.push_back(ArrayOf::characterArrayConstructor(_file->getFileMode()));
+                }
+                if (nLhs > 2) {
+                    retval.push_back(ArrayOf::characterArrayConstructor(_file->getMachineFormat()));
+                }
+                if (nLhs > 3) {
+                    retval.push_back(ArrayOf::characterArrayConstructor(_file->getEncoding()));
                 }
             } else {
                 Error(_W("Invalid file identifier."));
             }
             return retval;
-        } else if (param1.isRowVectorCharacterArray()) {
-            filename = param1.getContentAsWideString();
-            if (filename == L"all") {
-                return FopenAll(eval);
-            } else {
-                return Fopen(eval, filename, mode);
-            }
-        } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_DOUBLE_EXPECTED);
         }
-    } break;
-    case 2: {
-        ArrayOf param1 = argIn[0];
-        ArrayOf param2 = argIn[1];
-        if (param1.isRowVectorCharacterArray() && param2.isRowVectorCharacterArray()) {
-            filename = param1.getContentAsWideString();
-            mode = param2.getContentAsWideString();
-            return Fopen(eval, filename, mode);
-        } else {
-            if (param1.isRowVectorCharacterArray()) {
-                Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
-            } else {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
-            }
-        }
-    } break;
-    default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    } break;
     }
-    return retval;
+    filename = param1.getContentAsWideString();
+    if (filename == L"all") {
+        return FopenAll(eval);
+    }
+    if (argIn.size() > 1) {
+        ArrayOf param2 = argIn[1];
+        mode = param2.getContentAsWideString();
+    }
+    if (argIn.size() > 2) {
+        ArrayOf param3 = argIn[2];
+        machineFormat = param3.getContentAsWideString();
+        if (machineFormat != L"n") {
+            Warning(_W("machine format option ignored."));
+        }
+    }
+    if (argIn.size() > 3) {
+        ArrayOf param4 = argIn[3];
+        encoding = param4.getContentAsWideString();
+    }
+    return Fopen(eval, filename, mode, machineFormat, encoding);
 }
 //=============================================================================

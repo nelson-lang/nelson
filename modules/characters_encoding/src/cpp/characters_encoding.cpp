@@ -56,6 +56,32 @@ isSupportedEncoding(const std::string& encoding)
     return true;
 }
 //=============================================================================
+bool
+isSupportedEncoding(const std::wstring& encoding)
+{
+    std::string asUtf8 = wstring_to_utf8(encoding);
+    return isSupportedEncoding(asUtf8);
+}
+//=============================================================================
+std::string
+detectBestEncoding(const std::string& data)
+{
+    std::string encoding = "UTF-8";
+    if (!data.empty()) {
+        UErrorCode status = U_ZERO_ERROR;
+        UCharsetDetector* detector = ucsdet_open(&status);
+        std::string s = data;
+        ucsdet_setText(detector, s.c_str(), (int32_t)s.length(), &status);
+        int32_t matches_count;
+        const UCharsetMatch* match = ucsdet_detect(detector, &status);
+        if (match != NULL) {
+            encoding = ucsdet_getName(match, &status);
+        }
+        ucsdet_close(detector);
+    }
+    return encoding;
+}
+//=============================================================================
 std::vector<std::string>
 detectEncodings(const std::string& data)
 {

@@ -35,6 +35,7 @@
 	<description><p>Read string from a file, stopping after a newline, or EOF, or n characters have been read.</p>
 <p>If there is no more character to read, fgets will return -1.</p>
 <p>If n is omitted, fgets reads until the next newline.</p>
+<p>characters encoding uses <b>fopen</b> parameter.</p>
 </description>
 
 

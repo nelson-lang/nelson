@@ -205,7 +205,7 @@ VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
         for (size_t k = 0; k < fieldnamesA.size(); k++) {
             ArrayOfVector fieldsA = A.getFieldAsList(fieldnamesA[k]);
             ArrayOfVector fieldsB = B.getFieldAsList(fieldnamesA[k]);
-            ArrayOfVector fieldsC = fieldsA;
+            ArrayOfVector fieldsC(fieldsA);
             fieldsC.insert(fieldsC.end(), fieldsB.begin(), fieldsB.end());
             res.setFieldAsList(fieldnamesA[k], fieldsC);
         }

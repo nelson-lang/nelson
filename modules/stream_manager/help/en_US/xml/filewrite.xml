@@ -9,6 +9,7 @@
   <syntax>
     <syntax_item>filewrite(filename, txt)</syntax_item>
     <syntax_item>filewrite(filename, txt, eol)</syntax_item>
+    <syntax_item>filewrite(filename, txt, eol, encoding)</syntax_item>
 
   </syntax>
   
@@ -26,12 +27,16 @@
       <param_name>eol</param_name>
       <param_description>a string: 'native' (system default), 'pc' [(char(13), char(10)], 'unix' [char(10)]</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>encoding</param_name>
+      <param_description>a string: 'UTF-8' (default), 'ISO-8859-1', 'windows-1251', 'windows-1252', ...</param_description>
+    </param_input_item>
 
   </param_input>
 
   <description>
     <p><b>filewrite</b> saves a character array, cell of string or string array to a file.</p>
-    <p>file saved uses ascii or UTF-8 (NO-BOM) encoding.</p>
+    <p>file saved uses by default UTF-8 (NO-BOM) encoding.</p>
 </description>
 
   <used_function></used_function>
@@ -47,6 +52,17 @@
     </example_item_data>
   
   </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description>characters encoding</example_item_description>
+    <example_item_data><![CDATA[
+str = 'живете зело, земля, и иже и како люди';
+filewrite([tempdir(), '/example_filewrite.txt'], str, 'native', 'windows-1251')]]>
+    </example_item_data>
+  
+  </example_item>
+
 
 </examples>
 

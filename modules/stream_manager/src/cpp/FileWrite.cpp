@@ -27,6 +27,7 @@
 //=============================================================================
 #include "FileWrite.hpp"
 #include "Error.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -104,7 +105,21 @@ FileWrite(Evaluator* eval, File* fp, ArrayOf src, Class destClass, size_t skip,
                                 k = bswap<char>(k);
                             }
                         }
-                        written = fwrite(str.c_str(), sizeof(char), str.size(), filepointer);
+                        std::string encoding = wstring_to_utf8(fp->getEncoding());
+                        if (encoding != "UTF-8") {
+                            std::string data;
+                            if (utf8ToCharsetConverter(str, data, encoding)) {
+                                written
+                                    = fwrite(data.c_str(), sizeof(char), data.size(), filepointer);
+                            } else {
+                                written = 0;
+                                fwrite_error = FWRITE_ERROR_ENCODING;
+                                sizeWritten = static_cast<int>(written);
+                                return fwrite_error;
+                            }
+                        } else {
+                            written = fwrite(str.c_str(), sizeof(char), str.size(), filepointer);
+                        }
                     } else {
                         size_t count(toWrite.getLength());
                         size_t elsize(toWrite.getElementSize());

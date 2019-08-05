@@ -61,7 +61,35 @@ Assert_IsEqual(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, st
         Error("isequalto function not found.");
     }
     if (!bRes) {
-        if ((computedArray.isDoubleType(true) && expectedArray.isDoubleType(true))
+        if ((computedArray.isLogical() && expectedArray.isLogical())
+            && (computedArray.isScalar() && expectedArray.isScalar())) {
+            double computed = computedArray.getContentAsLogicalScalar();
+            double expected = expectedArray.getContentAsLogicalScalar();
+            msg = StringFormat(
+                _W("Assertion failed: expected (%ls) and computed (%ls) values are different.")
+                    .c_str(),
+                expected ? L"true" : L"false", computed ? L"true" : L"false");
+        } else if ((computedArray.isCharacterArray()
+                       && (computedArray.isRowVector() || computedArray.isScalar()
+                              || computedArray.isEmpty()))
+            && (expectedArray.isCharacterArray()
+                   && (expectedArray.isRowVector() || expectedArray.isScalar()
+                          || expectedArray.isEmpty()))) {
+            std::wstring computed = computedArray.getContentAsWideString();
+            std::wstring expected = expectedArray.getContentAsWideString();
+            msg = StringFormat(
+                _W("Assertion failed: expected '%ls' and computed '%ls' values are different.")
+                    .c_str(),
+                expected.c_str(), computed.c_str());
+        } else if ((computedArray.isStringArray() && computedArray.isScalar())
+            && (expectedArray.isStringArray() && expectedArray.isScalar())) {
+            std::wstring computed = computedArray.getContentAsWideString();
+            std::wstring expected = expectedArray.getContentAsWideString();
+            msg = StringFormat(
+                _W("Assertion failed: expected \"%ls\" and computed \"%ls\" values are different.")
+                    .c_str(),
+                expected.c_str(), computed.c_str());
+        } else if ((computedArray.isDoubleType(true) && expectedArray.isDoubleType(true))
             && (computedArray.isScalar() && expectedArray.isScalar())) {
             double computed = computedArray.getContentAsDoubleScalar();
             double expected = expectedArray.getContentAsDoubleScalar();

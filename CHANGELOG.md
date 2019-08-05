@@ -13,7 +13,17 @@ Features:
 
   * fileread / filewrite builtin extended to use an characters encoding.
 
+  * fopen, fprintf, fgetl, fgets, fread, and fwrite builtin extended to manage characters encoding.
+
   * test_run uses nh5 files as result file (previously json)
+
+Compilation:
+------------
+
+* Visual studio 15.9.14
+
+* Qt 5.12.4 on Windows
+
 
 
 # 0.3.7 (2019-07-23)

@@ -57,5 +57,5 @@ REF = { 'active'
 'width'
 'x'
 'y'};
-assert_isequal(R1, REF);
+assert_istrue(any(contains(R1, REF)));
 //=============================================================================

@@ -102,6 +102,9 @@ fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             case FWRITE_ENDIAN_CONVERSION_NOT_SUPPORTED: {
                 Error(_W("Endian conversion not supported for this file identifier."));
             } break;
+            case FWRITE_ERROR_ENCODING: {
+                Error(_W("encoding conversion not supported for this file identifier."));
+            } break;
             }
         } else {
             Error(_W("Wrong value for #1 argument: a valid file ID expected."));

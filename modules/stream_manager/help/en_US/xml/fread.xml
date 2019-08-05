@@ -64,11 +64,11 @@
 <p><b>native</b> , <b>n</b>: format of the current machine.</p>
 <p><b>ieee-be</b>, <b>b</b>: IEEE big endian.</p>
 <p><b>ieee-le</b>, <b>l</b>: IEEE little endian.</p>
-
+<p>characters encoding uses <b>fopen</b> parameter.</p>
 </description>
 
 
-	<used_function>addition</used_function>
+	<used_function></used_function>
 	<bibliography></bibliography>
 
 <examples>

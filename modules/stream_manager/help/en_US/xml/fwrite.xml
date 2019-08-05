@@ -52,6 +52,7 @@
 	</param_output>
 
 	<description><p>Write data in binary form to the file specified by the file descriptor fid.</p>
+<p>characters encoding uses <b>fopen</b> parameter.</p>
 <p>supported architecture:</p>
 <p><b>native</b> , <b>n</b>: format of the current machine.</p>
 <p><b>ieee-be</b>, <b>b</b>: IEEE big endian.</p>

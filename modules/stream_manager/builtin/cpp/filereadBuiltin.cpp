@@ -23,15 +23,15 @@
 // License along with this program. If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/filesystem.hpp>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 #include "filereadBuiltin.hpp"
 #include "Error.hpp"
 #include "MapFileRead.hpp"
 #include "ToCellString.hpp"
 #include "characters_encoding.hpp"
-#include <boost/filesystem.hpp>
-#include <fstream>
-#include <iostream>
-#include <sstream>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -40,22 +40,26 @@ using namespace Nelson;
 // eol == 'native' (system), 'pc' ("\r\n"), 'unix' ("\n")
 // eol default is "\n"
 //=============================================================================
-static std::wifstream&
-wsafegetline(std::wifstream& os, std::wstring& line)
+static wstringVector
+getLines(const std::wstring& s)
 {
-    if (getline(os, line)) {
+    std::wstring line;
+    wstringVector parts;
+    std::wstringstream wss(s);
+    while (std::getline(wss, line)) {
         if (!line.empty() && line[line.size() - 1] == L'\r') {
             line.pop_back();
         }
+        parts.push_back(line);
     }
-    return os;
+    return parts;
 }
 //=============================================================================
 ArrayOfVector
 Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() < 1 || argIn.size() > 3) {
+    if (argIn.size() < 1 || argIn.size() > 4) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs > 1) {
@@ -102,33 +106,36 @@ Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             Error(_W("Wrong value for #2 argument."));
         }
     }
-    if (outputClass == L"char") {
-        std::wstring errorMessage;
-        ArrayOf res = MapFileRead(fileToRead, eol, errorMessage);
-        if (!errorMessage.empty()) {
-            Error(errorMessage);
+    std::wstring encoding = L"UTF-8";
+    if (argIn.size() > 3) {
+        ArrayOf param4 = argIn[3];
+        encoding = param4.getContentAsWideString();
+        if (encoding != L"auto") {
+            if (!isSupportedEncoding(encoding)) {
+                Error(_W("Wrong value for #4 argument."));
+            }
+        }
+    }
+    std::wstring content;
+    std::wstring errorMessage;
+    if (MapFileRead(fileToRead, eol, encoding, content, errorMessage)) {
+        ArrayOf res;
+        if (outputClass == L"char") {
+            res = ArrayOf::characterArrayConstructor(content);
+        } else {
+            wstringVector results = getLines(content);
+            if (outputClass == L"string") {
+                Dimensions dims(results.size(), 1);
+                res = ArrayOf::stringArrayConstructor(results, dims);
+            } else {
+                // cell
+                res = ToCellStringAsColumn(results);
+            }
         }
         retval.push_back(res);
     } else {
-#ifdef _MSC_VER
-        std::wifstream wif(fileToRead, std::ios::binary);
-#else
-        std::wifstream wif(wstring_to_utf8(fileToRead), std::ios::binary);
-#endif
-        if (!wif.is_open()) {
-            Error(_W("Cannot open file."));
-        }
-        std::wstring line;
-        wstringVector lines;
-        while (wsafegetline(wif, line)) {
-            lines.push_back(line);
-        }
-        wif.close();
-        if (outputClass == L"string") {
-            Dimensions dims(lines.size(), 1);
-            retval.push_back(ArrayOf::stringArrayConstructor(lines, dims));
-        } else {
-            retval.push_back(ToCellStringAsColumn(lines));
+        if (!errorMessage.empty()) {
+            Error(errorMessage);
         }
     }
     return retval;

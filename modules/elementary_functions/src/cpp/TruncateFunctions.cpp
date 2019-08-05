@@ -84,7 +84,7 @@ floorDouble(double a)
 static single
 floorSingle(single a)
 {
-    return round(a);
+    return floor(a);
 }
 //=============================================================================
 template <class T>

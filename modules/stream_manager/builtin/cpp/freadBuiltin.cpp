@@ -126,7 +126,7 @@ freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             File* f = fm->getFile(iValue);
             int sizeReallyRead = -1;
             ArrayOf toRead
-                = FileRead(eval, f, isize, classDest, skipSize, bIsLittleEndian, sizeReallyRead);
+                = FileRead(f, isize, classDest, skipSize, bIsLittleEndian, sizeReallyRead);
             if (sizeReallyRead != -1) {
                 if (bSizeIs2D) {
                     Dimensions dim;

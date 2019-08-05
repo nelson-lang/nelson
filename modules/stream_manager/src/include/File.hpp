@@ -38,6 +38,8 @@ private:
     void* stream;
     std::wstring filename;
     std::wstring mode;
+    std::wstring machineFormat;
+    std::wstring encoding;
     bool bIsFilePointer;
 
 public:
@@ -57,6 +59,14 @@ public:
     setFileName(const std::wstring& _filename);
     bool
     isInterfaceMethod();
+    std::wstring
+    getMachineFormat();
+    void
+    setMachineFormat(const std::wstring& _machineFormat);
+    std::wstring
+    getEncoding();
+    void
+    setEncoding(const std::wstring& _encoding);
 };
 //=============================================================================
 }; // namespace Nelson

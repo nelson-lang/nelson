@@ -42,8 +42,14 @@ typedef enum
 NLSCHARACTERS_ENCODING_IMPEXP bool
 isSupportedEncoding(const std::string& encoding);
 //=============================================================================
+NLSCHARACTERS_ENCODING_IMPEXP bool
+isSupportedEncoding(const std::wstring& encoding);
+//=============================================================================
 NLSCHARACTERS_ENCODING_IMPEXP std::string
 getSystemEncoding();
+//=============================================================================
+NLSCHARACTERS_ENCODING_IMPEXP std::string
+detectBestEncoding(const std::string& data);
 //=============================================================================
 NLSCHARACTERS_ENCODING_IMPEXP std::vector<std::string>
 detectEncodings(const std::string& data);

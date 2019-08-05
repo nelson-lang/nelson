@@ -34,13 +34,13 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-// filewrite(filename, txt [, eol])
+// filewrite(filename, txt [, eol, encoding])
 // eol == 'native' (system default), 'pc' ("\r\n"), 'unix' ("\n")
 ArrayOfVector
 Nelson::StreamGateway::filewriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() < 2 || argIn.size() > 3) {
+    if (argIn.size() < 2 || argIn.size() > 4) {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (nLhs != 0) {
@@ -49,44 +49,90 @@ Nelson::StreamGateway::filewriteBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     std::wstring filename = param1.getContentAsWideString();
-    std::wstring eol;
+    std::wstring weol;
+    std::string eol;
+    std::string encoding = "UTF-8";
 #ifdef _MSC_VER
-    eol = L"\r\n";
+    weol = L"\r\n";
+    eol = "\r\n";
 #else
-    eol = L"\n";
+    weol = L"\n";
+    eol = "\n";
 #endif
     if (argIn.size() == 3) {
         ArrayOf param3 = argIn[2];
         std::wstring str = param3.getContentAsWideString();
         if (str == L"native" || str == L"pc" || str == L"unix") {
             if (str == L"pc") {
-                eol = L"\r\n";
+                weol = L"\r\n";
+                eol = "\r\n";
             }
             if (str == L"unix") {
-                eol = L"\n";
+                weol = L"\n";
+                eol = "\n";
             }
         } else {
             Error(_W("Wrong value for #3 argument."));
         }
     }
     wstringVector lines = param2.getContentAsWideStringVector(false);
-#ifdef _MSC_VER
-    std::wofstream wof(filename, std::ios::trunc | std::ios::binary);
-#else
-    std::wofstream wof(wstring_to_utf8(filename), std::ios::trunc | std::ios::binary);
-#endif
-    if (!wof.is_open()) {
-        Error(_W("Cannot open file."));
-    }
-    for (std::wstring line : lines) {
-        boost::replace_all(line, L"\r\n", L"\n");
-        boost::replace_all(line, L"\n", eol);
-        wof << line;
-        if (!boost::algorithm::ends_with(line, eol)) {
-            wof << eol;
+    if (argIn.size() == 4) {
+        ArrayOf param4 = argIn[3];
+        encoding = param4.getContentAsCString();
+        if (!isSupportedEncoding(encoding)) {
+            Error(_W("Wrong value for #4 argument."));
         }
     }
-    wof.close();
+
+    if (encoding == "UTF-8") {
+#ifdef _MSC_VER
+        std::wofstream wof(filename, std::ios::trunc | std::ios::binary);
+#else
+        std::wofstream wof(wstring_to_utf8(filename), std::ios::trunc | std::ios::binary);
+#endif
+        if (!wof.is_open()) {
+            Error(_W("Cannot open file."));
+        }
+        for (size_t k = 0; k < lines.size(); ++k) {
+            std::wstring line = lines[k];
+            boost::replace_all(line, L"\r\n", L"\n");
+            boost::replace_all(line, L"\n", weol);
+            wof << line;
+            if (!boost::algorithm::ends_with(line, weol)) {
+                if (k != lines.size() - 1) {
+                    wof << weol;
+                }
+            }
+        }
+        wof.close();
+    } else {
+#ifdef _MSC_VER
+        std::ofstream of(filename, std::ios::trunc | std::ios::binary);
+#else
+        std::ofstream of(wstring_to_utf8(filename), std::ios::trunc | std::ios::binary);
+#endif
+        if (!of.is_open()) {
+            Error(_W("Cannot open file."));
+        }
+        for (size_t k = 0; k < lines.size(); ++k) {
+            std::string asUtf8 = wstring_to_utf8(lines[k]);
+            boost::replace_all(asUtf8, "\r\n", "\n");
+            boost::replace_all(asUtf8, "\n", eol);
+            std::string data;
+            if (utf8ToCharsetConverter(asUtf8, data, encoding)) {
+                of << data;
+                if (!boost::algorithm::ends_with(data, eol)) {
+                    if (k != lines.size() - 1) {
+                        of << eol;
+                    }
+                }
+            } else {
+                of.close();
+                Error(_W("Encoding not supported."));
+            }
+        }
+        of.close();
+    }
     return retval;
 }
 //=============================================================================

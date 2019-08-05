@@ -29,6 +29,7 @@
 #include "FilesManager.hpp"
 #include "Interface.hpp"
 #include "PrintfFunction.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -78,6 +79,7 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (fm == nullptr) {
         Error(_W("Problem with file manager."));
     }
+    size_t len = 0;
     if (fm->isOpened(iValue)) {
         File* f = fm->getFile(iValue);
         if (f->isInterfaceMethod()) {
@@ -90,19 +92,33 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                         io->errorMessage(result);
                     }
                 }
+                len = result.length();
             } else {
                 Error(_W("ID not supported."));
             }
         } else {
             FILE* filepointer = static_cast<FILE*>(f->getFilePointer());
             if (filepointer) {
-                fwprintf(filepointer, L"%ls", result.c_str());
+                std::wstring encoding = f->getEncoding();
+                if (encoding == L"UTF-8") {
+                    fwprintf(filepointer, L"%ls", result.c_str());
+                    len = result.length();
+                } else {
+                    std::string data = wstring_to_utf8(result);
+                    if (utf8ToCharsetConverter(data, data, wstring_to_utf8(encoding))) {
+                        fprintf(filepointer, "%s", data.c_str());
+                        len = data.length();
+                    } else {
+                        Error(_W("Cannot use encoding: ") + encoding);
+                    }
+                }
+                
             } else {
                 Error(_W("ID not supported."));
             }
         }
         if (nLhs > 0) {
-            retval.push_back(ArrayOf::doubleConstructor((double)result.length()));
+            retval.push_back(ArrayOf::doubleConstructor((double)len));
         }
     } else {
         Error(_W("Wrong value for #1 argument: a valid file ID expected."));

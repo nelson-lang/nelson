@@ -40,3 +40,10 @@ filewrite(dest, R3);
 R4 = fileread(dest, "string");
 assert_isequal(R3, R4);
 //=============================================================================
+dest = [tempdir(), '/test_filewrite_encoding.txt'];
+if isfile(dest)
+  rmfile(dest);
+end
+str = 'живете зело, земля, и иже и како люди';
+filewrite(dest, str, 'native', 'windows-1251');
+//=============================================================================

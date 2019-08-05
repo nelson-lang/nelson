@@ -11,7 +11,8 @@
     <syntax_item>fid = fopen(filename, permission)</syntax_item>
     <syntax_item>[fid, msg] = fopen(filename)</syntax_item>
     <syntax_item>[fid, msg] = fopen(filename, permission)</syntax_item>
-    <syntax_item>[filename, permission] = fopen(fid)</syntax_item>
+    <syntax_item>[fid, msg] = fopen(filename, permission, machinefmt, encoding)</syntax_item>
+    <syntax_item>[filename, permission, machinefmt, encoding] = fopen(fid)</syntax_item>
     <syntax_item>fids = fopen('all')</syntax_item>
   </syntax>
   
@@ -26,6 +27,17 @@
       <param_name>permission</param_name>
       <param_description>a string: permission applied on file: 'r', 'w', 'a', 'r+', 'a+'</param_description>
     </param_input_item>
+
+    <param_input_item>
+      <param_name>machinefmt</param_name>
+      <param_description>a string: machine format applied on file: 'n' or 'native', 'b' or 'ieee-be', 'l' or 'ieee-le', 's' or 'ieee-be.l64', 'a' or 'ieee-le.l64'</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>encoding</param_name>
+      <param_description>a string: ccharacter encoding applied on file: 'UTF-8', 'ISO-8859-1', 'windows-1251', 'windows-1252', ...</param_description>
+    </param_input_item>
+
 
   </param_input>
   
@@ -50,7 +62,7 @@
 
   <description>
   <p><b>fopen</b> opens a file in Nelson.</p>
-
+  <p>functions fprintf, fgetl, fgets, fread, and fwrite use character encoding for subsequent read and write operations.</p>
 </description>
 
   <used_function></used_function>
@@ -71,8 +83,23 @@ status = fclose(fd)
 [filename, permission] = fopen(stderr)
 ]]>
     </example_item_data>
-  
   </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description>characters encoding</example_item_description>
+    <example_item_data><![CDATA[
+TEXT_REF = 'Виртуальная';
+filename = [tempdir(), '/fwrite_example_Windows-1251.txt'];
+F = fopen(filename, 'wt', 'n', 'windows-1251');
+W = fwrite(F, TEXT_REF, 'char')
+fclose(F);
+F = fopen(filename, 'rt', 'n', 'windows-1251');
+TXT_READ = fread(F, '*char')
+fclose(F);]]>
+    </example_item_data>
+  </example_item>
+
 
 </examples>
 

@@ -39,3 +39,14 @@ assert_isequal(size(r1), size(r3));
 assert_isequal(size(r4), [339 1]);
 assert_istrue(isa(r4, 'string'));
 //=============================================================================
+str = 'живете зело, земля, и иже и како люди';
+filewrite([tempdir(), '/test_fileread.txt'], str, 'native', 'windows-1251');
+T1 = fileread([tempdir(), '/test_fileread.txt'], 'char', 'native', 'windows-1251');
+assert_isequal(T1, str)
+//=============================================================================
+T1 = fileread([tempdir(), '/test_fileread.txt'], 'string', 'native', 'windows-1251');
+assert_isequal(T1, string(str));
+//=============================================================================
+T2 = fileread([tempdir(), '/test_fileread.txt'], 'string', 'native', 'auto');
+assert_isequal(T2, string(str));
+//=============================================================================

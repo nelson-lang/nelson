@@ -50,7 +50,7 @@ const std::wstring gatewayName = L"stream_manager";
 //=============================================================================
 static const nlsGateway gateway[] = { { "diary", Nelson::StreamGateway::diaryBuiltin, 1, 1,
                                           CPP_BUILTIN_WITH_EVALUATOR },
-    { "fopen", Nelson::StreamGateway::fopenBuiltin, 2, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "fopen", Nelson::StreamGateway::fopenBuiltin, 4, 4, CPP_BUILTIN_WITH_EVALUATOR },
     { "fclose", Nelson::StreamGateway::fcloseBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "fwrite", Nelson::StreamGateway::fwriteBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
     { "fread", Nelson::StreamGateway::freadBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },

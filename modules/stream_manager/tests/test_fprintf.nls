@@ -56,3 +56,14 @@ assert_isequal(R, REF);
 //=============================================================================
 fprintf(2, "an value %g.", pi);
 //=============================================================================
+fileID = fopen([tempdir(), '/test_fprintf_encoding.txt'], 'wt', 'n', 'Windows-1251');
+fprintf(fileID, '%s','Виртуальная');
+fclose(fileID);
+F = fopen([tempdir(), '/test_fprintf_encoding.txt'], 'rt');
+R = fread(F, 'uint8');
+fclose(F);
+ce = nativecharset(R');
+assert_istrue(iscell(ce));
+assert_istrue(iscellstr(ce));
+assert_istrue(any(contains(ce, 'windows-1251')));
+//=============================================================================
